@@ -31,6 +31,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 	ACCELERATOR_NAMES = {
 		'activate': _('Alternate Activate'),
+		'comma_trick': _('Comma Trick'),
 		'compose_action': _('Compose Command'),
 		'reset_all': _('Reset All'),
 		'select_quit': _('Select Quit'),

@@ -934,10 +934,7 @@ class Interface (gobject.GObject):
 			elif keyv == ord("/") and has_selection:
 				keyv = key_book["Right"]
 			elif keyv == ord(",") and has_selection:
-				cur = self.current.get_current()
-				curpane = self._pane_for_widget(self.current)
-				if self.data_controller.object_stack_push(curpane, cur):
-					self._relax_search_terms()
+				if self.comma_trick():
 					return True
 			elif keyv in init_text_keys:
 				if self.try_enable_text_mode():
@@ -1219,6 +1216,15 @@ class Interface (gobject.GObject):
 
 	def compose_action(self):
 		self.data_controller.compose_selection()
+
+	def comma_trick(self):
+		if self.current.get_match_state() != State.Match:
+			return False
+		cur = self.current.get_current()
+		curpane = self._pane_for_widget(self.current)
+		if self.data_controller.object_stack_push(curpane, cur):
+			self._relax_search_terms()
+			return True
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
