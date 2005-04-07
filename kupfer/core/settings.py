@@ -11,7 +11,7 @@ import keyring
 from kupfer import config, pretty, scheduler
 
 def strbool(value, default=False):
-	"""Coarce bool from string value or bool"""
+	"""Coerce bool from string value or bool"""
 	if value in (True, False):
 		return value
 	value = str(value).lower()
@@ -33,7 +33,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"Kupfer": {
 			"keybinding" : "" ,
 			"magickeybinding": "",
-			"showstatusicon" : "true"
+			"showstatusicon" : True,
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
@@ -103,6 +103,8 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 							retval = ()
 						else:
 							retval = [p.strip() for p in value.split(self.sep) if p]
+					elif isinstance(defval, bool):
+						retval = strbool(value)
 					elif isinstance(defval, int):
 						retval = type(defval)(value)
 					else:
@@ -228,8 +230,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 	def get_show_status_icon(self):
 		"""Convenience: Show icon in notification area as bool"""
-		return (self.get_config("Kupfer", "showstatusicon").lower()
-				in ("true", "yes"))
+		return strbool(self.get_config("Kupfer", "showstatusicon"))
 	def set_show_status_icon(self, enabled):
 		"""Set config value and return success"""
 		return self._set_config("Kupfer", "showstatusicon", enabled)
