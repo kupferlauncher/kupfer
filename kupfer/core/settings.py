@@ -159,24 +159,22 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""General interface, but section must exist"""
 		key = key.lower()
 		value = self._config[section].get(key)
-		if section in self.defaults and key in self.defaults[section]:
+		if section in self.defaults:
 			return value
-		else:
-			self.output_info("Settings key", section, key, "is invalid")
+		raise KeyError("Invalid settings section: %s" % section)
 
 	def _set_config(self, section, key, value):
 		"""General interface, but section must exist"""
 		self.output_debug("Set", section, key, "to", value)
 		key = key.lower()
 		oldvalue = self._config[section].get(key)
-		if section in self.defaults and key in self.defaults[section]:
-			value_type = type(oldvalue)
+		if section in self.defaults:
+			value_type = type(oldvalue) if oldvalue is not None else str
 			self._config[section][key] = value_type(value)
 			self.emit("value-changed", section, key, value)
 			self._update_config_save_timer()
 			return True
-		self.output_info("Settings key", section, key, "is invalid")
-		return False
+		raise KeyError("Invalid settings section: %s" % section)
 
 	def _get_raw_config(self, section, key):
 		"""General interface, but section must exist"""
