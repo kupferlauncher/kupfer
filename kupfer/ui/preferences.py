@@ -14,9 +14,33 @@ from kupfer import scheduler, kupferstring
 from kupfer.core import settings, plugins, relevance
 from kupfer.ui import keybindings
 from kupfer.ui.credentials_dialog import ask_user_credentials
+from kupfer.ui import getkey_dialog
 
 
 class PreferencesWindowController (pretty.OutputMixin):
+
+	KEYBINDING_NAMES = {
+		'keybinding': _("Show Main Interface"),
+		'magickeybinding': _("Show with Selection"),
+	}
+
+	KEYBINDING_TARGETS = {
+		"keybinding": keybindings.KEYBINDING_DEFAULT,
+		"magickeybinding": keybindings.KEYBINDING_MAGIC,
+	}
+
+	ACCELERATOR_NAMES = {
+		'activate': _('Alternate Activate'),
+		'compose_action': _('Compose Command'),
+		'reset_all': _('Reset All'),
+		'select_quit': _('Select Quit'),
+		'select_selected_file': _('Select Selected File'),
+		'select_selected_text': _('Select Selected Text'),
+		'show_help': _('Show Help'),
+		'switch_to_source': _('Switch to First Pane'),
+		"toggle_text_mode_quick": _('Toggle Text Mode'),
+	}
+
 	def __init__(self):
 		"""Load ui from data file"""
 		builder = gtk.Builder()
@@ -37,17 +61,14 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.plugin_about_parent = builder.get_object("plugin_about_parent")
 		self.preferences_notebook = builder.get_object("preferences_notebook")
 
-		self.entrykeybinding = builder.get_object("entrykeybinding")
-		self.buttonkeybinding = builder.get_object("buttonkeybinding")
-		self.imagekeybindingaux = builder.get_object("imagekeybindingaux")
-		self.labelkeybindingaux = builder.get_object("labelkeybindingaux")
 		self.buttonremovedirectory = builder.get_object("buttonremovedirectory")
 		checkautostart = builder.get_object("checkautostart")
 		checkstatusicon = builder.get_object("checkstatusicon")
 		self.entry_plugins_filter = builder.get_object('entry_plugins_filter')
+		self.keybindings_list_parent = builder.get_object('keybindings_list_parent')
+		self.gkeybindings_list_parent = builder.get_object('gkeybindings_list_parent')
 
 		setctl = settings.GetSettingsController()
-		self.entrykeybinding.set_text(setctl.get_keybinding())
 		checkautostart.set_active(self._get_should_autostart())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 
@@ -122,6 +143,35 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.dir_table.show()
 		self.dirlist_parent.add(self.dir_table)
 		self.read_directory_settings()
+
+		# keybindings list
+		self.keybind_table, self.keybind_store = _create_conf_keys_list()
+		self.keybindings_list_parent.add(self.keybind_table)
+		self.keybind_table.connect("row-activated", self.on_keybindings_row_activate)
+		# global keybindings list
+		self.gkeybind_table, self.gkeybind_store = _create_conf_keys_list()
+		self.gkeybindings_list_parent.add(self.gkeybind_table)
+		self.gkeybind_table.connect("row-activated",
+				self.on_gkeybindings_row_activate)
+
+		self._show_keybindings(setctl)
+		self._show_gkeybindings(setctl)
+
+	def _show_keybindings(self, setctl):
+		names = self.KEYBINDING_NAMES
+		self.keybind_store.clear()
+		for binding in sorted(names, key=lambda k: names[k]):
+			accel = setctl.get_global_keybinding(binding)
+			label = gtk.accelerator_get_label(*gtk.accelerator_parse(accel))
+			self.keybind_store.append((names[binding], label, binding))
+
+	def _show_gkeybindings(self, setctl):
+		names = self.ACCELERATOR_NAMES
+		self.gkeybind_store.clear()
+		for binding in sorted(names, key=lambda k: names[k]):
+			accel = setctl.get_accelerator(binding)
+			label = gtk.accelerator_get_label(*gtk.accelerator_parse(accel))
+			self.gkeybind_store.append((names[binding], label, binding))
 
 	def read_directory_settings(self):
 		setctl = settings.GetSettingsController()
@@ -200,26 +250,14 @@ class PreferencesWindowController (pretty.OutputMixin):
 		dfile.write(filename=autostart_file)
 
 	def on_entrykeybinding_changed(self, widget):
-		sensitive = widget.get_text() != keybindings.get_currently_bound_key()
-		self.buttonkeybinding.set_sensitive(sensitive)
-		self.imagekeybindingaux.hide()
-		self.labelkeybindingaux.hide()
+		pass
 
 	def on_buttonkeybinding_clicked(self, widget):
-		keystr = self.entrykeybinding.get_text()
-		self.output_debug("Try set keybinding with", keystr)
-		succ = keybindings.bind_key(keystr)
-		if succ:
-			self.imagekeybindingaux.set_property("stock", gtk.STOCK_APPLY)
-			self.labelkeybindingaux.set_text(_("Applied"))
-			self.buttonkeybinding.set_sensitive(False)
-		else:
-			self.imagekeybindingaux.set_property("stock",
-					gtk.STOCK_DIALOG_WARNING)
-			self.labelkeybindingaux.set_text(_("Keybinding could not be bound"))
-		self.imagekeybindingaux.show()
-		self.labelkeybindingaux.show()
-		if succ:
+		keystr = getkey_dialog.ask_for_key(keybindings.bind_key)
+		if keystr:
+			self.entrykeybinding.set_text(keystr)
+			self.output_debug("Try set keybinding with", keystr)
+			succ = keybindings.bind_key(keystr)
 			setctl = settings.GetSettingsController()
 			setctl.set_keybinding(keystr)
 
@@ -589,6 +627,62 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_entry_plugins_filter_icon_press(self, entry, icon_pos, event):
 		entry.set_text('')
 
+	def on_keybindings_row_activate(self, treeview, path, view_column):
+		def bind_key_func(target):
+			def bind_key(keystr):
+				return keybindings.bind_key(keystr, target)
+			return bind_key
+
+		it = self.keybind_store.get_iter(path)
+		keybind_id = self.keybind_store.get_value(it, 2)
+		setctl = settings.GetSettingsController()
+		curr_key = setctl.get_global_keybinding(keybind_id)
+		bind_func = bind_key_func(self.KEYBINDING_TARGETS[keybind_id])
+		keystr = getkey_dialog.ask_for_key(bind_func, curr_key)
+		if keystr == '':
+			keybindings.bind_key(None, self.KEYBINDING_TARGETS[keybind_id])
+			self.keybind_store.set_value(it, 1, '')
+		elif self._is_good_keystr(keystr):
+			setctl.set_global_keybinding(keybind_id, keystr)
+			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+			self.keybind_store.set_value(it, 1, label)
+
+	def _is_good_keystr(self, keystr):
+		# Reject single letters so you can't bind 'A' etc
+		if keystr is None:
+			return False
+		ukeystr = kupferstring.tounicode(keystr)
+		return not (len(ukeystr) == 1 and ukeystr.isalnum())
+
+	def on_gkeybindings_row_activate(self, treeview, path, view_column):
+		it = self.gkeybind_store.get_iter(path)
+		keybind_id = self.gkeybind_store.get_value(it, 2)
+		setctl = settings.GetSettingsController()
+		curr_key = setctl.get_accelerator(keybind_id)
+		keystr = getkey_dialog.ask_for_key(previous_key=curr_key)
+		if self._is_good_keystr(keystr):
+			setctl.set_accelerator(keybind_id, keystr)
+			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+			self.gkeybind_store.set_value(it, 1, label)
+
+	def on_button_reset_keys_clicked(self, button):
+		if self.ask_user_for_reset_keybinding():
+			setctl = settings.GetSettingsController()
+			setctl.reset_keybindings()
+			self._show_keybindings(setctl)
+			# Unbind all before re-binding
+			for keybind_id, target in self.KEYBINDING_TARGETS.iteritems():
+				keybindings.bind_key(None, target)
+			for keybind_id, target in self.KEYBINDING_TARGETS.iteritems():
+				keystr = setctl.get_global_keybinding(keybind_id)
+				keybindings.bind_key(keystr, target)
+
+	def on_button_reset_gkeys_clicked(self, button):
+		if self.ask_user_for_reset_keybinding():
+			setctl = settings.GetSettingsController()
+			setctl.reset_accelerators()
+			self._show_gkeybindings(setctl)
+
 	def dir_table_cursor_changed(self, table):
 		curpath, curcol = table.get_cursor()
 		if not curpath or not self.dir_store:
@@ -612,6 +706,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table.scroll_to_cell(table_path)
 		# FIXME: Revisit if we add new pages to the GtkNotebook
 		self.preferences_notebook.next_page()
+		self.preferences_notebook.next_page()
 		self.window.present()
 
 	def hide(self):
@@ -619,6 +714,36 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def _close_window(self, *ignored):
 		self.hide()
 		return True
+
+	def ask_user_for_reset_keybinding(self):
+		dlg = gtk.MessageDialog(self.window, gtk.DIALOG_MODAL, gtk.MESSAGE_QUESTION)
+		dlg.set_markup(_("Reset all shortcuts to default values?"))
+		dlg.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CLOSE,
+				_('Reset'), gtk.RESPONSE_ACCEPT)
+		result = dlg.run() == gtk.RESPONSE_ACCEPT
+		dlg.destroy()
+		return result
+
+
+_conf_keys_list_columns = [{"key": "name", "type":str, 'header': _('Name')},
+		{"key": "key", "type": str, 'header': _('Key') },
+		{"key": "keybinding_id", "type": str, 'header':  None}]
+_conf_keys_list_column_types = [c["type"] for c in _conf_keys_list_columns]
+
+def _create_conf_keys_list():
+	keybind_store = gtk.ListStore(*_conf_keys_list_column_types)
+	keybind_table = gtk.TreeView(keybind_store)
+	for idx, col in enumerate(_conf_keys_list_columns):
+		renderer = gtk.CellRendererText()
+		column = gtk.TreeViewColumn(col['header'], renderer, text=idx)
+		column.set_visible(col['header'] is not None)
+		keybind_table.append_column(column)
+	keybind_table.set_property("enable-search", False)
+	keybind_table.set_rules_hint(True)
+	keybind_table.set_headers_visible(True)
+	keybind_table.show()
+	return keybind_table, keybind_store
+
 
 _preferences_window = None
 

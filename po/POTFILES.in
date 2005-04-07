@@ -8,12 +8,14 @@ auxdata/kupfer-mimetypes.xml.in
 [type: gettext/glade] data/result.ui
 [type: gettext/glade] data/credentials_dialog.ui
 [type: gettext/glade] data/progress_dialog.ui
+[type: gettext/glade] data/getkey_dialog.ui
 extras/kupfer_provider.py
 
 
 kupfer/main.py
 kupfer/ui/browser.py
 kupfer/ui/preferences.py
+kupfer/ui/getkey_dialog.py
 kupfer/version.py
 kupfer/commandexec.py
 kupfer/execfile.py
