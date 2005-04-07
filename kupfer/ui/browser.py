@@ -64,7 +64,7 @@ class LeafModel (object):
 		self.object_column = 0
 		self.base = None
 		self._setup_columns()
-	
+
 	def __len__(self):
 		return len(self.store)
 
@@ -106,7 +106,7 @@ class LeafModel (object):
 		#icon_cell.set_property("height", 32)
 		#icon_cell.set_property("width", 32)
 		#icon_cell.set_property("stock-size", gtk.ICON_SIZE_LARGE_TOOLBAR)
-			
+
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "pixbuf", self.icon_col)
 
@@ -118,7 +118,7 @@ class LeafModel (object):
 		iter = self.store.get_iter(treepath)
 		val = self.store.get_value(iter, col)
 		return val
-	
+
 	def get_object(self, path):
 		return self._get_column(path, self.object_column)
 
@@ -321,7 +321,7 @@ class MatchView (gtk.Bin):
 		if not self.cur_text:
 			self.label.set_text("<no text>")
 			return
-		
+
 		if not self.cur_match:
 			if self.match_state is not State.Match:
 				# Allow markup in the text string if we have no match
@@ -340,7 +340,7 @@ class MatchView (gtk.Bin):
 				format_match=format_match)
 
 		self.label.set_markup(markup)
-	
+
 	@classmethod
 	def _dim_icon(cls, icon):
 		if icon:
@@ -355,7 +355,7 @@ class MatchView (gtk.Bin):
 		self.cur_icon = icon
 		if update:
 			self.update_match()
-	
+
 	def set_match(self, match=None, state=None, update=True):
 		self.cur_match = match
 		if state:
@@ -364,7 +364,7 @@ class MatchView (gtk.Bin):
 			self.match_state = (State.NoMatch, State.Match)[self.cur_match != None]
 		if update:
 			self.update_match()
-	
+
 	def set_match_state(self, text, icon, match=None, state=None, update=True):
 		self.set_object(text,icon, update=False)
 		self.set_match(match, state, update=False)
@@ -375,7 +375,7 @@ class MatchView (gtk.Bin):
 		self.cur_match = text
 		if update:
 			self.update_match()
-	
+
 	def set_state(self, state):
 		"""
 		Widget state (Active/normal/prelight etc)
@@ -420,7 +420,7 @@ class Search (gtk.Bin):
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
-	
+
 	def build_widget(self):
 		"""
 		Core initalization method that builds the widget
@@ -521,7 +521,7 @@ class Search (gtk.Bin):
 
 		if value + page_size >= upper:
 			self.populate(self.show_more)
-	
+
 	# table methods
 	def _table_set_cursor_at_row(self, row):
 		path_at_row = lambda r: (r,)
@@ -541,7 +541,7 @@ class Search (gtk.Bin):
 				self._table_set_cursor_at_row(r-min(rows_count, r))
 			else:
 				self.hide_table()
-	
+
 	def go_down(self, force=False, rows_count=1):
 		"""
 		Down in the table
@@ -582,7 +582,7 @@ class Search (gtk.Bin):
 		''' Rewind to first item '''
 		if self.get_table_visible():
 			self._table_set_cursor_at_row(0)
-	
+
 	def _window_config(self, widget, event):
 		"""
 		When the window moves
@@ -593,7 +593,7 @@ class Search (gtk.Bin):
 		if self.get_table_visible() and winpos != self._old_win_position:
 			self.hide_table()
 			gobject.timeout_add(300, self._show_table)
-	
+
 	def _window_hidden(self, window):
 		"""
 		Window changed hid
@@ -608,7 +608,7 @@ class Search (gtk.Bin):
 		path, col = treeview.get_cursor()
 		match = self.model.get_object(path)
 		self._set_match(match)
-	
+
 	def _set_match(self, rankable=None):
 		"""
 		Set the currently selected (represented) object, either as
@@ -671,7 +671,7 @@ class Search (gtk.Bin):
 		self._has_search_result = False
 		self.model.clear()
 		self.setup_empty()
-	
+
 	def setup_empty(self):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state(u"No match", None, state=State.NoMatch)
@@ -680,17 +680,17 @@ class Search (gtk.Bin):
 	def get_is_browsing(self):
 		"""Return if self is browsing"""
 		return self._browsing_match
-	
+
 	def populate(self, num):
 		"""populate model with num items"""
 		return self.model.populate(num)
-	
+
 	def handle_no_matches(self, empty=False):
 		"""if @empty, there were no matches to find"""
 		name, icon = self.get_nomatch_name_icon(empty=empty)
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state(name, icon, state=State.NoMatch)
-	
+
 	def set_active(self, act):
 		self.active = act
 		state = (gtk.STATE_NORMAL, gtk.STATE_SELECTED)[act]
@@ -705,7 +705,7 @@ gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 
 class LeafSearch (Search):
 	"""
-	Customize for leaves search	
+	Customize for leaves search
 	"""
 	def get_nomatch_name_icon(self, empty):
 		get_pbuf = \
@@ -1026,7 +1026,7 @@ class Interface (gobject.GObject):
 
 	def reset_text(self):
 		self.entry.set_text("")
-	
+
 	def reset(self):
 		self.reset_text()
 		self.current.hide_table()
@@ -1229,7 +1229,7 @@ class Interface (gobject.GObject):
 				self.reset()
 				self.toggle_text_mode(False)
 				self.switch_to_source()
-	
+
 	def _new_source(self, sender, pane, source, at_root):
 		"""Notification about a new data source,
 		(represented object for the self.search object
@@ -1245,7 +1245,7 @@ class Interface (gobject.GObject):
 			if not at_root:
 				self.reset_current(populate=True)
 				wid.show_table()
-	
+
 	def _show_hide_third(self, ctr, mode, ignored):
 		if mode is data.SourceActionObjectMode:
 			# use a delay before showing the third pane,
@@ -1281,11 +1281,11 @@ class Interface (gobject.GObject):
 			self.current = new_focus
 			self.toggle_text_mode(False)
 			self._update_active()
-	
+
 	def _browse_up(self):
 		pane = self._pane_for_widget(self.current)
 		return self.data_controller.browse_up(pane)
-	
+
 	def _browse_down(self, alternate=False):
 		pane = self._pane_for_widget(self.current)
 		self.data_controller.browse_down(pane, alternate=alternate)
@@ -1298,7 +1298,7 @@ class Interface (gobject.GObject):
 	def activate(self):
 		"""Activate current selection (Run action)"""
 		self._activate(None, None)
-	
+
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		# NOTE: "Always-matching" search.
 		# If we receive an empty match, we ignore it, to retain the previous
@@ -1335,7 +1335,7 @@ class Interface (gobject.GObject):
 		match = self.current.get_current()
 		name = match and match.get_description() or ""
 		self.label.set_text(name)
-	
+
 	def put_text(self, text):
 		"""
 		Put @text into the interface to search, to use
@@ -1448,7 +1448,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.connect("delete-event", self._close_window)
 		widget = self.interface.get_widget()
 		widget.show()
-		
+
 		self.window.add(widget)
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
@@ -1467,7 +1467,7 @@ class WindowController (pretty.OutputMixin):
 		When the StatusIcon is right-clicked
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
-	
+
 	def launch_callback(self, sender):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
@@ -1485,14 +1485,14 @@ class WindowController (pretty.OutputMixin):
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
 		self.interface.focus()
-	
+
 	def put_away(self):
 		self.interface.put_away()
 		self.window.hide()
-	
+
 	def _cancelled(self, widget):
 		self.put_away()
-	
+
 	def show_hide(self, sender=None, time=0):
 		"""
 		Toggle activate/put-away
@@ -1535,7 +1535,7 @@ class WindowController (pretty.OutputMixin):
 
 	def _destroy(self, widget, data=None):
 		self.quit()
-	
+
 	def _sigterm(self, signal, frame):
 		self.output_info("Caught signal", signal, "exiting..")
 		self.quit()

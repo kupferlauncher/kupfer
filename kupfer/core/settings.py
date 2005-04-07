@@ -10,6 +10,7 @@ import keyring
 
 from kupfer import config, pretty, scheduler
 
+
 def strbool(value, default=False):
 	"""Coerce bool from string value or bool"""
 	if value in (True, False):
@@ -375,8 +376,8 @@ class ExtendedSetting(object):
 		pass
 
 	def save(self, plugin_id, key):
-		''' Save value for @plugin_id and @key. 
-		@Return value that should be stored in Kupfer config for 
+		''' Save value for @plugin_id and @key.
+		@Return value that should be stored in Kupfer config for
 		plugin/key (string)'''
 		return None
 
