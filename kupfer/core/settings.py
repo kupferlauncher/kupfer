@@ -37,6 +37,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
+		'Keybindings': {},
 	}
 	def __init__(self):
 		gobject.GObject.__init__(self)
@@ -293,6 +294,16 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		else:
 			value_repr = value_type(value)
 		return self._set_raw_config(plug_section, key, value_repr)
+
+	def get_accelerator(self, name):
+		return self.get_config("Keybindings", name)
+
+	def set_accelerator(self, name, key):
+		return self._set_config("Keybindings", name, key)
+
+	def get_accelerators(self):
+		return self._config['Keybindings']
+
 
 # Section, Key, Value
 gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,

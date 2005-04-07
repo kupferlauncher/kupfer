@@ -888,18 +888,10 @@ class Interface (gobject.GObject):
 		keyv = event.keyval
 		key_book = self.key_book
 
-		# FIXME: These should be configurable
-		accels = {
-			"<Control>period" : "toggle_text_mode_quick",
-			"<Control>s" : "switch_to_source",
-			"<Control>r" : "reset_all",
-			"<Control>g" : "select_selected_file",
-			"<Control>t" : "select_selected_text",
-			"<Control>q" : "select_quit",
-			"<Alt>a" : "activate",
-			"<Control>Return": "compose_action",
-			"F1" : "show_help",
-		}
+		from kupfer.core import settings
+		setctl = settings.GetSettingsController()
+		keybindings = setctl.get_accelerators()
+
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
 		init_text_keys.append(direct_text_key)
@@ -917,12 +909,11 @@ class Interface (gobject.GObject):
 				self._relax_search_terms)
 
 		# process accelerators
-		for accel in accels:
+		for action, accel in keybindings.iteritems():
 			akeyv, amodf = gtk.accelerator_parse(accel)
 			if not akeyv:
 				continue
 			if akeyv == keyv and (amodf == (event.state & modifiers)):
-				action = accels[accel]
 				action_method = getattr(self, action, None)
 				if not action_method:
 					pretty.print_error(__name__, "Action invalid '%s'" % action)
