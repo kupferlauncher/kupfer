@@ -891,6 +891,7 @@ class Interface (gobject.GObject):
 		from kupfer.core import settings
 		setctl = settings.GetSettingsController()
 		keybindings = setctl.get_accelerators()
+		use_command_keys = setctl.get_use_command_keys()
 
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
@@ -922,7 +923,7 @@ class Interface (gobject.GObject):
 				return True
 
 		has_selection = (self.current.get_match_state() is State.Match)
-		if not text_mode:
+		if not text_mode and use_command_keys:
 			# translate extra commands to normal commands here
 			# and remember skipped chars
 			if keyv == key_book["space"]:
@@ -943,7 +944,7 @@ class Interface (gobject.GObject):
 					# swallow if it is the direct key
 					swallow = (keyv == direct_text_key)
 					return swallow
-		elif keyv in (key_book["Left"], key_book["Right"]):
+		if text_mode and keyv in (key_book["Left"], key_book["Right"]):
 			# pass these through in text mode
 			return False
 

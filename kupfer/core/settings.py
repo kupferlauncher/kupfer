@@ -35,6 +35,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			"keybinding" : "" ,
 			"magickeybinding": "",
 			"showstatusicon" : True,
+			"usecommandkeys" : True,
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
@@ -262,6 +263,12 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			"magickeybinding": self.set_magic_keybinding,
 		}
 		return M[key](val)
+
+	def get_use_command_keys(self):
+		return self.get_config("Kupfer", "usecommandkeys")
+
+	def set_use_command_keys(self, enabled):
+		return self._set_config("Kupfer", "usecommandkeys", enabled)
 
 	def get_show_status_icon(self):
 		"""Convenience: Show icon in notification area as bool"""
