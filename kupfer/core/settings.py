@@ -229,6 +229,24 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""Convenience: Kupfer alternate keybinding as string"""
 		return self.get_config("Kupfer", "magickeybinding")
 
+	def set_magic_keybinding(self, keystr):
+		"""Convenience: Set alternate keybinding as string"""
+		return self._set_config("Kupfer", "magickeybinding", keystr)
+
+	def get_global_keybinding(self, key):
+		M = {
+			"keybinding": self.get_keybinding,
+			"magickeybinding": self.get_magic_keybinding,
+		}
+		return M[key]()
+
+	def set_global_keybinding(self, key, val):
+		M = {
+			"keybinding": self.set_keybinding,
+			"magickeybinding": self.set_magic_keybinding,
+		}
+		return M[key](val)
+
 	def get_show_status_icon(self):
 		"""Convenience: Show icon in notification area as bool"""
 		return strbool(self.get_config("Kupfer", "showstatusicon"))
