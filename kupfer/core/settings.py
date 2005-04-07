@@ -41,6 +41,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	}
 	def __init__(self):
 		gobject.GObject.__init__(self)
+		self._defaults_path = None
 		self._config = self._read_config()
 		self._save_timer = scheduler.Timer(True)
 
@@ -77,6 +78,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		except config.ResourceLookupError, exc:
 			print "Error: no default config file %s found!" % self.defaults_filename
 		else:
+			self._defaults_path = defaults_path
 			config_files += (defaults_path, )
 
 		if read_config:
@@ -194,6 +196,19 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		self._config[section][key] = str(value)
 		self._update_config_save_timer()
 		return False
+
+	def get_from_defaults(self, section, option=None):
+		"""Load values from default configuration file.
+		If @option is None, return all section items as (key, value) """
+		if self._defaults_path is None:
+			print 'Defaults not found'
+			return
+		parser = ConfigParser.SafeConfigParser()
+		parser.read(self._defaults_path)
+		if option is None:
+			return parser.items(section)
+		else:
+			return parser.get(section, option.lower())
 
 	def get_plugin_enabled(self, plugin_id):
 		"""Convenience: if @plugin_id is enabled"""
@@ -321,6 +336,16 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 	def get_accelerators(self):
 		return self._config['Keybindings']
+
+	def reset_keybindings(self):
+		self.set_keybinding(self.get_from_defaults('Kupfer', 'keybinding'))
+		self.set_magic_keybinding(
+			self.get_from_defaults('Kupfer', 'magickeybinding'))
+
+	def reset_accelerators(self):
+		for key, value in self.get_from_defaults('Keybindings'):
+			self._set_config('Keybindings', key, value)
+
 
 
 # Section, Key, Value
