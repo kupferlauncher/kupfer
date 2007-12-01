@@ -89,13 +89,25 @@ class Window (object):
 		path.walk(dir, get_listing, dirlist)
 		return dirlist
 
+	def _make_filelist(self):
+		list = self._get_dirlist(self.directory)
+
+		sort_key = (lambda file: (path.isdir(file), file))
+		list.sort(key=sort_key)
+		for i, file in enumerate(list):
+			if i > 10:
+				break
+			self.model.tree_model.append((file, 0))
+
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
 
 	def _reset(self):
 		self.entry.grab_focus()
 		self.entry.set_text("")
-		self.do_search(" ")
+		self.label.set_text("in %s" % self.directory)
+		self.model.tree_model.clear()
+		self._make_filelist()
 
 	def do_search(self, text):
 		"""
@@ -168,11 +180,15 @@ class Window (object):
 		self._launch_name(name)
 
 	def _launch_name(self, name):
-		from os import system
-
+		from gnomevfs import get_uri_from_local_path
+		from gnome import url_show
 		file = path.join(self.directory, name) 
-		print file
-		system("%s '%s'" % ("gnome-open", file))
+		uri = get_uri_from_local_path(file)
+		print file, uri
+		try:
+			url_show(uri)
+		except Exception, info:
+			print info
 
 	def main(self):
 		gtk.main()

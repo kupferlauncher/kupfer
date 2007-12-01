@@ -53,9 +53,21 @@ class Search (object):
 			rank += substr_v
 		else:
 			rank += self.common_prefix(s, key)
-		if key in split_at(s, self.wordsep):
+
+		words = split_at(s, self.wordsep)
+		if key in words:
 			# exact subword match
 			rank += wordm_v
+		else:
+			idx = 0
+			word_pfx = 0
+			for w in words:
+				pfx = self.common_prefix(w, key[idx:])
+				idx += pfx
+				word_pfx += pfx
+			if word_pfx > 5: print s, "hat", word_pfx, "for", key
+			rank += word_pfx
+
 		return rank
 
 	def common_letters(self, s, key, case_insensitive=True):
