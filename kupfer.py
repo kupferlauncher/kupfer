@@ -90,6 +90,7 @@ class KupferSearch (object):
 			abbrev = self.abbrev_str(i)
 			rank += abbrev_w * self.rank_string(abbrev, key)
 			rank += common_letter_w * self.common_letters(i, key)
+			rank += common_letter_w * self.common_letters(abbrev, key)
 
 			return rank
 
