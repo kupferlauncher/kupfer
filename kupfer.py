@@ -7,16 +7,24 @@ class KupferSearch (object):
 		self.search_base = search_base
 
 	def rank_string(self, s, key):
+		# match values
+		exact_v = 20
+		start_v = 10
+		wordm_v = 8
+		substr_v = 5
+
 		s = s.lower()
 		key = key.lower()
 		rank = 0
-		if s.startswith(key):
-			rank+=10
+		if s == key:
+			rank += exact_v
+		elif s.startswith(key):
+			rank += start_v
 		elif key in s:
-			rank+=5
+			rank += substr_v
 		if key in self.split_at(s, self.wordsep):
-			# exact word match
-			rank+=8
+			# exact subword match
+			rank += wordm_v
 		return rank
 
 	def split_at(self, s, seps):
@@ -72,7 +80,7 @@ class KupferSearch (object):
 
 		def rank_key(obj, key):
 			rank = 0
-			rank += normal_w* self.rank_string(i, key)
+			rank += normal_w * self.rank_string(i, key)
 			abbrev = self.abbrev_str(i)
 			rank += abbrev_w * self.rank_string(abbrev, key)
 			rank += common_letter_w * self.common_letters(i, key)
