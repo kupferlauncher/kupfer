@@ -2,8 +2,9 @@
 
 class KupferSearch (object):
 	
-	def __init__(self, wordsep=" .-_"):
+	def __init__(self, search_base, wordsep=" .-_"):
 		self.wordsep = wordsep
+		self.search_base = search_base
 
 	def rank_string(self, s, key):
 		s = s.lower()
@@ -34,11 +35,14 @@ class KupferSearch (object):
 			parts.append(s[last:])
 		return parts
 
-	def common_letters(self, s, key):
+	def common_letters(self, s, key, case_insensitive=True):
 		"""
 		count number of common letters
 		(in order)
 		"""
+		if case_insensitive:
+			s = s.lower()
+			key = key.lower()
 		idx = 0
 		for c in s:
 			if c == key[idx]:
@@ -87,13 +91,11 @@ class KupferSearch (object):
 		rank_list.sort(key= lambda item: item[0], reverse=True)
 		return rank_list
 
-	def search_objects(self, objects, key):
+	def search_objects(self, key):
 		"""
-		
-		objects -- list of objects
 		key -- string key
 		"""
-		ranked_str = self.rank_objects(objects, key)
+		ranked_str = self.rank_objects(self.search_base, key)
 		return ranked_str
 
 import gtk 
@@ -142,14 +144,14 @@ if __name__ == '__main__':
 	# get items in curdir
 	path.walk("/home/ulrik/Desktop", get_listing, dirlist)
 
-	kupfer = KupferSearch()
+	kupfer = KupferSearch(dirlist)
 
 	def do_search(text, context=None):
 		# print "Type in search string"
 		# in_str = raw_input()
 		if not len(text):
 			return
-		ranked_str = kupfer.search_objects(dirlist, text)
+		ranked_str = kupfer.search_objects(text)
 
 		for idx, s in enumerate(ranked_str):
 			print s
@@ -159,5 +161,4 @@ if __name__ == '__main__':
 
 	w = WindowControl(do_search, None)
 	w.main()
-	
 	
