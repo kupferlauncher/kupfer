@@ -2,6 +2,33 @@
 
 import gtk
 
+
+def split_at(s, seps):
+	"""
+	Split at string at any char in seps
+	"""
+	parts = []
+	last = 0
+	for i, c in enumerate(s):
+		if c in seps:
+			parts.append(s[last:i])
+			last = i+1
+	if last == 0:
+		parts.append(s)
+	else:
+		parts.append(s[last:])
+	return parts
+
+def upper_str(s):
+	return "".join([c for c in s if c.isupper()])
+
+
+def remove_chars(s, clist):
+	"""
+	remove any char in string clist from s and return the result
+	"""
+	return "".join([c for c in s if c not in clist])
+
 class KupferSearch (object):
 	"""
 	Loads a list of strings and performs a smart search,
@@ -28,26 +55,12 @@ class KupferSearch (object):
 			rank += start_v
 		elif key in s:
 			rank += substr_v
-		if key in self.split_at(s, self.wordsep):
+		else:
+			rank += self.common_prefix(s, key)
+		if key in split_at(s, self.wordsep):
 			# exact subword match
 			rank += wordm_v
 		return rank
-
-	def split_at(self, s, seps):
-		"""
-		Split at string at any char in seps
-		"""
-		parts = []
-		last = 0
-		for i, c in enumerate(s):
-			if c in seps:
-				parts.append(s[last:i])
-				last = i+1
-		if last == 0:
-			parts.append(s)
-		else:
-			parts.append(s[last:])
-		return parts
 
 	def common_letters(self, s, key, case_insensitive=True):
 		"""
@@ -65,13 +78,22 @@ class KupferSearch (object):
 					break
 		return idx
 
+	def common_prefix(self, s, key):
+		"""
+		count nbr of common letters in common prefix
+		"""
+		common =0
+		for c1, c2 in zip(s, key):
+			if c1 == c2:
+				common += 1
+			else:
+				break
+		return common
+
 	def abbrev_str(self, s):
-		words = self.split_at(s, self.wordsep)
+		words = split_at(s, self.wordsep)
 		first_chars = "".join([w[0] for w in words if len(w)])
 		return first_chars
-
-	def upper_str(self, s):
-		return "".join([c for c in s if c.isupper()])
 
 	def rank_objects(self, objects, key):
 		"""
@@ -190,7 +212,7 @@ class KupferWindow (object):
 		res = ""
 		idx = 0
 		from xml.sax.saxutils import escape
-		key = text.lower()
+		key = remove_chars(text.lower(), " _-.")
 		for n in name:
 			if idx < len(text) and n.lower() == key[idx]:
 				idx += 1
