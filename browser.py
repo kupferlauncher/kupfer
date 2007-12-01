@@ -4,6 +4,8 @@
 import gtk
 import kupfer
 
+from os import path
+
 class Window (object):
 
 	def __init__(self, dir):
@@ -11,9 +13,12 @@ class Window (object):
 		"""
 		self.directory = dir
 		self.window = self._setup_window()
-		dirlist = self._get_dirlist(dir)
-		self.kupfer = kupfer.Search(dirlist)
+		self.kupfer = self.make_searchobj(dir) 
 		self.best_match = None
+	
+	def make_searchobj(self, dir):
+		dirlist = self._get_dirlist(dir)
+		return kupfer.Search(dirlist)
 	
 	def _setup_window(self):
 		"""
@@ -29,12 +34,19 @@ class Window (object):
 		self.label = gtk.Label("<file>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
 
-		self.list_store = gtk.ListStore(str)
+		self.list_store = gtk.ListStore(str, int)
 		self.table = gtk.TreeView(self.list_store)
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
+		nbr_col = gtk.TreeViewColumn("rank", cell)
+
 		self.table.append_column(col)
+		self.table.append_column(nbr_col)
 		col.add_attribute(cell, "text", 0)
+		nbr_col.add_attribute(cell, "text", 1)
+
+		self.table.connect("row-activated", self._row_activated)
+		self.table.connect("key-press-event", self._key_press)
 
 		box = gtk.VBox()
 		box.pack_start(self.entry, True, True, 0)
@@ -50,8 +62,6 @@ class Window (object):
 		return window
 
 	def _get_dirlist(self, dir="."):
-		
-		from os import path
 		
 		def get_listing(dirlist, dirname, fnames):
 			dirlist.extend(fnames)
@@ -76,7 +86,7 @@ class Window (object):
 		self.list_store.clear()
 		for idx, s in enumerate(ranked_str):
 			print s
-			self.list_store.append([s])
+			self.list_store.append((s[1], s[0]))
 			if idx > 10:
 				break
 		print "---"
@@ -102,6 +112,34 @@ class Window (object):
 		#self.label.set_text("%d: %s" % self.best_match)
 		self.label.set_markup("%d: %s" % (rank, res))
 	
+	def _row_activated(self, treeview, treepath, view_column, data=None):
+		iter = self.list_store.get_iter(treepath)
+		val = self.list_store.get_value(iter, 0)
+		print "activated", path, val
+	
+	def _key_press(self, widget, event, data=None):
+		rightarrow = 0xFF53
+		leftarrow = 0xFF51
+		print "pressed", event
+		print event.keyval
+		if event.keyval == rightarrow:
+			treepath, col = self.table.get_cursor()
+			if not treepath:
+				return
+			iter = self.list_store.get_iter(treepath)
+			val = self.list_store.get_value(iter, 0)
+
+			dirpath = path.join(self.directory, val) 
+			if path.isdir(dirpath):
+				self.directory = dirpath
+				self.kupfer = self.make_searchobj(dirpath)
+		elif event.keyval == leftarrow:
+			dirpath = path.normpath(path.join(self.directory, ".."))
+			self.directory = dirpath
+			self.kupfer = self.make_searchobj(dirpath)
+
+			
+
 	def _activate(self, entry, data=None):
 		"""
 		Text input was activated (enter key)
