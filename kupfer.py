@@ -187,7 +187,18 @@ class KupferWindow (object):
 			return
 		rank, name = self.do_search(text)
 		self.best_match = rank, name
-		self.label.set_text("%d: %s" % self.best_match)
+		res = ""
+		idx = 0
+		from xml.sax.saxutils import escape
+		key = text.lower()
+		for n in name:
+			if idx < len(text) and n.lower() == text[idx]:
+				idx += 1
+				res += ("<u>"+ escape(n) + "</u>")
+			else:
+				res += (escape(n))
+		#self.label.set_text("%d: %s" % self.best_match)
+		self.label.set_markup("%d: %s" % (rank, res))
 	
 	def _activate(self, entry, data=None):
 		"""
