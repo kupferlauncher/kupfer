@@ -192,7 +192,7 @@ class KupferWindow (object):
 		from xml.sax.saxutils import escape
 		key = text.lower()
 		for n in name:
-			if idx < len(text) and n.lower() == text[idx]:
+			if idx < len(text) and n.lower() == key[idx]:
 				idx += 1
 				res += ("<u>"+ escape(n) + "</u>")
 			else:
