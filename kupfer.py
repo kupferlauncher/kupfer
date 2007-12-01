@@ -1,6 +1,12 @@
 #!/usr/bin/python
 
+import gtk
+
 class KupferSearch (object):
+	"""
+	Loads a list of strings and performs a smart search,
+	returning a ranked list
+	"""
 	
 	def __init__(self, search_base, wordsep=" .-_"):
 		self.wordsep = wordsep
@@ -106,67 +112,87 @@ class KupferSearch (object):
 		ranked_str = self.rank_objects(self.search_base, key)
 		return ranked_str
 
-import gtk 
-class WindowControl (object):
+class KupferWindow (object):
 
-	def __init__(self, change_callback, change_context):
+	def __init__(self, dir):
 		"""
-		change_callback: callback for changed entry text
-			def change_callback(text, context)
 		"""
-		self.change_callback = change_callback
-		self.change_context = change_context
-
-		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.window.connect("destroy", self._destroy)
+		self.window = self._setup_window()
+		dirlist = self._get_dirlist(dir)
+		self.kupfer = KupferSearch(dirlist)
+	
+	def _setup_window(self):
+		"""
+		Returns window
+		"""
+		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		window.connect("destroy", self._destroy)
 		
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
 
-		self.window.add(self.entry)
+		self.label = gtk.Label("<file>")
+		self.label.set_justify(gtk.JUSTIFY_LEFT)
+
+		box = gtk.VBox()
+		box.pack_start(self.entry, True, True, 0)
+		box.pack_start(self.label, False, False, 0)
+
+		window.add(box)
+		box.show()
 		self.entry.show()
-		self.window.show()
-	
+		self.label.show()
+		window.show()
+		return window
+
+	def _get_dirlist(self, dir="."):
+		
+		from os import path
+		
+		def get_listing(dirlist, dirname, fnames):
+			dirlist.extend(fnames)
+			# don't recurse
+			del fnames[:]
+
+		dirlist = []
+		path.walk(dir, get_listing, dirlist)
+		return dirlist
+
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
+
 	
-	def _changed(self, editable, data=None):
-		text = editable.get_text()
-		print "changed val to", text 
-		if self.change_callback:
-			self.change_callback(text, self.change_context)
-
-	def main(self):
-		gtk.main()
-
-if __name__ == '__main__':
-	
-	from os import path
-	
-	def get_listing(dirlist, dirname, fnames):
-		dirlist.extend(fnames)
-		# don't recurse
-		del fnames[:]
-
-	dirlist = []
-	# get items in curdir
-	path.walk("/home/ulrik/Desktop", get_listing, dirlist)
-
-	kupfer = KupferSearch(dirlist)
-
-	def do_search(text, context=None):
+	def do_search(self, text):
+		"""
+		return the best item as (rank, name)
+		"""
 		# print "Type in search string"
 		# in_str = raw_input()
 		if not len(text):
 			return
-		ranked_str = kupfer.search_objects(text)
+		ranked_str = self.kupfer.search_objects(text)
 
 		for idx, s in enumerate(ranked_str):
 			print s
 			if idx > 10:
 				break
 		print "---"
+		return ranked_str[0]
+	
+	def _changed(self, editable, data=None):
+		text = editable.get_text()
+		rank, name = self.do_search(text)
+		self.label.set_text("%d: %s" % (rank, name))
 
-	w = WindowControl(do_search, None)
+	def main(self):
+		gtk.main()
+
+if __name__ == '__main__':
+	import sys
+	if len(sys.argv) < 2:
+		dir = "."
+	else:
+		dir = sys.argv[1]
+	w = KupferWindow(dir)
 	w.main()
 	
