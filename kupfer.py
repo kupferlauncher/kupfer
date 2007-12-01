@@ -44,7 +44,6 @@ def common_letters(s, key):
 
 def abbrev_str(s):
 	words = split_at(s," .-_")
-	print words
 	first_chars = "".join([w[0] for w in words if len(w)])
 	return first_chars
 
@@ -92,25 +91,66 @@ def search_objects(objects, key):
 	ranked_str = rank_objects(objects, key)
 	return ranked_str
 
+import gtk 
+class WindowControl (object):
+
+	def __init__(self, change_callback, change_context):
+		"""
+		change_callback: callback for changed entry text
+			def change_callback(text, context)
+		"""
+		self.change_callback = change_callback
+		self.change_context = change_context
+
+		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		self.window.connect("destroy", self._destroy)
+		
+		self.entry = gtk.Entry(max=0)
+		self.entry.connect("changed", self._changed)
+
+		self.window.add(self.entry)
+		self.entry.show()
+		self.window.show()
+	
+	def _destroy(self, widget, data=None):
+		gtk.main_quit()
+	
+	def _changed(self, editable, data=None):
+		text = editable.get_text()
+		print "changed val to", text 
+		if self.change_callback:
+			self.change_callback(text, self.change_context)
+
+	def main(self):
+		gtk.main()
+
 if __name__ == '__main__':
 	
 	from os import path
-
+	
 	def get_listing(dirlist, dirname, fnames):
 		dirlist.extend(fnames)
 		# don't recurse
 		del fnames[:]
-	
+
 	dirlist = []
 	# get items in curdir
 	path.walk("/home/ulrik/Desktop", get_listing, dirlist)
-	#print dirlist
-	
-	print "Type in search string"
-	in_str = raw_input()
-	ranked_str = search_objects(dirlist, in_str)
 
-	for idx, s in enumerate(ranked_str):
-		print s
-		if idx > 20:
-			break
+	def do_search(text, context=None):
+		# print "Type in search string"
+		# in_str = raw_input()
+		if not len(text):
+			return
+		ranked_str = search_objects(dirlist, text)
+
+		for idx, s in enumerate(ranked_str):
+			print s
+			if idx > 10:
+				break
+		print "---"
+
+	w = WindowControl(do_search, None)
+	w.main()
+	
+	
