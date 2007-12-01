@@ -199,6 +199,7 @@ if __name__ == '__main__':
 		dir = "."
 	else:
 		dir = sys.argv[1]
+	dir = path.abspath(dir)
 	w = Window(dir)
 	w.main()
 
