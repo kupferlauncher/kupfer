@@ -117,9 +117,11 @@ class KupferWindow (object):
 	def __init__(self, dir):
 		"""
 		"""
+		self.directory = dir
 		self.window = self._setup_window()
 		dirlist = self._get_dirlist(dir)
 		self.kupfer = KupferSearch(dirlist)
+		self.best_match = None
 	
 	def _setup_window(self):
 		"""
@@ -130,6 +132,7 @@ class KupferWindow (object):
 		
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
+		self.entry.connect("activate", self._activate)
 
 		self.label = gtk.Label("<file>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
@@ -161,15 +164,12 @@ class KupferWindow (object):
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
 
-	
 	def do_search(self, text):
 		"""
 		return the best item as (rank, name)
 		"""
 		# print "Type in search string"
 		# in_str = raw_input()
-		if not len(text):
-			return
 		ranked_str = self.kupfer.search_objects(text)
 
 		for idx, s in enumerate(ranked_str):
@@ -181,8 +181,25 @@ class KupferWindow (object):
 	
 	def _changed(self, editable, data=None):
 		text = editable.get_text()
+		if not len(text):
+			self.best_match = None
+			return
 		rank, name = self.do_search(text)
-		self.label.set_text("%d: %s" % (rank, name))
+		self.best_match = rank, name
+		self.label.set_text("%d: %s" % self.best_match)
+	
+	def _activate(self, entry, data=None):
+		"""
+		Text input was activated (enter key)
+		"""
+		if not self.best_match:
+			return
+		from os import path, system
+		rank, name = self.best_match
+		file = path.join(self.directory, name) 
+		print file
+
+		system("%s '%s'" % ("gnome-open", file))
 
 	def main(self):
 		gtk.main()
