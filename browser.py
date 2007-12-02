@@ -3,6 +3,7 @@
 
 import gtk
 import gobject
+import itertools
 import kupfer
 
 from os import path
@@ -80,21 +81,33 @@ class DataSource (object):
 		"""
 		pass
 
-class DirectorySource (DataSource):
+class FileSource (DataSource):
 
-	def __init__(self, dir):
-		self.directory = dir
+	def __init__(self, dirlist, deep=False):
+		self.dirlist = dirlist
+		self.deep = deep
 
 	def get_items(self):
-		dirlist = self._get_dirlist(self.directory)
-		items = ((file, path.join(self.directory, file)) for file in dirlist)
-		return items
+		iters = []
+		
+		def mkgenerator(d, files):
+			return ((path.basename(f), f) for f in files)
+
+		for d in self.dirlist:
+			files = self._get_dirlist(d)
+			iters.append(mkgenerator(d, files))
+		return itertools.chain(*iters)
+
+	def _exclude_file(self, filename):
+		return filename.startswith(".") 
 
 	def _get_dirlist(self, dir):
 		def get_listing(dirlist, dirname, fnames):
-			dirlist.extend([file for file in fnames if not file.startswith(".")])
+			dirlist.extend([path.join(dirname, file) for file in fnames if not self._exclude_file(file)])
+
+			if not self.deep:
 			# don't recurse
-			del fnames[:]
+				del fnames[:]
 
 		dirlist = []
 		path.walk(dir, get_listing, dirlist)
@@ -112,6 +125,16 @@ class DirectorySource (DataSource):
 			url_show(uri)
 		except Exception, info:
 			print info
+
+class DirectorySource (FileSource):
+
+	def __init__(self, dir):
+		self.directory = dir
+
+	def get_items(self):
+		dirlist = self._get_dirlist(self.directory)
+		items = ((file, path.join(self.directory, file)) for file in dirlist)
+		return items
 	
 	def parent(self):
 		self.directory = path.normpath(path.join(self.directory, path.pardir))
@@ -178,9 +201,7 @@ class Browser (object):
 		return kupfer.Search(self.datasource.get_items()) 
 
 	def _make_list(self):
-		for i, item in enumerate(self.datasource.get_items()):
-			if i > 10:
-				break
+		for item in itertools.islice(self.datasource.get_items(), 10):
 			val, obj = item
 			self.model.append(val, 0, obj)
 
@@ -203,13 +224,9 @@ class Browser (object):
 		ranked_str = self.kupfer.search_objects(text)
 
 		self.model.clear()
-		for idx, s in enumerate(ranked_str):
-			print s
+		for s in itertools.islice(ranked_str, 10):
 			row = (s.value, s.rank, s.object)
 			self.model.append(*row)
-			if idx > 10:
-				break
-		print "---"
 		top = ranked_str[0]
 		return (top.value, top.rank, top.object)
 	
@@ -272,7 +289,8 @@ if __name__ == '__main__':
 	else:
 		dir = sys.argv[1]
 	dir = path.abspath(dir)
-	source = DirectorySource(dir)
+	#source = DirectorySource(dir)
+	source = FileSource(sys.argv[1:], deep=False)
 	w = Browser(source)
 	w.main()
 
