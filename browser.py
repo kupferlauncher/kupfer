@@ -26,7 +26,6 @@ class Model (object):
 		val = self.tree_model.get_value(iter, 0)
 		return val
 
-
 class Window (object):
 
 	def __init__(self, dir):
@@ -140,7 +139,7 @@ class Window (object):
 		from xml.sax.saxutils import escape
 		key = kupfer.remove_chars(text.lower(), " _-.")
 		for n in name:
-			if idx < len(text) and n.lower() == key[idx]:
+			if idx < len(key) and n.lower() == key[idx]:
 				idx += 1
 				res += ("<u>"+ escape(n) + "</u>")
 			else:

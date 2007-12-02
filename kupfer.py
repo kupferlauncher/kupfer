@@ -154,9 +154,7 @@ class Search (object):
 			rank += abbrev_w * self.rank_string(abbrev, key)
 			rank += common_letter_w * self.common_letters(val, key)
 			rank += common_letter_w * self.common_letters(abbrev, key)
-
 			return rank
-
 
 		for item in objects:
 			val = item.value
@@ -167,6 +165,8 @@ class Search (object):
 			# do parts
 			keyparts = split_at(key, self.wordsep)
 			for part in keyparts:
+				if not len(part):
+					continue
 				rank += part_w * rank_key(val, abbrev, part)
 				rank += part_w * words_w * self.rank_words(item, part)
 			item.rank = rank
