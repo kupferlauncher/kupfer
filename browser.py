@@ -18,6 +18,9 @@ class NoParent (Error):
 class NoContent (Error):
 	pass
 
+class NoApplication (Error):
+	pass
+
 class Model (object):
 	def __init__(self):
 		self.val_col = 0
@@ -114,17 +117,20 @@ class Leaf (KupferObject):
 
 class FileLeaf (Leaf):
 	def get_actions(self):
-		acts = [Show(), Echo()]
+		acts = [Show()]
 		if path.isdir(self.object):
 			pass
 		else:
 			type = gnomevfs.get_mime_type(self.object)
 			print type
 			types = gnomevfs.mime_get_short_list_applications(type)
-			apps = []
+			apps = set()
 			for info in types:
-				apps.append(ShowWith(info))
-			acts.extend(apps)
+				id = info[1]
+				if id not in apps:
+					acts.append(Show(info))
+					apps.add(id)
+			print apps
 		return acts
 
 	def has_content(self):
@@ -150,39 +156,31 @@ class Action (KupferObject):
 	def activate_many(self, leaves):
 		pass
 
-class Show (Action):
-	def activate(self, leaf):
-		self._launch_file(leaf.object)
-
-	def _launch_file(self, filepath):
-		uri = gnomevfs.get_uri_from_local_path(filepath)
-		print filepath, uri
-		try:
-			gnomevfs.url_show(uri)
-		except Exception, info:
-			print info
-
 class Echo (Action):
 	def activate(self, leaf):
 		print "Echo:", leaf.object
 
-class ShowWith (Action):
+class Show (Action):
 	def __init__(self, app_spec=None):
+		"""
+		Action that launches a file with app_spec
+
+		app_spec: application info as given by for example mime_get_default_application
+		if app_spec is None, open with default viewer
+		"""
 		self.app_spec = app_spec
 
-	def _open_uri(self, uri, app_spec=None):
+	def _open_uri(self, uri, app_spec):
 		"""
 		By Ed Catmur ed at catmur.co.uk 
 		http://www.daa.com.au/pipermail/pygtk/2007-March/013618.html
 
-		Try open with given app_spec, otherwise use infos
+		Try open with given app_spec
 		"""
-
 		mime = gnomevfs.get_mime_type (uri)
 		scheme = gnomevfs.get_uri_scheme (uri)
 		# http://bugzilla.gnome.org/show_bug.cgi?id=411560
-		if not app_spec:
-			app_spec = gnomevfs.mime_get_default_application (mime)
+
 		id, name, command, multi, paths_for_local, schemes, term = app_spec
 		argv = command.split()
 		if scheme == 'file' and paths_for_local:
@@ -191,13 +189,8 @@ class ShowWith (Action):
 		elif scheme == 'file' or scheme in schemes:
 			argv.append(uri)
 			return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
-		else:
-			for id, name, command, multi, paths_for_local, schemes, term in gnomevfs.mime_get_short_list_applications (mime) + gnomevfs.mime_get_all_applications (mime):
-				argv = command.split()
-				argv.append(uri)
-				if scheme in schemes:
-					return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
-		return False
+
+		raise NoApplication
 	
 	def __repr__(self):
 		return "<%s %s at %x>" % (self.__class__.__name__, str(self), id(self))
@@ -208,10 +201,12 @@ class ShowWith (Action):
 		return "Show with %s" % self.app_spec[1]
 	
 	def activate(self, leaf):
-		print "ShowWith: %s" % (leaf.object,)
+		print "Show: %s" % (leaf.object,)
 		uri = gnomevfs.get_uri_from_local_path(leaf.object)
-		self._open_uri(uri, self.app_spec)
-	
+		if self.app_spec:
+			self._open_uri(uri, self.app_spec)
+		else:
+			gnomevfs.url_show(uri)
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
