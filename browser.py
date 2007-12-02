@@ -120,18 +120,20 @@ class Window (object):
 		self.model.tree_model.clear()
 		for idx, s in enumerate(ranked_str):
 			print s
-			self.model.tree_model.append((s[1], s[0]))
+			row = (s.value, s.rank)
+			self.model.tree_model.append(row)
 			if idx > 10:
 				break
 		print "---"
-		return ranked_str[0]
+		top = ranked_str[0]
+		return (top.value, top.rank)
 	
 	def _changed(self, editable, data=None):
 		text = editable.get_text()
 		if not len(text):
 			self.best_match = None
 			return
-		rank, name = self.do_search(text)
+		name, rank = self.do_search(text)
 		self.best_match = rank, name
 		res = ""
 		idx = 0

@@ -25,6 +25,18 @@ def remove_chars(s, clist):
 	"""
 	return "".join([c for c in s if c not in clist])
 
+class Rankable (object):
+
+	def __init__(self, value):
+		self.rank = 0
+		self.value = value
+	
+	def __str__(self):
+		return "%s: %s" % (self.rank, self.value)
+
+	def __repr__(self):
+		return "<Rankable %s at %x>" % (str(self), id(self))
+
 class Search (object):
 	"""
 	Loads a list of strings and performs a smart search,
@@ -33,7 +45,11 @@ class Search (object):
 	
 	def __init__(self, search_base, wordsep=" .-_"):
 		self.wordsep = wordsep
-		self.search_base = search_base
+		self.search_base = []
+		
+		for item in search_base:
+			self.search_base.append(Rankable(item))
+
 
 	def rank_string(self, s, key):
 		# match values
@@ -117,34 +133,32 @@ class Search (object):
 		abbrev_w = 7 
 		common_letter_w = 3
 		part_w = 1
-		rank_list = []
 
 		def rank_key(obj, key):
 			rank = 0
-			rank += normal_w * self.rank_string(i, key)
-			abbrev = self.abbrev_str(i)
+			rank += normal_w * self.rank_string(obj, key)
+			abbrev = self.abbrev_str(obj)
 			rank += abbrev_w * self.rank_string(abbrev, key)
-			rank += common_letter_w * self.common_letters(i, key)
+			rank += common_letter_w * self.common_letters(obj, key)
 			rank += common_letter_w * self.common_letters(abbrev, key)
 
 			return rank
 
-		for i in objects:
+		for item in objects:
+			val = item.value
 			rank = 0
-			rank += normal_w * rank_key(i, key)
+			rank += normal_w * rank_key(val, key)
 			# do parts
 			keyparts = key.split()
 			for part in keyparts:
-				rank += part_w * rank_key(i, part)
-			
-			rank_list.append((rank,i))
-		rank_list.sort(key= lambda item: item[0], reverse=True)
-		return rank_list
+				rank += part_w * rank_key(val, part)
+			item.rank = rank
 
 	def search_objects(self, key):
 		"""
 		key -- string key
 		"""
-		ranked_str = self.rank_objects(self.search_base, key)
-		return ranked_str
+		self.rank_objects(self.search_base, key)
+		self.search_base.sort(key=lambda item: item.rank, reverse=True)
+		return self.search_base
 	
