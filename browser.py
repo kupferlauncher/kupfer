@@ -8,6 +8,15 @@ import kupfer
 
 from os import path
 
+class Error (Exception):
+	pass
+
+class NoParent (Error):
+	pass
+
+class NoContent (Error):
+	pass
+
 class Model (object):
 	def __init__(self):
 		self.val_col = 0
@@ -66,6 +75,12 @@ class Source (object):
 		"""
 		return []
 
+	def has_parent(self):
+		return False
+
+	def get_parent(self):
+		raise NoParent
+
 	def __str__(self):
 		return self.__class__.__name__
 
@@ -87,7 +102,7 @@ class Leaf (object):
 		return False
 	
 	def content_source(self):
-		raise
+		raise NoConent
 
 	def get_actions(self):
 		return ()
@@ -173,6 +188,18 @@ class DirectorySource (FileSource):
 		items = (FileLeaf(file, path.basename(file)) for file in dirlist)
 		return items
 
+	
+	def _parent_path(self):
+		return path.normpath(path.join(self.directory, path.pardir))
+
+	def has_parent(self):
+		return self.directory != self._parent_path()
+
+	def get_parent(self):
+		if not self.has_parent():
+			return FileSource.has_parent(self)
+		return DirectorySource(self._parent_path())
+
 class SourcesSource (Source):
 
 	def __init__(self, sources):
@@ -228,6 +255,10 @@ class Browser (object):
 		window.show()
 		return window
 
+	def source_rebase(self, src):
+		self.source_stack = []
+		self.push_source(src)
+	
 	def push_source(self, src):
 		self.source = src
 		self.source.set_refresh_callback(self.refresh_data)
@@ -235,7 +266,7 @@ class Browser (object):
 	
 	def pop_source(self):
 		if len(self.source_stack) <= 1:
-			raise
+			raise NoParent
 		else:
 			self.source_stack.pop(0)
 			self.source = self.source_stack[0]
@@ -317,7 +348,11 @@ class Browser (object):
 			self.push_source(leaf.content_source())
 			
 		elif event.keyval == leftarrow:
-			self.pop_source()
+			try:
+				self.pop_source()
+			except NoParent:
+				if self.source.has_parent():
+					self.source_rebase(self.source.get_parent())
 		else:
 			return
 		self.refresh_data()
