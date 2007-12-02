@@ -200,10 +200,14 @@ class ShowWith (Action):
 		return False
 	
 	def __repr__(self):
-		return "<%s %s at %x>" % (self.__class__.__name__, self.app_spec[1], id(self))
+		return "<%s %s at %x>" % (self.__class__.__name__, str(self), id(self))
+	
+	def __str__(self):
+		if not self.app_spec:
+			return "Show"
+		return "Show with %s" % self.app_spec[1]
 	
 	def activate(self, leaf):
-		import gnomevfs
 		print "ShowWith: %s" % (leaf.object,)
 		uri = gnomevfs.get_uri_from_local_path(leaf.object)
 		self._open_uri(uri, self.app_spec)
