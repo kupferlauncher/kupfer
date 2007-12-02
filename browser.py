@@ -48,7 +48,21 @@ class Model (object):
 
 class DataSource (object):
 	"""
-	abstract superclass
+	DataSource: Data provider for a kupfer browser
+
+	required are
+	set_refresh_callback
+	get_items
+
+	optional are
+	def activate(self, object):
+		Callback when object is activated
+	def contains(self, object):
+		Called when object is entered
+	def parent(self):
+		called when the current context is left
+	
+	These should only be implemented when the source has use for it
 	"""
 	def set_refresh_callback(self, refresh_callback):
 		"""
@@ -62,24 +76,6 @@ class DataSource (object):
 		where value is a rank-based string
 		"""
 		return []
-
-	def activate(self, object):
-		"""
-		Callback when object is activated
-		"""
-		pass
-	
-	def contains(self, object):
-		"""
-		Called when object is entered
-		"""
-		pass
-	
-	def parent(self):
-		"""
-		called when the current context is left
-		"""
-		pass
 
 class FileSource (DataSource):
 
@@ -290,7 +286,7 @@ if __name__ == '__main__':
 		dir = sys.argv[1]
 	dir = path.abspath(dir)
 	#source = DirectorySource(dir)
-	source = FileSource(sys.argv[1:], deep=False)
+	source = FileSource(sys.argv[1:], deep=True)
 	w = Browser(source)
 	w.main()
 
