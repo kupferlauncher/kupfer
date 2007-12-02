@@ -49,13 +49,13 @@ class Search (object):
 		
 		for item in search_base:
 			self.search_base.append(Rankable(item))
+		self.preprocess_objects(self.search_base)
 
 
 	def rank_string(self, s, key):
 		# match values
 		exact_v = 20
 		start_v = 10
-		wordm_v = 8
 		substr_v = 5
 
 		s = s.lower()
@@ -69,9 +69,14 @@ class Search (object):
 			rank += substr_v
 		else:
 			rank += self.common_prefix(s, key)
+		return rank
+	
+	def rank_words(self, item, key):
+		# match values
+		wordm_v = 8
 
-		words = split_at(s, self.wordsep)
-		if key in words:
+		rank = 0
+		if key in item._words:
 			# exact subword match
 			rank += wordm_v
 		else:
@@ -82,11 +87,10 @@ class Search (object):
 			# key: conddesk matches only 3-0-0-1
 			idx = 0
 			word_pfx = 0
-			for w in words:
+			for w in item._words:
 				pfx = self.common_prefix(w, key[idx:])
 				idx += pfx
 				word_pfx += pfx
-			if word_pfx > 5: print s, "hat", word_pfx, "for", key
 			rank += word_pfx
 
 		return rank
@@ -124,6 +128,15 @@ class Search (object):
 		first_chars = "".join([w[0] for w in words if len(w)])
 		return first_chars
 
+	def preprocess_objects(self, objects):
+		"""
+		process the list of objects, store
+		ranking metadata in them
+		"""
+		for item in objects:
+			item._abbrev = self.abbrev_str(item.value)
+			item._words = split_at(item.value, self.wordsep)
+
 	def rank_objects(self, objects, key):
 		"""
 		objects --
@@ -131,34 +144,43 @@ class Search (object):
 		"""
 		normal_w = 10
 		abbrev_w = 7 
+		words_w = 10
 		common_letter_w = 3
 		part_w = 1
 
-		def rank_key(obj, key):
+		def rank_key(val, abbrev, key):
 			rank = 0
-			rank += normal_w * self.rank_string(obj, key)
-			abbrev = self.abbrev_str(obj)
+			rank += normal_w * self.rank_string(val, key)
 			rank += abbrev_w * self.rank_string(abbrev, key)
-			rank += common_letter_w * self.common_letters(obj, key)
+			rank += common_letter_w * self.common_letters(val, key)
 			rank += common_letter_w * self.common_letters(abbrev, key)
 
 			return rank
 
+
 		for item in objects:
 			val = item.value
+			abbrev = item._abbrev
 			rank = 0
-			rank += normal_w * rank_key(val, key)
+			rank += normal_w * rank_key(val, abbrev, key)
+			rank += normal_w * words_w * self.rank_words(item, key)
 			# do parts
-			keyparts = key.split()
+			keyparts = split_at(key, self.wordsep)
 			for part in keyparts:
-				rank += part_w * rank_key(val, part)
+				rank += part_w * rank_key(val, abbrev, part)
+				rank += part_w * words_w * self.rank_words(item, part)
 			item.rank = rank
 
 	def search_objects(self, key):
 		"""
 		key -- string key
 		"""
-		self.rank_objects(self.search_base, key)
+		# only sort on worthwhile objects
+		for item in self.search_base:
+			item.rank = self.common_letters(item.value, key)
+		objects = (item for item in self.search_base if item.rank)
+
+		self.rank_objects(objects, key)
 		self.search_base.sort(key=lambda item: item.rank, reverse=True)
 		return self.search_base
 	
