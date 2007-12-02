@@ -311,11 +311,16 @@ class Browser (object):
 			treepath, col = self.table.get_cursor()
 			if not treepath:
 				return
-			obj = self.model.get_object(treepath)
-			self.source.contains(obj)
+			leaf = self.model.get_object(treepath)
+			if not leaf.has_content():
+				return
+			self.push_source(leaf.content_source())
 			
 		elif event.keyval == leftarrow:
-			self.source.parent()
+			self.pop_source()
+		else:
+			return
+		self.refresh_data()
 
 	def _activate(self, entry, data=None):
 		"""
