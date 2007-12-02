@@ -45,23 +45,86 @@ class Model (object):
 	def clear(self):
 		self.tree_model.clear()
 
-class Window (object):
+class DataSource (object):
+	"""
+	abstract superclass
+	"""
+	def set_refresh_callback(self, refresh_callback):
+		"""
+		Set function to be called on owner when data needs refresh
+		"""
+		self.refresh_callback = refresh_callback
+
+	def get_items(self):
+		"""
+		return a list of (value, object) tuples,
+		where value is a rank-based string
+		"""
+		return []
+
+	def activated(self, object):
+		"""
+		Callback when object is activated
+		"""
+		pass
+	
+	def contains(self, object):
+		"""
+		Called when object is entered
+		"""
+		pass
+	
+	def parent(self, object):
+		"""
+		called when the current context is left
+		"""
+		pass
+
+class DirectorySource (DataSource):
 
 	def __init__(self, dir):
-		"""
-		"""
 		self.directory = dir
+
+	def get_items(self):
+		dirlist = self._get_dirlist(self.directory)
+		items = ((file, path.join(self.directory, file)) for file in dirlist)
+		return items
+
+	def _get_dirlist(self, dir):
+		def get_listing(dirlist, dirname, fnames):
+			dirlist.extend([file for file in fnames if not file.startswith(".")])
+			# don't recurse
+			del fnames[:]
+
+		dirlist = []
+		path.walk(dir, get_listing, dirlist)
+		return dirlist
+
+	def activated(self, obj):
+		self._launch_file(obj)
+
+	def _launch_file(self, filepath):
+		from gnomevfs import get_uri_from_local_path
+		from gnome import url_show
+		uri = get_uri_from_local_path(filepath)
+		print filepath, uri
+		try:
+			url_show(uri)
+		except Exception, info:
+			print info
+
+class Browser (object):
+
+	def __init__(self, datasource):
+		"""
+		"""
 		self.model = Model()
+		self.datasource = datasource
 		self.window = self._setup_window()
-		self.kupfer = self.make_searchobj(dir) 
+		self.kupfer = self.make_searchobj()
 		self.best_match = None
 		self._reset()
-	
-	def make_searchobj(self, dir):
-		dirlist = self._get_dirlist(dir)
-		items = ((file, path.join(dir, file)) for file in dirlist)
-		return kupfer.Search(items)
-	
+
 	def _setup_window(self):
 		"""
 		Returns window
@@ -97,16 +160,8 @@ class Window (object):
 		window.show()
 		return window
 
-	def _get_dirlist(self, dir="."):
-		
-		def get_listing(dirlist, dirname, fnames):
-			dirlist.extend([file for file in fnames if not file.startswith(".")])
-			# don't recurse
-			del fnames[:]
-
-		dirlist = []
-		path.walk(dir, get_listing, dirlist)
-		return dirlist
+	def make_searchobj(self):
+		return kupfer.Search(self.datasource.get_items()) 
 
 	def _make_filelist(self):
 		list = self._get_dirlist(self.directory)
@@ -124,9 +179,9 @@ class Window (object):
 	def _reset(self):
 		self.entry.grab_focus()
 		self.entry.set_text("")
-		self.label.set_text("in %s" % self.directory)
+		#self.label.set_text("in %s" % self.directory)
 		self.model.clear()
-		self._make_filelist()
+		##self._make_filelist()
 
 	def do_search(self, text):
 		"""
@@ -169,8 +224,7 @@ class Window (object):
 	
 	def _row_activated(self, treeview, treepath, view_column, data=None):
 		obj = self.model.get_object(treepath)
-		print obj
-		self._launch_file(obj)
+		self._activate_object(obj)
 	
 	def _key_press(self, widget, event, data=None):
 		rightarrow = 0xFF53
@@ -199,18 +253,10 @@ class Window (object):
 		if not self.best_match:
 			return
 		name, rank, object= self.best_match
-
-		self._launch_file(object.object)
-
-	def _launch_file(self, filepath):
-		from gnomevfs import get_uri_from_local_path
-		from gnome import url_show
-		uri = get_uri_from_local_path(filepath)
-		print filepath, uri
-		try:
-			url_show(uri)
-		except Exception, info:
-			print info
+		self._activate_object(object)
+	
+	def _activate_object(self, obj):
+		self.datasource.activate(obj)
 
 	def main(self):
 		gtk.main()
@@ -222,6 +268,8 @@ if __name__ == '__main__':
 	else:
 		dir = sys.argv[1]
 	dir = path.abspath(dir)
-	w = Window(dir)
+	source = DirectorySource(dir)
+	w = Browser(source)
+	source.set_refresh_callback(w.make_searchobj)
 	w.main()
 
