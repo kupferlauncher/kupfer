@@ -115,7 +115,12 @@ class DirectorySource (DataSource):
 	
 	def parent(self):
 		self.directory = path.normpath(path.join(self.directory, path.pardir))
-		print self.directory
+		self.refresh_callback()
+	
+	def contains(self, obj):
+		if not path.isdir(obj):
+			return
+		self.directory = obj
 		self.refresh_callback()
 
 class Browser (object):
@@ -125,6 +130,7 @@ class Browser (object):
 		"""
 		self.model = Model()
 		self.datasource = datasource
+		self.datasource.set_refresh_callback(self.refresh_data)
 		self.window = self._setup_window()
 		self.refresh_data()
 
@@ -234,7 +240,6 @@ class Browser (object):
 	def _key_press(self, widget, event, data=None):
 		rightarrow = 0xFF53
 		leftarrow = 0xFF51
-		dirpath = None
 		if event.keyval == rightarrow:
 			treepath, col = self.table.get_cursor()
 			if not treepath:
@@ -269,6 +274,5 @@ if __name__ == '__main__':
 	dir = path.abspath(dir)
 	source = DirectorySource(dir)
 	w = Browser(source)
-	source.set_refresh_callback(w.refresh_data)
 	w.main()
 
