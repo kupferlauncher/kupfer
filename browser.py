@@ -62,7 +62,7 @@ class DataSource (object):
 		"""
 		return []
 
-	def activated(self, object):
+	def activate(self, object):
 		"""
 		Callback when object is activated
 		"""
@@ -74,7 +74,7 @@ class DataSource (object):
 		"""
 		pass
 	
-	def parent(self, object):
+	def parent(self):
 		"""
 		called when the current context is left
 		"""
@@ -100,7 +100,7 @@ class DirectorySource (DataSource):
 		path.walk(dir, get_listing, dirlist)
 		return dirlist
 
-	def activated(self, obj):
+	def activate(self, obj):
 		self._launch_file(obj)
 
 	def _launch_file(self, filepath):
@@ -112,6 +112,11 @@ class DirectorySource (DataSource):
 			url_show(uri)
 		except Exception, info:
 			print info
+	
+	def parent(self):
+		self.directory = path.normpath(path.join(self.directory, path.pardir))
+		print self.directory
+		self.refresh_callback()
 
 class Browser (object):
 
@@ -121,9 +126,7 @@ class Browser (object):
 		self.model = Model()
 		self.datasource = datasource
 		self.window = self._setup_window()
-		self.kupfer = self.make_searchobj()
-		self.best_match = None
-		self._reset()
+		self.refresh_data()
 
 	def _setup_window(self):
 		"""
@@ -160,18 +163,20 @@ class Browser (object):
 		window.show()
 		return window
 
+	def refresh_data(self):
+		self.kupfer = self.make_searchobj()
+		self.best_match = None
+		self._reset()
+
 	def make_searchobj(self):
 		return kupfer.Search(self.datasource.get_items()) 
 
-	def _make_filelist(self):
-		list = self._get_dirlist(self.directory)
-
-		sort_key = (lambda file: (path.isdir(file), file))
-		list.sort(key=sort_key)
-		for i, file in enumerate(list):
+	def _make_list(self):
+		for i, item in enumerate(self.datasource.get_items()):
 			if i > 10:
 				break
-			self.model.append(file, 0, path.join(self.directory, file))
+			val, obj = item
+			self.model.append(val, 0, obj)
 
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
@@ -179,9 +184,9 @@ class Browser (object):
 	def _reset(self):
 		self.entry.grab_focus()
 		self.entry.set_text("")
-		#self.label.set_text("in %s" % self.directory)
+		self.label.set_text("")
 		self.model.clear()
-		##self._make_filelist()
+		self._make_list()
 
 	def do_search(self, text):
 		"""
@@ -235,16 +240,10 @@ class Browser (object):
 			if not treepath:
 				return
 			obj = self.model.get_object(treepath)
-			if path.isdir(obj):
-				dirpath = obj
+			self.datasource.contains(obj)
 			
 		elif event.keyval == leftarrow:
-			dirpath = path.normpath(path.join(self.directory, ".."))
-			
-		if dirpath:
-			self.directory = dirpath
-			self.kupfer = self.make_searchobj(dirpath)
-			self._reset()
+			self.datasource.parent()
 
 	def _activate(self, entry, data=None):
 		"""
@@ -270,6 +269,6 @@ if __name__ == '__main__':
 	dir = path.abspath(dir)
 	source = DirectorySource(dir)
 	w = Browser(source)
-	source.set_refresh_callback(w.make_searchobj)
+	source.set_refresh_callback(w.refresh_data)
 	w.main()
 
