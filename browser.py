@@ -153,18 +153,20 @@ class Window (object):
 	def _key_press(self, widget, event, data=None):
 		rightarrow = 0xFF53
 		leftarrow = 0xFF51
+		dirpath = None
 		if event.keyval == rightarrow:
 			treepath, col = self.table.get_cursor()
 			if not treepath:
 				return
 			val = self.model.get_value(treepath)
 			dirpath = path.join(self.directory, val) 
-			if path.isdir(dirpath):
-				self.directory = dirpath
-				self.kupfer = self.make_searchobj(dirpath)
-				self._reset()
+			if not path.isdir(dirpath):
+				dirpath = None
+			
 		elif event.keyval == leftarrow:
 			dirpath = path.normpath(path.join(self.directory, ".."))
+			
+		if dirpath:
 			self.directory = dirpath
 			self.kupfer = self.make_searchobj(dirpath)
 			self._reset()

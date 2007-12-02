@@ -59,6 +59,11 @@ class Search (object):
 			# exact subword match
 			rank += wordm_v
 		else:
+			# score prefixes of subwords
+			# example:
+			# key: contdesk
+			# matches configure-the-thing.desktop as 3-1-0-4 for a score of 7
+			# key: conddesk matches only 3-0-0-1
 			idx = 0
 			word_pfx = 0
 			for w in words:
