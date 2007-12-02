@@ -102,7 +102,7 @@ class Leaf (object):
 		return False
 	
 	def content_source(self):
-		raise NoConent
+		raise NoContent
 
 	def get_actions(self):
 		return ()
@@ -119,6 +119,13 @@ class FileLeaf (Leaf):
 			return DirectorySource(self.object)
 		else:
 			return Leaf.content_source(self)
+
+class SourceLeaf (Leaf):
+	def has_content(self):
+		return True
+
+	def content_source(self):
+		return self.object
 
 class Action (object):
 	def activate(self, leaf):
@@ -145,37 +152,62 @@ class Echo (Action):
 	def activate(self, leaf):
 		print "Echo:", leaf.object
 
+def get_dirlist(folder, depth=0, include=None, exclude=None):
+	"""
+	Return a list of absolute paths in folder
+	include, exclude: a function returning a boolean
+	def include(filename):
+		return ShouldInclude
+	"""
+	class Context (object):
+		pass
+
+	context = Context()
+	context.dirlist = []
+	context.depth = 0
+	def get_listing(context, dirname, fnames):
+		for file in fnames:
+			abspath = path.join(dirname, file)
+			if include and not include(file):
+				continue
+			if exclude and exclude(file):
+				continue
+			context.dirlist.append(abspath)
+
+		# don't recurse
+		context.depth += 1
+		if context.depth > depth:
+			del fnames[:]
+
+	path.walk(folder, get_listing, context)
+	return context.dirlist
+
 class FileSource (Source):
 
 	def __init__(self, dirlist, deep=False):
 		self.dirlist = dirlist
 		self.deep = deep
 
+	def __str__(self):
+		dirs = [path.basename(dir) for dir in self.dirlist]
+		dirstr = ", ".join(dirs)
+		return "%s %s" % (Source.__str__(self), dirstr)
+
 	def get_items(self):
 		iters = []
 		
-		def mkgenerator(d, files):
+		def mkleaves(dir):
+			print "mkleaves", dir
+			files = get_dirlist(dir, depth=self.deep, exclude=self._exclude_file)
 			return (FileLeaf(f, path.basename(f)) for f in files)
 
 		for d in self.dirlist:
-			files = self._get_dirlist(d)
-			iters.append(mkgenerator(d, files))
+			iters.append(mkleaves(d))
+
 		return itertools.chain(*iters)
 
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
-
-	def _get_dirlist(self, dir):
-		def get_listing(dirlist, dirname, fnames):
-			dirlist.extend([path.join(dirname, file) for file in fnames if not self._exclude_file(file)])
-
-			if not self.deep:
-			# don't recurse
-				del fnames[:]
-
-		dirlist = []
-		path.walk(dir, get_listing, dirlist)
-		return dirlist
 
 class DirectorySource (FileSource):
 
@@ -184,10 +216,13 @@ class DirectorySource (FileSource):
 		self.deep = False
 
 	def get_items(self):
-		dirlist = self._get_dirlist(self.directory)
+		dirlist = get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
 		items = (FileLeaf(file, path.basename(file)) for file in dirlist)
 		return items
 
+
+	def __str__(self):
+		return "%s %s" % (Source.__str__(self), path.basename(self.directory))
 	
 	def _parent_path(self):
 		return path.normpath(path.join(self.directory, path.pardir))
@@ -206,7 +241,7 @@ class SourcesSource (Source):
 		self.sources = sources
 	
 	def get_items(self):
-		return (Leaf(s, str(s)) for s in self.sources)
+		return (SourceLeaf(s, str(s)) for s in self.sources)
 
 
 class Browser (object):
@@ -383,9 +418,9 @@ if __name__ == '__main__':
 	else:
 		dir = sys.argv[1]
 	dir = path.abspath(dir)
-	source = DirectorySource(dir)
-	#source = FileSource(sys.argv[1:], deep=True)
-	#source = SourcesSource((source,))
+	dir_source = DirectorySource(dir)
+	file_source = FileSource(sys.argv[1:], deep=True)
+	source = SourcesSource((dir_source, file_source))
 	w = Browser(source)
 	w.main()
 
