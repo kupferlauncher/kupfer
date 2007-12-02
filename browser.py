@@ -188,8 +188,8 @@ class Browser (object):
 		"""
 		"""
 		self.model = Model()
-		self.datasource = datasource
-		self.datasource.set_refresh_callback(self.refresh_data)
+		self.source_stack = []
+		self.push_source(datasource)
 		self.window = self._setup_window()
 		self.refresh_data()
 
@@ -228,17 +228,29 @@ class Browser (object):
 		window.show()
 		return window
 
+	def push_source(self, src):
+		self.source = src
+		self.source.set_refresh_callback(self.refresh_data)
+		self.source_stack.insert(0, src)
+	
+	def pop_source(self):
+		if len(self.source_stack) <= 1:
+			raise
+		else:
+			self.source_stack.pop(0)
+			self.source = self.source_stack[0]
+
 	def refresh_data(self):
 		self.kupfer = self.make_searchobj()
 		self.best_match = None
 		self._reset()
 
 	def make_searchobj(self):
-		leaves = self.datasource.get_items() 
+		leaves = self.source.get_items() 
 		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
 
 	def _make_list(self):
-		for leaf in itertools.islice(self.datasource.get_items(), 10):
+		for leaf in itertools.islice(self.source.get_items(), 10):
 			val, obj = leaf.value, leaf
 			self.model.append(val, 0, obj)
 
@@ -300,10 +312,10 @@ class Browser (object):
 			if not treepath:
 				return
 			obj = self.model.get_object(treepath)
-			self.datasource.contains(obj)
+			self.source.contains(obj)
 			
 		elif event.keyval == leftarrow:
-			self.datasource.parent()
+			self.source.parent()
 
 	def _activate(self, entry, data=None):
 		"""
