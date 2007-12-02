@@ -26,29 +26,37 @@ def remove_chars(s, clist):
 	return "".join([c for c in s if c not in clist])
 
 class Rankable (object):
-
-	def __init__(self, value):
+	"""
+	Rankable has an object (represented item),
+	value (determines rank) and an associated rank
+	"""
+	def __init__(self, value, object=None):
 		self.rank = 0
 		self.value = value
+		self.object = object
 	
 	def __str__(self):
 		return "%s: %s" % (self.rank, self.value)
 
 	def __repr__(self):
-		return "<Rankable %s at %x>" % (str(self), id(self))
+		return "<Rankable %s repres %s at %x>" % (str(self), repr(self.object), id(self))
 
 class Search (object):
 	"""
-	Loads a list of strings and performs a smart search,
-	returning a ranked list
+	Initialize the search object with a list of
+	(value, object) tuples that are to be ranked.
+	Returns a sorted list of Rankable instances
 	"""
 	
-	def __init__(self, search_base, wordsep=" .-_"):
+	def __init__(self, items, wordsep=" .-_"):
+		"""
+		items: sequence of (value, object) tuples
+		"""
 		self.wordsep = wordsep
 		self.search_base = []
 		
-		for item in search_base:
-			self.search_base.append(Rankable(item))
+		for val, obj in items:
+			self.search_base.append(Rankable(val, obj))
 		self.preprocess_objects(self.search_base)
 
 

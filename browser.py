@@ -2,13 +2,17 @@
 # -*- coding: UTF-8 -*-
 
 import gtk
+import gobject
 import kupfer
 
 from os import path
 
 class Model (object):
 	def __init__(self):
-		self.tree_model = gtk.ListStore(str, int)
+		self.val_col = 0
+		self.rank_col = 1
+		self.obj_col = 2
+		self.tree_model = gtk.ListStore(str, int, gobject.TYPE_PYOBJECT)
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
@@ -18,13 +22,28 @@ class Model (object):
 		nbr_col.add_attribute(cell, "text", 1)
 		self.columns = (col, nbr_col)
 	
+	def _get_column(self, treepath, col):
+		iter = self.tree_model.get_iter(treepath)
+		val = self.tree_model.get_value(iter, col)
+		return val
+	
 	def get_value(self, treepath):
 		"""
 		Return model's value for treeview's path
 		"""
-		iter = self.tree_model.get_iter(treepath)
-		val = self.tree_model.get_value(iter, 0)
-		return val
+		return self._get_column(treepath, self.val_col)
+
+	def get_object(self, treepath):
+		"""
+		Return model's object for the treeview path
+		"""
+		return self._get_column(treepath, self.obj_col)
+
+	def append(self, value, rank, object):
+		self.tree_model.append((value, rank, object))
+
+	def clear(self):
+		self.tree_model.clear()
 
 class Window (object):
 
@@ -40,7 +59,8 @@ class Window (object):
 	
 	def make_searchobj(self, dir):
 		dirlist = self._get_dirlist(dir)
-		return kupfer.Search(dirlist)
+		items = ((file, path.join(dir, file)) for file in dirlist)
+		return kupfer.Search(items)
 	
 	def _setup_window(self):
 		"""
@@ -96,7 +116,7 @@ class Window (object):
 		for i, file in enumerate(list):
 			if i > 10:
 				break
-			self.model.tree_model.append((file, 0))
+			self.model.append(file, 0, path.join(self.directory, file))
 
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
@@ -105,7 +125,7 @@ class Window (object):
 		self.entry.grab_focus()
 		self.entry.set_text("")
 		self.label.set_text("in %s" % self.directory)
-		self.model.tree_model.clear()
+		self.model.clear()
 		self._make_filelist()
 
 	def do_search(self, text):
@@ -116,24 +136,25 @@ class Window (object):
 		# in_str = raw_input()
 		ranked_str = self.kupfer.search_objects(text)
 
-		self.model.tree_model.clear()
+		self.model.clear()
 		for idx, s in enumerate(ranked_str):
 			print s
-			row = (s.value, s.rank)
-			self.model.tree_model.append(row)
+			row = (s.value, s.rank, s.object)
+			self.model.append(*row)
 			if idx > 10:
 				break
 		print "---"
 		top = ranked_str[0]
-		return (top.value, top.rank)
+		return (top.value, top.rank, top.object)
 	
 	def _changed(self, editable, data=None):
 		text = editable.get_text()
 		if not len(text):
 			self.best_match = None
 			return
-		name, rank = self.do_search(text)
-		self.best_match = rank, name
+		self.best_match = self.do_search(text)
+		name, rank, obj = self.best_match
+
 		res = ""
 		idx = 0
 		from xml.sax.saxutils import escape
@@ -144,12 +165,12 @@ class Window (object):
 				res += ("<u>"+ escape(n) + "</u>")
 			else:
 				res += (escape(n))
-		#self.label.set_text("%d: %s" % self.best_match)
 		self.label.set_markup("%d: %s" % (rank, res))
 	
 	def _row_activated(self, treeview, treepath, view_column, data=None):
-		val = self.model.get_value(treepath)
-		self._launch_name(val)
+		obj = self.model.get_object(treepath)
+		print obj
+		self._launch_file(obj)
 	
 	def _key_press(self, widget, event, data=None):
 		rightarrow = 0xFF53
@@ -159,10 +180,9 @@ class Window (object):
 			treepath, col = self.table.get_cursor()
 			if not treepath:
 				return
-			val = self.model.get_value(treepath)
-			dirpath = path.join(self.directory, val) 
-			if not path.isdir(dirpath):
-				dirpath = None
+			obj = self.model.get_object(treepath)
+			if path.isdir(obj):
+				dirpath = obj
 			
 		elif event.keyval == leftarrow:
 			dirpath = path.normpath(path.join(self.directory, ".."))
@@ -178,16 +198,15 @@ class Window (object):
 		"""
 		if not self.best_match:
 			return
-		rank, name = self.best_match
+		name, rank, object= self.best_match
 
-		self._launch_name(name)
+		self._launch_file(object.object)
 
-	def _launch_name(self, name):
+	def _launch_file(self, filepath):
 		from gnomevfs import get_uri_from_local_path
 		from gnome import url_show
-		file = path.join(self.directory, name) 
-		uri = get_uri_from_local_path(file)
-		print file, uri
+		uri = get_uri_from_local_path(filepath)
+		print filepath, uri
 		try:
 			url_show(uri)
 		except Exception, info:
