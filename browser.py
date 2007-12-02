@@ -3,6 +3,7 @@
 
 import gtk
 import gobject
+import gnomevfs
 import itertools
 import kupfer
 
@@ -90,7 +91,11 @@ class Source (object):
 		"""
 		return self
 
-class Leaf (object):
+class KupferObject (object):
+	def get_pixmap(self):
+		return None
+
+class Leaf (KupferObject):
 	def __init__(self, obj, value):
 		self.object = obj
 		self.value = value
@@ -109,7 +114,18 @@ class Leaf (object):
 
 class FileLeaf (Leaf):
 	def get_actions(self):
-		return (Show(), Echo())
+		acts = [Show(), Echo()]
+		if path.isdir(self.object):
+			pass
+		else:
+			type = gnomevfs.get_mime_type(self.object)
+			print type
+			types = gnomevfs.mime_get_short_list_applications(type)
+			apps = []
+			for info in types:
+				apps.append(ShowWith(info))
+			acts.extend(apps)
+		return acts
 
 	def has_content(self):
 		return path.isdir(self.object)
@@ -127,7 +143,7 @@ class SourceLeaf (Leaf):
 	def content_source(self):
 		return self.object
 
-class Action (object):
+class Action (KupferObject):
 	def activate(self, leaf):
 		pass
 	
@@ -139,18 +155,59 @@ class Show (Action):
 		self._launch_file(leaf.object)
 
 	def _launch_file(self, filepath):
-		from gnomevfs import get_uri_from_local_path
-		from gnome import url_show
-		uri = get_uri_from_local_path(filepath)
+		uri = gnomevfs.get_uri_from_local_path(filepath)
 		print filepath, uri
 		try:
-			url_show(uri)
+			gnomevfs.url_show(uri)
 		except Exception, info:
 			print info
 
 class Echo (Action):
 	def activate(self, leaf):
 		print "Echo:", leaf.object
+
+class ShowWith (Action):
+	def __init__(self, app_spec=None):
+		self.app_spec = app_spec
+
+	def _open_uri(self, uri, app_spec=None):
+		"""
+		By Ed Catmur ed at catmur.co.uk 
+		http://www.daa.com.au/pipermail/pygtk/2007-March/013618.html
+
+		Try open with given app_spec, otherwise use infos
+		"""
+
+		mime = gnomevfs.get_mime_type (uri)
+		scheme = gnomevfs.get_uri_scheme (uri)
+		# http://bugzilla.gnome.org/show_bug.cgi?id=411560
+		if not app_spec:
+			app_spec = gnomevfs.mime_get_default_application (mime)
+		id, name, command, multi, paths_for_local, schemes, term = app_spec
+		argv = command.split()
+		if scheme == 'file' and paths_for_local:
+			argv.append(gnomevfs.get_local_path_from_uri (uri))
+			return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
+		elif scheme == 'file' or scheme in schemes:
+			argv.append(uri)
+			return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
+		else:
+			for id, name, command, multi, paths_for_local, schemes, term in gnomevfs.mime_get_short_list_applications (mime) + gnomevfs.mime_get_all_applications (mime):
+				argv = command.split()
+				argv.append(uri)
+				if scheme in schemes:
+					return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
+		return False
+	
+	def __repr__(self):
+		return "<%s %s at %x>" % (self.__class__.__name__, self.app_spec[1], id(self))
+	
+	def activate(self, leaf):
+		import gnomevfs
+		print "ShowWith: %s" % (leaf.object,)
+		uri = gnomevfs.get_uri_from_local_path(leaf.object)
+		self._open_uri(uri, self.app_spec)
+	
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -182,6 +239,7 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 	path.walk(folder, get_listing, context)
 	return context.dirlist
 
+
 class FileSource (Source):
 
 	def __init__(self, dirlist, deep=False):
@@ -209,6 +267,7 @@ class FileSource (Source):
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
 
+
 class DirectorySource (FileSource):
 
 	def __init__(self, dir):
@@ -219,7 +278,6 @@ class DirectorySource (FileSource):
 		dirlist = get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
 		items = (FileLeaf(file, path.basename(file)) for file in dirlist)
 		return items
-
 
 	def __str__(self):
 		return "%s %s" % (Source.__str__(self), path.basename(self.directory))
@@ -234,6 +292,7 @@ class DirectorySource (FileSource):
 		if not self.has_parent():
 			return FileSource.has_parent(self)
 		return DirectorySource(self._parent_path())
+
 
 class SourcesSource (Source):
 
@@ -266,7 +325,7 @@ class Browser (object):
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
 
-		self.label = gtk.Label("<file>")
+		self.label = gtk.Label("<match>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
 
 		self.table = gtk.TreeView(self.model.tree_model)
@@ -277,14 +336,26 @@ class Browser (object):
 		self.table.connect("row-activated", self._row_activated)
 		self.table.connect("key-press-event", self._key_press)
 
+		self.actions_model = gtk.ListStore(str, gobject.TYPE_PYOBJECT)
+		self.actions_table = gtk.TreeView(self.actions_model)
+		cell = gtk.CellRendererText()
+		col = gtk.TreeViewColumn("Action", cell)
+		col.add_attribute(cell, "text", 0)
+		self.actions_table.append_column(col)
+
+		self.actions_table.connect("row-activated", self._actions_row_activated)
+		
+
 		box = gtk.VBox()
 		box.pack_start(self.entry, True, True, 0)
 		box.pack_start(self.label, False, False, 0)
 		box.pack_start(self.table, True, True, 0)
+		box.pack_start(self.actions_table, True, True, 0)
 
 		window.add(box)
 		box.show()
 		self.table.show()
+		self.actions_table.show()
 		self.entry.show()
 		self.label.show()
 		window.show()
@@ -365,7 +436,24 @@ class Browser (object):
 			else:
 				res += (escape(n))
 		self.label.set_markup("%d: %s" % (rank, res))
+		self.update_actions()
 	
+	def update_actions(self):
+		rank, leaf = self.best_match
+		self.actions_model.clear()
+		actions = leaf.get_actions()
+		if not len(actions):
+			return
+		for act in actions:
+			self.actions_model.append((str(act), act))
+	
+	def _actions_row_activated(self, treeview, treepath, view_column, data=None):
+		rank, leaf = self.best_match
+		iter = self.actions_model.get_iter(treepath)
+		action = self.actions_model.get_value(iter, 1)
+		action.activate(leaf)
+
+
 	def _row_activated(self, treeview, treepath, view_column, data=None):
 		leaf = self.model.get_object(treepath)
 		self._activate_object(leaf)
