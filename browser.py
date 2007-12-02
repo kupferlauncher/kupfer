@@ -46,23 +46,13 @@ class Model (object):
 	def clear(self):
 		self.tree_model.clear()
 
-class DataSource (object):
+class Source (object):
 	"""
-	DataSource: Data provider for a kupfer browser
+	Source: Data provider for a kupfer browser
 
 	required are
 	set_refresh_callback
 	get_items
-
-	optional are
-	def activate(self, object):
-		Callback when object is activated
-	def contains(self, object):
-		Called when object is entered
-	def parent(self):
-		called when the current context is left
-	
-	These should only be implemented when the source has use for it
 	"""
 	def set_refresh_callback(self, refresh_callback):
 		"""
@@ -72,12 +62,75 @@ class DataSource (object):
 
 	def get_items(self):
 		"""
-		return a list of (value, object) tuples,
-		where value is a rank-based string
+		return a list of leaves
 		"""
 		return []
 
-class FileSource (DataSource):
+	def __str__(self):
+		return self.__class__.__name__
+
+	def representation(self):
+		"""
+		Return represented object
+		"""
+		return self
+
+class Leaf (object):
+	def __init__(self, obj, value):
+		self.object = obj
+		self.value = value
+	
+	def __repr__(self):
+		return "<%s %s at %x>" % (self.__class__.__name__, self.object, id(self))
+	
+	def has_content(self):
+		return False
+	
+	def content_source(self):
+		raise
+
+	def get_actions(self):
+		return ()
+
+class FileLeaf (Leaf):
+	def get_actions(self):
+		return (Show(), Echo())
+
+	def has_content(self):
+		return path.isdir(self.object)
+
+	def content_source(self):
+		if self.has_content():
+			return DirectorySource(self.object)
+		else:
+			return Leaf.content_source(self)
+
+class Action (object):
+	def activate(self, leaf):
+		pass
+	
+	def activate_many(self, leaves):
+		pass
+
+class Show (Action):
+	def activate(self, leaf):
+		self._launch_file(leaf.object)
+
+	def _launch_file(self, filepath):
+		from gnomevfs import get_uri_from_local_path
+		from gnome import url_show
+		uri = get_uri_from_local_path(filepath)
+		print filepath, uri
+		try:
+			url_show(uri)
+		except Exception, info:
+			print info
+
+class Echo (Action):
+	def activate(self, leaf):
+		print "Echo:", leaf.object
+
+class FileSource (Source):
 
 	def __init__(self, dirlist, deep=False):
 		self.dirlist = dirlist
@@ -87,7 +140,7 @@ class FileSource (DataSource):
 		iters = []
 		
 		def mkgenerator(d, files):
-			return ((path.basename(f), f) for f in files)
+			return (FileLeaf(f, path.basename(f)) for f in files)
 
 		for d in self.dirlist:
 			files = self._get_dirlist(d)
@@ -109,38 +162,25 @@ class FileSource (DataSource):
 		path.walk(dir, get_listing, dirlist)
 		return dirlist
 
-	def activate(self, obj):
-		self._launch_file(obj)
-
-	def _launch_file(self, filepath):
-		from gnomevfs import get_uri_from_local_path
-		from gnome import url_show
-		uri = get_uri_from_local_path(filepath)
-		print filepath, uri
-		try:
-			url_show(uri)
-		except Exception, info:
-			print info
-
 class DirectorySource (FileSource):
 
 	def __init__(self, dir):
 		self.directory = dir
+		self.deep = False
 
 	def get_items(self):
 		dirlist = self._get_dirlist(self.directory)
-		items = ((file, path.join(self.directory, file)) for file in dirlist)
+		items = (FileLeaf(file, path.basename(file)) for file in dirlist)
 		return items
+
+class SourcesSource (Source):
+
+	def __init__(self, sources):
+		self.sources = sources
 	
-	def parent(self):
-		self.directory = path.normpath(path.join(self.directory, path.pardir))
-		self.refresh_callback()
-	
-	def contains(self, obj):
-		if not path.isdir(obj):
-			return
-		self.directory = obj
-		self.refresh_callback()
+	def get_items(self):
+		return (Leaf(s, str(s)) for s in self.sources)
+
 
 class Browser (object):
 
@@ -194,11 +234,12 @@ class Browser (object):
 		self._reset()
 
 	def make_searchobj(self):
-		return kupfer.Search(self.datasource.get_items()) 
+		leaves = self.datasource.get_items() 
+		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
 
 	def _make_list(self):
-		for item in itertools.islice(self.datasource.get_items(), 10):
-			val, obj = item
+		for leaf in itertools.islice(self.datasource.get_items(), 10):
+			val, obj = leaf.value, leaf
 			self.model.append(val, 0, obj)
 
 	def _destroy(self, widget, data=None):
@@ -224,7 +265,8 @@ class Browser (object):
 			row = (s.value, s.rank, s.object)
 			self.model.append(*row)
 		top = ranked_str[0]
-		return (top.value, top.rank, top.object)
+		# top.object is a leaf
+		return (top.rank, top.object)
 	
 	def _changed(self, editable, data=None):
 		text = editable.get_text()
@@ -232,13 +274,13 @@ class Browser (object):
 			self.best_match = None
 			return
 		self.best_match = self.do_search(text)
-		name, rank, obj = self.best_match
+		rank, leaf = self.best_match
 
 		res = ""
 		idx = 0
 		from xml.sax.saxutils import escape
 		key = kupfer.remove_chars(text.lower(), " _-.")
-		for n in name:
+		for n in leaf.value:
 			if idx < len(key) and n.lower() == key[idx]:
 				idx += 1
 				res += ("<u>"+ escape(n) + "</u>")
@@ -247,8 +289,8 @@ class Browser (object):
 		self.label.set_markup("%d: %s" % (rank, res))
 	
 	def _row_activated(self, treeview, treepath, view_column, data=None):
-		obj = self.model.get_object(treepath)
-		self._activate_object(obj)
+		leaf = self.model.get_object(treepath)
+		self._activate_object(leaf)
 	
 	def _key_press(self, widget, event, data=None):
 		rightarrow = 0xFF53
@@ -269,11 +311,15 @@ class Browser (object):
 		"""
 		if not self.best_match:
 			return
-		name, rank, object= self.best_match
-		self._activate_object(object)
+		rank, leaf= self.best_match
+		self._activate_object(leaf)
 	
-	def _activate_object(self, obj):
-		self.datasource.activate(obj)
+	def _activate_object(self, leaf):
+		acts = leaf.get_actions()
+		print "Leaf", leaf, "has actions", acts
+		if len(acts):
+			act = acts[0]
+			act.activate(leaf)
 
 	def main(self):
 		gtk.main()
@@ -285,8 +331,9 @@ if __name__ == '__main__':
 	else:
 		dir = sys.argv[1]
 	dir = path.abspath(dir)
-	#source = DirectorySource(dir)
-	source = FileSource(sys.argv[1:], deep=True)
+	source = DirectorySource(dir)
+	#source = FileSource(sys.argv[1:], deep=True)
+	#source = SourcesSource((source,))
 	w = Browser(source)
 	w.main()
 
