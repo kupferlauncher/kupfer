@@ -207,7 +207,13 @@ class Show (Action):
 			gnomevfs.url_show(uri)
 	
 	def get_pixbuf(self):
-		return utils.get_application_icon(self.app_spec, self.icon_size)
+		if not self.app_spec:
+			return utils.get_application_icon(None, self.icon_size)
+		app_icon = utils.get_desktop_icon(self.app_spec[0], self.icon_size)
+		if not app_icon:
+			app_icon= utils.get_application_icon(None, self.icon_size)
+		return app_icon
+		
 
 class OpenTerminal (Action):
 	def __init__(self):
