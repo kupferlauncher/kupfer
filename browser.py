@@ -140,10 +140,8 @@ class Search (gtk.Bin):
 		self.emit("activate", obj)
 	
 	def _row_activated(self, treeview, path, col):
-		if "activate" not in self.callbacks:
-			return
 		obj = self._get_cur_object()
-		self.callbacks["activate"](obj)
+		self.emit("activate", obj)
 
 	def _key_press(self, treeview, event):
 		obj = self._get_cur_object()
@@ -167,8 +165,9 @@ class Search (gtk.Bin):
 		for item in itertools.islice(self.search_object.search_base, 10):
 			self.model.add((item.object, 0))
 			if not first: first = item.object
-		self.match = first
-		self.update_match()
+		if first:
+			self.match = first
+			self.update_match()
 
 	def do_search(self, text):
 		"""
@@ -296,7 +295,6 @@ class Browser (object):
 
 	def _cursor_changed(self, widget, leaf):
 		actions = leaf.get_actions()
-		print actions
 		sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
 	
@@ -323,7 +321,6 @@ class Browser (object):
 
 	def _activate_object(self, widget, leaf):
 		acts = leaf.get_actions()
-		print "Leaf", leaf, "has actions", acts
 		if len(acts):
 			act = acts[0]
 			act.activate(leaf)

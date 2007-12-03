@@ -312,8 +312,14 @@ class DirectorySource (FileSource):
 
 	def get_items(self):
 		dirlist = get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
-		items = (FileLeaf(file, path.basename(file)) for file in dirlist)
-		return items
+		def file_leaves(files):
+			for file in files:
+				basename = path.basename(file)
+				if path.isdir(file):
+					basename += "/"
+				yield FileLeaf(file, basename)
+
+		return file_leaves(dirlist)
 
 	def __str__(self):
 		return "%s %s" % (Source.__str__(self), path.basename(self.directory))
