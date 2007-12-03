@@ -73,25 +73,14 @@ class ActionModel (ModelBase):
 		return self._get_column(path, self.obj_col)
 
 
+class Search (gtk.Bin):
+	__gtype_name__ = 'Searcher'
+	def __init__(self, model):
+		gobject.GObject.__init__(self)
+		self.model = model
+		self.search_object = None
+		self.callbacks = {}
 
-class Browser (object):
-	def __init__(self, datasource):
-		"""
-		"""
-		self.model = LeafModel()
-		self.actions_model = ActionModel()
-		self.source_stack = []
-		self.push_source(datasource)
-		self.window = self._setup_window()
-		self.refresh_data()
-
-	def _setup_window(self):
-		"""
-		Returns window
-		"""
-		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		window.connect("destroy", self._destroy)
-		
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
@@ -109,12 +98,6 @@ class Browser (object):
 		self.table.connect("key-press-event", self._key_press)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
-		self.actions_table = gtk.TreeView(self.actions_model.store)
-		for col in self.actions_model.columns:
-			self.actions_table.append_column(col)
-
-		self.actions_table.connect("row-activated", self._actions_row_activated)
-		
 		# infobox: icon and match name
 		infobox = gtk.HBox()
 		infobox.pack_start(self.icon_view, False, False, 0)
@@ -123,51 +106,59 @@ class Browser (object):
 		box.pack_start(self.entry, False, False, 0)
 		box.pack_start(infobox, False, False, 0)
 		box.pack_start(self.table, True, True, 0)
-		box.pack_start(self.actions_table, True, True, 0)
-
-		window.add(box)
-		window.show_all()
-		return window
-
-	def source_rebase(self, src):
-		self.source_stack = []
-		self.push_source(src)
+		self.add(box)
+		box.show_all()
+		#self.set_property("child", box)
+		self.__child = box
 	
-	def push_source(self, src):
-		self.source = src
-		self.source.set_refresh_callback(self.refresh_data)
-		self.source_stack.insert(0, src)
+	def set_callback(self, name, func):
+		self.callbacks[name] = func
+
+	def do_size_request (self, requisition):
+		requisition.width, requisition.height = self.__child.size_request ()
+
+	def do_size_allocate (self, allocation):
+		self.__child.size_allocate (allocation)
+
+	def do_forall (self, include_internals, callback, user_data):
+		callback (self.__child, user_data)
+
+	def _get_cur_object(self):
+		path, col = self.table.get_cursor()
+		if not path:
+			return None
+		return self.model.get_object(path)
+
+	def _activate(self, entry):
+		if "activate" not in self.callbacks:
+			return
+		rank, obj = self.best_match
+		self.callbacks["activate"](obj)
 	
-	def pop_source(self):
-		if len(self.source_stack) <= 1:
-			raise NoParent
-		else:
-			self.source_stack.pop(0)
-			self.source = self.source_stack[0]
+	def _row_activated(self, treeview, path, col):
+		if "activate" not in self.callbacks:
+			return
+		obj = self._get_cur_object()
+		self.callbacks["activate"](obj)
 
-	def refresh_data(self):
-		self.kupfer = self.make_searchobj()
-		self.best_match = None
-		self._reset()
+	def _key_press(self, treeview, event):
+		if "key_press" not in self.callbacks:
+			return
+		obj = self._get_cur_object()
+		self.callbacks["key_press"](obj, event.keyval)
+	
+	def _cursor_changed(self, treeview):
+		path, col = treeview.get_cursor()
+		if not path:
+			return
+		self.best_match = self.model.get_rank(path), self.model.get_object(path)
+		self.update_match()
 
-	def make_searchobj(self):
-		leaves = self.source.get_items() 
-		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
-
-	def _make_list(self):
-		for leaf in itertools.islice(self.source.get_items(), 10):
-			val, obj = leaf.value, leaf
-			self.model.append((val, 0, obj))
-
-	def _destroy(self, widget, data=None):
-		gtk.main_quit()
-
-	def _reset(self):
+	def reset(self):
 		self.entry.grab_focus()
 		self.entry.set_text("")
 		self.label.set_text("")
 		self.model.clear()
-		self._make_list()
 
 	def do_search(self, text):
 		"""
@@ -175,7 +166,7 @@ class Browser (object):
 		"""
 		# print "Type in search string"
 		# in_str = raw_input()
-		ranked_str = self.kupfer.search_objects(text)
+		ranked_str = self.search_object.search_objects(text)
 
 		self.model.clear()
 		for s in itertools.islice(ranked_str, 10):
@@ -185,19 +176,12 @@ class Browser (object):
 		# top.object is a leaf
 		return (top.rank, top.object)
 	
-	def _changed(self, editable, data=None):
+	def _changed(self, editable):
 		text = editable.get_text()
 		if not len(text):
 			self.best_match = None
 			return
 		self.best_match = self.do_search(text)
-		self.update_match()
-	
-	def _cursor_changed(self, treeview):
-		path, col = treeview.get_cursor()
-		if not path:
-			return
-		self.best_match = self.model.get_rank(path), self.model.get_object(path)
 		self.update_match()
 	
 	def update_match(self):
@@ -226,7 +210,66 @@ class Browser (object):
 			else:
 				markup += (escape(n))
 		self.label.set_markup(markup)
-		self.update_actions()
+
+	def set_search_object(self, obj):
+		self.search_object = obj
+		self.reset()
+
+gobject.type_register(Search)
+
+class Browser (object):
+	def __init__(self, datasource):
+		"""
+		"""
+		self.model = LeafModel()
+		self.actions_model = ActionModel()
+		self.source_stack = []
+		self.push_source(datasource)
+		self.window = self._setup_window()
+		self.refresh_data()
+
+	def _setup_window(self):
+		"""
+		Returns window
+		"""
+		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		window.connect("destroy", self._destroy)
+		
+		self.leaf_search = Search(self.model)
+		self.leaf_search.set_callback("activate", self._activate_object)
+		self.leaf_search.set_callback("key_press", self._key_press)
+		window.add(self.leaf_search)
+		window.show_all()
+		return window
+
+	def source_rebase(self, src):
+		self.source_stack = []
+		self.push_source(src)
+	
+	def push_source(self, src):
+		self.source = src
+		self.source.set_refresh_callback(self.refresh_data)
+		self.source_stack.insert(0, src)
+	
+	def pop_source(self):
+		if len(self.source_stack) <= 1:
+			raise NoParent
+		else:
+			self.source_stack.pop(0)
+			self.source = self.source_stack[0]
+
+	def refresh_data(self):
+		self.kupfer = self.make_searchobj()
+		self.best_match = None
+		self.leaf_search.set_search_object(self.kupfer)	
+
+	def make_searchobj(self):
+		leaves = self.source.get_items() 
+		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
+
+	def _destroy(self, widget, data=None):
+		gtk.main_quit()
+
 	
 	def update_actions(self):
 		rank, leaf = self.best_match
@@ -248,19 +291,15 @@ class Browser (object):
 		leaf = self.model.get_object(treepath)
 		self._activate_object(leaf)
 	
-	def _key_press(self, widget, event, data=None):
+	def _key_press(self, leaf, keyval):
 		rightarrow = 0xFF53
 		leftarrow = 0xFF51
-		if event.keyval == rightarrow:
-			treepath, col = self.table.get_cursor()
-			if not treepath:
-				return
-			leaf = self.model.get_object(treepath)
+		if keyval == rightarrow:
 			if not leaf.has_content():
 				return
 			self.push_source(leaf.content_source())
 			
-		elif event.keyval == leftarrow:
+		elif keyval == leftarrow:
 			try:
 				self.pop_source()
 			except NoParent:
