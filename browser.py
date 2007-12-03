@@ -8,12 +8,20 @@ import kupfer
 
 class ModelBase (object):
 	def __init__(self, *columns):
-		self.store = gtk.ListStore(*columns)
+		"""
+		First column is always the object -- returned by get_object
+		it needs not be specified in columns
+		"""
+		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
+		self.object_column = 0
 
 	def _get_column(self, treepath, col):
 		iter = self.store.get_iter(treepath)
 		val = self.store.get_value(iter, col)
 		return val
+	
+	def get_object(self, path):
+		return self._get_column(path, self.object_column)
 
 	def append(self, row):
 		self.store.append(row)
@@ -23,17 +31,16 @@ class ModelBase (object):
 
 class LeafModel (ModelBase):
 	def __init__(self):
-		ModelBase.__init__(self, str, int, gobject.TYPE_PYOBJECT)
-		self.val_col = 0
-		self.rank_col = 1
-		self.obj_col = 2
+		ModelBase.__init__(self, str, int)
+		self.val_col = 1
+		self.rank_col = 2
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
 		nbr_col = gtk.TreeViewColumn("rank", cell)
 
-		col.add_attribute(cell, "text", 0)
-		nbr_col.add_attribute(cell, "text", 1)
+		col.add_attribute(cell, "text", self.val_col)
+		nbr_col.add_attribute(cell, "text", self.rank_col)
 		self.columns = (col, nbr_col)
 	
 	def get_value(self, treepath):
@@ -42,36 +49,34 @@ class LeafModel (ModelBase):
 		"""
 		return self._get_column(treepath, self.val_col)
 
-	def get_object(self, treepath):
-		"""
-		Return model's object for the treeview path
-		"""
-		return self._get_column(treepath, self.obj_col)
-
 	def get_rank(self, treepath):
 		"""
 		Return model's rank for the treeview path
 		"""
 		return self._get_column(treepath, self.rank_col)
 
+	def add(self, tupl):
+		leaf, rank = tupl
+		self.append((leaf, leaf.value, rank))
+
+
 class ActionModel (ModelBase):
 	def __init__(self):
-		ModelBase.__init__(self, str, gtk.gdk.Pixbuf, gobject.TYPE_PYOBJECT)
-		self.name_col, self.icon_col, self.obj_col = 0,1,2
+		ModelBase.__init__(self, str, int )
+		self.name_col, self.rank_col = 1,2
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("Action", cell)
 		col.add_attribute(cell, "text", self.name_col)
-		cell = gtk.CellRendererPixbuf()
 		col2 = gtk.TreeViewColumn("", cell)
-		col2.add_attribute(cell, "pixbuf", self.icon_col)
+		col2.add_attribute(cell, "text", self.rank_col)
 		self.columns = (col, col2)
 	
 	def get_name(self, path):
 		return self._get_column(path, self.name_col)
 	
-	def get_action(self, path):
-		return self._get_column(path, self.obj_col)
-
+	def add(self, tupl):
+		act, rank = tupl
+		self.append((act, str(act), rank))
 
 class Search (gtk.Bin):
 	__gtype_name__ = 'Searcher'
@@ -80,6 +85,7 @@ class Search (gtk.Bin):
 		self.model = model
 		self.search_object = None
 		self.callbacks = {}
+		self.match = None
 
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
@@ -113,6 +119,9 @@ class Search (gtk.Bin):
 	
 	def set_callback(self, name, func):
 		self.callbacks[name] = func
+	
+	def get_current(self):
+		return self.match
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -132,7 +141,7 @@ class Search (gtk.Bin):
 	def _activate(self, entry):
 		if "activate" not in self.callbacks:
 			return
-		rank, obj = self.best_match
+		obj = self.match
 		self.callbacks["activate"](obj)
 	
 	def _row_activated(self, treeview, path, col):
@@ -149,20 +158,29 @@ class Search (gtk.Bin):
 	
 	def _cursor_changed(self, treeview):
 		path, col = treeview.get_cursor()
+		curs_str = "cursor-changed"
 		if not path:
+			if curs_str in self.callbacks:
+				self.callbacks[curs_str](None)
 			return
-		self.best_match = self.model.get_rank(path), self.model.get_object(path)
+		self.match = self.model.get_object(path)
 		self.update_match()
+		print curs_str
+		if curs_str in self.callbacks:
+			self.callbacks[curs_str](self.match)
 
 	def reset(self):
 		self.entry.grab_focus()
 		self.entry.set_text("")
-		self.label.set_text("")
+		self.label.set_text("Type to search")
+		self.icon_view.clear()
 		self.model.clear()
+		for item in itertools.islice(self.search_object.search_base, 10):
+			self.model.add((item.object, 0))
 
 	def do_search(self, text):
 		"""
-		return the best item as (rank, name)
+		return the best items
 		"""
 		# print "Type in search string"
 		# in_str = raw_input()
@@ -170,18 +188,18 @@ class Search (gtk.Bin):
 
 		self.model.clear()
 		for s in itertools.islice(ranked_str, 10):
-			row = (s.value, s.rank, s.object)
-			self.model.append(row)
+			row = (s.object, s.rank)
+			self.model.add(row)
 		top = ranked_str[0]
 		# top.object is a leaf
-		return (top.rank, top.object)
+		return top.object
 	
 	def _changed(self, editable):
 		text = editable.get_text()
 		if not len(text):
-			self.best_match = None
+			self.match = None
 			return
-		self.best_match = self.do_search(text)
+		self.match = self.do_search(text)
 		self.update_match()
 	
 	def update_match(self):
@@ -189,10 +207,9 @@ class Search (gtk.Bin):
 		Update interface to display the currently selected match
 		"""
 		text = self.entry.get_text()
-		rank, leaf = self.best_match
-		print "Marking", leaf
+		print "Marking", self.match
 		# update icon
-		icon = leaf.get_pixbuf()
+		icon = self.match.get_pixbuf()
 		if icon:
 			self.icon_view.set_from_pixbuf(icon)
 		else:
@@ -203,7 +220,7 @@ class Search (gtk.Bin):
 		idx = 0
 		from xml.sax.saxutils import escape
 		key = kupfer.remove_chars(text.lower(), " _-.")
-		for n in leaf.value:
+		for n in self.match.value:
 			if idx < len(key) and n.lower() == key[idx]:
 				idx += 1
 				markup += ("<u>"+ escape(n) + "</u>")
@@ -238,7 +255,15 @@ class Browser (object):
 		self.leaf_search = Search(self.model)
 		self.leaf_search.set_callback("activate", self._activate_object)
 		self.leaf_search.set_callback("key_press", self._key_press)
-		window.add(self.leaf_search)
+		self.leaf_search.set_callback("cursor-changed", self._cursor_changed)
+		
+		self.action_search = Search(self.actions_model)
+		self.action_search.set_callback("activate", self._activate_action)
+
+		box = gtk.HBox()
+		box.pack_start(self.leaf_search, True, True, 0)
+		box.pack_start(self.action_search, True, True, 0)
+		window.add(box)
 		window.show_all()
 		return window
 
@@ -253,14 +278,14 @@ class Browser (object):
 	
 	def pop_source(self):
 		if len(self.source_stack) <= 1:
-			raise NoParent
+			raise
 		else:
 			self.source_stack.pop(0)
 			self.source = self.source_stack[0]
 
 	def refresh_data(self):
 		self.kupfer = self.make_searchobj()
-		self.best_match = None
+		self.match = None
 		self.leaf_search.set_search_object(self.kupfer)	
 
 	def make_searchobj(self):
@@ -270,26 +295,14 @@ class Browser (object):
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
 
-	
-	def update_actions(self):
-		rank, leaf = self.best_match
-		self.actions_model.clear()
+	def _cursor_changed(self, leaf):
 		actions = leaf.get_actions()
-		if not len(actions):
-			return
-		for act in actions:
-			self.actions_model.append((str(act), act.get_pixbuf(), act))
+		print actions
+		sobj = kupfer.Search(((str(act), act) for act in actions))
+		self.action_search.set_search_object(sobj)
 	
-	def _actions_row_activated(self, treeview, treepath, view_column, data=None):
-		rank, leaf = self.best_match
-		iter = self.actions_model.get_iter(treepath)
-		action = self.actions_model.get_value(iter, 2)
-		action.activate(leaf)
-
-
-	def _row_activated(self, treeview, treepath, view_column, data=None):
-		leaf = self.model.get_object(treepath)
-		self._activate_object(leaf)
+	def _activate_action(self, act):
+		act.activate(self.leaf_search.get_current())
 	
 	def _key_press(self, leaf, keyval):
 		rightarrow = 0xFF53
@@ -302,22 +315,13 @@ class Browser (object):
 		elif keyval == leftarrow:
 			try:
 				self.pop_source()
-			except NoParent:
+			except:
 				if self.source.has_parent():
 					self.source_rebase(self.source.get_parent())
 		else:
 			return
 		self.refresh_data()
 
-	def _activate(self, entry, data=None):
-		"""
-		Text input was activated (enter key)
-		"""
-		if not self.best_match:
-			return
-		rank, leaf= self.best_match
-		self._activate_object(leaf)
-	
 	def _activate_object(self, leaf):
 		acts = leaf.get_actions()
 		print "Leaf", leaf, "has actions", acts
