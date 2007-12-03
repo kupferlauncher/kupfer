@@ -272,7 +272,7 @@ if __name__ == '__main__':
 		dir = sys.argv[1]
 	dir = path.abspath(dir)
 	dir_source = objects.DirectorySource(dir)
-	file_source = objects.FileSource(sys.argv[1:], deep=True)
+	file_source = objects.FileSource(sys.argv[1:], depth=2)
 	source = objects.SourcesSource((dir_source, file_source))
 	w = Browser(source)
 	w.main()

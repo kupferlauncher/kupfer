@@ -191,34 +191,45 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 	def include(filename):
 		return ShouldInclude
 	"""
-	class Context (object):
-		pass
-
-	context = Context()
-	context.dirlist = []
-	context.depth = 0
-	def get_listing(context, dirname, fnames):
+	from os import walk
+	paths = []
+	def include_file(file):
+		return (not include or include(file)) and (not exclude or not exclude(file))
+		
+	for dirname, dirnames, fnames in walk(folder):
+		# skip deep directories
+		head, dp = dirname, 0
+		while head != folder:
+			head, tail = path.split(head)
+			dp += 1
+		if dp > depth:
+			del dirnames[:]
+			continue
+		
+		excl_dir = []
+		for dir in dirnames:
+			if not include_file(dir):
+				excl_dir.append(dir)
+				continue
+			abspath = path.join(dirname, dir)
+			paths.append(abspath)
+		
 		for file in fnames:
+			if not include_file(file):
+				continue
 			abspath = path.join(dirname, file)
-			if include and not include(file):
-				continue
-			if exclude and exclude(file):
-				continue
-			context.dirlist.append(abspath)
+			paths.append(abspath)
 
-		# don't recurse
-		context.depth += 1
-		if context.depth > depth:
-			del fnames[:]
+		for dir in reversed(excl_dir):
+			dirnames.remove(dir)
 
-	path.walk(folder, get_listing, context)
-	return context.dirlist
+	return paths
 
 
 class FileSource (Source):
-	def __init__(self, dirlist, deep=False):
+	def __init__(self, dirlist, depth=0):
 		self.dirlist = dirlist
-		self.deep = deep
+		self.depth = depth
 
 	def __str__(self):
 		dirs = [path.basename(dir) for dir in self.dirlist]
@@ -230,7 +241,7 @@ class FileSource (Source):
 		
 		def mkleaves(dir):
 			print "mkleaves", dir
-			files = get_dirlist(dir, depth=self.deep, exclude=self._exclude_file)
+			files = get_dirlist(dir, depth=self.depth, exclude=self._exclude_file)
 			return (FileLeaf(f, path.basename(f)) for f in files)
 
 		for d in self.dirlist:
