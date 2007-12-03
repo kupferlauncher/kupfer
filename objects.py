@@ -63,6 +63,9 @@ class KupferObject (object):
 	def __init__(self, name):
 		self.name = name
 	
+	def __repr__(self):
+		return "<%s %s at %x>" % (self.__class.__name__, str(self), id(self))
+	
 	def __str__(self):
 		return self.name
 
@@ -76,9 +79,6 @@ class Leaf (KupferObject):
 		self.object = obj
 		self.value = value
 	
-	def __repr__(self):
-		return "<%s %s at %x>" % (self.__class__.__name__, self.object, id(self))
-
 	def has_content(self):
 		return False
 	
@@ -153,9 +153,6 @@ class Echo (Action):
 	
 	def activate(self, leaf):
 		print "Echo:", leaf.object
-	
-	def __str__(self):
-		return "Echo"
 
 class Show (Action):
 	def __init__(self, app_spec=None, name=None):
@@ -194,9 +191,6 @@ class Show (Action):
 			return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
 
 		raise NoApplication
-	
-	def __repr__(self):
-		return "<%s %s at %x>" % (self.__class__.__name__, str(self), id(self))
 	
 	def activate(self, leaf):
 		print "Show: %s" % (leaf.object,)
@@ -299,6 +293,9 @@ class SourcesSource (Source):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
 
 class Launch (Action):
+	"""
+	Launches AppLeaf
+	"""
 	def __init__(self):
 		Action.__init__(self, "Launch")
 	
@@ -350,7 +347,6 @@ class AppSource (Source):
 			file = gnomevfs.get_local_path_from_uri(item.get_location())
 			name = path.basename(file)
 			if name in inc_files:
-				print name, "already in"
 				return
 			inc_files.add(name)
 			desktop_files.append(item)
@@ -370,9 +366,5 @@ class AppSource (Source):
 		#print desktop_files
 		
 		return [AppLeaf(item) for item in desktop_files]
-
-
-				
-
 
 
