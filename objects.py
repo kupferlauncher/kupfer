@@ -18,7 +18,6 @@ class NoContent (Error):
 class NoApplication (Error):
 	pass
 
-
 class Source (object):
 	"""
 	Source: Data provider for a kupfer browser
@@ -176,7 +175,6 @@ class Show (Action):
 
 
 class Dragbox (Action):
-
 	def __str__(self):
 		return "Put on dragbox"
 	
@@ -218,7 +216,6 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 
 
 class FileSource (Source):
-
 	def __init__(self, dirlist, deep=False):
 		self.dirlist = dirlist
 		self.deep = deep
@@ -246,7 +243,6 @@ class FileSource (Source):
 
 
 class DirectorySource (FileSource):
-
 	def __init__(self, dir):
 		self.directory = dir
 		self.deep = False
@@ -272,7 +268,6 @@ class DirectorySource (FileSource):
 
 
 class SourcesSource (Source):
-
 	def __init__(self, sources):
 		self.sources = sources
 	

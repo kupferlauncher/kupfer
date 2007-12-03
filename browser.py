@@ -38,6 +38,12 @@ class Model (object):
 		"""
 		return self._get_column(treepath, self.obj_col)
 
+	def get_rank(self, treepath):
+		"""
+		Return model's rank for the treeview path
+		"""
+		return self._get_column(treepath, self.rank_col)
+
 	def append(self, value, rank, object):
 		self.tree_model.append((value, rank, object))
 
@@ -76,6 +82,7 @@ class Browser (object):
 
 		self.table.connect("row-activated", self._row_activated)
 		self.table.connect("key-press-event", self._key_press)
+		self.table.connect("cursor-changed", self._cursor_changed)
 
 		self.actions_model = gtk.ListStore(str, gobject.TYPE_PYOBJECT)
 		self.actions_table = gtk.TreeView(self.actions_model)
@@ -164,8 +171,21 @@ class Browser (object):
 			self.best_match = None
 			return
 		self.best_match = self.do_search(text)
+		self.update_match()
+	
+	def _cursor_changed(self, treeview):
+		path, col = treeview.get_cursor()
+		if not path:
+			return
+		self.best_match = self.model.get_rank(path), self.model.get_object(path)
+		self.update_match()
+	
+	def update_match(self):
+		"""
+		Update interface to display the currently selected match
+		"""
+		text = self.entry.get_text()
 		rank, leaf = self.best_match
-
 		res = ""
 		idx = 0
 		from xml.sax.saxutils import escape
