@@ -79,7 +79,7 @@ class ActionModel (ModelBase):
 		self.append((act, str(act), rank))
 
 class Search (gtk.Bin):
-	__gtype_name__ = 'Searcher'
+	__gtype_name__ = 'Search'
 	def __init__(self, model):
 		gobject.GObject.__init__(self)
 		self.model = model
@@ -117,9 +117,6 @@ class Search (gtk.Bin):
 		#self.set_property("child", box)
 		self.__child = box
 	
-	def set_callback(self, name, func):
-		self.callbacks[name] = func
-	
 	def get_current(self):
 		return self.match
 
@@ -139,10 +136,8 @@ class Search (gtk.Bin):
 		return self.model.get_object(path)
 
 	def _activate(self, entry):
-		if "activate" not in self.callbacks:
-			return
 		obj = self.match
-		self.callbacks["activate"](obj)
+		self.emit("activate", obj)
 	
 	def _row_activated(self, treeview, path, col):
 		if "activate" not in self.callbacks:
@@ -151,23 +146,17 @@ class Search (gtk.Bin):
 		self.callbacks["activate"](obj)
 
 	def _key_press(self, treeview, event):
-		if "key_press" not in self.callbacks:
-			return
 		obj = self._get_cur_object()
-		self.callbacks["key_press"](obj, event.keyval)
+		self.emit("key-pressed", obj, event.keyval)
 	
 	def _cursor_changed(self, treeview):
 		path, col = treeview.get_cursor()
-		curs_str = "cursor-changed"
 		if not path:
-			if curs_str in self.callbacks:
-				self.callbacks[curs_str](None)
+			self.emit("cursor-changed", None)
 			return
 		self.match = self.model.get_object(path)
 		self.update_match()
-		print curs_str
-		if curs_str in self.callbacks:
-			self.callbacks[curs_str](self.match)
+		self.emit("cursor-changed", self.match)
 
 	def reset(self):
 		self.entry.grab_focus()
@@ -220,7 +209,7 @@ class Search (gtk.Bin):
 		idx = 0
 		from xml.sax.saxutils import escape
 		key = kupfer.remove_chars(text.lower(), " _-.")
-		for n in self.match.value:
+		for n in str(self.match):
 			if idx < len(key) and n.lower() == key[idx]:
 				idx += 1
 				markup += ("<u>"+ escape(n) + "</u>")
@@ -233,6 +222,12 @@ class Search (gtk.Bin):
 		self.reset()
 
 gobject.type_register(Search)
+gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+gobject.signal_new("key-pressed", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_INT, ))
+gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 
 class Browser (object):
 	def __init__(self, datasource):
@@ -253,12 +248,12 @@ class Browser (object):
 		window.connect("destroy", self._destroy)
 		
 		self.leaf_search = Search(self.model)
-		self.leaf_search.set_callback("activate", self._activate_object)
-		self.leaf_search.set_callback("key_press", self._key_press)
-		self.leaf_search.set_callback("cursor-changed", self._cursor_changed)
+		self.leaf_search.connect("activate", self._activate_object)
+		self.leaf_search.connect("key-pressed", self._key_press)
+		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		
 		self.action_search = Search(self.actions_model)
-		self.action_search.set_callback("activate", self._activate_action)
+		self.action_search.connect("activate", self._activate_action)
 
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
@@ -295,16 +290,16 @@ class Browser (object):
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
 
-	def _cursor_changed(self, leaf):
+	def _cursor_changed(self, widget, leaf):
 		actions = leaf.get_actions()
 		print actions
 		sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
 	
-	def _activate_action(self, act):
+	def _activate_action(self, widget, act):
 		act.activate(self.leaf_search.get_current())
 	
-	def _key_press(self, leaf, keyval):
+	def _key_press(self, widget, leaf, keyval):
 		rightarrow = 0xFF53
 		leftarrow = 0xFF51
 		if keyval == rightarrow:
@@ -322,7 +317,7 @@ class Browser (object):
 			return
 		self.refresh_data()
 
-	def _activate_object(self, leaf):
+	def _activate_object(self, widget, leaf):
 		acts = leaf.get_actions()
 		print "Leaf", leaf, "has actions", acts
 		if len(acts):
