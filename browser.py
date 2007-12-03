@@ -14,6 +14,9 @@ class ModelBase (object):
 		"""
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
+	
+	def __len__(self):
+		return len(self.store)
 
 	def _get_column(self, treepath, col):
 		iter = self.store.get_iter(treepath)
@@ -90,12 +93,14 @@ class Search (gtk.Bin):
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
+		self.entry.connect("key-press-event", self._entry_key_press)
 
 		self.label = gtk.Label("<match>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
 		self.icon_view = gtk.Image()
 
 		self.table = gtk.TreeView(self.model.store)
+		self.table.set_headers_visible(False)
 
 		for col in self.model.columns:
 			self.table.append_column(col)
@@ -109,14 +114,65 @@ class Search (gtk.Bin):
 		infobox.pack_start(self.icon_view, False, False, 0)
 		infobox.pack_start(self.label, False, False, 0)
 		box = gtk.VBox()
-		box.pack_start(self.entry, False, False, 0)
 		box.pack_start(infobox, False, False, 0)
+		box.pack_start(self.entry, False, False, 0)
 		box.pack_start(self.table, True, True, 0)
 		self.add(box)
 		box.show_all()
-		#self.set_property("child", box)
+		self.table.hide()
 		self.__child = box
+
+		self.set_focus_chain((self.entry,))
 	
+	def _entry_key_press(self, entry, event):
+		"""
+		Intercept arrow keys and manipulate table
+		without losing focus from entry field
+		"""
+		keyv = event.keyval
+		uarrow = 65362
+		darrow = 65364
+		rarrow = 65363
+		larrow = 65361
+		tabkey = 65289
+
+		path_at_row = lambda r: (r,)
+
+		if keyv in (uarrow, darrow):
+			path, col = self.table.get_cursor()
+			if not path:
+				if keyv == darrow:
+					r = 0
+				else:
+					r = len(self.model)-1
+				path = path_at_row(r)
+				self.table.set_cursor(path)
+			else:
+				r, = path
+				if keyv == darrow: r +=  1
+				else: r -= 1
+				r = r % len(self.model)
+				self.table.set_cursor(path_at_row(r))
+			self.table.show_all()
+		elif keyv in (larrow, rarrow):
+			path, col = self.table.get_cursor()
+			if not path:
+				path = path_at_row(0)
+			obj = self.model.get_object(path)
+			self.emit("key-pressed", obj, keyv)
+		else:
+			if keyv == tabkey:
+				self.table.hide()
+			return False
+
+		path, col = self.table.get_cursor()
+		if not path: path = path_at_row(0)
+		self.match = self.model.get_object(path)
+		self.emit("cursor-changed", self.match)
+
+		# stop further processing
+		return True
+
 	def get_current(self):
 		return self.match
 
@@ -193,6 +249,7 @@ class Search (gtk.Bin):
 		self.match = self.do_search(text)
 		self.update_match()
 		self.emit("cursor-changed", self.match)
+		self.table.hide()
 	
 	def update_match(self):
 		"""
@@ -261,8 +318,11 @@ class Browser (object):
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
 		box.pack_start(self.action_search, True, True, 0)
+		self.leaf_search.show()
+		self.action_search.show()
+		box.show()
 		window.add(box)
-		window.show_all()
+		window.show()
 		return window
 
 	def source_rebase(self, src):
@@ -320,10 +380,9 @@ class Browser (object):
 		self.refresh_data()
 
 	def _activate_object(self, widget, leaf):
-		acts = leaf.get_actions()
-		if len(acts):
-			act = acts[0]
-			act.activate(leaf)
+		act = self.action_search.get_current()
+		print act
+		act.activate(leaf)
 
 	def main(self):
 		gtk.main()
