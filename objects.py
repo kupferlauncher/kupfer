@@ -61,9 +61,9 @@ class Source (KupferObject):
 	def get_items(self):
 		"""
 		Internal method to compute and return the needed items
-		
-		This _must_ return a list and not an iterator if
-		the source is not dynamic
+
+		Subclasses should use this method to return a sequence or
+		iterator to the leaves it contains
 		"""
 		return []
 
@@ -77,7 +77,10 @@ class Source (KupferObject):
 		"""
 		Return a list of all leaves
 		"""
-		if not self.cached_items or self.is_dynamic():
+		if self.is_dynamic():
+			return self.get_items()
+		
+		if not self.cached_items:
 			self.cached_items = aslist(self.get_items())
 		return self.cached_items
 
@@ -110,6 +113,9 @@ class Leaf (KupferObject):
 
 
 class FileLeaf (Leaf):
+	"""
+	Represents one file
+	"""
 	def _desktop_item(self, basename):
 		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
 		return item_new_from_basename(basename, LOAD_ONLY_IF_EXISTS)
@@ -341,14 +347,12 @@ class AppLeaf (Leaf):
 		return utils.get_icon_from_file(icon_file, self.icon_size)
 
 class AppSource (Source):
-
 	def __init__(self):
 		super(AppSource, self).__init__()
 
 	def get_items(self):
 		dirs = utils.get_xdg_data_dirs()
 		from os import walk
-		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
 		import gnomedesktop as gd
 
 		desktop_files = []
@@ -356,7 +360,7 @@ class AppSource (Source):
 		inc_files = set()
 
 		def add_desktop_item(item):
-			# "true" or "false"
+			# string booleans are "true" or "false"
 			hid = item.get_string(gd.KEY_HIDDEN)
 			nodisp = item.get_string(gd.KEY_NO_DISPLAY)
 			type = item.get_string(gd.KEY_TYPE)
@@ -377,7 +381,7 @@ class AppSource (Source):
 			for root, dirnames, fnames in walk(apps):
 				for file in fnames:
 					abspath = path.join(root, file)
-					item = item_new_from_file(abspath, LOAD_ONLY_IF_EXISTS)
+					item = gd.item_new_from_file(abspath, gd.LOAD_ONLY_IF_EXISTS)
 					if item:
 						add_desktop_item(item)
 
