@@ -117,7 +117,7 @@ class Leaf (KupferObject):
 
 class FileLeaf (Leaf):
 	def get_actions(self):
-		acts = [Show()]
+		acts = [Show(), Echo(), Dragbox()]
 		if path.isdir(self.object):
 			pass
 		else:
@@ -130,7 +130,6 @@ class FileLeaf (Leaf):
 				if id not in apps:
 					acts.append(Show(info))
 					apps.add(id)
-			print apps
 		return acts
 
 	def has_content(self):
@@ -207,6 +206,17 @@ class Show (Action):
 			self._open_uri(uri, self.app_spec)
 		else:
 			gnomevfs.url_show(uri)
+
+class Dragbox (Action):
+
+	def __str__(self):
+		return "Put on dragbox"
+	
+	def activate(self, leaf):
+		path = leaf.object
+		argv = ["dragbox", "--file", path]
+		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
+
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
