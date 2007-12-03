@@ -16,7 +16,7 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 	for dirname, dirnames, fnames in walk(folder):
 		# skip deep directories
 		head, dp = dirname, 0
-		while head != folder:
+		while not path.samefile(head, folder):
 			head, tail = path.split(head)
 			dp += 1
 		if dp > depth:

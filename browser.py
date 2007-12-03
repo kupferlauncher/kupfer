@@ -353,7 +353,7 @@ class Browser (object):
 		self.leaf_search.set_search_object(self.kupfer)	
 
 	def make_searchobj(self):
-		leaves = self.source.get_items() 
+		leaves = self.source.get_leaves() 
 		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
 
 	def _destroy(self, widget, data=None):

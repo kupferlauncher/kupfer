@@ -19,41 +19,6 @@ class NoContent (Error):
 class NoApplication (Error):
 	pass
 
-class Source (object):
-	"""
-	Source: Data provider for a kupfer browser
-
-	required are
-	set_refresh_callback
-	get_items
-	"""
-	def set_refresh_callback(self, refresh_callback):
-		"""
-		Set function to be called on owner when data needs refresh
-		"""
-		self.refresh_callback = refresh_callback
-
-	def get_items(self):
-		"""
-		return a list of leaves
-		"""
-		return []
-
-	def has_parent(self):
-		return False
-
-	def get_parent(self):
-		raise NoParent
-
-	def __str__(self):
-		return self.__class__.__name__
-
-	def representation(self):
-		"""
-		Return represented object
-		"""
-		return self
-
 
 class KupferObject (object):
 	"""
@@ -64,7 +29,7 @@ class KupferObject (object):
 		self.name = name
 	
 	def __repr__(self):
-		return "<%s %s at %x>" % (self.__class.__name__, str(self), id(self))
+		return "<%s %s at %x>" % (self.__class__.__name__, str(self), id(self))
 	
 	def __str__(self):
 		return self.name
@@ -72,6 +37,61 @@ class KupferObject (object):
 	def get_pixbuf(self):
 		return None
 
+def aslist(seq):
+	if not isinstance(seq, type([])) and not isinstance(seq, type(())):
+		seq = list(seq)
+	return seq
+
+class Source (KupferObject):
+	"""
+	Source: Data provider for a kupfer browser
+	"""
+	def __init__(self, name=None):
+		if not name:
+			name = self.__class__.__name__
+		KupferObject.__init__(self, name)
+		self.cached_items = None
+
+	def set_refresh_callback(self, refresh_callback):
+		"""
+		Set function to be called on owner when data needs refresh
+		"""
+		self.refresh_callback = refresh_callback
+
+	def get_items(self):
+		"""
+		Internal method to compute and return the needed items
+		
+		This _must_ return a list and not an iterator if
+		the source is not dynamic
+		"""
+		return []
+
+	def is_dynamic(self):
+		"""
+		Whether to recompute contents each time it is accessed
+		"""
+		return False
+
+	def get_leaves(self):
+		"""
+		Return a list of all leaves
+		"""
+		if not self.cached_items or self.is_dynamic():
+			self.cached_items = aslist(self.get_items())
+		return self.cached_items
+
+	def has_parent(self):
+		return False
+
+	def get_parent(self):
+		raise NoParent
+
+	def representation(self):
+		"""
+		Return represented object
+		"""
+		return self
 
 class Leaf (KupferObject):
 	def __init__(self, obj, value):
@@ -219,13 +239,9 @@ class Dragbox (Action):
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
+		super(FileSource, self).__init__()
 		self.dirlist = dirlist
 		self.depth = depth
-
-	def __str__(self):
-		dirs = [path.basename(dir) for dir in self.dirlist]
-		dirstr = ", ".join(dirs)
-		return "%s %s" % (Source.__str__(self), dirstr)
 
 	def get_items(self):
 		iters = []
@@ -242,8 +258,9 @@ class FileSource (Source):
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
 
-class DirectorySource (FileSource):
+class DirectorySource (Source):
 	def __init__(self, dir):
+		super(DirectorySource, self).__init__()
 		self.directory = dir
 		self.deep = False
 
@@ -258,9 +275,6 @@ class DirectorySource (FileSource):
 
 		return file_leaves(dirlist)
 
-	def __str__(self):
-		return "%s %s" % (Source.__str__(self), path.basename(self.directory))
-	
 	def _parent_path(self):
 		return path.normpath(path.join(self.directory, path.pardir))
 
@@ -275,10 +289,24 @@ class DirectorySource (FileSource):
 
 class SourcesSource (Source):
 	def __init__(self, sources):
+		super(SourcesSource, self).__init__()
 		self.sources = sources
 	
 	def get_items(self):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
+
+class MultiSource (Source):
+	def __init__(self, sources):
+		super(MultiSource, self).__init__()
+		self.sources = sources
+
+	def get_items(self):
+		iterators = []
+		for so in self.sources:
+			it = so.get_items()
+			iterators.append(it)
+
+		return itertools.chain(*iterators)
 
 class Launch (Action):
 	"""
@@ -313,6 +341,9 @@ class AppLeaf (Leaf):
 		return utils.get_icon_from_file(icon_file, self.icon_size)
 
 class AppSource (Source):
+
+	def __init__(self):
+		super(AppSource, self).__init__()
 
 	def get_items(self):
 		dirs = utils.get_xdg_data_dirs()
@@ -351,8 +382,7 @@ class AppSource (Source):
 						add_desktop_item(item)
 
 				del dirnames[:]
-		#print desktop_files
 		
-		return [AppLeaf(item) for item in desktop_files]
+		return (AppLeaf(item) for item in desktop_files)
 
 

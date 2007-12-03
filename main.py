@@ -20,16 +20,22 @@ def main():
 
 	import browser
 	import objects
+	home = path.expanduser("~/")
+	print home
+	home_source = objects.DirectorySource(home)
+
 	if len(sys.argv) < 2:
-		dir = "."
+		dirs = []
 	else:
-		dir = sys.argv[1]
-	dir = path.abspath(dir)
-	dir_source = objects.DirectorySource(dir)
-	file_source = objects.FileSource(sys.argv[1:], depth=2)
+		dirs = sys.argv[1:]
+	cmdline_source = objects.FileSource(dirs, depth=1)
+
 	app_source = objects.AppSource()
-	source = objects.SourcesSource((dir_source, file_source, app_source))
-	w = browser.Browser(source)
+	#sources_source = objects.SourcesSource((home_source, app_source))
+
+	sources = (cmdline_source, home_source, app_source)
+	multi = objects.MultiSource(sources)
+	w = browser.Browser(multi)
 	w.main()
 
 if __name__ == '__main__':
