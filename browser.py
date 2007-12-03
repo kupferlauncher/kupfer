@@ -162,7 +162,7 @@ class Search (gtk.Bin):
 			self.emit("key-pressed", obj, keyv)
 		else:
 			if keyv == tabkey:
-				self.table.hide()
+				self._hide_table()
 			return False
 
 		path, col = self.table.get_cursor()
@@ -184,6 +184,12 @@ class Search (gtk.Bin):
 
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
+	
+	def _hide_table(self):
+		self.table.hide()
+		# make the window minimal again
+		window = self.get_toplevel()
+		window.resize(1,1)
 
 	def _get_cur_object(self):
 		path, col = self.table.get_cursor()
@@ -249,8 +255,7 @@ class Search (gtk.Bin):
 		self.match = self.do_search(text)
 		self.update_match()
 		self.emit("cursor-changed", self.match)
-		self.table.hide()
-	
+		self._hide_table()
 	def update_match(self):
 		"""
 		Update interface to display the currently selected match
