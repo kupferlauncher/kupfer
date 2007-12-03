@@ -60,6 +60,7 @@ class KupferObject (object):
 
 
 class Leaf (KupferObject):
+	icon_size = 48
 	def __init__(self, obj, value):
 		self.object = obj
 		self.value = value
@@ -84,7 +85,6 @@ class FileLeaf (Leaf):
 			pass
 		else:
 			type = gnomevfs.get_mime_type(self.object)
-			print type
 			types = gnomevfs.mime_get_short_list_applications(type)
 			apps = set()
 			for info in types:
@@ -105,7 +105,11 @@ class FileLeaf (Leaf):
 
 	def get_pixbuf(self):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
-		return get_icon_for_uri(uri)
+		try:
+			icon = get_icon_for_uri(uri, self.icon_size)
+		except gobject.GError:
+			icon = None
+		return icon
 
 class SourceLeaf (Leaf):
 	def has_content(self):
@@ -116,6 +120,7 @@ class SourceLeaf (Leaf):
 
 
 class Action (KupferObject):
+	icon_size = 24
 	def activate(self, leaf):
 		pass
 	
@@ -177,6 +182,12 @@ class Show (Action):
 			self._open_uri(uri, self.app_spec)
 		else:
 			gnomevfs.url_show(uri)
+	
+	def get_pixbuf(self):
+		if not self.app_spec:
+			return get_icon_for_name("exec", self.icon_size)
+		name = ((self.app_spec[2]).split())[0]
+		return get_icon_for_name(name, self.icon_size)
 
 
 class Dragbox (Action):
@@ -233,8 +244,10 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 
 def get_icon_for_uri(uri, icon_size=48):
 	"""
-	Returns a pixbuf representing the file at
+	Return a pixbuf representing the file at
 	the URI generally (mime-type based)
+
+	return None if not found
 	
 	@param icon_size: a pixel size of the icon
 	@type icon_size: an integer object.
@@ -248,7 +261,15 @@ def get_icon_for_uri(uri, icon_size=48):
 	icon_theme = icon_theme_get_default()
 	thumb_factory = ThumbnailFactory(16)
 	icon_name, num = icon_lookup(icon_theme, thumb_factory,  file_uri=uri, custom_icon="")
-	icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
+	return get_icon_for_name(icon_name, icon_size)
+
+def get_icon_for_name(icon_name, icon_size=48):
+	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
+	icon_theme = icon_theme_get_default()
+	try:
+		icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
+	except gobject.GError:
+		return None
 	return icon
 
 class FileSource (Source):
@@ -265,7 +286,6 @@ class FileSource (Source):
 		iters = []
 		
 		def mkleaves(dir):
-			print "mkleaves", dir
 			files = get_dirlist(dir, depth=self.depth, exclude=self._exclude_file)
 			return (FileLeaf(f, path.basename(f)) for f in files)
 

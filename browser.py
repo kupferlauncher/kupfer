@@ -85,21 +85,25 @@ class Browser (object):
 		self.table.connect("key-press-event", self._key_press)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
-		self.actions_model = gtk.ListStore(str, gobject.TYPE_PYOBJECT)
+		self.actions_model = gtk.ListStore(str, gtk.gdk.Pixbuf, gobject.TYPE_PYOBJECT)
 		self.actions_table = gtk.TreeView(self.actions_model)
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("Action", cell)
 		col.add_attribute(cell, "text", 0)
 		self.actions_table.append_column(col)
+		cell = gtk.CellRendererPixbuf()
+		col = gtk.TreeViewColumn("", cell)
+		col.add_attribute(cell, "pixbuf", 1)
+		self.actions_table.append_column(col)
 
 		self.actions_table.connect("row-activated", self._actions_row_activated)
 		
-
+		# infobox: icon and match name
 		infobox = gtk.HBox()
 		infobox.pack_start(self.icon_view, False, False, 0)
 		infobox.pack_start(self.label, False, False, 0)
 		box = gtk.VBox()
-		box.pack_start(self.entry, True, True, 0)
+		box.pack_start(self.entry, False, False, 0)
 		box.pack_start(infobox, False, False, 0)
 		box.pack_start(self.table, True, True, 0)
 		box.pack_start(self.actions_table, True, True, 0)
@@ -194,17 +198,17 @@ class Browser (object):
 			self.icon_view.clear()
 
 		#update text label
-		res = ""
+		markup = ""
 		idx = 0
 		from xml.sax.saxutils import escape
 		key = kupfer.remove_chars(text.lower(), " _-.")
 		for n in leaf.value:
 			if idx < len(key) and n.lower() == key[idx]:
 				idx += 1
-				res += ("<u>"+ escape(n) + "</u>")
+				markup += ("<u>"+ escape(n) + "</u>")
 			else:
-				res += (escape(n))
-		self.label.set_markup("%d: %s" % (rank, res))
+				markup += (escape(n))
+		self.label.set_markup(markup)
 		self.update_actions()
 	
 	def update_actions(self):
@@ -214,12 +218,12 @@ class Browser (object):
 		if not len(actions):
 			return
 		for act in actions:
-			self.actions_model.append((str(act), act))
+			self.actions_model.append((str(act), act.get_pixbuf(), act))
 	
 	def _actions_row_activated(self, treeview, treepath, view_column, data=None):
 		rank, leaf = self.best_match
 		iter = self.actions_model.get_iter(treepath)
-		action = self.actions_model.get_value(iter, 1)
+		action = self.actions_model.get_value(iter, 2)
 		action.activate(leaf)
 
 
