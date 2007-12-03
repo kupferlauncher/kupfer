@@ -6,12 +6,27 @@ import gobject
 import itertools
 import kupfer
 
-class Model (object):
+class ModelBase (object):
+	def __init__(self, *columns):
+		self.store = gtk.ListStore(*columns)
+
+	def _get_column(self, treepath, col):
+		iter = self.store.get_iter(treepath)
+		val = self.store.get_value(iter, col)
+		return val
+
+	def append(self, row):
+		self.store.append(row)
+
+	def clear(self):
+		self.store.clear()
+
+class LeafModel (ModelBase):
 	def __init__(self):
+		ModelBase.__init__(self, str, int, gobject.TYPE_PYOBJECT)
 		self.val_col = 0
 		self.rank_col = 1
 		self.obj_col = 2
-		self.tree_model = gtk.ListStore(str, int, gobject.TYPE_PYOBJECT)
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
@@ -20,11 +35,6 @@ class Model (object):
 		col.add_attribute(cell, "text", 0)
 		nbr_col.add_attribute(cell, "text", 1)
 		self.columns = (col, nbr_col)
-	
-	def _get_column(self, treepath, col):
-		iter = self.tree_model.get_iter(treepath)
-		val = self.tree_model.get_value(iter, col)
-		return val
 	
 	def get_value(self, treepath):
 		"""
@@ -44,18 +54,32 @@ class Model (object):
 		"""
 		return self._get_column(treepath, self.rank_col)
 
-	def append(self, value, rank, object):
-		self.tree_model.append((value, rank, object))
+class ActionModel (ModelBase):
+	def __init__(self):
+		ModelBase.__init__(self, str, gtk.gdk.Pixbuf, gobject.TYPE_PYOBJECT)
+		self.name_col, self.icon_col, self.obj_col = 0,1,2
+		cell = gtk.CellRendererText()
+		col = gtk.TreeViewColumn("Action", cell)
+		col.add_attribute(cell, "text", self.name_col)
+		cell = gtk.CellRendererPixbuf()
+		col2 = gtk.TreeViewColumn("", cell)
+		col2.add_attribute(cell, "pixbuf", self.icon_col)
+		self.columns = (col, col2)
+	
+	def get_name(self, path):
+		return self._get_column(path, self.name_col)
+	
+	def get_action(self, path):
+		return self._get_column(path, self.obj_col)
 
-	def clear(self):
-		self.tree_model.clear()
+
 
 class Browser (object):
-
 	def __init__(self, datasource):
 		"""
 		"""
-		self.model = Model()
+		self.model = LeafModel()
+		self.actions_model = ActionModel()
 		self.source_stack = []
 		self.push_source(datasource)
 		self.window = self._setup_window()
@@ -76,7 +100,7 @@ class Browser (object):
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
 		self.icon_view = gtk.Image()
 
-		self.table = gtk.TreeView(self.model.tree_model)
+		self.table = gtk.TreeView(self.model.store)
 
 		for col in self.model.columns:
 			self.table.append_column(col)
@@ -85,16 +109,9 @@ class Browser (object):
 		self.table.connect("key-press-event", self._key_press)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
-		self.actions_model = gtk.ListStore(str, gtk.gdk.Pixbuf, gobject.TYPE_PYOBJECT)
-		self.actions_table = gtk.TreeView(self.actions_model)
-		cell = gtk.CellRendererText()
-		col = gtk.TreeViewColumn("Action", cell)
-		col.add_attribute(cell, "text", 0)
-		self.actions_table.append_column(col)
-		cell = gtk.CellRendererPixbuf()
-		col = gtk.TreeViewColumn("", cell)
-		col.add_attribute(cell, "pixbuf", 1)
-		self.actions_table.append_column(col)
+		self.actions_table = gtk.TreeView(self.actions_model.store)
+		for col in self.actions_model.columns:
+			self.actions_table.append_column(col)
 
 		self.actions_table.connect("row-activated", self._actions_row_activated)
 		
@@ -140,7 +157,7 @@ class Browser (object):
 	def _make_list(self):
 		for leaf in itertools.islice(self.source.get_items(), 10):
 			val, obj = leaf.value, leaf
-			self.model.append(val, 0, obj)
+			self.model.append((val, 0, obj))
 
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
@@ -163,7 +180,7 @@ class Browser (object):
 		self.model.clear()
 		for s in itertools.islice(ranked_str, 10):
 			row = (s.value, s.rank, s.object)
-			self.model.append(*row)
+			self.model.append(row)
 		top = ranked_str[0]
 		# top.object is a leaf
 		return (top.rank, top.object)
