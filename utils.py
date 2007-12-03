@@ -65,10 +65,11 @@ def get_icon_for_uri(uri, icon_size=48):
 
 def get_icon_for_name(icon_name, icon_size=48):
 	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
+	from gobject import GError
 	icon_theme = icon_theme_get_default()
 	try:
 		icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
-	except gobject.GError:
+	except GError:
 		return None
 	return icon
 
