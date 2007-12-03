@@ -298,8 +298,62 @@ class SourcesSource (Source):
 	def get_items(self):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
 
+class Launch (Action):
+	def __init__(self):
+		Action.__init__(self, "Launch")
+	
+	def activate(self, leaf):
+		desktop_item = leaf.object
+		args = []
+		desktop_item.launch(args, 0)
+	
+	def get_pixbuf(self):
+		return utils.get_icon_for_name("exec", self.icon_size)
+
+class AppLeaf (Leaf):
+	def __init__(self, item):
+		from gnomedesktop import KEY_NAME, KEY_EXEC
+		value = "%s (%s)" % (item.get_localestring(KEY_NAME), item.get_string(KEY_NAME))
+		Leaf.__init__(self, item, value)
+	
+	def get_actions(self):
+		return (Launch(),)
+
+	def get_pixbuf(self):
+		from gtk import icon_theme_get_default
+		icon_file = self.object.get_icon(icon_theme_get_default())
+		#icon_file = gnomevfs.get_local_path_from_uri(icon_uri)
+		if not icon_file:
+			return utils.get_application_icon(None, self.icon_size)
+		return utils.get_icon_from_file(icon_file, self.icon_size)
+
 class AppSource (Source):
 
 	def get_items(self):
-		pass
+		dirs = utils.get_xdg_data_dirs()
+		from os import walk
+		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
+
+		desktop_files = []
+		
+		for d in dirs:
+			apps = path.join(d, "applications")
+			if not path.exists(apps):
+				continue
+			for root, dirnames, fnames in walk(apps):
+				for file in fnames:
+					abspath = path.join(root, file)
+					item = item_new_from_file(abspath, LOAD_ONLY_IF_EXISTS)
+					if item:
+						desktop_files.append(item)
+
+				del dirnames[:]
+		#print desktop_files
+		
+		return [AppLeaf(item) for item in desktop_files]
+
+
+				
+
+
 

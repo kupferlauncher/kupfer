@@ -75,14 +75,17 @@ def get_icon_for_name(icon_name, icon_size=48):
 
 def get_desktop_icon(desktop_file, icon_size=48):
 	from gtk import icon_theme_get_default
-	from gtk.gdk import pixbuf_new_from_file_at_size
 	from gnomedesktop import item_new_from_basename, find_icon, LOAD_ONLY_IF_EXISTS
 	desktop = item_new_from_basename(desktop_file, LOAD_ONLY_IF_EXISTS)
 	icon_file = desktop.get_icon(icon_theme_get_default())
 
 	if not icon_file:
 		return None
+	return get_icon_from_file(icon_file, icon_size)
 
+
+def get_icon_from_file(icon_file, icon_size=48):
+	from gtk.gdk import pixbuf_new_from_file_at_size
 	return pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
 
 
