@@ -90,6 +90,10 @@ class Leaf (KupferObject):
 
 
 class FileLeaf (Leaf):
+	def _desktop_item(self, basename):
+		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
+		return item_new_from_basename(basename, LOAD_ONLY_IF_EXISTS)
+
 	def get_actions(self):
 		acts = [Echo(), Dragbox()]
 		default = None
@@ -102,12 +106,12 @@ class FileLeaf (Leaf):
 			types = gnomevfs.mime_get_all_applications(type)
 			apps = set()
 			if def_app:
-				default = Show(def_app)
+				default = OpenWith(self._desktop_item(def_app[0]), def_app[1])
 				apps.add(def_app[1])
 			for info in types:
 				id = info[1]
 				if id not in apps:
-					acts.append(Show(info))
+					acts.append(OpenWith(self._desktop_item(info[0]), info[1]))
 					apps.add(id)
 		if not default:
 			default = Show()
@@ -154,60 +158,44 @@ class Echo (Action):
 	def activate(self, leaf):
 		print "Echo:", leaf.object
 
+class OpenWith (Action):
+	"""
+	Open a FileLeaf with a specified application
+	"""
+
+	def __init__(self, desktop_item, name):
+		Action.__init__(self, name)
+		self.desktop_item = desktop_item
+	
+	def activate(self, leaf):
+		filepath = leaf.object
+		self.desktop_item.launch([filepath], 0)
+	
+	def get_pixbuf(self):
+		uri = self.desktop_item.get_location()
+		file = gnomevfs.get_local_path_from_uri(uri)
+		app_icon = utils.get_desktop_icon(path.basename(file), self.icon_size)
+		if not app_icon:
+			app_icon = utils.get_application_icon(None, self.icon_size)
+		return app_icon
+
+
 class Show (Action):
-	def __init__(self, app_spec=None, name=None):
+	def __init__(self, name=None):
 		"""
-		Action that launches a file with app_spec
-
-		app_spec: application info as given by for example mime_get_default_application
-		if app_spec is None, open with default viewer
+		Open file with default viewer
 		"""
-		self.app_spec = app_spec
 		if not name:
-			if self.app_spec:
-				name= "Show with %s" % self.app_spec[1]
-			else:
-				name = "Show"
+			name = "Show"
 		super(Show, self).__init__(name)
-
-	def _open_uri(self, uri, app_spec):
-		"""
-		By Ed Catmur ed at catmur.co.uk 
-		http://www.daa.com.au/pipermail/pygtk/2007-March/013618.html
-
-		Try open with given app_spec
-		"""
-		mime = gnomevfs.get_mime_type (uri)
-		scheme = gnomevfs.get_uri_scheme (uri)
-		# http://bugzilla.gnome.org/show_bug.cgi?id=411560
-
-		id, name, command, multi, paths_for_local, schemes, term = app_spec
-		argv = command.split()
-		if scheme == 'file' and paths_for_local:
-			argv.append(gnomevfs.get_local_path_from_uri (uri))
-			return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
-		elif scheme == 'file' or scheme in schemes:
-			argv.append(uri)
-			return gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
-
-		raise NoApplication
 	
 	def activate(self, leaf):
 		print "Show: %s" % (leaf.object,)
 		uri = gnomevfs.get_uri_from_local_path(leaf.object)
-		if self.app_spec:
-			self._open_uri(uri, self.app_spec)
-		else:
-			gnomevfs.url_show(uri)
+		gnomevfs.url_show(uri)
 	
 	def get_pixbuf(self):
-		if not self.app_spec:
-			return utils.get_application_icon(None, self.icon_size)
-		app_icon = utils.get_desktop_icon(self.app_spec[0], self.icon_size)
-		if not app_icon:
-			app_icon= utils.get_application_icon(None, self.icon_size)
-		return app_icon
-		
+		return utils.get_application_icon(None, self.icon_size)
 
 class OpenTerminal (Action):
 	def __init__(self):
@@ -305,7 +293,7 @@ class Launch (Action):
 		desktop_item.launch(args, 0)
 	
 	def get_pixbuf(self):
-		return utils.get_icon_for_name("exec", self.icon_size)
+		return utils.get_application_icon(None, self.icon_size)
 
 class AppLeaf (Leaf):
 	def __init__(self, item):
