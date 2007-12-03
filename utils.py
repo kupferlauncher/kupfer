@@ -77,7 +77,7 @@ def get_icon_for_desktop_file(desktop_file, icon_size=48):
 	"""
 	Return the icon of a given desktop file path
 	"""
-	from gnomedesktop import item_new_from_file
+	from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
 	desktop_item = item_new_from_file(desktop_file, LOAD_ONLY_IF_EXISTS)
 
 	return get_icon_for_desktop_item(desktop_item, icon_size)
@@ -86,7 +86,7 @@ def get_icon_for_desktop_name(desktop_name, icon_size=48):
 	"""
 	Return the icon of a desktop item given its basename
 	"""
-	from gnomedesktop import item_new_from_basename
+	from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
 	desktop_item = item_new_from_basename(desktop_file, LOAD_ONLY_IF_EXISTS)
 
 	return get_icon_for_desktop_item(desktop_item, icon_size)
@@ -122,7 +122,6 @@ def get_icon_for_desktop_item(desktop_item, icon_size=48):
 def get_icon_from_file(icon_file, icon_size=48):
 	from gtk.gdk import pixbuf_new_from_file_at_size
 	return pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
-
 
 def get_default_application_icon(icon_size=48):
 	icon = get_icon_for_name("exec", icon_size)

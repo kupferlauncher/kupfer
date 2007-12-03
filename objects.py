@@ -116,6 +116,19 @@ class FileLeaf (Leaf):
 	"""
 	Represents one file
 	"""
+	def __new__(cls, obj, value):
+		# check if it is a desktop file
+		# shortcut for subclasses
+		if cls is not FileLeaf:
+			return super(FileLeaf, cls).__new__(cls, obj, value)
+		root, ext = path.splitext(obj)
+		if ext == ".desktop":
+			try:
+				return DesktopLeaf(obj, value)
+			except:
+				pass
+		return super(FileLeaf, cls).__new__(cls, obj, value)
+
 	def _desktop_item(self, basename):
 		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
 		return item_new_from_basename(basename, LOAD_ONLY_IF_EXISTS)
@@ -156,6 +169,33 @@ class FileLeaf (Leaf):
 	def get_pixbuf(self):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
 		icon = utils.get_icon_for_uri(uri, self.icon_size)
+		return icon
+
+class DesktopLeaf (FileLeaf):
+	"""
+	A "loose" desktop file
+	"""
+
+	def __init__(self, obj, value):
+		super(DesktopLeaf, self).__init__(obj, value)
+		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
+		self.desktop_item = item_new_from_file(self.object, LOAD_ONLY_IF_EXISTS)
+		print self.desktop_item, obj
+		if not self.desktop_item:
+			raise
+
+	def get_actions(self):
+		acts = super(DesktopLeaf, self).get_actions()
+		acts.insert(0, DesktopLaunch())
+		return acts
+
+	def has_content(self):
+		return False
+
+	def get_pixbuf(self):
+		icon = utils.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
+		if not icon:
+			return super(DesktopLeaf, self).get_pixbuf()
 		return icon
 
 class SourceLeaf (Leaf):
@@ -312,20 +352,39 @@ class MultiSource (Source):
 
 		return itertools.chain(*iterators)
 
+
 class Launch (Action):
 	"""
-	Launches AppLeaf
+	Launch operation base class
+
+	Launches an application
 	"""
-	def __init__(self):
-		Action.__init__(self, "Launch")
+	def __init__(self, name=None):
+		if not name:
+			name = "Launch"
+		Action.__init__(self, name)
+	
+	def launch_item(self, item):
+		args = []
+		item.launch(args, 0)
 	
 	def activate(self, leaf):
 		desktop_item = leaf.object
-		args = []
-		desktop_item.launch(args, 0)
+		self.launch_item(desktop_item)
 	
 	def get_pixbuf(self):
 		return utils.get_default_application_icon(self.icon_size)
+
+class DesktopLaunch (Launch):
+	"""
+	Launches a "loose" desktop file
+	"""
+	
+	def __init__(self):
+		super(DesktopLaunch, self).__init__("Launch (desktop file)")
+	
+	def activate(self, leaf):
+		self.launch_item(leaf.desktop_item)
 
 class AppLeaf (Leaf):
 	def __init__(self, item):
