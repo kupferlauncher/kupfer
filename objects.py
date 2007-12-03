@@ -56,6 +56,9 @@ class Source (object):
 
 
 class KupferObject (object):
+	"""
+	Base class for Actions and Leaves
+	"""
 	icon_size = 96
 	def __init__(self, name):
 		self.name = name
@@ -76,9 +79,6 @@ class Leaf (KupferObject):
 	def __repr__(self):
 		return "<%s %s at %x>" % (self.__class__.__name__, self.object, id(self))
 
-	def __str__(self):
-		return str(self.value)
-	
 	def has_content(self):
 		return False
 	
@@ -91,18 +91,27 @@ class Leaf (KupferObject):
 
 class FileLeaf (Leaf):
 	def get_actions(self):
-		acts = [Show(), Echo(), Dragbox()]
+		acts = [Echo(), Dragbox()]
+		default = None
 		if path.isdir(self.object):
 			acts.extend([OpenTerminal()])
+			default = Show(name="Open")
 		else:
 			type = gnomevfs.get_mime_type(self.object)
-			types = gnomevfs.mime_get_short_list_applications(type)
+			def_app = gnomevfs.mime_get_default_application(type)
+			types = gnomevfs.mime_get_all_applications(type)
 			apps = set()
+			if def_app:
+				default = Show(def_app)
+				apps.add(def_app[1])
 			for info in types:
 				id = info[1]
 				if id not in apps:
 					acts.append(Show(info))
 					apps.add(id)
+		if not default:
+			default = Show()
+		acts.insert(0, default)
 		return acts
 
 	def has_content(self):
@@ -116,10 +125,7 @@ class FileLeaf (Leaf):
 
 	def get_pixbuf(self):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
-		try:
-			icon = utils.get_icon_for_uri(uri, self.icon_size)
-		except gobject.GError:
-			icon = None
+		icon = utils.get_icon_for_uri(uri, self.icon_size)
 		return icon
 
 class SourceLeaf (Leaf):
@@ -137,9 +143,6 @@ class Action (KupferObject):
 	def activate_many(self, leaves):
 		pass
 	
-	def __str__(self):
-		return self.__class__.__name__
-	
 	def get_pixbuf(self):
 		return utils.get_icon_for_name("utilities-terminal", self.icon_size)
 
@@ -155,7 +158,7 @@ class Echo (Action):
 		return "Echo"
 
 class Show (Action):
-	def __init__(self, app_spec=None):
+	def __init__(self, app_spec=None, name=None):
 		"""
 		Action that launches a file with app_spec
 
@@ -163,7 +166,12 @@ class Show (Action):
 		if app_spec is None, open with default viewer
 		"""
 		self.app_spec = app_spec
-		super(Show, self).__init__(str(self))
+		if not name:
+			if self.app_spec:
+				name= "Show with %s" % self.app_spec[1]
+			else:
+				name = "Show"
+		super(Show, self).__init__(name)
 
 	def _open_uri(self, uri, app_spec):
 		"""
@@ -190,11 +198,6 @@ class Show (Action):
 	def __repr__(self):
 		return "<%s %s at %x>" % (self.__class__.__name__, str(self), id(self))
 	
-	def __str__(self):
-		if not self.app_spec:
-			return "Show"
-		return "Show with %s" % self.app_spec[1]
-	
 	def activate(self, leaf):
 		print "Show: %s" % (leaf.object,)
 		uri = gnomevfs.get_uri_from_local_path(leaf.object)
@@ -204,13 +207,7 @@ class Show (Action):
 			gnomevfs.url_show(uri)
 	
 	def get_pixbuf(self):
-		if not self.app_spec:
-			return utils.get_icon_for_name("exec", self.icon_size)
-		name = ((self.app_spec[2]).split())[0]
-		icon = utils.get_icon_for_name(name, self.icon_size)
-		if not icon:
-			icon = utils.get_icon_for_name("exec", self.icon_size)
-		return icon
+		return utils.get_application_icon(self.app_spec, self.icon_size)
 
 class OpenTerminal (Action):
 	def __init__(self):
@@ -295,4 +292,8 @@ class SourcesSource (Source):
 	def get_items(self):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
 
+class AppSource (Source):
+
+	def get_items(self):
+		pass
 

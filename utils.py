@@ -73,6 +73,30 @@ def get_icon_for_name(icon_name, icon_size=48):
 		return None
 	return icon
 
+def get_application_icon(app_spec=None, icon_size=48):
+	# known application names
+	known = {
+		"gedit": "text-editor",
+		"yelp" : "help-browser",
+	}
+	if not app_spec:
+		return get_icon_for_name("exec", icon_size)
+	name = ((app_spec[2]).split())[0]
+	if name in known:
+		name = known[name]
+	icon = get_icon_for_name(name, icon_size)
+	if icon: 
+		if icon_size/4 < icon.get_width() < icon_size:
+			import gtk.gdk
+			icon = icon.scale_simple(icon_size, icon_size, gtk.gdk.INTERP_BILINEAR)
+		else:
+			icon = None
+
+	if not icon:
+		print "No icon found for", name
+		icon = get_icon_for_name("exec", icon_size)
+	return icon
+
 def spawn_async(argv, in_dir=None):
 	import gobject
 	from os import chdir, getcwd
