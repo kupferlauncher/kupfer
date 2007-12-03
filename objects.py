@@ -3,8 +3,9 @@
 import gobject
 import gnomevfs
 import itertools
-
 from os import path
+
+import utils
 
 class Error (Exception):
 	pass
@@ -56,12 +57,19 @@ class Source (object):
 
 class KupferObject (object):
 	icon_size = 96
+	def __init__(self, name):
+		self.name = name
+	
+	def __str__(self):
+		return self.name
+
 	def get_pixbuf(self):
 		return None
 
 
 class Leaf (KupferObject):
 	def __init__(self, obj, value):
+		super(Leaf, self).__init__(value)
 		self.object = obj
 		self.value = value
 	
@@ -85,7 +93,7 @@ class FileLeaf (Leaf):
 	def get_actions(self):
 		acts = [Show(), Echo(), Dragbox()]
 		if path.isdir(self.object):
-			pass
+			acts.extend([OpenTerminal()])
 		else:
 			type = gnomevfs.get_mime_type(self.object)
 			types = gnomevfs.mime_get_short_list_applications(type)
@@ -109,7 +117,7 @@ class FileLeaf (Leaf):
 	def get_pixbuf(self):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
 		try:
-			icon = get_icon_for_uri(uri, self.icon_size)
+			icon = utils.get_icon_for_uri(uri, self.icon_size)
 		except gobject.GError:
 			icon = None
 		return icon
@@ -129,11 +137,17 @@ class Action (KupferObject):
 	def activate_many(self, leaves):
 		pass
 	
+	def __str__(self):
+		return self.__class__.__name__
+	
 	def get_pixbuf(self):
-		return get_icon_for_name("utilities-terminal", self.icon_size)
+		return utils.get_icon_for_name("utilities-terminal", self.icon_size)
 
 
 class Echo (Action):
+	def __init__(self):
+		super(Echo, self).__init__("Echo")
+	
 	def activate(self, leaf):
 		print "Echo:", leaf.object
 	
@@ -149,6 +163,7 @@ class Show (Action):
 		if app_spec is None, open with default viewer
 		"""
 		self.app_spec = app_spec
+		super(Show, self).__init__(str(self))
 
 	def _open_uri(self, uri, app_spec):
 		"""
@@ -190,95 +205,32 @@ class Show (Action):
 	
 	def get_pixbuf(self):
 		if not self.app_spec:
-			return get_icon_for_name("exec", self.icon_size)
+			return utils.get_icon_for_name("exec", self.icon_size)
 		name = ((self.app_spec[2]).split())[0]
-		icon = get_icon_for_name(name, self.icon_size)
+		icon = utils.get_icon_for_name(name, self.icon_size)
 		if not icon:
-			icon = get_icon_for_name("exec", self.icon_size)
+			icon = utils.get_icon_for_name("exec", self.icon_size)
 		return icon
+
+class OpenTerminal (Action):
+	def __init__(self):
+		super(OpenTerminal, self).__init__("Open Terminal here")
+	
+	def activate(self, leaf):
+		argv = ["gnome-terminal"]
+		print argv
+		utils.spawn_async(argv, in_dir=leaf.object)
 
 
 class Dragbox (Action):
-	def __str__(self):
-		return "Put on dragbox"
+	def __init__(self):
+		super(Dragbox, self).__init__("Put on dragbox")
 	
 	def activate(self, leaf):
 		path = leaf.object
 		argv = ["dragbox", "--file", path]
 		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
 
-
-def get_dirlist(folder, depth=0, include=None, exclude=None):
-	"""
-	Return a list of absolute paths in folder
-	include, exclude: a function returning a boolean
-	def include(filename):
-		return ShouldInclude
-	"""
-	from os import walk
-	paths = []
-	def include_file(file):
-		return (not include or include(file)) and (not exclude or not exclude(file))
-		
-	for dirname, dirnames, fnames in walk(folder):
-		# skip deep directories
-		head, dp = dirname, 0
-		while head != folder:
-			head, tail = path.split(head)
-			dp += 1
-		if dp > depth:
-			del dirnames[:]
-			continue
-		
-		excl_dir = []
-		for dir in dirnames:
-			if not include_file(dir):
-				excl_dir.append(dir)
-				continue
-			abspath = path.join(dirname, dir)
-			paths.append(abspath)
-		
-		for file in fnames:
-			if not include_file(file):
-				continue
-			abspath = path.join(dirname, file)
-			paths.append(abspath)
-
-		for dir in reversed(excl_dir):
-			dirnames.remove(dir)
-
-	return paths
-
-
-def get_icon_for_uri(uri, icon_size=48):
-	"""
-	Return a pixbuf representing the file at
-	the URI generally (mime-type based)
-
-	return None if not found
-	
-	@param icon_size: a pixel size of the icon
-	@type icon_size: an integer object.
-	 
-	"""
-	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
-	from gnomevfs import get_mime_type
-	from gnome.ui import ThumbnailFactory, icon_lookup
-
-	mtype = get_mime_type(uri)
-	icon_theme = icon_theme_get_default()
-	thumb_factory = ThumbnailFactory(16)
-	icon_name, num = icon_lookup(icon_theme, thumb_factory,  file_uri=uri, custom_icon="")
-	return get_icon_for_name(icon_name, icon_size)
-
-def get_icon_for_name(icon_name, icon_size=48):
-	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
-	icon_theme = icon_theme_get_default()
-	try:
-		icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
-	except gobject.GError:
-		return None
-	return icon
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
@@ -294,7 +246,7 @@ class FileSource (Source):
 		iters = []
 		
 		def mkleaves(dir):
-			files = get_dirlist(dir, depth=self.depth, exclude=self._exclude_file)
+			files = utils.get_dirlist(dir, depth=self.depth, exclude=self._exclude_file)
 			return (FileLeaf(f, path.basename(f)) for f in files)
 
 		for d in self.dirlist:
@@ -311,7 +263,7 @@ class DirectorySource (FileSource):
 		self.deep = False
 
 	def get_items(self):
-		dirlist = get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
+		dirlist = utils.get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
 		def file_leaves(files):
 			for file in files:
 				basename = path.basename(file)
