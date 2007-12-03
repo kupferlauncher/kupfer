@@ -159,13 +159,16 @@ class Search (gtk.Bin):
 		self.emit("cursor-changed", self.match)
 
 	def reset(self):
-		self.entry.grab_focus()
 		self.entry.set_text("")
 		self.label.set_text("Type to search")
 		self.icon_view.clear()
 		self.model.clear()
+		first = None
 		for item in itertools.islice(self.search_object.search_base, 10):
 			self.model.add((item.object, 0))
+			if not first: first = item.object
+		self.match = first
+		self.update_match()
 
 	def do_search(self, text):
 		"""
@@ -190,6 +193,7 @@ class Search (gtk.Bin):
 			return
 		self.match = self.do_search(text)
 		self.update_match()
+		self.emit("cursor-changed", self.match)
 	
 	def update_match(self):
 		"""

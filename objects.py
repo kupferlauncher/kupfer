@@ -55,7 +55,7 @@ class Source (object):
 
 
 class KupferObject (object):
-	icon_size = 48
+	icon_size = 96
 	def get_pixbuf(self):
 		return None
 
@@ -189,13 +189,12 @@ class Show (Action):
 			gnomevfs.url_show(uri)
 	
 	def get_pixbuf(self):
-
 		if not self.app_spec:
 			return get_icon_for_name("exec", self.icon_size)
 		name = ((self.app_spec[2]).split())[0]
 		icon = get_icon_for_name(name, self.icon_size)
 		if not icon:
-			icon = get_icon_for_name("", self.icon_size)
+			icon = get_icon_for_name("exec", self.icon_size)
 		return icon
 
 
