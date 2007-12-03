@@ -176,7 +176,7 @@ class OpenWith (Action):
 		file = gnomevfs.get_local_path_from_uri(uri)
 		app_icon = utils.get_desktop_icon(path.basename(file), self.icon_size)
 		if not app_icon:
-			app_icon = utils.get_application_icon(None, self.icon_size)
+			app_icon = utils.get_default_application_icon(self.icon_size)
 		return app_icon
 
 
@@ -195,7 +195,7 @@ class Show (Action):
 		gnomevfs.url_show(uri)
 	
 	def get_pixbuf(self):
-		return utils.get_application_icon(None, self.icon_size)
+		return utils.get_default_application_icon(self.icon_size)
 
 class OpenTerminal (Action):
 	def __init__(self):
@@ -293,7 +293,7 @@ class Launch (Action):
 		desktop_item.launch(args, 0)
 	
 	def get_pixbuf(self):
-		return utils.get_application_icon(None, self.icon_size)
+		return utils.get_default_application_icon(self.icon_size)
 
 class AppLeaf (Leaf):
 	def __init__(self, item):
@@ -309,7 +309,7 @@ class AppLeaf (Leaf):
 		icon_file = self.object.get_icon(icon_theme_get_default())
 		#icon_file = gnomevfs.get_local_path_from_uri(icon_uri)
 		if not icon_file:
-			return utils.get_application_icon(None, self.icon_size)
+			return utils.get_default_application_icon(self.icon_size)
 		return utils.get_icon_from_file(icon_file, self.icon_size)
 
 class AppSource (Source):
