@@ -73,20 +73,36 @@ def get_icon_for_name(icon_name, icon_size=48):
 		return None
 	return icon
 
-def get_desktop_icon(desktop_file, icon_size=48):
+def get_icon_for_desktop_file(desktop_file, icon_size=48):
 	"""
-	Return the pixbuf of a desktop file
+	Return the icon of a given desktop file path
+	"""
+	from gnomedesktop import item_new_from_file
+	desktop_item = item_new_from_file(desktop_file, LOAD_ONLY_IF_EXISTS)
+
+	return get_icon_for_desktop_item(desktop_item, icon_size)
+
+def get_icon_for_desktop_name(desktop_name, icon_size=48):
+	"""
+	Return the icon of a desktop item given its basename
+	"""
+	from gnomedesktop import item_new_from_basename
+	desktop_item = item_new_from_basename(desktop_file, LOAD_ONLY_IF_EXISTS)
+
+	return get_icon_for_desktop_item(desktop_item, icon_size)
+
+def get_icon_for_desktop_item(desktop_item, icon_size=48):
+	"""
+	Return the pixbuf of a given desktop item
 
 	Use some hackery. Take the icon directly if it is absolutely given,
 	otherwise use the name minus extension from current icon theme
 	"""
 	from gtk import icon_theme_get_default
-	from gnomedesktop import item_new_from_basename, find_icon, LOAD_ONLY_IF_EXISTS, KEY_ICON
-	desktop = item_new_from_basename(desktop_file, LOAD_ONLY_IF_EXISTS)
-	icon_name = desktop.get_string(KEY_ICON)
+	from gnomedesktop import find_icon, LOAD_ONLY_IF_EXISTS, KEY_ICON
+	icon_name = desktop_item.get_string(KEY_ICON)
 	if not icon_name:
 		return None
-	print icon_name
 
 	if not path.isabs(icon_name):
 		icon_name, extension = path.splitext(icon_name)
@@ -97,9 +113,6 @@ def get_desktop_icon(desktop_file, icon_size=48):
 			icon_file = None
 	else:
 		icon_file = icon_name
-
-	#icon_file = desktop.get_icon(icon_theme_get_default())
-	print icon_file
 
 	if not icon_file:
 		return None
@@ -143,17 +156,4 @@ def get_xdg_data_dirs():
 	
 	dirs = "%s:%s" % (dirs, sysdirs)
 	return [dir for dir in dirs.split(":") if dir.strip() != "" and path.exists(dir)]
-
-def find_desktop_file(basename):
-	"""
-	Return the absolute path to desktop file basename
-
-	if not found return None
-	"""
-	dirs = get_xdg_data_dirs()
-	for d in dirs:
-		abs = path.join(d, "applications", basename)
-		if path.exists(abs):
-			return abs
-	return None
 

@@ -198,9 +198,7 @@ class OpenWith (Action):
 		self.desktop_item.launch([filepath], 0)
 	
 	def get_pixbuf(self):
-		uri = self.desktop_item.get_location()
-		file = gnomevfs.get_local_path_from_uri(uri)
-		app_icon = utils.get_desktop_icon(path.basename(file), self.icon_size)
+		app_icon = utils.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
 		if not app_icon:
 			app_icon = utils.get_default_application_icon(self.icon_size)
 		return app_icon
@@ -347,6 +345,12 @@ class AppLeaf (Leaf):
 		return utils.get_icon_from_file(icon_file, self.icon_size)
 
 class AppSource (Source):
+	"""
+	Applications source
+
+	This Source contains all user-visible applications (as given by
+	the desktop files)
+	"""
 	def __init__(self):
 		super(AppSource, self).__init__()
 
