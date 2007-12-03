@@ -55,18 +55,21 @@ class Source (object):
 
 
 class KupferObject (object):
+	icon_size = 48
 	def get_pixbuf(self):
 		return None
 
 
 class Leaf (KupferObject):
-	icon_size = 48
 	def __init__(self, obj, value):
 		self.object = obj
 		self.value = value
 	
 	def __repr__(self):
 		return "<%s %s at %x>" % (self.__class__.__name__, self.object, id(self))
+
+	def __str__(self):
+		return str(self.value)
 	
 	def has_content(self):
 		return False
@@ -120,12 +123,14 @@ class SourceLeaf (Leaf):
 
 
 class Action (KupferObject):
-	icon_size = 24
 	def activate(self, leaf):
 		pass
 	
 	def activate_many(self, leaves):
 		pass
+	
+	def get_pixbuf(self):
+		return get_icon_for_name("utilities-terminal", self.icon_size)
 
 
 class Echo (Action):
@@ -184,10 +189,14 @@ class Show (Action):
 			gnomevfs.url_show(uri)
 	
 	def get_pixbuf(self):
+
 		if not self.app_spec:
 			return get_icon_for_name("exec", self.icon_size)
 		name = ((self.app_spec[2]).split())[0]
-		return get_icon_for_name(name, self.icon_size)
+		icon = get_icon_for_name(name, self.icon_size)
+		if not icon:
+			icon = get_icon_for_name("", self.icon_size)
+		return icon
 
 
 class Dragbox (Action):
