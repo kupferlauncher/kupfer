@@ -82,14 +82,20 @@ def get_application_icon(app_spec=None, icon_size=48):
 	if not app_spec:
 		return get_icon_for_name("exec", icon_size)
 	name = ((app_spec[2]).split())[0]
+	if "/" in name:
+		from os import path
+		(head, tail) = path.split(name)
+		if tail:
+			name = tail
 	if name in known:
 		name = known[name]
 	icon = get_icon_for_name(name, icon_size)
+	if icon: print "foudn icon", icon, "for", name, "size", (icon.get_width(), icon.get_height())
 	if icon: 
-		if icon_size/4 < icon.get_width() < icon_size:
+		if icon_size/2 <= icon.get_width() < icon_size:
 			import gtk.gdk
 			icon = icon.scale_simple(icon_size, icon_size, gtk.gdk.INTERP_BILINEAR)
-		else:
+		elif icon.get_width() < icon_size/2:
 			icon = None
 
 	if not icon:
