@@ -27,7 +27,7 @@ def main():
 	if len(sys.argv) < 2:
 		dirs = []
 	else:
-		dirs = sys.argv[1:]
+		dirs = [path.abspath(p) for p in sys.argv[1:]]
 	cmdline_source = objects.FileSource(dirs, depth=1)
 
 	app_source = objects.AppSource()
