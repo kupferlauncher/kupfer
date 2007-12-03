@@ -55,7 +55,7 @@ class Source (object):
 
 
 class KupferObject (object):
-	def get_pixmap(self):
+	def get_pixbuf(self):
 		return None
 
 
@@ -97,12 +97,15 @@ class FileLeaf (Leaf):
 	def has_content(self):
 		return path.isdir(self.object)
 
-
 	def content_source(self):
 		if self.has_content():
 			return DirectorySource(self.object)
 		else:
 			return Leaf.content_source(self)
+
+	def get_pixbuf(self):
+		uri = gnomevfs.get_uri_from_local_path(self.object)
+		return get_icon_for_uri(uri)
 
 class SourceLeaf (Leaf):
 	def has_content(self):
@@ -123,7 +126,9 @@ class Action (KupferObject):
 class Echo (Action):
 	def activate(self, leaf):
 		print "Echo:", leaf.object
-
+	
+	def __str__(self):
+		return "Echo"
 
 class Show (Action):
 	def __init__(self, app_spec=None):
@@ -226,6 +231,26 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 	return paths
 
 
+def get_icon_for_uri(uri, icon_size=48):
+	"""
+	Returns a pixbuf representing the file at
+	the URI generally (mime-type based)
+	
+	@param icon_size: a pixel size of the icon
+	@type icon_size: an integer object.
+	 
+	"""
+	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
+	from gnomevfs import get_mime_type
+	from gnome.ui import ThumbnailFactory, icon_lookup
+
+	mtype = get_mime_type(uri)
+	icon_theme = icon_theme_get_default()
+	thumb_factory = ThumbnailFactory(16)
+	icon_name, num = icon_lookup(icon_theme, thumb_factory,  file_uri=uri, custom_icon="")
+	icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
+	return icon
+
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		self.dirlist = dirlist
@@ -251,7 +276,6 @@ class FileSource (Source):
 
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
-
 
 class DirectorySource (FileSource):
 	def __init__(self, dir):

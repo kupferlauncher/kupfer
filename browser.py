@@ -74,6 +74,7 @@ class Browser (object):
 
 		self.label = gtk.Label("<match>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
+		self.icon_view = gtk.Image()
 
 		self.table = gtk.TreeView(self.model.tree_model)
 
@@ -94,19 +95,17 @@ class Browser (object):
 		self.actions_table.connect("row-activated", self._actions_row_activated)
 		
 
+		infobox = gtk.HBox()
+		infobox.pack_start(self.icon_view, False, False, 0)
+		infobox.pack_start(self.label, False, False, 0)
 		box = gtk.VBox()
 		box.pack_start(self.entry, True, True, 0)
-		box.pack_start(self.label, False, False, 0)
+		box.pack_start(infobox, False, False, 0)
 		box.pack_start(self.table, True, True, 0)
 		box.pack_start(self.actions_table, True, True, 0)
 
 		window.add(box)
-		box.show()
-		self.table.show()
-		self.actions_table.show()
-		self.entry.show()
-		self.label.show()
-		window.show()
+		window.show_all()
 		return window
 
 	def source_rebase(self, src):
@@ -186,6 +185,15 @@ class Browser (object):
 		"""
 		text = self.entry.get_text()
 		rank, leaf = self.best_match
+		print "Marking", leaf
+		# update icon
+		icon = leaf.get_pixbuf()
+		if icon:
+			self.icon_view.set_from_pixbuf(icon)
+		else:
+			self.icon_view.clear()
+
+		#update text label
 		res = ""
 		idx = 0
 		from xml.sax.saxutils import escape
