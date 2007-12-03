@@ -328,6 +328,7 @@ class Browser (object):
 		box.show()
 		window.add(box)
 		window.show()
+		window.set_title("Kupfer")
 		return window
 
 	def source_rebase(self, src):

@@ -333,8 +333,27 @@ class AppSource (Source):
 		dirs = utils.get_xdg_data_dirs()
 		from os import walk
 		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
+		import gnomedesktop as gd
 
 		desktop_files = []
+
+		inc_files = set()
+
+		def add_desktop_item(item):
+			# "true" or "false"
+			hid = item.get_string(gd.KEY_HIDDEN)
+			nodisp = item.get_string(gd.KEY_NO_DISPLAY)
+			type = item.get_string(gd.KEY_TYPE)
+
+			if "true" in (hid, nodisp) or (type != "Application"):
+				return
+			file = gnomevfs.get_local_path_from_uri(item.get_location())
+			name = path.basename(file)
+			if name in inc_files:
+				print name, "already in"
+				return
+			inc_files.add(name)
+			desktop_files.append(item)
 		
 		for d in dirs:
 			apps = path.join(d, "applications")
@@ -345,7 +364,7 @@ class AppSource (Source):
 					abspath = path.join(root, file)
 					item = item_new_from_file(abspath, LOAD_ONLY_IF_EXISTS)
 					if item:
-						desktop_files.append(item)
+						add_desktop_item(item)
 
 				del dirnames[:]
 		#print desktop_files
