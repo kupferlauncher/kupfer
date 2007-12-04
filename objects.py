@@ -25,9 +25,13 @@ class NoParent (Error):
 class NoContent (Error):
 	pass
 
-class NoApplication (Error):
+class InvalidData (Error):
+	"""The data is wrong for the given Leaf"""
 	pass
 
+class InvalidLeaf (Error):
+	"""The Leaf passed to an Action is invalid"""
+	pass
 
 class KupferObject (object):
 	"""
@@ -98,7 +102,7 @@ class FileLeaf (Leaf):
 		if ext == ".desktop":
 			try:
 				return DesktopLeaf(obj, value)
-			except:
+			except InvalidData:
 				pass
 		return super(FileLeaf, cls).__new__(cls, obj, value)
 
@@ -154,7 +158,7 @@ class DesktopLeaf (FileLeaf):
 		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
 		self.desktop_item = item_new_from_file(self.object, LOAD_ONLY_IF_EXISTS)
 		if not self.desktop_item:
-			raise
+			raise InvalidData
 
 	def get_actions(self):
 		acts = super(DesktopLeaf, self).get_actions()
