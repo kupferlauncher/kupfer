@@ -1,0 +1,16 @@
+
+Some very loose planning
+
+* We can use signals to keep certain sources up-to-date, that's at least
+  the case for Recently used items. Places can trivially be checked
+  manually. Wich caching in Leaf and dynamically changing the result of
+  is_dynamic, we can pull this through pretty smoohtly.
+* We should make Leaf objects comparable/hashable and keep only one of each
+  thing from different sources. This logic should partly be in Leaf and
+  partly in MultiSource.
+
+Quicksilverish ideas that might be reachable
+
+* Drop on the Kupfer pane to interact with current objects
+* The comma trick
+* Learning
