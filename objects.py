@@ -196,7 +196,7 @@ class AppLeaf (Leaf):
 		Leaf.__init__(self, item, value)
 	
 	def get_actions(self):
-		return (Launch(),)
+		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True))
 
 	def get_pixbuf(self):
 		from gtk import icon_theme_get_default
@@ -349,12 +349,17 @@ class Launch (Action):
 
 	Launches an application
 	"""
-	def __init__(self, name=None):
+	def __init__(self, name=None, in_terminal=False):
 		if not name:
 			name = "Launch"
 		Action.__init__(self, name)
+		self.in_terminal = in_terminal
 	
 	def launch_item(self, item):
+		if self.in_terminal:
+			from gnomedesktop import KEY_TERMINAL
+			item = item.copy()
+			item.set_boolean(KEY_TERMINAL, True)
 		args = []
 		item.launch(args, 0)
 	
