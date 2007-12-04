@@ -286,23 +286,6 @@ class OpenWith (Action):
 			app_icon = utils.get_default_application_icon(self.icon_size)
 		return app_icon
 
-class Show (Action):
-	def __init__(self, name=None):
-		"""
-		Open file with default viewer
-		"""
-		if not name:
-			name = "Open"
-		super(Show, self).__init__(name)
-	
-	def activate(self, leaf):
-		print "Show: %s" % (leaf.object,)
-		uri = gnomevfs.get_uri_from_local_path(leaf.object)
-		gnomevfs.url_show(uri)
-	
-	def get_icon_name(self):
-		return "exec"
-
 class OpenUrl (Action):
 	def __init__(self, name=None):
 		"""
@@ -315,10 +298,31 @@ class OpenUrl (Action):
 	def activate(self, leaf):
 		url = leaf.object
 		print "Open url:", url
+		self.open_url(url)
+	
+	def open_url(self, url):
 		gnomevfs.url_show(url)
+
 	
 	def get_icon_name(self):
 		return "forward"
+
+class Show (OpenUrl):
+	def __init__(self, name=None):
+		"""
+		Open file with default viewer
+		"""
+		if not name:
+			name = "Open"
+		super(Show, self).__init__(name)
+	
+	def activate(self, leaf):
+		print "Show: %s" % (leaf.object,)
+		uri = gnomevfs.get_uri_from_local_path(leaf.object)
+		self.open_url(uri)
+	
+	def get_icon_name(self):
+		return "exec"
 
 class OpenDirectory (Show):
 	def __init__(self):
