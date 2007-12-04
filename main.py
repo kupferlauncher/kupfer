@@ -83,8 +83,15 @@ def main():
 	
 	print "\n".join("%s   %s" % (s,hist[s] ) for s in hist)
 
-	multi = objects.MultiSource(sources)
-	w = browser.Browser(multi)
+	if len(sources) == 1:
+		root, = sources
+	elif len(sources) > 1:
+		root = objects.MultiSource(sources)
+	else:
+		print "No sources"
+		raise SystemExit
+
+	w = browser.Browser(root)
 	w.main()
 
 if __name__ == '__main__':
