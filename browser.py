@@ -45,46 +45,16 @@ class LeafModel (ModelBase):
 		col.add_attribute(cell, "text", self.val_col)
 		nbr_col.add_attribute(cell, "text", self.rank_col)
 		self.columns = (col, nbr_col)
-	
-	def get_value(self, treepath):
-		"""
-		Return model's value for treeview's path
-		"""
-		return self._get_column(treepath, self.val_col)
-
-	def get_rank(self, treepath):
-		"""
-		Return model's rank for the treeview path
-		"""
-		return self._get_column(treepath, self.rank_col)
 
 	def add(self, tupl):
 		leaf, rank = tupl
-		self.append((leaf, leaf.value, rank))
-
-class ActionModel (ModelBase):
-	def __init__(self):
-		ModelBase.__init__(self, str, int )
-		self.name_col, self.rank_col = 1,2
-		cell = gtk.CellRendererText()
-		col = gtk.TreeViewColumn("Action", cell)
-		col.add_attribute(cell, "text", self.name_col)
-		col2 = gtk.TreeViewColumn("", cell)
-		col2.add_attribute(cell, "text", self.rank_col)
-		self.columns = (col, col2)
-	
-	def get_name(self, path):
-		return self._get_column(path, self.name_col)
-	
-	def add(self, tupl):
-		act, rank = tupl
-		self.append((act, str(act), rank))
+		self.append((leaf, str(leaf), rank))
 
 class Search (gtk.Bin):
 	__gtype_name__ = 'Search'
-	def __init__(self, model):
+	def __init__(self):
 		gobject.GObject.__init__(self)
-		self.model = model
+		self.model = LeafModel()
 		self.search_object = None
 		self.callbacks = {}
 		self.match = None
@@ -327,8 +297,6 @@ class Browser (object):
 	def __init__(self, datasource):
 		"""
 		"""
-		self.model = LeafModel()
-		self.actions_model = ActionModel()
 		self.window = self._setup_window()
 		self.source_stack = []
 		self.push_source(datasource)
@@ -341,12 +309,12 @@ class Browser (object):
 		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		window.connect("destroy", self._destroy)
 		
-		self.leaf_search = Search(self.model)
+		self.leaf_search = Search()
 		self.leaf_search.connect("activate", self._activate_object)
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		
-		self.action_search = Search(self.actions_model)
+		self.action_search = Search()
 		self.action_search.connect("activate", self._activate_action)
 
 		box = gtk.HBox()
