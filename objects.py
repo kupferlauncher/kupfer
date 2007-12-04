@@ -46,6 +46,7 @@ class KupferObject (object):
 	def get_pixbuf(self):
 		return None
 
+
 def aslist(seq):
 	"""
 	Make lists from sequences that are not lists or tuples
@@ -55,60 +56,6 @@ def aslist(seq):
 	if not isinstance(seq, type([])) and not isinstance(seq, type(())):
 		seq = list(seq)
 	return seq
-
-class Source (KupferObject):
-	"""
-	Source: Data provider for a kupfer browser
-	"""
-	def __init__(self, name=None):
-		if not name:
-			name = self.__class__.__name__
-		KupferObject.__init__(self, name)
-		self.cached_items = None
-
-	def set_refresh_callback(self, refresh_callback):
-		"""
-		Set function to be called on owner when data needs refresh
-		"""
-		self.refresh_callback = refresh_callback
-
-	def get_items(self):
-		"""
-		Internal method to compute and return the needed items
-
-		Subclasses should use this method to return a sequence or
-		iterator to the leaves it contains
-		"""
-		return []
-
-	def is_dynamic(self):
-		"""
-		Whether to recompute contents each time it is accessed
-		"""
-		return False
-
-	def get_leaves(self):
-		"""
-		Return a list of all leaves
-		"""
-		if self.is_dynamic():
-			return self.get_items()
-		
-		if not self.cached_items:
-			self.cached_items = aslist(self.get_items())
-		return self.cached_items
-
-	def has_parent(self):
-		return False
-
-	def get_parent(self):
-		raise NoParent
-
-	def representation(self):
-		"""
-		Return represented object
-		"""
-		return self
 
 class Leaf (KupferObject):
 	def __init__(self, obj, value):
@@ -124,7 +71,6 @@ class Leaf (KupferObject):
 
 	def get_actions(self):
 		return ()
-
 
 class FileLeaf (Leaf):
 	"""
@@ -394,6 +340,61 @@ class SearchInside (Action):
 	def activate(self, leaf):
 		return leaf.object
 
+
+class Source (KupferObject):
+	"""
+	Source: Data provider for a kupfer browser
+	"""
+	def __init__(self, name=None):
+		if not name:
+			name = self.__class__.__name__
+		KupferObject.__init__(self, name)
+		self.cached_items = None
+
+	def set_refresh_callback(self, refresh_callback):
+		"""
+		Set function to be called on owner when data needs refresh
+		"""
+		self.refresh_callback = refresh_callback
+
+	def get_items(self):
+		"""
+		Internal method to compute and return the needed items
+
+		Subclasses should use this method to return a sequence or
+		iterator to the leaves it contains
+		"""
+		return []
+
+	def is_dynamic(self):
+		"""
+		Whether to recompute contents each time it is accessed
+		"""
+		return False
+
+	def get_leaves(self):
+		"""
+		Return a list of all leaves
+		"""
+		if self.is_dynamic():
+			return self.get_items()
+		
+		if not self.cached_items:
+			self.cached_items = aslist(self.get_items())
+		return self.cached_items
+
+	def has_parent(self):
+		return False
+
+	def get_parent(self):
+		raise NoParent
+
+	def representation(self):
+		"""
+		Return represented object
+		"""
+		return self
+
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		super(FileSource, self).__init__()
@@ -443,7 +444,6 @@ class DirectorySource (Source):
 			return FileSource.has_parent(self)
 		return DirectorySource(self._parent_path())
 
-
 class SourcesSource (Source):
 	def __init__(self, sources):
 		super(SourcesSource, self).__init__()
@@ -464,7 +464,6 @@ class MultiSource (Source):
 			iterators.append(it)
 
 		return itertools.chain(*iterators)
-
 
 class AppSource (Source):
 	"""
