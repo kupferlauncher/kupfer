@@ -9,18 +9,19 @@ kupfer
 def get_options():
 	"""
 	Usage:
-		-a        search applications
+		-a, -A    search applications, indirect/direct
+		-b, -B    firefox bookmarks, indirect/direct
 		-d dir    add dir as dir source
 		-r dir    add dir as recursive dir source
 		--depth d use recursive depth d
 	
-	Without options, the equivalent is "-a -d ~"
+	Without options, the equivalent is "-aAb -d ~"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
 
 	try:
-		opts, args = getopt(argv[1:], "ad:r:", "depth=")
+		opts, args = getopt(argv[1:], "ABabd:r:", "depth=")
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -31,6 +32,12 @@ def get_options():
 	for k, v in opts:
 		if k == "-a":
 			options["applications"] = True
+		elif k == "-A":
+			options["applications_inline"] = True
+		elif k == "-b":
+			options["bookmarks"] = True
+		elif k == "-B":
+			options["bookmarks_inline"] = True
 		elif k == "-d":
 			lst = options.get("dirs", [])
 			lst.append(v)
@@ -56,27 +63,34 @@ def main():
 
 	options = get_options()
 	if not len(options):
-		home = path.expanduser("~/")
-		home_source = objects.DirectorySource(home)
-		app_source = objects.AppSource()
-		bm_source = objects.BookmarksSource()
-		sources_source = objects.SourcesSource((app_source,bm_source))
-		sources = (home_source, app_source, sources_source)
-	else:
-		sources = []
-		if "dirs" in options:
-			for d in options["dirs"]:
-				abs = path.abspath(d)
-				sources.append(objects.DirectorySource(abs))
-		if "recurs" in options:
-			depth = options.get("depth", 1)
-			abs = [path.abspath(d) for d in options["recurs"]]
-			sources.append(objects.FileSource(abs, depth))
-		if "applications" in options:
-			app_source = objects.AppSource()
-			sources.append(app_source)
-			if len(sources) > 1:
-				sources.append(objects.SourcesSource((app_source,)))
+		options = { "dirs": [path.expanduser("~/"),],
+				"applications":"", "applications_inline":"",
+				"bookmarks":"" }
+	
+	sources = []
+	ss_sources = []
+	bookmarks = objects.BookmarksSource()
+	apps = objects.AppSource()
+
+	if "dirs" in options:
+		for d in options["dirs"]:
+			abs = path.abspath(path.expanduser(d))
+			sources.append(objects.DirectorySource(abs))
+	if "recurs" in options:
+		depth = options.get("depth", 1)
+		abs = [path.abspath(d) for d in options["recurs"]]
+		sources.append(objects.FileSource(abs, depth))
+	if "bookmarks" in options:
+		ss_sources.append(bookmarks)
+	if "bookmarks_inline" in options:
+		sources.append(bookmarks)
+	if "applications" in options:
+		ss_sources.append(apps)
+	if "applications_inline" in options:
+		sources.append(apps)
+
+	if len(ss_sources):
+		sources.append(objects.SourcesSource(ss_sources))
 	
 	hist = {}
 	for s in sources:
