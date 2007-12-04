@@ -111,7 +111,7 @@ class FileLeaf (Leaf):
 		return item_new_from_basename(basename, LOAD_ONLY_IF_EXISTS)
 
 	def get_actions(self):
-		acts = [Echo(), Dragbox()]
+		acts = [RevealFile(), Dragbox(), Echo()]
 		default = None
 		if path.isdir(self.object):
 			acts.extend([OpenTerminal(), SearchInside()])
@@ -303,9 +303,8 @@ class OpenUrl (Action):
 	def open_url(self, url):
 		gnomevfs.url_show(url)
 
-	
 	def get_icon_name(self):
-		return "forward"
+	  	return "forward"
 
 class Show (OpenUrl):
 	def __init__(self, name=None):
@@ -330,6 +329,22 @@ class OpenDirectory (Show):
 
 	def get_icon_name(self):
 		return "folder-open"
+
+class RevealFile (OpenUrl):
+	def __init__(self, name=None):
+		if not name:
+			name = "Reveal"
+		super(RevealFile, self).__init__(name)
+	
+	def activate(self, leaf):
+		fileloc = leaf.object
+		parent = path.normpath(path.join(fileloc, path.pardir))
+		uri = gnomevfs.get_uri_from_local_path(parent)
+		self.open_url(uri)
+	
+	def get_icon_name(self):
+		return "folder-open"
+
 
 class OpenTerminal (Action):
 	def __init__(self):
