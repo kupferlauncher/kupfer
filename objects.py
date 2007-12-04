@@ -1,5 +1,14 @@
 # -*- coding: UTF-8 -*-
 
+"""
+Actions, Leaves, Sources for
+kupfer
+ɹǝɟdnʞ
+
+Copyright 2007 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+Released under GNU General Public License v2 (or any later version)
+"""
+
 import gobject
 import gnomevfs
 import itertools
@@ -38,6 +47,11 @@ class KupferObject (object):
 		return None
 
 def aslist(seq):
+	"""
+	Make lists from sequences that are not lists or tuples
+
+	For iterators, sets etc.
+	"""
 	if not isinstance(seq, type([])) and not isinstance(seq, type(())):
 		seq = list(seq)
 	return seq
@@ -204,6 +218,23 @@ class SourceLeaf (Leaf):
 	def content_source(self):
 		return self.object
 
+class AppLeaf (Leaf):
+	def __init__(self, item):
+		from gnomedesktop import KEY_NAME, KEY_EXEC
+		value = "%s (%s)" % (item.get_localestring(KEY_NAME), item.get_string(KEY_NAME))
+		Leaf.__init__(self, item, value)
+	
+	def get_actions(self):
+		return (Launch(),)
+
+	def get_pixbuf(self):
+		from gtk import icon_theme_get_default
+		icon_file = self.object.get_icon(icon_theme_get_default())
+		#icon_file = gnomevfs.get_local_path_from_uri(icon_uri)
+		if not icon_file:
+			return utils.get_default_application_icon(self.icon_size)
+		return utils.get_icon_from_file(icon_file, self.icon_size)
+
 
 class Action (KupferObject):
 	def activate(self, leaf):
@@ -217,11 +248,18 @@ class Action (KupferObject):
 
 
 class Echo (Action):
+	"""
+	Simply echo information about the object
+	to the terminal
+	"""
 	def __init__(self):
-		super(Echo, self).__init__("Echo")
+		super(Echo, self).__init__("Echo (debug)")
 	
 	def activate(self, leaf):
-		print "Echo:", leaf.object
+		print "Echo"
+		print "\n".join("%s: %s" % (k, v) for k,v in
+				zip(("Leaf", "Name", "Object", "Value", "Id"),
+					(repr(leaf), leaf.name, leaf.object, leaf.value, id(leaf))))
 
 class OpenWith (Action):
 	"""
@@ -256,7 +294,6 @@ class OpenWith (Action):
 			app_icon = utils.get_default_application_icon(self.icon_size)
 		return app_icon
 
-
 class Show (Action):
 	def __init__(self, name=None):
 		"""
@@ -283,7 +320,6 @@ class OpenTerminal (Action):
 		print argv
 		utils.spawn_async(argv, in_dir=leaf.object)
 
-
 class Dragbox (Action):
 	def __init__(self):
 		super(Dragbox, self).__init__("Put on dragbox")
@@ -292,6 +328,39 @@ class Dragbox (Action):
 		path = leaf.object
 		argv = ["dragbox", "--file", path]
 		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
+
+class Launch (Action):
+	"""
+	Launch operation base class
+
+	Launches an application
+	"""
+	def __init__(self, name=None):
+		if not name:
+			name = "Launch"
+		Action.__init__(self, name)
+	
+	def launch_item(self, item):
+		args = []
+		item.launch(args, 0)
+	
+	def activate(self, leaf):
+		desktop_item = leaf.object
+		self.launch_item(desktop_item)
+	
+	def get_pixbuf(self):
+		return utils.get_default_application_icon(self.icon_size)
+
+class DesktopLaunch (Launch):
+	"""
+	Launches a "loose" desktop file
+	"""
+	
+	def __init__(self):
+		super(DesktopLaunch, self).__init__("Launch (desktop file)")
+	
+	def activate(self, leaf):
+		self.launch_item(leaf.desktop_item)
 
 
 class FileSource (Source):
@@ -365,56 +434,6 @@ class MultiSource (Source):
 
 		return itertools.chain(*iterators)
 
-
-class Launch (Action):
-	"""
-	Launch operation base class
-
-	Launches an application
-	"""
-	def __init__(self, name=None):
-		if not name:
-			name = "Launch"
-		Action.__init__(self, name)
-	
-	def launch_item(self, item):
-		args = []
-		item.launch(args, 0)
-	
-	def activate(self, leaf):
-		desktop_item = leaf.object
-		self.launch_item(desktop_item)
-	
-	def get_pixbuf(self):
-		return utils.get_default_application_icon(self.icon_size)
-
-class DesktopLaunch (Launch):
-	"""
-	Launches a "loose" desktop file
-	"""
-	
-	def __init__(self):
-		super(DesktopLaunch, self).__init__("Launch (desktop file)")
-	
-	def activate(self, leaf):
-		self.launch_item(leaf.desktop_item)
-
-class AppLeaf (Leaf):
-	def __init__(self, item):
-		from gnomedesktop import KEY_NAME, KEY_EXEC
-		value = "%s (%s)" % (item.get_localestring(KEY_NAME), item.get_string(KEY_NAME))
-		Leaf.__init__(self, item, value)
-	
-	def get_actions(self):
-		return (Launch(),)
-
-	def get_pixbuf(self):
-		from gtk import icon_theme_get_default
-		icon_file = self.object.get_icon(icon_theme_get_default())
-		#icon_file = gnomevfs.get_local_path_from_uri(icon_uri)
-		if not icon_file:
-			return utils.get_default_application_icon(self.icon_size)
-		return utils.get_icon_from_file(icon_file, self.icon_size)
 
 class AppSource (Source):
 	"""

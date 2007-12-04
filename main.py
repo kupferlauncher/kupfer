@@ -25,9 +25,11 @@ def main():
 	cmdline_source = objects.FileSource(dirs, depth=1)
 
 	app_source = objects.AppSource()
-	#sources_source = objects.SourcesSource((home_source, app_source))
-
 	sources = (cmdline_source, home_source, app_source)
+	sources_source = objects.SourcesSource(sources)
+
+	sources = sources + (sources_source,)
+
 	multi = objects.MultiSource(sources)
 	w = browser.Browser(multi)
 	w.main()
