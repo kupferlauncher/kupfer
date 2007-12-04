@@ -254,7 +254,6 @@ class OpenWith (Action):
 	def __init__(self, desktop_item, name):
 		Action.__init__(self, "Open with %s" % name)
 		self.desktop_item = desktop_item
-		self.preprocess_item()
 	
 	def preprocess_item(self):
 		from gnomedesktop import KEY_EXEC
@@ -270,6 +269,7 @@ class OpenWith (Action):
 		self.desktop_item.set_string(KEY_EXEC, newexc)
 	
 	def activate(self, leaf):
+		self.preprocess_item()
 		filepath = leaf.object
 		self.desktop_item.launch([filepath], 0)
 	
