@@ -547,6 +547,9 @@ class Browser (object):
 		"""
 		Evaluate an action with the given leaf
 		"""
+		if not action or not leaf:
+			print "No action", (action, leaf)
+			return
 		new_source = action.activate(leaf)
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
@@ -555,5 +558,4 @@ class Browser (object):
 
 	def main(self):
 		gtk.main()
-
 
