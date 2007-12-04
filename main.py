@@ -2,26 +2,20 @@
 # -*- coding: UTF-8 -*-
 
 """
-Run Kupfer with some default arguments
-"""
-
-def print_intro():
-	print """
-WELCOME TO
-
 kupfer
 ɹǝɟdnʞ
 """
 
 def main():
-	print_intro()
 	import sys
 	from os import path
 
 	import browser
 	import objects
+
+	print __doc__
+
 	home = path.expanduser("~/")
-	print home
 	home_source = objects.DirectorySource(home)
 
 	if len(sys.argv) < 2:

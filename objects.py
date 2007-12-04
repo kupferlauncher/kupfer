@@ -180,7 +180,6 @@ class DesktopLeaf (FileLeaf):
 		super(DesktopLeaf, self).__init__(obj, value)
 		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
 		self.desktop_item = item_new_from_file(self.object, LOAD_ONLY_IF_EXISTS)
-		print self.desktop_item, obj
 		if not self.desktop_item:
 			raise
 
