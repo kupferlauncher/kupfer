@@ -152,6 +152,8 @@ class Search (gtk.Bin):
 					self._hide_table()
 		elif keyv == darrow:
 			# load more and more data into the table, lazily
+			if self.search_object and not self.model_iterator:
+				self.init_table(10)
 			if self.model_iterator and len(self.model) <= 1:
 				self.populate_model(self.model_iterator, 10)
 			if len(self.model) > 1:
@@ -271,12 +273,12 @@ class Search (gtk.Bin):
 		self.label.set_text("Select an object")
 		self.set_match(None)
 	
-	def init_table(self):
+	def init_table(self, num=None):
 		"""
 		Fill table with entries
 		"""
 		self.model_iterator = iter(self.search_object.search_base)
-		first = self.populate_model(self.model_iterator)
+		first = self.populate_model(self.model_iterator, num)
 		self.set_match(first)
 	
 	def populate_model(self, iterator, num=None):
