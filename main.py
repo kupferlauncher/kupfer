@@ -9,11 +9,15 @@ kupfer
 def get_options():
 	"""
 	Usage:
-		-a, -A    search applications, indirect/direct
-		-b, -B    firefox bookmarks, indirect/direct
-		-d dir    add dir as dir source
-		-r dir    add dir as recursive dir source
+		-a, -A          search applications
+		-b, -B          firefox bookmarks
+		-d dir, -D dir  add dir as dir source
+		-r dir, -R dir  add dir as recursive dir source
+		-c, -C          recent documents
 		--depth d use recursive depth d
+
+		small letter:   catalog item in catalog
+		capital letter: direct inclusion
 	
 	Without options, the equivalent is "-aAb -d ~"
 	"""
@@ -21,7 +25,7 @@ def get_options():
 	from sys import argv
 
 	try:
-		opts, args = getopt(argv[1:], "ABabd:r:", "depth=")
+		opts, args = getopt(argv[1:], "AaBbCcd:r:", "depth=")
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -38,6 +42,10 @@ def get_options():
 			options["bookmarks"] = True
 		elif k == "-B":
 			options["bookmarks_inline"] = True
+		elif k == "-c":
+			options["recents"] = True
+		elif k == "-C":
+			options["recents_inline"] = True
 		elif k == "-d":
 			lst = options.get("dirs", [])
 			lst.append(v)
@@ -71,6 +79,7 @@ def main():
 	ss_sources = []
 	bookmarks = objects.BookmarksSource()
 	apps = objects.AppSource()
+	recents = objects.RecentsSource()
 
 	if "dirs" in options:
 		for d in options["dirs"]:
@@ -88,6 +97,10 @@ def main():
 		ss_sources.append(apps)
 	if "applications_inline" in options:
 		sources.append(apps)
+	if "recents" in options:
+		ss_sources.append(recents)
+	if "recents_inline" in options:
+		sources.append(recents)
 
 	if len(ss_sources):
 		sources.append(objects.SourcesSource(ss_sources))

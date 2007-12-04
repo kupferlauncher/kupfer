@@ -611,12 +611,11 @@ class AppSource (Source):
 
 
 class UrlLeaf (Leaf):
-	def __init__(self, bookmark):
-		super(UrlLeaf, self).__init__(bookmark["href"], (bookmark["title"])[:40])
-		self.bookmark = bookmark
+	def __init__(self, obj, value):
+		super(UrlLeaf, self).__init__(obj, value)
 	
 	def get_actions(self):
-		return (OpenUrl(),)
+		return (OpenUrl(), Echo())
 
 	def get_icon_name(self):
 		return "internet-web-browser"
@@ -629,10 +628,42 @@ class BookmarksSource (Source):
 		from bookmarks import get_firefox_home_file, get_bookmarks
 		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
 		print "Loaded", len(bookmarks), "bookmarks"
-		return (UrlLeaf(book) for book in bookmarks)
+		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
 
 	def get_icon_name(self):
 		return "internet-web-browser"
 
+
+class RecentsSource (Source):
+	def __init__(self):
+		super(RecentsSource, self).__init__("Recent items")
+		self.max_days = 14
+	
+	def get_items(self):
+		from gtk import recent_manager_get_default
+
+		count = 0
+		manager = recent_manager_get_default()
+		items = manager.get_items()
+		for item in items:
+			day_age = item.get_age()
+			if day_age > self.max_days:
+				break
+			uri = item.get_uri()
+			name = item.get_short_name()
+			scheme = gnomevfs.get_uri_scheme(uri)
+			if "file" == scheme:
+				fileloc = gnomevfs.get_local_path_from_uri(uri)
+				if not path.exists(fileloc):
+					continue
+				yield FileLeaf(fileloc, name)
+			else:
+				yield UrlLeaf(uri, name)
+			count += 1
+		print count, "recent items younger than", self.max_days, "days"
+	
+	
+	def get_icon_name(self):
+		return "emblem-important"
 
 
