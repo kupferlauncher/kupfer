@@ -441,7 +441,7 @@ class ActionSearch (Search):
 		act = DummyAction()
 		icon = act.get_pixbuf()
 		dim_icon = icon.copy()
-		icon.saturate_and_pixelate(dim_icon, 0.5, False)
+		icon.saturate_and_pixelate(dim_icon, 0.3, False)
 		self.set_match(None)
 		self.label.set_text(str(act))
 		self.icon_view.set_from_pixbuf(dim_icon)

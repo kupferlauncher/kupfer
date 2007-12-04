@@ -235,7 +235,7 @@ class Action (KupferObject):
 		"""
 		Return a default icon for actions
 		"""
-		return "utilities-terminal"
+		return "emblem-system"
 
 class Echo (Action):
 	"""
@@ -406,8 +406,7 @@ class SearchInside (Action):
 		return leaf.content_source()
 
 	def get_icon_name(self):
-		from gtk import STOCK_FIND
-		return STOCK_FIND
+		return "search"
 
 class DummyAction (Action):
 	"""
