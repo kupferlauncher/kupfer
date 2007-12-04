@@ -15,7 +15,10 @@ def get_options(default_opts=""):
 		-p, -P          nautilus places
 		-d dir, -D dir  add dir as dir source
 		-r dir, -R dir  add dir as recursive dir source
+
 		--depth d use recursive depth d
+
+		--help          show usage help
 
 		small letter:   catalog item in catalog
 		capital letter: direct inclusion
@@ -31,7 +34,7 @@ def get_options(default_opts=""):
 		opts ="-AabCcPp -D ~".split()
 
 	try:
-		opts, args = getopt(opts, "AaBbCcPpD:d:R:r:", "depth=")
+		opts, args = getopt(opts, "AaBbCcPpD:d:R:r:", ["depth=", "help"])
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -48,6 +51,9 @@ def get_options(default_opts=""):
 			options[k] = lst
 		elif k == "--depth":
 			options["depth"] = v
+		elif k == "--help":
+			print get_options.__doc__
+			raise SystemExit
 	
 	return options
 
