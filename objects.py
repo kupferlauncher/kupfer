@@ -675,7 +675,32 @@ class PlacesSource (Source):
 		self.places_file = "~/.gtk-bookmarks"
 	
 	def get_items(self):
-		return ()
+		"""
+		gtk-bookmarks: each line has url and optional title
+		file:///path/to/that.end [title]
+		"""
+		fileloc = path.expanduser(self.places_file)
+		if not path.exists(fileloc):
+			return ()
+		return self._get_places(fileloc)
+
+	def _get_places(self, fileloc):
+		for line in open(fileloc):
+			if not line.strip():
+				continue
+			items = line.split()
+			uri = items[0]
+			if len(items) > 1:
+				title = items[1]
+			else:
+				disp = gnomevfs.format_uri_for_display(uri)
+				title =	path.basename(disp)
+			scheme = gnomevfs.get_uri_scheme(uri)
+			if "file" == scheme:
+				loc = gnomevfs.get_local_path_from_uri(uri)
+				yield FileLeaf(loc, title)
+			else:
+				yield UrlLeaf(uri, title)
 
 	def get_icon_name(self):
 		return "file-manager"
