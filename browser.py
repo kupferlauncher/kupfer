@@ -126,24 +126,35 @@ class Search (gtk.Bin):
 		tabkey = 65289
 
 		path_at_row = lambda r: (r,)
+		row_at_path = lambda p: p[0]
 
 		# using (lazy and dangerous) tree path hacking here
-		if keyv in (uarrow, darrow):
+		if keyv == uarrow:
+			# go up, simply. close table if we go up from row 0
+			path, col = self.table.get_cursor()
+			print path
+			if path:
+				r = row_at_path(path)
+				if r >= 1:
+					self.table.set_cursor(path_at_row(r-1))
+				else:
+					self._hide_table()
+		elif keyv == darrow:
+			# load more and more data into the table, lazily
+			if self.model_iterator and len(self.model) <= 1:
+				self.populate_model(self.model_iterator, 10)
 			if len(self.model) > 1:
 				path, col = self.table.get_cursor()
-				old_sel = path
-				if not path and keyv == darrow:
-					path = path_at_row(0)
-					self.table.set_cursor(path)
-				elif path:
-					r, = path
-					if keyv == darrow: r +=  1
-					else: r -= 1
-					r = r % len(self.model)
-					self.table.set_cursor(path_at_row(r))
-				sel, col = self.table.get_cursor()
-				if old_sel != sel:
-					self._show_table()
+				if path:
+					r = row_at_path(path)
+					print r, len(self.model)
+					if r == -1 + len(self.model):
+						self.populate_model(self.model_iterator, 10)
+					if r < len(self.model):
+						self.table.set_cursor(path_at_row(r+1))
+				else:
+					self.table.set_cursor(path_at_row(0))
+				self._show_table()
 		elif keyv in (larrow, rarrow):
 			if ((keyv == rarrow and self.match) or
 					(keyv == larrow and not self.match)):
@@ -151,6 +162,7 @@ class Search (gtk.Bin):
 			elif keyv == larrow:
 				# reset on larrow
 				self.reset()
+				self._hide_table()
 		else:
 			if keyv == tabkey:
 				self._hide_table()
@@ -245,7 +257,7 @@ class Search (gtk.Bin):
 		"""
 		Fill table with entries
 		"""
-		self.model_iterator = self.search_object.search_base
+		self.model_iterator = iter(self.search_object.search_base)
 		first = self.populate_model(self.model_iterator)
 		self.set_match(first)
 		print "inited table with", first
@@ -273,7 +285,7 @@ class Search (gtk.Bin):
 		"""
 		# print "Type in search string"
 		# in_str = raw_input()
-		self.model_iterator = self.search_object.search_objects(text)
+		self.model_iterator = iter(self.search_object.search_objects(text))
 		
 		# get the best object
 		self.model.clear()
@@ -369,6 +381,8 @@ class LeafSearch (Search):
 		self.source = source
 		print "new source", source
 		self.set_search_object(self.make_searchobj(source))
+		self.model_iterator = None
+		self._hide_table()
 
 	def make_searchobj(self, source):
 		leaves = source.get_leaves() 
