@@ -335,6 +335,9 @@ class OpenTerminal (Action):
 		argv = ["gnome-terminal"]
 		print argv
 		utils.spawn_async(argv, in_dir=leaf.object)
+	
+	def get_icon_name(self):
+		return "terminal"
 
 class Dragbox (Action):
 	def __init__(self):
