@@ -292,7 +292,7 @@ class Show (Action):
 		Open file with default viewer
 		"""
 		if not name:
-			name = "Show"
+			name = "Open"
 		super(Show, self).__init__(name)
 	
 	def activate(self, leaf):
@@ -300,8 +300,8 @@ class Show (Action):
 		uri = gnomevfs.get_uri_from_local_path(leaf.object)
 		gnomevfs.url_show(uri)
 	
-	def get_pixbuf(self):
-		return utils.get_default_application_icon(self.icon_size)
+	def get_icon_name(self):
+		return "exec"
 
 class OpenUrl (Action):
 	def __init__(self, name=None):
@@ -325,8 +325,7 @@ class OpenDirectory (Show):
 		super(OpenDirectory, self).__init__("Open")
 
 	def get_icon_name(self):
-		from gtk import STOCK_OPEN
-		return STOCK_OPEN
+		return "folder-open"
 
 class OpenTerminal (Action):
 	def __init__(self):
