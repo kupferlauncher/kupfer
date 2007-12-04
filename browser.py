@@ -285,10 +285,12 @@ class Search (gtk.Bin):
 	def init_table(self, num=None):
 		"""
 		Fill table with entries
+		and set match to first entry
 		"""
 		self.model_iterator = iter(self.search_object.search_base)
 		first = self.populate_model(self.model_iterator, num)
 		self.set_match(first)
+		self.update_match()
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -428,7 +430,6 @@ class ActionSearch (Search):
 	def setup_empty(self):
 		if self.search_object:
 			self.init_table()
-			self.update_match()
 			return
 		import utils
 		icon = utils.get_default_application_icon(96)
