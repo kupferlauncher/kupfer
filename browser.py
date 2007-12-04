@@ -110,7 +110,7 @@ class Search (gtk.Bin):
 			self.table.append_column(col)
 
 		self.table.connect("row-activated", self._row_activated)
-		self.table.connect("key-press-event", self._key_press)
+		self.table.connect("key-press-event", self._table_key_press)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
 		self.scroller = gtk.ScrolledWindow()
@@ -207,7 +207,18 @@ class Search (gtk.Bin):
 		self.entry.set_text("")
 		return False
 
+	def _table_key_press(self, treeview, event):
+		"""
+		Catch keypresses in the treeview and divert them
+		"""
+		self.entry.grab_focus()
+		self.entry.emit("key-press-event", event)
+		return True
+	
 	def get_current(self):
+		"""
+		return current selection
+		"""
 		return self.match
 
 	def do_size_request (self, requisition):
@@ -244,10 +255,6 @@ class Search (gtk.Bin):
 		obj = self._get_cur_object()
 		self.emit("activate", obj)
 
-	def _key_press(self, treeview, event):
-		obj = self._get_cur_object()
-		self.emit("key-pressed", obj, event.keyval)
-	
 	def _cursor_changed(self, treeview):
 		path, col = treeview.get_cursor()
 		if not path:
