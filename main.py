@@ -6,26 +6,31 @@ kupfer
 ɹǝɟdnʞ
 """
 
-def get_options():
+def get_options(default_opts=""):
 	"""
 	Usage:
 		-a, -A          search applications
 		-b, -B          firefox bookmarks
+		-c, -C          recent documents
 		-d dir, -D dir  add dir as dir source
 		-r dir, -R dir  add dir as recursive dir source
-		-c, -C          recent documents
 		--depth d use recursive depth d
 
 		small letter:   catalog item in catalog
 		capital letter: direct inclusion
 	
-	Without options, the equivalent is "-aAb -d ~"
+	The default is "-AabCc -D ~"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
 
+	if len(argv) > 1:
+		opts = argv[1:]
+	else:
+		opts ="-AabCc -D ~".split()
+
 	try:
-		opts, args = getopt(argv[1:], "AaBbCcd:r:", "depth=")
+		opts, args = getopt(opts, "AaBbCcD:d:R:r:", "depth=")
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -34,26 +39,12 @@ def get_options():
 	options = {}
 	
 	for k, v in opts:
-		if k == "-a":
-			options["applications"] = True
-		elif k == "-A":
-			options["applications_inline"] = True
-		elif k == "-b":
-			options["bookmarks"] = True
-		elif k == "-B":
-			options["bookmarks_inline"] = True
-		elif k == "-c":
-			options["recents"] = True
-		elif k == "-C":
-			options["recents_inline"] = True
-		elif k == "-d":
-			lst = options.get("dirs", [])
+		if k in ("-a", "-A", "-b", "-B", "-c", "-C"):
+			options[k] = True
+		elif k in ("-d", "-D", "-r", "-R"):
+			lst = options.get(k, [])
 			lst.append(v)
-			options["dirs"] = lst
-		elif k == "-r":
-			lst = options.get("recurs", [])
-			lst.append(v)
-			options["recurs"] = lst
+			options[k] = lst
 		elif k == "--depth":
 			options["depth"] = v
 	
@@ -70,51 +61,56 @@ def main():
 	print __doc__
 
 	options = get_options()
-	if not len(options):
-		options = { "dirs": [path.expanduser("~/"),],
-				"applications":"", "applications_inline":"",
-				"bookmarks":"" }
 	
-	sources = []
-	ss_sources = []
-	bookmarks = objects.BookmarksSource()
-	apps = objects.AppSource()
-	recents = objects.RecentsSource()
+	s_sources = []
+	S_sources = []
+	default_depth = 1
 
-	if "dirs" in options:
-		for d in options["dirs"]:
+	def dir_source(opt):
+		for d in options[opt]:
 			abs = path.abspath(path.expanduser(d))
-			sources.append(objects.DirectorySource(abs))
-	if "recurs" in options:
-		depth = options.get("depth", 1)
-		abs = [path.abspath(d) for d in options["recurs"]]
-		sources.append(objects.FileSource(abs, depth))
-	if "bookmarks" in options:
-		ss_sources.append(bookmarks)
-	if "bookmarks_inline" in options:
-		sources.append(bookmarks)
-	if "applications" in options:
-		ss_sources.append(apps)
-	if "applications_inline" in options:
-		sources.append(apps)
-	if "recents" in options:
-		ss_sources.append(recents)
-	if "recents_inline" in options:
-		sources.append(recents)
+			yield objects.DirectorySource(abs)
 
-	if len(ss_sources):
-		sources.append(objects.SourcesSource(ss_sources))
-	
-	hist = {}
-	for s in sources:
-		hist[str(s)] = hist.get(str(s), 0) + 1
-	
-	print "\n".join("%s   %s" % (s,hist[s] ) for s in hist)
+	def file_source(opt):
+		depth = options.get("depth", default_depth)
+		def abs_paths():
+			for d in options[opt]:
+				abs = path.abspath(path.expanduser(d))
+				yield abs
+		yield objects.FileSource(tuple(abs_paths()), depth)
 
-	if len(sources) == 1:
-		root, = sources
-	elif len(sources) > 1:
-		root = objects.MultiSource(sources)
+	sources = {
+			"-b":  objects.BookmarksSource(),
+			"-a":  objects.AppSource(), 
+			"-c":  objects.RecentsSource()
+	}
+
+	files = {
+			"-d": dir_source,
+			"-r": file_source,
+	}
+
+	for k, v in sources.items():
+		K = k.upper()
+		if k in options:
+			s_sources.append(v)
+		if K in options:
+			S_sources.append(v)
+	
+	for k, v in files.items():
+		K = k.upper()
+		if k in options:
+			s_sources.extend(v(k))
+		if K in options:
+			S_sources.extend(v(K))
+
+	if len(s_sources):
+		S_sources.append(objects.SourcesSource(s_sources))
+	
+	if len(S_sources) == 1:
+		root, = S_sources
+	elif len(S_sources) > 1:
+		root = objects.MultiSource(S_sources)
 	else:
 		print "No sources"
 		raise SystemExit
