@@ -291,7 +291,6 @@ class Search (gtk.Bin):
 	def _changed(self, editable):
 		text = editable.get_text()
 		if not len(text):
-			self.set_match(None)
 			return
 		if not self.search_object:
 			return
