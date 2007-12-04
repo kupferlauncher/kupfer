@@ -583,12 +583,11 @@ class AppSource (Source):
 		inc_files = set()
 
 		def add_desktop_item(item):
-			# string booleans are "true" or "false"
-			hid = item.get_string(gd.KEY_HIDDEN)
-			nodisp = item.get_string(gd.KEY_NO_DISPLAY)
+			hid = item.get_boolean(gd.KEY_HIDDEN)
+			nodisp = item.get_boolean(gd.KEY_NO_DISPLAY)
 			type = item.get_string(gd.KEY_TYPE)
 
-			if "true" in (hid, nodisp) or (type != "Application"):
+			if True in (hid, nodisp) or (type != "Application"):
 				return
 			file = gnomevfs.get_local_path_from_uri(item.get_location())
 			name = path.basename(file)
