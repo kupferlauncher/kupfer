@@ -156,9 +156,10 @@ class Search (object):
 		key -- 
 		"""
 		normal_w = 10
-		abbrev_w = 7 
+		abbrev_w = 5
 		words_w = 10
 		common_letter_w = 3
+		common_bonus_w = 3
 		part_w = 1
 
 		lower_key = key.lower()
@@ -169,7 +170,7 @@ class Search (object):
 			rank += abbrev_w * self.rank_string(abbrev, key)
 
 			com_let = self.common_letters(val, key)
-			if com_let == len(key): com_let *= 3
+			if com_let == len(key): com_let *= common_bonus_w
 			rank += common_letter_w * com_let
 			rank += common_letter_w * self.common_letters(abbrev, key)
 			return rank
