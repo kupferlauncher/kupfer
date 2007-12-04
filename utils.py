@@ -1,20 +1,42 @@
 from os import path
 
+import atexit
+
 icon_cache = {}
+
+def icon_stats():
+	print len(icon_cache)
+	print icon_cache.keys()
+	c = 0
+	for k in icon_cache:
+		if "_hits" in k:
+			print k, icon_cache[k]
+			c += 1
+		else:
+			pass#icon_cache[k].save("random"+path.basename(k), "png", {})
+	print len(icon_cache) -c, "unused cache entries"
+
+
+atexit.register(icon_stats)
 
 def get_icon(key):
 	"""
 	try retrieve icon in cache
-	returns a tuple so it can be concisely called with a for loop
+	is a generator so it can be concisely called with a for loop
 	"""
 	if key not in icon_cache:
-		return ()
-	return (icon_cache[key],)
+		return
+	print "Retrieved icon", key
+	nkey = key+"_hits"
+	n = icon_cache.get(nkey, 0)
+	icon_cache[nkey] = 1+n
+	yield icon_cache[key]
 
 def store_icon(key, icon):
 	if key in icon_cache:
 		raise Exception("already in cache")
 	icon_cache[key] = icon
+	print "Loaded icon", key
 
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
@@ -143,10 +165,16 @@ def get_icon_for_desktop_item(desktop_item, icon_size):
 
 
 def get_icon_from_file(icon_file, icon_size):
+	# try to load from cache
+	for icon in get_icon(icon_file):
+		return icon
+
 	from gtk.gdk import pixbuf_new_from_file_at_size
 	from gobject import GError
 	try:
-		return pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
+		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
+		store_icon(icon_file, icon)
+		return icon
 	except GError, info:
 		print info
 		return None
