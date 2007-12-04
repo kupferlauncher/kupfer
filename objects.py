@@ -232,6 +232,20 @@ class OpenWith (Action):
 	def __init__(self, desktop_item, name):
 		Action.__init__(self, name)
 		self.desktop_item = desktop_item
+		self.preprocess_item()
+	
+	def preprocess_item(self):
+		from gnomedesktop import KEY_EXEC
+		exc = self.desktop_item.get_string(KEY_EXEC)
+		if not exc:
+			return
+		parts = exc.split()
+		if len(parts) > 1:
+			return
+		print "Desktop item", exc, "seems to take no files in exec"
+		newexc = exc + " %F"
+		print "Setting KEY_EXEC to", newexc
+		self.desktop_item.set_string(KEY_EXEC, newexc)
 	
 	def activate(self, leaf):
 		filepath = leaf.object
