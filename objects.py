@@ -170,7 +170,13 @@ class SourceLeaf (Leaf):
 class AppLeaf (Leaf):
 	def __init__(self, item):
 		from gnomedesktop import KEY_NAME, KEY_EXEC
-		value = "%s (%s)" % (item.get_localestring(KEY_NAME), item.get_string(KEY_NAME))
+		loc_name = item.get_localestring(KEY_NAME)
+		name = item.get_string(KEY_NAME)
+		if name != loc_name or not loc_name:
+			value = "%s (%s)" % (loc_name, name)
+		else:
+			value = name
+
 		Leaf.__init__(self, item, value)
 	
 	def get_actions(self):
