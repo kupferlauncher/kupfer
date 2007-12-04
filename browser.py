@@ -196,6 +196,7 @@ class Search (gtk.Bin):
 	def _show_table(self):
 		self.scroller.show()
 		self.scroller.set_size_request(1,200)
+		self.table.columns_autosize()
 
 	def _get_cur_object(self):
 		path, col = self.table.get_cursor()
