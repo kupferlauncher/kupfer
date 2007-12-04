@@ -281,14 +281,11 @@ class Search (gtk.Bin):
 		"""
 		return the best items
 		"""
-		# print "Type in search string"
-		# in_str = raw_input()
 		self.model_iterator = iter(self.search_object.search_objects(text))
 		
 		# get the best object
 		self.model.clear()
 		top = self.populate_model(self.model_iterator, 1)
-		# extract the top object
 		return top
 	
 	def _changed(self, editable):
