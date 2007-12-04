@@ -110,7 +110,7 @@ class FileLeaf (Leaf):
 		acts = [Echo(), Dragbox()]
 		default = None
 		if path.isdir(self.object):
-			acts.extend([OpenTerminal()])
+			acts.extend([OpenTerminal(), SearchInside()])
 			default = OpenDirectory()
 		else:
 			type = gnomevfs.get_mime_type(self.object)
@@ -196,7 +196,8 @@ class AppLeaf (Leaf):
 		Leaf.__init__(self, item, value)
 	
 	def get_actions(self):
-		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True))
+		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True),
+			Echo())
 
 	def get_pixbuf(self):
 		from gtk import icon_theme_get_default
@@ -243,8 +244,10 @@ class Echo (Action):
 	def activate(self, leaf):
 		print "Echo"
 		print "\n".join("%s: %s" % (k, v) for k,v in
-				zip(("Leaf", "Name", "Object", "Value", "Id"),
-					(repr(leaf), leaf.name, leaf.object, leaf.value, id(leaf))))
+			zip(("Leaf", "Name", "Object", "Value",
+				"Id", "Actions", "Content"),
+				(repr(leaf), leaf.name, leaf.object, leaf.value, id(leaf),
+				leaf.get_actions(), leaf.has_content())))
 
 class OpenWith (Action):
 	"""
@@ -383,7 +386,7 @@ class DesktopLaunch (Launch):
 
 class SearchInside (Action):
 	"""
-	A factory action: works on a SourceLeaf object
+	A factory action: works on a Leaf object with content
 	
 	Return a new source with the contents of the Leaf
 	"""
@@ -394,7 +397,9 @@ class SearchInside (Action):
 		return True
 	
 	def activate(self, leaf):
-		return leaf.object
+		if not leaf.has_content():
+			raise InvalidLeaf("Must have content")
+		return leaf.content_source()
 
 	def get_icon_name(self):
 		from gtk import STOCK_FIND
