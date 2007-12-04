@@ -25,6 +25,13 @@ def remove_chars(s, clist):
 	"""
 	return "".join([c for c in s if c not in clist])
 
+
+def remove_chars_unicode(s, clist):
+	"""
+	remove any char in string clist from s and return the result
+	"""
+	return u"".join([c for c in s if c not in clist])
+
 class Rankable (object):
 	"""
 	Rankable has an object (represented item),

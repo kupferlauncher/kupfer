@@ -261,8 +261,8 @@ class Search (gtk.Bin):
 		"""
 		Update interface to display the currently selected match
 		"""
-		text = self.entry.get_text()
 		print "Marking", self.match
+
 		# update icon
 		icon = self.match.get_pixbuf()
 		if icon:
@@ -270,17 +270,44 @@ class Search (gtk.Bin):
 		else:
 			self.icon_view.clear()
 
-		#update text label
-		markup = ""
-		idx = 0
-		from xml.sax.saxutils import escape
-		key = kupfer.remove_chars(text.lower(), " _-.")
-		for n in str(self.match):
-			if idx < len(key) and n.lower() == key[idx]:
-				idx += 1
-				markup += ("<u>"+ escape(n) + "</u>")
-			else:
-				markup += (escape(n))
+		# update text label
+		def escape(c):
+			"""
+			Escape char for markup (use unicode)
+			"""
+			table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
+			if c in table:
+				return table[c]
+			return c
+
+		def markup_match(key, match):
+			"""
+			Return escaped and ascii-encoded markup string
+			"""
+			from codecs import getencoder
+			encoder = getencoder('us-ascii')
+			encode_char = lambda c: encoder(c, 'xmlcharrefreplace')[0]
+
+			markup = u""
+			idx = 0
+			open, close = (u"<u>", u"</u>")
+			for n in match_str:
+				if idx < len(key) and n.lower() == key[idx]:
+					idx += 1
+					markup += (open + escape(n) + close)
+				else:
+					markup += (escape(n))
+			# simplify
+			# compare to T**2 = S.D**2.inv(S)
+			markup = markup.replace(close + open, u"")
+			markup = encode_char(markup)
+			return markup
+
+		text = unicode(self.entry.get_text())
+		match_str = unicode(self.match)
+		key = kupfer.remove_chars_unicode(text.lower(), " _-.")
+		markup = markup_match(key, match_str)
+		print markup
 		self.label.set_markup(markup)
 
 	def set_search_object(self, obj):
