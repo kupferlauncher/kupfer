@@ -516,11 +516,14 @@ class DirectorySource (Source):
 
 class SourcesSource (Source):
 	def __init__(self, sources):
-		super(SourcesSource, self).__init__()
+		super(SourcesSource, self).__init__("Catalog of Catalogs")
 		self.sources = sources
 	
 	def get_items(self):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
+
+	def get_icon_name(self):
+		return "folder-saved-search"
 
 class MultiSource (Source):
 	def __init__(self, sources):
