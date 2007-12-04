@@ -110,6 +110,10 @@ class FileLeaf (Leaf):
 		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
 		return item_new_from_basename(basename, LOAD_ONLY_IF_EXISTS)
 
+	def _is_executable(self):
+		from os import access, X_OK, R_OK
+		return access(self.object, R_OK | X_OK)
+
 	def get_actions(self):
 		acts = [RevealFile(), Dragbox(), Echo()]
 		default = None
@@ -129,6 +133,8 @@ class FileLeaf (Leaf):
 				if id not in apps:
 					acts.append(OpenWith(self._desktop_item(info[0]), info[1]))
 					apps.add(id)
+		if self._is_executable():
+			acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
 		if not default:
 			default = Show()
 		acts.insert(0, default)
@@ -377,7 +383,7 @@ class Launch (Action):
 	"""
 	Launch operation base class
 
-	Launches an application
+	Launches an application (AppLeaf)
 	"""
 	def __init__(self, name=None, in_terminal=False):
 		if not name:
@@ -410,6 +416,24 @@ class DesktopLaunch (Launch):
 	
 	def activate(self, leaf):
 		self.launch_item(leaf.desktop_item)
+
+class Execute (Launch):
+	"""
+	Execute executable file (FileLeaf)
+	"""
+	def __init__(self, name=None, in_terminal=False):
+		if not name:
+			name = "Execute"
+		super(Execute, self).__init__(name)
+		self.in_terminal = in_terminal
+	
+	def activate(self, leaf):
+		from gnomedesktop import KEY_TERMINAL
+		fileloc = leaf.object
+		desktop_item = utils.new_desktop_item(fileloc)
+		desktop_item.set_boolean(KEY_TERMINAL, self.in_terminal)
+		print desktop_item
+		self.launch_item(desktop_item)
 
 class SearchInside (Action):
 	"""
