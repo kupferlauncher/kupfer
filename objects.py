@@ -44,6 +44,19 @@ class KupferObject (object):
 		return self.name
 
 	def get_pixbuf(self):
+		"""
+		Return pixbuf icon representing object
+		"""
+		name = self.get_icon_name()
+		if name:
+			return utils.get_icon_for_name(name, self.icon_size)
+		return None
+	
+	def get_icon_name(self):
+		"""
+		As an alternative to get_pixbuf, subclasses can simply
+		define get_pixbuf_name to use the named icon
+		"""
 		return None
 
 
@@ -213,12 +226,11 @@ class Action (KupferObject):
 		"""
 		return False
 	
-	def get_pixbuf(self):
+	def get_icon_name(self):
 		"""
-		Return a Pixbuf icon representing the action
+		Return a default icon for actions
 		"""
-		name = "utilities-terminal"
-		return utils.get_icon_for_name(name, self.icon_size)
+		return "utilities-terminal"
 
 class Echo (Action):
 	"""
@@ -288,9 +300,9 @@ class OpenDirectory (Show):
 	def __init__(self):
 		super(OpenDirectory, self).__init__("Open")
 
-	def get_pixbuf(self):
+	def get_icon_name(self):
 		from gtk import STOCK_OPEN
-		return utils.get_icon_for_name(STOCK_OPEN, self.icon_size)
+		return STOCK_OPEN
 
 class OpenTerminal (Action):
 	def __init__(self):
@@ -310,10 +322,9 @@ class Dragbox (Action):
 		argv = ["dragbox", "--file", path]
 		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
 	
-	def get_pixbuf(self):
+	def get_icon_name(self):
 		from gtk import STOCK_COPY
-		return utils.get_icon_for_name(STOCK_COPY, self.icon_size)
-
+		return STOCK_COPY
 
 class Launch (Action):
 	"""
@@ -363,9 +374,9 @@ class SearchInside (Action):
 	def activate(self, leaf):
 		return leaf.object
 
-	def get_pixbuf(self):
+	def get_icon_name(self):
 		from gtk import STOCK_FIND
-		return utils.get_icon_for_name(STOCK_FIND, self.icon_size)
+		return STOCK_FIND
 
 
 class Source (KupferObject):
@@ -446,8 +457,8 @@ class FileSource (Source):
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
 
-	def get_pixbuf(self):
-		return utils.get_icon_for_name("folder-saved-search", self.icon_size)
+	def get_icon_name(self):
+		return "folder-saved-search"
 
 class DirectorySource (Source):
 	def __init__(self, dir):
@@ -478,8 +489,8 @@ class DirectorySource (Source):
 			return FileSource.has_parent(self)
 		return DirectorySource(self._parent_path())
 
-	def get_pixbuf(self):
-		return utils.get_icon_for_name("folder", self.icon_size)
+	def get_icon_name(self):
+		return "folder"
 
 class SourcesSource (Source):
 	def __init__(self, sources):
@@ -502,8 +513,8 @@ class MultiSource (Source):
 
 		return itertools.chain(*iterators)
 
-	def get_pixbuf(self):
-		return utils.get_icon_for_name("folder-saved-search", self.icon_size)
+	def get_icon_name(self):
+		return "folder-saved-search"
 
 class AppSource (Source):
 	"""
@@ -515,8 +526,8 @@ class AppSource (Source):
 	def __init__(self):
 		super(AppSource, self).__init__("All Applications")
 	
-	def get_pixbuf(self):
-		return utils.get_icon_for_name("gnome-applications", self.icon_size)
+	def get_icon_name(self):
+		return "gnome-applications"
 
 	def get_items(self):
 		dirs = utils.get_xdg_data_dirs()
