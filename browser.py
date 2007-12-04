@@ -132,7 +132,6 @@ class Search (gtk.Bin):
 		if keyv == uarrow:
 			# go up, simply. close table if we go up from row 0
 			path, col = self.table.get_cursor()
-			print path
 			if path:
 				r = row_at_path(path)
 				if r >= 1:
@@ -147,10 +146,9 @@ class Search (gtk.Bin):
 				path, col = self.table.get_cursor()
 				if path:
 					r = row_at_path(path)
-					print r, len(self.model)
 					if r == -1 + len(self.model):
 						self.populate_model(self.model_iterator, 10)
-					if r < len(self.model):
+					if r < -1 + len(self.model):
 						self.table.set_cursor(path_at_row(r+1))
 				else:
 					self.table.set_cursor(path_at_row(0))
@@ -261,7 +259,6 @@ class Search (gtk.Bin):
 		self.model_iterator = iter(self.search_object.search_base)
 		first = self.populate_model(self.model_iterator)
 		self.set_match(first)
-		print "inited table with", first
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -309,8 +306,6 @@ class Search (gtk.Bin):
 		"""
 		Update interface to display the currently selected match
 		"""
-		print "Marking", self.match
-
 		# update icon
 		icon = self.match.get_pixbuf()
 		if icon:
@@ -355,7 +350,6 @@ class Search (gtk.Bin):
 		match_str = unicode(self.match)
 		key = kupfer.remove_chars_unicode(text.lower(), " _-.")
 		markup = markup_match(key, match_str)
-		print markup
 		self.label.set_markup(markup)
 
 	def set_search_object(self, obj):
@@ -380,7 +374,6 @@ class LeafSearch (Search):
 		Use source as the new leaf source
 		"""
 		self.source = source
-		print "new source", source
 		self.set_search_object(self.make_searchobj(source))
 		self.model_iterator = None
 		self._hide_table()
