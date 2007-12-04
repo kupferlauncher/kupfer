@@ -144,7 +144,12 @@ def get_icon_for_desktop_item(desktop_item, icon_size):
 
 def get_icon_from_file(icon_file, icon_size):
 	from gtk.gdk import pixbuf_new_from_file_at_size
-	return pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
+	from gobject import GError
+	try:
+		return pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
+	except GError, info:
+		print info
+		return None
 
 def get_default_application_icon(icon_size):
 	icon = get_icon_for_name("exec", icon_size)
