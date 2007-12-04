@@ -42,7 +42,7 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 
 	return paths
 
-def get_icon_for_uri(uri, icon_size=48):
+def get_icon_for_uri(uri, icon_size):
 	"""
 	Return a pixbuf representing the file at
 	the URI generally (mime-type based)
@@ -63,7 +63,7 @@ def get_icon_for_uri(uri, icon_size=48):
 	icon_name, num = icon_lookup(icon_theme, thumb_factory,  file_uri=uri, custom_icon="")
 	return get_icon_for_name(icon_name, icon_size)
 
-def get_icon_for_name(icon_name, icon_size=48):
+def get_icon_for_name(icon_name, icon_size):
 	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
 	from gobject import GError
 	icon_theme = icon_theme_get_default()
@@ -73,7 +73,7 @@ def get_icon_for_name(icon_name, icon_size=48):
 		return None
 	return icon
 
-def get_icon_for_desktop_file(desktop_file, icon_size=48):
+def get_icon_for_desktop_file(desktop_file, icon_size):
 	"""
 	Return the icon of a given desktop file path
 	"""
@@ -82,7 +82,7 @@ def get_icon_for_desktop_file(desktop_file, icon_size=48):
 
 	return get_icon_for_desktop_item(desktop_item, icon_size)
 
-def get_icon_for_desktop_name(desktop_name, icon_size=48):
+def get_icon_for_desktop_name(desktop_name, icon_size):
 	"""
 	Return the icon of a desktop item given its basename
 	"""
@@ -91,7 +91,7 @@ def get_icon_for_desktop_name(desktop_name, icon_size=48):
 
 	return get_icon_for_desktop_item(desktop_item, icon_size)
 
-def get_icon_for_desktop_item(desktop_item, icon_size=48):
+def get_icon_for_desktop_item(desktop_item, icon_size):
 	"""
 	Return the pixbuf of a given desktop item
 
@@ -119,11 +119,11 @@ def get_icon_for_desktop_item(desktop_item, icon_size=48):
 	return get_icon_from_file(icon_file, icon_size)
 
 
-def get_icon_from_file(icon_file, icon_size=48):
+def get_icon_from_file(icon_file, icon_size):
 	from gtk.gdk import pixbuf_new_from_file_at_size
 	return pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
 
-def get_default_application_icon(icon_size=48):
+def get_default_application_icon(icon_size):
 	icon = get_icon_for_name("exec", icon_size)
 	return icon
 
