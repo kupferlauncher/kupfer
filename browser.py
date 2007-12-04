@@ -51,6 +51,21 @@ class LeafModel (ModelBase):
 		self.append((leaf, str(leaf), rank))
 
 class Search (gtk.Bin):
+	"""
+	A Widget for searching an matching
+
+	Is connected to a kupfer.Search object
+
+	Signals
+	* cursor-changed: def callback(selection)
+		called with new selected (represented) object or None
+	* key-pressed: def callback(selection, keyval)
+		called with selected (represented) object and keyval
+		only called for certain keys, i.e right/left arrow
+	* activate: def callback(selection)
+		called with activated leaf, when the widget is activated
+		by typing enter, double clicking etc
+	"""
 	__gtype_name__ = 'Search'
 	def __init__(self):
 		gobject.GObject.__init__(self)
