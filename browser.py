@@ -62,7 +62,6 @@ class LeafModel (ModelBase):
 		leaf, rank = tupl
 		self.append((leaf, leaf.value, rank))
 
-
 class ActionModel (ModelBase):
 	def __init__(self):
 		ModelBase.__init__(self, str, int )
@@ -361,14 +360,21 @@ class Browser (object):
 		gtk.main_quit()
 
 	def _cursor_changed(self, widget, leaf):
+		"""
+		Selected item changed in Leaves widget
+
+		Updates the Actions widget
+		"""
 		actions = leaf.get_actions()
 		sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
 	
-	def _activate_action(self, widget, act):
-		act.activate(self.leaf_search.get_current())
-	
 	def _key_press(self, widget, leaf, keyval):
+		"""
+		Handle key presses:
+		Right arrow - go into object
+		Left arrow - go to parent
+		"""
 		rightarrow = 0xFF53
 		leftarrow = 0xFF51
 		if keyval == rightarrow:
@@ -386,12 +392,21 @@ class Browser (object):
 			return
 		self.refresh_data()
 
+	def _activate_action(self, widget, action):
+		leaf = self.leaf_search.get_current()
+		self.eval_action(action, leaf)
+	
 	def _activate_object(self, widget, leaf):
-		act = self.action_search.get_current()
-		new_source = act.activate(leaf)
+		action = self.action_search.get_current()
+		self.eval_action(action, leaf)
+	
+	def eval_action(self, action, leaf):
+		"""
+		Evaluate an action with the given leaf
+		"""
+		new_source = action.activate(leaf)
 		# handle actions returning "new contexts"
-		print new_source
-		if act.is_factory() and new_source:
+		if action.is_factory() and new_source:
 			self.push_source(new_source)
 			self.refresh_data()
 
