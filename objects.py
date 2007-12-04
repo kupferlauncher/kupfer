@@ -550,11 +550,18 @@ class MultiSource (Source):
 	def __init__(self, sources):
 		super(MultiSource, self).__init__("Catalog")
 		self.sources = sources
+	
+	def is_dynamic(self):
+		"""
+		MultiSource should be dynamic so some of its content
+		also can be
+		"""
+		return True
 
 	def get_items(self):
 		iterators = []
 		for so in self.sources:
-			it = so.get_items()
+			it = so.get_leaves()
 			iterators.append(it)
 
 		return itertools.chain(*iterators)
