@@ -113,6 +113,9 @@ class FileLeaf (Leaf):
 	def _is_executable(self):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
+	
+	def _is_dir(self):
+		return path.isdir(self.object)
 
 	def get_actions(self):
 		acts = [RevealFile(), Dragbox(), Echo()]
@@ -133,7 +136,7 @@ class FileLeaf (Leaf):
 				if id not in apps:
 					acts.append(OpenWith(self._desktop_item(info[0]), info[1]))
 					apps.add(id)
-		if self._is_executable():
+		if self._is_executable() and not self._is_dir():
 			acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
 		if not default:
 			default = Show()
