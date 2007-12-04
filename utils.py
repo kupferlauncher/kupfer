@@ -1,6 +1,23 @@
 import gnomevfs
 from os import path
 
+icon_cache = {}
+
+def get_icon(key):
+	"""
+	try retrieve icon in cache
+	returns a tuple so it can be concisely called with a for loop
+	"""
+	if key not in icon_cache:
+		return ()
+	return (icon_cache[key],)
+
+def store_icon(key, icon):
+	if key in icon_cache:
+		raise Exception("already in cache")
+	icon_cache[key] = icon
+
+
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
 	Return a list of absolute paths in folder
@@ -64,6 +81,8 @@ def get_icon_for_uri(uri, icon_size):
 	return get_icon_for_name(icon_name, icon_size)
 
 def get_icon_for_name(icon_name, icon_size):
+	for i in get_icon(icon_name):
+		return i
 	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
 	from gobject import GError
 	icon_theme = icon_theme_get_default()
@@ -71,6 +90,7 @@ def get_icon_for_name(icon_name, icon_size):
 		icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
 	except GError:
 		return None
+	store_icon(icon_name, icon)
 	return icon
 
 def get_icon_for_desktop_file(desktop_file, icon_size):
