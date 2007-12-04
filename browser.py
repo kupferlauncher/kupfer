@@ -438,13 +438,13 @@ class ActionSearch (Search):
 	def set_placeholder(self):
 		# setup empty list
 		from objects import DummyAction
-		self.match = DummyAction()
-		icon = self.match.get_pixbuf()
+		act = DummyAction()
+		icon = act.get_pixbuf()
 		dim_icon = icon.copy()
 		icon.saturate_and_pixelate(dim_icon, 0.5, False)
-		self.icon_view.set_from_pixbuf(dim_icon)
-		self.update_match()
 		self.set_match(None)
+		self.label.set_text(str(act))
+		self.icon_view.set_from_pixbuf(dim_icon)
 
 class Browser (object):
 	def __init__(self, datasource):
