@@ -400,6 +400,17 @@ class SearchInside (Action):
 		from gtk import STOCK_FIND
 		return STOCK_FIND
 
+class DummyAction (Action):
+	"""
+	Represents "No action", to be shown when there is no action
+	"""
+	def __init__(self, name=None):
+		if not name:
+			name = "No action available"
+		super(DummyAction, self).__init__(name)
+	
+	def get_icon_name(self):
+		return "exec"
 
 class Source (KupferObject):
 	"""

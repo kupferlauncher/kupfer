@@ -290,7 +290,8 @@ class Search (gtk.Bin):
 		self.model_iterator = iter(self.search_object.search_base)
 		first = self.populate_model(self.model_iterator, num)
 		self.set_match(first)
-		self.update_match()
+		if first:
+			self.update_match()
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -430,14 +431,19 @@ class ActionSearch (Search):
 	def setup_empty(self):
 		if self.search_object:
 			self.init_table()
-			return
-		import utils
-		icon = utils.get_default_application_icon(96)
+			if self.match:
+				return
+		self.set_placeholder()
+	
+	def set_placeholder(self):
+		# setup empty list
+		from objects import DummyAction
+		self.match = DummyAction()
+		icon = self.match.get_pixbuf()
 		dim_icon = icon.copy()
 		icon.saturate_and_pixelate(dim_icon, 0.5, False)
 		self.icon_view.set_from_pixbuf(dim_icon)
-
-		self.label.set_text("Select an object")
+		self.update_match()
 		self.set_match(None)
 
 class Browser (object):
