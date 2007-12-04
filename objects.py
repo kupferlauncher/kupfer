@@ -612,7 +612,7 @@ class BookmarksSource (Source):
 	def get_items(self):
 		from bookmarks import get_firefox_home_file, get_bookmarks
 		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
-		print len(bookmarks)
+		print "Loaded", len(bookmarks), "bookmarks"
 		return (UrlLeaf(book) for book in bookmarks)
 
 	def get_icon_name(self):

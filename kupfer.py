@@ -118,7 +118,6 @@ class Search (object):
 				word_pfx += pfx
 			rank += word_pfx
 
-		if rank > 5: print item.value, "words", rank
 		return rank
 
 	def common_letters(self, s, key, lower=False):
