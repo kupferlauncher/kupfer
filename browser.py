@@ -140,20 +140,16 @@ class Search (gtk.Bin):
 				if old_sel != sel:
 					self.table.show()
 		elif keyv in (larrow, rarrow):
-			path, col = self.table.get_cursor()
-			if not path:
-				path = path_at_row(0)
-			obj = self.model.get_object(path)
-			self.emit("key-pressed", obj, keyv)
+			if keyv == larrow or self.match:
+				self.emit("key-pressed", self.match, keyv)
 		else:
 			if keyv == tabkey:
 				self._hide_table()
 			return False
 
 		path, col = self.table.get_cursor()
-		if not path: path = path_at_row(0)
-		self.match = self.model.get_object(path)
-		self.emit("cursor-changed", self.match)
+		if path:
+			self.set_match(self.model.get_object(path))
 
 		# stop further processing
 		return True
@@ -199,8 +195,16 @@ class Search (gtk.Bin):
 		if not path:
 			self.emit("cursor-changed", None)
 			return
-		self.match = self.model.get_object(path)
+		self.set_match(self.model.get_object(path))
 		self.update_match()
+	
+	def set_match(self, match):
+		"""
+		Set the currently selected (represented) object
+		
+		Emits cursor-changed
+		"""
+		self.match = match
 		self.emit("cursor-changed", self.match)
 
 	def reset(self):
@@ -208,14 +212,17 @@ class Search (gtk.Bin):
 		self.label.set_text("Type to search")
 		self.icon_view.clear()
 		self.model.clear()
+		self.setup_empty()
+	
+	def setup_empty(self):
 		first = None
 		for item in itertools.islice(self.search_object.search_base, 10):
 			self.model.add((item.object, 0))
 			if not first: first = item.object
 		if first:
-			self.match = first
+			self.set_match(first)
 			self.update_match()
-			self.emit("cursor-changed", self.match)
+
 
 	def do_search(self, text):
 		"""
@@ -236,11 +243,10 @@ class Search (gtk.Bin):
 	def _changed(self, editable):
 		text = editable.get_text()
 		if not len(text):
-			self.match = None
+			self.set_match(None)
 			return
-		self.match = self.do_search(text)
+		self.set_match(self.do_search(text))
 		self.update_match()
-		self.emit("cursor-changed", self.match)
 		self._hide_table()
 
 	def update_match(self):
@@ -265,7 +271,7 @@ class Search (gtk.Bin):
 			if c in table:
 				return table[c]
 			return c
-
+		
 		def markup_match(key, match):
 			"""
 			Return escaped and ascii-encoded markup string
@@ -288,7 +294,7 @@ class Search (gtk.Bin):
 			markup = markup.replace(close + open, u"")
 			markup = encode_char(markup)
 			return markup
-
+		
 		text = unicode(self.entry.get_text())
 		match_str = unicode(self.match)
 		key = kupfer.remove_chars_unicode(text.lower(), " _-.")
@@ -317,11 +323,22 @@ class LeafSearch (Search):
 		"""
 		Use source as the new leaf source
 		"""
+		self.source = source
 		self.set_search_object(self.make_searchobj(source))
 
 	def make_searchobj(self, source):
 		leaves = source.get_leaves() 
 		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
+
+	def setup_empty(self):
+		self.icon_view.set_from_pixbuf(self.source.get_pixbuf())
+		self.table.hide()
+		self.label.set_text("(%s)" % self.source)
+
+
+class ActionSearch (Search):
+	pass
+
 
 class Browser (object):
 	def __init__(self, datasource):
@@ -388,8 +405,11 @@ class Browser (object):
 
 		Updates the Actions widget
 		"""
-		actions = leaf.get_actions()
-		sobj = kupfer.Search(((str(act), act) for act in actions))
+		if not leaf:
+			sobj = None
+		else:
+			actions = leaf.get_actions()
+			sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
 	
 	def _key_press(self, widget, leaf, keyval):
