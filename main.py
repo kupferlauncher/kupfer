@@ -12,6 +12,7 @@ def get_options(default_opts=""):
 		-a, -A          search applications
 		-b, -B          firefox bookmarks
 		-c, -C          recent documents
+		-p, -P          nautilus places
 		-d dir, -D dir  add dir as dir source
 		-r dir, -R dir  add dir as recursive dir source
 		--depth d use recursive depth d
@@ -19,7 +20,7 @@ def get_options(default_opts=""):
 		small letter:   catalog item in catalog
 		capital letter: direct inclusion
 	
-	The default is "-AabCc -D ~"
+	The default is "-AabCcPp -D ~"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -27,10 +28,10 @@ def get_options(default_opts=""):
 	if len(argv) > 1:
 		opts = argv[1:]
 	else:
-		opts ="-AabCc -D ~".split()
+		opts ="-AabCcPp -D ~".split()
 
 	try:
-		opts, args = getopt(opts, "AaBbCcD:d:R:r:", "depth=")
+		opts, args = getopt(opts, "AaBbCcPpD:d:R:r:", "depth=")
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -39,7 +40,7 @@ def get_options(default_opts=""):
 	options = {}
 	
 	for k, v in opts:
-		if k in ("-a", "-A", "-b", "-B", "-c", "-C"):
+		if k in ("-a", "-A", "-b", "-B", "-c", "-C", "-p", "-P"):
 			options[k] = True
 		elif k in ("-d", "-D", "-r", "-R"):
 			lst = options.get(k, [])
@@ -82,7 +83,8 @@ def main():
 	sources = {
 			"-b":  objects.BookmarksSource(),
 			"-a":  objects.AppSource(), 
-			"-c":  objects.RecentsSource()
+			"-c":  objects.RecentsSource(),
+			"-p":  objects.PlacesSource()
 	}
 
 	files = {

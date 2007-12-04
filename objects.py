@@ -666,4 +666,17 @@ class RecentsSource (Source):
 	def get_icon_name(self):
 		return "emblem-important"
 
+class PlacesSource (Source):
+	"""
+	Source for items from nautilus bookmarks 
+	"""
+	def __init__(self):
+		super(PlacesSource, self).__init__("Places")
+		self.places_file = "~/.gtk-bookmarks"
+	
+	def get_items(self):
+		return ()
+
+	def get_icon_name(self):
+		return "file-manager"
 
