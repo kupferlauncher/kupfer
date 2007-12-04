@@ -198,6 +198,6 @@ class Search (object):
 		objects = (item for item in self.search_base if item.rank)
 
 		self.rank_objects(objects, key)
-		self.search_base.sort(key=lambda item: item.rank, reverse=True)
+		self.search_base.sort(key=lambda item: (-item.rank, item.value), reverse=False)
 		return self.search_base
 	
