@@ -119,11 +119,16 @@ class Search (gtk.Bin):
 		without losing focus from entry field
 		"""
 		keyv = event.keyval
-		uarrow = 65362
-		darrow = 65364
-		rarrow = 65363
-		larrow = 65361
-		tabkey = 65289
+		sensible = (uarrow, darrow, rarrow, larrow,
+				tabkey, backsp) = (65362, 65364, 65363,
+				65361, 65289, 65288)
+
+		if keyv not in sensible:
+			# exit if not handled
+			return False
+
+		if keyv == backsp:
+			return self._entry_backspace(entry)
 
 		path_at_row = lambda r: (r,)
 		row_at_path = lambda p: p[0]
@@ -172,6 +177,13 @@ class Search (gtk.Bin):
 
 		# stop further processing
 		return True
+	
+	def _entry_backspace(self, entry):
+		"""
+		On backspace, erase field completely
+		"""
+		self.entry.set_text("")
+		return False
 
 	def get_current(self):
 		return self.match
