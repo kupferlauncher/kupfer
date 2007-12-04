@@ -653,19 +653,18 @@ class RecentsSource (Source):
 			day_age = item.get_age()
 			if day_age > self.max_days:
 				break
+			if not item.exists():
+				continue
+
 			uri = item.get_uri()
 			name = item.get_short_name()
-			scheme = gnomevfs.get_uri_scheme(uri)
-			if "file" == scheme:
-				fileloc = gnomevfs.get_local_path_from_uri(uri)
-				if not path.exists(fileloc):
-					continue
+			if item.is_local():
+				fileloc = item.get_uri_display()
 				yield FileLeaf(fileloc, name)
 			else:
 				yield UrlLeaf(uri, name)
 			count += 1
 		print count, "recent items younger than", self.max_days, "days"
-	
 	
 	def get_icon_name(self):
 		return "emblem-important"
