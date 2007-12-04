@@ -424,7 +424,10 @@ class Source (KupferObject):
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
-		super(FileSource, self).__init__()
+		name = path.basename(dirlist[0])
+		if len(dirlist) > 1:
+			name += " et al"
+		super(FileSource, self).__init__(name)
 		self.dirlist = dirlist
 		self.depth = depth
 
@@ -442,6 +445,9 @@ class FileSource (Source):
 
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
+
+	def get_pixbuf(self):
+		return utils.get_icon_for_name("folder-saved-search", self.icon_size)
 
 class DirectorySource (Source):
 	def __init__(self, dir):
