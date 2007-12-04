@@ -442,7 +442,8 @@ class FileSource (Source):
 
 class DirectorySource (Source):
 	def __init__(self, dir):
-		super(DirectorySource, self).__init__()
+		name = path.basename(dir)
+		super(DirectorySource, self).__init__(name)
 		self.directory = dir
 		self.deep = False
 
@@ -461,12 +462,15 @@ class DirectorySource (Source):
 		return path.normpath(path.join(self.directory, path.pardir))
 
 	def has_parent(self):
-		return self.directory != self._parent_path()
+		return not path.samefile(self.directory , self._parent_path())
 
 	def get_parent(self):
 		if not self.has_parent():
 			return FileSource.has_parent(self)
 		return DirectorySource(self._parent_path())
+
+	def get_pixbuf(self):
+		return utils.get_icon_for_name("folder", self.icon_size)
 
 class SourcesSource (Source):
 	def __init__(self, sources):
@@ -478,7 +482,7 @@ class SourcesSource (Source):
 
 class MultiSource (Source):
 	def __init__(self, sources):
-		super(MultiSource, self).__init__()
+		super(MultiSource, self).__init__("Catalog")
 		self.sources = sources
 
 	def get_items(self):
@@ -488,6 +492,9 @@ class MultiSource (Source):
 			iterators.append(it)
 
 		return itertools.chain(*iterators)
+
+	def get_pixbuf(self):
+		return utils.get_icon_for_name("folder-saved-search", self.icon_size)
 
 class AppSource (Source):
 	"""

@@ -93,6 +93,10 @@ class Search (gtk.Bin):
 		self.table.connect("key-press-event", self._key_press)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
+		self.scroller = gtk.ScrolledWindow()
+		self.scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+		self.scroller.add(self.table)
+
 		# infobox: icon and match name
 		infobox = gtk.HBox()
 		infobox.pack_start(self.icon_view, False, False, 0)
@@ -100,11 +104,11 @@ class Search (gtk.Bin):
 		box = gtk.VBox()
 		box.pack_start(infobox, False, False, 0)
 		box.pack_start(self.entry, False, False, 0)
-		box.pack_start(self.table, True, True, 0)
+		box.pack_start(self.scroller, True, True, 0)
 		self.add(box)
 		box.show_all()
-		self.table.hide()
 		self.__child = box
+		self.scroller.hide()
 
 		self.set_focus_chain((self.entry,))
 	
@@ -138,10 +142,14 @@ class Search (gtk.Bin):
 					self.table.set_cursor(path_at_row(r))
 				sel, col = self.table.get_cursor()
 				if old_sel != sel:
-					self.table.show()
+					self._show_table()
 		elif keyv in (larrow, rarrow):
-			if keyv == larrow or self.match:
+			if ((keyv == rarrow and self.match) or
+					(keyv == larrow and not self.match)):
 				self.emit("key-pressed", self.match, keyv)
+			elif keyv == larrow:
+				# reset on larrow
+				self.reset()
 		else:
 			if keyv == tabkey:
 				self._hide_table()
@@ -167,10 +175,14 @@ class Search (gtk.Bin):
 		callback (self.__child, user_data)
 	
 	def _hide_table(self):
-		self.table.hide()
+		self.scroller.hide()
 		# make the window minimal again
 		window = self.get_toplevel()
 		window.resize(1,1)
+
+	def _show_table(self):
+		self.scroller.show()
+		self.scroller.set_size_request(1,200)
 
 	def _get_cur_object(self):
 		path, col = self.table.get_cursor()
@@ -215,6 +227,16 @@ class Search (gtk.Bin):
 		self.setup_empty()
 	
 	def setup_empty(self):
+		if not self.search_object:
+			import utils
+			icon = utils.get_default_application_icon(96)
+			dim_icon = icon.copy()
+			icon.saturate_and_pixelate(dim_icon, 0.5, False)
+			self.icon_view.set_from_pixbuf(dim_icon)
+
+			self.label.set_text("Select an object")
+			self.set_match(None)
+			return
 		first = None
 		for item in itertools.islice(self.search_object.search_base, 10):
 			self.model.add((item.object, 0))
@@ -244,6 +266,8 @@ class Search (gtk.Bin):
 		text = editable.get_text()
 		if not len(text):
 			self.set_match(None)
+			return
+		if not self.search_object:
 			return
 		self.set_match(self.do_search(text))
 		self.update_match()
@@ -324,6 +348,7 @@ class LeafSearch (Search):
 		Use source as the new leaf source
 		"""
 		self.source = source
+		print "new source", source
 		self.set_search_object(self.make_searchobj(source))
 
 	def make_searchobj(self, source):
@@ -331,9 +356,16 @@ class LeafSearch (Search):
 		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
 
 	def setup_empty(self):
-		self.icon_view.set_from_pixbuf(self.source.get_pixbuf())
-		self.table.hide()
+		icon = self.source.get_pixbuf()
+		if icon:
+			dim_icon = icon.copy()
+			icon.saturate_and_pixelate(dim_icon, 0.5, False)
+			self.icon_view.set_from_pixbuf(dim_icon)
+
 		self.label.set_text("(%s)" % self.source)
+		self.set_match(None)
+		# violently grab focus -- we are the prime focus
+		self.entry.grab_focus()
 
 
 class ActionSearch (Search):
