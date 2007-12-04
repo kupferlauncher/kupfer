@@ -122,22 +122,23 @@ class Search (gtk.Bin):
 
 		path_at_row = lambda r: (r,)
 
+		# using (lazy and dangerous) tree path hacking here
 		if keyv in (uarrow, darrow):
-			path, col = self.table.get_cursor()
-			if not path:
-				if keyv == darrow:
-					r = 0
-				else:
-					r = len(self.model)-1
-				path = path_at_row(r)
-				self.table.set_cursor(path)
-			else:
-				r, = path
-				if keyv == darrow: r +=  1
-				else: r -= 1
-				r = r % len(self.model)
-				self.table.set_cursor(path_at_row(r))
-			self.table.show_all()
+			if len(self.model) > 1:
+				path, col = self.table.get_cursor()
+				old_sel = path
+				if not path and keyv == darrow:
+					path = path_at_row(0)
+					self.table.set_cursor(path)
+				elif path:
+					r, = path
+					if keyv == darrow: r +=  1
+					else: r -= 1
+					r = r % len(self.model)
+					self.table.set_cursor(path_at_row(r))
+				sel, col = self.table.get_cursor()
+				if old_sel != sel:
+					self.table.show()
 		elif keyv in (larrow, rarrow):
 			path, col = self.table.get_cursor()
 			if not path:
@@ -308,6 +309,20 @@ gobject.signal_new("key-pressed", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 
+class LeafSearch (Search):
+	"""
+	Customize for leaves search	
+	"""
+	def set_source(self, source):
+		"""
+		Use source as the new leaf source
+		"""
+		self.set_search_object(self.make_searchobj(source))
+
+	def make_searchobj(self, source):
+		leaves = source.get_leaves() 
+		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
+
 class Browser (object):
 	def __init__(self, datasource):
 		"""
@@ -324,7 +339,7 @@ class Browser (object):
 		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		window.connect("destroy", self._destroy)
 		
-		self.leaf_search = Search()
+		self.leaf_search = LeafSearch()
 		self.leaf_search.connect("activate", self._activate_object)
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
@@ -346,11 +361,13 @@ class Browser (object):
 	def source_rebase(self, src):
 		self.source_stack = []
 		self.push_source(src)
+		self.refresh_data()
 	
 	def push_source(self, src):
 		self.source = src
-		self.source.set_refresh_callback(self.refresh_data)
+		#self.source.set_refresh_callback(self.refresh_data)
 		self.source_stack.insert(0, src)
+		self.refresh_data()
 	
 	def pop_source(self):
 		if len(self.source_stack) <= 1:
@@ -358,15 +375,9 @@ class Browser (object):
 		else:
 			self.source_stack.pop(0)
 			self.source = self.source_stack[0]
-
+	
 	def refresh_data(self):
-		self.kupfer = self.make_searchobj()
-		self.match = None
-		self.leaf_search.set_search_object(self.kupfer)	
-
-	def make_searchobj(self):
-		leaves = self.source.get_leaves() 
-		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
+		self.leaf_search.set_source(self.source)
 
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
