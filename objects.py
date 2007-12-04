@@ -237,15 +237,29 @@ class AppLeaf (Leaf):
 
 
 class Action (KupferObject):
+	"""
+	Base class for all actions
+	"""
 	def activate(self, leaf):
+		"""
+		Use this action with leaf
+
+		leaf: a Leaf object
+		"""
 		pass
-	
-	def activate_many(self, leaves):
-		pass
+
+	def is_factory(self):
+		"""
+		If this action returns a new source in activate
+		return True
+		"""
+		return False
 	
 	def get_pixbuf(self):
+		"""
+		Return a Pixbuf icon representing the action
+		"""
 		return utils.get_icon_for_name("utilities-terminal", self.icon_size)
-
 
 class Echo (Action):
 	"""
