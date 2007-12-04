@@ -69,9 +69,8 @@ def main():
 				sources.append(objects.DirectorySource(abs))
 		if "recurs" in options:
 			depth = options.get("depth", 1)
-			for d in options["recurs"]:
-				abs = path.abspath(d)
-				sources.append(objects.FileSource(abs, depth))
+			abs = [path.abspath(d) for d in options["recurs"]]
+			sources.append(objects.FileSource(abs, depth))
 		if "applications" in options:
 			app_source = objects.AppSource()
 			sources.append(app_source)
