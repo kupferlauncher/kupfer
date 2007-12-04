@@ -167,6 +167,9 @@ class SourceLeaf (Leaf):
 	def content_source(self):
 		return self.object
 
+	def get_pixbuf(self):
+		return self.object.get_pixbuf()
+
 class AppLeaf (Leaf):
 	def __init__(self, item):
 		from gnomedesktop import KEY_NAME, KEY_EXEC
@@ -505,6 +508,9 @@ class AppSource (Source):
 	"""
 	def __init__(self):
 		super(AppSource, self).__init__("All Applications")
+	
+	def get_pixbuf(self):
+		return utils.get_icon_for_name("gnome-applications", self.icon_size)
 
 	def get_items(self):
 		dirs = utils.get_xdg_data_dirs()
