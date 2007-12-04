@@ -60,14 +60,16 @@ class Search (gtk.Bin):
 	Is connected to a kupfer.Search object
 
 	Signals
-	* cursor-changed: def callback(selection)
+	* cursor-changed: def callback(widget, selection)
 		called with new selected (represented) object or None
-	* key-pressed: def callback(selection, keyval)
+	* key-pressed: def callback(widget, selection, keyval)
 		called with selected (represented) object and keyval
 		only called for certain keys, i.e right/left arrow
-	* activate: def callback(selection)
+	* activate: def callback(widget, selection)
 		called with activated leaf, when the widget is activated
 		by typing enter, double clicking etc
+	* cancelled: def callback(widget)
+		called when the user cancels in the window (eg types Esc)
 	"""
 	__gtype_name__ = 'Search'
 	def __init__(self):
@@ -139,8 +141,8 @@ class Search (gtk.Bin):
 		"""
 		keyv = event.keyval
 		sensible = (uarrow, darrow, rarrow, larrow,
-				tabkey, backsp) = (65362, 65364, 65363,
-				65361, 65289, 65288)
+				tabkey, backsp, esckey) = (65362, 65364, 65363,
+				65361, 65289, 65288, 65307)
 
 		if keyv not in sensible:
 			# exit if not handled
@@ -148,6 +150,10 @@ class Search (gtk.Bin):
 
 		if keyv == backsp:
 			return self._entry_backspace(entry)
+
+		if keyv == esckey:
+			self.emit("cancelled")
+			return False
 
 		path_at_row = lambda r: (r,)
 		row_at_path = lambda p: p[0]
@@ -393,6 +399,8 @@ gobject.signal_new("key-pressed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_INT, ))
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+gobject.signal_new("cancelled", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
 
 class LeafSearch (Search):
 	"""
@@ -466,6 +474,7 @@ class Browser (object):
 		self.leaf_search.connect("activate", self._activate_object)
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
+		self.leaf_search.connect("cancelled", self._leaf_search_cancelled)
 		
 		self.action_search = ActionSearch()
 		self.action_search.connect("activate", self._activate_action)
@@ -490,11 +499,10 @@ class Browser (object):
 		self.source = src
 		#self.source.set_refresh_callback(self.refresh_data)
 		self.source_stack.insert(0, src)
-		self.refresh_data()
 	
 	def pop_source(self):
 		if len(self.source_stack) <= 1:
-			raise
+			raise Exception
 		else:
 			self.source_stack.pop(0)
 			self.source = self.source_stack[0]
@@ -540,6 +548,14 @@ class Browser (object):
 		else:
 			return
 		self.refresh_data()
+	
+	def _leaf_search_cancelled(self, widget):
+		try:
+			while True:
+				self.pop_source()
+		except:
+			self.refresh_data()
+
 
 	def _activate_action(self, widget, action):
 		leaf = self.leaf_search.get_current()
