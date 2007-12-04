@@ -237,7 +237,7 @@ class OpenWith (Action):
 	"""
 
 	def __init__(self, desktop_item, name):
-		Action.__init__(self, name)
+		Action.__init__(self, "Open with %s" % name)
 		self.desktop_item = desktop_item
 		self.preprocess_item()
 	
