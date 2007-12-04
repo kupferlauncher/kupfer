@@ -229,6 +229,7 @@ class Search (gtk.Bin):
 		if first:
 			self.match = first
 			self.update_match()
+			self.emit("cursor-changed", self.match)
 
 	def do_search(self, text):
 		"""
@@ -255,6 +256,7 @@ class Search (gtk.Bin):
 		self.update_match()
 		self.emit("cursor-changed", self.match)
 		self._hide_table()
+
 	def update_match(self):
 		"""
 		Update interface to display the currently selected match
@@ -300,9 +302,9 @@ class Browser (object):
 		"""
 		self.model = LeafModel()
 		self.actions_model = ActionModel()
+		self.window = self._setup_window()
 		self.source_stack = []
 		self.push_source(datasource)
-		self.window = self._setup_window()
 		self.refresh_data()
 
 	def _setup_window(self):
