@@ -58,7 +58,7 @@ class Search (object):
 		"""
 		items: sequence of (value, object) tuples
 		"""
-		self.wordsep = " .-_"
+		self.wordsep = " .-_/"
 		self.ignorechars = "()[]"
 		self.search_base = []
 		
@@ -167,7 +167,10 @@ class Search (object):
 			rank = 0
 			rank += normal_w * self.rank_string(val, key)
 			rank += abbrev_w * self.rank_string(abbrev, key)
-			rank += common_letter_w * self.common_letters(val, key)
+
+			com_let = self.common_letters(val, key)
+			if com_let == len(key): com_let *= 3
+			rank += common_letter_w * com_let
 			rank += common_letter_w * self.common_letters(abbrev, key)
 			return rank
 
