@@ -73,6 +73,7 @@ class Search (gtk.Bin):
 		self.search_object = None
 		self.callbacks = {}
 		self.match = None
+		self.model_iterator = None
 
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
@@ -227,24 +228,44 @@ class Search (gtk.Bin):
 		self.setup_empty()
 	
 	def setup_empty(self):
-		if not self.search_object:
-			import utils
-			icon = utils.get_default_application_icon(96)
-			dim_icon = icon.copy()
-			icon.saturate_and_pixelate(dim_icon, 0.5, False)
-			self.icon_view.set_from_pixbuf(dim_icon)
-
-			self.label.set_text("Select an object")
-			self.set_match(None)
-			return
-		first = None
-		for item in itertools.islice(self.search_object.search_base, 10):
-			self.model.add((item.object, 0))
-			if not first: first = item.object
-		if first:
-			self.set_match(first)
+		if self.search_object:
+			self.init_table()
 			self.update_match()
+			return
+		import utils
+		icon = utils.get_default_application_icon(96)
+		dim_icon = icon.copy()
+		icon.saturate_and_pixelate(dim_icon, 0.5, False)
+		self.icon_view.set_from_pixbuf(dim_icon)
 
+		self.label.set_text("Select an object")
+		self.set_match(None)
+	
+	def init_table(self):
+		"""
+		Fill table with entries
+		"""
+		self.model_iterator = self.search_object.search_base
+		first = self.populate_model(self.model_iterator)
+		self.set_match(first)
+		print "inited table with", first
+	
+	def populate_model(self, iterator, num=None):
+		"""
+		populate model with num items from iterator
+
+		and return first item inserted
+		if num is none, insert everything
+		"""
+		if num:
+			iterator = itertools.islice(iterator, num)
+		first = None
+		for item in iterator:
+			row = (item.object, item.rank)
+			self.model.add(row)
+			if not first: first = item.object
+		# first.object is a leaf
+		return first
 
 	def do_search(self, text):
 		"""
@@ -252,15 +273,13 @@ class Search (gtk.Bin):
 		"""
 		# print "Type in search string"
 		# in_str = raw_input()
-		ranked_str = self.search_object.search_objects(text)
-
+		self.model_iterator = self.search_object.search_objects(text)
+		
+		# get the best object
 		self.model.clear()
-		for s in itertools.islice(ranked_str, 10):
-			row = (s.object, s.rank)
-			self.model.add(row)
-		top = ranked_str[0]
-		# top.object is a leaf
-		return top.object
+		top = self.populate_model(self.model_iterator, 1)
+		# extract the top object
+		return top
 	
 	def _changed(self, editable):
 		text = editable.get_text()
