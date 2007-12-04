@@ -286,6 +286,7 @@ class Search (gtk.Bin):
 		self.search_object = obj
 		self.reset()
 
+# Take care of gobject things to set up the Search class
 gobject.type_register(Search)
 gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
@@ -387,8 +388,12 @@ class Browser (object):
 
 	def _activate_object(self, widget, leaf):
 		act = self.action_search.get_current()
-		print act
-		act.activate(leaf)
+		new_source = act.activate(leaf)
+		# handle actions returning "new contexts"
+		print new_source
+		if act.is_factory() and new_source:
+			self.push_source(new_source)
+			self.refresh_data()
 
 	def main(self):
 		gtk.main()

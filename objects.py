@@ -215,6 +215,9 @@ class SourceLeaf (Leaf):
 	def has_content(self):
 		return True
 
+	def get_actions(self):
+		return (SearchInside(),)
+
 	def content_source(self):
 		return self.object
 
@@ -376,6 +379,20 @@ class DesktopLaunch (Launch):
 	def activate(self, leaf):
 		self.launch_item(leaf.desktop_item)
 
+class SearchInside (Action):
+	"""
+	A factory action: works on a SourceLeaf object
+	
+	Return a new source with the contents of the Leaf
+	"""
+	def __init__(self):
+		super(SearchInside, self).__init__("Search content...")
+	
+	def is_factory(self):
+		return True
+	
+	def activate(self, leaf):
+		return leaf.object
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
@@ -457,7 +474,7 @@ class AppSource (Source):
 	the desktop files)
 	"""
 	def __init__(self):
-		super(AppSource, self).__init__()
+		super(AppSource, self).__init__("All Applications")
 
 	def get_items(self):
 		dirs = utils.get_xdg_data_dirs()
