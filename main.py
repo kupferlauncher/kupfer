@@ -75,7 +75,7 @@ def main():
 			app_source = objects.AppSource()
 			sources.append(app_source)
 			if len(sources) > 1:
-				sources.append(object.SourcesSource(app_source))
+				sources.append(objects.SourcesSource((app_source,)))
 	
 	hist = {}
 	for s in sources:
