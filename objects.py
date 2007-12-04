@@ -252,6 +252,8 @@ class Echo (Action):
 				"Id", "Actions", "Content"),
 				(repr(leaf), leaf.name, leaf.object, leaf.value, id(leaf),
 				leaf.get_actions(), leaf.has_content())))
+		if type(leaf) == AppLeaf:
+			print ".desktop:", leaf.object.get_location()
 
 class OpenWith (Action):
 	"""
