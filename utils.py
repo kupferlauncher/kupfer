@@ -1,4 +1,3 @@
-import gnomevfs
 from os import path
 
 icon_cache = {}
@@ -106,10 +105,14 @@ def get_icon_for_desktop_name(desktop_name, icon_size):
 	"""
 	Return the icon of a desktop item given its basename
 	"""
+	for icon in get_icon(desktop_name):
+		return icon
 	from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
 	desktop_item = item_new_from_basename(desktop_file, LOAD_ONLY_IF_EXISTS)
 
-	return get_icon_for_desktop_item(desktop_item, icon_size)
+	icon = get_icon_for_desktop_item(desktop_item, icon_size)
+	store_icon(desktop_name, icon)
+	return icon
 
 def get_icon_for_desktop_item(desktop_item, icon_size):
 	"""
