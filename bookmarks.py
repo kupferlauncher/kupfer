@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
+"""
+Original file much thanks to
+http://www.kylo.net/deli.py.txt
+
+Modifications released under GPL v2 (or any later)
+Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+"""
+
 from ConfigParser import RawConfigParser
 from HTMLParser import HTMLParser
 from os.path import join, expanduser, exists, basename
@@ -126,7 +134,15 @@ class BookmarksParser(HTMLParser):
 		if self.inA:
 			self.description += data
 
-def get_bookmarks(bookmarks_file, base_tag):
+def get_bookmarks(bookmarks_file):
+	"""
+	Return a list of bookmarks (dictionaries)
+	
+	each bookmark has the keys:
+	href: URL
+	title: description
+	tags: list of tags/the folder
+	"""
 	# construct and configure the parser
 	parser = BookmarksParser()
 
@@ -135,14 +151,14 @@ def get_bookmarks(bookmarks_file, base_tag):
 
 	# cleanup
 	parser.close()
-	print len(parser.all_items)
+	
+	return parser.all_items
 
 def main():
-	import sys
-
 	# go forth
 	fileloc = get_firefox_home_file("bookmarks.html")
 	print fileloc
-	get_bookmarks(fileloc, "test")
+	print get_bookmarks(fileloc)
 
-main()
+if __name__ == "__main__":
+	main()
