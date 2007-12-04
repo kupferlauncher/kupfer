@@ -72,11 +72,23 @@ class Search (gtk.Bin):
 	__gtype_name__ = 'Search'
 	def __init__(self):
 		gobject.GObject.__init__(self)
+		# object attributes
 		self.model = LeafModel()
 		self.search_object = None
 		self.callbacks = {}
 		self.match = None
 		self.model_iterator = None
+		# internal constants
+		self.show_initial = 10
+		self.show_more = 10
+		self.label_char_width = 25
+		# finally build widget
+		self.build_widget()
+	
+	def build_widget(self):
+		"""
+		Core initalization method that builds the widget
+		"""
 
 		self.entry = gtk.Entry(max=0)
 		self.entry.connect("changed", self._changed)
@@ -86,7 +98,7 @@ class Search (gtk.Bin):
 		from pango import ELLIPSIZE_MIDDLE
 		self.label = gtk.Label("<match>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
-		self.label.set_width_chars(25)
+		self.label.set_width_chars(self.label_char_width)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.icon_view = gtk.Image()
 
@@ -151,17 +163,18 @@ class Search (gtk.Bin):
 				else:
 					self._hide_table()
 		elif keyv == darrow:
-			# load more and more data into the table, lazily
-			if self.search_object and not self.model_iterator:
-				self.init_table(10)
+			# if no data is loaded (frex viewing catalog), load
+			# if too little data is loaded, try load more
+			if self.search_object and not len(self.model):
+				self.init_table(self.show_initial)
 			if self.model_iterator and len(self.model) <= 1:
-				self.populate_model(self.model_iterator, 10)
+				self.populate_model(self.model_iterator, self.show_more)
 			if len(self.model) > 1:
 				path, col = self.table.get_cursor()
 				if path:
 					r = row_at_path(path)
 					if r == -1 + len(self.model):
-						self.populate_model(self.model_iterator, 10)
+						self.populate_model(self.model_iterator, self.show_more)
 					if r < -1 + len(self.model):
 						self.table.set_cursor(path_at_row(r+1))
 				else:
@@ -260,19 +273,8 @@ class Search (gtk.Bin):
 		self.setup_empty()
 	
 	def setup_empty(self):
-		if self.search_object:
-			self.init_table()
-			self.update_match()
-			return
-		import utils
-		icon = utils.get_default_application_icon(96)
-		dim_icon = icon.copy()
-		icon.saturate_and_pixelate(dim_icon, 0.5, False)
-		self.icon_view.set_from_pixbuf(dim_icon)
-
-		self.label.set_text("Select an object")
 		self.set_match(None)
-	
+
 	def init_table(self, num=None):
 		"""
 		Fill table with entries
@@ -413,8 +415,22 @@ class LeafSearch (Search):
 
 
 class ActionSearch (Search):
-	pass
+	"""
+	Customization for Actions
+	"""
+	def setup_empty(self):
+		if self.search_object:
+			self.init_table()
+			self.update_match()
+			return
+		import utils
+		icon = utils.get_default_application_icon(96)
+		dim_icon = icon.copy()
+		icon.saturate_and_pixelate(dim_icon, 0.5, False)
+		self.icon_view.set_from_pixbuf(dim_icon)
 
+		self.label.set_text("Select an object")
+		self.set_match(None)
 
 class Browser (object):
 	def __init__(self, datasource):
@@ -437,7 +453,7 @@ class Browser (object):
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		
-		self.action_search = Search()
+		self.action_search = ActionSearch()
 		self.action_search.connect("activate", self._activate_action)
 
 		box = gtk.HBox()
