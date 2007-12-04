@@ -38,7 +38,10 @@ class LeafModel (ModelBase):
 		self.val_col = 1
 		self.rank_col = 2
 
+		from pango import ELLIPSIZE_MIDDLE
 		cell = gtk.CellRendererText()
+		cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
+		cell.set_property("width-chars", 40)
 		col = gtk.TreeViewColumn("item", cell)
 		nbr_col = gtk.TreeViewColumn("rank", cell)
 
@@ -80,12 +83,16 @@ class Search (gtk.Bin):
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
 
+		from pango import ELLIPSIZE_MIDDLE
 		self.label = gtk.Label("<match>")
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
+		self.label.set_width_chars(25)
+		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.icon_view = gtk.Image()
 
 		self.table = gtk.TreeView(self.model.store)
 		self.table.set_headers_visible(False)
+		self.table.set_property("enable-search", False)
 
 		for col in self.model.columns:
 			self.table.append_column(col)
