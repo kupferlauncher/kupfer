@@ -98,7 +98,7 @@ class FileLeaf (Leaf):
 		default = None
 		if path.isdir(self.object):
 			acts.extend([OpenTerminal()])
-			default = Show(name="Open")
+			default = OpenDirectory()
 		else:
 			type = gnomevfs.get_mime_type(self.object)
 			def_app = gnomevfs.mime_get_default_application(type)
@@ -214,7 +214,8 @@ class Action (KupferObject):
 		"""
 		Return a Pixbuf icon representing the action
 		"""
-		return utils.get_icon_for_name("utilities-terminal", self.icon_size)
+		name = "utilities-terminal"
+		return utils.get_icon_for_name(name, self.icon_size)
 
 class Echo (Action):
 	"""
@@ -280,6 +281,14 @@ class Show (Action):
 	def get_pixbuf(self):
 		return utils.get_default_application_icon(self.icon_size)
 
+class OpenDirectory (Show):
+	def __init__(self):
+		super(OpenDirectory, self).__init__("Open")
+
+	def get_pixbuf(self):
+		from gtk import STOCK_OPEN
+		return utils.get_icon_for_name(STOCK_OPEN, self.icon_size)
+
 class OpenTerminal (Action):
 	def __init__(self):
 		super(OpenTerminal, self).__init__("Open Terminal here")
@@ -297,6 +306,11 @@ class Dragbox (Action):
 		path = leaf.object
 		argv = ["dragbox", "--file", path]
 		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
+	
+	def get_pixbuf(self):
+		from gtk import STOCK_COPY
+		return utils.get_icon_for_name(STOCK_COPY, self.icon_size)
+
 
 class Launch (Action):
 	"""
@@ -345,6 +359,10 @@ class SearchInside (Action):
 	
 	def activate(self, leaf):
 		return leaf.object
+
+	def get_pixbuf(self):
+		from gtk import STOCK_FIND
+		return utils.get_icon_for_name(STOCK_FIND, self.icon_size)
 
 
 class Source (KupferObject):
