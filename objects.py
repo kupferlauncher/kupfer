@@ -296,6 +296,23 @@ class Show (Action):
 	def get_pixbuf(self):
 		return utils.get_default_application_icon(self.icon_size)
 
+class OpenUrl (Action):
+	def __init__(self, name=None):
+		"""
+		open url
+		"""
+		if not name:
+			name = "Open URL"
+		super(OpenUrl, self).__init__(name)
+	
+	def activate(self, leaf):
+		url = leaf.object
+		print "Open url:", url
+		gnomevfs.url_show(url)
+	
+	def get_icon_name(self):
+		return "forward"
+
 class OpenDirectory (Show):
 	def __init__(self):
 		super(OpenDirectory, self).__init__("Open")
@@ -567,5 +584,31 @@ class AppSource (Source):
 				del dirnames[:]
 		
 		return (AppLeaf(item) for item in desktop_files)
+
+
+class UrlLeaf (Leaf):
+	def __init__(self, bookmark):
+		super(UrlLeaf, self).__init__(bookmark["href"], (bookmark["title"])[:40])
+		self.bookmark = bookmark
+	
+	def get_actions(self):
+		return (OpenUrl(),)
+
+	def get_icon_name(self):
+		return "internet-web-browser"
+
+class BookmarksSource (Source):
+	def __init__(self):
+		super(BookmarksSource, self).__init__("Firefox Bookmarks")
+	
+	def get_items(self):
+		from bookmarks import get_firefox_home_file, get_bookmarks
+		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
+		print len(bookmarks)
+		return (UrlLeaf(book) for book in bookmarks)
+
+	def get_icon_name(self):
+		return "internet-web-browser"
+
 
 

@@ -59,7 +59,8 @@ def main():
 		home = path.expanduser("~/")
 		home_source = objects.DirectorySource(home)
 		app_source = objects.AppSource()
-		sources_source = objects.SourcesSource((app_source,))
+		bm_source = objects.BookmarksSource()
+		sources_source = objects.SourcesSource((app_source,bm_source))
 		sources = (home_source, app_source, sources_source)
 	else:
 		sources = []
