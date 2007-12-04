@@ -1,9 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-debug = True
-
+from ConfigParser import RawConfigParser
 from HTMLParser import HTMLParser
+from os.path import join, expanduser, exists, basename
+ 
+def get_firefox_home_file(needed_file):
+    firefox_dir = expanduser("~/.mozilla/firefox/")
+    config = RawConfigParser({"Default" : 0})
+    config.read(expanduser(join(firefox_dir, "profiles.ini")))
+    path = None
+
+    for section in config.sections():
+        if config.has_option(section, "Default") and config.get(section, "Default") == "1":
+            path = config.get (section, "Path")
+            break
+        elif path == None and config.has_option(section, "Path"):
+            path = config.get (section, "Path")
+        
+    if path == None:
+        return ""
+
+    if path.startswith("/"):
+        return join(path, needed_file)
+
+    return join(firefox_dir, path, needed_file)
+
 
 class BookmarksParser(HTMLParser):
 
@@ -18,6 +40,9 @@ class BookmarksParser(HTMLParser):
 		self.href		= ""
 		self.description = ""
 		self.ignore	  = ""
+		
+		self.debug = False
+		self.all_items = []
 
 	def setBaseTag(self, baseTag):
 		self.tags.append(baseTag)
@@ -60,7 +85,7 @@ class BookmarksParser(HTMLParser):
 			self.inH3 = False
 
 		if tag == "a":
-			if debug == True:
+			if self.debug == True:
 				print
 				print "href =", self.href
 				print "description =", self.description
@@ -77,7 +102,12 @@ class BookmarksParser(HTMLParser):
 
 			# actually post here, make sure there's a url to post
 			if validHref:
-				pass
+				bookmark = {
+					"href" : self.href,
+					"title": self.description,
+					"tags" : self.tags
+				}
+				self.all_items.append(bookmark)
 			
 			self.href = ""
 			self.description = ""
@@ -96,28 +126,23 @@ class BookmarksParser(HTMLParser):
 		if self.inA:
 			self.description += data
 
-def doit(bookmarks_file, base_tag):
+def get_bookmarks(bookmarks_file, base_tag):
 	# construct and configure the parser
 	parser = BookmarksParser()
-	if base_tag and len(base_tag) > 0:
-		parser.setBaseTag(base_tag)
 
 	# initiate the parse; this will submit requests to delicious
 	parser.feed(open(bookmarks_file).read())
 
 	# cleanup
 	parser.close()
-	print parser.tags
-
-def usage():
-	print "Usage: deli.py --bookmarks=<file> --username=<username> --password=<password [--tag=<tags>]"
-	print "	   bookmarks, username, password should be self explanatory"
-	print "	   tags is a white-space separated list of tags to apply to all bookmarks"
+	print len(parser.all_items)
 
 def main():
 	import sys
 
 	# go forth
-	doit(sys.argv[1], "test")
+	fileloc = get_firefox_home_file("bookmarks.html")
+	print fileloc
+	get_bookmarks(fileloc, "test")
 
 main()
