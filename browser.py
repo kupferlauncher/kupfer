@@ -41,12 +41,15 @@ class LeafModel (ModelBase):
 		from pango import ELLIPSIZE_MIDDLE
 		cell = gtk.CellRendererText()
 		cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
-		cell.set_property("width-chars", 40)
+		cell.set_property("width-chars", 50)
 		col = gtk.TreeViewColumn("item", cell)
-		nbr_col = gtk.TreeViewColumn("rank", cell)
+
+		nbr_cell = gtk.CellRendererText()
+		nbr_cell.set_property("width-chars", 4)
+		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
 
 		col.add_attribute(cell, "text", self.val_col)
-		nbr_col.add_attribute(cell, "text", self.rank_col)
+		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
 		self.columns = (col, nbr_col)
 
 	def add(self, tupl):
@@ -119,6 +122,12 @@ class Search (gtk.Bin):
 		self.scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
 		self.scroller.add(self.table)
 
+		self.list_window = gtk.Window()
+		self.list_window.set_decorated(False)
+		self.list_window.set_transient_for(self.window)
+		self.list_window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+		self.list_window.set_destroy_with_parent(True)
+
 		# infobox: icon and match name
 		infobox = gtk.HBox()
 		infobox.pack_start(self.icon_view, True, True, 0)
@@ -126,11 +135,12 @@ class Search (gtk.Bin):
 		box.pack_start(infobox, False, False, 0)
 		box.pack_start(self.label, True, True, 0)
 		box.pack_start(self.entry, False, False, 0)
-		box.pack_start(self.scroller, True, True, 0)
 		self.add(box)
 		box.show_all()
 		self.__child = box
-		self.scroller.hide()
+
+		self.list_window.add(self.scroller)
+		self.scroller.show_all()
 
 		self.set_focus_chain((self.entry,))
 	
@@ -237,15 +247,15 @@ class Search (gtk.Bin):
 		callback (self.__child, user_data)
 	
 	def _hide_table(self):
-		self.scroller.hide()
-		# make the window minimal again
-		window = self.get_toplevel()
-		window.resize(1,1)
+		self.list_window.hide()
 
 	def _show_table(self):
-		self.scroller.show()
-		self.scroller.set_size_request(1,200)
-		self.table.columns_autosize()
+		wid, hei = self.window.get_size()
+		pos_x, pos_y = self.window.get_position()
+		lowerc = pos_y + hei
+		self.list_window.move(pos_x, lowerc)
+		self.list_window.resize(wid, 200)
+		self.list_window.show()
 
 	def _get_cur_object(self):
 		path, col = self.table.get_cursor()
