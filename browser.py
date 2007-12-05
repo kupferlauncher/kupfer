@@ -99,7 +99,7 @@ class Search (gtk.Bin):
 
 		from pango import ELLIPSIZE_MIDDLE
 		self.label = gtk.Label("<match>")
-		self.label.set_justify(gtk.JUSTIFY_LEFT)
+		self.label.set_justify(gtk.JUSTIFY_CENTER)
 		self.label.set_width_chars(self.label_char_width)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.icon_view = gtk.Image()
@@ -121,10 +121,10 @@ class Search (gtk.Bin):
 
 		# infobox: icon and match name
 		infobox = gtk.HBox()
-		infobox.pack_start(self.icon_view, False, False, 0)
-		infobox.pack_start(self.label, False, False, 0)
+		infobox.pack_start(self.icon_view, True, True, 0)
 		box = gtk.VBox()
 		box.pack_start(infobox, False, False, 0)
+		box.pack_start(self.label, True, True, 0)
 		box.pack_start(self.entry, False, False, 0)
 		box.pack_start(self.scroller, True, True, 0)
 		self.add(box)
