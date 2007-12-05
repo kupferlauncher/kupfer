@@ -342,7 +342,7 @@ class Search (gtk.Bin):
 		Update interface to display the currently selected match
 		"""
 		# update icon
-		icon = self.match.get_pixbuf()
+		icon = self.match.get_icon()
 		if icon:
 			self.icon_view.set_from_pixbuf(icon)
 		else:
@@ -420,7 +420,7 @@ class LeafSearch (Search):
 		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
 
 	def setup_empty(self):
-		icon = self.source.get_pixbuf()
+		icon = self.source.get_icon()
 		if icon:
 			dim_icon = icon.copy()
 			icon.saturate_and_pixelate(dim_icon, 0.5, False)
@@ -447,7 +447,7 @@ class ActionSearch (Search):
 		# setup empty list
 		from objects import DummyAction
 		act = DummyAction()
-		icon = act.get_pixbuf()
+		icon = act.get_icon()
 		dim_icon = icon.copy()
 		icon.saturate_and_pixelate(dim_icon, 0.3, False)
 		self.set_match(None)

@@ -39,6 +39,8 @@ class KupferObject (object):
 	"""
 	icon_size = 96
 	def __init__(self, name):
+		if not name:
+			name = self.__class__.__name__
 		self.name = name
 	
 	def __repr__(self):
@@ -47,13 +49,25 @@ class KupferObject (object):
 	def __str__(self):
 		return self.name
 
+	def get_icon(self):
+		"""
+		Returns an icon in pixbuf format.
+
+		Subclasses should implement get_pixbuf or get_icon_name
+		The methods are tried in that order.
+		"""
+		pbuf = self.get_pixbuf()
+		if pbuf:
+			return pbuf
+		icon_name = self.get_icon_name()
+		if icon_name:
+			return utils.get_icon_for_name(icon_name, self.icon_size)
+		return None
+
 	def get_pixbuf(self):
 		"""
 		Return pixbuf icon representing object
 		"""
-		name = self.get_icon_name()
-		if name:
-			return utils.get_icon_for_name(name, self.icon_size)
 		return None
 	
 	def get_icon_name(self):
@@ -195,6 +209,9 @@ class SourceLeaf (Leaf):
 
 	def get_pixbuf(self):
 		return self.object.get_pixbuf()
+
+	def get_icon_name(self):
+		return self.object.get_icon_name()
 
 class AppLeaf (Leaf):
 	def __init__(self, item):
