@@ -1,7 +1,5 @@
 from os import path
 
-import atexit
-
 icon_cache = {}
 
 def get_icon(key):
@@ -11,7 +9,6 @@ def get_icon(key):
 	"""
 	if key not in icon_cache:
 		return
-	print "Retrieved icon", key
 	rec = icon_cache[key]
 	rec["accesses"] += 1
 	yield rec["icon"]
@@ -21,8 +18,6 @@ def store_icon(key, icon):
 		raise Exception("already in cache")
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
-	print "Loaded icon", key
-
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
