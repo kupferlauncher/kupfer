@@ -5,17 +5,21 @@ import atexit
 icon_cache = {}
 
 def icon_stats():
-	print len(icon_cache)
-	print icon_cache.keys()
 	c = 0
+	tot_acc = 0
+	tot_pix = 0
 	for k in icon_cache:
-		if "_hits" in k:
-			print k, icon_cache[k]
+		rec = icon_cache[k]
+		acc = rec["accesses"]
+		if not acc:
 			c += 1
-		else:
-			pass#icon_cache[k].save("random"+path.basename(k), "png", {})
-	print len(icon_cache) -c, "unused cache entries"
-
+		tot_acc += acc
+		icon = rec["icon"]
+		tot_pix += icon.get_height() * icon.get_width()
+	print "Cached icons:",  len(icon_cache)
+	print "Unused cache entries", len(icon_cache) -c
+	print "Total accesses", tot_acc
+	print "Sum pixels", tot_pix
 
 atexit.register(icon_stats)
 
@@ -27,15 +31,15 @@ def get_icon(key):
 	if key not in icon_cache:
 		return
 	print "Retrieved icon", key
-	nkey = key+"_hits"
-	n = icon_cache.get(nkey, 0)
-	icon_cache[nkey] = 1+n
-	yield icon_cache[key]
+	rec = icon_cache[key]
+	rec["accesses"] += 1
+	yield rec["icon"]
 
 def store_icon(key, icon):
 	if key in icon_cache:
 		raise Exception("already in cache")
-	icon_cache[key] = icon
+	icon_rec = {"icon":icon, "accesses":0}
+	icon_cache[key] = icon_rec
 	print "Loaded icon", key
 
 
