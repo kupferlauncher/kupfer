@@ -14,6 +14,7 @@ import gnomevfs
 import itertools
 from os import path
 
+import icons
 import utils
 
 class Error (Exception):
@@ -61,7 +62,7 @@ class KupferObject (object):
 			return pbuf
 		icon_name = self.get_icon_name()
 		if icon_name:
-			return utils.get_icon_for_name(icon_name, self.icon_size)
+			return icons.get_icon_for_name(icon_name, self.icon_size)
 		return None
 
 	def get_pixbuf(self):
@@ -168,7 +169,7 @@ class FileLeaf (Leaf):
 
 	def get_pixbuf(self):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
-		icon = utils.get_icon_for_uri(uri, self.icon_size)
+		icon = icons.get_icon_for_uri(uri, self.icon_size)
 		return icon
 
 class DesktopLeaf (FileLeaf):
@@ -192,7 +193,7 @@ class DesktopLeaf (FileLeaf):
 		return False
 
 	def get_pixbuf(self):
-		icon = utils.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
+		icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
 		if not icon:
 			return super(DesktopLeaf, self).get_pixbuf()
 		return icon
@@ -234,8 +235,8 @@ class AppLeaf (Leaf):
 		icon_file = self.object.get_icon(icon_theme_get_default())
 		#icon_file = gnomevfs.get_local_path_from_uri(icon_uri)
 		if not icon_file:
-			return utils.get_default_application_icon(self.icon_size)
-		return utils.get_icon_from_file(icon_file, self.icon_size)
+			return icons.get_default_application_icon(self.icon_size)
+		return icons.get_icon_from_file(icon_file, self.icon_size)
 
 
 class Action (KupferObject):
@@ -309,9 +310,9 @@ class OpenWith (Action):
 		self.desktop_item.launch([filepath], 0)
 	
 	def get_pixbuf(self):
-		app_icon = utils.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
+		app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
 		if not app_icon:
-			app_icon = utils.get_default_application_icon(self.icon_size)
+			app_icon = icons.get_default_application_icon(self.icon_size)
 		return app_icon
 
 class OpenUrl (Action):
@@ -424,7 +425,7 @@ class Launch (Action):
 		self.launch_item(desktop_item)
 	
 	def get_pixbuf(self):
-		return utils.get_default_application_icon(self.icon_size)
+		return icons.get_default_application_icon(self.icon_size)
 
 class DesktopLaunch (Launch):
 	"""

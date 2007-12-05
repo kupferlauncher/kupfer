@@ -34,23 +34,22 @@ def mem_stats():
 	print "\n".join("%s: %d" % (k,v) for k,v in our)
 
 def icon_stats():
-	import utils
+	from icons import icon_cache
 	print "DEBUG: ICON STATS"
 
-	cache = utils.icon_cache
 	c = 0
 	tot_acc = 0
 	tot_pix = 0
-	for k in cache:
-		rec = cache[k]
+	for k in icon_cache:
+		rec = icon_cache[k]
 		acc = rec["accesses"]
 		if not acc:
 			c += 1
 		tot_acc += acc
 		icon = rec["icon"]
 		tot_pix += icon.get_height() * icon.get_width()
-	print "Cached icons:",  len(cache)
-	print "Unused cache entries", len(cache) -c
+	print "Cached icons:",  len(icon_cache)
+	print "Unused cache entries", len(icon_cache) -c
 	print "Total accesses", tot_acc
 	print "Sum pixels", tot_pix
 
