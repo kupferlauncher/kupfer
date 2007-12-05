@@ -26,11 +26,16 @@ def mem_stats():
 	print "\n".join("%s: %d" % (k,v) for k,v in best[:10])
 
 	our = []
+	gtk = []
 	for item in best:
 		if "objects." in item[0] or "kupfer." in item[0]:
 			our.append(item)
+		if "gtk" in item[0]:
+			gtk.append(item)
 	
-	print "---Just our objects"
+	print "---just gtk (top)"
+	print "\n".join("%s: %d" % (k,v) for k,v in gtk[:10])
+	print "---Just our objects (all)"
 	print "\n".join("%s: %d" % (k,v) for k,v in our)
 
 def icon_stats():
