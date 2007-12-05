@@ -6,6 +6,8 @@ import atexit
 
 def mem_stats():
 	import gc
+	print "DEBUG: OBJ STATS"
+
 	print "enabled:", gc.isenabled()
 	print "objs", len(gc.get_objects())
 	print "collected (now)", gc.collect()
@@ -31,5 +33,26 @@ def mem_stats():
 	print "---Just our objects"
 	print "\n".join("%s: %d" % (k,v) for k,v in our)
 
+def icon_stats():
+	import utils
+	print "DEBUG: ICON STATS"
+
+	cache = utils.icon_cache
+	c = 0
+	tot_acc = 0
+	tot_pix = 0
+	for k in cache:
+		rec = cache[k]
+		acc = rec["accesses"]
+		if not acc:
+			c += 1
+		tot_acc += acc
+		icon = rec["icon"]
+		tot_pix += icon.get_height() * icon.get_width()
+	print "Cached icons:",  len(cache)
+	print "Unused cache entries", len(cache) -c
+	print "Total accesses", tot_acc
+	print "Sum pixels", tot_pix
 
 atexit.register(mem_stats)
+atexit.register(icon_stats)

@@ -4,25 +4,6 @@ import atexit
 
 icon_cache = {}
 
-def icon_stats():
-	c = 0
-	tot_acc = 0
-	tot_pix = 0
-	for k in icon_cache:
-		rec = icon_cache[k]
-		acc = rec["accesses"]
-		if not acc:
-			c += 1
-		tot_acc += acc
-		icon = rec["icon"]
-		tot_pix += icon.get_height() * icon.get_width()
-	print "Cached icons:",  len(icon_cache)
-	print "Unused cache entries", len(icon_cache) -c
-	print "Total accesses", tot_acc
-	print "Sum pixels", tot_pix
-
-atexit.register(icon_stats)
-
 def get_icon(key):
 	"""
 	try retrieve icon in cache
