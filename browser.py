@@ -491,10 +491,11 @@ class Browser (object):
 		self.leaf_search.connect("activate", self._activate_object)
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
-		self.leaf_search.connect("cancelled", self._leaf_search_cancelled)
+		self.leaf_search.connect("cancelled", self._search_cancelled)
 
 		self.action_search = ActionSearch()
 		self.action_search.connect("activate", self._activate_action)
+		self.action_search.connect("cancelled", self._search_cancelled)
 
 		window.connect("configure-event", self.leaf_search._window_config)
 		window.connect("configure-event", self.action_search._window_config)
@@ -569,7 +570,7 @@ class Browser (object):
 			return
 		self.refresh_data()
 	
-	def _leaf_search_cancelled(self, widget):
+	def _search_cancelled(self, widget):
 		try:
 			while True:
 				self.pop_source()
