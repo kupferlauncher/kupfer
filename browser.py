@@ -640,6 +640,7 @@ class LeafSearch (Search):
 	def handle_no_matches(self):
 		from objects import DummyLeaf
 		dum = DummyLeaf()
+		self.set_match(None)
 		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
 
 
