@@ -227,6 +227,7 @@ class Search (gtk.Bin):
 		self.match = None
 		self.model_iterator = None
 		self.is_searching =False
+		self.text = ""
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
@@ -238,12 +239,6 @@ class Search (gtk.Bin):
 		"""
 		Core initalization method that builds the widget
 		"""
-
-		self.entry = gtk.Entry(max=0)
-		self.entry.connect("changed", self._changed)
-		self.entry.connect("activate", self._activate)
-		self.entry.connect("key-press-event", self._entry_key_press)
-
 		self.match_view = MatchView()
 
 		self.table = gtk.TreeView(self.model.store)
@@ -267,15 +262,190 @@ class Search (gtk.Bin):
 
 		box = gtk.VBox()
 		box.pack_start(self.match_view, True, True, 0)
-		box.pack_start(self.entry, False, False, 0)
 		self.add(box)
 		box.show_all()
 		self.__child = box
 
 		self.list_window.add(self.scroller)
 		self.scroller.show_all()
+	
+	def _table_key_press(self, treeview, event):
+		"""
+		Catch keypresses in the treeview and divert them
+		"""
+		self.emit("table-event", treeview, event)
+		return True
+	
+	def get_current(self):
+		"""
+		return current selection
+		"""
+		return self.match
 
-		self.set_focus_chain((self.entry,))
+	def do_size_request (self, requisition):
+		requisition.width, requisition.height = self.__child.size_request ()
+
+	def do_size_allocate (self, allocation):
+		self.__child.size_allocate (allocation)
+
+	def do_forall (self, include_internals, callback, user_data):
+		callback (self.__child, user_data)
+	
+	def _get_table_visible(self):
+		return self.list_window.get_property("visible")
+
+	def _hide_table(self):
+		self.list_window.hide()
+
+	def _show_table(self):
+		wid, hei = self.window.get_size()
+		pos_x, pos_y = self.window.get_position()
+		lowerc = pos_y + hei
+		self.list_window.move(pos_x, lowerc)
+		self.list_window.resize(wid, 200)
+		self.list_window.show()
+	
+	def _window_config(self, widget, event):
+		if self._get_table_visible():
+			self._hide_table()
+			gobject.timeout_add(300, self._show_table)
+
+	def _get_cur_object(self):
+		"""
+		FIXME: Should this not be gone and use get_current?
+		"""
+		path, col = self.table.get_cursor()
+		if not path:
+			return None
+		return self.model.get_object(path)
+
+	def _activate(self, entry):
+		obj = self.match
+		self.emit("activate", obj)
+	
+	def _row_activated(self, treeview, path, col):
+		obj = self._get_cur_object()
+		self.emit("activate", obj)
+
+	def _cursor_changed(self, treeview):
+		path, col = treeview.get_cursor()
+		if not path:
+			self.emit("cursor-changed", None)
+			return
+		self.set_match(self.model.get_object(path))
+		self.update_match()
+	
+	def set_match(self, match):
+		"""
+		Set the currently selected (represented) object
+		
+		Emits cursor-changed
+		"""
+		self.match = match
+		self.emit("cursor-changed", self.match)
+
+	def reset(self):
+		self.model.clear()
+		self.setup_empty()
+	
+	def setup_empty(self):
+		self.match_view.set_match_state("No match", None, state=MatchView.NoMatch)
+
+	def init_table(self, num=None):
+		"""
+		Fill table with entries
+		and set match to first entry
+		"""
+		self.model_iterator = iter(self.search_object.search_base)
+		first = self.populate_model(self.model_iterator, num)
+		self.set_match(first)
+		if first:
+			self.update_match()
+	
+	def populate_model(self, iterator, num=None):
+		"""
+		populate model with num items from iterator
+
+		and return first item inserted
+		if num is none, insert everything
+		"""
+		if num:
+			iterator = itertools.islice(iterator, num)
+		first = None
+		for item in iterator:
+			row = (item.object, item.rank)
+			self.model.add(row)
+			if not first: first = item.object
+		# first.object is a leaf
+		return first
+
+	def run_search(self, text):	
+		self.text = text
+		if not self.search_object:
+			return
+		self._hide_table()
+		if not self.is_searching:
+			gobject.timeout_add(150, self._update_search)
+			self.is_searching = True
+
+	def do_search(self):
+		"""
+		return the best items
+		"""
+		self.model.clear()
+		matches = self.search_object.search_objects(self.text)
+		self.model_iterator = iter(matches)
+		if not len(matches):
+			self.handle_no_matches()
+			return None
+		
+		# get the best object
+		top = self.populate_model(self.model_iterator, 1)
+		return top
+	
+	def _update_search(self):
+		match = self.do_search()
+		print "Searching", self.text
+		if match:
+			self.set_match(match)
+			self.update_match()
+		self.is_searching = False
+
+	def update_match(self):
+		text = self.text
+		self.match_view.set_match_state(str(self.match), self.match.get_icon(), match=text)
+
+	def set_search_object(self, obj):
+		self.search_object = obj
+		self.reset()
+	
+	def handle_no_matches(self):
+		pass
+
+# Take care of gobject things to set up the Search class
+gobject.type_register(Search)
+gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+gobject.signal_new("key-pressed", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_INT, ))
+gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+gobject.signal_new("cancelled", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
+gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_OBJECT))
+
+class Controller (gobject.GObject):
+	__gtype_name__ = "Controller"
+	def __init__(self, entry, search, action):
+		self.entry = entry
+		self.search = search
+		self.action = action
+
+		self.entry.connect("changed", self._changed)
+		self.entry.connect("activate", self._activate)
+		self.entry.connect("key-press-event", self._entry_key_press)
+
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -348,176 +518,16 @@ class Search (gtk.Bin):
 
 		# stop further processing
 		return True
-	
-	def _table_key_press(self, treeview, event):
-		"""
-		Catch keypresses in the treeview and divert them
-		"""
-		self.entry.grab_focus()
-		self.entry.emit("key-press-event", event)
-		return True
-	
-	def get_current(self):
-		"""
-		return current selection
-		"""
-		return self.match
 
-	def do_size_request (self, requisition):
-		requisition.width, requisition.height = self.__child.size_request ()
-
-	def do_size_allocate (self, allocation):
-		self.__child.size_allocate (allocation)
-
-	def do_forall (self, include_internals, callback, user_data):
-		callback (self.__child, user_data)
-	
-	def _get_table_visible(self):
-		return self.list_window.get_property("visible")
-
-	def _hide_table(self):
-		self.list_window.hide()
-
-	def _show_table(self):
-		wid, hei = self.window.get_size()
-		pos_x, pos_y = self.window.get_position()
-		lowerc = pos_y + hei
-		self.list_window.move(pos_x, lowerc)
-		self.list_window.resize(wid, 200)
-		self.list_window.show()
-	
-	def _window_config(self, widget, event):
-		if self._get_table_visible():
-			self._hide_table()
-			gobject.timeout_add(300, self._show_table)
-
-	def _get_cur_object(self):
-		"""
-		FIXME: Should this not be gone and use get_current?
-		"""
-		path, col = self.table.get_cursor()
-		if not path:
-			return None
-		return self.model.get_object(path)
-
-	def _activate(self, entry):
-		obj = self.match
-		self.emit("activate", obj)
-	
-	def _row_activated(self, treeview, path, col):
-		obj = self._get_cur_object()
-		self.emit("activate", obj)
-
-	def _cursor_changed(self, treeview):
-		path, col = treeview.get_cursor()
-		if not path:
-			self.emit("cursor-changed", None)
-			return
-		self.set_match(self.model.get_object(path))
-		self.update_match()
-	
-	def set_match(self, match):
-		"""
-		Set the currently selected (represented) object
-		
-		Emits cursor-changed
-		"""
-		self.match = match
-		self.emit("cursor-changed", self.match)
-
-	def reset(self):
-		self.entry.set_text("")
-		self.model.clear()
-		self.setup_empty()
-	
-	def setup_empty(self):
-		self.match_view.set_match_state("No match", None, state=MatchView.NoMatch)
-
-	def init_table(self, num=None):
-		"""
-		Fill table with entries
-		and set match to first entry
-		"""
-		self.model_iterator = iter(self.search_object.search_base)
-		first = self.populate_model(self.model_iterator, num)
-		self.set_match(first)
-		if first:
-			self.update_match()
-	
-	def populate_model(self, iterator, num=None):
-		"""
-		populate model with num items from iterator
-
-		and return first item inserted
-		if num is none, insert everything
-		"""
-		if num:
-			iterator = itertools.islice(iterator, num)
-		first = None
-		for item in iterator:
-			row = (item.object, item.rank)
-			self.model.add(row)
-			if not first: first = item.object
-		# first.object is a leaf
-		return first
-
-	def do_search(self, text):
-		"""
-		return the best items
-		"""
-		self.model.clear()
-		matches = self.search_object.search_objects(text)
-		self.model_iterator = iter(matches)
-		if not len(matches):
-			self.handle_no_matches()
-			return None
-		
-		# get the best object
-		top = self.populate_model(self.model_iterator, 1)
-		return top
+	def _activate(self, widget):
+		pass
 	
 	def _changed(self, editable):
 		text = editable.get_text()
 		if not len(text):
 			return
-		if not self.search_object:
-			return
-		self._hide_table()
-		if not self.is_searching:
-			gobject.timeout_add(150, self._update_search)
-			self.is_searching = True
+		self.search.run_search(text)
 	
-	def _update_search(self):
-		text = self.entry.get_text()
-		match = self.do_search(text)
-		print "Searching", text
-		if match:
-			self.set_match(match)
-			self.update_match()
-		self.is_searching = False
-
-	def update_match(self):
-		text = self.entry.get_text()
-		self.match_view.set_match_state(str(self.match), self.match.get_icon(), match=text)
-
-	def set_search_object(self, obj):
-		self.search_object = obj
-		self.reset()
-	
-	def handle_no_matches(self):
-		pass
-
-
-# Take care of gobject things to set up the Search class
-gobject.type_register(Search)
-gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gobject.signal_new("key-pressed", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_INT, ))
-gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gobject.signal_new("cancelled", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
 
 class LeafSearch (Search):
 	"""
@@ -542,8 +552,6 @@ class LeafSearch (Search):
 		title = "Searching %s..." % self.source
 		self.set_match(None)
 		self.match_view.set_match_state(title, icon, state=MatchView.Wait)
-		# violently grab focus -- we are the prime focus
-		self.entry.grab_focus()
 
 	def handle_no_matches(self):
 		from objects import DummyLeaf
@@ -597,13 +605,17 @@ class Browser (object):
 		window.connect("configure-event", self.leaf_search._window_config)
 		window.connect("configure-event", self.action_search._window_config)
 
+		entry = gtk.Entry()
+		self.controller = Controller(entry, self.leaf_search, self.action_search)
+
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
 		box.pack_start(self.action_search, True, True, 0)
-		self.leaf_search.show()
-		self.action_search.show()
-		box.show()
-		window.add(box)
+		vbox = gtk.VBox()
+		vbox.pack_start(box, True, True, 0)
+		vbox.pack_start(entry, True, True, 0)
+		vbox.show_all()
+		window.add(vbox)
 		window.show()
 		window.set_title("Kupfer")
 		return window
