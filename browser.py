@@ -510,6 +510,7 @@ class Controller (gobject.GObject):
 
 		if keyv == esckey:
 			self.emit("cancelled")
+			self.reset()
 			return False
 
 		if keyv == uarrow:
@@ -519,11 +520,11 @@ class Controller (gobject.GObject):
 		elif keyv in (larrow, rarrow, backsp):
 			match = self.search.get_current()
 			if (keyv == rarrow and match):
-				self.emit("go-down", match)
+				self._browse_down(match)
 			elif keyv in (larrow, backsp):
 				# larrow or backspace will erase or go up
 				if not match:
-					self.emit("go-up", match)
+					self._browse_up(match)
 				else:
 					self.current.reset()
 				self.entry.set_text("")
@@ -536,10 +537,22 @@ class Controller (gobject.GObject):
 		# stop further processing
 		return True
 
+	def reset(self):
+		self.entry.set_text("")
+	
+	def _browse_up(self, match):
+		self.emit("browse-up", match)
+		self.reset()
+	
+	def _browse_down(self, match):
+		self.emit("browse-down", match)
+		self.reset()
+
 	def _activate(self, widget):
 		act = self.action.get_current()
 		obj = self.search.get_current()
 		self.emit("activate", obj, act)
+		self.reset()
 	
 	def _table_event(self, table, event):
 		self.entry.emit("key-pressed", event)
@@ -555,9 +568,9 @@ gobject.signal_new("activate", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 gobject.signal_new("cancelled", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("go-up", Controller, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("browse-up", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-gobject.signal_new("go-down", Controller, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("browse-down", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class LeafSearch (Search):
@@ -633,8 +646,8 @@ class Browser (object):
 		entry = gtk.Entry()
 		self.controller = Controller(entry, self.leaf_search, self.action_search)
 		self.controller.connect("activate", self._activate)
-		self.controller.connect("go-down", self._go_down)
-		self.controller.connect("go-up", self._go_up)
+		self.controller.connect("browse-down", self._browse_down)
+		self.controller.connect("browse-up", self._browse_up)
 		self.controller.connect("cancelled", self._search_cancelled)
 
 		box = gtk.HBox()
@@ -685,7 +698,7 @@ class Browser (object):
 			sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
 	
-	def _go_up(self, controller, leaf):
+	def _browse_up(self, controller, leaf):
 		try:
 			self.pop_source()
 		except:
@@ -693,7 +706,7 @@ class Browser (object):
 				self.source_rebase(self.source.get_parent())
 		self.refresh_data()
 	
-	def _go_down(self, controller, leaf):
+	def _browse_down(self, controller, leaf):
 		if not leaf.has_content():
 			return
 		self.push_source(leaf.content_source())
