@@ -432,10 +432,7 @@ class LeafSearch (Search):
 
 	def setup_empty(self):
 		icon = self.source.get_icon()
-		if icon:
-			dim_icon = icon.copy()
-			icon.saturate_and_pixelate(dim_icon, 0.5, False)
-			self.icon_view.set_from_pixbuf(dim_icon)
+		self.icon_view.set_from_pixbuf(icon)
 
 		title = "Searching %s..." % self.source
 		self.label.set_text(title)
