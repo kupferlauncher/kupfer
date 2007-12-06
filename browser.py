@@ -124,9 +124,7 @@ class Search (gtk.Bin):
 
 		self.list_window = gtk.Window()
 		self.list_window.set_decorated(False)
-		self.list_window.set_transient_for(self.window)
 		self.list_window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
-		self.list_window.set_destroy_with_parent(True)
 
 		# infobox: icon and match name
 		infobox = gtk.HBox()
@@ -143,7 +141,7 @@ class Search (gtk.Bin):
 		self.scroller.show_all()
 
 		self.set_focus_chain((self.entry,))
-	
+
 	def _entry_key_press(self, entry, event):
 		"""
 		Intercept arrow keys and manipulate table
@@ -256,8 +254,11 @@ class Search (gtk.Bin):
 		self.list_window.move(pos_x, lowerc)
 		self.list_window.resize(wid, 200)
 		self.list_window.show()
-
+	
 	def _get_cur_object(self):
+		"""
+		FIXME: Should this not be gone and use get_current?
+		"""
 		path, col = self.table.get_cursor()
 		if not path:
 			return None
@@ -485,7 +486,7 @@ class Browser (object):
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		self.leaf_search.connect("cancelled", self._leaf_search_cancelled)
-		
+
 		self.action_search = ActionSearch()
 		self.action_search.connect("activate", self._activate_action)
 
