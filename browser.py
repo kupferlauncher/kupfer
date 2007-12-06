@@ -480,7 +480,7 @@ gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
 
-class Controller (gobject.GObject):
+class Interface (gobject.GObject):
 	"""
 	Controller object that controls the input and
 	the state (current active) search object/widget
@@ -494,9 +494,15 @@ class Controller (gobject.GObject):
 	* browse-down
 		rightarrow: try to go down in hierarchy
 	"""
-	__gtype_name__ = "Controller"
+	__gtype_name__ = "Interface"
 
-	def __init__(self, entry, search, action):
+	def __init__(self, entry, search, action, window):
+		"""
+		entry: gtk.Entry
+		search: source search controller
+		action: action search controller
+		window: toplevel window
+		"""
 		gobject.GObject.__init__(self)
 		self.entry = entry
 		self.search = search
@@ -511,6 +517,9 @@ class Controller (gobject.GObject):
 		self.search.connect("activate", self._activate)
 		self.action.connect("activate", self._activate)
 		self.search.connect("cursor-changed", self._search_match_changed)
+		window.connect("configure-event", self.search._window_config)
+		window.connect("configure-event", self.action._window_config)
+
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -604,14 +613,14 @@ class Controller (gobject.GObject):
 			return
 		self.current.run_search(text)
 
-gobject.type_register(Controller)
-gobject.signal_new("activate", Controller, gobject.SIGNAL_RUN_LAST,
+gobject.type_register(Interface)
+gobject.signal_new("activate", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
-gobject.signal_new("cancelled", Controller, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("browse-up", Controller, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("browse-up", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-gobject.signal_new("browse-down", Controller, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("browse-down", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class LeafSearch (Search):
@@ -661,47 +670,18 @@ class ActionSearch (Search):
 		dum = DummyAction()
 		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
 
-class Browser (object):
-	def __init__(self, datasource):
-		"""
-		"""
-		self.window = self._setup_window()
+
+class DataController (object):
+	"""
+	Sources <-> Actions controller
+	"""
+	def __init__(self, datasource, leaf_search, action_search):
 		self.source_stack = []
 		self.push_source(datasource)
-		self.refresh_data()
-
-	def _setup_window(self):
-		"""
-		Returns window
-		"""
-		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		window.connect("destroy", self._destroy)
-		
-		self.leaf_search = LeafSearch()
+		self.leaf_search = leaf_search
+		self.action_search = action_search
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
-
-		self.action_search = ActionSearch()
-		window.connect("configure-event", self.leaf_search._window_config)
-		window.connect("configure-event", self.action_search._window_config)
-
-		entry = gtk.Entry()
-		self.controller = Controller(entry, self.leaf_search, self.action_search)
-		self.controller.connect("activate", self._activate)
-		self.controller.connect("browse-down", self._browse_down)
-		self.controller.connect("browse-up", self._browse_up)
-		self.controller.connect("cancelled", self._search_cancelled)
-
-		box = gtk.HBox()
-		box.pack_start(self.leaf_search, True, True, 0)
-		box.pack_start(self.action_search, True, True, 0)
-		vbox = gtk.VBox()
-		vbox.pack_start(box, True, True, 0)
-		vbox.pack_start(entry, True, True, 0)
-		vbox.show_all()
-		window.add(vbox)
-		window.show()
-		window.set_title("Kupfer")
-		return window
+		self.refresh_data()
 
 	def source_rebase(self, src):
 		self.source_stack = []
@@ -722,15 +702,12 @@ class Browser (object):
 	
 	def refresh_data(self):
 		self.leaf_search.set_source(self.source)
-
-	def _destroy(self, widget, data=None):
-		gtk.main_quit()
-
-	def _cursor_changed(self, widget, leaf):
+	
+	def refresh_actions(self, leaf):
 		"""
-		Selected item changed in Leaves widget
+		Updates the Actions widget, given a selected leaf object
 
-		Updates the Actions widget
+		leaf can be none
 		"""
 		if not leaf:
 			sobj = None
@@ -738,6 +715,12 @@ class Browser (object):
 			actions = leaf.get_actions()
 			sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
+
+	def _cursor_changed(self, widget, leaf):
+		"""
+		Selected item changed in Leaves widget
+		"""
+		self.refresh_actions(leaf)
 	
 	def _browse_up(self, controller, leaf):
 		try:
@@ -775,6 +758,51 @@ class Browser (object):
 		if action.is_factory() and new_source:
 			self.push_source(new_source)
 			self.refresh_data()
+
+class WindowController (object):
+	"""
+	This is the fundamental Window (and App) Controller
+	"""
+	def __init__(self, datasource):
+		"""
+		"""
+		self.window = self._setup_window()
+		self.data_controller = DataController(datasource, self.leaf_search,
+				self.action_search)
+		self.interface.connect("activate", self.data_controller._activate)
+		self.interface.connect("browse-down", self.data_controller._browse_down)
+		self.interface.connect("browse-up", self.data_controller._browse_up)
+		self.interface.connect("cancelled", self.data_controller._search_cancelled)
+
+	def _setup_window(self):
+		"""
+		Returns window
+		"""
+		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		window.connect("destroy", self._destroy)
+		
+		self.leaf_search = LeafSearch()
+
+		self.action_search = ActionSearch()
+
+		entry = gtk.Entry()
+		self.interface = Interface(entry, self.leaf_search,
+				self.action_search, window)
+
+		box = gtk.HBox()
+		box.pack_start(self.leaf_search, True, True, 0)
+		box.pack_start(self.action_search, True, True, 0)
+		vbox = gtk.VBox()
+		vbox.pack_start(box, True, True, 0)
+		vbox.pack_start(entry, True, True, 0)
+		vbox.show_all()
+		window.add(vbox)
+		window.show()
+		window.set_title("Kupfer")
+		return window
+
+	def _destroy(self, widget, data=None):
+		gtk.main_quit()
 
 	def main(self):
 		gtk.main()

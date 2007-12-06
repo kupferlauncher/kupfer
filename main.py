@@ -127,7 +127,7 @@ def main():
 		print "No sources"
 		raise SystemExit
 
-	w = browser.Browser(root)
+	w = browser.WindowController(root)
 	w.main()
 
 if __name__ == '__main__':
