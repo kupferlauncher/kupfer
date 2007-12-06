@@ -61,6 +61,8 @@ class Search (object):
 		self.wordsep = " .-_/"
 		self.ignorechars = "()[]"
 		self.search_base = []
+		self.old_key = None
+		self.old_list = None
 		
 		for val, obj in items:
 			self.search_base.append(Rankable(val, obj))
@@ -198,6 +200,11 @@ class Search (object):
 		Search all loaded objects with the given key,
 		and return all objects (as Rankables) with non-null rank
 		"""
+		if not self.old_key or not key.startswith(self.old_key):
+			search_base = self.search_base
+			self.old_list = None
+		else:
+			search_base = self.old_list
 		# only sort on worthwhile objects
 		# only filter on first word to make it simple
 		key_parts = split_at(key, self.wordsep)
@@ -207,14 +214,17 @@ class Search (object):
 				key_part = part
 				break
 		part_len = len(key_part)
-		for item in self.search_base:
+		for item in search_base:
 			# item has to contain all of key, in the right order
 			com = self.common_letters(item.value, key_part, lower=True)
 			item.rank = (part_len == com)
 
 		# do the searching
-		objects = [item for item in self.search_base if item.rank]
-		print "Ranked %d of %d" % (len(objects), len(self.search_base))
+		objects = [item for item in search_base if item.rank]
+		print "Ranked %d of %d" % (len(objects), len(search_base))
+
+		self.old_key = key
+		self.old_list = objects
 
 		self.rank_objects(objects, key)
 		objects.sort(key=lambda item: (-item.rank, item.value), reverse=False)
