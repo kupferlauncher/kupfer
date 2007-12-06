@@ -194,13 +194,29 @@ class Search (object):
 	def search_objects(self, key):
 		"""
 		key -- string key
+
+		Search all loaded objects with the given key,
+		and return all objects (as Rankables) with non-null rank
 		"""
 		# only sort on worthwhile objects
+		# only filter on first word to make it simple
+		key_parts = split_at(key, self.wordsep)
+		key_part = key
+		for part in key_parts:
+			if part:
+				key_part = part
+				break
+		part_len = len(key_part)
 		for item in self.search_base:
-			item.rank = self.common_letters(item.value, key, lower=True)
-		objects = (item for item in self.search_base if item.rank)
+			# item has to contain all of key, in the right order
+			com = self.common_letters(item.value, key_part, lower=True)
+			item.rank = (part_len == com)
+
+		# do the searching
+		objects = [item for item in self.search_base if item.rank]
+		print "Ranked %d of %d" % (len(objects), len(self.search_base))
 
 		self.rank_objects(objects, key)
-		self.search_base.sort(key=lambda item: (-item.rank, item.value), reverse=False)
-		return self.search_base
+		objects.sort(key=lambda item: (-item.rank, item.value), reverse=False)
+		return objects
 	
