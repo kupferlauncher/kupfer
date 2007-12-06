@@ -223,14 +223,11 @@ class Search (gtk.Bin):
 	Signals
 	* cursor-changed: def callback(widget, selection)
 		called with new selected (represented) object or None
-	* key-pressed: def callback(widget, selection, keyval)
-		called with selected (represented) object and keyval
-		only called for certain keys, i.e right/left arrow
 	* activate: def callback(widget, selection)
 		called with activated leaf, when the widget is activated
-		by typing enter, double clicking etc
-	* cancelled: def callback(widget)
-		called when the user cancels in the window (eg types Esc)
+		by double-click in table
+	* table-event: def callback(widget, table, event)
+		called when the user types in the table
 	"""
 	__gtype_name__ = 'Search'
 	def __init__(self):
@@ -483,11 +480,19 @@ gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
 
-
 class Controller (gobject.GObject):
 	"""
 	Controller object that controls the input and
 	the state (current active) search object/widget
+
+	Signals:
+	* activate: def callback(controller, leaf, action)
+	* cancelled: def callback(controller)
+		escape was typed
+	* browse-up
+		leftarrow/backspace used to go up
+	* browse-down
+		rightarrow: try to go down in hierarchy
 	"""
 	__gtype_name__ = "Controller"
 
