@@ -537,7 +537,9 @@ class Source (KupferObject):
 			return self.get_items()
 		
 		if not self.cached_items:
+			print "%s: Loading..." % self
 			self.cached_items = aslist(self.get_items())
+			print " loaded %d items" % len(self.cached_items)
 		return self.cached_items
 
 	def has_parent(self):
@@ -712,7 +714,6 @@ class BookmarksSource (Source):
 	def get_items(self):
 		from bookmarks import get_firefox_home_file, get_bookmarks
 		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
-		print "Loaded", len(bookmarks), "bookmarks"
 		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
 
 	def get_icon_name(self):
@@ -745,7 +746,7 @@ class RecentsSource (Source):
 			else:
 				yield UrlLeaf(uri, name)
 			count += 1
-		print count, "recent items younger than", self.max_days, "days"
+		print "items younger than", self.max_days, "days",
 	
 	def get_icon_name(self):
 		return "emblem-important"

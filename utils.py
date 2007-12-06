@@ -88,7 +88,6 @@ def new_desktop_item(exec_path):
 Encoding=UTF-8
 """
 	desktop_string += "\n".join("%s=%s" % (k,v ) for k,v in props.items())
-	print desktop_string
 	
 	desktop_item = item_new_from_string("", desktop_string, len(desktop_string), 0)  
 	return desktop_item

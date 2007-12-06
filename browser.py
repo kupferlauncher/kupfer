@@ -449,7 +449,6 @@ class Search (gtk.Bin):
 	
 	def _update_search(self):
 		match = self.do_search()
-		print "Searching", self.text
 		if match:
 			self.set_match(match)
 			self.update_match()

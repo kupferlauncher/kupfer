@@ -221,7 +221,6 @@ class Search (object):
 
 		# do the searching
 		objects = [item for item in search_base if item.rank]
-		print "Ranked %d of %d" % (len(objects), len(search_base))
 
 		self.old_key = key
 		self.old_list = objects
