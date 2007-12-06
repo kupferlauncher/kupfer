@@ -156,9 +156,6 @@ class Search (gtk.Bin):
 			# exit if not handled
 			return False
 
-		if keyv == backsp:
-			return self._entry_backspace(entry)
-
 		if keyv == esckey:
 			self.emit("cancelled")
 			return False
@@ -194,13 +191,16 @@ class Search (gtk.Bin):
 				else:
 					self.table.set_cursor(path_at_row(0))
 				self._show_table()
-		elif keyv in (larrow, rarrow):
-			if ((keyv == rarrow and self.match) or
-					(keyv == larrow and not self.match)):
+		elif keyv in (larrow, rarrow, backsp):
+			if (keyv == rarrow and self.match):
 				self.emit("key-pressed", self.match, keyv)
-			elif keyv == larrow:
-				# reset on larrow
-				self.reset()
+			elif keyv in (larrow, backsp):
+				# larrow or backspace will erase or go up
+				if not self.match:
+					self.emit("key-pressed", self.match, larrow)
+				else:
+					self.reset()
+				self.entry.set_text("")
 				self._hide_table()
 		else:
 			if keyv == tabkey:
@@ -214,13 +214,6 @@ class Search (gtk.Bin):
 		# stop further processing
 		return True
 	
-	def _entry_backspace(self, entry):
-		"""
-		On backspace, erase field completely
-		"""
-		self.entry.set_text("")
-		return False
-
 	def _table_key_press(self, treeview, event):
 		"""
 		Catch keypresses in the treeview and divert them
