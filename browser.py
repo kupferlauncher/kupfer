@@ -244,6 +244,9 @@ class Search (gtk.Bin):
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
 	
+	def _get_table_visible(self):
+		return self.list_window.get_property("visible")
+
 	def _hide_table(self):
 		self.list_window.hide()
 
@@ -255,6 +258,11 @@ class Search (gtk.Bin):
 		self.list_window.resize(wid, 200)
 		self.list_window.show()
 	
+	def _window_config(self, widget, event):
+		if self._get_table_visible():
+			self._hide_table()
+			gobject.timeout_add(300, self._show_table)
+
 	def _get_cur_object(self):
 		"""
 		FIXME: Should this not be gone and use get_current?
@@ -487,6 +495,9 @@ class Browser (object):
 
 		self.action_search = ActionSearch()
 		self.action_search.connect("activate", self._activate_action)
+
+		window.connect("configure-event", self.leaf_search._window_config)
+		window.connect("configure-event", self.action_search._window_config)
 
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
