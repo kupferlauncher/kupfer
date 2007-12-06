@@ -305,6 +305,51 @@ class Search (gtk.Bin):
 		self.list_window.resize(wid, 200)
 		self.list_window.show()
 	
+	# table methods
+
+	def go_up(self):
+		"""
+		Upwards in the table
+		"""
+		# using (lazy and dangerous) tree path hacking here
+		path_at_row = lambda r: (r,)
+		row_at_path = lambda p: p[0]
+
+		# go up, simply. close table if we go up from row 0
+		path, col = self.table.get_cursor()
+		if path:
+			r = row_at_path(path)
+			if r >= 1:
+				self.table.set_cursor(path_at_row(r-1))
+			else:
+				self._hide_table()
+	
+	def go_down(self):
+		"""
+		Down in the table
+		"""
+		# using (lazy and dangerous) tree path hacking here
+		path_at_row = lambda r: (r,)
+		row_at_path = lambda p: p[0]
+
+		# if no data is loaded (frex viewing catalog), load
+		# if too little data is loaded, try load more
+		if self.search_object and not len(self.model):
+			self.init_table(self.show_initial)
+		if self.model_iterator and len(self.model) <= 1:
+			self.populate_model(self.model_iterator, self.show_more)
+		if len(self.model) > 1:
+			path, col = self.table.get_cursor()
+			if path:
+				r = row_at_path(path)
+				if r == -1 + len(self.model):
+					self.populate_model(self.model_iterator, self.show_more)
+				if r < -1 + len(self.model):
+					self.table.set_cursor(path_at_row(r+1))
+			else:
+				self.table.set_cursor(path_at_row(0))
+			self._show_table()
+	
 	def _window_config(self, widget, event):
 		if self._get_table_visible():
 			self._hide_table()
@@ -435,13 +480,12 @@ gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 class Controller (gobject.GObject):
 	__gtype_name__ = "Controller"
 
-	Source, Action = (1,2)
 	def __init__(self, entry, search, action):
 		gobject.GObject.__init__(self)
 		self.entry = entry
 		self.search = search
 		self.action = action
-		self.mode = self.Source
+		self.current = search
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
@@ -468,37 +512,10 @@ class Controller (gobject.GObject):
 			self.emit("cancelled")
 			return False
 
-		path_at_row = lambda r: (r,)
-		row_at_path = lambda p: p[0]
-
-		# using (lazy and dangerous) tree path hacking here
 		if keyv == uarrow:
-			# go up, simply. close table if we go up from row 0
-			path, col = self.table.get_cursor()
-			if path:
-				r = row_at_path(path)
-				if r >= 1:
-					self.table.set_cursor(path_at_row(r-1))
-				else:
-					self._hide_table()
+			self.current.go_up()
 		elif keyv == darrow:
-			# if no data is loaded (frex viewing catalog), load
-			# if too little data is loaded, try load more
-			if self.search_object and not len(self.model):
-				self.init_table(self.show_initial)
-			if self.model_iterator and len(self.model) <= 1:
-				self.populate_model(self.model_iterator, self.show_more)
-			if len(self.model) > 1:
-				path, col = self.table.get_cursor()
-				if path:
-					r = row_at_path(path)
-					if r == -1 + len(self.model):
-						self.populate_model(self.model_iterator, self.show_more)
-					if r < -1 + len(self.model):
-						self.table.set_cursor(path_at_row(r+1))
-				else:
-					self.table.set_cursor(path_at_row(0))
-				self._show_table()
+			self.current.go_down()
 		elif keyv in (larrow, rarrow, backsp):
 			match = self.search.get_current()
 			if (keyv == rarrow and match):
@@ -508,28 +525,16 @@ class Controller (gobject.GObject):
 				if not match:
 					self.emit("go-up", match)
 				else:
-					self.reset()
+					self.current.reset()
 				self.entry.set_text("")
-				self._hide_table()
+				self.current._hide_table()
 		else:
 			if keyv == tabkey:
-				self._hide_table()
+				self.current._hide_table()
 			return False
-
-		path, col = self.table.get_cursor()
-		if path:
-			self.set_match(self.model.get_object(path))
-
+	
 		# stop further processing
 		return True
-
-	def _hide_table(self):
-		if self.mode is self.Source:
-			self.search._hide_table()
-	
-	def _show_table(self):
-		if self.mode is self.Source:
-			self.search._show_table()
 
 	def _activate(self, widget):
 		act = self.action.get_current()
