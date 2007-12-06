@@ -435,6 +435,7 @@ gobject.signal_new("cancelled", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_OBJECT))
 
+
 class Controller (gobject.GObject):
 	__gtype_name__ = "Controller"
 	def __init__(self, entry, search, action):
@@ -445,12 +446,10 @@ class Controller (gobject.GObject):
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
-
 		self.search.connect("table-event", self._table_event)
 		self.action.connect("table-event", self._table_event)
 		self.search.connect("activate", self._activate)
 		self.action.connect("activate", self._activate)
-
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -502,12 +501,13 @@ class Controller (gobject.GObject):
 					self.table.set_cursor(path_at_row(0))
 				self._show_table()
 		elif keyv in (larrow, rarrow, backsp):
-			if (keyv == rarrow and self.match):
-				self.emit("key-pressed", self.match, keyv)
+			match = self.search.get_current()
+			if (keyv == rarrow and match):
+				self.emit("go-down", match)
 			elif keyv in (larrow, backsp):
 				# larrow or backspace will erase or go up
-				if not self.match:
-					self.emit("key-pressed", self.match, larrow)
+				if not match:
+					self.emit("go-up", match)
 				else:
 					self.reset()
 				self.entry.set_text("")
@@ -541,9 +541,10 @@ class Controller (gobject.GObject):
 gobject.type_register(Controller)
 gobject.signal_new("activate", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
-
-
-	
+gobject.signal_new("go-up", Controller, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
+gobject.signal_new("go-down", Controller, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class LeafSearch (Search):
 	"""
@@ -609,7 +610,6 @@ class Browser (object):
 		window.connect("destroy", self._destroy)
 		
 		self.leaf_search = LeafSearch()
-		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		self.leaf_search.connect("cancelled", self._search_cancelled)
 
@@ -622,6 +622,8 @@ class Browser (object):
 		entry = gtk.Entry()
 		self.controller = Controller(entry, self.leaf_search, self.action_search)
 		self.controller.connect("activate", self._activate)
+		self.controller.connect("go-down", self._go_down)
+		self.controller.connect("go-up", self._go_up)
 
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
@@ -671,29 +673,20 @@ class Browser (object):
 			sobj = kupfer.Search(((str(act), act) for act in actions))
 		self.action_search.set_search_object(sobj)
 	
-	def _key_press(self, widget, leaf, keyval):
-		"""
-		Handle key presses:
-		Right arrow - go into object
-		Left arrow - go to parent
-		"""
-		rightarrow = 0xFF53
-		leftarrow = 0xFF51
-		if keyval == rightarrow:
-			if not leaf.has_content():
-				return
-			self.push_source(leaf.content_source())
-			
-		elif keyval == leftarrow:
-			try:
-				self.pop_source()
-			except:
-				if self.source.has_parent():
-					self.source_rebase(self.source.get_parent())
-		else:
-			return
+	def _go_up(self, controller, leaf):
+		try:
+			self.pop_source()
+		except:
+			if self.source.has_parent():
+				self.source_rebase(self.source.get_parent())
 		self.refresh_data()
 	
+	def _go_down(self, controller, leaf):
+		if not leaf.has_content():
+			return
+		self.push_source(leaf.content_source())
+		self.refresh_data()
+
 	def _search_cancelled(self, widget):
 		try:
 			while True:
