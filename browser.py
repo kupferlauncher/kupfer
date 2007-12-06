@@ -77,6 +77,10 @@ class MatchView (gtk.Bin):
 		self.cur_text = None
 		self.cur_match = None
 
+		newc = gtk.gdk.color_parse("#cccccc")
+		self.event_box.modify_bg(gtk.STATE_SELECTED, newc)
+	
+
 	def build_widget(self):
 		"""
 		Core initalization method that builds the widget
@@ -94,9 +98,11 @@ class MatchView (gtk.Bin):
 		box = gtk.VBox()
 		box.pack_start(infobox, False, False, 0)
 		box.pack_start(self.label, True, True, 0)
-		self.add(box)
-		box.show_all()
-		self.__child = box
+		self.event_box = gtk.EventBox()
+		self.event_box.add(box)
+		self.add(self.event_box)
+		self.event_box.show_all()
+		self.__child = self.event_box
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -196,6 +202,15 @@ class MatchView (gtk.Bin):
 		self.set_match(match, state, update=False)
 		if update:
 			self.update_match()
+	
+	def set_state(self, state):
+		"""
+		Widget state (Active/normal/prelight etc)
+		"""
+		super(MatchView, self).set_state(state)
+		#self.label.set_state(gtk.STATE_NORMAL)
+		self.event_box.queue_draw()
+	
 
 gobject.type_register(MatchView)
 
@@ -306,7 +321,6 @@ class Search (gtk.Bin):
 		self.list_window.show()
 	
 	# table methods
-
 	def go_up(self):
 		"""
 		Upwards in the table
@@ -466,6 +480,11 @@ class Search (gtk.Bin):
 	
 	def handle_no_matches(self):
 		pass
+	
+	def set_active(self, act):
+		self.active = act
+		state = (gtk.STATE_NORMAL, gtk.STATE_SELECTED)[act]
+		self.match_view.set_state(state)
 
 # Take care of gobject things to set up the Search class
 gobject.type_register(Search)
@@ -485,7 +504,8 @@ class Controller (gobject.GObject):
 		self.entry = entry
 		self.search = search
 		self.action = action
-		self.current = search
+		self.current = None
+		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
@@ -511,6 +531,7 @@ class Controller (gobject.GObject):
 		if keyv == esckey:
 			self.emit("cancelled")
 			self.reset()
+			self.switch_to_source()
 			return False
 
 		if keyv == uarrow:
@@ -532,6 +553,7 @@ class Controller (gobject.GObject):
 		else:
 			if keyv == tabkey:
 				self.current._hide_table()
+				self.switch_current()
 			return False
 	
 		# stop further processing
@@ -539,6 +561,24 @@ class Controller (gobject.GObject):
 
 	def reset(self):
 		self.entry.set_text("")
+		self.current._hide_table()
+	
+	def switch_to_source(self):
+		if self.current is not self.search:
+			self.current = self.search
+			self._update_active()
+	
+	def _update_active(self):
+		self.action.set_active(self.action is self.current)
+		self.search.set_active(self.search is self.current)
+
+	def switch_current(self):
+		if self.current is self.search:
+			self.current = self.action
+		else:
+			self.current = self.search
+		self._update_active()
+		self.reset()
 	
 	def _browse_up(self, match):
 		self.emit("browse-up", match)
@@ -561,7 +601,7 @@ class Controller (gobject.GObject):
 		text = editable.get_text()
 		if not len(text):
 			return
-		self.search.run_search(text)
+		self.current.run_search(text)
 
 gobject.type_register(Controller)
 gobject.signal_new("activate", Controller, gobject.SIGNAL_RUN_LAST,
