@@ -134,10 +134,10 @@ class Search (object):
 			key = key.lower()
 		idx = 0
 		for c in s:
+			if idx == len(key):
+				break
 			if c == key[idx]:
 				idx += 1
-				if idx == len(key):
-					break
 		return idx
 
 	def common_prefix(self, s, key):
@@ -208,11 +208,11 @@ class Search (object):
 		# only sort on worthwhile objects
 		# only filter on first word to make it simple
 		key_parts = split_at(key, self.wordsep)
-		key_part = key
-		for part in key_parts:
-			if part:
-				key_part = part
+		for key_part in key_parts:
+			if key_part:
 				break
+		else:
+			key_part = key
 		part_len = len(key_part)
 		for item in search_base:
 			# item has to contain all of key, in the right order
