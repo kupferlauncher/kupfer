@@ -437,7 +437,8 @@ class LeafSearch (Search):
 			icon.saturate_and_pixelate(dim_icon, 0.5, False)
 			self.icon_view.set_from_pixbuf(dim_icon)
 
-		self.label.set_text("(%s)" % self.source)
+		title = "Searching %s..." % self.source
+		self.label.set_text(title)
 		self.set_match(None)
 		# violently grab focus -- we are the prime focus
 		self.entry.grab_focus()
