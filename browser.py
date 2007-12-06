@@ -438,13 +438,18 @@ gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 class Controller (gobject.GObject):
 	__gtype_name__ = "Controller"
 	def __init__(self, entry, search, action):
+		gobject.GObject.__init__(self)
 		self.entry = entry
 		self.search = search
 		self.action = action
-
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
+
+		self.search.connect("table-event", self._table_event)
+		self.action.connect("table-event", self._table_event)
+		self.search.connect("activate", self._activate)
+		self.action.connect("activate", self._activate)
 
 
 	def _entry_key_press(self, entry, event):
@@ -520,13 +525,24 @@ class Controller (gobject.GObject):
 		return True
 
 	def _activate(self, widget):
-		pass
+		act = self.action.get_current()
+		obj = self.search.get_current()
+		self.emit("activate", obj, act)
+	
+	def _table_event(self, table, event):
+		self.entry.emit("key-pressed", event)
 	
 	def _changed(self, editable):
 		text = editable.get_text()
 		if not len(text):
 			return
 		self.search.run_search(text)
+
+gobject.type_register(Controller)
+gobject.signal_new("activate", Controller, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+
+
 	
 
 class LeafSearch (Search):
@@ -593,13 +609,11 @@ class Browser (object):
 		window.connect("destroy", self._destroy)
 		
 		self.leaf_search = LeafSearch()
-		self.leaf_search.connect("activate", self._activate_object)
 		self.leaf_search.connect("key-pressed", self._key_press)
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		self.leaf_search.connect("cancelled", self._search_cancelled)
 
 		self.action_search = ActionSearch()
-		self.action_search.connect("activate", self._activate_action)
 		self.action_search.connect("cancelled", self._search_cancelled)
 
 		window.connect("configure-event", self.leaf_search._window_config)
@@ -607,6 +621,7 @@ class Browser (object):
 
 		entry = gtk.Entry()
 		self.controller = Controller(entry, self.leaf_search, self.action_search)
+		self.controller.connect("activate", self._activate)
 
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
@@ -687,12 +702,7 @@ class Browser (object):
 			self.refresh_data()
 
 
-	def _activate_action(self, widget, action):
-		leaf = self.leaf_search.get_current()
-		self.eval_action(action, leaf)
-	
-	def _activate_object(self, widget, leaf):
-		action = self.action_search.get_current()
+	def _activate(self, controller, leaf, action):
 		self.eval_action(action, leaf)
 	
 	def eval_action(self, action, leaf):
