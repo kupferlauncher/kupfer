@@ -63,10 +63,14 @@ class MatchView (gtk.Bin):
 	"""
 	__gtype_name__ = "MatchView"
 
+	# match state constants
+	Wait, Match, NoMatch = (1,2,3)
+
 	def __init__(self):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.label_char_width = 25
+		self.match_state = self.Wait
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
@@ -110,6 +114,8 @@ class MatchView (gtk.Bin):
 		# update icon
 		icon = self.cur_icon
 		if icon:
+			if self.match_state is self.NoMatch:
+				icon = self._dim_icon(icon)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
 			self.icon_view.clear()
@@ -118,7 +124,7 @@ class MatchView (gtk.Bin):
 			self.label.set_text("<no text>")
 			return
 		
-		if not self.cur_match:
+		if not self.cur_match or self.match_state is not self.Match:
 			self.label.set_text(self.cur_text)
 			return
 
@@ -161,18 +167,33 @@ class MatchView (gtk.Bin):
 		markup = markup_match(key, text)
 		self.label.set_markup(markup)
 	
-	def set_no_match(self, text, icon):
+	@classmethod
+	def _dim_icon(cls, icon):
 		if icon:
 			dim_icon = icon.copy()
 			icon.saturate_and_pixelate(dim_icon, 0.3, False)
 		else:
 			dim_icon = None
-		self.set_match(text, dim_icon, None)
-	
-	def set_match(self, text, icon, match, update=True):
+		return dim_icon
+
+	def set_object(self, text, icon, update=True):
 		self.cur_text = text
 		self.cur_icon = icon
+		if update:
+			self.update_match()
+	
+	def set_match(self, match=None, state=None, update=True):
 		self.cur_match = match
+		if state:
+			self.match_state = state
+		else:
+			self.match_state = (self.NoMatch, self.Match)[self.cur_match != None]
+		if update:
+			self.update_match()
+	
+	def set_match_state(self, text, icon, match=None, state=None, update=True):
+		self.set_object(text,icon, update=False)
+		self.set_match(match, state, update=False)
 		if update:
 			self.update_match()
 
@@ -410,7 +431,7 @@ class Search (gtk.Bin):
 		self.setup_empty()
 	
 	def setup_empty(self):
-		self.match_view.set_match("No match", None, None)
+		self.match_view.set_match_state("No match", None, state=MatchView.NoMatch)
 
 	def init_table(self, num=None):
 		"""
@@ -477,7 +498,7 @@ class Search (gtk.Bin):
 
 	def update_match(self):
 		text = self.entry.get_text()
-		self.match_view.set_match(str(self.match), self.match.get_icon(), text)
+		self.match_view.set_match_state(str(self.match), self.match.get_icon(), match=text)
 
 	def set_search_object(self, obj):
 		self.search_object = obj
@@ -520,14 +541,14 @@ class LeafSearch (Search):
 
 		title = "Searching %s..." % self.source
 		self.set_match(None)
-		self.match_view.set_no_match(title, icon)
+		self.match_view.set_match_state(title, icon, state=MatchView.Wait)
 		# violently grab focus -- we are the prime focus
 		self.entry.grab_focus()
 
 	def handle_no_matches(self):
 		from objects import DummyLeaf
 		dum = DummyLeaf()
-		self.match_view.set_no_match(str(dum), dum.get_icon())
+		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
 
 
 class ActionSearch (Search):
@@ -545,7 +566,7 @@ class ActionSearch (Search):
 	def handle_no_matches(self):
 		from objects import DummyAction
 		dum = DummyAction()
-		self.match_view.set_no_match(str(dum), dum.get_icon())
+		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
 
 class Browser (object):
 	def __init__(self, datasource):
