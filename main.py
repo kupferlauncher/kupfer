@@ -19,6 +19,7 @@ def get_options(default_opts=""):
 		--depth d use recursive depth d
 
 		--help          show usage help
+		--debug         enable debug info
 
 		small letter:   catalog item in catalog
 		capital letter: direct inclusion
@@ -28,9 +29,12 @@ def get_options(default_opts=""):
 	from getopt import getopt, GetoptError
 	from sys import argv
 
-	if len(argv) > 1:
-		opts = argv[1:]
-	else:
+	opts = argv[1:]
+	if "--debug" in opts:
+		import debug
+		opts.remove("--debug") 
+
+	if len(opts) < 1:
 		opts ="-AabCcPp -D ~".split()
 
 	try:
@@ -68,7 +72,7 @@ def main():
 	print __doc__
 
 	options = get_options()
-	
+
 	s_sources = []
 	S_sources = []
 	default_depth = 1
@@ -127,5 +131,4 @@ def main():
 	w.main()
 
 if __name__ == '__main__':
-	import debug
 	main()
