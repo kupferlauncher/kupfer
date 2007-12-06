@@ -510,6 +510,7 @@ class Controller (gobject.GObject):
 		self.action.connect("table-event", self._table_event)
 		self.search.connect("activate", self._activate)
 		self.action.connect("activate", self._activate)
+		self.search.connect("cursor-changed", self._search_match_changed)
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -590,6 +591,9 @@ class Controller (gobject.GObject):
 		obj = self.search.get_current()
 		self.emit("activate", obj, act)
 		self.reset()
+	
+	def _search_match_changed(self, widget, match):
+		self.switch_to_source()
 	
 	def _table_event(self, widget, table, event):
 		self.entry.emit("key-press-event", event)
