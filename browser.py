@@ -83,6 +83,7 @@ class Search (gtk.Bin):
 		self.callbacks = {}
 		self.match = None
 		self.model_iterator = None
+		self.is_searching =False
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
@@ -349,11 +350,20 @@ class Search (gtk.Bin):
 			return
 		if not self.search_object:
 			return
+		self._hide_table()
+		if not self.is_searching:
+			gobject.timeout_add(150, self._update_search)
+			self.is_searching = True
+	
+	def _update_search(self):
+		text = self.entry.get_text()
 		match = self.do_search(text)
+		print "Searching", text
 		if match:
 			self.set_match(match)
 			self.update_match()
-		self._hide_table()
+		self.is_searching = False
+
 
 	def update_match(self):
 		"""
