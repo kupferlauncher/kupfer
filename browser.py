@@ -56,6 +56,128 @@ class LeafModel (ModelBase):
 		leaf, rank = tupl
 		self.append((leaf, str(leaf), rank))
 
+class MatchView (gtk.Bin):
+	"""
+	A Widget for displaying name, icon and underlining properly if
+	it matches
+	"""
+	__gtype_name__ = "MatchView"
+
+	def __init__(self):
+		gobject.GObject.__init__(self)
+		# object attributes
+		self.label_char_width = 25
+		# finally build widget
+		self.build_widget()
+		self.cur_icon = None
+		self.cur_text = None
+		self.cur_match = None
+
+	def build_widget(self):
+		"""
+		Core initalization method that builds the widget
+		"""
+		from pango import ELLIPSIZE_MIDDLE
+		self.label = gtk.Label("<match>")
+		self.label.set_justify(gtk.JUSTIFY_CENTER)
+		self.label.set_width_chars(self.label_char_width)
+		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
+		self.icon_view = gtk.Image()
+
+		# infobox: icon and match name
+		infobox = gtk.HBox()
+		infobox.pack_start(self.icon_view, True, True, 0)
+		box = gtk.VBox()
+		box.pack_start(infobox, False, False, 0)
+		box.pack_start(self.label, True, True, 0)
+		self.add(box)
+		box.show_all()
+		self.__child = box
+
+	def do_size_request (self, requisition):
+		requisition.width, requisition.height = self.__child.size_request ()
+
+	def do_size_allocate (self, allocation):
+		self.__child.size_allocate (allocation)
+
+	def do_forall (self, include_internals, callback, user_data):
+		callback (self.__child, user_data)
+		
+	def update_match(self):
+		"""
+		Update interface to display the currently selected match
+		"""
+		# update icon
+		icon = self.cur_icon
+		if icon:
+			self.icon_view.set_from_pixbuf(icon)
+		else:
+			self.icon_view.clear()
+
+		if not self.cur_text:
+			self.label.set_text("<no text>")
+			return
+		
+		if not self.cur_match:
+			self.label.set_text(self.cur_text)
+			return
+
+		# update text label
+		def escape(c):
+			"""
+			Escape char for markup (use unicode)
+			"""
+			table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
+			if c in table:
+				return table[c]
+			return c
+		
+		def markup_match(key, text):
+			"""
+			Return escaped and ascii-encoded markup string
+			"""
+			from codecs import getencoder
+			encoder = getencoder('us-ascii')
+			encode_char = lambda c: encoder(c, 'xmlcharrefreplace')[0]
+
+			markup = u""
+			idx = 0
+			open, close = (u"<u>", u"</u>")
+			for n in text:
+				if idx < len(key) and n.lower() == key[idx]:
+					idx += 1
+					markup += (open + escape(n) + close)
+				else:
+					markup += (escape(n))
+			# simplify
+			# compare to T**2 = S.D**2.inv(S)
+			markup = markup.replace(close + open, u"")
+			markup = encode_char(markup)
+			return markup
+		
+		text = unicode(self.cur_text)
+		match = unicode(self.cur_match)
+		key = kupfer.remove_chars_unicode(match.lower(), " _-.")
+		markup = markup_match(key, text)
+		self.label.set_markup(markup)
+	
+	def set_no_match(self, text, icon):
+		if icon:
+			dim_icon = icon.copy()
+			icon.saturate_and_pixelate(dim_icon, 0.3, False)
+		else:
+			dim_icon = None
+		self.set_match(text, dim_icon, None)
+	
+	def set_match(self, text, icon, match, update=True):
+		self.cur_text = text
+		self.cur_icon = icon
+		self.cur_match = match
+		if update:
+			self.update_match()
+
+gobject.type_register(MatchView)
+
 class Search (gtk.Bin):
 	"""
 	A Widget for searching an matching
@@ -101,12 +223,7 @@ class Search (gtk.Bin):
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
 
-		from pango import ELLIPSIZE_MIDDLE
-		self.label = gtk.Label("<match>")
-		self.label.set_justify(gtk.JUSTIFY_CENTER)
-		self.label.set_width_chars(self.label_char_width)
-		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
-		self.icon_view = gtk.Image()
+		self.match_view = MatchView()
 
 		self.table = gtk.TreeView(self.model.store)
 		self.table.set_headers_visible(False)
@@ -127,12 +244,8 @@ class Search (gtk.Bin):
 		self.list_window.set_decorated(False)
 		self.list_window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 
-		# infobox: icon and match name
-		infobox = gtk.HBox()
-		infobox.pack_start(self.icon_view, True, True, 0)
 		box = gtk.VBox()
-		box.pack_start(infobox, False, False, 0)
-		box.pack_start(self.label, True, True, 0)
+		box.pack_start(self.match_view, True, True, 0)
 		box.pack_start(self.entry, False, False, 0)
 		self.add(box)
 		box.show_all()
@@ -293,13 +406,11 @@ class Search (gtk.Bin):
 
 	def reset(self):
 		self.entry.set_text("")
-		self.label.set_text("Type to search")
-		self.icon_view.clear()
 		self.model.clear()
 		self.setup_empty()
 	
 	def setup_empty(self):
-		self.set_match(None)
+		self.match_view.set_match("No match", None, None)
 
 	def init_table(self, num=None):
 		"""
@@ -364,67 +475,13 @@ class Search (gtk.Bin):
 			self.update_match()
 		self.is_searching = False
 
-
 	def update_match(self):
-		"""
-		Update interface to display the currently selected match
-		"""
-		# update icon
-		icon = self.match.get_icon()
-		if icon:
-			self.icon_view.set_from_pixbuf(icon)
-		else:
-			self.icon_view.clear()
-
-		# update text label
-		def escape(c):
-			"""
-			Escape char for markup (use unicode)
-			"""
-			table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
-			if c in table:
-				return table[c]
-			return c
-		
-		def markup_match(key, match):
-			"""
-			Return escaped and ascii-encoded markup string
-			"""
-			from codecs import getencoder
-			encoder = getencoder('us-ascii')
-			encode_char = lambda c: encoder(c, 'xmlcharrefreplace')[0]
-
-			markup = u""
-			idx = 0
-			open, close = (u"<u>", u"</u>")
-			for n in match_str:
-				if idx < len(key) and n.lower() == key[idx]:
-					idx += 1
-					markup += (open + escape(n) + close)
-				else:
-					markup += (escape(n))
-			# simplify
-			# compare to T**2 = S.D**2.inv(S)
-			markup = markup.replace(close + open, u"")
-			markup = encode_char(markup)
-			return markup
-		
-		text = unicode(self.entry.get_text())
-		match_str = unicode(self.match)
-		key = kupfer.remove_chars_unicode(text.lower(), " _-.")
-		markup = markup_match(key, match_str)
-		self.label.set_markup(markup)
+		text = self.entry.get_text()
+		self.match_view.set_match(str(self.match), self.match.get_icon(), text)
 
 	def set_search_object(self, obj):
 		self.search_object = obj
 		self.reset()
-	
-	def set_no_match(self, text, icon):
-		dim_icon = icon.copy()
-		icon.saturate_and_pixelate(dim_icon, 0.3, False)
-		self.set_match(None)
-		self.label.set_text(text)
-		self.icon_view.set_from_pixbuf(dim_icon)
 	
 	def handle_no_matches(self):
 		pass
@@ -460,18 +517,17 @@ class LeafSearch (Search):
 
 	def setup_empty(self):
 		icon = self.source.get_icon()
-		self.icon_view.set_from_pixbuf(icon)
 
 		title = "Searching %s..." % self.source
-		self.label.set_text(title)
 		self.set_match(None)
+		self.match_view.set_no_match(title, icon)
 		# violently grab focus -- we are the prime focus
 		self.entry.grab_focus()
 
 	def handle_no_matches(self):
 		from objects import DummyLeaf
 		dum = DummyLeaf()
-		self.set_no_match(str(dum), dum.get_icon())
+		self.match_view.set_no_match(str(dum), dum.get_icon())
 
 
 class ActionSearch (Search):
@@ -489,7 +545,7 @@ class ActionSearch (Search):
 	def handle_no_matches(self):
 		from objects import DummyAction
 		dum = DummyAction()
-		self.set_no_match(str(dum), dum.get_icon())
+		self.match_view.set_no_match(str(dum), dum.get_icon())
 
 class Browser (object):
 	def __init__(self, datasource):
