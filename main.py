@@ -79,7 +79,7 @@ def main():
 			yield objects.DirectorySource(abs)
 
 	def file_source(opt):
-		depth = options.get("depth", default_depth)
+		depth = int(options.get("depth", default_depth))
 		def abs_paths():
 			for d in options[opt]:
 				abs = path.abspath(path.expanduser(d))
