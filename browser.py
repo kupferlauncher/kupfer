@@ -369,21 +369,8 @@ class Search (gtk.Bin):
 			self._hide_table()
 			gobject.timeout_add(300, self._show_table)
 
-	def _get_cur_object(self):
-		"""
-		FIXME: Should this not be gone and use get_current?
-		"""
-		path, col = self.table.get_cursor()
-		if not path:
-			return None
-		return self.model.get_object(path)
-
-	def _activate(self, entry):
-		obj = self.match
-		self.emit("activate", obj)
-	
 	def _row_activated(self, treeview, path, col):
-		obj = self._get_cur_object()
+		obj = self.get_current()
 		self.emit("activate", obj)
 
 	def _cursor_changed(self, treeview):
@@ -455,6 +442,7 @@ class Search (gtk.Bin):
 		matches = self.search_object.search_objects(self.text)
 		self.model_iterator = iter(matches)
 		if not len(matches):
+			self.set_match(None)
 			self.handle_no_matches()
 			return None
 		
@@ -493,10 +481,14 @@ gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_OBJECT))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
 
 
 class Controller (gobject.GObject):
+	"""
+	Controller object that controls the input and
+	the state (current active) search object/widget
+	"""
 	__gtype_name__ = "Controller"
 
 	def __init__(self, entry, search, action):
@@ -507,7 +499,7 @@ class Controller (gobject.GObject):
 		self.current = None
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
-		self.entry.connect("activate", self._activate)
+		self.entry.connect("activate", self._activate, None)
 		self.entry.connect("key-press-event", self._entry_key_press)
 		self.search.connect("table-event", self._table_event)
 		self.action.connect("table-event", self._table_event)
@@ -588,14 +580,14 @@ class Controller (gobject.GObject):
 		self.emit("browse-down", match)
 		self.reset()
 
-	def _activate(self, widget):
+	def _activate(self, widget, current):
 		act = self.action.get_current()
 		obj = self.search.get_current()
 		self.emit("activate", obj, act)
 		self.reset()
 	
-	def _table_event(self, table, event):
-		self.entry.emit("key-pressed", event)
+	def _table_event(self, widget, table, event):
+		self.entry.emit("key-press-event", event)
 	
 	def _changed(self, editable):
 		text = editable.get_text()
@@ -640,7 +632,6 @@ class LeafSearch (Search):
 	def handle_no_matches(self):
 		from objects import DummyLeaf
 		dum = DummyLeaf()
-		self.set_match(None)
 		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
 
 
@@ -759,7 +750,6 @@ class Browser (object):
 				self.pop_source()
 		except:
 			self.refresh_data()
-
 
 	def _activate(self, controller, leaf, action):
 		self.eval_action(action, leaf)
