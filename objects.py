@@ -591,8 +591,6 @@ class DirectorySource (Source):
 		def file_leaves(files):
 			for file in files:
 				basename = path.basename(file)
-				if path.isdir(file):
-					basename += "/"
 				yield FileLeaf(file, basename)
 
 		return file_leaves(dirlist)
