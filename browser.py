@@ -426,23 +426,22 @@ class Search (gtk.Bin):
 gobject.type_register(Search)
 gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gobject.signal_new("key-pressed", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_INT, ))
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gobject.signal_new("cancelled", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_OBJECT))
 
 
 class Controller (gobject.GObject):
 	__gtype_name__ = "Controller"
+
+	Source, Action = (1,2)
 	def __init__(self, entry, search, action):
 		gobject.GObject.__init__(self)
 		self.entry = entry
 		self.search = search
 		self.action = action
+		self.mode = self.Source
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate)
 		self.entry.connect("key-press-event", self._entry_key_press)
@@ -524,6 +523,14 @@ class Controller (gobject.GObject):
 		# stop further processing
 		return True
 
+	def _hide_table(self):
+		if self.mode is self.Source:
+			self.search._hide_table()
+	
+	def _show_table(self):
+		if self.mode is self.Source:
+			self.search._show_table()
+
 	def _activate(self, widget):
 		act = self.action.get_current()
 		obj = self.search.get_current()
@@ -541,6 +548,8 @@ class Controller (gobject.GObject):
 gobject.type_register(Controller)
 gobject.signal_new("activate", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+gobject.signal_new("cancelled", Controller, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("go-up", Controller, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 gobject.signal_new("go-down", Controller, gobject.SIGNAL_RUN_LAST,
@@ -611,11 +620,8 @@ class Browser (object):
 		
 		self.leaf_search = LeafSearch()
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
-		self.leaf_search.connect("cancelled", self._search_cancelled)
 
 		self.action_search = ActionSearch()
-		self.action_search.connect("cancelled", self._search_cancelled)
-
 		window.connect("configure-event", self.leaf_search._window_config)
 		window.connect("configure-event", self.action_search._window_config)
 
@@ -624,6 +630,7 @@ class Browser (object):
 		self.controller.connect("activate", self._activate)
 		self.controller.connect("go-down", self._go_down)
 		self.controller.connect("go-up", self._go_up)
+		self.controller.connect("cancelled", self._search_cancelled)
 
 		box = gtk.HBox()
 		box.pack_start(self.leaf_search, True, True, 0)
