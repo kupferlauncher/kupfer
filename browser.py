@@ -77,9 +77,10 @@ class MatchView (gtk.Bin):
 		self.cur_text = None
 		self.cur_match = None
 
-		newc = gtk.gdk.color_parse("#cccccc")
+		# Get the current selection color
+		ent = gtk.Entry()
+		newc = ent.style.bg[3]
 		self.event_box.modify_bg(gtk.STATE_SELECTED, newc)
-	
 
 	def build_widget(self):
 		"""
@@ -211,7 +212,6 @@ class MatchView (gtk.Bin):
 		#self.label.set_state(gtk.STATE_NORMAL)
 		self.event_box.queue_draw()
 	
-
 gobject.type_register(MatchView)
 
 class Search (gtk.Bin):
