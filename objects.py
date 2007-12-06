@@ -104,6 +104,16 @@ class Leaf (KupferObject):
 	def get_actions(self):
 		return ()
 
+class DummyLeaf (Leaf):
+	"""
+	Dummy Leaf, representing No Leaf available
+	"""
+	def __init__(self):
+		super(DummyLeaf, self).__init__(None, "No matches")
+	
+	def get_icon_name(self):
+		return "gtk-dialog-warning"
+
 class FileLeaf (Leaf):
 	"""
 	Represents one file

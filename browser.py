@@ -339,10 +339,14 @@ class Search (gtk.Bin):
 		"""
 		return the best items
 		"""
-		self.model_iterator = iter(self.search_object.search_objects(text))
+		self.model.clear()
+		matches = self.search_object.search_objects(text)
+		self.model_iterator = iter(matches)
+		if not len(matches):
+			self.handle_no_matches()
+			return None
 		
 		# get the best object
-		self.model.clear()
 		top = self.populate_model(self.model_iterator, 1)
 		return top
 	
@@ -352,8 +356,10 @@ class Search (gtk.Bin):
 			return
 		if not self.search_object:
 			return
-		self.set_match(self.do_search(text))
-		self.update_match()
+		match = self.do_search(text)
+		if match:
+			self.set_match(match)
+			self.update_match()
 		self._hide_table()
 
 	def update_match(self):
@@ -409,6 +415,17 @@ class Search (gtk.Bin):
 	def set_search_object(self, obj):
 		self.search_object = obj
 		self.reset()
+	
+	def set_no_match(self, text, icon):
+		dim_icon = icon.copy()
+		icon.saturate_and_pixelate(dim_icon, 0.3, False)
+		self.set_match(None)
+		self.label.set_text(text)
+		self.icon_view.set_from_pixbuf(dim_icon)
+	
+	def handle_no_matches(self):
+		pass
+
 
 # Take care of gobject things to set up the Search class
 gobject.type_register(Search)
@@ -448,6 +465,11 @@ class LeafSearch (Search):
 		# violently grab focus -- we are the prime focus
 		self.entry.grab_focus()
 
+	def handle_no_matches(self):
+		from objects import DummyLeaf
+		dum = DummyLeaf()
+		self.set_no_match(str(dum), dum.get_icon())
+
 
 class ActionSearch (Search):
 	"""
@@ -458,18 +480,13 @@ class ActionSearch (Search):
 			self.init_table()
 			if self.match:
 				return
-		self.set_placeholder()
+		self.handle_no_matches()
+		self._hide_table()
 	
-	def set_placeholder(self):
-		# setup empty list
+	def handle_no_matches(self):
 		from objects import DummyAction
-		act = DummyAction()
-		icon = act.get_icon()
-		dim_icon = icon.copy()
-		icon.saturate_and_pixelate(dim_icon, 0.3, False)
-		self.set_match(None)
-		self.label.set_text(str(act))
-		self.icon_view.set_from_pixbuf(dim_icon)
+		dum = DummyAction()
+		self.set_no_match(str(dum), dum.get_icon())
 
 class Browser (object):
 	def __init__(self, datasource):
