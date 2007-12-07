@@ -6,6 +6,10 @@ import gobject
 import itertools
 import kupfer
 
+# State Constants
+class State (object):
+	Wait, Match, NoMatch = (1,2,3)
+
 class ModelBase (object):
 	def __init__(self, *columns):
 		"""
@@ -63,14 +67,11 @@ class MatchView (gtk.Bin):
 	"""
 	__gtype_name__ = "MatchView"
 
-	# match state constants
-	Wait, Match, NoMatch = (1,2,3)
-
 	def __init__(self):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.label_char_width = 25
-		self.match_state = self.Wait
+		self.match_state = State.Wait
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
@@ -121,7 +122,7 @@ class MatchView (gtk.Bin):
 		# update icon
 		icon = self.cur_icon
 		if icon:
-			if self.match_state is self.NoMatch:
+			if self.match_state is State.NoMatch:
 				icon = self._dim_icon(icon)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
@@ -131,7 +132,7 @@ class MatchView (gtk.Bin):
 			self.label.set_text("<no text>")
 			return
 		
-		if not self.cur_match or self.match_state is not self.Match:
+		if not self.cur_match or self.match_state is not State.Match:
 			self.label.set_text(self.cur_text)
 			return
 
@@ -194,7 +195,7 @@ class MatchView (gtk.Bin):
 		if state:
 			self.match_state = state
 		else:
-			self.match_state = (self.NoMatch, self.Match)[self.cur_match != None]
+			self.match_state = (State.NoMatch, State.Match)[self.cur_match != None]
 		if update:
 			self.update_match()
 	
@@ -238,6 +239,7 @@ class Search (gtk.Bin):
 		self.callbacks = {}
 		self.match = None
 		self.model_iterator = None
+		self.match_state = State.Wait
 		self.is_searching =False
 		self.text = ""
 		# internal constants
@@ -293,6 +295,9 @@ class Search (gtk.Bin):
 		return current selection
 		"""
 		return self.match
+
+	def get_match_state(self):
+		return self.match_state
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -385,6 +390,8 @@ class Search (gtk.Bin):
 		Emits cursor-changed
 		"""
 		self.match = match
+		if match:
+			self.match_state = State.Match
 		self.emit("cursor-changed", self.match)
 
 	def reset(self):
@@ -392,7 +399,8 @@ class Search (gtk.Bin):
 		self.setup_empty()
 	
 	def setup_empty(self):
-		self.match_view.set_match_state("No match", None, state=MatchView.NoMatch)
+		self.match_state = State.NoMatch
+		self.match_view.set_match_state("No match", None, state=State.NoMatch)
 
 	def init_table(self, num=None):
 		"""
@@ -550,7 +558,7 @@ class Interface (gobject.GObject):
 				self._browse_down(match)
 			elif keyv in (larrow, backsp):
 				# larrow or backspace will erase or go up
-				if not match:
+				if not match and self.search.get_match_state() is State.Wait:
 					self._browse_up(match)
 				else:
 					self.current.reset()
@@ -644,12 +652,14 @@ class LeafSearch (Search):
 
 		title = "Searching %s..." % self.source
 		self.set_match(None)
-		self.match_view.set_match_state(title, icon, state=MatchView.Wait)
+		self.match_state = State.Wait
+		self.match_view.set_match_state(title, icon, state=State.Wait)
 
 	def handle_no_matches(self):
 		from objects import DummyLeaf
 		dum = DummyLeaf()
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
+		self.match_state = State.NoMatch
+		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
 
 
 class ActionSearch (Search):
@@ -667,7 +677,8 @@ class ActionSearch (Search):
 	def handle_no_matches(self):
 		from objects import DummyAction
 		dum = DummyAction()
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=MatchView.NoMatch)
+		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
+		self.match_state = State.NoMatch
 
 
 class DataController (object):
