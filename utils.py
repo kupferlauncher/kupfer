@@ -76,6 +76,8 @@ def new_desktop_item(exec_path):
 	Return a new desktop item with given exec_path (and name from that) 
 	type Application. The rest can be set with .set_string()
 	on the returned object
+
+	FIXME: This must sadly do a LOT of quoting. Atm NOT done.
 	"""
 	from gnomedesktop import item_new_from_string, KEY_TERMINAL
 	name = path.basename(exec_path)
