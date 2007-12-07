@@ -367,9 +367,18 @@ class Search (gtk.Bin):
 			self._show_table()
 	
 	def _window_config(self, widget, event):
+		"""
+		When the window moves
+		"""
 		if self._get_table_visible():
 			self._hide_table()
 			gobject.timeout_add(300, self._show_table)
+	
+	def _window_hidden(self, window):
+		"""
+		Window changed hid
+		"""
+		self._hide_table()
 
 	def _row_activated(self, treeview, path, col):
 		obj = self.get_current()
@@ -526,6 +535,8 @@ class Interface (gobject.GObject):
 		self.search.connect("cursor-changed", self._search_match_changed)
 		window.connect("configure-event", self.search._window_config)
 		window.connect("configure-event", self.action._window_config)
+		window.connect("hide", self.search._window_hidden)
+		window.connect("hide", self.action._window_hidden)
 
 
 	def _entry_key_press(self, entry, event):
