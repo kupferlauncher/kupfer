@@ -315,11 +315,13 @@ class Search (gtk.Bin):
 		self.list_window.hide()
 
 	def _show_table(self):
-		wid, hei = self.window.get_size()
+		win_width, win_height = self.window.get_size()
 		pos_x, pos_y = self.window.get_position()
-		lowerc = pos_y + hei
+		lowerc = pos_y + win_height
+		table_w, table_len = self.table.size_request()
+		subwin_height = min(table_len, 200)
 		self.list_window.move(pos_x, lowerc)
-		self.list_window.resize(wid, 200)
+		self.list_window.resize(win_width, subwin_height)
 		self.list_window.show()
 	
 	# table methods
