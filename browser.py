@@ -777,6 +777,7 @@ class WindowController (object):
 		"""
 		"""
 		self.window = self._setup_window()
+		self._setup_status_icon()
 		self.data_controller = DataController(datasource, self.leaf_search,
 				self.action_search)
 		self.interface.connect("activate", self.data_controller._activate)
@@ -784,12 +785,25 @@ class WindowController (object):
 		self.interface.connect("browse-up", self.data_controller._browse_up)
 		self.interface.connect("cancelled", self.data_controller._search_cancelled)
 
+	def _setup_status_icon(self):
+		status = gtk.status_icon_new_from_stock(gtk.STOCK_OPEN)
+		status.set_tooltip("Kupfer")
+
+		menu = gtk.Menu()
+		menu_quit = gtk.ImageMenuItem(gtk.STOCK_QUIT)
+		menu_quit.connect("activate", self._destroy)
+		menu.append(menu_quit)
+		menu.show_all()
+
+		status.connect("popup-menu", self._popup_menu, menu)
+		status.connect("activate", self._show_hide)
+
 	def _setup_window(self):
 		"""
 		Returns window
 		"""
 		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		window.connect("destroy", self._destroy)
+		window.connect("delete-event", self._close_window)
 		
 		self.leaf_search = LeafSearch()
 
@@ -811,9 +825,32 @@ class WindowController (object):
 		window.set_title("Kupfer")
 		return window
 
+	def _popup_menu(self, status_icon, button, activate_time, menu):
+		"""
+		When the StatusIcon is right-clicked
+		"""
+		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
+	
+	def _show_hide(self, status_icon):
+		"""
+		When the StatusIcon is clicked
+		"""
+		if self.window.get_property("visible"):
+			self.window.hide()
+		else:
+			self.window.show()
+	
+	def _close_window(self, window, event):
+		window.hide()
+		return True
+
 	def _destroy(self, widget, data=None):
 		gtk.main_quit()
 
 	def main(self):
-		gtk.main()
+		try:
+			gtk.main()
+		except KeyboardInterrupt, info:
+			print info, "exiting.."
+			raise SystemExit
 
