@@ -84,11 +84,9 @@ def main():
 
 	def file_source(opt):
 		depth = int(options.get("depth", default_depth))
-		def abs_paths():
-			for d in options[opt]:
-				abs = path.abspath(path.expanduser(d))
-				yield abs
-		yield objects.FileSource(tuple(abs_paths()), depth)
+		for d in options[opt]:
+			abs = path.abspath(path.expanduser(d))
+			yield objects.FileSource((abs,), depth)
 
 	sources = {
 			"-b":  objects.BookmarksSource(),
