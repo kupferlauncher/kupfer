@@ -81,7 +81,7 @@ class Search (object):
 			item._abbrev = self.abbrev_str(item._words)
 
 	def abbrev_str(self, words):
-		first_chars = "".join([w[0] for w in words if len(w)])
+		first_chars = "".join(w[0] for w in words if len(w))
 		return first_chars.lower()
 
 	def rank_string(self, s, key):
@@ -163,7 +163,7 @@ class Search (object):
 		abbrev_w = 5
 		words_w = 10
 		common_letter_w = 3
-		common_bonus_w = 3
+		all_common_w = 9
 		part_w = 1
 
 		lower_key = key.lower()
@@ -174,8 +174,8 @@ class Search (object):
 			rank += abbrev_w * self.rank_string(abbrev, key)
 
 			com_let = self.common_letters(val, key)
-			if com_let == len(key): com_let *= common_bonus_w
-			rank += common_letter_w * com_let
+			if com_let == len(key): rank += all_common_w * com_let
+			else: rank += common_letter_w * com_let
 			rank += common_letter_w * self.common_letters(abbrev, key)
 			return rank
 
@@ -189,7 +189,7 @@ class Search (object):
 			keyparts = split_at(lower_key, self.wordsep)
 			if len(keyparts) > 1:
 				for part in keyparts:
-					if not len(part):
+					if not part:
 						continue
 					rank += part_w * rank_key(val, abbrev, part)
 					rank += part_w * words_w * self.rank_words(item, part)
