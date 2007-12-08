@@ -17,19 +17,19 @@ def split_at(s, seps):
 	return parts
 
 def upper_str(s):
-	return "".join([c for c in s if c.isupper()])
+	return "".join(c for c in s if c.isupper())
 
 def remove_chars(s, clist):
 	"""
 	remove any char in string clist from s and return the result
 	"""
-	return "".join([c for c in s if c not in clist])
+	return "".join(c for c in s if c not in clist)
 
 def remove_chars_unicode(s, clist):
 	"""
 	remove any char in string clist from s and return the result
 	"""
-	return u"".join([c for c in s if c not in clist])
+	return u"".join(c for c in s if c not in clist)
 
 class Rankable (object):
 	"""
