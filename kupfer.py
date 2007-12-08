@@ -2,19 +2,17 @@
 
 def split_at(s, seps):
 	"""
-	Split at string at any char in seps
+	Split string at any char in seps (generator)
 	"""
-	parts = []
 	last = 0
 	for i, c in enumerate(s):
 		if c in seps:
-			parts.append(s[last:i])
+			yield s[last:i]
 			last = i+1
 	if last == 0:
-		parts.append(s)
+		yield s
 	else:
-		parts.append(s[last:])
-	return parts
+		yield s[last:]
 
 def upper_str(s):
 	return "".join(c for c in s if c.isupper())
@@ -77,7 +75,7 @@ class Search (object):
 		"""
 		for item in objects:
 			item.value = remove_chars(item.value, self.ignorechars)
-			item._words = split_at(item.value, self.wordsep)
+			item._words = tuple(split_at(item.value, self.wordsep))
 			item._abbrev = self.abbrev_str(item._words)
 
 	def abbrev_str(self, words):
@@ -186,7 +184,7 @@ class Search (object):
 			rank += normal_w * rank_key(val, abbrev, lower_key)
 			rank += normal_w * words_w * self.rank_words(item, lower_key)
 			# do parts
-			keyparts = split_at(lower_key, self.wordsep)
+			keyparts = tuple(split_at(lower_key, self.wordsep))
 			if len(keyparts) > 1:
 				for part in keyparts:
 					if not part:
@@ -209,8 +207,7 @@ class Search (object):
 			search_base = self.old_list
 		# only sort on worthwhile objects
 		# only filter on first word to make it simple
-		key_parts = split_at(key, self.wordsep)
-		for key_part in key_parts:
+		for key_part in split_at(key, self.wordsep):
 			if key_part:
 				break
 		else:
