@@ -36,6 +36,8 @@ class Rankable (object):
 	Rankable has an object (represented item),
 	value (determines rank) and an associated rank
 	"""
+	# To save memory with (really) many Rankables
+	__slots__ = ("rank", "value", "object", "_words", "_abbrev")
 	def __init__(self, value, object=None):
 		self.rank = 0
 		self.value = value

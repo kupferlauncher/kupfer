@@ -118,6 +118,8 @@ class FileLeaf (Leaf):
 	"""
 	Represents one file
 	"""
+	# To save memory with (really) many instances
+	__slots__ = ("name", "value", "object")
 	def __new__(cls, obj, value):
 		# check if it is a desktop file
 		# shortcut for subclasses
