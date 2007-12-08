@@ -848,10 +848,10 @@ class WindowController (object):
 		"""
 		When the StatusIcon is clicked
 		"""
-		if self.window.get_property("visible"):
+		if self.window.is_active():
 			self.window.hide()
 		else:
-			self.window.show()
+			self.window.present()
 	
 	def _close_window(self, window, event):
 		window.hide()
