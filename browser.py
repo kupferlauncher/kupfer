@@ -148,16 +148,18 @@ class MatchView (gtk.Bin):
 			encode = lambda c: c.encode('us-ascii', 'xmlcharrefreplace')
 			escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
 			escape = lambda c: escape_table.get(c, c)
-
-			markup = u""
-			idx = 0
 			open, close = (u"<u>", u"</u>")
-			for n in text:
-				if idx < len(key) and n.lower() == key[idx]:
-					idx += 1
-					markup += (open + escape(n) + close)
-				else:
-					markup += (escape(n))
+
+			def markup_matching(key, text):
+				idx = 0
+				for n in text:
+					if idx < len(key) and n.lower() == key[idx]:
+						idx += 1
+						yield (open + escape(n) + close)
+					else:
+						yield (escape(n))
+
+			markup = u"".join(markup_matching(key,text))
 			# simplify
 			# compare to T**2 = S.D**2.inv(S)
 			markup = markup.replace(close + open, u"")
