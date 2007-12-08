@@ -14,21 +14,6 @@ def split_at(s, seps):
 	else:
 		yield s[last:]
 
-def upper_str(s):
-	return "".join(c for c in s if c.isupper())
-
-def remove_chars(s, clist):
-	"""
-	remove any char in string clist from s and return the result
-	"""
-	return "".join(c for c in s if c not in clist)
-
-def remove_chars_unicode(s, clist):
-	"""
-	remove any char in string clist from s and return the result
-	"""
-	return u"".join(c for c in s if c not in clist)
-
 class Rankable (object):
 	"""
 	Rankable has an object (represented item),
@@ -64,23 +49,22 @@ class Search (object):
 		self.old_key = None
 		self.old_list = None
 		
-		for val, obj in items:
-			self.search_base.append(Rankable(val, obj))
-		self.preprocess_objects(self.search_base)
+		self.search_base = self.create_rankables(items)
 
-	def preprocess_objects(self, objects):
+	def create_rankables(self, items):
 		"""
-		process the list of objects, store
+		massage the list of items, store value, object and
 		ranking metadata in them
 		"""
-		for item in objects:
-			item.value = remove_chars(item.value, self.ignorechars)
-			item._words = tuple(split_at(item.value, self.wordsep))
-			item._abbrev = self.abbrev_str(item._words)
+		all = []
+		for val, obj in items:
+			value = "".join(c for c in val if c not in self.ignorechars)
 
-	def abbrev_str(self, words):
-		first_chars = "".join(w[0] for w in words if len(w))
-		return first_chars.lower()
+			rankable = Rankable(value, obj)
+			rankable._words = tuple(split_at(value, self.wordsep))
+			rankable._abbrev = "".join(w[:1].lower() for w in rankable._words)
+			all.append(rankable)
+		return all
 
 	def rank_string(self, s, key):
 		# match values
@@ -218,12 +202,12 @@ class Search (object):
 			com = self.common_letters(item.value, key_part, lower=True)
 			item.rank = (part_len == com)
 
-		# do the searching
 		objects = [item for item in search_base if item.rank]
 
 		self.old_key = key
 		self.old_list = objects
 
+		# do the searching
 		self.rank_objects(objects, key)
 		objects.sort(key=lambda item: (-item.rank, item.value), reverse=False)
 		return objects

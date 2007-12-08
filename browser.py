@@ -171,7 +171,7 @@ class MatchView (gtk.Bin):
 		
 		text = unicode(self.cur_text)
 		match = unicode(self.cur_match)
-		key = kupfer.remove_chars_unicode(match.lower(), " _-.")
+		key = u"".join(c for c in match.lower() if c not in " _-.")
 		markup = markup_match(key, text)
 		self.label.set_markup(markup)
 	
