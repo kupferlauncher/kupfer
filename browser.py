@@ -136,23 +136,18 @@ class MatchView (gtk.Bin):
 			self.label.set_text(self.cur_text)
 			return
 
-		# update text label
-		def escape(c):
-			"""
-			Escape char for markup (use unicode)
-			"""
-			table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
-			if c in table:
-				return table[c]
-			return c
-		
+		# update the text label
 		def markup_match(key, text):
 			"""
-			Return escaped and ascii-encoded markup string
+			Return escaped and ascii-encoded markup string for gtk.Label
+
+			Use unicode's method .encode to encode in ascii and use xml
+			entities for unicode chars. Use a simeple homegrown replace table
+			to replace &, <, > with entities before adding markup.
 			"""
-			from codecs import getencoder
-			encoder = getencoder('us-ascii')
-			encode_char = lambda c: encoder(c, 'xmlcharrefreplace')[0]
+			encode = lambda c: c.encode('us-ascii', 'xmlcharrefreplace')
+			escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
+			escape = lambda c: escape_table.get(c, c)
 
 			markup = u""
 			idx = 0
@@ -166,7 +161,7 @@ class MatchView (gtk.Bin):
 			# simplify
 			# compare to T**2 = S.D**2.inv(S)
 			markup = markup.replace(close + open, u"")
-			markup = encode_char(markup)
+			markup = encode(markup)
 			return markup
 		
 		text = unicode(self.cur_text)
