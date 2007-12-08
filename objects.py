@@ -463,7 +463,6 @@ class Execute (Launch):
 		fileloc = leaf.object
 		desktop_item = utils.new_desktop_item(fileloc)
 		desktop_item.set_boolean(KEY_TERMINAL, self.in_terminal)
-		print desktop_item
 		self.launch_item(desktop_item)
 
 class SearchInside (Action):
