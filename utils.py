@@ -73,8 +73,10 @@ def get_xdg_data_dirs():
 
 def new_desktop_item(exec_path, in_terminal=False):
 	"""
-	Return a new desktop item with given exec_path (and name from that) 
-	type Application. Some additional properties can be set
+	Return a new desktop item with given exec_path
+
+	It will set name from the path, and set the item to to
+	Application. Some additional properties can be set too.
 	"""
 	from gnomedesktop import item_new_from_string
 	import gnomedesktop as gd
@@ -85,7 +87,7 @@ def new_desktop_item(exec_path, in_terminal=False):
 	# and enclose in ""
 	bsl, quot = "\\", '"'
 	esc_chars = (bsl, quot, '`', '$')
-	escaped = [bsl*(c in esc_chars) + c for c in exec_path]
+	escaped = [bsl*(c in esc_chars) + c for c in unicode(exec_path)]
 	escaped.insert(0, quot)
 	escaped.append(quot)
 	exec_path_escaped = u"".join(escaped)
