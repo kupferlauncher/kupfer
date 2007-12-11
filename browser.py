@@ -553,7 +553,7 @@ class Interface (gobject.GObject):
 			return False
 
 		if keyv == esckey:
-			self.emit("cancelled")
+			self.emit("cancelled", self.search.match_state)
 			self.reset()
 			self.switch_to_source()
 			return False
@@ -634,7 +634,7 @@ gobject.type_register(Interface)
 gobject.signal_new("activate", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 gobject.signal_new("browse-up", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 gobject.signal_new("browse-down", Interface, gobject.SIGNAL_RUN_LAST,
@@ -756,7 +756,7 @@ class DataController (object):
 		self.push_source(leaf.content_source())
 		self.refresh_data()
 
-	def _search_cancelled(self, widget):
+	def _search_cancelled(self, widget, state):
 		try:
 			while True:
 				self.pop_source()
@@ -794,6 +794,7 @@ class WindowController (object):
 		self.interface.connect("browse-down", self.data_controller._browse_down)
 		self.interface.connect("browse-up", self.data_controller._browse_up)
 		self.interface.connect("cancelled", self.data_controller._search_cancelled)
+		self.interface.connect("cancelled", self._cancelled)
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(gtk.STOCK_OPEN)
@@ -841,17 +842,30 @@ class WindowController (object):
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
 	
+	def activate(self):
+		self.window.set_keep_above(True)
+		self.window.set_position(gtk.WIN_POS_CENTER)
+		self.window.present()
+		self.window.window.focus()
+	
+	def put_away(self):
+		self.window.hide()
+	
+	def _cancelled(self, widget, state):
+		if state is State.Wait:
+			self.put_away()
+	
 	def _show_hide(self, status_icon):
 		"""
 		When the StatusIcon is clicked
 		"""
 		if self.window.is_active():
-			self.window.hide()
+			self.put_away()
 		else:
-			self.window.present()
+			self.activate()
 	
 	def _close_window(self, window, event):
-		window.hide()
+		self.put_away()
 		return True
 
 	def _destroy(self, widget, data=None):
