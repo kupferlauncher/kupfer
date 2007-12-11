@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 This module is a singelton, that sets up callbacks to dbus signals
 """
@@ -16,12 +14,3 @@ def register(signal_name, callback):
 	"""
 	session_bus.add_signal_receiver(callback, signal_name, interface_name, bus_name=None, path=None)
 
-
-if __name__ == '__main__':
-	def signal_callback(signal=None):
-		    print "Received signal %s" % signal
-
-	import gtk
-	register("activate", signal_callback)
-	# Enter the event loop, waiting for signals
-	gtk.main()
