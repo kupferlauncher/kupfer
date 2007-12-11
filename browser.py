@@ -695,13 +695,14 @@ class DataController (object):
 	"""
 	Sources <-> Actions controller
 	"""
-	def __init__(self, datasource, leaf_search, action_search):
+	def __init__(self, datasource, leaf_search, action_search, launch_callback):
 		self.source_stack = []
 		self.push_source(datasource)
 		self.leaf_search = leaf_search
 		self.action_search = action_search
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
 		self.refresh_data()
+		self.launch_callback = launch_callback
 
 	def source_rebase(self, src):
 		self.source_stack = []
@@ -778,6 +779,8 @@ class DataController (object):
 		if action.is_factory() and new_source:
 			self.push_source(new_source)
 			self.refresh_data()
+		else:
+			self.launch_callback(action)
 
 class WindowController (object):
 	"""
@@ -789,7 +792,7 @@ class WindowController (object):
 		self.window = self._setup_window()
 		self._setup_status_icon()
 		self.data_controller = DataController(datasource, self.leaf_search,
-				self.action_search)
+				self.action_search, self._launch_callback)
 		self.interface.connect("activate", self.data_controller._activate)
 		self.interface.connect("browse-down", self.data_controller._browse_down)
 		self.interface.connect("browse-up", self.data_controller._browse_up)
@@ -841,6 +844,9 @@ class WindowController (object):
 		When the StatusIcon is right-clicked
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
+	
+	def _launch_callback(self, action):
+		self.put_away()
 	
 	def activate(self):
 		self.window.set_keep_above(True)
