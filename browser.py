@@ -798,6 +798,7 @@ class WindowController (object):
 		self.interface.connect("browse-up", self.data_controller._browse_up)
 		self.interface.connect("cancelled", self.data_controller._search_cancelled)
 		self.interface.connect("cancelled", self._cancelled)
+		self.activate()
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(gtk.STOCK_OPEN)
@@ -835,7 +836,6 @@ class WindowController (object):
 		vbox.pack_start(entry, True, True, 0)
 		vbox.show_all()
 		window.add(vbox)
-		window.show()
 		window.set_title("Kupfer")
 		return window
 
