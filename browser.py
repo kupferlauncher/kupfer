@@ -851,6 +851,9 @@ class WindowController (object):
 	def put_away(self):
 		self.window.hide()
 	
+	def quit(self):
+		gtk.main_quit()
+	
 	def _cancelled(self, widget, state):
 		if state is State.Wait:
 			self.put_away()
@@ -869,9 +872,13 @@ class WindowController (object):
 		return True
 
 	def _destroy(self, widget, data=None):
-		gtk.main_quit()
+		self.quit()
 
 	def main(self):
+		# register dbus callbacks
+		import listen
+		listen.register("activate", self.activate)
+		listen.register("quit", self.quit)
 		try:
 			gtk.main()
 		except KeyboardInterrupt, info:
