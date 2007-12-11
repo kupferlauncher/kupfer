@@ -75,13 +75,20 @@ def new_desktop_item(exec_path, in_terminal=False):
 	"""
 	Return a new desktop item with given exec_path (and name from that) 
 	type Application. Some additional properties can be set
-
-	FIXME: This must sadly do a LOT of quoting. Atm NOT done.
 	"""
 	from gnomedesktop import item_new_from_string
 	import gnomedesktop as gd
 	name = path.basename(exec_path)
-	exec_path_escaped = '"%s"' % exec_path
+
+	# Do escaping
+	# Escape \ " ` $ with another \
+	# and enclose in ""
+	bsl, quot = "\\", '"'
+	esc_chars = (bsl, quot, '`', '$')
+	escaped = [bsl*(c in esc_chars) + c for c in exec_path]
+	escaped.insert(0, quot)
+	escaped.append(quot)
+	exec_path_escaped = u"".join(escaped)
 
 	item = gd.DesktopItem()
 	item.set_entry_type(gd.TYPE_APPLICATION)
