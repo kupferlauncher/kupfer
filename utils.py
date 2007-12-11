@@ -71,25 +71,21 @@ def get_xdg_data_dirs():
 	dirs = "%s:%s" % (dirs, sysdirs)
 	return [dir for dir in dirs.split(":") if dir.strip() != "" and path.exists(dir)]
 
-def new_desktop_item(exec_path):
+def new_desktop_item(exec_path, in_terminal=False):
 	"""
 	Return a new desktop item with given exec_path (and name from that) 
-	type Application. The rest can be set with .set_string()
-	on the returned object
+	type Application. Some additional properties can be set
 
 	FIXME: This must sadly do a LOT of quoting. Atm NOT done.
 	"""
-	from gnomedesktop import item_new_from_string, KEY_TERMINAL
+	from gnomedesktop import item_new_from_string
+	import gnomedesktop as gd
 	name = path.basename(exec_path)
-	props = {
-			"Type":"Application",
-			"Exec":exec_path,
-			"Name":name
-		}
-	desktop_string = """[Desktop Entry]
-Encoding=UTF-8
-"""
-	desktop_string += "\n".join("%s=%s" % (k,v ) for k,v in props.items())
-	
-	desktop_item = item_new_from_string("", desktop_string, len(desktop_string), 0)  
-	return desktop_item
+	exec_path_escaped = '"%s"' % exec_path
+
+	item = gd.DesktopItem()
+	item.set_entry_type(gd.TYPE_APPLICATION)
+	item.set_string(gd.KEY_NAME, name)
+	item.set_string(gd.KEY_EXEC, exec_path_escaped)
+	item.set_boolean(gd.KEY_TERMINAL, in_terminal)
+	return item

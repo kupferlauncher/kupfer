@@ -461,10 +461,8 @@ class Execute (Launch):
 		self.in_terminal = in_terminal
 	
 	def activate(self, leaf):
-		from gnomedesktop import KEY_TERMINAL
 		fileloc = leaf.object
-		desktop_item = utils.new_desktop_item(fileloc)
-		desktop_item.set_boolean(KEY_TERMINAL, self.in_terminal)
+		desktop_item = utils.new_desktop_item(fileloc, self.in_terminal)
 		self.launch_item(desktop_item)
 
 class SearchInside (Action):
