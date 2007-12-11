@@ -889,6 +889,7 @@ class WindowController (object):
 		try:
 			gtk.main()
 		except KeyboardInterrupt, info:
-			print info, "exiting.."
+			print info, "exiting.. (Warning: Ctrl-C in the shell will",\
+					"kill child processes)"
 			raise SystemExit
 
