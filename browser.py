@@ -789,6 +789,7 @@ class WindowController (object):
 	def __init__(self, datasource):
 		"""
 		"""
+		self.icon_name = gtk.STOCK_FIND
 		self.window = self._setup_window()
 		self._setup_status_icon()
 		self.data_controller = DataController(datasource, self.leaf_search,
@@ -801,7 +802,7 @@ class WindowController (object):
 		self.activate()
 
 	def _setup_status_icon(self):
-		status = gtk.status_icon_new_from_stock(gtk.STOCK_OPEN)
+		status = gtk.status_icon_new_from_stock(self.icon_name)
 		status.set_tooltip("Kupfer")
 
 		menu = gtk.Menu()
@@ -821,7 +822,6 @@ class WindowController (object):
 		window.connect("delete-event", self._close_window)
 		
 		self.leaf_search = LeafSearch()
-
 		self.action_search = ActionSearch()
 
 		entry = gtk.Entry()
@@ -837,6 +837,7 @@ class WindowController (object):
 		vbox.show_all()
 		window.add(vbox)
 		window.set_title("Kupfer")
+		window.set_icon_name(self.icon_name)
 		return window
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
