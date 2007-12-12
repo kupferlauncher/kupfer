@@ -704,7 +704,7 @@ class UrlLeaf (Leaf):
 		return (OpenUrl(), Echo())
 
 	def get_icon_name(self):
-		return "internet-web-browser"
+		return "text-html"
 
 class BookmarksSource (Source):
 	def __init__(self):
@@ -716,7 +716,7 @@ class BookmarksSource (Source):
 		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
 
 	def get_icon_name(self):
-		return "internet-web-browser"
+		return "web-browser"
 
 class EpiphanySource (Source):
 	def __init__(self):
@@ -729,7 +729,7 @@ class EpiphanySource (Source):
 		return (UrlLeaf(href, title) for title, href in bookmarks)
 
 	def get_icon_name(self):
-		return "internet-web-browser"
+		return "web-browser"
 
 
 class RecentsSource (Source):
