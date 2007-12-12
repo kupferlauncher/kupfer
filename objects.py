@@ -718,6 +718,19 @@ class BookmarksSource (Source):
 	def get_icon_name(self):
 		return "internet-web-browser"
 
+class EpiphanySource (Source):
+	def __init__(self):
+		super(EpiphanySource, self).__init__("Epiphany Bookmarks")
+	
+	def get_items(self):
+		from epiphany import EpiphanyBookmarksParser
+		parser = EpiphanyBookmarksParser()
+		bookmarks = parser.get_items()
+		return (UrlLeaf(href, title) for title, href in bookmarks)
+
+	def get_icon_name(self):
+		return "internet-web-browser"
+
 
 class RecentsSource (Source):
 	def __init__(self):
