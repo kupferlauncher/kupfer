@@ -140,6 +140,10 @@ class FileLeaf (Leaf):
 	def _is_executable(self):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
+
+	def _is_valid(self):
+		from os import access, R_OK
+		return access(self.object, R_OK)
 	
 	def _is_dir(self):
 		return path.isdir(self.object)
@@ -150,7 +154,7 @@ class FileLeaf (Leaf):
 		if path.isdir(self.object):
 			acts.extend([OpenTerminal(), SearchInside()])
 			default = OpenDirectory()
-		else:
+		elif self._is_valid():
 			type = gnomevfs.get_mime_type(self.object)
 			def_app = gnomevfs.mime_get_default_application(type)
 			types = gnomevfs.mime_get_all_applications(type)
@@ -163,8 +167,8 @@ class FileLeaf (Leaf):
 				if id not in apps:
 					acts.append(OpenWith(self._desktop_item(info[0]), info[1]))
 					apps.add(id)
-		if self._is_executable() and not self._is_dir():
-			acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
+			if self._is_executable():
+				acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
 		if not default:
 			default = Show()
 		acts.insert(0, default)

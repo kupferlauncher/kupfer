@@ -32,8 +32,11 @@ def get_icon_for_uri(uri, icon_size):
 	 
 	"""
 	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
-	from gnomevfs import get_mime_type
+	from gnomevfs import get_mime_type, exists
 	from gnome.ui import ThumbnailFactory, icon_lookup
+
+	if not exists(uri):
+		return None
 
 	mtype = get_mime_type(uri)
 	icon_theme = icon_theme_get_default()
