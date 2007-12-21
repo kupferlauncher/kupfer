@@ -219,7 +219,7 @@ class SourceLeaf (Leaf):
 		return True
 
 	def get_actions(self):
-		return (SearchInside(),)
+		return (SearchInside(), RescanSource())
 
 	def content_source(self):
 		return self.object
@@ -489,6 +489,26 @@ class SearchInside (Action):
 	def get_icon_name(self):
 		return "search"
 
+class RescanSource (Action):
+	"""
+	A source action: Rescan a source!
+	"""
+	def __init__(self):
+		super(RescanSource, self).__init__("Rescan")
+	
+	def is_factory(self):
+		return False
+	
+	def activate(self, leaf):
+		if not leaf.has_content():
+			raise InvalidLeaf("Must have content")
+		source = leaf.object
+		if not source.is_dynamic():
+			cache = source.get_leaves(force_update=True)
+
+	def get_icon_name(self):
+		return "search"
+
 class DummyAction (Action):
 	"""
 	Represents "No action", to be shown when there is no action
@@ -532,14 +552,14 @@ class Source (KupferObject):
 		"""
 		return False
 
-	def get_leaves(self):
+	def get_leaves(self, force_update=False):
 		"""
 		Return a list of all leaves
 		"""
 		if self.is_dynamic():
 			return self.get_items()
 		
-		if not self.cached_items:
+		if not self.cached_items or force_update:
 			print "%s: Loading..." % self
 			self.cached_items = aslist(self.get_items())
 			print " loaded %d items" % len(self.cached_items)
@@ -708,7 +728,7 @@ class UrlLeaf (Leaf):
 		return (OpenUrl(), Echo())
 
 	def get_icon_name(self):
-		return "internet-web-browser"
+		return "text-html"
 
 class BookmarksSource (Source):
 	def __init__(self):
@@ -720,7 +740,20 @@ class BookmarksSource (Source):
 		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
 
 	def get_icon_name(self):
-		return "internet-web-browser"
+		return "web-browser"
+
+class EpiphanySource (Source):
+	def __init__(self):
+		super(EpiphanySource, self).__init__("Epiphany Bookmarks")
+	
+	def get_items(self):
+		from epiphany import EpiphanyBookmarksParser
+		parser = EpiphanyBookmarksParser()
+		bookmarks = parser.get_items()
+		return (UrlLeaf(href, title) for title, href in bookmarks)
+
+	def get_icon_name(self):
+		return "web-browser"
 
 
 class RecentsSource (Source):

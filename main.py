@@ -38,7 +38,7 @@ def get_options(default_opts=""):
 		opts ="-AabCcPp -D ~".split()
 
 	try:
-		opts, args = getopt(opts, "AaBbCcPpD:d:R:r:", ["depth=", "help"])
+		opts, args = getopt(opts, "AaBbCcPpXD:d:R:r:", ["depth=", "help"])
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -47,7 +47,7 @@ def get_options(default_opts=""):
 	options = {}
 	
 	for k, v in opts:
-		if k in ("-a", "-A", "-b", "-B", "-c", "-C", "-p", "-P"):
+		if k in ("-a", "-A", "-b", "-B", "-c", "-C", "-p", "-P", "-X"):
 			options[k] = True
 		elif k in ("-d", "-D", "-r", "-R"):
 			lst = options.get(k, [])
@@ -92,7 +92,8 @@ def main():
 			"-b":  objects.BookmarksSource(),
 			"-a":  objects.AppSource(), 
 			"-c":  objects.RecentsSource(),
-			"-p":  objects.PlacesSource()
+			"-p":  objects.PlacesSource(),
+			"-x":  objects.EpiphanySource()
 	}
 
 	files = {
