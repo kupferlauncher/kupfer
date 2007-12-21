@@ -69,7 +69,6 @@ def get_options(default_opts=""):
 
 	return options
 
-
 def main():
 	import sys
 	from os import path
@@ -125,14 +124,14 @@ def main():
 		S_sources.append(objects.SourcesSource(s_sources))
 	
 	if len(S_sources) == 1:
-		root, = S_sources
+		root_catalog, = S_sources
 	elif len(S_sources) > 1:
-		root = objects.MultiSource(S_sources)
+		root_catalog = objects.MultiSource(S_sources)
 	else:
 		print "No sources"
-		raise SystemExit
+		raise SystemExit(1)
 
-	w = browser.WindowController(root)
+	w = browser.WindowController(root_catalog)
 	w.main()
 
 if __name__ == '__main__':
