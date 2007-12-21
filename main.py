@@ -9,10 +9,7 @@ kupfer
 def get_options(default_opts=""):
 	"""
 	Usage:
-		-a, -A          search applications
-		-b, -B          firefox bookmarks
-		-c, -C          recent documents
-		-p, -P          nautilus places
+		-s, -S list     add list of sources
 		-d dir, -D dir  add dir as dir source
 		-r dir, -R dir  add dir as recursive dir source
 
@@ -23,8 +20,15 @@ def get_options(default_opts=""):
 
 		small letter:   catalog item in catalog
 		capital letter: direct inclusion
+
+		list of sources:
+		  a             applications
+		  b             firefox bookmarks
+		  c             recent documents
+		  e             epiphany bookmarks
+		  p             nautilus places
 	
-	The default is "-AabCcPp -D ~"
+	The default is "-S ap -s aecp -D ~"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -35,10 +39,10 @@ def get_options(default_opts=""):
 		opts.remove("--debug") 
 
 	if len(opts) < 1:
-		opts ="-AabCcPp -D ~".split()
+		opts ="-S ap -s aecp -D ~".split()
 
 	try:
-		opts, args = getopt(opts, "AaBbCcPpXD:d:R:r:", ["depth=", "help"])
+		opts, args = getopt(opts, "S:s:D:d:R:r:", ["depth=", "help"])
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -47,8 +51,12 @@ def get_options(default_opts=""):
 	options = {}
 	
 	for k, v in opts:
-		if k in ("-a", "-A", "-b", "-B", "-c", "-C", "-p", "-P", "-X"):
-			options[k] = True
+		if k in ("-s", "-S"):
+			if k == "-s":
+				key = "sources"
+			else:
+				key = "include_sources"
+			options.setdefault(key, []).extend(v)
 		elif k in ("-d", "-D", "-r", "-R"):
 			lst = options.get(k, [])
 			lst.append(v)
@@ -58,7 +66,7 @@ def get_options(default_opts=""):
 		elif k == "--help":
 			print get_options.__doc__
 			raise SystemExit
-	
+
 	return options
 
 
@@ -89,11 +97,11 @@ def main():
 			yield objects.FileSource((abs,), depth)
 
 	sources = {
-			"-b":  objects.BookmarksSource(),
-			"-a":  objects.AppSource(), 
-			"-c":  objects.RecentsSource(),
-			"-p":  objects.PlacesSource(),
-			"-x":  objects.EpiphanySource()
+			"a": objects.AppSource(),
+			"b": objects.BookmarksSource(),
+			"c": objects.RecentsSource(),
+			"e": objects.EpiphanySource(),
+			"p": objects.PlacesSource(),
 	}
 
 	files = {
@@ -101,12 +109,10 @@ def main():
 			"-r": file_source,
 	}
 
-	for k, v in sources.items():
-		K = k.upper()
-		if k in options:
-			s_sources.append(v)
-		if K in options:
-			S_sources.append(v)
+	for item in options.get("sources", ()):
+		s_sources.append(sources[item])
+	for item in options.get("include_sources", ()):
+		S_sources.append(sources[item])
 	
 	for k, v in files.items():
 		K = k.upper()
