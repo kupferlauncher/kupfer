@@ -39,7 +39,7 @@ class KupferObject (object):
 	Base class for Actions and Leaves
 	"""
 	icon_size = 96
-	def __init__(self, name):
+	def __init__(self, name=None):
 		if not name:
 			name = self.__class__.__name__
 		self.name = name
