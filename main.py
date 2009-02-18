@@ -90,8 +90,8 @@ def main():
 	import sys
 	from os import path
 
-	import browser
-	import objects
+	from kupfer import browser
+	from kupfer import objects
 
 	print __doc__
 
