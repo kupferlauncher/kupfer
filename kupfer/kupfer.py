@@ -68,12 +68,13 @@ class Search (object):
 
 	def rank_objects(self, objects, key):
 		"""
-		objects --
-		key -- 
+		Assign score to all objects and yield the
+		ones that have nonzero
 		"""
 		from relevance import score
 		for obj in objects:
 			obj.rank = score(obj.value, key)*100
+			if obj.rank: yield obj
 
 	def search_objects(self, key):
 		"""
@@ -88,11 +89,9 @@ class Search (object):
 		else:
 			search_base = self.old_list
 
-		self.old_key = key
-		self.old_list = search_base
-
 		# do the searching
-		self.rank_objects(search_base, key)
-		search_base.sort(key=lambda item: (-item.rank, item.value), reverse=False)
-		return search_base
+		self.old_key = key
+		itemranker = lambda item: (-item.rank, item.value)
+		self.old_list = list(sorted(self.rank_objects(search_base, key), key=itemranker))
+		return self.old_list
 	
