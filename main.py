@@ -119,6 +119,7 @@ def main():
 			"e": objects.EpiphanySource(),
 			"p": objects.PlacesSource(),
 			"s": objects.ScreenSessionsSource(),
+			"w": objects.WindowsSource(),
 	}
 
 	files = {
