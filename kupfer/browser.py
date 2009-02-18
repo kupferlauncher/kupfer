@@ -854,6 +854,7 @@ class WindowController (object):
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.present()
 		self.window.window.focus()
+		self.interface.switch_to_source()
 	
 	def put_away(self):
 		self.window.hide()
