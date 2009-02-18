@@ -91,7 +91,7 @@ def main():
 	from os import path
 
 	from kupfer import browser
-	from kupfer import objects
+	from kupfer import objects, extensions
 
 	print __doc__
 
@@ -118,8 +118,8 @@ def main():
 			"c": objects.RecentsSource(),
 			"e": objects.EpiphanySource(),
 			"p": objects.PlacesSource(),
-			"s": objects.ScreenSessionsSource(),
-			"w": objects.WindowsSource(),
+			"s": extensions.screen.ScreenSessionsSource(),
+			"w": extensions.windows.WindowsSource(),
 	}
 
 	files = {
