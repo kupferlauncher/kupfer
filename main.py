@@ -118,6 +118,7 @@ def main():
 			"c": objects.RecentsSource(),
 			"e": objects.EpiphanySource(),
 			"p": objects.PlacesSource(),
+			"s": objects.ScreenSessionsSource(),
 	}
 
 	files = {
