@@ -20,7 +20,7 @@ class Rankable (object):
 	value (determines rank) and an associated rank
 	"""
 	# To save memory with (really) many Rankables
-	__slots__ = ("rank", "value", "object", "_words", "_abbrev")
+	__slots__ = ("rank", "value", "object")
 	def __init__(self, value, object=None):
 		self.rank = 0
 		self.value = value
@@ -43,28 +43,10 @@ class Search (object):
 		"""
 		items: sequence of (value, object) tuples
 		"""
-		self.wordsep = " .-_/"
-		self.ignorechars = "()[]"
-		self.search_base = []
 		self.old_key = None
 		self.old_list = None
 		
-		self.search_base = self.create_rankables(items)
-
-	def create_rankables(self, items):
-		"""
-		massage the list of items, store value, object and
-		ranking metadata in them
-		"""
-		all = []
-		for val, obj in items:
-			value = "".join(c for c in val if c not in self.ignorechars)
-
-			rankable = Rankable(value, obj)
-			#rankable._words = tuple(split_at(value, self.wordsep))
-			#rankable._abbrev = "".join(w[:1].lower() for w in rankable._words)
-			all.append(rankable)
-		return all
+		self.search_base = [Rankable(val,obj) for val, obj in items]
 
 	def rank_objects(self, objects, key):
 		"""
