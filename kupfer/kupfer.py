@@ -141,6 +141,11 @@ class Search (object):
 		objects --
 		key -- 
 		"""
+		from relevance import score
+		for obj in objects:
+			obj.rank = score(obj.value, key)*100
+		return
+
 		normal_w = 10
 		abbrev_w = 5
 		words_w = 10
