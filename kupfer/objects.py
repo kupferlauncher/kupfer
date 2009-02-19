@@ -50,6 +50,9 @@ class KupferObject (object):
 	def __str__(self):
 		return self.name
 
+	def get_description(self):
+		return None
+
 	def get_icon(self):
 		"""
 		Returns an icon in pixbuf format.
@@ -147,6 +150,9 @@ class FileLeaf (Leaf):
 	
 	def _is_dir(self):
 		return path.isdir(self.object)
+
+	def get_description(self):
+		return self.object
 
 	def get_actions(self):
 		acts = [RevealFile(), Dragbox(), Echo()]
