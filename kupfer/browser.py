@@ -4,7 +4,7 @@
 import gtk
 import gobject
 import itertools
-import kupfer
+from . import kupfer
 
 # State Constants
 class State (object):
@@ -521,7 +521,7 @@ class Interface (gobject.GObject):
 	"""
 	__gtype_name__ = "Interface"
 
-	def __init__(self, entry, search, action, window):
+	def __init__(self, entry, label, search, action, window):
 		"""
 		entry: gtk.Entry
 		search: source search controller
@@ -533,6 +533,12 @@ class Interface (gobject.GObject):
 		self.search = search
 		self.action = action
 		self.current = None
+
+		from pango import ELLIPSIZE_END
+		self.label = label
+		self.label.set_width_chars(50)
+		self.label.set_ellipsize(ELLIPSIZE_END)
+
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate, None)
@@ -542,6 +548,8 @@ class Interface (gobject.GObject):
 		self.search.connect("activate", self._activate)
 		self.action.connect("activate", self._activate)
 		self.search.connect("cursor-changed", self._search_match_changed)
+		self.search.connect("cursor-changed", self._selection_changed)
+		self.action.connect("cursor-changed", self._selection_changed)
 		window.connect("configure-event", self.search._window_config)
 		window.connect("configure-event", self.action._window_config)
 		window.connect("hide", self.search._window_hidden)
@@ -605,6 +613,7 @@ class Interface (gobject.GObject):
 	def _update_active(self):
 		self.action.set_active(self.action is self.current)
 		self.search.set_active(self.search is self.current)
+		self.description_changed()
 
 	def switch_current(self):
 		if self.current is self.search:
@@ -630,6 +639,16 @@ class Interface (gobject.GObject):
 	
 	def _search_match_changed(self, widget, match):
 		self.switch_to_source()
+
+	def _selection_changed(self, widget, match):
+		if not widget is self.current:
+			return
+		self.description_changed()
+
+	def description_changed(self):
+		match = self.current.get_current()
+		name = match and match.get_description() or ""
+		self.label.set_text(name)
 	
 	def _table_event(self, widget, table, event):
 		self.entry.emit("key-press-event", event)
@@ -835,7 +854,8 @@ class WindowController (object):
 		self.action_search = ActionSearch()
 
 		entry = gtk.Entry()
-		self.interface = Interface(entry, self.leaf_search,
+		label = gtk.Label()
+		self.interface = Interface(entry, label, self.leaf_search,
 				self.action_search, window)
 
 		box = gtk.HBox()
@@ -843,6 +863,7 @@ class WindowController (object):
 		box.pack_start(self.action_search, True, True, 0)
 		vbox = gtk.VBox()
 		vbox.pack_start(box, True, True, 0)
+		vbox.pack_start(label, True, True, 0)
 		vbox.pack_start(entry, True, True, 0)
 		vbox.show_all()
 		window.add(vbox)
