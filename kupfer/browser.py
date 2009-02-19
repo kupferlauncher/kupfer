@@ -148,18 +148,28 @@ class MatchView (gtk.Bin):
 			encode = lambda c: c.encode('us-ascii', 'xmlcharrefreplace')
 			escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
 			escape = lambda c: escape_table.get(c, c)
-			open, close = (u"<u>", u"</u>")
+			open, close = (u"<b>", u"</b>")
 
-			def markup_matching(key, text):
-				idx = 0
-				for n in text:
-					if idx < len(key) and n.lower() == key[idx]:
-						idx += 1
-						yield (open + escape(n) + close)
-					else:
-						yield (escape(n))
+			def lower_partition(text, key):
+				"""do str.partition, but partition case-insensitively"""
+				head, sep, tail = text.lower().partition(key)
+				head, sep = text[:len(head)], text[len(head):len(head)+len(sep)]
+				if len(tail):
+					tail = text[-len(tail):]
+				return head, sep, tail
 
-			markup = u"".join(markup_matching(key,text))
+			def rmarkup(key, text):
+				if not key:
+					return text
+				"""recursively find search string in match"""
+				if key in text.lower():
+					nextkey=None
+				else:
+					key, nextkey = key[0], key[1:]
+				head, sep, tail = lower_partition(text, key)
+				return head + open + sep + close + rmarkup(nextkey, tail)
+
+			markup = rmarkup(key,text)
 			# simplify
 			# compare to T**2 = S.D**2.inv(S)
 			markup = markup.replace(close + open, u"")
