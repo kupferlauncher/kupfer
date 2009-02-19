@@ -58,18 +58,8 @@ def get_xdg_data_dirs():
 
 	From the deskbar applet project
 	"""
-	import os
-
-	dirs = os.getenv("XDG_DATA_HOME")
-	if dirs == None:
-		dirs = os.path.expanduser("~/.local/share")
-	
-	sysdirs = os.getenv("XDG_DATA_DIRS")
-	if sysdirs == None:
-		sysdirs = "/usr/local/share:/usr/share"
-	
-	dirs = "%s:%s" % (dirs, sysdirs)
-	return [dir for dir in dirs.split(":") if dir.strip() != "" and path.exists(dir)]
+	import xdg.BaseDirectory as base
+	return base.xdg_data_dirs
 
 def new_desktop_item(exec_path, in_terminal=False):
 	"""
