@@ -730,32 +730,6 @@ class UrlLeaf (Leaf):
 	def get_icon_name(self):
 		return "text-html"
 
-class BookmarksSource (Source):
-	def __init__(self):
-		super(BookmarksSource, self).__init__("Firefox Bookmarks")
-	
-	def get_items(self):
-		from bookmarks import get_firefox_home_file, get_bookmarks
-		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
-		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
-
-	def get_icon_name(self):
-		return "web-browser"
-
-class EpiphanySource (Source):
-	def __init__(self):
-		super(EpiphanySource, self).__init__("Epiphany Bookmarks")
-	
-	def get_items(self):
-		from epiphany import EpiphanyBookmarksParser
-		parser = EpiphanyBookmarksParser()
-		bookmarks = parser.get_items()
-		return (UrlLeaf(href, title) for title, href in bookmarks)
-
-	def get_icon_name(self):
-		return "web-browser"
-
-
 class RecentsSource (Source):
 	def __init__(self):
 		super(RecentsSource, self).__init__("Recent items")

@@ -1,1 +1,3 @@
-import screen, windows
+import screen
+import windows
+import bookmarks

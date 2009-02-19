@@ -114,10 +114,10 @@ def main():
 
 	sources = {
 			"a": objects.AppSource(),
-			"b": objects.BookmarksSource(),
 			"c": objects.RecentsSource(),
-			"e": objects.EpiphanySource(),
 			"p": objects.PlacesSource(),
+			"b": extensions.bookmarks.BookmarksSource(),
+			"e": extensions.bookmarks.EpiphanySource(),
 			"s": extensions.screen.ScreenSessionsSource(),
 			"w": extensions.windows.WindowsSource(),
 	}
