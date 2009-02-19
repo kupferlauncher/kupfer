@@ -39,7 +39,7 @@ def mem_stats():
 	print "\n".join("%s: %d" % (k,v) for k,v in our)
 
 def icon_stats():
-	from icons import icon_cache
+	from kupfer.icons import icon_cache
 	print "DEBUG: ICON STATS"
 
 	c = 0
