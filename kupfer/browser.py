@@ -725,30 +725,27 @@ class DataController (object):
 	Sources <-> Actions controller
 	"""
 	def __init__(self, datasource, leaf_search, action_search, launch_callback):
-		self.source_stack = []
-		self.push_source(datasource)
 		self.leaf_search = leaf_search
 		self.action_search = action_search
 		self.leaf_search.connect("cursor-changed", self._cursor_changed)
-		self.refresh_data()
 		self.launch_callback = launch_callback
+		self.source_rebase(datasource)
 
 	def source_rebase(self, src):
 		self.source_stack = []
-		self.push_source(src)
+		self.source = src
 		self.refresh_data()
 	
 	def push_source(self, src):
+		self.source_stack.append(self.source)
 		self.source = src
 		#self.source.set_refresh_callback(self.refresh_data)
-		self.source_stack.insert(0, src)
 	
 	def pop_source(self):
-		if len(self.source_stack) <= 1:
+		if not len(self.source_stack):
 			raise Exception
 		else:
-			self.source_stack.pop(0)
-			self.source = self.source_stack[0]
+			self.source = self.source_stack.pop()
 	
 	def refresh_data(self):
 		self.leaf_search.set_source(self.source)
