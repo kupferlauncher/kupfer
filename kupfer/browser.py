@@ -505,6 +505,16 @@ gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
 
+class Searcher (gobject.GObject):
+	"""
+	Search object
+	"""
+	def register_search(self, term):
+		self.emit("got-results", term, None)
+gobject.type_register(Searcher)
+gobject.signal_new("got-results", Searcher, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT, ))
+
 class Interface (gobject.GObject):
 	"""
 	Controller object that controls the input and
