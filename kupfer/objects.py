@@ -329,7 +329,9 @@ class OpenWith (Action):
 	def activate(self, leaf):
 		self.preprocess_item()
 		filepath = leaf.object
-		self.desktop_item.launch([filepath], 0)
+		# this should be a list of URIs
+		uri = gnomevfs.get_uri_from_local_path(filepath)
+		self.desktop_item.launch([uri], 0)
 	
 	def get_pixbuf(self):
 		app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
