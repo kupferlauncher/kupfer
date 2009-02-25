@@ -30,6 +30,15 @@ class DataController (gobject.GObject):
 		super(DataController, self).__init__()
 		self.source_rebase(datasource)
 
+	def get_source(self):
+		return self.source
+
+	def get_base(self):
+		"""
+		Return iterable to searched base
+		"""
+		return ((leaf.value, leaf) for leaf in self.source.get_leaves())
+
 	def do_search(self, source, key):
 		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
 		st = SearchThread(self, rankables, key, "search-result")
@@ -38,9 +47,9 @@ class DataController (gobject.GObject):
 	def search(self, key):
 		gobject.idle_add(self.do_search, self.source, key)
 
-	def do_predicate_search(self, rankable, key=None):
-		if rankable:
-			leaves = rankable.get_actions()
+	def do_predicate_search(self, leaf, key=None):
+		if leaf:
+			leaves = leaf.get_actions()
 		else:
 			leaves = []
 		if not key:
