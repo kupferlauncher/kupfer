@@ -1,8 +1,6 @@
-import gtk
 import gobject
-import itertools
-from . import kupfer
 import threading
+from . import kupfer
 
 class SearchThread(threading.Thread):
 	def __init__(self, sender, coll, key, signal, context=None, **kwargs):
@@ -30,7 +28,16 @@ class DataController (gobject.GObject):
 	__gtype_name__ = "DataController"
 	def __init__(self, datasource):
 		super(DataController, self).__init__()
+		#gobject.threads_init()
 		self.source_rebase(datasource)
+	def load(self):
+		"""
+		Tell the DataController to "preload" its source
+		asynchronously, either in a thread or in the main loop
+		"""
+		gobject.idle_add(self._load_source)
+	def _load_source(self):
+		self.source.get_leaves()
 
 	def get_source(self):
 		return self.source

@@ -220,14 +220,13 @@ class MatchView (gtk.Bin):
 		super(MatchView, self).set_state(state)
 		#self.label.set_state(gtk.STATE_NORMAL)
 		self.event_box.queue_draw()
-	
+
 gobject.type_register(MatchView)
 
 class Search (gtk.Bin):
 	"""
-	A Widget for searching an matching
-
-	Is connected to a kupfer.Search object
+	A Widget for displaying search results
+	icon + aux table etc
 
 	Signals
 	* cursor-changed: def callback(widget, selection)
@@ -564,7 +563,6 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("predicate-result", self._predicate_result)
 
-
 	def _entry_key_press(self, entry, event):
 		"""
 		Intercept arrow keys and manipulate table
@@ -713,6 +711,7 @@ class WindowController (object):
 		self.interface.connect("cancelled", self.data_controller._search_cancelled)
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
+		self.data_controller.load()
 		self.activate()
 
 	def _setup_status_icon(self):
