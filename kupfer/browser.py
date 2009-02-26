@@ -5,6 +5,7 @@ import gtk
 import gobject
 import itertools
 from . import kupfer
+from .data import DataController
 
 # State Constants
 class State (object):
@@ -461,7 +462,9 @@ class Search (gtk.Bin):
 		return first
 	
 	def handle_no_matches(self):
-		pass
+		dum = self.dummy
+		self.match_state = State.NoMatch
+		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
 	
 	def set_active(self, act):
 		self.active = act
@@ -476,6 +479,36 @@ gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
+
+class LeafSearch (Search):
+	"""
+	Customize for leaves search	
+	"""
+	def __init__(self, **kwargs):
+		from objects import DummyLeaf
+		self.dummy = DummyLeaf()
+		super(LeafSearch, self).__init__(**kwargs)
+	def setup_empty(self):
+		from objects import DummyLeaf
+		dum = DummyLeaf()
+		icon = dum.get_icon()
+
+		title = "Searching..."
+		self.set_match(None)
+		self.match_state = State.Wait
+		self.match_view.set_match_state(title, icon, state=State.Wait)
+
+class ActionSearch (Search):
+	"""
+	Customization for Actions
+	"""
+	def __init__(self, **kwargs):
+		from objects import DummyAction
+		self.dummy = DummyAction()
+		super(ActionSearch, self).__init__(**kwargs)
+	def setup_empty(self):
+		self.handle_no_matches()
+		self._hide_table()
 
 class Interface (gobject.GObject):
 	"""
@@ -662,43 +695,6 @@ gobject.signal_new("browse-up", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 gobject.signal_new("browse-down", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-
-class LeafSearch (Search):
-	"""
-	Customize for leaves search	
-	"""
-	def setup_empty(self):
-		from objects import DummyLeaf
-		dum = DummyLeaf()
-		icon = dum.get_icon()
-
-		title = "Searching..."
-		self.set_match(None)
-		self.match_state = State.Wait
-		self.match_view.set_match_state(title, icon, state=State.Wait)
-
-	def handle_no_matches(self):
-		from objects import DummyLeaf
-		dum = DummyLeaf()
-		self.match_state = State.NoMatch
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
-
-
-class ActionSearch (Search):
-	"""
-	Customization for Actions
-	"""
-	def setup_empty(self):
-		self.handle_no_matches()
-		self._hide_table()
-	
-	def handle_no_matches(self):
-		from objects import DummyAction
-		dum = DummyAction()
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
-		self.match_state = State.NoMatch
-
-from .data import DataController
 
 class WindowController (object):
 	"""
