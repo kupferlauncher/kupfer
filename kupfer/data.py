@@ -5,12 +5,13 @@ from . import kupfer
 import threading
 
 class SearchThread(threading.Thread):
-	def __init__(self, sender, coll, key, signal, **kwargs):
+	def __init__(self, sender, coll, key, signal, context=None, **kwargs):
 		super(SearchThread, self).__init__(**kwargs)
 		self.sender = sender
 		self.rankables = coll
 		self.key = key or ""
 		self.signal = signal
+		self.context=context
 
 	def run(self):
 		sobj = kupfer.Search(self.rankables)
@@ -19,7 +20,8 @@ class SearchThread(threading.Thread):
 			match = matches[0]
 		else:
 			match = None
-		gobject.idle_add(self.sender.emit, self.signal, self.key, match, iter(matches))
+		gobject.idle_add(self.sender.emit, self.signal, match, iter(matches),
+				self.context)
 
 class DataController (gobject.GObject):
 	"""
@@ -39,15 +41,15 @@ class DataController (gobject.GObject):
 		"""
 		return ((leaf.value, leaf) for leaf in self.source.get_leaves())
 
-	def do_search(self, source, key):
+	def do_search(self, source, key, context):
 		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
-		st = SearchThread(self, rankables, key, "search-result")
+		st = SearchThread(self, rankables, key, "search-result", context)
 		st.start()
 
-	def search(self, key):
-		gobject.idle_add(self.do_search, self.source, key)
+	def search(self, key, context=None):
+		gobject.idle_add(self.do_search, self.source, key, context)
 
-	def do_predicate_search(self, leaf, key=None):
+	def do_predicate_search(self, leaf, key=None, context=None):
 		if leaf:
 			leaves = leaf.get_actions()
 		else:
@@ -57,14 +59,14 @@ class DataController (gobject.GObject):
 			try:
 				match = matches[0]
 			except IndexError: match = None
-			self.emit("predicate-result", key, match, iter(matches))
+			self.emit("predicate-result", match, iter(matches), context)
 		else:
 			leaves = [(leaf.name, leaf) for leaf in leaves]
 			st = SearchThread(self, leaves, key, "predicate-result")
 			st.start()
 
-	def search_predicate(self, item, key=None):
-		self.do_predicate_search(item, key)
+	def search_predicate(self, item, key=None, context=None):
+		self.do_predicate_search(item, key, context)
 
 	def source_rebase(self, src):
 		self.source_stack = []
@@ -144,9 +146,9 @@ class DataController (gobject.GObject):
 
 gobject.type_register(DataController)
 gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT ))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 gobject.signal_new("predicate-result", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT ))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT ))
 gobject.signal_new("new-source", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN))
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,

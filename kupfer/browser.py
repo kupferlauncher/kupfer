@@ -253,6 +253,7 @@ class Search (gtk.Bin):
 		self.label_char_width = 25
 		# finally build widget
 		self.build_widget()
+		self.setup_empty()
 	
 	def build_widget(self):
 		"""
@@ -441,8 +442,6 @@ class Search (gtk.Bin):
 		#self.model_iterator = #iter(self.search_object.search_base)
 		first = self.populate_model(self.model_iterator, num)
 		self.set_match(first)
-		if first:
-			self.update_match()
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -614,13 +613,15 @@ class Interface (gobject.GObject):
 		self.emit("activate", obj, act)
 		self.reset()
 	
-	def _search_result(self, sender, key, matchrankable, matches):
-		print "Got result", matchrankable
+	def _search_result(self, sender, matchrankable, matches, context):
+		print "Got result", matchrankable, "for ctx", context
 		self.switch_to_source()
+		key = context
 		self.search.update_match(key, matchrankable, matches)
 
-	def _predicate_result(self, sender, key, matchrankable, matches):
-		print "Got predicate", matchrankable
+	def _predicate_result(self, sender, matchrankable, matches, context):
+		print "Got predicate", matchrankable, "for ctx", context
+		key = context
 		self.action.update_match(key, matchrankable, matches)
 
 	def _search_match_changed(self, widget, match):
@@ -648,9 +649,9 @@ class Interface (gobject.GObject):
 		if not len(text):
 			return
 		if self.current is self.search:
-			self.data_controller.search(text)
+			self.data_controller.search(text, context=text)
 		else:
-			self.data_controller.search_predicate(self.search.get_current(), text)
+			self.data_controller.search_predicate(self.search.get_current(), text, context=text)
 
 gobject.type_register(Interface)
 gobject.signal_new("activate", Interface, gobject.SIGNAL_RUN_LAST,
@@ -666,22 +667,10 @@ class LeafSearch (Search):
 	"""
 	Customize for leaves search	
 	"""
-	def set_source(self, source):
-		"""
-		Use source as the new leaf source
-		"""
-		self.source = source
-		self.set_search_object(self.make_searchobj(source))
-		self.model_iterator = None
-		self._hide_table()
-
-	def make_searchobj(self, source):
-		leaves = source.get_leaves() 
-		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
-
 	def setup_empty(self):
-		#icon = self.get_icon()
-		icon = None
+		from objects import DummyLeaf
+		dum = DummyLeaf()
+		icon = dum.get_icon()
 
 		title = "Searching..."
 		self.set_match(None)
@@ -700,10 +689,6 @@ class ActionSearch (Search):
 	Customization for Actions
 	"""
 	def setup_empty(self):
-		if self.search_object:
-			self.init_table()
-			if self.match:
-				return
 		self.handle_no_matches()
 		self._hide_table()
 	
