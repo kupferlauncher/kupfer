@@ -38,6 +38,7 @@ def get_icon_for_uri(uri, icon_size):
 	if not exists(uri):
 		return None
 
+	# FIXME: Replace with GIO + gicon
 	mtype = get_mime_type(uri)
 	icon_theme = icon_theme_get_default()
 	thumb_factory = ThumbnailFactory(16)
