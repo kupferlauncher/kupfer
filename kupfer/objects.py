@@ -14,8 +14,8 @@ import gnomevfs
 import itertools
 from os import path
 
-import icons
-import utils
+from . import icons
+from . import utils
 
 class Error (Exception):
 	pass
@@ -80,7 +80,6 @@ class KupferObject (object):
 		define get_pixbuf_name to use the named icon
 		"""
 		return None
-
 
 def aslist(seq):
 	"""
@@ -182,40 +181,18 @@ class FileLeaf (Leaf):
 		icon = icons.get_icon_for_uri(uri, self.icon_size)
 		return icon
 
-def FileLeafContstruct(obj, value):
+def ContstructFileLeaf(obj, value):
+	"""
+	If the path in @obj points to a Desktop Item file,
+	return an AppLeaf, otherwise return a FileLeaf
+	"""
 	root, ext = path.splitext(obj)
 	if ext == ".desktop":
-		try:
-			return DesktopLeaf(obj, value)
-		except InvalidData:
-			pass
-	return FileLeaf(obj, value)
-
-class DesktopLeaf (FileLeaf):
-	"""
-	A "loose" desktop file
-	"""
-
-	def __init__(self, obj, value):
-		super(DesktopLeaf, self).__init__(obj, value)
 		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
-		self.desktop_item = item_new_from_file(self.object, LOAD_ONLY_IF_EXISTS)
-		if not self.desktop_item:
-			raise InvalidData
-
-	def get_actions(self):
-		acts = super(DesktopLeaf, self).get_actions()
-		acts.insert(0, DesktopLaunch())
-		return acts
-
-	def has_content(self):
-		return False
-
-	def get_pixbuf(self):
-		icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
-		if not icon:
-			return super(DesktopLeaf, self).get_pixbuf()
-		return icon
+		desktop_item = item_new_from_file(obj, LOAD_ONLY_IF_EXISTS)
+		if desktop_item:
+			return AppLeaf(desktop_item)
+	return FileLeaf(obj, value)
 
 class SourceLeaf (Leaf):
 	def has_content(self):
@@ -478,17 +455,6 @@ class Launch (Action):
 	def get_pixbuf(self):
 		return icons.get_default_application_icon(self.icon_size)
 
-class DesktopLaunch (Launch):
-	"""
-	Launches a "loose" desktop file
-	"""
-	
-	def __init__(self):
-		super(DesktopLaunch, self).__init__("Launch (desktop file)")
-	
-	def activate(self, leaf):
-		self.launch_item(leaf.desktop_item)
-
 class Execute (Launch):
 	"""
 	Execute executable file (FileLeaf)
@@ -662,7 +628,7 @@ class DirectorySource (Source):
 		def file_leaves(files):
 			for file in files:
 				basename = path.basename(file)
-				yield FileLeaf(file, basename)
+				yield ContstructFileLeaf(file, basename)
 
 		return file_leaves(dirlist)
 
