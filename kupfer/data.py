@@ -3,26 +3,15 @@ import dummy_threading as threading
 
 from . import kupfer
 
-class SearchThread(threading.Thread):
-	def __init__(self, sender, coll, key, signal, context=None, **kwargs):
-		super(SearchThread, self).__init__(**kwargs)
-		self.daemon = True
-		self.sender = sender
-		self.rankables = coll
-		self.key = key or ""
-		self.signal = signal
-		self.context = context
+def SearchTask(sender, rankables, key, signal, context=None):
+	sobj = kupfer.Search(rankables)
+	matches = sobj.search_objects(key)
 
-	def run(self):
-		sobj = kupfer.Search(self.rankables)
-		matches = sobj.search_objects(self.key)
-
-		if len(matches):
-			match = matches[0]
-		else:
-			match = None
-		gobject.idle_add(self.sender.emit, self.signal, match, iter(matches),
-				self.context)
+	if len(matches):
+		match = matches[0]
+	else:
+		match = None
+	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
 class DataController (gobject.GObject):
 	"""
@@ -57,8 +46,7 @@ class DataController (gobject.GObject):
 	def do_search(self, source, key, context):
 		print "%s: Searching items for %s" % (self, key)
 		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
-		st = SearchThread(self, rankables, key, "search-result", context=context)
-		st.start()
+		SearchTask(self, rankables, key, "search-result", context=context)
 		self.is_searching = False
 
 	def do_closure(self):
@@ -95,8 +83,7 @@ class DataController (gobject.GObject):
 			self.emit("predicate-result", match, iter(matches), context)
 		else:
 			leaves = [(leaf.name, leaf) for leaf in leaves]
-			st = SearchThread(self, leaves, key, "predicate-result", context)
-			st.start()
+			SearchTask(self, leaves, key, "predicate-result", context)
 
 	def search_predicate(self, item, key=None, context=None):
 		self.do_predicate_search(item, key, context)
