@@ -106,9 +106,16 @@ gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST
 
 class SourcePickleService (OutputMixin):
 	pickle_version = 1
+	name_template = "kupfer-%s.pickle"
 
 	def __call__(self):
 		return self
+	def get_filename(self, source):
+		hashstr = "%010d" % abs(hash(repr(source)))
+		return self.name_template % hashstr
+
+	def unpickle_source(self, source):
+		return self._unpickle_source(self.get_filename(source))
 	def _unpickle_source(self, pickle_file):
 		try:
 			pfile = file(pickle_file, "rb")
@@ -126,6 +133,8 @@ class SourcePickleService (OutputMixin):
 			self.output_debug("Error loading %s: %s" % (pickle_file, e))
 		return source
 
+	def pickle_source(self, source):
+		return self._pickle_source(self.get_filename(source), source)
 	def _pickle_source(self, pickle_file, source):
 		output = file(pickle_file, "wb")
 		self.output_info("Saving %s to %s" % (source, pickle_file))
@@ -201,8 +210,7 @@ class DataController (gobject.GObject, OutputMixin):
 		the "dummy" becomes live and is rescanned if @rescan
 		"""
 		for source in sources:
-			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
-			news = SourcePickleService()._unpickle_source(name)
+			news = SourcePickleService().unpickle_source(source)
 			if news:
 				sources.remove(source)
 				sources.add(news)
@@ -215,8 +223,7 @@ class DataController (gobject.GObject, OutputMixin):
 			if source.is_dynamic():
 				continue
 			# nice row of builtins
-			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
-			SourcePickleService()._pickle_source(name, source)
+			SourcePickleService().pickle_source(source)
 
 	def finish(self):
 		self._pickle_sources(self.sources)
