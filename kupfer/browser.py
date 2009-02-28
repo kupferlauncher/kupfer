@@ -744,11 +744,11 @@ class WindowController (object):
 	"""
 	This is the fundamental Window (and App) Controller
 	"""
-	def __init__(self, datasource):
+	def __init__(self):
 		"""
 		"""
 		self.icon_name = gtk.STOCK_FIND
-		self.data_controller = DataController(datasource)
+		self.data_controller = DataController()
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.interface = Interface(self.data_controller, self.window)
 		self._setup_window()

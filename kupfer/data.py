@@ -16,14 +16,22 @@ def SearchTask(sender, rankables, key, signal, context=None):
 class DataController (gobject.GObject):
 	"""
 	Sources <-> Actions controller
+
+	This is a singleton, and should
+	be inited using set_source
 	"""
 	__gtype_name__ = "DataController"
-	def __init__(self, datasource):
+	def __call__(self):
+		return self
+
+	def __init__(self):
 		super(DataController, self).__init__()
-		#gobject.threads_init()
-		self.source_rebase(datasource)
+		self.source = None
 		self.search_closure = None
 		self.is_searching = False
+
+	def set_source(self, datasource):
+		self.source_rebase(datasource)
 
 	def load(self):
 		"""
@@ -178,3 +186,6 @@ gobject.signal_new("new-source", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+
+# Create singleton object shadowing main class!
+DataController = DataController()

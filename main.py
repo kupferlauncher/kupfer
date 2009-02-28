@@ -90,6 +90,7 @@ def main():
 
 	from kupfer import browser
 	from kupfer import objects, extensions
+	from kupfer import data
 
 	print __doc__
 
@@ -148,7 +149,9 @@ def main():
 		print "No sources"
 		raise SystemExit(1)
 
-	w = browser.WindowController(root_catalog)
+	dc = data.DataController()
+	dc.set_source(root_catalog)
+	w = browser.WindowController()
 	w.main()
 
 if __name__ == '__main__':
