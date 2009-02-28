@@ -12,6 +12,13 @@ class State (object):
 	Wait, Match, NoMatch = (1,2,3)
 
 class ModelBase (object):
+	"""A base for a tree view
+	With a magic load-on-demand feature.
+
+	self.set_base will set its base iterator
+	and self.populate(num) will load @num items into
+	the model
+	"""
 	def __init__(self, *columns):
 		"""
 		First column is always the object -- returned by get_object
@@ -19,6 +26,7 @@ class ModelBase (object):
 		"""
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
+		self.base = None
 	
 	def __len__(self):
 		return len(self.store)
@@ -31,11 +39,37 @@ class ModelBase (object):
 	def get_object(self, path):
 		return self._get_column(path, self.object_column)
 
+	def get_store(self):
+		return self.store
+
 	def append(self, row):
 		self.store.append(row)
 
 	def clear(self):
+		"""Clear the model and reset its base"""
 		self.store.clear()
+		self.base = None
+
+	def set_base(self, baseiter):
+		self.base = iter(baseiter)
+
+	def populate(self, num=None):
+		"""
+		populate model with num items from its base
+		and return first item inserted
+		if num is none, insert everything
+		"""
+		if not self.base:
+			return None
+		if num:
+			iterator = itertools.islice(self.base, num)
+		first = None
+		for item in iterator:
+			row = (item.object, item.rank)
+			self.add(row)
+			if not first: first = item.object
+		# first.object is a leaf
+		return first
 
 class LeafModel (ModelBase):
 	def __init__(self):
@@ -244,7 +278,6 @@ class Search (gtk.Bin):
 		self.model = LeafModel()
 		self.callbacks = {}
 		self.match = None
-		self.model_iterator = None
 		self.match_state = State.Wait
 		self.text = ""
 		# internal constants
@@ -262,7 +295,7 @@ class Search (gtk.Bin):
 		"""
 		self.match_view = MatchView()
 
-		self.table = gtk.TreeView(self.model.store)
+		self.table = gtk.TreeView(self.model.get_store())
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
 
@@ -363,16 +396,14 @@ class Search (gtk.Bin):
 
 		# if no data is loaded (frex viewing catalog), load
 		# if too little data is loaded, try load more
-		if not len(self.model):
-			self.init_table(self.show_initial)
 		if len(self.model) <= 1:
-			self.populate_model(self.model_iterator, self.show_more)
+			self.model.populate(self.show_more)
 		if len(self.model) > 1:
 			path, col = self.table.get_cursor()
 			if path:
 				r = row_at_path(path)
 				if r == -1 + len(self.model):
-					self.populate_model(self.model_iterator, self.show_more)
+					self.model.populate(self.show_more)
 				if r < -1 + len(self.model):
 					self.table.set_cursor(path_at_row(r+1))
 			else:
@@ -427,8 +458,8 @@ class Search (gtk.Bin):
 		match = matchrankable.object
 		self.set_match(match)
 		self.text = key
-		self.model_iterator = iter(matches)
-		top = self.populate_model(self.model_iterator, 1)
+		self.model.set_base(iter(matches))
+		top = self.model.populate(1)
 		print top
 
 	def reset(self):
@@ -438,15 +469,6 @@ class Search (gtk.Bin):
 	def setup_empty(self):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state("No match", None, state=State.NoMatch)
-
-	def init_table(self, num=None):
-		"""
-		Fill table with entries
-		and set match to first entry
-		"""
-		#self.model_iterator = #iter(self.search_object.search_base)
-		first = self.populate_model(self.model_iterator, num)
-		self.set_match(first)
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -455,6 +477,8 @@ class Search (gtk.Bin):
 		and return first item inserted
 		if num is none, insert everything
 		"""
+		if not iterator:
+			return None
 		if num:
 			iterator = itertools.islice(iterator, num)
 		first = None
