@@ -548,10 +548,6 @@ class Interface (gobject.GObject):
 	* activate: def callback(controller, leaf, action)
 	* cancelled: def callback(controller)
 		escape was typed
-	* browse-up
-		leftarrow/backspace used to go up
-	* browse-down
-		rightarrow: try to go down in hierarchy
 	"""
 	__gtype_name__ = "Interface"
 
@@ -593,9 +589,6 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("predicate-result", self._predicate_result)
 		self.data_controller.connect("new-source", self._new_source)
 		self.connect("activate", self.data_controller._activate)
-		self.connect("browse-down", self.data_controller._browse_down)
-		self.connect("browse-up", self.data_controller._browse_up)
-		self.connect("cancelled", self.data_controller._search_cancelled)
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
@@ -624,9 +617,7 @@ class Interface (gobject.GObject):
 			return False
 
 		if keyv == esckey:
-			self.emit("cancelled", self.search.match_state)
-			self.reset()
-			self.switch_to_source()
+			self._escape_search()
 			return False
 
 		if keyv == uarrow:
@@ -643,8 +634,7 @@ class Interface (gobject.GObject):
 					self._browse_up(match)
 				else:
 					self.current.reset()
-				self.entry.set_text("")
-				self.current._hide_table()
+				self.reset()
 		else:
 			if keyv == tabkey:
 				self.current._hide_table()
@@ -663,6 +653,15 @@ class Interface (gobject.GObject):
 			self.current = self.search
 			self._update_active()
 	
+	def _escape_search(self):
+		if self.search.match_state is State.Wait:
+			self.data_controller.reset()
+			self.emit("cancelled")
+		else:
+			self.reset()
+			self.current.reset()
+			self.switch_to_source()
+
 	def _new_source(self, sender, source):
 		"""Notification about a new data source,
 		(represented object for the self.search object
@@ -686,12 +685,10 @@ class Interface (gobject.GObject):
 		self.reset()
 	
 	def _browse_up(self, match):
-		self.emit("browse-up", match)
-		self.reset()
+		self.data_controller.browse_up()
 	
 	def _browse_down(self, match):
-		self.emit("browse-down", match)
-		self.reset()
+		self.data_controller.browse_down(match)
 
 	def _activate(self, widget, current):
 		act = self.action.get_current()
@@ -743,11 +740,7 @@ gobject.type_register(Interface)
 gobject.signal_new("activate", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-gobject.signal_new("browse-up", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-gobject.signal_new("browse-down", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
+		gobject.TYPE_BOOLEAN, ())
 
 class WindowController (object):
 	"""
@@ -814,9 +807,8 @@ class WindowController (object):
 	def quit(self):
 		gtk.main_quit()
 	
-	def _cancelled(self, widget, state):
-		if state is State.Wait:
-			self.put_away()
+	def _cancelled(self, widget):
+		self.put_away()
 	
 	def _show_hide(self, status_icon):
 		"""

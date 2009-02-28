@@ -112,7 +112,9 @@ class DataController (gobject.GObject):
 		"""
 		self.refresh_actions(leaf)
 	
-	def _browse_up(self, controller, leaf):
+	def browse_up(self):
+		"""Try to browse up to previous sources, from current
+		source"""
 		try:
 			self.pop_source()
 		except:
@@ -120,13 +122,16 @@ class DataController (gobject.GObject):
 				self.source_rebase(self.source.get_parent())
 		self.refresh_data()
 	
-	def _browse_down(self, controller, leaf):
+	def browse_down(self, leaf):
+		"""Browse into @leaf if it's possible
+		and save away the previous sources in the stack"""
 		if not leaf.has_content():
 			return
 		self.push_source(leaf.content_source())
 		self.refresh_data()
 
-	def _search_cancelled(self, widget, state):
+	def reset(self):
+		"""Pop all sources and go back to top level"""
 		try:
 			while True:
 				self.pop_source()
