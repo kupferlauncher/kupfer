@@ -105,7 +105,7 @@ gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 
-class DataController (gobject.GObject):
+class DataController (gobject.GObject, OutputMixin):
 	"""
 	Sources <-> Actions controller
 
@@ -161,36 +161,58 @@ class DataController (gobject.GObject):
 		Tell the DataController to "preload" its source
 		asynchronously, either in a thread or in the main loop
 		"""
+		S,s = self.sources
+		self._unpickle_or_rescan(S)
+		self._unpickle_or_rescan(s)
+
+	def _unpickle_or_rescan(self, sources, rescan=True):
 		# immediately rescan main collection
-		self.rescanner.register_rescan(self.source, force=True)
+		for source in list(sources):
+			name = "pickle-%s.gz" % str(abs(hash(repr(source))))
+			news = self._unpickle_source(name)
+			if news:
+				idx = sources.index(source)
+				sources.remove(source)
+				sources.insert(idx, news)
+			elif rescan:
+				self.rescanner.register_rescan(source, force=True)
 
 	def _unpickle_source(self, pickle_file):
 		from gzip import GzipFile as file
 		try:
 			pfile = file(pickle_file, "rb")
-		except IOError:
+		except IOError, e:
 			return None
-		print "Reading from", pfile
 		unpickler = pickle.Unpickler(pfile)
 		version = unpickler.load()
-		print version
 		source = unpickler.load()
-		print source
+		self.output_info("Reading %s from %s" % (source, pickle_file))
 		return source
 	
 	def _pickle_source(self, pickle_file, source):
-		"""Before exit"""
 		from gzip import GzipFile as file
 		output = file(pickle_file, "wb")
-		print "Pickling to", output
+		self.output_info("Saving %s to %s" % (source, pickle_file))
 		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
 		pickler.dump(self.pickle_version)
 		pickler.dump(source)
 		output.close()
 		return True
 
+	def _pickle_sources(self, sources):
+		for source in sources:
+			if source.is_dynamic():
+				continue
+			# nice row of builtins
+			name = "pickle-%s.gz" % str(abs(hash(repr(source))))
+			self._pickle_source(name, source)
+
 	def finish(self):
-		pass
+		S, s = self.sources
+		sources = set()
+		sources.update(S)
+		sources.update(s)
+		self._pickle_sources(sources)
 
 	def get_source(self):
 		return self.source
