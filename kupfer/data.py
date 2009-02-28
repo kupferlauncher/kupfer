@@ -91,7 +91,7 @@ class DataController (gobject.GObject):
 			self.source = self.source_stack.pop()
 	
 	def refresh_data(self):
-		pass
+		self.emit("new-source", self.source)
 	
 	def refresh_actions(self, leaf):
 		"""
@@ -157,6 +157,6 @@ gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("predicate-result", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT ))
 gobject.signal_new("new-source", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_BOOLEAN))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))

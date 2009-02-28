@@ -251,6 +251,7 @@ class Search (gtk.Bin):
 		self.show_initial = 10
 		self.show_more = 10
 		self.label_char_width = 25
+		self.source = None
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
@@ -301,6 +302,10 @@ class Search (gtk.Bin):
 		return current selection
 		"""
 		return self.match
+
+	def set_source(self, source):
+		"""Set current source (to get icon, name etc)"""
+		self.source = source
 
 	def get_match_state(self):
 		return self.match_state
@@ -488,11 +493,12 @@ class LeafSearch (Search):
 		self.dummy = DummyLeaf()
 		super(LeafSearch, self).__init__(**kwargs)
 	def setup_empty(self):
-		from objects import DummyLeaf
-		dum = DummyLeaf()
-		icon = dum.get_icon()
-
+		icon = None
 		title = "Searching..."
+		if self.source:
+			icon = self.source.get_icon()
+			title = "Searching %s..." % self.source
+
 		self.set_match(None)
 		self.match_state = State.Wait
 		self.match_view.set_match_state(title, icon, state=State.Wait)
@@ -562,6 +568,7 @@ class Interface (gobject.GObject):
 		self.data_controller = controller
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("predicate-result", self._predicate_result)
+		self.data_controller.connect("new-source", self._new_source)
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -616,6 +623,15 @@ class Interface (gobject.GObject):
 		if self.current is not self.search:
 			self.current = self.search
 			self._update_active()
+	
+	def _new_source(self, sender, source):
+		"""Notification about a new data source,
+		(represented object for the self.search object
+		"""
+		self.reset()
+		self.switch_to_source()
+		self.search.set_source(source)
+		self.search.reset()
 	
 	def _update_active(self):
 		self.action.set_active(self.action is self.current)
