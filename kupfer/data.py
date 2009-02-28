@@ -113,8 +113,6 @@ class DataController (gobject.GObject, OutputMixin):
 	be inited using set_source
 	"""
 	__gtype_name__ = "DataController"
-
-	pickle_file = "pickles.gz"
 	pickle_version = 1
 
 	def __call__(self):
@@ -172,7 +170,7 @@ class DataController (gobject.GObject, OutputMixin):
 	def _unpickle_or_rescan(self, sources, rescan=True):
 		# immediately rescan main collection
 		for source in sources:
-			name = "pickle-%s.gz" % str(abs(hash(repr(source))))
+			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
 			news = self._unpickle_source(name)
 			if news:
 				sources.remove(source)
@@ -181,7 +179,6 @@ class DataController (gobject.GObject, OutputMixin):
 				self.rescanner.register_rescan(source, force=True)
 
 	def _unpickle_source(self, pickle_file):
-		from gzip import GzipFile as file
 		try:
 			pfile = file(pickle_file, "rb")
 		except IOError, e:
@@ -195,7 +192,6 @@ class DataController (gobject.GObject, OutputMixin):
 		return source
 	
 	def _pickle_source(self, pickle_file, source):
-		from gzip import GzipFile as file
 		output = file(pickle_file, "wb")
 		self.output_info("Saving %s to %s" % (source, pickle_file))
 		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
@@ -209,7 +205,7 @@ class DataController (gobject.GObject, OutputMixin):
 			if source.is_dynamic():
 				continue
 			# nice row of builtins
-			name = "pickle-%s.gz" % str(abs(hash(repr(source))))
+			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
 			self._pickle_source(name, source)
 
 	def finish(self):
