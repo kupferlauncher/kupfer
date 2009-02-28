@@ -592,6 +592,10 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("predicate-result", self._predicate_result)
 		self.data_controller.connect("new-source", self._new_source)
+		self.connect("activate", self.data_controller._activate)
+		self.connect("browse-down", self.data_controller._browse_down)
+		self.connect("browse-up", self.data_controller._browse_up)
+		self.connect("cancelled", self.data_controller._search_cancelled)
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
@@ -758,10 +762,6 @@ class WindowController (object):
 		self.interface = Interface(self.data_controller, self.window)
 		self._setup_window()
 		self._setup_status_icon()
-		self.interface.connect("activate", self.data_controller._activate)
-		self.interface.connect("browse-down", self.data_controller._browse_down)
-		self.interface.connect("browse-up", self.data_controller._browse_up)
-		self.interface.connect("cancelled", self.data_controller._search_cancelled)
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
 		self.data_controller.load()
