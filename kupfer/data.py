@@ -2,6 +2,8 @@ import gobject
 import threading
 import pickle
 
+gobject.threads_init()
+
 from . import kupfer
 from . import objects
 
