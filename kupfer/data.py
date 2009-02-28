@@ -6,6 +6,7 @@ gobject.threads_init()
 
 from . import kupfer
 from . import objects
+from . import config
 
 def SearchTask(sender, rankables, key, signal, context=None):
 	sobj = kupfer.Search(rankables)
@@ -111,8 +112,11 @@ class SourcePickleService (OutputMixin):
 	def __call__(self):
 		return self
 	def get_filename(self, source):
+		from os import path
+
 		hashstr = "%010d" % abs(hash(repr(source)))
-		return self.name_template % hashstr
+		filename = self.name_template % hashstr
+		return path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
 		return self._unpickle_source(self.get_filename(source))
