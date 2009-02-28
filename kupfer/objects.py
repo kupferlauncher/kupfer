@@ -235,6 +235,10 @@ class SourceLeaf (Leaf):
 
 class AppLeaf (Leaf):
 	def __init__(self, item):
+		super(AppLeaf, self).__init__(item, "")
+		self._init_from_item(item)
+
+	def _init_from_item(self, item):
 		from gnomedesktop import KEY_NAME, KEY_EXEC
 		loc_name = item.get_localestring(KEY_NAME)
 		name = item.get_string(KEY_NAME)
@@ -242,8 +246,20 @@ class AppLeaf (Leaf):
 			value = "%s (%s)" % (loc_name, name)
 		else:
 			value = name
+		self.object = item
+		self.value = value
+		self.name = value
 
-		Leaf.__init__(self, item, value)
+	def __getstate__(self):
+		"""For pickling: Return smth to be able to setup the state again"""
+		return self.object.get_location()
+
+	def __setstate__(self, state):
+		"""For pickling: Take the state from __getstate__ (a uri)
+		and load in a new object"""
+		from gnomedesktop import item_new_from_uri, LOAD_ONLY_IF_EXISTS
+		item = item_new_from_uri(state, LOAD_ONLY_IF_EXISTS)
+		self._init_from_item(item)
 	
 	def get_actions(self):
 		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True),
