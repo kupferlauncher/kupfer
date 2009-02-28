@@ -105,7 +105,7 @@ class PeriodicRescanner (gobject.GObject, OutputMixin):
 gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
-class SourcePickleService (OutputMixin):
+class SourcePickleService (OutputMixin, object):
 	pickle_version = 1
 	name_template = "kupfer-%s.pickle"
 
@@ -221,12 +221,10 @@ class DataController (gobject.GObject, OutputMixin):
 			elif rescan:
 				self.rescanner.register_rescan(source, force=True)
 
-
 	def _pickle_sources(self, sources):
 		for source in sources:
 			if source.is_dynamic():
 				continue
-			# nice row of builtins
 			SourcePickleService().pickle_source(source)
 
 	def finish(self):
@@ -242,7 +240,6 @@ class DataController (gobject.GObject, OutputMixin):
 		return ((leaf.value, leaf) for leaf in self.source.get_leaves())
 
 	def do_search(self, source, key, context):
-		#print "%s: Searching items for %s" % (self, key)
 		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
 		SearchTask(self, rankables, key, "search-result", context=context)
 		self.is_searching = False
