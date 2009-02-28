@@ -1,4 +1,5 @@
 import gobject
+import threading
 import pickle
 
 from . import kupfer
@@ -14,36 +15,71 @@ def SearchTask(sender, rankables, key, signal, context=None):
 		match = None
 	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
+
+class RescanThread (threading.Thread):
+	def __init__(self, source, sender, signal, context=None, **kwargs):
+		super(RescanThread, self).__init__(**kwargs)
+		self.source = source
+		self.sender = sender
+		self.signal = signal
+		self.context = context
+
+	def start(self):
+		print "Rescanning", self.source
+		items = self.source.get_leaves(force_update=True)
+		if self.sender and self.signal:
+			gobject.idle_add(self.sender.emit, self.signal, self.context)
+
 class PeriodicRescanner (gobject.GObject):
-	def __init__(self, catalog, period=120, startup=10):
+	"""
+	Periodically rescan a @catalog of sources
+
+	Do first rescan after @startup seconds, then
+	followup with rescans in @period.
+
+	Each campaign of rescans is separarated by @campaign
+	seconds
+	"""
+	def __init__(self, catalog, period=5, startup=10, campaign=3600):
 		super(PeriodicRescanner, self).__init__()
 		self.period = period
+		self.campaign=campaign
 		self.set_catalog(catalog)
-		gobject.timeout_add_seconds(startup, self._startup)
+		gobject.timeout_add_seconds(startup, self._new_campaign)
 
 	def set_catalog(self, catalog):
 		self.catalog = catalog
-		self.cur = iter(catalog)
-
-	def _startup(self):
+		self.cur = iter(self.catalog)
+	
+	def _new_campaign(self):
+		print "Starting new campaign with rescans every", self.period
+		self.cur = iter(self.catalog)
 		gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
 
 	def _periodic_rescan_helper(self):
 		try:
 			next = self.cur.next()
 		except StopIteration:
-			self.cur = iter(self.catalog)
-			return True
+			print "Campaign finished, pausing", self.campaign
+			gobject.timeout_add_seconds(self.campaign, self._new_campaign)
+			return False
 		gobject.idle_add(self.reload_source, next)
 		return True
 
-	def register_rescan(self, source):
-		gobject.idle_add(self.reload_source, source)
+	def register_rescan(self, source, force=False):
+		"""Register an object for rescan
 
-	def reload_source(self, source):
-		"""Reload source"""
-		source.get_leaves(force_update=True)
-		self.emit("reloaded-source", source)
+		dynamic sources will only be rescanned if @force is True
+		"""
+		gobject.idle_add(self.reload_source, source, force)
+
+	def reload_source(self, source, force=False):
+		if force:
+			source.get_leaves(force_update=True)
+			self.emit("reloaded-source", source)
+		elif not source.is_dynamic():
+			rt = RescanThread(source, self, "reloaded-source", context=source)
+			rt.start()
 
 gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
@@ -106,7 +142,7 @@ class DataController (gobject.GObject):
 		asynchronously, either in a thread or in the main loop
 		"""
 		# immediately rescan main collection
-		self.rescanner.register_rescan(self.source)
+		self.rescanner.register_rescan(self.source, force=True)
 
 	def _unpickle_source(self, pickle_file):
 		from gzip import GzipFile as file
