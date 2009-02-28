@@ -104,6 +104,38 @@ class PeriodicRescanner (gobject.GObject, OutputMixin):
 gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
+class SourcePickleService (OutputMixin):
+	pickle_version = 1
+
+	def __call__(self):
+		return self
+	def _unpickle_source(self, pickle_file):
+		try:
+			pfile = file(pickle_file, "rb")
+		except IOError, e:
+			return None
+		try:
+			unpickler = pickle.Unpickler(pfile)
+			version = unpickler.load()
+			if version != self.pickle_version:
+				raise Exception("Old kupfer version")
+			source = unpickler.load()
+			self.output_info("Reading %s from %s" % (source, pickle_file))
+		except (pickle.PickleError, Exception), e:
+			source = None
+			self.output_debug("Error loading %s: %s" % (pickle_file, e))
+		return source
+
+	def _pickle_source(self, pickle_file, source):
+		output = file(pickle_file, "wb")
+		self.output_info("Saving %s to %s" % (source, pickle_file))
+		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
+		pickler.dump(self.pickle_version)
+		pickler.dump(source)
+		output.close()
+		return True
+
+SourcePickleService = SourcePickleService()
 
 class DataController (gobject.GObject, OutputMixin):
 	"""
@@ -113,7 +145,6 @@ class DataController (gobject.GObject, OutputMixin):
 	be inited using set_sources
 	"""
 	__gtype_name__ = "DataController"
-	pickle_version = 1
 
 	def __call__(self):
 		return self
@@ -171,38 +202,13 @@ class DataController (gobject.GObject, OutputMixin):
 		"""
 		for source in sources:
 			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
-			news = self._unpickle_source(name)
+			news = SourcePickleService()._unpickle_source(name)
 			if news:
 				sources.remove(source)
 				sources.add(news)
 			elif rescan:
 				self.rescanner.register_rescan(source, force=True)
 
-	def _unpickle_source(self, pickle_file):
-		try:
-			pfile = file(pickle_file, "rb")
-		except IOError, e:
-			return None
-		try:
-			unpickler = pickle.Unpickler(pfile)
-			version = unpickler.load()
-			if version != self.pickle_version:
-				raise Exception("Old kupfer version")
-			source = unpickler.load()
-			self.output_info("Reading %s from %s" % (source, pickle_file))
-		except (pickle.PickleError, Exception), e:
-			source = None
-			self.output_debug("Error loading %s: %s" % (pickle_file, e))
-		return source
-	
-	def _pickle_source(self, pickle_file, source):
-		output = file(pickle_file, "wb")
-		self.output_info("Saving %s to %s" % (source, pickle_file))
-		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
-		pickler.dump(self.pickle_version)
-		pickler.dump(source)
-		output.close()
-		return True
 
 	def _pickle_sources(self, sources):
 		for source in sources:
@@ -210,7 +216,7 @@ class DataController (gobject.GObject, OutputMixin):
 				continue
 			# nice row of builtins
 			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
-			self._pickle_source(name, source)
+			SourcePickleService()._pickle_source(name, source)
 
 	def finish(self):
 		self._pickle_sources(self.sources)
