@@ -18,15 +18,14 @@ class Test (object):
 	def cont(self, sender, leaf, action):
 		gobject.idle_add(self.loop)
 
-	def got_predicates(self, sender, term, result, matchview):
+	def got_predicates(self, sender, result, matchview, ctx):
 		for m in reversed(list(matchview)):
 			print m
 		if result:
 			self.Action = result.object
 		gobject.idle_add(self.loop)
 
-	def got_result(self, sender, term, result, matchview):
-		#print sender, term, result
+	def got_result(self, sender, result, matchview, ctx):
 		for m in reversed(list(matchview)):
 			print m
 		obj = result and result.object or None
@@ -48,7 +47,7 @@ class Test (object):
 				key = None
 			dc.search_predicate(self.Leaf, key)
 		elif key == "x" and self.Action:
-			gobject.idle_add(self.dc.eval_action, self.Action, self.Leaf)
+			gobject.idle_add(self.dc.eval_action, self.Leaf, self.Action)
 		else:
 			self.Leaf = None
 			self.Action = None
