@@ -49,6 +49,9 @@ class DataController (gobject.GObject):
 		gobject.idle_add(self._load_source)
 	def _load_source(self):
 		self.source.get_leaves()
+	
+	def finish(self):
+		pass
 
 	def get_source(self):
 		return self.source
