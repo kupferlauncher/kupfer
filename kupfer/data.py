@@ -110,7 +110,7 @@ class DataController (gobject.GObject, OutputMixin):
 	Sources <-> Actions controller
 
 	This is a singleton, and should
-	be inited using set_source
+	be inited using set_sources
 	"""
 	__gtype_name__ = "DataController"
 	pickle_version = 1
@@ -186,13 +186,13 @@ class DataController (gobject.GObject, OutputMixin):
 		try:
 			unpickler = pickle.Unpickler(pfile)
 			version = unpickler.load()
+			if version != self.pickle_version:
+				raise Exception("Old kupfer version")
 			source = unpickler.load()
-			# DEBUG: Mark pickle-loaded objects
-			# source.name+=" +"
 			self.output_info("Reading %s from %s" % (source, pickle_file))
 		except (pickle.PickleError, Exception), e:
 			source = None
-			self.output_debug("Error loading %s: " % (pickle_file, e))
+			self.output_debug("Error loading %s: %s" % (pickle_file, e))
 		return source
 	
 	def _pickle_source(self, pickle_file, source):
