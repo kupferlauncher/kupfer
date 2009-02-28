@@ -14,6 +14,33 @@ def SearchTask(sender, rankables, key, signal, context=None):
 		match = None
 	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
+class PeriodicRescanner (gobject.GObject):
+	def __init__(self, catalog, period=10, startup=10):
+		super(PeriodicRescanner, self).__init__()
+		self.catalog = catalog
+		self.period = period
+		print self.catalog
+		self.cur = iter(catalog)
+		gobject.timeout_add_seconds(startup, self._startup)
+
+	def _startup(self):
+		gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
+
+	def _periodic_rescan_helper(self):
+		try:
+			next = self.cur.next()
+		except StopIteration:
+			self.cur = iter(self.catalog)
+			return True
+		gobject.idle_add(self.reload_source, next)
+		return True
+
+	def reload_source(self, source):
+		"""Reload source"""
+		if not source.is_dynamic():
+			source.get_leaves(force_update=True)
+
+
 class DataController (gobject.GObject):
 	"""
 	Sources <-> Actions controller
@@ -32,17 +59,27 @@ class DataController (gobject.GObject):
 	def __init__(self):
 		super(DataController, self).__init__()
 		self.source = None
+		self.sources = None
 		self.search_closure = None
 		self.is_searching = False
+		self.rescanner = None
 
-	def set_sources(self, sources):
-		"""Init the DataController with the given list
-		of sources
+	def set_sources(self, S_sources, s_sources):
+		"""Init the DataController with the given list of sources
+
+		@S_sources are to be included directly in the catalog,
+		@s_souces as subitems
 		"""
-		if len(sources) == 1:
-			root_catalog, = sources
-		elif len(sources) > 1:
-			root_catalog = objects.MultiSource(sources)
+		self.sources = S_sources, s_sources
+
+		if s_sources:
+			S_sources.append(objects.SourcesSource(s_sources))
+	
+		if len(S_sources) == 1:
+			root_catalog, = S_sources
+		elif len(S_sources) > 1:
+			root_catalog = objects.MultiSource(S_sources)
+		print self.sources
 		self.source_rebase(root_catalog)
 
 	def load(self):
@@ -50,11 +87,12 @@ class DataController (gobject.GObject):
 		Tell the DataController to "preload" its source
 		asynchronously, either in a thread or in the main loop
 		"""
-		gobject.idle_add(self._load_source)
+		all_sources = []
+		S, s = self.sources
+		all_sources.extend(S)
+		all_sources.extend(s)
+		self.rescanner = PeriodicRescanner(all_sources, period=2, startup=0)
 
-	def _load_source(self):
-		self.source.get_leaves()
-	
 	def _unpickle_source(self, pickle_file):
 		from gzip import GzipFile as file
 		try:
@@ -93,7 +131,7 @@ class DataController (gobject.GObject):
 		return ((leaf.value, leaf) for leaf in self.source.get_leaves())
 
 	def do_search(self, source, key, context):
-		print "%s: Searching items for %s" % (self, key)
+		#print "%s: Searching items for %s" % (self, key)
 		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
 		SearchTask(self, rankables, key, "search-result", context=context)
 		self.is_searching = False

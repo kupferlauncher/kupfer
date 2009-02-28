@@ -138,15 +138,12 @@ def main():
 		if K in options:
 			S_sources.extend(v(K))
 
-	if len(s_sources):
-		S_sources.append(objects.SourcesSource(s_sources))
-	
-	if not S_sources:
+	if not S_sources and not s_sources:
 		print "No sources"
 		raise SystemExit(1)
 
 	dc = data.DataController()
-	dc.set_sources(S_sources)
+	dc.set_sources(S_sources, s_sources)
 	w = browser.WindowController()
 	w.main()
 
