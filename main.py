@@ -42,8 +42,10 @@ def get_options(default_opts=""):
 		  c             recent documents
 		  e             epiphany bookmarks
 		  p             nautilus places
+		  s				gnu screen sessions
+		  w				windows
 	
-	The default is "-S ap -s ce -D ~"
+	The default is "-S acpsw -s e -D ~ -D ~/Desktop"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -54,7 +56,7 @@ def get_options(default_opts=""):
 		opts.remove("--debug") 
 
 	if len(opts) < 1:
-		opts ="-S ap -s ce -D ~".split()
+		opts ="-S acpsw -s e -D ~ -D ~/Desktop".split()
 
 	try:
 		opts, args = getopt(opts, "S:s:D:d:R:r:", ["depth=", "help"])
