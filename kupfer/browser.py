@@ -456,8 +456,8 @@ class Search (gtk.Bin):
 			self.set_match(None)
 			return self.handle_no_matches()
 		match = matchrankable.object
-		self.set_match(match)
 		self.text = key
+		self.set_match(match)
 		self.model.set_base(iter(matches))
 		top = self.model.populate(1)
 		print top
