@@ -2,6 +2,7 @@ import gobject
 import dummy_threading as threading
 
 from . import kupfer
+from . import objects
 
 def SearchTask(sender, rankables, key, signal, context=None):
 	sobj = kupfer.Search(rankables)
@@ -30,8 +31,15 @@ class DataController (gobject.GObject):
 		self.search_closure = None
 		self.is_searching = False
 
-	def set_source(self, datasource):
-		self.source_rebase(datasource)
+	def set_sources(self, sources):
+		"""Init the DataController with the given list
+		of sources
+		"""
+		if len(sources) == 1:
+			root_catalog, = sources
+		elif len(sources) > 1:
+			root_catalog = objects.MultiSource(sources)
+		self.source_rebase(root_catalog)
 
 	def load(self):
 		"""

@@ -141,16 +141,12 @@ def main():
 	if len(s_sources):
 		S_sources.append(objects.SourcesSource(s_sources))
 	
-	if len(S_sources) == 1:
-		root_catalog, = S_sources
-	elif len(S_sources) > 1:
-		root_catalog = objects.MultiSource(S_sources)
-	else:
+	if not S_sources:
 		print "No sources"
 		raise SystemExit(1)
 
 	dc = data.DataController()
-	dc.set_source(root_catalog)
+	dc.set_sources(S_sources)
 	w = browser.WindowController()
 	w.main()
 
