@@ -31,6 +31,11 @@ class WindowLeaf (Leaf):
 			yield WindowAction("Maximize vertically", action="maximize_vertically")
 		yield WindowAction("Close", time=True)
 
+	def get_description(self):
+		workspace = self.object.get_workspace()
+		nr, name = workspace.get_number(), workspace.get_name()
+		return "Window %s on %s" % (self, name)
+
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
@@ -59,6 +64,9 @@ class WindowAction (Action):
 		gobject.idle_add(make_call())
 
 class WindowsSource (Source):
+	def __init__(self, name="Windows"):
+		super(WindowsSource, self).__init__(name)
+
 	def is_dynamic(self):
 		return True
 	def get_items(self):
@@ -67,8 +75,13 @@ class WindowsSource (Source):
 		wait_gtk()
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
-				name = "%s (%s)" % (win.get_name(), win.get_application().get_name())
+				name, app = (win.get_name(), win.get_application().get_name())
+				if name != app:
+					name = "%s (%s)" % (name, app)
 				yield WindowLeaf(win, name)
+
+	def get_description(self):
+		return "All windows on all workspaces"
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
