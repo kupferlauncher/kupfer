@@ -587,6 +587,8 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("predicate-result", self._predicate_result)
 		self.data_controller.connect("new-source", self._new_source)
+		self.search.set_source(self.data_controller.get_source())
+		self.search.reset()
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
