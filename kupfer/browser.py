@@ -5,12 +5,20 @@ import gtk
 import gobject
 import itertools
 from . import kupfer
+from .data import DataController
 
 # State Constants
 class State (object):
 	Wait, Match, NoMatch = (1,2,3)
 
 class ModelBase (object):
+	"""A base for a tree view
+	With a magic load-on-demand feature.
+
+	self.set_base will set its base iterator
+	and self.populate(num) will load @num items into
+	the model
+	"""
 	def __init__(self, *columns):
 		"""
 		First column is always the object -- returned by get_object
@@ -18,6 +26,7 @@ class ModelBase (object):
 		"""
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
+		self.base = None
 	
 	def __len__(self):
 		return len(self.store)
@@ -30,11 +39,37 @@ class ModelBase (object):
 	def get_object(self, path):
 		return self._get_column(path, self.object_column)
 
+	def get_store(self):
+		return self.store
+
 	def append(self, row):
 		self.store.append(row)
 
 	def clear(self):
+		"""Clear the model and reset its base"""
 		self.store.clear()
+		self.base = None
+
+	def set_base(self, baseiter):
+		self.base = iter(baseiter)
+
+	def populate(self, num=None):
+		"""
+		populate model with num items from its base
+		and return first item inserted
+		if num is none, insert everything
+		"""
+		if not self.base:
+			return None
+		if num:
+			iterator = itertools.islice(self.base, num)
+		first = None
+		for item in iterator:
+			row = (item.object, item.rank)
+			self.add(row)
+			if not first: first = item.object
+		# first.object is a leaf
+		return first
 
 class LeafModel (ModelBase):
 	def __init__(self):
@@ -219,14 +254,13 @@ class MatchView (gtk.Bin):
 		super(MatchView, self).set_state(state)
 		#self.label.set_state(gtk.STATE_NORMAL)
 		self.event_box.queue_draw()
-	
+
 gobject.type_register(MatchView)
 
 class Search (gtk.Bin):
 	"""
-	A Widget for searching an matching
-
-	Is connected to a kupfer.Search object
+	A Widget for displaying search results
+	icon + aux table etc
 
 	Signals
 	* cursor-changed: def callback(widget, selection)
@@ -242,19 +276,18 @@ class Search (gtk.Bin):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.model = LeafModel()
-		self.search_object = None
 		self.callbacks = {}
 		self.match = None
-		self.model_iterator = None
 		self.match_state = State.Wait
-		self.is_searching =False
 		self.text = ""
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
 		self.label_char_width = 25
+		self.source = None
 		# finally build widget
 		self.build_widget()
+		self.setup_empty()
 	
 	def build_widget(self):
 		"""
@@ -262,7 +295,7 @@ class Search (gtk.Bin):
 		"""
 		self.match_view = MatchView()
 
-		self.table = gtk.TreeView(self.model.store)
+		self.table = gtk.TreeView(self.model.get_store())
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
 
@@ -303,6 +336,10 @@ class Search (gtk.Bin):
 		"""
 		return self.match
 
+	def set_source(self, source):
+		"""Set current source (to get icon, name etc)"""
+		self.source = source
+
 	def get_match_state(self):
 		return self.match_state
 
@@ -314,7 +351,7 @@ class Search (gtk.Bin):
 
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
-	
+
 	def _get_table_visible(self):
 		return self.list_window.get_property("visible")
 
@@ -359,16 +396,14 @@ class Search (gtk.Bin):
 
 		# if no data is loaded (frex viewing catalog), load
 		# if too little data is loaded, try load more
-		if self.search_object and not len(self.model):
-			self.init_table(self.show_initial)
-		if self.model_iterator and len(self.model) <= 1:
-			self.populate_model(self.model_iterator, self.show_more)
+		if len(self.model) <= 1:
+			self.model.populate(self.show_more)
 		if len(self.model) > 1:
 			path, col = self.table.get_cursor()
 			if path:
 				r = row_at_path(path)
 				if r == -1 + len(self.model):
-					self.populate_model(self.model_iterator, self.show_more)
+					self.model.populate(self.show_more)
 				if r < -1 + len(self.model):
 					self.table.set_cursor(path_at_row(r+1))
 			else:
@@ -395,22 +430,37 @@ class Search (gtk.Bin):
 
 	def _cursor_changed(self, treeview):
 		path, col = treeview.get_cursor()
-		if not path:
-			self.emit("cursor-changed", None)
-			return
-		self.set_match(self.model.get_object(path))
-		self.update_match()
+		match = self.model.get_object(path)
+		self.set_match(match)
 	
 	def set_match(self, match):
 		"""
 		Set the currently selected (represented) object
-		
+
 		Emits cursor-changed
 		"""
+		print "Set match to", match
 		self.match = match
+		self.emit("cursor-changed", self.match)
 		if match:
 			self.match_state = State.Match
-		self.emit("cursor-changed", self.match)
+			self.match_view.set_match_state(str(self.match), self.match.get_icon(), match=self.text, state=self.match_state)
+
+	def update_match(self, key, matchrankable, matches):
+		"""
+		@matchrankable: Rankable first match or None
+		@matches: Iterable to rest of matches
+		"""
+		self.model.clear()
+		if not matchrankable:
+			self.set_match(None)
+			return self.handle_no_matches()
+		match = matchrankable.object
+		self.text = key
+		self.set_match(match)
+		self.model.set_base(iter(matches))
+		top = self.model.populate(1)
+		print top
 
 	def reset(self):
 		self.model.clear()
@@ -419,17 +469,6 @@ class Search (gtk.Bin):
 	def setup_empty(self):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state("No match", None, state=State.NoMatch)
-
-	def init_table(self, num=None):
-		"""
-		Fill table with entries
-		and set match to first entry
-		"""
-		self.model_iterator = iter(self.search_object.search_base)
-		first = self.populate_model(self.model_iterator, num)
-		self.set_match(first)
-		if first:
-			self.update_match()
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -438,6 +477,8 @@ class Search (gtk.Bin):
 		and return first item inserted
 		if num is none, insert everything
 		"""
+		if not iterator:
+			return None
 		if num:
 			iterator = itertools.islice(iterator, num)
 		first = None
@@ -447,49 +488,11 @@ class Search (gtk.Bin):
 			if not first: first = item.object
 		# first.object is a leaf
 		return first
-
-	def run_search(self, text):	
-		self.text = text
-		if not self.search_object:
-			return
-		self._hide_table()
-		if not self.is_searching:
-			gobject.timeout_add(150, self._update_search)
-			self.is_searching = True
-
-	def do_search(self):
-		"""
-		return the best items
-		"""
-		self.model.clear()
-		matches = self.search_object.search_objects(self.text)
-		self.model_iterator = iter(matches)
-		if not len(matches):
-			self.set_match(None)
-			self.handle_no_matches()
-			return None
-		
-		# get the best object
-		top = self.populate_model(self.model_iterator, 1)
-		return top
-	
-	def _update_search(self):
-		match = self.do_search()
-		if match:
-			self.set_match(match)
-			self.update_match()
-		self.is_searching = False
-
-	def update_match(self):
-		text = self.text
-		self.match_view.set_match_state(str(self.match), self.match.get_icon(), match=text)
-
-	def set_search_object(self, obj):
-		self.search_object = obj
-		self.reset()
 	
 	def handle_no_matches(self):
-		pass
+		dum = self.dummy
+		self.match_state = State.NoMatch
+		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
 	
 	def set_active(self, act):
 		self.active = act
@@ -505,37 +508,63 @@ gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
 
+class LeafSearch (Search):
+	"""
+	Customize for leaves search	
+	"""
+	def __init__(self, **kwargs):
+		from objects import DummyLeaf
+		self.dummy = DummyLeaf()
+		super(LeafSearch, self).__init__(**kwargs)
+	def setup_empty(self):
+		icon = None
+		title = "Searching..."
+		if self.source:
+			icon = self.source.get_icon()
+			title = "Searching %s..." % self.source
+
+		self.set_match(None)
+		self.match_state = State.Wait
+		self.match_view.set_match_state(title, icon, state=State.Wait)
+
+class ActionSearch (Search):
+	"""
+	Customization for Actions
+	"""
+	def __init__(self, **kwargs):
+		from objects import DummyAction
+		self.dummy = DummyAction()
+		super(ActionSearch, self).__init__(**kwargs)
+	def setup_empty(self):
+		self.handle_no_matches()
+		self._hide_table()
+
 class Interface (gobject.GObject):
 	"""
 	Controller object that controls the input and
 	the state (current active) search object/widget
 
 	Signals:
-	* activate: def callback(controller, leaf, action)
 	* cancelled: def callback(controller)
 		escape was typed
-	* browse-up
-		leftarrow/backspace used to go up
-	* browse-down
-		rightarrow: try to go down in hierarchy
 	"""
 	__gtype_name__ = "Interface"
 
-	def __init__(self, entry, label, search, action, window):
+	def __init__(self, controller, window):
 		"""
-		entry: gtk.Entry
-		search: source search controller
-		action: action search controller
-		window: toplevel window
+		@controller: DataController
+		@window: toplevel window
 		"""
 		gobject.GObject.__init__(self)
-		self.entry = entry
-		self.search = search
-		self.action = action
+
+		self.search = LeafSearch()
+		self.action = ActionSearch()
+		self.entry = gtk.Entry()
+		self.label = gtk.Label()
+
 		self.current = None
 
 		from pango import ELLIPSIZE_END
-		self.label = label
 		self.label.set_width_chars(50)
 		self.label.set_ellipsize(ELLIPSIZE_END)
 
@@ -554,7 +583,24 @@ class Interface (gobject.GObject):
 		window.connect("configure-event", self.action._window_config)
 		window.connect("hide", self.search._window_hidden)
 		window.connect("hide", self.action._window_hidden)
+		self.data_controller = controller
+		self.data_controller.connect("search-result", self._search_result)
+		self.data_controller.connect("predicate-result", self._predicate_result)
+		self.data_controller.connect("new-source", self._new_source)
+		self.search.set_source(self.data_controller.get_source())
+		self.search.reset()
 
+	def get_widget(self):
+		"""Return a Widget containing the whole Interface"""
+		box = gtk.HBox()
+		box.pack_start(self.search, True, True, 0)
+		box.pack_start(self.action, True, True, 0)
+		vbox = gtk.VBox()
+		vbox.pack_start(box, True, True, 0)
+		vbox.pack_start(self.label, True, True, 0)
+		vbox.pack_start(self.entry, True, True, 0)
+		vbox.show_all()
+		return vbox
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -571,9 +617,7 @@ class Interface (gobject.GObject):
 			return False
 
 		if keyv == esckey:
-			self.emit("cancelled", self.search.match_state)
-			self.reset()
-			self.switch_to_source()
+			self._escape_search()
 			return False
 
 		if keyv == uarrow:
@@ -590,8 +634,7 @@ class Interface (gobject.GObject):
 					self._browse_up(match)
 				else:
 					self.current.reset()
-				self.entry.set_text("")
-				self.current._hide_table()
+				self.reset()
 		else:
 			if keyv == tabkey:
 				self.current._hide_table()
@@ -610,10 +653,28 @@ class Interface (gobject.GObject):
 			self.current = self.search
 			self._update_active()
 	
+	def _escape_search(self):
+		if self.search.match_state is State.Wait:
+			self.data_controller.reset()
+			self.emit("cancelled")
+		else:
+			self.reset()
+			self.current.reset()
+			self.switch_to_source()
+
+	def _new_source(self, sender, source):
+		"""Notification about a new data source,
+		(represented object for the self.search object
+		"""
+		self.reset()
+		self.switch_to_source()
+		self.search.set_source(source)
+		self.search.reset()
+	
 	def _update_active(self):
 		self.action.set_active(self.action is self.current)
 		self.search.set_active(self.search is self.current)
-		self.description_changed()
+		self._description_changed()
 
 	def switch_current(self):
 		if self.current is self.search:
@@ -624,28 +685,41 @@ class Interface (gobject.GObject):
 		self.reset()
 	
 	def _browse_up(self, match):
-		self.emit("browse-up", match)
-		self.reset()
+		self.data_controller.browse_up()
 	
 	def _browse_down(self, match):
-		self.emit("browse-down", match)
-		self.reset()
+		self.data_controller.browse_down(match)
 
 	def _activate(self, widget, current):
 		act = self.action.get_current()
 		obj = self.search.get_current()
-		self.emit("activate", obj, act)
+		self.data_controller.eval_action(obj, act)
 		self.reset()
 	
-	def _search_match_changed(self, widget, match):
+	def _search_result(self, sender, matchrankable, matches, context):
+		print "Got result", matchrankable, "for ctx", context
 		self.switch_to_source()
+		key = context
+		self.search.update_match(key, matchrankable, matches)
+
+	def _predicate_result(self, sender, matchrankable, matches, context):
+		print "Got predicate", matchrankable, "for ctx", context
+		key = context
+		self.action.update_match(key, matchrankable, matches)
+
+	def _search_match_changed(self, widget, match):
+		print "_search_match_changed"
+		if match:
+			self.data_controller.search_predicate(match)
+		else:
+			self.action.update_match(None, None, None)
 
 	def _selection_changed(self, widget, match):
 		if not widget is self.current:
 			return
-		self.description_changed()
+		self._description_changed()
 
-	def description_changed(self):
+	def _description_changed(self):
 		match = self.current.get_current()
 		name = match and match.get_description() or ""
 		self.label.set_text(name)
@@ -657,156 +731,14 @@ class Interface (gobject.GObject):
 		text = editable.get_text()
 		if not len(text):
 			return
-		self.current.run_search(text)
+		if self.current is self.search:
+			self.data_controller.search(text, context=text)
+		else:
+			self.data_controller.search_predicate(self.search.get_current(), text, context=text)
 
 gobject.type_register(Interface)
-gobject.signal_new("activate", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-gobject.signal_new("browse-up", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-gobject.signal_new("browse-down", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
-
-class LeafSearch (Search):
-	"""
-	Customize for leaves search	
-	"""
-	def set_source(self, source):
-		"""
-		Use source as the new leaf source
-		"""
-		self.source = source
-		self.set_search_object(self.make_searchobj(source))
-		self.model_iterator = None
-		self._hide_table()
-
-	def make_searchobj(self, source):
-		leaves = source.get_leaves() 
-		return kupfer.Search(((leaf.value, leaf) for leaf in leaves))
-
-	def setup_empty(self):
-		icon = self.source.get_icon()
-
-		title = "Searching %s..." % self.source
-		self.set_match(None)
-		self.match_state = State.Wait
-		self.match_view.set_match_state(title, icon, state=State.Wait)
-
-	def handle_no_matches(self):
-		from objects import DummyLeaf
-		dum = DummyLeaf()
-		self.match_state = State.NoMatch
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
-
-
-class ActionSearch (Search):
-	"""
-	Customization for Actions
-	"""
-	def setup_empty(self):
-		if self.search_object:
-			self.init_table()
-			if self.match:
-				return
-		self.handle_no_matches()
-		self._hide_table()
-	
-	def handle_no_matches(self):
-		from objects import DummyAction
-		dum = DummyAction()
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
-		self.match_state = State.NoMatch
-
-
-class DataController (object):
-	"""
-	Sources <-> Actions controller
-	"""
-	def __init__(self, datasource, leaf_search, action_search, launch_callback):
-		self.leaf_search = leaf_search
-		self.action_search = action_search
-		self.leaf_search.connect("cursor-changed", self._cursor_changed)
-		self.launch_callback = launch_callback
-		self.source_rebase(datasource)
-
-	def source_rebase(self, src):
-		self.source_stack = []
-		self.source = src
-		self.refresh_data()
-	
-	def push_source(self, src):
-		self.source_stack.append(self.source)
-		self.source = src
-		#self.source.set_refresh_callback(self.refresh_data)
-	
-	def pop_source(self):
-		if not len(self.source_stack):
-			raise Exception
-		else:
-			self.source = self.source_stack.pop()
-	
-	def refresh_data(self):
-		self.leaf_search.set_source(self.source)
-	
-	def refresh_actions(self, leaf):
-		"""
-		Updates the Actions widget, given a selected leaf object
-
-		leaf can be none
-		"""
-		if not leaf:
-			sobj = None
-		else:
-			actions = leaf.get_actions()
-			sobj = kupfer.Search(((str(act), act) for act in actions))
-		self.action_search.set_search_object(sobj)
-
-	def _cursor_changed(self, widget, leaf):
-		"""
-		Selected item changed in Leaves widget
-		"""
-		self.refresh_actions(leaf)
-	
-	def _browse_up(self, controller, leaf):
-		try:
-			self.pop_source()
-		except:
-			if self.source.has_parent():
-				self.source_rebase(self.source.get_parent())
-		self.refresh_data()
-	
-	def _browse_down(self, controller, leaf):
-		if not leaf.has_content():
-			return
-		self.push_source(leaf.content_source())
-		self.refresh_data()
-
-	def _search_cancelled(self, widget, state):
-		try:
-			while True:
-				self.pop_source()
-		except:
-			self.refresh_data()
-
-	def _activate(self, controller, leaf, action):
-		self.eval_action(action, leaf)
-	
-	def eval_action(self, action, leaf):
-		"""
-		Evaluate an action with the given leaf
-		"""
-		if not action or not leaf:
-			print "No action", (action, leaf)
-			return
-		new_source = action.activate(leaf)
-		# handle actions returning "new contexts"
-		if action.is_factory() and new_source:
-			self.push_source(new_source)
-			self.refresh_data()
-		else:
-			self.launch_callback(action)
+		gobject.TYPE_BOOLEAN, ())
 
 class WindowController (object):
 	"""
@@ -816,15 +748,14 @@ class WindowController (object):
 		"""
 		"""
 		self.icon_name = gtk.STOCK_FIND
-		self.window = self._setup_window()
+		self.data_controller = DataController(datasource)
+		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		self.interface = Interface(self.data_controller, self.window)
+		self._setup_window()
 		self._setup_status_icon()
-		self.data_controller = DataController(datasource, self.leaf_search,
-				self.action_search, self._launch_callback)
-		self.interface.connect("activate", self.data_controller._activate)
-		self.interface.connect("browse-down", self.data_controller._browse_down)
-		self.interface.connect("browse-up", self.data_controller._browse_up)
-		self.interface.connect("cancelled", self.data_controller._search_cancelled)
 		self.interface.connect("cancelled", self._cancelled)
+		self.data_controller.connect("launched-action", self.launch_callback)
+		self.data_controller.load()
 		self.activate()
 
 	def _setup_status_icon(self):
@@ -844,29 +775,13 @@ class WindowController (object):
 		"""
 		Returns window
 		"""
-		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		window.connect("delete-event", self._close_window)
+		self.window.connect("delete-event", self._close_window)
+		widget = self.interface.get_widget()
+		widget.show_all()
 		
-		self.leaf_search = LeafSearch()
-		self.action_search = ActionSearch()
-
-		entry = gtk.Entry()
-		label = gtk.Label()
-		self.interface = Interface(entry, label, self.leaf_search,
-				self.action_search, window)
-
-		box = gtk.HBox()
-		box.pack_start(self.leaf_search, True, True, 0)
-		box.pack_start(self.action_search, True, True, 0)
-		vbox = gtk.VBox()
-		vbox.pack_start(box, True, True, 0)
-		vbox.pack_start(label, True, True, 0)
-		vbox.pack_start(entry, True, True, 0)
-		vbox.show_all()
-		window.add(vbox)
-		window.set_title("Kupfer")
-		window.set_icon_name(self.icon_name)
-		return window
+		self.window.add(widget)
+		self.window.set_title("Kupfer")
+		self.window.set_icon_name(self.icon_name)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
@@ -874,7 +789,7 @@ class WindowController (object):
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
 	
-	def _launch_callback(self, action):
+	def launch_callback(self, sender, leaf, action):
 		self.put_away()
 	
 	def activate(self):
@@ -890,9 +805,8 @@ class WindowController (object):
 	def quit(self):
 		gtk.main_quit()
 	
-	def _cancelled(self, widget, state):
-		if state is State.Wait:
-			self.put_away()
+	def _cancelled(self, widget):
+		self.put_away()
 	
 	def _show_hide(self, status_icon):
 		"""
