@@ -95,7 +95,7 @@ class DataController (gobject.GObject):
 			self.emit("predicate-result", match, iter(matches), context)
 		else:
 			leaves = [(leaf.name, leaf) for leaf in leaves]
-			st = SearchThread(self, leaves, key, "predicate-result")
+			st = SearchThread(self, leaves, key, "predicate-result", context)
 			st.start()
 
 	def search_predicate(self, item, key=None, context=None):
