@@ -123,18 +123,6 @@ class FileLeaf (Leaf):
 	"""
 	# To save memory with (really) many instances
 	__slots__ = ("name", "value", "object")
-	def __new__(cls, obj, value):
-		# check if it is a desktop file
-		# shortcut for subclasses
-		if cls is not FileLeaf:
-			return super(FileLeaf, cls).__new__(cls, obj, value)
-		root, ext = path.splitext(obj)
-		if ext == ".desktop":
-			try:
-				return DesktopLeaf(obj, value)
-			except InvalidData:
-				pass
-		return super(FileLeaf, cls).__new__(cls, obj, value)
 
 	def _desktop_item(self, basename):
 		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
@@ -193,6 +181,15 @@ class FileLeaf (Leaf):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
 		icon = icons.get_icon_for_uri(uri, self.icon_size)
 		return icon
+
+def FileLeafContstruct(obj, value):
+	root, ext = path.splitext(obj)
+	if ext == ".desktop":
+		try:
+			return DesktopLeaf(obj, value)
+		except InvalidData:
+			pass
+	return FileLeaf(obj, value)
 
 class DesktopLeaf (FileLeaf):
 	"""
