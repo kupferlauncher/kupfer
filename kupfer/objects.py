@@ -227,6 +227,9 @@ class SourceLeaf (Leaf):
 	def content_source(self):
 		return self.object
 
+	def get_description(self):
+		return self.object.get_description()
+
 	def get_pixbuf(self):
 		return self.object.get_pixbuf()
 
@@ -264,6 +267,10 @@ class AppLeaf (Leaf):
 	def get_actions(self):
 		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True),
 			Echo())
+
+	def get_description(self):
+		from gnomedesktop import KEY_COMMENT
+		return self.object.get_string(KEY_COMMENT)
 
 	def get_pixbuf(self):
 		from gtk import icon_theme_get_default
@@ -317,6 +324,9 @@ class Echo (Action):
 		if type(leaf) == AppLeaf:
 			print ".desktop:", leaf.object.get_location()
 
+	def get_description(self):
+		return "Print debug output"
+
 class OpenWith (Action):
 	"""
 	Open a FileLeaf with a specified application
@@ -345,7 +355,7 @@ class OpenWith (Action):
 		# this should be a list of URIs
 		uri = gnomevfs.get_uri_from_local_path(filepath)
 		self.desktop_item.launch([uri], 0)
-	
+
 	def get_pixbuf(self):
 		app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
 		if not app_icon:
@@ -407,10 +417,12 @@ class RevealFile (OpenUrl):
 		parent = path.normpath(path.join(fileloc, path.pardir))
 		uri = gnomevfs.get_uri_from_local_path(parent)
 		self.open_url(uri)
-	
+
+	def get_description(self):
+		return "Open parent folder"
+
 	def get_icon_name(self):
 		return "folder-open"
-
 
 class OpenTerminal (Action):
 	def __init__(self):
@@ -526,6 +538,9 @@ class RescanSource (Action):
 		source = leaf.object
 		if not source.is_dynamic():
 			cache = source.get_leaves(force_update=True)
+
+	def get_description(self):
+		return "Force reindex of the source"
 
 	def get_icon_name(self):
 		return "search"
@@ -652,21 +667,32 @@ class DirectorySource (Source):
 			return FileSource.has_parent(self)
 		return DirectorySource(self._parent_path())
 
+	def get_description(self):
+		return "Directory source %s" % self.directory
+
 	def get_icon_name(self):
 		return "folder"
 
 class SourcesSource (Source):
-	def __init__(self, sources):
-		super(SourcesSource, self).__init__("Catalog of Catalogs")
+	""" A source whose items are SourceLeaves for @source """
+	def __init__(self, sources, name="Catalog of Catalogs"):
+		super(SourcesSource, self).__init__(name)
 		self.sources = sources
-	
+
 	def get_items(self):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
+
+	def get_description(self):
+		return "An index of all sources"
 
 	def get_icon_name(self):
 		return "folder-saved-search"
 
 class MultiSource (Source):
+	"""
+	A source whose items are the combined items
+	of all @sources
+	"""
 	def __init__(self, sources):
 		super(MultiSource, self).__init__("Catalog")
 		self.sources = sources
@@ -685,6 +711,9 @@ class MultiSource (Source):
 			iterators.append(it)
 
 		return itertools.chain(*iterators)
+
+	def get_description(self):
+		return "Root catalog"
 
 	def get_icon_name(self):
 		return "folder-saved-search"
@@ -778,7 +807,9 @@ class RecentsSource (Source):
 				yield UrlLeaf(uri, name)
 			count += 1
 		print "items younger than", self.max_days, "days",
-	
+
+	def get_description(self):
+		return "Recently used documents"
 	def get_icon_name(self):
 		return "emblem-important"
 
@@ -818,5 +849,7 @@ class PlacesSource (Source):
 			else:
 				yield UrlLeaf(uri, title)
 
+	def get_description(self):
+		return "Bookmarked locations in Nautilus"
 	def get_icon_name(self):
 		return "file-manager"
