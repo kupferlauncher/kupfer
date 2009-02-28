@@ -15,8 +15,26 @@ def SearchTask(sender, rankables, key, signal, context=None):
 		match = None
 	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
+class OutputMixin (object):
+	def output_info(self, *items, **kwargs):
+		"""
+		Output given items using @sep as separator,
+		ending the line with @end
+		"""
+		sep = kwargs.get("sep", " ")
+		end = kwargs.get("end", "\n")
+		stritems = (str(it) for it in items)
+		try:
+			output = "[%s] %s: %s%s" % (type(self).__module__,
+					type(self).__name__, sep.join(stritems), end)
+		except Exception:
+			output = sep.join(stritems) + end
+		print output,
 
-class RescanThread (threading.Thread):
+	def output_debug(self, *items, **kwargs):
+		self.output_info(*items, **kwargs)
+
+class RescanThread (threading.Thread, OutputMixin):
 	def __init__(self, source, sender, signal, context=None, **kwargs):
 		super(RescanThread, self).__init__(**kwargs)
 		self.source = source
@@ -25,12 +43,12 @@ class RescanThread (threading.Thread):
 		self.context = context
 
 	def start(self):
-		print "Rescanning", self.source
+		self.output_info("Rescanning", self.source)
 		items = self.source.get_leaves(force_update=True)
 		if self.sender and self.signal:
 			gobject.idle_add(self.sender.emit, self.signal, self.context)
 
-class PeriodicRescanner (gobject.GObject):
+class PeriodicRescanner (gobject.GObject, OutputMixin):
 	"""
 	Periodically rescan a @catalog of sources
 
@@ -52,7 +70,7 @@ class PeriodicRescanner (gobject.GObject):
 		self.cur = iter(self.catalog)
 	
 	def _new_campaign(self):
-		print "Starting new campaign with rescans every", self.period
+		self.output_debug("Starting new campaign with rescans every", self.period)
 		self.cur = iter(self.catalog)
 		gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
 
@@ -60,7 +78,7 @@ class PeriodicRescanner (gobject.GObject):
 		try:
 			next = self.cur.next()
 		except StopIteration:
-			print "Campaign finished, pausing", self.campaign
+			self.output_debug("Campaign finished, pausing", self.campaign)
 			gobject.timeout_add_seconds(self.campaign, self._new_campaign)
 			return False
 		gobject.idle_add(self.reload_source, next)
