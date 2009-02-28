@@ -141,8 +141,8 @@ class DataController (gobject.GObject, OutputMixin):
 		self.sources = set(self.direct_sources)
 		self.sources.update(s_sources)
 
-		if self.sources == 1:
-			root_catalog = self.sources[0]
+		if len(self.sources) == 1:
+			root_catalog, = self.sources
 		elif len(self.sources) > 1:
 			firstlevel = set(self.direct_sources)
 			sourceindex = set(self.sources)
