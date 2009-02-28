@@ -31,19 +31,28 @@ def get_icon_for_uri(uri, icon_size):
 	@type icon_size: an integer object.
 	 
 	"""
-	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
-	from gnomevfs import get_mime_type, exists
-	from gnome.ui import ThumbnailFactory, icon_lookup
+	from gtk import icon_theme_get_default
+	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
 
-	if not exists(uri):
+	icon_theme = icon_theme_get_default()
+	gfile = File(uri)
+	if not gfile.query_exists():
 		return None
 
-	# FIXME: Replace with GIO + gicon
-	mtype = get_mime_type(uri)
-	icon_theme = icon_theme_get_default()
-	thumb_factory = ThumbnailFactory(16)
-	icon_name, num = icon_lookup(icon_theme, thumb_factory,  file_uri=uri, custom_icon="")
-	return get_icon_for_name(icon_name, icon_size)
+	finfo = gfile.query_info("standard::*")
+	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
+	if isinstance(gicon, FileIcon):
+		print "Loading %s" % gicon
+		ifile = gicon.get_file()
+		return get_icon_from_file(ifile.get_path(), icon_size)
+	if isinstance(gicon, ThemedIcon):
+		names = gicon.get_names()
+		for name in names:
+			print "Loading %s [%s]" % (gicon, name)
+			icon = get_icon_for_name(name, icon_size)
+			if icon:
+				return icon
+	return None
 
 def get_icon_for_name(icon_name, icon_size):
 	for i in get_icon(icon_name):
