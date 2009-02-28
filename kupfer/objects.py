@@ -45,8 +45,8 @@ class KupferObject (object):
 		self.name = name
 	
 	def __repr__(self):
-		return "<%s %s at %x>" % (self.__class__.__name__, str(self), id(self))
-	
+		return "<%s %s>" % (self.__class__.__name__, str(self))
+
 	def __str__(self):
 		return self.name
 
