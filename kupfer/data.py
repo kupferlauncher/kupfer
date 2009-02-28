@@ -135,7 +135,7 @@ class DataController (gobject.GObject, OutputMixin):
 		S_sources = set(S_sources)
 		s_sources = set(s_sources)
 		self._unpickle_or_rescan(S_sources)
-		self._unpickle_or_rescan(s_sources)
+		self._unpickle_or_rescan(s_sources, rescan=False)
 
 		self.direct_sources = set(S_sources)
 		self.sources = set(self.direct_sources)
@@ -161,14 +161,14 @@ class DataController (gobject.GObject, OutputMixin):
 			print "\t%s %d" % (repr(s), id(s))
 
 	def load(self):
-		"""
-		Tell the DataController to "preload" its source
-		asynchronously, either in a thread or in the main loop
-		"""
-		#self._unpickle_or_rescan(self.sources)
+		pass
 
 	def _unpickle_or_rescan(self, sources, rescan=True):
-		# immediately rescan main collection
+		"""
+		Try to unpickle the source that is equivalent to the
+		"dummy" instance @source, if it doesn't succeed,
+		the "dummy" becomes live and is rescanned if @rescan
+		"""
 		for source in sources:
 			name = "kupfer-%s.pickle" % str(abs(hash(repr(source))))
 			news = self._unpickle_source(name)
