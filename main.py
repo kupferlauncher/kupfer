@@ -34,7 +34,7 @@ def get_options(default_opts=""):
 		--debug         enable debug info
 
 		small letter:   catalog item in catalog
-		capital letter: direct inclusion
+		capital letter: direct inclusion, as well as catalog item
 
 		list of sources:
 		  a             applications
@@ -43,7 +43,7 @@ def get_options(default_opts=""):
 		  e             epiphany bookmarks
 		  p             nautilus places
 	
-	The default is "-S ap -s aecp -D ~"
+	The default is "-S ap -s ce -D ~"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -54,7 +54,7 @@ def get_options(default_opts=""):
 		opts.remove("--debug") 
 
 	if len(opts) < 1:
-		opts ="-S ap -s aecp -D ~".split()
+		opts ="-S ap -s ce -D ~".split()
 
 	try:
 		opts, args = getopt(opts, "S:s:D:d:R:r:", ["depth=", "help"])

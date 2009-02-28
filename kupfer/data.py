@@ -132,48 +132,51 @@ class DataController (gobject.GObject, OutputMixin):
 		"""Init the DataController with the given list of sources
 
 		@S_sources are to be included directly in the catalog,
-		@s_souces as subitems
+		@s_souces as just as subitems
 		"""
-		self.sources = S_sources, s_sources
+		S_sources = set(S_sources)
+		s_sources = set(s_sources)
+		self._unpickle_or_rescan(S_sources)
+		self._unpickle_or_rescan(s_sources)
 
-		if s_sources:
-			S_sources.append(objects.SourcesSource(s_sources))
+		self.direct_sources = set(S_sources)
+		self.sources = set(self.direct_sources)
+		self.sources.update(s_sources)
+
+		if self.sources == 1:
+			root_catalog = self.sources[0]
+		elif len(self.sources) > 1:
+			firstlevel = set(self.direct_sources)
+			sourceindex = set(self.sources)
+			kupfer_sources = objects.SourcesSource(self.sources)
+			sourceindex.add(kupfer_sources)
+			firstlevel.add(objects.SourcesSource(sourceindex))
+			root_catalog = objects.MultiSource(firstlevel)
 	
-		if len(S_sources) == 1:
-			root_catalog, = S_sources
-		elif len(S_sources) > 1:
-			root_catalog = objects.MultiSource(S_sources)
 		self.source_rebase(root_catalog)
 
 		# Setup PeriodicRescanner
-		all_sources = []
-		S, s = self.sources
-		all_sources.extend(s)
-		all_sources.extend(S)
-		self.rescanner.set_catalog(all_sources)
+		self.rescanner.set_catalog(self.sources)
 
 		print "Setting up %s with" % self
-		for s in all_sources:
-			print "\t%s" % repr(s)
+		for s in self.sources:
+			print "\t%s %d" % (repr(s), id(s))
 
 	def load(self):
 		"""
 		Tell the DataController to "preload" its source
 		asynchronously, either in a thread or in the main loop
 		"""
-		S,s = self.sources
-		self._unpickle_or_rescan(S)
-		self._unpickle_or_rescan(s)
+		#self._unpickle_or_rescan(self.sources)
 
 	def _unpickle_or_rescan(self, sources, rescan=True):
 		# immediately rescan main collection
-		for source in list(sources):
+		for source in sources:
 			name = "pickle-%s.gz" % str(abs(hash(repr(source))))
 			news = self._unpickle_source(name)
 			if news:
-				idx = sources.index(source)
 				sources.remove(source)
-				sources.insert(idx, news)
+				sources.add(news)
 			elif rescan:
 				self.rescanner.register_rescan(source, force=True)
 
@@ -186,6 +189,8 @@ class DataController (gobject.GObject, OutputMixin):
 		unpickler = pickle.Unpickler(pfile)
 		version = unpickler.load()
 		source = unpickler.load()
+		# DEBUG: Mark pickle-loaded objects
+		# source.name+=" +"
 		self.output_info("Reading %s from %s" % (source, pickle_file))
 		return source
 	
@@ -208,11 +213,7 @@ class DataController (gobject.GObject, OutputMixin):
 			self._pickle_source(name, source)
 
 	def finish(self):
-		S, s = self.sources
-		sources = set()
-		sources.update(S)
-		sources.update(s)
-		self._pickle_sources(sources)
+		self._pickle_sources(self.sources)
 
 	def get_source(self):
 		return self.source
