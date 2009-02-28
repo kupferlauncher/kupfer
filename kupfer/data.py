@@ -1,5 +1,5 @@
 import gobject
-import dummy_threading as threading
+import pickle
 
 from . import kupfer
 from . import objects
@@ -22,6 +22,10 @@ class DataController (gobject.GObject):
 	be inited using set_source
 	"""
 	__gtype_name__ = "DataController"
+
+	pickle_file = "pickles.gz"
+	pickle_version = 1
+
 	def __call__(self):
 		return self
 
@@ -47,9 +51,35 @@ class DataController (gobject.GObject):
 		asynchronously, either in a thread or in the main loop
 		"""
 		gobject.idle_add(self._load_source)
+
 	def _load_source(self):
 		self.source.get_leaves()
 	
+	def _unpickle_source(self, pickle_file):
+		from gzip import GzipFile as file
+		try:
+			pfile = file(pickle_file, "rb")
+		except IOError:
+			return None
+		print "Reading from", pfile
+		unpickler = pickle.Unpickler(pfile)
+		version = unpickler.load()
+		print version
+		source = unpickler.load()
+		print source
+		return source
+	
+	def _pickle_source(self, pickle_file, source):
+		"""Before exit"""
+		from gzip import GzipFile as file
+		output = file(pickle_file, "wb")
+		print "Pickling to", output
+		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
+		pickler.dump(self.pickle_version)
+		pickler.dump(source)
+		output.close()
+		return True
+
 	def finish(self):
 		pass
 
