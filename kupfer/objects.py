@@ -222,7 +222,9 @@ class SourceLeaf (Leaf):
 		return True
 
 	def get_actions(self):
-		return (SearchInside(), RescanSource())
+		yield SearchInside()
+		if not self.object.is_dynamic():
+			yield RescanSource()
 
 	def content_source(self):
 		return self.object
@@ -312,7 +314,7 @@ class Echo (Action):
 	to the terminal
 	"""
 	def __init__(self):
-		super(Echo, self).__init__("Echo (debug)")
+		super(Echo, self).__init__("Echo")
 	
 	def activate(self, leaf):
 		print "Echo"
@@ -622,6 +624,11 @@ class FileSource (Source):
 		self.dirlist = dirlist
 		self.depth = depth
 
+	def __repr__(self):
+		"""Unique for each configuration"""
+		return "<%s %s depth=%d>" % (type(self).__name__,
+				" ".join(sorted(self.dirlist)), self.depth)
+
 	def get_items(self):
 		iters = []
 		
@@ -637,12 +644,15 @@ class FileSource (Source):
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
 
+	def get_description(self):
+		return "Recursive source of %s, (%d levels)" % (self.name, self.depth)
+
 	def get_icon_name(self):
 		return "folder-saved-search"
 
 class DirectorySource (Source):
 	def __init__(self, dir):
-		name = path.basename(dir)
+		name = path.basename(dir) or dir
 		super(DirectorySource, self).__init__(name)
 		self.directory = dir
 		self.deep = False
