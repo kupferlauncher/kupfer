@@ -351,7 +351,7 @@ class Search (gtk.Bin):
 
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
-	
+
 	def _get_table_visible(self):
 		return self.list_window.get_property("visible")
 
@@ -555,22 +555,21 @@ class Interface (gobject.GObject):
 	"""
 	__gtype_name__ = "Interface"
 
-	def __init__(self, controller, entry, label, search, action, window):
+	def __init__(self, controller, window):
 		"""
 		@controller: DataController
-		@entry: gtk.Entry
-		@search: source search controller
-		@action: action search controller
 		@window: toplevel window
 		"""
 		gobject.GObject.__init__(self)
-		self.entry = entry
-		self.search = search
-		self.action = action
+
+		self.search = LeafSearch()
+		self.action = ActionSearch()
+		self.entry = gtk.Entry()
+		self.label = gtk.Label()
+
 		self.current = None
 
 		from pango import ELLIPSIZE_END
-		self.label = label
 		self.label.set_width_chars(50)
 		self.label.set_ellipsize(ELLIPSIZE_END)
 
@@ -593,6 +592,18 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("predicate-result", self._predicate_result)
 		self.data_controller.connect("new-source", self._new_source)
+
+	def get_widget(self):
+		"""Return a Widget containing the whole Interface"""
+		box = gtk.HBox()
+		box.pack_start(self.search, True, True, 0)
+		box.pack_start(self.action, True, True, 0)
+		vbox = gtk.VBox()
+		vbox.pack_start(box, True, True, 0)
+		vbox.pack_start(self.label, True, True, 0)
+		vbox.pack_start(self.entry, True, True, 0)
+		vbox.show_all()
+		return vbox
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -743,7 +754,9 @@ class WindowController (object):
 		"""
 		self.icon_name = gtk.STOCK_FIND
 		self.data_controller = DataController(datasource)
-		self.window = self._setup_window()
+		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		self.interface = Interface(self.data_controller, self.window)
+		self._setup_window()
 		self._setup_status_icon()
 		self.interface.connect("activate", self.data_controller._activate)
 		self.interface.connect("browse-down", self.data_controller._browse_down)
@@ -771,29 +784,13 @@ class WindowController (object):
 		"""
 		Returns window
 		"""
-		window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		window.connect("delete-event", self._close_window)
+		self.window.connect("delete-event", self._close_window)
+		widget = self.interface.get_widget()
+		widget.show_all()
 		
-		self.leaf_search = LeafSearch()
-		self.action_search = ActionSearch()
-
-		entry = gtk.Entry()
-		label = gtk.Label()
-		self.interface = Interface(self.data_controller, entry, label,
-				self.leaf_search, self.action_search, window)
-
-		box = gtk.HBox()
-		box.pack_start(self.leaf_search, True, True, 0)
-		box.pack_start(self.action_search, True, True, 0)
-		vbox = gtk.VBox()
-		vbox.pack_start(box, True, True, 0)
-		vbox.pack_start(label, True, True, 0)
-		vbox.pack_start(entry, True, True, 0)
-		vbox.show_all()
-		window.add(vbox)
-		window.set_title("Kupfer")
-		window.set_icon_name(self.icon_name)
-		return window
+		self.window.add(widget)
+		self.window.set_title("Kupfer")
+		self.window.set_icon_name(self.icon_name)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
