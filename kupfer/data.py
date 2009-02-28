@@ -1,19 +1,22 @@
 import gobject
-import threading
+import dummy_threading as threading
+
 from . import kupfer
 
 class SearchThread(threading.Thread):
 	def __init__(self, sender, coll, key, signal, context=None, **kwargs):
 		super(SearchThread, self).__init__(**kwargs)
+		self.daemon = True
 		self.sender = sender
 		self.rankables = coll
 		self.key = key or ""
 		self.signal = signal
-		self.context=context
+		self.context = context
 
 	def run(self):
 		sobj = kupfer.Search(self.rankables)
 		matches = sobj.search_objects(self.key)
+
 		if len(matches):
 			match = matches[0]
 		else:
@@ -30,6 +33,9 @@ class DataController (gobject.GObject):
 		super(DataController, self).__init__()
 		#gobject.threads_init()
 		self.source_rebase(datasource)
+		self.search_closure = None
+		self.is_searching = False
+
 	def load(self):
 		"""
 		Tell the DataController to "preload" its source
@@ -49,12 +55,32 @@ class DataController (gobject.GObject):
 		return ((leaf.value, leaf) for leaf in self.source.get_leaves())
 
 	def do_search(self, source, key, context):
+		print "%s: Searching items for %s" % (self, key)
 		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
-		st = SearchThread(self, rankables, key, "search-result", context)
+		st = SearchThread(self, rankables, key, "search-result", context=context)
 		st.start()
+		self.is_searching = False
+
+	def do_closure(self):
+		"""Call self.search_closure if and then set it to None"""
+		self.search_closure()
+		self.search_closure = None
 
 	def search(self, key, context=None):
-		gobject.idle_add(self.do_search, self.source, key, context)
+		"""Search: Register the search method in the event loop
+
+		Will search the base using @key, promising to return
+		@context in the notification about the result
+
+		If we already have a call to search, we simply update the 
+		self.search_closure, so that we always use the most recently
+		requested search."""
+
+		self.search_closure = lambda : self.do_search(self.source, key, context)
+		if self.is_searching:
+			return
+		gobject.idle_add(self.do_closure)
+		self.is_searching = True
 
 	def do_predicate_search(self, leaf, key=None, context=None):
 		if leaf:
