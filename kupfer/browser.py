@@ -545,7 +545,6 @@ class Interface (gobject.GObject):
 	the state (current active) search object/widget
 
 	Signals:
-	* activate: def callback(controller, leaf, action)
 	* cancelled: def callback(controller)
 		escape was typed
 	"""
@@ -588,7 +587,6 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("predicate-result", self._predicate_result)
 		self.data_controller.connect("new-source", self._new_source)
-		self.connect("activate", self.data_controller._activate)
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
@@ -693,7 +691,7 @@ class Interface (gobject.GObject):
 	def _activate(self, widget, current):
 		act = self.action.get_current()
 		obj = self.search.get_current()
-		self.emit("activate", obj, act)
+		self.data_controller.eval_action(obj, act)
 		self.reset()
 	
 	def _search_result(self, sender, matchrankable, matches, context):
@@ -737,8 +735,6 @@ class Interface (gobject.GObject):
 			self.data_controller.search_predicate(self.search.get_current(), text, context=text)
 
 gobject.type_register(Interface)
-gobject.signal_new("activate", Interface, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 

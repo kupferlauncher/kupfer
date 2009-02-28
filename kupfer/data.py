@@ -139,11 +139,11 @@ class DataController (gobject.GObject):
 			self.refresh_data()
 
 	def _activate(self, controller, leaf, action):
-		self.eval_action(action, leaf)
+		self.eval_action(leaf, action)
 	
-	def eval_action(self, action, leaf):
+	def eval_action(self, leaf, action):
 		"""
-		Evaluate an action with the given leaf
+		Evaluate an @action with the given @leaf
 		"""
 		if not action or not leaf:
 			print "No action", (action, leaf)
