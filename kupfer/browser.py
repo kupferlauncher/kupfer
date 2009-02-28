@@ -439,7 +439,7 @@ class Search (gtk.Bin):
 
 		Emits cursor-changed
 		"""
-		print "Set match to", match
+		#print "Set match to", match
 		self.match = match
 		self.emit("cursor-changed", self.match)
 		if match:
@@ -708,7 +708,6 @@ class Interface (gobject.GObject):
 		self.action.update_match(key, matchrankable, matches)
 
 	def _search_match_changed(self, widget, match):
-		print "_search_match_changed"
 		if match:
 			self.data_controller.search_predicate(match)
 		else:

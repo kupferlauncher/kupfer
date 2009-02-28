@@ -15,13 +15,15 @@ def SearchTask(sender, rankables, key, signal, context=None):
 	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
 class PeriodicRescanner (gobject.GObject):
-	def __init__(self, catalog, period=10, startup=10):
+	def __init__(self, catalog, period=120, startup=10):
 		super(PeriodicRescanner, self).__init__()
-		self.catalog = catalog
 		self.period = period
-		print self.catalog
-		self.cur = iter(catalog)
+		self.set_catalog(catalog)
 		gobject.timeout_add_seconds(startup, self._startup)
+
+	def set_catalog(self, catalog):
+		self.catalog = catalog
+		self.cur = iter(catalog)
 
 	def _startup(self):
 		gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
@@ -35,10 +37,16 @@ class PeriodicRescanner (gobject.GObject):
 		gobject.idle_add(self.reload_source, next)
 		return True
 
+	def register_rescan(self, source):
+		gobject.idle_add(self.reload_source, source)
+
 	def reload_source(self, source):
 		"""Reload source"""
-		if not source.is_dynamic():
-			source.get_leaves(force_update=True)
+		source.get_leaves(force_update=True)
+		self.emit("reloaded-source", source)
+
+gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 
 class DataController (gobject.GObject):
@@ -62,7 +70,7 @@ class DataController (gobject.GObject):
 		self.sources = None
 		self.search_closure = None
 		self.is_searching = False
-		self.rescanner = None
+		self.rescanner = PeriodicRescanner([])
 
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
@@ -79,19 +87,26 @@ class DataController (gobject.GObject):
 			root_catalog, = S_sources
 		elif len(S_sources) > 1:
 			root_catalog = objects.MultiSource(S_sources)
-		print self.sources
 		self.source_rebase(root_catalog)
+
+		# Setup PeriodicRescanner
+		all_sources = []
+		S, s = self.sources
+		all_sources.extend(s)
+		all_sources.extend(S)
+		self.rescanner.set_catalog(all_sources)
+
+		print "Setting up %s with" % self
+		for s in all_sources:
+			print "\t%s" % repr(s)
 
 	def load(self):
 		"""
 		Tell the DataController to "preload" its source
 		asynchronously, either in a thread or in the main loop
 		"""
-		all_sources = []
-		S, s = self.sources
-		all_sources.extend(S)
-		all_sources.extend(s)
-		self.rescanner = PeriodicRescanner(all_sources, period=2, startup=0)
+		# immediately rescan main collection
+		self.rescanner.register_rescan(self.source)
 
 	def _unpickle_source(self, pickle_file):
 		from gzip import GzipFile as file
