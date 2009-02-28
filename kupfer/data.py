@@ -183,12 +183,16 @@ class DataController (gobject.GObject, OutputMixin):
 			pfile = file(pickle_file, "rb")
 		except IOError, e:
 			return None
-		unpickler = pickle.Unpickler(pfile)
-		version = unpickler.load()
-		source = unpickler.load()
-		# DEBUG: Mark pickle-loaded objects
-		# source.name+=" +"
-		self.output_info("Reading %s from %s" % (source, pickle_file))
+		try:
+			unpickler = pickle.Unpickler(pfile)
+			version = unpickler.load()
+			source = unpickler.load()
+			# DEBUG: Mark pickle-loaded objects
+			# source.name+=" +"
+			self.output_info("Reading %s from %s" % (source, pickle_file))
+		except (pickle.PickleError, Exception), e:
+			source = None
+			self.output_debug("Error loading %s: " % (pickle_file, e))
 		return source
 	
 	def _pickle_source(self, pickle_file, source):
