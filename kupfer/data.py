@@ -107,7 +107,7 @@ gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST
 
 class SourcePickleService (OutputMixin, object):
 	pickle_version = 1
-	name_template = "kupfer-%s.pickle"
+	name_template = "kupfer-%s-v%d.pickle"
 
 	def __call__(self):
 		return self
@@ -119,7 +119,7 @@ class SourcePickleService (OutputMixin, object):
 		from os import path
 
 		hashstr = "%010d" % abs(hash(repr(source)))
-		filename = self.name_template % hashstr
+		filename = self.name_template % (hashstr, self.pickle_version)
 		return path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
@@ -130,11 +130,8 @@ class SourcePickleService (OutputMixin, object):
 		except IOError, e:
 			return None
 		try:
-			unpickler = pickle.Unpickler(pfile)
-			version = unpickler.load()
-			if version != self.pickle_version:
-				raise Exception("Old kupfer version")
-			source = unpickler.load()
+			source = pickle.loads(pfile.read())
+			assert isinstance(source, objects.Source), "Stored object not a Source"
 			self.output_info("Reading %s from %s" % (source, pickle_file))
 		except (pickle.PickleError, Exception), e:
 			source = None
@@ -144,11 +141,15 @@ class SourcePickleService (OutputMixin, object):
 	def pickle_source(self, source):
 		return self._pickle_source(self.get_filename(source), source)
 	def _pickle_source(self, pickle_file, source):
+		"""
+		When writing to a file, use pickle.dumps()
+		and then write the file in one go --
+		if the file is a gzip file, pickler's thousands
+		of small writes are very slow
+		"""
 		output = self.open(pickle_file, "wb")
 		self.output_info("Saving %s to %s" % (source, pickle_file))
-		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
-		pickler.dump(self.pickle_version)
-		pickler.dump(source)
+		output.write(pickle.dumps(source, pickle.HIGHEST_PROTOCOL))
 		output.close()
 		return True
 
