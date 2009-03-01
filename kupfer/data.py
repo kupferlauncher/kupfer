@@ -209,7 +209,7 @@ class DataController (gobject.GObject, OutputMixin):
 		"dummy" instance @source, if it doesn't succeed,
 		the "dummy" becomes live and is rescanned if @rescan
 		"""
-		for source in sources:
+		for source in list(sources):
 			news = SourcePickleService().unpickle_source(source)
 			if news:
 				sources.remove(source)
