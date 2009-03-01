@@ -245,7 +245,7 @@ class DataController (gobject.GObject, OutputMixin):
 		self.search_closure()
 		self.search_closure = None
 
-	def search(self, key, context=None):
+	def search(self, key="", context=None):
 		"""Search: Register the search method in the event loop
 
 		Will search the base using @key, promising to return

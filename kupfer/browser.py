@@ -618,10 +618,13 @@ class Interface (gobject.GObject):
 			self._escape_search()
 			return False
 
-		if keyv == uarrow:
-			self.current.go_up()
-		elif keyv == darrow:
+		if keyv == darrow:
+			if (not self.current.get_current() and
+					self.current.get_match_state() is State.Wait):
+				self._populate_search()
 			self.current.go_down()
+		elif keyv == uarrow:
+			self.current.go_up()
 		elif keyv in (larrow, rarrow, backsp):
 			match = self.search.get_current()
 			if (keyv == rarrow and match):
@@ -713,6 +716,12 @@ class Interface (gobject.GObject):
 		if not widget is self.current:
 			return
 		self._description_changed()
+
+	def _populate_search(self):
+		"""Do a blanket search/empty search to populate
+		the search view if it is the current view"""
+		if self.current == self.search:
+			self.data_controller.search()
 
 	def _description_changed(self):
 		match = self.current.get_current()
