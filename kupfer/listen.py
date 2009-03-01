@@ -2,14 +2,14 @@
 This module is a singelton, that sets up callbacks to dbus signals
 """
 
-import dbus
-import dbus.glib
+try:
+	import dbus
+	import dbus.glib
 
 # if dbus unavailable print the exception here
 # but further actions (register) will fail without warning
-try:
 	session_bus = dbus.Bus()
-except dbus.exceptions.DBusException, exc:
+except (ImportError, dbus.exceptions.DBusException), exc:
 	session_bus = None
 	print exc
 
