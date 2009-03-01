@@ -13,6 +13,7 @@ class WindowLeaf (Leaf):
 		win = self.object
 		if not win.is_active():
 			yield WindowAction("Activate", time=True)
+		yield WindowActivateWorkspace()
 		if win.is_shaded():
 			yield WindowAction("Unshade")
 		else:
@@ -39,10 +40,17 @@ class WindowLeaf (Leaf):
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
-class ActivateWindow (Action):
-	def activate(self, leaf):
+class WindowActivateWorkspace (Action):
+	def __init__(self, name="Go to Workspace"):
+		super(WindowActivateWorkspace, self).__init__(name)
+	def activate (self, leaf):
 		window = leaf.object
-		window.activate(0)
+		workspace = window.get_workspace()
+		time = gtk.get_current_event_time()
+		workspace.activate(time)
+		window.activate(time)
+	def get_description(self):
+		return "Go to this window's workspace and focus"
 
 class WindowAction (Action):
 	def __init__(self, name, action=None, time=False):
@@ -52,10 +60,10 @@ class WindowAction (Action):
 		self.time = time
 	def activate(self, leaf):
 		window = leaf.object
+		time = gtk.get_current_event_time()
 		def make_call():
 			call = window.__getattribute__(self.action)
 			if self.time:
-				time = gtk.get_current_event_time()
 				return lambda: call(time)
 			else:
 				return call
