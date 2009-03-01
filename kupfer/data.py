@@ -46,7 +46,7 @@ class RescanThread (threading.Thread, OutputMixin):
 		self.context = context
 
 	def start(self):
-		self.output_info("Rescanning", self.source)
+		self.output_info(repr(self.source))
 		items = self.source.get_leaves(force_update=True)
 		if self.sender and self.signal:
 			gobject.idle_add(self.sender.emit, self.signal, self.context)
@@ -73,7 +73,7 @@ class PeriodicRescanner (gobject.GObject, OutputMixin):
 		self.cur = iter(self.catalog)
 	
 	def _new_campaign(self):
-		self.output_debug("Starting new campaign with rescans every", self.period)
+		self.output_debug("Starting new campaign with rescans every", self.period, "s")
 		self.cur = iter(self.catalog)
 		gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
 
@@ -81,7 +81,7 @@ class PeriodicRescanner (gobject.GObject, OutputMixin):
 		try:
 			next = self.cur.next()
 		except StopIteration:
-			self.output_debug("Campaign finished, pausing", self.campaign)
+			self.output_debug("Campaign finished, pausing", self.campaign, "s")
 			gobject.timeout_add_seconds(self.campaign, self._new_campaign)
 			return False
 		gobject.idle_add(self.reload_source, next)
@@ -199,10 +199,6 @@ class DataController (gobject.GObject, OutputMixin):
 
 		# Setup PeriodicRescanner
 		self.rescanner.set_catalog(self.sources)
-
-		print "Setting up %s with" % self
-		for s in self.sources:
-			print "\t%s %d" % (repr(s), id(s))
 
 	def load(self):
 		pass
@@ -354,7 +350,6 @@ class DataController (gobject.GObject, OutputMixin):
 		Evaluate an @action with the given @leaf
 		"""
 		if not action or not leaf:
-			print "No action", (action, leaf)
 			return
 		new_source = action.activate(leaf)
 		# handle actions returning "new contexts"
