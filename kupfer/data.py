@@ -111,6 +111,10 @@ class SourcePickleService (OutputMixin, object):
 
 	def __call__(self):
 		return self
+	def __init__(self):
+		import gzip
+		self.open = lambda f,mode: gzip.open(f, mode, compresslevel=3)
+
 	def get_filename(self, source):
 		from os import path
 
@@ -122,7 +126,7 @@ class SourcePickleService (OutputMixin, object):
 		return self._unpickle_source(self.get_filename(source))
 	def _unpickle_source(self, pickle_file):
 		try:
-			pfile = file(pickle_file, "rb")
+			pfile = self.open(pickle_file, "rb")
 		except IOError, e:
 			return None
 		try:
@@ -140,7 +144,7 @@ class SourcePickleService (OutputMixin, object):
 	def pickle_source(self, source):
 		return self._pickle_source(self.get_filename(source), source)
 	def _pickle_source(self, pickle_file, source):
-		output = file(pickle_file, "wb")
+		output = self.open(pickle_file, "wb")
 		self.output_info("Saving %s to %s" % (source, pickle_file))
 		pickler = pickle.Pickler(output, pickle.HIGHEST_PROTOCOL)
 		pickler.dump(self.pickle_version)
