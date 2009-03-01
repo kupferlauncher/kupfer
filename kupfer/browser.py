@@ -439,7 +439,6 @@ class Search (gtk.Bin):
 
 		Emits cursor-changed
 		"""
-		#print "Set match to", match
 		self.match = match
 		self.emit("cursor-changed", self.match)
 		if match:
@@ -460,7 +459,6 @@ class Search (gtk.Bin):
 		self.set_match(match)
 		self.model.set_base(iter(matches))
 		top = self.model.populate(1)
-		print top
 
 	def reset(self):
 		self.model.clear()
@@ -697,13 +695,11 @@ class Interface (gobject.GObject):
 		self.reset()
 	
 	def _search_result(self, sender, matchrankable, matches, context):
-		print "Got result", matchrankable, "for ctx", context
 		self.switch_to_source()
 		key = context
 		self.search.update_match(key, matchrankable, matches)
 
 	def _predicate_result(self, sender, matchrankable, matches, context):
-		print "Got predicate", matchrankable, "for ctx", context
 		key = context
 		self.action.update_match(key, matchrankable, matches)
 

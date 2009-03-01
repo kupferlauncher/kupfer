@@ -39,7 +39,8 @@ def get_icon_for_uri(uri, icon_size):
 	if not gfile.query_exists():
 		return None
 
-	finfo = gfile.query_info("standard::*")
+	# FIXME: We can't load any general GIcon
+	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
 	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
 	if isinstance(gicon, FileIcon):
 		print "Loading %s" % gicon
@@ -48,7 +49,6 @@ def get_icon_for_uri(uri, icon_size):
 	if isinstance(gicon, ThemedIcon):
 		names = gicon.get_names()
 		for name in names:
-			print "Loading %s [%s]" % (gicon, name)
 			icon = get_icon_for_name(name, icon_size)
 			if icon:
 				return icon

@@ -259,7 +259,6 @@ class AppLeaf (Leaf):
 			return icons.get_default_application_icon(self.icon_size)
 		return icons.get_icon_from_file(icon_file, self.icon_size)
 
-
 class Action (KupferObject):
 	"""
 	Base class for all actions
