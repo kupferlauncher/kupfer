@@ -1,17 +1,65 @@
 #! /usr/bin/env python
 # encoding: utf-8
-# Gustavo Carneiro, 2007
 
+import os
 import sys
 import Configure
 
 # the following two variables are used by the target "waf dist"
-VERSION='0.0.1'
 APPNAME="kupfer"
+VERSION = "undefined"
+
+def get_git_version():
+	""" try grab the current version number from git"""
+	version = None
+	if os.path.exists(".git"):
+		try:
+			version = os.popen("git describe").read().strip()
+		except Exception, e:
+			print e
+	return version
+
+def read_git_version():
+	"""Read version from git repo, or from GIT_VERSION"""
+	version = get_git_version()
+	if not version and os.path.exists("GIT_VERSION"):
+		f = open("GIT_VERSION", "r")
+		version = f.read().strip()
+		f.close()
+	if version:
+		global VERSION
+		VERSION = version
+
+read_git_version()
+
+VERSION_MAJOR_MINOR = ".".join(VERSION.split(".")[0:2])
 
 # these variables are mandatory ('/' are converted automatically)
 srcdir = '.'
 blddir = 'build'
+
+def dist():
+	"""
+	Make the dist tarball
+	and print its sha1sum
+	"""
+	def write_git_version():
+		""" Write the revision to a file called GIT_VERSION,
+		to grab the current version number from git when
+		generating the dist tarball."""
+		version = get_git_version()
+		if not version:
+			return False
+		version_file = open("GIT_VERSION", "w")
+		version_file.write(version + "\n")
+		version_file.close()
+		return True
+
+	import Scripting
+	write_git_version()
+	Scripting.g_gz = "gz"
+	filename = Scripting.dist(APPNAME, VERSION)
+	os.spawnlp(os.P_WAIT, "sha1sum", "sha1sum", filename)
 
 def set_options(opt):
 	# options for disabling pyc or pyo compilation
