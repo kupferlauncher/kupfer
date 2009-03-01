@@ -4,7 +4,6 @@
 import gtk
 import gobject
 import itertools
-from . import kupfer
 from .data import DataController
 
 # State Constants

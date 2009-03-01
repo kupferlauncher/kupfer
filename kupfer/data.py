@@ -4,12 +4,12 @@ import pickle
 
 gobject.threads_init()
 
-from . import kupfer
+from . import search
 from . import objects
 from . import config
 
 def SearchTask(sender, rankables, key, signal, context=None):
-	sobj = kupfer.Search(rankables)
+	sobj = search.Search(rankables)
 	matches = sobj.search_objects(key)
 
 	if len(matches):
@@ -272,7 +272,7 @@ class DataController (gobject.GObject, OutputMixin):
 		else:
 			leaves = []
 		if not key:
-			matches = [kupfer.Rankable(leaf.name, leaf) for leaf in leaves]
+			matches = [search.Rankable(leaf.name, leaf) for leaf in leaves]
 			try:
 				match = matches[0]
 			except IndexError: match = None
