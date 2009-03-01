@@ -43,9 +43,12 @@ def new_module(bld, name, sources=None):
 	return obj
 
 def build(bld):
-	# first compile a few pyc and pyo files
+	# modules
 	new_module(bld, "kupfer")
 	new_module(bld, "kupfer/extensions")
+	# binaries
+	bld.install_as("${PREFIX}/bin/kupfer", "main.py", chmod=0755)
+	bld.install_as("${PREFIX}/bin/kupfer-activate", "kupfer-activate.sh", chmod=0755)
 
 def shutdown():
 	pass
