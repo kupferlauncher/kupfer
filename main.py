@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 """
-kupfer
+kupfer      A quick hack and a launcher
 ɹǝɟdnʞ
 
 Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
@@ -23,4 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 if __name__ == '__main__':
 	from kupfer.main import main
+
+	print "\n".join(__doc__.splitlines()[:11])
+
 	main()
