@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
 """
@@ -20,3 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+if __name__ == '__main__':
+	from kupfer import main
+	print "\n".join(__doc__.splitlines()[:11])
+	main.main()
