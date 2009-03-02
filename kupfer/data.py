@@ -1,6 +1,6 @@
 import gobject
 import threading
-import pickle
+import cPickle as pickle
 
 gobject.threads_init()
 
