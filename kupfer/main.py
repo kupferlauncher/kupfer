@@ -92,6 +92,7 @@ def main():
 			"a": objects.AppSource(),
 			"c": objects.RecentsSource(),
 			"p": objects.PlacesSource(),
+			"m": plugin.common.CommonSource(),
 			"b": plugin.bookmarks.BookmarksSource(),
 			"e": plugin.bookmarks.EpiphanySource(),
 			"s": plugin.screen.ScreenSessionsSource(),
