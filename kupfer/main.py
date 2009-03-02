@@ -1,28 +1,27 @@
 
 def get_options(default_opts=""):
-	"""
-	Usage:
-		-s, -S list     add list of sources
-		-d dir, -D dir  add dir as dir source
-		-r dir, -R dir  add dir as recursive dir source
+	""" Usage:
+	-s, -S list     add list of sources
+	-d, -D dir      add dir as dir source
+	-r, -R dir      add dir as recursive dir source
 
-		--depth d use recursive depth d
+	--depth d use recursive depth d
 
-		--help          show usage help
-		--debug         enable debug info
+	--help          show usage help
+	--debug         enable debug info
 
-		small letter:   catalog item in catalog
-		capital letter: direct inclusion, as well as catalog item
+	lowercase letter:   source as item in catalog
+	uppercase letter:   items included directly
 
-		list of sources:
-		  a             applications
-		  b             firefox bookmarks
-		  c             recent documents
-		  e             epiphany bookmarks
-		  p             nautilus places
-		  s				gnu screen sessions
-		  w				windows
-	
+	list of sources:
+	  a             applications
+	  b             firefox bookmarks
+	  c             recent documents
+	  e             epiphany bookmarks
+	  p             nautilus places
+	  s             gnu screen sessions
+	  w             windows
+
 	The default is "-S acpsw -s e -D ~ -D ~/Desktop"
 	"""
 	from getopt import getopt, GetoptError
