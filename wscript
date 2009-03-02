@@ -83,7 +83,6 @@ def configure(conf):
 	# no "optimized" bytecode
 	conf.env["PYO"] = 0
 	print "Using PYTHONDIR: %s" % conf.env["PYTHONDIR"]
-	print conf.env
 
 def new_module(bld, name, sources=None):
 	if not sources: sources = name
