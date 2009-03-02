@@ -220,7 +220,7 @@ class MatchView (gtk.Bin):
 	def _dim_icon(cls, icon):
 		if icon:
 			dim_icon = icon.copy()
-			icon.saturate_and_pixelate(dim_icon, 0.3, False)
+			icon.saturate_and_pixelate(dim_icon, 0, True)
 		else:
 			dim_icon = None
 		return dim_icon
