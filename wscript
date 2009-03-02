@@ -66,7 +66,8 @@ def set_options(opt):
 	opt.tool_options("python")
 
 def configure(conf):
-	conf.check_tool('python')
+	conf.check_tool("python")
+	conf.check_tool("gnu_dirs")
 	conf.check_python_version((2,4,2))
 
 	python_modules = """
@@ -82,6 +83,7 @@ def configure(conf):
 	# no "optimized" bytecode
 	conf.env["PYO"] = 0
 	print "Using PYTHONDIR: %s" % conf.env["PYTHONDIR"]
+	print conf.env
 
 def new_module(bld, name, sources=None):
 	if not sources: sources = name
@@ -95,7 +97,8 @@ def build(bld):
 	new_module(bld, "kupfer")
 	new_module(bld, "kupfer/plugin")
 	# binaries
-	bld.install_as("${PREFIX}/bin/kupfer", "kupfer-activate.sh", chmod=0755)
+	bld.install_as("${BINDIR}/kupfer", "kupfer-activate.sh", chmod=0755)
+	bld.install_files("${DATADIR}/applications", "kupfer.desktop")
 
 def shutdown():
 	pass
