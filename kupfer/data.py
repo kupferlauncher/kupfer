@@ -302,25 +302,6 @@ class DataController (gobject.GObject, OutputMixin):
 	def refresh_data(self):
 		self.emit("new-source", self.source)
 	
-	def refresh_actions(self, leaf):
-		"""
-		Updates the Actions widget, given a selected leaf object
-
-		leaf can be none
-		"""
-		if not leaf:
-			sobj = None
-		else:
-			actions = leaf.get_actions()
-			sobj = kupfer.Search(((str(act), act) for act in actions))
-		self.action_search.set_search_object(sobj)
-
-	def _cursor_changed(self, widget, leaf):
-		"""
-		Selected item changed in Leaves widget
-		"""
-		self.refresh_actions(leaf)
-	
 	def browse_up(self):
 		"""Try to browse up to previous sources, from current
 		source"""
