@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Kupfer
+Comment=A launcher with two panes and some extra stuff
+Icon=search
+Exec=kupfer
+Type=Application
+Categories=Utility;
+StartupNotify=false
+MimeType=;
