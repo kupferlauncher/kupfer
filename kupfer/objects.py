@@ -147,9 +147,9 @@ class FileLeaf (Leaf):
 			acts.extend([OpenTerminal(), SearchInside()])
 			default = OpenDirectory()
 		elif self._is_valid():
-			type = gnomevfs.get_file_mime_type(self.object)
-			def_app = gnomevfs.mime_get_default_application(type)
-			types = gnomevfs.mime_get_all_applications(type)
+			mime_type = gnomevfs.get_file_mime_type(self.object)
+			def_app = gnomevfs.mime_get_default_application(mime_type)
+			types = gnomevfs.mime_get_all_applications(mime_type)
 			apps = set()
 			if def_app:
 				default = OpenWith(self._desktop_item(def_app[0]), def_app[1])
@@ -716,12 +716,12 @@ class AppSource (Source):
 		def add_desktop_item(item):
 			hid = item.get_boolean(gd.KEY_HIDDEN)
 			nodisp = item.get_boolean(gd.KEY_NO_DISPLAY)
-			type = item.get_string(gd.KEY_TYPE)
+			item_type = item.get_string(gd.KEY_TYPE)
 
-			if True in (hid, nodisp) or (type != "Application"):
+			if True in (hid, nodisp) or (item_type != "Application"):
 				return
-			file = gnomevfs.get_local_path_from_uri(item.get_location())
-			name = path.basename(file)
+			fileloc = gnomevfs.get_local_path_from_uri(item.get_location())
+			name = path.basename(fileloc)
 			if name in inc_files:
 				return
 			inc_files.add(name)
