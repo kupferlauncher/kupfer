@@ -68,7 +68,7 @@ def main():
 	from os import path
 
 	from . import browser
-	from . import objects, extensions
+	from . import objects, plugin
 	from . import data
 
 	options = get_options()
@@ -92,10 +92,10 @@ def main():
 			"a": objects.AppSource(),
 			"c": objects.RecentsSource(),
 			"p": objects.PlacesSource(),
-			"b": extensions.bookmarks.BookmarksSource(),
-			"e": extensions.bookmarks.EpiphanySource(),
-			"s": extensions.screen.ScreenSessionsSource(),
-			"w": extensions.windows.WindowsSource(),
+			"b": plugin.bookmarks.BookmarksSource(),
+			"e": plugin.bookmarks.EpiphanySource(),
+			"s": plugin.screen.ScreenSessionsSource(),
+			"w": plugin.windows.WindowsSource(),
 	}
 
 	files = {

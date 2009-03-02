@@ -93,7 +93,7 @@ def new_module(bld, name, sources=None):
 def build(bld):
 	# modules
 	new_module(bld, "kupfer")
-	new_module(bld, "kupfer/extensions")
+	new_module(bld, "kupfer/plugin")
 	# binaries
 	bld.install_as("${PREFIX}/bin/kupfer", "main.py", chmod=0755)
 	bld.install_as("${PREFIX}/bin/kupfer-activate", "kupfer-activate.sh", chmod=0755)
