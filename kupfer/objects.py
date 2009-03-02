@@ -92,8 +92,8 @@ def aslist(seq):
 	return seq
 
 class Leaf (KupferObject):
-	def __init__(self, obj, value):
-		super(Leaf, self).__init__(value)
+	def __init__(self, obj, name):
+		super(Leaf, self).__init__(name)
 		self.object = obj
 	
 	def has_content(self):
@@ -120,7 +120,7 @@ class FileLeaf (Leaf):
 	Represents one file
 	"""
 	# To save memory with (really) many instances
-	__slots__ = ("name", "value", "object")
+	__slots__ = ("name", "object")
 
 	def _desktop_item(self, basename):
 		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
@@ -180,7 +180,7 @@ class FileLeaf (Leaf):
 		icon = icons.get_icon_for_uri(uri, self.icon_size)
 		return icon
 
-def ContstructFileLeaf(obj, value):
+def ContstructFileLeaf(obj, name):
 	"""
 	If the path in @obj points to a Desktop Item file,
 	return an AppLeaf, otherwise return a FileLeaf
@@ -191,7 +191,7 @@ def ContstructFileLeaf(obj, value):
 		desktop_item = item_new_from_file(obj, LOAD_ONLY_IF_EXISTS)
 		if desktop_item:
 			return AppLeaf(desktop_item)
-	return FileLeaf(obj, value)
+	return FileLeaf(obj, name)
 
 class SourceLeaf (Leaf):
 	def has_content(self):
@@ -295,7 +295,7 @@ class Echo (Action):
 		print "\n".join("%s: %s" % (k, v) for k,v in
 			zip(("Leaf", "Name", "Object", "Value",
 				"Id", "Actions", "Content"),
-				(repr(leaf), leaf.name, leaf.object, leaf.value, id(leaf),
+				(repr(leaf), leaf.name, leaf.object, id(leaf),
 				leaf.get_actions(), leaf.has_content())))
 		if type(leaf) == AppLeaf:
 			print ".desktop:", leaf.object.get_location()
@@ -744,8 +744,8 @@ class AppSource (Source):
 
 
 class UrlLeaf (Leaf):
-	def __init__(self, obj, value):
-		super(UrlLeaf, self).__init__(obj, value)
+	def __init__(self, obj, name):
+		super(UrlLeaf, self).__init__(obj, name)
 	
 	def get_actions(self):
 		return (OpenUrl(), Echo())
