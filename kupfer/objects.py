@@ -280,7 +280,7 @@ class Action (KupferObject):
 		"""
 		Return a default icon for actions
 		"""
-		return "emblem-system"
+		return "gtk-execute"
 
 class Echo (Action):
 	"""
@@ -302,6 +302,8 @@ class Echo (Action):
 
 	def get_description(self):
 		return "Print debug output"
+	def get_icon_name(self):
+		return "emblem-system"
 
 class OpenWith (Action):
 	"""
@@ -516,11 +518,11 @@ class DummyAction (Action):
 	"""
 	def __init__(self, name=None):
 		if not name:
-			name = "No action available"
+			name = "No action"
 		super(DummyAction, self).__init__(name)
 	
 	def get_icon_name(self):
-		return "exec"
+		return "gtk-execute"
 
 class Source (KupferObject):
 	"""
