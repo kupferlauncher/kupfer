@@ -525,12 +525,21 @@ class DummyAction (Action):
 class Source (KupferObject):
 	"""
 	Source: Data provider for a kupfer browser
+
+	Sources are hashable and treated as equal if
+	their @repr are equal!
 	"""
 	def __init__(self, name=None):
 		if not name:
 			name = self.__class__.__name__
 		KupferObject.__init__(self, name)
 		self.cached_items = None
+
+	def __eq__(self, other):
+		return (type(self) == type(other) and repr(self).__eq__(repr(other)))
+
+	def __hash__(self ):
+		return hash(repr(self))
 
 	def set_refresh_callback(self, refresh_callback):
 		"""
