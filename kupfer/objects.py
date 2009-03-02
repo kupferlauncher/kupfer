@@ -337,8 +337,10 @@ class OpenWith (Action):
 	def get_pixbuf(self):
 		app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
 		if not app_icon:
-			app_icon = icons.get_default_application_icon(self.icon_size)
+			return super(OpenWith, self).get_pixbuf()
 		return app_icon
+	def get_icon_name(self):
+		return "gtk-execute"
 
 class OpenUrl (Action):
 	def __init__(self, name=None):
@@ -374,8 +376,11 @@ class Show (OpenUrl):
 		uri = gnomevfs.get_uri_from_local_path(leaf.object)
 		self.open_url(uri)
 	
+	def get_description(self):
+		return "Open with default viewer"
+
 	def get_icon_name(self):
-		return "exec"
+		return "gtk-execute"
 
 class OpenDirectory (Show):
 	def __init__(self):
@@ -450,9 +455,6 @@ class Launch (Action):
 	def activate(self, leaf):
 		desktop_item = leaf.object
 		self.launch_item(desktop_item)
-	
-	def get_pixbuf(self):
-		return icons.get_default_application_icon(self.icon_size)
 
 class Execute (Launch):
 	"""
@@ -468,6 +470,9 @@ class Execute (Launch):
 		fileloc = leaf.object
 		desktop_item = utils.new_desktop_item(fileloc, self.in_terminal)
 		self.launch_item(desktop_item)
+
+	def get_pixbuf(self):
+		return icons.get_default_application_icon(self.icon_size)
 
 class SearchInside (Action):
 	"""
