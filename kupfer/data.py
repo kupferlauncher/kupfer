@@ -118,7 +118,7 @@ class SourcePickleService (OutputMixin, object):
 	def get_filename(self, source):
 		from os import path
 
-		hashstr = "%010d" % abs(hash(repr(source)))
+		hashstr = "%010d" % abs(hash(source))
 		filename = self.name_template % (hashstr, self.pickle_version)
 		return path.join(config.get_cache_home(), filename)
 
@@ -181,14 +181,12 @@ class DataController (gobject.GObject, OutputMixin):
 		@S_sources are to be included directly in the catalog,
 		@s_souces as just as subitems
 		"""
-		S_sources = set(S_sources)
-		s_sources = set(s_sources)
-		self._unpickle_or_rescan(S_sources)
-		self._unpickle_or_rescan(s_sources, rescan=False)
-
 		self.direct_sources = set(S_sources)
-		self.sources = set(self.direct_sources)
-		self.sources.update(s_sources)
+		other_sources = set(s_sources) - set(S_sources)
+		self._unpickle_or_rescan(self.direct_sources)
+		self._unpickle_or_rescan(other_sources, rescan=False)
+		# Add (set) the two categories
+		self.sources = self.direct_sources | other_sources
 
 		if len(self.sources) == 1:
 			root_catalog, = self.sources
