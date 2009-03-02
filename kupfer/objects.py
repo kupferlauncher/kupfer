@@ -510,7 +510,7 @@ class RescanSource (Action):
 		return "Force reindex of the source"
 
 	def get_icon_name(self):
-		return "search"
+		return "gtk-refresh"
 
 class DummyAction (Action):
 	"""
