@@ -148,7 +148,7 @@ class FileLeaf (Leaf):
 			acts.extend([OpenTerminal(), SearchInside()])
 			default = OpenDirectory()
 		elif self._is_valid():
-			type = gnomevfs.get_mime_type(self.object)
+			type = gnomevfs.get_file_mime_type(self.object)
 			def_app = gnomevfs.mime_get_default_application(type)
 			types = gnomevfs.mime_get_all_applications(type)
 			apps = set()
