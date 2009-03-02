@@ -142,6 +142,7 @@ class FileLeaf (Leaf):
 
 	def get_actions(self):
 		acts = [RevealFile(), Dragbox(), Echo()]
+		app_actions=[]
 		default = None
 		if path.isdir(self.object):
 			acts.extend([OpenTerminal(), SearchInside()])
@@ -150,20 +151,29 @@ class FileLeaf (Leaf):
 			mime_type = gnomevfs.get_file_mime_type(self.object)
 			def_app = gnomevfs.mime_get_default_application(mime_type)
 			types = gnomevfs.mime_get_all_applications(mime_type)
-			apps = set()
-			if def_app:
-				default = OpenWith(self._desktop_item(def_app[0]), def_app[1])
-				apps.add(def_app[1])
+			apps = {}
 			for info in types:
-				id = info[1]
-				if id not in apps:
-					acts.append(OpenWith(self._desktop_item(info[0]), info[1]))
-					apps.add(id)
+				key = info[1]
+				if key not in apps:
+					try:
+						app = OpenWith(self._desktop_item(info[0]), info[1])
+						apps[key] = app
+					except InvalidData:
+						pass
+			if def_app:
+				def_key = def_app[1]
+				if not def_key in apps:
+					print "No default found for %s, but found %s" % (self, apps)
+				else:
+					app_actions.append(apps.pop(def_key))
+			app_actions.extend(apps.values())
+
 			if self._is_executable():
 				acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
-		if not default:
-			default = Show()
-		acts.insert(0, default)
+		if not app_actions:
+			app_actions.append(Show())
+		acts.insert(0, app_actions.pop(0))
+		acts.extend(app_actions)
 		return acts
 
 	def has_content(self):
@@ -312,6 +322,8 @@ class OpenWith (Action):
 
 	def __init__(self, desktop_item, name):
 		Action.__init__(self, "Open with %s" % name)
+		if not desktop_item:
+			raise InvalidData
 		self.desktop_item = desktop_item
 	
 	def preprocess_item(self):
@@ -335,7 +347,9 @@ class OpenWith (Action):
 		self.desktop_item.launch([uri], 0)
 
 	def get_pixbuf(self):
-		app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
+		app_icon = None
+		if self.desktop_item:
+			app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
 		if not app_icon:
 			return super(OpenWith, self).get_pixbuf()
 		return app_icon
