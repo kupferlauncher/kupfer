@@ -795,7 +795,7 @@ class WindowController (object):
 	def launch_callback(self, sender, leaf, action):
 		self.put_away()
 	
-	def activate(self):
+	def activate(self, sender=None):
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.present()
@@ -805,7 +805,7 @@ class WindowController (object):
 	def put_away(self):
 		self.window.hide()
 	
-	def quit(self):
+	def quit(self, sender=None):
 		gtk.main_quit()
 
 	def quit_cleanup(self):
@@ -830,12 +830,16 @@ class WindowController (object):
 
 	def _destroy(self, widget, data=None):
 		self.quit()
-
+	
 	def main(self):
 		# register dbus callbacks
-		import listen
-		listen.register("activate", self.activate)
-		listen.register("quit", self.quit)
+		from listen import Service
+
+		s = Service()
+		if s:
+			s.connect("present", self.activate)
+			s.connect("quit", self.quit)
+
 		try:
 			gtk.main()
 			self.quit_cleanup()
