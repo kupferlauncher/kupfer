@@ -418,7 +418,7 @@ class Dragbox (Action):
 	
 	def activate(self, leaf):
 		path = leaf.object
-		argv = ["dragbox", "--file", path]
+		argv = ["dragbox", path]
 		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
 	
 	def get_icon_name(self):
