@@ -68,7 +68,7 @@ def set_options(opt):
 def configure(conf):
 	conf.check_tool("python")
 	conf.check_tool("gnu_dirs")
-	conf.check_python_version((2,4,2))
+	conf.check_python_version((2,5,0))
 
 	python_modules = """
 		gio
