@@ -807,9 +807,8 @@ class WindowController (object):
 	
 	def quit(self):
 		gtk.main_quit()
-		self.final_quit()
 
-	def final_quit(self):
+	def quit_cleanup(self):
 		"""Do cleanup of everything"""
 		self.data_controller.finish()
 	
@@ -839,9 +838,10 @@ class WindowController (object):
 		listen.register("quit", self.quit)
 		try:
 			gtk.main()
+			self.quit_cleanup()
 		except KeyboardInterrupt, info:
 			print info, "exiting.. (Warning: Ctrl-C in the shell will",\
 					"kill child processes)"
-			self.final_quit()
+			self.quit_cleanup()
 			raise SystemExit
 
