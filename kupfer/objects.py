@@ -95,7 +95,6 @@ class Leaf (KupferObject):
 	def __init__(self, obj, value):
 		super(Leaf, self).__init__(value)
 		self.object = obj
-		self.value = value
 	
 	def has_content(self):
 		return False
@@ -229,7 +228,6 @@ class AppLeaf (Leaf):
 		else:
 			value = name
 		self.object = item
-		self.value = value
 		self.name = value
 
 	def __getstate__(self):

@@ -238,10 +238,10 @@ class DataController (gobject.GObject, OutputMixin):
 		"""
 		Return iterable to searched base
 		"""
-		return ((leaf.value, leaf) for leaf in self.source.get_leaves())
+		return ((leaf.name, leaf) for leaf in self.source.get_leaves())
 
 	def do_search(self, source, key, context):
-		rankables = ((leaf.value, leaf) for leaf in source.get_leaves())
+		rankables = ((leaf.name, leaf) for leaf in source.get_leaves())
 		SearchTask(self, rankables, key, "search-result", context=context)
 		self.is_searching = False
 
