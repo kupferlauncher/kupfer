@@ -55,12 +55,8 @@ class AttachScreen (Action):
 		name = "Attach"
 		super(AttachScreen, self).__init__(name)
 	def activate(self, leaf):
+		import gio
 		pid = leaf.object
-		action = "/usr/bin/screen -x -R %s" % pid
-		import gnomedesktop as gd
-		item = gd.DesktopItem()
-		item.set_entry_type(gd.TYPE_APPLICATION)
-		item.set_string(gd.KEY_NAME, self.name)
-		item.set_string(gd.KEY_EXEC, action)
-		item.set_boolean(gd.KEY_TERMINAL, True)
-		item.launch([], 0)
+		action = "screen -x -R %s" % pid
+		item = gio.AppInfo(action, "GNU Screen session", gio.APP_INFO_CREATE_NEEDS_TERMINAL)
+		item.launch()
