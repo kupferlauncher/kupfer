@@ -15,5 +15,9 @@ def get_cache_home():
 	cache_home = base.xdg_cache_home or os.path.expanduser("~/.cache")
 	cache_dir = os.path.join(cache_home, PACKAGE_NAME)
 	if not os.path.exists(cache_dir):
-		os.makedirs(cache_dir, mode=0700)
+		try:
+			os.makedirs(cache_dir, mode=0700)
+		except OSError, e:
+			print e
+			return None
 	return cache_dir
