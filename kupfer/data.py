@@ -172,7 +172,6 @@ class DataController (gobject.GObject, OutputMixin):
 		self.source = None
 		self.sources = None
 		self.search_closure = None
-		self.is_searching = False
 		self.rescanner = PeriodicRescanner([])
 
 	def set_sources(self, S_sources, s_sources):
@@ -241,12 +240,12 @@ class DataController (gobject.GObject, OutputMixin):
 	def do_search(self, source, key, context):
 		rankables = ((leaf.name, leaf) for leaf in source.get_leaves())
 		SearchTask(self, rankables, key, "search-result", context=context)
-		self.is_searching = False
 
 	def do_closure(self):
 		"""Call self.search_closure if and then set it to None"""
-		self.search_closure()
-		self.search_closure = None
+		if self.search_closure:
+			self.search_closure()
+			self.search_closure = None
 
 	def search(self, key="", context=None):
 		"""Search: Register the search method in the event loop
@@ -259,10 +258,7 @@ class DataController (gobject.GObject, OutputMixin):
 		requested search."""
 
 		self.search_closure = lambda : self.do_search(self.source, key, context)
-		if self.is_searching:
-			return
 		gobject.idle_add(self.do_closure)
-		self.is_searching = True
 
 	def do_predicate_search(self, leaf, key=None, context=None):
 		if leaf:
