@@ -45,7 +45,7 @@ class RescanThread (threading.Thread, OutputMixin):
 		self.signal = signal
 		self.context = context
 
-	def start(self):
+	def run(self):
 		self.output_info(repr(self.source))
 		items = self.source.get_leaves(force_update=True)
 		if self.sender and self.signal:
