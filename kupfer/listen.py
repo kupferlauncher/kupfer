@@ -24,9 +24,14 @@ class _Service (ExportedGObject):
 	def Present(self):
 		self.emit("present")
 	@dbus.service.method(interface_name)
+	def ShowHide(self):
+		self.emit("show-hide")
+	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
 gobject.signal_new("present", _Service, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
+gobject.signal_new("show-hide", _Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("quit", _Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())

@@ -772,7 +772,7 @@ class WindowController (object):
 		menu.show_all()
 
 		status.connect("popup-menu", self._popup_menu, menu)
-		status.connect("activate", self._show_hide)
+		status.connect("activate", self.show_hide)
 
 	def _setup_window(self):
 		"""
@@ -815,9 +815,9 @@ class WindowController (object):
 	def _cancelled(self, widget):
 		self.put_away()
 	
-	def _show_hide(self, status_icon):
+	def show_hide(self, sender=None):
 		"""
-		When the StatusIcon is clicked
+		Toggle activate/put-away
 		"""
 		if self.window.is_active():
 			self.put_away()
@@ -838,6 +838,7 @@ class WindowController (object):
 		s = Service()
 		if s:
 			s.connect("present", self.activate)
+			s.connect("show-hide", self.show_hide)
 			s.connect("quit", self.quit)
 
 		try:
