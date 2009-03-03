@@ -18,11 +18,12 @@ def get_options(default_opts=""):
 	  b             firefox bookmarks
 	  c             recent documents
 	  e             epiphany bookmarks
+	  m             common items
 	  p             nautilus places
 	  s             gnu screen sessions
 	  w             windows
 
-	The default is "-S acpsw -s e -D ~ -D ~/Desktop"
+	The default is "-S acmpsw -s e -D ~ -D ~/Desktop"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -33,7 +34,7 @@ def get_options(default_opts=""):
 		opts.remove("--debug") 
 
 	if len(opts) < 1:
-		opts ="-S acpsw -s e -D ~ -D ~/Desktop".split()
+		opts ="-S acmpsw -s e -D ~ -D ~/Desktop".split()
 
 	try:
 		opts, args = getopt(opts, "S:s:D:d:R:r:", ["depth=", "help"])
