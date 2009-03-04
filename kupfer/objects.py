@@ -200,10 +200,10 @@ def ContstructFileLeaf(obj, name):
 	"""
 	root, ext = path.splitext(obj)
 	if ext == ".desktop":
-		from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
-		desktop_item = item_new_from_file(obj, LOAD_ONLY_IF_EXISTS)
-		if desktop_item:
-			return AppLeaf(desktop_item)
+		try:
+			return AppLeaf(path=obj)
+		except InvalidData:
+			pass
 	return FileLeaf(obj, name)
 
 class SourceLeaf (Leaf):
@@ -228,47 +228,60 @@ class SourceLeaf (Leaf):
 		return self.object.get_icon_name()
 
 class AppLeaf (Leaf):
-	def __init__(self, item):
+	def __init__(self, item=None, path=None, item_id=None):
 		super(AppLeaf, self).__init__(item, "")
+		self.path = path
+		if not item:
+			item = self._get_item(path,item_id)
 		self._init_from_item(item)
+		if not self.object:
+			raise InvalidData
+
+	def _get_item(self, path=None, item_id=None):
+		"""Construct an AppInfo item from either path or item_id"""
+		from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
+		item = None
+		if path:
+			item = desktop_app_info_new_from_filename(path)
+		if item_id:
+			item = DesktopAppInfo(item_id)
+		return item
 
 	def _init_from_item(self, item):
-		from gnomedesktop import KEY_NAME, KEY_EXEC
-		loc_name = item.get_localestring(KEY_NAME)
-		name = item.get_string(KEY_NAME)
-		if name != loc_name or not loc_name:
-			value = "%s (%s)" % (loc_name, name)
+		if item:
+			loc_name = item.get_name()
+			name = item.get_executable()
+			if name != loc_name or not loc_name:
+				value = "%s (%s)" % (loc_name, name)
+			else:
+				value = name
 		else:
-			value = name
+			value = "Unknown"
 		self.object = item
 		self.name = value
 
 	def __getstate__(self):
-		"""For pickling: Return smth to be able to setup the state again"""
-		return self.object.get_location()
-
-	def __setstate__(self, state):
-		"""For pickling: Take the state from __getstate__ (a uri)
-		and load in a new object"""
-		from gnomedesktop import item_new_from_uri, LOAD_ONLY_IF_EXISTS
-		item = item_new_from_uri(state, LOAD_ONLY_IF_EXISTS)
-		self._init_from_item(item)
+		"""Return state for pickle"""
+		item_id = self.object.get_id() if self.object else None
+		return (self.path, item_id)
 	
+	def __setstate__(self, state):
+		path, item_id = state
+		self.path = path
+		self._init_from_item(self._get_item(path, item_id))
+
 	def get_actions(self):
 		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True),
 			Echo())
 
 	def get_description(self):
-		from gnomedesktop import KEY_COMMENT
-		return self.object.get_string(KEY_COMMENT)
+		self.object.get_description()
 
 	def get_pixbuf(self):
-		from gtk import icon_theme_get_default
-		icon_file = self.object.get_icon(icon_theme_get_default())
-		#icon_file = gnomevfs.get_local_path_from_uri(icon_uri)
-		if not icon_file:
-			return icons.get_default_application_icon(self.icon_size)
-		return icons.get_icon_from_file(icon_file, self.icon_size)
+		from icons import get_icon_for_gicon, get_default_application_icon
+		icon = get_icon_for_gicon(self.object.get_icon(), self.icon_size)
+		icon = icon or get_default_application_icon(self.icon_size)
+		return icon
 
 class Action (KupferObject):
 	"""
@@ -467,7 +480,7 @@ class Launch (Action):
 			item = item.copy()
 			item.set_boolean(KEY_TERMINAL, True)
 		args = []
-		item.launch(args, 0)
+		item.launch(args, None)
 	
 	def activate(self, leaf):
 		desktop_item = leaf.object
@@ -738,43 +751,8 @@ class AppSource (Source):
 		return "gnome-applications"
 
 	def get_items(self):
-		dirs = utils.get_xdg_data_dirs()
-		from os import walk
-		import gnomedesktop as gd
-
-		desktop_files = []
-
-		inc_files = set()
-
-		def add_desktop_item(item):
-			hid = item.get_boolean(gd.KEY_HIDDEN)
-			nodisp = item.get_boolean(gd.KEY_NO_DISPLAY)
-			item_type = item.get_string(gd.KEY_TYPE)
-
-			if True in (hid, nodisp) or (item_type != "Application"):
-				return
-			fileloc = gnomevfs.get_local_path_from_uri(item.get_location())
-			name = path.basename(fileloc)
-			if name in inc_files:
-				return
-			inc_files.add(name)
-			desktop_files.append(item)
-		
-		for d in dirs:
-			apps = path.join(d, "applications")
-			if not path.exists(apps):
-				continue
-			for root, dirnames, fnames in walk(apps):
-				for file in fnames:
-					abspath = path.join(root, file)
-					item = gd.item_new_from_file(abspath, gd.LOAD_ONLY_IF_EXISTS)
-					if item:
-						add_desktop_item(item)
-
-				del dirnames[:]
-		
-		return (AppLeaf(item) for item in desktop_files)
-
+		from gio import app_info_get_all
+		return (AppLeaf(item) for item in app_info_get_all() if item.should_show())
 
 class UrlLeaf (Leaf):
 	def __init__(self, obj, name):
