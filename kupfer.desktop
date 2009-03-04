@@ -7,5 +7,5 @@ Icon=search
 Exec=kupfer
 Type=Application
 Categories=Utility;
-StartupNotify=false
+StartupNotify=true
 MimeType=;
