@@ -160,7 +160,7 @@ class MatchView (gtk.Bin):
 				icon = self._dim_icon(icon)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
-			self.icon_view.clear()
+			self.icon_view.set_from_stock("gtk-file", 96)
 
 		if not self.cur_text:
 			self.label.set_text("<no text>")
