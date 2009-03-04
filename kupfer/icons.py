@@ -19,6 +19,17 @@ def store_icon(key, icon):
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
 
+def get_icon_for_gicon(gicon, icon_size):
+	# FIXME: We can't load any general GIcon
+	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
+	if isinstance(gicon, FileIcon):
+		ifile = gicon.get_file()
+		return get_icon_from_file(ifile.get_path(), icon_size)
+	if isinstance(gicon, ThemedIcon):
+		names = gicon.get_names()
+		return get_icon_for_name(names[0], icon_size, names)
+	print "get_icon_for_gicon, could not load", gicon
+	return None
 
 def get_icon_for_uri(uri, icon_size):
 	"""
@@ -39,31 +50,35 @@ def get_icon_for_uri(uri, icon_size):
 	if not gfile.query_exists():
 		return None
 
-	# FIXME: We can't load any general GIcon
 	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
 	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
-	if isinstance(gicon, FileIcon):
-		print "Loading %s" % gicon
-		ifile = gicon.get_file()
-		return get_icon_from_file(ifile.get_path(), icon_size)
-	if isinstance(gicon, ThemedIcon):
-		names = gicon.get_names()
-		for name in names:
-			icon = get_icon_for_name(name, icon_size)
-			if icon:
-				return icon
-	return None
+	return get_icon_for_gicon(gicon, icon_size)
 
-def get_icon_for_name(icon_name, icon_size):
+def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	for i in get_icon(icon_name):
 		return i
-	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN
+	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
 	from gobject import GError
 	icon_theme = icon_theme_get_default()
-	try:
-		icon = icon_theme.load_icon(icon_name, icon_size, ICON_LOOKUP_USE_BUILTIN)
-	except GError:
+	if not icon_names: icon_names = (icon_name,)
+
+	# Try the whole list of given names, without extension
+	rmext = lambda n: path.splitext(n)[0]
+	for load_name in (rmext(name) for name in icon_names):
+		try:
+			icon = icon_theme.load_icon(load_name, icon_size, ICON_LOOKUP_USE_BUILTIN | ICON_LOOKUP_FORCE_SIZE)
+			if icon:
+				break
+		except GError, e:
+			icon = None
+		except Exception, e:
+			print "get_icon_for_name, error:", e
+			icon = None
+	else:
+		# if we did not reach 'break' in the loop
 		return None
+	# We store the first icon in the list, even if the match
+	# found was later in the chain
 	store_icon(icon_name, icon)
 	return icon
 
@@ -128,8 +143,8 @@ def get_icon_from_file(icon_file, icon_size):
 		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
 		store_icon(icon_file, icon)
 		return icon
-	except GError, info:
-		print info
+	except GError, e:
+		print "get_icon_from_file, error:", e
 		return None
 
 def get_default_application_icon(icon_size):
