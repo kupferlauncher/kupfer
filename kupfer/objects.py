@@ -466,12 +466,7 @@ class Launch (Action):
 		self.in_terminal = in_terminal
 	
 	def launch_item(self, item):
-		if self.in_terminal:
-			from gnomedesktop import KEY_TERMINAL
-			item = item.copy()
-			item.set_boolean(KEY_TERMINAL, True)
-		args = []
-		item.launch(args, None)
+		item.launch((), None)
 	
 	def activate(self, leaf):
 		desktop_item = leaf.object
@@ -489,7 +484,7 @@ class Execute (Launch):
 	
 	def activate(self, leaf):
 		fileloc = leaf.object
-		desktop_item = utils.new_desktop_item(fileloc, self.in_terminal)
+		desktop_item = utils.app_info_for_commandline(fileloc, self.in_terminal)
 		self.launch_item(desktop_item)
 
 	def get_pixbuf(self):
