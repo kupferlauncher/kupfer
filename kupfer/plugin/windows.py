@@ -1,5 +1,6 @@
 import gobject
 import gtk
+import wnck
 
 from kupfer.objects import Leaf, Action, Source
 
@@ -77,7 +78,6 @@ class WindowsSource (Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		import wnck
 		screen = wnck.screen_get_default()
 		# wait a bit -- to get the window list
 		wait_gtk()
