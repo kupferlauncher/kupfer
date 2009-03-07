@@ -407,6 +407,9 @@ class OpenDirectory (Show):
 	def __init__(self):
 		super(OpenDirectory, self).__init__("Open")
 
+	def get_description(self):
+		return "Open folder"
+
 	def get_icon_name(self):
 		return "folder-open"
 
@@ -674,6 +677,9 @@ class DirectorySource (Source):
 
 	def get_description(self):
 		return "Directory source %s" % self.directory
+
+	def get_pixbuf(self):
+		return icons.get_icon_for_file(self.directory, self.icon_size)
 
 	def get_icon_name(self):
 		return "folder"
