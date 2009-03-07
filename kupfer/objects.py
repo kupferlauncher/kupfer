@@ -122,10 +122,6 @@ class FileLeaf (Leaf):
 	# To save memory with (really) many instances
 	__slots__ = ("name", "object")
 
-	def _desktop_item(self, basename):
-		from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
-		return item_new_from_basename(basename, LOAD_ONLY_IF_EXISTS)
-
 	def _is_executable(self):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
