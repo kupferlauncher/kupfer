@@ -1,5 +1,7 @@
 
-import bookmarks
-import common
-import screen
-import windows
+__all__ = """
+	bookmarks
+	common
+	screen
+	windows
+	""".split()
