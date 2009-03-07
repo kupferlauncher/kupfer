@@ -193,7 +193,7 @@ class FileLeaf (Leaf):
 
 	def get_pixbuf(self):
 		uri = gnomevfs.get_uri_from_local_path(self.object)
-		icon = icons.get_icon_for_uri(uri, self.icon_size)
+		icon = icons.get_icon_for_file(uri, self.icon_size)
 		if not icon:
 			icon = icons.get_icon_for_name("gtk-file", self.icon_size)
 		return icon

@@ -31,16 +31,14 @@ def get_icon_for_gicon(gicon, icon_size):
 	print "get_icon_for_gicon, could not load", gicon
 	return None
 
-def get_icon_for_uri(uri, icon_size):
+def get_icon_for_file(uri, icon_size):
 	"""
 	Return a pixbuf representing the file at
-	the URI generally (mime-type based)
+	the @uri, which can be *either* and uri or a path
 
 	return None if not found
 	
-	@param icon_size: a pixel size of the icon
-	@type icon_size: an integer object.
-	 
+	@icon_size: a pixel size of the icon
 	"""
 	from gtk import icon_theme_get_default
 	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
