@@ -61,3 +61,10 @@ def get_xdg_data_dirs():
 	import xdg.BaseDirectory as base
 	return base.xdg_data_dirs
 
+def app_info_for_commandline(cli, name=None, in_terminal=False):
+	import gio
+	flags = gio.APP_INFO_CREATE_NEEDS_TERMINAL if in_terminal else gio.APP_INFO_CREATE_NONE
+	if not name:
+		name = cli
+	item = gio.AppInfo(cli, name, flags)
+	return item
