@@ -148,20 +148,23 @@ class FileLeaf (Leaf):
 			acts.extend([OpenTerminal(), SearchInside()])
 			default = OpenDirectory()
 		elif self._is_valid():
-			mime_type = gnomevfs.get_file_mime_type(self.object)
-			def_app = gnomevfs.mime_get_default_application(mime_type)
-			types = gnomevfs.mime_get_all_applications(mime_type)
+			import gio
+			gfile = gio.File(self.object)
+			info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
+			content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
+			def_app = gio.app_info_get_default_for_type(content_type, False)
+			types = gio.app_info_get_all_for_type(content_type)
 			apps = {}
 			for info in types:
-				key = info[1]
+				key = info.get_id()
 				if key not in apps:
 					try:
-						app = OpenWith(self._desktop_item(info[0]), info[1])
+						app = OpenWith(info, info.get_name())
 						apps[key] = app
 					except InvalidData:
 						pass
 			if def_app:
-				def_key = def_app[1]
+				def_key = def_app.get_id()
 				if not def_key in apps:
 					print "No default found for %s, but found %s" % (self, apps)
 				else:
@@ -342,30 +345,20 @@ class OpenWith (Action):
 			raise InvalidData
 		self.desktop_item = desktop_item
 	
-	def preprocess_item(self):
-		from gnomedesktop import KEY_EXEC
-		exc = self.desktop_item.get_string(KEY_EXEC)
-		if not exc:
-			return
-		parts = exc.split()
-		if len(parts) > 1:
-			return
-		print "Desktop item", exc, "seems to take no files in exec"
-		newexc = exc + " %F"
-		print "Setting KEY_EXEC to", newexc
-		self.desktop_item.set_string(KEY_EXEC, newexc)
-	
 	def activate(self, leaf):
-		self.preprocess_item()
-		filepath = leaf.object
-		# this should be a list of URIs
-		uri = gnomevfs.get_uri_from_local_path(filepath)
-		self.desktop_item.launch([uri], 0)
+		if not self.desktop_item:
+			print self, "not valid"
+			return
+		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
+			print self, "does not support opening files"
+		import gio
+		gfile = gio.File(leaf.object)
+		self.desktop_item.launch((gfile,), None)
 
 	def get_pixbuf(self):
 		app_icon = None
 		if self.desktop_item:
-			app_icon = icons.get_icon_for_desktop_item(self.desktop_item, self.icon_size)
+			app_icon = icons.get_icon_for_gicon(self.desktop_item.get_icon(), self.icon_size)
 		if not app_icon:
 			return super(OpenWith, self).get_pixbuf()
 		return app_icon
