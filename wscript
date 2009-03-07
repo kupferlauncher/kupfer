@@ -73,8 +73,6 @@ def configure(conf):
 	python_modules = """
 		gio
 		gtk
-		gnomedesktop
-		wnck
 		xdg
 		"""
 	for module in python_modules.split():
