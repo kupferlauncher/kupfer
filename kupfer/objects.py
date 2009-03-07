@@ -170,10 +170,13 @@ class FileLeaf (Leaf):
 
 			if self._is_executable():
 				acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
-		if not app_actions:
-			app_actions.append(Show())
-		acts.insert(0, app_actions.pop(0))
-		acts.extend(app_actions)
+			if app_actions:
+				default = app_actions.pop(0)
+			else:
+				app_actions.append(Show())
+		if app_actions:
+			acts.extend(app_actions)
+		acts.insert(0, default)
 		return acts
 
 	def has_content(self):
