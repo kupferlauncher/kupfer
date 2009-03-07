@@ -80,56 +80,6 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	store_icon(icon_name, icon)
 	return icon
 
-def get_icon_for_desktop_file(desktop_file, icon_size):
-	"""
-	Return the icon of a given desktop file path
-	"""
-	from gnomedesktop import item_new_from_file, LOAD_ONLY_IF_EXISTS
-	desktop_item = item_new_from_file(desktop_file, LOAD_ONLY_IF_EXISTS)
-
-	return get_icon_for_desktop_item(desktop_item, icon_size)
-
-def get_icon_for_desktop_name(desktop_name, icon_size):
-	"""
-	Return the icon of a desktop item given its basename
-	"""
-	for icon in get_icon(desktop_name):
-		return icon
-	from gnomedesktop import item_new_from_basename, LOAD_ONLY_IF_EXISTS
-	desktop_item = item_new_from_basename(desktop_file, LOAD_ONLY_IF_EXISTS)
-
-	icon = get_icon_for_desktop_item(desktop_item, icon_size)
-	store_icon(desktop_name, icon)
-	return icon
-
-def get_icon_for_desktop_item(desktop_item, icon_size):
-	"""
-	Return the pixbuf of a given desktop item
-
-	Use some hackery. Take the icon directly if it is absolutely given,
-	otherwise use the name minus extension from current icon theme
-	"""
-	from gtk import icon_theme_get_default
-	from gnomedesktop import find_icon, LOAD_ONLY_IF_EXISTS, KEY_ICON
-	icon_name = desktop_item.get_string(KEY_ICON)
-	if not icon_name:
-		return None
-
-	if not path.isabs(icon_name):
-		icon_name, extension = path.splitext(icon_name)
-		icon_info = icon_theme_get_default().lookup_icon(icon_name, icon_size, 0)
-		if icon_info:
-			icon_file = icon_info.get_filename()
-		else:
-			icon_file = None
-	else:
-		icon_file = icon_name
-
-	if not icon_file:
-		return None
-	return get_icon_from_file(icon_file, icon_size)
-
-
 def get_icon_from_file(icon_file, icon_size):
 	# try to load from cache
 	for icon in get_icon(icon_file):
