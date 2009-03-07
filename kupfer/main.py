@@ -89,26 +89,54 @@ def main():
 			abs = path.abspath(path.expanduser(d))
 			yield objects.FileSource((abs,), depth)
 
-	sources = {
-			"a": objects.AppSource(),
-			"c": objects.RecentsSource(),
-			"p": objects.PlacesSource(),
-			"m": plugin.common.CommonSource(),
-			"b": plugin.bookmarks.BookmarksSource(),
-			"e": plugin.bookmarks.EpiphanySource(),
-			"s": plugin.screen.ScreenSessionsSource(),
-			"w": plugin.windows.WindowsSource(),
-	}
-
 	files = {
 			"-d": dir_source,
 			"-r": file_source,
 	}
 
+	sources = {
+			"a": objects.AppSource(),
+			"c": objects.RecentsSource(),
+			"p": objects.PlacesSource(),
+	}
+
+	plugins = {
+			"m": ("common", "CommonSource"),
+			"b": ("bookmarks", "BookmarksSource"),
+			"e": ("bookmarks", "EpiphanySource"),
+			"s": ("screen", "ScreenSessionsSource"),
+			"w": ("windows", "WindowsSource"),
+	}
+
+	def import_plugin(name):
+		path = ".".join(["kupfer", "plugin", name])
+		plugin = __import__(path, fromlist=(name,))
+		return plugin
+
+	def load_plugin_source(name, source_name):
+		try:
+			plugin = import_plugin(name)
+		except ImportError, e:
+			print "Skipping module %s: %s" % (name, e)
+			return None
+		else:
+			source = getattr(plugin, source_name)
+		return source()
+
+	def get_source(key):
+		if key in sources:
+			yield sources[key]
+		elif key in plugins:
+			src = load_plugin_source(*plugins[key])
+			if src:
+				yield src
+		else:
+			print "No plugin for key:", key
+
 	for item in options.get("sources", ()):
-		s_sources.append(sources[item])
+		s_sources.extend(get_source(item))
 	for item in options.get("include_sources", ()):
-		S_sources.append(sources[item])
+		S_sources.extend(get_source(item))
 	
 	for k, v in files.items():
 		K = k.upper()
