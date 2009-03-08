@@ -78,9 +78,13 @@ class WindowsSource (Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		screen = wnck.screen_get_default()
 		# wait a bit -- to get the window list
-		wait_gtk()
+		# windows might come out empty, and you have to proc
+		# the event loop to do it
+		# wait_gtk()
+		# but this si not allowed, since it might intefere with
+		# the main program!
+		screen = wnck.screen_get_default()
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
 				name, app = (win.get_name(), win.get_application().get_name())
