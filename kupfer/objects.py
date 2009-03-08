@@ -188,8 +188,7 @@ class FileLeaf (Leaf):
 			return Leaf.content_source(self)
 
 	def get_pixbuf(self):
-		uri = gnomevfs.get_uri_from_local_path(self.object)
-		icon = icons.get_icon_for_file(uri, self.icon_size)
+		icon = icons.get_icon_for_file(self.object, self.icon_size)
 		if not icon:
 			icon = icons.get_icon_for_name("gtk-file", self.icon_size)
 		return icon
@@ -796,22 +795,23 @@ class PlacesSource (Source):
 		return self._get_places(fileloc)
 
 	def _get_places(self, fileloc):
+		import gio
 		for line in open(fileloc):
 			if not line.strip():
 				continue
 			items = line.split()
 			uri = items[0]
+			gfile = gio.File(uri)
 			if len(items) > 1:
 				title = items[1]
 			else:
-				disp = gnomevfs.format_uri_for_display(uri)
+				disp = gfile.get_parse_name()
 				title =	path.basename(disp)
-			scheme = gnomevfs.get_uri_scheme(uri)
-			if "file" == scheme:
-				loc = gnomevfs.get_local_path_from_uri(uri)
-				yield FileLeaf(loc, title)
+			locpath = gfile.get_path()
+			if locpath:
+				yield FileLeaf(locpath, title)
 			else:
-				yield UrlLeaf(uri, title)
+				yield UrlLeaf(gfile.get_uri(), title)
 
 	def get_description(self):
 		return "Bookmarked locations in Nautilus"
