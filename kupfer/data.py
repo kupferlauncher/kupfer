@@ -171,8 +171,8 @@ class DataController (gobject.GObject, OutputMixin):
 		super(DataController, self).__init__()
 		self.source = None
 		self.sources = None
-		self.search_closure = None
 		self.rescanner = PeriodicRescanner([])
+		self.search_handle = -1
 
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
@@ -238,14 +238,9 @@ class DataController (gobject.GObject, OutputMixin):
 		return ((leaf.name, leaf) for leaf in self.source.get_leaves())
 
 	def do_search(self, source, key, context):
+		self.search_handle = -1
 		rankables = ((leaf.name, leaf) for leaf in source.get_leaves())
 		SearchTask(self, rankables, key, "search-result", context=context)
-
-	def do_closure(self):
-		"""Call self.search_closure if and then set it to None"""
-		if self.search_closure:
-			self.search_closure()
-			self.search_closure = None
 
 	def search(self, key="", context=None):
 		"""Search: Register the search method in the event loop
@@ -253,12 +248,13 @@ class DataController (gobject.GObject, OutputMixin):
 		Will search the base using @key, promising to return
 		@context in the notification about the result
 
-		If we already have a call to search, we simply update the 
-		self.search_closure, so that we always use the most recently
-		requested search."""
+		If we already have a call to search, we remove the "source"
+		so that we always use the most recently requested search."""
 
-		self.search_closure = lambda : self.do_search(self.source, key, context)
-		gobject.idle_add(self.do_closure)
+		if self.search_handle > 0:
+			gobject.source_remove(self.search_handle)
+		self.search_handle = gobject.idle_add(self.do_search, self.source,
+				key, context)
 
 	def do_predicate_search(self, leaf, key=None, context=None):
 		if leaf:
