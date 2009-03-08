@@ -194,8 +194,8 @@ class SourceController (object):
 		if len(self.sources) == 1:
 			root_catalog, = self.sources
 		elif len(self.sources) > 1:
-			firstlevel = self.toplevel_sources
-			sourceindex = self.sources
+			firstlevel = set(self.toplevel_sources)
+			sourceindex = set(self.sources)
 			kupfer_sources = objects.SourcesSource(self.sources)
 			sourceindex.add(kupfer_sources)
 			firstlevel.add(objects.SourcesSource(sourceindex))
