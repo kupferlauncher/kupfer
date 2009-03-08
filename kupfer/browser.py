@@ -309,9 +309,7 @@ class Search (gtk.Bin):
 		self.scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
 		self.scroller.add(self.table)
 
-		self.list_window = gtk.Window()
-		self.list_window.set_decorated(False)
-		self.list_window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+		self.list_window = gtk.Window(gtk.WINDOW_POPUP)
 
 		box = gtk.VBox()
 		box.pack_start(self.match_view, True, True, 0)
@@ -358,6 +356,7 @@ class Search (gtk.Bin):
 		self.list_window.hide()
 
 	def _show_table(self):
+		# self.window is a GdkWindow
 		win_width, win_height = self.window.get_size()
 		pos_x, pos_y = self.window.get_position()
 		lowerc = pos_y + win_height
@@ -365,6 +364,10 @@ class Search (gtk.Bin):
 		subwin_height = min(table_len, 200)
 		self.list_window.move(pos_x, lowerc)
 		self.list_window.resize(win_width, subwin_height)
+
+		win = self.get_toplevel()
+		self.list_window.set_transient_for(win)
+		self.list_window.set_property("focus-on-map", False)
 		self.list_window.show()
 	
 	# table methods
@@ -785,6 +788,7 @@ class WindowController (object):
 		self.window.add(widget)
 		self.window.set_title("Kupfer")
 		self.window.set_icon_name(self.icon_name)
+		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
