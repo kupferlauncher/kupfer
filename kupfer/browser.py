@@ -799,7 +799,11 @@ class WindowController (object):
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.present()
-		self.window.window.focus()
+		# try to put in the time here
+		# but we still get
+		# "Buggy client sent a _NET_ACTIVE_WINDOW message with a timestamp of 0"
+		time = gtk.get_current_event_time()
+		self.window.window.focus(timestamp=time)
 		self.interface.switch_to_source()
 	
 	def put_away(self):
