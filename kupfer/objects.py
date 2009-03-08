@@ -272,8 +272,9 @@ class AppLeaf (Leaf):
 		self._init_from_item(self._get_item(path, item_id))
 
 	def get_actions(self):
-		return (Launch(), Launch(name="Launch in Terminal", in_terminal=True),
-			Echo())
+		yield Launch()
+		#yield Launch(name="Launch in Terminal", in_terminal=True)
+		yield Echo()
 
 	def get_description(self):
 		self.object.get_description()
@@ -469,6 +470,7 @@ class Launch (Action):
 		self.in_terminal = in_terminal
 	
 	def launch_item(self, item):
+		# Fixme: We can't launch this in terminal
 		item.launch((), None)
 	
 	def activate(self, leaf):
