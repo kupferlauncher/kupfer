@@ -316,14 +316,22 @@ class DataController (gobject.GObject, OutputMixin):
 	def search_predicate(self, item, key=None, context=None):
 		self.do_predicate_search(item, key, context)
 
+	def _load_source(self, src):
+		"""Try to get a source from the SourceController,
+		if it is already loaded we get it from there, else
+		returns @src"""
+		if src in self.sc:
+			return self.sc[src]
+		return src
+
 	def source_rebase(self, src):
 		self.source_stack = []
-		self.source = src
+		self.source = self._load_source(src)
 		self.refresh_data()
 	
 	def push_source(self, src):
 		self.source_stack.append(self.source)
-		self.source = src
+		self.source = self._load_source(src)
 	
 	def pop_source(self):
 		if not len(self.source_stack):
