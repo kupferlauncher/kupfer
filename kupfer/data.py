@@ -159,6 +159,81 @@ class SourcePickleService (OutputMixin, object):
 
 SourcePickleService = SourcePickleService()
 
+class SourceController (object):
+	"""Control sources; loading, pickling, rescanning"""
+	def __init__(self, pickle=True):
+		self.rescanner = PeriodicRescanner([])
+		self.sources = set()
+		self.toplevel_sources = set()
+		self.pickle = pickle
+	def _as_set(self, s):
+		if isinstance(s, set):
+			return s
+		return set(s)
+	def add(self, srcs, toplevel=False):
+		srcs = self._as_set(srcs)
+		self._unpickle_or_rescan(srcs, rescan=toplevel)
+		self.sources.update(srcs)
+		if toplevel:
+			self.toplevel_sources.update(srcs)
+		self.rescanner.set_catalog(self.sources)
+
+	def clear_sources(self):
+		pass
+	def __contains__(self, src):
+		return src in self.sources
+	def __getitem__(self, src):
+		if not src in self:
+			raise KeyError
+		for s in self.sources:
+			if s == src:
+				return s
+	@property
+	def root(self):
+		"""Get the root source"""
+		if len(self.sources) == 1:
+			root_catalog, = self.sources
+		elif len(self.sources) > 1:
+			firstlevel = self.toplevel_sources
+			sourceindex = self.sources
+			kupfer_sources = objects.SourcesSource(self.sources)
+			sourceindex.add(kupfer_sources)
+			firstlevel.add(objects.SourcesSource(sourceindex))
+			root_catalog = objects.MultiSource(firstlevel)
+		else:
+			root_catalog = None
+		return root_catalog
+
+	def load(self):
+		pass
+	def finish(self):
+		self._pickle_sources(self.sources)
+	def _unpickle_or_rescan(self, sources, rescan=True):
+		"""
+		Try to unpickle the source that is equivalent to the
+		"dummy" instance @source, if it doesn't succeed,
+		the "dummy" becomes live and is rescanned if @rescan
+		"""
+		for source in list(sources):
+			if self.pickle:
+				news = SourcePickleService().unpickle_source(source)
+			else:
+				news = None
+			if news:
+				sources.remove(source)
+				sources.add(news)
+			elif rescan:
+				self.rescanner.register_rescan(source, force=True)
+
+	def _pickle_sources(self, sources):
+		if not self.pickle:
+			return
+		for source in sources:
+			if source.is_dynamic():
+				continue
+			SourcePickleService().pickle_source(source)
+
+
 class DataController (gobject.GObject, OutputMixin):
 	"""
 	Sources <-> Actions controller
@@ -174,8 +249,7 @@ class DataController (gobject.GObject, OutputMixin):
 	def __init__(self):
 		super(DataController, self).__init__()
 		self.source = None
-		self.sources = None
-		self.rescanner = PeriodicRescanner([])
+		self.sc = SourceController()
 		self.search_handle = -1
 
 	def set_sources(self, S_sources, s_sources):
@@ -186,51 +260,15 @@ class DataController (gobject.GObject, OutputMixin):
 		"""
 		self.direct_sources = set(S_sources)
 		other_sources = set(s_sources) - set(S_sources)
-		self._unpickle_or_rescan(self.direct_sources)
-		self._unpickle_or_rescan(other_sources, rescan=False)
-		# Add (set) the two categories
-		self.sources = self.direct_sources | other_sources
-
-		if len(self.sources) == 1:
-			root_catalog, = self.sources
-		elif len(self.sources) > 1:
-			firstlevel = set(self.direct_sources)
-			sourceindex = set(self.sources)
-			kupfer_sources = objects.SourcesSource(self.sources)
-			sourceindex.add(kupfer_sources)
-			firstlevel.add(objects.SourcesSource(sourceindex))
-			root_catalog = objects.MultiSource(firstlevel)
-	
-		self.source_rebase(root_catalog)
-
-		# Setup PeriodicRescanner
-		self.rescanner.set_catalog(self.sources)
+		self.sc.add(self.direct_sources, toplevel=True)
+		self.sc.add(other_sources, toplevel=False)
+		self.source_rebase(self.sc.root)
 
 	def load(self):
-		pass
-
-	def _unpickle_or_rescan(self, sources, rescan=True):
-		"""
-		Try to unpickle the source that is equivalent to the
-		"dummy" instance @source, if it doesn't succeed,
-		the "dummy" becomes live and is rescanned if @rescan
-		"""
-		for source in list(sources):
-			news = SourcePickleService().unpickle_source(source)
-			if news:
-				sources.remove(source)
-				sources.add(news)
-			elif rescan:
-				self.rescanner.register_rescan(source, force=True)
-
-	def _pickle_sources(self, sources):
-		for source in sources:
-			if source.is_dynamic():
-				continue
-			SourcePickleService().pickle_source(source)
+		self.sc.load()
 
 	def finish(self):
-		self._pickle_sources(self.sources)
+		self.sc.finish()
 
 	def get_source(self):
 		return self.source
