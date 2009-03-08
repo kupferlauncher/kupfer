@@ -137,7 +137,7 @@ class FileLeaf (Leaf):
 		return self.object
 
 	def get_actions(self):
-		acts = [RevealFile(), Dragbox()]
+		acts = [RevealFile(), ]
 		app_actions=[]
 		default = None
 		if path.isdir(self.object):
@@ -442,19 +442,6 @@ class OpenTerminal (Action):
 	
 	def get_icon_name(self):
 		return "terminal"
-
-class Dragbox (Action):
-	def __init__(self):
-		super(Dragbox, self).__init__("Put on dragbox")
-	
-	def activate(self, leaf):
-		path = leaf.object
-		argv = ["dragbox", path]
-		gobject.spawn_async(argv, flags=gobject.SPAWN_SEARCH_PATH)
-	
-	def get_icon_name(self):
-		from gtk import STOCK_COPY
-		return STOCK_COPY
 
 class Launch (Action):
 	"""
