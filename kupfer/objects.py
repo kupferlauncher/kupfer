@@ -137,7 +137,7 @@ class FileLeaf (Leaf):
 		return self.object
 
 	def get_actions(self):
-		acts = [RevealFile(), Dragbox(), Echo()]
+		acts = [RevealFile(), Dragbox()]
 		app_actions=[]
 		default = None
 		if path.isdir(self.object):
@@ -274,7 +274,6 @@ class AppLeaf (Leaf):
 	def get_actions(self):
 		yield Launch()
 		#yield Launch(name="Launch in Terminal", in_terminal=True)
-		yield Echo()
 
 	def get_description(self):
 		self.object.get_description()
@@ -753,7 +752,7 @@ class UrlLeaf (Leaf):
 		super(UrlLeaf, self).__init__(obj, name)
 	
 	def get_actions(self):
-		return (OpenUrl(), Echo())
+		return (OpenUrl(), )
 
 	def get_icon_name(self):
 		return "text-html"
