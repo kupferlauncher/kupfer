@@ -63,28 +63,32 @@ class PeriodicRescanner (gobject.GObject, OutputMixin):
 	"""
 	def __init__(self, catalog, period=5, startup=10, campaign=3600):
 		super(PeriodicRescanner, self).__init__()
+		self.startup = startup
 		self.period = period
 		self.campaign=campaign
-		self.set_catalog(catalog)
-		gobject.timeout_add_seconds(startup, self._new_campaign)
+		self.cur_event = 0
 
 	def set_catalog(self, catalog):
 		self.catalog = catalog
 		self.cur = iter(self.catalog)
+		if self.cur_event:
+			gobject.source_remove(self.cur_event)
+		self.output_debug("Registering new campaign, in %d s" % self.startup)
+		self.cur_event = gobject.timeout_add_seconds(self.startup, self._new_campaign)
 	
 	def _new_campaign(self):
 		self.output_debug("Starting new campaign, interval %d s" % self.period)
 		self.cur = iter(self.catalog)
-		gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
+		self.cur_event = gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
 
 	def _periodic_rescan_helper(self):
 		try:
 			next = self.cur.next()
 		except StopIteration:
 			self.output_debug("Campaign finished, pausing %d s" % self.campaign)
-			gobject.timeout_add_seconds(self.campaign, self._new_campaign)
+			self.cur_event = gobject.timeout_add_seconds(self.campaign, self._new_campaign)
 			return False
-		gobject.idle_add(self.reload_source, next)
+		self.cur_event = gobject.idle_add(self.reload_source, next)
 		return True
 
 	def register_rescan(self, source, force=False):
