@@ -460,7 +460,7 @@ class Execute (Launch):
 	
 	def activate(self, leaf):
 		fileloc = leaf.object
-		desktop_item = utils.app_info_for_commandline(fileloc, self.in_terminal)
+		desktop_item = utils.app_info_for_commandline(fileloc, in_terminal=self.in_terminal)
 		utils.launch_app(desktop_item)
 
 	def get_pixbuf(self):
