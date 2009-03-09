@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# Copyright (C) 2008  Christian Hergert <chris@dronelabs.com>
+# Copyright (C) 2009  Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+#               2008  Christian Hergert <chris@dronelabs.com>
 #               2007  Chris Halse Rogers, DR Colkitt
 #                     David Siegel, James Walker
 #                     Jason Smith, Miguel de Icaza
@@ -18,6 +19,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+from __future__ import division
 
 """
 This module provides relevance matching and formatting of related strings
