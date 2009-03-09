@@ -175,7 +175,8 @@ class FileLeaf (Leaf):
 				app_actions.append(Show())
 		if app_actions:
 			acts.extend(app_actions)
-		acts.insert(0, default)
+		if default:
+			acts.insert(0, default)
 		return acts
 
 	def has_content(self):
