@@ -380,19 +380,13 @@ class OpenUrl (Action):
 	def get_icon_name(self):
 	  	return "forward"
 
-class Show (OpenUrl):
-	def __init__(self, name=None):
-		"""
-		Open file with default viewer
-		"""
-		if not name:
-			name = "Open"
+class Show (Action):
+	""" Open file with default viewer """
+	def __init__(self, name="Open"):
 		super(Show, self).__init__(name)
 	
 	def activate(self, leaf):
-		print "Show: %s" % (leaf.object,)
-		uri = gnomevfs.get_uri_from_local_path(leaf.object)
-		self.open_url(uri)
+		utils.show_path(leaf.object)
 	
 	def get_description(self):
 		return "Open with default viewer"
@@ -410,17 +404,14 @@ class OpenDirectory (Show):
 	def get_icon_name(self):
 		return "folder-open"
 
-class RevealFile (OpenUrl):
-	def __init__(self, name=None):
-		if not name:
-			name = "Reveal"
+class RevealFile (Action):
+	def __init__(self, name="Reveal"):
 		super(RevealFile, self).__init__(name)
 	
 	def activate(self, leaf):
 		fileloc = leaf.object
 		parent = path.normpath(path.join(fileloc, path.pardir))
-		uri = gnomevfs.get_uri_from_local_path(parent)
-		self.open_url(uri)
+		utils.show_path(parent)
 
 	def get_description(self):
 		return "Open parent folder"
