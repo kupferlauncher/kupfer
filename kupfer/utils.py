@@ -89,3 +89,19 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 	if not ret:
 		print "Error when launching", app_info
 
+def show_path(path):
+	"""Open local @path with default viewer"""
+	from gio import File
+	from gtk import show_uri
+	from gtk.gdk import screen_get_default
+	from glib import GError
+
+	# Implemented using gtk.show_uri
+	# at the moment this will only support local paths,
+	# and other URLs like http:// raise Exceptions
+	gfile = File(path)
+	try:
+		show_uri(screen_get_default(), gfile.get_uri(), 0)
+	except GError, e:
+		print "Error in gtk.show_uri:", e
+
