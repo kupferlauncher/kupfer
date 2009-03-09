@@ -68,3 +68,24 @@ def app_info_for_commandline(cli, name=None, in_terminal=False):
 		name = cli
 	item = gio.AppInfo(cli, name, flags)
 	return item
+
+def launch_app(app_info, files=(), uris=(), paths=()):
+	"""
+	Launch @app_info correctly, using a startup notification
+
+	you may pass in either a list of gio.Files in @files, or 
+	a list of @uris or @paths
+	"""
+	assert app_info
+	from gtk.gdk import AppLaunchContext
+	from gio import File
+	ctx = AppLaunchContext()
+	if paths:
+		files = [File(p) for p in paths]
+	if uris:
+		ret = app_info.launch_uris(uris, ctx)
+	else:
+		ret = app_info.launch(files, ctx)
+	if not ret:
+		print "Error when launching", app_info
+
