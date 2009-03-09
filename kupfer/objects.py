@@ -348,9 +348,7 @@ class OpenWith (Action):
 			return
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
 			print self, "does not support opening files"
-		import gio
-		gfile = gio.File(leaf.object)
-		self.desktop_item.launch((gfile,), None)
+		utils.launch_app(self.desktop_item, paths=(leaf.object,))
 
 	def get_pixbuf(self):
 		app_icon = None
@@ -454,13 +452,9 @@ class Launch (Action):
 		Action.__init__(self, name)
 		self.in_terminal = in_terminal
 	
-	def launch_item(self, item):
-		# Fixme: We can't launch this in terminal
-		item.launch((), None)
-	
 	def activate(self, leaf):
 		desktop_item = leaf.object
-		self.launch_item(desktop_item)
+		utils.launch_app(desktop_item)
 
 class Execute (Launch):
 	"""
@@ -475,7 +469,7 @@ class Execute (Launch):
 	def activate(self, leaf):
 		fileloc = leaf.object
 		desktop_item = utils.app_info_for_commandline(fileloc, self.in_terminal)
-		self.launch_item(desktop_item)
+		utils.launch_app(desktop_item)
 
 	def get_pixbuf(self):
 		return icons.get_default_application_icon(self.icon_size)
