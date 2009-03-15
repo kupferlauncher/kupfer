@@ -10,7 +10,6 @@ Released under GNU General Public License v2 (or any later version)
 """
 
 import gobject
-import gnomevfs
 import itertools
 from os import path
 
@@ -376,7 +375,7 @@ class OpenUrl (Action):
 		self.open_url(url)
 	
 	def open_url(self, url):
-		gnomevfs.url_show(url)
+		utils.show_url(url)
 
 	def get_icon_name(self):
 	  	return "forward"
