@@ -28,8 +28,8 @@ based on the relevance.  It is borrowed from Gnome-Do with modifications
 to fit nicely into python.
 
 >>> import relevance
->>> relevance.score('hi there dude', 'hi dude')
-0.74562869822485212
+>>> print relevance.score('hi there dude', 'hi dude')
+0.745628698225
 >>> relevance.formatCommonSubstrings('hi there dude', 'hi dude')
 '<b>hi </b>there <b>dude</b>'
 """
@@ -92,10 +92,10 @@ def score(s, query):
     
     Returns: a float between 0 and 1
     
-    >>> score('terminal', 'trml')
-    0.73509868421052627
-    >>> score('terminal', 'term')
-    0.99230263157894738
+    >>> print score('terminal', 'trml')
+    0.735098684211
+    >>> print score('terminal', 'term')
+    0.992302631579
     """
     if len(query) == 0:
         return 1
