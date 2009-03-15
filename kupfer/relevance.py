@@ -29,7 +29,7 @@ to fit nicely into python.
 
 >>> import relevance
 >>> relevance.score('hi there dude', 'hi dude')
-0.53480769230769232
+0.74562869822485212
 >>> relevance.formatCommonSubstrings('hi there dude', 'hi dude')
 '<b>hi </b>there <b>dude</b>'
 """
@@ -93,9 +93,9 @@ def score(s, query):
     Returns: a float between 0 and 1
     
     >>> score('terminal', 'trml')
-    0.52875000000000005
+    0.73509868421052627
     >>> score('terminal', 'term')
-    0.96750000000000003
+    0.99230263157894738
     """
     if len(query) == 0:
         return 1
