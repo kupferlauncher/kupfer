@@ -1,4 +1,5 @@
 from kupfer.objects import Leaf, Action, Source
+from kupfer import utils
 
 def screen_sessions_infos():
 	"""
@@ -59,4 +60,4 @@ class AttachScreen (Action):
 		pid = leaf.object
 		action = "screen -x -R %s" % pid
 		item = gio.AppInfo(action, "GNU Screen session", gio.APP_INFO_CREATE_NEEDS_TERMINAL)
-		item.launch()
+		utils.launch_app(item)
