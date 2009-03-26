@@ -66,9 +66,8 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	icon_theme = icon_theme_get_default()
 	if not icon_names: icon_names = (icon_name,)
 
-	# Try the whole list of given names, without extension
-	rmext = lambda n: path.splitext(n)[0]
-	for load_name in (rmext(name) for name in icon_names):
+	# Try the whole list of given names
+	for load_name in icon_names:
 		# Possibly use a different name for lookup
 		if load_name in icon_name_translation:
 			load_name = icon_name_translation[load_name]
