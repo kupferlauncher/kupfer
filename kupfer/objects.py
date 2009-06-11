@@ -43,9 +43,6 @@ class KupferObject (object):
 			name = self.__class__.__name__
 		self.name = name
 	
-	def __repr__(self):
-		return "<%s %s>" % (self.__class__.__name__, str(self))
-
 	def __str__(self):
 		return self.name
 
@@ -538,6 +535,9 @@ class Source (KupferObject):
 
 	def __hash__(self ):
 		return hash(repr(self))
+
+	def __repr__(self):
+		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self))
 
 	def set_refresh_callback(self, refresh_callback):
 		"""
