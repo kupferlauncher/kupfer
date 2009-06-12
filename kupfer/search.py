@@ -65,6 +65,7 @@ class Search (object):
 		Search all loaded objects with the given key,
 		and return all objects (as Rankables) with non-null rank
 		"""
+		key = key.lower()
 		if not self.old_key or not key.startswith(self.old_key):
 			search_base = self.search_base
 			self.old_list = None
