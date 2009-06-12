@@ -4,7 +4,10 @@
 import gtk
 import gobject
 import itertools
+import signal
+
 from .data import DataController
+
 
 # State Constants
 class State (object):
@@ -839,6 +842,10 @@ class WindowController (object):
 	def _destroy(self, widget, data=None):
 		self.quit()
 	
+	def _sigterm(self, signal, frame):
+		print "Caught signal", signal, "exiting.."
+		self.quit()
+
 	def main(self):
 		# register dbus callbacks
 		from listen import Service
@@ -848,6 +855,8 @@ class WindowController (object):
 			s.connect("present", self.activate)
 			s.connect("show-hide", self.show_hide)
 			s.connect("quit", self.quit)
+
+		signal.signal(signal.SIGTERM, self._sigterm)
 
 		try:
 			gtk.main()
