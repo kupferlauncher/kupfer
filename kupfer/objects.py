@@ -627,6 +627,9 @@ class DirectorySource (Source):
 		self.directory = dir
 		self.deep = False
 
+	def __repr__(self):
+		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self.directory))
+
 	def get_items(self):
 		dirlist = utils.get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
 		def file_leaves(files):
