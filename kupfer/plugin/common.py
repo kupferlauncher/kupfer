@@ -30,13 +30,9 @@ class Trash (objects.Leaf):
 	def __init__(self):
 		super(Trash, self).__init__("trash:///", "Trash")
 	def get_actions(self):
-		yield ShowUrl()
+		yield objects.OpenDirectory()
 	def get_icon_name(self):
 		return "gnome-stock-trash"
-
-class ShowUrl (objects.OpenDirectory):
-	def activate(self, leaf):
-		self.open_url(leaf.object)
 
 class CommonSource (Source):
 	def __init__(self, name="Special items"):
