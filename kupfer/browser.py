@@ -737,7 +737,14 @@ class Interface (gobject.GObject):
 		self.entry.emit("key-press-event", event)
 	
 	def _changed(self, editable):
+		"""
+		The entry changed callback: Here we have to be sure to use
+		**UNICODE** (unicode()) for the entered text
+		"""
+		# @text is UTF-8
 		text = editable.get_text()
+
+		text = text.decode("UTF-8")
 		if not len(text):
 			return
 		if self.current is self.search:

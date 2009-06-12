@@ -281,10 +281,10 @@ class DataController (gobject.GObject, OutputMixin):
 
 	def do_search(self, source, key, context):
 		self.search_handle = -1
-		rankables = ((leaf.name, leaf) for leaf in source.get_leaves())
+		rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
 		SearchTask(self, rankables, key, "search-result", context=context)
 
-	def search(self, key="", context=None):
+	def search(self, key=u"", context=None):
 		"""Search: Register the search method in the event loop
 
 		Will search the base using @key, promising to return
@@ -298,22 +298,22 @@ class DataController (gobject.GObject, OutputMixin):
 		self.search_handle = gobject.idle_add(self.do_search, self.source,
 				key, context)
 
-	def do_predicate_search(self, leaf, key=None, context=None):
+	def do_predicate_search(self, leaf, key=u"", context=None):
 		if leaf:
 			leaves = leaf.get_actions()
 		else:
 			leaves = []
 		if not key:
-			matches = [search.Rankable(leaf.name, leaf) for leaf in leaves]
+			matches = [search.Rankable(unicode(leaf), leaf) for leaf in leaves]
 			try:
 				match = matches[0]
 			except IndexError: match = None
 			self.emit("predicate-result", match, iter(matches), context)
 		else:
-			leaves = [(leaf.name, leaf) for leaf in leaves]
+			leaves = [(unicode(leaf), leaf) for leaf in leaves]
 			SearchTask(self, leaves, key, "predicate-result", context)
 
-	def search_predicate(self, item, key=None, context=None):
+	def search_predicate(self, item, key=u"", context=None):
 		self.do_predicate_search(item, key, context)
 
 	def _load_source(self, src):
