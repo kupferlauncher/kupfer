@@ -46,6 +46,9 @@ class KupferObject (object):
 	def __str__(self):
 		return self.name
 
+	def __unicode__(self):
+		return self.name.decode("UTF-8")
+
 	def get_description(self):
 		return None
 
