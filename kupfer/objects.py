@@ -272,7 +272,7 @@ class AppLeaf (Leaf):
 		#yield Launch(name="Launch in Terminal", in_terminal=True)
 
 	def get_description(self):
-		self.object.get_description()
+		return self.object.get_description()
 
 	def get_pixbuf(self):
 		from icons import get_icon_for_gicon, get_default_application_icon
