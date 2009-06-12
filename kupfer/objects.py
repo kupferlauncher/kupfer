@@ -716,7 +716,20 @@ class AppSource (Source):
 
 	def get_items(self):
 		from gio import app_info_get_all
-		return (AppLeaf(item) for item in app_info_get_all() if item.should_show())
+		# Choosing only item.should_show() items misses all Preference applets
+		# so we use a slight heurestic
+		taken = set()
+		for item in app_info_get_all():
+			if item.should_show():
+				yield AppLeaf(item)
+				taken.add(item.get_executable())
+		# Re-run and take some more
+		for item in app_info_get_all():
+			if (not item.should_show() and item.get_executable() not in taken
+					and (not item.supports_files() and not
+						item.supports_uris())):
+				yield AppLeaf(item)
+				taken.add(item.get_executable())
 
 class UrlLeaf (Leaf):
 	def __init__(self, obj, name):
