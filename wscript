@@ -9,7 +9,7 @@ import Configure
 APPNAME="kupfer"
 VERSION = "undefined"
 
-def get_git_version():
+def _get_git_version():
 	""" try grab the current version number from git"""
 	version = None
 	if os.path.exists(".git"):
@@ -19,9 +19,9 @@ def get_git_version():
 			print e
 	return version
 
-def read_git_version():
+def _read_git_version():
 	"""Read version from git repo, or from GIT_VERSION"""
-	version = get_git_version()
+	version = _get_git_version()
 	if not version and os.path.exists("GIT_VERSION"):
 		f = open("GIT_VERSION", "r")
 		version = f.read().strip()
@@ -30,7 +30,7 @@ def read_git_version():
 		global VERSION
 		VERSION = version
 
-read_git_version()
+_read_git_version()
 
 VERSION_MAJOR_MINOR = ".".join(VERSION.split(".")[0:2])
 
@@ -39,15 +39,12 @@ srcdir = '.'
 blddir = 'build'
 
 def dist():
-	"""
-	Make the dist tarball
-	and print its sha1sum
-	"""
+	"""Make the dist tarball and print its SHA-1 """
 	def write_git_version():
 		""" Write the revision to a file called GIT_VERSION,
 		to grab the current version number from git when
 		generating the dist tarball."""
-		version = get_git_version()
+		version = _get_git_version()
 		if not version:
 			return False
 		version_file = open("GIT_VERSION", "w")
