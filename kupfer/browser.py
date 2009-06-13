@@ -75,9 +75,10 @@ class ModelBase (object):
 
 class LeafModel (ModelBase):
 	def __init__(self):
-		ModelBase.__init__(self, str, int)
-		self.val_col = 1
-		self.rank_col = 2
+		ModelBase.__init__(self, str, str, int)
+		self.icon_col = 1
+		self.val_col = 2
+		self.rank_col = 3
 
 		from pango import ELLIPSIZE_MIDDLE
 		cell = gtk.CellRendererText()
@@ -91,11 +92,18 @@ class LeafModel (ModelBase):
 
 		col.add_attribute(cell, "text", self.val_col)
 		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
-		self.columns = (col, nbr_col)
+
+		icon_cell = gtk.CellRendererPixbuf()
+		icon_cell.set_property("height", 22)
+		icon_cell.set_property("width", 22)
+		icon_col = gtk.TreeViewColumn("icon", icon_cell)
+		icon_col.add_attribute(icon_cell, "icon-name", self.icon_col)
+
+		self.columns = (icon_col, col, nbr_col,)
 
 	def add(self, tupl):
 		leaf, rank = tupl
-		self.append((leaf, str(leaf), rank))
+		self.append((leaf, leaf.get_icon_name(), str(leaf), rank, ))
 
 class MatchView (gtk.Bin):
 	"""
