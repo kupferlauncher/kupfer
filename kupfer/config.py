@@ -21,3 +21,32 @@ def get_cache_home():
 			print e
 			return None
 	return cache_dir
+
+def get_data_file(filename):
+	"""
+	Return path to @filename if it exists
+	anywhere in the data paths, else return None
+	"""
+	for direc in base.load_data_paths(PACKAGE_NAME):
+		file_path = os.path.join(direc, filename)
+		if os.path.exists(file_path):
+			return file_path
+	return None
+
+def get_data_home():
+	"""
+	Directory where data is to be saved
+	Guaranteed to exist
+	"""
+	return base.save_data_path(PACKAGE_NAME)
+
+def save_data_file(filename):
+	"""
+	Return filename in the XDG data home directory, where the
+	directory is guaranteed to exist
+	"""
+	direc = base.save_data_path(PACKAGE_NAME)
+	if not direc:
+		return None
+	filepath = os.path.join(direc, filename)
+	return filepath
