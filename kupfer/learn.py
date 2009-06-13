@@ -3,6 +3,8 @@ import cPickle as pickle
 from . import pretty
 from . import config
 
+mnemonics_filename = "mnemonics.pickle"
+
 class Mnemonics (object):
 	"""
 	Class to describe a collection of mnemonics
@@ -79,7 +81,7 @@ def load():
 	"""
 	global _register
 
-	filepath = config.get_data_file("register.pickle")
+	filepath = config.get_data_file(mnemonics_filename)
 
 	if filepath:
 		_register = Learning._unpickle_register(filepath)
@@ -90,5 +92,5 @@ def finish():
 	"""
 	Close and save the learning record
 	"""
-	filepath = config.save_data_file("register.pickle")
+	filepath = config.save_data_file(mnemonics_filename)
 	Learning._pickle_register(_register, filepath)
