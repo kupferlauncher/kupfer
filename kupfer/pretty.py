@@ -1,3 +1,4 @@
+debug = False
 
 class OutputMixin (object):
 	"""
@@ -20,5 +21,6 @@ class OutputMixin (object):
 		print output,
 
 	def output_debug(self, *items, **kwargs):
-		self.output_info(*items, **kwargs)
+		if debug:
+			self.output_info(*items, **kwargs)
 

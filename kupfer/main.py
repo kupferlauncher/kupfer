@@ -1,3 +1,4 @@
+_debug = False
 
 def get_options(default_opts=""):
 	""" Usage:
@@ -30,7 +31,12 @@ def get_options(default_opts=""):
 
 	opts = argv[1:]
 	if "--debug" in opts:
-		import debug
+		try:
+			import debug
+		except ImportError, e:
+			print "%s" % e
+		global _debug
+		_debug = True
 		opts.remove("--debug") 
 
 	if len(opts) < 1:
@@ -148,6 +154,10 @@ def main():
 	if not S_sources and not s_sources:
 		print "No sources"
 		raise SystemExit(1)
+
+	if _debug:
+		from . import pretty
+		pretty.debug = _debug
 
 	dc = data.DataController()
 	dc.set_sources(S_sources, s_sources)
