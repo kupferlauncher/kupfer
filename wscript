@@ -89,14 +89,14 @@ def new_module(bld, name, sources=None):
 
 def build(bld):
 	# modules
-	version_subst_file = "kupfer/version_subst.py"
+	version_subst_file = "%s/version_subst.py" % APPNAME
 	obj = bld.new_task_gen("subst")
 	obj.source = version_subst_file + ".in"
 	obj.target = version_subst_file
 	obj.dict = {"VERSION": VERSION, "PACKAGE_NAME": APPNAME, }
+	obj.install_path = "${PYTHONDIR}/%s" % APPNAME
 
-	mod = new_module(bld, "kupfer")
-	mod.source.append(version_subst_file)
+	new_module(bld, "kupfer")
 	new_module(bld, "kupfer/plugin")
 	# binaries
 	bld.install_as("${BINDIR}/kupfer", "kupfer-activate.sh", chmod=0755)
