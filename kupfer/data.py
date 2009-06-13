@@ -288,19 +288,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				key, context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
-		if leaf:
-			leaves = leaf.get_actions()
-		else:
-			leaves = []
-		if not key:
-			matches = [search.Rankable(unicode(leaf), leaf) for leaf in leaves]
-			try:
-				match = matches[0]
-			except IndexError: match = None
-			self.emit("predicate-result", match, iter(matches), context)
-		else:
-			leaves = [(unicode(leaf), leaf) for leaf in leaves]
-			SearchTask(self, leaves, key, "predicate-result", context)
+		actions = leaf.get_actions() if leaf else []
+		action_rankables = [(unicode(a), a) for a in actions]
+		SearchTask(self, action_rankables, key, "predicate-result", context)
 
 	def search_predicate(self, item, key=u"", context=None):
 		self.do_predicate_search(item, key, context)
