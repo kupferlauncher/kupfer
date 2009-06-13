@@ -192,7 +192,7 @@ class MatchView (gtk.Bin):
 			escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
 			escape = lambda c: escape_table.get(c, c)
 			escape_str = lambda s: u"".join(escape(c) for c in s)
-			open, close = (u"<b>", u"</b>")
+			open, close = (u"<u><b>", u"</b></u>")
 
 			def lower_partition(text, key):
 				"""do str.partition, but partition case-insensitively"""
