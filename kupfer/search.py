@@ -61,9 +61,12 @@ class Search (object):
 		# simply list objects by recorded score
 		if key:
 			for obj in objects:
+				# Rank object
+				# And if matches, add recorded score as well
 				obj.rank = score(obj.value, key)*100
-				obj.rank += learn.get_record_score(obj.value, key)
-				if obj.rank: yield obj
+				if obj.rank:
+					obj.rank += learn.get_record_score(obj.value, key)
+					yield obj
 		else:
 			for obj in objects:
 				obj.rank = learn.get_record_score(obj.value, key)
