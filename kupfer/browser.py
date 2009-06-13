@@ -751,10 +751,11 @@ class Interface (gobject.GObject):
 		"""
 		# @text is UTF-8
 		text = editable.get_text()
-
 		text = text.decode("UTF-8")
 		if not len(text):
 			return
+
+		self.current._hide_table()
 		if self.current is self.search:
 			self.data_controller.search(text, context=text)
 		else:
