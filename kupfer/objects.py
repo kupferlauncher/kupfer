@@ -383,7 +383,6 @@ class OpenUrl (Action):
 	
 	def activate(self, leaf):
 		url = leaf.object
-		print "Open url:", url
 		self.open_url(url)
 	
 	def open_url(self, url):
@@ -437,7 +436,6 @@ class OpenTerminal (Action):
 	
 	def activate(self, leaf):
 		argv = ["gnome-terminal"]
-		print argv
 		utils.spawn_async(argv, in_dir=leaf.object)
 	
 	def get_icon_name(self):
