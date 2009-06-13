@@ -65,8 +65,12 @@ def get_record_score(name, key=u""):
 	if name not in _register:
 		return 0
 	mns = _register[name]
-	ret = mns.get_count() + mns.get_mnemonics().get(key,0)
-	return ret
+	if not key:
+		return mns.get_count()
+
+	stats = mns.get_mnemonics()
+	mnscore = sum(stats[m] for m in stats if m.startswith(key))
+	return mnscore
 
 def load():
 	"""
