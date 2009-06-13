@@ -1,5 +1,6 @@
 from kupfer.objects import Leaf, Action, Source
 from kupfer import objects
+from kupfer.plugin import about
 
 import gtk
 
@@ -19,9 +20,16 @@ class Quit (RunnableLeaf):
 	def get_icon_name(self):
 		return gtk.STOCK_QUIT
 
+class About (RunnableLeaf):
+	def run(self):
+		about.show_about_dialog()
+	def get_description(self):
+		return "Show information about Kupfer authors and license"
+	def get_icon_name(self):
+		return gtk.STOCK_ABOUT
+
 class Run (Action):
 	def activate(self, leaf):
-		print leaf
 		leaf.run()
 	def get_icon_name(self):
 		return gtk.STOCK_EXECUTE
@@ -50,6 +58,7 @@ class CommonSource (Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
+		yield About(name="About Kupfer")
 		yield Quit()
 		yield Computer()
 		yield Trash()
