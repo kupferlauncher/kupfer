@@ -184,15 +184,14 @@ class MatchView (gtk.Bin):
 		# update the text label
 		def markup_match(key, text):
 			"""
-			Return escaped and ascii-encoded markup string for gtk.Label
+			Return xml-escaped markup string for gtk.Label
 
-			Use unicode's method .encode to encode in ascii and use xml
-			entities for unicode chars. Use a simeple homegrown replace table
-			to replace &, <, > with entities before adding markup.
+			Use a simeple homegrown replace table to replace &, <, > with
+			entities before adding markup.
 			"""
-			encode = lambda c: c.encode('us-ascii', 'xmlcharrefreplace')
 			escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
 			escape = lambda c: escape_table.get(c, c)
+			escape_str = lambda s: u"".join(escape(c) for c in s)
 			open, close = (u"<b>", u"</b>")
 
 			def lower_partition(text, key):
@@ -204,21 +203,24 @@ class MatchView (gtk.Bin):
 				return head, sep, tail
 
 			def rmarkup(key, text):
+				"""Be careful about string escapes:
+				We have to match key and text together using unicode;
+				the "cut pieces" are then escaped
+				"""
 				if not key:
-					return text
+					return escape_str(text)
 				"""recursively find search string in match"""
 				if key in text.lower():
 					nextkey=None
 				else:
 					key, nextkey = key[0], key[1:]
 				head, sep, tail = lower_partition(text, key)
-				return head + open + sep + close + rmarkup(nextkey, tail)
+				return (escape_str(head) + open + escape_str(sep) + close +
+						rmarkup(nextkey, tail))
 
-			markup = rmarkup(key,text)
+			markup = rmarkup(key, text)
 			# simplify
-			# compare to T**2 = S.D**2.inv(S)
 			markup = markup.replace(close + open, u"")
-			markup = encode(markup)
 			return markup
 		
 		text = unicode(self.cur_text)
