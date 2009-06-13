@@ -70,6 +70,7 @@ def get_record_score(name, key=u""):
 
 	stats = mns.get_mnemonics()
 	mnscore = sum(stats[m] for m in stats if m.startswith(key))
+	mnscore += 2*stats.get(key, 0)
 	return mnscore
 
 def load():
