@@ -63,4 +63,4 @@ class CommonSource (Source):
 		yield Computer()
 		yield Trash()
 	def get_icon_name(self):
-		return "emblem-system"
+		return "gnome-other"
