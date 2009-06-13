@@ -19,18 +19,18 @@ class WindowLeaf (Leaf):
 		else:
 			yield WindowAction("Shade")
 		if win.is_minimized():
-			yield WindowAction("Unminimize", time=True)
+			yield WindowAction("Unminimize", time=True, icon="gtk-remove")
 		else:
-			yield WindowAction("Minimize")
+			yield WindowAction("Minimize", icon="gtk-remove")
 		if win.is_maximized():
-			yield WindowAction("Unmaximize")
+			yield WindowAction("Unmaximize", icon="gtk-add")
 		else:
-			yield WindowAction("Maximize")
+			yield WindowAction("Maximize", icon="gtk-add")
 		if win.is_maximized_vertically():
-			yield WindowAction("Unmaximize vertically", action="unmaximize_vertically")
+			yield WindowAction("Unmaximize vertically", action="unmaximize_vertically", icon="gtk-add")
 		else:
-			yield WindowAction("Maximize vertically", action="maximize_vertically")
-		yield WindowAction("Close", time=True)
+			yield WindowAction("Maximize vertically", action="maximize_vertically", icon="gtk-add")
+		yield WindowAction("Close", time=True, icon="gtk-close")
 
 	def get_description(self):
 		workspace = self.object.get_workspace()
@@ -41,7 +41,7 @@ class WindowLeaf (Leaf):
 		return "gnome-window-manager"
 
 class WindowActivateWorkspace (Action):
-	def __init__(self, name="Go to Workspace"):
+	def __init__(self, name="Go to"):
 		super(WindowActivateWorkspace, self).__init__(name)
 	def activate (self, leaf):
 		window = leaf.object
@@ -50,14 +50,17 @@ class WindowActivateWorkspace (Action):
 		workspace.activate(time)
 		window.activate(time)
 	def get_description(self):
-		return "Go to this window's workspace and focus"
+		return "Jump to this window's workspace and focus"
+	def get_icon_name(self):
+		return "gtk-jump-to-ltr"
 
 class WindowAction (Action):
-	def __init__(self, name, action=None, time=False):
+	def __init__(self, name, action=None, time=False, icon=None):
 		super(Action, self).__init__(name)
 		if not action: action = name.lower()
 		self.action = action
 		self.time = time
+		self.icon_name = icon
 	def activate(self, leaf):
 		window = leaf.object
 		time = gtk.get_current_event_time()
@@ -70,6 +73,10 @@ class WindowAction (Action):
 		# Make sure other things happen first
 		wait_gtk()
 		gobject.idle_add(make_call())
+	def get_icon_name(self):
+		if not self.icon_name:
+			return super(WindowAction, self).get_icon_name()
+		return self.icon_name
 
 class WindowsSource (Source):
 	def __init__(self, name="Windows"):
