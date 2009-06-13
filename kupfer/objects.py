@@ -750,7 +750,7 @@ class UrlLeaf (Leaf):
 class RecentsSource (Source):
 	def __init__(self):
 		super(RecentsSource, self).__init__("Recent items")
-		self.max_days = 14
+		self.max_days = 28
 	
 	def get_items(self):
 		from gtk import recent_manager_get_default
