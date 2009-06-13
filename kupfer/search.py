@@ -85,7 +85,15 @@ class Search (object):
 
 		# do the searching
 		self.old_key = key
-		itemranker = lambda item: (-item.rank, item.value)
+		def itemranker(item):
+			"""
+			Sort key for the items.
+			Sort first by rank, then by value (name)
+			(but only sort by value if rank >= 0 to keep
+			default ordering!)
+			"""
+			return (-item.rank, item.rank and item.value)
+
 		self.old_list = list(sorted(self.rank_objects(search_base, key), key=itemranker))
 		return self.old_list
 	
