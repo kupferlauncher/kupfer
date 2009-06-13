@@ -15,6 +15,7 @@ from os import path
 
 from . import icons
 from . import utils
+from . import pretty
 
 class Error (Exception):
 	pass
@@ -520,7 +521,7 @@ class DummyAction (Action):
 	def get_icon_name(self):
 		return "gtk-execute"
 
-class Source (KupferObject):
+class Source (KupferObject, pretty.OutputMixin):
 	"""
 	Source: Data provider for a kupfer browser
 
@@ -571,9 +572,8 @@ class Source (KupferObject):
 			return self.get_items()
 		
 		if not self.cached_items or force_update:
-			print "%s: Loading..." % self
 			self.cached_items = aslist(self.get_items())
-			print " loaded %d items" % len(self.cached_items)
+			self.output_info("Loaded %d items" % len(self.cached_items))
 		return self.cached_items
 
 	def has_parent(self):
@@ -773,7 +773,7 @@ class RecentsSource (Source):
 			else:
 				yield UrlLeaf(uri, name)
 			count += 1
-		print "items younger than", self.max_days, "days",
+		self.output_info("Items younger than", self.max_days, "days")
 
 	def get_description(self):
 		return "Recently used documents"
