@@ -79,7 +79,10 @@ def configure(conf):
 
 	# no "optimized" bytecode
 	conf.env["PYO"] = 0
-	print "Using PYTHONDIR: %s" % conf.env["PYTHONDIR"]
+	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
+	conf.env["VERSION"] = VERSION
+
+	print "Installing to PYTHONPATH: %s" % conf.env["PYTHONDIR"]
 
 def new_module(bld, name, sources=None):
 	if not sources: sources = name
@@ -90,12 +93,12 @@ def new_module(bld, name, sources=None):
 
 def build(bld):
 	# kupfer module version info file
-	version_subst_file = "%s/version_subst.py" % APPNAME
-	obj = bld.new_task_gen("subst")
-	obj.source = version_subst_file + ".in"
-	obj.target = version_subst_file
-	obj.dict = {"VERSION": VERSION, "PACKAGE_NAME": APPNAME, }
-	obj.install_path = "${PYTHONDIR}/%s" % APPNAME
+	version_subst_file = "kupfer/version_subst.py"
+	obj = bld.new_task_gen("subst",
+		source=version_subst_file + ".in",
+		target=version_subst_file,
+		install_path="${PYTHONDIR}/kupfer"
+		)
 
 	# modules
 	new_module(bld, "kupfer")
@@ -108,14 +111,12 @@ def build(bld):
 	# PYTHONPATH with /usr/bin/env
 	# and the absolute path to the kupfer binary
 	desktop_subst_file = "kupfer.desktop"
-	dtp = bld.new_task_gen("subst")
-	dtp.source = desktop_subst_file + ".in"
-	dtp.target = desktop_subst_file
-	dtp.install_path = "${DATADIR}/applications"
-	dtp.env.append_value("KUPFER", Utils.subst_vars("${BINDIR}/kupfer", dtp.env))
-	# Desktop file should be +x as well
-	bld.install_as("${DATADIR}/applications/" + desktop_subst_file,
-		desktop_subst_file, chmod=0755)
+	dtp = bld.new_task_gen("subst",
+		source = desktop_subst_file + ".in",
+		target = desktop_subst_file,
+		install_path = "${DATADIR}/applications",
+		chmod = 0755
+		)
 
 def shutdown():
 	pass
