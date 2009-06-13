@@ -8,6 +8,7 @@ from . import search
 from . import objects
 from . import config
 from . import pretty
+from . import learn
 
 def SearchTask(sender, rankables, key, signal, context=None):
 	sobj = search.Search(rankables)
@@ -234,6 +235,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.sc = SourceController()
 		self.search_handle = -1
 
+		self.latest_item_key = None
+		self.latest_action_key = None
+
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
 
@@ -248,9 +252,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def load(self):
 		self.sc.load()
+		learn.load()
 
 	def finish(self):
 		self.sc.finish()
+		learn.finish()
 
 	def get_source(self):
 		return self.source
@@ -275,6 +281,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		If we already have a call to search, we remove the "source"
 		so that we always use the most recently requested search."""
 
+		self.latest_item_key = key
 		if self.search_handle > 0:
 			gobject.source_remove(self.search_handle)
 		self.search_handle = gobject.idle_add(self.do_search, self.source,
@@ -297,6 +304,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def search_predicate(self, item, key=u"", context=None):
 		self.do_predicate_search(item, key, context)
+		self.latest_action_key = key
 
 	def _load_source(self, src):
 		"""Try to get a source from the SourceController,
@@ -323,6 +331,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	
 	def refresh_data(self):
 		self.emit("new-source", self.source)
+		self.latest_item_key = None
+		self.latest_action_key = None
 	
 	def browse_up(self):
 		"""Try to browse up to previous sources, from current
@@ -360,6 +370,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if not action or not leaf:
 			return
 		new_source = action.activate(leaf)
+
+		# register search to learning database
+		if self.latest_item_key:
+			learn.record_search_hit(unicode(leaf), self.latest_item_key)
+		if self.latest_action_key:
+			learn.record_search_hit(unicode(action), self.latest_action_key)
+
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
 			self.push_source(new_source)

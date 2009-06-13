@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 
+import learn
+
 def split_at(s, seps):
 	"""
 	Split string at any char in seps (generator)
@@ -56,6 +58,7 @@ class Search (object):
 		from relevance import score
 		for obj in objects:
 			obj.rank = score(obj.value, key)*100
+			obj.rank += learn.get_record_score(obj.value, key)
 			if obj.rank: yield obj
 
 	def search_objects(self, key):
