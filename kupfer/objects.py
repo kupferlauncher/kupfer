@@ -744,6 +744,9 @@ class UrlLeaf (Leaf):
 	def get_actions(self):
 		return (OpenUrl(), )
 
+	def get_description(self):
+		return self.object
+
 	def get_icon_name(self):
 		return "text-html"
 
