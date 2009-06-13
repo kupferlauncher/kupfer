@@ -60,7 +60,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		self.cur_event = gobject.timeout_add_seconds(self.startup, self._new_campaign)
 	
 	def _new_campaign(self):
-		self.output_debug("Starting new campaign, interval %d s" % self.period)
+		self.output_info("Starting new campaign, interval %d s" % self.period)
 		self.cur = iter(self.catalog)
 		self.cur_event = gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
 
@@ -68,7 +68,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		try:
 			next = self.cur.next()
 		except StopIteration:
-			self.output_debug("Campaign finished, pausing %d s" % self.campaign)
+			self.output_info("Campaign finished, pausing %d s" % self.campaign)
 			self.cur_event = gobject.timeout_add_seconds(self.campaign, self._new_campaign)
 			return False
 		self.cur_event = gobject.idle_add(self.reload_source, next)
