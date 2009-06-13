@@ -67,8 +67,9 @@ def set_options(opt):
 
 def configure(conf):
 	conf.check_tool("python")
-	conf.check_tool("gnu_dirs")
 	conf.check_python_version((2,5,0))
+	conf.check_tool("gnu_dirs")
+	conf.check_tool("misc")
 
 	python_modules = """
 		gio
@@ -91,7 +92,14 @@ def new_module(bld, name, sources=None):
 
 def build(bld):
 	# modules
-	new_module(bld, "kupfer")
+	version_subst_file = "kupfer/version_subst.py"
+	obj = bld.new_task_gen("subst")
+	obj.source = version_subst_file + ".in"
+	obj.target = version_subst_file
+	obj.dict = {"VERSION": VERSION, "PACKAGE_NAME": APPNAME, }
+
+	mod = new_module(bld, "kupfer")
+	mod.source.append(version_subst_file)
 	new_module(bld, "kupfer/plugin")
 	# binaries
 	bld.install_as("${BINDIR}/kupfer", "kupfer-activate.sh", chmod=0755)

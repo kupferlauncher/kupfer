@@ -1,8 +1,17 @@
 # encoding: UTF-8
 
+VERSION = "version undefined"
 PACKAGE_NAME = "kupfer"
+
+try:
+	import version_subst
+except ImportError:
+	pass
+else:
+	VERSION = version_subst.VERSION
+	PACKAGE_NAME = version_subst.PACKAGE_NAME
+
 PROGRAM_NAME = "Kupfer"
-VERSION = "0.1"
 ICON_NAME = "search"
 
 AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
