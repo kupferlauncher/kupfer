@@ -7,6 +7,7 @@ gobject.threads_init()
 from . import search
 from . import objects
 from . import config
+from . import pretty
 
 def SearchTask(sender, rankables, key, signal, context=None):
 	sobj = search.Search(rankables)
@@ -18,26 +19,7 @@ def SearchTask(sender, rankables, key, signal, context=None):
 		match = None
 	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
-class OutputMixin (object):
-	def output_info(self, *items, **kwargs):
-		"""
-		Output given items using @sep as separator,
-		ending the line with @end
-		"""
-		sep = kwargs.get("sep", " ")
-		end = kwargs.get("end", "\n")
-		stritems = (str(it) for it in items)
-		try:
-			output = "[%s] %s: %s%s" % (type(self).__module__,
-					type(self).__name__, sep.join(stritems), end)
-		except Exception:
-			output = sep.join(stritems) + end
-		print output,
-
-	def output_debug(self, *items, **kwargs):
-		self.output_info(*items, **kwargs)
-
-class RescanThread (threading.Thread, OutputMixin):
+class RescanThread (threading.Thread, pretty.OutputMixin):
 	def __init__(self, source, sender, signal, context=None, **kwargs):
 		super(RescanThread, self).__init__(**kwargs)
 		self.source = source
@@ -51,7 +33,7 @@ class RescanThread (threading.Thread, OutputMixin):
 		if self.sender and self.signal:
 			gobject.idle_add(self.sender.emit, self.signal, self.context)
 
-class PeriodicRescanner (gobject.GObject, OutputMixin):
+class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 	"""
 	Periodically rescan a @catalog of sources
 
@@ -109,7 +91,7 @@ class PeriodicRescanner (gobject.GObject, OutputMixin):
 gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
-class SourcePickleService (OutputMixin, object):
+class SourcePickleService (pretty.OutputMixin, object):
 	pickle_version = 1
 	name_template = "kupfer-%s-v%d.pickle"
 
@@ -234,7 +216,7 @@ class SourceController (object):
 			SourcePickleService().pickle_source(source)
 
 
-class DataController (gobject.GObject, OutputMixin):
+class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
 	Sources <-> Actions controller
 
