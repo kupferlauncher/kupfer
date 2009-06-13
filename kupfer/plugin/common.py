@@ -34,6 +34,16 @@ class Trash (objects.Leaf):
 	def get_icon_name(self):
 		return "gnome-stock-trash"
 
+class Computer (objects.Leaf):
+	def __init__(self):
+		super(Computer, self).__init__("computer://", "Computer")
+	def get_actions(self):
+		yield objects.OpenDirectory()
+	def get_description(self):
+		return "Browse local disks and mounts"
+	def get_icon_name(self):
+		return "computer"
+
 class CommonSource (Source):
 	def __init__(self, name="Special items"):
 		super(CommonSource, self).__init__(name)
@@ -41,6 +51,7 @@ class CommonSource (Source):
 		return True
 	def get_items(self):
 		yield Quit()
+		yield Computer()
 		yield Trash()
 	def get_icon_name(self):
 		return "emblem-system"
