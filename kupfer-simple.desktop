@@ -1,3 +1,5 @@
+# This is a simple .desktop file without environment
+# variable setup
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8

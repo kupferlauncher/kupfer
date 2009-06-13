@@ -4,6 +4,7 @@
 import os
 import sys
 import Configure
+import Utils
 
 # the following two variables are used by the target "waf dist"
 APPNAME="kupfer"
@@ -88,7 +89,7 @@ def new_module(bld, name, sources=None):
 	return obj
 
 def build(bld):
-	# modules
+	# kupfer module version info file
 	version_subst_file = "%s/version_subst.py" % APPNAME
 	obj = bld.new_task_gen("subst")
 	obj.source = version_subst_file + ".in"
@@ -96,11 +97,25 @@ def build(bld):
 	obj.dict = {"VERSION": VERSION, "PACKAGE_NAME": APPNAME, }
 	obj.install_path = "${PYTHONDIR}/%s" % APPNAME
 
+	# modules
 	new_module(bld, "kupfer")
 	new_module(bld, "kupfer/plugin")
-	# binaries
+	# binary
 	bld.install_as("${BINDIR}/kupfer", "kupfer-activate.sh", chmod=0755)
-	bld.install_files("${DATADIR}/applications", "kupfer.desktop")
+
+	# Install .desktop file
+	# Specially preparated to setup
+	# PYTHONPATH with /usr/bin/env
+	# and the absolute path to the kupfer binary
+	desktop_subst_file = "kupfer.desktop"
+	dtp = bld.new_task_gen("subst")
+	dtp.source = desktop_subst_file + ".in"
+	dtp.target = desktop_subst_file
+	dtp.install_path = "${DATADIR}/applications"
+	dtp.env.append_value("KUPFER", Utils.subst_vars("${BINDIR}/kupfer", dtp.env))
+	# Desktop file should be +x as well
+	bld.install_as("${DATADIR}/applications/" + desktop_subst_file,
+		desktop_subst_file, chmod=0755)
 
 def shutdown():
 	pass
