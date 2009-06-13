@@ -5,12 +5,21 @@ from kupfer.plugin import about
 import gtk
 
 class RunnableLeaf (Leaf):
+	"""Leaf where the Leaf is basically the action itself,
+	for items such as Quit, Log out etc.
+	"""
 	def __init__(self, obj=None, name=None):
 		super(RunnableLeaf, self).__init__(obj, name)
 	def get_actions(self):
 		yield Run()
 	def run(self):
 		pass
+
+class Run (Action):
+	def activate(self, leaf):
+		leaf.run()
+	def get_icon_name(self):
+		return gtk.STOCK_EXECUTE
 
 class Quit (RunnableLeaf):
 	def run(self):
@@ -28,11 +37,15 @@ class About (RunnableLeaf):
 	def get_icon_name(self):
 		return gtk.STOCK_ABOUT
 
-class Run (Action):
-	def activate(self, leaf):
-		leaf.run()
+class Preferences (RunnableLeaf):
+	def run(self):
+		pass
+	def get_description(self):
+		return "Settings are not implemented yet; see 'kupfer --help'"
+	def get_actions(self):
+		return ()
 	def get_icon_name(self):
-		return gtk.STOCK_EXECUTE
+		return gtk.STOCK_PREFERENCES
 
 class Trash (objects.Leaf):
 	def __init__(self):
@@ -59,6 +72,7 @@ class CommonSource (Source):
 		return True
 	def get_items(self):
 		yield About(name="About Kupfer")
+		yield Preferences(name="Kupfer Preferences")
 		yield Quit()
 		yield Computer()
 		yield Trash()
