@@ -56,10 +56,18 @@ class Search (object):
 		ones that have nonzero
 		"""
 		from relevance import score
-		for obj in objects:
-			obj.rank = score(obj.value, key)*100
-			obj.rank += learn.get_record_score(obj.value, key)
-			if obj.rank: yield obj
+
+		# If there is no search @key,
+		# simply list objects by recorded score
+		if key:
+			for obj in objects:
+				obj.rank = score(obj.value, key)*100
+				obj.rank += learn.get_record_score(obj.value, key)
+				if obj.rank: yield obj
+		else:
+			for obj in objects:
+				obj.rank = learn.get_record_score(obj.value, key)
+				yield obj
 
 	def search_objects(self, key):
 		"""
