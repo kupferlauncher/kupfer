@@ -194,6 +194,13 @@ class FileLeaf (Leaf):
 			icon = icons.get_icon_for_name("gtk-file", self.icon_size)
 		return icon
 
+	def get_icon_name(self):
+		"""A more generic icon"""
+		if self._is_dir():
+			return "folder"
+		else:
+			return "gtk-file"
+
 def ContstructFileLeaf(obj, name):
 	"""
 	If the path in @obj points to a Desktop Item file,
