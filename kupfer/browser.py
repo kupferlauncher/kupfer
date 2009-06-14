@@ -75,7 +75,7 @@ class ModelBase (object):
 
 class LeafModel (ModelBase):
 	def __init__(self):
-		ModelBase.__init__(self, str, str, int)
+		ModelBase.__init__(self, str, str, str)
 		self.icon_col = 1
 		self.val_col = 2
 		self.rank_col = 3
@@ -103,7 +103,9 @@ class LeafModel (ModelBase):
 
 	def add(self, tupl):
 		leaf, rank = tupl
-		self.append((leaf, leaf.get_icon_name(), str(leaf), rank, ))
+		# Display rank empty instead of 0 since it looks better
+		rank_str = str(int(rank)) if rank else ""
+		self.append((leaf, leaf.get_icon_name(), str(leaf), rank_str, ))
 
 class MatchView (gtk.Bin):
 	"""
