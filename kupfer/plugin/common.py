@@ -16,32 +16,44 @@ class RunnableLeaf (Leaf):
 		pass
 
 class Run (Action):
+	def __init__(self, name=None):
+		if not name: name = _("Run")
+		super(Run, self).__init__(name=name)
 	def activate(self, leaf):
 		leaf.run()
 	def get_icon_name(self):
 		return gtk.STOCK_EXECUTE
 
 class Quit (RunnableLeaf):
+	def __init__(self, name=None):
+		if not name: name = _("Quit")
+		super(Quit, self).__init__(name=name)
 	def run(self):
 		gtk.main_quit()
 	def get_description(self):
-		return "Quit Kupfer"
+		return _("Quit Kupfer")
 	def get_icon_name(self):
 		return gtk.STOCK_QUIT
 
 class About (RunnableLeaf):
+	def __init__(self, name=None):
+		if not name: name = _("About Kupfer")
+		super(About, self).__init__(name=name)
 	def run(self):
 		about.show_about_dialog()
 	def get_description(self):
-		return "Show information about Kupfer authors and license"
+		return _("Show information about Kupfer authors and license")
 	def get_icon_name(self):
 		return gtk.STOCK_ABOUT
 
 class Preferences (RunnableLeaf):
+	def __init__(self, name=None):
+		if not name: name = _("Kupfer Preferences")
+		super(Preferences, self).__init__(name=name)
 	def run(self):
 		pass
 	def get_description(self):
-		return "Settings are not implemented yet; see 'kupfer --help'"
+		return _("Settings are not implemented yet; see 'kupfer --help'")
 	def get_actions(self):
 		return ()
 	def get_icon_name(self):
@@ -49,7 +61,7 @@ class Preferences (RunnableLeaf):
 
 class Trash (objects.Leaf):
 	def __init__(self):
-		super(Trash, self).__init__("trash:///", "Trash")
+		super(Trash, self).__init__("trash:///", _("Trash"))
 	def get_actions(self):
 		yield objects.OpenDirectory()
 	def get_icon_name(self):
@@ -57,22 +69,22 @@ class Trash (objects.Leaf):
 
 class Computer (objects.Leaf):
 	def __init__(self):
-		super(Computer, self).__init__("computer://", "Computer")
+		super(Computer, self).__init__("computer://", _("Computer"))
 	def get_actions(self):
 		yield objects.OpenDirectory()
 	def get_description(self):
-		return "Browse local disks and mounts"
+		return _("Browse local disks and mounts")
 	def get_icon_name(self):
 		return "computer"
 
 class CommonSource (Source):
-	def __init__(self, name="Special items"):
+	def __init__(self, name=_("Special items")):
 		super(CommonSource, self).__init__(name)
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		yield About(name="About Kupfer")
-		yield Preferences(name="Kupfer Preferences")
+		yield About()
+		yield Preferences()
 		yield Quit()
 		yield Computer()
 		yield Trash()

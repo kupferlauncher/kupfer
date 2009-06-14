@@ -108,7 +108,7 @@ class DummyLeaf (Leaf):
 	Dummy Leaf, representing No Leaf available
 	"""
 	def __init__(self):
-		super(DummyLeaf, self).__init__(None, "No matches")
+		super(DummyLeaf, self).__init__(None, _("No matches"))
 	
 	def get_icon_name(self):
 		return "gtk-dialog-warning"
@@ -166,7 +166,7 @@ class FileLeaf (Leaf):
 			app_actions.extend(apps.values())
 
 			if self._is_executable():
-				acts.extend((Execute(), Execute(name="Execute in Terminal", in_terminal=True)))
+				acts.extend((Execute(), Execute(name=_("Execute in Terminal"), in_terminal=True)))
 			if app_actions:
 				default = app_actions.pop(0)
 			else:
@@ -341,7 +341,7 @@ class OpenWith (Action):
 	"""
 
 	def __init__(self, desktop_item, name):
-		Action.__init__(self, "Open with %s" % name)
+		Action.__init__(self, _("Open with %s") % name)
 		if not desktop_item:
 			raise InvalidData
 		self.desktop_item = desktop_item
@@ -371,7 +371,7 @@ class OpenUrl (Action):
 		open url
 		"""
 		if not name:
-			name = "Open URL"
+			name = _("Open URL")
 		super(OpenUrl, self).__init__(name)
 	
 	def activate(self, leaf):
@@ -386,30 +386,30 @@ class OpenUrl (Action):
 
 class Show (Action):
 	""" Open file with default viewer """
-	def __init__(self, name="Open"):
+	def __init__(self, name=_("Open")):
 		super(Show, self).__init__(name)
 	
 	def activate(self, leaf):
 		utils.show_path(leaf.object)
 	
 	def get_description(self):
-		return "Open with default viewer"
+		return _("Open with default viewer")
 
 	def get_icon_name(self):
 		return "gtk-execute"
 
 class OpenDirectory (Show):
 	def __init__(self):
-		super(OpenDirectory, self).__init__("Open")
+		super(OpenDirectory, self).__init__(_("Open"))
 
 	def get_description(self):
-		return "Open folder"
+		return _("Open folder")
 
 	def get_icon_name(self):
 		return "folder-open"
 
 class RevealFile (Action):
-	def __init__(self, name="Reveal"):
+	def __init__(self, name=_("Reveal")):
 		super(RevealFile, self).__init__(name)
 	
 	def activate(self, leaf):
@@ -418,14 +418,14 @@ class RevealFile (Action):
 		utils.show_path(parent)
 
 	def get_description(self):
-		return "Open parent folder"
+		return _("Open parent folder")
 
 	def get_icon_name(self):
 		return "folder-open"
 
 class OpenTerminal (Action):
-	def __init__(self):
-		super(OpenTerminal, self).__init__("Open Terminal here")
+	def __init__(self, name=_("Open Terminal here")):
+		super(OpenTerminal, self).__init__(name)
 	
 	def activate(self, leaf):
 		argv = ["gnome-terminal"]
@@ -442,7 +442,7 @@ class Launch (Action):
 	"""
 	def __init__(self, name=None, in_terminal=False):
 		if not name:
-			name = "Launch"
+			name = _("Launch")
 		Action.__init__(self, name)
 		self.in_terminal = in_terminal
 	
@@ -456,7 +456,7 @@ class Execute (Launch):
 	"""
 	def __init__(self, name=None, in_terminal=False):
 		if not name:
-			name = "Execute"
+			name = _("Execute")
 		super(Execute, self).__init__(name)
 		self.in_terminal = in_terminal
 	
@@ -475,7 +475,7 @@ class SearchInside (Action):
 	Return a new source with the contents of the Leaf
 	"""
 	def __init__(self):
-		super(SearchInside, self).__init__("Search content...")
+		super(SearchInside, self).__init__(_("Search content..."))
 	
 	def is_factory(self):
 		return True
@@ -493,7 +493,7 @@ class RescanSource (Action):
 	A source action: Rescan a source!
 	"""
 	def __init__(self):
-		super(RescanSource, self).__init__("Rescan")
+		super(RescanSource, self).__init__(_("Rescan"))
 	
 	def is_factory(self):
 		return False
@@ -506,7 +506,7 @@ class RescanSource (Action):
 			cache = source.get_leaves(force_update=True)
 
 	def get_description(self):
-		return "Force reindex of the source"
+		return _("Force reindex of the source")
 
 	def get_icon_name(self):
 		return "gtk-refresh"
@@ -517,7 +517,7 @@ class DummyAction (Action):
 	"""
 	def __init__(self, name=None):
 		if not name:
-			name = "No action"
+			name = _("No action")
 		super(DummyAction, self).__init__(name)
 	
 	def get_icon_name(self):
@@ -594,7 +594,7 @@ class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		name = path.basename(dirlist[0])
 		if len(dirlist) > 1:
-			name += " et al"
+			name = _("%s et al") % name
 		super(FileSource, self).__init__(name)
 		self.dirlist = dirlist
 		self.depth = depth
@@ -620,7 +620,8 @@ class FileSource (Source):
 		return filename.startswith(".") 
 
 	def get_description(self):
-		return "Recursive source of %s, (%d levels)" % (self.name, self.depth)
+		return _("Recursive source of %(dir)s, (%(levels)d levels)" %
+				{"dir": self.name, "levels": self.depth})
 
 	def get_icon_name(self):
 		return "folder-saved-search"
@@ -656,7 +657,7 @@ class DirectorySource (Source):
 		return DirectorySource(self._parent_path())
 
 	def get_description(self):
-		return "Directory source %s" % self.directory
+		return _("Directory source %s") % self.directory
 
 	def get_gicon(self):
 		return icons.get_gicon_for_file(self.directory)
@@ -666,7 +667,7 @@ class DirectorySource (Source):
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
-	def __init__(self, sources, name="Catalog of Catalogs"):
+	def __init__(self, sources, name=_("Catalog of Catalogs")):
 		super(SourcesSource, self).__init__(name)
 		self.sources = sources
 
@@ -674,7 +675,7 @@ class SourcesSource (Source):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
 
 	def get_description(self):
-		return "An index of all sources"
+		return _("An index of all sources")
 
 	def get_icon_name(self):
 		return "folder-saved-search"
@@ -685,7 +686,7 @@ class MultiSource (Source):
 	of all @sources
 	"""
 	def __init__(self, sources):
-		super(MultiSource, self).__init__("Catalog")
+		super(MultiSource, self).__init__(_("Catalog"))
 		self.sources = sources
 	
 	def is_dynamic(self):
@@ -704,7 +705,7 @@ class MultiSource (Source):
 		return itertools.chain(*iterators)
 
 	def get_description(self):
-		return "Root catalog"
+		return _("Root catalog")
 
 	def get_icon_name(self):
 		return "folder-saved-search"
@@ -717,7 +718,7 @@ class AppSource (Source):
 	the desktop files)
 	"""
 	def __init__(self):
-		super(AppSource, self).__init__("All Applications")
+		super(AppSource, self).__init__(_("All Applications"))
 	
 	def get_icon_name(self):
 		return "gnome-applications"
@@ -754,7 +755,7 @@ class UrlLeaf (Leaf):
 
 class RecentsSource (Source):
 	def __init__(self):
-		super(RecentsSource, self).__init__("Recent items")
+		super(RecentsSource, self).__init__(_("Recent items"))
 		self.max_days = 28
 	
 	def get_items(self):
@@ -781,7 +782,7 @@ class RecentsSource (Source):
 		self.output_info("Items younger than", self.max_days, "days")
 
 	def get_description(self):
-		return "Recently used documents"
+		return _("Recently used documents")
 	def get_icon_name(self):
 		return "emblem-important"
 
@@ -790,7 +791,7 @@ class PlacesSource (Source):
 	Source for items from nautilus bookmarks 
 	"""
 	def __init__(self):
-		super(PlacesSource, self).__init__("Places")
+		super(PlacesSource, self).__init__(_("Places"))
 		self.places_file = "~/.gtk-bookmarks"
 	
 	def get_items(self):
@@ -823,6 +824,6 @@ class PlacesSource (Source):
 				yield UrlLeaf(gfile.get_uri(), title)
 
 	def get_description(self):
-		return "Bookmarked locations in Nautilus"
+		return _("Bookmarked locations in Nautilus")
 	def get_icon_name(self):
 		return "file-manager"

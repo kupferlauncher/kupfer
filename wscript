@@ -3,7 +3,6 @@
 
 import os
 import sys
-import Configure
 import Utils
 
 # the following two variables are used by the target "waf dist"
@@ -61,12 +60,15 @@ def dist():
 def set_options(opt):
 	# options for disabling pyc or pyo compilation
 	opt.tool_options("python")
+	opt.tool_options("misc")
+	opt.tool_options("gnu_dirs")
 
 def configure(conf):
 	conf.check_tool("python")
 	conf.check_python_version((2,5,0))
-	conf.check_tool("gnu_dirs")
-	conf.check_tool("misc")
+	# BUG: intltool requires gcc tool
+	conf.check_tool("gcc misc gnu_dirs")
+	conf.check_tool("intltool")
 
 	python_modules = """
 		gio
@@ -118,6 +120,10 @@ def build(bld):
 		chmod = 0755,
 		dict = bld.env,
 		)
+
+	# Add localization if available
+	if bld.env['INTLTOOL']:
+		bld.add_subdirs("po")
 
 def shutdown():
 	pass

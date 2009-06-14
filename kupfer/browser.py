@@ -533,10 +533,10 @@ class LeafSearch (Search):
 		super(LeafSearch, self).__init__(**kwargs)
 	def setup_empty(self):
 		icon = None
-		title = "Searching..."
+		title = _("Searching...")
 		if self.source:
 			icon = self.source.get_icon()
-			title = "Searching %s..." % self.source
+			title = _("Searching %(source)s...") % {"source":self.source}
 
 		self.set_match(None)
 		self.match_state = State.Wait
@@ -789,7 +789,7 @@ class WindowController (object):
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
-		status.set_tooltip("Kupfer")
+		status.set_tooltip(_("Kupfer"))
 
 		menu = gtk.Menu()
 		menu_quit = gtk.ImageMenuItem(gtk.STOCK_QUIT)
@@ -809,7 +809,7 @@ class WindowController (object):
 		widget.show_all()
 		
 		self.window.add(widget)
-		self.window.set_title("Kupfer")
+		self.window.set_title(_("Kupfer"))
 		self.window.set_icon_name(self.icon_name)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 

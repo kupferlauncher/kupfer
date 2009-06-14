@@ -12,36 +12,38 @@ class WindowLeaf (Leaf):
 	def get_actions(self):
 		win = self.object
 		if not win.is_active():
-			yield WindowAction("Activate", time=True)
+			yield WindowAction(_("Activate"), time=True)
 		yield WindowActivateWorkspace()
 		if win.is_shaded():
-			yield WindowAction("Unshade")
+			yield WindowAction(_("Unshade"))
 		else:
-			yield WindowAction("Shade")
+			yield WindowAction(_("Shade"))
 		if win.is_minimized():
-			yield WindowAction("Unminimize", time=True, icon="gtk-remove")
+			yield WindowAction(_("Unminimize"), time=True, icon="gtk-remove")
 		else:
-			yield WindowAction("Minimize", icon="gtk-remove")
+			yield WindowAction(_("Minimize"), icon="gtk-remove")
 		if win.is_maximized():
-			yield WindowAction("Unmaximize", icon="gtk-add")
+			yield WindowAction(_("Unmaximize"), icon="gtk-add")
 		else:
-			yield WindowAction("Maximize", icon="gtk-add")
+			yield WindowAction(_("Maximize"), icon="gtk-add")
 		if win.is_maximized_vertically():
-			yield WindowAction("Unmaximize vertically", action="unmaximize_vertically", icon="gtk-add")
+			yield WindowAction(_("Unmaximize vertically"),
+					action="unmaximize_vertically", icon="gtk-add")
 		else:
-			yield WindowAction("Maximize vertically", action="maximize_vertically", icon="gtk-add")
-		yield WindowAction("Close", time=True, icon="gtk-close")
+			yield WindowAction(_("Maximize vertically"),
+					action="maximize_vertically", icon="gtk-add")
+		yield WindowAction(_("Close"), time=True, icon="gtk-close")
 
 	def get_description(self):
 		workspace = self.object.get_workspace()
 		nr, name = workspace.get_number(), workspace.get_name()
-		return "Window %s on %s" % (self, name)
+		return _("Window %(name)s on %(wkspc)s") % {"name": self, "wkspc": name}
 
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
 class WindowActivateWorkspace (Action):
-	def __init__(self, name="Go to"):
+	def __init__(self, name=_("Go to")):
 		super(WindowActivateWorkspace, self).__init__(name)
 	def activate (self, leaf):
 		window = leaf.object
@@ -50,7 +52,7 @@ class WindowActivateWorkspace (Action):
 		workspace.activate(time)
 		window.activate(time)
 	def get_description(self):
-		return "Jump to this window's workspace and focus"
+		return _("Jump to this window's workspace and focus")
 	def get_icon_name(self):
 		return "gtk-jump-to-ltr"
 
@@ -79,7 +81,7 @@ class WindowAction (Action):
 		return self.icon_name
 
 class WindowsSource (Source):
-	def __init__(self, name="Windows"):
+	def __init__(self, name=_("Windows")):
 		super(WindowsSource, self).__init__(name)
 
 	def is_dynamic(self):
@@ -100,7 +102,7 @@ class WindowsSource (Source):
 				yield WindowLeaf(win, name)
 
 	def get_description(self):
-		return "All windows on all workspaces"
+		return _("All windows on all workspaces")
 	def get_icon_name(self):
 		return "gnome-window-manager"
 

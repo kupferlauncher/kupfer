@@ -3,7 +3,7 @@ from kupfer.objects import UrlLeaf
 
 class BookmarksSource (Source):
 	def __init__(self):
-		super(BookmarksSource, self).__init__("Firefox Bookmarks")
+		super(BookmarksSource, self).__init__(_("Firefox Bookmarks"))
 	
 	def get_items(self):
 		from firefox_support import get_firefox_home_file, get_bookmarks
@@ -15,7 +15,7 @@ class BookmarksSource (Source):
 
 class EpiphanySource (Source):
 	def __init__(self):
-		super(EpiphanySource, self).__init__("Epiphany Bookmarks")
+		super(EpiphanySource, self).__init__(_("Epiphany Bookmarks"))
 	
 	def get_items(self):
 		from epiphany_support import EpiphanyBookmarksParser

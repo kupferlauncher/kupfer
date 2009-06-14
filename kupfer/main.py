@@ -1,5 +1,23 @@
 _debug = False
 
+try:
+	import gettext
+except ImportError:
+	# Instally dummy identity function
+	import __builtin__
+	__builtin__._ = lambda x: x
+else:
+	package_name = "kupfer"
+	localedir = "./locale"
+	try:
+		import version_subst
+	except ImportError:
+		pass
+	else:
+		package_name = version_subst.PACKAGE_NAME
+		localedir = version_subst.LOCALEDIR
+	gettext.install(package_name, localedir=localedir)
+
 def get_options(default_opts=""):
 	""" Usage:
 	-s, -S list     add list of sources
