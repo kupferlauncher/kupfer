@@ -57,6 +57,9 @@ def icon_stats():
 	print "Unused cache entries", len(icon_cache) -c
 	print "Total accesses", tot_acc
 	print "Sum pixels", tot_pix
+	print "Cached icon keys:"
+	for k in icon_cache:
+		print k, icon_cache[k]["accesses"]
 
 atexit.register(mem_stats)
 atexit.register(icon_stats)
