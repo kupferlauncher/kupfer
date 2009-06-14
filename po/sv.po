@@ -1,0 +1,148 @@
+# Swedish translations for kupfer package
+# Svenska översättningar för paket kupfer.
+# Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the kupfer package.
+# Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer beta1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-06-14 20:19+0200\n"
+"PO-Revision-Date: 2009-06-14 20:19+0200\n"
+"Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: kupfer/objects.py:111
+msgid "No matches"
+msgstr "Inga träffar"
+
+#: kupfer/objects.py:169
+msgid "Execute in Terminal"
+msgstr "Kör i terminalfönster"
+
+#: kupfer/objects.py:344
+#, python-format
+msgid "Open with %s"
+msgstr "Öppna med %s"
+
+#: kupfer/objects.py:374
+msgid "Open URL"
+msgstr "Öppna URL"
+
+#: kupfer/objects.py:389 kupfer/objects.py:403
+msgid "Open"
+msgstr "Öppna"
+
+#: kupfer/objects.py:396
+msgid "Open with default viewer"
+msgstr "Öppna med standardprogram"
+
+#: kupfer/objects.py:406
+msgid "Open folder"
+msgstr "Öppna mapp"
+
+#: kupfer/objects.py:412
+msgid "Reveal"
+msgstr "Visa"
+
+#: kupfer/objects.py:421
+msgid "Open parent folder"
+msgstr "Öppna föräldermapp i filhanteraren"
+
+#: kupfer/objects.py:427
+msgid "Open Terminal here"
+msgstr "Öppna i terminalfönster"
+
+#: kupfer/objects.py:445
+msgid "Launch"
+msgstr "Starta"
+
+#: kupfer/objects.py:459
+msgid "Execute"
+msgstr "Kör"
+
+#: kupfer/objects.py:478
+msgid "Search content..."
+msgstr "Sök innehåll..."
+
+#: kupfer/objects.py:496
+msgid "Rescan"
+msgstr "Läs om"
+
+#: kupfer/objects.py:509
+msgid "Force reindex of the source"
+msgstr "Tvinga omläsning av källan"
+
+#: kupfer/objects.py:520
+msgid "No action"
+msgstr "Ingen funktion"
+
+#: kupfer/objects.py:597
+#, python-format
+msgid "%s et al"
+msgstr "%s et al"
+
+#: kupfer/objects.py:623
+#, python-format
+msgid "Recursive source of %(dir)s, (%(levels)d levels)"
+msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
+
+#: kupfer/objects.py:660
+#, python-format
+msgid "Directory source %s"
+msgstr "Katalogkälla %s"
+
+#: kupfer/objects.py:670
+msgid "Catalog of Catalogs"
+msgstr "Katalogindex"
+
+#: kupfer/objects.py:678
+msgid "An index of all sources"
+msgstr "Index av alla tilgängliga kataloger"
+
+#: kupfer/objects.py:689
+msgid "Catalog"
+msgstr "Katalog"
+
+#: kupfer/objects.py:708
+msgid "Root catalog"
+msgstr "Rotkatalog"
+
+#: kupfer/objects.py:721
+msgid "All Applications"
+msgstr "Alla program"
+
+#: kupfer/objects.py:758
+msgid "Recent items"
+msgstr "Senaste dokument"
+
+#: kupfer/objects.py:785
+msgid "Recently used documents"
+msgstr "Senast använda dokument"
+
+#: kupfer/objects.py:794
+msgid "Places"
+msgstr "Platser"
+
+#: kupfer/objects.py:827
+msgid "Bookmarked locations in Nautilus"
+msgstr "Sparade platser i Nautilus"
+
+#: kupfer/browser.py:536
+msgid "Searching..."
+msgstr "Söker..."
+
+#: kupfer/browser.py:539
+#, python-format
+msgid "Searching %(source)s..."
+msgstr "Söker %(source)s..."
+
+#: kupfer/browser.py:792 kupfer/browser.py:812
+msgid "Kupfer"
+msgstr ""
+
