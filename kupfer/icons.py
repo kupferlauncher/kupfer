@@ -1,6 +1,14 @@
 from os import path
+from gtk import icon_theme_get_default
 
 icon_cache = {}
+
+def _icon_theme_changed(theme):
+	print "Icon theme changed, clearing cache"
+	global icon_cache
+	icon_cache = {}
+
+icon_theme_get_default().connect("changed", _icon_theme_changed)
 
 # Fix bad icon names
 # for example, gio returns "inode-directory" for folders
