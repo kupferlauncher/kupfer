@@ -3,6 +3,7 @@
 
 import os
 import sys
+import Configure
 import Utils
 
 # the following two variables are used by the target "waf dist"
@@ -66,9 +67,12 @@ def set_options(opt):
 def configure(conf):
 	conf.check_tool("python")
 	conf.check_python_version((2,5,0))
-	# BUG: intltool requires gcc tool
-	conf.check_tool("gcc misc gnu_dirs")
-	conf.check_tool("intltool")
+	conf.check_tool("misc gnu_dirs")
+	try:
+		# BUG: intltool requires gcc
+		conf.check_tool("gcc intltool")
+	except Configure.ConfigurationError, e:
+		print "Disabling localization (%s)" % e
 
 	python_modules = """
 		gio
