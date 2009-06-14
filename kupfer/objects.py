@@ -292,8 +292,7 @@ class AppLeaf (Leaf):
 		return icon
 
 	def get_icon_name(self):
-		#return "exec"
-		return "mail-attachment"
+		return "exec"
 
 class Action (KupferObject):
 	"""
