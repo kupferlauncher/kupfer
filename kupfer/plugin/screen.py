@@ -29,7 +29,8 @@ class ScreenSession (Leaf):
 				break
 		else:
 			return "%s (%s)" % (self.name, self.object)
-		return "%s session %s (%s) created %s" % (status, name, pid, time)
+		return (_("%(status)s session %(name)s (%(pid)s) created %(time)s") %
+				{"status": status, "name": name, "pid": pid, "time": time})
 
 	def get_icon_name(self):
 		return "gnome-window-manager"
@@ -37,7 +38,7 @@ class ScreenSession (Leaf):
 class ScreenSessionsSource (Source):
 	"""Source for GNU Screen sessions"""
 	def __init__(self):
-		super(ScreenSessionsSource, self).__init__("Screen sessions")
+		super(ScreenSessionsSource, self).__init__(_("Screen sessions"))
 	def is_dynamic(self):
 		return True
 	def get_items(self):
@@ -45,7 +46,7 @@ class ScreenSessionsSource (Source):
 			yield ScreenSession(pid, name)
 
 	def get_description(self):
-		return "Active GNU Screen sessions"
+		return _("Active GNU Screen sessions")
 	def get_icon_name(self):
 		return "terminal"
 
@@ -53,11 +54,12 @@ class AttachScreen (Action):
 	"""
 	"""
 	def __init__(self):
-		name = "Attach"
+		name = _("Attach")
 		super(AttachScreen, self).__init__(name)
 	def activate(self, leaf):
 		import gio
 		pid = leaf.object
 		action = "screen -x -R %s" % pid
-		item = gio.AppInfo(action, "GNU Screen session", gio.APP_INFO_CREATE_NEEDS_TERMINAL)
+		item = gio.AppInfo(action, _("GNU Screen session"),
+				gio.APP_INFO_CREATE_NEEDS_TERMINAL)
 		utils.launch_app(item)
