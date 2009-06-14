@@ -89,11 +89,33 @@ def aslist(seq):
 		seq = list(seq)
 	return seq
 
+def as_set(seq):
+	"""Make set from sequences"""
+	if not isinstance(seq, (set, frozenset)):
+		seq = set(seq)
+	return seq
+
+def as_set_iter(seq):
+	"""Generator with set semantics: Generate items on the fly,
+	but no duplicates
+	"""
+	coll = set()
+	for obj in seq:
+		if obj not in coll:
+			yield obj
+			coll.add(obj)
+
 class Leaf (KupferObject):
 	def __init__(self, obj, name):
 		super(Leaf, self).__init__(name)
 		self.object = obj
 	
+	def __hash__(self):
+		return hash(str(self))
+
+	def __eq__(self, other):
+		return (type(self) == type(other) and self.object == other.object)
+
 	def has_content(self):
 		return False
 	
@@ -702,7 +724,7 @@ class MultiSource (Source):
 			it = so.get_leaves()
 			iterators.append(it)
 
-		return itertools.chain(*iterators)
+		return as_set_iter(itertools.chain(*iterators))
 
 	def get_description(self):
 		return _("Root catalog")
