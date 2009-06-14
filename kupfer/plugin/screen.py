@@ -29,6 +29,12 @@ class ScreenSession (Leaf):
 				break
 		else:
 			return "%s (%s)" % (self.name, self.object)
+		# Handle localization of status
+		status_dict = {
+			"Attached": _("Attached"),
+			"Detached": _("Detached"),
+		}
+		status = status_dict.get(status, status)
 		return (_("%(status)s session %(name)s (%(pid)s) created %(time)s") %
 				{"status": status, "name": name, "pid": pid, "time": time})
 
