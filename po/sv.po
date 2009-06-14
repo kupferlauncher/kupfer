@@ -17,122 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kupfer/objects.py:111
-msgid "No matches"
-msgstr "Inga träffar"
-
-#: kupfer/objects.py:169
-msgid "Execute in Terminal"
-msgstr "Kör i terminalfönster"
-
-#: kupfer/objects.py:344
-#, python-format
-msgid "Open with %s"
-msgstr "Öppna med %s"
-
-#: kupfer/objects.py:374
-msgid "Open URL"
-msgstr "Öppna URL"
-
-#: kupfer/objects.py:389 kupfer/objects.py:403
-msgid "Open"
-msgstr "Öppna"
-
-#: kupfer/objects.py:396
-msgid "Open with default viewer"
-msgstr "Öppna med standardprogram"
-
-#: kupfer/objects.py:406
-msgid "Open folder"
-msgstr "Öppna mapp"
-
-#: kupfer/objects.py:412
-msgid "Reveal"
-msgstr "Visa"
-
-#: kupfer/objects.py:421
-msgid "Open parent folder"
-msgstr "Öppna föräldermapp i filhanteraren"
-
-#: kupfer/objects.py:427
-msgid "Open Terminal here"
-msgstr "Öppna i terminalfönster"
-
-#: kupfer/objects.py:445
-msgid "Launch"
-msgstr "Starta"
-
-#: kupfer/objects.py:459
-msgid "Execute"
-msgstr "Kör"
-
-#: kupfer/objects.py:478
-msgid "Search content..."
-msgstr "Sök innehåll..."
-
-#: kupfer/objects.py:496
-msgid "Rescan"
-msgstr "Läs om"
-
-#: kupfer/objects.py:509
-msgid "Force reindex of the source"
-msgstr "Tvinga omläsning av källan"
-
-#: kupfer/objects.py:520
-msgid "No action"
-msgstr "Ingen funktion"
-
-#: kupfer/objects.py:597
-#, python-format
-msgid "%s et al"
-msgstr "%s et al"
-
-#: kupfer/objects.py:623
-#, python-format
-msgid "Recursive source of %(dir)s, (%(levels)d levels)"
-msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
-
-#: kupfer/objects.py:660
-#, python-format
-msgid "Directory source %s"
-msgstr "Katalogkälla %s"
-
-#: kupfer/objects.py:670
-msgid "Catalog of Catalogs"
-msgstr "Katalogindex"
-
-#: kupfer/objects.py:678
-msgid "An index of all sources"
-msgstr "Index över alla tilgängliga kataloger"
-
-#: kupfer/objects.py:689
-msgid "Catalog"
-msgstr "Katalog"
-
-#: kupfer/objects.py:708
-msgid "Root catalog"
-msgstr "Rotkatalog"
-
-#: kupfer/objects.py:721
-msgid "All Applications"
-msgstr "Alla program"
-
-#: kupfer/objects.py:758
-msgid "Recent items"
-msgstr "Senaste dokument"
-
-#: kupfer/objects.py:785
-msgid "Recently used documents"
-msgstr "Senast använda dokument"
-
-#: kupfer/objects.py:794
-msgid "Places"
-msgstr "Platser"
-
-#: kupfer/objects.py:827
-msgid "Bookmarked locations in Nautilus"
-msgstr "Sparade platser i Nautilus"
-
 #: kupfer/browser.py:536
 msgid "Searching..."
 msgstr "Söker..."
@@ -140,82 +24,272 @@ msgstr "Söker..."
 #: kupfer/browser.py:539
 #, python-format
 msgid "Searching %(source)s..."
-msgstr "Söker %(source)s..."
+msgstr "Söker i %(source)s..."
 
-#: kupfer/browser.py:792 kupfer/browser.py:812 kupfer/version.py:15
+#: kupfer/browser.py:790 kupfer/browser.py:810 kupfer/version.py:15
 msgid "Kupfer"
 msgstr ""
+
+#: kupfer/objects.py:135
+msgid "No matches"
+msgstr "Inga träffar"
+
+#: kupfer/objects.py:192
+msgid "Execute in Terminal"
+msgstr "Kör i terminalfönster"
+
+#: kupfer/objects.py:367
+#, python-format
+msgid "Open with %s"
+msgstr "Öppna med %s"
+
+#: kupfer/objects.py:397
+msgid "Open URL"
+msgstr "Öppna URL"
+
+#: kupfer/objects.py:408
+msgid "Open URL with default viewer"
+msgstr "Öppna URL med standardprogram"
+
+#: kupfer/objects.py:415 kupfer/objects.py:429
+msgid "Open"
+msgstr "Öppna"
+
+#: kupfer/objects.py:422
+msgid "Open with default viewer"
+msgstr "Öppna med standardprogram"
+
+#: kupfer/objects.py:432
+msgid "Open folder"
+msgstr "Öppna mapp"
+
+#: kupfer/objects.py:438
+msgid "Reveal"
+msgstr "Visa"
+
+#: kupfer/objects.py:447
+msgid "Open parent folder"
+msgstr "Öppna föräldermapp i filhanteraren"
+
+#: kupfer/objects.py:453
+msgid "Open Terminal here"
+msgstr "Öppna i terminalfönster"
+
+#: kupfer/objects.py:471
+msgid "Launch"
+msgstr "Starta"
+
+#: kupfer/objects.py:480
+msgid "Launch application"
+msgstr "Starta program"
+
+#: kupfer/objects.py:488
+msgid "Execute"
+msgstr "Kör"
+
+#: kupfer/objects.py:499
+msgid "Execute this object in a Terminal"
+msgstr "Kör objekt i terminalfönster"
+
+#: kupfer/objects.py:501
+msgid "Execute this object"
+msgstr "Kör objekt"
+
+#: kupfer/objects.py:513
+msgid "Search content..."
+msgstr "Sök i..."
+
+#: kupfer/objects.py:524
+msgid "Search inside this catalog"
+msgstr "Sök bland objekt i katalogen"
+
+#: kupfer/objects.py:534
+msgid "Rescan"
+msgstr "Uppdatera"
+
+#: kupfer/objects.py:547
+msgid "Force reindex of this source"
+msgstr "Tvinga omläsning av källan"
+
+#: kupfer/objects.py:558
+msgid "No action"
+msgstr "Inget kommando"
+
+#: kupfer/objects.py:636
+#, python-format
+msgid "%s et al"
+msgstr "%s et al"
+
+#: kupfer/objects.py:662
+#, python-format
+msgid "Recursive source of %(dir)s, (%(levels)d levels)"
+msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
+
+#: kupfer/objects.py:730
+#, python-format
+msgid "Directory source %s"
+msgstr "Katalogkälla %s"
+
+#: kupfer/objects.py:743
+msgid "Catalog of Catalogs"
+msgstr "Katalogindex"
+
+#: kupfer/objects.py:754
+msgid "An index of all available sources"
+msgstr "Index över alla tilgängliga kataloger"
+
+#: kupfer/objects.py:765
+msgid "Catalog"
+msgstr "Katalog"
+
+#: kupfer/objects.py:784
+msgid "Root catalog"
+msgstr "Rotkatalog"
+
+#: kupfer/objects.py:797
+msgid "All Applications"
+msgstr "Alla program"
+
+#: kupfer/objects.py:817
+msgid "All applications and preferences"
+msgstr "Alla program och inställningspaneler"
+
+#: kupfer/objects.py:838
+msgid "Recent items"
+msgstr "Senaste dokument"
+
+#: kupfer/objects.py:865
+msgid "Recently used documents"
+msgstr "Senast använda dokument"
+
+#: kupfer/objects.py:874
+msgid "Places"
+msgstr "Platser"
+
+#: kupfer/objects.py:906
+msgid "Bookmarked locations in Nautilus"
+msgstr "Sparade platser i Nautilus"
 
 #: kupfer/plugin/bookmarks.py:6
 msgid "Firefox Bookmarks"
 msgstr "Firefox-bokmärken"
 
-#: kupfer/plugin/bookmarks.py:18
+#: kupfer/plugin/bookmarks.py:14
+msgid "Index of Firefox bookmarks"
+msgstr "Index över Firefox-bokmärken"
+
+#: kupfer/plugin/bookmarks.py:21
 msgid "Epiphany Bookmarks"
 msgstr "Epiphany-bokmärken"
 
-#: kupfer/plugin/common.py:20
-msgid "Run"
-msgstr "Kör"
+#: kupfer/plugin/bookmarks.py:30
+msgid "Index of Epiphany bookmarks"
+msgstr "Index över Firefox-bokmärken"
 
-#: kupfer/plugin/common.py:29
+#: kupfer/plugin/common.py:21
+msgid "Do"
+msgstr "Utför"
+
+#: kupfer/plugin/common.py:26
+msgid "Perform action"
+msgstr "Utför kommando"
+
+#: kupfer/plugin/common.py:32
 msgid "Quit"
 msgstr "Avsluta"
 
-#: kupfer/plugin/common.py:34
+#: kupfer/plugin/common.py:37
 msgid "Quit Kupfer"
 msgstr "Avsluta Kupfer"
 
-#: kupfer/plugin/common.py:40
+#: kupfer/plugin/common.py:44 kupfer/plugin/common.py:47
+#: kupfer/plugin/common.py:49
+msgid "Log out..."
+msgstr "Logga ut..."
+
+#: kupfer/plugin/common.py:51
+msgid "Log out or change user"
+msgstr "Logga ut eller byt användare"
+
+#: kupfer/plugin/common.py:58 kupfer/plugin/common.py:61
+#: kupfer/plugin/common.py:63
+msgid "Shut down..."
+msgstr "Stäng av..."
+
+#: kupfer/plugin/common.py:66
+msgid "Shut down, restart or suspend computer"
+msgstr "Stäng av, starta om eller sätt datorn i vänteläge"
+
+#: kupfer/plugin/common.py:73 kupfer/plugin/common.py:76
+msgid "Lock screen"
+msgstr "Lås skärmen"
+
+#: kupfer/plugin/common.py:78
+msgid "Enable screensaver and lock"
+msgstr "Aktivera skärmsläckaren och lås skärmen"
+
+#: kupfer/plugin/common.py:84
 msgid "About Kupfer"
 msgstr "Om Kupfer"
 
-#: kupfer/plugin/common.py:45
+#: kupfer/plugin/common.py:89
 msgid "Show information about Kupfer authors and license"
 msgstr "Visa information om Kupfers upphovsmän och licens"
 
-#: kupfer/plugin/common.py:51
+#: kupfer/plugin/common.py:95
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
 
-#: kupfer/plugin/common.py:56
+#: kupfer/plugin/common.py:100
 msgid "Settings are not implemented yet; see 'kupfer --help'"
 msgstr "Inställningar är inte implementerade än; se 'kupfer --help'"
 
-#: kupfer/plugin/common.py:64
+#: kupfer/plugin/common.py:108
 msgid "Trash"
 msgstr "Papperskorg"
 
-#: kupfer/plugin/common.py:72
+#: kupfer/plugin/common.py:116
 msgid "Computer"
 msgstr "Dator"
 
-#: kupfer/plugin/common.py:76
+#: kupfer/plugin/common.py:120
 msgid "Browse local disks and mounts"
 msgstr "Bläddra i lokala enheter"
 
-#: kupfer/plugin/common.py:81
+#: kupfer/plugin/common.py:125
 msgid "Special items"
 msgstr "Speciella objekt"
 
-#: kupfer/plugin/screen.py:32
+#: kupfer/plugin/common.py:141
+msgid "Items and special actions"
+msgstr "Speciella objekt och övriga kommandon"
+
+#: kupfer/plugin/screen.py:34
+msgid "Attached"
+msgstr "Ansluten"
+
+#: kupfer/plugin/screen.py:35
+msgid "Detached"
+msgstr "Frånkopplad"
+
+#: kupfer/plugin/screen.py:38
 #, python-format
 msgid "%(status)s session %(name)s (%(pid)s) created %(time)s"
 msgstr "%(status)s session %(name)s (%(pid)s) skapad %(time)s"
 
-#: kupfer/plugin/screen.py:41
+#: kupfer/plugin/screen.py:47
 msgid "Screen sessions"
 msgstr "Screen-sessioner"
 
-#: kupfer/plugin/screen.py:49
+#: kupfer/plugin/screen.py:55
 msgid "Active GNU Screen sessions"
 msgstr "Aktiva GNU Screen-sessioner"
 
-#: kupfer/plugin/screen.py:57
+#: kupfer/plugin/screen.py:63
 msgid "Attach"
 msgstr "Anslut till"
 
-#: kupfer/plugin/screen.py:63
+#: kupfer/plugin/screen.py:69
 msgid "GNU Screen session"
 msgstr "GNU Screen-session"
 
