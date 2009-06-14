@@ -11,18 +11,18 @@ else:
 	VERSION = version_subst.VERSION
 	PACKAGE_NAME = version_subst.PACKAGE_NAME
 
-PROGRAM_NAME = "Kupfer"
 ICON_NAME = "search"
+PROGRAM_NAME = _("Kupfer")
 
 AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 """.splitlines()
 
 WEBSITE = "http://kaizer.se/wiki/kupfer/"
 
-SHORT_DESCRIPTION = "A free software (GPLv3+) launcher"
+SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
 COPYRIGHT = """ Copyright © 2007--2009 Ulrik Sverdrup """
 
-LICENSE = """
+LICENSE = _("""
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -35,4 +35,4 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
+""")
