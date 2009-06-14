@@ -97,7 +97,8 @@ def build(bld):
 	obj = bld.new_task_gen("subst",
 		source=version_subst_file + ".in",
 		target=version_subst_file,
-		install_path="${PYTHONDIR}/kupfer"
+		install_path="${PYTHONDIR}/kupfer",
+		dict = bld.env,
 		)
 
 	# modules
@@ -115,7 +116,8 @@ def build(bld):
 		source = desktop_subst_file + ".in",
 		target = desktop_subst_file,
 		install_path = "${DATADIR}/applications",
-		chmod = 0755
+		chmod = 0755,
+		dict = bld.env,
 		)
 
 def shutdown():
