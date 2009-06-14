@@ -1,12 +1,12 @@
-# Swedish translations for kupfer package
-# Svenska översättningar för paket kupfer.
+# Swedish translations for the kupfer package
+# Svenska översättningar för paketet kupfer.
 # Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
-# This file is distributed under the same license as the kupfer package.
+# This file is distributed under the same license as the kupfer package. (GPLv3)
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kupfer beta1\n"
+"Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-06-14 20:19+0200\n"
 "PO-Revision-Date: 2009-06-14 20:19+0200\n"
@@ -103,7 +103,7 @@ msgstr "Katalogindex"
 
 #: kupfer/objects.py:678
 msgid "An index of all sources"
-msgstr "Index av alla tilgängliga kataloger"
+msgstr "Index över alla tilgängliga kataloger"
 
 #: kupfer/objects.py:689
 msgid "Catalog"
@@ -146,3 +146,136 @@ msgstr "Söker %(source)s..."
 msgid "Kupfer"
 msgstr ""
 
+#: kupfer/plugin/bookmarks.py:6
+msgid "Firefox Bookmarks"
+msgstr "Firefox-bokmärken"
+
+#: kupfer/plugin/bookmarks.py:18
+msgid "Epiphany Bookmarks"
+msgstr "Epiphany-bokmärken"
+
+#: kupfer/plugin/common.py:20
+msgid "Run"
+msgstr "Kör"
+
+#: kupfer/plugin/common.py:29
+msgid "Quit"
+msgstr "Avsluta"
+
+#: kupfer/plugin/common.py:34
+msgid "Quit Kupfer"
+msgstr "Avsluta Kupfer"
+
+#: kupfer/plugin/common.py:40
+msgid "About Kupfer"
+msgstr "Om Kupfer"
+
+#: kupfer/plugin/common.py:45
+msgid "Show information about Kupfer authors and license"
+msgstr "Visa information om Kupfers upphovsmän och licens"
+
+#: kupfer/plugin/common.py:51
+msgid "Kupfer Preferences"
+msgstr "Inställningar för Kupfer"
+
+#: kupfer/plugin/common.py:56
+msgid "Settings are not implemented yet; see 'kupfer --help'"
+msgstr "Inställningar är inte implementerade än; se 'kupfer --help'"
+
+#: kupfer/plugin/common.py:64
+msgid "Trash"
+msgstr "Papperskorg"
+
+#: kupfer/plugin/common.py:72
+msgid "Computer"
+msgstr "Dator"
+
+#: kupfer/plugin/common.py:76
+msgid "Browse local disks and mounts"
+msgstr "Bläddra i lokala enheter"
+
+#: kupfer/plugin/common.py:81
+msgid "Special items"
+msgstr "Speciella objekt"
+
+#: kupfer/plugin/screen.py:32
+#, python-format
+msgid "%(status)s session %(name)s (%(pid)s) created %(time)s"
+msgstr "%(status)s session %(name)s (%(pid)s) skapad %(time)s"
+
+#: kupfer/plugin/screen.py:41
+msgid "Screen sessions"
+msgstr "Screen-sessioner"
+
+#: kupfer/plugin/screen.py:49
+msgid "Active GNU Screen sessions"
+msgstr "Aktiva GNU Screen-sessioner"
+
+#: kupfer/plugin/screen.py:57
+msgid "Attach"
+msgstr "Anslut till"
+
+#: kupfer/plugin/screen.py:63
+msgid "GNU Screen session"
+msgstr "GNU Screen-session"
+
+#: kupfer/plugin/windows.py:15
+msgid "Activate"
+msgstr "Aktivera"
+
+#: kupfer/plugin/windows.py:18
+msgid "Unshade"
+msgstr "Avskugga"
+
+#: kupfer/plugin/windows.py:20
+msgid "Shade"
+msgstr "Skugga"
+
+#: kupfer/plugin/windows.py:22
+msgid "Unminimize"
+msgstr "Avminimera"
+
+#: kupfer/plugin/windows.py:24
+msgid "Minimize"
+msgstr "Minimera"
+
+#: kupfer/plugin/windows.py:26
+msgid "Unmaximize"
+msgstr "Avmaximera"
+
+#: kupfer/plugin/windows.py:28
+msgid "Maximize"
+msgstr "Maximera"
+
+#: kupfer/plugin/windows.py:30
+msgid "Unmaximize vertically"
+msgstr "Avmaximera vertikalt"
+
+#: kupfer/plugin/windows.py:33
+msgid "Maximize vertically"
+msgstr "Maximera vertikalt"
+
+#: kupfer/plugin/windows.py:35
+msgid "Close"
+msgstr "Stäng"
+
+#: kupfer/plugin/windows.py:40
+#, python-format
+msgid "Window %(name)s on %(wkspc)s"
+msgstr "Fönster %(name)s på %(wkspc)s"
+
+#: kupfer/plugin/windows.py:46
+msgid "Go to"
+msgstr "Gå till"
+
+#: kupfer/plugin/windows.py:55
+msgid "Jump to this window's workspace and focus"
+msgstr "Gå till fönstrets arbetsyta och aktivera"
+
+#: kupfer/plugin/windows.py:84
+msgid "Windows"
+msgstr "Fönster"
+
+#: kupfer/plugin/windows.py:105
+msgid "All windows on all workspaces"
+msgstr "Alla fönster på alla arbetsytor"
