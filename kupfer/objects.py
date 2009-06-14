@@ -6,7 +6,7 @@ kupfer
 ɹǝɟdnʞ
 
 Copyright 2007 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
-Released under GNU General Public License v2 (or any later version)
+Released under GNU General Public License v3 (or any later version)
 """
 
 import gobject
