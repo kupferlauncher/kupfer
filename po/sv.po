@@ -142,7 +142,7 @@ msgstr "Söker..."
 msgid "Searching %(source)s..."
 msgstr "Söker %(source)s..."
 
-#: kupfer/browser.py:792 kupfer/browser.py:812
+#: kupfer/browser.py:792 kupfer/browser.py:812 kupfer/version.py:15
 msgid "Kupfer"
 msgstr ""
 
@@ -279,3 +279,37 @@ msgstr "Fönster"
 #: kupfer/plugin/windows.py:105
 msgid "All windows on all workspaces"
 msgstr "Alla fönster på alla arbetsytor"
+
+#: kupfer/version.py:22
+msgid "A free software (GPLv3+) launcher"
+msgstr "En startare och ett stycke fri programvara (GPLv3+)"
+
+#: kupfer/version.py:25
+msgid ""
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+msgstr ""
+"\n"
+"Detta program är fri programvara. Du kan distribuera det och/eller\n"
+"modifiera det under villkoren i GNU General Public License, publicerad\n"
+"av Free Software Foundation, antingen version 3 eller (om du så vill)\n"
+"någon senare version. \n"
+"\n"
+"Detta program distribueras i hopp om att det ska vara användbart, men\n"
+"UTAN NÅGON SOM HELST GARANTI, även utan underförstådd garanti om\n"
+"SÄLJBARHET eller LÄMPLIGHET FÖR NÅGOT SPECIELLT ÄNDAMÅL.\n"
+"Se GNU General Public License för ytterligare information.\n"
+"\n"
+"Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
+"detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
