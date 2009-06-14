@@ -1,5 +1,8 @@
 _debug = False
 
+import gettext
+gettext.install("kupfer")
+
 def get_options(default_opts=""):
 	""" Usage:
 	-s, -S list     add list of sources
