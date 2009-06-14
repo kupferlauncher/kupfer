@@ -33,8 +33,35 @@ def store_icon(key, icon):
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
 
+def get_gicon_for_file(uri):
+	"""
+	Return a GIcon representing the file at
+	the @uri, which can be *either* and uri or a path
+
+	return None if not found
+	"""
+	from gtk import icon_theme_get_default
+	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
+
+	icon_theme = icon_theme_get_default()
+	gfile = File(uri)
+	if not gfile.query_exists():
+		return None
+
+	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
+	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
+	return gicon
+
 def get_icon_for_gicon(gicon, icon_size):
+	"""
+	Return a pixbuf of @icon_size for the @gicon
+
+	NOTE: Currently only ThemedIcon or FileIcon
+	can be rendered
+	"""
 	# FIXME: We can't load any general GIcon
+	if not gicon:
+		return None
 	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
 	if isinstance(gicon, FileIcon):
 		ifile = gicon.get_file()
@@ -111,6 +138,3 @@ def get_icon_from_file(icon_file, icon_size):
 		print "get_icon_from_file, error:", e
 		return None
 
-def get_default_application_icon(icon_size):
-	icon = get_icon_for_name("exec", icon_size)
-	return icon

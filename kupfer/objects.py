@@ -57,28 +57,26 @@ class KupferObject (object):
 		"""
 		Returns an icon in pixbuf format.
 
-		Subclasses should implement get_pixbuf or get_icon_name
+		Subclasses should implement get_gicon or get_icon_name
 		The methods are tried in that order.
 		"""
-		pbuf = self.get_pixbuf()
-		if pbuf:
-			return pbuf
+		gicon = self.get_gicon()
+		if gicon:
+			pbuf = icons.get_icon_for_gicon(gicon, self.icon_size)
+			if pbuf:
+				return pbuf
 		icon_name = self.get_icon_name()
 		if icon_name:
 			return icons.get_icon_for_name(icon_name, self.icon_size)
 		return None
 
-	def get_pixbuf(self):
-		"""
-		Return pixbuf icon representing object
-		"""
+	def get_gicon(self):
+		"""Return GIcon"""
 		return None
 	
 	def get_icon_name(self):
-		"""
-		As an alternative to get_pixbuf, subclasses can simply
-		define get_pixbuf_name to use the named icon
-		"""
+		"""Return icon name. All items should have at least
+		a generic icon name to return. """
 		return None
 
 def aslist(seq):
@@ -188,11 +186,9 @@ class FileLeaf (Leaf):
 		else:
 			return Leaf.content_source(self)
 
-	def get_pixbuf(self):
-		icon = icons.get_icon_for_file(self.object, self.icon_size)
-		if not icon:
-			icon = icons.get_icon_for_name("gtk-file", self.icon_size)
-		return icon
+	def get_gicon(self):
+		gicon = icons.get_gicon_for_file(self.object)
+		return gicon
 
 	def get_icon_name(self):
 		"""A more generic icon"""
@@ -229,8 +225,8 @@ class SourceLeaf (Leaf):
 	def get_description(self):
 		return self.object.get_description()
 
-	def get_pixbuf(self):
-		return self.object.get_pixbuf()
+	def get_gicon(self):
+		return self.object.get_gicon()
 
 	def get_icon_name(self):
 		return self.object.get_icon_name()
@@ -285,11 +281,8 @@ class AppLeaf (Leaf):
 	def get_description(self):
 		return self.object.get_description()
 
-	def get_pixbuf(self):
-		from icons import get_icon_for_gicon, get_default_application_icon
-		icon = get_icon_for_gicon(self.object.get_icon(), self.icon_size)
-		icon = icon or get_default_application_icon(self.icon_size)
-		return icon
+	def get_gicon(self):
+		return self.object.get_icon()
 
 	def get_icon_name(self):
 		return "exec"
@@ -361,13 +354,14 @@ class OpenWith (Action):
 			print self, "does not support opening files"
 		utils.launch_app(self.desktop_item, paths=(leaf.object,))
 
-	def get_pixbuf(self):
+	def get_gicon(self):
 		app_icon = None
 		if self.desktop_item:
-			app_icon = icons.get_icon_for_gicon(self.desktop_item.get_icon(), self.icon_size)
+			app_icon = self.desktop_item.get_icon()
 		if not app_icon:
-			return super(OpenWith, self).get_pixbuf()
+			return super(OpenWith, self).get_gicon()
 		return app_icon
+
 	def get_icon_name(self):
 		return "gtk-execute"
 
@@ -471,8 +465,8 @@ class Execute (Launch):
 		desktop_item = utils.app_info_for_commandline(fileloc, in_terminal=self.in_terminal)
 		utils.launch_app(desktop_item)
 
-	def get_pixbuf(self):
-		return icons.get_default_application_icon(self.icon_size)
+	def get_icon_name(self):
+		return "exec"
 
 class SearchInside (Action):
 	"""
@@ -664,8 +658,8 @@ class DirectorySource (Source):
 	def get_description(self):
 		return "Directory source %s" % self.directory
 
-	def get_pixbuf(self):
-		return icons.get_icon_for_file(self.directory, self.icon_size)
+	def get_gicon(self):
+		return icons.get_gicon_for_file(self.directory)
 
 	def get_icon_name(self):
 		return "folder"
