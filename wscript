@@ -56,8 +56,7 @@ def dist():
 	import Scripting
 	write_git_version()
 	Scripting.g_gz = "gz"
-	filename = Scripting.dist(APPNAME, VERSION)
-	os.spawnlp(os.P_WAIT, "sha1sum", "sha1sum", filename)
+	Scripting.dist(APPNAME, VERSION)
 
 def set_options(opt):
 	# options for disabling pyc or pyo compilation
