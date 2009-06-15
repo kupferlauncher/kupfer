@@ -1,5 +1,5 @@
 from kupfer.objects import Leaf, Action, Source
-from kupfer import objects
+from kupfer import objects, utils
 from kupfer.plugin import about
 
 import gtk
@@ -37,6 +37,35 @@ class Quit (RunnableLeaf):
 		return _("Quit Kupfer")
 	def get_icon_name(self):
 		return gtk.STOCK_QUIT
+
+class Logout (RunnableLeaf):
+	"""Log out from desktop"""
+	def __init__(self, name=None):
+		if not name: name = _("Log out...")
+		super(Logout, self).__init__(name=name)
+	def run(self):
+		ret = utils.launch_commandline("gnome-panel-logout", _("Log out..."))
+		if not ret:
+			utils.launch_commandline("gnome-session-save --kill", _("Log out..."))
+	def get_description(self):
+		return _("Log out or change user")
+	def get_icon_name(self):
+		return "system-log-out"
+
+class Shutdown (RunnableLeaf):
+	"""Shutdown computer or reboot"""
+	def __init__(self, name=None):
+		if not name: name = _("Shut down...")
+		super(Shutdown, self).__init__(name=name)
+	def run(self):
+		ret = utils.launch_commandline("gnome-panel-logout --shutdown", _("Shut down..."))
+		if not ret:
+			utils.launch_commandline("gnome-session-save --kill", _("Shut down..."))
+
+	def get_description(self):
+		return _("Shut down, restart or suspend computer")
+	def get_icon_name(self):
+		return "system-shutdown"
 
 class About (RunnableLeaf):
 	def __init__(self, name=None):
@@ -86,11 +115,15 @@ class CommonSource (Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		yield About()
-		yield Preferences()
-		yield Quit()
-		yield Computer()
-		yield Trash()
+		return (
+			About(),
+			Preferences(),
+			Quit(),
+			Computer(),
+			Trash(),
+			Logout(),
+			Shutdown(),
+		)
 	def get_description(self):
 		return _("Items and special actions")
 	def get_icon_name(self):
