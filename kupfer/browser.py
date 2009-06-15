@@ -877,6 +877,7 @@ class WindowController (object):
 			s.connect("quit", self.quit)
 
 		signal.signal(signal.SIGTERM, self._sigterm)
+		signal.signal(signal.SIGHUP, self._sigterm)
 
 		try:
 			gtk.main()
