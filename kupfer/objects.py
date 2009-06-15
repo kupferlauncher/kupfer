@@ -403,6 +403,9 @@ class OpenUrl (Action):
 	def open_url(self, url):
 		utils.show_url(url)
 
+	def get_description(self):
+		return _("Open URL with default viewer")
+
 	def get_icon_name(self):
 	  	return "forward"
 
@@ -413,7 +416,7 @@ class Show (Action):
 	
 	def activate(self, leaf):
 		utils.show_path(leaf.object)
-	
+
 	def get_description(self):
 		return _("Open with default viewer")
 
@@ -472,6 +475,9 @@ class Launch (Action):
 		desktop_item = leaf.object
 		utils.launch_app(desktop_item)
 
+	def get_description(self):
+		return _("Launch application")
+
 class Execute (Launch):
 	"""
 	Execute executable file (FileLeaf)
@@ -486,6 +492,12 @@ class Execute (Launch):
 		fileloc = leaf.object
 		desktop_item = utils.app_info_for_commandline(fileloc, in_terminal=self.in_terminal)
 		utils.launch_app(desktop_item)
+
+	def get_description(self):
+		if self.in_terminal:
+			return _("Execute this object in a Terminal")
+		else:
+			return _("Execute this object")
 
 	def get_icon_name(self):
 		return "exec"
@@ -506,6 +518,9 @@ class SearchInside (Action):
 		if not leaf.has_content():
 			raise InvalidLeaf("Must have content")
 		return leaf.content_source()
+
+	def get_description(self):
+		return _("Search inside this catalog")
 
 	def get_icon_name(self):
 		return "search"
@@ -528,7 +543,7 @@ class RescanSource (Action):
 			cache = source.get_leaves(force_update=True)
 
 	def get_description(self):
-		return _("Force reindex of the source")
+		return _("Force reindex of this source")
 
 	def get_icon_name(self):
 		return "gtk-refresh"
@@ -642,7 +657,7 @@ class FileSource (Source):
 		return filename.startswith(".") 
 
 	def get_description(self):
-		return _("Recursive source of %(dir)s, (%(levels)d levels)" %
+		return (_("Recursive source of %(dir)s, (%(levels)d levels)") %
 				{"dir": self.name, "levels": self.depth})
 
 	def get_icon_name(self):
@@ -697,7 +712,7 @@ class SourcesSource (Source):
 		return (SourceLeaf(s, str(s)) for s in self.sources)
 
 	def get_description(self):
-		return _("An index of all sources")
+		return _("An index of all available sources")
 
 	def get_icon_name(self):
 		return "folder-saved-search"
@@ -742,9 +757,6 @@ class AppSource (Source):
 	def __init__(self):
 		super(AppSource, self).__init__(_("All Applications"))
 	
-	def get_icon_name(self):
-		return "gnome-applications"
-
 	def get_items(self):
 		from gio import app_info_get_all
 		# Choosing only item.should_show() items misses all Preference applets
@@ -761,6 +773,13 @@ class AppSource (Source):
 						item.supports_uris())):
 				yield AppLeaf(item)
 				taken.add(item.get_executable())
+
+	def get_description(self):
+		return _("All applications and preferences")
+
+	def get_icon_name(self):
+		return "gnome-applications"
+
 
 class UrlLeaf (Leaf):
 	def __init__(self, obj, name):
