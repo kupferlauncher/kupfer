@@ -69,6 +69,9 @@ def app_info_for_commandline(cli, name=None, in_terminal=False):
 	item = gio.AppInfo(cli, name, flags)
 	return item
 
+def launch_commandline(cli, name=None, in_terminal=False):
+	return launch_app(app_info_for_commandline(cli, name, in_terminal))
+
 def launch_app(app_info, files=(), uris=(), paths=()):
 	"""
 	Launch @app_info correctly, using a startup notification
@@ -82,12 +85,18 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 	ctx = AppLaunchContext()
 	if paths:
 		files = [File(p) for p in paths]
-	if uris:
-		ret = app_info.launch_uris(uris, ctx)
-	else:
-		ret = app_info.launch(files, ctx)
-	if not ret:
-		print "Error when launching", app_info
+	from glib import GError
+	try:
+		if uris:
+			ret = app_info.launch_uris(uris, ctx)
+		else:
+			ret = app_info.launch(files, ctx)
+		if not ret:
+			print "Error when launching", app_info
+	except GError, e:
+		print "launch_app:", e
+		return False
+	return True
 
 def show_path(path):
 	"""Open local @path with default viewer"""
