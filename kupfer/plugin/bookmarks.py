@@ -10,6 +10,9 @@ class BookmarksSource (Source):
 		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
 		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
 
+	def get_description(self):
+		return _("Index of Firefox bookmarks")
+
 	def get_icon_name(self):
 		return "web-browser"
 
@@ -22,6 +25,9 @@ class EpiphanySource (Source):
 		parser = EpiphanyBookmarksParser()
 		bookmarks = parser.get_items()
 		return (UrlLeaf(href, title) for title, href in bookmarks)
+
+	def get_description(self):
+		return _("Index of Epiphany bookmarks")
 
 	def get_icon_name(self):
 		return "web-browser"
