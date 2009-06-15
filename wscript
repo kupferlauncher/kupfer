@@ -129,6 +129,25 @@ def build(bld):
 	if bld.env['INTLTOOL']:
 		bld.add_subdirs("po")
 
+def poextract(util):
+	"""Extract new strings for localization"""
+	for line in open("po/LINGUAS"):
+		""" Run xgettext for all listed languages
+		to extract translatable strings and merge with
+		the old file """
+		if line.startswith("#"):
+			continue
+		lang = line.strip()
+
+		lang_file = "po/%s.po" % lang
+		print "Writing", lang_file
+		if os.path.exists(lang_file):
+			# Run twice to refresh all file:line comments
+			os.popen("xgettext -f po/POTFILES.in --output=%s -j --omit-header --no-location" % lang_file)
+			os.popen("xgettext -f po/POTFILES.in --output=%s -F -j --omit-header" % lang_file)
+		else:
+			os.popen("xgettext -f po/POTFILES.in --output=%s -F" % lang_file)
+
 def shutdown():
 	pass
 
