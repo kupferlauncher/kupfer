@@ -6,21 +6,24 @@ import gtk
 
 class RunnableLeaf (Leaf):
 	"""Leaf where the Leaf is basically the action itself,
-	for items such as Quit, Log out etc.
+	for items such as Quit, Log out etc. Is executed by the
+	only action Do
 	"""
 	def __init__(self, obj=None, name=None):
 		super(RunnableLeaf, self).__init__(obj, name)
 	def get_actions(self):
-		yield Run()
+		yield Do()
 	def run(self):
 		pass
 
-class Run (Action):
+class Do (Action):
 	def __init__(self, name=None):
-		if not name: name = _("Run")
-		super(Run, self).__init__(name=name)
+		if not name: name = _("Do")
+		super(Do, self).__init__(name=name)
 	def activate(self, leaf):
 		leaf.run()
+	def get_description(self):
+		return _("Perform action")
 	def get_icon_name(self):
 		return gtk.STOCK_EXECUTE
 
@@ -88,5 +91,7 @@ class CommonSource (Source):
 		yield Quit()
 		yield Computer()
 		yield Trash()
+	def get_description(self):
+		return _("Items and special actions")
 	def get_icon_name(self):
 		return "gnome-other"
