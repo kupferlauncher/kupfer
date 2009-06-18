@@ -41,7 +41,7 @@ def get_gicon_for_file(uri):
 	return None if not found
 	"""
 	from gtk import icon_theme_get_default
-	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
+	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON
 
 	icon_theme = icon_theme_get_default()
 	gfile = File(uri)
@@ -62,7 +62,7 @@ def get_icon_for_gicon(gicon, icon_size):
 	# FIXME: We can't load any general GIcon
 	if not gicon:
 		return None
-	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
+	from gio import ThemedIcon, FileIcon
 	if isinstance(gicon, FileIcon):
 		ifile = gicon.get_file()
 		return get_icon_from_file(ifile.get_path(), icon_size)
@@ -82,7 +82,7 @@ def get_icon_for_file(uri, icon_size):
 	@icon_size: a pixel size of the icon
 	"""
 	from gtk import icon_theme_get_default
-	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON, ThemedIcon, FileIcon
+	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON
 
 	icon_theme = icon_theme_get_default()
 	gfile = File(uri)
