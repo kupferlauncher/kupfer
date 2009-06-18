@@ -67,6 +67,18 @@ class Shutdown (RunnableLeaf):
 	def get_icon_name(self):
 		return "system-shutdown"
 
+class LockScreen (RunnableLeaf):
+	"""Lock screen"""
+	def __init__(self, name=None):
+		if not name: name = _("Lock screen")
+		super(LockScreen, self).__init__(name=name)
+	def run(self):
+		ret = utils.launch_commandline("gnome-screensaver-command --lock", _("Lock screen"))
+	def get_description(self):
+		return _("Enable screensaver and lock")
+	def get_icon_name(self):
+		return "system-lock-screen"
+
 class About (RunnableLeaf):
 	def __init__(self, name=None):
 		if not name: name = _("About Kupfer")
@@ -122,6 +134,7 @@ class CommonSource (Source):
 			Computer(),
 			Trash(),
 			Logout(),
+			LockScreen(),
 			Shutdown(),
 		)
 	def get_description(self):
