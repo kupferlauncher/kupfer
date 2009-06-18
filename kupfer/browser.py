@@ -784,8 +784,6 @@ class WindowController (object):
 		self._setup_status_icon()
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
-		self.data_controller.load()
-		self.activate()
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
@@ -917,10 +915,9 @@ class WindowController (object):
 
 		try:
 			gtk.main()
-			self.save_data()
 		except KeyboardInterrupt, info:
 			print info, "exiting.. (Warning: Ctrl-C in the shell will",\
 					"kill child processes)"
+		finally:
 			self.save_data()
-			self.quit_now()
 

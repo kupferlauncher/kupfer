@@ -187,8 +187,6 @@ class SourceController (object):
 			root_catalog = None
 		return root_catalog
 
-	def load(self):
-		pass
 	def finish(self):
 		self._pickle_sources(self.sources)
 	def _unpickle_or_rescan(self, sources, rescan=True):
@@ -243,15 +241,17 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		@S_sources are to be included directly in the catalog,
 		@s_souces as just as subitems
+
+		Must be followed by a call to DataController.load()
 		"""
 		self.direct_sources = set(S_sources)
-		other_sources = set(s_sources) - set(S_sources)
-		self.sc.add(self.direct_sources, toplevel=True)
-		self.sc.add(other_sources, toplevel=False)
-		self.source_rebase(self.sc.root)
+		self.other_sources = set(s_sources) - set(S_sources)
 
 	def load(self):
-		self.sc.load()
+		"""Load data from persistent store"""
+		self.sc.add(self.direct_sources, toplevel=True)
+		self.sc.add(self.other_sources, toplevel=False)
+		self.source_rebase(self.sc.root)
 		learn.load()
 
 	def finish(self):
