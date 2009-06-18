@@ -678,7 +678,7 @@ class DirectorySource (Source):
 
 	def get_parent(self):
 		if not self.has_parent():
-			return FileSource.has_parent(self)
+			return super(DirectorySource, self).has_parent(self)
 		return DirectorySource(self._parent_path())
 
 	def get_description(self):
