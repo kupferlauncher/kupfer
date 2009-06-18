@@ -1,5 +1,6 @@
 """
-This module is a singelton, that sets up callbacks to dbus signals
+This module has a singleton Service for dbus callbacks,
+and ensures there is only one unique service in the Session
 """
 
 import gobject
@@ -14,6 +15,15 @@ try:
 except (ImportError, dbus.exceptions.DBusException), exc:
 	session_bus = None
 	print exc
+
+class AlreadyRunning (Exception):
+	"""Service already available on the bus Exception"""
+	pass
+
+class NoConnection (Exception):
+	"""Not possible to establish connection
+	for callbacks"""
+	pass
 
 server_name = "se.kaizer.kupfer"
 interface_name = "se.kaizer.kupfer.Listener"
@@ -41,12 +51,19 @@ _Service_obj = None
 def Service():
 	"""
 	Return a service object, None if dbus not available
+
+	If a service is already running on the bus,
+	raise AlreadyRunning
 	"""
-	if not session_bus:
-		return None
 	global _Service_obj
-	if not _Service_obj:
+
+	if session_bus and not _Service_obj:
+		if session_bus.name_has_owner(server_name):
+			raise AlreadyRunning
 		bus_name = dbus.service.BusName(server_name, bus=session_bus)
 		_Service_obj = _Service(bus_name, object_path=object_name)
+	if not _Service_obj:
+		raise NoConnection
+
 	return _Service_obj
 

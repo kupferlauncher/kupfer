@@ -888,11 +888,18 @@ class WindowController (object):
 
 	def main(self):
 		# register dbus callbacks
-		from .listen import Service
+		from .listen import Service, AlreadyRunning, NoConnection
 		from .session import SessionClient
 
-		s = Service()
-		if s:
+		try:
+			s = Service()
+		except AlreadyRunning:
+			s = None
+			print "An instance is already running, exiting..."
+			self.quit_now()
+		except NoConnection:
+			pass
+		else:
 			s.connect("present", self.activate)
 			s.connect("show-hide", self.show_hide)
 			s.connect("quit", self.quit)
