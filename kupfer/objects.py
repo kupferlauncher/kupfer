@@ -582,12 +582,6 @@ class Source (KupferObject, pretty.OutputMixin):
 	def __repr__(self):
 		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self))
 
-	def set_refresh_callback(self, refresh_callback):
-		"""
-		Set function to be called on owner when data needs refresh
-		"""
-		self.refresh_callback = refresh_callback
-
 	def get_items(self):
 		"""
 		Internal method to compute and return the needed items
@@ -620,12 +614,6 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	def get_parent(self):
 		raise NoParent
-
-	def representation(self):
-		"""
-		Return represented object
-		"""
-		return self
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
