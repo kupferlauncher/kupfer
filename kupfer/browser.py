@@ -836,13 +836,6 @@ class WindowController (object):
 	def put_away(self):
 		self.window.hide()
 	
-	def quit(self, sender=None):
-		gtk.main_quit()
-
-	def quit_cleanup(self):
-		"""Do cleanup of everything"""
-		self.data_controller.finish()
-	
 	def _cancelled(self, widget):
 		self.put_away()
 	
@@ -866,9 +859,37 @@ class WindowController (object):
 		print "Caught signal", signal, "exiting.."
 		self.quit()
 
+	def save_data(self):
+		"""Save state before quit"""
+		self.data_controller.finish()
+
+	def quit(self, sender=None):
+		gtk.main_quit()
+
+	def quit_now(self):
+		"""Quit immediately (state save should already be done)"""
+		raise SystemExit
+
+	def _session_save(self, *args):
+		"""Old-style session save callback.
+		ret True on successful
+		"""
+		# No quit, only save
+		print "Saving for logout..."
+		self.save_data()
+		return True
+
+	def _session_die(self, *args):
+		"""Session callback on session end
+		quit now, without saving, since we already do that on
+		Session save!
+		"""
+		self.quit_now()
+
 	def main(self):
 		# register dbus callbacks
-		from listen import Service
+		from .listen import Service
+		from .session import SessionClient
 
 		s = Service()
 		if s:
@@ -879,12 +900,20 @@ class WindowController (object):
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
 
+		# Load data and present UI
+		self.data_controller.load()
+		self.activate()
+
+		client = SessionClient()
+		client.connect("save-yourself", self._session_save)
+		client.connect("die", self._session_die)
+
 		try:
 			gtk.main()
-			self.quit_cleanup()
+			self.save_data()
 		except KeyboardInterrupt, info:
 			print info, "exiting.. (Warning: Ctrl-C in the shell will",\
 					"kill child processes)"
-			self.quit_cleanup()
-			raise SystemExit
+			self.save_data()
+			self.quit_now()
 
