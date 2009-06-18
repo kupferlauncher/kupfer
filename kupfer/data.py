@@ -94,7 +94,7 @@ gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST
 
 class SourcePickleService (pretty.OutputMixin, object):
 	pickle_version = 1
-	name_template = "kupfer-%s-v%d.pickle"
+	name_template = "kupfer-%s-v%d.pickle.gz"
 
 	def __call__(self):
 		return self
