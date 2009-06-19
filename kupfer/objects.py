@@ -48,7 +48,7 @@ class KupferObject (object):
 		return self.name
 
 	def __unicode__(self):
-		return self.name.decode("UTF-8")
+		return self.name.decode("UTF-8", "replace")
 
 	def get_description(self):
 		return None
