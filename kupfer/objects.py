@@ -615,6 +615,11 @@ class Source (KupferObject, pretty.OutputMixin):
 	def get_parent(self):
 		raise NoParent
 
+	def get_leaf_repr(self):
+		"""Return, if appicable, another object
+		to take the source's place as Leaf"""
+		return None
+
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		name = path.basename(dirlist[0])
@@ -690,6 +695,9 @@ class DirectorySource (Source):
 	def get_icon_name(self):
 		return "folder"
 
+	def get_leaf_repr(self):
+		return FileLeaf(self.directory, self.name)
+
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
 	def __init__(self, sources, name=_("Catalog of Catalogs")):
@@ -697,7 +705,10 @@ class SourcesSource (Source):
 		self.sources = sources
 
 	def get_items(self):
-		return (SourceLeaf(s, str(s)) for s in self.sources)
+		"""Ask each Source for a Leaf substitute, else
+		yield a SourceLeaf """
+		for s in self.sources:
+			yield s.get_leaf_repr() or SourceLeaf(s, str(s))
 
 	def get_description(self):
 		return _("An index of all available sources")
