@@ -225,7 +225,7 @@ class MatchView (gtk.Bin):
 			markup = markup.replace(close + open, u"")
 			return markup
 		
-		text = unicode(self.cur_text)
+		text = self.cur_text
 		match = unicode(self.cur_match)
 		key = u"".join(c for c in match.lower() if c not in " _-.")
 		markup = markup_match(key, text)
@@ -460,7 +460,7 @@ class Search (gtk.Bin):
 		self.emit("cursor-changed", self.match)
 		if match:
 			self.match_state = State.Match
-			self.match_view.set_match_state(str(self.match), self.match.get_icon(), match=self.text, state=self.match_state)
+			self.match_view.set_match_state(unicode(self.match), self.match.get_icon(), match=self.text, state=self.match_state)
 
 	def update_match(self, key, matchrankable, matches):
 		"""
@@ -483,7 +483,7 @@ class Search (gtk.Bin):
 	
 	def setup_empty(self):
 		self.match_state = State.NoMatch
-		self.match_view.set_match_state("No match", None, state=State.NoMatch)
+		self.match_view.set_match_state(u"No match", None, state=State.NoMatch)
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -507,7 +507,7 @@ class Search (gtk.Bin):
 	def handle_no_matches(self):
 		dum = self.dummy
 		self.match_state = State.NoMatch
-		self.match_view.set_match_state(str(dum), dum.get_icon(), state=State.NoMatch)
+		self.match_view.set_match_state(unicode(dum), dum.get_icon(), state=State.NoMatch)
 	
 	def set_active(self, act):
 		self.active = act
@@ -540,7 +540,7 @@ class LeafSearch (Search):
 
 		self.set_match(None)
 		self.match_state = State.Wait
-		self.match_view.set_match_state(title, icon, state=State.Wait)
+		self.match_view.set_match_state(unicode(title), icon, state=State.Wait)
 
 class ActionSearch (Search):
 	"""
