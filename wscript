@@ -78,9 +78,12 @@ def configure(conf):
 		gio
 		gtk
 		xdg
+		dbus
 		"""
 	for module in python_modules.split():
 		conf.check_python_module(module)
+
+	conf.find_program("dbus-send")
 
 	# no "optimized" bytecode
 	conf.env["PYO"] = 0
