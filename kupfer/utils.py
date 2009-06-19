@@ -52,15 +52,6 @@ def spawn_async(argv, in_dir=None):
 	if in_dir:
 		chdir(oldwd)
 
-def get_xdg_data_dirs():
-	"""
-	Return a list of XDG data directories
-
-	From the deskbar applet project
-	"""
-	import xdg.BaseDirectory as base
-	return base.xdg_data_dirs
-
 def app_info_for_commandline(cli, name=None, in_terminal=False):
 	import gio
 	flags = gio.APP_INFO_CREATE_NEEDS_TERMINAL if in_terminal else gio.APP_INFO_CREATE_NONE
