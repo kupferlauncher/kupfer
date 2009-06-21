@@ -9,7 +9,7 @@ This project is configured for waf; waf is shipped in the
 distributable tarball but not in the repository.
 If you need to get waf, run:
 
-    wget -O waf http://waf.googlecode.com/files/waf-1.5.3
+    wget -O waf http://waf.googlecode.com/files/waf-1.5.8
     chmod +x waf
 
 Installation follows the steps
