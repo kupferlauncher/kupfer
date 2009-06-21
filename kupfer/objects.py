@@ -9,9 +9,11 @@ Copyright 2007 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 Released under GNU General Public License v3 (or any later version)
 """
 
-import gobject
 import itertools
 from os import path
+
+import gobject
+import gio
 
 from . import icons
 from . import utils
@@ -164,7 +166,6 @@ class FileLeaf (Leaf):
 			acts.extend([OpenTerminal(), SearchInside()])
 			default = OpenDirectory()
 		elif self._is_valid():
-			import gio
 			gfile = gio.File(self.object)
 			info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 			content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
@@ -597,6 +598,14 @@ class Source (KupferObject, pretty.OutputMixin):
 		"""
 		return False
 
+	def mark_for_update(self):
+		"""
+		Mark source as changed
+
+		it should be reloaded on next used (if normally cached)
+		"""
+		self.cached_items = None
+
 	def get_leaves(self, force_update=False):
 		"""
 		Return a list of all leaves
@@ -661,10 +670,22 @@ class DirectorySource (Source):
 		name = path.basename(dir) or dir
 		super(DirectorySource, self).__init__(name)
 		self.directory = dir
-		self.deep = False
+		self._setup_change_monitor()
 
 	def __repr__(self):
 		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self.directory))
+
+	def __getstate__(self):
+		"""Custom pickling routines """
+		# monitor is not pickleable
+		self.monitor = None
+		return self.__dict__
+
+	def __setstate__(self, state):
+		"""Custom pickling routines to restore file monitoring
+		upon unpickling"""
+		self.__dict__.update(state)
+		self._setup_monitor()
 
 	def get_items(self):
 		dirlist = utils.get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
@@ -674,6 +695,25 @@ class DirectorySource (Source):
 				yield ContstructFileLeaf(file, basename)
 
 		return file_leaves(dirlist)
+
+	def _setup_change_monitor(self):
+		gfile = gio.File(self.directory)
+		self.monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
+		if self.monitor:
+			self.monitor.connect("changed", self._changed)
+
+	def _changed(self, monitor, file1, file2, evt_type):
+		"""Change callback; something changed in the directory"""
+		# mark for update only for significant changes
+		# (for example, changed files need no update, only new files)
+		if evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
+				gio.FILE_MONITOR_EVENT_DELETED):
+			# ignore invisible files
+			# (since lots of dotfiles are touched in $HOME)
+			if file1 and file1.get_basename().startswith("."):
+				return
+			print "A file changed in", self
+			self.mark_for_update()
 
 	def _parent_path(self):
 		return path.normpath(path.join(self.directory, path.pardir))
@@ -845,7 +885,6 @@ class PlacesSource (Source):
 		return self._get_places(fileloc)
 
 	def _get_places(self, fileloc):
-		import gio
 		for line in open(fileloc):
 			if not line.strip():
 				continue
