@@ -73,6 +73,8 @@ def get_config():
 			"common",
 			"screen",
 			"windows",
+			"applications",
+			"documents",
 		)
 	default_plugins_catalog = (
 			"epiphany",
@@ -157,12 +159,6 @@ def main():
 		abs = path.abspath(path.expanduser(opt))
 		return objects.FileSource((abs,), depth)
 
-	sources = {
-			"a": objects.AppSource(),
-			"c": objects.RecentsSource(),
-			"p": objects.PlacesSource(),
-	}
-
 	source_config = get_config()
 
 	def import_plugin(name):
@@ -186,9 +182,6 @@ def main():
 		for source_name in sources:
 			source = getattr(plugin, source_name)
 			yield source()
-
-	# Add all "builtins"
-	S_sources.extend(sources.values())
 
 	for item in source_config["Plugins"]["Catalog"]:
 		s_sources.extend(load_plugin_sources(item))
