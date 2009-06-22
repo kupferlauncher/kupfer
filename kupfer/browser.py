@@ -75,37 +75,61 @@ class ModelBase (object):
 
 class LeafModel (ModelBase):
 	def __init__(self):
-		ModelBase.__init__(self, str, str, str)
+		ModelBase.__init__(self, str, str, str, str)
 		self.icon_col = 1
 		self.val_col = 2
-		self.rank_col = 3
+		self.info_col = 3
+		self.rank_col = 4
+
+		show_rank_col = False
 
 		from pango import ELLIPSIZE_MIDDLE
 		cell = gtk.CellRendererText()
 		cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
-		cell.set_property("width-chars", 50)
+		cell.set_property("width-chars", 45)
 		col = gtk.TreeViewColumn("item", cell)
 
-		nbr_cell = gtk.CellRendererText()
-		nbr_cell.set_property("width-chars", 4)
-		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
+		"""
+		info_cell = gtk.CellRendererPixbuf()
+		info_cell.set_property("height", 16)
+		info_cell.set_property("width", 16)
+		info_col = gtk.TreeViewColumn("info", info_cell)
+		info_col.add_attribute(info_cell, "icon-name", self.info_col)
+		"""
+		info_cell = gtk.CellRendererText()
+		info_cell.set_property("width-chars", 1)
+		info_col = gtk.TreeViewColumn("info", info_cell)
+		info_col.add_attribute(info_cell, "text", self.info_col)
 
 		col.add_attribute(cell, "text", self.val_col)
+
+		nbr_cell = gtk.CellRendererText()
+		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
+		nbr_cell.set_property("width-chars", 3)
 		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
 
 		icon_cell = gtk.CellRendererPixbuf()
-		icon_cell.set_property("height", 22)
-		icon_cell.set_property("width", 22)
+		icon_cell.set_property("height", 18)
+		icon_cell.set_property("width", 18)
+			
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "icon-name", self.icon_col)
 
-		self.columns = (icon_col, col, nbr_col,)
+		self.columns = [icon_col, col, info_col,]
+		if show_rank_col:
+			self.columns += nbr_col
 
 	def add(self, tupl):
 		leaf, rank = tupl
 		# Display rank empty instead of 0 since it looks better
 		rank_str = str(int(rank)) if rank else ""
-		self.append((leaf, leaf.get_icon_name(), str(leaf), rank_str, ))
+		# info: display arrow if leaf has content
+		content_mark = (u"\u2023").decode("UTF-8")
+		info = ""
+		if ((hasattr(leaf, "has_content") and leaf.has_content()) or
+				(hasattr(leaf, "is_factory") and leaf.is_factory())):
+			info = content_mark
+		self.append((leaf, leaf.get_icon_name(), str(leaf), info, rank_str))
 
 class MatchView (gtk.Bin):
 	"""
