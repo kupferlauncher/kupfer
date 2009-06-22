@@ -50,3 +50,29 @@ def save_data_file(filename):
 		return None
 	filepath = os.path.join(direc, filename)
 	return filepath
+
+def get_config_file(filename):
+	"""
+	Return path to @filename if it exists
+	anywhere in the config paths, else return None
+	"""
+	return base.load_first_config(PACKAGE_NAME, filename)
+
+def get_config_files(filename):
+	"""
+	Iterator to @filename in all
+	config paths, with most important (takes precendence)
+	files first
+	"""
+	return base.load_config_paths(PACKAGE_NAME, filename) or ()
+
+def save_config_file(filename):
+	"""
+	Return filename in the XDG data home directory, where the
+	directory is guaranteed to exist
+	"""
+	direc = base.save_config_path(PACKAGE_NAME)
+	if not direc:
+		return None
+	filepath = os.path.join(direc, filename)
+	return filepath
