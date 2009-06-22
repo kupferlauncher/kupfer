@@ -23,18 +23,26 @@ def get_options(default_opts=""):
 	--help          show usage help
 	--debug         enable debug info
 
-	list of sources:
-	  a             applications
-	  b             firefox bookmarks
-	  c             recent documents
-	  e             epiphany bookmarks
-	  m             common items
-	  p             nautilus places
-	  s             gnu screen sessions
-	  w             windows
+	To configure kupfer, edit
+	  %s
+
+	the default config for reference is at
+	  %s
+
+	available plugins include:
+	  applications
+	  firefox	bookmarks
+	  epiphany	bookmarks
+	  common	special items
+	  documents	nautilus places and recent documents
+	  screen	gnu screen sessions
+	  volumes	volumes and mounts
+	  windows
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
+
+	from kupfer import config
 
 	opts = argv[1:]
 	if "--debug" in opts:
@@ -46,21 +54,25 @@ def get_options(default_opts=""):
 		_debug = True
 		opts.remove("--debug") 
 
+	config_filename = "kupfer.cfg"
+	defaults_filename = "defaults.cfg"
+	conf_path = config.save_config_file(config_filename)
+	defaults_path = config.get_data_file(defaults_filename)
+	usage_text = get_options.__doc__ % (conf_path, defaults_path)
+
 	try:
 		opts, args = getopt(opts, "", ["help"])
 	except GetoptError, info:
 		print info
-		print get_options.__doc__
+		print usage_text
 		raise SystemExit
 
-	options = {}
-	
 	for k, v in opts:
 		if k == "--help":
-			print get_options.__doc__
+			print usage_text
 			raise SystemExit
 
-	return options
+	return None
 
 def get_config():
 	import ConfigParser
@@ -143,7 +155,7 @@ def main():
 	from . import objects, plugin
 	from . import data
 
-	options = get_options()
+	get_options()
 
 	s_sources = []
 	S_sources = []
