@@ -128,6 +128,9 @@ def build(bld):
 		dict = bld.env,
 		)
 
+	# configuration defaults
+	bld.install_files("${DATADIR}/kupfer", "data/defaults.cfg")
+
 	# Add localization if available
 	if bld.env['INTLTOOL']:
 		bld.add_subdirs("po")
