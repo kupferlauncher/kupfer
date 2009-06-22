@@ -161,7 +161,14 @@ class FileLeaf (Leaf):
 		return path.isdir(self.object)
 
 	def get_description(self):
-		return self.object
+		"""Format the path shorter:
+		replace homedir by ~/
+		"""
+		desc = self.object
+		homedir = path.expanduser("~/")
+		if desc.startswith(homedir) and homedir != desc:
+			desc = desc.replace(homedir, "~/", 1)
+		return desc
 
 	def get_actions(self):
 		acts = [RevealFile(), ]
