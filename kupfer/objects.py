@@ -875,7 +875,7 @@ class RecentsSource (Source):
 	def get_description(self):
 		return _("Recently used documents")
 	def get_icon_name(self):
-		return "emblem-important"
+		return "document-open-recent"
 
 class PlacesSource (Source):
 	"""
