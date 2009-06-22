@@ -144,6 +144,11 @@ class FileLeaf (Leaf):
 	# To save memory with (really) many instances
 	__slots__ = ("name", "object")
 
+	def __init__(self, obj, name):
+		# Resolve symlinks
+		obj = path.realpath(obj) or obj
+		super(FileLeaf, self).__init__(obj, name)
+
 	def _is_executable(self):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
@@ -220,7 +225,7 @@ class FileLeaf (Leaf):
 		else:
 			return "gtk-file"
 
-def ContstructFileLeaf(obj, name):
+def ConstructFileLeaf(obj, name):
 	"""
 	If the path in @obj points to a Desktop Item file,
 	return an AppLeaf, otherwise return a FileLeaf
@@ -692,7 +697,7 @@ class DirectorySource (Source):
 		def file_leaves(files):
 			for file in files:
 				basename = path.basename(file)
-				yield ContstructFileLeaf(file, basename)
+				yield ConstructFileLeaf(file, basename)
 
 		return file_leaves(dirlist)
 
