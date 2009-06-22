@@ -20,17 +20,8 @@ else:
 
 def get_options(default_opts=""):
 	""" Usage:
-	-s, -S list     add list of sources
-	-d, -D dir      add dir as dir source
-	-r, -R dir      add dir as recursive dir source
-
-	--depth d use recursive depth d
-
 	--help          show usage help
 	--debug         enable debug info
-
-	lowercase letter:   source as item in catalog
-	uppercase letter:   items included directly
 
 	list of sources:
 	  a             applications
@@ -41,8 +32,6 @@ def get_options(default_opts=""):
 	  p             nautilus places
 	  s             gnu screen sessions
 	  w             windows
-
-	The default is "-S acmpsw -s e -D ~ -D ~/Desktop"
 	"""
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -52,16 +41,13 @@ def get_options(default_opts=""):
 		try:
 			import debug
 		except ImportError, e:
-			print "%s" % e
+			print e
 		global _debug
 		_debug = True
 		opts.remove("--debug") 
 
-	if len(opts) < 1:
-		opts ="-S acmpsw -s e -D ~ -D ~/Desktop".split()
-
 	try:
-		opts, args = getopt(opts, "S:s:D:d:R:r:", ["depth=", "help"])
+		opts, args = getopt(opts, "", ["help"])
 	except GetoptError, info:
 		print info
 		print get_options.__doc__
@@ -70,23 +56,85 @@ def get_options(default_opts=""):
 	options = {}
 	
 	for k, v in opts:
-		if k in ("-s", "-S"):
-			if k == "-s":
-				key = "sources"
-			else:
-				key = "include_sources"
-			options.setdefault(key, []).extend(v)
-		elif k in ("-d", "-D", "-r", "-R"):
-			lst = options.get(k, [])
-			lst.append(v)
-			options[k] = lst
-		elif k == "--depth":
-			options["depth"] = v
-		elif k == "--help":
+		if k == "--help":
 			print get_options.__doc__
 			raise SystemExit
 
 	return options
+
+def get_config():
+	import ConfigParser
+	import os, sys
+
+	cf_file = "kupfer.cfg"
+	sep = ";"
+	parser = ConfigParser.SafeConfigParser()
+	default_plugins = (
+			"common",
+			"screen",
+			"windows",
+		)
+	default_plugins_catalog = (
+			"epiphany",
+			"firefox",
+		)
+	default_directories = ("~/", "~/Desktop", )
+	defaults = {
+		"Plugins": {
+			"Direct" : default_plugins,
+			"Catalog" : default_plugins_catalog,
+		},
+		"Directories" : {
+			"Direct" : default_directories,
+			"Catalog" : (),
+		},
+		"DeepDirectories" : {
+			"Direct" : (),
+			"Catalog" : (),
+			"Depth" : 2,
+		},
+	}
+	# Set up defaults
+	def fill_parser(parser, defaults):
+		for secname, section in defaults.iteritems():
+			if not parser.has_section(secname):
+				parser.add_section(secname)
+			for key, default in section.iteritems():
+				if isinstance(default, (tuple, list)):
+					default = sep.join(default)
+				elif isinstance(default, int):
+					default = str(default)
+				parser.set(secname, key, default)
+
+	fill_parser(parser, defaults)
+	try:
+		fil = open(cf_file, "r")
+		parser.readfp(fil)
+		fil.close()
+	except IOError:
+		pass
+
+	for secname, section in defaults.iteritems():
+		for key, default in section.iteritems():
+			value = parser.get(secname, key)
+			if isinstance(default, (tuple, list)):
+				if not value:
+					retval = ()
+				else:
+					retval = [p.strip() for p in value.split(sep) if p]
+			elif isinstance(default, int):
+				retval = type(default)(value)
+			else:
+				retval = str(value)
+			defaults[secname][key] = retval
+
+	print "Plugins:", defaults["Plugins"]["Direct"], defaults["Plugins"]["Catalog"]
+	print "Directories:", defaults["Directories"]["Direct"]
+	fill_parser(parser, defaults)
+	fil = open(cf_file, "w")
+	parser.write(fil)
+	fil.close()
+	return defaults
 
 def main():
 	import sys
@@ -100,23 +148,14 @@ def main():
 
 	s_sources = []
 	S_sources = []
-	default_depth = 1
 
 	def dir_source(opt):
-		for d in options[opt]:
-			abs = path.abspath(path.expanduser(d))
-			yield objects.DirectorySource(abs)
+		abs = path.abspath(path.expanduser(opt))
+		return objects.DirectorySource(abs)
 
-	def file_source(opt):
-		depth = int(options.get("depth", default_depth))
-		for d in options[opt]:
-			abs = path.abspath(path.expanduser(d))
-			yield objects.FileSource((abs,), depth)
-
-	files = {
-			"-d": dir_source,
-			"-r": file_source,
-	}
+	def file_source(opt, depth=1):
+		abs = path.abspath(path.expanduser(opt))
+		return objects.FileSource((abs,), depth)
 
 	sources = {
 			"a": objects.AppSource(),
@@ -124,51 +163,49 @@ def main():
 			"p": objects.PlacesSource(),
 	}
 
-	plugins = {
-			"m": ("common", "CommonSource"),
-			"b": ("bookmarks", "BookmarksSource"),
-			"e": ("bookmarks", "EpiphanySource"),
-			"s": ("screen", "ScreenSessionsSource"),
-			"w": ("windows", "WindowsSource"),
-	}
+	source_config = get_config()
 
 	def import_plugin(name):
 		path = ".".join(["kupfer", "plugin", name])
 		plugin = __import__(path, fromlist=(name,))
+		print "Loading plugin %s" % plugin.__name__
 		return plugin
 
-	def load_plugin_source(name, source_name):
+	sources_attribute = "__kupfer_sources__"
+	def load_plugin_sources(plugin_name):
 		try:
-			plugin = import_plugin(name)
+			plugin = import_plugin(plugin_name)
 		except ImportError, e:
-			print "Skipping module %s: %s" % (name, e)
-			return None
-		else:
+			print "Skipping module %s: %s" % (plugin_name, e)
+			return
+		try:
+			sources = getattr(plugin, sources_attribute)
+		except AttributeError, e:
+			print "Plugin %s: %s" % (plugin_name, e)
+			return
+		for source_name in sources:
 			source = getattr(plugin, source_name)
-		return source()
+			yield source()
 
-	def get_source(key):
-		if key in sources:
-			yield sources[key]
-		elif key in plugins:
-			src = load_plugin_source(*plugins[key])
-			if src:
-				yield src
-		else:
-			print "No plugin for key:", key
+	# Add all "builtins"
+	S_sources.extend(sources.values())
 
-	for item in options.get("sources", ()):
-		s_sources.extend(get_source(item))
-	for item in options.get("include_sources", ()):
-		S_sources.extend(get_source(item))
+	for item in source_config["Plugins"]["Catalog"]:
+		s_sources.extend(load_plugin_sources(item))
+	for item in source_config["Plugins"]["Direct"]:
+		S_sources.extend(load_plugin_sources(item))
+
+	dir_depth = source_config["DeepDirectories"]["Depth"]
+
+	for item in source_config["Directories"]["Catalog"]:
+		s_sources.append(dir_source(item))
+	for item in source_config["DeepDirectories"]["Catalog"]:
+		s_sources.append(file_source(item, dir_depth))
+	for item in source_config["Directories"]["Direct"]:
+		S_sources.append(dir_source(item))
+	for item in source_config["DeepDirectories"]["Direct"]:
+		S_sources.append(file_source(item, dir_depth))
 	
-	for k, v in files.items():
-		K = k.upper()
-		if k in options:
-			s_sources.extend(v(k))
-		if K in options:
-			S_sources.extend(v(K))
-
 	if not S_sources and not s_sources:
 		print "No sources"
 		raise SystemExit(1)

@@ -4,6 +4,8 @@ from kupfer.plugin import about
 
 import gtk
 
+__kupfer_sources__ = ("CommonSource", )
+
 class RunnableLeaf (Leaf):
 	"""Leaf where the Leaf is basically the action itself,
 	for items such as Quit, Log out etc. Is executed by the

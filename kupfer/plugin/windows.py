@@ -4,6 +4,8 @@ import wnck
 
 from kupfer.objects import Leaf, Action, Source
 
+__kupfer_sources__ = ("WindowsSource", )
+
 def wait_gtk():
 	while gtk.events_pending():
 		gtk.main_iteration()

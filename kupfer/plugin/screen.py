@@ -1,6 +1,8 @@
 from kupfer.objects import Leaf, Action, Source
 from kupfer import utils
 
+__kupfer_sources__ = ("ScreenSessionsSource", )
+
 def screen_sessions_infos():
 	"""
 	Yield tuples of pid, name, time, status
