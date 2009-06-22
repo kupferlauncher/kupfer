@@ -685,7 +685,7 @@ class DirectorySource (Source):
 		"""Custom pickling routines to restore file monitoring
 		upon unpickling"""
 		self.__dict__.update(state)
-		self._setup_monitor()
+		self._setup_change_monitor()
 
 	def get_items(self):
 		dirlist = utils.get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
@@ -712,7 +712,6 @@ class DirectorySource (Source):
 			# (since lots of dotfiles are touched in $HOME)
 			if file1 and file1.get_basename().startswith("."):
 				return
-			print "A file changed in", self
 			self.mark_for_update()
 
 	def _parent_path(self):
