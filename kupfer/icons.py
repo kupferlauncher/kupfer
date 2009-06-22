@@ -21,15 +21,18 @@ def get_icon(key):
 	try retrieve icon in cache
 	is a generator so it can be concisely called with a for loop
 	"""
-	if key not in icon_cache:
+	rec = icon_cache.get(key, None)
+	if not rec:
 		return
-	rec = icon_cache[key]
 	rec["accesses"] += 1
 	yield rec["icon"]
 
 def store_icon(key, icon):
-	if key in icon_cache:
-		raise Exception("already in cache")
+	"""
+	Store an icon in cache. It must not have been stored before
+	"""
+	assert key not in icon_cache, "icon %s already in cache" % key
+	assert icon, "icon %s may not be %s" % (key, icon)
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
 
