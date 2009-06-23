@@ -121,7 +121,7 @@ def build(bld):
 	# and the absolute path to the kupfer binary
 	desktop_subst_file = "kupfer.desktop"
 	dtp = bld.new_task_gen("subst",
-		source = desktop_subst_file + ".in",
+		source = "data/" + desktop_subst_file + ".in",
 		target = desktop_subst_file,
 		install_path = "${DATADIR}/applications",
 		chmod = 0755,
