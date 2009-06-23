@@ -675,7 +675,7 @@ class Interface (gobject.GObject):
 				if not match and self.search.get_match_state() is State.Wait:
 					self._browse_up(match)
 				else:
-					self.current.reset()
+					self.reset_current()
 				self.reset()
 		else:
 			if keyv == tabkey:
@@ -690,6 +690,20 @@ class Interface (gobject.GObject):
 		self.entry.set_text("")
 		self.current._hide_table()
 	
+	def reset_current(self):
+		"""
+		Reset the source or action view
+
+		Corresponds to backspace
+		"""
+		if self.current is self.search:
+			self.current.reset()
+		else:
+			# Reset action view by
+			# populating with non-keyed search
+			match = self.search.get_current()
+			self.data_controller.search_predicate(match)
+
 	def switch_to_source(self):
 		if self.current is not self.search:
 			self.current = self.search
@@ -701,7 +715,7 @@ class Interface (gobject.GObject):
 			self.emit("cancelled")
 		else:
 			self.reset()
-			self.current.reset()
+			self.reset_current()
 			self.switch_to_source()
 
 	def _new_source(self, sender, source):
