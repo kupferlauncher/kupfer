@@ -196,18 +196,19 @@ class FileLeaf (Leaf):
 			info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 			content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 			def_app = gio.app_info_get_default_for_type(content_type, False)
+			def_key = def_app.get_id() if def_app else None
 			types = gio.app_info_get_all_for_type(content_type)
 			apps = {}
 			for info in types:
 				key = info.get_id()
 				if key not in apps:
 					try:
-						app = OpenWith(info, info.get_name())
+						is_default = (key == def_key)
+						app = OpenWith(info, is_default)
 						apps[key] = app
 					except InvalidData:
 						pass
-			if def_app:
-				def_key = def_app.get_id()
+			if def_key:
 				if not def_key in apps:
 					print "No default found for %s, but found %s" % (self, apps)
 				else:
@@ -389,28 +390,35 @@ class OpenWith (Action):
 	Open a FileLeaf with a specified application
 	"""
 
-	def __init__(self, desktop_item, name):
-		Action.__init__(self, _("Open with %s") % name)
+	def __init__(self, desktop_item, is_default=False):
+		"""
+		Construct an "Open with application" item:
+
+		Application of @name should open, if
+		@is_default, it means it is the default app and
+		should only be styled "Open"
+		"""
 		if not desktop_item:
 			raise InvalidData
+
+		name = desktop_item.get_name()
+		action_name = _("Open") if is_default else _("Open with %s") % name
+		Action.__init__(self, action_name)
 		self.desktop_item = desktop_item
+		self.is_default = is_default
 	
 	def activate(self, leaf):
-		if not self.desktop_item:
-			print self, "not valid"
-			return
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
 			print self, "does not support opening files"
 		utils.launch_app(self.desktop_item, paths=(leaf.object,))
 
+	def get_description(self):
+		if self.is_default:
+			return _("Open with %s (default)") % self.desktop_item.get_name()
+		else:
+			return _("Open with %s") % self.desktop_item.get_name()
 	def get_gicon(self):
-		app_icon = None
-		if self.desktop_item:
-			app_icon = self.desktop_item.get_icon()
-		if not app_icon:
-			return super(OpenWith, self).get_gicon()
-		return app_icon
-
+		return self.desktop_item.get_icon()
 	def get_icon_name(self):
 		return "gtk-execute"
 
