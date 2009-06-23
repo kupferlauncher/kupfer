@@ -20,7 +20,7 @@ AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 WEBSITE = "http://kaizer.se/wiki/kupfer/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = """ Copyright © 2007--2009 Ulrik Sverdrup """
+COPYRIGHT = """Copyright © 2007--2009 Ulrik Sverdrup"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify

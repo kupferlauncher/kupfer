@@ -19,15 +19,17 @@ else:
 	gettext.install(package_name, localedir=localedir)
 
 def get_options(default_opts=""):
-	""" Usage:
+	usage_string = \
+	_(""" Usage:
+	--version		show version information
 	--help          show usage help
 	--debug         enable debug info
 
 	To configure kupfer, edit
-	  %s
+	  %(config)s
 
 	the default config for reference is at
-	  %s
+	  %(defaults)s
 
 	available plugins include:
 	  applications
@@ -38,7 +40,7 @@ def get_options(default_opts=""):
 	  screen	gnu screen sessions
 	  volumes	volumes and mounts
 	  windows
-	"""
+	""")
 	from getopt import getopt, GetoptError
 	from sys import argv
 
@@ -58,10 +60,10 @@ def get_options(default_opts=""):
 	defaults_filename = "defaults.cfg"
 	conf_path = config.save_config_file(config_filename)
 	defaults_path = config.get_data_file(defaults_filename)
-	usage_text = get_options.__doc__ % (conf_path, defaults_path)
+	usage_text = usage_string % {"config": conf_path, "defaults": defaults_path}
 
 	try:
-		opts, args = getopt(opts, "", ["help"])
+		opts, args = getopt(opts, "", ["version", "help"])
 	except GetoptError, info:
 		print info
 		print usage_text
@@ -70,6 +72,11 @@ def get_options(default_opts=""):
 	for k, v in opts:
 		if k == "--help":
 			print usage_text
+			raise SystemExit
+		if k == "--version":
+			print_version()
+			print
+			print_banner()
 			raise SystemExit
 
 	return None
@@ -147,15 +154,30 @@ def get_config():
 
 	return defaults
 
+def print_version():
+	from . import version
+	print version.PACKAGE_NAME, version.VERSION
+
+def print_banner():
+	from . import version
+	var = {
+		"program": version.PROGRAM_NAME, "desc": version.SHORT_DESCRIPTION,
+		"website": version.WEBSITE, "copyright": version.COPYRIGHT
+	}
+	print _("""%(program)s: %(desc)s
+	%(copyright)s
+	%(website)s
+	""") % var
+
 def main():
 	import sys
 	from os import path
 
-	from . import browser
+	from . import browser, data
 	from . import objects, plugin
-	from . import data
 
 	get_options()
+	print_banner()
 
 	s_sources = []
 	S_sources = []
