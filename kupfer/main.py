@@ -18,10 +18,63 @@ else:
 		localedir = version_subst.LOCALEDIR
 	gettext.install(package_name, localedir=localedir)
 
+def get_plugins():
+	"""Generator, yields dictionaries of plugin descriptions
+
+	with at least the fields:
+	name
+	version
+	description
+	author
+	provides
+	"""
+	from kupfer import plugin
+	import os
+
+	def import_plugin(name):
+		path = ".".join(["kupfer", "plugin", name])
+		plugin = __import__(path, fromlist=(name,))
+		return plugin
+	plugin_dir = plugin.__path__[0]
+	plugin_files = set()
+	for dirpath, dirs, files in os.walk(plugin_dir):
+		del dirs[:]
+		for f in files:
+			basename = os.path.splitext(f)[0]
+			if basename != "__init__" and not basename.endswith("_support"):
+				plugin_files.add(basename)
+
+	for plugin_name in sorted(plugin_files):
+		try:
+			plugin = import_plugin(plugin_name).__dict__
+		except ImportError, e:
+			print "Error:", e
+			continue
+		desc = plugin.get("__description__", _("(no description)"))
+		vers = plugin.get("__version__", "")
+		author = plugin.get("__author__", "")
+		sources = plugin.get("__kupfer_sources__", ())
+		# skip "empty" plugins
+		if not sources:
+			continue
+		yield {
+			"name": plugin_name,
+			"version": vers,
+			"description": desc,
+			"author": author,
+			"provides": sources
+		}
+
+def get_plugin_desc():
+	desc = []
+	for rec in get_plugins():
+		desc.append(_("""%(name)20s %(version)4s %(description)s""") % rec)
+	return "\n".join(desc)
+
 def get_options(default_opts=""):
 	usage_string = \
 	_(""" Usage:
-	--version		show version information
+	--version       show version information
 	--help          show usage help
 	--debug         enable debug info
 
@@ -31,15 +84,7 @@ def get_options(default_opts=""):
 	the default config for reference is at
 	  %(defaults)s
 
-	available plugins include:
-	  applications
-	  firefox	bookmarks
-	  epiphany	bookmarks
-	  common	special items
-	  documents	nautilus places and recent documents
-	  screen	gnu screen sessions
-	  volumes	volumes and mounts
-	  windows
+	available plugins:
 	""")
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -60,7 +105,13 @@ def get_options(default_opts=""):
 	defaults_filename = "defaults.cfg"
 	conf_path = config.save_config_file(config_filename)
 	defaults_path = config.get_data_file(defaults_filename)
-	usage_text = usage_string % {"config": conf_path, "defaults": defaults_path}
+	plugin_list = get_plugin_desc()
+	usage_text = (usage_string % {
+			"config": conf_path,
+			"defaults": defaults_path,
+			})
+	usage_text += "\n"
+	usage_text += plugin_list
 
 	try:
 		opts, args = getopt(opts, "", ["version", "help"])
