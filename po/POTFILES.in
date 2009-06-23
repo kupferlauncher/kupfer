@@ -1,8 +1,13 @@
 # encoding: UTF-8
 kupfer/browser.py
+kupfer/main.py
 kupfer/objects.py
 kupfer/version.py
-kupfer/plugin/bookmarks.py
+kupfer/plugin/applications.py
 kupfer/plugin/common.py
+kupfer/plugin/documents.py
+kupfer/plugin/epiphany.py
+kupfer/plugin/firefox.py
 kupfer/plugin/screen.py
 kupfer/plugin/windows.py
+kupfer/plugin/volumes.py
