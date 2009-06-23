@@ -5,6 +5,9 @@ from kupfer.plugin import about
 import gtk
 
 __kupfer_sources__ = ("CommonSource", )
+__description__ = _("Items and special actions")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class RunnableLeaf (Leaf):
 	"""Leaf where the Leaf is basically the action itself,

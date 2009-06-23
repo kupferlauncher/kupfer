@@ -1,6 +1,9 @@
 from kupfer.objects import Source, AppLeaf
 
 __kupfer_sources__ = ("AppSource", )
+__description__ = _("All applications and preferences")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class AppSource (Source):
 	"""

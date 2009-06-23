@@ -2,6 +2,9 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
 
 __kupfer_sources__ = ("EpiphanySource", )
+__description__ = _("Index of Epiphany bookmarks")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class EpiphanySource (Source):
 	def __init__(self):

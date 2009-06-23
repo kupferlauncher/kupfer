@@ -5,6 +5,9 @@ import wnck
 from kupfer.objects import Leaf, Action, Source
 
 __kupfer_sources__ = ("WindowsSource", )
+__description__ = _("All windows on all workspaces")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 def wait_gtk():
 	while gtk.events_pending():

@@ -2,6 +2,10 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer import utils
 
 __kupfer_sources__ = ("ScreenSessionsSource", )
+__description__ = _("Active GNU Screen sessions")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 
 def screen_sessions_infos():
 	"""

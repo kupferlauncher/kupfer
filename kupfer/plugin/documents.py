@@ -5,6 +5,9 @@ from kupfer.objects import Leaf, Action, Source, FileLeaf, UrlLeaf
 from kupfer import objects
 
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
+__description__ = _("Recently used documents and nautilus places")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class RecentsSource (Source):
 	def __init__(self):
