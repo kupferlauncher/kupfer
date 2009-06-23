@@ -26,7 +26,7 @@ msgstr "Söker..."
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
 
-#: kupfer/browser.py:814 kupfer/browser.py:834 kupfer/version.py:15
+#: kupfer/browser.py:828 kupfer/browser.py:848 kupfer/version.py:15
 msgid "Kupfer"
 msgstr ""
 
@@ -87,115 +87,120 @@ msgstr ""
 msgid "No matches"
 msgstr "Inga träffar"
 
-#: kupfer/objects.py:204
+#: kupfer/objects.py:219
 msgid "Execute in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: kupfer/objects.py:379
+#: kupfer/objects.py:405 kupfer/objects.py:449 kupfer/objects.py:463
+msgid "Open"
+msgstr "Öppna"
+
+#: kupfer/objects.py:405 kupfer/objects.py:419
 #, python-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: kupfer/objects.py:409
+#: kupfer/objects.py:417
+#, python-format
+msgid "Open with %s (default)"
+msgstr "Öppna med %s (standardval)"
+
+#: kupfer/objects.py:431
 msgid "Open URL"
 msgstr "Öppna URL"
 
-#: kupfer/objects.py:420
+#: kupfer/objects.py:442
 msgid "Open URL with default viewer"
 msgstr "Öppna URL med standardprogram"
 
-#: kupfer/objects.py:427 kupfer/objects.py:441
-msgid "Open"
-msgstr "Öppna"
-
-#: kupfer/objects.py:434
+#: kupfer/objects.py:456
 msgid "Open with default viewer"
 msgstr "Öppna med standardprogram"
 
-#: kupfer/objects.py:444
+#: kupfer/objects.py:466
 msgid "Open folder"
 msgstr "Öppna mapp"
 
-#: kupfer/objects.py:450
+#: kupfer/objects.py:472
 msgid "Reveal"
 msgstr "Visa"
 
-#: kupfer/objects.py:459
+#: kupfer/objects.py:481
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: kupfer/objects.py:465
+#: kupfer/objects.py:487
 msgid "Open Terminal here"
 msgstr "Öppna i terminalfönster"
 
-#: kupfer/objects.py:483
+#: kupfer/objects.py:505
 msgid "Launch"
 msgstr "Starta"
 
-#: kupfer/objects.py:492
+#: kupfer/objects.py:514
 msgid "Launch application"
 msgstr "Starta program"
 
-#: kupfer/objects.py:500
+#: kupfer/objects.py:522
 msgid "Execute"
 msgstr "Kör"
 
-#: kupfer/objects.py:511
+#: kupfer/objects.py:533
 msgid "Execute this object in a Terminal"
 msgstr "Kör objekt i terminalfönster"
 
-#: kupfer/objects.py:513
+#: kupfer/objects.py:535
 msgid "Execute this object"
 msgstr "Kör objekt"
 
-#: kupfer/objects.py:525
+#: kupfer/objects.py:547
 msgid "Search content..."
 msgstr "Sök i..."
 
-#: kupfer/objects.py:536
+#: kupfer/objects.py:558
 msgid "Search inside this catalog"
 msgstr "Sök bland objekt i katalogen"
 
-#: kupfer/objects.py:546
+#: kupfer/objects.py:568
 msgid "Rescan"
 msgstr "Uppdatera"
 
-#: kupfer/objects.py:559
+#: kupfer/objects.py:581
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
-#: kupfer/objects.py:570
+#: kupfer/objects.py:592
 msgid "No action"
 msgstr "Inget kommando"
 
-#: kupfer/objects.py:648
+#: kupfer/objects.py:670
 #, python-format
 msgid "%s et al"
 msgstr "%s et al"
 
-#: kupfer/objects.py:674
+#: kupfer/objects.py:696
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: kupfer/objects.py:741
+#: kupfer/objects.py:762
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: kupfer/objects.py:754
+#: kupfer/objects.py:775
 msgid "Catalog of Catalogs"
 msgstr "Katalogindex"
 
-#: kupfer/objects.py:765
+#: kupfer/objects.py:786
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: kupfer/objects.py:776
+#: kupfer/objects.py:797
 msgid "Catalog"
 msgstr "Katalog"
 
-#: kupfer/objects.py:795
+#: kupfer/objects.py:816
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
