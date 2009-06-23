@@ -144,9 +144,22 @@ class FileLeaf (Leaf):
 	# To save memory with (really) many instances
 	__slots__ = ("name", "object")
 
-	def __init__(self, obj, name):
+	def __init__(self, obj, name=None):
+		"""
+		Construct a FileLeaf
+
+		The display name of the file is normally
+		derived from the full path, and @name
+		should normally be left unspecified.
+		"""
 		# Resolve symlinks
 		obj = path.realpath(obj) or obj
+		# Use glib filename reading to make display
+		# name out of filenames
+		# this function returns a unicode() object
+		# we read it back to a str()
+		if not name:
+			name = gobject.filename_display_basename(obj).decode("UTF-8")
 		super(FileLeaf, self).__init__(obj, name)
 
 	def _is_executable(self):
@@ -164,7 +177,8 @@ class FileLeaf (Leaf):
 		"""Format the path shorter:
 		replace homedir by ~/
 		"""
-		desc = self.object
+		# Use glib filename function
+		desc = gobject.filename_display_name(self.object).decode("UTF-8")
 		homedir = path.expanduser("~/")
 		if desc.startswith(homedir) and homedir != desc:
 			desc = desc.replace(homedir, "~/", 1)
@@ -232,7 +246,7 @@ class FileLeaf (Leaf):
 		else:
 			return "gtk-file"
 
-def ConstructFileLeaf(obj, name):
+def ConstructFileLeaf(obj):
 	"""
 	If the path in @obj points to a Desktop Item file,
 	return an AppLeaf, otherwise return a FileLeaf
@@ -243,7 +257,7 @@ def ConstructFileLeaf(obj, name):
 			return AppLeaf(path=obj)
 		except InvalidData:
 			pass
-	return FileLeaf(obj, name)
+	return FileLeaf(obj)
 
 class SourceLeaf (Leaf):
 	def has_content(self):
@@ -660,7 +674,7 @@ class FileSource (Source):
 		
 		def mkleaves(dir):
 			files = utils.get_dirlist(dir, depth=self.depth, exclude=self._exclude_file)
-			return (FileLeaf(f, path.basename(f)) for f in files)
+			return (ConstructFileLeaf(f) for f in files)
 
 		for d in self.dirlist:
 			iters.append(mkleaves(d))
@@ -703,8 +717,7 @@ class DirectorySource (Source):
 		dirlist = utils.get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
 		def file_leaves(files):
 			for file in files:
-				basename = path.basename(file)
-				yield ConstructFileLeaf(file, basename)
+				yield ConstructFileLeaf(file)
 
 		return file_leaves(dirlist)
 
@@ -747,7 +760,7 @@ class DirectorySource (Source):
 		return "folder"
 
 	def get_leaf_repr(self):
-		return FileLeaf(self.directory, self.name)
+		return FileLeaf(self.directory)
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
