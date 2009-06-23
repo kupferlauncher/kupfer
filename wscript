@@ -90,7 +90,11 @@ def configure(conf):
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
 	conf.env["VERSION"] = VERSION
 
-	print "Installing to PYTHONPATH: %s" % conf.env["PYTHONDIR"]
+	# Check sys.path
+	Utils.pprint("NORMAL", "Installing python modules into: %(PYTHONDIR)s" % conf.env)
+	pipe = os.popen("""%(PYTHON)s -c "import sys; print '%(PYTHONDIR)s' in sys.path" """ % conf.env)
+	if "False" in pipe.read():
+		Utils.pprint("YELLOW", "Please add %(PYTHONDIR)s to your sys.path!" % conf.env)
 
 def new_module(bld, name, sources=None):
 	if not sources: sources = name
