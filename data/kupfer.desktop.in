@@ -4,7 +4,7 @@ Encoding=UTF-8
 Name=Kupfer
 Comment=A launcher with two panes and some extra stuff
 Icon=search
-Exec=env PYTHONPATH="@PYTHONDIR@" @KUPFER@
+Exec=@KUPFER@
 Type=Application
 Categories=Utility;
 StartupNotify=true

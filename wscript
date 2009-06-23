@@ -112,20 +112,28 @@ def build(bld):
 	# modules
 	new_module(bld, "kupfer")
 	new_module(bld, "kupfer/plugin")
+
 	# binary
-	bld.install_as("${BINDIR}/kupfer", "kupfer-activate.sh", chmod=0755)
+	# Subst in the python version
+	# We have to put this in an intermediate build directory,
+	# inside data/ not to clash with the 'kupfer' module(!)
+	binary_subst_file = "kupfer-activate.sh"
+	bin = bld.new_task_gen("subst",
+		source = binary_subst_file,
+		target = "data/kupfer",
+		install_path = "${BINDIR}",
+		chmod = 0755,
+		dict = {"PYTHON": bld.env["PYTHON"]}
+		)
 
 	# Install .desktop file
-	# Specially preparated to setup
-	# PYTHONPATH with /usr/bin/env
-	# and the absolute path to the kupfer binary
 	desktop_subst_file = "kupfer.desktop"
 	dtp = bld.new_task_gen("subst",
 		source = "data/" + desktop_subst_file + ".in",
 		target = desktop_subst_file,
 		install_path = "${DATADIR}/applications",
 		chmod = 0755,
-		dict = bld.env,
+		dict = {"KUPFER": bld.env["KUPFER"]}
 		)
 
 	# configuration defaults
