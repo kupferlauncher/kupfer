@@ -23,10 +23,16 @@ class Rankable (object):
 	"""
 	# To save memory with (really) many Rankables
 	__slots__ = ("rank", "value", "object")
-	def __init__(self, value, object=None):
-		self.rank = 0
+	def __init__(self, value, object=None, rank=0):
+		self.rank = rank
 		self.value = value
 		self.object = object
+	
+	def __hash__(self):
+		return hash(self.value)
+
+	def __eq__(self, other):
+		return (self.object == self.object)
 	
 	def __str__(self):
 		return "%s: %s" % (self.rank, self.value)

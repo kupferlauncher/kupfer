@@ -1,6 +1,7 @@
 import gobject
 import threading
 import cPickle as pickle
+import itertools
 
 gobject.threads_init()
 
@@ -10,9 +11,50 @@ from . import config
 from . import pretty
 from . import learn
 
-def SearchTask(sender, rankables, key, signal, context=None):
-	sobj = search.Search(rankables)
-	matches = sobj.search_objects(key)
+def SearchTask(sender, sources, key, signal, context=None):
+	"""
+	@sources is a dict listing the inputs and how they are ranked
+	"""
+	#text_iter = ((unicode(leaf), leaf) for leaf in ts.get_leaves())
+	#rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
+	#rankables = itertools.chain(text_iter, rankables)
+	match_iters = []
+	for rec in sources:
+		rankables = ()
+		if "source" in rec:
+			rankables = ((unicode(l), l) for l in rec["source"].get_leaves())
+		elif "iter" in rec:
+			rankables = ((unicode(l), l) for l in rec["iter"])
+		else:
+			raise Exception("No souce in SearchTask description")
+		meth = rec["method"]
+		if meth is "rank":
+			sobj = search.Search(rankables)
+			matches = sobj.search_objects(key)
+		elif meth is "fixed":
+			rank = rec["rank"]
+			matches = (search.Rankable(val, obj, rank) for val, obj in rankables)
+		match_iters.append(matches)
+	
+	def as_set_iter(seq):
+		"""Generator with set semantics: Generate items on the fly,
+		but no duplicates
+		"""
+		coll = set()
+		for obj in seq:
+			if obj not in coll:
+				yield obj
+				coll.add(obj)
+
+	def itemranker(item):
+		"""
+		Sort key for the items.
+		Sort first by rank, then by value (name)
+		(but only sort by value if rank >= 0 to keep
+		default ordering!)
+		"""
+		return (-item.rank, item.rank and item.value)
+	matches = list(as_set_iter(sorted(itertools.chain(*match_iters), key=itemranker)))
 
 	if len(matches):
 		match = matches[0]
@@ -269,8 +311,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def do_search(self, source, key, context):
 		self.search_handle = -1
-		rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
-		SearchTask(self, rankables, key, "search-result", context=context)
+		sources = [
+			{"source": source, "method": "rank" },
+		]
+		if key:
+			ts = objects.TextSource(key)
+			sources.append({"source": ts, "method": "fixed", "rank": 100 })
+		SearchTask(self, sources, key, "search-result", context=context)
 
 	def search(self, key=u"", context=None):
 		"""Search: Register the search method in the event loop
@@ -289,8 +336,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = leaf.get_actions() if leaf else []
-		action_rankables = [(unicode(a), a) for a in actions]
-		SearchTask(self, action_rankables, key, "predicate-result", context)
+		sources = (
+			{"iter": actions, "method": "rank" },
+		)
+		SearchTask(self, sources, key, "predicate-result", context)
 
 	def search_predicate(self, item, key=u"", context=None):
 		self.do_predicate_search(item, key, context)

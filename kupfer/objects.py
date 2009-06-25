@@ -11,6 +11,7 @@ Released under GNU General Public License v3 (or any later version)
 
 import itertools
 from os import path
+import os
 
 import gobject
 import gio
@@ -217,7 +218,7 @@ class FileLeaf (Leaf):
 
 			if self._is_executable():
 				acts.extend((Execute(), Execute(name=_("Execute in Terminal"), in_terminal=True)))
-			if app_actions:
+			elif app_actions:
 				default = app_actions.pop(0)
 			else:
 				app_actions.append(Show())
@@ -829,4 +830,31 @@ class UrlLeaf (Leaf):
 
 	def get_icon_name(self):
 		return "text-html"
+
+class TextSource (Source):
+	"""Return items based on text"""
+	def __init__(self, text):
+		Source.__init__(self, name=_("Text matches"))
+		self.text = text
+
+	def get_items(self):
+		if not self.text:
+			return
+		# iterate over $PATH directories
+		PATH = os.environ.get("PATH") or os.defpath
+		for execdir in PATH.split(os.pathsep):
+			exepath = path.join(execdir, self.text)
+			if os.access(exepath, os.R_OK | os.X_OK) and path.isfile(exepath):
+				yield FileLeaf(exepath)
+				break
+
+		# Find directories or files
+		prefix = path.expanduser("~/")
+		filepath = self.text if path.isabs(self.text) else \
+				path.join(prefix, self.text)
+		if os.access(filepath, os.R_OK):
+			yield FileLeaf(filepath)
+
+	def get_description(self):
+		return _("Text match items")
 
