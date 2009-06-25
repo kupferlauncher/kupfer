@@ -303,12 +303,7 @@ class AppLeaf (Leaf):
 
 	def _init_from_item(self, item):
 		if item:
-			loc_name = item.get_name()
-			name = item.get_executable()
-			if name != loc_name or not loc_name:
-				value = "%s (%s)" % (loc_name, name)
-			else:
-				value = name
+			value = item.get_name() or item.get_executable()
 		else:
 			value = "Unknown"
 		self.object = item
@@ -329,7 +324,11 @@ class AppLeaf (Leaf):
 		#yield Launch(name="Launch in Terminal", in_terminal=True)
 
 	def get_description(self):
-		return self.object.get_description()
+		"""description: Use "App description (executable)" """
+		return _("%(description)s (%(exec)s)") % (
+				{"description": self.object.get_description() or "",
+				 "exec": self.object.get_executable() or "",
+				})
 
 	def get_gicon(self):
 		return self.object.get_icon()
