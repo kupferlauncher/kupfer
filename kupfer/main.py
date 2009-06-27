@@ -52,24 +52,27 @@ def get_options(default_opts=""):
 	defaults_filename = "defaults.cfg"
 	conf_path = config.save_config_file(config_filename)
 	defaults_path = config.get_data_file(defaults_filename)
-	plugin_list = plugins.get_plugin_desc()
-	usage_text = (usage_string % {
-			"config": conf_path,
-			"defaults": defaults_path,
-			})
-	usage_text += "\n"
-	usage_text += plugin_list
+
+	def make_usage_text():
+		plugin_list = plugins.get_plugin_desc()
+		usage_text = (usage_string % {
+				"config": conf_path,
+				"defaults": defaults_path,
+				})
+		usage_text += "\n"
+		usage_text += plugin_list
+		return usage_text
 
 	try:
 		opts, args = getopt(opts, "", ["version", "help"])
 	except GetoptError, info:
 		print info
-		print usage_text
+		print make_usage_text()
 		raise SystemExit
 
 	for k, v in opts:
 		if k == "--help":
-			print usage_text
+			print make_usage_text()
 			raise SystemExit
 		if k == "--version":
 			print_version()
