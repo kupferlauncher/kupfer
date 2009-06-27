@@ -6,14 +6,14 @@ from kupfer.objects import TextSource, FileLeaf
 
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("CommandTextSource",)
-__description__ = _("Match text queries directly to shell commands")
+__description__ = _("Execute programs in $PATH")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class CommandTextSource (TextSource):
 	"""Yield path and command text items """
 	def __init__(self):
-		TextSource.__init__(self, name=_("Text matches"))
+		TextSource.__init__(self, name=_("Shell commands"))
 
 	def get_rank(self):
 		return 60

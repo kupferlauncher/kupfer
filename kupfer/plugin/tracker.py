@@ -2,7 +2,7 @@ import gobject
 
 from kupfer.objects import Action, Source
 from kupfer.objects import TextLeaf, ActionDecorator, ConstructFileLeaf
-from kupfer import utils
+from kupfer import utils, pretty
 
 
 __kupfer_sources__ = ()
@@ -13,7 +13,6 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class TrackerDecorator (ActionDecorator):
-	"""Base class for an object assigning more actions to Leaves"""
 	def applies_to(self):
 		yield TextLeaf
 	def get_actions(self, leaf=None):
@@ -26,13 +25,13 @@ class TrackerSearch (Action):
 	def activate(self, leaf):
 		utils.launch_commandline("tracker-search-tool %s" % leaf.object)
 	def get_description(self):
-		return _("Open tracker to search for this term")
+		return _("Open Tracker Search Tool and search for this term")
 	def get_icon_name(self):
 		return "search"
 
 class TrackerSearchHere (Action):
 	def __init__(self):
-		Action.__init__(self, _("Query Tracker..."))
+		Action.__init__(self, _("Get Tracker results..."))
 
 	def is_factory(self):
 		return True
@@ -55,14 +54,14 @@ class TrackerQuerySource (Source):
 		try:
 			import dbus
 		except ImportError:
-			print "Dbus not available!"
+			pretty.print_info(__name__, "Dbus not available!")
 			return
 		bus = dbus.SessionBus()
 		try:
 			searchobj = bus.get_object("org.freedesktop.Tracker",
 					"/org/freedesktop/Tracker/Search")
 		except dbus.DBusException:
-			print "Tracker not found on bus"
+			pretty.print_info(__name__, "Tracker not found on bus")
 			return
 
 		# Text interface
@@ -72,7 +71,7 @@ class TrackerQuerySource (Source):
 		try:
 			file_hits = searchobj.Text(1, "Files", self.query, 0, self.max_items)
 		except dbus.DBusException:
-			print "Tracker not found on bus"
+			pretty.print_info(__name__, "Tracker not found on bus")
 			return
 
 		for filestr in file_hits:

@@ -13,7 +13,6 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class GoogleDecorator (ActionDecorator):
-	"""Base class for an object assigning more actions to Leaves"""
 	def applies_to(self):
 		yield TextLeaf
 	def get_actions(self, leaf=None):
@@ -31,7 +30,7 @@ class GoogleSearch (Action):
 		query_url = search_url % search_string
 		utils.show_url(query_url)
 	def get_description(self):
-		return _("Open google.com and search for this term")
+		return _("Search for this term with Google")
 	def get_icon_name(self):
 		return "gtk-find"
 

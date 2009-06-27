@@ -4,7 +4,7 @@ from kupfer.objects import TextSource, TextLeaf, FileLeaf
 
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", )
-__description__ = _("Text queries")
+__description__ = _("Basic support for free-text queries")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
