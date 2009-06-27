@@ -251,6 +251,7 @@ def main():
 
 	sources_attribute = "__kupfer_sources__"
 	text_sources_attribute = "__kupfer_text_sources__"
+	action_decorators_attribute = "__kupfer_action_decorator__"
 	def get_plugin_attributes(plugin_name, attrs, warn=False):
 		try:
 			plugin = import_plugin(plugin_name)
@@ -275,12 +276,18 @@ def main():
 			yield source()
 
 	text_sources = []
+	action_decorators = []
+
 	for item in source_config["Plugins"]["Catalog"]:
 		s_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
+		action_decorators.extend(load_plugin_sources(item,
+			action_decorators_attribute))
 	for item in source_config["Plugins"]["Direct"]:
 		S_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
+		action_decorators.extend(load_plugin_sources(item,
+			action_decorators_attribute))
 
 	dir_depth = source_config["DeepDirectories"]["Depth"]
 
@@ -304,6 +311,7 @@ def main():
 	dc = data.DataController()
 	dc.set_sources(S_sources, s_sources)
 	dc.register_text_sources(text_sources)
+	dc.register_action_decorators(action_decorators)
 	w = browser.WindowController()
 	w.main()
 

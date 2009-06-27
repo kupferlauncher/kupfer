@@ -289,6 +289,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.latest_item_key = None
 		self.latest_action_key = None
 		self.text_sources = []
+		self.decorate_types = {}
 
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
@@ -307,6 +308,18 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		we register text sources """
 		print "Got text sources", srcs
 		self.text_sources.extend(srcs)
+	
+	def register_action_decorators(self, acts):
+		# assume none are dynamic for now
+		# Keep a dictionary with Leaf type as key
+		# and value actions to add
+		for act in acts:
+			applies = act.applies_to()
+			for appl_type in applies:
+				decorate_with = self.decorate_types.get(appl_type, [])
+				decorate_with.extend(act.get_actions())
+				self.decorate_types[appl_type] = decorate_with
+		print self.decorate_types
 
 	def load(self):
 		"""Load data from persistent store"""
