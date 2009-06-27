@@ -893,28 +893,3 @@ class ActionDecorator (object):
 		"""Return actions for @leaf (only passed in to dynamic decors)"""
 		return ()
 
-class CommandTextSource (TextSource):
-	"""Yield path and command text items """
-	def __init__(self):
-		TextSource.__init__(self, name=_("Text matches"))
-
-	def get_rank(self):
-		return 60
-
-	def get_items(self, text):
-		if not text:
-			return
-		# iterate over $PATH directories
-		PATH = os.environ.get("PATH") or os.defpath
-		for execdir in PATH.split(os.pathsep):
-			exepath = path.join(execdir, text)
-			if os.access(exepath, os.R_OK | os.X_OK) and path.isfile(exepath):
-				yield FileLeaf(exepath)
-				break
-
-		# Find directories or files
-		prefix = path.expanduser("~/")
-		filepath = text if path.isabs(text) else \
-				path.join(prefix, text)
-		if os.access(filepath, os.R_OK):
-			yield FileLeaf(filepath)
