@@ -17,11 +17,6 @@ def SearchTask(sender, sources, key, signal, score=True, context=None):
 
 	if @score, sort by score, else no sort
 	"""
-	#text_iter = ((unicode(leaf), leaf) for leaf in ts.get_leaves())
-	#rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
-	#rankables = itertools.chain(text_iter, rankables)
-	def make_pairs(itr):
-		return ((unicode(l), l) for l in itr)
 
 	match_iters = []
 	for src in sources:
@@ -42,8 +37,8 @@ def SearchTask(sender, sources, key, signal, score=True, context=None):
 			rankables = search.make_nosortrankables(items)
 
 		if not rank:
-			matches = search.score_objects(rankables, key)
-			matches = search.bonus_objects(matches, key)
+			scored = search.score_objects(rankables, key)
+			matches = search.bonus_objects(scored, key)
 		else:
 			# we have a given rank
 			matches = search.add_rank_objects(rankables, rank)
