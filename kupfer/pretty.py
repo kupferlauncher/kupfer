@@ -24,3 +24,17 @@ class OutputMixin (object):
 		if debug:
 			self.output_info(*items, **kwargs)
 
+def print_info(name, *items, **kwargs):
+	"""
+	Output given items using @sep as separator,
+	ending the line with @end
+	"""
+	sep = kwargs.get("sep", " ")
+	end = kwargs.get("end", "\n")
+	stritems = (str(it) for it in items)
+	output = "[%s]: %s%s" % (name, sep.join(stritems), end)
+	print output,
+
+def print_debug(name, *items, **kwargs):
+	if debug:
+		print_info(name, *items, **kwargs)
