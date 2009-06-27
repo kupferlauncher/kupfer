@@ -1,3 +1,4 @@
+import sys
 from kupfer import pretty, config
 
 sources_attribute = "__kupfer_sources__"
@@ -131,12 +132,35 @@ def get_plugin_desc():
 imported_plugins = {}
 
 def import_plugin(name):
+	"""Try to import the plugin from the package, 
+	and then from our plugin directories in $DATADIR
+	"""
 	if name in imported_plugins:
 		return imported_plugins[name]
-	path = ".".join(["kupfer", "plugin", name])
-	plugin = __import__(path, fromlist=(name,))
-	pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
-	pretty.print_debug(__name__, "  from %s" % plugin.__file__)
+	def importit(pathcomps):
+		"""@pathcomps path components to the import"""
+		path = ".".join(pathcomps)
+		fromlist = pathcomps[-1:]
+		plugin = __import__(path, fromlist=fromlist)
+		pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
+		pretty.print_debug(__name__, "  from %s" % plugin.__file__)
+		return plugin
+	try:
+		plugin = importit(("kupfer", "plugin", name))
+	except ImportError:
+		oldpath = sys.path
+		try:
+			# Look in datadir kupfer/plugins for plugins
+			# (and in current directory)
+			extra_paths = list(config.get_data_dirs("plugins"))
+			sys.path = ["",] + extra_paths
+			plugin = importit((name,))
+		except ImportError:
+			# Reraise to send this up
+			raise
+		finally:
+			sys.path = oldpath
+
 	imported_plugins[name] = plugin
 	return plugin
 
