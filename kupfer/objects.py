@@ -920,30 +920,66 @@ class TextLeaf (Leaf):
 	def get_icon_name(self):
 		return "gtk-select-all"
 
-class TextSource (Source):
-	"""Return items based on text"""
-	def __init__(self, text):
-		Source.__init__(self, name=_("Text matches"))
-		self.text = text
+class TextSource (KupferObject):
+	"""TextSource base class implementation,
 
-	def get_leaves(self):
-		if not self.text:
+	this is a psedo Source"""
+	def __init__(self, name=None):
+		if not name:
+			name = _("Text matches")
+		KupferObject.__init__(self, name)
+
+	def __eq__(self, other):
+		return (type(self) == type(other) and repr(self).__eq__(repr(other)))
+
+	def __hash__(self ):
+		return hash(repr(self))
+
+	def __repr__(self):
+		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self))
+
+	def get_rank(self):
+		return 50
+	def has_ranked_items(self):
+		"""If True, use get_ranked_items(), else get_items()"""
+		return False
+	def get_ranked_items(self, text):
+		"""Return a sequence of tuple of (item, rank)"""
+		return ()
+	def get_items(self, text):
+		return ()
+
+class BasicTextSource (TextSource):
+	"""Return a TextLeaf"""
+	def __init__(self):
+		TextSource.__init__(self, name=_("Text matches"))
+
+	def get_items(self, text):
+		if not text:
+			return
+		yield TextLeaf(text)
+
+class CommandTextSource (TextSource):
+	"""Yield path and command text items """
+	def __init__(self):
+		TextSource.__init__(self, name=_("Text matches"))
+
+	def get_rank(self):
+		return 60
+	def get_items(self, text):
+		if not text:
 			return
 		# iterate over $PATH directories
 		PATH = os.environ.get("PATH") or os.defpath
 		for execdir in PATH.split(os.pathsep):
-			exepath = path.join(execdir, self.text)
+			exepath = path.join(execdir, text)
 			if os.access(exepath, os.R_OK | os.X_OK) and path.isfile(exepath):
 				yield FileLeaf(exepath)
 				break
 
 		# Find directories or files
 		prefix = path.expanduser("~/")
-		filepath = self.text if path.isabs(self.text) else \
-				path.join(prefix, self.text)
+		filepath = text if path.isabs(text) else \
+				path.join(prefix, text)
 		if os.access(filepath, os.R_OK):
 			yield FileLeaf(filepath)
-		yield TextLeaf(self.text)
-
-	def get_description(self):
-		return _("Matches text query directly")
