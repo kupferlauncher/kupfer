@@ -344,7 +344,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def do_search(self, source, key, score=True, context=None):
 		self.search_handle = -1
 		sources = [ source ]
-		if key:
+		if key and self.is_at_source_root():
+			# Only use text sources when we are at root catalog
 			sources.extend(self.text_sources)
 		SearchTask(self, sources, key, "search-result", score=score,
 				context=context)
@@ -400,6 +401,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			raise Exception
 		else:
 			self.source = self.source_stack.pop()
+	def is_at_source_root(self):
+		"""Return True if we have no source stack"""
+		return not self.source_stack
 	
 	def refresh_data(self):
 		self.emit("new-source", self.source)
