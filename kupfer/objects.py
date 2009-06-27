@@ -73,13 +73,13 @@ class KupferObject (object):
 		return None
 
 	def get_gicon(self):
-		"""Return GIcon"""
+		"""Return GIcon, if there is one"""
 		return None
 	
 	def get_icon_name(self):
 		"""Return icon name. All items should have at least
 		a generic icon name to return. """
-		return None
+		return "gtk-file"
 
 def aslist(seq):
 	"""
