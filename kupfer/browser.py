@@ -81,7 +81,7 @@ class LeafModel (ModelBase):
 		self.info_col = 3
 		self.rank_col = 4
 		#debug
-		show_rank_col = False
+		show_rank_col = True
 
 		from pango import ELLIPSIZE_MIDDLE
 		cell = gtk.CellRendererText()
@@ -117,7 +117,7 @@ class LeafModel (ModelBase):
 
 		self.columns = [icon_col, col, info_col,]
 		if show_rank_col:
-			self.columns += nbr_col
+			self.columns += (nbr_col, )
 
 	def add(self, tupl):
 		leaf, rank = tupl
