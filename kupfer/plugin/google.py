@@ -23,11 +23,10 @@ class GoogleSearch (Action):
 		Action.__init__(self, _("Search with Google"))
 
 	def activate(self, leaf):
-		# Replace & in query
-		search_string = leaf.object.replace("&", "&amp;")
-		# Send in UTF-8 encoding
-		search_url = "http://www.google.com/search?ie=utf-8&q=%s"
-		query_url = search_url % search_string
+		from urllib import urlencode
+		search_url = "http://www.google.com/search?"
+		# will encode search=text, where `text` is escaped
+		query_url = search_url + urlencode({"q": leaf.object, "ie": "utf-8"})
 		utils.show_url(query_url)
 	def get_description(self):
 		return _("Search for this term with Google")
