@@ -911,8 +911,7 @@ class TextLeaf (Leaf):
 		Leaf.__init__(self, text, name=text)
 	
 	def get_actions(self):
-		yield TrackerSearch()
-		yield TrackerSearchHere()
+		return ()
 
 	def get_description(self):
 		return _('Text query "%s"') % self.object
@@ -948,16 +947,6 @@ class TextSource (KupferObject):
 		return ()
 	def get_items(self, text):
 		return ()
-
-class BasicTextSource (TextSource):
-	"""The most basic TextSource yields one TextLeaf"""
-	def __init__(self):
-		TextSource.__init__(self, name=_("Text matches"))
-
-	def get_items(self, text):
-		if not text:
-			return
-		yield TextLeaf(text)
 
 class CommandTextSource (TextSource):
 	"""Yield path and command text items """
