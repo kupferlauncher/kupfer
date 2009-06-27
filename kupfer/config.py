@@ -33,13 +33,6 @@ def get_data_file(filename):
 			return file_path
 	return None
 
-def get_data_home():
-	"""
-	Directory where data is to be saved
-	Guaranteed to exist
-	"""
-	return base.save_data_path(PACKAGE_NAME)
-
 def save_data_file(filename):
 	"""
 	Return filename in the XDG data home directory, where the
@@ -50,6 +43,19 @@ def save_data_file(filename):
 		return None
 	filepath = os.path.join(direc, filename)
 	return filepath
+
+def get_data_home():
+	"""
+	Directory where data is to be saved
+	Guaranteed to exist
+	"""
+	return base.save_data_path(PACKAGE_NAME)
+
+def get_data_dirs(name=""):
+	"""
+	Iterate over all data dirs of @name that exist
+	"""
+	return base.load_data_paths(os.path.join(PACKAGE_NAME, name))
 
 def get_config_file(filename):
 	"""
