@@ -948,6 +948,20 @@ class TextSource (KupferObject):
 	def get_items(self, text):
 		return ()
 
+class ActionDecorator (object):
+	"""Base class for an object assigning more actions to Leaves"""
+	def __init__(self):
+		pass
+	def applies_to(self):
+		"""return sequence of Leaf types this decorator applies to"""
+		return ()
+	def is_dynamic(self):
+		""" dynamic is ignored for now"""
+		return False
+	def get_actions(self, leaf=None):
+		"""Return actions for @leaf (only passed in to dynamic decors)"""
+		return ()
+
 class CommandTextSource (TextSource):
 	"""Yield path and command text items """
 	def __init__(self):
