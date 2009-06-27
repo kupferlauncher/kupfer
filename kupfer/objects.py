@@ -835,6 +835,18 @@ class UrlLeaf (Leaf):
 	def get_icon_name(self):
 		return "text-html"
 
+class TextLeaf (Leaf):
+	"""Represent any text"""
+	def __init__(self, text):
+		"""@text: UTF-8 encoded text this represents"""
+		Leaf.__init__(self, text, name=text)
+	
+	def get_description(self):
+		return _('Text query "%s"') % self.object
+	
+	def get_icon_name(self):
+		return "gtk-select-all"
+
 class TextSource (Source):
 	"""Return items based on text"""
 	def __init__(self, text):
@@ -858,7 +870,7 @@ class TextSource (Source):
 				path.join(prefix, self.text)
 		if os.access(filepath, os.R_OK):
 			yield FileLeaf(filepath)
+		yield TextLeaf(self.text)
 
 	def get_description(self):
-		return _("Text match items")
-
+		return _("Matches text query directly")
