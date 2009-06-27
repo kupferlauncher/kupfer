@@ -1,21 +1,13 @@
 # -*- coding: UTF-8 -*-
 
+# set up proper locale
+import locale
+
 import learn
 from relevance import score
 
-def split_at(s, seps):
-	"""
-	Split string at any char in seps (generator)
-	"""
-	last = 0
-	for i, c in enumerate(s):
-		if c in seps:
-			yield s[last:i]
-			last = i+1
-	if last == 0:
-		yield s
-	else:
-		yield s[last:]
+# to load in current locale
+locale.resetlocale()
 
 def make_rankables(itr, rank=0):
 	return (Rankable(unicode(obj), obj, rank) for obj in itr)
@@ -43,7 +35,11 @@ class Rankable (object):
 
 	def __cmp__(self, other):
 		if isinstance(other, Rankable):
-			return cmp(self._key, other._key)
+			p1 = -cmp(self.rank, other.rank)
+			p2 = 0
+			if p1 == 0 and self.rank:
+				p2 = locale.strcoll(self.value, other.value)
+			return p1 + p2
 		return -1
 	
 	def __str__(self):
@@ -133,15 +129,15 @@ def add_rank_objects(rankables, rank):
 		yield obj
 
 def score_objects(rankables, key):
-	"""Generator of @rankables that pass with a >0 rank for @key,
+	"""Return @rankables that pass with a >0 rank for @key,
 
-	rank is added to previous rank"""
-	if not key:
-		return
+	rank is added to previous rank,
+	if not @key, then all items are returned"""
+
 	for obj in rankables:
 		# Rank object
 		# And if matches, add recorded score as well
 		obj.rank += score(obj.value, key)*100
-		if obj.rank:
+		if obj.rank or not key:
 			yield obj
 

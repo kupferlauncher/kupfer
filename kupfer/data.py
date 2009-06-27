@@ -59,7 +59,8 @@ def SearchTask(sender, sources, key, signal, context=None):
 		default ordering!)
 		"""
 		return (-item.rank, item.rank and item.value)
-	matches = list(as_set_iter(sorted(itertools.chain(*match_iters), key=itemranker)))
+	matches = list(as_set_iter(itertools.chain(*match_iters)))
+	matches.sort()
 
 	if len(matches):
 		match = matches[0]
