@@ -12,6 +12,10 @@ locale.resetlocale()
 def make_rankables(itr, rank=0):
 	return (Rankable(unicode(obj), obj, rank) for obj in itr)
 
+def make_alpharankables(itr, rank=0):
+	"""make rankables that sort alphabetically"""
+	return (AlphaRankable(unicode(obj), obj, rank) for obj in itr)
+
 class Rankable (object):
 	"""
 	Rankable has an object (represented item),
@@ -30,9 +34,6 @@ class Rankable (object):
 	def __eq__(self, other):
 		return (self.object == self.object)
 
-	def _key(self):
-		return (-item.rank, item.rank and item.value)
-
 	def __cmp__(self, other):
 		if isinstance(other, Rankable):
 			p1 = -cmp(self.rank, other.rank)
@@ -47,6 +48,13 @@ class Rankable (object):
 
 	def __repr__(self):
 		return "<Rankable %s repres %s at %x>" % (str(self), repr(self.object), id(self))
+
+class AlphaRankable (Rankable):
+	"""Like rankable but sorts alphabetically"""
+	def __cmp__(self, other):
+		if isinstance(other, Rankable):
+			return locale.strcoll(self.value, other.value)
+		return -1
 
 class Search (object):
 	"""

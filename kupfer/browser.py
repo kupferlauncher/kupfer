@@ -80,7 +80,7 @@ class LeafModel (ModelBase):
 		self.val_col = 2
 		self.info_col = 3
 		self.rank_col = 4
-
+		#debug
 		show_rank_col = False
 
 		from pango import ELLIPSIZE_MIDDLE

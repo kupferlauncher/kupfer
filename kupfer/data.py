@@ -11,9 +11,11 @@ from . import config
 from . import pretty
 from . import learn
 
-def SearchTask(sender, sources, key, signal, context=None):
+def SearchTask(sender, sources, key, signal, score=True, context=None):
 	"""
 	@sources is a dict listing the inputs and how they are ranked
+
+	if @score, sort by score, else alphabetically
 	"""
 	#text_iter = ((unicode(leaf), leaf) for leaf in ts.get_leaves())
 	#rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
@@ -23,13 +25,18 @@ def SearchTask(sender, sources, key, signal, context=None):
 
 	match_iters = []
 	for rec in sources:
-		rankables = ()
+		items = ()
 		if "source" in rec:
-			rankables = search.make_rankables(rec["source"].get_leaves())
+			items = rec["source"].get_leaves()
 		elif "iter" in rec:
-			rankables = search.make_rankables(rec["iter"])
+			items = rec["iter"]
 		else:
 			raise Exception("No souce in SearchTask description")
+
+		if score:
+			rankables = search.make_rankables(items)
+		else:
+			rankables = search.make_alpharankables(items)
 		meth = rec["method"]
 		if meth is "rank":
 			matches = search.score_objects(rankables, key)
@@ -315,7 +322,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 		return ((leaf.name, leaf) for leaf in self.source.get_leaves())
 
-	def do_search(self, source, key, context):
+	def do_search(self, source, key, score=True, context=None):
 		self.search_handle = -1
 		sources = [
 			{"source": source, "method": "rank" },
@@ -323,7 +330,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if key:
 			ts = objects.TextSource(key)
 			sources.append({"source": ts, "method": "fixed", "rank": 100 })
-		SearchTask(self, sources, key, "search-result", context=context)
+		SearchTask(self, sources, key, "search-result", score=score,
+				context=context)
 
 	def search(self, key=u"", context=None):
 		"""Search: Register the search method in the event loop
@@ -337,15 +345,16 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.latest_item_key = key
 		if self.search_handle > 0:
 			gobject.source_remove(self.search_handle)
+		# @score only with nonempty key, else alphabethic
 		self.search_handle = gobject.idle_add(self.do_search, self.source,
-				key, context)
+				key, bool(key), context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = leaf.get_actions() if leaf else []
 		sources = (
 			{"iter": actions, "method": "rank" },
 		)
-		SearchTask(self, sources, key, "predicate-result", context)
+		SearchTask(self, sources, key, "predicate-result", context=context)
 
 	def search_predicate(self, item, key=u"", context=None):
 		self.do_predicate_search(item, key, context)
