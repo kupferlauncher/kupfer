@@ -246,29 +246,41 @@ def main():
 	def import_plugin(name):
 		path = ".".join(["kupfer", "plugin", name])
 		plugin = __import__(path, fromlist=(name,))
-		print "Loading plugin %s" % plugin.__name__
+		#print "Loading plugin %s" % plugin.__name__
 		return plugin
 
 	sources_attribute = "__kupfer_sources__"
-	def load_plugin_sources(plugin_name):
+	text_sources_attribute = "__kupfer_text_sources__"
+	def get_plugin_attributes(plugin_name, attrs, warn=False):
 		try:
 			plugin = import_plugin(plugin_name)
 		except ImportError, e:
 			print "Skipping module %s: %s" % (plugin_name, e)
 			return
-		try:
-			sources = getattr(plugin, sources_attribute)
-		except AttributeError, e:
-			print "Plugin %s: %s" % (plugin_name, e)
+		for attr in attrs:
+			try:
+				obj = getattr(plugin, attr)
+			except AttributeError, e:
+				if warn:
+					print "Plugin %s: %s" % (plugin_name, e)
+				yield None
+			else:
+				yield obj
+
+	def load_plugin_sources(plugin_name, attr=sources_attribute):
+		(sources,) = get_plugin_attributes(plugin_name, (attr,))
+		if not sources:
 			return
-		for source_name in sources:
-			source = getattr(plugin, source_name)
+		for source in get_plugin_attributes(plugin_name, sources, warn=True):
 			yield source()
 
+	text_sources = []
 	for item in source_config["Plugins"]["Catalog"]:
 		s_sources.extend(load_plugin_sources(item))
+		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 	for item in source_config["Plugins"]["Direct"]:
 		S_sources.extend(load_plugin_sources(item))
+		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 
 	dir_depth = source_config["DeepDirectories"]["Depth"]
 
@@ -291,6 +303,7 @@ def main():
 
 	dc = data.DataController()
 	dc.set_sources(S_sources, s_sources)
+	dc.register_text_sources(text_sources)
 	w = browser.WindowController()
 	w.main()
 
