@@ -651,6 +651,10 @@ class Interface (gobject.GObject):
 				tabkey, backsp, esckey) = (65362, 65364, 65363,
 				65361, 65289, 65288, 65307)
 
+		# test for alt modifier (MOD1_MASK is alt/option)
+		modifiers = gtk.accelerator_get_default_mod_mask()
+		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
+
 		if keyv not in sensible:
 			# exit if not handled
 			return False
@@ -669,7 +673,7 @@ class Interface (gobject.GObject):
 		elif keyv in (larrow, rarrow, backsp):
 			match = self.search.get_current()
 			if (keyv == rarrow and match):
-				self._browse_down(match)
+				self._browse_down(match, alternate=mod1_mask)
 			elif keyv in (larrow, backsp):
 				# larrow or backspace will erase or go up
 				if not match and self.search.get_match_state() is State.Wait:
@@ -743,8 +747,8 @@ class Interface (gobject.GObject):
 	def _browse_up(self, match):
 		self.data_controller.browse_up()
 	
-	def _browse_down(self, match):
-		self.data_controller.browse_down(match)
+	def _browse_down(self, match, alternate=False):
+		self.data_controller.browse_down(match, alternate)
 
 	def _activate(self, widget, current):
 		act = self.action.get_current()

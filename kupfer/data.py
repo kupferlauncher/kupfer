@@ -418,12 +418,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.source_rebase(self.source.get_parent())
 		self.refresh_data()
 	
-	def browse_down(self, leaf):
+	def browse_down(self, leaf, alternate=False):
 		"""Browse into @leaf if it's possible
-		and save away the previous sources in the stack"""
+		and save away the previous sources in the stack
+		if @alternate, use the Source's alternate method"""
 		if not leaf.has_content():
 			return
-		self.push_source(leaf.content_source())
+		self.push_source(leaf.content_source(alternate=alternate))
 		self.refresh_data()
 
 	def reset(self):
