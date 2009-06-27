@@ -226,9 +226,12 @@ def main():
 
 	from . import browser, data
 	from . import objects, plugin
+	from . import pretty
 
 	get_options()
 	print_banner()
+	if _debug:
+		pretty.debug = _debug
 
 	s_sources = []
 	S_sources = []
@@ -242,11 +245,15 @@ def main():
 		return objects.FileSource((abs,), depth)
 
 	source_config = get_config()
+	imported_plugins = {}
 
 	def import_plugin(name):
+		if name in imported_plugins:
+			return imported_plugins[name]
 		path = ".".join(["kupfer", "plugin", name])
 		plugin = __import__(path, fromlist=(name,))
-		#print "Loading plugin %s" % plugin.__name__
+		pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
+		imported_plugins[name] = plugin
 		return plugin
 
 	sources_attribute = "__kupfer_sources__"
@@ -256,14 +263,14 @@ def main():
 		try:
 			plugin = import_plugin(plugin_name)
 		except ImportError, e:
-			print "Skipping module %s: %s" % (plugin_name, e)
+			pretty.print_info(__name__, "Skipping module %s: %s" % (plugin_name, e))
 			return
 		for attr in attrs:
 			try:
 				obj = getattr(plugin, attr)
 			except AttributeError, e:
 				if warn:
-					print "Plugin %s: %s" % (plugin_name, e)
+					pretty.print_info(__name__, "Plugin %s: %s" % (plugin_name, e))
 				yield None
 			else:
 				yield obj
@@ -273,6 +280,8 @@ def main():
 		if not sources:
 			return
 		for source in get_plugin_attributes(plugin_name, sources, warn=True):
+			pretty.print_debug(__name__, "Found %s.%s" % ( source.__module__,
+				source.__name__))
 			yield source()
 
 	text_sources = []
@@ -301,12 +310,7 @@ def main():
 		S_sources.append(file_source(item, dir_depth))
 	
 	if not S_sources and not s_sources:
-		print "No sources"
-		raise SystemExit(1)
-
-	if _debug:
-		from . import pretty
-		pretty.debug = _debug
+		print pretty.print_info(__name__, "No sources found!")
 
 	dc = data.DataController()
 	dc.set_sources(S_sources, s_sources)
