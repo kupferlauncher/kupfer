@@ -7,6 +7,7 @@ import itertools
 import signal
 
 from .data import DataController
+from . import pretty
 
 
 # State Constants
@@ -80,8 +81,9 @@ class LeafModel (ModelBase):
 		self.val_col = 2
 		self.info_col = 3
 		self.rank_col = 4
-		#debug
-		show_rank_col = True
+
+		# only show in debug mode
+		show_rank_col = pretty.debug
 
 		from pango import ELLIPSIZE_MIDDLE
 		cell = gtk.CellRendererText()
