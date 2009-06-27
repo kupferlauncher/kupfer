@@ -366,7 +366,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				key, bool(key), context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
-		actions = leaf.get_actions() if leaf else []
+		actions = list(leaf.get_actions()) if leaf else []
+		if leaf and type(leaf) in self.decorate_types:
+			# FIXME: We ignore subclasses for now ("in" above)
+			actions.extend(self.decorate_types[type(leaf)])
+
 		sources = (actions, )
 		SearchTask(self, sources, key, "predicate-result", context=context)
 
