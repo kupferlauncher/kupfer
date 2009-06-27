@@ -905,7 +905,7 @@ class TrackerQuerySource (Source):
 		return "tracker"
 
 class TextLeaf (Leaf):
-	"""Represent any text"""
+	"""Represent a text query"""
 	def __init__(self, text):
 		"""@text: UTF-8 encoded text this represents"""
 		Leaf.__init__(self, text, name=text)
@@ -950,7 +950,7 @@ class TextSource (KupferObject):
 		return ()
 
 class BasicTextSource (TextSource):
-	"""Return a TextLeaf"""
+	"""The most basic TextSource yields one TextLeaf"""
 	def __init__(self):
 		TextSource.__init__(self, name=_("Text matches"))
 
@@ -966,6 +966,7 @@ class CommandTextSource (TextSource):
 
 	def get_rank(self):
 		return 60
+
 	def get_items(self, text):
 		if not text:
 			return
