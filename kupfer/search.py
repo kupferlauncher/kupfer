@@ -15,6 +15,9 @@ def make_rankables(itr, rank=0):
 def make_alpharankables(itr, rank=0):
 	"""make rankables that sort alphabetically"""
 	return (AlphaRankable(unicode(obj), obj, rank) for obj in itr)
+def make_nosortrankables(itr, rank=0):
+	"""make rankables that do not sort """
+	return (NoSortRankable(unicode(obj), obj, rank) for obj in itr)
 
 class Rankable (object):
 	"""
@@ -54,6 +57,12 @@ class AlphaRankable (Rankable):
 	def __cmp__(self, other):
 		if isinstance(other, Rankable):
 			return locale.strcoll(self.value, other.value)
+		return -1
+class NoSortRankable (Rankable):
+	"""Like rankable but all items equal"""
+	def __cmp__(self, other):
+		if isinstance(other, Rankable):
+			return 0
 		return -1
 
 class Search (object):

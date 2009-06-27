@@ -15,7 +15,7 @@ def SearchTask(sender, sources, key, signal, score=True, context=None):
 	"""
 	@sources is a dict listing the inputs and how they are ranked
 
-	if @score, sort by score, else alphabetically
+	if @score, sort by score, else no sort
 	"""
 	#text_iter = ((unicode(leaf), leaf) for leaf in ts.get_leaves())
 	#rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
@@ -36,7 +36,7 @@ def SearchTask(sender, sources, key, signal, score=True, context=None):
 		if score:
 			rankables = search.make_rankables(items)
 		else:
-			rankables = search.make_alpharankables(items)
+			rankables = search.make_nosortrankables(items)
 		meth = rec["method"]
 		if meth is "rank":
 			matches = search.score_objects(rankables, key)

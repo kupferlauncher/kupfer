@@ -12,6 +12,7 @@ Released under GNU General Public License v3 (or any later version)
 import itertools
 from os import path
 import os
+import locale
 
 import gobject
 import gio
@@ -727,7 +728,10 @@ class DirectorySource (Source):
 			for file in files:
 				yield ConstructFileLeaf(file)
 
-		return file_leaves(dirlist)
+		# Make sure this is an ordered list!
+		# sort in locale order
+		locale_cmp = lambda s, o: locale.strcoll(unicode(s), unicode(o))
+		return sorted(file_leaves(dirlist), cmp=locale_cmp)
 
 	def _setup_change_monitor(self):
 		gfile = gio.File(self.directory)
