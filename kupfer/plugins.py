@@ -1,4 +1,4 @@
-from kupfer import pretty
+from kupfer import pretty, config
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
@@ -7,8 +7,6 @@ action_decorators_attribute = "__kupfer_action_decorator__"
 def get_config():
 	import ConfigParser
 	import os, sys
-
-	from kupfer import config
 
 	config_filename = "kupfer.cfg"
 	defaults_filename = "defaults.cfg"
@@ -138,6 +136,7 @@ def import_plugin(name):
 	path = ".".join(["kupfer", "plugin", name])
 	plugin = __import__(path, fromlist=(name,))
 	pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
+	pretty.print_debug(__name__, "  from %s" % plugin.__file__)
 	imported_plugins[name] = plugin
 	return plugin
 
@@ -158,7 +157,8 @@ def get_plugin_attributes(plugin_name, attrs, warn=False):
 			yield obj
 
 def load_plugin_sources(plugin_name, attr=sources_attribute):
-	(sources,) = get_plugin_attributes(plugin_name, (attr,))
+	attrs = tuple(get_plugin_attributes(plugin_name, (attr,)))
+	sources, = (attrs if attrs else (None, ))
 	if not sources:
 		return
 	for source in get_plugin_attributes(plugin_name, sources, warn=True):
