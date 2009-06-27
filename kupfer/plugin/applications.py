@@ -1,3 +1,5 @@
+import xdg
+
 from kupfer.objects import Source, AppLeaf
 
 __kupfer_sources__ = ("AppSource", )
@@ -17,20 +19,25 @@ class AppSource (Source):
 	
 	def get_items(self):
 		from gio import app_info_get_all
+		import xdg.BaseDirectory as base
+		import xdg.DesktopEntry as desk
 		# Choosing only item.should_show() items misses all Preference applets
 		# so we use a slight heurestic
-		taken = set()
+		whitelist = ["nautilus-cd-burner.desktop"]
 		for item in app_info_get_all():
-			if item.should_show():
+			if item.should_show() or item.get_id() in whitelist:
 				yield AppLeaf(item)
-				taken.add(item.get_executable())
-		# Re-run and take some more
-		for item in app_info_get_all():
-			if (not item.should_show() and item.get_executable() not in taken
-					and (not item.supports_files() and not
-						item.supports_uris())):
-				yield AppLeaf(item)
-				taken.add(item.get_executable())
+			else:
+				# Use Desktop file API to read its categories
+				loc = list(base.load_data_paths("applications", item.get_id()))
+				if not loc:
+					print "No LOCATION FOUND for", item
+					continue
+				loc = loc[0]
+				de = desk.DesktopEntry(loc)
+				categories = de.getCategories()
+				if "Settings" in categories and not de.getNoDisplay():
+					yield AppLeaf(item)
 
 	def get_description(self):
 		return _("All applications and preferences")
