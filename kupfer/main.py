@@ -53,9 +53,9 @@ def get_plugins():
 		desc = plugin.get("__description__", _("(no description)"))
 		vers = plugin.get("__version__", "")
 		author = plugin.get("__author__", "")
-		sources = plugin.get("__kupfer_sources__", ())
+		sources = plugin.get("__kupfer_sources__", None)
 		# skip "empty" plugins
-		if not sources:
+		if sources is None:
 			continue
 		yield {
 			"name": plugin_name,
