@@ -1,11 +1,12 @@
 import gobject
 
-from kupfer.objects import Action, Source
-from kupfer.objects import TextLeaf, ActionDecorator, ConstructFileLeaf
+from kupfer.objects import Action, Source, Leaf
+from kupfer.objects import (TextLeaf, ActionDecorator, ConstructFileLeaf,
+		SourceLeaf)
 from kupfer import utils, pretty
 
 
-__kupfer_sources__ = ()
+__kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
 __kupfer_action_decorator__ = ("TrackerDecorator", )
 __description__ = _("Tracker desktop search integration")
@@ -86,4 +87,45 @@ class TrackerQuerySource (Source):
 		return _('Results for query "%s"') % self.query
 	def get_icon_name(self):
 		return "tracker"
+
+def get_tracker_tags():
+	from os import popen
+	output = popen("tracker-tag --list").readlines()
+	for tagline in output[1:]:
+		tag, count = tagline.rsplit(",", 1)
+		tag = tag.strip()
+		yield tag
+
+def get_tracker_tag_items(tag):
+	from os import popen
+	output = popen("tracker-tag -s '%s'" % tag).readlines()
+	for tagline in output[1:]:
+		yield tagline.strip()
+
+class TrackerTagsSource (Source):
+	"""Browse items tagged in Tracker"""
+	def __init__(self):
+		Source.__init__(self, _("Tracker tags"))
+	def get_items(self):
+		for tag in get_tracker_tags():
+			ts = TrackerTagObjectsSource(tag)
+			yield SourceLeaf(ts, str(ts))
+	def get_description(self):
+		return _("Browse Tracker's tags")
+	def get_icon_name(self):
+		return "tracker"
+
+class TrackerTagObjectsSource (Source):
+	"""This source shows all items of one tracker tag"""
+	def __init__(self, tag):
+		Source.__init__(self, _("Tag %s") % tag)
+		self.tag = tag
+	def is_dynamic(self):
+		return True
+	def get_items(self):
+		return (ConstructFileLeaf(f) for f in get_tracker_tag_items(self.tag))
+	def get_description(self):
+		return _("Objects tagged %s with Tracker") % self.tag
+	def get_icon_name(self):
+		return "user-bookmarks"
 
