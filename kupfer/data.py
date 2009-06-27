@@ -293,6 +293,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		self.latest_item_key = None
 		self.latest_action_key = None
+		self.text_sources = []
 
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
@@ -304,6 +305,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 		self.direct_sources = set(S_sources)
 		self.other_sources = set(s_sources) - set(S_sources)
+
+	def register_text_sources(self, srcs):
+		"""Pass in text sources as @srcs
+
+		we register text sources """
+		print "Got text sources", srcs
+		self.text_sources.extend(srcs)
 
 	def load(self):
 		"""Load data from persistent store"""
@@ -329,8 +337,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.search_handle = -1
 		sources = [ source ]
 		if key:
-			ts = objects.BasicTextSource()
-			sources.append(ts)
+			sources.extend(self.text_sources)
 		SearchTask(self, sources, key, "search-result", score=score,
 				context=context)
 
