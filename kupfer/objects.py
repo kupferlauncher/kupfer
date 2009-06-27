@@ -123,7 +123,9 @@ class Leaf (KupferObject):
 	def has_content(self):
 		return False
 	
-	def content_source(self):
+	def content_source(self, alternate=False):
+		"""Content of leaf. it MAY alter behavior with @alternate,
+		as easter egg/extra mode"""
 		raise NoContent
 
 	def get_actions(self):
@@ -232,9 +234,9 @@ class FileLeaf (Leaf):
 	def has_content(self):
 		return path.isdir(self.object)
 
-	def content_source(self):
+	def content_source(self, alternate=False):
 		if self.has_content():
-			return DirectorySource(self.object)
+			return DirectorySource(self.object, show_hidden=alternate)
 		else:
 			return Leaf.content_source(self)
 
@@ -271,7 +273,7 @@ class SourceLeaf (Leaf):
 		if not self.object.is_dynamic():
 			yield RescanSource()
 
-	def content_source(self):
+	def content_source(self, alternate=False):
 		return self.object
 
 	def get_description(self):
@@ -701,14 +703,15 @@ class FileSource (Source):
 		return "folder-saved-search"
 
 class DirectorySource (Source):
-	def __init__(self, dir):
+	def __init__(self, dir, show_hidden=False):
 		name = path.basename(dir) or dir
 		super(DirectorySource, self).__init__(name)
 		self.directory = dir
+		self.show_hidden = show_hidden
 		self._setup_change_monitor()
 
 	def __repr__(self):
-		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self.directory))
+		return "%s.%s(\"%s\", show_hidden=%s)" % (self.__class__.__module__, self.__class__.__name__, str(self.directory), self.show_hidden)
 
 	def __getstate__(self):
 		"""Custom pickling routines """
@@ -723,7 +726,8 @@ class DirectorySource (Source):
 		self._setup_change_monitor()
 
 	def get_items(self):
-		dirlist = utils.get_dirlist(self.directory, exclude=lambda f: f.startswith("."))
+		exclude = lambda f: f.startswith(".") if not self.show_hidden else None
+		dirlist = utils.get_dirlist(self.directory, exclude=exclude)
 		def file_leaves(files):
 			for file in files:
 				yield ConstructFileLeaf(file)
