@@ -89,14 +89,14 @@ def get_plugin_info():
 	from kupfer import plugin
 	import os
 
-	def import_plugin(name):
-		path = ".".join(["kupfer", "plugin", name])
-		plugin = __import__(path, fromlist=(name,))
-		return plugin
-	plugin_dir = plugin.__path__[0]
 	plugin_files = set()
-	for dirpath, dirs, files in os.walk(plugin_dir):
-		del dirs[:]
+	main_plugin_dir = plugin.__path__[0]
+	all_plugin_dirs = [main_plugin_dir,]
+	all_plugin_dirs.extend(config.get_data_dirs("plugins"))
+	for plugin_dir in all_plugin_dirs:
+		for dirpath, dirs, files in os.walk(plugin_dir):
+			del dirs[:]
+		# @files leaks out from "loop" above
 		for f in files:
 			basename = os.path.splitext(f)[0]
 			if basename != "__init__" and not basename.endswith("_support"):
