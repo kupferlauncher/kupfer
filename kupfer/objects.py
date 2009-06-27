@@ -885,7 +885,12 @@ class TrackerQuerySource (Source):
 		# (i) live_query_id, (s) service, (s) search_text,
 		# (i) offset, (i) max_hits
 		# Returns array of strings for results
-		file_hits = searchobj.Text(1, "Files", self.query, 0, self.max_items)
+		try:
+			file_hits = searchobj.Text(1, "Files", self.query, 0, self.max_items)
+		except dbus.DBusException:
+			print "Tracker not found on bus"
+			return
+
 		for filestr in file_hits:
 			# A bit of encoding carousel
 			# dbus strings are subclasses of unicode
