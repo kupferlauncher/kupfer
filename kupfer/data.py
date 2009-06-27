@@ -24,25 +24,28 @@ def SearchTask(sender, sources, key, signal, score=True, context=None):
 		return ((unicode(l), l) for l in itr)
 
 	match_iters = []
-	for rec in sources:
+	for src in sources:
 		items = ()
-		if "source" in rec:
-			items = rec["source"].get_leaves()
-		elif "iter" in rec:
-			items = rec["iter"]
+		rank = 0
+		if isinstance(src, objects.Source):
+			items = src.get_leaves()
+		elif isinstance(src, objects.TextSource):
+			items = src.get_items(key)
+			rank = src.get_rank()
 		else:
-			raise Exception("No souce in SearchTask description")
+			items = src
+		#raise Exception("No souce in SearchTask description")
 
 		if score:
 			rankables = search.make_rankables(items)
 		else:
 			rankables = search.make_nosortrankables(items)
-		meth = rec["method"]
-		if meth is "rank":
+
+		if not rank:
 			matches = search.score_objects(rankables, key)
 			matches = search.bonus_objects(matches, key)
-		elif meth is "fixed":
-			rank = rec["rank"]
+		else:
+			# we have a given rank
 			matches = search.add_rank_objects(rankables, rank)
 
 		match_iters.append(matches)
@@ -324,12 +327,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def do_search(self, source, key, score=True, context=None):
 		self.search_handle = -1
-		sources = [
-			{"source": source, "method": "rank" },
-		]
+		sources = [ source ]
 		if key:
-			ts = objects.TextSource(key)
-			sources.append({"source": ts, "method": "fixed", "rank": 100 })
+			ts = objects.BasicTextSource()
+			sources.append(ts)
 		SearchTask(self, sources, key, "search-result", score=score,
 				context=context)
 
@@ -351,9 +352,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = leaf.get_actions() if leaf else []
-		sources = (
-			{"iter": actions, "method": "rank" },
-		)
+		sources = (actions, )
 		SearchTask(self, sources, key, "predicate-result", context=context)
 
 	def search_predicate(self, item, key=u"", context=None):
