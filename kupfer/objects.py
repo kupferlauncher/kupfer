@@ -825,7 +825,7 @@ class MultiSource (Source):
 class UrlLeaf (Leaf):
 	def __init__(self, obj, name):
 		super(UrlLeaf, self).__init__(obj, name)
-	
+
 	def get_actions(self):
 		return (OpenUrl(), )
 
@@ -842,6 +842,52 @@ class TrackerSearch (Action):
 	def activate(self, leaf):
 		utils.launch_commandline("tracker-search-tool %s" % leaf.object)
 
+class TrackerSearchHere (Action):
+	def __init__(self):
+		Action.__init__(self, _("Query Tracker..."))
+
+	def is_factory(self):
+		return True
+
+	def activate(self, leaf):
+		return TrackerQuerySource(leaf.object)
+
+class TrackerQuerySource (Source):
+	def __init__(self, query):
+		Source.__init__(self, name=_('Tracker query "%s"') % query)
+		self.query = query
+		self.max_items = 50
+
+	def get_items(self):
+		try:
+			import dbus
+		except ImportError:
+			print "Dbus not available!"
+			return
+		bus = dbus.SessionBus()
+		try:
+			searchobj = bus.get_object("org.freedesktop.Tracker",
+					"/org/freedesktop/Tracker/Search")
+		except dbus.DBusException:
+			print "Tracker not found on bus"
+			return
+
+		# Text interface
+		# (i) live_query_id, (s) service, (s) search_text,
+		# (i) offset, (i) max_hits
+		# Returns array of strings for results
+		file_hits = searchobj.Text(1, "Files", self.query, 0, self.max_items)
+		for filestr in file_hits:
+			# A bit of encoding carousel
+			# dbus strings are subclasses of unicode
+			# but FileLeaf expects a filesystem encoded object
+			bytes = filestr.decode("UTF-8", "replace")
+			filename = gobject.filename_from_utf8(bytes)
+			yield ConstructFileLeaf(filename)
+
+	def get_icon_name(self):
+		return "tracker"
+
 class TextLeaf (Leaf):
 	"""Represent any text"""
 	def __init__(self, text):
@@ -850,6 +896,7 @@ class TextLeaf (Leaf):
 	
 	def get_actions(self):
 		yield TrackerSearch()
+		yield TrackerSearchHere()
 
 	def get_description(self):
 		return _('Text query "%s"') % self.object
