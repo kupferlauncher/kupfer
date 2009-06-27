@@ -835,15 +835,25 @@ class UrlLeaf (Leaf):
 	def get_icon_name(self):
 		return "text-html"
 
+class TrackerSearch (Action):
+	def __init__(self):
+		Action.__init__(self, _("Search in Tracker"))
+
+	def activate(self, leaf):
+		utils.launch_commandline("tracker-search-tool %s" % leaf.object)
+
 class TextLeaf (Leaf):
 	"""Represent any text"""
 	def __init__(self, text):
 		"""@text: UTF-8 encoded text this represents"""
 		Leaf.__init__(self, text, name=text)
 	
+	def get_actions(self):
+		yield TrackerSearch()
+
 	def get_description(self):
 		return _('Text query "%s"') % self.object
-	
+
 	def get_icon_name(self):
 		return "gtk-select-all"
 
