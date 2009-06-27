@@ -810,7 +810,7 @@ class MultiSource (Source):
 			it = so.get_leaves()
 			iterators.append(it)
 
-		return as_set_iter(itertools.chain(*iterators))
+		return itertools.chain(*iterators)
 
 	def get_description(self):
 		return _("Root catalog")
@@ -837,7 +837,7 @@ class TextSource (Source):
 		Source.__init__(self, name=_("Text matches"))
 		self.text = text
 
-	def get_items(self):
+	def get_leaves(self):
 		if not self.text:
 			return
 		# iterate over $PATH directories

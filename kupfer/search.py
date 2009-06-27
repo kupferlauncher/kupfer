@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import learn
+from relevance import score
 
 def split_at(s, seps):
 	"""
@@ -15,6 +16,9 @@ def split_at(s, seps):
 		yield s
 	else:
 		yield s[last:]
+
+def make_rankables(itr, rank=0):
+	return (Rankable(unicode(obj), obj, rank) for obj in itr)
 
 class Rankable (object):
 	"""
@@ -33,6 +37,14 @@ class Rankable (object):
 
 	def __eq__(self, other):
 		return (self.object == self.object)
+
+	def _key(self):
+		return (-item.rank, item.rank and item.value)
+
+	def __cmp__(self, other):
+		if isinstance(other, Rankable):
+			return cmp(self._key, other._key)
+		return -1
 	
 	def __str__(self):
 		return "%s: %s" % (self.rank, self.value)
@@ -77,7 +89,7 @@ class Search (object):
 			for obj in objects:
 				obj.rank = learn.get_record_score(obj.value, key)
 				yield obj
-
+	
 	def search_objects(self, key):
 		"""
 		key -- string key
@@ -106,3 +118,30 @@ class Search (object):
 		self.old_list = list(sorted(self.rank_objects(search_base, key), key=itemranker))
 		return self.old_list
 	
+def bonus_objects(rankables, key):
+	"""generator of @rankables that have mnemonics for @key
+
+	rank is added to prev rank, all items are yielded"""
+	get_record_score = learn.get_record_score
+	for obj in rankables:
+		obj.rank += get_record_score(obj.value, key)
+		yield obj
+
+def add_rank_objects(rankables, rank):
+	for obj in rankables:
+		obj.rank += rank
+		yield obj
+
+def score_objects(rankables, key):
+	"""Generator of @rankables that pass with a >0 rank for @key,
+
+	rank is added to previous rank"""
+	if not key:
+		return
+	for obj in rankables:
+		# Rank object
+		# And if matches, add recorded score as well
+		obj.rank += score(obj.value, key)*100
+		if obj.rank:
+			yield obj
+

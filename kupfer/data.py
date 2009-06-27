@@ -18,22 +18,26 @@ def SearchTask(sender, sources, key, signal, context=None):
 	#text_iter = ((unicode(leaf), leaf) for leaf in ts.get_leaves())
 	#rankables = ((unicode(leaf), leaf) for leaf in source.get_leaves())
 	#rankables = itertools.chain(text_iter, rankables)
+	def make_pairs(itr):
+		return ((unicode(l), l) for l in itr)
+
 	match_iters = []
 	for rec in sources:
 		rankables = ()
 		if "source" in rec:
-			rankables = ((unicode(l), l) for l in rec["source"].get_leaves())
+			rankables = search.make_rankables(rec["source"].get_leaves())
 		elif "iter" in rec:
-			rankables = ((unicode(l), l) for l in rec["iter"])
+			rankables = search.make_rankables(rec["iter"])
 		else:
 			raise Exception("No souce in SearchTask description")
 		meth = rec["method"]
 		if meth is "rank":
-			sobj = search.Search(rankables)
-			matches = sobj.search_objects(key)
+			matches = search.score_objects(rankables, key)
+			matches = search.bonus_objects(matches, key)
 		elif meth is "fixed":
 			rank = rec["rank"]
-			matches = (search.Rankable(val, obj, rank) for val, obj in rankables)
+			matches = search.add_rank_objects(rankables, rank)
+
 		match_iters.append(matches)
 	
 	def as_set_iter(seq):
@@ -41,10 +45,11 @@ def SearchTask(sender, sources, key, signal, context=None):
 		but no duplicates
 		"""
 		coll = set()
+		getobj = lambda o: o.object if hasattr(o, "object") else None
 		for obj in seq:
-			if obj not in coll:
+			if getobj(obj) not in coll:
 				yield obj
-				coll.add(obj)
+				coll.add(getobj(obj))
 
 	def itemranker(item):
 		"""
