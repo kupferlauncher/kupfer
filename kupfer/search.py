@@ -135,6 +135,7 @@ def bonus_objects(rankables, key):
 	"""generator of @rankables that have mnemonics for @key
 
 	rank is added to prev rank, all items are yielded"""
+	key = key.lower()
 	get_record_score = learn.get_record_score
 	for obj in rankables:
 		obj.rank += get_record_score(obj.value, key)
@@ -150,7 +151,7 @@ def score_objects(rankables, key):
 
 	rank is added to previous rank,
 	if not @key, then all items are returned"""
-
+	key = key.lower()
 	for obj in rankables:
 		# Rank object
 		# And if matches, add recorded score as well
