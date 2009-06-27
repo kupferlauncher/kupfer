@@ -841,6 +841,10 @@ class TrackerSearch (Action):
 
 	def activate(self, leaf):
 		utils.launch_commandline("tracker-search-tool %s" % leaf.object)
+	def get_description(self):
+		return _("Open tracker to search for this term")
+	def get_icon_name(self):
+		return "search"
 
 class TrackerSearchHere (Action):
 	def __init__(self):
