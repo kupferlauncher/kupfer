@@ -306,7 +306,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Pass in text sources as @srcs
 
 		we register text sources """
-		print "Got text sources", srcs
 		self.text_sources.extend(srcs)
 	
 	def register_action_decorators(self, acts):
@@ -319,7 +318,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				decorate_with = self.decorate_types.get(appl_type, [])
 				decorate_with.extend(act.get_actions())
 				self.decorate_types[appl_type] = decorate_with
-		print self.decorate_types
 
 	def load(self):
 		"""Load data from persistent store"""
