@@ -852,9 +852,14 @@ class TrackerSearchHere (Action):
 	def activate(self, leaf):
 		return TrackerQuerySource(leaf.object)
 
+	def get_description(self):
+		return _("Show Tracker results for query")
+	def get_icon_name(self):
+		return "tracker"
+
 class TrackerQuerySource (Source):
 	def __init__(self, query):
-		Source.__init__(self, name=_('Tracker query "%s"') % query)
+		Source.__init__(self, name=_('Tracker query'))
 		self.query = query
 		self.max_items = 50
 
@@ -885,6 +890,8 @@ class TrackerQuerySource (Source):
 			filename = gobject.filename_from_utf8(bytes)
 			yield ConstructFileLeaf(filename)
 
+	def get_description(self):
+		return _('Results for query "%s"') % self.query
 	def get_icon_name(self):
 		return "tracker"
 
