@@ -1,6 +1,6 @@
 from kupfer.objects import Leaf, Action, Source
 from kupfer import objects, utils
-from kupfer.plugin import about
+from kupfer.plugin import about_support
 
 import gtk
 
@@ -89,7 +89,7 @@ class About (RunnableLeaf):
 		if not name: name = _("About Kupfer")
 		super(About, self).__init__(name=name)
 	def run(self):
-		about.show_about_dialog()
+		about_support.show_about_dialog()
 	def get_description(self):
 		return _("Show information about Kupfer authors and license")
 	def get_icon_name(self):
