@@ -497,7 +497,7 @@ class Search (gtk.Bin):
 		self.model.clear()
 		if not matchrankable:
 			self.set_match(None)
-			return self.handle_no_matches()
+			return self.handle_no_matches(empty=not key)
 		match = matchrankable.object
 		self.text = key
 		self.set_match(match)
@@ -531,10 +531,11 @@ class Search (gtk.Bin):
 		# first.object is a leaf
 		return first
 	
-	def handle_no_matches(self):
-		dum = self.dummy
+	def handle_no_matches(self, empty=False):
+		"""if @empty, there were no matches to find"""
+		name, icon = self.get_nomatch_name_icon(empty=empty)
 		self.match_state = State.NoMatch
-		self.match_view.set_match_state(unicode(dum), dum.get_icon(), state=State.NoMatch)
+		self.match_view.set_match_state(name, icon, state=State.NoMatch)
 	
 	def set_active(self, act):
 		self.active = act
@@ -558,6 +559,13 @@ class LeafSearch (Search):
 		from objects import DummyLeaf
 		self.dummy = DummyLeaf()
 		super(LeafSearch, self).__init__(**kwargs)
+	def get_nomatch_name_icon(self, empty):
+		if empty and self.source:
+			return _("%s is empty") % self.source, self.source.get_icon()
+		elif self.source:
+			return _("No matches in %s") % self.source, self.source.get_icon()
+		else:
+			return unicode(self.dummy), self.dummy.get_icon()
 	def setup_empty(self):
 		icon = None
 		title = _("Searching...")
@@ -577,6 +585,8 @@ class ActionSearch (Search):
 		from objects import DummyAction
 		self.dummy = DummyAction()
 		super(ActionSearch, self).__init__(**kwargs)
+	def get_nomatch_name_icon(self, empty=False):
+		return unicode(self.dummy), self.dummy.get_icon()
 	def setup_empty(self):
 		self.handle_no_matches()
 		self._hide_table()
