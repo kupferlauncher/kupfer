@@ -17,16 +17,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: kupfer/browser.py:562
+#: kupfer/browser.py:564
+#, python-format
+msgid "%s is empty"
+msgstr "%s är tom"
+
+#: kupfer/browser.py:566
+#, python-format
+msgid "No matches in %s"
+msgstr "Inga träffar i %s"
+
+#: kupfer/browser.py:571
 msgid "Searching..."
 msgstr "Söker..."
 
-#: kupfer/browser.py:565
+#: kupfer/browser.py:574
 #, python-format
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
 
-#: kupfer/browser.py:834 kupfer/browser.py:854 kupfer/version.py:15
+#: kupfer/browser.py:845 kupfer/browser.py:865 kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
@@ -77,10 +87,6 @@ msgstr ""
 #: kupfer/objects.py:139
 msgid "No matches"
 msgstr "Inga träffar"
-
-#: kupfer/objects.py:223
-msgid "Execute in Terminal"
-msgstr "Kör i terminalfönster"
 
 #: kupfer/objects.py:332
 #, python-format
@@ -137,75 +143,79 @@ msgstr "Starta"
 msgid "Launch application"
 msgstr "Starta program"
 
-#: kupfer/objects.py:525
+#: kupfer/objects.py:524
 msgid "Execute"
 msgstr "Kör"
 
-#: kupfer/objects.py:536
+#: kupfer/objects.py:524
+msgid "Execute in Terminal"
+msgstr "Kör i terminalfönster"
+
+#: kupfer/objects.py:535
 msgid "Execute this object in a Terminal"
 msgstr "Kör objekt i terminalfönster"
 
-#: kupfer/objects.py:538
+#: kupfer/objects.py:537
 msgid "Execute this object"
 msgstr "Kör objekt"
 
-#: kupfer/objects.py:550
+#: kupfer/objects.py:549
 msgid "Search content..."
 msgstr "Sök i..."
 
-#: kupfer/objects.py:561
+#: kupfer/objects.py:560
 msgid "Search inside this catalog"
 msgstr "Sök bland objekt i katalogen"
 
-#: kupfer/objects.py:571
+#: kupfer/objects.py:570
 msgid "Rescan"
 msgstr "Uppdatera"
 
-#: kupfer/objects.py:584
+#: kupfer/objects.py:583
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
-#: kupfer/objects.py:595
+#: kupfer/objects.py:594
 msgid "No action"
 msgstr "Inget kommando"
 
-#: kupfer/objects.py:673
+#: kupfer/objects.py:672
 #, python-format
 msgid "%s et al"
 msgstr "%s et al"
 
-#: kupfer/objects.py:699
+#: kupfer/objects.py:698
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: kupfer/objects.py:770
+#: kupfer/objects.py:769
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: kupfer/objects.py:783
+#: kupfer/objects.py:782
 msgid "Catalog of Catalogs"
 msgstr "Katalogindex"
 
-#: kupfer/objects.py:794
+#: kupfer/objects.py:793
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: kupfer/objects.py:805
+#: kupfer/objects.py:804
 msgid "Catalog"
 msgstr "Katalog"
 
-#: kupfer/objects.py:824
+#: kupfer/objects.py:823
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
-#: kupfer/objects.py:852
+#: kupfer/objects.py:851
 #, python-format
 msgid "Text query \"%s\""
 msgstr "Textsökning \"%s\""
 
-#: kupfer/objects.py:863 kupfer/plugin/text.py:14
+#: kupfer/objects.py:862 kupfer/plugin/text.py:15
 msgid "Text matches"
 msgstr "Fritextträffar"
 
@@ -217,11 +227,11 @@ msgstr "Alla program och inställningspaneler"
 msgid "All Applications"
 msgstr "Alla program"
 
-#: kupfer/plugin/commands.py:9
+#: kupfer/plugin/commands.py:10
 msgid "Execute programs in $PATH"
 msgstr "Kör program i sökvägen"
 
-#: kupfer/plugin/commands.py:16
+#: kupfer/plugin/commands.py:33
 msgid "Shell commands"
 msgstr "Skalkommandon"
 
@@ -380,13 +390,17 @@ msgstr "Anslut till"
 msgid "GNU Screen session"
 msgstr "GNU Screen-session"
 
-#: kupfer/plugin/text.py:7
+#: kupfer/plugin/text.py:8
 msgid "Basic support for free-text queries"
 msgstr "Grundstöd för fritextsökningar"
 
-#: kupfer/plugin/text.py:25
+#: kupfer/plugin/text.py:26
 msgid "Filesystem text matches"
 msgstr "Fritextträffar i filsystemet"
+
+#: kupfer/plugin/text.py:40
+msgid "URL text matches"
+msgstr "URL-täffar i fritext"
 
 #: kupfer/plugin/tracker.py:12
 msgid "Tracker desktop search integration"
@@ -402,7 +416,7 @@ msgstr "Sök efter denna term i Sökverktyget Tracker"
 
 #: kupfer/plugin/tracker.py:35
 msgid "Get Tracker results..."
-msgstr "Hämta träffar i Tracker..."
+msgstr "Hämta träffar från Tracker..."
 
 #: kupfer/plugin/tracker.py:44
 msgid "Show Tracker results for query"
