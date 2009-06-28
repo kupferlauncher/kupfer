@@ -16,7 +16,7 @@ else:
 	else:
 		package_name = version_subst.PACKAGE_NAME
 		localedir = version_subst.LOCALEDIR
-	gettext.install(package_name, localedir=localedir)
+	gettext.install(package_name, localedir=localedir, codeset="UTF-8")
 
 def get_options(default_opts=""):
 	usage_string = \
