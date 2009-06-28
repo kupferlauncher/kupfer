@@ -220,7 +220,7 @@ class FileLeaf (Leaf):
 			app_actions.extend(apps.values())
 
 			if self._is_executable():
-				acts.extend((Execute(), Execute(name=_("Execute in Terminal"), in_terminal=True)))
+				acts.extend((Execute(), Execute(in_terminal=True)))
 			elif app_actions:
 				default = app_actions.pop(0)
 			else:
@@ -520,16 +520,15 @@ class Execute (Launch):
 	"""
 	Execute executable file (FileLeaf)
 	"""
-	def __init__(self, name=None, in_terminal=False):
-		if not name:
-			name = _("Execute")
+	def __init__(self, in_terminal=False, args=""):
+		name = _("Execute in Terminal") if in_terminal else _("Execute")
 		super(Execute, self).__init__(name)
 		self.in_terminal = in_terminal
+		self.args = args
 	
 	def activate(self, leaf):
-		fileloc = leaf.object
-		desktop_item = utils.app_info_for_commandline(fileloc, in_terminal=self.in_terminal)
-		utils.launch_app(desktop_item)
+		cli = "%s %s" % (leaf.object, self.args)
+		utils.launch_commandline(cli, in_terminal=self.in_terminal)
 
 	def get_description(self):
 		if self.in_terminal:
