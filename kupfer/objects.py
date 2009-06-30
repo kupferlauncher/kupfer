@@ -47,14 +47,21 @@ class KupferObject (object):
 		if not name:
 			name = self.__class__.__name__
 		self.name = name
+		assert isinstance(self.name, str), "%s of %s is not str type" % (repr(self.name), type(self))
 	
 	def __str__(self):
 		return self.name
 
 	def __unicode__(self):
+		"""Return a `unicode` representation of @self
+		using self.name which *must* be a UTF-8 encoded `str`
+		"""
 		return self.name.decode("UTF-8", "replace")
 
 	def get_description(self):
+		"""Return a description of the specific item
+		@return *must* be a UTF-8 encoded `str` or None
+		"""
 		return None
 
 	def get_icon(self):
