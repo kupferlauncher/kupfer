@@ -33,7 +33,7 @@ class SearchTask (pretty.OutputMixin):
 		match_iters = []
 		for src in sources:
 			items = ()
-			rank = 0
+			fixedrank = 0
 			if isinstance(src, objects.Source):
 				try:
 					# rankables stored
@@ -48,7 +48,7 @@ class SearchTask (pretty.OutputMixin):
 				# strings "down" into the core
 				textkey = key.encode("UTF-8", "ignore")
 				items = src.get_items(textkey)
-				rank = src.get_rank()
+				fixedrank = src.get_rank()
 			else:
 				items = src
 
@@ -57,14 +57,15 @@ class SearchTask (pretty.OutputMixin):
 			else:
 				rankables = search.make_nosortrankables(items)
 
-			if key and not rank:
-				scored = search.score_objects(rankables, key)
-				matches = search.bonus_objects(scored, key)
+			if fixedrank:
+				# we have a given rank
+				matches = search.add_rank_objects(rankables, fixedrank)
+			elif score:
+				if key:
+					rankables = search.score_objects(rankables, key)
+				matches = search.bonus_objects(rankables, key)
 				if isinstance(src, objects.Source):
 					matches, self._source_cache[src] = itertools.tee(matches)
-			elif key:
-				# we have a given rank
-				matches = search.add_rank_objects(rankables, rank)
 			else:
 				# we only want to list them
 				matches = rankables
