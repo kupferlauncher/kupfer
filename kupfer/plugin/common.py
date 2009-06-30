@@ -1,5 +1,5 @@
 from kupfer.objects import Leaf, Action, Source
-from kupfer import objects, utils
+from kupfer import objects, utils, icons
 from kupfer.plugin import about_support
 
 import gtk
@@ -113,6 +113,9 @@ class Trash (objects.Leaf):
 		super(Trash, self).__init__("trash:///", _("Trash"))
 	def get_actions(self):
 		yield objects.OpenDirectory()
+	def get_gicon(self):
+		# Get icon "with" empty/full status
+		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
 		return "gnome-stock-trash"
 
