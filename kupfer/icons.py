@@ -36,6 +36,32 @@ def store_icon(key, icon):
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
 
+def get_thumbnail_for_file(uri, width=-1, height=-1):
+	"""
+	Return a Pixbuf thumbnail for the file at
+	the @uri, which can be *either* and uri or a path
+	size is @width x @height
+
+	return None if not found
+	"""
+	from gio import File, FILE_ATTRIBUTE_THUMBNAIL_PATH, FileIcon
+	from gtk.gdk import pixbuf_new_from_file_at_size
+	from gobject import GError
+
+	gfile = File(uri)
+	if not gfile.query_exists():
+		return None
+	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH)
+	thumb_path = finfo.get_attribute_byte_string(FILE_ATTRIBUTE_THUMBNAIL_PATH)
+	if not thumb_path:
+		return None
+	try:
+		icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
+		return icon
+	except GError, e:
+		print "get_thumbnail_for_file, error:", e
+		return None
+
 def get_gicon_for_file(uri):
 	"""
 	Return a GIcon representing the file at
