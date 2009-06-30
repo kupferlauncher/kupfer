@@ -40,7 +40,7 @@ msgstr "Söker i %(source)s..."
 msgid "Kupfer"
 msgstr "Kupfer"
 
-#: kupfer/main.py:23
+#: kupfer/main.py:31
 #, python-format
 msgid ""
 " Usage:\n"
@@ -71,7 +71,7 @@ msgstr ""
 "\tInsticksmoduler:\n"
 "\t"
 
-#: kupfer/main.py:95
+#: kupfer/main.py:103
 #, python-format
 msgid ""
 "%(program)s: %(desc)s\n"
@@ -84,138 +84,138 @@ msgstr ""
 "\t%(website)s\n"
 "\t"
 
-#: kupfer/objects.py:139
+#: kupfer/objects.py:141
 msgid "No matches"
 msgstr "Inga träffar"
 
-#: kupfer/objects.py:332
+#: kupfer/objects.py:333
 #, python-format
 msgid "%(description)s (%(exec)s)"
 msgstr "%(description)s (%(exec)s)"
 
-#: kupfer/objects.py:408 kupfer/objects.py:452 kupfer/objects.py:466
+#: kupfer/objects.py:409 kupfer/objects.py:453 kupfer/objects.py:467
 msgid "Open"
 msgstr "Öppna"
 
-#: kupfer/objects.py:408 kupfer/objects.py:422
+#: kupfer/objects.py:409 kupfer/objects.py:423
 #, python-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: kupfer/objects.py:420
+#: kupfer/objects.py:421
 #, python-format
 msgid "Open with %s (default)"
 msgstr "Öppna med %s (standardval)"
 
-#: kupfer/objects.py:434
+#: kupfer/objects.py:435
 msgid "Open URL"
 msgstr "Öppna URL"
 
-#: kupfer/objects.py:445
+#: kupfer/objects.py:446
 msgid "Open URL with default viewer"
 msgstr "Öppna URL med standardprogram"
 
-#: kupfer/objects.py:459
+#: kupfer/objects.py:460
 msgid "Open with default viewer"
 msgstr "Öppna med standardprogram"
 
-#: kupfer/objects.py:469
+#: kupfer/objects.py:470
 msgid "Open folder"
 msgstr "Öppna mapp"
 
-#: kupfer/objects.py:475
+#: kupfer/objects.py:476
 msgid "Reveal"
 msgstr "Visa"
 
-#: kupfer/objects.py:484
+#: kupfer/objects.py:485
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: kupfer/objects.py:490
+#: kupfer/objects.py:491
 msgid "Open Terminal here"
 msgstr "Öppna i terminalfönster"
 
-#: kupfer/objects.py:508
+#: kupfer/objects.py:509
 msgid "Launch"
 msgstr "Starta"
 
-#: kupfer/objects.py:517
+#: kupfer/objects.py:518
 msgid "Launch application"
 msgstr "Starta program"
 
-#: kupfer/objects.py:524
+#: kupfer/objects.py:525
 msgid "Execute"
 msgstr "Kör"
 
-#: kupfer/objects.py:524
+#: kupfer/objects.py:525
 msgid "Execute in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: kupfer/objects.py:535
+#: kupfer/objects.py:536
 msgid "Execute this object in a Terminal"
 msgstr "Kör objekt i terminalfönster"
 
-#: kupfer/objects.py:537
+#: kupfer/objects.py:538
 msgid "Execute this object"
 msgstr "Kör objekt"
 
-#: kupfer/objects.py:549
+#: kupfer/objects.py:550
 msgid "Search content..."
 msgstr "Sök i..."
 
-#: kupfer/objects.py:560
+#: kupfer/objects.py:561
 msgid "Search inside this catalog"
 msgstr "Sök bland objekt i katalogen"
 
-#: kupfer/objects.py:570
+#: kupfer/objects.py:571
 msgid "Rescan"
 msgstr "Uppdatera"
 
-#: kupfer/objects.py:583
+#: kupfer/objects.py:584
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
-#: kupfer/objects.py:594
+#: kupfer/objects.py:595
 msgid "No action"
 msgstr "Inget kommando"
 
-#: kupfer/objects.py:672
+#: kupfer/objects.py:673
 #, python-format
 msgid "%s et al"
 msgstr "%s et al"
 
-#: kupfer/objects.py:698
+#: kupfer/objects.py:699
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: kupfer/objects.py:769
+#: kupfer/objects.py:770
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: kupfer/objects.py:782
+#: kupfer/objects.py:783
 msgid "Catalog of Catalogs"
 msgstr "Katalogindex"
 
-#: kupfer/objects.py:793
+#: kupfer/objects.py:794
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: kupfer/objects.py:804
+#: kupfer/objects.py:805
 msgid "Catalog"
 msgstr "Katalog"
 
-#: kupfer/objects.py:823
+#: kupfer/objects.py:824
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
-#: kupfer/objects.py:851
+#: kupfer/objects.py:852
 #, python-format
 msgid "Text query \"%s\""
 msgstr "Textsökning \"%s\""
 
-#: kupfer/objects.py:862 kupfer/plugin/text.py:15
+#: kupfer/objects.py:863 kupfer/plugin/text.py:15
 msgid "Text matches"
 msgstr "Fritextträffar"
 
@@ -235,7 +235,7 @@ msgstr "Kör program i sökvägen"
 msgid "Shell commands"
 msgstr "Skalkommandon"
 
-#: kupfer/plugin/common.py:8 kupfer/plugin/common.py:146
+#: kupfer/plugin/common.py:8 kupfer/plugin/common.py:149
 msgid "Items and special actions"
 msgstr "Speciella objekt och övriga kommandon"
 
@@ -301,15 +301,15 @@ msgstr "Inställningar är inte implementerade än; se 'kupfer --help'"
 msgid "Trash"
 msgstr "Papperskorg"
 
-#: kupfer/plugin/common.py:121
+#: kupfer/plugin/common.py:124
 msgid "Computer"
 msgstr "Dator"
 
-#: kupfer/plugin/common.py:125
+#: kupfer/plugin/common.py:128
 msgid "Browse local disks and mounts"
 msgstr "Bläddra i lokala enheter"
 
-#: kupfer/plugin/common.py:130
+#: kupfer/plugin/common.py:133
 msgid "Special items"
 msgstr "Speciella objekt"
 
@@ -426,7 +426,7 @@ msgstr "Visa träffar för sökning med Tracker"
 msgid "Tracker query"
 msgstr "Trackersökning"
 
-#: kupfer/plugin/tracker.py:87
+#: kupfer/plugin/tracker.py:87 kupfer/plugin/trackerlive.py:61
 #, python-format
 msgid "Results for query \"%s\""
 msgstr "Resultat för \"%s\""
@@ -448,6 +448,22 @@ msgstr "Taggen %s"
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekt taggade %s med Tracker"
+
+#: kupfer/plugin/trackerlive.py:9 kupfer/plugin/trackerlive.py:15
+msgid "Live Tracker search"
+msgstr "Livesökning med Tracker"
+
+#: kupfer/plugin/trash.py:10
+msgid "Move files to Trash"
+msgstr "Flytta filer till papperskorgen"
+
+#: kupfer/plugin/trash.py:22
+msgid "Move to trash"
+msgstr "Flytta till papperskorgen"
+
+#: kupfer/plugin/trash.py:28
+msgid "Move this file to trash"
+msgstr "Flytta filen till papperskorgen"
 
 #: kupfer/plugin/volumes.py:7 kupfer/plugin/volumes.py:81
 msgid "Mounted volumes and disks"

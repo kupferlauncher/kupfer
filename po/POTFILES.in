@@ -14,6 +14,8 @@ kupfer/plugin/firefox.py
 kupfer/plugin/google.py
 kupfer/plugin/screen.py
 kupfer/plugin/text.py
+kupfer/plugin/trackerlive.py
 kupfer/plugin/tracker.py
+kupfer/plugin/trash.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
