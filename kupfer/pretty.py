@@ -12,9 +12,11 @@ class OutputMixin (object):
 		"""
 		sep = kwargs.get("sep", " ")
 		end = kwargs.get("end", "\n")
+		debug = kwargs.get("debug", False)
 		stritems = (str(it) for it in items)
+		sformat = "[%s] %s: %s%s" if debug else "[[%s]] %s: %s%s"
 		try:
-			output = "[%s] %s: %s%s" % (type(self).__module__,
+			output = sformat % (type(self).__module__,
 					type(self).__name__, sep.join(stritems), end)
 		except Exception:
 			output = sep.join(stritems) + end
@@ -22,6 +24,7 @@ class OutputMixin (object):
 
 	def output_debug(self, *items, **kwargs):
 		if debug:
+			kwargs["debug"] = True
 			self.output_info(*items, **kwargs)
 
 def print_info(name, *items, **kwargs):
@@ -31,10 +34,12 @@ def print_info(name, *items, **kwargs):
 	"""
 	sep = kwargs.get("sep", " ")
 	end = kwargs.get("end", "\n")
+	debug = kwargs.get("debug", False)
 	stritems = (str(it) for it in items)
-	output = "[%s]: %s%s" % (name, sep.join(stritems), end)
-	print output,
+	sformat = "[%s]: %s%s" if debug else "[[%s]]: %s%s"
+	print sformat % (name, sep.join(stritems), end),
 
 def print_debug(name, *items, **kwargs):
 	if debug:
+		kwargs["debug"] = True
 		print_info(name, *items, **kwargs)
