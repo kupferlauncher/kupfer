@@ -158,12 +158,10 @@ class FileLeaf (Leaf):
 		"""
 		# Resolve symlinks
 		obj = path.realpath(obj) or obj
-		# Use glib filename reading to make display
-		# name out of filenames
-		# this function returns a unicode() object
-		# we read it back to a str()
+		# Use glib filename reading to make display name out of filenames
+		# this function returns a `unicode` object that we decode
 		if not name:
-			name = gobject.filename_display_basename(obj).decode("UTF-8")
+			name = gobject.filename_display_basename(obj).encode("UTF-8")
 		super(FileLeaf, self).__init__(obj, name)
 
 	def _is_executable(self):
@@ -181,8 +179,9 @@ class FileLeaf (Leaf):
 		"""Format the path shorter:
 		replace homedir by ~/
 		"""
-		# Use glib filename function
-		desc = gobject.filename_display_name(self.object).decode("UTF-8")
+		# Use glib filename reading to make display name out of filenames
+		# this function returns a `unicode` object that we decode
+		desc = gobject.filename_display_name(self.object).encode("UTF-8")
 		homedir = path.expanduser("~/")
 		if desc.startswith(homedir) and homedir != desc:
 			desc = desc.replace(homedir, "~/", 1)
