@@ -25,7 +25,10 @@ def SearchTask(sender, sources, key, signal, score=True, context=None):
 		if isinstance(src, objects.Source):
 			items = src.get_leaves()
 		elif isinstance(src, objects.TextSource):
-			items = src.get_items(key)
+			# For text source, we have to pass UTF-8 encoded
+			# strings "down" into the core
+			textkey = key.encode("UTF-8", "ignore")
+			items = src.get_items(textkey)
 			rank = src.get_rank()
 		else:
 			items = src
