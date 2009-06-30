@@ -100,22 +100,6 @@ def aslist(seq):
 		seq = list(seq)
 	return seq
 
-def as_set(seq):
-	"""Make set from sequences"""
-	if not isinstance(seq, (set, frozenset)):
-		seq = set(seq)
-	return seq
-
-def as_set_iter(seq):
-	"""Generator with set semantics: Generate items on the fly,
-	but no duplicates
-	"""
-	coll = set()
-	for obj in seq:
-		if obj not in coll:
-			yield obj
-			coll.add(obj)
-
 class Leaf (KupferObject):
 	def __init__(self, obj, name):
 		super(Leaf, self).__init__(name)
