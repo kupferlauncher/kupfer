@@ -68,11 +68,14 @@ def get_record_score(name, key=u""):
 		return 0
 	mns = _register[name]
 	if not key:
-		return mns.get_count()
+		cnt = mns.get_count()
+		return 50 * (1 - 1.0/(cnt + 1))
 
 	stats = mns.get_mnemonics()
-	mnscore = sum(stats[m] for m in stats if m.startswith(key))
-	mnscore += 2*stats.get(key, 0)
+	closescr = sum(stats[m] for m in stats if m.startswith(key))
+	mnscore = 30 * (1 - 1.0/(closescr + 1))
+	exact = stats.get(key, 0)
+	mnscore += 50 * (1 - 1.0/(exact + 1))
 	return mnscore
 
 def load():
