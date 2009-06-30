@@ -11,7 +11,7 @@ from . import config
 from . import pretty
 from . import learn
 
-class SearchTask (object):
+class SearchTask (pretty.OutputMixin):
 	"""
 	"""
 
@@ -38,10 +38,10 @@ class SearchTask (object):
 				try:
 					# rankables stored
 					items = (r.object for r in self._source_cache[src])
-					print "Using cache from", src
+					self.output_debug("Using cache from", src)
 				except KeyError:
 					items = src.get_leaves()
-					print "Items from", src
+					self.output_debug("Rereading items from", src)
 					self._source_cache[src] = items
 			elif isinstance(src, objects.TextSource):
 				# For text source, we have to pass UTF-8 encoded
