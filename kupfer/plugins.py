@@ -186,6 +186,9 @@ def load_plugin_sources(plugin_name, attr=sources_attribute):
 	if not sources:
 		return
 	for source in get_plugin_attributes(plugin_name, sources, warn=True):
-		pretty.print_debug(__name__, "Found %s.%s" % ( source.__module__,
-			source.__name__))
-		yield source()
+		if source:
+			pretty.print_debug(__name__, "Found %s.%s" % ( source.__module__,
+				source.__name__))
+			yield source()
+		else:
+			pretty.print_info(__name__, "Source not found for %s" % plugin_name)
