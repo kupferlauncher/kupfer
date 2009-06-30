@@ -11,70 +11,82 @@ from . import config
 from . import pretty
 from . import learn
 
-def SearchTask(sender, sources, key, signal, score=True, context=None):
+class SearchTask (object):
 	"""
-	@sources is a dict listing the inputs and how they are ranked
-
-	if @score, sort by score, else no sort
 	"""
 
-	match_iters = []
-	for src in sources:
-		items = ()
-		rank = 0
-		if isinstance(src, objects.Source):
-			items = src.get_leaves()
-		elif isinstance(src, objects.TextSource):
-			# For text source, we have to pass UTF-8 encoded
-			# strings "down" into the core
-			textkey = key.encode("UTF-8", "ignore")
-			items = src.get_items(textkey)
-			rank = src.get_rank()
-		else:
-			items = src
-		#raise Exception("No souce in SearchTask description")
+	def __init__(self):
+		self._source_cache = {}
+		self._old_key = None
 
-		if score:
-			rankables = search.make_rankables(items)
-		else:
-			rankables = search.make_nosortrankables(items)
-
-		if not rank:
-			scored = search.score_objects(rankables, key)
-			matches = search.bonus_objects(scored, key)
-		else:
-			# we have a given rank
-			matches = search.add_rank_objects(rankables, rank)
-
-		match_iters.append(matches)
-	
-	def as_set_iter(seq):
-		"""Generator with set semantics: Generate items on the fly,
-		but no duplicates
+	def __call__(self, sender, sources, key, signal, score=True, context=None):
 		"""
-		coll = set()
-		getobj = lambda o: o.object if hasattr(o, "object") else None
-		for obj in seq:
-			if getobj(obj) not in coll:
-				yield obj
-				coll.add(getobj(obj))
+		@sources is a dict listing the inputs and how they are ranked
 
-	def itemranker(item):
+		if @score, sort by score, else no sort
 		"""
-		Sort key for the items.
-		Sort first by rank, then by value (name)
-		(but only sort by value if rank >= 0 to keep
-		default ordering!)
-		"""
-		return (-item.rank, item.rank and item.value)
-	matches = list(as_set_iter(itertools.chain(*match_iters)))
-	matches.sort()
+		if not self._old_key or not key.startswith(self._old_key):
+			self._source_cache.clear()
+			self._old_key = ""
+		self._old_key = key
 
-	if len(matches):
-		match = matches[0]
-	else:
-		match = None
-	gobject.idle_add(sender.emit, signal, match, iter(matches), context)
+		match_iters = []
+		for src in sources:
+			items = ()
+			rank = 0
+			if isinstance(src, objects.Source):
+				try:
+					# rankables stored
+					items = (r.object for r in self._source_cache[src])
+					print "Using cache from", src
+				except KeyError:
+					items = src.get_leaves()
+					print "Items from", src
+					self._source_cache[src] = items
+			elif isinstance(src, objects.TextSource):
+				# For text source, we have to pass UTF-8 encoded
+				# strings "down" into the core
+				textkey = key.encode("UTF-8", "ignore")
+				items = src.get_items(textkey)
+				rank = src.get_rank()
+			else:
+				items = src
+
+			if score:
+				rankables = search.make_rankables(items)
+			else:
+				rankables = search.make_nosortrankables(items)
+
+			if not rank:
+				scored = search.score_objects(rankables, key)
+				matches = search.bonus_objects(scored, key)
+				if isinstance(src, objects.Source):
+					matches, self._source_cache[src] = itertools.tee(matches)
+			else:
+				# we have a given rank
+				matches = search.add_rank_objects(rankables, rank)
+
+			match_iters.append(matches)
+		
+		def as_set_iter(seq):
+			"""Generator with set semantics: Generate items on the fly,
+			but no duplicates
+			"""
+			coll = set()
+			getobj = lambda o: o.object if hasattr(o, "object") else None
+			for obj in seq:
+				if getobj(obj) not in coll:
+					yield obj
+					coll.add(getobj(obj))
+
+		matches = list(as_set_iter(itertools.chain(*match_iters)))
+		matches.sort()
+
+		if len(matches):
+			match = matches[0]
+		else:
+			match = None
+		gobject.idle_add(sender.emit, signal, match, iter(matches), context)
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
 	def __init__(self, source, sender, signal, context=None, **kwargs):
@@ -296,6 +308,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.latest_action_key = None
 		self.text_sources = []
 		self.decorate_types = {}
+		self.source_search_task = SearchTask()
 
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
@@ -351,7 +364,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sources.extend(self.text_sources)
-		SearchTask(self, sources, key, "search-result", score=score,
+		self.source_search_task(self, sources, key, "search-result",
+				score=score,
 				context=context)
 
 	def search(self, key=u"", context=None):
@@ -377,7 +391,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			actions.extend(self.decorate_types[type(leaf)])
 
 		sources = (actions, )
-		SearchTask(self, sources, key, "predicate-result", context=context)
+		stask = SearchTask()
+		stask(self, sources, key, "predicate-result", context=context)
 
 	def search_predicate(self, item, key=u"", context=None):
 		self.do_predicate_search(item, key, context)
