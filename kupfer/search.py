@@ -1,13 +1,9 @@
 # -*- coding: UTF-8 -*-
 
-# set up proper locale
 import locale
 
-import learn
-from relevance import score
-
-# to load in current locale
-locale.resetlocale()
+from kupfer import learn
+from kupfer.relevance import score
 
 def make_rankables(itr, rank=0):
 	return (Rankable(unicode(obj), obj, rank) for obj in itr)

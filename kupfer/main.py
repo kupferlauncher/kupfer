@@ -18,6 +18,14 @@ else:
 		localedir = version_subst.LOCALEDIR
 	gettext.install(package_name, localedir=localedir, codeset="UTF-8")
 
+
+# to load in current locale properly for sorting etc
+import locale
+try:
+	locale.resetlocale()
+except locale.Error, e:
+	pass
+
 def get_options(default_opts=""):
 	usage_string = \
 	_(""" Usage:
