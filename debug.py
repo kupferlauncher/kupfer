@@ -38,6 +38,23 @@ def mem_stats():
 	print "---Just our objects (all)"
 	print "\n".join("%s: %d" % (k,v) for k,v in our)
 
+def make_histogram(vect, nbins=7):
+	"""make a histogram out of @vect"""
+	mi,ma = 0, max(vect)
+	bins = [0]*nbins
+	bin_size = ma/nbins + 1
+	def brange(i):
+		return xrange(i*bin_size, (i+1)*bin_size)
+	for acc in vect:
+		for i in xrange(nbins):
+			if acc in brange(i):
+				bins[i] += 1
+				break
+	# headers
+	print " ".join("%10s" % ("[%2d, %2d)" % (min(brange(i)), max(brange(i))),) for i in xrange(nbins))
+	print " ".join("%10d" % bins[i] for i in xrange(nbins))
+	
+
 def icon_stats():
 	from kupfer.icons import icon_cache
 	print "DEBUG: ICON STATS"
@@ -45,20 +62,23 @@ def icon_stats():
 	c = 0
 	tot_acc = 0
 	tot_pix = 0
+	acc_vect = []
 	for k in icon_cache:
 		rec = icon_cache[k]
 		acc = rec["accesses"]
+		acc_vect.append(acc)
 		if not acc:
 			c += 1
 		tot_acc += acc
 		icon = rec["icon"]
 		tot_pix += icon.get_height() * icon.get_width()
 	print "Cached icons:",  len(icon_cache)
-	print "Unused cache entries", len(icon_cache) -c
+	print "Unused cache entries", c
 	print "Total accesses", tot_acc
+	print make_histogram(acc_vect)
 	print "Sum pixels", tot_pix
 	print "Cached icon keys:"
-	for k in icon_cache:
+	for k in sorted(icon_cache, key=lambda k: icon_cache[k]["accesses"]):
 		print k, icon_cache[k]["accesses"]
 
 atexit.register(mem_stats)
