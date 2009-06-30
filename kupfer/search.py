@@ -84,8 +84,7 @@ def score_objects(rankables, key):
 	key = key.lower()
 	for obj in rankables:
 		# Rank object
-		# And if matches, add recorded score as well
 		obj.rank += score(obj.value, key)*100
-		if obj.rank or not key:
+		if obj.rank:
 			yield obj
 
