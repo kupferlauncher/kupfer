@@ -57,14 +57,17 @@ class SearchTask (pretty.OutputMixin):
 			else:
 				rankables = search.make_nosortrankables(items)
 
-			if not rank:
+			if key and not rank:
 				scored = search.score_objects(rankables, key)
 				matches = search.bonus_objects(scored, key)
 				if isinstance(src, objects.Source):
 					matches, self._source_cache[src] = itertools.tee(matches)
-			else:
+			elif key:
 				# we have a given rank
 				matches = search.add_rank_objects(rankables, rank)
+			else:
+				# we only want to list them
+				matches = rankables
 
 			match_iters.append(matches)
 		
