@@ -40,7 +40,7 @@ class URLTextSource (TextSource):
 		TextSource.__init__(self, name=_("URL text matches"))
 
 	def get_rank(self):
-		return 80
+		return 75
 	def get_items(self, text):
 		""" A bit of hackery to recognize URLs and web addresses
 		alike"""
