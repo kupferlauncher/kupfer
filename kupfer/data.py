@@ -230,11 +230,14 @@ class SourceController (object):
 		if len(self.sources) == 1:
 			root_catalog, = self.sources
 		elif len(self.sources) > 1:
-			firstlevel = set(self.toplevel_sources)
 			sourceindex = set(self.sources)
 			kupfer_sources = objects.SourcesSource(self.sources)
 			sourceindex.add(kupfer_sources)
-			firstlevel.add(objects.SourcesSource(sourceindex))
+			# Make sure firstlevel is ordered
+			# So that it keeps the ordering.. SourcesSource first
+			firstlevel = []
+			firstlevel.append(objects.SourcesSource(sourceindex))
+			firstlevel.extend(set(self.toplevel_sources))
 			root_catalog = objects.MultiSource(firstlevel)
 		else:
 			root_catalog = None
