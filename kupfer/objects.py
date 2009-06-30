@@ -64,13 +64,24 @@ class KupferObject (object):
 		"""
 		return None
 
+	def get_thumbnail(self, height):
+		"""
+		Return a thumbnail of file as pixbuf, restricted
+		to @height. Else None
+		"""
+		return None
+
 	def get_icon(self):
 		"""
 		Returns an icon in pixbuf format.
 
-		Subclasses should implement get_gicon or get_icon_name
+		Subclasses should implement: get_thumbnail, get_gicon
+		and get_icon_name, if they make sense.
 		The methods are tried in that order.
 		"""
+		thumb = self.get_thumbnail(self.icon_size)
+		if thumb:
+			return thumb
 		gicon = self.get_gicon()
 		if gicon:
 			pbuf = icons.get_icon_for_gicon(gicon, self.icon_size)
@@ -155,14 +166,14 @@ class FileLeaf (Leaf):
 			name = gobject.filename_display_basename(obj).encode("UTF-8")
 		super(FileLeaf, self).__init__(obj, name)
 
+	def _is_valid(self):
+		from os import access, R_OK
+		return access(self.object, R_OK)
+
 	def _is_executable(self):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
 
-	def _is_valid(self):
-		from os import access, R_OK
-		return access(self.object, R_OK)
-	
 	def _is_dir(self):
 		return path.isdir(self.object)
 
@@ -223,17 +234,17 @@ class FileLeaf (Leaf):
 
 	def has_content(self):
 		return path.isdir(self.object)
-
 	def content_source(self, alternate=False):
 		if self.has_content():
 			return DirectorySource(self.object, show_hidden=alternate)
 		else:
 			return Leaf.content_source(self)
 
+	def get_thumbnail(self, height):
+		if self._is_dir(): return None
+		return icons.get_thumbnail_for_file(self.object, height=height)
 	def get_gicon(self):
-		gicon = icons.get_gicon_for_file(self.object)
-		return gicon
-
+		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
 		"""A more generic icon"""
 		if self._is_dir():
