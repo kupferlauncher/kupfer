@@ -64,10 +64,10 @@ class KupferObject (object):
 		"""
 		return None
 
-	def get_thumbnail(self, height):
+	def get_thumbnail(self, width, height):
 		"""
 		Return a thumbnail of file as pixbuf, restricted
-		to @height. Else None
+		to @width x @height. Else None
 		"""
 		return None
 
@@ -79,7 +79,7 @@ class KupferObject (object):
 		and get_icon_name, if they make sense.
 		The methods are tried in that order.
 		"""
-		thumb = self.get_thumbnail(self.icon_size)
+		thumb = self.get_thumbnail((self.icon_size * 4)/3, self.icon_size)
 		if thumb:
 			return thumb
 		gicon = self.get_gicon()
@@ -240,9 +240,9 @@ class FileLeaf (Leaf):
 		else:
 			return Leaf.content_source(self)
 
-	def get_thumbnail(self, height):
+	def get_thumbnail(self, width, height):
 		if self._is_dir(): return None
-		return icons.get_thumbnail_for_file(self.object, height=height)
+		return icons.get_thumbnail_for_file(self.object, width, height)
 	def get_gicon(self):
 		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
