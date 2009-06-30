@@ -12,7 +12,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class TrackerLiveSearchSource (TextSource):
 	def __init__(self):
-		TextSource.__init__(self, name=_('Tracker live search'))
+		TextSource.__init__(self, name=_("Live Tracker search"))
 		self.max_items = 20
 		self.searchobj = None
 		self.dbus = None

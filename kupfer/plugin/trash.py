@@ -7,7 +7,7 @@ from kupfer import utils
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_action_decorator__ = ("Decorator", )
-__description__ = _("Trash files")
+__description__ = _("Move files to Trash")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -25,7 +25,7 @@ class Trash (Action):
 		gfile = gio.File(leaf.object)
 		gfile.trash()
 	def get_description(self):
-		return _("Move a file to trash")
+		return _("Move this file to trash")
 	def get_icon_name(self):
 		return "user-trash-full"
 
