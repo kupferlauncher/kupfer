@@ -17,27 +17,27 @@ class WindowLeaf (Leaf):
 	def get_actions(self):
 		win = self.object
 		if not win.is_active():
-			yield WindowAction(_("Activate"), time=True)
+			yield WindowAction(_("Activate"), action="activate", time=True)
 		yield WindowActivateWorkspace()
 		if win.is_shaded():
-			yield WindowAction(_("Unshade"))
+			yield WindowAction(_("Unshade"), action="unshade")
 		else:
-			yield WindowAction(_("Shade"))
+			yield WindowAction(_("Shade"), action="shade")
 		if win.is_minimized():
-			yield WindowAction(_("Unminimize"), time=True, icon="gtk-remove")
+			yield WindowAction(_("Unminimize"), action="unminimize", time=True, icon="gtk-remove")
 		else:
-			yield WindowAction(_("Minimize"), icon="gtk-remove")
+			yield WindowAction(_("Minimize"), action="minimize", icon="gtk-remove")
 		if win.is_maximized():
-			yield WindowAction(_("Unmaximize"), icon="gtk-add")
+			yield WindowAction(_("Unmaximize"), action="unmaximize", icon="gtk-add")
 		else:
-			yield WindowAction(_("Maximize"), icon="gtk-add")
+			yield WindowAction(_("Maximize"), action="maximize", icon="gtk-add")
 		if win.is_maximized_vertically():
 			yield WindowAction(_("Unmaximize vertically"),
 					action="unmaximize_vertically", icon="gtk-add")
 		else:
 			yield WindowAction(_("Maximize vertically"),
 					action="maximize_vertically", icon="gtk-add")
-		yield WindowAction(_("Close"), time=True, icon="gtk-close")
+		yield WindowAction(_("Close"), action="close", time=True, icon="gtk-close")
 
 	def get_description(self):
 		workspace = self.object.get_workspace()
