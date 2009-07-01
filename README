@@ -1,4 +1,5 @@
-Kupfer -- a dual-paned summoner-launcher
+kupfer is a simple, flexible, launcher for Gnome
+http://kaizer.se/wiki/kupfer/
 
 Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 Released under the GNU General Public License v3 (or any later version)
@@ -15,3 +16,23 @@ If you need to get waf, run:
 Installation follows the steps
     ./waf configure --prefix=PREFIX
     ./waf install
+
+here `PREFIX` assigns an installation spot. For all users,
+programs are normally installed with prefix as /usr/local.
+Installing only for your user, the prefix ~/.local is often
+used; you just have to check that
+`~/.local/bin` is in your $PATH
+`~/.local/lib/python2.*/site-packages` is in python's sys.path
+(if not, you can add it by setting $PYTHONPATH)
+
+SPAWNING
+========
+Kupfer is installed as `kupfer` into $PREFIX/bin.
+
+There is no need to build global keyboard shortcut support into
+kupfer -- just assign a global shortcut to `kupfer` using
+existing means, [such as in metacity][ky]. I recommend using the
+shortcut `<Ctrl>space` but you can choose whatever suits your
+needs.
+
+[ky]: http://www.codejacked.com/create-custom-keyboard-shortcuts-in-linux/
