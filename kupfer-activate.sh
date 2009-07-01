@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 PYTHON="@PYTHON@"
 test ${PYTHON:0:1} = "@" && PYTHON=python
