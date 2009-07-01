@@ -102,7 +102,7 @@ class WindowsSource (Source):
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
 				name, app = (win.get_name(), win.get_application().get_name())
-				if name != app:
+				if name != app and app not in name:
 					name = "%s (%s)" % (name, app)
 				yield WindowLeaf(win, name)
 
