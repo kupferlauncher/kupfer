@@ -25,8 +25,8 @@ class Volume (Leaf):
 
 	def has_content(self):
 		return True
-	def content_source(self):
-		return objects.DirectorySource(self.object)
+	def content_source(self, alternate=False):
+		return objects.DirectorySource(self.object, show_hidden=alternate)
 
 	def get_description(self):
 		return _("Volume mounted at %s") % self.object
