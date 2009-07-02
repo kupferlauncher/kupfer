@@ -824,7 +824,7 @@ gobject.type_register(Interface)
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
-class WindowController (object):
+class WindowController (pretty.OutputMixin):
 	"""
 	This is the fundamental Window (and App) Controller
 	"""
@@ -909,7 +909,7 @@ class WindowController (object):
 		self.quit()
 	
 	def _sigterm(self, signal, frame):
-		print "Caught signal", signal, "exiting.."
+		self.output_info("Caught signal", signal, "exiting..")
 		self.quit()
 
 	def save_data(self):
@@ -928,7 +928,7 @@ class WindowController (object):
 		ret True on successful
 		"""
 		# No quit, only save
-		print "Saving for logout..."
+		self.output_info("Saving for logout...")
 		self.save_data()
 		return True
 
@@ -948,7 +948,7 @@ class WindowController (object):
 			s = Service()
 		except AlreadyRunning:
 			s = None
-			print "An instance is already running, exiting..."
+			self.output_info("An instance is already running, exiting...")
 			self.quit_now()
 		except NoConnection:
 			pass
@@ -971,8 +971,8 @@ class WindowController (object):
 		try:
 			gtk.main()
 		except KeyboardInterrupt, info:
-			print info, "exiting.. (Warning: Ctrl-C in the shell will",\
-					"kill child processes)"
+			self.output_info(info, "exiting.. (Warning: Ctrl-C in the shell",
+					"will kill child processes)")
 		finally:
 			self.save_data()
 
