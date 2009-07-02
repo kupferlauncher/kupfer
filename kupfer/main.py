@@ -166,5 +166,6 @@ def main():
 	dc.register_text_sources(text_sources)
 	dc.register_action_decorators(action_decorators)
 	w = browser.WindowController()
+	w.register_keybinding(source_config["Kupfer"]["Keybinding"])
 	w.main()
 
