@@ -70,16 +70,16 @@ class WindowAction (Action):
 		self.icon_name = icon
 	def activate(self, leaf):
 		window = leaf.object
-		time = gtk.get_current_event_time()
-		def make_call():
-			call = window.__getattribute__(self.action)
-			if self.time:
-				return lambda: call(time)
-			else:
-				return call
-		# Make sure other things happen first
-		wait_gtk()
-		gobject.idle_add(make_call())
+		action_method = getattr(window, self.action)
+		if self.time:
+			# @time will be != 0 if we are "inside"
+			# a current gtk event
+			time = gtk.get_current_event_time()
+			assert time, "Window action event.time == 0"
+			action_method(time)
+		else:
+			call()
+
 	def get_icon_name(self):
 		if not self.icon_name:
 			return super(WindowAction, self).get_icon_name()
