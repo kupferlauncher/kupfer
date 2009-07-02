@@ -85,8 +85,6 @@ def configure(conf):
 
 	conf.find_program("dbus-send")
 
-	# no "optimized" bytecode
-	conf.env["PYO"] = 0
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
 	conf.env["VERSION"] = VERSION
 
