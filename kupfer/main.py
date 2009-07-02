@@ -167,5 +167,8 @@ def main():
 	dc.register_action_decorators(action_decorators)
 	w = browser.WindowController()
 	w.register_keybinding(source_config["Kupfer"]["Keybinding"])
+	show_icon = not (source_config["Kupfer"]["ShowStatusIcon"].lower() not in
+			("yes", "true", ))
+	w.set_show_statusicon(show_icon)
 	w.main()
 

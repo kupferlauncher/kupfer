@@ -836,10 +836,13 @@ class WindowController (pretty.OutputMixin):
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.interface = Interface(self.data_controller, self.window)
 		self._setup_window()
-		self._setup_status_icon()
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
 		self._keystr = ""
+		self._show_statusicon = True
+
+	def set_show_statusicon(self, val):
+		self._show_statusicon = bool(val)
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
@@ -866,6 +869,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_title(_("Kupfer"))
 		self.window.set_icon_name(self.icon_name)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+
 	def register_keybinding(self, keystr):
 		"""Use @keystr as keybinding
 		keystr is a string in the style of "<Ctrl>space" or
@@ -982,6 +986,9 @@ class WindowController (pretty.OutputMixin):
 
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
+
+		if self._show_statusicon:
+			self._setup_status_icon()
 
 		# Load data and present UI
 		self.data_controller.load()

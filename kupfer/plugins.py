@@ -17,7 +17,7 @@ def get_config():
 	# Minimal "defaults" to define all fields
 	# Read defaults defined in a defaults.cfg file
 	defaults = {
-		"Kupfer": { "Keybinding" : "" },
+		"Kupfer": { "Keybinding" : "" , "ShowStatusIcon" : "True" },
 		"Plugins": { "Direct" : (), "Catalog" : (), },
 		"Directories" : { "Direct" : default_directories, "Catalog" : (), },
 		"DeepDirectories" : { "Direct" : (), "Catalog" : (), "Depth" : 1, },
