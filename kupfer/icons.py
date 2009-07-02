@@ -163,3 +163,11 @@ def get_icon_from_file(icon_file, icon_size):
 		print "get_icon_from_file, error:", e
 		return None
 
+def get_good_name_for_icon_names(names):
+	"""Return first name in @names that exists
+	in current icon theme, or None
+	"""
+	for name in names:
+		if _default_theme.has_icon(name):
+			return name
+	return None
