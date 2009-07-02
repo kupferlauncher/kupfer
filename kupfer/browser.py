@@ -14,7 +14,7 @@ from . import pretty
 class State (object):
 	Wait, Match, NoMatch = (1,2,3)
 
-class ModelBase (object):
+class LeafModel (object):
 	"""A base for a tree view
 	With a magic load-on-demand feature.
 
@@ -22,61 +22,21 @@ class ModelBase (object):
 	and self.populate(num) will load @num items into
 	the model
 	"""
-	def __init__(self, *columns):
+	def __init__(self):
 		"""
 		First column is always the object -- returned by get_object
 		it needs not be specified in columns
 		"""
+		columns = (str, str, str, str)
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
 		self.base = None
+		self._setup_columns()
 	
 	def __len__(self):
 		return len(self.store)
 
-	def _get_column(self, treepath, col):
-		iter = self.store.get_iter(treepath)
-		val = self.store.get_value(iter, col)
-		return val
-	
-	def get_object(self, path):
-		return self._get_column(path, self.object_column)
-
-	def get_store(self):
-		return self.store
-
-	def append(self, row):
-		self.store.append(row)
-
-	def clear(self):
-		"""Clear the model and reset its base"""
-		self.store.clear()
-		self.base = None
-
-	def set_base(self, baseiter):
-		self.base = iter(baseiter)
-
-	def populate(self, num=None):
-		"""
-		populate model with num items from its base
-		and return first item inserted
-		if num is none, insert everything
-		"""
-		if not self.base:
-			return None
-		if num:
-			iterator = itertools.islice(self.base, num)
-		first = None
-		for item in iterator:
-			row = (item.object, item.rank)
-			self.add(row)
-			if not first: first = item.object
-		# first.object is a leaf
-		return first
-
-class LeafModel (ModelBase):
-	def __init__(self):
-		ModelBase.__init__(self, str, str, str, str)
+	def _setup_columns(self):
 		self.icon_col = 1
 		self.val_col = 2
 		self.info_col = 3
@@ -121,6 +81,47 @@ class LeafModel (ModelBase):
 		if show_rank_col:
 			self.columns += (nbr_col, )
 
+
+	def _get_column(self, treepath, col):
+		iter = self.store.get_iter(treepath)
+		val = self.store.get_value(iter, col)
+		return val
+	
+	def get_object(self, path):
+		return self._get_column(path, self.object_column)
+
+	def get_store(self):
+		return self.store
+
+	def append(self, row):
+		self.store.append(row)
+
+	def clear(self):
+		"""Clear the model and reset its base"""
+		self.store.clear()
+		self.base = None
+
+	def set_base(self, baseiter):
+		self.base = iter(baseiter)
+
+	def populate(self, num=None):
+		"""
+		populate model with num items from its base
+		and return first item inserted
+		if num is none, insert everything
+		"""
+		if not self.base:
+			return None
+		if num:
+			iterator = itertools.islice(self.base, num)
+		first = None
+		for item in iterator:
+			row = (item.object, item.rank)
+			self.add(row)
+			if not first: first = item.object
+		# first.object is a leaf
+		return first
+
 	def add(self, tupl):
 		leaf, rank = tupl
 		# Display rank empty instead of 0 since it looks better
@@ -132,6 +133,7 @@ class LeafModel (ModelBase):
 				(hasattr(leaf, "is_factory") and leaf.is_factory())):
 			info = content_mark
 		self.append((leaf, leaf.get_icon_name(), str(leaf), info, rank_str))
+
 
 class MatchView (gtk.Bin):
 	"""
