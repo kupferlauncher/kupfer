@@ -9,10 +9,6 @@ __description__ = _("All windows on all workspaces")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-def wait_gtk():
-	while gtk.events_pending():
-		gtk.main_iteration()
-
 class WindowLeaf (Leaf):
 	def get_actions(self):
 		win = self.object
@@ -88,16 +84,16 @@ class WindowAction (Action):
 class WindowsSource (Source):
 	def __init__(self, name=_("Windows")):
 		super(WindowsSource, self).__init__(name)
+		# "preload" windows: Ask for them early
+		# since the first call "primes" the event loop
+		# and always comes back empty
+		screen = wnck.screen_get_default()
+		screen.get_windows_stacked()
 
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		# wait a bit -- to get the window list
-		# windows might come out empty, and you have to proc
-		# the event loop to do it
-		# wait_gtk()
-		# but this si not allowed, since it might intefere with
-		# the main program!
+		# wnck should be "primed" now to return the true list
 		screen = wnck.screen_get_default()
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
