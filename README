@@ -29,10 +29,21 @@ SPAWNING
 ========
 Kupfer is installed as `kupfer` into $PREFIX/bin.
 
-There is no need to build global keyboard shortcut support into
-kupfer -- just assign a global shortcut to `kupfer` using
-existing means, [such as in metacity][ky]. I recommend using the
-shortcut `<Ctrl>space` but you can choose whatever suits your
-needs.
+KEYBINDER MODULE
+----------------
 
-[ky]: http://www.codejacked.com/create-custom-keyboard-shortcuts-in-linux/
+Kupfer uses tomboy's keybinder code, just like many other
+applications do for global keybindings.
+I had to break out the python wrapping of the code into a
+standalone python module [keybinder][kb] that you need to install
+first:
+
+[kb]: http://kaizer.se/wiki/python-keybinder
+[kb]: http://github.com/engla/python-keybinder
+
+Now you can set kupfer's keybinding by editing kupfer's config.
+See `kupfer --help` for how to do that.
+
+You can use kupfer without the keybinder module, for example
+by assigning a global keybinding to the `kupfer` binary; it is
+not recommended.
