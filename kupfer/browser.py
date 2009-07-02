@@ -839,6 +839,7 @@ class WindowController (object):
 		self._setup_status_icon()
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
+		self._keystr = ""
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
@@ -865,6 +866,12 @@ class WindowController (object):
 		self.window.set_title(_("Kupfer"))
 		self.window.set_icon_name(self.icon_name)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+	def register_keybinding(self, keystr):
+		"""Use @keystr as keybinding
+		keystr is a string in the style of "<Ctrl>space" or
+		"<Ctrl><Alt>."
+		"""
+		self._keystr = keystr
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
@@ -968,7 +975,11 @@ class WindowController (object):
 		except ImportError:
 			print "Could not import keybinder, keybindings disabled!"
 		else:
-			keybinder.bind("<Alt>space", self._key_binding)
+			if self._keystr:
+				print "Trying to register %s to spawn kupfer.." % (self._keystr,),
+				succ = keybinder.bind(self._keystr, self._key_binding)
+				if succ: print "success"
+				else: print "failed"
 
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
