@@ -111,7 +111,7 @@ def main():
 
 	from . import browser, data
 	from . import objects, plugin
-	from . import pretty, plugins
+	from . import pretty, plugins, settings
 	from .plugins import (load_plugin_sources, sources_attribute,
 			action_decorators_attribute, text_sources_attribute)
 
@@ -131,7 +131,7 @@ def main():
 		abs = path.abspath(path.expanduser(opt))
 		return objects.FileSource((abs,), depth)
 
-	source_config = plugins.get_config()
+	source_config = settings.get_config()
 
 	text_sources = []
 	action_decorators = []
