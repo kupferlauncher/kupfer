@@ -74,9 +74,13 @@ def import_plugin(name):
 		pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
 		pretty.print_debug(__name__, "  from %s" % plugin.__file__)
 		return plugin
+
+	plugin = None
 	try:
 		plugin = importit(("kupfer", "plugin", name))
-	except ImportError:
+	except ImportError, e:
+		if name not in e.args[0]:
+			raise
 		oldpath = sys.path
 		try:
 			# Look in datadir kupfer/plugins for plugins
@@ -89,15 +93,24 @@ def import_plugin(name):
 			raise
 		finally:
 			sys.path = oldpath
-
-	imported_plugins[name] = plugin
+	finally:
+		# store nonexistant plugins as None here
+		imported_plugins[name] = plugin
 	return plugin
 
 def get_plugin_attributes(plugin_name, attrs, warn=False):
+	"""Generator of the attributes named @attrs
+	to be found in plugin @plugin_name
+	if the plugin is not found, we write an error
+	and yield nothing.
+
+	if @warn, we print a warning if a plugin does not have
+	a requested attribute
+	"""
 	try:
 		plugin = import_plugin(plugin_name)
 	except ImportError, e:
-		pretty.print_info(__name__, "Skipping module %s: %s" % (plugin_name, e))
+		pretty.print_info(__name__, "Skipping plugin %s: %s" % (plugin_name, e))
 		return
 	for attr in attrs:
 		try:
