@@ -2,12 +2,14 @@
 # -*- coding: UTF-8 -*-
 
 import gtk
+import gio
 import gobject
 import itertools
 import signal
 
 from .data import DataController
 from . import pretty
+from . import icons
 
 
 # State Constants
@@ -27,7 +29,7 @@ class LeafModel (object):
 		First column is always the object -- returned by get_object
 		it needs not be specified in columns
 		"""
-		columns = (str, str, str, str)
+		columns = (gio.Icon, str, str, str)
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
 		self.base = None
@@ -75,12 +77,11 @@ class LeafModel (object):
 		icon_cell.set_property("width", 18)
 			
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
-		icon_col.add_attribute(icon_cell, "icon-name", self.icon_col)
+		icon_col.add_attribute(icon_cell, "gicon", self.icon_col)
 
 		self.columns = [icon_col, col, info_col,]
 		if show_rank_col:
 			self.columns += (nbr_col, )
-
 
 	def _get_column(self, treepath, col):
 		iter = self.store.get_iter(treepath)
@@ -132,8 +133,7 @@ class LeafModel (object):
 		if ((hasattr(leaf, "has_content") and leaf.has_content()) or
 				(hasattr(leaf, "is_factory") and leaf.is_factory())):
 			info = content_mark
-		self.append((leaf, leaf.get_icon_name(), str(leaf), info, rank_str))
-
+		self.append((leaf, leaf.get_icon(), str(leaf), info, rank_str))
 
 class MatchView (gtk.Bin):
 	"""
