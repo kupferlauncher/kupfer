@@ -973,13 +973,12 @@ class WindowController (pretty.OutputMixin):
 		try:
 			import keybinder
 		except ImportError:
-			print "Could not import keybinder, keybindings disabled!"
+			self.output_info("Could not import keybinder, keybindings disabled!")
 		else:
 			if self._keystr:
-				print "Trying to register %s to spawn kupfer.." % (self._keystr,),
 				succ = keybinder.bind(self._keystr, self._key_binding)
-				if succ: print "success"
-				else: print "failed"
+				self.output_info("Trying to register %s to spawn kupfer.. %s"
+						% (self._keystr, ["failed", "success"][int(succ)]))
 
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
