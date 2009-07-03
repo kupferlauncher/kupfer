@@ -839,6 +839,7 @@ class WindowController (pretty.OutputMixin):
 		self._setup_status_icon()
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
+		self._keystr = ""
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
@@ -865,6 +866,12 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_title(_("Kupfer"))
 		self.window.set_icon_name(self.icon_name)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+	def register_keybinding(self, keystr):
+		"""Use @keystr as keybinding
+		keystr is a string in the style of "<Ctrl>space" or
+		"<Ctrl><Alt>."
+		"""
+		self._keystr = keystr
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
@@ -875,15 +882,15 @@ class WindowController (pretty.OutputMixin):
 	def launch_callback(self, sender, leaf, action):
 		self.put_away()
 	
-	def activate(self, sender=None):
+	def activate(self, sender=None, time=0):
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.present()
 		# try to put in the time here
 		# but we still get
 		# "Buggy client sent a _NET_ACTIVE_WINDOW message with a timestamp of 0"
-		time = gtk.get_current_event_time()
-		self.window.window.focus(timestamp=time)
+		evttime = time if time else gtk.get_current_event_time()
+		self.window.window.focus(timestamp=evttime)
 		self.interface.switch_to_source()
 	
 	def put_away(self):
@@ -892,14 +899,20 @@ class WindowController (pretty.OutputMixin):
 	def _cancelled(self, widget):
 		self.put_away()
 	
-	def show_hide(self, sender=None):
+	def show_hide(self, sender=None, time=0):
 		"""
 		Toggle activate/put-away
 		"""
 		if self.window.is_active():
 			self.put_away()
 		else:
-			self.activate()
+			self.activate(time=time)
+
+	def _key_binding(self, user_data=None):
+		"""Keybinding activation callback"""
+		import keybinder
+		time = keybinder.get_current_event_time()
+		self.show_hide(time=time)
 	
 	def _close_window(self, window, event):
 		self.put_away()
@@ -956,6 +969,17 @@ class WindowController (pretty.OutputMixin):
 			s.connect("present", self.activate)
 			s.connect("show-hide", self.show_hide)
 			s.connect("quit", self.quit)
+
+		try:
+			import keybinder
+		except ImportError:
+			print "Could not import keybinder, keybindings disabled!"
+		else:
+			if self._keystr:
+				print "Trying to register %s to spawn kupfer.." % (self._keystr,),
+				succ = keybinder.bind(self._keystr, self._key_binding)
+				if succ: print "success"
+				else: print "failed"
 
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)

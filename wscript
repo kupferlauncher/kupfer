@@ -83,6 +83,12 @@ def configure(conf):
 	for module in python_modules.split():
 		conf.check_python_module(module)
 
+	try:
+		conf.check_python_module("keybinder")
+	except Configure.ConfigurationError, e:
+		Utils.pprint("RED", "Python module keybinder is recommended")
+		Utils.pprint("RED", "Please see README")
+		
 	conf.find_program("dbus-send")
 
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
