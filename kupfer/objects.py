@@ -522,7 +522,7 @@ class Execute (Launch):
 	Execute executable file (FileLeaf)
 	"""
 	def __init__(self, in_terminal=False, args=""):
-		name = _("Execute in Terminal") if in_terminal else _("Execute")
+		name = _("Run in Terminal") if in_terminal else _("Run")
 		super(Execute, self).__init__(name)
 		self.in_terminal = in_terminal
 		self.args = args
@@ -533,9 +533,9 @@ class Execute (Launch):
 
 	def get_description(self):
 		if self.in_terminal:
-			return _("Execute this object in a Terminal")
+			return _("Run this program in a Terminal")
 		else:
-			return _("Execute this object")
+			return _("Run this program")
 
 	def get_icon_name(self):
 		return "exec"

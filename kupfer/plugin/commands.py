@@ -7,7 +7,7 @@ from kupfer import utils, icons
 
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("CommandTextSource",)
-__description__ = _("Execute programs in $PATH")
+__description__ = _("Run commandline programs")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
