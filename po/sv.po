@@ -36,7 +36,7 @@ msgstr "Söker..."
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
 
-#: kupfer/browser.py:845 kupfer/browser.py:865 kupfer/version.py:15
+#: kupfer/browser.py:849 kupfer/browser.py:869 kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
@@ -144,20 +144,20 @@ msgid "Launch application"
 msgstr "Starta program"
 
 #: kupfer/objects.py:525
-msgid "Execute"
+msgid "Run"
 msgstr "Kör"
 
 #: kupfer/objects.py:525
-msgid "Execute in Terminal"
+msgid "Run in Terminal"
 msgstr "Kör i terminalfönster"
 
 #: kupfer/objects.py:536
-msgid "Execute this object in a Terminal"
-msgstr "Kör objekt i terminalfönster"
+msgid "Run this program in a Terminal"
+msgstr "Kör programmet i terminalfönster"
 
 #: kupfer/objects.py:538
-msgid "Execute this object"
-msgstr "Kör objekt"
+msgid "Run this program"
+msgstr "Kör programmet"
 
 #: kupfer/objects.py:550
 msgid "Search content..."
@@ -228,8 +228,8 @@ msgid "All Applications"
 msgstr "Alla program"
 
 #: kupfer/plugin/commands.py:10
-msgid "Execute programs in $PATH"
-msgstr "Kör program i sökvägen"
+msgid "Run commandline programs"
+msgstr "Kör kommandoradsprogram"
 
 #: kupfer/plugin/commands.py:33
 msgid "Shell commands"
@@ -494,72 +494,72 @@ msgstr "Avmontera volym"
 msgid "Volumes and disks"
 msgstr "Volymer"
 
-#: kupfer/plugin/windows.py:8 kupfer/plugin/windows.py:110
+#: kupfer/plugin/windows.py:8 kupfer/plugin/windows.py:106
 msgid "All windows on all workspaces"
 msgstr "Alla fönster på alla arbetsytor"
 
-#: kupfer/plugin/windows.py:20
+#: kupfer/plugin/windows.py:16
 msgid "Activate"
 msgstr "Aktivera"
 
-#: kupfer/plugin/windows.py:23
+#: kupfer/plugin/windows.py:19
 msgid "Unshade"
 msgstr "Avskugga"
 
-#: kupfer/plugin/windows.py:25
+#: kupfer/plugin/windows.py:21
 msgid "Shade"
 msgstr "Skugga"
 
-#: kupfer/plugin/windows.py:27
+#: kupfer/plugin/windows.py:23
 msgid "Unminimize"
 msgstr "Avminimera"
 
-#: kupfer/plugin/windows.py:29
+#: kupfer/plugin/windows.py:25
 msgid "Minimize"
 msgstr "Minimera"
 
-#: kupfer/plugin/windows.py:31
+#: kupfer/plugin/windows.py:27
 msgid "Unmaximize"
 msgstr "Avmaximera"
 
-#: kupfer/plugin/windows.py:33
+#: kupfer/plugin/windows.py:29
 msgid "Maximize"
 msgstr "Maximera"
 
-#: kupfer/plugin/windows.py:35
+#: kupfer/plugin/windows.py:31
 msgid "Unmaximize vertically"
 msgstr "Avmaximera vertikalt"
 
-#: kupfer/plugin/windows.py:38
+#: kupfer/plugin/windows.py:34
 msgid "Maximize vertically"
 msgstr "Maximera vertikalt"
 
-#: kupfer/plugin/windows.py:40
+#: kupfer/plugin/windows.py:36
 msgid "Close"
 msgstr "Stäng"
 
-#: kupfer/plugin/windows.py:45
+#: kupfer/plugin/windows.py:41
 #, python-format
 msgid "Window %(name)s on %(wkspc)s"
 msgstr "Fönster %(name)s på %(wkspc)s"
 
-#: kupfer/plugin/windows.py:51
+#: kupfer/plugin/windows.py:47
 msgid "Go to"
 msgstr "Gå till"
 
-#: kupfer/plugin/windows.py:60
+#: kupfer/plugin/windows.py:56
 msgid "Jump to this window's workspace and focus"
 msgstr "Gå till fönstrets arbetsyta och aktivera"
 
-#: kupfer/plugin/windows.py:89
+#: kupfer/plugin/windows.py:85
 msgid "Windows"
 msgstr "Fönster"
 
-#: kupfer/plugins.py:111
+#: kupfer/plugins.py:40
 msgid "(no description)"
 msgstr "(ingen beskrivning)"
 
-#: kupfer/plugins.py:129
+#: kupfer/plugins.py:58
 #, python-format
 msgid "%(name)20s %(version)4s %(description)s"
 msgstr "%(name)20s %(version)4s %(description)s"
@@ -597,3 +597,4 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
