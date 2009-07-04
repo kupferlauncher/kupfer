@@ -38,7 +38,9 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 			self.output_debug("Setting up session connection using GnomeClient")
 		self._enabled = _has_gnomeui
 		if not self.enabled:
-			self.output_info("Not able to connect to current desktop session")
+			self.output_info("Warning: Not able to connect to current \
+				desktop session, please Quit before logout to save \
+				kupfer's data. (Gnome-session 2.26 support is coming.)")
 	def _session_save(self, obj, *args):
 		self.emit("save-yourself")
 	def _session_die(self, obj, *args):
