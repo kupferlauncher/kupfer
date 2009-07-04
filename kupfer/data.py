@@ -371,6 +371,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				score=score,
 				context=context)
 
+	def cancel_search(self):
+		"""Cancel any outstanding search"""
+		if self.search_handle > 0:
+			gobject.source_remove(self.search_handle)
+		self.search_handle = -1
+
 	def search(self, key=u"", context=None):
 		"""Search: Register the search method in the event loop
 

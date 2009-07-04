@@ -816,7 +816,7 @@ class Interface (gobject.GObject):
 	
 	def _table_event(self, widget, table, event):
 		self.entry.emit("key-press-event", event)
-	
+
 	def _changed(self, editable):
 		"""
 		The entry changed callback: Here we have to be sure to use
@@ -825,7 +825,9 @@ class Interface (gobject.GObject):
 		# @text is UTF-8
 		text = editable.get_text()
 		text = text.decode("UTF-8")
-		if not len(text):
+		if not text:
+			self.reset_current()
+			self.data_controller.cancel_search()
 			return
 
 		self.current._hide_table()
