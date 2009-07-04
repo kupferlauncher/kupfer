@@ -8,7 +8,8 @@ def _icon_theme_changed(theme):
 	global icon_cache
 	icon_cache = {}
 
-icon_theme_get_default().connect("changed", _icon_theme_changed)
+_default_theme = icon_theme_get_default()
+_default_theme.connect("changed", _icon_theme_changed)
 
 # Fix bad icon names
 # for example, gio returns "inode-directory" for folders
@@ -69,10 +70,8 @@ def get_gicon_for_file(uri):
 
 	return None if not found
 	"""
-	from gtk import icon_theme_get_default
 	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON
 
-	icon_theme = icon_theme_get_default()
 	gfile = File(uri)
 	if not gfile.query_exists():
 		return None
@@ -110,10 +109,8 @@ def get_icon_for_file(uri, icon_size):
 	
 	@icon_size: a pixel size of the icon
 	"""
-	from gtk import icon_theme_get_default
 	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON
 
-	icon_theme = icon_theme_get_default()
 	gfile = File(uri)
 	if not gfile.query_exists():
 		return None
@@ -125,9 +122,8 @@ def get_icon_for_file(uri, icon_size):
 def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	for i in get_icon(icon_name):
 		return i
-	from gtk import icon_theme_get_default, ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
+	from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
 	from gobject import GError
-	icon_theme = icon_theme_get_default()
 	if not icon_names: icon_names = (icon_name,)
 
 	# Try the whole list of given names
@@ -136,7 +132,7 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 		if load_name in icon_name_translation:
 			load_name = icon_name_translation[load_name]
 		try:
-			icon = icon_theme.load_icon(load_name, icon_size, ICON_LOOKUP_USE_BUILTIN | ICON_LOOKUP_FORCE_SIZE)
+			icon = _default_theme.load_icon(load_name, icon_size, ICON_LOOKUP_USE_BUILTIN | ICON_LOOKUP_FORCE_SIZE)
 			if icon:
 				break
 		except GError, e:
