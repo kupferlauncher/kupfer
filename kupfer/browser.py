@@ -685,17 +685,17 @@ class Interface (gobject.GObject):
 			self.current.go_down()
 		elif keyv == uarrow:
 			self.current.go_up()
-		elif keyv in (larrow, rarrow, backsp):
+		elif keyv == rarrow:
 			match = self.search.get_current()
-			if (keyv == rarrow and match):
+			if match:
 				self._browse_down(match, alternate=mod1_mask)
-			elif keyv in (larrow, backsp):
-				# larrow or backspace will erase or go up
-				if not match and self.search.get_match_state() is State.Wait:
-					self._browse_up(match)
-				else:
-					self.reset_current()
-				self.reset()
+		elif keyv == backsp:
+			if not self.entry.get_text():
+				self._reset_key_press()
+			else:
+				return False
+		elif keyv == larrow:
+			self._reset_key_press()
 		else:
 			if keyv == tabkey:
 				self.current._hide_table()
@@ -722,6 +722,18 @@ class Interface (gobject.GObject):
 			# populating with non-keyed search
 			match = self.search.get_current()
 			self.data_controller.search_predicate(match)
+
+	def _reset_key_press(self):
+		"""Handle left arrow or backspace:
+		browse up if clear, else reset
+		"""
+		match = self.search.get_current()
+		# larrow or backspace will erase or go up
+		if not match and self.search.get_match_state() is State.Wait:
+			self._browse_up(match)
+		else:
+			self.reset_current()
+		self.reset()
 
 	def switch_to_source(self):
 		if self.current is not self.search:
