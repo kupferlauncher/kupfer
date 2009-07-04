@@ -38,11 +38,9 @@ class SearchTask (pretty.OutputMixin):
 				try:
 					# rankables stored
 					items = (r.object for r in self._source_cache[src])
-					self.output_debug("Using cache from", src)
 				except KeyError:
 					items = src.get_leaves()
 					self.output_debug("Rereading items from", src)
-					self._source_cache[src] = items
 			elif isinstance(src, objects.TextSource):
 				# For text source, we have to pass UTF-8 encoded
 				# strings "down" into the core
@@ -65,6 +63,7 @@ class SearchTask (pretty.OutputMixin):
 					rankables = search.score_objects(rankables, key)
 				matches = search.bonus_objects(rankables, key)
 				if isinstance(src, objects.Source):
+					# we fork off a copy of the iterator
 					matches, self._source_cache[src] = itertools.tee(matches)
 			else:
 				# we only want to list them
@@ -101,7 +100,7 @@ class RescanThread (threading.Thread, pretty.OutputMixin):
 		self.context = context
 
 	def run(self):
-		self.output_info(repr(self.source))
+		self.output_debug(repr(self.source))
 		items = self.source.get_leaves(force_update=True)
 		if self.sender and self.signal:
 			gobject.idle_add(self.sender.emit, self.signal, self.context)
@@ -191,10 +190,10 @@ class SourcePickleService (pretty.OutputMixin, object):
 		try:
 			source = pickle.loads(pfile.read())
 			assert isinstance(source, objects.Source), "Stored object not a Source"
-			self.output_info("Reading %s from %s" % (source, pickle_file))
+			self.output_debug("Reading %s from %s" % (source, pickle_file))
 		except (pickle.PickleError, Exception), e:
 			source = None
-			self.output_debug("Error loading %s: %s" % (pickle_file, e))
+			self.output_info("Error loading %s: %s" % (pickle_file, e))
 		return source
 
 	def pickle_source(self, source):
@@ -207,7 +206,7 @@ class SourcePickleService (pretty.OutputMixin, object):
 		of small writes are very slow
 		"""
 		output = self.open(pickle_file, "wb")
-		self.output_info("Saving %s to %s" % (source, pickle_file))
+		self.output_debug("Saving %s to %s" % (source, pickle_file))
 		output.write(pickle.dumps(source, pickle.HIGHEST_PROTOCOL))
 		output.close()
 		return True

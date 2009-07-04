@@ -34,15 +34,15 @@ class Learning (pretty.OutputMixin, object):
 		try:
 			source = pickle.loads(pfile.read())
 			assert isinstance(source, dict), "Stored object not a dict"
-			self.output_info("Reading from %s" % (pickle_file, ))
+			self.output_debug("Reading from %s" % (pickle_file, ))
 		except (pickle.PickleError, Exception), e:
 			source = None
-			self.output_debug("Error loading %s: %s" % (pickle_file, e))
+			self.output_info("Error loading %s: %s" % (pickle_file, e))
 		return source
 
 	def _pickle_register(self, reg, pickle_file):
 		output = open(pickle_file, "wb")
-		self.output_info("Saving to %s" % (pickle_file, ))
+		self.output_debug("Saving to %s" % (pickle_file, ))
 		output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
 		output.close()
 		return True
