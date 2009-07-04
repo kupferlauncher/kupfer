@@ -86,7 +86,7 @@ def configure(conf):
 	Utils.pprint("NORMAL", "Checking optional dependencies:")
 
 	opt_programs = ["dbus-send"]
-	opt_pymodules = ["wnck"]
+	opt_pymodules = "wnck gnome.ui".split()
 	for prog in opt_programs:
 		prog_path = conf.find_program(prog)
 
