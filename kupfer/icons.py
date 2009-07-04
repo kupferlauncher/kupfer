@@ -163,6 +163,21 @@ def get_icon_from_file(icon_file, icon_size):
 		print "get_icon_from_file, error:", e
 		return None
 
+def is_good(gicon):
+	"""Return True if it is likely that @gicon will load a visible icon
+	(icon name exists in theme, or icon references existing file)
+	"""
+	from gio import ThemedIcon, FileIcon
+	if not gicon:
+		return False
+	if isinstance(gicon, ThemedIcon):
+		return bool(get_good_name_for_icon_names(gicon.get_names()))
+	if isinstance(gicon, FileIcon):
+		ifile = gicon.get_file()
+		return ifile.query_exists()
+	# Since we can't load it otherwise (right now, see above)
+	return False
+
 def get_good_name_for_icon_names(names):
 	"""Return first name in @names that exists
 	in current icon theme, or None
