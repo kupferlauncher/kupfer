@@ -2,19 +2,21 @@
 # -*- coding: UTF-8 -*-
 
 import gtk
+import gio
 import gobject
 import itertools
 import signal
 
 from .data import DataController
 from . import pretty
+from . import icons
 
 
 # State Constants
 class State (object):
 	Wait, Match, NoMatch = (1,2,3)
 
-class ModelBase (object):
+class LeafModel (object):
 	"""A base for a tree view
 	With a magic load-on-demand feature.
 
@@ -22,17 +24,64 @@ class ModelBase (object):
 	and self.populate(num) will load @num items into
 	the model
 	"""
-	def __init__(self, *columns):
+	def __init__(self):
 		"""
 		First column is always the object -- returned by get_object
 		it needs not be specified in columns
 		"""
+		columns = (gio.Icon, str, str, str)
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
 		self.base = None
+		self._setup_columns()
 	
 	def __len__(self):
 		return len(self.store)
+
+	def _setup_columns(self):
+		self.icon_col = 1
+		self.val_col = 2
+		self.info_col = 3
+		self.rank_col = 4
+
+		# only show in debug mode
+		show_rank_col = pretty.debug
+
+		from pango import ELLIPSIZE_MIDDLE
+		cell = gtk.CellRendererText()
+		cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
+		cell.set_property("width-chars", 45)
+		col = gtk.TreeViewColumn("item", cell)
+
+		"""
+		info_cell = gtk.CellRendererPixbuf()
+		info_cell.set_property("height", 16)
+		info_cell.set_property("width", 16)
+		info_col = gtk.TreeViewColumn("info", info_cell)
+		info_col.add_attribute(info_cell, "icon-name", self.info_col)
+		"""
+		info_cell = gtk.CellRendererText()
+		info_cell.set_property("width-chars", 1)
+		info_col = gtk.TreeViewColumn("info", info_cell)
+		info_col.add_attribute(info_cell, "text", self.info_col)
+
+		col.add_attribute(cell, "text", self.val_col)
+
+		nbr_cell = gtk.CellRendererText()
+		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
+		nbr_cell.set_property("width-chars", 3)
+		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
+
+		icon_cell = gtk.CellRendererPixbuf()
+		icon_cell.set_property("height", 18)
+		icon_cell.set_property("width", 18)
+			
+		icon_col = gtk.TreeViewColumn("icon", icon_cell)
+		icon_col.add_attribute(icon_cell, "gicon", self.icon_col)
+
+		self.columns = [icon_col, col, info_col,]
+		if show_rank_col:
+			self.columns += (nbr_col, )
 
 	def _get_column(self, treepath, col):
 		iter = self.store.get_iter(treepath)
@@ -74,53 +123,6 @@ class ModelBase (object):
 		# first.object is a leaf
 		return first
 
-class LeafModel (ModelBase):
-	def __init__(self):
-		ModelBase.__init__(self, str, str, str, str)
-		self.icon_col = 1
-		self.val_col = 2
-		self.info_col = 3
-		self.rank_col = 4
-
-		# only show in debug mode
-		show_rank_col = pretty.debug
-
-		from pango import ELLIPSIZE_MIDDLE
-		cell = gtk.CellRendererText()
-		cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
-		cell.set_property("width-chars", 45)
-		col = gtk.TreeViewColumn("item", cell)
-
-		"""
-		info_cell = gtk.CellRendererPixbuf()
-		info_cell.set_property("height", 16)
-		info_cell.set_property("width", 16)
-		info_col = gtk.TreeViewColumn("info", info_cell)
-		info_col.add_attribute(info_cell, "icon-name", self.info_col)
-		"""
-		info_cell = gtk.CellRendererText()
-		info_cell.set_property("width-chars", 1)
-		info_col = gtk.TreeViewColumn("info", info_cell)
-		info_col.add_attribute(info_cell, "text", self.info_col)
-
-		col.add_attribute(cell, "text", self.val_col)
-
-		nbr_cell = gtk.CellRendererText()
-		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
-		nbr_cell.set_property("width-chars", 3)
-		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
-
-		icon_cell = gtk.CellRendererPixbuf()
-		icon_cell.set_property("height", 18)
-		icon_cell.set_property("width", 18)
-			
-		icon_col = gtk.TreeViewColumn("icon", icon_cell)
-		icon_col.add_attribute(icon_cell, "icon-name", self.icon_col)
-
-		self.columns = [icon_col, col, info_col,]
-		if show_rank_col:
-			self.columns += (nbr_col, )
-
 	def add(self, tupl):
 		leaf, rank = tupl
 		# Display rank empty instead of 0 since it looks better
@@ -131,7 +133,7 @@ class LeafModel (ModelBase):
 		if ((hasattr(leaf, "has_content") and leaf.has_content()) or
 				(hasattr(leaf, "is_factory") and leaf.is_factory())):
 			info = content_mark
-		self.append((leaf, leaf.get_icon_name(), str(leaf), info, rank_str))
+		self.append((leaf, leaf.get_icon(), str(leaf), info, rank_str))
 
 class MatchView (gtk.Bin):
 	"""
@@ -487,7 +489,7 @@ class Search (gtk.Bin):
 		self.emit("cursor-changed", self.match)
 		if match:
 			self.match_state = State.Match
-			self.match_view.set_match_state(unicode(self.match), self.match.get_icon(), match=self.text, state=self.match_state)
+			self.match_view.set_match_state(unicode(self.match), self.match.get_pixbuf(), match=self.text, state=self.match_state)
 
 	def update_match(self, key, matchrankable, matches):
 		"""
@@ -561,16 +563,16 @@ class LeafSearch (Search):
 		super(LeafSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty):
 		if empty and self.source:
-			return _("%s is empty") % self.source, self.source.get_icon()
+			return _("%s is empty") % self.source, self.source.get_pixbuf()
 		elif self.source:
-			return _("No matches in %s") % self.source, self.source.get_icon()
+			return _("No matches in %s") % self.source, self.source.get_pixbuf()
 		else:
-			return unicode(self.dummy), self.dummy.get_icon()
+			return unicode(self.dummy), self.dummy.get_pixbuf()
 	def setup_empty(self):
 		icon = None
 		title = _("Searching...")
 		if self.source:
-			icon = self.source.get_icon()
+			icon = self.source.get_pixbuf()
 			title = _("Searching %(source)s...") % {"source":self.source}
 
 		self.set_match(None)
@@ -586,7 +588,7 @@ class ActionSearch (Search):
 		self.dummy = DummyAction()
 		super(ActionSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty=False):
-		return unicode(self.dummy), self.dummy.get_icon()
+		return unicode(self.dummy), self.dummy.get_pixbuf()
 	def setup_empty(self):
 		self.handle_no_matches()
 		self._hide_table()

@@ -71,7 +71,7 @@ class KupferObject (object):
 		"""
 		return None
 
-	def get_icon(self):
+	def get_pixbuf(self):
 		"""
 		Returns an icon in pixbuf format.
 
@@ -92,8 +92,22 @@ class KupferObject (object):
 			return icons.get_icon_for_name(icon_name, self.icon_size)
 		return None
 
+	def get_icon(self):
+		"""
+		Returns an icon in GIcon format
+
+		Subclasses should implement get_gicon and
+		get_icon_name, if they make sense.
+		"""
+		gicon = self.get_gicon()
+		if not icons.is_good(gicon):
+			gicon = gio.ThemedIcon(self.get_icon_name())
+		return gicon
+
 	def get_gicon(self):
-		"""Return GIcon, if there is one"""
+		"""Return GIcon, if there is one
+		by default constructs a GIcon from get_icon_name
+		"""
 		return None
 	
 	def get_icon_name(self):
