@@ -827,6 +827,8 @@ class MultiSource (Source):
 		return "folder-saved-search"
 
 class UrlLeaf (Leaf):
+	# slots saves memory since we have lots this Leaf
+	__slots__ = ("name", "object")
 	def __init__(self, obj, name):
 		super(UrlLeaf, self).__init__(obj, name)
 
