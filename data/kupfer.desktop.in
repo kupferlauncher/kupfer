@@ -2,7 +2,9 @@
 Version=1.0
 Encoding=UTF-8
 Name=Kupfer
-Comment=A launcher with two panes and some extra stuff
+Comment=A simple flexible launcher for Gnome
+Comment[it]=Un lanciatore
+Comment[sv]=En enkel programstartare och ett kommandoverktyg
 Icon=search
 Exec=@KUPFER@
 Type=Application
