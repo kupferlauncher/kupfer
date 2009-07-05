@@ -564,10 +564,14 @@ msgid "%(name)20s %(version)4s %(description)s"
 msgstr "%(name)20s %(version)4s %(description)s"
 
 #: kupfer/version.py:22
+msgid "translator-credits"
+msgstr "Andrea Zagli <azagli@libero.it>"
+
+#: kupfer/version.py:28
 msgid "A free software (GPLv3+) launcher"
 msgstr "Un lanciatore software libero (GPLv3+)"
 
-#: kupfer/version.py:25
+#: kupfer/version.py:31
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
