@@ -885,6 +885,8 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_title(_("Kupfer"))
 		self.window.set_icon_name(self.icon_name)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+		self.window.set_keep_above(True)
+		self.window.set_position(gtk.WIN_POS_CENTER)
 
 	def register_keybinding(self, keystr):
 		"""Use @keystr as keybinding
@@ -903,8 +905,6 @@ class WindowController (pretty.OutputMixin):
 		self.put_away()
 	
 	def activate(self, sender=None, time=0):
-		self.window.set_keep_above(True)
-		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.present()
 		# try to put in the time here
 		# but we still get
