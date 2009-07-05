@@ -27,20 +27,31 @@ except locale.Error, e:
 	pass
 
 def get_options(default_opts=""):
+	"""
+	Read cli options and process --usage, --version and --debug
+	return a list of other application flags with --* prefix included
+	"""
 	usage_string = \
-	_(""" Usage:
+	_("""Usage:
+	--no-splash      do not present main interface on launch
+
 	--version       show version information
 	--help          show usage help
-	--debug         enable debug info
 
+	--debug         enable debug info
+	""")
+
+	configure_help=_("""
 	To configure kupfer, edit
 	  %(config)s
 
 	the default config for reference is at
 	  %(defaults)s
-
-	available plugins:
 	""")
+
+	plugin_header = _("""
+	available plugins:""")
+
 	from getopt import getopt, GetoptError
 	from sys import argv
 
@@ -63,16 +74,16 @@ def get_options(default_opts=""):
 
 	def make_usage_text():
 		plugin_list = plugins.get_plugin_desc()
-		usage_text = (usage_string % {
+		usage_text = "\n".join((
+			usage_string, configure_help % {
 				"config": conf_path,
 				"defaults": defaults_path,
-				})
-		usage_text += "\n"
-		usage_text += plugin_list
+				},
+			plugin_header, plugin_list ))
 		return usage_text
 
 	try:
-		opts, args = getopt(opts, "", ["version", "help"])
+		opts, args = getopt(opts, "", ["no-splash", "version", "help"])
 	except GetoptError, info:
 		print info
 		print make_usage_text()
@@ -88,7 +99,8 @@ def get_options(default_opts=""):
 			print_banner()
 			raise SystemExit
 
-	return None
+	# return list first of tuple pair
+	return [tupl[0] for tupl in opts]
 
 def print_version():
 	from . import version
@@ -115,7 +127,7 @@ def main():
 	from .plugins import (load_plugin_sources, sources_attribute,
 			action_decorators_attribute, text_sources_attribute)
 
-	get_options()
+	cli_opts = get_options()
 	print_banner()
 	if _debug:
 		pretty.debug = _debug
@@ -170,5 +182,7 @@ def main():
 	show_icon = not (source_config["Kupfer"]["ShowStatusIcon"].lower() not in
 			("yes", "true", ))
 	w.set_show_statusicon(show_icon)
-	w.main()
+
+	quiet = ("--no-splash" in cli_opts)
+	w.main(quiet=quiet)
 
