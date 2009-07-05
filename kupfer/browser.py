@@ -972,7 +972,11 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.quit_now()
 
-	def main(self):
+	def main(self, quiet=False):
+		"""Start WindowController, present its window
+		(if not @quiet) and connect to desktop services
+		(keybinding callback, session logout callbacks etc)
+		"""
 		# register dbus callbacks
 		from .listen import Service, AlreadyRunning, NoConnection
 		from .session import SessionClient
@@ -1008,7 +1012,8 @@ class WindowController (pretty.OutputMixin):
 
 		# Load data and present UI
 		self.data_controller.load()
-		self.activate()
+		if not quiet:
+			self.activate()
 
 		client = SessionClient()
 		client.connect("save-yourself", self._session_save)
