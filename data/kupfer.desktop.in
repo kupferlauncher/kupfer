@@ -1,6 +1,5 @@
 [Desktop Entry]
 Version=1.0
-Encoding=UTF-8
 Name=Kupfer
 Comment=A simple flexible launcher for Gnome
 Comment[it]=Un lanciatore
@@ -10,4 +9,3 @@ Exec=@KUPFER@
 Type=Application
 Categories=Utility;
 StartupNotify=true
-MimeType=;
