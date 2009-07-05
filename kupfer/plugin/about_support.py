@@ -24,6 +24,10 @@ def show_about_dialog(*ignored, **kwds):
 		ab.set_website(version.WEBSITE)
 		ab.set_license(version.LICENSE)
 		ab.set_authors(version.AUTHORS)
+		if version.DOCUMENTERS:
+			ab.set_documenters(version.DOCUMENTERS)
+		if version.TRANSLATOR_CREDITS:
+			ab.set_translator_credits(version.TRANSLATOR_CREDITS)
 
 		ab.connect("response", _response_callback)
 		# do not delete window on close

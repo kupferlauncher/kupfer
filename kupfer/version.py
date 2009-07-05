@@ -17,6 +17,10 @@ PROGRAM_NAME = _("Kupfer")
 AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 """.splitlines()
 
+DOCUMENTERS = []
+
+TRANSLATOR_CREDITS = _("translator-credits")
+
 WEBSITE = "http://kaizer.se/wiki/kupfer/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
