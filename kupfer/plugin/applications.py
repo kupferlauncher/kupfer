@@ -16,28 +16,22 @@ class AppSource (Source):
 	"""
 	def __init__(self):
 		super(AppSource, self).__init__(_("All Applications"))
+		import gio.unix
 	
 	def get_items(self):
 		from gio import app_info_get_all
+		from gio.unix import desktop_app_info_set_desktop_env
 		import xdg.BaseDirectory as base
 		import xdg.DesktopEntry as desk
-		# Choosing only item.should_show() items misses all Preference applets
-		# so we use a slight heurestic
+		# If we set proper desktop environment
+		# We get exactly the apps shown in the menu,
+		# as well as the preference panes
+		desktop_app_info_set_desktop_env("GNOME")
+		# Add this to the default
 		whitelist = ["nautilus-cd-burner.desktop"]
 		for item in app_info_get_all():
 			if item.should_show() or item.get_id() in whitelist:
 				yield AppLeaf(item)
-			else:
-				# Use Desktop file API to read its categories
-				loc = list(base.load_data_paths("applications", item.get_id()))
-				if not loc:
-					print "No LOCATION FOUND for", item
-					continue
-				loc = loc[0]
-				de = desk.DesktopEntry(loc)
-				categories = de.getCategories()
-				if "Settings" in categories and not de.getNoDisplay():
-					yield AppLeaf(item)
 
 	def get_description(self):
 		return _("All applications and preferences")
