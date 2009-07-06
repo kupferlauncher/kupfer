@@ -767,7 +767,9 @@ class Interface (gobject.GObject):
 		self._description_changed()
 
 	def switch_current(self):
-		if self.current is self.search:
+		# Only allow switch if we have match
+		if (self.current is self.search and
+			self.search.get_match_state() is State.Match):
 			self.current = self.action
 		else:
 			self.current = self.search
