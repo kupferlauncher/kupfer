@@ -669,6 +669,7 @@ class Interface (gobject.GObject):
 		# test for alt modifier (MOD1_MASK is alt/option)
 		modifiers = gtk.accelerator_get_default_mod_mask()
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
+		control_mask = ((event.state & modifiers) == gtk.gdk.CONTROL_MASK)
 
 		if keyv not in sensible:
 			# exit if not handled
@@ -690,7 +691,9 @@ class Interface (gobject.GObject):
 			if match:
 				self._browse_down(match, alternate=mod1_mask)
 		elif keyv == backsp:
-			if not self.entry.get_text():
+			# FIXME: Here we hardcode Ctrl-Backspace = Erase field
+			# Normally Ctrl-Backspace => erase WORD
+			if not self.entry.get_text() or control_mask:
 				self._reset_key_press()
 			else:
 				return False
@@ -826,7 +829,6 @@ class Interface (gobject.GObject):
 		text = editable.get_text()
 		text = text.decode("UTF-8")
 		if not text:
-			self.reset_current()
 			self.data_controller.cancel_search()
 			return
 
