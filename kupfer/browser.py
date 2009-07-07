@@ -662,6 +662,7 @@ class Interface (gobject.GObject):
 		without losing focus from entry field
 		"""
 		keyv = event.keyval
+		# FIXME: These should use gtk.gdk.keyval_from_name
 		sensible = (uarrow, darrow, rarrow, larrow,
 				tabkey, backsp, esckey) = (65362, 65364, 65363,
 				65361, 65289, 65288, 65307)
