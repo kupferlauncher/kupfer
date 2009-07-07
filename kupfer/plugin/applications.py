@@ -2,6 +2,7 @@ import xdg
 
 from kupfer.objects import Source, AppLeaf
 
+__kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource", )
 __description__ = _("All applications and preferences")
 __version__ = ""

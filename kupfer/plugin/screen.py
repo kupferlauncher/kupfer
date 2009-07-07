@@ -1,6 +1,7 @@
 from kupfer.objects import Leaf, Action, Source
 from kupfer import utils
 
+__kupfer_name__ = _("GNU Screen")
 __kupfer_sources__ = ("ScreenSessionsSource", )
 __description__ = _("Active GNU Screen sessions")
 __version__ = ""

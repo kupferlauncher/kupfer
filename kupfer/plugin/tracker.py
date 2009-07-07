@@ -6,6 +6,7 @@ from kupfer.objects import (TextLeaf, ActionDecorator, ConstructFileLeaf,
 from kupfer import utils, pretty
 
 
+__kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
 __kupfer_action_decorator__ = ("TrackerDecorator", )

@@ -5,6 +5,7 @@ from os import access, R_OK, X_OK, path
 from kupfer.objects import TextSource, FileLeaf, Leaf, Execute
 from kupfer import utils, icons
 
+__kupfer_name__ = _("Shell")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = _("Run commandline programs")

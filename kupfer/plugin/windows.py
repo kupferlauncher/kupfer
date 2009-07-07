@@ -4,6 +4,7 @@ import wnck
 
 from kupfer.objects import Leaf, Action, Source
 
+__kupfer_name__ = _("Windows")
 __kupfer_sources__ = ("WindowsSource", )
 __description__ = _("All windows on all workspaces")
 __version__ = ""
