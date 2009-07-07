@@ -691,9 +691,7 @@ class Interface (gobject.GObject):
 			if match:
 				self._browse_down(match, alternate=mod1_mask)
 		elif keyv == backsp:
-			# FIXME: Here we hardcode Ctrl-Backspace = Erase field
-			# Normally Ctrl-Backspace => erase WORD
-			if not self.entry.get_text() or control_mask:
+			if not self.entry.get_text():
 				self._reset_key_press()
 			else:
 				return False
@@ -832,6 +830,11 @@ class Interface (gobject.GObject):
 		text = text.decode("UTF-8")
 		if not text:
 			self.data_controller.cancel_search()
+			# See if it was a deleting key press
+			curev = gtk.get_current_event()
+			if curev.keyval in (gtk.gdk.keyval_from_name("Delete"),
+					gtk.gdk.keyval_from_name("BackSpace")):
+				self._reset_key_press()
 			return
 
 		self.current._hide_table()
