@@ -14,7 +14,14 @@ from HTMLParser import HTMLParser
 from os.path import join, expanduser, exists, basename
  
 def get_firefox_home_file(needed_file):
-    firefox_dir = expanduser("~/.mozilla/firefox/")
+    for firefox_dir in (expanduser(p) for p in ("~/.mozilla/firefox-3.5/",
+        "~/.mozilla/firefox/")):
+        if exists(firefox_dir):
+            break
+    else:
+        # no break
+        return None
+    # here we leak firefox_dir
     config = RawConfigParser({"Default" : 0})
     config.read(expanduser(join(firefox_dir, "profiles.ini")))
     path = None
@@ -144,6 +151,8 @@ def get_bookmarks(bookmarks_file):
 	tags: list of tags/the folder
 	"""
 	# construct and configure the parser
+	if not bookmarks_file:
+		return []
 	parser = BookmarksParser()
 
 	# initiate the parse; this will submit requests to delicious
