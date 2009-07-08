@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
 PYTHON="@PYTHON@"
-test ${PYTHON:0:1} = "@" && PYTHON=python
+test ${PYTHON} = @"PYTHON"@ && PYTHON=python
 
 # Try to spawn kupfer via dbus, else go to python
 # but only if there are no arguments
