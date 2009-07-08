@@ -144,9 +144,6 @@ def build(bld):
 		dict = {"PYTHON": bld.env["PYTHON"]}
 		)
 
-	# configuration defaults
-	bld.install_files("${DATADIR}/kupfer", "data/defaults.cfg")
-
 	bld.add_subdirs("po data")
 
 def intlupdate(util):

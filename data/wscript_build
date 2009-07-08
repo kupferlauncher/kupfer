@@ -1,3 +1,6 @@
+# configuration defaults
+bld.install_files("${DATADIR}/kupfer", "defaults.cfg")
+
 # merge translations to .desktop file
 desktop_subst_file = "kupfer.desktop.in"
 dtptrans = bld.new_task_gen(
