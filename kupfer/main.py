@@ -33,7 +33,7 @@ def get_options(default_opts=""):
 	"""
 	usage_string = \
 	_("""Usage:
-	--no-splash      do not present main interface on launch
+	--no-splash     do not present main interface on launch
 
 	--version       show version information
 	--help          show usage help
@@ -41,16 +41,10 @@ def get_options(default_opts=""):
 	--debug         enable debug info
 	""")
 
-	configure_help=_("""
-	To configure kupfer, edit
-	  %(config)s
+	configure_help1 = _("To configure kupfer, edit:")
+	configure_help2 = _("The default config for reference is at:")
 
-	the default config for reference is at
-	  %(defaults)s
-	""")
-
-	plugin_header = _("""
-	available plugins:""")
+	plugin_header = _("Available plugins:")
 
 	from getopt import getopt, GetoptError
 	from sys import argv
@@ -75,11 +69,15 @@ def get_options(default_opts=""):
 	def make_usage_text():
 		plugin_list = plugins.get_plugin_desc()
 		usage_text = "\n".join((
-			usage_string, configure_help % {
-				"config": conf_path,
-				"defaults": defaults_path,
-				},
-			plugin_header, plugin_list ))
+			usage_string,
+			configure_help1,
+			"\t" + conf_path,
+			configure_help2,
+			"\t" + defaults_path,
+			"\n",
+			plugin_header,
+			plugin_list,
+		))
 		return usage_text
 
 	try:

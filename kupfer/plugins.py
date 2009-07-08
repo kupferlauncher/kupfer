@@ -55,7 +55,7 @@ def get_plugin_info():
 def get_plugin_desc():
 	desc = []
 	for rec in get_plugin_info():
-		desc.append(_("""%(name)20s %(version)4s %(description)s""") % rec)
+		desc.append(_("""  %(name)-20s %(version)-4s %(description)s""") % rec)
 	return "\n".join(desc)
 
 imported_plugins = {}
