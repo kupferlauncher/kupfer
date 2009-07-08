@@ -163,9 +163,10 @@ def build(bld):
 	if bld.env['INTLTOOL']:
 		bld.add_subdirs("po")
 
-def poextract(util):
+def intlupdate(util):
 	"""Extract new strings for localization"""
-	for line in open("po/LINGUAS"):
+	os.chdir("po")
+	for line in open("LINGUAS"):
 		""" Run xgettext for all listed languages
 		to extract translatable strings and merge with
 		the old file """
@@ -173,14 +174,12 @@ def poextract(util):
 			continue
 		lang = line.strip()
 
-		lang_file = "po/%s.po" % lang
-		print "Writing", lang_file
-		if os.path.exists(lang_file):
-			# Run twice to refresh all file:line comments
-			os.popen("xgettext -f po/POTFILES.in --output=%s -j --omit-header --no-location" % lang_file)
-			os.popen("xgettext -f po/POTFILES.in --output=%s -F -j --omit-header" % lang_file)
-		else:
-			os.popen("xgettext -f po/POTFILES.in --output=%s -F" % lang_file)
+		lang_file = "%s.po" % lang
+		if not os.path.exists(lang_file):
+			print "Creating %s" % lang_file
+			os.popen("xgettext -D .. -f POTFILES.in --output=%s -F" % lang_file)
+		print "Processing", lang
+		os.popen("intltool-update %s" % lang)
 
 def shutdown():
 	pass
