@@ -1,0 +1,22 @@
+# merge translations to .desktop file
+desktop_subst_file = "kupfer.desktop.in"
+dtptrans = bld.new_task_gen(
+	"intltool_in",
+	podir="../po",
+	flags = ("-d", "-q", "-u", "-c"),
+	source = desktop_subst_file  + ".in",
+	target = desktop_subst_file,
+)
+
+# subst executable location into and
+# Install .desktop file
+desktop_file = "kupfer.desktop"
+dtp = bld.new_task_gen(
+	"subst",
+	source = desktop_file + ".in",
+	target = desktop_file,
+	install_path = "${DATADIR}/applications",
+	chmod = 0755,
+	dict = {"KUPFER": bld.env["KUPFER"]}
+)
+
