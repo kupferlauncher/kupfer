@@ -3,6 +3,7 @@ from urlparse import urlparse, urlunparse
 
 from kupfer.objects import TextSource, TextLeaf, FileLeaf, UrlLeaf
 
+__kupfer_name__ = _("Free-text queries")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource",)
 __description__ = _("Basic support for free-text queries")

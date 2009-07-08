@@ -5,14 +5,15 @@ from kupfer.objects import TextSource, ConstructFileLeaf
 from kupfer import utils, pretty
 
 
+__kupfer_name__ = _("Tracker live search")
 __kupfer_text_sources__ = ("TrackerLiveSearchSource", )
-__description__ = _("Live Tracker search")
+__description__ = _("(Experimental) Tracker live search results")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class TrackerLiveSearchSource (TextSource):
 	def __init__(self):
-		TextSource.__init__(self, name=_("Live Tracker search"))
+		TextSource.__init__(self, name=_("Tracker live search"))
 		self.max_items = 20
 		self.searchobj = None
 		self.dbus = None

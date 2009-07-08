@@ -4,6 +4,7 @@ from kupfer.objects import FileLeaf, ActionDecorator
 from kupfer import utils
 
 
+__kupfer_name__ = _("Trash")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_action_decorator__ = ("Decorator", )

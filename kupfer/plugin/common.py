@@ -4,8 +4,9 @@ from kupfer.plugin import about_support
 
 import gtk
 
+__kupfer_name__ = _("Core")
 __kupfer_sources__ = ("CommonSource", )
-__description__ = _("Items and special actions")
+__description__ = _("Core actions and miscellaneous items")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

@@ -68,11 +68,9 @@ def configure(conf):
 	conf.check_tool("python")
 	conf.check_python_version((2,5,0))
 	conf.check_tool("misc gnu_dirs")
-	try:
-		# BUG: intltool requires gcc
-		conf.check_tool("gcc intltool")
-	except Configure.ConfigurationError, e:
-		print "Disabling localization (%s)" % e
+
+	# BUG: intltool requires gcc
+	conf.check_tool("gcc intltool")
 
 	python_modules = """
 		gio
@@ -146,22 +144,10 @@ def build(bld):
 		dict = {"PYTHON": bld.env["PYTHON"]}
 		)
 
-	# Install .desktop file
-	desktop_subst_file = "kupfer.desktop"
-	dtp = bld.new_task_gen("subst",
-		source = "data/" + desktop_subst_file + ".in",
-		target = desktop_subst_file,
-		install_path = "${DATADIR}/applications",
-		chmod = 0755,
-		dict = {"KUPFER": bld.env["KUPFER"]}
-		)
-
 	# configuration defaults
 	bld.install_files("${DATADIR}/kupfer", "data/defaults.cfg")
 
-	# Add localization if available
-	if bld.env['INTLTOOL']:
-		bld.add_subdirs("po")
+	bld.add_subdirs("po data")
 
 def intlupdate(util):
 	"""Extract new strings for localization"""

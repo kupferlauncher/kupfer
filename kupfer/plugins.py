@@ -10,10 +10,10 @@ def get_plugin_info():
 
 	with at least the fields:
 	name
+	localized_name
 	version
 	description
 	author
-	provides
 	"""
 	from kupfer import plugin
 	import os
@@ -37,19 +37,21 @@ def get_plugin_info():
 		except ImportError, e:
 			print "Error:", e
 			continue
+		localized_name = plugin.get("__kupfer_name__", None)
 		desc = plugin.get("__description__", _("(no description)"))
 		vers = plugin.get("__version__", "")
 		author = plugin.get("__author__", "")
-		sources = plugin.get("__kupfer_sources__", None)
-		# skip "empty" plugins
-		if sources is None:
+		# skip false matches;
+		# all plugins have to have @localized_name
+		if localized_name is None:
 			continue
 		yield {
 			"name": plugin_name,
+			"localized_name": localized_name,
 			"version": vers,
 			"description": desc,
 			"author": author,
-			"provides": sources
+			"provides": (),
 		}
 
 def get_plugin_desc():
