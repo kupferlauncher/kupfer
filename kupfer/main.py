@@ -31,35 +31,27 @@ def get_options(default_opts=""):
 	Read cli options and process --usage, --version and --debug
 	return a list of other application flags with --* prefix included
 	"""
-	usage_string = \
-	_("""Usage:
-	--no-splash     do not present main interface on launch
+	usage_string = _("Usage:")
 
-	--version       show version information
-	--help          show usage help
+	program_options = [
+		("no-splash", _("do not present main interface on launch")),
+	]
+	misc_options = [
+		("help", _("show usage help")),
+		("version", _("show version information")),
+		("debug", _("enable debug info")),
+	]
 
-	--debug         enable debug info
-	""")
+	usage_string = usage_string + "\n" + "\n".join("  --%-15s  %s" % (o,h) for o,h in (program_options + misc_options))
 
 	configure_help1 = _("To configure kupfer, edit:")
 	configure_help2 = _("The default config for reference is at:")
-
 	plugin_header = _("Available plugins:")
 
 	from getopt import getopt, GetoptError
 	from sys import argv
 
 	from kupfer import config, plugins
-
-	opts = argv[1:]
-	if "--debug" in opts:
-		try:
-			import debug
-		except ImportError, e:
-			print e
-		global _debug
-		_debug = True
-		opts.remove("--debug") 
 
 	config_filename = "kupfer.cfg"
 	defaults_filename = "defaults.cfg"
@@ -70,6 +62,7 @@ def get_options(default_opts=""):
 		plugin_list = plugins.get_plugin_desc()
 		usage_text = "\n".join((
 			usage_string,
+			"\n",
 			configure_help1,
 			"\t" + conf_path,
 			configure_help2,
@@ -81,7 +74,8 @@ def get_options(default_opts=""):
 		return usage_text
 
 	try:
-		opts, args = getopt(opts, "", ["no-splash", "version", "help"])
+		opts, args = getopt(argv[1:], "", [o for o,h in program_options] + 
+				[o for o,h in misc_options])
 	except GetoptError, info:
 		print info
 		print make_usage_text()
@@ -96,6 +90,13 @@ def get_options(default_opts=""):
 			print
 			print_banner()
 			raise SystemExit
+		if k == "--debug":
+			try:
+				import debug
+			except ImportError, e:
+				print e
+			global _debug
+			_debug = True
 
 	# return list first of tuple pair
 	return [tupl[0] for tupl in opts]
