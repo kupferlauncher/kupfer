@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 _Name=Kupfer
-_Comment=A simple flexible launcher for Gnome
+_Comment=A simple flexible launcher
 Icon=search
 Exec=@KUPFER@
 Type=Application
