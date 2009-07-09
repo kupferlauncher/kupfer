@@ -794,7 +794,7 @@ class DirectorySource (Source):
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
-	def __init__(self, sources, name=_("Catalog of Catalogs")):
+	def __init__(self, sources, name=_("Catalog index")):
 		super(SourcesSource, self).__init__(name)
 		self.sources = sources
 
