@@ -77,6 +77,7 @@ def configure(conf):
 		gtk
 		xdg
 		dbus
+		wnck
 		"""
 	for module in python_modules.split():
 		conf.check_python_module(module)
@@ -84,7 +85,7 @@ def configure(conf):
 	Utils.pprint("NORMAL", "Checking optional dependencies:")
 
 	opt_programs = ["dbus-send"]
-	opt_pymodules = "wnck gnome.ui".split()
+	opt_pymodules = "gnome.ui".split()
 	for prog in opt_programs:
 		prog_path = conf.find_program(prog)
 
