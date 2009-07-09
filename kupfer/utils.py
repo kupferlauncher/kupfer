@@ -71,12 +71,23 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 	a list of @uris or @paths
 	"""
 	assert app_info
+
+	import gtk
+	import wnck
+
 	from gtk.gdk import AppLaunchContext
 	from gio import File
 	ctx = AppLaunchContext()
 	if paths:
 		files = [File(p) for p in paths]
 	from glib import GError
+
+	# launch on current workspace
+	workspace = wnck.screen_get_default().get_active_workspace()
+	nbr = workspace.get_number() if workspace else -1
+	ctx.set_desktop(nbr)
+	ctx.set_timestamp(gtk.get_current_event_time())
+
 	try:
 		if uris:
 			ret = app_info.launch_uris(uris, ctx)
