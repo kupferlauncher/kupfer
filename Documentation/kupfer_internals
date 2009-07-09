@@ -1,0 +1,61 @@
+Kupfer internals
+================
+
+This document is a Work in progress.
+
+If you have Questions, just fire them away directly to me,
+Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+
+Kupfer's architecture is built around objects that can be acted on by
+actions. Kupfer's basic concept for understanding objects is in
+kupfer/objects.py. The basic building blocks are:
+
+KupferObject
+
+base class for basic user-visible constructs, this defines:
+
+* A way to get the object's name
+* A way to get the object's icon
+
+Leaf
+
+this represents an object that the user will want to summon and
+act on. An example is a file, an application, a window or a Free-text
+query (TextLeaf).
+
+This defines, in addition to KupferObject:
+
+* Leaf.object is the represented object, is
+implementation-specific
+* A way to get the default actions for this type
+* __hash__ and __eq__ so that equivalents are recognized to remove
+duplicate objects
+* has_content() and content_source() to find out if objects contain
+anything, like for example folders do
+
+Action
+
+represents and action on a Leaf, for example Show() that will open with
+default viewer.
+
+This defines, in addition to KupferObject:
+
+* activate(leaf) to act on a leaf
+* is_factory whether the action "has content", returns a collection of
+new items.
+
+Source
+
+understands specific data and delivers Leaves for it. For example
+DirectorySource, that will give FileLeaves for contents of a directory
+
+This defines, in addition to KupferObject:
+
+* __hash__ and __eq__ so that equivalents are recognized to remove
+duplicate objects
+* get_items For internal use to return its contents
+* is_dynamic True when there should be no caching (usually there should)
+* has_parent, get_parent
+* mark_for_update  For internal use to signal it should drop cache
+* get_leaf_repr How to represent the source in a list, For example the
+DirectorySource is represented by a FileLeaf for the directory

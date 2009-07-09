@@ -1,0 +1,46 @@
+Localization
+============
+
+kupfer is translated using gettext and it is managed in the build system
+using intltool. Translation messages are located in the po/ directory.
+
+To update an existing translation
+---------------------------------
+
+To update with new strings, run:
+./waf intlupdate
+
+Then check all fuzzy messages, translate all untranslated messages.
+Contrinue running ./waf intlupdate to check that you have 0 fuzzy and 0
+untranslated, then you're finished.
+
+Add only the file you changed with
+git add po/lang.po
+git commit -m "lang: Updated translation"
+
+where 'lang' is the two-letter abbreviation
+
+
+To create a new translation
+---------------------------
+
+Add the language to po/LINGUAS with it's (commonly) two-letter code.
+Run ./waf intlupdate and then edit the header in the po/lang.po file,
+filling in your name and other slots, and importantly the CHARSET. You
+probably want to use UTF-8.
+
+When the header is filled-in, run ./waf intlupdate to see that it runs
+without errors, and you should have a po/lang.po file ready for
+translating.
+
+To try the new translation
+--------------------------
+
+Make sure the translation is listed in po/LINGUAS.
+
+To try it, you have to install kupfer with ./waf install
+
+If you run ./kupfer-activate.sh from the working directory it won't find
+the installed translations unless you make a symlink called 'locale' to
+the installed location (for example ~/.local/share/locale if install
+prefix was ~/.local).
