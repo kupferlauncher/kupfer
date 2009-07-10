@@ -77,9 +77,9 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 		else:
 			ret = app_info.launch(files, ctx)
 		if not ret:
-			print "Error when launching", app_info
+			pretty.print_info(__name__, "Error launching", app_info)
 	except GError, e:
-		print "launch_app:", e
+		pretty.print_info(__name__, "Error:", e)
 		return False
 	else:
 		if track:
@@ -157,9 +157,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			app = w.get_application()
 			pid = app.get_pid()
 			if not pid:
-				print app.get_name(), app.get_startup_id(), app.get_icon_name(), app.get_xid()
 				pid = w.get_pid()
-				print "Found ", pid, "instead"
 			self.output_debug("App %s has pid %d" %( app.get_name(), pid))
 			env = _read_environ(pid, envcache=envcache)
 			if env and kupfer_env in env:
@@ -188,7 +186,6 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		for w in screen.get_windows_stacked():
 			app = w.get_application()
 			if self._is_match(app_id, app):
-				self.output_debug(app_id, "is running")
 				break
 		# if break not reached
 		else:
