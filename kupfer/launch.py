@@ -2,8 +2,12 @@ import wnck
 import gtk
 import gobject
 from time import time
+from os import path
 
-from kupfer import pretty
+import cPickle as pickle
+
+from kupfer import pretty, config
+from kupfer import scheduler
 
 kupfer_env = "KUPFER_APP_ID"
 
@@ -39,6 +43,39 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		self.register = {}
 		screen = wnck.screen_get_default()
 		screen.get_windows_stacked()
+		scheduler.GetScheduler().connect("finish", self._finish)
+		self._load()
+
+	def _get_filename(self):
+		version = 1
+		return path.join(config.get_cache_home(),
+				"application_identification_v%d.pickle" % version)
+	def _load(self):
+		reg = self._unpickle_register(self._get_filename())
+		self.register = reg if reg else {}
+	def _finish(self, sched):
+		self._pickle_register(self.register, self._get_filename())
+	def _unpickle_register(self, pickle_file):
+		try:
+			pfile = open(pickle_file, "rb")
+		except IOError, e:
+			return None
+		try:
+			source = pickle.loads(pfile.read())
+			assert isinstance(source, dict), "Stored object not a dict"
+			self.output_debug("Reading from %s" % (pickle_file, ))
+		except (pickle.PickleError, Exception), e:
+			source = None
+			self.output_info("Error loading %s: %s" % (pickle_file, e))
+		return source
+
+	def _pickle_register(self, reg, pickle_file):
+		output = open(pickle_file, "wb")
+		self.output_debug("Saving to %s" % (pickle_file, ))
+		output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
+		output.close()
+		return True
+
 	def _store(self, app_id, application):
 		self.register[app_id] = application.get_name()
 		self.output_debug("storing", app_id, "as", application.get_name())
@@ -50,6 +87,8 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		return self.register[app_id] == application.get_name()
 
 	def launched_application(self, app_id):
+		if self._has_match(app_id):
+			return
 		timeout = time() + 10
 		envcache = {}
 		gobject.timeout_add_seconds(2, self._find_application, app_id, timeout, envcache)
