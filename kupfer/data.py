@@ -479,8 +479,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		# register search to learning database
 		if self.latest_item_key:
 			learn.record_search_hit(unicode(leaf), self.latest_item_key)
-		if self.latest_action_key:
-			learn.record_search_hit(unicode(action), self.latest_action_key)
+		# register actions regardless of key
+		learn.record_search_hit(unicode(action), self.latest_action_key)
 
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
