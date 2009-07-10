@@ -74,6 +74,7 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 
 	import gtk
 	import wnck
+	import os
 
 	from gtk.gdk import AppLaunchContext
 	from gio import File
@@ -87,6 +88,15 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 	nbr = workspace.get_number() if workspace else -1
 	ctx.set_desktop(nbr)
 	ctx.set_timestamp(gtk.get_current_event_time())
+	kupfer_env = "KUPFER_APP_ID"
+
+	app_id = app_info.get_id()
+	os.putenv(kupfer_env, app_id)
+	import launch
+	svc = launch.GetApplicationsMatcherService()
+	if svc.application_is_running(app_id):
+		svc.application_to_front(app_id)
+		return True
 
 	try:
 		if uris:
@@ -98,6 +108,10 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 	except GError, e:
 		print "launch_app:", e
 		return False
+	else:
+		svc.launched_application(app_info.get_id())
+	finally:
+		os.unsetenv(kupfer_env)
 	return True
 
 def show_path(path):
