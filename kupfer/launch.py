@@ -12,7 +12,7 @@ from kupfer import scheduler
 
 kupfer_env = "KUPFER_APP_ID"
 
-def read_environ(pid, envcache=None):
+def _read_environ(pid, envcache=None):
 	"""Read the environment for application with @pid
 	and return as a dictionary. Only works for the user's
 	own processes, of course
@@ -161,7 +161,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 				pid = w.get_pid()
 				print "Found ", pid, "instead"
 			self.output_debug("App %s has pid %d" %( app.get_name(), pid))
-			env = read_environ(pid, envcache=envcache)
+			env = _read_environ(pid, envcache=envcache)
 			if env and kupfer_env in env:
 				if env[kupfer_env] == app_id:
 					self._store(app_id, app)
