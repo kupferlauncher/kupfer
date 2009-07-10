@@ -61,8 +61,11 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	ctx.set_desktop(nbr)
 	ctx.set_timestamp(gtk.get_current_event_time())
 
-	app_id = app_info.get_id()
-	os.putenv(kupfer_env, app_id)
+	if track:
+		app_id = app_info.get_id()
+		os.putenv(kupfer_env, app_id)
+	else:
+		app_id = ""
 	svc = GetApplicationsMatcherService()
 	if activate and svc.application_is_running(app_id):
 		svc.application_to_front(app_id)

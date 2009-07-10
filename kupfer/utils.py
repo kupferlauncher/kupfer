@@ -61,7 +61,9 @@ def app_info_for_commandline(cli, name=None, in_terminal=False):
 	return item
 
 def launch_commandline(cli, name=None, in_terminal=False):
-	return launch_app(app_info_for_commandline(cli, name, in_terminal))
+	import launch
+	app_info = app_info_for_commandline(cli, name, in_terminal)
+	return launch.launch_application(app_info, track=False)
 
 def launch_app(app_info, files=(), uris=(), paths=()):
 	import launch
