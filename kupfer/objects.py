@@ -18,8 +18,8 @@ import gobject
 import gio
 
 from . import icons
-from . import utils
 from . import pretty
+from . import utils, launch
 
 class Error (Exception):
 	pass
@@ -339,8 +339,11 @@ class AppLeaf (Leaf):
 		self._init_from_item(self._get_item(path, item_id))
 
 	def get_actions(self):
-		yield Launch()
-		#yield Launch(name="Launch in Terminal", in_terminal=True)
+		if launch.application_is_running(self.object):
+			yield ShowApplication()
+			yield LaunchAgain()
+		else:
+			yield Launch()
 
 	def get_description(self):
 		"""description: Use "App description (executable)" """
@@ -518,18 +521,39 @@ class Launch (Action):
 
 	Launches an application (AppLeaf)
 	"""
-	def __init__(self, name=None, in_terminal=False):
+	def __init__(self, name=None, in_terminal=False, open_new=False):
 		if not name:
 			name = _("Launch")
 		Action.__init__(self, name)
 		self.in_terminal = in_terminal
+		self.open_new = open_new
 	
 	def activate(self, leaf):
 		desktop_item = leaf.object
-		utils.launch_app(desktop_item)
+		launch.launch_application(leaf.object, activate=not self.open_new)
 
 	def get_description(self):
 		return _("Launch application")
+
+class ShowApplication (Launch):
+	"""Show application if running, else launch"""
+	def __init__(self, name=None):
+		if not name:
+			name = _("Show")
+		Launch.__init__(self, name, open_new=False)
+
+	def get_description(self):
+		return _("Show application window")
+
+class LaunchAgain (Launch):
+	"""Launch instance without checking if running"""
+	def __init__(self, name=None):
+		if not name:
+			name = _("Launch again")
+		Launch.__init__(self, name, open_new=True)
+
+	def get_description(self):
+		return _("Launch another instance of this application")
 
 class Execute (Launch):
 	"""
