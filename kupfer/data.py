@@ -10,6 +10,7 @@ from . import objects
 from . import config
 from . import pretty
 from . import learn
+from . import scheduler
 
 class SearchTask (pretty.OutputMixin):
 	"""
@@ -313,6 +314,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.decorate_types = {}
 		self.source_search_task = SearchTask()
 
+		sch = scheduler.GetScheduler()
+		sch.connect("load", self.load)
+		sch.connect("finish", self.finish)
+
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
 
@@ -341,14 +346,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				decorate_with.extend(act.get_actions())
 				self.decorate_types[appl_type] = decorate_with
 
-	def load(self):
+	def load(self, sched):
 		"""Load data from persistent store"""
 		self.sc.add(self.direct_sources, toplevel=True)
 		self.sc.add(self.other_sources, toplevel=False)
 		self.source_rebase(self.sc.root)
 		learn.load()
 
-	def finish(self):
+	def finish(self, sched):
 		self.sc.finish()
 		learn.finish()
 

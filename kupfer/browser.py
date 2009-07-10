@@ -955,7 +955,9 @@ class WindowController (pretty.OutputMixin):
 
 	def save_data(self):
 		"""Save state before quit"""
-		self.data_controller.finish()
+		from kupfer.scheduler import GetScheduler
+		sch = GetScheduler()
+		sch.finish()
 
 	def quit(self, sender=None):
 		gtk.main_quit()
@@ -988,6 +990,7 @@ class WindowController (pretty.OutputMixin):
 		# register dbus callbacks
 		from .listen import Service, AlreadyRunning, NoConnection
 		from .session import SessionClient
+		from kupfer.scheduler import GetScheduler
 
 		try:
 			s = Service()
@@ -1019,7 +1022,9 @@ class WindowController (pretty.OutputMixin):
 			self._setup_status_icon()
 
 		# Load data and present UI
-		self.data_controller.load()
+		sch = GetScheduler()
+		sch.load()
+
 		if not quiet:
 			self.activate()
 
