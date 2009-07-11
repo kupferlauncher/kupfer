@@ -67,7 +67,10 @@ def launch_commandline(cli, name=None, in_terminal=False):
 
 def launch_app(app_info, files=(), uris=(), paths=()):
 	import launch
-	return launch.launch_application(app_info, files, uris, paths)
+
+	# With files we should use activate=False
+	return launch.launch_application(app_info, files, uris, paths,
+			activate=False)
 
 def show_path(path):
 	"""Open local @path with default viewer"""
