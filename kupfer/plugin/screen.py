@@ -70,9 +70,7 @@ class AttachScreen (Action):
 		name = _("Attach")
 		super(AttachScreen, self).__init__(name)
 	def activate(self, leaf):
-		import gio
 		pid = leaf.object
 		action = "screen -x -R %s" % pid
-		item = gio.AppInfo(action, _("GNU Screen session"),
-				gio.APP_INFO_CREATE_NEEDS_TERMINAL)
-		utils.launch_app(item)
+		utils.launch_commandline(action, name=_("GNU Screen session"),
+				in_terminal=True)
