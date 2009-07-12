@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-12 19:32+0200\n"
+"POT-Creation-Date: 2009-07-12 20:08+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -94,134 +94,150 @@ msgstr ""
 msgid "No matches"
 msgstr "Inga träffar"
 
-#: ../kupfer/objects.py:347
+#: ../kupfer/objects.py:350
 #, python-format
 msgid "%(description)s (%(exec)s)"
 msgstr "%(description)s (%(exec)s)"
 
-#: ../kupfer/objects.py:423 ../kupfer/objects.py:467 ../kupfer/objects.py:481
+#: ../kupfer/objects.py:426 ../kupfer/objects.py:470 ../kupfer/objects.py:484
 msgid "Open"
 msgstr "Öppna"
 
-#: ../kupfer/objects.py:423 ../kupfer/objects.py:437
+#: ../kupfer/objects.py:426 ../kupfer/objects.py:440
 #, python-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: ../kupfer/objects.py:435
+#: ../kupfer/objects.py:438
 #, python-format
 msgid "Open with %s (default)"
 msgstr "Öppna med %s (standardval)"
 
-#: ../kupfer/objects.py:449
+#: ../kupfer/objects.py:452
 msgid "Open URL"
 msgstr "Öppna URL"
 
-#: ../kupfer/objects.py:460
+#: ../kupfer/objects.py:463
 msgid "Open URL with default viewer"
 msgstr "Öppna URL med standardprogram"
 
-#: ../kupfer/objects.py:474
+#: ../kupfer/objects.py:477
 msgid "Open with default viewer"
 msgstr "Öppna med standardprogram"
 
-#: ../kupfer/objects.py:484
+#: ../kupfer/objects.py:487
 msgid "Open folder"
 msgstr "Öppna mapp"
 
-#: ../kupfer/objects.py:490
+#: ../kupfer/objects.py:493
 msgid "Reveal"
 msgstr "Visa"
 
-#: ../kupfer/objects.py:499
+#: ../kupfer/objects.py:502
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: ../kupfer/objects.py:505
+#: ../kupfer/objects.py:508
 msgid "Open Terminal here"
 msgstr "Öppna i terminalfönster"
 
-#: ../kupfer/objects.py:523
+#: ../kupfer/objects.py:526
 msgid "Launch"
 msgstr "Starta"
 
-#: ../kupfer/objects.py:532
+#: ../kupfer/objects.py:536
 msgid "Launch application"
 msgstr "Starta program"
 
-#: ../kupfer/objects.py:539
+#: ../kupfer/objects.py:542 ../kupfer/plugin/windows.py:48
+msgid "Go to"
+msgstr "Gå till"
+
+#: ../kupfer/objects.py:546
+msgid "Show application window"
+msgstr "Visa programfönster"
+
+#: ../kupfer/objects.py:554
+msgid "Launch again"
+msgstr "Starta igen"
+
+#: ../kupfer/objects.py:558
+msgid "Launch another instance of this application"
+msgstr "Starta programmet igen"
+
+#: ../kupfer/objects.py:565
 msgid "Run in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: ../kupfer/objects.py:539
+#: ../kupfer/objects.py:565
 msgid "Run"
 msgstr "Kör"
 
-#: ../kupfer/objects.py:550
+#: ../kupfer/objects.py:576
 msgid "Run this program in a Terminal"
 msgstr "Kör programmet i terminalfönster"
 
-#: ../kupfer/objects.py:552
+#: ../kupfer/objects.py:578
 msgid "Run this program"
 msgstr "Kör programmet"
 
-#: ../kupfer/objects.py:564
+#: ../kupfer/objects.py:590
 msgid "Search content..."
 msgstr "Sök i..."
 
-#: ../kupfer/objects.py:575
+#: ../kupfer/objects.py:601
 msgid "Search inside this catalog"
 msgstr "Sök bland objekt i katalogen"
 
-#: ../kupfer/objects.py:585
+#: ../kupfer/objects.py:611
 msgid "Rescan"
 msgstr "Uppdatera"
 
-#: ../kupfer/objects.py:598
+#: ../kupfer/objects.py:624
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
-#: ../kupfer/objects.py:609
+#: ../kupfer/objects.py:635
 msgid "No action"
 msgstr "Inget kommando"
 
-#: ../kupfer/objects.py:687
+#: ../kupfer/objects.py:713
 #, python-format
 msgid "%s et al"
 msgstr "%s et al"
 
-#: ../kupfer/objects.py:713
+#: ../kupfer/objects.py:739
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: ../kupfer/objects.py:784
+#: ../kupfer/objects.py:810
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: ../kupfer/objects.py:797
+#: ../kupfer/objects.py:823
 msgid "Catalog index"
 msgstr "Katalogindex"
 
-#: ../kupfer/objects.py:808
+#: ../kupfer/objects.py:834
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: ../kupfer/objects.py:819
+#: ../kupfer/objects.py:845
 msgid "Catalog"
 msgstr "Katalog"
 
-#: ../kupfer/objects.py:838
+#: ../kupfer/objects.py:864
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
-#: ../kupfer/objects.py:868
+#: ../kupfer/objects.py:894
 #, python-format
 msgid "Text query \"%s\""
 msgstr "Textsökning \"%s\""
 
-#: ../kupfer/objects.py:879 ../kupfer/plugin/text.py:16
+#: ../kupfer/objects.py:905 ../kupfer/plugin/text.py:16
 msgid "Text matches"
 msgstr "Fritextträffar"
 
@@ -619,10 +635,6 @@ msgstr "Stäng"
 msgid "Window %(name)s on %(wkspc)s"
 msgstr "Fönster %(name)s på %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:48
-msgid "Go to"
-msgstr "Gå till"
-
 #: ../kupfer/plugin/windows.py:57
 msgid "Jump to this window's workspace and focus"
 msgstr "Gå till fönstrets arbetsyta och aktivera"
@@ -659,4 +671,3 @@ msgstr "Avmontera volym"
 #: ../kupfer/plugin/volumes.py:72
 msgid "Volumes and disks"
 msgstr "Volymer"
-
