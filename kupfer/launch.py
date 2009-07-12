@@ -3,7 +3,6 @@ import gtk
 import gobject
 from time import time
 import os
-from os import path
 
 import cPickle as pickle
 
@@ -62,28 +61,29 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	ctx.set_timestamp(gtk.get_current_event_time())
 
 	if track:
-		app_id = app_info.get_id()
+		app_id = app_info.get_id() or ""
 		os.putenv(kupfer_env, app_id)
 	else:
 		app_id = ""
 	svc = GetApplicationsMatcherService()
-	if activate and svc.application_is_running(app_id):
-		svc.application_to_front(app_id)
-		return True
-
 	try:
-		if uris:
-			ret = app_info.launch_uris(uris, ctx)
+		if activate and svc.application_is_running(app_id):
+			svc.application_to_front(app_id)
+			return True
+
+		try:
+			if uris:
+				ret = app_info.launch_uris(uris, ctx)
+			else:
+				ret = app_info.launch(files, ctx)
+			if not ret:
+				pretty.print_info(__name__, "Error launching", app_info)
+		except GError, e:
+			pretty.print_info(__name__, "Error:", e)
+			return False
 		else:
-			ret = app_info.launch(files, ctx)
-		if not ret:
-			pretty.print_info(__name__, "Error launching", app_info)
-	except GError, e:
-		pretty.print_info(__name__, "Error:", e)
-		return False
-	else:
-		if track:
-			svc.launched_application(app_info.get_id())
+			if track:
+				svc.launched_application(app_info.get_id())
 	finally:
 		os.unsetenv(kupfer_env)
 	return True
@@ -106,7 +106,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	def _get_filename(self):
 		version = 1
-		return path.join(config.get_cache_home(),
+		return os.path.join(config.get_cache_home(),
 				"application_identification_v%d.pickle" % version)
 	def _load(self):
 		reg = self._unpickle_register(self._get_filename())
