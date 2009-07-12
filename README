@@ -13,9 +13,16 @@ If you need to get waf, run:
     wget -O waf http://waf.googlecode.com/files/waf-1.5.8
     chmod +x waf
 
-Installation follows the steps
+Installation follows the steps:
+
     ./waf configure --prefix=PREFIX
+    ./waf
+
+then
     ./waf install
+
+or 
+    sudo ./waf install
 
 here `PREFIX` assigns an installation spot. For all users,
 programs are normally installed with prefix as /usr/local.
