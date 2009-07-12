@@ -918,9 +918,6 @@ class WindowController (pretty.OutputMixin):
 	def activate(self, sender=None, time=0):
 		evttime = time if time else gtk.get_current_event_time()
 		self.window.present_with_time(evttime)
-		# try to put in the time here
-		# but we still get
-		# "Buggy client sent a _NET_ACTIVE_WINDOW message with a timestamp of 0"
 		self.window.window.focus(timestamp=evttime)
 		self.interface.switch_to_source()
 	
