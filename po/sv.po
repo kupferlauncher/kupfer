@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-08 16:41+0200\n"
+"POT-Creation-Date: 2009-07-12 19:32+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -201,7 +201,7 @@ msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
 #: ../kupfer/objects.py:797
-msgid "Catalog of Catalogs"
+msgid "Catalog index"
 msgstr "Katalogindex"
 
 #: ../kupfer/objects.py:808
@@ -225,11 +225,11 @@ msgstr "Textsökning \"%s\""
 msgid "Text matches"
 msgstr "Fritextträffar"
 
-#: ../kupfer/plugins.py:40
+#: ../kupfer/plugins.py:41
 msgid "(no description)"
 msgstr "(ingen beskrivning)"
 
-#: ../kupfer/plugins.py:58
+#: ../kupfer/plugins.py:60
 #, python-format
 msgid "  %(name)-20s %(version)-4s %(description)s"
 msgstr "  %(name)-20s %(version)-4s %(description)s"
@@ -475,7 +475,7 @@ msgstr "Screen-sessioner"
 msgid "Attach"
 msgstr "Anslut till"
 
-#: ../kupfer/plugin/screen.py:76
+#: ../kupfer/plugin/screen.py:75
 msgid "GNU Screen session"
 msgstr "GNU Screen-session"
 
@@ -659,3 +659,4 @@ msgstr "Avmontera volym"
 #: ../kupfer/plugin/volumes.py:72
 msgid "Volumes and disks"
 msgstr "Volymer"
+
