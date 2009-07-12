@@ -59,3 +59,15 @@ duplicate objects
 * mark_for_update  For internal use to signal it should drop cache
 * get_leaf_repr How to represent the source in a list, For example the
 DirectorySource is represented by a FileLeaf for the directory
+
+Strings
+
+Kupfer deals with PyGTK a lot, which always returns UTF-8-encoded
+strings (almost always). Thus Kupfer was using python `str` UTF-8
+encoded in its internal data. However, all internal objects should be
+modified to do all internal operations with `unicode`; this work should
+be relatively easy, we just have to change all entry points to convert
+to unicode.
+In the end, this is going to save the program work; data is imported
+mosty once, but accessed many times; when imported we get UTF-8 but when
+accessed uses unicode.
