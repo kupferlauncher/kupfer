@@ -539,11 +539,13 @@ class ShowApplication (Launch):
 	"""Show application if running, else launch"""
 	def __init__(self, name=None):
 		if not name:
-			name = _("Show")
+			name = _("Go to")
 		Launch.__init__(self, name, open_new=False)
 
 	def get_description(self):
 		return _("Show application window")
+	def get_icon_name(self):
+		return "gtk-jump-to-ltr"
 
 class LaunchAgain (Launch):
 	"""Launch instance without checking if running"""
