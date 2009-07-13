@@ -1,0 +1,12 @@
+contrib
+=======
+
+A place to put contributed plugins that can serve as examples, even
+though they might not be enabled for release or installed by default
+
+The plugins here can't be guaranteed to be compatible with the current
+release, it might be that changes to the main code makes them
+incomptible.
+
+Custom plugins (like these) should be installed into
+~/.local/share/kupfer/plugins
