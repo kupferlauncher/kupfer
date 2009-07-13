@@ -111,6 +111,13 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def _load(self):
 		reg = self._unpickle_register(self._get_filename())
 		self.register = reg if reg else {}
+		# pretty-print register to debug
+		if self.register:
+			self.output_debug("Learned the following applications")
+			self.output_debug("\n{\n%s\n}" % "\n".join(
+				("  %-30s : %s" % (k,v)
+					for k,v in self.register.iteritems())
+				))
 	def _finish(self, sched):
 		self._pickle_register(self.register, self._get_filename())
 	def _unpickle_register(self, pickle_file):
