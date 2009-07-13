@@ -175,7 +175,6 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		for w in screen.get_windows_stacked():
 			app = w.get_application()
 			if self._is_match(app_id, app):
-				self.output_debug(app_id, "is running")
 				return True
 		return False
 
