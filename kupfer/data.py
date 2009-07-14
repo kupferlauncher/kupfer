@@ -296,6 +296,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	This is a singleton, and should
 	be inited using set_sources
+
+	The data controller must be created before main program commences,
+	so it can register itself at the scheduler correctly.
 	"""
 	__gtype_name__ = "DataController"
 
@@ -315,8 +318,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.source_search_task = SearchTask()
 
 		sch = scheduler.GetScheduler()
-		sch.connect("load", self.load)
-		sch.connect("finish", self.finish)
+		sch.connect("load", self._load)
+		sch.connect("finish", self._finish)
 
 	def set_sources(self, S_sources, s_sources):
 		"""Init the DataController with the given list of sources
@@ -324,7 +327,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		@S_sources are to be included directly in the catalog,
 		@s_souces as just as subitems
 
-		Must be followed by a call to DataController.load()
+		This should be run before main program commences.
 		"""
 		self.direct_sources = set(S_sources)
 		self.other_sources = set(s_sources) - set(S_sources)
@@ -346,14 +349,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				decorate_with.extend(act.get_actions())
 				self.decorate_types[appl_type] = decorate_with
 
-	def load(self, sched):
+	def _load(self, sched):
 		"""Load data from persistent store"""
 		self.sc.add(self.direct_sources, toplevel=True)
 		self.sc.add(self.other_sources, toplevel=False)
 		self.source_rebase(self.sc.root)
 		learn.load()
 
-	def finish(self, sched):
+	def _finish(self, sched):
 		self.sc.finish()
 		learn.finish()
 
