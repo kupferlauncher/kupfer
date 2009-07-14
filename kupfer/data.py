@@ -298,6 +298,12 @@ class SourceController (object):
 				continue
 			GetSourcePickleService().pickle_source(source)
 
+_source_controller = None
+def GetSourceController():
+	global _source_controller
+	if _source_controller is None:
+		_source_controller = SourceController()
+	return _source_controller
 
 class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
@@ -317,7 +323,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def __init__(self):
 		super(DataController, self).__init__()
 		self.source = None
-		self.sc = SourceController()
 		self.search_handle = -1
 
 		self.latest_item_key = None
@@ -360,13 +365,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def _load(self, sched):
 		"""Load data from persistent store"""
-		self.sc.add(self.direct_sources, toplevel=True)
-		self.sc.add(self.other_sources, toplevel=False)
-		self.source_rebase(self.sc.root)
+		sc = GetSourceController()
+		sc.add(self.direct_sources, toplevel=True)
+		sc.add(self.other_sources, toplevel=False)
+		self.source_rebase(sc.root)
 		learn.load()
 
 	def _finish(self, sched):
-		self.sc.finish()
+		GetSourceController().finish()
 		learn.finish()
 
 	def get_source(self):
@@ -428,8 +434,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Try to get a source from the SourceController,
 		if it is already loaded we get it from there, else
 		returns @src"""
-		if src in self.sc:
-			return self.sc[src]
+		sc = GetSourceController()
+		if src in sc:
+			return sc[src]
 		return src
 
 	def source_rebase(self, src):
