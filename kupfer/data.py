@@ -165,6 +165,10 @@ gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class SourcePickleService (pretty.OutputMixin, object):
+	"""
+	Singleton that should be accessed with
+	GetSourcePickleService()
+	"""
 	pickle_version = 1
 	name_template = "kupfer-%s-v%d.pickle.gz"
 
@@ -212,7 +216,12 @@ class SourcePickleService (pretty.OutputMixin, object):
 		output.close()
 		return True
 
-SourcePickleService = SourcePickleService()
+_source_pickle_service = None
+def GetSourcePickleService():
+	global _source_pickle_service
+	if _source_pickle_service is None:
+		_source_pickle_service = SourcePickleService()
+	return _source_pickle_service
 
 class SourceController (object):
 	"""Control sources; loading, pickling, rescanning"""
@@ -272,7 +281,7 @@ class SourceController (object):
 		"""
 		for source in list(sources):
 			if self.pickle:
-				news = SourcePickleService().unpickle_source(source)
+				news = GetSourcePickleService().unpickle_source(source)
 			else:
 				news = None
 			if news:
@@ -287,7 +296,7 @@ class SourceController (object):
 		for source in sources:
 			if source.is_dynamic():
 				continue
-			SourcePickleService().pickle_source(source)
+			GetSourcePickleService().pickle_source(source)
 
 
 class DataController (gobject.GObject, pretty.OutputMixin):
