@@ -1,0 +1,44 @@
+.TH "kupfer" "1" "" "" ""
+.SH "NAME"
+kupfer \- A simple launcher
+.SH "SYNOPSIS"
+\fBkupfer\fR [OPTIONS]
+.SH "DESCRIPTION"
+
+Kupfer is a launcher. You do not primarily use it to search your files, you use
+it to summon the object you are thinking about.
+
+Kupfer is written using Python and has a flexible architecture. It can work
+with applications and files, recent documents and web browser bookmarks, and
+many more types of user data.
+
+The philosophy of Kupfer is simplicity. The implementation is simple, makes
+the easy things work first, and does not overimplement unnecessary parts of
+the program.
+
+.SH "OPTIONS"
+.TP 
+\fB\-\-no\-splash\fR
+Do not present main interface on launch
+.TP
+The following are generic options
+.TP 
+\fB\-\-help\fR
+Display usage information and help on how to configure kupfer, as well as a
+list of available plugins, then exit.
+.TP 
+\fB\-\-version\fR
+Display version information and exit.
+.TP
+\fB\-\-debug\fR
+Enable more verbose output that can help understanding program operation.
+
+.SH "SPAWNING"
+Running kupfer on the command line (without options) will try to summon it if
+already running.  
+
+If the keybinder module is installed, kupfer will listen to a keybinding. By
+default the keybinding is <Control>space, but it can be configured.
+
+.SH "AUTHOR"
+kupfer was written by  Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
