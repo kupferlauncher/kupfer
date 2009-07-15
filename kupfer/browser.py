@@ -647,6 +647,7 @@ class Interface (gobject.GObject):
 		self.data_controller = controller
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("source-changed", self._new_source)
+		self.data_controller.connect("pane-reset", self._pane_reset)
 		self.search.reset()
 
 	def get_widget(self):
@@ -745,6 +746,16 @@ class Interface (gobject.GObject):
 		if self.current is not self.search:
 			self.current = self.search
 			self._update_active()
+	def validate(self):
+		"""Check that items are still valid
+		when "coming back"
+		"""
+		self.data_controller.validate()
+	def _pane_reset(self, controller, pane, item):
+		if pane is data.SourcePane:
+			self.search.reset()
+		elif pane is data.ActionPane:
+			self.action.reset()
 	
 	def _escape_search(self):
 		if self.search.match_state is State.Wait:
@@ -917,6 +928,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.present_with_time(evttime)
 		self.window.window.focus(timestamp=evttime)
 		self.interface.switch_to_source()
+		self.interface.validate()
 	
 	def put_away(self):
 		self.window.hide()
