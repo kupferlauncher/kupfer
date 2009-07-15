@@ -315,9 +315,10 @@ def GetSourceController():
 
 class Pane (gobject.GObject):
 	__gtype_name__ = "Pane"
-	def __init__(self):
+	def __init__(self, which_pane):
 		super(Pane, self).__init__()
 		self.selection = None
+		self.pane = which_pane
 
 	def select(self, item):
 		self.selection = item
@@ -329,10 +330,12 @@ class Pane (gobject.GObject):
 class LeafController (Pane, pretty.OutputMixin):
 	__gtype_name__ = "LeafController"
 
-	def __init__(self):
-		super(LeafController, self).__init__()
+	def __init__(self, which_pane):
+		super(LeafController, self).__init__(which_pane)
 		self.source_stack = []
 		self.source = None
+		self.search_handle = -1
+		self.source_search_task = SearchTask()
 
 	def _load_source(self, src):
 		"""Try to get a source from the SourceController,
@@ -395,6 +398,18 @@ class LeafController (Pane, pretty.OutputMixin):
 				self.pop_source()
 		except:
 			self.refresh_data()
+
+	def search(self, sender, key, score=True, context=None):
+		self.search_handle = -1
+		sources = [ self.get_source() ]
+		if key and self.is_at_source_root():
+			# Only use text sources when we are at root catalog
+			sources.extend(self.text_sources)
+		self.source_search_task(sender, self.pane, sources, key,
+				"search-result",
+				score=score,
+				context=context)
+
 gobject.signal_new("new-source", LeafController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
@@ -421,10 +436,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.latest_action_key = None
 		self.text_sources = []
 		self.decorate_types = {}
-		self.source_search_task = SearchTask()
-		self.leaf_controller = LeafController()
+		self.leaf_controller = LeafController(SourcePane)
 		self.leaf_controller.connect("new-source", self._new_source)
-		self.action_pane = Pane()
+		self.action_pane = Pane(ActionPane)
+		self.object_pane = LeafController(ObjectPane)
+		self.mode = None
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -477,16 +493,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.leaf_controller.reset()
 		self.action_pane.reset()
 
-	def do_search(self, source, key, score=True, context=None):
-		self.search_handle = -1
-		sources = [ source ]
-		if key and self.leaf_controller.is_at_source_root():
-			# Only use text sources when we are at root catalog
-			sources.extend(self.text_sources)
-		self.source_search_task(self, SourcePane, sources, key, "search-result",
-				score=score,
-				context=context)
-
 	def cancel_search(self):
 		"""Cancel any outstanding search"""
 		if self.search_handle > 0:
@@ -503,17 +509,23 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		If we already have a call to search, we remove the "source"
 		so that we always use the most recently requested search."""
 
+		self.leaf_controller.text_sources = self.text_sources
 		if pane is SourcePane:
 			self.latest_item_key = key
-			if self.search_handle > 0:
-				gobject.source_remove(self.search_handle)
 			# @score only with nonempty key, else alphabethic
-			self.search_handle = gobject.idle_add(self.do_search,
-					self.leaf_controller.get_source(),
+			self.search_handle = gobject.idle_add(self.leaf_controller.search,
+					self,
 					key, bool(key), context)
 		elif pane is ActionPane:
 			self.latest_action_key = key
 			self.do_predicate_search(item, key, context)
+		elif pane is ObjectPane:
+			# @score only with nonempty key, else alphabethic
+			self.object_pane.text_sources = ()
+			print self.object_pane.get_source()
+			self.search_handle = gobject.idle_add(self.object_pane.search,
+					self,
+					key, bool(key), context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = list(leaf.get_actions()) if leaf else []
@@ -529,11 +541,28 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Select @item in @pane to self-update
 		relevant places"""
 		if pane is SourcePane:
+			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
 			self.leaf_controller.select(item)
 			# populate actions
 			self.search(ActionPane, item=item)
 		elif pane is ActionPane:
+			assert not item or isinstance(item, objects.Action), "Selection in Source pane is not an Action!"
 			self.action_pane.select(item)
+			asel = self.action_pane.get_selection()
+			if asel and asel.requires_object():
+				newmode = SourceActionObjectMode
+			else:
+				newmode = SourceActionMode
+			if newmode is not self.mode:
+				self.mode = newmode
+				self.emit("mode-changed", self.mode, asel)
+			if self.mode is SourceActionObjectMode:
+				# populate third pane
+				print "get source", asel.object_source()
+				self.object_pane.source_rebase(asel.object_source())
+				self.search(ObjectPane)
+		elif pane is ObjectPane:
+			self.object_pane.select(item)
 
 	def validate(self):
 		"""Check if all selected items are still valid
@@ -551,9 +580,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			if hasattr(sel, "is_valid") and not sel.is_valid():
 				self.emit("pane-reset", paneenum, sel)
 				self.select(paneenum, None)
-
-	def _activate(self, controller, leaf, action):
-		self.eval_action(leaf, action)
 
 	def browse_up(self, pane):
 		"""Try to browse up to previous sources, from current
@@ -574,9 +600,17 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 		action = self.action_pane.get_selection()
 		leaf = self.leaf_controller.get_selection()
+		sobject = self.object_pane.get_selection()
 		if not action or not leaf:
 			self.output_info("There is no selection!")
-		new_source = action.activate(leaf)
+			return
+		if not sobject and self.mode is SourceActionObjectMode:
+			self.output_info("There is no third object!")
+			return
+		if self.mode is SourceActionMode:
+			new_source = action.activate(leaf)
+		elif self.mode is SourceActionObjectMode:
+			new_source = action.activate(leaf, sobject)
 
 		# register search to learning database
 		if self.latest_item_key:

@@ -621,6 +621,7 @@ class Interface (gobject.GObject):
 
 		self.search = LeafSearch()
 		self.action = ActionSearch()
+		self.third = LeafSearch()
 		self.entry = gtk.Entry()
 		self.label = gtk.Label()
 
@@ -636,10 +637,13 @@ class Interface (gobject.GObject):
 		self.entry.connect("key-press-event", self._entry_key_press)
 		self.search.connect("table-event", self._table_event)
 		self.action.connect("table-event", self._table_event)
+		self.third.connect("table-event", self._table_event)
 		self.search.connect("activate", self._activate)
 		self.action.connect("activate", self._activate)
+		self.third.connect("activate", self._activate)
 		self.search.connect("cursor-changed", self._selection_changed)
 		self.action.connect("cursor-changed", self._selection_changed)
+		self.third.connect("cursor-changed", self._selection_changed)
 		window.connect("configure-event", self.search._window_config)
 		window.connect("configure-event", self.action._window_config)
 		window.connect("hide", self.search._window_hidden)
@@ -648,6 +652,17 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("source-changed", self._new_source)
 		self.data_controller.connect("pane-reset", self._pane_reset)
+		self.data_controller.connect("mode-changed", self._show_hide_third)
+		self.widget_to_pane = {
+			id(self.search) : data.SourcePane,
+			id(self.action) : data.ActionPane,
+			id(self.third) : data.ObjectPane,
+			}
+		self.pane_to_widget = {
+			data.SourcePane : self.search,
+			data.ActionPane : self.action,
+			data.ObjectPane : self.third,
+		}
 		self.search.reset()
 
 	def get_widget(self):
@@ -655,11 +670,13 @@ class Interface (gobject.GObject):
 		box = gtk.HBox()
 		box.pack_start(self.search, True, True, 0)
 		box.pack_start(self.action, True, True, 0)
+		box.pack_start(self.third, True, True, 0)
 		vbox = gtk.VBox()
 		vbox.pack_start(box, True, True, 0)
 		vbox.pack_start(self.label, True, True, 0)
 		vbox.pack_start(self.entry, True, True, 0)
 		vbox.show_all()
+		self.third.hide()
 		return vbox
 
 	def _entry_key_press(self, entry, event):
@@ -746,16 +763,16 @@ class Interface (gobject.GObject):
 		if self.current is not self.search:
 			self.current = self.search
 			self._update_active()
+
 	def validate(self):
 		"""Check that items are still valid
 		when "coming back"
 		"""
 		self.data_controller.validate()
+
 	def _pane_reset(self, controller, pane, item):
-		if pane is data.SourcePane:
-			self.search.reset()
-		elif pane is data.ActionPane:
-			self.action.reset()
+		wid = self._widget_for_pane(pane)
+		wid.reset()
 	
 	def _escape_search(self):
 		if self.search.match_state is State.Wait:
@@ -775,9 +792,17 @@ class Interface (gobject.GObject):
 		self.search.set_source(source)
 		self.search.reset()
 	
+	def _show_hide_third(self, ctr, mode, ignored):
+		if mode is data.SourceActionObjectMode:
+			show = True
+		else:
+			show = False
+		self.third.set_property("visible", show)
+	
 	def _update_active(self):
 		self.action.set_active(self.action is self.current)
 		self.search.set_active(self.search is self.current)
+		self.third.set_active(self.third is self.current)
 		self._description_changed()
 
 	def switch_current(self):
@@ -785,6 +810,8 @@ class Interface (gobject.GObject):
 		if (self.current is self.search and
 			self.search.get_match_state() is State.Match):
 			self.current = self.action
+		elif self.current is self.action and self.third.get_property("visible"):
+			self.current = self.third
 		else:
 			self.current = self.search
 		self._update_active()
@@ -802,14 +829,16 @@ class Interface (gobject.GObject):
 	
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		key = context
-		if pane is data.SourcePane:
-			self.switch_to_source()
-			self.search.update_match(key, matchrankable, matches)
-		elif pane is data.ActionPane:
-			self.action.update_match(key, matchrankable, matches)
+		wid = self._widget_for_pane(pane)
+		wid.update_match(key, matchrankable, matches)
+
+	def _widget_for_pane(self, pane):
+		return self.pane_to_widget[pane]
+	def _pane_for_widget(self, widget):
+		return self.widget_to_pane[id(widget)]
 
 	def _selection_changed(self, widget, match):
-		pane = data.SourcePane if widget is self.search else data.ActionPane
+		pane = self._pane_for_widget(widget)
 		self.data_controller.select(pane, match)
 		if not widget is self.current:
 			return
@@ -849,8 +878,10 @@ class Interface (gobject.GObject):
 		self.current._hide_table()
 		if self.current is self.search:
 			self.data_controller.search(data.SourcePane, key=text, context=text)
-		else:
+		elif self.current is self.action:
 			self.data_controller.search(data.ActionPane, self.search.get_current(), key=text, context=text)
+		else:
+			self.data_controller.search(data.ObjectPane, key=text, context=text)
 
 gobject.type_register(Interface)
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
@@ -895,7 +926,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window.connect("delete-event", self._close_window)
 		widget = self.interface.get_widget()
-		widget.show_all()
+		widget.show()
 		
 		self.window.add(widget)
 		self.window.set_title(_("Kupfer"))
@@ -903,6 +934,8 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
+		self.window.set_gravity(gtk.gdk.GRAVITY_CENTER)
+		self.window.set_resizable(False)
 
 	def register_keybinding(self, keystr):
 		"""Use @keystr as keybinding
