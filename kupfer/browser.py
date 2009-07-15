@@ -647,7 +647,6 @@ class Interface (gobject.GObject):
 		self.data_controller = controller
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("source-changed", self._new_source)
-		self.search.set_source(self.data_controller.get_source())
 		self.search.reset()
 
 	def get_widget(self):

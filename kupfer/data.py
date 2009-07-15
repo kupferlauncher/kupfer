@@ -460,9 +460,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def _new_source(self, ctr, src):
 		self.emit("source-changed", SourcePane, src)
 
-	def get_source(self):
-		return self.leaf_controller.get_source()
-
 	def reset(self):
 		self.leaf_controller.reset()
 
@@ -503,7 +500,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			if self.search_handle > 0:
 				gobject.source_remove(self.search_handle)
 			# @score only with nonempty key, else alphabethic
-			self.search_handle = gobject.idle_add(self.do_search, self.get_source(),
+			self.search_handle = gobject.idle_add(self.do_search,
+					self.leaf_controller.get_source(),
 					key, bool(key), context)
 		elif pane is ActionPane:
 			self.latest_action_key = key
