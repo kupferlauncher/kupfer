@@ -749,10 +749,13 @@ class Interface (gobject.GObject):
 		"""
 		if self.current is self.search:
 			self.current.reset()
-		else:
+		elif self.current is self.action:
 			# Reset action view by reselection
 			match = self.search.get_current()
-			self.data_controller.select(pane=data.SourcePane, item=match)
+			self.data_controller.select(data.SourcePane, item=match)
+		elif self.current is self.third:
+			match = self.action.get_current()
+			self.data_controller.select(data.ActionPane, item=match)
 
 	def _reset_key_press(self):
 		"""Handle left arrow or backspace:
@@ -812,15 +815,16 @@ class Interface (gobject.GObject):
 		self.third.set_active(self.third is self.current)
 		self._description_changed()
 
-	def switch_current(self):
+	def switch_current(self, reverse=False):
 		# Only allow switch if we have match
-		if (self.current is self.search and
-			self.search.get_match_state() is State.Match):
-			self.current = self.action
-		elif self.current is self.action and self.third.get_property("visible"):
-			self.current = self.third
-		else:
-			self.current = self.search
+		order = [self.search, self.action]
+		if self.third.get_property("visible"):
+			order.append(self.third)
+		curidx = order.index(self.current)
+		newidx = curidx -1 if reverse else curidx +1
+		newidx %= len(order)
+		if order[max(newidx -1, 0)].get_match_state() is State.Match:
+			self.current = order[newidx]
 		self._update_active()
 		self.reset()
 	
