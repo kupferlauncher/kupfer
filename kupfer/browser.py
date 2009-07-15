@@ -692,46 +692,48 @@ class Interface (gobject.GObject):
 		without losing focus from entry field
 		"""
 		keyv = event.keyval
-		# FIXME: These should use gtk.gdk.keyval_from_name
-		sensible = (uarrow, darrow, rarrow, larrow,
-				tabkey, backsp, esckey) = (65362, 65364, 65363,
-				65361, 65289, 65288, 65307)
-
+		keys = (
+			"Up", "Down", "Right", "Left",
+			"Tab", "ISO_Left_Tab", "BackSpace", "Escape"
+			)
+		key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		# test for alt modifier (MOD1_MASK is alt/option)
 		modifiers = gtk.accelerator_get_default_mod_mask()
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
 		control_mask = ((event.state & modifiers) == gtk.gdk.CONTROL_MASK)
+		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
-		if keyv not in sensible:
+		print keyv, gtk.gdk.keyval_name(keyv)
+		if keyv not in key_book.itervalues():
 			# exit if not handled
 			return False
 
-		if keyv == esckey:
+		if keyv == key_book["Escape"]:
 			self._escape_search()
 			return False
 
-		if keyv == darrow:
+		if keyv == key_book["Down"]:
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
 				self._populate_search()
 			self.current.go_down()
-		elif keyv == uarrow:
+		elif keyv == key_book["Up"]:
 			self.current.go_up()
-		elif keyv == rarrow:
+		elif keyv == key_book["Right"]:
 			match = self.search.get_current()
 			if match:
 				self._browse_down(match, alternate=mod1_mask)
-		elif keyv == backsp:
+		elif keyv == key_book["BackSpace"]:
 			if not self.entry.get_text():
 				self._reset_key_press()
 			else:
 				return False
-		elif keyv == larrow:
+		elif keyv == key_book["Left"]:
 			self._reset_key_press()
 		else:
-			if keyv == tabkey:
+			if keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
 				self.current._hide_table()
-				self.switch_current()
+				self.switch_current(reverse=shift_mask)
 			return False
 	
 		# stop further processing
