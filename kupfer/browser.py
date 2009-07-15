@@ -7,7 +7,7 @@ import gobject
 import itertools
 import signal
 
-from .data import DataController
+from kupfer import data
 from . import pretty
 from . import icons
 
@@ -638,7 +638,6 @@ class Interface (gobject.GObject):
 		self.action.connect("table-event", self._table_event)
 		self.search.connect("activate", self._activate)
 		self.action.connect("activate", self._activate)
-		self.search.connect("cursor-changed", self._search_match_changed)
 		self.search.connect("cursor-changed", self._selection_changed)
 		self.action.connect("cursor-changed", self._selection_changed)
 		window.connect("configure-event", self.search._window_config)
@@ -647,8 +646,7 @@ class Interface (gobject.GObject):
 		window.connect("hide", self.action._window_hidden)
 		self.data_controller = controller
 		self.data_controller.connect("search-result", self._search_result)
-		self.data_controller.connect("predicate-result", self._predicate_result)
-		self.data_controller.connect("new-source", self._new_source)
+		self.data_controller.connect("source-changed", self._new_source)
 		self.search.set_source(self.data_controller.get_source())
 		self.search.reset()
 
@@ -728,10 +726,9 @@ class Interface (gobject.GObject):
 		if self.current is self.search:
 			self.current.reset()
 		else:
-			# Reset action view by
-			# populating with non-keyed search
+			# Reset action view by reselection
 			match = self.search.get_current()
-			self.data_controller.search_predicate(match)
+			self.data_controller.select(pane=data.SourcePane, item=match)
 
 	def _reset_key_press(self):
 		"""Handle left arrow or backspace:
@@ -759,7 +756,7 @@ class Interface (gobject.GObject):
 			self.reset_current()
 			self.switch_to_source()
 
-	def _new_source(self, sender, source):
+	def _new_source(self, sender, pane, source):
 		"""Notification about a new data source,
 		(represented object for the self.search object
 		"""
@@ -784,10 +781,10 @@ class Interface (gobject.GObject):
 		self.reset()
 	
 	def _browse_up(self, match):
-		self.data_controller.browse_up()
+		self.data_controller.browse_up(data.SourcePane)
 	
 	def _browse_down(self, match, alternate=False):
-		self.data_controller.browse_down(match, alternate)
+		self.data_controller.browse_down(data.SourcePane, match, alternate)
 
 	def _activate(self, widget, current):
 		act = self.action.get_current()
@@ -795,22 +792,17 @@ class Interface (gobject.GObject):
 		self.data_controller.eval_action(obj, act)
 		self.reset()
 	
-	def _search_result(self, sender, matchrankable, matches, context):
-		self.switch_to_source()
+	def _search_result(self, sender, pane, matchrankable, matches, context):
 		key = context
-		self.search.update_match(key, matchrankable, matches)
-
-	def _predicate_result(self, sender, matchrankable, matches, context):
-		key = context
-		self.action.update_match(key, matchrankable, matches)
-
-	def _search_match_changed(self, widget, match):
-		if match:
-			self.data_controller.search_predicate(match)
-		else:
-			self.action.update_match(None, None, None)
+		if pane is data.SourcePane:
+			self.switch_to_source()
+			self.search.update_match(key, matchrankable, matches)
+		elif pane is data.ActionPane:
+			self.action.update_match(key, matchrankable, matches)
 
 	def _selection_changed(self, widget, match):
+		pane = data.SourcePane if widget is self.search else data.ActionPane
+		self.data_controller.select(pane, match)
 		if not widget is self.current:
 			return
 		self._description_changed()
@@ -819,7 +811,7 @@ class Interface (gobject.GObject):
 		"""Do a blanket search/empty search to populate
 		the search view if it is the current view"""
 		if self.current == self.search:
-			self.data_controller.search()
+			self.data_controller.search(pane=data.SourcePane)
 
 	def _description_changed(self):
 		match = self.current.get_current()
@@ -848,9 +840,9 @@ class Interface (gobject.GObject):
 
 		self.current._hide_table()
 		if self.current is self.search:
-			self.data_controller.search(text, context=text)
+			self.data_controller.search(data.SourcePane, key=text, context=text)
 		else:
-			self.data_controller.search_predicate(self.search.get_current(), text, context=text)
+			self.data_controller.search(data.ActionPane, self.search.get_current(), key=text, context=text)
 
 gobject.type_register(Interface)
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
@@ -864,7 +856,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		"""
 		self.icon_name = gtk.STOCK_FIND
-		self.data_controller = DataController()
+		self.data_controller = data.DataController()
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.interface = Interface(self.data_controller, self.window)
 		self._setup_window()
@@ -917,7 +909,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
 	
-	def launch_callback(self, sender, leaf, action):
+	def launch_callback(self, sender, mode, leaf, action):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action

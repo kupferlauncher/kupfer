@@ -12,6 +12,14 @@ from . import pretty
 from . import learn
 from . import scheduler
 
+# "Enums"
+# Which pane
+SourcePane, ActionPane, ObjectPane = (1,2,3)
+
+# In two-pane or three-pane mode
+SourceActionMode, SourceActionObjectMode = (1,2)
+
+
 class SearchTask (pretty.OutputMixin):
 	"""
 	"""
@@ -20,7 +28,7 @@ class SearchTask (pretty.OutputMixin):
 		self._source_cache = {}
 		self._old_key = None
 
-	def __call__(self, sender, sources, key, signal, score=True, context=None):
+	def __call__(self, sender, pane, sources, key, signal, score=True, context=None):
 		"""
 		@sources is a dict listing the inputs and how they are ranked
 
@@ -90,7 +98,7 @@ class SearchTask (pretty.OutputMixin):
 			match = matches[0]
 		else:
 			match = None
-		gobject.idle_add(sender.emit, signal, match, iter(matches), context)
+		gobject.idle_add(sender.emit, signal, pane, match, iter(matches), context)
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
 	def __init__(self, source, sender, signal, context=None, **kwargs):
@@ -305,6 +313,77 @@ def GetSourceController():
 		_source_controller = SourceController()
 	return _source_controller
 
+class LeafController (gobject.GObject, pretty.OutputMixin):
+	__gtype_name__ = "LeafController"
+
+	def __init__(self):
+		super(LeafController, self).__init__()
+		self.source_stack = []
+		self.source = None
+
+	def _load_source(self, src):
+		"""Try to get a source from the SourceController,
+		if it is already loaded we get it from there, else
+		returns @src"""
+		sc = GetSourceController()
+		if src in sc:
+			return sc[src]
+		return src
+
+	def get_source(self):
+		return self.source
+
+	def source_rebase(self, src):
+		self.source_stack = []
+		self.source = self._load_source(src)
+		self.refresh_data()
+
+	def push_source(self, src):
+		self.source_stack.append(self.source)
+		self.source = self._load_source(src)
+		self.refresh_data()
+
+	def pop_source(self):
+		if not len(self.source_stack):
+			raise Exception
+		else:
+			self.source = self.source_stack.pop()
+
+	def is_at_source_root(self):
+		"""Return True if we have no source stack"""
+		return not self.source_stack
+
+	def refresh_data(self):
+		self.emit("new-source", self.source)
+
+	def browse_up(self):
+		"""Try to browse up to previous sources, from current
+		source"""
+		try:
+			self.pop_source()
+		except:
+			if self.source.has_parent():
+				self.source_rebase(self.source.get_parent())
+		self.refresh_data()
+
+	def browse_down(self, leaf, alternate=False):
+		"""Browse into @leaf if it's possible
+		and save away the previous sources in the stack
+		if @alternate, use the Source's alternate method"""
+		if not leaf.has_content():
+			return
+		self.push_source(leaf.content_source(alternate=alternate))
+
+	def reset(self):
+		"""Pop all sources and go back to top level"""
+		try:
+			while True:
+				self.pop_source()
+		except:
+			self.refresh_data()
+gobject.signal_new("new-source", LeafController, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
+
 class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
 	Sources <-> Actions controller
@@ -330,6 +409,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.text_sources = []
 		self.decorate_types = {}
 		self.source_search_task = SearchTask()
+		self.leaf_controller = LeafController()
+		self.leaf_controller.connect("new-source", self._new_source)
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -368,15 +449,22 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc = GetSourceController()
 		sc.add(self.direct_sources, toplevel=True)
 		sc.add(self.other_sources, toplevel=False)
-		self.source_rebase(sc.root)
+		#self.source_rebase(sc.root)
+		self.leaf_controller.source_rebase(sc.root)
 		learn.load()
 
 	def _finish(self, sched):
 		GetSourceController().finish()
 		learn.finish()
 
+	def _new_source(self, ctr, src):
+		self.emit("source-changed", SourcePane, src)
+
 	def get_source(self):
-		return self.source
+		return self.leaf_controller.get_source()
+
+	def reset(self):
+		self.leaf_controller.reset()
 
 	def get_base(self):
 		"""
@@ -387,10 +475,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def do_search(self, source, key, score=True, context=None):
 		self.search_handle = -1
 		sources = [ source ]
-		if key and self.is_at_source_root():
+		if key and self.leaf_controller.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sources.extend(self.text_sources)
-		self.source_search_task(self, sources, key, "search-result",
+		self.source_search_task(self, SourcePane, sources, key, "search-result",
 				score=score,
 				context=context)
 
@@ -400,21 +488,26 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			gobject.source_remove(self.search_handle)
 		self.search_handle = -1
 
-	def search(self, key=u"", context=None):
+	def search(self, pane, item=None, key=u"", context=None):
 		"""Search: Register the search method in the event loop
 
-		Will search the base using @key, promising to return
-		@context in the notification about the result
+		Will search in @pane's base using @key, promising to return
+		@context in the notification about the result, having selected
+		@item in SourcePane
 
 		If we already have a call to search, we remove the "source"
 		so that we always use the most recently requested search."""
 
-		self.latest_item_key = key
-		if self.search_handle > 0:
-			gobject.source_remove(self.search_handle)
-		# @score only with nonempty key, else alphabethic
-		self.search_handle = gobject.idle_add(self.do_search, self.source,
-				key, bool(key), context)
+		if pane is SourcePane:
+			self.latest_item_key = key
+			if self.search_handle > 0:
+				gobject.source_remove(self.search_handle)
+			# @score only with nonempty key, else alphabethic
+			self.search_handle = gobject.idle_add(self.do_search, self.get_source(),
+					key, bool(key), context)
+		elif pane is ActionPane:
+			self.latest_action_key = key
+			self.do_predicate_search(item, key, context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = list(leaf.get_actions()) if leaf else []
@@ -424,74 +517,42 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		sources = (actions, )
 		stask = SearchTask()
-		stask(self, sources, key, "predicate-result", context=context)
+		stask(self, ActionPane, sources, key, "search-result", context=context)
 
-	def search_predicate(self, item, key=u"", context=None):
-		self.do_predicate_search(item, key, context)
-		self.latest_action_key = key
+	def select(self, pane, item):
+		"""Select @item in @pane to self-update
+		relevant places"""
+		if pane is SourcePane:
+			# populate actions
+			self.search(ActionPane, item=item)
+		elif pane is ActionPane:
+			pass
 
-	def _load_source(self, src):
-		"""Try to get a source from the SourceController,
-		if it is already loaded we get it from there, else
-		returns @src"""
-		sc = GetSourceController()
-		if src in sc:
-			return sc[src]
-		return src
-
-	def source_rebase(self, src):
-		self.source_stack = []
-		self.source = self._load_source(src)
-		self.refresh_data()
-	
-	def push_source(self, src):
-		self.source_stack.append(self.source)
-		self.source = self._load_source(src)
-	
-	def pop_source(self):
-		if not len(self.source_stack):
-			raise Exception
-		else:
-			self.source = self.source_stack.pop()
-	def is_at_source_root(self):
-		"""Return True if we have no source stack"""
-		return not self.source_stack
-	
-	def refresh_data(self):
-		self.emit("new-source", self.source)
-		self.latest_item_key = None
-		self.latest_action_key = None
-	
-	def browse_up(self):
-		"""Try to browse up to previous sources, from current
-		source"""
-		try:
-			self.pop_source()
-		except:
-			if self.source.has_parent():
-				self.source_rebase(self.source.get_parent())
-		self.refresh_data()
-	
-	def browse_down(self, leaf, alternate=False):
-		"""Browse into @leaf if it's possible
-		and save away the previous sources in the stack
-		if @alternate, use the Source's alternate method"""
-		if not leaf.has_content():
-			return
-		self.push_source(leaf.content_source(alternate=alternate))
-		self.refresh_data()
-
-	def reset(self):
-		"""Pop all sources and go back to top level"""
-		try:
-			while True:
-				self.pop_source()
-		except:
-			self.refresh_data()
+	def validate(self, pane, item):
+		"""Check if all selected items are still valid
+		(for example after being spawned again, old item
+		still focused)
+		"""
+		# FIXME: Check Source selected item here, 
+		# then action, then third object
+		pass
 
 	def _activate(self, controller, leaf, action):
 		self.eval_action(leaf, action)
+
+	def browse_up(self, pane):
+		"""Try to browse up to previous sources, from current
+		source"""
+		if pane is SourcePane:
+			self.leaf_controller.browse_up()
 	
+	def browse_down(self, pane, leaf, alternate=False):
+		"""Browse into @leaf if it's possible
+		and save away the previous sources in the stack
+		if @alternate, use the Source's alternate method"""
+		if pane is SourcePane:
+			self.leaf_controller.browse_down(leaf, alternate=alternate)
+
 	def eval_action(self, leaf, action):
 		"""
 		Evaluate an @action with the given @leaf
@@ -508,20 +569,30 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
-			self.push_source(new_source)
-			self.refresh_data()
+			self.leaf_controller.push_source(new_source)
 		else:
-			self.emit("launched-action", leaf, action)
+			self.emit("launched-action", SourceActionMode, leaf, action)
 
 gobject.type_register(DataController)
+
+# pane cleared (invalid item) item was invalid
+# pane, item
+#gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
+#gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+
 gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
-gobject.signal_new("predicate-result", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT ))
-gobject.signal_new("new-source", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+
+# mode, None(?)
+gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+
+# mode, item, action
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 
 # Create singleton object shadowing main class!
 DataController = DataController()
+
