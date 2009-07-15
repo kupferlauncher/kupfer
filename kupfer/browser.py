@@ -490,7 +490,14 @@ class Search (gtk.Bin):
 		self.emit("cursor-changed", self.match)
 		if match:
 			self.match_state = State.Match
-			self.match_view.set_match_state(unicode(self.match), self.match.get_pixbuf(self.icon_size), match=self.text, state=self.match_state)
+			m = self.match
+			if hasattr(m, "get_thumbnail"):
+				pbuf = (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or
+					m.get_pixbuf(self.icon_size))
+			else:
+				pbuf = m.get_pixbuf(self.icon_size)
+			self.match_view.set_match_state(unicode(m), pbuf,
+					match=self.text, state=self.match_state)
 
 	def update_match(self, key, matchrankable, matches):
 		"""
