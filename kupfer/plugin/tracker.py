@@ -2,14 +2,15 @@ import gobject
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import (TextLeaf, ActionDecorator, ConstructFileLeaf,
-		SourceLeaf)
+		SourceLeaf, TextSource, FileLeaf)
 from kupfer import utils, pretty
+from kupfer.plugin import text
 
 
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
-__kupfer_action_decorator__ = ("TrackerDecorator", )
+__kupfer_action_decorator__ = ("TrackerDecorator", "TrackerTagDecorator")
 __description__ = _("Tracker desktop search integration")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -19,6 +20,12 @@ class TrackerDecorator (ActionDecorator):
 		yield TextLeaf
 	def get_actions(self, leaf=None):
 		return (TrackerSearch(), TrackerSearchHere())
+
+class TrackerTagDecorator (ActionDecorator):
+	def applies_to(self):
+		yield FileLeaf
+	def get_actions(self, leaf=None):
+		yield TrackerAddTag()
 
 class TrackerSearch (Action):
 	def __init__(self):
@@ -109,12 +116,25 @@ class TrackerTagsSource (Source):
 		Source.__init__(self, _("Tracker tags"))
 	def get_items(self):
 		for tag in get_tracker_tags():
-			ts = TrackerTagObjectsSource(tag)
-			yield SourceLeaf(ts, str(ts))
+			yield TrackerTag(tag)
 	def get_description(self):
 		return _("Browse Tracker's tags")
 	def get_icon_name(self):
 		return "tracker"
+	def provides(self):
+		yield TrackerTag
+
+class TrackerTag (Leaf):
+	def __init__(self, tag):
+		Leaf.__init__(self, tag, _("Tag %s") % tag)
+	def has_content(self):
+		return True
+	def content_source(self, alternate=False):
+		return TrackerTagObjectsSource(self.object)
+	def get_description(self):
+		return _("Tracker tag %s") % self.object
+	def get_icon_name(self):
+		return "user-bookmarks"
 
 class TrackerTagObjectsSource (Source):
 	"""This source shows all items of one tracker tag"""
@@ -129,4 +149,23 @@ class TrackerTagObjectsSource (Source):
 		return _("Objects tagged %s with Tracker") % self.tag
 	def get_icon_name(self):
 		return "user-bookmarks"
+
+class TrackerAddTag (Action):
+	def __init__(self):
+		Action.__init__(self, _("Add tag..."))
+	def activate(self, leaf, obj):
+		print "Want to add tag", obj, "to", leaf
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield TextLeaf
+		yield TrackerTag
+
+	def object_source(self):
+		return TrackerTagsSource()
+
+	def get_icon_name(self):
+		return "gtk-add"
 
