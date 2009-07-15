@@ -329,6 +329,7 @@ class Search (gtk.Bin):
 		self.label_char_width = 25
 		self.source = None
 		self.icon_size = 96
+		self._old_win_position=None
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
@@ -407,13 +408,15 @@ class Search (gtk.Bin):
 		lowerc = pos_y + win_height
 		table_w, table_len = self.table.size_request()
 		subwin_height = min(table_len, 200)
+		subwin_width = self.list_window.size_request()[0]
 		self.list_window.move(pos_x, lowerc)
-		self.list_window.resize(win_width, subwin_height)
+		self.list_window.resize(subwin_width, subwin_height)
 
 		win = self.get_toplevel()
 		self.list_window.set_transient_for(win)
 		self.list_window.set_property("focus-on-map", False)
 		self.list_window.show()
+		self._old_win_position = pos_x, pos_y
 	
 	# table methods
 	def go_up(self):
@@ -461,7 +464,10 @@ class Search (gtk.Bin):
 		"""
 		When the window moves
 		"""
-		if self._get_table_visible():
+		winpos = event.x, event.y
+		# only hide on move, not resize
+		# set old win position in _show_table
+		if self._get_table_visible() and winpos != self._old_win_position:
 			self._hide_table()
 			gobject.timeout_add(300, self._show_table)
 	
@@ -949,7 +955,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
-		self.window.set_gravity(gtk.gdk.GRAVITY_CENTER)
+		#self.window.set_gravity(gtk.gdk.GRAVITY_CENTER)
 		self.window.set_resizable(False)
 
 	def register_keybinding(self, keystr):
