@@ -644,6 +644,9 @@ class Interface (gobject.GObject):
 		self.search.connect("cursor-changed", self._selection_changed)
 		self.action.connect("cursor-changed", self._selection_changed)
 		self.third.connect("cursor-changed", self._selection_changed)
+		self.search.connect("button-press-event", self._pane_button_press)
+		self.action.connect("button-press-event", self._pane_button_press)
+		self.third.connect("button-press-event", self._pane_button_press)
 		window.connect("configure-event", self.search._window_config)
 		window.connect("configure-event", self.action._window_config)
 		window.connect("hide", self.search._window_hidden)
@@ -678,6 +681,10 @@ class Interface (gobject.GObject):
 		vbox.show_all()
 		self.third.hide()
 		return vbox
+
+	def _pane_button_press(self, widget, event):
+		window = widget.get_toplevel()
+		window.begin_move_drag(event.button, event.x_root, event.y_root, event.time)
 
 	def _entry_key_press(self, entry, event):
 		"""
