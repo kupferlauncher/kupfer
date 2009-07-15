@@ -570,8 +570,10 @@ gobject.type_register(DataController)
 #gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
 #gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
+# pane, match, iter to matches, context
 gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+
 gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
