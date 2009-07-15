@@ -535,14 +535,22 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		elif pane is ActionPane:
 			self.action_pane.select(item)
 
-	def validate(self, pane, item):
+	def validate(self):
 		"""Check if all selected items are still valid
 		(for example after being spawned again, old item
 		still focused)
+
+		This will trigger .select() with None if items
+		are not valid..
 		"""
-		# FIXME: Check Source selected item here, 
-		# then action, then third object
-		pass
+		for paneenum, pane in ((SourcePane, self.leaf_controller),
+				(ActionPane, self.action_pane)):
+			sel = pane.get_selection()
+			if not sel:
+				break
+			if hasattr(sel, "is_valid") and not sel.is_valid():
+				self.emit("pane-reset", paneenum, sel)
+				self.select(paneenum, None)
 
 	def _activate(self, controller, leaf, action):
 		self.eval_action(leaf, action)
@@ -586,8 +594,8 @@ gobject.type_register(DataController)
 
 # pane cleared (invalid item) item was invalid
 # pane, item
-#gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
-#gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
+	gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
 # pane, match, iter to matches, context
 gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
