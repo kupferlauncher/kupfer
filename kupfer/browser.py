@@ -328,6 +328,7 @@ class Search (gtk.Bin):
 		self.show_more = 10
 		self.label_char_width = 25
 		self.source = None
+		self.icon_size = 96
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
@@ -489,7 +490,7 @@ class Search (gtk.Bin):
 		self.emit("cursor-changed", self.match)
 		if match:
 			self.match_state = State.Match
-			self.match_view.set_match_state(unicode(self.match), self.match.get_pixbuf(), match=self.text, state=self.match_state)
+			self.match_view.set_match_state(unicode(self.match), self.match.get_pixbuf(self.icon_size), match=self.text, state=self.match_state)
 
 	def update_match(self, key, matchrankable, matches):
 		"""
@@ -563,16 +564,16 @@ class LeafSearch (Search):
 		super(LeafSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty):
 		if empty and self.source:
-			return _("%s is empty") % self.source, self.source.get_pixbuf()
+			return _("%s is empty") % self.source, self.source.get_pixbuf(self.icon_size)
 		elif self.source:
-			return _("No matches in %s") % self.source, self.source.get_pixbuf()
+			return _("No matches in %s") % self.source, self.source.get_pixbuf(self.icon_size)
 		else:
-			return unicode(self.dummy), self.dummy.get_pixbuf()
+			return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
 		icon = None
 		title = _("Searching...")
 		if self.source:
-			icon = self.source.get_pixbuf()
+			icon = self.source.get_pixbuf(self.icon_size)
 			title = _("Searching %(source)s...") % {"source":self.source}
 
 		self.set_match(None)
@@ -588,7 +589,7 @@ class ActionSearch (Search):
 		self.dummy = DummyAction()
 		super(ActionSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty=False):
-		return unicode(self.dummy), self.dummy.get_pixbuf()
+		return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
 		self.handle_no_matches()
 		self._hide_table()

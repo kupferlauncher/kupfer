@@ -42,7 +42,6 @@ class KupferObject (object):
 	"""
 	Base class for Actions and Leaves
 	"""
-	icon_size = 96
 	def __init__(self, name=None):
 		if not name:
 			name = self.__class__.__name__
@@ -71,25 +70,25 @@ class KupferObject (object):
 		"""
 		return None
 
-	def get_pixbuf(self):
+	def get_pixbuf(self, icon_size):
 		"""
-		Returns an icon in pixbuf format.
+		Returns an icon in pixbuf format with dimension @icon_size
 
 		Subclasses should implement: get_thumbnail, get_gicon
 		and get_icon_name, if they make sense.
 		The methods are tried in that order.
 		"""
-		thumb = self.get_thumbnail((self.icon_size * 4)/3, self.icon_size)
+		thumb = self.get_thumbnail((icon_size * 4)/3, icon_size)
 		if thumb:
 			return thumb
 		gicon = self.get_gicon()
 		if gicon:
-			pbuf = icons.get_icon_for_gicon(gicon, self.icon_size)
+			pbuf = icons.get_icon_for_gicon(gicon, icon_size)
 			if pbuf:
 				return pbuf
 		icon_name = self.get_icon_name()
 		if icon_name:
-			return icons.get_icon_for_name(icon_name, self.icon_size)
+			return icons.get_icon_for_name(icon_name, icon_size)
 		return None
 
 	def get_icon(self):
