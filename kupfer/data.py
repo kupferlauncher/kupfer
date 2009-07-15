@@ -313,7 +313,20 @@ def GetSourceController():
 		_source_controller = SourceController()
 	return _source_controller
 
-class LeafController (gobject.GObject, pretty.OutputMixin):
+class Pane (gobject.GObject):
+	__gtype_name__ = "Pane"
+	def __init__(self):
+		super(Pane, self).__init__()
+		self.selection = None
+
+	def select(self, item):
+		self.selection = item
+	def get_selection(self):
+		return self.selection
+	def reset(self):
+		self.selection = None
+
+class LeafController (Pane, pretty.OutputMixin):
 	__gtype_name__ = "LeafController"
 
 	def __init__(self):
@@ -376,6 +389,7 @@ class LeafController (gobject.GObject, pretty.OutputMixin):
 
 	def reset(self):
 		"""Pop all sources and go back to top level"""
+		Pane.reset(self)
 		try:
 			while True:
 				self.pop_source()
@@ -410,6 +424,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.source_search_task = SearchTask()
 		self.leaf_controller = LeafController()
 		self.leaf_controller.connect("new-source", self._new_source)
+		self.action_pane = Pane()
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -460,6 +475,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def reset(self):
 		self.leaf_controller.reset()
+		self.action_pane.reset()
 
 	def do_search(self, source, key, score=True, context=None):
 		self.search_handle = -1
@@ -513,10 +529,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Select @item in @pane to self-update
 		relevant places"""
 		if pane is SourcePane:
+			self.leaf_controller.select(item)
 			# populate actions
 			self.search(ActionPane, item=item)
 		elif pane is ActionPane:
-			pass
+			self.action_pane.select(item)
 
 	def validate(self, pane, item):
 		"""Check if all selected items are still valid
@@ -543,12 +560,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if pane is SourcePane:
 			self.leaf_controller.browse_down(leaf, alternate=alternate)
 
-	def eval_action(self, leaf, action):
+	def activate(self):
 		"""
-		Evaluate an @action with the given @leaf
+		Activate current selection
 		"""
+		action = self.action_pane.get_selection()
+		leaf = self.leaf_controller.get_selection()
 		if not action or not leaf:
-			return
+			self.output_info("There is no selection!")
 		new_source = action.activate(leaf)
 
 		# register search to learning database

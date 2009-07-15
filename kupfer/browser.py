@@ -786,9 +786,7 @@ class Interface (gobject.GObject):
 		self.data_controller.browse_down(data.SourcePane, match, alternate)
 
 	def _activate(self, widget, current):
-		act = self.action.get_current()
-		obj = self.search.get_current()
-		self.data_controller.eval_action(obj, act)
+		self.data_controller.activate()
 		self.reset()
 	
 	def _search_result(self, sender, pane, matchrankable, matches, context):
