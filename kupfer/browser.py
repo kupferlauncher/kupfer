@@ -649,6 +649,7 @@ class Interface (gobject.GObject):
 		self.third.connect("button-press-event", self._pane_button_press)
 		window.connect("configure-event", self.search._window_config)
 		window.connect("configure-event", self.action._window_config)
+		window.connect("configure-event", self.third._window_config)
 		window.connect("hide", self.search._window_hidden)
 		window.connect("hide", self.action._window_hidden)
 		self.data_controller = controller
