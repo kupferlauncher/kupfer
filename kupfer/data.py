@@ -401,7 +401,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def __init__(self):
 		super(DataController, self).__init__()
-		self.source = None
 		self.search_handle = -1
 
 		self.latest_item_key = None
@@ -449,7 +448,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc = GetSourceController()
 		sc.add(self.direct_sources, toplevel=True)
 		sc.add(self.other_sources, toplevel=False)
-		#self.source_rebase(sc.root)
 		self.leaf_controller.source_rebase(sc.root)
 		learn.load()
 
@@ -462,12 +460,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def reset(self):
 		self.leaf_controller.reset()
-
-	def get_base(self):
-		"""
-		Return iterable to searched base
-		"""
-		return ((leaf.name, leaf) for leaf in self.source.get_leaves())
 
 	def do_search(self, source, key, score=True, context=None):
 		self.search_handle = -1
