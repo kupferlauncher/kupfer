@@ -185,6 +185,8 @@ class FileLeaf (Leaf):
 
 	def _is_dir(self):
 		return path.isdir(self.object)
+	def is_valid(self):
+		return self._is_valid()
 
 	def get_description(self):
 		"""Format the path shorter:
