@@ -666,6 +666,13 @@ class Interface (gobject.GObject):
 			data.ActionPane : self.action,
 			data.ObjectPane : self.third,
 		}
+		# Setup keyval mapping
+		keys = (
+			"Up", "Down", "Right", "Left",
+			"Tab", "ISO_Left_Tab", "BackSpace", "Escape"
+			)
+		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
+		self.keys_sensible = set(self.key_book.itervalues())
 		self.search.reset()
 
 	def get_widget(self):
@@ -692,19 +699,13 @@ class Interface (gobject.GObject):
 		without losing focus from entry field
 		"""
 		keyv = event.keyval
-		keys = (
-			"Up", "Down", "Right", "Left",
-			"Tab", "ISO_Left_Tab", "BackSpace", "Escape"
-			)
-		key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
+		key_book = self.key_book
 		# test for alt modifier (MOD1_MASK is alt/option)
 		modifiers = gtk.accelerator_get_default_mod_mask()
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
-		control_mask = ((event.state & modifiers) == gtk.gdk.CONTROL_MASK)
 		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
-		print keyv, gtk.gdk.keyval_name(keyv)
-		if keyv not in key_book.itervalues():
+		if keyv not in self.keys_sensible:
 			# exit if not handled
 			return False
 
