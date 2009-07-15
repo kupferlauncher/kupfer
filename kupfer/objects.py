@@ -359,11 +359,12 @@ class Action (KupferObject):
 	"""
 	Base class for all actions
 	"""
-	def activate(self, leaf):
+	def activate(self, leaf, obj=None):
 		"""
-		Use this action with leaf
+		Use this action with @leaf and @obj
 
-		leaf: a Leaf object
+		@leaf: a Leaf object
+		@obj: a secondary Leaf object
 		"""
 		pass
 
@@ -373,6 +374,29 @@ class Action (KupferObject):
 		return True
 		"""
 		return False
+
+	def requires_object(self):
+		"""
+		If this action requires a secondary object
+		to complete is action
+		"""
+		return False
+
+	def object_source(self, for_item=None):
+		"""Source to use for object or None
+		to use the catalog (flat, filtered for @object_types)
+		"""
+		return None
+
+	def object_types(self):
+		return ()
+
+	def valid_object(self, obj, for_item=None):
+		""" Whether @obj is good for secondary obj,
+		where @for_item might be passed in as a hint for
+		which it should be applied to
+		"""
+		return True
 	
 	def get_icon_name(self):
 		"""
