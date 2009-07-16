@@ -603,6 +603,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.object_pane.source_rebase(sc.root_for_types(asel.object_types()))
 				self.search(ObjectPane)
 		elif pane is ObjectPane:
+			assert not item or isinstance(item, objects.Leaf), "Selection in Object pane is not a Leaf!"
 			self.object_pane.select(item)
 
 	def validate(self):
