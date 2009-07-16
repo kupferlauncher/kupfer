@@ -68,7 +68,6 @@ class SearchTask (pretty.OutputMixin):
 				types = tuple(item.object_types())
 				for i in items:
 					if isinstance(i, types) and item.valid_object(i):
-						print "Accept ", i, "for", item
 						new_items.append(i)
 				items = new_items
 
@@ -244,7 +243,7 @@ def GetSourcePickleService():
 		_source_pickle_service = SourcePickleService()
 	return _source_pickle_service
 
-class SourceController (object):
+class SourceController (pretty.OutputMixin):
 	"""Control sources; loading, pickling, rescanning"""
 	def __init__(self, pickle=True):
 		self.rescanner = PeriodicRescanner([])
@@ -296,6 +295,10 @@ class SourceController (object):
 		"""
 		Get root for a flat catalog of all catalogs
 		providing at least Leaves of @types
+
+		Take all sources which:
+			Provide a type T so that it is a subclass
+			to one in the set of types we want
 		"""
 		types = tuple(types)
 		firstlevel = set()
@@ -303,6 +306,7 @@ class SourceController (object):
 			for t in s.provides():
 				if issubclass(t, types):
 					firstlevel.add(s)
+					self.output_debug("Adding source", s, "for types", *types)
 					break
 		return objects.MultiSource(firstlevel)
 
