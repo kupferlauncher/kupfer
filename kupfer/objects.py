@@ -263,6 +263,11 @@ class FileLeaf (Leaf):
 		else:
 			return "gtk-file"
 
+def ConstructFileLeafTypes():
+	""" Return a seq of the Leaf types returned by ConstructFileLeaf"""
+	yield FileLeaf
+	yield AppLeaf
+
 def ConstructFileLeaf(obj):
 	"""
 	If the path in @obj points to a Desktop Item file,
@@ -769,6 +774,8 @@ class FileSource (Source):
 
 	def get_icon_name(self):
 		return "folder-saved-search"
+	def provides(self):
+		return ConstructFileLeafTypes()
 
 class DirectorySource (Source):
 	def __init__(self, dir, show_hidden=False):
@@ -846,8 +853,7 @@ class DirectorySource (Source):
 	def get_leaf_repr(self):
 		return FileLeaf(self.directory)
 	def provides(self):
-		yield FileLeaf
-		yield AppLeaf
+		return ConstructFileLeafTypes()
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
