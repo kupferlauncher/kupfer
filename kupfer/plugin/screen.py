@@ -62,6 +62,8 @@ class ScreenSessionsSource (Source):
 		return _("Active GNU Screen sessions")
 	def get_icon_name(self):
 		return "terminal"
+	def provides(self):
+		yield ScreenSession
 
 class AttachScreen (Action):
 	"""

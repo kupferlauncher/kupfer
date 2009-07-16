@@ -22,4 +22,6 @@ class EpiphanySource (Source):
 
 	def get_icon_name(self):
 		return "web-browser"
+	def provides(self):
+		yield UrlLeaf
 

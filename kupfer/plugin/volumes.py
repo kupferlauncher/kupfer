@@ -82,3 +82,5 @@ class VolumesSource (Source):
 		return _("Mounted volumes and disks")
 	def get_icon_name(self):
 		return "drive-removable-media"
+	def provides(self):
+		yield Volume
