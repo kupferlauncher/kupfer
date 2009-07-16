@@ -28,7 +28,8 @@ class SearchTask (pretty.OutputMixin):
 		self._source_cache = {}
 		self._old_key = None
 
-	def __call__(self, sender, pane, sources, key, signal, score=True, context=None):
+	def __call__(self, sender, pane, sources, key, signal, score=True,
+			item=None, context=None):
 		"""
 		@sources is a dict listing the inputs and how they are ranked
 
@@ -58,6 +59,14 @@ class SearchTask (pretty.OutputMixin):
 				fixedrank = src.get_rank()
 			else:
 				items = src
+			# Check against secondary object action reqs
+			if item:
+				new_items = []
+				types = tuple(item.object_types())
+				for i in items:
+					if isinstance(i, types) and item.valid_object(i):
+						new_items.append(i)
+				items = new_items
 
 			if score:
 				rankables = search.make_rankables(items)
@@ -262,7 +271,7 @@ class SourceController (object):
 				return s
 	@property
 	def root(self):
-		"""Get the root source"""
+		"""Get the root source of catalog"""
 		if len(self.sources) == 1:
 			root_catalog, = self.sources
 		elif len(self.sources) > 1:
@@ -278,6 +287,20 @@ class SourceController (object):
 		else:
 			root_catalog = None
 		return root_catalog
+
+	def root_for_types(self, types):
+		"""
+		Get root for a flat catalog of all catalogs
+		providing at least Leaves of @types
+		"""
+		types = tuple(types)
+		firstlevel = set()
+		for s in self.sources:
+			for t in s.provides():
+				if issubclass(t, types):
+					firstlevel.add(s)
+					break
+		return objects.MultiSource(firstlevel)
 
 	def finish(self):
 		self._pickle_sources(self.sources)
@@ -399,7 +422,10 @@ class LeafController (Pane, pretty.OutputMixin):
 		except:
 			self.refresh_data()
 
-	def search(self, sender, key, score=True, context=None):
+	def search(self, sender, key, score=True, item=None, context=None):
+		"""
+		filter for action @item
+		"""
 		self.search_handle = -1
 		sources = [ self.get_source() ]
 		if key and self.is_at_source_root():
@@ -407,6 +433,7 @@ class LeafController (Pane, pretty.OutputMixin):
 			sources.extend(self.text_sources)
 		self.source_search_task(sender, self.pane, sources, key,
 				"search-result",
+				item=item,
 				score=score,
 				context=context)
 
@@ -515,17 +542,17 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			# @score only with nonempty key, else alphabethic
 			self.search_handle = gobject.idle_add(self.leaf_controller.search,
 					self,
-					key, bool(key), context)
+					key, bool(key), item, context)
 		elif pane is ActionPane:
 			self.latest_action_key = key
 			self.do_predicate_search(item, key, context)
 		elif pane is ObjectPane:
 			# @score only with nonempty key, else alphabethic
-			self.object_pane.text_sources = ()
+			self.object_pane.text_sources = self.text_sources
 			print self.object_pane.get_source()
 			self.search_handle = gobject.idle_add(self.object_pane.search,
 					self,
-					key, bool(key), context)
+					key, bool(key), item, context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = list(leaf.get_actions()) if leaf else []
@@ -559,8 +586,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
 				print "get source", asel.object_source()
-				self.object_pane.source_rebase(asel.object_source())
-				self.search(ObjectPane)
+				sc = GetSourceController()
+				self.object_pane.source_rebase(sc.root_for_types(asel.object_types()))
+				self.search(ObjectPane, item=asel)
 		elif pane is ObjectPane:
 			self.object_pane.select(item)
 

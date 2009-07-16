@@ -727,6 +727,10 @@ class Source (KupferObject, pretty.OutputMixin):
 		to take the source's place as Leaf"""
 		return None
 
+	def provides(self):
+		"""A seq of the types of items it provides"""
+		yield Leaf
+
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		name = path.basename(dirlist[0])
@@ -838,6 +842,9 @@ class DirectorySource (Source):
 
 	def get_leaf_repr(self):
 		return FileLeaf(self.directory)
+	def provides(self):
+		yield FileLeaf
+		yield AppLeaf
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
@@ -945,6 +952,9 @@ class TextSource (KupferObject):
 		return ()
 	def get_items(self, text):
 		return ()
+	def provides(self):
+		"""A seq of the types of items it provides"""
+		yield Leaf
 
 class ActionDecorator (object):
 	"""Base class for an object assigning more actions to Leaves"""
