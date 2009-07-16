@@ -676,7 +676,7 @@ class Interface (gobject.GObject):
 		# Setup keyval mapping
 		keys = (
 			"Up", "Down", "Right", "Left",
-			"Tab", "ISO_Left_Tab", "BackSpace", "Escape"
+			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		self.keys_sensible = set(self.key_book.itervalues())
@@ -893,8 +893,8 @@ class Interface (gobject.GObject):
 			self.data_controller.cancel_search()
 			# See if it was a deleting key press
 			curev = gtk.get_current_event()
-			if curev.keyval in (gtk.gdk.keyval_from_name("Delete"),
-					gtk.gdk.keyval_from_name("BackSpace")):
+			if curev and curev.keyval in (self.key_book["Delete"],
+					self.key_book["BackSpace"]):
 				self._reset_key_press()
 			return
 
