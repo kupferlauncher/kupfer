@@ -395,10 +395,11 @@ class LeafController (Pane, pretty.OutputMixin):
 		self.refresh_data()
 
 	def pop_source(self):
+		"""Return True if succeeded"""
 		if not len(self.source_stack):
-			raise Exception
-		else:
-			self.source = self.source_stack.pop()
+			return False
+		self.source = self.source_stack.pop()
+		return True
 
 	def is_at_source_root(self):
 		"""Return True if we have no source stack"""
@@ -410,12 +411,13 @@ class LeafController (Pane, pretty.OutputMixin):
 	def browse_up(self):
 		"""Try to browse up to previous sources, from current
 		source"""
-		try:
-			self.pop_source()
-		except:
+		succ = self.pop_source()
+		if not succ:
 			if self.source.has_parent():
 				self.source_rebase(self.source.get_parent())
-		self.refresh_data()
+				succ = True
+		if succ:
+			self.refresh_data()
 
 	def browse_down(self, alternate=False):
 		"""Browse into @leaf if it's possible
@@ -429,11 +431,9 @@ class LeafController (Pane, pretty.OutputMixin):
 	def reset(self):
 		"""Pop all sources and go back to top level"""
 		Pane.reset(self)
-		try:
-			while True:
-				self.pop_source()
-		except:
-			self.refresh_data()
+		while self.pop_source():
+			pass
+		self.refresh_data()
 
 	def search(self, sender, key, score=True, item=None, context=None):
 		"""
