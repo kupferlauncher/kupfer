@@ -728,8 +728,11 @@ class Source (KupferObject, pretty.OutputMixin):
 		return None
 
 	def provides(self):
-		"""A seq of the types of items it provides"""
-		yield Leaf
+		"""A seq of the types of items it provides;
+		empty is taken as anything -- however most sources
+		should set this to exactly the type they yield
+		"""
+		return ()
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):

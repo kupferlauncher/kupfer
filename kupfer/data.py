@@ -303,7 +303,11 @@ class SourceController (pretty.OutputMixin):
 		types = tuple(types)
 		firstlevel = set()
 		for s in self.sources:
-			for t in s.provides():
+			provides = list(s.provides())
+			if not provides:
+				self.output_debug("Adding source", s, "it provides ANYTHING")
+				firstlevel.add(s)
+			for t in provides:
 				if issubclass(t, types):
 					firstlevel.add(s)
 					self.output_debug("Adding source", s, "for types", *types)
