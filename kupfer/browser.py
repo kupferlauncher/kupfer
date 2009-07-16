@@ -897,12 +897,8 @@ class Interface (gobject.GObject):
 			return
 
 		self.current._hide_table()
-		if self.current is self.search:
-			self.data_controller.search(data.SourcePane, key=text, context=text)
-		elif self.current is self.action:
-			self.data_controller.search(data.ActionPane, self.search.get_current(), key=text, context=text)
-		else:
-			self.data_controller.search(data.ObjectPane, key=text, context=text)
+		pane = self._pane_for_widget(self.current)
+		self.data_controller.search(pane, key=text, context=text)
 
 gobject.type_register(Interface)
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,

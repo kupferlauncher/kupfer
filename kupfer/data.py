@@ -528,7 +528,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			gobject.source_remove(self.search_handle)
 		self.search_handle = -1
 
-	def search(self, pane, item=None, key=u"", context=None):
+	def search(self, pane, key=u"", context=None):
 		"""Search: Register the search method in the event loop
 
 		Will search in @pane's base using @key, promising to return
@@ -541,12 +541,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.leaf_controller.text_sources = self.text_sources
 		if pane is SourcePane:
 			self.latest_item_key = key
+			item = None
 			# @score only with nonempty key, else alphabethic
 			self.search_handle = gobject.idle_add(self.leaf_controller.search,
 					self,
 					key, bool(key), item, context)
 		elif pane is ActionPane:
 			self.latest_action_key = key
+			item = self.leaf_controller.get_selection()
 			self.do_predicate_search(item, key, context)
 		elif pane is ObjectPane:
 			# @score only with nonempty key, else alphabethic
@@ -573,7 +575,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
 			self.leaf_controller.select(item)
 			# populate actions
-			self.search(ActionPane, item=item)
+			self.search(ActionPane)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, objects.Action), "Selection in Source pane is not an Action!"
 			self.action_pane.select(item)
