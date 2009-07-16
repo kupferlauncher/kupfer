@@ -34,6 +34,8 @@ class SearchTask (pretty.OutputMixin):
 		@sources is a dict listing the inputs and how they are ranked
 
 		if @score, sort by score, else no sort
+		if @item, check against it's (Action) object requriements
+		and sort by it
 		"""
 		if not self._old_key or not key.startswith(self._old_key):
 			self._source_cache.clear()
@@ -548,11 +550,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.do_predicate_search(item, key, context)
 		elif pane is ObjectPane:
 			# @score only with nonempty key, else alphabethic
+			asel = self.action_pane.get_selection()
 			self.object_pane.text_sources = self.text_sources
-			print self.object_pane.get_source()
 			self.search_handle = gobject.idle_add(self.object_pane.search,
 					self,
-					key, bool(key), item, context)
+					key, bool(key), asel, context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = list(leaf.get_actions()) if leaf else []
@@ -585,10 +587,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.emit("mode-changed", self.mode, asel)
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
-				print "get source", asel.object_source()
 				sc = GetSourceController()
 				self.object_pane.source_rebase(sc.root_for_types(asel.object_types()))
-				self.search(ObjectPane, item=asel)
+				self.search(ObjectPane)
 		elif pane is ObjectPane:
 			self.object_pane.select(item)
 
