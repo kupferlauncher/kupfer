@@ -477,10 +477,15 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.text_sources = []
 		self.decorate_types = {}
 		self.source_pane = LeafController(SourcePane)
-		self.action_pane = Pane(ActionPane)
 		self.object_pane = LeafController(ObjectPane)
 		self.source_pane.connect("new-source", self._new_source)
 		self.object_pane.connect("new-source", self._new_source)
+		self.action_pane = Pane(ActionPane)
+		self._panectl_table = {
+			SourcePane : self.source_pane,
+			ActionPane : self.action_pane,
+			ObjectPane : self.object_pane,
+			}
 		self.mode = None
 
 		sch = scheduler.GetScheduler()
@@ -589,33 +594,32 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
 		relevant places"""
+		# If already selected, do nothing
+		panectl = self._panectl_table[pane]
+		if item is panectl.get_selection():
+			return
 		print "Selecting", item, "in", pane
+		panectl.select(item)
 		if pane is SourcePane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
-			self.source_pane.select(item)
 			# populate actions
 			self.search(ActionPane)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, objects.Action), "Selection in Source pane is not an Action!"
-			if item is self.action_pane.get_selection():
-				return
-			self.action_pane.select(item)
-			asel = self.action_pane.get_selection()
-			if asel and asel.requires_object():
+			if item and item.requires_object():
 				newmode = SourceActionObjectMode
 			else:
 				newmode = SourceActionMode
 			if newmode is not self.mode:
 				self.mode = newmode
-				self.emit("mode-changed", self.mode, asel)
+				self.emit("mode-changed", self.mode, item)
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
 				sc = GetSourceController()
-				self.object_pane.source_rebase(sc.root_for_types(asel.object_types()))
+				self.object_pane.source_rebase(sc.root_for_types(item.object_types()))
 				self.search(ObjectPane)
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Object pane is not a Leaf!"
-			self.object_pane.select(item)
 
 	def validate(self):
 		"""Check if all selected items are still valid
