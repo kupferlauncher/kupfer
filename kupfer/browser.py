@@ -755,27 +755,22 @@ class Interface (gobject.GObject):
 
 		Corresponds to backspace
 		"""
-		if self.current is self.search:
+		if self.current is self.action:
+			# Reset action view by blanket search
+			self.data_controller.search(data.ActionPane)
+		else:
 			self.current.reset()
-		elif self.current is self.action:
-			# Reset action view by reselection
-			match = self.search.get_current()
-			self.data_controller.select(data.SourcePane, item=match)
-		elif self.current is self.third:
-			match = self.action.get_current()
-			self.data_controller.select(data.ActionPane, item=match)
 
 	def _reset_key_press(self):
 		"""Handle left arrow or backspace:
 		browse up if clear, else reset
 		"""
-		match = self.search.get_current()
+		self.reset()
 		# larrow or backspace will erase or go up
-		if not match and self.search.get_match_state() is State.Wait:
-			self._browse_up(match)
+		if self.current.get_match_state() is State.Wait:
+			self._browse_up()
 		else:
 			self.reset_current()
-		self.reset()
 
 	def switch_to_source(self):
 		if self.current is not self.search:
@@ -808,8 +803,9 @@ class Interface (gobject.GObject):
 		wid = self._widget_for_pane(pane)
 		wid.set_source(source)
 		wid.reset()
-		if pane is data.SourcePane:
+		if wid is self.current:
 			self.reset()
+		if pane is data.SourcePane:
 			self.switch_to_source()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
@@ -838,7 +834,7 @@ class Interface (gobject.GObject):
 		self._update_active()
 		self.reset()
 	
-	def _browse_up(self, match):
+	def _browse_up(self):
 		pane = self._pane_for_widget(self.current)
 		self.data_controller.browse_up(pane)
 	
