@@ -1,8 +1,9 @@
+import gtk
+import gio
+
 from kupfer.objects import Leaf, Action, Source
 from kupfer import objects, utils, icons
 from kupfer.plugin import about_support
-
-import gtk
 
 __kupfer_name__ = _("Core")
 __kupfer_sources__ = ("CommonSource", )
@@ -113,25 +114,25 @@ class SpecialLocation (objects.Leaf):
 	""" Base class for Special locations (in GIO/GVFS),
 	such as trash:/// Here we assume they are all "directories"
 	"""
-	def __init__(self, location, name):
+	def __init__(self, location, name=None, description=None, icon_name=None):
+		"""Special location with @location and
+		@name. If unset, we find @name from filesystem
+		@description is Leaf description"""
+		gfile = gio.File(location)
+		info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)
+		name = (info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME) or location)
 		Leaf.__init__(self, location, name)
+		self.description = description
+		self.icon_name = icon_name
 	def get_actions(self):
 		yield objects.OpenDirectory()
+	def get_description(self):
+		return self.description or self.object
 	def get_gicon(self):
 		# Get icon
 		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
 		return "folder"
-
-class Trash (SpecialLocation):
-	def __init__(self):
-		SpecialLocation.__init__(self, "trash:///", _("Trash"))
-
-class Computer (SpecialLocation):
-	def __init__(self):
-		SpecialLocation.__init__(self, "computer://", _("Computer"))
-	def get_description(self):
-		return _("Browse local disks and mounts")
 
 class CommonSource (Source):
 	def __init__(self, name=_("Special items")):
@@ -143,8 +144,10 @@ class CommonSource (Source):
 			About(),
 			Preferences(),
 			Quit(),
-			Computer(),
-			Trash(),
+			SpecialLocation("computer://",
+				description=_("Browse local disks and mounts")),
+			SpecialLocation("burn://"),
+			SpecialLocation("trash://"),
 			Logout(),
 			LockScreen(),
 			Shutdown(),
