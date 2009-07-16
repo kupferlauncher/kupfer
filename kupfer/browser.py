@@ -728,9 +728,7 @@ class Interface (gobject.GObject):
 		elif keyv == key_book["Up"]:
 			self.current.go_up()
 		elif keyv == key_book["Right"]:
-			match = self.search.get_current()
-			if match:
-				self._browse_down(match, alternate=mod1_mask)
+			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
 			if not self.entry.get_text():
 				self._reset_key_press()
@@ -807,10 +805,12 @@ class Interface (gobject.GObject):
 		"""Notification about a new data source,
 		(represented object for the self.search object
 		"""
-		self.reset()
-		self.switch_to_source()
-		self.search.set_source(source)
-		self.search.reset()
+		wid = self._widget_for_pane(pane)
+		wid.set_source(source)
+		wid.reset()
+		if pane is data.SourcePane:
+			self.reset()
+			self.switch_to_source()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
 		if mode is data.SourceActionObjectMode:
@@ -839,10 +839,12 @@ class Interface (gobject.GObject):
 		self.reset()
 	
 	def _browse_up(self, match):
-		self.data_controller.browse_up(data.SourcePane)
+		pane = self._pane_for_widget(self.current)
+		self.data_controller.browse_up(pane)
 	
-	def _browse_down(self, match, alternate=False):
-		self.data_controller.browse_down(data.SourcePane, match, alternate)
+	def _browse_down(self, alternate=False):
+		pane = self._pane_for_widget(self.current)
+		self.data_controller.browse_down(pane, alternate=alternate)
 
 	def _activate(self, widget, current):
 		self.data_controller.activate()
@@ -868,8 +870,8 @@ class Interface (gobject.GObject):
 	def _populate_search(self):
 		"""Do a blanket search/empty search to populate
 		the search view if it is the current view"""
-		if self.current == self.search:
-			self.data_controller.search(pane=data.SourcePane)
+		pane = self._pane_for_widget(self.current)
+		self.data_controller.search(pane)
 
 	def _description_changed(self):
 		match = self.current.get_current()

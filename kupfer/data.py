@@ -61,12 +61,14 @@ class SearchTask (pretty.OutputMixin):
 				fixedrank = src.get_rank()
 			else:
 				items = src
+
 			# Check against secondary object action reqs
 			if item:
 				new_items = []
 				types = tuple(item.object_types())
 				for i in items:
 					if isinstance(i, types) and item.valid_object(i):
+						print "Accept ", i, "for", item
 						new_items.append(i)
 				items = new_items
 
@@ -407,11 +409,12 @@ class LeafController (Pane, pretty.OutputMixin):
 				self.source_rebase(self.source.get_parent())
 		self.refresh_data()
 
-	def browse_down(self, leaf, alternate=False):
+	def browse_down(self, alternate=False):
 		"""Browse into @leaf if it's possible
 		and save away the previous sources in the stack
 		if @alternate, use the Source's alternate method"""
-		if not leaf.has_content():
+		leaf = self.get_selection()
+		if not leaf or not leaf.has_content():
 			return
 		self.push_source(leaf.content_source(alternate=alternate))
 
@@ -466,9 +469,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.text_sources = []
 		self.decorate_types = {}
 		self.leaf_controller = LeafController(SourcePane)
-		self.leaf_controller.connect("new-source", self._new_source)
 		self.action_pane = Pane(ActionPane)
 		self.object_pane = LeafController(ObjectPane)
+		self.leaf_controller.connect("new-source", self._new_source)
+		self.object_pane.connect("new-source", self._new_source)
 		self.mode = None
 
 		sch = scheduler.GetScheduler()
@@ -516,7 +520,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		learn.finish()
 
 	def _new_source(self, ctr, src):
-		self.emit("source-changed", SourcePane, src)
+		if ctr is self.leaf_controller:
+			pane = SourcePane
+		elif ctr is self.object_pane:
+			pane = ObjectPane
+		self.emit("source-changed", pane, src)
+		print "Source changed", pane, src
 
 	def reset(self):
 		self.leaf_controller.reset()
@@ -554,9 +563,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			# @score only with nonempty key, else alphabethic
 			asel = self.action_pane.get_selection()
 			self.object_pane.text_sources = self.text_sources
+			# Always score
 			self.search_handle = gobject.idle_add(self.object_pane.search,
 					self,
-					key, bool(key), asel, context)
+					key, True, asel, context)
 
 	def do_predicate_search(self, leaf, key=u"", context=None):
 		actions = list(leaf.get_actions()) if leaf else []
@@ -617,13 +627,17 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		source"""
 		if pane is SourcePane:
 			self.leaf_controller.browse_up()
+		if pane is ObjectPane:
+			self.object_pane.browse_up()
 	
-	def browse_down(self, pane, leaf, alternate=False):
+	def browse_down(self, pane, alternate=False):
 		"""Browse into @leaf if it's possible
 		and save away the previous sources in the stack
 		if @alternate, use the Source's alternate method"""
 		if pane is SourcePane:
-			self.leaf_controller.browse_down(leaf, alternate=alternate)
+			self.leaf_controller.browse_down(alternate=alternate)
+		if pane is ObjectPane:
+			self.object_pane.browse_down(alternate=alternate)
 
 	def activate(self):
 		"""
