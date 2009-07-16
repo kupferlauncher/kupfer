@@ -183,7 +183,7 @@ class FileLeaf (Leaf):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
 
-	def _is_dir(self):
+	def is_dir(self):
 		return path.isdir(self.object)
 	def is_valid(self):
 		return self._is_valid()
@@ -252,13 +252,13 @@ class FileLeaf (Leaf):
 			return Leaf.content_source(self)
 
 	def get_thumbnail(self, width, height):
-		if self._is_dir(): return None
+		if self.is_dir(): return None
 		return icons.get_thumbnail_for_file(self.object, width, height)
 	def get_gicon(self):
 		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
 		"""A more generic icon"""
-		if self._is_dir():
+		if self.is_dir():
 			return "folder"
 		else:
 			return "gtk-file"
