@@ -109,26 +109,29 @@ class Preferences (RunnableLeaf):
 	def get_icon_name(self):
 		return gtk.STOCK_PREFERENCES
 
-class Trash (objects.Leaf):
-	def __init__(self):
-		super(Trash, self).__init__("trash:///", _("Trash"))
+class SpecialLocation (objects.Leaf):
+	""" Base class for Special locations (in GIO/GVFS),
+	such as trash:/// Here we assume they are all "directories"
+	"""
+	def __init__(self, location, name):
+		Leaf.__init__(self, location, name)
 	def get_actions(self):
 		yield objects.OpenDirectory()
 	def get_gicon(self):
-		# Get icon "with" empty/full status
+		# Get icon
 		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
-		return "gnome-stock-trash"
+		return "folder"
 
-class Computer (objects.Leaf):
+class Trash (SpecialLocation):
 	def __init__(self):
-		super(Computer, self).__init__("computer://", _("Computer"))
-	def get_actions(self):
-		yield objects.OpenDirectory()
+		SpecialLocation.__init__(self, "trash:///", _("Trash"))
+
+class Computer (SpecialLocation):
+	def __init__(self):
+		SpecialLocation.__init__(self, "computer://", _("Computer"))
 	def get_description(self):
 		return _("Browse local disks and mounts")
-	def get_icon_name(self):
-		return "computer"
 
 class CommonSource (Source):
 	def __init__(self, name=_("Special items")):
@@ -150,3 +153,6 @@ class CommonSource (Source):
 		return _("Items and special actions")
 	def get_icon_name(self):
 		return "gnome-other"
+	def provides(self):
+		yield SpecialLocation
+		yield RunnableLeaf
