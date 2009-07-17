@@ -447,9 +447,28 @@ class LeafPane (Pane, pretty.OutputMixin):
 				item=item,
 				score=score,
 				context=context)
-
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
+
+class SecondaryObjectPane (LeafPane):
+	__gtype_name__ = "SecondaryObjectPane"
+	def __init__(self, pane):
+		LeafPane.__init__(self, pane)
+		self.current_item = None
+		self.current_action = None
+	def reset(self):
+		self.source = None
+		self.source_stack = None
+		LeafPane.reset(self)
+		self.source_search_task = SearchTask()
+	def set_item_and_action(self, item, act):
+		self.current_item = item
+		self.current_action = act
+		if item and act:
+			sc = GetSourceController()
+			self.source_rebase(sc.root_for_types(act.object_types()))
+		else:
+			self.reset()
 
 class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
@@ -476,7 +495,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.text_sources = []
 		self.decorate_types = {}
 		self.source_pane = LeafPane(SourcePane)
-		self.object_pane = LeafPane(ObjectPane)
+		self.object_pane = SecondaryObjectPane(ObjectPane)
 		self.source_pane.connect("new-source", self._new_source)
 		self.object_pane.connect("new-source", self._new_source)
 		self.action_pane = Pane(ActionPane)
@@ -615,8 +634,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.emit("mode-changed", self.mode, item)
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
-				sc = GetSourceController()
-				self.object_pane.source_rebase(sc.root_for_types(item.object_types()))
+				self.object_pane.set_item_and_action(self.source_pane.get_selection(), item)
 				self.search(ObjectPane)
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Object pane is not a Leaf!"
