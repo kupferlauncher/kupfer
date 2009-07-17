@@ -61,6 +61,10 @@ class KupferObject (object):
 	Base class for Actions and Leaves
 	"""
 	def __init__(self, name=None):
+		""" Init kupfer object with, where
+		@name *should* be a unicode object but *may* be
+		a UTF-8 encoded `str`
+		"""
 		if not name:
 			name = self.__class__.__name__
 		self.name = tounicode(name)
@@ -69,14 +73,13 @@ class KupferObject (object):
 		return toutf8(self.name)
 
 	def __unicode__(self):
-		"""Return a `unicode` representation of @self
-		using self.name which *must* be a UTF-8 encoded `str`
-		"""
+		"""Return a `unicode` representation of @self """
 		return self.name
 
 	def get_description(self):
 		"""Return a description of the specific item
-		@return *must* be a unicode object or None
+		which *should* be a unicode object but *may* be
+		a UTF-8 encoded `str` or None
 		"""
 		return None
 
