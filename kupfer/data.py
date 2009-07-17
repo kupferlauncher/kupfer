@@ -461,6 +461,8 @@ gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 
 class PrimaryActionPane (Pane):
 	def set_item(self, item):
+		"""Set which @item we are currently listing actions for"""
+		print self, "listing for", item
 		self.current_item = item
 
 	def search(self, sender, key=u"", context=None):
@@ -616,7 +618,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			gobject.source_remove(self.search_handle)
 		self.search_handle = -1
 
-	def search(self, pane, key=u"", context=None):
+	def search(self, pane, key=u"", context=None, direct=True):
 		"""Search: Register the search method in the event loop
 
 		Will search in @pane's base using @key, promising to return
@@ -626,11 +628,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		If we already have a call to search, we remove the "source"
 		so that we always use the most recently requested search."""
 
-		self.source_pane.text_sources = self.text_sources
 		ctl = self._panectl_table[pane]
-		self.search_handle = gobject.idle_add(ctl.search,
-				self,
-				key, context)
+		if direct:
+			ctl.search(self,key, context)
+		else:
+			self.search_handle = gobject.idle_add(ctl.search,self,key,context)
 
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
@@ -645,7 +647,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
 			# populate actions
 			self.action_pane.set_item(item)
-			self.search(ActionPane)
+			self.search(ActionPane, direct=True)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, objects.Action), "Selection in Source pane is not an Action!"
 			if item and item.requires_object():
