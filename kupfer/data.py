@@ -474,6 +474,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		self.latest_item_key = None
 		self.latest_action_key = None
+		self.latest_object_key = None
 		self.text_sources = []
 		self.decorate_types = {}
 		self.source_pane = LeafPane(SourcePane)
@@ -573,6 +574,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			item = self.source_pane.get_selection()
 			self.do_predicate_search(item, key, context)
 		elif pane is ObjectPane:
+			self.latest_object_key = key
 			# @score only with nonempty key, else alphabethic
 			asel = self.action_pane.get_selection()
 			self.object_pane.text_sources = self.text_sources
@@ -674,10 +676,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			new_source = action.activate(leaf, sobject)
 
 		# register search to learning database
-		if self.latest_item_key:
-			learn.record_search_hit(unicode(leaf), self.latest_item_key)
-		# register actions regardless of key
+		learn.record_search_hit(unicode(leaf), self.latest_item_key)
 		learn.record_search_hit(unicode(action), self.latest_action_key)
+		if sobject:
+			learn.record_search_hit(unicode(sobject), self.latest_object_key)
 
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
