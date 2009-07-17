@@ -450,6 +450,31 @@ class LeafPane (Pane, pretty.OutputMixin):
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
+class PrimaryActionPane (Pane):
+	def set_item(self, item):
+		self.current_item = item
+
+	def search(self, sender, key=u"", context=None):
+		"""Search: Register the search method in the event loop
+
+		using @key, promising to return
+		@context in the notification about the result, having selected
+		@item in SourcePane
+
+		If we already have a call to search, we remove the "source"
+		so that we always use the most recently requested search."""
+
+		self.latest_key = key
+		leaf = self.current_item
+		actions = list(leaf.get_actions()) if leaf else []
+		if leaf and type(leaf) in self.decorate_types:
+			# FIXME: We ignore subclasses for now ("in" above)
+			actions.extend(self.decorate_types[type(leaf)])
+
+		sources = (actions, )
+		stask = SearchTask()
+		stask(sender, ActionPane, sources, key, "search-result", context=context)
+
 class SecondaryObjectPane (LeafPane):
 	__gtype_name__ = "SecondaryObjectPane"
 	def __init__(self, pane):
@@ -498,7 +523,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.object_pane = SecondaryObjectPane(ObjectPane)
 		self.source_pane.connect("new-source", self._new_source)
 		self.object_pane.connect("new-source", self._new_source)
-		self.action_pane = Pane(ActionPane)
+		self.action_pane = PrimaryActionPane(ActionPane)
+		self.action_pane.decorate_types = self.decorate_types
 		self._panectl_table = {
 			SourcePane : self.source_pane,
 			ActionPane : self.action_pane,
@@ -588,8 +614,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 					key, bool(key), item, context)
 		elif pane is ActionPane:
 			self.latest_action_key = key
-			item = self.source_pane.get_selection()
-			self.do_predicate_search(item, key, context)
+			self.action_pane.search(self, key, context)
 		elif pane is ObjectPane:
 			self.latest_object_key = key
 			# @score only with nonempty key, else alphabethic
@@ -599,16 +624,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.search_handle = gobject.idle_add(self.object_pane.search,
 					self,
 					key, True, asel, context)
-
-	def do_predicate_search(self, leaf, key=u"", context=None):
-		actions = list(leaf.get_actions()) if leaf else []
-		if leaf and type(leaf) in self.decorate_types:
-			# FIXME: We ignore subclasses for now ("in" above)
-			actions.extend(self.decorate_types[type(leaf)])
-
-		sources = (actions, )
-		stask = SearchTask()
-		stask(self, ActionPane, sources, key, "search-result", context=context)
 
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
@@ -622,6 +637,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if pane is SourcePane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
 			# populate actions
+			self.action_pane.set_item(item)
 			self.search(ActionPane)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, objects.Action), "Selection in Source pane is not an Action!"
