@@ -433,7 +433,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 			pass
 		self.refresh_data()
 
-	def search(self, sender, key, score=True, item=None, context=None):
+	def search(self, sender, key=u"", context=None):
 		"""
 		filter for action @item
 		"""
@@ -444,8 +444,8 @@ class LeafPane (Pane, pretty.OutputMixin):
 			sources.extend(self.text_sources)
 		self.source_search_task(sender, self.pane, sources, key,
 				"search-result",
-				item=item,
-				score=score,
+				item=None,
+				score=bool(key),
 				context=context)
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
@@ -494,6 +494,20 @@ class SecondaryObjectPane (LeafPane):
 			self.source_rebase(sc.root_for_types(act.object_types()))
 		else:
 			self.reset()
+	def search(self, sender, key=u"", context=None):
+		"""
+		filter for action @item
+		"""
+		self.search_handle = -1
+		sources = [ self.get_source() ]
+		if key and self.is_at_source_root():
+			# Only use text sources when we are at root catalog
+			sources.extend(self.text_sources)
+		self.source_search_task(sender, self.pane, sources, key,
+				"search-result",
+				item=self.current_action,
+				score=True,
+				context=context)
 
 class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
@@ -605,25 +619,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		so that we always use the most recently requested search."""
 
 		self.source_pane.text_sources = self.text_sources
-		if pane is SourcePane:
-			self.latest_item_key = key
-			item = None
-			# @score only with nonempty key, else alphabethic
-			self.search_handle = gobject.idle_add(self.source_pane.search,
-					self,
-					key, bool(key), item, context)
-		elif pane is ActionPane:
-			self.latest_action_key = key
-			self.action_pane.search(self, key, context)
-		elif pane is ObjectPane:
-			self.latest_object_key = key
-			# @score only with nonempty key, else alphabethic
-			asel = self.action_pane.get_selection()
-			self.object_pane.text_sources = self.text_sources
-			# Always score
-			self.search_handle = gobject.idle_add(self.object_pane.search,
-					self,
-					key, True, asel, context)
+		ctl = self._panectl_table[pane]
+		self.search_handle = gobject.idle_add(ctl.search,
+				self,
+				key, context)
 
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
