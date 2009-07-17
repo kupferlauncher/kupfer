@@ -43,10 +43,8 @@ class SearchTask (pretty.OutputMixin):
 					items = src.get_leaves()
 					self.output_debug("Rereading items from", src)
 			elif isinstance(src, objects.TextSource):
-				# For text source, we have to pass UTF-8 encoded
-				# strings "down" into the core
-				textkey = key.encode("UTF-8", "ignore")
-				items = src.get_items(textkey)
+				# For text source, we pass a unicode string here
+				items = src.get_items(key)
 				fixedrank = src.get_rank()
 			else:
 				items = src
