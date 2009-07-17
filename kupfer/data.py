@@ -357,6 +357,7 @@ class Pane (gobject.GObject):
 		super(Pane, self).__init__()
 		self.selection = None
 		self.pane = which_pane
+		self.latest_key = None
 
 	def select(self, item):
 		self.selection = item
@@ -364,6 +365,8 @@ class Pane (gobject.GObject):
 		return self.selection
 	def reset(self):
 		self.selection = None
+	def get_latest_key(self):
+		return self.latest_key
 
 class LeafPane (Pane, pretty.OutputMixin):
 	__gtype_name__ = "LeafPane"
@@ -372,7 +375,6 @@ class LeafPane (Pane, pretty.OutputMixin):
 		super(LeafPane, self).__init__(which_pane)
 		self.source_stack = []
 		self.source = None
-		self.search_handle = -1
 		self.source_search_task = SearchTask()
 
 	def _load_source(self, src):
@@ -442,7 +444,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 		"""
 		filter for action @item
 		"""
-		self.search_handle = -1
+		self.latest_key = key
 		sources = [ self.get_source() ]
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
@@ -505,7 +507,7 @@ class SecondaryObjectPane (LeafPane):
 		"""
 		filter for action @item
 		"""
-		self.search_handle = -1
+		self.latest_key = key
 		sources = [ self.get_source() ]
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
@@ -537,9 +539,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		super(DataController, self).__init__()
 		self.search_handle = -1
 
-		self.latest_item_key = None
-		self.latest_action_key = None
-		self.latest_object_key = None
 		self.decorate_types = {}
 		self.source_pane = LeafPane(SourcePane)
 		self.object_pane = SecondaryObjectPane(ObjectPane)
@@ -716,10 +715,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			new_source = action.activate(leaf, sobject)
 
 		# register search to learning database
-		learn.record_search_hit(unicode(leaf), self.latest_item_key)
-		learn.record_search_hit(unicode(action), self.latest_action_key)
+		learn.record_search_hit(unicode(leaf), self.source_pane.get_latest_key())
+		learn.record_search_hit(unicode(action), self.action_pane.get_latest_key())
 		if sobject:
-			learn.record_search_hit(unicode(sobject), self.latest_object_key)
+			learn.record_search_hit(unicode(sobject), self.object_pane.get_latest_key())
 
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
