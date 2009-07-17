@@ -16,7 +16,7 @@ else:
 	else:
 		package_name = version_subst.PACKAGE_NAME
 		localedir = version_subst.LOCALEDIR
-	gettext.install(package_name, localedir=localedir, codeset="UTF-8")
+	gettext.install(package_name, localedir=localedir, unicode=True)
 
 
 # to load in current locale properly for sorting etc
