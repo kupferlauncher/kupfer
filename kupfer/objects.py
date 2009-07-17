@@ -76,7 +76,7 @@ class KupferObject (object):
 
 	def get_description(self):
 		"""Return a description of the specific item
-		@return *must* be a UTF-8 encoded `str` or None
+		@return *must* be a unicode object or None
 		"""
 		return None
 
@@ -183,13 +183,15 @@ class FileLeaf (Leaf):
 		The display name of the file is normally
 		derived from the full path, and @name
 		should normally be left unspecified.
+		@obj: byte string (file system encoding)
+		@name: unicode name or None for using basename
 		"""
 		# Resolve symlinks
 		obj = path.realpath(obj) or obj
 		# Use glib filename reading to make display name out of filenames
-		# this function returns a `unicode` object that we decode
+		# this function returns a `unicode` object
 		if not name:
-			name = gobject.filename_display_basename(obj).encode("UTF-8")
+			name = gobject.filename_display_basename(obj)
 		super(FileLeaf, self).__init__(obj, name)
 
 	def _is_valid(self):
@@ -208,8 +210,8 @@ class FileLeaf (Leaf):
 		replace homedir by ~/
 		"""
 		# Use glib filename reading to make display name out of filenames
-		# this function returns a `unicode` object that we decode
-		desc = gobject.filename_display_name(self.object).encode("UTF-8")
+		# this function returns a `unicode` object
+		desc = gobject.filename_display_name(self.object)
 		homedir = path.expanduser("~/")
 		if desc.startswith(homedir) and homedir != desc:
 			desc = desc.replace(homedir, "~/", 1)
@@ -292,6 +294,11 @@ def ConstructFileLeaf(obj):
 	return FileLeaf(obj)
 
 class SourceLeaf (Leaf):
+	def __init__(self, obj, name=None):
+		"""Create SourceLeaf for source @obj"""
+		if not name:
+			name = unicode(obj)
+		Leaf.__init__(self, obj, name)
 	def has_content(self):
 		return True
 
@@ -657,9 +664,7 @@ class Source (KupferObject, pretty.OutputMixin):
 	Sources are hashable and treated as equal if
 	their @repr are equal!
 	"""
-	def __init__(self, name=None):
-		if not name:
-			name = self.__class__.__name__
+	def __init__(self, name):
 		KupferObject.__init__(self, name)
 		self.cached_items = None
 
@@ -720,7 +725,11 @@ class Source (KupferObject, pretty.OutputMixin):
 
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
-		name = path.basename(dirlist[0])
+		"""
+		@dirlist: Directories as byte strings
+		"""
+		name = gobject.filename_display_basename(dirlist[0])
+		super(DirectorySource, self).__init__(name)
 		if len(dirlist) > 1:
 			name = _("%s et al") % name
 		super(FileSource, self).__init__(name)
@@ -756,7 +765,9 @@ class FileSource (Source):
 
 class DirectorySource (Source):
 	def __init__(self, dir, show_hidden=False):
-		name = path.basename(dir) or dir
+		# Use glib filename reading to make display name out of filenames
+		# this function returns a `unicode` object
+		name = gobject.filename_display_basename(dir)
 		super(DirectorySource, self).__init__(name)
 		self.directory = dir
 		self.show_hidden = show_hidden
@@ -832,15 +843,15 @@ class DirectorySource (Source):
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
-	def __init__(self, sources, name=_("Catalog index")):
-		super(SourcesSource, self).__init__(name)
+	def __init__(self, sources):
+		super(SourcesSource, self).__init__(_("Catalog index"))
 		self.sources = sources
 
 	def get_items(self):
 		"""Ask each Source for a Leaf substitute, else
 		yield a SourceLeaf """
 		for s in self.sources:
-			yield s.get_leaf_repr() or SourceLeaf(s, str(s))
+			yield s.get_leaf_repr() or SourceLeaf(s)
 
 	def get_description(self):
 		return _("An index of all available sources")
@@ -894,9 +905,10 @@ class UrlLeaf (Leaf):
 		return "text-html"
 
 class TextLeaf (Leaf):
-	"""Represent a text query"""
+	"""Represent a text query
+	represented object is the unicode string
+	"""
 	def __init__(self, text):
-		"""@text: UTF-8 encoded text this represents"""
 		Leaf.__init__(self, text, name=text)
 	
 	def get_actions(self):
@@ -935,6 +947,7 @@ class TextSource (KupferObject):
 		"""Return a sequence of tuple of (item, rank)"""
 		return ()
 	def get_items(self, text):
+		"""Get leaves for unicode string @text"""
 		return ()
 
 class ActionDecorator (object):
