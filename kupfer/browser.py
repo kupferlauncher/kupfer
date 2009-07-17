@@ -142,11 +142,12 @@ class MatchView (gtk.Bin):
 	"""
 	__gtype_name__ = "MatchView"
 
-	def __init__(self):
+	def __init__(self, icon_size):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.label_char_width = 25
 		self.match_state = State.Wait
+		self.icon_size = icon_size
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
@@ -201,8 +202,8 @@ class MatchView (gtk.Bin):
 				icon = self._dim_icon(icon)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
-			self.icon_view.set_from_icon_name("gtk-file", 96)
-			self.icon_view.set_pixel_size(96)
+			self.icon_view.set_from_icon_name("gtk-file", self.icon_size)
+			self.icon_view.set_pixel_size(self.icon_size)
 
 		if not self.cur_text:
 			self.label.set_text("<no text>")
@@ -337,7 +338,7 @@ class Search (gtk.Bin):
 		"""
 		Core initalization method that builds the widget
 		"""
-		self.match_view = MatchView()
+		self.match_view = MatchView(self.icon_size)
 
 		self.table = gtk.TreeView(self.model.get_store())
 		self.table.set_headers_visible(False)
