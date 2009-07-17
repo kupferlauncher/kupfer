@@ -362,11 +362,11 @@ class Pane (gobject.GObject):
 	def reset(self):
 		self.selection = None
 
-class LeafController (Pane, pretty.OutputMixin):
-	__gtype_name__ = "LeafController"
+class LeafPane (Pane, pretty.OutputMixin):
+	__gtype_name__ = "LeafPane"
 
 	def __init__(self, which_pane):
-		super(LeafController, self).__init__(which_pane)
+		super(LeafPane, self).__init__(which_pane)
 		self.source_stack = []
 		self.source = None
 		self.search_handle = -1
@@ -450,7 +450,7 @@ class LeafController (Pane, pretty.OutputMixin):
 				score=score,
 				context=context)
 
-gobject.signal_new("new-source", LeafController, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class DataController (gobject.GObject, pretty.OutputMixin):
@@ -476,8 +476,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.latest_action_key = None
 		self.text_sources = []
 		self.decorate_types = {}
-		self.source_pane = LeafController(SourcePane)
-		self.object_pane = LeafController(ObjectPane)
+		self.source_pane = LeafPane(SourcePane)
+		self.object_pane = LeafPane(ObjectPane)
 		self.source_pane.connect("new-source", self._new_source)
 		self.object_pane.connect("new-source", self._new_source)
 		self.action_pane = Pane(ActionPane)
