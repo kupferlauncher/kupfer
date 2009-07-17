@@ -38,6 +38,24 @@ class InvalidLeaf (Error):
 	"""The Leaf passed to an Action is invalid"""
 	pass
 
+def tounicode(utf8str):
+	"""Return `unicode` from UTF-8 encoded @utf8str
+	This is to use the same error handling etc everywhere
+	if ustr is unicode, just return it
+	"""
+	if isinstance(utf8str, unicode):
+		return utf8str
+	return utf8str.decode("UTF-8", "replace")
+
+def toutf8(ustr):
+	"""Return UTF-8 `str` from unicode @ustr
+	This is to use the same error handling etc everywhere
+	if ustr is `str`, just return it
+	"""
+	if isinstance(ustr, str):
+		return ustr
+	return ustr.encode("UTF-8", "replace")
+
 class KupferObject (object):
 	"""
 	Base class for Actions and Leaves
