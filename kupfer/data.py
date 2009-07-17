@@ -169,7 +169,7 @@ class SourcePickleService (pretty.OutputMixin, object):
 	Singleton that should be accessed with
 	GetSourcePickleService()
 	"""
-	pickle_version = 1
+	pickle_version = 2
 	name_template = "kupfer-%s-v%d.pickle.gz"
 
 	def __call__(self):
