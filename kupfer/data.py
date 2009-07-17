@@ -247,6 +247,7 @@ class SourceController (pretty.OutputMixin):
 		self.rescanner = PeriodicRescanner([])
 		self.sources = set()
 		self.toplevel_sources = set()
+		self.text_sources = set()
 		self.pickle = pickle
 	def _as_set(self, s):
 		if isinstance(s, set):
@@ -259,6 +260,10 @@ class SourceController (pretty.OutputMixin):
 		if toplevel:
 			self.toplevel_sources.update(srcs)
 		self.rescanner.set_catalog(self.sources)
+	def add_text_sources(self, srcs):
+		self.text_sources.update(srcs)
+	def get_text_sources(self):
+		return self.text_sources
 
 	def clear_sources(self):
 		pass
@@ -441,7 +446,9 @@ class LeafPane (Pane, pretty.OutputMixin):
 		sources = [ self.get_source() ]
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
-			sources.extend(self.text_sources)
+			sc = GetSourceController()
+			textsrcs = sc.get_text_sources()
+			sources.extend(textsrcs)
 		self.source_search_task(sender, self.pane, sources, key,
 				"search-result",
 				item=None,
@@ -502,7 +509,9 @@ class SecondaryObjectPane (LeafPane):
 		sources = [ self.get_source() ]
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
-			sources.extend(self.text_sources)
+			sc = GetSourceController()
+			textsrcs = sc.get_text_sources()
+			sources.extend(textsrcs)
 		self.source_search_task(sender, self.pane, sources, key,
 				"search-result",
 				item=self.current_action,
@@ -531,7 +540,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.latest_item_key = None
 		self.latest_action_key = None
 		self.latest_object_key = None
-		self.text_sources = []
 		self.decorate_types = {}
 		self.source_pane = LeafPane(SourcePane)
 		self.object_pane = SecondaryObjectPane(ObjectPane)
@@ -565,7 +573,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Pass in text sources as @srcs
 
 		we register text sources """
-		self.text_sources.extend(srcs)
+		sc = GetSourceController()
+		sc.add_text_sources(srcs)
 	
 	def register_action_decorators(self, acts):
 		# assume none are dynamic for now
