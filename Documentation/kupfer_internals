@@ -63,11 +63,8 @@ DirectorySource is represented by a FileLeaf for the directory
 Strings
 
 Kupfer deals with PyGTK a lot, which always returns UTF-8-encoded
-strings (almost always). Thus Kupfer was using python `str` UTF-8
-encoded in its internal data. However, all internal objects should be
-modified to do all internal operations with `unicode`; this work should
-be relatively easy, we just have to change all entry points to convert
-to unicode.
-In the end, this is going to save the program work; data is imported
-mosty once, but accessed many times; when imported we get UTF-8 but when
-accessed uses unicode.
+strings (almost always). However Kupfer works internally with unicode
+strings; only then does slicing, lowercasing etc work across other than
+ascii charsets. Kupfer accepts UTF-8-encoded strings as well as unicode
+objects for the most parts, but all internals should be unicode. Note
+that the gettext _() will return a unicode string.
