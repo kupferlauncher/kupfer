@@ -107,4 +107,6 @@ class WindowsSource (Source):
 		return _("All windows on all workspaces")
 	def get_icon_name(self):
 		return "gnome-window-manager"
+	def provides(self):
+		yield WindowLeaf
 

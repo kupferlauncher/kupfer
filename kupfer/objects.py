@@ -205,8 +205,10 @@ class FileLeaf (Leaf):
 		from os import access, X_OK, R_OK
 		return access(self.object, R_OK | X_OK)
 
-	def _is_dir(self):
+	def is_dir(self):
 		return path.isdir(self.object)
+	def is_valid(self):
+		return self._is_valid()
 
 	def get_description(self):
 		"""Format the path shorter:
@@ -272,16 +274,21 @@ class FileLeaf (Leaf):
 			return Leaf.content_source(self)
 
 	def get_thumbnail(self, width, height):
-		if self._is_dir(): return None
+		if self.is_dir(): return None
 		return icons.get_thumbnail_for_file(self.object, width, height)
 	def get_gicon(self):
 		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
 		"""A more generic icon"""
-		if self._is_dir():
+		if self.is_dir():
 			return "folder"
 		else:
 			return "gtk-file"
+
+def ConstructFileLeafTypes():
+	""" Return a seq of the Leaf types returned by ConstructFileLeaf"""
+	yield FileLeaf
+	yield AppLeaf
 
 def ConstructFileLeaf(obj):
 	"""
@@ -384,11 +391,12 @@ class Action (KupferObject):
 	"""
 	Base class for all actions
 	"""
-	def activate(self, leaf):
+	def activate(self, leaf, obj=None):
 		"""
-		Use this action with leaf
+		Use this action with @leaf and @obj
 
-		leaf: a Leaf object
+		@leaf: a Leaf object
+		@obj: a secondary Leaf object
 		"""
 		pass
 
@@ -398,6 +406,29 @@ class Action (KupferObject):
 		return True
 		"""
 		return False
+
+	def requires_object(self):
+		"""
+		If this action requires a secondary object
+		to complete is action
+		"""
+		return False
+
+	def object_source(self, for_item=None):
+		"""Source to use for object or None
+		to use the catalog (flat, filtered for @object_types)
+		"""
+		return None
+
+	def object_types(self):
+		return ()
+
+	def valid_object(self, obj, for_item=None):
+		""" Whether @obj is good for secondary obj,
+		where @for_item might be passed in as a hint for
+		which it should be applied to
+		"""
+		return True
 	
 	def get_icon_name(self):
 		"""
@@ -726,6 +757,13 @@ class Source (KupferObject, pretty.OutputMixin):
 		to take the source's place as Leaf"""
 		return None
 
+	def provides(self):
+		"""A seq of the types of items it provides;
+		empty is taken as anything -- however most sources
+		should set this to exactly the type they yield
+		"""
+		return ()
+
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		"""
@@ -765,6 +803,8 @@ class FileSource (Source):
 
 	def get_icon_name(self):
 		return "folder-saved-search"
+	def provides(self):
+		return ConstructFileLeafTypes()
 
 class DirectorySource (Source):
 	def __init__(self, dir, show_hidden=False):
@@ -843,6 +883,8 @@ class DirectorySource (Source):
 
 	def get_leaf_repr(self):
 		return FileLeaf(self.directory)
+	def provides(self):
+		return ConstructFileLeafTypes()
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
@@ -952,6 +994,9 @@ class TextSource (KupferObject):
 	def get_items(self, text):
 		"""Get leaves for unicode string @text"""
 		return ()
+	def provides(self):
+		"""A seq of the types of items it provides"""
+		yield Leaf
 
 class ActionDecorator (object):
 	"""Base class for an object assigning more actions to Leaves"""

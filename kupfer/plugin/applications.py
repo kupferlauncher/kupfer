@@ -39,4 +39,6 @@ class AppSource (Source):
 
 	def get_icon_name(self):
 		return "gnome-applications"
+	def provides(self):
+		yield AppLeaf
 

@@ -42,6 +42,9 @@ class RecentsSource (Source):
 		return _("Recently used documents")
 	def get_icon_name(self):
 		return "document-open-recent"
+	def provides(self):
+		yield FileLeaf
+		yield UrlLeaf
 
 class PlacesSource (Source):
 	"""
@@ -83,3 +86,6 @@ class PlacesSource (Source):
 		return _("Bookmarked locations in Nautilus")
 	def get_icon_name(self):
 		return "file-manager"
+	def provides(self):
+		yield FileLeaf
+		yield UrlLeaf
