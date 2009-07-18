@@ -388,9 +388,22 @@ class AppLeaf (Leaf):
 		return "exec"
 
 class Action (KupferObject):
-	"""
+	'''
 	Base class for all actions
-	"""
+
+	Implicit interface:
+	  valid_object will be called once for each (secondary) object
+	  to see if it applies. If it is not defined, all objects are
+	  assumed ok (within the other type/source constraints)
+
+	def valid_object(self, obj, for_item):
+		"""Whether @obj is good for secondary obj,
+		where @for_item is passed in as a hint for
+		which it should be applied to
+		"""
+		return True
+	'''
+
 	def activate(self, leaf, obj=None):
 		"""
 		Use this action with @leaf and @obj
@@ -427,13 +440,6 @@ class Action (KupferObject):
 	def object_types(self):
 		return ()
 
-	def valid_object(self, obj, for_item=None):
-		""" Whether @obj is good for secondary obj,
-		where @for_item might be passed in as a hint for
-		which it should be applied to
-		"""
-		return True
-	
 	def get_icon_name(self):
 		"""
 		Return a default icon for actions
