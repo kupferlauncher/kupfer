@@ -154,7 +154,7 @@ class TrackerAddTag (Action):
 	def __init__(self):
 		Action.__init__(self, _("Add tag..."))
 	def activate(self, leaf, obj):
-		print "Want to add tag", obj, "to", leaf
+		raise NotImplementedError("Want to add tag %s to %s" %( obj, leaf))
 
 	def requires_object(self):
 		return True
@@ -165,6 +165,11 @@ class TrackerAddTag (Action):
 
 	def object_source(self):
 		return TrackerTagsSource()
+	def valid_object(self, obj, for_item):
+		if isinstance(obj, TextLeaf):
+			# FIXME: Do tag checking here
+			return (u" " not in obj.object)
+		return True
 
 	def get_icon_name(self):
 		return "gtk-add"
