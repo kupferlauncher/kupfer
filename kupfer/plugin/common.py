@@ -155,7 +155,7 @@ class CommonSource (Source):
 	def get_description(self):
 		return _("Items and special actions")
 	def get_icon_name(self):
-		return "gnome-other"
+		return "applications-other"
 	def provides(self):
 		yield SpecialLocation
 		yield RunnableLeaf
