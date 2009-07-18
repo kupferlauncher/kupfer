@@ -33,6 +33,8 @@ class AppSource (Source):
 		for item in app_info_get_all():
 			if item.should_show() or item.get_id() in whitelist:
 				yield AppLeaf(item)
+	def should_sort_lexically(self):
+		return True
 
 	def get_description(self):
 		return _("All applications and preferences")
