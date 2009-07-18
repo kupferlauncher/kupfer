@@ -1,4 +1,6 @@
 import gio
+import os
+
 from kupfer.objects import Action
 from kupfer.objects import FileLeaf, ActionDecorator
 from kupfer import utils
@@ -26,6 +28,8 @@ class Trash (Action):
 	def activate(self, leaf):
 		gfile = gio.File(leaf.object)
 		gfile.trash()
+	def valid_for_item(self, item):
+		return os.access(item.object, os.R_OK | os.W_OK)
 	def get_description(self):
 		return _("Move this file to trash")
 	def get_icon_name(self):
@@ -35,13 +39,22 @@ class MoveTo (Action):
 	def __init__(self):
 		Action.__init__(self, _("Move to..."))
 	def activate(self, leaf, obj):
-		print "Want to move", leaf, "to", obj
+		raise NotImplementedError("Want to move %s to %s" % (leaf, obj))
 
+	def valid_for_item(self, item):
+		return os.access(item.object, os.R_OK | os.W_OK)
 	def requires_object(self):
 		return True
 
 	def object_types(self):
 		yield FileLeaf
-	def valid_object(self, obj):
-		return obj.is_dir()
+	def valid_object(self, obj, for_item=None):
+		if not obj.is_dir():
+			return False
+		spath = os.path.normpath(for_item.object)
+		dpath = os.path.normpath(obj.object)
+		cpfx = os.path.commonprefix((spath, dpath))
+		if os.path.samefile(obj.object, for_item.object) or (cpfx == spath):
+			return False
+		return True
 
