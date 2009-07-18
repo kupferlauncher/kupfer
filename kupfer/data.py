@@ -481,6 +481,7 @@ class PrimaryActionPane (Pane):
 			# FIXME: We ignore subclasses for now ("in" above)
 			actions.extend(self.decorate_types[type(leaf)])
 
+		actions = [a for a in actions if a.valid_for_item(self.current_item)]
 		sources = (actions, )
 		stask = SearchTask()
 		stask(sender, ActionPane, sources, key, "search-result", context=context)
