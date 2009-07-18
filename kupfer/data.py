@@ -590,15 +590,15 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc.add_text_sources(srcs)
 	
 	def register_action_decorators(self, acts):
-		# assume none are dynamic for now
 		# Keep a dictionary with Leaf type as key
 		# and value actions to add
 		for act in acts:
-			applies = act.applies_to()
+			applies = act.item_types()
 			for appl_type in applies:
 				decorate_with = self.decorate_types.get(appl_type, [])
-				decorate_with.extend(act.get_actions())
+				decorate_with.append(act)
 				self.decorate_types[appl_type] = decorate_with
+		self.output_debug("Decorators", self.decorate_types)
 
 	def _load(self, sched):
 		"""Load data from persistent store"""

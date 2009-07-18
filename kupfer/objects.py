@@ -420,6 +420,12 @@ class Action (KupferObject):
 		"""
 		return False
 
+	def item_types(self):
+		"""Yield items this action may apply to. This is used only
+		when this action is specified in __kupfer_actions__ to "decorate"
+		"""
+		return ()
+
 	def valid_for_item(self, item):
 		"""Whether action can be used with exactly @item"""
 		return True
@@ -1007,18 +1013,3 @@ class TextSource (KupferObject):
 	def provides(self):
 		"""A seq of the types of items it provides"""
 		yield Leaf
-
-class ActionDecorator (object):
-	"""Base class for an object assigning more actions to Leaves"""
-	def __init__(self):
-		pass
-	def applies_to(self):
-		"""return sequence of Leaf types this decorator applies to"""
-		return ()
-	def is_dynamic(self):
-		""" dynamic is ignored for now"""
-		return False
-	def get_actions(self, leaf=None):
-		"""Return actions for @leaf (only passed in to dynamic decors)"""
-		return ()
-

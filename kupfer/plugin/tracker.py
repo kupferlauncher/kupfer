@@ -1,7 +1,7 @@
 import gobject
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import (TextLeaf, ActionDecorator, ConstructFileLeaf,
+from kupfer.objects import (TextLeaf, ConstructFileLeaf,
 		SourceLeaf, TextSource, FileLeaf)
 from kupfer import utils, pretty
 from kupfer.plugin import text
@@ -10,22 +10,10 @@ from kupfer.plugin import text
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
-__kupfer_action_decorator__ = ("TrackerDecorator", "TrackerTagDecorator")
+__kupfer_actions__ = ("TrackerSearch", "TrackerSearchHere")
 __description__ = _("Tracker desktop search integration")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
-class TrackerDecorator (ActionDecorator):
-	def applies_to(self):
-		yield TextLeaf
-	def get_actions(self, leaf=None):
-		return (TrackerSearch(), TrackerSearchHere())
-
-class TrackerTagDecorator (ActionDecorator):
-	def applies_to(self):
-		yield FileLeaf
-	def get_actions(self, leaf=None):
-		yield TrackerAddTag()
 
 class TrackerSearch (Action):
 	def __init__(self):
@@ -37,6 +25,9 @@ class TrackerSearch (Action):
 		return _("Open Tracker Search Tool and search for this term")
 	def get_icon_name(self):
 		return "search"
+	def item_types(self):
+		yield TextLeaf
+
 
 class TrackerSearchHere (Action):
 	def __init__(self):
@@ -52,6 +43,8 @@ class TrackerSearchHere (Action):
 		return _("Show Tracker results for query")
 	def get_icon_name(self):
 		return "tracker"
+	def item_types(self):
+		yield TextLeaf
 
 class TrackerQuerySource (Source):
 	def __init__(self, query):
@@ -159,6 +152,8 @@ class TrackerAddTag (Action):
 	def requires_object(self):
 		return True
 
+	def item_types(self):
+		yield FileLeaf
 	def object_types(self):
 		yield TextLeaf
 		yield TrackerTag
