@@ -918,6 +918,9 @@ class SourcesSource (Source):
 		for s in self.sources:
 			yield s.get_leaf_repr() or SourceLeaf(s)
 
+	def should_sort_lexically(self):
+		return True
+
 	def get_description(self):
 		return _("An index of all available sources")
 
