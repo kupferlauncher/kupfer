@@ -29,7 +29,7 @@ class SearchTask (pretty.OutputMixin):
 		self._old_key = None
 
 	def __call__(self, sender, pane, sources, key, signal, score=True,
-			item=None, context=None):
+			item=None, action=None, context=None):
 		"""
 		@sources is a dict listing the inputs and how they are ranked
 
@@ -42,6 +42,26 @@ class SearchTask (pretty.OutputMixin):
 			self._old_key = ""
 		self._old_key = key
 
+		# Set up object and type checking for
+		# action + secondary object
+		item_check = lambda x: x
+		if item and action:
+			types = tuple(action.object_types())
+			def type_obj_check(itms):
+				for i in itms:
+					if (isinstance(i, types) and
+							action.valid_object(i, for_item=item)):
+						yield i
+			def type_check(itms):
+				for i in itms:
+					if isinstance(i, types):
+						yield i
+
+			if hasattr(action, "valid_object"):
+				item_check = type_obj_check
+			else:
+				item_check = type_check
+
 		match_iters = []
 		for src in sources:
 			items = ()
@@ -51,23 +71,15 @@ class SearchTask (pretty.OutputMixin):
 					# rankables stored
 					items = (r.object for r in self._source_cache[src])
 				except KeyError:
-					items = src.get_leaves()
+					# check uncached items
+					items = item_check(src.get_leaves())
 					self.output_debug("Rereading items from", src)
 			elif isinstance(src, objects.TextSource):
 				# For text source, we pass a unicode string here
-				items = src.get_items(key)
+				items = item_check(src.get_items(key))
 				fixedrank = src.get_rank()
 			else:
-				items = src
-
-			# Check against secondary object action reqs
-			if item:
-				new_items = []
-				types = tuple(item.object_types())
-				for i in items:
-					if isinstance(i, types) and item.valid_object(i):
-						new_items.append(i)
-				items = new_items
+				items = item_check(src)
 
 			if score:
 				rankables = search.make_rankables(items)
@@ -453,7 +465,6 @@ class LeafPane (Pane, pretty.OutputMixin):
 			sources.extend(textsrcs)
 		self.source_search_task(sender, self.pane, sources, key,
 				"search-result",
-				item=None,
 				score=bool(key),
 				context=context)
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
@@ -518,7 +529,8 @@ class SecondaryObjectPane (LeafPane):
 			sources.extend(textsrcs)
 		self.source_search_task(sender, self.pane, sources, key,
 				"search-result",
-				item=self.current_action,
+				item=self.current_item,
+				action=self.current_action,
 				score=True,
 				context=context)
 
