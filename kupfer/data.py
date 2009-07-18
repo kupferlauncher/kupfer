@@ -462,7 +462,6 @@ gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 class PrimaryActionPane (Pane):
 	def set_item(self, item):
 		"""Set which @item we are currently listing actions for"""
-		print self, "listing for", item
 		self.current_item = item
 
 	def search(self, sender, key=u"", context=None):
@@ -606,7 +605,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		elif ctr is self.object_pane:
 			pane = ObjectPane
 		self.emit("source-changed", pane, src)
-		print "Source changed", pane, src
 
 	def reset(self):
 		self.source_pane.reset()
@@ -641,7 +639,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		panectl = self._panectl_table[pane]
 		if item is panectl.get_selection():
 			return
-		print "Selecting", item, "in", pane
+		self.output_debug("Selecting", repr(item), "in", pane)
 		panectl.select(item)
 		if pane is SourcePane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
