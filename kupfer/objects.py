@@ -56,6 +56,13 @@ def toutf8(ustr):
 		return ustr
 	return ustr.encode("UTF-8", "replace")
 
+def locale_sort(seq):
+	""" Return @seq sorted in locale lexical order """
+	locale_cmp = lambda s, o: locale.strcoll(unicode(s), unicode(o))
+	seq = aslist(seq)
+	seq.sort(cmp=locale_cmp)
+	return seq
+
 class KupferObject (object):
 	"""
 	Base class for Actions and Leaves
@@ -734,15 +741,29 @@ class Source (KupferObject, pretty.OutputMixin):
 		"""
 		self.cached_items = None
 
+	def should_sort_lexically(self):
+		"""
+		Sources should return items by most relevant order (most
+		relevant first). If this is True, Source will sort items
+		from get_item() in locale lexical order
+		"""
+		return False
+
 	def get_leaves(self, force_update=False):
 		"""
 		Return a list of all leaves
 		"""
+		if self.should_sort_lexically():
+			# sort in locale order
+			sort_func = locale_sort
+		else:
+			sort_func = lambda x: x
+
 		if self.is_dynamic():
-			return self.get_items()
+			return sort_func(self.get_items())
 		
 		if not self.cached_items or force_update:
-			self.cached_items = aslist(self.get_items())
+			self.cached_items = aslist(sort_func(self.get_items()))
 			self.output_info("Loaded %d items" % len(self.cached_items))
 		return self.cached_items
 
@@ -838,10 +859,9 @@ class DirectorySource (Source):
 			for file in files:
 				yield ConstructFileLeaf(file)
 
-		# Make sure this is an ordered list!
-		# sort in locale order
-		locale_cmp = lambda s, o: locale.strcoll(unicode(s), unicode(o))
-		return sorted(file_leaves(dirlist), cmp=locale_cmp)
+		return file_leaves(dirlist)
+	def should_sort_lexically(self):
+		return True
 
 	def _setup_change_monitor(self):
 		gfile = gio.File(self.directory)
