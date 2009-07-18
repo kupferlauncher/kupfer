@@ -407,6 +407,10 @@ class Action (KupferObject):
 		"""
 		return False
 
+	def valid_for_item(self, item):
+		"""Whether action can be used with exactly @item"""
+		return True
+
 	def requires_object(self):
 		"""
 		If this action requires a secondary object
