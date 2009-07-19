@@ -635,6 +635,8 @@ class Launch (Action):
 
 	def get_description(self):
 		return _("Launch application")
+	def get_icon_name(self):
+		return "kupfer-launch"
 
 class ShowApplication (Launch):
 	"""Show application if running, else launch"""
@@ -660,7 +662,7 @@ class LaunchAgain (Launch):
 	def get_description(self):
 		return _("Launch another instance of this application")
 
-class Execute (Launch):
+class Execute (Action):
 	"""
 	Execute executable file (FileLeaf)
 	"""
