@@ -2,21 +2,22 @@
 
 data/kupfer.desktop.in.in
 kupfer/browser.py
+kupfer/data.py
 kupfer/main.py
 kupfer/objects.py
-kupfer/plugins.py
-kupfer/version.py
 kupfer/plugin/applications.py
 kupfer/plugin/commands.py
 kupfer/plugin/common.py
 kupfer/plugin/documents.py
 kupfer/plugin/epiphany.py
+kupfer/plugin/fileactions.py
 kupfer/plugin/firefox.py
 kupfer/plugin/google.py
 kupfer/plugin/screen.py
+kupfer/plugins.py
 kupfer/plugin/text.py
 kupfer/plugin/trackerlive.py
 kupfer/plugin/tracker.py
-kupfer/plugin/trash.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
+kupfer/version.py
