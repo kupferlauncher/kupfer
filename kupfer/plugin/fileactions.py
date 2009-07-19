@@ -49,10 +49,14 @@ class MoveTo (Action):
 			return False
 		spath = os.path.normpath(for_item.object)
 		dpath = os.path.normpath(obj.object)
+		if not os.access(dpath, os.R_OK | os.W_OK | os.X_OK):
+			return False
 		cpfx = os.path.commonprefix((spath, dpath))
-		if os.path.samefile(obj.object, for_item.object) or (cpfx == spath):
+		if os.path.samefile(dpath, spath) or (cpfx == spath):
 			return False
 		return True
+	def get_description(self):
+		return _("Move file to new location")
 
 class UnpackHere (Action):
 	def __init__(self):
@@ -67,6 +71,8 @@ class UnpackHere (Action):
 
 	def item_types(self):
 		yield FileLeaf
+	def get_description(self):
+		return _("Unpack compressed archive here")
 
 class CreateArchive (Action):
 	def __init__(self):
@@ -79,3 +85,5 @@ class CreateArchive (Action):
 		return item.is_dir()
 	def item_types(self):
 		yield FileLeaf
+	def get_description(self):
+		return _("create a compressed archive from folder")
