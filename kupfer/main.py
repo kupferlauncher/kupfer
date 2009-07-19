@@ -109,10 +109,13 @@ def print_banner():
 		"program": version.PROGRAM_NAME, "desc": version.SHORT_DESCRIPTION,
 		"website": version.WEBSITE, "copyright": version.COPYRIGHT
 	}
-	print _("""%(program)s: %(desc)s
+	banner = _("""%(program)s: %(desc)s
 	%(copyright)s
 	%(website)s
 	""") % var
+	# Be careful about unicode here
+	enc = locale.getpreferredencoding()
+	print banner.encode(enc, "replace")
 
 def main():
 	import sys
