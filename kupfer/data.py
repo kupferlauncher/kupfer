@@ -511,8 +511,12 @@ class SecondaryObjectPane (LeafPane):
 		self.current_item = item
 		self.current_action = act
 		if item and act:
-			sc = GetSourceController()
-			self.source_rebase(sc.root_for_types(act.object_types()))
+			ownsrc = act.object_source(item)
+			if ownsrc:
+				self.source_rebase(ownsrc)
+			else:
+				sc = GetSourceController()
+				self.source_rebase(sc.root_for_types(act.object_types()))
 		else:
 			self.reset()
 	def search(self, sender, key=u"", context=None):
