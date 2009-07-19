@@ -109,7 +109,8 @@ class TrackerTagsSource (Source):
 		Source.__init__(self, _("Tracker tags"))
 	def get_items(self):
 		for tag in get_tracker_tags():
-			yield TrackerTag(tag)
+			src = TrackerTagObjectsSource(tag)
+			yield SourceLeaf(src)
 	def get_description(self):
 		return _("Browse Tracker's tags")
 	def get_icon_name(self):
