@@ -2,6 +2,8 @@ import os
 # import symbols in tight loop to local namespace
 from os import access, R_OK, X_OK, path
 
+import gobject
+
 from kupfer.objects import TextSource, FileLeaf, Leaf, Execute
 from kupfer import utils, icons
 
@@ -44,6 +46,8 @@ class CommandTextSource (TextSource):
 		PATH = os.environ.get("PATH") or os.defpath
 		for execdir in PATH.split(os.pathsep):
 			exepath = path.join(execdir, firstword)
+			# use filesystem encoding here
+			exepath = gobject.filename_from_utf8(exepath)
 			if access(exepath, R_OK | X_OK) and path.isfile(exepath):
 				yield Command(exepath, text)
 				break
