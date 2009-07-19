@@ -10,7 +10,12 @@ from kupfer.plugin import text
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = ("TrackerSearch", "TrackerSearchHere")
+__kupfer_actions__ = (
+		"TrackerSearch",
+		"TrackerSearchHere",
+		"TrackerAddTag",
+		"TrackerRemoveTag",
+	)
 __description__ = _("Tracker desktop search integration")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -89,19 +94,42 @@ class TrackerQuerySource (Source):
 	def get_icon_name(self):
 		return "tracker"
 
-def get_tracker_tags():
+def get_tracker_tags(for_file=None):
 	from os import popen
-	output = popen("tracker-tag --list").readlines()
-	for tagline in output[1:]:
-		tag, count = tagline.rsplit(",", 1)
-		tag = tag.strip()
-		yield tag
+	if not for_file:
+		output = popen("tracker-tag --list").readlines()
+		for tagline in output[1:]:
+			tag, count = tagline.rsplit(",", 1)
+			tag = tag.strip()
+			yield tag
+	else:
+		output = popen("tracker-tag --list %s" % for_file).readlines()
+		for tagline in output[1:]:
+			fil, tagstr = tagline.split(": ", 1)
+			tags = tagstr.strip().split("|")
+			for t in tags: yield t
 
 def get_tracker_tag_items(tag):
 	from os import popen
 	output = popen("tracker-tag -s '%s'" % tag).readlines()
 	for tagline in output[1:]:
 		yield tagline.strip()
+
+class TrackerFileTagsSource (Source):
+	"""Tracker tags for a specific file"""
+	def __init__(self, fil=None):
+		""" All tags for file @fil or all tags known if None"""
+		Source.__init__(self, _("Tracker tags"))
+		self.for_file = fil
+	def get_items(self):
+		for tag in get_tracker_tags(self.for_file):
+			yield TrackerTag(tag)
+	def get_description(self):
+		return _("Tracker tags")
+	def get_icon_name(self):
+		return "tracker"
+	def provides(self):
+		yield TrackerTag
 
 class TrackerTagsSource (Source):
 	"""Browse items tagged in Tracker"""
@@ -119,12 +147,9 @@ class TrackerTagsSource (Source):
 		yield TrackerTag
 
 class TrackerTag (Leaf):
+	""" Represents a tag without actions """
 	def __init__(self, tag):
-		Leaf.__init__(self, tag, _("Tag %s") % tag)
-	def has_content(self):
-		return True
-	def content_source(self, alternate=False):
-		return TrackerTagObjectsSource(self.object)
+		Leaf.__init__(self, tag, _("%s") % tag)
 	def get_description(self):
 		return _("Tracker tag %s") % self.object
 	def get_icon_name(self):
@@ -159,8 +184,10 @@ class TrackerAddTag (Action):
 		yield TextLeaf
 		yield TrackerTag
 
-	def object_source(self):
-		return TrackerTagsSource()
+	def object_source(self, for_item=None):
+		# FIXME: We list all tags. We don't want to list tags it already has
+		return TrackerFileTagsSource()
+
 	def valid_object(self, obj, for_item):
 		if isinstance(obj, TextLeaf):
 			# FIXME: Do tag checking here
@@ -169,4 +196,25 @@ class TrackerAddTag (Action):
 
 	def get_icon_name(self):
 		return "gtk-add"
+
+class TrackerRemoveTag (Action):
+	def __init__(self):
+		Action.__init__(self, _("Remove tag..."))
+	def activate(self, leaf, obj):
+		raise NotImplementedError("Want to remove tag %s from %s" %( obj, leaf))
+
+	def requires_object(self):
+		return True
+
+	def item_types(self):
+		yield FileLeaf
+	def object_types(self):
+		yield TrackerTag
+
+	def object_source(self, for_item):
+		path = for_item.object
+		return TrackerFileTagsSource(path)
+
+	def get_icon_name(self):
+		return "gtk-remove"
 
