@@ -55,7 +55,7 @@ def record_search_hit(obj, key=u""):
 	Record that KupferObject @obj was used, with the optional
 	search term @key recording
 	"""
-	name = unicode(obj)
+	name = repr(obj)
 	if name not in _register:
 		_register[name] = Mnemonics()
 	_register[name].increment(key)
@@ -65,7 +65,7 @@ def get_record_score(obj, key=u""):
 	Get total score for KupferObject @obj,
 	bonus score is given for @key matches
 	"""
-	name = unicode(obj)
+	name = repr(obj)
 	if name not in _register:
 		return 0
 	mns = _register[name]
