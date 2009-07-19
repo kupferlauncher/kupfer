@@ -130,8 +130,7 @@ class LeafModel (object):
 		# info: display arrow if leaf has content
 		content_mark = (u"\u2023").decode("UTF-8")
 		info = ""
-		if ((hasattr(leaf, "has_content") and leaf.has_content()) or
-				(hasattr(leaf, "is_factory") and leaf.is_factory())):
+		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
 		self.append((leaf, leaf.get_icon(), str(leaf), info, rank_str))
 
