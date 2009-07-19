@@ -53,7 +53,7 @@ class TrackerSearchHere (Action):
 
 class TrackerQuerySource (Source):
 	def __init__(self, query):
-		Source.__init__(self, name=_('Tracker query'))
+		Source.__init__(self, name=_("Results for '%s'") % query)
 		self.query = query
 		self.max_items = 50
 
@@ -149,7 +149,7 @@ class TrackerTagsSource (Source):
 class TrackerTag (Leaf):
 	""" Represents a tag without actions """
 	def __init__(self, tag):
-		Leaf.__init__(self, tag, _("%s") % tag)
+		Leaf.__init__(self, tag, tag)
 	def get_description(self):
 		return _("Tracker tag %s") % self.object
 	def get_icon_name(self):
