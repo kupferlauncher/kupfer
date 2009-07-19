@@ -75,7 +75,7 @@ class WindowAction (Action):
 			assert time, "Window action event.time == 0"
 			action_method(time)
 		else:
-			call()
+			action_method()
 
 	def get_icon_name(self):
 		if not self.icon_name:
