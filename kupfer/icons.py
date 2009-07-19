@@ -37,6 +37,21 @@ def store_icon(key, icon):
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
 
+def compose_icon(name, gicon, icon_size):
+	import gtk
+	size = icon_size
+	toppbuf = get_icon_for_gicon(gicon, size)
+	bottompbuf = get_icon_for_name(name, size)
+	dest = bottompbuf.copy()
+	# @fr is the scale
+	fr = 0.6
+	dcoord = int((1-fr)*size)
+	dsize = int(fr*size)
+	# http://library.gnome.org/devel/gdk-pixbuf/unstable//gdk-pixbuf-scaling.html
+	toppbuf.composite(dest, dcoord, dcoord, dsize, dsize,
+			dcoord, dcoord, fr, fr, gtk.gdk.INTERP_BILINEAR, 255)
+	return dest
+
 def get_thumbnail_for_file(uri, width=-1, height=-1):
 	"""
 	Return a Pixbuf thumbnail for the file at
