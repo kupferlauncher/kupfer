@@ -678,6 +678,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		panectl = self._panectl_table[pane]
 		if item is panectl.get_selection():
 			return
+		self.cancel_search()
 		panectl.select(item)
 		if pane is SourcePane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
