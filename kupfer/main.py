@@ -1,12 +1,9 @@
 _debug = False
 
-try:
+def setup_gettext():
+	"""Set up localization with gettext"""
 	import gettext
-except ImportError:
-	# Instally dummy identity function
-	import __builtin__
-	__builtin__._ = lambda x: x
-else:
+
 	package_name = "kupfer"
 	localedir = "./locale"
 	try:
@@ -18,6 +15,7 @@ else:
 		localedir = version_subst.LOCALEDIR
 	gettext.install(package_name, localedir=localedir, unicode=True)
 
+setup_gettext()
 
 # to load in current locale properly for sorting etc
 import locale
