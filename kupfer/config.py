@@ -27,7 +27,11 @@ def get_data_file(filename):
 	Return path to @filename if it exists
 	anywhere in the data paths, else return None
 	"""
-	for direc in base.load_data_paths(PACKAGE_NAME):
+	# Add "./data" in workdir for running from builddir
+	data_paths = list(base.load_data_paths(PACKAGE_NAME))
+	data_paths.append("./data")
+
+	for direc in data_paths:
 		file_path = os.path.join(direc, filename)
 		if os.path.exists(file_path):
 			return file_path
