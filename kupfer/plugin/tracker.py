@@ -202,6 +202,8 @@ class TrackerAddTag (Action):
 			return (u" " not in obj.object)
 		return True
 
+	def get_description(self):
+		return _("Add tracker tag to file")
 	def get_icon_name(self):
 		return "gtk-add"
 
@@ -225,6 +227,8 @@ class TrackerRemoveTag (Action):
 		path = for_item.object
 		return TrackerFileTagsSource(path)
 
+	def get_description(self):
+		return _("Remove tracker tag from file")
 	def get_icon_name(self):
 		return "gtk-remove"
 
