@@ -1,8 +1,9 @@
-import gobject
-import threading
-import cPickle as pickle
 import itertools
+import os
+import cPickle as pickle
+import threading
 
+import gobject
 gobject.threads_init()
 
 from . import search
@@ -206,6 +207,28 @@ class SourcePickleService (pretty.OutputMixin, object):
 	def __init__(self):
 		import gzip
 		self.open = lambda f,mode: gzip.open(f, mode, compresslevel=3)
+		# Check if there are old cache files
+		self._rm_old_cachefiles()
+
+	def _rm_old_cachefiles(self):
+		for dpath, dirs, files in os.walk(config.get_cache_home()):
+			# Look for files matching beginning and end of
+			# name_template, with the previous file version
+			chead, ctail = self.name_template.split("%s")
+			ctail = ctail % ((self.pickle_version -1),)
+			obsolete_files = []
+			for cfile in files:
+				if cfile.startswith(chead) and cfile.endswith(ctail):
+					cfullpath = os.path.join(dpath, cfile)
+					obsolete_files.append(cfullpath)
+		if obsolete_files:
+			self.output_info("Removing obsolete cache files:", sep="\n",
+					*obsolete_files)
+			for fpath in obsolete_files:
+				# be overly careful
+				assert fpath.startswith(config.get_cache_home())
+				assert "kupfer" in os.path.basename(fpath)
+				os.unlink(fpath)
 
 	def get_filename(self, source):
 		from os import path
