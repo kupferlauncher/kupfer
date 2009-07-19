@@ -144,9 +144,9 @@ class CommonSource (Source):
 			About(),
 			Preferences(),
 			Quit(),
-			SpecialLocation("computer://",
-				description=_("Browse local disks and mounts")),
-			SpecialLocation("burn://"),
+			# These seem to be included in applications now..
+			#SpecialLocation("computer://", description=_("Browse local disks and mounts")),
+			#SpecialLocation("burn://"),
 			SpecialLocation("trash://"),
 			Logout(),
 			LockScreen(),
