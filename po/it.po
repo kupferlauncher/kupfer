@@ -233,10 +233,11 @@ msgstr "Catalogo"
 msgid "Root catalog"
 msgstr "Catalogo radice"
 
-#: ../kupfer/objects.py:894
+#. TRANS: This is description for a TextLeaf, a free-text search
+#: ../kupfer/objects.py:1010
 #, python-format
-msgid "Text query \"%s\""
-msgstr "Testo d'interrogazione «%s»"
+msgid "\"%s\""
+msgstr "«%s»"
 
 #: ../kupfer/objects.py:905 ../kupfer/plugin/text.py:16
 msgid "Text matches"
@@ -304,6 +305,10 @@ msgstr "Tutte le applicazioni e le preferenze"
 #: ../kupfer/plugin/applications.py:19
 msgid "All Applications"
 msgstr "Tutte le applicazioni"
+
+#: ../kupfer/plugin/applications.py:46
+msgid "Open with..."
+msgstr "Apri con..."
 
 #: ../kupfer/plugin/commands.py:8
 #, fuzzy
@@ -432,7 +437,7 @@ msgstr "Posizioni nei segnalibri di Nautilus"
 #: ../kupfer/plugin/epiphany.py:4
 #, fuzzy
 msgid "Epiphany"
-msgstr "Segnalibri di Epiphany"
+msgstr "Epiphany"
 
 #: ../kupfer/plugin/epiphany.py:6 ../kupfer/plugin/epiphany.py:21
 msgid "Index of Epiphany bookmarks"
@@ -474,7 +479,7 @@ msgstr "Cerca questo termine con Google"
 #: ../kupfer/plugin/screen.py:4
 #, fuzzy
 msgid "GNU Screen"
-msgstr "Sessione di GNU Screen"
+msgstr "GNU Screen"
 
 #: ../kupfer/plugin/screen.py:6 ../kupfer/plugin/screen.py:62
 msgid "Active GNU Screen sessions"
@@ -536,10 +541,10 @@ msgstr ""
 msgid "Results for query \"%s\""
 msgstr "Risultati per l'interrogazione «%s»"
 
-#: ../kupfer/plugin/tracker.py:9
+#: ../kupfer/plugin/tracker.py:10
 #, fuzzy
 msgid "Tracker"
-msgstr "Etichette di Tracker"
+msgstr "Tracker"
 
 #: ../kupfer/plugin/tracker.py:13
 msgid "Tracker desktop search integration"
