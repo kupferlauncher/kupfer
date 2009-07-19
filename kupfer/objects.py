@@ -1006,7 +1006,8 @@ class TextLeaf (Leaf):
 		return ()
 
 	def get_description(self):
-		return _('Text query "%s"') % self.object
+		# TRANS: This is description for a TextLeaf, a free-text search
+		return _('"%s"') % self.object
 
 	def get_icon_name(self):
 		return "gtk-select-all"
