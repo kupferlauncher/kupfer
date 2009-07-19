@@ -1,5 +1,6 @@
 from os import path
 
+from kupfer import pretty
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -63,6 +64,7 @@ def app_info_for_commandline(cli, name=None, in_terminal=False):
 def launch_commandline(cli, name=None, in_terminal=False):
 	import launch
 	app_info = app_info_for_commandline(cli, name, in_terminal)
+	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", cli, sep="")
 	return launch.launch_application(app_info, track=False)
 
 def launch_app(app_info, files=(), uris=(), paths=()):
