@@ -1,5 +1,8 @@
 from os import path
-from gtk import icon_theme_get_default
+from gtk import icon_theme_get_default, icon_theme_add_builtin_icon
+from gtk.gdk import pixbuf_new_from_file_at_size
+
+from kupfer import config, pretty, scheduler
 
 icon_cache = {}
 
@@ -16,6 +19,33 @@ _default_theme.connect("changed", _icon_theme_changed)
 icon_name_translation = {
 		"inode-directory": "folder",
 		}
+
+def load_kupfer_icons(sched=None):
+	"""Load in kupfer icons from installed files"""
+	ilist = "art/icon-list"
+	ilist_file_path = config.get_data_file(ilist)
+	if not ilist_file_path:
+		pretty.print_info(__name__, "Datafile %s not found" % ilist)
+		return
+	# parse icon list file
+	ifile = open(ilist_file_path, "r")
+	for line in ifile:
+		# ignore '#'-comments
+		if line.startswith("#"):
+			continue
+		icon_name, basename, size = (i.strip() for i in line.split("\t", 2))
+		size = int(size)
+		icon_path = config.get_data_file(path.join("art", basename))
+		if not icon_path:
+			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
+			continue
+		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
+		icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
+				"from", icon_path)
+
+sch = scheduler.GetScheduler()
+sch.connect("load", load_kupfer_icons)
 
 def get_icon(key):
 	"""
