@@ -64,7 +64,7 @@ class MoveTo (Action, pretty.OutputMixin):
 
 class UnpackHere (Action):
 	def __init__(self):
-		Action.__init__(self, _("Unpack archive"))
+		Action.__init__(self, _("Extract here"))
 	def activate(self, leaf):
 		utils.launch_commandline("file-roller --extract-here %s" % leaf.object)
 
@@ -76,7 +76,7 @@ class UnpackHere (Action):
 	def item_types(self):
 		yield FileLeaf
 	def get_description(self):
-		return _("Unpack compressed archive here")
+		return _("Extract compressed archive")
 
 class CreateArchive (Action):
 	def __init__(self):
@@ -90,4 +90,4 @@ class CreateArchive (Action):
 	def item_types(self):
 		yield FileLeaf
 	def get_description(self):
-		return _("create a compressed archive from folder")
+		return _("Create a compressed archive from folder")
