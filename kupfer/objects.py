@@ -637,9 +637,6 @@ class Execute (Launch):
 		else:
 			return _("Run this program")
 
-	def get_icon_name(self):
-		return "exec"
-
 class SearchInside (Action):
 	"""
 	A factory action: works on a Leaf object with content
