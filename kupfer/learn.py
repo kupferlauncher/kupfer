@@ -50,20 +50,22 @@ class Learning (pretty.OutputMixin, object):
 Learning = Learning()
 _register = {}
 
-def record_search_hit(name, key=u""):
+def record_search_hit(obj, key=u""):
 	"""
-	Record that item @name was used, with the optional
+	Record that KupferObject @obj was used, with the optional
 	search term @key recording
 	"""
+	name = unicode(obj)
 	if name not in _register:
 		_register[name] = Mnemonics()
 	_register[name].increment(key)
 
-def get_record_score(name, key=u""):
+def get_record_score(obj, key=u""):
 	"""
-	Get total score for item @name,
+	Get total score for KupferObject @obj,
 	bonus score is given for @key matches
 	"""
+	name = unicode(obj)
 	if name not in _register:
 		return 0
 	mns = _register[name]

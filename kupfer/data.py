@@ -754,10 +754,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			new_source = action.activate(leaf, sobject)
 
 		# register search to learning database
-		learn.record_search_hit(unicode(leaf), self.source_pane.get_latest_key())
-		learn.record_search_hit(unicode(action), self.action_pane.get_latest_key())
+		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
+		learn.record_search_hit(action, self.action_pane.get_latest_key())
 		if sobject:
-			learn.record_search_hit(unicode(sobject), self.object_pane.get_latest_key())
+			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 
 		# handle actions returning "new contexts"
 		if action.is_factory() and new_source:
