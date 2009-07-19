@@ -595,7 +595,9 @@ class OpenTerminal (Action):
 	def activate(self, leaf):
 		argv = ["gnome-terminal"]
 		utils.spawn_async(argv, in_dir=leaf.object)
-	
+
+	def get_description(self):
+		return _("Open this location in a terminal")
 	def get_icon_name(self):
 		return "terminal"
 
