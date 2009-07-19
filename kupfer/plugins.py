@@ -3,7 +3,7 @@ from kupfer import pretty, config, settings
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
-action_decorators_attribute = "__kupfer_action_decorator__"
+action_decorators_attribute = "__kupfer_actions__"
 
 def get_plugin_info():
 	"""Generator, yields dictionaries of plugin descriptions

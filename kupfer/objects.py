@@ -395,9 +395,22 @@ class AppLeaf (Leaf):
 		return "exec"
 
 class Action (KupferObject):
-	"""
+	'''
 	Base class for all actions
-	"""
+
+	Implicit interface:
+	  valid_object will be called once for each (secondary) object
+	  to see if it applies. If it is not defined, all objects are
+	  assumed ok (within the other type/source constraints)
+
+	def valid_object(self, obj, for_item):
+		"""Whether @obj is good for secondary obj,
+		where @for_item is passed in as a hint for
+		which it should be applied to
+		"""
+		return True
+	'''
+
 	def activate(self, leaf, obj=None):
 		"""
 		Use this action with @leaf and @obj
@@ -413,6 +426,16 @@ class Action (KupferObject):
 		return True
 		"""
 		return False
+
+	def item_types(self):
+		"""Yield items this action may apply to. This is used only
+		when this action is specified in __kupfer_actions__ to "decorate"
+		"""
+		return ()
+
+	def valid_for_item(self, item):
+		"""Whether action can be used with exactly @item"""
+		return True
 
 	def requires_object(self):
 		"""
@@ -430,13 +453,6 @@ class Action (KupferObject):
 	def object_types(self):
 		return ()
 
-	def valid_object(self, obj, for_item=None):
-		""" Whether @obj is good for secondary obj,
-		where @for_item might be passed in as a hint for
-		which it should be applied to
-		"""
-		return True
-	
 	def get_icon_name(self):
 		"""
 		Return a default icon for actions
@@ -1017,18 +1033,3 @@ class TextSource (KupferObject):
 	def provides(self):
 		"""A seq of the types of items it provides"""
 		yield Leaf
-
-class ActionDecorator (object):
-	"""Base class for an object assigning more actions to Leaves"""
-	def __init__(self):
-		pass
-	def applies_to(self):
-		"""return sequence of Leaf types this decorator applies to"""
-		return ()
-	def is_dynamic(self):
-		""" dynamic is ignored for now"""
-		return False
-	def get_actions(self, leaf=None):
-		"""Return actions for @leaf (only passed in to dynamic decors)"""
-		return ()
-
