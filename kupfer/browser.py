@@ -681,9 +681,12 @@ class Interface (gobject.GObject):
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		self.keys_sensible = set(self.key_book.itervalues())
 		self.search.reset()
+		self._widget = None
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
+		if self._widget:
+			return self._widget
 		box = gtk.HBox()
 		box.pack_start(self.search, True, True, 0)
 		box.pack_start(self.action, True, True, 0)
@@ -694,6 +697,7 @@ class Interface (gobject.GObject):
 		vbox.pack_start(self.entry, True, True, 0)
 		vbox.show_all()
 		self.third.hide()
+		self._widget = vbox
 		return vbox
 
 	def _pane_button_press(self, widget, event):
