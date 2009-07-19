@@ -1,6 +1,7 @@
 import xdg
 
 from kupfer.objects import Source, AppLeaf, Action, FileLeaf
+from kupfer import utils
 
 __kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource", )
@@ -49,11 +50,13 @@ class OpenWith (Action):
 	def __init__(self):
 		Action.__init__(self, _("Open with..."))
 	def activate(self, leaf, obj):
-		raise NotImplementedError("Want to open %s with %s" % (leaf, obj))
-
+		desktop_item = obj.object
+		utils.launch_app(desktop_item, paths=(leaf.object,))
 	def item_types(self):
 		yield FileLeaf
 	def requires_object(self):
 		return True
 	def object_types(self):
 		yield AppLeaf
+	def get_description(self):
+		return _("Open with any application")
