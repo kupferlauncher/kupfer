@@ -143,7 +143,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	def _store(self, app_id, application):
 		self.register[app_id] = application.get_name()
-		self.output_debug("storing", app_id, "as", application.get_name())
+		self.output_debug("storing application", app_id, "as", application.get_name())
 	def _has_match(self, app_id):
 		return app_id in self.register
 	def _is_match(self, app_id, application):
@@ -165,7 +165,6 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			pid = app.get_pid()
 			if not pid:
 				pid = w.get_pid()
-			self.output_debug("App %s has pid %d" %( app.get_name(), pid))
 			env = _read_environ(pid, envcache=envcache)
 			if env and kupfer_env in env:
 				if env[kupfer_env] == app_id:
