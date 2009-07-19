@@ -170,10 +170,18 @@ class TrackerTagObjectsSource (Source):
 		return "user-bookmarks"
 
 class TrackerAddTag (Action):
+	""" Add tracker tags.
+
+	FIXME: Only tracker-indexed directories can be tagged
+	I don't know how to check that effectively. 
+	So we allow everything here
+	"""
 	def __init__(self):
 		Action.__init__(self, _("Add tag..."))
 	def activate(self, leaf, obj):
-		raise NotImplementedError("Want to add tag %s to %s" %( obj, leaf))
+		lpath = leaf.object
+		tag = obj.object
+		utils.launch_commandline("tracker-tag --add=%s %s" % (obj, lpath))
 
 	def requires_object(self):
 		return True
@@ -190,7 +198,7 @@ class TrackerAddTag (Action):
 
 	def valid_object(self, obj, for_item):
 		if isinstance(obj, TextLeaf):
-			# FIXME: Do tag checking here
+			# FIXME: Do tag syntax checking here
 			return (u" " not in obj.object)
 		return True
 
@@ -201,7 +209,9 @@ class TrackerRemoveTag (Action):
 	def __init__(self):
 		Action.__init__(self, _("Remove tag..."))
 	def activate(self, leaf, obj):
-		raise NotImplementedError("Want to remove tag %s from %s" %( obj, leaf))
+		lpath = leaf.object
+		tag = obj.object
+		utils.launch_commandline("tracker-tag --remove=%s %s" % (obj, lpath))
 
 	def requires_object(self):
 		return True
