@@ -2,7 +2,7 @@ import gio
 import os
 
 from kupfer.objects import Action, FileLeaf
-from kupfer import utils
+from kupfer import utils, pretty
 
 
 __kupfer_name__ = _("File actions")
@@ -29,11 +29,15 @@ class Trash (Action):
 	def item_types(self):
 		yield FileLeaf
 
-class MoveTo (Action):
+class MoveTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Move to..."))
 	def activate(self, leaf, obj):
-		raise NotImplementedError("Want to move %s to %s" % (leaf, obj))
+		sfile = gio.File(leaf.object)
+		bname = sfile.get_basename()
+		dfile = gio.File(os.path.join(obj.object, bname))
+		ret = sfile.move(dfile)
+		self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
 
 	def valid_for_item(self, item):
 		return os.access(item.object, os.R_OK | os.W_OK)
