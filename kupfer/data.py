@@ -73,7 +73,6 @@ class SearchTask (pretty.OutputMixin):
 				except KeyError:
 					# check uncached items
 					items = item_check(src.get_leaves())
-					self.output_debug("Rereading items from", src)
 			elif isinstance(src, objects.TextSource):
 				# For text source, we pass a unicode string here
 				items = item_check(src.get_items(key))
@@ -652,7 +651,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		panectl = self._panectl_table[pane]
 		if item is panectl.get_selection():
 			return
-		self.output_debug("Selecting", repr(item), "in", pane)
 		panectl.select(item)
 		if pane is SourcePane:
 			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
