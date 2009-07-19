@@ -83,6 +83,10 @@ class KupferObject (object):
 		"""Return a `unicode` representation of @self """
 		return self.name
 
+	def __repr__(self):
+		return "".join(("<", self.__module__, ".", self.__class__.__name__,
+			" ", toutf8(self.name), ">"))
+
 	def get_description(self):
 		"""Return a description of the specific item
 		which *should* be a unicode object but *may* be
@@ -203,6 +207,10 @@ class FileLeaf (Leaf):
 		if not name:
 			name = gobject.filename_display_basename(obj)
 		super(FileLeaf, self).__init__(obj, name)
+
+	def __repr__(self):
+		return "".join(("<", self.__module__, ".", self.__class__.__name__,
+			" ", self.object, ">"))
 
 	def _is_valid(self):
 		from os import access, R_OK
