@@ -120,8 +120,9 @@ class KupferObject (object):
 				return pbuf
 		icon_name = self.get_icon_name()
 		if icon_name:
-			return icons.get_icon_for_name(icon_name, icon_size)
-		return None
+			icon = icons.get_icon_for_name(icon_name, icon_size)
+			if icon: return icon
+		return icons.get_icon_for_name(KupferObject.get_icon_name(self), icon_size)
 
 	def get_icon(self):
 		"""
@@ -133,6 +134,8 @@ class KupferObject (object):
 		gicon = self.get_gicon()
 		if not icons.is_good(gicon):
 			gicon = gio.ThemedIcon(self.get_icon_name())
+		if not icons.is_good(gicon):
+			gicon = gio.ThemedIcon(KupferObject.get_icon_name(self))
 		return gicon
 
 	def get_gicon(self):
