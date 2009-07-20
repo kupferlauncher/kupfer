@@ -37,16 +37,35 @@ def store_icon(key, icon):
 	icon_rec = {"icon":icon, "accesses":0}
 	icon_cache[key] = icon_rec
 
-def compose_icon(name, gicon, icon_size):
+def _get_icon_dwim(icon, icon_size):
+	"""Make an icon at @icon_size where
+	@icon can be either an icon name, or a gicon
+	"""
+	from gio import Icon
+	if isinstance(icon, Icon):
+		return get_icon_for_gicon(icon, icon_size)
+	else:
+		return get_icon_for_name(icon, icon_size)
+
+def compose_icon(baseicon, emblemicon, icon_size):
+	"""Compose an emblemed icon where @emblemicon is
+	put downscaled over a corner of @baseicon.
+	The icons may be passed as names or gicons
+
+	This icon is not cached, but the icons it used are
+	generally.
+	"""
 	import gtk
-	size = icon_size
-	toppbuf = get_icon_for_gicon(gicon, size)
-	bottompbuf = get_icon_for_name(name, size)
+	toppbuf = _get_icon_dwim(emblemicon, icon_size)
+	bottompbuf = _get_icon_dwim(baseicon, icon_size)
+	if not toppbuf or not bottompbuf:
+		return None
+
 	dest = bottompbuf.copy()
 	# @fr is the scale
 	fr = 0.6
-	dcoord = int((1-fr)*size)
-	dsize = int(fr*size)
+	dcoord = int((1-fr)*icon_size)
+	dsize = int(fr*icon_size)
 	# http://library.gnome.org/devel/gdk-pixbuf/unstable//gdk-pixbuf-scaling.html
 	toppbuf.composite(dest, dcoord, dcoord, dsize, dsize,
 			dcoord, dcoord, fr, fr, gtk.gdk.INTERP_BILINEAR, 255)
