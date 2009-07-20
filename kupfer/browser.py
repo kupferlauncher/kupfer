@@ -810,6 +810,7 @@ class Interface (gobject.GObject):
 		if wid is self.current:
 			self.reset()
 		if pane is data.SourcePane:
+			self.reset()
 			self.switch_to_source()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
