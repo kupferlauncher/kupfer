@@ -154,11 +154,14 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def launched_application(self, app_id):
 		if self._has_match(app_id):
 			return
-		timeout = time() + 10
+		timeout = time() + 15
 		envcache = {}
 		gobject.timeout_add_seconds(2, self._find_application, app_id, timeout, envcache)
+		# and once later
+		gobject.timeout_add_seconds(30, self._find_application, app_id, timeout, envcache)
 
 	def _find_application(self, app_id, timeout, envcache=None):
+		self.output_debug("Looking for window for application", app_id)
 		screen = wnck.screen_get_default()
 		for w in screen.get_windows_stacked():
 			app = w.get_application()
