@@ -980,7 +980,7 @@ class WindowController (pretty.OutputMixin):
 
 	def activate(self, sender=None, time=0):
 		evttime = time if time else gtk.get_current_event_time()
-		self.window.present_with_time(evttime)
+		self.window.show()
 		self.window.window.focus(timestamp=evttime)
 		self.interface.switch_to_source()
 		self.interface.validate()
