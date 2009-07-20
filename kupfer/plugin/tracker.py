@@ -94,6 +94,7 @@ class TrackerQuerySource (Source):
 	def get_icon_name(self):
 		return "tracker"
 
+# FIXME: Use dbus for this communication
 def get_tracker_tags(for_file=None):
 	from os import popen
 	if not for_file:
