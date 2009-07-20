@@ -88,7 +88,7 @@ def import_plugin(name):
 			# Look in datadir kupfer/plugins for plugins
 			# (and in current directory)
 			extra_paths = list(config.get_data_dirs("plugins"))
-			sys.path = ["",] + extra_paths
+			sys.path = extra_paths + sys.path
 			plugin = importit((name,))
 		except ImportError:
 			# Reraise to send this up
