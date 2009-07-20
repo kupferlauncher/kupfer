@@ -28,8 +28,9 @@ def get_data_file(filename):
 	anywhere in the data paths, else return None
 	"""
 	# Add "./data" in workdir for running from builddir
-	data_paths = list(base.load_data_paths(PACKAGE_NAME))
+	data_paths = []
 	data_paths.append("./data")
+	data_paths.extend(base.load_data_paths(PACKAGE_NAME))
 
 	for direc in data_paths:
 		file_path = os.path.join(direc, filename)
