@@ -31,7 +31,7 @@ def _read_environ(pid, envcache=None):
 			environ[vals[0]] = vals[1]
 		else:
 			continue
-	if envcache: envcache[pid] = env
+	if envcache is not None: envcache[pid] = environ
 	return environ
 
 def launch_application(app_info, files=(), uris=(), paths=(), track=True, activate=True):
