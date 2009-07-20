@@ -522,6 +522,8 @@ class OpenWith (Action):
 			return _("Open with %s (default)") % self.desktop_item.get_name()
 		else:
 			return _("Open with %s") % self.desktop_item.get_name()
+	def get_pixbuf(self, size):
+		return icons.compose_icon("gtk-execute",self.desktop_item.get_icon(), icon_size=size)
 	def get_gicon(self):
 		return self.desktop_item.get_icon()
 	def get_icon_name(self):
