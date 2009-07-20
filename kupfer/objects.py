@@ -1046,12 +1046,11 @@ class TextSource (KupferObject):
 
 	def get_rank(self):
 		return 50
-	def has_ranked_items(self):
-		"""If True, use get_ranked_items(), else get_items()"""
-		return False
-	def get_ranked_items(self, text):
-		"""Return a sequence of tuple of (item, rank)"""
-		return ()
+	# This is not yet implemented
+	#def has_ranked_items(self):
+	#"""If True, use get_ranked_items(), else get_items()"""
+	#def get_ranked_items(self, text):
+	#"""Return a sequence of tuple of (item, rank)"""
 	def get_items(self, text):
 		"""Get leaves for unicode string @text"""
 		return ()
