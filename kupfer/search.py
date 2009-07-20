@@ -69,6 +69,7 @@ def bonus_objects(rankables, key):
 	get_record_score = learn.get_record_score
 	for obj in rankables:
 		obj.rank += get_record_score(obj.object, key)
+		obj.rank += obj.object.rank_adjust
 		yield obj
 
 def add_rank_objects(rankables, rank):

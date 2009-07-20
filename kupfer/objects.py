@@ -66,7 +66,12 @@ def locale_sort(seq):
 class KupferObject (object):
 	"""
 	Base class for Actions and Leaves
+
+	@KupferObject.rank_adjust should be used _very_ sparingly:
+		Default actions should have +5 or +1
+		(Dangerous) Destructive actions should have -5 or -10
 	"""
+	rank_adjust = 0
 	def __init__(self, name=None):
 		""" Init kupfer object with, where
 		@name *should* be a unicode object but *may* be
@@ -75,7 +80,7 @@ class KupferObject (object):
 		if not name:
 			name = self.__class__.__name__
 		self.name = tounicode(name)
-	
+
 	def __str__(self):
 		return toutf8(self.name)
 
@@ -511,7 +516,8 @@ class OpenWith (Action):
 		Action.__init__(self, action_name)
 		self.desktop_item = desktop_item
 		self.is_default = is_default
-	
+		self.rank_adjust = 5*is_default
+
 	def activate(self, leaf):
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
 			print self, "does not support opening files"
@@ -553,6 +559,7 @@ class OpenUrl (Action):
 
 class Show (Action):
 	""" Open file with default viewer """
+	rank_adjust = 5
 	def __init__(self, name=_("Open")):
 		super(Show, self).__init__(name)
 	
@@ -609,6 +616,7 @@ class Launch (Action):
 
 	Launches an application (AppLeaf)
 	"""
+	rank_adjust = 1
 	def __init__(self, name=None, in_terminal=False, open_new=False):
 		if not name:
 			name = _("Launch")
@@ -625,6 +633,7 @@ class Launch (Action):
 
 class ShowApplication (Launch):
 	"""Show application if running, else launch"""
+	rank_adjust = 2
 	def __init__(self, name=None):
 		if not name:
 			name = _("Go to")

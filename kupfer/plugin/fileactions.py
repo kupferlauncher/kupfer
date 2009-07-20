@@ -14,6 +14,8 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class Trash (Action):
+	# this should never be default
+	rank_adjust = -10
 	def __init__(self):
 		Action.__init__(self, _("Move to trash"))
 
