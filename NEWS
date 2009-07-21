@@ -1,0 +1,33 @@
+NEWS for kupfer
+===============
+
+kupfer version c5
+-----------------
+
+The "Beauty from the inside, part 1" release
+
+* Big refactorings of the whole data model
+  * Move all of the data model to kupfer.data
+  * Allow actions with indirect objects "threepane kupfer" (with
+    means to configure which objects to use for an action etc)
+  * Uses unicode internally, instead of UTF-8-encoded strings
+* Some new actions using new possibilities (Open with any, Move file
+  to new location, Add/Remove tracker tags) but more is possible.
+* Basic manual page included
+* Fileactions plugin includes unpack archive/create archive
+* Ship extra and demonstration plugins in contrib/ and interals
+  documentation in Documentation/
+* Change learning algorithm to recognize an item's type as well
+  (so that two objects named "project" can be ranked differently)
+* Small fixes (alphabethic sorting for applications, sources, check
+  if objects still exist after an action, rank_adjust default actions
+  slightly)
+
+This release deserves lots of testing. File bug reports and feature
+requests. Read the files in Documentation/ and see how you can add
+new plugins with object and application knowledge to kupfer.
+
+This release is localized in: Swedish (100%), Italian (80%)
+
+Future: part 2 of beautification is refactoring of the interface, so
+that the UI can be exchanged. And preferences will hopefully be implemented
