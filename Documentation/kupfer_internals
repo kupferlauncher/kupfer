@@ -103,3 +103,22 @@ ascii charsets.
 Kupfer accepts UTF-8-encoded strings as well as unicode
 objects for the most parts, but all internals should be unicode. Note
 that the gettext _() will return a unicode string.
+
+Coding style
+------------
+
+Kupfer python code is indented with tabs, which is a bit uncommon. (My
+editor is set to tabs of size four.) Otherwise, if you want to
+contribute to kupfer keep in mind that
+
+* Python code should be clear
+* Kupfer is a simple project. Do simple first.
+
+Sometimes comments are needed to explain the code. How many know the
+for..else construction? Hint: find out what it does in the kupfer.icons
+module.
+
+for item in sequence:
+	...
+else:
+	...

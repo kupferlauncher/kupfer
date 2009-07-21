@@ -1,0 +1,41 @@
+kupfer plugins
+==============
+
+A kupfer plugin is a python module with special module attributes
+
+Here is an example from kupfer.plugin.applications:
+
+	__kupfer_name__ = _("Applications")
+	__kupfer_sources__ = ("AppSource", )
+	__kupfer_text_sources__ = ()
+	__kupfer_actions__ = ("OpenWith", )
+	__description__ = _("All applications and preferences")
+	__version__ = ""
+	__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+For a plugin, the following attributes are required:
+
+	__kupfer_name__ (Localized name of plugin)
+	__description__ (Localized description of plugin)
+	__version__
+	__author__
+
+For the plugin to do anything, the following attributes may be defined:
+
+	__kupfer_sources__ = ()
+	__kupfer_text_sources__ = ()
+	__kupfer_actions__ = ()
+
+They should be tuples of *names* of classes in the module:
+
+all sources have to be subclasses of kupfer.objects.Source
+all text sources have to be subclasses of kupfer.objects.TextSource
+all actions have to be subclasses of kupfer.objects.Action
+
+The plugin should not do **anything at all** upon module load, except
+loading its required modules. Load modules without try/except;
+ImportErrors will be caught by the plugin loader and the plugin disabled
+
+Look in contrib/ and in kupfer/plugin/ for using the existing plugins as
+example
+
