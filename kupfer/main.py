@@ -92,7 +92,7 @@ def get_options(default_opts=""):
 			try:
 				import debug
 			except ImportError, e:
-				print e
+				pass
 			global _debug
 			_debug = True
 
