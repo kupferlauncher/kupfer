@@ -1028,7 +1028,8 @@ class TextLeaf (Leaf):
 	represented object is the unicode string
 	"""
 	def __init__(self, text):
-		Leaf.__init__(self, text, name=text)
+		"""@text *must* be unicode or UTF-8 str"""
+		Leaf.__init__(self, tounicode(text), name=text)
 	
 	def get_actions(self):
 		return ()
