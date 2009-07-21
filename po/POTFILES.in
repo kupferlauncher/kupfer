@@ -16,7 +16,6 @@ kupfer/plugin/google.py
 kupfer/plugin/screen.py
 kupfer/plugins.py
 kupfer/plugin/text.py
-kupfer/plugin/trackerlive.py
 kupfer/plugin/tracker.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
