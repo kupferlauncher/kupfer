@@ -57,7 +57,7 @@ def toutf8(ustr):
 	return ustr.encode("UTF-8", "replace")
 
 def locale_sort(seq):
-	""" Return @seq sorted in locale lexical order """
+	"""Return @seq of KupferObjects as a list sorted in locale lexical order"""
 	locale_cmp = lambda s, o: locale.strcoll(unicode(s), unicode(o))
 	seq = aslist(seq)
 	seq.sort(cmp=locale_cmp)
@@ -65,11 +65,17 @@ def locale_sort(seq):
 
 class KupferObject (object):
 	"""
-	Base class for Actions and Leaves
+	Base class for kupfer data model
 
-	@KupferObject.rank_adjust should be used _very_ sparingly:
+	This class provides a way to get at an object's:
+
+	* icon with get_thumbnail, get_pixbuf and get_icon
+	* name with unicode() or str()
+	* description with get_description
+
+	@rank_adjust should be used _very_ sparingly:
 		Default actions should have +5 or +1
-		(Dangerous) Destructive actions should have -5 or -10
+		Destructive (dangerous) actions should have -5 or -10
 	"""
 	rank_adjust = 0
 	def __init__(self, name=None):
@@ -94,8 +100,7 @@ class KupferObject (object):
 
 	def get_description(self):
 		"""Return a description of the specific item
-		which *should* be a unicode object but *may* be
-		a UTF-8 encoded `str` or None
+		which *should* be a unicode object
 		"""
 		return None
 
@@ -128,8 +133,9 @@ class KupferObject (object):
 		"""
 		Returns an icon in GIcon format
 
-		Subclasses should implement get_gicon and
-		get_icon_name, if they make sense.
+		Subclasses should implement: get_gicon and get_icon_name,
+		if they make sense.
+		The methods are tried in that order.
 		"""
 		gicon = self.get_gicon()
 		if not icons.is_good(gicon):
@@ -139,14 +145,13 @@ class KupferObject (object):
 		return gicon
 
 	def get_gicon(self):
-		"""Return GIcon, if there is one
-		by default constructs a GIcon from get_icon_name
-		"""
+		"""Return GIcon, if there is one"""
 		return None
 	
 	def get_icon_name(self):
 		"""Return icon name. All items should have at least
-		a generic icon name to return. """
+		a generic icon name to return.
+		"""
 		return "gtk-file"
 
 def aslist(seq):
@@ -160,7 +165,14 @@ def aslist(seq):
 	return seq
 
 class Leaf (KupferObject):
+	"""
+	Base class for objects
+
+	Leaf.object is the represented object (data)
+	All Leaves should be hashable (__hash__ and __eq__)
+	"""
 	def __init__(self, obj, name):
+		"""Represented object @obj and its @name"""
 		super(Leaf, self).__init__(name)
 		self.object = obj
 	
@@ -179,6 +191,7 @@ class Leaf (KupferObject):
 		raise NoContent
 
 	def get_actions(self):
+		"""Default (builtin) actions for this Leaf"""
 		return ()
 
 class DummyLeaf (Leaf):
@@ -431,8 +444,8 @@ class Action (KupferObject):
 		"""
 		Use this action with @leaf and @obj
 
-		@leaf: a Leaf object
-		@obj: a secondary Leaf object
+		@leaf: the object (Leaf)
+		@obj: an indirect object (Leaf), if self.requires_object
 		"""
 		pass
 
@@ -739,7 +752,7 @@ class Source (KupferObject, pretty.OutputMixin):
 	"""
 	Source: Data provider for a kupfer browser
 
-	Sources are hashable and treated as equal if
+	All Sources should be hashable and treated as equal if
 	their @repr are equal!
 	"""
 	def __init__(self, name):
@@ -788,7 +801,8 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	def get_leaves(self, force_update=False):
 		"""
-		Return a list of all leaves
+		Return a list of all leaves. Subclasses should implement
+		get_items
 		"""
 		if self.should_sort_lexically():
 			# sort in locale order
@@ -1045,6 +1059,7 @@ class TextSource (KupferObject):
 		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self))
 
 	def get_rank(self):
+		"""All items are given this rank"""
 		return 50
 	# This is not yet implemented
 	#def has_ranked_items(self):
