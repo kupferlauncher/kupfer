@@ -44,8 +44,9 @@ def _get_icon_dwim(icon, icon_size):
 	from gio import Icon
 	if isinstance(icon, Icon):
 		return get_icon_for_gicon(icon, icon_size)
-	else:
+	elif icon:
 		return get_icon_for_name(icon, icon_size)
+	return None
 
 def compose_icon(baseicon, emblemicon, icon_size):
 	"""Compose an emblemed icon where @emblemicon is
