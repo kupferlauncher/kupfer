@@ -238,7 +238,19 @@ class SourcePickleService (pretty.OutputMixin, object):
 		return path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
-		return self._unpickle_source(self.get_filename(source))
+		cached = self._unpickle_source(self.get_filename(source))
+		if not cached:
+			return None
+
+		# check consistency
+		if (type(source) == type(cached) and
+			(hasattr(source, "version") == hasattr(cached, "version") and
+			source.version == cached.version)):
+			return cached
+		else:
+			self.output_debug("Source version changed to %s %s" %
+					(source, source.version))
+		return None
 	def _unpickle_source(self, pickle_file):
 		try:
 			pfile = self.open(pickle_file, "rb")
