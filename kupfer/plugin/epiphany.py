@@ -1,7 +1,7 @@
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
 
-__kupfer_name__ = _("Epiphany")
+__kupfer_name__ = _("Epiphany Bookmarks")
 __kupfer_sources__ = ("EpiphanySource", )
 __description__ = _("Index of Epiphany bookmarks")
 __version__ = ""

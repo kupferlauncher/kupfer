@@ -3,7 +3,7 @@ from kupfer import objects, utils
 
 import gio
 
-__kupfer_name__ = _("Volumes")
+__kupfer_name__ = _("Volumes and disks")
 __kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
 __version__ = ""

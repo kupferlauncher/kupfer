@@ -16,7 +16,7 @@ class AppSource (Source):
 	the desktop files)
 	"""
 	def __init__(self):
-		super(AppSource, self).__init__(_("All Applications"))
+		super(AppSource, self).__init__(_("Applications"))
 	
 	def get_items(self):
 		from gio import app_info_get_all

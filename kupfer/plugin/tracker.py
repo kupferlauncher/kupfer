@@ -53,7 +53,7 @@ class TrackerSearchHere (Action):
 
 class TrackerQuerySource (Source):
 	def __init__(self, query):
-		Source.__init__(self, name=_("Results for '%s'") % query)
+		Source.__init__(self, name=_('Results for "%s"') % query)
 		self.query = query
 		self.max_items = 50
 
@@ -90,7 +90,7 @@ class TrackerQuerySource (Source):
 			yield ConstructFileLeaf(filename)
 
 	def get_description(self):
-		return _('Results for query "%s"') % self.query
+		return _('Results for "%s"') % self.query
 	def get_icon_name(self):
 		return "tracker"
 
@@ -152,7 +152,7 @@ class TrackerTag (Leaf):
 	def __init__(self, tag):
 		Leaf.__init__(self, tag, tag)
 	def get_description(self):
-		return _("Tracker tag %s") % self.object
+		return _("Tag %s") % self.object
 	def get_icon_name(self):
 		return "user-bookmarks"
 

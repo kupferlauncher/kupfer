@@ -7,7 +7,7 @@ import gobject
 from kupfer.objects import TextSource, FileLeaf, Leaf, Execute
 from kupfer import utils, icons
 
-__kupfer_name__ = _("Shell")
+__kupfer_name__ = _("Shell commands")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = _("Run commandline programs")
@@ -51,3 +51,5 @@ class CommandTextSource (TextSource):
 			if access(exepath, R_OK | X_OK) and path.isfile(exepath):
 				yield Command(exepath, text)
 				break
+	def get_description(self):
+		return _("Run commandline programs")
