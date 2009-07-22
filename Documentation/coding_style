@@ -1,0 +1,33 @@
+Coding style
+------------
+
+Kupfer python code is indented with tabs, which is a bit uncommon. (My
+editor is set to tabs of size four.) Otherwise, if you want to
+contribute to kupfer keep in mind that
+
+* Python code should be clear
+* Kupfer is a simple project. Do simple first.
+
+Sometimes comments are needed to explain the code. How many know the
+for..else construction? Hint: find out what it does in the kupfer.icons
+module.
+
+	for item in sequence:
+		...
+	else:
+		...
+
+Living and learning
+
+Most of kupfer plugin code uses super statements such as:
+
+	super(RecentsSource, self).__init__(_("Recent items"))
+
+when writing new code, you should however use the following style:
+
+	Source.__init__(self, _("Recent items"))
+
+Why? Because the second version is easier to copy! If you copy the whole
+class and rename it, which you often do to create new plugins, you have
+to change the class name in yet another place in version 1. In version 2 you
+don't have to-- you are probably using the same superclass.
