@@ -4,7 +4,7 @@ import wnck
 
 from kupfer.objects import Leaf, Action, Source
 
-__kupfer_name__ = _("Windows")
+__kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", )
 __description__ = _("All windows on all workspaces")
 __version__ = ""
@@ -83,7 +83,7 @@ class WindowAction (Action):
 		return self.icon_name
 
 class WindowsSource (Source):
-	def __init__(self, name=_("Windows")):
+	def __init__(self, name=_("Window List")):
 		super(WindowsSource, self).__init__(name)
 		# "preload" windows: Ask for them early
 		# since the first call "primes" the event loop
