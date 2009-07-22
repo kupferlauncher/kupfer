@@ -45,13 +45,9 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 
 def spawn_async(argv, in_dir=None):
 	import gobject
-	from os import chdir, getcwd
-	if in_dir:
-		oldwd = getcwd()
-		chdir(in_dir)
-	ret = gobject.spawn_async (argv, flags=gobject.SPAWN_SEARCH_PATH)
-	if in_dir:
-		chdir(oldwd)
+	ret = gobject.spawn_async (argv, working_directory=in_dir,
+			flags=gobject.SPAWN_SEARCH_PATH)
+	return ret
 
 def app_info_for_commandline(cli, name=None, in_terminal=False):
 	import gio
