@@ -117,11 +117,21 @@ class SearchTask (pretty.OutputMixin):
 		matches = list(as_set_iter(itertools.chain(*match_iters)))
 		matches.sort()
 
-		if len(matches):
-			match = matches[0]
-		else:
-			match = None
-		gobject.idle_add(sender.emit, signal, pane, match, iter(matches), context)
+		# Check if the items are valid as the search
+		# results are accessed
+		def valid_check(seq):
+			for itm in seq:
+				obj = itm.object
+				if (not hasattr(obj, "is_valid")) or obj.is_valid():
+					yield itm
+		def first(seq):
+			"""Return first item in @seq or None"""
+			for itm in seq:
+				return itm
+			return None
+		match = first(valid_check(matches))
+		match_iter = valid_check(matches)
+		gobject.idle_add(sender.emit, signal, pane, match, match_iter, context)
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
 	def __init__(self, source, sender, signal, context=None, **kwargs):
