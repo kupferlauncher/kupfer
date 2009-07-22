@@ -754,10 +754,18 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	All Sources should be hashable and treated as equal if
 	their @repr are equal!
+
 	"""
 	def __init__(self, name):
 		KupferObject.__init__(self, name)
 		self.cached_items = None
+		self._version = 1
+
+	@property
+	def version(self):
+		"""version is for pickling (save and restore from cache),
+		subclasses should increase self._version when changing"""
+		return self._version
 
 	def __eq__(self, other):
 		return (type(self) == type(other) and repr(self).__eq__(repr(other)))
