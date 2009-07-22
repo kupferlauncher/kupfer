@@ -2,6 +2,7 @@ import itertools
 import os
 import cPickle as pickle
 import threading
+import time
 
 import gobject
 gobject.threads_init()
@@ -152,6 +153,9 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		self.period = period
 		self.campaign=campaign
 		self.cur_event = 0
+		# Source -> time mapping
+		self.latest_rescan_time = {}
+		self._min_rescan_interval = campaign/10
 
 	def set_catalog(self, catalog):
 		self.catalog = catalog
@@ -167,23 +171,28 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		self.cur_event = gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
 
 	def _periodic_rescan_helper(self):
-		try:
-			next = self.cur.next()
-		except StopIteration:
+		# Advance until we find a source that was not recently rescanned
+		for next in self.cur:
+			oldtime = self.latest_rescan_time.get(next, 0)
+			if (time.time() - oldtime) > self._min_rescan_interval:
+				break
+		else:
+			# else <=> break not reached in loop
 			self.output_info("Campaign finished, pausing %d s" % self.campaign)
-			self.cur_event = gobject.timeout_add_seconds(self.campaign, self._new_campaign)
+			self.cur_event = gobject.timeout_add_seconds(self.campaign,
+					self._new_campaign)
 			return False
 		self.cur_event = gobject.idle_add(self.reload_source, next)
 		return True
 
 	def register_rescan(self, source, force=False):
 		"""Register an object for rescan
-
 		dynamic sources will only be rescanned if @force is True
 		"""
 		gobject.idle_add(self.reload_source, source, force)
 
 	def reload_source(self, source, force=False):
+		self.latest_rescan_time[source] = time.time()
 		if force:
 			source.get_leaves(force_update=True)
 			self.emit("reloaded-source", source)
