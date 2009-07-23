@@ -8,7 +8,7 @@ from kupfer import utils
 __kupfer_name__ = _("Clipboard")
 __kupfer_sources__ = ("ClipboardSource", )
 __kupfer_actions__ = ("CopyToClipboard", )
-__description__ = _("Latest clipboards")
+__description__ = _("Recent clipboards")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -48,7 +48,7 @@ class ClipboardSource (Source):
 		self.mark_for_update()
 	
 	def __setstate__(self, state):
-		"""Set signal on pickling"""
+		"""Setup change callback on unpickling"""
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 		clip.connect("owner-change", self._clipboard_changed)
 		self.__dict__.update(state)
