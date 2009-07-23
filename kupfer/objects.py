@@ -194,6 +194,35 @@ class Leaf (KupferObject):
 		"""Default (builtin) actions for this Leaf"""
 		return ()
 
+class PicklingHelperMixin (object):
+	""" This pickling helper will define __getstate__/__setstate__
+	acting simply on the class dictionary; it is up to the inheriting
+	class to set up:
+	pickle_prepare:
+		Modify the instance dict to remove any unpickleable attributes,
+		the resulting dict will be pickled
+	unpickle_finish:
+		Finish unpickling by restoring nonpickled attributes from the
+		saved class dict, or setting up change callbacks or similar
+	"""
+	def pickle_prepare(self):
+		pass
+	def unpickle_finish(self):
+		pass
+	def __getstate__(self):
+		"""On pickle, getstate will call self.pickle_prepare(),
+		then it will return the class' current __dict__
+		"""
+		self.pickle_prepare()
+		return self.__dict__
+
+	def __setstate__(self, state):
+		"""On unpickle, setstate will restore the class' __dict__,
+		then call self.unpickle_finish()
+		"""
+		self.__dict__.update(state)
+		self.unpickle_finish()
+
 class DummyLeaf (Leaf):
 	"""
 	Dummy Leaf, representing No Leaf available
