@@ -1,7 +1,10 @@
-import gio
 from os import path
 
-from kupfer.objects import Leaf, Action, Source, FileLeaf, UrlLeaf
+import gio
+from gtk import recent_manager_get_default
+
+from kupfer.objects import (Leaf, Action, Source,
+		FileLeaf, UrlLeaf, PicklingHelperMixin )
 from kupfer import objects
 
 __kupfer_name__ = _("Documents")
@@ -10,14 +13,23 @@ __description__ = _("Recently used documents and nautilus places")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-class RecentsSource (Source):
+class RecentsSource (Source, PicklingHelperMixin):
 	def __init__(self):
 		super(RecentsSource, self).__init__(_("Recent items"))
 		self.max_days = 28
+		self.unpickle_finish()
+
+	def unpickle_finish(self):
+		"""Set up change callback"""
+		manager = recent_manager_get_default()
+		manager.connect("changed", self._recent_changed)
+
+	def _recent_changed(self, *args):
+		# FIXME: We don't get single item updates, might this be
+		# too many updates?
+		self.mark_for_update()
 	
 	def get_items(self):
-		from gtk import recent_manager_get_default
-
 		count = 0
 		manager = recent_manager_get_default()
 		items = manager.get_items()
