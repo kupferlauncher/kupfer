@@ -36,7 +36,7 @@ class CommandTextSource (TextSource):
 		TextSource.__init__(self, name=_("Shell commands"))
 
 	def get_rank(self):
-		return 60
+		return 80
 
 	def get_items(self, text):
 		if not text:
