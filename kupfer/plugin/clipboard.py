@@ -2,7 +2,7 @@ from collections import deque
 
 import gtk
 
-from kupfer.objects import Source, Action, TextLeaf, Leaf
+from kupfer.objects import Source, Action, TextLeaf, Leaf, PicklingHelperMixin
 from kupfer import utils
 
 __kupfer_name__ = _("Clipboard")
@@ -26,15 +26,19 @@ class ClipboardText (TextLeaf):
 
 		return _('Clipboard with %s "%s"') % (numlines, desc)
 
-class ClipboardSource (Source):
+class ClipboardSource (Source, PicklingHelperMixin):
 	"""
 	"""
 	def __init__(self):
 		Source.__init__(self, _("Clipboards"))
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		clip.connect("owner-change", self._clipboard_changed)
 		self.clipboards = deque()
 		self.max_len = 10
+		self.unpickle_finish()
+
+	def unpickle_finish(self):
+		"""Setup change callback on unpickling"""
+		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clip.connect("owner-change", self._clipboard_changed)
 
 	def _clipboard_changed(self, clip, *args):
 		newtext = clip.wait_for_text()
@@ -47,15 +51,6 @@ class ClipboardSource (Source):
 			self.clipboards.popleft()
 		self.mark_for_update()
 	
-	def __setstate__(self, state):
-		"""Setup change callback on unpickling"""
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		clip.connect("owner-change", self._clipboard_changed)
-		self.__dict__.update(state)
-
-	def __getstate__(self):
-		return self.__dict__
-
 	def get_items(self):
 		for t in reversed(self.clipboards):
 			yield ClipboardText(t)
