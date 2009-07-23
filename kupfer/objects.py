@@ -915,7 +915,7 @@ class FileSource (Source):
 	def provides(self):
 		return ConstructFileLeafTypes()
 
-class DirectorySource (Source):
+class DirectorySource (Source, PicklingHelperMixin):
 	def __init__(self, dir, show_hidden=False):
 		# Use glib filename reading to make display name out of filenames
 		# this function returns a `unicode` object
@@ -923,22 +923,21 @@ class DirectorySource (Source):
 		super(DirectorySource, self).__init__(name)
 		self.directory = dir
 		self.show_hidden = show_hidden
-		self._setup_change_monitor()
+		self.unpickle_finish()
 
 	def __repr__(self):
 		return "%s.%s(\"%s\", show_hidden=%s)" % (self.__class__.__module__, self.__class__.__name__, str(self.directory), self.show_hidden)
 
-	def __getstate__(self):
-		"""Custom pickling routines """
+	def pickle_prepare(self):
 		# monitor is not pickleable
 		self.monitor = None
-		return self.__dict__
 
-	def __setstate__(self, state):
-		"""Custom pickling routines to restore file monitoring
-		upon unpickling"""
-		self.__dict__.update(state)
-		self._setup_change_monitor()
+	def unpickle_finish(self):
+		"""Set up change monitor"""
+		gfile = gio.File(self.directory)
+		self.monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
+		if self.monitor:
+			self.monitor.connect("changed", self._changed)
 
 	def get_items(self):
 		exclude = lambda f: f.startswith(".") if not self.show_hidden else None
@@ -950,12 +949,6 @@ class DirectorySource (Source):
 		return file_leaves(dirlist)
 	def should_sort_lexically(self):
 		return True
-
-	def _setup_change_monitor(self):
-		gfile = gio.File(self.directory)
-		self.monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
-		if self.monitor:
-			self.monitor.connect("changed", self._changed)
 
 	def _changed(self, monitor, file1, file2, evt_type):
 		"""Change callback; something changed in the directory"""
