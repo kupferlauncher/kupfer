@@ -394,43 +394,34 @@ class SourceLeaf (Leaf):
 	def get_icon_name(self):
 		return self.object.get_icon_name()
 
-class AppLeaf (Leaf):
+class AppLeaf (Leaf, PicklingHelperMixin):
 	def __init__(self, item=None, path=None, item_id=None):
-		super(AppLeaf, self).__init__(item, "")
+		self.init_item = item
+		self.init_path = path
+		self.init_item_id = item_id
 		self.path = path
-		if not item:
-			item = self._get_item(path,item_id)
-		self._init_from_item(item)
+		self.unpickle_finish()
 		if not self.object:
 			raise InvalidData
+		Leaf.__init__(self, self.object, self.object.get_name())
 
-	def _get_item(self, path=None, item_id=None):
-		"""Construct an AppInfo item from either path or item_id"""
+	def pickle_prepare(self):
+		self.init_item_id = self.object.get_id()
+		self.object = None
+		self.init_item = None
+	def unpickle_finish(self):
+		"""Try to set self.object from init's parameters"""
+		if self.init_item:
+			self.object = self.init_item
+			return
+		# Construct an AppInfo item from either path or item_id
 		from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
 		item = None
-		if path:
-			item = desktop_app_info_new_from_filename(path)
-		if item_id:
-			item = DesktopAppInfo(item_id)
-		return item
-
-	def _init_from_item(self, item):
-		if item:
-			value = item.get_name() or item.get_executable()
-		else:
-			value = "Unknown"
+		if self.init_path:
+			item = desktop_app_info_new_from_filename(self.init_path)
+		elif self.init_item_id:
+			item = DesktopAppInfo(self.init_item_id)
 		self.object = item
-		self.name = value
-
-	def __getstate__(self):
-		"""Return state for pickle"""
-		item_id = self.object.get_id() if self.object else None
-		return (self.path, item_id)
-	
-	def __setstate__(self, state):
-		path, item_id = state
-		self.path = path
-		self._init_from_item(self._get_item(path, item_id))
 
 	def get_actions(self):
 		if launch.application_is_running(self.object):
