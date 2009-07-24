@@ -125,7 +125,8 @@ def main():
 	from . import objects, plugin
 	from . import pretty, plugins, settings
 	from .plugins import (load_plugin_sources, sources_attribute,
-			action_decorators_attribute, text_sources_attribute)
+			action_decorators_attribute, text_sources_attribute,
+			initialize_plugin)
 
 	cli_opts = get_options()
 	print_banner()
@@ -150,11 +151,13 @@ def main():
 	action_decorators = []
 
 	for item in source_config("Plugins", "Catalog"):
+		initialize_plugin(item)
 		s_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 		action_decorators.extend(load_plugin_sources(item,
 			action_decorators_attribute))
 	for item in source_config("Plugins", "Direct"):
+		initialize_plugin(item)
 		S_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 		action_decorators.extend(load_plugin_sources(item,
