@@ -1,9 +1,9 @@
 import os, sys
 import ConfigParser
 
-from kupfer import config
+from kupfer import config, pretty
 
-class SettingsController (object):
+class SettingsController (pretty.OutputMixin):
 	config_filename = "kupfer.cfg"
 	defaults_filename = "defaults.cfg"
 	sep = ";"
@@ -11,20 +11,19 @@ class SettingsController (object):
 	# Minimal "defaults" to define all fields
 	# Read defaults defined in a defaults.cfg file
 	defaults = {
-		"Kupfer": { "Keybinding" : "" , "ShowStatusIcon" : "True" },
-		"Plugins": { "Direct" : (), "Catalog" : (), },
-		"Directories" : { "Direct" : default_directories, "Catalog" : (), },
-		"DeepDirectories" : { "Direct" : (), "Catalog" : (), "Depth" : 1, },
+		"Kupfer": { "keybinding" : "" , "showstatusicon" : "true" },
+		"Plugins": { "direct" : (), "catalog" : (), },
+		"Directories" : { "direct" : default_directories, "catalog" : (), },
+		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 	}
 	def __init__(self):
-		self.config = self._read_config()
+		self._config = self._read_config()
 	def _read_config(self):
 		"""
 		Read cascading config files
 		default -> then config
 		(in all XDG_CONFIG_DIRS)
 		"""
-
 		parser = ConfigParser.SafeConfigParser()
 
 		def fill_parser(parser, defaults):
@@ -66,23 +65,58 @@ class SettingsController (object):
 				print "Error reading configuration file %s: %s", (config_file, e)
 
 		# Read parsed file into the dictionary again
-		for secname, section in confmap.iteritems():
-			for key, default in section.iteritems():
+		for secname in parser.sections():
+			if secname not in confmap: confmap[secname] = {}
+			for key in parser.options(secname):
 				value = parser.get(secname, key)
-				if isinstance(default, (tuple, list)):
-					if not value:
-						retval = ()
+				retval = value
+				if secname in self.defaults and key in self.defaults[secname]:
+					defval = self.defaults[secname][key]
+					if isinstance(defval, (tuple, list)):
+						if not value:
+							retval = ()
+						else:
+							retval = [p.strip() for p in value.split(self.sep) if p]
+					elif isinstance(defval, int):
+						retval = type(defval)(value)
 					else:
-						retval = [p.strip() for p in value.split(self.sep) if p]
-				elif isinstance(default, int):
-					retval = type(default)(value)
-				else:
-					retval = str(value)
+						retval = str(value)
 				confmap[secname][key] = retval
 
 		return confmap
 	def get_config(self, section, key):
-		return self.config[section][key]
+		"""General interface, but section must exist"""
+		key = key.lower()
+		value = self._config[section].get(key)
+		if section in self.defaults and key in self.defaults[section]:
+			return value
+		else:
+			self.output_info("Settings key", section, key, "is invalid")
+
+	def _get_raw_config(self, section, key):
+		"""General interface, but section must exist"""
+		key = key.lower()
+		value = self._config[section].get(key)
+		return value
+
+	def get_plugin_config(self, plugin, key, value_type=str):
+		"""Return setting @key for plugin names @plugin, try
+		to coerce to type @value_type.
+		Else return None if does not exist, or can't be coerced
+		"""
+		plug_section = "plugin_%s" % plugin
+		if not plug_section in self._config:
+			return None
+		val = self._get_raw_config(plug_section, key)
+
+		try:
+			val = value_type(val)
+		except ValueError, err:
+			self.output_info("Error for stored value %s.%s" %
+					(plug_section, key), err)
+			return None
+		self.output_debug("%s.%s = %s" % (plug_section, key, val))
+		return val
 
 _settings_controller = None
 def GetSettingsController():
