@@ -124,6 +124,12 @@ def get_plugin_attributes(plugin_name, attrs, warn=False):
 		else:
 			yield obj
 
+def get_plugin_attribute(plugin_name, attr):
+	"""Get single plugin attribute"""
+	attrs = tuple(get_plugin_attributes(plugin_name, (attr,)))
+	obj, = (attrs if attrs else (None, ))
+	return obj
+
 def load_plugin_sources(plugin_name, attr=sources_attribute):
 	attrs = tuple(get_plugin_attributes(plugin_name, (attr,)))
 	sources, = (attrs if attrs else (None, ))
