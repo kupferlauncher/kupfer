@@ -4,6 +4,7 @@ from kupfer import pretty, config, settings
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
 action_decorators_attribute = "__kupfer_actions__"
+settings_attribute = "__kupfer_settings__"
 
 def get_plugin_info():
 	"""Generator, yields dictionaries of plugin descriptions
@@ -141,3 +142,13 @@ def load_plugin_sources(plugin_name, attr=sources_attribute):
 			yield source()
 		else:
 			pretty.print_info(__name__, "Source not found for %s" % plugin_name)
+
+def initialize_plugin(plugin_name):
+	"""Initialize plugin.
+	Find settings attribute if defined, and initialize it
+	"""
+	settings_dict = get_plugin_attribute(plugin_name, settings_attribute)
+	if not settings_dict:
+		return
+	settings_dict.initialize(plugin_name)
+
