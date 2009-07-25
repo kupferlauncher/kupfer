@@ -5,7 +5,7 @@ from gtk import recent_manager_get_default
 
 from kupfer.objects import (Leaf, Action, Source,
 		FileLeaf, UrlLeaf, PicklingHelperMixin )
-from kupfer import objects
+from kupfer import objects, plugin_support
 
 __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
@@ -13,10 +13,19 @@ __description__ = _("Recently used documents and nautilus places")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "max_days",
+		"label": _("Max recent document days"),
+		"type": int,
+		"value": 28,
+	},
+)
+
+
 class RecentsSource (Source, PicklingHelperMixin):
 	def __init__(self):
 		super(RecentsSource, self).__init__(_("Recent items"))
-		self.max_days = 28
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
@@ -33,9 +42,10 @@ class RecentsSource (Source, PicklingHelperMixin):
 		count = 0
 		manager = recent_manager_get_default()
 		items = manager.get_items()
+		max_days = __kupfer_settings__["max_days"]
 		for item in items:
 			day_age = item.get_age()
-			if day_age > self.max_days:
+			if day_age > max_days:
 				break
 			if not item.exists():
 				continue
@@ -48,7 +58,7 @@ class RecentsSource (Source, PicklingHelperMixin):
 			else:
 				yield UrlLeaf(uri, name)
 			count += 1
-		self.output_info("Items younger than", self.max_days, "days")
+		self.output_info("Items younger than", max_days, "days")
 
 	def get_description(self):
 		return _("Recently used documents")
