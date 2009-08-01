@@ -131,8 +131,7 @@ def get_plugin_attribute(plugin_name, attr):
 	return obj
 
 def load_plugin_sources(plugin_name, attr=sources_attribute):
-	attrs = tuple(get_plugin_attributes(plugin_name, (attr,)))
-	sources, = (attrs if attrs else (None, ))
+	sources = get_plugin_attribute(plugin_name, attr)
 	if not sources:
 		return
 	for source in get_plugin_attributes(plugin_name, sources, warn=True):
