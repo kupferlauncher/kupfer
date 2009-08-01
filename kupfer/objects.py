@@ -841,7 +841,7 @@ class Source (KupferObject, pretty.OutputMixin):
 		if self.is_dynamic():
 			return sort_func(self.get_items())
 		
-		if not self.cached_items or force_update:
+		if self.cached_items is None or force_update:
 			self.cached_items = aslist(sort_func(self.get_items()))
 			self.output_info("Loaded %d items" % len(self.cached_items))
 		return self.cached_items
