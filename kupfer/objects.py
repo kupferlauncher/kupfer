@@ -152,7 +152,7 @@ class KupferObject (object):
 		"""Return icon name. All items should have at least
 		a generic icon name to return.
 		"""
-		return "gtk-file"
+		return "kupfer-object"
 
 def aslist(seq):
 	"""
@@ -229,9 +229,6 @@ class DummyLeaf (Leaf):
 	"""
 	def __init__(self):
 		super(DummyLeaf, self).__init__(None, _("No matches"))
-	
-	def get_icon_name(self):
-		return "gtk-dialog-warning"
 
 class FileLeaf (Leaf):
 	"""
