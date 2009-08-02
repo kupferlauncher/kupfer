@@ -3,7 +3,7 @@ from collections import deque
 import gtk
 
 from kupfer.objects import Source, Action, TextLeaf, Leaf, PicklingHelperMixin
-from kupfer import utils
+from kupfer import utils, plugin_support
 
 __kupfer_name__ = _("Clipboard")
 __kupfer_sources__ = ("ClipboardSource", )
@@ -11,6 +11,15 @@ __kupfer_actions__ = ("CopyToClipboard", )
 __description__ = _("Recent clipboards")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "max",
+		"label": _("Number of recent clipboards"),
+		"type": int,
+		"value": 10,
+	},
+)
 
 class ClipboardText (TextLeaf):
 	def __init__(self, text):
@@ -32,7 +41,6 @@ class ClipboardSource (Source, PicklingHelperMixin):
 	def __init__(self):
 		Source.__init__(self, _("Clipboards"))
 		self.clipboards = deque()
-		self.max_len = 10
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
@@ -41,13 +49,14 @@ class ClipboardSource (Source, PicklingHelperMixin):
 		clip.connect("owner-change", self._clipboard_changed)
 
 	def _clipboard_changed(self, clip, *args):
+		max_len = __kupfer_settings__["max"]
 		newtext = clip.wait_for_text()
 		if not (newtext and newtext.strip()):
 			return
 		if newtext in self.clipboards:
 			self.clipboards.remove(newtext)
 		self.clipboards.append(newtext)
-		while len(self.clipboards) > self.max_len:
+		while len(self.clipboards) > max_len:
 			self.clipboards.popleft()
 		self.mark_for_update()
 	

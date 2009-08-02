@@ -125,7 +125,8 @@ def main():
 	from . import objects, plugin
 	from . import pretty, plugins, settings
 	from .plugins import (load_plugin_sources, sources_attribute,
-			action_decorators_attribute, text_sources_attribute)
+			action_decorators_attribute, text_sources_attribute,
+			initialize_plugin)
 
 	cli_opts = get_options()
 	print_banner()
@@ -143,31 +144,34 @@ def main():
 		abs = path.abspath(path.expanduser(opt))
 		return objects.FileSource((abs,), depth)
 
-	source_config = settings.get_config()
+	setctl = settings.GetSettingsController()
+	source_config = setctl.get_config
 
 	text_sources = []
 	action_decorators = []
 
-	for item in source_config["Plugins"]["Catalog"]:
+	for item in source_config("Plugins", "Catalog"):
+		initialize_plugin(item)
 		s_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 		action_decorators.extend(load_plugin_sources(item,
 			action_decorators_attribute))
-	for item in source_config["Plugins"]["Direct"]:
+	for item in source_config("Plugins", "Direct"):
+		initialize_plugin(item)
 		S_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 		action_decorators.extend(load_plugin_sources(item,
 			action_decorators_attribute))
 
-	dir_depth = source_config["DeepDirectories"]["Depth"]
+	dir_depth = source_config("DeepDirectories", "Depth")
 
-	for item in source_config["Directories"]["Catalog"]:
+	for item in source_config("Directories", "Catalog"):
 		s_sources.append(dir_source(item))
-	for item in source_config["DeepDirectories"]["Catalog"]:
+	for item in source_config("DeepDirectories","Catalog"):
 		s_sources.append(file_source(item, dir_depth))
-	for item in source_config["Directories"]["Direct"]:
+	for item in source_config("Directories", "Direct"):
 		S_sources.append(dir_source(item))
-	for item in source_config["DeepDirectories"]["Direct"]:
+	for item in source_config("DeepDirectories", "Direct"):
 		S_sources.append(file_source(item, dir_depth))
 	
 	if not S_sources and not s_sources:
@@ -178,8 +182,8 @@ def main():
 	dc.register_text_sources(text_sources)
 	dc.register_action_decorators(action_decorators)
 	w = browser.WindowController()
-	w.register_keybinding(source_config["Kupfer"]["Keybinding"])
-	show_icon = not (source_config["Kupfer"]["ShowStatusIcon"].lower() not in
+	w.register_keybinding(source_config("Kupfer", "Keybinding"))
+	show_icon = not (source_config("Kupfer", "ShowStatusIcon").lower() not in
 			("yes", "true", ))
 	w.set_show_statusicon(show_icon)
 
