@@ -102,11 +102,11 @@ class Preferences (RunnableLeaf):
 		if not name: name = _("Kupfer Preferences")
 		super(Preferences, self).__init__(name=name)
 	def run(self):
-		pass
+		from kupfer import preferences
+		win = preferences.GetPreferencesWindowController()
+		win.show()
 	def get_description(self):
-		return _("Settings are not implemented yet; see 'kupfer --help'")
-	def get_actions(self):
-		return ()
+		return _("Show preferences window for Kupfer")
 	def get_icon_name(self):
 		return gtk.STOCK_PREFERENCES
 
