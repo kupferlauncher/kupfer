@@ -20,6 +20,12 @@ class PreferencesWindowController (object):
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.connect("delete-event", self._close_window)
 		self.pluglist_parent = builder.get_object("plugin_list_parent")
+
+		setctl = settings.GetSettingsController()
+		entrykeybinding = builder.get_object("entrykeybinding")
+		entrykeybinding.set_text(setctl.get_keybinding())
+		checkstatusicon = builder.get_object("checkstatusicon")
+		checkstatusicon.set_active(setctl.get_show_status_icon())
 		# setup plugin list table
 		columns = (bool, str, str)
 		self.store = gtk.ListStore(str, *columns)
@@ -47,8 +53,6 @@ class PreferencesWindowController (object):
 		# hide icon for now
 		#self.table.append_column(icon_col)
 		self.table.append_column(col)
-
-		setctl = settings.GetSettingsController()
 
 		for info in plugins.get_plugin_info():
 			plugin_id = info["name"]
