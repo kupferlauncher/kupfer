@@ -99,6 +99,10 @@ class SettingsController (pretty.OutputMixin):
 		value = self._config[section].get(key)
 		return value
 
+	def get_plugin_enabled(self, plugin_id):
+		return (plugin_id in self.get_config("Plugins", "Direct") or
+			plugin_id in self.get_config("Plugins", "Catalog"))
+
 	def get_plugin_config(self, plugin, key, value_type=str):
 		"""Return setting @key for plugin names @plugin, try
 		to coerce to type @value_type.
