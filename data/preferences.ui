@@ -25,7 +25,6 @@
                     <child>
                       <object class="GtkCheckButton" id="checkautostart">
                         <property name="label" translatable="yes">Start automatically on login</property>
-                        <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="draw_indicator">True</property>
@@ -114,50 +113,33 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHButtonBox" id="hbuttonbox2">
+                      <object class="GtkHBox" id="hbox1">
                         <property name="visible">True</property>
                         <property name="homogeneous">True</property>
-                        <property name="layout_style">edge</property>
                         <child>
-                          <object class="GtkButton" id="buttonabout">
+                          <object class="GtkButton" id="buttonpluginabout">
                             <property name="label" translatable="yes">gtk-about</property>
                             <property name="visible">True</property>
+                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="use_stock">True</property>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="buttoninfo">
-                            <property name="label" translatable="yes">gtk-info</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="buttonpreferences">
+                          <object class="GtkButton" id="buttonpluginsettings">
                             <property name="label" translatable="yes">gtk-preferences</property>
                             <property name="visible">True</property>
+                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="use_stock">True</property>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">2</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                       </object>
