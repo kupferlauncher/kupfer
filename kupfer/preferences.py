@@ -65,7 +65,8 @@ class PreferencesWindowController (object):
 		self.pluglist_parent.add(self.table)
 
 	def on_checkstatusicon_toggled(self, widget):
-		pass
+		setctl = settings.GetSettingsController()
+		setctl.set_show_status_icon(widget.get_active())
 	def on_checkautostart_toggled(self, widget):
 		pass
 	def on_entrykeybinding_changed(self, widget):
