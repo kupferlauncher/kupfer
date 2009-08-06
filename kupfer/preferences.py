@@ -4,7 +4,7 @@ import pango
 
 from kupfer import config, plugins, pretty, settings
 
-class PreferencesWindowController (object):
+class PreferencesWindowController (pretty.OutputMixin):
 	def __init__(self):
 		"""Load ui from data file"""
 		builder = gtk.Builder()
@@ -26,16 +26,25 @@ class PreferencesWindowController (object):
 		entrykeybinding.set_text(setctl.get_keybinding())
 		checkstatusicon = builder.get_object("checkstatusicon")
 		checkstatusicon.set_active(setctl.get_show_status_icon())
+
+		columns = [
+			{"key": "plugin_id", "type": str },
+			{"key": "enabled", "type": bool },
+			{"key": "icon-name", "type": str },
+			{"key": "markup", "type": str },
+		]
 		# setup plugin list table
-		columns = (bool, str, str)
-		self.store = gtk.ListStore(str, *columns)
+		column_types = [c["type"] for c in columns]
+		self.columns = [c["key"] for c in columns]
+		self.store = gtk.ListStore(*column_types)
 		self.table = gtk.TreeView(self.store)
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
 
 		checkcell = gtk.CellRendererToggle()
 		checkcol = gtk.TreeViewColumn("item", checkcell)
-		checkcol.add_attribute(checkcell, "active", 1)
+		checkcol.add_attribute(checkcell, "active",
+				self.columns.index("enabled"))
 		checkcell.connect("toggled", self.on_checkplugin_toggled)
 
 		icon_cell = gtk.CellRendererPixbuf()
@@ -43,11 +52,12 @@ class PreferencesWindowController (object):
 		icon_cell.set_property("width", 18)
 			
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
-		icon_col.add_attribute(icon_cell, "icon-name", 2)
+		icon_col.add_attribute(icon_cell, "icon-name",
+				self.columns.index("icon-name"))
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
-		col.add_attribute(cell, "markup", 3)
+		col.add_attribute(cell, "markup", self.columns.index("markup"))
 
 		self.table.append_column(checkcol)
 		# hide icon for now
@@ -74,7 +84,15 @@ class PreferencesWindowController (object):
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 	def on_checkplugin_toggled(self, cell, path):
-		print "Toggled", cell, path
+		it = self.store.get_iter(path)
+		id_col = self.columns.index("plugin_id")
+		checkcol = self.columns.index("enabled")
+		plugin_id = self.store.get_value(it, id_col)
+		plugin_is_enabled = not self.store.get_value(it, checkcol)
+		self.store.set_value(it, checkcol, plugin_is_enabled)
+		setctl = settings.GetSettingsController()
+		setctl.set_plugin_enabled(plugin_id, plugin_is_enabled)
+
 	def show(self):
 		self.window.show()
 	def hide(self):
