@@ -88,7 +88,7 @@ class SettingsController (pretty.OutputMixin):
 		return confmap
 
 	def _save_config(self, scheduler=None):
-		config_path = config.get_config_file(self.config_filename)
+		config_path = config.save_config_file(self.config_filename)
 		if not config_path:
 			self.output_info("Unable to save settings, can't find config dir")
 			return
