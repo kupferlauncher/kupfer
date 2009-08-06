@@ -14,6 +14,9 @@ class PluginSettings (pretty.OutputMixin):
 			type
 			value (default value)
 			label (localized label)
+
+		the @key may be any string except strings starting with
+		'kupfer_', which are reserved
 		"""
 		self.setting_descriptions = {}
 		req_keys = set(("key", "value", "type", "label"))
