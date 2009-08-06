@@ -68,8 +68,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 		for info in utils.locale_sort(plugin_info,
 				key= lambda rec: rec["localized_name"]):
 			plugin_id = info["name"]
-			name = info["localized_name"]
+			if setctl.get_plugin_is_hidden(plugin_id):
+				continue
 			enabled = setctl.get_plugin_enabled(plugin_id)
+			name = info["localized_name"]
 			desc = info["description"]
 			text = u"<b>%s</b>\n%s" % (name, desc)
 			self.store.append((plugin_id, enabled, "kupfer-object", text))
