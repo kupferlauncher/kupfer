@@ -2,7 +2,7 @@ import gtk
 import gobject
 import pango
 
-from kupfer import config, plugins, pretty, settings
+from kupfer import config, plugins, pretty, settings, utils
 
 class PreferencesWindowController (pretty.OutputMixin):
 	def __init__(self):
@@ -64,7 +64,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		#self.table.append_column(icon_col)
 		self.table.append_column(col)
 
-		for info in plugins.get_plugin_info():
+		plugin_info = plugins.get_plugin_info()
+		for info in utils.locale_sort(plugin_info,
+				key= lambda rec: rec["localized_name"]):
 			plugin_id = info["name"]
 			name = info["localized_name"]
 			enabled = setctl.get_plugin_enabled(plugin_id)
