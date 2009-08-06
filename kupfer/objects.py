@@ -569,6 +569,7 @@ class OpenWith (Action):
 		return "gtk-execute"
 
 class OpenUrl (Action):
+	rank_adjust = 5
 	def __init__(self, name=None):
 		"""
 		open url
@@ -606,6 +607,7 @@ class Show (Action):
 		return "gtk-execute"
 
 class OpenDirectory (Show):
+	rank_adjust = 5
 	def __init__(self):
 		super(OpenDirectory, self).__init__(_("Open"))
 
@@ -649,7 +651,7 @@ class Launch (Action):
 
 	Launches an application (AppLeaf)
 	"""
-	rank_adjust = 1
+	rank_adjust = 5
 	def __init__(self, name=None, in_terminal=False, open_new=False):
 		if not name:
 			name = _("Launch")
@@ -666,7 +668,7 @@ class Launch (Action):
 
 class ShowApplication (Launch):
 	"""Show application if running, else launch"""
-	rank_adjust = 2
+	rank_adjust = 5
 	def __init__(self, name=None):
 		if not name:
 			name = _("Go to")
@@ -679,6 +681,7 @@ class ShowApplication (Launch):
 
 class LaunchAgain (Launch):
 	"""Launch instance without checking if running"""
+	rank_adjust = 0
 	def __init__(self, name=None):
 		if not name:
 			name = _("Launch again")
