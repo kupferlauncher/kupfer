@@ -1001,7 +1001,7 @@ class WindowController (pretty.OutputMixin):
 		else:
 			self.activate(time=time)
 
-	def _key_binding(self, user_data=None):
+	def _key_binding(self, keyobj, keybinding_number):
 		"""Keybinding activation callback"""
 		import keybinder
 		time = keybinder.get_current_event_time()
@@ -1056,6 +1056,7 @@ class WindowController (pretty.OutputMixin):
 		from .listen import Service, AlreadyRunning, NoConnection
 		from .session import SessionClient
 		from kupfer.scheduler import GetScheduler
+		from kupfer import keybindings
 
 		try:
 			s = Service()
@@ -1070,16 +1071,12 @@ class WindowController (pretty.OutputMixin):
 			s.connect("show-hide", self.show_hide)
 			s.connect("quit", self.quit)
 
-		try:
-			import keybinder
-		except ImportError:
-			self.output_info("Could not import keybinder, keybindings disabled!")
-		else:
-			if self._keystr:
-				succ = keybinder.bind(self._keystr, self._key_binding)
-				self.output_info("Trying to register %s to spawn kupfer.. %s"
-						% (self._keystr, ["failed", "success"][int(succ)]))
-
+		if self._keystr:
+			succ = keybindings.bind_key(self._keystr)
+			self.output_info("Trying to register %s to spawn kupfer.. %s"
+					% (self._keystr, ["failed", "success"][int(succ)]))
+		keyobj = keybindings.GetKeyboundObject()
+		keyobj.connect("keybinding", self._key_binding)
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
 
