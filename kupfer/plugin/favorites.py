@@ -18,6 +18,7 @@ def _FavoritesLeafTypes():
 	"""reasonable pickleable types"""
 	yield objects.FileLeaf
 	yield objects.AppLeaf
+	yield objects.UrlLeaf
 
 class FavoritesSource (Source, PicklingHelperMixin):
 	"""
