@@ -171,6 +171,11 @@ class SettingsController (pretty.OutputMixin):
 		return self.get_plugin_config(plugin_id, "kupfer_catalog",
 				value_type=strbool, default=False)
 
+	def get_plugin_is_hidden(self, plugin_id):
+		"""Convenience: if @plugin_id is hidden"""
+		return self.get_plugin_config(plugin_id, "kupfer_hidden",
+				value_type=strbool, default=False)
+
 	def get_keybinding(self):
 		"""Convenience: Kupfer keybinding as string"""
 		return self.get_config("Kupfer", "keybinding")
