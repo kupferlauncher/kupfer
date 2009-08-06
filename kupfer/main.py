@@ -150,18 +150,17 @@ def main():
 	text_sources = []
 	action_decorators = []
 
-	for item in source_config("Plugins", "Catalog"):
+	for item in plugins.get_plugin_ids():
+		if not setctl.get_plugin_enabled(item):
+			continue
 		initialize_plugin(item)
-		s_sources.extend(load_plugin_sources(item))
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 		action_decorators.extend(load_plugin_sources(item,
 			action_decorators_attribute))
-	for item in source_config("Plugins", "Direct"):
-		initialize_plugin(item)
-		S_sources.extend(load_plugin_sources(item))
-		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
-		action_decorators.extend(load_plugin_sources(item,
-			action_decorators_attribute))
+		if setctl.get_plugin_is_catalog(item):
+			s_sources.extend(load_plugin_sources(item))
+		else:
+			S_sources.extend(load_plugin_sources(item))
 
 	dir_depth = source_config("DeepDirectories", "Depth")
 
