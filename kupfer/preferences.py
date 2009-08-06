@@ -21,10 +21,14 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.window.connect("delete-event", self._close_window)
 		self.pluglist_parent = builder.get_object("plugin_list_parent")
 
-		setctl = settings.GetSettingsController()
-		entrykeybinding = builder.get_object("entrykeybinding")
-		entrykeybinding.set_text(setctl.get_keybinding())
+		self.entrykeybinding = builder.get_object("entrykeybinding")
+		self.buttonkeybinding = builder.get_object("buttonkeybinding")
+		self.imagekeybindingaux = builder.get_object("imagekeybindingaux")
+		self.labelkeybindingaux = builder.get_object("labelkeybindingaux")
 		checkstatusicon = builder.get_object("checkstatusicon")
+
+		setctl = settings.GetSettingsController()
+		self.entrykeybinding.set_text(setctl.get_keybinding())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 
 		columns = [
@@ -84,7 +88,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_checkautostart_toggled(self, widget):
 		pass
 	def on_entrykeybinding_changed(self, widget):
-		pass
+		self.buttonkeybinding.set_sensitive(True)
+		self.imagekeybindingaux.hide()
+		self.labelkeybindingaux.hide()
+	def on_buttonkeybinding_clicked(self, widget):
+		keystr = self.entrykeybinding.get_text()
+		self.output_debug("Try set keybinding with", keystr)
+
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 	def on_checkplugin_toggled(self, cell, path):
