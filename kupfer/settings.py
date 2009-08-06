@@ -1,7 +1,7 @@
 import os, sys
 import ConfigParser
 
-from kupfer import config, pretty
+from kupfer import config, pretty, scheduler
 
 class SettingsController (pretty.OutputMixin):
 	config_filename = "kupfer.cfg"
@@ -18,6 +18,9 @@ class SettingsController (pretty.OutputMixin):
 	}
 	def __init__(self):
 		self._config = self._read_config()
+		# connect to save settings
+		sch = scheduler.GetScheduler()
+		sch.connect("finish", self._save_config)
 	def _read_config(self):
 		"""
 		Read cascading config files
@@ -84,6 +87,30 @@ class SettingsController (pretty.OutputMixin):
 				confmap[secname][key] = retval
 
 		return confmap
+
+	def _save_config(self, scheduler=None):
+		config_path = config.get_config_file(self.config_filename)
+		if not config_path:
+			self.output_info("Unable to save settings, can't find config dir")
+			return
+
+		parser = ConfigParser.SafeConfigParser()
+		def fill_parser(parser, defaults):
+			for secname, section in defaults.iteritems():
+				if not parser.has_section(secname):
+					parser.add_section(secname)
+				for key, default in section.iteritems():
+					if isinstance(default, (tuple, list)):
+						default = self.sep.join(default)
+					elif isinstance(default, int):
+						default = str(default)
+					parser.set(secname, key, default)
+
+		fill_parser(parser, self._config)
+		out = open(config_path, "w")
+		parser.write(out)
+
+
 	def get_config(self, section, key):
 		"""General interface, but section must exist"""
 		key = key.lower()
