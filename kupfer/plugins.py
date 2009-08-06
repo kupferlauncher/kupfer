@@ -6,16 +6,10 @@ text_sources_attribute = "__kupfer_text_sources__"
 action_decorators_attribute = "__kupfer_actions__"
 settings_attribute = "__kupfer_settings__"
 
-def get_plugin_info():
-	"""Generator, yields dictionaries of plugin descriptions
-
-	with at least the fields:
-	name
-	localized_name
-	version
-	description
-	author
-	"""
+def get_plugin_ids():
+	"""Enumerate possible plugin ids;
+	return a sequence of possible plugin ids, not
+	guaranteed to be plugins"""
 	from kupfer import plugin
 	import os
 
@@ -31,8 +25,19 @@ def get_plugin_info():
 			basename = os.path.splitext(f)[0]
 			if basename != "__init__" and not basename.endswith("_support"):
 				plugin_files.add(basename)
+	return plugin_files
 
-	for plugin_name in sorted(plugin_files):
+def get_plugin_info():
+	"""Generator, yields dictionaries of plugin descriptions
+
+	with at least the fields:
+	name
+	localized_name
+	version
+	description
+	author
+	"""
+	for plugin_name in sorted(get_plugin_ids()):
 		try:
 			plugin = import_plugin(plugin_name).__dict__
 		except ImportError, e:
