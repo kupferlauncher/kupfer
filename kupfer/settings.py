@@ -3,6 +3,17 @@ import ConfigParser
 
 from kupfer import config, pretty, scheduler
 
+def strbool(value, default=False):
+	"""Coarce bool from string value or bool"""
+	if value in (True, False):
+		return value
+	value = str(value).lower()
+	if value in ("no", "false"):
+		return False
+	if value in ("yes", "true"):
+		return True
+	return default
+
 class SettingsController (pretty.OutputMixin):
 	config_filename = "kupfer.cfg"
 	defaults_filename = "defaults.cfg"
@@ -109,7 +120,6 @@ class SettingsController (pretty.OutputMixin):
 		out = open(config_path, "w")
 		parser.write(out)
 
-
 	def get_config(self, section, key):
 		"""General interface, but section must exist"""
 		key = key.lower()
@@ -137,15 +147,29 @@ class SettingsController (pretty.OutputMixin):
 		value = self._config[section].get(key)
 		return value
 
+	def _set_raw_config(self, section, key, value):
+		"""General interface, but will create section"""
+		self.output_debug("Set", section, key, "to", value)
+		key = key.lower()
+		if section not in self._config:
+			self._config[section] = {}
+		self._config[section][key] = str(value)
+		return False
+
 	def get_plugin_enabled(self, plugin_id):
 		"""Convenience: if @plugin_id is enabled"""
 		return self.get_plugin_config(plugin_id, "kupfer_enabled",
-				value_type=bool, default=False)
+				value_type=strbool, default=False)
+
+	def set_plugin_enabled(self, plugin_id, enabled):
+		"""Convenience: set if @plugin_id is enabled"""
+		return self.set_plugin_config(plugin_id, "kupfer_enabled", enabled,
+				value_type=strbool)
 
 	def get_plugin_is_catalog(self, plugin_id):
 		"""Convenience: if @plugin_id is catalog (or direct)"""
 		return self.get_plugin_config(plugin_id, "kupfer_catalog",
-				value_type=bool, default=False)
+				value_type=strbool, default=False)
 
 	def get_keybinding(self):
 		"""Convenience: Kupfer keybinding as string"""
@@ -178,8 +202,14 @@ class SettingsController (pretty.OutputMixin):
 			self.output_info("Error for stored value %s.%s" %
 					(plug_section, key), err)
 			return default
-		self.output_debug("%s.%s = %s" % (plug_section, key, val))
 		return val
+
+	def set_plugin_config(self, plugin, key, value, value_type=str):
+		"""Try set @key for plugin names @plugin, coerce to @value_type
+		first.  """
+		plug_section = "plugin_%s" % plugin
+		self.output_debug("Set %s.%s = %s" % (plug_section, key, value))
+		return self._set_raw_config(plug_section, key, value_type(value))
 
 _settings_controller = None
 def GetSettingsController():
