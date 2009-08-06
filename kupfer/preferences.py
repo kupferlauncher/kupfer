@@ -26,6 +26,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.buttonkeybinding = builder.get_object("buttonkeybinding")
 		self.imagekeybindingaux = builder.get_object("imagekeybindingaux")
 		self.labelkeybindingaux = builder.get_object("labelkeybindingaux")
+		self.buttonpluginabout = builder.get_object("buttonpluginabout")
+		self.buttonpluginsettings = builder.get_object("buttonpluginsettings")
 		checkstatusicon = builder.get_object("checkstatusicon")
 
 		setctl = settings.GetSettingsController()
@@ -45,6 +47,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table = gtk.TreeView(self.store)
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
+		self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
 
 		checkcell = gtk.CellRendererToggle()
 		checkcol = gtk.TreeViewColumn("item", checkcell)
@@ -69,9 +72,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		#self.table.append_column(icon_col)
 		self.table.append_column(col)
 
-		plugin_info = plugins.get_plugin_info()
-		for info in utils.locale_sort(plugin_info,
-				key= lambda rec: rec["localized_name"]):
+		self.plugin_info = utils.locale_sort(plugins.get_plugin_info(),
+				key= lambda rec: rec["localized_name"])
+		for info in self.plugin_info:
 			plugin_id = info["name"]
 			if setctl.get_plugin_is_hidden(plugin_id):
 				continue
@@ -113,15 +116,105 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 	def on_checkplugin_toggled(self, cell, path):
-		it = self.store.get_iter(path)
-		id_col = self.columns.index("plugin_id")
 		checkcol = self.columns.index("enabled")
-		plugin_id = self.store.get_value(it, id_col)
+		plugin_id = self._id_for_table_path(path)
+		it = self.store.get_iter(path)
 		plugin_is_enabled = not self.store.get_value(it, checkcol)
 		self.store.set_value(it, checkcol, plugin_is_enabled)
 		setctl = settings.GetSettingsController()
 		setctl.set_plugin_enabled(plugin_id, plugin_is_enabled)
 
+	def _id_for_table_path(self, path):
+		it = self.store.get_iter(path)
+		id_col = self.columns.index("plugin_id")
+		plugin_id = self.store.get_value(it, id_col)
+		return plugin_id
+	def _plugin_info_for_id(self, plugin_id):
+		for info in self.plugin_info:
+			if info["name"] == plugin_id:
+				return info
+		return None
+
+	def plugin_table_cursor_changed(self, table):
+		curpath, curcol = table.get_cursor()
+		if not curpath:
+			self.buttonpluginabout.set_sensitive(False)
+			return
+		plugin_id = self._id_for_table_path(curpath)
+		self.buttonpluginabout.set_sensitive(True)
+		sett = plugins.get_plugin_attribute(plugin_id,
+				plugins.settings_attribute)
+		if sett:
+			self.buttonpluginsettings.set_sensitive(True)
+		else:
+			self.buttonpluginsettings.set_sensitive(False)
+
+	def on_buttonpluginabout_clicked(self, widget):
+		curpath, curcol = self.table.get_cursor()
+		if not curpath:
+			return
+		plugin_id = self._id_for_table_path(curpath)
+		about = gtk.AboutDialog()
+		info = self._plugin_info_for_id(plugin_id)
+		about.set_title(info["localized_name"])
+		about.set_program_name(info["localized_name"])
+		version, description, author = plugins.get_plugin_attributes(plugin_id,
+				( "__version__", "__description__", "__author__", ))
+		about.set_version(version)
+		about.set_comments(description)
+		about.set_copyright(author)
+		# extra info hack; find the vbox in the about dialog
+		child = about.get_child()
+		if isinstance(child, gtk.VBox):
+			wid = self._make_plugin_info_widget(plugin_id)
+			child.pack_start(wid)
+
+		about.show()
+		about.connect("response", lambda widget, response: widget.destroy())
+
+	def _make_plugin_info_widget(self, plugin_id):
+		version, description, author, sources, actions, text_sources = \
+				plugins.get_plugin_attributes(plugin_id, (
+				"__version__",
+				"__description__",
+				"__author__", 
+				plugins.sources_attribute,
+				plugins.action_decorators_attribute,
+				plugins.text_sources_attribute)
+				)
+		all_items = list()
+		vbox = gtk.VBox()
+		vbox.set_property("spacing", 3)
+		for itms in sources, text_sources, actions:
+			if itms: all_items.extend(itms)
+		if all_items:
+			header_label = gtk.Label()
+			# TRANS: plugin provides list header
+			header_label.set_markup(_("<b>Provides:</b>"))
+			vbox.pack_start(header_label, False, True)
+		for item in all_items:
+			plugin_type = plugins.get_plugin_attribute(plugin_id, item)
+			if not plugin_type:
+				continue
+			hbox = gtk.HBox()
+			hbox.set_property("spacing", 3)
+			obj = plugin_type()
+			name = unicode(obj)
+			desc = obj.get_description() or u""
+			gicon = obj.get_icon()
+			im = gtk.Image()
+			im.set_property("gicon", gicon)
+			im.set_property("pixel-size", 32)
+			hbox.pack_start(im, False)
+			name_label = u"<b>%s</b>\n<small>%s</small>" % (name, desc)
+			label = gtk.Label()
+			label.set_markup(name_label)
+			hbox.pack_start(label, False)
+			vbox.pack_start(hbox)
+		vbox.show_all()
+		return vbox
+	def on_buttonpluginsettings_clicked(self, widget):
+		pass
 	def show(self):
 		self.window.show()
 	def hide(self):
