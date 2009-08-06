@@ -180,6 +180,10 @@ class SettingsController (pretty.OutputMixin):
 		"""Convenience: Kupfer keybinding as string"""
 		return self.get_config("Kupfer", "keybinding")
 
+	def set_keybinding(self, keystr):
+		"""Convenience: Set Kupfer keybinding as string"""
+		return self._set_config("Kupfer", "keybinding", keystr)
+
 	def get_show_status_icon(self):
 		"""Convenience: Show icon in notification area as bool"""
 		return (self.get_config("Kupfer", "showstatusicon").lower()
