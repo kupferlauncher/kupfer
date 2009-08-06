@@ -140,8 +140,13 @@ class SettingsController (pretty.OutputMixin):
 
 	def get_plugin_enabled(self, plugin_id):
 		"""Convenience: if @plugin_id is enabled"""
-		return (plugin_id in self.get_config("Plugins", "Direct") or
-			plugin_id in self.get_config("Plugins", "Catalog"))
+		return self.get_plugin_config(plugin_id, "kupfer_enabled",
+				value_type=bool, default=False)
+
+	def get_plugin_is_catalog(self, plugin_id):
+		"""Convenience: if @plugin_id is catalog (or direct)"""
+		return self.get_plugin_config(plugin_id, "kupfer_catalog",
+				value_type=bool, default=False)
 
 	def get_keybinding(self):
 		"""Convenience: Kupfer keybinding as string"""
