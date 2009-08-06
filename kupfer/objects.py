@@ -17,9 +17,9 @@ import locale
 import gobject
 import gio
 
-from . import icons
-from . import pretty
-from . import utils, launch
+from kupfer import pretty
+from kupfer import icons, launch, utils
+from kupfer.utils import locale_sort
 
 class Error (Exception):
 	pass
@@ -55,13 +55,6 @@ def toutf8(ustr):
 	if isinstance(ustr, str):
 		return ustr
 	return ustr.encode("UTF-8", "replace")
-
-def locale_sort(seq):
-	"""Return @seq of KupferObjects as a list sorted in locale lexical order"""
-	locale_cmp = lambda s, o: locale.strcoll(unicode(s), unicode(o))
-	seq = aslist(seq)
-	seq.sort(cmp=locale_cmp)
-	return seq
 
 class KupferObject (object):
 	"""

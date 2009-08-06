@@ -1,4 +1,5 @@
 from os import path
+import locale
 
 from kupfer import pretty
 
@@ -42,6 +43,14 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 			dirnames.remove(dir)
 
 	return paths
+
+def locale_sort(seq, key=unicode):
+	"""Return @seq of objects with @key function as a list sorted
+	in locale lexical order"""
+	locale_cmp = lambda s, o: locale.strcoll(key(s), key(o))
+	seq = seq if isinstance(seq, list) else list(seq)
+	seq.sort(cmp=locale_cmp)
+	return seq
 
 def spawn_async(argv, in_dir=None):
 	import gobject
