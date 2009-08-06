@@ -217,7 +217,6 @@ class SettingsController (pretty.OutputMixin):
 		"""Try set @key for plugin names @plugin, coerce to @value_type
 		first.  """
 		plug_section = "plugin_%s" % plugin
-		self.output_debug("Set %s.%s = %s" % (plug_section, key, value))
 		return self._set_raw_config(plug_section, key, value_type(value))
 
 _settings_controller = None
