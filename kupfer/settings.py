@@ -93,6 +93,18 @@ class SettingsController (pretty.OutputMixin):
 		else:
 			self.output_info("Settings key", section, key, "is invalid")
 
+	def _set_config(self, section, key, value):
+		"""General interface, but section must exist"""
+		self.output_debug("Set", section, key, "to", value)
+		key = key.lower()
+		oldvalue = self._config[section].get(key)
+		if section in self.defaults and key in self.defaults[section]:
+			value_type = type(oldvalue)
+			self._config[section][key] = value_type(value)
+			return True
+		self.output_info("Settings key", section, key, "is invalid")
+		return False
+
 	def _get_raw_config(self, section, key):
 		"""General interface, but section must exist"""
 		key = key.lower()
@@ -112,6 +124,9 @@ class SettingsController (pretty.OutputMixin):
 		"""Convenience: Show icon in notification area as bool"""
 		return (self.get_config("Kupfer", "showstatusicon").lower()
 				in ("true", "yes"))
+	def set_show_status_icon(self, enabled):
+		"""Set config value and return success"""
+		return self._set_config("Kupfer", "showstatusicon", enabled)
 
 	def get_plugin_config(self, plugin, key, value_type=str):
 		"""Return setting @key for plugin names @plugin, try
