@@ -160,22 +160,25 @@ class SettingsController (pretty.OutputMixin):
 		"""Set config value and return success"""
 		return self._set_config("Kupfer", "showstatusicon", enabled)
 
-	def get_plugin_config(self, plugin, key, value_type=str):
+	def get_plugin_config(self, plugin, key, value_type=str, default=None):
 		"""Return setting @key for plugin names @plugin, try
 		to coerce to type @value_type.
-		Else return None if does not exist, or can't be coerced
+		Else return @default if does not exist, or can't be coerced
 		"""
 		plug_section = "plugin_%s" % plugin
 		if not plug_section in self._config:
-			return None
+			return default
 		val = self._get_raw_config(plug_section, key)
+
+		if val is None:
+			return default
 
 		try:
 			val = value_type(val)
 		except ValueError, err:
 			self.output_info("Error for stored value %s.%s" %
 					(plug_section, key), err)
-			return None
+			return default
 		self.output_debug("%s.%s = %s" % (plug_section, key, val))
 		return val
 
