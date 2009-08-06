@@ -3,6 +3,7 @@ import gobject
 import pango
 
 from kupfer import config, plugins, pretty, settings, utils
+from kupfer import keybindings
 
 class PreferencesWindowController (pretty.OutputMixin):
 	def __init__(self):
@@ -94,6 +95,20 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_buttonkeybinding_clicked(self, widget):
 		keystr = self.entrykeybinding.get_text()
 		self.output_debug("Try set keybinding with", keystr)
+		succ = keybindings.bind_key(keystr)
+		if succ:
+			self.imagekeybindingaux.set_property("stock", gtk.STOCK_APPLY)
+			self.labelkeybindingaux.set_text(_("Applied"))
+			self.buttonkeybinding.set_sensitive(False)
+		else:
+			self.imagekeybindingaux.set_property("stock",
+					gtk.STOCK_DIALOG_WARNING)
+			self.labelkeybindingaux.set_text(_("Keybinding could not be bound"))
+		self.imagekeybindingaux.show()
+		self.labelkeybindingaux.show()
+		if succ:
+			setctl = settings.GetSettingsController()
+			setctl.set_keybinding(keystr)
 
 	def on_closebutton_clicked(self, widget):
 		self.hide()
