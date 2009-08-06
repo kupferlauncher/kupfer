@@ -12,7 +12,6 @@ class SettingsController (pretty.OutputMixin):
 	# Read defaults defined in a defaults.cfg file
 	defaults = {
 		"Kupfer": { "keybinding" : "" , "showstatusicon" : "true" },
-		"Plugins": { "direct" : (), "catalog" : (), },
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 	}
