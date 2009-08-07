@@ -44,3 +44,7 @@ class PluginSettings (pretty.OutputMixin):
 	def __setitem__(self, key, value):
 		value_type = self.setting_descriptions[key]["type"]
 		self.setting_descriptions[key]["value"] = value_type(value)
+	def get_value_type(self, key):
+		return self.setting_descriptions[key]["type"]
+	def get_label(self, key):
+		return self.setting_descriptions[key]["label"]
