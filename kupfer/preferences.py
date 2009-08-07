@@ -184,33 +184,48 @@ class PreferencesWindowController (pretty.OutputMixin):
 				)
 		all_items = list()
 		vbox = gtk.VBox()
-		vbox.set_property("spacing", 3)
-		for itms in sources, text_sources, actions:
-			if itms: all_items.extend(itms)
-		if all_items:
-			header_label = gtk.Label()
-			# TRANS: plugin provides list header
-			header_label.set_markup(_("<b>Provides:</b>"))
-			vbox.pack_start(header_label, False, True)
-		for item in all_items:
-			plugin_type = plugins.get_plugin_attribute(plugin_id, item)
-			if not plugin_type:
-				continue
-			hbox = gtk.HBox()
-			hbox.set_property("spacing", 3)
-			obj = plugin_type()
-			name = unicode(obj)
-			desc = obj.get_description() or u""
-			gicon = obj.get_icon()
-			im = gtk.Image()
-			im.set_property("gicon", gicon)
-			im.set_property("pixel-size", 32)
-			hbox.pack_start(im, False)
-			name_label = u"<b>%s</b>\n<small>%s</small>" % (name, desc)
-			label = gtk.Label()
-			label.set_markup(name_label)
-			hbox.pack_start(label, False)
-			vbox.pack_start(hbox)
+		vbox.set_property("spacing", 5)
+		def make_objects_frame(objs, title):
+			frame = gtk.Frame()
+			frame_label = gtk.Label()
+			frame_label.set_markup(u"<b>%s</b>" % title)
+			frame.set_property("label-widget", frame_label)
+			frame.set_property("shadow-type", gtk.SHADOW_NONE)
+			objvbox = gtk.VBox()
+			objvbox.set_property("border-width", 3)
+			objvbox.set_property("spacing", 3)
+			for item in objs:
+				plugin_type = plugins.get_plugin_attribute(plugin_id, item)
+				if not plugin_type:
+					continue
+				hbox = gtk.HBox()
+				hbox.set_property("spacing", 3)
+				obj = plugin_type()
+				name = unicode(obj)
+				desc = obj.get_description() or u""
+				gicon = obj.get_icon()
+				im = gtk.Image()
+				im.set_property("gicon", gicon)
+				im.set_property("pixel-size", 32)
+				hbox.pack_start(im, False)
+				name_label = u"%s\n<small>%s</small>" % (name, desc)
+				label = gtk.Label()
+				label.set_markup(name_label)
+				hbox.pack_start(label, False)
+				objvbox.pack_start(hbox)
+			frame.add(objvbox)
+			return frame
+
+		sources = list(sources or ()) + list(text_sources or ())
+		if sources:
+			# TRANS: Plugin contents header
+			swid = make_objects_frame(sources, _("Sources"))
+			vbox.pack_start(swid)
+		if actions:
+			# TRANS: Plugin contents header
+			awid = make_objects_frame(actions, _("Actions"))
+			vbox.pack_start(awid)
+
 		vbox.show_all()
 		return vbox
 	def on_buttonpluginsettings_clicked(self, widget):
