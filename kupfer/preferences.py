@@ -228,8 +228,79 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		vbox.show_all()
 		return vbox
+
+	def _get_plugin_change_callback(self, plugin_id, key, value_type,
+			get_attr, no_false_values=False):
+		"""Callback factory for the plugin parameter configuration"""
+		def callback(widget):
+			value = getattr(widget, get_attr)()
+			if no_false_values and not value:
+				return
+			setctl = settings.GetSettingsController()
+			setctl.set_plugin_config(plugin_id, key, value, value_type)
+		return callback
+
 	def on_buttonpluginsettings_clicked(self, widget):
-		pass
+		curpath, curcol = self.table.get_cursor()
+		if not curpath:
+			return
+		plugin_id = self._id_for_table_path(curpath)
+		plugin_settings = plugins.get_plugin_attribute(plugin_id,
+				plugins.settings_attribute)
+		if not plugin_settings:
+			return
+		win = gtk.Window()
+		info = self._plugin_info_for_id(plugin_id)
+		win.set_title(_("Settings for %s") % info["localized_name"])
+		win.set_position(gtk.WIN_POS_CENTER)
+		win.set_resizable(False)
+
+		vbox = gtk.VBox()
+		vbox.set_property("border-width", 10)
+		vbox.set_property("spacing", 10)
+		for setting in plugin_settings:
+			typ = plugin_settings.get_value_type(setting)
+			wid = None
+			hbox = gtk.HBox()
+			hbox.set_property("spacing", 10)
+			label = plugin_settings.get_label(setting)
+			label_wid = gtk.Label(label)
+			if issubclass(typ, str):
+				wid = gtk.Entry()
+				wid.set_text(plugin_settings[setting])
+				hbox.pack_start(label_wid, False)
+				hbox.pack_start(wid, True)
+				wid.connect("changed", self._get_plugin_change_callback(
+					plugin_id, setting, typ, "get_text", no_false_values=True))
+
+			elif issubclass(typ, bool):
+				wid = gtk.CheckButton(label)
+				wid.set_active(plugin_settings[setting])
+				hbox.pack_start(wid, False)
+				wid.connect("toggled", self._get_plugin_change_callback(
+					plugin_id, setting, typ, "get_active"))
+			elif issubclass(typ, int):
+				wid = gtk.SpinButton()
+				wid.set_increments(1, 1)
+				wid.set_range(0, 1000)
+				wid.set_value(plugin_settings[setting])
+				hbox.pack_start(label_wid, False, True)
+				hbox.pack_start(wid, False)
+				wid.connect("changed", self._get_plugin_change_callback(
+					plugin_id, setting, typ, "get_text", no_false_values=True))
+			vbox.pack_start(hbox, False)
+
+		box = gtk.HButtonBox()
+		box.set_layout(gtk.BUTTONBOX_END)
+		but = gtk.Button(gtk.STOCK_CLOSE)
+		but.set_use_stock(True)
+		but.connect("clicked", lambda *ignored: win.destroy())
+		box.pack_start(but)
+		vbox.pack_start(box)
+		vbox.show_all()
+		win.add(vbox)
+		win.show()
+
 	def show(self):
 		self.window.show()
 	def hide(self):
