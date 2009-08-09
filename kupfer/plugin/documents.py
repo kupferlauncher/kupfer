@@ -6,7 +6,7 @@ from gtk import recent_manager_get_default
 from kupfer.objects import (Leaf, Action, Source,
 		AppLeaf, FileLeaf, UrlLeaf, PicklingHelperMixin )
 from kupfer import objects, plugin_support
-from kupfer import launch
+from kupfer import launch, icons
 
 __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
@@ -102,6 +102,9 @@ class ApplicationRecentsSource (RecentsSource):
 			return True
 		return False
 
+	def get_gicon(self):
+		return icons.ComposedIcon(self.get_icon_name(),
+				self.application.get_icon())
 	def get_description(self):
 		return _("Recently used documents for %s") % unicode(self.application)
 
