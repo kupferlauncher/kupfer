@@ -84,7 +84,7 @@ class RecentsSource (Source, PicklingHelperMixin):
 
 class ApplicationRecentsSource (RecentsSource):
 	def __init__(self, application):
-		name = _("Recent documents for %s") % unicode(application)
+		name = _("%s documents") % unicode(application)
 		super(ApplicationRecentsSource, self).__init__(name)
 		self.application = application
 
