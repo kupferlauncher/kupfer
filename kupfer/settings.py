@@ -1,5 +1,6 @@
 import os, sys
 import ConfigParser
+import copy
 
 import gobject
 
@@ -35,7 +36,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		# connect to save settings
 		sch = scheduler.GetScheduler()
 		sch.connect("finish", self._save_config)
-	def _read_config(self):
+	def _read_config(self, read_config=True):
 		"""
 		Read cascading config files
 		default -> then config
@@ -55,7 +56,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 					parser.set(secname, key, default)
 
 		# Set up defaults
-		confmap = dict(self.defaults)
+		confmap = copy.deepcopy(self.defaults)
 		fill_parser(parser, confmap)
 
 		# Read all config files
@@ -69,9 +70,10 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		else:
 			config_files += (defaults_path, )
 
-		config_path = config.get_config_file(self.config_filename)
-		if config_path:
-			config_files += (config_path, )
+		if read_config:
+			config_path = config.get_config_file(self.config_filename)
+			if config_path:
+				config_files += (config_path, )
 
 		for config_file in config_files:
 			try:
@@ -107,6 +109,26 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if not config_path:
 			self.output_info("Unable to save settings, can't find config dir")
 			return
+		# read in just the default values
+		default_confmap = self._read_config(read_config=False)
+
+		def confmap_difference(config, defaults):
+			"""Extract the non-default keys to write out"""
+			difference = dict()
+			for secname, section in config.items():
+				if secname not in defaults:
+					difference[secname] = dict(section)
+					continue
+				difference[secname] = {}
+				for key, config_val in section.items():
+					if (secname in defaults and
+							key in defaults[secname]):
+						if defaults[secname][key] == config_val:
+							continue
+					difference[secname][key] = config_val
+				if not difference[secname]:
+					del difference[secname]
+			return difference
 
 		parser = ConfigParser.SafeConfigParser()
 		def fill_parser(parser, defaults):
@@ -118,9 +140,11 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 						default = self.sep.join(default)
 					elif isinstance(default, int):
 						default = str(default)
+					print secname, key, default
 					parser.set(secname, key, default)
 
-		fill_parser(parser, self._config)
+		confmap = confmap_difference(self._config, default_confmap)
+		fill_parser(parser, confmap)
 		out = open(config_path, "w")
 		parser.write(out)
 
