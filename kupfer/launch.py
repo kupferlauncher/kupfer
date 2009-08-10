@@ -177,6 +177,11 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			return False
 		return True
 
+	def application_name(self, app_id):
+		if not self._has_match(app_id):
+			return None
+		return self.register[app_id]
+
 	def application_is_running(self, app_id):
 		if not self._has_match(app_id):
 			return False
