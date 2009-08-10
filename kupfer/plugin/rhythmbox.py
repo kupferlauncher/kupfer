@@ -13,14 +13,38 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 def _tostr(ustr):
 	return ustr.encode("UTF-8")
 
+def play_song(info):
+	uri = _tostr(info["location"])
+	utils.spawn_async(("rhythmbox-client", "--play-uri=%s" % uri))
+def enqueue_songs(info, clear_queue=False):
+	songs = list(info)
+	if not songs:
+		return
+	qargv = ["rhythmbox-client"]
+	if clear_queue:
+		qargv.append("--clear-queue")
+	for song in songs:
+		uri = _tostr(song["location"])
+		gfile = gio.File(uri)
+		path = gfile.get_path()
+		qargv.append("--enqueue")
+		qargv.append(path)
+	utils.spawn_async(qargv)
+
 class Play (Action):
 	rank_adjust = 5
 	def __init__(self):
 		Action.__init__(self, _("Play"))
 	def activate(self, leaf):
 		if isinstance(leaf, SongLeaf):
-			uri = _tostr(leaf.object["location"])
-			utils.spawn_async(("rhythmbox-client", "--play-uri=%s" % uri))
+			play_song(leaf.object)
+		if isinstance(leaf, AlbumLeaf):
+			songs = list(leaf.object)
+			if not songs:
+				return
+			# play first, enqueue others
+			play_song(songs[0])
+			enqueue_songs(songs[1:], clear_queue=True)
 
 	def get_icon_name(self):
 		return "media-playback-start"
@@ -30,10 +54,13 @@ class Enqueue (Action):
 		Action.__init__(self, _("Enqueue"))
 	def activate(self, leaf):
 		if isinstance(leaf, SongLeaf):
-			uri = _tostr(leaf.object["location"])
-			gfile = gio.File(uri)
-			path = gfile.get_path()
-			utils.spawn_async(("rhythmbox-client", "--enqueue", path))
+			enqueue_songs((leaf.object, ))
+		if isinstance(leaf, AlbumLeaf):
+			songs = list(leaf.object)
+			if not songs:
+				return
+			enqueue_songs(songs)
+
 	def get_description(self):
 		return _("Put song in the queue")
 	def get_gicon(self):
@@ -67,6 +94,9 @@ class AlbumSource (Source):
 class AlbumLeaf (Leaf):
 	def __init__(self, name, info):
 		Leaf.__init__(self, info, name)
+	def get_actions(self):
+		yield Play()
+		yield Enqueue()
 	def has_content(self):
 		return True
 	def content_source(self, alternate=False):
