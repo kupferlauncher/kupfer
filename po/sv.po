@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-10 06:20+0200\n"
+"POT-Creation-Date: 2009-08-11 00:26+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -46,7 +46,7 @@ msgstr "Kataloger"
 msgid "General"
 msgstr "Allmänt"
 
-#: ../data/preferences.ui.h:6 ../kupfer/plugin/common.py:102
+#: ../data/preferences.ui.h:6 ../kupfer/plugin/common.py:106
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
 
@@ -126,181 +126,181 @@ msgstr ""
 "\t%(website)s\n"
 "\t"
 
-#: ../kupfer/objects.py:220
+#: ../kupfer/objects.py:224
 msgid "No matches"
 msgstr "Inga träffar"
 
-#: ../kupfer/objects.py:424
+#: ../kupfer/objects.py:433
 #, python-format
 msgid "%(description)s (%(exec)s)"
 msgstr "%(description)s (%(exec)s)"
 
-#: ../kupfer/objects.py:540 ../kupfer/objects.py:588 ../kupfer/objects.py:603
+#: ../kupfer/objects.py:549 ../kupfer/objects.py:597 ../kupfer/objects.py:612
 msgid "Open"
 msgstr "Öppna"
 
-#: ../kupfer/objects.py:540 ../kupfer/objects.py:555
+#: ../kupfer/objects.py:549 ../kupfer/objects.py:564
 #, python-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: ../kupfer/objects.py:553
+#: ../kupfer/objects.py:562
 #, python-format
 msgid "Open with %s (default)"
 msgstr "Öppna med %s (standardval)"
 
-#: ../kupfer/objects.py:569
+#: ../kupfer/objects.py:578
 msgid "Open URL"
 msgstr "Öppna URL"
 
-#: ../kupfer/objects.py:580
+#: ../kupfer/objects.py:589
 msgid "Open URL with default viewer"
 msgstr "Öppna URL med standardprogram"
 
-#: ../kupfer/objects.py:595
+#: ../kupfer/objects.py:604
 msgid "Open with default viewer"
 msgstr "Öppna med standardprogram"
 
-#: ../kupfer/objects.py:606
+#: ../kupfer/objects.py:615
 msgid "Open folder"
 msgstr "Öppna mapp"
 
-#: ../kupfer/objects.py:612
+#: ../kupfer/objects.py:621
 msgid "Reveal"
 msgstr "Visa"
 
-#: ../kupfer/objects.py:621
+#: ../kupfer/objects.py:630
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: ../kupfer/objects.py:627
+#: ../kupfer/objects.py:636
 msgid "Open Terminal here"
 msgstr "Öppna i terminalfönster"
 
-#: ../kupfer/objects.py:635
+#: ../kupfer/objects.py:644
 msgid "Open this location in a terminal"
 msgstr "Öppna platsen i terminalfönster"
 
-#: ../kupfer/objects.py:648
+#: ../kupfer/objects.py:657
 msgid "Launch"
 msgstr "Starta"
 
-#: ../kupfer/objects.py:658
+#: ../kupfer/objects.py:667
 msgid "Launch application"
 msgstr "Starta program"
 
-#: ../kupfer/objects.py:665 ../kupfer/plugin/windows.py:48
+#: ../kupfer/objects.py:674 ../kupfer/plugin/windows.py:48
 msgid "Go to"
 msgstr "Gå till"
 
-#: ../kupfer/objects.py:669
+#: ../kupfer/objects.py:678
 msgid "Show application window"
 msgstr "Visa programfönster"
 
-#: ../kupfer/objects.py:678
+#: ../kupfer/objects.py:687
 msgid "Launch again"
 msgstr "Starta igen"
 
-#: ../kupfer/objects.py:682
+#: ../kupfer/objects.py:691
 msgid "Launch another instance of this application"
 msgstr "Starta programmet igen"
 
-#: ../kupfer/objects.py:689
+#: ../kupfer/objects.py:698
 msgid "Run in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: ../kupfer/objects.py:689
+#: ../kupfer/objects.py:698
 msgid "Run"
 msgstr "Kör"
 
-#: ../kupfer/objects.py:700
+#: ../kupfer/objects.py:709
 msgid "Run this program in a Terminal"
 msgstr "Kör programmet i terminalfönster"
 
-#: ../kupfer/objects.py:702
+#: ../kupfer/objects.py:711
 msgid "Run this program"
 msgstr "Kör programmet"
 
-#: ../kupfer/objects.py:711
-msgid "Search content..."
-msgstr "Sök i..."
-
-#: ../kupfer/objects.py:722
-msgid "Search inside this catalog"
-msgstr "Sök bland objekt i katalogen"
-
-#: ../kupfer/objects.py:732
+#: ../kupfer/objects.py:718
 msgid "Rescan"
 msgstr "Uppdatera"
 
-#: ../kupfer/objects.py:745
+#: ../kupfer/objects.py:731
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
-#: ../kupfer/objects.py:756
+#: ../kupfer/objects.py:742
 msgid "No action"
 msgstr "Inget kommando"
 
-#: ../kupfer/objects.py:866
+#: ../kupfer/objects.py:852
 #, python-format
 msgid "%s et al"
 msgstr "%s et al"
 
-#: ../kupfer/objects.py:892
+#: ../kupfer/objects.py:878
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: ../kupfer/objects.py:959
+#: ../kupfer/objects.py:945
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: ../kupfer/objects.py:975
+#: ../kupfer/objects.py:961
 msgid "Catalog index"
 msgstr "Katalogindex"
 
-#: ../kupfer/objects.py:988
+#: ../kupfer/objects.py:974
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: ../kupfer/objects.py:999
+#: ../kupfer/objects.py:985
 msgid "Catalog"
 msgstr "Katalog"
 
-#: ../kupfer/objects.py:1018
+#: ../kupfer/objects.py:1004
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
+#: ../kupfer/objects.py:1039
+msgid "Do"
+msgstr "Utför"
+
+#: ../kupfer/objects.py:1044
+msgid "Perform action"
+msgstr "Utför kommando"
+
 #. TRANS: This is description for a TextLeaf, a free-text search
-#: ../kupfer/objects.py:1051
+#: ../kupfer/objects.py:1059
 #, python-format
 msgid "\"%s\""
 msgstr "\"%s\""
 
-#: ../kupfer/objects.py:1062 ../kupfer/plugin/text.py:18
+#: ../kupfer/objects.py:1070 ../kupfer/plugin/text.py:18
 msgid "Text matches"
 msgstr "Fritextträffar"
 
-#: ../kupfer/preferences.py:104
+#: ../kupfer/preferences.py:111
 msgid "Applied"
 msgstr "Verkställt"
 
-#: ../kupfer/preferences.py:109
+#: ../kupfer/preferences.py:116
 msgid "Keybinding could not be bound"
 msgstr "Snabbtangenten kunde inte bindas"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:222
+#: ../kupfer/preferences.py:229
 msgid "Sources"
 msgstr "Källor"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:226
+#: ../kupfer/preferences.py:233
 msgid "Actions"
 msgstr "Kommandon"
 
-#: ../kupfer/preferences.py:254
+#: ../kupfer/preferences.py:261
 #, python-format
 msgid "Settings for %s"
 msgstr "Inställningar för \"%s\""
@@ -321,8 +321,8 @@ msgstr "Öppna med..."
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
 
-#: ../kupfer/plugin/clipboard.py:8
-msgid "Clipboard"
+#: ../kupfer/plugin/clipboard.py:8 ../kupfer/plugin/clipboard.py:42
+msgid "Clipboards"
 msgstr "Urklipp"
 
 #: ../kupfer/plugin/clipboard.py:11 ../kupfer/plugin/clipboard.py:68
@@ -343,15 +343,11 @@ msgstr "%d rader"
 msgid "Clipboard with %s \"%s\""
 msgstr "Urklipp med %s \"%s\""
 
-#: ../kupfer/plugin/clipboard.py:42
-msgid "Clipboards"
-msgstr "Urklipp"
-
-#: ../kupfer/plugin/clipboard.py:77
+#: ../kupfer/plugin/clipboard.py:78
 msgid "Copy"
 msgstr "Kopiera"
 
-#: ../kupfer/plugin/clipboard.py:84
+#: ../kupfer/plugin/clipboard.py:85
 msgid "Copy to clipboard"
 msgstr "Kopiera till urklipp"
 
@@ -367,71 +363,79 @@ msgstr "Kör kommandoradsprogram"
 msgid "Core"
 msgstr "Bas"
 
-#: ../kupfer/plugin/common.py:10
+#: ../kupfer/plugin/common.py:12
 msgid "Core actions and miscellaneous items"
 msgstr "Grundläggande kommanon och övriga objekt"
 
-#: ../kupfer/plugin/common.py:28
-msgid "Do"
-msgstr "Utför"
+#: ../kupfer/plugin/common.py:22
+msgid "Search content..."
+msgstr "Sök i..."
 
-#: ../kupfer/plugin/common.py:33
-msgid "Perform action"
-msgstr "Utför kommando"
+#: ../kupfer/plugin/common.py:37
+msgid "Search inside this catalog"
+msgstr "Sök bland objekt i katalogen"
 
-#: ../kupfer/plugin/common.py:39
+#: ../kupfer/plugin/common.py:43
 msgid "Quit"
 msgstr "Avsluta"
 
-#: ../kupfer/plugin/common.py:44
+#: ../kupfer/plugin/common.py:48
 msgid "Quit Kupfer"
 msgstr "Avsluta Kupfer"
 
-#: ../kupfer/plugin/common.py:51 ../kupfer/plugin/common.py:54
-#: ../kupfer/plugin/common.py:56
+#: ../kupfer/plugin/common.py:55 ../kupfer/plugin/common.py:58
+#: ../kupfer/plugin/common.py:60
 msgid "Log out..."
 msgstr "Logga ut..."
 
-#: ../kupfer/plugin/common.py:58
+#: ../kupfer/plugin/common.py:62
 msgid "Log out or change user"
 msgstr "Logga ut eller byt användare"
 
-#: ../kupfer/plugin/common.py:65 ../kupfer/plugin/common.py:68
-#: ../kupfer/plugin/common.py:70
+#: ../kupfer/plugin/common.py:69 ../kupfer/plugin/common.py:72
+#: ../kupfer/plugin/common.py:74
 msgid "Shut down..."
 msgstr "Stäng av..."
 
-#: ../kupfer/plugin/common.py:73
+#: ../kupfer/plugin/common.py:77
 msgid "Shut down, restart or suspend computer"
 msgstr "Stäng av, starta om eller sätt datorn i vänteläge"
 
-#: ../kupfer/plugin/common.py:80 ../kupfer/plugin/common.py:83
+#: ../kupfer/plugin/common.py:84 ../kupfer/plugin/common.py:87
 msgid "Lock screen"
 msgstr "Lås skärmen"
 
-#: ../kupfer/plugin/common.py:85
+#: ../kupfer/plugin/common.py:89
 msgid "Enable screensaver and lock"
 msgstr "Aktivera skärmsläckaren och lås skärmen"
 
-#: ../kupfer/plugin/common.py:91
+#: ../kupfer/plugin/common.py:95
 msgid "About Kupfer"
 msgstr "Om Kupfer"
 
-#: ../kupfer/plugin/common.py:96
+#: ../kupfer/plugin/common.py:100
 msgid "Show information about Kupfer authors and license"
 msgstr "Visa information om Kupfers upphovsmän och licens"
 
-#: ../kupfer/plugin/common.py:109
+#: ../kupfer/plugin/common.py:113
 msgid "Show preferences window for Kupfer"
 msgstr "Visa Kupfers inställningsfönster"
 
-#: ../kupfer/plugin/common.py:138
+#: ../kupfer/plugin/common.py:142
 msgid "Special items"
 msgstr "Speciella objekt"
 
-#: ../kupfer/plugin/common.py:156
+#: ../kupfer/plugin/common.py:157
 msgid "Items and special actions"
 msgstr "Speciella objekt och övriga kommandon"
+
+#: ../kupfer/plugin/common.py:165
+msgid "Kupfer items"
+msgstr "Kupfer-objekt"
+
+#: ../kupfer/plugin/common.py:176
+msgid "Kupfer items and actions"
+msgstr "Kupfer-objekt och kommandon"
 
 #: ../kupfer/plugin/documents.py:11
 msgid "Documents"
@@ -542,6 +546,67 @@ msgstr "Sök med Google"
 #: ../kupfer/plugin/google.py:27
 msgid "Search for this term with Google"
 msgstr "Sök efter denna termen med Google"
+
+#: ../kupfer/plugin/rhythmbox.py:10 ../kupfer/plugin/rhythmbox.py:193
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:13 ../kupfer/plugin/rhythmbox.py:202
+msgid "Play and enqueue songs and browse the music library"
+msgstr "Spela spår och sök i musikbiblioteket"
+
+#: ../kupfer/plugin/rhythmbox.py:40 ../kupfer/plugin/rhythmbox.py:71
+msgid "Play"
+msgstr "Spela upp"
+
+#: ../kupfer/plugin/rhythmbox.py:44
+msgid "Resume playback in Rhythmbox"
+msgstr "Starta uppspelning i Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:50
+msgid "Pause"
+msgstr "Paus"
+
+#: ../kupfer/plugin/rhythmbox.py:54
+msgid "Pause playback in Rhythmbox"
+msgstr "Pausa uppspelning i Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:60
+msgid "Next"
+msgstr "Nästa"
+
+#: ../kupfer/plugin/rhythmbox.py:64
+msgid "Jump to next song in Rhythmbox"
+msgstr "Hoppa till nästa spår i Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:88
+msgid "Enqueue"
+msgstr "Köa"
+
+#: ../kupfer/plugin/rhythmbox.py:99
+msgid "Add tracks to the play queue"
+msgstr "Lägg till spår i spelkön"
+
+#. TRANS: Song description "by Artist"
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:114 ../kupfer/plugin/rhythmbox.py:148
+#, python-format
+msgid "by %s"
+msgstr "av %s"
+
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/plugin/rhythmbox.py:145
+#, python-format
+msgid "%s et. al."
+msgstr "%s et. al."
+
+#: ../kupfer/plugin/rhythmbox.py:173
+msgid "Rhythmbox Albums"
+msgstr "Rhythmbox-album"
+
+#: ../kupfer/plugin/rhythmbox.py:183
+msgid "Music albums"
+msgstr "Musikalbum"
 
 #: ../kupfer/plugin/screen.py:7 ../kupfer/plugin/screen.py:103
 msgid "GNU Screen"
@@ -718,32 +783,32 @@ msgstr "Fönster %(name)s på %(wkspc)s"
 msgid "Jump to this window's workspace and focus"
 msgstr "Gå till fönstrets arbetsyta och aktivera"
 
-#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:72
+#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:71
 msgid "Volumes and disks"
 msgstr "Volymer"
 
-#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:82
+#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:81
 msgid "Mounted volumes and disks"
 msgstr "Monterade volymer och löstagbara enheter"
 
-#: ../kupfer/plugin/volumes.py:33
+#: ../kupfer/plugin/volumes.py:32
 #, python-format
 msgid "Volume mounted at %s"
 msgstr "Volym monterad vid %s"
 
-#: ../kupfer/plugin/volumes.py:41
+#: ../kupfer/plugin/volumes.py:40
 msgid "Eject"
 msgstr "Mata ut"
 
-#: ../kupfer/plugin/volumes.py:51
+#: ../kupfer/plugin/volumes.py:50
 msgid "Unmount and eject this media"
 msgstr "Avmontera och mata ut media"
 
-#: ../kupfer/plugin/volumes.py:57
+#: ../kupfer/plugin/volumes.py:56
 msgid "Unmount"
 msgstr "Avmontera"
 
-#: ../kupfer/plugin/volumes.py:67
+#: ../kupfer/plugin/volumes.py:66
 msgid "Unmount this volume"
 msgstr "Avmontera volym"
 
@@ -785,11 +850,12 @@ msgstr ""
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
-#, fuzzy
+#~ msgid "Clipboard"
+#~ msgstr "Urklipp"
+
 #~ msgid "gtk-preferences"
 #~ msgstr "Inställningar för Kupfer"
 
-#, fuzzy
 #~ msgid "Recent documents for %s"
 #~ msgstr "Senast använda dokument"
 
