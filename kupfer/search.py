@@ -86,6 +86,8 @@ def score_objects(rankables, key):
 	for obj in rankables:
 		# Rank object
 		obj.rank += score(obj.value, key)*100
-		if obj.rank:
+		# Rank > 10 here is experimental, safe is
+		# obj.rank > 0
+		if obj.rank > 10:
 			yield obj
 
