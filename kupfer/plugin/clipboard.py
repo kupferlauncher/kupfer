@@ -5,7 +5,7 @@ import gtk
 from kupfer.objects import Source, Action, TextLeaf, Leaf, PicklingHelperMixin
 from kupfer import utils, plugin_support
 
-__kupfer_name__ = _("Clipboard")
+__kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource", )
 __kupfer_actions__ = ("CopyToClipboard", )
 __description__ = _("Recent clipboards")
