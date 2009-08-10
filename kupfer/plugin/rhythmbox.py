@@ -10,7 +10,7 @@ from kupfer.plugin import rhythmbox_support
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = ("RhythmboxSource", "RhythmboxAlbumsSource", )
 __kupfer_contents__ = ("RhythmboxSource", )
-__description__ = _("Rhythmbox")
+__description__ = _("Play and enqueue songs and browse the music library")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -41,7 +41,7 @@ class PlayRhythmbox (RunnableLeaf):
 	def run(self):
 		utils.spawn_async(("rhythmbox-client", "--play"))
 	def get_description(self):
-		return _("Play rhythmbox")
+		return _("Resume playback in Rhythmbox")
 	def get_icon_name(self):
 		return "media-playback-start"
 
@@ -51,7 +51,7 @@ class Next (RunnableLeaf):
 	def run(self):
 		utils.spawn_async(("rhythmbox-client", "--next"))
 	def get_description(self):
-		return _("Next song in rhythmbox")
+		return _("Jump to next song in Rhythmbox")
 	def get_icon_name(self):
 		return "media-skip-forward"
 
@@ -86,7 +86,7 @@ class Enqueue (Action):
 			enqueue_songs(songs)
 
 	def get_description(self):
-		return _("Put song in the queue")
+		return _("Add tracks to the play queue")
 	def get_gicon(self):
 		return icons.ComposedIcon("gtk-execute", "media-playback-start")
 	def get_icon_name(self):
@@ -100,8 +100,8 @@ class SongLeaf (Leaf):
 		yield Play()
 		yield Enqueue()
 	def get_description(self):
-		# TRANS: Song description
-		return _("%s by %s") % (unicode(self), self.artist)
+		# TRANS: Song description "by Artist"
+		return _("by %s") % (self.artist, )
 	def get_icon_name(self):
 		return "audio-x-generic"
 
@@ -134,8 +134,8 @@ class AlbumLeaf (Leaf):
 				# TRANS: Multiple artist description "Artist1 et. al. "
 				artist = _("%s et. al.") % artist
 				break
-		# TRANS: Album description
-		return _("%s by %s") % (unicode(self), artist)
+		# TRANS: Album description "by Artist"
+		return _("by %s") % (artist, )
 	def get_thumbnail(self, width, height):
 		if not hasattr(self, "cover_file"):
 			ltitle = unicode(self).lower()
@@ -170,8 +170,7 @@ class RhythmboxAlbumsSource (Source):
 		return True
 
 	def get_description(self):
-		return _("Albums")
-
+		return _("Music albums")
 	def get_gicon(self):
 		return icons.ComposedIcon("rhythmbox", "media-optical")
 	def get_icon_name(self):
@@ -190,7 +189,7 @@ class RhythmboxSource (Source):
 		yield SourceLeaf(RhythmboxAlbumsSource())
 
 	def get_description(self):
-		return _("Rhythmbox action and its library")
+		return _("Play and enqueue songs and browse the music library")
 	def get_icon_name(self):
 		return "rhythmbox"
 	def provides(self):
