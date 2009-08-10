@@ -1,6 +1,8 @@
 import os, sys
 import ConfigParser
 
+import gobject
+
 from kupfer import config, pretty, scheduler
 
 def strbool(value, default=False):
@@ -14,7 +16,8 @@ def strbool(value, default=False):
 		return True
 	return default
 
-class SettingsController (pretty.OutputMixin):
+class SettingsController (gobject.GObject, pretty.OutputMixin):
+	__gtype_name__ = "SettingsController"
 	config_filename = "kupfer.cfg"
 	defaults_filename = "defaults.cfg"
 	sep = ";"
@@ -27,6 +30,7 @@ class SettingsController (pretty.OutputMixin):
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 	}
 	def __init__(self):
+		gobject.GObject.__init__(self)
 		self._config = self._read_config()
 		# connect to save settings
 		sch = scheduler.GetScheduler()
@@ -137,6 +141,7 @@ class SettingsController (pretty.OutputMixin):
 		if section in self.defaults and key in self.defaults[section]:
 			value_type = type(oldvalue)
 			self._config[section][key] = value_type(value)
+			self.emit("value-changed", section, key, value)
 			return True
 		self.output_info("Settings key", section, key, "is invalid")
 		return False
@@ -217,7 +222,13 @@ class SettingsController (pretty.OutputMixin):
 		"""Try set @key for plugin names @plugin, coerce to @value_type
 		first.  """
 		plug_section = "plugin_%s" % plugin
+		self.emit("value-changed", plug_section, key, value)
 		return self._set_raw_config(plug_section, key, value_type(value))
+
+# Section, Key, Value
+gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,
+	gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING,
+		gobject.TYPE_PYOBJECT))
 
 _settings_controller = None
 def GetSettingsController():
