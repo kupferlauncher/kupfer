@@ -384,7 +384,7 @@ class SourceLeaf (Leaf):
 	def get_icon_name(self):
 		return self.object.get_icon_name()
 
-class AppLeaf (Leaf, PicklingHelperMixin):
+class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 	def __init__(self, item=None, path=None, item_id=None):
 		self.init_item = item
 		self.init_path = path
@@ -399,6 +399,7 @@ class AppLeaf (Leaf, PicklingHelperMixin):
 		self.init_item_id = self.object.get_id()
 		self.object = None
 		self.init_item = None
+
 	def unpickle_finish(self):
 		"""Try to set self.object from init's parameters"""
 		if self.init_item:
@@ -410,7 +411,12 @@ class AppLeaf (Leaf, PicklingHelperMixin):
 		if self.init_path:
 			item = desktop_app_info_new_from_filename(self.init_path)
 		elif self.init_item_id:
-			item = DesktopAppInfo(self.init_item_id)
+			try:
+				item = DesktopAppInfo(self.init_item_id)
+			except RuntimeError:
+				self.output_debug(self, "Application", self.init_item_id,
+						"not found")
+				item = None
 		self.object = item
 
 	def get_id(self):
