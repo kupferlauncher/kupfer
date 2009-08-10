@@ -1096,6 +1096,10 @@ class WindowController (pretty.OutputMixin):
 
 		try:
 			gtk.main()
+			# put away window *before exiting further*
+			self.put_away()
+			while gtk.events_pending():
+				gtk.main_iteration()
 		except KeyboardInterrupt, info:
 			self.output_info(info, "exiting.. (Warning: Ctrl-C in the shell",
 					"will kill child processes)")
