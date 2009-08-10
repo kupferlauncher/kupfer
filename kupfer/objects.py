@@ -164,6 +164,8 @@ class Leaf (KupferObject):
 		"""Represented object @obj and its @name"""
 		super(Leaf, self).__init__(name)
 		self.object = obj
+		self._has_content = None
+		self._content_source = None
 	
 	def __hash__(self):
 		return hash(str(self))
@@ -171,13 +173,21 @@ class Leaf (KupferObject):
 	def __eq__(self, other):
 		return (type(self) == type(other) and self.object == other.object)
 
+	def add_content(self, content):
+		"""Register content source @content with Leaf,
+		if None, register that this Leaf can't have content."""
+		if content and self.has_content():
+			raise ValueError("Already has content")
+		self._has_content = bool(content)
+		self._content_source = content
+
 	def has_content(self):
-		return False
-	
+		return self._has_content
+
 	def content_source(self, alternate=False):
 		"""Content of leaf. it MAY alter behavior with @alternate,
 		as easter egg/extra mode"""
-		raise NoContent
+		return self._content_source
 
 	def get_actions(self):
 		"""Default (builtin) actions for this Leaf"""
