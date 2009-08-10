@@ -101,6 +101,17 @@ class AlbumLeaf (Leaf):
 		return True
 	def content_source(self, alternate=False):
 		return AlbumSource(unicode(self), self.object)
+	def get_description(self):
+		artist = None
+		for song in self.object:
+			if not artist:
+				artist = song["artist"]
+			elif artist != song["artist"]:
+				# TRANS: Multiple artist description "Artist1 et. al. "
+				artist = _("%s et. al.") % artist
+				break
+		# TRANS: Album description
+		return _("%s by %s") % (unicode(self), artist)
 	def get_icon_name(self):
 		return "media-optical"
 
