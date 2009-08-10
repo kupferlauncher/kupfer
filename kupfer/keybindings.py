@@ -36,12 +36,16 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 	try:
 		import keybinder
 	except ImportError:
-		pretty.print_info("Could not import keybinder, keybindings disabled!")
+		pretty.print_error("Could not import keybinder, keybindings disabled!")
 	else:
 		callback = lambda : GetKeyboundObject()._keybinding(keybinding_target)
 		keybinding_target = int(keybinding_target)
-		succ = keybinder.bind(keystr, callback)
-		pretty.print_debug(__name__, "binding", keystr)
+		try:
+			succ = keybinder.bind(keystr, callback)
+			pretty.print_debug(__name__, "binding", keystr)
+		except KeyError, exc:
+			pretty.print_error(__name__, exc)
+			succ = False
 		if succ:
 			old_keystr = get_currently_bound_key(keybinding_target)
 			if old_keystr and old_keystr != keystr:
