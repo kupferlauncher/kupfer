@@ -8,7 +8,11 @@ from kupfer import objects, icons, utils, config
 from kupfer.plugin import rhythmbox_support
 
 __kupfer_name__ = _("Rhythmbox")
-__kupfer_sources__ = ("RhythmboxSource", "RhythmboxAlbumsSource", )
+__kupfer_sources__ = (
+		"RhythmboxSource",
+		"RhythmboxAlbumsSource",
+		"RhythmboxArtistsSource",
+	)
 __kupfer_contents__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue songs and browse the music library")
 __version__ = ""
@@ -72,7 +76,7 @@ class PlayTracks (Action):
 	def activate(self, leaf):
 		if isinstance(leaf, SongLeaf):
 			play_song(leaf.object)
-		if isinstance(leaf, AlbumLeaf):
+		if isinstance(leaf, TrackCollection):
 			songs = list(leaf.object)
 			if not songs:
 				return
@@ -89,7 +93,7 @@ class Enqueue (Action):
 	def activate(self, leaf):
 		if isinstance(leaf, SongLeaf):
 			enqueue_songs((leaf.object, ))
-		if isinstance(leaf, AlbumLeaf):
+		if isinstance(leaf, TrackCollection):
 			songs = list(leaf.object)
 			if not songs:
 				return
@@ -115,17 +119,23 @@ class SongLeaf (Leaf):
 	def get_icon_name(self):
 		return "audio-x-generic"
 
-class AlbumSource (Source):
-	def __init__(self, name, info):
-		Source.__init__(self, name)
-		self.info = info
+class CollectionSource (Source):
+	def __init__(self, leaf):
+		Source.__init__(self, unicode(leaf))
+		self.leaf = leaf
 	def get_items(self):
-		for song in self.info:
+		for song in self.leaf.object:
 			yield SongLeaf(song["title"], song["artist"], song)
+	def get_description(self):
+		return self.leaf.get_description()
+	def get_thumbnail(self, w, h):
+		return self.leaf.get_thumbnail(w, h)
+	def get_gicon(self):
+		return self.leaf.get_gicon()
 	def get_icon_name(self):
-		return "media-optical"
+		return self.leaf.get_icon_name()
 
-class AlbumLeaf (Leaf):
+class TrackCollection (Leaf):
 	def __init__(self, name, info):
 		Leaf.__init__(self, info, name)
 	def get_actions(self):
@@ -134,7 +144,11 @@ class AlbumLeaf (Leaf):
 	def has_content(self):
 		return True
 	def content_source(self, alternate=False):
-		return AlbumSource(unicode(self), self.object)
+		return CollectionSource(self)
+	def get_icon_name(self):
+		return "media-optical"
+
+class AlbumLeaf (TrackCollection):
 	def get_description(self):
 		artist = None
 		for song in self.object:
@@ -165,8 +179,12 @@ class AlbumLeaf (Leaf):
 				pass
 		return None
 
-	def get_icon_name(self):
-		return "media-optical"
+class ArtistLeaf (TrackCollection):
+	def get_description(self):
+		# TRANS: Artist songs collection description
+		return _("Tracks by %s") % (unicode(self), )
+	def get_gicon(self):
+		return icons.ComposedIcon("media-optical", "system-users")
 
 class RhythmboxAlbumsSource (Source):
 	def __init__(self):
@@ -188,6 +206,26 @@ class RhythmboxAlbumsSource (Source):
 	def provides(self):
 		yield AlbumLeaf
 
+class RhythmboxArtistsSource (Source):
+	def __init__(self):
+		Source.__init__(self, _("Rhythmbox Artists"))
+
+	def get_items(self):
+		library = rhythmbox_support.get_rhythmbox_artists()
+		for artist in library:
+			yield ArtistLeaf(artist, library[artist])
+	def should_sort_lexically(self):
+		return True
+
+	def get_description(self):
+		return _("Music artists")
+	def get_gicon(self):
+		return icons.ComposedIcon("rhythmbox", "audio-x-generic")
+	def get_icon_name(self):
+		return "rhythmbox"
+	def provides(self):
+		yield ArtistLeaf
+
 class RhythmboxSource (Source):
 	def __init__(self):
 		Source.__init__(self, _("Rhythmbox"))
@@ -198,6 +236,7 @@ class RhythmboxSource (Source):
 		yield Pause()
 		yield Next()
 		yield SourceLeaf(RhythmboxAlbumsSource())
+		yield SourceLeaf(RhythmboxArtistsSource())
 
 	def get_description(self):
 		return _("Play and enqueue songs and browse the music library")

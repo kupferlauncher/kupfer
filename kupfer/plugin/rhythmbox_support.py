@@ -105,6 +105,29 @@ def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
         albums[album].sort(key=get_track_number)
     return albums
 
+def get_rhythmbox_artists(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
+    songs = get_rhythmbox_songs(keys=NEEDED_KEYS, dbfile=dbfile)
+    artists = {}
+    for song in songs:
+        song_artist = song["artist"]
+        if not song_artist:
+            continue
+        artist = artists.get(song_artist, [])
+        artist.append(song)
+        artists[song_artist] = artist
+    def get_album_order(rec):
+        tnr = rec.get("track-number")
+        if not tnr: return None
+        try:
+            tnr = int(tnr)
+        except ValueError:
+            pass
+        return (rec["album"], tnr)
+    # sort in album + track order
+    for artist in artists:
+        artists[artist].sort(key=get_album_order)
+    return artists
+
 if __name__ == "__main__":
     for rec in get_rhythmbox_artist_albums().itervalues():
         print rec
