@@ -1,7 +1,7 @@
 import gtk
 import gio
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Leaf, Action, Source, RunnableLeaf
 from kupfer import objects, utils, icons
 from kupfer.plugin import about_support
 
@@ -37,29 +37,6 @@ class SearchInside (Action):
 		return _("Search inside this catalog")
 	def get_icon_name(self):
 		return "search"
-
-class RunnableLeaf (Leaf):
-	"""Leaf where the Leaf is basically the action itself,
-	for items such as Quit, Log out etc. Is executed by the
-	only action Do
-	"""
-	def __init__(self, obj=None, name=None):
-		super(RunnableLeaf, self).__init__(obj, name)
-	def get_actions(self):
-		yield Do()
-	def run(self):
-		pass
-
-class Do (Action):
-	def __init__(self, name=None):
-		if not name: name = _("Do")
-		super(Do, self).__init__(name=name)
-	def activate(self, leaf):
-		leaf.run()
-	def get_description(self):
-		return _("Perform action")
-	def get_icon_name(self):
-		return gtk.STOCK_EXECUTE
 
 class Quit (RunnableLeaf):
 	def __init__(self, name=None):

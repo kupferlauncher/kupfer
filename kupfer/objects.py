@@ -1021,6 +1021,28 @@ class UrlLeaf (Leaf):
 	def get_icon_name(self):
 		return "text-html"
 
+class RunnableLeaf (Leaf):
+	"""Leaf where the Leaf is basically the action itself,
+	for items such as Quit, Log out etc. Is executed by the
+	only action Do
+	"""
+	def __init__(self, obj=None, name=None):
+		Leaf.__init__(self, obj, name)
+	def get_actions(self):
+		yield Do()
+	def run(self):
+		raise NotImplementedError
+
+class Do (Action):
+	"""Perform the action in a RunnableLeaf"""
+	def __init__(self, name=None):
+		if not name: name = _("Do")
+		super(Do, self).__init__(name=name)
+	def activate(self, leaf):
+		leaf.run()
+	def get_description(self):
+		return _("Perform action")
+
 class TextLeaf (Leaf):
 	"""Represent a text query
 	represented object is the unicode string
@@ -1071,3 +1093,4 @@ class TextSource (KupferObject):
 	def provides(self):
 		"""A seq of the types of items it provides"""
 		yield Leaf
+
