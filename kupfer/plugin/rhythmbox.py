@@ -1,7 +1,10 @@
 import gio
+import gobject
+import gtk
+from hashlib import md5
 
 from kupfer.objects import Leaf, Source, AppLeaf, Action, FileLeaf
-from kupfer import objects, icons, utils
+from kupfer import objects, icons, utils, config
 from kupfer.plugin import rhythmbox_support
 
 __kupfer_name__ = _("Rhythmbox")
@@ -112,6 +115,25 @@ class AlbumLeaf (Leaf):
 				break
 		# TRANS: Album description
 		return _("%s by %s") % (unicode(self), artist)
+	def get_thumbnail(self, width, height):
+		if not hasattr(self, "cover_file"):
+			ltitle = unicode(self).lower()
+			# ignore the track artist -- use the space fallback
+			# hash of ' ' as fallback
+			hspace = "7215ee9c7d9dc229d2921a40e899ec5f"
+			htitle = md5(_tostr(ltitle)).hexdigest()
+			hartist = hspace
+			cache_name = "album-%s-%s.jpeg" % (hartist, htitle)
+			cache_file = config.get_cache_file(("media-art", cache_name))
+			self.cover_file = cache_file
+		if self.cover_file:
+			try:
+				return gtk.gdk.pixbuf_new_from_file_at_size(self.cover_file,
+						width, height)
+			except gobject.GError:
+				pass
+		return None
+
 	def get_icon_name(self):
 		return "media-optical"
 
@@ -129,6 +151,8 @@ class RhythmboxAlbumsSource (Source):
 	def get_description(self):
 		return _("Albums")
 
+	def get_gicon(self):
+		return icons.ComposedIcon("rhythmbox", "media-optical")
 	def get_icon_name(self):
 		return "rhythmbox"
 	def provides(self):
