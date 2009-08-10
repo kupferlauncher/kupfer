@@ -30,39 +30,26 @@ from xml.sax.saxutils import XMLGenerator
 from xml.sax.xmlreader import AttributesNSImpl
 from xml.sax.handler import ContentHandler
 
-class Entry:
-    def __init__(self, sType):
-        """
-        Class Entry
-        Defines a Rhythmbox Library entry.
-
-        sType: The type of the entry
-        lData: A list of tuples, each of which contain
-               a piece of data about an entry. For example,
-                 <artist>The Beatles</artist> is encoded as
-                 ('artist', 'The Beatles')
-               The list is used instead of a dictionary to
-               maintain the ordering of data.
-        """
-        self.sType = sType
-        self.lData = []
-
-    def addData(self, sName, sData):
-        self.lData.append((sName, sData))
-
 class RhythmBoxHandler(ContentHandler):
-    def __init__(self, lSongs):
+    """Parse rhythmbox library into a list of dictionaries.
+    Get only entries of type @entry_type (commonly "song"),
+    and only record keys in the iterable wanted_keys, or all
+    if None.
+    """
+    def __init__(self, lSongs, entry_type, wanted_keys=None):
         ContentHandler.__init__(self)
         self.lSongs = lSongs
         self.fParsingTag = False
         self.sValue = ''
+        self.entry_type = entry_type
+        self.wanted_keys = wanted_keys and set(wanted_keys)
         self.entries = []
         self.entry = None
 
     def startElement(self, sName, attributes):
-        if sName == "entry":
+        if sName == "entry" and attributes["type"] == self.entry_type:
             self.fParsingTag = True
-            self.entry = Entry(attributes["type"])
+            self.entry = {}
         self.sValue = ''
 
     def characters(self, sData):
@@ -70,13 +57,13 @@ class RhythmBoxHandler(ContentHandler):
 
     def endElement(self,sName):
         if sName == 'entry':
-            self.lSongs.append(self.entry)
             self.fParsingTag = False
-            if len(self.entry.lData) > 0:
-                self.entries.append(self.entry)
+            if self.entry:
+                self.lSongs.append(self.entry)
             self.entry = None
         elif self.fParsingTag:
-            self.entry.addData(sName, self.sValue)
+            if not self.wanted_keys or sName in self.wanted_keys:
+                self.entry[sName]  = self.sValue
 
 class RhythmDBWriter:
     def __init__(self, sFilesName, sEncoding):
@@ -122,9 +109,8 @@ if __name__ == "__main__":
     sRhythmboxFile = RHYTHMDB
     rbParser = make_parser()
     lSongs = []
-    rbHandler = RhythmBoxHandler(lSongs)
+    rbHandler = RhythmBoxHandler(lSongs, "song")
     rbParser.setContentHandler(rbHandler)
     rbParser.parse(sRhythmboxFile)
     for itm in lSongs[:10]:
-        print itm.sType
-        print itm.lData
+        print itm
