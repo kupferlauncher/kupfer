@@ -230,7 +230,7 @@ class RhythmboxArtistsSource (Source):
 	def get_description(self):
 		return _("Music artists")
 	def get_gicon(self):
-		return icons.ComposedIcon("rhythmbox", "audio-x-generic")
+		return icons.ComposedIcon("rhythmbox", "system-users")
 	def get_icon_name(self):
 		return "rhythmbox"
 	def provides(self):
