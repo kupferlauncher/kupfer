@@ -1,8 +1,7 @@
 from os import path
 from gtk import icon_theme_get_default, icon_theme_add_builtin_icon
 from gtk.gdk import pixbuf_new_from_file_at_size
-from gio import ThemedIcon
-import gio
+from gio import ThemedIcon, Icon, FileIcon
 
 from kupfer import config, pretty, scheduler
 
@@ -80,15 +79,45 @@ def _get_icon_dwim(icon, icon_size):
 		return get_icon_for_name(icon, icon_size)
 	return None
 
-def compose_icon(baseicon, emblemicon, icon_size):
-	"""Compose an emblemed icon where @emblemicon is
-	put downscaled over a corner of @baseicon.
-	The icons may be passed as names or gicons
-
-	This icon is not cached, but the icons it used are
-	generally.
+class ComposedIcon (Icon):
 	"""
+	A composed icon, which kupfer will render to pixbuf as
+	background icon with the decorating icon as emblem
+	"""
+	def __new__(cls, baseicon, emblemicon, emblem_is_fallback=False):
+		fallback_icon = emblemicon if emblem_is_fallback else baseicon
+		if isinstance(fallback_icon, (basestring, ThemedIcon)):
+			return _ComposedThemedIcon(baseicon, emblemicon, emblem_is_fallback)
+		if isinstance(fallback_icon, FileIcon):
+			return _ComposedFileIcon(baseicon, emblemicon, emblem_is_fallback)
+		return None
+
+class _ComposedIconImpl (object):
+	def __init__(self, baseicon, emblemicon, emblem_is_fallback):
+		self.baseicon = baseicon
+		self.emblemicon = emblemicon
+		self.fallback_icon = emblemicon if emblem_is_fallback else baseicon
+
+class _ComposedThemedIcon (_ComposedIconImpl, ThemedIcon):
+	def __init__(self, baseicon, emblemicon, emblem_is_fallback):
+		_ComposedIconImpl.__init__(self, baseicon, emblemicon,
+				emblem_is_fallback)
+		if isinstance(self.fallback_icon, basestring):
+			names = (self.fallback_icon, )
+		else:
+			names = self.fallback_icon.get_names()
+		ThemedIcon.__init__(self, names)
+
+class _ComposedFileIcon (_ComposedIconImpl, FileIcon):
+	def __init__(self, baseicon, emblemicon, emblem_is_fallback):
+		_ComposedIconImpl.__init__(self, baseicon, emblemicon,
+				emblem_is_fallback)
+		FileIcon.__init__(self, self.fallback_icon.get_file())
+
+def _render_composed_icon(composed_icon, icon_size):
 	import gtk
+	emblemicon = composed_icon.emblemicon
+	baseicon = composed_icon.baseicon
 	toppbuf = _get_icon_dwim(emblemicon, icon_size)
 	bottompbuf = _get_icon_dwim(baseicon, icon_size)
 	if not toppbuf or not bottompbuf:
@@ -158,6 +187,8 @@ def get_icon_for_gicon(gicon, icon_size):
 	if not gicon:
 		return None
 	from gio import ThemedIcon, FileIcon
+	if isinstance(gicon, _ComposedIconImpl):
+		return _render_composed_icon(gicon, icon_size)
 	if isinstance(gicon, FileIcon):
 		ifile = gicon.get_file()
 		return get_icon_from_file(ifile.get_path(), icon_size)
@@ -234,7 +265,6 @@ def is_good(gicon):
 	"""Return True if it is likely that @gicon will load a visible icon
 	(icon name exists in theme, or icon references existing file)
 	"""
-	from gio import ThemedIcon, FileIcon
 	if not gicon:
 		return False
 	if isinstance(gicon, ThemedIcon):
