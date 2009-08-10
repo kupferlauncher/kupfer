@@ -173,6 +173,12 @@ class KupferSource (Source):
 		return _("Kupfer items and actions")
 	def provides(self):
 		yield RunnableLeaf
+	def get_leaf_repr(self):
+		try:
+			kapp = objects.AppLeaf(item_id="kupfer.desktop")
+		except objects.InvalidDataError:
+			kapp = None
+		return kapp
 	@classmethod
 	def decorates_type(cls):
 		return objects.AppLeaf
