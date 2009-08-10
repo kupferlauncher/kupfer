@@ -2,6 +2,7 @@
 
 """
 Copyright (c) 2007 Tyler G. Hicks-Wright
+              2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +25,8 @@ THE SOFTWARE.
 
 import sys
 import os
-from shutil import copyfile
 from xml.sax import make_parser
 from xml.sax.saxutils import XMLGenerator
-from xml.sax.xmlreader import AttributesNSImpl
 from xml.sax.handler import ContentHandler
 
 class RhythmBoxHandler(ContentHandler):
@@ -64,44 +63,6 @@ class RhythmBoxHandler(ContentHandler):
         elif self.fParsingTag:
             if not self.wanted_keys or sName in self.wanted_keys:
                 self.entry[sName]  = self.sValue
-
-class RhythmDBWriter:
-    def __init__(self, sFilesName, sEncoding):
-        fOut = open(sFilesName, 'w')
-        gen = XMLGenerator(fOut, sEncoding)
-        gen.startDocument()
-        self.gen = gen
-        self.fOut = fOut
-        attr_vals = {(None, u'version'): u'1.3',}
-        attr_qsNames = {(None, u'version'): u'version',}
-        xmlAttrs = AttributesNSImpl(attr_vals, attr_qsNames)
-        self.gen.startElementNS((None, u'rhythmdb'), u'rhythmdb', xmlAttrs)
-        self.fOut.write("\n")
-
-    def writeEntry(self, entry):
-        xmlAttrs = AttributesNSImpl({(None, u'type'): entry.sType,}, {(None, u'type'): u'type',})
-        self.fOut.write("  ")
-        self.gen.startElementNS((None, u'entry'), u'entry', xmlAttrs)
-        self.fOut.write("\n")
-        xmlAttrs = AttributesNSImpl({}, {})
-        for p in entry.lData:
-            self.fOut.write("    ")
-            self.gen.startElementNS((None, p[0]), p[0], {})
-            self.gen.characters(p[1])
-            self.gen.endElementNS((None, p[0]), p[0])
-            self.fOut.write("\n")
-        self.fOut.write("  ")
-        self.gen.endElementNS((None, u'entry'), u'entry')
-        self.fOut.write("\n")
-
-    def close(self):
-        self.gen.endElementNS((None, u'rhythmdb'), u'rhythmdb')
-        self.gen.endDocument()
-        try:
-            self.fOut.write("\n")
-            self.fOut.close()
-        except:
-            pass
 
 if __name__ == "__main__":
     print 'Parsing Rhythmbox'
