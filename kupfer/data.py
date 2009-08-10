@@ -331,6 +331,8 @@ class SourceController (pretty.OutputMixin):
 		return self.text_sources
 	def set_content_decorators(self, decos):
 		self.content_decorators = decos
+	def set_action_decorators(self, decos):
+		self.action_decorators = decos
 	def clear_sources(self):
 		pass
 	def __contains__(self, src):
@@ -390,6 +392,12 @@ class SourceController (pretty.OutputMixin):
 					if content.decorates_item(leaf):
 						return content(leaf)
 		return None
+
+	def get_actions_for_leaf(self, leaf):
+		for typ in self.action_decorators:
+			if isinstance(leaf, typ):
+				for act in self.action_decorators[typ]:
+					yield act
 
 	def finish(self):
 		self._pickle_sources(self.sources)
@@ -556,9 +564,10 @@ class PrimaryActionPane (Pane):
 		self.latest_key = key
 		leaf = self.current_item
 		actions = list(leaf.get_actions()) if leaf else []
-		if leaf and type(leaf) in self.decorate_types:
-			# FIXME: We ignore subclasses for now ("in" above)
-			actions.extend(self.decorate_types[type(leaf)])
+		sc = GetSourceController()
+		if leaf:
+			for act in sc.get_actions_for_leaf(leaf):
+				actions.append(act)
 
 		actions = [a for a in actions if a.valid_for_item(self.current_item)]
 		sources = (actions, )
@@ -625,13 +634,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		super(DataController, self).__init__()
 		self.search_handle = -1
 
-		self.decorate_types = {}
 		self.source_pane = LeafPane(SourcePane)
 		self.object_pane = SecondaryObjectPane(ObjectPane)
 		self.source_pane.connect("new-source", self._new_source)
 		self.object_pane.connect("new-source", self._new_source)
 		self.action_pane = PrimaryActionPane(ActionPane)
-		self.action_pane.decorate_types = self.decorate_types
 		self._panectl_table = {
 			SourcePane : self.source_pane,
 			ActionPane : self.action_pane,
@@ -663,13 +670,16 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	
 	def register_action_decorators(self, acts):
 		# Keep a dictionary with Leaf type as key
+		decorate_types = {}
 		for act in acts:
 			applies = act.item_types()
 			for appl_type in applies:
-				decorate_with = self.decorate_types.get(appl_type, [])
+				decorate_with = decorate_types.get(appl_type, [])
 				decorate_with.append(act)
-				self.decorate_types[appl_type] = decorate_with
-		self.output_debug("Decorators", self.decorate_types)
+				decorate_types[appl_type] = decorate_with
+		sc = GetSourceController()
+		sc.set_action_decorators(decorate_types)
+		self.output_debug("Decorators", decorate_types)
 
 	def register_content_decorators(self, contents):
 		# Keep a dictionary with Leaf type as key
