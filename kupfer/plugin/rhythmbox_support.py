@@ -79,9 +79,9 @@ def get_rhythmbox_songs(typ="song", keys=None, dbfile='~/.local/share/rhythmbox/
     rbParser.parse(sRhythmboxFile)
     return lSongs
 
-def get_rhythmbox_artist_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
+def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
     songs = get_rhythmbox_songs(keys=NEEDED_KEYS, dbfile=dbfile)
-    artists = {}
+    albums = {}
     for song in songs:
         song_artist = song["artist"]
         if not song_artist:
@@ -89,12 +89,10 @@ def get_rhythmbox_artist_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
         song_album = song["album"]
         if not song_album:
             continue
-        artist = artists.get(song_artist, {})
-        album = artist.get(song_album, [])
+        album = albums.get(song_album, [])
         album.append(song)
-        artist[song_album] = album
-        artists[song_artist] = artist
-    return artists
+        albums[song_album] = album
+    return albums
 
 if __name__ == "__main__":
     for rec in get_rhythmbox_artist_albums().itervalues():
