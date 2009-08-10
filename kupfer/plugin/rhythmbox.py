@@ -3,12 +3,13 @@ import gobject
 import gtk
 from hashlib import md5
 
-from kupfer.objects import Leaf, Source, AppLeaf, Action, FileLeaf
+from kupfer.objects import Leaf, Source, AppLeaf, Action, RunnableLeaf, SourceLeaf
 from kupfer import objects, icons, utils, config
 from kupfer.plugin import rhythmbox_support
 
 __kupfer_name__ = _("Rhythmbox")
-__kupfer_sources__ = ("RhythmboxAlbumsSource", )
+__kupfer_sources__ = ("RhythmboxSource", "RhythmboxAlbumsSource", )
+__kupfer_contents__ = ("RhythmboxSource", )
 __description__ = _("Rhythmbox")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -33,6 +34,26 @@ def enqueue_songs(info, clear_queue=False):
 		qargv.append("--enqueue")
 		qargv.append(path)
 	utils.spawn_async(qargv)
+
+class PlayRhythmbox (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Play"))
+	def run(self):
+		utils.spawn_async(("rhythmbox-client", "--play"))
+	def get_description(self):
+		return _("Play rhythmbox")
+	def get_icon_name(self):
+		return "media-playback-start"
+
+class Next (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Next"))
+	def run(self):
+		utils.spawn_async(("rhythmbox-client", "--next"))
+	def get_description(self):
+		return _("Next song in rhythmbox")
+	def get_icon_name(self):
+		return "media-skip-forward"
 
 class Play (Action):
 	rank_adjust = 5
@@ -158,3 +179,33 @@ class RhythmboxAlbumsSource (Source):
 	def provides(self):
 		yield AlbumLeaf
 
+class RhythmboxSource (Source):
+	def __init__(self):
+		Source.__init__(self, _("Rhythmbox"))
+	def is_dynamic(self):
+		return True
+	def get_items(self):
+		yield PlayRhythmbox()
+		yield Next()
+		yield SourceLeaf(RhythmboxAlbumsSource())
+
+	def get_description(self):
+		return _("Rhythmbox action and its library")
+	def get_icon_name(self):
+		return "rhythmbox"
+	def provides(self):
+		yield RunnableLeaf
+		yield SourceLeaf
+	def get_leaf_repr(self):
+		try:
+			app = objects.AppLeaf(item_id="rhythmbox.desktop")
+		except objects.InvalidDataError:
+			app = None
+		return app
+	@classmethod
+	def decorates_type(cls):
+		return AppLeaf
+	@classmethod
+	def decorate_item(cls, leaf):
+		if leaf.get_id() == "rhythmbox.desktop":
+			return cls()
