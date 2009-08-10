@@ -1,11 +1,14 @@
 # encoding: UTF-8
 
 data/kupfer.desktop.in.in
+data/preferences.ui.h
 kupfer/browser.py
 kupfer/data.py
 kupfer/main.py
 kupfer/objects.py
+kupfer/preferences.py
 kupfer/plugin/applications.py
+kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
 kupfer/plugin/common.py
 kupfer/plugin/documents.py
