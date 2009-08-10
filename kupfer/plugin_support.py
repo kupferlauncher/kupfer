@@ -32,19 +32,25 @@ class PluginSettings (pretty.OutputMixin):
 	def initialize(self, plugin_name):
 		"""Init by reading from global settings and setting up callbacks"""
 		setctl = settings.GetSettingsController()
-		# FIXME: We should set up preference key changed callbacks here
 		for key in self:
 			value_type = self.setting_descriptions[key]["type"]
 			value = setctl.get_plugin_config(plugin_name, key, value_type)
 			if value is not None:
 				self[key] = value
+		setctl.connect("value-changed", self._value_changed)
 
 	def __getitem__(self, key):
 		return self.setting_descriptions[key]["value"]
 	def __setitem__(self, key, value):
 		value_type = self.setting_descriptions[key]["type"]
 		self.setting_descriptions[key]["value"] = value_type(value)
+	def _value_changed(self, setctl, section, key, value):
+		"""Preferences changed, update object"""
+		if key in self:
+			self[key] = value
 	def get_value_type(self, key):
+		"""Return type of setting @key"""
 		return self.setting_descriptions[key]["type"]
 	def get_label(self, key):
+		"""Return label for setting @key"""
 		return self.setting_descriptions[key]["label"]
