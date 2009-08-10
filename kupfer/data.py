@@ -395,8 +395,8 @@ class SourceController (pretty.OutputMixin):
 		for typ in self.content_decorators:
 			if isinstance(leaf, typ):
 				for content in self.content_decorators[typ]:
-					if content.decorates_item(leaf):
-						return content(leaf)
+					dsrc = content.decorate_item(leaf)
+					if dsrc: return dsrc
 		return None
 
 	def get_actions_for_leaf(self, leaf):

@@ -113,12 +113,12 @@ class ApplicationRecentsSource (RecentsSource):
 		return AppLeaf
 
 	@classmethod
-	def decorates_item(cls, leaf):
+	def decorate_item(cls, leaf):
 		svc = launch.GetApplicationsMatcherService()
 		app_name = svc.application_name(leaf.get_id())
-		if not app_name:
-			return False
-		return cls.has_items_for_application(app_name)
+		if app_name and cls.has_items_for_application(app_name):
+			return cls(leaf)
+		return None
 
 class PlacesSource (Source):
 	"""
