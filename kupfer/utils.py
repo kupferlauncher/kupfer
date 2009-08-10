@@ -52,8 +52,9 @@ def locale_sort(seq, key=unicode):
 	seq.sort(cmp=locale_cmp)
 	return seq
 
-def spawn_async(argv, in_dir=None):
+def spawn_async(argv, in_dir="."):
 	import gobject
+	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
 	ret = gobject.spawn_async (argv, working_directory=in_dir,
 			flags=gobject.SPAWN_SEARCH_PATH)
 	return ret
