@@ -51,16 +51,14 @@ class Entry:
         self.lData.append((sName, sData))
 
 class RhythmBoxHandler(ContentHandler):
-    def __init__(self, dSongs):
+    def __init__(self, lSongs):
         ContentHandler.__init__(self)
-        self.dSongs = dSongs
+        self.lSongs = lSongs
         self.fParsingTag = False
         self.sValue = ''
-        self.sTitle = ''
-        self.sArtist = ''
         self.entries = []
         self.entry = None
-        
+
     def startElement(self, sName, attributes):
         if sName == "entry":
             self.fParsingTag = True
@@ -72,25 +70,13 @@ class RhythmBoxHandler(ContentHandler):
 
     def endElement(self,sName):
         if sName == 'entry':
+            self.lSongs.append(self.entry)
             self.fParsingTag = False
-            self.sTitle = ''
-            self.sArtist = ''
             if len(self.entry.lData) > 0:
                 self.entries.append(self.entry)
             self.entry = None
         elif self.fParsingTag:
-            if sName == 'title':
-                self.sTitle = self.sValue
-            elif sName == 'artist':
-                self.sArtist = self.sValue
-            elif sName == 'rating':
-                sKey = "%s - %s" % (self.sArtist, self.sTitle)
-                if self.dSongs.has_key(sKey):
-                    self.entry.addData('rating', str(self.dSongs[sKey]))
-                else:
-                    self.entry.addData('rating', self.sValue)
-            if sName != "rating": # We've already added rating
-                self.entry.addData(sName, self.sValue)
+            self.entry.addData(sName, self.sValue)
 
 class RhythmDBWriter:
     def __init__(self, sFilesName, sEncoding):
@@ -131,4 +117,14 @@ class RhythmDBWriter:
             pass
 
 if __name__ == "__main__":
-    main(sys.argv)
+    print 'Parsing Rhythmbox'
+    RHYTHMDB = os.path.expanduser('~/.local/share/rhythmbox/rhythmdb.xml')
+    sRhythmboxFile = RHYTHMDB
+    rbParser = make_parser()
+    lSongs = []
+    rbHandler = RhythmBoxHandler(lSongs)
+    rbParser.setContentHandler(rbHandler)
+    rbParser.parse(sRhythmboxFile)
+    for itm in lSongs[:10]:
+        print itm.sType
+        print itm.lData
