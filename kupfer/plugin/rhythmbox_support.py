@@ -69,6 +69,7 @@ class RhythmBoxHandler(ContentHandler):
         elif self.fParsingTag and self.fWantElement:
             self.entry[sName]  = self.sValue
 
+NEEDED_KEYS= ("title", "artist", "album", "track-number", "location", )
 def get_rhythmbox_songs(typ="song", keys=None, dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
     sRhythmboxFile = os.path.expanduser(dbfile)
     rbParser = make_parser()
@@ -78,7 +79,24 @@ def get_rhythmbox_songs(typ="song", keys=None, dbfile='~/.local/share/rhythmbox/
     rbParser.parse(sRhythmboxFile)
     return lSongs
 
+def get_rhythmbox_artist_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
+    songs = get_rhythmbox_songs(keys=NEEDED_KEYS, dbfile=dbfile)
+    artists = {}
+    for song in songs:
+        song_artist = song["artist"]
+        if not song_artist:
+            continue
+        song_album = song["album"]
+        if not song_album:
+            continue
+        artist = artists.get(song_artist, {})
+        album = artist.get(song_album, [])
+        album.append(song)
+        artist[song_album] = album
+        artists[song_artist] = artist
+    return artists
+
 if __name__ == "__main__":
-    lSongs = get_rhythmbox_songs(keys=("title", ))
-    for itm in lSongs[:100]:
-        print itm
+    for rec in get_rhythmbox_artist_albums().itervalues():
+        print rec
+        break
