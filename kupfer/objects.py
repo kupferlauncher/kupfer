@@ -413,6 +413,9 @@ class AppLeaf (Leaf, PicklingHelperMixin):
 			item = DesktopAppInfo(self.init_item_id)
 		self.object = item
 
+	def get_id(self):
+		return self.object.get_id()
+
 	def get_actions(self):
 		if launch.application_is_running(self.object):
 			yield ShowApplication()
