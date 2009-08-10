@@ -10,7 +10,14 @@ class PreferencesWindowController (pretty.OutputMixin):
 		"""Load ui from data file"""
 		builder = gtk.Builder()
 		ui_file = config.get_data_file("preferences.ui")
-		print ui_file
+		try:
+			import version_subst
+		except ImportError:
+			package_name = "kupfer"
+		else:
+			package_name = version_subst.PACKAGE_NAME
+		builder.set_translation_domain(package_name)
+
 		if ui_file:
 			builder.add_from_file(ui_file)
 		else:
