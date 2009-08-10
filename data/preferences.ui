@@ -118,7 +118,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">&#x25CF;</property>
-                                        <property name="text" translatable="yes">&lt;Ctrl&gt;space</property>
+                                        <property name="text">&lt;Ctrl&gt;space</property>
                                         <signal name="changed" handler="on_entrykeybinding_changed"/>
                                       </object>
                                       <packing>
@@ -129,7 +129,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkButton" id="buttonkeybinding">
-                                        <property name="label" translatable="yes">gtk-apply</property>
+                                        <property name="label">gtk-apply</property>
                                         <property name="visible">True</property>
                                         <property name="sensitive">False</property>
                                         <property name="can_focus">True</property>
@@ -163,7 +163,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLabel" id="labelkeybindingaux">
-                                        <property name="label" translatable="yes">Applied</property>
+                                        <property name="label"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -228,7 +228,7 @@
                         <property name="homogeneous">True</property>
                         <child>
                           <object class="GtkButton" id="buttonpluginabout">
-                            <property name="label" translatable="yes">gtk-about</property>
+                            <property name="label">gtk-about</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
@@ -242,7 +242,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="buttonpluginsettings">
-                            <property name="label" translatable="yes">gtk-preferences</property>
+                            <property name="label">gtk-preferences</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
@@ -308,7 +308,7 @@
                 <property name="layout_style">end</property>
                 <child>
                   <object class="GtkButton" id="closebutton">
-                    <property name="label" translatable="yes">gtk-close</property>
+                    <property name="label">gtk-close</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
