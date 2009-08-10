@@ -117,6 +117,12 @@ class SearchTask (pretty.OutputMixin):
 		matches = list(as_set_iter(itertools.chain(*match_iters)))
 		matches.sort()
 
+		def dress_leaves(seq):
+			sc = GetSourceController()
+			for itm in seq:
+				sc.decorate_object(itm.object)
+				yield itm
+
 		# Check if the items are valid as the search
 		# results are accessed
 		def valid_check(seq):
@@ -129,8 +135,8 @@ class SearchTask (pretty.OutputMixin):
 			for itm in seq:
 				return itm
 			return None
-		match = first(valid_check(matches))
-		match_iter = valid_check(matches)
+		match = first(dress_leaves(valid_check(matches)))
+		match_iter = dress_leaves(valid_check(matches))
 		gobject.idle_add(sender.emit, signal, pane, match, match_iter, context)
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
@@ -399,6 +405,13 @@ class SourceController (pretty.OutputMixin):
 				for act in self.action_decorators[typ]:
 					yield act
 
+	def decorate_object(self, obj):
+		if hasattr(obj, "has_content") and obj.has_content() is None:
+			content = self.get_content_for_leaf(obj)
+			if content:
+				self.output_debug("Dressing", obj, "with", content)
+			obj.add_content(content)
+
 	def finish(self):
 		self._pickle_sources(self.sources)
 	def _unpickle_or_rescan(self, sources, rescan=True):
@@ -511,15 +524,8 @@ class LeafPane (Pane, pretty.OutputMixin):
 		and save away the previous sources in the stack
 		if @alternate, use the Source's alternate method"""
 		leaf = self.get_selection()
-		if not leaf:
-			return
-		if leaf.has_content():
+		if leaf and leaf.has_content():
 			self.push_source(leaf.content_source(alternate=alternate))
-			return
-		sc = GetSourceController()
-		content = sc.get_content_for_leaf(leaf)
-		if content:
-			self.push_source(content)
 
 	def reset(self):
 		"""Pop all sources and go back to top level"""
