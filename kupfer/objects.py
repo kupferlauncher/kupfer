@@ -130,12 +130,8 @@ class KupferObject (object):
 		if they make sense.
 		The methods are tried in that order.
 		"""
-		gicon = self.get_gicon()
-		if not icons.is_good(gicon):
-			gicon = gio.ThemedIcon(self.get_icon_name())
-		if not icons.is_good(gicon):
-			gicon = gio.ThemedIcon(KupferObject.get_icon_name(self))
-		return gicon
+		return icons.get_gicon_with_fallbacks(self.get_gicon(),
+				(self.get_icon_name(), KupferObject.get_icon_name(self)))
 
 	def get_gicon(self):
 		"""Return GIcon, if there is one"""

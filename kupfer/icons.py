@@ -1,6 +1,8 @@
 from os import path
 from gtk import icon_theme_get_default, icon_theme_add_builtin_icon
 from gtk.gdk import pixbuf_new_from_file_at_size
+from gio import ThemedIcon
+import gio
 
 from kupfer import config, pretty, scheduler
 
@@ -242,6 +244,15 @@ def is_good(gicon):
 		return ifile.query_exists()
 	# Since we can't load it otherwise (right now, see above)
 	return False
+
+def get_gicon_with_fallbacks(gicon, names):
+	if not is_good(gicon):
+		for name in names:
+			gicon = ThemedIcon(name)
+			if is_good(gicon):
+				return gicon
+		return ThemedIcon(name)
+	return gicon
 
 def get_good_name_for_icon_names(names):
 	"""Return first name in @names that exists
