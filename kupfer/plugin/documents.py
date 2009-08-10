@@ -4,11 +4,13 @@ import gio
 from gtk import recent_manager_get_default
 
 from kupfer.objects import (Leaf, Action, Source,
-		FileLeaf, UrlLeaf, PicklingHelperMixin )
+		AppLeaf, FileLeaf, UrlLeaf, PicklingHelperMixin )
 from kupfer import objects, plugin_support
+from kupfer import launch
 
 __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
+__kupfer_contents__ = ("ApplicationRecentsSource", )
 __description__ = _("Recently used documents and nautilus places")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -24,8 +26,10 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 
 class RecentsSource (Source, PicklingHelperMixin):
-	def __init__(self):
-		super(RecentsSource, self).__init__(_("Recent items"))
+	def __init__(self, name=None):
+		if not name:
+			name = _("Recent items")
+		super(RecentsSource, self).__init__(name)
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
@@ -39,14 +43,23 @@ class RecentsSource (Source, PicklingHelperMixin):
 		self.mark_for_update()
 	
 	def get_items(self):
-		count = 0
+		max_days = __kupfer_settings__["max_days"]
+		self.output_info("Items younger than", max_days, "days")
+		items = self._get_items(max_days)
+		return items
+
+	@classmethod
+	def _get_items(cls, max_days, for_application_named=None):
 		manager = recent_manager_get_default()
 		items = manager.get_items()
-		max_days = __kupfer_settings__["max_days"]
+		item_leaves = []
 		for item in items:
+			if (for_application_named and
+					for_application_named not in item.get_applications()):
+					continue
 			day_age = item.get_age()
-			if day_age > max_days:
-				break
+			if max_days >= 0 and day_age > max_days:
+				continue
 			if not item.exists():
 				continue
 
@@ -54,19 +67,55 @@ class RecentsSource (Source, PicklingHelperMixin):
 			name = item.get_short_name()
 			if item.is_local():
 				fileloc = item.get_uri_display()
-				yield FileLeaf(fileloc, name)
+				leaf = FileLeaf(fileloc, name)
 			else:
-				yield UrlLeaf(uri, name)
-			count += 1
-		self.output_info("Items younger than", max_days, "days")
+				leaf = UrlLeaf(uri, name)
+			item_leaves.append((leaf, item.get_modified()))
+		return (t[0] for t in sorted(item_leaves, key=lambda t: t[1], reverse=True))
 
 	def get_description(self):
 		return _("Recently used documents")
+
 	def get_icon_name(self):
 		return "document-open-recent"
 	def provides(self):
 		yield FileLeaf
 		yield UrlLeaf
+
+class ApplicationRecentsSource (RecentsSource):
+	def __init__(self, application):
+		name = _("Recent documents for %s") % unicode(application)
+		super(ApplicationRecentsSource, self).__init__(name)
+		self.application = application
+
+	def get_items(self):
+		svc = launch.GetApplicationsMatcherService()
+		app_name = svc.application_name(self.application.get_id())
+		max_days = -1
+		self.output_info("Items for", app_name)
+		items = self._get_items(max_days, app_name)
+		return items
+
+	@classmethod
+	def has_items_for_application(cls, name):
+		for item in cls._get_items(-1, name):
+			return True
+		return False
+
+	def get_description(self):
+		return _("Recently used documents for %s") % unicode(self.application)
+
+	@classmethod
+	def decorates_type(cls):
+		return AppLeaf
+
+	@classmethod
+	def decorates_item(cls, leaf):
+		svc = launch.GetApplicationsMatcherService()
+		app_name = svc.application_name(leaf.get_id())
+		if not app_name:
+			return False
+		return cls.has_items_for_application(app_name)
 
 class PlacesSource (Source):
 	"""
