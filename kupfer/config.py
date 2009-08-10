@@ -22,6 +22,13 @@ def get_cache_home():
 			return None
 	return cache_dir
 
+def get_cache_file(path=()):
+	cache_home = base.xdg_cache_home or os.path.expanduser("~/.cache")
+	cache_dir = os.path.join(cache_home, *path)
+	if not os.path.exists(cache_dir):
+		return None
+	return cache_dir
+
 def get_data_file(filename):
 	"""
 	Return path to @filename if it exists
