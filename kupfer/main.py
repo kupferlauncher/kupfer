@@ -126,6 +126,7 @@ def main():
 	from . import pretty, plugins, settings
 	from .plugins import (load_plugin_sources, sources_attribute,
 			action_decorators_attribute, text_sources_attribute,
+			content_decorators_attribute,
 			initialize_plugin)
 
 	cli_opts = get_options()
@@ -149,6 +150,7 @@ def main():
 
 	text_sources = []
 	action_decorators = []
+	content_decorators = []
 
 	for item in plugins.get_plugin_ids():
 		if not setctl.get_plugin_enabled(item):
@@ -157,6 +159,8 @@ def main():
 		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 		action_decorators.extend(load_plugin_sources(item,
 			action_decorators_attribute))
+		content_decorators.extend(load_plugin_sources(item,
+			content_decorators_attribute, instantiate=False))
 		if setctl.get_plugin_is_catalog(item):
 			s_sources.extend(load_plugin_sources(item))
 		else:
@@ -180,6 +184,7 @@ def main():
 	dc.set_sources(S_sources, s_sources)
 	dc.register_text_sources(text_sources)
 	dc.register_action_decorators(action_decorators)
+	dc.register_content_decorators(content_decorators)
 	w = browser.WindowController()
 	w.register_keybinding(source_config("Kupfer", "Keybinding"))
 	show_icon = not (source_config("Kupfer", "ShowStatusIcon").lower() not in

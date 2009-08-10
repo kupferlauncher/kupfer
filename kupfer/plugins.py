@@ -3,6 +3,7 @@ from kupfer import pretty, config, settings
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
+content_decorators_attribute = "__kupfer_contents__"
 action_decorators_attribute = "__kupfer_actions__"
 settings_attribute = "__kupfer_settings__"
 
@@ -136,7 +137,7 @@ def get_plugin_attribute(plugin_name, attr):
 	obj, = (attrs if attrs else (None, ))
 	return obj
 
-def load_plugin_sources(plugin_name, attr=sources_attribute):
+def load_plugin_sources(plugin_name, attr=sources_attribute, instantiate=True):
 	sources = get_plugin_attribute(plugin_name, attr)
 	if not sources:
 		return
@@ -144,7 +145,10 @@ def load_plugin_sources(plugin_name, attr=sources_attribute):
 		if source:
 			pretty.print_debug(__name__, "Found %s.%s" % ( source.__module__,
 				source.__name__))
-			yield source()
+			if instantiate:
+				yield source()
+			else:
+				yield source
 		else:
 			pretty.print_info(__name__, "Source not found for %s" % plugin_name)
 

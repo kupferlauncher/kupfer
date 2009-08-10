@@ -329,7 +329,8 @@ class SourceController (pretty.OutputMixin):
 		self.text_sources.update(srcs)
 	def get_text_sources(self):
 		return self.text_sources
-
+	def set_content_decorators(self, decos):
+		self.content_decorators = decos
 	def clear_sources(self):
 		pass
 	def __contains__(self, src):
@@ -381,6 +382,14 @@ class SourceController (pretty.OutputMixin):
 					self.output_debug("Adding source", s, "for types", *types)
 					break
 		return objects.MultiSource(firstlevel)
+
+	def get_content_for_leaf(self, leaf):
+		for typ in self.content_decorators:
+			if isinstance(leaf, typ):
+				for content in self.content_decorators[typ]:
+					if content.decorates_item(leaf):
+						return content(leaf)
+		return None
 
 	def finish(self):
 		self._pickle_sources(self.sources)
@@ -494,9 +503,15 @@ class LeafPane (Pane, pretty.OutputMixin):
 		and save away the previous sources in the stack
 		if @alternate, use the Source's alternate method"""
 		leaf = self.get_selection()
-		if not leaf or not leaf.has_content():
+		if not leaf:
 			return
-		self.push_source(leaf.content_source(alternate=alternate))
+		if leaf.has_content():
+			self.push_source(leaf.content_source(alternate=alternate))
+			return
+		sc = GetSourceController()
+		content = sc.get_content_for_leaf(leaf)
+		if content:
+			self.push_source(content)
 
 	def reset(self):
 		"""Pop all sources and go back to top level"""
@@ -648,7 +663,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	
 	def register_action_decorators(self, acts):
 		# Keep a dictionary with Leaf type as key
-		# and value actions to add
 		for act in acts:
 			applies = act.item_types()
 			for appl_type in applies:
@@ -656,6 +670,18 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				decorate_with.append(act)
 				self.decorate_types[appl_type] = decorate_with
 		self.output_debug("Decorators", self.decorate_types)
+
+	def register_content_decorators(self, contents):
+		# Keep a dictionary with Leaf type as key
+		decorate_item_types = {}
+		for c in contents:
+			applies = c.decorates_type()
+			decorate_with = decorate_item_types.get(applies, [])
+			decorate_with.append(c)
+			decorate_item_types[applies] = decorate_with
+		sc = GetSourceController()
+		sc.set_content_decorators(decorate_item_types)
+		self.output_debug("Content decorators", decorate_item_types)
 
 	def _load(self, sched):
 		"""Load data from persistent store"""
