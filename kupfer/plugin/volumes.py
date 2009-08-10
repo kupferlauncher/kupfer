@@ -18,7 +18,6 @@ class Volume (Leaf):
 
 	def get_actions(self):
 		yield objects.OpenDirectory()
-		yield objects.SearchInside()
 		if self.volume.can_eject():
 			yield Eject()
 		elif self.volume.can_unmount():

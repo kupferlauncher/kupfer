@@ -282,7 +282,7 @@ class FileLeaf (Leaf):
 		app_actions=[]
 		default = None
 		if path.isdir(self.object):
-			acts.extend([OpenTerminal(), SearchInside()])
+			acts.extend([OpenTerminal(), ])
 			default = OpenDirectory()
 		elif self._is_valid():
 			gfile = gio.File(self.object)
@@ -368,7 +368,6 @@ class SourceLeaf (Leaf):
 		return True
 
 	def get_actions(self):
-		yield SearchInside()
 		if not self.object.is_dynamic():
 			yield RescanSource()
 
@@ -710,29 +709,6 @@ class Execute (Launch):
 			return _("Run this program in a Terminal")
 		else:
 			return _("Run this program")
-
-class SearchInside (Action):
-	"""
-	A factory action: works on a Leaf object with content
-	
-	Return a new source with the contents of the Leaf
-	"""
-	def __init__(self):
-		super(SearchInside, self).__init__(_("Search content..."))
-	
-	def is_factory(self):
-		return True
-	
-	def activate(self, leaf):
-		if not leaf.has_content():
-			raise InvalidLeafError("Must have content")
-		return leaf.content_source()
-
-	def get_description(self):
-		return _("Search inside this catalog")
-
-	def get_icon_name(self):
-		return "search"
 
 class RescanSource (Action):
 	"""

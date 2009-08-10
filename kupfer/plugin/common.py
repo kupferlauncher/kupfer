@@ -8,9 +8,35 @@ from kupfer.plugin import about_support
 __kupfer_name__ = _("Core")
 __kupfer_sources__ = ("CommonSource", "KupferSource", )
 __kupfer_contents__ = ("KupferSource", )
+__kupfer_actions__ = ("SearchInside", )
 __description__ = _("Core actions and miscellaneous items")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+class SearchInside (Action):
+	"""
+	A factory action: works on a Leaf object with content
+	Return a new source with the contents of the Leaf
+	"""
+	def __init__(self):
+		super(SearchInside, self).__init__(_("Search content..."))
+
+	def is_factory(self):
+		return True
+	def activate(self, leaf):
+		if not leaf.has_content():
+			raise objects.InvalidLeafError("Must have content")
+		return leaf.content_source()
+
+	def item_types(self):
+		yield Leaf
+	def valid_for_item(self, leaf):
+		return leaf.has_content()
+
+	def get_description(self):
+		return _("Search inside this catalog")
+	def get_icon_name(self):
+		return "search"
 
 class RunnableLeaf (Leaf):
 	"""Leaf where the Leaf is basically the action itself,
