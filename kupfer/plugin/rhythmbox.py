@@ -35,7 +35,7 @@ def enqueue_songs(info, clear_queue=False):
 		qargv.append(path)
 	utils.spawn_async(qargv)
 
-class PlayRhythmbox (RunnableLeaf):
+class Play (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Play"))
 	def run(self):
@@ -44,6 +44,16 @@ class PlayRhythmbox (RunnableLeaf):
 		return _("Resume playback in Rhythmbox")
 	def get_icon_name(self):
 		return "media-playback-start"
+
+class Pause (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Pause"))
+	def run(self):
+		utils.spawn_async(("rhythmbox-client", "--pause"))
+	def get_description(self):
+		return _("Pause playback in Rhythmbox")
+	def get_icon_name(self):
+		return "media-playback-pause"
 
 class Next (RunnableLeaf):
 	def __init__(self):
@@ -55,7 +65,7 @@ class Next (RunnableLeaf):
 	def get_icon_name(self):
 		return "media-skip-forward"
 
-class Play (Action):
+class PlayTracks (Action):
 	rank_adjust = 5
 	def __init__(self):
 		Action.__init__(self, _("Play"))
@@ -97,7 +107,7 @@ class SongLeaf (Leaf):
 		Leaf.__init__(self, info, name)
 		self.artist = artist
 	def get_actions(self):
-		yield Play()
+		yield PlayTracks()
 		yield Enqueue()
 	def get_description(self):
 		# TRANS: Song description "by Artist"
@@ -119,7 +129,7 @@ class AlbumLeaf (Leaf):
 	def __init__(self, name, info):
 		Leaf.__init__(self, info, name)
 	def get_actions(self):
-		yield Play()
+		yield PlayTracks()
 		yield Enqueue()
 	def has_content(self):
 		return True
@@ -184,7 +194,8 @@ class RhythmboxSource (Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		yield PlayRhythmbox()
+		yield Play()
+		yield Pause()
 		yield Next()
 		yield SourceLeaf(RhythmboxAlbumsSource())
 
