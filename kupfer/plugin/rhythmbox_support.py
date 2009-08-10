@@ -92,6 +92,17 @@ def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
         album = albums.get(song_album, [])
         album.append(song)
         albums[song_album] = album
+    def get_track_number(rec):
+        tnr = rec.get("track-number")
+        if not tnr: return None
+        try:
+            tnr = int(tnr)
+        except ValueError:
+            pass
+        return tnr
+    # sort album in track order
+    for album in albums:
+        albums[album].sort(key=get_track_number)
     return albums
 
 if __name__ == "__main__":
