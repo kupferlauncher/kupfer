@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-import sys
 import os
 from xml.sax import make_parser
 from xml.sax.saxutils import XMLGenerator
@@ -39,6 +38,7 @@ class RhythmBoxHandler(ContentHandler):
         ContentHandler.__init__(self)
         self.lSongs = lSongs
         self.fParsingTag = False
+        self.fWantElement = False
         self.sValue = ''
         self.entry_type = entry_type
         self.wanted_keys = wanted_keys and set(wanted_keys)
@@ -49,10 +49,16 @@ class RhythmBoxHandler(ContentHandler):
         if sName == "entry" and attributes["type"] == self.entry_type:
             self.fParsingTag = True
             self.entry = {}
+            self.fWantElement = True
+        elif not self.wanted_keys or sName in self.wanted_keys:
+            self.fWantElement = True
+        else:
+            self.fWantElement = False
         self.sValue = ''
 
     def characters(self, sData):
-        self.sValue += sData
+        if self.fWantElement:
+            self.sValue += sData
 
     def endElement(self,sName):
         if sName == 'entry':
@@ -60,18 +66,19 @@ class RhythmBoxHandler(ContentHandler):
             if self.entry:
                 self.lSongs.append(self.entry)
             self.entry = None
-        elif self.fParsingTag:
-            if not self.wanted_keys or sName in self.wanted_keys:
-                self.entry[sName]  = self.sValue
+        elif self.fParsingTag and self.fWantElement:
+            self.entry[sName]  = self.sValue
 
-if __name__ == "__main__":
-    print 'Parsing Rhythmbox'
-    RHYTHMDB = os.path.expanduser('~/.local/share/rhythmbox/rhythmdb.xml')
-    sRhythmboxFile = RHYTHMDB
+def get_rhythmbox_songs(typ="song", keys=None, dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
+    sRhythmboxFile = os.path.expanduser(dbfile)
     rbParser = make_parser()
     lSongs = []
-    rbHandler = RhythmBoxHandler(lSongs, "song")
+    rbHandler = RhythmBoxHandler(lSongs, typ, keys)
     rbParser.setContentHandler(rbHandler)
     rbParser.parse(sRhythmboxFile)
-    for itm in lSongs[:10]:
+    return lSongs
+
+if __name__ == "__main__":
+    lSongs = get_rhythmbox_songs(keys=("title", ))
+    for itm in lSongs[:100]:
         print itm
