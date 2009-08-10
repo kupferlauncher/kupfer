@@ -24,17 +24,11 @@ from kupfer.utils import locale_sort
 class Error (Exception):
 	pass
 
-class NoParent (Error):
-	pass
-
-class NoContent (Error):
-	pass
-
-class InvalidData (Error):
+class InvalidDataError (Error):
 	"""The data is wrong for the given Leaf"""
 	pass
 
-class InvalidLeaf (Error):
+class InvalidLeafError (Error):
 	"""The Leaf passed to an Action is invalid"""
 	pass
 
@@ -305,7 +299,7 @@ class FileLeaf (Leaf):
 						is_default = (key == def_key)
 						app = OpenWith(info, is_default)
 						apps[key] = app
-					except InvalidData:
+					except InvalidDataError:
 						pass
 			if def_key:
 				if not def_key in apps:
@@ -360,7 +354,7 @@ def ConstructFileLeaf(obj):
 	if ext == ".desktop":
 		try:
 			return AppLeaf(path=obj)
-		except InvalidData:
+		except InvalidDataError:
 			pass
 	return FileLeaf(obj)
 
@@ -398,7 +392,7 @@ class AppLeaf (Leaf, PicklingHelperMixin):
 		self.path = path
 		self.unpickle_finish()
 		if not self.object:
-			raise InvalidData
+			raise InvalidDataError
 		Leaf.__init__(self, self.object, self.object.get_name())
 
 	def pickle_prepare(self):
@@ -544,7 +538,7 @@ class OpenWith (Action):
 		should only be styled "Open"
 		"""
 		if not desktop_item:
-			raise InvalidData
+			raise InvalidDataError
 
 		name = desktop_item.get_name()
 		action_name = _("Open") if is_default else _("Open with %s") % name
@@ -725,7 +719,7 @@ class SearchInside (Action):
 	
 	def activate(self, leaf):
 		if not leaf.has_content():
-			raise InvalidLeaf("Must have content")
+			raise InvalidLeafError("Must have content")
 		return leaf.content_source()
 
 	def get_description(self):
@@ -746,7 +740,7 @@ class RescanSource (Action):
 	
 	def activate(self, leaf):
 		if not leaf.has_content():
-			raise InvalidLeaf("Must have content")
+			raise InvalidLeafError("Must have content")
 		source = leaf.object
 		if not source.is_dynamic():
 			cache = source.get_leaves(force_update=True)
@@ -851,7 +845,7 @@ class Source (KupferObject, pretty.OutputMixin):
 		return False
 
 	def get_parent(self):
-		raise NoParent
+		return None
 
 	def get_leaf_repr(self):
 		"""Return, if appicable, another object
