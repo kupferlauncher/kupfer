@@ -162,9 +162,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="labelkeybindingaux">
-                                        <property name="label"></property>
-                                      </object>
+                                      <object class="GtkLabel" id="labelkeybindingaux"/>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="position">1</property>
@@ -275,28 +273,6 @@
                     <property name="tab_fill">False</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkVBox" id="direcdtories_list_placeholder">
-                    <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child type="tab">
-                  <object class="GtkLabel" id="label3">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Directories</property>
-                  </object>
-                  <packing>
-                    <property name="position">2</property>
-                    <property name="tab_fill">False</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="position">0</property>
@@ -305,7 +281,23 @@
             <child>
               <object class="GtkHButtonBox" id="hbuttonbox1">
                 <property name="visible">True</property>
-                <property name="layout_style">end</property>
+                <property name="layout_style">edge</property>
+                <child>
+                  <object class="GtkButton" id="helpbutton">
+                    <property name="label" translatable="yes">gtk-help</property>
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
+                    <signal name="clicked" handler="on_helpbutton_clicked"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
                 <child>
                   <object class="GtkButton" id="closebutton">
                     <property name="label">gtk-close</property>
@@ -318,7 +310,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
