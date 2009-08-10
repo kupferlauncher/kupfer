@@ -14,7 +14,7 @@ __kupfer_sources__ = (
 		"RhythmboxArtistsSource",
 	)
 __kupfer_contents__ = ("RhythmboxSource", )
-__description__ = _("Play and enqueue songs and browse the music library")
+__description__ = _("Play and enqueue tracks and browse the music library")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -53,7 +53,7 @@ class Pause (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Pause"))
 	def run(self):
-		utils.spawn_async(("rhythmbox-client", "--pause"))
+		utils.spawn_async(("rhythmbox-client", "--no-start", "--pause"))
 	def get_description(self):
 		return _("Pause playback in Rhythmbox")
 	def get_icon_name(self):
@@ -63,11 +63,21 @@ class Next (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Next"))
 	def run(self):
-		utils.spawn_async(("rhythmbox-client", "--next"))
+		utils.spawn_async(("rhythmbox-client", "--no-start", "--next"))
 	def get_description(self):
-		return _("Jump to next song in Rhythmbox")
+		return _("Jump to next track in Rhythmbox")
 	def get_icon_name(self):
 		return "media-skip-forward"
+
+class Previous (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Previous"))
+	def run(self):
+		utils.spawn_async(("rhythmbox-client", "--no-start", "--previous"))
+	def get_description(self):
+		return _("Jump to previous track in Rhythmbox")
+	def get_icon_name(self):
+		return "media-skip-backward"
 
 class PlayTracks (Action):
 	rank_adjust = 5
@@ -235,11 +245,12 @@ class RhythmboxSource (Source):
 		yield Play()
 		yield Pause()
 		yield Next()
+		yield Previous()
 		yield SourceLeaf(RhythmboxAlbumsSource())
 		yield SourceLeaf(RhythmboxArtistsSource())
 
 	def get_description(self):
-		return _("Play and enqueue songs and browse the music library")
+		return _("Play and enqueue tracks and browse the music library")
 	def get_icon_name(self):
 		return "rhythmbox"
 	def provides(self):
