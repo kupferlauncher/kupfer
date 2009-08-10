@@ -6,7 +6,8 @@ from kupfer import objects, utils, icons
 from kupfer.plugin import about_support
 
 __kupfer_name__ = _("Core")
-__kupfer_sources__ = ("CommonSource", )
+__kupfer_sources__ = ("CommonSource", "KupferSource", )
+__kupfer_contents__ = ("KupferSource", )
 __description__ = _("Core actions and miscellaneous items")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -141,9 +142,6 @@ class CommonSource (Source):
 		return True
 	def get_items(self):
 		return (
-			About(),
-			Preferences(),
-			Quit(),
 			# These seem to be included in applications now..
 			#SpecialLocation("computer://", description=_("Browse local disks and mounts")),
 			#SpecialLocation("burn://"),
@@ -159,3 +157,26 @@ class CommonSource (Source):
 	def provides(self):
 		yield SpecialLocation
 		yield RunnableLeaf
+
+class KupferSource (Source):
+	def __init__(self, leaf=None, name=_("Kupfer items")):
+		Source.__init__(self, name)
+	def is_dynamic(self):
+		return True
+	def get_items(self):
+		return (
+			About(),
+			Preferences(),
+			Quit(),
+		)
+	def get_description(self):
+		return _("Kupfer items and actions")
+	def provides(self):
+		yield RunnableLeaf
+	@classmethod
+	def decorates_type(cls):
+		return objects.AppLeaf
+	@classmethod
+	def decorate_item(cls, leaf):
+		if leaf.get_id() == "kupfer.desktop":
+			return cls()
