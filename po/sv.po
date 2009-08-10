@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-11 00:26+0200\n"
+"POT-Creation-Date: 2009-08-11 01:27+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -547,66 +547,88 @@ msgstr "Sök med Google"
 msgid "Search for this term with Google"
 msgstr "Sök efter denna termen med Google"
 
-#: ../kupfer/plugin/rhythmbox.py:10 ../kupfer/plugin/rhythmbox.py:193
+#: ../kupfer/plugin/rhythmbox.py:10 ../kupfer/plugin/rhythmbox.py:241
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:13 ../kupfer/plugin/rhythmbox.py:202
-msgid "Play and enqueue songs and browse the music library"
+#: ../kupfer/plugin/rhythmbox.py:17 ../kupfer/plugin/rhythmbox.py:253
+msgid "Play and enqueue tracks and browse the music library"
 msgstr "Spela spår och sök i musikbiblioteket"
 
-#: ../kupfer/plugin/rhythmbox.py:40 ../kupfer/plugin/rhythmbox.py:71
+#: ../kupfer/plugin/rhythmbox.py:44 ../kupfer/plugin/rhythmbox.py:85
 msgid "Play"
 msgstr "Spela upp"
 
-#: ../kupfer/plugin/rhythmbox.py:44
+#: ../kupfer/plugin/rhythmbox.py:48
 msgid "Resume playback in Rhythmbox"
 msgstr "Starta uppspelning i Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:50
+#: ../kupfer/plugin/rhythmbox.py:54
 msgid "Pause"
 msgstr "Paus"
 
-#: ../kupfer/plugin/rhythmbox.py:54
+#: ../kupfer/plugin/rhythmbox.py:58
 msgid "Pause playback in Rhythmbox"
 msgstr "Pausa uppspelning i Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:60
+#: ../kupfer/plugin/rhythmbox.py:64
 msgid "Next"
 msgstr "Nästa"
 
-#: ../kupfer/plugin/rhythmbox.py:64
-msgid "Jump to next song in Rhythmbox"
+#: ../kupfer/plugin/rhythmbox.py:68
+msgid "Jump to next track in Rhythmbox"
 msgstr "Hoppa till nästa spår i Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:88
+#: ../kupfer/plugin/rhythmbox.py:74
+msgid "Previous"
+msgstr "Föregående"
+
+#: ../kupfer/plugin/rhythmbox.py:78
+msgid "Jump to previous track in Rhythmbox"
+msgstr "Hoppa till föregående spår i Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:102
 msgid "Enqueue"
 msgstr "Köa"
 
-#: ../kupfer/plugin/rhythmbox.py:99
+#: ../kupfer/plugin/rhythmbox.py:113
 msgid "Add tracks to the play queue"
 msgstr "Lägg till spår i spelkön"
 
 #. TRANS: Song description "by Artist"
 #. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:114 ../kupfer/plugin/rhythmbox.py:148
+#: ../kupfer/plugin/rhythmbox.py:128 ../kupfer/plugin/rhythmbox.py:172
 #, python-format
 msgid "by %s"
 msgstr "av %s"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/plugin/rhythmbox.py:145
+#: ../kupfer/plugin/rhythmbox.py:169
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
 
-#: ../kupfer/plugin/rhythmbox.py:173
+#. TRANS: Artist songs collection description
+#: ../kupfer/plugin/rhythmbox.py:195
+#, python-format
+msgid "Tracks by %s"
+msgstr "Spår av %s"
+
+#: ../kupfer/plugin/rhythmbox.py:201
 msgid "Rhythmbox Albums"
 msgstr "Rhythmbox-album"
 
-#: ../kupfer/plugin/rhythmbox.py:183
+#: ../kupfer/plugin/rhythmbox.py:211
 msgid "Music albums"
 msgstr "Musikalbum"
+
+#: ../kupfer/plugin/rhythmbox.py:221
+msgid "Rhythmbox Artists"
+msgstr "Rhythmbox-artister"
+
+#: ../kupfer/plugin/rhythmbox.py:231
+msgid "Music artists"
+msgstr "Musikartister"
 
 #: ../kupfer/plugin/screen.py:7 ../kupfer/plugin/screen.py:103
 msgid "GNU Screen"
@@ -885,9 +907,6 @@ msgstr ""
 
 #~ msgid "Results for query \"%s\""
 #~ msgstr "Resultat för \"%s\""
-
-#~ msgid "Tracker tag %s"
-#~ msgstr "Tracker-tagg %s"
 
 #~ msgid "Volumes"
 #~ msgstr "Volymer"
