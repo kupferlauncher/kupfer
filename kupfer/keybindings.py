@@ -40,6 +40,10 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 	else:
 		callback = lambda : GetKeyboundObject()._keybinding(keybinding_target)
 		keybinding_target = int(keybinding_target)
+		if len(keystr) < 2:
+			pretty.print_error(__name__, "Refusing to bind key", keystr)
+			return False
+
 		try:
 			succ = keybinder.bind(keystr, callback)
 			pretty.print_debug(__name__, "binding", keystr)
