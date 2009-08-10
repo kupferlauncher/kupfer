@@ -140,7 +140,6 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 						default = self.sep.join(default)
 					elif isinstance(default, int):
 						default = str(default)
-					print secname, key, default
 					parser.set(secname, key, default)
 
 		confmap = confmap_difference(self._config, default_confmap)
