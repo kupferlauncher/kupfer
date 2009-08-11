@@ -70,7 +70,8 @@ class RhythmBoxHandler(ContentHandler):
             self.entry[sName]  = self.sValue
 
 NEEDED_KEYS= ("title", "artist", "album", "track-number", "location", )
-def get_rhythmbox_songs(typ="song", keys=None, dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
+def get_rhythmbox_songs(typ="song", keys=NEEDED_KEYS,
+        dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
     sRhythmboxFile = os.path.expanduser(dbfile)
     rbParser = make_parser()
     lSongs = []
@@ -103,8 +104,7 @@ def sort_album_order(songs):
         return (rec["album"], tnr)
     songs.sort(key=get_album_order)
 
-def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
-    songs = get_rhythmbox_songs(keys=NEEDED_KEYS, dbfile=dbfile)
+def parse_rhythmbox_albums(songs):
     albums = {}
     for song in songs:
         song_artist = song["artist"]
@@ -121,8 +121,7 @@ def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
         sort_album(albums[album])
     return albums
 
-def get_rhythmbox_artists(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
-    songs = get_rhythmbox_songs(keys=NEEDED_KEYS, dbfile=dbfile)
+def parse_rhythmbox_artists(songs):
     artists = {}
     for song in songs:
         song_artist = song["artist"]
