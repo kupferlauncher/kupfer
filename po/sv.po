@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-11 03:01+0200\n"
+"POT-Creation-Date: 2009-08-11 04:26+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -478,6 +478,34 @@ msgstr "Epiphany-bokmärken"
 #: ../kupfer/plugin/epiphany.py:6 ../kupfer/plugin/epiphany.py:21
 msgid "Index of Epiphany bookmarks"
 msgstr "Index över Epiphany-bokmärken"
+
+#: ../kupfer/plugin/favorites.py:8 ../kupfer/plugin/favorites.py:27
+msgid "Favorites"
+msgstr "Favoriter"
+
+#: ../kupfer/plugin/favorites.py:11
+msgid "(Simple) favorites plugin"
+msgstr "(Enkel) modul för favoritobjekt"
+
+#: ../kupfer/plugin/favorites.py:54
+msgid "Shelf of \"Favorite\" items"
+msgstr "Plats för favoritobjekt"
+
+#: ../kupfer/plugin/favorites.py:66
+msgid "Add to Favorites"
+msgstr "Lägg till favorit"
+
+#: ../kupfer/plugin/favorites.py:76
+msgid "Add item to favorites shelf"
+msgstr "Lägg till objekt till favorithyllan"
+
+#: ../kupfer/plugin/favorites.py:82
+msgid "Remove from Favorites"
+msgstr "Ta bort favorit"
+
+#: ../kupfer/plugin/favorites.py:90
+msgid "Remove item from favorites shelf"
+msgstr "Ta bort objekt från favorithyllan"
 
 #: ../kupfer/plugin/fileactions.py:8
 msgid "File actions"
