@@ -13,7 +13,10 @@ def setup_gettext():
 	else:
 		package_name = version_subst.PACKAGE_NAME
 		localedir = version_subst.LOCALEDIR
-	gettext.install(package_name, localedir=localedir, unicode=True)
+	# Install _() builtin for gettext; always returning unicode objects
+	# also install ngettext()
+	gettext.install(package_name, localedir=localedir, unicode=True,
+			names=("ngettext",))
 
 setup_gettext()
 
