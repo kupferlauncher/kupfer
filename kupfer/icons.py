@@ -85,7 +85,11 @@ class ComposedIcon (Icon):
 	"""
 	A composed icon, which kupfer will render to pixbuf as
 	background icon with the decorating icon as emblem
+
+	@minimum_icon_size is the minimum size for
+	the composition to be drawn
 	"""
+	minimum_icon_size = 48
 	def __new__(cls, baseicon, emblemicon, emblem_is_fallback=False):
 		fallback_icon = emblemicon if emblem_is_fallback else baseicon
 		if isinstance(fallback_icon, (basestring, ThemedIcon)):
@@ -118,6 +122,9 @@ class _ComposedFileIcon (_ComposedIconImpl, FileIcon):
 
 def _render_composed_icon(composed_icon, icon_size):
 	import gtk
+	# If it's too small, render as fallback icon
+	if icon_size < ComposedIcon.minimum_icon_size:
+		return _get_icon_for_standard_gicon(composed_icon, icon_size)
 	emblemicon = composed_icon.emblemicon
 	baseicon = composed_icon.baseicon
 	toppbuf = _get_icon_dwim(emblemicon, icon_size)
@@ -182,15 +189,21 @@ def get_icon_for_gicon(gicon, icon_size):
 	"""
 	Return a pixbuf of @icon_size for the @gicon
 
-	NOTE: Currently only ThemedIcon or FileIcon
-	can be rendered
+	NOTE: Currently only the following can be rendered:
+		gio.ThemedIcon
+		gio.FileIcon
+		kupfer.icons.ComposedIcon
 	"""
 	# FIXME: We can't load any general GIcon
 	if not gicon:
 		return None
-	from gio import ThemedIcon, FileIcon
 	if isinstance(gicon, _ComposedIconImpl):
 		return _render_composed_icon(gicon, icon_size)
+	return _get_icon_for_standard_gicon(gicon, icon_size)
+
+def _get_icon_for_standard_gicon(gicon, icon_size):
+	"""Render ThemedIcon and FileIcon"""
+	from gio import ThemedIcon, FileIcon
 	if isinstance(gicon, FileIcon):
 		ifile = gicon.get_file()
 		return get_icon_from_file(ifile.get_path(), icon_size)
