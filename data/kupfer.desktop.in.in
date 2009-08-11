@@ -1,7 +1,8 @@
 [Desktop Entry]
 Version=1.0
 _Name=Kupfer
-_Comment=A simple flexible launcher
+_GenericName=Application Launcher
+_Comment=Convenient command and access tool for applications and documents
 Icon=search
 Exec=@KUPFER@
 Type=Application
