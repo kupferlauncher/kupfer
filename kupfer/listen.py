@@ -36,6 +36,9 @@ class _Service (ExportedGObject):
 	@dbus.service.method(interface_name)
 	def ShowHide(self):
 		self.emit("show-hide")
+	@dbus.service.method(interface_name, in_signature="ss")
+	def PutText(self, working_directory, text):
+		self.emit("put-text", working_directory, text)
 	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
@@ -43,6 +46,8 @@ gobject.signal_new("present", _Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("show-hide", _Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
+gobject.signal_new("put-text", _Service, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING))
 gobject.signal_new("quit", _Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
