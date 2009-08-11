@@ -10,7 +10,7 @@ from kupfer import utils, plugin_support
 __kupfer_name__ = _("Wikipedia")
 __kupfer_sources__ = ()
 __kupfer_actions__ = ("WikipediaSearch", )
-__description__ = _("Send search queries to Wikipedia")
+__description__ = _("Search in Wikipedia")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
