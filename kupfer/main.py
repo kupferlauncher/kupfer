@@ -3,6 +3,7 @@ _debug = False
 def setup_gettext():
 	"""Set up localization with gettext"""
 	import gettext
+	import locale
 
 	package_name = "kupfer"
 	localedir = "./locale"
@@ -17,6 +18,8 @@ def setup_gettext():
 	# also install ngettext()
 	gettext.install(package_name, localedir=localedir, unicode=True,
 			names=("ngettext",))
+	# also bind this for gtkbuilder (wtf?)
+	locale.bindtextdomain(package_name, localedir)
 
 setup_gettext()
 
