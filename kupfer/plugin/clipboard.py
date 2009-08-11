@@ -29,11 +29,11 @@ class ClipboardText (TextLeaf):
 	def get_description(self):
 		lines = self.object.splitlines()
 		desc = unicode(self)
-		numlines = ""
-		if len(lines) > 1:
-			numlines = _("%d lines") % len(lines)
+		numlines = len(lines)
 
-		return _('Clipboard with %s "%s"') % (numlines, desc)
+		return ngettext('Clipboard "%(desc)s"',
+			'Clipboard with %(num)d lines "%(desc)s"',
+			numlines) % {"num": numlines, "desc": desc }
 
 class ClipboardSource (Source, PicklingHelperMixin):
 	"""
