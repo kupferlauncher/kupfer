@@ -3,7 +3,8 @@ import gobject
 import gtk
 from hashlib import md5
 
-from kupfer.objects import Leaf, Source, AppLeaf, Action, RunnableLeaf, SourceLeaf
+from kupfer.objects import (Leaf, Source, AppLeaf, Action, RunnableLeaf,
+		SourceLeaf, AppLeafContentMixin)
 from kupfer import objects, icons, utils, config
 from kupfer.plugin import rhythmbox_support
 
@@ -245,7 +246,8 @@ class RhythmboxArtistsSource (Source):
 	def provides(self):
 		yield ArtistLeaf
 
-class RhythmboxSource (Source):
+class RhythmboxSource (AppLeafContentMixin, Source):
+	appleaf_content_id = "rhythmbox.desktop"
 	def __init__(self):
 		Source.__init__(self, _("Rhythmbox"))
 	def is_dynamic(self):
@@ -265,16 +267,3 @@ class RhythmboxSource (Source):
 	def provides(self):
 		yield RunnableLeaf
 		yield SourceLeaf
-	def get_leaf_repr(self):
-		try:
-			app = objects.AppLeaf(item_id="rhythmbox.desktop")
-		except objects.InvalidDataError:
-			app = None
-		return app
-	@classmethod
-	def decorates_type(cls):
-		return AppLeaf
-	@classmethod
-	def decorate_item(cls, leaf):
-		if leaf.get_id() == "rhythmbox.desktop":
-			return cls()

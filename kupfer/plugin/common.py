@@ -1,7 +1,7 @@
 import gtk
 import gio
 
-from kupfer.objects import Leaf, Action, Source, RunnableLeaf
+from kupfer.objects import Leaf, Action, Source, RunnableLeaf, AppLeafContentMixin
 from kupfer import objects, utils, icons
 from kupfer.plugin import about_support
 
@@ -161,8 +161,9 @@ class CommonSource (Source):
 		yield SpecialLocation
 		yield RunnableLeaf
 
-class KupferSource (Source):
-	def __init__(self, leaf=None, name=_("Kupfer items")):
+class KupferSource (AppLeafContentMixin, Source):
+	appleaf_content_id = "kupfer.desktop"
+	def __init__(self, name=_("Kupfer items")):
 		Source.__init__(self, name)
 	def is_dynamic(self):
 		return True
@@ -176,16 +177,3 @@ class KupferSource (Source):
 		return _("Kupfer items and actions")
 	def provides(self):
 		yield RunnableLeaf
-	def get_leaf_repr(self):
-		try:
-			kapp = objects.AppLeaf(item_id="kupfer.desktop")
-		except objects.InvalidDataError:
-			kapp = None
-		return kapp
-	@classmethod
-	def decorates_type(cls):
-		return objects.AppLeaf
-	@classmethod
-	def decorate_item(cls, leaf):
-		if leaf.get_id() == "kupfer.desktop":
-			return cls()
