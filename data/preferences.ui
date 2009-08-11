@@ -286,7 +286,7 @@
                 <property name="layout_style">edge</property>
                 <child>
                   <object class="GtkButton" id="helpbutton">
-                    <property name="label" translatable="yes">gtk-help</property>
+                    <property name="label">gtk-help</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
