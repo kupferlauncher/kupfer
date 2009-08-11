@@ -161,6 +161,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl = settings.GetSettingsController()
 			setctl.set_keybinding(keystr)
 
+	def on_helpbutton_clicked(self, widget):
+		pass
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 	def on_checkplugin_toggled(self, cell, path):
