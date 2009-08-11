@@ -67,13 +67,15 @@ class MoveTo (Action, pretty.OutputMixin):
 class UnpackHere (Action):
 	def __init__(self):
 		Action.__init__(self, _("Extract here"))
+		self.extensions_set = set((".rar", ".7z", ".zip", ".gz", ".tgz",
+			".tar", ".lzma", ".bz2"))
 	def activate(self, leaf):
 		utils.launch_commandline("file-roller --extract-here %s" % leaf.object)
 
 	def valid_for_item(self, item):
 		tail, ext = os.path.splitext(item.object)
 		# FIXME: Make this detection smarter
-		return ext.lower() in (".rar", ".7z", ".zip", ".gz")
+		return ext.lower() in self.extensions_set
 
 	def item_types(self):
 		yield FileLeaf
