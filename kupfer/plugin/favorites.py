@@ -7,7 +7,7 @@ from kupfer import utils, objects
 
 __kupfer_name__ = _("Favorites")
 __kupfer_sources__ = ("FavoritesSource", )
-__kupfer_actions__ = ("AddFavorite", )
+__kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
 __description__ = _("(Simple) favorites plugin")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -75,4 +75,18 @@ class AddFavorite (Action):
 	def get_description(self):
 		return _("Add item to favorites shelf")
 	def get_icon_name(self):
-		return "gtk-copy"
+		return "gtk-add"
+
+class RemoveFavorite (Action):
+	def __init__(self):
+		Action.__init__(self, _("Remove from Favorites"))
+	def activate(self, leaf):
+		GetFavoritesSource().remove(leaf)
+	def item_types(self):
+		return list(_FavoritesLeafTypes())
+	def valid_for_item(self, item):
+		return GetFavoritesSource().has_item(item)
+	def get_description(self):
+		return _("Remove item from favorites shelf")
+	def get_icon_name(self):
+		return "gtk-remove"
