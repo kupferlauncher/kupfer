@@ -1,6 +1,11 @@
 import gtk
+import gio
 import gobject
 import pango
+
+from xdg import BaseDirectory as base
+from xdg import DesktopEntry as desktop
+import os
 
 from kupfer import config, plugins, pretty, settings, utils
 from kupfer import keybindings
@@ -35,10 +40,12 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.labelkeybindingaux = builder.get_object("labelkeybindingaux")
 		self.buttonpluginabout = builder.get_object("buttonpluginabout")
 		self.buttonpluginsettings = builder.get_object("buttonpluginsettings")
+		checkautostart = builder.get_object("checkautostart")
 		checkstatusicon = builder.get_object("checkstatusicon")
 
 		setctl = settings.GetSettingsController()
 		self.entrykeybinding.set_text(setctl.get_keybinding())
+		checkautostart.set_active(self._get_should_autostart())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 
 		columns = [
@@ -96,8 +103,42 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_checkstatusicon_toggled(self, widget):
 		setctl = settings.GetSettingsController()
 		setctl.set_show_status_icon(widget.get_active())
+
+	def _get_should_autostart(self):
+		KUPFER_DESKTOP = "kupfer.desktop"
+		AUTOSTART_KEY = "X-GNOME-Autostart-enabled"
+		autostart_dir = base.save_config_path("autostart")
+		autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
+		if not os.path.exists(autostart_file):
+			return False
+		dfile = desktop.DesktopEntry(autostart_file)
+		return (dfile.hasKey(AUTOSTART_KEY) and
+				dfile.get(AUTOSTART_KEY, type="boolean"))
+
 	def on_checkautostart_toggled(self, widget):
-		pass
+		KUPFER_DESKTOP = "kupfer.desktop"
+		AUTOSTART_KEY = "X-GNOME-Autostart-enabled"
+		desktop_files = list(base.load_data_paths("applications", KUPFER_DESKTOP))
+		if not desktop_files:
+			self.output_error("Installed kupfer desktop file not found!")
+			return
+		desktop_file_path = desktop_files[0]
+		autostart_dir = base.save_config_path("autostart")
+		autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
+		if not os.path.exists(autostart_file):
+			# Read installed file and modify it
+			dfile = desktop.DesktopEntry(desktop_file_path)
+			executable = dfile.getExec()
+			if "--no-splash" not in executable:
+				executable += " --no-splash"
+				dfile.set("Exec", executable)
+		else:
+			dfile = desktop.DesktopEntry(autostart_file)
+		activestr = str(bool(widget.get_active())).lower()
+		self.output_debug("Setting autostart to", activestr)
+		dfile.set(AUTOSTART_KEY, activestr)
+		dfile.write(filename=autostart_file)
+
 	def on_entrykeybinding_changed(self, widget):
 		self.buttonkeybinding.set_sensitive(True)
 		self.imagekeybindingaux.hide()
