@@ -199,12 +199,29 @@ class AlbumLeaf (TrackCollection):
 				pass
 		return None
 
+class ArtistAlbumsSource (CollectionSource):
+	def get_items(self):
+		albums = {}
+		for song in self.leaf.object:
+			album = song["album"]
+			album_list = albums.get(album, [])
+			album_list.append(song)
+			albums[album] = album_list
+		for album in albums:
+			yield AlbumLeaf(album, albums[album])
+	def should_sort_lexically(self):
+		return True
+
 class ArtistLeaf (TrackCollection):
 	def get_description(self):
 		# TRANS: Artist songs collection description
 		return _("Tracks by %s") % (unicode(self), )
 	def get_gicon(self):
 		return icons.ComposedIcon("media-optical", "system-users")
+	def content_source(self, alternate=False):
+		if alternate:
+			return CollectionSource(self)
+		return ArtistAlbumsSource(self)
 
 class RhythmboxAlbumsSource (Source):
 	def __init__(self):
