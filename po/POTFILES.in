@@ -21,6 +21,7 @@ kupfer/plugin/screen.py
 kupfer/plugins.py
 kupfer/plugin/text.py
 kupfer/plugin/tracker.py
+kupfer/plugin/wikipedia.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
 kupfer/version.py
