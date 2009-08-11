@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-11 02:43+0200\n"
+"POT-Creation-Date: 2009-08-11 03:01+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -507,15 +507,15 @@ msgstr "Flytta till ny plats"
 msgid "Extract here"
 msgstr "Packa upp här"
 
-#: ../kupfer/plugin/fileactions.py:81
+#: ../kupfer/plugin/fileactions.py:83
 msgid "Extract compressed archive"
 msgstr "Packa upp komprimerad fil"
 
-#: ../kupfer/plugin/fileactions.py:85
+#: ../kupfer/plugin/fileactions.py:87
 msgid "Create archive"
 msgstr "Skapa arkiv"
 
-#: ../kupfer/plugin/fileactions.py:95
+#: ../kupfer/plugin/fileactions.py:97
 msgid "Create a compressed archive from folder"
 msgstr "Skapa komprimerat arkiv av mappen"
 
@@ -744,6 +744,28 @@ msgstr "Ta bort tagg..."
 msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
+#: ../kupfer/plugin/wikipedia.py:10
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: ../kupfer/plugin/wikipedia.py:13 ../kupfer/plugin/wikipedia.py:30
+msgid "Search in Wikipedia"
+msgstr "Sök i Wikipedia"
+
+#: ../kupfer/plugin/wikipedia.py:20
+msgid "Wikipedia language"
+msgstr "Wikipedia-språk"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:23
+msgid "en"
+msgstr "sv"
+
+#: ../kupfer/plugin/wikipedia.py:43
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Sök efter denna termen i %s.wikipedia.org"
+
 #: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:86
 msgid "Window List"
 msgstr "Fönsterlista"
@@ -867,6 +889,9 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Send search queries to Wikipedia"
+#~ msgstr "Skicka sökningar till Google"
 
 #~ msgid "<b>Notification</b>"
 #~ msgstr "<b>Notifiering</b>"
