@@ -63,23 +63,25 @@ def icon_stats():
 	tot_acc = 0
 	tot_pix = 0
 	acc_vect = []
-	for k in icon_cache:
-		rec = icon_cache[k]
-		acc = rec["accesses"]
-		acc_vect.append(acc)
-		if not acc:
-			c += 1
-		tot_acc += acc
-		icon = rec["icon"]
-		tot_pix += icon.get_height() * icon.get_width()
-	print "Cached icons:",  len(icon_cache)
-	print "Unused cache entries", c
-	print "Total accesses", tot_acc
-	print make_histogram(acc_vect)
-	print "Sum pixels", tot_pix
-	print "Cached icon keys:"
-	for k in sorted(icon_cache, key=lambda k: icon_cache[k]["accesses"]):
-		print k, icon_cache[k]["accesses"]
+	for size in icon_cache:
+		for k in icon_cache[size]:
+			rec = icon_cache[size][k]
+			acc = rec["accesses"]
+			acc_vect.append(acc)
+			if not acc:
+				c += 1
+			tot_acc += acc
+			icon = rec["icon"]
+			tot_pix += icon.get_height() * icon.get_width()
+		print "Cached icons:",  len(icon_cache[size])
+		print "Unused cache entries", c
+		print "Total accesses", tot_acc
+		print make_histogram(acc_vect)
+		print "Sum pixels", tot_pix
+		print "Cached icon keys:"
+		for k in sorted(icon_cache[size],
+				key=lambda k: icon_cache[size][k]["accesses"]):
+			print k, icon_cache[size][k]["accesses"]
 
 atexit.register(mem_stats)
 atexit.register(icon_stats)
