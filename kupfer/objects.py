@@ -806,8 +806,11 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	def get_leaves(self, force_update=False):
 		"""
-		Return a list of all leaves. Subclasses should implement
-		get_items
+		Return a list of all leaves.
+
+		Subclasses should implement get_items, so that Source
+		can handle sorting and caching.
+		if @force_update, ignore cache, print number of items loaded
 		"""
 		if self.should_sort_lexically():
 			# sort in locale order
@@ -820,7 +823,10 @@ class Source (KupferObject, pretty.OutputMixin):
 		
 		if self.cached_items is None or force_update:
 			self.cached_items = aslist(sort_func(self.get_items()))
-			self.output_info("Loaded %d items" % len(self.cached_items))
+			if force_update:
+				self.output_info("Loaded %d items" % len(self.cached_items))
+			else:
+				self.output_debug("Loaded %d items" % len(self.cached_items))
 		return self.cached_items
 
 	def has_parent(self):
