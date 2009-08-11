@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-11 04:26+0200\n"
+"POT-Creation-Date: 2009-08-11 04:40+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -18,10 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/kupfer.desktop.in.in.h:1
-msgid "A simple flexible launcher"
-msgstr "En enkel programstartare"
+msgid "Application Launcher"
+msgstr "Programstartare"
 
-#: ../data/kupfer.desktop.in.in.h:2 ../kupfer/browser.py:935
+#: ../data/kupfer.desktop.in.in.h:2
+msgid "Convenient command and access tool for applications and documents"
+msgstr "Flexibelt kommandoprogram för program och dokument"
+
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:935
 #: ../kupfer/browser.py:955 ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -918,6 +922,9 @@ msgstr ""
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
+#~ msgid "A simple flexible launcher"
+#~ msgstr "En enkel programstartare"
+
 #~ msgid "Send search queries to Wikipedia"
 #~ msgstr "Skicka sökningar till Google"
 
@@ -975,5 +982,3 @@ msgstr ""
 #~ msgid "Computer"
 #~ msgstr "Dator"
 
-#~ msgid "Browse local disks and mounts"
-#~ msgstr "Bläddra i lokala enheter"
