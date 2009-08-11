@@ -7,6 +7,7 @@ kupfer/data.py
 kupfer/main.py
 kupfer/objects.py
 kupfer/preferences.py
+kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
