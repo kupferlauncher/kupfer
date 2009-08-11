@@ -12,6 +12,15 @@ from . import pretty
 from . import icons
 
 
+def escape_markup_str(mstr):
+	"""
+	Use a simeple homegrown replace table to replace &, <, > with
+	entities in @mstr
+	"""
+	escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
+	escape = lambda c: escape_table.get(c, c)
+	return u"".join(escape(c) for c in mstr)
+
 # State Constants
 class State (object):
 	Wait, Match, NoMatch = (1,2,3)
@@ -220,9 +229,6 @@ class MatchView (gtk.Bin):
 			Use a simeple homegrown replace table to replace &, <, > with
 			entities before adding markup.
 			"""
-			escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
-			escape = lambda c: escape_table.get(c, c)
-			escape_str = lambda s: u"".join(escape(c) for c in s)
 			open, close = (u"<u><b>", u"</b></u>")
 
 			def lower_partition(text, key):
@@ -239,14 +245,15 @@ class MatchView (gtk.Bin):
 				the "cut pieces" are then escaped
 				"""
 				if not key:
-					return escape_str(text)
+					return escape_markup_str(text)
 				"""recursively find search string in match"""
 				if key in text.lower():
 					nextkey=None
 				else:
 					key, nextkey = key[0], key[1:]
 				head, sep, tail = lower_partition(text, key)
-				return (escape_str(head) + open + escape_str(sep) + close +
+				return (escape_markup_str(head) + open +
+						escape_markup_str(sep) + close +
 						rmarkup(nextkey, tail))
 
 			markup = rmarkup(key, text)
