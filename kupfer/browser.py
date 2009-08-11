@@ -38,7 +38,7 @@ class LeafModel (object):
 		First column is always the object -- returned by get_object
 		it needs not be specified in columns
 		"""
-		columns = (gio.Icon, str, str, str)
+		columns = (gobject.TYPE_OBJECT, str, str, str)
 		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
 		self.object_column = 0
 		self.base = None
@@ -74,7 +74,7 @@ class LeafModel (object):
 		info_col = gtk.TreeViewColumn("info", info_cell)
 		info_col.add_attribute(info_cell, "text", self.info_col)
 
-		col.add_attribute(cell, "text", self.val_col)
+		col.add_attribute(cell, "markup", self.val_col)
 
 		nbr_cell = gtk.CellRendererText()
 		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
@@ -82,11 +82,12 @@ class LeafModel (object):
 		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
 
 		icon_cell = gtk.CellRendererPixbuf()
-		icon_cell.set_property("height", 18)
-		icon_cell.set_property("width", 18)
+		#icon_cell.set_property("height", 32)
+		#icon_cell.set_property("width", 32)
+		#icon_cell.set_property("stock-size", gtk.ICON_SIZE_LARGE_TOOLBAR)
 			
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
-		icon_col.add_attribute(icon_cell, "gicon", self.icon_col)
+		icon_col.add_attribute(icon_cell, "pixbuf", self.icon_col)
 
 		self.columns = [icon_col, col, info_col,]
 		if show_rank_col:
@@ -141,7 +142,13 @@ class LeafModel (object):
 		info = ""
 		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
-		self.append((leaf, leaf.get_icon(), str(leaf), info, rank_str))
+		text = u"%s\n<small>%s</small>" % (
+				escape_markup_str(unicode(leaf)),
+				escape_markup_str(leaf.get_description() or ""),
+			)
+		sz = 24
+		icon = leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
+		self.append((leaf, icon, text, info, rank_str))
 
 class MatchView (gtk.Bin):
 	"""
