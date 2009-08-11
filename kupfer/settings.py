@@ -233,6 +233,9 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if val is None:
 			return default
 
+		if value_type is bool:
+			value_type = strbool
+
 		try:
 			val = value_type(val)
 		except ValueError, err:
