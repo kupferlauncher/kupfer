@@ -1006,6 +1006,29 @@ class MultiSource (Source):
 	def get_icon_name(self):
 		return "folder-saved-search"
 
+class LeafContentMixin (object):
+	"""
+	Mixin for Source that correspond one-to-one with a Leaf.
+
+	This Mixin sees to that the Source is set as content for the Leaf
+	returned by cls.get_leaf_repr(), it must only be declared a class
+	method.
+	decorates_type and decorate_item are declared automatically.
+	"""
+	@classmethod
+	def __get_leaf_repr_cached(cls):
+		if not hasattr(cls, "_cached_leaf_repr"):
+			cls._cached_leaf_repr = cls.get_leaf_repr()
+		return cls._cached_leaf_repr
+	@classmethod
+	def decorates_type(cls):
+		leaf = cls.__get_leaf_repr_cached()
+		return leaf and type(leaf)
+	@classmethod
+	def decorate_item(cls, leaf):
+		if leaf == cls.__get_leaf_repr_cached():
+			return cls()
+
 class UrlLeaf (Leaf):
 	# slots saves memory since we have lots this Leaf
 	__slots__ = ("name", "object")
