@@ -19,7 +19,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"key": "lang",
 		"label": _("Wikipedia language"),
 		"type": str,
-		"value": "en",
+		# TRANS: Default wikipedia language code
+		"value": _("en"),
 	},
 )
 
