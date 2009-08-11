@@ -1006,27 +1006,39 @@ class MultiSource (Source):
 	def get_icon_name(self):
 		return "folder-saved-search"
 
-class LeafContentMixin (object):
+class AppLeafContentMixin (object):
 	"""
-	Mixin for Source that correspond one-to-one with a Leaf.
+	Mixin for Source that correspond one-to-one with a AppLeaf
 
-	This Mixin sees to that the Source is set as content for the Leaf
-	returned by cls.get_leaf_repr(), it must only be declared a class
-	method.
-	decorates_type and decorate_item are declared automatically.
+	This Mixin sees to that the Source is set as content for the application
+	with id cls.appleaf_content_id
+
+	Source has to define the attribute appleaf_content_id and must
+	inherit this mixin BEFORE the Source
+
+	This Mixin defines:
+	get_leaf_repr
+	decorates_type,
+	decorates_item
 	"""
 	@classmethod
-	def __get_leaf_repr_cached(cls):
+	def get_leaf_repr(cls):
 		if not hasattr(cls, "_cached_leaf_repr"):
-			cls._cached_leaf_repr = cls.get_leaf_repr()
-		return cls._cached_leaf_repr
+			cls._cached_leaf_repr = cls.__get_leaf_repr()
+		return cls.__get_leaf_repr()
+	@classmethod
+	def __get_leaf_repr(cls):
+		try:
+			app = AppLeaf(item_id=cls.appleaf_content_id)
+		except InvalidDataError:
+			app = None
+		return app
 	@classmethod
 	def decorates_type(cls):
-		leaf = cls.__get_leaf_repr_cached()
-		return leaf and type(leaf)
+		return AppLeaf
 	@classmethod
 	def decorate_item(cls, leaf):
-		if leaf == cls.__get_leaf_repr_cached():
+		if leaf.get_id() == cls.appleaf_content_id:
 			return cls()
 
 class UrlLeaf (Leaf):
