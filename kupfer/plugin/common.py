@@ -138,6 +138,19 @@ class SpecialLocation (objects.Leaf):
 	def get_icon_name(self):
 		return "folder"
 
+class Trash (SpecialLocation):
+	def __init__(self, name=None):
+		SpecialLocation.__init__(self, "trash://", name=name)
+	def get_description(self):
+		gfile = gio.File(self.object)
+		info = gfile.query_info(gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
+		item_count = info.get_attribute_uint32(gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
+		if not item_count:
+			return _("Trash is empty")
+		# proper translation of plural
+		return ngettext("Trash contains one file",
+			"Trash contains %(num)s files", item_count) % {"num": item_count}
+
 class CommonSource (Source):
 	def __init__(self, name=_("Special items")):
 		super(CommonSource, self).__init__(name)
@@ -148,7 +161,7 @@ class CommonSource (Source):
 			# These seem to be included in applications now..
 			#SpecialLocation("computer://", description=_("Browse local disks and mounts")),
 			#SpecialLocation("burn://"),
-			SpecialLocation("trash://"),
+			Trash(),
 			Logout(),
 			LockScreen(),
 			Shutdown(),
