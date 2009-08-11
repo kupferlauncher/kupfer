@@ -180,6 +180,15 @@ class AlbumLeaf (TrackCollection):
 			hartist = hspace
 			cache_name = "album-%s-%s.jpeg" % (hartist, htitle)
 			cache_file = config.get_cache_file(("media-art", cache_name))
+			# now try filesystem
+			if not cache_file:
+				uri = self.object[0]["location"]
+				gfile = gio.File(uri)
+				for cover_name in ("album.jpg", "cover.jpg"):
+					cfile = gfile.resolve_relative_path("../" + cover_name)
+					if cfile.query_exists():
+						cache_file = cfile.get_path()
+						break
 			self.cover_file = cache_file
 		if self.cover_file:
 			try:
