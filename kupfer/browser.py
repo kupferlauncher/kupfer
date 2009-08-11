@@ -6,6 +6,7 @@ import gio
 import gobject
 import itertools
 import signal
+import os
 
 from kupfer import data
 from . import pretty
@@ -899,6 +900,14 @@ class Interface (gobject.GObject):
 	def _table_event(self, widget, table, event):
 		self.entry.emit("key-press-event", event)
 
+	def put_text(self, text):
+		"""
+		Put @text into the interface to search, to use
+		for "queries" from other sources
+		"""
+		self.entry.set_text(text)
+		self.entry.set_position(-1)
+
 	def _changed(self, editable):
 		"""
 		The entry changed callback: Here we have to be sure to use
@@ -1020,7 +1029,16 @@ class WindowController (pretty.OutputMixin):
 		import keybinder
 		time = keybinder.get_current_event_time()
 		self.show_hide(time=time)
-	
+
+	def _put_text_recieved(self, sender, working_dir, text):
+		"""We got a search query from dbus"""
+		buildpath = os.path.join(working_dir, text)
+		self.activate()
+		if os.path.exists(buildpath):
+			self.interface.put_text(buildpath)
+		else:
+			self.interface.put_text(text)
+
 	def _close_window(self, window, event):
 		self.put_away()
 		return True
@@ -1083,6 +1101,7 @@ class WindowController (pretty.OutputMixin):
 		else:
 			s.connect("present", self.activate)
 			s.connect("show-hide", self.show_hide)
+			s.connect("put-text", self._put_text_recieved)
 			s.connect("quit", self.quit)
 
 		if self._keystr:
