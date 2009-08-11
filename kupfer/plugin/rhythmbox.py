@@ -6,18 +6,32 @@ from hashlib import md5
 from kupfer.objects import (Leaf, Source, AppLeaf, Action, RunnableLeaf,
 		SourceLeaf, AppLeafContentMixin)
 from kupfer import objects, icons, utils, config
+from kupfer import plugin_support
 from kupfer.plugin import rhythmbox_support
 
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = (
 		"RhythmboxSource",
-		#"RhythmboxAlbumsSource",
-		#"RhythmboxArtistsSource",
 	)
 __kupfer_contents__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue tracks and browse the music library")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "toplevel_artists",
+		"label": _("Include all artists in top level"),
+		"type": bool,
+		"value": True,
+	},
+	{
+		"key" : "toplevel_albums",
+		"label": _("Include all albums in top level"),
+		"type": bool,
+		"value": False,
+	},
+)
 
 def _tostr(ustr):
 	return ustr.encode("UTF-8")
@@ -275,8 +289,17 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		yield Pause()
 		yield Next()
 		yield Previous()
-		yield SourceLeaf(RhythmboxAlbumsSource(albums))
-		yield SourceLeaf(RhythmboxArtistsSource(artists))
+		alsource = RhythmboxAlbumsSource(albums)
+		arsource = RhythmboxArtistsSource(artists)
+		yield SourceLeaf(arsource)
+		yield SourceLeaf(alsource)
+		# we use get_leaves here to get sorting etc right
+		if __kupfer_settings__["toplevel_artists"]:
+			for leaf in arsource.get_leaves():
+				yield leaf
+		if __kupfer_settings__["toplevel_albums"]:
+			for leaf in alsource.get_leaves():
+				yield leaf
 
 	def get_description(self):
 		return _("Play and enqueue tracks and browse the music library")
