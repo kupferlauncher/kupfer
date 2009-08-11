@@ -57,16 +57,35 @@ class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 		super(RecentsSource, self).__init__(name)
 		self.unpickle_finish()
 
+	def pickle_prepare(self):
+		# monitor is not pickleable
+		self.monitor = None
+
 	def unpickle_finish(self):
-		"""Set up change callback"""
-		pass
+		"""Set up change monitor"""
+		abifile = self._get_abiword_file()
+		if not abifile: return
+		gfile = gio.File(abifile)
+		self.monitor = gfile.monitor_file(gio.FILE_MONITOR_NONE, None)
+		if self.monitor:
+			self.monitor.connect("changed", self._changed)
 
-	def _recent_changed(self, *args):
-		self.mark_for_update()
+	def _changed(self, monitor, file1, file2, evt_type):
+		"""Change callback; something changed"""
+		if evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
+				gio.FILE_MONITOR_EVENT_DELETED,
+				gio.FILE_MONITOR_EVENT_CHANGED):
+			self.mark_for_update()
 
-	def get_items(self):
+	def _get_abiword_file(self):
 		abifile = os.path.expanduser("~/.AbiSuite/AbiWord.Profile")
 		if not os.path.exists(abifile):
+			return None
+		return abifile
+
+	def get_items(self):
+		abifile = self._get_abiword_file()
+		if not abifile:
 			self.output_debug("Abiword profie not found at", abifile)
 			return
 		for uri in get_abiword_files(abifile):
