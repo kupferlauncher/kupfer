@@ -11,8 +11,8 @@ from kupfer.plugin import rhythmbox_support
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = (
 		"RhythmboxSource",
-		"RhythmboxAlbumsSource",
-		"RhythmboxArtistsSource",
+		#"RhythmboxAlbumsSource",
+		#"RhythmboxArtistsSource",
 	)
 __kupfer_contents__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue tracks and browse the music library")
@@ -224,13 +224,13 @@ class ArtistLeaf (TrackCollection):
 		return ArtistAlbumsSource(self)
 
 class RhythmboxAlbumsSource (Source):
-	def __init__(self):
+	def __init__(self, library):
 		Source.__init__(self, _("Rhythmbox Albums"))
+		self.library = library
 	
 	def get_items(self):
-		library = rhythmbox_support.get_rhythmbox_albums()
-		for album in library:
-			yield AlbumLeaf(album, library[album])
+		for album in self.library:
+			yield AlbumLeaf(album, self.library[album])
 	def should_sort_lexically(self):
 		return True
 
@@ -244,13 +244,13 @@ class RhythmboxAlbumsSource (Source):
 		yield AlbumLeaf
 
 class RhythmboxArtistsSource (Source):
-	def __init__(self):
+	def __init__(self, library):
 		Source.__init__(self, _("Rhythmbox Artists"))
+		self.library = library
 
 	def get_items(self):
-		library = rhythmbox_support.get_rhythmbox_artists()
-		for artist in library:
-			yield ArtistLeaf(artist, library[artist])
+		for artist in self.library:
+			yield ArtistLeaf(artist, self.library[artist])
 	def should_sort_lexically(self):
 		return True
 
@@ -267,15 +267,16 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 	appleaf_content_id = "rhythmbox.desktop"
 	def __init__(self):
 		Source.__init__(self, _("Rhythmbox"))
-	def is_dynamic(self):
-		return True
 	def get_items(self):
+		songs = rhythmbox_support.get_rhythmbox_songs()
+		albums = rhythmbox_support.parse_rhythmbox_albums(songs)
+		artists = rhythmbox_support.parse_rhythmbox_artists(songs)
 		yield Play()
 		yield Pause()
 		yield Next()
 		yield Previous()
-		yield SourceLeaf(RhythmboxAlbumsSource())
-		yield SourceLeaf(RhythmboxArtistsSource())
+		yield SourceLeaf(RhythmboxAlbumsSource(albums))
+		yield SourceLeaf(RhythmboxArtistsSource(artists))
 
 	def get_description(self):
 		return _("Play and enqueue tracks and browse the music library")
