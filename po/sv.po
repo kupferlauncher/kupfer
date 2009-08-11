@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-11 01:27+0200\n"
+"POT-Creation-Date: 2009-08-11 02:43+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -27,38 +27,34 @@ msgid "Kupfer"
 msgstr "Kupfer"
 
 #: ../data/preferences.ui.h:1
-msgid "<b>Keybinding</b>"
-msgstr "<b>Snabbtangent</b>"
+msgid "<b>Interface</b>"
+msgstr "<b>Gränssnitt</b>"
 
 #: ../data/preferences.ui.h:2
-msgid "<b>Notification</b>"
-msgstr "<b>Notifiering</b>"
+msgid "<b>Keybinding</b>"
+msgstr "<b>Snabbtangent</b>"
 
 #: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
 #: ../data/preferences.ui.h:4
-msgid "Directories"
-msgstr "Kataloger"
-
-#: ../data/preferences.ui.h:5
 msgid "General"
 msgstr "Allmänt"
 
-#: ../data/preferences.ui.h:6 ../kupfer/plugin/common.py:106
+#: ../data/preferences.ui.h:5 ../kupfer/plugin/common.py:106
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
 
-#: ../data/preferences.ui.h:7
+#: ../data/preferences.ui.h:6
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:7
 msgid "Show icon in notification area"
 msgstr "Visa ikon i notifieringsytan"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:8
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
@@ -282,25 +278,25 @@ msgstr "\"%s\""
 msgid "Text matches"
 msgstr "Fritextträffar"
 
-#: ../kupfer/preferences.py:111
+#: ../kupfer/preferences.py:152
 msgid "Applied"
 msgstr "Verkställt"
 
-#: ../kupfer/preferences.py:116
+#: ../kupfer/preferences.py:157
 msgid "Keybinding could not be bound"
 msgstr "Snabbtangenten kunde inte bindas"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:229
+#: ../kupfer/preferences.py:272
 msgid "Sources"
 msgstr "Källor"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:233
+#: ../kupfer/preferences.py:276
 msgid "Actions"
 msgstr "Kommandon"
 
-#: ../kupfer/preferences.py:261
+#: ../kupfer/preferences.py:304
 #, python-format
 msgid "Settings for %s"
 msgstr "Inställningar för \"%s\""
@@ -871,6 +867,12 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "<b>Notification</b>"
+#~ msgstr "<b>Notifiering</b>"
+
+#~ msgid "Directories"
+#~ msgstr "Kataloger"
 
 #~ msgid "Clipboard"
 #~ msgstr "Urklipp"
