@@ -31,9 +31,19 @@ class FavoritesSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		global _fav_control
 		_fav_control = self
+		# check items for validity
+		for itm in list(self.favorites):
+			if hasattr(itm, "is_valid") and not itm.is_valid():
+				self.output_debug("Removing invalid leaf", itm)
+				self.favorites.remove(itm)
 
 	def add(self, itm):
 		self.favorites.append(itm)
+		self.mark_for_update()
+	def has_item(self, itm):
+		return itm in self.favorites
+	def remove(self, itm):
+		self.favorites.remove(itm)
 		self.mark_for_update()
 
 	def get_items(self):
@@ -41,7 +51,7 @@ class FavoritesSource (Source, PicklingHelperMixin):
 			yield t
 
 	def get_description(self):
-		return _("Favorites")
+		return _('Shelf of "Favorite" items')
 
 	def get_icon_name(self):
 		return "emblem-favorite"
@@ -60,6 +70,8 @@ class AddFavorite (Action):
 			fav.add(leaf)
 	def item_types(self):
 		return list(_FavoritesLeafTypes())
+	def valid_for_item(self, item):
+		return not GetFavoritesSource().has_item(item)
 	def get_description(self):
 		return _("Add item to favorites shelf")
 	def get_icon_name(self):
