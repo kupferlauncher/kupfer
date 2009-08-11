@@ -48,25 +48,27 @@ def load_kupfer_icons(sched=None):
 sch = scheduler.GetScheduler()
 sch.connect("load", load_kupfer_icons)
 
-def get_icon(key):
+def get_icon(key, icon_size):
 	"""
 	try retrieve icon in cache
 	is a generator so it can be concisely called with a for loop
 	"""
-	rec = icon_cache.get(key, None)
+	rec = icon_cache.get(icon_size, {}).get(key, None)
 	if not rec:
 		return
 	rec["accesses"] += 1
 	yield rec["icon"]
 
-def store_icon(key, icon):
+def store_icon(key, icon_size, icon):
 	"""
 	Store an icon in cache. It must not have been stored before
 	"""
-	assert key not in icon_cache, "icon %s already in cache" % key
+	assert key not in icon_cache.get(icon_size, ()), \
+		"icon %s already in cache" % key
 	assert icon, "icon %s may not be %s" % (key, icon)
 	icon_rec = {"icon":icon, "accesses":0}
-	icon_cache[key] = icon_rec
+	if icon_size not in icon_cache: icon_cache[icon_size] = {}
+	icon_cache[icon_size][key] = icon_rec
 
 def _get_icon_dwim(icon, icon_size):
 	"""Make an icon at @icon_size where
@@ -218,7 +220,7 @@ def get_icon_for_file(uri, icon_size):
 	return get_icon_for_gicon(gicon, icon_size)
 
 def get_icon_for_name(icon_name, icon_size, icon_names=[]):
-	for i in get_icon(icon_name):
+	for i in get_icon(icon_name, icon_size):
 		return i
 	from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
 	from gobject import GError
@@ -243,19 +245,19 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 		return None
 	# We store the first icon in the list, even if the match
 	# found was later in the chain
-	store_icon(icon_name, icon)
+	store_icon(icon_name, icon_size, icon)
 	return icon
 
 def get_icon_from_file(icon_file, icon_size):
 	# try to load from cache
-	for icon in get_icon(icon_file):
+	for icon in get_icon(icon_file, icon_size):
 		return icon
 
 	from gtk.gdk import pixbuf_new_from_file_at_size
 	from gobject import GError
 	try:
 		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
-		store_icon(icon_file, icon)
+		store_icon(icon_file, icon_size, icon)
 		return icon
 	except GError, e:
 		print "get_icon_from_file, error:", e
