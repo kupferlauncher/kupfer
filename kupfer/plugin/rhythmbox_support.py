@@ -79,6 +79,30 @@ def get_rhythmbox_songs(typ="song", keys=None, dbfile='~/.local/share/rhythmbox/
     rbParser.parse(sRhythmboxFile)
     return lSongs
 
+def sort_album(album):
+    """Sort album in track order"""
+    def get_track_number(rec):
+        tnr = rec.get("track-number")
+        if not tnr: return None
+        try:
+            tnr = int(tnr)
+        except ValueError:
+            pass
+        return tnr
+    album.sort(key=get_track_number)
+
+def sort_album_order(songs):
+    """Sort songs in order by album then by track number"""
+    def get_album_order(rec):
+        tnr = rec.get("track-number")
+        if not tnr: return None
+        try:
+            tnr = int(tnr)
+        except ValueError:
+            pass
+        return (rec["album"], tnr)
+    songs.sort(key=get_album_order)
+
 def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
     songs = get_rhythmbox_songs(keys=NEEDED_KEYS, dbfile=dbfile)
     albums = {}
@@ -92,17 +116,9 @@ def get_rhythmbox_albums(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
         album = albums.get(song_album, [])
         album.append(song)
         albums[song_album] = album
-    def get_track_number(rec):
-        tnr = rec.get("track-number")
-        if not tnr: return None
-        try:
-            tnr = int(tnr)
-        except ValueError:
-            pass
-        return tnr
     # sort album in track order
     for album in albums:
-        albums[album].sort(key=get_track_number)
+        sort_album(albums[album])
     return albums
 
 def get_rhythmbox_artists(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
@@ -115,17 +131,9 @@ def get_rhythmbox_artists(dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
         artist = artists.get(song_artist, [])
         artist.append(song)
         artists[song_artist] = artist
-    def get_album_order(rec):
-        tnr = rec.get("track-number")
-        if not tnr: return None
-        try:
-            tnr = int(tnr)
-        except ValueError:
-            pass
-        return (rec["album"], tnr)
     # sort in album + track order
     for artist in artists:
-        artists[artist].sort(key=get_album_order)
+        sort_album_order(artists[artist])
     return artists
 
 if __name__ == "__main__":
