@@ -29,6 +29,7 @@
                     <property name="spacing">5</property>
                     <child>
                       <object class="GtkFrame" id="frame1">
+                        <property name="visible">True</property>
                         <property name="label_xalign">0</property>
                         <property name="shadow_type">none</property>
                         <child>
@@ -39,6 +40,7 @@
                             <child>
                               <object class="GtkCheckButton" id="checkautostart">
                                 <property name="label" translatable="yes">Start automatically on login</property>
+                                <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="draw_indicator">True</property>
@@ -86,7 +88,7 @@
                         <child type="label">
                           <object class="GtkLabel" id="label6">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Notification&lt;/b&gt;</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Interface&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                           </object>
                         </child>
