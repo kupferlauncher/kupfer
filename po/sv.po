@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-12 04:48+0200\n"
+"POT-Creation-Date: 2009-08-12 07:04+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -25,8 +25,9 @@ msgstr "Programstartare"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Flexibelt kommandoprogram för program och dokument"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:961
-#: ../kupfer/browser.py:981 ../kupfer/version.py:15
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:973
+#: ../kupfer/browser.py:993 ../kupfer/plugin/common.py:248
+#: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
@@ -62,21 +63,21 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:595
+#: ../kupfer/browser.py:607
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:597
+#: ../kupfer/browser.py:609
 #, python-format
 msgid "No matches in %s"
 msgstr "Inga träffar i %s"
 
-#: ../kupfer/browser.py:602
+#: ../kupfer/browser.py:614
 msgid "Searching..."
 msgstr "Söker..."
 
-#: ../kupfer/browser.py:608
+#: ../kupfer/browser.py:620
 #, python-format
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
@@ -450,13 +451,21 @@ msgstr "Speciella objekt"
 msgid "Items and special actions"
 msgstr "Speciella objekt och övriga kommandon"
 
-#: ../kupfer/plugin/common.py:248
-msgid "Kupfer items"
-msgstr "Kupfer-objekt"
-
 #: ../kupfer/plugin/common.py:259
 msgid "Kupfer items and actions"
 msgstr "Kupfer-objekt och kommandon"
+
+#: ../kupfer/plugin/dictionary.py:4
+msgid "Dictionary"
+msgstr "Ordbok"
+
+#: ../kupfer/plugin/dictionary.py:6 ../kupfer/plugin/dictionary.py:23
+msgid "Look up word in dictionary"
+msgstr "Slå upp ord i ordboken"
+
+#: ../kupfer/plugin/dictionary.py:12 ../kupfer/plugin/dictionary.py:16
+msgid "Look Up"
+msgstr "Slå upp"
 
 #: ../kupfer/plugin/documents.py:11
 msgid "Documents"
@@ -703,32 +712,32 @@ msgstr "Låtar"
 msgid "Songs in Rhythmbox library"
 msgstr "Låtar i Rhythmboxs bibliotek"
 
-#: ../kupfer/plugin/screen.py:7 ../kupfer/plugin/screen.py:103
+#: ../kupfer/plugin/screen.py:7 ../kupfer/plugin/screen.py:109
 msgid "GNU Screen"
 msgstr "GNU Screen"
 
-#: ../kupfer/plugin/screen.py:9 ../kupfer/plugin/screen.py:88
+#: ../kupfer/plugin/screen.py:9 ../kupfer/plugin/screen.py:94
 msgid "Active GNU Screen sessions"
 msgstr "Aktiva GNU Screen-sessioner"
 
-#: ../kupfer/plugin/screen.py:43
+#: ../kupfer/plugin/screen.py:49
 msgid "Attached"
 msgstr "Ansluten"
 
-#: ../kupfer/plugin/screen.py:44
+#: ../kupfer/plugin/screen.py:50
 msgid "Detached"
 msgstr "Frånkopplad"
 
-#: ../kupfer/plugin/screen.py:47
+#: ../kupfer/plugin/screen.py:53
 #, python-format
 msgid "%(status)s session %(name)s (%(pid)s) created %(time)s"
 msgstr "%(status)s session %(name)s (%(pid)s) skapad %(time)s"
 
-#: ../kupfer/plugin/screen.py:56
+#: ../kupfer/plugin/screen.py:62
 msgid "Screen sessions"
 msgstr "Screen-sessioner"
 
-#: ../kupfer/plugin/screen.py:98
+#: ../kupfer/plugin/screen.py:104
 msgid "Attach"
 msgstr "Anslut till"
 
@@ -966,6 +975,9 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Kupfer items"
+#~ msgstr "Kupfer-objekt"
 
 #~ msgid "%d lines"
 #~ msgstr "%d rader"
