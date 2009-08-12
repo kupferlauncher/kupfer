@@ -163,7 +163,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 	Each campaign of rescans is separarated by @campaign
 	seconds
 	"""
-	def __init__(self, catalog, period=5, startup=10, campaign=3600):
+	def __init__(self, period=5, startup=10, campaign=3600):
 		super(PeriodicRescanner, self).__init__()
 		self.startup = startup
 		self.period = period
@@ -315,7 +315,7 @@ def GetSourcePickleService():
 class SourceController (pretty.OutputMixin):
 	"""Control sources; loading, pickling, rescanning"""
 	def __init__(self, pickle=True):
-		self.rescanner = PeriodicRescanner([])
+		self.rescanner = PeriodicRescanner(period=3)
 		self.sources = set()
 		self.toplevel_sources = set()
 		self.text_sources = set()
