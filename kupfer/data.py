@@ -391,13 +391,13 @@ class SourceController (pretty.OutputMixin):
 					break
 		return objects.MultiSource(firstlevel)
 
-	def get_content_for_leaf(self, leaf):
+	def get_contents_for_leaf(self, leaf):
+		"""Iterator of content sources for @leaf"""
 		for typ in self.content_decorators:
 			if isinstance(leaf, typ):
 				for content in self.content_decorators[typ]:
 					dsrc = content.decorate_item(leaf)
-					if dsrc: return dsrc
-		return None
+					if dsrc: yield dsrc
 
 	def get_actions_for_leaf(self, leaf):
 		for typ in self.action_decorators:
@@ -407,9 +407,12 @@ class SourceController (pretty.OutputMixin):
 
 	def decorate_object(self, obj):
 		if hasattr(obj, "has_content") and obj.has_content() is None:
-			content = self.get_content_for_leaf(obj)
+			contents = list(self.get_contents_for_leaf(obj))
+			content = contents and contents[0]
+			if len(contents) > 1:
+				content = objects.SourcesSource(contents, use_reprs=False)
 			if content:
-				self.output_debug("Dressing", obj, "with", content)
+				self.output_debug("Dressing", obj, "with", *contents)
 			obj.add_content(content)
 
 	def finish(self):
