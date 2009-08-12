@@ -17,8 +17,10 @@ class Scheduler (gobject.GObject, pretty.OutputMixin):
 	def __init__(self):
 		super(Scheduler, self).__init__()
 	def load(self):
+		self.output_debug("Loading")
 		self.emit("load")
 		self.emit("loaded")
+		self.output_debug("Loaded")
 	def finish(self):
 		self.emit("finish")
 gobject.signal_new("load", Scheduler, gobject.SIGNAL_RUN_LAST,

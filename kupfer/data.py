@@ -205,7 +205,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		"""Register an object for rescan
 		dynamic sources will only be rescanned if @force is True
 		"""
-		gobject.idle_add(self.reload_source, source, force)
+		self.reload_source(source, force)
 
 	def reload_source(self, source, force=False):
 		self.latest_rescan_time[source] = time.time()
