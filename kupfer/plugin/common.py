@@ -2,13 +2,13 @@ import gtk
 import gio
 
 from kupfer.objects import Leaf, Action, Source, RunnableLeaf, AppLeafContentMixin
-from kupfer import objects, utils, icons
+from kupfer import objects, utils, icons, pretty
 from kupfer.plugin import about_support
 
 __kupfer_name__ = _("Core")
 __kupfer_sources__ = ("CommonSource", "KupferSource", )
 __kupfer_contents__ = ("KupferSource", )
-__kupfer_actions__ = ("SearchInside", )
+__kupfer_actions__ = ("SearchInside", "DebugInfo", )
 __description__ = _("Core actions and miscellaneous items")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -37,6 +37,75 @@ class SearchInside (Action):
 		return _("Search inside this catalog")
 	def get_icon_name(self):
 		return "search"
+
+class DebugInfo (Action, pretty.OutputMixin):
+	"""
+	Print debug info to terminal
+	"""
+	rank_adjust = -50
+	def __init__(self):
+		Action.__init__(self, u"Debug Info")
+
+	def activate(self, leaf):
+		import itertools
+		print_func = lambda *args : pretty.print_debug("debug", *args)
+		print_func("Debug info about", leaf)
+		print_func(leaf, repr(leaf))
+		def get_object_fields(leaf):
+			return {
+				"repr" : leaf,
+				"description": leaf.get_description(),
+				"thumb" : leaf.get_thumbnail(32, 32),
+				"gicon" : leaf.get_gicon(),
+				"icon" : leaf.get_icon(),
+				"icon-name": leaf.get_icon_name(),
+				"type" : type(leaf),
+				"module" : leaf.__module__,
+				}
+		def get_leaf_fields(leaf):
+			base = get_object_fields(leaf)
+			base.update( {
+				"object" : leaf.object,
+				"object-type" : type(leaf.object),
+				"content" : leaf.content_source(),
+				"content-alt" : leaf.content_source(alternate=True),
+				"builtin-actions": list(leaf.get_actions()),
+				} )
+			return base
+		def get_source_fields(src):
+			base = get_object_fields(src)
+			base.update({
+				"dynamic" : src.is_dynamic(),
+				"sort" : src.should_sort_lexically(),
+				"parent" : src.get_parent(),
+				"leaf" : src.get_leaf_repr(),
+				"provides" : list(src.provides()),
+				} )
+			return base
+
+		def print_fields(fields):
+			for field in sorted(fields):
+				val = fields[field]
+				rep = repr(val)
+				print_func("%-10s:" % field, val)
+				if rep != str(val):
+					print_func("%-10s:" % field, rep)
+		leafinfo = get_leaf_fields(leaf)
+		print_fields(leafinfo)
+		if leafinfo["content"]:
+			print_func("Content ============")
+			print_fields(get_source_fields(leafinfo["content"]))
+		if leafinfo["content"] != leafinfo["content-alt"]:
+			print_func("Content-Alt ========")
+			print_fields(get_source_fields(leafinfo["content-alt"]))
+
+	def get_description(self):
+		return u"Print debug output (for interal kupfer use)"
+	def get_icon_name(self):
+		return "emblem-system"
+	def item_types(self):
+		if pretty.debug:
+			yield Leaf
 
 class Quit (RunnableLeaf):
 	def __init__(self, name=None):

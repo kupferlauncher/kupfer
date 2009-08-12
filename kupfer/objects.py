@@ -506,29 +506,6 @@ class Action (KupferObject):
 		"""
 		return "gtk-execute"
 
-class Echo (Action):
-	"""
-	Simply echo information about the object
-	to the terminal
-	"""
-	def __init__(self):
-		super(Echo, self).__init__("Echo")
-	
-	def activate(self, leaf):
-		print "Echo"
-		print "\n".join("%s: %s" % (k, v) for k,v in
-			zip(("Leaf", "Name", "Object", "Value",
-				"Id", "Actions", "Content"),
-				(repr(leaf), leaf.name, leaf.object, id(leaf),
-				leaf.get_actions(), leaf.has_content())))
-		if type(leaf) == AppLeaf:
-			print ".desktop:", leaf.object.get_location()
-
-	def get_description(self):
-		return "Print debug output"
-	def get_icon_name(self):
-		return "emblem-system"
-
 class OpenWith (Action):
 	"""
 	Open a FileLeaf with a specified application
