@@ -12,6 +12,7 @@ kupfer/plugin/applications.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
 kupfer/plugin/common.py
+kupfer/plugin/dictionary.py
 kupfer/plugin/documents.py
 kupfer/plugin/epiphany.py
 kupfer/plugin/favorites.py
