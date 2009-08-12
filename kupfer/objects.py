@@ -996,7 +996,7 @@ class AppLeafContentMixin (object):
 	Mixin for Source that correspond one-to-one with a AppLeaf
 
 	This Mixin sees to that the Source is set as content for the application
-	with id cls.appleaf_content_id
+	with id 'cls.appleaf_content_id', which may also be a sequence of ids.
 
 	Source has to define the attribute appleaf_content_id and must
 	inherit this mixin BEFORE the Source
@@ -1010,20 +1010,27 @@ class AppLeafContentMixin (object):
 	def get_leaf_repr(cls):
 		if not hasattr(cls, "_cached_leaf_repr"):
 			cls._cached_leaf_repr = cls.__get_leaf_repr()
-		return cls.__get_leaf_repr()
+		return cls._cached_leaf_repr
+	@classmethod
+	def __get_appleaf_id_iter(cls):
+		if hasattr(cls.appleaf_content_id, "__iter__"):
+			ids = iter(cls.appleaf_content_id)
+		else:
+			ids = (cls.appleaf_content_id, )
+		return ids
 	@classmethod
 	def __get_leaf_repr(cls):
-		try:
-			app = AppLeaf(item_id=cls.appleaf_content_id)
-		except InvalidDataError:
-			app = None
-		return app
+		for appleaf_id in cls.__get_appleaf_id_iter():
+			try:
+				return AppLeaf(item_id=appleaf_id)
+			except InvalidDataError:
+				pass
 	@classmethod
 	def decorates_type(cls):
 		return AppLeaf
 	@classmethod
 	def decorate_item(cls, leaf):
-		if leaf.get_id() == cls.appleaf_content_id:
+		if leaf == cls.get_leaf_repr():
 			return cls()
 
 class UrlLeaf (Leaf):
