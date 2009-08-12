@@ -161,6 +161,9 @@ class CollectionSource (Source):
 		return self.leaf.get_icon_name()
 
 class TrackCollection (Leaf):
+	"""A generic track collection leaf, such as one for
+	an Album or an Artist
+	"""
 	def __init__(self, name, info):
 		Leaf.__init__(self, info, name)
 	def get_actions(self):
@@ -277,6 +280,25 @@ class RhythmboxArtistsSource (Source):
 	def provides(self):
 		yield ArtistLeaf
 
+class RhythmboxSongsSource (Source):
+	"""The whole song library in Leaf representation"""
+	def __init__(self, library):
+		Source.__init__(self, _("Rhythmbox Songs"))
+		self.library = library
+
+	def get_items(self):
+		for song in self.library:
+			yield SongLeaf(song["title"], song["artist"], song)
+
+	def get_actions(self):
+		return ()
+	def get_description(self):
+		return _("Songs in Rhythmbox library")
+	def get_gicon(self):
+		return icons.ComposedIcon("rhythmbox", "audio-x-generic")
+	def provides(self):
+		yield SongLeaf
+
 class RhythmboxSource (AppLeafContentMixin, Source):
 	appleaf_content_id = "rhythmbox.desktop"
 	def __init__(self):
@@ -289,16 +311,18 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		yield Pause()
 		yield Next()
 		yield Previous()
-		alsource = RhythmboxAlbumsSource(albums)
-		arsource = RhythmboxArtistsSource(artists)
-		yield SourceLeaf(arsource)
-		yield SourceLeaf(alsource)
+		album_source = RhythmboxAlbumsSource(albums)
+		artist_source = RhythmboxArtistsSource(artists)
+		songs_source = RhythmboxSongsSource(songs)
+		yield SourceLeaf(artist_source)
+		yield SourceLeaf(album_source)
+		yield SourceLeaf(songs_source)
 		# we use get_leaves here to get sorting etc right
 		if __kupfer_settings__["toplevel_artists"]:
-			for leaf in arsource.get_leaves():
+			for leaf in artist_source.get_leaves():
 				yield leaf
 		if __kupfer_settings__["toplevel_albums"]:
-			for leaf in alsource.get_leaves():
+			for leaf in album_source.get_leaves():
 				yield leaf
 
 	def get_description(self):
@@ -308,3 +332,4 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 	def provides(self):
 		yield RunnableLeaf
 		yield SourceLeaf
+		yield SongLeaf
