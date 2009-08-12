@@ -27,6 +27,12 @@ def screen_sessions_infos():
 			status = status.strip("()")
 			yield (pid, name, time, status)
 
+def get_username():
+	"""Return username for current user"""
+	import pwd
+	info = pwd.getpwuid(os.geteuid())
+	return info[0]
+
 class ScreenSession (Leaf):
 	"""Represented object is the session pid as string"""
 	def get_actions(self):
@@ -62,7 +68,7 @@ class ScreenSessionsSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		"""Set up a directory watch on Screen's socket dir"""
 		self.screen_dir = (os.getenv("SCREENDIR") or
-				"/var/run/screen/S-%s" % os.getlogin())
+				"/var/run/screen/S-%s" % get_username())
 		gfile = gio.File(self.screen_dir)
 		exists = gfile.query_exists()
 		if not exists:
