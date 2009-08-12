@@ -196,19 +196,30 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		if not self._has_match(app_id):
 			return False
 		screen = wnck.screen_get_default()
+		application_windows = []
 		for w in screen.get_windows_stacked():
 			app = w.get_application()
 			if self._is_match(app_id, app):
-				break
-		# if break not reached
-		else:
+				application_windows.append(w)
+
+		if not application_windows:
 			return False
 
 		# for now, just take any window
 		evttime = gtk.get_current_event_time()
-		wspc = w.get_workspace()
-		wspc.activate(evttime)
-		w.activate(evttime)
+		for w in application_windows:
+			# we special-case the desktop
+			# only show desktop if it's the only window of this app
+			if w.get_name() == "x-nautilus-desktop":
+				if len(application_windows) == 1:
+					screen.toggle_showing_desktop(True)
+				else:
+					continue
+			wspc = w.get_workspace()
+			if wspc:
+				wspc.activate(evttime)
+			w.activate(evttime)
+			break
 
 
 _appl_match_service = None
