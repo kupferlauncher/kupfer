@@ -425,11 +425,9 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 			yield Launch()
 
 	def get_description(self):
-		"""description: Use "App description (executable)" """
-		return _("%(description)s (%(exec)s)") % (
-				{"description": self.object.get_description() or "",
-				 "exec": self.object.get_executable() or "",
-				})
+		"""Use Application's description, else use executable"""
+		app_desc = self.object.get_description()
+		return tounicode(app_desc if app_desc else self.object.get_executable())
 
 	def get_gicon(self):
 		return self.object.get_icon()
