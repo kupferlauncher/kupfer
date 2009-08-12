@@ -39,7 +39,7 @@ def tounicode(utf8str):
 	"""
 	if isinstance(utf8str, unicode):
 		return utf8str
-	return utf8str.decode("UTF-8", "replace")
+	return utf8str.decode("UTF-8", "replace") if utf8str else u""
 
 def toutf8(ustr):
 	"""Return UTF-8 `str` from unicode @ustr
