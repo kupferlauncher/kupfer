@@ -115,6 +115,8 @@ class PlayTracks (Action):
 			play_song(songs[0])
 			enqueue_songs(songs[1:], clear_queue=True)
 
+	def get_description(self):
+		return _("Play tracks in Rhythmbox")
 	def get_icon_name(self):
 		return "media-playback-start"
 
