@@ -940,8 +940,9 @@ class DirectorySource (Source, PicklingHelperMixin):
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
-	def __init__(self, sources, use_reprs=True):
-		super(SourcesSource, self).__init__(_("Catalog index"))
+	def __init__(self, sources, name=None, use_reprs=True):
+		if not name: name = _("Catalog index")
+		super(SourcesSource, self).__init__(name)
 		self.sources = sources
 		self.use_reprs = use_reprs
 
