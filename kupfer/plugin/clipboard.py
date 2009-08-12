@@ -25,7 +25,7 @@ class ClipboardText (TextLeaf):
 	def __init__(self, text):
 		# take first non-empty line
 		firstline = [l for l in text.splitlines() if l.strip()][0]
-		Leaf.__init__(self, text, firstline)
+		TextLeaf.__init__(self, text, name=firstline)
 	def get_description(self):
 		lines = self.object.splitlines()
 		desc = unicode(self)
@@ -80,7 +80,7 @@ class CopyToClipboard (Action):
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 		clip.set_text(leaf.object)
 	def item_types(self):
-		yield ClipboardText
+		yield TextLeaf
 	def get_description(self):
 		return _("Copy to clipboard")
 	def get_icon_name(self):
