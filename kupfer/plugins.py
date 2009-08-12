@@ -40,9 +40,12 @@ def get_plugin_info():
 	"""
 	for plugin_name in sorted(get_plugin_ids()):
 		try:
-			plugin = import_plugin(plugin_name).__dict__
+			plugin = import_plugin(plugin_name)
+			if not plugin:
+				continue
+			plugin = plugin.__dict__
 		except ImportError, e:
-			print "Error:", e
+			pretty.print_error(__name__, "import plugin '%s':" % plugin_name, e)
 			continue
 		localized_name = plugin.get("__kupfer_name__", None)
 		desc = plugin.get("__description__", _("(no description)"))
@@ -86,22 +89,28 @@ def import_plugin(name):
 
 	plugin = None
 	try:
-		plugin = importit(("kupfer", "plugin", name))
-	except ImportError, e:
-		if name not in e.args[0]:
-			raise
-		oldpath = sys.path
 		try:
-			# Look in datadir kupfer/plugins for plugins
-			# (and in current directory)
-			extra_paths = list(config.get_data_dirs("plugins"))
-			sys.path = extra_paths + sys.path
-			plugin = importit((name,))
-		except ImportError:
-			# Reraise to send this up
-			raise
-		finally:
-			sys.path = oldpath
+			plugin = importit(("kupfer", "plugin", name))
+		except ImportError, e:
+			if name not in e.args[0]:
+				raise
+			oldpath = sys.path
+			try:
+				# Look in datadir kupfer/plugins for plugins
+				# (and in current directory)
+				extra_paths = list(config.get_data_dirs("plugins"))
+				sys.path = extra_paths + sys.path
+				plugin = importit((name,))
+			except ImportError:
+				# Reraise to send this up
+				raise
+			finally:
+				sys.path = oldpath
+	except StandardError, e:
+		# catch any error for plugins in data directories
+		import traceback
+		traceback.print_exc()
+		pretty.print_error(__name__, "Could not import plugin '%s'" % name)
 	finally:
 		# store nonexistant plugins as None here
 		imported_plugins[name] = plugin
