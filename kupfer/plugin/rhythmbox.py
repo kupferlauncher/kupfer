@@ -21,19 +21,19 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "toplevel_artists",
-		"label": _("Include all artists in top level"),
+		"label": _("Include artists in top level"),
 		"type": bool,
 		"value": True,
 	},
 	{
 		"key" : "toplevel_albums",
-		"label": _("Include all albums in top level"),
+		"label": _("Include albums in top level"),
 		"type": bool,
 		"value": False,
 	},
 	{
 		"key" : "toplevel_songs",
-		"label": _("Include all songs in top level"),
+		"label": _("Include songs in top level"),
 		"type": bool,
 		"value": False,
 	},
@@ -248,7 +248,7 @@ class ArtistLeaf (TrackCollection):
 
 class RhythmboxAlbumsSource (Source):
 	def __init__(self, library):
-		Source.__init__(self, _("Rhythmbox Albums"))
+		Source.__init__(self, _("Albums"))
 		self.library = library
 	
 	def get_items(self):
@@ -258,7 +258,7 @@ class RhythmboxAlbumsSource (Source):
 		return True
 
 	def get_description(self):
-		return _("Music albums")
+		return _("Music albums in Rhythmbox Library")
 	def get_gicon(self):
 		return icons.ComposedIcon("rhythmbox", "media-optical")
 	def get_icon_name(self):
@@ -268,7 +268,7 @@ class RhythmboxAlbumsSource (Source):
 
 class RhythmboxArtistsSource (Source):
 	def __init__(self, library):
-		Source.__init__(self, _("Rhythmbox Artists"))
+		Source.__init__(self, _("Artists"))
 		self.library = library
 
 	def get_items(self):
@@ -278,7 +278,7 @@ class RhythmboxArtistsSource (Source):
 		return True
 
 	def get_description(self):
-		return _("Music artists")
+		return _("Music artists in Rhythmbox Library")
 	def get_gicon(self):
 		return icons.ComposedIcon("rhythmbox", "system-users")
 	def get_icon_name(self):
@@ -289,7 +289,7 @@ class RhythmboxArtistsSource (Source):
 class RhythmboxSongsSource (Source):
 	"""The whole song library in Leaf representation"""
 	def __init__(self, library):
-		Source.__init__(self, _("Rhythmbox Songs"))
+		Source.__init__(self, _("Songs"))
 		self.library = library
 
 	def get_items(self):
