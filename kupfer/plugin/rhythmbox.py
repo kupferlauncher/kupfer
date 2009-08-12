@@ -1,6 +1,4 @@
 import gio
-import gobject
-import gtk
 from hashlib import md5
 
 from kupfer.objects import (Leaf, Source, AppLeaf, Action, RunnableLeaf,
@@ -228,13 +226,7 @@ class AlbumLeaf (TrackCollection):
 						cache_file = cfile.get_path()
 						break
 			self.cover_file = cache_file
-		if self.cover_file:
-			try:
-				return gtk.gdk.pixbuf_new_from_file_at_size(self.cover_file,
-						width, height)
-			except gobject.GError:
-				pass
-		return None
+		return icons.get_pixbuf_from_file(self.cover_file, width, height)
 
 class ArtistAlbumsSource (CollectionSource):
 	def get_items(self):
