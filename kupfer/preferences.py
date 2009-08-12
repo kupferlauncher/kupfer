@@ -62,6 +62,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
 		self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
+		self.table.get_selection().set_mode(gtk.SELECTION_BROWSE)
 
 		checkcell = gtk.CellRendererToggle()
 		checkcol = gtk.TreeViewColumn("item", checkcell)
