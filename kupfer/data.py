@@ -685,7 +685,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				decorate_types[appl_type] = decorate_with
 		sc = GetSourceController()
 		sc.set_action_decorators(decorate_types)
-		self.output_debug("Decorators", decorate_types)
+		self.output_debug("Action decorators:")
+		for typ in decorate_types:
+			self.output_debug(typ.__name__)
+			for dec in decorate_types[typ]:
+				self.output_debug(type(dec).__module__, type(dec).__name__,sep=".")
 
 	def register_content_decorators(self, contents):
 		# Keep a dictionary with Leaf type as key
@@ -697,7 +701,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			decorate_item_types[applies] = decorate_with
 		sc = GetSourceController()
 		sc.set_content_decorators(decorate_item_types)
-		self.output_debug("Content decorators", decorate_item_types)
+		self.output_debug("Content decorators:")
+		for typ in decorate_item_types:
+			self.output_debug(typ.__name__)
+			for dec in decorate_item_types[typ]:
+				self.output_debug(dec.__module__, dec.__name__, sep=".")
 
 	def _load(self, sched):
 		"""Load data from persistent store"""
