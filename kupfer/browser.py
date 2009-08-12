@@ -512,11 +512,8 @@ class Search (gtk.Bin):
 		if match:
 			self.match_state = State.Match
 			m = self.match
-			if hasattr(m, "get_thumbnail"):
-				pbuf = (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or
-					m.get_pixbuf(self.icon_size))
-			else:
-				pbuf = m.get_pixbuf(self.icon_size)
+			pbuf = (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or
+				m.get_pixbuf(self.icon_size))
 			self.match_view.set_match_state(unicode(m), pbuf,
 					match=self.text, state=self.match_state)
 
@@ -591,17 +588,23 @@ class LeafSearch (Search):
 		self.dummy = DummyLeaf()
 		super(LeafSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty):
+		get_pbuf = \
+			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
+					m.get_pixbuf(self.icon_size))
 		if empty and self.source:
-			return _("%s is empty") % self.source, self.source.get_pixbuf(self.icon_size)
+			return _("%s is empty") % self.source, get_pbuf(self.source)
 		elif self.source:
-			return _("No matches in %s") % self.source, self.source.get_pixbuf(self.icon_size)
+			return _("No matches in %s") % self.source, get_pbuf(self.source)
 		else:
 			return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
 		icon = None
 		title = _("Searching...")
+		get_pbuf = \
+			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
+					m.get_pixbuf(self.icon_size))
 		if self.source:
-			icon = self.source.get_pixbuf(self.icon_size)
+			icon = get_pbuf(self.source)
 			title = _("Searching %(source)s...") % {"source":self.source}
 
 		self.set_match(None)
