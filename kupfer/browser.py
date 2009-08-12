@@ -1009,13 +1009,6 @@ class WindowController (pretty.OutputMixin):
 		# This will change from utility window
 		#self.window.set_resizable(False)
 
-	def register_keybinding(self, keystr):
-		"""Use @keystr as keybinding
-		keystr is a string in the style of "<Ctrl>space" or
-		"<Ctrl><Alt>."
-		"""
-		self._keystr = keystr
-
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
 		When the StatusIcon is right-clicked
@@ -1135,11 +1128,12 @@ class WindowController (pretty.OutputMixin):
 		if setctl.get_show_status_icon():
 			self.show_statusicon()
 		setctl.connect("value-changed", self._settings_changed)
+		keystr = setctl.get_keybinding()
 
-		if self._keystr:
-			succ = keybindings.bind_key(self._keystr)
+		if keystr:
+			succ = keybindings.bind_key(keystr)
 			self.output_info("Trying to register %s to spawn kupfer.. %s"
-					% (self._keystr, ["failed", "success"][int(succ)]))
+					% (keystr, ["failed", "success"][int(succ)]))
 		keyobj = keybindings.GetKeyboundObject()
 		keyobj.connect("keybinding", self._key_binding)
 		signal.signal(signal.SIGTERM, self._sigterm)

@@ -192,7 +192,6 @@ def main():
 	dc.register_action_decorators(action_decorators)
 	dc.register_content_decorators(content_decorators)
 	w = browser.WindowController()
-	w.register_keybinding(source_config("Kupfer", "Keybinding"))
 
 	quiet = ("--no-splash" in cli_opts)
 	w.main(quiet=quiet)
