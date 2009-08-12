@@ -1065,16 +1065,24 @@ class TextLeaf (Leaf):
 	"""Represent a text query
 	represented object is the unicode string
 	"""
-	def __init__(self, text):
+	def __init__(self, text, name=None):
 		"""@text *must* be unicode or UTF-8 str"""
-		Leaf.__init__(self, tounicode(text), name=text)
-	
+		if not name:
+			name = [l for l in text.splitlines() if l.strip()][0]
+		Leaf.__init__(self, tounicode(text), name)
+
 	def get_actions(self):
 		return ()
 
 	def get_description(self):
+		# FIXME: We should return full text and UI should handle truncating
+		lines = self.object.splitlines()
+		firstline = [l for l in lines if l.strip()][0]
+		numlines = len(lines)
+
 		# TRANS: This is description for a TextLeaf, a free-text search
-		return _('"%s"') % self.object
+		return ngettext('"%(text)s"', '(%(num)d lines) "%(text)s"',
+			numlines) % {"num": numlines, "text": firstline }
 
 	def get_icon_name(self):
 		return "gtk-select-all"
