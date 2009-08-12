@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-12 20:23+0200\n"
+"POT-Creation-Date: 2009-08-12 20:41+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -26,7 +26,8 @@ msgid "Convenient command and access tool for applications and documents"
 msgstr "Flexibelt kommandoprogram för program och dokument"
 
 #: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:983
-#: ../kupfer/browser.py:1014 ../kupfer/version.py:15
+#: ../kupfer/browser.py:1014 ../kupfer/plugin/core.py:176
+#: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
@@ -46,7 +47,7 @@ msgstr "<b>Start</b>"
 msgid "General"
 msgstr "Allmänt"
 
-#: ../data/preferences.ui.h:5
+#: ../data/preferences.ui.h:5 ../kupfer/plugin/core.py:163
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
 
@@ -411,6 +412,46 @@ msgstr "Speciella objekt"
 msgid "Items and special actions"
 msgstr "Speciella objekt och övriga kommandon"
 
+#: ../kupfer/plugin/core.py:26
+msgid "Search content..."
+msgstr "Sök i..."
+
+#: ../kupfer/plugin/core.py:41
+msgid "Search inside this catalog"
+msgstr "Sök bland objekt i katalogen"
+
+#: ../kupfer/plugin/core.py:49
+msgid "Rescan"
+msgstr "Uppdatera"
+
+#: ../kupfer/plugin/core.py:58
+msgid "Force reindex of this source"
+msgstr "Tvinga omläsning av källan"
+
+#: ../kupfer/plugin/core.py:141
+msgid "Quit"
+msgstr "Avsluta"
+
+#: ../kupfer/plugin/core.py:146
+msgid "Quit Kupfer"
+msgstr "Avsluta Kupfer"
+
+#: ../kupfer/plugin/core.py:152
+msgid "About Kupfer"
+msgstr "Om Kupfer"
+
+#: ../kupfer/plugin/core.py:157
+msgid "Show information about Kupfer authors and license"
+msgstr "Visa information om Kupfers upphovsmän och licens"
+
+#: ../kupfer/plugin/core.py:170
+msgid "Show preferences window for Kupfer"
+msgstr "Visa Kupfers inställningsfönster"
+
+#: ../kupfer/plugin/core.py:187
+msgid "Kupfer items and actions"
+msgstr "Kupfer-objekt och kommandon"
+
 #: ../kupfer/plugin/dictionary.py:4
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -615,7 +656,7 @@ msgstr "Hoppa till föregående spår i Rhythmbox"
 
 #: ../kupfer/plugin/rhythmbox.py:105
 msgid "Show Playing"
-msgstr "Visa"
+msgstr "Vilken låt?"
 
 #: ../kupfer/plugin/rhythmbox.py:109
 msgid "Tell which song is currently playing"
@@ -955,38 +996,11 @@ msgstr ""
 #~ msgid "%(description)s (%(exec)s)"
 #~ msgstr "%(description)s (%(exec)s)"
 
-#~ msgid "Rescan"
-#~ msgstr "Uppdatera"
-
-#~ msgid "Force reindex of this source"
-#~ msgstr "Tvinga omläsning av källan"
-
 #~ msgid "\"%s\""
 #~ msgstr "\"%s\""
 
 #~ msgid "Core"
 #~ msgstr "Bas"
-
-#~ msgid "Search content..."
-#~ msgstr "Sök i..."
-
-#~ msgid "Search inside this catalog"
-#~ msgstr "Sök bland objekt i katalogen"
-
-#~ msgid "Quit"
-#~ msgstr "Avsluta"
-
-#~ msgid "Quit Kupfer"
-#~ msgstr "Avsluta Kupfer"
-
-#~ msgid "About Kupfer"
-#~ msgstr "Om Kupfer"
-
-#~ msgid "Show information about Kupfer authors and license"
-#~ msgstr "Visa information om Kupfers upphovsmän och licens"
-
-#~ msgid "Show preferences window for Kupfer"
-#~ msgstr "Visa Kupfers inställningsfönster"
 
 #~ msgid "Kupfer items"
 #~ msgstr "Kupfer-objekt"
