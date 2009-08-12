@@ -134,22 +134,39 @@ class LeafModel (object):
 		# first.object is a leaf
 		return first
 
-	def add(self, tupl):
-		leaf, rank = tupl
-		# Display rank empty instead of 0 since it looks better
-		rank_str = str(int(rank)) if rank else ""
+	def add(self, rankable):
+		"""Use the UI description functions get_*
+		to initialize @rankable into the model
+		"""
+		leaf, rank = rankable
+		icon = self.get_icon(leaf)
+		markup = self.get_label_markup(leaf)
+		info = self.get_aux_info(leaf)
+		rank_str = self.get_rank_str(rank)
+		self.append((leaf, icon, markup, info, rank_str))
+
+	def get_icon_size(self):
+		return 24
+	def get_icon(self, leaf):
+		sz = self.get_icon_size()
+		return leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
+
+	def get_label_markup(self, leaf):
+		text = u"%s\n<small>%s</small>" % (
+				escape_markup_str(unicode(leaf)),
+				escape_markup_str(leaf.get_description() or ""),
+			)
+		return text
+	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
 		content_mark = (u"\u2023").decode("UTF-8")
 		info = ""
 		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
-		text = u"%s\n<small>%s</small>" % (
-				escape_markup_str(unicode(leaf)),
-				escape_markup_str(leaf.get_description() or ""),
-			)
-		sz = 24
-		icon = leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
-		self.append((leaf, icon, text, info, rank_str))
+		return info
+	def get_rank_str(self, rank):
+		# Display rank empty instead of 0 since it looks better
+		return str(int(rank)) if rank else ""
 
 class MatchView (gtk.Bin):
 	"""
