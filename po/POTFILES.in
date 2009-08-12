@@ -21,6 +21,7 @@ kupfer/plugin/firefox.py
 kupfer/plugin/google.py
 kupfer/plugin/rhythmbox.py
 kupfer/plugin/screen.py
+kupfer/plugin/selection.py
 kupfer/plugins.py
 kupfer/plugin/text.py
 kupfer/plugin/tracker.py
