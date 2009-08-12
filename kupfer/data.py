@@ -720,8 +720,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		learn.load()
 
 	def _finish(self, sched):
-		GetSourceController().finish()
+		self.output_info("Saving data...")
 		learn.finish()
+		self.output_info("Saving cache...")
+		GetSourceController().finish()
 
 	def _new_source(self, ctr, src):
 		if ctr is self.source_pane:
