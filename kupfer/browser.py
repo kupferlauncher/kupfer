@@ -982,9 +982,19 @@ class WindowController (pretty.OutputMixin):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
 		status.set_tooltip(_("Kupfer"))
 
+		def prefs_callback(menuitem):
+			from kupfer import preferences
+			preferences.GetPreferencesWindowController().show()
+			return True
+		def quit_callback(menuitem):
+			self.quit()
+			return True
 		menu = gtk.Menu()
+		menu_prefs = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
+		menu_prefs.connect("activate", prefs_callback)
 		menu_quit = gtk.ImageMenuItem(gtk.STOCK_QUIT)
-		menu_quit.connect("activate", self._destroy)
+		menu_quit.connect("activate", quit_callback)
+		menu.append(menu_prefs)
 		menu.append(menu_quit)
 		menu.show_all()
 
