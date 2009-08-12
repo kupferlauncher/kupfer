@@ -159,14 +159,23 @@ def get_thumbnail_for_file(uri, width=-1, height=-1):
 		return None
 	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH)
 	thumb_path = finfo.get_attribute_byte_string(FILE_ATTRIBUTE_THUMBNAIL_PATH)
-	if not thumb_path:
+	return get_pixbuf_from_file(thumb_path, width, height)
+
+def get_pixbuf_from_file(path, width=-1, height=-1):
+	"""
+	Return a Pixbuf thumbnail for the file at @path
+	sized @width x @height
+	For non-icon pixbufs:
+	We might cache these, but on different terms than the icon cache
+	if @path is None, return None
+	"""
+	if not path:
 		return None
 	try:
-		icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
+		icon = pixbuf_new_from_file_at_size(path, width, height)
 		return icon
 	except GError, e:
-		print "get_thumbnail_for_file, error:", e
-		return None
+		print "get_pixbuf_from_file, error:", e
 
 def get_gicon_for_file(uri):
 	"""
