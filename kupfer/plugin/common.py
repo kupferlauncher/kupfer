@@ -245,7 +245,7 @@ class CommonSource (Source):
 
 class KupferSource (AppLeafContentMixin, Source):
 	appleaf_content_id = "kupfer.desktop"
-	def __init__(self, name=_("Kupfer items")):
+	def __init__(self, name=_("Kupfer")):
 		Source.__init__(self, name)
 	def is_dynamic(self):
 		return True
@@ -257,5 +257,7 @@ class KupferSource (AppLeafContentMixin, Source):
 		)
 	def get_description(self):
 		return _("Kupfer items and actions")
+	def get_icon_name(self):
+		return "search"
 	def provides(self):
 		yield RunnableLeaf
