@@ -940,15 +940,16 @@ class DirectorySource (Source, PicklingHelperMixin):
 
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
-	def __init__(self, sources):
+	def __init__(self, sources, use_reprs=True):
 		super(SourcesSource, self).__init__(_("Catalog index"))
 		self.sources = sources
+		self.use_reprs = use_reprs
 
 	def get_items(self):
 		"""Ask each Source for a Leaf substitute, else
 		yield a SourceLeaf """
 		for s in self.sources:
-			yield s.get_leaf_repr() or SourceLeaf(s)
+			yield (self.use_reprs and s.get_leaf_repr()) or SourceLeaf(s)
 
 	def should_sort_lexically(self):
 		return True
