@@ -963,10 +963,20 @@ class WindowController (pretty.OutputMixin):
 		self.interface.connect("cancelled", self._cancelled)
 		self.data_controller.connect("launched-action", self.launch_callback)
 		self._keystr = ""
-		self._show_statusicon = True
+		self._statusicon = None
 
-	def set_show_statusicon(self, val):
-		self._show_statusicon = bool(val)
+	def show_statusicon(self):
+		if not self._statusicon:
+			self._statusicon = self._setup_status_icon()
+		self._statusicon.set_visible(True)
+	def hide_statusicon(self):
+		if self._statusicon:
+			self._statusicon.set_visible(False)
+
+	def _settings_changed(self, setctl, section, key, value):
+		if section == "Kupfer" and key == "showstatusicon":
+			if value: self.show_statusicon()
+			else: self.hide_statusicon()
 
 	def _setup_status_icon(self):
 		status = gtk.status_icon_new_from_stock(self.icon_name)
@@ -980,6 +990,7 @@ class WindowController (pretty.OutputMixin):
 
 		status.connect("popup-menu", self._popup_menu, menu)
 		status.connect("activate", self.show_hide)
+		return status
 
 	def _setup_window(self):
 		"""
@@ -1102,7 +1113,7 @@ class WindowController (pretty.OutputMixin):
 		# register dbus callbacks
 		from .listen import Service, AlreadyRunning, NoConnection
 		from .session import SessionClient
-		from kupfer.scheduler import GetScheduler
+		from kupfer import scheduler, settings
 		from kupfer import keybindings
 
 		try:
@@ -1119,6 +1130,12 @@ class WindowController (pretty.OutputMixin):
 			s.connect("put-text", self._put_text_recieved)
 			s.connect("quit", self.quit)
 
+		# read settings
+		setctl = settings.GetSettingsController()
+		if setctl.get_show_status_icon():
+			self.show_statusicon()
+		setctl.connect("value-changed", self._settings_changed)
+
 		if self._keystr:
 			succ = keybindings.bind_key(self._keystr)
 			self.output_info("Trying to register %s to spawn kupfer.. %s"
@@ -1128,11 +1145,8 @@ class WindowController (pretty.OutputMixin):
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
 
-		if self._show_statusicon:
-			self._setup_status_icon()
-
 		# Load data and present UI
-		sch = GetScheduler()
+		sch = scheduler.GetScheduler()
 		sch.load()
 
 		if not quiet:
