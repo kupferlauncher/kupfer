@@ -11,6 +11,29 @@ from kupfer import scheduler
 
 kupfer_env = "KUPFER_APP_ID"
 
+default_associations = {
+	"abiword.desktop" : "abiword",
+	"alacarte.desktop" : "alacarte",
+	"at-properties.desktop" : "gnome-at-properties",
+	"evince.desktop" : "Document Viewer",
+	"file-roller.desktop" : "File Roller",
+	"gconf-editor.desktop" : "gconf-editor",
+	"gedit.desktop" : "Text Editor",
+	"gnome-appearance-properties.desktop" : "gnome-appearance-properties",
+	"gnome-keyring-manager.desktop" : "Keyring Manager",
+	"gnote.desktop" : "gnote",
+	"inkscape.desktop" : "inkscape",
+	"keyboard.desktop" : "gnome-keyboard-properties",
+	"nautilus-browser.desktop" : "File Manager",
+	"polkit-gnome-authorization.desktop" : "polkit-gnome-authorization",
+	"rhythmbox.desktop" : "Rhythmbox Music Player",
+	"seahorse.desktop" : "seahorse",
+	"session-properties.desktop" : "gnome-session-properties",
+	"tracker-preferences.desktop" : "tracker-preferences",
+	"window-properties.desktop" : "gnome-window-properties",
+}
+
+
 def _read_environ(pid, envcache=None):
 	"""Read the environment for application with @pid
 	and return as a dictionary. Only works for the user's
@@ -110,7 +133,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 				"application_identification_v%d.pickle" % version)
 	def _load(self):
 		reg = self._unpickle_register(self._get_filename())
-		self.register = reg if reg else {}
+		self.register = reg if reg else default_associations
 		# pretty-print register to debug
 		if self.register:
 			self.output_debug("Learned the following applications")
