@@ -1,6 +1,6 @@
 import gtk
 
-from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf
+from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, PicklingHelperMixin
 
 __kupfer_name__ = _("Selected Text")
 __kupfer_sources__ = ("SelectionSource", )
@@ -17,17 +17,23 @@ class InvisibleSourceLeaf (SourceLeaf):
 	def is_valid(self):
 		return False
 
-class SelectionSource (Source):
+class SelectionSource (Source, PicklingHelperMixin):
 	def __init__(self):
 		Source.__init__(self, _("Selected Text source"))
+		self.unpickle_finish()
 
-	def is_dynamic(self):
-		return True
-	def get_items(self):
+	def unpickle_finish(self):
 		clipboard = gtk.clipboard_get("PRIMARY")
-		text = clipboard.wait_for_text()
-		if text:
-			yield SelectedText(text)
+		clipboard.connect("owner-change", self._clipboard_owner_changed)
+		self._text = None
+
+	def _clipboard_owner_changed(self, clipboard, event):
+		self._text = clipboard.wait_for_text()
+		self.mark_for_update()
+
+	def get_items(self):
+		if self._text:
+			yield SelectedText(self._text)
 
 	def get_description(self):
 		return _("Provides currently Selected text")
