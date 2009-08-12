@@ -749,7 +749,8 @@ class Interface (gobject.GObject):
 
 	def _pane_button_press(self, widget, event):
 		window = widget.get_toplevel()
-		window.begin_move_drag(event.button, event.x_root, event.y_root, event.time)
+		window.begin_move_drag(event.button,
+				int(event.x_root), int(event.y_root), event.time)
 
 	def _entry_key_press(self, entry, event):
 		"""
