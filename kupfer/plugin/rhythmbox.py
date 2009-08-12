@@ -100,6 +100,18 @@ class Previous (RunnableLeaf):
 	def get_icon_name(self):
 		return "media-skip-backward"
 
+class ShowPlaying (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Show Playing"))
+	def run(self):
+		utils.spawn_async(("rhythmbox-client", "--no-start", "--notify"))
+	def get_description(self):
+		return _("Tell which song is currently playing")
+	def get_gicon(self):
+		return icons.ComposedIcon("dialog-information", "audio-x-generic")
+	def get_icon_name(self):
+		return "dialog-information"
+
 class PlayTracks (Action):
 	rank_adjust = 5
 	def __init__(self):
@@ -319,6 +331,7 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		yield Pause()
 		yield Next()
 		yield Previous()
+		yield ShowPlaying()
 		album_source = RhythmboxAlbumsSource(albums)
 		artist_source = RhythmboxArtistsSource(artists)
 		songs_source = RhythmboxSongsSource(songs)
