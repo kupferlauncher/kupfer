@@ -8,7 +8,7 @@ from kupfer.plugin import about_support
 __kupfer_name__ = _("Core")
 __kupfer_sources__ = ("CommonSource", "KupferSource", )
 __kupfer_contents__ = ("KupferSource", )
-__kupfer_actions__ = ("SearchInside", "DebugInfo", )
+__kupfer_actions__ = ("SearchInside", "DebugInfo", "Rescan", )
 __description__ = _("Core actions and miscellaneous items")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -37,6 +37,31 @@ class SearchInside (Action):
 		return _("Search inside this catalog")
 	def get_icon_name(self):
 		return "search"
+
+class Rescan (Action):
+	""" A source action: Rescan a source!  """
+	rank_adjust = -5
+	def __init__(self):
+		Action.__init__(self, _("Rescan"))
+
+	def activate(self, leaf):
+		if not leaf.has_content():
+			raise objects.InvalidLeafError("Must have content")
+		source = leaf.content_source()
+		source.get_leaves(force_update=True)
+
+	def get_description(self):
+		return _("Force reindex of this source")
+	def get_icon_name(self):
+		return "gtk-refresh"
+
+	def item_types(self):
+		yield objects.AppLeaf
+		yield objects.SourceLeaf
+	def valid_for_item(self, item):
+		if not item.has_content():
+			return False
+		return not item.content_source().is_dynamic()
 
 class DebugInfo (Action, pretty.OutputMixin):
 	"""

@@ -367,10 +367,6 @@ class SourceLeaf (Leaf):
 	def has_content(self):
 		return True
 
-	def get_actions(self):
-		if not self.object.is_dynamic():
-			yield RescanSource()
-
 	def content_source(self, alternate=False):
 		return self.object
 
@@ -686,29 +682,6 @@ class Execute (Launch):
 			return _("Run this program in a Terminal")
 		else:
 			return _("Run this program")
-
-class RescanSource (Action):
-	"""
-	A source action: Rescan a source!
-	"""
-	def __init__(self):
-		super(RescanSource, self).__init__(_("Rescan"))
-	
-	def is_factory(self):
-		return False
-	
-	def activate(self, leaf):
-		if not leaf.has_content():
-			raise InvalidLeafError("Must have content")
-		source = leaf.object
-		if not source.is_dynamic():
-			cache = source.get_leaves(force_update=True)
-
-	def get_description(self):
-		return _("Force reindex of this source")
-
-	def get_icon_name(self):
-		return "gtk-refresh"
 
 class DummyAction (Action):
 	"""
