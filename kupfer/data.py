@@ -394,10 +394,13 @@ class SourceController (pretty.OutputMixin):
 	def get_contents_for_leaf(self, leaf):
 		"""Iterator of content sources for @leaf"""
 		for typ in self.content_decorators:
-			if isinstance(leaf, typ):
-				for content in self.content_decorators[typ]:
-					dsrc = content.decorate_item(leaf)
-					if dsrc: yield dsrc
+			if not isinstance(leaf, typ):
+				continue
+			for content in self.content_decorators[typ]:
+				dsrc = content.decorate_item(leaf)
+				if dsrc:
+					# check if we already have source, then return that
+					yield self[dsrc] if (dsrc in self) else dsrc
 
 	def get_actions_for_leaf(self, leaf):
 		for typ in self.action_decorators:
