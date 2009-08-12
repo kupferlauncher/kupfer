@@ -352,7 +352,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		win.show()
 
 	def show(self):
-		self.window.show()
+		self.window.present()
 	def hide(self):
 		self.window.hide()
 	def _close_window(self, *ignored):
