@@ -31,6 +31,12 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"type": bool,
 		"value": False,
 	},
+	{
+		"key" : "toplevel_songs",
+		"label": _("Include all songs in top level"),
+		"type": bool,
+		"value": False,
+	},
 )
 
 def _tostr(ustr):
@@ -323,6 +329,9 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 				yield leaf
 		if __kupfer_settings__["toplevel_albums"]:
 			for leaf in album_source.get_leaves():
+				yield leaf
+		if __kupfer_settings__["toplevel_songs"]:
+			for leaf in songs_source.get_leaves():
 				yield leaf
 
 	def get_description(self):
