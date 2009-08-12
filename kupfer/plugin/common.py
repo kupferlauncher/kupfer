@@ -7,7 +7,7 @@ from kupfer.plugin import about_support
 
 __kupfer_name__ = _("Common")
 __kupfer_sources__ = ("CommonSource", )
-__description__ = _("Miscellaneous items")
+__description__ = _("Special items and actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

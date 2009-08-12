@@ -4,7 +4,7 @@ from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, PicklingHelperMix
 
 __kupfer_name__ = _("Selected Text")
 __kupfer_sources__ = ("SelectionSource", )
-__description__ = _("Provides currently Selected text")
+__description__ = _("Provides current selection")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -19,7 +19,7 @@ class InvisibleSourceLeaf (SourceLeaf):
 
 class SelectionSource (Source, PicklingHelperMixin):
 	def __init__(self):
-		Source.__init__(self, _("Selected Text source"))
+		Source.__init__(self, _("Selected Text"))
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
@@ -36,7 +36,7 @@ class SelectionSource (Source, PicklingHelperMixin):
 			yield SelectedText(self._text)
 
 	def get_description(self):
-		return _("Provides currently Selected text")
+		return _("Provides current selection")
 	def provides(self):
 		yield TextLeaf
 	def get_leaf_repr(self):
