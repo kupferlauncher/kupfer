@@ -369,6 +369,8 @@ class Search (gtk.Bin):
 		self.scroller = gtk.ScrolledWindow()
 		self.scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
 		self.scroller.add(self.table)
+		vscroll = self.scroller.get_vscrollbar()
+		vscroll.connect("change-value", self._table_scroll_changed)
 
 		self.list_window = gtk.Window(gtk.WINDOW_POPUP)
 
@@ -432,6 +434,16 @@ class Search (gtk.Bin):
 		self.list_window.set_property("focus-on-map", False)
 		self.list_window.show()
 		self._old_win_position = pos_x, pos_y
+
+	def _table_scroll_changed(self, scrollbar, scroll_type, value):
+		"""When the scrollbar changes due to user interaction"""
+		# page size: size of currently visible area
+		adj = scrollbar.get_adjustment()
+		upper = adj.get_property("upper")
+		page_size = adj.get_property("page-size")
+
+		if value + page_size >= upper:
+			self.model.populate(self.show_more)
 	
 	# table methods
 	def go_up(self):
