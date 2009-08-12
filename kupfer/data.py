@@ -410,7 +410,8 @@ class SourceController (pretty.OutputMixin):
 			contents = list(self.get_contents_for_leaf(obj))
 			content = contents and contents[0]
 			if len(contents) > 1:
-				content = objects.SourcesSource(contents, use_reprs=False)
+				content = objects.SourcesSource(contents, name=unicode(obj),
+						use_reprs=False)
 			if content:
 				self.output_debug("Dressing", obj, "with", *contents)
 			obj.add_content(content)
