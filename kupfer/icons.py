@@ -151,31 +151,34 @@ def get_thumbnail_for_file(uri, width=-1, height=-1):
 	return None if not found
 	"""
 	from gio import File, FILE_ATTRIBUTE_THUMBNAIL_PATH, FileIcon
-	from gtk.gdk import pixbuf_new_from_file_at_size
-	from gobject import GError
 
 	gfile = File(uri)
 	if not gfile.query_exists():
 		return None
 	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH)
 	thumb_path = finfo.get_attribute_byte_string(FILE_ATTRIBUTE_THUMBNAIL_PATH)
+
 	return get_pixbuf_from_file(thumb_path, width, height)
 
-def get_pixbuf_from_file(path, width=-1, height=-1):
+def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
 	"""
-	Return a Pixbuf thumbnail for the file at @path
+	Return a Pixbuf thumbnail for the file at @thumb_path
 	sized @width x @height
 	For non-icon pixbufs:
 	We might cache these, but on different terms than the icon cache
-	if @path is None, return None
+	if @thumb_path is None, return None
 	"""
-	if not path:
+	from gobject import GError
+	if not thumb_path:
 		return None
 	try:
-		icon = pixbuf_new_from_file_at_size(path, width, height)
+		icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
 		return icon
 	except GError, e:
-		print "get_pixbuf_from_file, error:", e
+		# this error is not important, the program continues on fine,
+		# so we put it in debug output.
+		pretty.print_debug(__name__, "get_pixbuf_from_file file:", thumb_path,
+			"error:", e)
 
 def get_gicon_for_file(uri):
 	"""
@@ -275,7 +278,6 @@ def get_icon_from_file(icon_file, icon_size):
 	for icon in get_icon(icon_file, icon_size):
 		return icon
 
-	from gtk.gdk import pixbuf_new_from_file_at_size
 	from gobject import GError
 	try:
 		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
