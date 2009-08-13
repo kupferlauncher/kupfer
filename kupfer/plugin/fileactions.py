@@ -1,5 +1,7 @@
 import gio
 import os
+# since "path" is a very generic name, you often forget..
+from os import path as os_path
 
 from kupfer.objects import Action, FileLeaf
 from kupfer import utils, pretty
@@ -8,7 +10,13 @@ from kupfer import utils, pretty
 __kupfer_name__ = _("File actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = ("Trash", "MoveTo", "UnpackHere", "CreateArchive")
+__kupfer_actions__ = (
+		"Trash",
+		"MoveTo",
+		"CopyTo",
+		"UnpackHere",
+		"CreateArchive"
+	)
 __description__ = _("More file actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -31,15 +39,32 @@ class Trash (Action):
 	def item_types(self):
 		yield FileLeaf
 
+def _good_destination(dpath, spath):
+	if not os_path.isdir(dpath):
+		return False
+	spath = os_path.normpath(spath)
+	dpath = os_path.normpath(dpath)
+	if not os.access(dpath, os.R_OK | os.W_OK | os.X_OK):
+		return False
+	cpfx = os_path.commonprefix((spath, dpath))
+	parent_spath = os_path.dirname(spath)
+	if (os_path.samefile(dpath, spath) or (cpfx == spath) or
+			(dpath == parent_spath)):
+		return False
+	return True
+
 class MoveTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Move to..."))
 	def activate(self, leaf, obj):
 		sfile = gio.File(leaf.object)
 		bname = sfile.get_basename()
-		dfile = gio.File(os.path.join(obj.object, bname))
-		ret = sfile.move(dfile)
-		self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
+		dfile = gio.File(os_path.join(obj.object, bname))
+		try:
+			ret = sfile.move(dfile)
+			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
+		except gio.Error, exc:
+			self.output_error("Move %s to %s Error: %s" % (sfile, dfile, exc))
 
 	def valid_for_item(self, item):
 		return os.access(item.object, os.R_OK | os.W_OK)
@@ -50,19 +75,36 @@ class MoveTo (Action, pretty.OutputMixin):
 		yield FileLeaf
 	def object_types(self):
 		yield FileLeaf
-	def valid_object(self, obj, for_item=None):
-		if not obj.is_dir():
-			return False
-		spath = os.path.normpath(for_item.object)
-		dpath = os.path.normpath(obj.object)
-		if not os.access(dpath, os.R_OK | os.W_OK | os.X_OK):
-			return False
-		cpfx = os.path.commonprefix((spath, dpath))
-		if os.path.samefile(dpath, spath) or (cpfx == spath):
-			return False
-		return True
+	def valid_object(self, obj, for_item):
+		return _good_destination(obj.object, for_item.object)
 	def get_description(self):
 		return _("Move file to new location")
+
+class CopyTo (Action, pretty.OutputMixin):
+	def __init__(self):
+		Action.__init__(self, _("Copy to..."))
+	def activate(self, leaf, obj):
+		sfile = gio.File(leaf.object)
+		bname = sfile.get_basename()
+		dfile = gio.File(os_path.join(obj.object, bname))
+		try:
+			ret = sfile.copy(dfile)
+			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
+		except gio.Error, exc:
+			self.output_error("Copy %s to %s Error: %s" % (sfile, dfile, exc))
+
+	def item_types(self):
+		yield FileLeaf
+	def valid_for_item(self, item):
+		return (not item.is_dir()) and os.access(item.object, os.R_OK)
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield FileLeaf
+	def valid_object(self, obj, for_item):
+		return _good_destination(obj.object, for_item.object)
+	def get_description(self):
+		return _("Copy file to a chosen location")
 
 class UnpackHere (Action):
 	def __init__(self):
