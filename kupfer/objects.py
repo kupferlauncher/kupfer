@@ -1057,7 +1057,8 @@ class TextLeaf (Leaf):
 	def __init__(self, text, name=None):
 		"""@text *must* be unicode or UTF-8 str"""
 		if not name:
-			name = [l for l in text.splitlines() if l.strip()][0]
+			lines = [l for l in text.splitlines() if l.strip()]
+			name = lines[0] if lines else ""
 		Leaf.__init__(self, tounicode(text), name)
 
 	def get_actions(self):
@@ -1066,8 +1067,9 @@ class TextLeaf (Leaf):
 	def get_description(self):
 		# FIXME: We should return full text and UI should handle truncating
 		lines = self.object.splitlines()
-		firstline = [l for l in lines if l.strip()][0]
-		numlines = len(lines)
+		striplines = [l for l in lines if l.strip()]
+		numlines = len(lines) or 1
+		firstline = striplines[0] if striplines else u""
 
 		# TRANS: This is description for a TextLeaf, a free-text search
 		return ngettext('"%(text)s"', '(%(num)d lines) "%(text)s"',
