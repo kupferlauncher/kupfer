@@ -92,35 +92,35 @@ class ComposedIcon (Icon):
 	the composition to be drawn
 	"""
 	minimum_icon_size = 48
-	def __new__(cls, baseicon, emblemicon, emblem_is_fallback=False):
-		fallback_icon = emblemicon if emblem_is_fallback else baseicon
-		if isinstance(fallback_icon, (basestring, ThemedIcon)):
-			return _ComposedThemedIcon(baseicon, emblemicon, emblem_is_fallback)
-		if isinstance(fallback_icon, FileIcon):
-			return _ComposedFileIcon(baseicon, emblemicon, emblem_is_fallback)
+
+	class Implementation (object):
+		"""Base class for the internal implementation"""
+		def __init__(self, baseicon, emblem):
+			self.baseicon = baseicon
+			self.emblemicon = emblem
+
+	class _ThemedIcon (Implementation, ThemedIcon):
+		def __init__(self, fallback, baseicon, emblem):
+			ComposedIcon.Implementation.__init__(self, baseicon, emblem)
+			if isinstance(fallback, basestring):
+				names = (fallback, )
+			else:
+				names = fallback.get_names()
+			ThemedIcon.__init__(self, names)
+
+	class _FileIcon (Implementation, FileIcon):
+		def __init__(self, fallback, baseicon, emblem):
+			ComposedIcon.Implementation.__init__(self, baseicon, emblem)
+			FileIcon.__init__(self, fallback.get_file())
+
+	def __new__(cls, baseicon, emblem, emblem_is_fallback=False):
+		fallback = emblem if emblem_is_fallback else baseicon
+		if isinstance(fallback, (basestring, ThemedIcon)):
+			return cls._ThemedIcon(fallback, baseicon, emblem)
+		if isinstance(fallback, FileIcon):
+			return cls._FileIcon(fallback, baseicon, emblem)
 		return None
 
-class _ComposedIconImpl (object):
-	def __init__(self, baseicon, emblemicon, emblem_is_fallback):
-		self.baseicon = baseicon
-		self.emblemicon = emblemicon
-		self.fallback_icon = emblemicon if emblem_is_fallback else baseicon
-
-class _ComposedThemedIcon (_ComposedIconImpl, ThemedIcon):
-	def __init__(self, baseicon, emblemicon, emblem_is_fallback):
-		_ComposedIconImpl.__init__(self, baseicon, emblemicon,
-				emblem_is_fallback)
-		if isinstance(self.fallback_icon, basestring):
-			names = (self.fallback_icon, )
-		else:
-			names = self.fallback_icon.get_names()
-		ThemedIcon.__init__(self, names)
-
-class _ComposedFileIcon (_ComposedIconImpl, FileIcon):
-	def __init__(self, baseicon, emblemicon, emblem_is_fallback):
-		_ComposedIconImpl.__init__(self, baseicon, emblemicon,
-				emblem_is_fallback)
-		FileIcon.__init__(self, self.fallback_icon.get_file())
 
 def _render_composed_icon(composed_icon, icon_size):
 	# If it's too small, render as fallback icon
@@ -207,7 +207,7 @@ def get_icon_for_gicon(gicon, icon_size):
 	# FIXME: We can't load any general GIcon
 	if not gicon:
 		return None
-	if isinstance(gicon, _ComposedIconImpl):
+	if isinstance(gicon, ComposedIcon.Implementation):
 		return _render_composed_icon(gicon, icon_size)
 	return _get_icon_for_standard_gicon(gicon, icon_size)
 
