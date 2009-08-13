@@ -1,13 +1,18 @@
-import wnck
-import gtk
-import gobject
 from time import time
 import os
-
 import cPickle as pickle
+
+import gtk
+import gobject
 
 from kupfer import pretty, config
 from kupfer import scheduler
+
+try:
+	import wnck
+except ImportError, e:
+	pretty.print_info(__name__, "Disabling launch module:", e)
+	wnck = None
 
 kupfer_env = "KUPFER_APP_ID"
 
@@ -77,10 +82,11 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	if paths:
 		files = [File(p) for p in paths]
 
-	# launch on current workspace
-	workspace = wnck.screen_get_default().get_active_workspace()
-	nbr = workspace.get_number() if workspace else -1
-	ctx.set_desktop(nbr)
+	if wnck:
+		# launch on current workspace
+		workspace = wnck.screen_get_default().get_active_workspace()
+		nbr = workspace.get_number() if workspace else -1
+		ctx.set_desktop(nbr)
 	ctx.set_timestamp(gtk.get_current_event_time())
 
 	if track:
@@ -122,10 +128,16 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	"""
 	def __init__(self):
 		self.register = {}
-		screen = wnck.screen_get_default()
-		screen.get_windows_stacked()
+		self._get_wnck_screen_windows_stacked()
 		scheduler.GetScheduler().connect("finish", self._finish)
 		self._load()
+
+	@classmethod
+	def _get_wnck_screen_windows_stacked(cls):
+		if not wnck:
+			return ()
+		screen = wnck.screen_get_default()
+		return screen.get_windows_stacked()
 
 	def _get_filename(self):
 		version = 1
@@ -185,8 +197,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	def _find_application(self, app_id, timeout, envcache=None):
 		self.output_debug("Looking for window for application", app_id)
-		screen = wnck.screen_get_default()
-		for w in screen.get_windows_stacked():
+		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
 			pid = app.get_pid()
 			if not pid:
@@ -208,8 +219,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def application_is_running(self, app_id):
 		if not self._has_match(app_id):
 			return False
-		screen = wnck.screen_get_default()
-		for w in screen.get_windows_stacked():
+		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
 			if self._is_match(app_id, app):
 				return True
@@ -218,9 +228,8 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def application_to_front(self, app_id):
 		if not self._has_match(app_id):
 			return False
-		screen = wnck.screen_get_default()
 		application_windows = []
-		for w in screen.get_windows_stacked():
+		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
 			if self._is_match(app_id, app):
 				application_windows.append(w)
@@ -235,6 +244,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			# only show desktop if it's the only window of this app
 			if w.get_name() == "x-nautilus-desktop":
 				if len(application_windows) == 1:
+					screen = wnck.screen_get_default()
 					screen.toggle_showing_desktop(True)
 				else:
 					continue
