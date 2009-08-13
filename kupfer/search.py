@@ -21,11 +21,12 @@ class Rankable (object):
 	value (determines rank) and an associated rank
 	"""
 	# To save memory with (really) many Rankables
-	__slots__ = ("rank", "value", "object")
-	def __init__(self, value, object=None, rank=0):
+	__slots__ = ("rank", "value", "object", "aliases")
+	def __init__(self, value, obj, rank=0):
 		self.rank = rank
 		self.value = value
-		self.object = object
+		self.object = obj
+		self.aliases = getattr(obj, "name_aliases", ())
 	
 	def __hash__(self):
 		return hash(self.value)
@@ -83,9 +84,18 @@ def score_objects(rankables, key):
 	rank is added to previous rank,
 	if not @key, then all items are returned"""
 	key = key.lower()
-	for obj in rankables:
+	for rb in rankables:
 		# Rank object
-		obj.rank += score(obj.value, key)*100
-		if obj.rank:
-			yield obj
+		rank = score(rb.value, key)*100
+		maxval = None
+		for alias in rb.aliases:
+			# consider aliases and change rb.value if alias is better
+			# aliases rank lower so that value is chosen when close
+			arank = score(alias, key)*95
+			if arank > rank:
+				rank = arank
+				rb.value = alias
+		rb.rank = rank
+		if rb.rank:
+			yield rb
 
