@@ -1,5 +1,4 @@
 import gtk
-import gio
 
 from kupfer.objects import Leaf, Action, Source, RunnableLeaf, AppLeafContentMixin
 from kupfer import objects, utils, icons, pretty
