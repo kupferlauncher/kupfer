@@ -89,6 +89,7 @@ class DebugInfo (Action, pretty.OutputMixin):
 				"icon-name": leaf.get_icon_name(),
 				"type" : type(leaf),
 				"module" : leaf.__module__,
+				"aliases" : getattr(leaf, "name_aliases", None),
 				}
 		def get_leaf_fields(leaf):
 			base = get_object_fields(leaf)
