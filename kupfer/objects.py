@@ -551,12 +551,14 @@ class OpenWith (Action):
 
 	def get_description(self):
 		if self.is_default:
-			return _("Open with %s (default)") % self.desktop_item.get_name()
-		else:
 			return _("Open with %s") % self.desktop_item.get_name()
+		else:
+			# no description is better than a duplicate title
+			#return _("Open with %s") % self.desktop_item.get_name()
+			return u""
 	def get_gicon(self):
 		return icons.ComposedIcon(self.get_icon_name(),
-				self.desktop_item.get_icon())
+				self.desktop_item.get_icon(), emblem_is_fallback=True)
 	def get_icon_name(self):
 		return "gtk-execute"
 
