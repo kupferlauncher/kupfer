@@ -77,7 +77,6 @@ def configure(conf):
 		gtk
 		xdg
 		dbus
-		wnck
 		"""
 	for module in python_modules.split():
 		conf.check_python_module(module)
@@ -85,7 +84,7 @@ def configure(conf):
 	Utils.pprint("NORMAL", "Checking optional dependencies:")
 
 	opt_programs = ["dbus-send"]
-	opt_pymodules = "gnome.ui".split()
+	opt_pymodules = "wnck gnome.ui".split()
 	for prog in opt_programs:
 		prog_path = conf.find_program(prog)
 
@@ -99,8 +98,7 @@ def configure(conf):
 		try:
 			conf.check_python_module(mod)
 		except Configure.ConfigurationError, e:
-			pass
-			#Utils.pprint("YELLOW", "python module %s is recommended" % prog)
+			Utils.pprint("YELLOW", "python module %s is recommended" % mod)
 
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
 	conf.env["VERSION"] = VERSION
