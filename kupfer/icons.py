@@ -49,8 +49,7 @@ def load_kupfer_icons(sched=None):
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"from", icon_path)
 
-sch = scheduler.GetScheduler()
-sch.connect("load", load_kupfer_icons)
+scheduler.GetScheduler().connect("load", load_kupfer_icons)
 
 def get_icon(key, icon_size):
 	"""
