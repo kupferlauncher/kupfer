@@ -436,7 +436,14 @@ class SourceController (pretty.OutputMixin):
 				sources.remove(source)
 				sources.add(news)
 			elif rescan:
-				self.rescanner.register_rescan(source, force=True)
+				# to "rescue the toplevel", we throw out sources that
+				# raise exceptions on rescan
+				try:
+					self.rescanner.register_rescan(source, force=True)
+				except StandardError, exp:
+					self.output_error("Loading %s: raised %s %s" % (
+						source, type(exp).__name__, exp))
+					sources.remove(source)
 
 	def _pickle_sources(self, sources):
 		if not self.pickle:
