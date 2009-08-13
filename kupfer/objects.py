@@ -625,7 +625,7 @@ class RevealFile (Action):
 		return "folder-open"
 
 class OpenTerminal (Action):
-	def __init__(self, name=_("Open Terminal here")):
+	def __init__(self, name=_("Open Terminal Here")):
 		super(OpenTerminal, self).__init__(name)
 	
 	def activate(self, leaf):
@@ -663,7 +663,7 @@ class ShowApplication (Launch):
 	rank_adjust = 5
 	def __init__(self, name=None):
 		if not name:
-			name = _("Go to")
+			name = _("Go To")
 		Launch.__init__(self, name, open_new=False)
 
 	def get_description(self):
@@ -676,7 +676,7 @@ class LaunchAgain (Launch):
 	rank_adjust = 0
 	def __init__(self, name=None):
 		if not name:
-			name = _("Launch again")
+			name = _("Launch Again")
 		Launch.__init__(self, name, open_new=True)
 
 	def get_description(self):
@@ -933,7 +933,7 @@ class DirectorySource (Source, PicklingHelperMixin):
 class SourcesSource (Source):
 	""" A source whose items are SourceLeaves for @source """
 	def __init__(self, sources, name=None, use_reprs=True):
-		if not name: name = _("Catalog index")
+		if not name: name = _("Catalog Index")
 		super(SourcesSource, self).__init__(name)
 		self.sources = sources
 		self.use_reprs = use_reprs
@@ -1096,7 +1096,7 @@ class TextSource (KupferObject):
 	this is a psedo Source"""
 	def __init__(self, name=None):
 		if not name:
-			name = _("Text matches")
+			name = _("Text Matches")
 		KupferObject.__init__(self, name)
 
 	def __eq__(self, other):
