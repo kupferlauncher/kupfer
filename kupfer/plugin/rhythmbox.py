@@ -160,8 +160,11 @@ class SongLeaf (Leaf):
 		yield PlayTracks()
 		yield Enqueue()
 	def get_description(self):
-		# TRANS: Song description "by Artist"
-		return _("by %s") % (self.object["artist"], )
+		# TRANS: Song description
+		return _("by %(artist)s from %(album)s") % {
+				"artist": self.object["artist"],
+				"album": self.object["album"],
+				}
 	def get_icon_name(self):
 		return "audio-x-generic"
 
