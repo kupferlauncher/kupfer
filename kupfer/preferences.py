@@ -141,7 +141,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		dfile.write(filename=autostart_file)
 
 	def on_entrykeybinding_changed(self, widget):
-		self.buttonkeybinding.set_sensitive(True)
+		print keybindings.get_currently_bound_key()
+		sensitive = widget.get_text() != keybindings.get_currently_bound_key()
+		self.buttonkeybinding.set_sensitive(sensitive)
 		self.imagekeybindingaux.hide()
 		self.labelkeybindingaux.hide()
 	def on_buttonkeybinding_clicked(self, widget):
