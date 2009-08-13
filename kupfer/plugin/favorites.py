@@ -41,7 +41,7 @@ class FavoritesSource (Source, PicklingHelperMixin):
 		self.favorites.append(itm)
 		self.mark_for_update()
 	def has_item(self, itm):
-		return itm in self.favorites
+		return itm in set(self.favorites)
 	def remove(self, itm):
 		self.favorites.remove(itm)
 		self.mark_for_update()
