@@ -1,7 +1,11 @@
-from os import path
-from gtk import icon_theme_get_default, icon_theme_add_builtin_icon
+import os
+
+import gtk
+from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
 from gtk.gdk import pixbuf_new_from_file_at_size
-from gio import ThemedIcon, Icon, FileIcon
+from gio import Icon, ThemedIcon, FileIcon, File
+from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
+from gobject import GError
 
 from kupfer import config, pretty, scheduler
 
@@ -12,7 +16,7 @@ def _icon_theme_changed(theme):
 	global icon_cache
 	icon_cache = {}
 
-_default_theme = icon_theme_get_default()
+_default_theme = gtk.icon_theme_get_default()
 _default_theme.connect("changed", _icon_theme_changed)
 
 # Fix bad icon names
@@ -36,12 +40,12 @@ def load_kupfer_icons(sched=None):
 			continue
 		icon_name, basename, size = (i.strip() for i in line.split("\t", 2))
 		size = int(size)
-		icon_path = config.get_data_file(path.join("art", basename))
+		icon_path = config.get_data_file(os.path.join("art", basename))
 		if not icon_path:
 			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
 			continue
 		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
-		icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"from", icon_path)
 
@@ -74,7 +78,6 @@ def _get_icon_dwim(icon, icon_size):
 	"""Make an icon at @icon_size where
 	@icon can be either an icon name, or a gicon
 	"""
-	from gio import Icon
 	if isinstance(icon, Icon):
 		return get_icon_for_gicon(icon, icon_size)
 	elif icon:
@@ -121,7 +124,6 @@ class _ComposedFileIcon (_ComposedIconImpl, FileIcon):
 		FileIcon.__init__(self, self.fallback_icon.get_file())
 
 def _render_composed_icon(composed_icon, icon_size):
-	import gtk
 	# If it's too small, render as fallback icon
 	if icon_size < ComposedIcon.minimum_icon_size:
 		return _get_icon_for_standard_gicon(composed_icon, icon_size)
@@ -150,7 +152,6 @@ def get_thumbnail_for_file(uri, width=-1, height=-1):
 
 	return None if not found
 	"""
-	from gio import File, FILE_ATTRIBUTE_THUMBNAIL_PATH, FileIcon
 
 	gfile = File(uri)
 	if not gfile.query_exists():
@@ -168,7 +169,6 @@ def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
 	We might cache these, but on different terms than the icon cache
 	if @thumb_path is None, return None
 	"""
-	from gobject import GError
 	if not thumb_path:
 		return None
 	try:
@@ -187,7 +187,6 @@ def get_gicon_for_file(uri):
 
 	return None if not found
 	"""
-	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON
 
 	gfile = File(uri)
 	if not gfile.query_exists():
@@ -215,7 +214,6 @@ def get_icon_for_gicon(gicon, icon_size):
 
 def _get_icon_for_standard_gicon(gicon, icon_size):
 	"""Render ThemedIcon and FileIcon"""
-	from gio import ThemedIcon, FileIcon
 	if isinstance(gicon, FileIcon):
 		ifile = gicon.get_file()
 		return get_icon_from_file(ifile.get_path(), icon_size)
@@ -234,7 +232,6 @@ def get_icon_for_file(uri, icon_size):
 	
 	@icon_size: a pixel size of the icon
 	"""
-	from gio import File, FILE_ATTRIBUTE_STANDARD_ICON
 
 	gfile = File(uri)
 	if not gfile.query_exists():
@@ -247,8 +244,6 @@ def get_icon_for_file(uri, icon_size):
 def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	for i in get_icon(icon_name, icon_size):
 		return i
-	from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
-	from gobject import GError
 	if not icon_names: icon_names = (icon_name,)
 
 	# Try the whole list of given names
@@ -278,7 +273,6 @@ def get_icon_from_file(icon_file, icon_size):
 	for icon in get_icon(icon_file, icon_size):
 		return icon
 
-	from gobject import GError
 	try:
 		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
 		store_icon(icon_file, icon_size, icon)
