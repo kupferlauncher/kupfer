@@ -1,6 +1,73 @@
 NEWS for kupfer
 ===============
 
+kupfer version c7
+-----------------
+
+The "choice" release
+
+This is a followup with some small changes after the c6 release, which
+introduced lots of major changes, including a preferences window and
+"application content."
+
+* Allow wnck to be optional. Kupfer needs wnck to do application matching
+  and focusing of already running applications, but can now run without it if
+  wnck is not available. Window List plugin also needs wnck
+* Rhythmbox plugin should not crash even if library is not found, now kupfer
+  can run even if rhythmbox's files are not there.
+* Applications will match names as well as the executables, so that "gedit"
+  matches Text Editor regardless of what the displayed localized name is.
+
+
+[Please file bug reports and feature requests.][lp]. Read the files in
+`Documentation/` and see how you can add new plugins with object and 
+application knowledge to kupfer.
+
+This release is localized in: Swedish (100%), Italian (60%)
+
+[lp]: http://launchpad.net/kupfer
+
+kupfer version c6
+-----------------
+
+The "Sisyphus incremental improvements" release
+
+* Preferences window
+  * Allows setting keybinding on the fly
+  * List and enable/disable plugins and set plugin options
+* Everything was improved slightly, but steadily
+* Understands more applications, provides more files and objects,
+  and actions with **new plugins:** *Rhythmbox, Abiword, Clipboards, Dictionary,
+  Favorites, Selected Text, Wikipedia*
+* Connect applications with their related object sources and make it their
+  content, such as Rhythmbox music for the Rhythmbox application.
+  * Applications contain their recently used documents, if
+    available.
+  * Firefox and Epiphany bookmarks are identified with each application
+* Miscellaneous improvements:
+  * Kupfer object icon ("blue box")
+  * _Some_ default application associations are installed (others
+    are learned by launching applications).
+  * Experimental UI with two-line title+description in browse mode
+  * Thumbnails for files and albums in browse mode
+  * Allow sending files and queries to kupfer from the commandline
+    using `kupfer 'query'` or `kupfer docs/file.pdf`.
+  * Even more plugins listen to change callbacks or filesystem monitors
+    to be up to date to the instant.
+  * Do not display nonexisting files as results
+  * Fine-tune how sources are loaded and refreshed on load
+
+This release deserves lots of testing. [File bug reports and feature
+requests.][bug] Read the files in `Documentation/` and see how you can add
+new plugins with object and application knowledge to kupfer.
+
+This release is localized in: Swedish (100%), Italian (60%)
+
+Future: part 2 of beautification is refactoring of the interface, so
+that the UI can be modularized and exchanged in plugins.
+
+[bug]: http://launchpad.net/kupfer
+
 kupfer version c5
 -----------------
 
