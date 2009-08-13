@@ -12,7 +12,7 @@ from kupfer import config, pretty, scheduler
 icon_cache = {}
 
 def _icon_theme_changed(theme):
-	print "Icon theme changed, clearing cache"
+	pretty.print_info(__name__, "Icon theme changed, clearing cache")
 	global icon_cache
 	icon_cache = {}
 
