@@ -114,6 +114,9 @@ class ComposedIcon (Icon):
 			FileIcon.__init__(self, fallback.get_file())
 
 	def __new__(cls, baseicon, emblem, emblem_is_fallback=False):
+		"""Contstuct a composed icon from @baseicon and @emblem,
+		which may be GIcons or icon names (strings)
+		"""
 		fallback = emblem if emblem_is_fallback else baseicon
 		if isinstance(fallback, (basestring, ThemedIcon)):
 			return cls._ThemedIcon(fallback, baseicon, emblem)
