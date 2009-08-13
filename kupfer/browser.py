@@ -680,6 +680,10 @@ class Interface (gobject.GObject):
 
 		self.current = None
 
+		self._widget = None
+		self._current_ui_transition = -1
+		self._pane_three_is_visible = False
+
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
 		self.label.set_ellipsize(ELLIPSIZE_END)
@@ -728,7 +732,6 @@ class Interface (gobject.GObject):
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		self.keys_sensible = set(self.key_book.itervalues())
 		self.search.reset()
-		self._widget = None
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
@@ -862,10 +865,19 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
+		gobject.source_remove(self._current_ui_transition)
 		if mode is data.SourceActionObjectMode:
-			show = True
+			# use a delay before showing the third pane,
+			# but set internal variable to "shown" already now
+			self._pane_three_is_visible = True
+			self._current_ui_transition = \
+					gobject.timeout_add(100, self._show_third_pane, True)
 		else:
-			show = False
+			self._pane_three_is_visible = False
+			self._show_third_pane(False)
+
+	def _show_third_pane(self, show):
+		self._current_ui_transition = -1
 		self.third.set_property("visible", show)
 		win = self.third.get_toplevel()
 		# size to minimum size
@@ -880,7 +892,7 @@ class Interface (gobject.GObject):
 	def switch_current(self, reverse=False):
 		# Only allow switch if we have match
 		order = [self.search, self.action]
-		if self.third.get_property("visible"):
+		if self._pane_three_is_visible:
 			order.append(self.third)
 		curidx = order.index(self.current)
 		newidx = curidx -1 if reverse else curidx +1
