@@ -150,15 +150,18 @@ class Enqueue (Action):
 		return "media-playback-start"
 
 class SongLeaf (Leaf):
-	def __init__(self, name, artist, info):
+	def __init__(self, info, name=None):
+		"""Init with song info
+		@info: Song information dictionary
+		"""
+		if not name: name = info["title"]
 		Leaf.__init__(self, info, name)
-		self.artist = artist
 	def get_actions(self):
 		yield PlayTracks()
 		yield Enqueue()
 	def get_description(self):
 		# TRANS: Song description "by Artist"
-		return _("by %s") % (self.artist, )
+		return _("by %s") % (self.object["artist"], )
 	def get_icon_name(self):
 		return "audio-x-generic"
 
@@ -168,7 +171,7 @@ class CollectionSource (Source):
 		self.leaf = leaf
 	def get_items(self):
 		for song in self.leaf.object:
-			yield SongLeaf(song["title"], song["artist"], song)
+			yield SongLeaf(song)
 	def get_description(self):
 		return self.leaf.get_description()
 	def get_thumbnail(self, w, h):
@@ -182,7 +185,10 @@ class TrackCollection (Leaf):
 	"""A generic track collection leaf, such as one for
 	an Album or an Artist
 	"""
-	def __init__(self, name, info):
+	def __init__(self, info, name):
+		"""Init with track collection
+		@info: Should be a sequence of song information dictionaries
+		"""
 		Leaf.__init__(self, info, name)
 	def get_actions(self):
 		yield PlayTracks()
@@ -237,7 +243,7 @@ class ArtistAlbumsSource (CollectionSource):
 			album_list.append(song)
 			albums[album] = album_list
 		for album in albums:
-			yield AlbumLeaf(album, albums[album])
+			yield AlbumLeaf(albums[album], album)
 	def should_sort_lexically(self):
 		return True
 
@@ -259,7 +265,7 @@ class RhythmboxAlbumsSource (Source):
 	
 	def get_items(self):
 		for album in self.library:
-			yield AlbumLeaf(album, self.library[album])
+			yield AlbumLeaf(self.library[album], album)
 	def should_sort_lexically(self):
 		return True
 
@@ -279,7 +285,7 @@ class RhythmboxArtistsSource (Source):
 
 	def get_items(self):
 		for artist in self.library:
-			yield ArtistLeaf(artist, self.library[artist])
+			yield ArtistLeaf(self.library[artist], artist)
 	def should_sort_lexically(self):
 		return True
 
@@ -300,7 +306,7 @@ class RhythmboxSongsSource (Source):
 
 	def get_items(self):
 		for song in self.library:
-			yield SongLeaf(song["title"], song["artist"], song)
+			yield SongLeaf(song)
 
 	def get_actions(self):
 		return ()
