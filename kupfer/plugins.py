@@ -101,13 +101,13 @@ def import_plugin(name):
 				extra_paths = list(config.get_data_dirs("plugins"))
 				sys.path = extra_paths + sys.path
 				plugin = importit((name,))
-			except ImportError:
-				# Reraise to send this up
-				raise
 			finally:
 				sys.path = oldpath
+	except ImportError:
+		# Reraise to send this up
+		raise
 	except StandardError, e:
-		# catch any error for plugins in data directories
+		# catch any other error for plugins in data directories
 		import traceback
 		traceback.print_exc()
 		pretty.print_error(__name__, "Could not import plugin '%s'" % name)
