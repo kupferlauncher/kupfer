@@ -316,7 +316,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			hbox.set_property("spacing", 10)
 			label = plugin_settings.get_label(setting)
 			label_wid = gtk.Label(label)
-			if issubclass(typ, str):
+			if issubclass(typ, basestring):
 				wid = gtk.Entry()
 				wid.set_text(plugin_settings[setting])
 				hbox.pack_start(label_wid, False)
