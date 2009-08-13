@@ -762,7 +762,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		If we already have a call to search, we remove the "source"
 		so that we always use the most recently requested search."""
 
-		self.output_debug("Searching in pane %s direct %s for %s" % (pane, direct, key))
 		ctl = self._panectl_table[pane]
 		if direct:
 			ctl.search(self,key, context)
