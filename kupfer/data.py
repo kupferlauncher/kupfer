@@ -762,11 +762,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		If we already have a call to search, we remove the "source"
 		so that we always use the most recently requested search."""
 
+		self.output_debug("Searching in pane %s direct %s for %s" % (pane, direct, key))
 		ctl = self._panectl_table[pane]
 		if direct:
 			ctl.search(self,key, context)
 		else:
-			self.search_handle = gobject.idle_add(ctl.search,self,key,context)
+			self.search_handle = gobject.timeout_add(200, ctl.search,self,key,context)
 
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
@@ -778,12 +779,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.cancel_search()
 		panectl.select(item)
 		if pane is SourcePane:
-			assert not item or isinstance(item, objects.Leaf), "Selection in Source pane is not a Leaf!"
+			assert not item or isinstance(item, objects.Leaf), \
+					"Selection in Source pane is not a Leaf!"
 			# populate actions
 			self.action_pane.set_item(item)
 			self.search(ActionPane, direct=True)
 		elif pane is ActionPane:
-			assert not item or isinstance(item, objects.Action), "Selection in Source pane is not an Action!"
+			assert not item or isinstance(item, objects.Action), \
+					"Selection in Source pane is not an Action!"
 			if item and item.requires_object():
 				newmode = SourceActionObjectMode
 			else:
@@ -794,9 +797,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
 				self.object_pane.set_item_and_action(self.source_pane.get_selection(), item)
-				self.search(ObjectPane)
+				self.search(ObjectPane, direct=False)
 		elif pane is ObjectPane:
-			assert not item or isinstance(item, objects.Leaf), "Selection in Object pane is not a Leaf!"
+			assert not item or isinstance(item, objects.Leaf), \
+					"Selection in Object pane is not a Leaf!"
 
 	def validate(self):
 		"""Check if all selected items are still valid
