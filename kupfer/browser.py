@@ -871,7 +871,7 @@ class Interface (gobject.GObject):
 			# but set internal variable to "shown" already now
 			self._pane_three_is_visible = True
 			self._current_ui_transition = \
-					gobject.timeout_add(100, self._show_third_pane, True)
+					gobject.timeout_add(200, self._show_third_pane, True)
 		else:
 			self._pane_three_is_visible = False
 			self._show_third_pane(False)
