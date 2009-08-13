@@ -2,7 +2,7 @@ import gtk
 import gio
 
 from kupfer.objects import Leaf, Action, Source, RunnableLeaf
-from kupfer import objects, utils, icons
+from kupfer import objects, utils, icons, pretty
 from kupfer.plugin import about_support
 
 __kupfer_name__ = _("Common")
@@ -11,15 +11,25 @@ __description__ = _("Special items and actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+def launch_commandline_with_fallbacks(commands, print_error=True):
+	"""Try the sequence of @commands with utils.launch_commandline,
+	and return with the first successful command.
+	return False if no command is successful and log an error
+	"""
+	for command in commands:
+		ret = utils.launch_commandline(command)
+		if ret: return ret
+	pretty.print_error(__name__, "Unable to run command(s)", commands)
+	return False
+
 class Logout (RunnableLeaf):
 	"""Log out from desktop"""
 	def __init__(self, name=None):
 		if not name: name = _("Log Out...")
 		super(Logout, self).__init__(name=name)
 	def run(self):
-		ret = utils.launch_commandline("gnome-panel-logout")
-		if not ret:
-			utils.launch_commandline("gnome-session-save --kill")
+		launch_commandline_with_fallbacks(("gnome-panel-logout",
+			"gnome-session-save --kill"))
 	def get_description(self):
 		return _("Log out or change user")
 	def get_icon_name(self):
@@ -31,9 +41,8 @@ class Shutdown (RunnableLeaf):
 		if not name: name = _("Shut Down...")
 		super(Shutdown, self).__init__(name=name)
 	def run(self):
-		ret = utils.launch_commandline("gnome-panel-logout --shutdown")
-		if not ret:
-			utils.launch_commandline("gnome-session-save --kill")
+		launch_commandline_with_fallbacks(("gnome-panel-logout --shutdown",
+			"gnome-session-save --kill"))
 
 	def get_description(self):
 		return _("Shut down, restart or suspend computer")
@@ -46,10 +55,8 @@ class LockScreen (RunnableLeaf):
 		if not name: name = _("Lock Screen")
 		super(LockScreen, self).__init__(name=name)
 	def run(self):
-		gnome_command = "gnome-screensaver-command --lock"
-		xdg_command = "xdg-screensaver --lock"
-		ret = (utils.launch_commandline(gnome_command) or
-				utils.launch_commandline(xdg_command))
+		launch_commandline_with_fallbacks(("gnome-screensaver-command --lock",
+			"xdg-screensaver lock"))
 	def get_description(self):
 		return _("Enable screensaver and lock")
 	def get_icon_name(self):
