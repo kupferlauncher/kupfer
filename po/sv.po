@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-12 20:41+0200\n"
+"POT-Creation-Date: 2009-08-13 16:24+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -674,18 +674,23 @@ msgstr "Köa"
 msgid "Add tracks to the play queue"
 msgstr "Lägg till spår i spelkön"
 
-#. TRANS: Song description "by Artist"
-#. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:163 ../kupfer/plugin/rhythmbox.py:210
+#. TRANS: Song description
+#: ../kupfer/plugin/rhythmbox.py:164
 #, python-format
-msgid "by %s"
-msgstr "av %s"
+msgid "by %(artist)s from %(album)s"
+msgstr "av %(artist)s från %(album)s"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
 #: ../kupfer/plugin/rhythmbox.py:207
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
+
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:217
+#, python-format
+msgid "by %s"
+msgstr "av %s"
 
 #. TRANS: Artist songs collection description
 #: ../kupfer/plugin/rhythmbox.py:255
