@@ -55,9 +55,11 @@ def locale_sort(seq, key=unicode):
 def spawn_async(argv, in_dir="."):
 	import gobject
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
-	ret = gobject.spawn_async (argv, working_directory=in_dir,
-			flags=gobject.SPAWN_SEARCH_PATH)
-	return ret
+	try:
+		return gobject.spawn_async (argv, working_directory=in_dir,
+				flags=gobject.SPAWN_SEARCH_PATH)
+	except gobject.GError, exc:
+		pretty.print_debug(__name__, "spawn_async", argv, exc)
 
 def app_info_for_commandline(cli, name=None, in_terminal=False):
 	import gio
@@ -96,6 +98,6 @@ def show_url(url):
 	from gtk.gdk import screen_get_default
 	from glib import GError
 	try:
-		show_uri(screen_get_default(), url, get_current_event_time())
-	except GError, e:
-		print "Error in gtk.show_uri:", e
+		return show_uri(screen_get_default(), url, get_current_event_time())
+	except GError, exc:
+		pretty.print_error(__name__, "gtk.show_uri:", exc)
