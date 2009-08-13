@@ -388,16 +388,21 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		if not self.object:
 			raise InvalidDataError
 		Leaf.__init__(self, self.object, self.object.get_name())
-		self.register_alias()
+		self.name_aliases = self._get_aliases()
 
-	def register_alias(self):
-		# find suitable alias
+	def _get_aliases(self):
+		# find suitable aliases
+		name_aliases = set()
+		# use package name: non-extension part of ID
+		lowername = unicode(self).lower()
+		package_name, ext = path.splitext(self.object.get_id() or "")
+		if package_name and package_name != lowername:
+			name_aliases.add(package_name)
+		# FIXME: We don't use the executable since package name is better
 		# newer versions have get_commandline
-		executable = getattr(self.object, "get_commandline",
-				self.object.get_executable)()
-		invalid_execs = set(("env", "sudo", "su-to-root"))
-		if executable not in invalid_execs:
-			self.name_aliases = (tounicode(executable), )
+		# executable = getattr(self.object, "get_commandline", self.object.get_executable)()
+		# invalid_execs = set(("env", "sudo", "su-to-root", "gksu", "gksudo"))
+		return name_aliases
 
 	def pickle_prepare(self):
 		self.init_item_id = self.object.get_id()
