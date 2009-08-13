@@ -1071,11 +1071,9 @@ class WindowController (pretty.OutputMixin):
 		else:
 			self.activate(time=time)
 
-	def _key_binding(self, keyobj, keybinding_number):
+	def _key_binding(self, keyobj, keybinding_number, event_time):
 		"""Keybinding activation callback"""
-		import keybinder
-		time = keybinder.get_current_event_time()
-		self.show_hide(time=time)
+		self.show_hide(time=event_time)
 
 	def _put_text_recieved(self, sender, working_dir, text):
 		"""We got a search query from dbus"""

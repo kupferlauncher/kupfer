@@ -14,14 +14,22 @@ def GetKeyboundObject():
 
 class KeyboundObject (gobject.GObject):
 	__gtype_name__ = "KeyboundObject"
+	"""Keybinder object
+
+	signals:
+		keybinding (target, event_time)
+		keybinding signal is triggered when the key bound for @target is
+		triggered.
+	"""
 	def __init__(self):
 		super(KeyboundObject, self).__init__()
 	def _keybinding(self, target):
-		self.emit("keybinding", target)
+		import keybinder
+		time = keybinder.get_current_event_time()
+		self.emit("keybinding", target, time)
 
-# self, target_number
 gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT,))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_INT))
 
 _currently_bound = {}
 
@@ -32,7 +40,7 @@ def get_currently_bound_key(target):
 	return _currently_bound.get(target)
 
 def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
-	""" bind key, unbinding any previous key for target"""
+	""" bind key, unbinding any previous key for @keybinding_target"""
 	try:
 		import keybinder
 	except ImportError:
