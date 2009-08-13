@@ -46,7 +46,10 @@ class LockScreen (RunnableLeaf):
 		if not name: name = _("Lock Screen")
 		super(LockScreen, self).__init__(name=name)
 	def run(self):
-		ret = utils.launch_commandline("gnome-screensaver-command --lock")
+		gnome_command = "gnome-screensaver-command --lock"
+		xdg_command = "xdg-screensaver --lock"
+		ret = (utils.launch_commandline(gnome_command) or
+				utils.launch_commandline(xdg_command))
 	def get_description(self):
 		return _("Enable screensaver and lock")
 	def get_icon_name(self):
