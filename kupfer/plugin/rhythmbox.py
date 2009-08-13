@@ -322,7 +322,11 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 	def __init__(self):
 		Source.__init__(self, _("Rhythmbox"))
 	def get_items(self):
-		songs = rhythmbox_support.get_rhythmbox_songs()
+		try:
+			songs = rhythmbox_support.get_rhythmbox_songs()
+		except StandardError, e:
+			self.output_error(e)
+			songs = []
 		albums = rhythmbox_support.parse_rhythmbox_albums(songs)
 		artists = rhythmbox_support.parse_rhythmbox_artists(songs)
 		yield Play()
