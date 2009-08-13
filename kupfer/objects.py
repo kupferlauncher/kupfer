@@ -535,7 +535,14 @@ class OpenWith (Action):
 		Action.__init__(self, action_name)
 		self.desktop_item = desktop_item
 		self.is_default = is_default
-		self.rank_adjust = 5*is_default
+		if is_default:
+			self.rank_adjust = 5
+		else:
+			# add a name alias from the package name of the application
+			lowername = name.lower()
+			package_name, ext = path.splitext(self.desktop_item.get_id() or "")
+			if package_name:
+				self.name_aliases = (_("Open with %s") % package_name, )
 
 	def activate(self, leaf):
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
