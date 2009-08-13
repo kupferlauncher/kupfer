@@ -1,12 +1,11 @@
 # -*- coding: UTF-8 -*-
 
 """
-Actions, Leaves, Sources for
-kupfer
-ɹǝɟdnʞ
+Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 
-Copyright 2007 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
-Released under GNU General Public License v3 (or any later version)
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
 """
 
 import itertools
