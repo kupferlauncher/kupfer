@@ -36,7 +36,7 @@ _currently_bound = {}
 def _register_bound_key(keystr, target):
 	_currently_bound[target] = keystr
 
-def get_currently_bound_key(target):
+def get_currently_bound_key(target=KEYBINDING_DEFAULT):
 	return _currently_bound.get(target)
 
 def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
