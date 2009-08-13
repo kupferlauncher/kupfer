@@ -34,50 +34,48 @@ class RhythmBoxHandler(ContentHandler):
     and only record keys in the iterable wanted_keys, or all
     if None.
     """
-    def __init__(self, lSongs, entry_type, wanted_keys=None):
+    def __init__(self, songs, entry_type, wanted_keys=None):
         ContentHandler.__init__(self)
-        self.lSongs = lSongs
-        self.fParsingTag = False
-        self.fWantElement = False
-        self.sValue = ''
+        self.all_entries = songs
         self.entry_type = entry_type
         self.wanted_keys = wanted_keys and set(wanted_keys)
-        self.entries = []
-        self.entry = None
+        self.is_parsing_tag = False
+        self.is_wanted_element = False
+        self.song_entry = None
+        self.element_content = ''
 
     def startElement(self, sName, attributes):
         if sName == "entry" and attributes["type"] == self.entry_type:
-            self.fParsingTag = True
-            self.entry = {}
-            self.fWantElement = True
-        elif not self.wanted_keys or sName in self.wanted_keys:
-            self.fWantElement = True
+            self.song_entry = {}
+            self.is_parsing_tag = True
+            self.is_wanted_element = True
         else:
-            self.fWantElement = False
-        self.sValue = ''
+            self.is_wanted_element = \
+                (not self.wanted_keys or sName in self.wanted_keys)
+        self.element_content = ''
 
     def characters(self, sData):
-        if self.fWantElement:
-            self.sValue += sData
+        if self.is_wanted_element:
+            self.element_content += sData
 
     def endElement(self,sName):
         if sName == 'entry':
-            self.fParsingTag = False
-            if self.entry:
-                self.lSongs.append(self.entry)
-            self.entry = None
-        elif self.fParsingTag and self.fWantElement:
-            self.entry[sName]  = self.sValue
+            if self.song_entry:
+                self.all_entries.append(self.song_entry)
+            self.song_entry = None
+            self.is_parsing_tag = False
+        elif self.is_parsing_tag and self.is_wanted_element:
+            self.song_entry[sName]  = self.element_content
 
 NEEDED_KEYS= ("title", "artist", "album", "track-number", "location", )
 def get_rhythmbox_songs(typ="song", keys=NEEDED_KEYS,
         dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
-    sRhythmboxFile = os.path.expanduser(dbfile)
+    rhythmbox_dbfile = os.path.expanduser(dbfile)
     rbParser = make_parser()
     lSongs = []
     rbHandler = RhythmBoxHandler(lSongs, typ, keys)
     rbParser.setContentHandler(rbHandler)
-    rbParser.parse(sRhythmboxFile)
+    rbParser.parse(rhythmbox_dbfile)
     return lSongs
 
 def sort_album(album):
@@ -135,7 +133,3 @@ def parse_rhythmbox_artists(songs):
         sort_album_order(artists[artist])
     return artists
 
-if __name__ == "__main__":
-    for rec in get_rhythmbox_artist_albums().itervalues():
-        print rec
-        break
