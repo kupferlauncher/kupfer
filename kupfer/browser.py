@@ -128,8 +128,7 @@ class LeafModel (object):
 			iterator = itertools.islice(self.base, num)
 		first = None
 		for item in iterator:
-			row = (item.object, item.rank)
-			self.add(row)
+			self.add(item)
 			if not first: first = item.object
 		# first.object is a leaf
 		return first
@@ -138,12 +137,12 @@ class LeafModel (object):
 		"""Use the UI description functions get_*
 		to initialize @rankable into the model
 		"""
-		leaf, rank = rankable
+		leaf, rank = rankable.object, rankable.rank
 		icon = self.get_icon(leaf)
-		markup = self.get_label_markup(leaf)
+		markup = self.get_label_markup(rankable)
 		info = self.get_aux_info(leaf)
 		rank_str = self.get_rank_str(rank)
-		self.append((leaf, icon, markup, info, rank_str))
+		self.append((rankable, icon, markup, info, rank_str))
 
 	def get_icon_size(self):
 		return 24
@@ -151,9 +150,10 @@ class LeafModel (object):
 		sz = self.get_icon_size()
 		return leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
 
-	def get_label_markup(self, leaf):
+	def get_label_markup(self, rankable):
+		leaf = rankable.object
 		text = u"%s\n<small>%s</small>" % (
-				escape_markup_str(unicode(leaf)),
+				escape_markup_str(rankable.value),
 				escape_markup_str(leaf.get_description() or ""),
 			)
 		return text
@@ -530,20 +530,21 @@ class Search (gtk.Bin):
 		match = self.model.get_object(path)
 		self.set_match(match)
 	
-	def set_match(self, match):
+	def set_match(self, rankable):
 		"""
 		Set the currently selected (represented) object
 
 		Emits cursor-changed
 		"""
-		self.match = match
+		self.match = rankable.object if rankable else None
 		self.emit("cursor-changed", self.match)
-		if match:
+		if rankable:
+			match_text = rankable.value
 			self.match_state = State.Match
 			m = self.match
 			pbuf = (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or
 				m.get_pixbuf(self.icon_size))
-			self.match_view.set_match_state(unicode(m), pbuf,
+			self.match_view.set_match_state(match_text, pbuf,
 					match=self.text, state=self.match_state)
 
 	def update_match(self, key, matchrankable, matches):
@@ -555,9 +556,8 @@ class Search (gtk.Bin):
 		if not matchrankable:
 			self.set_match(None)
 			return self.handle_no_matches(empty=not key)
-		match = matchrankable.object
 		self.text = key
-		self.set_match(match)
+		self.set_match(matchrankable)
 		self.model.set_base(iter(matches))
 		top = self.model.populate(1)
 
