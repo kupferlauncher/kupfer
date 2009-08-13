@@ -119,14 +119,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_checkautostart_toggled(self, widget):
 		KUPFER_DESKTOP = "kupfer.desktop"
 		AUTOSTART_KEY = "X-GNOME-Autostart-enabled"
-		desktop_files = list(base.load_data_paths("applications", KUPFER_DESKTOP))
-		if not desktop_files:
-			self.output_error("Installed kupfer desktop file not found!")
-			return
-		desktop_file_path = desktop_files[0]
 		autostart_dir = base.save_config_path("autostart")
 		autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
 		if not os.path.exists(autostart_file):
+			desktop_files = list(base.load_data_paths("applications",
+				KUPFER_DESKTOP))
+			if not desktop_files:
+				self.output_error("Installed kupfer desktop file not found!")
+				return
+			desktop_file_path = desktop_files[0]
 			# Read installed file and modify it
 			dfile = desktop.DesktopEntry(desktop_file_path)
 			executable = dfile.getExec()
