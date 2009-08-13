@@ -7,7 +7,7 @@ import gobject
 from kupfer.objects import TextSource, FileLeaf, Leaf, Execute
 from kupfer import utils, icons
 
-__kupfer_name__ = _("Shell commands")
+__kupfer_name__ = _("Shell Commands")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = _("Run commandline programs")
@@ -33,7 +33,7 @@ class Command (Leaf):
 class CommandTextSource (TextSource):
 	"""Yield path and command text items """
 	def __init__(self):
-		TextSource.__init__(self, name=_("Shell commands"))
+		TextSource.__init__(self, name=_("Shell Commands"))
 
 	def get_rank(self):
 		return 80

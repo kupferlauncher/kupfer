@@ -28,7 +28,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 class RecentsSource (Source, PicklingHelperMixin):
 	def __init__(self, name=None):
 		if not name:
-			name = _("Recent items")
+			name = _("Recent Items")
 		super(RecentsSource, self).__init__(name)
 		self.unpickle_finish()
 
@@ -84,7 +84,7 @@ class RecentsSource (Source, PicklingHelperMixin):
 
 class ApplicationRecentsSource (RecentsSource):
 	def __init__(self, application):
-		name = _("%s documents") % unicode(application)
+		name = _("%s Documents") % unicode(application)
 		super(ApplicationRecentsSource, self).__init__(name)
 		self.application = application
 

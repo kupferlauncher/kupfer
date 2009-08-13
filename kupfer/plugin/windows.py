@@ -29,10 +29,10 @@ class WindowLeaf (Leaf):
 		else:
 			yield WindowAction(_("Maximize"), action="maximize", icon="gtk-add")
 		if win.is_maximized_vertically():
-			yield WindowAction(_("Unmaximize vertically"),
+			yield WindowAction(_("Unmaximize Vertically"),
 					action="unmaximize_vertically", icon="gtk-add")
 		else:
-			yield WindowAction(_("Maximize vertically"),
+			yield WindowAction(_("Maximize Vertically"),
 					action="maximize_vertically", icon="gtk-add")
 		yield WindowAction(_("Close"), action="close", time=True, icon="gtk-close")
 
@@ -45,7 +45,7 @@ class WindowLeaf (Leaf):
 		return "gnome-window-manager"
 
 class WindowActivateWorkspace (Action):
-	def __init__(self, name=_("Go to")):
+	def __init__(self, name=_("Go To")):
 		super(WindowActivateWorkspace, self).__init__(name)
 	def activate (self, leaf):
 		window = leaf.object

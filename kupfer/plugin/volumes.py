@@ -3,7 +3,7 @@ from kupfer import objects, utils
 
 import gio
 
-__kupfer_name__ = _("Volumes and disks")
+__kupfer_name__ = _("Volumes and Disks")
 __kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
 __version__ = ""
@@ -68,7 +68,7 @@ class Unmount (Action):
 		return "media-eject"
 
 class VolumesSource (Source):
-	def __init__(self, name=_("Volumes and disks")):
+	def __init__(self, name=_("Volumes and Disks")):
 		super(VolumesSource, self).__init__(name)
 	def is_dynamic(self):
 		return True

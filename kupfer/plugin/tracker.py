@@ -135,7 +135,7 @@ class TrackerFileTagsSource (Source):
 class TrackerTagsSource (Source):
 	"""Browse items tagged in Tracker"""
 	def __init__(self):
-		Source.__init__(self, _("Tracker tags"))
+		Source.__init__(self, _("Tracker Tags"))
 	def get_items(self):
 		for tag in get_tracker_tags():
 			src = TrackerTagObjectsSource(tag)
@@ -178,7 +178,7 @@ class TrackerAddTag (Action):
 	So we allow everything here
 	"""
 	def __init__(self):
-		Action.__init__(self, _("Add tag..."))
+		Action.__init__(self, _("Add Tag..."))
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
@@ -210,7 +210,7 @@ class TrackerAddTag (Action):
 
 class TrackerRemoveTag (Action):
 	def __init__(self):
-		Action.__init__(self, _("Remove tag..."))
+		Action.__init__(self, _("Remove Tag..."))
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object

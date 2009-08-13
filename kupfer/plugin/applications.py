@@ -43,7 +43,7 @@ class AppSource (Source):
 
 class OpenWith (Action):
 	def __init__(self):
-		Action.__init__(self, _("Open with..."))
+		Action.__init__(self, _("Open With..."))
 	def activate(self, leaf, obj):
 		desktop_item = obj.object
 		utils.launch_app(desktop_item, paths=(leaf.object,))

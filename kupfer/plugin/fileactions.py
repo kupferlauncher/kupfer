@@ -7,7 +7,7 @@ from kupfer.objects import Action, FileLeaf
 from kupfer import utils, pretty
 
 
-__kupfer_name__ = _("File actions")
+__kupfer_name__ = _("File Actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
@@ -25,7 +25,7 @@ class Trash (Action):
 	# this should never be default
 	rank_adjust = -10
 	def __init__(self):
-		Action.__init__(self, _("Move to trash"))
+		Action.__init__(self, _("Move to Trash"))
 
 	def activate(self, leaf):
 		gfile = gio.File(leaf.object)
@@ -55,7 +55,7 @@ def _good_destination(dpath, spath):
 
 class MoveTo (Action, pretty.OutputMixin):
 	def __init__(self):
-		Action.__init__(self, _("Move to..."))
+		Action.__init__(self, _("Move To..."))
 	def activate(self, leaf, obj):
 		sfile = gio.File(leaf.object)
 		bname = sfile.get_basename()
@@ -82,7 +82,7 @@ class MoveTo (Action, pretty.OutputMixin):
 
 class CopyTo (Action, pretty.OutputMixin):
 	def __init__(self):
-		Action.__init__(self, _("Copy to..."))
+		Action.__init__(self, _("Copy To..."))
 	def activate(self, leaf, obj):
 		sfile = gio.File(leaf.object)
 		bname = sfile.get_basename()
@@ -108,7 +108,7 @@ class CopyTo (Action, pretty.OutputMixin):
 
 class UnpackHere (Action):
 	def __init__(self):
-		Action.__init__(self, _("Extract here"))
+		Action.__init__(self, _("Extract Here"))
 		self.extensions_set = set((".rar", ".7z", ".zip", ".gz", ".tgz",
 			".tar", ".lzma", ".bz2"))
 	def activate(self, leaf):
@@ -126,7 +126,7 @@ class UnpackHere (Action):
 
 class CreateArchive (Action):
 	def __init__(self):
-		Action.__init__(self, _("Create archive"))
+		Action.__init__(self, _("Create Archive"))
 	def activate(self, leaf):
 		utils.launch_commandline("file-roller --add %s" % leaf.object)
 

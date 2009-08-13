@@ -59,7 +59,7 @@ class ScreenSession (Leaf):
 class ScreenSessionsSource (Source, PicklingHelperMixin):
 	"""Source for GNU Screen sessions"""
 	def __init__(self):
-		super(ScreenSessionsSource, self).__init__(_("Screen sessions"))
+		super(ScreenSessionsSource, self).__init__(_("Screen Sessions"))
 		self.unpickle_finish()
 
 	def pickle_prepare(self):

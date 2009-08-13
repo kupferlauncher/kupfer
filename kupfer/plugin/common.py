@@ -14,12 +14,12 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 class Logout (RunnableLeaf):
 	"""Log out from desktop"""
 	def __init__(self, name=None):
-		if not name: name = _("Log out...")
+		if not name: name = _("Log Out...")
 		super(Logout, self).__init__(name=name)
 	def run(self):
-		ret = utils.launch_commandline("gnome-panel-logout", _("Log out..."))
+		ret = utils.launch_commandline("gnome-panel-logout")
 		if not ret:
-			utils.launch_commandline("gnome-session-save --kill", _("Log out..."))
+			utils.launch_commandline("gnome-session-save --kill")
 	def get_description(self):
 		return _("Log out or change user")
 	def get_icon_name(self):
@@ -28,12 +28,12 @@ class Logout (RunnableLeaf):
 class Shutdown (RunnableLeaf):
 	"""Shutdown computer or reboot"""
 	def __init__(self, name=None):
-		if not name: name = _("Shut down...")
+		if not name: name = _("Shut Down...")
 		super(Shutdown, self).__init__(name=name)
 	def run(self):
-		ret = utils.launch_commandline("gnome-panel-logout --shutdown", _("Shut down..."))
+		ret = utils.launch_commandline("gnome-panel-logout --shutdown")
 		if not ret:
-			utils.launch_commandline("gnome-session-save --kill", _("Shut down..."))
+			utils.launch_commandline("gnome-session-save --kill")
 
 	def get_description(self):
 		return _("Shut down, restart or suspend computer")
@@ -43,10 +43,10 @@ class Shutdown (RunnableLeaf):
 class LockScreen (RunnableLeaf):
 	"""Lock screen"""
 	def __init__(self, name=None):
-		if not name: name = _("Lock screen")
+		if not name: name = _("Lock Screen")
 		super(LockScreen, self).__init__(name=name)
 	def run(self):
-		ret = utils.launch_commandline("gnome-screensaver-command --lock", _("Lock screen"))
+		ret = utils.launch_commandline("gnome-screensaver-command --lock")
 	def get_description(self):
 		return _("Enable screensaver and lock")
 	def get_icon_name(self):
@@ -90,7 +90,7 @@ class Trash (SpecialLocation):
 			"Trash contains %(num)s files", item_count) % {"num": item_count}
 
 class CommonSource (Source):
-	def __init__(self, name=_("Special items")):
+	def __init__(self, name=_("Special Items")):
 		super(CommonSource, self).__init__(name)
 	def is_dynamic(self):
 		return True
