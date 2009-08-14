@@ -3,6 +3,7 @@ import os
 import cPickle as pickle
 import threading
 import time
+import operator
 
 import gobject
 gobject.threads_init()
@@ -68,24 +69,22 @@ class SearchTask (pretty.OutputMixin):
 		for src in sources:
 			items = ()
 			fixedrank = 0
+			rankables = None
 			if isinstance(src, objects.Source):
 				try:
-					# rankables stored
-					items = (r.object for r in self._source_cache[src])
+					# stored rankables
+					rankables = self._source_cache[src]
 				except KeyError:
 					# check uncached items
 					items = item_check(src.get_leaves())
 			elif isinstance(src, objects.TextSource):
-				# For text source, we pass a unicode string here
 				items = item_check(src.get_items(key))
 				fixedrank = src.get_rank()
 			else:
 				items = item_check(src)
 
-			if score:
+			if not rankables:
 				rankables = search.make_rankables(items)
-			else:
-				rankables = search.make_nosortrankables(items)
 
 			if fixedrank:
 				# we have a given rank
@@ -116,8 +115,10 @@ class SearchTask (pretty.OutputMixin):
 					yield obj
 					coll.add(reprobj)
 
-		matches = list(as_set_iter(itertools.chain(*match_iters)))
-		matches.sort()
+		matches = as_set_iter(itertools.chain(*match_iters))
+		if score:
+			matches = sorted(matches, key=operator.attrgetter("rank"),
+					reverse=True)
 
 		def dress_leaves(seq):
 			sc = GetSourceController()
