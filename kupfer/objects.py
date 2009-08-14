@@ -396,7 +396,7 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		# use package name: non-extension part of ID
 		lowername = unicode(self).lower()
 		package_name, ext = path.splitext(self.object.get_id() or "")
-		if package_name and package_name != lowername:
+		if package_name and package_name not in lowername:
 			name_aliases.add(package_name)
 		# FIXME: We don't use the executable since package name is better
 		# newer versions have get_commandline
