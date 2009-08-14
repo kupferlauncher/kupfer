@@ -73,7 +73,6 @@ class ClipboardSource (Source, PicklingHelperMixin):
 		yield TextLeaf
 
 class CopyToClipboard (Action):
-	rank_adjust = 5
 	def __init__(self):
 		Action.__init__(self, _("Copy"))
 	def activate(self, leaf):
