@@ -102,12 +102,13 @@ class SearchTask (pretty.OutputMixin):
 
 			match_iters.append(matches)
 		
+		matches = itertools.chain(*match_iters)
+		if score:
+			matches = sorted(matches, key=operator.attrgetter("rank"),
+					reverse=True)
+
 		def as_set_iter(seq):
-			"""Generator with set semantics: Generate items on the fly,
-			but no duplicates
-			Here we check duplicates with the objects's represented
-			object, Rankable.object.
-			"""
+			"""yield items of @seq with set semantics; no duplicates"""
 			coll = set()
 			for obj in seq:
 				reprobj = obj.object
@@ -115,20 +116,15 @@ class SearchTask (pretty.OutputMixin):
 					yield obj
 					coll.add(reprobj)
 
-		matches = as_set_iter(itertools.chain(*match_iters))
-		if score:
-			matches = sorted(matches, key=operator.attrgetter("rank"),
-					reverse=True)
-
 		def dress_leaves(seq):
+			"""yield items of @seq "dressed" by the source controller"""
 			sc = GetSourceController()
 			for itm in seq:
 				sc.decorate_object(itm.object)
 				yield itm
 
-		# Check if the items are valid as the search
-		# results are accessed
 		def valid_check(seq):
+			"""yield items of @seq that are valid"""
 			for itm in seq:
 				obj = itm.object
 				if (not hasattr(obj, "is_valid")) or obj.is_valid():
@@ -145,7 +141,10 @@ class SearchTask (pretty.OutputMixin):
 				return (itm, old_iter)
 			return (None, seq)
 
-		match, match_iter = peekfirst(dress_leaves(valid_check(matches)))
+		# Check if the items are valid as the search
+		# results are accessed through the iterators
+		unique_matches = as_set_iter(matches)
+		match, match_iter = peekfirst(dress_leaves(valid_check(unique_matches)))
 		gobject.idle_add(sender.emit, signal, pane, match, match_iter, context)
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
