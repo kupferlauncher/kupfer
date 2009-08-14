@@ -12,13 +12,13 @@ class LookUp (Action):
 		Action.__init__(self, _("Look Up"))
 	def activate(self, leaf):
 		text = leaf.object
-		utils.launch_commandline("gnome-dictionary --look-up=%s" % text,
+		utils.launch_commandline("gnome-dictionary --look-up='%s'" % text,
 				_("Look Up"))
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
 		text = leaf.object
-		return len(text.splitlines()) <= 1
+		return len(text.split("\n", 1)) <= 1
 	def get_description(self):
 		return _("Look up word in dictionary")
 	def get_icon_name(self):
