@@ -478,6 +478,7 @@ class Pane (gobject.GObject):
 		self.selection = None
 		self.latest_key = None
 		self.outstanding_search = -1
+		self.outstanding_search_id = -1
 
 	def select(self, item):
 		self.selection = item
@@ -682,6 +683,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		for pane, ctl in self._panectl_table.items():
 			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
+		self._next_search_id = 0
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -763,33 +765,43 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.source_pane.reset()
 		self.action_pane.reset()
 
-	def cancel_search(self):
-		"""Cancel any outstanding search"""
-		for ctl in self._panectl_table.values():
+	def cancel_search(self, pane=None):
+		"""Cancel any outstanding search, or the search for @pane"""
+		panes = (pane, ) if pane else iter(self._panectl_table)
+		for pane in panes:
+			ctl = self._panectl_table[pane]
 			if ctl.outstanding_search > 0:
 				gobject.source_remove(ctl.outstanding_search)
 				ctl.outstanding_search = -1
 
-	def search(self, pane, key=u"", context=None, direct=True):
+	def search(self, pane, key=u"", context=None, interactive=False, lazy=False):
 		"""Search: Register the search method in the event loop
 
 		Will search in @pane's base using @key, promising to return
-		@context in the notification about the result, having selected
-		@item in SourcePane
+		@context in the notification about the result.
 
-		If we already have a call to search, we remove the "source"
-		so that we always use the most recently requested search."""
+		if @interactive, the search result will return immediately
+		if @lazy, will slow down search result reporting
+		"""
 
+		self.cancel_search(pane)
 		ctl = self._panectl_table[pane]
-		if direct:
-			ctl.search(key, context)
+		ctl.outstanding_search_id = self._next_search_id
+		wrapcontext = (self._next_search_id, context)
+		if interactive:
+			ctl.search(key, wrapcontext)
 		else:
-			ctl.outstanding_search = gobject.timeout_add(200, ctl.search, 
-					key, context)
+			timeout = 300 if lazy else 0 if not key else 50/len(key)
+			ctl.outstanding_search = gobject.timeout_add(timeout, ctl.search, 
+					key, wrapcontext)
+		self._next_search_id += 1
 
-	def _pane_search_result(self, panectl, match, match_iter, context, pane):
+	def _pane_search_result(self, panectl, match,match_iter, wrapcontext, pane):
+		search_id, context = wrapcontext
+		if not search_id is panectl.outstanding_search_id:
+			self.output_debug("Skipping late search", match, context)
+			return True
 		self.emit("search-result", pane, match, match_iter, context)
-		return True
 
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
@@ -805,7 +817,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 					"Selection in Source pane is not a Leaf!"
 			# populate actions
 			self.action_pane.set_item(item)
-			self.search(ActionPane, direct=True)
+			self.search(ActionPane, interactive=True)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, objects.Action), \
 					"Selection in Source pane is not an Action!"
@@ -819,7 +831,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
 				self.object_pane.set_item_and_action(self.source_pane.get_selection(), item)
-				self.search(ObjectPane, direct=False)
+				self.search(ObjectPane, lazy=True)
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, objects.Leaf), \
 					"Selection in Object pane is not a Leaf!"
