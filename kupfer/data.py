@@ -106,13 +106,15 @@ class SearchTask (pretty.OutputMixin):
 		def as_set_iter(seq):
 			"""Generator with set semantics: Generate items on the fly,
 			but no duplicates
+			Here we check duplicates with the objects's represented
+			object, Rankable.object.
 			"""
 			coll = set()
-			getobj = lambda o: o.object if hasattr(o, "object") else None
 			for obj in seq:
-				if getobj(obj) not in coll:
+				reprobj = obj.object
+				if reprobj not in coll:
 					yield obj
-					coll.add(getobj(obj))
+					coll.add(reprobj)
 
 		matches = list(as_set_iter(itertools.chain(*match_iters)))
 		matches.sort()
