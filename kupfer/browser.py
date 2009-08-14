@@ -152,11 +152,14 @@ class LeafModel (object):
 
 	def get_label_markup(self, rankable):
 		leaf = rankable.object
-		text = u"%s\n<small>%s</small>" % (
-				escape_markup_str(rankable.value),
-				escape_markup_str(leaf.get_description() or ""),
-			)
+		name = escape_markup_str(rankable.value)
+		desc = escape_markup_str(leaf.get_description() or "")
+		if desc:
+			text = u'%s\n<small>%s</small>' % (name, desc, )
+		else:
+			text = u'%s' % (name, )
 		return text
+
 	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
 		content_mark = (u"\u2023").decode("UTF-8")
