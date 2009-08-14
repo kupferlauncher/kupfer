@@ -1,6 +1,26 @@
 NEWS for kupfer
 ===============
 
+kupfer version c8
+-----------------
+
+* Make the use of the indirect object pane much more fluid
+* Apply interface polish (proper english capitalization of actions and
+  other objects, other changes)
+* Add `Copy To...` action
+* Try `xdg-terminal` first in _Open Terminal Here_ (non-Gnome users can
+  either install `xdg-terminal` or symlink it to their terminal program)
+* Allow unbinding the keybinding
+* Fix a bug with tracker tags
+
+[Please file bug reports and feature requests.][lp]. Read the files in
+`Documentation/` and see how you can add new plugins with object and 
+application knowledge to kupfer.
+
+This release is localized in: Swedish (100%), Italian (60%)
+
+[lp]: http://launchpad.net/kupfer
+
 kupfer version c7
 -----------------
 
