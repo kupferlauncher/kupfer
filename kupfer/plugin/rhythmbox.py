@@ -275,7 +275,8 @@ class RhythmboxAlbumsSource (Source):
 	def get_description(self):
 		return _("Music albums in Rhythmbox Library")
 	def get_gicon(self):
-		return icons.ComposedIcon("rhythmbox", "media-optical")
+		return icons.ComposedIcon("rhythmbox", "media-optical",
+				emblem_is_fallback=True)
 	def get_icon_name(self):
 		return "rhythmbox"
 	def provides(self):
@@ -295,7 +296,8 @@ class RhythmboxArtistsSource (Source):
 	def get_description(self):
 		return _("Music artists in Rhythmbox Library")
 	def get_gicon(self):
-		return icons.ComposedIcon("rhythmbox", "system-users")
+		return icons.ComposedIcon("rhythmbox", "system-users",
+				emblem_is_fallback=True)
 	def get_icon_name(self):
 		return "rhythmbox"
 	def provides(self):
@@ -316,7 +318,8 @@ class RhythmboxSongsSource (Source):
 	def get_description(self):
 		return _("Songs in Rhythmbox library")
 	def get_gicon(self):
-		return icons.ComposedIcon("rhythmbox", "audio-x-generic")
+		return icons.ComposedIcon("rhythmbox", "audio-x-generic",
+				emblem_is_fallback=True)
 	def provides(self):
 		yield SongLeaf
 
