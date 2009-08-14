@@ -31,8 +31,7 @@ class SearchTask (pretty.OutputMixin):
 		self._source_cache = {}
 		self._old_key = None
 
-	def __call__(self, sender, pane, sources, key, signal, score=True,
-			item=None, action=None, context=None):
+	def __call__(self, sources, key, score=True, item=None, action=None):
 		"""
 		@sources is a dict listing the inputs and how they are ranked
 
@@ -145,7 +144,7 @@ class SearchTask (pretty.OutputMixin):
 		# results are accessed through the iterators
 		unique_matches = as_set_iter(matches)
 		match, match_iter = peekfirst(dress_leaves(valid_check(unique_matches)))
-		gobject.idle_add(sender.emit, signal, pane, match, match_iter, context)
+		return match, match_iter
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
 	def __init__(self, source, sender, signal, context=None, **kwargs):
@@ -469,12 +468,16 @@ def GetSourceController():
 	return _source_controller
 
 class Pane (gobject.GObject):
+	"""
+	signals:
+		search-result (match, match_iter, context)
+	"""
 	__gtype_name__ = "Pane"
-	def __init__(self, which_pane):
+	def __init__(self):
 		super(Pane, self).__init__()
 		self.selection = None
-		self.pane = which_pane
 		self.latest_key = None
+		self.outstanding_search = -1
 
 	def select(self, item):
 		self.selection = item
@@ -484,12 +487,18 @@ class Pane (gobject.GObject):
 		self.selection = None
 	def get_latest_key(self):
 		return self.latest_key
+	def emit_search_result(self, match, match_iter, context):
+		self.emit("search-result", match, match_iter, context)
+
+gobject.signal_new("search-result", Pane, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, 
+		gobject.TYPE_PYOBJECT))
 
 class LeafPane (Pane, pretty.OutputMixin):
 	__gtype_name__ = "LeafPane"
 
-	def __init__(self, which_pane):
-		super(LeafPane, self).__init__(which_pane)
+	def __init__(self):
+		super(LeafPane, self).__init__()
 		self.source_stack = []
 		self.source = None
 		self.source_search_task = SearchTask()
@@ -556,7 +565,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 			pass
 		self.refresh_data()
 
-	def search(self, sender, key=u"", context=None):
+	def search(self, key=u"", context=None):
 		"""
 		filter for action @item
 		"""
@@ -567,10 +576,9 @@ class LeafPane (Pane, pretty.OutputMixin):
 			sc = GetSourceController()
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
-		self.source_search_task(sender, self.pane, sources, key,
-				"search-result",
-				score=bool(key),
-				context=context)
+		match, match_iter = self.source_search_task(sources, key,
+				score=bool(key))
+		self.emit_search_result(match, match_iter, context)
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
@@ -579,7 +587,7 @@ class PrimaryActionPane (Pane):
 		"""Set which @item we are currently listing actions for"""
 		self.current_item = item
 
-	def search(self, sender, key=u"", context=None):
+	def search(self, key=u"", context=None):
 		"""Search: Register the search method in the event loop
 
 		using @key, promising to return
@@ -600,12 +608,13 @@ class PrimaryActionPane (Pane):
 		actions = [a for a in actions if a.valid_for_item(self.current_item)]
 		sources = (actions, )
 		stask = SearchTask()
-		stask(sender, ActionPane, sources, key, "search-result", context=context)
+		match, match_iter = stask(sources, key)
+		self.emit_search_result(match, match_iter, context)
 
 class SecondaryObjectPane (LeafPane):
 	__gtype_name__ = "SecondaryObjectPane"
-	def __init__(self, pane):
-		LeafPane.__init__(self, pane)
+	def __init__(self):
+		LeafPane.__init__(self)
 		self.current_item = None
 		self.current_action = None
 	def reset(self):
@@ -625,7 +634,7 @@ class SecondaryObjectPane (LeafPane):
 				self.source_rebase(sc.root_for_types(act.object_types()))
 		else:
 			self.reset()
-	def search(self, sender, key=u"", context=None):
+	def search(self, key=u"", context=None):
 		"""
 		filter for action @item
 		"""
@@ -636,12 +645,11 @@ class SecondaryObjectPane (LeafPane):
 			sc = GetSourceController()
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
-		self.source_search_task(sender, self.pane, sources, key,
-				"search-result",
+		match, match_iter = self.source_search_task(sources, key,
 				item=self.current_item,
 				action=self.current_action,
-				score=True,
-				context=context)
+				score=True)
+		self.emit_search_result(match, match_iter, context)
 
 class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
@@ -660,18 +668,19 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def __init__(self):
 		super(DataController, self).__init__()
-		self.search_handle = -1
 
-		self.source_pane = LeafPane(SourcePane)
-		self.object_pane = SecondaryObjectPane(ObjectPane)
+		self.source_pane = LeafPane()
+		self.object_pane = SecondaryObjectPane()
 		self.source_pane.connect("new-source", self._new_source)
 		self.object_pane.connect("new-source", self._new_source)
-		self.action_pane = PrimaryActionPane(ActionPane)
+		self.action_pane = PrimaryActionPane()
 		self._panectl_table = {
 			SourcePane : self.source_pane,
 			ActionPane : self.action_pane,
 			ObjectPane : self.object_pane,
 			}
+		for pane, ctl in self._panectl_table.items():
+			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
 
 		sch = scheduler.GetScheduler()
@@ -756,9 +765,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def cancel_search(self):
 		"""Cancel any outstanding search"""
-		if self.search_handle > 0:
-			gobject.source_remove(self.search_handle)
-		self.search_handle = -1
+		for ctl in self._panectl_table.values():
+			if ctl.outstanding_search > 0:
+				gobject.source_remove(ctl.outstanding_search)
+				ctl.outstanding_search = -1
 
 	def search(self, pane, key=u"", context=None, direct=True):
 		"""Search: Register the search method in the event loop
@@ -772,9 +782,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		ctl = self._panectl_table[pane]
 		if direct:
-			ctl.search(self,key, context)
+			ctl.search(key, context)
 		else:
-			self.search_handle = gobject.timeout_add(200, ctl.search,self,key,context)
+			ctl.outstanding_search = gobject.timeout_add(200, ctl.search, 
+					key, context)
+
+	def _pane_search_result(self, panectl, match, match_iter, context, pane):
+		self.emit("search-result", pane, match, match_iter, context)
+		return True
 
 	def select(self, pane, item):
 		"""Select @item in @pane to self-update
