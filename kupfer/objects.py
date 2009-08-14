@@ -161,7 +161,7 @@ class Leaf (KupferObject):
 		self._content_source = None
 	
 	def __hash__(self):
-		return hash(str(self))
+		return hash(unicode(self))
 
 	def __eq__(self, other):
 		return (type(self) == type(other) and self.object == other.object)
