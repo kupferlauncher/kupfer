@@ -108,7 +108,8 @@ def get_tracker_tags(for_file=None):
 		for tagline in output[1:]:
 			fil, tagstr = tagline.split(": ", 1)
 			tags = tagstr.strip().split("|")
-			for t in tags: yield t
+			for t in filter(None, tags):
+				yield t
 
 def get_tracker_tag_items(tag):
 	from os import popen
