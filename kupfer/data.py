@@ -132,13 +132,19 @@ class SearchTask (pretty.OutputMixin):
 				obj = itm.object
 				if (not hasattr(obj, "is_valid")) or obj.is_valid():
 					yield itm
-		def first(seq):
-			"""Return first item in @seq or None"""
+
+		def peekfirst(seq):
+			"""This function will return (firstitem, iter)
+			where firstitem is the first item of @seq or None if empty,
+			and iter an equivalent copy of @seq
+			"""
+			seq = iter(seq)
 			for itm in seq:
-				return itm
-			return None
-		match = first(dress_leaves(valid_check(matches)))
-		match_iter = dress_leaves(valid_check(matches))
+				old_iter = itertools.chain((itm, ), seq)
+				return (itm, old_iter)
+			return (None, seq)
+
+		match, match_iter = peekfirst(dress_leaves(valid_check(matches)))
 		gobject.idle_add(sender.emit, signal, pane, match, match_iter, context)
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
