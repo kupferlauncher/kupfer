@@ -116,9 +116,9 @@ class DebugInfo (Action, pretty.OutputMixin):
 			for field in sorted(fields):
 				val = fields[field]
 				rep = repr(val)
-				print_func("%-10s:" % field, val)
-				if rep != str(val):
-					print_func("%-10s:" % field, rep)
+				print_func("%-10s:" % field, rep)
+				if str(val) not in rep:
+					print_func("%-10s:" % field, val)
 		leafinfo = get_leaf_fields(leaf)
 		print_fields(leafinfo)
 		if leafinfo["content"]:
