@@ -64,7 +64,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 		except KeyError, exc:
 			pretty.print_error(__name__, exc)
 			succ = False
-	if succ or not keystr:
+	if succ:
 		old_keystr = get_currently_bound_key(keybinding_target)
 		if old_keystr and old_keystr != keystr:
 			keybinder.unbind(old_keystr)
