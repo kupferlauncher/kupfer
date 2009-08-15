@@ -101,6 +101,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table.show()
 		self.pluglist_parent.add(self.table)
 
+	def on_preferenceswindow_key_press_event(self, widget, event):
+		if event.keyval == gtk.gdk.keyval_from_name("Escape"):
+			self.hide()
+			return True
+
 	def on_checkstatusicon_toggled(self, widget):
 		setctl = settings.GetSettingsController()
 		setctl.set_show_status_icon(widget.get_active())
@@ -293,6 +298,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl.set_plugin_config(plugin_id, key, value, value_type)
 		return callback
 
+	def _on_plugin_settings_key_press_event(self, widget, event):
+		if event.keyval == gtk.gdk.keyval_from_name("Escape"):
+			widget.destroy()
+			return True
+
 	def on_buttonpluginsettings_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
 		if not curpath:
@@ -307,6 +317,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		win.set_title(_("Settings for %s") % info["localized_name"])
 		win.set_position(gtk.WIN_POS_CENTER)
 		win.set_resizable(False)
+		win.connect("key-press-event", self._on_plugin_settings_key_press_event)
 
 		vbox = gtk.VBox()
 		vbox.set_property("border-width", 10)
