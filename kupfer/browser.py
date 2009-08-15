@@ -702,6 +702,7 @@ class Interface (gobject.GObject):
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate, None)
 		self.entry.connect("key-press-event", self._entry_key_press)
+		self.entry.connect("paste-clipboard", self._entry_paste_clipboard)
 		self.search.connect("table-event", self._table_event)
 		self.action.connect("table-event", self._table_event)
 		self.third.connect("table-event", self._table_event)
@@ -839,6 +840,10 @@ class Interface (gobject.GObject):
 			# cont. processing
 			return False
 		return True
+
+	def _entry_paste_clipboard(self, entry):
+		if not self.get_in_text_mode():
+			self.toggle_text_mode(True)
 
 	def reset(self):
 		self.entry.set_text("")
