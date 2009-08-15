@@ -424,6 +424,8 @@ class Search (gtk.Bin):
 
 	def get_match_state(self):
 		return self.match_state
+	def get_match_text(self):
+		return self.text
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -909,7 +911,8 @@ class Interface (gobject.GObject):
 		"""Return if we are waiting for a search"""
 		waiting_search = (self.current.get_match_state() is State.Wait)
 		entry_text = self.entry.get_text()
-		return waiting_search or (not entry_text)
+		match_text = self.current.get_match_text()
+		return waiting_search or not any((entry_text, match_text))
 
 	def validate(self):
 		"""Check that items are still valid
