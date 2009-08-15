@@ -303,6 +303,20 @@ class RhythmboxArtistsSource (Source):
 	def provides(self):
 		yield ArtistLeaf
 
+def _locale_sort_artist_album_songs(artists):
+	"""Sort by Artist, then Album, then Track"""
+	for artist in utils.locale_sort(artists):
+		artist_songs = artists[artist]
+		albums = set(s["album"] for s in artist_songs)
+		for album in utils.locale_sort(albums):
+			album_songs = []
+			for song in artist_songs:
+				if song["album"] == album:
+					album_songs.append(song)
+			album_songs.sort(key=lambda s: s.get("track-number", u""))
+			for song in album_songs:
+				yield song
+
 class RhythmboxSongsSource (Source):
 	"""The whole song library in Leaf representation"""
 	def __init__(self, library):
@@ -310,7 +324,7 @@ class RhythmboxSongsSource (Source):
 		self.library = library
 
 	def get_items(self):
-		for song in self.library:
+		for song in _locale_sort_artist_album_songs(self.library):
 			yield SongLeaf(song)
 
 	def get_actions(self):
@@ -342,7 +356,7 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		yield ShowPlaying()
 		artist_source = RhythmboxArtistsSource(artists)
 		album_source = RhythmboxAlbumsSource(albums)
-		songs_source = RhythmboxSongsSource(songs)
+		songs_source = RhythmboxSongsSource(artists)
 		yield SourceLeaf(artist_source)
 		yield SourceLeaf(album_source)
 		yield SourceLeaf(songs_source)
