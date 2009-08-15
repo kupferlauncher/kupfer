@@ -1037,6 +1037,7 @@ class Interface (gobject.GObject):
 		Put @text into the interface to search, to use
 		for "queries" from other sources
 		"""
+		self.toggle_text_mode(True)
 		self.entry.set_text(text)
 		self.entry.set_position(-1)
 
