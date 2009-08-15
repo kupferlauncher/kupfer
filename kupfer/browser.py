@@ -1067,6 +1067,7 @@ class WindowController (pretty.OutputMixin):
 	def activate(self, sender=None, time=0):
 		evttime = time if time else gtk.get_current_event_time()
 		self.window.show()
+		self.window.stick()
 		self.window.window.focus(timestamp=evttime)
 		self.interface.switch_to_source()
 		self.interface.validate()
@@ -1081,7 +1082,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		Toggle activate/put-away
 		"""
-		if self.window.is_active():
+		if self.window.get_property("visible"):
 			self.put_away()
 		else:
 			self.activate(time=time)
