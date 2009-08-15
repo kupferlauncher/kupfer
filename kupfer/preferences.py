@@ -200,9 +200,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			return
 		plugin_id = self._id_for_table_path(curpath)
 		self.buttonpluginabout.set_sensitive(True)
-		sett = plugins.get_plugin_attribute(plugin_id,
-				plugins.settings_attribute)
-		if sett:
+		if self._plugin_makes_sense_in_catalog(plugin_id):
 			self.buttonpluginsettings.set_sensitive(True)
 		else:
 			self.buttonpluginsettings.set_sensitive(False)
@@ -305,6 +303,14 @@ class PreferencesWindowController (pretty.OutputMixin):
 			widget.destroy()
 			return True
 
+	def _plugin_makes_sense_in_catalog(self, plugin_id):
+		"""Whether the setting for toplevel makes sense for @plugin_id"""
+		settings = plugins.get_plugin_attribute(plugin_id,
+				plugins.settings_attribute)
+		sources = plugins.get_plugin_attribute(plugin_id,
+				plugins.sources_attribute)
+		return bool(settings or sources)
+
 	def on_buttonpluginsettings_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
 		if not curpath:
@@ -312,8 +318,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		plugin_id = self._id_for_table_path(curpath)
 		plugin_settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
-		if not plugin_settings:
-			return
+
 		win = gtk.Window()
 		info = self._plugin_info_for_id(plugin_id)
 		win.set_title(_("Settings for %s") % info["localized_name"])
@@ -324,7 +329,25 @@ class PreferencesWindowController (pretty.OutputMixin):
 		vbox = gtk.VBox()
 		vbox.set_property("border-width", 10)
 		vbox.set_property("spacing", 10)
-		for setting in plugin_settings:
+
+		# set up Catalog/Direct checkbox
+		if self._plugin_makes_sense_in_catalog(plugin_id):
+			setctl = settings.GetSettingsController()
+			incl_label = _("Include in top level")
+			incl_tooltip = _("If enabled, objects from the plugin's source(s) \
+will be available in the top level.\n\
+Sources are always available as subcatalogs in the top level.")
+			incl_active = setctl.get_plugin_is_toplevel(plugin_id)
+			incl_type = bool
+			inclwid = gtk.CheckButton(incl_label)
+			inclwid.set_active(incl_active)
+			inclwid.set_tooltip_text(incl_tooltip)
+			inclwid.connect("toggled", self._get_plugin_change_callback(
+				plugin_id, "kupfer_toplevel", incl_type, "get_active"))
+			vbox.pack_start(inclwid, False)
+
+		plugin_settings_keys = iter(plugin_settings) if plugin_settings else ()
+		for setting in plugin_settings_keys:
 			typ = plugin_settings.get_value_type(setting)
 			wid = None
 			hbox = gtk.HBox()
