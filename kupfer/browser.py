@@ -777,7 +777,7 @@ class Interface (gobject.GObject):
 		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
 		text_mode = self.get_in_text_mode()
-		waiting_search = self.get_is_waiting()
+		can_text_mode = self.get_can_enter_text_mode()
 		if not text_mode:
 			# translate extra commands to normal commands here
 			# and remember skipped chars
@@ -786,13 +786,14 @@ class Interface (gobject.GObject):
 					keyv = key_book["Up"]
 				else:
 					keyv = key_book["Down"]
-			elif keyv == ord("/"):
+			elif keyv == ord("/") and not can_text_mode:
 				keyv = key_book["Right"]
-			elif keyv == ord("."):
-				if waiting_search:
-					# toggle text mode and swallow this event
-					self.toggle_text_mode(True)
-					return True
+			elif can_text_mode and (keyv == ord(".") or keyv == ord("/")):
+				# toggle text mode with "." or "/"
+				self.toggle_text_mode(True)
+				# swallow if a period
+				swallow = (keyv == ord("."))
+				return swallow
 
 		if keyv not in self.keys_sensible:
 			# exit if not handled
@@ -847,11 +848,16 @@ class Interface (gobject.GObject):
 	def get_in_text_mode(self):
 		return self._is_text_mode
 
-	def toggle_text_mode(self, val):
+	def get_can_enter_text_mode(self):
 		pane = self._pane_for_widget(self.current)
-		val = bool(val) and self.data_controller.get_can_enter_text_mode(pane)
+		val = self.data_controller.get_can_enter_text_mode(pane)
+		return val and self.get_is_waiting()
+
+	def toggle_text_mode(self, val):
+		val = bool(val) and self.get_can_enter_text_mode()
 		self._is_text_mode = val
 		self.update_text_mode()
+		return val
 
 	def update_text_mode(self):
 		"""update appearance to whether text mode enabled or not"""
