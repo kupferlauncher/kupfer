@@ -200,7 +200,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 			return
 		plugin_id = self._id_for_table_path(curpath)
 		self.buttonpluginabout.set_sensitive(True)
-		if self._plugin_makes_sense_in_catalog(plugin_id):
+		settings = plugins.get_plugin_attribute(plugin_id,
+				plugins.settings_attribute)
+		catalog = self._plugin_makes_sense_in_catalog(plugin_id)
+		if settings or catalog:
 			self.buttonpluginsettings.set_sensitive(True)
 		else:
 			self.buttonpluginsettings.set_sensitive(False)
@@ -305,11 +308,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 	def _plugin_makes_sense_in_catalog(self, plugin_id):
 		"""Whether the setting for toplevel makes sense for @plugin_id"""
-		settings = plugins.get_plugin_attribute(plugin_id,
-				plugins.settings_attribute)
-		sources = plugins.get_plugin_attribute(plugin_id,
+		return plugins.get_plugin_attribute(plugin_id,
 				plugins.sources_attribute)
-		return bool(settings or sources)
 
 	def on_buttonpluginsettings_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
