@@ -19,15 +19,17 @@ class PluginSettings (pretty.OutputMixin):
 		'kupfer_', which are reserved
 		"""
 		self.setting_descriptions = {}
+		self.setting_key_order = []
 		req_keys = set(("key", "value", "type", "label"))
 		for desc in setdescs:
 			if not req_keys.issubset(desc.keys()):
 				missing = req_keys.difference(desc.keys())
 				raise KeyError("Plugin setting missing keys: %s" % missing)
 			self.setting_descriptions[desc["key"]] = desc
+			self.setting_key_order.append(desc["key"])
 
 	def __iter__(self):
-		return iter(self.setting_descriptions)
+		return iter(self.setting_key_order)
 
 	def initialize(self, plugin_name):
 		"""Init by reading from global settings and setting up callbacks"""
