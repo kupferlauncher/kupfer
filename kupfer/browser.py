@@ -293,8 +293,7 @@ class MatchView (gtk.Bin):
 			return markup
 		
 		text = self.cur_text
-		match = unicode(self.cur_match)
-		key = u"".join(c for c in match.lower() if c not in " ")
+		key = unicode(self.cur_match).lower()
 		markup = markup_match(key, text)
 		self.label.set_markup(markup)
 	
