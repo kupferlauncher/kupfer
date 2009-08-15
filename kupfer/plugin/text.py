@@ -21,6 +21,8 @@ class BasicTextSource (TextSource):
 		if not text:
 			return
 		yield TextLeaf(text)
+	def provides(self):
+		yield TextLeaf
 
 
 class PathTextSource (TextSource):
@@ -38,6 +40,8 @@ class PathTextSource (TextSource):
 		filepath = gobject.filename_from_utf8(filepath)
 		if access(filepath, R_OK):
 			yield FileLeaf(filepath)
+	def provides(self):
+		yield FileLeaf
 
 class URLTextSource (TextSource):
 	"""detect URLs and webpages"""
@@ -63,3 +67,5 @@ class URLTextSource (TextSource):
 			name = ("".join(components[1:3])).strip("/")
 			if name:
 				yield UrlLeaf(url, name=name)
+	def provides(self):
+		yield UrlLeaf
