@@ -788,6 +788,7 @@ class Interface (gobject.GObject):
 		if not text_mode and input_time_diff > self._slow_input_interval:
 			self.reset()
 
+		has_selection = (self.current.get_match_state() is State.Match)
 		can_text_mode = self.get_can_enter_text_mode()
 		has_input = bool(self.entry.get_text())
 		if not text_mode:
@@ -798,7 +799,7 @@ class Interface (gobject.GObject):
 					keyv = key_book["Up"]
 				else:
 					keyv = key_book["Down"]
-			elif keyv == ord("/") and not can_text_mode:
+			elif keyv == ord("/") and (has_selection or not can_text_mode):
 				keyv = key_book["Right"]
 			elif can_text_mode and (keyv == ord(".") or keyv == ord("/")):
 				# toggle text mode with "." or "/"
