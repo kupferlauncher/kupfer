@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-15 18:34+0200\n"
+"POT-Creation-Date: 2009-08-15 20:49+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -25,8 +25,8 @@ msgstr "Programstartare"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Flexibelt kommandoprogram för program och dokument"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1016
-#: ../kupfer/browser.py:1047 ../kupfer/plugin/core.py:176
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1103
+#: ../kupfer/browser.py:1134 ../kupfer/plugin/core.py:176
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -63,21 +63,21 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:627
+#: ../kupfer/browser.py:630
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:629
+#: ../kupfer/browser.py:632
 #, python-format
 msgid "No matches in %s"
 msgstr "Inga träffar i %s"
 
-#: ../kupfer/browser.py:634
+#: ../kupfer/browser.py:637
 msgid "Searching..."
 msgstr "Söker..."
 
-#: ../kupfer/browser.py:640
+#: ../kupfer/browser.py:643
 #, python-format
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
@@ -217,55 +217,56 @@ msgstr "Kör programmet"
 msgid "No action"
 msgstr "Inget kommando"
 
-#: ../kupfer/objects.py:831
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/objects.py:830 ../kupfer/plugin/rhythmbox.py:214
 #, python-format
-msgid "%s et al"
-msgstr "%s et al"
+msgid "%s et. al."
+msgstr "%s et. al."
 
-#: ../kupfer/objects.py:857
+#: ../kupfer/objects.py:859
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: ../kupfer/objects.py:924
+#: ../kupfer/objects.py:926
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: ../kupfer/objects.py:940
+#: ../kupfer/objects.py:942
 msgid "Catalog Index"
 msgstr "Katalogindex"
 
-#: ../kupfer/objects.py:955
+#: ../kupfer/objects.py:957
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: ../kupfer/objects.py:966
+#: ../kupfer/objects.py:968
 msgid "Catalog"
 msgstr "Katalog"
 
-#: ../kupfer/objects.py:985
+#: ../kupfer/objects.py:987
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
-#: ../kupfer/objects.py:1062
+#: ../kupfer/objects.py:1064
 msgid "Do"
 msgstr "Utför"
 
-#: ../kupfer/objects.py:1067
+#: ../kupfer/objects.py:1069
 msgid "Perform action"
 msgstr "Utför kommando"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/objects.py:1092
+#: ../kupfer/objects.py:1094
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d lines) \"%(text)s\""
 
-#: ../kupfer/objects.py:1104 ../kupfer/plugin/text.py:18
+#: ../kupfer/objects.py:1106 ../kupfer/plugin/text.py:18
 msgid "Text Matches"
 msgstr "Fritextträffar"
 
@@ -302,8 +303,8 @@ msgid ""
 "level.\n"
 "Sources are always available as subcatalogs in the top level."
 msgstr ""
-"När alternativet är aktiverat inkluderas objekt från insticksmodulens källor"
-"i toppnivån.\n"
+"När alternativet är aktiverat inkluderas objekt från insticksmodulens "
+"källori toppnivån.\n"
 "Källor är alltid tillgängliga som underkataloger i toppnivån."
 
 #: ../kupfer/plugin/abiword.py:12
@@ -460,6 +461,14 @@ msgstr "Visa Kupfers inställningsfönster"
 #: ../kupfer/plugin/core.py:187
 msgid "Kupfer items and actions"
 msgstr "Kupfer-objekt och kommandon"
+
+#: ../kupfer/plugin/devhelp.py:4
+msgid "Devhelp"
+msgstr "Devhelp"
+
+#: ../kupfer/plugin/devhelp.py:6 ../kupfer/plugin/devhelp.py:12
+msgid "Search in Devhelp"
+msgstr "Sök i Devhelp"
 
 #: ../kupfer/plugin/dictionary.py:4
 msgid "Dictionary"
@@ -696,12 +705,6 @@ msgstr "Lägg till spår i spelkön"
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr "av %(artist)s från %(album)s"
-
-#. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/plugin/rhythmbox.py:214
-#, python-format
-msgid "%s et. al."
-msgstr "%s et. al."
 
 #. TRANS: Album description "by Artist"
 #: ../kupfer/plugin/rhythmbox.py:217
@@ -1014,6 +1017,9 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "%s et al"
+#~ msgstr "%s et al"
 
 #~ msgid "Open with %s (default)"
 #~ msgstr "Öppna med %s (standardval)"

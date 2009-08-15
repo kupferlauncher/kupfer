@@ -13,6 +13,7 @@ kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
 kupfer/plugin/common.py
 kupfer/plugin/core.py
+kupfer/plugin/devhelp.py
 kupfer/plugin/dictionary.py
 kupfer/plugin/documents.py
 kupfer/plugin/epiphany.py
