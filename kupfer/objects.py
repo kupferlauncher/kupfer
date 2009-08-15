@@ -251,7 +251,7 @@ class FileLeaf (Leaf):
 		return "".join(("<", self.__module__, ".", self.__class__.__name__,
 			" ", self.object, ">"))
 
-	def _is_valid(self):
+	def is_valid(self):
 		from os import access, R_OK
 		return access(self.object, R_OK)
 
@@ -261,8 +261,6 @@ class FileLeaf (Leaf):
 
 	def is_dir(self):
 		return path.isdir(self.object)
-	def is_valid(self):
-		return self._is_valid()
 
 	def get_description(self):
 		"""Format the path shorter:
@@ -280,18 +278,18 @@ class FileLeaf (Leaf):
 		acts = [RevealFile(), ]
 		app_actions=[]
 		default = None
-		if path.isdir(self.object):
-			acts.extend([OpenTerminal(), ])
+		if self.is_dir():
+			acts.append(OpenTerminal())
 			default = OpenDirectory()
-		elif self._is_valid():
+		elif self.is_valid():
 			gfile = gio.File(self.object)
 			info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 			content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 			def_app = gio.app_info_get_default_for_type(content_type, False)
 			def_key = def_app.get_id() if def_app else None
-			types = gio.app_info_get_all_for_type(content_type)
+			apps_for_type = gio.app_info_get_all_for_type(content_type)
 			apps = {}
-			for info in types:
+			for info in apps_for_type:
 				key = info.get_id()
 				if key not in apps:
 					try:
@@ -302,10 +300,12 @@ class FileLeaf (Leaf):
 						pass
 			if def_key:
 				if not def_key in apps:
-					print "No default found for %s, but found %s" % (self, apps)
+					pretty.output_debug("No default found for %s, but found %s" % (self, apps))
 				else:
 					app_actions.append(apps.pop(def_key))
-			app_actions.extend(apps.values())
+			# sort the non-default OpenWith actions
+			open_with_sorted = locale_sort(apps.values())
+			app_actions.extend(open_with_sorted)
 
 			if self._is_executable():
 				acts.extend((Execute(), Execute(in_terminal=True)))
