@@ -394,7 +394,6 @@ class SourceController (pretty.OutputMixin):
 			for t in provides:
 				if issubclass(t, types):
 					firstlevel.add(s)
-					self.output_debug("Adding source", s, "for types", *types)
 					break
 		return objects.MultiSource(firstlevel)
 
