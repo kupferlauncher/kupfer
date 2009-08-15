@@ -826,9 +826,8 @@ class FileSource (Source):
 		@dirlist: Directories as byte strings
 		"""
 		name = gobject.filename_display_basename(dirlist[0])
-		super(DirectorySource, self).__init__(name)
 		if len(dirlist) > 1:
-			name = _("%s et al") % name
+			name = _("%s et. al.") % name
 		super(FileSource, self).__init__(name)
 		self.dirlist = dirlist
 		self.depth = depth
@@ -849,6 +848,9 @@ class FileSource (Source):
 			iters.append(mkleaves(d))
 
 		return itertools.chain(*iters)
+
+	def should_sort_lexically(self):
+		return True
 
 	def _exclude_file(self, filename):
 		return filename.startswith(".") 
