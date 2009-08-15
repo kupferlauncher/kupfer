@@ -340,12 +340,15 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		yield Next()
 		yield Previous()
 		yield ShowPlaying()
-		album_source = RhythmboxAlbumsSource(albums)
 		artist_source = RhythmboxArtistsSource(artists)
+		album_source = RhythmboxAlbumsSource(albums)
 		songs_source = RhythmboxSongsSource(songs)
 		yield SourceLeaf(artist_source)
 		yield SourceLeaf(album_source)
 		yield SourceLeaf(songs_source)
+		# cache the subsources
+		for src in (artist_source, album_source, songs_source):
+			src.get_leaves()
 		# we use get_leaves here to get sorting etc right
 		if __kupfer_settings__["toplevel_artists"]:
 			for leaf in artist_source.get_leaves():
