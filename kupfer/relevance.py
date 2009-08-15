@@ -121,7 +121,7 @@ def score(s, query):
     bad = 1
     firstCount = 0
     for i in range(match[0], match[1] - 1):
-        if s[i] == ' ':
+        if s[i] in " -":
             if ls[i + 1] in query:
                 firstCount += 1
             else:
