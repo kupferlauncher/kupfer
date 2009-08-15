@@ -375,13 +375,12 @@ class SourceController (pretty.OutputMixin):
 			root_catalog = None
 		return root_catalog
 
-	def _good_source_for_types(self, s, types):
-		"""return whether @s provides good leaves
-		for secondary object for @action
+	@classmethod
+	def good_source_for_types(cls, s, types):
+		"""return whether @s provides good leaves for @types
 		"""
 		provides = list(s.provides())
 		if not provides:
-			self.output_debug("Adding source", s, "it provides ANYTHING")
 			return True
 		for t in provides:
 			if issubclass(t, types):
@@ -402,7 +401,7 @@ class SourceController (pretty.OutputMixin):
 		# the top of the catalogs (like $HOME)
 		catalog_index = (objects.SourcesSource(self.sources), )
 		for s in itertools.chain(self.sources, catalog_index):
-			if self._good_source_for_types(s, types):
+			if self.good_source_for_types(s, types):
 				firstlevel.add(s)
 		return objects.MultiSource(firstlevel)
 
@@ -415,7 +414,7 @@ class SourceController (pretty.OutputMixin):
 			for content in self.content_decorators[typ]:
 				dsrc = content.decorate_item(leaf)
 				if dsrc:
-					if types and not self._good_source_for_types(dsrc, types):
+					if types and not self.good_source_for_types(dsrc, types):
 						continue
 					# check if we already have source, then return that
 					yield self[dsrc] if (dsrc in self) else dsrc
@@ -652,12 +651,22 @@ class SecondaryObjectPane (LeafPane):
 				self.source_rebase(sc.root_for_types(act.object_types()))
 		else:
 			self.reset()
+
+	def get_can_enter_text_mode(self):
+		"""Check if there are any reasonable text sources for this action"""
+		atroot = self.is_at_source_root()
+		types = tuple(self.current_action.object_types())
+		sc = GetSourceController()
+		textsrcs = sc.get_text_sources()
+		return (atroot and
+			any(sc.good_source_for_types(s, types) for s in textsrcs))
+
 	def search(self, key=u"", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
 		self.latest_key = key
-		sources = [ self.get_source() ]
+		sources = [ self.get_source() ] if not text_mode else []
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sc = GetSourceController()
