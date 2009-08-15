@@ -870,6 +870,7 @@ class Interface (gobject.GObject):
 		val = bool(val) and self.get_can_enter_text_mode()
 		self._is_text_mode = val
 		self.update_text_mode()
+		self.reset()
 		return val
 
 	def update_text_mode(self):
@@ -936,7 +937,6 @@ class Interface (gobject.GObject):
 		wid.set_source(source)
 		wid.reset()
 		if wid is self.current:
-			self.reset()
 			self.toggle_text_mode(False)
 		if pane is data.SourcePane:
 			self.reset()
@@ -987,7 +987,6 @@ class Interface (gobject.GObject):
 			self.current = new_focus
 			self.toggle_text_mode(False)
 			self._update_active()
-			self.reset()
 	
 	def _browse_up(self):
 		pane = self._pane_for_widget(self.current)
