@@ -437,8 +437,6 @@ class SourceController (pretty.OutputMixin):
 			if len(contents) > 1:
 				content = objects.SourcesSource(contents, name=unicode(obj),
 						use_reprs=False)
-			if content:
-				self.output_debug("Dressing", obj, "with", *contents)
 			obj.add_content(content)
 
 	def finish(self):
