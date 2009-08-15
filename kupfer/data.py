@@ -327,6 +327,9 @@ class SourceController (pretty.OutputMixin):
 		self.toplevel_sources = set()
 		self.text_sources = set()
 		self.pickle = pickle
+		self.content_decorators = set()
+		self.action_decorators = set()
+
 	def _as_set(self, s):
 		if isinstance(s, set):
 			return s
