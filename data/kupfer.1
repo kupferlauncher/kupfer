@@ -2,7 +2,12 @@
 .SH "NAME"
 kupfer \- A simple launcher
 .SH "SYNOPSIS"
-\fBkupfer\fR [OPTIONS]
+.B kupfer
+[
+.I OPTIONS
+|
+.I QUERY
+]
 .SH "DESCRIPTION"
 
 Kupfer is a launcher. You do not primarily use it to search your files, you use
@@ -16,10 +21,23 @@ The philosophy of Kupfer is simplicity. The implementation is simple, makes
 the easy things work first, and does not overimplement unnecessary parts of
 the program.
 
+.SH "SPAWNING"
+Running kupfer on the command line (without options) will try to summon it if
+already running.  
+
+If the keybinder module is installed, kupfer will listen to a keybinding. By
+default the keybinding is <Control>space to focus kupfer.
+
+Kupfer can be invoked with a text query, with
+.IP
+.B kupfer
+.I QUERY
+.PP
+
 .SH "OPTIONS"
 .TP 
 \fB\-\-no\-splash\fR
-Do not present main interface on launch
+Launch without presenting main interface
 .TP
 The following are generic options
 .TP 
@@ -33,17 +51,7 @@ Display version information and exit.
 \fB\-\-debug\fR
 Enable more verbose output that can help understanding program operation.
 
-.SH "SPAWNING"
-Running kupfer on the command line (without options) will try to summon it if
-already running.  
-
-If the keybinder module is installed, kupfer will listen to a keybinding. By
-default the keybinding is <Control>space, but it can be configured.
-
 .SH "CUSTOMIZATION"
-kupfer's \-\-help option will give information about how to configure kupfer's
-plugin use and other options.
-
 Custom plugins are added to kupfer by installing them to the directory
 ~/.local/share/kupfer/plugins, or any kupfer/plugins directory in any of
 XDG_DATA_DIRS.
