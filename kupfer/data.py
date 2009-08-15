@@ -386,7 +386,10 @@ class SourceController (pretty.OutputMixin):
 		"""
 		types = tuple(types)
 		firstlevel = set()
-		for s in self.sources:
+		# include the Catalog index since we want to include
+		# the top of the catalogs (like $HOME)
+		catalog_index = (objects.SourcesSource(self.sources), )
+		for s in itertools.chain(self.sources, catalog_index):
 			provides = list(s.provides())
 			if not provides:
 				self.output_debug("Adding source", s, "it provides ANYTHING")
