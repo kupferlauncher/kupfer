@@ -578,12 +578,12 @@ class LeafPane (Pane, pretty.OutputMixin):
 			pass
 		self.refresh_data()
 
-	def search(self, key=u"", context=None):
+	def search(self, key=u"", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
 		self.latest_key = key
-		sources = [ self.get_source() ]
+		sources = [ self.get_source() ] if not text_mode else []
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sc = GetSourceController()
@@ -600,7 +600,7 @@ class PrimaryActionPane (Pane):
 		"""Set which @item we are currently listing actions for"""
 		self.current_item = item
 
-	def search(self, key=u"", context=None):
+	def search(self, key=u"", context=None, text_mode=False):
 		"""Search: Register the search method in the event loop
 
 		using @key, promising to return
@@ -647,7 +647,7 @@ class SecondaryObjectPane (LeafPane):
 				self.source_rebase(sc.root_for_types(act.object_types()))
 		else:
 			self.reset()
-	def search(self, key=u"", context=None):
+	def search(self, key=u"", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
@@ -786,7 +786,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				gobject.source_remove(ctl.outstanding_search)
 				ctl.outstanding_search = -1
 
-	def search(self, pane, key=u"", context=None, interactive=False, lazy=False):
+	def search(self, pane, key=u"", context=None, interactive=False, lazy=False,
+			text_mode=False):
 		"""Search: Register the search method in the event loop
 
 		Will search in @pane's base using @key, promising to return
@@ -801,11 +802,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		ctl.outstanding_search_id = self._next_search_id
 		wrapcontext = (self._next_search_id, context)
 		if interactive:
-			ctl.search(key, wrapcontext)
+			ctl.search(key, wrapcontext, text_mode)
 		else:
 			timeout = 300 if lazy else 0 if not key else 50/len(key)
 			ctl.outstanding_search = gobject.timeout_add(timeout, ctl.search, 
-					key, wrapcontext)
+					key, wrapcontext, text_mode)
 		self._next_search_id += 1
 
 	def _pane_search_result(self, panectl, match,match_iter, wrapcontext, pane):
