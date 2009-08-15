@@ -12,7 +12,7 @@ KUPFER_HAS_OPTIONS=$?
 test -n "$*"
 KUPFER_HAS_CLIARGS=$?
 
-test $KUPFER_HAS_OPTIONS != 0 && dbus-send --print-reply --dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.ShowHide >/dev/null 2>&1
+test $KUPFER_HAS_OPTIONS != 0 && dbus-send --print-reply --dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.Present >/dev/null 2>&1
 KUPFER_RUNNING=$?
 
 test \( $KUPFER_HAS_CLIARGS = 0 -a $KUPFER_HAS_OPTIONS != 0 \) && dbus-send --print-reply --dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.PutText string:"$PWD" string:"$*" >/dev/null 2>&1
