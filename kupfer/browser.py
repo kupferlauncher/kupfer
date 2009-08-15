@@ -790,8 +790,9 @@ class Interface (gobject.GObject):
 				keyv = key_book["Right"]
 			elif keyv == ord("."):
 				if waiting_search:
+					# toggle text mode and swallow this event
 					self.toggle_text_mode(True)
-				return True
+					return True
 
 		if keyv not in self.keys_sensible:
 			# exit if not handled
