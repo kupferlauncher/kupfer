@@ -869,6 +869,7 @@ class Interface (gobject.GObject):
 			self.entry.set_size_request(0,0)
 			self.current.set_state(gtk.STATE_SELECTED)
 			self.entry.modify_base(gtk.STATE_NORMAL, self._theme_entry_base)
+		self._size_window_optimally()
 
 	def _reset_key_press(self):
 		"""Handle left arrow or backspace:
@@ -943,9 +944,14 @@ class Interface (gobject.GObject):
 	def _show_third_pane(self, show):
 		self._current_ui_transition = -1
 		self.third.set_property("visible", show)
-		win = self.third.get_toplevel()
-		# size to minimum size
-		win.resize(100, 50)
+		self._size_window_optimally()
+
+	def _size_window_optimally(self):
+		"""Try to resize the window to its normal size"""
+		if self.search.get_property("window"):
+			win = self.search.get_toplevel()
+			# size to minimum size
+			win.resize(100, 50)
 	
 	def _update_active(self):
 		self.action.set_active(self.action is self.current)
@@ -1117,7 +1123,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		# This will change from utility window
-		self.window.set_resizable(False)
+		#self.window.set_resizable(False)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
