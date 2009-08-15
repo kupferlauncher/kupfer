@@ -167,10 +167,10 @@ def main():
 			action_decorators_attribute))
 		content_decorators.extend(load_plugin_sources(item,
 			content_decorators_attribute, instantiate=False))
-		if setctl.get_plugin_is_catalog(item):
-			s_sources.extend(load_plugin_sources(item))
-		else:
+		if setctl.get_plugin_is_toplevel(item):
 			S_sources.extend(load_plugin_sources(item))
+		else:
+			s_sources.extend(load_plugin_sources(item))
 
 	dir_depth = source_config("DeepDirectories", "Depth")
 

@@ -194,10 +194,10 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		return self.set_plugin_config(plugin_id, "kupfer_enabled", enabled,
 				value_type=strbool)
 
-	def get_plugin_is_catalog(self, plugin_id):
-		"""Convenience: if @plugin_id is catalog (or direct)"""
-		return self.get_plugin_config(plugin_id, "kupfer_catalog",
-				value_type=strbool, default=False)
+	def get_plugin_is_toplevel(self, plugin_id):
+		"""Convenience: if @plugin_id items are included in toplevel"""
+		return self.get_plugin_config(plugin_id, "kupfer_toplevel",
+				value_type=strbool, default=True)
 
 	def get_plugin_is_hidden(self, plugin_id):
 		"""Convenience: if @plugin_id is hidden"""
