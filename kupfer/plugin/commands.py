@@ -39,7 +39,7 @@ class CommandTextSource (TextSource):
 		return 80
 
 	def get_items(self, text):
-		if not text:
+		if not text.strip():
 			return
 		firstword = text.split()[0]
 		# iterate over $PATH directories
