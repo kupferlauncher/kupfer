@@ -266,7 +266,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 				im.set_property("gicon", gicon)
 				im.set_property("pixel-size", 32)
 				hbox.pack_start(im, False)
-				name_label = u"%s\n<small>%s</small>" % (name, desc)
+				name_label = \
+					u"%s\n<small>%s</small>" % (name, desc) if desc else \
+					u"%s" % (name, )
 				label = gtk.Label()
 				label.set_markup(name_label)
 				hbox.pack_start(label, False)
