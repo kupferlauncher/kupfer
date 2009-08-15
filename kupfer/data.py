@@ -500,6 +500,8 @@ class Pane (gobject.GObject):
 		self.selection = None
 	def get_latest_key(self):
 		return self.latest_key
+	def get_can_enter_text_mode(self):
+		return False
 	def emit_search_result(self, match, match_iter, context):
 		self.emit("search-result", match, match_iter, context)
 
@@ -548,6 +550,9 @@ class LeafPane (Pane, pretty.OutputMixin):
 	def is_at_source_root(self):
 		"""Return True if we have no source stack"""
 		return not self.source_stack
+
+	def get_can_enter_text_mode(self):
+		return self.is_at_source_root()
 
 	def refresh_data(self):
 		self.emit("new-source", self.source)
@@ -848,6 +853,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, objects.Leaf), \
 					"Selection in Object pane is not a Leaf!"
+
+	def get_can_enter_text_mode(self, pane):
+		panectl = self._panectl_table[pane]
+		return panectl.get_can_enter_text_mode()
 
 	def validate(self):
 		"""Check if all selected items are still valid
