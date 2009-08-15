@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-import gtk
-import gio
-import gobject
 import itertools
 import signal
 import os
+import time
 
-from kupfer import data
-from . import pretty
-from . import icons
+import gtk
+import gio
+import gobject
+
+from kupfer import data, icons
+from kupfer import pretty
 
 
 def escape_markup_str(mstr):
@@ -690,6 +691,8 @@ class Interface (gobject.GObject):
 		self._pane_three_is_visible = False
 		self._theme_entry_base = self.entry.style.base[gtk.STATE_NORMAL]
 		self._is_text_mode = False
+		self._latest_input_time = None
+		self._slow_input_interval = 1.0
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -777,7 +780,16 @@ class Interface (gobject.GObject):
 		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
 		text_mode = self.get_in_text_mode()
+
+		curtime = time.time()
+		input_time_diff = curtime - (self._latest_input_time or curtime)
+		self._latest_input_time = curtime
+		# if input is slow/new, we reset
+		if not text_mode and input_time_diff > self._slow_input_interval:
+			self.reset()
+
 		can_text_mode = self.get_can_enter_text_mode()
+		has_input = bool(self.entry.get_text())
 		if not text_mode:
 			# translate extra commands to normal commands here
 			# and remember skipped chars
@@ -813,7 +825,7 @@ class Interface (gobject.GObject):
 		elif keyv == key_book["Right"]:
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
-			if not self.entry.get_text():
+			if not has_input:
 				self._reset_key_press()
 			else:
 				return False
