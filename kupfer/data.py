@@ -378,13 +378,12 @@ class SourceController (pretty.OutputMixin):
 			root_catalog = None
 		return root_catalog
 
-	def _good_source_for_types(self, s, types):
-		"""return whether @s provides good leaves
-		for secondary object for @action
+	@classmethod
+	def good_source_for_types(cls, s, types):
+		"""return whether @s provides good leaves for @types
 		"""
 		provides = list(s.provides())
 		if not provides:
-			self.output_debug("Adding source", s, "it provides ANYTHING")
 			return True
 		for t in provides:
 			if issubclass(t, types):
@@ -405,7 +404,7 @@ class SourceController (pretty.OutputMixin):
 		# the top of the catalogs (like $HOME)
 		catalog_index = (objects.SourcesSource(self.sources), )
 		for s in itertools.chain(self.sources, catalog_index):
-			if self._good_source_for_types(s, types):
+			if self.good_source_for_types(s, types):
 				firstlevel.add(s)
 		return objects.MultiSource(firstlevel)
 
@@ -418,7 +417,7 @@ class SourceController (pretty.OutputMixin):
 			for content in self.content_decorators[typ]:
 				dsrc = content.decorate_item(leaf)
 				if dsrc:
-					if types and not self._good_source_for_types(dsrc, types):
+					if types and not self.good_source_for_types(dsrc, types):
 						continue
 					# check if we already have source, then return that
 					yield self[dsrc] if (dsrc in self) else dsrc
@@ -501,6 +500,8 @@ class Pane (gobject.GObject):
 		self.selection = None
 	def get_latest_key(self):
 		return self.latest_key
+	def get_can_enter_text_mode(self):
+		return False
 	def emit_search_result(self, match, match_iter, context):
 		self.emit("search-result", match, match_iter, context)
 
@@ -550,6 +551,9 @@ class LeafPane (Pane, pretty.OutputMixin):
 		"""Return True if we have no source stack"""
 		return not self.source_stack
 
+	def get_can_enter_text_mode(self):
+		return self.is_at_source_root()
+
 	def refresh_data(self):
 		self.emit("new-source", self.source)
 
@@ -579,12 +583,12 @@ class LeafPane (Pane, pretty.OutputMixin):
 			pass
 		self.refresh_data()
 
-	def search(self, key=u"", context=None):
+	def search(self, key=u"", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
 		self.latest_key = key
-		sources = [ self.get_source() ]
+		sources = [ self.get_source() ] if not text_mode else []
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sc = GetSourceController()
@@ -601,7 +605,7 @@ class PrimaryActionPane (Pane):
 		"""Set which @item we are currently listing actions for"""
 		self.current_item = item
 
-	def search(self, key=u"", context=None):
+	def search(self, key=u"", context=None, text_mode=False):
 		"""Search: Register the search method in the event loop
 
 		using @key, promising to return
@@ -648,12 +652,22 @@ class SecondaryObjectPane (LeafPane):
 				self.source_rebase(sc.root_for_types(act.object_types()))
 		else:
 			self.reset()
-	def search(self, key=u"", context=None):
+
+	def get_can_enter_text_mode(self):
+		"""Check if there are any reasonable text sources for this action"""
+		atroot = self.is_at_source_root()
+		types = tuple(self.current_action.object_types())
+		sc = GetSourceController()
+		textsrcs = sc.get_text_sources()
+		return (atroot and
+			any(sc.good_source_for_types(s, types) for s in textsrcs))
+
+	def search(self, key=u"", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
 		self.latest_key = key
-		sources = [ self.get_source() ]
+		sources = [ self.get_source() ] if not text_mode else []
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sc = GetSourceController()
@@ -787,7 +801,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				gobject.source_remove(ctl.outstanding_search)
 				ctl.outstanding_search = -1
 
-	def search(self, pane, key=u"", context=None, interactive=False, lazy=False):
+	def search(self, pane, key=u"", context=None, interactive=False, lazy=False,
+			text_mode=False):
 		"""Search: Register the search method in the event loop
 
 		Will search in @pane's base using @key, promising to return
@@ -802,11 +817,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		ctl.outstanding_search_id = self._next_search_id
 		wrapcontext = (self._next_search_id, context)
 		if interactive:
-			ctl.search(key, wrapcontext)
+			ctl.search(key, wrapcontext, text_mode)
 		else:
 			timeout = 300 if lazy else 0 if not key else 50/len(key)
 			ctl.outstanding_search = gobject.timeout_add(timeout, ctl.search, 
-					key, wrapcontext)
+					key, wrapcontext, text_mode)
 		self._next_search_id += 1
 
 	def _pane_search_result(self, panectl, match,match_iter, wrapcontext, pane):
@@ -848,6 +863,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, objects.Leaf), \
 					"Selection in Object pane is not a Leaf!"
+
+	def get_can_enter_text_mode(self, pane):
+		panectl = self._panectl_table[pane]
+		return panectl.get_can_enter_text_mode()
 
 	def validate(self):
 		"""Check if all selected items are still valid
