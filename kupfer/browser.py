@@ -192,8 +192,10 @@ class MatchView (gtk.Bin):
 
 		# Get the current selection color
 		ent = gtk.Entry()
-		newc = ent.style.bg[3]
-		self.event_box.modify_bg(gtk.STATE_SELECTED, newc)
+		selectedc = ent.style.bg[gtk.STATE_SELECTED]
+		activec = gtk.gdk.color_parse("light blue")
+		self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
+		self.event_box.modify_bg(gtk.STATE_ACTIVE, activec)
 
 	def build_widget(self):
 		"""
@@ -686,6 +688,8 @@ class Interface (gobject.GObject):
 		self._widget = None
 		self._current_ui_transition = -1
 		self._pane_three_is_visible = False
+		self._theme_entry_base = self.entry.style.base[gtk.STATE_NORMAL]
+		self._is_text_mode = False
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -731,10 +735,12 @@ class Interface (gobject.GObject):
 		keys = (
 			"Up", "Down", "Right", "Left",
 			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
+			"space",
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		self.keys_sensible = set(self.key_book.itervalues())
 		self.search.reset()
+		self.update_text_mode()
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
@@ -770,6 +776,23 @@ class Interface (gobject.GObject):
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
 		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
+		text_mode = self.get_in_text_mode()
+		waiting_search = self.get_is_waiting()
+		if not text_mode:
+			# translate extra commands to normal commands here
+			# and remember skipped chars
+			if keyv == key_book["space"]:
+				if shift_mask:
+					keyv = key_book["Up"]
+				else:
+					keyv = key_book["Down"]
+			elif keyv == ord("/"):
+				keyv = key_book["Right"]
+			elif keyv == ord("."):
+				if waiting_search:
+					self.toggle_text_mode(True)
+				return True
+
 		if keyv not in self.keys_sensible:
 			# exit if not handled
 			return False
@@ -778,13 +801,13 @@ class Interface (gobject.GObject):
 			self._escape_search()
 			return False
 
-		if keyv == key_book["Down"]:
+		if keyv == key_book["Up"]:
+			self.current.go_up()
+		elif keyv == key_book["Down"]:
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
 				self._populate_search()
 			self.current.go_down()
-		elif keyv == key_book["Up"]:
-			self.current.go_up()
 		elif keyv == key_book["Right"]:
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
@@ -794,13 +817,12 @@ class Interface (gobject.GObject):
 				return False
 		elif keyv == key_book["Left"]:
 			self._reset_key_press()
-		else:
-			if keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
+		elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
 				self.current._hide_table()
 				self.switch_current(reverse=shift_mask)
+		else:
+			# cont. processing
 			return False
-	
-		# stop further processing
 		return True
 
 	def reset(self):
@@ -813,11 +835,33 @@ class Interface (gobject.GObject):
 
 		Corresponds to backspace
 		"""
+		if self.current.get_match_state() is State.Wait:
+			self.toggle_text_mode(False)
 		if self.current is self.action:
 			# Reset action view by blanket search
 			self.data_controller.search(data.ActionPane)
 		else:
 			self.current.reset()
+
+	def get_in_text_mode(self):
+		return self._is_text_mode
+
+	def toggle_text_mode(self, val):
+		pane = self._pane_for_widget(self.current)
+		val = bool(val) and self.data_controller.get_can_enter_text_mode(pane)
+		self._is_text_mode = val
+		self.update_text_mode()
+
+	def update_text_mode(self):
+		"""update appearance to whether text mode enabled or not"""
+		if self._is_text_mode:
+			self.entry.set_size_request(-1,-1)
+			self.entry.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("light goldenrod yellow"))
+			self.current.set_state(gtk.STATE_ACTIVE)
+		else:
+			self.entry.set_size_request(0,0)
+			self.current.set_state(gtk.STATE_SELECTED)
+			self.entry.modify_base(gtk.STATE_NORMAL, self._theme_entry_base)
 
 	def _reset_key_press(self):
 		"""Handle left arrow or backspace:
@@ -825,7 +869,7 @@ class Interface (gobject.GObject):
 		"""
 		self.reset()
 		# larrow or backspace will erase or go up
-		if self.current.get_match_state() is State.Wait:
+		if self.current.get_match_state() is State.Wait and not self.get_in_text_mode():
 			self._browse_up()
 		else:
 			self.reset_current()
@@ -834,6 +878,12 @@ class Interface (gobject.GObject):
 		if self.current is not self.search:
 			self.current = self.search
 			self._update_active()
+
+	def get_is_waiting(self):
+		"""Return if we are waiting for a search"""
+		waiting_search = (self.current.get_match_state() is State.Wait)
+		entry_text = self.entry.get_text()
+		return waiting_search or (not entry_text)
 
 	def validate(self):
 		"""Check that items are still valid
@@ -846,13 +896,16 @@ class Interface (gobject.GObject):
 		wid.reset()
 	
 	def _escape_search(self):
-		if self.search.match_state is State.Wait:
+		if (self.search.get_match_state() is State.Wait and
+				not self.get_in_text_mode()):
 			self.data_controller.reset()
 			self.emit("cancelled")
 		else:
+			waiting_search = self.get_is_waiting()
 			self.reset()
 			self.reset_current()
-			self.switch_to_source()
+			if waiting_search:
+				self.switch_current(reverse=True)
 
 	def _new_source(self, sender, pane, source):
 		"""Notification about a new data source,
@@ -863,6 +916,7 @@ class Interface (gobject.GObject):
 		wid.reset()
 		if wid is self.current:
 			self.reset()
+			self.toggle_text_mode(False)
 		if pane is data.SourcePane:
 			self.reset()
 			self.switch_to_source()
@@ -900,10 +954,14 @@ class Interface (gobject.GObject):
 		curidx = order.index(self.current)
 		newidx = curidx -1 if reverse else curidx +1
 		newidx %= len(order)
-		if order[max(newidx -1, 0)].get_match_state() is State.Match:
-			self.current = order[newidx]
-		self._update_active()
-		self.reset()
+		prev_pane = order[max(newidx -1, 0)]
+		new_focus = order[newidx]
+		if (prev_pane.get_match_state() is State.Match and
+				new_focus is not self.current):
+			self.current = new_focus
+			self.toggle_text_mode(False)
+			self._update_active()
+			self.reset()
 	
 	def _browse_up(self):
 		pane = self._pane_for_widget(self.current)
@@ -975,7 +1033,9 @@ class Interface (gobject.GObject):
 
 		self.current._hide_table()
 		pane = self._pane_for_widget(self.current)
-		self.data_controller.search(pane, key=text, context=text)
+
+		self.data_controller.search(pane, key=text, context=text,
+				text_mode=self.get_in_text_mode())
 
 gobject.type_register(Interface)
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
@@ -1050,7 +1110,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		# This will change from utility window
-		#self.window.set_resizable(False)
+		self.window.set_resizable(False)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
