@@ -167,10 +167,7 @@ class Leaf (KupferObject):
 		return (type(self) == type(other) and self.object == other.object)
 
 	def add_content(self, content):
-		"""Register content source @content with Leaf,
-		if None, register that this Leaf can't have content."""
-		if content and self.has_content():
-			raise ValueError("Already has content")
+		"""Register content source @content with Leaf"""
 		self._has_content = bool(content)
 		self._content_source = content
 
