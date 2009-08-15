@@ -119,7 +119,7 @@ class SearchTask (pretty.OutputMixin):
 			"""yield items of @seq "dressed" by the source controller"""
 			sc = GetSourceController()
 			for itm in seq:
-				sc.decorate_object(itm.object)
+				sc.decorate_object(itm.object, action=action)
 				yield itm
 
 		def valid_check(seq):
@@ -375,6 +375,18 @@ class SourceController (pretty.OutputMixin):
 			root_catalog = None
 		return root_catalog
 
+	def _good_source_for_types(self, s, types):
+		"""return whether @s provides good leaves
+		for secondary object for @action
+		"""
+		provides = list(s.provides())
+		if not provides:
+			self.output_debug("Adding source", s, "it provides ANYTHING")
+			return True
+		for t in provides:
+			if issubclass(t, types):
+				return True
+
 	def root_for_types(self, types):
 		"""
 		Get root for a flat catalog of all catalogs
@@ -390,24 +402,21 @@ class SourceController (pretty.OutputMixin):
 		# the top of the catalogs (like $HOME)
 		catalog_index = (objects.SourcesSource(self.sources), )
 		for s in itertools.chain(self.sources, catalog_index):
-			provides = list(s.provides())
-			if not provides:
-				self.output_debug("Adding source", s, "it provides ANYTHING")
+			if self._good_source_for_types(s, types):
 				firstlevel.add(s)
-			for t in provides:
-				if issubclass(t, types):
-					firstlevel.add(s)
-					break
 		return objects.MultiSource(firstlevel)
 
-	def get_contents_for_leaf(self, leaf):
-		"""Iterator of content sources for @leaf"""
+	def get_contents_for_leaf(self, leaf, types=None):
+		"""Iterator of content sources for @leaf,
+		providing @types (or None for all)"""
 		for typ in self.content_decorators:
 			if not isinstance(leaf, typ):
 				continue
 			for content in self.content_decorators[typ]:
 				dsrc = content.decorate_item(leaf)
 				if dsrc:
+					if types and not self._good_source_for_types(dsrc, types):
+						continue
 					# check if we already have source, then return that
 					yield self[dsrc] if (dsrc in self) else dsrc
 
@@ -417,9 +426,10 @@ class SourceController (pretty.OutputMixin):
 				for act in self.action_decorators[typ]:
 					yield act
 
-	def decorate_object(self, obj):
-		if hasattr(obj, "has_content") and obj.has_content() is None:
-			contents = list(self.get_contents_for_leaf(obj))
+	def decorate_object(self, obj, action=None):
+		if hasattr(obj, "has_content"):
+			types = tuple(action.object_types()) if action else ()
+			contents = list(self.get_contents_for_leaf(obj, types))
 			content = contents and contents[0]
 			if len(contents) > 1:
 				content = objects.SourcesSource(contents, name=unicode(obj),
