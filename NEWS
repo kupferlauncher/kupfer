@@ -1,6 +1,19 @@
 NEWS for kupfer
 ===============
 
+kupfer version c9
+-----------------
+
+The "c9" release
+
+* Search and browse perform better
+* The interface is now modal. In command mode we can bind special keys to
+  new functions. Type period `.` to enter free-text mode (just like in QS).
+* Pressing kupfer's keybinding again will hide the window.
+* Other smaller improvements
+
+This release is localized in: Swedish (100%), Italian (60%)
+
 kupfer version c8
 -----------------
 
