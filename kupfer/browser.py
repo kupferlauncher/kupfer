@@ -437,7 +437,7 @@ class Search (gtk.Bin):
 	def _get_table_visible(self):
 		return self.list_window.get_property("visible")
 
-	def _hide_table(self):
+	def hide_table(self):
 		self.list_window.hide()
 
 	def _show_table(self):
@@ -483,7 +483,7 @@ class Search (gtk.Bin):
 			if r >= 1:
 				self.table.set_cursor(path_at_row(r-1))
 			else:
-				self._hide_table()
+				self.hide_table()
 	
 	def go_down(self):
 		"""
@@ -493,6 +493,7 @@ class Search (gtk.Bin):
 		path_at_row = lambda r: (r,)
 		row_at_path = lambda p: p[0]
 
+		table_visible = self._get_table_visible()
 		# if no data is loaded (frex viewing catalog), load
 		# if too little data is loaded, try load more
 		if len(self.model) <= 1:
@@ -503,7 +504,8 @@ class Search (gtk.Bin):
 				r = row_at_path(path)
 				if r == -1 + len(self.model):
 					self.model.populate(self.show_more)
-				if r < -1 + len(self.model):
+				# go down only if table is visible
+				if r < -1 + len(self.model) and table_visible:
 					self.table.set_cursor(path_at_row(r+1))
 			else:
 				self.table.set_cursor(path_at_row(0))
@@ -517,14 +519,14 @@ class Search (gtk.Bin):
 		# only hide on move, not resize
 		# set old win position in _show_table
 		if self._get_table_visible() and winpos != self._old_win_position:
-			self._hide_table()
+			self.hide_table()
 			gobject.timeout_add(300, self._show_table)
 	
 	def _window_hidden(self, window):
 		"""
 		Window changed hid
 		"""
-		self._hide_table()
+		self.hide_table()
 
 	def _row_activated(self, treeview, path, col):
 		obj = self.get_current()
@@ -657,7 +659,7 @@ class ActionSearch (Search):
 		return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
 		self.handle_no_matches()
-		self._hide_table()
+		self.hide_table()
 
 class Interface (gobject.GObject):
 	"""
@@ -706,23 +708,18 @@ class Interface (gobject.GObject):
 		self.entry.connect("key-press-event", self._entry_key_press)
 		self.entry.connect("key-release-event", self._entry_key_release)
 		self.entry.connect("paste-clipboard", self._entry_paste_clipboard)
-		self.search.connect("table-event", self._table_event)
-		self.action.connect("table-event", self._table_event)
-		self.third.connect("table-event", self._table_event)
-		self.search.connect("activate", self._activate)
-		self.action.connect("activate", self._activate)
-		self.third.connect("activate", self._activate)
-		self.search.connect("cursor-changed", self._selection_changed)
-		self.action.connect("cursor-changed", self._selection_changed)
-		self.third.connect("cursor-changed", self._selection_changed)
-		self.search.connect("button-press-event", self._pane_button_press)
-		self.action.connect("button-press-event", self._pane_button_press)
-		self.third.connect("button-press-event", self._pane_button_press)
-		window.connect("configure-event", self.search._window_config)
-		window.connect("configure-event", self.action._window_config)
-		window.connect("configure-event", self.third._window_config)
-		window.connect("hide", self.search._window_hidden)
-		window.connect("hide", self.action._window_hidden)
+
+		# set up panewidget => self signals
+		# as well as window => panewidgets
+		for widget in (self.search, self.action, self.third):
+			widget.connect("table-event", self._table_event)
+			widget.connect("activate", self._activate)
+			widget.connect("cursor-changed", self._selection_changed)
+			widget.connect("button-press-event", self._pane_button_press)
+			# window signals
+			window.connect("configure-event", widget._window_config)
+			window.connect("hide", widget._window_hidden)
+
 		self.data_controller = controller
 		self.data_controller.connect("search-result", self._search_result)
 		self.data_controller.connect("source-changed", self._new_source)
@@ -852,7 +849,7 @@ class Interface (gobject.GObject):
 		elif keyv == key_book["Left"]:
 			self._reset_key_press()
 		elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
-			self.current._hide_table()
+			self.current.hide_table()
 			self.switch_current(reverse=shift_mask)
 		else:
 			# cont. processing
@@ -868,7 +865,7 @@ class Interface (gobject.GObject):
 	
 	def reset(self):
 		self.reset_text()
-		self.current._hide_table()
+		self.current.hide_table()
 
 	def reset_current(self):
 		"""
@@ -1089,7 +1086,7 @@ class Interface (gobject.GObject):
 				self._reset_key_press()
 			return
 
-		self.current._hide_table()
+		self.current.hide_table()
 		pane = self._pane_for_widget(self.current)
 
 		self.data_controller.search(pane, key=text, context=text,
