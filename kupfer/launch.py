@@ -17,25 +17,12 @@ except ImportError, e:
 kupfer_env = "KUPFER_APP_ID"
 
 default_associations = {
-	"abiword.desktop" : "abiword",
-	"alacarte.desktop" : "alacarte",
-	"at-properties.desktop" : "gnome-at-properties",
-	"evince.desktop" : "Document Viewer",
-	"file-roller.desktop" : "File Roller",
-	"gconf-editor.desktop" : "gconf-editor",
-	"gedit.desktop" : "Text Editor",
-	"gnome-appearance-properties.desktop" : "gnome-appearance-properties",
-	"gnome-keyring-manager.desktop" : "Keyring Manager",
-	"gnote.desktop" : "gnote",
-	"inkscape.desktop" : "inkscape",
-	"keyboard.desktop" : "gnome-keyboard-properties",
-	"nautilus-browser.desktop" : "File Manager",
-	"polkit-gnome-authorization.desktop" : "polkit-gnome-authorization",
-	"rhythmbox.desktop" : "Rhythmbox Music Player",
-	"seahorse.desktop" : "seahorse",
-	"session-properties.desktop" : "gnome-session-properties",
-	"tracker-preferences.desktop" : "tracker-preferences",
-	"window-properties.desktop" : "gnome-window-properties",
+	"evince" : "Document Viewer",
+	"file-roller" : "File Roller",
+	"gedit" : "Text Editor",
+	"gnome-keyring-manager" : "Keyring Manager",
+	"nautilus-browser" : "File Manager",
+	"rhythmbox" : "Rhythmbox Music Player",
 }
 
 
@@ -61,6 +48,12 @@ def _read_environ(pid, envcache=None):
 			continue
 	if envcache is not None: envcache[pid] = environ
 	return environ
+
+def _app_id(app_info):
+	app_id = app_info.get_id() or ""
+	if app_id.endswith(".desktop"):
+		app_id = app_id[:-len(".desktop")]
+	return app_id
 
 def launch_application(app_info, files=(), uris=(), paths=(), track=True, activate=True):
 	"""
@@ -90,7 +83,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	ctx.set_timestamp(gtk.get_current_event_time())
 
 	if track:
-		app_id = app_info.get_id() or ""
+		app_id = _app_id(app_info)
 		os.putenv(kupfer_env, app_id)
 	else:
 		app_id = ""
@@ -112,14 +105,14 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 			return False
 		else:
 			if track:
-				svc.launched_application(app_info.get_id())
+				svc.launched_application(_app_id(app_info))
 	finally:
 		os.unsetenv(kupfer_env)
 	return True
 
 def application_is_running(app_info):
 	svc = GetApplicationsMatcherService()
-	return svc.application_is_running(app_info.get_id())
+	return svc.application_is_running(_app_id(app_info))
 
 class ApplicationsMatcherService (pretty.OutputMixin):
 	"""Handle launching applications and see if they still run.
@@ -148,6 +141,16 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		self.register = reg if reg else default_associations
 		# pretty-print register to debug
 		if self.register:
+			# convert register just to be nice
+			# FIXME: remove this soon
+			if "gedit.desktop" in self.register:
+				self.output_debug("Converting register..")
+				newreg = dict(self.register)
+				for key in self.register:
+					nkey = key.replace(".desktop", "", 1)
+					newreg[nkey] = newreg[key]
+					del newreg[key]
+				self.register = newreg
 			self.output_debug("Learned the following applications")
 			self.output_debug("\n{\n%s\n}" % "\n".join(
 				("  %-30s : %s" % (k,v)
@@ -181,10 +184,9 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		self.output_debug("storing application", app_id, "as", application.get_name())
 	def _has_match(self, app_id):
 		return app_id in self.register
+
 	def _is_match(self, app_id, application):
-		if not self._has_match(app_id):
-			return False
-		return self.register[app_id] == application.get_name()
+		return (self._has_match(app_id) and self.register[app_id] == application.get_name()) or (app_id == application.get_name().lower())
 
 	def launched_application(self, app_id):
 		if self._has_match(app_id):
@@ -217,8 +219,6 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		return self.register[app_id]
 
 	def application_is_running(self, app_id):
-		if not self._has_match(app_id):
-			return False
 		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
 			if self._is_match(app_id, app):
@@ -226,8 +226,6 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		return False
 
 	def application_to_front(self, app_id):
-		if not self._has_match(app_id):
-			return False
 		application_windows = []
 		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
