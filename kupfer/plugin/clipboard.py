@@ -68,7 +68,8 @@ class ClipboardSource (Source, PicklingHelperMixin):
 		return _("Recent clipboards")
 
 	def get_icon_name(self):
-		return "copy"
+		return "gtk-paste"
+
 	def provides(self):
 		yield TextLeaf
 
