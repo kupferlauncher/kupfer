@@ -690,13 +690,15 @@ class Interface (gobject.GObject):
 		self._widget = None
 		self._current_ui_transition = -1
 		self._pane_three_is_visible = False
-		self._theme_entry_base = self.entry.style.base[gtk.STATE_NORMAL]
 		self._is_text_mode = False
 		self._latest_input_time = None
 		self._slow_input_interval = 1.0
 		self._key_press_time = None
 		self._key_press_interval = 0.8
 		self._key_pressed = None
+		self._theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
+		self._theme_entry_text = self.entry.style.text[gtk.STATE_NORMAL]
+		self.entry.connect("map-event", self._map_entry)
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -744,7 +746,6 @@ class Interface (gobject.GObject):
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		self.keys_sensible = set(self.key_book.itervalues())
 		self.search.reset()
-		self.update_text_mode()
 
 	def get_widget(self):
 		"""Return a Widget containing the whole Interface"""
@@ -763,6 +764,13 @@ class Interface (gobject.GObject):
 		self.third.hide()
 		self._widget = vbox
 		return vbox
+
+	def _map_entry(self, widget, event):
+		"""When Interface's widget is mapped and shown on the screen"""
+		# Now we can read the style from the real theme
+		self._theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
+		self._theme_entry_text = self.entry.style.text[gtk.STATE_NORMAL]
+		self.update_text_mode()
 
 	def _pane_button_press(self, widget, event):
 		window = widget.get_toplevel()
@@ -924,12 +932,18 @@ class Interface (gobject.GObject):
 		"""update appearance to whether text mode enabled or not"""
 		if self._is_text_mode:
 			self.entry.set_size_request(-1,-1)
-			self.entry.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("light goldenrod yellow"))
+			self.entry.set_property("has-frame", True)
+			bgcolor = gtk.gdk.color_parse("light goldenrod yellow")
+			self.entry.modify_text(gtk.STATE_NORMAL, self._theme_entry_text)
+			self.entry.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
+			self.entry.modify_base(gtk.STATE_NORMAL, bgcolor)
 			self.current.set_state(gtk.STATE_ACTIVE)
 		else:
 			self.entry.set_size_request(0,0)
+			self.entry.set_property("has-frame", False)
+			self.entry.modify_text(gtk.STATE_NORMAL, self._theme_entry_bg)
+			self.entry.modify_base(gtk.STATE_NORMAL, self._theme_entry_bg)
 			self.current.set_state(gtk.STATE_SELECTED)
-			self.entry.modify_base(gtk.STATE_NORMAL, self._theme_entry_base)
 		self._size_window_optimally()
 
 	def switch_to_source(self):
