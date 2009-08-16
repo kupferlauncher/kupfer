@@ -576,6 +576,8 @@ class LeafPane (Pane, pretty.OutputMixin):
 		leaf = self.get_selection()
 		if leaf and leaf.has_content():
 			self.push_source(leaf.content_source(alternate=alternate))
+			return True
+		return False
 
 	def reset(self):
 		"""Pop all sources and go back to top level"""
@@ -894,10 +896,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Browse into @leaf if it's possible
 		and save away the previous sources in the stack
 		if @alternate, use the Source's alternate method"""
-		if pane is SourcePane:
-			self.source_pane.browse_down(alternate=alternate)
-		if pane is ObjectPane:
-			self.object_pane.browse_down(alternate=alternate)
+		if pane is ActionPane:
+			return
+		# record used object if we browse down
+		panectl = self._panectl_table[pane]
+		sel, key = panectl.get_selection(), panectl.get_latest_key()
+		if panectl.browse_down(alternate=alternate):
+			learn.record_search_hit(sel, key)
 
 	def activate(self):
 		"""
