@@ -854,8 +854,8 @@ class Interface (gobject.GObject):
 		elif keyv == key_book["Left"]:
 			self._reset_key_press()
 		elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
-				self.current._hide_table()
-				self.switch_current(reverse=shift_mask)
+			self.current._hide_table()
+			self.switch_current(reverse=shift_mask)
 		else:
 			# cont. processing
 			return False
