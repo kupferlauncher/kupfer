@@ -356,14 +356,12 @@ class Search (gtk.Bin):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.model = LeafModel()
-		self.callbacks = {}
 		self.match = None
 		self.match_state = State.Wait
 		self.text = ""
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
-		self.label_char_width = 25
 		self.source = None
 		self.icon_size = 96
 		self._old_win_position=None
