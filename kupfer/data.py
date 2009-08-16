@@ -711,7 +711,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		for pane, ctl in self._panectl_table.items():
 			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
-		self._next_search_id = 0
+		self._search_ids = itertools.count(1)
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -815,15 +815,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		self.cancel_search(pane)
 		ctl = self._panectl_table[pane]
-		ctl.outstanding_search_id = self._next_search_id
-		wrapcontext = (self._next_search_id, context)
+		ctl.outstanding_search_id = self._search_ids.next()
+		wrapcontext = (ctl.outstanding_search_id, context)
 		if interactive:
 			ctl.search(key, wrapcontext, text_mode)
 		else:
 			timeout = 300 if lazy else 0 if not key else 50/len(key)
 			ctl.outstanding_search = gobject.timeout_add(timeout, ctl.search, 
 					key, wrapcontext, text_mode)
-		self._next_search_id += 1
 
 	def _pane_search_result(self, panectl, match,match_iter, wrapcontext, pane):
 		search_id, context = wrapcontext
