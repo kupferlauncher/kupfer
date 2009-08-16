@@ -498,7 +498,7 @@ class Search (gtk.Bin):
 		# if too little data is loaded, try load more
 		if len(self.model) <= 1:
 			self.model.populate(self.show_more)
-		if len(self.model) > 1:
+		if len(self.model) >= 1:
 			path, col = self.table.get_cursor()
 			if path:
 				r = row_at_path(path)
