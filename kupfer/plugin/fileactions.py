@@ -40,10 +40,16 @@ class Trash (Action):
 		yield FileLeaf
 
 def _good_destination(dpath, spath):
+	"""If directory path @dpath is a valid destination for file @spath
+	to be copied or moved to
+	"""
 	if not os_path.isdir(dpath):
 		return False
 	spath = os_path.normpath(spath)
 	dpath = os_path.normpath(dpath)
+	dest_filename = os_path.join(dpath, os_path.basename(spath))
+	if os_path.exists(dest_filename):
+		return False
 	if not os.access(dpath, os.R_OK | os.W_OK | os.X_OK):
 		return False
 	cpfx = os_path.commonprefix((spath, dpath))
