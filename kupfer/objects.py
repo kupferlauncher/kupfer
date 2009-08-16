@@ -254,9 +254,8 @@ class FileLeaf (Leaf):
 			name = gobject.filename_display_basename(obj)
 		super(FileLeaf, self).__init__(obj, name)
 
-	def __repr__(self):
-		return "".join(("<", self.__module__, ".", self.__class__.__name__,
-			" ", self.object, ">"))
+	def repr_key(self):
+		return self.object
 
 	def is_valid(self):
 		from os import access, R_OK
@@ -435,6 +434,9 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 				item = None
 		self.object = item
 
+	def repr_key(self):
+		return self.get_id() or self
+
 	def get_id(self):
 		return self.object.get_id()
 
@@ -472,6 +474,10 @@ class Action (KupferObject):
 		"""
 		return True
 	'''
+
+	def repr_key(self):
+		"""by default, actions of one type are all the same"""
+		return ""
 
 	def activate(self, leaf, obj=None):
 		"""
@@ -551,6 +557,9 @@ class OpenWith (Action):
 		package_name, ext = path.splitext(self.desktop_item.get_id() or "")
 		if package_name:
 			self.name_aliases.add(_("Open with %s") % package_name)
+
+	def repr_key(self):
+		return self
 
 	def activate(self, leaf):
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
@@ -702,6 +711,9 @@ class Execute (Launch):
 		super(Execute, self).__init__(name)
 		self.in_terminal = in_terminal
 		self.args = args
+
+	def repr_key(self):
+		return self.in_terminal
 	
 	def activate(self, leaf):
 		cli = "%s %s" % (leaf.object, self.args)
@@ -749,6 +761,9 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	def __hash__(self ):
 		return hash(repr(self))
+
+	def repr_key(self):
+		return ""
 
 	def get_items(self):
 		"""
