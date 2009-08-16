@@ -39,7 +39,8 @@ class WindowLeaf (Leaf):
 	def get_description(self):
 		workspace = self.object.get_workspace()
 		nr, name = workspace.get_number(), workspace.get_name()
-		return _("Window %(name)s on %(wkspc)s") % {"name": self, "wkspc": name}
+		# TRANS: Window on (Workspace name), window description
+		return _("Window on %(wkspc)s") % {"wkspc": name}
 
 	def get_icon_name(self):
 		return "gnome-window-manager"
