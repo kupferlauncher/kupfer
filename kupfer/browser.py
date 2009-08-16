@@ -909,9 +909,13 @@ class Interface (gobject.GObject):
 		return self._is_text_mode
 
 	def get_can_enter_text_mode(self):
+		"""We can enter text mode if the data backend allows,
+		and the text entry is ready for input (empty)
+		"""
 		pane = self._pane_for_widget(self.current)
 		val = self.data_controller.get_can_enter_text_mode(pane)
-		return val and self.get_is_waiting()
+		entry_text = self.entry.get_text()
+		return val and not entry_text
 
 	def toggle_text_mode(self, val):
 		val = bool(val) and self.get_can_enter_text_mode()
@@ -938,7 +942,10 @@ class Interface (gobject.GObject):
 			self._update_active()
 
 	def get_is_waiting(self):
-		"""Return if we are waiting for a search"""
+		"""Return True if we are ready for a search, without
+		(active) match; where 'active' match means a match in response
+		to an actual text query.
+		"""
 		waiting_search = (self.current.get_match_state() is State.Wait)
 		entry_text = self.entry.get_text()
 		match_text = self.current.get_match_text()
