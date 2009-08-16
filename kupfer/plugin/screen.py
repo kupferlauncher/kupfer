@@ -50,8 +50,8 @@ class ScreenSession (Leaf):
 			"Detached": _("Detached"),
 		}
 		status = status_dict.get(status, status)
-		return (_("%(status)s session %(name)s (%(pid)s) created %(time)s") %
-				{"status": status, "name": name, "pid": pid, "time": time})
+		return (_("%(status)s session (%(pid)s) created %(time)s") %
+				{"status": status, "pid": pid, "time": time})
 
 	def get_icon_name(self):
 		return "gnome-window-manager"
