@@ -342,7 +342,7 @@ class RhythmboxSongsSource (Source):
 		yield SongLeaf
 
 class RhythmboxSource (AppLeafContentMixin, Source):
-	appleaf_content_id = "rhythmbox.desktop"
+	appleaf_content_id = "rhythmbox"
 	def __init__(self):
 		Source.__init__(self, _("Rhythmbox"))
 	def get_items(self):

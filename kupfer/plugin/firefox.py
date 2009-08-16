@@ -9,7 +9,7 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class BookmarksSource (AppLeafContentMixin, Source):
-	appleaf_content_id = ("firefox.desktop", "iceweasel.desktop")
+	appleaf_content_id = ("firefox", "iceweasel")
 	def __init__(self):
 		super(BookmarksSource, self).__init__(_("Firefox Bookmarks"))
 	

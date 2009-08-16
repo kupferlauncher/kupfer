@@ -9,7 +9,7 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class EpiphanySource (AppLeafContentMixin, Source):
-	appleaf_content_id = "epiphany.desktop"
+	appleaf_content_id = "epiphany"
 	def __init__(self):
 		super(EpiphanySource, self).__init__(_("Epiphany Bookmarks"))
 	

@@ -172,7 +172,7 @@ class Preferences (RunnableLeaf):
 		return gtk.STOCK_PREFERENCES
 
 class KupferSource (AppLeafContentMixin, Source):
-	appleaf_content_id = "kupfer.desktop"
+	appleaf_content_id = "kupfer"
 	def __init__(self, name=_("Kupfer")):
 		Source.__init__(self, name)
 	def is_dynamic(self):

@@ -382,10 +382,13 @@ class SourceLeaf (Leaf):
 		return self.object.get_icon_name()
 
 class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
-	def __init__(self, item=None, path=None, item_id=None):
+	def __init__(self, item=None, path=None, app_id=None):
+		"""Try constructing an Application for GAppInfo @item,
+		for file @path or for package name @app_id.
+		"""
 		self.init_item = item
 		self.init_path = path
-		self.init_item_id = item_id
+		self.init_item_id = app_id and app_id + ".desktop"
 		self.path = path
 		self.unpickle_finish()
 		if not self.object:
@@ -398,7 +401,7 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		name_aliases = set()
 		# use package name: non-extension part of ID
 		lowername = unicode(self).lower()
-		package_name, ext = path.splitext(self.object.get_id() or "")
+		package_name = self._get_package_name()
 		if package_name and package_name not in lowername:
 			name_aliases.add(package_name)
 		# FIXME: We don't use the executable since package name is better
@@ -434,8 +437,16 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 	def repr_key(self):
 		return self.get_id() or self
 
+	def _get_package_name(self):
+		package_name, ext = path.splitext(self.object.get_id() or "")
+		return package_name
+
 	def get_id(self):
-		return self.object.get_id()
+		"""Return the unique ID for this app.
+
+		This is the GIO id "gedit.desktop" minus the .desktop part
+		"""
+		return self._get_package_name()
 
 	def get_actions(self):
 		if launch.application_is_running(self.object):
@@ -1037,7 +1048,7 @@ class AppLeafContentMixin (object):
 	def __get_leaf_repr(cls):
 		for appleaf_id in cls.__get_appleaf_id_iter():
 			try:
-				return AppLeaf(item_id=appleaf_id)
+				return AppLeaf(app_id=appleaf_id)
 			except InvalidDataError:
 				pass
 	@classmethod

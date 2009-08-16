@@ -50,7 +50,7 @@ def get_abiword_files(xmlfilepath):
 	return allFiles
 
 class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
-	appleaf_content_id = "abiword.desktop"
+	appleaf_content_id = "abiword"
 	def __init__(self, name=None):
 		if not name:
 			name = _("Abiword Recent Items")
