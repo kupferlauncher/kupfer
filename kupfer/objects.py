@@ -81,8 +81,18 @@ class KupferObject (object):
 		return self.name
 
 	def __repr__(self):
+		key = str(self.repr_key())
 		return "".join(("<", self.__module__, ".", self.__class__.__name__,
-			" ", toutf8(self.name), ">"))
+			((" %s" % key) if key else ""), ">"))
+
+	def repr_key(self):
+		"""
+		Return an object whose str() will be used in the __repr__,
+		self is returned by default.
+		This value is used to recognize objects, for example learning commonly
+		used objects.
+		"""
+		return self
 
 	def get_description(self):
 		"""Return a description of the specific item
