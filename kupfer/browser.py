@@ -834,8 +834,8 @@ class Interface (gobject.GObject):
 			return False
 
 		if keyv == key_book["Escape"]:
-			self._escape_search()
-			return False
+			self._reset_key_press(escape=True)
+			return True
 
 		if keyv == key_book["Up"]:
 			self.current.go_up()
@@ -886,6 +886,25 @@ class Interface (gobject.GObject):
 		else:
 			self.current.reset()
 
+	def _reset_key_press(self, escape=False):
+		"""Handle leftarrow, backspace and escape
+		Go up back through browsed sources.
+		If @escape, go back through the panes if current is reset,
+		if first pane is reset, cancel (put away) self.
+		"""
+		waiting_search = self.get_is_waiting() and not self.get_in_text_mode()
+		# try browsing up first
+		if waiting_search and self._browse_up():
+			return
+		self.reset()
+		self.reset_current()
+		if waiting_search and escape:
+			if self.current is self.search:
+				self.data_controller.reset()
+				self.emit("cancelled")
+			else:
+				self.switch_current(reverse=True)
+
 	def get_in_text_mode(self):
 		return self._is_text_mode
 
@@ -913,17 +932,6 @@ class Interface (gobject.GObject):
 			self.entry.modify_base(gtk.STATE_NORMAL, self._theme_entry_base)
 		self._size_window_optimally()
 
-	def _reset_key_press(self):
-		"""Handle left arrow or backspace:
-		browse up if clear, else reset
-		"""
-		self.reset()
-		# larrow or backspace will erase or go up
-		if self.current.get_match_state() is State.Wait and not self.get_in_text_mode():
-			self._browse_up()
-		else:
-			self.reset_current()
-
 	def switch_to_source(self):
 		if self.current is not self.search:
 			self.current = self.search
@@ -946,18 +954,6 @@ class Interface (gobject.GObject):
 		wid = self._widget_for_pane(pane)
 		wid.reset()
 	
-	def _escape_search(self):
-		if (self.search.get_match_state() is State.Wait and
-				not self.get_in_text_mode()):
-			self.data_controller.reset()
-			self.emit("cancelled")
-		else:
-			waiting_search = self.get_is_waiting()
-			self.reset()
-			self.reset_current()
-			if waiting_search:
-				self.switch_current(reverse=True)
-
 	def _new_source(self, sender, pane, source):
 		"""Notification about a new data source,
 		(represented object for the self.search object
@@ -1019,7 +1015,7 @@ class Interface (gobject.GObject):
 	
 	def _browse_up(self):
 		pane = self._pane_for_widget(self.current)
-		self.data_controller.browse_up(pane)
+		return self.data_controller.browse_up(pane)
 	
 	def _browse_down(self, alternate=False):
 		pane = self._pane_for_widget(self.current)
