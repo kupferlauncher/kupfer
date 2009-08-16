@@ -694,6 +694,9 @@ class Interface (gobject.GObject):
 		self._is_text_mode = False
 		self._latest_input_time = None
 		self._slow_input_interval = 1.0
+		self._key_press_time = None
+		self._key_press_interval = 0.8
+		self._key_pressed = None
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -703,6 +706,7 @@ class Interface (gobject.GObject):
 		self.entry.connect("changed", self._changed)
 		self.entry.connect("activate", self._activate, None)
 		self.entry.connect("key-press-event", self._entry_key_press)
+		self.entry.connect("key-release-event", self._entry_key_release)
 		self.entry.connect("paste-clipboard", self._entry_paste_clipboard)
 		self.search.connect("table-event", self._table_event)
 		self.action.connect("table-event", self._table_event)
@@ -769,6 +773,9 @@ class Interface (gobject.GObject):
 		window.begin_move_drag(event.button,
 				int(event.x_root), int(event.y_root), event.time)
 
+	def _entry_key_release(self, entry, event):
+		self._key_pressed = None
+
 	def _entry_key_press(self, entry, event):
 		"""
 		Intercept arrow keys and manipulate table
@@ -809,6 +816,18 @@ class Interface (gobject.GObject):
 				# swallow if a period
 				swallow = (keyv == ord("."))
 				return swallow
+
+		# activate on repeated key
+		if ((not text_mode) and self._key_pressed == keyv and
+				keyv not in self.keys_sensible):
+			if curtime - self._key_press_time > self._key_press_interval:
+				self._activate(None, None)
+				self._key_pressed = None
+			return True
+		else:
+			self._key_press_time = curtime
+			self._key_pressed = keyv
+
 
 		if keyv not in self.keys_sensible:
 			# exit if not handled
