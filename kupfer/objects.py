@@ -503,6 +503,20 @@ class Action (KupferObject):
 		"""
 		return False
 
+	def is_async(self):
+		"""
+		If this action should run on a separate thread, return True.
+		activate(..) should return a tuple of two functions
+		(start_cb, finish_cb) with the following signatures:
+			start_cb (leaf, obj=None)
+			finish_cb (retval)
+		finish_cb is passed the return value from start_cb
+
+		start_cb is called asynchronously, then finish_cb is called,
+		if start_cb does not raise, on the main thread.
+		"""
+		return False
+
 	def item_types(self):
 		"""Yield items this action may apply to. This is used only
 		when this action is specified in __kupfer_actions__ to "decorate"
