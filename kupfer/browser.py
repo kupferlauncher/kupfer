@@ -782,17 +782,17 @@ class Interface (gobject.GObject):
 		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
 		text_mode = self.get_in_text_mode()
+		has_input = bool(self.entry.get_text())
 
 		curtime = time.time()
 		input_time_diff = curtime - (self._latest_input_time or curtime)
 		self._latest_input_time = curtime
 		# if input is slow/new, we reset
 		if not text_mode and input_time_diff > self._slow_input_interval:
-			self.reset()
+			self.reset_text()
 
 		has_selection = (self.current.get_match_state() is State.Match)
 		can_text_mode = self.get_can_enter_text_mode()
-		has_input = bool(self.entry.get_text())
 		if not text_mode:
 			# translate extra commands to normal commands here
 			# and remember skipped chars
@@ -846,10 +846,13 @@ class Interface (gobject.GObject):
 		if not self.get_in_text_mode():
 			self.toggle_text_mode(True)
 
-	def reset(self):
+	def reset_text(self):
 		self.entry.set_text("")
-		self.current._hide_table()
 	
+	def reset(self):
+		self.reset_text()
+		self.current._hide_table()
+
 	def reset_current(self):
 		"""
 		Reset the source or action view
