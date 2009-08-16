@@ -759,6 +759,7 @@ class Interface (gobject.GObject):
 		vbox.pack_start(self.label, True, True, 0)
 		vbox.pack_start(self.entry, True, True, 0)
 		vbox.show_all()
+		self.label.hide()
 		self.third.hide()
 		self._widget = vbox
 		return vbox
