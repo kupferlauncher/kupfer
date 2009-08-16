@@ -567,6 +567,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 				succ = True
 		if succ:
 			self.refresh_data()
+		return succ
 
 	def browse_down(self, alternate=False):
 		"""Browse into @leaf if it's possible
@@ -889,9 +890,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Try to browse up to previous sources, from current
 		source"""
 		if pane is SourcePane:
-			self.source_pane.browse_up()
+			return self.source_pane.browse_up()
 		if pane is ObjectPane:
-			self.object_pane.browse_up()
+			return self.object_pane.browse_up()
 	
 	def browse_down(self, pane, alternate=False):
 		"""Browse into @leaf if it's possible
