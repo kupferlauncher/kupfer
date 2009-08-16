@@ -89,15 +89,21 @@ class MoveTo (Action, pretty.OutputMixin):
 class CopyTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Copy To..."))
+
+	def is_async(self):
+		return True
 	def activate(self, leaf, obj):
+		return self._start_action, self._finish_action
+
+	def _start_action(self, leaf, iobj=None):
 		sfile = gio.File(leaf.object)
 		bname = sfile.get_basename()
-		dfile = gio.File(os_path.join(obj.object, bname))
-		try:
-			ret = sfile.copy(dfile)
-			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
-		except gio.Error, exc:
-			self.output_error("Copy %s to %s Error: %s" % (sfile, dfile, exc))
+		dfile = gio.File(os_path.join(iobj.object, bname))
+		ret = sfile.copy(dfile)
+		self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
+
+	def _finish_action(self, ret):
+		pass
 
 	def item_types(self):
 		yield FileLeaf
