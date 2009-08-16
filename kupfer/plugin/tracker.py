@@ -4,7 +4,6 @@ from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import (TextLeaf, ConstructFileLeaf,
 		SourceLeaf, TextSource, FileLeaf)
 from kupfer import utils, pretty
-from kupfer.plugin import text
 
 
 __kupfer_name__ = _("Tracker")
