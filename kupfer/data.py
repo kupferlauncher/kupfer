@@ -684,9 +684,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
 	Sources <-> Actions controller
 
-	This is a singleton, and should
-	be inited using set_sources
-
 	The data controller must be created before main program commences,
 	so it can register itself at the scheduler correctly.
 	"""
@@ -916,9 +913,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.output_info("There is no third object!")
 			return
 		if self.mode is SourceActionMode:
-			new_source = action.activate(leaf)
+			ret = action.activate(leaf)
 		elif self.mode is SourceActionObjectMode:
-			new_source = action.activate(leaf, sobject)
+			ret = action.activate(leaf, sobject)
 
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
@@ -927,12 +924,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 
 		# handle actions returning "new contexts"
-		if action.is_factory() and new_source:
-			self.source_pane.push_source(new_source)
-		else:
-			self.emit("launched-action", SourceActionMode, leaf, action)
-
-gobject.type_register(DataController)
+		if action.is_factory() and ret:
+			self.source_pane.push_source(ret)
+			return
+		if action.is_async():
+			GetProcessManager().register_action(action, leaf, sobject, ret)
+		self.emit("launched-action", SourceActionMode, leaf, action)
 
 # pane cleared (invalid item) item was invalid
 # pane, item
@@ -956,4 +953,79 @@ gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
 
 # Create singleton object shadowing main class!
 DataController = DataController()
+
+
+class ActionThread (threading.Thread, gobject.GObject, pretty.OutputMixin):
+	"""
+	signals
+		completed (success)
+	"""
+	__gtype_name__= "ActionThread"
+	def __init__(self, start_call, finish_call):
+		threading.Thread.__init__(self)
+		gobject.GObject.__init__(self)
+		self.start_call = start_call
+		self.finish_call = finish_call
+
+	def run(self):
+		try:
+			ret = self.start_call()
+		except StandardError, exc:
+			self.output_error("%s: %s" % (type(exc).__name__, exc))
+			gobject.idle_add(self.emit, "completed", False)
+		else:
+			gobject.idle_add(self.finish_call, ret)
+			gobject.idle_add(self.emit, "completed", True)
+gobject.signal_new("completed", ActionThread, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_BOOLEAN, ))
+
+class ProcessManager (gobject.GObject, pretty.OutputMixin):
+	"""
+	signals:
+		new-process ()
+		completed (success)
+		empty ()
+	"""
+	__gtype_name__ = "ProcessManager"
+	def __init__(self):
+		super(ProcessManager, self).__init__()
+		self.queue = {}
+		self._process_ids = itertools.count()
+
+	def has_queue(self):
+		return len(self.queue)
+
+	def _thread_completed(self, thread, success, thread_id):
+		del self.queue[thread_id]
+		self.emit("completed", success)
+		self.output_debug("process %d completed success=%s" % (thread_id, success))
+		if not self.has_queue():
+			self.emit("empty")
+
+	def register_action(self, action, leaf, iobj, ret):
+		start_cb, finish_cb = ret
+		start_cb_composed = lambda : start_cb(leaf, iobj)
+
+		at = ActionThread(start_cb_composed, finish_cb)
+		thread_id = self._process_ids.next()
+		at.connect("completed", self._thread_completed, thread_id)
+		self.queue[thread_id] = (leaf, action, iobj)
+		self.output_debug("process %d started for %s " % (thread_id, action))
+		at.start()
+		self.emit("new-process")
+
+gobject.signal_new("new-process", ProcessManager, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
+gobject.signal_new("completed", ProcessManager, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_BOOLEAN, ))
+gobject.signal_new("empty", ProcessManager, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
+
+_process_manager = None
+
+def GetProcessManager():
+	global _process_manager
+	if _process_manager is None:
+		_process_manager = ProcessManager()
+	return _process_manager
 
