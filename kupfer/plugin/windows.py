@@ -13,9 +13,9 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 class WindowLeaf (Leaf):
 	def get_actions(self):
 		win = self.object
+		yield WindowActivateWorkspace()
 		if not win.is_active():
 			yield WindowAction(_("Activate"), action="activate", time=True)
-		yield WindowActivateWorkspace()
 		if win.is_shaded():
 			yield WindowAction(_("Unshade"), action="unshade")
 		else:
@@ -65,6 +65,10 @@ class WindowAction (Action):
 		self.action = action
 		self.time = time
 		self.icon_name = icon
+
+	def repr_key(self):
+		return self.action
+
 	def activate(self, leaf):
 		window = leaf.object
 		action_method = getattr(window, self.action)
