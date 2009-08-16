@@ -156,6 +156,10 @@ class SongLeaf (Leaf):
 		"""
 		if not name: name = info["title"]
 		Leaf.__init__(self, info, name)
+	def repr_key(self):
+		"""To distinguish songs by the same name"""
+		return (self.object["title"], self.object["artist"],
+				self.object["album"])
 	def get_actions(self):
 		yield PlayTracks()
 		yield Enqueue()

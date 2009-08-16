@@ -88,6 +88,9 @@ class ApplicationRecentsSource (RecentsSource):
 		super(ApplicationRecentsSource, self).__init__(name)
 		self.application = application
 
+	def repr_key(self):
+		return self.application.repr_key()
+
 	def get_items(self):
 		svc = launch.GetApplicationsMatcherService()
 		app_name = svc.application_name(self.application.get_id())
