@@ -19,12 +19,6 @@ def _icon_theme_changed(theme):
 _default_theme = gtk.icon_theme_get_default()
 _default_theme.connect("changed", _icon_theme_changed)
 
-# Fix bad icon names
-# for example, gio returns "inode-directory" for folders
-icon_name_translation = {
-		"inode-directory": "folder",
-		}
-
 def load_kupfer_icons(sched=None):
 	"""Load in kupfer icons from installed files"""
 	ilist = "art/icon-list"
@@ -232,9 +226,6 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 
 	# Try the whole list of given names
 	for load_name in icon_names:
-		# Possibly use a different name for lookup
-		if load_name in icon_name_translation:
-			load_name = icon_name_translation[load_name]
 		try:
 			icon = _default_theme.load_icon(load_name, icon_size, ICON_LOOKUP_USE_BUILTIN | ICON_LOOKUP_FORCE_SIZE)
 			if icon:
