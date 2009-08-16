@@ -949,10 +949,12 @@ class Interface (gobject.GObject):
 		match_text = self.current.get_match_text()
 		return waiting_search or not any((entry_text, match_text))
 
-	def validate(self):
-		"""Check that items are still valid
-		when "coming back"
-		"""
+	def focus(self):
+		"""called when the interface is focus (after being away)"""
+		# preserve text mode, but switch to source if we are not in it
+		if not self.get_in_text_mode():
+			self.switch_to_source()
+		# Check that items are still valid when "coming back"
 		self.data_controller.validate()
 
 	def _pane_reset(self, controller, pane, item):
@@ -1185,8 +1187,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.show()
 		self.window.stick()
 		self.window.window.focus(timestamp=evttime)
-		self.interface.switch_to_source()
-		self.interface.validate()
+		self.interface.focus()
 	
 	def put_away(self):
 		self.window.hide()
