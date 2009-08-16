@@ -34,11 +34,8 @@ class InvalidLeafError (Error):
 def tounicode(utf8str):
 	"""Return `unicode` from UTF-8 encoded @utf8str
 	This is to use the same error handling etc everywhere
-	if ustr is unicode, just return it
 	"""
-	if isinstance(utf8str, unicode):
-		return utf8str
-	return utf8str.decode("UTF-8", "replace") if utf8str else u""
+	return utf8str.decode("UTF-8", "replace") if utf8str is not None else u""
 
 def toutf8(ustr):
 	"""Return UTF-8 `str` from unicode @ustr
