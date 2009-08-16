@@ -225,24 +225,6 @@ def _get_icon_for_standard_gicon(gicon, icon_size):
 	print "get_icon_for_gicon, could not load", gicon
 	return None
 
-def get_icon_for_file(uri, icon_size):
-	"""
-	Return a pixbuf representing the file at
-	the @uri, which can be *either* and uri or a path
-
-	return None if not found
-	
-	@icon_size: a pixel size of the icon
-	"""
-
-	gfile = File(uri)
-	if not gfile.query_exists():
-		return None
-
-	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
-	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
-	return get_icon_for_gicon(gicon, icon_size)
-
 def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	for i in get_icon(icon_name, icon_size):
 		return i
