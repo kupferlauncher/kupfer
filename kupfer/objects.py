@@ -740,9 +740,6 @@ class Source (KupferObject, pretty.OutputMixin):
 	def __hash__(self ):
 		return hash(repr(self))
 
-	def __repr__(self):
-		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self))
-
 	def get_items(self):
 		"""
 		Internal method to compute and return the needed items
@@ -830,9 +827,9 @@ class FileSource (Source):
 		self.depth = depth
 
 	def __repr__(self):
-		"""Unique for each configuration"""
-		return "<%s %s depth=%d>" % (type(self).__name__,
-				" ".join(sorted(self.dirlist)), self.depth)
+		return "%s.%s((%s, ), depth=%d)" % (self.__class__.__module__,
+			self.__class__.__name__,
+			', '.join('"%s"' % d for d in sorted(self.dirlist)), self.depth)
 
 	def get_items(self):
 		iters = []
@@ -872,7 +869,8 @@ class DirectorySource (Source, PicklingHelperMixin):
 		self.unpickle_finish()
 
 	def __repr__(self):
-		return "%s.%s(\"%s\", show_hidden=%s)" % (self.__class__.__module__, self.__class__.__name__, str(self.directory), self.show_hidden)
+		return "%s.%s(\"%s\", show_hidden=%s)" % (self.__class__.__module__,
+				self.__class__.__name__, str(self.directory), self.show_hidden)
 
 	def pickle_prepare(self):
 		# monitor is not pickleable
@@ -1108,9 +1106,6 @@ class TextSource (KupferObject):
 
 	def __hash__(self ):
 		return hash(repr(self))
-
-	def __repr__(self):
-		return "%s.%s(\"%s\")" % (self.__class__.__module__, self.__class__.__name__, str(self))
 
 	def get_rank(self):
 		"""All items are given this rank"""
