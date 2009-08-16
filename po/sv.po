@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-15 20:49+0200\n"
+"POT-Creation-Date: 2009-08-16 06:15+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -760,8 +760,8 @@ msgstr "Frånkopplad"
 
 #: ../kupfer/plugin/screen.py:53
 #, python-format
-msgid "%(status)s session %(name)s (%(pid)s) created %(time)s"
-msgstr "%(status)s session %(name)s (%(pid)s) skapad %(time)s"
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "%(status)s session %(pid)s) skapad %(time)s"
 
 #: ../kupfer/plugin/screen.py:62
 msgid "Screen Sessions"
@@ -942,12 +942,13 @@ msgstr "Maximera vertikalt"
 msgid "Close"
 msgstr "Stäng"
 
-#: ../kupfer/plugin/windows.py:42
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:43
 #, python-format
-msgid "Window %(name)s on %(wkspc)s"
-msgstr "Fönster %(name)s på %(wkspc)s"
+msgid "Window on %(wkspc)s"
+msgstr "Fönster på %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:57
+#: ../kupfer/plugin/windows.py:58
 msgid "Jump to this window's workspace and focus"
 msgstr "Gå till fönstrets arbetsyta och aktivera"
 
