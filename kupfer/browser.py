@@ -365,6 +365,7 @@ class Search (gtk.Bin):
 		self.source = None
 		self.icon_size = 96
 		self._old_win_position=None
+		self._browsing_match = False
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
@@ -553,6 +554,7 @@ class Search (gtk.Bin):
 				m.get_pixbuf(self.icon_size))
 			self.match_view.set_match_state(match_text, pbuf,
 					match=self.text, state=self.match_state)
+			self._browsing_match = True
 
 	def update_match(self, key, matchrankable, matches):
 		"""
@@ -567,6 +569,7 @@ class Search (gtk.Bin):
 		self.set_match(matchrankable)
 		self.model.set_base(iter(matches))
 		top = self.model.populate(1)
+		self._browsing_match = False
 
 	def reset(self):
 		self.model.clear()
@@ -575,6 +578,10 @@ class Search (gtk.Bin):
 	def setup_empty(self):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state(u"No match", None, state=State.NoMatch)
+
+	def get_is_browsing(self):
+		"""Return if self is browsing"""
+		return self._browsing_match
 	
 	def populate_model(self, iterator, num=None):
 		"""
@@ -959,7 +966,10 @@ class Interface (gobject.GObject):
 		waiting_search = (self.current.get_match_state() is State.Wait)
 		entry_text = self.entry.get_text()
 		match_text = self.current.get_match_text()
-		return waiting_search or not any((entry_text, match_text))
+		if self.current is self.action:
+			return (not self.current.get_is_browsing()) and not match_text
+		else:
+			return waiting_search
 
 	def focus(self):
 		"""called when the interface is focus (after being away)"""
