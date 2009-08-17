@@ -6,7 +6,6 @@ kupfer/browser.py
 kupfer/data.py
 kupfer/main.py
 kupfer/objects.py
-kupfer/preferences.py
 kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
 kupfer/plugin/clipboard.py
@@ -21,6 +20,7 @@ kupfer/plugin/favorites.py
 kupfer/plugin/fileactions.py
 kupfer/plugin/firefox.py
 kupfer/plugin/google.py
+kupfer/plugin/locate.py
 kupfer/plugin/rhythmbox.py
 kupfer/plugin/screen.py
 kupfer/plugin/selection.py
@@ -30,4 +30,5 @@ kupfer/plugin/tracker.py
 kupfer/plugin/wikipedia.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
+kupfer/preferences.py
 kupfer/version.py
