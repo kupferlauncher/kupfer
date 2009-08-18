@@ -39,7 +39,7 @@ class LocateQuerySource (Source):
 		self.max_items = 500
 
 	def get_items(self):
-		command = "locate --quiet --null --limit %d %s" % \
+		command = "locate --quiet --null --limit %d '%s'" % \
 				(self.max_items, self.query)
 		locate_output = os.popen(command).read()
 		files = locate_output.split("\x00")[:-1]
