@@ -10,7 +10,16 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class SelectedText (TextLeaf):
 	def __init__(self, text):
-		TextLeaf.__init__(self, text, _("Selected Text"))
+		lines = filter(None, text.splitlines())
+		summary = lines[0] if lines else text
+		maxlen = 10
+		if len(summary) > maxlen:
+			summary = summary[:maxlen] + u".."
+		TextLeaf.__init__(self, text, _('Selected Text "%s"') % summary)
+
+	def rank_key(self):
+		# return a constant rank key despite the changing name
+		return _("Selected Text")
 
 class InvisibleSourceLeaf (SourceLeaf):
 	"""Hack to hide this source"""
