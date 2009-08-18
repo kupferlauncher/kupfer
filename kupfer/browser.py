@@ -1051,8 +1051,9 @@ class Interface (gobject.GObject):
 		self.data_controller.browse_down(pane, alternate=alternate)
 
 	def _activate(self, widget, current):
+		# reset self through toggle_text_mode
 		self.data_controller.activate()
-		self.reset()
+		self.toggle_text_mode(False)
 	
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		key = context
