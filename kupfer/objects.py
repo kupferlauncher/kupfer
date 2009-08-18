@@ -389,10 +389,8 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		self.init_item = item
 		self.init_path = path
 		self.init_item_id = app_id and app_id + ".desktop"
-		self.path = path
+		# unpickle_finish will raise InvalidDataError on invalid item
 		self.unpickle_finish()
-		if not self.object:
-			raise InvalidDataError
 		Leaf.__init__(self, self.object, self.object.get_name())
 		self.name_aliases = self._get_aliases()
 
@@ -411,28 +409,29 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		return name_aliases
 
 	def pickle_prepare(self):
-		self.init_item_id = self.object.get_id()
+		self.init_item_id = self.object and self.object.get_id()
 		self.object = None
 		self.init_item = None
 
 	def unpickle_finish(self):
 		"""Try to set self.object from init's parameters"""
-		if self.init_item:
-			self.object = self.init_item
-			return
-		# Construct an AppInfo item from either path or item_id
-		from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
 		item = None
-		if self.init_path:
-			item = desktop_app_info_new_from_filename(self.init_path)
-		elif self.init_item_id:
-			try:
-				item = DesktopAppInfo(self.init_item_id)
-			except RuntimeError:
-				self.output_debug(self, "Application", self.init_item_id,
-						"not found")
-				item = None
+		if self.init_item:
+			item = self.init_item
+		else:
+			# Construct an AppInfo item from either path or item_id
+			from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
+			if self.init_path:
+				item = desktop_app_info_new_from_filename(self.init_path)
+			elif self.init_item_id:
+				try:
+					item = DesktopAppInfo(self.init_item_id)
+				except RuntimeError:
+					self.output_debug(self, "Application", self.init_item_id,
+							"not found")
 		self.object = item
+		if not self.object:
+			raise InvalidDataError
 
 	def repr_key(self):
 		return self.get_id() or self
