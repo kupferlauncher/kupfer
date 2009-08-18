@@ -703,8 +703,8 @@ class Interface (gobject.GObject):
 		self._key_press_time = None
 		self._key_press_interval = 0.8
 		self._key_pressed = None
-		self._theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
-		self._theme_entry_text = self.entry.style.text[gtk.STATE_NORMAL]
+		self._theme_colors = {}
+		self.entry.set_size_request(0, 0)
 		self.entry.connect("map-event", self._map_entry)
 
 		from pango import ELLIPSIZE_END
@@ -775,8 +775,9 @@ class Interface (gobject.GObject):
 	def _map_entry(self, widget, event):
 		"""When Interface's widget is mapped and shown on the screen"""
 		# Now we can read the style from the real theme
-		self._theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
-		self._theme_entry_text = self.entry.style.text[gtk.STATE_NORMAL]
+		if not self._theme_colors:
+			self._theme_colors["bg"] = self.entry.style.bg[gtk.STATE_NORMAL]
+			self._theme_colors["text"] = self.entry.style.text[gtk.STATE_NORMAL]
 		self.update_text_mode()
 
 	def _pane_button_press(self, widget, event):
@@ -937,19 +938,22 @@ class Interface (gobject.GObject):
 
 	def update_text_mode(self):
 		"""update appearance to whether text mode enabled or not"""
+		if not self._theme_colors:
+			return
 		if self._is_text_mode:
 			self.entry.set_size_request(-1,-1)
 			self.entry.set_property("has-frame", True)
 			bgcolor = gtk.gdk.color_parse("light goldenrod yellow")
-			self.entry.modify_text(gtk.STATE_NORMAL, self._theme_entry_text)
-			self.entry.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
+			theme_entry_text = self._theme_colors["text"]
+			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_text)
 			self.entry.modify_base(gtk.STATE_NORMAL, bgcolor)
 			self.current.set_state(gtk.STATE_ACTIVE)
 		else:
 			self.entry.set_size_request(0,0)
 			self.entry.set_property("has-frame", False)
-			self.entry.modify_text(gtk.STATE_NORMAL, self._theme_entry_bg)
-			self.entry.modify_base(gtk.STATE_NORMAL, self._theme_entry_bg)
+			theme_entry_bg = self._theme_colors["bg"]
+			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_bg)
+			self.entry.modify_base(gtk.STATE_NORMAL, theme_entry_bg)
 			self.current.set_state(gtk.STATE_SELECTED)
 		self._size_window_optimally()
 
