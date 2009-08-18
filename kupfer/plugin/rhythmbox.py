@@ -308,7 +308,10 @@ class RhythmboxArtistsSource (Source):
 		yield ArtistLeaf
 
 def _locale_sort_artist_album_songs(artists):
-	"""Sort by Artist, then Album, then Track"""
+	"""Sort dictionary @artists by Artist, then Album,
+	each artist in @artists should already contain songs
+	grouped by album and sorted by track number.
+	"""
 	for artist in utils.locale_sort(artists):
 		artist_songs = artists[artist]
 		albums = set(s["album"] for s in artist_songs)
@@ -317,7 +320,6 @@ def _locale_sort_artist_album_songs(artists):
 			for song in artist_songs:
 				if song["album"] == album:
 					album_songs.append(song)
-			album_songs.sort(key=lambda s: s.get("track-number", u""))
 			for song in album_songs:
 				yield song
 
