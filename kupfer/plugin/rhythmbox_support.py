@@ -33,15 +33,19 @@ class RhythmBoxHandler(ContentHandler):
     Get only entries of type @entry_type (commonly "song"),
     and only record keys in the iterable wanted_keys, or all
     if None.
+
+    This ContentHandler keeps a big string mapping open, to
+    make sure that equal strings are using equal instances to save memory
     """
-    def __init__(self, songs, entry_type, wanted_keys=None):
+    def __init__(self, songs, entry_type, wanted_keys):
         ContentHandler.__init__(self)
         self.all_entries = songs
         self.entry_type = entry_type
-        self.wanted_keys = wanted_keys and set(wanted_keys)
+        self.wanted_keys = dict((k, k) for k in wanted_keys)
         self.is_parsing_tag = False
         self.is_wanted_element = False
         self.song_entry = None
+        self.string_map = {}
         self.element_content = ''
 
     def startElement(self, sName, attributes):
@@ -50,13 +54,18 @@ class RhythmBoxHandler(ContentHandler):
             self.is_parsing_tag = True
             self.is_wanted_element = True
         else:
-            self.is_wanted_element = \
-                (not self.wanted_keys or sName in self.wanted_keys)
+            self.is_wanted_element = (sName in self.wanted_keys)
         self.element_content = ''
 
     def characters(self, sData):
         if self.is_wanted_element:
             self.element_content += sData
+
+    def _get_or_internalize(self, string):
+        if string not in self.string_map:
+            self.string_map[string] = string
+            return string
+        return self.string_map[string]
 
     def endElement(self,sName):
         if sName == 'entry':
@@ -65,7 +74,8 @@ class RhythmBoxHandler(ContentHandler):
             self.song_entry = None
             self.is_parsing_tag = False
         elif self.is_parsing_tag and self.is_wanted_element:
-            self.song_entry[sName]  = self.element_content
+            sName = self.wanted_keys[sName]
+            self.song_entry[sName] = self._get_or_internalize(self.element_content)
 
 NEEDED_KEYS= ("title", "artist", "album", "track-number", "location", )
 def get_rhythmbox_songs(typ="song", keys=NEEDED_KEYS,
