@@ -39,6 +39,16 @@ VERSION_MAJOR_MINOR = ".".join(VERSION.split(".")[0:2])
 srcdir = '.'
 blddir = 'build'
 
+def dist_hook():
+	"""in the dist preparation dir, delete unwanted files"""
+	DIST_GIT_IGNORE = """
+		debug.py
+		makedist.sh
+		""".split()
+
+	for ignfile in filter(os.path.exists, DIST_GIT_IGNORE):
+		os.unlink(ignfile)
+
 def dist():
 	"""Make the dist tarball and print its SHA-1 """
 	def write_git_version():
