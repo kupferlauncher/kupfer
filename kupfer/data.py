@@ -226,23 +226,21 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
-class SourcePickleService (pretty.OutputMixin, object):
+class SourcePickler (pretty.OutputMixin):
 	"""
-	Singleton that should be accessed with
-	GetSourcePickleService()
+	Takes care of pickling and unpickling Kupfer Sources.
 	"""
 	pickle_version = 2
 	name_template = "kupfer-%s-v%d.pickle.gz"
 
-	def __call__(self):
-		return self
 	def __init__(self):
 		import gzip
 		self.open = lambda f,mode: gzip.open(f, mode, compresslevel=3)
-		# Check if there are old cache files
-		self._rm_old_cachefiles()
 
-	def _rm_old_cachefiles(self):
+	def rm_old_cachefiles(self):
+		"""Checks if there are old cachefiles from last version,
+		and deletes those
+		"""
 		for dpath, dirs, files in os.walk(config.get_cache_home()):
 			# Look for files matching beginning and end of
 			# name_template, with the previous file version
@@ -312,12 +310,6 @@ class SourcePickleService (pretty.OutputMixin, object):
 		output.close()
 		return True
 
-_source_pickle_service = None
-def GetSourcePickleService():
-	global _source_pickle_service
-	if _source_pickle_service is None:
-		_source_pickle_service = SourcePickleService()
-	return _source_pickle_service
 
 class SourceController (pretty.OutputMixin):
 	"""Control sources; loading, pickling, rescanning"""
@@ -447,8 +439,9 @@ class SourceController (pretty.OutputMixin):
 		the "dummy" becomes live and is rescanned if @rescan
 		"""
 		for source in list(sources):
+			sourcepickler = SourcePickler()
 			if self.pickle:
-				news = GetSourcePickleService().unpickle_source(source)
+				news = sourcepickler.unpickle_source(source)
 			else:
 				news = None
 			if news:
@@ -467,10 +460,12 @@ class SourceController (pretty.OutputMixin):
 	def _pickle_sources(self, sources):
 		if not self.pickle:
 			return
+		sourcepickler = SourcePickler()
+		sourcepickler.rm_old_cachefiles()
 		for source in sources:
 			if source.is_dynamic():
 				continue
-			GetSourcePickleService().pickle_source(source)
+			sourcepickler.pickle_source(source)
 
 _source_controller = None
 def GetSourceController():
