@@ -101,7 +101,17 @@ def sort_album(album):
     album.sort(key=get_track_number)
 
 def sort_album_order(songs):
-    """Sort songs in order by album then by track number"""
+    """Sort songs in order by album then by track number
+
+    >>> songs = [
+    ... {"title": "a", "album": "B", "track-number": "2"},
+    ... {"title": "b", "album": "A", "track-number": "1"},
+    ... {"title": "c", "album": "B", "track-number": "1"},
+    ... ]
+    >>> sort_album_order(songs)
+    >>> [s["title"] for s in songs]
+    ['b', 'c', 'a']
+    """
     def get_album_order(rec):
         tnr = rec.get("track-number")
         if not tnr: return None
