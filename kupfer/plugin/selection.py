@@ -1,6 +1,7 @@
 import gtk
 
 from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, PicklingHelperMixin
+from kupfer import objects
 
 __kupfer_name__ = _("Selected Text")
 __kupfer_sources__ = ("SelectionSource", )
@@ -10,6 +11,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class SelectedText (TextLeaf):
 	def __init__(self, text):
+		text = objects.tounicode(text)
 		lines = filter(None, text.splitlines())
 		summary = lines[0] if lines else text
 		maxlen = 10

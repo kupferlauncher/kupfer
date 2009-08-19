@@ -1115,10 +1115,11 @@ class TextLeaf (Leaf):
 	"""
 	def __init__(self, text, name=None):
 		"""@text *must* be unicode or UTF-8 str"""
+		text = tounicode(text)
 		if not name:
 			lines = [l for l in text.splitlines() if l.strip()]
 			name = lines[0] if lines else text
-		Leaf.__init__(self, tounicode(text), name)
+		Leaf.__init__(self, text, name)
 
 	def get_actions(self):
 		return ()
