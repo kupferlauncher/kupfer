@@ -334,9 +334,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 		if self._plugin_makes_sense_in_catalog(plugin_id):
 			setctl = settings.GetSettingsController()
 			incl_label = _("Include in top level")
-			incl_tooltip = _("If enabled, objects from the plugin's source(s) \
-will be available in the top level.\n\
-Sources are always available as subcatalogs in the top level.")
+			incl_tooltip = _(
+				"If enabled, objects from the plugin's source(s) "
+				"will be available in the top level.\n"
+				"Sources are always available as subcatalogs in the top level.")
 			incl_active = setctl.get_plugin_is_toplevel(plugin_id)
 			incl_type = bool
 			inclwid = gtk.CheckButton(incl_label)
