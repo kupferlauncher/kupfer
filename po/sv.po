@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-18 15:09+0200\n"
+"POT-Creation-Date: 2009-08-19 14:44+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -748,14 +748,20 @@ msgstr "Screen-sessioner"
 msgid "Attach"
 msgstr "Anslut till"
 
-#: ../kupfer/plugin/selection.py:5 ../kupfer/plugin/selection.py:13
-#: ../kupfer/plugin/selection.py:22
+#. return a constant rank key despite the changing name
+#: ../kupfer/plugin/selection.py:6 ../kupfer/plugin/selection.py:24
+#: ../kupfer/plugin/selection.py:33
 msgid "Selected Text"
 msgstr "Markering"
 
-#: ../kupfer/plugin/selection.py:7 ../kupfer/plugin/selection.py:39
+#: ../kupfer/plugin/selection.py:8 ../kupfer/plugin/selection.py:50
 msgid "Provides current selection"
 msgstr "Tillhandahåller aktuell markering"
+
+#: ../kupfer/plugin/selection.py:20
+#, python-format
+msgid "Selected Text \"%s\""
+msgstr "Markering \"%s\""
 
 #: ../kupfer/plugins.py:51
 msgid "(no description)"
