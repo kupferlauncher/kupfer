@@ -46,7 +46,18 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 
 def locale_sort(seq, key=unicode):
 	"""Return @seq of objects with @key function as a list sorted
-	in locale lexical order"""
+	in locale lexical order
+
+	>>> locale.setlocale(locale.LC_ALL, "C")
+	'C'
+	>>> locale_sort("abcABC")
+	['A', 'B', 'C', 'a', 'b', 'c']
+
+	>>> locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
+	'en_US.UTF-8'
+	>>> locale_sort("abcABC")
+	['a', 'A', 'b', 'B', 'c', 'C']
+	"""
 	locale_cmp = lambda s, o: locale.strcoll(key(s), key(o))
 	seq = seq if isinstance(seq, list) else list(seq)
 	seq.sort(cmp=locale_cmp)
