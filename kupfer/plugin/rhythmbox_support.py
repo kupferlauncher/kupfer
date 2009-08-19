@@ -25,7 +25,6 @@ THE SOFTWARE.
 
 import os
 from xml.sax import make_parser
-from xml.sax.saxutils import XMLGenerator
 from xml.sax.handler import ContentHandler
 
 class RhythmBoxHandler(ContentHandler):
