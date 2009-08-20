@@ -1,10 +1,10 @@
+import gettext
+import locale
+
 _debug = False
 
-def setup_gettext():
+def setup_locale_and_gettext():
 	"""Set up localization with gettext"""
-	import gettext
-	import locale
-
 	package_name = "kupfer"
 	localedir = "./locale"
 	try:
@@ -20,15 +20,13 @@ def setup_gettext():
 			names=("ngettext",))
 	# also bind this for gtkbuilder (wtf?)
 	locale.bindtextdomain(package_name, localedir)
+	# to load in current locale properly for sorting etc
+	try:
+		locale.resetlocale()
+	except locale.Error, e:
+		pass
 
-setup_gettext()
-
-# to load in current locale properly for sorting etc
-import locale
-try:
-	locale.resetlocale()
-except locale.Error, e:
-	pass
+setup_locale_and_gettext()
 
 def get_options(default_opts=""):
 	"""
