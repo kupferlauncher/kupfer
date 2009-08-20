@@ -1,3 +1,5 @@
+import base64
+import gzip
 import itertools
 import os
 import cPickle as pickle
@@ -8,12 +10,9 @@ import operator
 import gobject
 gobject.threads_init()
 
-from . import search
 from . import objects
-from . import config
-from . import pretty
-from . import learn
-from . import scheduler
+from . import search, learn
+from . import config, pretty, scheduler
 
 # "Enums"
 # Which pane
@@ -238,11 +237,10 @@ class SourcePickler (pretty.OutputMixin):
 	"""
 	Takes care of pickling and unpickling Kupfer Sources.
 	"""
-	pickle_version = 2
-	name_template = "kupfer-%s-v%d.pickle.gz"
+	pickle_version = 3
+	name_template = "k%s-v%d.pickle.gz"
 
 	def __init__(self):
-		import gzip
 		self.open = lambda f,mode: gzip.open(f, mode, compresslevel=3)
 
 	def rm_old_cachefiles(self):
@@ -265,15 +263,17 @@ class SourcePickler (pretty.OutputMixin):
 			for fpath in obsolete_files:
 				# be overly careful
 				assert fpath.startswith(config.get_cache_home())
-				assert "kupfer" in os.path.basename(fpath)
+				assert "kupfer" in fpath
 				os.unlink(fpath)
 
 	def get_filename(self, source):
-		from os import path
-
-		hashstr = "%010d" % abs(hash(source))
+		"""Return cache filename for @source"""
+		# python string hash
+		h = "%x" % abs(hash(repr(source)))
+		bytes = "".join(chr(int(h[i:i+2], 16)) for i in xrange(0, len(h), 2))
+		hashstr = base64.urlsafe_b64encode(bytes).rstrip("=")
 		filename = self.name_template % (hashstr, self.pickle_version)
-		return path.join(config.get_cache_home(), filename)
+		return os.path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
 		cached = self._unpickle_source(self.get_filename(source))
@@ -294,7 +294,8 @@ class SourcePickler (pretty.OutputMixin):
 		try:
 			source = pickle.loads(pfile.read())
 			assert isinstance(source, objects.Source), "Stored object not a Source"
-			self.output_debug("Reading %s from %s" % (source, pickle_file))
+			sname = os.path.basename
+			self.output_debug("Loading", source, "from", sname(pickle_file))
 		except (pickle.PickleError, Exception), e:
 			source = None
 			self.output_info("Error loading %s: %s" % (pickle_file, e))
@@ -310,7 +311,8 @@ class SourcePickler (pretty.OutputMixin):
 		of small writes are very slow
 		"""
 		output = self.open(pickle_file, "wb")
-		self.output_debug("Saving %s to %s" % (source, pickle_file))
+		sname = os.path.basename
+		self.output_debug("Storing", source, "as", sname(pickle_file))
 		output.write(pickle.dumps(source, pickle.HIGHEST_PROTOCOL))
 		output.close()
 		return True
