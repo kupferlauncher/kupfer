@@ -22,9 +22,9 @@ def setup_locale_and_gettext():
 	locale.bindtextdomain(package_name, localedir)
 	# to load in current locale properly for sorting etc
 	try:
-		locale.resetlocale()
+		locale.setlocale(locale.LC_ALL)
 	except locale.Error, e:
-		pass
+		print type(e), e
 
 setup_locale_and_gettext()
 
@@ -117,9 +117,12 @@ def print_banner():
 		"%(program)s: %(desc)s\n"
 		"	%(copyright)s\n"
 		"	%(website)s\n") % var
-	# Be careful about unicode here
-	enc = locale.getpreferredencoding()
-	print banner.encode(enc, "replace")
+
+	# Be careful about unicode here, since it might stop the whole program
+	try:
+		print banner
+	except UnicodeEncodeError, e:
+		print banner.encode("ascii", "replace")
 
 def main():
 	import sys
