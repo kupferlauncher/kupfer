@@ -23,21 +23,29 @@ SourcePane, ActionPane, ObjectPane = (1,2,3)
 SourceActionMode, SourceActionObjectMode = (1,2)
 
 
-class SearchTask (pretty.OutputMixin):
+class Searcher (object):
 	"""
+	This class searches KupferObjects efficiently, and
+	stores searches in a cache for a very limited time (*)
+
+	(*) As of this writing, the cache is used when the old key
+	is a prefix of the search key.
 	"""
 
 	def __init__(self):
 		self._source_cache = {}
 		self._old_key = None
 
-	def __call__(self, sources, key, score=True, item=None, action=None):
+	def search(self, sources, key, score=True, item=None, action=None):
 		"""
-		@sources is a dict listing the inputs and how they are ranked
+		@sources is a sequence listing the inputs, which should be
+		Sources, TextSources or sequences of KupferObjects
 
-		if @score, sort by score, else no sort
-		if @item, check against it's (Action) object requriements
-		and sort by it
+		if @score, sort by rank
+		if @item and @action check against object requriements
+
+		Return (first, match_iter), where first is the first match,
+		and match_iter an iterator to all matches, including the first match.
 		"""
 		if not self._old_key or not key.startswith(self._old_key):
 			self._source_cache.clear()
@@ -486,6 +494,7 @@ class Pane (gobject.GObject):
 		self.latest_key = None
 		self.outstanding_search = -1
 		self.outstanding_search_id = -1
+		self.searcher = Searcher()
 
 	def select(self, item):
 		self.selection = item
@@ -511,7 +520,6 @@ class LeafPane (Pane, pretty.OutputMixin):
 		super(LeafPane, self).__init__()
 		self.source_stack = []
 		self.source = None
-		self.source_search_task = SearchTask()
 
 	def _load_source(self, src):
 		"""Try to get a source from the SourceController,
@@ -592,9 +600,9 @@ class LeafPane (Pane, pretty.OutputMixin):
 			sc = GetSourceController()
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
-		match, match_iter = self.source_search_task(sources, key,
-				score=bool(key))
+		match, match_iter = self.searcher.search(sources, key, score=bool(key))
 		self.emit_search_result(match, match_iter, context)
+
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
@@ -623,8 +631,7 @@ class PrimaryActionPane (Pane):
 
 		actions = [a for a in actions if a.valid_for_item(self.current_item)]
 		sources = (actions, )
-		stask = SearchTask()
-		match, match_iter = stask(sources, key)
+		match, match_iter = self.searcher.search(sources, key)
 		self.emit_search_result(match, match_iter, context)
 
 class SecondaryObjectPane (LeafPane):
@@ -637,7 +644,7 @@ class SecondaryObjectPane (LeafPane):
 		self.source = None
 		self.source_stack = None
 		LeafPane.reset(self)
-		self.source_search_task = SearchTask()
+		self.searcher = Searcher()
 	def set_item_and_action(self, item, act):
 		self.current_item = item
 		self.current_action = act
@@ -671,7 +678,7 @@ class SecondaryObjectPane (LeafPane):
 			sc = GetSourceController()
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
-		match, match_iter = self.source_search_task(sources, key,
+		match, match_iter = self.searcher.search(sources, key,
 				item=self.current_item,
 				action=self.current_action,
 				score=True)
