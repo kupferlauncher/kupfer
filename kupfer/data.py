@@ -281,13 +281,10 @@ class SourcePickler (pretty.OutputMixin):
 			return None
 
 		# check consistency
-		if (type(source) == type(cached) and
-			(hasattr(source, "version") == hasattr(cached, "version") and
-			source.version == cached.version)):
+		if source == cached:
 			return cached
 		else:
-			self.output_debug("Source version changed to %s %s" %
-					(source, source.version))
+			self.output_debug("Cached version mismatches", source)
 		return None
 	def _unpickle_source(self, pickle_file):
 		try:
