@@ -1,5 +1,7 @@
-import gio
+import itertools
 from hashlib import md5
+
+import gio
 
 from kupfer.objects import (Leaf, Source, AppLeaf, Action, RunnableLeaf,
 		SourceLeaf, AppLeafContentMixin)
@@ -308,19 +310,18 @@ class RhythmboxArtistsSource (Source):
 		yield ArtistLeaf
 
 def _locale_sort_artist_album_songs(artists):
-	"""Sort dictionary @artists by Artist, then Album,
+	"""Locale sort dictionary @artists by Artist, then Album;
 	each artist in @artists should already contain songs
 	grouped by album and sorted by track number.
 	"""
 	for artist in utils.locale_sort(artists):
 		artist_songs = artists[artist]
-		albums = set(s["album"] for s in artist_songs)
+		albums = {}
+		albumkey = lambda song: song["album"]
+		for album, songs in itertools.groupby(artist_songs, albumkey):
+			albums[album] = list(songs)
 		for album in utils.locale_sort(albums):
-			album_songs = []
-			for song in artist_songs:
-				if song["album"] == album:
-					album_songs.append(song)
-			for song in album_songs:
+			for song in albums[album]:
 				yield song
 
 class RhythmboxSongsSource (Source):
