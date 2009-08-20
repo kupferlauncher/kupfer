@@ -6,6 +6,9 @@ import signal
 import os
 import time
 
+import pygtk
+pygtk.require('2.0')
+
 import gtk
 import gio
 import gobject
