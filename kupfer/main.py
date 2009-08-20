@@ -186,7 +186,7 @@ def main():
 	if not S_sources and not s_sources:
 		print pretty.print_info(__name__, "No sources found!")
 
-	dc = data.DataController()
+	dc = data.GetDataController()
 	dc.set_sources(S_sources, s_sources)
 	dc.register_text_sources(text_sources)
 	dc.register_action_decorators(action_decorators)

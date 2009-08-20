@@ -1134,13 +1134,14 @@ class WindowController (pretty.OutputMixin):
 		"""
 		"""
 		self.icon_name = gtk.STOCK_FIND
-		self.data_controller = data.DataController()
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.interface = Interface(self.data_controller, self.window)
-		self._setup_window()
+
+		data_controller = data.GetDataController()
+		data_controller.connect("launched-action", self.launch_callback)
+
+		self.interface = Interface(data_controller, self.window)
 		self.interface.connect("cancelled", self._cancelled)
-		self.data_controller.connect("launched-action", self.launch_callback)
-		self._keystr = ""
+		self._setup_window()
 		self._statusicon = None
 
 	def show_statusicon(self):

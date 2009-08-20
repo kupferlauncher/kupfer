@@ -693,9 +693,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	"""
 	__gtype_name__ = "DataController"
 
-	def __call__(self):
-		return self
-
 	def __init__(self):
 		super(DataController, self).__init__()
 
@@ -958,8 +955,13 @@ gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 
-# Create singleton object shadowing main class!
-DataController = DataController()
+
+_data_controller = None
+def GetDataController():
+	global _data_controller
+	if _data_controller is None:
+		_data_controller = DataController()
+	return _data_controller
 
 
 class ActionThread (threading.Thread, gobject.GObject, pretty.OutputMixin):
