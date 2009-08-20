@@ -785,7 +785,7 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	def repr_key(self):
 		# use the source's name so that it is reloaded on locale change
-		return self
+		return (self, self.version)
 
 	def get_items(self):
 		"""
