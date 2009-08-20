@@ -784,7 +784,8 @@ class Source (KupferObject, pretty.OutputMixin):
 		return hash(repr(self))
 
 	def repr_key(self):
-		return ""
+		# use the source's name so that it is reloaded on locale change
+		return self
 
 	def get_items(self):
 		"""
