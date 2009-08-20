@@ -778,14 +778,14 @@ class Source (KupferObject, pretty.OutputMixin):
 		return self._version
 
 	def __eq__(self, other):
-		return (type(self) == type(other) and repr(self).__eq__(repr(other)))
+		return type(self) == type(other) and repr(self) == repr(other)
 
 	def __hash__(self ):
 		return hash(repr(self))
 
 	def repr_key(self):
 		# use the source's name so that it is reloaded on locale change
-		return (self, self.version)
+		return (str(self), self.version)
 
 	def get_items(self):
 		"""
