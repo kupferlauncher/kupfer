@@ -1,4 +1,6 @@
-from os import path
+import itertools
+import os
+from os import path as os_path
 import locale
 
 from kupfer import pretty
@@ -18,8 +20,8 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 	for dirname, dirnames, fnames in walk(folder):
 		# skip deep directories
 		head, dp = dirname, 0
-		while not path.samefile(head, folder):
-			head, tail = path.split(head)
+		while not os_path.samefile(head, folder):
+			head, tail = os_path.split(head)
 			dp += 1
 		if dp > depth:
 			del dirnames[:]
@@ -30,13 +32,13 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 			if not include_file(dir):
 				excl_dir.append(dir)
 				continue
-			abspath = path.join(dirname, dir)
+			abspath = os_path.join(dirname, dir)
 			paths.append(abspath)
 		
 		for file in fnames:
 			if not include_file(file):
 				continue
-			abspath = path.join(dirname, file)
+			abspath = os_path.join(dirname, file)
 			paths.append(abspath)
 
 		for dir in reversed(excl_dir):
@@ -112,3 +114,28 @@ def show_url(url):
 		return show_uri(screen_get_default(), url, get_current_event_time())
 	except GError, exc:
 		pretty.print_error(__name__, "gtk.show_uri:", exc)
+
+def is_directory_writable(dpath):
+	"""If directory path @dpath is a valid destination to write new files?
+	"""
+	if not os_path.isdir(dpath):
+		return False
+	return os.access(dpath, os.R_OK | os.W_OK | os.X_OK)
+
+def get_destpath_in_directory(directory, filename):
+	"""Find a good destpath for a file named @filename in path @directory
+	Try naming the file as filename first, before trying numbered versions
+	if the previous already exist.
+	"""
+	# find a nonexisting destname
+	ctr = itertools.count(1)
+	basename = filename
+	destpath = os_path.join(directory, basename)
+	while True:
+		if not os_path.exists(destpath):
+			break
+		root, ext = os_path.splitext(filename)
+		basename = "%s-%s%s" % (root, ctr.next(), ext)
+		destpath = os_path.join(directory, basename)
+	return destpath
+
