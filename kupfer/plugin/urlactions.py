@@ -2,7 +2,7 @@ import os
 import urllib2
 
 from kupfer.objects import Action, Source, UrlLeaf, FileLeaf
-from kupfer import utils, pretty
+from kupfer import utils, pretty, task
 
 __kupfer_name__ = _("URL Actions")
 __kupfer_sources__ = ()
@@ -15,25 +15,35 @@ __description__ = _("URL Actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-def _download_uri(uri, destdir):
-	"""
-	Download @uri to directory @destdir
-	URI downloading may raise (IOError, EnvironmentError);
-	these are not handled here.
-	"""
-	import shutil
+class DownloadTask (task.StepTask):
+	def __init__(self, uri, destdir, finish_callback=None):
+		super(DownloadTask, self).__init__("Download %s" % uri)
+		self.response = urllib2.urlopen(uri)
 
-	response = urllib2.urlopen(uri)
-	
-	header_basename = response.headers.get('Content-Disposition')
-	destname = header_basename or os.path.basename(response.url)
-	destpath = utils.get_destpath_in_directory(destdir, destname)
-	destfile = open(destpath, "wb")
-	try:
-		shutil.copyfileobj(response, destfile)
-	finally:
-		response.close()
-		destfile.close()
+		header_basename = self.response.headers.get('Content-Disposition')
+		destname = header_basename or os.path.basename(self.response.url)
+		self.destpath = utils.get_destpath_in_directory(destdir, destname)
+		self.done = False
+		self.destfile = open(self.destpath, "wb")
+		self.bufsize = 8192
+		self.finish_callback = finish_callback
+
+	def step(self):
+		buf = self.response.read(self.bufsize)
+		if not buf:
+			self.done = True
+			return False
+		self.destfile.write(buf)
+		return True
+
+	def finish(self):
+		self.destfile.close()
+		self.response.close()
+		if not self.done:
+			print "Deleting unfinished", self.destfile
+			os.unlink(self.destpath)
+		elif self.finish_callback:
+			self.finish_callback(self.destpath)
 
 class DownloadAndOpen (Action):
 	"""Asynchronous action to download file and open it"""
@@ -43,15 +53,11 @@ class DownloadAndOpen (Action):
 	def is_async(self):
 		return True
 	def activate(self, leaf):
-		return self._start_action, self._finish_action
-
-	def _start_action(self, leaf, iobj=None):
-		import urllib
 		uri = leaf.object
-		return urllib.urlretrieve(uri)
+		destdir = "/tmp"
+		return DownloadTask(uri, destdir, self._finish_action)
 
-	def _finish_action(self, ret):
-		filename, headers = ret
+	def _finish_action(self, filename):
 		utils.show_path(filename)
 
 	def item_types(self):
@@ -66,15 +72,8 @@ class DownloadTo (Action):
 	def is_async(self):
 		return True
 	def activate(self, leaf, obj):
-		return self._start_action, self._finish_action
-
-	def _start_action(self, leaf, iobj=None):
 		uri = leaf.object
-		destdir = iobj.object
-		_download_uri(uri, destdir)
-
-	def _finish_action(self, ret):
-		pass
+		return DownloadTask(uri, obj.object)
 
 	def item_types(self):
 		yield UrlLeaf
