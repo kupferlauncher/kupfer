@@ -1344,7 +1344,11 @@ class WindowController (pretty.OutputMixin):
 			gtk.main()
 			# put away window *before exiting further*
 			self.put_away()
-			while gtk.events_pending():
+			max_events = 100
+			# use sentinel form of iter
+			for idx, pending in enumerate(iter(gtk.events_pending, False)):
+				if idx > max_events:
+					break
 				gtk.main_iteration()
 		except KeyboardInterrupt, info:
 			self.output_info(info, "exiting.. (Warning: Ctrl-C in the shell",
