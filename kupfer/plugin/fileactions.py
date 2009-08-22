@@ -5,6 +5,7 @@ from os import path as os_path
 
 from kupfer.objects import Action, FileLeaf
 from kupfer import utils, pretty, task
+from kupfer import plugin_support
 
 
 __kupfer_name__ = _("File Actions")
@@ -15,7 +16,8 @@ __kupfer_actions__ = (
 		"MoveTo",
 		"CopyTo",
 		"UnpackHere",
-		"CreateArchive"
+		"CreateArchive",
+		"CreateArchiveIn",
 	)
 __description__ = _("More file actions")
 __version__ = ""
@@ -149,5 +151,31 @@ class CreateArchive (Action):
 		return item.is_dir()
 	def item_types(self):
 		yield FileLeaf
+	def get_description(self):
+		return _("Create a compressed archive from folder")
+
+class CreateArchiveIn (Action):
+	def __init__(self):
+		Action.__init__(self, _("Create Archive In..."))
+	def activate(self, leaf, iobj):
+		archive_type = ".tar.gz"
+		dirpath = iobj.object
+		basename = os_path.basename(leaf.object)
+		archive_path = \
+			utils.get_destpath_in_directory(dirpath, basename, archive_type)
+		utils.launch_commandline("file-roller --add-to='%s' '%s'" %
+				(archive_path, leaf.object))
+
+	def valid_for_item(self, item):
+		# FIXME: Only for directories right now
+		return item.is_dir()
+	def item_types(self):
+		yield FileLeaf
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield FileLeaf
+	def valid_object(self, obj, for_item=None):
+		return utils.is_directory_writable(obj.object)
 	def get_description(self):
 		return _("Create a compressed archive from folder")
