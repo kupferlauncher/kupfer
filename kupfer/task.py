@@ -7,6 +7,9 @@ class Task (object):
 	def __init__(self, name):
 		self.name = name
 
+	def __str__(self):
+		return self.name
+
 	def is_thread(self):
 		return False
 
@@ -66,22 +69,21 @@ class ThreadTask (Task, threading.Thread):
 class TaskRunner (pretty.OutputMixin):
 	"""Run Tasks in the idle Loop"""
 	def __init__(self, end_on_finish):
-		self.task_iters = []
-		self.thread_iters = []
+		self.task_iters = {}
+		self.thread_iters = {}
 		self.idle_timer = scheduler.Timer(True)
-		if end_on_finish:
-			scheduler.GetScheduler().connect("finish", self._finish_cleanup)
+		self.end_on_finish = end_on_finish
+		scheduler.GetScheduler().connect("finish", self._finish_cleanup)
 
 	def add_task(self, task):
 		"""Register @task to be run"""
 		if task.is_thread():
 			# start thread
-			thread = task.run()
-			self.thread_iters.append(thread)
+			self.thread_iters[task] = task.run()
 			# run through all threads
 			self._step_tasks(self.thread_iters)
 		else:
-			self.task_iters.append(task.run())
+			self.task_iters[task] = task.run()
 		self._setup_timers()
 
 	def _setup_timers(self):
@@ -89,15 +91,24 @@ class TaskRunner (pretty.OutputMixin):
 			self.idle_timer.set_idle(self._step_tasks, self.task_iters)
 
 	def _step_tasks(self, tasks):
-		for task in list(tasks):
+		for task, task_iter in tasks.items():
 			try:
-				task.next()
+				task_iter.next()
 			except StopIteration:
 				self.output_debug("Task done:", task)
-				tasks.remove(task)
+				del tasks[task]
 		self._setup_timers()
 
 	def _finish_cleanup(self, sched):
-		del self.task_iters[:]
-		del self.thread_iters[:]
+		if self.end_on_finish:
+			self.task_iters.clear()
+			self.thread_iters.clear()
+			return
+		self._step_tasks(self.thread_iters)
+		if self.task_iters or self.thread_iters:
+			self.output_info("Uncompleted tasks:")
+			for task in self.task_iters:
+				self.output_info(task)
+			for task in self.thread_iters:
+				self.output_info(task)
 
