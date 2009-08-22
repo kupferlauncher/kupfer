@@ -46,6 +46,11 @@ class Timer (gobject.GObject):
 		self._current_timer = gobject.timeout_add_seconds(timeout_seconds,
 				self._call)
 
+	def set_idle(self, callback, *arguments):
+		self.invalidate()
+		self._current_callback = lambda : callback(*arguments)
+		self._current_timer = gobject.idle_add(self._call)
+
 	def _call(self, timer=None):
 		self._current_timer = -1
 		self._current_callback()
