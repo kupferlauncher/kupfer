@@ -4,7 +4,7 @@ import os
 from os import path as os_path
 
 from kupfer.objects import Action, FileLeaf
-from kupfer import utils, pretty
+from kupfer import utils, pretty, task
 
 
 __kupfer_name__ = _("File Actions")
@@ -86,6 +86,18 @@ class MoveTo (Action, pretty.OutputMixin):
 	def get_description(self):
 		return _("Move file to new location")
 
+class CopyTask (task.ThreadTask, pretty.OutputMixin):
+	def __init__(self, spath, dpath):
+		self.done = False
+		self.sfile = gio.File(spath)
+		bname = self.sfile.get_basename()
+		self.dfile = gio.File(os_path.join(dpath, bname))
+		super(CopyTask, self).__init__("Copy %s" % bname)
+
+	def thread_do(self):
+		self.ret = self.sfile.copy(self.dfile)
+		self.output_debug("Copy %s to %s (ret: %s)" % (self.sfile, self.dfile, self.ret))
+
 class CopyTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Copy To..."))
@@ -93,17 +105,7 @@ class CopyTo (Action, pretty.OutputMixin):
 	def is_async(self):
 		return True
 	def activate(self, leaf, obj):
-		return self._start_action, self._finish_action
-
-	def _start_action(self, leaf, iobj=None):
-		sfile = gio.File(leaf.object)
-		bname = sfile.get_basename()
-		dfile = gio.File(os_path.join(iobj.object, bname))
-		ret = sfile.copy(dfile)
-		self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
-
-	def _finish_action(self, ret):
-		pass
+		return CopyTask(leaf.object, obj.object)
 
 	def item_types(self):
 		yield FileLeaf
