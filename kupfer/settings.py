@@ -36,6 +36,11 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		# connect to save settings
 		sch = scheduler.GetScheduler()
 		sch.connect("finish", self._save_config)
+		self._save_timer = scheduler.Timer()
+
+	def _update_config_save_timer(self):
+		self._save_timer.set(60, self._save_config)
+
 	def _read_config(self, read_config=True):
 		"""
 		Read cascading config files
@@ -105,6 +110,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		return confmap
 
 	def _save_config(self, scheduler=None):
+		self.output_debug("Saving config")
 		config_path = config.save_config_file(self.config_filename)
 		if not config_path:
 			self.output_info("Unable to save settings, can't find config dir")
@@ -165,6 +171,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			value_type = type(oldvalue)
 			self._config[section][key] = value_type(value)
 			self.emit("value-changed", section, key, value)
+			self._update_config_save_timer()
 			return True
 		self.output_info("Settings key", section, key, "is invalid")
 		return False
@@ -182,6 +189,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if section not in self._config:
 			self._config[section] = {}
 		self._config[section][key] = str(value)
+		self._update_config_save_timer()
 		return False
 
 	def get_plugin_enabled(self, plugin_id):
