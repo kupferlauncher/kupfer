@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-12 20:12+0200\n"
-"PO-Revision-Date: 2009-07-05 10:04+0200\n"
+"POT-Creation-Date: 2009-08-22 09:42+0200\n"
+"PO-Revision-Date: 2009-08-20 21:49+0200\n"
 "Last-Translator: Andrea Zagli <azagli@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -17,240 +17,972 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/kupfer.desktop.in.in.h:1
-msgid "A simple flexible launcher"
-msgstr ""
+msgid "Application Launcher"
+msgstr "Lanciatore di applicazioni"
 
-#: ../data/kupfer.desktop.in.in.h:2 ../kupfer/browser.py:873
-#: ../kupfer/browser.py:893 ../kupfer/version.py:15
+#: ../data/kupfer.desktop.in.in.h:2
+msgid "Convenient command and access tool for applications and documents"
+msgstr "Comodo comando e strumento di accesso per applicazioni e documenti"
+
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1156
+#: ../kupfer/browser.py:1187 ../kupfer/plugin/core.py:176
+#: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
-#: ../kupfer/browser.py:566
+#: ../data/preferences.ui.h:1
+msgid "<b>Interface</b>"
+msgstr "<b>Interfaccia</b>"
+
+#: ../data/preferences.ui.h:2
+msgid "<b>Keybinding</b>"
+msgstr "<b>Associazione di tasti</b>"
+
+#: ../data/preferences.ui.h:3
+msgid "<b>Start</b>"
+msgstr "<b>Avvio</b>"
+
+#: ../data/preferences.ui.h:4
+msgid "General"
+msgstr "Generale"
+
+#: ../data/preferences.ui.h:5 ../kupfer/plugin/core.py:163
+msgid "Kupfer Preferences"
+msgstr "Preferenze di Kupfer"
+
+#: ../data/preferences.ui.h:6
+msgid "Plugins"
+msgstr "Plugin"
+
+#: ../data/preferences.ui.h:7
+msgid "Show icon in notification area"
+msgstr "Mostrare l'icona nell'area di notifica"
+
+#: ../data/preferences.ui.h:8
+msgid "Start automatically on login"
+msgstr "Avvia automaticamente all'accesso"
+
+#: ../kupfer/browser.py:638
 #, python-format
 msgid "%s is empty"
 msgstr "%s è vuoto"
 
-#: ../kupfer/browser.py:568
+#: ../kupfer/browser.py:640
 #, python-format
 msgid "No matches in %s"
 msgstr "Nessuna corrispondenza in %s"
 
-#: ../kupfer/browser.py:573
+#: ../kupfer/browser.py:645
 msgid "Searching..."
 msgstr "Ricerca..."
 
-#: ../kupfer/browser.py:576
+#: ../kupfer/browser.py:651
 #, python-format
 msgid "Searching %(source)s..."
-msgstr "Ricerca di %(source)s..."
+msgstr "Ricerca in %(source)s..."
 
-#: ../kupfer/main.py:34
+#: ../kupfer/main.py:38
 msgid "Usage:"
 msgstr "Uso:"
 
-#: ../kupfer/main.py:37
+#: ../kupfer/main.py:41
 msgid "do not present main interface on launch"
-msgstr ""
+msgstr "non presentare l'interfaccia principale all'avvio"
 
-#: ../kupfer/main.py:40
+#: ../kupfer/main.py:44
 msgid "show usage help"
 msgstr "mostra l'aiuto per l'uso"
 
-#: ../kupfer/main.py:41
+#: ../kupfer/main.py:45
 msgid "show version information"
 msgstr "mostra informazioni sulla versione"
 
-#: ../kupfer/main.py:42
+#: ../kupfer/main.py:46
 msgid "enable debug info"
 msgstr "abilita informazioni di debug"
 
-#: ../kupfer/main.py:47
+#: ../kupfer/main.py:51
 msgid "To configure kupfer, edit:"
 msgstr "Per configurare kupfer, modificare:"
 
-#: ../kupfer/main.py:48
+#: ../kupfer/main.py:52
 msgid "The default config for reference is at:"
 msgstr "La configurazione predefinita di riferimento è in:"
 
-#: ../kupfer/main.py:49
+#: ../kupfer/main.py:53
 msgid "Available plugins:"
 msgstr "Plugin disponibili:"
 
-#: ../kupfer/main.py:114
+#: ../kupfer/main.py:118
 #, python-format
 msgid ""
 "%(program)s: %(desc)s\n"
 "\t%(copyright)s\n"
 "\t%(website)s\n"
-"\t"
 msgstr ""
 "%(program)s: %(desc)s\n"
 "\t%(copyright)s\n"
 "\t%(website)s\n"
-"\t"
 
-#: ../kupfer/objects.py:155
+#: ../kupfer/objects.py:227
 msgid "No matches"
 msgstr "Nessuna corrispondenza"
 
-#: ../kupfer/objects.py:350
-#, python-format
-msgid "%(description)s (%(exec)s)"
-msgstr "%(description)s (%(exec)s)"
-
-#: ../kupfer/objects.py:426 ../kupfer/objects.py:470 ../kupfer/objects.py:484
+#: ../kupfer/objects.py:569 ../kupfer/objects.py:630 ../kupfer/objects.py:645
 msgid "Open"
 msgstr "Apri"
 
-#: ../kupfer/objects.py:426 ../kupfer/objects.py:440
+#: ../kupfer/objects.py:569 ../kupfer/objects.py:578 ../kupfer/objects.py:581
+#: ../kupfer/objects.py:593
 #, python-format
 msgid "Open with %s"
 msgstr "Apri con %s"
 
-#: ../kupfer/objects.py:438
-#, python-format
-msgid "Open with %s (default)"
-msgstr "Apri con %s (predefinito)"
-
-#: ../kupfer/objects.py:452
+#: ../kupfer/objects.py:611
 msgid "Open URL"
 msgstr "Apri URL"
 
-#: ../kupfer/objects.py:463
+#: ../kupfer/objects.py:622
 msgid "Open URL with default viewer"
 msgstr "Apri URL con visualizzatore predefinito"
 
-#: ../kupfer/objects.py:477
+#: ../kupfer/objects.py:637
 msgid "Open with default viewer"
 msgstr "Apri con visualizzatore predefinito"
 
-#: ../kupfer/objects.py:487
+#: ../kupfer/objects.py:648
 msgid "Open folder"
 msgstr "Apri cartella"
 
-#: ../kupfer/objects.py:493
+#: ../kupfer/objects.py:654
 msgid "Reveal"
 msgstr "Rivela"
 
-#: ../kupfer/objects.py:502
+#: ../kupfer/objects.py:663
 msgid "Open parent folder"
 msgstr "Apri cartella superiore"
 
-#: ../kupfer/objects.py:508
-msgid "Open Terminal here"
+#: ../kupfer/objects.py:669
+msgid "Open Terminal Here"
 msgstr "Apri terminale qui"
 
-#: ../kupfer/objects.py:526
+#: ../kupfer/objects.py:678
+msgid "Open this location in a terminal"
+msgstr "Apre questa posizione in un terminale"
+
+#: ../kupfer/objects.py:691
 msgid "Launch"
 msgstr "Lancia"
 
-#: ../kupfer/objects.py:536
+#: ../kupfer/objects.py:701
 msgid "Launch application"
 msgstr "Lancia applicazione"
 
-#: ../kupfer/objects.py:542 ../kupfer/plugin/windows.py:48
-msgid "Go to"
+#: ../kupfer/objects.py:708 ../kupfer/plugin/windows.py:49
+msgid "Go To"
 msgstr "Vai a"
 
-#: ../kupfer/objects.py:546
-#, fuzzy
+#: ../kupfer/objects.py:712
 msgid "Show application window"
-msgstr "Lancia applicazione"
+msgstr "Mostra la finestra dell'applicazione"
 
-#: ../kupfer/objects.py:554
-#, fuzzy
-msgid "Launch again"
-msgstr "Lancia applicazione"
+#: ../kupfer/objects.py:721
+msgid "Launch Again"
+msgstr "Lancia di nuovo"
 
-#: ../kupfer/objects.py:558
+#: ../kupfer/objects.py:725
 msgid "Launch another instance of this application"
-msgstr ""
+msgstr "Lancia un'altra istanza di questa applicazione"
 
-#: ../kupfer/objects.py:565
+#: ../kupfer/objects.py:732
 msgid "Run in Terminal"
 msgstr "Esegui nel terminale"
 
-#: ../kupfer/objects.py:565
+#: ../kupfer/objects.py:732
 msgid "Run"
 msgstr "Esegui"
 
-#: ../kupfer/objects.py:576
+#: ../kupfer/objects.py:746
 msgid "Run this program in a Terminal"
-msgstr "Esegui questo programma nel terminale"
+msgstr "Esegui questo programma in un terminale"
 
-#: ../kupfer/objects.py:578
+#: ../kupfer/objects.py:748
 msgid "Run this program"
 msgstr "Esegui questo programma"
 
-#: ../kupfer/objects.py:590
-msgid "Search content..."
-msgstr "Cerca contenuto..."
-
-#: ../kupfer/objects.py:601
-msgid "Search inside this catalog"
-msgstr "Cerca all'interno del catalogo"
-
-#: ../kupfer/objects.py:611
-msgid "Rescan"
-msgstr "Nuova scansione"
-
-#: ../kupfer/objects.py:624
-msgid "Force reindex of this source"
-msgstr "Forza l'indicizzazione di questa sorgente"
-
-#: ../kupfer/objects.py:635
+#: ../kupfer/objects.py:756
 msgid "No action"
 msgstr "Nessuna azione"
 
-#: ../kupfer/objects.py:713
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/objects.py:871 ../kupfer/plugin/rhythmbox.py:218
 #, python-format
-msgid "%s et al"
-msgstr "%s et al"
+msgid "%s et. al."
+msgstr "%s et. al."
 
-#: ../kupfer/objects.py:739
+#: ../kupfer/objects.py:900
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Sorgente ricorsiva di %(dir)s, (%(levels)d livelli)"
 
-#: ../kupfer/objects.py:810
+#: ../kupfer/objects.py:968
 #, python-format
 msgid "Directory source %s"
 msgstr "Directory sorgente «%s»"
 
-#: ../kupfer/objects.py:823
-msgid "Catalog index"
-msgstr "Catalogo di cataloghi"
+#: ../kupfer/objects.py:984
+msgid "Catalog Index"
+msgstr "Indice del catalogo"
 
-#: ../kupfer/objects.py:834
+#: ../kupfer/objects.py:999
 msgid "An index of all available sources"
 msgstr "Un indice di tutte le sorgenti disponibili"
 
-#: ../kupfer/objects.py:845
+#: ../kupfer/objects.py:1010
 msgid "Catalog"
 msgstr "Catalogo"
 
-#: ../kupfer/objects.py:864
+#: ../kupfer/objects.py:1029
 msgid "Root catalog"
 msgstr "Catalogo radice"
 
-#. TRANS: This is description for a TextLeaf, a free-text search
-#: ../kupfer/objects.py:1010
-#, python-format
-msgid "\"%s\""
-msgstr "«%s»"
+#: ../kupfer/objects.py:1106
+msgid "Do"
+msgstr "Esegui"
 
-#: ../kupfer/objects.py:905 ../kupfer/plugin/text.py:16
-msgid "Text matches"
+#: ../kupfer/objects.py:1111
+msgid "Perform action"
+msgstr "Esegui azione"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#: ../kupfer/objects.py:1136
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "\"%(text)s\""
+msgstr[1] "(%(num)d righe) \"%(text)s\""
+
+#: ../kupfer/objects.py:1148 ../kupfer/plugin/text.py:18
+msgid "Text Matches"
 msgstr "Corrispondenze del testo"
 
-#: ../kupfer/plugins.py:41
+#: ../kupfer/preferences.py:160
+msgid "Applied"
+msgstr "Applicato"
+
+#: ../kupfer/preferences.py:165
+msgid "Keybinding could not be bound"
+msgstr "L'associazione di tasti non può essere associata"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/preferences.py:283
+msgid "Sources"
+msgstr "Sorgenti"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/preferences.py:287
+msgid "Actions"
+msgstr "Azioni"
+
+#: ../kupfer/preferences.py:324
+#, python-format
+msgid "Settings for %s"
+msgstr "Impostazioni per %s"
+
+#: ../kupfer/preferences.py:336
+msgid "Include in top level"
+msgstr "Includi nel livello principale"
+
+#: ../kupfer/preferences.py:337
+msgid ""
+"If enabled, objects from the plugin's source(s) will be available in the top "
+"level.\n"
+"Sources are always available as subcatalogs in the top level."
+msgstr ""
+"Se abilitata, gli oggetti dal sorgente dei plugin saranno disponibili nel "
+"livello principale.\n"
+"I sorgenti sono sempre disponibili come sotto cataloghi nel livello "
+"principale."
+
+#: ../kupfer/plugin/abiword.py:12
+msgid "Abiword"
+msgstr "Abiword"
+
+#: ../kupfer/plugin/abiword.py:15 ../kupfer/plugin/abiword.py:103
+msgid "Recently used documents in Abiword"
+msgstr "Documenti utilizzati recentemente in Abiword"
+
+#: ../kupfer/plugin/abiword.py:56
+msgid "Abiword Recent Items"
+msgstr "Voci recenti di Abiword"
+
+#: ../kupfer/plugin/applications.py:4 ../kupfer/plugin/applications.py:19
+msgid "Applications"
+msgstr "Applicazioni"
+
+#: ../kupfer/plugin/applications.py:7 ../kupfer/plugin/applications.py:37
+msgid "All applications and preferences"
+msgstr "Tutte le applicazioni e le preferenze"
+
+#: ../kupfer/plugin/applications.py:46
+msgid "Open With..."
+msgstr "Apri con..."
+
+#: ../kupfer/plugin/applications.py:57
+msgid "Open with any application"
+msgstr "Apri con qualsiasi applicazione"
+
+#: ../kupfer/plugin/clipboard.py:8 ../kupfer/plugin/clipboard.py:42
+msgid "Clipboards"
+msgstr "Appunti"
+
+#: ../kupfer/plugin/clipboard.py:11 ../kupfer/plugin/clipboard.py:68
+msgid "Recent clipboards"
+msgstr "Appunti recenti"
+
+#: ../kupfer/plugin/clipboard.py:18
+msgid "Number of recent clipboards"
+msgstr "Numero di appunti recenti"
+
+#: ../kupfer/plugin/clipboard.py:34
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Appunti \"%(desc)s\""
+msgstr[1] "Appunti con %(num)d righe \"%(desc)s\""
+
+#: ../kupfer/plugin/clipboard.py:78
+msgid "Copy"
+msgstr "Copia"
+
+#: ../kupfer/plugin/clipboard.py:85
+msgid "Copy to clipboard"
+msgstr "Copia negli appunti"
+
+#: ../kupfer/plugin/commands.py:10 ../kupfer/plugin/commands.py:36
+msgid "Shell Commands"
+msgstr "Comandi della shell"
+
+#: ../kupfer/plugin/commands.py:13 ../kupfer/plugin/commands.py:55
+msgid "Run commandline programs"
+msgstr "Esegui programmi a riga di comando"
+
+#: ../kupfer/plugin/common.py:8
+msgid "Common"
+msgstr "Comuni"
+
+#: ../kupfer/plugin/common.py:10
+msgid "Special items and actions"
+msgstr "Voci speciali e azioni"
+
+#: ../kupfer/plugin/common.py:28
+msgid "Log Out..."
+msgstr "Uscita..."
+
+#: ../kupfer/plugin/common.py:34
+msgid "Log out or change user"
+msgstr "Esci o cambia utente"
+
+#: ../kupfer/plugin/common.py:41
+msgid "Shut Down..."
+msgstr "Arresto..."
+
+#: ../kupfer/plugin/common.py:48
+msgid "Shut down, restart or suspend computer"
+msgstr "Arresta, riavvia o sospende il computer"
+
+#: ../kupfer/plugin/common.py:55
+msgid "Lock Screen"
+msgstr "Blocca lo schermo"
+
+#: ../kupfer/plugin/common.py:61
+msgid "Enable screensaver and lock"
+msgstr "Abilita il salvaschermo e blocca"
+
+#: ../kupfer/plugin/common.py:97
+msgid "Trash is empty"
+msgstr "Il cestino è vuoto"
+
+#. proper translation of plural
+#: ../kupfer/plugin/common.py:99
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "Il cestino contiene un file"
+msgstr[1] "Il cestino contiene %(num)s file"
+
+#: ../kupfer/plugin/common.py:103
+msgid "Special Items"
+msgstr "Voci speciali"
+
+#: ../kupfer/plugin/common.py:118
+msgid "Items and special actions"
+msgstr "Voci e azioni speciali"
+
+#: ../kupfer/plugin/core.py:25
+msgid "Search Content..."
+msgstr "Cerca contenuto..."
+
+#: ../kupfer/plugin/core.py:40
+msgid "Search inside this catalog"
+msgstr "Cerca all'interno del catalogo"
+
+#: ../kupfer/plugin/core.py:48
+msgid "Rescan"
+msgstr "Nuova scansione"
+
+#: ../kupfer/plugin/core.py:57
+msgid "Force reindex of this source"
+msgstr "Forza la re-indicizzazione di questa sorgente"
+
+#: ../kupfer/plugin/core.py:141
+msgid "Quit"
+msgstr "Esci"
+
+#: ../kupfer/plugin/core.py:146
+msgid "Quit Kupfer"
+msgstr "Esce da Kupfer"
+
+#: ../kupfer/plugin/core.py:152
+msgid "About Kupfer"
+msgstr "Informazioni su Kupfer"
+
+#: ../kupfer/plugin/core.py:157
+msgid "Show information about Kupfer authors and license"
+msgstr "Mostra informazioni sugli autori di Kupfer e sulla licenza"
+
+#: ../kupfer/plugin/core.py:170
+msgid "Show preferences window for Kupfer"
+msgstr "Mostra la finestra delle preferenze di Kupfer"
+
+#: ../kupfer/plugin/core.py:187
+msgid "Kupfer items and actions"
+msgstr "Voci e azioni speciali di Kupfer"
+
+#: ../kupfer/plugin/devhelp.py:4
+msgid "Devhelp"
+msgstr "Devhelp"
+
+#: ../kupfer/plugin/devhelp.py:6 ../kupfer/plugin/devhelp.py:12
+msgid "Search in Devhelp"
+msgstr "Cerca in Devhelp"
+
+#: ../kupfer/plugin/dictionary.py:4
+msgid "Dictionary"
+msgstr "Dizionario"
+
+#: ../kupfer/plugin/dictionary.py:6 ../kupfer/plugin/dictionary.py:23
+msgid "Look up word in dictionary"
+msgstr "Cerca la parola nel dizionario"
+
+#: ../kupfer/plugin/dictionary.py:12 ../kupfer/plugin/dictionary.py:16
+msgid "Look Up"
+msgstr "Cerca"
+
+#: ../kupfer/plugin/documents.py:11
+msgid "Documents"
+msgstr "Documenti"
+
+#: ../kupfer/plugin/documents.py:14
+msgid "Recently used documents and nautilus places"
+msgstr "Documenti utilizzati recentemente e risorse di nautilus"
+
+#: ../kupfer/plugin/documents.py:21
+msgid "Max recent document days"
+msgstr "Giorni massimi dei documenti recenti"
+
+#: ../kupfer/plugin/documents.py:31
+msgid "Recent Items"
+msgstr "Voci recenti"
+
+#: ../kupfer/plugin/documents.py:77
+msgid "Recently used documents"
+msgstr "Documenti utilizzati recentemente"
+
+#: ../kupfer/plugin/documents.py:87
+#, python-format
+msgid "%s Documents"
+msgstr "Documenti %s"
+
+#: ../kupfer/plugin/documents.py:112
+#, python-format
+msgid "Recently used documents for %s"
+msgstr "Documenti utilizzati recentemente per %s"
+
+#: ../kupfer/plugin/documents.py:131
+msgid "Places"
+msgstr "Risorse"
+
+#: ../kupfer/plugin/documents.py:163
+msgid "Bookmarked locations in Nautilus"
+msgstr "Posizioni nei segnalibri di Nautilus"
+
+#: ../kupfer/plugin/epiphany.py:4 ../kupfer/plugin/epiphany.py:14
+msgid "Epiphany Bookmarks"
+msgstr "Segnalibri di Epiphany"
+
+#: ../kupfer/plugin/epiphany.py:7 ../kupfer/plugin/epiphany.py:23
+msgid "Index of Epiphany bookmarks"
+msgstr "Indice dei segnalibri di Epiphany"
+
+#: ../kupfer/plugin/favorites.py:8 ../kupfer/plugin/favorites.py:27
+msgid "Favorites"
+msgstr "Preferiti"
+
+#: ../kupfer/plugin/favorites.py:11
+msgid "(Simple) favorites plugin"
+msgstr "(Semplice) plugin favoriti"
+
+#: ../kupfer/plugin/favorites.py:54
+msgid "Shelf of \"Favorite\" items"
+msgstr "Lista di voci preferite"
+
+#: ../kupfer/plugin/favorites.py:66
+msgid "Add to Favorites"
+msgstr "Aggiungi ai preferiti"
+
+#: ../kupfer/plugin/favorites.py:76
+msgid "Add item to favorites shelf"
+msgstr "Aggiunge la voce alla lista dei preferiti"
+
+#: ../kupfer/plugin/favorites.py:82
+msgid "Remove from Favorites"
+msgstr "Rimuovi dai preferiti"
+
+#: ../kupfer/plugin/favorites.py:90
+msgid "Remove item from favorites shelf"
+msgstr "Rimuove la voce dalla lista dei preferiti"
+
+#: ../kupfer/plugin/fileactions.py:10
+msgid "File Actions"
+msgstr "Azioni file"
+
+#: ../kupfer/plugin/fileactions.py:20
+msgid "More file actions"
+msgstr "Altre azioni file"
+
+#: ../kupfer/plugin/fileactions.py:28
+msgid "Move to Trash"
+msgstr "Sposta nel cestino"
+
+#: ../kupfer/plugin/fileactions.py:36
+msgid "Move this file to trash"
+msgstr "Sposta questo file nel cestino"
+
+#: ../kupfer/plugin/fileactions.py:64
+msgid "Move To..."
+msgstr "Sposta in..."
+
+#: ../kupfer/plugin/fileactions.py:87
+msgid "Move file to new location"
+msgstr "Sposta il file in una nuova posizione"
+
+#: ../kupfer/plugin/fileactions.py:91
+msgid "Copy To..."
+msgstr "Copia in..."
+
+#: ../kupfer/plugin/fileactions.py:119
+msgid "Copy file to a chosen location"
+msgstr "Copia i file in una nuova posizione"
+
+#: ../kupfer/plugin/fileactions.py:123
+msgid "Extract Here"
+msgstr "Estrai qui"
+
+#: ../kupfer/plugin/fileactions.py:137
+msgid "Extract compressed archive"
+msgstr "Estrae l'archivio compresso"
+
+#: ../kupfer/plugin/fileactions.py:141
+msgid "Create Archive"
+msgstr "Crea archivio"
+
+#: ../kupfer/plugin/fileactions.py:151
+msgid "Create a compressed archive from folder"
+msgstr "Crea un archivio compresso dalla cartella"
+
+#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:14
+msgid "Firefox Bookmarks"
+msgstr "Segnalibri di Firefox"
+
+#: ../kupfer/plugin/firefox.py:7 ../kupfer/plugin/firefox.py:22
+msgid "Index of Firefox bookmarks"
+msgstr "Indice dei segnalibri di Firefox"
+
+#: ../kupfer/plugin/google.py:8
+msgid "Search the Web"
+msgstr "Cerca sul web"
+
+#: ../kupfer/plugin/google.py:12
+msgid "Send search queries to Google"
+msgstr "Invia le interrogazioni di ricerca a Google"
+
+#: ../kupfer/plugin/google.py:18
+msgid "Search with Google"
+msgstr "Cerca con Google"
+
+#: ../kupfer/plugin/google.py:27
+msgid "Search for this term with Google"
+msgstr "Cerca questo termine con Google"
+
+#: ../kupfer/plugin/rhythmbox.py:10 ../kupfer/plugin/rhythmbox.py:347
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:15 ../kupfer/plugin/rhythmbox.py:382
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Riproduce, accoda tracce e sfoglia la libreria musicale"
+
+#: ../kupfer/plugin/rhythmbox.py:22
+msgid "Include artists in top level"
+msgstr "Include gli artisti nel livello principale"
+
+#: ../kupfer/plugin/rhythmbox.py:28
+msgid "Include albums in top level"
+msgstr "Include gli album nel livello principale"
+
+#: ../kupfer/plugin/rhythmbox.py:34
+msgid "Include songs in top level"
+msgstr "Include le canzoni nel livello principale"
+
+#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:116
+msgid "Play"
+msgstr "Riproduci"
+
+#: ../kupfer/plugin/rhythmbox.py:67
+msgid "Resume playback in Rhythmbox"
+msgstr "Riprende la riproduzione in Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:73
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../kupfer/plugin/rhythmbox.py:77
+msgid "Pause playback in Rhythmbox"
+msgstr "Mette in pausa la riproduzione in Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:83
+msgid "Next"
+msgstr "Successiva"
+
+#: ../kupfer/plugin/rhythmbox.py:87
+msgid "Jump to next track in Rhythmbox"
+msgstr "Salta alla traccia successiva in Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:93
+msgid "Previous"
+msgstr "Precedente"
+
+#: ../kupfer/plugin/rhythmbox.py:97
+msgid "Jump to previous track in Rhythmbox"
+msgstr "Salta alla traccia precedente in Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:103
+msgid "Show Playing"
+msgstr "Mostra riproduzione"
+
+#: ../kupfer/plugin/rhythmbox.py:107
+msgid "Tell which song is currently playing"
+msgstr "Mostra quale canzone è attualmente riprodotta"
+
+#: ../kupfer/plugin/rhythmbox.py:129
+msgid "Play tracks in Rhythmbox"
+msgstr "Riproduce tracce in Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:135
+msgid "Enqueue"
+msgstr "Accoda"
+
+#: ../kupfer/plugin/rhythmbox.py:146
+msgid "Add tracks to the play queue"
+msgstr "Aggiunge tracce alla coda di riproduzione"
+
+#. TRANS: Song description
+#: ../kupfer/plugin/rhythmbox.py:168
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "di %(artist)s da %(album)s"
+
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:221
+#, python-format
+msgid "by %s"
+msgstr "di %s"
+
+#. TRANS: Artist songs collection description
+#: ../kupfer/plugin/rhythmbox.py:260
+#, python-format
+msgid "Tracks by %s"
+msgstr "Traccia da %s"
+
+#: ../kupfer/plugin/rhythmbox.py:270
+msgid "Albums"
+msgstr "Album"
+
+#: ../kupfer/plugin/rhythmbox.py:280
+msgid "Music albums in Rhythmbox Library"
+msgstr "Album musicali nella libreria di Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:291
+msgid "Artists"
+msgstr "Artisti"
+
+#: ../kupfer/plugin/rhythmbox.py:301
+msgid "Music artists in Rhythmbox Library"
+msgstr "Artisti musicali nella libreria di Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:327
+msgid "Songs"
+msgstr "Canzoni"
+
+#: ../kupfer/plugin/rhythmbox.py:337
+msgid "Songs in Rhythmbox library"
+msgstr "Canzoni nella libreria di Rhythmbox"
+
+#: ../kupfer/plugin/screen.py:7 ../kupfer/plugin/screen.py:109
+msgid "GNU Screen"
+msgstr "GNU Screen"
+
+#: ../kupfer/plugin/screen.py:9 ../kupfer/plugin/screen.py:94
+msgid "Active GNU Screen sessions"
+msgstr "Sessioni attive di GNU Screen"
+
+#: ../kupfer/plugin/screen.py:49
+msgid "Attached"
+msgstr "Attaccato"
+
+#: ../kupfer/plugin/screen.py:50
+msgid "Detached"
+msgstr "Separato"
+
+#: ../kupfer/plugin/screen.py:53
+#, python-format
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "Sessione %(status)s (%(pid)s) creata %(time)s"
+
+#: ../kupfer/plugin/screen.py:62
+msgid "Screen Sessions"
+msgstr "Sessioni di Screen"
+
+#: ../kupfer/plugin/screen.py:104
+msgid "Attach"
+msgstr "Attacca"
+
+#: ../kupfer/plugin/selection.py:5 ../kupfer/plugin/selection.py:13
+#: ../kupfer/plugin/selection.py:22
+msgid "Selected Text"
+msgstr "Testo selezionato"
+
+#: ../kupfer/plugin/selection.py:7 ../kupfer/plugin/selection.py:39
+msgid "Provides current selection"
+msgstr "Fornisce la selezione attuale"
+
+#: ../kupfer/plugin/selection.py:20
+#, python-format
+msgid "Selected Text \"%s\""
+msgstr "Testo selezionato «%s»"
+
+#: ../kupfer/plugins.py:51
 msgid "(no description)"
 msgstr "(nessuna descrizione)"
 
-#: ../kupfer/plugins.py:60
+#: ../kupfer/plugins.py:70
 #, python-format
 msgid "  %(name)-20s %(version)-4s %(description)s"
 msgstr "  %(name)-20s %(version)-4s %(description)s"
+
+#: ../kupfer/plugin/text.py:8
+msgid "Free-text Queries"
+msgstr "Interrogazioni a testo libero"
+
+#: ../kupfer/plugin/text.py:11
+msgid "Basic support for free-text queries"
+msgstr "Supporto base per testi d'interrogazione liberi"
+
+#: ../kupfer/plugin/text.py:31
+msgid "Filesystem Text Matches"
+msgstr "Corrispondenze di testo nel file system"
+
+#: ../kupfer/plugin/text.py:49
+msgid "URL Text Matches"
+msgstr "Corrispondenze di testo in URL"
+
+#: ../kupfer/plugin/tracker.py:9
+msgid "Tracker"
+msgstr "Tracker"
+
+#: ../kupfer/plugin/tracker.py:18
+msgid "Tracker desktop search integration"
+msgstr "Integrazione con Tracker, ricerca scrivania"
+
+#: ../kupfer/plugin/tracker.py:24
+msgid "Search in Tracker"
+msgstr "Cerca in Tracker"
+
+#: ../kupfer/plugin/tracker.py:29
+msgid "Open Tracker Search Tool and search for this term"
+msgstr "Apre lo strumento di ricerca Tracker e cerca questo termine"
+
+#: ../kupfer/plugin/tracker.py:38
+msgid "Get Tracker results..."
+msgstr "Recupero risultati di Tracker..."
+
+#: ../kupfer/plugin/tracker.py:47
+msgid "Show Tracker results for query"
+msgstr "Mostra i risultati di Tracker per l'interrogazione"
+
+#: ../kupfer/plugin/tracker.py:55 ../kupfer/plugin/tracker.py:92
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Risultati per «%s»"
+
+#: ../kupfer/plugin/tracker.py:123 ../kupfer/plugin/tracker.py:129
+msgid "Tracker tags"
+msgstr "Etichette di Tracker"
+
+#: ../kupfer/plugin/tracker.py:138
+msgid "Tracker Tags"
+msgstr "Etichette di Tracker"
+
+#: ../kupfer/plugin/tracker.py:144
+msgid "Browse Tracker's tags"
+msgstr "Esplora le etichette di Tracker"
+
+#: ../kupfer/plugin/tracker.py:155 ../kupfer/plugin/tracker.py:162
+#, python-format
+msgid "Tag %s"
+msgstr "Etichetta %s"
+
+#: ../kupfer/plugin/tracker.py:169
+#, python-format
+msgid "Objects tagged %s with Tracker"
+msgstr "Oggetti etichettati «%s» con Tracker"
+
+#: ../kupfer/plugin/tracker.py:181
+msgid "Add Tag..."
+msgstr "Aggiungi etichetta..."
+
+#: ../kupfer/plugin/tracker.py:207
+msgid "Add tracker tag to file"
+msgstr "Aggiunge l'etichetta di tracker al file"
+
+#: ../kupfer/plugin/tracker.py:213
+msgid "Remove Tag..."
+msgstr "Rimuovi etichetta..."
+
+#: ../kupfer/plugin/tracker.py:232
+msgid "Remove tracker tag from file"
+msgstr "Rimuove l'etichetta di tracker dal file"
+
+#: ../kupfer/plugin/wikipedia.py:10
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: ../kupfer/plugin/wikipedia.py:13 ../kupfer/plugin/wikipedia.py:30
+msgid "Search in Wikipedia"
+msgstr "Cerca in Wikipedia"
+
+#: ../kupfer/plugin/wikipedia.py:20
+msgid "Wikipedia language"
+msgstr "Lingua di Wikipedia"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:23
+msgid "en"
+msgstr "it"
+
+#: ../kupfer/plugin/wikipedia.py:43
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Cerca questo termine in %s.wikipedia.org"
+
+#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:91
+msgid "Window List"
+msgstr "Elenco finestre"
+
+#: ../kupfer/plugin/windows.py:9 ../kupfer/plugin/windows.py:112
+msgid "All windows on all workspaces"
+msgstr "Tutte le finestre in tutti gli spazi di lavoro"
+
+#: ../kupfer/plugin/windows.py:18
+msgid "Activate"
+msgstr "Attiva"
+
+#: ../kupfer/plugin/windows.py:20
+msgid "Unshade"
+msgstr "Rimuovi ombra"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Shade"
+msgstr "Ombra"
+
+#: ../kupfer/plugin/windows.py:24
+msgid "Unminimize"
+msgstr "Deminimizza"
+
+#: ../kupfer/plugin/windows.py:26
+msgid "Minimize"
+msgstr "Minimizza"
+
+#: ../kupfer/plugin/windows.py:28
+msgid "Unmaximize"
+msgstr "Demassimizza"
+
+#: ../kupfer/plugin/windows.py:30
+msgid "Maximize"
+msgstr "Massimizza"
+
+#: ../kupfer/plugin/windows.py:32
+msgid "Unmaximize Vertically"
+msgstr "Demassimizza verticalmente"
+
+#: ../kupfer/plugin/windows.py:35
+msgid "Maximize Vertically"
+msgstr "Massimizza verticalmente"
+
+#: ../kupfer/plugin/windows.py:37
+msgid "Close"
+msgstr "Chiudi"
+
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:43
+#, python-format
+msgid "Window on %(wkspc)s"
+msgstr "Finestra in %(wkspc)s"
+
+#: ../kupfer/plugin/windows.py:58
+msgid "Jump to this window's workspace and focus"
+msgstr "Salta in questo spazio di lavoro della finestra e dà il focus"
+
+#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:71
+msgid "Volumes and Disks"
+msgstr "Volumi e dischi"
+
+#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:81
+msgid "Mounted volumes and disks"
+msgstr "Volumi e dischi montati"
+
+#: ../kupfer/plugin/volumes.py:32
+#, python-format
+msgid "Volume mounted at %s"
+msgstr "Volume montato su «%s»"
+
+#: ../kupfer/plugin/volumes.py:40
+msgid "Eject"
+msgstr "Espelli"
+
+#: ../kupfer/plugin/volumes.py:50
+msgid "Unmount and eject this media"
+msgstr "Smonta ed espelli questo supporto"
+
+#: ../kupfer/plugin/volumes.py:56
+msgid "Unmount"
+msgstr "Smonta"
+
+#: ../kupfer/plugin/volumes.py:66
+msgid "Unmount this volume"
+msgstr "Smonta questo volume"
 
 #: ../kupfer/version.py:22
 msgid "translator-credits"
@@ -293,402 +1025,49 @@ msgstr ""
 "della Licenza Pubblica Generale GNU. In caso contrario vedere <http://www."
 "gnu.org/licenses/>.\n"
 
-#: ../kupfer/plugin/applications.py:5
+#~ msgid "%(description)s (%(exec)s)"
+#~ msgstr "%(description)s (%(exec)s)"
+
+#~ msgid "Open with %s (default)"
+#~ msgstr "Apri con %s (predefinito)"
+
+#~ msgid "\"%s\""
+#~ msgstr "«%s»"
+
 #, fuzzy
-msgid "Applications"
-msgstr "Tutte le applicazioni"
+#~ msgid "Shell"
+#~ msgstr "Ombra"
 
-#: ../kupfer/plugin/applications.py:7 ../kupfer/plugin/applications.py:38
-msgid "All applications and preferences"
-msgstr "Tutte le applicazioni e le preferenze"
-
-#: ../kupfer/plugin/applications.py:19
-msgid "All Applications"
-msgstr "Tutte le applicazioni"
-
-#: ../kupfer/plugin/applications.py:46
-msgid "Open with..."
-msgstr "Apri con..."
-
-#: ../kupfer/plugin/commands.py:8
 #, fuzzy
-msgid "Shell"
-msgstr "Ombra"
+#~ msgid "Core"
+#~ msgstr "Chiudi"
 
-#: ../kupfer/plugin/commands.py:11
-msgid "Run commandline programs"
-msgstr "Esegui programmi a riga di comando"
+#~ msgid "Settings are not implemented yet; see 'kupfer --help'"
+#~ msgstr ""
+#~ "Le impostazioni non sono ancora implementate; vedere 'kupfer --help'"
 
-#: ../kupfer/plugin/commands.py:34
-msgid "Shell commands"
-msgstr "Comandi della shell"
+#~ msgid "Trash"
+#~ msgstr "Cestino"
 
-#: ../kupfer/plugin/common.py:7
+#~ msgid "Computer"
+#~ msgstr "Computer"
+
+#~ msgid "Browse local disks and mounts"
+#~ msgstr "Esplora dischi locali e punti di mount"
+
 #, fuzzy
-msgid "Core"
-msgstr "Chiudi"
+#~ msgid "Epiphany"
+#~ msgstr "Epiphany"
 
-#: ../kupfer/plugin/common.py:9
-msgid "Core actions and miscellaneous items"
-msgstr ""
+#~ msgid "GNU Screen session"
+#~ msgstr "Sessione di GNU Screen"
 
-#: ../kupfer/plugin/common.py:27
-msgid "Do"
-msgstr "Esegui"
-
-#: ../kupfer/plugin/common.py:32
-msgid "Perform action"
-msgstr "Esegui azione"
-
-#: ../kupfer/plugin/common.py:38
-msgid "Quit"
-msgstr "Esci"
-
-#: ../kupfer/plugin/common.py:43
-msgid "Quit Kupfer"
-msgstr "Esce da Kupfer"
-
-#: ../kupfer/plugin/common.py:50 ../kupfer/plugin/common.py:53
-#: ../kupfer/plugin/common.py:55
-msgid "Log out..."
-msgstr "Uscita..."
-
-#: ../kupfer/plugin/common.py:57
-msgid "Log out or change user"
-msgstr "Esci o cambia utente"
-
-#: ../kupfer/plugin/common.py:64 ../kupfer/plugin/common.py:67
-#: ../kupfer/plugin/common.py:69
-msgid "Shut down..."
-msgstr "Arresto..."
-
-#: ../kupfer/plugin/common.py:72
-msgid "Shut down, restart or suspend computer"
-msgstr "Arresta, riavvia o sospende il computer"
-
-#: ../kupfer/plugin/common.py:79 ../kupfer/plugin/common.py:82
-msgid "Lock screen"
-msgstr "Blocca lo schermo"
-
-#: ../kupfer/plugin/common.py:84
-msgid "Enable screensaver and lock"
-msgstr "Abilita il salva schermo e blocca"
-
-#: ../kupfer/plugin/common.py:90
-msgid "About Kupfer"
-msgstr "Informazioni su Kupfer"
-
-#: ../kupfer/plugin/common.py:95
-msgid "Show information about Kupfer authors and license"
-msgstr "Mostra informazioni sugli autori di Kupfer e sulla licenza"
-
-#: ../kupfer/plugin/common.py:101
-msgid "Kupfer Preferences"
-msgstr "Preferenze di Kupfer"
-
-#: ../kupfer/plugin/common.py:106
-msgid "Settings are not implemented yet; see 'kupfer --help'"
-msgstr "Le impostazioni non sono ancora implementate; vedere 'kupfer --help'"
-
-#: ../kupfer/plugin/common.py:114 ../kupfer/plugin/trash.py:7
-msgid "Trash"
-msgstr "Cestino"
-
-#: ../kupfer/plugin/common.py:125
-msgid "Computer"
-msgstr "Computer"
-
-#: ../kupfer/plugin/common.py:129
-msgid "Browse local disks and mounts"
-msgstr "Esplora dischi locali e punti di mount"
-
-#: ../kupfer/plugin/common.py:134
-msgid "Special items"
-msgstr "Voci speciali"
-
-#: ../kupfer/plugin/common.py:150
-msgid "Items and special actions"
-msgstr "Voci e azioni speciali"
-
-#: ../kupfer/plugin/documents.py:7
-msgid "Documents"
-msgstr ""
-
-#: ../kupfer/plugin/documents.py:9
-msgid "Recently used documents and nautilus places"
-msgstr "Documenti utilizzati recentemente e posizioni di nautilus"
-
-#: ../kupfer/plugin/documents.py:15
-msgid "Recent items"
-msgstr "Voci recenti"
-
-#: ../kupfer/plugin/documents.py:42
-msgid "Recently used documents"
-msgstr "Documenti utilizzati recentemente"
-
-#: ../kupfer/plugin/documents.py:51
-msgid "Places"
-msgstr "Posizioni"
-
-#: ../kupfer/plugin/documents.py:83
-msgid "Bookmarked locations in Nautilus"
-msgstr "Posizioni nei segnalibri di Nautilus"
-
-#: ../kupfer/plugin/epiphany.py:4
 #, fuzzy
-msgid "Epiphany"
-msgstr "Epiphany"
+#~ msgid "Tracker live search"
+#~ msgstr "Ricerca dal vivo di Tracker"
 
-#: ../kupfer/plugin/epiphany.py:6 ../kupfer/plugin/epiphany.py:21
-msgid "Index of Epiphany bookmarks"
-msgstr "Indice dei segnalibri di Epiphany"
-
-#: ../kupfer/plugin/epiphany.py:12
-msgid "Epiphany Bookmarks"
-msgstr "Segnalibri di Epiphany"
-
-#: ../kupfer/plugin/firefox.py:4
-msgid "Firefox"
-msgstr ""
-
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:20
-msgid "Index of Firefox bookmarks"
-msgstr "Indice dei segnalibri di Firefox"
-
-#: ../kupfer/plugin/firefox.py:12
-msgid "Firefox Bookmarks"
-msgstr "Segnalibri di Firefox"
-
-#: ../kupfer/plugin/google.py:8
-#, fuzzy
-msgid "Search the web"
-msgstr "Cerca con Google"
-
-#: ../kupfer/plugin/google.py:12
-msgid "Send search queries to Google"
-msgstr "Invia le interrogazioni di ricerca a Google"
-
-#: ../kupfer/plugin/google.py:24
-msgid "Search with Google"
-msgstr "Cerca con Google"
-
-#: ../kupfer/plugin/google.py:33
-msgid "Search for this term with Google"
-msgstr "Cerca questo termine con Google"
-
-#: ../kupfer/plugin/screen.py:4
-#, fuzzy
-msgid "GNU Screen"
-msgstr "GNU Screen"
-
-#: ../kupfer/plugin/screen.py:6 ../kupfer/plugin/screen.py:62
-msgid "Active GNU Screen sessions"
-msgstr "Sessioni attive di GNU Screen"
-
-#: ../kupfer/plugin/screen.py:41
-msgid "Attached"
-msgstr "Allegato"
-
-#: ../kupfer/plugin/screen.py:42
-msgid "Detached"
-msgstr "Separato"
-
-#: ../kupfer/plugin/screen.py:45
-#, python-format
-msgid "%(status)s session %(name)s (%(pid)s) created %(time)s"
-msgstr "Sessione %(name)s %(status)s (%(pid)s) creata %(time)s"
-
-#: ../kupfer/plugin/screen.py:54
-msgid "Screen sessions"
-msgstr "Sessioni di Screen"
-
-#: ../kupfer/plugin/screen.py:70
-msgid "Attach"
-msgstr "Allega"
-
-#: ../kupfer/plugin/screen.py:75
-msgid "GNU Screen session"
-msgstr "Sessione di GNU Screen"
-
-#: ../kupfer/plugin/text.py:6
-#, fuzzy
-msgid "Free-text queries"
-msgstr "Supporto base per testi d'interrogazione liberi"
-
-#: ../kupfer/plugin/text.py:9
-msgid "Basic support for free-text queries"
-msgstr "Supporto base per testi d'interrogazione liberi"
-
-#: ../kupfer/plugin/text.py:27
-msgid "Filesystem text matches"
-msgstr "Corrispondenze di testo nel file system"
-
-#: ../kupfer/plugin/text.py:41
-msgid "URL text matches"
-msgstr "Corrispondenze di testo in URL"
-
-#: ../kupfer/plugin/trackerlive.py:8 ../kupfer/plugin/trackerlive.py:16
-#, fuzzy
-msgid "Tracker live search"
-msgstr "Ricerca dal vivo di Tracker"
-
-#: ../kupfer/plugin/trackerlive.py:10
-msgid "(Experimental) Tracker live search results"
-msgstr ""
-
-#: ../kupfer/plugin/trackerlive.py:62 ../kupfer/plugin/tracker.py:88
-#, python-format
-msgid "Results for query \"%s\""
-msgstr "Risultati per l'interrogazione «%s»"
-
-#: ../kupfer/plugin/tracker.py:10
-#, fuzzy
-msgid "Tracker"
-msgstr "Tracker"
-
-#: ../kupfer/plugin/tracker.py:13
-msgid "Tracker desktop search integration"
-msgstr "Integrazione con Tracker, ricerca scrivania"
-
-#: ../kupfer/plugin/tracker.py:25
-msgid "Search in Tracker"
-msgstr "Cerca in Tracker"
-
-#: ../kupfer/plugin/tracker.py:30
-msgid "Open Tracker Search Tool and search for this term"
-msgstr "Apre lo strumento di ricerca Tracker e cerca questo termine"
-
-#: ../kupfer/plugin/tracker.py:36
-msgid "Get Tracker results..."
-msgstr "Ottenimento risultati di Tracker..."
-
-#: ../kupfer/plugin/tracker.py:45
-msgid "Show Tracker results for query"
-msgstr "Mostra i risultati di Tracker per l'interrogazione"
-
-#: ../kupfer/plugin/tracker.py:51
-msgid "Tracker query"
-msgstr "Interrogazione di Tracker"
-
-#: ../kupfer/plugin/tracker.py:109
-msgid "Tracker tags"
-msgstr "Etichette di Tracker"
-
-#: ../kupfer/plugin/tracker.py:115
-msgid "Browse Tracker's tags"
-msgstr "Sfoglia le etichette di Tracker"
-
-#: ../kupfer/plugin/tracker.py:122
-#, python-format
-msgid "Tag %s"
-msgstr "Etichetta %s"
-
-#: ../kupfer/plugin/tracker.py:129
-#, python-format
-msgid "Objects tagged %s with Tracker"
-msgstr "Oggetto «%s» etichettato con Tracker"
-
-#: ../kupfer/plugin/trash.py:11
-msgid "Move files to Trash"
-msgstr "Sposta i file nel cestino"
-
-#: ../kupfer/plugin/trash.py:23
-msgid "Move to trash"
-msgstr "Sposta nel cestino"
-
-#: ../kupfer/plugin/trash.py:29
-msgid "Move this file to trash"
-msgstr "Sposta questo file nel cestino"
-
-#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:86
-msgid "Windows"
-msgstr "Finestre"
-
-#: ../kupfer/plugin/windows.py:9 ../kupfer/plugin/windows.py:107
-msgid "All windows on all workspaces"
-msgstr "Tutte le finestre nelle aree di lavoro"
-
-#: ../kupfer/plugin/windows.py:17
-msgid "Activate"
-msgstr "Attiva"
-
-#: ../kupfer/plugin/windows.py:20
-msgid "Unshade"
-msgstr "Rimuovi ombra"
-
-#: ../kupfer/plugin/windows.py:22
-msgid "Shade"
-msgstr "Ombra"
-
-#: ../kupfer/plugin/windows.py:24
-msgid "Unminimize"
-msgstr "Deminimizza"
-
-#: ../kupfer/plugin/windows.py:26
-msgid "Minimize"
-msgstr "Minimizza"
-
-#: ../kupfer/plugin/windows.py:28
-msgid "Unmaximize"
-msgstr "Demassimizza"
-
-#: ../kupfer/plugin/windows.py:30
-msgid "Maximize"
-msgstr "Massimizza"
-
-#: ../kupfer/plugin/windows.py:32
-msgid "Unmaximize vertically"
-msgstr "Demassimizza verticalmente"
-
-#: ../kupfer/plugin/windows.py:35
-msgid "Maximize vertically"
-msgstr "Massimizza verticalmente"
-
-#: ../kupfer/plugin/windows.py:37
-msgid "Close"
-msgstr "Chiudi"
-
-#: ../kupfer/plugin/windows.py:42
-#, python-format
-msgid "Window %(name)s on %(wkspc)s"
-msgstr "Finestra %(name)s in %(wkspc)s"
-
-#: ../kupfer/plugin/windows.py:57
-msgid "Jump to this window's workspace and focus"
-msgstr "Salta a quest'area di lavoro della finestra e dai il focus"
-
-#: ../kupfer/plugin/volumes.py:6
-msgid "Volumes"
-msgstr ""
-
-#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:82
-msgid "Mounted volumes and disks"
-msgstr "Volumi e dischi montati"
-
-#: ../kupfer/plugin/volumes.py:33
-#, python-format
-msgid "Volume mounted at %s"
-msgstr "Volume montato su «%s»"
-
-#: ../kupfer/plugin/volumes.py:41
-msgid "Eject"
-msgstr "Espelli"
-
-#: ../kupfer/plugin/volumes.py:51
-msgid "Unmount and eject this media"
-msgstr "Smonta ed espelli questo media"
-
-#: ../kupfer/plugin/volumes.py:57
-msgid "Unmount"
-msgstr "Smonta"
-
-#: ../kupfer/plugin/volumes.py:67
-msgid "Unmount this volume"
-msgstr "Smonta questo volume"
-
-#: ../kupfer/plugin/volumes.py:72
-msgid "Volumes and disks"
-msgstr "Volumi e dischi"
+#~ msgid "Tracker query"
+#~ msgstr "Interrogazione di Tracker"
 
 #~ msgid "Catalog of Catalogs"
 #~ msgstr "Catalogo di cataloghi"
