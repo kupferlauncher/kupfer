@@ -3,7 +3,7 @@ from gio import app_info_get_all
 from gio.unix import desktop_app_info_set_desktop_env
 
 from kupfer.objects import Source, AppLeaf, Action, FileLeaf
-from kupfer import utils
+from kupfer import utils, plugin_support
 
 __kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource", )
@@ -14,6 +14,16 @@ __kupfer_actions__ = (
 __description__ = _("All applications and preferences")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "desktop_type",
+		"label": _("Applications for Desktop Environment"),
+		"type": str,
+		"value": "GNOME",
+		"alternatives": ("GNOME", "KDE", "XFCE")
+	},
+)
 
 class AppSource (Source):
 	"""
@@ -29,7 +39,8 @@ class AppSource (Source):
 		# If we set proper desktop environment
 		# We get exactly the apps shown in the menu,
 		# as well as the preference panes
-		desktop_app_info_set_desktop_env("GNOME")
+		desktop_type = __kupfer_settings__["desktop_type"]
+		desktop_app_info_set_desktop_env(desktop_type)
 		# Add this to the default
 		whitelist = []
 		for item in app_info_get_all():
