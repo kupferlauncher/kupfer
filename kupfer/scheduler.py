@@ -31,9 +31,10 @@ gobject.signal_new("finish", Scheduler, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
 class Timer (gobject.GObject):
-	def __init__(self, invalid_on_finish=True):
+	def __init__(self, call_at_finish=False):
 		self._current_timer = -1
-		self._invalid_on_finish = invalid_on_finish
+		self._call_at_finish = call_at_finish
+		self._current_callback = None
 		GetScheduler().connect("finish", self._on_finish)
 
 	def set(self, timeout_seconds, callback, *arguments):
@@ -41,14 +42,25 @@ class Timer (gobject.GObject):
 		If the timer was previously set, it is postponed
 		"""
 		self.invalidate()
+		self._current_callback = lambda : callback(*arguments)
 		self._current_timer = gobject.timeout_add_seconds(timeout_seconds,
-				callback, *arguments)
+				self._call)
+
+	def _call(self, timer=None):
+		self._current_timer = -1
+		self._current_callback()
 	
 	def invalidate(self):
 		if self._current_timer > 0:
 			gobject.source_remove(self._current_timer)
 		self._current_timer = -1
 
+	def is_valid(self):
+		"""If Timer is currently set"""
+		return (self._current_timer > 0)
+
 	def _on_finish(self, scheduler):
-		if self._invalid_on_finish:
+		if self._call_at_finish and self.is_valid():
+			self._call()
+		else:
 			self.invalidate()
