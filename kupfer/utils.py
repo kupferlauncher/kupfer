@@ -122,19 +122,25 @@ def is_directory_writable(dpath):
 		return False
 	return os.access(dpath, os.R_OK | os.W_OK | os.X_OK)
 
-def get_destpath_in_directory(directory, filename):
+def get_destpath_in_directory(directory, filename, extension=None):
 	"""Find a good destpath for a file named @filename in path @directory
 	Try naming the file as filename first, before trying numbered versions
 	if the previous already exist.
+
+	If @extension, it is used as the extension. Else the filename is split and
+	the last extension is used
 	"""
 	# find a nonexisting destname
 	ctr = itertools.count(1)
-	basename = filename
+	basename = filename + (extension or "")
 	destpath = os_path.join(directory, basename)
 	while True:
 		if not os_path.exists(destpath):
 			break
-		root, ext = os_path.splitext(filename)
+		if extension:
+			root, ext = filename, extension
+		else:
+			root, ext = os_path.splitext(filename)
 		basename = "%s-%s%s" % (root, ctr.next(), ext)
 		destpath = os_path.join(directory, basename)
 	return destpath
