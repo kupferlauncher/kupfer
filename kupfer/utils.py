@@ -3,6 +3,8 @@ import os
 from os import path as os_path
 import locale
 
+import gobject
+
 from kupfer import pretty
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
@@ -66,7 +68,6 @@ def locale_sort(seq, key=unicode):
 	return seq
 
 def spawn_async(argv, in_dir="."):
-	import gobject
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
 	try:
 		return gobject.spawn_async (argv, working_directory=in_dir,
@@ -145,3 +146,14 @@ def get_destpath_in_directory(directory, filename, extension=None):
 		destpath = os_path.join(directory, basename)
 	return destpath
 
+def get_display_path_for_bytestring(filepath):
+	"""Return a unicode path for display for bytestring @filepath
+
+	Will use glib's filename decoding functions, and will
+	format nicely (denote home by ~/ etc)
+	"""
+	desc = gobject.filename_display_name(filepath)
+	homedir = os.path.expanduser("~/")
+	if desc.startswith(homedir) and homedir != desc:
+		desc = desc.replace(homedir, "~/", 1)
+	return desc

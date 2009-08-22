@@ -269,13 +269,7 @@ class FileLeaf (Leaf):
 		"""Format the path shorter:
 		replace homedir by ~/
 		"""
-		# Use glib filename reading to make display name out of filenames
-		# this function returns a `unicode` object
-		desc = gobject.filename_display_name(self.object)
-		homedir = path.expanduser("~/")
-		if desc.startswith(homedir) and homedir != desc:
-			desc = desc.replace(homedir, "~/", 1)
-		return desc
+		return utils.get_display_path_for_bytestring(self.object)
 
 	def get_actions(self):
 		acts = [RevealFile(), ]
