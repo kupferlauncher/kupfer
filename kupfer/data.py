@@ -1,5 +1,5 @@
-import base64
 import gzip
+import hashlib
 import itertools
 import os
 import cPickle as pickle
@@ -263,10 +263,8 @@ class SourcePickler (pretty.OutputMixin):
 
 	def get_filename(self, source):
 		"""Return cache filename for @source"""
-		# python string hash
-		h = "%x" % abs(hash(repr(source)))
-		bytes = "".join(chr(int(h[i:i+2], 16)) for i in xrange(0, len(h), 2))
-		hashstr = base64.urlsafe_b64encode(bytes).rstrip("=")
+		bytes = hashlib.md5(repr(source)).digest()
+		hashstr = bytes.encode("base64").rstrip("\n=").replace("/", "-")
 		filename = self.name_template % (hashstr, self.pickle_version)
 		return os.path.join(config.get_cache_home(), filename)
 
