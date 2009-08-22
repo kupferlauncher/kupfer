@@ -72,3 +72,6 @@ def Service():
 
 	return _Service_obj
 
+def Unregister():
+	if session_bus:
+		session_bus.release_name(server_name)
