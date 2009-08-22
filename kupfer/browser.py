@@ -1294,18 +1294,18 @@ class WindowController (pretty.OutputMixin):
 		(keybinding callback, session logout callbacks etc)
 		"""
 		# register dbus callbacks
-		from .listen import Service, AlreadyRunning, NoConnection
+		from . import listen
 		from .session import SessionClient
 		from kupfer import scheduler, settings
 		from kupfer import keybindings
 
 		try:
-			s = Service()
-		except AlreadyRunning:
+			s = listen.Service()
+		except listen.AlreadyRunning:
 			s = None
 			self.output_info("An instance is already running, exiting...")
 			self.quit_now()
-		except NoConnection:
+		except listen.NoConnection:
 			pass
 		else:
 			s.connect("present", self.activate)
@@ -1356,3 +1356,10 @@ class WindowController (pretty.OutputMixin):
 		finally:
 			self.save_data()
 
+		# Now dismantle everything but keep hanging
+		listen.Unregister()
+		keybindings.bind_key("")
+		if gtk.events_pending():
+			self.output_info("Waiting for tasks to finish...")
+			while gtk.events_pending():
+				gtk.main_iteration()
