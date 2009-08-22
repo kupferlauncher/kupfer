@@ -56,3 +56,6 @@ class PluginSettings (pretty.OutputMixin):
 	def get_label(self, key):
 		"""Return label for setting @key"""
 		return self.setting_descriptions[key]["label"]
+	def get_alternatives(self, key):
+		"""Return alternatives for setting @key (if any)"""
+		return self.setting_descriptions[key].get("alternatives")
