@@ -52,7 +52,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 
 	keybinding_target = int(keybinding_target)
 	callback = lambda : GetKeyboundObject()._keybinding(keybinding_target)
-	if len(keystr) == 1:
+	if keystr and len(keystr) == 1:
 		pretty.print_error(__name__, "Refusing to bind key", repr(keystr))
 		return False
 
