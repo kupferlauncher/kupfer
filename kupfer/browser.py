@@ -1340,16 +1340,18 @@ class WindowController (pretty.OutputMixin):
 		client.connect("save-yourself", self._session_save)
 		client.connect("die", self._session_die)
 
+		def main_iterations(max_events=0):
+			# use sentinel form of iter
+			for idx, pending in enumerate(iter(gtk.events_pending, False)):
+				if max_events and idx > max_events:
+					break
+				gtk.main_iteration()
+
 		try:
 			gtk.main()
 			# put away window *before exiting further*
 			self.put_away()
-			max_events = 100
-			# use sentinel form of iter
-			for idx, pending in enumerate(iter(gtk.events_pending, False)):
-				if idx > max_events:
-					break
-				gtk.main_iteration()
+			main_iterations(10)
 		except KeyboardInterrupt, info:
 			self.output_info(info, "exiting.. (Warning: Ctrl-C in the shell",
 					"will kill child processes)")
@@ -1358,8 +1360,9 @@ class WindowController (pretty.OutputMixin):
 
 		# Now dismantle everything but keep hanging
 		listen.Unregister()
-		keybindings.bind_key("")
+		keybindings.bind_key(None)
+		main_iterations(100)
+		# if we are still waiting, print a message
 		if gtk.events_pending():
 			self.output_info("Waiting for tasks to finish...")
-			while gtk.events_pending():
-				gtk.main_iteration()
+			main_iterations()
