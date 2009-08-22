@@ -350,18 +350,35 @@ class PreferencesWindowController (pretty.OutputMixin):
 		plugin_settings_keys = iter(plugin_settings) if plugin_settings else ()
 		for setting in plugin_settings_keys:
 			typ = plugin_settings.get_value_type(setting)
+			alternatives = plugin_settings.get_alternatives(setting)
 			wid = None
 			hbox = gtk.HBox()
 			hbox.set_property("spacing", 10)
 			label = plugin_settings.get_label(setting)
 			label_wid = gtk.Label(label)
 			if issubclass(typ, basestring):
-				wid = gtk.Entry()
-				wid.set_text(plugin_settings[setting])
+				if alternatives:
+					wid = gtk.combo_box_new_text()
+					val = plugin_settings[setting]
+					active_index = -1
+					for idx, text in enumerate(alternatives):
+						wid.append_text(text)
+						if text == val:
+							active_index = idx
+					if active_index < 0:
+						wid.prepend_text(val)
+						active_index = 0
+					wid.set_active(active_index)
+					wid.connect("changed", self._get_plugin_change_callback(
+						plugin_id, setting, typ, "get_active_text"))
+				else:
+					wid = gtk.Entry()
+					wid.set_text(plugin_settings[setting])
+					wid.connect("changed", self._get_plugin_change_callback(
+						plugin_id, setting, typ, "get_text",
+						no_false_values=True))
 				hbox.pack_start(label_wid, False)
 				hbox.pack_start(wid, True)
-				wid.connect("changed", self._get_plugin_change_callback(
-					plugin_id, setting, typ, "get_text", no_false_values=True))
 
 			elif issubclass(typ, bool):
 				wid = gtk.CheckButton(label)
