@@ -23,6 +23,22 @@ __description__ = _("More file actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "archive_type",
+		"label": _("Compressed archive type for 'Create Archive In'"),
+		"type": str,
+		"value": ".tar.gz",
+		"alternatives": (
+			".7z",
+			".rar",
+			".tar",
+			".tar.gz",
+			".zip",
+			)
+	},
+)
+
 class Trash (Action):
 	# this should never be default
 	rank_adjust = -10
@@ -158,7 +174,7 @@ class CreateArchiveIn (Action):
 	def __init__(self):
 		Action.__init__(self, _("Create Archive In..."))
 	def activate(self, leaf, iobj):
-		archive_type = ".tar.gz"
+		archive_type = __kupfer_settings__["archive_type"]
 		dirpath = iobj.object
 		basename = os_path.basename(leaf.object)
 		archive_path = \
