@@ -182,7 +182,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		self.startup = startup
 		self.period = period
 		self.campaign=campaign
-		self.cur_event = 0
+		self.timer = scheduler.Timer()
 		# Source -> time mapping
 		self.latest_rescan_time = {}
 		self._min_rescan_interval = campaign/10
@@ -190,30 +190,25 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 	def set_catalog(self, catalog):
 		self.catalog = catalog
 		self.cur = iter(self.catalog)
-		if self.cur_event:
-			gobject.source_remove(self.cur_event)
 		self.output_debug("Registering new campaign, in %d s" % self.startup)
-		self.cur_event = gobject.timeout_add_seconds(self.startup, self._new_campaign)
+		self.timer.set(self.startup, self._new_campaign)
 	
 	def _new_campaign(self):
 		self.output_info("Starting new campaign, interval %d s" % self.period)
 		self.cur = iter(self.catalog)
-		self.cur_event = gobject.timeout_add_seconds(self.period, self._periodic_rescan_helper)
+		self.timer.set(self.period, self._periodic_rescan_helper)
 
 	def _periodic_rescan_helper(self):
 		# Advance until we find a source that was not recently rescanned
 		for next in self.cur:
 			oldtime = self.latest_rescan_time.get(next, 0)
 			if (time.time() - oldtime) > self._min_rescan_interval:
-				break
-		else:
-			# else <=> break not reached in loop
-			self.output_info("Campaign finished, pausing %d s" % self.campaign)
-			self.cur_event = gobject.timeout_add_seconds(self.campaign,
-					self._new_campaign)
-			return False
-		self.cur_event = gobject.idle_add(self.reload_source, next)
-		return True
+				self.timer.set(self.period, self._periodic_rescan_helper)
+				self.reload_source(next)
+				return
+		# No source to scan found
+		self.output_info("Campaign finished, pausing %d s" % self.campaign)
+		self.timer.set(self.campaign, self._new_campaign)
 
 	def register_rescan(self, source, force=False):
 		"""Register an object for rescan
