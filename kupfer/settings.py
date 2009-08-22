@@ -33,10 +33,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	def __init__(self):
 		gobject.GObject.__init__(self)
 		self._config = self._read_config()
-		# connect to save settings
-		sch = scheduler.GetScheduler()
-		sch.connect("finish", self._save_config)
-		self._save_timer = scheduler.Timer()
+		self._save_timer = scheduler.Timer(True)
 
 	def _update_config_save_timer(self):
 		self._save_timer.set(60, self._save_config)
