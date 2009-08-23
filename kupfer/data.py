@@ -21,6 +21,15 @@ SourcePane, ActionPane, ObjectPane = (1,2,3)
 # In two-pane or three-pane mode
 SourceActionMode, SourceActionObjectMode = (1,2)
 
+def identity(x):
+	return x
+
+def dress_leaves(seq, action):
+	"""yield items of @seq "dressed" by the source controller"""
+	sc = GetSourceController()
+	for itm in seq:
+		sc.decorate_object(itm.object, action=action)
+		yield itm
 
 class Searcher (object):
 	"""
@@ -35,45 +44,28 @@ class Searcher (object):
 		self._source_cache = {}
 		self._old_key = None
 
-	def search(self, sources, key, score=True, item=None, action=None):
+	def search(self, sources, key, score=True, item_check=None, decorator=None):
 		"""
 		@sources is a sequence listing the inputs, which should be
 		Sources, TextSources or sequences of KupferObjects
 
-		if @score, sort by rank
-		if @item and @action check against object requriements
+		If @score, sort by rank.
+		filters (with identity() as default):
+			item_check: Check items before adding to search pool
+			decorator: Decorate items before access
 
 		Return (first, match_iter), where first is the first match,
 		and match_iter an iterator to all matches, including the first match.
 		"""
 		if not self._old_key or not key.startswith(self._old_key):
 			self._source_cache.clear()
-			self._old_key = ""
 		self._old_key = key
 
-		# Set up object and type checking for
-		# action + secondary object
-		item_check = lambda x: x
-		if item and action:
-			types = tuple(action.object_types())
-			def type_obj_check(itms):
-				for i in itms:
-					if (isinstance(i, types) and
-							action.valid_object(i, for_item=item)):
-						yield i
-			def type_check(itms):
-				for i in itms:
-					if isinstance(i, types):
-						yield i
-
-			if hasattr(action, "valid_object"):
-				item_check = type_obj_check
-			else:
-				item_check = type_check
+		if not item_check: item_check = identity
+		if not decorator: decorator = identity
 
 		match_iters = []
 		for src in sources:
-			items = ()
 			fixedrank = 0
 			rankables = None
 			if isinstance(src, objects.Source):
@@ -100,7 +92,7 @@ class Searcher (object):
 					rankables = search.score_objects(rankables, key)
 				matches = search.bonus_objects(rankables, key)
 				if isinstance(src, objects.Source):
-					# we fork off a copy of the iterator
+					# we fork off a copy of the iterator to save
 					matches, self._source_cache[src] = itertools.tee(matches)
 			else:
 				# we only want to list them
@@ -121,13 +113,6 @@ class Searcher (object):
 				if reprobj not in coll:
 					yield obj
 					coll.add(reprobj)
-
-		def dress_leaves(seq):
-			"""yield items of @seq "dressed" by the source controller"""
-			sc = GetSourceController()
-			for itm in seq:
-				sc.decorate_object(itm.object, action=action)
-				yield itm
 
 		def valid_check(seq):
 			"""yield items of @seq that are valid"""
@@ -150,7 +135,7 @@ class Searcher (object):
 		# Check if the items are valid as the search
 		# results are accessed through the iterators
 		unique_matches = as_set_iter(matches)
-		match, match_iter = peekfirst(dress_leaves(valid_check(unique_matches)))
+		match, match_iter = peekfirst(decorator(valid_check(unique_matches)))
 		return match, match_iter
 
 class RescanThread (threading.Thread, pretty.OutputMixin):
@@ -592,7 +577,10 @@ class LeafPane (Pane, pretty.OutputMixin):
 			sc = GetSourceController()
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
-		match, match_iter = self.searcher.search(sources, key, score=bool(key))
+
+		decorator = lambda seq: dress_leaves(seq, action=None)
+		match, match_iter = self.searcher.search(sources, key, score=bool(key),
+				decorator=decorator)
 		self.emit_search_result(match, match_iter, context)
 
 gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
@@ -670,10 +658,28 @@ class SecondaryObjectPane (LeafPane):
 			sc = GetSourceController()
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
-		match, match_iter = self.searcher.search(sources, key,
-				item=self.current_item,
-				action=self.current_action,
-				score=True)
+
+		types = tuple(self.current_action.object_types())
+		def type_obj_check(itms):
+			valid_object = self.current_action.valid_object
+			item = self.current_item
+			for i in itms:
+				if (isinstance(i, types) and valid_object(i, for_item=item)):
+					yield i
+		def type_check(itms):
+			for i in itms:
+				if isinstance(i, types):
+					yield i
+
+		if hasattr(self.current_action, "valid_object"):
+			item_check = type_obj_check
+		else:
+			item_check = type_check
+
+		decorator = lambda seq: dress_leaves(seq, action=self.current_action)
+
+		match, match_iter = self.searcher.search(sources, key, score=True,
+				item_check=item_check, decorator=decorator)
 		self.emit_search_result(match, match_iter, context)
 
 class DataController (gobject.GObject, pretty.OutputMixin):
