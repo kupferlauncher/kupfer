@@ -307,9 +307,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 			return True
 
 	def _plugin_makes_sense_in_catalog(self, plugin_id):
-		"""Whether the setting for toplevel makes sense for @plugin_id"""
-		return plugins.get_plugin_attribute(plugin_id,
-				plugins.sources_attribute)
+		"""Whether the setting for toplevel should be shown for @plugin_id"""
+		setctl = settings.GetSettingsController()
+		return setctl.get_plugin_show_toplevel_option(plugin_id)
 
 	def on_buttonpluginsettings_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
