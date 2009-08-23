@@ -84,11 +84,10 @@ class Searcher (object):
 			if not rankables:
 				rankables = search.make_rankables(items)
 
-			if fixedrank:
-				# we have a given rank
-				matches = search.add_rank_objects(rankables, fixedrank)
-			elif score:
-				if key:
+			if score:
+				if fixedrank:
+					rankables = search.add_rank_objects(rankables, fixedrank)
+				elif key:
 					rankables = search.score_objects(rankables, key)
 				matches = search.bonus_objects(rankables, key)
 				if isinstance(src, objects.Source):
