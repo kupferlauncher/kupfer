@@ -125,73 +125,13 @@ def print_banner():
 		print banner.encode("ascii", "replace")
 
 def main():
-	import sys
-	from os import path
-
-	from . import browser, data
-	from . import objects, plugin
-	from . import pretty, plugins, settings
-	from .plugins import (load_plugin_sources, sources_attribute,
-			action_decorators_attribute, text_sources_attribute,
-			content_decorators_attribute,
-			initialize_plugin)
+	from . import browser, pretty
 
 	cli_opts = get_options()
 	print_banner()
 	if _debug:
 		pretty.debug = _debug
 
-	s_sources = []
-	S_sources = []
-
-	def dir_source(opt):
-		abs = path.abspath(path.expanduser(opt))
-		return objects.DirectorySource(abs)
-
-	def file_source(opt, depth=1):
-		abs = path.abspath(path.expanduser(opt))
-		return objects.FileSource((abs,), depth)
-
-	setctl = settings.GetSettingsController()
-	source_config = setctl.get_config
-
-	text_sources = []
-	action_decorators = []
-	content_decorators = []
-
-	for item in plugins.get_plugin_ids():
-		if not setctl.get_plugin_enabled(item):
-			continue
-		initialize_plugin(item)
-		text_sources.extend(load_plugin_sources(item, text_sources_attribute))
-		action_decorators.extend(load_plugin_sources(item,
-			action_decorators_attribute))
-		content_decorators.extend(load_plugin_sources(item,
-			content_decorators_attribute, instantiate=False))
-		if setctl.get_plugin_is_toplevel(item):
-			S_sources.extend(load_plugin_sources(item))
-		else:
-			s_sources.extend(load_plugin_sources(item))
-
-	dir_depth = source_config("DeepDirectories", "Depth")
-
-	for item in source_config("Directories", "Catalog"):
-		s_sources.append(dir_source(item))
-	for item in source_config("DeepDirectories","Catalog"):
-		s_sources.append(file_source(item, dir_depth))
-	for item in source_config("Directories", "Direct"):
-		S_sources.append(dir_source(item))
-	for item in source_config("DeepDirectories", "Direct"):
-		S_sources.append(file_source(item, dir_depth))
-	
-	if not S_sources and not s_sources:
-		print pretty.print_info(__name__, "No sources found!")
-
-	dc = data.GetDataController()
-	dc.set_sources(S_sources, s_sources)
-	dc.register_text_sources(text_sources)
-	dc.register_action_decorators(action_decorators)
-	dc.register_content_decorators(content_decorators)
 	w = browser.WindowController()
 
 	quiet = ("--no-splash" in cli_opts)
