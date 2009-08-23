@@ -1139,7 +1139,7 @@ class WindowController (pretty.OutputMixin):
 		self.icon_name = gtk.STOCK_FIND
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 
-		data_controller = data.GetDataController()
+		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
 
 		self.interface = Interface(data_controller, self.window)
