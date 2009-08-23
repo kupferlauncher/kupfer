@@ -22,9 +22,9 @@ def setup_locale_and_gettext():
 	locale.bindtextdomain(package_name, localedir)
 	# to load in current locale properly for sorting etc
 	try:
-		locale.setlocale(locale.LC_ALL)
+		locale.setlocale(locale.LC_ALL, "")
 	except locale.Error, e:
-		print type(e), e
+		pass
 
 setup_locale_and_gettext()
 
