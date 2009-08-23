@@ -125,10 +125,12 @@ def print_banner():
 		print banner.encode("ascii", "replace")
 
 def main():
-	from . import browser, pretty
-
+	# parse commandline before importing UI
 	cli_opts = get_options()
 	print_banner()
+
+	from . import browser, pretty
+
 	if _debug:
 		pretty.debug = _debug
 
