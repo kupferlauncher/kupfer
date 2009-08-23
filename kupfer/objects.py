@@ -10,8 +10,6 @@ see the main program file, and COPYING for details.
 
 import itertools
 from os import path
-import os
-import locale
 
 import gobject
 import gio
@@ -273,7 +271,7 @@ class FileLeaf (Leaf):
 
 	def get_actions(self):
 		acts = [RevealFile(), ]
-		app_actions=[]
+		app_actions = []
 		default = None
 		if self.is_dir():
 			acts.append(OpenTerminal())
@@ -297,7 +295,7 @@ class FileLeaf (Leaf):
 						pass
 			if def_key:
 				if not def_key in apps:
-					pretty.output_debug("No default found for %s, but found %s" % (self, apps))
+					pretty.print_debug("No default found for %s, but found %s" % (self, apps))
 				else:
 					app_actions.append(apps.pop(def_key))
 			# sort the non-default OpenWith actions
@@ -349,7 +347,7 @@ def ConstructFileLeaf(obj):
 	root, ext = path.splitext(obj)
 	if ext == ".desktop":
 		try:
-			return AppLeaf(path=obj)
+			return AppLeaf(init_path=obj)
 		except InvalidDataError:
 			pass
 	return FileLeaf(obj)
@@ -376,12 +374,12 @@ class SourceLeaf (Leaf):
 		return self.object.get_icon_name()
 
 class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
-	def __init__(self, item=None, path=None, app_id=None):
+	def __init__(self, item=None, init_path=None, app_id=None):
 		"""Try constructing an Application for GAppInfo @item,
 		for file @path or for package name @app_id.
 		"""
 		self.init_item = item
-		self.init_path = path
+		self.init_path = init_path
 		self.init_item_id = app_id and app_id + ".desktop"
 		# unpickle_finish will raise InvalidDataError on invalid item
 		self.unpickle_finish()
@@ -875,8 +873,9 @@ class FileSource (Source):
 	def get_items(self):
 		iters = []
 		
-		def mkleaves(dir):
-			files = utils.get_dirlist(dir, depth=self.depth, exclude=self._exclude_file)
+		def mkleaves(directory):
+			files = utils.get_dirlist(directory, depth=self.depth,
+					exclude=self._exclude_file)
 			return (ConstructFileLeaf(f) for f in files)
 
 		for d in self.dirlist:
