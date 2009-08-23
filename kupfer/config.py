@@ -34,10 +34,18 @@ def get_data_file(filename):
 	Return path to @filename if it exists
 	anywhere in the data paths, else return None
 	"""
-	# Add "./data" in workdir for running from builddir
 	data_paths = []
-	data_paths.append("./data")
-	data_paths.extend(base.load_data_paths(PACKAGE_NAME))
+	try:
+		from . import version_subst
+	except ImportError:
+		first_datadir = "./data"
+	else:
+		first_datadir = os.path.join(version_subst.DATADIR, PACKAGE_NAME)
+
+	data_paths.append(first_datadir)
+	for data_path in base.load_data_paths(PACKAGE_NAME):
+		if not data_path in data_paths:
+			data_paths.append(data_path)
 
 	for direc in data_paths:
 		file_path = os.path.join(direc, filename)

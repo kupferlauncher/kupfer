@@ -8,7 +8,7 @@ def setup_locale_and_gettext():
 	package_name = "kupfer"
 	localedir = "./locale"
 	try:
-		import version_subst
+		from . import version_subst
 	except ImportError:
 		pass
 	else:
