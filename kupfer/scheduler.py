@@ -30,7 +30,7 @@ gobject.signal_new("loaded", Scheduler, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("finish", Scheduler, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
-class Timer (gobject.GObject):
+class Timer (object):
 	def __init__(self, call_at_finish=False):
 		self._current_timer = -1
 		self._call_at_finish = call_at_finish
