@@ -22,6 +22,10 @@ class StepTask (Task):
 	be called regardless of exit or failure mode
 	"""
 	def step(self):
+		"""Do a small part of the task.
+		Return True to continue processing,
+		or a False value to finish.
+		"""
 		pass
 	def finish(self):
 		pass
