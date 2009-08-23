@@ -14,17 +14,17 @@ else:
 ICON_NAME = "search"
 PROGRAM_NAME = _("Kupfer")
 
-AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 """.splitlines()
 
 DOCUMENTERS = []
 
 TRANSLATOR_CREDITS = _("translator-credits")
 
-WEBSITE = "http://kaizer.se/wiki/kupfer/"
+WEBSITE = u"http://kaizer.se/wiki/kupfer/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = """Copyright © 2007--2009 Ulrik Sverdrup"""
+COPYRIGHT = u"""Copyright © 2007--2009 Ulrik Sverdrup"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify
