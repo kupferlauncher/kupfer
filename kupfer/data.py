@@ -180,15 +180,15 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		self.output_info("Campaign finished, pausing %d s" % self.campaign)
 		self.timer.set(self.campaign, self._new_campaign)
 
-	def register_rescan(self, source, force=False):
+	def register_rescan(self, source, sync=False):
 		"""Register an object for rescan
-		dynamic sources will only be rescanned if @force is True
+		If @sync, it will be rescanned synchronously
 		"""
-		self._start_source_rescan(source, force)
+		self._start_source_rescan(source, sync)
 
-	def _start_source_rescan(self, source, force=False):
+	def _start_source_rescan(self, source, sync=False):
 		self.latest_rescan_time[source] = time.time()
-		if force:
+		if sync:
 			self.rescan_source(source)
 		elif not source.is_dynamic():
 			thread = threading.Thread(target=self.rescan_source, args=(source,))
@@ -424,7 +424,7 @@ class SourceController (pretty.OutputMixin):
 				# to "rescue the toplevel", we throw out sources that
 				# raise exceptions on rescan
 				try:
-					self.rescanner.register_rescan(source, force=True)
+					self.rescanner.register_rescan(source, sync=True)
 				except StandardError, exp:
 					self.output_error("Loading %s: raised %s %s" % (
 						source, type(exp).__name__, exp))
