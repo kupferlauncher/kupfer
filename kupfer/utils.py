@@ -112,6 +112,7 @@ def show_url(url):
 	from gtk.gdk import screen_get_default
 	from glib import GError
 	try:
+		pretty.print_debug(__name__, "show_url", url)
 		return show_uri(screen_get_default(), url, get_current_event_time())
 	except GError, exc:
 		pretty.print_error(__name__, "gtk.show_uri:", exc)
