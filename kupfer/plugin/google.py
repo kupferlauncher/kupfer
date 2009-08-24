@@ -12,7 +12,7 @@ __kupfer_name__ = _("Search the Web")
 __kupfer_sources__ = ("OpenSearchSource", )
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
-		"GoogleSearch",
+		"SearchFor",
 		"SearchWithEngine",
 	)
 __description__ = _("Search the web with OpenSearch search engines")
@@ -29,34 +29,19 @@ class OpenSearchHandler (xml_support.XMLEntryHandler):
 		else:
 			xml_support.XMLEntryHandler.startElement(self, sName, attributes)
 
-class GoogleSearch (Action):
-	def __init__(self):
-		Action.__init__(self, _("Search with Google"))
-
-	def activate(self, leaf):
-		from urllib import urlencode
-		search_url = "http://www.google.com/search?"
-		# will encode search=text, where `text` is escaped
-		query_url = search_url + urlencode({"q": leaf.object, "ie": "utf-8"})
-		utils.show_url(query_url)
-	def get_description(self):
-		return _("Search for this term with Google")
-	def get_icon_name(self):
-		return "gtk-find"
-	def item_types(self):
-		yield TextLeaf
-
 def _urlencode(word):
 	"""Urlencode a single string of bytes @word"""
 	return urllib.urlencode({"q": word})[2:]
 
 def _do_search_engine(terms, search_url, encoding="UTF-8"):
-	search_url = search_url.encode(encoding, "strict")
+	"""Show an url searching for @search_url with @terms"""
+	search_url = search_url.encode(encoding, "ignore")
 	terms_enc = terms.encode(encoding, "ignore")
 	query_url = search_url.replace("{searchTerms}", _urlencode(terms_enc))
 	utils.show_url(query_url)
 
 class SearchWithEngine (Action):
+	"""TextLeaf -> SearchWithEngine -> SearchEngine"""
 	def __init__(self):
 		Action.__init__(self, _("Search with..."))
 
@@ -64,9 +49,6 @@ class SearchWithEngine (Action):
 		coding = iobj.object.get("InputEncoding")
 		url = iobj.object["Url"]
 		_do_search_engine(leaf.object, url, encoding=coding)
-		# will encode search=text, where `text` is escaped
-		#query_url = search_url + urlencode({"q": leaf.object, "ie": "utf-8"})
-		#utils.show_url(query_url)
 
 	def item_types(self):
 		yield TextLeaf
@@ -81,10 +63,39 @@ class SearchWithEngine (Action):
 	def get_icon_name(self):
 		return "gtk-find"
 
+class SearchFor (Action):
+	"""SearchEngine -> SearchFor -> TextLeaf
+
+	This is the opposite action to SearchWithEngine
+	"""
+	def __init__(self):
+		Action.__init__(self, _("Search for..."))
+
+	def activate(self, leaf, iobj):
+		coding = leaf.object.get("InputEncoding")
+		url = leaf.object["Url"]
+		terms = iobj.object
+		_do_search_engine(terms, url, encoding=coding)
+
+	def item_types(self):
+		yield SearchEngine
+
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield TextLeaf
+
+	def get_description(self):
+		return _("Search the web with OpenSearch search engines")
+	def get_icon_name(self):
+		return "gtk-find"
+
 class SearchEngine (Leaf):
 	def get_description(self):
-		desc = self.object.get("Url")
+		desc = self.object.get("Description")
 		return desc if desc != unicode(self) else None
+	def get_icon_name(self):
+		return "text-html"
 
 class OpenSearchSource (Source):
 	def __init__(self):
