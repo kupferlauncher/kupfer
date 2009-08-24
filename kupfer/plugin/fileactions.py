@@ -110,7 +110,7 @@ class CopyTask (task.ThreadTask, pretty.OutputMixin):
 		self.sfile = gio.File(spath)
 		bname = self.sfile.get_basename()
 		self.dfile = gio.File(os_path.join(dpath, bname))
-		super(CopyTask, self).__init__("Copy %s" % bname)
+		super(CopyTask, self).__init__()
 
 	def thread_do(self):
 		self.ret = self.sfile.copy(self.dfile)

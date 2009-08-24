@@ -4,10 +4,17 @@ from kupfer import scheduler, pretty
 
 class Task (object):
 	"""Represent a task that can be done in the background"""
-	def __init__(self, name):
-		self.name = name
+	def __init__(self):
+		self._name = None
+
+	def set_name(self, name):
+		"""Allow setting the user-visible name of this task"""
+		self._name = name
 
 	def __str__(self):
+		return self._name and self._name.decode("utf-8")
+
+	def __unicode__(self):
 		return self.name
 
 	def is_thread(self):
@@ -40,8 +47,8 @@ class StepTask (Task):
 
 class ThreadTask (Task):
 	"""Run in a thread"""
-	def __init__(self, name):
-		Task.__init__(self, name)
+	def __init__(self):
+		Task.__init__(self)
 		self._thread = None
 
 	def is_thread(self):

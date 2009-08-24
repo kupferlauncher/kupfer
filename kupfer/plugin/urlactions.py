@@ -17,7 +17,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class DownloadTask (task.StepTask):
 	def __init__(self, uri, destdir, finish_callback=None):
-		super(DownloadTask, self).__init__("Download %s" % uri)
+		super(DownloadTask, self).__init__()
 		self.response = urllib2.urlopen(uri)
 
 		header_basename = self.response.headers.get('Content-Disposition')
