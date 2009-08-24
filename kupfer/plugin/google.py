@@ -20,14 +20,41 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class OpenSearchHandler (xml_support.XMLEntryHandler):
+	"""Parse OpenSearch specification files (Mozilla flavor)
+
+	We use the generic entry parser from xml_support, but have
+	to hack up a solution for the Url element, which _can_ be
+	an entry itself with Param specifications.
+	"""
+	def __init__(self, *args):
+		xml_support.XMLEntryHandler.__init__(self, *args)
+		self.url_params = None
+
 	def startElement(self, sName, attributes):
-		if sName in ("Url", "os:Url"):
+		if self.url_params is not None and sName in ("Param", "os:Param"):
+			try:
+				name, value = attributes["name"], attributes["value"]
+			except AttributeError:
+				return
+			self.url_params.append((name, value))
+		elif sName in ("Url", "os:Url"):
 			if not attributes["type"] == "text/html":
 				return
 			self.element_content = attributes["template"]
 			self.is_wanted_element = True
+			self.url_params = []
 		else:
 			xml_support.XMLEntryHandler.startElement(self, sName, attributes)
+
+	def endElement(self, sName):
+		if self.url_params is not None and sName in ("Url", "os:Url"):
+			# Assemble the URL with query string
+			url = self.element_content.strip()
+			if self.url_params:
+				url += "?" + "&".join("%s=%s" % (n,v) for n,v in self.url_params)
+			self.element_content = url
+			self.url_params = None
+		xml_support.XMLEntryHandler.endElement(self, sName)
 
 def _urlencode(word):
 	"""Urlencode a single string of bytes @word"""
@@ -99,19 +126,22 @@ class SearchEngine (Leaf):
 
 class OpenSearchSource (Source):
 	def __init__(self):
-		Source.__init__(self, _("OpenSearch Search Engines"))
+		Source.__init__(self, _("Search Engines"))
 
-	@classmethod
-	def _parse_opensearch(cls, filepaths):
+	def _parse_opensearch(self, filepaths):
 		searches = []
 		parser = xml.sax.make_parser()
-		simplekeys = ["Description", "Url", "ShortName", "InputEncoding"]
-		keys = simplekeys[:]
-		keys += ["os:" + k for k in simplekeys]
+		reqkeys =  ["Description", "Url", "ShortName"]
+		allkeys = reqkeys + ["InputEncoding", "Param"]
+		keys = allkeys[:]
+		keys += ["os:" + k for k in allkeys]
 		handler = OpenSearchHandler(searches, "SearchPlugin", {}, keys)
 		parser.setContentHandler(handler)
-		for filepath in filepaths:
-			parser.parse(filepath)
+		for path in filepaths:
+			try:
+				parser.parse(path)
+			except xml.sax.SAXException, exc:
+				self.output_debug("%s: %s" % (type(exc).__name__, exc))
 
 		# normalize to unnamespaced values and sanitize
 		for s in searches:
@@ -121,20 +151,46 @@ class OpenSearchSource (Source):
 				s[skey] = val.strip()
 
 		# remove those missing keys
-		searches = [s for s in searches if all((k in s) for k in simplekeys)]
+		searches = [s for s in searches if all((k in s) for k in reqkeys)]
 		return searches
 
 	def get_items(self):
 		plugin_dirs = []
-		home_plugins = firefox_support.get_firefox_home_file("searchplugins")
-		if home_plugins:
-			plugin_dirs.append(home_plugins)
+
 		# accept in kupfer data dirs
 		plugin_dirs.extend(config.get_data_dirs("searchplugins"))
 
-		for dirname, dirs, files in os.walk(home_plugins):
-			break
-		searches = self._parse_opensearch((os.path.join(dirname, f) for f in files))
-		for s in searches:
-			yield SearchEngine(s, s.get("ShortName"))
+		# firefox in home directory
+		ffx_home = firefox_support.get_firefox_home_file("searchplugins")
+		if ffx_home:
+			plugin_dirs.append(ffx_home)
 
+		plugin_dirs.extend(config.get_data_dirs("searchplugins",
+			package="firefox"))
+		plugin_dirs.extend(config.get_data_dirs("searchplugins",
+			package="iceweasel"))
+
+		self.output_debug("Found following searchplugins directories",
+				sep="\n", *plugin_dirs)
+
+		def listfiles(directory):
+			"""Return a list of files in @directory, without recursing"""
+			for dirname, dirs, files in os.walk(plugin_dir):
+				return files
+
+		searches = []
+		for plugin_dir in plugin_dirs:
+			for filename in listfiles(plugin_dir):
+				if filename in searches:
+					continue
+				filepath = os.path.join(plugin_dir, filename)
+				searches.extend(self._parse_opensearch((filepath, )))
+
+		for s in searches:
+			yield SearchEngine(s, s["ShortName"])
+
+	def should_sort_lexically(self):
+		return True
+
+	def get_icon_name(self):
+		return "web-browser"
