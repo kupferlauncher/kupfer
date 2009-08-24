@@ -71,11 +71,11 @@ def get_data_home():
 	"""
 	return base.save_data_path(PACKAGE_NAME)
 
-def get_data_dirs(name=""):
+def get_data_dirs(name="", package=PACKAGE_NAME):
 	"""
 	Iterate over all data dirs of @name that exist
 	"""
-	return base.load_data_paths(os.path.join(PACKAGE_NAME, name))
+	return base.load_data_paths(os.path.join(package, name))
 
 def get_config_file(filename):
 	"""
