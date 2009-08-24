@@ -124,35 +124,44 @@ class SearchEngine (Leaf):
 	def get_icon_name(self):
 		return "text-html"
 
+def coroutine(func):
+	"""Coroutine decorator: Start the coroutine"""
+	def startcr(*ar, **kw):
+		cr = func(*ar, **kw)
+		cr.next()
+		return cr
+	return startcr
+
 class OpenSearchSource (Source):
 	def __init__(self):
 		Source.__init__(self, _("Search Engines"))
 
-	def _parse_opensearch(self, filepaths):
-		searches = []
+	@coroutine
+	def _parse_opensearch(self, target):
+		"""This is a coroutine to parse OpenSearch files"""
 		parser = xml.sax.make_parser()
 		reqkeys =  ["Description", "Url", "ShortName"]
 		allkeys = reqkeys + ["InputEncoding", "Param"]
 		keys = allkeys[:]
 		keys += ["os:" + k for k in allkeys]
+		searches = []
 		handler = OpenSearchHandler(searches, "SearchPlugin", {}, keys)
 		parser.setContentHandler(handler)
-		for path in filepaths:
+		while True:
+			del searches[:]
 			try:
+				path = (yield)
 				parser.parse(path)
 			except xml.sax.SAXException, exc:
 				self.output_debug("%s: %s" % (type(exc).__name__, exc))
-
-		# normalize to unnamespaced values and sanitize
-		for s in searches:
-			for key, val in s.items():
-				skey = key.replace("os:", "", 1)
-				del s[key]
-				s[skey] = val.strip()
-
-		# remove those missing keys
-		searches = [s for s in searches if all((k in s) for k in reqkeys)]
-		return searches
+			else:
+				# normalize to unnamespaced values and sanitize
+				for s in searches:
+					for key, val in s.items():
+						skey = key.replace("os:", "", 1)
+						del s[key]
+						s[skey] = val.strip()
+					target.send(s)
 
 	def get_items(self):
 		plugin_dirs = []
@@ -175,16 +184,20 @@ class OpenSearchSource (Source):
 
 		def listfiles(directory):
 			"""Return a list of files in @directory, without recursing"""
-			for dirname, dirs, files in os.walk(plugin_dir):
+			for dirname, dirs, files in os.walk(directory):
 				return files
 
+		@coroutine
+		def collect(seq):
+			"""Collect items in list @seq"""
+			while True:
+				seq.append((yield))
+
 		searches = []
-		for plugin_dir in plugin_dirs:
-			for filename in listfiles(plugin_dir):
-				if filename in searches:
-					continue
-				filepath = os.path.join(plugin_dir, filename)
-				searches.extend(self._parse_opensearch((filepath, )))
+		collector = collect(searches)
+		parser = self._parse_opensearch(collector)
+		for pdir in plugin_dirs:
+			map(parser.send, (os.path.join(pdir, f) for f in listfiles(pdir)))
 
 		for s in searches:
 			yield SearchEngine(s, s["ShortName"])
