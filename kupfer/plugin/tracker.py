@@ -35,7 +35,7 @@ class TrackerSearch (Action):
 
 class TrackerSearchHere (Action):
 	def __init__(self):
-		Action.__init__(self, _("Get Tracker results..."))
+		Action.__init__(self, _("Get Tracker Results..."))
 
 	def is_factory(self):
 		return True
