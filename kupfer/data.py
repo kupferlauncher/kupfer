@@ -137,20 +137,6 @@ class Searcher (object):
 		match, match_iter = peekfirst(decorator(valid_check(unique_matches)))
 		return match, match_iter
 
-class RescanThread (threading.Thread, pretty.OutputMixin):
-	def __init__(self, source, sender, signal, context=None, **kwargs):
-		super(RescanThread, self).__init__(**kwargs)
-		self.source = source
-		self.sender = sender
-		self.signal = signal
-		self.context = context
-
-	def run(self):
-		self.output_debug(repr(self.source))
-		items = self.source.get_leaves(force_update=True)
-		if self.sender and self.signal:
-			gobject.idle_add(self.sender.emit, self.signal, self.context)
-
 class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 	"""
 	Periodically rescan a @catalog of sources
@@ -188,7 +174,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 			oldtime = self.latest_rescan_time.get(next, 0)
 			if (time.time() - oldtime) > self._min_rescan_interval:
 				self.timer.set(self.period, self._periodic_rescan_helper)
-				self.reload_source(next)
+				self._start_source_rescan(next)
 				return
 		# No source to scan found
 		self.output_info("Campaign finished, pausing %d s" % self.campaign)
@@ -198,16 +184,19 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		"""Register an object for rescan
 		dynamic sources will only be rescanned if @force is True
 		"""
-		self.reload_source(source, force)
+		self._start_source_rescan(source, force)
 
-	def reload_source(self, source, force=False):
+	def _start_source_rescan(self, source, force=False):
 		self.latest_rescan_time[source] = time.time()
 		if force:
-			source.get_leaves(force_update=True)
-			self.emit("reloaded-source", source)
+			self.rescan_source(source)
 		elif not source.is_dynamic():
-			rt = RescanThread(source, self, "reloaded-source", context=source)
-			rt.start()
+			thread = threading.Thread(target=self.rescan_source, args=(source,))
+			thread.start()
+
+	def rescan_source(self, source):
+		items = source.get_leaves(force_update=True)
+		gobject.idle_add(self.emit, "reloaded-source", source)
 
 gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
