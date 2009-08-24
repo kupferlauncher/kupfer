@@ -70,7 +70,7 @@ def _do_search_engine(terms, search_url, encoding="UTF-8"):
 class SearchWithEngine (Action):
 	"""TextLeaf -> SearchWithEngine -> SearchEngine"""
 	def __init__(self):
-		Action.__init__(self, _("Search with..."))
+		Action.__init__(self, _("Search With..."))
 
 	def activate(self, leaf, iobj):
 		coding = iobj.object.get("InputEncoding")
@@ -96,7 +96,7 @@ class SearchFor (Action):
 	This is the opposite action to SearchWithEngine
 	"""
 	def __init__(self):
-		Action.__init__(self, _("Search for..."))
+		Action.__init__(self, _("Search For..."))
 
 	def activate(self, leaf, iobj):
 		coding = leaf.object.get("InputEncoding")
