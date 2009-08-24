@@ -22,14 +22,10 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 class ClipboardText (TextLeaf):
-	def __init__(self, text):
-		# take first non-empty line
-		firstline = [l for l in text.splitlines() if l.strip()][0]
-		TextLeaf.__init__(self, text, name=firstline)
 	def get_description(self):
 		lines = self.object.splitlines()
 		desc = unicode(self)
-		numlines = len(lines)
+		numlines = len(lines) or 1
 
 		return ngettext('Clipboard "%(desc)s"',
 			'Clipboard with %(num)d lines "%(desc)s"',

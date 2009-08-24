@@ -1119,16 +1119,14 @@ class TextLeaf (Leaf):
 		return ()
 
 	def get_description(self):
-		# FIXME: We should return full text and UI should handle truncating?
 		lines = self.object.splitlines()
-		striplines = [l for l in lines if l.strip()]
+		desc = unicode(self)
 		numlines = len(lines) or 1
-		firstline = striplines[0] if striplines else self.object
 
 		# TRANS: This is description for a TextLeaf, a free-text search
 		# TRANS: The plural parameter is the number of lines %(num)d
 		return ngettext('"%(text)s"', '(%(num)d lines) "%(text)s"',
-			numlines) % {"num": numlines, "text": firstline }
+			numlines) % {"num": numlines, "text": desc }
 
 	def get_icon_name(self):
 		return "gtk-select-all"
