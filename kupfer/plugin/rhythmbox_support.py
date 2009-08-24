@@ -27,19 +27,19 @@ import os
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 
-class RhythmBoxHandler(ContentHandler):
-    """Parse rhythmbox library into a list of dictionaries.
-    Get only entries of type @entry_type (commonly "song"),
-    and only record keys in the iterable wanted_keys, or all
-    if None.
+class XMLEntryHandler(ContentHandler):
+    """Parse XML input into a list of dictionaries.
+    Get only entries of type @entry_type are taken.
+    and only record keys in the iterable wanted_keys.
 
     This ContentHandler keeps a big string mapping open, to
-    make sure that equal strings are using equal instances to save memory
+    make sure that equal strings are using equal instances to save memory.
     """
-    def __init__(self, songs, entry_type, wanted_keys):
+    def __init__(self, entries, entry_name, entry_attributes, wanted_keys):
         ContentHandler.__init__(self)
-        self.all_entries = songs
-        self.entry_type = entry_type
+        self.all_entries = entries
+        self.entry_name = entry_name
+        self.entry_attributes = entry_attributes.items()
         self.wanted_keys = dict((k, k) for k in wanted_keys)
         self.is_parsing_tag = False
         self.is_wanted_element = False
@@ -48,7 +48,8 @@ class RhythmBoxHandler(ContentHandler):
         self.element_content = ''
 
     def startElement(self, sName, attributes):
-        if sName == "entry" and attributes["type"] == self.entry_type:
+        if (sName == self.entry_name and
+                all(attributes.get(k) == v for k, v in self.entry_attributes)):
             self.song_entry = {}
             self.is_parsing_tag = True
             self.is_wanted_element = True
@@ -67,7 +68,7 @@ class RhythmBoxHandler(ContentHandler):
         return self.string_map[string]
 
     def endElement(self,sName):
-        if sName == 'entry':
+        if sName == self.entry_name:
             if self.song_entry:
                 self.all_entries.append(self.song_entry)
             self.song_entry = None
@@ -82,7 +83,8 @@ def get_rhythmbox_songs(typ="song", keys=NEEDED_KEYS,
     rhythmbox_dbfile = os.path.expanduser(dbfile)
     rbParser = make_parser()
     lSongs = []
-    rbHandler = RhythmBoxHandler(lSongs, typ, keys)
+    attributes = {"type": typ}
+    rbHandler = XMLEntryHandler(lSongs, "entry", attributes, keys)
     rbParser.setContentHandler(rbHandler)
     rbParser.parse(rhythmbox_dbfile)
     return lSongs
