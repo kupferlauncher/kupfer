@@ -38,13 +38,11 @@ class StepTask (Task):
 		finally:
 			self.finish()
 
-class ThreadTask (Task, threading.Thread):
+class ThreadTask (Task):
 	"""Run in a thread"""
 	def __init__(self, name):
 		Task.__init__(self, name)
-		threading.Thread.__init__(self)
-		self.__thread_done = False
-		self.__thread_started = False
+		self._thread = None
 
 	def is_thread(self):
 		return True
@@ -53,20 +51,12 @@ class ThreadTask (Task, threading.Thread):
 		"""Override this to run what should be done in the thread"""
 		raise NotImplementedError
 
-	def __thread_run(self):
-		try:
-			self.__retval = self.thread_do()
-		finally:
-			self.__thread_done = True
-
 	def run(self):
 		while True:
-			if not self.__thread_started:
-				# swizzle the methods for Thread
-				self.run = self.__thread_run
-				self.start()
-				self.__thread_started = True
-			elif self.__thread_done:
+			if not self._thread:
+				self._thread = threading.Thread(target=self.thread_do)
+				self._thread.start()
+			elif not self._thread.isAlive():
 				return
 			yield
 
