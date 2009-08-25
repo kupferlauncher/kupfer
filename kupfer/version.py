@@ -17,6 +17,16 @@ PROGRAM_NAME = _("Kupfer")
 AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 """.splitlines()
 
+PACKAGERS=u"""
+Luca Falavigna (Debian, Ubuntu)
+""".splitlines()
+
+TRANSLATORS=u"""
+Andrea Zagli (it)
+""".splitlines()
+
+AUTHORS += PACKAGERS + TRANSLATORS
+
 DOCUMENTERS = []
 
 TRANSLATOR_CREDITS = _("translator-credits")
