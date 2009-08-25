@@ -85,6 +85,9 @@ class SearchWithEngine (Action):
 	def object_types(self):
 		yield SearchEngine
 
+	def object_source(self, for_item=None):
+		return OpenSearchSource()
+
 	def get_description(self):
 		return _("Search the web with OpenSearch search engines")
 	def get_icon_name(self):
