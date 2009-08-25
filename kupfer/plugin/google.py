@@ -26,12 +26,15 @@ class OpenSearchHandler (xml_support.XMLEntryHandler):
 	to hack up a solution for the Url element, which _can_ be
 	an entry itself with Param specifications.
 	"""
-	def __init__(self, *args):
-		xml_support.XMLEntryHandler.__init__(self, *args)
+	def __init__(self, entries, elem_name, attributes, keys):
+		keys = set(keys)
+		keys.update(("Param", "MozParam"))
+		xml_support.XMLEntryHandler.__init__(self, entries, elem_name,
+				attributes, keys)
 		self.url_params = None
 
 	def startElement(self, sName, attributes):
-		if self.url_params is not None and sName in ("Param", "os:Param"):
+		if self.url_params is not None and sName == "Param":
 			try:
 				name, value = attributes["name"], attributes["value"]
 			except AttributeError:
@@ -43,6 +46,8 @@ class OpenSearchHandler (xml_support.XMLEntryHandler):
 			self.element_content = attributes["template"]
 			self.is_wanted_element = True
 			self.url_params = []
+		elif sName in ("MozParam", ):
+			pass
 		else:
 			xml_support.XMLEntryHandler.startElement(self, sName, attributes)
 
@@ -144,7 +149,7 @@ class OpenSearchSource (Source):
 		"""This is a coroutine to parse OpenSearch files"""
 		parser = xml.sax.make_parser()
 		reqkeys =  ["Description", "Url", "ShortName"]
-		allkeys = reqkeys + ["InputEncoding", "Param"]
+		allkeys = reqkeys + ["InputEncoding"]
 		keys = allkeys[:]
 		keys += ["os:" + k for k in allkeys]
 		searches = []
@@ -164,7 +169,8 @@ class OpenSearchSource (Source):
 						skey = key.replace("os:", "", 1)
 						del s[key]
 						s[skey] = val.strip()
-					target.send(s)
+					if all((k in s) for k in reqkeys):
+						target.send(s)
 
 	def get_items(self):
 		plugin_dirs = []
@@ -199,8 +205,14 @@ class OpenSearchSource (Source):
 		searches = []
 		collector = collect(searches)
 		parser = self._parse_opensearch(collector)
+		# files are unique by filename to allow override
+		visited_files = set()
 		for pdir in plugin_dirs:
-			map(parser.send, (os.path.join(pdir, f) for f in listfiles(pdir)))
+			for f in listfiles(pdir):
+				if f in visited_files:
+					continue
+				parser.send(os.path.join(pdir, f))
+				visited_files.add(f)
 
 		for s in searches:
 			yield SearchEngine(s, s["ShortName"])
