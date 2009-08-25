@@ -209,4 +209,4 @@ class OpenSearchSource (Source):
 		return True
 
 	def get_icon_name(self):
-		return "web-browser"
+		return "applications-internet"
