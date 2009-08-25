@@ -47,7 +47,8 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 	try:
 		import keybinder
 	except ImportError:
-		pretty.print_error("Could not import keybinder, keybindings disabled!")
+		pretty.print_error(__name__, "Could not import keybinder, "
+				"keybindings disabled!")
 		return False
 
 	keybinding_target = int(keybinding_target)
