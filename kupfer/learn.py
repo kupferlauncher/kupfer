@@ -25,8 +25,9 @@ class Mnemonics (object):
 	def get_mnemonics(self):
 		return self.mnemonics
 
-class Learning (pretty.OutputMixin, object):
-	def _unpickle_register(self, pickle_file):
+class Learning (object):
+	@classmethod
+	def _unpickle_register(cls, pickle_file):
 		try:
 			pfile = open(pickle_file, "rb")
 		except IOError, e:
@@ -34,20 +35,20 @@ class Learning (pretty.OutputMixin, object):
 		try:
 			source = pickle.loads(pfile.read())
 			assert isinstance(source, dict), "Stored object not a dict"
-			self.output_debug("Reading from %s" % (pickle_file, ))
+			pretty.print_debug(__name__, "Reading from %s" % (pickle_file, ))
 		except (pickle.PickleError, Exception), e:
 			source = None
-			self.output_info("Error loading %s: %s" % (pickle_file, e))
+			pretty.print_error(__name__, "Error loading %s: %s" % (pickle_file, e))
 		return source
 
+	@classmethod
 	def _pickle_register(self, reg, pickle_file):
 		output = open(pickle_file, "wb")
-		self.output_debug("Saving to %s" % (pickle_file, ))
+		pretty.print_debug(__name__, "Saving to %s" % (pickle_file, ))
 		output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
 		output.close()
 		return True
 
-Learning = Learning()
 _register = {}
 
 def record_search_hit(obj, key=u""):
