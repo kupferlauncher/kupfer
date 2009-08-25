@@ -98,5 +98,8 @@ def finish():
 	"""
 	Close and save the learning record
 	"""
+	if not _register:
+		pretty.print_debug(__name__, "Not writing empty register")
+		return
 	filepath = config.save_data_file(mnemonics_filename)
 	Learning._pickle_register(_register, filepath)
