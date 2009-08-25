@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-08-24 02:49+0200\n"
+"POT-Creation-Date: 2009-08-25 01:59+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -601,21 +601,26 @@ msgstr "Firefox-bokmärken"
 msgid "Index of Firefox bookmarks"
 msgstr "Index över Firefox-bokmärken"
 
-#: ../kupfer/plugin/google.py:8
+#: ../kupfer/plugin/google.py:11
 msgid "Search the Web"
 msgstr "Webbsökning"
 
-#: ../kupfer/plugin/google.py:12
-msgid "Send search queries to Google"
-msgstr "Skicka sökningar till Google"
+#: ../kupfer/plugin/google.py:18 ../kupfer/plugin/google.py:89
+#: ../kupfer/plugin/google.py:116
+msgid "Search the web with OpenSearch search engines"
+msgstr "Sök webben med OpenSearch-sökmotorer"
 
-#: ../kupfer/plugin/google.py:18
-msgid "Search with Google"
-msgstr "Sök med Google"
+#: ../kupfer/plugin/google.py:73
+msgid "Search With..."
+msgstr "Sök med..."
 
-#: ../kupfer/plugin/google.py:27
-msgid "Search for this term with Google"
-msgstr "Sök efter denna termen med Google"
+#: ../kupfer/plugin/google.py:99
+msgid "Search For..."
+msgstr "Sök efter..."
+
+#: ../kupfer/plugin/google.py:137
+msgid "Search Engines"
+msgstr "Sökmotorer"
 
 #: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:19
 msgid "Locate Files"
@@ -831,7 +836,7 @@ msgid "Open Tracker Search Tool and search for this term"
 msgstr "Sök efter denna term i Sökverktyget Tracker"
 
 #: ../kupfer/plugin/tracker.py:38
-msgid "Get Tracker results..."
+msgid "Get Tracker Results..."
 msgstr "Hämta träffar från Tracker..."
 
 #: ../kupfer/plugin/tracker.py:47
