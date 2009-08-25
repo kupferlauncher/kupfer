@@ -708,7 +708,7 @@ class Interface (gobject.GObject):
 		self._key_pressed = None
 		self._theme_colors = {}
 		self.entry.set_size_request(0, 0)
-		self.entry.connect("map-event", self._map_entry)
+		window.connect("map-event", self._map_window)
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -775,7 +775,7 @@ class Interface (gobject.GObject):
 		self._widget = vbox
 		return vbox
 
-	def _map_entry(self, widget, event):
+	def _map_window(self, widget, event):
 		"""When Interface's widget is mapped and shown on the screen"""
 		# Now we can read the style from the real theme
 		if not self._theme_colors:
