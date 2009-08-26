@@ -798,6 +798,13 @@ class Interface (gobject.GObject):
 		"""
 		keyv = event.keyval
 		key_book = self.key_book
+
+		# FIXME: These should be configurable
+		accels = {
+			"<Control>period" : "toggle_text_mode_quick",
+			"<Control>s" : "switch_to_source",
+			"<Control>r" : "reset_all",
+		}
 		# test for alt modifier (MOD1_MASK is alt/option)
 		modifiers = gtk.accelerator_get_default_mod_mask()
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
@@ -812,6 +819,20 @@ class Interface (gobject.GObject):
 		# if input is slow/new, we reset
 		if not text_mode and input_time_diff > self._slow_input_interval:
 			self.reset_text()
+
+		# process accelerators
+		for accel in accels:
+			keyvalue, modifiers = gtk.accelerator_parse(accel)
+			if not keyvalue:
+				continue
+			if keyv == keyvalue and (modifiers == (event.state & modifiers)):
+				action = accels[accel]
+				action_method = getattr(self, action, None)
+				if not action_method:
+					print "Error: no action", action
+				else:
+					action_method()
+				return True
 
 		has_selection = (self.current.get_match_state() is State.Match)
 		can_text_mode = self.get_can_enter_text_mode()
@@ -901,6 +922,14 @@ class Interface (gobject.GObject):
 		else:
 			self.current.reset()
 
+	def reset_all(self):
+		"""Reset all panes and focus the first"""
+		self.reset_current()
+		self.reset()
+		self.switch_to_source()
+		while self._browse_up():
+			pass
+
 	def _reset_key_press(self, escape=False):
 		"""Handle leftarrow, backspace and escape
 		Go up back through browsed sources.
@@ -938,6 +967,14 @@ class Interface (gobject.GObject):
 		self.update_text_mode()
 		self.reset()
 		return val
+
+	def toggle_text_mode_quick(self):
+		"""Toggle text mode or not, if we can, without reset"""
+		if self._is_text_mode:
+			self._is_text_mode = False
+		else:
+			self._is_text_mode = self.get_can_enter_text_mode()
+		self.update_text_mode()
 
 	def update_text_mode(self):
 		"""update appearance to whether text mode enabled or not"""
