@@ -1119,8 +1119,8 @@ class TextLeaf (Leaf):
 		return ()
 
 	def get_description(self):
-		lines = self.object.splitlines()
-		desc = unicode(self)
+		lines = [l for l in self.object.splitlines() if l.strip()]
+		desc = lines[0] if lines else self.object
 		numlines = len(lines) or 1
 
 		# TRANS: This is description for a TextLeaf, a free-text search
