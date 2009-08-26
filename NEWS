@@ -1,6 +1,22 @@
 NEWS for kupfer
 ===============
 
+kupfer version c10
+-----------------
+
+* Updated italian localization
+* New plugins: Url Actions, Web Search (rewritten to use all Firefox' search
+  engines)
+* New actions: _Set Default Application_, _Create Archive In..._,
+  _Restore_ (Restore trashed file)
+* Add accelerators `Control+R` for reset, `Control+S` for select first
+  (source) pane and `Control+.` for untoggle text mode.
+* Only the bookmarks plugins can toggle "include in toplevel" now.
+* Other smaller changes (Refuse invalid Application objects from the
+  cache)
+
+This release is localized in: Swedish (100%), Italian (93%)
+
 kupfer version c9.1
 -----------------
 
