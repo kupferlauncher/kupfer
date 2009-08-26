@@ -73,6 +73,8 @@ def set_options(opt):
 	opt.tool_options("python")
 	opt.tool_options("misc")
 	opt.tool_options("gnu_dirs")
+	opt.add_option('--nopyo',action='store_false',default=False,help='Do not install optimised compiled .pyo files [This is the default for Kupfer]',dest='pyo')
+	opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
 
 def configure(conf):
 	conf.check_tool("python")
