@@ -825,7 +825,7 @@ msgid "Open Tracker Search Tool and search for this term"
 msgstr "Apre lo strumento di ricerca Tracker e cerca questo termine"
 
 #: ../kupfer/plugin/tracker.py:38
-msgid "Get Tracker results..."
+msgid "Get Tracker Results..."
 msgstr "Recupero risultati di Tracker..."
 
 #: ../kupfer/plugin/tracker.py:47
