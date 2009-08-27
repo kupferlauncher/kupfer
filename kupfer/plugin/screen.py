@@ -1,8 +1,7 @@
 import os
-import gio
 
-from kupfer.objects import Leaf, Action, Source, PicklingHelperMixin
-from kupfer import utils
+from kupfer.objects import Leaf, Action, Source, PicklingHelperMixin, FilesystemWatchMixin
+from kupfer import utils, objects
 
 __kupfer_name__ = _("GNU Screen")
 __kupfer_sources__ = ("ScreenSessionsSource", )
@@ -56,7 +55,7 @@ class ScreenSession (Leaf):
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
-class ScreenSessionsSource (Source, PicklingHelperMixin):
+class ScreenSessionsSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 	"""Source for GNU Screen sessions"""
 	def __init__(self):
 		super(ScreenSessionsSource, self).__init__(_("Screen Sessions"))
@@ -69,20 +68,11 @@ class ScreenSessionsSource (Source, PicklingHelperMixin):
 		"""Set up a directory watch on Screen's socket dir"""
 		self.screen_dir = (os.getenv("SCREENDIR") or
 				"/var/run/screen/S-%s" % get_username())
-		gfile = gio.File(self.screen_dir)
-		exists = gfile.query_exists()
-		if not exists:
+		if not os.path.exists(self.screen_dir):
 			self.screen_dir = None
 			self.output_debug("Screen socket dir or SCREENDIR not found")
 			return
-		self.monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
-		self.monitor.connect("changed", self._screen_socket_changed)
-
-	def _screen_socket_changed(self, monitor, file1, file2, evt_type):
-		# (changed attributes need no update, only new files)
-		if evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
-				gio.FILE_MONITOR_EVENT_DELETED):
-			self.mark_for_update()
+		self.monitor = self.monitor_directories(self.screen_dir)
 
 	def get_items(self):
 		if not self.screen_dir:
