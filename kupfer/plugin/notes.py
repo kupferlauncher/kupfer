@@ -95,7 +95,7 @@ class NotesSource (AppLeafContentMixin, Source):
 	appleaf_content_id = PROGRAM_IDS
 	def __init__(self):
 		Source.__init__(self, _("Notes"))
-		self._notes = {}
+		self._notes = []
 
 	def _update_cache(self, notes):
 		try:
@@ -106,22 +106,19 @@ class NotesSource (AppLeafContentMixin, Source):
 
 		templates = notes.GetAllNotesWithTag("system:template")
 
-		self._notes = {}
+		self._notes = []
 		for noteuri in noteuris:
 			if noteuri in templates:
 				continue
 			title = notes.GetNoteTitle(noteuri)
-			self._notes[noteuri] = title
+			self._notes.append((noteuri, title))
 
 	def get_items(self):
 		notes = _get_notes_interface()
 		if notes:
 			self._update_cache(notes)
-		for noteuri, title in self._notes.iteritems():
+		for noteuri, title in self._notes:
 			yield Note(noteuri, title)
-
-	def should_sort_lexically(self):
-		return True
 
 	def get_gicon(self):
 		return icons.get_gicon_with_fallbacks(None, PROGRAM_IDS)
