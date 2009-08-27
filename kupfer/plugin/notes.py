@@ -3,9 +3,13 @@ It *should* be possible to support Tomboy and Gnote equally since
 they support the same DBus protocol. This plugin takes this assumption.
 """
 
-import dbus
+import os
 
-from kupfer.objects import Action, Source, Leaf, AppLeafContentMixin, TextLeaf
+import dbus
+import xdg.BaseDirectory as base
+
+from kupfer.objects import (Action, Source, Leaf, AppLeafContentMixin, TextLeaf,
+		PicklingHelperMixin, FilesystemWatchMixin, )
 from kupfer import icons
 
 __kupfer_name__ = _("Notes")
@@ -112,11 +116,27 @@ class Note (Leaf):
 	def get_icon_name(self):
 		return "text-x-generic"
 
-class NotesSource (AppLeafContentMixin, Source):
+
+class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
+		FilesystemWatchMixin):
 	appleaf_content_id = PROGRAM_IDS
 	def __init__(self):
 		Source.__init__(self, _("Notes"))
 		self._notes = []
+		self.unpickle_finish()
+
+	def unpickle_finish(self):
+		"""Set up filesystem monitors to catch changes"""
+		# We monitor all directories that exist of a couple of candidates
+		dirs = []
+		for program in PROGRAM_IDS:
+			notedatapaths = (os.path.join(base.xdg_data_home, program),
+					os.path.expanduser("~/.%s" % program))
+			dirs.extend(notedatapaths)
+		self.monitor_token = self.monitor_directories(*dirs)
+
+	def pickle_prepare(self):
+		del self.monitor_token
 
 	def _update_cache(self, notes):
 		try:
