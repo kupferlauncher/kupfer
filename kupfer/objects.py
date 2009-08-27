@@ -853,6 +853,42 @@ class Source (KupferObject, pretty.OutputMixin):
 		"""
 		return ()
 
+class FilesystemWatchMixin (object):
+	"""A mixin for Sources watching directories"""
+
+	def monitor_directories(self, *directories):
+		"""Register @directories for monitoring;
+
+		On changes, the Source will be marked for update.
+		This method returns a monitor token that has to be
+		stored for the monitor to be active; and it can not be pickled.
+		The token will be a false value if nothing could be monitored.
+
+		Nonexisting directories are skipped.
+		"""
+		tokens = []
+		for directory in directories:
+			gfile = gio.File(directory)
+			if not gfile.query_exists():
+				continue
+			monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
+			if monitor:
+				monitor.connect("changed", self.__directory_changed)
+				tokens.append(monitor)
+		return tokens
+
+	def monitor_include_file(self, gfile):
+		"""Return whether @gfile should trigger an update event
+		by default, files beginning with "." are ignored
+		"""
+		return not (gfile and gfile.get_basename().startswith("."))
+
+	def __directory_changed(self, monitor, file1, file2, evt_type):
+		if (evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
+				gio.FILE_MONITOR_EVENT_DELETED) and
+				self.monitor_include_file(file1)):
+			self.mark_for_update()
+
 class FileSource (Source):
 	def __init__(self, dirlist, depth=0):
 		"""
@@ -898,7 +934,7 @@ class FileSource (Source):
 	def provides(self):
 		return ConstructFileLeafTypes()
 
-class DirectorySource (Source, PicklingHelperMixin):
+class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 	def __init__(self, dir, show_hidden=False):
 		# Use glib filename reading to make display name out of filenames
 		# this function returns a `unicode` object
@@ -913,15 +949,11 @@ class DirectorySource (Source, PicklingHelperMixin):
 				self.__class__.__name__, str(self.directory), self.show_hidden)
 
 	def pickle_prepare(self):
-		# monitor is not pickleable
+		# the monitor token is not pickleable
 		self.monitor = None
 
 	def unpickle_finish(self):
-		"""Set up change monitor"""
-		gfile = gio.File(self.directory)
-		self.monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
-		if self.monitor:
-			self.monitor.connect("changed", self._changed)
+		self.monitor = self.monitor_directories(self.directory)
 
 	def get_items(self):
 		exclude = lambda f: f.startswith(".") if not self.show_hidden else None
@@ -933,18 +965,6 @@ class DirectorySource (Source, PicklingHelperMixin):
 		return file_leaves(dirlist)
 	def should_sort_lexically(self):
 		return True
-
-	def _changed(self, monitor, file1, file2, evt_type):
-		"""Change callback; something changed in the directory"""
-		# mark for update only for significant changes
-		# (for example, changed files need no update, only new files)
-		if evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
-				gio.FILE_MONITOR_EVENT_DELETED):
-			# ignore invisible files
-			# (since lots of dotfiles are touched in $HOME)
-			if file1 and file1.get_basename().startswith("."):
-				return
-			self.mark_for_update()
 
 	def _parent_path(self):
 		return path.normpath(path.join(self.directory, path.pardir))
