@@ -21,12 +21,22 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 # the very secret priority list
 PROGRAM_IDS = ("gnote", "tomboy")
 
-def _get_notes_interface():
+def _get_notes_interface(activate=False):
+	"""Return the dbus proxy object for our Note Application.
+
+	if @activate, we will activate it over d-bus (start if not running)
+	"""
 	bus = dbus.SessionBus()
+	proxy_obj = bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
+	dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
+
 	for program in PROGRAM_IDS:
 		service_name = "org.gnome.%s" % program.title()
 		obj_name = "/org/gnome/%s/RemoteControl" % program.title()
 		iface_name = "org.gnome.%s.RemoteControl" % program.title()
+
+		if not activate and not dbus_iface.NameHasOwner(service_name):
+			continue
 
 		try:
 			searchobj = bus.get_object(service_name, obj_name)
@@ -41,7 +51,7 @@ class Open (Action):
 		Action.__init__(self, _("Open"))
 	def activate(self, leaf):
 		noteuri = leaf.object
-		notes = _get_notes_interface()
+		notes = _get_notes_interface(activate=True)
 		notes.DisplayNote(noteuri)
 	def get_description(self):
 		return _("Open with notes application")
@@ -60,12 +70,9 @@ class NotesSource (AppLeafContentMixin, Source):
 	appleaf_content_id = PROGRAM_IDS
 	def __init__(self):
 		Source.__init__(self, _("Notes"))
+		self._notes = {}
 
-	def get_items(self):
-		notes = _get_notes_interface()
-		if not notes:
-			return
-
+	def _update_cache(self, notes):
 		try:
 			noteuris = notes.ListAllNotes()
 		except dbus.DBusException, e:
@@ -74,10 +81,18 @@ class NotesSource (AppLeafContentMixin, Source):
 
 		templates = notes.GetAllNotesWithTag("system:template")
 
+		self._notes = {}
 		for noteuri in noteuris:
 			if noteuri in templates:
 				continue
 			title = notes.GetNoteTitle(noteuri)
+			self._notes[noteuri] = title
+
+	def get_items(self):
+		notes = _get_notes_interface()
+		if notes:
+			self._update_cache(notes)
+		for noteuri, title in self._notes.iteritems():
 			yield Note(noteuri, title)
 
 	def should_sort_lexically(self):
