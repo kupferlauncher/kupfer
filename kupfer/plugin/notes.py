@@ -59,6 +59,31 @@ class Open (Action):
 		app_icon = icons.get_gicon_with_fallbacks(None, PROGRAM_IDS)
 		return icons.ComposedIcon(self.get_icon_name(), app_icon)
 
+class AppendToNote (Action):
+	def __init__(self):
+		Action.__init__(self, _("Append to Note..."))
+
+	def activate(self, leaf, iobj):
+		notes = _get_notes_interface()
+		noteuri = iobj.object
+		text = leaf.object
+		# NOTE: We could append using the Note's XML content, but
+		# it does not always work
+		contents = notes.GetNoteContents(noteuri)
+		contents += u"\n%s" % text
+		notes.SetNoteContents(noteuri, contents)
+
+	def item_types(self):
+		yield TextLeaf
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield Note
+	def get_description(self):
+		return _("Append text (note may lose formatting)")
+	def get_icon_name(self):
+		return "gtk-add"
+
 class Note (Leaf):
 	"""The Note Leaf's represented object is the Note URI"""
 	def get_actions(self):
