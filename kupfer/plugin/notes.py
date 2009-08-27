@@ -4,6 +4,7 @@ they support the same DBus protocol. This plugin takes this assumption.
 """
 
 import os
+import time
 
 import dbus
 import xdg.BaseDirectory as base
@@ -111,11 +112,17 @@ class CreateNote (Action):
 
 class Note (Leaf):
 	"""The Note Leaf's represented object is the Note URI"""
+	def __init__(self, obj, name, date):
+		self.changedate = date
+		Leaf.__init__(self, obj, name)
 	def get_actions(self):
 		yield Open()
+	def get_description(self):
+		time_str = time.strftime("%c", time.localtime(self.changedate))
+		# TRANS: Note description, %s is last changed time in locale format
+		return _("Last updated %s") % time_str
 	def get_icon_name(self):
 		return "text-x-generic"
-
 
 class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
 		FilesystemWatchMixin):
@@ -152,14 +159,15 @@ class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
 			if noteuri in templates:
 				continue
 			title = notes.GetNoteTitle(noteuri)
-			self._notes.append((noteuri, title))
+			date = notes.GetNoteChangeDate(noteuri)
+			self._notes.append((noteuri, title, date))
 
 	def get_items(self):
 		notes = _get_notes_interface()
 		if notes:
 			self._update_cache(notes)
-		for noteuri, title in self._notes:
-			yield Note(noteuri, title)
+		for noteuri, title, date in self._notes:
+			yield Note(noteuri, title, date=date)
 
 	def get_gicon(self):
 		return icons.get_gicon_with_fallbacks(None, PROGRAM_IDS)
