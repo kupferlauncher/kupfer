@@ -13,6 +13,7 @@ __kupfer_sources__ = ("NotesSource", )
 __kupfer_contents__ = ("NotesSource", )
 __kupfer_actions__ = (
 		"AppendToNote",
+		"CreateNote",
 	)
 __description__ = _("Gnote or Tomboy notes")
 __version__ = ""
@@ -83,6 +84,26 @@ class AppendToNote (Action):
 		return _("Append text (note may lose formatting)")
 	def get_icon_name(self):
 		return "gtk-add"
+
+class CreateNote (Action):
+	def __init__(self):
+		Action.__init__(self, _("Create Note"))
+
+	def activate(self, leaf):
+		notes = _get_notes_interface()
+		text = leaf.object
+		# FIXME: For Gnote we have to call DisplayNote
+		# else we can't change its contents
+		noteuri = notes.CreateNote()
+		notes.DisplayNote(noteuri)
+		notes.SetNoteContents(noteuri, text)
+
+	def item_types(self):
+		yield TextLeaf
+	def get_description(self):
+		return _("Create a new note from this text")
+	def get_icon_name(self):
+		return "gtk-new"
 
 class Note (Leaf):
 	"""The Note Leaf's represented object is the Note URI"""
