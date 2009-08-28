@@ -88,6 +88,8 @@ class AppendToNote (Action):
 		return True
 	def object_types(self):
 		yield Note
+	def object_source(self, for_item=None):
+		return NotesSource()
 	def get_description(self):
 		return _("Add text to existing note")
 	def get_icon_name(self):
