@@ -5,6 +5,7 @@ they support the same DBus protocol. This plugin takes this assumption.
 
 import os
 import time
+import xml.sax.saxutils
 
 import dbus
 import xdg.BaseDirectory as base
@@ -70,14 +71,16 @@ class AppendToNote (Action):
 		Action.__init__(self, _("Append to Note..."))
 
 	def activate(self, leaf, iobj):
-		notes = _get_notes_interface()
+		notes = _get_notes_interface(activate=True)
 		noteuri = iobj.object
 		text = leaf.object
-		# NOTE: We could append using the Note's XML content, but
-		# it does not always work
-		contents = notes.GetNoteContents(noteuri)
-		contents += u"\n%s" % text
-		notes.SetNoteContents(noteuri, contents)
+
+		# NOTE: We search and replace in the XML here
+		xmlcontents = notes.GetNoteCompleteXml(noteuri)
+		endtag = u"</note-content>"
+		xmltext = xml.sax.saxutils.escape(text)
+		xmlcontents = xmlcontents.replace(endtag, u"\n%s%s" % (xmltext, endtag))
+		notes.SetNoteCompleteXml(noteuri, xmlcontents)
 
 	def item_types(self):
 		yield TextLeaf
@@ -86,7 +89,7 @@ class AppendToNote (Action):
 	def object_types(self):
 		yield Note
 	def get_description(self):
-		return _("Append text (note may lose formatting)")
+		return _("Add text to existing note")
 	def get_icon_name(self):
 		return "gtk-add"
 
