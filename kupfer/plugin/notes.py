@@ -100,7 +100,7 @@ class CreateNote (Action):
 		Action.__init__(self, _("Create Note"))
 
 	def activate(self, leaf):
-		notes = _get_notes_interface()
+		notes = _get_notes_interface(activate=True)
 		text = leaf.object
 		# FIXME: For Gnote we have to call DisplayNote
 		# else we can't change its contents
