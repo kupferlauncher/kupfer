@@ -75,6 +75,7 @@ def set_options(opt):
 	opt.tool_options("gnu_dirs")
 	opt.add_option('--nopyo',action='store_false',default=False,help='Do not install optimised compiled .pyo files [This is the default for Kupfer]',dest='pyo')
 	opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
+	opt.sub_options("extras")
 
 def configure(conf):
 	conf.check_tool("python")
@@ -120,6 +121,7 @@ def configure(conf):
 	pipe = os.popen("""%(PYTHON)s -c "import sys; print '%(PYTHONDIR)s' in sys.path" """ % conf.env)
 	if "False" in pipe.read():
 		Utils.pprint("YELLOW", "Please add %(PYTHONDIR)s to your sys.path!" % conf.env)
+	conf.sub_config("extras")
 
 def new_module(bld, name, sources=None):
 	if not sources: sources = name
@@ -155,7 +157,7 @@ def build(bld):
 		dict = {"PYTHON": bld.env["PYTHON"]}
 		)
 
-	bld.add_subdirs("po data")
+	bld.add_subdirs("po data extras")
 
 def intlupdate(util):
 	"""Extract new strings for localization"""
