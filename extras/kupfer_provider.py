@@ -21,6 +21,8 @@ updated with all file selections in Nautilus, and broadcast them over a D-Bus
 signal.
 """
 
+import locale
+
 import dbus
 import dbus.glib
 from dbus.gobject_service import ExportedGObject
@@ -38,6 +40,14 @@ class Object (ExportedGObject):
 		We have no idea which encoding the filesystem uses, so we
 		send filesystem bytes; the receiver should use glib to
 		decode the byte strings to strings.
+		"""
+		return paths
+
+	@dbus.service.signal(interface_name, signature="as")
+	def SelectionChangedStrings(self, paths):
+		"""Nautilus selection changed. Passes an array of strings;
+		We guess the filesystem encoding, and any files that cannot be
+		decoded are skipped
 		"""
 		return paths
 
@@ -66,8 +76,18 @@ class KupferSelectionProvider(nautilus.MenuProvider):
 		# - All selected files are locals
 		uris = [f.get_uri() for f in files]
 		paths = filter(None, (gio.File(u).get_path() for u in uris))
+		# try to decode filesystem strings
+		ustrs = []
+		encoding = locale.getpreferredencoding()
+		for p in paths:
+			try:
+				pdec = p.decode(encoding)
+			except UnicodeDecodeError:
+				continue
+			ustrs.append(pdec)
 		if paths != self.cur_selection and self.service:
 			self.service.SelectionChanged(paths)
+			self.service.SelectionChangedStrings(ustrs)
 		self.cur_selection = paths
 		return
 
