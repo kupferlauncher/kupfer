@@ -35,16 +35,13 @@ class SelectionSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		session_bus = dbus.Bus()
 		session_bus.add_signal_receiver(self._selected_signal, 
+				"SelectionChanged",
 				dbus_interface="se.kaizer.KupferNautilusPlugin",
 				byte_arrays=True)
 		self._selection = []
 
 	def _selected_signal(self, selection):
 		self._selection = selection
-		self.mark_for_update()
-
-	def _clipboard_owner_changed(self, clipboard, event):
-		self._text = clipboard.wait_for_text()
 		self.mark_for_update()
 
 	def get_items(self):
