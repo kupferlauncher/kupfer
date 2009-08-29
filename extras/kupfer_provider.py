@@ -32,8 +32,13 @@ interface_name="se.kaizer.KupferNautilusPlugin"
 object_path = "/se/kaizer/kupfer/NautilusPlugin"
 
 class Object (ExportedGObject):
-	@dbus.service.signal(interface_name, signature="as")
+	@dbus.service.signal(interface_name, signature="aay")
 	def SelectionChanged(self, paths):
+		"""Nautilus selection changed. Passes an array of byte strings;
+		We have no idea which encoding the filesystem uses, so we
+		send filesystem bytes; the receiver should use glib to
+		decode the byte strings to strings.
+		"""
 		return paths
 
 class KupferSelectionProvider(nautilus.MenuProvider):

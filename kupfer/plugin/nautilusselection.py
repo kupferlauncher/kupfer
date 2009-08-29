@@ -1,6 +1,7 @@
 import os
 
 import dbus
+import gobject
 
 from kupfer.objects import Source, Leaf, FileLeaf, SourceLeaf, PicklingHelperMixin
 from kupfer import objects
@@ -13,8 +14,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class SelectedFile (FileLeaf):
 	def __init__(self, filepath):
-		"""@filepath is unicode and can be safely used"""
-		basename = os.path.basename(filepath)
+		"""@filepath is a filesystem byte string `str`"""
+		basename = gobject.filename_display_basename(filepath)
 		FileLeaf.__init__(self, filepath, _('Selected File "%s"') % basename)
 
 	def rank_key(self):
@@ -34,7 +35,8 @@ class SelectionSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		session_bus = dbus.Bus()
 		session_bus.add_signal_receiver(self._selected_signal, 
-				dbus_interface="se.kaizer.KupferNautilusPlugin")
+				dbus_interface="se.kaizer.KupferNautilusPlugin",
+				byte_arrays=True)
 		self._selection = []
 
 	def _selected_signal(self, selection):
