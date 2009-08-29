@@ -81,6 +81,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
 		col.add_attribute(cell, "markup", self.columns.index("markup"))
+		cell.set_property("ellipsize", pango.ELLIPSIZE_END)
 
 		self.table.append_column(checkcol)
 		# hide icon for now
