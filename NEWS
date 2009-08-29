@@ -1,6 +1,20 @@
 NEWS for kupfer
 ===============
 
+kupfer version c11
+-----------------
+
+The "this one goes to 11" release
+
+* New plugin: Notes (Gnote and Tomboy support)
+  * Access notes, Actions: _Create Note_ and _Append to Note..._
+* New plugin: Selected File
+  * Kupfer ships with a Nautilus python extension that once installed,
+    you can access the currently selected file in Nautilus from Kupfer,
+    as the _Selected File_ object
+
+This release is localized in: Swedish (100%), Italian (90%)
+
 kupfer version c10
 -----------------
 
