@@ -56,6 +56,7 @@ class KupferSelectionProvider(nautilus.MenuProvider):
 		selfname = type(self).__name__
 		print "Initializing", selfname
 		self.cur_selection = []
+		self.max_threshold = 500
 		try:
 			session_bus = dbus.Bus()
 		except dbus.DBusException, exc:
@@ -70,11 +71,19 @@ class KupferSelectionProvider(nautilus.MenuProvider):
 				self.service = Object(bus_name, object_path=object_path)
 	
 	def get_file_items(self, window, files):
-		"""We show nothing, but we get info on files that are selected"""
-		# iif:
-		# - There is at least on file selected
-		# - All selected files are locals
-		uris = [f.get_uri() for f in files]
+		"""We show nothing, but we get info on files that are selected
+
+		Ask GIO for the file path of each URI item, and pass on any that
+		have a defined path.
+		Then we try to decode the paths to strings to send if possible to
+		decode using the current encoding.
+
+		We use a threshold on the files so that we don't generate too much
+		traffic; with more than 500 files selected, we simply send nothing.
+		"""
+		if len(files) > self.max_threshold:
+			return
+		uris = (f.get_uri() for f in files)
 		paths = filter(None, (gio.File(u).get_path() for u in uris))
 		# try to decode filesystem strings
 		ustrs = []
