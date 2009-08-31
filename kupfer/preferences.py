@@ -223,11 +223,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		about.set_version(version)
 		about.set_comments(description)
 		about.set_copyright(author)
-		# extra info hack; find the vbox in the about dialog
-		child = about.get_child()
-		if isinstance(child, gtk.VBox):
-			wid = self._make_plugin_info_widget(plugin_id)
-			child.pack_start(wid)
+		child = about.get_content_area()
+		wid = self._make_plugin_info_widget(plugin_id)
+		child.pack_start(wid)
 
 		about.show()
 		about.connect("response", lambda widget, response: widget.destroy())
