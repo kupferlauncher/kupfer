@@ -5,6 +5,7 @@ import gobject
 
 from kupfer.objects import Source, Leaf, FileLeaf, SourceLeaf, PicklingHelperMixin
 from kupfer import objects
+from kupfer.helplib import WeakCallback
 
 __kupfer_name__ = _("Selected File")
 __kupfer_sources__ = ("SelectionSource", )
@@ -34,7 +35,8 @@ class SelectionSource (Source, PicklingHelperMixin):
 
 	def unpickle_finish(self):
 		session_bus = dbus.Bus()
-		session_bus.add_signal_receiver(self._selected_signal, 
+		session_bus.add_signal_receiver(
+				WeakCallback(self, "_selected_signal"),
 				"SelectionChanged",
 				dbus_interface="se.kaizer.KupferNautilusPlugin",
 				byte_arrays=True)
