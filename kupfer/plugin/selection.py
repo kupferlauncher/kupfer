@@ -2,6 +2,7 @@ import gtk
 
 from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, PicklingHelperMixin
 from kupfer import objects
+from kupfer.helplib import WeakCallback
 
 __kupfer_name__ = _("Selected Text")
 __kupfer_sources__ = ("SelectionSource", )
@@ -34,11 +35,11 @@ class SelectionSource (Source, PicklingHelperMixin):
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		clipboard = gtk.clipboard_get("PRIMARY")
-		clipboard.connect("owner-change", self._clipboard_owner_changed)
+		clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
+		clip.connect("owner-change", WeakCallback(self, "_clipboard_changed"))
 		self._text = None
 
-	def _clipboard_owner_changed(self, clipboard, event):
+	def _clipboard_changed(self, clipboard, event):
 		self._text = clipboard.wait_for_text()
 		self.mark_for_update()
 
