@@ -148,7 +148,7 @@ class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
 		self.monitor_token = self.monitor_directories(*dirs)
 
 	def pickle_prepare(self):
-		del self.monitor_token
+		self.monitor_token = None
 
 	def _update_cache(self, notes):
 		try:
