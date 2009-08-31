@@ -35,8 +35,8 @@ def mem_stats():
 	
 	print "---just gtk (top)"
 	print "\n".join("%s: %d" % (k,v) for k,v in gtk[:10])
-	print "---Just our objects (all)"
-	print "\n".join("%s: %d" % (k,v) for k,v in our)
+	print "---Just our objects (all > 1)"
+	print "\n".join("%s: %d" % (k,v) for k,v in our if v > 1)
 
 def make_histogram(vect, nbins=7):
 	"""make a histogram out of @vect"""
