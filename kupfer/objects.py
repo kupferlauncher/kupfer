@@ -576,7 +576,8 @@ class OpenWith (Action):
 
 	def activate(self, leaf):
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
-			print self, "does not support opening files"
+			pretty.print_error(__name__, self.desktop_item,
+				"says it does not support opening files, still trying to open")
 		utils.launch_app(self.desktop_item, paths=(leaf.object,))
 
 	def get_description(self):
