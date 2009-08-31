@@ -411,8 +411,8 @@ class SourceController (pretty.OutputMixin):
 		"dummy" instance @source, if it doesn't succeed,
 		the "dummy" becomes live and is rescanned if @rescan
 		"""
+		sourcepickler = SourcePickler()
 		for source in list(sources):
-			sourcepickler = SourcePickler()
 			if self.pickle:
 				news = sourcepickler.unpickle_source(source)
 			else:
