@@ -1022,6 +1022,11 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 		# Check that items are still valid when "coming back"
 		self.data_controller.validate()
+		self._show_third_pane(self._pane_three_is_visible)
+
+	def put_away(self):
+		"""Called when the interface is hidden"""
+		self._show_third_pane(False)
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
@@ -1258,6 +1263,7 @@ class WindowController (pretty.OutputMixin):
 		self.interface.focus()
 	
 	def put_away(self):
+		self.interface.put_away()
 		self.window.hide()
 	
 	def _cancelled(self, widget):
