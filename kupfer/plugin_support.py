@@ -1,5 +1,16 @@
 from kupfer import pretty, settings
 
+SETTING_PREFER_CATALOG = {
+	"key" : "kupfer_toplevel",
+	"label": _("Include in top level"),
+	"type": bool,
+	"value": False,
+	"tooltip": _(
+		"If enabled, objects from the plugin's source(s) "
+		"will be available in the top level.\n"
+		"Sources are always available as subcatalogs in the top level."),
+}
+
 class PluginSettings (pretty.OutputMixin):
 	"""Allows plugins to have preferences by assigning an instance
 	of this class to the plugin's __kupfer_settings__ attribute.
@@ -59,3 +70,6 @@ class PluginSettings (pretty.OutputMixin):
 	def get_alternatives(self, key):
 		"""Return alternatives for setting @key (if any)"""
 		return self.setting_descriptions[key].get("alternatives")
+	def get_tooltip(self, key):
+		"""Return tooltip string for setting @key (if any)"""
+		return self.setting_descriptions[key].get("tooltip")
