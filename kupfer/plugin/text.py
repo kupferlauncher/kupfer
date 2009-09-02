@@ -51,15 +51,17 @@ class URLTextSource (TextSource):
 	def get_rank(self):
 		return 75
 	def get_items(self, text):
-		""" A bit of hackery to recognize URLs and web addresses
-		alike"""
 		text = text.strip()
 		components = list(urlparse(text))
 		domain = "".join(components[1:])
 		dotparts = domain.rsplit(".")
 
+		# 1. Domain name part is one word (without spaces)
+		# 2. Urlparse parses a scheme (http://), else we apply heuristics
 		if len(domain.split()) == 1 and (components[0] or ("." in domain and
-			len(dotparts) >= 2 and len(dotparts[-1]) >= 2)):
+			len(dotparts) >= 2 and len(dotparts[-1]) >= 2 and
+			any(char.isalpha() for char in domain) and
+			all(part[:1].isalnum() for part in dotparts))):
 			if not components[0]:
 				url = "http://" + "".join(components[1:])
 			else:
