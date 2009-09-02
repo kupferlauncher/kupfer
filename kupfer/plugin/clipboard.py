@@ -4,7 +4,7 @@ import gtk
 
 from kupfer.objects import Source, Action, TextLeaf, Leaf, PicklingHelperMixin
 from kupfer import utils, plugin_support
-from kupfer.helplib import WeakCallback
+from kupfer.helplib import gobject_connect_weakly
 
 __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource", )
@@ -43,7 +43,7 @@ class ClipboardSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		"""Setup change callback on unpickling"""
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		clip.connect("owner-change", WeakCallback(self, "_clipboard_changed"))
+		gobject_connect_weakly(clip, "owner-change", self, "_clipboard_changed")
 
 	def _clipboard_changed(self, clip, *args):
 		max_len = __kupfer_settings__["max"]

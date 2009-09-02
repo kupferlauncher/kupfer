@@ -7,7 +7,7 @@ from kupfer.objects import (Leaf, Action, Source,
 		AppLeaf, FileLeaf, UrlLeaf, PicklingHelperMixin )
 from kupfer import objects, plugin_support
 from kupfer import launch, icons
-from kupfer.helplib import WeakCallback
+from kupfer.helplib import gobject_connect_weakly
 
 __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
@@ -36,7 +36,7 @@ class RecentsSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		"""Set up change callback"""
 		manager = recent_manager_get_default()
-		manager.connect("changed", WeakCallback(self, "_recent_changed"))
+		gobject_connect_weakly(manager, "changed", self, "_recent_changed")
 
 	def _recent_changed(self, *args):
 		# FIXME: We don't get single item updates, might this be
