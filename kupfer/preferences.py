@@ -203,11 +203,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.buttonpluginabout.set_sensitive(True)
 		settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
-		catalog = self._plugin_makes_sense_in_catalog(plugin_id)
-		if settings or catalog:
-			self.buttonpluginsettings.set_sensitive(True)
-		else:
-			self.buttonpluginsettings.set_sensitive(False)
+		self.buttonpluginsettings.set_sensitive(bool(settings))
 
 	def on_buttonpluginabout_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
@@ -305,11 +301,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 			widget.destroy()
 			return True
 
-	def _plugin_makes_sense_in_catalog(self, plugin_id):
-		"""Whether the setting for toplevel should be shown for @plugin_id"""
-		setctl = settings.GetSettingsController()
-		return setctl.get_plugin_show_toplevel_option(plugin_id)
-
 	def on_buttonpluginsettings_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
 		if not curpath:
@@ -328,23 +319,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		vbox = gtk.VBox()
 		vbox.set_property("border-width", 10)
 		vbox.set_property("spacing", 10)
-
-		# set up Catalog/Direct checkbox
-		if self._plugin_makes_sense_in_catalog(plugin_id):
-			setctl = settings.GetSettingsController()
-			incl_label = _("Include in top level")
-			incl_tooltip = _(
-				"If enabled, objects from the plugin's source(s) "
-				"will be available in the top level.\n"
-				"Sources are always available as subcatalogs in the top level.")
-			incl_active = setctl.get_plugin_is_toplevel(plugin_id)
-			incl_type = bool
-			inclwid = gtk.CheckButton(incl_label)
-			inclwid.set_active(incl_active)
-			inclwid.set_tooltip_text(incl_tooltip)
-			inclwid.connect("toggled", self._get_plugin_change_callback(
-				plugin_id, "kupfer_toplevel", incl_type, "get_active"))
-			vbox.pack_start(inclwid, False)
 
 		plugin_settings_keys = iter(plugin_settings) if plugin_settings else ()
 		for setting in plugin_settings_keys:
