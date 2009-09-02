@@ -166,6 +166,12 @@ def get_destfile_in_directory(directory, filename, extension=None):
 			return (os.fdopen(fd, "wb"), destpath)
 	return (None, None)
 
+def get_safe_tempfile():
+	"""Return (fileobj, filepath) pointing to an open temporary file"""
+	import tempfile
+	fd, path = tempfile.mkstemp()
+	return (os.fdopen(fd, "wb"), path)
+
 def get_display_path_for_bytestring(filepath):
 	"""Return a unicode path for display for bytestring @filepath
 
