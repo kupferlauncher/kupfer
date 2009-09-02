@@ -147,6 +147,25 @@ def get_destpath_in_directory(directory, filename, extension=None):
 		destpath = os_path.join(directory, basename)
 	return destpath
 
+def get_destfile_in_directory(directory, filename, extension=None):
+	"""Find a good destination for a file named @filename in path @directory.
+
+	Like get_destpath_in_directory, but returns an open file object, opened
+	atomically to avoid race conditions.
+
+	Return (fileobj, filepath)
+	"""
+	# retry if it fails
+	for retry in xrange(3):
+		destpath = get_destpath_in_directory(directory, filename, extension)
+		try:
+			fd = os.open(destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+		except OSError, exc:
+			pretty.print_error(__name__, exc)
+		else:
+			return (os.fdopen(fd, "wb"), destpath)
+	return (None, None)
+
 def get_display_path_for_bytestring(filepath):
 	"""Return a unicode path for display for bytestring @filepath
 
