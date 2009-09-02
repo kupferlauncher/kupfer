@@ -205,11 +205,6 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		return self.get_plugin_config(plugin_id, "kupfer_toplevel",
 				value_type=strbool, default=True)
 
-	def get_plugin_show_toplevel_option(self, plugin_id):
-		"""Convenience: if @plugin_id should show toplevel option"""
-		return self.get_plugin_config(plugin_id, "kupfer_show_toplevel",
-				value_type=strbool, default=False)
-
 	def get_plugin_is_hidden(self, plugin_id):
 		"""Convenience: if @plugin_id is hidden"""
 		return self.get_plugin_config(plugin_id, "kupfer_hidden",
