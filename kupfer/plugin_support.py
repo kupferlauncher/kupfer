@@ -11,6 +11,9 @@ SETTING_PREFER_CATALOG = {
 		"Sources are always available as subcatalogs in the top level."),
 }
 
+def _is_core_setting(key):
+	return key.startswith("kupfer_")
+
 class PluginSettings (pretty.OutputMixin):
 	"""Allows plugins to have preferences by assigning an instance
 	of this class to the plugin's __kupfer_settings__ attribute.
@@ -36,7 +39,7 @@ class PluginSettings (pretty.OutputMixin):
 			if not req_keys.issubset(desc.keys()):
 				missing = req_keys.difference(desc.keys())
 				raise KeyError("Plugin setting missing keys: %s" % missing)
-			self.setting_descriptions[desc["key"]] = desc
+			self.setting_descriptions[desc["key"]] = dict(desc)
 			self.setting_key_order.append(desc["key"])
 
 	def __iter__(self):
@@ -50,16 +53,19 @@ class PluginSettings (pretty.OutputMixin):
 			value = setctl.get_plugin_config(plugin_name, key, value_type)
 			if value is not None:
 				self[key] = value
-		setctl.connect("value-changed", self._value_changed)
+			elif _is_core_setting(key):
+				default = self.setting_descriptions[key]["value"]
+				setctl.set_plugin_config(plugin_name, key, default, value_type)
+		setctl.connect("value-changed", self._value_changed, plugin_name)
 
 	def __getitem__(self, key):
 		return self.setting_descriptions[key]["value"]
 	def __setitem__(self, key, value):
 		value_type = self.setting_descriptions[key]["type"]
 		self.setting_descriptions[key]["value"] = value_type(value)
-	def _value_changed(self, setctl, section, key, value):
+	def _value_changed(self, setctl, section, key, value, plugin_name):
 		"""Preferences changed, update object"""
-		if key in self:
+		if key in self and plugin_name in section:
 			self[key] = value
 	def get_value_type(self, key):
 		"""Return type of setting @key"""
