@@ -38,3 +38,9 @@ class WeakCallback (object):
 			self.dbus_token.remove()
 			self.dbus_token = None
 
+def gobject_connect_weakly(sender, signal, connector, attr, *user_args):
+	"""Connect weakly to GObject @sender's @signal,
+	with a callback in @connector named @attr.
+	"""
+	wc = WeakCallback(connector, attr)
+	wc.gobject_token = sender.connect(signal, wc, *user_args)
