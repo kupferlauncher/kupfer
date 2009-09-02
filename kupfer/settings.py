@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 import os, sys
 import ConfigParser
 import copy
@@ -79,9 +81,8 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 		for config_file in config_files:
 			try:
-				fil = open(config_file, "r")
-				parser.readfp(fil)
-				fil.close()
+				with open(config_file, "r") as fil:
+					parser.readfp(fil)
 			except IOError, e:
 				print "Error reading configuration file %s: %s", (config_file, e)
 
@@ -147,8 +148,8 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 		confmap = confmap_difference(self._config, default_confmap)
 		fill_parser(parser, confmap)
-		out = open(config_path, "w")
-		parser.write(out)
+		with open(config_path, "w") as out:
+			parser.write(out)
 
 	def get_config(self, section, key):
 		"""General interface, but section must exist"""
