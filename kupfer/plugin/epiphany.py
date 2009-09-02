@@ -1,5 +1,6 @@
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
 from kupfer.objects import UrlLeaf
+from kupfer import plugin_support
 
 __kupfer_name__ = _("Epiphany Bookmarks")
 __kupfer_sources__ = ("EpiphanySource", )
@@ -7,6 +8,10 @@ __kupfer_contents__ = ("EpiphanySource", )
 __description__ = _("Index of Epiphany bookmarks")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	plugin_support.SETTING_PREFER_CATALOG,
+)
 
 class EpiphanySource (AppLeafContentMixin, Source):
 	appleaf_content_id = "epiphany"
