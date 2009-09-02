@@ -188,6 +188,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		id_col = self.columns.index("plugin_id")
 		plugin_id = self.store.get_value(it, id_col)
 		return plugin_id
+
 	def _plugin_info_for_id(self, plugin_id):
 		for info in self.plugin_info:
 			if info["name"] == plugin_id:
@@ -324,9 +325,12 @@ class PreferencesWindowController (pretty.OutputMixin):
 		for setting in plugin_settings_keys:
 			typ = plugin_settings.get_value_type(setting)
 			alternatives = plugin_settings.get_alternatives(setting)
+			tooltip = plugin_settings.get_tooltip(setting)
 			wid = None
 			hbox = gtk.HBox()
 			hbox.set_property("spacing", 10)
+			if tooltip:
+				hbox.set_tooltip_text(tooltip)
 			label = plugin_settings.get_label(setting)
 			label_wid = gtk.Label(label)
 			if issubclass(typ, basestring):
