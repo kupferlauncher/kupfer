@@ -16,17 +16,22 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class DownloadTask (task.StepTask):
-	def __init__(self, uri, destdir, finish_callback=None):
+	def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):
 		super(DownloadTask, self).__init__()
 		self.response = urllib2.urlopen(uri)
 
 		header_basename = self.response.headers.get('Content-Disposition')
 		destname = header_basename or os.path.basename(self.response.url)
-		self.destpath = utils.get_destpath_in_directory(destdir, destname)
+		if tempfile:
+			(self.destfile, self.destpath) = utils.get_safe_tempfile()
+		else:
+			(self.destfile, self.destpath) = \
+				utils.get_destfile_in_directory(destdir, destname)
 		self.done = False
-		self.destfile = open(self.destpath, "wb")
 		self.bufsize = 8192
 		self.finish_callback = finish_callback
+		if not self.destfile:
+			raise IOError("Could not write output file")
 
 	def step(self):
 		buf = self.response.read(self.bufsize)
@@ -54,8 +59,7 @@ class DownloadAndOpen (Action):
 		return True
 	def activate(self, leaf):
 		uri = leaf.object
-		destdir = "/tmp"
-		return DownloadTask(uri, destdir, self._finish_action)
+		return DownloadTask(uri, None, True, self._finish_action)
 
 	def _finish_action(self, filename):
 		utils.show_path(filename)
