@@ -34,14 +34,17 @@ class SelectionSource (Source, PicklingHelperMixin):
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		session_bus = dbus.Bus()
+		self._selection = []
+		try:
+			session_bus = dbus.Bus()
+		except dbus.DBusException:
+			return
 		callback = WeakCallback(self, "_selected_signal")
 		callback.dbus_token = session_bus.add_signal_receiver(
 				callback,
 				"SelectionChanged",
 				dbus_interface="se.kaizer.KupferNautilusPlugin",
 				byte_arrays=True)
-		self._selection = []
 
 	def _selected_signal(self, selection):
 		self._selection = selection
