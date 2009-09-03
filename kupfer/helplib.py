@@ -34,7 +34,9 @@ class WeakCallback (object):
 			sender = args[0]
 			sender.disconnect(self.gobject_token)
 			self.gobject_token = None
-		elif self.dbus_token:
+
+	def object_deleted(self, wref):
+		if self.dbus_token:
 			self.dbus_token.remove()
 			self.dbus_token = None
 
