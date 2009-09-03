@@ -39,7 +39,7 @@ class SelectionSource (Source, PicklingHelperMixin):
 			session_bus = dbus.Bus()
 		except dbus.DBusException:
 			return
-		callback = WeakCallback(self, "_selected_signal")
+		callback = WeakCallback(self._selected_signal)
 		callback.dbus_token = session_bus.add_signal_receiver(
 				callback,
 				"SelectionChanged",

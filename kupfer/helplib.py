@@ -18,9 +18,11 @@ class WeakCallback (object):
 		sender.disconnect(gobject_token)
 		dbus_token.remove()
 	"""
-	def __init__(self, obj, attr):
-		"""Create a new Weak Callback calling the method @obj.@attr"""
-		self.wref = weakref.ref(obj)
+	def __init__(self, mcallback):
+		"""Create a new Weak Callback calling the method @mcallback"""
+		obj = mcallback.im_self
+		attr = mcallback.im_func.__name__
+		self.wref = weakref.ref(obj, self.object_deleted)
 		self.callback_attr = attr
 		self.gobject_token = None
 		self.dbus_token = None
@@ -40,9 +42,9 @@ class WeakCallback (object):
 			self.dbus_token.remove()
 			self.dbus_token = None
 
-def gobject_connect_weakly(sender, signal, connector, attr, *user_args):
+def gobject_connect_weakly(sender, signal, mcallback, *user_args):
 	"""Connect weakly to GObject @sender's @signal,
-	with a callback in @connector named @attr.
+	with a callback method @mcallback
 	"""
-	wc = WeakCallback(connector, attr)
+	wc = WeakCallback(mcallback)
 	wc.gobject_token = sender.connect(signal, wc, *user_args)

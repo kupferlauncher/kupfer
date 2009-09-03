@@ -36,7 +36,7 @@ class SelectionSource (Source, PicklingHelperMixin):
 
 	def unpickle_finish(self):
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
-		gobject_connect_weakly(clip, "owner-change", self, "_clipboard_changed")
+		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 		self._text = None
 
 	def _clipboard_changed(self, clipboard, event):

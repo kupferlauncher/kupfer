@@ -43,7 +43,7 @@ class ClipboardSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		"""Setup change callback on unpickling"""
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		gobject_connect_weakly(clip, "owner-change", self, "_clipboard_changed")
+		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 
 	def _clipboard_changed(self, clip, *args):
 		max_len = __kupfer_settings__["max"]

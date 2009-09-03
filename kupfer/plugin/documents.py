@@ -36,7 +36,7 @@ class RecentsSource (Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		"""Set up change callback"""
 		manager = recent_manager_get_default()
-		gobject_connect_weakly(manager, "changed", self, "_recent_changed")
+		gobject_connect_weakly(manager, "changed", self._recent_changed)
 
 	def _recent_changed(self, *args):
 		# FIXME: We don't get single item updates, might this be
