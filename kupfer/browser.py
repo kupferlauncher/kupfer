@@ -1345,12 +1345,11 @@ class WindowController (pretty.OutputMixin):
 
 		try:
 			s = listen.Service()
-		except listen.AlreadyRunning:
-			s = None
+		except listen.AlreadyRunningError:
 			self.output_info("An instance is already running, exiting...")
 			self.quit_now()
-		except listen.NoConnection:
-			pass
+		except listen.NoConnectionError:
+			s = None
 		else:
 			s.connect("present", self.activate)
 			s.connect("show-hide", self.show_hide)
@@ -1402,9 +1401,11 @@ class WindowController (pretty.OutputMixin):
 		finally:
 			self.save_data()
 
-		# Now dismantle everything but keep hanging
-		listen.Unregister()
+		# tear down but keep hanging
+		if s:
+			s.unregister()
 		keybindings.bind_key(None)
+
 		main_iterations(100)
 		# if we are still waiting, print a message
 		if gtk.events_pending():

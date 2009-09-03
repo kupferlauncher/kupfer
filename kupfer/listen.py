@@ -16,11 +16,11 @@ except (ImportError, dbus.exceptions.DBusException), exc:
 	session_bus = None
 	print exc
 
-class AlreadyRunning (Exception):
+class AlreadyRunningError (Exception):
 	"""Service already available on the bus Exception"""
 	pass
 
-class NoConnection (Exception):
+class NoConnectionError (Exception):
 	"""Not possible to establish connection
 	for callbacks"""
 	pass
@@ -29,7 +29,24 @@ server_name = "se.kaizer.kupfer"
 interface_name = "se.kaizer.kupfer.Listener"
 object_name = "/interface"
 
-class _Service (ExportedGObject):
+class Service (ExportedGObject):
+	def __init__(self):
+		"""Create a new Kupfer service on the Session Bus
+
+		Raises NoConnectionError, AlreadyRunningError
+		"""
+		if not session_bus:
+			raise NoConnectionError
+		if session_bus.name_has_owner(server_name):
+			raise AlreadyRunningError
+		bus_name = dbus.service.BusName(server_name, bus=session_bus)
+		super(Service, self).__init__(conn=session_bus, object_path=object_name,
+				bus_name=bus_name)
+
+	def unregister(self):
+		if session_bus:
+			session_bus.release_name(server_name)
+
 	@dbus.service.method(interface_name)
 	def Present(self):
 		self.emit("present")
@@ -42,36 +59,12 @@ class _Service (ExportedGObject):
 	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
-gobject.signal_new("present", _Service, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("show-hide", _Service, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("put-text", _Service, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("put-text", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING))
-gobject.signal_new("quit", _Service, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("quit", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
-_Service_obj = None
-
-def Service():
-	"""
-	Return a service object, None if dbus not available
-
-	If a service is already running on the bus,
-	raise AlreadyRunning
-	"""
-	global _Service_obj
-
-	if session_bus and not _Service_obj:
-		if session_bus.name_has_owner(server_name):
-			raise AlreadyRunning
-		bus_name = dbus.service.BusName(server_name, bus=session_bus)
-		_Service_obj = _Service(bus_name, object_path=object_name)
-	if not _Service_obj:
-		raise NoConnection
-
-	return _Service_obj
-
-def Unregister():
-	if session_bus:
-		session_bus.release_name(server_name)
