@@ -12,7 +12,7 @@ import gtk
 import gio
 import gobject
 
-from kupfer import data, icons
+from kupfer import data, icons, scheduler
 from kupfer import pretty
 
 
@@ -331,6 +331,11 @@ class MatchView (gtk.Bin):
 		self.set_match(match, state, update=False)
 		if update:
 			self.update_match()
+
+	def set_match_text(self, text, update=True):
+		self.cur_match = text
+		if update:
+			self.update_match()
 	
 	def set_state(self, state):
 		"""
@@ -574,6 +579,11 @@ class Search (gtk.Bin):
 		self.model.add_first(obj)
 		self._table_set_cursor_at_row(0)
 
+	def relax_match(self):
+		"""Reset matched text"""
+		self.match_view.set_match_text(None)
+		self.text = None
+
 	def update_match(self, key, matchrankable, matches):
 		"""
 		@matchrankable: Rankable first match or None
@@ -700,7 +710,7 @@ class Interface (gobject.GObject):
 		self._current_ui_transition = -1
 		self._pane_three_is_visible = False
 		self._is_text_mode = False
-		self._latest_input_time = None
+		self._latest_input_timer = scheduler.Timer()
 		self._slow_input_interval = 1.0
 		self._key_press_time = None
 		self._key_press_interval = 0.8
@@ -816,11 +826,9 @@ class Interface (gobject.GObject):
 		has_input = bool(self.entry.get_text())
 
 		curtime = time.time()
-		input_time_diff = curtime - (self._latest_input_time or curtime)
-		self._latest_input_time = curtime
 		# if input is slow/new, we reset
-		if not text_mode and input_time_diff > self._slow_input_interval:
-			self.reset_text()
+		self._latest_input_timer.set_ms(self._slow_input_interval*1000,
+				self._relax_search_terms)
 
 		# process accelerators
 		for accel in accels:
@@ -949,6 +957,12 @@ class Interface (gobject.GObject):
 				self.emit("cancelled")
 			else:
 				self.switch_current(reverse=True)
+
+	def _relax_search_terms(self):
+		if self.get_in_text_mode():
+			return
+		self.reset_text()
+		self.current.relax_match()
 
 	def get_in_text_mode(self):
 		return self._is_text_mode
@@ -1312,8 +1326,7 @@ class WindowController (pretty.OutputMixin):
 
 	def save_data(self):
 		"""Save state before quit"""
-		from kupfer.scheduler import GetScheduler
-		sch = GetScheduler()
+		sch = scheduler.GetScheduler()
 		sch.finish()
 
 	def quit(self, sender=None):
