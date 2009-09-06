@@ -103,9 +103,9 @@ def get_tracker_tags(for_file=None):
 			tag = tag.strip()
 			yield tag
 	else:
-		output = popen("tracker-tag --list %s" % for_file).readlines()
+		output = popen("tracker-tag --list '%s'" % for_file).readlines()
 		for tagline in output[1:]:
-			fil, tagstr = tagline.split(": ", 1)
+			fil, tagstr = tagline.rsplit(": ", 1)
 			tags = tagstr.strip().split("|")
 			for t in filter(None, tags):
 				yield t
@@ -182,7 +182,7 @@ class TrackerAddTag (Action):
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
-		utils.launch_commandline("tracker-tag --add=%s %s" % (obj, lpath))
+		utils.launch_commandline("tracker-tag --add='%s' '%s'" % (obj, lpath))
 
 	def requires_object(self):
 		return True
@@ -214,7 +214,7 @@ class TrackerRemoveTag (Action):
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
-		utils.launch_commandline("tracker-tag --remove=%s %s" % (obj, lpath))
+		utils.launch_commandline("tracker-tag --remove='%s' '%s'" % (obj, lpath))
 
 	def requires_object(self):
 		return True
