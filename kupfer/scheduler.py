@@ -46,6 +46,15 @@ class Timer (object):
 		self._current_timer = gobject.timeout_add_seconds(timeout_seconds,
 				self._call)
 
+	def set_ms(self, timeout_milliseconds, callback, *arguments):
+		"""Setup timer to call @timeout_milliseconds in the future.
+		If the timer was previously set, it is postponed
+		"""
+		self.invalidate()
+		self._current_callback = lambda : callback(*arguments)
+		self._current_timer = gobject.timeout_add(timeout_milliseconds,
+				self._call)
+
 	def set_idle(self, callback, *arguments):
 		self.invalidate()
 		self._current_callback = lambda : callback(*arguments)
