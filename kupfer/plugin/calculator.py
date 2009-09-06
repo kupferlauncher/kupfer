@@ -30,15 +30,17 @@ class Calculate (Action):
 	rank_adjust = 10
 	def __init__(self):
 		Action.__init__(self, _("Calculate"))
+		self.last_result = None
 
 	def has_result(self):
 		return True
 	def activate(self, leaf):
-		text = leaf.object
-		expr = text.lstrip("= ")
+		expr = leaf.object.lstrip("= ")
 		environment = dict(math.__dict__)
 		environment.update(cmath.__dict__)
 		# define some constants missing
+		if self.last_result:
+			environment["_"] = self.last_result
 		environment["kupfer"] = KupferSurprise("inf")
 		# make the builtins inaccessible
 		environment["__builtins__"] = {}
@@ -48,6 +50,7 @@ class Calculate (Action):
 			pretty.print_error(__name__, type(exc).__name__, exc)
 			result = unicode(exc)
 		else:
+			self.last_result = result
 			result = unicode(result)
 		return TextLeaf(result)
 
