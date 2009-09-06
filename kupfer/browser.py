@@ -584,6 +584,10 @@ class Search (gtk.Bin):
 		self.match_view.set_match_text(None)
 		self.text = None
 
+	def is_relaxed(self):
+		"""Relaxed: No highlighted match string"""
+		return not self.text
+
 	def update_match(self, key, matchrankable, matches):
 		"""
 		@matchrankable: Rankable first match or None
@@ -605,6 +609,7 @@ class Search (gtk.Bin):
 	def setup_empty(self):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state(u"No match", None, state=State.NoMatch)
+		self.relax_match()
 
 	def get_is_browsing(self):
 		"""Return if self is browsing"""
@@ -879,7 +884,7 @@ class Interface (gobject.GObject):
 			return False
 
 		if keyv == key_book["Escape"]:
-			self._reset_key_press(escape=True)
+			self._escape_key_press()
 			return True
 
 		if keyv == key_book["Up"]:
@@ -893,11 +898,11 @@ class Interface (gobject.GObject):
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
 			if not has_input:
-				self._reset_key_press()
+				self._back_key_press()
 			else:
 				return False
 		elif keyv == key_book["Left"]:
-			self._reset_key_press()
+			self._back_key_press()
 		elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
 			self.current.hide_table()
 			self.switch_current(reverse=shift_mask)
@@ -933,30 +938,35 @@ class Interface (gobject.GObject):
 
 	def reset_all(self):
 		"""Reset all panes and focus the first"""
-		self.reset_current()
-		self.reset()
 		self.switch_to_source()
 		while self._browse_up():
 			pass
-
-	def _reset_key_press(self, escape=False):
-		"""Handle leftarrow, backspace and escape
-		Go up back through browsed sources.
-		If @escape, go back through the panes if current is reset,
-		if first pane is reset, cancel (put away) self.
-		"""
-		waiting_search = self.get_is_waiting() and not self.get_in_text_mode()
-		# try browsing up first
-		if waiting_search and self._browse_up():
-			return
-		self.reset()
 		self.reset_current()
-		if waiting_search and escape:
-			if self.current is self.search:
-				self.data_controller.reset()
-				self.emit("cancelled")
+		self.reset()
+
+	def _escape_key_press(self):
+		"""Handle escape if first pane is reset, cancel (put away) self.  """
+		if (self.current.is_relaxed() and
+			not self.current.get_table_visible()):
+			self.emit("cancelled")
+		if self.current.get_table_visible():
+			self.current.hide_table()
+		self._relax_search_terms()
+
+	def _back_key_press(self):
+		"""Handle leftarrow and backspace
+		Go up back through browsed sources.
+		"""
+		if not self.current.is_relaxed():
+			self.reset()
+			self.reset_current()
+			self._relax_search_terms()
+		else:
+			if self._browse_up():
+				pass
 			else:
-				self.switch_current(reverse=True)
+				self.reset()
+				self.reset_current()
 
 	def _relax_search_terms(self):
 		if self.get_in_text_mode():
@@ -1016,19 +1026,6 @@ class Interface (gobject.GObject):
 		if self.current is not self.search:
 			self.current = self.search
 			self._update_active()
-
-	def get_is_waiting(self):
-		"""Return True if we are ready for a search, without
-		(active) match; where 'active' match means a match in response
-		to an actual text query.
-		"""
-		waiting_search = (self.current.get_match_state() is State.Wait)
-		entry_text = self.entry.get_text()
-		match_text = self.current.get_match_text()
-		if self.current is self.action:
-			return (not self.current.get_is_browsing()) and not match_text
-		else:
-			return waiting_search
 
 	def focus(self):
 		"""called when the interface is focus (after being away)"""
@@ -1179,7 +1176,7 @@ class Interface (gobject.GObject):
 			curev = gtk.get_current_event()
 			if curev and curev.keyval in (self.key_book["Delete"],
 					self.key_book["BackSpace"]):
-				self._reset_key_press()
+				self._back_key_press()
 			return
 
 		self.current.hide_table()
