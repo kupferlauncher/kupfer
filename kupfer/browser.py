@@ -440,7 +440,7 @@ class Search (gtk.Bin):
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
 
-	def _get_table_visible(self):
+	def get_table_visible(self):
 		return self.list_window.get_property("visible")
 
 	def hide_table(self):
@@ -463,6 +463,9 @@ class Search (gtk.Bin):
 		self.list_window.show()
 		self._old_win_position = pos_x, pos_y
 
+	def show_table(self):
+		self.go_down(True)
+
 	def _table_scroll_changed(self, scrollbar, scroll_type, value):
 		"""When the scrollbar changes due to user interaction"""
 		# page size: size of currently visible area
@@ -471,7 +474,7 @@ class Search (gtk.Bin):
 		page_size = adj.get_property("page-size")
 
 		if value + page_size >= upper:
-			self.model.populate(self.show_more)
+			self.populate(self.show_more)
 	
 	# table methods
 	def _table_set_cursor_at_row(self, row):
@@ -493,28 +496,30 @@ class Search (gtk.Bin):
 			else:
 				self.hide_table()
 	
-	def go_down(self):
+	def go_down(self, force=False):
 		"""
 		Down in the table
 		"""
 		row_at_path = lambda p: p[0]
 
-		table_visible = self._get_table_visible()
+		table_visible = self.get_table_visible()
 		# if no data is loaded (frex viewing catalog), load
 		# if too little data is loaded, try load more
 		if len(self.model) <= 1:
-			self.model.populate(self.show_more)
+			self.populate(self.show_more)
 		if len(self.model) >= 1:
 			path, col = self.table.get_cursor()
 			if path:
 				r = row_at_path(path)
 				if r == -1 + len(self.model):
-					self.model.populate(self.show_more)
+					self.populate(self.show_more)
 				# go down only if table is visible
 				if r < -1 + len(self.model) and table_visible:
 					self._table_set_cursor_at_row(r+1)
 			else:
 				self._table_set_cursor_at_row(0)
+			self._show_table()
+		if force:
 			self._show_table()
 	
 	def _window_config(self, widget, event):
@@ -524,7 +529,7 @@ class Search (gtk.Bin):
 		winpos = event.x, event.y
 		# only hide on move, not resize
 		# set old win position in _show_table
-		if self._get_table_visible() and winpos != self._old_win_position:
+		if self.get_table_visible() and winpos != self._old_win_position:
 			self.hide_table()
 			gobject.timeout_add(300, self._show_table)
 	
@@ -595,24 +600,9 @@ class Search (gtk.Bin):
 		"""Return if self is browsing"""
 		return self._browsing_match
 	
-	def populate_model(self, iterator, num=None):
-		"""
-		populate model with num items from iterator
-
-		and return first item inserted
-		if num is none, insert everything
-		"""
-		if not iterator:
-			return None
-		if num:
-			iterator = itertools.islice(iterator, num)
-		first = None
-		for item in iterator:
-			row = (item.object, item.rank)
-			self.model.add(row)
-			if not first: first = item.object
-		# first.object is a leaf
-		return first
+	def populate(self, num):
+		"""populate model with num items"""
+		return self.model.populate(num)
 	
 	def handle_no_matches(self, empty=False):
 		"""if @empty, there were no matches to find"""
@@ -1055,12 +1045,12 @@ class Interface (gobject.GObject):
 		"""
 		wid = self._widget_for_pane(pane)
 		wid.set_source(source)
-		wid.reset()
+		if pane is data.SourcePane:
+			self.switch_to_source()
 		if wid is self.current:
 			self.toggle_text_mode(False)
-		if pane is data.SourcePane:
-			self.reset()
-			self.switch_to_source()
+			self._populate_search()
+			wid.show_table()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
 		gobject.source_remove(self._current_ui_transition)
@@ -1118,8 +1108,8 @@ class Interface (gobject.GObject):
 
 	def _activate(self, widget, current):
 		# reset self through toggle_text_mode
-		self.data_controller.activate()
 		self.toggle_text_mode(False)
+		self.data_controller.activate()
 	
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		key = context
@@ -1142,7 +1132,7 @@ class Interface (gobject.GObject):
 		"""Do a blanket search/empty search to populate
 		the search view if it is the current view"""
 		pane = self._pane_for_widget(self.current)
-		self.data_controller.search(pane)
+		self.data_controller.search(pane, interactive=True)
 
 	def _description_changed(self):
 		match = self.current.get_current()
