@@ -730,7 +730,7 @@ class Execute (Launch):
 		return self.in_terminal
 	
 	def activate(self, leaf):
-		cli = "%s %s" % (leaf.object, self.args)
+		cli = "'%s' %s" % (leaf.object, self.args)
 		utils.launch_commandline(cli, in_terminal=self.in_terminal)
 
 	def get_description(self):
