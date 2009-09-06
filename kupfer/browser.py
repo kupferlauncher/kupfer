@@ -1026,6 +1026,8 @@ class Interface (gobject.GObject):
 		if self.current is not self.search:
 			self.current = self.search
 			self._update_active()
+			if self.get_in_text_mode():
+				self.toggle_text_mode_quick()
 
 	def focus(self):
 		"""called when the interface is focus (after being away)"""
