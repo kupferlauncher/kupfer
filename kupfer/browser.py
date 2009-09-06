@@ -1054,18 +1054,21 @@ class Interface (gobject.GObject):
 				self.reset()
 				self.switch_to_source()
 	
-	def _new_source(self, sender, pane, source):
+	def _new_source(self, sender, pane, source, at_root):
 		"""Notification about a new data source,
 		(represented object for the self.search object
 		"""
+		print "new source", pane, source, at_root
 		wid = self._widget_for_pane(pane)
 		wid.set_source(source)
+		wid.reset()
 		if pane is data.SourcePane:
 			self.switch_to_source()
 		if wid is self.current:
 			self.toggle_text_mode(False)
-			self._populate_search()
-			wid.show_table()
+			if not at_root:
+				self._populate_search()
+				wid.show_table()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
 		gobject.source_remove(self._current_ui_transition)
@@ -1184,6 +1187,9 @@ class Interface (gobject.GObject):
 			return
 
 		pane = self._pane_for_widget(self.current)
+		if not self.current.get_is_browsing():
+			print "Not browsing"
+			#self.data_controller.reset_pane(pane)
 
 		self.data_controller.search(pane, key=text, context=text,
 				text_mode=self.get_in_text_mode())

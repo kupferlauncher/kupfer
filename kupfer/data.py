@@ -833,7 +833,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			pane = SourcePane
 		elif ctr is self.object_pane:
 			pane = ObjectPane
-		self.emit("source-changed", pane, src)
+		root = ctr.is_at_source_root()
+		self.emit("source-changed", pane, src, root)
 
 	def reset(self):
 		self.source_pane.reset()
@@ -999,7 +1000,7 @@ gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 
 gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+		gobject.TYPE_BOOLEAN, (int, object, bool))
 
 # mode, None(?)
 gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
