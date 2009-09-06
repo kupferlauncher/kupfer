@@ -601,6 +601,8 @@ class Search (gtk.Bin):
 		self._set_match(matchrankable)
 		self.model.set_base(iter(matches))
 		self._browsing_match = False
+		if not self.model and self.get_table_visible():
+			self.go_down()
 
 	def reset(self):
 		self.model.clear()
@@ -1181,7 +1183,6 @@ class Interface (gobject.GObject):
 				self._back_key_press()
 			return
 
-		self.current.hide_table()
 		pane = self._pane_for_widget(self.current)
 
 		self.data_controller.search(pane, key=text, context=text,
