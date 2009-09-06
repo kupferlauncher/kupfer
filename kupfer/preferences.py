@@ -40,8 +40,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.buttonkeybinding = builder.get_object("buttonkeybinding")
 		self.imagekeybindingaux = builder.get_object("imagekeybindingaux")
 		self.labelkeybindingaux = builder.get_object("labelkeybindingaux")
-		self.buttonpluginabout = builder.get_object("buttonpluginabout")
-		self.buttonpluginsettings = builder.get_object("buttonpluginsettings")
 		self.buttonremovedirectory = builder.get_object("buttonremovedirectory")
 		checkautostart = builder.get_object("checkautostart")
 		checkstatusicon = builder.get_object("checkstatusicon")
@@ -65,6 +63,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table = gtk.TreeView(self.store)
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
+		self.table.set_rules_hint(True)
 		self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
 		self.table.get_selection().set_mode(gtk.SELECTION_BROWSE)
 
@@ -85,7 +84,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
 		col.add_attribute(cell, "markup", self.columns.index("markup"))
-		cell.set_property("ellipsize", pango.ELLIPSIZE_END)
 
 		self.table.append_column(checkcol)
 		# hide icon for now
@@ -101,7 +99,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			enabled = setctl.get_plugin_enabled(plugin_id)
 			name = info["localized_name"]
 			desc = info["description"]
-			text = u"<b>%s</b>\n<small>%s</small>" % (name, desc)
+			text = u"%s" % name
 			self.store.append((plugin_id, enabled, "kupfer-object", text))
 		self.table.show()
 		self.pluglist_parent.add(self.table)
@@ -115,15 +113,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.dir_table.get_selection().set_mode(gtk.SELECTION_BROWSE)
 
 		icon_cell = gtk.CellRendererPixbuf()
-		icon_cell.set_property("height", 18)
-		icon_cell.set_property("width", 18)
 			
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "gicon", 1)
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("name", cell)
-		col.add_attribute(cell, "text", 2)
+		col.add_attribute(cell, "markup", 2)
 		cell.set_property("ellipsize", pango.ELLIPSIZE_END)
 		self.dir_table.append_column(icon_col)
 		self.dir_table.append_column(col)
@@ -148,7 +144,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		d = os.path.expanduser(d)
 		basename = os.path.basename(os.path.normpath(d))
 		gicon = icons.get_gicon_for_file(d)
-		self.dir_store.append((d, gicon, basename))
+		desc = u"%s\n<small>%s</small>" % (
+				gobject.markup_escape_text(basename),
+				gobject.markup_escape_text(d),
+				)
+		self.dir_store.append((d, gicon, desc))
 
 		if store:
 			setctl = settings.GetSettingsController()
@@ -259,56 +259,58 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def plugin_table_cursor_changed(self, table):
 		curpath, curcol = table.get_cursor()
 		if not curpath:
-			self.buttonpluginabout.set_sensitive(False)
 			return
 		plugin_id = self._id_for_table_path(curpath)
-		self.buttonpluginabout.set_sensitive(True)
-		settings = plugins.get_plugin_attribute(plugin_id,
-				plugins.settings_attribute)
-		self.buttonpluginsettings.set_sensitive(bool(settings))
-		self.on_buttonpluginabout_clicked(table)
+		self.plugin_sidebar_update(plugin_id)
 
-	def on_buttonpluginabout_clicked(self, widget):
-		curpath, curcol = self.table.get_cursor()
-		if not curpath:
-			return
-		plugin_id = self._id_for_table_path(curpath)
+	def plugin_sidebar_update(self, plugin_id):
 		about = gtk.VBox()
+		about.set_property("spacing", 15)
+		about.set_property("border-width", 5)
 		info = self._plugin_info_for_id(plugin_id)
 		title_label = gtk.Label()
 		title_label.set_markup(u"<b><big>%s</big></b>" % info["localized_name"])
 		version, description, author = plugins.get_plugin_attributes(plugin_id,
 				( "__version__", "__description__", "__author__", ))
 		about.pack_start(title_label, False)
-		table = gtk.Table(3, 2)
-		for idx, field, val in zip(xrange(100),
-				(_("Description"), _("Version"), _("Author")),
-				(description, version, author)):
+		infobox = gtk.VBox()
+		infobox.set_property("spacing", 3)
+		for field, val in zip((_("Description"), _("Author")),
+				(description, author)):
 			label = gtk.Label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s</b>" % field)
-			table.attach(label, 0, 1, idx, idx+1)
+			infobox.pack_start(label, False)
 			label = gtk.Label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"%s" % gobject.markup_escape_text(val))
 			label.set_line_wrap(True)
-			table.attach(label, 1, 2, idx, idx+1)
+			infobox.pack_start(label, False)
+		if version:
+			label = gtk.Label()
+			label.set_alignment(0, 0)
+			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), version))
+			infobox.pack_start(label, False)
+		about.pack_start(infobox, False)
 
-		about.pack_start(table, False, padding=5)
 		wid = self._make_plugin_info_widget(plugin_id)
 		about.pack_start(wid, False)
+		psettings_wid = self._make_plugin_settings_widget(plugin_id)
+		if psettings_wid:
+			about.pack_start(psettings_wid, False)
+
 		oldch = self.plugin_about_parent.get_child()
 		if oldch:
 			self.plugin_about_parent.remove(oldch)
-		about.show_all()
-		self.plugin_about_parent.add_with_viewport(about)
+		vp = gtk.Viewport()
+		vp.set_shadow_type(gtk.SHADOW_NONE)
+		vp.add(about)
+		self.plugin_about_parent.add(vp)
+		self.plugin_about_parent.show_all()
 
 	def _make_plugin_info_widget(self, plugin_id):
-		version, description, author, sources, actions, text_sources = \
+		sources, actions, text_sources = \
 				plugins.get_plugin_attributes(plugin_id, (
-				"__version__",
-				"__description__",
-				"__author__", 
 				plugins.sources_attribute,
 				plugins.action_decorators_attribute,
 				plugins.text_sources_attribute)
@@ -317,13 +319,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		vbox = gtk.VBox()
 		vbox.set_property("spacing", 5)
 		def make_objects_frame(objs, title):
-			frame = gtk.Frame()
 			frame_label = gtk.Label()
 			frame_label.set_markup(u"<b>%s</b>" % title)
-			frame.set_property("label-widget", frame_label)
-			frame.set_property("shadow-type", gtk.SHADOW_NONE)
+			frame_label.set_alignment(0, 0)
 			objvbox = gtk.VBox()
-			objvbox.set_property("border-width", 3)
+			objvbox.pack_start(frame_label, False)
 			objvbox.set_property("spacing", 3)
 			for item in objs:
 				plugin_type = plugins.get_plugin_attribute(plugin_id, item)
@@ -346,8 +346,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				label.set_markup(name_label)
 				hbox.pack_start(label, False)
 				objvbox.pack_start(hbox)
-			frame.add(objvbox)
-			return frame
+			return objvbox
 
 		sources = list(sources or ()) + list(text_sources or ())
 		if sources:
@@ -378,24 +377,20 @@ class PreferencesWindowController (pretty.OutputMixin):
 			widget.destroy()
 			return True
 
-	def on_buttonpluginsettings_clicked(self, widget):
-		curpath, curcol = self.table.get_cursor()
-		if not curpath:
-			return
-		plugin_id = self._id_for_table_path(curpath)
+	def _make_plugin_settings_widget(self, plugin_id):
 		plugin_settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
+		if not plugin_settings:
+			return None
 
-		win = gtk.Window()
 		info = self._plugin_info_for_id(plugin_id)
-		win.set_title(_("Settings for %s") % info["localized_name"])
-		win.set_position(gtk.WIN_POS_CENTER)
-		win.set_resizable(False)
-		win.connect("key-press-event", self._on_plugin_settings_key_press_event)
+		title_label = gtk.Label()
+		title_label.set_markup(u"<b>%s</b>" % _("Preferences"))
+		title_label.set_alignment(0, 0)
 
 		vbox = gtk.VBox()
-		vbox.set_property("border-width", 10)
-		vbox.set_property("spacing", 10)
+		vbox.pack_start(title_label, False)
+		#vbox.set_property("spacing", 5)
 
 		plugin_settings_keys = iter(plugin_settings) if plugin_settings else ()
 		for setting in plugin_settings_keys:
@@ -450,16 +445,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 					plugin_id, setting, typ, "get_text", no_false_values=True))
 			vbox.pack_start(hbox, False)
 
-		box = gtk.HButtonBox()
-		box.set_layout(gtk.BUTTONBOX_END)
-		but = gtk.Button(gtk.STOCK_CLOSE)
-		but.set_use_stock(True)
-		but.connect("clicked", lambda *ignored: win.destroy())
-		box.pack_start(but)
-		vbox.pack_start(box)
 		vbox.show_all()
-		win.add(vbox)
-		win.show()
+		return vbox
 
 	def on_buttonadddirectory_clicked(self, widget):
 		chooser_dialog = gtk.FileChooserDialog(title=_("Choose a Directory"),
@@ -468,7 +455,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 					gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
 		if chooser_dialog.run() == gtk.RESPONSE_ACCEPT:
 			selected_dir = chooser_dialog.get_filename()
-			print selected_dir
 			self.add_directory_model(selected_dir, store=True)
 		chooser_dialog.hide()
 
