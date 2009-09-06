@@ -12,7 +12,7 @@ import xdg.BaseDirectory as base
 
 from kupfer.objects import (Action, Source, Leaf, AppLeafContentMixin, TextLeaf,
 		PicklingHelperMixin, FilesystemWatchMixin, )
-from kupfer import icons
+from kupfer import icons, plugin_support
 
 __kupfer_name__ = _("Notes")
 __kupfer_sources__ = ("NotesSource", )
@@ -25,8 +25,17 @@ __description__ = _("Gnote or Tomboy notes")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-# the very secret priority list
-PROGRAM_IDS = ("gnote", "tomboy")
+PROGRAM_IDS = ["gnote", "tomboy"]
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "notes_application",
+		"label": _("Work with application"),
+		"type": str,
+		"value": "",
+		"alternatives": ["",] + PROGRAM_IDS
+	},
+)
 
 def _get_notes_interface(activate=False):
 	"""Return the dbus proxy object for our Note Application.
@@ -37,7 +46,10 @@ def _get_notes_interface(activate=False):
 	proxy_obj = bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
 	dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
 
-	for program in PROGRAM_IDS:
+	set_prog = __kupfer_settings__["notes_application"]
+	programs = (set_prog, ) if set_prog else PROGRAM_IDS
+
+	for program in programs:
 		service_name = "org.gnome.%s" % program.title()
 		obj_name = "/org/gnome/%s/RemoteControl" % program.title()
 		iface_name = "org.gnome.%s.RemoteControl" % program.title()
@@ -129,9 +141,13 @@ class Note (Leaf):
 	def get_icon_name(self):
 		return "text-x-generic"
 
+class ClassProperty (property):
+	"""Subclass property to make classmethod properties possible"""
+	def __get__(self, cls, owner):
+		return self.fget.__get__(None, owner)()
+
 class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
 		FilesystemWatchMixin):
-	appleaf_content_id = PROGRAM_IDS
 	def __init__(self):
 		Source.__init__(self, _("Notes"))
 		self._notes = []
@@ -179,3 +195,9 @@ class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
 
 	def get_icon_name(self):
 		return "gnote"
+
+	@ClassProperty
+	@classmethod
+	def appleaf_content_id(cls):
+		return __kupfer_settings__["notes_application"] or PROGRAM_IDS
+
