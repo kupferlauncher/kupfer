@@ -226,6 +226,12 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""Set config value and return success"""
 		return self._set_config("Kupfer", "showstatusicon", enabled)
 
+	def get_directories(self):
+		return self.get_config("Directories", "direct")
+
+	def set_directories(self, dirs):
+		return self._set_config("Directories", "direct", dirs)
+
 	def get_plugin_config(self, plugin, key, value_type=str, default=None):
 		"""Return setting @key for plugin names @plugin, try
 		to coerce to type @value_type.
