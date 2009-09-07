@@ -119,7 +119,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("name", cell)
-		col.add_attribute(cell, "markup", 2)
+		col.add_attribute(cell, "text", 2)
 		cell.set_property("ellipsize", pango.ELLIPSIZE_END)
 		self.dir_table.append_column(icon_col)
 		self.dir_table.append_column(col)
@@ -142,13 +142,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 			have.append(d)
 
 		d = os.path.expanduser(d)
-		basename = os.path.basename(os.path.normpath(d))
+		dispname = utils.get_display_path_for_bytestring(d)
 		gicon = icons.get_gicon_for_file(d)
-		desc = u"%s\n<small>%s</small>" % (
-				gobject.markup_escape_text(basename),
-				gobject.markup_escape_text(d),
-				)
-		self.dir_store.append((d, gicon, desc))
+		self.dir_store.append((d, gicon, dispname))
 
 		if store:
 			setctl = settings.GetSettingsController()
