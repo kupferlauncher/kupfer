@@ -7,7 +7,7 @@ from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
 import os
 
-from kupfer import config, plugins, pretty, settings, utils
+from kupfer import config, plugins, pretty, settings, utils, icons
 from kupfer import keybindings
 
 class PreferencesWindowController (pretty.OutputMixin):
@@ -33,6 +33,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		self.window.connect("delete-event", self._close_window)
 		self.pluglist_parent = builder.get_object("plugin_list_parent")
+		self.dirlist_parent = builder.get_object("directory_list_parent")
+		self.plugin_about_parent = builder.get_object("plugin_about_parent")
 
 		self.entrykeybinding = builder.get_object("entrykeybinding")
 		self.buttonkeybinding = builder.get_object("buttonkeybinding")
@@ -40,6 +42,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.labelkeybindingaux = builder.get_object("labelkeybindingaux")
 		self.buttonpluginabout = builder.get_object("buttonpluginabout")
 		self.buttonpluginsettings = builder.get_object("buttonpluginsettings")
+		self.buttonremovedirectory = builder.get_object("buttonremovedirectory")
 		checkautostart = builder.get_object("checkautostart")
 		checkstatusicon = builder.get_object("checkstatusicon")
 
@@ -48,6 +51,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		checkautostart.set_active(self._get_should_autostart())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 
+		# Plugin List
 		columns = [
 			{"key": "plugin_id", "type": str },
 			{"key": "enabled", "type": bool },
@@ -73,7 +77,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		icon_cell = gtk.CellRendererPixbuf()
 		icon_cell.set_property("height", 18)
 		icon_cell.set_property("width", 18)
-			
+
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "icon-name",
 				self.columns.index("icon-name"))
@@ -101,6 +105,62 @@ class PreferencesWindowController (pretty.OutputMixin):
 			self.store.append((plugin_id, enabled, "kupfer-object", text))
 		self.table.show()
 		self.pluglist_parent.add(self.table)
+
+		# Directory List
+		self.dir_store = gtk.ListStore(str, gio.Icon, str)
+		self.dir_table = gtk.TreeView(self.dir_store)
+		self.dir_table.set_headers_visible(False)
+		self.dir_table.set_property("enable-search", False)
+		self.dir_table.connect("cursor-changed", self.dir_table_cursor_changed)
+		self.dir_table.get_selection().set_mode(gtk.SELECTION_BROWSE)
+
+		icon_cell = gtk.CellRendererPixbuf()
+		icon_cell.set_property("height", 18)
+		icon_cell.set_property("width", 18)
+			
+		icon_col = gtk.TreeViewColumn("icon", icon_cell)
+		icon_col.add_attribute(icon_cell, "gicon", 1)
+
+		cell = gtk.CellRendererText()
+		col = gtk.TreeViewColumn("name", cell)
+		col.add_attribute(cell, "text", 2)
+		cell.set_property("ellipsize", pango.ELLIPSIZE_END)
+		self.dir_table.append_column(icon_col)
+		self.dir_table.append_column(col)
+		self.dir_table.show()
+		self.dirlist_parent.add(self.dir_table)
+		self.read_directory_settings()
+
+	def read_directory_settings(self):
+		setctl = settings.GetSettingsController()
+		dirs = setctl.get_directories()
+		for d in dirs:
+			self.add_directory_model(d, store=False)
+
+	def add_directory_model(self, d, store=False):
+		have = list(os.path.normpath(row[0]) for row in self.dir_store)
+		if d in have:
+			self.output_debug("Ignoring duplicate directory: ", d)
+			return
+		else:
+			have.append(d)
+
+		d = os.path.expanduser(d)
+		basename = os.path.basename(os.path.normpath(d))
+		gicon = icons.get_gicon_for_file(d)
+		self.dir_store.append((d, gicon, basename))
+
+		if store:
+			setctl = settings.GetSettingsController()
+			setctl.set_directories(have)
+
+	def remove_directory_model(self, rowiter, store=True):
+		dirpath = self.dir_store.get_value(rowiter, 0)
+		self.dir_store.remove(rowiter)
+		if store:
+			have = list(os.path.normpath(row[0]) for row in self.dir_store)
+			setctl = settings.GetSettingsController()
+			setctl.set_directories(have)
 
 	def on_preferenceswindow_key_press_event(self, widget, event):
 		if event.keyval == gtk.gdk.keyval_from_name("Escape"):
@@ -152,6 +212,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.buttonkeybinding.set_sensitive(sensitive)
 		self.imagekeybindingaux.hide()
 		self.labelkeybindingaux.hide()
+
 	def on_buttonkeybinding_clicked(self, widget):
 		keystr = self.entrykeybinding.get_text()
 		self.output_debug("Try set keybinding with", keystr)
@@ -205,27 +266,42 @@ class PreferencesWindowController (pretty.OutputMixin):
 		settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
 		self.buttonpluginsettings.set_sensitive(bool(settings))
+		self.on_buttonpluginabout_clicked(table)
 
 	def on_buttonpluginabout_clicked(self, widget):
 		curpath, curcol = self.table.get_cursor()
 		if not curpath:
 			return
 		plugin_id = self._id_for_table_path(curpath)
-		about = gtk.AboutDialog()
+		about = gtk.VBox()
 		info = self._plugin_info_for_id(plugin_id)
-		about.set_title(info["localized_name"])
-		about.set_program_name(info["localized_name"])
+		title_label = gtk.Label()
+		title_label.set_markup(u"<b><big>%s</big></b>" % info["localized_name"])
 		version, description, author = plugins.get_plugin_attributes(plugin_id,
 				( "__version__", "__description__", "__author__", ))
-		about.set_version(version)
-		about.set_comments(description)
-		about.set_copyright(author)
-		child = about.get_content_area()
-		wid = self._make_plugin_info_widget(plugin_id)
-		child.pack_start(wid)
+		about.pack_start(title_label, False)
+		table = gtk.Table(3, 2)
+		for idx, field, val in zip(xrange(100),
+				(_("Description"), _("Version"), _("Author")),
+				(description, version, author)):
+			label = gtk.Label()
+			label.set_alignment(0, 0)
+			label.set_markup(u"<b>%s</b>" % field)
+			table.attach(label, 0, 1, idx, idx+1)
+			label = gtk.Label()
+			label.set_alignment(0, 0)
+			label.set_markup(u"%s" % gobject.markup_escape_text(val))
+			label.set_line_wrap(True)
+			table.attach(label, 1, 2, idx, idx+1)
 
-		about.show()
-		about.connect("response", lambda widget, response: widget.destroy())
+		about.pack_start(table, False, padding=5)
+		wid = self._make_plugin_info_widget(plugin_id)
+		about.pack_start(wid, False)
+		oldch = self.plugin_about_parent.get_child()
+		if oldch:
+			self.plugin_about_parent.remove(oldch)
+		about.show_all()
+		self.plugin_about_parent.add_with_viewport(about)
 
 	def _make_plugin_info_widget(self, plugin_id):
 		version, description, author, sources, actions, text_sources = \
@@ -384,6 +460,31 @@ class PreferencesWindowController (pretty.OutputMixin):
 		vbox.show_all()
 		win.add(vbox)
 		win.show()
+
+	def on_buttonadddirectory_clicked(self, widget):
+		chooser_dialog = gtk.FileChooserDialog(title=_("Choose a Directory"),
+				action=gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+					gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+		if chooser_dialog.run() == gtk.RESPONSE_ACCEPT:
+			selected_dir = chooser_dialog.get_filename()
+			print selected_dir
+			self.add_directory_model(selected_dir, store=True)
+		chooser_dialog.hide()
+
+	def on_buttonremovedirectory_clicked(self, widget):
+		curpath, curcol = self.dir_table.get_cursor()
+		if not curpath:
+			return
+		it = self.dir_store.get_iter(curpath)
+		self.remove_directory_model(it, store=True)
+
+	def dir_table_cursor_changed(self, table):
+		curpath, curcol = table.get_cursor()
+		if not curpath or not self.dir_store:
+			self.buttonremovedirectory.set_sensitive(False)
+			return
+		self.buttonremovedirectory.set_sensitive(True)
 
 	def show(self):
 		self.window.present()
