@@ -8,3 +8,4 @@ Exec=@KUPFER@ %f
 Type=Application
 Categories=Utility;
 StartupNotify=true
+X-UserData=$CONFIG/kupfer;$DATA/kupfer;$CACHE/kupfer
