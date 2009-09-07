@@ -159,7 +159,7 @@ def get_destfile_in_directory(directory, filename, extension=None):
 	for retry in xrange(3):
 		destpath = get_destpath_in_directory(directory, filename, extension)
 		try:
-			fd = os.open(destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+			fd = os.open(destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0666)
 		except OSError, exc:
 			pretty.print_error(__name__, exc)
 		else:
