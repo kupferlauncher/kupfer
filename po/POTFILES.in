@@ -6,6 +6,7 @@ kupfer/browser.py
 kupfer/data.py
 kupfer/main.py
 kupfer/objects.py
+kupfer/plugin_support.py
 kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
 kupfer/plugin/clipboard.py
