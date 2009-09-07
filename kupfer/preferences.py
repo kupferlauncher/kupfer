@@ -271,8 +271,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		about.pack_start(title_label, False)
 		infobox = gtk.VBox()
 		infobox.set_property("spacing", 3)
+		# TRANS: Plugin info fields
 		for field, val in zip((_("Description"), _("Author")),
 				(description, author)):
+			if not val:
+				continue
 			label = gtk.Label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s</b>" % field)
@@ -381,7 +384,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		info = self._plugin_info_for_id(plugin_id)
 		title_label = gtk.Label()
-		title_label.set_markup(u"<b>%s</b>" % _("Preferences"))
+		# TRANS: Plugin-specific configuration (header)
+		title_label.set_markup(u"<b>%s</b>" % _("Configuration"))
 		title_label.set_alignment(0, 0)
 
 		vbox = gtk.VBox()
@@ -445,6 +449,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		return vbox
 
 	def on_buttonadddirectory_clicked(self, widget):
+		# TRANS: File Chooser Title
 		chooser_dialog = gtk.FileChooserDialog(title=_("Choose a Directory"),
 				action=gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
