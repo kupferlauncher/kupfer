@@ -554,6 +554,11 @@ class LeafPane (Pane, pretty.OutputMixin):
 			pass
 		self.refresh_data()
 
+	def soft_reset(self):
+		Pane.reset(self)
+		while self.pop_source():
+			pass
+
 	def search(self, key=u"", context=None, text_mode=False):
 		"""
 		filter for action @item
@@ -608,11 +613,11 @@ class SecondaryObjectPane (LeafPane):
 		LeafPane.__init__(self)
 		self.current_item = None
 		self.current_action = None
+
 	def reset(self):
-		self.source = None
-		self.source_stack = None
 		LeafPane.reset(self)
 		self.searcher = Searcher()
+
 	def set_item_and_action(self, item, act):
 		self.current_item = item
 		self.current_action = act
@@ -839,6 +844,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def reset(self):
 		self.source_pane.reset()
 		self.action_pane.reset()
+
+	def soft_reset(self, pane):
+		if pane is ActionPane:
+			return
+		panectl = self._panectl_table[pane]
+		panectl.soft_reset()
 
 	def cancel_search(self, pane=None):
 		"""Cancel any outstanding search, or the search for @pane"""

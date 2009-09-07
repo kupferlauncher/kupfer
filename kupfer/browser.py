@@ -656,7 +656,8 @@ class LeafSearch (Search):
 		if empty and self.source:
 			return _("%s is empty") % self.source, get_pbuf(self.source)
 		elif self.source:
-			return _("No matches in %s") % self.source, get_pbuf(self.source)
+			return (_('No matches in %s for "%s"') % (self.source, self.text),
+					get_pbuf(self.source))
 		else:
 			return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
@@ -723,6 +724,7 @@ class Interface (gobject.GObject):
 		self._key_press_interval = 0.8
 		self._key_pressed = None
 		self._theme_colors = {}
+		self._reset_to_toplevel = False
 		self.entry.set_size_request(0, 0)
 		window.connect("map-event", self._map_window)
 
@@ -884,6 +886,7 @@ class Interface (gobject.GObject):
 		if keyv not in self.keys_sensible:
 			# exit if not handled
 			return False
+		self._reset_to_toplevel = False
 
 		if keyv == key_book["Escape"]:
 			self._escape_key_press()
@@ -954,6 +957,7 @@ class Interface (gobject.GObject):
 		if self.current.get_table_visible():
 			self.current.hide_table()
 		self._relax_search_terms()
+		self._reset_to_toplevel = True
 
 	def _back_key_press(self):
 		"""Handle leftarrow and backspace
@@ -963,14 +967,17 @@ class Interface (gobject.GObject):
 			self.reset()
 			self.reset_current()
 			self._relax_search_terms()
+			self._reset_to_toplevel = True
 		else:
 			if self._browse_up():
 				pass
 			else:
 				self.reset()
 				self.reset_current()
+				self._reset_to_toplevel = True
 
 	def _relax_search_terms(self):
+		print "relax"
 		if self.get_in_text_mode():
 			return
 		self.reset_text()
@@ -1043,6 +1050,7 @@ class Interface (gobject.GObject):
 	def put_away(self):
 		"""Called when the interface is hidden"""
 		self._show_third_pane(False)
+		self._reset_to_toplevel = True
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
@@ -1187,10 +1195,10 @@ class Interface (gobject.GObject):
 			return
 
 		pane = self._pane_for_widget(self.current)
-		if not self.current.get_is_browsing():
-			print "Not browsing"
-			#self.data_controller.reset_pane(pane)
-
+		if not self.get_in_text_mode() and self._reset_to_toplevel:
+			print "reset to toplevel"
+			self.data_controller.soft_reset(pane)
+			self._reset_to_toplevel = False
 		self.data_controller.search(pane, key=text, context=text,
 				text_mode=self.get_in_text_mode())
 
