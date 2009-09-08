@@ -141,16 +141,6 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		self.register = reg if reg else default_associations
 		# pretty-print register to debug
 		if self.register:
-			# convert register just to be nice
-			# FIXME: remove this soon
-			if "gedit.desktop" in self.register:
-				self.output_debug("Converting register..")
-				newreg = dict(self.register)
-				for key in self.register:
-					nkey = key.replace(".desktop", "", 1)
-					newreg[nkey] = newreg[key]
-					del newreg[key]
-				self.register = newreg
 			self.output_debug("Learned the following applications")
 			self.output_debug("\n{\n%s\n}" % "\n".join(
 				("  %-30s : %s" % (k,v)
