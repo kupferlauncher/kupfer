@@ -39,37 +39,34 @@ class Volume (Leaf):
 	def get_icon_name(self):
 		return "drive-removable-media"
 
-class Eject (Action):
-	def __init__(self):
-		super(Eject, self).__init__(_("Eject"))
-
-	def _callback(self, *args):
-		pass
-
-	def activate(self, leaf):
-		vol = leaf.volume
-		vol.eject(self._callback)
-
-	def get_description(self):
-		return _("Unmount and eject this media")
-	def get_icon_name(self):
-		return "media-eject"
-
 class Unmount (Action):
-	def __init__(self):
-		super(Unmount, self).__init__(_("Unmount"))
+	def __init__(self, name=None):
+		super(Unmount, self).__init__(name or _("Unmount"))
 
 	def _callback(self, *args):
 		pass
 
 	def activate(self, leaf):
+		if not leaf.is_valid():
+			return
 		vol = leaf.volume
-		vol.unmount(self._callback)
+		if vol.can_eject():
+			vol.eject(self._callback)
+		elif vol.can_unmount():
+			vol.unmount(self._callback)
 
 	def get_description(self):
 		return _("Unmount this volume")
+
 	def get_icon_name(self):
 		return "media-eject"
+
+class Eject (Unmount):
+	def __init__(self):
+		super(Eject, self).__init__(_("Eject"))
+
+	def get_description(self):
+		return _("Unmount and eject this media")
 
 class VolumesSource (Source):
 	def __init__(self, name=_("Volumes and Disks")):
