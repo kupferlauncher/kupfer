@@ -28,6 +28,10 @@ class Volume (Leaf):
 	def content_source(self, alternate=False):
 		return objects.DirectorySource(self.object, show_hidden=alternate)
 
+	def is_valid(self):
+		vm = gio.volume_monitor_get()
+		return any(self.volume == v for v in vm.get_mounts())
+
 	def get_description(self):
 		return _("Volume mounted at %s") % self.object
 	def get_gicon(self):
