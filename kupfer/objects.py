@@ -959,10 +959,6 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		return "%s.%s(\"%s\", show_hidden=%s)" % (self.__class__.__module__,
 				self.__class__.__name__, str(self.directory), self.show_hidden)
 
-	def pickle_prepare(self):
-		# the monitor token is not pickleable
-		self.monitor = None
-
 	def unpickle_finish(self):
 		self.monitor = self.monitor_directories(self.directory)
 
