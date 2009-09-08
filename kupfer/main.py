@@ -8,7 +8,7 @@ def setup_locale_and_gettext():
 	package_name = "kupfer"
 	localedir = "./locale"
 	try:
-		from . import version_subst
+		from kupfer import version_subst
 	except ImportError:
 		pass
 	else:
@@ -28,12 +28,8 @@ def setup_locale_and_gettext():
 
 setup_locale_and_gettext()
 
-def get_options(default_opts=""):
-	"""
-	Read cli options and process --usage, --version and --debug
-	return a list of other application flags with --* prefix included
-	"""
-	usage_string = _("Usage:")
+def get_options():
+	"""Return a list of other application flags with --* prefix included."""
 
 	program_options = [
 		("no-splash", _("do not present main interface on launch")),
@@ -44,23 +40,22 @@ def get_options(default_opts=""):
 		("debug", _("enable debug info")),
 	]
 
-	usage_string = usage_string + "\n" + "\n".join("  --%-15s  %s" % (o,h) for o,h in (program_options + misc_options))
+	import sys
+	import getopt
 
-	configure_help1 = _("To configure kupfer, edit:")
-	configure_help2 = _("The default config for reference is at:")
-	plugin_header = _("Available plugins:")
+	def make_help_text():
+		from kupfer import config, plugins
 
-	from getopt import getopt, GetoptError
-	from sys import argv
+		config_filename = "kupfer.cfg"
+		defaults_filename = "defaults.cfg"
+		conf_path = config.save_config_file(config_filename)
+		defaults_path = config.get_data_file(defaults_filename)
+		usage_string = _("Usage:")
+		usage_string = usage_string + "\n" + "\n".join("  --%-15s  %s" % (o,h) for o,h in (program_options + misc_options))
 
-	from kupfer import config, plugins
-
-	config_filename = "kupfer.cfg"
-	defaults_filename = "defaults.cfg"
-	conf_path = config.save_config_file(config_filename)
-	defaults_path = config.get_data_file(defaults_filename)
-
-	def make_usage_text():
+		configure_help1 = _("To configure kupfer, edit:")
+		configure_help2 = _("The default config for reference is at:")
+		plugin_header = _("Available plugins:")
 		plugin_list = plugins.get_plugin_desc()
 		usage_text = "\n".join((
 			usage_string,
@@ -76,16 +71,17 @@ def get_options(default_opts=""):
 		return usage_text
 
 	try:
-		opts, args = getopt(argv[1:], "", [o for o,h in program_options] + 
+		opts, args = getopt.getopt(sys.argv[1:], "",
+				[o for o,h in program_options] +
 				[o for o,h in misc_options])
-	except GetoptError, info:
+	except getopt.GetoptError, info:
 		print info
-		print make_usage_text()
+		print make_help_text()
 		raise SystemExit
 
 	for k, v in opts:
 		if k == "--help":
-			print make_usage_text()
+			print make_help_text()
 			raise SystemExit
 		if k == "--version":
 			print_version()
@@ -104,19 +100,16 @@ def get_options(default_opts=""):
 	return [tupl[0] for tupl in opts]
 
 def print_version():
-	from . import version
+	from kupfer import version
 	print version.PACKAGE_NAME, version.VERSION
 
 def print_banner():
-	from . import version
-	var = {
-		"program": version.PROGRAM_NAME, "desc": version.SHORT_DESCRIPTION,
-		"website": version.WEBSITE, "copyright": version.COPYRIGHT
-	}
+	from kupfer import version
+
 	banner = _(
-		"%(program)s: %(desc)s\n"
-		"	%(copyright)s\n"
-		"	%(website)s\n") % var
+		"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+		"	%(COPYRIGHT)s\n"
+		"	%(WEBSITE)s\n") % vars(version)
 
 	# Be careful about unicode here, since it might stop the whole program
 	try:
@@ -129,7 +122,7 @@ def main():
 	cli_opts = get_options()
 	print_banner()
 
-	from . import browser, pretty
+	from kupfer import browser, pretty
 
 	if _debug:
 		pretty.debug = _debug
