@@ -236,7 +236,7 @@
                                   <object class="GtkHButtonBox" id="hbuttonbox2">
                                     <property name="visible">True</property>
                                     <property name="homogeneous">True</property>
-                                    <property name="layout_style">edge</property>
+                                    <property name="layout_style">end</property>
                                     <child>
                                       <object class="GtkButton" id="buttonremovedirectory">
                                         <property name="label">gtk-remove</property>
