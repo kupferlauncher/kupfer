@@ -2,8 +2,9 @@ import gio
 from gio import app_info_get_all
 from gio.unix import desktop_app_info_set_desktop_env
 
-from kupfer.objects import Source, AppLeaf, Action, FileLeaf
-from kupfer import utils, plugin_support
+from kupfer.objects import (Source, AppLeaf, Action, FileLeaf,
+		PicklingHelperMixin, FilesystemWatchMixin, )
+from kupfer import config, utils, plugin_support
 
 __kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource", )
@@ -25,7 +26,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 )
 
-class AppSource (Source):
+class AppSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 	"""
 	Applications source
 
@@ -34,7 +35,12 @@ class AppSource (Source):
 	"""
 	def __init__(self):
 		super(AppSource, self).__init__(_("Applications"))
-	
+		self.unpickle_finish()
+
+	def unpickle_finish(self):
+		application_dirs = config.get_data_dirs("", "applications")
+		self.monitor_token = self.monitor_directories(*application_dirs)
+
 	def get_items(self):
 		# If we set proper desktop environment
 		# We get exactly the apps shown in the menu,
@@ -46,6 +52,7 @@ class AppSource (Source):
 		for item in app_info_get_all():
 			if item.should_show() or item.get_id() in whitelist:
 				yield AppLeaf(item)
+
 	def should_sort_lexically(self):
 		return True
 
