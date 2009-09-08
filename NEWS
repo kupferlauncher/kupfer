@@ -1,6 +1,20 @@
 NEWS for kupfer
 ===============
 
+kupfer version c12
+------------------
+
+* Translation to Spanish by Leandro Leites
+* Preferences. Display plugin settings and options beside the plugin list,
+  and allow configuring included (and watched) directories.
+* Support the new Gnome session protocol to save state on log out.
+* Improve embarassingly bad shell command quoting for _Execute_ and Tracker tag
+  actions.
+* Specify user data locations with `X-UserData`
+* Fix an AttributeError in Notes plugin reported by Francesco Marella
+* Smaller fixes (Add/remove favorite could cease to work, Track intantiated
+  sources better)
+
 kupfer version c11
 -----------------
 
