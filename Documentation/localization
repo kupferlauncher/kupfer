@@ -4,21 +4,30 @@ Localization
 kupfer is translated using gettext and it is managed in the build system
 using intltool. Translation messages are located in the po/ directory.
 
-To update an existing translation
----------------------------------
+To update or check an existing translation
+------------------------------------------
 
 To update with new strings, run:
-./waf intlupdate
+
+    ./waf intlupdate
 
 Then check all fuzzy messages, translate all untranslated messages.
 Contrinue running ./waf intlupdate to check that you have 0 fuzzy and 0
-untranslated, then you're finished.
+untranslated, then you're finished. `./waf intlupdate` will also run
+a check of the consistency of the file, so that you know that all syntax
+is correct.
 
-Add only the file you changed with
-git add po/lang.po
-git commit -m "lang: Updated translation"
+If you want to send in the translation to a repository, or as a patch,
+you can use git if you have a checked-out copy of kupfer:
 
-where 'lang' is the two-letter abbreviation
+    git add po/lang.po
+    git commit -m "lang: Updated translation"
+
+    # now we create a patch out of the latest change
+    git format-patch HEAD^
+
+where `lang` is the two-letter abbreviation. You can send the patch to
+the mailing list kupfer-list@gnome.org.
 
 
 To create a new translation
@@ -38,9 +47,11 @@ To try the new translation
 
 Make sure the translation is listed in po/LINGUAS.
 
-To try it, you have to install kupfer with ./waf install
+To try it, you have to install kupfer with `./waf install`
 
 If you run ./kupfer-activate.sh from the working directory it won't find
-the installed translations unless you make a symlink called 'locale' to
+the installed translations unless you make a symlink called `locale` to
 the installed location (for example ~/.local/share/locale if install
 prefix was ~/.local).
+
+ vim: ft=ikiwiki tw=72
