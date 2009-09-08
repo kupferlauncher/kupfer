@@ -22,6 +22,7 @@ Luca Falavigna (Debian, Ubuntu)
 """.splitlines()
 
 TRANSLATORS=u"""
+Leandro Leites (es)
 Andrea Zagli (it)
 """.splitlines()
 
