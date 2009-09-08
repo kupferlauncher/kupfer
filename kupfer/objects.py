@@ -854,6 +854,15 @@ class Source (KupferObject, pretty.OutputMixin):
 		"""
 		return ()
 
+class _nonpersistent_token (PicklingHelperMixin):
+	"""A token will keep a reference until pickling, when it is deleted"""
+	def __init__(self, data):
+		self.data = data
+	def __nonzero__(self):
+		return self.data
+	def pickle_prepare(self):
+		self.data = None
+
 class FilesystemWatchMixin (object):
 	"""A mixin for Sources watching directories"""
 
@@ -862,7 +871,8 @@ class FilesystemWatchMixin (object):
 
 		On changes, the Source will be marked for update.
 		This method returns a monitor token that has to be
-		stored for the monitor to be active; and it can not be pickled.
+		stored for the monitor to be active.
+
 		The token will be a false value if nothing could be monitored.
 
 		Nonexisting directories are skipped.
@@ -876,7 +886,7 @@ class FilesystemWatchMixin (object):
 			if monitor:
 				monitor.connect("changed", self.__directory_changed)
 				tokens.append(monitor)
-		return tokens
+		return _nonpersistent_token(tokens)
 
 	def monitor_include_file(self, gfile):
 		"""Return whether @gfile should trigger an update event
