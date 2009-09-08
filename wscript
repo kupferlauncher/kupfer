@@ -175,8 +175,11 @@ def intlupdate(util):
 		if not os.path.exists(lang_file):
 			print "Creating %s" % lang_file
 			os.popen("xgettext -D .. -f POTFILES.in --output=%s -F" % lang_file)
-		print "Processing", lang
-		os.popen("intltool-update %s" % lang)
+			os.popen("intltool-update %s" % lang)
+		else:
+			print "Processing", lang
+			os.popen("intltool-update %s" % lang)
+			os.popen("msgfmt --check %s" % lang_file)
 
 def shutdown():
 	pass
