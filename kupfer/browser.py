@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import itertools
-import signal
 import os
 import time
 
@@ -1332,31 +1331,16 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.quit_now()
 
-	def main(self, quiet=False):
-		"""Start WindowController, present its window
-		(if not @quiet) and connect to desktop services
-		(keybinding callback, session logout callbacks etc)
+	def lazy_setup(self):
+		"""Do all setup that can be done after showing main interface.
+		Connect to desktop services (keybinding callback, session logout
+		callbacks etc).
 		"""
-		# register dbus callbacks
-		from . import listen
-		from .session import SessionClient
-		from kupfer import scheduler, settings
-		from kupfer import keybindings
+		import signal
+		from kupfer import keybindings, session, settings
 
-		try:
-			s = listen.Service()
-		except listen.AlreadyRunningError:
-			self.output_info("An instance is already running, exiting...")
-			self.quit_now()
-		except listen.NoConnectionError:
-			s = None
-		else:
-			s.connect("present", self.activate)
-			s.connect("show-hide", self.show_hide)
-			s.connect("put-text", self._put_text_recieved)
-			s.connect("quit", self.quit)
+		self.output_debug("in lazy_setup")
 
-		# read settings
 		setctl = settings.GetSettingsController()
 		if setctl.get_show_status_icon():
 			self.show_statusicon()
@@ -1369,8 +1353,32 @@ class WindowController (pretty.OutputMixin):
 					% (keystr, ["failed", "success"][int(succ)]))
 		keyobj = keybindings.GetKeyboundObject()
 		keyobj.connect("keybinding", self._key_binding)
+
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
+
+		client = session.SessionClient()
+		client.connect("save-yourself", self._session_save)
+		client.connect("die", self._session_die)
+
+		self.output_debug("finished lazy_setup")
+
+	def main(self, quiet=False):
+		"""Start WindowController, present its window (if not @quiet)"""
+		from kupfer import keybindings, listen, scheduler
+
+		try:
+			kserv = listen.Service()
+		except listen.AlreadyRunningError:
+			self.output_info("An instance is already running, exiting...")
+			self.quit_now()
+		except listen.NoConnectionError:
+			kserv = None
+		else:
+			kserv.connect("present", self.activate)
+			kserv.connect("show-hide", self.show_hide)
+			kserv.connect("put-text", self._put_text_recieved)
+			kserv.connect("quit", self.quit)
 
 		# Load data and present UI
 		sch = scheduler.GetScheduler()
@@ -1378,12 +1386,9 @@ class WindowController (pretty.OutputMixin):
 
 		if not quiet:
 			self.activate()
+		gobject.idle_add(self.lazy_setup)
 
-		client = SessionClient()
-		client.connect("save-yourself", self._session_save)
-		client.connect("die", self._session_die)
-
-		def main_iterations(max_events=0):
+		def do_main_iterations(max_events=0):
 			# use sentinel form of iter
 			for idx, pending in enumerate(iter(gtk.events_pending, False)):
 				if max_events and idx > max_events:
@@ -1394,7 +1399,7 @@ class WindowController (pretty.OutputMixin):
 			gtk.main()
 			# put away window *before exiting further*
 			self.put_away()
-			main_iterations(10)
+			do_main_iterations(10)
 		except KeyboardInterrupt, info:
 			self.output_info(info, "exiting.. (Warning: Ctrl-C in the shell",
 					"will kill child processes)")
@@ -1402,12 +1407,12 @@ class WindowController (pretty.OutputMixin):
 			self.save_data()
 
 		# tear down but keep hanging
-		if s:
-			s.unregister()
+		if kserv:
+			kserv.unregister()
 		keybindings.bind_key(None)
 
-		main_iterations(100)
+		do_main_iterations(100)
 		# if we are still waiting, print a message
 		if gtk.events_pending():
 			self.output_info("Waiting for tasks to finish...")
-			main_iterations()
+			do_main_iterations()
