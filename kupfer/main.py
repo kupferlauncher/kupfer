@@ -50,15 +50,15 @@ def get_options():
 		defaults_filename = "defaults.cfg"
 		conf_path = config.save_config_file(config_filename)
 		defaults_path = config.get_data_file(defaults_filename)
-		usage_string = _("Usage:")
-		usage_string = usage_string + "\n" + "\n".join("  --%-15s  %s" % (o,h) for o,h in (program_options + misc_options))
+		usage_string = _("Usage: kupfer [OPTIONS | QUERY]")
+		options_string = usage_string + "\n\n" + "\n".join("  --%-15s  %s" % (o,h) for o,h in (program_options + misc_options))
 
 		configure_help1 = _("To configure kupfer, edit:")
 		configure_help2 = _("The default config for reference is at:")
 		plugin_header = _("Available plugins:")
 		plugin_list = plugins.get_plugin_desc()
-		usage_text = "\n".join((
-			usage_string,
+		help_text = "\n".join((
+			options_string,
 			"\n",
 			configure_help1,
 			"\t%s" % conf_path,
@@ -68,7 +68,7 @@ def get_options():
 			plugin_header,
 			plugin_list,
 		))
-		return usage_text
+		return help_text
 
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "",
