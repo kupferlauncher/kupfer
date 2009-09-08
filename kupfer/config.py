@@ -29,7 +29,7 @@ def get_cache_file(path=()):
 		return None
 	return cache_dir
 
-def get_data_file(filename):
+def get_data_file(filename, package=PACKAGE_NAME):
 	"""
 	Return path to @filename if it exists
 	anywhere in the data paths, else return None
@@ -40,10 +40,10 @@ def get_data_file(filename):
 	except ImportError:
 		first_datadir = "./data"
 	else:
-		first_datadir = os.path.join(version_subst.DATADIR, PACKAGE_NAME)
+		first_datadir = os.path.join(version_subst.DATADIR, package)
 
 	data_paths.append(first_datadir)
-	for data_path in base.load_data_paths(PACKAGE_NAME):
+	for data_path in base.load_data_paths(package):
 		if not data_path in data_paths:
 			data_paths.append(data_path)
 
