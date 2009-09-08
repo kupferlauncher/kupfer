@@ -350,7 +350,8 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		Source.__init__(self, _("Rhythmbox"))
 	def get_items(self):
 		try:
-			songs = rhythmbox_support.get_rhythmbox_songs()
+			dbfile = config.get_data_file("rhythmdb.xml", "rhythmbox")
+			songs = rhythmbox_support.get_rhythmbox_songs(dbfile=dbfile)
 		except StandardError, e:
 			self.output_error(e)
 			songs = []
