@@ -11,22 +11,27 @@ def get_plugin_ids():
 	"""Enumerate possible plugin ids;
 	return a sequence of possible plugin ids, not
 	guaranteed to be plugins"""
-	from kupfer import plugin
+	import pkgutil
 	import os
 
-	plugin_files = set()
-	main_plugin_dir = plugin.__path__[0]
-	all_plugin_dirs = [main_plugin_dir,]
-	all_plugin_dirs.extend(config.get_data_dirs("plugins"))
-	for plugin_dir in all_plugin_dirs:
-		for dirpath, dirs, files in os.walk(plugin_dir):
-			del dirs[:]
-		# @files leaks out from "loop" above
-		for f in files:
-			basename = os.path.splitext(f)[0]
-			if basename != "__init__" and not basename.endswith("_support"):
-				plugin_files.add(basename)
-	return plugin_files
+	from kupfer import plugin
+
+	def is_plugname(plug):
+		return plug != "__init__" and not plug.endswith("_support")
+
+	plugin_ids = set()
+	for importer, modname, ispkg in pkgutil.iter_modules(plugin.__path__):
+		if not ispkg and is_plugname(modname):
+			plugin_ids.add(modname)
+
+	for plugin_dir in config.get_data_dirs("plugins"):
+		name = lambda f: os.path.splitext(f)[0]
+		try:
+			plugin_ids.update(name(f) for f in os.listdir(plugin_dir)
+					if is_plugname(name(f)))
+		except (OSError, IOError), exc:
+			pretty.print_error(exc)
+	return plugin_ids
 
 def get_plugin_info():
 	"""Generator, yields dictionaries of plugin descriptions

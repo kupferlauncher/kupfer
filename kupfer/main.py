@@ -42,7 +42,6 @@ def get_options():
 
 	import sys
 	import getopt
-
 	def make_help_text():
 		from kupfer import config, plugins
 
@@ -69,6 +68,10 @@ def get_options():
 			plugin_list,
 		))
 		return help_text
+
+	# Fix sys.argv that can be None in exceptional cases
+	if sys.argv[0] is None:
+		sys.argv[0] = "kupfer"
 
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "",
