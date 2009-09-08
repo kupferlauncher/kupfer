@@ -61,9 +61,6 @@ class ScreenSessionsSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		super(ScreenSessionsSource, self).__init__(_("Screen Sessions"))
 		self.unpickle_finish()
 
-	def pickle_prepare(self):
-		self.monitor = None
-
 	def unpickle_finish(self):
 		"""Set up a directory watch on Screen's socket dir"""
 		self.screen_dir = (os.getenv("SCREENDIR") or
@@ -72,7 +69,7 @@ class ScreenSessionsSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 			self.screen_dir = None
 			self.output_debug("Screen socket dir or SCREENDIR not found")
 			return
-		self.monitor = self.monitor_directories(self.screen_dir)
+		self.monitor_token = self.monitor_directories(self.screen_dir)
 
 	def get_items(self):
 		if not self.screen_dir:
