@@ -19,6 +19,10 @@ __description__ = _("Tracker desktop search integration")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+SERVICE_NAME = "org.freedesktop.Tracker"
+SEARCH_OBJECT_PATH = "/org/freedesktop/Tracker/Search"
+SEARCH_INTERFACE = "org.freedesktop.Tracker.Search"
+
 class TrackerSearch (Action):
 	def __init__(self):
 		Action.__init__(self, _("Search in Tracker"))
@@ -64,10 +68,11 @@ class TrackerQuerySource (Source):
 			return
 		bus = dbus.SessionBus()
 		try:
-			searchobj = bus.get_object("org.freedesktop.Tracker",
-					"/org/freedesktop/Tracker/Search")
-		except dbus.DBusException:
-			pretty.print_info(__name__, "Tracker not found on bus")
+			tobj = bus.get_object(SERVICE_NAME, SEARCH_OBJECT_PATH)
+			searchobj = dbus.Interface(tobj, SEARCH_INTERFACE)
+		except dbus.DBusException, exc:
+			pretty.print_error(__name__, exc)
+			pretty.print_error(__name__, "Could not connect to Tracker")
 			return
 
 		# Text interface
@@ -76,8 +81,8 @@ class TrackerQuerySource (Source):
 		# Returns array of strings for results
 		try:
 			file_hits = searchobj.Text(1, "Files", self.query, 0, self.max_items)
-		except dbus.DBusException:
-			pretty.print_info(__name__, "Tracker not found on bus")
+		except dbus.DBusException, exc:
+			pretty.print_error(__name__, exc)
 			return
 
 		for filestr in file_hits:
