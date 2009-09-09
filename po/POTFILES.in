@@ -9,6 +9,7 @@ kupfer/objects.py
 kupfer/plugin_support.py
 kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
+kupfer/plugin/calculator.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
 kupfer/plugin/common.py

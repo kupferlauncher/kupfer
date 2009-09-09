@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-07 23:46+0200\n"
+"POT-Creation-Date: 2009-09-09 21:23+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -25,8 +25,8 @@ msgstr "Programstartare"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Flexibelt kommandoprogram för program och dokument"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1208
-#: ../kupfer/browser.py:1239 ../kupfer/plugin/core.py:176
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1224
+#: ../kupfer/browser.py:1255 ../kupfer/plugin/core.py:176
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -71,209 +71,209 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:641
+#: ../kupfer/browser.py:650
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:643
+#: ../kupfer/browser.py:652
 #, python-format
 msgid "No matches in %s"
 msgstr "Inga träffar i %s"
 
-#: ../kupfer/browser.py:648
+#: ../kupfer/browser.py:657
 msgid "Searching..."
 msgstr "Söker..."
 
-#: ../kupfer/browser.py:654
+#: ../kupfer/browser.py:663
 #, python-format
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
 
-#: ../kupfer/main.py:36
-msgid "Usage:"
-msgstr "Användning:"
-
-#: ../kupfer/main.py:39
+#: ../kupfer/main.py:35
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
 
-#: ../kupfer/main.py:42
+#: ../kupfer/main.py:38
 msgid "show usage help"
 msgstr "visa hjälpmeddelande"
 
-#: ../kupfer/main.py:43
+#: ../kupfer/main.py:39
 msgid "show version information"
 msgstr "visa programversion"
 
-#: ../kupfer/main.py:44
+#: ../kupfer/main.py:40
 msgid "enable debug info"
 msgstr "felsökningsläge"
 
-#: ../kupfer/main.py:49
+#: ../kupfer/main.py:52
+msgid "Usage: kupfer [OPTIONS | QUERY]"
+msgstr "Användning: kupfer [FLAGGOR | SÖKTERM]"
+
+#: ../kupfer/main.py:55
 msgid "To configure kupfer, edit:"
 msgstr "För att konfigurera kupfer, redigera:"
 
-#: ../kupfer/main.py:50
+#: ../kupfer/main.py:56
 msgid "The default config for reference is at:"
 msgstr "Standardinställningarna är dokumenterade i:"
 
-#: ../kupfer/main.py:51
+#: ../kupfer/main.py:57
 msgid "Available plugins:"
 msgstr "Tillgängliga insticksmoduler:"
 
-#: ../kupfer/main.py:117
+#: ../kupfer/main.py:113
 #, python-format
 msgid ""
-"%(program)s: %(desc)s\n"
-"\t%(copyright)s\n"
-"\t%(website)s\n"
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"\t%(COPYRIGHT)s\n"
+"\t%(WEBSITE)s\n"
 msgstr ""
-"%(program)s: %(desc)s\n"
-"\t%(copyright)s\n"
-"\t%(website)s\n"
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"\t%(COPYRIGHT)s\n"
+"\t%(WEBSITE)s\n"
 
-#: ../kupfer/objects.py:225
+#: ../kupfer/objects.py:197
 msgid "No matches"
 msgstr "Inga träffar"
 
-#: ../kupfer/objects.py:560 ../kupfer/objects.py:622 ../kupfer/objects.py:637
+#: ../kupfer/objects.py:533 ../kupfer/objects.py:595 ../kupfer/objects.py:610
 #: ../kupfer/plugin/notes.py:70
 msgid "Open"
 msgstr "Öppna"
 
-#: ../kupfer/objects.py:560 ../kupfer/objects.py:569 ../kupfer/objects.py:572
-#: ../kupfer/objects.py:585
+#: ../kupfer/objects.py:533 ../kupfer/objects.py:542 ../kupfer/objects.py:545
+#: ../kupfer/objects.py:558
 #, python-format
 msgid "Open with %s"
 msgstr "Öppna med %s"
 
-#: ../kupfer/objects.py:603
+#: ../kupfer/objects.py:576
 msgid "Open URL"
 msgstr "Öppna URL"
 
-#: ../kupfer/objects.py:614
+#: ../kupfer/objects.py:587
 msgid "Open URL with default viewer"
 msgstr "Öppna URL med standardprogram"
 
-#: ../kupfer/objects.py:629
+#: ../kupfer/objects.py:602
 msgid "Open with default viewer"
 msgstr "Öppna med standardprogram"
 
-#: ../kupfer/objects.py:640
+#: ../kupfer/objects.py:613
 msgid "Open folder"
 msgstr "Öppna mapp"
 
-#: ../kupfer/objects.py:646
+#: ../kupfer/objects.py:619
 msgid "Reveal"
 msgstr "Visa"
 
-#: ../kupfer/objects.py:655
+#: ../kupfer/objects.py:628
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: ../kupfer/objects.py:661
+#: ../kupfer/objects.py:634
 msgid "Open Terminal Here"
 msgstr "Öppna i terminalfönster"
 
-#: ../kupfer/objects.py:670
+#: ../kupfer/objects.py:643
 msgid "Open this location in a terminal"
 msgstr "Öppna platsen i terminalfönster"
 
-#: ../kupfer/objects.py:683
+#: ../kupfer/objects.py:656
 msgid "Launch"
 msgstr "Starta"
 
-#: ../kupfer/objects.py:693
+#: ../kupfer/objects.py:666
 msgid "Launch application"
 msgstr "Starta program"
 
-#: ../kupfer/objects.py:700 ../kupfer/plugin/windows.py:49
+#: ../kupfer/objects.py:673 ../kupfer/plugin/windows.py:49
 msgid "Go To"
 msgstr "Gå till"
 
-#: ../kupfer/objects.py:704
+#: ../kupfer/objects.py:677
 msgid "Show application window"
 msgstr "Visa programfönster"
 
-#: ../kupfer/objects.py:713
+#: ../kupfer/objects.py:686
 msgid "Launch Again"
 msgstr "Starta igen"
 
-#: ../kupfer/objects.py:717
+#: ../kupfer/objects.py:690
 msgid "Launch another instance of this application"
 msgstr "Starta programmet igen"
 
-#: ../kupfer/objects.py:724
+#: ../kupfer/objects.py:697
 msgid "Run in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: ../kupfer/objects.py:724
+#: ../kupfer/objects.py:697
 msgid "Run"
 msgstr "Kör"
 
-#: ../kupfer/objects.py:738
+#: ../kupfer/objects.py:711
 msgid "Run this program in a Terminal"
 msgstr "Kör programmet i terminalfönster"
 
-#: ../kupfer/objects.py:740
+#: ../kupfer/objects.py:713
 msgid "Run this program"
 msgstr "Kör programmet"
 
-#: ../kupfer/objects.py:748
+#: ../kupfer/objects.py:721
 msgid "No action"
 msgstr "Inget kommando"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/objects.py:900 ../kupfer/plugin/rhythmbox.py:220
+#: ../kupfer/objects.py:837 ../kupfer/plugin/rhythmbox.py:220
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
 
-#: ../kupfer/objects.py:930
+#: ../kupfer/objects.py:867
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: ../kupfer/objects.py:982
+#: ../kupfer/objects.py:915
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: ../kupfer/objects.py:998
+#: ../kupfer/objects.py:931
 msgid "Catalog Index"
 msgstr "Katalogindex"
 
-#: ../kupfer/objects.py:1013
+#: ../kupfer/objects.py:946
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: ../kupfer/objects.py:1024
+#: ../kupfer/objects.py:957
 msgid "Catalog"
 msgstr "Katalog"
 
-#: ../kupfer/objects.py:1043
+#: ../kupfer/objects.py:976
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
-#: ../kupfer/objects.py:1120
+#: ../kupfer/objects.py:1053
 msgid "Do"
 msgstr "Utför"
 
-#: ../kupfer/objects.py:1125
+#: ../kupfer/objects.py:1058
 msgid "Perform action"
 msgstr "Utför kommando"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/objects.py:1149
+#: ../kupfer/objects.py:1082
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d lines) \"%(text)s\""
 
-#: ../kupfer/objects.py:1161 ../kupfer/plugin/text.py:18
+#: ../kupfer/objects.py:1094 ../kupfer/plugin/text.py:18
 msgid "Text Matches"
 msgstr "Fritextträffar"
 
@@ -303,33 +303,45 @@ msgstr "Senaste dokument i Abiword"
 msgid "Abiword Recent Items"
 msgstr "Abiwords senaste dokument"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:36
+#: ../kupfer/plugin/applications.py:9 ../kupfer/plugin/applications.py:37
 msgid "Applications"
 msgstr "Program"
 
-#: ../kupfer/plugin/applications.py:14 ../kupfer/plugin/applications.py:53
+#: ../kupfer/plugin/applications.py:15 ../kupfer/plugin/applications.py:60
 msgid "All applications and preferences"
 msgstr "Alla program och inställningspaneler"
 
-#: ../kupfer/plugin/applications.py:21
+#: ../kupfer/plugin/applications.py:22
 msgid "Applications for Desktop Environment"
 msgstr "Program för skrivbordsmiljö"
 
-#: ../kupfer/plugin/applications.py:62
+#: ../kupfer/plugin/applications.py:69
 msgid "Open With..."
 msgstr "Öppna med..."
 
-#: ../kupfer/plugin/applications.py:73
+#: ../kupfer/plugin/applications.py:80
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
 
-#: ../kupfer/plugin/applications.py:77
+#: ../kupfer/plugin/applications.py:84
 msgid "Set Default Application..."
 msgstr "Välj standardprogram..."
 
-#: ../kupfer/plugin/applications.py:92
+#: ../kupfer/plugin/applications.py:99
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
+
+#: ../kupfer/plugin/calculator.py:9
+msgid "Calculator"
+msgstr "Miniräknare"
+
+#: ../kupfer/plugin/calculator.py:11
+msgid "Calculate expressions starting with '='"
+msgstr "Beräkna uttryck som börjar med \"=\""
+
+#: ../kupfer/plugin/calculator.py:32
+msgid "Calculate"
+msgstr "Beräkna"
 
 #: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:39
 msgid "Clipboards"
@@ -532,35 +544,35 @@ msgstr "Epiphany-bokmärken"
 msgid "Index of Epiphany bookmarks"
 msgstr "Index över Epiphany-bokmärken"
 
-#: ../kupfer/plugin/favorites.py:8 ../kupfer/plugin/favorites.py:27
+#: ../kupfer/plugin/favorites.py:9 ../kupfer/plugin/favorites.py:25
 msgid "Favorites"
 msgstr "Favoriter"
 
-#: ../kupfer/plugin/favorites.py:11
+#: ../kupfer/plugin/favorites.py:12
 msgid "(Simple) favorites plugin"
 msgstr "(Enkel) modul för favoritobjekt"
 
-#: ../kupfer/plugin/favorites.py:54
+#: ../kupfer/plugin/favorites.py:53
 msgid "Shelf of \"Favorite\" items"
 msgstr "Plats för favoritobjekt"
 
-#: ../kupfer/plugin/favorites.py:66
+#: ../kupfer/plugin/favorites.py:80
 msgid "Add to Favorites"
 msgstr "Lägg till favorit"
 
-#: ../kupfer/plugin/favorites.py:76
+#: ../kupfer/plugin/favorites.py:88
 msgid "Add item to favorites shelf"
 msgstr "Lägg till objekt till favorithyllan"
 
-#: ../kupfer/plugin/favorites.py:82
+#: ../kupfer/plugin/favorites.py:94
 msgid "Remove from Favorites"
 msgstr "Ta bort favorit"
 
-#: ../kupfer/plugin/favorites.py:90
+#: ../kupfer/plugin/favorites.py:102
 msgid "Remove item from favorites shelf"
 msgstr "Ta bort objekt från favorithyllan"
 
-#: ../kupfer/plugin/fileactions.py:11
+#: ../kupfer/plugin/fileactions.py:10
 msgid "File Actions"
 msgstr "Filkommandon"
 
@@ -584,35 +596,39 @@ msgstr "Flytta filen till papperskorgen"
 msgid "Move To..."
 msgstr "Flytta till..."
 
-#: ../kupfer/plugin/fileactions.py:105
+#: ../kupfer/plugin/fileactions.py:109
 msgid "Move file to new location"
 msgstr "Flytta till ny plats"
 
-#: ../kupfer/plugin/fileactions.py:121
+#: ../kupfer/plugin/fileactions.py:120 ../kupfer/plugin/fileactions.py:138
+msgid "Rename To..."
+msgstr "Byt namn..."
+
+#: ../kupfer/plugin/fileactions.py:178
 msgid "Copy To..."
 msgstr "Kopiera till..."
 
-#: ../kupfer/plugin/fileactions.py:139
+#: ../kupfer/plugin/fileactions.py:212
 msgid "Copy file to a chosen location"
 msgstr "Kopiera filen till en vald plats"
 
-#: ../kupfer/plugin/fileactions.py:143
+#: ../kupfer/plugin/fileactions.py:216
 msgid "Extract Here"
 msgstr "Packa upp här"
 
-#: ../kupfer/plugin/fileactions.py:157
+#: ../kupfer/plugin/fileactions.py:230
 msgid "Extract compressed archive"
 msgstr "Packa upp komprimerad fil"
 
-#: ../kupfer/plugin/fileactions.py:161
+#: ../kupfer/plugin/fileactions.py:234
 msgid "Create Archive"
 msgstr "Skapa arkiv"
 
-#: ../kupfer/plugin/fileactions.py:171 ../kupfer/plugin/fileactions.py:197
+#: ../kupfer/plugin/fileactions.py:244 ../kupfer/plugin/fileactions.py:270
 msgid "Create a compressed archive from folder"
 msgstr "Skapa komprimerat arkiv av mappen"
 
-#: ../kupfer/plugin/fileactions.py:175
+#: ../kupfer/plugin/fileactions.py:248
 msgid "Create Archive In..."
 msgstr "Skapa arkiv i..."
 
@@ -653,8 +669,8 @@ msgstr "Locate"
 msgid "Search filesystem using locate"
 msgstr "Sök filsystemet med 'locate'"
 
-#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:55
-#: ../kupfer/plugin/tracker.py:92
+#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/tracker.py:97
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Resultat för \"%s\""
@@ -719,7 +735,7 @@ msgstr "Senast ändrad %s"
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:17 ../kupfer/plugin/rhythmbox.py:385
+#: ../kupfer/plugin/rhythmbox.py:17 ../kupfer/plugin/rhythmbox.py:386
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "Spela spår och sök i musikbiblioteket"
 
@@ -829,11 +845,11 @@ msgstr "Låtar"
 msgid "Songs in Rhythmbox library"
 msgstr "Låtar i Rhythmboxs bibliotek"
 
-#: ../kupfer/plugin/screen.py:6 ../kupfer/plugin/screen.py:99
+#: ../kupfer/plugin/screen.py:6 ../kupfer/plugin/screen.py:96
 msgid "GNU Screen"
 msgstr "GNU Screen"
 
-#: ../kupfer/plugin/screen.py:8 ../kupfer/plugin/screen.py:84
+#: ../kupfer/plugin/screen.py:8 ../kupfer/plugin/screen.py:81
 msgid "Active GNU Screen sessions"
 msgstr "Aktiva GNU Screen-sessioner"
 
@@ -854,7 +870,7 @@ msgstr "%(status)s session %(pid)s) skapad %(time)s"
 msgid "Screen Sessions"
 msgstr "Screen-sessioner"
 
-#: ../kupfer/plugin/screen.py:94
+#: ../kupfer/plugin/screen.py:91
 msgid "Attach"
 msgstr "Anslut till"
 
@@ -873,11 +889,11 @@ msgstr "Tillhandahåller aktuell markering"
 msgid "Selected Text \"%s\""
 msgstr "Markering \"%s\""
 
-#: ../kupfer/plugins.py:51
+#: ../kupfer/plugins.py:56
 msgid "(no description)"
 msgstr "(ingen beskrivning)"
 
-#: ../kupfer/plugins.py:70
+#: ../kupfer/plugins.py:75
 #, python-format
 msgid "  %(name)-20s %(version)-4s %(description)s"
 msgstr "  %(name)-20s %(version)-4s %(description)s"
@@ -906,57 +922,57 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Integration med sökprogrammet Tracker"
 
-#: ../kupfer/plugin/tracker.py:24
+#: ../kupfer/plugin/tracker.py:28
 msgid "Search in Tracker"
 msgstr "Sök i Tracker"
 
-#: ../kupfer/plugin/tracker.py:29
+#: ../kupfer/plugin/tracker.py:33
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Sök efter denna term i Sökverktyget Tracker"
 
-#: ../kupfer/plugin/tracker.py:38
+#: ../kupfer/plugin/tracker.py:42
 msgid "Get Tracker Results..."
 msgstr "Hämta träffar från Tracker..."
 
-#: ../kupfer/plugin/tracker.py:47
+#: ../kupfer/plugin/tracker.py:51
 msgid "Show Tracker results for query"
 msgstr "Visa träffar för sökning med Tracker"
 
-#: ../kupfer/plugin/tracker.py:123 ../kupfer/plugin/tracker.py:129
+#: ../kupfer/plugin/tracker.py:128 ../kupfer/plugin/tracker.py:134
 msgid "Tracker tags"
 msgstr "Tracker-taggar"
 
-#: ../kupfer/plugin/tracker.py:138
+#: ../kupfer/plugin/tracker.py:143
 msgid "Tracker Tags"
 msgstr "Tracker-taggar"
 
-#: ../kupfer/plugin/tracker.py:144
+#: ../kupfer/plugin/tracker.py:149
 msgid "Browse Tracker's tags"
 msgstr "Bläddra i Trackers taggar"
 
-#: ../kupfer/plugin/tracker.py:155 ../kupfer/plugin/tracker.py:162
+#: ../kupfer/plugin/tracker.py:160 ../kupfer/plugin/tracker.py:167
 #, python-format
 msgid "Tag %s"
 msgstr "Taggen %s"
 
-#: ../kupfer/plugin/tracker.py:169
+#: ../kupfer/plugin/tracker.py:174
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekt taggade %s med Tracker"
 
-#: ../kupfer/plugin/tracker.py:181
+#: ../kupfer/plugin/tracker.py:186
 msgid "Add Tag..."
 msgstr "Lägg till tagg..."
 
-#: ../kupfer/plugin/tracker.py:207
+#: ../kupfer/plugin/tracker.py:212
 msgid "Add tracker tag to file"
 msgstr "Lägg till tracker-tagg till filen"
 
-#: ../kupfer/plugin/tracker.py:213
+#: ../kupfer/plugin/tracker.py:218
 msgid "Remove Tag..."
 msgstr "Ta bort tagg..."
 
-#: ../kupfer/plugin/tracker.py:232
+#: ../kupfer/plugin/tracker.py:237
 msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
@@ -1056,34 +1072,34 @@ msgstr "Ladda ner till..."
 msgid "Download URL to a chosen location"
 msgstr "Ladda ner till en vald plats"
 
-#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:71
+#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:72
 msgid "Volumes and Disks"
 msgstr "Volymer"
 
-#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:81
+#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:82
 msgid "Mounted volumes and disks"
 msgstr "Monterade volymer och löstagbara enheter"
 
-#: ../kupfer/plugin/volumes.py:32
+#: ../kupfer/plugin/volumes.py:36
 #, python-format
 msgid "Volume mounted at %s"
 msgstr "Volym monterad vid %s"
 
-#: ../kupfer/plugin/volumes.py:40
-msgid "Eject"
-msgstr "Mata ut"
-
-#: ../kupfer/plugin/volumes.py:50
-msgid "Unmount and eject this media"
-msgstr "Avmontera och mata ut media"
-
-#: ../kupfer/plugin/volumes.py:56
+#: ../kupfer/plugin/volumes.py:44
 msgid "Unmount"
 msgstr "Avmontera"
 
-#: ../kupfer/plugin/volumes.py:66
+#: ../kupfer/plugin/volumes.py:59
 msgid "Unmount this volume"
 msgstr "Avmontera volym"
+
+#: ../kupfer/plugin/volumes.py:66
+msgid "Eject"
+msgstr "Mata ut"
+
+#: ../kupfer/plugin/volumes.py:69
+msgid "Unmount and eject this media"
+msgstr "Avmontera och mata ut media"
 
 #: ../kupfer/preferences.py:218
 msgid "Applied"
@@ -1117,24 +1133,24 @@ msgid "Actions"
 msgstr "Kommandon"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/preferences.py:388
+#: ../kupfer/preferences.py:383
 msgid "Configuration"
 msgstr "Inställningar"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/preferences.py:453
+#: ../kupfer/preferences.py:448
 msgid "Choose a Directory"
 msgstr "Välj mapp"
 
-#: ../kupfer/version.py:32
+#: ../kupfer/version.py:33
 msgid "translator-credits"
 msgstr "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-#: ../kupfer/version.py:36
+#: ../kupfer/version.py:37
 msgid "A free software (GPLv3+) launcher"
 msgstr "En startare och ett stycke fri programvara (GPLv3+)"
 
-#: ../kupfer/version.py:39
+#: ../kupfer/version.py:40
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -1164,3 +1180,14 @@ msgstr ""
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
+#~ msgid "Usage:"
+#~ msgstr "Användning:"
+
+#~ msgid ""
+#~ "%(program)s: %(desc)s\n"
+#~ "\t%(copyright)s\n"
+#~ "\t%(website)s\n"
+#~ msgstr ""
+#~ "%(program)s: %(desc)s\n"
+#~ "\t%(copyright)s\n"
+#~ "\t%(website)s\n"
