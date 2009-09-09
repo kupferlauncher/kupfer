@@ -371,11 +371,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl.set_plugin_config(plugin_id, key, value, value_type)
 		return callback
 
-	def _on_plugin_settings_key_press_event(self, widget, event):
-		if event.keyval == gtk.gdk.keyval_from_name("Escape"):
-			widget.destroy()
-			return True
-
 	def _make_plugin_settings_widget(self, plugin_id):
 		plugin_settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
