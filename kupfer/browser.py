@@ -1046,6 +1046,7 @@ class Interface (gobject.GObject):
 		else:
 			wid.set_match_plain(item)
 			if wid is self.search:
+				self.reset()
 				self.switch_to_source()
 	
 	def _new_source(self, sender, pane, source):
