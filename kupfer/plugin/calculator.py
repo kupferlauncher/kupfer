@@ -61,4 +61,4 @@ class Calculate (Action):
 		return text and text.startswith("=")
 
 	def get_description(self):
-		return _("Calculate expressions starting with '='")
+		return None
