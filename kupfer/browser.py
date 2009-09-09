@@ -719,7 +719,7 @@ class Interface (gobject.GObject):
 		self._pane_three_is_visible = False
 		self._is_text_mode = False
 		self._latest_input_timer = scheduler.Timer()
-		self._slow_input_interval = 1.0
+		self._slow_input_interval = 2.0
 		self._key_press_time = None
 		self._key_press_interval = 0.8
 		self._key_pressed = None
