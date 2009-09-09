@@ -119,6 +119,10 @@ class RenameSource (TextSource):
 		self.sourcefile = sourcefile
 		TextSource.__init__(self, _("Rename To..."))
 
+	def get_rank(self):
+		# this should rank high
+		return 100
+
 	def get_items(self, text):
 		if not text:
 			return
