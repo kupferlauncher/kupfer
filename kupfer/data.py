@@ -975,11 +975,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if sobject:
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 
+		def valid_result(obj):
+			return obj and (not hasattr(obj, "is_valid") or obj.is_valid())
+
 		# handle actions returning "new contexts"
-		if action.is_factory() and ret:
+		if action.is_factory() and valid_result(ret):
 			self.source_pane.push_source(ret)
 			return
-		if action.has_result() and ret:
+		if action.has_result() and valid_result(ret):
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
 			return
 		elif action.is_async():
