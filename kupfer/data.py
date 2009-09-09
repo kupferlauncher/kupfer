@@ -928,7 +928,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			if not sel:
 				break
 			if hasattr(sel, "is_valid") and not sel.is_valid():
-				self.emit("pane-reset", paneenum, sel)
+				self.emit("pane-reset", paneenum, None)
 				self.select(paneenum, None)
 
 	def browse_up(self, pane):
@@ -979,11 +979,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if action.is_factory() and ret:
 			self.source_pane.push_source(ret)
 			return
-		if action.is_async():
+		if action.has_result() and ret:
+			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
+			return
+		elif action.is_async():
 			self._task_runner.add_task(ret)
 		self.emit("launched-action", SourceActionMode, leaf, action)
 
-# pane cleared (invalid item) item was invalid
+# pane cleared or set with new item
 # pane, item
 gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
 	gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))

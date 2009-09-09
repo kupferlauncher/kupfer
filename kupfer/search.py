@@ -8,6 +8,9 @@ from kupfer.relevance import score
 def make_rankables(itr, rank=0):
 	return (Rankable(unicode(obj), obj, rank) for obj in itr)
 
+def wrap_rankable(obj, rank=0):
+	return Rankable(unicode(obj), obj, rank)
+
 def locale_rankable_cmp(me, other):
 	p1 = -cmp(me.rank, other.rank)
 	return p1 or (me.rank and locale.strcoll(me.value, other.value))
