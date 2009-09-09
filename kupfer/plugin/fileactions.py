@@ -81,6 +81,8 @@ def _good_destination(dpath, spath):
 class MoveTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Move To..."))
+	def has_result(self):
+		return True
 	def activate(self, leaf, obj):
 		sfile = gio.File(leaf.object)
 		bname = sfile.get_basename()
@@ -90,6 +92,8 @@ class MoveTo (Action, pretty.OutputMixin):
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
 			self.output_error("Move %s to %s Error: %s" % (sfile, dfile, exc))
+		else:
+			return FileLeaf(dfile.get_path())
 
 	def valid_for_item(self, item):
 		return os.access(item.object, os.R_OK | os.W_OK)
