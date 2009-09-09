@@ -640,7 +640,9 @@ class SecondaryObjectPane (LeafPane):
 		filter for action @item
 		"""
 		self.latest_key = key
-		sources = [ self.get_source() ] if not text_mode else []
+		sources = []
+		if not text_mode or isinstance(self.get_source(), objects.TextSource):
+			sources.append(self.get_source())
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
 			sc = GetSourceController()
