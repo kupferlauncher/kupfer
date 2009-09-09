@@ -1354,6 +1354,7 @@ class WindowController (pretty.OutputMixin):
 		keyobj = keybindings.GetKeyboundObject()
 		keyobj.connect("keybinding", self._key_binding)
 
+		signal.signal(signal.SIGINT, self._sigterm)
 		signal.signal(signal.SIGTERM, self._sigterm)
 		signal.signal(signal.SIGHUP, self._sigterm)
 
@@ -1400,9 +1401,6 @@ class WindowController (pretty.OutputMixin):
 			# put away window *before exiting further*
 			self.put_away()
 			do_main_iterations(10)
-		except KeyboardInterrupt, info:
-			self.output_info(info, "exiting.. (Warning: Ctrl-C in the shell",
-					"will kill child processes)")
 		finally:
 			self.save_data()
 
