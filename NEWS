@@ -1,6 +1,15 @@
 NEWS for kupfer
 ===============
 
+kupfer version c13
+------------------
+
+* New Plugin: Calculator
+* New Action: _Rename To..._ in File Actions Plugin
+* Smaller changes (Stop learned mnemonics database from growing indefinitely,
+  Catch SIGINT without python's handler, _Copy To..._ requires pygobject 2.18
+  now)
+
 kupfer version c12
 ------------------
 
