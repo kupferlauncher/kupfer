@@ -3,7 +3,7 @@ import os
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
-from kupfer.objects import Action, FileLeaf
+from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer import utils, pretty, task
 from kupfer import plugin_support
 
@@ -14,6 +14,7 @@ __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
 		"Trash",
 		"MoveTo",
+		"Rename",
 		"CopyTo",
 		"UnpackHere",
 		"CreateArchive",
@@ -103,6 +104,71 @@ class MoveTo (Action, pretty.OutputMixin):
 		return _good_destination(obj.object, for_item.object)
 	def get_description(self):
 		return _("Move file to new location")
+
+class RenameSource (TextSource):
+	"""A source for new names for a file;
+	here we "autopropose" the source file's extension,
+	but allow overriding it as well as renaming to without
+	extension (either using a terminating space, or selecting the
+	normal TextSource-returned string).
+	"""
+	def __init__(self, sourcefile):
+		self.sourcefile = sourcefile
+		TextSource.__init__(self, _("Rename To..."))
+
+	def get_items(self, text):
+		if not text:
+			return
+		basename = os_path.basename(self.sourcefile.object)
+		root, ext = os_path.splitext(basename)
+		t_root, t_ext = os_path.splitext(text)
+		if text.endswith(u" "):
+			yield TextLeaf(text.rstrip())
+		else:
+			yield TextLeaf(text) if t_ext else TextLeaf(t_root + ext)
+
+	def get_gicon(self):
+		return self.sourcefile.get_gicon()
+
+class Rename (Action, pretty.OutputMixin):
+	def __init__(self):
+		Action.__init__(self, _("Rename To..."))
+
+	def has_result(self):
+		return True
+	def activate(self, leaf, obj):
+		sfile = gio.File(leaf.object)
+		bname = sfile.get_basename()
+		dest = os_path.join(os_path.dirname(leaf.object), obj.object)
+		dfile = gio.File(dest)
+		try:
+			ret = sfile.move(dfile)
+			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
+		except gio.Error, exc:
+			self.output_error("Move %s to %s Error: %s" % (sfile, dfile, exc))
+		else:
+			return FileLeaf(dest)
+
+	def item_types(self):
+		yield FileLeaf
+	def valid_for_item(self, item):
+		return os.access(item.object, os.R_OK | os.W_OK)
+
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield TextLeaf
+
+	def valid_object(self, obj, for_item):
+		dest = os_path.join(os_path.dirname(for_item.object), obj.object)
+		return os_path.exists(os_path.dirname(dest)) and \
+				not os_path.exists(dest)
+
+	def object_source(self, for_item):
+		return RenameSource(for_item)
+
+	def get_description(self):
+		return None
 
 class CopyTask (task.ThreadTask, pretty.OutputMixin):
 	def __init__(self, spath, dpath):
