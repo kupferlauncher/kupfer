@@ -1175,7 +1175,7 @@ class TextSource (KupferObject):
 
 	def get_rank(self):
 		"""All items are given this rank"""
-		return 50
+		return 20
 
 	def get_items(self, text):
 		"""Get leaves for unicode string @text"""
