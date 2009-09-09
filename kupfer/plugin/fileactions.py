@@ -4,9 +4,8 @@ import os
 from os import path as os_path
 
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
-from kupfer import utils, pretty, task
+from kupfer import utils, pretty
 from kupfer import plugin_support
-
 
 __kupfer_name__ = _("File Actions")
 __kupfer_sources__ = ()
@@ -88,7 +87,7 @@ class MoveTo (Action, pretty.OutputMixin):
 		bname = sfile.get_basename()
 		dfile = gio.File(os_path.join(obj.object, bname))
 		try:
-			ret = sfile.move(dfile)
+			ret = sfile.move(dfile, flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
 			self.output_error("Move %s to %s Error: %s" % (sfile, dfile, exc))
@@ -174,26 +173,30 @@ class Rename (Action, pretty.OutputMixin):
 	def get_description(self):
 		return None
 
-class CopyTask (task.ThreadTask, pretty.OutputMixin):
-	def __init__(self, spath, dpath):
-		self.done = False
-		self.sfile = gio.File(spath)
-		bname = self.sfile.get_basename()
-		self.dfile = gio.File(os_path.join(dpath, bname))
-		super(CopyTask, self).__init__()
-
-	def thread_do(self):
-		self.ret = self.sfile.copy(self.dfile)
-		self.output_debug("Copy %s to %s (ret: %s)" % (self.sfile, self.dfile, self.ret))
-
 class CopyTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Copy To..."))
+		if gio.pygio_version < (2, 18):
+			self.output_info("Requires pygobject version 2.18 or later")
 
-	def is_async(self):
+	def has_result(self):
 		return True
+
+	def _finish_callback(self, gfile, result):
+		self.output_debug("Finished copying", gfile)
+
 	def activate(self, leaf, obj):
-		return CopyTask(leaf.object, obj.object)
+		sfile = gio.File(leaf.object)
+		dpath = os_path.join(obj.object, os_path.basename(leaf.object))
+		dfile = gio.File(dpath)
+		try:
+			ret = sfile.copy_async(dfile, self._finish_callback,
+					flags=gio.FILE_COPY_ALL_METADATA)
+			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
+		except gio.Error, exc:
+			self.output_error("Copy %s to %s Error: %s" % (sfile, dfile, exc))
+		else:
+			return FileLeaf(dpath)
 
 	def item_types(self):
 		yield FileLeaf
