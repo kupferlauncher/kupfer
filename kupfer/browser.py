@@ -108,9 +108,6 @@ class LeafModel (object):
 	def get_store(self):
 		return self.store
 
-	def append(self, row):
-		self.store.append(row)
-
 	def clear(self):
 		"""Clear the model and reset its base"""
 		self.store.clear()
@@ -136,7 +133,7 @@ class LeafModel (object):
 		# first.object is a leaf
 		return first
 
-	def add(self, rankable):
+	def _get_row(self, rankable):
 		"""Use the UI description functions get_*
 		to initialize @rankable into the model
 		"""
@@ -145,7 +142,13 @@ class LeafModel (object):
 		markup = self.get_label_markup(rankable)
 		info = self.get_aux_info(leaf)
 		rank_str = self.get_rank_str(rank)
-		self.append((rankable, icon, markup, info, rank_str))
+		return (rankable, icon, markup, info, rank_str)
+
+	def add(self, rankable):
+		self.store.append(self._get_row(rankable))
+
+	def add_first(self, rankable):
+		self.store.prepend(self._get_row(rankable))
 
 	def get_icon_size(self):
 		return 24
@@ -471,12 +474,14 @@ class Search (gtk.Bin):
 			self.model.populate(self.show_more)
 	
 	# table methods
+	def _table_set_cursor_at_row(self, row):
+		path_at_row = lambda r: (r,)
+		self.table.set_cursor(path_at_row(row))
+
 	def go_up(self):
 		"""
 		Upwards in the table
 		"""
-		# using (lazy and dangerous) tree path hacking here
-		path_at_row = lambda r: (r,)
 		row_at_path = lambda p: p[0]
 
 		# go up, simply. close table if we go up from row 0
@@ -484,7 +489,7 @@ class Search (gtk.Bin):
 		if path:
 			r = row_at_path(path)
 			if r >= 1:
-				self.table.set_cursor(path_at_row(r-1))
+				self._table_set_cursor_at_row(r-1)
 			else:
 				self.hide_table()
 	
@@ -492,8 +497,6 @@ class Search (gtk.Bin):
 		"""
 		Down in the table
 		"""
-		# using (lazy and dangerous) tree path hacking here
-		path_at_row = lambda r: (r,)
 		row_at_path = lambda p: p[0]
 
 		table_visible = self._get_table_visible()
@@ -509,9 +512,9 @@ class Search (gtk.Bin):
 					self.model.populate(self.show_more)
 				# go down only if table is visible
 				if r < -1 + len(self.model) and table_visible:
-					self.table.set_cursor(path_at_row(r+1))
+					self._table_set_cursor_at_row(r+1)
 			else:
-				self.table.set_cursor(path_at_row(0))
+				self._table_set_cursor_at_row(0)
 			self._show_table()
 	
 	def _window_config(self, widget, event):
@@ -538,18 +541,19 @@ class Search (gtk.Bin):
 	def _cursor_changed(self, treeview):
 		path, col = treeview.get_cursor()
 		match = self.model.get_object(path)
-		self.set_match(match)
+		self._set_match(match)
 	
-	def set_match(self, rankable):
+	def _set_match(self, rankable=None):
 		"""
-		Set the currently selected (represented) object
+		Set the currently selected (represented) object, either as
+		@rankable or KupferObject @obj
 
 		Emits cursor-changed
 		"""
-		self.match = rankable.object if rankable else None
+		self.match = (rankable.object if rankable else None)
 		self.emit("cursor-changed", self.match)
-		if rankable:
-			match_text = rankable.value
+		if self.match:
+			match_text = (rankable and rankable.value)
 			self.match_state = State.Match
 			m = self.match
 			pbuf = (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or
@@ -558,6 +562,13 @@ class Search (gtk.Bin):
 					match=self.text, state=self.match_state)
 			self._browsing_match = True
 
+	def set_match_plain(self, obj):
+		"""Set match to object @obj, without search or matches"""
+		self.text = None
+		self._set_match(obj)
+		self.model.add_first(obj)
+		self._table_set_cursor_at_row(0)
+
 	def update_match(self, key, matchrankable, matches):
 		"""
 		@matchrankable: Rankable first match or None
@@ -565,12 +576,11 @@ class Search (gtk.Bin):
 		"""
 		self.model.clear()
 		if not matchrankable:
-			self.set_match(None)
+			self._set_match(None)
 			return self.handle_no_matches(empty=not key)
 		self.text = key
-		self.set_match(matchrankable)
+		self._set_match(matchrankable)
 		self.model.set_base(iter(matches))
-		top = self.model.populate(1)
 		self._browsing_match = False
 
 	def reset(self):
@@ -652,7 +662,7 @@ class LeafSearch (Search):
 			icon = get_pbuf(self.source)
 			title = _("Searching %(source)s...") % {"source":self.source}
 
-		self.set_match(None)
+		self._set_match(None)
 		self.match_state = State.Wait
 		self.match_view.set_match_state(unicode(title), icon, state=State.Wait)
 
@@ -1029,7 +1039,12 @@ class Interface (gobject.GObject):
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
-		wid.reset()
+		if not item:
+			wid.reset()
+		else:
+			wid.set_match_plain(item)
+			if wid is self.search:
+				self.switch_to_source()
 	
 	def _new_source(self, sender, pane, source):
 		"""Notification about a new data source,
