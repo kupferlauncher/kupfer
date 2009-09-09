@@ -32,7 +32,7 @@ class FavoritesSource (Source, PicklingHelperMixin):
 		for itm in list(self.favorites):
 			if hasattr(itm, "is_valid") and not itm.is_valid():
 				self.output_debug("Removing invalid leaf", itm)
-				self.favorites.remove(itm)
+				self.remove(itm)
 
 	def add(self, itm):
 		self.favorites.append(itm)
