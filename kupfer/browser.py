@@ -814,6 +814,9 @@ class Interface (gobject.GObject):
 			"<Control>s" : "switch_to_source",
 			"<Control>r" : "reset_all",
 		}
+		direct_text_key = gtk.gdk.keyval_from_name("period")
+		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
+		init_text_keys.append(direct_text_key)
 		# test for alt modifier (MOD1_MASK is alt/option)
 		modifiers = gtk.accelerator_get_default_mod_mask()
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
@@ -855,11 +858,10 @@ class Interface (gobject.GObject):
 					keyv = key_book["Down"]
 			elif keyv == ord("/") and (has_selection or not can_text_mode):
 				keyv = key_book["Right"]
-			elif can_text_mode and (keyv == ord(".") or keyv == ord("/")):
-				# toggle text mode with "." or "/"
+			elif can_text_mode and keyv in init_text_keys:
 				self.toggle_text_mode(True)
-				# swallow if a period
-				swallow = (keyv == ord("."))
+				# swallow if it is the direct key
+				swallow = (keyv == direct_text_key)
 				return swallow
 
 		# activate on repeated key
