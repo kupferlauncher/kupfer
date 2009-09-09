@@ -1176,14 +1176,14 @@ class TextSource (KupferObject):
 	def get_rank(self):
 		"""All items are given this rank"""
 		return 50
-	# This is not yet implemented
-	#def has_ranked_items(self):
-	#"""If True, use get_ranked_items(), else get_items()"""
-	#def get_ranked_items(self, text):
-	#"""Return a sequence of tuple of (item, rank)"""
+
 	def get_items(self, text):
 		"""Get leaves for unicode string @text"""
 		return ()
+
+	def has_parent(self):
+		return False
+
 	def provides(self):
 		"""A seq of the types of items it provides"""
 		yield Leaf
