@@ -87,7 +87,8 @@ def load():
 	"""
 	global _register
 
-	filepath = config.get_data_file(mnemonics_filename)
+	filepath = config.get_config_file(mnemonics_filename) or \
+			config.get_data_file(mnemonics_filename)
 
 	if filepath:
 		_register = Learning._unpickle_register(filepath)
@@ -101,5 +102,5 @@ def finish():
 	if not _register:
 		pretty.print_debug(__name__, "Not writing empty register")
 		return
-	filepath = config.save_data_file(mnemonics_filename)
+	filepath = config.save_config_file(mnemonics_filename)
 	Learning._pickle_register(_register, filepath)
