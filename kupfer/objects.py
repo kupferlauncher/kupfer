@@ -488,10 +488,11 @@ class Action (KupferObject):
 		pass
 
 	def is_factory(self):
-		"""
-		If this action returns a new source in activate
-		return True
-		"""
+		"""Return whether action may return a result collection as a Source"""
+		return False
+
+	def has_result(self):
+		"""Return whether action may return a result item as a Leaf"""
 		return False
 
 	def is_async(self):
