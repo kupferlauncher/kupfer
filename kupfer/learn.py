@@ -20,6 +20,19 @@ class Mnemonics (object):
 			mcount = self.mnemonics.get(mnemonic, 0)
 			self.mnemonics[mnemonic] = mcount + 1
 		self.count += 1
+
+	def decrement(self):
+		"""Decrement total count and the least mnemonic"""
+		if self.mnemonics:
+			key = min(self.mnemonics, key=lambda k: self.mnemonics[k])
+			if self.mnemonics[key] <= 1:
+				del self.mnemonics[key]
+			else:
+				self.mnemonics[key] -= 1
+		self.count = max(self.count -1, 0)
+
+	def __nonzero__(self):
+		return self.count
 	def get_count(self):
 		return self.count
 	def get_mnemonics(self):
@@ -81,6 +94,35 @@ def get_record_score(obj, key=u""):
 	mnscore += 50 * (1 - 1.0/(exact + 1))
 	return mnscore
 
+def _prune_register():
+	"""
+	Remove items with chance (len/25000)
+
+	Assuming homogenous records (all with score one) we keep:
+	x_n+1 := x_n * (1 - chance)
+
+	To this we have to add the expected number of added mnemonics per
+	invocation, est. 10, and we can estimate a target number of saved mnemonics.
+	"""
+	import random
+	random.seed()
+	rand = random.random
+
+	goalitems = 500
+	flux = 10.0
+	alpha = flux/goalitems**2
+
+	chance = min(0.1, len(_register)*alpha)
+	for leaf, mn in _register.items():
+		if rand() > chance:
+			continue
+		mn.decrement()
+		if not mn:
+			del _register[leaf]
+
+	l = len(_register)
+	pretty.print_debug(__name__, "Pruned register (%d mnemonics)" % l)
+
 def load():
 	"""
 	Load learning database
@@ -102,5 +144,7 @@ def finish():
 	if not _register:
 		pretty.print_debug(__name__, "Not writing empty register")
 		return
+	if len(_register) > 100:
+		_prune_register()
 	filepath = config.save_config_file(mnemonics_filename)
 	Learning._pickle_register(_register, filepath)
