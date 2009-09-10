@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-09 21:23+0200\n"
+"POT-Creation-Date: 2009-09-10 23:22+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -71,21 +71,21 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:650
+#: ../kupfer/browser.py:665
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:652
+#: ../kupfer/browser.py:667
 #, python-format
-msgid "No matches in %s"
-msgstr "Inga träffar i %s"
+msgid "No matches in %s for \"%s\""
+msgstr "Inga träffar i %s för \"%s\""
 
-#: ../kupfer/browser.py:657
+#: ../kupfer/browser.py:673
 msgid "Searching..."
 msgstr "Söker..."
 
-#: ../kupfer/browser.py:663
+#: ../kupfer/browser.py:679
 #, python-format
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
