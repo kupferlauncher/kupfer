@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-09-10 23:22+0200\n"
+"POT-Creation-Date: 2009-09-11 01:00+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -725,8 +725,18 @@ msgstr "Skapa anteckning"
 msgid "Create a new note from this text"
 msgstr "Skapa en ny anteckning från texten"
 
+#: ../kupfer/plugin/notes.py:143
+#, python-format
+msgid "today, %s"
+msgstr "idag, %s"
+
+#: ../kupfer/plugin/notes.py:145
+#, python-format
+msgid "yesterday, %s"
+msgstr "igår, %s"
+
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:140
+#: ../kupfer/plugin/notes.py:149
 #, python-format
 msgid "Last updated %s"
 msgstr "Senast ändrad %s"
