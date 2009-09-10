@@ -76,9 +76,15 @@ class DebugInfo (Action, pretty.OutputMixin):
 
 	def activate(self, leaf):
 		import itertools
+		from kupfer import qfurl
 		print_func = lambda *args : pretty.print_debug("debug", *args)
 		print_func("Debug info about", leaf)
 		print_func(leaf, repr(leaf))
+		def get_qfurl(leaf):
+			try:
+				return qfurl.qfurl(leaf)
+			except qfurl.QfurlError:
+				pass
 		def get_object_fields(leaf):
 			return {
 				"repr" : leaf,
@@ -90,6 +96,7 @@ class DebugInfo (Action, pretty.OutputMixin):
 				"type" : type(leaf),
 				"module" : leaf.__module__,
 				"aliases" : getattr(leaf, "name_aliases", None),
+				"qfurl" : get_qfurl(leaf),
 				}
 		def get_leaf_fields(leaf):
 			base = get_object_fields(leaf)
