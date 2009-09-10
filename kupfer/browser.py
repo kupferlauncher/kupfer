@@ -992,6 +992,7 @@ class Interface (gobject.GObject):
 				self.reset()
 				self.reset_current()
 				self._reset_to_toplevel = True
+		self.reset_text()
 
 	def _relax_search_terms(self):
 		if self.get_in_text_mode():
