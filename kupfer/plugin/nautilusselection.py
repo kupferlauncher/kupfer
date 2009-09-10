@@ -14,6 +14,7 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class SelectedFile (FileLeaf):
+	qf_id = "selectedfile"
 	def __init__(self, filepath):
 		"""@filepath is a filesystem byte string `str`"""
 		basename = gobject.filename_display_basename(filepath)

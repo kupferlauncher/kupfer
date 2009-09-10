@@ -11,6 +11,7 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class SelectedText (TextLeaf):
+	qf_id = "selectedtext"
 	def __init__(self, text):
 		text = objects.tounicode(text)
 		lines = filter(None, text.splitlines())
