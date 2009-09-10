@@ -191,11 +191,6 @@ class OpenSearchSource (Source):
 		self.output_debug("Found following searchplugins directories",
 				sep="\n", *plugin_dirs)
 
-		def listfiles(directory):
-			"""Return a list of files in @directory, without recursing"""
-			for dirname, dirs, files in os.walk(directory):
-				return files
-
 		@coroutine
 		def collect(seq):
 			"""Collect items in list @seq"""
@@ -208,7 +203,7 @@ class OpenSearchSource (Source):
 		# files are unique by filename to allow override
 		visited_files = set()
 		for pdir in plugin_dirs:
-			for f in listfiles(pdir):
+			for f in os.listdir(pdir):
 				if f in visited_files:
 					continue
 				parser.send(os.path.join(pdir, f))
