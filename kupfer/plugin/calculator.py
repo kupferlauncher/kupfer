@@ -18,12 +18,14 @@ class KupferSurprise (float):
 		utils.show_url(version.WEBSITE)
 		return self
 
-class NiceComplex (complex):
-	def __unicode__(self):
-		if not self.imag:
-			return unicode(self.real)
-		else:
-			return u"%s+%sj" % (self.real, self.imag)
+def format_result(res):
+	cres = complex(res)
+	parts = []
+	if cres.real:
+		parts.append(u"%s" % cres.real)
+	if cres.imag:
+		parts.append(u"%s" % complex(0, cres.imag))
+	return u"+".join(parts) or u"%s" % res
 
 class Calculate (Action):
 	# since it applies only to special queries, we can up the rank
@@ -45,14 +47,13 @@ class Calculate (Action):
 		# make the builtins inaccessible
 		environment["__builtins__"] = {}
 		try:
-			result = NiceComplex(eval(expr, environment))
+			result = eval(expr, environment)
+			resultstr = format_result(result)
+			self.last_result = result
 		except Exception, exc:
 			pretty.print_error(__name__, type(exc).__name__, exc)
-			result = unicode(exc)
-		else:
-			self.last_result = result
-			result = unicode(result)
-		return TextLeaf(result)
+			resultstr = unicode(exc)
+		return TextLeaf(resultstr)
 
 	def item_types(self):
 		yield TextLeaf
