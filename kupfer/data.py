@@ -14,6 +14,8 @@ from . import objects
 from . import search, learn
 from . import config, pretty, scheduler, task
 
+from kupfer import qfurl
+
 # "Enums"
 # Which pane
 SourcePane, ActionPane, ObjectPane = (1,2,3)
@@ -1000,6 +1002,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		elif action.is_async():
 			self._task_runner.add_task(ret)
 		self.emit("launched-action", SourceActionMode, leaf, action)
+
+	def find_object(self, url):
+		"""Find object with URI @url and select it in the first pane"""
+		sc = GetSourceController()
+		qf = qfurl.qfurl(url=url)
+		found = qf.resolve_in_catalog(sc.sources)
+		if found:
+			self.emit("pane-reset", SourcePane, search.wrap_rankable(found))
 
 # pane cleared or set with new item
 # pane, item
