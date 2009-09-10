@@ -601,10 +601,10 @@ class Search (gtk.Bin):
 		"""
 		self._has_search_result = bool(key)
 		self.model.clear()
+		self.text = key
 		if not matchrankable:
 			self._set_match(None)
 			return self.handle_no_matches(empty=not key)
-		self.text = key
 		self._set_match(matchrankable)
 		self.model.set_base(iter(matches))
 		self._browsing_match = False
