@@ -1217,9 +1217,12 @@ class Interface (gobject.GObject):
 
 		pane = self._pane_for_widget(self.current)
 		if not self.get_in_text_mode() and self._reset_to_toplevel:
-			print "reset to toplevel"
-			self.data_controller.soft_reset(pane)
-			self._reset_to_toplevel = False
+			newsrc = self.data_controller.soft_reset(pane)
+			if newsrc:
+				print "reset to toplevel", newsrc
+				self.current.set_source(newsrc)
+				self._reset_to_toplevel = False
+
 		self.data_controller.search(pane, key=text, context=text,
 				text_mode=self.get_in_text_mode())
 

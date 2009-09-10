@@ -560,6 +560,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 		Pane.reset(self)
 		while self.pop_source():
 			pass
+		return self.source
 
 	def search(self, key=u"", context=None, text_mode=False):
 		"""
@@ -851,7 +852,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if pane is ActionPane:
 			return
 		panectl = self._panectl_table[pane]
-		panectl.soft_reset()
+		return panectl.soft_reset()
 
 	def cancel_search(self, pane=None):
 		"""Cancel any outstanding search, or the search for @pane"""
