@@ -937,7 +937,7 @@ class Interface (gobject.GObject):
 		self.reset_text()
 		self.current.hide_table()
 
-	def reset_current(self):
+	def reset_current(self, populate=False):
 		"""
 		Reset the source or action view
 
@@ -945,9 +945,8 @@ class Interface (gobject.GObject):
 		"""
 		if self.current.get_match_state() is State.Wait:
 			self.toggle_text_mode(False)
-		if self.current is self.action:
-			# Reset action view by blanket search
-			self.data_controller.search(data.ActionPane)
+		if self.current is self.action or populate:
+			self._populate_search()
 		else:
 			self.current.reset()
 
@@ -959,11 +958,16 @@ class Interface (gobject.GObject):
 		self.reset_current()
 		self.reset()
 
+	def _populate_search(self):
+		"""Do a blanket search/empty search to populate current pane"""
+		pane = self._pane_for_widget(self.current)
+		self.data_controller.search(pane, interactive=True)
+
 	def _escape_key_press(self):
 		"""Handle escape if first pane is reset, cancel (put away) self.  """
 		if self.current.has_result():
 			if self.current.is_showing_result():
-				self._populate_search()
+				self.reset_current(populate=True)
 			else:
 				self.reset_current()
 		else:
@@ -980,8 +984,7 @@ class Interface (gobject.GObject):
 		Go up back through browsed sources.
 		"""
 		if self.current.is_showing_result():
-			self.reset_current()
-			self._populate_search()
+			self.reset_current(populate=True)
 		else:
 			if self._browse_up():
 				pass
@@ -1096,7 +1099,7 @@ class Interface (gobject.GObject):
 		if wid is self.current:
 			self.toggle_text_mode(False)
 			if not at_root:
-				self._populate_search()
+				self.reset_current(populate=True)
 				wid.show_table()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
@@ -1174,12 +1177,6 @@ class Interface (gobject.GObject):
 		if not widget is self.current:
 			return
 		self._description_changed()
-
-	def _populate_search(self):
-		"""Do a blanket search/empty search to populate
-		the search view if it is the current view"""
-		pane = self._pane_for_widget(self.current)
-		self.data_controller.search(pane, interactive=True)
 
 	def _description_changed(self):
 		match = self.current.get_current()
