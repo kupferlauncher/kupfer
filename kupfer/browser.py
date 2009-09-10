@@ -994,7 +994,6 @@ class Interface (gobject.GObject):
 				self._reset_to_toplevel = True
 
 	def _relax_search_terms(self):
-		print "relax"
 		if self.get_in_text_mode():
 			return
 		self.reset_text()
@@ -1090,7 +1089,6 @@ class Interface (gobject.GObject):
 		"""Notification about a new data source,
 		(represented object for the self.search object
 		"""
-		print "new source", pane, source, at_root
 		wid = self._widget_for_pane(pane)
 		wid.set_source(source)
 		wid.reset()
@@ -1216,7 +1214,6 @@ class Interface (gobject.GObject):
 		if not self.get_in_text_mode() and self._reset_to_toplevel:
 			newsrc = self.data_controller.soft_reset(pane)
 			if newsrc:
-				print "reset to toplevel", newsrc
 				self.current.set_source(newsrc)
 				self._reset_to_toplevel = False
 
