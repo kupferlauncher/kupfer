@@ -864,7 +864,6 @@ class Interface (gobject.GObject):
 				return True
 
 		has_selection = (self.current.get_match_state() is State.Match)
-		can_text_mode = self.get_can_enter_text_mode()
 		if not text_mode:
 			# translate extra commands to normal commands here
 			# and remember skipped chars
@@ -875,11 +874,11 @@ class Interface (gobject.GObject):
 					keyv = key_book["Down"]
 			elif keyv == ord("/") and (has_selection or not can_text_mode):
 				keyv = key_book["Right"]
-			elif can_text_mode and keyv in init_text_keys:
-				self.toggle_text_mode(True)
-				# swallow if it is the direct key
-				swallow = (keyv == direct_text_key)
-				return swallow
+			elif keyv in init_text_keys:
+				if self.try_enable_text_mode():
+					# swallow if it is the direct key
+					swallow = (keyv == direct_text_key)
+					return swallow
 
 		# activate on repeated key
 		if ((not text_mode) and self._key_pressed == keyv and
@@ -928,7 +927,7 @@ class Interface (gobject.GObject):
 
 	def _entry_paste_clipboard(self, entry):
 		if not self.get_in_text_mode():
-			self.toggle_text_mode(True)
+			self.try_enable_text_mode()
 
 	def reset_text(self):
 		self.entry.set_text("")
@@ -962,6 +961,17 @@ class Interface (gobject.GObject):
 		"""Do a blanket search/empty search to populate current pane"""
 		pane = self._pane_for_widget(self.current)
 		self.data_controller.search(pane, interactive=True)
+
+	def soft_reset(self, pane=None):
+		"""Reset @pane or current pane context/source
+		softly (without visible update), and unset _reset_to_toplevel marker.
+		"""
+		pane = pane or self._pane_for_widget(self.current)
+		newsrc = self.data_controller.soft_reset(pane)
+		if newsrc:
+			self.current.set_source(newsrc)
+		self._reset_to_toplevel = False
+
 
 	def _escape_key_press(self):
 		"""Handle escape if first pane is reset, cancel (put away) self.  """
@@ -1012,7 +1022,18 @@ class Interface (gobject.GObject):
 		entry_text = self.entry.get_text()
 		return val and not entry_text
 
+	def try_enable_text_mode(self):
+		"""Perform a soft reset if possible and then try enabling text mode"""
+		if self._reset_to_toplevel:
+			self.soft_reset()
+		if self.get_can_enter_text_mode():
+			return self.toggle_text_mode(True)
+		return False
+
 	def toggle_text_mode(self, val):
+		"""Toggle text mode on/off per @val,
+		and return the subsequent on/off state.
+		"""
 		val = bool(val) and self.get_can_enter_text_mode()
 		self._is_text_mode = val
 		self.update_text_mode()
@@ -1191,7 +1212,7 @@ class Interface (gobject.GObject):
 		Put @text into the interface to search, to use
 		for "queries" from other sources
 		"""
-		self.toggle_text_mode(True)
+		self.try_enable_text_mode()
 		self.entry.set_text(text)
 		self.entry.set_position(-1)
 
@@ -1214,10 +1235,7 @@ class Interface (gobject.GObject):
 
 		pane = self._pane_for_widget(self.current)
 		if not self.get_in_text_mode() and self._reset_to_toplevel:
-			newsrc = self.data_controller.soft_reset(pane)
-			if newsrc:
-				self.current.set_source(newsrc)
-				self._reset_to_toplevel = False
+			self.soft_reset(pane)
 
 		self.data_controller.search(pane, key=text, context=text,
 				text_mode=self.get_in_text_mode())
