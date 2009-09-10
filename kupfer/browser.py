@@ -1055,6 +1055,7 @@ class Interface (gobject.GObject):
 		self._reset_to_toplevel = True
 
 	def select_selected_file(self):
+		self.data_controller.find_object("qpfer:selectedtext")
 		self.data_controller.find_object("qpfer:selectedfile")
 
 	def select_selected_text(self):
