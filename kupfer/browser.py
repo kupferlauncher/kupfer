@@ -1019,11 +1019,11 @@ class Interface (gobject.GObject):
 		return val
 
 	def toggle_text_mode_quick(self):
-		"""Toggle text mode or not, if we can, without reset"""
+		"""Toggle text mode or not, if we can or not, without reset"""
 		if self._is_text_mode:
 			self._is_text_mode = False
 		else:
-			self._is_text_mode = self.get_can_enter_text_mode()
+			self._is_text_mode = True
 		self.update_text_mode()
 
 	def update_text_mode(self):
