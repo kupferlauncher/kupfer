@@ -46,7 +46,8 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 		try:
 			import gnome
 			import gnome.ui
-		except ImportError:
+		except ImportError, exc:
+			self.output_debug(exc)
 			return False
 
 		gnome.program_init(version.PACKAGE_NAME, version.VERSION)
@@ -66,6 +67,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 		iface_name = service_name
 
 		if not dbus_iface.NameHasOwner(service_name):
+			self.output_debug("D-Bus name %s not found" % service_name)
 			return False
 
 		try:
