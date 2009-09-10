@@ -135,7 +135,16 @@ class Note (Leaf):
 	def get_actions(self):
 		yield Open()
 	def get_description(self):
-		time_str = time.strftime("%c", time.localtime(self.changedate))
+		today_date = time.localtime()[:3]
+		yest_date = time.localtime(time.time() - 3600*24)[:3]
+		change_time = time.localtime(self.changedate)
+
+		if today_date == change_time[:3]:
+			time_str = _("today, %s") % time.strftime("%X", change_time)
+		elif yest_date == change_time[:3]:
+			time_str = _("yesterday, %s") % time.strftime("%X", change_time)
+		else:
+			time_str = time.strftime("%c", change_time)
 		# TRANS: Note description, %s is last changed time in locale format
 		return _("Last updated %s") % time_str
 	def get_icon_name(self):
