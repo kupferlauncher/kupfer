@@ -1066,6 +1066,7 @@ class Interface (gobject.GObject):
 	def put_away(self):
 		"""Called when the interface is hidden"""
 		self._show_third_pane(False)
+		self._relax_search_terms()
 		self._reset_to_toplevel = True
 
 	def select_selected_file(self):
