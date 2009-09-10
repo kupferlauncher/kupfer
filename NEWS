@@ -1,6 +1,21 @@
 NEWS for kupfer
 ===============
 
+kupfer version c14
+------------------
+
+* Rewrite and improve browsing mode:
+  * Browsing the catalog or folders is much improved; it is easier to keep the
+    overview and be oriented.
+  * Returning to kupfer after having performed an action, the old object is
+    still available, but without locking the catalog to its location.
+    When spawning kupfer again, the previous context is available if you
+    immediately browse; if you search, you search the whole catalog.
+  * The search times out after 2 seconds if no key is typed. Now the highlight
+    text will fade to show this.
+* Add accelerators `Ctrl+G` and `Ctrl+T` to get current selection in nautilus
+  and currently selected text (if available).
+
 kupfer version c13.1
 ------------------
 
