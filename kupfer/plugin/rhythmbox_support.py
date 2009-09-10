@@ -8,6 +8,8 @@ NEEDED_KEYS= ("title", "artist", "album", "track-number", "location", )
 
 def get_rhythmbox_songs(typ="song", keys=NEEDED_KEYS,
         dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
+    if not dbfile or not os.path.exists(dbfile):
+        raise IOError("Rhythmbox database not found")
     rhythmbox_dbfile = os.path.expanduser(dbfile)
     rbParser = xml.sax.make_parser()
     lSongs = []
