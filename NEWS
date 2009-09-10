@@ -1,6 +1,12 @@
 NEWS for kupfer
 ===============
 
+kupfer version c14.1
+--------------------
+
+* Fix two bugs with new browisng mode (soft reset for text mode, backspace or
+  left to erase a subcatalog search)
+
 kupfer version c14
 ------------------
 
