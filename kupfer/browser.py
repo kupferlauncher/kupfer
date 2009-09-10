@@ -858,7 +858,7 @@ class Interface (gobject.GObject):
 				action = accels[accel]
 				action_method = getattr(self, action, None)
 				if not action_method:
-					print "Error: no action", action
+					pretty.print_error(__name__, "Action invalid '%s'" % action)
 				else:
 					action_method()
 				return True
