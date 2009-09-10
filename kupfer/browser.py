@@ -851,10 +851,10 @@ class Interface (gobject.GObject):
 
 		# process accelerators
 		for accel in accels:
-			keyvalue, modifiers = gtk.accelerator_parse(accel)
-			if not keyvalue:
+			akeyv, amodf = gtk.accelerator_parse(accel)
+			if not akeyv:
 				continue
-			if keyv == keyvalue and (modifiers == (event.state & modifiers)):
+			if akeyv == keyv and (amodf == (event.state & modifiers)):
 				action = accels[accel]
 				action_method = getattr(self, action, None)
 				if not action_method:
