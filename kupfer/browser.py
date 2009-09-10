@@ -822,6 +822,8 @@ class Interface (gobject.GObject):
 			"<Control>period" : "toggle_text_mode_quick",
 			"<Control>s" : "switch_to_source",
 			"<Control>r" : "reset_all",
+			"<Control>g" : "select_selected_file",
+			"<Control>t" : "select_selected_text",
 		}
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
@@ -1051,6 +1053,12 @@ class Interface (gobject.GObject):
 		"""Called when the interface is hidden"""
 		self._show_third_pane(False)
 		self._reset_to_toplevel = True
+
+	def select_selected_file(self):
+		self.data_controller.find_object("qpfer:selectedfile")
+
+	def select_selected_text(self):
+		self.data_controller.find_object("qpfer:selectedtext")
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
