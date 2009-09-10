@@ -872,7 +872,7 @@ class Interface (gobject.GObject):
 					keyv = key_book["Up"]
 				else:
 					keyv = key_book["Down"]
-			elif keyv == ord("/") and (has_selection or not can_text_mode):
+			elif keyv == ord("/") and has_selection:
 				keyv = key_book["Right"]
 			elif keyv in init_text_keys:
 				if self.try_enable_text_mode():
