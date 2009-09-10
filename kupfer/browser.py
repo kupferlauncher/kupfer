@@ -375,7 +375,7 @@ class Search (gtk.Bin):
 		self.source = None
 		self.icon_size = 96
 		self._old_win_position=None
-		self._browsing_match = False
+		self._has_search_result = False
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
@@ -570,7 +570,6 @@ class Search (gtk.Bin):
 				m.get_pixbuf(self.icon_size))
 			self.match_view.set_match_state(match_text, pbuf,
 					match=self.text, state=self.match_state)
-			self._browsing_match = True
 
 	def set_match_plain(self, obj):
 		"""Set match to object @obj, without search or matches"""
@@ -580,19 +579,27 @@ class Search (gtk.Bin):
 		self._table_set_cursor_at_row(0)
 
 	def relax_match(self):
-		"""Reset matched text"""
+		"""Remove match text highlight"""
 		self.match_view.set_match_text(None)
 		self.text = None
 
-	def is_relaxed(self):
-		"""Relaxed: No highlighted match string"""
-		return not self.text
+	def has_result(self):
+		"""A search with explicit search term is active"""
+		return self._has_search_result
+
+	def is_showing_result(self):
+		"""Showing search result:
+		A search with explicit search term is active,
+		and the result list is shown.
+		"""
+		return self._has_search_result and self.get_table_visible()
 
 	def update_match(self, key, matchrankable, matches):
 		"""
 		@matchrankable: Rankable first match or None
 		@matches: Iterable to rest of matches
 		"""
+		self._has_search_result = bool(key)
 		self.model.clear()
 		if not matchrankable:
 			self._set_match(None)
@@ -605,6 +612,7 @@ class Search (gtk.Bin):
 			self.go_down()
 
 	def reset(self):
+		self._has_search_result = False
 		self.model.clear()
 		self.setup_empty()
 	
@@ -953,23 +961,27 @@ class Interface (gobject.GObject):
 
 	def _escape_key_press(self):
 		"""Handle escape if first pane is reset, cancel (put away) self.  """
-		if (self.current.is_relaxed() and
-			not self.current.get_table_visible()):
-			self.emit("cancelled")
-		if self.current.get_table_visible():
+		if self.current.has_result():
+			if self.current.is_showing_result():
+				self._populate_search()
+			else:
+				self.reset_current()
+		else:
+			if self.get_in_text_mode():
+				self.toggle_text_mode(False)
+			elif not self.current.get_table_visible():
+				self.emit("cancelled")
+			self._reset_to_toplevel = True
 			self.current.hide_table()
-		self._relax_search_terms()
-		self._reset_to_toplevel = True
+		self.reset_text()
 
 	def _back_key_press(self):
 		"""Handle leftarrow and backspace
 		Go up back through browsed sources.
 		"""
-		if not self.current.is_relaxed():
-			self.reset()
+		if self.current.is_showing_result():
 			self.reset_current()
-			self._relax_search_terms()
-			self._reset_to_toplevel = True
+			self._populate_search()
 		else:
 			if self._browse_up():
 				pass
