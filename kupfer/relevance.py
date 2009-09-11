@@ -188,7 +188,6 @@ def _findBestMatch(s, query):
     >>> _findBestMatch('teerminal', 'erml')
     (2, 9)
     """
-    index = -1
     bestMatch = -1, -1
     
     # Find the last instance of the last character of the query
@@ -198,36 +197,33 @@ def _findBestMatch(s, query):
     # No instance of the character?
     if lastChar == -1:
         return bestMatch
-    
+
     # Loop through each instance of the first character in query
     _index = s.find
-    index = _index(query[0], index + 1)
-    while index >= 0:
-        # Is there room for a match?
-        if index > (lastChar + 1 - len(query)):
-            break
-        
+    index = _index(query[0])
+
+    queryLength = len(query)
+    lastIndex = lastChar - len(query) + 1
+    while 0 <= index <= lastIndex:
         # Look for the best match in the tail
         # We know the first char matches, so we dont check it.
         cur = index + 1
         qcur = 1
-        while (qcur < len(query)) and (cur < len(s)):
+        while (qcur < queryLength) and (cur < len(s)):
             if query[qcur] == s[cur]:
                 qcur += 1
             cur += 1
-        
-        if ((qcur == len(query)) \
-        and (((cur - index) < (bestMatch[1] - bestMatch[0])) \
-        or (bestMatch[0] == -1))):
+
+        # if whole query fit, save it; else we are done
+        if (qcur == queryLength):
             bestMatch = (index, cur)
-        
-        if index == (len(s) - 1):
+        else:
             break
-        
+
         index = _index(query[0], index + 1)
-        
+
     return bestMatch
-    
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
