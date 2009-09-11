@@ -1,0 +1,1083 @@
+# Polish translations for the kupfer package
+# Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the kupfer package. (GPLv3)
+# NAME <kfiadeg@gmail.com>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-08-24 02:20+0200\n"
+"PO-Revision-Date: 2009-08-24 02:13+0200\n"
+"Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
+"Language-Team: Polish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+
+#: ../data/kupfer.desktop.in.in.h:1
+msgid "Application Launcher"
+msgstr "Skrót do programu"
+
+#: ../data/kupfer.desktop.in.in.h:2
+msgid "Convenient command and access tool for applications and documents"
+msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
+
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1165
+#: ../kupfer/browser.py:1196 ../kupfer/plugin/core.py:176
+#: ../kupfer/version.py:15
+msgid "Kupfer"
+msgstr "Kupfer"
+
+#: ../data/preferences.ui.h:1
+msgid "<b>Interface</b>"
+msgstr "Interfejs"
+
+#: ../data/preferences.ui.h:2
+msgid "<b>Keybinding</b>"
+msgstr "Skrót klawiszowy"
+
+#: ../data/preferences.ui.h:3
+msgid "<b>Start</b>"
+msgstr "Start"
+
+#: ../data/preferences.ui.h:4
+msgid "General"
+msgstr "Ogólne"
+
+#: ../data/preferences.ui.h:5 ../kupfer/plugin/core.py:163
+msgid "Kupfer Preferences"
+msgstr "Ustawienia Kupfera"
+
+#: ../data/preferences.ui.h:6
+msgid "Plugins"
+msgstr "Dodatki"
+
+#: ../data/preferences.ui.h:7
+msgid "Show icon in notification area"
+msgstr "Pokaż ikonę w obszarze powiadamiania"
+
+#: ../data/preferences.ui.h:8
+msgid "Start automatically on login"
+msgstr "Uruchom automatycznie po zalogowaniu"
+
+#: ../kupfer/browser.py:641
+#, python-format
+msgid "%s is empty"
+msgstr "%s jest puste"
+
+#: ../kupfer/browser.py:643
+#, python-format
+msgid "No matches in %s"
+msgstr "Brak wyników w %s"
+
+#: ../kupfer/browser.py:648
+msgid "Searching..."
+msgstr "Wyszukiwanie..."
+
+#: ../kupfer/browser.py:654
+#, python-format
+msgid "Searching %(source)s..."
+msgstr "Wyszukiwanie w %(source)s..."
+
+#: ../kupfer/main.py:36
+msgid "Usage:"
+msgstr "Sposób użycia:"
+
+#: ../kupfer/main.py:39
+msgid "do not present main interface on launch"
+msgstr "nie pokazuj głównego okna podczas pierwszego uruchomienia"
+
+#: ../kupfer/main.py:42
+msgid "show usage help"
+msgstr "pokaż sposób użycia"
+
+#: ../kupfer/main.py:43
+msgid "show version information"
+msgstr "pokaż informacje o wersji"
+
+#: ../kupfer/main.py:44
+msgid "enable debug info"
+msgstr "włącz informacje debuggera"
+
+#: ../kupfer/main.py:49
+msgid "To configure kupfer, edit:"
+msgstr "Aby skonfigurować kupfera, zmień:"
+
+#: ../kupfer/main.py:50
+msgid "The default config for reference is at:"
+msgstr "Domyślna konfiguracja dla wglądu dostępna jest pod:"
+
+#: ../kupfer/main.py:51
+msgid "Available plugins:"
+msgstr "Dostępne dodatki:"
+
+#: ../kupfer/main.py:117
+#, python-format
+msgid ""
+"%(program)s: %(desc)s\n"
+"\t%(copyright)s\n"
+"\t%(website)s\n"
+msgstr ""
+
+#: ../kupfer/objects.py:225
+msgid "No matches"
+msgstr "Brak wyników"
+
+#: ../kupfer/objects.py:560 ../kupfer/objects.py:621 ../kupfer/objects.py:636
+msgid "Open"
+msgstr "Otwórz"
+
+#: ../kupfer/objects.py:560 ../kupfer/objects.py:569 ../kupfer/objects.py:572
+#: ../kupfer/objects.py:584
+#, python-format
+msgid "Open with %s"
+msgstr "Otwórz za pomocą %s"
+
+#: ../kupfer/objects.py:602
+msgid "Open URL"
+msgstr "Otwórz URL"
+
+#: ../kupfer/objects.py:613
+msgid "Open URL with default viewer"
+msgstr "Otwórz URL za pomocą domyślnej przeglądarki"
+
+#: ../kupfer/objects.py:628
+msgid "Open with default viewer"
+msgstr "Otwórz za pomocą domyślnej przeglądarki"
+
+#: ../kupfer/objects.py:639
+msgid "Open folder"
+msgstr "Otwórz folder"
+
+#: ../kupfer/objects.py:645
+msgid "Reveal"
+msgstr "Pokaż"
+
+#: ../kupfer/objects.py:654
+msgid "Open parent folder"
+msgstr "Otwórz folder nadrzędny"
+
+#: ../kupfer/objects.py:660
+msgid "Open Terminal Here"
+msgstr "Otwórz tutaj terminal"
+
+#: ../kupfer/objects.py:669
+msgid "Open this location in a terminal"
+msgstr "Otwórz tą lokację w terminalu"
+
+#: ../kupfer/objects.py:682
+msgid "Launch"
+msgstr "Uruchom"
+
+#: ../kupfer/objects.py:692
+msgid "Launch application"
+msgstr "Uruchom aplikację"
+
+#: ../kupfer/objects.py:699 ../kupfer/plugin/windows.py:49
+msgid "Go To"
+msgstr "Przejdź do"
+
+#: ../kupfer/objects.py:703
+msgid "Show application window"
+msgstr "Pokaż okno aplikacji"
+
+#: ../kupfer/objects.py:712
+msgid "Launch Again"
+msgstr "Uruchom ponownie"
+
+#: ../kupfer/objects.py:716
+msgid "Launch another instance of this application"
+msgstr "Uruchom kolejną instancję tej aplikacji"
+
+#: ../kupfer/objects.py:723
+msgid "Run in Terminal"
+msgstr "Uruchom w terminalu"
+
+#: ../kupfer/objects.py:723
+msgid "Run"
+msgstr "Uruchom"
+
+#: ../kupfer/objects.py:737
+msgid "Run this program in a Terminal"
+msgstr "Uruchom ten program w terminalu"
+
+#: ../kupfer/objects.py:739
+msgid "Run this program"
+msgstr "Uruchom ten program"
+
+#: ../kupfer/objects.py:747
+msgid "No action"
+msgstr "Brak akcji"
+
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/objects.py:863 ../kupfer/plugin/rhythmbox.py:220
+#, python-format
+msgid "%s et. al."
+msgstr ""
+
+#: ../kupfer/objects.py:893
+#, python-format
+msgid "Recursive source of %(dir)s, (%(levels)d levels)"
+msgstr "Rekurencyjne źródło %(dir)s, (%(levels)d poziomów)"
+
+#: ../kupfer/objects.py:961
+#, python-format
+msgid "Directory source %s"
+msgstr "Źródło katalogu %s"
+
+#: ../kupfer/objects.py:977
+msgid "Catalog Index"
+msgstr "Indeks katalogu"
+
+#: ../kupfer/objects.py:992
+msgid "An index of all available sources"
+msgstr "Indeks wszystkich dostępnych źródeł"
+
+#: ../kupfer/objects.py:1003
+msgid "Catalog"
+msgstr "Katalog"
+
+#: ../kupfer/objects.py:1022
+msgid "Root catalog"
+msgstr "Katalog główny"
+
+#: ../kupfer/objects.py:1099
+msgid "Do"
+msgstr "Wykonaj"
+
+#: ../kupfer/objects.py:1104
+msgid "Perform action"
+msgstr "Wykonaj akcję"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#: ../kupfer/objects.py:1130
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "(%(num)d linia) \"%(text)s\""
+msgstr[1] "(%(num)d linie) \"%(text)s\""
+msgstr[2] "(%(num)d linii) \"%(text)s\""
+
+#: ../kupfer/objects.py:1142 ../kupfer/plugin/text.py:18
+msgid "Text Matches"
+msgstr "Tekst pasuje"
+
+#: ../kupfer/plugin/abiword.py:12
+msgid "Abiword"
+msgstr "Abiword"
+
+#: ../kupfer/plugin/abiword.py:15 ../kupfer/plugin/abiword.py:103
+msgid "Recently used documents in Abiword"
+msgstr "Ostatnio używane dokumenty Abiword"
+
+#: ../kupfer/plugin/abiword.py:56
+msgid "Abiword Recent Items"
+msgstr "Ostatnio używane pozycje Abiword"
+
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:36
+msgid "Applications"
+msgstr "Aplikacje"
+
+#: ../kupfer/plugin/applications.py:14 ../kupfer/plugin/applications.py:53
+msgid "All applications and preferences"
+msgstr "Wszystkie aplikacje i ustawienia"
+
+#: ../kupfer/plugin/applications.py:21
+msgid "Applications for Desktop Environment"
+msgstr "Aplikacje środowiska graficznego"
+
+#: ../kupfer/plugin/applications.py:62
+msgid "Open With..."
+msgstr "Otwórz za pomocą..."
+
+#: ../kupfer/plugin/applications.py:73
+msgid "Open with any application"
+msgstr "Otwórz jakąkolwiek aplikacją"
+
+#: ../kupfer/plugin/applications.py:77
+msgid "Set Default Application..."
+msgstr "Ustaw domyślną aplikację..."
+
+#: ../kupfer/plugin/applications.py:92
+msgid "Set default application to open this file type"
+msgstr "Ustaw domyślną aplikację dla tego typu plików"
+
+#: ../kupfer/plugin/clipboard.py:8 ../kupfer/plugin/clipboard.py:42
+msgid "Clipboards"
+msgstr "Schowki"
+
+#: ../kupfer/plugin/clipboard.py:11 ../kupfer/plugin/clipboard.py:68
+msgid "Recent clipboards"
+msgstr "Ostatnie schowki"
+
+#: ../kupfer/plugin/clipboard.py:18
+msgid "Number of recent clipboards"
+msgstr "Liczba ostatnich schowków"
+
+#: ../kupfer/plugin/clipboard.py:34
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Schowek z %(num)d linią \"%(desc)s\""
+msgstr[1] "Schowek z %(num)d liniami \"%(desc)s\""
+msgstr[2] "Schowek z %(num)d liniami \"%(desc)s\""
+
+#: ../kupfer/plugin/clipboard.py:78
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: ../kupfer/plugin/clipboard.py:85
+msgid "Copy to clipboard"
+msgstr "Kopiuj do schowka"
+
+#: ../kupfer/plugin/commands.py:10 ../kupfer/plugin/commands.py:36
+msgid "Shell Commands"
+msgstr "Komendy powłoki (shell)"
+
+#: ../kupfer/plugin/commands.py:13 ../kupfer/plugin/commands.py:55
+msgid "Run commandline programs"
+msgstr "Uruchom programy z linii komend"
+
+#: ../kupfer/plugin/common.py:9
+msgid "Common"
+msgstr "Wspólne"
+
+#: ../kupfer/plugin/common.py:11
+msgid "Special items and actions"
+msgstr "Specjalne pozycje i akcje"
+
+#: ../kupfer/plugin/common.py:29
+msgid "Log Out..."
+msgstr "Wyloguj..."
+
+#: ../kupfer/plugin/common.py:35
+msgid "Log out or change user"
+msgstr "Wyloguj lub zmień użytkownika"
+
+#: ../kupfer/plugin/common.py:42
+msgid "Shut Down..."
+msgstr "Wyłącz..."
+
+#: ../kupfer/plugin/common.py:49
+msgid "Shut down, restart or suspend computer"
+msgstr "Wyłącz, zrestartuj lub uśpij komputer"
+
+#: ../kupfer/plugin/common.py:56
+msgid "Lock Screen"
+msgstr "Zablokuj ekran"
+
+#: ../kupfer/plugin/common.py:62
+msgid "Enable screensaver and lock"
+msgstr "Włącz wygaszacz ekranu i zablokuj"
+
+#: ../kupfer/plugin/common.py:94
+msgid "Restore"
+msgstr "Przywróć"
+
+#: ../kupfer/plugin/common.py:109
+msgid "Move file back to original location"
+msgstr "Przenieś plik z powrotem do pierwotnej lokacji"
+
+#: ../kupfer/plugin/common.py:174
+msgid "Trash is empty"
+msgstr "Kosz jest pusty"
+
+#. proper translation of plural
+#: ../kupfer/plugin/common.py:176
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "W koszu jest %(num)s plik"
+msgstr[1] "W koszu są %(num)s pliki"
+msgstr[2] "W koszu jest %(num)s plików"
+
+#: ../kupfer/plugin/common.py:180
+msgid "Special Items"
+msgstr "Pozycje specjalne"
+
+#: ../kupfer/plugin/common.py:195
+msgid "Items and special actions"
+msgstr "Pozycje i specjalne akcje"
+
+#: ../kupfer/plugin/core.py:25
+msgid "Search Content..."
+msgstr "Szukaj treści..."
+
+#: ../kupfer/plugin/core.py:40
+msgid "Search inside this catalog"
+msgstr "Wyszukaj w tym katalogu"
+
+#: ../kupfer/plugin/core.py:48
+msgid "Rescan"
+msgstr "Przeskanuj"
+
+#: ../kupfer/plugin/core.py:57
+msgid "Force reindex of this source"
+msgstr "Wymuś przeindeksowanie tego źródła"
+
+#: ../kupfer/plugin/core.py:141
+msgid "Quit"
+msgstr "Zakończ"
+
+#: ../kupfer/plugin/core.py:146
+msgid "Quit Kupfer"
+msgstr "Wyjdź z Kupfera"
+
+#: ../kupfer/plugin/core.py:152
+msgid "About Kupfer"
+msgstr "O Kupferze"
+
+#: ../kupfer/plugin/core.py:157
+msgid "Show information about Kupfer authors and license"
+msgstr "Pokaż informacje o autorach Kupfera i licencji"
+
+#: ../kupfer/plugin/core.py:170
+msgid "Show preferences window for Kupfer"
+msgstr "Pokaż okno ustawień Kupfera"
+
+#: ../kupfer/plugin/core.py:187
+msgid "Kupfer items and actions"
+msgstr "Pozycje i akcje Kupfera"
+
+#: ../kupfer/plugin/devhelp.py:4
+msgid "Devhelp"
+msgstr ""
+
+#: ../kupfer/plugin/devhelp.py:6 ../kupfer/plugin/devhelp.py:12
+msgid "Search in Devhelp"
+msgstr "Wyszukaj w Devhelp"
+
+#: ../kupfer/plugin/dictionary.py:4
+msgid "Dictionary"
+msgstr "Słownik"
+
+#: ../kupfer/plugin/dictionary.py:6 ../kupfer/plugin/dictionary.py:23
+msgid "Look up word in dictionary"
+msgstr "Znajdź to słowo w słowniku"
+
+#: ../kupfer/plugin/dictionary.py:12 ../kupfer/plugin/dictionary.py:16
+msgid "Look Up"
+msgstr "Znajdź"
+
+#: ../kupfer/plugin/documents.py:11
+msgid "Documents"
+msgstr "Dokumenty"
+
+#: ../kupfer/plugin/documents.py:14
+msgid "Recently used documents and nautilus places"
+msgstr "Ostatnio używane dokumenty i miejsca Nautiliusa"
+
+#: ../kupfer/plugin/documents.py:21
+msgid "Max recent document days"
+msgstr "Maksymalna ilość dni dla ostatnio używanych dokumentów"
+
+#: ../kupfer/plugin/documents.py:31
+msgid "Recent Items"
+msgstr "Ostatnio używane pozycje"
+
+#: ../kupfer/plugin/documents.py:77
+msgid "Recently used documents"
+msgstr "Ostatnio używane dokumenty"
+
+#: ../kupfer/plugin/documents.py:87
+#, python-format
+msgid "%s Documents"
+msgstr "%s dokumentów"
+
+#: ../kupfer/plugin/documents.py:112
+#, python-format
+msgid "Recently used documents for %s"
+msgstr "Ostatnio używane dokumenty dla %s"
+
+#: ../kupfer/plugin/documents.py:131
+msgid "Places"
+msgstr "Miejsca"
+
+#: ../kupfer/plugin/documents.py:163
+msgid "Bookmarked locations in Nautilus"
+msgstr "Zakładki Nautiliusa"
+
+#: ../kupfer/plugin/epiphany.py:4 ../kupfer/plugin/epiphany.py:14
+msgid "Epiphany Bookmarks"
+msgstr "Zakładki Epiphany"
+
+#: ../kupfer/plugin/epiphany.py:7 ../kupfer/plugin/epiphany.py:23
+msgid "Index of Epiphany bookmarks"
+msgstr "Indeksuj zakładki Epiphany"
+
+#: ../kupfer/plugin/favorites.py:8 ../kupfer/plugin/favorites.py:27
+msgid "Favorites"
+msgstr "Ulubione"
+
+#: ../kupfer/plugin/favorites.py:11
+msgid "(Simple) favorites plugin"
+msgstr "Dodatek \"Ulubione\" (proste)"
+
+#: ../kupfer/plugin/favorites.py:54
+msgid "Shelf of \"Favorite\" items"
+msgstr "Półka na \"Ulubione\" pozycje"
+
+#: ../kupfer/plugin/favorites.py:66
+msgid "Add to Favorites"
+msgstr "Dodaj do ulubionych"
+
+#: ../kupfer/plugin/favorites.py:76
+msgid "Add item to favorites shelf"
+msgstr "Dodaj pozycję do półki ulubionych"
+
+#: ../kupfer/plugin/favorites.py:82
+msgid "Remove from Favorites"
+msgstr "Usuń z ulubionych"
+
+#: ../kupfer/plugin/favorites.py:90
+msgid "Remove item from favorites shelf"
+msgstr "Usuń pozycję z półki ulubionych"
+
+#: ../kupfer/plugin/fileactions.py:11
+msgid "File Actions"
+msgstr "Akcje na pliku"
+
+#: ../kupfer/plugin/fileactions.py:22
+msgid "More file actions"
+msgstr "Więcej akcji na pliku"
+
+#: ../kupfer/plugin/fileactions.py:29
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Typ skompresowanego archiwum dla 'Stwórz archiwum w'"
+
+#: ../kupfer/plugin/fileactions.py:46
+msgid "Move to Trash"
+msgstr "Przenieś do kosza"
+
+#: ../kupfer/plugin/fileactions.py:54
+msgid "Move this file to trash"
+msgstr "Przenieś ten plik do kosza"
+
+#: ../kupfer/plugin/fileactions.py:82
+msgid "Move To..."
+msgstr "Przenieś do..."
+
+#: ../kupfer/plugin/fileactions.py:105
+msgid "Move file to new location"
+msgstr "Przenieś do nowej lokacji"
+
+#: ../kupfer/plugin/fileactions.py:121
+msgid "Copy To..."
+msgstr "Kopiuj do"
+
+#: ../kupfer/plugin/fileactions.py:139
+msgid "Copy file to a chosen location"
+msgstr "Kopiuj plik do wybranej lokacji"
+
+#: ../kupfer/plugin/fileactions.py:143
+msgid "Extract Here"
+msgstr "Wypakuj tutaj"
+
+#: ../kupfer/plugin/fileactions.py:157
+msgid "Extract compressed archive"
+msgstr "Wypakuj skompresowane archiwum"
+
+#: ../kupfer/plugin/fileactions.py:161
+msgid "Create Archive"
+msgstr "Stwórz archiwum"
+
+#: ../kupfer/plugin/fileactions.py:171 ../kupfer/plugin/fileactions.py:197
+msgid "Create a compressed archive from folder"
+msgstr "Stwórz skompresowane archiwum z folderu"
+
+#: ../kupfer/plugin/fileactions.py:175
+msgid "Create Archive In..."
+msgstr "Stwórz archiwum w..."
+
+#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:14
+msgid "Firefox Bookmarks"
+msgstr "Zakładki Firefoksa"
+
+#: ../kupfer/plugin/firefox.py:7 ../kupfer/plugin/firefox.py:22
+msgid "Index of Firefox bookmarks"
+msgstr "Indeksuj zakładki Firefoksa"
+
+#: ../kupfer/plugin/google.py:8
+msgid "Search the Web"
+msgstr "Przeszukaj sieć"
+
+#: ../kupfer/plugin/google.py:12
+msgid "Send search queries to Google"
+msgstr "Wyślij zapytania wyszukujące do Google"
+
+#: ../kupfer/plugin/google.py:18
+msgid "Search with Google"
+msgstr "Wyszukaj z Google"
+
+#: ../kupfer/plugin/google.py:27
+msgid "Search for this term with Google"
+msgstr "Szukaj tego terminu w Google"
+
+#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:19
+msgid "Locate Files"
+msgstr "Zlokalizuj pliki"
+
+#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:29
+msgid "Search filesystem using locate"
+msgstr "Przeszukaj system plików za pomocą locate"
+
+#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:55
+#: ../kupfer/plugin/tracker.py:92
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Wyniki dla \"%s\""
+
+#: ../kupfer/plugin/rhythmbox.py:12 ../kupfer/plugin/rhythmbox.py:350
+msgid "Rhythmbox"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:17 ../kupfer/plugin/rhythmbox.py:385
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Odtwarzaj i kolejkuj utwory oraz przeglądaj bibliotekę muzyki"
+
+#: ../kupfer/plugin/rhythmbox.py:24
+msgid "Include artists in top level"
+msgstr "Na najwyższym poziomie uwzględniaj artystów"
+
+#: ../kupfer/plugin/rhythmbox.py:30
+msgid "Include albums in top level"
+msgstr "Na najwyższym poziomie uwzględniaj albumy"
+
+#: ../kupfer/plugin/rhythmbox.py:36
+msgid "Include songs in top level"
+msgstr "Na najwyższym poziomie uwzględniaj utwory"
+
+#: ../kupfer/plugin/rhythmbox.py:65 ../kupfer/plugin/rhythmbox.py:118
+msgid "Play"
+msgstr "Odtwórz"
+
+#: ../kupfer/plugin/rhythmbox.py:69
+msgid "Resume playback in Rhythmbox"
+msgstr "Wznów odtwarzanie w Rhythmboksie"
+
+#: ../kupfer/plugin/rhythmbox.py:75
+msgid "Pause"
+msgstr "Pauza"
+
+#: ../kupfer/plugin/rhythmbox.py:79
+msgid "Pause playback in Rhythmbox"
+msgstr "Zapauzuj odtwarzanie w Rhythmboksie"
+
+#: ../kupfer/plugin/rhythmbox.py:85
+msgid "Next"
+msgstr "Następny"
+
+#: ../kupfer/plugin/rhythmbox.py:89
+msgid "Jump to next track in Rhythmbox"
+msgstr "Skocz do następnego utworu w Rhythmboksie"
+
+#: ../kupfer/plugin/rhythmbox.py:95
+msgid "Previous"
+msgstr "Poprzedni"
+
+#: ../kupfer/plugin/rhythmbox.py:99
+msgid "Jump to previous track in Rhythmbox"
+msgstr "Skocz do poprzedniego utworu w Rhythmboksie"
+
+#: ../kupfer/plugin/rhythmbox.py:105
+msgid "Show Playing"
+msgstr "Pokaż aktualnie odgrywane"
+
+#: ../kupfer/plugin/rhythmbox.py:109
+msgid "Tell which song is currently playing"
+msgstr "Powiedz, który utwór jest właśnie odgrywany"
+
+#: ../kupfer/plugin/rhythmbox.py:131
+msgid "Play tracks in Rhythmbox"
+msgstr "Odtwarzaj utwory w Rhythmboksie"
+
+#: ../kupfer/plugin/rhythmbox.py:137
+msgid "Enqueue"
+msgstr "Kolejkuj"
+
+#: ../kupfer/plugin/rhythmbox.py:148
+msgid "Add tracks to the play queue"
+msgstr "Dodaj utwory do kolejki odtwarzania"
+
+#. TRANS: Song description
+#: ../kupfer/plugin/rhythmbox.py:170
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "przez %(artist)s z %(album)s"
+
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:223
+#, python-format
+msgid "by %s"
+msgstr "przez %s"
+
+#. TRANS: Artist songs collection description
+#: ../kupfer/plugin/rhythmbox.py:262
+#, python-format
+msgid "Tracks by %s"
+msgstr "Utwory %s"
+
+#: ../kupfer/plugin/rhythmbox.py:272
+msgid "Albums"
+msgstr "Albumy"
+
+#: ../kupfer/plugin/rhythmbox.py:282
+msgid "Music albums in Rhythmbox Library"
+msgstr "Albumy w bibliotece Rhythmboksa"
+
+#: ../kupfer/plugin/rhythmbox.py:293
+msgid "Artists"
+msgstr "Artyści"
+
+#: ../kupfer/plugin/rhythmbox.py:303
+msgid "Music artists in Rhythmbox Library"
+msgstr "Artyści w bibliotece Rhythmboksa"
+
+#: ../kupfer/plugin/rhythmbox.py:330
+msgid "Songs"
+msgstr "Utwory"
+
+#: ../kupfer/plugin/rhythmbox.py:340
+msgid "Songs in Rhythmbox library"
+msgstr "Utwory w bibliotece Rhythmboksa"
+
+#: ../kupfer/plugin/screen.py:7 ../kupfer/plugin/screen.py:109
+msgid "GNU Screen"
+msgstr ""
+
+#: ../kupfer/plugin/screen.py:9 ../kupfer/plugin/screen.py:94
+msgid "Active GNU Screen sessions"
+msgstr "Aktywuj sesje GNU Screen"
+
+#: ../kupfer/plugin/screen.py:49
+msgid "Attached"
+msgstr "Przyczepiona"
+
+#: ../kupfer/plugin/screen.py:50
+msgid "Detached"
+msgstr "Odczepiona"
+
+#: ../kupfer/plugin/screen.py:53
+#, python-format
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "%(status)s sesja (%(pid)s) stworzona %(time)s"
+
+#: ../kupfer/plugin/screen.py:62
+msgid "Screen Sessions"
+msgstr "Sesje Screen"
+
+#: ../kupfer/plugin/screen.py:104
+msgid "Attach"
+msgstr "Przyczep"
+
+#. return a constant rank key despite the changing name
+#: ../kupfer/plugin/selection.py:6 ../kupfer/plugin/selection.py:24
+#: ../kupfer/plugin/selection.py:33
+msgid "Selected Text"
+msgstr "Zaznaczony tekst"
+
+#: ../kupfer/plugin/selection.py:8 ../kupfer/plugin/selection.py:50
+msgid "Provides current selection"
+msgstr "Dostarcza aktualne zaznaczenie"
+
+#: ../kupfer/plugin/selection.py:20
+#, python-format
+msgid "Selected Text \"%s\""
+msgstr "Zaznaczony tekst \"%s\""
+
+#: ../kupfer/plugins.py:51
+msgid "(no description)"
+msgstr "(brak opisu)"
+
+#: ../kupfer/plugins.py:70
+#, python-format
+msgid "  %(name)-20s %(version)-4s %(description)s"
+msgstr ""
+
+#: ../kupfer/plugin/text.py:8
+msgid "Free-text Queries"
+msgstr "Zapytania Free-text"
+
+#: ../kupfer/plugin/text.py:11
+msgid "Basic support for free-text queries"
+msgstr "Podstawowe wsparcie dla zapytań free-text"
+
+#: ../kupfer/plugin/text.py:31
+msgid "Filesystem Text Matches"
+msgstr "Odpowiedniki tekstowe w systemie plików"
+
+#: ../kupfer/plugin/text.py:49
+msgid "URL Text Matches"
+msgstr "Odpowiedniki tekstowe URL"
+
+#: ../kupfer/plugin/tracker.py:9
+msgid "Tracker"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:18
+msgid "Tracker desktop search integration"
+msgstr "Integracja z trackerem przeszukującym pulpit"
+
+#: ../kupfer/plugin/tracker.py:24
+msgid "Search in Tracker"
+msgstr "Wyszukaj w trackerze"
+
+#: ../kupfer/plugin/tracker.py:29
+msgid "Open Tracker Search Tool and search for this term"
+msgstr "Otwórz Trackera i wyszukaj to pojęcie"
+
+#: ../kupfer/plugin/tracker.py:38
+msgid "Get Tracker results..."
+msgstr "Pobierz wyniki Trackera..."
+
+#: ../kupfer/plugin/tracker.py:47
+msgid "Show Tracker results for query"
+msgstr "Pokaż wyniki Trackera dla zapytania"
+
+#: ../kupfer/plugin/tracker.py:123 ../kupfer/plugin/tracker.py:129
+msgid "Tracker tags"
+msgstr "Tagi Trackera"
+
+#: ../kupfer/plugin/tracker.py:138
+msgid "Tracker Tags"
+msgstr "Tagi Trackera"
+
+#: ../kupfer/plugin/tracker.py:144
+msgid "Browse Tracker's tags"
+msgstr "Przeglądaj tagi Trackera"
+
+#: ../kupfer/plugin/tracker.py:155 ../kupfer/plugin/tracker.py:162
+#, python-format
+msgid "Tag %s"
+msgstr "Tag %s"
+
+#: ../kupfer/plugin/tracker.py:169
+#, python-format
+msgid "Objects tagged %s with Tracker"
+msgstr "Obiekty otagowane %s przez Trackera"
+
+#: ../kupfer/plugin/tracker.py:181
+msgid "Add Tag..."
+msgstr "Dodaj tag..."
+
+#: ../kupfer/plugin/tracker.py:207
+msgid "Add tracker tag to file"
+msgstr "Dodaj tag trackera do pliku"
+
+#: ../kupfer/plugin/tracker.py:213
+msgid "Remove Tag..."
+msgstr "Usuń tag"
+
+#: ../kupfer/plugin/tracker.py:232
+msgid "Remove tracker tag from file"
+msgstr "Usuń tag trackera z pliku"
+
+#: ../kupfer/plugin/wikipedia.py:10
+msgid "Wikipedia"
+msgstr ""
+
+#: ../kupfer/plugin/wikipedia.py:13 ../kupfer/plugin/wikipedia.py:30
+msgid "Search in Wikipedia"
+msgstr "Wyszukaj w Wikipedii"
+
+#: ../kupfer/plugin/wikipedia.py:20
+msgid "Wikipedia language"
+msgstr "Język Wikipedii"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:23
+msgid "en"
+msgstr "pl"
+
+#: ../kupfer/plugin/wikipedia.py:43
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Szukaj tego pojęcia w %s.wikipedia.org"
+
+#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:91
+msgid "Window List"
+msgstr "Lista okien"
+
+#: ../kupfer/plugin/windows.py:9 ../kupfer/plugin/windows.py:112
+msgid "All windows on all workspaces"
+msgstr "Wszystkie okna na wszystkich obszarach roboczych"
+
+#: ../kupfer/plugin/windows.py:18
+msgid "Activate"
+msgstr "Aktywuj"
+
+#: ../kupfer/plugin/windows.py:20
+msgid "Unshade"
+msgstr "Rozwiń"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Shade"
+msgstr "Zwiń"
+
+#: ../kupfer/plugin/windows.py:24
+msgid "Unminimize"
+msgstr "Przywróć"
+
+#: ../kupfer/plugin/windows.py:26
+msgid "Minimize"
+msgstr "Minimalizuj"
+
+#: ../kupfer/plugin/windows.py:28
+msgid "Unmaximize"
+msgstr "Przywróć"
+
+#: ../kupfer/plugin/windows.py:30
+msgid "Maximize"
+msgstr "Maksymalizuj"
+
+#: ../kupfer/plugin/windows.py:32
+msgid "Unmaximize Vertically"
+msgstr "Przywróć w pionie"
+
+#: ../kupfer/plugin/windows.py:35
+msgid "Maximize Vertically"
+msgstr "Maksymalizuj w pionie"
+
+#: ../kupfer/plugin/windows.py:37
+msgid "Close"
+msgstr "Zamknij"
+
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:43
+#, python-format
+msgid "Window on %(wkspc)s"
+msgstr "Okno na %(wkspc)s"
+
+#: ../kupfer/plugin/windows.py:58
+msgid "Jump to this window's workspace and focus"
+msgstr "Przejdź do obszaru roboczego tego okna i aktywuj"
+
+#: ../kupfer/plugin/urlactions.py:7 ../kupfer/plugin/urlactions.py:14
+msgid "URL Actions"
+msgstr "Akcje URL"
+
+#: ../kupfer/plugin/urlactions.py:51
+msgid "Download and Open"
+msgstr "Pobierz i otwórz"
+
+#: ../kupfer/plugin/urlactions.py:70
+msgid "Download To..."
+msgstr "Pobierz do..."
+
+#: ../kupfer/plugin/urlactions.py:87
+msgid "Download URL to a chosen location"
+msgstr "Pobierz URL do wybranej lokacji"
+
+#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:71
+msgid "Volumes and Disks"
+msgstr "Woluminy i dyski"
+
+#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:81
+msgid "Mounted volumes and disks"
+msgstr "Zamontowane woluminy i dyski"
+
+#: ../kupfer/plugin/volumes.py:32
+#, python-format
+msgid "Volume mounted at %s"
+msgstr "Wolumin zamontowany pod %s"
+
+#: ../kupfer/plugin/volumes.py:40
+msgid "Eject"
+msgstr "Wysuń"
+
+#: ../kupfer/plugin/volumes.py:50
+msgid "Unmount and eject this media"
+msgstr "Odmontuj i wysuń to medium"
+
+#: ../kupfer/plugin/volumes.py:56
+msgid "Unmount"
+msgstr "Odmontuj"
+
+#: ../kupfer/plugin/volumes.py:66
+msgid "Unmount this volume"
+msgstr "Odmontuj ten wolumin"
+
+#: ../kupfer/preferences.py:160
+msgid "Applied"
+msgstr "Zastosowane"
+
+#: ../kupfer/preferences.py:165
+msgid "Keybinding could not be bound"
+msgstr "Przpisanie klawisza nie powiodło się"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/preferences.py:283
+msgid "Sources"
+msgstr "Źródła"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/preferences.py:287
+msgid "Actions"
+msgstr "Akcje"
+
+#: ../kupfer/preferences.py:324
+#, python-format
+msgid "Settings for %s"
+msgstr "Ustawienia dla %s"
+
+#: ../kupfer/preferences.py:336
+msgid "Include in top level"
+msgstr "Uwzględniaj na najwyższym poziomie"
+
+#: ../kupfer/preferences.py:338
+msgid ""
+"If enabled, objects from the plugin's source(s) will be available in the top "
+"level.\n"
+"Sources are always available as subcatalogs in the top level."
+msgstr ""
+"Włączone powoduje, że obiekty ze źródeł dodatków będą dostępne na najwyższym "
+"poziomie.\n"
+"Źródła są zawsze dostępne jako podkatalogi na najwyższym poziomie."
+
+#: ../kupfer/version.py:22
+msgid "translator-credits"
+msgstr "podziękowania dla tłumaczy"
+
+#: ../kupfer/version.py:26
+msgid "A free software (GPLv3+) launcher"
+msgstr "Launcher na zasadach wolnego oprogramowania (GPLv3+)"
+
+#: ../kupfer/version.py:29
+msgid ""
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+msgstr ""
+"\n"
+"Niniejszy program jest wolnym oprogramowaniem; możesz go\n"
+"rozprowadzać dalej i/lub modyfikować na warunkach Powszechnej\n"
+"Licencji Publicznej GNU, wydanej przez Fundację Wolnego\n"
+"Oprogramowania - według wersji 3 tej Licencji lub (według twojego\n"
+"wyboru) którejś z późniejszych wersji.\n"
+"\n"
+"Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on\n"
+"użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej\n"
+"gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH\n"
+"ZASTOSOWAŃ. W celu uzyskania bliższych informacji sięgnij do\n"
+"Powszechnej Licencji Publicznej GNU.\n"
+"\n"
+"Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz\n"
+"Powszechnej Licencji Publicznej GNU (GNU General Public License);\n"
+"jeśli nie - wejdź na <http://www.gnu.org/licenses/>.\n"
+
+
+
