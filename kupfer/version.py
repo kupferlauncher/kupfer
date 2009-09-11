@@ -24,6 +24,7 @@ Luca Falavigna (Debian, Ubuntu)
 TRANSLATORS=u"""
 Leandro Leites (es)
 Andrea Zagli (it)
+Maciej Kwiatkowski (pl)
 """.splitlines()
 
 AUTHORS += PACKAGERS + TRANSLATORS
