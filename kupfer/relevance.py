@@ -193,9 +193,7 @@ def _findBestMatch(s, query):
     
     # Find the last instance of the last character of the query
     # since we never need to search beyond that
-    lastChar = len(s) - 1
-    while lastChar >= 0 and s[lastChar] != query[-1]:
-        lastChar -= 1
+    lastChar = s.rfind(query[-1])
     
     # No instance of the character?
     if lastChar == -1:
