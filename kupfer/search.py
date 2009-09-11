@@ -62,14 +62,14 @@ def score_objects(rankables, key):
 	for rb in rankables:
 		# Rank object
 		rank = score(rb.value, key)*100
-		maxval = None
-		for alias in rb.aliases:
-			# consider aliases and change rb.value if alias is better
-			# aliases rank lower so that value is chosen when close
-			arank = score(alias, key)*95
-			if arank > rank:
-				rank = arank
-				rb.value = alias
+		if rank < 90:
+			for alias in rb.aliases:
+				# consider aliases and change rb.value if alias is better
+				# aliases rank lower so that value is chosen when close
+				arank = score(alias, key)*95
+				if arank > rank:
+					rank = arank
+					rb.value = alias
 		if rank:
 			rb.rank = rank
 			yield rb
