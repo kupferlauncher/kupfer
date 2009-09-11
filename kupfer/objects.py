@@ -18,6 +18,7 @@ from kupfer import pretty
 from kupfer import icons, launch, utils
 from kupfer.utils import locale_sort
 from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
+from kupfer.kupferstring import tounicode, toutf8, tofolded
 
 class Error (Exception):
 	pass
@@ -29,21 +30,6 @@ class InvalidDataError (Error):
 class InvalidLeafError (Error):
 	"""The Leaf passed to an Action is invalid"""
 	pass
-
-def tounicode(utf8str):
-	"""Return `unicode` from UTF-8 encoded @utf8str
-	This is to use the same error handling etc everywhere
-	"""
-	return utf8str.decode("UTF-8", "replace") if utf8str is not None else u""
-
-def toutf8(ustr):
-	"""Return UTF-8 `str` from unicode @ustr
-	This is to use the same error handling etc everywhere
-	if ustr is `str`, just return it
-	"""
-	if isinstance(ustr, str):
-		return ustr
-	return ustr.encode("UTF-8", "replace")
 
 class KupferObject (object):
 	"""
@@ -68,6 +54,10 @@ class KupferObject (object):
 		if not name:
 			name = self.__class__.__name__
 		self.name = tounicode(name)
+		folded_name = tofolded(self.name)
+		self.name_aliases = set()
+		if folded_name != self.name:
+			self.name_aliases.add(folded_name)
 
 	def __str__(self):
 		return toutf8(self.name)
