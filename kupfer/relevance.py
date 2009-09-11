@@ -185,6 +185,8 @@ def _findBestMatch(s, query):
     (0, 8)
     >>> _findBestMatch('teerminal', 'erml')
     (2, 9)
+    >>> _findBestMatch('terminal', 'e')
+    (1, 2)
     """
     bestMatch = -1, -1
     
@@ -202,20 +204,19 @@ def _findBestMatch(s, query):
     queryLength = len(query)
     lastIndex = lastChar - len(query) + 1
     while 0 <= index <= lastIndex:
-        # Look for the best match in the tail
+        # See if we can fit the whole query in the tail
         # We know the first char matches, so we dont check it.
         cur = index + 1
         qcur = 1
-        while (qcur < queryLength) and (cur < len(s)):
-            if query[qcur] == s[cur]:
-                qcur += 1
+        while qcur < queryLength:
+            # find where in the string the next query character is
+            # if not found, we are done
+            cur = s.find(query[qcur], cur, lastChar + 1)
+            if cur == -1:
+                return bestMatch
             cur += 1
-
-        # if whole query fit, save it; else we are done
-        if (qcur == queryLength):
-            bestMatch = (index, cur)
-        else:
-            break
+            qcur += 1
+        bestMatch = (index, cur)
 
         index = s.find(query[0], index + 1)
 
