@@ -346,21 +346,15 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		# unpickle_finish will raise InvalidDataError on invalid item
 		self.unpickle_finish()
 		Leaf.__init__(self, self.object, self.object.get_name())
-		self.name_aliases = self._get_aliases()
+		self.name_aliases.update(self._get_aliases())
 
 	def _get_aliases(self):
-		# find suitable aliases
-		name_aliases = set()
+		# find suitable alias
 		# use package name: non-extension part of ID
 		lowername = unicode(self).lower()
 		package_name = self._get_package_name()
 		if package_name and package_name not in lowername:
-			name_aliases.add(package_name)
-		# FIXME: We don't use the executable since package name is better
-		# newer versions have get_commandline
-		# executable = getattr(self.object, "get_commandline", self.object.get_executable)()
-		# invalid_execs = set(("env", "sudo", "su-to-root", "gksu", "gksudo"))
-		return name_aliases
+			yield package_name
 
 	def pickle_prepare(self):
 		self.init_item_id = self.object and self.object.get_id()
@@ -526,7 +520,6 @@ class OpenWith (Action):
 		self.is_default = is_default
 
 		# add a name alias from the package name of the application
-		self.name_aliases = set()
 		if is_default:
 			self.rank_adjust = 5
 			self.name_aliases.add(_("Open with %s") % name)
