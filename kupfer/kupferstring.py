@@ -36,10 +36,20 @@ def toutf8(ustr):
 	return ustr.encode("UTF-8", "replace")
 
 def tofolded(ustr):
-	"""Return a search-folded string"""
-	# Replace characters with folding_table, then
-	# decompose the string into combining chars representation,
-	# strip those and join up the result
+	u"""`Fold' @ustr
+
+	Return a unicode str where composed characters are replaced by
+	their base, and extended latin characters are replaced by
+	similar basic latin characters.
+
+	>>> tofolded(u"Wyłącz")
+	u'Wylacz'
+	>>> tofolded(u"naïveté")
+	u'naivete'
+	"""
 	srcstr = normalize("NFKD", ustr.translate(folding_table))
 	return u"".join(c for c in srcstr if category(c) != 'Mn')
 
+if __name__ == '__main__':
+	import doctest
+	doctest.testmod()
