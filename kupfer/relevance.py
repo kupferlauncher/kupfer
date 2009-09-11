@@ -114,13 +114,11 @@ def score(s, query):
     # Find the shortest possible substring that matches the query
     # and get the ration of their lengths for a base score
     first, last = _findBestMatch(ls, query)
-    if last - first == 0:
+    if first == -1:
         return .0
-    
+
     score = len(query) / (last - first)
-    if score == 0:
-        return .0
-        
+
     # Now we weight by string length so shorter strings are better
     score *= .7 + len(query) / len(s) * .3
     
