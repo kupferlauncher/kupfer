@@ -53,7 +53,7 @@ def formatCommonSubstrings(main, other, format = '<b>%s</b>'):
     for pos in range(len(other)):
         matchedTermination = False
         for length in range(1, 1 + len(other) - pos + 1):
-            tmp_match_pos  = _index(lower_main, other[pos:pos + length])
+            tmp_match_pos  = lower_main.find(other[pos:pos + length])
             if tmp_match_pos < 0:
                 length -= 1
                 matchedTermination = False
@@ -197,7 +197,8 @@ def _findBestMatch(s, query):
         return bestMatch
     
     # Loop through each instance of the first character in query
-    index = _index(s, query[0], index + 1, lastChar - index)
+    _index = s.find
+    index = _index(query[0], index + 1)
     while index >= 0:
         # Is there room for a match?
         if index > (lastChar + 1 - len(query)):
@@ -220,29 +221,10 @@ def _findBestMatch(s, query):
         if index == (len(s) - 1):
             break
         
-        index = _index(s, query[0], index + 1, lastChar - index)
+        index = _index(query[0], index + 1)
         
     return bestMatch
     
-def _index(s, char, index = 0, count = -1):
-    """
-    Looks for the index of @char in @s starting at @index for count bytes.
-    
-    Returns: int containing the offset of @char.  -1 if @char is not found.
-    
-    >>> _index('hi', 'i', 0, 2)
-    1
-    """
-    if count >= 0:
-        s = s[index:index + count]
-    else:
-        s = s[index:]
-    
-    try:
-        return index + s.index(char)
-    except ValueError:
-        return -1
-
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
