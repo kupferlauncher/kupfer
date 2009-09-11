@@ -178,8 +178,11 @@ def _findBestMatch(s, query):
     
     Returns: a two-item tuple containing the start and end indicies of
              the match.  No match returns (-1,-1).
+
     >>> _findBestMatch('terminal', 'yl')
     (-1, -1)
+    >>> _findBestMatch('terminal', 'term')
+    (0, 4)
     >>> _findBestMatch('terminal', 'trml')
     (0, 8)
     >>> _findBestMatch('teerminal', 'erml')
