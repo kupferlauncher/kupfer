@@ -105,8 +105,8 @@ def score(s, query):
     >>> print score('terminal', 'tlm')
     0.0
     """
-    if len(query) == 0:
-        return 1
+    if not query:
+        return 1.0
     
     score = float(0)
     ls = s.lower()
@@ -185,9 +185,6 @@ def _findBestMatch(s, query):
     >>> _findBestMatch('teerminal', 'erml')
     (2, 9)
     """
-    if len(query) == 0:
-        return 0, 0
-    
     index = -1
     bestMatch = -1, -1
     
