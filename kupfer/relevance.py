@@ -197,8 +197,7 @@ def _findBestMatch(s, query):
         return bestMatch
 
     # Loop through each instance of the first character in query
-    _index = s.find
-    index = _index(query[0])
+    index = s.find(query[0])
 
     queryLength = len(query)
     lastIndex = lastChar - len(query) + 1
@@ -218,7 +217,7 @@ def _findBestMatch(s, query):
         else:
             break
 
-        index = _index(query[0], index + 1)
+        index = s.find(query[0], index + 1)
 
     return bestMatch
 
