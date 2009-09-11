@@ -1,7 +1,5 @@
 # -*- coding: UTF-8 -*-
 
-import locale
-
 from kupfer import learn
 from kupfer.relevance import score
 
@@ -10,10 +8,6 @@ def make_rankables(itr, rank=0):
 
 def wrap_rankable(obj, rank=0):
 	return Rankable(unicode(obj), obj, rank)
-
-def locale_rankable_cmp(me, other):
-	p1 = -cmp(me.rank, other.rank)
-	return p1 or (me.rank and locale.strcoll(me.value, other.value))
 
 class Rankable (object):
 	"""
