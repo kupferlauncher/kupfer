@@ -96,6 +96,14 @@ def score(s, query):
     0.735098684211
     >>> print score('terminal', 'term')
     0.992302631579
+    >>> print score('terminal', 'try')
+    0.0
+    >>> print score('terminal', '')
+    1.0
+    >>> print score('terminal', 'yl')
+    0.0
+    >>> print score('terminal', 'tlm')
+    0.0
     """
     if len(query) == 0:
         return 1
@@ -170,6 +178,12 @@ def _findBestMatch(s, query):
     
     Returns: a two-item tuple containing the start and end indicies of
              the match.  No match returns (-1,-1).
+    >>> _findBestMatch('terminal', 'yl')
+    (-1, -1)
+    >>> _findBestMatch('terminal', 'trml')
+    (0, 8)
+    >>> _findBestMatch('teerminal', 'erml')
+    (2, 9)
     """
     if len(query) == 0:
         return 0, 0
@@ -233,3 +247,7 @@ def _index(s, char, index = 0, count = -1):
         return index + s.index(char)
     except ValueError:
         return -1
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
