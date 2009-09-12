@@ -4,13 +4,20 @@ from unicodedata import normalize, category
 
 def _folditems():
 	_folding_table = {
+		# general non-decomposing characters
+		# FIXME: This is not complete
 		u"ł" : u"l",
-		u"æ" : u"ae",
-		u"ø" : u"o",
 		u"œ" : u"oe",
 		u"ð" : u"d",
 		u"þ" : u"th",
 		u"ß" : u"ss",
+		# germano-scandinavic canonical transliterations
+		u"ü" : u"ue",
+		u"å" : u"aa",
+		u"ä" : u"ae",
+		u"æ" : u"ae",
+		u"ö" : u"oe",
+		u"ø" : u"oe",
 	}
 
 	for c, rep in _folding_table.iteritems():
