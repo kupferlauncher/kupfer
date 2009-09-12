@@ -42,9 +42,9 @@ def toutf8(ustr):
 	return ustr.encode("UTF-8", "replace")
 
 def tofolded(ustr):
-	u"""`Fold' @ustr
+	u"""Fold @ustr
 
-	Return a unicode str where composed characters are replaced by
+	Return a unicode string where composed characters are replaced by
 	their base, and extended latin characters are replaced by
 	similar basic latin characters.
 
@@ -52,6 +52,13 @@ def tofolded(ustr):
 	u'Wylacz'
 	>>> tofolded(u"naïveté")
 	u'naivete'
+
+	Characters from other scripts are not transliterated.
+
+	>>> tofolded(u"Ἑλλάς") == u"Ελλας"
+	True
+
+	(These doctests pass, but should they fail, they fail hard)
 	"""
 	srcstr = normalize("NFKD", ustr.translate(folding_table))
 	return u"".join(c for c in srcstr if category(c) != 'Mn')
