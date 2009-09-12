@@ -14,7 +14,7 @@ def _folditems():
 	}
 
 	for c, rep in _folding_table.iteritems():
-		yield (ord(c.upper()), rep.upper())
+		yield (ord(c.upper()), rep.title())
 		yield (ord(c), rep)
 
 folding_table = dict(_folditems())
