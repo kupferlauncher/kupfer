@@ -1,5 +1,16 @@
+-*- encoding: UTF-8 -*-
+
 NEWS for kupfer
 ===============
+
+kupfer version
+------------------
+
+* Translation to Polish by Maciej Kwiatkowski
+* Speed up the string ranker tremendously; 3x faster in common cases.
+* All objects now have an alias in the basic latin alphabet (if possible) so
+  that, for example, query `wylacz` matches item _Wyłącz_.
+* Show notification icon by default
 
 kupfer version c14.1
 --------------------
