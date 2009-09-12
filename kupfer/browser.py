@@ -158,7 +158,10 @@ class LeafModel (object):
 
 	def get_label_markup(self, rankable):
 		leaf = rankable.object
-		name = escape_markup_str(rankable.value)
+		# Here we use the items real name
+		# Previously we used the alias that was matched,
+		# but it can be too confusing or ugly
+		name = escape_markup_str(unicode(leaf))
 		desc = escape_markup_str(leaf.get_description() or "")
 		if desc:
 			text = u'%s\n<small>%s</small>' % (name, desc, )
