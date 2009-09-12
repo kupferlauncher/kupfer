@@ -1,6 +1,5 @@
 # -*- encoding: UTF-8 -*-
 
-import unicodedata
 from unicodedata import normalize, category
 
 def _folditems():
