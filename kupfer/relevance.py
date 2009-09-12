@@ -24,64 +24,59 @@ from __future__ import division
 
 """
 This module provides relevance matching and formatting of related strings
-based on the relevance.  It is borrowed from Gnome-Do with modifications
-to fit nicely into python.
+based on the relevance.  It originates in Gnome-Do.
 
->>> import relevance
->>> print relevance.score('hi there dude', 'hi dude')
-0.745628698225
->>> relevance.formatCommonSubstrings('hi there dude', 'hi dude')
-'<b>hi </b>there <b>dude</b>'
+Module updated by Ulrik to use python unicode functions, proper python
+idoms and looping, replacing costly operations in python with better ones,
+all to clean up and dramatically speed up the code.
 """
 
-def formatCommonSubstrings(main, other, format = '<b>%s</b>'):
+def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
     """
-    Creates a new string using @format to highlight matching substrings
-    of @other in @main.
-    
-    Returns: a formatted str
-    
-    >>> formatCommonSubstrings('hi there dude', 'hi dude')
-    '<b>hi </b>there <b>dude</b>'
+    Creates a new string highlighting matching substrings.
+
+    Returns: a formatted string
+
+    >>> formatCommonSubstrings('hi there dude', 'hidude',
+    ...                        format_match=lambda m: "<b>%s</b>" % m)
+    '<b>hi</b> there <b>dude</b>'
+
+    >>> formatCommonSubstrings('parallelism', 'lsm', format_match=str.upper)
+    'paralleLiSM'
     """
-    length = 0
-    result = ''
-    match_pos = last_main_cut = 0
-    lower_main = main.lower()
-    other = other.lower()
-    
-    for pos in range(len(other)):
-        matchedTermination = False
-        for length in range(1, 1 + len(other) - pos + 1):
-            tmp_match_pos  = lower_main.find(other[pos:pos + length])
-            if tmp_match_pos < 0:
-                length -= 1
-                matchedTermination = False
-                break
-            else:
-                matchedTermination = True
-                match_pos = tmp_match_pos
-        if matchedTermination:
-            length -= 1
-        if 0 < length:
-            # There is a match starting at match_pos with positive length
-            skipped = main[last_main_cut:match_pos - last_main_cut]
-            matched = main[match_pos:match_pos + length]
-            if len(skipped) + len(matched) < len(main):
-                remainder = formatCommonSubstrings(
-                    main[match_pos + length:],
-                    other[pos + length:],
-                    format)
-            else:
-                remainder = ''
-            result = '%s%s%s' % (skipped, format % matched, remainder)
+    format_clean = format_clean or (lambda x: x)
+    format_match = format_match or (lambda x: x)
+
+    if not query:
+        return format_clean(s)
+
+    ls = s.lower()
+
+    # find overall range of match
+    first, last = _findBestMatch(ls, query)
+
+    if first == -1:
+        return format_clean(s)
+
+    # find longest perfect match, put in slc
+    for slc in xrange(len(query), 0, -1):
+        if query[:slc] == ls[first:first+slc]:
             break
-    
-    if result == '':
-        # No matches
-        result = main
-    
-    return result
+    key, nextkey = query[:slc], query[slc:]
+
+    head = s[:first]
+    match = s[first: first+slc]
+    matchtail = s[first+slc: last]
+    tail = s[last:]
+
+    # we use s[0:0], which is "" or u""
+    return s[0:0].join((
+            format_clean(head),
+            format_match(match),
+            formatCommonSubstrings(matchtail, nextkey,
+                                   format_clean, format_match),
+            format_clean(tail),
+            ))
 
 def score(s, query):
     """
