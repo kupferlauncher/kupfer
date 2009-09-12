@@ -12,7 +12,7 @@ import gtk
 import gio
 import gobject
 
-from kupfer import data, icons, scheduler
+from kupfer import data, icons, scheduler, relevance
 from kupfer import pretty
 
 
@@ -261,48 +261,14 @@ class MatchView (gtk.Bin):
 			return
 
 		# update the text label
-		def markup_match(key, text):
-			"""
-			Return xml-escaped markup string for gtk.Label
-
-			Use a simeple homegrown replace table to replace &, <, > with
-			entities before adding markup.
-			"""
-			open, close = (u"<u><b>", u"</b></u>")
-
-			def lower_partition(text, key):
-				"""do str.partition, but partition case-insensitively"""
-				head, sep, tail = text.lower().partition(key)
-				head, sep = text[:len(head)], text[len(head):len(head)+len(sep)]
-				if len(tail):
-					tail = text[-len(tail):]
-				return head, sep, tail
-
-			def rmarkup(key, text):
-				"""Be careful about string escapes:
-				We have to match key and text together using unicode;
-				the "cut pieces" are then escaped
-				"""
-				if not key:
-					return escape_markup_str(text)
-				"""recursively find search string in match"""
-				if key in text.lower():
-					nextkey=None
-				else:
-					key, nextkey = key[0], key[1:]
-				head, sep, tail = lower_partition(text, key)
-				return (escape_markup_str(head) + open +
-						escape_markup_str(sep) + close +
-						rmarkup(nextkey, tail))
-
-			markup = rmarkup(key, text)
-			# simplify
-			markup = markup.replace(close + open, u"")
-			return markup
-		
 		text = self.cur_text
 		key = unicode(self.cur_match).lower()
-		markup = markup_match(key, text)
+
+		format_match=(lambda m: u"<u><b>%s</b></u>" % escape_markup_str(m))
+		markup = relevance.formatCommonSubstrings(text, key,
+				format_clean=escape_markup_str,
+				format_match=format_match)
+
 		self.label.set_markup(markup)
 	
 	@classmethod
