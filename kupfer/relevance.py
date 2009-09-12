@@ -216,7 +216,13 @@ def _findBestMatch(s, query):
                 return bestMatch
             cur += 1
             qcur += 1
-        bestMatch = (index, cur)
+
+        # take match if it is shorter
+        # if perfect match, we are done
+        if bestMatch[0] == -1 or (cur - index) < (bestMatch[1] - bestMatch[0]):
+            bestMatch = (index, cur)
+            if cur - index == queryLength:
+                break
 
         index = s.find(query[0], index + 1)
 
