@@ -55,14 +55,16 @@ def tofolded(ustr):
 
 	Characters from other scripts are not transliterated.
 
-	>>> tofolded(u"Ἑλλάς") == u"Ελλας"
-	True
-
-	(These doctests pass, but should they fail, they fail hard)
+	>>> print tofolded(u"Ἑλλάς")
+	Ελλας
 	"""
 	srcstr = normalize("NFKD", ustr.translate(folding_table))
 	return u"".join(c for c in srcstr if category(c) != 'Mn')
 
 if __name__ == '__main__':
+	import sys
+	reload(sys)
+	sys.setdefaultencoding("UTF-8")
+
 	import doctest
 	doctest.testmod()
