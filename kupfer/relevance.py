@@ -100,10 +100,6 @@ def score(s, query):
     0.0
     >>> print score('terminal', '')
     1.0
-    >>> print score('terminal', 'yl')
-    0.0
-    >>> print score('terminal', 'tlm')
-    0.0
     """
     if not query:
         return 1.0
@@ -177,16 +173,12 @@ def _findBestMatch(s, query):
     Returns: a two-item tuple containing the start and end indicies of
              the match.  No match returns (-1,-1).
 
-    >>> _findBestMatch('terminal', 'yl')
-    (-1, -1)
-    >>> _findBestMatch('terminal', 'term')
-    (0, 4)
     >>> _findBestMatch('terminal', 'trml')
     (0, 8)
-    >>> _findBestMatch('teerminal', 'erml')
-    (2, 9)
-    >>> _findBestMatch('terminal', 'e')
-    (1, 2)
+    >>> _findBestMatch('total told', 'tl')
+    (2, 5)
+    >>> _findBestMatch('terminal', 'yl')
+    (-1, -1)
     """
     bestMatch = -1, -1
     
