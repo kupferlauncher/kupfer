@@ -116,13 +116,13 @@ def score(s, query):
 
     # Now we weight by string length so shorter strings are better
     score *= .7 + len(query) / len(s) * .3
-    
+
     # Bonus points if the characters start words
     good = 0
     bad = 1
     firstCount = 0
-    for i, c in enumerate(ls[first:last-1]):
-        if c in " -":
+    for i in xrange(first, last-1):
+        if ls[i] in " -":
             if ls[i + 1] in query:
                 firstCount += 1
             else:
