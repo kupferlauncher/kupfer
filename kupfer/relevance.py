@@ -82,15 +82,18 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
 def score(s, query):
     """
     A relevancy score for the string ranging from 0 to 1
-    
-    @s: a str to be scored
-    @query: a str query to score against
-    
+
+    @s: a string to be scored
+    @query: a string query to score against
+
+    `s' is treated case-insensitively while `query' is interpreted literally,
+    including case and whitespace.
+
     Returns: a float between 0 and 1
-    
+
     >>> print score('terminal', 'trml')
     0.735098684211
-    >>> print score('terminal', 'term')
+    >>> print score(u'terminal', u'term')
     0.992302631579
     >>> print score('terminal', 'try')
     0.0
@@ -157,15 +160,15 @@ def score(s, query):
         score = .9 * score
     
     return score
-    
+
 def _findBestMatch(s, query):
     """
     Finds the shortest substring of @s that contains all characters of query
     in order.
-    
-    @s: a str to search
-    @query: a str query to search for
-    
+
+    @s: a string to search
+    @query: a string query to search for
+
     Returns: a two-item tuple containing the start and end indicies of
              the match.  No match returns (-1,-1).
 
