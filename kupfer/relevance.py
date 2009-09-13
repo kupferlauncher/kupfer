@@ -46,9 +46,10 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
     """
     format_clean = format_clean or (lambda x: x)
     format_match = format_match or (lambda x: x)
+    format = lambda x: x and format_clean(x)
 
     if not query:
-        return format_clean(s)
+        return format(s)
 
     ls = s.lower()
 
@@ -56,7 +57,7 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
     first, last = _findBestMatch(ls, query)
 
     if first == -1:
-        return format_clean(s)
+        return format(s)
 
     # find longest perfect match, put in slc
     for slc in xrange(len(query), 0, -1):
@@ -71,11 +72,11 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
 
     # we use s[0:0], which is "" or u""
     return s[0:0].join((
-            format_clean(head),
+            format(head),
             format_match(match),
             formatCommonSubstrings(matchtail, nextkey,
                                    format_clean, format_match),
-            format_clean(tail),
+            format(tail),
             ))
 
 def score(s, query):
