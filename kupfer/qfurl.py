@@ -1,8 +1,14 @@
-from urlparse import urlparse, urlunparse
+import urlparse
+from urlparse import urlparse as _urlparse
+from urlparse import urlunparse as _urlunparse
 
 from kupfer import pretty
 
 QFURL_SCHEME = "qpfer"
+
+# One would hope that there was a better way to do this
+urlparse.uses_netloc.append(QFURL_SCHEME)
+urlparse.uses_fragment.append(QFURL_SCHEME)
 
 class QfurlError (Exception):
 	pass
@@ -21,6 +27,22 @@ class qfurl (object):
 
 	This class provides methods to get the qfurl for an object,
 	and resolve the object in a catalog.
+
+	>>> class Object (object):
+	...     qf_id = "token"
+	...
+	>>> q = qfurl(Object())
+	>>> qfurl.reduce_url(q.url)
+	'qpfer:token'
+
+	>>> class Source (object):
+	...     def get_leaves(self):
+	...         yield Object()
+	...     def provides(self):
+	...         yield Object
+	...
+	>>> q.resolve_in_catalog((Source(), ))  # doctest: +ELLIPSIS
+	<__main__.Object object at 0x...>
 	"""
 
 	def __init__(self, obj=None, url=None):
@@ -31,7 +53,7 @@ class qfurl (object):
 				qfid = obj.qf_id
 			except AttributeError, err:
 				raise QfurlError("%s has no qfurl" % obj)
-			self.url = urlunparse((QFURL_SCHEME, "", qfid, "", "", typname))
+			self.url = _urlunparse((QFURL_SCHEME, "", qfid, "", "", typname))
 		else:
 			self.url = url
 
@@ -46,22 +68,24 @@ class qfurl (object):
 
 	@classmethod
 	def reduce_url(cls, url):
-		split = url.rsplit("#", 1)
-		if len(split) == 2:
-			qfid, typname = split
-			return qfid
-		else:
-			return url
+		"""
+		>>> url = "qpfer://mother/qfid#module_and_type_hint"
+		>>> qfurl.reduce_url(url)
+		'qpfer://mother/qfid'
+		"""
+		return urlparse.urldefrag(url)[0].replace("///", "", 1)
 
 	@classmethod
 	def _parts_mother_id_typename(cls, url):
-		scheme, mother, qfid, ignored, ignored2, typname = urlparse(url)
-		if "#" in qfid:
-			qfid, typname = qfid.rsplit("#", 1)
-		else:
-			typname = None
+		"""
+		>>> murl = "qpfer://mother/qfid#module_and_type_hint"
+		>>> qfurl._parts_mother_id_typename(murl)
+		('mother', 'qfid', 'module_and_type_hint')
+		"""
+		scheme, mother, qfid, _ign, _ore, typname = _urlparse(url)
 		if scheme != QFURL_SCHEME:
 			raise QfurlError("Wrong scheme: %s" % scheme)
+		qfid = qfid.lstrip("/")
 		return mother, qfid, typname
 
 	def resolve_in_catalog(self, catalog):
@@ -71,7 +95,9 @@ class qfurl (object):
 		matches = []
 		for src in catalog:
 			if name:
-				if name not in (t.__name__
+				if name not in (pt.__name__
+						for pt in src.provides()) and \
+					name not in (t.__name__
 						for pt in src.provides()
 						for t in pt.__subclasses__()):
 					continue
@@ -86,3 +112,7 @@ class qfurl (object):
 		pretty.print_debug(__name__, "Found matches:", matches)
 		pretty.print_debug(__name__, "For", self)
 		return matches[0] if matches else None
+
+if __name__ == '__main__':
+	import doctest
+	doctest.testmod()
