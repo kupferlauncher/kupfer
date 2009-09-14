@@ -23,9 +23,6 @@ def load_kupfer_icons(sched=None):
 	"""Load in kupfer icons from installed files"""
 	ilist = "art/icon-list"
 	ilist_file_path = config.get_data_file(ilist)
-	if not ilist_file_path:
-		pretty.print_info(__name__, "Datafile %s not found" % ilist)
-		return
 	# parse icon list file
 	ifile = open(ilist_file_path, "r")
 	for line in ifile:
