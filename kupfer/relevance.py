@@ -20,16 +20,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import division
-
 """
 This module provides relevance matching and formatting of related strings
 based on the relevance.  It originates in Gnome-Do.
 
-Module updated by Ulrik to use python unicode functions, proper python
-idoms and looping, replacing costly operations in python with better ones,
-all to clean up and dramatically speed up the code.
+ * Python port by Christian Hergert
+
+ * Module updated by Ulrik Sverdrup to clean up and dramatically speed up
+   the code, by using more pythonic constructs as well as doing less work.
 """
+
+from __future__ import division
+
 
 def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
     """
