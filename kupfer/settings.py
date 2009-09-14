@@ -65,11 +65,9 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 		# Read all config files
 		config_files = []
-		defaults_path = config.get_data_file(self.defaults_filename)
-		if not defaults_path:
-			# try local file
-			defaults_path = os.path.join("data", self.defaults_filename)
-		if not os.path.exists(defaults_path):
+		try:
+			defaults_path = config.get_data_file(self.defaults_filename)
+		except config.ResourceLookupError, exc:
 			print "Error: no default config file %s found!" % self.defaults_filename
 		else:
 			config_files += (defaults_path, )
