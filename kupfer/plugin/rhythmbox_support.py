@@ -1,23 +1,45 @@
 
 import os
-import xml.sax
+import xml.etree.cElementTree as ElementTree
 
-from . import xml_support
+NEEDED_KEYS= set(("title", "artist", "album", "track-number", "location", ))
 
-NEEDED_KEYS= ("title", "artist", "album", "track-number", "location", )
+def _lookup_string(string, strmap):
+	"""Look up @string in the string map,
+	and return the copy in the map.
 
-def get_rhythmbox_songs(typ="song", keys=NEEDED_KEYS,
-        dbfile='~/.local/share/rhythmbox/rhythmdb.xml'):
-    if not dbfile or not os.path.exists(dbfile):
-        raise IOError("Rhythmbox database not found")
-    rhythmbox_dbfile = os.path.expanduser(dbfile)
-    rbParser = xml.sax.make_parser()
-    lSongs = []
-    attributes = {"type": typ}
-    rbHandler = xml_support.XMLEntryHandler(lSongs, "entry", attributes, keys)
-    rbParser.setContentHandler(rbHandler)
-    rbParser.parse(rhythmbox_dbfile)
-    return lSongs
+	If not found, update the map with the string.
+	"""
+	string = string or ""
+	try:
+		return strmap[string]
+	except KeyError:
+		strmap[string] = string
+		return string
+
+def get_rhythmbox_songs(dbfile, typ="song", keys=NEEDED_KEYS):
+	"""Return a list of info dictionaries for all songs
+	in a Rhythmbox library database file, with dictionary
+	keys as given in @keys.
+	"""
+	rhythmbox_dbfile = os.path.expanduser(dbfile)
+
+	lSongs = []
+	strmap = {}
+
+	etree = ElementTree.parse(rhythmbox_dbfile)
+
+	for entry in etree.getroot():
+		if not entry.get("type") == typ:
+			continue
+		info = {}
+		for child in entry.getchildren():
+			if child.tag in keys:
+				tag = _lookup_string(child.tag, strmap)
+				text = _lookup_string(child.text, strmap)
+				info[tag] = text
+		lSongs.append(info)
+	return lSongs
 
 def sort_album(album):
     """Sort album in track order"""
