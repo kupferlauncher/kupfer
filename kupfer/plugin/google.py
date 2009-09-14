@@ -1,12 +1,12 @@
 import os
 import urllib
-import xml.sax
+import xml.etree.cElementTree as ElementTree
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
 from kupfer import utils, config
 
-from kupfer.plugin import firefox_support, xml_support
+from kupfer.plugin import firefox_support
 
 __kupfer_name__ = _("Search the Web")
 __kupfer_sources__ = ("OpenSearchSource", )
@@ -19,47 +19,11 @@ __description__ = _("Search the web with OpenSearch search engines")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-class OpenSearchHandler (xml_support.XMLEntryHandler):
-	"""Parse OpenSearch specification files (Mozilla flavor)
-
-	We use the generic entry parser from xml_support, but have
-	to hack up a solution for the Url element, which _can_ be
-	an entry itself with Param specifications.
+def _noescape_urlencode(items):
+	"""Assemble an url param string from @items, without
+	using any url encoding.
 	"""
-	def __init__(self, entries, elem_name, attributes, keys):
-		keys = set(keys)
-		keys.update(("Param", "MozParam"))
-		xml_support.XMLEntryHandler.__init__(self, entries, elem_name,
-				attributes, keys)
-		self.url_params = None
-
-	def startElement(self, sName, attributes):
-		if self.url_params is not None and sName == "Param":
-			try:
-				name, value = attributes["name"], attributes["value"]
-			except AttributeError:
-				return
-			self.url_params.append((name, value))
-		elif sName in ("Url", "os:Url"):
-			if not attributes["type"] == "text/html":
-				return
-			self.element_content = attributes["template"]
-			self.is_wanted_element = True
-			self.url_params = []
-		elif sName in ("MozParam", ):
-			pass
-		else:
-			xml_support.XMLEntryHandler.startElement(self, sName, attributes)
-
-	def endElement(self, sName):
-		if self.url_params is not None and sName in ("Url", "os:Url"):
-			# Assemble the URL with query string
-			url = self.element_content.strip()
-			if self.url_params:
-				url += "?" + "&".join("%s=%s" % (n,v) for n,v in self.url_params)
-			self.element_content = url
-			self.url_params = None
-		xml_support.XMLEntryHandler.endElement(self, sName)
+	return "?" + "&".join("%s=%s" % (n,v) for n,v in items)
 
 def _urlencode(word):
 	"""Urlencode a single string of bytes @word"""
@@ -140,6 +104,9 @@ def coroutine(func):
 		return cr
 	return startcr
 
+class OpenSearchParseError (StandardError):
+	pass
+
 class OpenSearchSource (Source):
 	def __init__(self):
 		Source.__init__(self, _("Search Engines"))
@@ -147,30 +114,37 @@ class OpenSearchSource (Source):
 	@coroutine
 	def _parse_opensearch(self, target):
 		"""This is a coroutine to parse OpenSearch files"""
-		parser = xml.sax.make_parser()
-		reqkeys =  ["Description", "Url", "ShortName"]
-		allkeys = reqkeys + ["InputEncoding"]
-		keys = allkeys[:]
-		keys += ["os:" + k for k in allkeys]
-		searches = []
-		handler = OpenSearchHandler(searches, "SearchPlugin", {}, keys)
-		parser.setContentHandler(handler)
+		keys =  ["Description", "Url", "ShortName", "InputEncoding"]
+		mozns = '{http://www.mozilla.org/2006/browser/search/}'
+		mozroot = mozns + 'SearchPlugin'
+
+		def parse_etree(etree):
+			if not etree.getroot().tag == mozroot:
+				raise OpenSearchParseError("File has wrong type")
+			search = {}
+			for child in etree.getroot():
+				tagname = child.tag.split("}")[-1]
+				if tagname not in keys:
+					continue
+				if tagname == "Url" and child.get("template"):
+					text = child.get("template")
+					if child.tag == (mozns + "Url"):
+						params = {}
+						for ch in child.getchildren():
+							params[ch.get("name")] = ch.get("value")
+						text += _noescape_urlencode(params.items())
+				else:
+					text = (child.text or "").strip()
+				search[tagname] = text
+			return search
+
 		while True:
-			del searches[:]
 			try:
 				path = (yield)
-				parser.parse(path)
-			except xml.sax.SAXException, exc:
+				etree = ElementTree.parse(path)
+				target.send(parse_etree(etree))
+			except StandardError, exc:
 				self.output_debug("%s: %s" % (type(exc).__name__, exc))
-			else:
-				# normalize to unnamespaced values and sanitize
-				for s in searches:
-					for key, val in s.items():
-						skey = key.replace("os:", "", 1)
-						del s[key]
-						s[skey] = val.strip()
-					if all((k in s) for k in reqkeys):
-						target.send(s)
 
 	def get_items(self):
 		plugin_dirs = []
