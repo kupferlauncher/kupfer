@@ -1,3 +1,5 @@
+import os
+
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
 from kupfer.objects import UrlLeaf
 from kupfer import plugin_support
@@ -18,10 +20,41 @@ class BookmarksSource (AppLeafContentMixin, Source):
 	def __init__(self):
 		super(BookmarksSource, self).__init__(_("Firefox Bookmarks"))
 	
+	def _get_ffx3_items(self, fpath):
+		"""Parse Firefox' .json bookmarks backups"""
+		from firefox3_support import get_bookmarks
+		self.output_debug("Parsing", fpath)
+		bookmarks = get_bookmarks(fpath)
+		for book in bookmarks:
+			yield UrlLeaf(book["uri"], book["title"])
+
+	def _get_ffx2_items(self, fpath):
+		"""Parse Firefox' bookmarks.html"""
+		from firefox_support import get_bookmarks
+		self.output_debug("Parsing", fpath)
+		bookmarks = get_bookmarks(fpath)
+		for book in bookmarks:
+			yield UrlLeaf(book["href"], book["title"])
+
 	def get_items(self):
-		from firefox_support import get_firefox_home_file, get_bookmarks
-		bookmarks = get_bookmarks(get_firefox_home_file("bookmarks.html"))
-		return (UrlLeaf(book["href"], book["title"][:40]) for book in bookmarks)
+		import firefox_support
+		dirloc = firefox_support.get_firefox_home_file("bookmarkbackups")
+		fpath = None
+		if dirloc:
+			files = os.listdir(dirloc)
+			if files:
+				latest_file = (files.sort() or files)[-1]
+				fpath = os.path.join(dirloc, latest_file)
+		if not fpath:
+			fpath = firefox_support.get_firefox_home_file("bookmarks.html")
+		if not fpath:
+			self.output_error("No firefox bookmarks file found")
+			return []
+		if os.path.splitext(fpath)[-1] == ".json":
+			return self._get_ffx3_items(fpath)
+		elif os.path.splitext(fpath)[-1] == ".html":
+			return self._get_ffx2_items(fpath)
+		return []
 
 	def get_description(self):
 		return _("Index of Firefox bookmarks")
