@@ -7,6 +7,9 @@ import os
 
 PACKAGE_NAME="kupfer"
 
+class ResourceLookupError (StandardError):
+	pass
+
 def get_cache_home():
 	"""
 	Directory where cache files should be put
@@ -32,7 +35,7 @@ def get_cache_file(path=()):
 def get_data_file(filename, package=PACKAGE_NAME):
 	"""
 	Return path to @filename if it exists
-	anywhere in the data paths, else return None
+	anywhere in the data paths, else raise ResourceLookupError.
 	"""
 	data_paths = []
 	try:
@@ -51,7 +54,11 @@ def get_data_file(filename, package=PACKAGE_NAME):
 		file_path = os.path.join(direc, filename)
 		if os.path.exists(file_path):
 			return file_path
-	return None
+	if package == PACKAGE_NAME:
+		raise ResourceLookupError("Resource %s not found" % filename)
+	else:
+		raise ResourceLookupError("Resource %s in package %s not found" %
+			(filename, package))
 
 def save_data_file(filename):
 	"""
