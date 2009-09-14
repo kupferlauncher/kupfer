@@ -27,10 +27,11 @@ def get_rhythmbox_songs(dbfile, typ="song", keys=NEEDED_KEYS):
 	lSongs = []
 	strmap = {}
 
-	etree = ElementTree.parse(rhythmbox_dbfile)
+	# Parse with iterparse; we get the elements when
+	# they are finished, and can remove them directly after use.
 
-	for entry in etree.getroot():
-		if not entry.get("type") == typ:
+	for event, entry in ElementTree.iterparse(rhythmbox_dbfile):
+		if not (entry.tag == ("entry") and entry.get("type") == typ):
 			continue
 		info = {}
 		for child in entry.getchildren():
@@ -39,6 +40,7 @@ def get_rhythmbox_songs(dbfile, typ="song", keys=NEEDED_KEYS):
 				text = _lookup_string(child.text, strmap)
 				info[tag] = text
 		lSongs.append(info)
+		entry.clear()
 	return lSongs
 
 def sort_album(album):
