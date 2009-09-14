@@ -28,10 +28,18 @@ based on the relevance.  It originates in Gnome-Do.
 
  * Module updated by Ulrik Sverdrup to clean up and dramatically speed up
    the code, by using more pythonic constructs as well as doing less work.
+
+Compatibility: Python 2.4 and later, including Python 3
 """
 
 from __future__ import division
 
+# This module is compatible with both Python 2 and Python 3;
+# we need the iterator form of range for either version, stored in range()
+try:
+    range = xrange
+except NameError:
+    pass
 
 def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
     """
@@ -62,7 +70,7 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
         return format(s)
 
     # find longest perfect match, put in slc
-    for slc in xrange(len(query), 0, -1):
+    for slc in range(len(query), 0, -1):
         if query[:slc] == ls[first:first+slc]:
             break
     key, nextkey = query[:slc], query[slc:]
@@ -93,13 +101,13 @@ def score(s, query):
 
     Returns: a float between 0 and 1
 
-    >>> print score('terminal', 'trml')
+    >>> print(score('terminal', 'trml'))
     0.735098684211
-    >>> print score(u'terminal', u'term')
+    >>> print(score('terminal', 'term'))
     0.992302631579
-    >>> print score('terminal', 'try')
+    >>> print(score('terminal', 'try'))
     0.0
-    >>> print score('terminal', '')
+    >>> print(score('terminal', ''))
     1.0
     """
     if not query:
@@ -123,7 +131,7 @@ def score(s, query):
     good = 0
     bad = 1
     firstCount = 0
-    for i in xrange(first, last-1):
+    for i in range(first, last-1):
         if ls[i] in " -":
             if ls[i + 1] in query:
                 firstCount += 1
