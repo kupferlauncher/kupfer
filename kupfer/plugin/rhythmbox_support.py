@@ -108,3 +108,6 @@ def parse_rhythmbox_artists(songs):
 		sort_album_order(artists[artist])
 	return artists
 
+if __name__ == '__main__':
+	import doctest
+	doctest.testmod()
