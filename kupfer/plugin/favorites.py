@@ -18,6 +18,7 @@ def _FavoritesLeafTypes():
 	yield objects.FileLeaf
 	yield objects.AppLeaf
 	yield objects.UrlLeaf
+	yield objects.TextLeaf
 
 class FavoritesSource (Source, PicklingHelperMixin):
 	"""Keep a list of Leaves that the User may add and remove from"""
