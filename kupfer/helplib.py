@@ -148,5 +148,21 @@ class GobjectWeakCallback (WeakCallback):
 def gobject_connect_weakly(sender, signal, mcallback, *user_args):
 	"""Connect weakly to GObject @sender's @signal,
 	with a callback method @mcallback
+
+	>>> import gtk
+	>>> btn = gtk.Button()
+	>>> class Handler (object):
+	...   def handle(self): pass
+	...   def __del__(self): print "deleted"
+	...
+	>>> h = Handler()
+	>>> gobject_connect_weakly(btn, "clicked", h.handle)
+	>>> del h
+	deleted
+	>>>
 	"""
 	GobjectWeakCallback._connect(sender, signal, mcallback, *user_args)
+
+if __name__ == '__main__':
+	import doctest
+	doctest.testmod()
