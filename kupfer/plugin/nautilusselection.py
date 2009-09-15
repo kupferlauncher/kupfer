@@ -5,7 +5,7 @@ import gobject
 
 from kupfer.objects import Source, Leaf, FileLeaf, SourceLeaf, PicklingHelperMixin
 from kupfer import objects
-from kupfer.helplib import WeakCallback
+from kupfer.helplib import DbusWeakCallback
 
 __kupfer_name__ = _("Selected File")
 __kupfer_sources__ = ("SelectionSource", )
@@ -40,8 +40,8 @@ class SelectionSource (Source, PicklingHelperMixin):
 			session_bus = dbus.Bus()
 		except dbus.DBusException:
 			return
-		callback = WeakCallback(self._selected_signal)
-		callback.dbus_token = session_bus.add_signal_receiver(
+		callback = DbusWeakCallback(self._selected_signal)
+		callback.token = session_bus.add_signal_receiver(
 				callback,
 				"SelectionChanged",
 				dbus_interface="se.kaizer.KupferNautilusPlugin",
