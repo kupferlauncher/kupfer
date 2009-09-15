@@ -13,6 +13,7 @@ import gio
 import gobject
 
 from kupfer import data, icons, scheduler, relevance
+from kupfer import keybindings
 from kupfer import pretty
 
 
@@ -1323,7 +1324,11 @@ class WindowController (pretty.OutputMixin):
 
 	def _key_binding(self, keyobj, keybinding_number, event_time):
 		"""Keybinding activation callback"""
-		self.show_hide(time=event_time)
+		if keybinding_number == keybindings.KEYBINDING_MAGIC:
+			self.activate(time=event_time)
+			self.interface.select_selected_file()
+		else:
+			self.show_hide(time=event_time)
 
 	def _put_text_recieved(self, sender, working_dir, text):
 		"""We got a search query from dbus"""
@@ -1379,7 +1384,7 @@ class WindowController (pretty.OutputMixin):
 		callbacks etc).
 		"""
 		import signal
-		from kupfer import keybindings, session, settings
+		from kupfer import session, settings
 
 		self.output_debug("in lazy_setup")
 
@@ -1388,11 +1393,17 @@ class WindowController (pretty.OutputMixin):
 			self.show_statusicon()
 		setctl.connect("value-changed", self._settings_changed)
 		keystr = setctl.get_keybinding()
+		magickeystr = setctl.get_magic_keybinding()
 
 		if keystr:
 			succ = keybindings.bind_key(keystr)
 			self.output_info("Trying to register %s to spawn kupfer.. %s"
-					% (keystr, ["failed", "success"][int(succ)]))
+					% (keystr, "success" if succ else "failed"))
+		if magickeystr:
+			succ = keybindings.bind_key(magickeystr,
+					keybindings.KEYBINDING_MAGIC)
+			self.output_debug("Trying to register %s to spawn kupfer.. %s"
+					% (magickeystr, "success" if succ else "failed"))
 		keyobj = keybindings.GetKeyboundObject()
 		keyobj.connect("keybinding", self._key_binding)
 
@@ -1408,7 +1419,7 @@ class WindowController (pretty.OutputMixin):
 
 	def main(self, quiet=False):
 		"""Start WindowController, present its window (if not @quiet)"""
-		from kupfer import keybindings, listen, scheduler
+		from kupfer import listen, scheduler
 
 		try:
 			kserv = listen.Service()
@@ -1449,7 +1460,8 @@ class WindowController (pretty.OutputMixin):
 		# tear down but keep hanging
 		if kserv:
 			kserv.unregister()
-		keybindings.bind_key(None)
+		keybindings.bind_key(None, keybindings.KEYBINDING_DEFAULT)
+		keybindings.bind_key(None, keybindings.KEYBINDING_MAGIC)
 
 		do_main_iterations(100)
 		# if we are still waiting, print a message
