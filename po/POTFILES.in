@@ -18,6 +18,7 @@ kupfer/plugin/devhelp.py
 kupfer/plugin/dictionary.py
 kupfer/plugin/documents.py
 kupfer/plugin/epiphany.py
+kupfer/plugin/image.py
 kupfer/plugin/favorites.py
 kupfer/plugin/fileactions.py
 kupfer/plugin/firefox.py
