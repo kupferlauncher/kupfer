@@ -3,6 +3,7 @@ import gobject
 from kupfer import pretty
 
 KEYBINDING_DEFAULT = 1
+KEYBINDING_MAGIC = 2
 
 _keybound_object = None
 def GetKeyboundObject():

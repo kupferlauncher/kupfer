@@ -28,7 +28,11 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	# Minimal "defaults" to define all fields
 	# Read defaults defined in a defaults.cfg file
 	defaults = {
-		"Kupfer": { "keybinding" : "" , "showstatusicon" : "true" },
+		"Kupfer": {
+			"keybinding" : "" ,
+			"magickeybinding": "",
+			"showstatusicon" : "true"
+		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 	}
@@ -215,6 +219,10 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	def set_keybinding(self, keystr):
 		"""Convenience: Set Kupfer keybinding as string"""
 		return self._set_config("Kupfer", "keybinding", keystr)
+
+	def get_magic_keybinding(self):
+		"""Convenience: Kupfer alternate keybinding as string"""
+		return self.get_config("Kupfer", "magickeybinding")
 
 	def get_show_status_icon(self):
 		"""Convenience: Show icon in notification area as bool"""
