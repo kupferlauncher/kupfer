@@ -1,6 +1,7 @@
 import os
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
+import subprocess
 
 from kupfer.objects import Leaf, Action, FileLeaf, TextLeaf
 from kupfer import utils
@@ -10,6 +11,8 @@ __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
 		"Scale",
+		"Rotate90",
+		"Rotate270",
 	)
 __description__ = _("Image transformation tools")
 __version__ = ""
@@ -73,3 +76,44 @@ class Scale (Action):
 
 	def get_description(self):
 		return _("Scale image to fit inside given pixel measure(s)")
+
+class RotateBase (Action):
+	def __init__(self, name, rotation):
+		Action.__init__(self, name)
+		self.rotation = rotation
+
+	def has_result(self):
+		return True
+
+	def activate(self, leaf, obj=None):
+		fpath = leaf.object
+		dirname = os_path.dirname(fpath)
+		head, ext = os_path.splitext(os_path.basename(fpath))
+		filename = "%s_%s%s" % (head, self.rotation, ext)
+		dpath = utils.get_destpath_in_directory(dirname, filename)
+		cmdline = "jpegtran -rotate '%s' -outfile '%s' '%s'" % (self.rotation, dpath, fpath)
+		utils.launch_commandline(cmdline)
+		return FileLeaf(dpath)
+
+	def item_types(self):
+		yield FileLeaf
+
+	def valid_for_item(self, item):
+		# FIXME: Make this detection smarter
+		root, ext = os_path.splitext(item.object)
+		return ext.lower() in (".jpeg", ".jpg")
+
+class Rotate90 (RotateBase):
+	def __init__(self):
+		RotateBase.__init__(self, _("Rotate Clockwise"), "90")
+
+	def get_icon_name(self):
+		return "object-rotate-right"
+
+class Rotate270 (RotateBase):
+	def __init__(self):
+		RotateBase.__init__(self, _("Rotate Counter-Clockwise"), "270")
+
+	def get_icon_name(self):
+		return "object-rotate-left"
+
