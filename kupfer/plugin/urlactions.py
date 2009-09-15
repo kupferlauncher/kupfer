@@ -20,8 +20,10 @@ class DownloadTask (task.StepTask):
 		super(DownloadTask, self).__init__()
 		self.response = urllib2.urlopen(uri)
 
+		def make_url_name(url):
+			return os.path.basename(url.rstrip("/"))
 		header_basename = self.response.headers.get('Content-Disposition')
-		destname = header_basename or os.path.basename(self.response.url)
+		destname = header_basename or make_url_name(self.response.url)
 		if tempfile:
 			(self.destfile, self.destpath) = utils.get_safe_tempfile()
 		else:
