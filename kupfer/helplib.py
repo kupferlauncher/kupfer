@@ -88,12 +88,8 @@ class WeakCallback (object):
 	"""A Weak Callback object that will keep a reference to
 	the connecting object with weakref semantics.
 
-	This allows to connect to gobject signals without it keeping
-	the connecting object alive forever.
-
-	Will use @gobject_token or @dbus_token if set as follows:
-		sender.disconnect(gobject_token)
-		dbus_token.remove()
+	This allows object A to pass a callback method to object S,
+	without object S keeping A alive.
 	"""
 	def __init__(self, mcallback):
 		"""Create a new Weak Callback calling the method @mcallback"""
@@ -101,27 +97,56 @@ class WeakCallback (object):
 		attr = mcallback.im_func.__name__
 		self.wref = weakref.ref(obj, self.object_deleted)
 		self.callback_attr = attr
-		self.gobject_token = None
-		self.dbus_token = None
+		self.token = None
 
 	def __call__(self, *args, **kwargs):
 		obj = self.wref()
 		if obj:
 			attr = getattr(obj, self.callback_attr)
 			attr(*args, **kwargs)
-		elif self.gobject_token:
-			sender = args[0]
-			sender.disconnect(self.gobject_token)
-			self.gobject_token = None
+		else:
+			self.default_callback(*args, **kwargs)
+
+	def default_callback(self, *args, **kwargs):
+		"""Called instead of callback when expired"""
+		pass
 
 	def object_deleted(self, wref):
-		if self.dbus_token:
-			self.dbus_token.remove()
-			self.dbus_token = None
+		"""Called when callback expires"""
+		pass
+
+class DbusWeakCallback (WeakCallback):
+	"""
+	Will use @token if set as follows:
+		token.remove()
+	"""
+	def object_deleted(self, wref):
+		if self.token:
+			self.token.remove()
+			self.token = None
+
+class GobjectWeakCallback (WeakCallback):
+	"""
+	Will use @token if set as follows:
+		sender.disconnect(token)
+	"""
+	__senders = {}
+
+	def object_deleted(self, wref):
+		sender = self.__senders.pop(self.token, None)
+		if sender:
+			sender.disconnect(self.token)
+
+	@classmethod
+	def _connect(cls, sender, signal, mcallback, *user_args):
+		# We save references to the sender in a class variable,
+		# this is the only way to have it accessible when obj expires.
+		wc = cls(mcallback)
+		wc.token = sender.connect(signal, wc, *user_args)
+		cls.__senders[wc.token] = sender
 
 def gobject_connect_weakly(sender, signal, mcallback, *user_args):
 	"""Connect weakly to GObject @sender's @signal,
 	with a callback method @mcallback
 	"""
-	wc = WeakCallback(mcallback)
-	wc.gobject_token = sender.connect(signal, wc, *user_args)
+	GobjectWeakCallback._connect(sender, signal, mcallback, *user_args)
