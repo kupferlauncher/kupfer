@@ -4,7 +4,7 @@ from os import path as os_path
 import subprocess
 
 from kupfer.objects import Leaf, Action, FileLeaf, TextLeaf
-from kupfer import utils
+from kupfer import utils, pretty
 
 __kupfer_name__ = _("Image Tools")
 __kupfer_sources__ = ()
@@ -135,10 +135,19 @@ class Autorotate (Action):
 		yield FileLeaf
 
 	def valid_for_item(self, item):
-		# FIXME: Make this detection smarter
 		root, ext = os_path.splitext(item.object)
-		return ext.lower() in (".jpeg", ".jpg")
+		if not ext.lower() in (".jpeg", ".jpg"):
+			return False
+		# Launch jhead to see if 1) it is installed, 2) Orientation nondefault
+		try:
+			cmdargs = ("jhead", item.object)
+			proc = subprocess.Popen(cmdargs, stdout=subprocess.PIPE)
+		except OSError:
+			pretty.print_debug(__name__ , "Action %s needs 'jhead'" % self)
+		else:
+			out, err = proc.communicate()
+			return any(li.startswith("Orientation") for li in out.splitlines())
 
 	def get_description(self):
-		return _("Rotate JPEG image (in-place) according to its EXIF metadata")
+		return _("Rotate JPEG (in-place) according to its EXIF metadata")
 
