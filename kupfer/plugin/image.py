@@ -13,6 +13,7 @@ __kupfer_actions__ = (
 		"Scale",
 		"Rotate90",
 		"Rotate270",
+		"Autorotate",
 	)
 __description__ = _("Image transformation tools")
 __version__ = ""
@@ -116,4 +117,28 @@ class Rotate270 (RotateBase):
 
 	def get_icon_name(self):
 		return "object-rotate-left"
+
+class Autorotate (Action):
+	def __init__(self):
+		Action.__init__(self, _("Autorotate"))
+
+	def has_result(self):
+		return True
+
+	def activate(self, leaf, obj=None):
+		fpath = leaf.object
+		dirname = os_path.dirname(fpath)
+		cmdline = "jhead -autorot '%s'" % fpath
+		utils.launch_commandline(cmdline)
+
+	def item_types(self):
+		yield FileLeaf
+
+	def valid_for_item(self, item):
+		# FIXME: Make this detection smarter
+		root, ext = os_path.splitext(item.object)
+		return ext.lower() in (".jpeg", ".jpg")
+
+	def get_description(self):
+		return _("Rotate JPEG image (in-place) according to its EXIF metadata")
 
