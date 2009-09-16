@@ -802,6 +802,7 @@ class Interface (gobject.GObject):
 			"<Control>r" : "reset_all",
 			"<Control>g" : "select_selected_file",
 			"<Control>t" : "select_selected_text",
+			"<Alt>a" : "activate",
 		}
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
@@ -1154,6 +1155,10 @@ class Interface (gobject.GObject):
 		# reset self through toggle_text_mode
 		self.toggle_text_mode(False)
 		self.data_controller.activate()
+
+	def activate(self):
+		"""Activate current selection (Run action)"""
+		self._activate(None, None)
 	
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		key = context
