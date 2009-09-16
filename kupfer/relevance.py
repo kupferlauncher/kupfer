@@ -112,10 +112,9 @@ def score(s, query):
     """
     if not query:
         return 1.0
-    
-    score = 0.0
+
     ls = s.lower()
-    
+
     # Find the shortest possible substring that matches the query
     # and get the ration of their lengths for a base score
     first, last = _findBestMatch(ls, query)
@@ -148,19 +147,14 @@ def score(s, query):
     # Better yet if the match itself started there
     if first == 0:
         good += 2
-        
-    # Super bonus if the whole match is at the beginning
-    if last == len(query) - 1:
-        good += last + 4
-        
+
     # Super duper bonus if it is a perfect match
     if query == ls:
         good += last * 2 + 4
-        
-    if good + bad > 0:
-        score = (score + 3 * good / (good + bad)) / 4
-        
-    # This fix makes sure tha tperfect matches always rank higher
+
+    score = (score + 3 * good / (good + bad)) / 4
+
+    # This fix makes sure that perfect matches always rank higher
     # than split matches.  Perfect matches get the .9 - 1.0 range
     # everything else lower
     
