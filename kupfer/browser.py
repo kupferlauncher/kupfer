@@ -1046,6 +1046,8 @@ class Interface (gobject.GObject):
 
 	def switch_to_source(self):
 		if self.current is not self.search:
+			if self.current:
+				self.current.hide_table()
 			self.current = self.search
 			self._update_active()
 			if self.get_in_text_mode():
