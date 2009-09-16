@@ -3,7 +3,7 @@
 NEWS for kupfer
 ===============
 
-kupfer version
+kupfer version c15
 ------------------
 
 * Translation to Polish by Maciej Kwiatkowski
@@ -11,7 +11,12 @@ kupfer version
 * All objects now have an alias in the basic latin alphabet (if possible) so
   that, for example, query `wylacz` matches item _Wyłącz_.
 * Show notification icon by default
-* Read XML with cElementTree
+* Read XML with cElementTree (Faster.)
+* Read Firefox 3's bookmarks (Python2.5 requires `cjson` module)
+* New Plugin: Image Tools, with action _Scale..._ and JPEG rotation actions
+  (_Scale_ requires ImageMagick (`convert`), JPEG actions `jpegtran` and
+  `jhead`)
+* Basic support for a Magic Keybinding: summon kupfer with current selection
 
 kupfer version c14.1
 --------------------
