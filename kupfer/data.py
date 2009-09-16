@@ -1009,7 +1009,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc = GetSourceController()
 		qf = qfurl.qfurl(url=url)
 		found = qf.resolve_in_catalog(sc.sources)
-		if found:
+		if found and not found == self.source_pane.get_selection():
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(found))
 
 # pane cleared or set with new item
