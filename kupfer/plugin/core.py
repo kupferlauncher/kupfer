@@ -144,6 +144,7 @@ class DebugInfo (Action, pretty.OutputMixin):
 			yield Leaf
 
 class Quit (RunnableLeaf):
+	qf_id = "quit"
 	def __init__(self, name=None):
 		if not name: name = _("Quit")
 		super(Quit, self).__init__(name=name)

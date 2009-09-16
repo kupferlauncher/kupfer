@@ -802,6 +802,7 @@ class Interface (gobject.GObject):
 			"<Control>r" : "reset_all",
 			"<Control>g" : "select_selected_file",
 			"<Control>t" : "select_selected_text",
+			"<Control>q" : "select_quit",
 			"<Alt>a" : "activate",
 		}
 		direct_text_key = gtk.gdk.keyval_from_name("period")
@@ -1071,6 +1072,9 @@ class Interface (gobject.GObject):
 
 	def select_selected_text(self):
 		self.data_controller.find_object("qpfer:selectedtext")
+
+	def select_quit(self):
+		self.data_controller.find_object("qpfer:quit")
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
