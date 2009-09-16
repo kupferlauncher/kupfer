@@ -849,6 +849,9 @@ class Interface (gobject.GObject):
 					# swallow if it is the direct key
 					swallow = (keyv == direct_text_key)
 					return swallow
+		elif keyv in (key_book["Left"], key_book["Right"]):
+			# pass these through in text mode
+			return False
 
 		# activate on repeated key
 		if ((not text_mode) and self._key_pressed == keyv and
