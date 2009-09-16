@@ -33,8 +33,8 @@ def mem_stats():
 		if "gtk" in item[0]:
 			gtk.append(item)
 	
-	print "---just gtk (top)"
-	print "\n".join("%s: %d" % (k,v) for k,v in gtk[:10])
+	#print "---just gtk (top)"
+	#print "\n".join("%s: %d" % (k,v) for k,v in gtk[:10])
 	print "---Just our objects (all > 1)"
 	print "\n".join("%s: %d" % (k,v) for k,v in our if v > 1)
 
@@ -84,4 +84,4 @@ def icon_stats():
 			print k, icon_cache[size][k]["accesses"]
 
 atexit.register(mem_stats)
-atexit.register(icon_stats)
+#atexit.register(icon_stats)
