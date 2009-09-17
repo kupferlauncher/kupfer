@@ -96,10 +96,20 @@ def configure(conf):
 
 	Utils.pprint("NORMAL", "Checking optional dependencies:")
 
-	opt_programs = "dbus-send rst2man".split()
-	opt_pymodules = "wnck gnome.ui".split()
+	opt_programs = {
+			"dbus-send": "Focus kupfer from the command line",
+			"rst2man": "Generate and install man page",
+		}
+	opt_pymodules = {
+			"wnck": "Identify and focus running applications",
+			"gnome": ("Log out cleanly with session managers *OTHER* than "
+				"gnome-session >= 2.24"),
+		}
+
 	for prog in opt_programs:
 		prog_path = conf.find_program(prog, var=prog.replace("-", "_").upper())
+		if not prog_path:
+			Utils.pprint("YELLOW", "Optional, allows: %s" % opt_programs[prog])
 
 	try:
 		conf.check_python_module("keybinder")
@@ -111,7 +121,8 @@ def configure(conf):
 		try:
 			conf.check_python_module(mod)
 		except Configure.ConfigurationError, e:
-			Utils.pprint("YELLOW", "python module %s is recommended" % mod)
+			Utils.pprint("YELLOW", "module %s is recommended, allows %s" % (
+				mod, opt_pymodules[mod]))
 
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
 	conf.env["VERSION"] = VERSION
