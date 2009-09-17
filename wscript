@@ -96,10 +96,10 @@ def configure(conf):
 
 	Utils.pprint("NORMAL", "Checking optional dependencies:")
 
-	opt_programs = ["dbus-send"]
+	opt_programs = "dbus-send rst2man".split()
 	opt_pymodules = "wnck gnome.ui".split()
 	for prog in opt_programs:
-		prog_path = conf.find_program(prog)
+		prog_path = conf.find_program(prog, var=prog.replace("-", "_").upper())
 
 	try:
 		conf.check_python_module("keybinder")
