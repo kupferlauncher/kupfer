@@ -583,9 +583,14 @@ gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class PrimaryActionPane (Pane):
+	def __init__(self):
+		super(PrimaryActionPane, self).__init__()
+		self.set_item(None)
+
 	def set_item(self, item):
 		"""Set which @item we are currently listing actions for"""
 		self.current_item = item
+		self._action_valid_cache = {}
 
 	def search(self, key=u"", context=None, text_mode=False):
 		"""Search: Register the search method in the event loop
@@ -605,9 +610,24 @@ class PrimaryActionPane (Pane):
 			for act in sc.get_actions_for_leaf(leaf):
 				actions.append(act)
 
-		actions = [a for a in actions if a.valid_for_item(self.current_item)]
+		def is_valid_cached(action):
+			"""Check if @action is valid for current item"""
+			cache = self._action_valid_cache
+			valid = cache.get(action)
+			if valid is None:
+				valid = action.valid_for_item(self.current_item)
+			cache[action] = valid
+			return valid
+
+		def valid_decorator(seq):
+			"""Check if actions are valid before access"""
+			for obj in seq:
+				if is_valid_cached(obj.object):
+					yield obj
+
 		sources = (actions, )
-		match, match_iter = self.searcher.search(sources, key)
+		match, match_iter = self.searcher.search(sources, key,
+				decorator=valid_decorator)
 		self.emit_search_result(match, match_iter, context)
 
 class SecondaryObjectPane (LeafPane):
