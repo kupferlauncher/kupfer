@@ -146,6 +146,7 @@ class Autorotate (Action):
 			pretty.print_debug(__name__ , "Action %s needs 'jhead'" % self)
 		else:
 			out, err = proc.communicate()
+			pretty.print_debug(__name__, "Running", cmdargs)
 			return any(li.startswith("Orientation") for li in out.splitlines())
 
 	def get_description(self):
