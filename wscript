@@ -168,7 +168,7 @@ def build(bld):
 		dict = {"PYTHON": bld.env["PYTHON"]}
 		)
 
-	bld.add_subdirs("po data extras")
+	bld.add_subdirs("po data Documentation extras")
 
 def intlupdate(util):
 	"""Extract new strings for localization"""
