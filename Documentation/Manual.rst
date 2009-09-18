@@ -12,6 +12,9 @@ kupfer
 Kupfer internals
 ================
 
+Building blocks
+---------------
+
 Kupfer's architecture is built around objects that can be acted on by
 actions. Kupfer's basic concept for understanding objects is in
 ``kupfer/objects.py``. The basic building block is ``KupferObject``.
@@ -25,7 +28,7 @@ actions. Kupfer's basic concept for understanding objects is in
 
 
 KupferObject
-------------
+............
 
 base class for basic user-visible constructs, this defines:
 
@@ -45,46 +48,95 @@ kupfer's python interface documentation: go to the directory containing
 the kupfer module and do::
 
     $ python
-    >>> import kupfer.main
-    >>> import kupfer.objects
-    >>> help(kupfer.objects.KupferObject)
-    >>> help(kupfer.objects.Leaf)
-    >>> help(kupfer.objects.Action)
-    >>> help(kupfer.objects.Source)
+    >>> from kupfer import main, objects
+    >>> help(objects.KupferObject)
+    >>> help(objects.Leaf)
+    >>> help(objects.Action)
+    >>> help(objects.Source)
 
 
 Leaf
-----
+....
 
-this represents an object that the user will want to summon and
+A Leaf represents an object that the user will want to summon and
 act on. An example is a file, an application, a window or a Free-text
 query (TextLeaf).
 
 This defines, in addition to KupferObject:
 
-* ``Leaf.object`` is the represented object, is implementation-specific
-* A way to get the default actions for this type
-* ``__hash__`` and ``__eq__`` so that equivalents are recognized
-* ``has_content()`` and ``content_source()`` to find out if objects
-  contain anything, like for example folders do
+``Leaf.object``
+    ``Leaf.object`` is the represented object, which is the
+    implementation-specific internal data.
+
+``get_actions``
+    Returns the *builtin* Actions for a Leaf; builtin Actions are such
+    that do not apply generally, but only to Leaves defined in a
+    particular module or Plugin.
+
+``__hash__`` and ``__eq__``
+    Leaves are hashable, can be members in a set, and duplicates are
+    recognized (and removed); this is essensial so that equivalent
+    Leaves from different sources are recognized. By default duplicates
+    are recognized if both the name and the ``Leaf.object`` property are
+    the same.
+
+``has_content()`` and ``content_source()``
+    These methods are used to find out if objects contain anything, like
+    folders or music albums.
 
 Action
-------
+......
 
-represents and action on a Leaf, for example Show() that will open with
-default viewer.
+An Action represents an command using a direct object and an optional
+indirect object. One example is ``objects.Show`` that will open its
+direct object (which must be a file), with its default viewer.
 
-This defines, in addition to KupferObject:
+Actions are the most versatile parts of Kupfer, since they can define
+ways to use objects together. They also have to decide, which types of
+Leaves they apply to, and if they apply to a given Leaf.
 
-* ``activate(leaf, obj)`` to act on a leaf, with optional indirect object
-* ``is_factory`` if the action returns content, returns a collection of
-  new items.
-* ``item_type``: which items action applies to (in plugins)
-* ``require_object``: Wheter this action uses an indirect object; if it
-  does, some more methods have to define which items
+Action defines, in addition to KupferObject:
+
+``activate(leaf, obj)``
+    Called to perform its effect on a Leaf, where ``obj`` is the
+    (optional) indirect object.
+
+``item_types``
+    This method returns all the types of Leaves that the action
+    applies to (direct object).
+``valid_for_item(item)``
+    Return whether action applies to ``item`` or not, which is of
+    one of the types returned by ``item_type.``
+
+``requires_object``
+    Whether this action uses an indirect object or not. If the Action
+    requires an indirect object, it must also define (at least).
+    ``object_types``.
+``object_types(for_item)``
+    Return all the types of Leaves that are valid for the action's
+    indirect object.
+``object_source(for_item)``
+    If the action's indirect objects should not be picked from the full
+    catalog, but from a defined source, return an instance of the Source
+    here, else return None.
+``valid_object(obj, for_item)``
+    This method, if defined,  will be called for each indirect object
+    (with the direct object as ``for_item``), to decide if it can be
+    used.
+
+Some auxiliary methods tell Kupfer about how to handle the action:
+
+``is_factory``
+    If the action returns content, returns a collection of new items.
+``has_result``
+    If the action's return value in activate should treated as the new
+    selection.
+``is_async``
+    If the action returns a ``Task`` object conforming to
+    ``kupfer.task.Task``.
 
 Source
-------
+......
 
 The Source understands specific data and delivers Leaves for it. For
 example DirectorySource, that will give FileLeaves for contents of a
@@ -100,7 +152,7 @@ This defines, in addition to KupferObject:
 * ``provides`` To define which Leaf types it may contain
 
 TextSource
-----------
+..........
 
 A text source returns items for a given text string
 
@@ -119,7 +171,7 @@ most parts, but all internals should be unicode. Note that the gettext
 ``_()`` will return a unicode string.
 
 Plugins
-=======
+-------
 
 A kupfer plugin is a python module with special module attributes
 
@@ -160,7 +212,7 @@ Look in ``contrib/`` and in ``kupfer/plugin/`` for using the existing
 plugins as example
 
 Coding style
-============
+------------
 
 Kupfer python code is indented with tabs, which is a bit uncommon. (My
 editor is set to tabs of size four.) Otherwise, if you want to
@@ -179,7 +231,7 @@ Sometimes comments are needed to explain the code. How many know the
 		...
 
 Living and learning
--------------------
+...................
 
 Most of kupfer plugin code uses super statements such as::
 
