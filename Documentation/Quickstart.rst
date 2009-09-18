@@ -66,4 +66,5 @@ Custom plugins are added to kupfer by installing them to the directory
 of ``$XDG_DATA_DIRS``.
 
 .. vim: ft=rst tw=72
-
+.. this document best viewed with::
+        TMP=$(tempfile); rst2html Quickstart.rst > $TMP; xdg-open $TMP
