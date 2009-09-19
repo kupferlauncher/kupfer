@@ -114,35 +114,42 @@ class OpenSearchSource (Source):
 	@coroutine
 	def _parse_opensearch(self, target):
 		"""This is a coroutine to parse OpenSearch files"""
-		keys =  ["Description", "Url", "ShortName", "InputEncoding"]
+		vital_keys = set(["Url", "ShortName"])
+		keys =  set(["Description", "Url", "ShortName", "InputEncoding"])
 		mozns = '{http://www.mozilla.org/2006/browser/search/}'
-		mozroot = mozns + 'SearchPlugin'
+		osns = '{http://a9.com/-/spec/opensearch/1.1/}'
+		roots = ('OpenSearchDescription', 'SearchPlugin')
+		gettagname = lambda tag: tag.rsplit("}", 1)[-1]
 
-		def parse_etree(etree):
-			if not etree.getroot().tag == mozroot:
-				raise OpenSearchParseError("File has wrong type")
+		def parse_etree(etree, name=None):
+			if not gettagname(etree.getroot().tag) in roots:
+				raise OpenSearchParseError("Search %s has wrong type" % name)
 			search = {}
 			for child in etree.getroot():
-				tagname = child.tag.split("}")[-1]
+				tagname = gettagname(child.tag)
 				if tagname not in keys:
 					continue
-				if tagname == "Url" and child.get("template"):
+				if (tagname == "Url" and child.get("type") == "text/html" and
+						child.get("template")):
 					text = child.get("template")
-					if child.tag == (mozns + "Url"):
-						params = {}
-						for ch in child.getchildren():
+					params = {}
+					for ch in child.getchildren():
+						if gettagname(ch.tag) == "Param":
 							params[ch.get("name")] = ch.get("value")
+					if params:
 						text += _noescape_urlencode(params.items())
 				else:
 					text = (child.text or "").strip()
 				search[tagname] = text
+			if not vital_keys.issubset(search.keys()):
+				raise OpenSearchParseError("Search %s missing keys" % name)
 			return search
 
 		while True:
 			try:
 				path = (yield)
 				etree = ElementTree.parse(path)
-				target.send(parse_etree(etree))
+				target.send(parse_etree(etree, name=path))
 			except StandardError, exc:
 				self.output_debug("%s: %s" % (type(exc).__name__, exc))
 
