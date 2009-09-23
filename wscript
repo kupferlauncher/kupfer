@@ -192,6 +192,17 @@ def intlupdate(util):
 			os.popen("intltool-update %s" % lang)
 			os.popen("msgfmt --check %s" % lang_file)
 
+def test(bld):
+	# find all files with doctests
+	paths = os.popen("git grep -l 'doctest.testmod()' kupfer/").read().split()
+	all_success = True
+	for p in paths:
+		print p
+		res = os.popen("python '%s'" % p).read()
+		print (res or "OK")
+		all_success = all_success and bool(res)
+	return all_success
+
 def shutdown():
 	pass
 
