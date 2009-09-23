@@ -144,20 +144,33 @@ directory.
 
 This defines, in addition to KupferObject:
 
-* ``__hash__`` and ``__eq__`` so that equivalents are recognized
-* ``get_items`` That subclasses should define to return its items
-* ``is_dynamic`` If there should be no caching (usually there should be)
-* ``get_leaf_repr`` How to represent the source in a list, For example
-  the DirectorySource is represented by a FileLeaf for the directory
-* ``provides`` To define which Leaf types it may contain
+``get_items``
+    Source subclasses should define ``get_items`` to return its items;
+    the items are cached automatically until ``mark_for_update`` is
+    called.
+``is_dynamic``
+    Return ``True`` if the Source should not be cached (usually it should)
+``provides``
+    Return a sequence of the Leaf types it may contain
+
+``get_leaf_repr``
+    Return a Leaf that represents the Source, if applicable; for example
+    the DirectorySource is represented by a FileLeaf for the directory.
+``__hash__`` and ``__eq__``
+    Sources are hashable, and equivalents are recognized just like
+    Leaves, and the central SourceController manages them so that there
+    are no duplicates in the application.
 
 TextSource
 ..........
 
-A text source returns items for a given text string
+A text source returns items for a given text string, it is much like a
+simplified version of Source.
 
-* ``get_item`` produce items for given string
-* ``provides`` To define which Leaf types it may provide
+``get_item(text)``
+    Return items for the given query.
+``provides``
+    Return a sequence of the Leaf types it may contain
 
 Strings
 -------
@@ -168,7 +181,7 @@ strings; only then does slicing, lowercasing etc work across other than
 ascii charsets.
 Kupfer accepts UTF-8-encoded strings as well as unicode objects for the
 most parts, but all internals should be unicode. Note that the gettext
-``_()`` will return a unicode string.
+function ``_()`` will return a unicode string.
 
 Plugins
 -------
@@ -280,26 +293,26 @@ the mailing list kupfer-list@gnome.org.
 To create a new translation
 ---------------------------
 
-Add the language to po/LINGUAS with it's (commonly) two-letter code.
-Run ./waf intlupdate and then edit the header in the po/lang.po file,
-filling in your name and other slots, and importantly the CHARSET. You
-probably want to use UTF-8.
+Add the language to ``po/LINGUAS`` with its (commonly) two-letter code.
+Run ``./waf intlupdate`` and then edit the header in the ``po/lang.po``
+file, filling in your name and other slots, and importantly the CHARSET.
+You probably want to use UTF-8.
 
-When the header is filled-in, run ./waf intlupdate to see that it runs
-without errors, and you should have a po/lang.po file ready for
+When the header is filled-in, run ``./waf intlupdate`` to see that it
+runs without errors, and you should have a ``po/lang.po`` file ready for
 translating.
 
 To try the new translation
 --------------------------
 
-Make sure the translation is listed in po/LINGUAS.
+Make sure the translation is listed in ``po/LINGUAS``.
 
 To try it, you have to install kupfer with ``./waf install``
 
-If you run ./kupfer-activate.sh from the working directory it won't find
-the installed translations unless you make a symlink called ``locale`` to
-the installed location (for example ``~/.local/share/locale`` if install
-prefix was ``~/.local``).
+If you run ``./kupfer-activate.sh`` from the working directory it won't
+find the installed translations unless you make a symlink called
+``locale`` to the installed location (for example
+``~/.local/share/locale`` if install prefix was ``~/.local``).
 
 .. vim: ft=rst tw=72
 .. this document best viewed with::
