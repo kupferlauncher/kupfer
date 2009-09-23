@@ -13,7 +13,7 @@ A simple launcher
 SYNOPSIS
 ========
 
-``kupfer`` [ `OPTIONS` | `QUERY` ]
+``kupfer`` [ *OPTIONS* | *QUERY* ]
 
 DESCRIPTION
 ===========
@@ -41,7 +41,7 @@ kupfer.
 
 Kupfer can be invoked with a text query, with
 
-        ``kupfer`` `QUERY`
+        ``kupfer`` *QUERY*
 
 OPTIONS
 =======
@@ -62,9 +62,9 @@ CONFIGURATION
 =============
 
 Custom plugins are added to kupfer by installing them to the directory
-`~/.local/share/kupfer/plugins`, or any kupfer/plugins directory in any
+*~/.local/share/kupfer/plugins*, or any kupfer/plugins directory in any
 of ``$XDG_DATA_DIRS``.
 
 .. vim: ft=rst tw=72
 .. this document best viewed with::
-        TMP=$(tempfile); rst2html Quickstart.rst > $TMP; xdg-open $TMP
+        rst2pdf Quickstart.rst && xdg-open Quickstart.pdf
