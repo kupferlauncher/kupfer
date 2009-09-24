@@ -4,6 +4,7 @@ kupfer
 
 :Author: Ulrik Sverdrup
 :Date: Wednesday, 23 September 2009
+:Revision: $Id$
 :Homepage: http://kaizer.se/wiki/kupfer
 
 .. contents::
