@@ -189,26 +189,26 @@ A kupfer plugin is a python module with special module attributes
 
 Here is an example from ``kupfer.plugin.applications``::
 
-	__kupfer_name__ = _("Applications")
-	__kupfer_sources__ = ("AppSource", )
-	__kupfer_text_sources__ = ()
-	__kupfer_actions__ = ("OpenWith", )
-	__description__ = _("All applications and preferences")
-	__version__ = ""
-	__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+    __kupfer_name__ = _("Applications")
+    __kupfer_sources__ = ("AppSource", )
+    __kupfer_text_sources__ = ()
+    __kupfer_actions__ = ("OpenWith", )
+    __description__ = _("All applications and preferences")
+    __version__ = ""
+    __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 For a plugin, the following attributes are required::
 
-	__kupfer_name__ (Localized name of plugin)
-	__description__ (Localized description of plugin)
-	__version__
-	__author__
+    __kupfer_name__ (Localized name of plugin)
+    __description__ (Localized description of plugin)
+    __version__
+    __author__
 
 For the plugin to do anything, the following attributes may be defined::
 
-	__kupfer_sources__ = ()
-	__kupfer_text_sources__ = ()
-	__kupfer_actions__ = ()
+    __kupfer_sources__ = ()
+    __kupfer_text_sources__ = ()
+    __kupfer_actions__ = ()
 
 They should be tuples of *names* of classes in the module:
 
@@ -237,21 +237,21 @@ Sometimes comments are needed to explain the code. How many know the
 ``for..else`` construction? Hint: find out what it does in the
 ``kupfer.icons`` module::
 
-	for item in sequence:
-		...
-	else:
-		...
+    for item in sequence:
+        ...
+    else:
+        ...
 
 Living and learning
 ...................
 
 Most of kupfer plugin code uses super statements such as::
 
-	super(RecentsSource, self).__init__(_("Recent items"))
+    super(RecentsSource, self).__init__(_("Recent items"))
 
 when writing new code, you should however use the following style::
 
-	Source.__init__(self, _("Recent items"))
+    Source.__init__(self, _("Recent items"))
 
 Why? Because the second version is easier to copy! If you copy the whole
 class and rename it, which you often do to create new plugins, you have
@@ -328,4 +328,4 @@ find the installed translations unless you make a symlink called
 
 .. vim: ft=rst tw=72
 .. this document best viewed with::
-        TMP=$(tempfile); rst2html Manual.rst > $TMP; xdg-open $TMP
+        rst2pdf Manual.rst && xdg-open Manual.pdf
