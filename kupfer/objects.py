@@ -204,16 +204,23 @@ class FileLeaf (Leaf):
 		@obj: byte string (file system encoding)
 		@name: unicode name or None for using basename
 		"""
-		# Resolve symlinks
-		obj = path.realpath(obj) or obj
 		# Use glib filename reading to make display name out of filenames
 		# this function returns a `unicode` object
 		if not name:
 			name = gobject.filename_display_basename(obj)
 		super(FileLeaf, self).__init__(obj, name)
 
+	def __eq__(self, other):
+		return (type(self) == type(other) and
+				unicode(self) == unicode(other) and
+				path.samefile(self.object, other.object))
+
 	def repr_key(self):
 		return self.object
+
+	def canonical_path(self):
+		"""Return the true path of the File (without symlinks)"""
+		return path.realpath(self.object)
 
 	def is_valid(self):
 		from os import access, R_OK
@@ -230,7 +237,7 @@ class FileLeaf (Leaf):
 		"""Format the path shorter:
 		replace homedir by ~/
 		"""
-		return utils.get_display_path_for_bytestring(self.object)
+		return utils.get_display_path_for_bytestring(self.canonical_path())
 
 	def get_actions(self):
 		acts = [RevealFile(), ]
