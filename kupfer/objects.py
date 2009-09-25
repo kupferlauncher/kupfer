@@ -9,6 +9,7 @@ see the main program file, and COPYING for details.
 """
 
 import itertools
+import os
 from os import path
 
 import gobject
@@ -873,13 +874,10 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		self.monitor = self.monitor_directories(self.directory)
 
 	def get_items(self):
-		exclude = lambda f: f.startswith(".") if not self.show_hidden else None
-		dirlist = utils.get_dirlist(self.directory, exclude=exclude)
-		def file_leaves(files):
-			for file in files:
-				yield ConstructFileLeaf(file)
+		for fname in os.listdir(self.directory):
+			if self.show_hidden or not fname.startswith("."):
+				yield ConstructFileLeaf(path.join(self.directory, fname))
 
-		return file_leaves(dirlist)
 	def should_sort_lexically(self):
 		return True
 
