@@ -196,6 +196,9 @@ class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
 		for noteuri, title, date in self._notes:
 			yield Note(noteuri, title, date=date)
 
+	def provides(self):
+		yield Note
+
 	def get_gicon(self):
 		return icons.get_gicon_with_fallbacks(None, PROGRAM_IDS)
 
