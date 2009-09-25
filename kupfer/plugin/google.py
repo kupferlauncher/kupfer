@@ -196,5 +196,8 @@ class OpenSearchSource (Source):
 	def should_sort_lexically(self):
 		return True
 
+	def provides(self):
+		yield SearchEngine
+
 	def get_icon_name(self):
 		return "applications-internet"
