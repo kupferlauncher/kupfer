@@ -92,7 +92,8 @@ class RotateBase (Action):
 		head, ext = os_path.splitext(os_path.basename(fpath))
 		filename = "%s_%s%s" % (head, self.rotation, ext)
 		dpath = utils.get_destpath_in_directory(dirname, filename)
-		cmdline = "jpegtran -rotate '%s' -outfile '%s' '%s'" % (self.rotation, dpath, fpath)
+		cmdline = ("jpegtran -copy all -rotate '%s' -outfile '%s' '%s'" %
+				(self.rotation, dpath, fpath))
 		utils.launch_commandline(cmdline)
 		return FileLeaf(dpath)
 
