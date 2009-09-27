@@ -47,8 +47,9 @@ def get_icon(key, icon_size):
 	try retrieve icon in cache
 	is a generator so it can be concisely called with a for loop
 	"""
-	rec = icon_cache.get(icon_size, {}).get(key, None)
-	if not rec:
+	try:
+		rec = icon_cache[icon_size][key]
+	except KeyError:
 		return
 	rec["accesses"] += 1
 	yield rec["icon"]
@@ -61,8 +62,7 @@ def store_icon(key, icon_size, icon):
 		"icon %s already in cache" % key
 	assert icon, "icon %s may not be %s" % (key, icon)
 	icon_rec = {"icon":icon, "accesses":0}
-	if icon_size not in icon_cache: icon_cache[icon_size] = {}
-	icon_cache[icon_size][key] = icon_rec
+	icon_cache.setdefault(icon_size, {})[key] = icon_rec
 
 def _get_icon_dwim(icon, icon_size):
 	"""Make an icon at @icon_size where
