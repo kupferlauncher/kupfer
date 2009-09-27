@@ -194,11 +194,19 @@ def intlupdate(util):
 
 def test(bld):
 	# find all files with doctests
+	python = os.getenv("PYTHON", "python")
 	paths = os.popen("git grep -l 'doctest.testmod()' kupfer/").read().split()
 	all_success = True
+	verbose = ("-v" in sys.argv)
 	for p in paths:
 		print p
-		res = os.popen("python '%s'" % p).read()
+		cmd = [python, p]
+		if verbose:
+			cmd.append("-v")
+		sin, souterr = os.popen4(cmd)
+		sin.close()
+		res = souterr.read()
+		souterr.close()
 		print (res or "OK")
 		all_success = all_success and bool(res)
 	return all_success
