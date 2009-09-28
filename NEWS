@@ -1,7 +1,21 @@
--*- encoding: UTF-8 -*-
 
 NEWS for kupfer
 ===============
+
+kupfer version c16, 28 September 2009
+-------------------------------------
+
+* Translation to German (Thibaud Roth)
+* Polish translation updated (Maciej Kwiatkowski)
+* Add search engine descriptions from ``firefox-addons`` (Francesco Marella)
+* Speed up directory browsing by using much less system calls
+* Improve documentation and put it together into one `Manual` document.
+* Evaluate valid actions (per object) lazily to save work.
+* Generate man page from reStructuredText `Quickstart.rst`
+* Add accelerators *Ctrl+Q* (select quit) and *Alt+A* (activate)
+* Parse even horribly wrong search engine descriptions (Bug reported by
+  Martin Koelewijn)
+
 
 kupfer version c15
 ------------------
@@ -241,3 +255,6 @@ This release is localized in: Swedish (100%), Italian (80%)
 
 Future: part 2 of beautification is refactoring of the interface, so
 that the UI can be exchanged. And preferences will hopefully be implemented
+
+.. -*- encoding: UTF-8 -*-
+.. vim: tw=76 ft=rst
