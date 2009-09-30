@@ -19,9 +19,11 @@ AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 
 PACKAGERS=u"""
 Luca Falavigna (Debian, Ubuntu)
+Francesco Marella (Ubuntu PPA)
 """.splitlines()
 
 TRANSLATORS=u"""
+Thibaud Roth (de)
 Leandro Leites (es)
 Andrea Zagli (it)
 Maciej Kwiatkowski (pl)
