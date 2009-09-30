@@ -169,6 +169,10 @@ class OpenSearchSource (Source):
 		plugin_dirs.extend(config.get_data_dirs("searchplugins",
 			package="iceweasel"))
 
+		addon_dir = "/usr/lib/firefox-addons/searchplugins"
+		if os.path.exists(addon_dir):
+			plugin_dirs.append(addon_dir)
+
 		self.output_debug("Found following searchplugins directories",
 				sep="\n", *plugin_dirs)
 
