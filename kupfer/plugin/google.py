@@ -188,11 +188,14 @@ class OpenSearchSource (Source):
 		# files are unique by filename to allow override
 		visited_files = set()
 		for pdir in plugin_dirs:
-			for f in os.listdir(pdir):
-				if f in visited_files:
-					continue
-				parser.send(os.path.join(pdir, f))
-				visited_files.add(f)
+			try:
+				for f in os.listdir(pdir):
+					if f in visited_files:
+						continue
+					parser.send(os.path.join(pdir, f))
+					visited_files.add(f)
+			except EnvironmentError, exc:
+				self.output_error(exc)
 
 		for s in searches:
 			yield SearchEngine(s, s["ShortName"])
