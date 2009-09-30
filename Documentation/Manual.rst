@@ -100,18 +100,18 @@ Action defines, in addition to KupferObject:
     Called to perform its effect on a Leaf, where ``obj`` is the
     (optional) indirect object.
 
-``item_types``
+``item_types()``
     This method returns all the types of Leaves that the action
     applies to (direct object).
 ``valid_for_item(item)``
     Return whether action applies to ``item`` or not, which is of
     one of the types returned by ``item_type.``
 
-``requires_object``
+``requires_object()``
     Whether this action uses an indirect object or not. If the Action
-    requires an indirect object, it must also define (at least).
+    requires an indirect object, it must also define (at least)
     ``object_types``.
-``object_types(for_item)``
+``object_types()``
     Return all the types of Leaves that are valid for the action's
     indirect object.
 ``object_source(for_item)``
@@ -125,12 +125,12 @@ Action defines, in addition to KupferObject:
 
 Some auxiliary methods tell Kupfer about how to handle the action:
 
-``is_factory``
+``is_factory()``
     If the action returns content, returns a collection of new items.
-``has_result``
+``has_result()``
     If the action's return value in activate should treated as the new
     selection.
-``is_async``
+``is_async()``
     If the action returns a ``Task`` object conforming to
     ``kupfer.task.Task``.
 
