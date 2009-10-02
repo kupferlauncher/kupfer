@@ -117,7 +117,8 @@ class RenameSource (TextSource):
 	"""
 	def __init__(self, sourcefile):
 		self.sourcefile = sourcefile
-		TextSource.__init__(self, _("Rename To..."))
+		name = _("Rename To...").rstrip(".")
+		TextSource.__init__(self, name)
 
 	def get_rank(self):
 		# this should rank high
