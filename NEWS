@@ -2,16 +2,18 @@
 NEWS for kupfer
 ===============
 
-kupfer version c16, 28 September 2009
--------------------------------------
+kupfer version c16
+------------------
+
+Released 5 October 2009
 
 * Translation to German (Thibaud Roth)
 * Polish translation updated (Maciej Kwiatkowski)
 * Add search engine descriptions from ``firefox-addons`` (Francesco Marella)
 * Speed up directory browsing by using much less system calls
-* Improve documentation and put it together into one `Manual` document.
+* Improve documentation and put it together into a `Manual`.
+* Generate man page from reStructuredText document `Quickstart`.
 * Evaluate valid actions (per object) lazily to save work.
-* Generate man page from reStructuredText `Quickstart.rst`
 * Add accelerators *Ctrl+Q* (select quit) and *Alt+A* (activate)
 * Parse even horribly wrong search engine descriptions (Bug reported by
   Martin Koelewijn)
