@@ -3,77 +3,121 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import Leaf, Action, Source, TextLeaf
-from kupfer.utils import spawn_async
+from kupfer.objects import Leaf, Action, Source, TextLeaf, FilesystemWatchMixin, TextSource
+from kupfer import utils
 
-__kupfer_name__ = _("Zim pages")
+__kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
-__kupfer_actions__ = ("OpenZimPageAction", )
-__description__ = _("Zim pages")
-__version__ = "0.1"
+__kupfer_actions__ = ("CreateZimPage", )
+__description__ = _("Access to Pages stored in Zim - A Desktop Wiki and Outliner")
+__version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
+'''
+TODO:
+	use FilesystemWatchMixin (?)
+'''
 
-class ZimPageLeaf(Leaf):
+
+def _start_zim(notebook, page):
+	''' Start zim and open given notebook and page. '''
+	cli = "zim '%s' '%s'" % (notebook, page.replace("'", "_"))
+	utils.launch_commandline(cli)
+
+
+class ZimPage(Leaf):
 	""" Represent single Zim page """
 	def __init__(self, notebook, page):
 		full_name = notebook + " " + page
-		super(ZimPageLeaf, self).__init__(full_name, page)
+		Leaf.__init__(self, full_name, page)
 		self.page = page
 		self.notebook = notebook
 
 	def get_actions(self):
-		yield OpenZimPageAction()
+		yield OpenZimPage()
+		yield CreateZimSubPage()
 
 	def get_description(self):
-		return _('Zim page from notebook "%s"') % self.notebook
+		return _('Zim Page from Notebook "%s"') % self.notebook
 
 	def get_icon_name(self):
 		return "text-x-generic"
 
 
+class CreateZimPage(Action):
+	''' create new page '''
+	rank_adjust = 5
 
-class OpenZimPageAction(Action):
-	""" Open Zim page (or create it) """
 	def __init__(self):
-		super(OpenZimPageAction, self).__init__(_('Open Zim page'))
+		Action.__init__(self, _('Create Zim Page as SubPage of'))
+
+	def activate(self, leaf, iobj):
+		_start_zim(iobj.notebook, iobj.page + ":" + leaf.object.strip(':'))
+
+	def get_icon_name(self):
+		return 'document-new'
+
+	def item_types(self):
+		yield TextLeaf
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield ZimPage
+
+	def object_source(self, for_item=None):
+		return ZimPagesSource()
+
+
+class OpenZimPage(Action):
+	""" Open Zim page  """
+	rank_adjust = 10
+
+	def __init__(self):
+		Action.__init__(self, _('Open Zim Page'))
 
 	def activate(self, leaf):
-		if isinstance(leaf, ZimPageLeaf):
-			# leaf are zim pages
-			cli = ("zim", leaf.notebook, leaf.page)
-
-		else:
-			# leaf is enetere text (textleaf)
-			page = leaf.object
-			if page.find(' :') > -1:
-				notebook, page = page.split(' ', 2)
-				cli = ('zim', notebook, str(page))
-
-			else:
-				cli = ('zim', '_default_', str(page))
-
-		spawn_async(cli)
+		_start_zim(leaf.notebook, leaf.page)
 
 	def get_icon_name(self):
 		return 'document-open'
 
 	def item_types(self):
-		yield ZimPageLeaf
-		yield TextLeaf
+		yield ZimPage
 
+
+class CreateZimSubPage(Action):
+	""" Open Zim page  """
+	def __init__(self):
+		Action.__init__(self, _('Create Zim SubPage'))
+
+	def activate(self, leaf, iobj):
+		_start_zim(leaf.notebook, leaf.page + ":" + iobj.object.strip(':'))
+
+	def get_icon_name(self):
+		return 'document-new'
+
+	def item_types(self):
+		yield ZimPage
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield TextLeaf
+	
+	def object_source(self, for_item=None):
+		return TextSource()
 
 
 class ZimPagesSource(Source):
 	''' Index pages in all Zim notebooks '''
-	def __init__(self, name=_("Zim pages")):
-		super(ZimPagesSource, self).__init__(name)
+	def __init__(self, name=_("Zim Pages")):
+		Source.__init__(self, name)
 		# path to file with list notebooks
 		self._zim_notebooks_file = os.path.expanduser('~/.config/zim/notebooks.list')
-
-	def is_dynamic(self):
-		return False
 
 	def get_items(self):
 		for notebook_name, notebook_path in self._get_notebooks():
@@ -83,17 +127,18 @@ class ZimPagesSource(Source):
 				for filename in files:
 					if filename.endswith('.txt'):
 						file_path = os.path.join(root, filename)
-						page_name = file_path[notebook_path_len:-4].replace(os.path.sep, ':')
-						yield ZimPageLeaf(notebook_name, page_name)
+						page_name = file_path[notebook_path_len:-4]
+						page_name = page_name.replace(os.path.sep, ':').replace('_', ' ')
+						yield ZimPage(notebook_name, page_name)
 
 	def get_description(self):
-		return _("Pages stored in Zim notebooks")
+		return _("Pages stored in Zim Notebooks")
 
 	def get_icon_name(self):
 		return "zim"
 
 	def provides(self):
-		yield ZimPageLeaf
+		yield ZimPage
 
 	def _get_notebooks(self):
 		''' get (notebook name, notebook path) from zim config '''
@@ -104,6 +149,7 @@ class ZimPagesSource(Source):
 						notebook_name, notebook_path = line.strip().split('\t', 2)
 						notebook_path = os.path.expanduser(notebook_path)
 						yield (notebook_name, notebook_path)
-		except Exception, err:
-			print err
+
+		except IOError, err:
+			self.output_error(err)
 

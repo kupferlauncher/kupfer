@@ -4,18 +4,30 @@ import re
 import urllib
 from xml.dom import minidom
 
-from kupfer.objects import Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf
-from kupfer.utils import spawn_async
+from kupfer.objects import Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf, FilesystemWatchMixin
+from kupfer import utils
 
-__kupfer_name__ = _("ClawsMail contacts actions")
+__kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
-__description__ = _("Contacts from ClawsMail")
-__version__ = "0.1"
+__kupfer_actions__ = ("NewMailAction", )
+__description__ = _("Claws Mail Contacts and Actions")
+__version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
+def _get_email_from_url(url):
+	''' convert http://foo@bar.pl -> foo@bar.pl '''
+	sep = url.find('://')
+	return url[sep+3:] if sep > -1 else url
 
-class ClawsContactLeaf(Leaf):
+_CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$")
+
+def _check_email(email):
+	''' simple email check '''
+	return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
+
+
+class ClawsContact(Leaf):
 	''' Leaf represent single contact from Claws address book '''
 	def get_actions(self):
 		yield NewMailAction()
@@ -27,28 +39,28 @@ class ClawsContactLeaf(Leaf):
 		return "stock_person"
 
 
-class ComposeMailAction(RunnableLeaf):
+class ComposeMail(RunnableLeaf):
 	''' Create new mail without recipient '''
 	def __init__(self):
-		RunnableLeaf.__init__(self, name=_("Compose new mail"))
+		RunnableLeaf.__init__(self, name=_("Compose New Mail"))
 
 	def run(self):
-		spawn_async(('claws-mail', '--compose'))
+		utils.launch_commandline('claws-mail --compose')
 
 	def get_description(self):
-		return _("Compose new mail with ClawsMail")
+		return _("Compose New Mail with Claws Mail")
 
 	def get_icon_name(self):
 		return "stock_mail-compose"
 
 
-class ReceiveMailAction(RunnableLeaf):
+class ReceiveMail(RunnableLeaf):
 	''' Receive all new mail from all accounts '''
 	def __init__(self):
-		RunnableLeaf.__init__(self, name=_("Receive all mails"))
+		RunnableLeaf.__init__(self, name=_("Receive All Mails"))
 
 	def run(self):
-		spawn_async(('claws-mail', '--receive-all'))
+		utils.launch_commandline('claws-mail --receive-all')
 
 	def get_description(self):
 		return _("Receive new mail from all accounts by ClawsMail")
@@ -58,61 +70,61 @@ class ReceiveMailAction(RunnableLeaf):
 
 
 class NewMailAction(Action):
-	''' Createn new mail to selected leaf (ClawsContactLeaf or TextLeaf)'''
+	''' Createn new mail to selected leaf (ClawsContact or TextLeaf)'''
 	def __init__(self):
-		Action.__init__(self, _('Write new mail'))
+		Action.__init__(self, _('Compose New Mail to'))
 
 	def activate(self, leaf):
 		email = leaf.object
 		if isinstance(leaf, UrlLeaf):
-			email = NewMailAction._get_email_from_url(email)
+			email = _get_email_from_url(email)
 
-		spawn_async(("claws-mail", "--compose", str(email)))
+		utils.launch_commandline("claws-mail --compose '%s'" % email)
 
 	def get_icon_name(self):
 		return 'stock_mail-compose'
 
 	def item_types(self):
-		yield ClawsContactLeaf
+		yield ClawsContact
 		# we can enter email
 		yield TextLeaf
 		yield UrlLeaf
 
 	def valid_for_item(self, item):
-		if isinstance(item, ClawsContactLeaf):
+		if isinstance(item, ClawsContact):
 			return True
 
-		if isinstance(item, TextLeaf):
-			return ClawsContactLeaf._check_email(self.object)
+		elif isinstance(item, TextLeaf):
+			return _check_email(item.object)
 
 		elif isinstance(item, UrlLeaf):
-			url = NewMailAction._get_email_from_url(item.object)
-			return ClawsContactLeaf._check_email(url)
+			url = _get_email_from_url(item.object)
+			return _check_email(url)
 
 		return False
 
-	@staticmethod
-	def _get_email_from_url(url):
-		sep = url.find('://')
-		return url[sep+3:] if sep > -1 else url
 
-	@staticmethod
-	def _check_email(email):
-		return len(email) > 7 and re.match(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$", email.lower()) is not None
-
-
-
-class ClawsContactsSource(Source):
-	def __init__(self, name=_("Claws contacts")):
+class ClawsContactsSource(Source, FilesystemWatchMixin):
+	def __init__(self, name=_("Claws Mail Address Book")):
 		Source.__init__(self, name)
 		self._claws_addrbook_dir = os.path.expanduser('~/.claws-mail/addrbook')
-		self._claws_addrbook_index = os.path.join(self._claws_addrbook_dir, "addrbook--index.xml")
+		self._claws_addrbook_index = os.path.join(self._claws_addrbook_dir, \
+				"addrbook--index.xml")
+		self.unpickle_finish()
 
-	def is_dynamic(self):
-		return False
+	def unpickle_finish(self):
+		if not os.path.isdir(self._claws_addrbook_dir):
+			return
+
+		self.monitor_token = self.monitor_directories(self._claws_addrbook_dir)
+
+	def monitor_include_file(self, gfile):
+		# monitor only addrbook-*.xml files
+		return gfile and gfile.get_basename().endswith('.xml') and \
+				gfile.get_basename().startswith("addrbook-")
 
 	def get_items(self):
-		if os.path.exists(self._claws_addrbook_index):
+		if os.path.isfile(self._claws_addrbook_index):
 			for addrbook_file in self._load_address_books():
 				addrbook_filepath = os.path.join(self._claws_addrbook_dir, addrbook_file)
 				if not os.path.exists(addrbook_filepath):
@@ -126,22 +138,22 @@ class ClawsContactsSource(Source):
 						addresses = person.getElementsByTagName('address')
 						for address in addresses:
 							email = address.getAttribute('email')
-							yield ClawsContactLeaf(email, cn)
+							yield ClawsContact(email, cn)
 
-				except Exception, err:
-					print err
+				except StandardError, err:
+					self.output_error(err)
 
-		yield ComposeMailAction()
-		yield ReceiveMailAction()
+		yield ComposeMail()
+		yield ReceiveMail()
 
 	def get_description(self):
-		return _("Session saved in Putty")
+		return _("Contacts from Claw Mail Address Book")
 
 	def get_icon_name(self):
 		return "claws-mail"
 
 	def provides(self):
-		yield ClawsContactLeaf
+		yield ClawsContact
 		yield RunnableLeaf
 
 	def _load_address_books(self):
@@ -151,8 +163,8 @@ class ClawsContactsSource(Source):
 			for book in dtree.getElementsByTagName('book'):
 				yield book.getAttribute('file')
 
-		except Exception, err:
-			print err
+		except StandardError, err:
+			self.output_error(err)
 
 
 

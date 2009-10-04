@@ -3,18 +3,18 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import Leaf, Action, Source
-from kupfer.utils import spawn_async
+from kupfer.objects import Leaf, Action, Source, FilesystemWatchMixin
+from kupfer import utils
 
 __kupfer_name__ = _("Terminal Server Client")
 __kupfer_sources__ = ("TsclientSessionSource", )
-__description__ = _("Session saved in Terminam Server Client")
-__version__ = "0.1"
+__description__ = _("Session saved in Terminal Server Client")
+__version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 
-class TsclientSessionLeaf(Leaf):
+class TsclientSession(Leaf):
 	""" Leaf represent session saved in Tsclient"""
 
 	def __init__(self, obj_path, name, description):
@@ -31,31 +31,38 @@ class TsclientSessionLeaf(Leaf):
 		return "computer"
 
 
-
 class TsclientOpenSession(Action):
 	''' opens tsclient session '''
 	def __init__(self):
-		Action.__init__(self, _('Open Terminal Server Client session'))
+		Action.__init__(self, _('Start Terminal Server Session'))
 
 	def activate(self, leaf):
-		cli = ("tsclient", "-x", leaf.object)
-		spawn_async(cli)
+		utils.launch_commandline("tsclient -x '%s'" % leaf.object)
 
 	def get_icon_name(self):
 		return 'tsclient'
 
 
-
-class TsclientSessionSource(Source):
+class TsclientSessionSource(Source, FilesystemWatchMixin):
 	''' indexes session saved in tsclient '''
 	def __init__(self, name=_("TSClient sessions")):
 		Source.__init__(self, name)
 		self._sessions_dir = os.path.expanduser('~/.tsclient')
+		self.unpickle_finish()
 
-	def is_dynamic(self):
-		return False
+	def unpickle_finish(self):
+		if not os.path.isdir(self._sessions_dir):
+			return
+
+		self.monitor_token = self.monitor_directories(self._sessions_dir)
+
+	def monitor_include_file(self, gfile):
+		return gfile and gfile.get_basename().endswith('.rdp')
 
 	def get_items(self):
+		if not os.path.isdir(self._sessions_dir):
+			return
+
 		for filename in os.listdir(self._sessions_dir):
 			if not filename.endswith('.rdp'):
 				continue
@@ -64,7 +71,7 @@ class TsclientSessionSource(Source):
 			if os.path.isfile(obj_path):
 				name = filename[:-4]
 				description = self._load_descr_from_session_file(obj_path)
-				yield TsclientSessionLeaf(obj_path, name, description)
+				yield TsclientSession(obj_path, name, description)
 
 	def get_description(self):
 		return _("Session saved in Terminal Server Client")
@@ -73,7 +80,7 @@ class TsclientSessionSource(Source):
 		return "tsclient"
 
 	def provides(self):
-		yield TsclientSessionLeaf
+		yield TsclientSession
 
 	def _load_descr_from_session_file(self, filepath):
 		user = None
@@ -83,15 +90,18 @@ class TsclientSessionSource(Source):
 				for line in session_file:
 					if line.startswith('full address:s:'):
 						host = line.split(':s:', 2)[1].strip()
+
 					elif line.startswith('username:s:'):
 						user = line.split(':s:', 2)[1].strip()
-		except Exception, err:
-			print err
+
+		except IOError, err:
+			self.output_error(err)
 
 		else:
-			return user + '@' + host if user else host
+			if host:
+				return unicode(user + '@' + host if user else host)
 
-		return 'TSClient; session'
+		return u'Terminal Server Client Session'
 
 
 
