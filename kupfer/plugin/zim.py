@@ -3,11 +3,13 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import Leaf, Action, Source, TextLeaf, FilesystemWatchMixin, TextSource
+from kupfer.objects import (Leaf, Action, Source, TextLeaf,
+		FilesystemWatchMixin, TextSource, AppLeafContentMixin)
 from kupfer import utils
 
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
+__kupfer_contents__ = ("ZimPagesSource", )
 __kupfer_actions__ = ("CreateZimPage", )
 __description__ = _("Access to Pages stored in Zim - A Desktop Wiki and Outliner")
 __version__ = "0.2"
@@ -112,8 +114,10 @@ class CreateZimSubPage(Action):
 		return TextSource()
 
 
-class ZimPagesSource(Source):
+class ZimPagesSource(AppLeafContentMixin, Source):
 	''' Index pages in all Zim notebooks '''
+	appleaf_content_id = "zim"
+
 	def __init__(self, name=_("Zim Pages")):
 		Source.__init__(self, name)
 		# path to file with list notebooks
