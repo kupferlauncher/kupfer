@@ -167,8 +167,24 @@ def build(bld):
 		chmod = 0755,
 		dict = {"PYTHON": bld.env["PYTHON"]}
 		)
+	# Documentation
+	if bld.env["RST2MAN"]:
+		# generate man page from Quickstart.rst
+		bld.new_task_gen(
+			source = "Documentation/Quickstart.rst",
+			target = "kupfer.1",
+			rule = 'rst2man ${SRC} > ${TGT}',
+		)
+		bld.add_group()
+		# compress and install man page
+		bld.new_task_gen(
+			source = "kupfer.1",
+			target = "kupfer.1.gz",
+			rule = 'gzip -c ${SRC} > ${TGT}',
+			install_path = "${MANDIR}/man1",
+		)
 
-	bld.add_subdirs("po data Documentation extras")
+	bld.add_subdirs("po data extras")
 
 def intlupdate(util):
 	"""Extract new strings for localization"""
