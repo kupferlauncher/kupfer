@@ -4,11 +4,13 @@ from __future__ import with_statement
 import os
 import urllib
 
-from kupfer.objects import Leaf, Action, Source, TextSource, FilesystemWatchMixin
+from kupfer.objects import (Leaf, Action, Source, TextSource, FilesystemWatchMixin,
+		AppLeafContentMixin)
 from kupfer import utils
 
 __kupfer_name__ = _("PuTTY Sessions")
 __kupfer_sources__ = ("PuttySessionSource", )
+__kupfer_contents__= ("PuttySessionSource", )
 __description__ = _("Quick access to PuTTY Sessions")
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -43,7 +45,9 @@ class PuttyOpenSession(Action):
 		return 'putty'
 
 
-class PuttySessionSource(Source, FilesystemWatchMixin):
+class PuttySessionSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+	appleaf_content_id = 'putty'
+
 	''' indexes session saved in putty '''
 	def __init__(self, name=_("PuTTY Sessions")):
 		super(PuttySessionSource, self).__init__(name)

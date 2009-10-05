@@ -4,11 +4,13 @@ import re
 import urllib
 from xml.dom import minidom
 
-from kupfer.objects import Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf, FilesystemWatchMixin
+from kupfer.objects import (Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf, 
+		FilesystemWatchMixin, AppLeafContentMixin)
 from kupfer import utils
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
+__kupfer_contents__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
 __description__ = _("Claws Mail Contacts and Actions")
 __version__ = "0.2"
@@ -104,7 +106,9 @@ class NewMailAction(Action):
 		return False
 
 
-class ClawsContactsSource(Source, FilesystemWatchMixin):
+class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+	appleaf_content_id = 'claws-mail'
+
 	def __init__(self, name=_("Claws Mail Address Book")):
 		Source.__init__(self, name)
 		self._claws_addrbook_dir = os.path.expanduser('~/.claws-mail/addrbook')

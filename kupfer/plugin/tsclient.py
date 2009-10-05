@@ -3,11 +3,13 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import Leaf, Action, Source, FilesystemWatchMixin
+from kupfer.objects import (Leaf, Action, Source, FilesystemWatchMixin, 
+		AppLeafContentMixin)
 from kupfer import utils
 
 __kupfer_name__ = _("Terminal Server Client")
 __kupfer_sources__ = ("TsclientSessionSource", )
+__kupfer_contents__ = ("TsclientSessionSource", )
 __description__ = _("Session saved in Terminal Server Client")
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -43,7 +45,9 @@ class TsclientOpenSession(Action):
 		return 'tsclient'
 
 
-class TsclientSessionSource(Source, FilesystemWatchMixin):
+class TsclientSessionSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+	appleaf_content_id = 'tsclient'
+
 	''' indexes session saved in tsclient '''
 	def __init__(self, name=_("TSClient sessions")):
 		Source.__init__(self, name)
