@@ -314,17 +314,18 @@ find the installed translations unless you make a symlink called
 ``~/.local/share/locale`` if install prefix was ``~/.local``).
 
 
-.. topic:: Copyright
+Copyright
+=========
 
-    The program Kupfer is released under the
-    `GNU General Public Licence v3`:t: (or at your option, any later
-    version). Please see the main program file for more information.
+The program Kupfer is released under the
+`GNU General Public Licence v3`:t: (or at your option, any later
+version). Please see the main program file for more information.
 
-    This documentation is released under the same terms as the main
-    program. The documentation sources are available inside the Kupfer
-    source distribution.
+This documentation is released under the same terms as the main
+program. The documentation sources are available inside the Kupfer
+source distribution.
 
-    Copyright 2009, Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+Copyright 2009, Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 
 .. vim: ft=rst tw=72
 .. this document best viewed with::
