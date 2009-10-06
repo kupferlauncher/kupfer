@@ -104,7 +104,7 @@ class SystemServicesSource(Source, FilesystemWatchMixin, PicklingHelperMixin):
 		self.monitor_token = self.monitor_directories(self._initd_path)
 
 	def monitor_include_file(self, gfile):
-		return gfile and not gfile.get_basename() in self.BLACK_LIST
+		return gfile and not gfile.get_basename() in _SERVICES_BLACK_LIST
 
 	def get_items(self):
 		if self._initd_path is None:
