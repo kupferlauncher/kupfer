@@ -38,16 +38,15 @@ TODO:
 def _start_zim(notebook, page):
 	''' Start zim and open given notebook and page. '''
 	cli = "zim '%s' '%s'" % (notebook, page.replace("'", "_"))
-	print cli
 	utils.launch_commandline(cli)
 
 
 class ZimPage(Leaf):
 	""" Represent single Zim page """
-	def __init__(self, page_id, page_name, notebook_id, notebook_name):
+	def __init__(self, page_id, page_name, notebook_path, notebook_name):
 		Leaf.__init__(self, page_id, page_name)
 		self.page = page_name
-		self.notebook = notebook_id
+		self.notebook = notebook_path
 		self.notebook_name = notebook_name
 
 	def get_actions(self):
@@ -106,7 +105,7 @@ class OpenZimPage(Action):
 		Action.__init__(self, _('Open Zim Page'))
 
 	def activate(self, leaf):
-		_start_zim(leaf.notebook_name, leaf.page)
+		_start_zim(leaf.notebook, leaf.page)
 
 	def get_icon_name(self):
 		return 'document-open'
@@ -121,7 +120,7 @@ class CreateZimSubPage(Action):
 		Action.__init__(self, _('Create Subpage...'))
 
 	def activate(self, leaf, iobj):
-		_start_zim(leaf.notebook_name, leaf.page + ":" + iobj.object.strip(':'))
+		_start_zim(leaf.notebook, leaf.page + ":" + iobj.object.strip(':'))
 
 	def get_icon_name(self):
 		return 'document-new'
@@ -188,7 +187,6 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 	def get_items(self):
 		strip_name_first_colon = not __kupfer_settings__["page_name_starts_colon"]
 		for notebook_name, notebook_path in _get_zim_notebooks():
-			notebook_file = os.path.join(notebook_path, "notebook.zim")
 			for root, dirs, files in os.walk(notebook_path):
 				# find pages in notebook
 				for filename in files:
@@ -205,7 +203,7 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 					page_name = (page_name
 							.replace(os.path.sep, u":")
 							.replace(u"_", u" "))
-					yield ZimPage(file_path, page_name, notebook_file,
+					yield ZimPage(file_path, page_name, notebook_path,
 							notebook_name)
 
 	def get_description(self):
