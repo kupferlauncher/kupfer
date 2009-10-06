@@ -1,0 +1,1229 @@
+# Spanish translations for the kupfer package
+# 简体中文翻译
+# Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the kupfer package. (GPLv3)
+# Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer beta\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-10-06 18:58+0800\n"
+"PO-Revision-Date: 2009-10-06 18:58+0800\n"
+"Last-Translator: lh <jarryson#gmail.com>\n"
+"Language-Team: Chinese (simplified)\n\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/kupfer.desktop.in.in.h:1
+msgid "Application Launcher"
+msgstr "程序加载器"
+
+#: ../data/kupfer.desktop.in.in.h:2
+msgid "Convenient command and access tool for applications and documents"
+msgstr "方便的命令和操作程序或文档的工具"
+
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1281
+#: ../kupfer/browser.py:1312 ../kupfer/plugin/core.py:183
+#: ../kupfer/version.py:15
+msgid "Kupfer"
+msgstr "Kupfer"
+
+#: ../data/preferences.ui.h:1
+msgid "<b>Directories</b>"
+msgstr "<b>目录</b>"
+
+#: ../data/preferences.ui.h:2
+msgid "<b>Interface</b>"
+msgstr "<b>界面</b>"
+
+#: ../data/preferences.ui.h:3
+msgid "<b>Keybinding</b>"
+msgstr "<b>快捷键</b>"
+
+#: ../data/preferences.ui.h:4
+msgid "<b>Start</b>"
+msgstr "<b>开始</b>"
+
+#: ../data/preferences.ui.h:5
+msgid "<i>Plugins activate after restart</i>"
+msgstr "<i>默认启用的插件</i>"
+
+#: ../data/preferences.ui.h:6
+msgid "General"
+msgstr "杂项"
+
+#: ../data/preferences.ui.h:7 ../kupfer/plugin/core.py:170
+msgid "Kupfer Preferences"
+msgstr "首选项"
+
+#: ../data/preferences.ui.h:8
+msgid "Plugins"
+msgstr "插件"
+
+#: ../data/preferences.ui.h:9
+msgid "Show icon in notification area"
+msgstr "在系统通知区域显示图标"
+
+#: ../data/preferences.ui.h:10
+msgid "Start automatically on login"
+msgstr "登录后自启动"
+
+#: ../kupfer/browser.py:665
+#, python-format
+msgid "%s is empty"
+msgstr "%s是空的"
+
+#: ../kupfer/browser.py:667
+#, python-format
+msgid "No matches in %s for \"%s\""
+msgstr "在%s中没有符合\"%s\"的"
+
+#: ../kupfer/browser.py:673
+msgid "Searching..."
+msgstr "搜索中..."
+
+#: ../kupfer/browser.py:679
+#, python-format
+msgid "Searching %(source)s..."
+msgstr "搜索%(source)s..."
+
+#: ../kupfer/main.py:35
+msgid "do not present main interface on launch"
+msgstr "启动后不显示主界面"
+
+#: ../kupfer/main.py:38
+msgid "show usage help"
+msgstr "显示用法帮助"
+
+#: ../kupfer/main.py:39
+msgid "show version information"
+msgstr "显示版本信息"
+
+#: ../kupfer/main.py:40
+msgid "enable debug info"
+msgstr "显示Debug信息"
+
+#: ../kupfer/main.py:52
+msgid "Usage: kupfer [OPTIONS | QUERY]"
+msgstr "用法：kupfer [选项|查询]"
+
+#: ../kupfer/main.py:55
+msgid "To configure kupfer, edit:"
+msgstr "配置kupfer，编辑："
+
+#: ../kupfer/main.py:56
+msgid "The default config for reference is at:"
+msgstr "参考默认配置："
+
+#: ../kupfer/main.py:57
+msgid "Available plugins:"
+msgstr "可用插件："
+
+#: ../kupfer/main.py:113
+#, python-format
+msgid ""
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"\t%(COPYRIGHT)s\n"
+"\t%(WEBSITE)s\n"
+msgstr ""
+
+#: ../kupfer/objects.py:197
+msgid "No matches"
+msgstr "无符合"
+
+#: ../kupfer/objects.py:533 ../kupfer/objects.py:595 ../kupfer/objects.py:610
+#: ../kupfer/plugin/notes.py:70
+msgid "Open"
+msgstr "打开"
+
+#: ../kupfer/objects.py:533 ../kupfer/objects.py:542 ../kupfer/objects.py:545
+#: ../kupfer/objects.py:558
+#, python-format
+msgid "Open with %s"
+msgstr "用%s打开"
+
+#: ../kupfer/objects.py:576
+msgid "Open URL"
+msgstr "打开链接"
+
+#: ../kupfer/objects.py:587
+msgid "Open URL with default viewer"
+msgstr "用默认查看器打开链接"
+
+#: ../kupfer/objects.py:602
+msgid "Open with default viewer"
+msgstr "用默认查看器打开"
+
+#: ../kupfer/objects.py:613
+msgid "Open folder"
+msgstr "打开文件夹"
+
+#: ../kupfer/objects.py:619
+msgid "Reveal"
+msgstr "显示"
+
+#: ../kupfer/objects.py:628
+msgid "Open parent folder"
+msgstr "打开所在目录"
+
+#: ../kupfer/objects.py:634
+msgid "Open Terminal Here"
+msgstr "在此处开启终端"
+
+#: ../kupfer/objects.py:643
+msgid "Open this location in a terminal"
+msgstr "在终端中进入这个位置"
+
+#: ../kupfer/objects.py:656
+msgid "Launch"
+msgstr "加载"
+
+#: ../kupfer/objects.py:666
+msgid "Launch application"
+msgstr "加载程序"
+
+#: ../kupfer/objects.py:673 ../kupfer/plugin/windows.py:49
+msgid "Go To"
+msgstr "转到"
+
+#: ../kupfer/objects.py:677
+msgid "Show application window"
+msgstr "显示程序窗口"
+
+#: ../kupfer/objects.py:686
+msgid "Launch Again"
+msgstr "再次加载"
+
+#: ../kupfer/objects.py:690
+msgid "Launch another instance of this application"
+msgstr "再开启一个此程序"
+
+#: ../kupfer/objects.py:697
+msgid "Run in Terminal"
+msgstr "终端中打开"
+
+#: ../kupfer/objects.py:697
+msgid "Run"
+msgstr "运行"
+
+#: ../kupfer/objects.py:711
+msgid "Run this program in a Terminal"
+msgstr "在终端中运行此程序"
+
+#: ../kupfer/objects.py:713
+msgid "Run this program"
+msgstr "运行这个程序"
+
+#: ../kupfer/objects.py:721
+msgid "No action"
+msgstr "无操作"
+
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/objects.py:837 ../kupfer/plugin/rhythmbox.py:220
+#, python-format
+msgid "%s et. al."
+msgstr "%s et. al."
+
+#: ../kupfer/objects.py:867
+#, python-format
+msgid "Recursive source of %(dir)s, (%(levels)d levels)"
+msgstr "%(dir)s有%(levels)d层"
+
+#: ../kupfer/objects.py:915
+#, python-format
+msgid "Directory source %s"
+msgstr "文件夹来源%s"
+
+#: ../kupfer/objects.py:931
+msgid "Catalog Index"
+msgstr "类别索引"
+
+#: ../kupfer/objects.py:946
+msgid "An index of all available sources"
+msgstr "一个所有可用资源的索引"
+
+#: ../kupfer/objects.py:957
+msgid "Catalog"
+msgstr "类别"
+
+#: ../kupfer/objects.py:976
+msgid "Root catalog"
+msgstr "主类别"
+
+#: ../kupfer/objects.py:1053
+msgid "Do"
+msgstr "执行"
+
+#: ../kupfer/objects.py:1058
+msgid "Perform action"
+msgstr "执行操作"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#: ../kupfer/objects.py:1082
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "\"%(text)s\""
+msgstr[1] "(%(num)d Zeilen) \"%(text)s\""
+
+#: ../kupfer/objects.py:1094 ../kupfer/plugin/text.py:18
+msgid "Text Matches"
+msgstr "符合的文本文件"
+
+#: ../kupfer/plugin_support.py:5
+msgid "Include in top level"
+msgstr "放到结果顶端"
+
+#: ../kupfer/plugin_support.py:9
+msgid ""
+"If enabled, objects from the plugin's source(s) will be available in the top "
+"level.\n"
+"Sources are always available as subcatalogs in the top level."
+msgstr ""
+
+#: ../kupfer/plugin/abiword.py:12
+msgid "Abiword"
+msgstr "Abiword"
+
+#: ../kupfer/plugin/abiword.py:15 ../kupfer/plugin/abiword.py:103
+msgid "Recently used documents in Abiword"
+msgstr "Abiword最近使用的文档"
+
+#: ../kupfer/plugin/abiword.py:56
+msgid "Abiword Recent Items"
+msgstr "Abiword最近的项目"
+
+#: ../kupfer/plugin/applications.py:9 ../kupfer/plugin/applications.py:37
+msgid "Applications"
+msgstr "应用程序"
+
+#: ../kupfer/plugin/applications.py:15 ../kupfer/plugin/applications.py:60
+msgid "All applications and preferences"
+msgstr "所有的应用程序和设置"
+
+#: ../kupfer/plugin/applications.py:22
+msgid "Applications for Desktop Environment"
+msgstr "桌面环境的应用程序"
+
+#: ../kupfer/plugin/applications.py:69
+msgid "Open With..."
+msgstr "打开方式..."
+
+#: ../kupfer/plugin/applications.py:80
+msgid "Open with any application"
+msgstr "以其他程序打开"
+
+#: ../kupfer/plugin/applications.py:84
+msgid "Set Default Application..."
+msgstr "设置默认程序..."
+
+#: ../kupfer/plugin/applications.py:99
+msgid "Set default application to open this file type"
+msgstr "设置打开此类文件的默认程序"
+
+#: ../kupfer/plugin/calculator.py:9
+msgid "Calculator"
+msgstr "计算器"
+
+#: ../kupfer/plugin/calculator.py:11
+msgid "Calculate expressions starting with '='"
+msgstr "输入'='开始计算"
+
+#: ../kupfer/plugin/calculator.py:34
+msgid "Calculate"
+msgstr "计算"
+
+#: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:39
+msgid "Clipboards"
+msgstr "剪切板"
+
+#: ../kupfer/plugin/clipboard.py:12 ../kupfer/plugin/clipboard.py:65
+msgid "Recent clipboards"
+msgstr "最近的剪切板"
+
+#: ../kupfer/plugin/clipboard.py:19
+msgid "Number of recent clipboards"
+msgstr "最近剪切板的数目"
+
+#: ../kupfer/plugin/clipboard.py:31
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "剪切板 \"%(desc)s\""
+msgstr[1] "剪切板 %(num)d 行 \"%(desc)s\""
+
+#: ../kupfer/plugin/clipboard.py:75
+msgid "Copy"
+msgstr "复制"
+
+#: ../kupfer/plugin/clipboard.py:82
+msgid "Copy to clipboard"
+msgstr "复制到剪切板"
+
+#: ../kupfer/plugin/commands.py:10 ../kupfer/plugin/commands.py:36
+msgid "Shell Commands"
+msgstr "命令行"
+
+#: ../kupfer/plugin/commands.py:13 ../kupfer/plugin/commands.py:55
+msgid "Run commandline programs"
+msgstr "运行命令行程序"
+
+#: ../kupfer/plugin/common.py:9
+msgid "Common"
+msgstr "内容"
+
+#: ../kupfer/plugin/common.py:11
+msgid "Special items and actions"
+msgstr "特定项目和操作"
+
+#: ../kupfer/plugin/common.py:29
+msgid "Log Out..."
+msgstr "登出..."
+
+#: ../kupfer/plugin/common.py:35
+msgid "Log out or change user"
+msgstr "登出或者更改用户"
+
+#: ../kupfer/plugin/common.py:42
+msgid "Shut Down..."
+msgstr "关机..."
+
+#: ../kupfer/plugin/common.py:49
+msgid "Shut down, restart or suspend computer"
+msgstr "关机，重启或者待机"
+
+#: ../kupfer/plugin/common.py:56
+msgid "Lock Screen"
+msgstr "锁住屏幕"
+
+#: ../kupfer/plugin/common.py:62
+msgid "Enable screensaver and lock"
+msgstr "启用屏保和锁屏"
+
+#: ../kupfer/plugin/common.py:94
+msgid "Restore"
+msgstr "还原"
+
+#: ../kupfer/plugin/common.py:109
+msgid "Move file back to original location"
+msgstr "移动文件回原来的位置"
+
+#: ../kupfer/plugin/common.py:174
+msgid "Trash is empty"
+msgstr "回收站为空"
+
+#. proper translation of plural
+#: ../kupfer/plugin/common.py:176
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "回收站有一个文件"
+msgstr[1] "回收站有%(num)s个文件"
+
+#: ../kupfer/plugin/common.py:180
+msgid "Special Items"
+msgstr "特定项目"
+
+#: ../kupfer/plugin/common.py:195
+msgid "Items and special actions"
+msgstr "项目和特定操作"
+
+#: ../kupfer/plugin/core.py:25
+msgid "Search Content..."
+msgstr "搜索内容..."
+
+#: ../kupfer/plugin/core.py:40
+msgid "Search inside this catalog"
+msgstr "在此类别中搜索"
+
+#: ../kupfer/plugin/core.py:48
+msgid "Rescan"
+msgstr "重新检索"
+
+#: ../kupfer/plugin/core.py:57
+msgid "Force reindex of this source"
+msgstr "强行重新索引这个资源"
+
+#: ../kupfer/plugin/core.py:148
+msgid "Quit"
+msgstr "退出"
+
+#: ../kupfer/plugin/core.py:153
+msgid "Quit Kupfer"
+msgstr "退出Kupfer"
+
+#: ../kupfer/plugin/core.py:159
+msgid "About Kupfer"
+msgstr "关于Kupfer"
+
+#: ../kupfer/plugin/core.py:164
+msgid "Show information about Kupfer authors and license"
+msgstr "显示有关Kupfer作者和协议信息"
+
+#: ../kupfer/plugin/core.py:177
+msgid "Show preferences window for Kupfer"
+msgstr "显示Kupfer首选项窗口"
+
+#: ../kupfer/plugin/core.py:194
+msgid "Kupfer items and actions"
+msgstr "Kupfer的项目和动作"
+
+#: ../kupfer/plugin/devhelp.py:4
+msgid "Devhelp"
+msgstr "开发帮助"
+
+#: ../kupfer/plugin/devhelp.py:6 ../kupfer/plugin/devhelp.py:12
+msgid "Search in Devhelp"
+msgstr "在开发帮助中查找"
+
+#: ../kupfer/plugin/dictionary.py:4
+msgid "Dictionary"
+msgstr "字典"
+
+#: ../kupfer/plugin/dictionary.py:6 ../kupfer/plugin/dictionary.py:23
+msgid "Look up word in dictionary"
+msgstr "在字典中查找单词"
+
+#: ../kupfer/plugin/dictionary.py:12 ../kupfer/plugin/dictionary.py:16
+msgid "Look Up"
+msgstr "寻找"
+
+#: ../kupfer/plugin/documents.py:12
+msgid "Documents"
+msgstr "文档"
+
+#: ../kupfer/plugin/documents.py:15
+msgid "Recently used documents and nautilus places"
+msgstr "最近打开的文件和位置"
+
+#: ../kupfer/plugin/documents.py:22
+msgid "Max recent document days"
+msgstr "最大最近文档天数"
+
+#: ../kupfer/plugin/documents.py:32
+msgid "Recent Items"
+msgstr "最近的项目"
+
+#: ../kupfer/plugin/documents.py:78
+msgid "Recently used documents"
+msgstr "最近打开文档"
+
+#: ../kupfer/plugin/documents.py:88
+#, python-format
+msgid "%s Documents"
+msgstr "%s个文档"
+
+#: ../kupfer/plugin/documents.py:113
+#, python-format
+msgid "Recently used documents for %s"
+msgstr "%s最近使用的文档"
+
+#: ../kupfer/plugin/documents.py:132
+msgid "Places"
+msgstr "位置"
+
+#: ../kupfer/plugin/documents.py:164
+msgid "Bookmarked locations in Nautilus"
+msgstr "文件管理器书签位置"
+
+#: ../kupfer/plugin/epiphany.py:5 ../kupfer/plugin/epiphany.py:19
+msgid "Epiphany Bookmarks"
+msgstr "Epiphany书签"
+
+#: ../kupfer/plugin/epiphany.py:8 ../kupfer/plugin/epiphany.py:28
+msgid "Index of Epiphany bookmarks"
+msgstr "Epiphany书签的索引"
+
+#: ../kupfer/plugin/image.py:9
+msgid "Image Tools"
+msgstr "图片工具"
+
+#: ../kupfer/plugin/image.py:18
+msgid "Image transformation tools"
+msgstr "图片转换工具"
+
+#: ../kupfer/plugin/image.py:27
+msgid "Scale..."
+msgstr "缩放..."
+
+#: ../kupfer/plugin/image.py:79
+msgid "Scale image to fit inside given pixel measure(s)"
+msgstr "缩放图像来适合内部指定的像素"
+
+#: ../kupfer/plugin/image.py:109
+msgid "Rotate Clockwise"
+msgstr "顺时针旋转"
+
+#: ../kupfer/plugin/image.py:116
+msgid "Rotate Counter-Clockwise"
+msgstr "逆时针旋转"
+
+#: ../kupfer/plugin/image.py:123
+msgid "Autorotate"
+msgstr "自动旋转"
+
+#: ../kupfer/plugin/image.py:152
+msgid "Rotate JPEG (in-place) according to its EXIF metadata"
+msgstr "根据自身EXIF数据旋转JPEG文件"
+
+#: ../kupfer/plugin/favorites.py:9 ../kupfer/plugin/favorites.py:25
+msgid "Favorites"
+msgstr "收藏"
+
+#: ../kupfer/plugin/favorites.py:12
+msgid "(Simple) favorites plugin"
+msgstr "(简单的)收藏插件"
+
+#: ../kupfer/plugin/favorites.py:53
+msgid "Shelf of \"Favorite\" items"
+msgstr "项目的\"收藏\"夹"
+
+#: ../kupfer/plugin/favorites.py:80
+msgid "Add to Favorites"
+msgstr "添加到收藏"
+
+#: ../kupfer/plugin/favorites.py:88
+msgid "Add item to favorites shelf"
+msgstr "添加项目到收藏夹"
+
+#: ../kupfer/plugin/favorites.py:94
+msgid "Remove from Favorites"
+msgstr "从收藏中删除"
+
+#: ../kupfer/plugin/favorites.py:102
+msgid "Remove item from favorites shelf"
+msgstr "从收藏夹中删除项目"
+
+#: ../kupfer/plugin/fileactions.py:10
+msgid "File Actions"
+msgstr "文件操作"
+
+#: ../kupfer/plugin/fileactions.py:22
+msgid "More file actions"
+msgstr "更多文件操作"
+
+#: ../kupfer/plugin/fileactions.py:29
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "'创建压缩包'的压缩档案类型"
+
+#: ../kupfer/plugin/fileactions.py:46
+msgid "Move to Trash"
+msgstr "移动到回收站"
+
+#: ../kupfer/plugin/fileactions.py:54
+msgid "Move this file to trash"
+msgstr "移动这个文件到回收站"
+
+#: ../kupfer/plugin/fileactions.py:82
+msgid "Move To..."
+msgstr "移动到..."
+
+#: ../kupfer/plugin/fileactions.py:109
+msgid "Move file to new location"
+msgstr "移动文件到一个新位置"
+
+#: ../kupfer/plugin/fileactions.py:120 ../kupfer/plugin/fileactions.py:142
+msgid "Rename To..."
+msgstr "改名..."
+
+#: ../kupfer/plugin/fileactions.py:182
+msgid "Copy To..."
+msgstr "复制到..."
+
+#: ../kupfer/plugin/fileactions.py:216
+msgid "Copy file to a chosen location"
+msgstr "复制文件到一个选择好的位置"
+
+#: ../kupfer/plugin/fileactions.py:220
+msgid "Extract Here"
+msgstr "解压到这里"
+
+#: ../kupfer/plugin/fileactions.py:234
+msgid "Extract compressed archive"
+msgstr "解压压缩包"
+
+#: ../kupfer/plugin/fileactions.py:238
+msgid "Create Archive"
+msgstr "创建压缩包"
+
+#: ../kupfer/plugin/fileactions.py:248 ../kupfer/plugin/fileactions.py:274
+msgid "Create a compressed archive from folder"
+msgstr "将文件夹打包"
+
+#: ../kupfer/plugin/fileactions.py:252
+msgid "Create Archive In..."
+msgstr "创建压缩包..."
+
+#: ../kupfer/plugin/firefox.py:5 ../kupfer/plugin/firefox.py:19
+msgid "Firefox Bookmarks"
+msgstr "火狐浏览器书签"
+
+#: ../kupfer/plugin/firefox.py:8 ../kupfer/plugin/firefox.py:27
+msgid "Index of Firefox bookmarks"
+msgstr "火狐浏览器书签索引"
+
+#: ../kupfer/plugin/google.py:11
+msgid "Search the Web"
+msgstr "搜索互联网"
+
+#: ../kupfer/plugin/google.py:18 ../kupfer/plugin/google.py:97
+#: ../kupfer/plugin/google.py:124
+msgid "Search the web with OpenSearch search engines"
+msgstr "使用OpenSearch搜索引擎搜索互联网"
+
+#: ../kupfer/plugin/google.py:78
+msgid "Search With..."
+msgstr "搜索方式..."
+
+#: ../kupfer/plugin/google.py:107
+msgid "Search For..."
+msgstr "搜索内容..."
+
+#: ../kupfer/plugin/google.py:145
+msgid "Search Engines"
+msgstr "搜索引擎"
+
+#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:19
+msgid "Locate Files"
+msgstr "查找文件"
+
+#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:29
+msgid "Search filesystem using locate"
+msgstr "使用locate查找文件系统"
+
+#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/tracker.py:97
+#, python-format
+msgid "Results for \"%s\""
+msgstr "\"%s\"的结果"
+
+#. return a constant rank key despite the changing name
+#: ../kupfer/plugin/nautilusselection.py:10
+#: ../kupfer/plugin/nautilusselection.py:25
+#: ../kupfer/plugin/nautilusselection.py:34
+msgid "Selected File"
+msgstr "选择的文件"
+
+#: ../kupfer/plugin/nautilusselection.py:12
+msgid "Provides current nautilus selection, using Kupfer's Nautilus Extension"
+msgstr "提供当前Nautilus的选择，使用Nautilus扩展"
+
+#: ../kupfer/plugin/nautilusselection.py:21
+#, python-format
+msgid "Selected File \"%s\""
+msgstr "选择文件\"%s\""
+
+#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:152
+msgid "Notes"
+msgstr "便笺"
+
+#: ../kupfer/plugin/notes.py:24
+msgid "Gnote or Tomboy notes"
+msgstr "Gnote或者Tomboy便笺"
+
+#: ../kupfer/plugin/notes.py:33
+msgid "Work with application"
+msgstr "和应用程序一同工作"
+
+#: ../kupfer/plugin/notes.py:76
+msgid "Open with notes application"
+msgstr "用便笺程序打开"
+
+#: ../kupfer/plugin/notes.py:83
+msgid "Append to Note..."
+msgstr "添加到便笺..."
+
+#: ../kupfer/plugin/notes.py:106
+msgid "Add text to existing note"
+msgstr "添加文本到已有的便笺"
+
+#: ../kupfer/plugin/notes.py:112
+msgid "Create Note"
+msgstr "创建便笺"
+
+#: ../kupfer/plugin/notes.py:126
+msgid "Create a new note from this text"
+msgstr "用此文本创建新的便笺"
+
+#. TRANS: Note description, %s is last changed time in locale format
+#: ../kupfer/plugin/notes.py:140
+#, python-format
+msgid "Last updated %s"
+msgstr "最后更新 %s"
+
+#: ../kupfer/plugin/rhythmbox.py:12 ../kupfer/plugin/rhythmbox.py:350
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:17 ../kupfer/plugin/rhythmbox.py:386
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "播放，新增音轨，浏览媒体库"
+
+#: ../kupfer/plugin/rhythmbox.py:24
+msgid "Include artists in top level"
+msgstr "把艺术家放到顶端"
+
+#: ../kupfer/plugin/rhythmbox.py:30
+msgid "Include albums in top level"
+msgstr "把专辑放到顶端"
+
+#: ../kupfer/plugin/rhythmbox.py:36
+msgid "Include songs in top level"
+msgstr "把歌曲放到顶端"
+
+#: ../kupfer/plugin/rhythmbox.py:65 ../kupfer/plugin/rhythmbox.py:118
+msgid "Play"
+msgstr "播放"
+
+#: ../kupfer/plugin/rhythmbox.py:69
+msgid "Resume playback in Rhythmbox"
+msgstr "恢复Rhythmbox的播放"
+
+#: ../kupfer/plugin/rhythmbox.py:75
+msgid "Pause"
+msgstr "暂停"
+
+#: ../kupfer/plugin/rhythmbox.py:79
+msgid "Pause playback in Rhythmbox"
+msgstr "暂停Rhythmbox的播放"
+
+#: ../kupfer/plugin/rhythmbox.py:85
+msgid "Next"
+msgstr "下一首"
+
+#: ../kupfer/plugin/rhythmbox.py:89
+msgid "Jump to next track in Rhythmbox"
+msgstr "跳到下一首歌曲"
+
+#: ../kupfer/plugin/rhythmbox.py:95
+msgid "Previous"
+msgstr "前一首"
+
+#: ../kupfer/plugin/rhythmbox.py:99
+msgid "Jump to previous track in Rhythmbox"
+msgstr "跳到前一首歌曲"
+
+#: ../kupfer/plugin/rhythmbox.py:105
+msgid "Show Playing"
+msgstr "显示正在播放"
+
+#: ../kupfer/plugin/rhythmbox.py:109
+msgid "Tell which song is currently playing"
+msgstr "显示正在播放的歌曲"
+
+#: ../kupfer/plugin/rhythmbox.py:131
+msgid "Play tracks in Rhythmbox"
+msgstr "在Rhythmbox里面播放音轨"
+
+#: ../kupfer/plugin/rhythmbox.py:137
+msgid "Enqueue"
+msgstr "打开"
+
+#: ../kupfer/plugin/rhythmbox.py:148
+msgid "Add tracks to the play queue"
+msgstr "新增音轨到播放队列"
+
+#. TRANS: Song description
+#: ../kupfer/plugin/rhythmbox.py:170
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "演唱 %(artist)s 属于 %(album)s"
+
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:223
+#, python-format
+msgid "by %s"
+msgstr "演唱 %s"
+
+#. TRANS: Artist songs collection description
+#: ../kupfer/plugin/rhythmbox.py:262
+#, python-format
+msgid "Tracks by %s"
+msgstr "音轨演唱%s"
+
+#: ../kupfer/plugin/rhythmbox.py:272
+msgid "Albums"
+msgstr "专辑"
+
+#: ../kupfer/plugin/rhythmbox.py:282
+msgid "Music albums in Rhythmbox Library"
+msgstr "媒体库中的音乐专辑"
+
+#: ../kupfer/plugin/rhythmbox.py:293
+msgid "Artists"
+msgstr "艺术家"
+
+#: ../kupfer/plugin/rhythmbox.py:303
+msgid "Music artists in Rhythmbox Library"
+msgstr "媒体库中的音乐艺术家"
+
+#: ../kupfer/plugin/rhythmbox.py:330
+msgid "Songs"
+msgstr "歌曲"
+
+#: ../kupfer/plugin/rhythmbox.py:340
+msgid "Songs in Rhythmbox library"
+msgstr "媒体库中的歌曲"
+
+#: ../kupfer/plugin/screen.py:6 ../kupfer/plugin/screen.py:96
+msgid "GNU Screen"
+msgstr "GNU Screen"
+
+#: ../kupfer/plugin/screen.py:8 ../kupfer/plugin/screen.py:81
+msgid "Active GNU Screen sessions"
+msgstr "启用GNU屏幕会话"
+
+#: ../kupfer/plugin/screen.py:48
+msgid "Attached"
+msgstr "附加"
+
+#: ../kupfer/plugin/screen.py:49
+msgid "Detached"
+msgstr "不附加"
+
+#: ../kupfer/plugin/screen.py:52
+#, python-format
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "%(status)s 会话 (%(pid)s) 创建 %(time)s"
+
+#: ../kupfer/plugin/screen.py:61
+msgid "Screen Sessions"
+msgstr "屏幕会话"
+
+#: ../kupfer/plugin/screen.py:91
+msgid "Attach"
+msgstr "附加"
+
+#. return a constant rank key despite the changing name
+#: ../kupfer/plugin/selection.py:7 ../kupfer/plugin/selection.py:26
+#: ../kupfer/plugin/selection.py:35
+msgid "Selected Text"
+msgstr "选中文本"
+
+#: ../kupfer/plugin/selection.py:9 ../kupfer/plugin/selection.py:52
+msgid "Provides current selection"
+msgstr "提供当前选中"
+
+#: ../kupfer/plugin/selection.py:22
+#, python-format
+msgid "Selected Text \"%s\""
+msgstr "选中文本\"%s\""
+
+#: ../kupfer/plugins.py:56
+msgid "(no description)"
+msgstr "(无描述)"
+
+#: ../kupfer/plugins.py:75
+#, python-format
+msgid "  %(name)-20s %(version)-4s %(description)s"
+msgstr "  %(name)-20s %(version)-4s %(description)s"
+
+#: ../kupfer/plugin/text.py:8
+msgid "Free-text Queries"
+msgstr "自由文本查询"
+
+#: ../kupfer/plugin/text.py:11
+msgid "Basic support for free-text queries"
+msgstr "自由文本查询的基础支持"
+
+#: ../kupfer/plugin/text.py:31
+msgid "Filesystem Text Matches"
+msgstr "文件系统文本的符合"
+
+#: ../kupfer/plugin/text.py:49
+msgid "URL Text Matches"
+msgstr "超链接文本的符合"
+
+#: ../kupfer/plugin/tracker.py:9
+msgid "Tracker"
+msgstr "Tracker"
+
+#: ../kupfer/plugin/tracker.py:18
+msgid "Tracker desktop search integration"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:28
+msgid "Search in Tracker"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:33
+msgid "Open Tracker Search Tool and search for this term"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:42
+msgid "Get Tracker Results..."
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:51
+msgid "Show Tracker results for query"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:128 ../kupfer/plugin/tracker.py:134
+msgid "Tracker tags"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:143
+msgid "Tracker Tags"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:149
+msgid "Browse Tracker's tags"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:160 ../kupfer/plugin/tracker.py:167
+#, python-format
+msgid "Tag %s"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:174
+#, python-format
+msgid "Objects tagged %s with Tracker"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:186
+msgid "Add Tag..."
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:212
+msgid "Add tracker tag to file"
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:218
+msgid "Remove Tag..."
+msgstr ""
+
+#: ../kupfer/plugin/tracker.py:237
+msgid "Remove tracker tag from file"
+msgstr ""
+
+#: ../kupfer/plugin/wikipedia.py:10
+msgid "Wikipedia"
+msgstr "维基百科"
+
+#: ../kupfer/plugin/wikipedia.py:13 ../kupfer/plugin/wikipedia.py:30
+msgid "Search in Wikipedia"
+msgstr "在维基百科中搜索"
+
+#: ../kupfer/plugin/wikipedia.py:20
+msgid "Wikipedia language"
+msgstr "维基百科语言"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:23
+msgid "en"
+msgstr "zh"
+
+#: ../kupfer/plugin/wikipedia.py:43
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "在%s.wikipedia.org中搜索项目"
+
+#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:91
+msgid "Window List"
+msgstr "窗口列表"
+
+#: ../kupfer/plugin/windows.py:9 ../kupfer/plugin/windows.py:112
+msgid "All windows on all workspaces"
+msgstr "所有工作区的所有窗口"
+
+#: ../kupfer/plugin/windows.py:18
+msgid "Activate"
+msgstr "激活"
+
+#: ../kupfer/plugin/windows.py:20
+msgid "Unshade"
+msgstr "取消缩起"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Shade"
+msgstr "缩起"
+
+#: ../kupfer/plugin/windows.py:24
+msgid "Unminimize"
+msgstr "恢复"
+
+#: ../kupfer/plugin/windows.py:26
+msgid "Minimize"
+msgstr "最小化"
+
+#: ../kupfer/plugin/windows.py:28
+msgid "Unmaximize"
+msgstr "还原"
+
+#: ../kupfer/plugin/windows.py:30
+msgid "Maximize"
+msgstr "最大化"
+
+#: ../kupfer/plugin/windows.py:32
+msgid "Unmaximize Vertically"
+msgstr "垂直最大化还原"
+
+#: ../kupfer/plugin/windows.py:35
+msgid "Maximize Vertically"
+msgstr "垂直最大化"
+
+#: ../kupfer/plugin/windows.py:37
+msgid "Close"
+msgstr "关闭"
+
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:43
+#, python-format
+msgid "Window on %(wkspc)s"
+msgstr "窗口在%(wkspc)s"
+
+#: ../kupfer/plugin/windows.py:58
+msgid "Jump to this window's workspace and focus"
+msgstr "跳转到此窗口所在工作区并激活此窗口"
+
+#: ../kupfer/plugin/urlactions.py:7 ../kupfer/plugin/urlactions.py:14
+msgid "URL Actions"
+msgstr "超链接操作"
+
+#: ../kupfer/plugin/urlactions.py:56
+msgid "Download and Open"
+msgstr "下载和打开"
+
+#: ../kupfer/plugin/urlactions.py:74
+msgid "Download To..."
+msgstr "下载到..."
+
+#: ../kupfer/plugin/urlactions.py:91
+msgid "Download URL to a chosen location"
+msgstr "下载超链接到一个选择好的位置"
+
+#: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:72
+msgid "Volumes and Disks"
+msgstr "磁盘和分区"
+
+#: ../kupfer/plugin/volumes.py:8 ../kupfer/plugin/volumes.py:82
+msgid "Mounted volumes and disks"
+msgstr "挂载的磁盘和分区"
+
+#: ../kupfer/plugin/volumes.py:36
+#, python-format
+msgid "Volume mounted at %s"
+msgstr "分区挂载到%s"
+
+#: ../kupfer/plugin/volumes.py:44
+msgid "Unmount"
+msgstr "卸载"
+
+#: ../kupfer/plugin/volumes.py:59
+msgid "Unmount this volume"
+msgstr "卸载此分区"
+
+#: ../kupfer/plugin/volumes.py:66
+msgid "Eject"
+msgstr "弹出"
+
+#: ../kupfer/plugin/volumes.py:69
+msgid "Unmount and eject this media"
+msgstr "卸载和弹出此媒体"
+
+#: ../kupfer/preferences.py:218
+msgid "Applied"
+msgstr "已生效"
+
+#: ../kupfer/preferences.py:223
+msgid "Keybinding could not be bound"
+msgstr "Keybinding组件未找到"
+
+#. TRANS: Plugin info fields
+#: ../kupfer/preferences.py:275
+msgid "Description"
+msgstr "描述"
+
+#: ../kupfer/preferences.py:275
+msgid "Author"
+msgstr "作者"
+
+#: ../kupfer/preferences.py:291
+msgid "Version"
+msgstr "版本"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/preferences.py:353
+msgid "Sources"
+msgstr "资源"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/preferences.py:357
+msgid "Actions"
+msgstr "操作"
+
+#. TRANS: Plugin-specific configuration (header)
+#: ../kupfer/preferences.py:383
+msgid "Configuration"
+msgstr "配置"
+
+#. TRANS: File Chooser Title
+#: ../kupfer/preferences.py:448
+msgid "Choose a Directory"
+msgstr "选择一个目录"
+
+#: ../kupfer/version.py:33
+msgid "translator-credits"
+msgstr "lh <jarrson#gmail.com>"
+
+#: ../kupfer/version.py:37
+msgid "A free software (GPLv3+) launcher"
+msgstr "一个免费的软件(GPLv3+)加载器"
+
+#: ../kupfer/version.py:40
+msgid ""
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+msgstr ""
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Usage:"
+#~ msgstr "Benutzung:"
+
+#~ msgid ""
+#~ "%(program)s: %(desc)s\n"
+#~ "\t%(copyright)s\n"
+#~ "\t%(website)s\n"
+#~ msgstr ""
+#~ "%(program)s: %(desc)s\n"
+#~ "\t%(copyright)s\n"
+#~ "\t%(website)s\n"
+
+#~ msgid "Settings for %s"
+#~ msgstr "Einstellungen für \"%s\""
+
+#~ msgid "Core"
+#~ msgstr "Nucleo"
+
+#~ msgid "%d lines"
+#~ msgstr "%d lineas"
+
+#~ msgid "Clipboard"
+#~ msgstr "Portapapeles"
