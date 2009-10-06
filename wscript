@@ -188,7 +188,6 @@ def build(bld):
 
 def intlupdate(util):
 	"""Extract new strings for localization"""
-	os.popen("intltool-extract --type=gettext/glade data/preferences.ui")
 	os.chdir("po")
 	for line in open("LINGUAS"):
 		""" Run xgettext for all listed languages

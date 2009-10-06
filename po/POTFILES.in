@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 data/kupfer.desktop.in.in
-data/preferences.ui.h
+[type: gettext/glade] data/preferences.ui
 kupfer/browser.py
 kupfer/data.py
 kupfer/main.py
