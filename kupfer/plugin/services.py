@@ -122,6 +122,9 @@ class SystemServicesSource(Source, FilesystemWatchMixin, PicklingHelperMixin):
 
 			yield Service(file_path, _("%s Service") % filename)
 
+	def should_sort_lexically(self):
+		return True
+
 	def get_icon_name(self):
 		return "applications-system"
 
