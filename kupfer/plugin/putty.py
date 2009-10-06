@@ -4,8 +4,8 @@ from __future__ import with_statement
 import os
 import urllib
 
-from kupfer.objects import (Leaf, Action, Source, TextSource, FilesystemWatchMixin,
-		AppLeafContentMixin)
+from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import utils
 
 __kupfer_name__ = _("PuTTY Sessions")
@@ -45,10 +45,12 @@ class PuttyOpenSession(Action):
 		return 'putty'
 
 
-class PuttySessionSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+class PuttySessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
+		FilesystemWatchMixin):
+	''' indexes session saved in putty '''
+
 	appleaf_content_id = 'putty'
 
-	''' indexes session saved in putty '''
 	def __init__(self, name=_("PuTTY Sessions")):
 		super(PuttySessionSource, self).__init__(name)
 		self._putty_sessions_dir = os.path.expanduser('~/.putty/sessions')
