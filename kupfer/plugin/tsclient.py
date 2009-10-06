@@ -3,8 +3,8 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import (Leaf, Action, Source, FilesystemWatchMixin, 
-		AppLeafContentMixin)
+from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import utils
 
 __kupfer_name__ = _("Terminal Server Client")
@@ -45,10 +45,12 @@ class TsclientOpenSession(Action):
 		return 'tsclient'
 
 
-class TsclientSessionSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+class TsclientSessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
+		FilesystemWatchMixin):
+	''' indexes session saved in tsclient '''
+
 	appleaf_content_id = 'tsclient'
 
-	''' indexes session saved in tsclient '''
 	def __init__(self, name=_("TSClient sessions")):
 		Source.__init__(self, name)
 		self._sessions_dir = os.path.expanduser('~/.tsclient')
