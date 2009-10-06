@@ -7,7 +7,7 @@ import glib
 
 from kupfer.objects import (Leaf, Action, Source, TextLeaf,
 		FilesystemWatchMixin, TextSource, AppLeafContentMixin)
-from kupfer import utils, pretty, icons
+from kupfer import utils, pretty, icons, plugin_support
 
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
@@ -20,6 +20,14 @@ __description__ = _("Access to Pages stored in Zim - A Desktop Wiki and Outliner
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "page_name_starts_colon",
+		"label": _("Page names starts with ':'"),
+		"type": bool,
+		"value": False,
+	},
+)
 
 '''
 TODO:
@@ -30,6 +38,7 @@ TODO:
 def _start_zim(notebook, page):
 	''' Start zim and open given notebook and page. '''
 	cli = "zim '%s' '%s'" % (notebook, page.replace("'", "_"))
+	print cli
 	utils.launch_commandline(cli)
 
 
@@ -97,7 +106,7 @@ class OpenZimPage(Action):
 		Action.__init__(self, _('Open Zim Page'))
 
 	def activate(self, leaf):
-		_start_zim(leaf.notebook, leaf.page)
+		_start_zim(leaf.notebook_name, leaf.page)
 
 	def get_icon_name(self):
 		return 'document-open'
@@ -112,7 +121,7 @@ class CreateZimSubPage(Action):
 		Action.__init__(self, _('Create Subpage...'))
 
 	def activate(self, leaf, iobj):
-		_start_zim(leaf.notebook, leaf.page + ":" + iobj.object.strip(':'))
+		_start_zim(leaf.notebook_name, leaf.page + ":" + iobj.object.strip(':'))
 
 	def get_icon_name(self):
 		return 'document-new'
@@ -159,7 +168,7 @@ class ZimNotebooksSource (Source):
 
 	def get_items(self):
 		for name, path in _get_zim_notebooks():
-			yield ZimNotebook(path, name)
+			yield ZimNotebook(name, name)
 
 	def get_icon_name(self):
 		return "zim"
@@ -177,6 +186,7 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 		self._version = 2
 
 	def get_items(self):
+		strip_name_first_colon = not __kupfer_settings__["page_name_starts_colon"]
 		for notebook_name, notebook_path in _get_zim_notebooks():
 			notebook_file = os.path.join(notebook_path, "notebook.zim")
 			for root, dirs, files in os.walk(notebook_path):
@@ -190,8 +200,9 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 					# Ask GLib for the correct unicode representation
 					# of the page's filename
 					page_name = glib.filename_display_name(page_name)
+					if strip_name_first_colon:
+						page_name = page_name.lstrip(os.path.sep)
 					page_name = (page_name
-							.lstrip(os.path.sep)
 							.replace(os.path.sep, u":")
 							.replace(u"_", u" "))
 					yield ZimPage(file_path, page_name, notebook_file,
