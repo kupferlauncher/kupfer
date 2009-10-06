@@ -93,7 +93,7 @@ class OpenZimPage(Action):
 class CreateZimSubPage(Action):
 	""" Open Zim page  """
 	def __init__(self):
-		Action.__init__(self, _('Create Zim SubPage'))
+		Action.__init__(self, _('Create Subpage...'))
 
 	def activate(self, leaf, iobj):
 		_start_zim(leaf.notebook, leaf.page + ":" + iobj.object.strip(':'))
