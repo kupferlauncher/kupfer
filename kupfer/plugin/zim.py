@@ -7,12 +7,15 @@ import glib
 
 from kupfer.objects import (Leaf, Action, Source, TextLeaf,
 		FilesystemWatchMixin, TextSource, AppLeafContentMixin)
-from kupfer import utils
+from kupfer import utils, pretty, icons
 
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
 __kupfer_contents__ = ("ZimPagesSource", )
-__kupfer_actions__ = ("CreateZimPage", )
+__kupfer_actions__ = (
+		"CreateZimPage",
+		"CreateZimPageInNotebook",
+	)
 __description__ = _("Access to Pages stored in Zim - A Desktop Wiki and Outliner")
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -50,14 +53,28 @@ class ZimPage(Leaf):
 
 
 class CreateZimPage(Action):
-	''' create new page '''
-	rank_adjust = 5
-
+	""" Create new page in default notebook """
 	def __init__(self):
-		Action.__init__(self, _('Create Zim Page as SubPage of'))
+		Action.__init__(self, _('Create Zim Page'))
+
+	def activate(self, leaf):
+		_start_zim("_default_", ":" + leaf.object.strip(':'))
+
+	def get_description(self):
+		return _("Create page in default notebook")
+	def get_icon_name(self):
+		return 'document-new'
+
+	def item_types(self):
+		yield TextLeaf
+
+class CreateZimPageInNotebook(Action):
+	""" Create new page in default notebook """
+	def __init__(self):
+		Action.__init__(self, _('Create Zim Page In...'))
 
 	def activate(self, leaf, iobj):
-		_start_zim(iobj.notebook, iobj.page + ":" + leaf.object.strip(':'))
+		_start_zim(iobj.object, ":" + leaf.object.strip(':'))
 
 	def get_icon_name(self):
 		return 'document-new'
@@ -67,13 +84,10 @@ class CreateZimPage(Action):
 
 	def requires_object(self):
 		return True
-
 	def object_types(self):
-		yield ZimPage
-
+		yield ZimNotebook
 	def object_source(self, for_item=None):
-		return ZimPagesSource()
-
+		return ZimNotebooksSource()
 
 class OpenZimPage(Action):
 	""" Open Zim page  """
@@ -115,6 +129,43 @@ class CreateZimSubPage(Action):
 	def object_source(self, for_item=None):
 		return TextSource()
 
+def _get_zim_notebooks():
+	''' Yield (notebook name, notebook path) from zim config
+
+	@notebook_name: Unicode name
+	@notebook_path: Filesystem byte string
+	'''
+	# We assume the notebook description is UTF-8 encoded
+	zim_notebooks_file = os.path.expanduser('~/.config/zim/notebooks.list')
+	try:
+		with open(zim_notebooks_file, 'r') as noteboks_file:
+			for line in noteboks_file.readlines():
+				if not line.startswith('_default_'):
+					notebook_name, notebook_path = line.strip().split('\t', 2)
+					notebook_name = notebook_name.decode("UTF-8", "replace")
+					notebook_path = os.path.expanduser(notebook_path)
+					yield (notebook_name, notebook_path)
+
+	except IOError, err:
+		pretty.print_error(err)
+
+class ZimNotebook (Leaf):
+	def get_gicon(self):
+		return icons.get_gicon_for_file(self.object)
+
+class ZimNotebooksSource (Source):
+	def __init__(self):
+		Source.__init__(self, _("Zim Notebooks"))
+
+	def get_items(self):
+		for name, path in _get_zim_notebooks():
+			yield ZimNotebook(path, name)
+
+	def get_icon_name(self):
+		return "zim"
+
+	def provides(self):
+		yield ZimNotebook
 
 class ZimPagesSource(AppLeafContentMixin, Source):
 	''' Index pages in all Zim notebooks '''
@@ -123,11 +174,10 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 	def __init__(self, name=_("Zim Pages")):
 		Source.__init__(self, name)
 		# path to file with list notebooks
-		self._zim_notebooks_file = os.path.expanduser('~/.config/zim/notebooks.list')
 		self._version = 2
 
 	def get_items(self):
-		for notebook_name, notebook_path in self._get_notebooks():
+		for notebook_name, notebook_path in _get_zim_notebooks():
 			notebook_file = os.path.join(notebook_path, "notebook.zim")
 			for root, dirs, files in os.walk(notebook_path):
 				# find pages in notebook
@@ -155,23 +205,4 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 
 	def provides(self):
 		yield ZimPage
-
-	def _get_notebooks(self):
-		''' Yield (notebook name, notebook path) from zim config
-
-		@notebook_name: Unicode name
-		@notebook_path: Filesystem byte string
-		'''
-		# We assume the notebook description is UTF-8 encoded
-		try:
-			with open(self._zim_notebooks_file, 'r') as noteboks_file:
-				for line in noteboks_file.readlines():
-					if not line.startswith('_default_'):
-						notebook_name, notebook_path = line.strip().split('\t', 2)
-						notebook_name = notebook_name.decode("UTF-8", "replace")
-						notebook_path = os.path.expanduser(notebook_path)
-						yield (notebook_name, notebook_path)
-
-		except IOError, err:
-			self.output_error(err)
 
