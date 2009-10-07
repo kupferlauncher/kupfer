@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: UTF-8 -*-
 import os
 import re
 import urllib

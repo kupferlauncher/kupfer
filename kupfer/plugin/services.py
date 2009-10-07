@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: UTF-8 -*-
 import os
 
 from kupfer import plugin_support
