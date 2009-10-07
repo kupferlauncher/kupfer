@@ -90,7 +90,7 @@ class ChangeStatus(Action):
 	rank_adjust = 5
 
 	def __init__(self):
-		Action.__init__(self, _('Change Gajim global Status...'))
+		Action.__init__(self, _('Change Global Status To...'))
 
 	def activate(self, leaf, iobj):
 		interface = _create_dbus_connection((iobj.object != 'offline'))

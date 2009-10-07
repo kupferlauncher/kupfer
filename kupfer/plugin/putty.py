@@ -36,7 +36,7 @@ class PuttySession(Leaf):
 class PuttyOpenSession(Action):
 	''' opens putty session '''
 	def __init__(self):
-		Action.__init__(self, _('Start PuTTY Session'))
+		Action.__init__(self, _('Start Session'))
 
 	def activate(self, leaf):
 		utils.launch_commandline("putty -load '%s'" % leaf.object)
@@ -74,7 +74,7 @@ class PuttySessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 				yield PuttySession(name, description)
 
 	def get_description(self):
-		return _("Session saved in Putty")
+		return None
 
 	def get_icon_name(self):
 		return "putty"
@@ -99,7 +99,8 @@ class PuttySessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 
 		else:
 			if host:
-				return unicode(user + '@' + host if user else host)
+				return unicode(user + '@' + host if user else host, "UTF-8",
+						"replace")
 
 		return u'PuTTY Session'
 

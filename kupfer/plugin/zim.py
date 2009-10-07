@@ -16,14 +16,15 @@ __kupfer_actions__ = (
 		"CreateZimPage",
 		"CreateZimPageInNotebook",
 	)
-__description__ = _("Access to Pages stored in Zim - A Desktop Wiki and Outliner")
+__description__ = _("Access to Pages stored in Zim - "
+                    "A Desktop Wiki and Outliner")
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "page_name_starts_colon",
-		"label": _("Page names starts with ':'"),
+		"label": _("Page names start with :colon"),
 		"type": bool,
 		"value": False,
 	},
@@ -102,7 +103,7 @@ class OpenZimPage(Action):
 	rank_adjust = 10
 
 	def __init__(self):
-		Action.__init__(self, _('Open Zim Page'))
+		Action.__init__(self, _('Open'))
 
 	def activate(self, leaf):
 		_start_zim(leaf.notebook, leaf.page)

@@ -74,7 +74,7 @@ class ReceiveMail(RunnableLeaf):
 class NewMailAction(Action):
 	''' Createn new mail to selected leaf (ClawsContact or TextLeaf)'''
 	def __init__(self):
-		Action.__init__(self, _('Compose New Mail to'))
+		Action.__init__(self, _('Compose New Mail To'))
 
 	def activate(self, leaf):
 		email = leaf.object
@@ -151,7 +151,7 @@ class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 		yield ReceiveMail()
 
 	def get_description(self):
-		return _("Contacts from Claw Mail Address Book")
+		return _("Contacts from Claws Mail Address Book")
 
 	def get_icon_name(self):
 		return "claws-mail"

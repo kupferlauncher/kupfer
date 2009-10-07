@@ -8,7 +8,7 @@ from kupfer import utils
 
 __kupfer_name__ = _("System Services")
 __kupfer_sources__ = ("SystemServicesSource", )
-__description__ = _("Start/stop/restart System Services via scripts in /etc/*/init.d/ and *sudo")
+__description__ = _("Start, stop or restart system services via init scripts")
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(

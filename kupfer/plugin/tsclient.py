@@ -36,7 +36,7 @@ class TsclientSession(Leaf):
 class TsclientOpenSession(Action):
 	''' opens tsclient session '''
 	def __init__(self):
-		Action.__init__(self, _('Start Terminal Server Session'))
+		Action.__init__(self, _('Start Session'))
 
 	def activate(self, leaf):
 		utils.launch_commandline("tsclient -x '%s'" % leaf.object)
@@ -80,7 +80,7 @@ class TsclientSessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 				yield TsclientSession(obj_path, name, description)
 
 	def get_description(self):
-		return _("Session saved in Terminal Server Client")
+		return _("Saved sessions in Terminal Server Client")
 
 	def get_icon_name(self):
 		return "tsclient"
@@ -105,7 +105,8 @@ class TsclientSessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 
 		else:
 			if host:
-				return unicode(user + '@' + host if user else host)
+				return unicode(user + '@' + host if user else host, "UTF-8",
+						"replace")
 
 		return u'Terminal Server Client Session'
 
