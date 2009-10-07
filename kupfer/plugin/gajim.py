@@ -26,14 +26,20 @@ _STATUSES = {
 }
 
 
-def _create_dbus_connection():
-	''' Create dbus connection to Gajim '''
+def _create_dbus_connection(activate=False):
+	''' Create dbus connection to Gajim 
+		@activate: true=starts gajim if not running
+	'''
 	interface = None
 	sbus = dbus.SessionBus()
 	try:
-		obj = sbus.get_object('org.gajim.dbus', '/org/gajim/dbus/RemoteObject')
-		if obj:
-			interface = dbus.Interface(obj, 'org.gajim.dbus.RemoteInterface')
+		#check for running gajim (code from note.py)
+		proxy_obj = sbus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
+		dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
+		if activate or dbus_iface.NameHasOwner('org.gajim.dbus'):
+			obj = sbus.get_object('org.gajim.dbus', '/org/gajim/dbus/RemoteObject')
+			if obj:
+				interface = dbus.Interface(obj, 'org.gajim.dbus.RemoteInterface')
 
 	except dbus.exceptions.DBusException, err:
 		pretty.print_debug(err)
@@ -87,7 +93,7 @@ class ChangeStatus(Action):
 		Action.__init__(self, _('Change Gajim global Status...'))
 
 	def activate(self, leaf, iobj):
-		interface = _create_dbus_connection()
+		interface = _create_dbus_connection((iobj.object != 'offline'))
 		if interface:
 			interface.change_status(iobj.object, '', '')
 
