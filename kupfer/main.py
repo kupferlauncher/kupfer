@@ -1,5 +1,6 @@
 import gettext
 import locale
+import sys
 
 _debug = False
 
@@ -40,7 +41,6 @@ def get_options():
 		("debug", _("enable debug info")),
 	]
 
-	import sys
 	import getopt
 	def make_help_text():
 		from kupfer import config, plugins
@@ -129,6 +129,7 @@ def main():
 
 	if _debug:
 		pretty.debug = _debug
+	sys.excepthook = sys.__excepthook__
 
 	w = browser.WindowController()
 
