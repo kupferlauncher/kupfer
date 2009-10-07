@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-07 13:45+0200\n"
+"POT-Creation-Date: 2009-10-07 23:56+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -93,19 +93,19 @@ msgstr "Söker..."
 msgid "Searching %(source)s..."
 msgstr "Söker i %(source)s..."
 
-#: ../kupfer/main.py:35
+#: ../kupfer/main.py:36
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
 
-#: ../kupfer/main.py:38
+#: ../kupfer/main.py:39
 msgid "show usage help"
 msgstr "visa hjälpmeddelande"
 
-#: ../kupfer/main.py:39
+#: ../kupfer/main.py:40
 msgid "show version information"
 msgstr "visa programversion"
 
-#: ../kupfer/main.py:40
+#: ../kupfer/main.py:41
 msgid "enable debug info"
 msgstr "felsökningsläge"
 
@@ -141,7 +141,7 @@ msgid "No matches"
 msgstr "Inga träffar"
 
 #: ../kupfer/objects.py:525 ../kupfer/objects.py:586 ../kupfer/objects.py:601
-#: ../kupfer/plugin/notes.py:70
+#: ../kupfer/plugin/notes.py:70 ../kupfer/plugin/zim.py:106
 msgid "Open"
 msgstr "Öppna"
 
@@ -334,11 +334,11 @@ msgstr "Beräkna"
 
 #: ../kupfer/plugin/clawsmail.py:11
 msgid "Claws Mail"
-msgstr ""
+msgstr "Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:15
 msgid "Claws Mail Contacts and Actions"
-msgstr ""
+msgstr "Claws Mail-kontakter och kommandon"
 
 #: ../kupfer/plugin/clawsmail.py:47
 msgid "Compose New Mail"
@@ -357,7 +357,7 @@ msgid "Receive new mail from all accounts by ClawsMail"
 msgstr ""
 
 #: ../kupfer/plugin/clawsmail.py:77
-msgid "Compose New Mail to"
+msgid "Compose New Mail To"
 msgstr ""
 
 #: ../kupfer/plugin/clawsmail.py:112
@@ -365,7 +365,7 @@ msgid "Claws Mail Address Book"
 msgstr ""
 
 #: ../kupfer/plugin/clawsmail.py:154
-msgid "Contacts from Claw Mail Address Book"
+msgid "Contacts from Claws Mail Address Book"
 msgstr ""
 
 #: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:39
@@ -667,16 +667,15 @@ msgstr "Index över Firefox-bokmärken"
 
 #: ../kupfer/plugin/gajim.py:8
 msgid "Gajim"
-msgstr ""
+msgstr "Gajiim"
 
 #: ../kupfer/plugin/gajim.py:12
 msgid "Access to Gajim Contacts"
-msgstr ""
+msgstr "Tillgång till Gajim-kontakter"
 
 #: ../kupfer/plugin/gajim.py:19
-#, fuzzy
 msgid "Available"
-msgstr "Tillgängliga insticksmoduler:"
+msgstr "Tillgänglig"
 
 #: ../kupfer/plugin/gajim.py:20
 msgid "Free for Chat"
@@ -684,7 +683,7 @@ msgstr ""
 
 #: ../kupfer/plugin/gajim.py:21
 msgid "Away"
-msgstr ""
+msgstr "Frånvarande"
 
 #: ../kupfer/plugin/gajim.py:22
 msgid "Not Available"
@@ -692,32 +691,31 @@ msgstr ""
 
 #: ../kupfer/plugin/gajim.py:23
 msgid "Busy"
-msgstr ""
+msgstr "Stör inte"
 
 #: ../kupfer/plugin/gajim.py:24
 msgid "Invisible"
-msgstr ""
+msgstr "Osynlig"
 
 #: ../kupfer/plugin/gajim.py:25
 msgid "Offline"
-msgstr ""
+msgstr "Frånkopplad"
 
 #: ../kupfer/plugin/gajim.py:77
-#, fuzzy
 msgid "Open Chat"
-msgstr "Öppna"
+msgstr "Öppna chatt"
 
 #: ../kupfer/plugin/gajim.py:93
-msgid "Change Gajim global Status..."
-msgstr ""
+msgid "Change Global Status To..."
+msgstr "Ändra global status till..."
 
 #: ../kupfer/plugin/gajim.py:121
 msgid "Gajim Contacts"
-msgstr ""
+msgstr "Gajim-kontakter"
 
 #: ../kupfer/plugin/gajim.py:148
 msgid "Gajim Account Status"
-msgstr ""
+msgstr "Gajim status"
 
 #: ../kupfer/plugin/google.py:11
 msgid "Search the Web"
@@ -853,21 +851,16 @@ msgid "Last updated %s"
 msgstr "Senast ändrad %s"
 
 #: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:54
-#, fuzzy
 msgid "PuTTY Sessions"
-msgstr "Screen-sessioner"
+msgstr "PuTTY-sessioner"
 
 #: ../kupfer/plugin/putty.py:14
 msgid "Quick access to PuTTY Sessions"
-msgstr ""
+msgstr "Snabb access till PuTTY-sessioner"
 
-#: ../kupfer/plugin/putty.py:39
-msgid "Start PuTTY Session"
-msgstr ""
-
-#: ../kupfer/plugin/putty.py:77
-msgid "Session saved in Putty"
-msgstr ""
+#: ../kupfer/plugin/putty.py:39 ../kupfer/plugin/tsclient.py:39
+msgid "Start Session"
+msgstr "Starta Session"
 
 #: ../kupfer/plugin/rhythmbox.py:12 ../kupfer/plugin/rhythmbox.py:350
 msgid "Rhythmbox"
@@ -1041,34 +1034,32 @@ msgstr "Markering \"%s\""
 
 #: ../kupfer/plugin/services.py:9 ../kupfer/plugin/services.py:92
 msgid "System Services"
-msgstr ""
+msgstr "Systemtjänster"
 
 #: ../kupfer/plugin/services.py:11
-msgid ""
-"Start/stop/restart System Services via scripts in /etc/*/init.d/ and *sudo"
-msgstr ""
+msgid "Start, stop or restart system services via init scripts"
+msgstr "Starta, stoppa eller starta om systemtjänster m.h.a initskript"
 
 #: ../kupfer/plugin/services.py:16
-#, fuzzy
 msgid "Sudo-like Command"
-msgstr "Skalkommandon"
+msgstr "Sudo-likt kommando"
 
 #: ../kupfer/plugin/services.py:74
 msgid "Start Service"
-msgstr ""
+msgstr "Starta tjänst"
 
 #: ../kupfer/plugin/services.py:80
 msgid "Restart Service"
-msgstr ""
+msgstr "Starta om tjänst"
 
 #: ../kupfer/plugin/services.py:86
 msgid "Stop Service"
-msgstr ""
+msgstr "Stoppa tjänst"
 
 #: ../kupfer/plugin/services.py:123
 #, python-format
 msgid "%s Service"
-msgstr ""
+msgstr "%s"
 
 #: ../kupfer/plugins.py:56
 msgid "(no description)"
@@ -1176,18 +1167,19 @@ msgstr "Ta bort tracker-tagg från filen"
 msgid "Terminal Server Client"
 msgstr "Öppna i terminalfönster"
 
-#: ../kupfer/plugin/tsclient.py:13 ../kupfer/plugin/tsclient.py:83
+#: ../kupfer/plugin/tsclient.py:13
 msgid "Session saved in Terminal Server Client"
-msgstr ""
-
-#: ../kupfer/plugin/tsclient.py:39
-msgid "Start Terminal Server Session"
 msgstr ""
 
 #: ../kupfer/plugin/tsclient.py:54
 #, fuzzy
 msgid "TSClient sessions"
 msgstr "Screen-sessioner"
+
+#: ../kupfer/plugin/tsclient.py:83
+#, fuzzy
+msgid "Saved sessions in Terminal Server Client"
+msgstr "Öppna i terminalfönster"
 
 #: ../kupfer/plugin/urlactions.py:7 ../kupfer/plugin/urlactions.py:14
 msgid "URL Actions"
@@ -1316,54 +1308,48 @@ msgstr "Avmontera och mata ut media"
 
 #: ../kupfer/plugin/zim.py:12
 msgid "Zim"
-msgstr ""
+msgstr "Zim"
 
 #: ../kupfer/plugin/zim.py:19
 msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
-msgstr ""
+msgstr "Tillgång till sidor i Zim"
 
-#: ../kupfer/plugin/zim.py:26
-msgid "Page names starts with ':'"
-msgstr ""
+#: ../kupfer/plugin/zim.py:27
+msgid "Page names start with :colon"
+msgstr "Sidnamn börjar med :kolon"
 
-#: ../kupfer/plugin/zim.py:57
+#: ../kupfer/plugin/zim.py:58
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
-msgstr ""
+msgstr "Zim-sida från anteckningsblock \"%s\""
 
-#: ../kupfer/plugin/zim.py:66
-#, fuzzy
+#: ../kupfer/plugin/zim.py:67
 msgid "Create Zim Page"
-msgstr "Skapa arkiv"
+msgstr "Skapa Zim-sida"
 
-#: ../kupfer/plugin/zim.py:72
+#: ../kupfer/plugin/zim.py:73
 msgid "Create page in default notebook"
-msgstr ""
+msgstr "Skapa sida i förvalt anteckningsblock"
 
-#: ../kupfer/plugin/zim.py:82
-#, fuzzy
+#: ../kupfer/plugin/zim.py:83
 msgid "Create Zim Page In..."
-msgstr "Skapa arkiv i..."
+msgstr "Skapa Zim-sida i..."
 
-#: ../kupfer/plugin/zim.py:105
-msgid "Open Zim Page"
-msgstr ""
-
-#: ../kupfer/plugin/zim.py:120
+#: ../kupfer/plugin/zim.py:121
 msgid "Create Subpage..."
-msgstr ""
+msgstr "Skapa undersida..."
 
-#: ../kupfer/plugin/zim.py:166
+#: ../kupfer/plugin/zim.py:167
 msgid "Zim Notebooks"
-msgstr ""
+msgstr "Zim-anteckingsblock"
 
-#: ../kupfer/plugin/zim.py:182
+#: ../kupfer/plugin/zim.py:183
 msgid "Zim Pages"
-msgstr ""
+msgstr "Zim-sidor"
 
-#: ../kupfer/plugin/zim.py:210
+#: ../kupfer/plugin/zim.py:211
 msgid "Pages stored in Zim Notebooks"
-msgstr ""
+msgstr "Sidor i Zim-anteckningsblock"
 
 #: ../kupfer/preferences.py:218
 msgid "Applied"
@@ -1443,4 +1429,3 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
-
