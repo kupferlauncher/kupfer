@@ -7,26 +7,6 @@ from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin
 from kupfer import pretty, plugin_support
 
-# try import vboxapi
-try:
-	import vboxapi
-except ImportError:
-	pretty.print_error('No vboxapi found...')
-	vboxapi = None
-
-# try to load xpcom from vbox sdk
-if vboxapi:
-	xpcom_path = vboxapi.VboxSdkDir+'/bindings/xpcom/python/'
-	xpcom_Exception = Exception
-	if os.path.isdir(xpcom_path):
-		sys.path.append(xpcom_path)
-		try:
-			import xpcom
-		except ImportError:
-			pretty.print_error('Cannot import xpcom')
-		else:
-			xpcom_Exception = xpcom.Exception
-
 __kupfer_name__ = _("VirtualBox")
 __kupfer_sources__ = ("VBoxMachinesSource", )
 __description__ = _("Control Sun VirtualBox Virtual Machines")
@@ -35,6 +15,20 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 )
+
+import vboxapi
+
+# try to load xpcom from vbox sdk
+xpcom_path = vboxapi.VboxSdkDir+'/bindings/xpcom/python/'
+xpcom_Exception = Exception
+if os.path.isdir(xpcom_path):
+	sys.path.append(xpcom_path)
+	try:
+		import xpcom
+	except ImportError:
+		pretty.print_error('Cannot import xpcom')
+	else:
+		xpcom_Exception = xpcom.Exception
 
 
 VM_POWEROFF = 0
