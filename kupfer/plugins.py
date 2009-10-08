@@ -7,6 +7,13 @@ content_decorators_attribute = "__kupfer_contents__"
 action_decorators_attribute = "__kupfer_actions__"
 settings_attribute = "__kupfer_settings__"
 
+info_attributes = [
+		"__kupfer_name__",
+		"__version__",
+		"__description__",
+		"__author__",
+	]
+
 def get_plugin_ids():
 	"""Enumerate possible plugin ids;
 	return a sequence of possible plugin ids, not
@@ -33,6 +40,15 @@ def get_plugin_ids():
 			pretty.print_error(exc)
 	return plugin_ids
 
+class FakePlugin (object):
+	def __init__(self, plugin_id, attributes, error_message):
+		self.is_fake_plugin = True
+		self.error_message = error_message
+		self.__name__ = plugin_id
+		vars(self).update(attributes)
+	def __repr__(self):
+		return "<%s %s>" % (type(self).__name__, self.__name__)
+
 def get_plugin_info():
 	"""Generator, yields dictionaries of plugin descriptions
 
@@ -48,7 +64,7 @@ def get_plugin_info():
 			plugin = import_plugin(plugin_name)
 			if not plugin:
 				continue
-			plugin = plugin.__dict__
+			plugin = vars(plugin)
 		except ImportError, e:
 			pretty.print_error(__name__, "import plugin '%s':" % plugin_name, e)
 			continue
@@ -77,6 +93,27 @@ def get_plugin_desc():
 
 imported_plugins = {}
 
+def import_fake_plugin(modpath):
+	"""
+	Return an object that has the plugin info attributes we can rescue
+	from a plugin raising on import.
+	"""
+	import pkgutil
+
+	loader = pkgutil.get_loader(modpath)
+	if not loader:
+		return None
+	env = {}
+	try:
+		eval(loader.get_code(), env)
+	except Exception, exc:
+		error = unicode(exc)
+	else:
+		error = None
+		pretty.print_error(__name__, "Fake plugin for good plugin", modpath)
+	attributes = dict((k, env.get(k)) for k in info_attributes)
+	return FakePlugin(modpath, attributes, error)
+
 def import_plugin(name):
 	"""Try to import the plugin from the package, 
 	and then from our plugin directories in $DATADIR
@@ -87,9 +124,18 @@ def import_plugin(name):
 		"""@pathcomps path components to the import"""
 		path = ".".join(pathcomps)
 		fromlist = pathcomps[-1:]
-		plugin = __import__(path, fromlist=fromlist)
-		pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
-		pretty.print_debug(__name__, "  from %s" % plugin.__file__)
+		try:
+			plugin = __import__(path, fromlist=fromlist)
+		except ImportError, exc:
+			# Try to find a fake plugin if it exists
+			plugin = import_fake_plugin(path)
+			if not plugin:
+				raise
+			pretty.print_error(__name__, "Could not import plugin '%s': %s" %
+					(plugin.__name__, exc))
+		else:
+			pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
+			pretty.print_debug(__name__, "  from %s" % plugin.__file__)
 		return plugin
 
 	plugin = None
@@ -108,11 +154,11 @@ def import_plugin(name):
 				plugin = importit((name,))
 			finally:
 				sys.path = oldpath
-	except ImportError:
+	except ImportError, e:
 		# Reraise to send this up
 		raise
 	except StandardError, e:
-		# catch any other error for plugins in data directories
+		# catch any other error for plugins and write traceback
 		import traceback
 		traceback.print_exc()
 		pretty.print_error(__name__, "Could not import plugin '%s'" % name)
