@@ -1389,7 +1389,8 @@ msgstr "Wybierz katalog"
 
 #: ../kupfer/version.py:36
 msgid "translator-credits"
-msgstr "podziękowania dla tłumaczy"
+msgstr "Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
+"Karol Będkowski <karol.bedkowski@gmail.com>"
 
 #: ../kupfer/version.py:40
 msgid "A free software (GPLv3+) launcher"
