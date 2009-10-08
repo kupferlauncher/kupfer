@@ -221,3 +221,14 @@ def initialize_plugin(plugin_name):
 		return
 	settings_dict.initialize(plugin_name)
 
+def get_plugin_error(plugin_name):
+	"""
+	Return None if plugin is loaded without error, else
+	return a string describing the error.
+	"""
+	try:
+		plugin = import_plugin(plugin_name)
+		if getattr(plugin, "is_fake_plugin", None):
+			return plugin.error_message
+	except ImportError, e:
+		return "'%s' is not a plugin" % plugin_name

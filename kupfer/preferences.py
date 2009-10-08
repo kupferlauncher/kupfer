@@ -292,6 +292,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 			infobox.pack_start(label, False)
 		about.pack_start(infobox, False)
 
+		# Check for plugin load error
+		error = plugins.get_plugin_error(plugin_id)
+		if error:
+			label = gtk.Label()
+			label.set_alignment(0, 0)
+			label.set_markup(u"<b>%s</b>\n%s" %
+					(_("Plugin could not be read due to an error:"), error))
+			about.pack_start(label, False)
+
 		wid = self._make_plugin_info_widget(plugin_id)
 		about.pack_start(wid, False)
 		psettings_wid = self._make_plugin_settings_widget(plugin_id)
