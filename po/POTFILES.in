@@ -44,5 +44,6 @@ kupfer/plugin/wikipedia.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
 kupfer/plugin/zim.py
+kupfer/plugin/virtualbox.py
 kupfer/preferences.py
 kupfer/version.py
