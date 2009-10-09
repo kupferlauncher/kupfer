@@ -45,15 +45,20 @@ class BookmarksSource (AppLeafContentMixin, Source):
 			if files:
 				latest_file = (files.sort() or files)[-1]
 				fpath = os.path.join(dirloc, latest_file)
-		if not fpath:
-			fpath = firefox_support.get_firefox_home_file("bookmarks.html")
-		if not fpath:
-			self.output_error("No firefox bookmarks file found")
-			return []
-		if os.path.splitext(fpath)[-1] == ".json":
-			return self._get_ffx3_items(fpath)
-		elif os.path.splitext(fpath)[-1] == ".html":
+
+		if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
+			try:
+				return self._get_ffx3_items(fpath)
+			except Exception, exc:
+				# Catch JSON parse errors
+				# different exception for cjson and json
+				self.output_error(exc)
+
+		fpath = firefox_support.get_firefox_home_file("bookmarks.html")
+		if fpath:
 			return self._get_ffx2_items(fpath)
+
+		self.output_error("No firefox bookmarks file found")
 		return []
 
 	def get_description(self):
