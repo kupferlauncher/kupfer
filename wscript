@@ -4,6 +4,7 @@
 import os
 import sys
 import Configure
+import Options
 import Utils
 
 # the following two variables are used by the target "waf dist"
@@ -75,6 +76,8 @@ def set_options(opt):
 	opt.tool_options("gnu_dirs")
 	opt.add_option('--nopyo',action='store_false',default=False,help='Do not install optimised compiled .pyo files [This is the default for Kupfer]',dest='pyo')
 	opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
+	opt.add_option('--no-runtime-deps',action='store_false',default=True,
+			help='Do not check for any runtime dependencies',dest='check_deps')
 	opt.sub_options("extras")
 
 def configure(conf):
@@ -84,6 +87,13 @@ def configure(conf):
 
 	# BUG: intltool requires gcc
 	conf.check_tool("gcc intltool")
+
+	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
+	conf.env["VERSION"] = VERSION
+	conf.sub_config("extras")
+
+	if not Options.options.check_deps:
+		return
 
 	python_modules = """
 		gio
@@ -124,15 +134,11 @@ def configure(conf):
 			Utils.pprint("YELLOW", "module %s is recommended, allows %s" % (
 				mod, opt_pymodules[mod]))
 
-	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
-	conf.env["VERSION"] = VERSION
-
 	# Check sys.path
 	Utils.pprint("NORMAL", "Installing python modules into: %(PYTHONDIR)s" % conf.env)
 	pipe = os.popen("""%(PYTHON)s -c "import sys; print '%(PYTHONDIR)s' in sys.path" """ % conf.env)
 	if "False" in pipe.read():
 		Utils.pprint("YELLOW", "Please add %(PYTHONDIR)s to your sys.path!" % conf.env)
-	conf.sub_config("extras")
 
 def new_module(bld, name, sources=None):
 	if not sources: sources = name
