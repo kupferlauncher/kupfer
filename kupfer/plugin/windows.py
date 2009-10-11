@@ -1,6 +1,5 @@
 import gobject
 import gtk
-import wnck
 
 from kupfer.objects import Leaf, Action, Source
 
@@ -9,6 +8,10 @@ __kupfer_sources__ = ("WindowsSource", )
 __description__ = _("All windows on all workspaces")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+# "Critical" imports have to be imported past the plugin information
+# variables in Kupfer, else the plugin can't be shown if the import fails
+import wnck
 
 class WindowLeaf (Leaf):
 	def get_actions(self):
