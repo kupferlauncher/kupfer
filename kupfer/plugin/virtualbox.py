@@ -1,10 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-import os
-import sys
-
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
-from kupfer.helplib import FilesystemWatchMixin
 from kupfer import pretty, plugin_support
 
 __kupfer_name__ = _("VirtualBox")
@@ -31,7 +27,7 @@ def _get_object_session():
 		vbox = vboxapi.VirtualBoxManager(None, None)
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 	except Exception, err:
-		pretty.print_error('_get_object_session error ', err)
+		pretty.print_error('virtualbox: get session error ', err)
 
 	return vbox, session
 
@@ -43,7 +39,7 @@ def _get_existing_session(vm_uuid):
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 		vbox.vbox.openExistingSession(session, vm_uuid)
 	except Exception, err:
-		pretty.print_error('_get_existing_session error', err)
+		pretty.print_error('virtualbox: get session to %s error' % vm_uuid, err)
 
 	return vbox, session
 
