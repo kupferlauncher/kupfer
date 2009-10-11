@@ -18,18 +18,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 import vboxapi
 
-# try to load xpcom from vbox sdk
-xpcom_path = vboxapi.VboxSdkDir+'/bindings/xpcom/python/'
-xpcom_Exception = Exception
-if os.path.isdir(xpcom_path):
-	sys.path.append(xpcom_path)
-	try:
-		import xpcom
-	except ImportError:
-		pretty.print_error('Cannot import xpcom')
-	else:
-		xpcom_Exception = xpcom.Exception
-
 
 VM_POWEROFF = 0
 VM_POWERON = 1
@@ -39,27 +27,24 @@ VM_PAUSED = 2
 def _get_object_session():
 	''' get new session to vm '''
 	vbox, session = None, None
-	if vboxapi is not None:
-		try:
-			vbox = vboxapi.VirtualBoxManager(None, None)
-			session = vbox.mgr.getSessionObject(vbox.vbox)
-		except xpcom_Exception, err:
-			vbox = None
-			pretty.print_error('_get_object_session error ', err)
+	try:
+		vbox = vboxapi.VirtualBoxManager(None, None)
+		session = vbox.mgr.getSessionObject(vbox.vbox)
+	except Exception, err:
+		pretty.print_error('_get_object_session error ', err)
 
 	return vbox, session
 
 def _get_existing_session(vm_uuid):
 	''' get existing session by machine uuid '''
 	vbox, session = None, None
-	if vboxapi is not None:
-		try:
-			vbox = vboxapi.VirtualBoxManager(None, None)
-			session = vbox.mgr.getSessionObject(vbox.vbox)
-			vbox.vbox.openExistingSession(session, vm_uuid)
-		except xpcom_Exception, err:
-			vbox = None
-			pretty.print_error('_get_existing_session error', err)
+	try:
+		vbox = vboxapi.VirtualBoxManager(None, None)
+		session = vbox.mgr.getSessionObject(vbox.vbox)
+		vbox.vbox.openExistingSession(session, vm_uuid)
+	except Exception, err:
+		pretty.print_error('_get_existing_session error', err)
+
 	return vbox, session
 
 def _check_machine_state(vbox, vbox_sess, machine_id):
@@ -73,7 +58,7 @@ def _check_machine_state(vbox, vbox_sess, machine_id):
 		elif machine_state in (vbox.constants.MachineState_PoweredOff, vbox.constants.MachineState_Aborted,
 				vbox.constants.MachineState_Starting):
 			state = VM_POWEROFF
-	except xpcom_Exception, err: # exception == machine is off (xpcom.Exception)
+	except Exception, err: # exception == machine is off (xpcom.Exception)
 		# silently set state to off
 		state = VM_POWEROFF
 
@@ -132,11 +117,11 @@ class StartVM(_VMAction):
 
 	def activate(self, leaf):
 		vbox, session = _get_object_session()
-		if vbox:
+		if session:
 			try:
 				remote_sess = vbox.vbox.openRemoteSession(session, leaf.object, self.mode, '')
 				remote_sess.waitForCompletion(-1)
-			except xpcom_Exception, err: 
+			except Exception, err: 
 				pretty.print_error('StartVM: ' + self.name + " vm: " + leaf.name + " error", err)
 
 			if session.state == vbox.constants.SessionState_Open:
@@ -154,7 +139,7 @@ class StdVmAction(_VMAction):
 		if session:
 			try:
 				self.command(session.console)
-			except xpcom_Exception, err: 
+			except Exception, err: 
 				pretty.print_error('StdVmAction: ' + self.name + " vm: " + leaf.name + " error", err)
 			if session.state == vbox.constants.SessionState_Open:
 				session.close()
@@ -171,7 +156,7 @@ class VBoxMachinesSource(AppLeafContentMixin, Source):
 
 	def get_items(self):
 		vbox, vbox_sess = _get_object_session()
-		if vbox is None:
+		if vbox_sess is None:
 			return
 
 		machines = vbox.getArray(vbox.vbox, 'machines')
