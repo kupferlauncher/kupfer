@@ -1,11 +1,13 @@
+import os
+import re
+
 import gtk
 import gio
 import gobject
 import pango
-
 from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
-import os
+
 
 from kupfer import config, plugins, pretty, settings, utils, icons
 from kupfer import keybindings
@@ -295,6 +297,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 		# Check for plugin load error
 		error = plugins.get_plugin_error(plugin_id)
 		if error:
+			# TRANS: Error message when Plugin needs a Python module to load
+			import_error_localized = _("Python module '%s' is needed") % u"\\1"
+			import_error_pat = u"No module named ([^\s]+)"
+			if re.match(import_error_pat, error):
+				error = re.sub("No module named ([^\s]+)",
+						import_error_localized,
+						error, count=1)
 			label = gtk.Label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s</b>\n%s" %
