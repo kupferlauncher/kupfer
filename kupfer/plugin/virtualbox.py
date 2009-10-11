@@ -27,7 +27,7 @@ def _get_object_session():
 		vbox = vboxapi.VirtualBoxManager(None, None)
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 	except Exception, err:
-		pretty.print_error('virtualbox: get session error ', err)
+		pretty.print_error(__name__, 'virtualbox: get session error ', err)
 
 	return vbox, session
 
@@ -39,7 +39,8 @@ def _get_existing_session(vm_uuid):
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 		vbox.vbox.openExistingSession(session, vm_uuid)
 	except Exception, err:
-		pretty.print_error('virtualbox: get session to %s error' % vm_uuid, err)
+		pretty.print_error(__name__, 'virtualbox: get session to %s error' %
+				vm_uuid, err)
 
 	return vbox, session
 
@@ -118,7 +119,8 @@ class StartVM(_VMAction):
 				remote_sess = vbox.vbox.openRemoteSession(session, leaf.object, self.mode, '')
 				remote_sess.waitForCompletion(-1)
 			except Exception, err: 
-				pretty.print_error('StartVM: ' + self.name + " vm: " + leaf.name + " error", err)
+				pretty.print_error(__name__, "StartVM:", self.name,
+						"vm:", leaf.name, "error", err)
 
 			if session.state == vbox.constants.SessionState_Open:
 				session.close()
@@ -136,7 +138,8 @@ class StdVmAction(_VMAction):
 			try:
 				self.command(session.console)
 			except Exception, err: 
-				pretty.print_error('StdVmAction: ' + self.name + " vm: " + leaf.name + " error", err)
+				pretty.print_error(__name__, "StdVmAction:", self.name,
+						"vm:", leaf.name, "error", err)
 			if session.state == vbox.constants.SessionState_Open:
 				session.close()
 
