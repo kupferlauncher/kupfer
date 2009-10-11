@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-07 23:56+0200\n"
+"POT-Creation-Date: 2009-10-11 23:29+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -191,7 +191,7 @@ msgstr "Starta"
 msgid "Launch application"
 msgstr "Starta program"
 
-#: ../kupfer/objects.py:664 ../kupfer/plugin/windows.py:49
+#: ../kupfer/objects.py:664 ../kupfer/plugin/windows.py:52
 msgid "Go To"
 msgstr "Gå till"
 
@@ -342,31 +342,31 @@ msgstr "Claws Mail-kontakter och kommandon"
 
 #: ../kupfer/plugin/clawsmail.py:47
 msgid "Compose New Mail"
-msgstr ""
+msgstr "Skriv nytt mail"
 
 #: ../kupfer/plugin/clawsmail.py:53
 msgid "Compose New Mail with Claws Mail"
-msgstr ""
+msgstr "Skriv nytt mail med Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:62
 msgid "Receive All Mails"
-msgstr ""
+msgstr "Hämta alla mail"
 
 #: ../kupfer/plugin/clawsmail.py:68
 msgid "Receive new mail from all accounts by ClawsMail"
-msgstr ""
+msgstr "Hämta nya mail från alla konton i Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:77
 msgid "Compose New Mail To"
-msgstr ""
+msgstr "Skriv nytt mail till"
 
 #: ../kupfer/plugin/clawsmail.py:112
 msgid "Claws Mail Address Book"
-msgstr ""
+msgstr "Claws Mail-adressbok"
 
 #: ../kupfer/plugin/clawsmail.py:154
 msgid "Contacts from Claws Mail Address Book"
-msgstr ""
+msgstr "Kontakter från Claws Mail"
 
 #: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:39
 msgid "Clipboards"
@@ -661,7 +661,7 @@ msgstr "Skapa arkiv i..."
 msgid "Firefox Bookmarks"
 msgstr "Firefox-bokmärken"
 
-#: ../kupfer/plugin/firefox.py:10 ../kupfer/plugin/firefox.py:60
+#: ../kupfer/plugin/firefox.py:10 ../kupfer/plugin/firefox.py:65
 msgid "Index of Firefox bookmarks"
 msgstr "Index över Firefox-bokmärken"
 
@@ -890,7 +890,7 @@ msgstr "Spela upp"
 msgid "Resume playback in Rhythmbox"
 msgstr "Starta uppspelning i Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:75
+#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:88
 msgid "Pause"
 msgstr "Paus"
 
@@ -982,7 +982,7 @@ msgstr "reStructuredText"
 
 #: ../kupfer/plugin/rst.py:9
 msgid "Render reStructuredText and show the result"
-msgstr ""
+msgstr "Rendera reStructuredText-dokument och visa resultatet"
 
 #: ../kupfer/plugin/rst.py:15
 msgid "View as HTML Document"
@@ -1061,11 +1061,11 @@ msgstr "Stoppa tjänst"
 msgid "%s Service"
 msgstr "%s"
 
-#: ../kupfer/plugins.py:56
+#: ../kupfer/plugins.py:72
 msgid "(no description)"
 msgstr "(ingen beskrivning)"
 
-#: ../kupfer/plugins.py:75
+#: ../kupfer/plugins.py:91
 #, python-format
 msgid "  %(name)-20s %(version)-4s %(description)s"
 msgstr "  %(name)-20s %(version)-4s %(description)s"
@@ -1163,23 +1163,20 @@ msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
 #: ../kupfer/plugin/tsclient.py:10
-#, fuzzy
 msgid "Terminal Server Client"
-msgstr "Öppna i terminalfönster"
+msgstr "Terminal Server Client"
 
 #: ../kupfer/plugin/tsclient.py:13
 msgid "Session saved in Terminal Server Client"
-msgstr ""
+msgstr "Sparad session in Terminal Server Client"
 
 #: ../kupfer/plugin/tsclient.py:54
-#, fuzzy
 msgid "TSClient sessions"
-msgstr "Screen-sessioner"
+msgstr "TSClient-sessioner"
 
 #: ../kupfer/plugin/tsclient.py:83
-#, fuzzy
 msgid "Saved sessions in Terminal Server Client"
-msgstr "Öppna i terminalfönster"
+msgstr "Sparade sessioner in Terminal Server Client"
 
 #: ../kupfer/plugin/urlactions.py:7 ../kupfer/plugin/urlactions.py:14
 msgid "URL Actions"
@@ -1219,61 +1216,61 @@ msgstr "sv"
 msgid "Search for this term in %s.wikipedia.org"
 msgstr "Sök efter denna termen i %s.wikipedia.org"
 
-#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:91
+#: ../kupfer/plugin/windows.py:6 ../kupfer/plugin/windows.py:94
 msgid "Window List"
 msgstr "Fönsterlista"
 
-#: ../kupfer/plugin/windows.py:9 ../kupfer/plugin/windows.py:112
+#: ../kupfer/plugin/windows.py:8 ../kupfer/plugin/windows.py:115
 msgid "All windows on all workspaces"
 msgstr "Alla fönster på alla arbetsytor"
 
-#: ../kupfer/plugin/windows.py:18
+#: ../kupfer/plugin/windows.py:21
 msgid "Activate"
 msgstr "Aktivera"
 
-#: ../kupfer/plugin/windows.py:20
+#: ../kupfer/plugin/windows.py:23
 msgid "Unshade"
 msgstr "Rulla ner"
 
-#: ../kupfer/plugin/windows.py:22
+#: ../kupfer/plugin/windows.py:25
 msgid "Shade"
 msgstr "Rulla upp"
 
-#: ../kupfer/plugin/windows.py:24
+#: ../kupfer/plugin/windows.py:27
 msgid "Unminimize"
 msgstr "Avminimera"
 
-#: ../kupfer/plugin/windows.py:26
+#: ../kupfer/plugin/windows.py:29
 msgid "Minimize"
 msgstr "Minimera"
 
-#: ../kupfer/plugin/windows.py:28
+#: ../kupfer/plugin/windows.py:31
 msgid "Unmaximize"
 msgstr "Avmaximera"
 
-#: ../kupfer/plugin/windows.py:30
+#: ../kupfer/plugin/windows.py:33
 msgid "Maximize"
 msgstr "Maximera"
 
-#: ../kupfer/plugin/windows.py:32
+#: ../kupfer/plugin/windows.py:35
 msgid "Unmaximize Vertically"
 msgstr "Avmaximera vertikalt"
 
-#: ../kupfer/plugin/windows.py:35
+#: ../kupfer/plugin/windows.py:38
 msgid "Maximize Vertically"
 msgstr "Maximera vertikalt"
 
-#: ../kupfer/plugin/windows.py:37
+#: ../kupfer/plugin/windows.py:40
 msgid "Close"
 msgstr "Stäng"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:43
+#: ../kupfer/plugin/windows.py:46
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "Fönster på %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:58
+#: ../kupfer/plugin/windows.py:61
 msgid "Jump to this window's workspace and focus"
 msgstr "Gå till fönstrets arbetsyta och aktivera"
 
@@ -1351,44 +1348,95 @@ msgstr "Zim-sidor"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
 
-#: ../kupfer/preferences.py:218
+#: ../kupfer/plugin/virtualbox.py:6
+msgid "VirtualBox"
+msgstr "VirtualBox"
+
+#: ../kupfer/plugin/virtualbox.py:8
+msgid "Control Sun VirtualBox Virtual Machines"
+msgstr "Kontrollera Sun VirtualBox virtuella maskiner"
+
+#: ../kupfer/plugin/virtualbox.py:83
+msgid "Power On"
+msgstr "Starta"
+
+#: ../kupfer/plugin/virtualbox.py:84
+msgid "Power On Headless"
+msgstr "Starta headless"
+
+#: ../kupfer/plugin/virtualbox.py:86
+msgid "Send Power Off Signal"
+msgstr "Skicka avstängningssignal"
+
+#: ../kupfer/plugin/virtualbox.py:89
+msgid "Reboot"
+msgstr "Starta om"
+
+#. VM_PAUSED
+#: ../kupfer/plugin/virtualbox.py:91
+msgid "Resume"
+msgstr "Återuppta"
+
+#: ../kupfer/plugin/virtualbox.py:94
+msgid "Save State"
+msgstr "Spara tillstånd"
+
+#: ../kupfer/plugin/virtualbox.py:95
+msgid "Power Off"
+msgstr "Stäng av"
+
+#: ../kupfer/plugin/virtualbox.py:150
+msgid "Sun VirtualBox Machines"
+msgstr "Sun VirtualBox-maskiner"
+
+#: ../kupfer/preferences.py:220
 msgid "Applied"
 msgstr "Verkställt"
 
-#: ../kupfer/preferences.py:223
+#: ../kupfer/preferences.py:225
 msgid "Keybinding could not be bound"
 msgstr "Snabbtangenten kunde inte bindas"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/preferences.py:275
+#: ../kupfer/preferences.py:277
 msgid "Description"
 msgstr "Beskrivning"
 
-#: ../kupfer/preferences.py:275
+#: ../kupfer/preferences.py:277
 msgid "Author"
 msgstr "Upphovsman"
 
-#: ../kupfer/preferences.py:291
+#: ../kupfer/preferences.py:293
 msgid "Version"
 msgstr "Version"
 
+#. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/preferences.py:301
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr "Behöver Python-modulen '%s'"
+
+#: ../kupfer/preferences.py:310
+msgid "Plugin could not be read due to an error:"
+msgstr "Insticksmodulen kunde inte läsas in på grund av ett fel:"
+
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:353
+#: ../kupfer/preferences.py:371
 msgid "Sources"
 msgstr "Källor"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:357
+#: ../kupfer/preferences.py:375
 msgid "Actions"
 msgstr "Kommandon"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/preferences.py:383
+#: ../kupfer/preferences.py:401
 msgid "Configuration"
 msgstr "Inställningar"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/preferences.py:448
+#: ../kupfer/preferences.py:466
 msgid "Choose a Directory"
 msgstr "Välj mapp"
 
