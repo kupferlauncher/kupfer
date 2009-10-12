@@ -6,12 +6,19 @@ from kupfer import pretty, plugin_support, utils
 
 __kupfer_name__ = _("VirtualBoxOSE")
 __kupfer_sources__ = ("VBoxOseMachinesSource", )
-__description__ = _("Control VirtualBox OpenSource Edition Virtual Machines")
+__description__ = _("Control VirtualBox Virtual Machines. This version supports OpenSource Edition.")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 )
+
+''' 
+This version supports VirtualBox OpenSource Edition, without vboxapi.
+Uses coommand-line interface to controll virtual machines, and xml-config files to get list of machines.
+Plugin support also Sun (non-ose) VirtualBox.
+'''
+
 
 import os
 from xml.dom import minidom
@@ -20,7 +27,6 @@ from xml.dom import minidom
 VM_POWEROFF = 0
 VM_POWERON = 1
 VM_PAUSED = 2
-
 
 
 def _get_virtual_machines(config_file):
@@ -35,6 +41,9 @@ def _get_virtual_machines(config_file):
 
 
 def _get_machine_info(uuid, config_file):
+	if not os.path.isfile(config_file):
+		return None, Noen
+
 	try:
 		dtree = minidom.parse(config_file)
 		machine_registry = dtree.getElementsByTagName('Machine')[0]
@@ -50,7 +59,7 @@ def _get_machine_info(uuid, config_file):
 
 def _check_machine_state(machine_id):
 	''' check vms state (on/off/paused) '''
-	state = VM_POWERON
+	state = VM_POWEROFF
 	try:
 		str_state = 'poweroff'
 		with os.popen('VBoxManage showvminfo %s --machinereadable' % machine_id) as pinfo:
@@ -60,9 +69,9 @@ def _check_machine_state(machine_id):
 					break
 		if str_state == 'paused':
 			state = VM_PAUSED
-		elif str_state == 'poweroff':
-			state = VM_POWEROFF
-	except IOError, err: # exception == machine is off (xpcom.Exception)
+		elif str_state == 'poweron':
+			state = VM_POWERON
+	except IOError, err:
 		pretty.output_error(__name__, '_check_machine_state error ' + machine_id, err)
 		state = VM_POWEROFF
 
@@ -132,9 +141,9 @@ class StdVmAction(_VMAction):
 
 
 class VBoxOseMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, FilesystemWatchMixin):
-	appleaf_content_id = 'VirtualBox OSE'
+	appleaf_content_id = ('VirtualBox OSE', 'Sun VirtualBox')
 
-	def __init__(self, name=_("VirtualBox OSE Machines")):
+	def __init__(self, name=_("VirtualBox Machines")):
 		Source.__init__(self, name)
 		self.unpickle_finish()
 
@@ -147,9 +156,11 @@ class VBoxOseMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, Fi
 		return False
 
 	def get_items(self):
-		for uuid, config in _get_virtual_machines(self._vbox_config_file):
-			name, description = _get_machine_info(uuid, config)
-			yield VirtualMachine(uuid, name, description)
+		if os.path.isfile(self._vbox_config_file):
+			for uuid, config in _get_virtual_machines(self._vbox_config_file):
+				name, description = _get_machine_info(uuid, config)
+				if name:
+					yield VirtualMachine(uuid, name, description)
 
 	def get_description(self):
 		return None
