@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+from __future__ import with_statement
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin 
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
