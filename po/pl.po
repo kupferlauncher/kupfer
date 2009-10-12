@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-08 20:32+0200\n"
+"POT-Creation-Date: 2009-10-12 14:06+0200\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -185,7 +185,7 @@ msgstr "Uruchom"
 msgid "Launch application"
 msgstr "Uruchom aplikację"
 
-#: ../kupfer/objects.py:664 ../kupfer/plugin/windows.py:49
+#: ../kupfer/objects.py:664 ../kupfer/plugin/windows.py:52
 msgid "Go To"
 msgstr "Przejdź do"
 
@@ -658,7 +658,7 @@ msgstr "Stwórz archiwum w..."
 msgid "Firefox Bookmarks"
 msgstr "Zakładki Firefoksa"
 
-#: ../kupfer/plugin/firefox.py:10 ../kupfer/plugin/firefox.py:60
+#: ../kupfer/plugin/firefox.py:10 ../kupfer/plugin/firefox.py:65
 msgid "Index of Firefox bookmarks"
 msgstr "Indeksuj zakładki Firefoksa"
 
@@ -888,7 +888,8 @@ msgstr "Odtwarzaj"
 msgid "Resume playback in Rhythmbox"
 msgstr "Wznów odtwarzanie w Rhythmboksie"
 
-#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:112
+#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:88
+#: ../kupfer/plugin/virtualbox_ose.py:101
 msgid "Pause"
 msgstr "Pauza"
 
@@ -1059,11 +1060,11 @@ msgstr "Zatrzymaj usługę"
 msgid "%s Service"
 msgstr "Usługa %s"
 
-#: ../kupfer/plugins.py:56
+#: ../kupfer/plugins.py:72
 msgid "(no description)"
 msgstr "(brak opisu)"
 
-#: ../kupfer/plugins.py:75
+#: ../kupfer/plugins.py:91
 #, python-format
 msgid "  %(name)-20s %(version)-4s %(description)s"
 msgstr ""
@@ -1214,61 +1215,61 @@ msgstr "pl"
 msgid "Search for this term in %s.wikipedia.org"
 msgstr "Szukaj tego pojęcia w %s.wikipedia.org"
 
-#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:91
+#: ../kupfer/plugin/windows.py:6 ../kupfer/plugin/windows.py:94
 msgid "Window List"
 msgstr "Lista okien"
 
-#: ../kupfer/plugin/windows.py:9 ../kupfer/plugin/windows.py:112
+#: ../kupfer/plugin/windows.py:8 ../kupfer/plugin/windows.py:115
 msgid "All windows on all workspaces"
 msgstr "Wszystkie okna na wszystkich obszarach roboczych"
 
-#: ../kupfer/plugin/windows.py:18
+#: ../kupfer/plugin/windows.py:21
 msgid "Activate"
 msgstr "Aktywuj"
 
-#: ../kupfer/plugin/windows.py:20
+#: ../kupfer/plugin/windows.py:23
 msgid "Unshade"
 msgstr "Rozwiń"
 
-#: ../kupfer/plugin/windows.py:22
+#: ../kupfer/plugin/windows.py:25
 msgid "Shade"
 msgstr "Zwiń"
 
-#: ../kupfer/plugin/windows.py:24
+#: ../kupfer/plugin/windows.py:27
 msgid "Unminimize"
 msgstr "Przywróć"
 
-#: ../kupfer/plugin/windows.py:26
+#: ../kupfer/plugin/windows.py:29
 msgid "Minimize"
 msgstr "Minimalizuj"
 
-#: ../kupfer/plugin/windows.py:28
+#: ../kupfer/plugin/windows.py:31
 msgid "Unmaximize"
 msgstr "Przywróć"
 
-#: ../kupfer/plugin/windows.py:30
+#: ../kupfer/plugin/windows.py:33
 msgid "Maximize"
 msgstr "Maksymalizuj"
 
-#: ../kupfer/plugin/windows.py:32
+#: ../kupfer/plugin/windows.py:35
 msgid "Unmaximize Vertically"
 msgstr "Przywróć w pionie"
 
-#: ../kupfer/plugin/windows.py:35
+#: ../kupfer/plugin/windows.py:38
 msgid "Maximize Vertically"
 msgstr "Maksymalizuj w pionie"
 
-#: ../kupfer/plugin/windows.py:37
+#: ../kupfer/plugin/windows.py:40
 msgid "Close"
 msgstr "Zamknij"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:43
+#: ../kupfer/plugin/windows.py:46
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "Okno na %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:58
+#: ../kupfer/plugin/windows.py:61
 msgid "Jump to this window's workspace and focus"
 msgstr "Przejdź do obszaru roboczego tego okna i aktywuj"
 
@@ -1346,85 +1347,109 @@ msgstr "Strony Zima"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
 
-#: ../kupfer/plugin/virtualbox.py:30
+#: ../kupfer/plugin/virtualbox.py:6
 msgid "VirtualBox"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:32
+#: ../kupfer/plugin/virtualbox.py:8
 msgid "Control Sun VirtualBox Virtual Machines"
 msgstr "Zarządzanie maszynami wirtualnymi Sun VirtualBox"
 
-#: ../kupfer/plugin/virtualbox.py:107
+#: ../kupfer/plugin/virtualbox.py:83 ../kupfer/plugin/virtualbox_ose.py:96
 msgid "Power On"
 msgstr "Uruchom"
 
-#: ../kupfer/plugin/virtualbox.py:108
+#: ../kupfer/plugin/virtualbox.py:84 ../kupfer/plugin/virtualbox_ose.py:97
 msgid "Power On Headless"
 msgstr "Uruchom bez okna"
 
-#: ../kupfer/plugin/virtualbox.py:110
+#: ../kupfer/plugin/virtualbox.py:86 ../kupfer/plugin/virtualbox_ose.py:99
 msgid "Send Power Off Signal"
 msgstr "Wyślij sygnał wyłączenia"
 
-#: ../kupfer/plugin/virtualbox.py:113
+#: ../kupfer/plugin/virtualbox.py:89 ../kupfer/plugin/virtualbox_ose.py:102
 msgid "Reboot"
 msgstr "Resetuj"
 
 #. VM_PAUSED
-#: ../kupfer/plugin/virtualbox.py:115
+#: ../kupfer/plugin/virtualbox.py:91 ../kupfer/plugin/virtualbox_ose.py:104
 msgid "Resume"
 msgstr "Wznów"
 
-#: ../kupfer/plugin/virtualbox.py:118
+#: ../kupfer/plugin/virtualbox.py:94 ../kupfer/plugin/virtualbox_ose.py:107
 msgid "Save State"
 msgstr "Zapisz stan"
 
-#: ../kupfer/plugin/virtualbox.py:119
+#: ../kupfer/plugin/virtualbox.py:95 ../kupfer/plugin/virtualbox_ose.py:108
 msgid "Power Off"
 msgstr "Wyłącz"
 
-#: ../kupfer/plugin/virtualbox.py:172
+#: ../kupfer/plugin/virtualbox.py:150
 msgid "Sun VirtualBox Machines"
 msgstr "Maszyny Wirtualne Sun VirtualBox"
 
-#: ../kupfer/preferences.py:218
+#: ../kupfer/plugin/virtualbox_ose.py:7
+msgid "VirtualBoxOSE"
+msgstr ""
+
+#: ../kupfer/plugin/virtualbox_ose.py:9
+msgid ""
+"Control VirtualBox Virtual Machines. This version supports OpenSource "
+"Edition."
+msgstr "Zarządzaj maszynami wirtualnymi VirtualBoxa. Ta wersja wspiera wersję otwarto-źródłową."
+
+#: ../kupfer/plugin/virtualbox_ose.py:146
+msgid "VirtualBox Machines"
+msgstr "Maszyny Wirtualne VirtualBox"
+
+#: ../kupfer/preferences.py:220
 msgid "Applied"
 msgstr "Zastosowane"
 
-#: ../kupfer/preferences.py:223
+#: ../kupfer/preferences.py:225
 msgid "Keybinding could not be bound"
 msgstr "Przpisanie klawisza nie powiodło się"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/preferences.py:275
+#: ../kupfer/preferences.py:277
 msgid "Description"
 msgstr "Opis"
 
-#: ../kupfer/preferences.py:275
+#: ../kupfer/preferences.py:277
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/preferences.py:291
+#: ../kupfer/preferences.py:293
 msgid "Version"
 msgstr "Wersja"
 
+#. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/preferences.py:301
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr ""
+
+#: ../kupfer/preferences.py:310
+msgid "Plugin could not be read due to an error:"
+msgstr ""
+
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:353
+#: ../kupfer/preferences.py:371
 msgid "Sources"
 msgstr "Źródła"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:357
+#: ../kupfer/preferences.py:375
 msgid "Actions"
 msgstr "Akcje"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/preferences.py:383
+#: ../kupfer/preferences.py:401
 msgid "Configuration"
 msgstr "Konfiguracja"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/preferences.py:448
+#: ../kupfer/preferences.py:466
 msgid "Choose a Directory"
 msgstr "Wybierz katalog"
 
@@ -1471,5 +1496,3 @@ msgstr ""
 "Powszechnej Licencji Publicznej GNU (GNU General Public License);\n"
 "jeśli nie - wejdź na <http://www.gnu.org/licenses/>.\n"
 
-#~ msgid "Control VirtualBox VM"
-#~ msgstr "Sterowanie maszynami wirtualnymi VirtualBoxa"
