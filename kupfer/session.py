@@ -38,9 +38,9 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 		os.putenv("DESKTOP_AUTOSTART_ID", "")
 		self._enabled = succ
 		if not self.enabled:
-			self.output_info("Warning: Not able to connect to current \
-				desktop session, please Quit before logout to save \
-				kupfer's data.")
+			self.output_info("Warning: Not able to connect to current "
+				"desktop session, please Quit before logout to save "
+				"kupfer's data.")
 
 	def _connect_gnomeui(self):
 		try:
