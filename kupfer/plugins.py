@@ -37,7 +37,7 @@ def get_plugin_ids():
 			plugin_ids.update(name(f) for f in os.listdir(plugin_dir)
 					if is_plugname(name(f)))
 		except (OSError, IOError), exc:
-			pretty.print_error(exc)
+			pretty.print_error(__name__, exc)
 	return plugin_ids
 
 class FakePlugin (object):
