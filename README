@@ -1,56 +1,58 @@
 kupfer is a simple, flexible, launcher for Gnome
-http://kaizer.se/wiki/kupfer/
+++++++++++++++++++++++++++++++++++++++++++++++++
 
-Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
-Released under the GNU General Public License v3 (or any later version)
+:Homepage:  http://kaizer.se/wiki/kupfer/
+:Credits:   Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+:Licence:   GNU General Public License v3 (or any later version)
 
-INSTALLING
+Installing
 ==========
 This project is configured for waf; waf is shipped in the
 distributable tarball but not in the repository.
-If you need to get waf, run:
+If you need to get waf, run::
 
     wget -O waf http://waf.googlecode.com/files/waf-1.5.8
     chmod +x waf
 
-Installation follows the steps:
+Installation follows the steps::
 
     ./waf configure --prefix=PREFIX
     ./waf
 
-then
+then::
+
     ./waf install
 
-or 
+or ::
+
     sudo ./waf install
 
-here `PREFIX` assigns an installation spot. For all users,
-programs are normally installed with prefix as /usr/local.
-Installing only for your user, the prefix ~/.local is often
-used; you just have to check that
-`~/.local/bin` is in your $PATH
-`~/.local/lib/python2.*/site-packages` is in python's sys.path
-(if not, you can add it by setting $PYTHONPATH)
+here ``PREFIX`` assigns an installation spot. For all users,
+programs are normally installed with prefix as ``/usr/local``.
+Installing only for your user, the prefix ``~/.local`` is often
+used; you just have to check that:
+``~/.local/bin`` is in your ``$PATH``
+``~/.local/lib/python2.*/site-packages`` is in python's sys.path
+(if not, you can add it by setting ``$PYTHONPATH``)
 
-SPAWNING
+Spawning
 ========
-Kupfer is installed as `kupfer` into $PREFIX/bin.
+Kupfer is installed as ``kupfer`` into ``$PREFIX/bin``.
 
-KEYBINDER MODULE
+Keybinder Module
 ----------------
 
 Kupfer uses tomboy's keybinder code, just like many other
 applications do for global keybindings.
 I had to break out the python wrapping of the code into a
-standalone python module [keybinder][kb] that you need to install
+standalone python module `keybinder`_ that you need to install
 first:
 
-[kb]: http://kaizer.se/wiki/python-keybinder
-[kb]: http://github.com/engla/python-keybinder
+.. _`keybinder`: http://kaizer.se/wiki/python-keybinder
 
 Now you can set kupfer's keybinding by editing kupfer's config.
-See `kupfer --help` for how to do that.
+See ``kupfer --help`` for how to do that.
 
 You can use kupfer without the keybinder module, for example
-by assigning a global keybinding to the `kupfer` binary; it is
+by assigning a global keybinding to the ``kupfer`` binary; it is
 not recommended.
