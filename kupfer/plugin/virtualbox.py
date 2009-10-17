@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
 from kupfer import pretty, plugin_support
 
 __kupfer_name__ = _("VirtualBox")
@@ -12,87 +13,43 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 )
 
-import vboxapi
 
-
-VM_POWEROFF = 0
-VM_POWERON = 1
-VM_PAUSED = 2
-
-
-def _get_object_session():
-	''' get new session to vm '''
-	vbox, session = None, None
-	try:
-		vbox = vboxapi.VirtualBoxManager(None, None)
-		session = vbox.mgr.getSessionObject(vbox.vbox)
-	except Exception, err:
-		pretty.print_error(__name__, 'virtualbox: get session error ', err)
-
-	return vbox, session
-
-def _get_existing_session(vm_uuid):
-	''' get existing session by machine uuid '''
-	vbox, session = None, None
-	try:
-		vbox = vboxapi.VirtualBoxManager(None, None)
-		session = vbox.mgr.getSessionObject(vbox.vbox)
-		vbox.vbox.openExistingSession(session, vm_uuid)
-	except Exception, err:
-		pretty.print_error(__name__, 'virtualbox: get session to %s error' %
-				vm_uuid, err)
-
-	return vbox, session
-
-def _check_machine_state(vbox, vbox_sess, machine_id):
-	''' check vms state (on/off/paused) '''
-	state = VM_POWERON
-	try:
-		vbox.vbox.openExistingSession(vbox_sess, machine_id)
-		machine_state = vbox_sess.machine.state
-		if machine_state == vbox.constants.MachineState_Paused:
-			state = VM_PAUSED
-		elif machine_state in (vbox.constants.MachineState_PoweredOff, vbox.constants.MachineState_Aborted,
-				vbox.constants.MachineState_Starting):
-			state = VM_POWEROFF
-	except Exception, err: # exception == machine is off (xpcom.Exception)
-		# silently set state to off
-		state = VM_POWEROFF
-
-	if vbox_sess.state == vbox.constants.SessionState_Open:
-		vbox_sess.close()
-
-	return state
+try:
+	import virtualbox_vboxapi_support as virtualbox_support
+	pretty.print_info(__name__, 'Using vboxapi...')
+except ImportError, err:
+	import virtualbox_ose_support as virtualbox_support
+	pretty.print_info(__name__, 'Using cli...', err)
 
 
 class VirtualMachine(Leaf):
-	def __init__(self, obj, name, state, description):
+	def __init__(self, obj, name, description):
 		Leaf.__init__(self, obj, name)
-		self.state = state
 		self.description = description
 
 	def get_description(self):
 		return self.description
 
 	def get_icon_name(self):
-		return "VBox"
+		return virtualbox_support.ICON
 
 	def get_actions(self):
-		# actions depend on machine state
-		if self.state == VM_POWEROFF:
+		state = virtualbox_support.get_machine_state(self.object)
+		if state == virtualbox_support.VM_POWEROFF:
 			yield StartVM(_('Power On'), 'system-run', 'gui')
 			yield StartVM(_('Power On Headless'), 'system-run', 'headless', -5)
-		elif self.state == VM_POWERON:
+		elif state == virtualbox_support.VM_POWERON:
 			yield StdVmAction(_('Send Power Off Signal'), 'system-shutdown', \
-					lambda c:c.powerButton(), -5)
-			yield StdVmAction(_('Pause'), 'pause', lambda c:c.pause())
-			yield StdVmAction(_('Reboot'), 'system-reboot', lambda c:c.reset(), -10)
+					virtualbox_support.machine_acpipoweroff, -5)
+			yield StdVmAction(_('Pause'), 'pause', virtualbox_support.machine_pause)
+			yield StdVmAction(_('Reboot'), 'system-reboot', virtualbox_support.machine_reboot, -10)
 		else: # VM_PAUSED
-			yield StdVmAction(_('Resume'), 'resume', lambda c:c.resume())
+			yield StdVmAction(_('Resume'), 'resume', virtualbox_support.machine_resume)
 
-		if self.state in (VM_POWERON, VM_PAUSED):
-			yield StdVmAction(_('Save State'), 'system-supsend', lambda c:c.saveState())
-			yield StdVmAction(_('Power Off'), 'system-shutdown', lambda c:c.powerDown(), -10)
+		if state in (virtualbox_support.VM_POWERON, virtualbox_support.VM_PAUSED):
+			yield StdVmAction(_('Save State'), 'system-supsend', virtualbox_support.machine_save)
+			yield StdVmAction(_('Power Off'), 'system-shutdown', virtualbox_support.machine_poweroff, -10)
+
 
 class _VMAction(Action):
 	def __init__(self, name, icon):
@@ -113,17 +70,7 @@ class StartVM(_VMAction):
 		self.rank_adjust = rank_adjust
 
 	def activate(self, leaf):
-		vbox, session = _get_object_session()
-		if session:
-			try:
-				remote_sess = vbox.vbox.openRemoteSession(session, leaf.object, self.mode, '')
-				remote_sess.waitForCompletion(-1)
-			except Exception, err: 
-				pretty.print_error(__name__, "StartVM:", self.name,
-						"vm:", leaf.name, "error", err)
-
-			if session.state == vbox.constants.SessionState_Open:
-				session.close()
+		virtualbox_support.machine_start(leaf.object, self.mode)
 
 
 class StdVmAction(_VMAction):
@@ -133,43 +80,32 @@ class StdVmAction(_VMAction):
 		self.command = command
 
 	def activate(self, leaf):
-		vbox, session = _get_existing_session(leaf.object)
-		if session:
-			try:
-				self.command(session.console)
-			except Exception, err: 
-				pretty.print_error(__name__, "StdVmAction:", self.name,
-						"vm:", leaf.name, "error", err)
-			if session.state == vbox.constants.SessionState_Open:
-				session.close()
+		self.command(leaf.object)
 
 
-class VBoxMachinesSource(AppLeafContentMixin, Source):
-	appleaf_content_id = 'Sun VirtualBox'
+class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, FilesystemWatchMixin):
+	appleaf_content_id = ('VirtualBox OSE', 'Sun VirtualBox')
 
 	def __init__(self, name=_("Sun VirtualBox Machines")):
 		Source.__init__(self, name)
+		self.unpickle_finish()
+
+	def unpickle_finish(self):
+		if virtualbox_support.MONITORED_DIRS:
+			self.monitor_token = self.monitor_directories(*virtualbox_support.MONITORED_DIRS)
 
 	def is_dynamic(self):
-		return True
+		return virtualbox_support.IS_DYNAMIC
 
 	def get_items(self):
-		vbox, vbox_sess = _get_object_session()
-		if vbox_sess is None:
-			return
-
-		machines = vbox.getArray(vbox.vbox, 'machines')
-		session = vbox.mgr.getSessionObject(vbox.vbox)
-		for machine in machines:
-			state = _check_machine_state(vbox, vbox_sess, machine.id)
-			description = machine.description or machine.OSTypeId
-			yield VirtualMachine(machine.id, machine.name, state, description)
+		for machine_id, machine_name, machine_desc in virtualbox_support.get_machines():
+			yield VirtualMachine(machine_id, machine_name, machine_desc)
 
 	def get_description(self):
 		return None
 
 	def get_icon_name(self):
-		return "VBox"
+		return virtualbox_support.ICON
 
 	def provides(self):
 		yield VirtualMachine
