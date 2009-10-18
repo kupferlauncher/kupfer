@@ -6,8 +6,8 @@ from kupfer import pretty, plugin_support
 
 __kupfer_name__ = _("VirtualBox")
 __kupfer_sources__ = ("VBoxMachinesSource", )
-__description__ = _("Control Sun VirtualBox Virtual Machines")
-__version__ = "0.1"
+__description__ = _("Control Sun VirtualBox Virtual Machines. Support also VirtualBox OpenSource Edition.")
+__version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
@@ -20,6 +20,8 @@ try:
 except ImportError, err:
 	import virtualbox_ose_support as virtualbox_support
 	pretty.print_info(__name__, 'Using cli...', err)
+
+import virtualbox_const
 
 
 class VirtualMachine(Leaf):
@@ -35,26 +37,31 @@ class VirtualMachine(Leaf):
 
 	def get_actions(self):
 		state = virtualbox_support.get_machine_state(self.object)
-		if state == virtualbox_support.VM_POWEROFF:
-			yield StartVM(_('Power On'), 'system-run', 'gui')
-			yield StartVM(_('Power On Headless'), 'system-run', 'headless', -5)
-		elif state == virtualbox_support.VM_POWERON:
-			yield StdVmAction(_('Send Power Off Signal'), 'system-shutdown', \
-					virtualbox_support.machine_acpipoweroff, -5)
-			yield StdVmAction(_('Pause'), 'pause', virtualbox_support.machine_pause)
-			yield StdVmAction(_('Reboot'), 'system-reboot', virtualbox_support.machine_reboot, -10)
-		else: # VM_PAUSED
-			yield StdVmAction(_('Resume'), 'resume', virtualbox_support.machine_resume)
+		if state == virtualbox_const.VM_STATE_POWEROFF:
+			yield VMAction(_('Power On'), 'system-run', \
+					virtualbox_const.VM_START_NORMAL)
+			yield VMAction(_('Power On Headless'), 'system-run', \
+					virtualbox_const.VM_START_HEADLESS, -5)
+		elif state == virtualbox_const.VM_STATE_POWERON:
+			yield VMAction(_('Send Power Off Signal'), 'system-shutdown', \
+					virtualbox_const.VM_ACPI_POWEROFF, -5)
+			yield VMAction(_('Pause'), 'pause', virtualbox_const.VM_PAUSE)
+			yield VMAction(_('Reboot'), 'system-reboot', virtualbox_const.VM_REBOOT, -10)
+		else: # VM_STATE_PAUSED
+			yield VMAction(_('Resume'), 'resume', virtualbox_const.VM_RESUME)
 
-		if state in (virtualbox_support.VM_POWERON, virtualbox_support.VM_PAUSED):
-			yield StdVmAction(_('Save State'), 'system-supsend', virtualbox_support.machine_save)
-			yield StdVmAction(_('Power Off'), 'system-shutdown', virtualbox_support.machine_poweroff, -10)
+		if state in (virtualbox_const.VM_STATE_POWERON, virtualbox_const.VM_STATE_PAUSED):
+			yield VMAction(_('Save State'), 'system-supsend', virtualbox_const.VM_SAVE)
+			yield VMAction(_('Power Off'), 'system-shutdown', \
+					virtualbox_const.VM_POWEROFF, -10)
 
 
-class _VMAction(Action):
-	def __init__(self, name, icon):
+class VMAction(Action):
+	def __init__(self, name, icon, command, rank_adjust=0):
 		Action.__init__(self, name)
 		self._icon = icon
+		self.rank_adjust = rank_adjust
+		self.command = command
 
 	def get_icon_name(self):
 		return self._icon
@@ -62,25 +69,8 @@ class _VMAction(Action):
 	def item_types(self):
 		yield VirtualMachine
 
-
-class StartVM(_VMAction):
-	def __init__(self, name, icon, mode, rank_adjust=0):
-		_VMAction.__init__(self, name, icon)
-		self.mode = mode
-		self.rank_adjust = rank_adjust
-
 	def activate(self, leaf):
-		virtualbox_support.machine_start(leaf.object, self.mode)
-
-
-class StdVmAction(_VMAction):
-	def __init__(self, name, icon, command, rank_adjust=0):
-		_VMAction.__init__(self, name, icon)
-		self.rank_adjust = rank_adjust
-		self.command = command
-
-	def activate(self, leaf):
-		self.command(leaf.object)
+		virtualbox_support.vm_action(self.command, leaf.object)
 
 
 class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, FilesystemWatchMixin):

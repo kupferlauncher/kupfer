@@ -12,12 +12,8 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 from xml.dom import minidom
-
 from kupfer import pretty, utils
-
-VM_POWEROFF = 0
-VM_POWERON = 1
-VM_PAUSED = 2
+import virtualbox_const
 
 _VBOX_CONFIG_DIR = os.path.expanduser('~/.VirtualBox/')
 _VBOX_CONFIG_FILE = os.path.join(_VBOX_CONFIG_DIR, 'VirtualBox.xml')
@@ -26,10 +22,20 @@ MONITORED_DIRS = (_VBOX_CONFIG_DIR, )
 IS_DYNAMIC = False
 ICON = "virtualbox-ose"
 
+# parameters for VBoxManage
+_ACTIONS = {
+		virtualbox_const.VM_POWEROFF: 'poweroff',
+		virtualbox_const.VM_ACPI_POWEROFF: 'acpipowerbutton',
+		virtualbox_const.VM_PAUSE: 'pause',
+		virtualbox_const.VM_REBOOT: 'reset',
+		virtualbox_const.VM_RESUME: 'resume',
+		virtualbox_const.VM_SAVE: 'savestate'
+}
+
 
 def get_machine_state(vm_uuid):
 	''' check vms state (on/off/paused) '''
-	state = VM_POWEROFF
+	state = virtualbox_const.VM_STATE_POWEROFF
 	try:
 		str_state = 'poweroff'
 		with os.popen('VBoxManage showvminfo %s --machinereadable' % vm_uuid) \
@@ -39,40 +45,39 @@ def get_machine_state(vm_uuid):
 					str_state = line.strip()[9:-1]
 					break
 		if str_state == 'paused':
-			state = VM_PAUSED
+			state = virtualbox_const.VM_STATE_PAUSED
 		elif str_state == 'running':
-			state = VM_POWERON
+			state = virtualbox_const.VM_STATE_POWERON
 
 	except IOError, err:
-		pretty.print_error(__name__, 'get_machine_state error ' + vm_uuid, err)
-		state = VM_POWEROFF
+		pretty.print_error(__name__, 'get_machine_state', vm_uuid, 'error', err)
+		state = virtualbox_const.VM_STATE_POWEROFF
 
 	return state
 
 
-def machine_start(vm_uuid, mode):
-	utils.launch_commandline('VBoxManage startvm ' + vm_uuid + ' --type ' + mode)
-
-def machine_poweroff(vm_uuid):
-	utils.launch_commandline('VBoxManage controlvm ' + vm_uuid+ ' poweroff')
-
-def machine_acpipoweroff(vm_uuid):
-	utils.launch_commandline('VBoxManage controlvm ' + vm_uuid+ ' acpipowerbutton')
-
-def machine_pause(vm_uuid):
-	utils.launch_commandline('VBoxManage controlvm ' + vm_uuid+ ' pause')
-
-def machine_reboot(vm_uuid):
-	utils.launch_commandline('VBoxManage controlvm ' + vm_uuid+ ' reset')
-
-def machine_resume(vm_uuid):
-	utils.launch_commandline('VBoxManage controlvm ' + vm_uuid+ ' resume')
-
-def machine_save(vm_uuid):
-	utils.launch_commandline('VBoxManage controlvm ' + vm_uuid+ ' savestate')
+def vm_action(action, vm_uuid):
+	''' change state of the virtual machine. Call VBoxManage.
+		@param action - one of the const VM_*
+		@param vm_uuid - virtual machine uuid
+	'''
+	if action == virtualbox_const.VM_START_NORMAL:
+		utils.launch_commandline('VBoxManage startvm ' + vm_uuid + \
+				' --type gui')
+	elif action == virtualbox_const.VM_START_HEADLESS:
+		utils.launch_commandline('VBoxManage startvm ' + vm_uuid + \
+				' --type headless')
+	else:
+		command = _ACTIONS[action]
+		utils.launch_commandline('VBoxManage controlvm ' + vm_uuid + ' ' + \
+				command)
 
 
 def _get_virtual_machines(config_file):
+	''' load (virtual machine uuid, path to vm config) from virtualbox 
+		configuration.
+		@param config_file - path to VirtualBox.xml file
+	'''
 	try:
 		dtree = minidom.parse(config_file)
 		machine_registry = dtree.getElementsByTagName('MachineRegistry')[0]
@@ -80,10 +85,15 @@ def _get_virtual_machines(config_file):
 			yield (machine.getAttribute('uuid')[1:-1], machine.getAttribute('src'))
 
 	except StandardError, err:
-		pretty.print_error(__name__, '_get_virtual_machines error', err)
+		pretty.print_error(__name__, '_get_virtual_machines', config_file, 
+				'error', err)
 
 
 def _get_machine_info(vm_uuid, config_file):
+	''' load information about virtual machines from its configuration file.
+		@param vm_uuid - uuid virtual machine
+		@param config_file - path to vm configuration file
+	'''
 	if not os.path.isfile(config_file):
 		return None, None
 
@@ -104,7 +114,7 @@ def _get_machine_info(vm_uuid, config_file):
 		return (name, description or os_type)
 
 	except StandardError, err:
-		pretty.print_error(__name__, '_get_machine_info error ' + vm_uuid + ' ' + \
+		pretty.print_error(__name__, '_get_machine_info', vm_uuid, 'error' + \
 				config_file, err)
 
 	return None, None

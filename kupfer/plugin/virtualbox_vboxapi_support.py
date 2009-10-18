@@ -14,13 +14,22 @@ from kupfer import pretty
 
 import vboxapi
 
-VM_POWEROFF = 0
-VM_POWERON = 1
-VM_PAUSED = 2
+import virtualbox_const
 
 MONITORED_DIRS = None
 IS_DYNAMIC = False
 ICON = "VBox"
+
+
+_ACTIONS = {
+		virtualbox_const.VM_POWEROFF:		lambda c:c.powerDown(),
+		virtualbox_const.VM_ACPI_POWEROFF:	lambda c:c.powerButton(),
+		virtualbox_const.VM_PAUSE:			lambda c:c.pause(),
+		virtualbox_const.VM_REBOOT:			lambda c:c.reset(),
+		virtualbox_const.VM_RESUME:			lambda c:c.resume(),
+		virtualbox_const.VM_SAVE:			lambda c:c.saveState()
+}
+
 
 def _get_object_session():
 	''' get new session to vm '''
@@ -41,7 +50,7 @@ def _get_existing_session(vm_uuid):
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 		vbox.vbox.openExistingSession(session, vm_uuid)
 	except Exception, err:
-		pretty.print_error(__name__, 'virtualbox: get session to %s error' %
+		pretty.print_error(__name__, 'virtualbox: get session to %s error' % \
 				vm_uuid, err)
 
 	return vbox, session
@@ -50,19 +59,22 @@ def get_machine_state(machine_id):
 	''' check vms state (on/off/paused) '''
 	
 	vbox, vbox_sess = _get_object_session()
-	state = VM_POWERON
+	if vbox_sess is None:
+		return virtualbox_const.VM_STATE_POWEROFF
+
+	state = virtualbox_const.VM_STATE_POWERON
 	try:
 		vbox.vbox.openExistingSession(vbox_sess, machine_id)
 		machine_state = vbox_sess.machine.state
 		if machine_state == vbox.constants.MachineState_Paused:
-			state = VM_PAUSED
+			state = virtualbox_const.VM_STATE_PAUSED
 		elif machine_state in (vbox.constants.MachineState_PoweredOff, 
 				vbox.constants.MachineState_Aborted,
 				vbox.constants.MachineState_Starting):
-			state = VM_POWEROFF
+			state = virtualbox_const.VM_STATE_POWEROFF
 	except Exception: # exception == machine is off (xpcom.Exception)
 		# silently set state to off
-		state = VM_POWEROFF
+		state = virtualbox_const.VM_STATE_POWEROFF
 
 	if vbox_sess.state == vbox.constants.SessionState_Open:
 		vbox_sess.close()
@@ -70,51 +82,57 @@ def get_machine_state(machine_id):
 	return state
 
 
-def machine_start(machine_uuid, mode):
+def _machine_start(vm_uuid, mode):
+	''' Start virtual machine 
+		@param vm_uuid - uuid of virtual machine
+		@param mode - mode: gui, headless
+	'''
 	vbox, session = _get_object_session()
 	if session:
 		try:
-			remote_sess = vbox.vbox.openRemoteSession(session, machine_uuid, mode, '')
+			remote_sess = vbox.vbox.openRemoteSession(session, vm_uuid, mode, '')
 			remote_sess.waitForCompletion(-1)
 		except Exception, err: 
-			pretty.print_error(__name__, "StartVM:", machine_uuid, "error", err)
+			pretty.print_error(__name__, "StartVM:", vm_uuid, "Mode ", mode, 
+					"error", err)
 
 		if session.state == vbox.constants.SessionState_Open:
 			session.close()
 
 
-def _execute_machine_action(machine_uuid, action):
-	vbox, session = _get_existing_session(machine_uuid)
+def _execute_machine_action(vm_uuid, action):
+	''' Start virtual machine 
+		@param vm_uuid - uuid of virtual machine
+		@param action - function called on vbox session
+	'''
+	vbox, session = _get_existing_session(vm_uuid)
 	try:
 		action(session.console)
 	except Exception, err: 
 		pretty.print_error(__name__, "_execute_machine_action:", repr(action),
-				" vm:", machine_uuid, "error", err)
+				" vm:", vm_uuid, "error", err)
 
 	if session.state == vbox.constants.SessionState_Open:
 		session.close()
 
 
-def machine_poweroff(machine_uuid):
-	_execute_machine_action(machine_uuid, lambda c:c.powerDown())
-
-def machine_acpipoweroff(machine_uuid):
-	_execute_machine_action(machine_uuid, lambda c:c.powerButton())
-
-def machine_pause(machine_uuid):
-	_execute_machine_action(machine_uuid, lambda c:c.pause())
-
-def machine_reboot(machine_uuid):
-	_execute_machine_action(machine_uuid, lambda c:c.reset())
-
-def machine_resume(machine_uuid):
-	_execute_machine_action(machine_uuid, lambda c:c.resume())
-
-def machine_save(machine_uuid):
-	_execute_machine_action(machine_uuid, lambda c:c.saveState())
+def vm_action(action, vm_uuid):
+	''' change state of the virtual machine 
+		@param action - one of the const VM_*
+		@param vm_uuid - virtual machine uuid
+	'''
+	if action == virtualbox_const.VM_START_NORMAL:
+		_machine_start(vm_uuid, 'gui')
+	elif action == virtualbox_const.VM_START_HEADLESS:
+		_machine_start(vm_uuid, 'headless')
+	else:
+		command = _ACTIONS[action]
+		_execute_machine_action(vm_uuid, command)
 
 
 def get_machines():
+	''' Get generator of items: (machine uuid, machine name, machine description)
+	'''
 	vbox, vbox_sess = _get_object_session()
 	if vbox_sess is None:
 		return
