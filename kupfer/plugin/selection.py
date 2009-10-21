@@ -1,8 +1,11 @@
+import re
+import urlparse
+
 import gtk
 
-from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, PicklingHelperMixin, UrlLeaf
+from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, UrlLeaf
 from kupfer import objects
-from kupfer.helplib import gobject_connect_weakly
+from kupfer.helplib import gobject_connect_weakly, PicklingHelperMixin
 
 __kupfer_name__ = _("Selected Text")
 __kupfer_sources__ = ("SelectionSource", )
@@ -11,11 +14,8 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 
-import urlparse
-import re
-
-def _check_url(string):
-	''' simple url validate '''
+def _is_url(string):
+	"""Simple url validate"""
 	url = urlparse.urlparse(string)
 	if not (url.netloc or url.path):
 		return False
@@ -23,18 +23,15 @@ def _check_url(string):
 	if url.scheme or url.netloc:
 		return True
 
-	return re.match(r'^[-A-Za-z0-9+_.]+\.[A-Za-z]{2,}$', url.path)
+	return re.match(r'^[-\w+.]+\.[A-Za-z]{2,}$', url.path, re.UNICODE)
 
 def _prepare_summary(text):
-	text = objects.tounicode(text)
 	lines = filter(None, text.splitlines())
 	summary = lines[0] if lines else text
 	maxlen = 10
 	if len(summary) > maxlen:
 		summary = summary[:maxlen] + u".."
-
 	return summary
-
 
 class SelectedText (TextLeaf):
 	qf_id = "selectedtext"
@@ -47,8 +44,8 @@ class SelectedText (TextLeaf):
 		# return a constant rank key despite the changing name
 		return _("Selected Text")
 
-
 class SelectedUrl (UrlLeaf):
+	qf_id = "selectedtext"
 
 	def __init__(self, text):
 		summary = _prepare_summary(text)
@@ -57,7 +54,6 @@ class SelectedUrl (UrlLeaf):
 	def rank_key(self):
 		# return a constant rank key despite the changing name
 		return _("Selected Text")
-
 
 class InvisibleSourceLeaf (SourceLeaf):
 	"""Hack to hide this source"""
@@ -75,21 +71,19 @@ class SelectionSource (Source, PicklingHelperMixin):
 		self._text = None
 
 	def _clipboard_changed(self, clipboard, event):
-		self._text = clipboard.wait_for_text()
+		self._text = objects.tounicode(clipboard.wait_for_text())
 		self.mark_for_update()
 
 	def get_items(self):
 		if self._text:
-			if _check_url(self._text):
+			if _is_url(self._text):
 				yield SelectedUrl(self._text)
-
-			else:
-				yield SelectedText(self._text)
+			yield SelectedText(self._text)
 
 	def get_description(self):
 		return _("Provides current selection")
 	def provides(self):
 		yield TextLeaf
-		yield Leaf
+		yield UrlLeaf
 	def get_leaf_repr(self):
 		return InvisibleSourceLeaf(self)
