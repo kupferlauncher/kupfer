@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-11 23:29+0200\n"
+"POT-Creation-Date: 2009-10-21 21:28+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -28,8 +28,8 @@ msgstr "Programstartare"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Flexibelt kommandoprogram för program och dokument"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1265
-#: ../kupfer/browser.py:1296 ../kupfer/plugin/core.py:184
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1270
+#: ../kupfer/browser.py:1301 ../kupfer/plugin/core.py:184
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -74,24 +74,25 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:635
+#: ../kupfer/browser.py:636
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:637
+#: ../kupfer/browser.py:638
 #, python-format
-msgid "No matches in %s for \"%s\""
-msgstr "Inga träffar i %s för \"%s\""
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "Inga träffar i %(src)s för \"%(query)s\""
 
-#: ../kupfer/browser.py:643
-msgid "Searching..."
-msgstr "Söker..."
+#: ../kupfer/browser.py:647
+#, 
+msgid "Type to Search"
+msgstr "Skriv för att söka..."
 
-#: ../kupfer/browser.py:649
+#: ../kupfer/browser.py:653
 #, python-format
-msgid "Searching %(source)s..."
-msgstr "Söker i %(source)s..."
+msgid "Type to Search %s"
+msgstr "Skriv för att söka i %s..."
 
 #: ../kupfer/main.py:36
 msgid "do not present main interface on launch"
@@ -1477,3 +1478,6 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Type to Search %(source)s..."
+#~ msgstr "Skriv för att söka i %(source)s..."
