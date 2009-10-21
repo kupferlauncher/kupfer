@@ -258,7 +258,8 @@ class MatchView (gtk.Bin):
 			return
 		
 		if not self.cur_match or self.match_state is not State.Match:
-			self.label.set_text(self.cur_text)
+			# Allow markup in the text string if we have no match
+			self.label.set_markup(self.cur_text)
 			return
 
 		# update the text label
@@ -634,23 +635,27 @@ class LeafSearch (Search):
 		if empty and self.source:
 			return _("%s is empty") % self.source, get_pbuf(self.source)
 		elif self.source:
-			return (_('No matches in %s for "%s"') % (self.source, self.text),
-					get_pbuf(self.source))
+			return (_('No matches in %(src)s for "%(query)s"') % {
+				"src": u"<i>%s</i>" % escape_markup_str(unicode(self.source)),
+				"query": escape_markup_str(self.text),
+				},
+				get_pbuf(self.source))
 		else:
 			return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
 		icon = None
-		title = _("Searching...")
+		title = _("Type to Search")
 		get_pbuf = \
 			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
 					m.get_pixbuf(self.icon_size))
 		if self.source:
 			icon = get_pbuf(self.source)
-			title = _("Searching %(source)s...") % {"source":self.source}
+			title = (_("Type to Search %s") %
+					u"<i>%s</i>" % escape_markup_str(unicode(self.source)))
 
 		self._set_match(None)
 		self.match_state = State.Wait
-		self.match_view.set_match_state(unicode(title), icon, state=State.Wait)
+		self.match_view.set_match_state(title, icon, state=State.Wait)
 
 class ActionSearch (Search):
 	"""
