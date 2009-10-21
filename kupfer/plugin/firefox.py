@@ -48,7 +48,7 @@ class BookmarksSource (AppLeafContentMixin, Source):
 
 		if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
 			try:
-				return self._get_ffx3_items(fpath)
+				return list(self._get_ffx3_items(fpath))
 			except Exception, exc:
 				# Catch JSON parse errors
 				# different exception for cjson and json
