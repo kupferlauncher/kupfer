@@ -7,7 +7,7 @@ kupfer version c17
 
 Not Released Yet
 
-* Simplified Chinese localization by (lh)
+* Simplified Chinese localization (lh)
 * Dutch localization (Martin Koelewijn)
 * Portuguese localization (Carlos Pais)
 * 7 new plugins by Karol Będkowski:
@@ -23,7 +23,9 @@ Not Released Yet
 * Plugins missing dependencies will be presented in the GUI with a clear
   error message.
 * *Firefox Bookmarks* plugin: Workaround Firefox 3.5 writing invalid JSON
+  (Karol, Ulrik)
 * *Locate* plugin: Ignore case by default, add option to control this.
+  (Karol)
 * Kupfer is much more friendly and says "Type to search in *Catalog*" when
   it is ready to be used.
 
