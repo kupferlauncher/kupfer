@@ -2,6 +2,32 @@
 NEWS for kupfer
 ===============
 
+kupfer version c17
+------------------
+
+Not Released Yet
+
+* Simplified Chinese localization by (lh)
+* Dutch localization (Martin Koelewijn)
+* Portuguese localization (Carlos Pais)
+* 7 new plugins by Karol Będkowski:
+
+  + *Claws Mail*, Contacts and actions
+  + *Gajim*, Access to gajim contacts
+  + *PuTTY Sessions*, access to PuTTY sessions
+  + *System Services*, start, stop or restart system services
+  + *Terminal Server Client*, access to TSClient sessions
+  + *VirtualBox*, control virtual machines, Sun or OSE version
+  + *Zim*, access pages in the desktop wiki
+
+* Plugins missing dependencies will be presented in the GUI with a clear
+  error message.
+* *Firefox Bookmarks* plugin: Workaround Firefox 3.5 writing invalid JSON
+* *Locate* plugin: Ignore case by default, add option to control this.
+* Kupfer is much more friendly and says "Type to search in *Catalog*" when
+  it is ready to be used.
+
+
 kupfer version c16
 ------------------
 
