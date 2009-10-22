@@ -69,3 +69,18 @@ def get_bookmarks(bookmarks_file):
 		else:
 			bookmarks.append(b)
 	return bookmarks
+
+if __name__ == '__main__':
+	import os
+	import firefox_support
+
+	dirloc = firefox_support.get_firefox_home_file("bookmarkbackups")
+	fpath = None
+	if dirloc:
+		files = os.listdir(dirloc)
+		if files:
+			latest_file = (files.sort() or files)[-1]
+			fpath = os.path.join(dirloc, latest_file)
+
+	if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
+		print "Parsed # bookmarks:", len(list(get_bookmarks(fpath)))
