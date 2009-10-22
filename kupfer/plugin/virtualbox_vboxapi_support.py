@@ -5,8 +5,8 @@ virtualbox_vboxapi_support.py
 Control VirtualBox via Python interface (vboxapi).
 Only (?) Sun VirtualBox (no OSE).
 '''
-__revision__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+__version__ = "0.3"
 
 from kupfer import pretty 
 
@@ -14,7 +14,7 @@ from kupfer import pretty
 
 import vboxapi
 
-import virtualbox_const
+import virtualbox_const_support as vbox_const
 
 MONITORED_DIRS = None
 IS_DYNAMIC = False
@@ -22,12 +22,12 @@ ICON = "VBox"
 
 
 _ACTIONS = {
-		virtualbox_const.VM_POWEROFF:		lambda c:c.powerDown(),
-		virtualbox_const.VM_ACPI_POWEROFF:	lambda c:c.powerButton(),
-		virtualbox_const.VM_PAUSE:			lambda c:c.pause(),
-		virtualbox_const.VM_REBOOT:			lambda c:c.reset(),
-		virtualbox_const.VM_RESUME:			lambda c:c.resume(),
-		virtualbox_const.VM_SAVE:			lambda c:c.saveState()
+		vbox_const.VM_POWEROFF:			lambda c:c.powerDown(),
+		vbox_const.VM_ACPI_POWEROFF:	lambda c:c.powerButton(),
+		vbox_const.VM_PAUSE:			lambda c:c.pause(),
+		vbox_const.VM_REBOOT:			lambda c:c.reset(),
+		vbox_const.VM_RESUME:			lambda c:c.resume(),
+		vbox_const.VM_SAVE:				lambda c:c.saveState()
 }
 
 
@@ -50,8 +50,8 @@ def _get_existing_session(vm_uuid):
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 		vbox.vbox.openExistingSession(session, vm_uuid)
 	except Exception, err:
-		pretty.print_error(__name__, 'virtualbox: get session to %s error' % \
-				vm_uuid, err)
+		pretty.print_error(__name__, 'virtualbox: get session error', vm_uuid,
+				err)
 
 	return vbox, session
 
@@ -60,21 +60,21 @@ def get_machine_state(machine_id):
 	
 	vbox, vbox_sess = _get_object_session()
 	if vbox_sess is None:
-		return virtualbox_const.VM_STATE_POWEROFF
+		return vbox_const.VM_STATE_POWEROFF
 
-	state = virtualbox_const.VM_STATE_POWERON
+	state = vbox_const.VM_STATE_POWERON
 	try:
 		vbox.vbox.openExistingSession(vbox_sess, machine_id)
 		machine_state = vbox_sess.machine.state
 		if machine_state == vbox.constants.MachineState_Paused:
-			state = virtualbox_const.VM_STATE_PAUSED
+			state = vbox_const.VM_STATE_PAUSED
 		elif machine_state in (vbox.constants.MachineState_PoweredOff, 
 				vbox.constants.MachineState_Aborted,
 				vbox.constants.MachineState_Starting):
-			state = virtualbox_const.VM_STATE_POWEROFF
+			state = vbox_const.VM_STATE_POWEROFF
 	except Exception: # exception == machine is off (xpcom.Exception)
 		# silently set state to off
-		state = virtualbox_const.VM_STATE_POWEROFF
+		state = vbox_const.VM_STATE_POWEROFF
 
 	if vbox_sess.state == vbox.constants.SessionState_Open:
 		vbox_sess.close()
@@ -90,7 +90,8 @@ def _machine_start(vm_uuid, mode):
 	vbox, session = _get_object_session()
 	if session:
 		try:
-			remote_sess = vbox.vbox.openRemoteSession(session, vm_uuid, mode, '')
+			remote_sess = vbox.vbox.openRemoteSession(session, vm_uuid, mode, 
+					'')
 			remote_sess.waitForCompletion(-1)
 		except Exception, err: 
 			pretty.print_error(__name__, "StartVM:", vm_uuid, "Mode ", mode, 
@@ -121,9 +122,9 @@ def vm_action(action, vm_uuid):
 		@param action - one of the const VM_*
 		@param vm_uuid - virtual machine uuid
 	'''
-	if action == virtualbox_const.VM_START_NORMAL:
+	if action == vbox_const.VM_START_NORMAL:
 		_machine_start(vm_uuid, 'gui')
-	elif action == virtualbox_const.VM_START_HEADLESS:
+	elif action == vbox_const.VM_START_HEADLESS:
 		_machine_start(vm_uuid, 'headless')
 	else:
 		command = _ACTIONS[action]
@@ -131,7 +132,8 @@ def vm_action(action, vm_uuid):
 
 
 def get_machines():
-	''' Get generator of items: (machine uuid, machine name, machine description)
+	''' Get generator of items: 
+		(machine uuid, machine name, machine description)
 	'''
 	vbox, vbox_sess = _get_object_session()
 	if vbox_sess is None:
@@ -141,6 +143,4 @@ def get_machines():
 	for machine in machines:
 		description = machine.description or machine.OSTypeId
 		yield (machine.id, machine.name, description)
-
-
 

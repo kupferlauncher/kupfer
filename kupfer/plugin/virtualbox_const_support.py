@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
 '''
-virtualbox_support.py
+virtualbox_const_support.py
 
-Constants for VirtualBox
+Constants for VirtualBox.
 '''
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-__revision__ = '0.1'
+__version__ = '0.3'
 
 # virtual machine states
 VM_STATE_POWEROFF = 0

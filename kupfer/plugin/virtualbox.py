@@ -6,22 +6,22 @@ from kupfer import pretty, plugin_support
 
 __kupfer_name__ = _("VirtualBox")
 __kupfer_sources__ = ("VBoxMachinesSource", )
-__description__ = _("Control Sun VirtualBox Virtual Machines. Support also VirtualBox OpenSource Edition.")
-__version__ = "0.2"
+__description__ = _("Control Sun VirtualBox Virtual Machines. "
+					"Support also VirtualBox OpenSource Edition.")
+__version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 )
 
-
 try:
-	import virtualbox_vboxapi_support as virtualbox_support
+	import virtualbox_vboxapi_support as vbox_support
 	pretty.print_info(__name__, 'Using vboxapi...')
 except ImportError, err:
-	import virtualbox_ose_support as virtualbox_support
+	import virtualbox_ose_support as vbox_support
 	pretty.print_info(__name__, 'Using cli...', err)
 
-import virtualbox_const
+import virtualbox_const_support as vbox_const
 
 
 class VirtualMachine(Leaf):
@@ -33,27 +33,29 @@ class VirtualMachine(Leaf):
 		return self.description
 
 	def get_icon_name(self):
-		return virtualbox_support.ICON
+		return vbox_support.ICON
 
 	def get_actions(self):
-		state = virtualbox_support.get_machine_state(self.object)
-		if state == virtualbox_const.VM_STATE_POWEROFF:
-			yield VMAction(_('Power On'), 'system-run', \
-					virtualbox_const.VM_START_NORMAL)
-			yield VMAction(_('Power On Headless'), 'system-run', \
-					virtualbox_const.VM_START_HEADLESS, -5)
-		elif state == virtualbox_const.VM_STATE_POWERON:
-			yield VMAction(_('Send Power Off Signal'), 'system-shutdown', \
-					virtualbox_const.VM_ACPI_POWEROFF, -5)
-			yield VMAction(_('Pause'), 'pause', virtualbox_const.VM_PAUSE)
-			yield VMAction(_('Reboot'), 'system-reboot', virtualbox_const.VM_REBOOT, -10)
+		state = vbox_support.get_machine_state(self.object)
+		if state == vbox_const.VM_STATE_POWEROFF:
+			yield VMAction(_('Power On'), 'system-run',
+					vbox_const.VM_START_NORMAL)
+			yield VMAction(_('Power On Headless'), 'system-run',
+					vbox_const.VM_START_HEADLESS, -5)
+		elif state == vbox_const.VM_STATE_POWERON:
+			yield VMAction(_('Send Power Off Signal'), 'system-shutdown',
+					vbox_const.VM_ACPI_POWEROFF, -5)
+			yield VMAction(_('Pause'), 'pause', vbox_const.VM_PAUSE)
+			yield VMAction(_('Reboot'), 'system-reboot', 
+					vbox_const.VM_REBOOT, -10)
 		else: # VM_STATE_PAUSED
-			yield VMAction(_('Resume'), 'resume', virtualbox_const.VM_RESUME)
+			yield VMAction(_('Resume'), 'resume', vbox_const.VM_RESUME)
 
-		if state in (virtualbox_const.VM_STATE_POWERON, virtualbox_const.VM_STATE_PAUSED):
-			yield VMAction(_('Save State'), 'system-supsend', virtualbox_const.VM_SAVE)
-			yield VMAction(_('Power Off'), 'system-shutdown', \
-					virtualbox_const.VM_POWEROFF, -10)
+		if state in (vbox_const.VM_STATE_POWERON, vbox_const.VM_STATE_PAUSED):
+			yield VMAction(_('Save State'), 'system-supsend',
+					vbox_const.VM_SAVE)
+			yield VMAction(_('Power Off'), 'system-shutdown',
+					vbox_const.VM_POWEROFF, -10)
 
 
 class VMAction(Action):
@@ -70,10 +72,11 @@ class VMAction(Action):
 		yield VirtualMachine
 
 	def activate(self, leaf):
-		virtualbox_support.vm_action(self.command, leaf.object)
+		vbox_support.vm_action(self.command, leaf.object)
 
 
-class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, FilesystemWatchMixin):
+class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, 
+		FilesystemWatchMixin):
 	appleaf_content_id = ('VirtualBox OSE', 'Sun VirtualBox')
 
 	def __init__(self, name=_("Sun VirtualBox Machines")):
@@ -81,21 +84,22 @@ class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, Files
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		if virtualbox_support.MONITORED_DIRS:
-			self.monitor_token = self.monitor_directories(*virtualbox_support.MONITORED_DIRS)
+		if vbox_support.MONITORED_DIRS:
+			self.monitor_token = self.monitor_directories(
+					*vbox_support.MONITORED_DIRS)
 
 	def is_dynamic(self):
-		return virtualbox_support.IS_DYNAMIC
+		return vbox_support.IS_DYNAMIC
 
 	def get_items(self):
-		for machine_id, machine_name, machine_desc in virtualbox_support.get_machines():
+		for machine_id, machine_name, machine_desc in vbox_support.get_machines():
 			yield VirtualMachine(machine_id, machine_name, machine_desc)
 
 	def get_description(self):
 		return None
 
 	def get_icon_name(self):
-		return virtualbox_support.ICON
+		return vbox_support.ICON
 
 	def provides(self):
 		yield VirtualMachine

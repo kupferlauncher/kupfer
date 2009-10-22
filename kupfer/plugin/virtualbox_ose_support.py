@@ -7,13 +7,13 @@ Support both Sun VirtualBox and VirtualBox OpenSource Edition.
 '''
 from __future__ import with_statement
 
-__revision__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+__version__ = '0.3'
 
 import os
 from xml.dom import minidom
 from kupfer import pretty, utils
-import virtualbox_const
+import virtualbox_const_support as vbox_const
 
 _VBOX_CONFIG_DIR = os.path.expanduser('~/.VirtualBox/')
 _VBOX_CONFIG_FILE = os.path.join(_VBOX_CONFIG_DIR, 'VirtualBox.xml')
@@ -24,18 +24,18 @@ ICON = "virtualbox-ose"
 
 # parameters for VBoxManage
 _ACTIONS = {
-		virtualbox_const.VM_POWEROFF: 'poweroff',
-		virtualbox_const.VM_ACPI_POWEROFF: 'acpipowerbutton',
-		virtualbox_const.VM_PAUSE: 'pause',
-		virtualbox_const.VM_REBOOT: 'reset',
-		virtualbox_const.VM_RESUME: 'resume',
-		virtualbox_const.VM_SAVE: 'savestate'
+		vbox_const.VM_POWEROFF: 'poweroff',
+		vbox_const.VM_ACPI_POWEROFF: 'acpipowerbutton',
+		vbox_const.VM_PAUSE: 'pause',
+		vbox_const.VM_REBOOT: 'reset',
+		vbox_const.VM_RESUME: 'resume',
+		vbox_const.VM_SAVE: 'savestate'
 }
 
 
 def get_machine_state(vm_uuid):
 	''' check vms state (on/off/paused) '''
-	state = virtualbox_const.VM_STATE_POWEROFF
+	state = vbox_const.VM_STATE_POWEROFF
 	try:
 		str_state = 'poweroff'
 		with os.popen('VBoxManage showvminfo %s --machinereadable' % vm_uuid) \
@@ -45,13 +45,13 @@ def get_machine_state(vm_uuid):
 					str_state = line.strip()[9:-1]
 					break
 		if str_state == 'paused':
-			state = virtualbox_const.VM_STATE_PAUSED
+			state = vbox_const.VM_STATE_PAUSED
 		elif str_state == 'running':
-			state = virtualbox_const.VM_STATE_POWERON
+			state = vbox_const.VM_STATE_POWERON
 
 	except IOError, err:
 		pretty.print_error(__name__, 'get_machine_state', vm_uuid, 'error', err)
-		state = virtualbox_const.VM_STATE_POWEROFF
+		state = vbox_const.VM_STATE_POWEROFF
 
 	return state
 
@@ -61,10 +61,10 @@ def vm_action(action, vm_uuid):
 		@param action - one of the const VM_*
 		@param vm_uuid - virtual machine uuid
 	'''
-	if action == virtualbox_const.VM_START_NORMAL:
+	if action == vbox_const.VM_START_NORMAL:
 		utils.launch_commandline('VBoxManage startvm ' + vm_uuid + \
 				' --type gui')
-	elif action == virtualbox_const.VM_START_HEADLESS:
+	elif action == vbox_const.VM_START_HEADLESS:
 		utils.launch_commandline('VBoxManage startvm ' + vm_uuid + \
 				' --type headless')
 	else:
@@ -82,7 +82,8 @@ def _get_virtual_machines(config_file):
 		dtree = minidom.parse(config_file)
 		machine_registry = dtree.getElementsByTagName('MachineRegistry')[0]
 		for machine in machine_registry.getElementsByTagName('MachineEntry'):
-			yield (machine.getAttribute('uuid')[1:-1], machine.getAttribute('src'))
+			yield (machine.getAttribute('uuid')[1:-1], 
+					machine.getAttribute('src'))
 
 	except StandardError, err:
 		pretty.print_error(__name__, '_get_virtual_machines', config_file, 
