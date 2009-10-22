@@ -6,8 +6,8 @@ from kupfer import pretty, plugin_support
 
 __kupfer_name__ = _("VirtualBox")
 __kupfer_sources__ = ("VBoxMachinesSource", )
-__description__ = _("Control Sun VirtualBox Virtual Machines. "
-					"Support also VirtualBox OpenSource Edition.")
+__description__ = _("Control VirtualBox Virtual Machines. "
+                    "Supports both Sun VirtualBox and Open Source Edition.")
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -79,7 +79,7 @@ class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 		FilesystemWatchMixin):
 	appleaf_content_id = ('VirtualBox OSE', 'Sun VirtualBox')
 
-	def __init__(self, name=_("Sun VirtualBox Machines")):
+	def __init__(self, name=_("VirtualBox Machines")):
 		Source.__init__(self, name)
 		self.unpickle_finish()
 
