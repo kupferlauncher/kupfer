@@ -27,6 +27,10 @@ def get_bookmarks(bookmarks_file):
 
 	with open(bookmarks_file) as f:
 		content = f.read().decode("UTF-8")
+		# HACK: Firefox' JSON writer leaves a trailing comma
+		# HACK: at the end of the array, which no parser accepts
+		if content.endswith(u"}]},]}"):
+			content = content[:-6] + u"}]}]}"
 		root = json_decoder(content)
 
 	catalogs = []
