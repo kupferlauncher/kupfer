@@ -15,6 +15,7 @@ ICON_NAME = "search"
 PROGRAM_NAME = _("Kupfer")
 
 AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+Karol Będkowski
 """.splitlines()
 
 PACKAGERS=u"""
@@ -26,7 +27,10 @@ TRANSLATORS=u"""
 Thibaud Roth (de)
 Leandro Leites (es)
 Andrea Zagli (it)
+Martin Koelewijn (nl)
 Maciej Kwiatkowski (pl)
+Karol Będkowski (pl)
+lh (zh_CN)
 """.splitlines()
 
 AUTHORS += PACKAGERS + TRANSLATORS
