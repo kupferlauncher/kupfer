@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-12 14:06+0200\n"
+"POT-Creation-Date: 2009-10-22 20:49+0200\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -25,8 +25,8 @@ msgstr "Skrót do programu"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1265
-#: ../kupfer/browser.py:1296 ../kupfer/plugin/core.py:184
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1270
+#: ../kupfer/browser.py:1301 ../kupfer/plugin/core.py:184
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -71,24 +71,24 @@ msgstr "Pokaż ikonę w obszarze powiadamiania"
 msgid "Start automatically on login"
 msgstr "Uruchom automatycznie po zalogowaniu"
 
-#: ../kupfer/browser.py:635
+#: ../kupfer/browser.py:636
 #, python-format
 msgid "%s is empty"
 msgstr "%s jest puste"
 
-#: ../kupfer/browser.py:637
+#: ../kupfer/browser.py:638
 #, python-format
-msgid "No matches in %s for \"%s\""
-msgstr "Brak wyników w %s dla \"%s\""
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "Brak wyników w %(src)s dla \"%(query)s\""
 
-#: ../kupfer/browser.py:643
-msgid "Searching..."
-msgstr "Wyszukiwanie..."
+#: ../kupfer/browser.py:647
+msgid "Type to search"
+msgstr "Pisz aby wyszukać"
 
-#: ../kupfer/browser.py:649
+#: ../kupfer/browser.py:653
 #, python-format
-msgid "Searching %(source)s..."
-msgstr "Wyszukiwanie w %(source)s..."
+msgid "Type to search %s"
+msgstr "Pisz aby wyszukać %s"
 
 #: ../kupfer/main.py:36
 msgid "do not present main interface on launch"
@@ -768,15 +768,19 @@ msgstr "Obróć automatycznie"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Obróć JPEG biorąc pod uwagę dane EXIF"
 
-#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:19
+#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:26
 msgid "Locate Files"
 msgstr "Zlokalizuj pliki"
 
-#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:29
+#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:36
 msgid "Search filesystem using locate"
 msgstr "Przeszukaj system plików za pomocą locate"
 
-#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/locate.py:18
+msgid "Ignore case distinctions when searching files"
+msgstr "Ignoruj wielkość liter podczas wyszukiwania plików"
+
+#: ../kupfer/plugin/locate.py:44 ../kupfer/plugin/tracker.py:59
 #: ../kupfer/plugin/tracker.py:97
 #, python-format
 msgid "Results for \"%s\""
@@ -888,8 +892,7 @@ msgstr "Odtwarzaj"
 msgid "Resume playback in Rhythmbox"
 msgstr "Wznów odtwarzanie w Rhythmboksie"
 
-#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:88
-#: ../kupfer/plugin/virtualbox_ose.py:101
+#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:48
 msgid "Pause"
 msgstr "Pauza"
 
@@ -1347,58 +1350,48 @@ msgstr "Strony Zima"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
 
-#: ../kupfer/plugin/virtualbox.py:6
+#: ../kupfer/plugin/virtualbox.py:7
 msgid "VirtualBox"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:8
-msgid "Control Sun VirtualBox Virtual Machines"
-msgstr "Zarządzanie maszynami wirtualnymi Sun VirtualBox"
+#: ../kupfer/plugin/virtualbox.py:9
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
+msgstr ""
+"Zarządzaj maszynami wirtualnymi VirtualBoxa. Ta wersja wspiera wersję "
+"zarówno zamkniętą SUN-a jak i otwarto-źródłową."
 
-#: ../kupfer/plugin/virtualbox.py:83 ../kupfer/plugin/virtualbox_ose.py:96
+#: ../kupfer/plugin/virtualbox.py:41
 msgid "Power On"
 msgstr "Uruchom"
 
-#: ../kupfer/plugin/virtualbox.py:84 ../kupfer/plugin/virtualbox_ose.py:97
+#: ../kupfer/plugin/virtualbox.py:43
 msgid "Power On Headless"
 msgstr "Uruchom bez okna"
 
-#: ../kupfer/plugin/virtualbox.py:86 ../kupfer/plugin/virtualbox_ose.py:99
+#: ../kupfer/plugin/virtualbox.py:46
 msgid "Send Power Off Signal"
 msgstr "Wyślij sygnał wyłączenia"
 
-#: ../kupfer/plugin/virtualbox.py:89 ../kupfer/plugin/virtualbox_ose.py:102
+#: ../kupfer/plugin/virtualbox.py:49
 msgid "Reboot"
 msgstr "Resetuj"
 
-#. VM_PAUSED
-#: ../kupfer/plugin/virtualbox.py:91 ../kupfer/plugin/virtualbox_ose.py:104
+#. VM_STATE_PAUSED
+#: ../kupfer/plugin/virtualbox.py:52
 msgid "Resume"
 msgstr "Wznów"
 
-#: ../kupfer/plugin/virtualbox.py:94 ../kupfer/plugin/virtualbox_ose.py:107
+#: ../kupfer/plugin/virtualbox.py:55
 msgid "Save State"
 msgstr "Zapisz stan"
 
-#: ../kupfer/plugin/virtualbox.py:95 ../kupfer/plugin/virtualbox_ose.py:108
+#: ../kupfer/plugin/virtualbox.py:57
 msgid "Power Off"
 msgstr "Wyłącz"
 
-#: ../kupfer/plugin/virtualbox.py:150
-msgid "Sun VirtualBox Machines"
-msgstr "Maszyny Wirtualne Sun VirtualBox"
-
-#: ../kupfer/plugin/virtualbox_ose.py:7
-msgid "VirtualBoxOSE"
-msgstr ""
-
-#: ../kupfer/plugin/virtualbox_ose.py:9
-msgid ""
-"Control VirtualBox Virtual Machines. This version supports OpenSource "
-"Edition."
-msgstr "Zarządzaj maszynami wirtualnymi VirtualBoxa. Ta wersja wspiera wersję otwarto-źródłową."
-
-#: ../kupfer/plugin/virtualbox_ose.py:146
+#: ../kupfer/plugin/virtualbox.py:82
 msgid "VirtualBox Machines"
 msgstr "Maszyny Wirtualne VirtualBox"
 
@@ -1427,11 +1420,11 @@ msgstr "Wersja"
 #: ../kupfer/preferences.py:301
 #, python-format
 msgid "Python module '%s' is needed"
-msgstr ""
+msgstr "Wymagany jest moduł Pytona '%s'"
 
 #: ../kupfer/preferences.py:310
 msgid "Plugin could not be read due to an error:"
-msgstr ""
+msgstr "Plugin nie może być wczytany ze względu na błąd:"
 
 #. TRANS: Plugin contents header
 #: ../kupfer/preferences.py:371
@@ -1496,3 +1489,14 @@ msgstr ""
 "Powszechnej Licencji Publicznej GNU (GNU General Public License);\n"
 "jeśli nie - wejdź na <http://www.gnu.org/licenses/>.\n"
 
+#~ msgid "Searching..."
+#~ msgstr "Wyszukiwanie..."
+
+#~ msgid "Searching %(source)s..."
+#~ msgstr "Wyszukiwanie w %(source)s..."
+
+#~ msgid "Control Sun VirtualBox Virtual Machines"
+#~ msgstr "Zarządzanie maszynami wirtualnymi Sun VirtualBox"
+
+#~ msgid "Sun VirtualBox Machines"
+#~ msgstr "Maszyny Wirtualne Sun VirtualBox"
