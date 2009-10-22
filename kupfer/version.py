@@ -30,6 +30,7 @@ Andrea Zagli (it)
 Martin Koelewijn (nl)
 Maciej Kwiatkowski (pl)
 Karol Będkowski (pl)
+Carlos Pais (pt)
 lh (zh_CN)
 """.splitlines()
 
