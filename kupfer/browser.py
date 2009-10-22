@@ -644,13 +644,13 @@ class LeafSearch (Search):
 			return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
 	def setup_empty(self):
 		icon = None
-		title = _("Type to Search")
+		title = _("Type to search")
 		get_pbuf = \
 			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
 					m.get_pixbuf(self.icon_size))
 		if self.source:
 			icon = get_pbuf(self.source)
-			title = (_("Type to Search %s") %
+			title = (_("Type to search %s") %
 					u"<i>%s</i>" % escape_markup_str(unicode(self.source)))
 
 		self._set_match(None)
