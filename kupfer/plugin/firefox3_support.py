@@ -12,6 +12,15 @@ def get_bookmarks(bookmarks_file):
 	if not bookmarks_file:
 		return []
 
+	with open(bookmarks_file) as f:
+		content = f.read().decode("UTF-8")
+		# HACK: Firefox' JSON writer leaves a trailing comma
+		# HACK: at the end of the array, which no parser accepts
+		if content.endswith(u"}]},]}"):
+			content = content[:-6] + u"}]}]}"
+		root = json_decoder(content)
+
+	# make a dictionary of unique bookmarks
 	bmap = {}
 
 	def bmap_add(bmark, bmap):
@@ -25,14 +34,18 @@ def get_bookmarks(bookmarks_file):
 			print "Already in, gets tag:", tag
 		bmap[id_]["tags"].append(tag)
 
-	with open(bookmarks_file) as f:
-		content = f.read().decode("UTF-8")
-		# HACK: Firefox' JSON writer leaves a trailing comma
-		# HACK: at the end of the array, which no parser accepts
-		if content.endswith(u"}]},]}"):
-			content = content[:-6] + u"}]}]}"
-		root = json_decoder(content)
+	MOZ_CONTAINER = "text/x-moz-place-container"
+	MOZ_PLACE = "text/x-moz-place"
+	UNWANTED_SCHEME = ("data", "place", "javascript")
 
+	def is_container(ch):
+		return ch["type"] == MOZ_CONTAINER
+	def is_bookmark(ch):
+		return ch["type"] == MOZ_PLACE and ch.get("uri")
+	def is_good(ch):
+		return not ch["uri"].split(":", 1)[0] in UNWANTED_SCHEME
+
+	# find toplevel subfolders and tag folders
 	catalogs = []
 	tagcatalogs = []
 	for child in root["children"]:
@@ -41,13 +54,7 @@ def get_bookmarks(bookmarks_file):
 		elif child.get("root"):
 			catalogs.append(child)
 
-	MOZ_CONTAINER = "text/x-moz-place-container"
-	MOZ_PLACE = "text/x-moz-place"
-	UNWANTED_SCHEME = ("data", "place", "javascript")
-	is_container = lambda ch: ch["type"] == MOZ_CONTAINER
-	is_bookmark = lambda ch: ch["type"] == MOZ_PLACE and ch.get("uri")
-	is_good = lambda ch: not ch["uri"].split(":", 1)[0] in UNWANTED_SCHEME
-
+	# visit all subfolders recursively
 	visited = set()
 	while catalogs:
 		next = catalogs.pop()
@@ -61,18 +68,14 @@ def get_bookmarks(bookmarks_file):
 				bmap_add(child, bmap)
 		visited.add(next["id"])
 
+	# visit all tag folders
 	for tag in tagcatalogs:
 		for bmark in tag["children"]:
 			if is_bookmark(bmark) and is_good(bmark):
 				bmap_add(bmark, bmap)
 				bmap_add_tag(bmark["id"], tag["title"], bmap)
-	bookmarks = []
-	for b in bmap.values():
-		if not b.get("uri"):
-			print "Has no uri:", b
-		else:
-			bookmarks.append(b)
-	return bookmarks
+
+	return bmap.values()
 
 if __name__ == '__main__':
 	import os
