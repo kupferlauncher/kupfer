@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-21 21:28+0200\n"
+"POT-Creation-Date: 2009-10-22 15:14+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -85,14 +85,13 @@ msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Inga träffar i %(src)s för \"%(query)s\""
 
 #: ../kupfer/browser.py:647
-#, 
-msgid "Type to Search"
-msgstr "Skriv för att söka..."
+msgid "Type to search"
+msgstr "Skriv för att söka"
 
 #: ../kupfer/browser.py:653
 #, python-format
-msgid "Type to Search %s"
-msgstr "Skriv för att söka i %s..."
+msgid "Type to search %s"
+msgstr "Skriv för att söka i %s"
 
 #: ../kupfer/main.py:36
 msgid "do not present main interface on launch"
@@ -771,15 +770,19 @@ msgstr "Autorotera"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
 
-#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:19
+#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:26
 msgid "Locate Files"
 msgstr "Locate"
 
-#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:29
+#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:36
 msgid "Search filesystem using locate"
 msgstr "Sök filsystemet med 'locate'"
 
-#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/locate.py:18
+msgid "Ignore case distinctions when searching files"
+msgstr "Ignorera skillnad i gemener och VERSALER"
+
+#: ../kupfer/plugin/locate.py:44 ../kupfer/plugin/tracker.py:59
 #: ../kupfer/plugin/tracker.py:97
 #, python-format
 msgid "Results for \"%s\""
@@ -1478,6 +1481,3 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
-
-#~ msgid "Type to Search %(source)s..."
-#~ msgstr "Skriv för att söka i %(source)s..."
