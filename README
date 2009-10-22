@@ -7,16 +7,16 @@ kupfer is a simple, flexible, launcher for Gnome
 
 Installing
 ==========
-This project is configured for waf; waf is shipped in the
-distributable tarball but not in the repository.
-If you need to get waf, run::
+
+This project is configured for waf; waf is shipped in the distributable
+tarball but not in the repository.  If you need to get waf, run::
 
     wget -O waf http://waf.googlecode.com/files/waf-1.5.8
     chmod +x waf
 
 Installation follows the steps::
 
-    ./waf configure --prefix=PREFIX
+    ./waf configure --prefix=$PREFIX
     ./waf
 
 then::
@@ -27,13 +27,14 @@ or ::
 
     sudo ./waf install
 
-here ``PREFIX`` assigns an installation spot. For all users,
-programs are normally installed with prefix as ``/usr/local``.
-Installing only for your user, the prefix ``~/.local`` is often
-used; you just have to check that:
-``~/.local/bin`` is in your ``$PATH``
-``~/.local/lib/python2.*/site-packages`` is in python's sys.path
-(if not, you can add it by setting ``$PYTHONPATH``)
+here ``$PREFIX`` assigns an installation spot. For all users, programs
+are normally installed with prefix as ``/usr``.  Installing only for
+your user, the prefix ``~/.local`` is often used; you just have to check
+that:
+
+* ``~/.local/bin`` is in your ``$PATH``
+* ``~/.local/lib/python2.*/site-packages`` is in python's sys.path
+  (if not, you can add it by setting ``$PYTHONPATH``)
 
 Spawning
 ========
@@ -42,17 +43,18 @@ Kupfer is installed as ``kupfer`` into ``$PREFIX/bin``.
 Keybinder Module
 ----------------
 
-Kupfer uses tomboy's keybinder code, just like many other
-applications do for global keybindings.
-I had to break out the python wrapping of the code into a
-standalone python module `keybinder`_ that you need to install
-first:
+Kupfer uses tomboy's keybinder code, just like many other applications
+do for global keybindings.  I had to break out the python wrapping of
+the code into a standalone python module `keybinder`_ that you need to
+install first.
 
 .. _`keybinder`: http://kaizer.se/wiki/python-keybinder
 
-Now you can set kupfer's keybinding by editing kupfer's config.
-See ``kupfer --help`` for how to do that.
+Now you can set kupfer's keybinding by editing kupfer's config.  See
+``kupfer --help`` for how to do that.
 
-You can use kupfer without the keybinder module, for example
-by assigning a global keybinding to the ``kupfer`` binary; it is
-not recommended.
+You can use kupfer without the keybinder module, for example by
+assigning a global keybinding to the ``kupfer`` binary, but it not the
+recommended way.
+
+.. vim: ft=rst tw=72
