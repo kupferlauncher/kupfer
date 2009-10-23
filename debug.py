@@ -83,5 +83,7 @@ def icon_stats():
 				key=lambda k: icon_cache[size][k]["accesses"]):
 			print k, icon_cache[size][k]["accesses"]
 
-atexit.register(mem_stats)
-#atexit.register(icon_stats)
+def install():
+	"""Install atexit handlers for debug information"""
+	atexit.register(mem_stats)
+	#atexit.register(icon_stats)

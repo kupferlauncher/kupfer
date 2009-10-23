@@ -92,10 +92,6 @@ def get_options():
 			print_banner()
 			raise SystemExit
 		if k == "--debug":
-			try:
-				import debug
-			except ImportError, e:
-				pass
 			global _debug
 			_debug = True
 
@@ -129,6 +125,11 @@ def main():
 
 	if _debug:
 		pretty.debug = _debug
+		try:
+			import debug
+			debug.install()
+		except ImportError, e:
+			pass
 	sys.excepthook = sys.__excepthook__
 
 	w = browser.WindowController()
