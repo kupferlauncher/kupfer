@@ -3,11 +3,12 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import (Source, UrlLeaf, FilesystemWatchMixin, 
+from kupfer.objects import (Source, UrlLeaf, FilesystemWatchMixin,
 		AppLeafContentMixin)
-from kupfer import plugin_support
+from kupfer import plugin_support, objects
 
-__kupfer_name__ = _("Opera")
+
+__kupfer_name__ = _("Opera Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
 __kupfer_contents__ = ("BookmarksSource", )
 __description__ = _("Index of Opera bookmarks")
@@ -18,39 +19,38 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 )
 
+BOOKMARKS_FILE = "bookmarks.adr"
 
 class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 	appleaf_content_id = "opera"
 
-	def __init__(self, name=_("Opera bookmarks")):
+	def __init__(self, name=_("Opera Bookmarks")):
 		Source.__init__(self, name)
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
 		self._opera_home = os.path.expanduser("~/.opera/")
-		self._bookmarks_path = os.path.join(self._opera_home, 'bookmarks.adr')
+		self._bookmarks_path = os.path.join(self._opera_home, BOOKMARKS_FILE)
 		self.monitor_token = self.monitor_directories(self._opera_home)
 
 	def monitor_include_file(self, gfile):
-		return gfile and gfile.get_basename() == 'bookmarks.adr'
+		return gfile and gfile.get_basename() == BOOKMARKS_FILE
 
 	def get_items(self):
-		if not os.path.isfile(self._bookmarks_path):
-			return
-
 		name = None
-		with open(self._bookmarks_path, 'r') as bfile:
-			for line in bfile:
-				line = line.strip()
-				if line.startswith('NAME='):
-					name = line[5:]
-				elif line.startswith('URL='):
-					if name:
+		try:
+			with open(self._bookmarks_path, 'r') as bfile:
+				for line in bfile:
+					line = line.strip()
+					if line.startswith('NAME='):
+						name = objects.tounicode(line[5:])
+					elif line.startswith('URL=') and name:
 						yield UrlLeaf(line[4:], name)
-
+		except EnvironmentError, exc:
+			self.output_error(exc)
 
 	def get_description(self):
-		return _("")
+		return _("Index of Opera bookmarks")
 
 	def get_icon_name(self):
 		return "opera"
