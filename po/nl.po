@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-12 01:55+0200\n"
+"POT-Creation-Date: 2009-10-23 21:02+0200\n"
 "PO-Revision-Date: 2009-10-12 01:54+0200\n"
 "Last-Translator: Martin Koelewijn <martinkoelewijn@gmail.com>\n"
 "Language-Team: Dutch\n"
@@ -25,8 +25,8 @@ msgstr "Programmastarter"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Handige opdracht- en toegangshulp voor programma's en documenten"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1265
-#: ../kupfer/browser.py:1296 ../kupfer/plugin/core.py:184
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1270
+#: ../kupfer/browser.py:1301 ../kupfer/plugin/core.py:184
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -71,24 +71,24 @@ msgstr "Pictogram tonen in systeemvak"
 msgid "Start automatically on login"
 msgstr "Automatisch starten bij aanmelden"
 
-#: ../kupfer/browser.py:635
+#: ../kupfer/browser.py:636
 #, python-format
 msgid "%s is empty"
 msgstr "%s is leeg"
 
-#: ../kupfer/browser.py:637
-#, python-format
-msgid "No matches in %s for \"%s\""
+#: ../kupfer/browser.py:638
+#, fuzzy, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Geen treffers in %s voor \"%s\""
 
-#: ../kupfer/browser.py:643
-msgid "Searching..."
-msgstr "Zoeken..."
+#: ../kupfer/browser.py:647
+msgid "Type to search"
+msgstr ""
 
-#: ../kupfer/browser.py:649
+#: ../kupfer/browser.py:653
 #, python-format
-msgid "Searching %(source)s..."
-msgstr "Zoeken in %(source)s ..."
+msgid "Type to search %s"
+msgstr "Type om %s te zoeken"
 
 #: ../kupfer/main.py:36
 msgid "do not present main interface on launch"
@@ -122,7 +122,7 @@ msgstr "De standaard-configuratie bevindt zich in:"
 msgid "Available plugins:"
 msgstr "Beschikbare plug-ins:"
 
-#: ../kupfer/main.py:113
+#: ../kupfer/main.py:109
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -328,6 +328,16 @@ msgstr "Bereken expressies die beginnen met '='"
 #: ../kupfer/plugin/calculator.py:34
 msgid "Calculate"
 msgstr "Berekenen"
+
+#: ../kupfer/plugin/chromium.py:7 ../kupfer/plugin/chromium.py:21
+#, fuzzy
+msgid "Chromium Bookmarks"
+msgstr "Firefox Favorieten"
+
+#: ../kupfer/plugin/chromium.py:10 ../kupfer/plugin/chromium.py:44
+#, fuzzy
+msgid "Index of Chromium bookmarks"
+msgstr "Index van Firefox favorieten"
 
 #: ../kupfer/plugin/clawsmail.py:11
 msgid "Claws Mail"
@@ -769,15 +779,19 @@ msgstr "Automatisch draaien"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Draai JPEG (in-place) volgens zijn EXIF metadata"
 
-#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:19
+#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:26
 msgid "Locate Files"
 msgstr "Bestanden zoeken"
 
-#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:29
+#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:36
 msgid "Search filesystem using locate"
 msgstr "Bestandssysteem doorzoeken met \"locate\""
 
-#: ../kupfer/plugin/locate.py:37 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/locate.py:18
+msgid "Ignore case distinctions when searching files"
+msgstr ""
+
+#: ../kupfer/plugin/locate.py:44 ../kupfer/plugin/tracker.py:59
 #: ../kupfer/plugin/tracker.py:97
 #, python-format
 msgid "Results for \"%s\""
@@ -890,7 +904,7 @@ msgstr "Afspelen"
 msgid "Resume playback in Rhythmbox"
 msgstr "Afspelen hervatten in Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:88
+#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:48
 msgid "Pause"
 msgstr "Pauze"
 
@@ -1355,46 +1369,48 @@ msgstr ""
 msgid "Pages stored in Zim Notebooks"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:6
+#: ../kupfer/plugin/virtualbox.py:7
 msgid "VirtualBox"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:8
-msgid "Control Sun VirtualBox Virtual Machines"
+#: ../kupfer/plugin/virtualbox.py:9
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:83
+#: ../kupfer/plugin/virtualbox.py:41
 msgid "Power On"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:84
+#: ../kupfer/plugin/virtualbox.py:43
 msgid "Power On Headless"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:86
+#: ../kupfer/plugin/virtualbox.py:46
 msgid "Send Power Off Signal"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:89
+#: ../kupfer/plugin/virtualbox.py:49
 msgid "Reboot"
 msgstr ""
 
-#. VM_PAUSED
-#: ../kupfer/plugin/virtualbox.py:91
+#. VM_STATE_PAUSED
+#: ../kupfer/plugin/virtualbox.py:52
 #, fuzzy
 msgid "Resume"
 msgstr "Herstellen"
 
-#: ../kupfer/plugin/virtualbox.py:94
+#: ../kupfer/plugin/virtualbox.py:55
 msgid "Save State"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:95
+#: ../kupfer/plugin/virtualbox.py:57
 msgid "Power Off"
 msgstr ""
 
-#: ../kupfer/plugin/virtualbox.py:150
-msgid "Sun VirtualBox Machines"
+#: ../kupfer/plugin/virtualbox.py:82
+msgid "VirtualBox Machines"
 msgstr ""
 
 #: ../kupfer/preferences.py:220
@@ -1448,15 +1464,15 @@ msgstr "Configuratie"
 msgid "Choose a Directory"
 msgstr "Kies een map"
 
-#: ../kupfer/version.py:36
+#: ../kupfer/version.py:42
 msgid "translator-credits"
 msgstr "vertaal-erkenning"
 
-#: ../kupfer/version.py:40
+#: ../kupfer/version.py:46
 msgid "A free software (GPLv3+) launcher"
 msgstr "Een gratis (GPLv3+) programmastarter"
 
-#: ../kupfer/version.py:43
+#: ../kupfer/version.py:49
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -1485,3 +1501,9 @@ msgstr ""
 "\n"
 "Je zou een kopie van de GNU General Public License samen met dit pro-\n"
 "gramma moeten hebben gehad. Zo niet, lees <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Searching..."
+#~ msgstr "Zoeken..."
+
+#~ msgid "Searching %(source)s..."
+#~ msgstr "Zoeken in %(source)s ..."
