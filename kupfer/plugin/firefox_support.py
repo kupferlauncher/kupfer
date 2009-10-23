@@ -8,22 +8,22 @@ http://www.kylo.net/deli.py.txt
 Modifications released under GPL v2 (or any later)
 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 """
+import os
 
 from ConfigParser import RawConfigParser
 from HTMLParser import HTMLParser
-from os.path import join, expanduser, exists, basename
  
 def get_firefox_home_file(needed_file):
-    for firefox_dir in (expanduser(p) for p in ("~/.mozilla/firefox-3.5/",
-        "~/.mozilla/firefox/")):
-        if exists(firefox_dir):
+    for firefox_dir in (os.path.expanduser(p) for p in
+			("~/.mozilla/firefox-3.5/", "~/.mozilla/firefox/")):
+        if os.path.exists(firefox_dir):
             break
     else:
         # no break
         return None
     # here we leak firefox_dir
     config = RawConfigParser({"Default" : 0})
-    config.read(expanduser(join(firefox_dir, "profiles.ini")))
+    config.read(os.path.join(firefox_dir, "profiles.ini"))
     path = None
 
     for section in config.sections():
@@ -37,9 +37,9 @@ def get_firefox_home_file(needed_file):
         return ""
 
     if path.startswith("/"):
-        return join(path, needed_file)
+        return os.path.join(path, needed_file)
 
-    return join(firefox_dir, path, needed_file)
+    return os.path.join(firefox_dir, path, needed_file)
 
 
 class BookmarksParser(HTMLParser):

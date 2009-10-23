@@ -1,21 +1,22 @@
 # -*- coding: UTF-8 -*-
 
 from __future__ import with_statement
+
+import os
+
 try:
 	import cjson
 	json_decoder = cjson.decode
 except ImportError:
 	import json
 	json_decoder = json.loads
-from os.path import join, expanduser, exists, basename
 
 def get_chromium_home_file(needed_file):
-    chromium_dir = expanduser("~/.config/chromium/Default/")
-    if not exists(chromium_dir):
-        # no break
-        return None
+	chromium_dir = os.path.expanduser("~/.config/chromium/Default/")
+	if not os.path.exists(chromium_dir):
+		return None
 
-    return join(chromium_dir, needed_file)
+	return os.path.join(chromium_dir, needed_file)
 
 def get_bookmarks(bookmarks_file):
 	# construct and configure the parser
