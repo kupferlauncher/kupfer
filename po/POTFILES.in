@@ -10,6 +10,7 @@ kupfer/objects.py
 kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
 kupfer/plugin/calculator.py
+kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
