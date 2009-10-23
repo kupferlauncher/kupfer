@@ -20,6 +20,7 @@ Not Released Yet
   + *VirtualBox*, control virtual machines, Sun or OSE version
   + *Zim*, access pages in the desktop wiki
 
+* New plugin *Chromium Bookmarks* by Francesco Marella
 * Plugins missing dependencies will be presented in the GUI with a clear
   error message.
 * *Firefox Bookmarks* plugin: Workaround Firefox 3.5 writing invalid JSON
