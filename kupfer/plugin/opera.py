@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
+import codecs
 import os
 
 from kupfer.objects import (Source, UrlLeaf, FilesystemWatchMixin,
@@ -39,14 +40,18 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 	def get_items(self):
 		name = None
 		try:
-			with open(self._bookmarks_path, 'r') as bfile:
+			with codecs.open(self._bookmarks_path, "r", "UTF-8") as bfile:
 				for line in bfile:
 					line = line.strip()
-					if line.startswith('NAME='):
-						name = objects.tounicode(line[5:])
-					elif line.startswith('URL=') and name:
+					if line.startswith(u'NAME='):
+						name = line[5:]
+					elif line.startswith(u'URL=') and name:
 						yield UrlLeaf(line[4:], name)
 		except EnvironmentError, exc:
+			self.output_error(exc)
+		except UnicodeError, exc:
+			self.output_error("File %s not in expected encoding (UTF-8)" %
+					self._bookmarks_path)
 			self.output_error(exc)
 
 	def get_description(self):
