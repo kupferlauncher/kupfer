@@ -257,9 +257,12 @@ class MatchView (gtk.Bin):
 			self.label.set_text("<no text>")
 			return
 		
-		if not self.cur_match or self.match_state is not State.Match:
-			# Allow markup in the text string if we have no match
-			self.label.set_markup(self.cur_text)
+		if not self.cur_match:
+			if self.match_state is not State.Match:
+				# Allow markup in the text string if we have no match
+				self.label.set_markup(self.cur_text)
+			else:
+				self.label.set_text(self.cur_text)
 			return
 
 		# update the text label
