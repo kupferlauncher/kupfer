@@ -39,6 +39,8 @@ AUTHORS += PACKAGERS + TRANSLATORS
 
 DOCUMENTERS = []
 
+# TRANS: Don't translate literally!
+# TRANS: This should be a list of all translators of this language
 TRANSLATOR_CREDITS = _("translator-credits")
 
 WEBSITE = u"http://kaizer.se/wiki/kupfer/"
