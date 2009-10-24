@@ -636,7 +636,9 @@ class LeafSearch (Search):
 			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
 					m.get_pixbuf(self.icon_size))
 		if empty and self.source:
-			return _("%s is empty") % self.source, get_pbuf(self.source)
+			return (_("%s is empty") %
+					escape_markup_str(unicode(self.source)),
+					get_pbuf(self.source))
 		elif self.source:
 			return (_('No matches in %(src)s for "%(query)s"') % {
 				"src": u"<i>%s</i>" % escape_markup_str(unicode(self.source)),
