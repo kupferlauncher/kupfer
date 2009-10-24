@@ -107,13 +107,47 @@ class AppendToNote (Action):
 	def get_icon_name(self):
 		return "gtk-add"
 
+def _prepare_note_text(text):
+	"""Prepare note text
+
+	A long text will have its first words on a separate line as title
+	"""
+	if not text.strip():
+		return text
+
+	def split_first_line(text):
+		"""Take first non-empty line of text"""
+		lines = iter(text.splitlines())
+		for l in lines:
+			l = l.strip()
+			if not l:
+				continue
+			rest = u"\n".join(lines)
+			return l, rest
+
+	def split_first_words(text, maxwords):
+		words = text.split(None, maxwords)
+		return u" ".join(words[:maxwords]), u" ".join(words[maxwords:])
+
+	# Take first line -- if it s a good title return text as is
+	# If first line is too long, take first words and *full* text follow
+	maxtitlewords = 7
+	firstline, rest = split_first_line(text)
+	if len(firstline.split(None, maxtitlewords)) > maxtitlewords:
+		firstline, rest = split_first_words(text, maxtitlewords)
+	else:
+		return text.lstrip()
+	if rest.strip():
+		text = u"%s\n%s" % (firstline, text)
+	return text
+
 class CreateNote (Action):
 	def __init__(self):
 		Action.__init__(self, _("Create Note"))
 
 	def activate(self, leaf):
 		notes = _get_notes_interface(activate=True)
-		text = leaf.object
+		text = _prepare_note_text(leaf.object)
 		# FIXME: For Gnote we have to call DisplayNote
 		# else we can't change its contents
 		noteuri = notes.CreateNote()
