@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import (TextLeaf, ConstructFileLeaf, FileLeaf)
@@ -45,16 +46,31 @@ class LocateQuerySource (Source):
 		self.query = query
 		self.max_items = 500
 
+	def is_dynamic(self):
+		return True
+
 	def get_items(self):
 		ignore_case = '--ignore-case' if __kupfer_settings__["ignore_case"] else ''
-		command = "locate --quiet --null --limit %d %s '%s'" % \
-				(self.max_items, ignore_case, self.query)
-		locate_output = os.popen(command).read()
-		files = locate_output.split("\x00")[:-1]
-		for filestr in files:
-			yield ConstructFileLeaf(filestr)
-		if len(files) == self.max_items:
-			self.output_debug("Found maximum number of files for", self.query)
+		# Start two processes, one to take the first 10 hits, one
+		# to take the remaining up to maximum. We start both at the same time
+		# (regrettably, locate wont output streamingly to stdout)
+		# but we ask the second for results only after iterating the first 10
+		first_num = 10
+		first_command = ("locate --quiet --null --limit %d %s '%s'" %
+				(first_num, ignore_case, self.query))
+		full_command = ("locate --quiet --null --limit %d %s '%s'" %
+				(self.max_items, ignore_case, self.query))
+		p1 = subprocess.Popen(first_command, shell=True, stdout=subprocess.PIPE)
+		p2 = subprocess.Popen(full_command, shell=True, stdout=subprocess.PIPE)
+
+		def get_locate_output(proc, offset=0):
+			out, ignored_err = proc.communicate()
+			return (ConstructFileLeaf(f) for f in out.split("\x00")[offset:-1])
+
+		for F in get_locate_output(p1, 0):
+			yield F
+		for F in get_locate_output(p2, 10):
+			yield F
 
 	def get_gicon(self):
 		return icons.ComposedIcon("gnome-terminal", "gtk-find")
