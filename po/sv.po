@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-22 15:14+0200\n"
+"POT-Creation-Date: 2009-10-25 14:40+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -28,8 +28,8 @@ msgstr "Programstartare"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Flexibelt kommandoprogram för program och dokument"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1270
-#: ../kupfer/browser.py:1301 ../kupfer/plugin/core.py:184
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1278
+#: ../kupfer/browser.py:1309 ../kupfer/plugin/core.py:184
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -74,21 +74,21 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:636
+#: ../kupfer/browser.py:642
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:638
+#: ../kupfer/browser.py:646
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Inga träffar i %(src)s för \"%(query)s\""
 
-#: ../kupfer/browser.py:647
+#: ../kupfer/browser.py:655
 msgid "Type to search"
 msgstr "Skriv för att söka"
 
-#: ../kupfer/browser.py:653
+#: ../kupfer/browser.py:661
 #, python-format
 msgid "Type to search %s"
 msgstr "Skriv för att söka i %s"
@@ -125,7 +125,7 @@ msgstr "Standardinställningarna är dokumenterade i:"
 msgid "Available plugins:"
 msgstr "Tillgängliga insticksmoduler:"
 
-#: ../kupfer/main.py:113
+#: ../kupfer/main.py:109
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -331,6 +331,14 @@ msgstr "Beräkna uttryck som börjar med \"=\""
 #: ../kupfer/plugin/calculator.py:34
 msgid "Calculate"
 msgstr "Beräkna"
+
+#: ../kupfer/plugin/chromium.py:7 ../kupfer/plugin/chromium.py:21
+msgid "Chromium Bookmarks"
+msgstr "Chromium-bokmärken"
+
+#: ../kupfer/plugin/chromium.py:10 ../kupfer/plugin/chromium.py:44
+msgid "Index of Chromium bookmarks"
+msgstr "Index över Chromium-bokmärken"
 
 #: ../kupfer/plugin/clawsmail.py:11
 msgid "Claws Mail"
@@ -770,19 +778,19 @@ msgstr "Autorotera"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
 
-#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:26
+#: ../kupfer/plugin/locate.py:9 ../kupfer/plugin/locate.py:27
 msgid "Locate Files"
 msgstr "Locate"
 
-#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:36
+#: ../kupfer/plugin/locate.py:13 ../kupfer/plugin/locate.py:37
 msgid "Search filesystem using locate"
 msgstr "Sök filsystemet med 'locate'"
 
-#: ../kupfer/plugin/locate.py:18
+#: ../kupfer/plugin/locate.py:19
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorera skillnad i gemener och VERSALER"
 
-#: ../kupfer/plugin/locate.py:44 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/locate.py:45 ../kupfer/plugin/tracker.py:59
 #: ../kupfer/plugin/tracker.py:97
 #, python-format
 msgid "Results for \"%s\""
@@ -806,7 +814,7 @@ msgstr ""
 msgid "Selected File \"%s\""
 msgstr "Markerad Fil \"%s\""
 
-#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:161
+#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:195
 msgid "Notes"
 msgstr "Anteckningar"
 
@@ -830,29 +838,37 @@ msgstr "Lägg till anteckning..."
 msgid "Add text to existing note"
 msgstr "Tillfoga texten till existerande anteckning"
 
-#: ../kupfer/plugin/notes.py:112
+#: ../kupfer/plugin/notes.py:146
 msgid "Create Note"
 msgstr "Skapa anteckning"
 
-#: ../kupfer/plugin/notes.py:126
+#: ../kupfer/plugin/notes.py:160
 msgid "Create a new note from this text"
 msgstr "Skapa en ny anteckning från texten"
 
-#: ../kupfer/plugin/notes.py:143
+#: ../kupfer/plugin/notes.py:177
 #, python-format
 msgid "today, %s"
 msgstr "idag, %s"
 
-#: ../kupfer/plugin/notes.py:145
+#: ../kupfer/plugin/notes.py:179
 #, python-format
 msgid "yesterday, %s"
 msgstr "igår, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:149
+#: ../kupfer/plugin/notes.py:183
 #, python-format
 msgid "Last updated %s"
 msgstr "Senast ändrad %s"
+
+#: ../kupfer/plugin/opera.py:12 ../kupfer/plugin/opera.py:28
+msgid "Opera Bookmarks"
+msgstr "Opera-bokmärken"
+
+#: ../kupfer/plugin/opera.py:15 ../kupfer/plugin/opera.py:58
+msgid "Index of Opera bookmarks"
+msgstr "Index över Opera-bokmärken"
 
 #: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:54
 msgid "PuTTY Sessions"
@@ -894,7 +910,7 @@ msgstr "Spela upp"
 msgid "Resume playback in Rhythmbox"
 msgstr "Starta uppspelning i Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:88
+#: ../kupfer/plugin/rhythmbox.py:75 ../kupfer/plugin/virtualbox.py:48
 msgid "Pause"
 msgstr "Paus"
 
@@ -1352,46 +1368,50 @@ msgstr "Zim-sidor"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
 
-#: ../kupfer/plugin/virtualbox.py:6
+#: ../kupfer/plugin/virtualbox.py:7
 msgid "VirtualBox"
 msgstr "VirtualBox"
 
-#: ../kupfer/plugin/virtualbox.py:8
-msgid "Control Sun VirtualBox Virtual Machines"
-msgstr "Kontrollera Sun VirtualBox virtuella maskiner"
+#: ../kupfer/plugin/virtualbox.py:9
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
+msgstr ""
+"Kontrollera VirtualBox virtuella maskiner. Stöder både Sun VirtualBox och "
+"Open Source Edition."
 
-#: ../kupfer/plugin/virtualbox.py:83
+#: ../kupfer/plugin/virtualbox.py:41
 msgid "Power On"
 msgstr "Starta"
 
-#: ../kupfer/plugin/virtualbox.py:84
+#: ../kupfer/plugin/virtualbox.py:43
 msgid "Power On Headless"
 msgstr "Starta headless"
 
-#: ../kupfer/plugin/virtualbox.py:86
+#: ../kupfer/plugin/virtualbox.py:46
 msgid "Send Power Off Signal"
 msgstr "Skicka avstängningssignal"
 
-#: ../kupfer/plugin/virtualbox.py:89
+#: ../kupfer/plugin/virtualbox.py:49
 msgid "Reboot"
 msgstr "Starta om"
 
-#. VM_PAUSED
-#: ../kupfer/plugin/virtualbox.py:91
+#. VM_STATE_PAUSED
+#: ../kupfer/plugin/virtualbox.py:52
 msgid "Resume"
 msgstr "Återuppta"
 
-#: ../kupfer/plugin/virtualbox.py:94
+#: ../kupfer/plugin/virtualbox.py:55
 msgid "Save State"
 msgstr "Spara tillstånd"
 
-#: ../kupfer/plugin/virtualbox.py:95
+#: ../kupfer/plugin/virtualbox.py:57
 msgid "Power Off"
 msgstr "Stäng av"
 
-#: ../kupfer/plugin/virtualbox.py:150
-msgid "Sun VirtualBox Machines"
-msgstr "Sun VirtualBox-maskiner"
+#: ../kupfer/plugin/virtualbox.py:82
+msgid "VirtualBox Machines"
+msgstr "VirtualBox virtuella maskiner"
 
 #: ../kupfer/preferences.py:220
 msgid "Applied"
@@ -1444,15 +1464,17 @@ msgstr "Inställningar"
 msgid "Choose a Directory"
 msgstr "Välj mapp"
 
-#: ../kupfer/version.py:36
+#. TRANS: Don't translate literally!
+#. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:45
 msgid "translator-credits"
 msgstr "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-#: ../kupfer/version.py:40
+#: ../kupfer/version.py:49
 msgid "A free software (GPLv3+) launcher"
 msgstr "En startare och ett stycke fri programvara (GPLv3+)"
 
-#: ../kupfer/version.py:43
+#: ../kupfer/version.py:52
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
