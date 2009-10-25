@@ -7,13 +7,13 @@ kupfer version c17
 
 Not Released Yet
 
-* Simplified Chinese localization (lh)
-* Dutch localization (Martin Koelewijn)
-* Portuguese localization (Carlos Pais)
-* 7 new plugins by Karol Będkowski:
+"A fire lit by nine kinds of wood"
+
+* 8 new plugins by Karol Będkowski:
 
   + *Claws Mail*, Contacts and actions
   + *Gajim*, Access to gajim contacts
+  + *Opera Bookmarks*, for the web browser Opera
   + *PuTTY Sessions*, access to PuTTY sessions
   + *System Services*, start, stop or restart system services
   + *Terminal Server Client*, access to TSClient sessions
@@ -29,6 +29,15 @@ Not Released Yet
   (Karol)
 * Kupfer is much more friendly and says "Type to search in *Catalog*" when
   it is ready to be used.
+
+* Localization updates:
+
+  + New Simplified Chinese localization (lh)
+  + New Dutch localization (Martin Koelewijn)
+  + New Portuguese localization (Carlos Pais)
+  + Updated pl (Karol)
+  + Updated es (Jesús Barbero Rodríguez)
+
 
 
 kupfer version c16
