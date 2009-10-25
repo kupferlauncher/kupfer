@@ -211,9 +211,13 @@ class FileLeaf (Leaf):
 		super(FileLeaf, self).__init__(obj, name)
 
 	def __eq__(self, other):
-		return (type(self) == type(other) and
-				unicode(self) == unicode(other) and
-				path.samefile(self.object, other.object))
+		try:
+			return (type(self) == type(other) and
+					unicode(self) == unicode(other) and
+					path.samefile(self.object, other.object))
+		except OSError, exc:
+			pretty.print_debug(__name__, exc)
+			return False
 
 	def repr_key(self):
 		return self.object
