@@ -181,7 +181,7 @@ class LeafModel (object):
 
 	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
-		content_mark = u"\u2023"
+		content_mark = u"\N{TRIANGULAR BULLET}"
 		info = u""
 		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
