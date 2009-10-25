@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-22 20:49+0200\n"
+"POT-Creation-Date: 2009-10-25 16:31+0100\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -25,8 +25,8 @@ msgstr "Skrót do programu"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1270
-#: ../kupfer/browser.py:1301 ../kupfer/plugin/core.py:184
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1278
+#: ../kupfer/browser.py:1309 ../kupfer/plugin/core.py:184
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -71,21 +71,21 @@ msgstr "Pokaż ikonę w obszarze powiadamiania"
 msgid "Start automatically on login"
 msgstr "Uruchom automatycznie po zalogowaniu"
 
-#: ../kupfer/browser.py:636
+#: ../kupfer/browser.py:642
 #, python-format
 msgid "%s is empty"
 msgstr "%s jest puste"
 
-#: ../kupfer/browser.py:638
+#: ../kupfer/browser.py:646
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Brak wyników w %(src)s dla \"%(query)s\""
 
-#: ../kupfer/browser.py:647
+#: ../kupfer/browser.py:655
 msgid "Type to search"
 msgstr "Pisz aby wyszukać"
 
-#: ../kupfer/browser.py:653
+#: ../kupfer/browser.py:661
 #, python-format
 msgid "Type to search %s"
 msgstr "Pisz aby wyszukać %s"
@@ -122,7 +122,7 @@ msgstr "Domyślna konfiguracja dostępna jest do wglądu pod:"
 msgid "Available plugins:"
 msgstr "Dostępne wtyczki:"
 
-#: ../kupfer/main.py:113
+#: ../kupfer/main.py:109
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -326,6 +326,14 @@ msgstr "Oblicz wyrażenie rozpoczynając od znaku '='"
 #: ../kupfer/plugin/calculator.py:34
 msgid "Calculate"
 msgstr "Oblicz"
+
+#: ../kupfer/plugin/chromium.py:7 ../kupfer/plugin/chromium.py:21
+msgid "Chromium Bookmarks"
+msgstr "Zakładki Chromium"
+
+#: ../kupfer/plugin/chromium.py:10 ../kupfer/plugin/chromium.py:44
+msgid "Index of Chromium bookmarks"
+msgstr "Indeksuj zakładki Chromium"
 
 #: ../kupfer/plugin/clawsmail.py:11
 msgid "Claws Mail"
@@ -768,19 +776,19 @@ msgstr "Obróć automatycznie"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Obróć JPEG biorąc pod uwagę dane EXIF"
 
-#: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:26
+#: ../kupfer/plugin/locate.py:9 ../kupfer/plugin/locate.py:27
 msgid "Locate Files"
 msgstr "Zlokalizuj pliki"
 
-#: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:36
+#: ../kupfer/plugin/locate.py:13 ../kupfer/plugin/locate.py:37
 msgid "Search filesystem using locate"
 msgstr "Przeszukaj system plików za pomocą locate"
 
-#: ../kupfer/plugin/locate.py:18
+#: ../kupfer/plugin/locate.py:19
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignoruj wielkość liter podczas wyszukiwania plików"
 
-#: ../kupfer/plugin/locate.py:44 ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/locate.py:45 ../kupfer/plugin/tracker.py:59
 #: ../kupfer/plugin/tracker.py:97
 #, python-format
 msgid "Results for \"%s\""
@@ -804,7 +812,7 @@ msgstr ""
 msgid "Selected File \"%s\""
 msgstr "Zaznaczony plik \"%s\""
 
-#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:161
+#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:195
 msgid "Notes"
 msgstr "Notatki"
 
@@ -828,29 +836,37 @@ msgstr "Dołącz do notatki..."
 msgid "Add text to existing note"
 msgstr "Dodaj tekst do istniejącej notatki"
 
-#: ../kupfer/plugin/notes.py:112
+#: ../kupfer/plugin/notes.py:146
 msgid "Create Note"
 msgstr "Utwórz notatkę"
 
-#: ../kupfer/plugin/notes.py:126
+#: ../kupfer/plugin/notes.py:160
 msgid "Create a new note from this text"
 msgstr "Utwórz nową notatkę zawierającą ten tekst"
 
-#: ../kupfer/plugin/notes.py:143
+#: ../kupfer/plugin/notes.py:177
 #, python-format
 msgid "today, %s"
 msgstr "dziś, %s"
 
-#: ../kupfer/plugin/notes.py:145
+#: ../kupfer/plugin/notes.py:179
 #, python-format
 msgid "yesterday, %s"
 msgstr "wczoraj, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:149
+#: ../kupfer/plugin/notes.py:183
 #, python-format
 msgid "Last updated %s"
 msgstr "Ostatnia modyfikacja: %s"
+
+#: ../kupfer/plugin/opera.py:12 ../kupfer/plugin/opera.py:28
+msgid "Opera Bookmarks"
+msgstr "Zakładki Opery"
+
+#: ../kupfer/plugin/opera.py:15 ../kupfer/plugin/opera.py:58
+msgid "Index of Opera bookmarks"
+msgstr "Indeksuj zakładki Opery"
 
 #: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:54
 msgid "PuTTY Sessions"
@@ -1446,17 +1462,19 @@ msgstr "Konfiguracja"
 msgid "Choose a Directory"
 msgstr "Wybierz katalog"
 
-#: ../kupfer/version.py:36
+#. TRANS: Don't translate literally!
+#. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:45
 msgid "translator-credits"
 msgstr ""
 "Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-#: ../kupfer/version.py:40
+#: ../kupfer/version.py:49
 msgid "A free software (GPLv3+) launcher"
 msgstr "Launcher na zasadach wolnego oprogramowania (GPLv3+)"
 
-#: ../kupfer/version.py:43
+#: ../kupfer/version.py:52
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
