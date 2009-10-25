@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
 "POT-Creation-Date: 2009-10-23 14:19+0000\n"
-"PO-Revision-Date: 2009-10-24 16:33+0200\n"
+"PO-Revision-Date: 2009-10-25 13:47+0100\n"
 "Last-Translator: Leandro Leites <laloleites@gmail.com>\n"
 "Language-Team: Spanish <>\n"
 "MIME-Version: 1.0\n"
@@ -1455,7 +1455,9 @@ msgstr "Elija un directorio"
 
 #: ../kupfer/version.py:42
 msgid "translator-credits"
-msgstr "Créditos del traductor"
+msgstr ""
+"Leandro Leites <laloleites@gmail.com>\n"
+"Jesús Barbero Rodríguez <chuchiperriman@gmail.com>"
 
 #: ../kupfer/version.py:46
 msgid "A free software (GPLv3+) launcher"
