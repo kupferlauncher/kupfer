@@ -77,18 +77,18 @@ msgid "%s is empty"
 msgstr "%s is leeg"
 
 #: ../kupfer/browser.py:638
-#, fuzzy, python-format
+#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Geen treffers in %s voor \"%s\""
+msgstr "Geen treffers in %(src)s voor \"%(query)s\""
 
 #: ../kupfer/browser.py:647
 msgid "Type to search"
-msgstr ""
+msgstr "Typ om te zoeken"
 
 #: ../kupfer/browser.py:653
 #, python-format
 msgid "Type to search %s"
-msgstr "Type om %s te zoeken"
+msgstr "Typ om %s te doorzoeken"
 
 #: ../kupfer/main.py:36
 msgid "do not present main interface on launch"
@@ -330,50 +330,48 @@ msgid "Calculate"
 msgstr "Berekenen"
 
 #: ../kupfer/plugin/chromium.py:7 ../kupfer/plugin/chromium.py:21
-#, fuzzy
 msgid "Chromium Bookmarks"
-msgstr "Firefox Favorieten"
+msgstr "Chromium Favorieten"
 
 #: ../kupfer/plugin/chromium.py:10 ../kupfer/plugin/chromium.py:44
-#, fuzzy
 msgid "Index of Chromium bookmarks"
-msgstr "Index van Firefox favorieten"
+msgstr "Index van Chromium favorieten"
 
 #: ../kupfer/plugin/clawsmail.py:11
 msgid "Claws Mail"
-msgstr ""
+msgstr "Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:15
 msgid "Claws Mail Contacts and Actions"
-msgstr ""
+msgstr "Claws Mail Adressen en Acties"
 
 #: ../kupfer/plugin/clawsmail.py:47
 msgid "Compose New Mail"
-msgstr ""
+msgstr "Nieuwe e-mail opstellen"
 
 #: ../kupfer/plugin/clawsmail.py:53
 msgid "Compose New Mail with Claws Mail"
-msgstr ""
+msgstr "Nieuwe e-mail opstellen met Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:62
 msgid "Receive All Mails"
-msgstr ""
+msgstr "Alle e-mail ophalen"
 
 #: ../kupfer/plugin/clawsmail.py:68
 msgid "Receive new mail from all accounts by ClawsMail"
-msgstr ""
+msgstr "Alle nieuwe e-mail van alle accounts ophalen met Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:77
 msgid "Compose New Mail To"
-msgstr ""
+msgstr "Nieuwe e-mail opstallen aan"
 
 #: ../kupfer/plugin/clawsmail.py:112
 msgid "Claws Mail Address Book"
-msgstr ""
+msgstr "Claws Mail Adresboek"
 
 #: ../kupfer/plugin/clawsmail.py:154
 msgid "Contacts from Claws Mail Address Book"
-msgstr ""
+msgstr "Adressen uit Claws Mail Adresboek"
 
 #: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:39
 msgid "Clipboards"
@@ -536,7 +534,7 @@ msgstr "Documenten"
 
 #: ../kupfer/plugin/documents.py:15
 msgid "Recently used documents and nautilus places"
-msgstr "Recent gebruikte documenten en nautilus locaties"
+msgstr "Pas gebruikte documenten en nautilus locaties"
 
 #: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
@@ -548,7 +546,7 @@ msgstr "Recente items"
 
 #: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
-msgstr "Recent gebruikte documenten"
+msgstr "Pas gebruikte documenten"
 
 #: ../kupfer/plugin/documents.py:88
 #, python-format
@@ -558,7 +556,7 @@ msgstr "%s Documenten"
 #: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
-msgstr "Recent gebruikte documenten voor %s"
+msgstr "Pas gebruikte documenten voor %s"
 
 #: ../kupfer/plugin/documents.py:132
 msgid "Places"
@@ -614,7 +612,7 @@ msgstr "Meer bestandsacties"
 
 #: ../kupfer/plugin/fileactions.py:29
 msgid "Compressed archive type for 'Create Archive In'"
-msgstr "Gecomprimeerd archieftype voor 'Archiveren in'"
+msgstr "Type gecomprimeerd archief voor 'Archiveren in'"
 
 #: ../kupfer/plugin/fileactions.py:46
 msgid "Move to Trash"
@@ -674,57 +672,55 @@ msgstr "Index van Firefox favorieten"
 
 #: ../kupfer/plugin/gajim.py:8
 msgid "Gajim"
-msgstr ""
+msgstr "Gajim"
 
 #: ../kupfer/plugin/gajim.py:12
 msgid "Access to Gajim Contacts"
-msgstr ""
+msgstr "Toegang tot Gajim Contacten"
 
 #: ../kupfer/plugin/gajim.py:19
-#, fuzzy
 msgid "Available"
-msgstr "Beschikbare plug-ins:"
+msgstr "Beschikbaar"
 
 #: ../kupfer/plugin/gajim.py:20
 msgid "Free for Chat"
-msgstr ""
+msgstr "Vrij om the chatten"
 
 #: ../kupfer/plugin/gajim.py:21
 msgid "Away"
-msgstr ""
+msgstr "Afwezig"
 
 #: ../kupfer/plugin/gajim.py:22
 msgid "Not Available"
-msgstr ""
+msgstr "Niet beschikbaar"
 
 #: ../kupfer/plugin/gajim.py:23
 msgid "Busy"
-msgstr ""
+msgstr "Bezig"
 
 #: ../kupfer/plugin/gajim.py:24
 msgid "Invisible"
-msgstr ""
+msgstr "Onzichtbaar"
 
 #: ../kupfer/plugin/gajim.py:25
 msgid "Offline"
-msgstr ""
+msgstr "Offline"
 
 #: ../kupfer/plugin/gajim.py:77
-#, fuzzy
 msgid "Open Chat"
-msgstr "Openen"
+msgstr "Chat openen"
 
 #: ../kupfer/plugin/gajim.py:93
 msgid "Change Global Status To..."
-msgstr ""
+msgstr "Algemene status veranderen naar..."
 
 #: ../kupfer/plugin/gajim.py:121
 msgid "Gajim Contacts"
-msgstr ""
+msgstr "Gajim Contacten"
 
 #: ../kupfer/plugin/gajim.py:148
 msgid "Gajim Account Status"
-msgstr ""
+msgstr "Gajim Account status"
 
 #: ../kupfer/plugin/google.py:11
 msgid "Search the Web"
@@ -781,7 +777,7 @@ msgstr "Draai JPEG (in-place) volgens zijn EXIF metadata"
 
 #: ../kupfer/plugin/locate.py:8 ../kupfer/plugin/locate.py:26
 msgid "Locate Files"
-msgstr "Bestanden zoeken"
+msgstr "Bestanden opsporen"
 
 #: ../kupfer/plugin/locate.py:12 ../kupfer/plugin/locate.py:36
 msgid "Search filesystem using locate"
@@ -789,7 +785,7 @@ msgstr "Bestandssysteem doorzoeken met \"locate\""
 
 #: ../kupfer/plugin/locate.py:18
 msgid "Ignore case distinctions when searching files"
-msgstr ""
+msgstr "Hoofdletters negeren bij zoeken bestanden"
 
 #: ../kupfer/plugin/locate.py:44 ../kupfer/plugin/tracker.py:59
 #: ../kupfer/plugin/tracker.py:97
@@ -862,18 +858,16 @@ msgid "Last updated %s"
 msgstr "Laatst geupdated %s"
 
 #: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:54
-#, fuzzy
 msgid "PuTTY Sessions"
-msgstr "Schermsessies"
+msgstr "PuTTY sessies"
 
 #: ../kupfer/plugin/putty.py:14
 msgid "Quick access to PuTTY Sessions"
-msgstr ""
+msgstr "Snelle toegang tot PuTTY sessies"
 
 #: ../kupfer/plugin/putty.py:39 ../kupfer/plugin/tsclient.py:39
-#, fuzzy
 msgid "Start Session"
-msgstr "Schermsessies"
+msgstr "Sessie starten"
 
 #: ../kupfer/plugin/rhythmbox.py:12 ../kupfer/plugin/rhythmbox.py:350
 msgid "Rhythmbox"
@@ -991,18 +985,16 @@ msgid "Songs in Rhythmbox library"
 msgstr "Liedjes in Rhythmboxbibliotheek"
 
 #: ../kupfer/plugin/rst.py:7
-#, fuzzy
 msgid "reStructuredText"
-msgstr "Geselecteerde tekst"
+msgstr ""
 
 #: ../kupfer/plugin/rst.py:9
 msgid "Render reStructuredText and show the result"
 msgstr ""
 
 #: ../kupfer/plugin/rst.py:15
-#, fuzzy
 msgid "View as HTML Document"
-msgstr "%s Documenten"
+msgstr "Bekijken als HTML-document"
 
 #: ../kupfer/plugin/screen.py:6 ../kupfer/plugin/screen.py:96
 msgid "GNU Screen"
@@ -1057,9 +1049,8 @@ msgid "Start, stop or restart system services via init scripts"
 msgstr ""
 
 #: ../kupfer/plugin/services.py:16
-#, fuzzy
 msgid "Sudo-like Command"
-msgstr "Shell opdrachten"
+msgstr "Sudo-achtige opdracht"
 
 #: ../kupfer/plugin/services.py:74
 msgid "Start Service"
@@ -1180,22 +1171,20 @@ msgid "Remove tracker tag from file"
 msgstr "Tracker tag van bestand verwijderen"
 
 #: ../kupfer/plugin/tsclient.py:10
-#, fuzzy
 msgid "Terminal Server Client"
-msgstr "Hier Terminal openen"
+msgstr "Terminal Server Client"
 
 #: ../kupfer/plugin/tsclient.py:13
 msgid "Session saved in Terminal Server Client"
-msgstr ""
+msgstr "Sessie opgeslagen in Terminal Server Client"
 
 #: ../kupfer/plugin/tsclient.py:54
-#, fuzzy
 msgid "TSClient sessions"
-msgstr "Schermsessies"
+msgstr "TSClient sessies"
 
 #: ../kupfer/plugin/tsclient.py:83
 msgid "Saved sessions in Terminal Server Client"
-msgstr ""
+msgstr "Opgeslagen sessies in Terminal Server Client"
 
 #: ../kupfer/plugin/urlactions.py:7 ../kupfer/plugin/urlactions.py:14
 msgid "URL Actions"
@@ -1324,60 +1313,59 @@ msgstr "Ontkoppelen en medium uitspugen"
 
 #: ../kupfer/plugin/zim.py:12
 msgid "Zim"
-msgstr ""
+msgstr "Zim"
 
 #: ../kupfer/plugin/zim.py:19
 msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
-msgstr ""
+msgstr "Toegang to pagina's opgeslagen in Zim - Een Desktop-Wiki"
 
 #: ../kupfer/plugin/zim.py:27
 msgid "Page names start with :colon"
-msgstr ""
+msgstr "Paginanamen beginnen met :dubbelepunt"
 
 #: ../kupfer/plugin/zim.py:58
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
-msgstr ""
+msgstr "Zim pagina uit Notitieboek \"%s\""
 
 #: ../kupfer/plugin/zim.py:67
-#, fuzzy
 msgid "Create Zim Page"
-msgstr "Archiveren"
+msgstr "Zim-pagina aanmaken"
 
 #: ../kupfer/plugin/zim.py:73
 msgid "Create page in default notebook"
-msgstr ""
+msgstr "Pagina in standaard notitieboek aanmaken"
 
 #: ../kupfer/plugin/zim.py:83
-#, fuzzy
 msgid "Create Zim Page In..."
-msgstr "Archiveren in..."
+msgstr "Zim-pagina aanmaken in..."
 
 #: ../kupfer/plugin/zim.py:121
 msgid "Create Subpage..."
-msgstr ""
+msgstr "Subpagina aanmaken..."
 
 #: ../kupfer/plugin/zim.py:167
 msgid "Zim Notebooks"
-msgstr ""
+msgstr "Zim Notitieboeken"
 
 #: ../kupfer/plugin/zim.py:183
 msgid "Zim Pages"
-msgstr ""
+msgstr "Zim-pagina's"
 
 #: ../kupfer/plugin/zim.py:211
 msgid "Pages stored in Zim Notebooks"
-msgstr ""
+msgstr "Pagina's opgeslagen in Zim Notitieboeken"
 
 #: ../kupfer/plugin/virtualbox.py:7
 msgid "VirtualBox"
-msgstr ""
+msgstr "VirtualBox"
 
 #: ../kupfer/plugin/virtualbox.py:9
 msgid ""
 "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
 "Source Edition."
-msgstr ""
+msgstr "VirtualBox Virtual Machines beheren. Ondersteunt zowel Sun Virtualbox"
+"als de Open Source Edition."
 
 #: ../kupfer/plugin/virtualbox.py:41
 msgid "Power On"
@@ -1397,13 +1385,12 @@ msgstr ""
 
 #. VM_STATE_PAUSED
 #: ../kupfer/plugin/virtualbox.py:52
-#, fuzzy
 msgid "Resume"
-msgstr "Herstellen"
+msgstr ""
 
 #: ../kupfer/plugin/virtualbox.py:55
 msgid "Save State"
-msgstr ""
+msgstr "Status opslaan"
 
 #: ../kupfer/plugin/virtualbox.py:57
 msgid "Power Off"
@@ -1411,7 +1398,7 @@ msgstr ""
 
 #: ../kupfer/plugin/virtualbox.py:82
 msgid "VirtualBox Machines"
-msgstr ""
+msgstr "VirtualBox Machines"
 
 #: ../kupfer/preferences.py:220
 msgid "Applied"
@@ -1438,11 +1425,11 @@ msgstr "Versie"
 #: ../kupfer/preferences.py:301
 #, python-format
 msgid "Python module '%s' is needed"
-msgstr ""
+msgstr "Python module '%s' is vereist"
 
 #: ../kupfer/preferences.py:310
 msgid "Plugin could not be read due to an error:"
-msgstr ""
+msgstr "Plugin kon niet worden gelezen vanwege een fout:"
 
 #. TRANS: Plugin contents header
 #: ../kupfer/preferences.py:371
