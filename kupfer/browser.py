@@ -22,12 +22,18 @@ _escape_table = {
 		ord(u"<"): u"&lt;",
 		ord(u">"): u"&gt;",
 	}
+
+def tounicode(ustr):
+	if isinstance(ustr, unicode):
+		return ustr
+	return ustr.decode("UTF-8", "replace")
+
 def escape_markup_str(mstr):
 	"""
 	Use a simeple homegrown replace table to replace &, <, > with
 	entities in @mstr
 	"""
-	return mstr.translate(_escape_table)
+	return tounicode(mstr).translate(_escape_table)
 
 # State Constants
 class State (object):
