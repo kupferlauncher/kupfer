@@ -17,14 +17,17 @@ from kupfer import keybindings
 from kupfer import pretty
 
 
+_escape_table = {
+		ord(u"&"): u"&amp;",
+		ord(u"<"): u"&lt;",
+		ord(u">"): u"&gt;",
+	}
 def escape_markup_str(mstr):
 	"""
 	Use a simeple homegrown replace table to replace &, <, > with
 	entities in @mstr
 	"""
-	escape_table = {u"&": u"&amp;", u"<": u"&lt;", u">": u"&gt;" }
-	escape = lambda c: escape_table.get(c, c)
-	return u"".join(escape(c) for c in mstr)
+	return mstr.translate(_escape_table)
 
 # State Constants
 class State (object):
@@ -172,8 +175,8 @@ class LeafModel (object):
 
 	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
-		content_mark = (u"\u2023").decode("UTF-8")
-		info = ""
+		content_mark = u"\u2023"
+		info = u""
 		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
 		return info
@@ -266,7 +269,7 @@ class MatchView (gtk.Bin):
 			return
 
 		# update the text label
-		text = self.cur_text
+		text = unicode(self.cur_text)
 		key = unicode(self.cur_match).lower()
 
 		format_match=(lambda m: u"<u><b>%s</b></u>" % escape_markup_str(m))
@@ -342,7 +345,7 @@ class Search (gtk.Bin):
 		self.model = LeafModel()
 		self.match = None
 		self.match_state = State.Wait
-		self.text = ""
+		self.text = u""
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
