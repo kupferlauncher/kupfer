@@ -859,6 +859,14 @@ msgstr "Ayer, %s"
 msgid "Last updated %s"
 msgstr "Última actualización %s"
 
+#: ../kupfer/plugin/opera.py:12 ../kupfer/plugin/opera.py:28
+msgid "Opera Bookmarks"
+msgstr "Marcadores de Opera"
+
+#: ../kupfer/plugin/opera.py:15 ../kupfer/plugin/opera.py:58
+msgid "Index of Opera bookmarks"
+msgstr "Índice de Marcadores de Opera"
+
 #: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:54
 msgid "PuTTY Sessions"
 msgstr "Sesiones PuTTY"
