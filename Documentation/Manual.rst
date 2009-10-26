@@ -80,13 +80,13 @@ This defines, in addition to KupferObject:
     the same.
 
 ``has_content()`` and ``content_source()``
-    These methods are used to find out if objects contain anything, like
-    folders or music albums.
+    These methods are used to find out if the object contain anything,
+    like a folder contains files or a music album songs.
 
 Action
 ......
 
-An Action represents an command using a direct object and an optional
+An Action represents a command using a direct object and an optional
 indirect object. One example is ``objects.Show`` that will open its
 direct object (which must be a file), with its default viewer.
 
@@ -126,31 +126,38 @@ Action defines, in addition to KupferObject:
 Some auxiliary methods tell Kupfer about how to handle the action:
 
 ``is_factory()``
-    If the action returns content, returns a collection of new items.
+    If the action returns content, return a collection of new items.
 ``has_result()``
     If the action's return value in activate should treated as the new
     selection.
 ``is_async()``
     If the action returns a ``Task`` object conforming to
-    ``kupfer.task.Task``.
+    ``kupfer.task.Task``. The task will be executed asynchronously in
+    Kupfer's task queue.
 
 Source
 ......
 
-The Source understands specific data and delivers Leaves for it. For
+A Source understands specific data and delivers Leaves for it. For
 example DirectorySource, that will give FileLeaves for contents of a
 directory.
 
 This defines, in addition to KupferObject:
 
-``get_items``
+``get_items()``
     Source subclasses should define ``get_items`` to return its items;
     the items are cached automatically until ``mark_for_update`` is
     called.
-``is_dynamic``
-    Return ``True`` if the Source should not be cached (usually it should)
-``provides``
-    Return a sequence of the Leaf types it may contain
+``is_dynamic()``
+    Return ``True`` if the Source should not be cached. A source should
+    almost never be dynamic.
+``should_sort_lexically()``
+    Return ``True`` if the Source's leaves should be sorted
+    alphabethically. If not sorted lexically, ``get_items`` should yield
+    leaves in order of the most relevant object first (for example the
+    most recently used).
+``provides()``
+    Return a sequence of all precise Leaf types the Source may contain
 
 ``get_leaf_repr``
     Return a Leaf that represents the Source, if applicable; for example
