@@ -1,5 +1,6 @@
 # -*- encoding: UTF-8 -*-
 
+import locale
 from unicodedata import normalize, category
 
 def _folditems():
@@ -40,6 +41,12 @@ def toutf8(ustr):
 	if isinstance(ustr, str):
 		return ustr
 	return ustr.encode("UTF-8", "replace")
+
+def fromlocale(lstr):
+	"""Return a unicode string from locale bytestring @lstr"""
+	enc = locale.getpreferredencoding()
+	return lstr.decode(enc, "replace")
+
 
 def tofolded(ustr):
 	u"""Fold @ustr
