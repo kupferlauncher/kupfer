@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-25 14:40+0100\n"
+"POT-Creation-Date: 2009-10-27 00:57+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -319,6 +319,18 @@ msgstr "Välj standardprogram..."
 #: ../kupfer/plugin/applications.py:99
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
+
+#: ../kupfer/plugin/apt_tools.py:10
+msgid "APT Tools"
+msgstr "APT-verktyg"
+
+#: ../kupfer/plugin/apt_tools.py:14
+msgid "Interface with the package manager APT"
+msgstr "Arbeta med pakethanteraren APT"
+
+#: ../kupfer/plugin/apt_tools.py:35 ../kupfer/plugin/apt_tools.py:39
+msgid "Show Package Information"
+msgstr "Visa paketinformation"
 
 #: ../kupfer/plugin/calculator.py:9
 msgid "Calculator"
