@@ -2,6 +2,7 @@
 
 data/kupfer.desktop.in.in
 [type: gettext/glade] data/preferences.ui
+[type: gettext/glade] data/result.ui
 extras/kupfer_provider.py
 kupfer/browser.py
 kupfer/data.py
@@ -9,6 +10,7 @@ kupfer/main.py
 kupfer/objects.py
 kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
+kupfer/plugin/apt_tools.py
 kupfer/plugin/calculator.py
 kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
