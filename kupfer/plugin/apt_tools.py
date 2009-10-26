@@ -41,10 +41,15 @@ class ShowPackageInfo (Action):
 	def is_async(self):
 		return True
 	def activate(self, leaf):
-		return InfoTask(leaf.object)
+		return InfoTask(leaf.object.strip())
+
+	def item_types(self):
+		yield TextLeaf
+	def valid_for_item(self, item):
+		# check if it is a single word
+		text = item.object
+		return len(text.split(None, 1)) == 1
 
 	def get_icon_name(self):
 		return "synaptic"
-	def item_types(self):
-		yield TextLeaf
 
