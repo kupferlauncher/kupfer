@@ -1,18 +1,13 @@
 import threading
 
+import gobject
+
 from kupfer import scheduler, pretty
 
 class Task (object):
 	"""Represent a task that can be done in the background"""
 	def __init__(self):
-		self._name = None
-
-	def set_name(self, name):
-		"""Allow setting the user-visible name of this task"""
-		self._name = name
-
-	def __str__(self):
-		return self._name and self._name.decode("utf-8")
+		self.name = None
 
 	def __unicode__(self):
 		return self.name
@@ -49,21 +44,31 @@ class ThreadTask (Task):
 	"""Run in a thread"""
 	def __init__(self):
 		Task.__init__(self)
-		self._thread = None
 
 	def is_thread(self):
 		return True
+
+	def _run_thread(self):
+		self.thread_do()
+		gobject.idle_add(self.thread_finish)
 
 	def thread_do(self):
 		"""Override this to run what should be done in the thread"""
 		raise NotImplementedError
 
+	def thread_finish(self):
+		"""This finish function runs in the main thread after thread
+		completion, and can be used to communicate with the GUI.
+		"""
+		pass
+
 	def run(self):
+		thread = None
 		while True:
-			if not self._thread:
-				self._thread = threading.Thread(target=self.thread_do)
-				self._thread.start()
-			elif not self._thread.isAlive():
+			if not thread:
+				thread = threading.Thread(target=self._run_thread)
+				thread.start()
+			elif not thread.isAlive():
 				return
 			yield
 
