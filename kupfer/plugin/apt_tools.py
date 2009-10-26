@@ -5,8 +5,7 @@ import gtk
 
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf
-from kupfer import task, uiutils
-
+from kupfer import kupferstring, task, uiutils
 
 __kupfer_name__ = _("APT Package Tools")
 __kupfer_sources__ = ()
@@ -16,7 +15,6 @@ __description__ = _("Interface with the package manager APT")
 __version__ = ""
 __author__ = ("VCoolio <martinkoelewijn@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
-
 
 class InfoTask(task.ThreadTask):
 	def __init__(self, text):
@@ -30,7 +28,9 @@ class InfoTask(task.ThreadTask):
 				stdout=P, stderr=P)
 		apt_out, apt_err = apt.communicate()
 		acp_out, acp_err = acp.communicate()
-		self.info = "%s%s%s\n\n%s" % (apt_err, acp_err, apt_out, acp_out)
+		# Commandline output is encoded according to locale
+		self.info = u"".join(kupferstring.fromlocale(s)
+				for s in (apt_err, acp_err, apt_out, acp_out))
 	def thread_finish(self):
 		uiutils.show_text_result(self.info, title=_("Show Package Information"))
 
