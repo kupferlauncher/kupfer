@@ -3,14 +3,17 @@ import subprocess
 import glib
 import gtk
 
-from kupfer.objects import Action
+from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
-from kupfer import kupferstring, task, uiutils
+from kupfer import kupferstring, task, uiutils, utils
 
 __kupfer_name__ = _("APT")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = ("ShowPackageInfo", )
+__kupfer_actions__ = (
+		"ShowPackageInfo",
+		"SearchPackageName",
+	)
 __description__ = _("Interface with the package manager APT")
 __version__ = ""
 __author__ = ("VCoolio <martinkoelewijn@gmail.com>, "
@@ -52,4 +55,70 @@ class ShowPackageInfo (Action):
 
 	def get_icon_name(self):
 		return "synaptic"
+
+class InstallPackage (Action):
+	def __init__(self):
+		Action.__init__(self, _("Install"))
+	def activate(self, leaf):
+		pkg = leaf.object
+		cli = "sudo apt-get install '%s'" % pkg
+		utils.launch_commandline(cli, in_terminal=True)
+	def get_icon_name(self):
+		return "gtk-save"
+
+class Package (Leaf):
+	def __init__(self, package, desc):
+		Leaf.__init__(self, package, package)
+		self.desc = desc
+
+	def get_actions(self):
+		yield InstallPackage()
+
+	def get_description(self):
+		return self.desc
+	def get_icon_name(self):
+		return "package"
+
+class PackageSearchSource (Source):
+	def __init__(self, query):
+		self.query = query
+		Source.__init__(self, _('Packages matching "%s"') % query)
+
+	def get_items(self):
+		package = self.query
+		P = subprocess.PIPE
+		acp = subprocess.Popen("apt-cache search --names-only '%s'" % package,
+				shell=True, stdout=P, stderr=P)
+		acp_out, acp_err = acp.communicate()
+		for line in kupferstring.fromlocale(acp_out).splitlines():
+			if not line.strip():
+				continue
+			package, desc = line.split(" - ", 1)
+			yield Package(package, desc)
+
+	def provides(self):
+		yield TextLeaf
+	def get_icon_name(self):
+		return "system-software-install"
+
+class SearchPackageName (Action):
+	def __init__(self):
+		Action.__init__(self, _("Search Package Name..."))
+
+	def is_factory(self):
+		return True
+
+	def activate(self, leaf):
+		package = leaf.object.strip()
+		return PackageSearchSource(package)
+
+	def item_types(self):
+		yield TextLeaf
+	def valid_for_item(self, item):
+		# check if it is a single word
+		text = item.object
+		return len(text.split(None, 1)) == 1
+
+	def get_icon_name(self):
+		return "system-software-install"
 
