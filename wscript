@@ -140,12 +140,22 @@ def configure(conf):
 	if "False" in pipe.read():
 		Utils.pprint("YELLOW", "Please add %(PYTHONDIR)s to your sys.path!" % conf.env)
 
-def new_module(bld, name, sources=None):
-	if not sources: sources = name
+def _new_package(bld, name):
+	"""Add module @name to sources to be installed,
+	where the name is the full (relative) path to the package
+	"""
 	obj = bld.new_task_gen("py")
-	obj.find_sources_in_dirs(sources)
+	obj.find_sources_in_dirs(name)
 	obj.install_path = "${PYTHONDIR}/%s" % name
 	return obj
+
+def _find_packages_in_directory(bld, name):
+	"""Go through directory @name and recursively add all
+	Python packages with contents to the sources to be installed
+	"""
+	for dirname, dirs, filenames in os.walk(name):
+		if "__init__.py" in filenames:
+			_new_package(bld, dirname)
 
 def build(bld):
 	# kupfer module version info file
@@ -157,9 +167,8 @@ def build(bld):
 		dict = bld.env,
 		)
 
-	# modules
-	new_module(bld, "kupfer")
-	new_module(bld, "kupfer/plugin")
+	# Add all Python packages recursively
+	_find_packages_in_directory(bld, "kupfer")
 
 	# binary
 	# Subst in the python version
