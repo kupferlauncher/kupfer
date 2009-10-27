@@ -87,8 +87,11 @@ class SendMessage (Action):
 class PidginContact(Leaf):
 	""" Leaf represent single contact from Pidgin """
 
-	def __init__(self, jid, name, account, icon, protocol, availability, status_message):
-		Leaf.__init__(self, name or jid, name or jid)
+	def __init__(self, jid, name, account, icon, protocol, availability,
+		status_message):
+		obj = (account, jid)
+		Leaf.__init__(self, obj, name or jid)
+
 		if name:
 			self._description = "%s <%s>" % (name, jid)
 		else:
