@@ -6,6 +6,7 @@ purpose), but care should be taken to only call UI functions from the main
 (default) thread.
 """
 
+import glib
 import gtk
 import pango
 
@@ -111,3 +112,45 @@ def show_text_result(text, title=None):
 	window.resize(hsize, vsize)
 	window.present()
 
+def show_large_type(text):
+	"""
+	Show @text, large, in a result window.
+	"""
+	import math
+	import textwrap
+
+	window = gtk.Window()
+	label = gtk.Label()
+	label.set_text(text)
+
+	def set_font_size(label, fontsize=48.0):
+		siz_attr = pango.AttrFontDesc(
+				pango.FontDescription (str(fontsize)), 0, -1)
+		attrs = pango.AttrList()
+		attrs.insert(siz_attr)
+		label.set_attributes(attrs)
+	label.show()
+
+	size = 72.0
+	set_font_size(label, size)
+
+	maxwid = gtk.gdk.screen_width() - 50
+	maxhei = gtk.gdk.screen_height() - 100
+	wid, hei = label.size_request()
+
+	# Try wrapping a long line
+	if (wid > maxwid or hei > maxhei) and len(text.splitlines()) < 2:
+		label.set_text(textwrap.fill(text))
+
+	wid, hei = label.size_request()
+
+	if wid > maxwid or hei > maxhei:
+		# Round size down to fit inside
+		wscale = maxwid * 1.0/wid
+		hscale = maxhei * 1.0/hei
+		set_font_size(label, math.floor(min(wscale, hscale)*size) or 1.0)
+
+	window.add(label)
+	window.set_position(gtk.WIN_POS_CENTER)
+	window.set_resizable(False)
+	window.show_all()
