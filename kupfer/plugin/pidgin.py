@@ -58,12 +58,20 @@ class OpenChat(Action):
 class PidginContact(Leaf):
 	""" Leaf represent single contact from Pidgin """
 
-	def __init__(self, jid, name, account, icon):
+	def __init__(self, jid, name, account, icon, protocol, availability, status_message):
 		Leaf.__init__(self, name or jid, name or jid)
 		if name:
 			self._description = "%s <%s>" % (name, jid)
 		else:
 			self._description = name
+
+		if availability == 0:
+			self._description += " - N/A"
+
+		self._description += " - %s" % protocol
+		if status_message:
+			self._description += "\n%s" % status_message
+
 		self.account = account
 		self.name = name
 		self.jid = jid
@@ -91,12 +99,6 @@ class ContactsSource(AppLeafContentMixin, Source):
 	def __init__(self):
 		Source.__init__(self, _('Pidgin Contacts'))
 
-	def _get_buddy_icon(self, interface, buddy):
-		''' Lookup the buddy Icon via DBUS Pidgin API '''
-		icon = interface.PurpleBuddyGetIcon(buddy)
-		if icon != 0:
-			return interface.PurpleBuddyIconGetFullPath(icon)
-
 	def get_items(self):
 		interface = _create_dbus_connection()
 		if interface is None:
@@ -104,18 +106,24 @@ class ContactsSource(AppLeafContentMixin, Source):
 		accounts = interface.PurpleAccountsGetAllActive()
 		for account in accounts:
 			buddies = interface.PurpleFindBuddies(account, dbus.String(''))
+			protocol = interface.PurpleAccountGetProtocolName(account)
 
 			for buddy in buddies:
 				if not interface.PurpleBuddyIsOnline(buddy):
 					continue
-
 				jid = interface.PurpleBuddyGetName(buddy)
 				name = interface.PurpleBuddyGetAlias(buddy)
-				icon = self._get_buddy_icon(interface, buddy)
-				yield PidginContact(jid, name, account, icon)
+				_icon = interface.PurpleBuddyGetIcon(buddy)
+				icon = None
+				if _icon != 0:
+					icon = interface.PurpleBuddyIconGetFullPath(_icon)
 
-	def is_dynamic(self):
-		return True
+				presenceid = interface.PurpleBuddyGetPresence(buddy)
+				statusid = interface.PurplePresenceGetActiveStatus(presenceid)
+				availability = interface.PurplePresenceIsAvailable(presenceid)
+				status_message = interface.PurpleStatusGetAttrString(statusid, "message")
+
+				yield PidginContact(jid, name, account, icon, protocol, availability, status_message)
 
 	def get_icon_name(self):
 		return 'pidgin'
