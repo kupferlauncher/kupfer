@@ -19,8 +19,11 @@ def setup_locale_and_gettext():
 	# also install ngettext()
 	gettext.install(package_name, localedir=localedir, unicode=True,
 			names=("ngettext",))
-	# also bind this for gtkbuilder (wtf?)
+	# For gtk.Builder, we need to call the C library gettext functions
+	# As well as set the codeset to avoid locale-dependent translation
+	# of the message catalog
 	locale.bindtextdomain(package_name, localedir)
+	locale.bind_textdomain_codeset(package_name, "UTF-8")
 	# to load in current locale properly for sorting etc
 	try:
 		locale.setlocale(locale.LC_ALL, "")
