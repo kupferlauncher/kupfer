@@ -20,9 +20,9 @@ class SelectedFile (FileLeaf):
 		basename = gobject.filename_display_basename(filepath)
 		FileLeaf.__init__(self, filepath, _('Selected File "%s"') % basename)
 
-	def rank_key(self):
+	def repr_key(self):
 		# return a constant rank key despite the changing name
-		return _("Selected File")
+		return "Selected File"
 
 class InvisibleSourceLeaf (SourceLeaf):
 	"""Hack to hide this source"""

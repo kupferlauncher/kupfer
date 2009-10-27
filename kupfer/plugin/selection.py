@@ -21,9 +21,9 @@ class SelectedText (TextLeaf):
 			summary = summary[:maxlen] + u".."
 		TextLeaf.__init__(self, text, _('Selected Text "%s"') % summary)
 
-	def rank_key(self):
+	def repr_key(self):
 		# return a constant rank key despite the changing name
-		return _("Selected Text")
+		return "Selected Text"
 
 class InvisibleSourceLeaf (SourceLeaf):
 	"""Hack to hide this source"""
