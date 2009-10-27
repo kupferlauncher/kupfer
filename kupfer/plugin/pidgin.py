@@ -87,25 +87,19 @@ class SendMessage (Action):
 class PidginContact(Leaf):
 	""" Leaf represent single contact from Pidgin """
 
-	def __init__(self, jid, name, account, icon, protocol, availability,
+	def __init__(self, jid, name, account, icon, protocol, available,
 		status_message):
 		obj = (account, jid)
 		Leaf.__init__(self, obj, name or jid)
 
-		if name:
-			self._description = "%s <%s>" % (name, jid)
-		else:
-			self._description = name
-
-		if availability == 0:
-			self._description += " - N/A"
-
-		self._description += " - %s" % protocol
-		if status_message:
-			self._description += "\n%s" % status_message
+		self.info = {
+				"userid": jid,
+				"available": u"" if available else u", %s" % _("Away"),
+				"protocol": protocol,
+				"status": status_message,
+			}
 
 		self.account = account
-		self.name = name
 		self.jid = jid
 		self.icon = icon
 
@@ -114,7 +108,10 @@ class PidginContact(Leaf):
 		yield SendMessage()
 
 	def get_description(self):
-		return self._description
+		desc = _("%(userid)s on %(protocol)s%(available)s") % self.info
+		if self.info["status"]:
+			desc += u"\n%s" % self.info["status"]
+		return desc
 
 	def get_thumbnail(self, width, height):
 		if not self.icon:
