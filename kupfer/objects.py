@@ -227,12 +227,10 @@ class FileLeaf (Leaf):
 		return path.realpath(self.object)
 
 	def is_valid(self):
-		from os import access, R_OK
-		return access(self.object, R_OK)
+		return os.access(self.object, os.R_OK)
 
 	def _is_executable(self):
-		from os import access, X_OK, R_OK
-		return access(self.object, R_OK | X_OK)
+		return os.access(self.object, os.R_OK | os.X_OK)
 
 	def is_dir(self):
 		return path.isdir(self.object)
