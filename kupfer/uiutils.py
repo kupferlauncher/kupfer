@@ -58,9 +58,8 @@ def show_text_result(text, title=None):
 	"""
 	class ResultWindowBehavior (object):
 		def on_text_result_window_key_press_event(self, widget, event, names):
-			if event.keyval == gtk.gdk.keyval_from_name("Escape"):
-				widget.destroy()
-				return True
+			return _window_destroy_on_escape(widget, event)
+
 		def on_close_button_clicked(self, widget, names):
 			names.text_result_window.window.destroy()
 			return True
@@ -153,4 +152,5 @@ def show_large_type(text):
 	window.add(label)
 	window.set_position(gtk.WIN_POS_CENTER)
 	window.set_resizable(False)
+	window.connect("key-press-event", _window_destroy_on_escape)
 	window.show_all()
