@@ -6,7 +6,7 @@ from kupfer.objects import (Leaf, Action, Source, AppLeafContentMixin,
 		TextLeaf, TextSource)
 from kupfer import pretty
 from kupfer import icons
-from kupfer.helplib import DbusWeakCallback
+from kupfer.helplib import DbusWeakCallback, PicklingHelperMixin
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
@@ -122,15 +122,22 @@ class PidginContact(Leaf):
 		return "pidgin"
 
 
-class ContactsSource(AppLeafContentMixin, Source):
+class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	''' Get contacts from all on-line accounts in Pidgin via DBus '''
 	appleaf_content_id = 'pidgin'
 
 	def __init__(self):
 		Source.__init__(self, _('Pidgin Contacts'))
+		self.unpickle_finish()
+
+	def unpickle_finish(self):
+		self.mark_for_update()
 		self.all_buddies = {}
-		self._get_all_buddies()
 		self._signal_online_offline_buddies()
+
+	def pickle_prepare(self):
+		# delete data that we do not want to save to next session
+		self.all_buddies = {}
 
 	def _get_pidgin_contact(self, interface, buddy, account=None, protocol=None):
 		if not account:
@@ -184,10 +191,12 @@ class ContactsSource(AppLeafContentMixin, Source):
 		interface = _create_dbus_connection()
 		if not buddy in self.all_buddies:
 			self.all_buddies[buddy] = self._get_pidgin_contact(interface, buddy)
+			self.mark_for_update()
 
 	def _buddy_signed_off(self, buddy):
 		if buddy in self.all_buddies:
 			del self.all_buddies[buddy]
+			self.mark_for_update()
 
 	def _signal_online_offline_buddies(self):
 		'''Add signals to pidgin when buddy goes offline or
@@ -212,9 +221,9 @@ class ContactsSource(AppLeafContentMixin, Source):
 
 
 	def get_items(self):
-		for value in self.all_buddies.values():
-			yield value
-
+		if not self.all_buddies:
+			self._get_all_buddies()
+		return self.all_buddies.values()
 
 	def get_icon_name(self):
 		return 'pidgin'
