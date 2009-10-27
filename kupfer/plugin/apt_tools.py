@@ -59,6 +59,8 @@ class ShowPackageInfo (Action):
 
 	def item_types(self):
 		yield TextLeaf
+		yield Package
+
 	def valid_for_item(self, item):
 		# check if it is a single word
 		text = item.object
