@@ -91,6 +91,12 @@ class ContactsSource(AppLeafContentMixin, Source):
 	def __init__(self):
 		Source.__init__(self, _('Pidgin Contacts'))
 
+	def _get_buddy_icon(self, interface, buddy):
+		''' Lookup the buddy Icon via DBUS Pidgin API '''
+		icon = interface.PurpleBuddyGetIcon(buddy)
+		if icon != 0:
+			return interface.PurpleBuddyIconGetFullPath(icon)
+
 	def get_items(self):
 		interface = _create_dbus_connection()
 		if interface is None:
@@ -100,15 +106,12 @@ class ContactsSource(AppLeafContentMixin, Source):
 			buddies = interface.PurpleFindBuddies(account, dbus.String(''))
 
 			for buddy in buddies:
+				if not interface.PurpleBuddyIsOnline(buddy):
+					continue
+
 				jid = interface.PurpleBuddyGetName(buddy)
 				name = interface.PurpleBuddyGetAlias(buddy)
-				_icon = interface.PurpleBuddyGetIcon(buddy)
-				icon = None
-				if _icon != 0:
-					icon = interface.PurpleBuddyIconGetFullPath(_icon)
-					if not interface.PurpleBuddyIsOnline(buddy):
-						continue
-
+				icon = self._get_buddy_icon(interface, buddy)
 				yield PidginContact(jid, name, account, icon)
 
 	def is_dynamic(self):
