@@ -67,12 +67,12 @@ class RecentsSource (Source, PicklingHelperMixin):
 			uri = item.get_uri()
 			name = item.get_short_name()
 			if item.is_local():
-				fileloc = item.get_uri_display()
-				leaf = FileLeaf(fileloc, name)
+				leaf = FileLeaf(gio.File(uri).get_path())
 			else:
 				leaf = UrlLeaf(uri, name)
 			item_leaves.append((leaf, item.get_modified()))
-		return (t[0] for t in sorted(item_leaves, key=lambda t: t[1], reverse=True))
+		for lf, date in sorted(item_leaves, key=lambda t: t[1], reverse=True):
+			yield lf
 
 	def get_description(self):
 		return _("Recently used documents")
