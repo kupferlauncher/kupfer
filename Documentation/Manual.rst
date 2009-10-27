@@ -302,7 +302,7 @@ To create a new translation
 Add the language to ``po/LINGUAS`` with its (commonly) two-letter code.
 Run ``./waf intlupdate`` and then edit the header in the ``po/lang.po``
 file, filling in your name and other slots, and importantly the CHARSET.
-You probably want to use UTF-8.
+Kupfer translations *must* use the UTF-8 encoding.
 
 When the header is filled-in, run ``./waf intlupdate`` to see that it
 runs without errors, and you should have a ``po/lang.po`` file ready for
