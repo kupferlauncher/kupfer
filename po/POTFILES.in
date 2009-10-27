@@ -45,10 +45,10 @@ kupfer/plugin/text.py
 kupfer/plugin/tracker.py
 kupfer/plugin/tsclient.py
 kupfer/plugin/urlactions.py
+kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/wikipedia.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
 kupfer/plugin/zim.py
-kupfer/plugin/virtualbox.py
 kupfer/preferences.py
 kupfer/version.py
