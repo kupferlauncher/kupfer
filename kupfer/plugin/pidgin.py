@@ -133,7 +133,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	def unpickle_finish(self):
 		self.mark_for_update()
 		self.all_buddies = {}
-		self._signal_online_offline_buddies()
+		self._install_dbus_signal()
 
 	def pickle_prepare(self):
 		# delete data that we do not want to save to next session
@@ -198,7 +198,19 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 			del self.all_buddies[buddy]
 			self.mark_for_update()
 
-	def _signal_online_offline_buddies(self):
+	def _buddy_status_changed(self, buddy, old, new):
+		'''Callback when status is changed reload the entry
+		which get the new status'''
+		interface = _create_dbus_connection()
+		status_message = interface.PurpleStatusGetAttrString(old, "message")
+
+		if buddy in self.all_buddies:
+			del self.all_buddies[buddy]
+
+		self.all_buddies[buddy] = self._get_pidgin_contact(interface, buddy)
+		self.mark_for_update()
+
+	def _install_dbus_signal(self):
 		'''Add signals to pidgin when buddy goes offline or
 		online to update the list'''
 		try:
@@ -209,6 +221,13 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		buddy_sign_on_cb.token = session_bus.add_signal_receiver(
 				buddy_sign_on_cb,
 				"BuddySignedOn",
+				dbus_interface="im.pidgin.purple.PurpleInterface",
+				byte_arrays=True)
+
+		buddy_status_changed_cb = DbusWeakCallback(self._buddy_status_changed)
+		buddy_status_changed_cb.token = session_bus.add_signal_receiver(
+				buddy_status_changed_cb,
+				"BuddyStatusChanged",
 				dbus_interface="im.pidgin.purple.PurpleInterface",
 				byte_arrays=True)
 
