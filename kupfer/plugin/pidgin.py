@@ -5,7 +5,8 @@ import dbus
 from kupfer.objects import (Leaf, Action, Source, AppLeafContentMixin,
 		TextLeaf, TextSource)
 from kupfer import pretty
-from kupfer import pretty, icons
+from kupfer import icons
+from kupfer.helplib import DbusWeakCallback
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
@@ -127,11 +128,37 @@ class ContactsSource(AppLeafContentMixin, Source):
 
 	def __init__(self):
 		Source.__init__(self, _('Pidgin Contacts'))
+		self.all_buddies = {}
+		self._get_all_buddies()
+		self._signal_online_offline_buddies()
 
-	def get_items(self):
+	def _get_pidgin_contact(self, interface, buddy, account=None, protocol=None):
+		if not account:
+			account = interface.PurpleBuddyGetAccount(buddy)
+
+		if not protocol:
+			protocol = interface.PurpleAccountGetProtocolName(account)
+
+		jid = interface.PurpleBuddyGetName(buddy)
+		name = interface.PurpleBuddyGetAlias(buddy)
+		_icon = interface.PurpleBuddyGetIcon(buddy)
+		icon = None
+		if _icon != 0:
+			icon = interface.PurpleBuddyIconGetFullPath(_icon)
+		presenceid = interface.PurpleBuddyGetPresence(buddy)
+		statusid = interface.PurplePresenceGetActiveStatus(presenceid)
+		availability = interface.PurplePresenceIsAvailable(presenceid)
+		status_message = interface.PurpleStatusGetAttrString(statusid, "message")
+
+		return PidginContact(jid, name, account, icon,
+				     protocol, availability,
+				     status_message)
+
+	def _get_all_buddies(self):
 		interface = _create_dbus_connection()
 		if interface is None:
 			return
+
 		accounts = interface.PurpleAccountsGetAllActive()
 		for account in accounts:
 			buddies = interface.PurpleFindBuddies(account, dbus.String(''))
@@ -140,6 +167,7 @@ class ContactsSource(AppLeafContentMixin, Source):
 			for buddy in buddies:
 				if not interface.PurpleBuddyIsOnline(buddy):
 					continue
+
 				jid = interface.PurpleBuddyGetName(buddy)
 				name = interface.PurpleBuddyGetAlias(buddy)
 				_icon = interface.PurpleBuddyGetIcon(buddy)
@@ -147,12 +175,46 @@ class ContactsSource(AppLeafContentMixin, Source):
 				if _icon != 0:
 					icon = interface.PurpleBuddyIconGetFullPath(_icon)
 
-				presenceid = interface.PurpleBuddyGetPresence(buddy)
-				statusid = interface.PurplePresenceGetActiveStatus(presenceid)
-				availability = interface.PurplePresenceIsAvailable(presenceid)
-				status_message = interface.PurpleStatusGetAttrString(statusid, "message")
+				self.all_buddies[buddy] = self._get_pidgin_contact(interface,
+										   buddy,
+										   protocol=protocol,
+										   account=account)
 
-				yield PidginContact(jid, name, account, icon, protocol, availability, status_message)
+	def _buddy_signed_on(self, buddy):
+		interface = _create_dbus_connection()
+		if not buddy in self.all_buddies:
+			self.all_buddies[buddy] = self._get_pidgin_contact(interface, buddy)
+
+	def _buddy_signed_off(self, buddy):
+		if buddy in self.all_buddies:
+			del self.all_buddies[buddy]
+
+	def _signal_online_offline_buddies(self):
+		'''Add signals to pidgin when buddy goes offline or
+		online to update the list'''
+		try:
+			session_bus = dbus.Bus()
+		except dbus.DBusException:
+			return
+		buddy_sign_on_cb = DbusWeakCallback(self._buddy_signed_on)
+		buddy_sign_on_cb.token = session_bus.add_signal_receiver(
+				buddy_sign_on_cb,
+				"BuddySignedOn",
+				dbus_interface="im.pidgin.purple.PurpleInterface",
+				byte_arrays=True)
+
+		buddy_sign_off_cb = DbusWeakCallback(self._buddy_signed_off)
+		buddy_sign_off_cb.token = session_bus.add_signal_receiver(
+				buddy_sign_off_cb,
+				"BuddySignedOff",
+				dbus_interface="im.pidgin.purple.PurpleInterface",
+				byte_arrays=True)
+
+
+	def get_items(self):
+		for value in self.all_buddies.values():
+			yield value
+
 
 	def get_icon_name(self):
 		return 'pidgin'
