@@ -7,7 +7,7 @@ from kupfer.objects import Action
 from kupfer.objects import TextLeaf
 from kupfer import kupferstring, task, uiutils
 
-__kupfer_name__ = _("APT Package Tools")
+__kupfer_name__ = _("APT")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = ("ShowPackageInfo", )
