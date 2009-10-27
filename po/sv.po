@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-27 00:57+0100\n"
+"POT-Creation-Date: 2009-10-27 18:30+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -321,8 +321,8 @@ msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
 #: ../kupfer/plugin/apt_tools.py:10
-msgid "APT Tools"
-msgstr "APT-verktyg"
+msgid "APT"
+msgstr "APT"
 
 #: ../kupfer/plugin/apt_tools.py:14
 msgid "Interface with the package manager APT"
@@ -1092,6 +1092,20 @@ msgstr "Stoppa tjänst"
 #, python-format
 msgid "%s Service"
 msgstr "%s"
+
+#: ../kupfer/plugin/show_text.py:10 ../kupfer/plugin/show_text.py:21
+#: ../kupfer/plugin/show_text.py:24
+msgid "Show Text"
+msgstr "Visa text"
+
+#: ../kupfer/plugin/show_text.py:15 ../kupfer/plugin/show_text.py:30
+#: ../kupfer/plugin/show_text.py:45
+msgid "Display text in a window"
+msgstr "Visa text i ett fönster"
+
+#: ../kupfer/plugin/show_text.py:36
+msgid "Large Type"
+msgstr "Visa med stor text"
 
 #: ../kupfer/plugins.py:72
 msgid "(no description)"

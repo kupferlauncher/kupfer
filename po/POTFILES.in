@@ -38,6 +38,7 @@ kupfer/plugin/rst.py
 kupfer/plugin/screen.py
 kupfer/plugin/selection.py
 kupfer/plugin/services.py
+kupfer/plugin/show_text.py
 kupfer/plugins.py
 kupfer/plugin_support.py
 kupfer/plugin/text.py
