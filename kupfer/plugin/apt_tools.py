@@ -6,6 +6,7 @@ import gtk
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
 from kupfer import kupferstring, task, uiutils, utils
+from kupfer import plugin_support
 
 __kupfer_name__ = _("APT")
 __kupfer_sources__ = ()
@@ -13,11 +14,21 @@ __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
 		"ShowPackageInfo",
 		"SearchPackageName",
+		"InstallPackage",
 	)
 __description__ = _("Interface with the package manager APT")
 __version__ = ""
 __author__ = ("VCoolio <martinkoelewijn@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "installation_method",
+		"label": _("Installation method"),
+		"type": str,
+		"value": "gksu apt-get install",
+	},
+)
 
 class InfoTask(task.ThreadTask):
 	def __init__(self, text):
@@ -60,9 +71,16 @@ class InstallPackage (Action):
 	def __init__(self):
 		Action.__init__(self, _("Install"))
 	def activate(self, leaf):
-		pkg = leaf.object
-		cli = "sudo apt-get install '%s'" % pkg
+		pkg = leaf.object.strip()
+		cli = "%s %s" % (__kupfer_settings__["installation_method"], pkg)
 		utils.launch_commandline(cli, in_terminal=True)
+
+	def item_types(self):
+		yield Package
+		yield TextLeaf
+
+	def get_description(self):
+		return _("Install package using the configured method")
 	def get_icon_name(self):
 		return "gtk-save"
 
@@ -70,9 +88,6 @@ class Package (Leaf):
 	def __init__(self, package, desc):
 		Leaf.__init__(self, package, package)
 		self.desc = desc
-
-	def get_actions(self):
-		yield InstallPackage()
 
 	def get_description(self):
 		return self.desc
