@@ -2,7 +2,9 @@
 plugin'''
 import dbus
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.objects import (Leaf, Action, Source, AppLeafContentMixin,
+		TextLeaf, TextSource)
+from kupfer import pretty
 from kupfer import pretty, icons
 
 __kupfer_name__ = _("Pidgin")
@@ -39,6 +41,19 @@ def _create_dbus_connection(activate=False):
 	return interface
 
 
+def _send_message_to_contact(pcontact, message):
+	"""
+	Send @message to PidginContact @pcontact
+	"""
+	interface = _create_dbus_connection()
+	if not interface:
+		return
+	account, jid = pcontact.account, pcontact.jid
+	conversation = interface.PurpleConversationNew(1, account, jid)
+	im = interface.PurpleConvIm(conversation)
+	interface.PurpleConvImSend(im, message)
+
+
 class OpenChat(Action):
 	""" Open Chat Conversation Window with jid """
 
@@ -46,14 +61,27 @@ class OpenChat(Action):
 		Action.__init__(self, _('Open Chat'))
 
 	def activate(self, leaf):
-		interface = _create_dbus_connection()
-		conversation = interface.PurpleConversationNew(1, leaf.account, leaf.jid)
-		im = interface.PurpleConvIm(conversation)
-		interface.PurpleConvImSend(im, dbus.String(''))
+		_send_message_to_contact(leaf, u"")
 
 	def get_icon_name(self):
 		return 'stock_person'
 
+class SendMessage (Action):
+	""" Send chat message directly from Kupfer """
+	def __init__(self):
+		Action.__init__(self, _("Send Message..."))
+
+	def activate(self, leaf, iobj):
+		_send_message_to_contact(leaf, iobj.object)
+
+	def item_types(self):
+		yield PidginContact
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield TextLeaf
+	def object_source(self, for_item=None):
+		return TextSource()
 
 class PidginContact(Leaf):
 	""" Leaf represent single contact from Pidgin """
@@ -79,6 +107,7 @@ class PidginContact(Leaf):
 
 	def get_actions(self):
 		yield OpenChat()
+		yield SendMessage()
 
 	def get_description(self):
 		return self._description
