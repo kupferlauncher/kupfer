@@ -28,7 +28,7 @@ def get_plugin_ids():
 
 	plugin_ids = set()
 	for importer, modname, ispkg in pkgutil.iter_modules(plugin.__path__):
-		if not ispkg and is_plugname(modname):
+		if is_plugname(modname):
 			plugin_ids.add(modname)
 
 	for plugin_dir in config.get_data_dirs("plugins"):
