@@ -12,8 +12,9 @@ __version__ = '0.3'
 
 import os
 from xml.dom import minidom
+
 from kupfer import pretty, utils
-import virtualbox_const_support as vbox_const
+from kupfer.plugin.virtualbox import constants as vbox_const
 
 _VBOX_CONFIG_DIR = os.path.expanduser('~/.VirtualBox/')
 _VBOX_CONFIG_FILE = os.path.join(_VBOX_CONFIG_DIR, 'VirtualBox.xml')

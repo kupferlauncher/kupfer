@@ -15,13 +15,13 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 try:
-	import virtualbox_vboxapi_support as vbox_support
+	from kupfer.plugin.virtualbox import vboxapi_support as vbox_support
 	pretty.print_info(__name__, 'Using vboxapi...')
 except ImportError, err:
-	import virtualbox_ose_support as vbox_support
+	from kupfer.plugin.virtualbox import ose_support as vbox_support
 	pretty.print_info(__name__, 'Using cli...', err)
 
-import virtualbox_const_support as vbox_const
+from kupfer.plugin.virtualbox import constants as vbox_const
 
 
 class VirtualMachine(Leaf):

@@ -14,7 +14,7 @@ from kupfer import pretty
 
 import vboxapi
 
-import virtualbox_const_support as vbox_const
+from kupfer.plugin.virtualbox import constants as vbox_const
 
 MONITORED_DIRS = None
 IS_DYNAMIC = False
