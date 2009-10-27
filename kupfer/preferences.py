@@ -103,6 +103,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			desc = info["description"]
 			text = u"%s" % name
 			self.store.append((plugin_id, enabled, "kupfer-object", text))
+		self.output_debug("Standard Plugins: %d" % len(self.store))
 		self.table.show()
 		self.pluglist_parent.add(self.table)
 
