@@ -37,6 +37,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.pluglist_parent = builder.get_object("plugin_list_parent")
 		self.dirlist_parent = builder.get_object("directory_list_parent")
 		self.plugin_about_parent = builder.get_object("plugin_about_parent")
+		self.preferences_notebook = builder.get_object("preferences_notebook")
 
 		self.entrykeybinding = builder.get_object("entrykeybinding")
 		self.buttonkeybinding = builder.get_object("buttonkeybinding")
@@ -248,6 +249,18 @@ class PreferencesWindowController (pretty.OutputMixin):
 		id_col = self.columns.index("plugin_id")
 		plugin_id = self.store.get_value(it, id_col)
 		return plugin_id
+
+	def _table_path_for_id(self, id_):
+		"""
+		Find the tree path of plugin @id_
+		"""
+		id_col = self.columns.index("plugin_id")
+		for row in self.store:
+			plugin_id = row[id_col]
+			if plugin_id == id_:
+				return row.path
+		raise ValueError("No such plugin %s" % id_)
+
 
 	def _plugin_info_for_id(self, plugin_id):
 		for info in self.plugin_info:
@@ -489,6 +502,17 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 	def show(self):
 		self.window.present()
+	def show_focus_plugin(self, plugin_id):
+		"""
+		Open and show information about plugin @plugin_id
+		"""
+		table_path = self._table_path_for_id(plugin_id)
+		self.table.set_cursor(table_path)
+		self.table.scroll_to_cell(table_path)
+		# FIXME: Revisit if we add new pages to the GtkNotebook
+		self.preferences_notebook.next_page()
+		self.window.present()
+
 	def hide(self):
 		self.window.hide()
 	def _close_window(self, *ignored):
