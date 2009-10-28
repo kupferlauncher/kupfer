@@ -64,9 +64,6 @@ class OpenChat(Action):
 	def activate(self, leaf):
 		_send_message_to_contact(leaf, u"")
 
-	def get_icon_name(self):
-		return 'stock_person'
-
 class SendMessage (Action):
 	""" Send chat message directly from Kupfer """
 	def __init__(self):
@@ -119,7 +116,7 @@ class PidginContact(Leaf):
 		return icons.get_pixbuf_from_file(self.icon, width, height)
 
 	def get_icon_name(self):
-		return "pidgin"
+		return "stock_person"
 
 
 class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
