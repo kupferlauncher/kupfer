@@ -442,6 +442,12 @@ class SourceController (pretty.OutputMixin):
 				continue
 			sourcepickler.pickle_source(source)
 
+	def cache_toplevel_sources(self):
+		"""Ensure that all toplevel sources are cached"""
+		for src in self.toplevel_sources:
+			if not src.is_dynamic():
+				src.get_leaves()
+
 _source_controller = None
 def GetSourceController():
 	global _source_controller
@@ -789,6 +795,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc = GetSourceController()
 		sc.add(self.direct_sources, toplevel=True)
 		sc.add(self.other_sources, toplevel=False)
+		sc.cache_toplevel_sources()
 		self.source_pane.source_rebase(sc.root)
 		learn.load()
 
