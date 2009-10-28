@@ -1,6 +1,10 @@
+import os
+
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
 from kupfer.objects import UrlLeaf
 from kupfer import plugin_support
+
+from kupfer.plugin import epiphany_support
 
 __kupfer_name__ = _("Epiphany Bookmarks")
 __kupfer_sources__ = ("EpiphanySource", )
@@ -19,9 +23,17 @@ class EpiphanySource (AppLeafContentMixin, Source):
 		super(EpiphanySource, self).__init__(_("Epiphany Bookmarks"))
 	
 	def get_items(self):
-		from epiphany_support import EpiphanyBookmarksParser
-		parser = EpiphanyBookmarksParser()
-		bookmarks = parser.get_items()
+		fpath = os.path.expanduser(epiphany_support.EPHY_BOOKMARKS_FILE)
+		if not os.path.exists(fpath):
+			self.output_debug("Epiphany bookmarks file not found:", fpath)
+			return ()
+
+		try:
+			bookmarks = list(epiphany_support.parse_epiphany_bookmarks(fpath))
+		except EnvironmentError, exc:
+			self.output_error(exc)
+			return ()
+
 		return (UrlLeaf(href, title) for title, href in bookmarks)
 
 	def get_description(self):
