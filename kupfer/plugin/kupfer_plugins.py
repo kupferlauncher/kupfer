@@ -1,7 +1,7 @@
 import os
 
 from kupfer.objects import Action, Source, Leaf, FileLeaf
-from kupfer import plugin_support
+from kupfer import icons, plugin_support
 
 # Since this is a core plugin we break some rules
 # This module is normally out of bounds for plugins
@@ -70,7 +70,7 @@ class Plugin (Leaf):
 		return u"%s (%s)" % (self.object["description"],
 				_("enabled") if enabled else _("disabled"))
 	def get_icon_name(self):
-		return "package"
+		return "package-x-generic"
 
 class KupferPlugins (Source):
 	def __init__(self):
@@ -89,6 +89,6 @@ class KupferPlugins (Source):
 
 	def provides(self):
 		yield Plugin
-	def get_icon_name(self):
-		return "search"
 
+	def get_gicon(self):
+		return icons.ComposedIcon("package-x-generic", "package-x-generic")
