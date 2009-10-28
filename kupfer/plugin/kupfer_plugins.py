@@ -46,7 +46,6 @@ class ShowSource (Action):
 		filename = plugins.get_plugin_attribute(plugin_id, "__file__")
 		if not filename:
 			return leaf
-		print filename
 		root, ext = os.path.splitext(filename)
 		if ext.lower() == ".pyc" and os.path.exists(root + ".py"):
 			return FileLeaf(root + ".py")
@@ -68,7 +67,7 @@ class Plugin (Leaf):
 	def get_description(self):
 		setctl = settings.GetSettingsController()
 		enabled = setctl.get_plugin_enabled(self.object["name"])
-		return _("%s (%s)") % (self.object["description"],
+		return u"%s (%s)" % (self.object["description"],
 				_("enabled") if enabled else _("disabled"))
 	def get_icon_name(self):
 		return "package"
