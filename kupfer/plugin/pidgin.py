@@ -241,6 +241,9 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 			self._get_all_buddies()
 		return self.all_buddies.values()
 
+	def should_sort_lexically(self):
+		return True
+
 	def get_icon_name(self):
 		return 'pidgin'
 
