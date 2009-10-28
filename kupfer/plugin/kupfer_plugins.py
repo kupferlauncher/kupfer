@@ -13,7 +13,10 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class Plugin (Leaf):
 	def get_description(self):
-		return self.object["description"]
+		setctl = settings.GetSettingsController()
+		enabled = setctl.get_plugin_enabled(self.object["name"])
+		return _("%s (%s)") % (self.object["description"],
+				_("enabled") if enabled else _("disabled"))
 	def get_icon_name(self):
 		return "package"
 
