@@ -5,7 +5,7 @@ import gtk
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
-from kupfer import kupferstring, task, uiutils, utils
+from kupfer import icons, kupferstring, task, uiutils, utils
 from kupfer import plugin_support
 
 __kupfer_name__ = _("APT")
@@ -66,8 +66,8 @@ class ShowPackageInfo (Action):
 		text = item.object
 		return len(text.split(None, 1)) == 1
 
-	def get_icon_name(self):
-		return "synaptic"
+	def get_gicon(self):
+		return icons.ComposedIcon("dialog-information", "package")
 
 class InstallPackage (Action):
 	def __init__(self):
