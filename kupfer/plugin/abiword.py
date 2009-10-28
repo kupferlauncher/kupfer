@@ -1,6 +1,5 @@
 import os
-from xml.sax import make_parser
-from xml.sax.handler import ContentHandler
+import xml.etree.cElementTree as ElementTree
 
 import gio
 
@@ -16,38 +15,19 @@ __description__ = _("Recently used documents in Abiword")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-class AbiwordHandler(ContentHandler):
-	"""Parse abiword's config file and get the recent applications"""
-	def __init__(self, allFiles, application="abiword"):
-		ContentHandler.__init__(self)
-		self.allFiles = allFiles
-		self.fWantScope = False
-		self.application = application
-
-	def startElement(self, sName, attributes):
-		if sName == "AbiPreferences" and attributes["app"] == self.application:
-			self.fWantScope = True
-		elif sName == "Recent" and self.fWantScope:
-			mnum = int(attributes["max"])
-			for num in xrange(1, mnum+1):
-				attr ="name%d" % num
-				if attr in attributes:
-					self.allFiles.append(attributes[attr])
-	def characters(self, sData):
-		pass
-
-	def endElement(self,sName):
-		if sName == "AbiPreferences":
-			self.fWantScope = False
-
-def get_abiword_files(xmlfilepath):
-	sFile = os.path.expanduser(xmlfilepath)
-	parser = make_parser()
-	allFiles = []
-	handler = AbiwordHandler(allFiles)
-	parser.setContentHandler(handler)
-	parser.parse(sFile)
-	return allFiles
+def get_abiword_files(xmlpth, application="abiword"):
+	"""
+	Yield URLs to abiword's recent files from XML file @xmlpth
+	"""
+	inside = False
+	for event, entry in ElementTree.iterparse(xmlpth, events=("start", "end")):
+		if entry.tag == "AbiPreferences" and entry.get("app") == application:
+			if event == "start":
+				inside = True
+		elif not inside and event != "end":
+			continue
+		if entry.tag == "Recent":
+			return (entry.get(a) for a in entry.attrib if a.startswith("name"))
 
 class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 	appleaf_content_id = "abiword"
@@ -86,9 +66,16 @@ class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 	def get_items(self):
 		abifile = self._get_abiword_file()
 		if not abifile:
-			self.output_debug("Abiword profie not found at", abifile)
+			self.output_debug("Abiword profile not found at", abifile)
 			return
-		for uri in get_abiword_files(abifile):
+
+		try:
+			uris = list(get_abiword_files(abifile))
+		except EnvironmentError, exc:
+			self.output_error(exc)
+			return
+
+		for uri in uris:
 			gfile = gio.File(uri)
 			if not gfile.query_exists():
 				continue
