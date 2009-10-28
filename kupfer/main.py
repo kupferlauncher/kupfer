@@ -37,28 +37,31 @@ def get_options():
 
 	program_options = [
 		("no-splash", _("do not present main interface on launch")),
+		("list-plugins", _("list available plugins")),
+		("debug", _("enable debug info")),
 	]
 	misc_options = [
 		("help", _("show usage help")),
 		("version", _("show version information")),
-		("debug", _("enable debug info")),
 	]
 
 	import getopt
 	def make_help_text():
-		from kupfer import config, plugins
+		from kupfer import config
 
 		config_filename = "kupfer.cfg"
 		defaults_filename = "defaults.cfg"
 		conf_path = config.save_config_file(config_filename)
 		defaults_path = config.get_data_file(defaults_filename)
 		usage_string = _("Usage: kupfer [OPTIONS | QUERY]")
-		options_string = usage_string + "\n\n" + "\n".join("  --%-15s  %s" % (o,h) for o,h in (program_options + misc_options))
+		def format_options(opts):
+			return "\n".join("  --%-15s  %s" % (o,h) for o,h in opts)
+
+		options_string = u"%s\n\n%s\n\n%s" % (usage_string,
+				format_options(program_options), format_options(misc_options))
 
 		configure_help1 = _("To configure kupfer, edit:")
 		configure_help2 = _("The default config for reference is at:")
-		plugin_header = _("Available plugins:")
-		plugin_list = plugins.get_plugin_desc()
 		help_text = "\n".join((
 			options_string,
 			"\n",
@@ -67,10 +70,14 @@ def get_options():
 			configure_help2,
 			"\t%s" % defaults_path,
 			"\n",
-			plugin_header,
-			plugin_list,
 		))
 		return help_text
+
+	def make_plugin_list():
+		from kupfer import plugins
+		plugin_header = _("Available plugins:")
+		plugin_list = plugins.get_plugin_desc()
+		return "\n".join((plugin_header, plugin_list))
 
 	# Fix sys.argv that can be None in exceptional cases
 	if sys.argv[0] is None:
@@ -86,6 +93,9 @@ def get_options():
 		raise SystemExit
 
 	for k, v in opts:
+		if k == "--list-plugins":
+			print make_plugin_list()
+			raise SystemExit
 		if k == "--help":
 			print make_help_text()
 			raise SystemExit
