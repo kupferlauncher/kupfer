@@ -89,12 +89,15 @@ class PidginContact(Leaf):
 		obj = (account, jid)
 		Leaf.__init__(self, obj, name or jid)
 
-		self.info = {
-				"userid": jid,
-				"available": u"" if available else u", %s" % _("Away"),
-				"protocol": protocol,
-				"status": status_message,
-			}
+		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
+				{
+					"status": _("Available") if available else _("Away"),
+					"userid": jid,
+					"service": protocol,
+				}
+
+		if status_message:
+			self._description += u"\n%s" % status_message
 
 		self.account = account
 		self.jid = jid
@@ -105,10 +108,7 @@ class PidginContact(Leaf):
 		yield SendMessage()
 
 	def get_description(self):
-		desc = _("%(userid)s on %(protocol)s%(available)s") % self.info
-		if self.info["status"]:
-			desc += u"\n%s" % self.info["status"]
-		return desc
+		return self._description
 
 	def get_thumbnail(self, width, height):
 		if not self.icon:
@@ -125,6 +125,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 
 	def __init__(self):
 		Source.__init__(self, _('Pidgin Contacts'))
+		self._version = 2
 		self.unpickle_finish()
 
 	def unpickle_finish(self):

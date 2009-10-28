@@ -51,11 +51,15 @@ class GajimContact(Leaf):
 	""" Leaf represent single contact from Gajim """
 
 	def __init__(self, name, jid, account, status, resource):
-		Leaf.__init__(self, name or jid, name or jid)
+		obj = (account, jid)
+		Leaf.__init__(self, obj, name or jid)
 
-		str_resource = ("/" + resource[0][0]) if resource and len(resource) > 0 else ''
-		self._description = ('[' + _STATUSES.get(status, status) +  '] '+  \
-				jid + str_resource + '  via ' +  account )
+		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
+				{
+					"status": _STATUSES.get(status, status),
+					"userid": jid,
+					"service": resource[0][0] if resource else u"",
+				}
 		self.account = account
 
 	def get_actions(self):
