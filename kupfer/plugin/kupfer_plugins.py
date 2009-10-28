@@ -1,4 +1,6 @@
-from kupfer.objects import Action, Source, Leaf
+import os
+
+from kupfer.objects import Action, Source, Leaf, FileLeaf
 from kupfer import plugin_support
 
 # Since this is a core plugin we break some rules
@@ -29,12 +31,39 @@ class ShowInfo (Action):
 	def get_icon_name(self):
 		return "dialog-information"
 
+class ShowSource (Action):
+	def __init__(self):
+		Action.__init__(self, _("Show Source Code"))
+
+	def has_result(self):
+		return True
+	def activate(self, leaf):
+		# Try to find the __file__ attribute for the plugin
+		# It will fail for files inside zip packages, but that is
+		# uncommon for now.
+		# Additionally, it will fail for fake plugins
+		plugin_id = leaf.object["name"]
+		filename = plugins.get_plugin_attribute(plugin_id, "__file__")
+		if not filename:
+			return leaf
+		print filename
+		root, ext = os.path.splitext(filename)
+		if ext.lower() == ".pyc" and os.path.exists(root + ".py"):
+			return FileLeaf(root + ".py")
+		return FileLeaf(filename)
+
+	def get_description(self):
+		pass
+	def get_icon_name(self):
+		return "dialog-information"
+
 class Plugin (Leaf):
 	def __init__(self, obj, name):
 		Leaf.__init__(self, obj, name)
 		self.name_aliases.add(self.get_description())
 	def get_actions(self):
 		yield ShowInfo()
+		yield ShowSource()
 
 	def get_description(self):
 		setctl = settings.GetSettingsController()
