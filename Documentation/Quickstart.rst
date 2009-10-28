@@ -2,9 +2,9 @@
 kupfer
 ======
 
------------------
-A simple launcher
------------------
+-----------------------------------------------------------------
+Convenient command and access tool for applications and documents
+-----------------------------------------------------------------
 
 :Author: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 :Date: 17 September 2009
