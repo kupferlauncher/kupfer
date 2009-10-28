@@ -53,7 +53,7 @@ class ComposeMail(RunnableLeaf):
 		return _("Compose New Mail with Claws Mail")
 
 	def get_icon_name(self):
-		return "stock_mail-compose"
+		return "mail-message-new"
 
 
 class ReceiveMail(RunnableLeaf):
@@ -68,7 +68,7 @@ class ReceiveMail(RunnableLeaf):
 		return _("Receive new mail from all accounts by ClawsMail")
 
 	def get_icon_name(self):
-		return "stock_mail-receive"
+		return "mail-send-receive"
 
 
 class NewMailAction(Action):
@@ -84,7 +84,7 @@ class NewMailAction(Action):
 		utils.launch_commandline("claws-mail --compose '%s'" % email)
 
 	def get_icon_name(self):
-		return 'stock_mail-compose'
+		return "mail-message-new"
 
 	def item_types(self):
 		yield ClawsContact
