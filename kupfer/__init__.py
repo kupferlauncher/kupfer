@@ -1,9 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-
 """
-kupfer      A quick hack and a launcher
-ɹǝɟdnʞ
+kupfer      A convenient access and command tool
 
 Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 
