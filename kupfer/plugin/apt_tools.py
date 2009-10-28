@@ -113,6 +113,9 @@ class PackageSearchSource (Source):
 			package, desc = line.split(" - ", 1)
 			yield Package(package, desc)
 
+	def should_sort_lexically(self):
+		return True
+
 	def provides(self):
 		yield TextLeaf
 	def get_icon_name(self):
