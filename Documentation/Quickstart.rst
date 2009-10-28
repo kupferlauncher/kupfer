@@ -48,15 +48,17 @@ OPTIONS
 
 --no-splash     Launch without presenting main interface
 
+--list-plugins  Display a list of all available plugins
+
+--debug         Enable more verbose output that can help understanding
+                program operation.
+
 The following are generic options
 
 --help          Display usage information and help on how to configure
                 kupfer, as well as a list of available plugins, then exit.
 
 --version       Display version information and exit.
-
---debug         Enable more verbose output that can help understanding
-                program operation.
 
 CONFIGURATION
 =============
