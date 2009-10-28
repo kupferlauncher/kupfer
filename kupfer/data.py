@@ -423,14 +423,7 @@ class SourceController (pretty.OutputMixin):
 				sources.remove(source)
 				sources.add(news)
 			elif rescan:
-				# to "rescue the toplevel", we throw out sources that
-				# raise exceptions on rescan
-				try:
-					self.rescanner.register_rescan(source, sync=True)
-				except StandardError, exp:
-					self.output_error("Loading %s: raised %s %s" % (
-						source, type(exp).__name__, exp))
-					sources.remove(source)
+				self._checked_rescan_source(source, force=True)
 
 	def _pickle_sources(self, sources):
 		if not self.pickle:
@@ -442,11 +435,32 @@ class SourceController (pretty.OutputMixin):
 				continue
 			sourcepickler.pickle_source(source)
 
+	def _checked_rescan_source(self, source, force=True):
+		"""
+		Rescan @source and check for exceptions, if it
+		raises, we remove it from our source catalog
+		"""
+		# to "rescue the toplevel", we throw out sources that
+		# raise exceptions on rescan
+		try:
+			if force:
+				self.rescanner.register_rescan(source, sync=True)
+			else:
+				source.get_leaves()
+		except Exception:
+			import traceback
+			self.output_error("Loading %s raised an exception:" % source)
+			traceback.print_exc()
+			self.output_error("This error is probably a bug in %s" % source)
+			self.output_error("Please file a bug report")
+			self.sources.discard(source)
+			self.toplevel_sources.discard(source)
+
 	def cache_toplevel_sources(self):
 		"""Ensure that all toplevel sources are cached"""
-		for src in self.toplevel_sources:
+		for src in set(self.toplevel_sources):
 			if not src.is_dynamic():
-				src.get_leaves()
+				self._checked_rescan_source(src, force=False)
 
 _source_controller = None
 def GetSourceController():
