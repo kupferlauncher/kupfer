@@ -143,6 +143,27 @@ class DebugInfo (Action, pretty.OutputMixin):
 		if pretty.debug:
 			yield Leaf
 
+class DebugRestart (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, None, u"Restart Kupfer")
+
+	@classmethod
+	def _exec_new_kupfer(cls):
+		import os
+		os.execvp("kupfer", ("kupfer", "--debug", ))
+
+	def run(self):
+		import atexit
+		import sys
+
+		gtk.main_quit()
+		atexit.register(self._exec_new_kupfer)
+
+	def get_description(self):
+		return u"Restart Kupfer quickly (for internal kupfer use)"
+	def get_icon_name(self):
+		return gtk.STOCK_REFRESH
+
 class Quit (RunnableLeaf):
 	qf_id = "quit"
 	def __init__(self, name=None):
@@ -186,11 +207,12 @@ class KupferSource (AppLeafContentMixin, Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		return (
-			About(),
-			Preferences(),
-			Quit(),
-		)
+		yield About()
+		yield Preferences()
+		yield Quit()
+		if pretty.debug:
+			yield DebugRestart()
+
 	def get_description(self):
 		return _("Kupfer items and actions")
 	def get_icon_name(self):
