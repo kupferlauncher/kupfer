@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-27 18:30+0100\n"
+"POT-Creation-Date: 2009-10-28 23:08+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -320,17 +320,38 @@ msgstr "Välj standardprogram..."
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
-#: ../kupfer/plugin/apt_tools.py:10
+#: ../kupfer/plugin/apt_tools.py:11
 msgid "APT"
 msgstr "APT"
 
-#: ../kupfer/plugin/apt_tools.py:14
+#: ../kupfer/plugin/apt_tools.py:19
 msgid "Interface with the package manager APT"
 msgstr "Arbeta med pakethanteraren APT"
 
-#: ../kupfer/plugin/apt_tools.py:35 ../kupfer/plugin/apt_tools.py:39
+#: ../kupfer/plugin/apt_tools.py:27
+msgid "Installation method"
+msgstr "Installationsmetod"
+
+#: ../kupfer/plugin/apt_tools.py:49 ../kupfer/plugin/apt_tools.py:53
 msgid "Show Package Information"
 msgstr "Visa paketinformation"
+
+#: ../kupfer/plugin/apt_tools.py:74
+msgid "Install"
+msgstr "Installera"
+
+#: ../kupfer/plugin/apt_tools.py:85
+msgid "Install package using the configured method"
+msgstr "Installera paket m.h.a den konfigurerade metoden"
+
+#: ../kupfer/plugin/apt_tools.py:102
+#, python-format
+msgid "Packages matching \"%s\""
+msgstr "Paket som matchar \"%s\""
+
+#: ../kupfer/plugin/apt_tools.py:126
+msgid "Search Package Name..."
+msgstr "Sök paketnamn..."
 
 #: ../kupfer/plugin/calculator.py:9
 msgid "Calculator"
@@ -789,6 +810,30 @@ msgstr "Autorotera"
 #: ../kupfer/plugin/image.py:154
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
+
+#: ../kupfer/plugin/kupfer_plugins.py:10 ../kupfer/plugin/kupfer_plugins.py:78
+msgid "Kupfer Plugins"
+msgstr "Kupfers insticksmoduler"
+
+#: ../kupfer/plugin/kupfer_plugins.py:12
+msgid "Access Kupfer's plugin list in Kupfer"
+msgstr "Lista Kupfers insticksmoduler i Kupfer"
+
+#: ../kupfer/plugin/kupfer_plugins.py:22
+msgid "Show Information"
+msgstr "Visa information"
+
+#: ../kupfer/plugin/kupfer_plugins.py:36
+msgid "Show Source Code"
+msgstr "Visa källkod"
+
+#: ../kupfer/plugin/kupfer_plugins.py:72
+msgid "enabled"
+msgstr "aktiverad"
+
+#: ../kupfer/plugin/kupfer_plugins.py:72
+msgid "disabled"
+msgstr "ej aktiverad"
 
 #: ../kupfer/plugin/locate.py:9 ../kupfer/plugin/locate.py:27
 msgid "Locate Files"

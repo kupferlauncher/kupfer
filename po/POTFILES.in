@@ -28,6 +28,7 @@ kupfer/plugin/firefox.py
 kupfer/plugin/gajim.py
 kupfer/plugin/google.py
 kupfer/plugin/image.py
+kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/locate.py
 kupfer/plugin/nautilusselection.py
 kupfer/plugin/notes.py
