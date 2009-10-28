@@ -12,6 +12,9 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class Plugin (Leaf):
+	def __init__(self, obj, name):
+		Leaf.__init__(self, obj, name)
+		self.name_aliases.add(self.get_description())
 	def get_description(self):
 		setctl = settings.GetSettingsController()
 		enabled = setctl.get_plugin_enabled(self.object["name"])
