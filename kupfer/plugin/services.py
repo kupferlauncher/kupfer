@@ -96,7 +96,7 @@ class SystemServicesSource(Source, FilesystemWatchMixin, PicklingHelperMixin):
 
 	def unpickle_finish(self):
 		# path to file with list notebooks
-		for initd_path in ('/etc/init.d/', '/etc/rc/init.d'):
+		for initd_path in ('/etc/init.d/', '/etc/rc.d/init.d', '/etc/rc.d'):
 			if os.path.exists(initd_path) and os.path.isdir(initd_path):
 				self._initd_path = initd_path
 				self.monitor_token = self.monitor_directories(self._initd_path)
