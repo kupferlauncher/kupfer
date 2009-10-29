@@ -10,7 +10,6 @@ from kupfer import launch, icons
 
 __kupfer_name__ = _("Abiword")
 __kupfer_sources__ = ("RecentsSource", )
-__kupfer_contents__ = ("RecentsSource", )
 __description__ = _("Recently used documents in Abiword")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

@@ -16,7 +16,6 @@ from kupfer import icons, plugin_support
 
 __kupfer_name__ = _("Notes")
 __kupfer_sources__ = ("NotesSource", )
-__kupfer_contents__ = ("NotesSource", )
 __kupfer_actions__ = (
 		"AppendToNote",
 		"CreateNote",

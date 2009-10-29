@@ -6,7 +6,6 @@ from kupfer import plugin_support
 
 __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
-__kupfer_contents__ = ("BookmarksSource", )
 __description__ = _("Index of Firefox bookmarks")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

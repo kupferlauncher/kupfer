@@ -10,7 +10,6 @@ from kupfer import utils
 
 __kupfer_name__ = _("PuTTY Sessions")
 __kupfer_sources__ = ("PuttySessionSource", )
-__kupfer_contents__= ("PuttySessionSource", )
 __description__ = _("Quick access to PuTTY Sessions")
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"

@@ -7,7 +7,6 @@ from kupfer import pretty
 
 __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )
-__kupfer_contents__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", )
 __description__ = _("Access to Gajim Contacts")
 __version__ = "0.1"

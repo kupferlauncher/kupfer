@@ -10,7 +10,6 @@ from kupfer import utils
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
-__kupfer_contents__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
 __description__ = _("Claws Mail Contacts and Actions")
 __version__ = "0.2"

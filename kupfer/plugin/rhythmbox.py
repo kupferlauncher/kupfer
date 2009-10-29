@@ -10,10 +10,7 @@ from kupfer import plugin_support
 from kupfer.plugin import rhythmbox_support
 
 __kupfer_name__ = _("Rhythmbox")
-__kupfer_sources__ = (
-		"RhythmboxSource",
-	)
-__kupfer_contents__ = ("RhythmboxSource", )
+__kupfer_sources__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue tracks and browse the music library")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

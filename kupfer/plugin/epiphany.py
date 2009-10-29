@@ -8,7 +8,6 @@ from kupfer.plugin import epiphany_support
 
 __kupfer_name__ = _("Epiphany Bookmarks")
 __kupfer_sources__ = ("EpiphanySource", )
-__kupfer_contents__ = ("EpiphanySource", )
 __description__ = _("Index of Epiphany bookmarks")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

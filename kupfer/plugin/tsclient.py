@@ -9,7 +9,6 @@ from kupfer import utils
 
 __kupfer_name__ = _("Terminal Server Client")
 __kupfer_sources__ = ("TsclientSessionSource", )
-__kupfer_contents__ = ("TsclientSessionSource", )
 __description__ = _("Session saved in Terminal Server Client")
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"

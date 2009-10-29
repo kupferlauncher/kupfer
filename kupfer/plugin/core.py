@@ -6,7 +6,6 @@ from kupfer.plugin import about_support
 
 __kupfer_name__ = u"Core"
 __kupfer_sources__ = ("KupferSource", )
-__kupfer_contents__ = ("KupferSource", )
 __kupfer_actions__ = (
 	"SearchInside",
 	"Rescan",

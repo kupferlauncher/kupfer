@@ -11,7 +11,6 @@ from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
 
 __kupfer_name__ = _("Opera Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
-__kupfer_contents__ = ("BookmarksSource", )
 __description__ = _("Index of Opera bookmarks")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"

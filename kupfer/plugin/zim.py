@@ -11,7 +11,6 @@ from kupfer import utils, pretty, icons, plugin_support
 
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
-__kupfer_contents__ = ("ZimPagesSource", )
 __kupfer_actions__ = (
 		"CreateZimPage",
 		"CreateZimPageInNotebook",
