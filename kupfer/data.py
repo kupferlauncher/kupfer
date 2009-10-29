@@ -788,13 +788,21 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.output_debug(type(dec).__module__, type(dec).__name__,sep=".")
 
 	def register_content_decorators(self, contents):
-		# Keep a dictionary with Leaf type as key
+		"""
+		Register the sequence of classes @contents as
+		potential content decorators. Classes not conforming to
+		the decoration protocol (most importantly, ``.decorates_type()``)
+		will be skipped
+		"""
+		# Keep a mapping:
+		# Decorated Leaf Type -> Set of content decorator types
 		decorate_item_types = {}
 		for c in contents:
-			applies = c.decorates_type()
-			decorate_with = decorate_item_types.get(applies, [])
-			decorate_with.append(c)
-			decorate_item_types[applies] = decorate_with
+			try:
+				applies = c.decorates_type()
+			except AttributeError:
+				continue
+			decorate_item_types.setdefault(applies, set()).add(c)
 		sc = GetSourceController()
 		sc.set_content_decorators(decorate_item_types)
 		self.output_debug("Content decorators:")
@@ -845,6 +853,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 			action_decorators.extend(load_plugin_sources(item,
 				action_decorators_attribute))
+			# Register all Sources as (potential) content decorators
+			content_decorators.extend(load_plugin_sources(item,
+				sources_attribute, instantiate=False))
 			content_decorators.extend(load_plugin_sources(item,
 				content_decorators_attribute, instantiate=False))
 			if setctl.get_plugin_is_toplevel(item):
