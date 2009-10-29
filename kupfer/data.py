@@ -770,15 +770,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc = GetSourceController()
 		sc.add_text_sources(srcs)
 	
-	def register_action_decorators(self, acts):
-		# Keep a dictionary with Leaf type as key
+	def register_action_decorators(self, actions):
+		# Keep a mapping: Decorated Leaf Type -> List of actions
 		decorate_types = {}
-		for act in acts:
-			applies = act.item_types()
-			for appl_type in applies:
-				decorate_with = decorate_types.get(appl_type, [])
-				decorate_with.append(act)
-				decorate_types[appl_type] = decorate_with
+		for action in actions:
+			for appl_type in action.item_types():
+				decorate_types.setdefault(appl_type, []).append(action)
 		sc = GetSourceController()
 		sc.set_action_decorators(decorate_types)
 		self.output_debug("Action decorators:")
