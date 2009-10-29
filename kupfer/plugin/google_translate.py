@@ -111,7 +111,7 @@ def _load_languages():
 
 class Translate (Action):
 	def __init__(self):
-		Action.__init__(self, _("Translate"))
+		Action.__init__(self, _("Translate To..."))
 
 	def activate(self, leaf, iobj):
 		text = unicode(leaf.object)
@@ -169,7 +169,7 @@ class _LangSource(Source):
 	def get_items(self):
 		if not self._LANG_CACHE:
 			self._LANG_CACHE = tuple((
-					_Language(key, _("Translate into %s") % name)
+					_Language(key, name.title())
 					for key, name in _load_languages()
 			))
 		return self._LANG_CACHE
