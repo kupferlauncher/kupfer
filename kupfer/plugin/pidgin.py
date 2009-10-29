@@ -86,8 +86,13 @@ class PidginContact(Leaf):
 
 	def __init__(self, jid, name, account, icon, protocol, available,
 		status_message):
+		# @obj should be unique for each contact
+		# we use @jid as an alias for this contact
 		obj = (account, jid)
 		Leaf.__init__(self, obj, name or jid)
+
+		if unicode(self) != jid:
+			self.name_aliases.add(jid)
 
 		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
 				{
