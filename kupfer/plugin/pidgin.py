@@ -17,6 +17,11 @@ __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 # pylint: disable-msg=W0312
 
 
+SERVICE_NAME = "im.pidgin.purple.PurpleService"
+OBJECT_NAME = "/im/pidgin/purple/PurpleObject"
+IFACE_NAME = "im.pidgin.purple.PurpleInterface"
+
+
 def _create_dbus_connection(activate=False):
 	''' Create dbus connection to Pidgin
 	@activate: true=starts pidgin if not running
@@ -25,18 +30,15 @@ def _create_dbus_connection(activate=False):
 	obj = None
 	sbus = dbus.SessionBus()
 
-	service_name = "im.pidgin.purple.PurpleService"
-	obj_name = "/im/pidgin/purple/PurpleObject"
-	iface_name = "im.pidgin.purple.PurpleInterface"
-
 	try:
 		#check for running pidgin (code from note.py)
-		proxy_obj = sbus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
+		proxy_obj = sbus.get_object('org.freedesktop.DBus',
+				'/org/freedesktop/DBus')
 		dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
-		if activate or dbus_iface.NameHasOwner(service_name):
-			obj = sbus.get_object(service_name, obj_name)
+		if activate or dbus_iface.NameHasOwner(SERVICE_NAME):
+			obj = sbus.get_object(SERVICE_NAME, OBJECT_NAME)
 		if obj:
-			interface = dbus.Interface(obj, iface_name)
+			interface = dbus.Interface(obj, IFACE_NAME)
 	except dbus.exceptions.DBusException, err:
 		pretty.print_debug(err)
 	return interface
