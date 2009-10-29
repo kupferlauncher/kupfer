@@ -15,6 +15,10 @@ __description__ = u"Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+def _is_debug():
+	"""Return True if Kupfer is in debug mode"""
+	return pretty.debug
+
 class SearchInside (Action):
 	"""
 	A factory action: works on a Leaf object with content
@@ -41,7 +45,14 @@ class SearchInside (Action):
 		return "search"
 
 class Rescan (Action):
-	""" A source action: Rescan a source!  """
+	"""A source action: Rescan a source!
+
+	This is a debug action because normal users should not need to use it;
+	it is only confusing and inconsistent:
+
+	* Sources with internal caching don't really rescan anyway.
+	* Change callbacks make it redundant
+	"""
 	rank_adjust = -5
 	def __init__(self):
 		Action.__init__(self, _("Rescan"))
@@ -58,8 +69,9 @@ class Rescan (Action):
 		return "gtk-refresh"
 
 	def item_types(self):
-		yield objects.AppLeaf
-		yield objects.SourceLeaf
+		if _is_debug():
+			yield objects.AppLeaf
+			yield objects.SourceLeaf
 	def valid_for_item(self, item):
 		if not item.has_content():
 			return False
@@ -139,7 +151,7 @@ class DebugInfo (Action, pretty.OutputMixin):
 	def get_icon_name(self):
 		return "emblem-system"
 	def item_types(self):
-		if pretty.debug:
+		if _is_debug():
 			yield Leaf
 
 class DebugRestart (RunnableLeaf):
@@ -209,7 +221,7 @@ class KupferSource (AppLeafContentMixin, Source):
 		yield About()
 		yield Preferences()
 		yield Quit()
-		if pretty.debug:
+		if _is_debug():
 			yield DebugRestart()
 
 	def get_description(self):
