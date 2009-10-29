@@ -4,9 +4,9 @@ import dbus
 
 from kupfer.objects import (Leaf, Action, Source, AppLeafContentMixin,
 		TextLeaf, TextSource)
-from kupfer import pretty
+from kupfer import pretty, scheduler
 from kupfer import icons
-from kupfer.helplib import DbusWeakCallback, PicklingHelperMixin
+from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
@@ -139,10 +139,14 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self.mark_for_update()
 		self.all_buddies = {}
 		self._install_dbus_signal()
+		self._buddy_update_timer = scheduler.Timer()
+		self._buddy_update_queue = set()
 
 	def pickle_prepare(self):
 		# delete data that we do not want to save to next session
 		self.all_buddies = {}
+		self._buddy_update_timer = None
+		self._buddy_update_queue = None
 
 	def _get_pidgin_contact(self, interface, buddy, account=None, protocol=None):
 		if not account:
@@ -192,11 +196,46 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 										   protocol=protocol,
 										   account=account)
 
-	def _buddy_signed_on(self, buddy):
+	def _remove_buddies_not_connected(self):
+		""" Remove buddies that belong to accounts no longer connected """
+		if not self.all_buddies:
+			return
 		interface = _create_dbus_connection()
-		if not buddy in self.all_buddies:
-			self.all_buddies[buddy] = self._get_pidgin_contact(interface, buddy)
-			self.mark_for_update()
+		if interface is None:
+			return
+
+		accounts = interface.PurpleAccountsGetAllActive()
+		is_disconnected = interface.PurpleAccountIsDisconnected
+		conn_accounts = set(a for a in accounts if not is_disconnected(a))
+		for buddy, pcontact in self.all_buddies.items():
+			if pcontact.account not in conn_accounts:
+				del self.all_buddies[buddy]
+
+	def _signing_off(self, conn):
+		self.output_debug("Pidgin Signing Off", conn)
+		self._remove_buddies_not_connected()
+		self.mark_for_update()
+
+	def _update_pending(self):
+		"""Update all buddies in the update queue"""
+		interface = _create_dbus_connection()
+		if interface is None:
+			self._buddy_update_queue.clear()
+			return
+		for buddy in self._buddy_update_queue:
+			if interface.PurpleBuddyIsOnline(buddy):
+				self.output_debug("updating buddy", buddy)
+				pcontact = self._get_pidgin_contact(interface, buddy)
+				self.all_buddies[buddy] = pcontact
+			else:
+				self.all_buddies.pop(buddy, None)
+		self._buddy_update_queue.clear()
+		self.mark_for_update()
+
+	def _buddy_signed_on(self, buddy):
+		if buddy not in self.all_buddies:
+			self._buddy_update_queue.add(buddy)
+			self._buddy_update_timer.set(1, self._update_pending)
 
 	def _buddy_signed_off(self, buddy):
 		if buddy in self.all_buddies:
@@ -206,14 +245,8 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	def _buddy_status_changed(self, buddy, old, new):
 		'''Callback when status is changed reload the entry
 		which get the new status'''
-		interface = _create_dbus_connection()
-		status_message = interface.PurpleStatusGetAttrString(old, "message")
-
-		if buddy in self.all_buddies:
-			del self.all_buddies[buddy]
-
-		self.all_buddies[buddy] = self._get_pidgin_contact(interface, buddy)
-		self.mark_for_update()
+		self._buddy_update_queue.add(buddy)
+		self._buddy_update_timer.set(1, self._update_pending)
 
 	def _install_dbus_signal(self):
 		'''Add signals to pidgin when buddy goes offline or
@@ -222,27 +255,18 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 			session_bus = dbus.Bus()
 		except dbus.DBusException:
 			return
-		buddy_sign_on_cb = DbusWeakCallback(self._buddy_signed_on)
-		buddy_sign_on_cb.token = session_bus.add_signal_receiver(
-				buddy_sign_on_cb,
-				"BuddySignedOn",
-				dbus_interface="im.pidgin.purple.PurpleInterface",
-				byte_arrays=True)
 
-		buddy_status_changed_cb = DbusWeakCallback(self._buddy_status_changed)
-		buddy_status_changed_cb.token = session_bus.add_signal_receiver(
-				buddy_status_changed_cb,
-				"BuddyStatusChanged",
-				dbus_interface="im.pidgin.purple.PurpleInterface",
-				byte_arrays=True)
+		dbus_signal_connect_weakly(session_bus, "SigningOff",
+				self._signing_off, dbus_interface=IFACE_NAME)
 
-		buddy_sign_off_cb = DbusWeakCallback(self._buddy_signed_off)
-		buddy_sign_off_cb.token = session_bus.add_signal_receiver(
-				buddy_sign_off_cb,
-				"BuddySignedOff",
-				dbus_interface="im.pidgin.purple.PurpleInterface",
-				byte_arrays=True)
+		dbus_signal_connect_weakly(session_bus, "BuddySignedOn",
+				self._buddy_signed_on, dbus_interface=IFACE_NAME)
 
+		dbus_signal_connect_weakly(session_bus, "BuddyStatusChanged",
+				self._buddy_status_changed, dbus_interface=IFACE_NAME)
+
+		dbus_signal_connect_weakly(session_bus, "BuddySignedOff",
+				self._buddy_signed_off, dbus_interface=IFACE_NAME)
 
 	def get_items(self):
 		if not self.all_buddies:
