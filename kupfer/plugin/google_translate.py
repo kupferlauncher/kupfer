@@ -4,7 +4,7 @@ from kupfer import utils, pretty
 
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", )
-__description__ = _("Translate text in Google Translate")
+__description__ = _("Use Google to Translate Text.")
 __version__ = ""
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -43,21 +43,27 @@ def _translate(text, lang):
 		return _("Error connecting to Google Translate")
 
 	header = resp.getheader("Content-Type")
-	charset= header[header.index("charset=")+8:]
+	charset = header[header.index("charset=")+8:]
 	if resp.status == 200:
 		data = resp.read().decode(charset)
 		if data[0] == "[":
 			data = data.strip('[]').split(',')
-			return data[0].strip('"')
+			result = data[0].strip('"')
 		else: 
-			return data.strip('"')
+			result = data.strip('"')
 	else:
 		pretty.print_error(__name__, '_translate status error', repr(text), 
 				lang, resp.status, resp.reason)
-		return _("Error")
+		result = _("Error")
+	conn.close()
+	return result
 
 
 def _load_languages():
+	''' Load available languages from Google.
+		Generator: (lang_code, lang name) 
+	'''
+	pretty.print_debug(__name__, '_load_languages')
 	url = urlparse(_GOOGLE_TRANS_LANG_URL)
 	data = {}
 	try:
@@ -77,10 +83,12 @@ def _load_languages():
 				if row:
 					yield (row[row.index('"')+1:row.rindex('"')], 
 						row[row.index('>')+1:])
+			conn.close()
 			return
 		else:
 			pretty.print_error(__name__, '_load_languages status error', 
 					repr(text), lang, resp.status, resp.reason)
+		conn.close()
 
 	yield 'en', 'English'
 
@@ -104,7 +112,7 @@ class Translate (Action):
 		return len(leaf.object.strip()) > 0
 	
 	def get_description(self):
-		return _("Use Google Translate")
+		return _("Translate in Google")
 
 	def get_icon_name(self):
 		return "accessories-dictionary"
@@ -121,7 +129,7 @@ class Translate (Action):
 
 class _TransateQuerySource(Source):
 	def __init__(self, text, lang):
-		Source.__init__(self, name=_("Translate for %s") % text)
+		Source.__init__(self, name=_("Translate into %s") % text)
 		self._text = text
 		self._lang = lang
 
@@ -137,12 +145,18 @@ class _Language(Leaf):
 
 
 class _LangSource(Source):
+	_LANG_CACHE = None
+
 	def __init__(self):
 		Source.__init__(self, _("Languages"))
 
 	def get_items(self):
-		for key, name in _load_languages():
-			yield _Language(key, _("Translate to %s") % name)
+		if not self._LANG_CACHE:
+			self._LANG_CACHE = tuple((
+					_Language(key, _("Translate into %s") % name)
+					for key, name in _load_languages()
+			))
+		return self._LANG_CACHE
 
 	def provides(self):
 		yield _Language
