@@ -1,4 +1,10 @@
 # -*- coding: UTF-8 -*-
+
+import httplib
+import locale
+import urllib
+from urlparse import urlparse
+
 from kupfer.objects import Source, Action, TextLeaf, Leaf
 from kupfer import utils, pretty
 
@@ -15,10 +21,6 @@ Some parts from pygtranslator: http://xrado.hopto.org
 (Radovan Lozej <radovan.lozej@gmail.com).
 
 '''
-
-import httplib
-import urllib
-from urlparse import urlparse
 
 _GOOGLE_TRANSLATE_URL = 'http://translate.google.com/translate_a/t'
 _GOOGLE_TRANS_LANG_URL = 'http://translate.google.com/translate_t'
@@ -58,24 +60,38 @@ def _translate(text, lang):
 	conn.close()
 	return result
 
+def _parse_encoding_header(response, default="UTF-8"):
+	"""Parse response's header for an encoding, that is return 'utf-8' for:
+	text/html; charset=utf-8
+	"""
+	ctype = response.getheader("content-type", "")
+	parts = ctype.split("charset=", 1)
+	if len(parts) > 1:
+		return parts[-1]
+	return default
 
 def _load_languages():
 	''' Load available languages from Google.
 		Generator: (lang_code, lang name) 
 	'''
+	user_language = locale.getlocale(locale.LC_MESSAGES)[0]
 	pretty.print_debug(__name__, '_load_languages')
 	url = urlparse(_GOOGLE_TRANS_LANG_URL)
 	data = {}
 	try:
 		conn = httplib.HTTPConnection(url[1])
-		conn.request("GET", url[2])
+		headers = {
+			"Accept-Language": "%s, en;q=0.7" % user_language,
+		}
+
+		conn.request("GET", url[2], headers=headers)
 		resp = conn.getresponse()
 	except Exception, err:
-		pretty.print_error(__name__, '_load_languages error', repr(text), lang,
-				err)
+		pretty.print_error(__name__, '_load_languages error', type(err), err)
 	else:
 		if resp.status == 200:
-			result = resp.read()
+			encoding = _parse_encoding_header(resp)
+			result = resp.read().decode(encoding, "replace")
 			result = result[result.index('select name=tl'):]
 			result = result[result.index("<option"):result.index("</select>")]
 			rows = result.split("</option>")
