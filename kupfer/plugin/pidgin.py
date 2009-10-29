@@ -10,12 +10,12 @@ from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
-__kupfer_contents__ = ("ContactsSource", )
 __description__ = _("Access to Pidgin Contacts")
 __version__ = "0.1"
-__author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
-# pylint: disable-msg=W0312
+__author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
+              "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
 
+# pylint: disable-msg=W0312
 
 SERVICE_NAME = "im.pidgin.purple.PurpleService"
 OBJECT_NAME = "/im/pidgin/purple/PurpleObject"
