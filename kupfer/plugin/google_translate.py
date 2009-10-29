@@ -1,12 +1,20 @@
 # -*- coding: UTF-8 -*-
 from kupfer.objects import Source, Action, TextLeaf, Leaf
-from kupfer import utils
+from kupfer import utils, pretty
 
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", )
 __description__ = _("Translate text in Google Translate")
 __version__ = ""
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+'''
+Translate TextLeaf by Google Translate.
+
+Some parts from pygtranslator: http://xrado.hopto.org
+(Radovan Lozej <radovan.lozej@gmail.com).
+
+'''
 
 import httplib
 import urllib
@@ -21,7 +29,9 @@ _HEADERS = {
 		'Referer':'http://translate.google.com/translate_t',
 		'Content-Type':'application/x-www-form-urlencoded'}
 
+
 def _translate(text, lang):
+	''' Translate @text to @lang. '''
 	params = {'sl': 'auto', 'tl': lang, 'text': text, 'client': 't'}
 	url = urlparse(_GOOGLE_TRANSLATE_URL)
 	try:
@@ -29,6 +39,7 @@ def _translate(text, lang):
 		conn.request("POST", url[2], urllib.urlencode(params), _HEADERS)
 		resp = conn.getresponse()
 	except Exception, err:
+		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
 		return _("Error connecting to Google Translate")
 
 	header = resp.getheader("Content-Type")
@@ -41,10 +52,12 @@ def _translate(text, lang):
 		else: 
 			return data.strip('"')
 	else:
+		pretty.print_error(__name__, '_translate status error', repr(text), 
+				lang, resp.status, resp.reason)
 		return _("Error")
 
 
-def _languages():
+def _load_languages():
 	url = urlparse(_GOOGLE_TRANS_LANG_URL)
 	data = {}
 	try:
@@ -52,17 +65,24 @@ def _languages():
 		conn.request("GET", url[2])
 		resp = conn.getresponse()
 	except Exception, err:
-		return
+		pretty.print_error(__name__, '_load_languages error', repr(text), lang,
+				err)
+	else:
+		if resp.status == 200:
+			result = resp.read()
+			result = result[result.index('select name=tl'):]
+			result = result[result.index("<option"):result.index("</select>")]
+			rows = result.split("</option>")
+			for row in rows:
+				if row:
+					yield (row[row.index('"')+1:row.rindex('"')], 
+						row[row.index('>')+1:])
+			return
+		else:
+			pretty.print_error(__name__, '_load_languages status error', 
+					repr(text), lang, resp.status, resp.reason)
 
-	if resp.status == 200:
-		result = resp.read()
-		result = result[result.index('select name=tl'):]
-		result = result[result.index("<option"):result.index("</select>")]
-		rows = result.split("</option>")
-		for row in rows:
-			if row:
-				yield (row[row.index('"')+1:row.rindex('"')], 
-					row[row.index('>')+1:])
+	yield 'en', 'English'
 
 
 class Translate (Action):
@@ -121,7 +141,7 @@ class _LangSource(Source):
 		Source.__init__(self, _("Languages"))
 
 	def get_items(self):
-		for key, name in _languages():
+		for key, name in _load_languages():
 			yield _Language(key, _("Translate to %s") % name)
 
 	def provides(self):
