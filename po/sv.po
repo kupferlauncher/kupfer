@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-28 23:08+0100\n"
+"POT-Creation-Date: 2009-10-29 14:46+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -74,58 +74,62 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:642
+#: ../kupfer/browser.py:648
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:646
+#: ../kupfer/browser.py:652
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Inga träffar i %(src)s för \"%(query)s\""
 
-#: ../kupfer/browser.py:655
+#: ../kupfer/browser.py:661
 msgid "Type to search"
 msgstr "Skriv för att söka"
 
-#: ../kupfer/browser.py:661
+#: ../kupfer/browser.py:667
 #, python-format
 msgid "Type to search %s"
 msgstr "Skriv för att söka i %s"
 
-#: ../kupfer/main.py:36
+#: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
 
-#: ../kupfer/main.py:39
-msgid "show usage help"
-msgstr "visa hjälpmeddelande"
-
 #: ../kupfer/main.py:40
-msgid "show version information"
-msgstr "visa programversion"
+msgid "list available plugins"
+msgstr "lista tillgängliga insticksmoduler"
 
 #: ../kupfer/main.py:41
 msgid "enable debug info"
 msgstr "felsökningsläge"
 
-#: ../kupfer/main.py:52
+#: ../kupfer/main.py:44
+msgid "show usage help"
+msgstr "visa hjälpmeddelande"
+
+#: ../kupfer/main.py:45
+msgid "show version information"
+msgstr "visa programversion"
+
+#: ../kupfer/main.py:56
 msgid "Usage: kupfer [OPTIONS | QUERY]"
 msgstr "Användning: kupfer [FLAGGOR | SÖKTERM]"
 
-#: ../kupfer/main.py:55
+#: ../kupfer/main.py:63
 msgid "To configure kupfer, edit:"
 msgstr "För att konfigurera kupfer, redigera:"
 
-#: ../kupfer/main.py:56
+#: ../kupfer/main.py:64
 msgid "The default config for reference is at:"
 msgstr "Standardinställningarna är dokumenterade i:"
 
-#: ../kupfer/main.py:57
+#: ../kupfer/main.py:78
 msgid "Available plugins:"
 msgstr "Tillgängliga insticksmoduler:"
 
-#: ../kupfer/main.py:109
+#: ../kupfer/main.py:122
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -698,63 +702,63 @@ msgstr "Skapa komprimerat arkiv av mappen"
 msgid "Create Archive In..."
 msgstr "Skapa arkiv i..."
 
-#: ../kupfer/plugin/firefox.py:7 ../kupfer/plugin/firefox.py:21
+#: ../kupfer/plugin/firefox.py:7 ../kupfer/plugin/firefox.py:20
 msgid "Firefox Bookmarks"
 msgstr "Firefox-bokmärken"
 
-#: ../kupfer/plugin/firefox.py:10 ../kupfer/plugin/firefox.py:65
+#: ../kupfer/plugin/firefox.py:9 ../kupfer/plugin/firefox.py:64
 msgid "Index of Firefox bookmarks"
 msgstr "Index över Firefox-bokmärken"
 
 #: ../kupfer/plugin/gajim.py:8
 msgid "Gajim"
-msgstr "Gajiim"
+msgstr "Gajim"
 
-#: ../kupfer/plugin/gajim.py:12
+#: ../kupfer/plugin/gajim.py:11
 msgid "Access to Gajim Contacts"
 msgstr "Tillgång till Gajim-kontakter"
 
-#: ../kupfer/plugin/gajim.py:19
+#: ../kupfer/plugin/gajim.py:18
 msgid "Available"
 msgstr "Tillgänglig"
 
-#: ../kupfer/plugin/gajim.py:20
+#: ../kupfer/plugin/gajim.py:19
 msgid "Free for Chat"
 msgstr ""
 
-#: ../kupfer/plugin/gajim.py:21
+#: ../kupfer/plugin/gajim.py:20
 msgid "Away"
 msgstr "Frånvarande"
 
-#: ../kupfer/plugin/gajim.py:22
+#: ../kupfer/plugin/gajim.py:21
 msgid "Not Available"
 msgstr ""
 
-#: ../kupfer/plugin/gajim.py:23
+#: ../kupfer/plugin/gajim.py:22
 msgid "Busy"
 msgstr "Stör inte"
 
-#: ../kupfer/plugin/gajim.py:24
+#: ../kupfer/plugin/gajim.py:23
 msgid "Invisible"
 msgstr "Osynlig"
 
-#: ../kupfer/plugin/gajim.py:25
+#: ../kupfer/plugin/gajim.py:24
 msgid "Offline"
 msgstr "Frånkopplad"
 
-#: ../kupfer/plugin/gajim.py:77
+#: ../kupfer/plugin/gajim.py:76
 msgid "Open Chat"
 msgstr "Öppna chatt"
 
-#: ../kupfer/plugin/gajim.py:93
+#: ../kupfer/plugin/gajim.py:92
 msgid "Change Global Status To..."
 msgstr "Ändra global status till..."
 
-#: ../kupfer/plugin/gajim.py:121
+#: ../kupfer/plugin/gajim.py:120
 msgid "Gajim Contacts"
 msgstr "Gajim-kontakter"
 
-#: ../kupfer/plugin/gajim.py:148
+#: ../kupfer/plugin/gajim.py:147
 msgid "Gajim Account Status"
 msgstr "Gajim status"
 
@@ -1171,8 +1175,8 @@ msgid ""
 "level.\n"
 "Sources are always available as subcatalogs in the top level."
 msgstr ""
-"När alternativet är aktiverat inkluderas objekt från insticksmodulens "
-"källori toppnivån.\n"
+"När alternativet är aktiverat inkluderas objekt från insticksmodulens källor "
+"i toppnivån.\n"
 "Källor är alltid tillgängliga som underkataloger i toppnivån."
 
 #: ../kupfer/plugin/text.py:8
@@ -1284,6 +1288,51 @@ msgstr "Ladda ner till..."
 #: ../kupfer/plugin/urlactions.py:101
 msgid "Download URL to a chosen location"
 msgstr "Ladda ner till en vald plats"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:7
+msgid "VirtualBox"
+msgstr "VirtualBox"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:9
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
+msgstr ""
+"Kontrollera VirtualBox virtuella maskiner. Stöder både Sun VirtualBox och "
+"Open Source Edition."
+
+#: ../kupfer/plugin/virtualbox/__init__.py:41
+msgid "Power On"
+msgstr "Starta"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:43
+msgid "Power On Headless"
+msgstr "Starta headless"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:46
+msgid "Send Power Off Signal"
+msgstr "Skicka avstängningssignal"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:49
+msgid "Reboot"
+msgstr "Starta om"
+
+#. VM_STATE_PAUSED
+#: ../kupfer/plugin/virtualbox/__init__.py:52
+msgid "Resume"
+msgstr "Återuppta"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:55
+msgid "Save State"
+msgstr "Spara tillstånd"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:57
+msgid "Power Off"
+msgstr "Stäng av"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:82
+msgid "VirtualBox Machines"
+msgstr "VirtualBox virtuella maskiner"
 
 #: ../kupfer/plugin/wikipedia.py:10
 msgid "Wikipedia"
@@ -1398,140 +1447,95 @@ msgstr "Avmontera och mata ut media"
 msgid "Zim"
 msgstr "Zim"
 
-#: ../kupfer/plugin/zim.py:19
+#: ../kupfer/plugin/zim.py:18
 msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
 msgstr "Tillgång till sidor i Zim"
 
-#: ../kupfer/plugin/zim.py:27
+#: ../kupfer/plugin/zim.py:26
 msgid "Page names start with :colon"
 msgstr "Sidnamn börjar med :kolon"
 
-#: ../kupfer/plugin/zim.py:58
+#: ../kupfer/plugin/zim.py:57
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
 msgstr "Zim-sida från anteckningsblock \"%s\""
 
-#: ../kupfer/plugin/zim.py:67
+#: ../kupfer/plugin/zim.py:66
 msgid "Create Zim Page"
 msgstr "Skapa Zim-sida"
 
-#: ../kupfer/plugin/zim.py:73
+#: ../kupfer/plugin/zim.py:72
 msgid "Create page in default notebook"
 msgstr "Skapa sida i förvalt anteckningsblock"
 
-#: ../kupfer/plugin/zim.py:83
+#: ../kupfer/plugin/zim.py:82
 msgid "Create Zim Page In..."
 msgstr "Skapa Zim-sida i..."
 
-#: ../kupfer/plugin/zim.py:121
+#: ../kupfer/plugin/zim.py:120
 msgid "Create Subpage..."
 msgstr "Skapa undersida..."
 
-#: ../kupfer/plugin/zim.py:167
+#: ../kupfer/plugin/zim.py:166
 msgid "Zim Notebooks"
 msgstr "Zim-anteckingsblock"
 
-#: ../kupfer/plugin/zim.py:183
+#: ../kupfer/plugin/zim.py:182
 msgid "Zim Pages"
 msgstr "Zim-sidor"
 
-#: ../kupfer/plugin/zim.py:211
+#: ../kupfer/plugin/zim.py:210
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
 
-#: ../kupfer/plugin/virtualbox.py:7
-msgid "VirtualBox"
-msgstr "VirtualBox"
-
-#: ../kupfer/plugin/virtualbox.py:9
-msgid ""
-"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
-"Source Edition."
-msgstr ""
-"Kontrollera VirtualBox virtuella maskiner. Stöder både Sun VirtualBox och "
-"Open Source Edition."
-
-#: ../kupfer/plugin/virtualbox.py:41
-msgid "Power On"
-msgstr "Starta"
-
-#: ../kupfer/plugin/virtualbox.py:43
-msgid "Power On Headless"
-msgstr "Starta headless"
-
-#: ../kupfer/plugin/virtualbox.py:46
-msgid "Send Power Off Signal"
-msgstr "Skicka avstängningssignal"
-
-#: ../kupfer/plugin/virtualbox.py:49
-msgid "Reboot"
-msgstr "Starta om"
-
-#. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox.py:52
-msgid "Resume"
-msgstr "Återuppta"
-
-#: ../kupfer/plugin/virtualbox.py:55
-msgid "Save State"
-msgstr "Spara tillstånd"
-
-#: ../kupfer/plugin/virtualbox.py:57
-msgid "Power Off"
-msgstr "Stäng av"
-
-#: ../kupfer/plugin/virtualbox.py:82
-msgid "VirtualBox Machines"
-msgstr "VirtualBox virtuella maskiner"
-
-#: ../kupfer/preferences.py:220
+#: ../kupfer/preferences.py:222
 msgid "Applied"
 msgstr "Verkställt"
 
-#: ../kupfer/preferences.py:225
+#: ../kupfer/preferences.py:227
 msgid "Keybinding could not be bound"
 msgstr "Snabbtangenten kunde inte bindas"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/preferences.py:277
+#: ../kupfer/preferences.py:291
 msgid "Description"
 msgstr "Beskrivning"
 
-#: ../kupfer/preferences.py:277
+#: ../kupfer/preferences.py:291
 msgid "Author"
 msgstr "Upphovsman"
 
-#: ../kupfer/preferences.py:293
+#: ../kupfer/preferences.py:307
 msgid "Version"
 msgstr "Version"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/preferences.py:301
+#: ../kupfer/preferences.py:315
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Behöver Python-modulen '%s'"
 
-#: ../kupfer/preferences.py:310
+#: ../kupfer/preferences.py:324
 msgid "Plugin could not be read due to an error:"
 msgstr "Insticksmodulen kunde inte läsas in på grund av ett fel:"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:371
+#: ../kupfer/preferences.py:385
 msgid "Sources"
 msgstr "Källor"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:375
+#: ../kupfer/preferences.py:389
 msgid "Actions"
 msgstr "Kommandon"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/preferences.py:401
+#: ../kupfer/preferences.py:415
 msgid "Configuration"
 msgstr "Inställningar"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/preferences.py:466
+#: ../kupfer/preferences.py:480
 msgid "Choose a Directory"
 msgstr "Välj mapp"
 
