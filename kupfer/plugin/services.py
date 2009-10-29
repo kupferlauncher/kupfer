@@ -99,9 +99,9 @@ class SystemServicesSource(Source, FilesystemWatchMixin, PicklingHelperMixin):
 		for initd_path in ('/etc/init.d/', '/etc/rc/init.d'):
 			if os.path.exists(initd_path) and os.path.isdir(initd_path):
 				self._initd_path = initd_path
+				self.monitor_token = self.monitor_directories(self._initd_path)
 				break
 
-		self.monitor_token = self.monitor_directories(self._initd_path)
 
 	def monitor_include_file(self, gfile):
 		return gfile and not gfile.get_basename() in _SERVICES_BLACK_LIST
