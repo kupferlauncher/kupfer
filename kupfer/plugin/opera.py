@@ -4,9 +4,9 @@ from __future__ import with_statement
 import codecs
 import os
 
-from kupfer.objects import (Source, UrlLeaf, FilesystemWatchMixin,
-		AppLeafContentMixin)
+from kupfer.objects import Source, UrlLeaf, AppLeafContentMixin
 from kupfer import plugin_support, objects
+from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
 
 
 __kupfer_name__ = _("Opera Bookmarks")
@@ -22,7 +22,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 BOOKMARKS_FILE = "bookmarks.adr"
 
-class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+class BookmarksSource(AppLeafContentMixin, Source, PicklingHelperMixin,
+		FilesystemWatchMixin):
 	appleaf_content_id = "opera"
 
 	def __init__(self, name=_("Opera Bookmarks")):
