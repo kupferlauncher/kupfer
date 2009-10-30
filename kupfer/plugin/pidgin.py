@@ -58,13 +58,6 @@ def _send_message_to_contact(pcontact, message, present=False):
 	if present:
 		interface.PurpleConversationPresent(conversation)
 
-def _open_chat_with_contact(pcontact):
-	interface = _create_dbus_connection()
-	if not interface:
-		return
-	account, jid = pcontact.account, pcontact.jid
-
-
 class OpenChat(Action):
 	""" Open Chat Conversation Window with jid """
 
@@ -174,9 +167,8 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		availability = interface.PurplePresenceIsAvailable(presenceid)
 		status_message = interface.PurpleStatusGetAttrString(statusid, "message")
 
-		return PidginContact(jid, name, account, icon,
-				     protocol, availability,
-				     status_message)
+		return PidginContact(jid, name, account, icon, protocol, availability,
+				status_message)
 
 	def _get_all_buddies(self):
 		interface = _create_dbus_connection()
@@ -193,9 +185,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 					continue
 
 				self.all_buddies[buddy] = self._get_pidgin_contact(interface,
-										   buddy,
-										   protocol=protocol,
-										   account=account)
+						buddy, protocol=protocol, account=account)
 
 	def _remove_buddies_not_connected(self):
 		""" Remove buddies that belong to accounts no longer connected """
