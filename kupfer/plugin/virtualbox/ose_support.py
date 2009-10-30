@@ -22,6 +22,7 @@ _VBOX_CONFIG_FILE = os.path.join(_VBOX_CONFIG_DIR, 'VirtualBox.xml')
 MONITORED_DIRS = (_VBOX_CONFIG_DIR, )
 IS_DYNAMIC = False
 ICON = "virtualbox-ose"
+APP_ID = "virtualbox-ose"
 
 # parameters for VBoxManage
 _ACTIONS = {

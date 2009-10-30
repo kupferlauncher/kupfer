@@ -19,6 +19,7 @@ from kupfer.plugin.virtualbox import constants as vbox_const
 MONITORED_DIRS = None
 IS_DYNAMIC = False
 ICON = "VBox"
+APP_ID = "virtualbox"
 
 
 _ACTIONS = {

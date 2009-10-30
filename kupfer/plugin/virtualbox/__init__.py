@@ -77,7 +77,7 @@ class VMAction(Action):
 
 class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, 
 		FilesystemWatchMixin):
-	appleaf_content_id = ('VirtualBox OSE', 'Sun VirtualBox')
+	appleaf_content_id = vbox_support.APP_ID
 
 	def __init__(self, name=_("VirtualBox Machines")):
 		Source.__init__(self, name)
