@@ -65,7 +65,6 @@ class GajimContact(Leaf):
 					"userid": jid,
 					"service": resource[0][0] if resource else u"",
 				}
-		self.account = account
 
 	def get_actions(self):
 		yield OpenChat()
@@ -87,8 +86,9 @@ class OpenChat(Action):
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
+		account, jid = leaf.object
 		if interface is not None:
-			interface.open_chat(leaf.object, leaf.account)
+			interface.open_chat(jid, account)
 
 	def get_icon_name(self):
 		return 'gajim'
