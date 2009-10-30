@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-29 14:46+0100\n"
+"POT-Creation-Date: 2009-10-30 14:47+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -746,19 +746,24 @@ msgstr "Osynlig"
 msgid "Offline"
 msgstr "Frånkopplad"
 
-#: ../kupfer/plugin/gajim.py:76
+#: ../kupfer/plugin/gajim.py:61 ../kupfer/plugin/pidgin.py:99
+#, python-format
+msgid "[%(status)s] %(userid)s/%(service)s"
+msgstr "[%(status)s] %(userid)s/%(service)s"
+
+#: ../kupfer/plugin/gajim.py:84 ../kupfer/plugin/pidgin.py:64
 msgid "Open Chat"
 msgstr "Öppna chatt"
 
-#: ../kupfer/plugin/gajim.py:92
+#: ../kupfer/plugin/gajim.py:101
 msgid "Change Global Status To..."
 msgstr "Ändra global status till..."
 
-#: ../kupfer/plugin/gajim.py:120
+#: ../kupfer/plugin/gajim.py:129
 msgid "Gajim Contacts"
 msgstr "Gajim-kontakter"
 
-#: ../kupfer/plugin/gajim.py:147
+#: ../kupfer/plugin/gajim.py:156
 msgid "Gajim Account Status"
 msgstr "Gajim status"
 
@@ -931,7 +936,23 @@ msgstr "Opera-bokmärken"
 msgid "Index of Opera bookmarks"
 msgstr "Index över Opera-bokmärken"
 
-#: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:54
+#: ../kupfer/plugin/pidgin.py:11
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:13
+msgid "Access to Pidgin Contacts"
+msgstr "Tillgång till Pidgin-kontakter"
+
+#: ../kupfer/plugin/pidgin.py:72
+msgid "Send Message..."
+msgstr "Skicka meddelande..."
+
+#: ../kupfer/plugin/pidgin.py:134
+msgid "Pidgin Contacts"
+msgstr "Pidgin-kontakter"
+
+#: ../kupfer/plugin/putty.py:11 ../kupfer/plugin/putty.py:53
 msgid "PuTTY Sessions"
 msgstr "PuTTY-sessioner"
 

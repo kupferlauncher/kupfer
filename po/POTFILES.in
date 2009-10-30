@@ -33,6 +33,7 @@ kupfer/plugin/locate.py
 kupfer/plugin/nautilusselection.py
 kupfer/plugin/notes.py
 kupfer/plugin/opera.py
+kupfer/plugin/pidgin.py
 kupfer/plugin/putty.py
 kupfer/plugin/rhythmbox.py
 kupfer/plugin/rst.py
