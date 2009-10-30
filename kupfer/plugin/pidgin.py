@@ -184,13 +184,6 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 				if not interface.PurpleBuddyIsOnline(buddy):
 					continue
 
-				jid = interface.PurpleBuddyGetName(buddy)
-				name = interface.PurpleBuddyGetAlias(buddy)
-				_icon = interface.PurpleBuddyGetIcon(buddy)
-				icon = None
-				if _icon != 0:
-					icon = interface.PurpleBuddyIconGetFullPath(_icon)
-
 				self.all_buddies[buddy] = self._get_pidgin_contact(interface,
 										   buddy,
 										   protocol=protocol,
