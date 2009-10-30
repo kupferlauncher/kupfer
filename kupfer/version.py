@@ -17,6 +17,7 @@ PROGRAM_NAME = _("Kupfer")
 AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 Karol Będkowski
 Francesco Marella
+Chmouel Boudjnah
 """.splitlines()
 
 PACKAGERS=u"""
