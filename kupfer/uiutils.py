@@ -111,13 +111,20 @@ def show_text_result(text, title=None):
 	window.resize(hsize, vsize)
 	window.present()
 
+def _wrap_paragraphs(text):
+	"""
+	Return @text with linewrapped paragraphs
+	"""
+	import textwrap
+	return u"\n\n".join(textwrap.fill(par) for par in text.split("\n\n"))
+
 def show_large_type(text):
 	"""
 	Show @text, large, in a result window.
 	"""
 	import math
-	import textwrap
 
+	text = text.strip()
 	window = gtk.Window()
 	label = gtk.Label()
 	label.set_text(text)
@@ -137,9 +144,11 @@ def show_large_type(text):
 	maxhei = gtk.gdk.screen_height() - 100
 	wid, hei = label.size_request()
 
-	# Try wrapping a long line
-	if (wid > maxwid or hei > maxhei) and len(text.splitlines()) < 2:
-		label.set_text(textwrap.fill(text))
+	# If the text contains long lines, we try to
+	# hard-wrap the text
+	if ((wid > maxwid or hei > maxhei) and
+			any(len(L) > 100 for L in text.splitlines())):
+		label.set_text(_wrap_paragraphs(text))
 
 	wid, hei = label.size_request()
 
