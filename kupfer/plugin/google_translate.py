@@ -1,10 +1,5 @@
 # -*- coding: UTF-8 -*-
 
-import httplib
-import locale
-import urllib
-from urlparse import urlparse
-
 from kupfer.objects import Source, Action, TextLeaf, Leaf
 from kupfer import icons, utils, pretty
 
@@ -17,48 +12,23 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 '''
 Translate TextLeaf by Google Translate.
 
-Some parts from pygtranslator: http://xrado.hopto.org
-(Radovan Lozej <radovan.lozej@gmail.com).
-
 '''
+import httplib
+import locale
+import urllib
+import re
 
-_GOOGLE_TRANSLATE_URL = 'http://translate.google.com/translate_a/t'
-_GOOGLE_TRANS_LANG_URL = 'http://translate.google.com/translate_t'
-_HEADERS = {
-		'Host':'translate.google.com',
-		'User-Agent':'Mozilla/5.0',
-		'Accept':'text/xml,application/xml,application/xhtml+xml,text/html',
-		'Referer':'http://translate.google.com/translate_t',
-		'Content-Type':'application/x-www-form-urlencoded'}
+try:
+	import cjson
+	json_decoder = cjson.decode
+except ImportError:
+	import json
+	json_decoder = json.loads
 
+_GOOGLE_TRANSLATE_HOST = 'translate.google.com'
+_GOOGLE_TRANSLATE_PATH = '/translate_a/t?sl=auto&client=t'
+_GOOGLE_TRANS_LANG_PATH = '/translate_t'
 
-def _translate(text, lang):
-	''' Translate @text to @lang. '''
-	params = {'sl': 'auto', 'tl': lang, 'text': text, 'client': 't'}
-	url = urlparse(_GOOGLE_TRANSLATE_URL)
-	try:
-		conn = httplib.HTTPConnection(url[1])
-		conn.request("POST", url[2], urllib.urlencode(params), _HEADERS)
-		resp = conn.getresponse()
-	except Exception, err:
-		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
-		return _("Error connecting to Google Translate")
-
-	header = resp.getheader("Content-Type")
-	charset = header[header.index("charset=")+8:]
-	if resp.status == 200:
-		data = resp.read().decode(charset)
-		if data[0] == "[":
-			data = data.strip('[]').split(',')
-			result = data[0].strip('"')
-		else: 
-			result = data.strip('"')
-	else:
-		pretty.print_error(__name__, '_translate status error', repr(text), 
-				lang, resp.status, resp.reason)
-		result = _("Error")
-	conn.close()
-	return result
 
 def _parse_encoding_header(response, default="UTF-8"):
 	"""Parse response's header for an encoding, that is return 'utf-8' for:
@@ -70,43 +40,66 @@ def _parse_encoding_header(response, default="UTF-8"):
 		return parts[-1]
 	return default
 
+
+def _translate(text, lang):
+	''' Translate @text to @lang. '''
+	query_param = urllib.urlencode(dict(tl=lang, text=text))
+	try:
+		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
+		conn.request("POST", _GOOGLE_TRANSLATE_PATH, query_param)
+		resp = conn.getresponse()
+		if resp.status != 200:
+			raise Exception('invalid response %d, %s' % resp.status, resp.reason)
+
+		response_data = resp.read()
+		encoding = _parse_encoding_header(resp)
+		response_data = response_data.decode(encoding)
+		result, _lang, other_trans = json_decoder(response_data)
+		yield result
+
+		if other_trans:
+			for translation in other_trans[0]:
+				yield translation
+
+	except Exception, err:
+		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
+		yield  _("Error connecting to Google Translate")
+
+	finally:
+		conn.close()
+
+
+_RE_GET_LANG = re.compile(r'\<option[ \w]+value="(\w+)"\>(\w+)\</option\>', 
+		re.UNICODE|re.IGNORECASE)
+
 def _load_languages():
 	''' Load available languages from Google.
 		Generator: (lang_code, lang name) 
 	'''
 	user_language = locale.getlocale(locale.LC_MESSAGES)[0]
 	pretty.print_debug(__name__, '_load_languages')
-	url = urlparse(_GOOGLE_TRANS_LANG_URL)
-	data = {}
 	try:
-		conn = httplib.HTTPConnection(url[1])
+		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
 		headers = {
 			"Accept-Language": "%s, en;q=0.7" % user_language,
 		}
-
-		conn.request("GET", url[2], headers=headers)
+		conn.request("GET", _GOOGLE_TRANS_LANG_PATH, headers=headers)
 		resp = conn.getresponse()
+		if resp.status != 200:
+			raise Exception('invalid response %d, %s' % resp.status, resp.reason)
+		
+		result = resp.read().decode(_parse_encoding_header(resp), "replace")
+		result = result[result.index('select name=tl'):]
+		result = result[:result.index("</select>")]
+		for key, name in _RE_GET_LANG.findall(result):
+			yield key, name
+
 	except Exception, err:
 		pretty.print_error(__name__, '_load_languages error', type(err), err)
-	else:
-		if resp.status == 200:
-			encoding = _parse_encoding_header(resp)
-			result = resp.read().decode(encoding, "replace")
-			result = result[result.index('select name=tl'):]
-			result = result[result.index("<option"):result.index("</select>")]
-			rows = result.split("</option>")
-			for row in rows:
-				if row:
-					yield (row[row.index('"')+1:row.rindex('"')], 
-						row[row.index('>')+1:])
-			conn.close()
-			return
-		else:
-			pretty.print_error(__name__, '_load_languages status error', 
-					repr(text), lang, resp.status, resp.reason)
-		conn.close()
+		yield 'en', 'English'
 
-	yield 'en', 'English'
+	finally:
+		conn.close()
 
 
 class Translate (Action):
@@ -153,7 +146,8 @@ class _TransateQuerySource(Source):
 		return True
 	
 	def get_items(self):
-		yield TextLeaf(_translate(self._text, self._lang))
+		for translation in _translate(self._text, self._lang):
+			yield TextLeaf(translation)
 
 
 class _Language(Leaf):
