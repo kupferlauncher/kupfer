@@ -159,19 +159,22 @@ class _Language(Leaf):
 		return icons.ComposedIcon("text-x-generic","preferences-desktop-locale")
 
 
+# cache for Languages (load it once)
+_LANG_CACHE = None
+
 class _LangSource(Source):
-	_LANG_CACHE = None
 
 	def __init__(self):
 		Source.__init__(self, _("Languages"))
 
 	def get_items(self):
-		if not self._LANG_CACHE:
-			self._LANG_CACHE = tuple((
+		global _LANG_CACHE
+		if not _LANG_CACHE:
+			_LANG_CACHE = tuple((
 					_Language(key, name.title())
 					for key, name in _load_languages()
 			))
-		return self._LANG_CACHE
+		return _LANG_CACHE
 
 	def provides(self):
 		yield _Language
