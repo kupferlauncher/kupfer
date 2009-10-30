@@ -44,7 +44,7 @@ def _create_dbus_connection(activate=False):
 	return interface
 
 
-def _send_message_to_contact(pcontact, message):
+def _send_message_to_contact(pcontact, message, present=False):
 	"""
 	Send @message to PidginContact @pcontact
 	"""
@@ -55,6 +55,14 @@ def _send_message_to_contact(pcontact, message):
 	conversation = interface.PurpleConversationNew(1, account, jid)
 	im = interface.PurpleConvIm(conversation)
 	interface.PurpleConvImSend(im, message)
+	if present:
+		interface.PurpleConversationPresent(conversation)
+
+def _open_chat_with_contact(pcontact):
+	interface = _create_dbus_connection()
+	if not interface:
+		return
+	account, jid = pcontact.account, pcontact.jid
 
 
 class OpenChat(Action):
@@ -64,7 +72,7 @@ class OpenChat(Action):
 		Action.__init__(self, _('Open Chat'))
 
 	def activate(self, leaf):
-		_send_message_to_contact(leaf, u"")
+		_send_message_to_contact(leaf, u"", present=True)
 
 class SendMessage (Action):
 	""" Send chat message directly from Kupfer """
