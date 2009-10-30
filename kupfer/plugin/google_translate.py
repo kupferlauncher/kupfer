@@ -54,12 +54,16 @@ def _translate(text, lang):
 		response_data = resp.read()
 		encoding = _parse_encoding_header(resp)
 		response_data = response_data.decode(encoding)
-		result, _lang, other_trans = json_decoder(response_data)
-		yield result
+		resp = json_decoder(response_data)
+		if len(resp) ==  2:
+			yield resp[0]
+		elif len(resp) == 3:
+			result, _lang, other_trans = resp
+			yield result
 
-		if other_trans:
-			for translation in other_trans[0]:
-				yield translation
+			if other_trans:
+				for translation in other_trans[0]:
+					yield translation
 
 	except Exception, err:
 		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
