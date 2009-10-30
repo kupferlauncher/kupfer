@@ -6,7 +6,7 @@ import urllib
 from urlparse import urlparse
 
 from kupfer.objects import Source, Action, TextLeaf, Leaf
-from kupfer import utils, pretty
+from kupfer import icons, utils, pretty
 
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", )
@@ -157,7 +157,8 @@ class _TransateQuerySource(Source):
 
 
 class _Language(Leaf):
-	pass
+	def get_gicon(self):
+		return icons.ComposedIcon("text-x-generic","preferences-desktop-locale")
 
 
 class _LangSource(Source):
@@ -176,3 +177,6 @@ class _LangSource(Source):
 
 	def provides(self):
 		yield _Language
+
+	def get_icon_name(self):
+		return "preferences-desktop-locale"
