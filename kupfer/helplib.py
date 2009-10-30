@@ -125,6 +125,15 @@ class DbusWeakCallback (WeakCallback):
 			self.token.remove()
 			self.token = None
 
+def dbus_signal_connect_weakly(bus, signal, mcallback, **kwargs):
+	"""
+	Connect method @mcallback to dbus signal using a weak callback
+
+	Connect to @signal on @bus, passing on all keyword arguments
+	"""
+	weak_cb = DbusWeakCallback(mcallback)
+	weak_cb.token = bus.add_signal_receiver(weak_cb, signal, **kwargs)
+
 class GobjectWeakCallback (WeakCallback):
 	"""
 	Will use @token if set as follows:
