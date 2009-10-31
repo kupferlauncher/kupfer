@@ -2,7 +2,7 @@ import os
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
 from kupfer.objects import UrlLeaf
-from kupfer import plugin_support
+from kupfer import config, plugin_support
 
 __kupfer_name__ = _("Chromium Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
@@ -28,8 +28,7 @@ class BookmarksSource (AppLeafContentMixin, Source):
 			yield UrlLeaf(book["url"], book["name"])
 
 	def get_items(self):
-		from chromium_support import get_chromium_home_file
-		fpath = get_chromium_home_file("Bookmarks")
+		fpath = config.get_config_file("Bookmarks", package="chromium/Default")
 		if fpath:
 			try:
 				return self._get_chromium_items(fpath)

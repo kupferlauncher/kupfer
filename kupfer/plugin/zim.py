@@ -7,7 +7,7 @@ import glib
 
 from kupfer.objects import (Leaf, Action, Source, TextLeaf,
 		FilesystemWatchMixin, TextSource, AppLeafContentMixin)
-from kupfer import utils, pretty, icons, plugin_support
+from kupfer import config, utils, pretty, icons, plugin_support
 
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
@@ -144,7 +144,10 @@ def _get_zim_notebooks():
 	@notebook_path: Filesystem byte string
 	'''
 	# We assume the notebook description is UTF-8 encoded
-	zim_notebooks_file = os.path.expanduser('~/.config/zim/notebooks.list')
+	zim_notebooks_file = config.get_config_file("notebooks.list", package="zim")
+	if not zim_notebooks_file:
+		pretty.print_error(__name__, "Zim notebooks.list not found")
+		return
 	try:
 		with open(zim_notebooks_file, 'r') as noteboks_file:
 			for line in noteboks_file.readlines():
@@ -155,7 +158,7 @@ def _get_zim_notebooks():
 					yield (notebook_name, notebook_path)
 
 	except IOError, err:
-		pretty.print_error(err)
+		pretty.print_error(__name__, err)
 
 class ZimNotebook (Leaf):
 	def get_gicon(self):

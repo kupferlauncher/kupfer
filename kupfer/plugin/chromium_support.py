@@ -11,13 +11,6 @@ except ImportError:
 	import json
 	json_decoder = json.loads
 
-def get_chromium_home_file(needed_file):
-	chromium_dir = os.path.expanduser("~/.config/chromium/Default/")
-	if not os.path.exists(chromium_dir):
-		return None
-
-	return os.path.join(chromium_dir, needed_file)
-
 def get_bookmarks(bookmarks_file):
 	# construct and configure the parser
 	if not bookmarks_file:
@@ -59,5 +52,5 @@ def get_bookmarks(bookmarks_file):
 	return bmap.values()
 
 if __name__ == "__main__":
-	fpath = get_chromium_home_file("Bookmarks")
+	fpath = os.path.expanduser("~/.config/chromium/Default/")
 	print "Parsed # bookmarks:", len(list(get_bookmarks(fpath)))
