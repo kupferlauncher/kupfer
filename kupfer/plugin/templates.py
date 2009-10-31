@@ -47,7 +47,8 @@ def _reversed_action(action, name=None, rank=0):
 class Template (FileLeaf):
 	def __init__(self, path):
 		basename = glib.filename_display_basename(path)
-		FileLeaf.__init__(self, path, _("%s template") % basename)
+		nameroot, ext = os.path.splitext(basename)
+		FileLeaf.__init__(self, path, _("%s template") % nameroot)
 
 	def get_actions(self):
 		yield CreateDocumentIn()
