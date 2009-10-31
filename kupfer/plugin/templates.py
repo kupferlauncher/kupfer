@@ -58,6 +58,14 @@ class Template (FileLeaf):
 		file_gicon = FileLeaf.get_gicon(self)
 		return icons.ComposedIcon("text-x-generic-template", file_gicon)
 
+class EmptyFile (Leaf):
+	def __init__(self):
+		Leaf.__init__(self, None, _("Empty File"))
+	def get_actions(self):
+		yield CreateDocumentIn()
+	def get_icon_name(self):
+		return "gtk-file"
+
 class CreateNewDocument (Action):
 	def __init__(self):
 		Action.__init__(self, _("Create New Document..."))
@@ -65,11 +73,18 @@ class CreateNewDocument (Action):
 	def has_result(self):
 		return True
 	def activate(self, leaf, iobj):
-		filename = os.path.basename(iobj.object)
-		gfile = gio.File(iobj.object)
-		destpath = utils.get_destpath_in_directory(leaf.object, filename)
-		destfile = gio.File(destpath)
-		ret = gfile.copy(destfile, flags=gio.FILE_COPY_ALL_METADATA)
+		if iobj.object:
+			# Copy the template to destination directory
+			basename = os.path.basename(iobj.object)
+			tmpl_gfile = gio.File(iobj.object)
+			destpath = utils.get_destpath_in_directory(leaf.object, basename)
+			destfile = gio.File(destpath)
+			tmpl_gfile.copy(destfile, flags=gio.FILE_COPY_ALL_METADATA)
+		else:
+			# create new empty file
+			filename = unicode(iobj)
+			destpath = utils.get_destpath_in_directory(leaf.object, filename)
+			open(destpath, "w").close()
 		return FileLeaf(destpath)
 
 	def item_types(self):
@@ -82,6 +97,7 @@ class CreateNewDocument (Action):
 		return True
 	def object_types(self):
 		yield Template
+		yield EmptyFile
 	def object_source(self, for_item=None):
 		return TemplatesSource()
 	def get_icon_name(self):
@@ -101,6 +117,7 @@ class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		self.monitor_token = self.monitor_directories(self.tmpl_dir)
 
 	def get_items(self):
+		yield EmptyFile()
 		try:
 			for fname in os.listdir(self.tmpl_dir):
 				yield Template(os.path.join(self.tmpl_dir, fname))
