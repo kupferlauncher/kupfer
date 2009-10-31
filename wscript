@@ -158,6 +158,8 @@ def _find_packages_in_directory(bld, name):
 			_new_package(bld, dirname)
 
 def build(bld):
+	# always read new version
+	bld.env["VERSION"] = VERSION
 	# kupfer module version info file
 	version_subst_file = "kupfer/version_subst.py"
 	obj = bld.new_task_gen("subst",
