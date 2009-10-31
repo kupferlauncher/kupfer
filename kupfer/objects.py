@@ -445,8 +445,7 @@ class Action (KupferObject):
 		return ""
 
 	def activate(self, leaf, obj=None):
-		"""
-		Use this action with @leaf and @obj
+		"""Use this action with @leaf and @obj
 
 		@leaf: the object (Leaf)
 		@obj: an indirect object (Leaf), if self.requires_object
@@ -462,21 +461,15 @@ class Action (KupferObject):
 		return False
 
 	def is_async(self):
-		"""
-		If this action should run on a separate thread, return True.
-		activate(..) should return a tuple of two functions
-		(start_cb, finish_cb) with the following signatures:
-			start_cb (leaf, obj=None)
-			finish_cb (retval)
-		finish_cb is passed the return value from start_cb
+		"""If this action runs asynchronously, return True.
 
-		start_cb is called asynchronously, then finish_cb is called,
-		if start_cb does not raise, on the main thread.
+		Then activate(..) must return an object from the kupfer.task module,
+		which will be queued to run by Kupfer's task scheduler.
 		"""
 		return False
 
 	def item_types(self):
-		"""Yield items this action may apply to. This is used only
+		"""Yield types this action may apply to. This is used only
 		when this action is specified in __kupfer_actions__ to "decorate"
 		"""
 		return ()
@@ -486,25 +479,24 @@ class Action (KupferObject):
 		return True
 
 	def requires_object(self):
-		"""
-		If this action requires a secondary object
-		to complete is action
+		"""If this action requires a secondary object
+		to complete is action, return True
 		"""
 		return False
 
 	def object_source(self, for_item=None):
-		"""Source to use for object or None
-		to use the catalog (flat, filtered for @object_types)
+		"""Source to use for object or None,
+		to use the catalog (flat and filtered for @object_types)
 		"""
 		return None
 
 	def object_types(self):
+		"""Yield types this action may use as indirect objects, if the action
+		requrires it.
+		"""
 		return ()
 
 	def get_icon_name(self):
-		"""
-		Return a default icon for actions
-		"""
 		return "gtk-execute"
 
 class OpenWith (Action):
