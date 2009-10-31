@@ -84,12 +84,12 @@ def get_data_dirs(name="", package=PACKAGE_NAME):
 	"""
 	return base.load_data_paths(os.path.join(package, name))
 
-def get_config_file(filename):
+def get_config_file(filename, package=PACKAGE_NAME):
 	"""
-	Return path to @filename if it exists
-	anywhere in the config paths, else return None
+	Return path to @package/@filename if it exists anywhere in the config
+	paths, else return None
 	"""
-	return base.load_first_config(PACKAGE_NAME, filename)
+	return base.load_first_config(package, filename)
 
 def get_config_files(filename):
 	"""
