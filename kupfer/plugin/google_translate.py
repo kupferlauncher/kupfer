@@ -54,7 +54,8 @@ def _translate(text, lang):
 		conn.request("POST", _GOOGLE_TRANSLATE_PATH, query_param, _HEADER)
 		resp = conn.getresponse()
 		if resp.status != 200:
-			raise Exception('invalid response %d, %s' % resp.status, resp.reason)
+			raise ValueError('invalid response %d, %s' % resp.status,
+					resp.reason)
 
 		response_data = resp.read()
 		encoding = _parse_encoding_header(resp)
@@ -70,7 +71,7 @@ def _translate(text, lang):
 				for translation in other[1:]:
 					yield translation, other[0]
 
-	except Exception, err:
+	except (httplib.HTTPException, ValueError), err:
 		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
 		yield  _("Error connecting to Google Translate"), ""
 
@@ -95,7 +96,8 @@ def _load_languages():
 		conn.request("GET", _GOOGLE_TRANS_LANG_PATH, headers=headers)
 		resp = conn.getresponse()
 		if resp.status != 200:
-			raise Exception('invalid response %d, %s' % resp.status, resp.reason)
+			raise ValueError('invalid response %d, %s' % resp.status,
+					resp.reason)
 		
 		result = resp.read().decode(_parse_encoding_header(resp), "replace")
 		result = result[result.index('select name=tl'):]
@@ -103,7 +105,7 @@ def _load_languages():
 		for key, name in _RE_GET_LANG.findall(result):
 			yield key, name
 
-	except Exception, err:
+	except (httplib.HTTPException, ValueError), err:
 		pretty.print_error(__name__, '_load_languages error', type(err), err)
 		yield 'en', 'English'
 
