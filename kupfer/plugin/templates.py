@@ -4,8 +4,10 @@ import gio
 import glib
 
 from kupfer.objects import Leaf, Action, Source, FileLeaf
-from kupfer import icons, plugin_support, utils
+from kupfer import icons, utils
+from kupfer import helplib
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer import plugin_support
 
 __kupfer_name__ = _("Templates")
 __kupfer_sources__ = ("TemplatesSource", )
@@ -15,34 +17,6 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 DEFAULT_TMPL_DIR = "~/Templates"
-
-def _reversed_action(action, name=None, rank=0):
-	"""Return a reversed version a three-part action
-
-	@action: the action class
-	@name: use a different name
-	"""
-	class ReverseAction (action):
-		rank_adjust = rank
-		def __init__(self):
-			Action.__init__(self, name or unicode(action()))
-		def activate(self, leaf, iobj):
-			return action.activate(self, iobj, leaf)
-		def item_types(self):
-			return action.object_types(self)
-		def valid_for_item(self, leaf):
-			try:
-				return leaf.valid_object(leaf)
-			except AttributeError:
-				return True
-		def object_types(self):
-			return action.item_types(self)
-		def valid_object(self, obj, for_item=None):
-			return action.valid_for_item(self, obj)
-		def object_source(self, for_item=None):
-			return None
-	ReverseAction.__name__ = "Reverse" + action.__name__
-	return ReverseAction
 
 class Template (FileLeaf):
 	def __init__(self, path):
@@ -104,7 +78,7 @@ class CreateNewDocument (Action):
 	def get_icon_name(self):
 		return "document-new"
 
-CreateDocumentIn = _reversed_action(CreateNewDocument, rank=10)
+CreateDocumentIn = helplib.reverse_action(CreateNewDocument, rank=10)
 
 class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 	def __init__(self):

@@ -172,6 +172,44 @@ def gobject_connect_weakly(sender, signal, mcallback, *user_args):
 	"""
 	GobjectWeakCallback._connect(sender, signal, mcallback, *user_args)
 
+def reverse_action(action, rank=0):
+	"""Return a reversed version a three-part action
+
+	@action: the action class
+	@rank: the rank_adjust to give the reversed action
+
+	A three-part action requires a direct object (item) and an indirect
+	object (iobj).
+
+	In general, the item must be from the Catalog, while the iobj can be
+	from one, specified special Source. If this is used, and the action
+	will be reversed, the base action must be the one specifying a
+	source for the iobj. The reversed action will always take both item
+	and iobj from the Catalog, filtered by type.
+
+	If valid_object(iobj, for_leaf=None) is used, it will always be
+	called with only the new item as the first parameter when reversed.
+	"""
+	class ReverseAction (action):
+		rank_adjust = rank
+		def activate(self, leaf, iobj):
+			return action.activate(self, iobj, leaf)
+		def item_types(self):
+			return action.object_types(self)
+		def valid_for_item(self, leaf):
+			try:
+				return leaf.valid_object(leaf)
+			except AttributeError:
+				return True
+		def object_types(self):
+			return action.item_types(self)
+		def valid_object(self, obj, for_item=None):
+			return action.valid_for_item(self, obj)
+		def object_source(self, for_item=None):
+			return None
+	ReverseAction.__name__ = "Reverse" + action.__name__
+	return ReverseAction
+
 if __name__ == '__main__':
 	import doctest
 	doctest.testmod()
