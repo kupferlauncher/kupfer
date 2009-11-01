@@ -77,18 +77,23 @@ class Rescan (Action):
 			return False
 		return not item.content_source().is_dynamic()
 
-class DebugInfo (Action, pretty.OutputMixin):
-	"""
-	Print debug info to terminal
-	"""
+class DebugInfo (Action):
+	""" Print debug info to terminal """
 	rank_adjust = -50
 	def __init__(self):
 		Action.__init__(self, u"Debug Info")
 
 	def activate(self, leaf):
 		import itertools
+		import StringIO
 		from kupfer import qfurl
-		print_func = lambda *args : pretty.print_debug("debug", *args)
+		from kupfer import uiutils
+
+		output = StringIO.StringIO()
+		def print_func(*args):
+			print >>output, " ".join(unicode(a) for a in args)
+			pretty.print_debug("debug", *args)
+
 		print_func("Debug info about", leaf)
 		print_func(leaf, repr(leaf))
 		def get_qfurl(leaf):
@@ -136,9 +141,9 @@ class DebugInfo (Action, pretty.OutputMixin):
 			for field in sorted(fields):
 				val = fields[field]
 				rep = repr(val)
-				print_func("%-10s:" % field, rep)
+				print_func("%-15s:" % field, rep)
 				if str(val) not in rep:
-					print_func("%-10s:" % field, val)
+					print_func("%-15s:" % field, val)
 		leafinfo = get_leaf_fields(leaf)
 		print_fields(leafinfo)
 		if leafinfo["content"]:
@@ -147,6 +152,7 @@ class DebugInfo (Action, pretty.OutputMixin):
 		if leafinfo["content"] != leafinfo["content-alt"]:
 			print_func("Content-Alt ========")
 			print_fields(get_source_fields(leafinfo["content-alt"]))
+		uiutils.show_text_result(output.getvalue())
 
 	def get_description(self):
 		return u"Print debug output (for interal kupfer use)"
