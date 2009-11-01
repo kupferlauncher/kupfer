@@ -28,7 +28,7 @@ class SavedIterable (object):
 	def __new__(self, iterable):
 		if isinstance(iterable, list):
 			return iterable
-		return object.__new__(self, iterable)
+		return object.__new__(self)
 	def __init__(self, iterable):
 		self.iterator = iter(iterable)
 		self.data = []
