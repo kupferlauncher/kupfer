@@ -3,7 +3,7 @@ kupfer
 ======
 
 :Author: Ulrik Sverdrup
-:Date: Wednesday, 23 September 2009
+:Date: Sunday,  1 November 2009
 :Revision: $Id$
 :Homepage: http://kaizer.se/wiki/kupfer
 
@@ -33,6 +33,7 @@ KupferObject
 base class for basic user-visible constructs, this defines:
 
 * A way to get the object's name
+* A way to get the object's description
 * A way to get the object's icon
 
 This is the base object for the following four very important base
@@ -67,7 +68,7 @@ This defines, in addition to KupferObject:
     ``Leaf.object`` is the represented object, which is the
     implementation-specific internal data.
 
-``get_actions``
+``get_actions()``
     Returns the *builtin* Actions for a Leaf; builtin Actions are such
     that do not apply generally, but only to Leaves defined in a
     particular module or Plugin.
@@ -159,7 +160,7 @@ This defines, in addition to KupferObject:
 ``provides()``
     Return a sequence of all precise Leaf types the Source may contain
 
-``get_leaf_repr``
+``get_leaf_repr()``
     Return a Leaf that represents the Source, if applicable; for example
     the DirectorySource is represented by a FileLeaf for the directory.
 ``__hash__`` and ``__eq__``
@@ -175,7 +176,7 @@ simplified version of Source.
 
 ``get_item(text)``
     Return items for the given query.
-``provides``
+``provides()``
     Return a sequence of the Leaf types it may contain
 
 Strings
@@ -238,16 +239,22 @@ editor is set to tabs of size four.) Otherwise, if you want to
 contribute to kupfer keep in mind that
 
 * Python code should be clear
-* Kupfer is a simple project. Do simple first.
+* Kupfer is a simple project. Do simple first. [#simple]_
 
-Sometimes comments are needed to explain the code. How many know the
-``for..else`` construction? Hint: find out what it does in the
-``kupfer.icons`` module::
+Python's general style guideline is called `PEP 8`_, and all Python
+programmers should read it. The advice given there is very useful when
+coding for Kupfer.
 
-    for item in sequence:
-        ...
-    else:
-        ...
+.. _`PEP 8`: http://www.python.org/dev/peps/pep-0008/
+
+.. [#simple] Writing simple code is more important than you think.
+             Read your diff (changes) when you are finished writing a
+             feature. Can you make it more simple to read? If you can
+             make it simpler, often a more effective algorithm comes out
+             of it at the same time. All optimizations have a price,
+             and unless you measure the difference, abstain from
+             optimizations.
+
 
 Living and learning
 ...................
@@ -261,64 +268,96 @@ when writing new code, you should however use the following style::
     Source.__init__(self, _("Recent items"))
 
 Why? Because the second version is easier to copy! If you copy the whole
-class and rename it, which you often do to create new plugins, you have
-don't have to-- you are probably using the same superclass.
+class and rename it, which you often do to create new plugins, the
+second version does not need to be updated -- you are probably using the
+same superclass.
 
 Localization
 ============
 
 kupfer is translated using gettext and it is managed in the build system
-using intltool. Translation messages are located in the po/ directory.
+using ``intltool``. Translation messages are located in the ``po/``
+directory.
+
+Kupfer's localizations are listed among Gnome's modules. Its homepage
+is:
+
+    http://l10n.gnome.org/module/kupfer/
+
+You can download the latest version of your language's translation file
+there, if Kupfer is already translated to your language.
 
 To update or check an existing translation
 ------------------------------------------
 
-To update with new strings, run::
+Go to your Kupfer source directory.
 
-    ./waf intlupdate
+Here we will call your language ``$LANG``. You should use a two or
+four-letter code for your language instead of ``$LANG``, for example
+"de" for German or "pt_BR" for Brazilian Portuguese.
 
-Then check all fuzzy messages, translate all untranslated messages.
-Continue running ``./waf intlupdate`` to check that you have 0 fuzzy and
-0 untranslated, then you're finished. ``./waf intlupdate`` will also run
-a check of the consistency of the file, so that you know that all syntax
-is correct.
+Go to the translation directory ``po``::
+
+    cd po/
+
+To update and check the translation file, run::
+
+    intltool-update $LANG
+
+Now check and edit ``$LANG.po``. Search for all messages marked "fuzzy",
+and remove the word "fuzzy" from them when they are done.
+
+Continue running ``intltool-update $LANG`` and check that you have 0
+fuzzy and 0 untranslated, then you're finished.
+
+This will also check consistency of the file, so that you know that all
+your syntax is correct.
 
 If you want to send in the translation to a repository, or as a patch,
 you can use git if you have a checked-out copy of kupfer::
 
-    git add po/lang.po
-    git commit -m "lang: Updated translation"
+    git add po/$LANG.po
+    git commit -m "$LANG: Updated translation"
 
     # now we create a patch out of the latest change
     git format-patch HEAD^
 
-where ``lang`` is the two-letter abbreviation. You can send the patch to
-the mailing list kupfer-list@gnome.org.
-
+You can send the patch, or the whole file, to the mailing list
+kupfer-list@gnome.org.
 
 To create a new translation
 ---------------------------
 
-Add the language to ``po/LINGUAS`` with its (commonly) two-letter code.
-Run ``./waf intlupdate`` and then edit the header in the ``po/lang.po``
-file, filling in your name and other slots, and importantly the CHARSET.
-Kupfer translations *must* use the UTF-8 encoding.
+Go into the directory ``po``
 
-When the header is filled-in, run ``./waf intlupdate`` to see that it
-runs without errors, and you should have a ``po/lang.po`` file ready for
-translating.
+1. Add the language code ``$LANG`` to the file ``LINGUAS``
+2. Run ``intltool-update --pot``, and copy ``untitled.pot`` to ``$LANG.po``
+3. Edit and check the whole file header: 
+
+   + Write in yourself as author
+   + Check ``plurals`` (copy from a language that you know uses the same
+     number of plural forms, or look up in Gnome's translation pages.)
+   + Replace everything written in CAPS
+
+Fill in the charset used; Kupfer translations *must* use the UTF-8 encoding.
+
+When the header is filled-in, go to `To update or check an existing
+translation`_
 
 To try the new translation
 --------------------------
 
 Make sure the translation is listed in ``po/LINGUAS``.
 
-To try it, you have to install kupfer with ``./waf install``
+To try it, you have to install kupfer with ``./waf install``, then you
+can run kupfer as normal.
 
-If you run ``./kupfer-activate.sh`` from the working directory it won't
-find the installed translations unless you make a symlink called
-``locale`` to the installed location (for example
-``~/.local/share/locale`` if install prefix was ``~/.local``).
+.. note::
+
+    If you run ``./kupfer-activate.sh`` from the source directory it won't
+    find the installed translations unless you make a symlink called
+    ``locale`` to the installed location (for example
+    ``~/.local/share/locale`` if install prefix was ``~/.local``).
 
 
 Copyright
