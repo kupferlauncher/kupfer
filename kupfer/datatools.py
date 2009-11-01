@@ -21,7 +21,14 @@ class SavedIterable (object):
 	>>> import pickle
 	>>> pickle.loads(pickle.dumps(s))
 	[0, 1, 2, 3, 4]
+
+	>>> SavedIterable(range(3))
+	[0, 1, 2]
 	"""
+	def __new__(self, iterable):
+		if isinstance(iterable, list):
+			return iterable
+		return object.__new__(self, iterable)
 	def __init__(self, iterable):
 		self.iterator = iter(iterable)
 		self.data = []
