@@ -238,16 +238,22 @@ editor is set to tabs of size four.) Otherwise, if you want to
 contribute to kupfer keep in mind that
 
 * Python code should be clear
-* Kupfer is a simple project. Do simple first.
+* Kupfer is a simple project. Do simple first. [#simple]_
 
-Sometimes comments are needed to explain the code. How many know the
-``for..else`` construction? Hint: find out what it does in the
-``kupfer.icons`` module::
+Python's general style guideline is called `PEP 8`_, and all Python
+programmers should read it. The advice given there is very useful when
+coding for Kupfer.
 
-    for item in sequence:
-        ...
-    else:
-        ...
+.. _`PEP 8`: http://www.python.org/dev/peps/pep-0008/
+
+.. [#simple] Writing simple code is more important than you think.
+             Read your diff (changes) when you are finished writing a
+             feature. Can you make it more simple to read? If you can
+             make it simpler, often a more effective algorithm comes out
+             of it at the same time. All optimizations have a price,
+             and unless you measure the difference, abstain from
+             optimizations.
+
 
 Living and learning
 ...................
