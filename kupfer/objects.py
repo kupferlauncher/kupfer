@@ -15,8 +15,9 @@ from os import path
 import gobject
 import gio
 
-from kupfer import pretty
+from kupfer import datatools
 from kupfer import icons, launch, utils
+from kupfer import pretty
 from kupfer.utils import locale_sort
 from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
 from kupfer.kupferstring import tounicode, toutf8, tofolded
@@ -134,11 +135,7 @@ class KupferObject (object):
 		return "kupfer-object"
 
 def aslist(seq):
-	"""
-	Make lists from sequences that are not lists or tuples
-
-	For iterators, sets etc.
-	"""
+	"""Return a list out of @seq, or seq if it is a list"""
 	if not isinstance(seq, type([])) and not isinstance(seq, type(())):
 		seq = list(seq)
 	return seq
@@ -787,11 +784,12 @@ class Source (KupferObject, pretty.OutputMixin):
 			return sort_func(self.get_items())
 		
 		if self.cached_items is None or force_update:
-			self.cached_items = aslist(sort_func(self.get_items()))
+			cache_type = aslist if force_update else datatools.SavedIterable
+			self.cached_items = cache_type(sort_func(self.get_items()))
 			if force_update:
 				self.output_info("Loaded %d items" % len(self.cached_items))
 			else:
-				self.output_debug("Loaded %d items" % len(self.cached_items))
+				self.output_debug("Loaded items")
 		return self.cached_items
 
 	def has_parent(self):
