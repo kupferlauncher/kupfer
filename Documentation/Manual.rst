@@ -159,7 +159,7 @@ This defines, in addition to KupferObject:
 ``provides()``
     Return a sequence of all precise Leaf types the Source may contain
 
-``get_leaf_repr``
+``get_leaf_repr()``
     Return a Leaf that represents the Source, if applicable; for example
     the DirectorySource is represented by a FileLeaf for the directory.
 ``__hash__`` and ``__eq__``
@@ -175,7 +175,7 @@ simplified version of Source.
 
 ``get_item(text)``
     Return items for the given query.
-``provides``
+``provides()``
     Return a sequence of the Leaf types it may contain
 
 Strings
@@ -261,8 +261,9 @@ when writing new code, you should however use the following style::
     Source.__init__(self, _("Recent items"))
 
 Why? Because the second version is easier to copy! If you copy the whole
-class and rename it, which you often do to create new plugins, you have
-don't have to-- you are probably using the same superclass.
+class and rename it, which you often do to create new plugins, the
+second version does not need to be updated -- you are probably using the
+same superclass.
 
 Localization
 ============
