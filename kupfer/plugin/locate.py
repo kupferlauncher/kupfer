@@ -46,9 +46,6 @@ class LocateQuerySource (Source):
 		self.query = query
 		self.max_items = 500
 
-	def is_dynamic(self):
-		return True
-
 	def get_items(self):
 		ignore_case = '--ignore-case' if __kupfer_settings__["ignore_case"] else ''
 		# Start two processes, one to take the first 10 hits, one
