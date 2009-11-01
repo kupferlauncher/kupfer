@@ -33,6 +33,7 @@ KupferObject
 base class for basic user-visible constructs, this defines:
 
 * A way to get the object's name
+* A way to get the object's description
 * A way to get the object's icon
 
 This is the base object for the following four very important base
@@ -67,7 +68,7 @@ This defines, in addition to KupferObject:
     ``Leaf.object`` is the represented object, which is the
     implementation-specific internal data.
 
-``get_actions``
+``get_actions()``
     Returns the *builtin* Actions for a Leaf; builtin Actions are such
     that do not apply generally, but only to Leaves defined in a
     particular module or Plugin.
