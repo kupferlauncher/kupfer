@@ -9,10 +9,10 @@ from kupfer import helplib
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import plugin_support
 
-__kupfer_name__ = _("Templates")
+__kupfer_name__ = _("Document Templates")
 __kupfer_sources__ = ("TemplatesSource", )
 __kupfer_actions__ = ("CreateNewDocument", )
-__description__ = _("Create documents from templates")
+__description__ = _("Create new documents from your templates")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -64,7 +64,6 @@ class CreateNewDocument (Action):
 
 	def item_types(self):
 		yield FileLeaf
-
 	def valid_for_item(self, leaf):
 		return leaf.is_dir()
 
@@ -75,6 +74,9 @@ class CreateNewDocument (Action):
 		yield EmptyFile
 	def object_source(self, for_item=None):
 		return TemplatesSource()
+
+	def get_description(self):
+		return _("Create a new document from template")
 	def get_icon_name(self):
 		return "document-new"
 
@@ -82,7 +84,7 @@ CreateDocumentIn = helplib.reverse_action(CreateNewDocument, rank=10)
 
 class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 	def __init__(self):
-		Source.__init__(self, _("Templates"))
+		Source.__init__(self, _("Document Templates"))
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
@@ -100,8 +102,7 @@ class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 			self.output_error(exc)
 
 	def get_description(self):
-		return _("Recently used documents")
-
+		return None
 	def get_icon_name(self):
 		return "system-file-manager"
 
