@@ -127,6 +127,8 @@ class DebugInfo (Action, pretty.OutputMixin):
 				"parent" : src.get_parent(),
 				"leaf" : src.get_leaf_repr(),
 				"provides" : list(src.provides()),
+				"cached_items": type(src.cached_items),
+				"len": isinstance(src.cached_items, list) and len(src.cached_items),
 				} )
 			return base
 
