@@ -204,30 +204,14 @@ def build(bld):
 	bld.add_subdirs("po data extras")
 
 def intlupdate(util):
-	"""Extract new strings for localization"""
-	os.chdir("po")
-	for line in open("LINGUAS"):
-		""" Run xgettext for all listed languages
-		to extract translatable strings and merge with
-		the old file """
-		if line.startswith("#"):
-			continue
-		lang = line.strip()
-
-		lang_file = "%s.po" % lang
-		if not os.path.exists(lang_file):
-			print "Creating %s" % lang_file
-			os.popen("xgettext -D .. -f POTFILES.in --output=%s -F" % lang_file)
-			os.popen("intltool-update %s" % lang)
-		else:
-			print "Processing", lang
-			os.popen("intltool-update %s" % lang)
-			os.popen("msgfmt --check %s" % lang_file)
+	print "You should use intltool-update directly."
+	print "You can read about this in Documentation/Manual.rst"
+	print "in the localization chapter!"
 
 def test(bld):
 	# find all files with doctests
 	python = os.getenv("PYTHON", "python")
-	paths = os.popen("git grep -l 'doctest.testmod()' kupfer/").read().split()
+	paths = os.popen("grep -lR 'doctest.testmod()' kupfer/").read().split()
 	all_success = True
 	verbose = ("-v" in sys.argv)
 	for p in paths:
