@@ -16,6 +16,8 @@ Not released yet
 
 * *Gajim* plugin matches contacts by jid as well as name
 * Action *Rescan* on sources is now debug only (should not be needed)
+* Kupfer installs its Python package into ``$PREFIX/share`` by default,
+  instead of installing as a system-wide Python module.
 
 * Changes for plugin authors:
 
