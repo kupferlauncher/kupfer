@@ -157,6 +157,9 @@ def _find_packages_in_directory(bld, name):
 		if "__init__.py" in filenames:
 			_new_package(bld, dirname)
 
+def _dict_slice(D, keys):
+	return dict((k,D[k]) for k in keys)
+
 def build(bld):
 	# always read new version
 	bld.env["VERSION"] = VERSION
@@ -166,7 +169,12 @@ def build(bld):
 		source=version_subst_file + ".in",
 		target=version_subst_file,
 		install_path="${PYTHONDIR}/kupfer",
-		dict = bld.env,
+		dict = _dict_slice(bld.env,"VERSION DATADIR PACKAGE LOCALEDIR".split())
+		)
+
+	obj = bld.new_task_gen(
+		source="kupfer.py",
+		install_path="${PYTHONDIR}"
 		)
 
 	# Add all Python packages recursively
@@ -182,7 +190,7 @@ def build(bld):
 		target = "data/kupfer",
 		install_path = "${BINDIR}",
 		chmod = 0755,
-		dict = {"PYTHON": bld.env["PYTHON"]}
+		dict = _dict_slice(bld.env, "PYTHON PYTHONDIR".split())
 		)
 	# Documentation
 	if bld.env["RST2MAN"]:

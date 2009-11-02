@@ -1,7 +1,9 @@
 #!/bin/bash
 
 PYTHON="@PYTHON@"
+PYTHONDIR="@PYTHONDIR@"
 test ${PYTHON:0:1} = "@" && PYTHON=python
+test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $0)
 
 # Try to spawn kupfer via dbus, else go to python
 
@@ -32,7 +34,7 @@ fi
 
 if test $KUPFER_RUNNING != 0
 then
-	exec ${PYTHON} -m kupfer.__init__ $*
+	exec ${PYTHON} "$PYTHONDIR/kupfer.py" $*
 fi
 
 ${PYTHON} -c "import gtk.gdk; gtk.gdk.notify_startup_complete()"
