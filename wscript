@@ -223,6 +223,7 @@ def test(bld):
 	# find all files with doctests
 	python = os.getenv("PYTHON", "python")
 	paths = os.popen("grep -lR 'doctest.testmod()' kupfer/").read().split()
+	os.putenv("PYTHONPATH", ".")
 	all_success = True
 	verbose = ("-v" in sys.argv)
 	for p in paths:
