@@ -16,7 +16,7 @@ tarball but not in the repository.  If you need to get waf, run::
 
 Installation follows the steps::
 
-    ./waf configure --prefix=$PREFIX
+    ./waf configure
     ./waf
 
 then::
@@ -27,17 +27,14 @@ or ::
 
     sudo ./waf install
 
-here ``$PREFIX`` assigns an installation spot. For all users, programs
-are normally installed with prefix as ``/usr``.  Installing only for
-your user, the prefix ``~/.local`` is often used; you just have to check
-that:
-
-* ``~/.local/bin`` is in your ``$PATH``
-* ``~/.local/lib/python2.*/site-packages`` is in python's sys.path
-  (if not, you can add it by setting ``$PYTHONPATH``)
+You can use ``--prefix=$PREFIX`` when configuring to assign an
+installation spot. By default, Kupfer is installed for all users.
+Installing only for your user, the prefix ``~/.local`` is often used;
+you just have to check that: ``~/.local/bin`` is in your ``$PATH``.
 
 Spawning
 ========
+
 Kupfer is installed as ``kupfer`` into ``$PREFIX/bin``.
 
 Keybinder Module
