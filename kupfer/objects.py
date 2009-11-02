@@ -874,9 +874,12 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		self.monitor = self.monitor_directories(self.directory)
 
 	def get_items(self):
-		for fname in os.listdir(self.directory):
-			if self.show_hidden or not fname.startswith("."):
-				yield ConstructFileLeaf(path.join(self.directory, fname))
+		try:
+			for fname in os.listdir(self.directory):
+				if self.show_hidden or not fname.startswith("."):
+					yield ConstructFileLeaf(path.join(self.directory, fname))
+		except OSError, exc:
+			self.output_error(exc)
 
 	def should_sort_lexically(self):
 		return True
