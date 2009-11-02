@@ -1,18 +1,31 @@
 #!/bin/bash
+# kupfer      A convenient command and access tool
+#
+# Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# This script invokes kupfer by calling for an already running instance, or
+# starting a new if none is found running.
 
 PYTHON="@PYTHON@"
 PYTHONDIR="@PYTHONDIR@"
 test ${PYTHON:0:1} = "@" && PYTHON=python
 test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $0)
 
-# Try to spawn kupfer via dbus, else go to python
-
-# Figure out if there are any options "--help" etc, then launch kupfer
-test "x${1:0:2}" = "x--"
-KUPFER_HAS_OPTIONS=$?
-
-# If there are any non-option arguments, send them to kupfer with PutText
-# Grab text input either from command line or from stdin
+# We allow either ``kupfer QUERY`` to pass text on the command line,
+# or reading directly from stdin if we pipe text into Kupfer
 if tty --quiet
 then
 	TEXT_INPUT="$*"
@@ -21,6 +34,9 @@ else
 	TEXT_INPUT=$(cat)
 fi
 
+# If there are any options, like "--help", we run Kupfer directly
+test "x${1:0:2}" = "x--"
+KUPFER_HAS_OPTIONS=$?
 
 test $KUPFER_HAS_OPTIONS != 0 && dbus-send --print-reply --dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.Present >/dev/null 2>&1
 KUPFER_RUNNING=$?
