@@ -10,14 +10,18 @@ Not released yet
 * New plugins:
 
   + *Pidgin* by Chmouel Boudjnah
-  + *APT* (package manager APT actions) by Martin Koelewijn and Ulrik
+  + *Google Translate* by Karol Będkowski
+  + *APT* (package manager APT) by Martin Koelewijn and Ulrik
+  + *Document Templates*
   + *Kupfer Plugins*
-  + *Show Text* (including "famous" action *Large Type*)
+  + *Show Text*
 
 * *Gajim* plugin matches contacts by jid as well as name
 * Action *Rescan* on sources is now debug only (should not be needed)
 * Kupfer installs its Python package into ``$PREFIX/share`` by default,
   instead of installing as a system-wide Python module.
+* Kupfer can take input on stdin and pass as text to an already running
+  instance
 
 * Changes for plugin authors:
 
