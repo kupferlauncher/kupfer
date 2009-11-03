@@ -192,15 +192,16 @@ class FileLeaf (Leaf):
 	__slots__ = ("name", "object")
 
 	def __init__(self, obj, name=None):
-		"""
-		Construct a FileLeaf
+		"""Construct a FileLeaf
 
-		The display name of the file is normally
-		derived from the full path, and @name
-		should normally be left unspecified.
+		The display name of the file is normally derived from the full path,
+		and @name should normally be left unspecified.
+
 		@obj: byte string (file system encoding)
 		@name: unicode name or None for using basename
 		"""
+		if obj is None:
+			raise InvalidLeafError("File path for %s may not be None" % name)
 		# Use glib filename reading to make display name out of filenames
 		# this function returns a `unicode` object
 		if not name:
