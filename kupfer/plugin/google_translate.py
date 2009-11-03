@@ -120,7 +120,7 @@ class Translate (Action):
 	def activate(self, leaf, iobj):
 		text = unicode(leaf.object)
 		dest_lang = iobj.object
-		return _TransateQuerySource(text, dest_lang)
+		return _TranslateQuerySource(text, dest_lang, unicode(iobj))
 
 	def is_factory(self):
 		return True
@@ -156,15 +156,12 @@ class TranslationLeaf(TextLeaf):
 		return self._descrtiption or TextLeaf.get_description(self)
 
 
-class _TransateQuerySource(Source):
-	def __init__(self, text, lang):
-		Source.__init__(self, name=_("Translate into %s") % lang)
+class _TranslateQuerySource(Source):
+	def __init__(self, text, lang, language_name):
+		Source.__init__(self, name=_("Translate into %s") % language_name)
 		self._text = text
 		self._lang = lang
 
-	def is_dynamic(self):
-		return True
-	
 	def get_items(self):
 		for translation, desc in _translate(self._text, self._lang):
 			yield TranslationLeaf(translation.replace('\\n ', '\n'), desc)
