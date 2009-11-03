@@ -167,16 +167,15 @@ class DebugRestart (RunnableLeaf):
 		RunnableLeaf.__init__(self, None, u"Restart Kupfer")
 
 	@classmethod
-	def _exec_new_kupfer(cls):
+	def _exec_new_kupfer(cls, executable, argv):
 		import os
-		os.execvp("kupfer", ("kupfer", "--debug", ))
+		os.execvp(executable, [executable] + argv)
 
 	def run(self):
 		import atexit
 		import sys
-
 		gtk.main_quit()
-		atexit.register(self._exec_new_kupfer)
+		atexit.register(self._exec_new_kupfer, sys.executable, sys.argv)
 
 	def get_description(self):
 		return u"Restart Kupfer quickly (for internal kupfer use)"
