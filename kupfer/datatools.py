@@ -1,3 +1,5 @@
+import itertools
+
 class SavedIterable (object):
 	"""Wrap an iterable and cache it.
 
@@ -22,13 +24,22 @@ class SavedIterable (object):
 	>>> pickle.loads(pickle.dumps(s))
 	[0, 1, 2, 3, 4]
 
+	>>> u = SavedIterable(xrange(5))
+	>>> one, two = iter(u), iter(u)
+	>>> one.next(), two.next()
+	(0, 0)
+	>>> list(two)
+	[1, 2, 3, 4]
+	>>> list(one)
+	[1, 2, 3, 4]
+
 	>>> SavedIterable(range(3))
 	[0, 1, 2]
 	"""
-	def __new__(self, iterable):
+	def __new__(cls, iterable):
 		if isinstance(iterable, list):
 			return iterable
-		return object.__new__(self)
+		return object.__new__(cls)
 	def __init__(self, iterable):
 		self.iterator = iter(iterable)
 		self.data = []
@@ -37,12 +48,23 @@ class SavedIterable (object):
 			return iter(self.data)
 		return self._incremental_caching_iter()
 	def _incremental_caching_iter(self):
-		for x in self.data:
-			yield x
-		for x in self.iterator:
-			self.data.append(x)
-			yield x
-		self.iterator = None
+		indices = itertools.count()
+		while True:
+			idx = indices.next()
+			try:
+				yield self.data[idx]
+			except IndexError:
+				pass
+			else:
+				continue
+			if self.iterator is None:
+				return
+			try:
+				x = self.iterator.next()
+				self.data.append(x)
+				yield x
+			except StopIteration:
+				self.iterator = None
 	def __reduce__(self):
 		# pickle into a list with __reduce__
 		# (callable, args, state, listitems)
