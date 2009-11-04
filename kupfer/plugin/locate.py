@@ -48,11 +48,11 @@ class LocateQuerySource (Source):
 
 	def get_items(self):
 		ignore_case = '--ignore-case' if __kupfer_settings__["ignore_case"] else ''
-		# Start two processes, one to take the first 10 hits, one
+		# Start two processes, one to take the first hits, one
 		# to take the remaining up to maximum. We start both at the same time
 		# (regrettably, locate wont output streamingly to stdout)
-		# but we ask the second for results only after iterating the first 10
-		first_num = 10
+		# but we ask the second for results only after iterating the first few
+		first_num = 12
 		first_command = ("locate --quiet --null --limit %d %s '%s'" %
 				(first_num, ignore_case, self.query))
 		full_command = ("locate --quiet --null --limit %d %s '%s'" %
@@ -66,7 +66,7 @@ class LocateQuerySource (Source):
 
 		for F in get_locate_output(p1, 0):
 			yield F
-		for F in get_locate_output(p2, 10):
+		for F in get_locate_output(p2, first_num):
 			yield F
 
 	def get_gicon(self):
