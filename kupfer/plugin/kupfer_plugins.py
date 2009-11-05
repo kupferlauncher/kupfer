@@ -1,6 +1,6 @@
 import os
 
-from kupfer.objects import Action, Source, Leaf, FileLeaf
+from kupfer.objects import Action, Source, Leaf, FileLeaf, TextLeaf
 from kupfer import icons, plugin_support
 
 # Since this is a core plugin we break some rules
@@ -49,6 +49,14 @@ class ShowSource (Action):
 		root, ext = os.path.splitext(filename)
 		if ext.lower() == ".pyc" and os.path.exists(root + ".py"):
 			return FileLeaf(root + ".py")
+
+		if not os.path.exists(filename):
+			# handle modules in zip or eggs
+			import pkgutil
+			pfull = "kupfer.plugin." + plugin_id
+			loader = pkgutil.get_loader(pfull)
+			if loader:
+				return TextLeaf(loader.get_source(pfull))
 		return FileLeaf(filename)
 
 	def get_description(self):
