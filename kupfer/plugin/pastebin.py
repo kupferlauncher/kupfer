@@ -8,7 +8,7 @@ __kupfer_name__ = _("Pastebin")
 __kupfer_actions__ = ("PasteIt", )
 __description__ = ("Paste text in pastebin")
 __version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__author__ = "Carlos Pais <carlosfvpais@gmail.com>"
 
 website="http://pastebin.com"
 
