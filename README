@@ -32,6 +32,27 @@ installation spot. By default, Kupfer is installed for all users.
 Installing only for your user, the prefix ``~/.local`` is often used;
 you just have to check that: ``~/.local/bin`` is in your ``$PATH``.
 
+Requirements
+------------
+
+Kupfer requires Python 2.5 or later, and the following important libraries:
+
+* gtk python bindings, version 2.14
+* glib python bindings (pygobject) 2.18
+* dbus python bindings
+
+Optional, but very recommended dependencies:
+
+* python-keybinder (see below)
+* wnck python bindings
+* gvfs
+* xdg-terminal (to find which terminal application you use, if it's not
+  Gnome Terminal)
+* cjson (only req for Python 2.5, not 2.6), for web browser bookmarks
+* rst2man
+
+Some plugins might require additional python modules!
+
 Spawning
 ========
 
