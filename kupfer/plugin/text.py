@@ -1,4 +1,4 @@
-from os import path, access, R_OK
+import os
 from urlparse import urlparse, urlunparse
 
 import gobject
@@ -34,11 +34,11 @@ class PathTextSource (TextSource):
 		return 80
 	def get_items(self, text):
 		# Find directories or files
-		prefix = path.expanduser(u"~/")
-		filepath = text if path.isabs(text) else path.join(prefix, text)
+		prefix = os.path.expanduser(u"~/")
+		filepath = text if os.path.isabs(text) else os.path.join(prefix, text)
 		# use filesystem encoding here
 		filepath = gobject.filename_from_utf8(filepath)
-		if access(filepath, R_OK):
+		if os.access(filepath, os.R_OK):
 			yield FileLeaf(filepath)
 	def provides(self):
 		yield FileLeaf
