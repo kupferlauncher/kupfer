@@ -223,10 +223,15 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self._buddy_update_queue.clear()
 		self.mark_for_update()
 
-	def _buddy_signed_on(self, buddy):
-		if buddy not in self.all_buddies:
+	def _buddy_needs_update(self, buddy):
+		"""add @buddy to the update queue"""
+		if self._buddy_update_queue is not None:
 			self._buddy_update_queue.add(buddy)
 			self._buddy_update_timer.set(1, self._update_pending)
+
+	def _buddy_signed_on(self, buddy):
+		if buddy not in self.all_buddies:
+			self._buddy_needs_update(buddy)
 
 	def _buddy_signed_off(self, buddy):
 		if buddy in self.all_buddies:
@@ -236,8 +241,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	def _buddy_status_changed(self, buddy, old, new):
 		'''Callback when status is changed reload the entry
 		which get the new status'''
-		self._buddy_update_queue.add(buddy)
-		self._buddy_update_timer.set(1, self._update_pending)
+		self._buddy_needs_update(buddy)
 
 	def _install_dbus_signal(self):
 		'''Add signals to pidgin when buddy goes offline or
