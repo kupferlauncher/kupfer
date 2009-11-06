@@ -18,7 +18,7 @@ __kupfer_actions__ = (
 	)
 __description__ = _("Interface with the package manager APT")
 __version__ = ""
-__author__ = ("VCoolio <martinkoelewijn@gmail.com>, "
+__author__ = ("Martin Koelewijn <martinkoelewijn@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
 
 __kupfer_settings__ = plugin_support.PluginSettings(
