@@ -194,6 +194,7 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 			self.rescan_source(source)
 		elif not source.is_dynamic():
 			thread = threading.Thread(target=self.rescan_source, args=(source,))
+			thread.setDaemon(True)
 			thread.start()
 
 	def rescan_source(self, source):
