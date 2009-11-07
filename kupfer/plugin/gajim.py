@@ -4,6 +4,7 @@ import dbus
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
 from kupfer import pretty
+from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 
 __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )
@@ -24,6 +25,9 @@ _STATUSES = {
 		'offline':	_('Offline')
 }
 
+_SERVICE_NAME = 'org.gajim.dbus'
+_OBJECT_NAME = '/org/gajim/dbus/RemoteObject'
+_IFACE_NAME = 'org.gajim.dbus.RemoteInterface'
 
 def _create_dbus_connection(activate=False):
 	''' Create dbus connection to Gajim 
@@ -121,18 +125,49 @@ class ChangeStatus(Action):
 		return StatusSource()
 
 
-class ContactsSource(AppLeafContentMixin, Source):
+class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	''' Get contacts from all on-line accounts in Gajim via DBus '''
 	appleaf_content_id = 'gajim'
 
 	def __init__(self):
 		Source.__init__(self, _('Gajim Contacts'))
+		self.unpickle_finish()
+
+	def pickle_prepare(self):
+		self._contacts = []
+
+	def unpickle_finish(self):
+		self.mark_for_update()
+		self._contacts = []
+
+		# listen to d-bus signals for updates
+		signals = [
+			"ContactAbsence",
+			"ContactPresence",
+			"ContactStatus",
+			"AccountPresence",
+		]
+
+		try:
+			session_bus = dbus.Bus()
+		except dbus.DBusException:
+			return
+
+		for signal in signals:
+			dbus_signal_connect_weakly(session_bus, signal,
+					self._signal_update, dbus_interface=_IFACE_NAME)
+
+	def _signal_update(self, *args):
+		"""catch all notifications to mark for update"""
+		self.mark_for_update()
 
 	def get_items(self):
 		interface = _create_dbus_connection()
-		if interface is None:
-			return
-		
+		if interface is not None:
+			self._contacts = list(self._find_all_contacts(interface))
+		return self._contacts
+
+	def _find_all_contacts(self, interface):
 		for account in interface.list_accounts():
 			if interface.get_status(account) == 'offline':
 				continue
@@ -140,9 +175,6 @@ class ContactsSource(AppLeafContentMixin, Source):
 			for contact in interface.list_contacts(account):
 				yield GajimContact(contact['name'], contact['jid'], account, \
 						contact['show'], contact['resources'])
-
-	def is_dynamic(self):
-		return True
 
 	def get_icon_name(self):
 		return 'gajim'
