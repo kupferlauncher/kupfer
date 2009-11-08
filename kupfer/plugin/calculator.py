@@ -38,6 +38,12 @@ class Calculate (Action):
 		return True
 	def activate(self, leaf):
 		expr = leaf.object.lstrip("= ")
+
+		# try to add missing parantheses
+		brackets_missing = expr.count("(") - expr.count(")")
+		if brackets_missing > 0:
+			expr += ")"*brackets_missing
+
 		environment = dict(math.__dict__)
 		environment.update(cmath.__dict__)
 		# define some constants missing
@@ -46,6 +52,8 @@ class Calculate (Action):
 		environment["kupfer"] = KupferSurprise("inf")
 		# make the builtins inaccessible
 		environment["__builtins__"] = {}
+
+		pretty.print_debug(__name__, "Evaluating", repr(expr))
 		try:
 			result = eval(expr, environment)
 			resultstr = format_result(result)
