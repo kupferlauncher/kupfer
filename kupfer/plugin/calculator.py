@@ -12,11 +12,52 @@ __description__ = _("Calculate expressions starting with '='")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+class IgnoreResultException (Exception):
+	pass
+
 class KupferSurprise (float):
-	def __call__(self):
+	def __call__(self, *args):
 		from kupfer import utils, version
 		utils.show_url(version.WEBSITE)
-		return self
+		raise IgnoreResultException
+
+class Help (object):
+	def __call__(self):
+		import textwrap
+
+		from kupfer import uiutils
+
+		environment = dict(math.__dict__)
+		environment.update(cmath.__dict__)
+		docstrings = []
+		for attr in sorted(environment):
+			if attr.startswith("_"):
+				continue
+			val = environment[attr]
+			if not callable(val):
+				docstrings.append("%s = %s" % (attr, val))
+				continue
+			try:
+				docstrings.append(val.__doc__)
+			except AttributeError:
+				pass
+		formatted = []
+		maxlen = 72
+		left_margin = 4
+		for docstr in docstrings:
+			# Wrap the description and align continued lines
+			docsplit = docstr.split("\n", 1)
+			if len(docsplit) < 2:
+				formatted.append(docstr)
+				continue
+			wrapped_lines = textwrap.wrap(docsplit[1], maxlen - left_margin)
+			wrapped = (u"\n" + u" "*left_margin).join(wrapped_lines)
+			formatted.append("%s\n    %s" % (docsplit[0], wrapped))
+		uiutils.show_text_result("\n\n".join(formatted), _("Calculator"))
+		raise IgnoreResultException
+
+	def __complex__(self):
+		return self()
 
 def format_result(res):
 	cres = complex(res)
@@ -49,6 +90,7 @@ class Calculate (Action):
 		# define some constants missing
 		if self.last_result is not None:
 			environment["_"] = self.last_result
+		environment["help"] = Help()
 		environment["kupfer"] = KupferSurprise("inf")
 		# make the builtins inaccessible
 		environment["__builtins__"] = {}
@@ -58,6 +100,8 @@ class Calculate (Action):
 			result = eval(expr, environment)
 			resultstr = format_result(result)
 			self.last_result = result
+		except IgnoreResultException:
+			return
 		except Exception, exc:
 			pretty.print_error(__name__, type(exc).__name__, exc)
 			resultstr = unicode(exc)
