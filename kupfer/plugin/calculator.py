@@ -41,7 +41,7 @@ class Calculate (Action):
 		environment = dict(math.__dict__)
 		environment.update(cmath.__dict__)
 		# define some constants missing
-		if self.last_result:
+		if self.last_result is not None:
 			environment["_"] = self.last_result
 		environment["kupfer"] = KupferSurprise("inf")
 		# make the builtins inaccessible
