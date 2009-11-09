@@ -50,7 +50,8 @@ class Help (object):
 			if len(docsplit) < 2:
 				formatted.append(docstr)
 				continue
-			wrapped_lines = textwrap.wrap(docsplit[1], maxlen - left_margin)
+			wrapped_lines = textwrap.wrap(docsplit[1].strip(),
+					maxlen - left_margin)
 			wrapped = (u"\n" + u" "*left_margin).join(wrapped_lines)
 			formatted.append("%s\n    %s" % (docsplit[0], wrapped))
 		uiutils.show_text_result("\n\n".join(formatted), _("Calculator"))
