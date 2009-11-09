@@ -66,7 +66,7 @@ def tofolded(ustr):
 	Ελλας
 	"""
 	srcstr = normalize("NFKD", ustr.translate(folding_table))
-	return u"".join(c for c in srcstr if category(c) != 'Mn')
+	return u"".join([c for c in srcstr if category(c) != 'Mn'])
 
 if __name__ == '__main__':
 	import sys
