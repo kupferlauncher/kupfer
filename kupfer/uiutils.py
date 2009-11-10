@@ -161,5 +161,13 @@ def show_large_type(text):
 	window.add(label)
 	window.set_position(gtk.WIN_POS_CENTER)
 	window.set_resizable(False)
-	window.connect("key-press-event", _window_destroy_on_escape)
+	window.set_decorated(False)
+	window.set_property("border-width", 10)
+	window.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
+	label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+
+	def _window_destroy(widget, event):
+		widget.destroy()
+		return True
+	window.connect("key-press-event", _window_destroy)
 	window.show_all()
