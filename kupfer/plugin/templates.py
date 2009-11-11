@@ -88,9 +88,11 @@ class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		"""Set up change callback"""
-		tmpl_var = os.getenv("XDG_TEMPLATES_DIR", DEFAULT_TMPL_DIR)
-		self.tmpl_dir = os.path.expanduser(tmpl_var)
+		# Set up change callback
+		tmpl_dir = glib.get_user_special_dir(glib.USER_DIRECTORY_TEMPLATES)
+		if not tmpl_dir:
+			tmpl_var = os.path.expanduser(DEFAULT_TMPL_DIR)
+		self.tmpl_dir = tmpl_var
 		self.monitor_token = self.monitor_directories(self.tmpl_dir)
 
 	def get_items(self):
