@@ -5,7 +5,7 @@ from kupfer import icons, utils, pretty
 
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", "TranslateUrl", 'OpenTranslatePage')
-__description__ = _("Use Google to Translate Text.")
+__description__ = _("Translate text with Google Translate")
 __version__ = "2009-10-31"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -134,7 +134,7 @@ class Translate (Action):
 		return len(leaf.object.strip()) > 0
 	
 	def get_description(self):
-		return _("Translate in Google")
+		return _("Translate text with Google Translate")
 
 	def get_icon_name(self):
 		return "accessories-dictionary"
@@ -200,7 +200,7 @@ class _LangSource(Source):
 
 class TranslateUrl(Action):
 	def __init__(self):
-		Action.__init__(self, _("Open Page Translated To..."))
+		Action.__init__(self, _("Translate To..."))
 
 	def activate(self, leaf, iobj):
 		dest_lang = iobj.object
@@ -215,7 +215,7 @@ class TranslateUrl(Action):
 		return leaf.object.startswith('http://') or leaf.object.startswith('www.')
 	
 	def get_description(self):
-		return _("Translate Page in Google and show in default viewer")
+		return _("Show translated page in browser")
 
 	def get_icon_name(self):
 		return "accessories-dictionary"
@@ -232,7 +232,7 @@ class TranslateUrl(Action):
 
 class OpenTranslatePage (Action):
 	def __init__(self):
-		Action.__init__(self, _("Open Google and Show Translation To..."))
+		Action.__init__(self, _("Show Translation To..."))
 
 	def activate(self, leaf, iobj):
 		text = urllib.quote(unicode(leaf.object).encode('utf-8'))
@@ -248,7 +248,7 @@ class OpenTranslatePage (Action):
 		return len(leaf.object.strip()) > 0
 	
 	def get_description(self):
-		return _("Translate in Google")
+		return _("Show translation in browser")
 
 	def get_icon_name(self):
 		return "accessories-dictionary"
