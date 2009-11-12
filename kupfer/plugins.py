@@ -163,7 +163,7 @@ def import_plugin(name):
 	except ImportError, e:
 		# Reraise to send this up
 		raise
-	except StandardError, e:
+	except Exception, e:
 		# catch any other error for plugins and write traceback
 		import traceback
 		traceback.print_exc()
