@@ -41,6 +41,8 @@ class CommandTextSource (TextSource):
 	def get_items(self, text):
 		if not text.strip():
 			return
+		if len(text.splitlines()) > 1:
+			return
 		firstword = text.split()[0]
 		# iterate over $PATH directories
 		PATH = os.environ.get("PATH") or os.defpath
