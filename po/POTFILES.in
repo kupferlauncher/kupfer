@@ -43,6 +43,7 @@ kupfer/plugin/services.py
 kupfer/plugin/show_text.py
 kupfer/plugins.py
 kupfer/plugin_support.py
+kupfer/plugin/templates.py
 kupfer/plugin/text.py
 kupfer/plugin/tracker.py
 kupfer/plugin/tsclient.py
