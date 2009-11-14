@@ -79,8 +79,10 @@ def _translate(text, lang):
 		conn.close()
 
 
-_RE_GET_LANG = re.compile(r'\<option[ \w]+value="(\w+)"\>(\w+)\</option\>', 
-		re.UNICODE|re.IGNORECASE)
+_RE_GET_LANG = re.compile(r"""\<option[ \w]+ value="([\w\-]+)"\> # code 'zh-TW'
+                              ([^<]+?)             # match localized lang name
+                              \</option\>
+                           """, re.UNICODE|re.IGNORECASE|re.VERBOSE)
 
 def _load_languages():
 	''' Load available languages from Google.
