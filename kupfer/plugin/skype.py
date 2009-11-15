@@ -14,24 +14,43 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import dbus
 
 
+SKYPE_IFACE = 'com.Skype.API'
+SKYPE_PATH_CLIENT = '/com/Skype/Client'
+SKYPE_CLIENT_API = 'com.Skype.API.Client'
+
+_STATUSES = {
+		'ONLINE':	_('Available'),
+		'SKYPEME':	_('Skype Me'),
+		'AWAY':		_('Away'),
+		'NA':		_('Not Available'),
+		'DND':		_('Busy'),
+		'INVISIBLE':_('Invisible'),
+		'OFFLINE':	_('Offline'),
+		'LOGGEDOUT': _('Logged Out')
+}
+
+
 def _get_skype_connection():
-	"""docstring for _send_command_to_skype"""
+	""" Get dbus Skype object"""
 	sbus = dbus.SessionBus(private=True)#, mainloop=mainloop)	
+	return _check_skype(sbus)
+
+def _check_skype(bus):
+	''' check if Skype is running and login to it '''
 	try:
-		#check for running gajim (code from note.py)
-		proxy_obj = sbus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
+		proxy_obj = bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
 		dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
-		if dbus_iface.NameHasOwner('com.Skype.API'):
-			skype = sbus.get_object('com.Skype.API', '/com/Skype')
+		if dbus_iface.NameHasOwner(SKYPE_IFACE):
+			skype = bus.get_object(SKYPE_IFACE, '/com/Skype')
 			if skype:
 				if skype.Invoke("NAME Kupfer") != 'OK':
 					return None
 				if skype.Invoke("PROTOCOL 5") != 'PROTOCOL 5':
 					return None
 				return skype
-
 	except dbus.exceptions.DBusException, err:
-		pretty.print_debug(err)
+		pretty.print_debug(__name__, '_check_skype', err)
+	return None
 
 def _parse_response(response, prefix):
 	if response.startswith(prefix):
@@ -74,16 +93,53 @@ def _skype_set_status(status):
 		skype.Invoke("SET USERSTATUS %s" % status)
 
 
-_STATUSES = {
-		'ONLINE':	_('Available'),
-		'SKYPEME':	_('Skype Me'),
-		'AWAY':		_('Away'),
-		'NA':		_('Not Available'),
-		'DND':		_('Busy'),
-		'INVISIBLE':_('Invisible'),
-		'OFFLINE':	_('Offline'),
-		'LOGGEDOUT': _('Logged Out')
-}
+class _SkypeNotify(dbus.service.Object):
+	def __init__(self, bus, callback): 
+		dbus.service.Object.__init__(self, bus, SKYPE_PATH_CLIENT)
+		self._callback = callback
+
+	@dbus.service.method(SKYPE_CLIENT_API, in_signature='s')
+	def Notify(self, com):
+		pretty.print_debug(__name__, '_SkypeNotify', 'Notify', com)
+		self._callback(com)
+
+
+class _Skype(object):
+	""" Handling events from skype"""
+	def __init__(self):
+		self._callback = None
+		try:
+			self.bus = bus = dbus.Bus()
+		except dbus.DBusException, err:
+			pretty.print_error(__name__, 'Skype', '__init__', err)
+			return
+		
+		self._dbus_name_owner_watch = bus.add_signal_receiver(
+				self._signal_update,
+				'NameOwnerChanged',
+				'org.freedesktop.DBus',
+				'org.freedesktop.DBus',
+				'/org/freedesktop/DBus',
+				arg0=SKYPE_IFACE)
+
+		self._skype_notify_callback = _SkypeNotify(bus, self._signal_update)
+		self._signal_dbus_name_owner_changed()
+
+	def bind(self, callback):
+		self._callback = callback
+
+	def _signal_dbus_name_owner_changed(self, *args, **kwarg):
+		skype = _check_skype(self.bus) # and send name and protocol for register Notify
+		self._signal_update(*args, **kwarg)
+
+	def _signal_update(self, *args, **kwargs):
+		if self._callback:
+			try:
+				self._callback(*args, **kwargs)
+			except:
+				pass
+
+_SKYPE = _Skype()
 
 
 class Contact(Leaf):
@@ -123,6 +179,7 @@ class Chat(Action):
 	def get_icon_name(self):
 		return 'internet-group-chat'
 
+
 class Call(Action):
 	def __init__(self):
 		Action.__init__(self, _("Place a Call to Contact"))
@@ -132,6 +189,7 @@ class Call(Action):
 
 	def get_icon_name(self):
 		return 'call-start'
+
 
 class ChangeStatus(Action):
 	''' Change global status '''
@@ -158,50 +216,20 @@ class ChangeStatus(Action):
 	def object_source(self, for_item=None):
 		return StatusSource()
 
-class _SkypeNotifyCallback(dbus.service.Object):
-	def __init__(self, bus, callback):
-		dbus.service.Object.__init__(self, bus, '/com/Skype/Client')
-		self._callback = callback
-
-	@dbus.service.method(dbus_interface='com.Skype.API.Client')
-	def Notify(self, com):
-		self._callback(com)
-
 
 class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
-	''' Get contacts from all on-line accounts in Gajim via DBus '''
 	appleaf_content_id = 'skype'
 
 	def __init__(self):
 		Source.__init__(self, _('Skype Contacts'))
 		self.unpickle_finish()
 
-	def pickle_prepare(self):
-		self._skype_notify_callback = None
-		self._sbus = None
-		self._dbus_loop = None
-
 	def unpickle_finish(self):
-		try:
-			bus = dbus.Bus()
-		except dbus.DBusException, err:
-			return
-		
-		self.dbus_name_owner_watch = bus.add_signal_receiver(self._signal_update,
-			'NameOwnerChanged',
-			'org.freedesktop.DBus',
-			'org.freedesktop.DBus',
-			'/org/freedesktop/DBus',
-			arg0='com.Skype.API')
+		_SKYPE.bind(self._signal_update)
 
-		# this don't work 
-		from dbus.mainloop.glib import DBusGMainLoop
-		self._dbus_loop = DBusGMainLoop()
-		self._sbus = sbus = dbus.SessionBus(private=True, mainloop=self._dbus_loop)
-		self._skype_notify_callback = _SkypeNotifyCallback(sbus, self._signal_update)
-
-
-	def _signal_update(self, *arg, **kwarg):
+	def _signal_update(self, *args, **kwarg):
+		pretty.print_debug(__name__, 'ContactsSource', '_signal_update', args,
+				kwarg)
 		self.mark_for_update()
 
 	def get_items(self):
@@ -213,6 +241,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 
 	def provides(self):
 		yield Contact
+
 
 class StatusSource(Source):
 	def __init__(self):
