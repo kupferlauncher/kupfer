@@ -115,7 +115,7 @@ class _Skype(object):
 			return
 		
 		self._dbus_name_owner_watch = bus.add_signal_receiver(
-				self._signal_update,
+				self._signal_dbus_name_owner_changed,
 				'NameOwnerChanged',
 				'org.freedesktop.DBus',
 				'org.freedesktop.DBus',
@@ -129,15 +129,17 @@ class _Skype(object):
 		self._callback = callback
 
 	def _signal_dbus_name_owner_changed(self, *args, **kwarg):
+		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwarg)
 		skype = _check_skype(self.bus) # and send name and protocol for register Notify
 		self._signal_update(*args, **kwarg)
 
 	def _signal_update(self, *args, **kwargs):
+		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwargs)
 		if self._callback:
 			try:
 				self._callback(*args, **kwargs)
-			except:
-				pass
+			except Exception, err:
+				pretty.print_error(__name__, '_Skype', '_signal_update:call', err)
 
 _SKYPE = _Skype()
 
@@ -224,8 +226,12 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		Source.__init__(self, _('Skype Contacts'))
 		self.unpickle_finish()
 
+	def pickle_prepare(self):
+		self.cached_items = None
+
 	def unpickle_finish(self):
 		_SKYPE.bind(self._signal_update)
+		self.mark_for_update()
 
 	def _signal_update(self, *args, **kwarg):
 		pretty.print_debug(__name__, 'ContactsSource', '_signal_update', args,
@@ -233,6 +239,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self.mark_for_update()
 
 	def get_items(self):
+		#pretty.print_debug(__name__, 'ContactsSource', 'get_items')
 		for handle, fullname, status in _skype_get_friends():
 			yield Contact((fullname or handle), handle, status)
 
