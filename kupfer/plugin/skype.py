@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
-from kupfer.helplib import PicklingHelperMixin
 from kupfer import pretty
 
 
@@ -13,7 +12,6 @@ __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import dbus
-import weakref
 
 SKYPE_IFACE = 'com.Skype.API'
 SKYPE_PATH_CLIENT = '/com/Skype/Client'
@@ -33,7 +31,7 @@ _STATUSES = {
 
 def _get_skype_connection():
 	""" Get dbus Skype object"""
-	sbus = dbus.SessionBus(private=True)#, mainloop=mainloop)	
+	sbus = dbus.SessionBus()# private=True)#, mainloop=mainloop)	
 	return _check_skype(sbus)
 
 def _check_skype(bus):
@@ -44,9 +42,11 @@ def _check_skype(bus):
 		if dbus_iface.NameHasOwner(SKYPE_IFACE):
 			skype = bus.get_object(SKYPE_IFACE, '/com/Skype')
 			if skype:
-				if skype.Invoke("NAME Kupfer") != 'OK':
+				resp = skype.Invoke("NAME Kupfer")
+				if resp.startswith('ERROR'):
 					return None
-				if skype.Invoke("PROTOCOL 5") != 'PROTOCOL 5':
+				resp = skype.Invoke("PROTOCOL 5")
+				if  resp != 'PROTOCOL 5':
 					return None
 				return skype
 	except dbus.exceptions.DBusException, err:
@@ -108,7 +108,7 @@ class _SkypeNotify(dbus.service.Object):
 class _Skype(object):
 	""" Handling events from skype"""
 	def __init__(self):
-		self._callback = None
+		self._friends = []
 		try:
 			self.bus = bus = dbus.Bus()
 		except dbus.DBusException, err:
@@ -126,9 +126,6 @@ class _Skype(object):
 		self._skype_notify_callback = _SkypeNotify(bus, self._signal_update)
 		self._signal_dbus_name_owner_changed()
 
-	def bind(self, callback):
-		self._callback = weakref.ref(callback)
-
 	def _signal_dbus_name_owner_changed(self, *args, **kwarg):
 		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwarg)
 		skype = _check_skype(self.bus) # and send name and protocol for register Notify
@@ -136,11 +133,13 @@ class _Skype(object):
 
 	def _signal_update(self, *args, **kwargs):
 		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwargs)
-		if self._callback and self._callback():
-			try:
-				self._callback()(*args, **kwargs)
-			except Exception, err:
-				pretty.print_error(__name__, '_Skype', '_signal_update:call', err)
+		self._friends = _skype_get_friends()
+
+	@property
+	def friends(self):
+		return self._friends
+
+
 
 _SKYPE = _Skype()
 
@@ -220,28 +219,16 @@ class ChangeStatus(Action):
 		return StatusSource()
 
 
-class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
+class ContactsSource(AppLeafContentMixin, Source):
 	appleaf_content_id = 'skype'
 
 	def __init__(self):
 		Source.__init__(self, _('Skype Contacts'))
-		self.unpickle_finish()
 
-	def pickle_prepare(self):
-		self.cached_items = None
-
-	def unpickle_finish(self):
-		_SKYPE.bind(self._signal_update)
-		self.mark_for_update()
-
-	def _signal_update(self, *args, **kwarg):
-		pretty.print_debug(__name__, 'ContactsSource', '_signal_update', args,
-				kwarg)
-		self.mark_for_update()
 
 	def get_items(self):
-		#pretty.print_debug(__name__, 'ContactsSource', 'get_items')
-		for handle, fullname, status in _skype_get_friends():
+		pretty.print_debug(__name__, 'ContactsSource', 'get_items')
+		for handle, fullname, status in _SKYPE.friends:
 			yield Contact((fullname or handle), handle, status)
 
 	def get_icon_name(self):
@@ -249,6 +236,9 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 
 	def provides(self):
 		yield Contact
+
+	def is_dynamic(self):
+		return True
 
 
 class StatusSource(Source):
