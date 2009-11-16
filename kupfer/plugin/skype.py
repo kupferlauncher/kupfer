@@ -4,6 +4,7 @@ from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
 from kupfer.helplib import PicklingHelperMixin
 from kupfer import pretty
 
+
 __kupfer_name__ = _("Skype")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", )
@@ -12,7 +13,7 @@ __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import dbus
-
+import weakref
 
 SKYPE_IFACE = 'com.Skype.API'
 SKYPE_PATH_CLIENT = '/com/Skype/Client'
@@ -126,7 +127,7 @@ class _Skype(object):
 		self._signal_dbus_name_owner_changed()
 
 	def bind(self, callback):
-		self._callback = callback
+		self._callback = weakref.ref(callback)
 
 	def _signal_dbus_name_owner_changed(self, *args, **kwarg):
 		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwarg)
@@ -135,9 +136,9 @@ class _Skype(object):
 
 	def _signal_update(self, *args, **kwargs):
 		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwargs)
-		if self._callback:
+		if self._callback and self._callback():
 			try:
-				self._callback(*args, **kwargs)
+				self._callback()(*args, **kwargs)
 			except Exception, err:
 				pretty.print_error(__name__, '_Skype', '_signal_update:call', err)
 
