@@ -8,6 +8,7 @@ from xml.etree import ElementTree
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, UrlLeaf
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import utils
+from kupfer import plugin_support
 
 __kupfer_name__ = _("Vinagre")
 __kupfer_sources__ = ("SessionSource", )
@@ -15,6 +16,10 @@ __kupfer_actions__ = ('VinagreStartSession', )
 __description__ = _("Vinagre Bookmarks and Actions")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	plugin_support.SETTING_PREFER_CATALOG,
+)
 
 
 class Bookmark(Leaf):

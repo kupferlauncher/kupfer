@@ -7,6 +7,7 @@ import gio
 from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin, 
 		AppLeafContentMixin, AppLeaf)
 from kupfer import utils
+from kupfer import plugin_support
 
 __kupfer_name__ = _("TrueCrypt")
 __kupfer_sources__ = ("VolumeSource", )
@@ -15,6 +16,9 @@ __description__ = _("Volumes from TrueCrypt History.")
 __version__ = "1.0"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+__kupfer_settings__ = plugin_support.PluginSettings(
+	plugin_support.SETTING_PREFER_CATALOG,
+)
 
 _HISTORY_FILE = "~/.TrueCrypt/History.xml"
 

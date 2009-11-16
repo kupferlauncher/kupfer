@@ -6,6 +6,7 @@ import gio
 
 from kupfer.objects import (Source, FileLeaf, UrlLeaf, PicklingHelperMixin, 
 		AppLeafContentMixin)
+from kupfer import plugin_support
 
 __kupfer_name__ = _("OpenOffice")
 __kupfer_sources__ = ("RecentsSource", )
@@ -13,6 +14,9 @@ __description__ = _("Recently used documents in OpenOffice")
 __version__ = "1.0"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+__kupfer_settings__ = plugin_support.PluginSettings(
+	plugin_support.SETTING_PREFER_CATALOG,
+)
 
 _HISTORY_FILE = "~/.openoffice.org/3/user/registry/data/org/openoffice/Office/Histories.xcu"
 _NAME_ATTR="{http://openoffice.org/2001/registry}name"
