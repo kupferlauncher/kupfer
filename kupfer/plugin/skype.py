@@ -29,69 +29,10 @@ _STATUSES = {
 }
 
 
-def _get_skype_connection():
-	""" Get dbus Skype object"""
-	sbus = dbus.SessionBus()# private=True)#, mainloop=mainloop)	
-	return _check_skype(sbus)
-
-def _check_skype(bus):
-	''' check if Skype is running and login to it '''
-	try:
-		proxy_obj = bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
-		dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
-		if dbus_iface.NameHasOwner(SKYPE_IFACE):
-			skype = bus.get_object(SKYPE_IFACE, '/com/Skype')
-			if skype:
-				resp = skype.Invoke("NAME Kupfer")
-				if resp.startswith('ERROR'):
-					return None
-				resp = skype.Invoke("PROTOCOL 5")
-				if  resp != 'PROTOCOL 5':
-					return None
-				return skype
-	except dbus.exceptions.DBusException, err:
-		pretty.print_debug(__name__, '_check_skype', err)
-	return None
-
 def _parse_response(response, prefix):
 	if response.startswith(prefix):
 		return response[len(prefix):].strip()
 	return None
-
-def _skype_get_friends():
-	skype = _get_skype_connection()
-	if not skype:
-		return
-	users =  skype.Invoke("SEARCH FRIENDS")
-	if not users.startswith('USERS '):
-		return 
-	users = users[6:].split(',')
-	for user in users:
-		user = user.strip()
-		fullname = skype.Invoke('GET USER %s FULLNAME' % user)
-		fullname = _parse_response(fullname, 'USER %s FULLNAME' % user)
-		status = skype.Invoke('GET USER %s ONLINESTATUS' % user)
-		status = _parse_response(status, 'USER %s ONLINESTATUS' % user)
-		yield (user, fullname, status)
-
-def _skype_open_chat(handle):
-	skype = _get_skype_connection()
-	if not skype:
-		return
-	resp = skype.Invoke("CHAT CREATE %s" % handle)
-	if resp.startswith('CHAT '):
-		_chat, chat_id, _status, status = resp.split()
-		skype.Invoke('OPEN CHAT %s' % chat_id)
-
-def _skype_call(handle):
-	skype = _get_skype_connection()
-	if skype:
-		skype.Invoke("CALL %s" % handle)
-
-def _skype_set_status(status):
-	skype = _get_skype_connection()
-	if skype:
-		skype.Invoke("SET USERSTATUS %s" % status)
 
 
 class _SkypeNotify(dbus.service.Object):
@@ -105,10 +46,18 @@ class _SkypeNotify(dbus.service.Object):
 		self._callback(com)
 
 
-class _Skype(object):
+class Skype(object):
 	""" Handling events from skype"""
+
+	@classmethod
+	def get(cls):
+		instance = cls.__dict__.get('__instance__')
+		if not instance:
+			cls.__instance__ = instance = cls()
+		return instance
+
 	def __init__(self):
-		self._friends = []
+		self._friends = None
 		try:
 			self.bus = bus = dbus.Bus()
 		except dbus.DBusException, err:
@@ -126,22 +75,77 @@ class _Skype(object):
 		self._skype_notify_callback = _SkypeNotify(bus, self._signal_update)
 		self._signal_dbus_name_owner_changed()
 
+	def _check_skype(self, bus):
+		''' Check if Skype is running and login to it.
+			Return Skype proxy object.
+		'''
+		try:
+			proxy_obj = bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
+			dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
+			if dbus_iface.NameHasOwner(SKYPE_IFACE):
+				skype = bus.get_object(SKYPE_IFACE, '/com/Skype')
+				if skype:
+					resp = skype.Invoke("NAME Kupfer")
+					if resp.startswith('ERROR'):
+						return None
+					resp = skype.Invoke("PROTOCOL 5")
+					if  resp != 'PROTOCOL 5':
+						return None
+					return skype
+		except dbus.exceptions.DBusException, err:
+			pretty.print_debug(__name__, 'Skype', '_check_skype', err)
+		return None
+
 	def _signal_dbus_name_owner_changed(self, *args, **kwarg):
-		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwarg)
-		skype = _check_skype(self.bus) # and send name and protocol for register Notify
+		pretty.print_debug(__name__, 'Skype', '_signal_dbus_name_owner_changed',
+				args, kwarg)
 		self._signal_update(*args, **kwarg)
 
 	def _signal_update(self, *args, **kwargs):
-		pretty.print_debug(__name__, '_Skype', '_signal_update', args, kwargs)
-		self._friends = _skype_get_friends()
+		pretty.print_debug(__name__, 'Skype', '_signal_update', args, kwargs)
+		self._friends = None
+
+	def _get_friends(self):
+		self._friends = []
+		skype = self._check_skype(self.bus)
+		if not skype:
+			return
+		users =  skype.Invoke("SEARCH FRIENDS")
+		if not users.startswith('USERS '):
+			return 
+		users = users[6:].split(',')
+		for user in users:
+			user = user.strip()
+			fullname = skype.Invoke('GET USER %s FULLNAME' % user)
+			fullname = _parse_response(fullname, 'USER %s FULLNAME' % user)
+			status = skype.Invoke('GET USER %s ONLINESTATUS' % user)
+			status = _parse_response(status, 'USER %s ONLINESTATUS' % user)
+			self._friends.append((user, fullname, status))
 
 	@property
 	def friends(self):
+		if self._friends is None:
+			self._get_friends()
 		return self._friends
 
+	def open_chat(self, handle):
+		skype = self._check_skype(self.bus)
+		if not skype:
+			return
+		resp = skype.Invoke("CHAT CREATE %s" % handle)
+		if resp.startswith('CHAT '):
+			_chat, chat_id, _status, status = resp.split()
+			skype.Invoke('OPEN CHAT %s' % chat_id)
 
+	def call(self, handle):
+		skype = self._check_skype(self.bus)
+		if skype:
+			skype.Invoke("CALL %s" % handle)
 
-_SKYPE = _Skype()
+	def set_status(self, status):
+		skype = self._check_skype(self.bus)
+		if skype:
+			skype.Invoke("SET USERSTATUS %s" % status)
 
 
 class Contact(Leaf):
@@ -176,7 +180,7 @@ class Chat(Action):
 		Action.__init__(self, _("Open Chat Window"))
 
 	def activate(self, leaf):
-		_skype_open_chat(leaf.object)
+		Skype.get().open_chat(leaf.object)
 
 	def get_icon_name(self):
 		return 'internet-group-chat'
@@ -187,7 +191,7 @@ class Call(Action):
 		Action.__init__(self, _("Place a Call to Contact"))
 
 	def activate(self, leaf):
-		_skype_call(leaf.object)
+		Skype.get().call(leaf.object)
 
 	def get_icon_name(self):
 		return 'call-start'
@@ -201,7 +205,7 @@ class ChangeStatus(Action):
 		Action.__init__(self, _('Change Global Status To...'))
 
 	def activate(self, leaf, iobj):
-		_skype_set_status(iobj.object)
+		Skype.get().set_status(iobj.object)
 
 	def item_types(self):
 		yield AppLeaf
@@ -228,7 +232,7 @@ class ContactsSource(AppLeafContentMixin, Source):
 
 	def get_items(self):
 		pretty.print_debug(__name__, 'ContactsSource', 'get_items')
-		for handle, fullname, status in _SKYPE.friends:
+		for handle, fullname, status in Skype.get().friends:
 			yield Contact((fullname or handle), handle, status)
 
 	def get_icon_name(self):
