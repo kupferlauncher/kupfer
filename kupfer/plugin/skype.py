@@ -58,6 +58,7 @@ class Skype(object):
 
 	def __init__(self):
 		self._friends = None
+		self._authenticated = False
 		try:
 			self.bus = bus = dbus.Bus()
 		except dbus.DBusException, err:
@@ -75,7 +76,7 @@ class Skype(object):
 		self._skype_notify_callback = _SkypeNotify(bus, self._signal_update)
 		self._signal_dbus_name_owner_changed()
 
-	def _check_skype(self, bus):
+	def _get_skype(self, bus):
 		''' Check if Skype is running and login to it.
 			Return Skype proxy object.
 		'''
@@ -84,21 +85,23 @@ class Skype(object):
 			dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
 			if dbus_iface.NameHasOwner(SKYPE_IFACE):
 				skype = bus.get_object(SKYPE_IFACE, '/com/Skype')
-				if skype:
+				if skype and not self._authenticated:
 					resp = skype.Invoke("NAME Kupfer")
 					if resp.startswith('ERROR'):
 						return None
 					resp = skype.Invoke("PROTOCOL 5")
 					if  resp != 'PROTOCOL 5':
 						return None
-					return skype
+					self._authenticated = True
+				return skype
 		except dbus.exceptions.DBusException, err:
-			pretty.print_debug(__name__, 'Skype', '_check_skype', err)
+			pretty.print_debug(__name__, 'Skype', '_get_skype', err)
 		return None
 
 	def _signal_dbus_name_owner_changed(self, *args, **kwarg):
 		pretty.print_debug(__name__, 'Skype', '_signal_dbus_name_owner_changed',
 				args, kwarg)
+		self._authenticated = False
 		self._signal_update(*args, **kwarg)
 
 	def _signal_update(self, *args, **kwargs):
@@ -106,8 +109,9 @@ class Skype(object):
 		self._friends = None
 
 	def _get_friends(self):
+		pretty.print_debug(__name__, 'Skype', '_get_friends')
 		self._friends = []
-		skype = self._check_skype(self.bus)
+		skype = self._get_skype(self.bus)
 		if not skype:
 			return
 		users =  skype.Invoke("SEARCH FRIENDS")
@@ -129,7 +133,7 @@ class Skype(object):
 		return self._friends
 
 	def open_chat(self, handle):
-		skype = self._check_skype(self.bus)
+		skype = self._get_skype(self.bus)
 		if not skype:
 			return
 		resp = skype.Invoke("CHAT CREATE %s" % handle)
@@ -138,12 +142,12 @@ class Skype(object):
 			skype.Invoke('OPEN CHAT %s' % chat_id)
 
 	def call(self, handle):
-		skype = self._check_skype(self.bus)
+		skype = self._get_skype(self.bus)
 		if skype:
 			skype.Invoke("CALL %s" % handle)
 
 	def set_status(self, status):
-		skype = self._check_skype(self.bus)
+		skype = self._get_skype(self.bus)
 		if skype:
 			skype.Invoke("SET USERSTATUS %s" % status)
 
