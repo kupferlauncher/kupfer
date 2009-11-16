@@ -9,7 +9,7 @@ from kupfer import plugin_support
 
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource", )
-__description__ = _("Show Running Task and allow to send Signals to them.")
+__description__ = _("Show Running Task and allow to Send Signals to them.")
 __version__ = "1.0"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -26,9 +26,6 @@ class Task(Leaf):
 		Leaf.__init__(self, path, name)
 		self._description = description
 
-#	def get_icon_name(self):
-#		return "stock_task"
-
 	def get_description(self):
 		return self._description
 
@@ -41,7 +38,7 @@ class SendSignal(Action):
 		Action.__init__(self, _("Send Signal..."))
 
 	def activate(self, leaf, iobj):
-		utils.launch_commandline('kill -%s %s' % (iobj.object, leaf.object))
+		os.kill(int(leaf.object), iobj.object)
 
 	def requires_object(self):
 		return True
@@ -112,17 +109,19 @@ class TaskSource(Source):
 			if not header_read:
 				continue
 
-			pid, user, pr, ni, virt, res, shr, s, cpu, mem, time, cmd = line.split()
+			(pid, user, pr, ni, virt, res, shr, s, cpu, mem, time, cmd) = \
+					line.split(None, 11)
 			if pid == 'PID':
 				continue	# skip header
 
-			description = (_("pid: %(pid)s  user: %(user)s  cpu: %(cpu)s%%   mem: %(mem)s   time: %(time)s") \
+			description = (
+					_("pid: %(pid)s  user: %(user)s  cpu: %(cpu)s%%   mem: %(mem)s   time: %(time)s") \
 					% dict(pid=pid, user=user, cpu=cpu, mem=mem, time=time))
 			yield Task(pid, cmd, description)
 
 
 	def get_description(self):
-		return _("Running Task for current User")
+		return _("Running Task for Current User")
 
 	def get_icon_name(self):
 		return "system"
