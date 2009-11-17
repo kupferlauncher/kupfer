@@ -122,9 +122,11 @@ class Skype(object):
 			user = user.strip()
 			fullname = skype.Invoke('GET USER %s FULLNAME' % user)
 			fullname = _parse_response(fullname, 'USER %s FULLNAME' % user)
+			displayname = skype.Invoke('GET USER %s DISPLAYNAME' % user)
+			displayname = _parse_response(displayname, 'USER %s DISPLAYNAME' % user)
 			status = skype.Invoke('GET USER %s ONLINESTATUS' % user)
 			status = _parse_response(status, 'USER %s ONLINESTATUS' % user)
-			self._friends.append((user, fullname, status))
+			self._friends.append((user, fullname, status, displayname))
 
 	@property
 	def friends(self):
@@ -236,8 +238,8 @@ class ContactsSource(AppLeafContentMixin, Source):
 
 	def get_items(self):
 		pretty.print_debug(__name__, 'ContactsSource', 'get_items')
-		for handle, fullname, status in Skype.get().friends:
-			yield Contact((fullname or handle), handle, status)
+		for handle, fullname, status, displayname in Skype.get().friends:
+			yield Contact((displayname or fullname or handle), handle, status)
 
 	def get_icon_name(self):
 		return 'skype'
