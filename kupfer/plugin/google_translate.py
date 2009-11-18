@@ -27,7 +27,7 @@ except ImportError:
 
 _GOOGLE_TRANSLATE_HOST = 'translate.google.com'
 _GOOGLE_TRANSLATE_PATH = '/translate_a/t?client=t&sl=auto&ie=UTF-8'
-_GOOGLE_TRANS_LANG_PATH = '/translate_t'
+_GOOGLE_TRANS_LANG_PATH = '/#'
 
 _HEADER = {
 		'Content-type':'application/x-www-form-urlencoded',
@@ -61,15 +61,20 @@ def _translate(text, lang):
 		encoding = _parse_encoding_header(resp)
 		response_data = response_data.decode(encoding, 'replace')
 		resp = json_decoder(response_data)
-		if len(resp) ==  2:
-			yield resp[0], ""
-		elif len(resp) == 3:
-			result, _lang, other_trans = resp
-			yield result, ""
-
-			for other in other_trans:
-				for translation in other[1:]:
-					yield translation, other[0]
+		if resp:
+			sentences = resp.get('sentences')
+			if not sentences:
+				return
+			translation = sentences[0].get('trans')
+			if not translation:
+				return
+			yield translation, ''
+			dictionary = resp.get('dict')
+			if dictionary:
+				for term in dictionary:
+					pos = term.get('pos')
+					for t in term.get('terms'):
+						yield t, pos
 
 	except (httplib.HTTPException, ValueError), err:
 		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
@@ -79,6 +84,9 @@ def _translate(text, lang):
 		conn.close()
 
 
+_RE_GET_LANG_SELECT = re.compile(
+		r'\<select[\w\d\s="\']*name=tl[\w\d\s="\']*\>(.*)\<\/select\>',
+		re.UNICODE|re.MULTILINE|re.IGNORECASE)
 _RE_GET_LANG = re.compile(r"""\<option[ \w]+ value="([\w\-]+)"\> # code 'zh-TW'
                               ([^<]+?)             # match localized lang name
                               \</option\>
@@ -102,10 +110,10 @@ def _load_languages():
 					resp.reason))
 		
 		result = resp.read().decode(_parse_encoding_header(resp), "replace")
-		result = result[result.index('select name=tl'):]
-		result = result[:result.index("</select>")]
-		for key, name in _RE_GET_LANG.findall(result):
-			yield key, name
+		result = _RE_GET_LANG_SELECT.findall(result)
+		if result:
+			for key, name in _RE_GET_LANG.findall(result[0]):
+				yield key, name
 
 	except (httplib.HTTPException, ValueError), err:
 		pretty.print_error(__name__, '_load_languages error', type(err), err)
