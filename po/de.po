@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2009-11-14 00:14+0000\n"
-"PO-Revision-Date: 2009-11-14 16:23+0100\n"
+"POT-Creation-Date: 2009-11-18 14:17+0000\n"
+"PO-Revision-Date: 2009-11-18 16:36+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -710,60 +710,60 @@ msgstr "Lesezeichen in Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Index der Lesezeichen in Firefox"
 
-#: ../kupfer/plugin/gajim.py:9
+#: ../kupfer/plugin/gajim.py:8
 msgid "Gajim"
 msgstr "Gajim"
 
-#: ../kupfer/plugin/gajim.py:12
+#: ../kupfer/plugin/gajim.py:11
 msgid "Access to Gajim Contacts"
 msgstr "Zugriff auf Gajim-Kontakte"
 
-#: ../kupfer/plugin/gajim.py:19 ../kupfer/plugin/pidgin.py:102
+#: ../kupfer/plugin/gajim.py:18 ../kupfer/plugin/pidgin.py:102
 msgid "Available"
 msgstr "Verfügbar"
 
-#: ../kupfer/plugin/gajim.py:20
+#: ../kupfer/plugin/gajim.py:19
 msgid "Free for Chat"
 msgstr "Verfügbar für Unterhaltungen"
 
-#: ../kupfer/plugin/gajim.py:21 ../kupfer/plugin/pidgin.py:102
+#: ../kupfer/plugin/gajim.py:20 ../kupfer/plugin/pidgin.py:102
 msgid "Away"
 msgstr "Abwesend"
 
-#: ../kupfer/plugin/gajim.py:22
+#: ../kupfer/plugin/gajim.py:21
 msgid "Not Available"
 msgstr "Nicht verfügbar"
 
-#: ../kupfer/plugin/gajim.py:23
+#: ../kupfer/plugin/gajim.py:22
 msgid "Busy"
 msgstr "Beschäftigt"
 
-#: ../kupfer/plugin/gajim.py:24
+#: ../kupfer/plugin/gajim.py:23
 msgid "Invisible"
 msgstr "Verborgen"
 
-#: ../kupfer/plugin/gajim.py:25
+#: ../kupfer/plugin/gajim.py:24
 msgid "Offline"
 msgstr "Abgemeldet"
 
-#: ../kupfer/plugin/gajim.py:65 ../kupfer/plugin/pidgin.py:100
+#: ../kupfer/plugin/gajim.py:64 ../kupfer/plugin/pidgin.py:100
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/plugin/gajim.py:88 ../kupfer/plugin/pidgin.py:65
+#: ../kupfer/plugin/gajim.py:87 ../kupfer/plugin/pidgin.py:65
 msgid "Open Chat"
 msgstr "Unterhaltung öffnen"
 
-#: ../kupfer/plugin/gajim.py:105
+#: ../kupfer/plugin/gajim.py:104
 msgid "Change Global Status To..."
 msgstr "Globalen Status ändern in …"
 
-#: ../kupfer/plugin/gajim.py:133
+#: ../kupfer/plugin/gajim.py:132
 msgid "Gajim Contacts"
 msgstr "Gajim-Kontakte"
 
-#: ../kupfer/plugin/gajim.py:188
+#: ../kupfer/plugin/gajim.py:189
 msgid "Gajim Account Status"
 msgstr "Kontenstatus von Gajim"
 
@@ -787,6 +787,49 @@ msgstr "Suchen nach …"
 #: ../kupfer/plugin/google.py:112
 msgid "Search Engines"
 msgstr "Suchmaschinen"
+
+#: ../kupfer/plugin/google_translate.py:6
+msgid "Google Translate"
+msgstr "Google Translate"
+
+#: ../kupfer/plugin/google_translate.py:8
+#: ../kupfer/plugin/google_translate.py:137
+msgid "Translate text with Google Translate"
+msgstr "Text mit Google Translate übersetzen"
+
+#: ../kupfer/plugin/google_translate.py:76
+msgid "Error connecting to Google Translate"
+msgstr "Fehler bei der Verbindung mit Google Translate"
+
+#: ../kupfer/plugin/google_translate.py:120
+#: ../kupfer/plugin/google_translate.py:203
+#| msgid "Rename To..."
+msgid "Translate To..."
+msgstr "Übersetzen nach …"
+
+#: ../kupfer/plugin/google_translate.py:163
+#, python-format
+#| msgid "translator-credits"
+msgid "Translate into %s"
+msgstr "Übersetzen nach %s"
+
+#: ../kupfer/plugin/google_translate.py:183
+msgid "Languages"
+msgstr "Sprachen"
+
+#: ../kupfer/plugin/google_translate.py:218
+msgid "Show translated page in browser"
+msgstr "Übersetzte Seite im Browser anzeigen"
+
+#: ../kupfer/plugin/google_translate.py:235
+#| msgid "Show application window"
+msgid "Show Translation To..."
+msgstr "Anzeigen der Übersetzung nach …"
+
+#: ../kupfer/plugin/google_translate.py:251
+#| msgid "Show application window"
+msgid "Show translation in browser"
+msgstr "Übersetzung im Browser anzeigen"
 
 #: ../kupfer/plugin/image.py:9
 msgid "Image Tools"
@@ -1199,18 +1242,15 @@ msgstr ""
 "Quellen sind immer als Unterkataloge auf der ersten Ebene verfügbar."
 
 #: ../kupfer/plugin/templates.py:12 ../kupfer/plugin/templates.py:87
-#| msgid "Documents"
 msgid "Document Templates"
 msgstr "Dokumentvorlagen"
 
 #: ../kupfer/plugin/templates.py:15
-#| msgid "Create a new note from this text"
 msgid "Create new documents from your templates"
-msgstr "Erstellt neue Dokumente aus Ihren Vorlagen"
+msgstr "Neue Dokumente aus Ihren Vorlagen erstellen"
 
 #: ../kupfer/plugin/templates.py:25
 #, python-format
-#| msgid "%s is empty"
 msgid "%s template"
 msgstr "Vorlage %s"
 
@@ -1219,12 +1259,10 @@ msgid "Empty File"
 msgstr "Leere Datei"
 
 #: ../kupfer/plugin/templates.py:46
-#| msgid "Create Archive In..."
 msgid "Create New Document..."
 msgstr "Neues Dokument erstellen …"
 
 #: ../kupfer/plugin/templates.py:79
-#| msgid "Create a new note from this text"
 msgid "Create a new document from template"
 msgstr "Ein neues Dokument aus einer Vorlage erstellen"
 
@@ -1242,7 +1280,7 @@ msgstr "Text-Übereinstimmungen im Dateisystem"
 
 #: ../kupfer/plugin/text.py:84
 msgid "URL Text Matches"
-msgstr "Text-Übereinstimmungen in URLs"
+msgstr "Text-Übereinstimmungen in Adressen"
 
 #: ../kupfer/plugin/tracker.py:9
 msgid "Tracker"
@@ -1258,7 +1296,7 @@ msgstr "Mit Tracker suchen"
 
 #: ../kupfer/plugin/tracker.py:33
 msgid "Open Tracker Search Tool and search for this term"
-msgstr "Tracker Sucherkzeug öffnen und nach diesem Begriff suchen"
+msgstr "Tracker Suchwerkzeug öffnen und nach diesem Begriff suchen"
 
 #: ../kupfer/plugin/tracker.py:42
 msgid "Get Tracker Results..."
@@ -1336,7 +1374,7 @@ msgstr "Herunterladen nach …"
 
 #: ../kupfer/plugin/urlactions.py:101
 msgid "Download URL to a chosen location"
-msgstr "URL in einem ausgewählten Ort herunterladen"
+msgstr "URL in einen ausgewählten Ort herunterladen"
 
 #: ../kupfer/plugin/virtualbox/__init__.py:7
 msgid "VirtualBox"
@@ -1636,4 +1674,3 @@ msgstr ""
 "haben. Wenn dem nicht so ist, so schreiben Sie bitte an die\n"
 "Free Software Foundation, Inc.,\n"
 "51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
-
