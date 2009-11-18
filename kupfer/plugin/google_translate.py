@@ -54,8 +54,8 @@ def _translate(text, lang):
 		conn.request("POST", _GOOGLE_TRANSLATE_PATH, query_param, _HEADER)
 		resp = conn.getresponse()
 		if resp.status != 200:
-			raise ValueError('invalid response %d, %s' % resp.status,
-					resp.reason)
+			raise ValueError('invalid response %d, %s' % (resp.status,
+					resp.reason))
 
 		response_data = resp.read()
 		encoding = _parse_encoding_header(resp)
@@ -98,8 +98,8 @@ def _load_languages():
 		conn.request("GET", _GOOGLE_TRANS_LANG_PATH, headers=headers)
 		resp = conn.getresponse()
 		if resp.status != 200:
-			raise ValueError('invalid response %d, %s' % resp.status,
-					resp.reason)
+			raise ValueError('invalid response %d, %s' % (resp.status,
+					resp.reason))
 		
 		result = resp.read().decode(_parse_encoding_header(resp), "replace")
 		result = result[result.index('select name=tl'):]
