@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import os
 import dbus
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
@@ -146,6 +145,8 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 			"ContactPresence",
 			"ContactStatus",
 			"AccountPresence",
+			"Roster",
+			"RosterInfo",
 		]
 
 		try:
