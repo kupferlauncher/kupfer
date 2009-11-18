@@ -5,7 +5,9 @@ NEWS for kupfer
 kupfer version c18
 ------------------
 
-Not released yet
+Released 18 November 2009
+
+"Mímisbrunnr"
 
 * New plugins:
 
@@ -16,12 +18,14 @@ Not released yet
   + *Kupfer Plugins*
   + *Show Text*
 
-* *Gajim* plugin matches contacts by jid as well as name
+* *Gajim* plugin matches contacts by jid as well as name, suggested by
+  Stanislav G-E (LP 462866)
 * Action *Rescan* on sources is now debug only (should not be needed)
 * Kupfer installs its Python package into ``$PREFIX/share`` by default,
   instead of installing as a system-wide Python module.
 * Kupfer can take input on stdin and pass as text to an already running
   instance
+* Fix bug in *Services* for Arch Linux, reported by lh (LP 463071)
 
 * Changes for plugin authors:
 
@@ -31,8 +35,18 @@ Not released yet
   + You can use item *Restart Kupfer* to restart (in debug mode)
   + Plugins may be implemented as Python packages, as well as modules
 
-* Fixed bugs: :LP:`462866`, :LP:`463071`
+* Updated the dependencies in the README. pygobject 2.18 is required. Added
+  gvfs as very recommended.
 * Other bugfixes
+
+Localization updates:
+
+* de (Mario Blättermann)
+* es (Jorge González)
+* nl (Martin Koelewijn)
+* pl (Karol Będkowski)
+* sv
+* zh_CH (lh)
 
 kupfer version c17
 ------------------
