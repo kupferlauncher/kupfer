@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-14 01:12+0100\n"
+"POT-Creation-Date: 2009-11-18 15:09+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -787,6 +787,45 @@ msgstr "Sök efter..."
 #: ../kupfer/plugin/google.py:112
 msgid "Search Engines"
 msgstr "Sökmotorer"
+
+#: ../kupfer/plugin/google_translate.py:6
+msgid "Google Translate"
+msgstr "Google Översätt"
+
+#: ../kupfer/plugin/google_translate.py:8
+#: ../kupfer/plugin/google_translate.py:137
+msgid "Translate text with Google Translate"
+msgstr "Översätt text med Google Översätt"
+
+#: ../kupfer/plugin/google_translate.py:76
+msgid "Error connecting to Google Translate"
+msgstr "Fel vid anslutning till Google Översätt"
+
+#: ../kupfer/plugin/google_translate.py:120
+#: ../kupfer/plugin/google_translate.py:203
+msgid "Translate To..."
+msgstr "Översätt till..."
+
+#: ../kupfer/plugin/google_translate.py:163
+#, python-format
+msgid "Translate into %s"
+msgstr "Översätt till %s"
+
+#: ../kupfer/plugin/google_translate.py:183
+msgid "Languages"
+msgstr "Språk"
+
+#: ../kupfer/plugin/google_translate.py:218
+msgid "Show translated page in browser"
+msgstr "Visa översatt sida i webbläsare"
+
+#: ../kupfer/plugin/google_translate.py:235
+msgid "Show Translation To..."
+msgstr "Visa översättning till..."
+
+#: ../kupfer/plugin/google_translate.py:251
+msgid "Show translation in browser"
+msgstr "Visa översättning i webbläsare"
 
 #: ../kupfer/plugin/image.py:9
 msgid "Image Tools"
