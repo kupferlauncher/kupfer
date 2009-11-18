@@ -76,6 +76,14 @@ class Skype(object):
 		self._skype_notify_callback = _SkypeNotify(bus, self._signal_update)
 		self._signal_dbus_name_owner_changed()
 
+	def __del__(self):
+		if self.bus:
+			self.bus.remove_signal_receiver(self._dbus_name_owner_watch)
+
+		self._dbus_name_owner_watch = None
+		self._skype_notify_callback = None
+
+
 	def _get_skype(self, bus):
 		''' Check if Skype is running and login to it.
 			Return Skype proxy object.
