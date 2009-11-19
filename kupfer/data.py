@@ -460,8 +460,7 @@ class SourceController (pretty.OutputMixin):
 	def cache_toplevel_sources(self):
 		"""Ensure that all toplevel sources are cached"""
 		for src in set(self.toplevel_sources):
-			if not src.is_dynamic():
-				self._checked_rescan_source(src, force=False)
+			self._checked_rescan_source(src, force=False)
 
 _source_controller = None
 def GetSourceController():
