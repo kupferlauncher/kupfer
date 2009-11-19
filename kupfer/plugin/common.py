@@ -43,7 +43,7 @@ class Shutdown (RunnableLeaf):
 		super(Shutdown, self).__init__(name=name)
 	def run(self):
 		launch_commandline_with_fallbacks(("gnome-panel-logout --shutdown",
-			"gnome-session-save --kill"))
+			"gnome-session-save --shutdown-dialog"))
 
 	def get_description(self):
 		return _("Shut down, restart or suspend computer")
