@@ -43,6 +43,9 @@ Kupfer can be invoked with a text query, with
 
         ``kupfer`` *QUERY*
 
+This can be used to focus files given as command-line arguments with
+kupfer.
+
 OPTIONS
 =======
 
@@ -55,10 +58,9 @@ OPTIONS
 
 The following are generic options
 
---help          Display usage information and help on how to configure
-                kupfer, as well as a list of available plugins, then exit.
+--help          Display usage information
 
---version       Display version information and exit.
+--version       Display version information
 
 CONFIGURATION
 =============
