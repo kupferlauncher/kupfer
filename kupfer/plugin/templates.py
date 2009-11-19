@@ -91,8 +91,8 @@ class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		# Set up change callback
 		tmpl_dir = glib.get_user_special_dir(glib.USER_DIRECTORY_TEMPLATES)
 		if not tmpl_dir:
-			tmpl_var = os.path.expanduser(DEFAULT_TMPL_DIR)
-		self.tmpl_dir = tmpl_var
+			tmpl_dir = os.path.expanduser(DEFAULT_TMPL_DIR)
+		self.tmpl_dir = tmpl_dir
 		self.monitor_token = self.monitor_directories(self.tmpl_dir)
 
 	def get_items(self):
