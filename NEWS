@@ -2,6 +2,17 @@
 NEWS for kupfer
 ===============
 
+kupfer version c18.1
+--------------------
+
+Released 20 November 2009
+
+* Fix bug to toss out malfunctioning plugins properly (Reported by Jan)
+* Fix bug in showing the shutdown dialog, reported by user sillyfofilly (LP
+  484664)
+* Fix bug in plugin *Document Templates*, reported by Francesco Marella
+  (part of LP 471462)
+
 kupfer version c18
 ------------------
 
