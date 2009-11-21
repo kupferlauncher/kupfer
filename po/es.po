@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2009-11-14 00:14+0000\n"
-"PO-Revision-Date: 2009-11-15 22:57+0100\n"
+"POT-Creation-Date: 2009-11-18 14:17+0000\n"
+"PO-Revision-Date: 2009-11-21 10:08+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -707,60 +707,60 @@ msgstr "Marcadores de Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Índice de marcadores de Firefox"
 
-#: ../kupfer/plugin/gajim.py:9
+#: ../kupfer/plugin/gajim.py:8
 msgid "Gajim"
 msgstr "Gajim"
 
-#: ../kupfer/plugin/gajim.py:12
+#: ../kupfer/plugin/gajim.py:11
 msgid "Access to Gajim Contacts"
 msgstr "Acceder a los contactos de Gajim"
 
-#: ../kupfer/plugin/gajim.py:19 ../kupfer/plugin/pidgin.py:102
+#: ../kupfer/plugin/gajim.py:18 ../kupfer/plugin/pidgin.py:102
 msgid "Available"
 msgstr "Disponible"
 
-#: ../kupfer/plugin/gajim.py:20
+#: ../kupfer/plugin/gajim.py:19
 msgid "Free for Chat"
 msgstr "Disponible para conversar"
 
-#: ../kupfer/plugin/gajim.py:21 ../kupfer/plugin/pidgin.py:102
+#: ../kupfer/plugin/gajim.py:20 ../kupfer/plugin/pidgin.py:102
 msgid "Away"
 msgstr "Ausente"
 
-#: ../kupfer/plugin/gajim.py:22
+#: ../kupfer/plugin/gajim.py:21
 msgid "Not Available"
 msgstr "No disponible"
 
-#: ../kupfer/plugin/gajim.py:23
+#: ../kupfer/plugin/gajim.py:22
 msgid "Busy"
 msgstr "Ocupado"
 
-#: ../kupfer/plugin/gajim.py:24
+#: ../kupfer/plugin/gajim.py:23
 msgid "Invisible"
 msgstr "Invisible"
 
-#: ../kupfer/plugin/gajim.py:25
+#: ../kupfer/plugin/gajim.py:24
 msgid "Offline"
 msgstr "Desconectado"
 
-#: ../kupfer/plugin/gajim.py:65 ../kupfer/plugin/pidgin.py:100
+#: ../kupfer/plugin/gajim.py:64 ../kupfer/plugin/pidgin.py:100
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/plugin/gajim.py:88 ../kupfer/plugin/pidgin.py:65
+#: ../kupfer/plugin/gajim.py:87 ../kupfer/plugin/pidgin.py:65
 msgid "Open Chat"
 msgstr "Abrir chat"
 
-#: ../kupfer/plugin/gajim.py:105
+#: ../kupfer/plugin/gajim.py:104
 msgid "Change Global Status To..."
 msgstr "Cambiar estado general a…"
 
-#: ../kupfer/plugin/gajim.py:133
+#: ../kupfer/plugin/gajim.py:132
 msgid "Gajim Contacts"
 msgstr "Contactos de Gajim"
 
-#: ../kupfer/plugin/gajim.py:188
+#: ../kupfer/plugin/gajim.py:189
 msgid "Gajim Account Status"
 msgstr "Estado de las cuentas de Gajim"
 
@@ -784,6 +784,49 @@ msgstr "Buscar…"
 #: ../kupfer/plugin/google.py:112
 msgid "Search Engines"
 msgstr "Motores de búsqueda"
+
+#: ../kupfer/plugin/google_translate.py:6
+msgid "Google Translate"
+msgstr "Traducir con Google"
+
+#: ../kupfer/plugin/google_translate.py:8
+#: ../kupfer/plugin/google_translate.py:137
+msgid "Translate text with Google Translate"
+msgstr "Traducir texto con Google"
+
+#: ../kupfer/plugin/google_translate.py:76
+msgid "Error connecting to Google Translate"
+msgstr "Error al contactar con Google"
+
+#: ../kupfer/plugin/google_translate.py:120
+#: ../kupfer/plugin/google_translate.py:203
+#| msgid "Rename To..."
+msgid "Translate To..."
+msgstr "Traducir a…"
+
+#: ../kupfer/plugin/google_translate.py:163
+#, python-format
+#| msgid "translator-credits"
+msgid "Translate into %s"
+msgstr "Traducir a %s"
+
+#: ../kupfer/plugin/google_translate.py:183
+msgid "Languages"
+msgstr "Idiomas"
+
+#: ../kupfer/plugin/google_translate.py:218
+msgid "Show translated page in browser"
+msgstr "Mostrar la página traducida en un navegador"
+
+#: ../kupfer/plugin/google_translate.py:235
+#| msgid "Show application window"
+msgid "Show Translation To..."
+msgstr "Mostrar la traducción a…"
+
+#: ../kupfer/plugin/google_translate.py:251
+#| msgid "Show application window"
+msgid "Show translation in browser"
+msgstr "Mostrar la traducción en un navegador"
 
 #: ../kupfer/plugin/image.py:9
 msgid "Image Tools"
@@ -1195,18 +1238,15 @@ msgstr ""
 "Las fuentes siempre están disponibles como subcatálogos en el nivel superior."
 
 #: ../kupfer/plugin/templates.py:12 ../kupfer/plugin/templates.py:87
-#| msgid "Documents"
 msgid "Document Templates"
 msgstr "Plantillas de documentos"
 
 #: ../kupfer/plugin/templates.py:15
-#| msgid "Create a new note from this text"
 msgid "Create new documents from your templates"
 msgstr "Crear documentos nuevos desde sus plantillas"
 
 #: ../kupfer/plugin/templates.py:25
 #, python-format
-#| msgid "%s is empty"
 msgid "%s template"
 msgstr "Plantilla de %s"
 
@@ -1215,12 +1255,10 @@ msgid "Empty File"
 msgstr "Archivo vacío"
 
 #: ../kupfer/plugin/templates.py:46
-#| msgid "Create Archive In..."
 msgid "Create New Document..."
 msgstr "Crear un documento nuevo…"
 
 #: ../kupfer/plugin/templates.py:79
-#| msgid "Create a new note from this text"
 msgid "Create a new document from template"
 msgstr "Crear un documento nuevo desde una plantilla"
 
