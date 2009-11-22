@@ -4,9 +4,9 @@ import os
 from xml.etree import ElementTree
 import gio
 
-from kupfer.objects import (Source, FileLeaf, UrlLeaf, PicklingHelperMixin, 
-		AppLeafContentMixin)
+from kupfer.objects import Source, FileLeaf, UrlLeaf, AppLeaf
 from kupfer import plugin_support
+from kupfer.helplib import PicklingHelperMixin
 
 __kupfer_name__ = _("OpenOffice")
 __kupfer_sources__ = ("RecentsSource", )
@@ -21,8 +21,37 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 _HISTORY_FILE = "~/.openoffice.org/3/user/registry/data/org/openoffice/Office/Histories.xcu"
 _NAME_ATTR="{http://openoffice.org/2001/registry}name"
 
+class MultiAppContentMixin (object):
+	"""
+	Mixin for Source that decorates many app leaves
 
-class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
+	This Mixin sees to that the Source is set as content for the applications
+	with id 'cls.appleaf_content_id', which may also be a sequence of ids.
+
+	Source has to define the attribute appleaf_content_id and must
+	inherit this mixin BEFORE the Source
+
+	This Mixin defines:
+	decorates_type,
+	decorates_item
+	"""
+	@classmethod
+	def __get_appleaf_id_iter(cls):
+		if hasattr(cls.appleaf_content_id, "__iter__"):
+			ids = iter(cls.appleaf_content_id)
+		else:
+			ids = (cls.appleaf_content_id, )
+		return ids
+	@classmethod
+	def decorates_type(cls):
+		return AppLeaf
+	@classmethod
+	def decorate_item(cls, leaf):
+		if leaf.get_id() in cls.__get_appleaf_id_iter():
+			return cls()
+
+
+class RecentsSource (MultiAppContentMixin, Source, PicklingHelperMixin):
 	appleaf_content_id = [
 			"openoffice.org-writer",
 			"openoffice.org-base",
@@ -30,6 +59,7 @@ class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 			"openoffice.org-draw",
 			"openoffice.org-impress",
 			"openoffice.org-math",
+			"openoffice.org-startcenter",
 	]
 
 	def __init__(self, name=_("OpenOffice Recent Items")):
