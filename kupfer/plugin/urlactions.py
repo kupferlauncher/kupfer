@@ -1,4 +1,5 @@
 import os
+import shutil
 import urllib2
 
 from kupfer.objects import Action, Source, UrlLeaf, FileLeaf
@@ -15,10 +16,16 @@ __description__ = _("URL Actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-class DownloadTask (task.StepTask):
+class DownloadTask (task.ThreadTask):
 	def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):
 		super(DownloadTask, self).__init__()
-		self.response = urllib2.urlopen(uri)
+		self.uri = uri
+		self.finish_callback = finish_callback
+		self.destdir = destdir
+		self.use_tempfile = tempfile
+
+	def thread_do(self):
+		self.response = urllib2.urlopen(self.uri)
 
 		def url_name(url):
 			return os.path.basename(url.rstrip("/"))
@@ -32,32 +39,22 @@ class DownloadTask (task.StepTask):
 		destname = (header_name(self.response.headers) or
 					url_name(self.response.url))
 
-		if tempfile:
+		if self.use_tempfile:
 			(self.destfile, self.destpath) = utils.get_safe_tempfile()
 		else:
 			(self.destfile, self.destpath) = \
-				utils.get_destfile_in_directory(destdir, destname)
-		self.done = False
-		self.bufsize = 8192
-		self.finish_callback = finish_callback
-		if not self.destfile:
-			raise IOError("Could not write output file")
+				utils.get_destfile_in_directory(self.destdir, destname)
+		try:
+			if not self.destfile:
+				raise IOError("Could not write output file")
 
-	def step(self):
-		buf = self.response.read(self.bufsize)
-		if not buf:
-			self.done = True
-			return False
-		self.destfile.write(buf)
-		return True
+			shutil.copyfileobj(self.response, self.destfile)
+		finally:
+			self.destfile.close()
+			self.response.close()
 
-	def finish(self):
-		self.destfile.close()
-		self.response.close()
-		if not self.done:
-			print "Deleting unfinished", self.destfile
-			os.unlink(self.destpath)
-		elif self.finish_callback:
+	def thread_finish(self):
+		if self.finish_callback:
 			self.finish_callback(self.destpath)
 
 class DownloadAndOpen (Action):
