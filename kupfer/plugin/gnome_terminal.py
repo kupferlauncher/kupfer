@@ -6,7 +6,7 @@ from kupfer import utils, icons
 
 __kupfer_name__ = _("Gnome Terminal Sessions")
 __kupfer_sources__ = ("SessionsSource", )
-__description__ = _("Launch Gnome Terminal Session")
+__description__ = _("Launch Gnome Terminal sessions")
 __version__ = ""
 __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
@@ -30,6 +30,8 @@ class Terminal(Leaf):
 
 class OpenSession(Action):
 	""" Opens Gnome Terminal session """
+	def __init__(self):
+		Action.__init__(self, _("Open"))
 
 	def activate(self, leaf):
 		utils.spawn_async(["gnome-terminal",
@@ -45,7 +47,7 @@ class SessionsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	appleaf_content_id = 'gnome-terminal'
 
 	def __init__(self):
-		Source.__init__(self, name=_("Launch Gnome Terminal session"))
+		Source.__init__(self, name=_("Gnome Terminal Sessions"))
 
 	def get_items(self):
 		gc = gconf.client_get_default()
