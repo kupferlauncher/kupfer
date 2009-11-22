@@ -103,6 +103,9 @@ class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		except EnvironmentError, exc:
 			self.output_error(exc)
 
+	def should_sort_lexically(self):
+		return True
+
 	def get_description(self):
 		return None
 	def get_icon_name(self):
