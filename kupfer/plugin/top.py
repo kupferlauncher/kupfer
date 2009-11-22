@@ -2,24 +2,29 @@
 
 import os
 import subprocess
+import signal
+import operator
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer import scheduler, utils
-from kupfer import plugin_support
+from kupfer import scheduler
 from kupfer.helplib import PicklingHelperMixin
+from kupfer import plugin_support
 
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource", )
 __description__ = _("Show Running Task and allow to Send Signals to them.")
-__version__ = "1.0"
+__version__ = "2009-11-22"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
-
-# FIXME: how to force no-top-level?
 __kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
+	{
+		"key" : "sort_order",
+		"label": _("Sort Order"),
+		"type": str,
+		"value": _("Command line"),
+		"alternatives": [_("Command line"), _("CPU usage (descend)"), 
+				_("Memory usage (descend)") ]
+	},
 )
-
 
 
 class Task(Leaf):
@@ -33,13 +38,16 @@ class Task(Leaf):
 	def get_actions(self):
 		yield SendSignal()
 
+	def get_icon_name(self):
+		return 'applications-system'
+
 
 class SendSignal(Action):
 	def __init__(self):
 		Action.__init__(self, _("Send Signal..."))
 
 	def activate(self, leaf, iobj):
-		os.kill(int(leaf.object), iobj.object)
+		os.kill(leaf.object, iobj.object)
 
 	def requires_object(self):
 		return True
@@ -56,21 +64,11 @@ class _Signal(Leaf):
 		return "kill -%s ..." % self.object
 
 
+# get all signals from signal package
 _SIGNALS = [
-		(14, "ALRM"),
-		(1, "HUP"),
-		(2, "INT"),
-		(9, "KILL"),
-		(13, "PIPE"),
-		(15, "TERM"),
-		("USR1", "USR1"),
-		("USR2", "USR2"),
-		(6, "ABRT"),
-		(8, "FPE"),
-		(4, "ILL"),
-		(3, "QUIT"),
-		(11, "SEGV"),
-		(5, "TRAP"),
+	_Signal(getattr(signal, signame), signame[3:])
+	for signame in sorted(dir(signal))
+	if signame.startswith('SIG') and not signame.startswith('SIG_')
 ]
 
 
@@ -79,12 +77,11 @@ class _SignalsSource(Source):
 		Source.__init__(self, _("Signals"))
 
 	def get_items(self):
-		for sigid, signame in _SIGNALS:
-			yield _Signal(sigid, signame)
+		return _SIGNALS
 
 	def provides(self):
 		yield _Signal
-
+	
 
 class TaskSource(Source, PicklingHelperMixin):
 	def __init__(self, name=_("Running Tasks")):
@@ -103,29 +100,19 @@ class TaskSource(Source, PicklingHelperMixin):
 		# update after a few seconds
 		self._timer.set(5, self.mark_for_update)
 		# tasks for current user
-		uid = os.getuid()
-		command = 'top -b -n 1 -u %d' % uid
-		proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-		out, _err = proc.communicate()
 
-		header_read = False
-		for line in out.split('\n'):
-			line = line.strip()
-			if line == '':
-				header_read = True
-				continue
+		processes = get_processes()
+		# sort processes (top don't allow to sort via cmd line)
+		if __kupfer_settings__['sort_order'] == _("Memory usage (descend)"):
+			processes = sorted(processes, key=operator.itemgetter(2), reverse=True)
+		elif __kupfer_settings__['sort_order'] == _("Command line"):
+			processes = sorted(processes, key=operator.itemgetter(4))
+		# default: by cpu
 
-			if not header_read:
-				continue
-
-			(pid, user, pr, ni, virt, res, shr, s, cpu, mem, time, cmd) = \
-					line.split(None, 11)
-			if pid == 'PID':
-				continue	# skip header
-
+		for pid, cpu, mem, ptime, cmd in processes:
 			description = (
-					_("pid: %(pid)s  user: %(user)s  cpu: %(cpu)s%%   mem: %(mem)s   time: %(time)s") \
-					% dict(pid=pid, user=user, cpu=cpu, mem=mem, time=time))
+					_("pid: %(pid)s  cpu: %(cpu)s%%   mem: %(mem)s   time: %(time)s") \
+					% dict(pid=pid, cpu=cpu, mem=mem, time=ptime))
 			yield Task(pid, cmd, description)
 
 
@@ -139,4 +126,26 @@ class TaskSource(Source, PicklingHelperMixin):
 		yield Task
 
 
+def get_processes():
+	uid = os.getuid()
+	command = 'top -b -n 1 -u %d -c' % uid
+	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+	out, _err = proc.communicate()
+
+	header_read = False
+	for line in out.split('\n'):
+		line = line.strip()
+		if line == '':
+			header_read = True
+			continue
+
+		if not header_read:
+			continue
+
+		(pid, user, pr, ni, virt, res, shr, s, cpu, mem, ptime, cmd) = \
+				line.split(None, 11)
+		if pid == 'PID':
+			continue	# skip header
+
+		yield (int(pid), cpu, mem, ptime, cmd)
 
