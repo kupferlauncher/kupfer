@@ -4,8 +4,9 @@ import os
 import subprocess
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer import utils
+from kupfer import scheduler, utils
 from kupfer import plugin_support
+from kupfer.helplib import PicklingHelperMixin
 
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource", )
@@ -85,14 +86,22 @@ class _SignalsSource(Source):
 		yield _Signal
 
 
-class TaskSource(Source):
+class TaskSource(Source, PicklingHelperMixin):
 	def __init__(self, name=_("Running Tasks")):
 		Source.__init__(self, name)
+		self.unpickle_finish()
 
-	def is_dynamic(self):
-		return True
+	def pickle_prepare(self):
+		# clear saved processes
+		self.mark_for_update()
+		self._timer = None
+
+	def unpickle_finish(self):
+		self._timer = scheduler.Timer()
 
 	def get_items(self):
+		# update after a few seconds
+		self._timer.set(5, self.mark_for_update)
 		# tasks for current user
 		uid = os.getuid()
 		command = 'top -b -n 1 -u %d' % uid
