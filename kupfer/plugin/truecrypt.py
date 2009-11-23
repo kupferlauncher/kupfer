@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
-from xml.etree import ElementTree
+from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin, 
@@ -13,7 +13,7 @@ __kupfer_name__ = _("TrueCrypt")
 __kupfer_sources__ = ("VolumeSource", )
 __kupfer_actions__ = ('DismountAll', )
 __description__ = _("Volumes from TrueCrypt History.")
-__version__ = "1.0"
+__version__ = "2009-11-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(

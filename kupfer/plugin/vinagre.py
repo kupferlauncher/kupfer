@@ -3,7 +3,7 @@ from __future__ import with_statement
 
 import os
 import gio
-from xml.etree import ElementTree
+from xml.etree import cElementTree as ElementTree
 
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, UrlLeaf
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
@@ -14,7 +14,7 @@ __kupfer_name__ = _("Vinagre")
 __kupfer_sources__ = ("SessionSource", )
 __kupfer_actions__ = ('VinagreStartSession', )
 __description__ = _("Vinagre Bookmarks and Actions")
-__version__ = "0.1"
+__version__ = "2009-11-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
-from xml.etree import ElementTree
+from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import Source, FileLeaf, UrlLeaf, AppLeaf
@@ -11,7 +11,7 @@ from kupfer.helplib import PicklingHelperMixin
 __kupfer_name__ = _("OpenOffice")
 __kupfer_sources__ = ("RecentsSource", )
 __description__ = _("Recently used documents in OpenOffice")
-__version__ = "1.0"
+__version__ = "2009-11-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
