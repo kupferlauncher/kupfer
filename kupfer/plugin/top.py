@@ -12,7 +12,7 @@ from kupfer import plugin_support
 
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource", )
-__description__ = _("Show Running Task and allow to Send Signals to them.")
+__description__ = _("Show running tasks and allow sending signals to them")
 __version__ = "2009-11-22"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -20,9 +20,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"key" : "sort_order",
 		"label": _("Sort Order"),
 		"type": str,
-		"value": _("Command line"),
-		"alternatives": [_("Command line"), _("CPU usage (descend)"), 
-				_("Memory usage (descend)") ]
+		"value": _("Commandline"),
+		"alternatives": [_("Commandline"), _("CPU usage (descending)"),
+				_("Memory usage (descending)") ]
 	},
 )
 
@@ -103,9 +103,9 @@ class TaskSource(Source, PicklingHelperMixin):
 
 		processes = get_processes()
 		# sort processes (top don't allow to sort via cmd line)
-		if __kupfer_settings__['sort_order'] == _("Memory usage (descend)"):
+		if __kupfer_settings__['sort_order'] == _("Memory usage (descending)"):
 			processes = sorted(processes, key=operator.itemgetter(2), reverse=True)
-		elif __kupfer_settings__['sort_order'] == _("Command line"):
+		elif __kupfer_settings__['sort_order'] == _("Commandline"):
 			processes = sorted(processes, key=operator.itemgetter(4))
 		# default: by cpu
 
@@ -116,7 +116,7 @@ class TaskSource(Source, PicklingHelperMixin):
 
 
 	def get_description(self):
-		return _("Running Task for Current User")
+		return _("Running tasks for current user")
 
 	def get_icon_name(self):
 		return "system"
