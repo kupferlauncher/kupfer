@@ -17,6 +17,9 @@ from kupfer import keybindings
 from kupfer import pretty
 
 
+# number rows to skip when press PgUp/PgDown
+PAGE_STEP = 7
+
 _escape_table = {
 		ord(u"&"): u"&amp;",
 		ord(u"<"): u"&lt;",
@@ -469,7 +472,7 @@ class Search (gtk.Bin):
 		path_at_row = lambda r: (r,)
 		self.table.set_cursor(path_at_row(row))
 
-	def go_up(self):
+	def go_up(self, rows_count=1):
 		"""
 		Upwards in the table
 		"""
@@ -480,11 +483,11 @@ class Search (gtk.Bin):
 		if path:
 			r = row_at_path(path)
 			if r >= 1:
-				self._table_set_cursor_at_row(r-1)
+				self._table_set_cursor_at_row(r-min(rows_count, r))
 			else:
 				self.hide_table()
 	
-	def go_down(self, force=False):
+	def go_down(self, force=False, rows_count=1):
 		"""
 		Down in the table
 		"""
@@ -499,16 +502,23 @@ class Search (gtk.Bin):
 			path, col = self.table.get_cursor()
 			if path:
 				r = row_at_path(path)
-				if r == -1 + len(self.model):
+				if r <= -rows_count + len(self.model):
 					self.populate(self.show_more)
 				# go down only if table is visible
-				if r < -1 + len(self.model) and table_visible:
-					self._table_set_cursor_at_row(r+1)
+				if table_visible:
+					step = min(len(self.model) - r - 1, rows_count)
+					if step > 0:
+						self._table_set_cursor_at_row(r + step)
 			else:
 				self._table_set_cursor_at_row(0)
 			self._show_table()
 		if force:
 			self._show_table()
+
+	def go_first(self):
+		''' Rewind to first item '''
+		if self.get_table_visible():
+			self._table_set_cursor_at_row(0)
 	
 	def _window_config(self, widget, event):
 		"""
@@ -766,7 +776,7 @@ class Interface (gobject.GObject):
 		keys = (
 			"Up", "Down", "Right", "Left",
 			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
-			"space",
+			"space", 'Page_Up', 'Page_Down', 'Home'
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		self.keys_sensible = set(self.key_book.itervalues())
@@ -897,11 +907,18 @@ class Interface (gobject.GObject):
 
 		if keyv == key_book["Up"]:
 			self.current.go_up()
+		elif keyv == key_book["Page_Up"]:
+			self.current.go_up(rows_count=PAGE_STEP)
 		elif keyv == key_book["Down"]:
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
 				self._populate_search()
 			self.current.go_down()
+		elif keyv == key_book["Page_Down"]:
+			if (not self.current.get_current() and
+					self.current.get_match_state() is State.Wait):
+				self._populate_search()
+			self.current.go_down(rows_count=PAGE_STEP)
 		elif keyv == key_book["Right"]:
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
@@ -914,6 +931,8 @@ class Interface (gobject.GObject):
 		elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
 			self.current.hide_table()
 			self.switch_current(reverse=shift_mask)
+		elif keyv == key_book['Home']:
+			self.current.go_first()
 		else:
 			# cont. processing
 			return False
