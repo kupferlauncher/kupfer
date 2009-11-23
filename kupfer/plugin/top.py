@@ -109,10 +109,9 @@ class TaskSource(Source, PicklingHelperMixin):
 			processes = sorted(processes, key=operator.itemgetter(4))
 		# default: by cpu
 
+		fields = _("pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s")
 		for pid, cpu, mem, ptime, cmd in processes:
-			description = (
-					_("pid: %(pid)s  cpu: %(cpu)s%%   mem: %(mem)s   time: %(time)s") \
-					% dict(pid=pid, cpu=cpu, mem=mem, time=ptime))
+			description = fields % dict(pid=pid, cpu=cpu, mem=mem, time=ptime)
 			yield Task(pid, cmd, description)
 
 
@@ -128,7 +127,7 @@ class TaskSource(Source, PicklingHelperMixin):
 
 def get_processes():
 	uid = os.getuid()
-	command = 'top -b -n 1 -u %d -c' % uid
+	command = 'top -b -n 1 -u %d' % uid
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 	out, _err = proc.communicate()
 
@@ -147,5 +146,5 @@ def get_processes():
 		if pid == 'PID':
 			continue	# skip header
 
-		yield (int(pid), cpu, mem, ptime, cmd)
+		yield (int(pid), float(cpu), float(mem), ptime, cmd)
 
