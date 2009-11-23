@@ -1,4 +1,3 @@
-import docutils.core
 import os
 
 from kupfer.objects import Source, Action, TextLeaf, FileLeaf
@@ -9,6 +8,9 @@ __kupfer_actions__ = ("RenderView", )
 __description__ = _("Render reStructuredText and show the result")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+# docutils is a critical import -- not a core kupfer dependency
+import docutils.core
 
 class RenderView (Action):
 	def __init__(self):
