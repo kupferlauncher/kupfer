@@ -8,12 +8,17 @@ __ http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.htm
 import urllib
 from xml.etree import cElementTree as ET
 
-from kupfer.objects import Leaf, Action, Source, RunnableLeaf
+import gtk
+
+from kupfer.objects import Leaf, Action, Source, SourceLeaf
 from kupfer import uiutils
 from kupfer import plugin_support
 
 __kupfer_name__ = _("Icon Names")
-__kupfer_sources__ = ("IconNameSource", )
+__kupfer_sources__ = (
+		"StandardIconsSource",
+		"IconThemeSource",
+	)
 __description__ = _("Browse the icons of the Icon Naming Specification")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -35,18 +40,24 @@ class IconName (Leaf):
 	def __init__(self, obj, desc, category):
 		Leaf.__init__(self, obj, obj)
 		self.description = desc
-		self.name_aliases.add(desc.splitlines()[0])
+		if desc:
+			self.name_aliases.add(desc.splitlines()[0])
 	def get_actions(self):
 		yield ShowDescription()
 	def get_description(self):
-		return self.description.splitlines()[0]
+		return self.description.splitlines()[0] if self.description else None
 	def get_icon_name(self):
 		return self.object
 
-class IconNameSource (Source):
-	def __init__(self):
-		return Source.__init__(self, _("Icon Names"))
+class IconNamesSource (Source):
 	def get_items(self):
+		for name, desc, info in self._get_all_items():
+			yield IconName(name, desc, info)
+
+class StandardIconsSource (IconNamesSource):
+	def __init__(self):
+		return Source.__init__(self, _("Standard Icon Names"))
+	def _get_all_items(self):
 		parsed = ET.parse(urllib.urlopen(ICON_SPEC_ADDRESS))
 		root = parsed.getroot()
 
@@ -68,8 +79,33 @@ class IconNameSource (Source):
 
 		for category in icon_names:
 			for name, desc in icon_names[category]:
-				yield IconName(name, desc, category)
+				yield name, desc, category
 
 	def get_icon_name(self):
 		return "emblem-photos"
 
+class IconThemeCategorySource (IconNamesSource):
+	def __init__(self, category):
+		IconNamesSource.__init__(self, category or "All Icons")
+		self.category = category
+
+	def _get_all_items(self):
+		it = gtk.icon_theme_get_default()
+		for icon_name in it.list_icons(self.category):
+			desc = str(it.get_icon_sizes(icon_name))
+			yield icon_name, desc, self.category
+
+	def should_sort_lexically(self):
+		return True
+
+class IconThemeSource (Source):
+	def __init__(self):
+		Source.__init__(self, _("All Icon Theme Icons"))
+	def get_items(self):
+		it = gtk.icon_theme_get_default()
+		yield SourceLeaf(IconThemeCategorySource(None))
+		for ctx in it.list_contexts():
+			yield SourceLeaf(IconThemeCategorySource(ctx))
+	def get_icon_name(self):
+		it = gtk.icon_theme_get_default()
+		return it.get_example_icon_name()
