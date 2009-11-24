@@ -818,6 +818,41 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.source_pane.source_rebase(sc.root)
 		learn.load()
 
+	def _get_directory_sources(self):
+		"""
+		Return a tuple of S_sources, s_sources for
+		directory sources directly included and for
+		catalog inclusion respectively
+		"""
+		from kupfer import settings
+
+		s_sources = []
+		S_sources = []
+
+		setctl = settings.GetSettingsController()
+		source_config = setctl.get_config
+
+		def dir_source(opt):
+			abs = os.path.abspath(os.path.expanduser(opt))
+			return objects.DirectorySource(abs)
+
+		def file_source(opt, depth=1):
+			abs = os.path.abspath(os.path.expanduser(opt))
+			return objects.FileSource((abs,), depth)
+
+		dir_depth = source_config("DeepDirectories", "Depth")
+
+		for item in source_config("Directories", "Catalog"):
+			s_sources.append(dir_source(item))
+		for item in source_config("DeepDirectories","Catalog"):
+			s_sources.append(file_source(item, dir_depth))
+		for item in source_config("Directories", "Direct"):
+			S_sources.append(dir_source(item))
+		for item in source_config("DeepDirectories", "Direct"):
+			S_sources.append(file_source(item, dir_depth))
+
+		return S_sources, s_sources
+
 	def _setup_plugins(self):
 		from kupfer import settings, plugins
 		from kupfer.plugins import (load_plugin_sources, sources_attribute,
@@ -828,16 +863,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		s_sources = []
 		S_sources = []
 
-		def dir_source(opt):
-			abs = os.path.abspath(os.path.expanduser(opt))
-			return objects.DirectorySource(abs)
-
-		def file_source(opt, depth=1):
-			abs = os.path.abspath(os.path.expanduser(opt))
-			return objects.FileSource((abs,), depth)
-
 		setctl = settings.GetSettingsController()
-		source_config = setctl.get_config
 
 		text_sources = []
 		action_decorators = []
@@ -860,16 +886,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			else:
 				s_sources.extend(load_plugin_sources(item))
 
-		dir_depth = source_config("DeepDirectories", "Depth")
-
-		for item in source_config("Directories", "Catalog"):
-			s_sources.append(dir_source(item))
-		for item in source_config("DeepDirectories","Catalog"):
-			s_sources.append(file_source(item, dir_depth))
-		for item in source_config("Directories", "Direct"):
-			S_sources.append(dir_source(item))
-		for item in source_config("DeepDirectories", "Direct"):
-			S_sources.append(file_source(item, dir_depth))
+		D_dirs, d_dirs = self._get_directory_sources()
+		S_sources.extend(D_dirs)
+		s_sources.extend(d_dirs)
 
 		if not S_sources and not s_sources:
 			pretty.print_info(__name__, "No sources found!")
