@@ -7,18 +7,14 @@ import gio
 from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin, 
 		AppLeafContentMixin, AppLeaf)
 from kupfer import utils
-from kupfer import plugin_support
 
 __kupfer_name__ = _("TrueCrypt")
 __kupfer_sources__ = ("VolumeSource", )
 __kupfer_actions__ = ('DismountAll', )
-__description__ = _("Volumes from TrueCrypt History.")
+__description__ = _("Volumes from TrueCrypt history")
 __version__ = "2009-11-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
 
 _HISTORY_FILE = "~/.TrueCrypt/History.xml"
 
@@ -31,7 +27,7 @@ class Volume(Leaf):
 		return "truecrypt"
 
 	def get_description(self):
-		return _("TrueCrypt Volume: %(file)s") % dict(file=self.object)
+		return _("TrueCrypt Volume: %(file)s") % dict(file=unicode(self.object))
 
 	def get_actions(self):
 		yield MountVolume()
@@ -47,7 +43,7 @@ class MountVolume(Action):
 
 class DismountAll(Action):
 	def __init__(self):
-		Action.__init__(self, _("Dismount All Mounted Volumes"))
+		Action.__init__(self, _("Dismount All Volumes"))
 
 	def activate(self, leaf, iobj=None):
 		utils.launch_commandline('truecrypt -d')
