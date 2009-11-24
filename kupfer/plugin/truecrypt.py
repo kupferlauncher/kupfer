@@ -27,7 +27,8 @@ class Volume(Leaf):
 		return "truecrypt"
 
 	def get_description(self):
-		return _("TrueCrypt volume: %(file)s") % dict(file=unicode(self.object))
+		dispname = utils.get_display_path_for_bytestring(self.object)
+		return _("TrueCrypt volume: %(file)s") % dict(file=dispname)
 
 	def get_actions(self):
 		yield MountVolume()
