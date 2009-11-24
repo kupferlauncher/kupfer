@@ -5,7 +5,6 @@ from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import Source, FileLeaf, UrlLeaf, AppLeaf
-from kupfer import plugin_support
 from kupfer.helplib import PicklingHelperMixin
 
 __kupfer_name__ = _("OpenOffice")
@@ -14,9 +13,6 @@ __description__ = _("Recently used documents in OpenOffice")
 __version__ = "2009-11-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
 
 _HISTORY_FILE = "~/.openoffice.org/3/user/registry/data/org/openoffice/Office/Histories.xcu"
 _NAME_ATTR="{http://openoffice.org/2001/registry}name"
