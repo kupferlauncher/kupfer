@@ -8,18 +8,13 @@ from xml.etree import cElementTree as ElementTree
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, UrlLeaf
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import utils
-from kupfer import plugin_support
 
 __kupfer_name__ = _("Vinagre")
 __kupfer_sources__ = ("SessionSource", )
 __kupfer_actions__ = ('VinagreStartSession', )
-__description__ = _("Vinagre Bookmarks and Actions")
+__description__ = _("Vinagre bookmarks and actions")
 __version__ = "2009-11-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
 
 
 class Bookmark(Leaf):
@@ -52,13 +47,8 @@ class VinagreStartSession(Action):
 		yield UrlLeaf
 
 	def valid_for_item(self, item):
-		if isinstance(item, Bookmark):
-			return True
-		elif isinstance(item, UrlLeaf):
-			return (item.object.startswith('ssh://') \
-					or item.object.startswith('vnc://'))
-
-		return False
+		return (item.object.startswith('ssh://') \
+				or item.object.startswith('vnc://'))
 
 
 class SessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
