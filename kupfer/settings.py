@@ -4,6 +4,7 @@ import os, sys
 import ConfigParser
 import copy
 
+import glib
 import gobject
 
 from kupfer import config, pretty, scheduler
@@ -232,8 +233,20 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""Set config value and return success"""
 		return self._set_config("Kupfer", "showstatusicon", enabled)
 
-	def get_directories(self):
-		return self.get_config("Directories", "direct")
+	def get_directories(self, direct=True):
+		"""Yield directories to use as directory sources"""
+
+		specialdirs = dict((k, getattr(glib, k))
+				for k in dir(glib) if k.startswith("USER_DIRECTORY_"))
+
+		def get_special_dir(opt):
+			if opt in specialdirs:
+				return glib.get_user_special_dir(specialdirs[opt])
+
+		level = "Direct" if direct else "Catalog"
+		for direc in self.get_config("Directories", level):
+			dpath = get_special_dir(direc)
+			yield dpath or os.path.abspath(os.path.expanduser(direc))
 
 	def set_directories(self, dirs):
 		return self._set_config("Directories", "direct", dirs)

@@ -833,21 +833,20 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		source_config = setctl.get_config
 
 		def dir_source(opt):
-			abs = os.path.abspath(os.path.expanduser(opt))
-			return objects.DirectorySource(abs)
+			return objects.DirectorySource(opt)
 
 		def file_source(opt, depth=1):
 			abs = os.path.abspath(os.path.expanduser(opt))
 			return objects.FileSource((abs,), depth)
 
+		for coll, level in zip((s_sources, S_sources), ("Catalog", "Direct")):
+			for item in setctl.get_directories(level):
+				coll.append(dir_source(item))
+
 		dir_depth = source_config("DeepDirectories", "Depth")
 
-		for item in source_config("Directories", "Catalog"):
-			s_sources.append(dir_source(item))
 		for item in source_config("DeepDirectories","Catalog"):
 			s_sources.append(file_source(item, dir_depth))
-		for item in source_config("Directories", "Direct"):
-			S_sources.append(dir_source(item))
 		for item in source_config("DeepDirectories", "Direct"):
 			S_sources.append(file_source(item, dir_depth))
 
