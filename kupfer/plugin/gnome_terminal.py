@@ -57,6 +57,9 @@ class SessionsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		for entry in gc.all_dirs(GCONF_KEY):
 			yield Terminal(gc.get_string("%s/visible_name" % entry))
 
+	def should_sort_lexically(self):
+		return True
+
 # Local Variables: ***
 # python-indent: 8 ***
 # indent-tabs-mode: t ***
