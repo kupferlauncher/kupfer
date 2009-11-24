@@ -1146,7 +1146,7 @@ msgstr "Frånkopplad"
 #: ../kupfer/plugin/screen.py:52
 #, python-format
 msgid "%(status)s session (%(pid)s) created %(time)s"
-msgstr "%(status)s session %(pid)s) skapad %(time)s"
+msgstr "%(status)s session (%(pid)s) skapad %(time)s"
 
 #: ../kupfer/plugin/screen.py:61
 msgid "Screen Sessions"
