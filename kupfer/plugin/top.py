@@ -24,6 +24,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"alternatives": [_("Commandline"), _("CPU usage (descending)"),
 				_("Memory usage (descending)") ]
 	},
+	plugin_support.SETTING_PREFER_CATALOG,
 )
 
 
@@ -145,6 +146,12 @@ def get_processes():
 				line.split(None, 11)
 		if pid == 'PID':
 			continue	# skip header
+
+		# read command line
+		proc_file = '/proc/%s/cmdline' % pid
+		if os.path.isfile(proc_file):
+			with open(proc_file, 'rt') as f:
+				cmd = str(f.readline().replace('\x00', ' ') or cmd)
 
 		yield (int(pid), float(cpu), float(mem), ptime, cmd)
 
