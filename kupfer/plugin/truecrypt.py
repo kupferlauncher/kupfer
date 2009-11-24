@@ -12,7 +12,7 @@ __kupfer_name__ = _("TrueCrypt")
 __kupfer_sources__ = ("VolumeSource", )
 __kupfer_actions__ = ('DismountAll', )
 __description__ = _("Volumes from TrueCrypt history")
-__version__ = "2009-11-23"
+__version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -27,7 +27,7 @@ class Volume(Leaf):
 		return "truecrypt"
 
 	def get_description(self):
-		return _("TrueCrypt Volume: %(file)s") % dict(file=unicode(self.object))
+		return _("TrueCrypt volume: %(file)s") % dict(file=unicode(self.object))
 
 	def get_actions(self):
 		yield MountVolume()
@@ -103,7 +103,7 @@ class VolumeSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 			self.output_error(err)
 
 	def get_description(self):
-		return _("Volumes from TrueCrypt History")
+		return _("Volumes from TrueCrypt history")
 
 	def get_icon_name(self):
 		return "truecrypt"

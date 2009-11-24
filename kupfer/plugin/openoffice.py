@@ -10,7 +10,7 @@ from kupfer.helplib import PicklingHelperMixin
 __kupfer_name__ = _("OpenOffice")
 __kupfer_sources__ = ("RecentsSource", )
 __description__ = _("Recently used documents in OpenOffice")
-__version__ = "2009-11-23"
+__version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 

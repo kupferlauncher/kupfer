@@ -13,9 +13,11 @@ __kupfer_name__ = _("Vinagre")
 __kupfer_sources__ = ("SessionSource", )
 __kupfer_actions__ = ('VinagreStartSession', )
 __description__ = _("Vinagre bookmarks and actions")
-__version__ = "2009-11-23"
+__version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+
+BOOKMARKS_FILE = '~/.local/share/vinagre/vinagre-bookmarks.xml'
 
 class Bookmark(Leaf):
 	def __init__(self, url, name):
@@ -63,8 +65,7 @@ class SessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 		self.monitor = None
 
 	def unpickle_finish(self):
-		self._bookmark_file = os.path.expanduser(
-				'~/.local/share/vinagre/vinagre-bookmarks.xml')
+		self._bookmark_file = os.path.expanduser(BOOKMARKS_FILE)
 		gfile = gio.File(self._bookmark_file)
 		self.monitor = gfile.monitor_file(gio.FILE_MONITOR_NONE, None)
 		if self.monitor:
