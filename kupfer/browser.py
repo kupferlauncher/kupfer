@@ -501,7 +501,7 @@ class Search (gtk.Bin):
 			path, col = self.table.get_cursor()
 			if path:
 				r = row_at_path(path)
-				if r <= -rows_count + len(self.model):
+				if len(self.model) - rows_count <= r:
 					self.populate(self.show_more)
 				# go down only if table is visible
 				if table_visible:
