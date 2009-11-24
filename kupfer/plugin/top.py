@@ -13,7 +13,7 @@ from kupfer import plugin_support
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource", )
 __description__ = _("Show running tasks and allow sending signals to them")
-__version__ = "2009-11-22"
+__version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
@@ -149,9 +149,9 @@ def get_processes():
 
 		# read command line
 		proc_file = '/proc/%s/cmdline' % pid
-		if os.path.isfile(proc_file):
+		if os.path.isfile(proc_file): # also skip (finished) missing tasks
 			with open(proc_file, 'rt') as f:
-				cmd = str(f.readline().replace('\x00', ' ') or cmd)
+				cmd = f.readline().replace('\x00', ' ') or cmd
 
-		yield (int(pid), float(cpu), float(mem), ptime, cmd)
+			yield (int(pid), float(cpu), float(mem), ptime, cmd)
 
