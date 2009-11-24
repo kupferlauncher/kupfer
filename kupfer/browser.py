@@ -17,9 +17,6 @@ from kupfer import keybindings
 from kupfer import pretty
 
 
-# number rows to skip when press PgUp/PgDown
-PAGE_STEP = 7
-
 _escape_table = {
 		ord(u"&"): u"&amp;",
 		ord(u"<"): u"&lt;",
@@ -358,6 +355,8 @@ class Search (gtk.Bin):
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
+		# number rows to skip when press PgUp/PgDown
+		self.page_step = 7
 		self.source = None
 		self.icon_size = 96
 		self._old_win_position=None
@@ -514,6 +513,14 @@ class Search (gtk.Bin):
 			self._show_table()
 		if force:
 			self._show_table()
+
+	def go_page_up(self):
+		''' move list one page up '''
+		self.go_up(self.page_step)
+
+	def go_page_down(self):
+		''' move list one page down '''
+		self.go_down(rows_count=self.page_step)
 
 	def go_first(self):
 		''' Rewind to first item '''
@@ -908,7 +915,7 @@ class Interface (gobject.GObject):
 		if keyv == key_book["Up"]:
 			self.current.go_up()
 		elif keyv == key_book["Page_Up"]:
-			self.current.go_up(rows_count=PAGE_STEP)
+			self.current.go_page_up()
 		elif keyv == key_book["Down"]:
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
@@ -918,7 +925,7 @@ class Interface (gobject.GObject):
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
 				self._populate_search()
-			self.current.go_down(rows_count=PAGE_STEP)
+			self.current.go_page_down()
 		elif keyv == key_book["Right"]:
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
