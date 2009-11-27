@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-18 18:48+0100\n"
+"POT-Creation-Date: 2009-11-27 17:19+0100\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -25,8 +25,8 @@ msgstr "Skrót do programu"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1284
-#: ../kupfer/browser.py:1315 ../kupfer/plugin/core.py:223
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1310
+#: ../kupfer/browser.py:1341 ../kupfer/plugin/core.py:223
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -71,21 +71,21 @@ msgstr "Pokaż ikonę w obszarze powiadamiania"
 msgid "Start automatically on login"
 msgstr "Uruchom automatycznie po zalogowaniu"
 
-#: ../kupfer/browser.py:648
+#: ../kupfer/browser.py:665
 #, python-format
 msgid "%s is empty"
 msgstr "%s jest puste"
 
-#: ../kupfer/browser.py:652
+#: ../kupfer/browser.py:669
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Brak wyników w %(src)s dla \"%(query)s\""
 
-#: ../kupfer/browser.py:661
+#: ../kupfer/browser.py:678
 msgid "Type to search"
 msgstr "Pisz aby wyszukać"
 
-#: ../kupfer/browser.py:667
+#: ../kupfer/browser.py:684
 #, python-format
 msgid "Type to search %s"
 msgstr "Pisz aby wyszukać %s"
@@ -142,7 +142,8 @@ msgid "No matches"
 msgstr "Brak wyników"
 
 #: ../kupfer/objects.py:517 ../kupfer/objects.py:578 ../kupfer/objects.py:593
-#: ../kupfer/plugin/notes.py:69 ../kupfer/plugin/zim.py:105
+#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/notes.py:71
+#: ../kupfer/plugin/zim.py:105
 msgid "Open"
 msgstr "Otwórz"
 
@@ -710,62 +711,70 @@ msgstr "Zakładki Firefoksa"
 msgid "Index of Firefox bookmarks"
 msgstr "Indeksuj zakładki Firefoksa"
 
-#: ../kupfer/plugin/gajim.py:8
+#: ../kupfer/plugin/gajim.py:9
 msgid "Gajim"
 msgstr "Gajim"
 
-#: ../kupfer/plugin/gajim.py:11
+#: ../kupfer/plugin/gajim.py:12
 msgid "Access to Gajim Contacts"
 msgstr "Dostęp do kontaktów Gajim-a"
 
-#: ../kupfer/plugin/gajim.py:18 ../kupfer/plugin/pidgin.py:102
+#: ../kupfer/plugin/gajim.py:20 ../kupfer/plugin/pidgin.py:103
 msgid "Available"
 msgstr "Dostępny"
 
-#: ../kupfer/plugin/gajim.py:19
+#: ../kupfer/plugin/gajim.py:21
 msgid "Free for Chat"
 msgstr "Chętny do rozmowy"
 
-#: ../kupfer/plugin/gajim.py:20 ../kupfer/plugin/pidgin.py:102
+#: ../kupfer/plugin/gajim.py:22 ../kupfer/plugin/pidgin.py:103
 msgid "Away"
 msgstr "Zaraz wracam"
 
-#: ../kupfer/plugin/gajim.py:21
+#: ../kupfer/plugin/gajim.py:23
 msgid "Not Available"
 msgstr "Nieobecny"
 
-#: ../kupfer/plugin/gajim.py:22
+#: ../kupfer/plugin/gajim.py:24
 msgid "Busy"
 msgstr "Zajęty"
 
-#: ../kupfer/plugin/gajim.py:23
+#: ../kupfer/plugin/gajim.py:25
 msgid "Invisible"
 msgstr "Niewidoczny"
 
-#: ../kupfer/plugin/gajim.py:24
+#: ../kupfer/plugin/gajim.py:26
 msgid "Offline"
 msgstr "Rozłączony"
 
-#: ../kupfer/plugin/gajim.py:64 ../kupfer/plugin/pidgin.py:100
+#: ../kupfer/plugin/gajim.py:66 ../kupfer/plugin/pidgin.py:101
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/plugin/gajim.py:87 ../kupfer/plugin/pidgin.py:65
+#: ../kupfer/plugin/gajim.py:89 ../kupfer/plugin/pidgin.py:66
 msgid "Open Chat"
 msgstr "Rozpocznij rozmowę"
 
-#: ../kupfer/plugin/gajim.py:104
+#: ../kupfer/plugin/gajim.py:106
 msgid "Change Global Status To..."
 msgstr "Zmień status na..."
 
-#: ../kupfer/plugin/gajim.py:132
+#: ../kupfer/plugin/gajim.py:134
 msgid "Gajim Contacts"
 msgstr "Kontakty Gajim-a"
 
-#: ../kupfer/plugin/gajim.py:189
+#: ../kupfer/plugin/gajim.py:191
 msgid "Gajim Account Status"
 msgstr "Status konta w Gajim"
+
+#: ../kupfer/plugin/gnome_terminal.py:9 ../kupfer/plugin/gnome_terminal.py:52
+msgid "Gnome Terminal Profiles"
+msgstr "Profile Terminala Gnome"
+
+#: ../kupfer/plugin/gnome_terminal.py:11
+msgid "Launch Gnome Terminal profiles"
+msgstr "Uruchom profil Terminala Gnome"
 
 #: ../kupfer/plugin/google.py:11
 msgid "Search the Web"
@@ -896,8 +905,8 @@ msgstr "Przeszukaj system plików za pomocą locate"
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignoruj wielkość liter podczas wyszukiwania plików"
 
-#: ../kupfer/plugin/locate.py:45 ../kupfer/plugin/tracker.py:59
-#: ../kupfer/plugin/tracker.py:97
+#: ../kupfer/plugin/locate.py:45 ../kupfer/plugin/tracker.py:62
+#: ../kupfer/plugin/tracker.py:100
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Wyniki dla \"%s\""
@@ -918,7 +927,7 @@ msgstr ""
 msgid "Selected File \"%s\""
 msgstr "Zaznaczony plik \"%s\""
 
-#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:194
+#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:196
 msgid "Notes"
 msgstr "Notatki"
 
@@ -930,41 +939,53 @@ msgstr "Notatki Gnote lub Tomboy"
 msgid "Work with application"
 msgstr "Wybierz aplikację"
 
-#: ../kupfer/plugin/notes.py:75
+#: ../kupfer/plugin/notes.py:77
 msgid "Open with notes application"
 msgstr "Otwórz za pomocą aplikacji od notatek"
 
-#: ../kupfer/plugin/notes.py:82
+#: ../kupfer/plugin/notes.py:84
 msgid "Append to Note..."
 msgstr "Dołącz do notatki..."
 
-#: ../kupfer/plugin/notes.py:105
+#: ../kupfer/plugin/notes.py:107
 msgid "Add text to existing note"
 msgstr "Dodaj tekst do istniejącej notatki"
 
-#: ../kupfer/plugin/notes.py:145
+#: ../kupfer/plugin/notes.py:147
 msgid "Create Note"
 msgstr "Utwórz notatkę"
 
-#: ../kupfer/plugin/notes.py:159
+#: ../kupfer/plugin/notes.py:161
 msgid "Create a new note from this text"
 msgstr "Utwórz nową notatkę zawierającą ten tekst"
 
-#: ../kupfer/plugin/notes.py:176
+#: ../kupfer/plugin/notes.py:178
 #, python-format
 msgid "today, %s"
 msgstr "dziś, %s"
 
-#: ../kupfer/plugin/notes.py:178
+#: ../kupfer/plugin/notes.py:180
 #, python-format
 msgid "yesterday, %s"
 msgstr "wczoraj, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:182
+#: ../kupfer/plugin/notes.py:184
 #, python-format
 msgid "Last updated %s"
 msgstr "Ostatnia modyfikacja: %s"
+
+#: ../kupfer/plugin/openoffice.py:10
+msgid "OpenOffice"
+msgstr "OpenOffice"
+
+#: ../kupfer/plugin/openoffice.py:12 ../kupfer/plugin/openoffice.py:120
+msgid "Recently used documents in OpenOffice"
+msgstr "Ostatnio używane dokumenty OpenOffice"
+
+#: ../kupfer/plugin/openoffice.py:61
+msgid "OpenOffice Recent Items"
+msgstr "Ostatnie dokumenty OpenOffice"
 
 #: ../kupfer/plugin/opera.py:12 ../kupfer/plugin/opera.py:28
 msgid "Opera Bookmarks"
@@ -974,19 +995,19 @@ msgstr "Zakładki Opery"
 msgid "Index of Opera bookmarks"
 msgstr "Indeksuj zakładki Opery"
 
-#: ../kupfer/plugin/pidgin.py:11
+#: ../kupfer/plugin/pidgin.py:12
 msgid "Pidgin"
 msgstr "Pidgin"
 
-#: ../kupfer/plugin/pidgin.py:13
+#: ../kupfer/plugin/pidgin.py:14
 msgid "Access to Pidgin Contacts"
 msgstr "Dostęp do kontaktów Pidgina"
 
-#: ../kupfer/plugin/pidgin.py:73
+#: ../kupfer/plugin/pidgin.py:74
 msgid "Send Message..."
 msgstr "Wyślij wiadomość..."
 
-#: ../kupfer/plugin/pidgin.py:135
+#: ../kupfer/plugin/pidgin.py:136
 msgid "Pidgin Contacts"
 msgstr "Kontakty Pidgina"
 
@@ -1116,15 +1137,15 @@ msgstr "Utwory"
 msgid "Songs in Rhythmbox library"
 msgstr "Utwory w bibliotece Rhythmboksa"
 
-#: ../kupfer/plugin/rst.py:7
+#: ../kupfer/plugin/rst.py:6
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
-#: ../kupfer/plugin/rst.py:9
+#: ../kupfer/plugin/rst.py:8
 msgid "Render reStructuredText and show the result"
 msgstr "Renderuj reStructuredText i pokaż rezultat"
 
-#: ../kupfer/plugin/rst.py:15
+#: ../kupfer/plugin/rst.py:17
 msgid "View as HTML Document"
 msgstr "Wyświetl jako dokument HTML"
 
@@ -1236,6 +1257,10 @@ msgstr ""
 "poziomie.\n"
 "Źródła są zawsze dostępne jako podkatalogi na najwyższym poziomie."
 
+#: ../kupfer/plugin_support.py:105
+msgid "No D-Bus connection to desktop session"
+msgstr "Brak połączeń D-Bus do sesji pulpitu"
+
 #: ../kupfer/plugin/templates.py:12 ../kupfer/plugin/templates.py:87
 msgid "Document Templates"
 msgstr "Szablony dokumentów"
@@ -1277,67 +1302,140 @@ msgstr "Odpowiedniki tekstowe w systemie plików"
 msgid "URL Text Matches"
 msgstr "Odpowiedniki tekstowe URL"
 
-#: ../kupfer/plugin/tracker.py:9
+#: ../kupfer/plugin/top.py:14
+msgid "Top"
+msgstr "Top"
+
+#: ../kupfer/plugin/top.py:16
+msgid "Show running tasks and allow sending signals to them"
+msgstr "Pokazuje uruchomione zadania i pozwala na wysłanie sygnałów do nich"
+
+#: ../kupfer/plugin/top.py:22
+msgid "Sort Order"
+msgstr "Sortuj wg"
+
+#: ../kupfer/plugin/top.py:24 ../kupfer/plugin/top.py:25
+#: ../kupfer/plugin/top.py:110
+msgid "Commandline"
+msgstr "Komenda"
+
+#: ../kupfer/plugin/top.py:25
+msgid "CPU usage (descending)"
+msgstr "Zużycie CPU (malejąco)"
+
+#. sort processes (top don't allow to sort via cmd line)
+#: ../kupfer/plugin/top.py:26 ../kupfer/plugin/top.py:108
+msgid "Memory usage (descending)"
+msgstr "Zużycie pamięci (malejąco)"
+
+#: ../kupfer/plugin/top.py:49
+msgid "Send Signal..."
+msgstr "Wyślij sygnał..."
+
+#: ../kupfer/plugin/top.py:79
+msgid "Signals"
+msgstr "Sygnały"
+
+#: ../kupfer/plugin/top.py:89
+msgid "Running Tasks"
+msgstr "Uruchomione zadania"
+
+#. default: by cpu
+#: ../kupfer/plugin/top.py:114
+#, python-format
+msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
+msgstr "pid: %(pid)s  cpu: %(cpu)g%%  pamięć: %(mem)g%%  czas: %(time)s"
+
+#: ../kupfer/plugin/top.py:121
+msgid "Running tasks for current user"
+msgstr "Uruchomione zadania bieżącego użytkownika"
+
+#: ../kupfer/plugin/tracker.py:10
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker.py:18
+#: ../kupfer/plugin/tracker.py:19
 msgid "Tracker desktop search integration"
 msgstr "Integracja z Trackerem przeszukującym pulpit"
 
-#: ../kupfer/plugin/tracker.py:28
+#: ../kupfer/plugin/tracker.py:31
 msgid "Search in Tracker"
 msgstr "Wyszukaj w Trackerze"
 
-#: ../kupfer/plugin/tracker.py:33
+#: ../kupfer/plugin/tracker.py:36
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Szukaj tego terminu za pomocą wyszukiwarki Trackera"
 
-#: ../kupfer/plugin/tracker.py:42
+#: ../kupfer/plugin/tracker.py:45
 msgid "Get Tracker Results..."
 msgstr "Pobierz wyniki Trackera..."
 
-#: ../kupfer/plugin/tracker.py:51
+#: ../kupfer/plugin/tracker.py:54
 msgid "Show Tracker results for query"
 msgstr "Pokaż wyniki Trackera dla zapytania"
 
-#: ../kupfer/plugin/tracker.py:128 ../kupfer/plugin/tracker.py:134
+#: ../kupfer/plugin/tracker.py:131 ../kupfer/plugin/tracker.py:137
 msgid "Tracker tags"
 msgstr "Tagi Trackera"
 
-#: ../kupfer/plugin/tracker.py:143
+#: ../kupfer/plugin/tracker.py:146
 msgid "Tracker Tags"
 msgstr "Tagi Trackera"
 
-#: ../kupfer/plugin/tracker.py:149
+#: ../kupfer/plugin/tracker.py:152
 msgid "Browse Tracker's tags"
 msgstr "Przeglądaj tagi Trackera"
 
-#: ../kupfer/plugin/tracker.py:160 ../kupfer/plugin/tracker.py:167
+#: ../kupfer/plugin/tracker.py:163 ../kupfer/plugin/tracker.py:170
 #, python-format
 msgid "Tag %s"
 msgstr "Tag %s"
 
-#: ../kupfer/plugin/tracker.py:174
+#: ../kupfer/plugin/tracker.py:177
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Obiekty otagowane %s przez Trackera"
 
-#: ../kupfer/plugin/tracker.py:186
+#: ../kupfer/plugin/tracker.py:189
 msgid "Add Tag..."
 msgstr "Dodaj tag..."
 
-#: ../kupfer/plugin/tracker.py:212
+#: ../kupfer/plugin/tracker.py:215
 msgid "Add tracker tag to file"
 msgstr "Dodaj tag trackera do pliku"
 
-#: ../kupfer/plugin/tracker.py:218
+#: ../kupfer/plugin/tracker.py:221
 msgid "Remove Tag..."
 msgstr "Usuń tag..."
 
-#: ../kupfer/plugin/tracker.py:237
+#: ../kupfer/plugin/tracker.py:240
 msgid "Remove tracker tag from file"
 msgstr "Usuń tag trackera z pliku"
+
+#: ../kupfer/plugin/truecrypt.py:11
+msgid "TrueCrypt"
+msgstr "TrueCrypt"
+
+#: ../kupfer/plugin/truecrypt.py:14 ../kupfer/plugin/truecrypt.py:107
+msgid "Volumes from TrueCrypt history"
+msgstr "Historia woluminów TrueCrypt"
+
+#: ../kupfer/plugin/truecrypt.py:31
+#, python-format
+msgid "TrueCrypt volume: %(file)s"
+msgstr "Wolumin TrueCrypt: %(file)s"
+
+#: ../kupfer/plugin/truecrypt.py:39
+msgid "Mount Volume"
+msgstr "Zamontuj wolumin"
+
+#: ../kupfer/plugin/truecrypt.py:47
+msgid "Dismount All Volumes"
+msgstr "Odmontuj wszystkie woluminy"
+
+#: ../kupfer/plugin/truecrypt.py:65
+msgid "TrueCrypt Volumes"
+msgstr "Woluminy TrueCrypt"
 
 #: ../kupfer/plugin/tsclient.py:10
 msgid "Terminal Server Client"
@@ -1355,66 +1453,21 @@ msgstr "Sesje klienta usług terminalowych"
 msgid "Saved sessions in Terminal Server Client"
 msgstr "Sesje zapisane w Kliencie usług terminalowych"
 
-#: ../kupfer/plugin/urlactions.py:7 ../kupfer/plugin/urlactions.py:14
+#: ../kupfer/plugin/urlactions.py:8 ../kupfer/plugin/urlactions.py:15
 msgid "URL Actions"
 msgstr "Akcje URL"
 
-#: ../kupfer/plugin/urlactions.py:66
+#: ../kupfer/plugin/urlactions.py:63
 msgid "Download and Open"
 msgstr "Pobierz i otwórz"
 
-#: ../kupfer/plugin/urlactions.py:84
+#: ../kupfer/plugin/urlactions.py:81
 msgid "Download To..."
 msgstr "Pobierz do..."
 
-#: ../kupfer/plugin/urlactions.py:101
+#: ../kupfer/plugin/urlactions.py:98
 msgid "Download URL to a chosen location"
 msgstr "Pobierz URL do wybranej lokacji"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:7
-msgid "VirtualBox"
-msgstr "VirtualBox"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:9
-msgid ""
-"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
-"Source Edition."
-msgstr ""
-"Zarządzaj maszynami wirtualnymi VirtualBoxa. Ta wersja wspiera wersję "
-"zarówno zamkniętą SUN-a jak i otwarto-źródłową."
-
-#: ../kupfer/plugin/virtualbox/__init__.py:41
-msgid "Power On"
-msgstr "Uruchom"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:43
-msgid "Power On Headless"
-msgstr "Uruchom bez okna"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:46
-msgid "Send Power Off Signal"
-msgstr "Wyślij sygnał wyłączenia"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:49
-msgid "Reboot"
-msgstr "Resetuj"
-
-#. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:52
-msgid "Resume"
-msgstr "Wznów"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:55
-msgid "Save State"
-msgstr "Zapisz stan"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:57
-msgid "Power Off"
-msgstr "Wyłącz"
-
-#: ../kupfer/plugin/virtualbox/__init__.py:82
-msgid "VirtualBox Machines"
-msgstr "Maszyny Wirtualne VirtualBox"
 
 #: ../kupfer/plugin/wikipedia.py:10
 msgid "Wikipedia"
@@ -1437,6 +1490,22 @@ msgstr "pl"
 #, python-format
 msgid "Search for this term in %s.wikipedia.org"
 msgstr "Szukaj tego pojęcia w %s.wikipedia.org"
+
+#: ../kupfer/plugin/vinagre.py:12
+msgid "Vinagre"
+msgstr "Vinegre"
+
+#: ../kupfer/plugin/vinagre.py:15
+msgid "Vinagre bookmarks and actions"
+msgstr "Zakładki i akcje Vinegre"
+
+#: ../kupfer/plugin/vinagre.py:39
+msgid "Start Vinagre Session"
+msgstr "Rozpocznij sesje Vinegre"
+
+#: ../kupfer/plugin/vinagre.py:60
+msgid "Vinagre Bookmarks"
+msgstr "Zakładki Vinegre"
 
 #: ../kupfer/plugin/windows.py:6 ../kupfer/plugin/windows.py:94
 msgid "Window List"
@@ -1495,6 +1564,51 @@ msgstr "Okno na %(wkspc)s"
 #: ../kupfer/plugin/windows.py:61
 msgid "Jump to this window's workspace and focus"
 msgstr "Przejdź do obszaru roboczego tego okna i aktywuj"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:7
+msgid "VirtualBox"
+msgstr "VirtualBox"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:9
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
+msgstr ""
+"Zarządzaj maszynami wirtualnymi VirtualBoxa. Ta wersja wspiera wersję "
+"zarówno zamkniętą SUN-a jak i otwarto-źródłową."
+
+#: ../kupfer/plugin/virtualbox/__init__.py:41
+msgid "Power On"
+msgstr "Uruchom"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:43
+msgid "Power On Headless"
+msgstr "Uruchom bez okna"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:46
+msgid "Send Power Off Signal"
+msgstr "Wyślij sygnał wyłączenia"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:49
+msgid "Reboot"
+msgstr "Resetuj"
+
+#. VM_STATE_PAUSED
+#: ../kupfer/plugin/virtualbox/__init__.py:52
+msgid "Resume"
+msgstr "Wznów"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:55
+msgid "Save State"
+msgstr "Zapisz stan"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:57
+msgid "Power Off"
+msgstr "Wyłącz"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:82
+msgid "VirtualBox Machines"
+msgstr "Maszyny Wirtualne VirtualBox"
 
 #: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:72
 msgid "Volumes and Disks"
