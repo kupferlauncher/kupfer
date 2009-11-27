@@ -26,6 +26,7 @@ kupfer/plugin/favorites.py
 kupfer/plugin/fileactions.py
 kupfer/plugin/firefox.py
 kupfer/plugin/gajim.py
+kupfer/plugin/gnome_terminal.py
 kupfer/plugin/google.py
 kupfer/plugin/google_translate.py
 kupfer/plugin/image.py
@@ -33,6 +34,7 @@ kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/locate.py
 kupfer/plugin/nautilusselection.py
 kupfer/plugin/notes.py
+kupfer/plugin/openoffice.py
 kupfer/plugin/opera.py
 kupfer/plugin/pidgin.py
 kupfer/plugin/putty.py
@@ -46,12 +48,15 @@ kupfer/plugins.py
 kupfer/plugin_support.py
 kupfer/plugin/templates.py
 kupfer/plugin/text.py
+kupfer/plugin/top.py
 kupfer/plugin/tracker.py
+kupfer/plugin/truecrypt.py
 kupfer/plugin/tsclient.py
 kupfer/plugin/urlactions.py
-kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/wikipedia.py
+kupfer/plugin/vinagre.py
 kupfer/plugin/windows.py
+kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/volumes.py
 kupfer/plugin/zim.py
 kupfer/preferences.py
