@@ -36,6 +36,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 )
 
+plugin_support.check_dbus_connection()
+
 def _get_notes_interface(activate=False):
 	"""Return the dbus proxy object for our Note Application.
 

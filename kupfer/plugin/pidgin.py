@@ -6,6 +6,7 @@ from kupfer.objects import (Leaf, Action, Source, AppLeafContentMixin,
 		TextLeaf, TextSource)
 from kupfer import pretty, scheduler
 from kupfer import icons
+from kupfer import plugin_support
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 
 __kupfer_name__ = _("Pidgin")
@@ -15,7 +16,7 @@ __version__ = "0.1"
 __author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
 
-# pylint: disable-msg=W0312
+plugin_support.check_dbus_connection()
 
 SERVICE_NAME = "im.pidgin.purple.PurpleService"
 OBJECT_NAME = "/im/pidgin/purple/PurpleObject"

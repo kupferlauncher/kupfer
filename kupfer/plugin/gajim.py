@@ -4,6 +4,7 @@ import dbus
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
 from kupfer import pretty
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
+from kupfer import plugin_support
 
 __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )
@@ -13,6 +14,7 @@ __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
+plugin_support.check_dbus_connection()
 
 _STATUSES = {
 		'online':	_('Available'),

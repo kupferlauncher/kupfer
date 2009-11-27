@@ -4,6 +4,7 @@ from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import (TextLeaf, ConstructFileLeaf,
 		SourceLeaf, TextSource, FileLeaf)
 from kupfer import utils, pretty
+from kupfer import plugin_support
 
 
 __kupfer_name__ = _("Tracker")
@@ -18,6 +19,8 @@ __kupfer_actions__ = (
 __description__ = _("Tracker desktop search integration")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+plugin_support.check_dbus_connection()
 
 SERVICE_NAME = "org.freedesktop.Tracker"
 SEARCH_OBJECT_PATH = "/org/freedesktop/Tracker/Search"
