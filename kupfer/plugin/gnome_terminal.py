@@ -4,9 +4,9 @@ from kupfer.objects import Source, Leaf, Action, \
     AppLeafContentMixin, PicklingHelperMixin
 from kupfer import utils, icons
 
-__kupfer_name__ = _("Gnome Terminal Sessions")
+__kupfer_name__ = _("Gnome Terminal Profiles")
 __kupfer_sources__ = ("SessionsSource", )
-__description__ = _("Launch Gnome Terminal sessions")
+__description__ = _("Launch Gnome Terminal profiles")
 __version__ = ""
 __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
@@ -16,7 +16,7 @@ GCONF_KEY = "/apps/gnome-terminal/profiles"
 
 
 class Terminal(Leaf):
-	""" Leaf represent session saved in Gnome Terminal"""
+	""" Leaf represent profile saved in Gnome Terminal"""
 
 	def __init__(self, name):
 		Leaf.__init__(self, name, name)
@@ -29,7 +29,7 @@ class Terminal(Leaf):
 
 
 class OpenSession(Action):
-	""" Opens Gnome Terminal session """
+	""" Opens Gnome Terminal profile """
 	def __init__(self):
 		Action.__init__(self, _("Open"))
 
@@ -47,7 +47,7 @@ class SessionsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	appleaf_content_id = 'gnome-terminal'
 
 	def __init__(self):
-		Source.__init__(self, name=_("Gnome Terminal Sessions"))
+		Source.__init__(self, name=_("Gnome Terminal Profiles"))
 
 	def get_items(self):
 		gc = gconf.client_get_default()
