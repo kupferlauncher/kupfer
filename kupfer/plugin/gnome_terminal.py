@@ -1,5 +1,7 @@
 import os
 
+import glib
+
 from kupfer.objects import Source, Leaf, Action, \
     AppLeafContentMixin, PicklingHelperMixin
 from kupfer import utils, icons
@@ -51,11 +53,14 @@ class SessionsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 
 	def get_items(self):
 		gc = gconf.client_get_default()
-		if not gc.dir_exists(GCONF_KEY):
-			return
+		try:
+			if not gc.dir_exists(GCONF_KEY):
+				return
 
-		for entry in gc.all_dirs(GCONF_KEY):
-			yield Terminal(gc.get_string("%s/visible_name" % entry))
+			for entry in gc.all_dirs(GCONF_KEY):
+				yield Terminal(gc.get_string("%s/visible_name" % entry))
+		except glib.GError, err:
+			self.output_error(err)
 
 	def should_sort_lexically(self):
 		return True
