@@ -79,3 +79,29 @@ class PluginSettings (pretty.OutputMixin):
 	def get_tooltip(self, key):
 		"""Return tooltip string for setting @key (if any)"""
 		return self.setting_descriptions[key].get("tooltip")
+
+# Plugin convenience functions for dependencies
+
+_has_dbus_connection = None
+
+def check_dbus_connection():
+	"""
+	Check if a connection to the D-Bus daemon is available,
+	else raise ImportError with an explanatory error message.
+
+	For plugins that can not be used without contact with D-Bus;
+	if this check is used, the plugin may use D-Bus and assume it
+	is available in the Plugin's code.
+	"""
+	global _has_dbus_connection
+	if _has_dbus_connection is None:
+		import dbus
+		try:
+			dbus.Bus()
+			_has_dbus_connection = True
+		except dbus.DBusException, err:
+			_has_dbus_connection = False
+	if not _has_dbus_connection:
+		raise ImportError(_("No D-Bus connection to desktop session"))
+
+
