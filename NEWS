@@ -2,6 +2,29 @@
 NEWS for kupfer
 ===============
 
+kupfer version c19
+------------------
+
+Not Released Yet
+
+* New plugins:
+
+  + *Gnome Terminal Profiles* by Chmouel Boudjnah
+  + *OpenOffice* recent documents in OpenOffice by Karol Będkowski
+  + *Top* show and send signals to running tasks (Karol)
+  + *Truecrypt* show volumes in truecrypt history and allow mounting them
+    (Karol)
+  + *Vinagre* Remote Desktop Viewer (Karol)
+
+* Some plugins will now explicitly require a D-Bus connection and fail to
+  load if no connection was found.
+* Add accelerators *Page Up*, *Page Down* and *Home* in the result list.
+  (Karol)
+* Use customized or localized desktop directory instead of hardcoding
+  ~/Desktop by default. Will not affect users who already customized
+  which directories Kupfer includes with content.
+
+
 kupfer version c18.1
 --------------------
 
