@@ -51,6 +51,17 @@ def _create_dbus_connection(activate=False):
 	return interface
 
 
+def _check_gajim_version(conn):
+	''' get gajim version. return list lika [0.12.5] '''
+	prefs = conn.prefs_list()
+	version = prefs['version']
+	tversion = map(int, version.split('.'))
+	if len(tversion) == 2:
+		tversion += [0]
+	return tversion
+
+
+
 class GajimContact(Leaf):
 	""" Leaf represent single contact from Gajim """
 
@@ -92,7 +103,11 @@ class OpenChat(Action):
 		interface = _create_dbus_connection()
 		account, jid = leaf.object
 		if interface is not None:
-			interface.open_chat(jid, account)
+			vmaj,vmin,vbuild = _check_gajim_version(interface)
+			if vmaj == 0 and vmin < 13:
+				interface.open_chat(jid, account)
+			else:
+				interface.open_chat(jid, account, '')
 
 	def get_icon_name(self):
 		return 'gajim'
