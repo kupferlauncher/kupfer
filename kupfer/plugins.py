@@ -86,15 +86,24 @@ def get_plugin_info():
 		}
 
 def get_plugin_desc():
+	"""Return a formatted list of plugins suitable for printing to terminal"""
 	import textwrap
+	infos = list(get_plugin_info())
+	verlen = max(len(r["version"]) for r in infos)
+	idlen = max(len(r["name"]) for r in infos)
+	maxlen = 78
+	left_margin = 2 + idlen + 1 + verlen + 1
 	desc = []
 	for rec in get_plugin_info():
 		# Wrap the description and align continued lines
-		maxlen = 80
-		left_margin = 2 + 20 + 6
 		wrapped = textwrap.wrap(rec["description"], maxlen - left_margin)
-		rec["description"] = (u"\n" + u" "*left_margin).join(wrapped)
-		desc.append(_("""  %(name)-20s %(version)-4s %(description)s""") % rec)
+		description = (u"\n" + u" "*left_margin).join(wrapped)
+		desc.append("  %s %s %s" %
+			(
+				rec["name"].ljust(idlen),
+				rec["version"].ljust(verlen),
+				description,
+			))
 	return "\n".join(desc)
 
 imported_plugins = {}
