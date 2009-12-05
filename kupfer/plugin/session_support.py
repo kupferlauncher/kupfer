@@ -1,16 +1,15 @@
-import gtk
 import gio
-import gobject
 
 from kupfer.objects import Leaf, Action, Source, RunnableLeaf
 from kupfer import objects, utils, icons, pretty
-from kupfer.plugin import about_support
 
-__kupfer_name__ = _("Common")
-__kupfer_sources__ = ("CommonSource", )
-__description__ = _("Special items and actions")
-__version__ = ""
+'''
+Common objects for session_* plugins.
+'''
+
+__version__ = "2009-12-05"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 
 def launch_commandline_with_fallbacks(commands, print_error=True):
 	"""Try the sequence of @commands with utils.launch_commandline,
@@ -25,12 +24,12 @@ def launch_commandline_with_fallbacks(commands, print_error=True):
 
 class Logout (RunnableLeaf):
 	"""Log out from desktop"""
-	def __init__(self, name=None):
+	def __init__(self, commands, name=None):
 		if not name: name = _("Log Out...")
 		super(Logout, self).__init__(name=name)
+		self._commands = commands
 	def run(self):
-		launch_commandline_with_fallbacks(("gnome-panel-logout",
-			"gnome-session-save --kill"))
+		launch_commandline_with_fallbacks(self._commands)
 	def get_description(self):
 		return _("Log out or change user")
 	def get_icon_name(self):
@@ -38,12 +37,12 @@ class Logout (RunnableLeaf):
 
 class Shutdown (RunnableLeaf):
 	"""Shutdown computer or reboot"""
-	def __init__(self, name=None):
+	def __init__(self, commands, name=None):
 		if not name: name = _("Shut Down...")
 		super(Shutdown, self).__init__(name=name)
+		self._commands = commands
 	def run(self):
-		launch_commandline_with_fallbacks(("gnome-panel-logout --shutdown",
-			"gnome-session-save --shutdown-dialog"))
+		launch_commandline_with_fallbacks(self._commands)
 
 	def get_description(self):
 		return _("Shut down, restart or suspend computer")
@@ -52,12 +51,12 @@ class Shutdown (RunnableLeaf):
 
 class LockScreen (RunnableLeaf):
 	"""Lock screen"""
-	def __init__(self, name=None):
+	def __init__(self, commands, name=None):
 		if not name: name = _("Lock Screen")
 		super(LockScreen, self).__init__(name=name)
+		self._commands = commands
 	def run(self):
-		launch_commandline_with_fallbacks(("gnome-screensaver-command --lock",
-			"xdg-screensaver lock"))
+		launch_commandline_with_fallbacks(self._commands)
 	def get_description(self):
 		return _("Enable screensaver and lock")
 	def get_icon_name(self):
@@ -87,8 +86,6 @@ class SpecialLocation (objects.Leaf):
 	def get_icon_name(self):
 		return "folder"
 
-TRASH_URI="trash://"
-
 class RestoreTrashedFile (Action):
 	def __init__(self):
 		Action.__init__(self, _("Restore"))
@@ -112,14 +109,15 @@ class RestoreTrashedFile (Action):
 
 class TrashFile (Leaf):
 	"""A file in the trash. Represented object is a file info object"""
-	def __init__(self, info):
+	def __init__(self, trash_uri, info):
 		name = info.get_display_name()
 		Leaf.__init__(self, info, name)
+		self._trash_uri = trash_uri
 	def get_actions(self):
 		if self.get_orig_path():
 			yield RestoreTrashedFile()
 	def get_gfile(self):
-		cur_gfile = gio.File(TRASH_URI).get_child(self.object.get_name())
+		cur_gfile = gio.File(self._trash_uri).get_child(self.object.get_name())
 		return cur_gfile
 	def get_orig_path(self):
 		try:
@@ -142,26 +140,30 @@ class TrashFile (Leaf):
 		return "gtk-file"
 
 class TrashContentSource (Source):
+	def __init__(self, trash_uri, name):
+		Source.__init__(self, name)
+		self._trash_uri = trash_uri
+
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		gfile = gio.File(TRASH_URI)
+		gfile = gio.File(self._trash_uri)
 		enumerator = gfile.enumerate_children("standard::*,trash::*")
 		for info in enumerator:
-			yield TrashFile(info)
+			yield TrashFile(self._trash_uri, info)
 	def should_sort_lexically(self):
 		return True
 	def get_gicon(self):
-		return icons.get_gicon_for_file(TRASH_URI)
+		return icons.get_gicon_for_file(self._trash_uri)
 
 class Trash (SpecialLocation):
-	def __init__(self, name=None):
-		SpecialLocation.__init__(self, TRASH_URI, name=name)
+	def __init__(self, trash_uri, name=None):
+		SpecialLocation.__init__(self, trash_uri, name=name)
 
 	def has_content(self):
 		return self.get_item_count()
 	def content_source(self, alternate=False):
-		return TrashContentSource(name=unicode(self))
+		return TrashContentSource(self._uri, name=unicode(self))
 
 	def get_item_count(self):
 		gfile = gio.File(self.object)
@@ -181,16 +183,6 @@ class CommonSource (Source):
 		super(CommonSource, self).__init__(name)
 	def is_dynamic(self):
 		return True
-	def get_items(self):
-		return (
-			# These seem to be included in applications now..
-			#SpecialLocation("computer://", description=_("Browse local disks and mounts")),
-			#SpecialLocation("burn://"),
-			Trash(),
-			Logout(),
-			LockScreen(),
-			Shutdown(),
-		)
 	def get_description(self):
 		return _("Items and special actions")
 	def get_icon_name(self):

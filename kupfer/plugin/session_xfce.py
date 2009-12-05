@@ -1,0 +1,22 @@
+# -*- coding: utf-8 -*
+
+from kupfer.plugin import session_support as support
+
+__kupfer_name__ = _("XFCE Session Manager")
+__kupfer_sources__ = ("XfceItemsSource", )
+__description__ = _("Special items and actions for XFCE environment")
+__version__ = "2009-12-05"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+LOGOUT_CMD = ("xfce4-session-logout --logout", )
+SHUTDOWN_CMD = ("xfce4-session-logout --shutdown", )
+LOCKSCREEN_CMD = ("xdg-screensaver lock", )
+
+
+class XfceItemsSource (support.CommonSource):
+	def get_items(self):
+		return (
+			support.Logout(LOGOUT_CMD),
+			support.LockScreen(LOCKSCREEN_CMD),
+			support.Shutdown(SHUTDOWN_CMD),
+		)
