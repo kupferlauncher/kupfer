@@ -9,7 +9,7 @@ __version__ = "2009-12-05"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 LOGOUT_CMD = ("xfce4-session-logout --logout", )
-SHUTDOWN_CMD = ("xfce4-session-logout --shutdown", )
+SHUTDOWN_CMD = ("xfce4-session-logout", )
 LOCKSCREEN_CMD = ("xdg-screensaver lock", )
 
 
