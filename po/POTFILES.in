@@ -16,7 +16,6 @@ kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
-kupfer/plugin/common.py
 kupfer/plugin/core.py
 kupfer/plugin/devhelp.py
 kupfer/plugin/dictionary.py
@@ -43,6 +42,9 @@ kupfer/plugin/rst.py
 kupfer/plugin/screen.py
 kupfer/plugin/selection.py
 kupfer/plugin/services.py
+kupfer/plugin/session_gnome.py
+kupfer/plugin/session_support.py
+kupfer/plugin/session_xfce.py
 kupfer/plugin/show_text.py
 kupfer/plugins.py
 kupfer/plugin_support.py
@@ -50,6 +52,7 @@ kupfer/plugin/templates.py
 kupfer/plugin/text.py
 kupfer/plugin/top.py
 kupfer/plugin/tracker.py
+kupfer/plugin/trash.py
 kupfer/plugin/truecrypt.py
 kupfer/plugin/tsclient.py
 kupfer/plugin/urlactions.py
