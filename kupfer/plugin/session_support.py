@@ -61,14 +61,11 @@ class LockScreen (RunnableLeaf):
 		return "system-lock-screen"
 
 class CommonSource (Source):
-	def __init__(self, name=_("Special Items")):
+	def __init__(self, name):
 		super(CommonSource, self).__init__(name)
 	def is_dynamic(self):
 		return True
-	def get_description(self):
-		return _("Items and special actions")
 	def get_icon_name(self):
-		return "applications-other"
+		return "system-shutdown"
 	def provides(self):
-		yield SpecialLocation
 		yield RunnableLeaf

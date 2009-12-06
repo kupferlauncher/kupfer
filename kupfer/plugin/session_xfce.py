@@ -2,7 +2,7 @@
 
 from kupfer.plugin import session_support as support
 
-__kupfer_name__ = _("XFCE Session Manager")
+__kupfer_name__ = _("XFCE Session Management")
 __kupfer_sources__ = ("XfceItemsSource", )
 __description__ = _("Special items and actions for XFCE environment")
 __version__ = "2009-12-05"
@@ -14,6 +14,8 @@ LOCKSCREEN_CMD = ("xdg-screensaver lock", )
 
 
 class XfceItemsSource (support.CommonSource):
+	def __init__(self):
+		support.CommonSource.__init__(self, _("XFCE Session Management"))
 	def get_items(self):
 		return (
 			support.Logout(LOGOUT_CMD),
