@@ -1,0 +1,68 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="tips">
+
+  <info>
+   <link type="guide" xref="index#usage"/>
+   <desc>Using <app>Kupfer</app> more convenient.</desc>
+  </info>
+
+  <title>Basic Usage</title>
+
+  <p>
+    By default, with the keybinder module installed, <keyseq><key>Ctrl</key><key>Space</key></keyseq> 
+    will summon the Kupfer window.
+  </p>
+
+  <p>
+    Included toplevel directories (by default home an desktop) are monitored 
+    so new files will be found immediately. Most plugins in <app>Kupfer</app> 
+    try to use the change notifications that are available from the system, to 
+    keep up to date with the instant.
+  </p>
+
+  <p>
+    Objects that have content, like folders, are marked with an arrow. Pressing 
+    <key>right-arrow</key> will enter these objects.
+  </p>
+
+  <p>
+    In command mode, some keybindings are:
+  </p>
+   <list>
+    <item>
+     <p>
+      <key>space</key> to go to the next match
+     </p>
+    </item>
+    <item>
+     <p>
+     <key>.</key> to activate free-text mode
+     </p>
+    </item>
+    <item>
+     <p>
+      <key>/</key> to descend into an object with content
+     </p>
+    </item>
+    <item>
+     <p>
+     <key>Backspace</key> to go back upspace to go to the next match
+     </p>
+    </item>
+   </list>
+  
+
+ <section>
+  <title>Configuration files and paths</title>
+  <p>
+    Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, 
+    <file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</file>.
+  </p>
+  
+  <p>
+    Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>
+  </p>
+ </section>
+
+</page>

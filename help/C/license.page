@@ -1,0 +1,51 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="guide"
+      id="license">
+
+  <info>
+   <link type="seealso" xref="index"/>
+   <desc>Legal Information.</desc>
+  </info>
+
+  <title>License</title>
+
+  <p> 
+    This program is free software; you can redistribute it and/or modify it 
+    under the terms of the <em>GNU General Public License</em> 
+    as published by the Free Software Foundation; either version 2 of the 
+    License, or (at your option) any later version.
+  </p>
+  <p>
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    <em>GNU General Public License</em> for more details.
+  </p>
+  <p>
+    A copy of the <em>GNU General Public License</em> is
+    included as an appendix to the <em>GNOME Users
+    Guide</em>.  You may also obtain a copy of the <em>GNU
+    General Public License</em> from the Free Software Foundation by
+    visiting <link type="http" url="http://www.fsf.org">their Web
+    site</link> or by writing to
+  </p>
+    <code>
+     Free Software Foundation, Inc.  
+     59 Temple Place - Suite 330 
+     Boston, MA 02111-1307 
+     USA 
+    </code>
+
+  <p>
+    This documentation is licensed under a
+    <link href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons
+    Attribution-Share Alike 3.0 Unported License</link>.
+  </p>
+
+  <p>
+    As a special exception, the copyright holders give you permission to copy,
+    modify, and distribute the example code contained in this document under the
+    terms of your choosing, without restriction.
+  </p>
+ 
+</page>

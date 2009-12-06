@@ -1,0 +1,40 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="intro">
+
+  <info>
+   <link type="guide" xref="index"/>
+   <desc>Introduction to <app>Kupfer</app>.</desc>
+  </info>
+
+  <title>Introduction</title>
+
+  <p>
+    <app>Kupfer</app> is a command tool heavily inspired by 
+    <link href="http://www.blacktree.com/">Quicksilver</link>; you do not use 
+    it to search your files, you use it to summon an application or document 
+    quickly by typing the first parts of its name.
+  </p>
+
+  <p>
+    <app>Kupfer</app> is written using Python and has a flexible architecture. 
+    Objects that it can access are implemented in plugins, and new plugins can 
+    be written quickly.
+  </p>
+
+  <p>
+    The philosophy of <app>Kupfer</app> is simplicity. The implementation is simple, 
+    makes the easy things work first, and does not overdesign unnecessary parts 
+    of the program.
+  </p>
+
+  <p>
+    When you run <app>Kupfer</app>, it launches, then anytime you type <app>Kupfer's</app> 
+    keybinding -- immediately its window is presented ready for a new query.
+  </p>
+
+  <p>
+    For more information about <app>Kupfer</app>, visit its 
+    <link href="http://kaizer.se/wiki/kupfer/">homepage</link>.
+  </p>
+</page>
