@@ -1,0 +1,52 @@
+import os
+import Task
+from TaskGen import extension, feature, after
+
+LINGUAS = """
+de
+""".split()
+
+Task.simple_task_type('xml2po','${XML2PO} ${XML2POFLAGS} ${SRC} > ${TGT}',color='BLUE')
+
+def configure(conf):
+	xml2po = conf.find_program('xml2po', var='XML2PO')
+	conf.env['XML2POFLAGS'] = '-e -p'
+
+def init_mallard(self):
+	self.default_install_path='${PREFIX}/share/gnome/help/${PACKAGE}'
+
+def apply_mallard(self):
+	lst = self.to_list(self.doc_linguas)
+	bld = self.bld
+	cnode = self.path.find_dir("C")
+	self.bld.rescan(cnode)
+
+	pages = [p for p in self.bld.cache_dir_contents[cnode.id]
+			if (os.path.splitext(p)[-1].lower()) == ".page"]
+	for lang in lst:
+		node = self.path.find_resource("%s/%s.po" % (lang, lang))
+		for page in pages:
+			tsk = self.create_task('xml2po')
+			out = self.path.find_or_declare('%s/%s' % (lang, page))
+			src = self.path.find_resource('C/%s' % page)
+			tsk.set_inputs([node,src])
+			tsk.set_outputs(out)
+			instdir = os.path.join(self.install_path, lang)
+			if bld.is_install:
+				bld.install_files(instdir, out.abspath(self.env))
+	if bld.is_install:
+		for page in pages:
+			out = "%s/%s" % (cnode.abspath(), page)
+			instdir = os.path.join(self.install_path, "C")
+			bld.install_files(instdir, out)
+
+feature("mallard")(init_mallard)
+feature("mallard")(apply_mallard)
+after('init_mallard')(apply_mallard)
+
+def build(bld):
+	if bld.env["XML2PO"]:
+		task = bld.new_task_gen(
+			features="mallard",
+			doc_linguas=LINGUAS,
+		)

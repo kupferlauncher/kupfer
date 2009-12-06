@@ -93,7 +93,7 @@ def configure(conf):
 
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
 	conf.env["VERSION"] = VERSION
-	conf.sub_config("extras")
+	conf.sub_config("extras help")
 
 	if not Options.options.pythondir_install:
 		conf.env["PYTHONDIR"] = Utils.subst_vars("${DATADIR}/kupfer", conf.env)
@@ -212,7 +212,7 @@ def build(bld):
 			install_path = "${MANDIR}/man1",
 		)
 
-	bld.add_subdirs("po data extras")
+	bld.add_subdirs("po data extras help")
 
 def intlupdate(util):
 	print "You should use intltool-update directly."
