@@ -1,7 +1,7 @@
 import gio
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import OpenDirectory
+from kupfer.objects import OpenDirectory, SourceLeaf
 from kupfer import utils, icons, pretty
 
 __kupfer_name__ = _("Trash")
@@ -129,8 +129,15 @@ class Trash (SpecialLocation):
 		return ngettext("Trash contains one file",
 			"Trash contains %(num)s files", item_count) % {"num": item_count}
 
+class InvisibleSourceLeaf (SourceLeaf):
+	"""Hack to hide this source"""
+	def is_valid(self):
+		return False
+
 class TrashSource (Source):
 	def __init__(self):
 		Source.__init__(self, _("Trash"))
 	def get_items(self):
 		yield Trash(TRASH_URI)
+	def get_leaf_repr(self):
+		return InvisibleSourceLeaf(self)
