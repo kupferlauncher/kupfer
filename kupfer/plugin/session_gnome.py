@@ -11,13 +11,10 @@ LOGOUT_CMD = ("gnome-panel-logout", "gnome-session-save --kill")
 SHUTDOWN_CMD = ("gnome-panel-logout --shutdown", 
 		"gnome-session-save --shutdown-dialog")
 LOCKSCREEN_CMD = ("gnome-screensaver-command --lock", "xdg-screensaver lock")
-TRASH_URI = 'trash://'
-
 
 class GnomeItemsSource (support.CommonSource):
 	def get_items(self):
 		return (
-			support.Trash(TRASH_URI),
 			support.Logout(LOGOUT_CMD),
 			support.LockScreen(LOCKSCREEN_CMD),
 			support.Shutdown(SHUTDOWN_CMD),
