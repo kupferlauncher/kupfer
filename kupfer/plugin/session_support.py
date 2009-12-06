@@ -20,41 +20,36 @@ def launch_commandline_with_fallbacks(commands, print_error=True):
 	pretty.print_error(__name__, "Unable to run command(s)", commands)
 	return False
 
-class Logout (RunnableLeaf):
+class CommandLeaf (RunnableLeaf):
+	"""The represented object of the CommandLeaf is a list of commandlines"""
+	def run(self):
+		launch_commandline_with_fallbacks(self.object)
+
+class Logout (CommandLeaf):
 	"""Log out from desktop"""
 	def __init__(self, commands, name=None):
 		if not name: name = _("Log Out...")
-		super(Logout, self).__init__(name=name)
-		self._commands = commands
-	def run(self):
-		launch_commandline_with_fallbacks(self._commands)
+		CommandLeaf.__init__(self, commands, name)
 	def get_description(self):
 		return _("Log out or change user")
 	def get_icon_name(self):
 		return "system-log-out"
 
-class Shutdown (RunnableLeaf):
+class Shutdown (CommandLeaf):
 	"""Shutdown computer or reboot"""
 	def __init__(self, commands, name=None):
 		if not name: name = _("Shut Down...")
-		super(Shutdown, self).__init__(name=name)
-		self._commands = commands
-	def run(self):
-		launch_commandline_with_fallbacks(self._commands)
-
+		CommandLeaf.__init__(self, commands, name)
 	def get_description(self):
 		return _("Shut down, restart or suspend computer")
 	def get_icon_name(self):
 		return "system-shutdown"
 
-class LockScreen (RunnableLeaf):
+class LockScreen (CommandLeaf):
 	"""Lock screen"""
 	def __init__(self, commands, name=None):
 		if not name: name = _("Lock Screen")
-		super(LockScreen, self).__init__(name=name)
-		self._commands = commands
-	def run(self):
-		launch_commandline_with_fallbacks(self._commands)
+		CommandLeaf.__init__(self, commands, name)
 	def get_description(self):
 		return _("Enable screensaver and lock")
 	def get_icon_name(self):
