@@ -205,6 +205,17 @@ class About (RunnableLeaf):
 	def get_icon_name(self):
 		return gtk.STOCK_ABOUT
 
+class Help (RunnableLeaf):
+	def __init__(self, name=None):
+		if not name: name = _("Kupfer Help")
+		super(Help, self).__init__(name=name)
+	def run(self):
+		kupferui.show_help()
+	def get_description(self):
+		return _("Get help with Kupfer")
+	def get_icon_name(self):
+		return "help-browser"
+
 class Preferences (RunnableLeaf):
 	def __init__(self, name=None):
 		if not name: name = _("Kupfer Preferences")
@@ -225,8 +236,9 @@ class KupferSource (AppLeafContentMixin, Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		yield About()
 		yield Preferences()
+		yield Help()
+		yield About()
 		yield Quit()
 		if _is_debug():
 			yield DebugRestart()
