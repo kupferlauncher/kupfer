@@ -2,7 +2,7 @@ import gtk
 
 from kupfer.objects import Leaf, Action, Source, RunnableLeaf, AppLeafContentMixin
 from kupfer import objects, utils, icons, pretty
-from kupfer.plugin import about_support
+from kupfer import kupferui
 
 __kupfer_name__ = u"Core"
 __kupfer_sources__ = ("KupferSource", )
@@ -199,7 +199,7 @@ class About (RunnableLeaf):
 		if not name: name = _("About Kupfer")
 		super(About, self).__init__(name=name)
 	def run(self):
-		about_support.show_about_dialog()
+		kupferui.show_about_dialog()
 	def get_description(self):
 		return _("Show information about Kupfer authors and license")
 	def get_icon_name(self):

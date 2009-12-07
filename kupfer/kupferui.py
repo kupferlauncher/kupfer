@@ -1,6 +1,7 @@
 """
 Access functions of Kupfer's Interface
 """
+import gtk
 
 from kupfer import utils, version
 
