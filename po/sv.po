@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-07 18:24+0100\n"
+"POT-Creation-Date: 2009-12-07 21:35+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -483,7 +483,7 @@ msgstr "Visa information om Kupfers upphovsmän och licens"
 
 #: ../kupfer/plugin/core.py:210
 msgid "Kupfer Help"
-msgstr "Hjälp om Kupfer"
+msgstr "Hjälp med Kupfer"
 
 #: ../kupfer/plugin/core.py:215
 msgid "Get help with Kupfer"
@@ -718,7 +718,7 @@ msgstr "Gajim status"
 
 #: ../kupfer/plugin/gnome_terminal.py:9 ../kupfer/plugin/gnome_terminal.py:52
 msgid "Gnome Terminal Profiles"
-msgstr "Öppna i terminalfönster"
+msgstr "Gnome terminal-profiler"
 
 #: ../kupfer/plugin/gnome_terminal.py:11
 msgid "Launch Gnome Terminal profiles"
