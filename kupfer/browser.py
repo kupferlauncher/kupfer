@@ -1313,15 +1313,22 @@ class WindowController (pretty.OutputMixin):
 			from kupfer import preferences
 			preferences.GetPreferencesWindowController().show()
 			return True
+		def help_callback(menuitem):
+			from kupfer import kupferui
+			kupferui.show_help()
+			return True
 		def quit_callback(menuitem):
 			self.quit()
 			return True
 		menu = gtk.Menu()
 		menu_prefs = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
 		menu_prefs.connect("activate", prefs_callback)
+		menu_help = gtk.ImageMenuItem(gtk.STOCK_HELP)
+		menu_help.connect("activate", help_callback)
 		menu_quit = gtk.ImageMenuItem(gtk.STOCK_QUIT)
 		menu_quit.connect("activate", quit_callback)
 		menu.append(menu_prefs)
+		menu.append(menu_help)
 		menu.append(menu_quit)
 		menu.show_all()
 
