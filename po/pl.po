@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-27 17:19+0100\n"
+"POT-Creation-Date: 2009-12-07 11:19+0100\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -26,7 +26,7 @@ msgid "Convenient command and access tool for applications and documents"
 msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
 
 #: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1310
-#: ../kupfer/browser.py:1341 ../kupfer/plugin/core.py:223
+#: ../kupfer/browser.py:1356 ../kupfer/plugin/core.py:234
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -55,7 +55,7 @@ msgstr "<i>Wtyczki aktywują się po ponownym uruchomieniu programu</i>"
 msgid "General"
 msgstr "Ogólne"
 
-#: ../data/preferences.ui.h:7 ../kupfer/plugin/core.py:210
+#: ../data/preferences.ui.h:7 ../kupfer/plugin/core.py:221
 msgid "Kupfer Preferences"
 msgstr "Ustawienia Kupfera"
 
@@ -448,67 +448,6 @@ msgstr "Komendy powłoki (shell)"
 msgid "Run commandline programs"
 msgstr "Uruchamiaj programy linii komend"
 
-#: ../kupfer/plugin/common.py:9
-msgid "Common"
-msgstr "Wspólne"
-
-#: ../kupfer/plugin/common.py:11
-msgid "Special items and actions"
-msgstr "Specjalne pozycje i akcje"
-
-#: ../kupfer/plugin/common.py:29
-msgid "Log Out..."
-msgstr "Wyloguj..."
-
-#: ../kupfer/plugin/common.py:35
-msgid "Log out or change user"
-msgstr "Wyloguj lub zmień użytkownika"
-
-#: ../kupfer/plugin/common.py:42
-msgid "Shut Down..."
-msgstr "Wyłącz..."
-
-#: ../kupfer/plugin/common.py:49
-msgid "Shut down, restart or suspend computer"
-msgstr "Wyłącz, zrestartuj lub uśpij komputer"
-
-#: ../kupfer/plugin/common.py:56
-msgid "Lock Screen"
-msgstr "Zablokuj ekran"
-
-#: ../kupfer/plugin/common.py:62
-msgid "Enable screensaver and lock"
-msgstr "Włącz wygaszacz ekranu i zablokuj"
-
-#: ../kupfer/plugin/common.py:94
-msgid "Restore"
-msgstr "Przywróć"
-
-#: ../kupfer/plugin/common.py:109
-msgid "Move file back to original location"
-msgstr "Przenieś plik z powrotem do pierwotnej lokacji"
-
-#: ../kupfer/plugin/common.py:174
-msgid "Trash is empty"
-msgstr "Kosz jest pusty"
-
-#. proper translation of plural
-#: ../kupfer/plugin/common.py:176
-#, python-format
-msgid "Trash contains one file"
-msgid_plural "Trash contains %(num)s files"
-msgstr[0] "W koszu jest %(num)s plik"
-msgstr[1] "W koszu są %(num)s pliki"
-msgstr[2] "W koszu jest %(num)s plików"
-
-#: ../kupfer/plugin/common.py:180
-msgid "Special Items"
-msgstr "Pozycje specjalne"
-
-#: ../kupfer/plugin/common.py:195
-msgid "Items and special actions"
-msgstr "Pozycje i akcje specjalne"
-
 #: ../kupfer/plugin/core.py:28
 msgid "Search Content..."
 msgstr "Szukaj treści..."
@@ -541,11 +480,19 @@ msgstr "O Kupferze"
 msgid "Show information about Kupfer authors and license"
 msgstr "Pokaż informacje o autorach Kupfera i licencji"
 
-#: ../kupfer/plugin/core.py:217
+#: ../kupfer/plugin/core.py:210
+msgid "Kupfer Help"
+msgstr "Pomoc Kupfera"
+
+#: ../kupfer/plugin/core.py:215
+msgid "Get help with Kupfer"
+msgstr "Uzyskaj pomoc na temat Kupfera"
+
+#: ../kupfer/plugin/core.py:228
 msgid "Show preferences window for Kupfer"
 msgstr "Pokaż okno ustawień Kupfera"
 
-#: ../kupfer/plugin/core.py:235
+#: ../kupfer/plugin/core.py:247
 msgid "Kupfer items and actions"
 msgstr "Pozycje i akcje Kupfera"
 
@@ -747,24 +694,24 @@ msgstr "Niewidoczny"
 msgid "Offline"
 msgstr "Rozłączony"
 
-#: ../kupfer/plugin/gajim.py:66 ../kupfer/plugin/pidgin.py:101
+#: ../kupfer/plugin/gajim.py:77 ../kupfer/plugin/pidgin.py:101
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/plugin/gajim.py:89 ../kupfer/plugin/pidgin.py:66
+#: ../kupfer/plugin/gajim.py:100 ../kupfer/plugin/pidgin.py:66
 msgid "Open Chat"
 msgstr "Rozpocznij rozmowę"
 
-#: ../kupfer/plugin/gajim.py:106
+#: ../kupfer/plugin/gajim.py:121
 msgid "Change Global Status To..."
 msgstr "Zmień status na..."
 
-#: ../kupfer/plugin/gajim.py:134
+#: ../kupfer/plugin/gajim.py:149
 msgid "Gajim Contacts"
 msgstr "Kontakty Gajim-a"
 
-#: ../kupfer/plugin/gajim.py:191
+#: ../kupfer/plugin/gajim.py:206
 msgid "Gajim Account Status"
 msgstr "Status konta w Gajim"
 
@@ -1220,6 +1167,46 @@ msgstr "Zatrzymaj usługę"
 msgid "%s Service"
 msgstr "Usługa %s"
 
+#: ../kupfer/plugin/session_gnome.py:3 ../kupfer/plugin/session_gnome.py:17
+msgid "Gnome Session Management"
+msgstr "Menadżer sesji Gnome"
+
+#: ../kupfer/plugin/session_gnome.py:5
+msgid "Special items and actions for Gnome environment"
+msgstr "Specjalne pozycje i akcje dla środowiska Gnome"
+
+#: ../kupfer/plugin/session_support.py:31
+msgid "Log Out..."
+msgstr "Wyloguj..."
+
+#: ../kupfer/plugin/session_support.py:34
+msgid "Log out or change user"
+msgstr "Wyloguj lub zmień użytkownika"
+
+#: ../kupfer/plugin/session_support.py:41
+msgid "Shut Down..."
+msgstr "Wyłącz..."
+
+#: ../kupfer/plugin/session_support.py:44
+msgid "Shut down, restart or suspend computer"
+msgstr "Wyłącz, zrestartuj lub uśpij komputer"
+
+#: ../kupfer/plugin/session_support.py:51
+msgid "Lock Screen"
+msgstr "Zablokuj ekran"
+
+#: ../kupfer/plugin/session_support.py:54
+msgid "Enable screensaver and lock"
+msgstr "Włącz wygaszacz ekranu i zablokuj"
+
+#: ../kupfer/plugin/session_xfce.py:5 ../kupfer/plugin/session_xfce.py:18
+msgid "XFCE Session Management"
+msgstr "Menadżer sesji XFCE"
+
+#: ../kupfer/plugin/session_xfce.py:7
+msgid "Special items and actions for XFCE environment"
+msgstr "Specjalne pozycje i akcje dla środowiska XFCE"
+
 #: ../kupfer/plugin/show_text.py:10 ../kupfer/plugin/show_text.py:21
 #: ../kupfer/plugin/show_text.py:24
 msgid "Show Text"
@@ -1411,6 +1398,35 @@ msgstr "Usuń tag..."
 #: ../kupfer/plugin/tracker.py:240
 msgid "Remove tracker tag from file"
 msgstr "Usuń tag trackera z pliku"
+
+#: ../kupfer/plugin/trash.py:7 ../kupfer/plugin/trash.py:139
+msgid "Trash"
+msgstr "Kosz"
+
+#: ../kupfer/plugin/trash.py:9
+msgid "Access trash contents"
+msgstr "Dostęp do zawartości kosza"
+
+#: ../kupfer/plugin/trash.py:18
+msgid "Restore"
+msgstr "Przywróć"
+
+#: ../kupfer/plugin/trash.py:33
+msgid "Move file back to original location"
+msgstr "Przenieś plik z powrotem do pierwotnej lokacji"
+
+#: ../kupfer/plugin/trash.py:127
+msgid "Trash is empty"
+msgstr "Kosz jest pusty"
+
+#. proper translation of plural
+#: ../kupfer/plugin/trash.py:129
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "W koszu jest %(num)s plik"
+msgstr[1] "W koszu są %(num)s pliki"
+msgstr[2] "W koszu jest %(num)s plików"
 
 #: ../kupfer/plugin/truecrypt.py:11
 msgid "TrueCrypt"
@@ -1779,6 +1795,15 @@ msgstr ""
 "Z pewnością wraz z niniejszym programem otrzymałeś też egzemplarz\n"
 "Powszechnej Licencji Publicznej GNU (GNU General Public License);\n"
 "jeśli nie - wejdź na <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Common"
+#~ msgstr "Wspólne"
+
+#~ msgid "Special Items"
+#~ msgstr "Pozycje specjalne"
+
+#~ msgid "Items and special actions"
+#~ msgstr "Pozycje i akcje specjalne"
 
 #~ msgid "Searching..."
 #~ msgstr "Wyszukiwanie..."
