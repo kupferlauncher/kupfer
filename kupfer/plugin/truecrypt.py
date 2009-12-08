@@ -19,6 +19,13 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 _HISTORY_FILE = "~/.TrueCrypt/History.xml"
 
 
+def mount_volume_in_truecrypt(filepath):
+	''' Mount file in Truecrypt. '''
+	# escape ' characters
+	filepath = filepath.replace("'", "'\\''")
+	utils.launch_commandline("truecrypt '%s'" % filepath)
+
+
 class Volume(Leaf):
 	def __init__(self, path, name):
 		Leaf.__init__(self, path, name)
@@ -39,7 +46,7 @@ class MountVolume(Action):
 		Action.__init__(self, _("Mount Volume"))
 		
 	def activate(self, leaf):
-		utils.launch_commandline('truecrypt ' + leaf.object)
+		mount_volume_in_truecrypt(leaf.object)
 
 
 class MountFile(Action):
@@ -50,7 +57,7 @@ class MountFile(Action):
 		Action.__init__(self, _("Mount File in Truecrypt"))
 
 	def activate(self, leaf):
-		utils.launch_commandline('truecrypt ' + leaf.object)
+		mount_volume_in_truecrypt(leaf.object)
 
 	def item_types(self):
 		yield FileLeaf
