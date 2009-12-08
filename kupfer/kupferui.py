@@ -46,3 +46,13 @@ def show_about_dialog(*ignored, **kwds):
 def _response_callback(dialog, response_id):
 	dialog.hide()
 
+
+def show_preferences():
+	from kupfer import preferences
+	win = preferences.GetPreferencesWindowController()
+	win.show()
+
+def show_plugin_info(plugin_id):
+	from kupfer import preferences
+	prefs = preferences.GetPreferencesWindowController()
+	prefs.show_focus_plugin(plugin_id)

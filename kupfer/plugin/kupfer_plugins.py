@@ -2,6 +2,7 @@ import os
 
 from kupfer.objects import Action, Source, Leaf, FileLeaf, TextLeaf
 from kupfer import icons, plugin_support
+from kupfer import kupferui
 
 # Since this is a core plugin we break some rules
 # This module is normally out of bounds for plugins
@@ -21,10 +22,8 @@ class ShowInfo (Action):
 	def __init__(self):
 		Action.__init__(self, _("Show Information"))
 	def activate(self, leaf):
-		from kupfer import preferences
-		prefs = preferences.GetPreferencesWindowController()
 		plugin_id = leaf.object["name"]
-		prefs.show_focus_plugin(plugin_id)
+		kupferui.show_plugin_info(plugin_id)
 
 	def get_description(self):
 		pass

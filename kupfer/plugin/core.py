@@ -221,9 +221,7 @@ class Preferences (RunnableLeaf):
 		if not name: name = _("Kupfer Preferences")
 		super(Preferences, self).__init__(name=name)
 	def run(self):
-		from kupfer import preferences
-		win = preferences.GetPreferencesWindowController()
-		win.show()
+		kupferui.show_preferences()
 	def get_description(self):
 		return _("Show preferences window for Kupfer")
 	def get_icon_name(self):
