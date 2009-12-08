@@ -5,12 +5,12 @@ from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin, 
-		AppLeafContentMixin, AppLeaf)
+		AppLeafContentMixin, AppLeaf, FileLeaf)
 from kupfer import utils
 
 __kupfer_name__ = _("TrueCrypt")
 __kupfer_sources__ = ("VolumeSource", )
-__kupfer_actions__ = ('DismountAll', )
+__kupfer_actions__ = ('DismountAll', 'MountFile')
 __description__ = _("Volumes from TrueCrypt history")
 __version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -40,6 +40,23 @@ class MountVolume(Action):
 		
 	def activate(self, leaf):
 		utils.launch_commandline('truecrypt ' + leaf.object)
+
+
+class MountFile(Action):
+	''' Mount selected file in trukecrypt. '''
+	rank_adjust = -2
+
+	def __init__(self):
+		Action.__init__(self, _("Mount File in Truecrypt"))
+
+	def activate(self, leaf):
+		utils.launch_commandline('truecrypt ' + leaf.object)
+
+	def item_types(self):
+		yield FileLeaf
+
+	def get_description(self):
+		return _("Try to mount file as Truecrypt volume")
 
 
 class DismountAll(Action):
