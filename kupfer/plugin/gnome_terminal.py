@@ -65,6 +65,9 @@ class SessionsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 	def should_sort_lexically(self):
 		return True
 
+	def provides(self):
+		yield Terminal
+
 # Local Variables: ***
 # python-indent: 8 ***
 # indent-tabs-mode: t ***
