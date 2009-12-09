@@ -35,6 +35,10 @@ def escape_markup_str(mstr):
 	"""
 	return tounicode(mstr).translate(_escape_table)
 
+_text_direction = gtk.HBox().get_direction() != gtk.TEXT_DIR_RTL
+def text_direction_is_ltr():
+	return _text_direction
+
 # State Constants
 class State (object):
 	Wait, Match, NoMatch = (1,2,3)
@@ -181,7 +185,10 @@ class LeafModel (object):
 
 	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
-		content_mark = u"\N{TRIANGULAR BULLET}"
+		if text_direction_is_ltr():
+			content_mark = u"\N{BLACK RIGHT-POINTING SMALL TRIANGLE}"
+		else:
+			content_mark = u"\N{BLACK LEFT-POINTING SMALL TRIANGLE}"
 		info = u""
 		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
