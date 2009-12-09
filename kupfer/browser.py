@@ -793,6 +793,12 @@ class Interface (gobject.GObject):
 			"space", 'Page_Up', 'Page_Down', 'Home'
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
+		if not text_direction_is_ltr():
+			# for RTL languages, simply swap the meaning of Left and Right
+			# (for keybindings!)
+			D = self.key_book
+			D["Left"], D["Right"] = D["Right"], D["Left"]
+
 		self.keys_sensible = set(self.key_book.itervalues())
 		self.search.reset()
 
