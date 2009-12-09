@@ -1118,11 +1118,9 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 		# Check that items are still valid when "coming back"
 		self.data_controller.validate()
-		self._show_third_pane(self._pane_three_is_visible)
 
 	def put_away(self):
 		"""Called when the interface is hidden"""
-		self._show_third_pane(False)
 		self._relax_search_terms()
 		self._reset_to_toplevel = True
 
@@ -1394,6 +1392,8 @@ class WindowController (pretty.OutputMixin):
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=evttime)
 		self.interface.focus()
+		# this is really only needed first time after window is shown
+		self.window.set_position(gtk.WIN_POS_NONE)
 	
 	def put_away(self):
 		self.interface.put_away()
