@@ -35,9 +35,8 @@ def escape_markup_str(mstr):
 	"""
 	return tounicode(mstr).translate(_escape_table)
 
-_text_direction = gtk.HBox().get_direction() != gtk.TEXT_DIR_RTL
 def text_direction_is_ltr():
-	return _text_direction
+	return gtk.widget_get_default_direction() != gtk.TEXT_DIR_RTL
 
 # State Constants
 class State (object):
