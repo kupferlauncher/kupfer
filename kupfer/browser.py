@@ -1371,6 +1371,8 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_keep_above(True)
 		self.window.set_position(gtk.WIN_POS_CENTER)
+		if not text_direction_is_ltr():
+			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
 		# This will change from utility window
 		#self.window.set_resizable(False)
 
