@@ -379,6 +379,11 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 			from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
 			if self.init_path and os.access(self.init_path, os.X_OK):
 				item = desktop_app_info_new_from_filename(self.init_path)
+				try:
+					# try to annotate the GAppInfo object
+					item.init_path = self.init_path
+				except AttributeError, exc:
+					self.output_debug(exc)
 			elif self.init_item_id:
 				try:
 					item = DesktopAppInfo(self.init_item_id)
@@ -390,18 +395,18 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 			raise InvalidDataError
 
 	def repr_key(self):
-		return self.get_id() or self
+		return self.get_id()
 
 	def _get_package_name(self):
-		package_name, ext = path.splitext(self.object.get_id() or "")
-		return package_name
+		return os.path.basename(self.get_id())
 
 	def get_id(self):
 		"""Return the unique ID for this app.
 
-		This is the GIO id "gedit.desktop" minus the .desktop part
+		This is the GIO id "gedit.desktop" minus the .desktop part for
+		system-installed applications.
 		"""
-		return self._get_package_name()
+		return launch.application_id(self.object)
 
 	def get_actions(self):
 		if launch.application_is_running(self.object):
@@ -411,9 +416,14 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 			yield Launch()
 
 	def get_description(self):
-		"""Use Application's description, else use executable"""
-		app_desc = self.object.get_description()
-		return tounicode(app_desc if app_desc else self.object.get_executable())
+		# Use Application's description, else use executable
+		# for "file-based" applications we show the path
+		app_desc = tounicode(self.object.get_description())
+		ret = tounicode(app_desc if app_desc else self.object.get_executable())
+		if self.init_path:
+			app_path = utils.get_display_path_for_bytestring(self.init_path)
+			return u"(%s) %s" % (app_path, ret)
+		return ret
 
 	def get_gicon(self):
 		return self.object.get_icon()

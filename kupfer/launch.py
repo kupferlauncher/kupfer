@@ -49,8 +49,14 @@ def _read_environ(pid, envcache=None):
 	if envcache is not None: envcache[pid] = environ
 	return environ
 
-def _app_id(app_info):
-	app_id = app_info.get_id() or ""
+def application_id(app_info):
+	"""Return an application id (string) for GAppInfo @app_info"""
+	app_id = app_info.get_id()
+	if not app_id:
+		try:
+			app_id = app_info.init_path
+		except AttributeError:
+			app_id = ""
 	if app_id.endswith(".desktop"):
 		app_id = app_id[:-len(".desktop")]
 	return app_id
@@ -83,7 +89,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	ctx.set_timestamp(gtk.get_current_event_time())
 
 	if track:
-		app_id = _app_id(app_info)
+		app_id = application_id(app_info)
 		os.putenv(kupfer_env, app_id)
 	else:
 		app_id = ""
@@ -105,14 +111,14 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 			return False
 		else:
 			if track:
-				svc.launched_application(_app_id(app_info))
+				svc.launched_application(application_id(app_info))
 	finally:
 		os.unsetenv(kupfer_env)
 	return True
 
 def application_is_running(app_info):
 	svc = GetApplicationsMatcherService()
-	return svc.application_is_running(_app_id(app_info))
+	return svc.application_is_running(application_id(app_info))
 
 class ApplicationsMatcherService (pretty.OutputMixin):
 	"""Handle launching applications and see if they still run.
