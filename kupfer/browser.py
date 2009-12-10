@@ -446,11 +446,15 @@ class Search (gtk.Bin):
 		# self.window is a GdkWindow
 		win_width, win_height = self.window.get_size()
 		pos_x, pos_y = self.window.get_position()
-		lowerc = pos_y + win_height
+		sub_x = pos_x
+		sub_y = pos_y + win_height
+		x_coord = pos_x
 		table_w, table_len = self.table.size_request()
 		subwin_height = min(table_len, 200)
 		subwin_width = self.list_window.size_request()[0]
-		self.list_window.move(pos_x, lowerc)
+		if not text_direction_is_ltr():
+			sub_x += win_width - subwin_width
+		self.list_window.move(sub_x, sub_y)
 		self.list_window.resize(subwin_width, subwin_height)
 
 		win = self.get_toplevel()
