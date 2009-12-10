@@ -19,7 +19,7 @@ kupfer_env = "KUPFER_APP_ID"
 default_associations = {
 	"evince" : "Document Viewer",
 	"file-roller" : "File Roller",
-	"gedit" : "Text Editor",
+	#"gedit" : "Text Editor",
 	"gnome-keyring-manager" : "Keyring Manager",
 	"nautilus-browser" : "File Manager",
 	"rhythmbox" : "Rhythmbox Music Player",
