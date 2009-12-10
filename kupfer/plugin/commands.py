@@ -48,6 +48,8 @@ class CommandTextSource (TextSource):
 		if len(text.splitlines()) > 1:
 			return
 		firstword = text.split()[0]
+		if firstword.startswith("/"):
+			return
 		# iterate over $PATH directories
 		PATH = os.environ.get("PATH") or os.defpath
 		for execdir in PATH.split(os.pathsep):
