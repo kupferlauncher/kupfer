@@ -37,9 +37,9 @@ class PathTextSource (TextSource):
 	def get_items(self, text):
 		# Find directories or files
 		prefix = os.path.expanduser(u"~/")
-		filepath = text if os.path.isabs(text) else os.path.join(prefix, text)
+		ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
 		# use filesystem encoding here
-		filepath = gobject.filename_from_utf8(filepath)
+		filepath = gobject.filename_from_utf8(os.path.normpath(ufilepath))
 		if os.access(filepath, os.R_OK):
 			yield FileLeaf(filepath)
 	def provides(self):
