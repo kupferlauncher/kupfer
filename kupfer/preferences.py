@@ -10,20 +10,14 @@ from xdg import DesktopEntry as desktop
 
 
 from kupfer import config, plugins, pretty, settings, utils, icons
-from kupfer import keybindings
+from kupfer import keybindings, version
 
 class PreferencesWindowController (pretty.OutputMixin):
 	def __init__(self):
 		"""Load ui from data file"""
 		builder = gtk.Builder()
+		builder.set_translation_domain(version.PACKAGE_NAME)
 		ui_file = config.get_data_file("preferences.ui")
-		try:
-			import version_subst
-		except ImportError:
-			package_name = "kupfer"
-		else:
-			package_name = version_subst.PACKAGE_NAME
-		builder.set_translation_domain(package_name)
 
 		if ui_file:
 			builder.add_from_file(ui_file)

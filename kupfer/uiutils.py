@@ -10,7 +10,7 @@ import glib
 import gtk
 import pango
 
-from kupfer import config
+from kupfer import config, version
 
 def _window_destroy_on_escape(widget, event):
 	"""
@@ -30,13 +30,7 @@ def builder_get_objects_from_file(fname, attrs, autoconnect_to=None):
 	and a user_data object is passed as a namespace containing all @attrs
 	"""
 	builder = gtk.Builder()
-	try:
-		import version_subst
-	except ImportError:
-		package_name = "kupfer"
-	else:
-		package_name = version_subst.PACKAGE_NAME
-	builder.set_translation_domain(package_name)
+	builder.set_translation_domain(version.PACKAGE_NAME)
 
 	ui_file = config.get_data_file(fname)
 	builder.add_from_file(ui_file)
