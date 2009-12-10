@@ -676,24 +676,26 @@ class Execute (Launch):
 	"""
 	Execute executable file (FileLeaf)
 	"""
-	def __init__(self, in_terminal=False, args=""):
+	rank_adjust = 5
+	def __init__(self, in_terminal=False, quoted=True):
 		name = _("Run in Terminal") if in_terminal else _("Run")
 		super(Execute, self).__init__(name)
 		self.in_terminal = in_terminal
-		self.args = args
+		self.quoted = quoted
 
 	def repr_key(self):
-		return self.in_terminal
+		return (self.in_terminal, self.quoted)
 	
 	def activate(self, leaf):
-		cli = "'%s' %s" % (leaf.object, self.args)
-		utils.launch_commandline(cli, in_terminal=self.in_terminal)
+		cmd = "'%s'" % leaf.object if self.quoted else leaf.object
+		utils.launch_commandline(cmd, in_terminal=self.in_terminal)
 
 	def get_description(self):
 		if self.in_terminal:
 			return _("Run this program in a Terminal")
 		else:
 			return _("Run this program")
+
 
 class DummyAction (Action):
 	"""

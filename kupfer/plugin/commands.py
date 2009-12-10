@@ -4,7 +4,8 @@ from os import access, R_OK, X_OK, path
 
 import gobject
 
-from kupfer.objects import TextSource, FileLeaf, Leaf, Execute
+from kupfer.objects import TextSource, Leaf
+from kupfer.objects import TextLeaf, Execute
 from kupfer import utils, icons
 
 __kupfer_name__ = _("Shell Commands")
@@ -14,19 +15,22 @@ __description__ = _("Run commandline programs")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-class Command (Leaf):
-	def __init__(self, obj, name):
-		Leaf.__init__(self, obj, name)
-		self.args = " ".join(name.split(" ", 1)[1:])
+class Command (TextLeaf):
+	def __init__(self, exepath, name):
+		TextLeaf.__init__(self, name, name)
+		self.exepath = exepath
 
 	def get_actions(self):
-		yield Execute(args=self.args)
-		yield Execute(in_terminal=True, args=self.args)
+		yield Execute(quoted=False)
+		yield Execute(in_terminal=True, quoted=False)
 
 	def get_description(self):
-		return "%s %s" % (self.object, self.args)
+		args = u" ".join(unicode(self).split(None, 1)[1:])
+		return u"%s %s" % (self.exepath, args)
+
 	def get_gicon(self):
-		icons.get_gicon_for_file(self.object)
+		return icons.get_gicon_for_file(self.exepath)
+
 	def get_icon_name(self):
 		return "exec"
 
