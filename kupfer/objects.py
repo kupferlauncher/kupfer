@@ -377,7 +377,7 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		else:
 			# Construct an AppInfo item from either path or item_id
 			from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
-			if self.init_path:
+			if self.init_path and os.access(self.init_path, os.X_OK):
 				item = desktop_app_info_new_from_filename(self.init_path)
 			elif self.init_item_id:
 				try:
