@@ -65,6 +65,9 @@ class MountFile(Action):
 	def get_description(self):
 		return _("Try to mount file as Truecrypt volume")
 
+	def valid_for_item(self, item):
+		return os.path.isfile(item.object)
+
 
 class DismountAll(Action):
 	def __init__(self):
