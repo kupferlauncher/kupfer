@@ -15,14 +15,21 @@ Not Released Yet
   + *Truecrypt* show volumes in truecrypt history and allow mounting them
     (Karol)
   + *Vinagre* Remote Desktop Viewer (Karol)
+  + *XFCE Session Management* (Karol)
 
 * Some plugins will now explicitly require a D-Bus connection and fail to
   load if no connection was found.
 * Add accelerators *Page Up*, *Page Down* and *Home* in the result list.
   (Karol)
 * Use customized or localized desktop directory instead of hardcoding
-  ~/Desktop by default. Will not affect users who already customized
-  which directories Kupfer includes with content.
+  ~/Desktop by default. It will not affect users who already customized
+  which directories Kupfer indexes.
+* It now is possible to favorite shell commandlines
+* *Gajim* plugin now works with version 0.13 (Karol) (LP #489484)
+* Basic support for Right-to-left (RTL) interface
+* Fix bugs with "loose" Applications (not in system directories), bugs
+  reported by Chmouel.
+* Many small bugfixes
 
 
 kupfer version c18.1
