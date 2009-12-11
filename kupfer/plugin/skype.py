@@ -1,7 +1,10 @@
 # -*- coding: UTF-8 -*-
+import dbus
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
+from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import AppLeafContentMixin, AppLeaf
 from kupfer import pretty
+from kupfer import plugin_support
 
 
 __kupfer_name__ = _("Skype")
@@ -11,7 +14,8 @@ __description__ = _("Access to Skype")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import dbus
+# This plugin Requires D-Bus to work
+plugin_support.check_dbus_connection()
 
 SKYPE_IFACE = 'com.Skype.API'
 SKYPE_PATH_CLIENT = '/com/Skype/Client'
