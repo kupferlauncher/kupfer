@@ -5,18 +5,29 @@ from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin, 
-		AppLeafContentMixin, AppLeaf)
+		AppLeafContentMixin, AppLeaf, FileLeaf)
 from kupfer import utils
 
 __kupfer_name__ = _("TrueCrypt")
 __kupfer_sources__ = ("VolumeSource", )
-__kupfer_actions__ = ('DismountAll', )
+__kupfer_actions__ = ('DismountAll', 'MountFile')
 __description__ = _("Volumes from TrueCrypt history")
 __version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 _HISTORY_FILE = "~/.TrueCrypt/History.xml"
+
+
+def mount_volume_in_truecrypt(filepath):
+	''' Mount file in Truecrypt. 
+		Escape apostrophes - ie:
+		"test'dk 'dlk' dsl''k '' sdkl.test" ->
+		"'test'\''dk '\''dlk'\'' dsl'\'''\''k '\'''\'' sdkl.test'"
+	'''
+	# escape ' characters
+	filepath = filepath.replace("'", "'\\''")
+	utils.launch_commandline("truecrypt '%s'" % filepath)
 
 
 class Volume(Leaf):
@@ -39,7 +50,27 @@ class MountVolume(Action):
 		Action.__init__(self, _("Mount Volume"))
 		
 	def activate(self, leaf):
-		utils.launch_commandline('truecrypt ' + leaf.object)
+		mount_volume_in_truecrypt(leaf.object)
+
+
+class MountFile(Action):
+	''' Mount selected file in truecrypt. '''
+	rank_adjust = -10
+
+	def __init__(self):
+		Action.__init__(self, _("Mount File in Truecrypt"))
+
+	def activate(self, leaf):
+		mount_volume_in_truecrypt(leaf.object)
+
+	def item_types(self):
+		yield FileLeaf
+
+	def get_description(self):
+		return _("Try to mount file as Truecrypt volume")
+
+	def valid_for_item(self, item):
+		return os.path.isfile(item.object)
 
 
 class DismountAll(Action):

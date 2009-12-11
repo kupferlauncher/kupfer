@@ -1,16 +1,15 @@
 # -*- coding: UTF-8 -*-
 import os
 import re
-import urllib
 from xml.dom import minidom
 
 from kupfer.objects import (Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf, 
-		FilesystemWatchMixin, AppLeafContentMixin)
+		FilesystemWatchMixin, AppLeafContentMixin, FileLeaf)
 from kupfer import utils
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
-__kupfer_actions__ = ("NewMailAction", )
+__kupfer_actions__ = ("NewMailAction", "SendFileByMail")
 __description__ = _("Claws Mail Contacts and Actions")
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -103,6 +102,28 @@ class NewMailAction(Action):
 			return _check_email(url)
 
 		return False
+
+
+class SendFileByMail(Action):
+	''' Createn new mail and attach selected file'''
+	def __init__(self):
+		Action.__init__(self, _('Send File by Mail'))
+
+	def activate(self, leaf):
+		filepath = leaf.object
+		utils.launch_commandline("claws-mail --attach '%s'" % filepath)
+
+	def get_icon_name(self):
+		return "mail-message-new"
+
+	def item_types(self):
+		yield FileLeaf
+
+	def get_description(self):
+		return _("Create new mail in ClawsMail and attach selected file")
+
+	def valid_for_item(self, item):
+		return os.path.isfile(item.object)
 
 
 class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
