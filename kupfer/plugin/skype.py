@@ -52,13 +52,13 @@ class _SkypeNotify(dbus.service.Object):
 
 class Skype(object):
 	""" Handling events from skype"""
+	__instance__ = None
 
 	@classmethod
 	def get(cls):
-		instance = cls.__dict__.get('__instance__')
-		if not instance:
-			cls.__instance__ = instance = cls()
-		return instance
+		if cls.__instance__ is None:
+			cls.__instance__ = cls()
+		return cls.__instance__
 
 	def __init__(self):
 		self._friends = None
