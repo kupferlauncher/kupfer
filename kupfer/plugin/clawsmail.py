@@ -122,6 +122,9 @@ class SendFileByMail(Action):
 	def get_description(self):
 		return _("Create new mail in ClawsMail and attach selected file")
 
+	def valid_for_item(self, item):
+		return os.path.isfile(item.object)
+
 
 class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 	appleaf_content_id = 'claws-mail'
