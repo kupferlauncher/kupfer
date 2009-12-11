@@ -1128,11 +1128,12 @@ class Interface (gobject.GObject):
 		self._reset_to_toplevel = True
 
 	def select_selected_file(self):
-		self.data_controller.find_object("qpfer:selectedtext")
-		self.data_controller.find_object("qpfer:selectedfile")
+		# Add optional lookup data to narrow the search
+		self.data_controller.find_object("qpfer:selectedtext#any.TextLeaf")
+		self.data_controller.find_object("qpfer:selectedfile#any.FileLeaf")
 
 	def select_selected_text(self):
-		self.data_controller.find_object("qpfer:selectedtext")
+		self.data_controller.find_object("qpfer:selectedtext#any.TextLeaf")
 
 	def select_quit(self):
 		self.data_controller.find_object("qpfer:quit")
