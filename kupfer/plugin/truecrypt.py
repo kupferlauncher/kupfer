@@ -20,7 +20,11 @@ _HISTORY_FILE = "~/.TrueCrypt/History.xml"
 
 
 def mount_volume_in_truecrypt(filepath):
-	''' Mount file in Truecrypt. '''
+	''' Mount file in Truecrypt. 
+		Escape apostrophes - ie:
+		"test'dk 'dlk' dsl''k '' sdkl.test" ->
+		"'test'\''dk '\''dlk'\'' dsl'\'''\''k '\'''\'' sdkl.test'"
+	'''
 	# escape ' characters
 	filepath = filepath.replace("'", "'\\''")
 	utils.launch_commandline("truecrypt '%s'" % filepath)
@@ -50,8 +54,8 @@ class MountVolume(Action):
 
 
 class MountFile(Action):
-	''' Mount selected file in trukecrypt. '''
-	rank_adjust = -2
+	''' Mount selected file in truecrypt. '''
+	rank_adjust = -10
 
 	def __init__(self):
 		Action.__init__(self, _("Mount File in Truecrypt"))
