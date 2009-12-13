@@ -25,8 +25,8 @@ RE_ATOM = re.compile(r'<\s*(\(.+?\))\s*>')
 RE_TABLE = re.compile(
 		r'\{-?(\d+):\^(..)\s*\{\(k\^(..):c\)\(s=9u?\)\s*(.*?)\}\s*(.+?)\}')
 RE_ROW = re.compile(r'(-?)\s*\[(.+?)((\(.+?\)\s*)*)\]')
-RE_CELL_TEXT = re.compile(r'\^(.+?)[=^](.*)')
-RE_ESCAPED = re.compile(r'((\\[\$\0abtnvfr])|(\$..))')
+RE_CELL_TEXT = re.compile(r'\^(.+?)=(.*)')
+RE_CELL_OID = re.compile(r'\^(.+?)\^(.+)')
 
 COLS_TO_KEEP = (
 		'DisplayName',
@@ -53,20 +53,24 @@ class _Table(object):
 SPECIAL_CHARS = (
 		('\\\\', '\\'),
 		('\\$', '$'),
-		('\\0', chr(0)),
-		('\\a', chr(7)),
-		('\\b', chr(8)),
 		('\\t', chr(9)),
 		('\\n', chr(10)),
-		('\\v', chr(11)),
-		('\\f', chr(12)),
-		('\\r', chr(13)),
 )
+
+RE_ESCAPED = re.compile(r'(\$[a-f0-9]{2})', re.IGNORECASE)
+
+def _unescape_character(match):
+	value = match.group()
+	try:
+		return chr(int(value[1:], 16))
+	except ValueError:
+		return value
+
 
 def _unescape_data(instr):
 	for src, dst in SPECIAL_CHARS:
 		instr = instr.replace(src, dst)
-	return RE_ESCAPED.sub(lambda x:chr(int(x.group()[1:], 16)), instr)
+	return RE_ESCAPED.sub(_unescape_character, instr)
 
 
 def _read_mork(filename):
@@ -143,13 +147,19 @@ def _read_mork(filename):
 					rowdata = row[2:]
 					for rowcell in rowdata:
 						for cell in RE_CELL.findall(rowcell):
+							atom, col = None, None
 							match = RE_CELL_TEXT.match(cell)
 							if match:
 								col = cells.get(match.group(1))
-								atom = atoms.get(match.group(2))
-								if col and atom:
-									table.add_cell(rowid, col, atom)
-								continue
+								atom = match.group(2)
+							else:
+								match = RE_CELL_OID.match(cell)
+								if match:
+									col = cells.get(match.group(1))
+									atom = atoms.get(match.group(2))
+
+							if col and atom:
+								table.add_cell(rowid, col, atom)
 
 			pos = match.span()[1]
 			continue
@@ -164,13 +174,20 @@ def _read_mork(filename):
 				table = tables.get('1:80')
 				for rowcell in rowdata:
 					for cell in RE_CELL.findall(rowcell):
+						atom, col = None, None
 						match = RE_CELL_TEXT.match(cell)
 						if match:
 							col = cells.get(match.group(1))
-							atom = atoms.get(match.group(2))
-							if col and atom:
-								table.add_cell(rowid, col, atom)
-							continue
+							atom = match.group(2)
+						else:
+							match = RE_CELL_OID.match(cell)
+							if match:
+								col = cells.get(match.group(1))
+								atom = atoms.get(match.group(2))
+
+						if col and atom:
+							table.add_cell(rowid, col, atom)
+
 			pos = match.span()[1]
 			continue
 
