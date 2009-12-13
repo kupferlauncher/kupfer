@@ -1145,8 +1145,10 @@ class TimedDo (Do):
 	def activate(self, leaf, iobj=None):
 		from kupfer import scheduler
 		# make a timer that will fire when Kupfer exits
+		interval = utils.parse_time_interval(iobj.object)
+		pretty.print_debug(__name__, "Run %s in %s seconds" % (leaf, interval))
 		timer = scheduler.Timer(True)
-		timer.set(int(iobj.object), self._run, leaf)
+		timer.set(interval, self._run, leaf)
 
 	def requires_object(self):
 		return True
@@ -1154,10 +1156,8 @@ class TimedDo (Do):
 		yield TextLeaf
 
 	def valid_object(self, iobj, for_item=None):
-		try:
-			return int(iobj.object) > 0
-		except ValueError:
-			return False
+		interval = utils.parse_time_interval(iobj.object)
+		return interval > 0
 
 class ComposedLeaf (RunnableLeaf):
 	def __init__(self, obj, action, iobj=None):
