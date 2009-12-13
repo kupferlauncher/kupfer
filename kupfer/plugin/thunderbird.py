@@ -14,7 +14,7 @@ from kupfer.plugin import thunderbird_support as support
 __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
-__description__ = _("Thunderbird Contacts and Actions")
+__description__ = _("Thunderbird/Icedove Contacts and Actions")
 __version__ = "2009-12-13"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -49,7 +49,8 @@ class ComposeMail(RunnableLeaf):
 		RunnableLeaf.__init__(self, name=_("Compose New Mail"))
 
 	def run(self):
-		utils.launch_commandline('thunderbird --compose')
+		if not utils.launch_commandline('thunderbird --compose'):
+			utils.launch_commandline('icedove --compose')
 
 	def get_description(self):
 		return _("Compose New Mail with Thunderbird")
@@ -68,7 +69,8 @@ class NewMailAction(Action):
 		if isinstance(leaf, UrlLeaf):
 			email = _get_email_from_url(email)
 
-		utils.launch_commandline("thunderbird --compose '%s'" % email)
+		if not utils.launch_commandline("thunderbird mailto:%s" % email):
+			utils.launch_commandline("icedove mailto:%s" % email)
 
 	def get_icon_name(self):
 		return "mail-message-new"
@@ -93,9 +95,8 @@ class NewMailAction(Action):
 		return False
 
 
-#AppLeafContentMixin
-class ContactsSource(Source, FilesystemWatchMixin):
-#	appleaf_content_id = 'thunderbird'
+class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+	appleaf_content_id = ('thunderbird', 'icedove')
 
 	def __init__(self, name=_("Thundrbird Address Book")):
 		Source.__init__(self, name)

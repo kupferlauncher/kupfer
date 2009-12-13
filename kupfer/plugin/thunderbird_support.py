@@ -19,9 +19,12 @@ Concept for mork parser from:
 	- mork.cs from GnomeDo by Pierre Östlund
 '''
 
+THUNDERBIRD_HOME = map(os.path.expanduser, 
+		('~/.mozilla-thunderbird/', '~/.thunderbird'))
 
-THUNDERBIRD_HOME = '~/.thunderbird'
-THUNDERBIRD_PROFILES = os.path.join(THUNDERBIRD_HOME, 'profiles.ini')
+THUNDERBIRD_PROFILES = [ 
+		(thome, os.path.join(thome, 'profiles.ini'))
+		for thome in THUNDERBIRD_HOME ]
 ABOOK_FILE = 'abook.mab'
 
 
@@ -231,12 +234,18 @@ def _mork2contacts(tables):
 
 def get_addressbook_dir_file():
 	''' Get path to addressbook file from default profile. '''
-	profile_file = os.path.expanduser(THUNDERBIRD_PROFILES)
-	if not os.path.isfile(profile_file):
+	thunderbird_home, thunderbird_profile = None, None
+	for thome, tprofile in THUNDERBIRD_PROFILES:
+		if os.path.isfile(tprofile):
+			thunderbird_home = thome
+			thunderbird_profile = tprofile
+			break
+
+	if not thunderbird_home:
 		return None, None
 
 	config = RawConfigParser()
-	config.read(profile_file)
+	config.read(tprofile)
 	path = None
 	for section in config.sections():
 		if config.has_option(section, "Default") and \
@@ -248,7 +257,7 @@ def get_addressbook_dir_file():
 			path = config.get(section, "Path")
 
 	if path:
-		path = os.path.join(os.path.expanduser(THUNDERBIRD_HOME), path)
+		path = os.path.join(thunderbird_home, path)
 	return path, ABOOK_FILE
 
 
