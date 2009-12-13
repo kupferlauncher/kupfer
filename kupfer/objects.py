@@ -1130,6 +1130,35 @@ class ProxyDo (Action):
 	def is_async(self):
 		return self.action.is_async()
 
+class TimedDo (Do):
+	"""A timed proxy version of Do
+
+	Proxy factory/result/async from a delegate action
+	Delay action by a couple of seconds
+	"""
+	def __init__(self):
+		Action.__init__(self, _("Run After Delay..."))
+
+	def _run(self, leaf):
+		leaf.run()
+
+	def activate(self, leaf, iobj=None):
+		from kupfer import scheduler
+		# make a timer that will fire when Kupfer exits
+		timer = scheduler.Timer(True)
+		timer.set(int(iobj.object), self._run, leaf)
+
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield TextLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		try:
+			return int(iobj.object) > 0
+		except ValueError:
+			return False
+
 class ComposedLeaf (RunnableLeaf):
 	def __init__(self, obj, action, iobj=None):
 		object_ = (obj, action, iobj)
@@ -1137,7 +1166,10 @@ class ComposedLeaf (RunnableLeaf):
 		RunnableLeaf.__init__(self, object_, name)
 
 	def get_actions(self):
-		yield ProxyDo(self.object[1])
+		action = self.object[1]
+		yield ProxyDo(action)
+		if not action.is_factory():
+			yield TimedDo()
 
 	def run(self):
 		obj, action, iobj = self.object
