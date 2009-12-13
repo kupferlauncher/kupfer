@@ -8,7 +8,7 @@ from ConfigParser import RawConfigParser
 
 from kupfer import pretty
 
-__version__ = "2009-12-11"
+__version__ = "2009-12-13"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 '''
@@ -18,6 +18,12 @@ Concept for mork parser from:
 	- demork.py by Kumaran Santhanam
 	- mork.cs from GnomeDo by Pierre Östlund
 '''
+
+
+THUNDERBIRD_HOME = '~/.thunderbird'
+THUNDERBIRD_PROFILES = os.path.join(THUNDERBIRD_HOME, 'profiles.ini')
+ABOOK_FILE = 'abook.mab'
+
 
 RE_COLS = re.compile(r'<\s*<\(a=c\)>\s*(\/\/)?\s*(\(.+?\))\s*>')
 RE_CELL = re.compile(r'\((.+?)\)')
@@ -36,6 +42,17 @@ COLS_TO_KEEP = (
 		'SecondEmail'
 )
 
+SPECIAL_CHARS = (
+		('\\\\', '\\'),
+		('\\$', '$'),
+		('\\t', chr(9)),
+		('\\n', chr(10)),
+)
+
+RE_ESCAPED = re.compile(r'(\$[a-f0-9]{2})', re.IGNORECASE)
+RE_HEADER = re.compile(r'// <!-- <mdb:mork:z v="(.*)"/> -->')
+
+
 class _Table(object):
 	def __init__(self, tableid):
 		self.tableid = tableid
@@ -50,14 +67,6 @@ class _Table(object):
 			row = self.rows[rowid] = dict()
 		row[col] = _unescape_data(atom)
 
-SPECIAL_CHARS = (
-		('\\\\', '\\'),
-		('\\$', '$'),
-		('\\t', chr(9)),
-		('\\n', chr(10)),
-)
-
-RE_ESCAPED = re.compile(r'(\$[a-f0-9]{2})', re.IGNORECASE)
 
 def _unescape_character(match):
 	value = match.group()
@@ -79,7 +88,7 @@ def _read_mork(filename):
 	with open(filename, 'rt') as mfile:
 		header = mfile.readline().strip()
 		# check header
-		if not re.match(r'// <!-- <mdb:mork:z v="(.*)"/> -->', header):
+		if not RE_HEADER.match(header):
 			pretty.print_debug(__name__, '_read_mork: header error', header)
 			return {}
 
@@ -164,14 +173,16 @@ def _read_mork(filename):
 			pos = match.span()[1]
 			continue
 
-		# rows
+		# dangling rows
 		match = RE_ROW.match(data)
 		if match:
 			row = match.group()
 			tran, rowid = row[:2]
 			if tran != '-':
 				rowdata = row[2:]
-				table = tables.get('1:80')
+				table = tables.get('1:80') # bint to default table
+				if not table:
+					table = tables['1:80'] = _Table('1:80')
 				for rowcell in rowdata:
 					for cell in RE_CELL.findall(rowcell):
 						atom, col = None, None
@@ -220,7 +231,7 @@ def _mork2contacts(tables):
 
 def get_addressbook_dir_file():
 	''' Get path to addressbook file from default profile. '''
-	profile_file = os.path.expanduser('~/.thunderbird/profiles.ini')
+	profile_file = os.path.expanduser(THUNDERBIRD_PROFILES)
 	if not os.path.isfile(profile_file):
 		return None, None
 
@@ -229,16 +240,16 @@ def get_addressbook_dir_file():
 	path = None
 	for section in config.sections():
 		if config.has_option(section, "Default") and \
-				config.get(section, "Default") == "1":
+				config.get(section, "Default") == "1" and \
+				config.has_option(section, "Path"):
 			path = config.get(section, "Path")
 			break
 		elif config.has_option(section, "Path"):
 			path = config.get(section, "Path")
 
 	if path:
-		path = os.path.join(os.path.expanduser('~/.thunderbird'), path)
-
-	return path, 'abook.mab'
+		path = os.path.join(os.path.expanduser(THUNDERBIRD_HOME), path)
+	return path, ABOOK_FILE
 
 
 def get_addressbook_file():

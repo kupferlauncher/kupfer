@@ -15,7 +15,7 @@ __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
 __description__ = _("Thunderbird Contacts and Actions")
-__version__ = "2009-12-12"
+__version__ = "2009-12-13"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
