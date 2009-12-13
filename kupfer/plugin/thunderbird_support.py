@@ -242,7 +242,7 @@ def get_addressbook_dir_file():
 			break
 
 	if not thunderbird_home:
-		return None, None
+		return None
 
 	config = RawConfigParser()
 	config.read(tprofile)
@@ -258,17 +258,18 @@ def get_addressbook_dir_file():
 
 	if path:
 		path = os.path.join(thunderbird_home, path)
-	return path, ABOOK_FILE
+	# I thought it was strange to return something that is constant here
+	return path
 
 
 def get_addressbook_file():
 	''' Get full path to the Thunderbird address book file.
 		Return None if it don't exists '''
-	path, filename = get_addressbook_dir_file()
+	path = get_addressbook_dir_file()
 	if not path:
 		return None
 
-	fullpath = os.path.join(path, filename)
+	fullpath = os.path.join(path, ABOOK_FILE)
 	if os.path.isfile(fullpath):
 		return fullpath
 

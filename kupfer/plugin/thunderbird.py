@@ -5,9 +5,10 @@ from __future__ import with_statement
 import os
 import re
 
-from kupfer.objects import (Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf, 
-		FilesystemWatchMixin, AppLeafContentMixin)
-from kupfer import utils
+from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, AppLeafContentMixin
+from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer import utils, icons
 
 from kupfer.plugin import thunderbird_support as support
 
@@ -32,10 +33,9 @@ def _check_email(email):
 
 
 class Contact(Leaf):
-	''' Leaf represent single contact from Claws address book '''
-	def get_actions(self):
-		yield NewMailAction()
-
+	''' Leaf represents a single contact from the address book '''
+	# no builtin actions if it is later going to be "decorated" automatically with NewMailAction
+	# that's why it was duplicated
 	def get_description(self):
 		return self.object
 
@@ -95,21 +95,29 @@ class NewMailAction(Action):
 		return False
 
 
-class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin, PicklingHelperMixin):
 	appleaf_content_id = ('thunderbird', 'icedove')
 
-	def __init__(self, name=_("Thundrbird Address Book")):
+	def __init__(self, name=_("Thunderbird Address Book")):
 		Source.__init__(self, name)
-		self._abook_dir, self._abook_file = support.get_addressbook_dir_file()
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		if not os.path.isdir(self._abook_dir):
+		# _abook_dir might be None here => then we crash
+		# File "/usr/lib/python2.5/posixpath.py", line 195, in isdir
+		#	st = os.stat(path)
+		# TypeError: coercing to Unicode: need string or buffer, NoneType found
+
+		# don't store _abook_dir or _abook_file on self,
+		# they are never needed later Simply compute them here
+		# I changed the function to return only the directory
+		abook_dir = support.get_addressbook_dir_file()
+		if not abook_dir or not os.path.isdir(abook_dir):
 			return
-		self.monitor_token = self.monitor_directories(self._abook_dir)
+		self.monitor_token = self.monitor_directories(abook_dir)
 
 	def monitor_include_file(self, gfile):
-		return gfile and gfile.get_basename() == self._abook_file
+		return gfile and gfile.get_basename() == support.ABOOK_FILE
 
 	def get_items(self):
 		for name, email in support.get_contacts():
@@ -120,8 +128,8 @@ class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 	def get_description(self):
 		return _("Contacts from Thunderbird Address Book")
 
-	def get_icon_name(self):
-		return "thunderbird"
+	def get_gicon(self):
+		return icons.get_gicon_with_fallbacks(None, ("thunderbird", "icedove"))
 
 	def provides(self):
 		yield Contact
