@@ -856,6 +856,7 @@ class Interface (gobject.GObject):
 			"<Control>t" : "select_selected_text",
 			"<Control>q" : "select_quit",
 			"<Alt>a" : "activate",
+			"<Control>Return": "compose_action",
 		}
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
@@ -1137,6 +1138,9 @@ class Interface (gobject.GObject):
 
 	def select_quit(self):
 		self.data_controller.find_object("qpfer:quit")
+
+	def compose_action(self):
+		self.data_controller.compose_selection()
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)

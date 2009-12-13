@@ -1111,3 +1111,39 @@ class TextSource (KupferObject):
 		"""A seq of the types of items it provides"""
 		yield Leaf
 
+class ProxyDo (Action):
+	"""A proxy version of Do
+
+	Proxy factory/result/async from a delegate action
+	"""
+	def __init__(self, action):
+		Action.__init__(self, _("Do"))
+		self.action = action
+
+	def activate(self, leaf, obj=None):
+		return leaf.run()
+
+	def is_factory(self):
+		return self.action.is_factory()
+	def has_result(self):
+		return self.action.has_result()
+	def is_async(self):
+		return self.action.is_async()
+
+class ComposedLeaf (RunnableLeaf):
+	def __init__(self, obj, action, iobj=None):
+		object_ = (obj, action, iobj)
+		name = u" → ".join([unicode(o) for o in object_ if o is not None])
+		RunnableLeaf.__init__(self, object_, name)
+
+	def get_actions(self):
+		yield ProxyDo(self.object[1])
+
+	def run(self):
+		obj, action, iobj = self.object
+		args = (obj, iobj) if iobj is not None else (obj, )
+		return action.activate(*args)
+
+	def get_gicon(self):
+		return icons.ComposedIcon(self.object[0].get_icon(),
+				self.object[1].get_icon())
