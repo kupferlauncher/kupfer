@@ -99,12 +99,16 @@ class ContactsSource(Source, FilesystemWatchMixin):
 
 	def __init__(self, name=_("Thundrbird Address Book")):
 		Source.__init__(self, name)
-		self._addrbook_file = support.get_thunderbird_addressbook_file()
+		self._abook_dir, self._abook_file = support.get_addressbook_dir_file()
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		if not os.path.isdir(self._addrbook_file):
+		if not os.path.isdir(self._abook_dir):
 			return
+		self.monitor_token = self.monitor_directories(self._abook_dir)
+
+	def monitor_include_file(self, gfile):
+		return gfile and gfile.get_basename() == self._abook_file
 
 	def get_items(self):
 		for name, email in support.get_contacts():

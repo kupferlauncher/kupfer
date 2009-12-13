@@ -6,6 +6,8 @@ import os
 import re
 from ConfigParser import RawConfigParser
 
+from kupfer import pretty
+
 __version__ = "2009-12-11"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -23,8 +25,7 @@ RE_ATOM = re.compile(r'<\s*(\(.+?\))\s*>')
 RE_TABLE = re.compile(
 		r'\{-?(\d+):\^(..)\s*\{\(k\^(..):c\)\(s=9u?\)\s*(.*?)\}\s*(.+?)\}')
 RE_ROW = re.compile(r'(-?)\s*\[(.+?)((\(.+?\)\s*)*)\]')
-RE_CELL_TEXT = re.compile(r'\^(.+?)=(.*)')
-RE_CELL_OID	= re.compile(r'\^(.+?)\^(.+)')
+RE_CELL_TEXT = re.compile(r'\^(.+?)[=^](.*)')
 RE_ESCAPED = re.compile(r'((\\[\$\0abtnvfr])|(\$..))')
 
 COLS_TO_KEEP = (
@@ -72,19 +73,19 @@ def _read_mork(filename):
 	''' Read mork file, return tables from file '''
 	data = []
 	with open(filename, 'rt') as mfile:
-		version = mfile.readline().strip()
+		header = mfile.readline().strip()
 		# check header
-		if not re.match(r'// <!-- <mdb:mork:z v="(.*)"/> -->', version):
-			print 'header error'
+		if not re.match(r'// <!-- <mdb:mork:z v="(.*)"/> -->', header):
+			pretty.print_debug(__name__, '_read_mork: header error', header)
 			return {}
 
 		for line in mfile.readlines():
 			# remove blank lines and comments
 			line = line.strip()
-			if not line or line.startswith('//'):
+			if not line:
 				continue
 
-			# remove comments on the end of lines
+			# remove comments
 			comments = line.find('//')
 			if comments > -1:
 				line = line[:comments].strip()
@@ -142,8 +143,7 @@ def _read_mork(filename):
 					rowdata = row[2:]
 					for rowcell in rowdata:
 						for cell in RE_CELL.findall(rowcell):
-							match = (RE_CELL_TEXT.match(cell) or \
-									RE_CELL_OID.match(cell))
+							match = RE_CELL_TEXT.match(cell)
 							if match:
 								col = cells.get(match.group(1))
 								atom = atoms.get(match.group(2))
@@ -151,10 +151,30 @@ def _read_mork(filename):
 									table.add_cell(rowid, col, atom)
 								continue
 
-			pos += match.span()[1]
+			pos = match.span()[1]
 			continue
 
-		pos += 1
+		# rows
+		match = RE_ROW.match(data)
+		if match:
+			row = match.group()
+			tran, rowid = row[:2]
+			if tran != '-':
+				rowdata = row[2:]
+				table = tables.get('1:80')
+				for rowcell in rowdata:
+					for cell in RE_CELL.findall(rowcell):
+						match = RE_CELL_TEXT.match(cell)
+						if match:
+							col = cells.get(match.group(1))
+							atom = atoms.get(match.group(2))
+							if col and atom:
+								table.add_cell(rowid, col, atom)
+							continue
+			pos = match.span()[1]
+			continue
+
+		pos = 1
 	return tables
 
 
@@ -163,27 +183,29 @@ def _mork2contacts(tables):
 	if not tables:
 		return 
 
-	for row in tables.values()[0].rows.itervalues():
-		display_name = row.get('DisplayName')
-		if not display_name:
-			first_name = row.get('FirstName', '')
-			last_name = row.get('LastName', '')
-			display_name = ' '.join((first_name, last_name))
+	for table in tables.itervalues():
+		for row in table.rows.itervalues():
+			display_name = row.get('DisplayName')
+			if not display_name:
+				first_name = row.get('FirstName', '')
+				last_name = row.get('LastName', '')
+				display_name = ' '.join((first_name, last_name))
 
-		display_name = display_name.strip()
-		if not display_name:
-			continue
+			display_name = display_name.strip()
+			if not display_name:
+				continue
 
-		for key in ('PrimaryEmail', 'SecondEmail'):
-			email = row.get(key)
-			if email:
-				yield (display_name, email)
+			for key in ('PrimaryEmail', 'SecondEmail'):
+				email = row.get(key)
+				if email:
+					yield (display_name, email)
 
 
-def get_thunderbird_addressbook_file():
+def get_addressbook_dir_file():
+	''' Get path to addressbook file from default profile. '''
 	profile_file = os.path.expanduser('~/.thunderbird/profiles.ini')
 	if not os.path.isfile(profile_file):
-		return None
+		return None, None
 
 	config = RawConfigParser()
 	config.read(profile_file)
@@ -197,23 +219,34 @@ def get_thunderbird_addressbook_file():
 			path = config.get(section, "Path")
 
 	if path:
-		path = os.path.join(os.path.expanduser('~/.thunderbird'), path, 
-				'abook.mab')
-		if not os.path.isfile(path):
-			return None
-	return path
+		path = os.path.join(os.path.expanduser('~/.thunderbird'), path)
 
+	return path, 'abook.mab'
+
+
+def get_addressbook_file():
+	''' Get full path to the Thunderbird address book file.
+		Return None if it don't exists '''
+	path, filename = get_addressbook_dir_file()
+	if not path:
+		return None
+
+	fullpath = os.path.join(path, filename)
+	if os.path.isfile(fullpath):
+		return fullpath
+
+	return None
 
 
 def get_contacts():
 	''' Get all contacts from Thunderbird address book as
 		[(contact name, contact email)] '''
-	abook = get_thunderbird_addressbook_file()
+	abook = get_addressbook_file()
 	if abook:
 		try:
 			tables = _read_mork(abook)
 		except IOError, err:
-			print err
+			pretty.print_error(__name__, 'get_contacts error', err)
 		else:
 			return list(_mork2contacts(tables))
 	
@@ -221,4 +254,4 @@ def get_contacts():
 
 
 if __name__ == '__main__':
-	print get_contacts()
+	print '\n'.join(map(str, sorted(get_contacts())))
