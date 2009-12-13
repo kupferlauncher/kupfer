@@ -1177,5 +1177,9 @@ class ComposedLeaf (RunnableLeaf):
 		return action.activate(*args)
 
 	def get_gicon(self):
-		return icons.ComposedIcon(self.object[0].get_icon(),
-				self.object[1].get_icon())
+		obj, action, iobj = self.object
+		if iobj is None:
+			return icons.ComposedIcon(obj.get_icon(), action.get_icon())
+		else:
+			return icons.ComposedIcon(obj.get_icon(), iobj.get_icon())
+
