@@ -114,7 +114,7 @@ class Trash (SpecialLocation):
 	def has_content(self):
 		return self.get_item_count()
 	def content_source(self, alternate=False):
-		return TrashContentSource(self._uri, name=unicode(self))
+		return TrashContentSource(self.object, name=unicode(self))
 
 	def get_item_count(self):
 		gfile = gio.File(self.object)
