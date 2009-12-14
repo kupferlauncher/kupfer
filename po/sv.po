@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-07 21:35+0100\n"
+"POT-Creation-Date: 2009-12-14 21:04+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -285,6 +285,14 @@ msgstr[1] "(%(num)d lines) \"%(text)s\""
 msgid "Text Matches"
 msgstr "Fritextträffar"
 
+#: ../kupfer/objects.py:1137
+msgid "Run After Delay..."
+msgstr "Utför med fördröjning..."
+
+#: ../kupfer/objects.py:1160
+msgid "Perform command after a specified time interval"
+msgstr "Utför kommando efter angivet tidsintervall"
+
 #: ../kupfer/plugin/abiword.py:11
 msgid "Abiword"
 msgstr "Abiword"
@@ -406,7 +414,15 @@ msgstr "Hämta nya mail från alla konton i Claws Mail"
 msgid "Compose New Mail To"
 msgstr "Skriv nytt mail till"
 
-#: ../kupfer/plugin/clawsmail.py:111
+#: ../kupfer/plugin/clawsmail.py:110
+msgid "Send by Mail"
+msgstr "Skicka med e-post"
+
+#: ../kupfer/plugin/clawsmail.py:123
+msgid "Create new mail in ClawsMail and attach file"
+msgstr "Skapa nytt meddelande i ClawsMail och bifoga filen"
+
+#: ../kupfer/plugin/clawsmail.py:132
 msgid "Claws Mail Address Book"
 msgstr "Claws Mail-adressbok"
 
@@ -1225,11 +1241,6 @@ msgstr "Visa med stor text"
 msgid "(no description)"
 msgstr "(ingen beskrivning)"
 
-#: ../kupfer/plugins.py:97
-#, python-format
-msgid "  %(name)-20s %(version)-4s %(description)s"
-msgstr "  %(name)-20s %(version)-4s %(description)s"
-
 #: ../kupfer/plugin_support.py:5
 msgid "Include in top level"
 msgstr "Inkludera i toppnivån"
@@ -1431,24 +1442,32 @@ msgstr[1] "Papperskorgen innehåller %(num)s objekt"
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:14 ../kupfer/plugin/truecrypt.py:107
+#: ../kupfer/plugin/truecrypt.py:14 ../kupfer/plugin/truecrypt.py:138
 msgid "Volumes from TrueCrypt history"
 msgstr "Volymer från TrueCrypt-historien"
 
-#: ../kupfer/plugin/truecrypt.py:31
+#: ../kupfer/plugin/truecrypt.py:42
 #, python-format
 msgid "TrueCrypt volume: %(file)s"
 msgstr "TrueCrypt-volym %(file)s"
 
-#: ../kupfer/plugin/truecrypt.py:39
+#: ../kupfer/plugin/truecrypt.py:50
 msgid "Mount Volume"
 msgstr "Montera volym"
 
-#: ../kupfer/plugin/truecrypt.py:47
+#: ../kupfer/plugin/truecrypt.py:61
+msgid "Mount in Truecrypt"
+msgstr "Montera i Truecrypt"
+
+#: ../kupfer/plugin/truecrypt.py:70
+msgid "Try to mount file as Truecrypt volume"
+msgstr "Försök montera filen som Truecrypt-volym"
+
+#: ../kupfer/plugin/truecrypt.py:78
 msgid "Dismount All Volumes"
 msgstr "Avmontera alla volymer"
 
-#: ../kupfer/plugin/truecrypt.py:65
+#: ../kupfer/plugin/truecrypt.py:96
 msgid "TrueCrypt Volumes"
 msgstr "TrueCrypt-volymer"
 
