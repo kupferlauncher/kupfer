@@ -22,15 +22,27 @@ Not Released Yet
 * Add accelerators *Page Up*, *Page Down* and *Home* in the result list.
   (Karol)
 * Use customized or localized desktop directory instead of hardcoding
-  ~/Desktop by default. It will not affect users who already customized
+  ``~/Desktop`` by default. It will not affect users who already customized
   which directories Kupfer indexes.
 * It now is possible to favorite shell commandlines
 * *Gajim* plugin now works with version 0.13 (Karol) (LP #489484)
 * Basic support for Right-to-left (RTL) interface
-* Fix bugs with "loose" Applications (not in system directories), bugs
-  reported by Chmouel.
+* Fix bugs with "loose" Applications (not in system directories), reported
+  by Chmouel.
+* Add accelerator *Ctrl+Return* for **Compose Command**: You may compose a
+  command object out of an (Object, Action) combination, to be used with the
+  new action *Run After Delay...*.
+* Added action *Send File by Mail* to *Claws Mail* plugin (Karol)
+* Added action *Mount [File] as TrueCrypt Volume* to *TrueCrypt* plugin (Karol)
 * Many small bugfixes
 
+Localization updates:
+
+* de: Mario Blättermann
+* es: Jorge González
+* it: Francesco Marella
+* pl: Karol Będkowski
+* sv: Ulrik Sverdrup
 
 kupfer version c18.1
 --------------------
