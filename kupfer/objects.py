@@ -1162,7 +1162,9 @@ class TimedDo (Do):
 class ComposedLeaf (RunnableLeaf):
 	def __init__(self, obj, action, iobj=None):
 		object_ = (obj, action, iobj)
-		name = u" → ".join([unicode(o) for o in object_ if o is not None])
+		# A slight hack: We remove trailing ellipsis and whitespace
+		format = lambda o: unicode(o).strip(".… ")
+		name = u" → ".join([format(o) for o in object_ if o is not None])
 		RunnableLeaf.__init__(self, object_, name)
 
 	def get_actions(self):
