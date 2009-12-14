@@ -232,7 +232,7 @@ def _mork2contacts(tables):
 					yield (display_name, email)
 
 
-def get_addressbook_dir_file():
+def get_addressbook_dir():
 	''' Get path to addressbook file from default profile. '''
 	thunderbird_home, thunderbird_profile = None, None
 	for thome, tprofile in THUNDERBIRD_PROFILES:
@@ -265,7 +265,7 @@ def get_addressbook_dir_file():
 def get_addressbook_file():
 	''' Get full path to the Thunderbird address book file.
 		Return None if it don't exists '''
-	path = get_addressbook_dir_file()
+	path = get_addressbook_dir()
 	if not path:
 		return None
 

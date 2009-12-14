@@ -34,8 +34,6 @@ def _check_email(email):
 
 class Contact(Leaf):
 	''' Leaf represents a single contact from the address book '''
-	# no builtin actions if it is later going to be "decorated" automatically with NewMailAction
-	# that's why it was duplicated
 	def get_description(self):
 		return self.object
 
@@ -103,15 +101,7 @@ class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin, Pickling
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
-		# _abook_dir might be None here => then we crash
-		# File "/usr/lib/python2.5/posixpath.py", line 195, in isdir
-		#	st = os.stat(path)
-		# TypeError: coercing to Unicode: need string or buffer, NoneType found
-
-		# don't store _abook_dir or _abook_file on self,
-		# they are never needed later Simply compute them here
-		# I changed the function to return only the directory
-		abook_dir = support.get_addressbook_dir_file()
+		abook_dir = support.get_addressbook_dir()
 		if not abook_dir or not os.path.isdir(abook_dir):
 			return
 		self.monitor_token = self.monitor_directories(abook_dir)
