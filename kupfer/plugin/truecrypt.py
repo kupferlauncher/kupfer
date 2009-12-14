@@ -58,7 +58,7 @@ class MountFile(Action):
 	rank_adjust = -10
 
 	def __init__(self):
-		Action.__init__(self, _("Mount File in Truecrypt"))
+		Action.__init__(self, _("Mount in Truecrypt"))
 
 	def activate(self, leaf):
 		mount_volume_in_truecrypt(leaf.object)
