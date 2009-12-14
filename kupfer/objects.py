@@ -1049,7 +1049,7 @@ class Do (Action):
 		if not name: name = _("Do")
 		super(Do, self).__init__(name=name)
 	def activate(self, leaf):
-		leaf.run()
+		return leaf.run()
 	def get_description(self):
 		return _("Perform action")
 
@@ -1111,17 +1111,14 @@ class TextSource (KupferObject):
 		"""A seq of the types of items it provides"""
 		yield Leaf
 
-class ProxyDo (Action):
+class ProxyDo (Do):
 	"""A proxy version of Do
 
 	Proxy factory/result/async from a delegate action
 	"""
 	def __init__(self, action):
-		Action.__init__(self, _("Do"))
+		Do.__init__(self, _("Do"))
 		self.action = action
-
-	def activate(self, leaf, obj=None):
-		return leaf.run()
 
 	def is_factory(self):
 		return self.action.is_factory()
@@ -1158,6 +1155,9 @@ class TimedDo (Do):
 	def valid_object(self, iobj, for_item=None):
 		interval = utils.parse_time_interval(iobj.object)
 		return interval > 0
+
+	def get_description(self):
+		return _("Perform command after a specified time interval")
 
 class ComposedLeaf (RunnableLeaf):
 	def __init__(self, obj, action, iobj=None):
