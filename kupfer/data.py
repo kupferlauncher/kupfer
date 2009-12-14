@@ -1079,6 +1079,20 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if found and not found == self.source_pane.get_selection():
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(found))
 
+	def compose_selection(self):
+		leaf = self.source_pane.get_selection()
+		action = self.action_pane.get_selection()
+		if leaf is None or action is None:
+			return
+		iobj = self.object_pane.get_selection()
+		if self.mode is SourceActionObjectMode:
+			if iobj is None:
+				return
+		else:
+			iobj = None
+		obj = objects.ComposedLeaf(leaf, action, iobj)
+		self.emit("pane-reset", SourcePane, search.wrap_rankable(obj))
+
 # pane cleared or set with new item
 # pane, item
 gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,

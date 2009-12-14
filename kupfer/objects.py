@@ -1049,7 +1049,7 @@ class Do (Action):
 		if not name: name = _("Do")
 		super(Do, self).__init__(name=name)
 	def activate(self, leaf):
-		leaf.run()
+		return leaf.run()
 	def get_description(self):
 		return _("Perform action")
 
@@ -1110,4 +1110,78 @@ class TextSource (KupferObject):
 	def provides(self):
 		"""A seq of the types of items it provides"""
 		yield Leaf
+
+class ProxyDo (Do):
+	"""A proxy version of Do
+
+	Proxy factory/result/async from a delegate action
+	"""
+	def __init__(self, action):
+		Do.__init__(self, _("Do"))
+		self.action = action
+
+	def is_factory(self):
+		return self.action.is_factory()
+	def has_result(self):
+		return self.action.has_result()
+	def is_async(self):
+		return self.action.is_async()
+
+class TimedDo (Do):
+	"""A timed proxy version of Do
+
+	Proxy factory/result/async from a delegate action
+	Delay action by a couple of seconds
+	"""
+	def __init__(self):
+		Action.__init__(self, _("Run After Delay..."))
+
+	def _run(self, leaf):
+		leaf.run()
+
+	def activate(self, leaf, iobj=None):
+		from kupfer import scheduler
+		# make a timer that will fire when Kupfer exits
+		interval = utils.parse_time_interval(iobj.object)
+		pretty.print_debug(__name__, "Run %s in %s seconds" % (leaf, interval))
+		timer = scheduler.Timer(True)
+		timer.set(interval, self._run, leaf)
+
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield TextLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		interval = utils.parse_time_interval(iobj.object)
+		return interval > 0
+
+	def get_description(self):
+		return _("Perform command after a specified time interval")
+
+class ComposedLeaf (RunnableLeaf):
+	def __init__(self, obj, action, iobj=None):
+		object_ = (obj, action, iobj)
+		# A slight hack: We remove trailing ellipsis and whitespace
+		format = lambda o: unicode(o).strip(".… ")
+		name = u" → ".join([format(o) for o in object_ if o is not None])
+		RunnableLeaf.__init__(self, object_, name)
+
+	def get_actions(self):
+		action = self.object[1]
+		yield ProxyDo(action)
+		if not action.is_factory():
+			yield TimedDo()
+
+	def run(self):
+		obj, action, iobj = self.object
+		args = (obj, iobj) if iobj is not None else (obj, )
+		return action.activate(*args)
+
+	def get_gicon(self):
+		obj, action, iobj = self.object
+		if iobj is None:
+			return icons.ComposedIcon(obj.get_icon(), action.get_icon())
+		else:
+			return icons.ComposedIcon(obj.get_icon(), iobj.get_icon())
 
