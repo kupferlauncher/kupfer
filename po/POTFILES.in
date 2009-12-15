@@ -16,7 +16,9 @@ kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
-kupfer/plugin/core.py
+kupfer/plugin/core/contents.py
+kupfer/plugin/core/debug.py
+kupfer/plugin/core/__init__.py
 kupfer/plugin/devhelp.py
 kupfer/plugin/dictionary.py
 kupfer/plugin/documents.py
