@@ -1,0 +1,244 @@
+import subprocess
+
+from kupfer.objects import Leaf, Source, Action
+from kupfer.objects import (AppLeaf, RunnableLeaf, SourceLeaf,
+		AppLeafContentMixin)
+from kupfer import objects, icons, utils
+from kupfer import plugin_support
+from kupfer import kupferstring
+
+__kupfer_name__ = _("Audacious")
+__kupfer_sources__ = ("AudaciousSource", )
+__kupfer_actions__ = (
+		"Rescan",
+	)
+__description__ = _("Control Audacious playback and playlist")
+__version__ = "2009-12-15"
+__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>"
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key": "playlist_toplevel",
+		"label": _("Include playlist in top level"),
+		"type": bool,
+		"value": True,
+	},
+)
+
+AUDTOOL = "audtool2"
+AUDACIOUS = "audacious2"
+
+def enqueue_song(info):
+	song = info["name"]
+	if not song: return
+	songPos = int(info["position"])
+	utils.spawn_async((AUDTOOL, "playqueue-add", "%d" % songPos))
+
+def dequeue_song(info):
+	song = info["name"]
+	if not song: return
+	songPos = int(info["position"])
+	utils.spawn_async((AUDTOOL, "playqueue-remove", "%d" % songPos))
+
+def play_song(info):
+	jump = int(info["position"])
+	utils.spawn_async((AUDTOOL, "playlist-jump", "%d" % jump)) 
+
+def get_playlist_songs():
+	toolProc = subprocess.Popen([AUDTOOL, "playlist-display"],
+			stdout=subprocess.PIPE)
+	stdout, stderr = toolProc.communicate()
+	for line in stdout.splitlines():
+		if not line.count('|') >= 2:
+			continue
+		position, rest = line.split('|', 1)
+		songname, rest = rest.rsplit('|', 1)
+		info = {}
+		info["position"] = int(position.strip())
+		info["name"] = kupferstring.fromlocale(songname.strip())
+		yield info
+
+def clear_queue():
+	utils.spawn_async((AUDTOOL, "playqueue-clear"))
+
+class Enqueue (Action):
+	def __init__(self):
+		Action.__init__(self, _("Enqueue"))
+	def activate(self, leaf):
+		if isinstance(leaf, SongLeaf):
+				enqueue_song(leaf.object)
+	def get_description(self):
+		return _("Add song to the Audacious play queue")
+	def get_gicon(self):
+		return icons.ComposedIcon("gtk-execute", "media-playback-start")
+	def get_icon_name(self):
+		return "media-playback-start"
+
+class Dequeue (Action):
+	def __init__(self):
+		Action.__init__(self, _("Dequeue"))
+	def activate(self, leaf):
+		if isinstance(leaf, SongLeaf):
+				dequeue_song(leaf.object)
+	def get_description(self):
+		return _("Remove song from the Audacious play queue")
+	def get_gicon(self):
+		return icons.ComposedIcon("gtk-execute", "media-playback-stop")
+	def get_icon_name(self):
+		return "media-playback-stop"
+
+class JumpToSong(Action):
+	def __init__(self):
+		Action.__init__(self, _("Play"))
+	def activate(self, leaf):
+		if isinstance(leaf, SongLeaf):
+			play_song(leaf.object)
+	def get_description(self):
+		return _("Jump to a song in Audacious")
+	def get_icon_name(self):
+		return "media-playback-start"
+
+class ClearQueue (Action):
+	def __init__(self):
+		Action.__init__(self, _("Clear Queue"))
+	def activate(self, leaf):
+		clear_queue()
+	def get_description(self):
+		return _("Clear the Audacious play queue")
+	def get_gicon(self):
+		return icons.ComposedIcon("gtk-execute", "media-playback-start")
+	def get_icon_name(self):
+		return "media-playback-stop"
+
+class Rescan (Action):
+	"""A source action: Rescan a source!
+
+	A simplified version of the original core Rescan action
+	"""
+	rank_adjust = -5
+	def __init__(self):
+		Action.__init__(self, _("Rescan"))
+
+	def activate(self, leaf):
+		if not leaf.has_content():
+			raise objects.InvalidLeafError("Must have content")
+		source = leaf.content_source()
+		source.get_leaves(force_update=True)
+
+	def get_description(self):
+		return _("Force reindex of this source")
+	def get_icon_name(self):
+		return "gtk-refresh"
+	def item_types(self):
+		yield AppLeaf
+	def valid_for_item(self, item):
+		return item.get_id() == AUDACIOUS
+
+class Play (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Play"))
+	def run(self):
+		utils.spawn_async((AUDTOOL, "playback-play"))
+	def get_description(self):
+		return _("Resume playback in Audacious")
+	def get_icon_name(self):
+		return "media-playback-start"
+
+class Pause (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Pause"))
+	def run(self):
+		utils.spawn_async((AUDTOOL, "playback-pause"))
+	def get_description(self):
+		return _("Pause playback in Audacious")
+	def get_icon_name(self):
+		return "media-playback-pause"
+
+class Next (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Next"))
+	def run(self):
+		utils.spawn_async((AUDTOOL, "playlist-advance"))
+	def get_description(self):
+		return _("Jump to next track in Audacious")
+	def get_icon_name(self):
+		return "media-skip-forward"
+
+class Previous (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Previous"))
+	def run(self):
+		utils.spawn_async((AUDTOOL, "playlist-reverse"))
+	def get_description(self):
+		return _("Jump to previous track in Audacious")
+	def get_icon_name(self):
+		return "media-skip-backward"
+		
+class Shuffle (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Shuffle"))
+	def run(self):
+		utils.spawn_async((AUDTOOL, "playlist-shuffle-toggle"))
+	def get_description(self):
+		return _("Toggle shuffle in Audacious")
+	def get_icon_name(self):
+		return "media-playlist-shuffle"
+
+class Repeat (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Repeat"))
+	def run(self):
+		utils.spawn_async((AUDTOOL, "playlist-repeat-toggle"))
+	def get_description(self):
+		return _("Toggle repeat in Audacious")
+	def get_icon_name(self):
+		return "media-playlist-repeat"
+
+class SongLeaf (Leaf):
+	def __init__(self, info, name=None):
+		if not name: name = info["name"]
+		Leaf.__init__(self, info, name)
+	def get_actions(self):
+		yield JumpToSong()
+		yield Enqueue()
+		yield Dequeue()
+		yield ClearQueue()
+	def get_icon_name(self):
+		return "audio-x-generic"
+
+class AudaciousSongsSource (Source):
+	def __init__(self, library):
+		Source.__init__(self, _("Playlist"))
+		self.library = library
+	def get_items(self):
+		for song in self.library:
+			yield SongLeaf(song)
+	def get_gicon(self):
+		return icons.ComposedIcon(AUDACIOUS, "audio-x-generic",
+			emblem_is_fallback=True)
+	def provides(self):
+		yield SongLeaf
+
+class AudaciousSource (AppLeafContentMixin, Source):
+	appleaf_content_id = AUDACIOUS
+	def __init__(self):
+		Source.__init__(self, _("Audacious"))
+	def get_items(self):
+		songs = list(get_playlist_songs())
+		yield Play()
+		yield Pause()
+		yield Next()
+		yield Previous() 
+		yield Shuffle()
+		yield Repeat()
+		songs_source = AudaciousSongsSource(songs)
+		yield SourceLeaf(songs_source)
+		if __kupfer_settings__["playlist_toplevel"]:
+			for leaf in songs_source.get_leaves():
+				yield leaf
+	def get_description(self):
+		return __description__
+	def get_icon_name(self):
+		return AUDACIOUS
+	def provides(self):
+		yield RunnableLeaf
