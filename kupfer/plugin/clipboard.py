@@ -8,7 +8,6 @@ from kupfer.helplib import gobject_connect_weakly
 
 __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource", )
-__kupfer_actions__ = ("CopyToClipboard", )
 __description__ = _("Recent clipboards")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -70,15 +69,3 @@ class ClipboardSource (Source, PicklingHelperMixin):
 	def provides(self):
 		yield TextLeaf
 
-class CopyToClipboard (Action):
-	def __init__(self):
-		Action.__init__(self, _("Copy"))
-	def activate(self, leaf):
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		clip.set_text(leaf.object)
-	def item_types(self):
-		yield TextLeaf
-	def get_description(self):
-		return _("Copy to clipboard")
-	def get_icon_name(self):
-		return "gtk-copy"

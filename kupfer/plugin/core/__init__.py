@@ -7,6 +7,7 @@ __kupfer_name__ = u"Core"
 __kupfer_sources__ = ()   # Updated later
 __kupfer_actions__ = (    # Updated later
 	"SearchInside",
+	"CopyToClipboard",
 	)
 __description__ = u"Core actions and items"
 __version__ = ""
@@ -47,3 +48,24 @@ class SearchInside (Action):
 		return _("Search inside this catalog")
 	def get_icon_name(self):
 		return "search"
+
+class CopyToClipboard (Action):
+	# rank down since it applies everywhere
+	rank_adjust = -2
+	def __init__(self):
+		Action.__init__(self, _("Copy"))
+	def activate(self, leaf):
+		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clip.set_text(leaf.get_text_representation())
+	def item_types(self):
+		yield Leaf
+	def valid_for_item(self, leaf):
+		try:
+			return bool(leaf.get_text_representation())
+		except AttributeError:
+			pass
+	def get_description(self):
+		return _("Copy to clipboard")
+	def get_icon_name(self):
+		return "gtk-copy"
+

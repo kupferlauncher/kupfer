@@ -20,6 +20,7 @@ from kupfer import icons, launch, utils
 from kupfer import pretty
 from kupfer.utils import locale_sort
 from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
+from kupfer.interface import TextRepresentation
 from kupfer.kupferstring import tounicode, toutf8, tofolded
 
 class Error (Exception):
@@ -184,7 +185,7 @@ class DummyLeaf (Leaf):
 	def __init__(self):
 		super(DummyLeaf, self).__init__(None, _("No matches"))
 
-class FileLeaf (Leaf):
+class FileLeaf (Leaf, TextRepresentation):
 	"""
 	Represents one file
 	"""
@@ -232,6 +233,9 @@ class FileLeaf (Leaf):
 
 	def is_dir(self):
 		return path.isdir(self.object)
+
+	def get_text_representation(self):
+		return gobject.filename_display_name(self.object)
 
 	def get_description(self):
 		"""Format the path shorter:
@@ -1016,7 +1020,7 @@ class AppLeafContentMixin (object):
 		if leaf == cls.get_leaf_repr():
 			return cls()
 
-class UrlLeaf (Leaf):
+class UrlLeaf (Leaf, TextRepresentation):
 	# slots saves memory since we have lots this Leaf
 	__slots__ = ("name", "object")
 	def __init__(self, obj, name):
@@ -1053,7 +1057,7 @@ class Do (Action):
 	def get_description(self):
 		return _("Perform action")
 
-class TextLeaf (Leaf):
+class TextLeaf (Leaf, TextRepresentation):
 	"""Represent a text query
 	represented object is the unicode string
 	"""
