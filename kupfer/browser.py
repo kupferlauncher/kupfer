@@ -1150,6 +1150,7 @@ class Interface (gobject.GObject):
 			wid.set_match_plain(item)
 			if wid is self.search:
 				self.reset()
+				self.toggle_text_mode(False)
 				self.switch_to_source()
 	
 	def _new_source(self, sender, pane, source, at_root):
