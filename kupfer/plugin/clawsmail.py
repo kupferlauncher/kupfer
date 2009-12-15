@@ -107,7 +107,7 @@ class NewMailAction(Action):
 class SendFileByMail(Action):
 	''' Createn new mail and attach selected file'''
 	def __init__(self):
-		Action.__init__(self, _('Send by Mail'))
+		Action.__init__(self, _('Send by Email'))
 
 	def activate(self, leaf):
 		filepath = leaf.object
@@ -120,7 +120,7 @@ class SendFileByMail(Action):
 		yield FileLeaf
 
 	def get_description(self):
-		return _("Create new mail in ClawsMail and attach file")
+		return _("Compose new email in ClawsMail and attach file")
 
 	def valid_for_item(self, item):
 		return os.path.isfile(item.object)
