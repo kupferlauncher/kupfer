@@ -1,48 +1,19 @@
-import gtk
+from kupfer.objects import Action, Leaf
+from kupfer import objects
+from kupfer import pretty
 
-from kupfer.objects import Leaf, Action, Source, RunnableLeaf, AppLeafContentMixin
-from kupfer import objects, utils, icons, pretty
-from kupfer import kupferui
-
-__kupfer_name__ = u"Core"
-__kupfer_sources__ = ("KupferSource", )
+__kupfer_sources__ = ()
 __kupfer_actions__ = (
-	"SearchInside",
-	"Rescan",
-	"DebugInfo",
+		"Rescan",
+		"DebugInfo",
 	)
-__description__ = u"Core actions and items"
-__version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+__all__ = __kupfer_sources__ + __kupfer_actions__
+
 def _is_debug():
-	"""Return True if Kupfer is in debug mode"""
+	# Return True if Kupfer is in debug mode
 	return pretty.debug
-
-class SearchInside (Action):
-	"""
-	A factory action: works on a Leaf object with content
-	Return a new source with the contents of the Leaf
-	"""
-	def __init__(self):
-		super(SearchInside, self).__init__(_("Search Content..."))
-
-	def is_factory(self):
-		return True
-	def activate(self, leaf):
-		if not leaf.has_content():
-			raise objects.InvalidLeafError("Must have content")
-		return leaf.content_source()
-
-	def item_types(self):
-		yield Leaf
-	def valid_for_item(self, leaf):
-		return leaf.has_content()
-
-	def get_description(self):
-		return _("Search inside this catalog")
-	def get_icon_name(self):
-		return "search"
 
 class Rescan (Action):
 	"""A source action: Rescan a source!
@@ -76,6 +47,7 @@ class Rescan (Action):
 		if not item.has_content():
 			return False
 		return not item.content_source().is_dynamic()
+
 
 class DebugInfo (Action):
 	""" Print debug info to terminal """
@@ -162,88 +134,3 @@ class DebugInfo (Action):
 		if _is_debug():
 			yield Leaf
 
-class DebugRestart (RunnableLeaf):
-	def __init__(self):
-		RunnableLeaf.__init__(self, None, u"Restart Kupfer")
-
-	@classmethod
-	def _exec_new_kupfer(cls, executable, argv):
-		import os
-		os.execvp(executable, [executable] + argv)
-
-	def run(self):
-		import atexit
-		import sys
-		gtk.main_quit()
-		atexit.register(self._exec_new_kupfer, sys.executable, sys.argv)
-
-	def get_description(self):
-		return u"Restart Kupfer quickly (for internal kupfer use)"
-	def get_icon_name(self):
-		return gtk.STOCK_REFRESH
-
-class Quit (RunnableLeaf):
-	qf_id = "quit"
-	def __init__(self, name=None):
-		if not name: name = _("Quit")
-		super(Quit, self).__init__(name=name)
-	def run(self):
-		gtk.main_quit()
-	def get_description(self):
-		return _("Quit Kupfer")
-	def get_icon_name(self):
-		return gtk.STOCK_QUIT
-
-class About (RunnableLeaf):
-	def __init__(self, name=None):
-		if not name: name = _("About Kupfer")
-		super(About, self).__init__(name=name)
-	def run(self):
-		kupferui.show_about_dialog()
-	def get_description(self):
-		return _("Show information about Kupfer authors and license")
-	def get_icon_name(self):
-		return gtk.STOCK_ABOUT
-
-class Help (RunnableLeaf):
-	def __init__(self, name=None):
-		if not name: name = _("Kupfer Help")
-		super(Help, self).__init__(name=name)
-	def run(self):
-		kupferui.show_help()
-	def get_description(self):
-		return _("Get help with Kupfer")
-	def get_icon_name(self):
-		return "help-browser"
-
-class Preferences (RunnableLeaf):
-	def __init__(self, name=None):
-		if not name: name = _("Kupfer Preferences")
-		super(Preferences, self).__init__(name=name)
-	def run(self):
-		kupferui.show_preferences()
-	def get_description(self):
-		return _("Show preferences window for Kupfer")
-	def get_icon_name(self):
-		return gtk.STOCK_PREFERENCES
-
-class KupferSource (AppLeafContentMixin, Source):
-	appleaf_content_id = "kupfer"
-	def __init__(self, name=_("Kupfer")):
-		Source.__init__(self, name)
-	def is_dynamic(self):
-		return True
-	def get_items(self):
-		yield Preferences()
-		yield Help()
-		yield About()
-		yield Quit()
-		if _is_debug():
-			yield DebugRestart()
-
-	def get_description(self):
-		return _("Kupfer items and actions")
-	def get_icon_name(self):
-		return "search"
-	def provides(self):
-		yield RunnableLeaf
