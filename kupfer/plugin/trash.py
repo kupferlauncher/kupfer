@@ -141,3 +141,5 @@ class TrashSource (Source):
 		yield Trash(TRASH_URI)
 	def get_leaf_repr(self):
 		return InvisibleSourceLeaf(self)
+	def provides(self):
+		yield SpecialLocation
