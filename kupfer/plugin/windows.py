@@ -80,7 +80,6 @@ class WindowAction (Action):
 			# @time will be != 0 if we are "inside"
 			# a current gtk event
 			time = gtk.get_current_event_time()
-			assert time, "Window action event.time == 0"
 			action_method(time)
 		else:
 			action_method()
