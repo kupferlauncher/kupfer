@@ -229,8 +229,9 @@ class AudaciousSource (AppLeafContentMixin, Source):
 		yield Pause()
 		yield Next()
 		yield Previous() 
-		yield Shuffle()
-		yield Repeat()
+		# Commented as these seem to have no effect
+		#yield Shuffle()
+		#yield Repeat()
 		songs_source = AudaciousSongsSource(songs)
 		yield SourceLeaf(songs_source)
 		if __kupfer_settings__["playlist_toplevel"]:
