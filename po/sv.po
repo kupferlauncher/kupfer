@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-14 21:04+0100\n"
+"POT-Creation-Date: 2009-12-15 16:06+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -386,132 +386,132 @@ msgstr "Chromium-bokmärken"
 msgid "Index of Chromium bookmarks"
 msgstr "Index över Chromium-bokmärken"
 
-#: ../kupfer/plugin/clawsmail.py:11
+#: ../kupfer/plugin/clawsmail.py:10
 msgid "Claws Mail"
 msgstr "Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:14
+#: ../kupfer/plugin/clawsmail.py:13
 msgid "Claws Mail Contacts and Actions"
 msgstr "Claws Mail-kontakter och kommandon"
 
-#: ../kupfer/plugin/clawsmail.py:46
+#: ../kupfer/plugin/clawsmail.py:45
 msgid "Compose New Mail"
 msgstr "Skriv nytt mail"
 
-#: ../kupfer/plugin/clawsmail.py:52
+#: ../kupfer/plugin/clawsmail.py:51
 msgid "Compose New Mail with Claws Mail"
 msgstr "Skriv nytt mail med Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:61
+#: ../kupfer/plugin/clawsmail.py:60
 msgid "Receive All Mails"
 msgstr "Hämta alla mail"
 
-#: ../kupfer/plugin/clawsmail.py:67
+#: ../kupfer/plugin/clawsmail.py:66
 msgid "Receive new mail from all accounts by ClawsMail"
 msgstr "Hämta nya mail från alla konton i Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:76
+#: ../kupfer/plugin/clawsmail.py:75
 msgid "Compose New Mail To"
 msgstr "Skriv nytt mail till"
 
 #: ../kupfer/plugin/clawsmail.py:110
-msgid "Send by Mail"
+msgid "Send by Email"
 msgstr "Skicka med e-post"
 
 #: ../kupfer/plugin/clawsmail.py:123
-msgid "Create new mail in ClawsMail and attach file"
+msgid "Compose new email in ClawsMail and attach file"
 msgstr "Skapa nytt meddelande i ClawsMail och bifoga filen"
 
 #: ../kupfer/plugin/clawsmail.py:132
 msgid "Claws Mail Address Book"
 msgstr "Claws Mail-adressbok"
 
-#: ../kupfer/plugin/clawsmail.py:153
+#: ../kupfer/plugin/clawsmail.py:174
 msgid "Contacts from Claws Mail Address Book"
 msgstr "Kontakter från Claws Mail"
 
-#: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:39
+#: ../kupfer/plugin/clipboard.py:9 ../kupfer/plugin/clipboard.py:38
 msgid "Clipboards"
 msgstr "Urklipp"
 
-#: ../kupfer/plugin/clipboard.py:12 ../kupfer/plugin/clipboard.py:65
+#: ../kupfer/plugin/clipboard.py:11 ../kupfer/plugin/clipboard.py:64
 msgid "Recent clipboards"
 msgstr "Senaste urklipp"
 
-#: ../kupfer/plugin/clipboard.py:19
+#: ../kupfer/plugin/clipboard.py:18
 msgid "Number of recent clipboards"
 msgstr "Antal senaste urklipp"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:30
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Urklipp \"%(desc)s\""
 msgstr[1] "Urklipp med %(num)d rader \"%(desc)s\""
 
-#: ../kupfer/plugin/clipboard.py:75
-msgid "Copy"
-msgstr "Kopiera"
-
-#: ../kupfer/plugin/clipboard.py:82
-msgid "Copy to clipboard"
-msgstr "Kopiera till urklipp"
-
-#: ../kupfer/plugin/commands.py:10 ../kupfer/plugin/commands.py:36
+#: ../kupfer/plugin/commands.py:11 ../kupfer/plugin/commands.py:40
 msgid "Shell Commands"
 msgstr "Skalkommandon"
 
-#: ../kupfer/plugin/commands.py:13 ../kupfer/plugin/commands.py:57
+#: ../kupfer/plugin/commands.py:14 ../kupfer/plugin/commands.py:63
 msgid "Run commandline programs"
 msgstr "Kör kommandoradsprogram"
 
-#: ../kupfer/plugin/core.py:28
-msgid "Search Content..."
-msgstr "Sök i..."
-
-#: ../kupfer/plugin/core.py:43
-msgid "Search inside this catalog"
-msgstr "Sök bland objekt i katalogen"
-
-#: ../kupfer/plugin/core.py:58
-msgid "Rescan"
-msgstr "Uppdatera"
-
-#: ../kupfer/plugin/core.py:67
-msgid "Force reindex of this source"
-msgstr "Tvinga omläsning av källan"
-
-#: ../kupfer/plugin/core.py:188
+#: ../kupfer/plugin/core/contents.py:41
 msgid "Quit"
 msgstr "Avsluta"
 
-#: ../kupfer/plugin/core.py:193
+#: ../kupfer/plugin/core/contents.py:46
 msgid "Quit Kupfer"
 msgstr "Avsluta Kupfer"
 
-#: ../kupfer/plugin/core.py:199
+#: ../kupfer/plugin/core/contents.py:52
 msgid "About Kupfer"
 msgstr "Om Kupfer"
 
-#: ../kupfer/plugin/core.py:204
+#: ../kupfer/plugin/core/contents.py:57
 msgid "Show information about Kupfer authors and license"
 msgstr "Visa information om Kupfers upphovsmän och licens"
 
-#: ../kupfer/plugin/core.py:210
+#: ../kupfer/plugin/core/contents.py:63
 msgid "Kupfer Help"
 msgstr "Hjälp med Kupfer"
 
-#: ../kupfer/plugin/core.py:215
+#: ../kupfer/plugin/core/contents.py:68
 msgid "Get help with Kupfer"
 msgstr "Få hjälp med Kupfer"
 
-#: ../kupfer/plugin/core.py:228
+#: ../kupfer/plugin/core/contents.py:79
 msgid "Show preferences window for Kupfer"
 msgstr "Visa Kupfers inställningsfönster"
 
-#: ../kupfer/plugin/core.py:247
+#: ../kupfer/plugin/core/contents.py:98
 msgid "Kupfer items and actions"
 msgstr "Kupfer-objekt och kommandon"
+
+#: ../kupfer/plugin/core/debug.py:29
+msgid "Rescan"
+msgstr "Uppdatera"
+
+#: ../kupfer/plugin/core/debug.py:38
+msgid "Force reindex of this source"
+msgstr "Tvinga omläsning av källan"
+
+#: ../kupfer/plugin/core/__init__.py:33
+msgid "Search Content..."
+msgstr "Sök i..."
+
+#: ../kupfer/plugin/core/__init__.py:48
+msgid "Search inside this catalog"
+msgstr "Sök bland objekt i katalogen"
+
+#: ../kupfer/plugin/core/__init__.py:56
+msgid "Copy"
+msgstr "Kopiera"
+
+#: ../kupfer/plugin/core/__init__.py:68
+msgid "Copy to clipboard"
+msgstr "Kopiera till urklipp"
 
 #: ../kupfer/plugin/devhelp.py:4
 msgid "Devhelp"
