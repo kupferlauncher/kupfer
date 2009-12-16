@@ -58,8 +58,8 @@ class CreateNewDocument (Action):
 		else:
 			# create new empty file
 			filename = unicode(iobj)
-			destpath = utils.get_destpath_in_directory(leaf.object, filename)
-			open(destpath, "w").close()
+			f, destpath = utils.get_destfile_in_directory(leaf.object, filename)
+			f.close()
 		return FileLeaf(destpath)
 
 	def item_types(self):
