@@ -4,8 +4,9 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer import objects
 
 __kupfer_name__ = u"Core"
-__kupfer_sources__ = ()   # Updated later
-__kupfer_actions__ = (    # Updated later
+__kupfer_sources__ = ()      # Updated later
+__kupfer_text_sources__ = () # Updated later
+__kupfer_actions__ = (       # Updated later
 	"SearchInside",
 	"CopyToClipboard",
 	)
@@ -13,16 +14,25 @@ __description__ = u"Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-def _register_subplugin(module):
-	global __kupfer_sources__
-	global __kupfer_actions__
-	__kupfer_sources__ += module.__kupfer_sources__
-	__kupfer_actions__ += module.__kupfer_actions__
-	globals().update((attr, getattr(module, attr)) for attr in module.__all__)
+def register_subplugin(module):
+	attrs = (
+		"__kupfer_sources__",
+		"__kupfer_actions__",
+		"__kupfer_text_sources__"
+	)
+	for attr in attrs:
+		object_names = getattr(module, attr, ())
+		globals()[attr] += object_names
+		globals().update((sym, getattr(module, sym)) for sym in object_names)
 
-from kupfer.plugin.core import contents, debug
-_register_subplugin(contents)
-_register_subplugin(debug)
+from kupfer.plugin.core import contents, selection, text
+from kupfer.plugin.core import debug
+
+register_subplugin(contents)
+register_subplugin(selection)
+register_subplugin(text)
+register_subplugin(debug)
+
 
 class SearchInside (Action):
 	"""

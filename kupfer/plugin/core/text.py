@@ -6,12 +6,12 @@ import gobject
 from kupfer.objects import TextSource, TextLeaf, FileLeaf, UrlLeaf, OpenUrl
 from kupfer import utils
 
-__kupfer_name__ = _("Free-text Queries")
+__kupfer_name__ = u"Free-text Queries"
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource",)
 __kupfer_actions__ = ("OpenTextUrl", )
-__description__ = _("Basic support for free-text queries")
-__version__ = ""
+__description__ = u"Basic support for free-text queries"
+__version__ = "2009-12-16"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class BasicTextSource (TextSource):
@@ -30,7 +30,7 @@ class BasicTextSource (TextSource):
 class PathTextSource (TextSource):
 	"""Return existing full paths if typed"""
 	def __init__(self):
-		TextSource.__init__(self, name=_("Filesystem Text Matches"))
+		TextSource.__init__(self, name=u"Filesystem Text Matches")
 
 	def get_rank(self):
 		return 80
@@ -81,7 +81,7 @@ class OpenTextUrl (OpenUrl):
 class URLTextSource (TextSource):
 	"""detect URLs and webpages"""
 	def __init__(self):
-		TextSource.__init__(self, name=_("URL Text Matches"))
+		TextSource.__init__(self, name=u"URL Text Matches")
 
 	def get_rank(self):
 		return 75

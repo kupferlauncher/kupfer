@@ -1,19 +1,21 @@
 import gtk
 
-from kupfer.objects import Source, Leaf, TextLeaf, SourceLeaf, PicklingHelperMixin
-from kupfer import objects
+from kupfer.objects import Source, Leaf
+from kupfer.objects import TextLeaf, SourceLeaf
+from kupfer.helplib import DbusWeakCallback, PicklingHelperMixin
 from kupfer.helplib import gobject_connect_weakly
+from kupfer import kupferstring
 
 __kupfer_name__ = _("Selected Text")
 __kupfer_sources__ = ("SelectionSource", )
-__description__ = _("Provides current selection")
-__version__ = ""
+__description__ = u"Provides current selection"
+__version__ = "2009-12-16"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class SelectedText (TextLeaf):
 	qf_id = "selectedtext"
 	def __init__(self, text):
-		text = objects.tounicode(text)
+		text = kupferstring.tounicode(text)
 		lines = filter(None, text.splitlines())
 		summary = lines[0] if lines else text
 		maxlen = 10
@@ -49,7 +51,7 @@ class SelectionSource (Source, PicklingHelperMixin):
 			yield SelectedText(self._text)
 
 	def get_description(self):
-		return _("Provides current selection")
+		return None
 	def provides(self):
 		yield TextLeaf
 	def get_leaf_repr(self):
