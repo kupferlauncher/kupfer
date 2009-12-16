@@ -29,22 +29,16 @@ AUDTOOL = "audtool2"
 AUDACIOUS = "audacious2"
 
 def enqueue_song(info):
-	song = info["name"]
-	if not song: return
-	songPos = int(info["position"])
-	utils.spawn_async((AUDTOOL, "playqueue-add", "%d" % songPos))
+	utils.spawn_async((AUDTOOL, "playqueue-add", "%d" % info))
 
 def dequeue_song(info):
-	song = info["name"]
-	if not song: return
-	songPos = int(info["position"])
-	utils.spawn_async((AUDTOOL, "playqueue-remove", "%d" % songPos))
+	utils.spawn_async((AUDTOOL, "playqueue-remove", "%d" % info))
 
 def play_song(info):
-	jump = int(info["position"])
-	utils.spawn_async((AUDTOOL, "playlist-jump", "%d" % jump)) 
+	utils.spawn_async((AUDTOOL, "playlist-jump", "%d" % info))
 
 def get_playlist_songs():
+	"""Yield tuples of (position, name) for playlist songs"""
 	toolProc = subprocess.Popen([AUDTOOL, "playlist-display"],
 			stdout=subprocess.PIPE)
 	stdout, stderr = toolProc.communicate()
@@ -53,10 +47,9 @@ def get_playlist_songs():
 			continue
 		position, rest = line.split('|', 1)
 		songname, rest = rest.rsplit('|', 1)
-		info = {}
-		info["position"] = int(position.strip())
-		info["name"] = kupferstring.fromlocale(songname.strip())
-		yield info
+		pos = int(position.strip())
+		nam = kupferstring.fromlocale(songname.strip())
+		yield (pos, nam)
 
 def clear_queue():
 	utils.spawn_async((AUDTOOL, "playqueue-clear"))
@@ -65,8 +58,7 @@ class Enqueue (Action):
 	def __init__(self):
 		Action.__init__(self, _("Enqueue"))
 	def activate(self, leaf):
-		if isinstance(leaf, SongLeaf):
-				enqueue_song(leaf.object)
+		enqueue_song(leaf.object)
 	def get_description(self):
 		return _("Add song to the Audacious play queue")
 	def get_gicon(self):
@@ -78,8 +70,7 @@ class Dequeue (Action):
 	def __init__(self):
 		Action.__init__(self, _("Dequeue"))
 	def activate(self, leaf):
-		if isinstance(leaf, SongLeaf):
-				dequeue_song(leaf.object)
+		dequeue_song(leaf.object)
 	def get_description(self):
 		return _("Remove song from the Audacious play queue")
 	def get_gicon(self):
@@ -91,8 +82,7 @@ class JumpToSong(Action):
 	def __init__(self):
 		Action.__init__(self, _("Play"))
 	def activate(self, leaf):
-		if isinstance(leaf, SongLeaf):
-			play_song(leaf.object)
+		play_song(leaf.object)
 	def get_description(self):
 		return _("Jump to a song in Audacious")
 	def get_icon_name(self):
@@ -195,9 +185,7 @@ class Repeat (RunnableLeaf):
 		return "media-playlist-repeat"
 
 class SongLeaf (Leaf):
-	def __init__(self, info, name=None):
-		if not name: name = info["name"]
-		Leaf.__init__(self, info, name)
+	"""The SongLeaf's represented object is the Playlist index"""
 	def get_actions(self):
 		yield JumpToSong()
 		yield Enqueue()
@@ -212,7 +200,7 @@ class AudaciousSongsSource (Source):
 		self.library = library
 	def get_items(self):
 		for song in self.library:
-			yield SongLeaf(song)
+			yield SongLeaf(*song)
 	def get_gicon(self):
 		return icons.ComposedIcon(AUDACIOUS, "audio-x-generic",
 			emblem_is_fallback=True)
@@ -224,7 +212,6 @@ class AudaciousSource (AppLeafContentMixin, Source):
 	def __init__(self):
 		Source.__init__(self, _("Audacious"))
 	def get_items(self):
-		songs = list(get_playlist_songs())
 		yield Play()
 		yield Pause()
 		yield Next()
@@ -232,6 +219,7 @@ class AudaciousSource (AppLeafContentMixin, Source):
 		# Commented as these seem to have no effect
 		#yield Shuffle()
 		#yield Repeat()
+		songs = list(get_playlist_songs())
 		songs_source = AudaciousSongsSource(songs)
 		yield SourceLeaf(songs_source)
 		if __kupfer_settings__["playlist_toplevel"]:
