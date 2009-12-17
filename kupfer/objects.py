@@ -178,13 +178,6 @@ class Leaf (KupferObject):
 		"""Default (builtin) actions for this Leaf"""
 		return ()
 
-class DummyLeaf (Leaf):
-	"""
-	Dummy Leaf, representing No Leaf available
-	"""
-	def __init__(self):
-		super(DummyLeaf, self).__init__(None, _("No matches"))
-
 class FileLeaf (Leaf, TextRepresentation):
 	"""
 	Represents one file
@@ -709,19 +702,6 @@ class Execute (Launch):
 			return _("Run this program in a Terminal")
 		else:
 			return _("Run this program")
-
-
-class DummyAction (Action):
-	"""
-	Represents "No action", to be shown when there is no action
-	"""
-	def __init__(self, name=None):
-		if not name:
-			name = _("No action")
-		super(DummyAction, self).__init__(name)
-	
-	def get_icon_name(self):
-		return "gtk-execute"
 
 class Source (KupferObject, pretty.OutputMixin):
 	"""

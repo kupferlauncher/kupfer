@@ -663,10 +663,6 @@ class LeafSearch (Search):
 	"""
 	Customize for leaves search	
 	"""
-	def __init__(self, **kwargs):
-		from objects import DummyLeaf
-		self.dummy = DummyLeaf()
-		super(LeafSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty):
 		get_pbuf = \
 			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
@@ -682,7 +678,9 @@ class LeafSearch (Search):
 				},
 				get_pbuf(self.source))
 		else:
-			return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
+			return _("No matches"), icons.get_icon_for_name("kupfer-object",
+					self.icon_size)
+
 	def setup_empty(self):
 		icon = None
 		title = _("Type to search")
@@ -702,12 +700,9 @@ class ActionSearch (Search):
 	"""
 	Customization for Actions
 	"""
-	def __init__(self, **kwargs):
-		from objects import DummyAction
-		self.dummy = DummyAction()
-		super(ActionSearch, self).__init__(**kwargs)
 	def get_nomatch_name_icon(self, empty=False):
-		return unicode(self.dummy), self.dummy.get_pixbuf(self.icon_size)
+		return _("No action"), icons.get_icon_for_name("gtk-execute",
+				self.icon_size)
 	def setup_empty(self):
 		self.handle_no_matches()
 		self.hide_table()
