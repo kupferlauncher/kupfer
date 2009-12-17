@@ -19,7 +19,7 @@ __author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key": "playlist_toplevel",
-		"label": _("Include playlist in top level"),
+		"label": _("Include songs in top level"),
 		"type": bool,
 		"value": True,
 	},
@@ -60,7 +60,7 @@ class Enqueue (Action):
 	def activate(self, leaf):
 		enqueue_song(leaf.object)
 	def get_description(self):
-		return _("Add song to the Audacious play queue")
+		return _("Add track to the Audacious play queue")
 	def get_gicon(self):
 		return icons.ComposedIcon("gtk-execute", "media-playback-start")
 	def get_icon_name(self):
@@ -72,7 +72,7 @@ class Dequeue (Action):
 	def activate(self, leaf):
 		dequeue_song(leaf.object)
 	def get_description(self):
-		return _("Remove song from the Audacious play queue")
+		return _("Remove track from the Audacious play queue")
 	def get_gicon(self):
 		return icons.ComposedIcon("gtk-execute", "media-playback-stop")
 	def get_icon_name(self):
@@ -84,7 +84,7 @@ class JumpToSong(Action):
 	def activate(self, leaf):
 		play_song(leaf.object)
 	def get_description(self):
-		return _("Jump to a song in Audacious")
+		return _("Jump to track in Audacious")
 	def get_icon_name(self):
 		return "media-playback-start"
 
