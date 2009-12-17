@@ -4,7 +4,7 @@ VERSION = "version undefined"
 PACKAGE_NAME = "kupfer"
 
 try:
-	import version_subst
+	from kupfer import version_subst
 except ImportError:
 	pass
 else:
