@@ -1,5 +1,6 @@
 import os
-from urlparse import urlparse, urlunparse
+import urlparse
+import urllib2
 
 import gobject
 
@@ -48,7 +49,7 @@ class PathTextSource (TextSource):
 def is_url(text):
 	"""If @text is an URL, return a cleaned-up URL, else return None"""
 	text = text.strip()
-	components = list(urlparse(text))
+	components = list(urlparse.urlparse(text))
 	domain = "".join(components[1:])
 	dotparts = domain.rsplit(".")
 
@@ -65,6 +66,22 @@ def is_url(text):
 		name = ("".join(components[1:3])).strip("/")
 		if name:
 			return url
+
+def try_unquote_url(url):
+	"""Try to turn an URL-escaped string into a Unicode string
+
+	Where we assume UTF-8 encoding; and return the original url if
+	any step fails.
+	"""
+	# check that it is ascii only
+	try:
+		burl = url.encode("ascii")
+	except UnicodeEncodeError:
+		return url
+	try:
+		return urllib2.unquote(burl).decode("UTF-8")
+	except UnicodeDecodeError:
+		return url
 
 class OpenTextUrl (OpenUrl):
 	rank_adjust = 10
@@ -88,13 +105,14 @@ class URLTextSource (TextSource):
 	def get_items(self, text):
 		# Only detect "perfect" URLs
 		text = text.strip()
-		components = list(urlparse(text))
+		components = list(urlparse.urlparse(text))
 		domain = "".join(components[1:])
 
 		# If urlparse parses a scheme (http://), it's an URL
 		if len(domain.split()) == 1 and components[0]:
 			url = text
 			name = ("".join(components[1:3])).strip("/")
+			name = try_unquote_url(name)
 			if name:
 				yield UrlLeaf(url, name=name)
 
