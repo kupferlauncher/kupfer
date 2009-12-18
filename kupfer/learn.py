@@ -133,7 +133,7 @@ def load():
 		filepath = config.get_config_file(mnemonics_filename) or \
 				config.get_data_file(mnemonics_filename)
 	except config.ResourceLookupError, exc:
-		pretty.print_error(__name__, exc)
+		pretty.print_debug(__name__, exc)
 		return
 
 	if filepath:
