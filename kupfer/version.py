@@ -27,13 +27,16 @@ Francesco Marella (Ubuntu PPA)
 
 TRANSLATORS=u"""
 Thibaud Roth (de)
+Mario Blättermann (de)
 Leandro Leites (es)
 Jesús Barbero Rodríguez (es)
+Jorge González (es)
 Andrea Zagli (it)
 Martin Koelewijn (nl)
 Maciej Kwiatkowski (pl)
 Karol Będkowski (pl)
 Carlos Pais (pt)
+Andrej Žnidaršič (sl)
 lh (zh_CN)
 """.splitlines()
 
