@@ -50,9 +50,12 @@ class ShortenLinks(Action):
 	def __init__(self):
 		Action.__init__(self, _('Shorten Link...'))
 
+	def has_result(self):
+		return True
+
 	def activate(self, leaf, iobj):
 		result = iobj.process(leaf.object)
-		return ShortenLinksSource(UrlLeaf(result, result))
+		return UrlLeaf(result, result)
 
 	def item_types(self):
 		yield UrlLeaf
@@ -66,9 +69,6 @@ class ShortenLinks(Action):
 	def object_source(self, for_item=None):
 		return ServicesSource()
 
-	def is_factory(self):
-		return True
-
 
 class ServicesSource(Source):
 	def __init__(self):
@@ -77,11 +77,3 @@ class ServicesSource(Source):
 	def get_items(self):
 		yield TinyUrl()
 
-
-class ShortenLinksSource(Source):
-	def __init__(self, item):
-		Source.__init__(self, name=_('Shorten links'))
-		self._item = item
-
-	def get_items(self):
-		yield self._item
