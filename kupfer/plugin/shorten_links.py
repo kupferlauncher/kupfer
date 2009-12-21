@@ -6,7 +6,7 @@ import urllib
 from kupfer.objects import Leaf, Action, Source, UrlLeaf
 from kupfer import pretty
 
-__kupfer_name__ = _("Shorten links")
+__kupfer_name__ = _("Shorten Links")
 __kupfer_actions__ = ("ShortenLinks", )
 __description__ = _("Shorten links with various services (for now only TinyUrl)")
 __version__ = "2009-12-21"
@@ -14,7 +14,8 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 class _ShortLinksService(Leaf):
-	pass
+	def get_icon_name(self):
+		return "text-html"
 
 
 TINYURL_PATH="/api-create.php?"
@@ -77,3 +78,5 @@ class ServicesSource(Source):
 	def get_items(self):
 		yield TinyUrl()
 
+	def get_icon_name(self):
+		return "applications-internet"
