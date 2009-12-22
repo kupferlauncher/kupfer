@@ -734,7 +734,7 @@ class Interface (gobject.GObject):
 		self.current = None
 
 		self._widget = None
-		self._current_ui_transition = -1
+		self._ui_transition_timer = scheduler.Timer()
 		self._pane_three_is_visible = False
 		self._is_text_mode = False
 		self._latest_input_timer = scheduler.Timer()
@@ -1117,11 +1117,16 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 		# Check that items are still valid when "coming back"
 		self.data_controller.validate()
+		if self._pane_three_is_visible:
+			self._ui_transition_timer.set_ms(200, self._show_third_pane, True)
 
 	def put_away(self):
 		"""Called when the interface is hidden"""
 		self._relax_search_terms()
 		self._reset_to_toplevel = True
+		if self._pane_three_is_visible:
+			self._show_third_pane(False)
+		self._ui_transition_timer.invalidate()
 
 	def select_selected_file(self):
 		# Add optional lookup data to narrow the search
@@ -1164,19 +1169,17 @@ class Interface (gobject.GObject):
 				wid.show_table()
 	
 	def _show_hide_third(self, ctr, mode, ignored):
-		gobject.source_remove(self._current_ui_transition)
 		if mode is data.SourceActionObjectMode:
 			# use a delay before showing the third pane,
 			# but set internal variable to "shown" already now
 			self._pane_three_is_visible = True
-			self._current_ui_transition = \
-					gobject.timeout_add(200, self._show_third_pane, True)
+			self._ui_transition_timer.set_ms(200, self._show_third_pane, True)
 		else:
 			self._pane_three_is_visible = False
 			self._show_third_pane(False)
 
 	def _show_third_pane(self, show):
-		self._current_ui_transition = -1
+		self._ui_transition_timer.invalidate()
 		self.third.set_property("visible", show)
 		self._size_window_optimally()
 
@@ -1396,8 +1399,6 @@ class WindowController (pretty.OutputMixin):
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=evttime)
 		self.interface.focus()
-		# this is really only needed first time after window is shown
-		self.window.set_position(gtk.WIN_POS_NONE)
 	
 	def put_away(self):
 		self.interface.put_away()
