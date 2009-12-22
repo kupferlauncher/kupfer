@@ -22,67 +22,62 @@ _HEADER = {
 
 
 class _ShortLinksService(Leaf):
+	def __init__(self, name):
+		Leaf.__init__(self, name, name)
 	def get_icon_name(self):
 		return "text-html"
 
-
-TINYURL_PATH="/api-create.php?"
-TINYURL_HOST="tinyurl.com"
-
-class TinyUrl(_ShortLinksService):
-	""" Shorten urls with tinyurl.com """
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'TinyUrl.com', 'TinyUrl.com')
+class _GETService(_ShortLinksService, pretty.OutputMixin):
+	""" A unified shortener service working with GET requests """
+	host = None
+	path = None
+	result_regex = None
 
 	def process(self, url):
-		query_param = urllib.urlencode(dict(url=url))
+		query_string = urllib.urlencode({"url": url})
 		try:
-			conn = httplib.HTTPConnection(TINYURL_HOST)
-			#conn.debuglevel=255
-			conn.request("GET", TINYURL_PATH+query_param)
+			conn = httplib.HTTPConnection(self.host)
+			conn.request("GET", self.path+query_string)
 			resp = conn.getresponse()
 			if resp.status != 200:
 				raise ValueError('invalid response %d, %s' % (resp.status,
 					resp.reason))
 			
 			result = resp.read()
-			return result
+			if self.result_regex is not None:
+				resurl = re.findall(self.result_regex, result)
+				if resurl:
+					return resurl[0]
+			else:
+				return result
 
 		except (httplib.HTTPException, ValueError), err:
-			pretty.print_error(__name__, 'TinyUrl.process error', type(err), err)
+			self.output_error(type(err), err)
 		return _('Error')
 
 
-SHORL_HOST='shorl.com'
-SHORL_PATH='/create.php?'
-SHORL_RESULT_RE = re.compile(r'Shorl: \<a href=".+?" rel="nofollow">(.+?)</a>')
+class TinyUrl(_GETService):
+	host = "tinyurl.com"
+	path = "/api-create.php?"
 
-class Shorl(_ShortLinksService):
-	""" Shorten urls with shorl.com """
 	def __init__(self):
-		_ShortLinksService.__init__(self, 'Shorl.com', 'Shorl.com')
+		_ShortLinksService.__init__(self, u'TinyUrl.com')
 
-	def process(self, url):
-		query_param = urllib.urlencode(dict(url=url))
-		try:
-			conn = httplib.HTTPConnection(SHORL_HOST)
-			#conn.debuglevel=255
-			conn.request("GET", SHORL_PATH+query_param)
-			resp = conn.getresponse()
-			if resp.status != 200:
-				raise ValueError('invalid response %d, %s' % (resp.status,
-					resp.reason))
-			
-			result = resp.read()
-			resurl = SHORL_RESULT_RE.findall(result)
-			if resurl:
-				return resurl[0]
-			return _('Error')
+class Shorl(_GETService):
+	host = 'shorl.com'
+	path = '/create.php?'
+	result_regex = r'Shorl: \<a href=".+?" rel="nofollow">(.+?)</a>'
 
-		except (httplib.HTTPException, ValueError), err:
-			pretty.print_error(__name__, 'TinyUrl.process error', type(err), err)
-		return _('Error')
+	def __init__(self):
+		_ShortLinksService.__init__(self, u'Shorl.com')
 
+class BitLy(_GETService):
+	host = 'bit.ly'
+	path = '/?'
+	result_regex = r'\<input id="shortened-url" value="(.+?)" \/\>'
+
+	def __init__(self):
+		_ShortLinksService.__init__(self, u'Bit.ly')
 
 UR1CA_HOST='ur1.ca'
 UR1CA_PATH=''
@@ -91,7 +86,7 @@ UR1CA_RESULT_RE = re.compile(r'\<p class="success">.+?<a href=".+?">(.+?)</a></p
 class Ur1Ca(_ShortLinksService):
 	""" Shorten urls with Ur1.ca """
 	def __init__(self):
-		_ShortLinksService.__init__(self, 'Ur1.ca', 'Ur1.ca')
+		_ShortLinksService.__init__(self, u'Ur1.ca')
 
 	def process(self, url):
 		if not (url.startswith('http://') or url.startswith('https://') or 
@@ -109,38 +104,6 @@ class Ur1Ca(_ShortLinksService):
 			
 			result = resp.read()
 			resurl = UR1CA_RESULT_RE.findall(result)
-			if resurl:
-				return resurl[0]
-			return _('Error')
-
-		except (httplib.HTTPException, ValueError), err:
-			pretty.print_error(__name__, 'TinyUrl.process error', type(err), err)
-		return _('Error')
-
-
-
-BITLY_HOST='bit.ly'
-BITLY_PATH='/?'
-BITLY_RESULT_RE = re.compile(r'\<input id="shortened-url" value="(.+?)" \/\>')
-
-class BitLy(_ShortLinksService):
-	""" Shorten urls with bit.ly """
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'Bit.ly', 'Bit.ly')
-
-	def process(self, url):
-		query_param = urllib.urlencode(dict(url=url,s='',keyword=''))
-		try:
-			conn = httplib.HTTPConnection(BITLY_HOST)
-			#conn.debuglevel=255
-			conn.request("GET", BITLY_PATH+query_param)
-			resp = conn.getresponse()
-			if resp.status != 200:
-				raise ValueError('invalid response %d, %s' % (resp.status,
-					resp.reason))
-			
-			result = resp.read()
-			resurl = BITLY_RESULT_RE.findall(result)
 			if resurl:
 				return resurl[0]
 			return _('Error')
