@@ -9,7 +9,7 @@ from kupfer import pretty
 
 __kupfer_name__ = _("Shorten Links")
 __kupfer_actions__ = ("ShortenLinks", )
-__description__ = _("Shorten links with various services (for now only TinyUrl, Url1.ca, Shorl)")
+__description__ = _("Shorten links with various services (TinyUrl, Url1.ca, Shorl, Bit.ly)")
 __version__ = "2009-12-21"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -118,6 +118,38 @@ class Ur1Ca(_ShortLinksService):
 		return _('Error')
 
 
+
+BITLY_HOST='bit.ly'
+BITLY_PATH='/?'
+BITLY_RESULT_RE = re.compile(r'\<input id="shortened-url" value="(.+?)" \/\>')
+
+class BitLy(_ShortLinksService):
+	""" Shorten urls with bit.ly """
+	def __init__(self):
+		_ShortLinksService.__init__(self, 'Bit.ly', 'Bit.ly')
+
+	def process(self, url):
+		query_param = urllib.urlencode(dict(url=url,s='',keyword=''))
+		try:
+			conn = httplib.HTTPConnection(BITLY_HOST)
+			#conn.debuglevel=255
+			conn.request("GET", BITLY_PATH+query_param)
+			resp = conn.getresponse()
+			if resp.status != 200:
+				raise ValueError('invalid response %d, %s' % (resp.status,
+					resp.reason))
+			
+			result = resp.read()
+			resurl = BITLY_RESULT_RE.findall(result)
+			if resurl:
+				return resurl[0]
+			return _('Error')
+
+		except (httplib.HTTPException, ValueError), err:
+			pretty.print_error(__name__, 'TinyUrl.process error', type(err), err)
+		return _('Error')
+
+
 class ShortenLinks(Action):
 	''' Shorten links with selected engine '''
 
@@ -152,6 +184,7 @@ class ServicesSource(Source):
 		yield TinyUrl()
 		yield Shorl()
 		yield Ur1Ca()
+		yield BitLy()
 
 	def get_icon_name(self):
 		return "applications-internet"
