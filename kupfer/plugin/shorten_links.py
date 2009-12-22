@@ -9,8 +9,8 @@ from kupfer import pretty
 
 __kupfer_name__ = _("Shorten Links")
 __kupfer_actions__ = ("ShortenLinks", )
-__description__ = _("Shorten links with various services (TinyUrl, Url1.ca, Shorl, Bit.ly)")
-__version__ = "2009-12-21"
+__description__ = _("Create short aliases of long URLs")
+__version__ = "2009-12-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -117,7 +117,7 @@ class ShortenLinks(Action):
 	''' Shorten links with selected engine '''
 
 	def __init__(self):
-		Action.__init__(self, _('Shorten Link...'))
+		Action.__init__(self, _('Shorten With...'))
 
 	def has_result(self):
 		return True
@@ -138,6 +138,9 @@ class ShortenLinks(Action):
 	def object_source(self, for_item=None):
 		return ServicesSource()
 
+	def get_description(self):
+		return __description__
+
 
 class ServicesSource(Source):
 	def __init__(self):
@@ -148,6 +151,9 @@ class ServicesSource(Source):
 		yield Shorl()
 		yield Ur1Ca()
 		yield BitLy()
+
+	def should_sort_lexically(self):
+		return True
 
 	def get_icon_name(self):
 		return "applications-internet"
