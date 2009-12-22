@@ -9,7 +9,7 @@ from kupfer import pretty
 
 __kupfer_name__ = _("Shorten Links")
 __kupfer_actions__ = ("ShortenLinks", )
-__description__ = _("Shorten links with various services (for now only TinyUrl)")
+__description__ = _("Shorten links with various services (for now only TinyUrl, Url1.ca, Shorl)")
 __version__ = "2009-12-21"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
