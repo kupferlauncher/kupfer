@@ -1,8 +1,3 @@
-import subprocess
-
-import glib
-import gtk
-
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf
 from kupfer import icons, kupferstring, uiutils

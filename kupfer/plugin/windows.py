@@ -1,4 +1,3 @@
-import gobject
 import gtk
 
 from kupfer.objects import Leaf, Action, Source

@@ -1,7 +1,5 @@
-from collections import deque
+import collections
 import weakref
-
-import gtk
 
 from kupfer.objects import Source, Action, PicklingHelperMixin
 from kupfer import utils, objects, pretty
@@ -24,7 +22,7 @@ class FavoritesSource (Source, PicklingHelperMixin):
 	"""Keep a list of Leaves that the User may add and remove from"""
 	def __init__(self):
 		Source.__init__(self, _("Favorites"))
-		self.favorites = deque()
+		self.favorites = collections.deque()
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
