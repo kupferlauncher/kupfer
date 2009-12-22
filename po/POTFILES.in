@@ -50,6 +50,7 @@ kupfer/plugin/session_gnome.py
 kupfer/plugin/session_support.py
 kupfer/plugin/session_xfce.py
 kupfer/plugin/show_text.py
+kupfer/plugin/shorten_links.py
 kupfer/plugins.py
 kupfer/plugin_support.py
 kupfer/plugin/templates.py
