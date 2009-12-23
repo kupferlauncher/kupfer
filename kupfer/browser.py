@@ -1391,7 +1391,7 @@ class WindowController (pretty.OutputMixin):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
-		gobject.timeout_add(50,self.put_away)
+		gobject.idle_add(self.put_away)
 
 	def activate(self, sender=None, time=0):
 		evttime = time if time else gtk.get_current_event_time()
