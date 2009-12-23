@@ -1099,7 +1099,6 @@ class Interface (gobject.GObject):
 			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_bg)
 			self.entry.modify_base(gtk.STATE_NORMAL, theme_entry_bg)
 			self.current.set_state(gtk.STATE_SELECTED)
-		self._size_window_optimally()
 
 	def switch_to_source(self):
 		if self.current is not self.search:
@@ -1181,15 +1180,7 @@ class Interface (gobject.GObject):
 	def _show_third_pane(self, show):
 		self._ui_transition_timer.invalidate()
 		self.third.set_property("visible", show)
-		self._size_window_optimally()
 
-	def _size_window_optimally(self):
-		"""Try to resize the window to its normal size"""
-		if self.search.get_property("window"):
-			win = self.search.get_toplevel()
-			# size to minimum size
-			win.resize(100, 50)
-	
 	def _update_active(self):
 		self.action.set_active(self.action is self.current)
 		self.search.set_active(self.search is self.current)
@@ -1378,8 +1369,9 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_position(gtk.WIN_POS_CENTER)
 		if not text_direction_is_ltr():
 			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
-		# This will change from utility window
-		#self.window.set_resizable(False)
+		# Setting not resizable changes from utility window
+		# on metacity
+		self.window.set_resizable(False)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
