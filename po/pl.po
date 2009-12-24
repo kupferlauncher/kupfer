@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-22 10:50+0100\n"
+"POT-Creation-Date: 2009-12-24 08:50+0100\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -25,8 +25,8 @@ msgstr "Skrót do programu"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1325
-#: ../kupfer/browser.py:1371 ../kupfer/plugin/core/contents.py:85
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1319
+#: ../kupfer/browser.py:1365 ../kupfer/plugin/core/contents.py:85
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -197,7 +197,7 @@ msgstr "Uruchom"
 msgid "Launch application"
 msgstr "Uruchom aplikację"
 
-#: ../kupfer/objects.py:663 ../kupfer/plugin/windows.py:52
+#: ../kupfer/objects.py:663 ../kupfer/plugin/windows.py:51
 msgid "Go To"
 msgstr "Przejdź do"
 
@@ -331,36 +331,36 @@ msgstr "Ustaw domyślną aplikację..."
 msgid "Set default application to open this file type"
 msgstr "Ustaw domyślną aplikację dla tego typu plików"
 
-#: ../kupfer/plugin/apt_tools.py:11
+#: ../kupfer/plugin/apt_tools.py:8
 msgid "APT"
 msgstr "APT"
 
-#: ../kupfer/plugin/apt_tools.py:19
+#: ../kupfer/plugin/apt_tools.py:16
 msgid "Interface with the package manager APT"
 msgstr "Interfejs do menadżera pakietów APT"
 
-#: ../kupfer/plugin/apt_tools.py:27
+#: ../kupfer/plugin/apt_tools.py:24
 msgid "Installation method"
 msgstr "Metoda instalacji"
 
-#: ../kupfer/plugin/apt_tools.py:49 ../kupfer/plugin/apt_tools.py:53
+#: ../kupfer/plugin/apt_tools.py:46 ../kupfer/plugin/apt_tools.py:50
 msgid "Show Package Information"
 msgstr "Pokaż informacje o pakiecie"
 
-#: ../kupfer/plugin/apt_tools.py:74
+#: ../kupfer/plugin/apt_tools.py:71
 msgid "Install"
 msgstr "Instaluj"
 
-#: ../kupfer/plugin/apt_tools.py:85
+#: ../kupfer/plugin/apt_tools.py:82
 msgid "Install package using the configured method"
 msgstr "Instaluj pakiet używając skonfigurowanej metody"
 
-#: ../kupfer/plugin/apt_tools.py:102
+#: ../kupfer/plugin/apt_tools.py:99
 #, python-format
 msgid "Packages matching \"%s\""
 msgstr "Pakiety pasujące do \"%s\""
 
-#: ../kupfer/plugin/apt_tools.py:126
+#: ../kupfer/plugin/apt_tools.py:123
 msgid "Search Package Name..."
 msgstr "Szukaj pakietu o nazwie..."
 
@@ -681,31 +681,31 @@ msgstr "Zakładki Epiphany"
 msgid "Index of Epiphany bookmarks"
 msgstr "Indeksuj zakładki Epiphany"
 
-#: ../kupfer/plugin/favorites.py:9 ../kupfer/plugin/favorites.py:26
+#: ../kupfer/plugin/favorites.py:7 ../kupfer/plugin/favorites.py:24
 msgid "Favorites"
 msgstr "Ulubione"
 
-#: ../kupfer/plugin/favorites.py:12
+#: ../kupfer/plugin/favorites.py:10
 msgid "(Simple) favorites plugin"
 msgstr "Prosta wtyczka na półkę na \"Ulubione\""
 
-#: ../kupfer/plugin/favorites.py:54
+#: ../kupfer/plugin/favorites.py:52
 msgid "Shelf of \"Favorite\" items"
 msgstr "Półka na \"Ulubione\" pozycje"
 
-#: ../kupfer/plugin/favorites.py:81
+#: ../kupfer/plugin/favorites.py:79
 msgid "Add to Favorites"
 msgstr "Dodaj do ulubionych"
 
-#: ../kupfer/plugin/favorites.py:89
+#: ../kupfer/plugin/favorites.py:87
 msgid "Add item to favorites shelf"
 msgstr "Dodaj pozycję do półki ulubionych"
 
-#: ../kupfer/plugin/favorites.py:95
+#: ../kupfer/plugin/favorites.py:93
 msgid "Remove from Favorites"
 msgstr "Usuń z ulubionych"
 
-#: ../kupfer/plugin/favorites.py:103
+#: ../kupfer/plugin/favorites.py:101
 msgid "Remove item from favorites shelf"
 msgstr "Usuń pozycję z półki ulubionych"
 
@@ -1289,19 +1289,40 @@ msgstr "Menadżer sesji XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Specjalne pozycje i akcje dla środowiska XFCE"
 
-#: ../kupfer/plugin/show_text.py:10 ../kupfer/plugin/show_text.py:21
-#: ../kupfer/plugin/show_text.py:24
+#: ../kupfer/plugin/show_text.py:5 ../kupfer/plugin/show_text.py:16
+#: ../kupfer/plugin/show_text.py:19
 msgid "Show Text"
 msgstr "Pokaż tekst"
 
-#: ../kupfer/plugin/show_text.py:15 ../kupfer/plugin/show_text.py:30
-#: ../kupfer/plugin/show_text.py:45
+#: ../kupfer/plugin/show_text.py:10 ../kupfer/plugin/show_text.py:25
+#: ../kupfer/plugin/show_text.py:40
 msgid "Display text in a window"
 msgstr "Wyświetl tekst w oknie"
 
-#: ../kupfer/plugin/show_text.py:36
+#: ../kupfer/plugin/show_text.py:31
 msgid "Large Type"
 msgstr "Duży tekst"
+
+#: ../kupfer/plugin/shorten_links.py:10
+msgid "Shorten Links"
+msgstr "Skróć linki"
+
+#: ../kupfer/plugin/shorten_links.py:12
+msgid "Create short aliases of long URLs"
+msgstr "Utwórz skróty do długich URL-i"
+
+#: ../kupfer/plugin/shorten_links.py:56 ../kupfer/plugin/shorten_links.py:109
+#: ../kupfer/plugin/shorten_links.py:113
+msgid "Error"
+msgstr "Błąd"
+
+#: ../kupfer/plugin/shorten_links.py:120
+msgid "Shorten With..."
+msgstr "Skróć poprzez..."
+
+#: ../kupfer/plugin/shorten_links.py:147
+msgid "Services"
+msgstr "Usługi"
 
 #: ../kupfer/plugins.py:72
 msgid "(no description)"
@@ -1592,61 +1613,61 @@ msgstr "Rozpocznij sesje Vinegre"
 msgid "Vinagre Bookmarks"
 msgstr "Zakładki Vinegre"
 
-#: ../kupfer/plugin/windows.py:6 ../kupfer/plugin/windows.py:93
+#: ../kupfer/plugin/windows.py:5 ../kupfer/plugin/windows.py:92
 msgid "Window List"
 msgstr "Lista okien"
 
-#: ../kupfer/plugin/windows.py:8 ../kupfer/plugin/windows.py:114
+#: ../kupfer/plugin/windows.py:7 ../kupfer/plugin/windows.py:113
 msgid "All windows on all workspaces"
 msgstr "Wszystkie okna na wszystkich obszarach roboczych"
 
-#: ../kupfer/plugin/windows.py:21
+#: ../kupfer/plugin/windows.py:20
 msgid "Activate"
 msgstr "Aktywuj"
 
-#: ../kupfer/plugin/windows.py:23
+#: ../kupfer/plugin/windows.py:22
 msgid "Unshade"
 msgstr "Rozwiń"
 
-#: ../kupfer/plugin/windows.py:25
+#: ../kupfer/plugin/windows.py:24
 msgid "Shade"
 msgstr "Zwiń"
 
-#: ../kupfer/plugin/windows.py:27
+#: ../kupfer/plugin/windows.py:26
 msgid "Unminimize"
 msgstr "Przywróć"
 
-#: ../kupfer/plugin/windows.py:29
+#: ../kupfer/plugin/windows.py:28
 msgid "Minimize"
 msgstr "Minimalizuj"
 
-#: ../kupfer/plugin/windows.py:31
+#: ../kupfer/plugin/windows.py:30
 msgid "Unmaximize"
 msgstr "Przywróć"
 
-#: ../kupfer/plugin/windows.py:33
+#: ../kupfer/plugin/windows.py:32
 msgid "Maximize"
 msgstr "Maksymalizuj"
 
-#: ../kupfer/plugin/windows.py:35
+#: ../kupfer/plugin/windows.py:34
 msgid "Unmaximize Vertically"
 msgstr "Przywróć w pionie"
 
-#: ../kupfer/plugin/windows.py:38
+#: ../kupfer/plugin/windows.py:37
 msgid "Maximize Vertically"
 msgstr "Maksymalizuj w pionie"
 
-#: ../kupfer/plugin/windows.py:40
+#: ../kupfer/plugin/windows.py:39
 msgid "Close"
 msgstr "Zamknij"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:46
+#: ../kupfer/plugin/windows.py:45
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "Okno na %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:61
+#: ../kupfer/plugin/windows.py:60
 msgid "Jump to this window's workspace and focus"
 msgstr "Przejdź do obszaru roboczego tego okna i aktywuj"
 
@@ -1865,20 +1886,8 @@ msgstr ""
 "Powszechnej Licencji Publicznej GNU (GNU General Public License);\n"
 "jeśli nie - wejdź na <http://www.gnu.org/licenses/>.\n"
 
-#~ msgid "Shorten Links"
-#~ msgstr "Skróć linki"
-
 #~ msgid "Shorten links with various services (for now only TinyUrl)"
 #~ msgstr "Skróć linki z użyciem różnych serwisów"
-
-#~ msgid "Error"
-#~ msgstr "Błąd"
-
-#~ msgid "Shorten Link..."
-#~ msgstr "Skróć link..."
-
-#~ msgid "Services"
-#~ msgstr "Usługi"
 
 #~ msgid "Provides current selection"
 #~ msgstr "Umożliwia operacje z aktualnie zaznaczonym tekstem"
