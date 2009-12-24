@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-15 16:06+0100\n"
+"POT-Creation-Date: 2009-12-24 02:45+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -74,24 +74,32 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
-#: ../kupfer/browser.py:665
+#: ../kupfer/browser.py:671
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
-#: ../kupfer/browser.py:669
+#: ../kupfer/browser.py:675
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Inga träffar i %(src)s för \"%(query)s\""
 
-#: ../kupfer/browser.py:678
+#: ../kupfer/browser.py:681
+msgid "No matches"
+msgstr "Inga träffar"
+
+#: ../kupfer/browser.py:686
 msgid "Type to search"
 msgstr "Skriv för att söka"
 
-#: ../kupfer/browser.py:684
+#: ../kupfer/browser.py:692
 #, python-format
 msgid "Type to search %s"
 msgstr "Skriv för att söka i %s"
+
+#: ../kupfer/browser.py:704
+msgid "No action"
+msgstr "Inget kommando"
 
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
@@ -140,11 +148,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/objects.py:185
-msgid "No matches"
-msgstr "Inga träffar"
-
-#: ../kupfer/objects.py:517 ../kupfer/objects.py:578 ../kupfer/objects.py:593
+#: ../kupfer/objects.py:524 ../kupfer/objects.py:585 ../kupfer/objects.py:600
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/notes.py:71
 #: ../kupfer/plugin/zim.py:105
 msgid "Open"
@@ -227,10 +231,6 @@ msgstr "Kör programmet i terminalfönster"
 #: ../kupfer/objects.py:696
 msgid "Run this program"
 msgstr "Kör programmet"
-
-#: ../kupfer/objects.py:704
-msgid "No action"
-msgstr "Inget kommando"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
 #: ../kupfer/objects.py:821 ../kupfer/plugin/rhythmbox.py:217
@@ -333,38 +333,140 @@ msgstr "Välj standardprogram..."
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
-#: ../kupfer/plugin/apt_tools.py:11
+#: ../kupfer/plugin/apt_tools.py:8
 msgid "APT"
 msgstr "APT"
 
-#: ../kupfer/plugin/apt_tools.py:19
+#: ../kupfer/plugin/apt_tools.py:16
 msgid "Interface with the package manager APT"
 msgstr "Arbeta med pakethanteraren APT"
 
-#: ../kupfer/plugin/apt_tools.py:27
+#: ../kupfer/plugin/apt_tools.py:24
 msgid "Installation method"
 msgstr "Installationsmetod"
 
-#: ../kupfer/plugin/apt_tools.py:49 ../kupfer/plugin/apt_tools.py:53
+#: ../kupfer/plugin/apt_tools.py:46 ../kupfer/plugin/apt_tools.py:50
 msgid "Show Package Information"
 msgstr "Visa paketinformation"
 
-#: ../kupfer/plugin/apt_tools.py:74
+#: ../kupfer/plugin/apt_tools.py:71
 msgid "Install"
 msgstr "Installera"
 
-#: ../kupfer/plugin/apt_tools.py:85
+#: ../kupfer/plugin/apt_tools.py:82
 msgid "Install package using the configured method"
 msgstr "Installera paket m.h.a den konfigurerade metoden"
 
-#: ../kupfer/plugin/apt_tools.py:102
+#: ../kupfer/plugin/apt_tools.py:99
 #, python-format
 msgid "Packages matching \"%s\""
 msgstr "Paket som matchar \"%s\""
 
-#: ../kupfer/plugin/apt_tools.py:126
+#: ../kupfer/plugin/apt_tools.py:123
 msgid "Search Package Name..."
 msgstr "Sök paketnamn..."
+
+#: ../kupfer/plugin/audacious.py:10 ../kupfer/plugin/audacious.py:213
+msgid "Audacious"
+msgstr "Audacious"
+
+#: ../kupfer/plugin/audacious.py:15
+msgid "Control Audacious playback and playlist"
+msgstr "Kontrollera Audacious uppspelning och spellista"
+
+#: ../kupfer/plugin/audacious.py:22 ../kupfer/plugin/rhythmbox.py:33
+msgid "Include songs in top level"
+msgstr "Inkludera låtar i toppnivån"
+
+#: ../kupfer/plugin/audacious.py:59 ../kupfer/plugin/rhythmbox.py:134
+msgid "Enqueue"
+msgstr "Köa"
+
+#: ../kupfer/plugin/audacious.py:63
+msgid "Add track to the Audacious play queue"
+msgstr "Lägg till spår i spelkön"
+
+#: ../kupfer/plugin/audacious.py:71
+msgid "Dequeue"
+msgstr "Ta ur kön"
+
+#: ../kupfer/plugin/audacious.py:75
+msgid "Remove track from the Audacious play queue"
+msgstr "Ta bort spår från spelkön"
+
+#: ../kupfer/plugin/audacious.py:83 ../kupfer/plugin/audacious.py:129
+#: ../kupfer/plugin/rhythmbox.py:62 ../kupfer/plugin/rhythmbox.py:115
+msgid "Play"
+msgstr "Spela upp"
+
+#: ../kupfer/plugin/audacious.py:87
+msgid "Jump to track in Audacious"
+msgstr "Hoppa till nästa spår i Audacious"
+
+#: ../kupfer/plugin/audacious.py:93
+msgid "Clear Queue"
+msgstr "Rensa kön"
+
+#: ../kupfer/plugin/audacious.py:97
+msgid "Clear the Audacious play queue"
+msgstr "Rensa Audacious spelkö"
+
+#: ../kupfer/plugin/audacious.py:110 ../kupfer/plugin/core/debug.py:29
+msgid "Rescan"
+msgstr "Uppdatera"
+
+#: ../kupfer/plugin/audacious.py:119 ../kupfer/plugin/core/debug.py:38
+msgid "Force reindex of this source"
+msgstr "Tvinga omläsning av källan"
+
+#: ../kupfer/plugin/audacious.py:133
+msgid "Resume playback in Audacious"
+msgstr "Starta uppspelning i Audacious"
+
+#: ../kupfer/plugin/audacious.py:139 ../kupfer/plugin/rhythmbox.py:72
+#: ../kupfer/plugin/virtualbox/__init__.py:48
+msgid "Pause"
+msgstr "Paus"
+
+#: ../kupfer/plugin/audacious.py:143
+msgid "Pause playback in Audacious"
+msgstr "Pausa uppspelning i Audacious"
+
+#: ../kupfer/plugin/audacious.py:149 ../kupfer/plugin/rhythmbox.py:82
+msgid "Next"
+msgstr "Nästa"
+
+#: ../kupfer/plugin/audacious.py:153
+msgid "Jump to next track in Audacious"
+msgstr "Hoppa till nästa spår i Audacious"
+
+#: ../kupfer/plugin/audacious.py:159 ../kupfer/plugin/rhythmbox.py:92
+msgid "Previous"
+msgstr "Föregående"
+
+#: ../kupfer/plugin/audacious.py:163
+msgid "Jump to previous track in Audacious"
+msgstr "Hoppa till föregående spår i Audacious"
+
+#: ../kupfer/plugin/audacious.py:169
+msgid "Shuffle"
+msgstr "Blanda"
+
+#: ../kupfer/plugin/audacious.py:173
+msgid "Toggle shuffle in Audacious"
+msgstr ""
+
+#: ../kupfer/plugin/audacious.py:179
+msgid "Repeat"
+msgstr "Upprepa"
+
+#: ../kupfer/plugin/audacious.py:183
+msgid "Toggle repeat in Audacious"
+msgstr ""
+
+#: ../kupfer/plugin/audacious.py:199
+msgid "Playlist"
+msgstr "Spellista"
 
 #: ../kupfer/plugin/calculator.py:9 ../kupfer/plugin/calculator.py:57
 msgid "Calculator"
@@ -489,29 +591,30 @@ msgstr "Visa Kupfers inställningsfönster"
 msgid "Kupfer items and actions"
 msgstr "Kupfer-objekt och kommandon"
 
-#: ../kupfer/plugin/core/debug.py:29
-msgid "Rescan"
-msgstr "Uppdatera"
-
-#: ../kupfer/plugin/core/debug.py:38
-msgid "Force reindex of this source"
-msgstr "Tvinga omläsning av källan"
-
-#: ../kupfer/plugin/core/__init__.py:33
+#: ../kupfer/plugin/core/__init__.py:43
 msgid "Search Content..."
 msgstr "Sök i..."
 
-#: ../kupfer/plugin/core/__init__.py:48
+#: ../kupfer/plugin/core/__init__.py:58
 msgid "Search inside this catalog"
 msgstr "Sök bland objekt i katalogen"
 
-#: ../kupfer/plugin/core/__init__.py:56
+#: ../kupfer/plugin/core/__init__.py:66
 msgid "Copy"
 msgstr "Kopiera"
 
-#: ../kupfer/plugin/core/__init__.py:68
+#: ../kupfer/plugin/core/__init__.py:78
 msgid "Copy to clipboard"
 msgstr "Kopiera till urklipp"
+
+#: ../kupfer/plugin/core/selection.py:9 ../kupfer/plugin/core/selection.py:37
+msgid "Selected Text"
+msgstr "Markering"
+
+#: ../kupfer/plugin/core/selection.py:24
+#, python-format
+msgid "Selected Text \"%s\""
+msgstr "Markering \"%s\""
 
 #: ../kupfer/plugin/devhelp.py:4
 msgid "Devhelp"
@@ -1002,37 +1105,17 @@ msgstr "Inkludera artister i toppnivån"
 msgid "Include albums in top level"
 msgstr "Inkludera album i toppnivån"
 
-#: ../kupfer/plugin/rhythmbox.py:33
-msgid "Include songs in top level"
-msgstr "Inkludera låtar i toppnivån"
-
-#: ../kupfer/plugin/rhythmbox.py:62 ../kupfer/plugin/rhythmbox.py:115
-msgid "Play"
-msgstr "Spela upp"
-
 #: ../kupfer/plugin/rhythmbox.py:66
 msgid "Resume playback in Rhythmbox"
 msgstr "Starta uppspelning i Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:72 ../kupfer/plugin/virtualbox/__init__.py:48
-msgid "Pause"
-msgstr "Paus"
 
 #: ../kupfer/plugin/rhythmbox.py:76
 msgid "Pause playback in Rhythmbox"
 msgstr "Pausa uppspelning i Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:82
-msgid "Next"
-msgstr "Nästa"
-
 #: ../kupfer/plugin/rhythmbox.py:86
 msgid "Jump to next track in Rhythmbox"
 msgstr "Hoppa till nästa spår i Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:92
-msgid "Previous"
-msgstr "Föregående"
 
 #: ../kupfer/plugin/rhythmbox.py:96
 msgid "Jump to previous track in Rhythmbox"
@@ -1049,10 +1132,6 @@ msgstr "Visa vilken låt som spelas just nu"
 #: ../kupfer/plugin/rhythmbox.py:128
 msgid "Play tracks in Rhythmbox"
 msgstr "Spela upp spår i Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:134
-msgid "Enqueue"
-msgstr "Köa"
 
 #: ../kupfer/plugin/rhythmbox.py:145
 msgid "Add tracks to the play queue"
@@ -1141,19 +1220,6 @@ msgstr "Screen-sessioner"
 msgid "Attach"
 msgstr "Anslut till"
 
-#: ../kupfer/plugin/selection.py:7 ../kupfer/plugin/selection.py:35
-msgid "Selected Text"
-msgstr "Markering"
-
-#: ../kupfer/plugin/selection.py:9 ../kupfer/plugin/selection.py:52
-msgid "Provides current selection"
-msgstr "Tillhandahåller aktuell markering"
-
-#: ../kupfer/plugin/selection.py:22
-#, python-format
-msgid "Selected Text \"%s\""
-msgstr "Markering \"%s\""
-
 #: ../kupfer/plugin/services.py:9 ../kupfer/plugin/services.py:92
 msgid "System Services"
 msgstr "Systemtjänster"
@@ -1223,19 +1289,40 @@ msgstr "Sessionshantering i XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Speicella objekt och kommandon för XFCE"
 
-#: ../kupfer/plugin/show_text.py:10 ../kupfer/plugin/show_text.py:21
-#: ../kupfer/plugin/show_text.py:24
+#: ../kupfer/plugin/show_text.py:5 ../kupfer/plugin/show_text.py:16
+#: ../kupfer/plugin/show_text.py:19
 msgid "Show Text"
 msgstr "Visa text"
 
-#: ../kupfer/plugin/show_text.py:15 ../kupfer/plugin/show_text.py:30
-#: ../kupfer/plugin/show_text.py:45
+#: ../kupfer/plugin/show_text.py:10 ../kupfer/plugin/show_text.py:25
+#: ../kupfer/plugin/show_text.py:40
 msgid "Display text in a window"
 msgstr "Visa text i ett fönster"
 
-#: ../kupfer/plugin/show_text.py:36
+#: ../kupfer/plugin/show_text.py:31
 msgid "Large Type"
 msgstr "Visa med stor text"
+
+#: ../kupfer/plugin/shorten_links.py:10
+msgid "Shorten Links"
+msgstr "Förkorta länkar"
+
+#: ../kupfer/plugin/shorten_links.py:12
+msgid "Create short aliases of long URLs"
+msgstr "Skapa korta alias för långa webbadresser"
+
+#: ../kupfer/plugin/shorten_links.py:56 ../kupfer/plugin/shorten_links.py:109
+#: ../kupfer/plugin/shorten_links.py:113
+msgid "Error"
+msgstr "Fel"
+
+#: ../kupfer/plugin/shorten_links.py:120
+msgid "Shorten With..."
+msgstr "Förkorta med..."
+
+#: ../kupfer/plugin/shorten_links.py:147
+msgid "Services"
+msgstr "Service"
 
 #: ../kupfer/plugins.py:72
 msgid "(no description)"
@@ -1283,22 +1370,6 @@ msgstr "Skapa nytt dokument..."
 #: ../kupfer/plugin/templates.py:79
 msgid "Create a new document from template"
 msgstr "Skapa nytt dokument från mall"
-
-#: ../kupfer/plugin/text.py:9
-msgid "Free-text Queries"
-msgstr "Fritextsökningar"
-
-#: ../kupfer/plugin/text.py:13
-msgid "Basic support for free-text queries"
-msgstr "Grundstöd för fritextsökningar"
-
-#: ../kupfer/plugin/text.py:33
-msgid "Filesystem Text Matches"
-msgstr "Fritextträffar i filsystemet"
-
-#: ../kupfer/plugin/text.py:84
-msgid "URL Text Matches"
-msgstr "URL-täffar i fritext"
 
 #: ../kupfer/plugin/top.py:14
 msgid "Top"
@@ -1808,3 +1879,18 @@ msgstr ""
 "\n"
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
+
+#~ msgid "Provides current selection"
+#~ msgstr "Tillhandahåller aktuell markering"
+
+#~ msgid "Free-text Queries"
+#~ msgstr "Fritextsökningar"
+
+#~ msgid "Basic support for free-text queries"
+#~ msgstr "Grundstöd för fritextsökningar"
+
+#~ msgid "Filesystem Text Matches"
+#~ msgstr "Fritextträffar i filsystemet"
+
+#~ msgid "URL Text Matches"
+#~ msgstr "URL-täffar i fritext"
