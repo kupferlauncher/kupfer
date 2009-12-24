@@ -1289,7 +1289,6 @@ class WindowController (pretty.OutputMixin):
 	def __init__(self):
 		"""
 		"""
-		gobject.set_prgname("kupfer")
 		self.icon_name = gtk.STOCK_FIND
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 
