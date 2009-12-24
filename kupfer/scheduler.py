@@ -2,6 +2,7 @@
 import gobject
 
 from kupfer import pretty
+from kupfer.helplib import gobject_connect_weakly
 
 _scheduler = None
 
@@ -35,7 +36,7 @@ class Timer (object):
 		self._current_timer = -1
 		self._call_at_finish = call_at_finish
 		self._current_callback = None
-		GetScheduler().connect("finish", self._on_finish)
+		gobject_connect_weakly(GetScheduler(), "finish", self._on_finish)
 
 	def set(self, timeout_seconds, callback, *arguments):
 		"""Setup timer to call @timeout_seconds in the future.
