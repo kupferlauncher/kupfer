@@ -1314,38 +1314,26 @@ class WindowController (pretty.OutputMixin):
 			else: self.hide_statusicon()
 
 	def _setup_status_icon(self):
+		from kupfer import kupferui
+
 		status = gtk.status_icon_new_from_stock(self.icon_name)
 		status.set_tooltip(_("Kupfer"))
-
-		def prefs_callback(menuitem):
-			from kupfer import preferences
-			preferences.GetPreferencesWindowController().show()
-			return True
-		def help_callback(menuitem):
-			from kupfer import kupferui
-			kupferui.show_help()
-			return True
-		def about_callback(menuitem):
-			from kupfer import kupferui
-			kupferui.show_about_dialog()
-			return True
-		def quit_callback(menuitem):
-			self.quit()
-			return True
 		menu = gtk.Menu()
-		menu_prefs = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
-		menu_prefs.connect("activate", prefs_callback)
-		menu_help = gtk.ImageMenuItem(gtk.STOCK_HELP)
-		menu_help.connect("activate", help_callback)
-		menu_about = gtk.ImageMenuItem(gtk.STOCK_ABOUT)
-		menu_about.connect("activate", about_callback)
-		menu_quit = gtk.ImageMenuItem(gtk.STOCK_QUIT)
-		menu_quit.connect("activate", quit_callback)
-		menu.append(menu_prefs)
-		menu.append(menu_help)
-		menu.append(menu_about)
+
+		def menu_callback(menuitem, callback):
+			callback()
+			return True
+
+		def add_menu_item(icon, callback):
+			mitem = gtk.ImageMenuItem(icon)
+			mitem.connect("activate", menu_callback, callback)
+			menu.append(mitem)
+
+		add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
+		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
+		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
 		menu.append(gtk.SeparatorMenuItem())
-		menu.append(menu_quit)
+		add_menu_item(gtk.STOCK_QUIT, self.quit)
 		menu.show_all()
 
 		status.connect("popup-menu", self._popup_menu, menu)
