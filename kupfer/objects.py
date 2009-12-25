@@ -1120,16 +1120,13 @@ class TimedDo (Do):
 	def __init__(self):
 		Action.__init__(self, _("Run After Delay..."))
 
-	def _run(self, leaf):
-		leaf.run()
-
 	def activate(self, leaf, iobj=None):
 		from kupfer import scheduler
 		# make a timer that will fire when Kupfer exits
 		interval = utils.parse_time_interval(iobj.object)
 		pretty.print_debug(__name__, "Run %s in %s seconds" % (leaf, interval))
 		timer = scheduler.Timer(True)
-		timer.set(interval, self._run, leaf)
+		timer.set(interval, leaf.run)
 
 	def requires_object(self):
 		return True
