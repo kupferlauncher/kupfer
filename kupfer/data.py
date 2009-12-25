@@ -1054,7 +1054,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
 		learn.record_search_hit(action, self.action_pane.get_latest_key())
-		if sobject:
+		if sobject and self.mode is SourceActionObjectMode:
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 
 		def valid_result(obj):
