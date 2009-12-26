@@ -13,6 +13,7 @@ import gio
 import gobject
 
 from kupfer import data, icons, scheduler, relevance
+from kupfer import interface
 from kupfer import keybindings
 from kupfer import pretty
 
@@ -756,6 +757,8 @@ class Interface (gobject.GObject):
 		self.entry.connect("activate", self._activate, None)
 		self.entry.connect("key-press-event", self._entry_key_press)
 		self.entry.connect("key-release-event", self._entry_key_release)
+		self.entry.connect("copy-clipboard", self._entry_copy_clipboard)
+		self.entry.connect("cut-clipboard", self._entry_cut_clipboard)
 		self.entry.connect("paste-clipboard", self._entry_paste_clipboard)
 
 		# set up panewidget => self signals
@@ -957,8 +960,31 @@ class Interface (gobject.GObject):
 			return False
 		return True
 
+	def _entry_copy_clipboard(self, entry):
+		# Copy current selection to clipboard
+		# delegate to text entry when in text mode
+
+		if self.get_in_text_mode():
+			return False
+		selection = self.current.get_current()
+		if selection is None:
+			return False
+		textrep = interface.get_text_representation(selection)
+		if textrep is None:
+			return False
+		clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clipboard.set_text(textrep)
+		return True
+
+	def _entry_cut_clipboard(self, entry):
+		if not self._entry_copy_clipboard(entry):
+			return False
+		self.reset_current()
+		self.reset()
+
 	def _entry_paste_clipboard(self, entry):
 		if not self.get_in_text_mode():
+			self.reset()
 			self.try_enable_text_mode()
 
 	def reset_text(self):

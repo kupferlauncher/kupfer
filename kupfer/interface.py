@@ -8,3 +8,8 @@ class TextRepresentation (object):
 		"""The default implementation returns the represented object"""
 		return self.object
 
+def get_text_representation(obj):
+	try:
+		return obj.get_text_representation()
+	except AttributeError:
+		return None
