@@ -133,6 +133,8 @@ def get_processes():
 	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 	out, _err = proc.communicate()
 
+	fields_map = None
+	fields_count = 0
 	header_read = False
 	for line in out.split('\n'):
 		line = line.strip()
@@ -143,10 +145,17 @@ def get_processes():
 		if not header_read:
 			continue
 
-		(pid, user, pr, ni, virt, res, shr, s, cpu, mem, ptime, cmd) = \
-				line.split(None, 11)
-		if pid == 'PID':
+		if line.startswith('PID'): # assume pid is first col
+			fields_map = dict(((name, pos) for pos, name in enumerate(line.split())))
+			fields_count = len(fields_map)
 			continue	# skip header
+
+		line_fields = line.split(None, fields_count-1)
+		pid = line_fields[0]
+		cpu = line_fields[fields_map['%CPU']]
+		mem = line_fields[fields_map['%MEM']]
+		ptime = line_fields[fields_map['TIME+']]
+		cmd = line_fields[-1]
 
 		# read command line
 		proc_file = '/proc/%s/cmdline' % pid
