@@ -40,7 +40,7 @@ class SearchInside (Action):
 	Return a new source with the contents of the Leaf
 	"""
 	def __init__(self):
-		super(SearchInside, self).__init__(_("Search Content..."))
+		super(SearchInside, self).__init__(_("Search Contents"))
 
 	def is_factory(self):
 		return True
