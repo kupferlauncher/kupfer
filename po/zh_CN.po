@@ -509,8 +509,8 @@ msgid "Items and special actions"
 msgstr "项目和特定操作"
 
 #: ../kupfer/plugin/core.py:28
-msgid "Search Content..."
-msgstr "搜索内容..."
+msgid "Search Contents"
+msgstr "搜索内容"
 
 #: ../kupfer/plugin/core.py:43
 msgid "Search inside this catalog"

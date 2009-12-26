@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-24 02:45+0100\n"
+"POT-Creation-Date: 2009-12-26 12:25+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -592,8 +592,8 @@ msgid "Kupfer items and actions"
 msgstr "Kupfer-objekt och kommandon"
 
 #: ../kupfer/plugin/core/__init__.py:43
-msgid "Search Content..."
-msgstr "Sök i..."
+msgid "Search Contents"
+msgstr "Sök inuti"
 
 #: ../kupfer/plugin/core/__init__.py:58
 msgid "Search inside this catalog"

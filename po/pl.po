@@ -591,8 +591,8 @@ msgid "Kupfer items and actions"
 msgstr "Pozycje i akcje Kupfera"
 
 #: ../kupfer/plugin/core/__init__.py:43
-msgid "Search Content..."
-msgstr "Szukaj treści..."
+msgid "Search Contents"
+msgstr "Szukaj treści"
 
 #: ../kupfer/plugin/core/__init__.py:58
 msgid "Search inside this catalog"

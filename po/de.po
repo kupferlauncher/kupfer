@@ -458,8 +458,8 @@ msgid "Run commandline programs"
 msgstr "Befehlszeilenprogramme ausführen"
 
 #: ../kupfer/plugin/core.py:28
-msgid "Search Content..."
-msgstr "Inhalt durchsuchen …"
+msgid "Search Contents"
+msgstr "Inhalt durchsuchen"
 
 #: ../kupfer/plugin/core.py:43
 msgid "Search inside this catalog"

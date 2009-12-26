@@ -446,8 +446,8 @@ msgid "Run commandline programs"
 msgstr "Esegui programmi a riga di comando"
 
 #: ../kupfer/plugin/core.py:28
-msgid "Search Content..."
-msgstr "Cerca contenuto..."
+msgid "Search Contents"
+msgstr "Cerca contenuto"
 
 #: ../kupfer/plugin/core.py:43
 msgid "Search inside this catalog"

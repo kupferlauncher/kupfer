@@ -469,8 +469,8 @@ msgid "Items and special actions"
 msgstr "Items en speciale acties"
 
 #: ../kupfer/plugin/core.py:25
-msgid "Search Content..."
-msgstr "Inhoud doorzoeken..."
+msgid "Search Contents"
+msgstr "Inhoud doorzoeken"
 
 #: ../kupfer/plugin/core.py:40
 msgid "Search inside this catalog"

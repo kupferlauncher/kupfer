@@ -475,8 +475,8 @@ msgid "Run commandline programs"
 msgstr "Zaženi programe ukazne vrstice"
 
 #: ../kupfer/plugin/core.py:28
-msgid "Search Content..."
-msgstr "Poišči vsebino ..."
+msgid "Search Contents"
+msgstr "Poišči vsebino"
 
 #: ../kupfer/plugin/core.py:43
 msgid "Search inside this catalog"
