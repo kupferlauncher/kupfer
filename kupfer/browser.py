@@ -386,7 +386,6 @@ class Search (gtk.Bin):
 			self.table.append_column(col)
 
 		self.table.connect("row-activated", self._row_activated)
-		self.table.connect("key-press-event", self._table_key_press)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
 		self.scroller = gtk.ScrolledWindow()
@@ -405,14 +404,7 @@ class Search (gtk.Bin):
 
 		self.list_window.add(self.scroller)
 		self.scroller.show_all()
-	
-	def _table_key_press(self, treeview, event):
-		"""
-		Catch keypresses in the treeview and divert them
-		"""
-		self.emit("table-event", treeview, event)
-		return True
-	
+
 	def get_current(self):
 		"""
 		return current selection
@@ -657,8 +649,6 @@ gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gobject.signal_new("table-event", Search, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_OBJECT, gobject.TYPE_PYOBJECT))
 
 class LeafSearch (Search):
 	"""
@@ -764,7 +754,6 @@ class Interface (gobject.GObject):
 		# set up panewidget => self signals
 		# as well as window => panewidgets
 		for widget in (self.search, self.action, self.third):
-			widget.connect("table-event", self._table_event)
 			widget.connect("activate", self._activate)
 			widget.connect("cursor-changed", self._selection_changed)
 			widget.connect("button-press-event", self._pane_button_press)
@@ -1268,9 +1257,6 @@ class Interface (gobject.GObject):
 		name = match and match.get_description() or ""
 		self.label.set_text(name)
 	
-	def _table_event(self, widget, table, event):
-		self.entry.emit("key-press-event", event)
-
 	def put_text(self, text):
 		"""
 		Put @text into the interface to search, to use
