@@ -17,6 +17,7 @@ import httplib
 import locale
 import urllib
 import re
+import socket
 
 try:
 	import cjson
@@ -51,6 +52,8 @@ def _translate(text, lang):
 	query_param = urllib.urlencode(dict(tl=lang, text=text.encode('utf-8')))
 	try:
 		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
+		conn.connect()
+		conn.sock.settimeout(10) # set timeout to 10 sec
 		conn.request("POST", _GOOGLE_TRANSLATE_PATH, query_param, _HEADER)
 		resp = conn.getresponse()
 		if resp.status != 200:
@@ -100,6 +103,8 @@ def _load_languages():
 	pretty.print_debug(__name__, '_load_languages')
 	try:
 		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
+		conn.connect()
+		conn.sock.settimeout(10) # set timeout to 10 sec
 		headers = {
 			"Accept-Language": "%s, en;q=0.7" % user_language,
 		}
@@ -115,9 +120,8 @@ def _load_languages():
 			for key, name in _RE_GET_LANG.findall(result[0]):
 				yield key, name
 
-	except (httplib.HTTPException, ValueError), err:
+	except (httplib.HTTPException, ValueError, socket.timeout), err:
 		pretty.print_error(__name__, '_load_languages error', type(err), err)
-		yield 'en', 'English'
 
 	finally:
 		conn.close()
