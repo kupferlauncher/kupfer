@@ -2,6 +2,7 @@ import gtk
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer import objects
+from kupfer import interface
 
 __kupfer_name__ = u"Core"
 __kupfer_sources__ = ()      # Updated later
@@ -66,12 +67,12 @@ class CopyToClipboard (Action):
 		Action.__init__(self, _("Copy"))
 	def activate(self, leaf):
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		clip.set_text(leaf.get_text_representation())
+		interface.copy_to_clipboard(leaf, clip)
 	def item_types(self):
 		yield Leaf
 	def valid_for_item(self, leaf):
 		try:
-			return bool(leaf.get_text_representation())
+			return bool(interface.get_text_representation(leaf))
 		except AttributeError:
 			pass
 	def get_description(self):

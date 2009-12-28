@@ -958,12 +958,8 @@ class Interface (gobject.GObject):
 		selection = self.current.get_current()
 		if selection is None:
 			return False
-		textrep = interface.get_text_representation(selection)
-		if textrep is None:
-			return False
-		clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		clipboard.set_text(textrep)
-		return True
+		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		return interface.copy_to_clipboard(selection, clip)
 
 	def _entry_cut_clipboard(self, entry):
 		if not self._entry_copy_clipboard(entry):

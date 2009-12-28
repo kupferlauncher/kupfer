@@ -13,3 +13,15 @@ def get_text_representation(obj):
 		return obj.get_text_representation()
 	except AttributeError:
 		return None
+
+def copy_to_clipboard(obj, clipboard):
+	"""
+	Copy @obj to @clipboard, a gtk.Clipboard
+
+	Return True if successful
+	"""
+	try:
+		clipboard.set_text(obj.get_text_representation())
+		return True
+	except AttributeError:
+		return False
