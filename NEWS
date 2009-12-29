@@ -2,6 +2,22 @@
 NEWS for kupfer
 ===============
 
+kupfer version cXX
+------------------
+
+* New plugin: *Shorten Links* by Karol Będkowski
+* Implemented *Ctrl+C* (and *Ctrl+X*) to copy (cut) selected object
+* Fix bug LP #498542: restore window position code to c18
+* Fix bug LP #494237, window is sometimes blank
+* Fix bug LP #500395, column order in *Top* plugin (Karol)
+* Fix bug LP #500619, handle network errors in *Google Translate* plugin
+  (Karol)
+
+* Localization updates:
+
+  + pl (Karol)
+  + sv
+
 kupfer version c19
 ------------------
 
