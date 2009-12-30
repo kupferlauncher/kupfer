@@ -18,6 +18,9 @@ class RunningApplicationsSource (Source):
 	"""List currently running applications """
 	def __init__(self):
 		Source.__init__(self, _("Running Applications"))
+		self.all_apps = []
+
+	def initialize(self):
 		self.all_apps = gio.app_info_get_all()
 
 	def is_dynamic(self):

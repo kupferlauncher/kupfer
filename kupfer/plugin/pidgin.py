@@ -139,7 +139,9 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 
 	def unpickle_finish(self):
 		self.mark_for_update()
-		self.all_buddies = {}
+		self.pickle_prepare()
+
+	def initialize(self):
 		self._install_dbus_signal()
 		self._buddy_update_timer = scheduler.Timer()
 		self._buddy_update_queue = set()

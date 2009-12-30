@@ -3,7 +3,7 @@ import os
 
 from kupfer import plugin_support
 from kupfer.objects import Leaf, Action, Source 
-from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.helplib import FilesystemWatchMixin
 from kupfer import utils
 
 __kupfer_name__ = _("System Services")
@@ -86,15 +86,14 @@ class StopService(_ServiceAction):
 		_ServiceAction.__init__(self, _('Stop Service'), 'stop', 'stop')
 
 
-class SystemServicesSource(Source, FilesystemWatchMixin, PicklingHelperMixin):
+class SystemServicesSource(Source, FilesystemWatchMixin):
 	''' Index system services from /etc/*/init.d/ '''
 
 	def __init__(self, name=_("System Services")):
 		Source.__init__(self, name)
 		self._initd_path = None
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		# path to file with list notebooks
 		for initd_path in ('/etc/init.d/', '/etc/rc.d/init.d', '/etc/rc.d'):
 			if os.path.exists(initd_path) and os.path.isdir(initd_path):

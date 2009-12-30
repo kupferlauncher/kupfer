@@ -190,14 +190,12 @@ class ClassProperty (property):
 	def __get__(self, cls, owner):
 		return self.fget.__get__(None, owner)()
 
-class NotesSource (AppLeafContentMixin, Source, PicklingHelperMixin,
-		FilesystemWatchMixin):
+class NotesSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 	def __init__(self):
 		Source.__init__(self, _("Notes"))
 		self._notes = []
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		"""Set up filesystem monitors to catch changes"""
 		# We monitor all directories that exist of a couple of candidates
 		dirs = []

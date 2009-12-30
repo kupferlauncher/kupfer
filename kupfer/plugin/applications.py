@@ -3,7 +3,7 @@ from gio import app_info_get_all
 from gio.unix import desktop_app_info_set_desktop_env
 
 from kupfer.objects import (Source, AppLeaf, Action, FileLeaf,
-		PicklingHelperMixin, FilesystemWatchMixin, )
+		FilesystemWatchMixin, )
 from kupfer import config, utils, plugin_support
 
 __kupfer_name__ = _("Applications")
@@ -26,7 +26,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 )
 
-class AppSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
+class AppSource (Source, FilesystemWatchMixin):
 	"""
 	Applications source
 
@@ -35,9 +35,8 @@ class AppSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 	"""
 	def __init__(self):
 		super(AppSource, self).__init__(_("Applications"))
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		application_dirs = config.get_data_dirs("", "applications")
 		self.monitor_token = self.monitor_directories(*application_dirs)
 

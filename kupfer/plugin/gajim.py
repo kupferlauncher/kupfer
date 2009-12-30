@@ -156,6 +156,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self.mark_for_update()
 		self._contacts = []
 
+	def initialize(self):
 		# listen to d-bus signals for updates
 		signals = [
 			"ContactAbsence",
@@ -166,10 +167,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 			"RosterInfo",
 		]
 
-		try:
-			session_bus = dbus.Bus()
-		except dbus.DBusException:
-			return
+		session_bus = dbus.Bus()
 
 		for signal in signals:
 			dbus_signal_connect_weakly(session_bus, signal,

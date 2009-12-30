@@ -4,7 +4,7 @@ import gio
 from gtk import recent_manager_get_default
 
 from kupfer.objects import (Leaf, Action, Source,
-		AppLeaf, FileLeaf, UrlLeaf, PicklingHelperMixin )
+		AppLeaf, FileLeaf, UrlLeaf, )
 from kupfer import objects, plugin_support
 from kupfer import launch, icons
 from kupfer.helplib import gobject_connect_weakly
@@ -26,14 +26,13 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 
-class RecentsSource (Source, PicklingHelperMixin):
+class RecentsSource (Source):
 	def __init__(self, name=None):
 		if not name:
 			name = _("Recent Items")
 		super(RecentsSource, self).__init__(name)
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		"""Set up change callback"""
 		manager = recent_manager_get_default()
 		gobject_connect_weakly(manager, "changed", self._recent_changed)

@@ -6,7 +6,7 @@ import glib
 from kupfer.objects import Leaf, Action, Source, FileLeaf
 from kupfer import icons, utils
 from kupfer import helplib
-from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.helplib import FilesystemWatchMixin
 from kupfer import plugin_support
 
 __kupfer_name__ = _("Document Templates")
@@ -82,24 +82,26 @@ class CreateNewDocument (Action):
 
 CreateDocumentIn = helplib.reverse_action(CreateNewDocument, rank=10)
 
-class TemplatesSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
+class TemplatesSource (Source, FilesystemWatchMixin):
 	def __init__(self):
 		Source.__init__(self, _("Document Templates"))
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
-		# Set up change callback
+	@classmethod
+	def _get_tmpl_dir(self):
 		tmpl_dir = glib.get_user_special_dir(glib.USER_DIRECTORY_TEMPLATES)
 		if not tmpl_dir:
 			tmpl_dir = os.path.expanduser(DEFAULT_TMPL_DIR)
-		self.tmpl_dir = tmpl_dir
-		self.monitor_token = self.monitor_directories(self.tmpl_dir)
+		return tmpl_dir
+
+	def initialize(self):
+		self.monitor_token = self.monitor_directories(self._get_tmpl_dir())
 
 	def get_items(self):
+		tmpl_dir = self._get_tmpl_dir()
 		yield EmptyFile()
 		try:
-			for fname in os.listdir(self.tmpl_dir):
-				yield Template(os.path.join(self.tmpl_dir, fname))
+			for fname in os.listdir(tmpl_dir):
+				yield Template(os.path.join(tmpl_dir, fname))
 		except EnvironmentError, exc:
 			self.output_error(exc)
 

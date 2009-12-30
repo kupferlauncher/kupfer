@@ -2,7 +2,6 @@ import gtk
 
 from kupfer.objects import Source, Leaf
 from kupfer.objects import TextLeaf, SourceLeaf
-from kupfer.helplib import DbusWeakCallback, PicklingHelperMixin
 from kupfer.helplib import gobject_connect_weakly
 from kupfer import kupferstring
 
@@ -32,15 +31,14 @@ class InvisibleSourceLeaf (SourceLeaf):
 	def is_valid(self):
 		return False
 
-class SelectionSource (Source, PicklingHelperMixin):
+class SelectionSource (Source):
 	def __init__(self):
 		Source.__init__(self, _("Selected Text"))
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
+		self._text = None
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
 		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
-		self._text = None
 
 	def _clipboard_changed(self, clipboard, event):
 		self._text = clipboard.wait_for_text()

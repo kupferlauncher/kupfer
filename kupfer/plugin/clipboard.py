@@ -2,7 +2,7 @@ from collections import deque
 
 import gtk
 
-from kupfer.objects import Source, Action, TextLeaf, Leaf, PicklingHelperMixin
+from kupfer.objects import Source, Action, TextLeaf, Leaf
 from kupfer import utils, plugin_support
 from kupfer.helplib import gobject_connect_weakly
 
@@ -31,16 +31,12 @@ class ClipboardText (TextLeaf):
 			'Clipboard with %(num)d lines "%(desc)s"',
 			numlines) % {"num": numlines, "desc": desc }
 
-class ClipboardSource (Source, PicklingHelperMixin):
-	"""
-	"""
+class ClipboardSource (Source):
 	def __init__(self):
 		Source.__init__(self, _("Clipboards"))
 		self.clipboards = deque()
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
-		"""Setup change callback on unpickling"""
+	def initialize(self):
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 

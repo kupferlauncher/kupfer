@@ -1,6 +1,7 @@
 import os
 
-from kupfer.objects import Leaf, Action, Source, PicklingHelperMixin, FilesystemWatchMixin
+from kupfer.objects import Leaf, Action, Source
+from kupfer.helplib import FilesystemWatchMixin
 from kupfer import utils, objects
 
 __kupfer_name__ = _("GNU Screen")
@@ -55,14 +56,12 @@ class ScreenSession (Leaf):
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
-class ScreenSessionsSource (Source, PicklingHelperMixin, FilesystemWatchMixin):
+class ScreenSessionsSource (Source, FilesystemWatchMixin):
 	"""Source for GNU Screen sessions"""
 	def __init__(self):
 		super(ScreenSessionsSource, self).__init__(_("Screen Sessions"))
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
-		"""Set up a directory watch on Screen's socket dir"""
+	def initialize(self):
 		self.screen_dir = (os.getenv("SCREENDIR") or
 				"/var/run/screen/S-%s" % get_username())
 		if not os.path.exists(self.screen_dir):

@@ -44,8 +44,7 @@ class TsclientOpenSession(Action):
 		return 'tsclient'
 
 
-class TsclientSessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
-		FilesystemWatchMixin):
+class TsclientSessionSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 	''' indexes session saved in tsclient '''
 
 	appleaf_content_id = 'tsclient'
@@ -53,12 +52,10 @@ class TsclientSessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 	def __init__(self, name=_("TSClient sessions")):
 		Source.__init__(self, name)
 		self._sessions_dir = os.path.expanduser('~/.tsclient')
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		if not os.path.isdir(self._sessions_dir):
 			return
-
 		self.monitor_token = self.monitor_directories(self._sessions_dir)
 
 	def monitor_include_file(self, gfile):
