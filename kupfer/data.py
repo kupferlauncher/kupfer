@@ -298,13 +298,8 @@ class SourceController (pretty.OutputMixin):
 		self.content_decorators = set()
 		self.action_decorators = set()
 
-	def _as_set(self, s):
-		if isinstance(s, set):
-			return s
-		return set(s)
 	def add(self, srcs, toplevel=False):
-		srcs = self._as_set(srcs)
-		self._unpickle_or_rescan(srcs, rescan=toplevel)
+		srcs = set(self._try_unpickle(srcs))
 		self.sources.update(srcs)
 		if toplevel:
 			self.toplevel_sources.update(srcs)
@@ -421,23 +416,20 @@ class SourceController (pretty.OutputMixin):
 
 	def finish(self):
 		self._pickle_sources(self.sources)
-	def _unpickle_or_rescan(self, sources, rescan=True):
+
+	def _try_unpickle(self, sources):
 		"""
 		Try to unpickle the source that is equivalent to the
 		"dummy" instance @source, if it doesn't succeed,
-		the "dummy" becomes live and is rescanned if @rescan
+		the "dummy" becomes live.
 		"""
 		sourcepickler = SourcePickler()
-		for source in list(sources):
+		for source in set(sources):
 			if self.pickle:
 				news = sourcepickler.unpickle_source(source)
 			else:
 				news = None
-			if news:
-				sources.remove(source)
-				sources.add(news)
-			elif rescan:
-				self._checked_rescan_source(source, force=True)
+			yield news if news is not None else source
 
 	def _pickle_sources(self, sources):
 		if not self.pickle:
