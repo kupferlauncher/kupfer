@@ -12,8 +12,9 @@ __kupfer_sources__ = ("Triggers", )
 __kupfer_actions__ = (
 	"AddTrigger",
 )
-__description__ = _("Trigger actions")
-__version__ = ""
+__description__ = _("Assign global keybindings (triggers) to objects created "
+                    "with 'Compose Command' (Ctrl+R).")
+__version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 _PRIVATE_KEYBINDING_MASK = 0xFF00
