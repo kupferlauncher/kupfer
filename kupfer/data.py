@@ -376,6 +376,15 @@ class SourceController (pretty.OutputMixin):
 				firstlevel.add(s)
 		return objects.MultiSource(firstlevel)
 
+	def get_canonical_source(self, source):
+		"Return the canonical instance for @source"
+		# check if we already have source, then return that
+		if source in self:
+			return self[source]
+		else:
+			source.initialize()
+			return source
+
 	def get_contents_for_leaf(self, leaf, types=None):
 		"""Iterator of content sources for @leaf,
 		providing @types (or None for all)"""
@@ -387,8 +396,7 @@ class SourceController (pretty.OutputMixin):
 				if dsrc:
 					if types and not self.good_source_for_types(dsrc, types):
 						continue
-					# check if we already have source, then return that
-					yield self[dsrc] if (dsrc in self) else dsrc
+					yield self.get_canonical_source(dsrc)
 
 	def get_actions_for_leaf(self, leaf):
 		for typ in self.action_decorators:
@@ -513,9 +521,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 		if it is already loaded we get it from there, else
 		returns @src"""
 		sc = GetSourceController()
-		if src in sc:
-			return sc[src]
-		return src
+		return sc.get_canonical_source(src)
 
 	def get_source(self):
 		return self.source
