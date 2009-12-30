@@ -149,6 +149,7 @@ class Enqueue (Action):
 		return "media-playback-start"
 
 class SongLeaf (Leaf):
+	serilizable = True
 	def __init__(self, info, name=None):
 		"""Init with song info
 		@info: Song information dictionary
