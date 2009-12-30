@@ -2,6 +2,16 @@
 NEWS for kupfer
 ===============
 
+kupfer version cXX
+------------------
+
+Not Released Yet
+
+* New plugin: *Triggers*: Add global keybindings to any command you can
+  perform in Kupfer.
+* The *Favorites* plugin is completely revamped: you may favorite (almost)
+  any object. Favorites get a rank boost.
+
 kupfer version c19.1
 --------------------
 
