@@ -1405,11 +1405,11 @@ class WindowController (pretty.OutputMixin):
 
 	def _key_binding(self, keyobj, keybinding_number, event_time):
 		"""Keybinding activation callback"""
-		if keybinding_number == keybindings.KEYBINDING_MAGIC:
+		if keybinding_number == keybindings.KEYBINDING_DEFAULT:
+			self.show_hide(time=event_time)
+		elif keybinding_number == keybindings.KEYBINDING_MAGIC:
 			self.activate(time=event_time)
 			self.interface.select_selected_file()
-		else:
-			self.show_hide(time=event_time)
 
 	def _put_text_recieved(self, sender, working_dir, text):
 		"""We got a search query from dbus"""
