@@ -1090,6 +1090,9 @@ class TextSource (KupferObject):
 	def __hash__(self ):
 		return hash(repr(self))
 
+	def initialize(self):
+		pass
+
 	def get_rank(self):
 		"""All items are given this rank"""
 		return 20
