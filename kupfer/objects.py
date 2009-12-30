@@ -340,7 +340,7 @@ class SourceLeaf (Leaf):
 	def get_icon_name(self):
 		return self.object.get_icon_name()
 
-class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
+class AppLeaf (Leaf, pretty.OutputMixin):
 	def __init__(self, item=None, init_path=None, app_id=None):
 		"""Try constructing an Application for GAppInfo @item,
 		for file @path or for package name @app_id.
@@ -348,8 +348,8 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		self.init_item = item
 		self.init_path = init_path
 		self.init_item_id = app_id and app_id + ".desktop"
-		# unpickle_finish will raise InvalidDataError on invalid item
-		self.unpickle_finish()
+		# finish will raise InvalidDataError on invalid item
+		self.finish()
 		Leaf.__init__(self, self.object, self.object.get_name())
 		self.name_aliases.update(self._get_aliases())
 
@@ -361,12 +361,18 @@ class AppLeaf (Leaf, PicklingHelperMixin, pretty.OutputMixin):
 		if package_name and package_name not in lowername:
 			yield package_name
 
-	def pickle_prepare(self):
+	def __getstate__(self):
 		self.init_item_id = self.object and self.object.get_id()
-		self.object = None
-		self.init_item = None
+		state = dict(vars(self))
+		state["object"] = None
+		state["init_item"] = None
+		return state
 
-	def unpickle_finish(self):
+	def __setstate__(self, state):
+		vars(self).update(state)
+		self.finish()
+
+	def finish(self):
 		"""Try to set self.object from init's parameters"""
 		item = None
 		if self.init_item:
