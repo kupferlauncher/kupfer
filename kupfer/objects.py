@@ -451,6 +451,7 @@ class Action (KupferObject):
 		"""
 		return True
 	'''
+	serilizable = True
 
 	def repr_key(self):
 		"""by default, actions of one type are all the same"""
@@ -1162,12 +1163,27 @@ class TimedDo (Do):
 		return _("Perform command after a specified time interval")
 
 class ComposedLeaf (RunnableLeaf):
+	serilizable = True
 	def __init__(self, obj, action, iobj=None):
 		object_ = (obj, action, iobj)
 		# A slight hack: We remove trailing ellipsis and whitespace
 		format = lambda o: unicode(o).strip(".… ")
 		name = u" → ".join([format(o) for o in object_ if o is not None])
 		RunnableLeaf.__init__(self, object_, name)
+
+	def __getstate__(self):
+		from kupfer import puid
+		state = dict(vars(self))
+		state["object"] = [puid.get_unique_id(o) for o in self.object]
+		return state
+
+	def __setstate__(self, state):
+		from kupfer import puid
+		vars(self).update(state)
+		self.object[:] = [puid.resolve_unique_id(I) for I in state["object"]]
+		if (not self.object[0] or not self.object[1] or
+				(I is None) != (self.object[2] is None)):
+			raise InvalidDataError
 
 	def get_actions(self):
 		action = self.object[1]
