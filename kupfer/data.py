@@ -757,17 +757,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sch.connect("load", self._load)
 		sch.connect("finish", self._finish)
 
-	def set_sources(self, S_sources, s_sources):
-		"""Init the DataController with the given list of sources
-
-		@S_sources are to be included directly in the catalog,
-		@s_souces as just as subitems
-
-		This should be run before main program commences.
-		"""
-		self.direct_sources = set(S_sources)
-		self.other_sources = set(s_sources) - set(S_sources)
-
 	def register_text_sources(self, srcs):
 		"""Pass in text sources as @srcs
 
@@ -815,10 +804,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def _load(self, sched):
 		"""Load data from persistent store"""
-		self._setup_plugins()
+		S_s, s_s = self._setup_plugins()
 		sc = GetSourceController()
-		sc.add(self.direct_sources, toplevel=True)
-		sc.add(self.other_sources, toplevel=False)
+		direct_sources = set(S_s)
+		other_sources = set(s_s) - direct_sources
+		sc.add(direct_sources, toplevel=True)
+		sc.add(other_sources, toplevel=False)
 		sc.cache_toplevel_sources()
 		self.source_pane.source_rebase(sc.root)
 		learn.load()
@@ -858,6 +849,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		return S_sources, s_sources
 
 	def _setup_plugins(self):
+		"""
+		@S_sources are to be included directly in the catalog,
+		@s_souces as just as subitems
+		"""
 		from kupfer import settings, plugins
 		from kupfer.plugins import (load_plugin_sources, sources_attribute,
 				action_decorators_attribute, text_sources_attribute,
@@ -897,10 +892,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if not S_sources and not s_sources:
 			pretty.print_info(__name__, "No sources found!")
 
-		self.set_sources(S_sources, s_sources)
 		self.register_text_sources(text_sources)
 		self.register_action_decorators(action_decorators)
 		self.register_content_decorators(content_decorators)
+		return S_sources, s_sources
 
 	def _finish(self, sched):
 		self.output_info("Saving data...")
