@@ -7,6 +7,7 @@ import gobject
 
 from kupfer import pretty, config
 from kupfer import scheduler
+from kupfer import keybindings
 
 try:
 	import wnck
@@ -61,6 +62,9 @@ def application_id(app_info):
 		app_id = app_id[:-len(".desktop")]
 	return app_id
 
+def _current_event_time():
+	return gtk.get_current_event_time() or keybindings.get_current_event_time()
+
 def launch_application(app_info, files=(), uris=(), paths=(), track=True, activate=True):
 	"""
 	Launch @app_info correctly, using a startup notification
@@ -86,7 +90,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 		workspace = wnck.screen_get_default().get_active_workspace()
 		nbr = workspace.get_number() if workspace else -1
 		ctx.set_desktop(nbr)
-	ctx.set_timestamp(gtk.get_current_event_time())
+	ctx.set_timestamp(_current_event_time())
 
 	if track:
 		app_id = application_id(app_info)
@@ -232,7 +236,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			return False
 
 		# for now, just take any window
-		evttime = gtk.get_current_event_time()
+		evttime = _current_event_time()
 		for w in application_windows:
 			# we special-case the desktop
 			# only show desktop if it's the only window of this app

@@ -34,6 +34,14 @@ gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
 
 _currently_bound = {}
 
+def get_current_event_time():
+	"Return current event time as given by keybinder"
+	try:
+		import keybinder
+	except ImportError:
+		return 0
+	return keybinder.get_current_event_time()
+
 def _register_bound_key(keystr, target):
 	_currently_bound[target] = keystr
 
