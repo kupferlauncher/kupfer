@@ -89,10 +89,11 @@ class qfurl (object):
 		return mother, qfid, typname
 
 	def resolve_in_catalog(self, catalog):
-		"""Resolve self in a catalog of sources"""
+		"""Resolve self in a catalog of sources
+
+		Return *immediately* on match found"""
 		mother, qfid, typname = self._parts_mother_id_typename(self.url)
 		module, name = typname.rsplit(".", 1) if typname else (None, None)
-		matches = []
 		for src in catalog:
 			if name:
 				if name not in (pt.__name__
@@ -106,12 +107,13 @@ class qfurl (object):
 					continue
 				try:
 					if self == qfurl(obj):
-						matches.append(obj)
+						pretty.print_debug(__name__,
+							"Found", repr(obj), "for", self)
+						return obj
 				except QfurlError:
 					pass
-		pretty.print_debug(__name__, "Found matches:", matches)
-		pretty.print_debug(__name__, "For", self)
-		return matches[0] if matches else None
+		pretty.print_debug(__name__, "No match found for", self)
+		return None
 
 if __name__ == '__main__':
 	import doctest
