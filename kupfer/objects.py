@@ -182,6 +182,7 @@ class FileLeaf (Leaf, TextRepresentation):
 	"""
 	Represents one file
 	"""
+	serilizable = True
 	# To save memory with (really) many instances
 	__slots__ = ("name", "object")
 
@@ -1057,6 +1058,7 @@ class TextLeaf (Leaf, TextRepresentation):
 	"""Represent a text query
 	represented object is the unicode string
 	"""
+	serilizable = True
 	def __init__(self, text, name=None):
 		"""@text *must* be unicode or UTF-8 str"""
 		text = tounicode(text)
