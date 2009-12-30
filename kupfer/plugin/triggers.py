@@ -49,6 +49,9 @@ class Triggers (Source):
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
 			yield Trigger(target, u"%s (%s)" % (label or keystr, name))
 
+	def should_sort_lexically(self):
+		return True
+
 	@classmethod
 	def perform_trigger(cls, target):
 		try:
