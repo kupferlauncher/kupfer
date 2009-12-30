@@ -728,6 +728,16 @@ class Source (KupferObject, pretty.OutputMixin):
 	def __hash__(self ):
 		return hash(repr(self))
 
+	def initialize(self):
+		"""
+		Called when a Source enters Kupfer's system for real
+
+		This method is called at least once for any "real" Source. A Source
+		must be able to return an icon name for get_icon_name as well as a
+		description for get_description, even if this method was never called.
+		"""
+		pass
+
 	def repr_key(self):
 		# use the source's name so that it is reloaded on locale change
 		return (str(self), self.version)

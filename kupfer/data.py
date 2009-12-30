@@ -467,6 +467,8 @@ class SourceController (pretty.OutputMixin):
 
 	def cache_toplevel_sources(self):
 		"""Ensure that all toplevel sources are cached"""
+		for src in set(self.sources):
+			src.initialize()
 		for src in set(self.toplevel_sources):
 			self._checked_rescan_source(src, force=False)
 
