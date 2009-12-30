@@ -1,19 +1,30 @@
-from kupfer.objects import Action, Leaf
+"""
+This module contains internal and / or experimental Kupfer features.
+
+These are not meant to be useful to "normal" users of Kupfer -- if they are,
+they can be tested here before they migrate to a fitting plugin.
+"""
+
+from kupfer.objects import Action, Leaf, Source
+from kupfer.objects import ComposedLeaf
 from kupfer import objects
 from kupfer import pretty
 
+# NOTE: Core imports
+from kupfer import learn
+
 __kupfer_sources__ = ()
+__kupfer_contents__ = (
+		"ComposedSource",
+	)
 __kupfer_actions__ = (
 		"Rescan",
 		"DebugInfo",
+		"Forget",
 	)
+__description__ = __doc__
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-__all__ = __kupfer_sources__ + __kupfer_actions__
-
-def _is_debug():
-	# Return True if Kupfer is in debug mode
-	return pretty.debug
 
 class Rescan (Action):
 	"""A source action: Rescan a source!
@@ -40,14 +51,12 @@ class Rescan (Action):
 		return "gtk-refresh"
 
 	def item_types(self):
-		if _is_debug():
-			yield objects.AppLeaf
-			yield objects.SourceLeaf
+		yield objects.AppLeaf
+		yield objects.SourceLeaf
 	def valid_for_item(self, item):
 		if not item.has_content():
 			return False
 		return not item.content_source().is_dynamic()
-
 
 class DebugInfo (Action):
 	""" Print debug info to terminal """
@@ -131,6 +140,84 @@ class DebugInfo (Action):
 	def get_icon_name(self):
 		return "emblem-system"
 	def item_types(self):
-		if _is_debug():
-			yield Leaf
+		yield Leaf
 
+class Forget (Action):
+	rank_adjust = -10
+	def __init__(self):
+		Action.__init__(self, u"Forget")
+
+	def activate(self, leaf):
+		# FIXME: This is a large, total, utter HACK
+		if isinstance(leaf, ComposedLeaf):
+			for o in leaf.object:
+				learn._register.pop(repr(o), None)
+		if isinstance(leaf, ActionLeaf):
+			learn._register.pop(repr(leaf.object), None)
+		else:
+			learn._register.pop(repr(leaf), None)
+
+	def item_types(self):
+		yield Leaf
+
+	def get_description(self):
+		return u"Let Kupfer forget about this object"
+
+class ActionLeaf (Leaf):
+	def __init__(self, action):
+		Leaf.__init__(self, action, unicode(action))
+
+	def get_actions(self):
+		act = self.object
+		if not (hasattr(act, "requires_object") and act.requires_object()):
+			yield Apply(act)
+
+	def get_description(self):
+		return self.object.get_description()
+	def get_icon_name(self):
+		return self.object.get_icon_name()
+
+class Apply (Action):
+	rank_adjust = 5
+	def __init__(self, action):
+		Action.__init__(self, _("Apply To..."))
+		self.action = action
+
+	def is_factory(self):
+		return self.action.is_factory()
+	def has_result(self):
+		return self.action.has_result()
+	def is_async(self):
+		return self.action.is_async()
+	def requires_object(self):
+		return True
+	def object_types(self):
+		return self.action.item_types()
+	def valid_object(self, obj, for_item=None):
+		return self.action.valid_for_item(obj)
+	def activate(self, leaf, iobj):
+		return self.action.activate(iobj)
+
+class ComposedSource (Source):
+	"""
+	Decorated ComposedLeaf with a Source that shows the contents of
+	Composed Commands
+	"""
+	def __init__(self, leaf):
+		Source.__init__(self, u"Composed Command")
+		self.leaf = leaf
+
+	def get_items(self):
+		obj = self.leaf.object
+		yield self.leaf.object[0]
+		yield ActionLeaf(obj[1])
+		if self.leaf.object[2] is not None:
+			yield self.leaf.object[2]
+
+	@classmethod
+	def decorates_type(cls):
+		return ComposedLeaf
+
+	@classmethod
+	def decorate_item(cls, leaf):
+		return cls(leaf)

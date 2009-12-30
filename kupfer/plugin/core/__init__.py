@@ -3,11 +3,14 @@ import gtk
 from kupfer.objects import Leaf, Action, Source
 from kupfer import objects
 from kupfer import interface
+from kupfer import pretty
 
 __kupfer_name__ = u"Core"
-__kupfer_sources__ = ()      # Updated later
-__kupfer_text_sources__ = () # Updated later
-__kupfer_actions__ = (       # Updated later
+# The following attributes are updated later
+__kupfer_sources__ = ()
+__kupfer_text_sources__ = ()
+__kupfer_contents__ = ()
+__kupfer_actions__ = (
 	"SearchInside",
 	"CopyToClipboard",
 	)
@@ -15,11 +18,16 @@ __description__ = u"Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+def _is_debug():
+	# Return True if Kupfer is in debug mode
+	return pretty.debug
+
 def register_subplugin(module):
 	attrs = (
 		"__kupfer_sources__",
 		"__kupfer_actions__",
-		"__kupfer_text_sources__"
+		"__kupfer_text_sources__",
+		"__kupfer_contents__"
 	)
 	for attr in attrs:
 		object_names = getattr(module, attr, ())
@@ -27,12 +35,14 @@ def register_subplugin(module):
 		globals().update((sym, getattr(module, sym)) for sym in object_names)
 
 from kupfer.plugin.core import contents, selection, text
-from kupfer.plugin.core import debug
 
 register_subplugin(contents)
 register_subplugin(selection)
 register_subplugin(text)
-register_subplugin(debug)
+
+if _is_debug():
+	from kupfer.plugin.core import debug
+	register_subplugin(debug)
 
 
 class SearchInside (Action):
