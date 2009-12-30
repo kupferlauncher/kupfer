@@ -1,52 +1,121 @@
 import collections
 import weakref
 
-from kupfer.objects import Source, Action, PicklingHelperMixin
+from kupfer.objects import Leaf, Source, Action, PicklingHelperMixin
 from kupfer import utils, objects, pretty
+from kupfer import puid
 
 __kupfer_name__ = _("Favorites")
 __kupfer_sources__ = ("FavoritesSource", )
 __kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
 __description__ = _("(Simple) favorites plugin")
-__version__ = ""
+__version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 def _FavoritesLeafTypes():
 	"""reasonable pickleable types"""
-	yield objects.FileLeaf
-	yield objects.AppLeaf
-	yield objects.UrlLeaf
-	yield objects.TextLeaf
+	yield Leaf
 
 class FavoritesSource (Source, PicklingHelperMixin):
 	"""Keep a list of Leaves that the User may add and remove from"""
+	instance = None
 	def __init__(self):
 		Source.__init__(self, _("Favorites"))
-		self.favorites = collections.deque()
+		self._version = 2
+		self.references = []
 		self.unpickle_finish()
 
-	def unpickle_finish(self):
-		RegisterFavoritesSource(self)
-		# check items for validity
-		for itm in list(self.favorites):
-			if hasattr(itm, "is_valid") and not itm.is_valid():
-				self.output_debug("Removing invalid leaf", itm)
-				self.remove(itm)
+	def pickle_prepare(self):
+		self.mark_for_update()
+		self.references = [puid.get_unique_id(F) for F in self.favorites]
+		self.favorites = []
+		self.reference_table = None
+		self.persist_table = None
 
-	def add(self, itm):
-		self.favorites.append(itm)
+	def unpickle_finish(self):
+		pass
+
+	def _lookup_item(self, id_):
+		itm = puid.resolve_unique_id(id_, excluding=self)
+		if itm is None:
+			return None
+		return itm
+
+	def _valid_item(self,  itm):
+		if hasattr(itm, "is_valid") and not itm.is_valid():
+			return False
+		return True
+
+	def _find_item(self, id_):
+		itm = self._lookup_item(id_)
+		if itm is None or not self._valid_item(itm):
+			return None
+		if puid.is_reference(id_):
+			self.reference_table[id_] = itm
+		else:
+			self.persist_table[id_] = itm
+		return itm
+
+	def initialize(self):
+		FavoritesSource.instance = self
+		self.favorites = []
+		self.persist_table = {}
+		self.reference_table = weakref.WeakValueDictionary()
 		self.mark_for_update()
 
-	def has_item(self, itm):
+	def _update_items(self):
+		self.favorites = []
+		self.mark_for_update()
+		for id_ in self.references:
+			if id_ in self.persist_table:
+				self.favorites.append(self.persist_table[id_])
+				continue
+			if id_ in self.reference_table:
+				self.favorites.append(self.reference_table[id_])
+				continue
+			itm = self._find_item(id_)
+			self.output_debug("RELOOKUP:", id_)
+			if itm is None:
+				self.output_debug("MISSING:", id_)
+			else:
+				self.favorites.append(itm)
+
+	@classmethod
+	def add(cls, itm):
+		cls.instance._add(itm)
+
+	def _add(self, itm):
+		self.favorites.append(itm)
+		self.references.append(puid.get_unique_id(itm))
+		self.mark_for_update()
+
+	@classmethod
+	def has_item(cls, itm):
+		return cls.instance._has_item(itm)
+
+	def _has_item(self, itm):
 		return itm in set(self.favorites)
 
-	def remove(self, itm):
+	@classmethod
+	def remove(cls, itm):
+		cls.instance._remove(itm)
+
+	def _remove(self, itm):
 		self.favorites.remove(itm)
+		id_ = puid.get_unique_id(itm)
+		if id_ in self.references:
+			self.references.remove(id_)
+		else:
+			for key, val in self.persist_table.iteritems():
+				if val == itm:
+					self.references.remove(key)
+					self.persist_table.pop(key)
+					break
 		self.mark_for_update()
 
 	def get_items(self):
-		for t in reversed(self.favorites):
-			yield t
+		self._update_items()
+		return reversed(self.favorites)
 
 	def get_description(self):
 		return _('Shelf of "Favorite" items')
@@ -57,46 +126,31 @@ class FavoritesSource (Source, PicklingHelperMixin):
 	def provides(self):
 		return list(_FavoritesLeafTypes())
 
-_favorites_source = []
-
-def RegisterFavoritesSource(fav):
-	_favorites_source.append(weakref.ref(fav))
-
-def GetFavoritesSource():
-	for favref in list(_favorites_source):
-		if favref() is None:
-			_favorites_source.remove(favref)
-	if len(_favorites_source) > 1:
-		pretty.print_error("have > 1 favorites source")
-
-	try:
-		return _favorites_source[0]()
-	except IndexError:
-		raise LookupError("Favorites Source not found")
-
 class AddFavorite (Action):
+	rank_adjust = -5
 	def __init__(self):
 		Action.__init__(self, _("Add to Favorites"))
 	def activate(self, leaf):
-		GetFavoritesSource().add(leaf)
+		FavoritesSource.add(leaf)
 	def item_types(self):
 		return list(_FavoritesLeafTypes())
 	def valid_for_item(self, item):
-		return not GetFavoritesSource().has_item(item)
+		return not FavoritesSource.has_item(item)
 	def get_description(self):
 		return _("Add item to favorites shelf")
 	def get_icon_name(self):
 		return "gtk-add"
 
 class RemoveFavorite (Action):
+	rank_adjust = -5
 	def __init__(self):
 		Action.__init__(self, _("Remove from Favorites"))
 	def activate(self, leaf):
-		GetFavoritesSource().remove(leaf)
+		FavoritesSource.remove(leaf)
 	def item_types(self):
 		return list(_FavoritesLeafTypes())
 	def valid_for_item(self, item):
-		return GetFavoritesSource().has_item(item)
+		return FavoritesSource.has_item(item)
 	def get_description(self):
 		return _("Remove item from favorites shelf")
 	def get_icon_name(self):
