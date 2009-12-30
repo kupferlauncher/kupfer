@@ -4,6 +4,7 @@ import weakref
 from kupfer.objects import Leaf, Source, Action, PicklingHelperMixin
 from kupfer import utils, objects, pretty
 from kupfer import puid
+from kupfer import learn
 
 __kupfer_name__ = _("Favorites")
 __kupfer_sources__ = ("FavoritesSource", )
@@ -85,6 +86,7 @@ class FavoritesSource (Source, PicklingHelperMixin):
 		cls.instance._add(itm)
 
 	def _add(self, itm):
+		learn.add_favorite(itm)
 		self.favorites.append(itm)
 		self.references.append(puid.get_unique_id(itm))
 		self.mark_for_update()
@@ -101,6 +103,7 @@ class FavoritesSource (Source, PicklingHelperMixin):
 		cls.instance._remove(itm)
 
 	def _remove(self, itm):
+		learn.remove_favorite(itm)
 		self.favorites.remove(itm)
 		id_ = puid.get_unique_id(itm)
 		if id_ in self.references:
@@ -115,6 +118,8 @@ class FavoritesSource (Source, PicklingHelperMixin):
 
 	def get_items(self):
 		self._update_items()
+		for fav in self.favorites:
+			learn.add_favorite(fav)
 		return reversed(self.favorites)
 
 	def get_description(self):

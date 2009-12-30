@@ -63,6 +63,7 @@ class Learning (object):
 		return True
 
 _register = {}
+_favorites = set()
 
 def record_search_hit(obj, key=u""):
 	"""
@@ -80,19 +81,20 @@ def get_record_score(obj, key=u""):
 	bonus score is given for @key matches
 	"""
 	name = repr(obj)
+	fav = 20 * (name in _favorites)
 	if name not in _register:
-		return 0
+		return fav
 	mns = _register[name]
 	if not key:
 		cnt = mns.get_count()
-		return 50 * (1 - 1.0/(cnt + 1))
+		return fav + 50 * (1 - 1.0/(cnt + 1))
 
 	stats = mns.get_mnemonics()
 	closescr = sum(stats[m] for m in stats if m.startswith(key))
 	mnscore = 30 * (1 - 1.0/(closescr + 1))
 	exact = stats.get(key, 0)
 	mnscore += 50 * (1 - 1.0/(exact + 1))
-	return mnscore
+	return fav + mnscore
 
 def _prune_register():
 	"""
@@ -152,3 +154,12 @@ def finish():
 		_prune_register()
 	filepath = config.save_config_file(mnemonics_filename)
 	Learning._pickle_register(_register, filepath)
+
+def add_favorite(obj):
+	_favorites.add(repr(obj))
+
+def remove_favorite(obj):
+	_favorites.discard(repr(obj))
+
+def is_favorite(obj):
+	return repr(obj) in _favorites

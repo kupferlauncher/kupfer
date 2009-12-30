@@ -16,6 +16,7 @@ from kupfer import data, icons, scheduler, relevance
 from kupfer import interface
 from kupfer import keybindings
 from kupfer import pretty
+from kupfer import learn
 
 
 _escape_table = {
@@ -192,6 +193,8 @@ class LeafModel (object):
 		info = u""
 		if hasattr(leaf, "has_content") and leaf.has_content():
 			info = content_mark
+		if learn.is_favorite(leaf):
+			info += u"\N{BLACK STAR}"
 		return info
 	def get_rank_str(self, rank):
 		# Display rank empty instead of 0 since it looks better
