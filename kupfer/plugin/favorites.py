@@ -9,7 +9,7 @@ from kupfer import learn
 __kupfer_name__ = _("Favorites")
 __kupfer_sources__ = ("FavoritesSource", )
 __kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
-__description__ = _("(Simple) favorites plugin")
+__description__ = _("Mark commonly used items and store objects for later use")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
