@@ -1193,7 +1193,7 @@ class ComposedLeaf (RunnableLeaf):
 		self.object[:] = [puid.resolve_unique_id(I) for I in state["object"]]
 		if (not self.object[0] or not self.object[1] or
 				(I is None) != (self.object[2] is None)):
-			raise InvalidDataError
+			raise InvalidDataError("Parts of %s not restored" % unicode(self))
 
 	def get_actions(self):
 		action = self.object[1]
