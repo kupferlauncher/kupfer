@@ -95,7 +95,7 @@ class KupferSource (AppLeafContentMixin, Source):
 			yield DebugRestart()
 
 	def get_description(self):
-		return _("Kupfer items and actions")
+		return None
 	def get_icon_name(self):
 		return "search"
 	def provides(self):

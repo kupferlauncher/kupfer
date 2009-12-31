@@ -180,7 +180,7 @@ class ActionLeaf (Leaf):
 class Apply (Action):
 	rank_adjust = 5
 	def __init__(self, action):
-		Action.__init__(self, _("Apply To..."))
+		Action.__init__(self, u"Apply To...")
 		self.action = action
 
 	def is_factory(self):
