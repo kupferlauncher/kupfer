@@ -80,7 +80,8 @@ class CreateNewDocument (Action):
 	def get_icon_name(self):
 		return "document-new"
 
-CreateDocumentIn = helplib.reverse_action(CreateNewDocument, rank=10)
+class CreateDocumentIn(helplib.reverse_action(CreateNewDocument)):
+	rank_adjust = 10
 
 class TemplatesSource (Source, FilesystemWatchMixin):
 	def __init__(self):
