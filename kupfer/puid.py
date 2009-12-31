@@ -31,7 +31,11 @@ def get_unique_id(obj):
 	if hasattr(obj, "qf_id"):
 		return str(qfurl.qfurl(obj))
 	if hasattr(obj, SERIALIZABLE_ATTRIBUTE):
-		return SerializedObject(obj)
+		try:
+			return SerializedObject(obj)
+		except pickle.PicklingError, exc:
+			pretty.print_error(__name__, type(exc).__name__, exc)
+			return None
 	return repr(obj)
 
 def is_reference(puid):
