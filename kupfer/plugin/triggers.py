@@ -17,6 +17,10 @@ __description__ = _("Assign global keybindings (triggers) to objects created "
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+# we import the keybinder module for its side-effects --
+# this plugin needs this module, lest it shall not function.
+import keybinder
+
 _PRIVATE_KEYBINDING_MASK = 0xFF00
 
 class Trigger (RunnableLeaf):
