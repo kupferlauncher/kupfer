@@ -57,6 +57,7 @@ kupfer/plugin/templates.py
 kupfer/plugin/top.py
 kupfer/plugin/tracker.py
 kupfer/plugin/trash.py
+kupfer/plugin/triggers.py
 kupfer/plugin/truecrypt.py
 kupfer/plugin/tsclient.py
 kupfer/plugin/urlactions.py
