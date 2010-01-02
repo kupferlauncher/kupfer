@@ -1063,7 +1063,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.source_pane.push_source(ret)
 		if result_type == commandexec.RESULT_OBJECT:
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
-		self.emit("launched-action")
+		has_result = result_type in (commandexec.RESULT_SOURCE,
+				commandexec.RESULT_OBJECT)
+		self.emit("launched-action", has_result)
 
 	def find_object(self, url):
 		"""Find object with URI @url and select it in the first pane"""
@@ -1103,8 +1105,9 @@ gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
-# mode, item, action
+# when an action was launched
+# arguments: has_result (boolean)
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_BOOLEAN, ))
 
 

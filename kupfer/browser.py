@@ -1378,11 +1378,14 @@ class WindowController (pretty.OutputMixin):
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
 	
-	def launch_callback(self, sender):
+	def launch_callback(self, sender, has_result):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
-		gobject.idle_add(self.put_away)
+		if has_result:
+			self.activate()
+		else:
+			gobject.idle_add(self.put_away)
 
 	def activate(self, sender=None, time=0):
 		evttime = time if time else gtk.get_current_event_time()
