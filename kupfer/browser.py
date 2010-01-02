@@ -1388,10 +1388,12 @@ class WindowController (pretty.OutputMixin):
 			gobject.idle_add(self.put_away)
 
 	def activate(self, sender=None, time=0):
-		evttime = time if time else gtk.get_current_event_time()
+		if not time:
+			time = (gtk.get_current_event_time() or
+			        keybindings.get_current_event_time())
 		self.window.stick()
 		self.window.present_with_time(time)
-		self.window.window.focus(timestamp=evttime)
+		self.window.window.focus(timestamp=time)
 		self.interface.focus()
 	
 	def put_away(self):
