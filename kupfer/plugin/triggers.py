@@ -3,7 +3,7 @@ import gtk
 
 from kupfer import keybindings
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Leaf, Action, Source, TextSource
 from kupfer.objects import ComposedLeaf, TextLeaf, RunnableLeaf
 from kupfer import puid
 
@@ -93,6 +93,33 @@ class Triggers (Source):
 	def get_icon_name(self):
 		return "key_bindings"
 
+def _accelerator_label(keystr):
+	return gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+
+def _valid_accelerator(keystr):
+	val, mod = gtk.accelerator_parse(keystr)
+	return val or mod
+
+class AcceleratorSuggestionsSource (TextSource):
+	def __init__(self):
+		TextSource.__init__(self, _("Triggers"))
+
+	def get_text_items(self, text):
+		if not text or not _valid_accelerator(text):
+			return
+		pfix = ["<Ctrl><Alt>", "<Ctrl><Shift>", "<Ctrl><Alt><Shift>", "<Super>"]
+		texts = [text] + [p + text for p in pfix]
+		for accel in texts:
+			if not _valid_accelerator(accel):
+				continue
+			yield TextLeaf(accel, _accelerator_label(accel))
+
+	def get_items(self, text):
+		return self.get_text_items(text)
+
+	def provides(self):
+		yield TextLeaf
+
 class AddTrigger (Action):
 	def __init__(self):
 		Action.__init__(self, _("Add Trigger..."))
@@ -107,9 +134,11 @@ class AddTrigger (Action):
 		return True
 	def object_types(self):
 		yield TextLeaf
+	def object_source(self, for_item=None):
+		return AcceleratorSuggestionsSource()
+
 	def valid_object(self, iobj, for_item=None):
-		val, mod = gtk.accelerator_parse(iobj.object)
-		return val or mod
+		return len(iobj.object) > 1 and _valid_accelerator(iobj.object)
 
 	def get_icon_name(self):
 		return "list-add"
@@ -123,3 +152,4 @@ class RemoveTrigger (Action):
 
 	def get_icon_name(self):
 		return "list-remove"
+
