@@ -1,3 +1,7 @@
+from __future__ import with_statement
+
+import contextlib
+
 import gzip
 import hashlib
 import itertools
@@ -1130,15 +1134,32 @@ class ActionExecutionContext (gobject.GObject):
 	def __init__(self):
 		gobject.GObject.__init__(self)
 		self.task_runner = task.TaskRunner(end_on_finish=False)
+		self._nest_level = 0
+		self._delegate = False
 
 	def check_valid(self, obj, action, iobj):
 		pass
 
-	def run(self, obj, action, iobj):
+	@contextlib.contextmanager
+	def _nesting(self):
+		try:
+			self._nest_level += 1
+			self._delegate = False
+			yield
+		finally:
+			self._nest_level -= 1
+
+	def _is_nested(self):
+		return self._nest_level
+
+	def run(self, obj, action, iobj, delegate=False):
 		"""
 		Activate the command (obj, action, iobj), where @iobj may be None
 
 		Return a tuple (DESCRIPTION; RESULT)
+
+		If a command carries out another command as part of its execution,
+		and wishes to delegate to it, pass True for @delegate.
 		"""
 		if action.requires_object():
 			mode = SourceActionObjectMode
@@ -1149,10 +1170,17 @@ class ActionExecutionContext (gobject.GObject):
 		if iobj is None and mode == SourceActionObjectMode:
 			raise ActionExecutionError("%s requires indirect object" % action)
 
-		if mode is SourceActionMode:
-			ret = action.activate(obj)
-		elif mode is SourceActionObjectMode:
-			ret = action.activate(obj, iobj)
+		with self._nesting():
+			if mode is SourceActionMode:
+				ret = action.activate(obj)
+			elif mode is SourceActionObjectMode:
+				ret = action.activate(obj, iobj)
+
+		# Delegated command execution was previously requested: we take
+		# the result of the nested execution context
+		if self._delegate:
+			res, ret = ret
+			return self._return_result(res, ret)
 
 		def valid_result(ret):
 			return ret and (not hasattr(ret, "is_valid") or ret.is_valid())
@@ -1166,8 +1194,19 @@ class ActionExecutionContext (gobject.GObject):
 		elif action.is_async():
 			self.task_runner.add_task(ret)
 			res = RESULT_ASYNC
-		self.emit("command-result", res, ret)
-		return (res, ret)
+
+		# Delegated command execution was requested: we pass
+		# through the result of the action to the parent execution context
+		if delegate and self._is_nested():
+			self._delegate = True
+			return (res, ret)
+
+		return self._return_result(res, ret)
+
+	def _return_result(self, res, ret):
+		if not self._is_nested():
+			self.emit("command-result", res, ret)
+		return res, ret
 
 # Action result type, action result
 gobject.signal_new("command-result", ActionExecutionContext,
