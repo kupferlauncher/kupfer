@@ -1177,6 +1177,7 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 		if wid is self.current:
 			self.toggle_text_mode(False)
+			self._reset_to_toplevel = False
 			if not at_root:
 				self.reset_current(populate=True)
 				wid.show_table()
