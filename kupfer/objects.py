@@ -1127,22 +1127,6 @@ class TextSource (KupferObject):
 		"""A seq of the types of items it provides"""
 		yield Leaf
 
-class ProxyDo (Do):
-	"""A proxy version of Do
-
-	Proxy factory/result/async from a delegate action
-	"""
-	def __init__(self, action):
-		Do.__init__(self, _("Do"))
-		self.action = action
-
-	def is_factory(self):
-		return self.action.is_factory()
-	def has_result(self):
-		return self.action.has_result()
-	def is_async(self):
-		return self.action.is_async()
-
 class TimedDo (Do):
 	"""A timed proxy version of Do
 
@@ -1196,15 +1180,14 @@ class ComposedLeaf (RunnableLeaf):
 			raise InvalidDataError("Parts of %s not restored" % unicode(self))
 
 	def get_actions(self):
-		action = self.object[1]
-		yield ProxyDo(action)
-		if not action.is_factory():
-			yield TimedDo()
+		yield Do()
+		yield TimedDo()
 
 	def run(self):
+		from kupfer import commandexec
+		ctx = commandexec.DefaultActionExecutionContext()
 		obj, action, iobj = self.object
-		args = (obj, iobj) if iobj is not None else (obj, )
-		return action.activate(*args)
+		return ctx.run(obj, action, iobj, delegate=True)
 
 	def get_gicon(self):
 		obj, action, iobj = self.object
