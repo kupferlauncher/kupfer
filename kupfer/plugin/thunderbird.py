@@ -7,7 +7,7 @@ import re
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, AppLeafContentMixin
-from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.helplib import FilesystemWatchMixin
 from kupfer import utils, icons
 
 from kupfer.plugin import thunderbird_support as support
@@ -93,14 +93,13 @@ class NewMailAction(Action):
 		return False
 
 
-class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin, PicklingHelperMixin):
+class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 	appleaf_content_id = ('thunderbird', 'icedove')
 
 	def __init__(self, name=_("Thunderbird Address Book")):
 		Source.__init__(self, name)
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		abook_dir = support.get_addressbook_dir()
 		if not abook_dir or not os.path.isdir(abook_dir):
 			return
