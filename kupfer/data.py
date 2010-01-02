@@ -751,6 +751,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
 		self._search_ids = itertools.count(1)
+		self._execution_context = DefaultActionExecutionContext()
+		self._execution_context.connect("command-result",
+				self._command_execution_result)
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -1046,7 +1049,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.output_info("There is no third object!")
 			return
 		ctx = DefaultActionExecutionContext()
-		res, ret = ctx.run(leaf, action, sobject)
+		ctx.run(leaf, action, sobject)
 
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
@@ -1054,13 +1057,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if sobject and self.mode is SourceActionObjectMode:
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 
-		if res == RESULT_SOURCE:
+	def _command_execution_result(self, ctx, result_type, ret):
+		if result_type == RESULT_SOURCE:
 			self.source_pane.push_source(ret)
 			return
-		if res == RESULT_OBJECT:
+		if result_type == RESULT_OBJECT:
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
 			return
-		self.emit("launched-action", SourceActionMode, leaf, action)
+		self.emit("launched-action")
 
 	def find_object(self, url):
 		"""Find object with URI @url and select it in the first pane"""
@@ -1102,13 +1106,10 @@ gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 
 # mode, item, action
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+		gobject.TYPE_BOOLEAN, ())
 
 
-RESULT_NONE = object()
-RESULT_OBJECT = object()
-RESULT_SOURCE = object()
-RESULT_ASYNC = object()
+RESULT_NONE, RESULT_OBJECT, RESULT_SOURCE, RESULT_ASYNC = (1, 2, 3, 4)
 
 _action_exec_context = None
 def DefaultActionExecutionContext():
@@ -1120,8 +1121,14 @@ def DefaultActionExecutionContext():
 class ActionExecutionError (Exception):
 	pass
 
-class ActionExecutionContext (object):
+class ActionExecutionContext (gobject.GObject):
+	"""
+	command-result (result_type, result)
+		Emitted when a command is carried out, with its resulting value
+	"""
+	__gtype_name__ = "ActionExecutionContext"
 	def __init__(self):
+		gobject.GObject.__init__(self)
 		self.task_runner = task.TaskRunner(end_on_finish=False)
 
 	def check_valid(self, obj, action, iobj):
@@ -1151,13 +1158,20 @@ class ActionExecutionContext (object):
 			return ret and (not hasattr(ret, "is_valid") or ret.is_valid())
 
 		# handle actions returning "new contexts"
+		res = RESULT_NONE
 		if action.is_factory() and valid_result(ret):
-			return (RESULT_SOURCE, ret)
+			res = RESULT_SOURCE
 		if action.has_result() and valid_result(ret):
-			return (RESULT_OBJECT, ret)
+			res = RESULT_OBJECT
 		elif action.is_async():
 			self.task_runner.add_task(ret)
-			return (RESULT_ASYNC, ret)
-		return (RESULT_NONE, None)
+			res = RESULT_ASYNC
+		self.emit("command-result", res, ret)
+		return (res, ret)
+
+# Action result type, action result
+gobject.signal_new("command-result", ActionExecutionContext,
+		gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
 
 
