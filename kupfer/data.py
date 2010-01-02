@@ -751,7 +751,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
 		self._search_ids = itertools.count(1)
-		self._task_runner = task.TaskRunner(end_on_finish=False)
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -1046,10 +1045,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if not sobject and self.mode is SourceActionObjectMode:
 			self.output_info("There is no third object!")
 			return
-		if self.mode is SourceActionMode:
-			ret = action.activate(leaf)
-		elif self.mode is SourceActionObjectMode:
-			ret = action.activate(leaf, sobject)
+		ctx = DefaultActionExecutionContext()
+		res, ret = ctx.run(leaf, action, sobject)
 
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
@@ -1057,18 +1054,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if sobject and self.mode is SourceActionObjectMode:
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 
-		def valid_result(obj):
-			return obj and (not hasattr(obj, "is_valid") or obj.is_valid())
-
-		# handle actions returning "new contexts"
-		if action.is_factory() and valid_result(ret):
+		if res == RESULT_SOURCE:
 			self.source_pane.push_source(ret)
 			return
-		if action.has_result() and valid_result(ret):
+		if res == RESULT_OBJECT:
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
 			return
-		elif action.is_async():
-			self._task_runner.add_task(ret)
 		self.emit("launched-action", SourceActionMode, leaf, action)
 
 	def find_object(self, url):
@@ -1112,5 +1103,61 @@ gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 # mode, item, action
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+
+
+RESULT_NONE = object()
+RESULT_OBJECT = object()
+RESULT_SOURCE = object()
+RESULT_ASYNC = object()
+
+_action_exec_context = None
+def DefaultActionExecutionContext():
+	global _action_exec_context
+	if _action_exec_context is None:
+		_action_exec_context = ActionExecutionContext()
+	return _action_exec_context
+
+class ActionExecutionError (Exception):
+	pass
+
+class ActionExecutionContext (object):
+	def __init__(self):
+		self.task_runner = task.TaskRunner(end_on_finish=False)
+
+	def check_valid(self, obj, action, iobj):
+		pass
+
+	def run(self, obj, action, iobj):
+		"""
+		Activate the command (obj, action, iobj), where @iobj may be None
+
+		Return a tuple (DESCRIPTION; RESULT)
+		"""
+		if action.requires_object():
+			mode = SourceActionObjectMode
+		else:
+			mode = SourceActionMode
+		if not action or not obj:
+			raise ActionExecutionError("Primary Object and Action required")
+		if iobj is None and mode == SourceActionObjectMode:
+			raise ActionExecutionError("%s requires indirect object" % action)
+
+		if mode is SourceActionMode:
+			ret = action.activate(obj)
+		elif mode is SourceActionObjectMode:
+			ret = action.activate(obj, iobj)
+
+		def valid_result(ret):
+			return ret and (not hasattr(ret, "is_valid") or ret.is_valid())
+
+		# handle actions returning "new contexts"
+		if action.is_factory() and valid_result(ret):
+			return (RESULT_SOURCE, ret)
+		if action.has_result() and valid_result(ret):
+			return (RESULT_OBJECT, ret)
+		elif action.is_async():
+			self.task_runner.add_task(ret)
+			return (RESULT_ASYNC, ret)
+		return (RESULT_NONE, None)
 
 
