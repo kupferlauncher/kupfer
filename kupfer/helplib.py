@@ -198,7 +198,7 @@ def reverse_action(action, rank=0):
 			return action.object_types(self)
 		def valid_for_item(self, leaf):
 			try:
-				return leaf.valid_object(leaf)
+				return action.valid_object(self, leaf)
 			except AttributeError:
 				return True
 		def object_types(self):
