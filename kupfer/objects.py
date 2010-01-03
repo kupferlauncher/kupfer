@@ -752,6 +752,9 @@ class Source (KupferObject, pretty.OutputMixin):
 	def __hash__(self ):
 		return hash(repr(self))
 
+	def toplevel_source(self):
+		return self
+
 	def initialize(self):
 		"""
 		Called when a Source enters Kupfer's system for real
@@ -980,8 +983,9 @@ class MultiSource (Source):
 
 	def get_items(self):
 		iterators = []
-		for so in self.sources:
-			it = so.get_leaves()
+		ui = datatools.UniqueIterator(S.toplevel_source() for S in self.sources)
+		for S in ui:
+			it = S.get_leaves()
 			iterators.append(it)
 
 		return itertools.chain(*iterators)
