@@ -343,6 +343,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		all_items = list()
 		vbox = gtk.VBox()
 		vbox.set_property("spacing", 5)
+
 		def make_objects_frame(objs, title):
 			frame_label = gtk.Label()
 			frame_label.set_markup(u"<b>%s</b>" % title)
@@ -370,6 +371,25 @@ class PreferencesWindowController (pretty.OutputMixin):
 				label = gtk.Label()
 				label.set_markup(name_label)
 				hbox.pack_start(label, False)
+				objvbox.pack_start(hbox)
+				# Display information for application content-sources.
+				try:
+					leaf_repr = obj.get_leaf_repr()
+				except AttributeError:
+					continue
+				if leaf_repr is None:
+					continue
+				if hasattr(leaf_repr, "is_valid") and not leaf_repr.is_valid():
+					continue
+				hbox = gtk.HBox()
+				hbox.set_property("spacing", 3)
+				gicon = leaf_repr.get_icon()
+				im = gtk.Image()
+				im.set_property("gicon", gicon)
+				im.set_property("pixel-size", 16)
+				hbox.pack_start(gtk.Label(_("Content of")), False)
+				hbox.pack_start(im, False)
+				hbox.pack_start(gtk.Label(unicode(leaf_repr)), False)
 				objvbox.pack_start(hbox)
 			return objvbox
 
