@@ -283,9 +283,9 @@ class FileLeaf (Leaf, TextRepresentation):
 		return acts
 
 	def has_content(self):
-		return path.isdir(self.object)
+		return self.is_dir() or Leaf.has_content(self)
 	def content_source(self, alternate=False):
-		if self.has_content():
+		if self.is_dir():
 			return DirectorySource(self.object, show_hidden=alternate)
 		else:
 			return Leaf.content_source(self)
