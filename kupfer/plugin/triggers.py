@@ -29,7 +29,7 @@ class Trigger (RunnableLeaf):
 			yield act
 		yield RemoveTrigger()
 	def run(self):
-		Triggers.perform_trigger(self.object)
+		return Triggers.perform_trigger(self.object)
 
 class Triggers (Source):
 	instance = None
@@ -65,7 +65,7 @@ class Triggers (Source):
 		obj = puid.resolve_unique_id(id_)
 		if obj is None:
 			return
-		obj.run()
+		return obj.run()
 
 	@classmethod
 	def add_trigger(cls, leaf, keystr):
