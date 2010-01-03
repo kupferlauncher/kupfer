@@ -1,3 +1,6 @@
+import os
+from xml.etree.cElementTree import ElementTree
+
 import gobject
 
 from kupfer.objects import Action, Source, Leaf
@@ -10,6 +13,7 @@ from kupfer import plugin_support
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
+__kupfer_contents__ = ("TrackerQuerySource", )
 __kupfer_actions__ = (
 		"TrackerSearch",
 		"TrackerSearchHere",
@@ -17,7 +21,7 @@ __kupfer_actions__ = (
 		"TrackerRemoveTag",
 	)
 __description__ = _("Tracker desktop search integration")
-__version__ = ""
+__version__ = "2010-01-03"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 plugin_support.check_dbus_connection()
@@ -100,6 +104,27 @@ class TrackerQuerySource (Source):
 		return _('Results for "%s"') % self.query
 	def get_icon_name(self):
 		return "tracker"
+
+	@classmethod
+	def decorates_type(cls):
+		return FileLeaf
+	@classmethod
+	def decorate_item(cls, leaf):
+		# FIXME: Very simplified .savedSearch parsing, so far we only support
+		# the query, without additional filtering. The simplest form of
+		# .savedSearch file is saved by nautilus as following:
+		# <query version="1.0">
+		#   <text>QUERY GOES HERE</text>
+		# </query>
+
+		if not leaf.object.endswith(".savedSearch"):
+			return None
+		try:
+			et = ElementTree(file=leaf.object)
+			query = et.getroot().find("text").text
+			return cls(query)
+		except Exception:
+			return None
 
 # FIXME: Use dbus for this communication
 def get_tracker_tags(for_file=None):
