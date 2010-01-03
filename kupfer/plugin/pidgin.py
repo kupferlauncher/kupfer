@@ -8,9 +8,15 @@ from kupfer import pretty, scheduler
 from kupfer import icons
 from kupfer import plugin_support
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
+from kupfer.obj.grouping import (EMAIL_KEY, NAME_KEY, ContactLeaf,
+		ToplevelGroupingSource)
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
+__kupfer_actions__ = (
+	"OpenChat",
+	"SendMessage",
+)
 __description__ = _("Access to Pidgin Contacts")
 __version__ = "0.1"
 __author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
@@ -18,10 +24,14 @@ __author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
 
 plugin_support.check_dbus_connection()
 
+# Contact data contstants
+PIDGIN_ACCOUNT = "_PIDGIN_ACCOUNT"
+PIDGIN_JID = "_PIDGIN_JID"
+
+# D-Bus "addresses"
 SERVICE_NAME = "im.pidgin.purple.PurpleService"
 OBJECT_NAME = "/im/pidgin/purple/PurpleObject"
 IFACE_NAME = "im.pidgin.purple.PurpleInterface"
-
 
 def _create_dbus_connection(activate=False):
 	''' Create dbus connection to Pidgin
@@ -52,14 +62,23 @@ def _send_message_to_contact(pcontact, message, present=False):
 	interface = _create_dbus_connection()
 	if not interface:
 		return
-	account, jid = pcontact.account, pcontact.jid
+	account = pcontact[PIDGIN_ACCOUNT][0]
+	jid = pcontact[PIDGIN_JID][0]
 	conversation = interface.PurpleConversationNew(1, account, jid)
 	im = interface.PurpleConvIm(conversation)
 	interface.PurpleConvImSend(im, message)
 	if present:
 		interface.PurpleConversationPresent(conversation)
 
-class OpenChat(Action):
+class ContactAction (Action):
+	def get_required_slots(self):
+		return ()
+	def item_types(self):
+		yield ContactLeaf
+	def valid_for_item(self, leaf):
+		return all(slot in leaf for slot in self.get_required_slots())
+
+class OpenChat(ContactAction):
 	""" Open Chat Conversation Window with jid """
 
 	def __init__(self):
@@ -67,6 +86,9 @@ class OpenChat(Action):
 
 	def activate(self, leaf):
 		_send_message_to_contact(leaf, u"", present=True)
+
+	def get_required_slots(self):
+		return [PIDGIN_ACCOUNT, PIDGIN_JID]
 
 class ChatTextSource (TextSource):
 	def get_rank(self):
@@ -80,7 +102,7 @@ class ChatTextSource (TextSource):
 	def get_items(self, text):
 		return self.get_text_items(text)
 
-class SendMessage (Action):
+class SendMessage (ContactAction):
 	""" Send chat message directly from Kupfer """
 	def __init__(self):
 		Action.__init__(self, _("Send Message..."))
@@ -88,8 +110,9 @@ class SendMessage (Action):
 	def activate(self, leaf, iobj):
 		_send_message_to_contact(leaf, iobj.object)
 
-	def item_types(self):
-		yield PidginContact
+	def get_required_slots(self):
+		return [PIDGIN_ACCOUNT, PIDGIN_JID]
+
 	def requires_object(self):
 		return True
 	def object_types(self):
@@ -97,16 +120,19 @@ class SendMessage (Action):
 	def object_source(self, for_item=None):
 		return ChatTextSource()
 
-class PidginContact(Leaf):
+class PidginContact(ContactLeaf):
 	""" Leaf represent single contact from Pidgin """
-
 	def __init__(self, jid, name, account, icon, protocol, available,
 		status_message):
-		# @obj should be unique for each contact
-		# we use @jid as an alias for this contact
-		obj = (account, jid)
-		Leaf.__init__(self, obj, name or jid)
+		slots = {
+			EMAIL_KEY: jid,
+			NAME_KEY: name or jid,
+			PIDGIN_ACCOUNT: account,
+			PIDGIN_JID: jid,
+		}
+		ContactLeaf.__init__(self, slots, name or jid)
 
+		# we use @jid as an alias for this contact
 		if unicode(self) != jid:
 			self.name_aliases.add(jid)
 
@@ -124,9 +150,8 @@ class PidginContact(Leaf):
 		self.jid = jid
 		self.icon = icon
 
-	def get_actions(self):
-		yield OpenChat()
-		yield SendMessage()
+	def repr_key(self):
+		return "%s, %s" % (self.object[PIDGIN_ACCOUNT], self.object[PIDGIN_JID])
 
 	def get_description(self):
 		return self._description
@@ -140,13 +165,13 @@ class PidginContact(Leaf):
 		return "stock_person"
 
 
-class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelperMixin):
 	''' Get contacts from all on-line accounts in Pidgin via DBus '''
 	appleaf_content_id = 'pidgin'
 
 	def __init__(self):
-		Source.__init__(self, _('Pidgin Contacts'))
-		self._version = 2
+		ToplevelGroupingSource.__init__(self, _('Pidgin Contacts'), "Contacts")
+		self._version = 5
 		self.unpickle_finish()
 
 	def unpickle_finish(self):
@@ -154,6 +179,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self.pickle_prepare()
 
 	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		self._install_dbus_signal()
 		self._buddy_update_timer = scheduler.Timer()
 		self._buddy_update_queue = set()
