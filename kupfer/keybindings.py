@@ -5,6 +5,9 @@ from kupfer import pretty
 KEYBINDING_DEFAULT = 1
 KEYBINDING_MAGIC = 2
 
+KEYRANGE_RESERVED = (3, 0x1000)
+KEYRANGE_TRIGGERS = (0x1000, 0x2000)
+
 _keybound_object = None
 def GetKeyboundObject():
 	"""Get the shared instance"""

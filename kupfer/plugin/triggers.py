@@ -21,8 +21,6 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 # this plugin needs this module, lest it shall not function.
 import keybinder
 
-_PRIVATE_KEYBINDING_MASK = 0xFF00
-
 class Trigger (RunnableLeaf):
 	def get_actions(self):
 		for act in RunnableLeaf.get_actions(self):
@@ -76,8 +74,7 @@ class Triggers (Source):
 		Triggers.instance._remove_trigger(target)
 	
 	def _add_trigger(self, leaf, keystr):
-		X = _PRIVATE_KEYBINDING_MASK
-		for target in xrange(X, X + 1000):
+		for target in xrange(*keybindings.KEYRANGE_TRIGGERS):
 			if target not in self.trigger_table:
 				break
 		keybindings.bind_key(keystr, target)
