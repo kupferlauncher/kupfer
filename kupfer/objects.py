@@ -1196,3 +1196,30 @@ class ComposedLeaf (RunnableLeaf):
 		else:
 			return icons.ComposedIcon(obj.get_icon(), iobj.get_icon())
 
+class _MultipleLeafContentSource (Source):
+	def __init__(self, leaf):
+		Source.__init__(self, unicode(leaf))
+		self.leaf = leaf
+	def get_items(self):
+		return self.leaf.object
+
+class MultipleLeaf (Leaf):
+	"""
+	A Leaf representing a collection of leaves.
+
+	The represented object is a frozenset of the contained Leaves
+	"""
+	def __init__(self, obj, name):
+		Leaf.__init__(self, frozenset(obj), name)
+
+	def has_content(self):
+		return True
+
+	def content_source(self, alternate=False):
+		return _MultipleLeafContentSource(self)
+
+	def get_description(self):
+		n = len(self.object)
+		return ngettext("%s object", "%s objects", n) % (n, )
+	def get_gicon(self):
+		pass

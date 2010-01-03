@@ -3,9 +3,9 @@ import os
 import dbus
 import gobject
 
-from kupfer.objects import Source, Leaf, FileLeaf, SourceLeaf, PicklingHelperMixin
-from kupfer import objects
-from kupfer.helplib import DbusWeakCallback
+from kupfer.objects import Source, Leaf
+from kupfer.objects import FileLeaf, SourceLeaf, MultipleLeaf
+from kupfer.helplib import DbusWeakCallback, PicklingHelperMixin
 from kupfer import plugin_support
 
 __kupfer_name__ = _("Selected File")
@@ -23,9 +23,17 @@ class SelectedFile (FileLeaf):
 		basename = gobject.filename_display_basename(filepath)
 		FileLeaf.__init__(self, filepath, _('Selected File "%s"') % basename)
 
-	def repr_key(self):
-		# return a constant rank key despite the changing name
-		return "Selected File"
+	def __repr__(self):
+		return "<%s %s>" % (__name__, self.qf_id)
+
+class SelectedFiles (MultipleLeaf):
+	qf_id = "selectedfile"
+	def __init__(self, paths):
+		files = [FileLeaf(path) for path in paths]
+		MultipleLeaf.__init__(self, files, "Selected Files")
+
+	def __repr__(self):
+		return "<%s %s>" % (__name__, self.qf_id)
 
 class InvisibleSourceLeaf (SourceLeaf):
 	"""Hack to hide this source"""
@@ -56,10 +64,13 @@ class SelectionSource (Source, PicklingHelperMixin):
 	def get_items(self):
 		if len(self._selection) == 1:
 			yield SelectedFile(self._selection[0])
+		elif len(self._selection) > 1:
+			yield SelectedFiles(self._selection)
 
 	def get_description(self):
 		return None
 	def provides(self):
 		yield FileLeaf
+		yield MultipleLeaf
 	def get_leaf_repr(self):
 		return InvisibleSourceLeaf(self)
