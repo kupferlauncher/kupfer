@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 from __future__ import with_statement
 
@@ -25,7 +25,6 @@ THUNDERBIRD_HOME = map(os.path.expanduser,
 THUNDERBIRD_PROFILES = [ 
 		(thome, os.path.join(thome, 'profiles.ini'))
 		for thome in THUNDERBIRD_HOME ]
-ABOOK_FILE = 'abook.mab'
 
 
 RE_COLS = re.compile(r'<\s*<\(a=c\)>\s*(\/\/)?\s*(\(.+?\))\s*>')
@@ -234,11 +233,10 @@ def _mork2contacts(tables):
 
 def get_addressbook_dir():
 	''' Get path to addressbook file from default profile. '''
-	thunderbird_home, thunderbird_profile = None, None
+	thunderbird_home = None
 	for thome, tprofile in THUNDERBIRD_PROFILES:
 		if os.path.isfile(tprofile):
 			thunderbird_home = thome
-			thunderbird_profile = tprofile
 			break
 
 	if not thunderbird_home:
@@ -262,33 +260,31 @@ def get_addressbook_dir():
 	return path
 
 
-def get_addressbook_file():
-	''' Get full path to the Thunderbird address book file.
-		Return None if it don't exists '''
+def get_addressbook_files():
+	''' Get full path to all Thunderbird address book files. '''
 	path = get_addressbook_dir()
 	if not path:
-		return None
+		return
 
-	fullpath = os.path.join(path, ABOOK_FILE)
-	if os.path.isfile(fullpath):
-		return fullpath
-
-	return None
+	files = os.listdir(path)
+	for filename in files:
+		if filename.endswith('.mab'):
+			fullpath = os.path.join(path, filename)
+			if os.path.isfile(fullpath):
+				yield fullpath
 
 
 def get_contacts():
-	''' Get all contacts from Thunderbird address book as
-		[(contact name, contact email)] '''
-	abook = get_addressbook_file()
-	if abook:
+	''' Get all contacts from all Thunderbird address books as
+		((contact name, contact email)) '''
+	for abook in get_addressbook_files():
 		try:
 			tables = _read_mork(abook)
 		except IOError, err:
-			pretty.print_error(__name__, 'get_contacts error', err)
+			pretty.print_error(__name__, 'get_contacts error', abook, err)
 		else:
-			return list(_mork2contacts(tables))
-	
-	return []
+			for item in _mork2contacts(tables):
+				yield item
 
 
 if __name__ == '__main__':

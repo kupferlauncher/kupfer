@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 from __future__ import with_statement
 
@@ -106,7 +106,7 @@ class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 		self.monitor_token = self.monitor_directories(abook_dir)
 
 	def monitor_include_file(self, gfile):
-		return gfile and gfile.get_basename() == support.ABOOK_FILE
+		return gfile and gfile.get_basename().endswith('.mab')
 
 	def get_items(self):
 		for name, email in support.get_contacts():
