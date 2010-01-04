@@ -70,6 +70,29 @@ class SavedIterable (object):
 		# (callable, args, state, listitems)
 		return (list, (), None, iter(self))
 
+def UniqueIterator(seq, key=None):
+	"""
+	yield items of @seq with set semantics; no duplicates
+
+	>>> list(UniqueIterator([1, 2, 3, 3, 5, 1]))
+	[1, 2, 3, 5]
+	>>> list(UniqueIterator([1, -2, 3, -3, -5, 2], key=abs))
+	[1, -2, 3, -5]
+	"""
+	coll = set()
+	if key is None:
+		for obj in seq:
+			if obj not in coll:
+				yield obj
+				coll.add(obj)
+		return
+	else:
+		for obj in seq:
+			K = key(obj)
+			if K not in coll:
+				yield obj
+				coll.add(K)
+
 if __name__ == '__main__':
 	import doctest
 	doctest.testmod()
