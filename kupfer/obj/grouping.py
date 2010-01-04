@@ -7,6 +7,7 @@ import time
 import weakref
 
 from kupfer.objects import Leaf, Source
+from kupfer import utils
 
 __author__ = ("Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>" )
@@ -102,10 +103,15 @@ class GroupingSource (Source):
 						merge_groups((slot, value), (slot2, value2))
 		self.output_debug("MERGED ALL", time.time() - st)
 
+		if self.should_sort_lexically():
+			sort_func = utils.locale_sort
+		else:
+			sort_func = lambda x: x
+
 		keys = set(groups)
 		keys.difference_update(redundant_keys)
-		for key in keys:
-			yield self._make_group_leader(groups[key])
+		for leaf in sort_func(self._make_group_leader(groups[K]) for K in keys):
+			yield leaf
 		self.output_debug("END", time.time() - st)
 
 	@classmethod
