@@ -14,6 +14,7 @@ from . import objects
 from . import search, learn
 from . import config, pretty, scheduler, task
 from kupfer import commandexec
+from kupfer import datatools
 
 from kupfer import qfurl
 
@@ -108,13 +109,8 @@ class Searcher (object):
 					reverse=True)
 
 		def as_set_iter(seq):
-			"""yield items of @seq with set semantics; no duplicates"""
-			coll = set()
-			for obj in seq:
-				reprobj = obj.object
-				if reprobj not in coll:
-					yield obj
-					coll.add(reprobj)
+			key = operator.attrgetter("object")
+			return datatools.UniqueIterator(seq, key=key)
 
 		def valid_check(seq):
 			"""yield items of @seq that are valid"""
