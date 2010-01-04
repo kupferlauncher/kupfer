@@ -57,7 +57,6 @@ class GroupingSource (Source):
 	def __init__(self, name, sources):
 		Source.__init__(self, name)
 		self.sources = sources
-		print "making", self
 
 	def get_leaves(self, force_update=False):
 		st = time.time()
@@ -80,46 +79,49 @@ class GroupingSource (Source):
 					if slot not in slots:
 						continue
 					groups.setdefault((slot, slots[slot]), set()).add(leaf)
+		self.output_debug("LISTED ALL", time.time() -st)
+
+		# Keep track of keys that are only duplicate references
+		redundant_keys = set()
 
 		def merge_groups(key1, key2):
 			if groups[key1] is groups[key2]:
 				return
-			print "Merging", key1, "and", key2
 			groups[key1].update(groups[key2])
 			groups[key2] = groups[key1]
+			redundant_keys.add(key2)
 
-		# Find all values that have more than one value
-		# and we merge those groups
+		# Find all (slot, value) combinations that have more than one leaf
+		# and merge those groups
 		for (slot, value), leaves in groups.iteritems():
-			#leaves = slotdicts[slot][value]
 			if len(leaves) <= 1:
 				continue
 			for leaf in list(leaves):
 				for slot2 in self.grouping_keys:
 					for value2 in leaf[slot2]:
 						merge_groups((slot, value), (slot2, value2))
+		self.output_debug("MERGED ALL", time.time() - st)
 
-		idset = set()
-		for group in groups.itervalues():
-			if id(group) in idset:
-				continue
-			idset.add(id(group))
-			leaf = self._make_group_leader(group)
-			yield leaf
+		keys = set(groups)
+		keys.difference_update(redundant_keys)
+		for key in keys:
+			yield self._make_group_leader(groups[key])
 		self.output_debug("END", time.time() - st)
 
 	@classmethod
 	def _make_group_leader(cls, leaves):
+		if len(leaves) == 1:
+			(leaf, ) = leaves
+			return leaf
 		obj = copy.copy(iter(leaves).next())
 		obj.links = list(leaves)
 		obj.name_aliases = set(obj.name_aliases)
 		for other in leaves:
-			if other is not obj:
-				obj.name_aliases.add(unicode(other))
-				# adding the other's aliases can be misleading
-				# since the matched email address might not be
-				# what we are e-mailing
-				# obj.name_aliases.update(other.name_aliases)
+			obj.name_aliases.add(unicode(other))
+			# adding the other's aliases can be misleading
+			# since the matched email address might not be
+			# what we are e-mailing
+			# obj.name_aliases.update(other.name_aliases)
 		obj.name_aliases.discard(unicode(obj))
 		return obj
 
