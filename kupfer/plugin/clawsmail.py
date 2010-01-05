@@ -8,8 +8,8 @@ from kupfer.objects import (TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf,
 		AppLeafContentMixin )
 from kupfer import utils
 from kupfer.helplib import FilesystemWatchMixin
-from kupfer.obj.grouping import (EMAIL_KEY, NAME_KEY, ContactLeaf,
-		ToplevelGroupingSource)
+from kupfer.obj.grouping import EMAIL_KEY, ContactLeaf, ToplevelGroupingSource
+from kupfer.obj.contacts import EmailContact
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
@@ -30,21 +30,6 @@ def _check_email(email):
 	''' simple email check '''
 	return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
 
-
-class ClawsContact(ContactLeaf):
-	''' Leaf represent single contact from Claws address book '''
-	def __init__(self, obj, name):
-		slots = {EMAIL_KEY: obj, NAME_KEY: name}
-		super(ClawsContact, self).__init__(slots, name)
-
-	def repr_key(self):
-		return self.object[EMAIL_KEY]
-
-	def get_description(self):
-		return self.object[EMAIL_KEY]
-
-	def get_icon_name(self):
-		return "stock_person"
 
 
 class ComposeMail(RunnableLeaf):
@@ -86,7 +71,7 @@ def _email_from_leaf(leaf):
 		return EMAIL_KEY in leaf and list(leaf[EMAIL_KEY])[0]
 
 class NewMailAction(Action):
-	''' Createn new mail to selected leaf (ClawsContact or TextLeaf)'''
+	''' Create new mail to selected leaf'''
 	def __init__(self):
 		Action.__init__(self, _('Compose New Mail To'))
 
@@ -167,7 +152,7 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 						addresses = person.getElementsByTagName('address')
 						for address in addresses:
 							email = address.getAttribute('email')
-							yield ClawsContact(email, cn)
+							yield EmailContact(email, cn)
 
 				except StandardError, err:
 					self.output_error(err)
