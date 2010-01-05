@@ -9,6 +9,7 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin
 from kupfer import utils, icons
+from kupfer.obj.contacts import EmailContact, ContactLeaf, EMAIL_KEY
 
 from kupfer.plugin import thunderbird_support as support
 
@@ -30,15 +31,6 @@ _CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$")
 def _check_email(email):
 	''' simple email check '''
 	return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
-
-
-class Contact(Leaf):
-	''' Leaf represents a single contact from the address book '''
-	def get_description(self):
-		return self.object
-
-	def get_icon_name(self):
-		return "stock_person"
 
 
 class ComposeMail(RunnableLeaf):
@@ -63,9 +55,12 @@ class NewMailAction(Action):
 		Action.__init__(self, _('Compose New Mail To'))
 
 	def activate(self, leaf):
-		email = leaf.object
-		if isinstance(leaf, UrlLeaf):
+		if isinstance(leaf, ContactLeaf):
+			email = leaf.object[EMAIL_KEY]
+		elif isinstance(leaf, UrlLeaf):
 			email = _get_email_from_url(email)
+		else:
+			email = leaf.object
 
 		if not utils.launch_commandline("thunderbird mailto:%s" % email):
 			utils.launch_commandline("icedove mailto:%s" % email)
@@ -74,14 +69,14 @@ class NewMailAction(Action):
 		return "mail-message-new"
 
 	def item_types(self):
-		yield Contact
+		yield ContactLeaf
 		# we can enter email
 		yield TextLeaf
 		yield UrlLeaf
 
 	def valid_for_item(self, item):
-		if isinstance(item, Contact):
-			return True
+		if isinstance(item, ContactLeaf):
+			return EMAIL_KEY in item
 
 		elif isinstance(item, TextLeaf):
 			return _check_email(item.object)
@@ -110,7 +105,7 @@ class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 	def get_items(self):
 		for name, email in support.get_contacts():
-			yield Contact(email, name)
+			yield EmailContact(email, name)
 
 		yield ComposeMail()
 
@@ -121,7 +116,7 @@ class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 		return icons.get_gicon_with_fallbacks(None, ("thunderbird", "icedove"))
 
 	def provides(self):
-		yield Contact
+		yield ContactLeaf
 		yield RunnableLeaf
 
 
