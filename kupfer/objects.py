@@ -329,6 +329,9 @@ class SourceLeaf (Leaf):
 	def has_content(self):
 		return True
 
+	def repr_key(self):
+		return repr(self.object)
+
 	def content_source(self, alternate=False):
 		return self.object
 
@@ -541,18 +544,8 @@ class OpenWith (Action):
 		if package_name:
 			self.name_aliases.add(_("Open with %s") % package_name)
 
-	def __getstate__(self):
-		state = dict(vars(self))
-		state["desktop_item_id"] = self.desktop_item.get_id()
-		state["desktop_item"] = None
-		return state
-
-	def __setstate__(self, state):
-		vars(self).update(state)
-		self.desktop_item = gio.unix.DesktopAppInfo(self.desktop_item_id)
-
 	def repr_key(self):
-		return self
+		return "" if self.is_default else self.desktop_item.get_id()
 
 	def activate(self, leaf):
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
