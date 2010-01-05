@@ -69,6 +69,7 @@ class DebugInfo (Action):
 		import StringIO
 		from kupfer import qfurl
 		from kupfer import uiutils
+		from kupfer import puid
 
 		output = StringIO.StringIO()
 		def print_func(*args):
@@ -94,6 +95,7 @@ class DebugInfo (Action):
 				"module" : leaf.__module__,
 				"aliases" : getattr(leaf, "name_aliases", None),
 				"qfurl" : get_qfurl(leaf),
+				"puid" : puid.get_unique_id(leaf),
 				}
 		def get_leaf_fields(leaf):
 			base = get_object_fields(leaf)
