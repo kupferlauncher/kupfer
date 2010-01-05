@@ -68,6 +68,18 @@ class OpenChat(Action):
 	def activate(self, leaf):
 		_send_message_to_contact(leaf, u"", present=True)
 
+class ChatTextSource (TextSource):
+	def get_rank(self):
+		return 100
+	def get_text_items(self, text):
+		n = len(text)
+		summary = text[:10] + (text[10:11] and "..")
+		desc_template = ngettext("%s (%d character)", "%s (%d characters)", n)
+		yield TextLeaf(text, desc_template % (summary, n))
+
+	def get_items(self, text):
+		return self.get_text_items(text)
+
 class SendMessage (Action):
 	""" Send chat message directly from Kupfer """
 	def __init__(self):
@@ -83,7 +95,7 @@ class SendMessage (Action):
 	def object_types(self):
 		yield TextLeaf
 	def object_source(self, for_item=None):
-		return TextSource()
+		return ChatTextSource()
 
 class PidginContact(Leaf):
 	""" Leaf represent single contact from Pidgin """
