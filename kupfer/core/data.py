@@ -309,6 +309,24 @@ class SourceController (pretty.OutputMixin):
 		self.content_decorators = decos
 	def set_action_decorators(self, decos):
 		self.action_decorators = decos
+		for typ in self.action_decorators:
+			self._disambiguate_actions(self.action_decorators[typ])
+	def _disambiguate_actions(self, actions):
+		"""Rename actions by the same name (adding a suffix)"""
+		# FIXME: Disambiguate by plugin name, not python module name
+		names = {}
+		renames = []
+		for action in actions:
+			name = unicode(action)
+			if name in names:
+				renames.append(names[name])
+				renames.append(action)
+			else:
+				names[name] = action
+		for action in renames:
+			self.output_debug("Disambiguate Action %s" % (action, ))
+			action.name += " (%s)" % (type(action).__module__.split(".")[-1],)
+
 	def clear_sources(self):
 		pass
 	def __contains__(self, src):
