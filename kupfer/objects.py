@@ -417,10 +417,10 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 
 	def get_actions(self):
 		if launch.application_is_running(self.object):
-			yield ShowApplication()
-			yield LaunchAgain()
+			yield Launch(_("Go To"), is_running=True)
 		else:
 			yield Launch()
+		yield LaunchAgain()
 
 	def get_description(self):
 		# Use Application's description, else use executable
@@ -651,11 +651,11 @@ class Launch (Action):
 	Launches an application (AppLeaf)
 	"""
 	rank_adjust = 5
-	def __init__(self, name=None, in_terminal=False, open_new=False):
+	def __init__(self, name=None, is_running=False, open_new=False):
 		if not name:
 			name = _("Launch")
 		Action.__init__(self, name)
-		self.in_terminal = in_terminal
+		self.is_running = is_running
 		self.open_new = open_new
 	
 	def activate(self, leaf):
@@ -663,20 +663,14 @@ class Launch (Action):
 		launch.launch_application(leaf.object, activate=not self.open_new)
 
 	def get_description(self):
+		if self.is_running:
+			return _("Show application window")
 		return _("Launch application")
 
-class ShowApplication (Launch):
-	"""Show application if running, else launch"""
-	rank_adjust = 5
-	def __init__(self, name=None):
-		if not name:
-			name = _("Go To")
-		Launch.__init__(self, name, open_new=False)
-
-	def get_description(self):
-		return _("Show application window")
 	def get_icon_name(self):
-		return "gtk-jump-to-ltr"
+		if self.is_running:
+			return "gtk-jump-to-ltr"
+		return Action.get_icon_name(self)
 
 class LaunchAgain (Launch):
 	"""Launch instance without checking if running"""
@@ -685,7 +679,10 @@ class LaunchAgain (Launch):
 		if not name:
 			name = _("Launch Again")
 		Launch.__init__(self, name, open_new=True)
-
+	def item_types(self):
+		yield AppLeaf
+	def valid_for_item(self, leaf):
+		return launch.application_is_running(leaf.object)
 	def get_description(self):
 		return _("Launch another instance of this application")
 
