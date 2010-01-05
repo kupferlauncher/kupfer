@@ -101,3 +101,21 @@ def resolve_unique_id(puid, excluding=None):
 	pretty.print_debug(__name__, "Resolving %s to %s" % (puid, obj))
 	return obj
 
+def resolve_action_id(puid, for_item=None):
+	if puid is None:
+		return None
+	if isinstance(puid, SerializedObject):
+		return resolve_unique_id(puid)
+	get_action_id = repr
+	if for_item is not None:
+		for action in for_item.get_actions():
+			if get_unique_id(action) == puid:
+				pretty.print_debug(__name__, "Resolving (Builtin)", puid)
+				return action
+	sc = data.GetSourceController()
+	for item_type, actions in sc.action_decorators.iteritems():
+		for action in actions:
+			if get_action_id(action) == puid:
+				pretty.print_debug(__name__, "Resolving (Decorator)", puid)
+				return action
+	return None

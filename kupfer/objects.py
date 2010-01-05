@@ -451,7 +451,6 @@ class Action (KupferObject):
 		"""
 		return True
 	'''
-	serilizable = True
 
 	def repr_key(self):
 		"""by default, actions of one type are all the same"""
@@ -1174,10 +1173,13 @@ class ComposedLeaf (RunnableLeaf):
 	def __setstate__(self, state):
 		from kupfer import puid
 		vars(self).update(state)
-		self.object[:] = [puid.resolve_unique_id(I) for I in state["object"]]
-		if (not self.object[0] or not self.object[1] or
-				(I is None) != (self.object[2] is None)):
+		objid, actid, iobjid = state["object"]
+		obj = puid.resolve_unique_id(objid)
+		act = puid.resolve_action_id(actid, obj)
+		iobj = puid.resolve_unique_id(iobjid)
+		if (not obj or not act) or (iobj is None) != (iobjid is None):
 			raise InvalidDataError("Parts of %s not restored" % unicode(self))
+		self.object[:] = [obj, act, iobj]
 
 	def get_actions(self):
 		yield Do()
