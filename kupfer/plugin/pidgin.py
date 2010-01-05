@@ -208,9 +208,15 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 			return
 		interface = _create_dbus_connection()
 		if interface is None:
+			self.all_buddies = {}
 			return
 
-		accounts = interface.PurpleAccountsGetAllActive()
+		try:
+			# extra careful as this will fail when Pidgin is Quitting
+			accounts = interface.PurpleAccountsGetAllActive()
+		except dbus.DBusException:
+			self.all_buddies = {}
+			return
 		is_disconnected = interface.PurpleAccountIsDisconnected
 		conn_accounts = set(a for a in accounts if not is_disconnected(a))
 		for buddy, pcontact in self.all_buddies.items():
