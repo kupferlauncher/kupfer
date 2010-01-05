@@ -1306,6 +1306,7 @@ class WindowController (pretty.OutputMixin):
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
+		data_controller.connect("command-result", self.result_callback)
 
 		self.interface = Interface(data_controller, self.window)
 		self.interface.connect("cancelled", self._cancelled)
@@ -1378,14 +1379,14 @@ class WindowController (pretty.OutputMixin):
 		"""
 		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
 	
-	def launch_callback(self, sender, has_result):
+	def launch_callback(self, sender):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
-		if has_result:
-			self.activate()
-		else:
-			gobject.idle_add(self.put_away)
+		gobject.idle_add(self.put_away)
+
+	def result_callback(self, sender, result_type):
+		self.activate()
 
 	def activate(self, sender=None, time=0):
 		if not time:

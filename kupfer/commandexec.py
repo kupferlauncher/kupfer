@@ -7,6 +7,7 @@ import gobject
 from kupfer import task
 
 RESULT_NONE, RESULT_OBJECT, RESULT_SOURCE, RESULT_ASYNC = (1, 2, 3, 4)
+RESULTS_SYNC = (RESULT_OBJECT, RESULT_SOURCE)
 
 _action_exec_context = None
 def DefaultActionExecutionContext():

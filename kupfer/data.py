@@ -1046,22 +1046,24 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.output_info("There is no third object!")
 			return
 		ctx = self._execution_context
-		ctx.run(leaf, action, sobject)
+		res, ret = ctx.run(leaf, action, sobject)
 
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
 		learn.record_search_hit(action, self.action_pane.get_latest_key())
 		if sobject and self.mode is SourceActionObjectMode:
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
+		if res not in commandexec.RESULTS_SYNC:
+			self.emit("launched-action")
 
 	def _command_execution_result(self, ctx, result_type, ret):
 		if result_type == commandexec.RESULT_SOURCE:
 			self.source_pane.push_source(ret)
-		if result_type == commandexec.RESULT_OBJECT:
+		elif result_type == commandexec.RESULT_OBJECT:
 			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
-		has_result = result_type in (commandexec.RESULT_SOURCE,
-				commandexec.RESULT_OBJECT)
-		self.emit("launched-action", has_result)
+		else:
+			return
+		self.emit("command-result", result_type)
 
 	def find_object(self, url):
 		"""Find object with URI @url and select it in the first pane"""
@@ -1101,9 +1103,14 @@ gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
+# when an command returned a result
+# arguments: result type
+gobject.signal_new("command-result", DataController, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, ))
+
 # when an action was launched
-# arguments: has_result (boolean)
+# arguments: none
 gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_BOOLEAN, ))
+		gobject.TYPE_BOOLEAN, ())
 
 
