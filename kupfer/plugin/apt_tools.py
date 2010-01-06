@@ -88,6 +88,8 @@ class Package (Leaf):
 		Leaf.__init__(self, package, package)
 		self.desc = desc
 
+	def get_text_representation(self):
+		return self.object
 	def get_description(self):
 		return self.desc
 	def get_icon_name(self):
