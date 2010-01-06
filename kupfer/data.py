@@ -1056,11 +1056,17 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if res not in commandexec.RESULTS_SYNC:
 			self.emit("launched-action")
 
+	def _insert_object(self, pane, obj):
+		"Insert @obj in @pane: prepare the object, then emit pane-reset"
+		sc = GetSourceController()
+		sc.decorate_object(obj)
+		self.emit("pane-reset", pane, search.wrap_rankable(obj))
+
 	def _command_execution_result(self, ctx, result_type, ret):
 		if result_type == commandexec.RESULT_SOURCE:
 			self.source_pane.push_source(ret)
 		elif result_type == commandexec.RESULT_OBJECT:
-			self.emit("pane-reset", SourcePane, search.wrap_rankable(ret))
+			self._insert_object(SourcePane, ret)
 		else:
 			return
 		self.emit("command-result", result_type)
@@ -1071,7 +1077,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		qf = qfurl.qfurl(url=url)
 		found = qf.resolve_in_catalog(sc.sources)
 		if found and not found == self.source_pane.get_selection():
-			self.emit("pane-reset", SourcePane, search.wrap_rankable(found))
+			self._insert_object(SourcePane, found)
 
 	def compose_selection(self):
 		leaf = self.source_pane.get_selection()
@@ -1085,7 +1091,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		else:
 			iobj = None
 		obj = objects.ComposedLeaf(leaf, action, iobj)
-		self.emit("pane-reset", SourcePane, search.wrap_rankable(obj))
+		self._insert_object(SourcePane, obj)
 
 # pane cleared or set with new item
 # pane, item
