@@ -1236,7 +1236,15 @@ class Interface (gobject.GObject):
 		self._activate(None, None)
 	
 	def _search_result(self, sender, pane, matchrankable, matches, context):
+		# NOTE: "Always-matching" search.
+		# If we receive an empty match, we ignore it, to retain the previous
+		# results. The user is not served by being met by empty results.
 		key = context
+		if key and len(key) > 1 and matchrankable is None:
+			# with typos or so, reset quicker
+			self._latest_input_timer.set(self._slow_input_interval/2,
+					self._relax_search_terms)
+			return
 		wid = self._widget_for_pane(pane)
 		wid.update_match(key, matchrankable, matches)
 
