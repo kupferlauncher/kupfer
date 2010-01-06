@@ -5,12 +5,14 @@ from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
 from kupfer import pretty
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 from kupfer import plugin_support
+from kupfer.obj.grouping import JID_KEY, ContactLeaf, ToplevelGroupingSource
+from kupfer.obj.contacts import JabberContact
 
 __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = ("ChangeStatus", )
+__kupfer_actions__ = ("ChangeStatus", 'OpenChat')
 __description__ = _("Access to Gajim Contacts")
-__version__ = "0.1"
+__version__ = "2010-01-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -61,36 +63,6 @@ def _check_gajim_version(conn):
 	return tversion
 
 
-
-class GajimContact(Leaf):
-	""" Leaf represent single contact from Gajim """
-
-	def __init__(self, name, jid, account, status, resource):
-		# @obj should be unique for each contact
-		# we use @jid as an alias for this contact
-		obj = (account, jid)
-		Leaf.__init__(self, obj, name or jid)
-
-		if unicode(self) != jid:
-			self.name_aliases.add(jid)
-
-		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
-				{
-					"status": _STATUSES.get(status, status),
-					"userid": jid,
-					"service": resource[0][0] if resource else u"",
-				}
-
-	def get_actions(self):
-		yield OpenChat()
-
-	def get_description(self):
-		return self._description
-
-	def get_icon_name(self):
-		return "stock_person"
-
-
 class AccountStatus(Leaf):
 	pass
 
@@ -101,7 +73,8 @@ class OpenChat(Action):
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
-		account, jid = leaf.object
+		account = leaf.account
+		jid = JID_KEY in leaf and list(leaf[JID_KEY])[0]
 		if interface is not None:
 			vmaj,vmin,vbuild = _check_gajim_version(interface)
 			if vmaj == 0 and vmin < 13:
@@ -111,6 +84,12 @@ class OpenChat(Action):
 
 	def get_icon_name(self):
 		return 'gajim'
+
+	def item_types(self):
+		yield ContactLeaf
+
+	def valid_for_item(self, item):
+		return JID_KEY in item and bool(list(item[JID_KEY])[0])
 
 
 class ChangeStatus(Action):
@@ -141,12 +120,14 @@ class ChangeStatus(Action):
 		return StatusSource()
 
 
-class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
+		PicklingHelperMixin):
 	''' Get contacts from all on-line accounts in Gajim via DBus '''
 	appleaf_content_id = 'gajim'
 
-	def __init__(self):
-		Source.__init__(self, _('Gajim Contacts'))
+	def __init__(self, name=_('Gajim Contacts')):
+		super(ContactsSource, self).__init__(name, "Contacts")
+		self._version = 2
 		self.unpickle_finish()
 
 	def pickle_prepare(self):
@@ -157,6 +138,7 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self._contacts = []
 
 	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		# listen to d-bus signals for updates
 		signals = [
 			"ContactAbsence",
@@ -189,14 +171,17 @@ class ContactsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 				continue
 
 			for contact in interface.list_contacts(account):
-				yield GajimContact(contact['name'], contact['jid'], account, \
-						contact['show'], contact['resources'])
+				name = contact['name'] or contact['jid']
+				jc = JabberContact(contact['jid'], name, account, \
+						_STATUSES.get(contact['show'], contact['show']), \
+						contact['resources'])
+				yield jc
 
 	def get_icon_name(self):
 		return 'gajim'
 
 	def provides(self):
-		yield GajimContact
+		yield ContactLeaf
 
 
 class StatusSource(Source):
