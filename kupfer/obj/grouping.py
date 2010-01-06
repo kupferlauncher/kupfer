@@ -15,6 +15,7 @@ __author__ = ("Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
 
 EMAIL_KEY = "EMAIL"
 NAME_KEY = "NAME"
+JID_KEY = "JID"
 
 CONTACTS_CATEGORY = "Contacts"
 HOSTS_CATEGORY = "Hosts"
@@ -53,7 +54,7 @@ class GroupingLeaf (Leaf):
 		return [leaf.object[key] for leaf in self.links if key in leaf.object]
 
 class GroupingSource (Source):
-	grouping_keys = [EMAIL_KEY, NAME_KEY]
+	grouping_keys = [EMAIL_KEY, NAME_KEY, JID_KEY]
 
 	def __init__(self, name, sources):
 		Source.__init__(self, name)
@@ -75,8 +76,8 @@ class GroupingSource (Source):
 					# Let through Non-grouping leaves
 					yield leaf
 					continue
+				slots = leaf.slots()
 				for slot in self.grouping_keys:
-					slots = leaf.slots()
 					if slot not in slots:
 						continue
 					groups.setdefault((slot, slots[slot]), set()).add(leaf)
