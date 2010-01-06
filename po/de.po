@@ -9,9 +9,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
-"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-01-02 19:37+0000\n"
-"PO-Revision-Date: 2010-01-02 09:31+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-06 22:14+0100\n"
+"PO-Revision-Date: 2010-01-06 22:15+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +25,10 @@ msgstr "Anwendungsstarter"
 
 #: ../data/kupfer.desktop.in.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr ""
-"Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
+msgstr "Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1332
-#: ../kupfer/browser.py:1364 ../kupfer/plugin/core/contents.py:85
+#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/browser.py:1333
+#: ../kupfer/browser.py:1365 ../kupfer/plugin/core/contents.py:85
 #: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -292,6 +291,13 @@ msgstr "Verzögert ausführen …"
 #: ../kupfer/objects.py:1157
 msgid "Perform command after a specified time interval"
 msgstr "Einen Befehl nach einer angegebenen Zeit ausführen"
+
+#: ../kupfer/objects.py:1223
+#, python-format
+msgid "%s object"
+msgid_plural "%s objects"
+msgstr[0] "%s Objekt"
+msgstr[1] "%s Objekte"
 
 #: ../kupfer/plugin/abiword.py:11
 msgid "Abiword"
@@ -782,7 +788,7 @@ msgstr "Gajim"
 msgid "Access to Gajim Contacts"
 msgstr "Zugriff auf Gajim-Kontakte"
 
-#: ../kupfer/plugin/gajim.py:20 ../kupfer/plugin/pidgin.py:103
+#: ../kupfer/plugin/gajim.py:20 ../kupfer/plugin/pidgin.py:115
 msgid "Available"
 msgstr "Verfügbar"
 
@@ -790,7 +796,7 @@ msgstr "Verfügbar"
 msgid "Free for Chat"
 msgstr "Verfügbar für Unterhaltungen"
 
-#: ../kupfer/plugin/gajim.py:22 ../kupfer/plugin/pidgin.py:103
+#: ../kupfer/plugin/gajim.py:22 ../kupfer/plugin/pidgin.py:115
 msgid "Away"
 msgstr "Abwesend"
 
@@ -810,7 +816,7 @@ msgstr "Verborgen"
 msgid "Offline"
 msgstr "Abgemeldet"
 
-#: ../kupfer/plugin/gajim.py:77 ../kupfer/plugin/pidgin.py:101
+#: ../kupfer/plugin/gajim.py:77 ../kupfer/plugin/pidgin.py:113
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -967,14 +973,14 @@ msgstr "Das Dateisystem mit locate durchsuchen"
 msgid "Ignore case distinctions when searching files"
 msgstr "Groß-/Kleinschreibung während der Suche ignorieren"
 
-#: ../kupfer/plugin/locate.py:45 ../kupfer/plugin/tracker.py:62
-#: ../kupfer/plugin/tracker.py:100
+#: ../kupfer/plugin/locate.py:45 ../kupfer/plugin/tracker.py:66
+#: ../kupfer/plugin/tracker.py:104
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Ergebnisse für »%s«"
 
 #: ../kupfer/plugin/nautilusselection.py:11
-#: ../kupfer/plugin/nautilusselection.py:37
+#: ../kupfer/plugin/nautilusselection.py:45
 msgid "Selected File"
 msgstr "Ausgewählte Datei"
 
@@ -1065,11 +1071,18 @@ msgstr "Pidgin"
 msgid "Access to Pidgin Contacts"
 msgstr "Zugriff auf Pidgin-Kontakte"
 
-#: ../kupfer/plugin/pidgin.py:74
+#: ../kupfer/plugin/pidgin.py:77
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d Zeichen)"
+msgstr[1] "%s (%d Zeichen)"
+
+#: ../kupfer/plugin/pidgin.py:86
 msgid "Send Message..."
 msgstr "Nachricht senden …"
 
-#: ../kupfer/plugin/pidgin.py:136
+#: ../kupfer/plugin/pidgin.py:148
 msgid "Pidgin Contacts"
 msgstr "Pidgin-Kontakte"
 
@@ -1418,65 +1431,65 @@ msgstr "PID: %(pid)s  Proz.: %(cpu)g%%  Speich.: %(mem)g%%  Zeit: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Laufende Prozesse des derzeitigen Benutzers"
 
-#: ../kupfer/plugin/tracker.py:10
+#: ../kupfer/plugin/tracker.py:13
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker.py:19
+#: ../kupfer/plugin/tracker.py:23
 msgid "Tracker desktop search integration"
 msgstr "Einbindung der Tracker Desktop-Suche"
 
-#: ../kupfer/plugin/tracker.py:31
+#: ../kupfer/plugin/tracker.py:35
 msgid "Search in Tracker"
 msgstr "Mit Tracker suchen"
 
-#: ../kupfer/plugin/tracker.py:36
+#: ../kupfer/plugin/tracker.py:40
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Tracker Suchwerkzeug öffnen und nach diesem Begriff suchen"
 
-#: ../kupfer/plugin/tracker.py:45
+#: ../kupfer/plugin/tracker.py:49
 msgid "Get Tracker Results..."
 msgstr "Tracker-Ergebnisse einholen …"
 
-#: ../kupfer/plugin/tracker.py:54
+#: ../kupfer/plugin/tracker.py:58
 msgid "Show Tracker results for query"
 msgstr "Tracker Ergebnisse für den Suchbegriff anzeigen"
 
-#: ../kupfer/plugin/tracker.py:131 ../kupfer/plugin/tracker.py:137
+#: ../kupfer/plugin/tracker.py:156 ../kupfer/plugin/tracker.py:162
 msgid "Tracker tags"
 msgstr "Tracker-Schlagworte"
 
-#: ../kupfer/plugin/tracker.py:146
+#: ../kupfer/plugin/tracker.py:171
 msgid "Tracker Tags"
 msgstr "Tracker-Schlagworte"
 
-#: ../kupfer/plugin/tracker.py:152
+#: ../kupfer/plugin/tracker.py:177
 msgid "Browse Tracker's tags"
 msgstr "Tracker-Schlagworte anzeigen"
 
-#: ../kupfer/plugin/tracker.py:163 ../kupfer/plugin/tracker.py:170
+#: ../kupfer/plugin/tracker.py:188 ../kupfer/plugin/tracker.py:195
 #, python-format
 msgid "Tag %s"
 msgstr "Schlagwort %s"
 
-#: ../kupfer/plugin/tracker.py:177
+#: ../kupfer/plugin/tracker.py:202
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekte mit dem Schlagwort %s in Tracker"
 
-#: ../kupfer/plugin/tracker.py:189
+#: ../kupfer/plugin/tracker.py:214
 msgid "Add Tag..."
 msgstr "Schlagwort hinzufügen …"
 
-#: ../kupfer/plugin/tracker.py:215
+#: ../kupfer/plugin/tracker.py:240
 msgid "Add tracker tag to file"
 msgstr "Tracker-Schlagwort zur Datei hinzufügen"
 
-#: ../kupfer/plugin/tracker.py:221
+#: ../kupfer/plugin/tracker.py:246
 msgid "Remove Tag..."
 msgstr "Schlagwort entfernen …"
 
-#: ../kupfer/plugin/tracker.py:240
+#: ../kupfer/plugin/tracker.py:265
 msgid "Remove tracker tag from file"
 msgstr "Tracker-Schlagwort von der Datei entfernen"
 
@@ -1508,8 +1521,8 @@ msgid_plural "Trash contains %(num)s files"
 msgstr[0] "Es ist ein Objekt im Mülleimer"
 msgstr[1] "Es sind %(num)s Objekte im Mülleimer"
 
-#: ../kupfer/plugin/triggers.py:10 ../kupfer/plugin/triggers.py:38
-#: ../kupfer/plugin/triggers.py:105
+#: ../kupfer/plugin/triggers.py:10 ../kupfer/plugin/triggers.py:36
+#: ../kupfer/plugin/triggers.py:102
 msgid "Triggers"
 msgstr "Auslöser"
 
@@ -1521,11 +1534,11 @@ msgstr ""
 "Globale Tastenkürzel (Auslöser) zu mit dem »Compose-Befehl« (Strg+R) "
 "erstellten Objekten hinzufügen"
 
-#: ../kupfer/plugin/triggers.py:125
+#: ../kupfer/plugin/triggers.py:122
 msgid "Add Trigger..."
 msgstr "Auslöser hinzufügen …"
 
-#: ../kupfer/plugin/triggers.py:148
+#: ../kupfer/plugin/triggers.py:145
 msgid "Remove Trigger"
 msgstr "Auslöser entfernen …"
 
@@ -1699,8 +1712,8 @@ msgid ""
 "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
 "Source Edition."
 msgstr ""
-"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun "
-"als auch die Open Source Edition."
+"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun als "
+"auch die Open Source Edition."
 
 #: ../kupfer/plugin/virtualbox/__init__.py:41
 msgid "Power On"
@@ -1841,23 +1854,27 @@ msgstr "Python-Modul »%s« wird benötigt"
 msgid "Plugin could not be read due to an error:"
 msgstr "Plugin konnte wegen eines Fehlers nicht gelesen werden:"
 
+#: ../kupfer/preferences.py:390
+msgid "Content of"
+msgstr "Inhalt von"
+
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:379
+#: ../kupfer/preferences.py:399
 msgid "Sources"
 msgstr "Quellen"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/preferences.py:383
+#: ../kupfer/preferences.py:403
 msgid "Actions"
 msgstr "Aktionen"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/preferences.py:409
+#: ../kupfer/preferences.py:429
 msgid "Configuration"
 msgstr "Einstellungen"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/preferences.py:474
+#: ../kupfer/preferences.py:494
 msgid "Choose a Directory"
 msgstr "Einen Ordner auswählen"
 
@@ -1900,8 +1917,8 @@ msgstr ""
 "finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit diesem Programm sollten Sie außerdem eine Kopie der GNU General Public "
 "License erhalten\n"
