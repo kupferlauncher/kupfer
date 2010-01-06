@@ -1039,6 +1039,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		action = self.action_pane.get_selection()
 		leaf = self.source_pane.get_selection()
 		sobject = self.object_pane.get_selection()
+		mode = self.mode
 		if not action or not leaf:
 			self.output_info("There is no selection!")
 			return
@@ -1051,7 +1052,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
 		learn.record_search_hit(action, self.action_pane.get_latest_key())
-		if sobject and self.mode is SourceActionObjectMode:
+		if sobject and mode is SourceActionObjectMode:
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 		if res not in commandexec.RESULTS_SYNC:
 			self.emit("launched-action")
