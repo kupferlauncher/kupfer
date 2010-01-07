@@ -12,12 +12,6 @@ from kupfer import utils
 __author__ = ("Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>" )
 
-
-EMAIL_KEY = "EMAIL"
-NAME_KEY = "NAME"
-JID_KEY = "JID"
-
-CONTACTS_CATEGORY = "Contacts"
 HOSTS_CATEGORY = "Hosts"
 
 class GroupingLeaf (Leaf):
@@ -171,12 +165,6 @@ class _GroupedItemsSource(Source):
 	def get_items(self):
 		for leaf in self._leaf.links:
 			yield leaf
-
-class ContactLeaf(GroupingLeaf):
-	grouping_slots = (EMAIL_KEY, NAME_KEY)
-	def get_icon_name(self):
-		return "stock_person"
-
 
 class HostLeaf(GroupingLeaf):
 	def get_icon_name(self):

@@ -5,8 +5,8 @@ from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
 from kupfer import pretty
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 from kupfer import plugin_support
-from kupfer.obj.grouping import JID_KEY, ContactLeaf, ToplevelGroupingSource
-from kupfer.obj.contacts import JabberContact
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import JID_KEY, ContactLeaf, JabberContact
 
 __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )

@@ -8,8 +8,8 @@ from kupfer.objects import (TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf,
 		AppLeafContentMixin )
 from kupfer import utils
 from kupfer.helplib import FilesystemWatchMixin
-from kupfer.obj.grouping import EMAIL_KEY, ContactLeaf, ToplevelGroupingSource
-from kupfer.obj.contacts import EmailContact
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )

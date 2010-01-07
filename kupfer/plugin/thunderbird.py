@@ -9,7 +9,8 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin
 from kupfer import utils, icons
-from kupfer.obj.contacts import EmailContact, ContactLeaf, EMAIL_KEY
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact
 
 from kupfer.plugin import thunderbird_support as support
 

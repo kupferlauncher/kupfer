@@ -8,8 +8,8 @@ from kupfer import pretty, scheduler
 from kupfer import icons
 from kupfer import plugin_support
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
-from kupfer.obj.grouping import (EMAIL_KEY, NAME_KEY, ContactLeaf,
-		ToplevelGroupingSource)
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
