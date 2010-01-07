@@ -50,8 +50,15 @@ class GroupingLeaf (Leaf):
 		return any(key in leaf.object for leaf in self.links)
 
 	def __getitem__(self, key):
+		"Get first (canonical) value for key"
+		try:
+			return iter(self.all(key)).next()
+		except StopIteration:
+			raise KeyError("%s has no slot %s" % (self, key))
+
+	def all(self, key):
 		"Return iterator of all values for @key"
-		return [leaf.object[key] for leaf in self.links if key in leaf.object]
+		return (leaf.object[key] for leaf in self.links if key in leaf.object)
 
 class GroupingSource (Source):
 	grouping_keys = [EMAIL_KEY, NAME_KEY, JID_KEY]
@@ -100,7 +107,7 @@ class GroupingSource (Source):
 				continue
 			for leaf in list(leaves):
 				for slot2 in self.grouping_keys:
-					for value2 in leaf[slot2]:
+					for value2 in leaf.all(slot2):
 						merge_groups((slot, value), (slot2, value2))
 		self.output_debug("MERGED ALL", time.time() - st)
 
