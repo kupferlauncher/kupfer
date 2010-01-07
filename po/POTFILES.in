@@ -1,13 +1,18 @@
 # encoding: UTF-8
 
+# Order: Data, Regular modules, Plugins
 data/kupfer.desktop.in.in
 [type: gettext/glade] data/preferences.ui
 [type: gettext/glade] data/result.ui
 extras/kupfer_provider.py
-kupfer/browser.py
-kupfer/data.py
 kupfer/main.py
 kupfer/objects.py
+kupfer/core/plugins.py
+kupfer/ui/browser.py
+kupfer/ui/preferences.py
+kupfer/version.py
+
+# Plugins
 kupfer/plugin/abiword.py
 kupfer/plugin/applications.py
 kupfer/plugin/apt_tools.py
@@ -51,7 +56,6 @@ kupfer/plugin/session_support.py
 kupfer/plugin/session_xfce.py
 kupfer/plugin/show_text.py
 kupfer/plugin/shorten_links.py
-kupfer/plugins.py
 kupfer/plugin_support.py
 kupfer/plugin/templates.py
 kupfer/plugin/top.py
@@ -67,5 +71,3 @@ kupfer/plugin/windows.py
 kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/volumes.py
 kupfer/plugin/zim.py
-kupfer/preferences.py
-kupfer/version.py
