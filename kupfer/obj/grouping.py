@@ -12,8 +12,6 @@ from kupfer import utils
 __author__ = ("Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>" )
 
-HOSTS_CATEGORY = "Hosts"
-
 class GroupingLeaf (Leaf):
 	"""
 	A Leaf that groups with other leaves inside Grouping Sources
@@ -57,6 +55,10 @@ class GroupingLeaf (Leaf):
 	def all(self, key):
 		"Return iterator of all values for @key"
 		return (leaf.object[key] for leaf in self.links if key in leaf.object)
+
+	def check_key(self, key):
+		''' check if GroupedLeaf has non empty value for @key '''
+		return any(bool(leaf.object.get(key)) for leaf in self.links)
 
 class GroupingSource (Source):
 
@@ -166,8 +168,5 @@ class _GroupedItemsSource(Source):
 		for leaf in self._leaf.links:
 			yield leaf
 
-class HostLeaf(GroupingLeaf):
-	def get_icon_name(self):
-		return "stock_host"
 
 
