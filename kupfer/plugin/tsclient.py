@@ -6,24 +6,27 @@ import os
 from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import utils
+from kupfer.obj.grouping import ToplevelGroupingSource 
+from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
 
 __kupfer_name__ = _("Terminal Server Client")
 __kupfer_sources__ = ("TsclientSessionSource", )
+__kupfer_actions__ = ("TsclientOpenSession", )
 __description__ = _("Session saved in Terminal Server Client")
-__version__ = "0.2"
+__version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 
-class TsclientSession(Leaf):
+TSCLIENT_SESSION_KEY = "TSCLIENT_SESSION"
+
+class TsclientSession(HostLeaf):
 	""" Leaf represent session saved in Tsclient"""
 
 	def __init__(self, obj_path, name, description):
-		Leaf.__init__(self, obj_path, name)
+		slots = {HOST_NAME_KEY: name, TSCLIENT_SESSION_KEY: obj_path}
+		HostLeaf.__init__(self, slots, name)
 		self._description = description
-
-	def get_actions(self):
-		yield TsclientOpenSession()
 
 	def get_description(self):
 		return self._description
@@ -38,22 +41,32 @@ class TsclientOpenSession(Action):
 		Action.__init__(self, _('Start Session'))
 
 	def activate(self, leaf):
-		utils.launch_commandline("tsclient -x '%s'" % leaf.object)
+		session = leaf[TSCLIENT_SESSION_KEY]
+		utils.launch_commandline("tsclient -x '%s'" % session)
 
 	def get_icon_name(self):
 		return 'tsclient'
 
+	def item_types(self):
+		yield HostLeaf
 
-class TsclientSessionSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+	def valid_for_item(self, item):
+		return item.check_key(TSCLIENT_SESSION_KEY)
+
+
+class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource,
+		FilesystemWatchMixin):
 	''' indexes session saved in tsclient '''
 
 	appleaf_content_id = 'tsclient'
 
 	def __init__(self, name=_("TSClient sessions")):
-		Source.__init__(self, name)
+		ToplevelGroupingSource.__init__(self, name, "Sessions")
 		self._sessions_dir = os.path.expanduser('~/.tsclient')
+		self._version = 2
 
 	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		if not os.path.isdir(self._sessions_dir):
 			return
 		self.monitor_token = self.monitor_directories(self._sessions_dir)
