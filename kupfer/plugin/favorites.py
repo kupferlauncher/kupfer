@@ -4,7 +4,9 @@ import weakref
 from kupfer.objects import Leaf, Source, Action, PicklingHelperMixin
 from kupfer import utils, objects, pretty
 from kupfer import puid
-from kupfer import learn
+
+# NOTE: core import
+from kupfer.core import learn
 
 __kupfer_name__ = _("Favorites")
 __kupfer_sources__ = ("FavoritesSource", )

@@ -10,13 +10,13 @@ import operator
 import gobject
 gobject.threads_init()
 
-from . import objects
-from . import search, learn
-from . import config, pretty, scheduler, task
+from kupfer import objects
+from kupfer import config, pretty, scheduler, task
 from kupfer import commandexec
 from kupfer import datatools
-
-from kupfer import qfurl
+from kupfer.core import search, learn
+from kupfer.core import settings
+from kupfer.core import qfurl
 
 # "Enums"
 # Which pane
@@ -819,7 +819,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		directory sources directly included and for
 		catalog inclusion respectively
 		"""
-		from kupfer import settings
 
 		s_sources = []
 		S_sources = []
@@ -852,8 +851,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		@S_sources are to be included directly in the catalog,
 		@s_souces as just as subitems
 		"""
-		from kupfer import settings, plugins
-		from kupfer.plugins import (load_plugin_sources, sources_attribute,
+		from kupfer.core import plugins
+		from kupfer.core.plugins import (load_plugin_sources, sources_attribute,
 				action_decorators_attribute, text_sources_attribute,
 				content_decorators_attribute,
 				initialize_plugin)

@@ -1,5 +1,6 @@
 import sys
-from kupfer import pretty, config, settings
+from kupfer import pretty, config
+from kupfer.core import settings
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"

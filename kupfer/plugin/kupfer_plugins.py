@@ -6,7 +6,7 @@ from kupfer import kupferui
 
 # Since this is a core plugin we break some rules
 # This module is normally out of bounds for plugins
-from kupfer import plugins, settings
+from kupfer.core import plugins, settings
 
 __kupfer_name__ = _("Kupfer Plugins")
 __kupfer_sources__ = ("KupferPlugins", )

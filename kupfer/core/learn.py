@@ -1,7 +1,7 @@
 import cPickle as pickle
 
-from . import pretty
-from . import config
+from kupfer import pretty
+from kupfer import config
 
 mnemonics_filename = "mnemonics.pickle"
 

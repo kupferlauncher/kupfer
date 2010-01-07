@@ -1,4 +1,5 @@
-from kupfer import pretty, settings
+from kupfer import pretty
+from kupfer.core import settings
 
 SETTING_PREFER_CATALOG = {
 	"key" : "kupfer_toplevel",

@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from kupfer import learn
-from kupfer.relevance import score
+from kupfer.core import learn, relevance
 
 def make_rankables(itr, rank=0):
 	return (Rankable(unicode(obj), obj, rank) for obj in itr)
@@ -58,15 +57,16 @@ def score_objects(rankables, key):
 
 	rank is added to previous rank,
 	if not @key, then all items are returned"""
+	_score = relevance.score
 	key = key.lower()
 	for rb in rankables:
 		# Rank object
-		rank = score(rb.value, key)*100
+		rank = _score(rb.value, key)*100
 		if rank < 90:
 			for alias in rb.aliases:
 				# consider aliases and change rb.value if alias is better
 				# aliases rank lower so that value is chosen when close
-				arank = score(alias, key)*95
+				arank = _score(alias, key)*95
 				if arank > rank:
 					rank = arank
 					rb.value = alias

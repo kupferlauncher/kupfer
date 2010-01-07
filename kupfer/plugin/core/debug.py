@@ -10,9 +10,6 @@ from kupfer.objects import ComposedLeaf
 from kupfer import objects
 from kupfer import pretty
 
-# NOTE: Core imports
-from kupfer import learn
-
 __kupfer_sources__ = ()
 __kupfer_contents__ = (
 		"ComposedSource",
@@ -67,7 +64,8 @@ class DebugInfo (Action):
 	def activate(self, leaf):
 		import itertools
 		import StringIO
-		from kupfer import qfurl
+		# NOTE: Core imports
+		from kupfer.core import qfurl
 		from kupfer import uiutils
 		from kupfer import puid
 
@@ -150,6 +148,9 @@ class Forget (Action):
 		Action.__init__(self, u"Forget")
 
 	def activate(self, leaf):
+		# NOTE: Core imports
+		from kupfer.core import learn
+
 		# FIXME: This is a large, total, utter HACK
 		if isinstance(leaf, ComposedLeaf):
 			for o in leaf.object:

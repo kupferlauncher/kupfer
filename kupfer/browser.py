@@ -12,11 +12,12 @@ import gtk
 import gio
 import gobject
 
-from kupfer import data, icons, scheduler, relevance
+from kupfer import listen, scheduler
+from kupfer.core import data, relevance, learn
+from kupfer import icons
 from kupfer import interface
 from kupfer import keybindings
 from kupfer import pretty
-from kupfer import learn
 
 
 _escape_table = {
@@ -1483,7 +1484,8 @@ class WindowController (pretty.OutputMixin):
 		callbacks etc).
 		"""
 		import signal
-		from kupfer import session, settings
+		from kupfer import session
+		from kupfer.core import settings
 
 		self.output_debug("in lazy_setup")
 
@@ -1518,7 +1520,6 @@ class WindowController (pretty.OutputMixin):
 
 	def main(self, quiet=False):
 		"""Start WindowController, present its window (if not @quiet)"""
-		from kupfer import listen, scheduler
 
 		try:
 			kserv = listen.Service()

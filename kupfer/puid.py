@@ -11,9 +11,8 @@ try:
 except ImportError:
 	import pickle
 
-from kupfer import data
+from kupfer.core import data, qfurl
 from kupfer import pretty
-from kupfer import qfurl
 
 SERIALIZABLE_ATTRIBUTE = "serilizable"
 
