@@ -65,13 +65,10 @@ class GroupingSource (Source):
 		self.sources = sources
 
 	def get_leaves(self, force_update=False):
-		st = time.time()
-		self.output_debug("START")
-
+		starttime = time.time()
 		# map (slot, value) -> group
 		groups = {}
 		for src in self.sources:
-			self.output_debug("Merging", src)
 			leaves = Source.get_leaves(src, force_update)
 			for leaf in leaves:
 				try:
@@ -88,8 +85,6 @@ class GroupingSource (Source):
 				if not leaf.grouping_slots:
 					self.output_error("GroupingLeaf has no grouping slots",
 							repr(leaf))
-
-		self.output_debug("LISTED ALL", time.time() -st)
 
 		# Keep track of keys that are only duplicate references
 		redundant_keys = set()
@@ -110,8 +105,6 @@ class GroupingSource (Source):
 				for slot2 in leaf.grouping_slots:
 					for value2 in leaf.all(slot2):
 						merge_groups((slot, value), (slot2, value2))
-		self.output_debug("MERGED ALL", time.time() - st)
-
 		if self.should_sort_lexically():
 			sort_func = utils.locale_sort
 		else:
@@ -121,7 +114,10 @@ class GroupingSource (Source):
 		keys.difference_update(redundant_keys)
 		for leaf in sort_func(self._make_group_leader(groups[K]) for K in keys):
 			yield leaf
-		self.output_debug("END", time.time() - st)
+		mergetime = time.time() - starttime
+		if mergetime > 0.05:
+			self.output_debug("Warning(?): merged in %s seconds" % mergetime)
+
 
 	@classmethod
 	def _make_group_leader(cls, leaves):
