@@ -217,7 +217,7 @@ class TranslateUrl(Action):
 	def activate(self, leaf, iobj):
 		dest_lang = iobj.object
 		params = urllib.urlencode(dict(u=leaf.object, sl='auto', tl=dest_lang ))
-		url = 'http://translate.google.pl/translate?' + params
+		url = 'http://translate.google.com/translate?' + params
 		utils.show_url(url)
 
 	def item_types(self):
