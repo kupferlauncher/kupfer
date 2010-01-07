@@ -18,10 +18,12 @@ class GroupingLeaf (Leaf):
 	"""
 	A Leaf that groups with other leaves inside Grouping Sources
 
-	The represented object of a GroupedLeaf is a
-	dictionary of (slot, value) pairs, where
-	slot identifies the slot, and the value is something that
-	must be equal to be grouped.
+	The represented object of a GroupedLeaf is a dictionary of (slot, value)
+	pairs, where slot identifies the slot, and the value is something that must
+	be equal to be grouped.
+
+	The GroupingLeaf must have a value for all @grouping_slots, but values of
+	None will not be grouped with others.
 	"""
 	grouping_slots = ()
 
@@ -80,7 +82,9 @@ class GroupingSource (Source):
 					continue
 				slots = leaf.slots()
 				for slot in leaf.grouping_slots:
-					groups.setdefault((slot, slots[slot]), set()).add(leaf)
+					value = slots[slot]
+					if value:
+						groups.setdefault((slot, value), set()).add(leaf)
 				if not leaf.grouping_slots:
 					self.output_error("GroupingLeaf has no grouping slots",
 							repr(leaf))

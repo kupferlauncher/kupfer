@@ -34,9 +34,10 @@ def _get_email_from_url(url):
 	sep = url.find('://')
 	return url[sep+3:] if sep > -1 else url
 
+# FIXME: Find a more robust (less strict?) approach than regex
 _CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$")
 
-def _check_email(email):
+def is_valid_email(email):
 	''' simple email check '''
 	return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
 
@@ -50,7 +51,7 @@ def email_from_leaf(leaf):
 	if isinstance(leaf, ContactLeaf):
 		return EMAIL_KEY in leaf and leaf[EMAIL_KEY]
 	email = _get_email_from_url(leaf.object)
-	return _check_email(email) and email
+	return is_valid_email(email) and email
 
 
 class EmailContact (ContactLeaf):

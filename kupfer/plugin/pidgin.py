@@ -9,7 +9,7 @@ from kupfer import icons
 from kupfer import plugin_support
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf
+from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf, is_valid_email
 
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource", )
@@ -130,6 +130,9 @@ class PidginContact(ContactLeaf):
 			PIDGIN_ACCOUNT: account,
 			PIDGIN_JID: jid,
 		}
+		if not is_valid_email(jid):
+			slots[EMAIL_KEY] = None
+
 		ContactLeaf.__init__(self, slots, name or jid)
 
 		# we use @jid as an alias for this contact
