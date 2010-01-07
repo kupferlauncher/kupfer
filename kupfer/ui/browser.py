@@ -12,11 +12,12 @@ import gtk
 import gio
 import gobject
 
-from kupfer import listen, scheduler
+from kupfer import scheduler
+from kupfer.ui  import listen
+from kupfer.ui import keybindings
 from kupfer.core import data, relevance, learn
 from kupfer import icons
 from kupfer import interface
-from kupfer import keybindings
 from kupfer import pretty
 
 
@@ -1484,7 +1485,7 @@ class WindowController (pretty.OutputMixin):
 		callbacks etc).
 		"""
 		import signal
-		from kupfer import session
+		from kupfer.ui import session
 		from kupfer.core import settings
 
 		self.output_debug("in lazy_setup")

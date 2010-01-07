@@ -48,11 +48,11 @@ def _response_callback(dialog, response_id):
 
 
 def show_preferences():
-	from kupfer import preferences
+	from kupfer.ui import preferences
 	win = preferences.GetPreferencesWindowController()
 	win.show()
 
 def show_plugin_info(plugin_id):
-	from kupfer import preferences
+	from kupfer.ui import preferences
 	prefs = preferences.GetPreferencesWindowController()
 	prefs.show_focus_plugin(plugin_id)

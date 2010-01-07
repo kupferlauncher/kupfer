@@ -1,11 +1,11 @@
 import gtk
 
 
-from kupfer import keybindings
-
 from kupfer.objects import Leaf, Action, Source, TextSource
 from kupfer.objects import ComposedLeaf, TextLeaf, RunnableLeaf
 from kupfer import puid
+
+from kupfer.ui import keybindings
 
 __kupfer_name__ = _("Triggers")
 __kupfer_sources__ = ("Triggers", )

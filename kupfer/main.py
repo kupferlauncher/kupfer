@@ -134,7 +134,8 @@ def main():
 	cli_opts = get_options()
 	print_banner()
 
-	from kupfer import browser, pretty
+	from kupfer.ui import browser
+	from kupfer import pretty
 
 	if _debug:
 		pretty.debug = _debug

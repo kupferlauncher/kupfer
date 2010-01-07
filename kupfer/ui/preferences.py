@@ -9,9 +9,9 @@ from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
 
 
-from kupfer import config, pretty, utils, icons
+from kupfer import config, pretty, utils, icons, version
 from kupfer.core import settings, plugins
-from kupfer import keybindings, version
+from kupfer.ui import keybindings
 
 class PreferencesWindowController (pretty.OutputMixin):
 	def __init__(self):

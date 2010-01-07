@@ -7,7 +7,7 @@ import gobject
 
 from kupfer import pretty, config
 from kupfer import scheduler
-from kupfer import keybindings
+from kupfer.ui import keybindings
 
 try:
 	import wnck
