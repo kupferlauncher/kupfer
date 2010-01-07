@@ -5,13 +5,15 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import AppLeafContentMixin, AppLeaf
 from kupfer import pretty
 from kupfer import plugin_support
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 
 
 __kupfer_name__ = _("Skype")
 __kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = ("ChangeStatus", )
+__kupfer_actions__ = ("ChangeStatus", 'Chat', 'Call')
 __description__ = _("Access to Skype")
-__version__ = "0.1"
+__version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 # This plugin Requires D-Bus to work
@@ -20,6 +22,7 @@ plugin_support.check_dbus_connection()
 SKYPE_IFACE = 'com.Skype.API'
 SKYPE_PATH_CLIENT = '/com/Skype/Client'
 SKYPE_CLIENT_API = 'com.Skype.API.Client'
+SKYPE_KEY = "SKYPE"
 
 _STATUSES = {
 		'ONLINE':	_('Available'),
@@ -167,27 +170,23 @@ class Skype(object):
 			skype.Invoke("SET USERSTATUS %s" % status)
 
 
-class Contact(Leaf):
-	def __init__(self, name, handle, status):
-		# @obj should be unique for each contact
-		# we use @jid as an alias for this contact
-		Leaf.__init__(self, handle, name or handle)
+class Contact(ContactLeaf):
+	grouping_slots = ContactLeaf.grouping_slots + (SKYPE_KEY, )
 
+	def __init__(self, name, handle, status):
+		slots = {SKYPE_KEY: handle, NAME_KEY: name}
+		ContactLeaf.__init__(self, slots, name)
 		if name != handle:
 			self.name_aliases.add(handle)
 
 		self._description = _("[%(status)s] %(userid)s") % \
 			dict(status=status, userid=handle)
 
-	def get_actions(self):
-		yield Call()
-		yield Chat()
+	def repr_key(self):
+		return self.object[SKYPE_KEY]
 
 	def get_description(self):
 		return self._description
-
-	def get_icon_name(self):
-		return "stock_person"
 
 
 class AccountStatus(Leaf):
@@ -195,25 +194,46 @@ class AccountStatus(Leaf):
 
 
 class Chat(Action):
+	rank_adjust = 5
+
 	def __init__(self):
 		Action.__init__(self, _("Open Chat Window"))
 
 	def activate(self, leaf):
-		Skype.get().open_chat(leaf.object)
+		handle = SKYPE_KEY in leaf and leaf[SKYPE_KEY]
+		if handle:
+			Skype.get().open_chat(handle)
 
 	def get_icon_name(self):
 		return 'internet-group-chat'
 
+	def item_types(self):
+		yield ContactLeaf
+
+	def valid_for_item(self, item):
+		return SKYPE_KEY in item and item[SKYPE_KEY]
+
 
 class Call(Action):
+	rank_adjust = 5
+
 	def __init__(self):
 		Action.__init__(self, _("Place a Call to Contact"))
 
 	def activate(self, leaf):
-		Skype.get().call(leaf.object)
+		handle = SKYPE_KEY in leaf and leaf[SKYPE_KEY]
+		if handle:
+			Skype.get().call(handle)
 
 	def get_icon_name(self):
 		return 'call-start'
+
+	def item_types(self):
+		yield ContactLeaf
+
+	def valid_for_item(self, item):
+		return SKYPE_KEY in item and item[SKYPE_KEY]
+
 
 
 class ChangeStatus(Action):
@@ -242,12 +262,12 @@ class ChangeStatus(Action):
 		return StatusSource()
 
 
-class ContactsSource(AppLeafContentMixin, Source):
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource):
 	appleaf_content_id = 'skype'
 
-	def __init__(self):
-		Source.__init__(self, _('Skype Contacts'))
-
+	def __init__(self, name=_('Skype Contacts')):
+		super(ContactsSource, self).__init__(name, "Contacts")
+		self._version = 2
 
 	def get_items(self):
 		pretty.print_debug(__name__, 'ContactsSource', 'get_items')
