@@ -29,6 +29,8 @@ class GroupingLeaf (Leaf):
 	slot identifies the slot, and the value is something that
 	must be equal to be grouped.
 	"""
+	grouping_slots = ()
+
 	def __init__(self, obj, name):
 		Leaf.__init__(self, obj, name)
 		self.links = [self]
@@ -61,7 +63,6 @@ class GroupingLeaf (Leaf):
 		return (leaf.object[key] for leaf in self.links if key in leaf.object)
 
 class GroupingSource (Source):
-	grouping_keys = [EMAIL_KEY, NAME_KEY, JID_KEY]
 
 	def __init__(self, name, sources):
 		Source.__init__(self, name)
@@ -84,10 +85,12 @@ class GroupingSource (Source):
 					yield leaf
 					continue
 				slots = leaf.slots()
-				for slot in self.grouping_keys:
-					if slot not in slots:
-						continue
+				for slot in leaf.grouping_slots:
 					groups.setdefault((slot, slots[slot]), set()).add(leaf)
+				if not leaf.grouping_slots:
+					self.output_error("GroupingLeaf has no grouping slots",
+							repr(leaf))
+
 		self.output_debug("LISTED ALL", time.time() -st)
 
 		# Keep track of keys that are only duplicate references
@@ -106,7 +109,7 @@ class GroupingSource (Source):
 			if len(leaves) <= 1:
 				continue
 			for leaf in list(leaves):
-				for slot2 in self.grouping_keys:
+				for slot2 in leaf.grouping_slots:
 					for value2 in leaf.all(slot2):
 						merge_groups((slot, value), (slot2, value2))
 		self.output_debug("MERGED ALL", time.time() - st)
@@ -170,6 +173,7 @@ class _GroupedItemsSource(Source):
 			yield leaf
 
 class ContactLeaf(GroupingLeaf):
+	grouping_slots = (EMAIL_KEY, NAME_KEY)
 	def get_icon_name(self):
 		return "stock_person"
 
