@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 import os
-import re
 from xml.dom import minidom
 
 from kupfer.objects import Leaf, Action, Source
@@ -9,27 +8,14 @@ from kupfer.objects import (TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf,
 from kupfer import utils
 from kupfer.helplib import FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact
+from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", "SendFileByMail")
 __description__ = _("Claws Mail Contacts and Actions")
-__version__ = "0.2"
+__version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
-
-def _get_email_from_url(url):
-	''' convert http://foo@bar.pl -> foo@bar.pl '''
-	sep = url.find('://')
-	return url[sep+3:] if sep > -1 else url
-
-_CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$")
-
-def _check_email(email):
-	''' simple email check '''
-	return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
-
 
 
 class ComposeMail(RunnableLeaf):
@@ -62,21 +48,13 @@ class ReceiveMail(RunnableLeaf):
 		return "mail-send-receive"
 
 
-def _email_from_leaf(leaf):
-	if isinstance(leaf, UrlLeaf):
-		return _check_email(leaf.object) and _get_email_from_url(leaf.object)
-	if isinstance(leaf, TextLeaf):
-		return _check_email(leaf.object) and leaf.object
-	if isinstance(leaf, ContactLeaf):
-		return EMAIL_KEY in leaf and leaf[EMAIL_KEY]
-
 class NewMailAction(Action):
 	''' Create new mail to selected leaf'''
 	def __init__(self):
 		Action.__init__(self, _('Compose New Mail To'))
 
 	def activate(self, leaf):
-		email = _email_from_leaf(leaf)
+		email = email_from_leaf(leaf)
 		utils.launch_commandline("claws-mail --compose '%s'" % email)
 
 	def get_icon_name(self):
@@ -89,7 +67,7 @@ class NewMailAction(Action):
 		yield UrlLeaf
 
 	def valid_for_item(self, item):
-		return bool(_email_from_leaf(item))
+		return bool(email_from_leaf(item))
 
 class SendFileByMail(Action):
 	''' Createn new mail and attach selected file'''
