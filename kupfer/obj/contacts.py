@@ -17,12 +17,12 @@ __author__ = ("Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "
 
 EMAIL_KEY = "EMAIL"
 NAME_KEY = "NAME"
-JID_KEY = "JID"
-
-CONTACTS_CATEGORY = "Contacts"
+JABBER_JID_KEY = "JID"
+JABBER_STATUS_KEY = "JABBER_STATUS"
+JABBER_RESOURCE_KEY = "JABBER_RESOURCE"
 
 class ContactLeaf(GroupingLeaf):
-	grouping_slots = (EMAIL_KEY, NAME_KEY)
+	grouping_slots = (NAME_KEY, )
 	def get_icon_name(self):
 		return "stock_person"
 
@@ -35,7 +35,7 @@ def _get_email_from_url(url):
 	return url[sep+3:] if sep > -1 else url
 
 # FIXME: Find a more robust (less strict?) approach than regex
-_CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$")
+_CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,}$")
 
 def is_valid_email(email):
 	''' simple email check '''
@@ -55,6 +55,7 @@ def email_from_leaf(leaf):
 
 
 class EmailContact (ContactLeaf):
+	grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY, )
 	def __init__(self, email, name):
 		slots = {EMAIL_KEY: email, NAME_KEY: name}
 		ContactLeaf.__init__(self, slots, name)
@@ -67,23 +68,24 @@ class EmailContact (ContactLeaf):
 
 
 class JabberContact (ContactLeaf):
-	grouping_slots = ContactLeaf.grouping_slots + (JID_KEY, )
-	def __init__(self, jid, name, accout, status, resource):
-		slots = {JID_KEY: jid, NAME_KEY: name}
-		ContactLeaf.__init__(self, slots, name)
-		self.accout = accout
-		self.status = status
-		self.resource = resource
+	''' Minimal class for all Jabber contacts. '''
+	grouping_slots = ContactLeaf.grouping_slots + (JABBER_JID_KEY, )
+
+	def __init__(self, jid, name, status, resource, slots=None):
+		jslots = {JABBER_JID_KEY: jid, NAME_KEY: name or jid}
+		if slots:
+			jslots.update(slots)
+		ContactLeaf.__init__(self, jslots, name or jid)
 
 		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
 				{
 					"status": status,
 					"userid": jid,
-					"service": resource[0][0] if resource else u"",
+					"service": resource or u"",
 				}
 
 	def repr_key(self):
-		return self.object[JID_KEY]
+		return self.object[JABBER_JID_KEY]
 
 	def get_description(self):
 		return self._description

@@ -6,7 +6,8 @@ from kupfer import pretty
 from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 from kupfer import plugin_support
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import JID_KEY, ContactLeaf, JabberContact
+from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
+		
 
 __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )
@@ -31,6 +32,8 @@ _STATUSES = {
 _SERVICE_NAME = 'org.gajim.dbus'
 _OBJECT_NAME = '/org/gajim/dbus/RemoteObject'
 _IFACE_NAME = 'org.gajim.dbus.RemoteInterface'
+
+GAJIM_ACCOUNT_KEY = "GAJIM_ACCOUNT"
 
 def _create_dbus_connection(activate=False):
 	''' Create dbus connection to Gajim 
@@ -63,6 +66,15 @@ def _check_gajim_version(conn):
 	return tversion
 
 
+class GajimContact(JabberContact):
+	def __init__(self, jid, name, status, resources, account):
+		gajim_slots = { GAJIM_ACCOUNT_KEY: account }
+		JabberContact.__init__(self, jid, name, status, resources, gajim_slots)
+
+	def repr_key(self):
+		return "".join((self.object[JABBER_JID_KEY], self.object[GAJIM_ACCOUNT_KEY]))
+
+
 class AccountStatus(Leaf):
 	pass
 
@@ -73,8 +85,8 @@ class OpenChat(Action):
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
-		account = leaf.account
-		jid = JID_KEY in leaf and leaf[JID_KEY]
+		jid = JABBER_JID_KEY in leaf and leaf[JABBER_JID_KEY]
+		account = leaf[GAJIM_ACCOUNT_KEY]
 		if interface is not None:
 			vmaj,vmin,vbuild = _check_gajim_version(interface)
 			if vmaj == 0 and vmin < 13:
@@ -89,7 +101,7 @@ class OpenChat(Action):
 		yield ContactLeaf
 
 	def valid_for_item(self, item):
-		return JID_KEY in item and item[JID_KEY]
+		return GAJIM_ACCOUNT_KEY in item and item[GAJIM_ACCOUNT_KEY]
 
 
 class ChangeStatus(Action):
@@ -172,9 +184,10 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 
 			for contact in interface.list_contacts(account):
 				name = contact['name'] or contact['jid']
-				jc = JabberContact(contact['jid'], name, account, \
+				resources = contact['resources'][0][0] if contact['resources'] else u''
+				jc = GajimContact(contact['jid'], name, \
 						_STATUSES.get(contact['show'], contact['show']), \
-						contact['resources'])
+						resources, account)
 				yield jc
 
 	def get_icon_name(self):
