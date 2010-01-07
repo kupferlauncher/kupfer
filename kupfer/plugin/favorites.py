@@ -132,7 +132,8 @@ class FavoritesSource (Source, PicklingHelperMixin):
 		return list(_FavoritesLeafTypes())
 
 class AddFavorite (Action):
-	rank_adjust = -5
+	# Rank down, since it applies everywhere
+	rank_adjust = -15
 	def __init__(self):
 		Action.__init__(self, _("Add to Favorites"))
 	def activate(self, leaf):
@@ -147,7 +148,7 @@ class AddFavorite (Action):
 		return "gtk-add"
 
 class RemoveFavorite (Action):
-	rank_adjust = -5
+	rank_adjust = -15
 	def __init__(self):
 		Action.__init__(self, _("Remove from Favorites"))
 	def activate(self, leaf):
