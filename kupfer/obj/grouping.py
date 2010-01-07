@@ -82,7 +82,7 @@ class GroupingSource (Source):
 					continue
 				slots = leaf.slots()
 				for slot in leaf.grouping_slots:
-					value = slots[slot]
+					value = slots.get(slot)
 					if value:
 						groups.setdefault((slot, value), set()).add(leaf)
 				if not leaf.grouping_slots:
