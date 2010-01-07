@@ -56,7 +56,7 @@ class NewMailAction(Action):
 
 	def activate(self, leaf):
 		if isinstance(leaf, ContactLeaf):
-			email = leaf.object[EMAIL_KEY]
+			email = leaf[EMAIL_KEY]
 		elif isinstance(leaf, UrlLeaf):
 			email = _get_email_from_url(email)
 		else:

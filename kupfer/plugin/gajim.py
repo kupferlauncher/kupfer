@@ -74,7 +74,7 @@ class OpenChat(Action):
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
 		account = leaf.account
-		jid = JID_KEY in leaf and list(leaf[JID_KEY])[0]
+		jid = JID_KEY in leaf and leaf[JID_KEY]
 		if interface is not None:
 			vmaj,vmin,vbuild = _check_gajim_version(interface)
 			if vmaj == 0 and vmin < 13:
@@ -89,7 +89,7 @@ class OpenChat(Action):
 		yield ContactLeaf
 
 	def valid_for_item(self, item):
-		return JID_KEY in item and bool(list(item[JID_KEY])[0])
+		return JID_KEY in item and item[JID_KEY]
 
 
 class ChangeStatus(Action):

@@ -62,8 +62,8 @@ def _send_message_to_contact(pcontact, message, present=False):
 	interface = _create_dbus_connection()
 	if not interface:
 		return
-	account = pcontact[PIDGIN_ACCOUNT][0]
-	jid = pcontact[PIDGIN_JID][0]
+	account = pcontact[PIDGIN_ACCOUNT]
+	jid = pcontact[PIDGIN_JID]
 	conversation = interface.PurpleConversationNew(1, account, jid)
 	im = interface.PurpleConvIm(conversation)
 	interface.PurpleConvImSend(im, message)

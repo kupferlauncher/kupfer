@@ -68,7 +68,7 @@ def _email_from_leaf(leaf):
 	if isinstance(leaf, TextLeaf):
 		return _check_email(leaf.object) and leaf.object
 	if isinstance(leaf, ContactLeaf):
-		return EMAIL_KEY in leaf and list(leaf[EMAIL_KEY])[0]
+		return EMAIL_KEY in leaf and leaf[EMAIL_KEY]
 
 class NewMailAction(Action):
 	''' Create new mail to selected leaf'''
