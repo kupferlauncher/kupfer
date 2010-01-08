@@ -1043,6 +1043,8 @@ class RunnableLeaf (Leaf):
 		yield Do()
 	def run(self):
 		raise NotImplementedError
+	def repr_key(self):
+		return ""
 
 class Do (Action):
 	"""Perform the action in a RunnableLeaf"""
@@ -1069,6 +1071,9 @@ class TextLeaf (Leaf, TextRepresentation):
 
 	def get_actions(self):
 		return ()
+
+	def repr_key(self):
+		return hash(self.object)
 
 	def get_description(self):
 		lines = [l for l in self.object.splitlines() if l.strip()]
@@ -1174,6 +1179,9 @@ class ComposedLeaf (RunnableLeaf):
 	def get_actions(self):
 		yield Do()
 		yield TimedDo()
+
+	def repr_key(self):
+		return self
 
 	def run(self):
 		from kupfer import commandexec
