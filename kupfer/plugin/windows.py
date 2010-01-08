@@ -116,6 +116,10 @@ class WindowMoveToWorkspace (Action):
 	def object_source(self, for_item=None):
 		return WorkspacesSource()
 
+	def valid_object(self, iobj, for_item):
+		window = for_item.object
+		return not window.is_on_workspace(iobj.object)
+
 	def get_icon_name(self):
 		return "forward"
 
