@@ -124,6 +124,10 @@ def application_is_running(app_info):
 	svc = GetApplicationsMatcherService()
 	return svc.application_is_running(application_id(app_info))
 
+def application_close_all(app_info):
+	svc = GetApplicationsMatcherService()
+	return svc.application_close_all(application_id(app_info))
+
 class ApplicationsMatcherService (pretty.OutputMixin):
 	"""Handle launching applications and see if they still run.
 	This is a learning service, since we have no first-class application
@@ -225,13 +229,16 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 				return True
 		return False
 
-	def application_to_front(self, app_id):
+	def get_application_windows(self, app_id):
 		application_windows = []
 		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
 			if app and self._is_match(app_id, app):
 				application_windows.append(w)
+		return application_windows
 
+	def application_to_front(self, app_id):
+		application_windows = self.get_application_windows(app_id)
 		if not application_windows:
 			return False
 
@@ -251,6 +258,13 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 				wspc.activate(evttime)
 			w.activate(evttime)
 			break
+
+	def application_close_all(self, app_id):
+		application_windows = self.get_application_windows(app_id)
+		evttime = _current_event_time()
+		for w in application_windows:
+			if not w.is_skip_tasklist():
+				w.close(evttime)
 
 
 _appl_match_service = None

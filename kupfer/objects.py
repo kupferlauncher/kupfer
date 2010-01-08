@@ -418,6 +418,7 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 	def get_actions(self):
 		if launch.application_is_running(self.object):
 			yield Launch(_("Go To"), is_running=True)
+			yield CloseAll()
 		else:
 			yield Launch()
 		yield LaunchAgain()
@@ -685,6 +686,22 @@ class LaunchAgain (Launch):
 		return launch.application_is_running(leaf.object)
 	def get_description(self):
 		return _("Launch another instance of this application")
+
+class CloseAll (Action):
+	"""Attept to close all application windows"""
+	rank_adjust = -10
+	def __init__(self):
+		Action.__init__(self, _("Close"))
+	def activate(self, leaf):
+		return launch.application_close_all(leaf.object)
+	def item_types(self):
+		yield AppLeaf
+	def valid_for_item(self, leaf):
+		return launch.application_is_running(leaf.object)
+	def get_description(self):
+		return _("Attept to close all application windows")
+	def get_icon_name(self):
+		return "gtk-close"
 
 class Execute (Launch):
 	"""
