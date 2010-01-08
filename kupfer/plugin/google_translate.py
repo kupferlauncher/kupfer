@@ -50,6 +50,12 @@ def _parse_encoding_header(response, default="UTF-8"):
 def _translate(text, lang):
 	''' Translate @text to @lang. '''
 	query_param = urllib.urlencode(dict(tl=lang, text=text.encode('utf-8')))
+	word_classes = {
+		# TRANS: Dictionary lookup word classes
+		"noun": _("noun"),
+		"verb": _("verb"),
+		"adjective": _("adjective"),
+	}
 	try:
 		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
 		conn.connect()
@@ -76,8 +82,9 @@ def _translate(text, lang):
 			if dictionary:
 				for term in dictionary:
 					pos = term.get('pos')
+					word_class = word_classes.get(pos, pos) if pos else None
 					for t in term.get('terms'):
-						yield t, pos
+						yield t, word_class
 
 	except (httplib.HTTPException, ValueError), err:
 		pretty.print_error(__name__, '_translate error', repr(text), lang, err)
