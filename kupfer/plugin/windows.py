@@ -2,6 +2,7 @@ import gtk
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.ui import keybindings
+from kupfer.helplib import gobject_connect_weakly, PicklingHelperMixin
 
 __kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", "WorkspacesSource", )
@@ -214,14 +215,23 @@ class ActivateWorkspace (Action):
 		return "gtk-jump-to-ltr"
 
 
-class WorkspacesSource (Source):
+class WorkspacesSource (Source, PicklingHelperMixin):
 	def __init__(self):
 		Source.__init__(self, _("Workspaces"))
 		screen = wnck.screen_get_default()
 		screen.get_workspaces()
 
-	def is_dynamic(self):
-		return True
+	def pickle_prepare(self):
+		self.mark_for_update()
+
+	def initialize(self):
+		screen = wnck.screen_get_default()
+		gobject_connect_weakly(screen, "workspace-created", self._changed)
+		gobject_connect_weakly(screen, "workspace-destroyed", self._changed)
+
+	def _changed(self, screen, workspace):
+		self.mark_for_update()
+
 	def get_items(self):
 		# wnck should be "primed" now to return the true list
 		screen = wnck.screen_get_default()
