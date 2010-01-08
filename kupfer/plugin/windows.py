@@ -4,9 +4,9 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.ui import keybindings
 
 __kupfer_name__ = _("Window List")
-__kupfer_sources__ = ("WindowsSource", )
+__kupfer_sources__ = ("WindowsSource", "WorkspacesSource", )
 __description__ = _("All windows on all workspaces")
-__version__ = ""
+__version__ = "2010-01-08"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 # "Critical" imports have to be imported past the plugin information
@@ -19,6 +19,7 @@ def _get_current_event_time():
 class WindowLeaf (Leaf):
 	def get_actions(self):
 		yield WindowActivateWorkspace()
+		yield WindowMoveToWorkspace()
 		yield WindowAction(_("Activate"), "activate", time=True)
 
 		W = self.object
@@ -77,6 +78,28 @@ class WindowActivateWorkspace (Action):
 		return _("Jump to this window's workspace and focus")
 	def get_icon_name(self):
 		return "gtk-jump-to-ltr"
+
+class WindowMoveToWorkspace (Action):
+	def __init__(self):
+		Action.__init__(self, _("Move To..."))
+
+	def activate(self, leaf, iobj):
+		window = leaf.object
+		workspace = iobj.object
+		window.move_to_workspace(workspace)
+		time = _get_current_event_time()
+		workspace.activate(time)
+		window.activate(time)
+
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield Workspace
+	def object_source(self, for_item=None):
+		return WorkspacesSource()
+
+	def get_icon_name(self):
+		return "forward"
 
 class WindowAction (Action):
 	def __init__(self, name, action, time=False, icon=None):
@@ -166,4 +189,47 @@ class WindowsSource (Source):
 		return "gnome-window-manager"
 	def provides(self):
 		yield WindowLeaf
+
+class Workspace (Leaf):
+	def get_actions(self):
+		yield ActivateWorkspace()
+	def repr_key(self):
+		return self.object.get_number()
+	def get_icon_name(self):
+		return "gnome-window-manager"
+
+class ActivateWorkspace (Action):
+	rank_adjust = 5
+	def __init__(self):
+		Action.__init__(self, _("Go To"))
+
+	def activate (self, leaf):
+		workspace = leaf.object
+		time = _get_current_event_time()
+		workspace.activate(time)
+
+	def get_description(self):
+		return _("Jump to this workspace")
+	def get_icon_name(self):
+		return "gtk-jump-to-ltr"
+
+
+class WorkspacesSource (Source):
+	def __init__(self):
+		Source.__init__(self, _("Workspaces"))
+		screen = wnck.screen_get_default()
+		screen.get_workspaces()
+
+	def is_dynamic(self):
+		return True
+	def get_items(self):
+		# wnck should be "primed" now to return the true list
+		screen = wnck.screen_get_default()
+		for wspc in screen.get_workspaces():
+			yield Workspace(wspc, wspc.get_name())
+
+	def get_icon_name(self):
+		return "gnome-window-manager"
+	def provides(self):
+		yield Workspace
 
