@@ -47,6 +47,18 @@ class WindowLeaf (Leaf):
 	def get_icon_name(self):
 		return "gnome-window-manager"
 
+class FrontmostWindow (WindowLeaf):
+	qf_id = "frontwindow"
+	def __init__(self, obj, name):
+		WindowLeaf.__init__(self, obj, _("Frontmost Window"))
+		self.window_name = name
+
+	def repr_key(self):
+		return ""
+
+	def get_description(self):
+		return self.window_name
+
 class WindowActivateWorkspace (Action):
 	def __init__(self, name=_("Go To")):
 		super(WindowActivateWorkspace, self).__init__(name)
@@ -102,11 +114,15 @@ class WindowsSource (Source):
 	def get_items(self):
 		# wnck should be "primed" now to return the true list
 		screen = wnck.screen_get_default()
+		front = True
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
 				name, app = (win.get_name(), win.get_application().get_name())
 				if name != app and app not in name:
 					name = "%s (%s)" % (name, app)
+				if front:
+					yield FrontmostWindow(win, name)
+					front = False
 				yield WindowLeaf(win, name)
 
 	def get_description(self):
