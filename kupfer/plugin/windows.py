@@ -56,15 +56,32 @@ class WindowLeaf (Leaf):
 
 class FrontmostWindow (WindowLeaf):
 	qf_id = "frontwindow"
-	def __init__(self, obj, name):
-		WindowLeaf.__init__(self, obj, _("Frontmost Window"))
-		self.window_name = name
+	def __init__(self):
+		WindowLeaf.__init__(self, None, _("Frontmost Window"))
+
+	# HACK: Make self.object a property
+	# so that this leaf is *not* immutable
+	def _set_object(self, obj):
+		pass
+	def _get_object(self):
+		scr = wnck.screen_get_default()
+		active = scr.get_active_window() or scr.get_previously_active_window()
+		# FIXME: Ignore Kupfer's main window reliably
+		if active and active.get_application().get_name() != "kupfer.py":
+			if not active.is_skip_tasklist():
+				return active
+		wspc = scr.get_active_workspace()
+		for win in reversed(scr.get_windows_stacked()):
+			if not win.is_skip_tasklist():
+				if win.is_on_workspace(wspc):
+					return win
+	object = property(_get_object, _set_object)
 
 	def repr_key(self):
 		return ""
 
 	def get_description(self):
-		return self.window_name
+		return self.object and self.object.get_name()
 
 class WindowActivateWorkspace (Action):
 	def __init__(self, name=_("Go To")):
@@ -173,15 +190,12 @@ class WindowsSource (Source):
 	def get_items(self):
 		# wnck should be "primed" now to return the true list
 		screen = wnck.screen_get_default()
-		front = True
+		yield FrontmostWindow()
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
 				name, app = (win.get_name(), win.get_application().get_name())
 				if name != app and app not in name:
 					name = "%s (%s)" % (name, app)
-				if front:
-					yield FrontmostWindow(win, name)
-					front = False
 				yield WindowLeaf(win, name)
 
 	def get_description(self):
