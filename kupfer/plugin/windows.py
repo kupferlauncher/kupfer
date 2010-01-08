@@ -14,29 +14,27 @@ import wnck
 
 class WindowLeaf (Leaf):
 	def get_actions(self):
-		win = self.object
 		yield WindowActivateWorkspace()
-		if not win.is_active():
-			yield WindowAction(_("Activate"), action="activate", time=True)
-		if win.is_shaded():
-			yield WindowAction(_("Unshade"), action="unshade")
-		else:
-			yield WindowAction(_("Shade"), action="shade")
-		if win.is_minimized():
-			yield WindowAction(_("Unminimize"), action="unminimize", time=True, icon="gtk-remove")
-		else:
-			yield WindowAction(_("Minimize"), action="minimize", icon="gtk-remove")
-		if win.is_maximized():
-			yield WindowAction(_("Unmaximize"), action="unmaximize", icon="gtk-add")
-		else:
-			yield WindowAction(_("Maximize"), action="maximize", icon="gtk-add")
-		if win.is_maximized_vertically():
-			yield WindowAction(_("Unmaximize Vertically"),
-					action="unmaximize_vertically", icon="gtk-add")
-		else:
-			yield WindowAction(_("Maximize Vertically"),
-					action="maximize_vertically", icon="gtk-add")
-		yield WindowAction(_("Close"), action="close", time=True, icon="gtk-close")
+		yield WindowAction(_("Activate"), "activate", time=True)
+
+		W = self.object
+		T = type(W)
+		yield ToggleAction(_("Shade"), _("Unshade"),
+				"shade", "unshade",
+				W.is_shaded(), T.is_shaded)
+		yield ToggleAction(_("Minimize"), _("Unminimize"),
+				"minimize", "unminimize",
+				W.is_minimized(), T.is_minimized,
+				time=True, icon="gtk-remove")
+		yield ToggleAction(_("Maximize"), _("Unmaximize"),
+				"maximize", "unmaximize",
+				W.is_maximized(), T.is_maximized,
+				icon="gtk-add")
+		yield ToggleAction(_("Maximize Vertically"), _("Unmaximize Vertically"),
+				"maximize_vertically", "unmaximize_vertically",
+				W.is_maximized_vertically(), T.is_maximized_vertically,
+				icon="gtk-add")
+		yield WindowAction(_("Close"), "close", time=True, icon="gtk-close")
 
 	def get_description(self):
 		workspace = self.object.get_workspace()
@@ -74,7 +72,7 @@ class WindowActivateWorkspace (Action):
 		return "gtk-jump-to-ltr"
 
 class WindowAction (Action):
-	def __init__(self, name, action=None, time=False, icon=None):
+	def __init__(self, name, action, time=False, icon=None):
 		super(Action, self).__init__(name)
 		if not action: action = name.lower()
 		self.action = action
@@ -85,20 +83,50 @@ class WindowAction (Action):
 		return self.action
 
 	def activate(self, leaf):
+		time = self._get_time() if self.time else None
+		self._perform_action(self.action, leaf, time)
+
+	@classmethod
+	def _perform_action(cls, action_attr, leaf, time=None):
 		window = leaf.object
-		action_method = getattr(window, self.action)
-		if self.time:
-			# @time will be != 0 if we are "inside"
-			# a current gtk event
-			time = gtk.get_current_event_time()
+		action_method = getattr(window, action_attr)
+		if time is not None:
 			action_method(time)
 		else:
 			action_method()
+
+	@classmethod
+	def _get_time(cls):
+		# @time will be != 0 if we are "inside"
+		# a current gtk event
+		return gtk.get_current_event_time()
 
 	def get_icon_name(self):
 		if not self.icon_name:
 			return super(WindowAction, self).get_icon_name()
 		return self.icon_name
+
+class ToggleAction (WindowAction):
+	"""A toggle action, performing the enable / disable action as needed,
+	for example minimize/unminimize.
+
+	@istate: Initial state
+	@predicate: Callable for state taking the window object as only argument
+	"""
+	def __init__(self, ename, uname, eaction, uaction, istate, predicate,
+			time=False, icon=None):
+		name = uname if istate else ename
+		WindowAction.__init__(self, name, eaction, time=time, icon=icon)
+		self.predicate = predicate
+		self.uaction = uaction
+
+	def activate(self, leaf):
+		if self.predicate(leaf.object):
+			# only use time on the disable action
+			time = self._get_time() if self.time else None
+			self._perform_action(self.uaction, leaf, time)
+		else:
+			self._perform_action(self.action, leaf)
 
 class WindowsSource (Source):
 	def __init__(self, name=_("Window List")):
