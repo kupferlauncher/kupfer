@@ -131,13 +131,7 @@ def load():
 	"""
 	global _register
 
-	try:
-		filepath = config.get_config_file(mnemonics_filename) or \
-				config.get_data_file(mnemonics_filename)
-	except config.ResourceLookupError, exc:
-		pretty.print_debug(__name__, exc)
-		return
-
+	filepath = config.get_config_file(mnemonics_filename)
 	if filepath:
 		_register = Learning._unpickle_register(filepath)
 	if not _register:
