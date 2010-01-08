@@ -93,11 +93,9 @@ def resolve_unique_id(puid, excluding=None):
 	sc = data.GetSourceController()
 	obj = _find_obj_in_catalog(puid, sc._pre_root)
 	if obj is not None:
-		pretty.print_debug(__name__, "Resolving %s to %s" % (puid, obj))
 		return obj
 	other_sources = set(sc.sources) - set(sc._pre_root)
 	obj = _find_obj_in_catalog(puid, other_sources)
-	pretty.print_debug(__name__, "Resolving %s to %s" % (puid, obj))
 	return obj
 
 def resolve_action_id(puid, for_item=None):
@@ -117,4 +115,5 @@ def resolve_action_id(puid, for_item=None):
 			if get_action_id(action) == puid:
 				pretty.print_debug(__name__, "Resolving (Decorator)", puid)
 				return action
+	pretty.print_debug(__name__, "Unable to resolve %s (%s)" % (puid, for_item))
 	return None

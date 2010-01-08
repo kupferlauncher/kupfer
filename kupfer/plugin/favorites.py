@@ -77,7 +77,6 @@ class FavoritesSource (Source, PicklingHelperMixin):
 				self.favorites.append(self.reference_table[id_])
 				continue
 			itm = self._find_item(id_)
-			self.output_debug("RELOOKUP:", id_)
 			if itm is None:
 				self.output_debug("MISSING:", id_)
 			else:
