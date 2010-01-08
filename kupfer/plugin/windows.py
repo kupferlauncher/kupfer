@@ -1,6 +1,7 @@
 import gtk
 
 from kupfer.objects import Leaf, Action, Source
+from kupfer.ui import keybindings
 
 __kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", )
@@ -11,6 +12,9 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 # "Critical" imports have to be imported past the plugin information
 # variables in Kupfer, else the plugin can't be shown if the import fails
 import wnck
+
+def _get_current_event_time():
+	return gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 class WindowLeaf (Leaf):
 	def get_actions(self):
@@ -63,7 +67,7 @@ class WindowActivateWorkspace (Action):
 	def activate (self, leaf):
 		window = leaf.object
 		workspace = window.get_workspace()
-		time = gtk.get_current_event_time()
+		time = _get_current_event_time()
 		workspace.activate(time)
 		window.activate(time)
 	def get_description(self):
@@ -99,7 +103,7 @@ class WindowAction (Action):
 	def _get_time(cls):
 		# @time will be != 0 if we are "inside"
 		# a current gtk event
-		return gtk.get_current_event_time()
+		return _get_current_event_time()
 
 	def get_icon_name(self):
 		if not self.icon_name:
