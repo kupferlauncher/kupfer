@@ -40,6 +40,9 @@ class WindowLeaf (Leaf):
 				icon="gtk-add")
 		yield WindowAction(_("Close"), "close", time=True, icon="gtk-close")
 
+	def is_valid(self):
+		return self.object and self.object.get_xid()
+
 	def get_description(self):
 		workspace = self.object.get_workspace()
 		nr, name = workspace.get_number(), workspace.get_name()
