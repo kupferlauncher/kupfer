@@ -54,8 +54,9 @@ class RecentsSource (Source):
 		items = manager.get_items()
 		item_leaves = []
 		for item in items:
-			if (for_application_named and
-					for_application_named not in item.get_applications()):
+			if for_application_named:
+				low_apps = [A.lower() for A in item.get_applications()]
+				if for_application_named.lower() not in low_apps:
 					continue
 			day_age = item.get_age()
 			if max_days >= 0 and day_age > max_days:
