@@ -183,14 +183,25 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		output.close()
 		return True
 
-	def _store(self, app_id, application):
-		self.register[app_id] = application.get_name()
-		self.output_debug("storing application", app_id, "as", application.get_name())
+	def _store(self, app_id, window):
+		# FIXME: Store the 'res_class' name?
+		application = window.get_application()
+		store_name = application.get_name()
+		self.register[app_id] = store_name
+		self.output_debug("storing application", app_id, "as", store_name)
+
 	def _has_match(self, app_id):
 		return app_id in self.register
 
-	def _is_match(self, app_id, application):
-		return (self._has_match(app_id) and self.register[app_id] == application.get_name()) or (app_id == application.get_name().lower())
+	def _is_match(self, app_id, window):
+		application = window.get_application()
+		res_class = window.get_class_group().get_res_class()
+		reg_name = self.register.get(app_id)
+		if reg_name and reg_name in (application.get_name(), res_class):
+			return True
+		if app_id in (application.get_name().lower(), res_class.lower()):
+			return True
+		return False
 
 	def launched_application(self, app_id):
 		if self._has_match(app_id):
@@ -211,7 +222,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			env = _read_environ(pid, envcache=envcache)
 			if env and kupfer_env in env:
 				if env[kupfer_env] == app_id:
-					self._store(app_id, app)
+					self._store(app_id, w)
 					return False
 		if time() > timeout:
 			return False
@@ -224,16 +235,14 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	def application_is_running(self, app_id):
 		for w in self._get_wnck_screen_windows_stacked():
-			app = w.get_application()
-			if app and self._is_match(app_id, app):
+			if w.get_application() and self._is_match(app_id, w):
 				return True
 		return False
 
 	def get_application_windows(self, app_id):
 		application_windows = []
 		for w in self._get_wnck_screen_windows_stacked():
-			app = w.get_application()
-			if app and self._is_match(app_id, app):
+			if w.get_application() and self._is_match(app_id, w):
 				application_windows.append(w)
 		return application_windows
 
