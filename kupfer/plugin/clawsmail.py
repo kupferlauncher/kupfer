@@ -1,42 +1,21 @@
 # -*- coding: UTF-8 -*-
 import os
-import re
 from xml.dom import minidom
 
-from kupfer.objects import (Leaf, Action, Source, TextLeaf, UrlLeaf, RunnableLeaf, 
-		FilesystemWatchMixin, AppLeafContentMixin, FileLeaf)
+from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import (TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf,
+		AppLeafContentMixin )
 from kupfer import utils
+from kupfer.helplib import FilesystemWatchMixin
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
 
 __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", "SendFileByMail")
 __description__ = _("Claws Mail Contacts and Actions")
-__version__ = "0.2"
+__version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
-
-def _get_email_from_url(url):
-	''' convert http://foo@bar.pl -> foo@bar.pl '''
-	sep = url.find('://')
-	return url[sep+3:] if sep > -1 else url
-
-_CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,6}$")
-
-def _check_email(email):
-	''' simple email check '''
-	return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
-
-
-class ClawsContact(Leaf):
-	''' Leaf represent single contact from Claws address book '''
-	def get_actions(self):
-		yield NewMailAction()
-
-	def get_description(self):
-		return self.object
-
-	def get_icon_name(self):
-		return "stock_person"
 
 
 class ComposeMail(RunnableLeaf):
@@ -70,39 +49,25 @@ class ReceiveMail(RunnableLeaf):
 
 
 class NewMailAction(Action):
-	''' Createn new mail to selected leaf (ClawsContact or TextLeaf)'''
+	''' Create new mail to selected leaf'''
 	def __init__(self):
 		Action.__init__(self, _('Compose New Mail To'))
 
 	def activate(self, leaf):
-		email = leaf.object
-		if isinstance(leaf, UrlLeaf):
-			email = _get_email_from_url(email)
-
+		email = email_from_leaf(leaf)
 		utils.launch_commandline("claws-mail --compose '%s'" % email)
 
 	def get_icon_name(self):
 		return "mail-message-new"
 
 	def item_types(self):
-		yield ClawsContact
+		yield ContactLeaf
 		# we can enter email
 		yield TextLeaf
 		yield UrlLeaf
 
 	def valid_for_item(self, item):
-		if isinstance(item, ClawsContact):
-			return True
-
-		elif isinstance(item, TextLeaf):
-			return _check_email(item.object)
-
-		elif isinstance(item, UrlLeaf):
-			url = _get_email_from_url(item.object)
-			return _check_email(url)
-
-		return False
-
+		return bool(email_from_leaf(item))
 
 class SendFileByMail(Action):
 	''' Createn new mail and attach selected file'''
@@ -114,7 +79,7 @@ class SendFileByMail(Action):
 		utils.launch_commandline("claws-mail --attach '%s'" % filepath)
 
 	def get_icon_name(self):
-		return "mail-message-new"
+		return "document-send"
 
 	def item_types(self):
 		yield FileLeaf
@@ -126,17 +91,20 @@ class SendFileByMail(Action):
 		return os.path.isfile(item.object)
 
 
-class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
+		FilesystemWatchMixin):
 	appleaf_content_id = 'claws-mail'
 
 	def __init__(self, name=_("Claws Mail Address Book")):
-		Source.__init__(self, name)
+		super(ClawsContactsSource, self).__init__(name, "Contacts")
+		#Source.__init__(self, name)
 		self._claws_addrbook_dir = os.path.expanduser('~/.claws-mail/addrbook')
 		self._claws_addrbook_index = os.path.join(self._claws_addrbook_dir, \
 				"addrbook--index.xml")
-		self.unpickle_finish()
+		self._version = 4
 
-	def unpickle_finish(self):
+	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		if not os.path.isdir(self._claws_addrbook_dir):
 			return
 
@@ -162,7 +130,7 @@ class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 						addresses = person.getElementsByTagName('address')
 						for address in addresses:
 							email = address.getAttribute('email')
-							yield ClawsContact(email, cn)
+							yield EmailContact(email, cn)
 
 				except StandardError, err:
 					self.output_error(err)
@@ -177,8 +145,8 @@ class ClawsContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 		return "claws-mail"
 
 	def provides(self):
-		yield ClawsContact
 		yield RunnableLeaf
+		yield ContactLeaf
 
 	def _load_address_books(self):
 		''' load list of address-book files '''

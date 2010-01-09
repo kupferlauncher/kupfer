@@ -4,32 +4,37 @@ from __future__ import with_statement
 import os
 import urllib
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.objects import Action, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
-from kupfer import utils
+from kupfer import utils, icons
+from kupfer.obj.grouping import ToplevelGroupingSource 
+from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
 
 __kupfer_name__ = _("PuTTY Sessions")
 __kupfer_sources__ = ("PuttySessionSource", )
+__kupfer_actions__ = ("PuttyOpenSession", )
 __description__ = _("Quick access to PuTTY Sessions")
-__version__ = "0.2"
+__version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
-class PuttySession(Leaf):
+
+PUTTY_SESSION_KEY = "PUTTY_SESSION"
+
+
+class PuttySession(HostLeaf):
 	""" Leaf represent session saved in PuTTy"""
 
-	def __init__(self, name, description):
-		Leaf.__init__(self, name, name)
+	def __init__(self, name, hostname, description):
+		slots = {HOST_NAME_KEY: hostname, PUTTY_SESSION_KEY: name}
+		HostLeaf.__init__(self, slots, name)
 		self._description = description
-
-	def get_actions(self):
-		yield PuttyOpenSession()
 
 	def get_description(self):
 		return self._description
 
-	def get_icon_name(self):
-		return "computer"
+	def get_gicon(self):
+		return icons.ComposedIcon("computer", "putty")
 
 
 class PuttyOpenSession(Action):
@@ -38,20 +43,28 @@ class PuttyOpenSession(Action):
 		Action.__init__(self, _('Start Session'))
 
 	def activate(self, leaf):
-		utils.launch_commandline("putty -load '%s'" % leaf.object)
+		session = leaf[PUTTY_SESSION_KEY]
+		utils.launch_commandline("putty -load '%s'" % session)
 
 	def get_icon_name(self):
 		return 'putty'
 
+	def item_types(self):
+		yield HostLeaf
 
-class PuttySessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
-		FilesystemWatchMixin):
+	def valid_for_item(self, item):
+		return item.check_key(PUTTY_SESSION_KEY)
+
+
+class PuttySessionSource(AppLeafContentMixin, ToplevelGroupingSource, 
+		PicklingHelperMixin, FilesystemWatchMixin):
 	''' indexes session saved in putty '''
 
 	appleaf_content_id = 'putty'
 
 	def __init__(self, name=_("PuTTY Sessions")):
-		super(PuttySessionSource, self).__init__(name)
+		super(PuttySessionSource, self).__init__(name, "Sessions")
+		self._version = 2
 		self._putty_sessions_dir = os.path.expanduser('~/.putty/sessions')
 		self.unpickle_finish()
 
@@ -69,8 +82,8 @@ class PuttySessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 			obj_path = os.path.join(self._putty_sessions_dir, filename)
 			if os.path.isfile(obj_path):
 				name = urllib.unquote(filename)
-				description = self._load_host_from_session_file(obj_path)
-				yield PuttySession(name, description)
+				description, host = self._load_host_from_session_file(obj_path)
+				yield PuttySession(name, host, description)
 
 	def get_description(self):
 		return None
@@ -99,9 +112,9 @@ class PuttySessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 		else:
 			if host:
 				return unicode(user + '@' + host if user else host, "UTF-8",
-						"replace")
+						"replace"), unicode(host, 'UTF-8', 'replace')
 
-		return u'PuTTY Session'
+		return u'PuTTY Session', None
 
 
 
