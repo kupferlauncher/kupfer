@@ -1052,12 +1052,12 @@ class UrlLeaf (Leaf, TextRepresentation):
 class RunnableLeaf (Leaf):
 	"""Leaf where the Leaf is basically the action itself,
 	for items such as Quit, Log out etc. Is executed by the
-	only action Do
+	only action Perform
 	"""
 	def __init__(self, obj=None, name=None):
 		Leaf.__init__(self, obj, name)
 	def get_actions(self):
-		yield Do()
+		yield Perform()
 	def run(self):
 		raise NotImplementedError
 	def repr_key(self):
@@ -1070,16 +1070,16 @@ class RunnableLeaf (Leaf):
 	def get_icon_name(self):
 		return ""
 
-class Do (Action):
+class Perform (Action):
 	"""Perform the action in a RunnableLeaf"""
 	rank_adjust = 5
 	def __init__(self, name=None):
-		if not name: name = _("Do")
-		super(Do, self).__init__(name=name)
+		if not name: name = _("Perform")
+		super(Perform, self).__init__(name=name)
 	def activate(self, leaf):
 		return leaf.run()
 	def get_description(self):
-		return _("Perform action")
+		return _("Carry out command")
 
 class TextLeaf (Leaf, TextRepresentation):
 	"""Represent a text query
@@ -1146,8 +1146,8 @@ class TextSource (KupferObject):
 		"""A seq of the types of items it provides"""
 		yield Leaf
 
-class TimedDo (Do):
-	"""A timed proxy version of Do
+class TimedPerform (Perform):
+	"""A timed proxy version of Perform
 
 	Proxy factory/result/async from a delegate action
 	Delay action by a couple of seconds
@@ -1202,8 +1202,8 @@ class ComposedLeaf (RunnableLeaf):
 		self.object[:] = [obj, act, iobj]
 
 	def get_actions(self):
-		yield Do()
-		yield TimedDo()
+		yield Perform()
+		yield TimedPerform()
 
 	def repr_key(self):
 		return self
