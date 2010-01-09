@@ -217,6 +217,9 @@ class ComposedSource (Source):
 		if self.leaf.object[2] is not None:
 			yield self.leaf.object[2]
 
+	def repr_key(self):
+		return self.leaf.repr_key()
+
 	@classmethod
 	def decorates_type(cls):
 		return ComposedLeaf
