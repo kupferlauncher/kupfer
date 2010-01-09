@@ -19,6 +19,19 @@ class InvalidLeafError (Error):
 	"""The Leaf passed to an Action is invalid"""
 	pass
 
+_builtin_modules = frozenset([
+	"kupfer.obj.objects",
+	"kupfer.obj.base",
+	"kupfer.obj.sources",
+	"kupfer.obj.fileactions",
+])
+
+class _BuiltinObject (type):
+	def __new__(mcls, name, bases, dict):
+		dict["_is_builtin"] = dict["__module__"] in _builtin_modules
+		return type.__new__(mcls, name, bases, dict)
+
+
 class KupferObject (object):
 	"""
 	Base class for kupfer data model
@@ -33,6 +46,7 @@ class KupferObject (object):
 		Default actions should have +5 or +1
 		Destructive (dangerous) actions should have -5 or -10
 	"""
+	__metaclass__ = _BuiltinObject
 	rank_adjust = 0
 	def __init__(self, name=None):
 		""" Init kupfer object with, where
@@ -55,9 +69,12 @@ class KupferObject (object):
 		return self.name
 
 	def __repr__(self):
-		key = str(self.repr_key())
+		key = self.repr_key()
+		if self._is_builtin:
+			return "".join(("<builtin.", self.__class__.__name__,
+				((" %s" % (key,)) if key else ""), ">"))
 		return "".join(("<", self.__module__, ".", self.__class__.__name__,
-			((" %s" % key) if key else ""), ">"))
+			((" %s" % (key,)) if key else ""), ">"))
 
 	def repr_key(self):
 		"""
