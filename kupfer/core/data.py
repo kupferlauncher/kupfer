@@ -10,7 +10,7 @@ import operator
 import gobject
 gobject.threads_init()
 
-from kupfer import objects
+from kupfer.obj import base, sources, compose
 from kupfer import config, pretty, scheduler, task
 from kupfer import commandexec
 from kupfer import datatools
@@ -72,14 +72,14 @@ class Searcher (object):
 		for src in sources:
 			fixedrank = 0
 			rankables = None
-			if isinstance(src, objects.Source):
+			if isinstance(src, base.Source):
 				try:
 					# stored rankables
 					rankables = self._source_cache[src]
 				except KeyError:
 					# check uncached items
 					items = item_check(src.get_leaves())
-			elif isinstance(src, objects.TextSource):
+			elif isinstance(src, base.TextSource):
 				items = item_check(src.get_items(key))
 				fixedrank = src.get_rank()
 			else:
@@ -94,7 +94,7 @@ class Searcher (object):
 				elif key:
 					rankables = search.score_objects(rankables, key)
 				matches = search.bonus_objects(rankables, key)
-				if isinstance(src, objects.Source):
+				if isinstance(src, base.Source):
 					# we fork off a copy of the iterator to save
 					matches, self._source_cache[src] = itertools.tee(matches)
 			else:
@@ -259,7 +259,7 @@ class SourcePickler (pretty.OutputMixin):
 			return None
 		try:
 			source = pickle.loads(pfile.read())
-			assert isinstance(source, objects.Source), "Stored object not a Source"
+			assert isinstance(source, base.Source), "Stored object not a Source"
 			sname = os.path.basename
 			self.output_debug("Loading", source, "from", sname(pickle_file))
 		except (pickle.PickleError, Exception), e:
@@ -344,7 +344,7 @@ class SourceController (pretty.OutputMixin):
 			root_catalog, = self.sources
 		elif len(self.sources) > 1:
 			firstlevel = self._pre_root
-			root_catalog = objects.MultiSource(firstlevel)
+			root_catalog = sources.MultiSource(firstlevel)
 		else:
 			root_catalog = None
 		return root_catalog
@@ -352,12 +352,12 @@ class SourceController (pretty.OutputMixin):
 	@property
 	def _pre_root(self):
 		sourceindex = set(self.sources)
-		kupfer_sources = objects.SourcesSource(self.sources)
+		kupfer_sources = sources.SourcesSource(self.sources)
 		sourceindex.add(kupfer_sources)
 		# Make sure firstlevel is ordered
 		# So that it keeps the ordering.. SourcesSource first
 		firstlevel = []
-		firstlevel.append(objects.SourcesSource(sourceindex))
+		firstlevel.append(sources.SourcesSource(sourceindex))
 		firstlevel.extend(set(self.toplevel_sources))
 		return firstlevel
 
@@ -385,11 +385,11 @@ class SourceController (pretty.OutputMixin):
 		firstlevel = set()
 		# include the Catalog index since we want to include
 		# the top of the catalogs (like $HOME)
-		catalog_index = (objects.SourcesSource(self.sources), )
+		catalog_index = (sources.SourcesSource(self.sources), )
 		for s in itertools.chain(self.sources, catalog_index):
 			if self.good_source_for_types(s, types):
 				firstlevel.add(s)
-		return objects.MultiSource(firstlevel)
+		return sources.MultiSource(firstlevel)
 
 	def get_canonical_source(self, source):
 		"Return the canonical instance for @source"
@@ -425,7 +425,7 @@ class SourceController (pretty.OutputMixin):
 			contents = list(self.get_contents_for_leaf(obj, types))
 			content = contents and contents[0]
 			if len(contents) > 1:
-				content = objects.SourcesSource(contents, name=unicode(obj),
+				content = sources.SourcesSource(contents, name=unicode(obj),
 						use_reprs=False)
 			obj.add_content(content)
 
@@ -709,7 +709,7 @@ class SecondaryObjectPane (LeafPane):
 		"""
 		self.latest_key = key
 		sources = []
-		if not text_mode or isinstance(self.get_source(), objects.TextSource):
+		if not text_mode or isinstance(self.get_source(), base.TextSource):
 			sources.append(self.get_source())
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog
@@ -845,11 +845,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		source_config = setctl.get_config
 
 		def dir_source(opt):
-			return objects.DirectorySource(opt)
+			return sources.DirectorySource(opt)
 
 		def file_source(opt, depth=1):
 			abs = os.path.abspath(os.path.expanduser(opt))
-			return objects.FileSource((abs,), depth)
+			return sources.FileSource((abs,), depth)
 
 		for coll, level in zip((s_sources, S_sources), ("Catalog", "Direct")):
 			for item in setctl.get_directories(level):
@@ -985,13 +985,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.cancel_search()
 		panectl.select(item)
 		if pane is SourcePane:
-			assert not item or isinstance(item, objects.Leaf), \
+			assert not item or isinstance(item, base.Leaf), \
 					"Selection in Source pane is not a Leaf!"
 			# populate actions
 			self.action_pane.set_item(item)
 			self.search(ActionPane, interactive=True)
 		elif pane is ActionPane:
-			assert not item or isinstance(item, objects.Action), \
+			assert not item or isinstance(item, base.Action), \
 					"Selection in Source pane is not an Action!"
 			if item and item.requires_object():
 				newmode = SourceActionObjectMode
@@ -1005,7 +1005,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.object_pane.set_item_and_action(self.source_pane.get_selection(), item)
 				self.search(ObjectPane, lazy=True)
 		elif pane is ObjectPane:
-			assert not item or isinstance(item, objects.Leaf), \
+			assert not item or isinstance(item, base.Leaf), \
 					"Selection in Object pane is not a Leaf!"
 
 	def get_can_enter_text_mode(self, pane):
@@ -1106,7 +1106,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				return
 		else:
 			iobj = None
-		obj = objects.ComposedLeaf(leaf, action, iobj)
+		obj = compose.ComposedLeaf(leaf, action, iobj)
 		self._insert_object(SourcePane, obj)
 
 # pane cleared or set with new item

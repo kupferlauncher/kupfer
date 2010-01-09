@@ -2,7 +2,7 @@
 import gobject
 
 from kupfer import pretty
-from kupfer.helplib import gobject_connect_weakly
+from kupfer.obj.helplib import gobject_connect_weakly
 
 _scheduler = None
 
