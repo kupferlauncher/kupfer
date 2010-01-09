@@ -2,13 +2,14 @@
 plugin'''
 import dbus
 
-from kupfer.objects import (Leaf, Action, Source, AppLeafContentMixin,
-		TextLeaf, TextSource)
+from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
 from kupfer import pretty, scheduler
 from kupfer import icons
 from kupfer import plugin_support
-from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.helplib import PicklingHelperMixin, FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf, is_valid_email
 
 __kupfer_name__ = _("Pidgin")
