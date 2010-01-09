@@ -3,6 +3,7 @@
 Classes used to provide grouping leaves mechanism.
 """
 import copy
+import itertools
 import time
 import weakref
 
@@ -70,6 +71,7 @@ class GroupingSource (Source):
 		starttime = time.time()
 		# map (slot, value) -> group
 		groups = {}
+		non_group_leaves = []
 		for src in self.sources:
 			leaves = Source.get_leaves(src, force_update)
 			for leaf in leaves:
@@ -77,7 +79,7 @@ class GroupingSource (Source):
 					slots = leaf.slots()
 				except AttributeError:
 					# Let through Non-grouping leaves
-					yield leaf
+					non_group_leaves.append(leaf)
 					continue
 				slots = leaf.slots()
 				for slot in leaf.grouping_slots:
@@ -114,11 +116,11 @@ class GroupingSource (Source):
 
 		keys = set(groups)
 		keys.difference_update(redundant_keys)
-		for leaf in sort_func(self._make_group_leader(groups[K]) for K in keys):
-			yield leaf
+		leaves = sort_func(self._make_group_leader(groups[K]) for K in keys)
 		mergetime = time.time() - starttime
 		if mergetime > 0.05:
 			self.output_debug("Warning(?): merged in %s seconds" % mergetime)
+		return itertools.chain(non_group_leaves, leaves)
 
 	def repr_key(self):
 		# Distinguish when used as GroupingSource
