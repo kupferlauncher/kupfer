@@ -107,8 +107,6 @@ class qfurl (object):
 					continue
 				try:
 					if self == qfurl(obj):
-						pretty.print_debug(__name__,
-							"Found", repr(obj), "for", self)
 						return obj
 				except QfurlError:
 					pass
