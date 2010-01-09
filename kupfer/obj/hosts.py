@@ -17,6 +17,6 @@ class HostLeaf(GroupingLeaf):
 	grouping_slots = (HOST_NAME_KEY, HOST_ADDRESS_KEY)
 
 	def get_icon_name(self):
-		return "stock_host"
+		return "computer"
 
 

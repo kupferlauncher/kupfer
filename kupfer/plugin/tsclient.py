@@ -3,9 +3,9 @@ from __future__ import with_statement
 
 import os
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.objects import Action, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
-from kupfer import utils
+from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 
 from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
 
@@ -31,8 +31,8 @@ class TsclientSession(HostLeaf):
 	def get_description(self):
 		return self._description
 
-	def get_icon_name(self):
-		return "computer"
+	def get_gicon(self):
+		return icons.ComposedIcon(HostLeaf.get_icon_name(self), "tsclient")
 
 
 class TsclientOpenSession(Action):
@@ -55,7 +55,7 @@ class TsclientOpenSession(Action):
 
 
 class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource,
-		FilesystemWatchMixin):
+		FilesystemWatchMixin, PicklingHelperMixin):
 	''' indexes session saved in tsclient '''
 
 	appleaf_content_id = 'tsclient'

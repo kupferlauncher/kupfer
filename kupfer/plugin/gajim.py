@@ -7,6 +7,7 @@ from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
 from kupfer import plugin_support
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
+from kupfer import icons
 		
 
 __kupfer_name__ = _("Gajim")
@@ -73,6 +74,9 @@ class GajimContact(JabberContact):
 
 	def repr_key(self):
 		return "".join((self.object[JABBER_JID_KEY], self.object[GAJIM_ACCOUNT_KEY]))
+
+	def get_gicon(self):
+		return icons.ComposedIcon(JabberContact.get_icon_name(self), "gajim")
 
 
 class AccountStatus(Leaf):

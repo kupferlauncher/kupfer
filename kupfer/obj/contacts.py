@@ -10,6 +10,7 @@ for specific slots to be filled.
 """
 import re
 
+from kupfer import icons
 from kupfer.obj.grouping import GroupingLeaf
 
 __author__ = ("Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "
@@ -65,6 +66,9 @@ class EmailContact (ContactLeaf):
 
 	def get_description(self):
 		return self.object[EMAIL_KEY]
+
+	def get_gicon(self):
+		return icons.ComposedIcon(ContactLeaf.get_icon_name(self),"stock_mail")
 
 
 class JabberContact (ContactLeaf):

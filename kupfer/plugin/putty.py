@@ -6,7 +6,7 @@ import urllib
 
 from kupfer.objects import Action, AppLeafContentMixin
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
-from kupfer import utils
+from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 
 from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
 
@@ -33,8 +33,8 @@ class PuttySession(HostLeaf):
 	def get_description(self):
 		return self._description
 
-	def get_icon_name(self):
-		return "computer"
+	def get_gicon(self):
+		return icons.ComposedIcon("computer", "putty")
 
 
 class PuttyOpenSession(Action):
