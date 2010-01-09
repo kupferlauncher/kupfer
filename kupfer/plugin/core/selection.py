@@ -2,7 +2,7 @@ import gtk
 
 from kupfer.objects import Source, Leaf
 from kupfer.objects import TextLeaf, SourceLeaf
-from kupfer.helplib import gobject_connect_weakly
+from kupfer.weaklib import gobject_connect_weakly
 from kupfer import kupferstring
 
 __kupfer_name__ = _("Selected Text")
