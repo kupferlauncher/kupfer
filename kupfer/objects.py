@@ -1062,6 +1062,13 @@ class RunnableLeaf (Leaf):
 		raise NotImplementedError
 	def repr_key(self):
 		return ""
+	def get_gicon(self):
+		iname = self.get_icon_name()
+		if iname:
+			return icons.get_gicon_with_fallbacks(None, (iname, ))
+		return icons.ComposedIcon("kupfer-object", "gtk-execute")
+	def get_icon_name(self):
+		return ""
 
 class Do (Action):
 	"""Perform the action in a RunnableLeaf"""
