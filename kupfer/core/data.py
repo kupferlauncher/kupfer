@@ -1039,14 +1039,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		leaf = self.source_pane.get_selection()
 		sobject = self.object_pane.get_selection()
 		mode = self.mode
-		if not action or not leaf:
-			self.output_info("There is no selection!")
+		try:
+			ctx = self._execution_context
+			res, ret = ctx.run(leaf, action, sobject)
+		except commandexec.ActionExecutionError, exc:
+			self.output_error(exc)
 			return
-		if not sobject and self.mode is SourceActionObjectMode:
-			self.output_info("There is no third object!")
-			return
-		ctx = self._execution_context
-		res, ret = ctx.run(leaf, action, sobject)
 
 		# register search to learning database
 		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
