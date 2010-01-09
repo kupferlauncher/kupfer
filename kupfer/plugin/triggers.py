@@ -1,8 +1,9 @@
 import gtk
 
 
-from kupfer.objects import Leaf, Action, Source, TextSource
-from kupfer.objects import ComposedLeaf, TextLeaf, RunnableLeaf
+from kupfer.obj.base import Action, Source, TextSource
+from kupfer.obj.objects import TextLeaf, RunnableLeaf
+from kupfer.obj.compose import ComposedLeaf
 from kupfer import puid
 
 from kupfer.ui import keybindings

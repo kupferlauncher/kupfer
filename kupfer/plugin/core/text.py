@@ -4,7 +4,8 @@ import urllib2
 
 import gobject
 
-from kupfer.objects import TextSource, TextLeaf, FileLeaf, UrlLeaf, OpenUrl
+from kupfer.objects import TextSource, TextLeaf, FileLeaf, UrlLeaf
+from kupfer.obj.objects import OpenUrl
 from kupfer import utils
 
 __kupfer_name__ = u"Free-text Queries"

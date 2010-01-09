@@ -10,8 +10,8 @@ import xml.sax.saxutils
 import dbus
 import xdg.BaseDirectory as base
 
-from kupfer.objects import (Action, Source, Leaf, AppLeafContentMixin, TextLeaf,
-		PicklingHelperMixin, FilesystemWatchMixin, )
+from kupfer.objects import Action, Source, Leaf, TextLeaf
+from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
 
 __kupfer_name__ = _("Notes")
@@ -190,7 +190,7 @@ class ClassProperty (property):
 	def __get__(self, cls, owner):
 		return self.fget.__get__(None, owner)()
 
-class NotesSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
+class NotesSource (ApplicationSource):
 	def __init__(self):
 		Source.__init__(self, _("Notes"))
 		self._notes = []

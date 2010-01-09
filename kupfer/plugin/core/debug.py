@@ -5,9 +5,9 @@ These are not meant to be useful to "normal" users of Kupfer -- if they are,
 they can be tested here before they migrate to a fitting plugin.
 """
 
-from kupfer.objects import Action, Leaf, Source
-from kupfer.objects import ComposedLeaf
-from kupfer import objects
+from kupfer.obj.base import Action, Leaf, Source, InvalidLeafError
+from kupfer.obj.compose import ComposedLeaf
+from kupfer.obj import objects
 from kupfer import pretty
 
 __kupfer_sources__ = ()
@@ -38,7 +38,7 @@ class Rescan (Action):
 
 	def activate(self, leaf):
 		if not leaf.has_content():
-			raise objects.InvalidLeafError("Must have content")
+			raise InvalidLeafError("Must have content")
 		source = leaf.content_source()
 		source.get_leaves(force_update=True)
 

@@ -1,8 +1,8 @@
 import gtk
 
-from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import RunnableLeaf, AppLeafContentMixin
-from kupfer import objects, pretty
+from kupfer.objects import Source, RunnableLeaf
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer import pretty
 from kupfer import kupferui
 
 __kupfer_sources__ = ("KupferSource", )
