@@ -61,7 +61,7 @@ class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 	appleaf_content_id = 'tsclient'
 
 	def __init__(self, name=_("TSClient sessions")):
-		ToplevelGroupingSource.__init__(self, name, "Sessions")
+		ToplevelGroupingSource.__init__(self, name, "hosts")
 		self._sessions_dir = os.path.expanduser('~/.tsclient')
 		self._version = 2
 

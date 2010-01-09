@@ -63,7 +63,7 @@ class PuttySessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 	appleaf_content_id = 'putty'
 
 	def __init__(self, name=_("PuTTY Sessions")):
-		super(PuttySessionSource, self).__init__(name, "Sessions")
+		super(PuttySessionSource, self).__init__(name, "hosts")
 		self._version = 2
 		self._putty_sessions_dir = os.path.expanduser('~/.putty/sessions')
 		self.unpickle_finish()
