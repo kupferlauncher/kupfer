@@ -3,7 +3,7 @@ import dbus
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import AppLeaf
-from kupfer import pretty
+from kupfer import pretty, icons
 from kupfer import plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
@@ -188,6 +188,9 @@ class Contact(ContactLeaf):
 
 	def get_description(self):
 		return self._description
+
+	def get_gicon(self):
+		return icons.ComposedIcon(self.get_icon_name(), "skype")
 
 
 class AccountStatus(Leaf):
