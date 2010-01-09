@@ -5,9 +5,12 @@ import os
 import gio
 from xml.etree import cElementTree as ElementTree
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, UrlLeaf
+from kupfer.objects import Action, AppLeafContentMixin, UrlLeaf
 from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
-from kupfer import utils
+from kupfer import utils, icons
+from kupfer.obj.grouping import ToplevelGroupingSource 
+from kupfer.obj.hosts import HostServiceLeaf, HOST_ADDRESS_KEY, \
+		HOST_SERVICE_NAME_KEY, HOST_SERVICE_PORT_KEY, HOST_SERVICE_USER_KEY
 
 __kupfer_name__ = _("Vinagre")
 __kupfer_sources__ = ("SessionSource", )
@@ -19,19 +22,10 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 BOOKMARKS_FILE = '~/.local/share/vinagre/vinagre-bookmarks.xml'
 
-class Bookmark(Leaf):
-	def __init__(self, url, name):
-		Leaf.__init__(self, url, name)
-		self._description = url 
 
-	def get_actions(self):
-		yield VinagreStartSession()
-
-	def get_description(self):
-		return self._description
-
-	def get_icon_name(self):
-		return "computer"
+class Bookmark(HostServiceLeaf):
+	def get_gicon(self):
+		return icons.ComposedIcon(HostServiceLeaf.get_icon_name(self), "vinagre")
 
 
 class VinagreStartSession(Action):
@@ -39,26 +33,44 @@ class VinagreStartSession(Action):
 		Action.__init__(self, _('Start Vinagre Session'))
 
 	def activate(self, leaf):
-		utils.launch_commandline("vinagre %s" % leaf.object)
+		if isinstance(leaf, UrlLeaf):
+			utils.launch_commandline("vinagre %s" % leaf.object)
+		else:
+			service = leaf[HOST_SERVICE_NAME_KEY]
+			host = leaf[HOST_ADDRESS_KEY]
+			port = ''
+			if leaf.check_key(HOST_SERVICE_PORT_KEY):
+				port = ':' + leaf[HOST_SERVICE_PORT_KEY]
+			user = ''
+			if leaf.check_key(HOST_SERVICE_USER_KEY):
+				user = leaf[HOST_SERVICE_USER_KEY] + '@'
+			url = '%s://%s%s%s' % (service, user, host, port)
+			utils.launch_commandline("vinagre %s" % url)
 
 	def get_icon_name(self):
 		return 'vinagre'
 
 	def item_types(self):
-		yield Bookmark
+		yield HostServiceLeaf
 		yield UrlLeaf
 
 	def valid_for_item(self, item):
+		if isinstance(item, HostServiceLeaf):
+			if item.check_key(HOST_SERVICE_NAME_KEY):
+				service = item[HOST_SERVICE_NAME_KEY]
+				return service in ('ssh', 'vnc')
+			return False
 		return (item.object.startswith('ssh://') \
 				or item.object.startswith('vnc://'))
 
 
-class SessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
-		FilesystemWatchMixin):
+class SessionSource(AppLeafContentMixin, ToplevelGroupingSource,
+		PicklingHelperMixin, FilesystemWatchMixin):
 	appleaf_content_id = 'vinagre'
 
 	def __init__(self, name=_("Vinagre Bookmarks")):
-		Source.__init__(self, name)
+		ToplevelGroupingSource.__init__(self, name, 'hosts')
+		self._version = 2
 		self.unpickle_finish()
 
 	def pickle_prepare(self):
@@ -89,7 +101,10 @@ class SessionSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 				host = item.find('host').text
 				port = item.find('port').text
 				url = '%s://%s:%s' % (protocol, host, port)
-				yield Bookmark(url, name)
+				user = None
+				if host.find('@') > 0:
+					user, host = host.split('@', 1)
+				yield Bookmark(name, host, protocol, url, port, user)
 		except StandardError, err:
 			self.output_error(err)
 
