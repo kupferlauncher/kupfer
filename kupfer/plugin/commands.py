@@ -4,8 +4,8 @@ from os import access, R_OK, X_OK, path
 
 import gobject
 
-from kupfer.objects import TextSource, Leaf
-from kupfer.objects import TextLeaf, Execute
+from kupfer.objects import TextSource, Leaf, TextLeaf
+from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
 
 __kupfer_name__ = _("Shell Commands")

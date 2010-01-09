@@ -1,7 +1,7 @@
 import gio
 
-from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import OpenDirectory, SourceLeaf
+from kupfer.objects import Leaf, Action, Source, SourceLeaf
+from kupfer.obj.fileactions import OpenDirectory
 from kupfer import utils, icons, pretty
 
 __kupfer_name__ = _("Trash")

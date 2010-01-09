@@ -1,7 +1,8 @@
 import collections
 import weakref
 
-from kupfer.objects import Leaf, Source, Action, PicklingHelperMixin
+from kupfer.objects import Leaf, Source, Action
+from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import utils, objects, pretty
 from kupfer import puid
 
