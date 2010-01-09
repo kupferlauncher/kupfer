@@ -107,13 +107,11 @@ def resolve_action_id(puid, for_item=None):
 	if for_item is not None:
 		for action in for_item.get_actions():
 			if get_unique_id(action) == puid:
-				pretty.print_debug(__name__, "Resolving (Builtin)", puid)
 				return action
 	sc = data.GetSourceController()
 	for item_type, actions in sc.action_decorators.iteritems():
 		for action in actions:
 			if get_action_id(action) == puid:
-				pretty.print_debug(__name__, "Resolving (Decorator)", puid)
 				return action
 	pretty.print_debug(__name__, "Unable to resolve %s (%s)" % (puid, for_item))
 	return None
