@@ -4,8 +4,10 @@ import dbus
 import gobject
 
 from kupfer.objects import Source, Leaf
-from kupfer.objects import FileLeaf, SourceLeaf, MultipleLeaf
-from kupfer.helplib import DbusWeakCallback, PicklingHelperMixin
+from kupfer.objects import FileLeaf, SourceLeaf
+from kupfer.obj.compose import MultipleLeaf
+from kupfer.obj.helplib import PicklingHelperMixin
+from kupfer.weaklib import DbusWeakCallback
 from kupfer import plugin_support
 
 __kupfer_name__ = _("Selected File")

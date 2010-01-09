@@ -2,8 +2,8 @@ import os
 
 import glib
 
-from kupfer.objects import Source, Leaf, Action, \
-    AppLeafContentMixin, PicklingHelperMixin
+from kupfer.objects import Leaf, Action
+from kupfer.obj.apps import ApplicationSource
 from kupfer import utils, icons
 
 __kupfer_name__ = _("Gnome Terminal Profiles")
@@ -44,12 +44,12 @@ class OpenSession(Action):
 		return icons.ComposedIcon("gtk-execute", "terminal")
 
 
-class SessionsSource(AppLeafContentMixin, Source, PicklingHelperMixin):
+class SessionsSource(ApplicationSource):
 	""" Yield Gnome Terminal profiles """
 	appleaf_content_id = 'gnome-terminal'
 
 	def __init__(self):
-		Source.__init__(self, name=_("Gnome Terminal Profiles"))
+		ApplicationSource.__init__(self, name=_("Gnome Terminal Profiles"))
 
 	def get_items(self):
 		gc = gconf.client_get_default()

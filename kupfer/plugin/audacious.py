@@ -1,8 +1,8 @@
 import subprocess
 
 from kupfer.objects import Leaf, Source, Action
-from kupfer.objects import (AppLeaf, RunnableLeaf, SourceLeaf,
-		AppLeafContentMixin)
+from kupfer.objects import AppLeaf, RunnableLeaf, SourceLeaf
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import objects, icons, utils
 from kupfer import plugin_support
 from kupfer import kupferstring

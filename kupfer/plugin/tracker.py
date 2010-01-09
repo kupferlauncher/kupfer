@@ -4,8 +4,8 @@ from xml.etree.cElementTree import ElementTree
 import gobject
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import (TextLeaf, ConstructFileLeaf,
-		SourceLeaf, TextSource, FileLeaf)
+from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
+from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
 from kupfer import plugin_support
 

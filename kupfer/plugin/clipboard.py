@@ -4,7 +4,7 @@ import gtk
 
 from kupfer.objects import Source, Action, TextLeaf, Leaf
 from kupfer import utils, plugin_support
-from kupfer.helplib import gobject_connect_weakly
+from kupfer.weaklib import gobject_connect_weakly
 
 __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource", )

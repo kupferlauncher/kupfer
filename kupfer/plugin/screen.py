@@ -1,8 +1,8 @@
 import os
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer.helplib import FilesystemWatchMixin
-from kupfer import utils, objects
+from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer import utils
 
 __kupfer_name__ = _("GNU Screen")
 __kupfer_sources__ = ("ScreenSessionsSource", )

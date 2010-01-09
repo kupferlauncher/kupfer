@@ -7,7 +7,7 @@ from kupfer.objects import (Leaf, Action, Source,
 		AppLeaf, FileLeaf, UrlLeaf, )
 from kupfer import objects, plugin_support
 from kupfer import launch, icons
-from kupfer.helplib import gobject_connect_weakly
+from kupfer.weaklib import gobject_connect_weakly
 
 __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )

@@ -2,7 +2,8 @@ import gtk
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.ui import keybindings
-from kupfer.helplib import gobject_connect_weakly, PicklingHelperMixin
+from kupfer.weaklib import gobject_connect_weakly
+from kupfer.obj.helplib import PicklingHelperMixin
 
 __kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", "WorkspacesSource", )

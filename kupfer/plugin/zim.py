@@ -5,8 +5,8 @@ import os
 
 import glib
 
-from kupfer.objects import (Leaf, Action, Source, TextLeaf,
-		FilesystemWatchMixin, TextSource, AppLeafContentMixin)
+from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import config, utils, pretty, icons, plugin_support
 
 __kupfer_name__ = _("Zim")

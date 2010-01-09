@@ -1,7 +1,8 @@
 import os
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import plugin_support
 
 __kupfer_name__ = _("Firefox Bookmarks")

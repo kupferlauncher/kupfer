@@ -5,8 +5,8 @@ import glib
 
 from kupfer.objects import Leaf, Action, Source, FileLeaf
 from kupfer import icons, utils
-from kupfer import helplib
-from kupfer.helplib import FilesystemWatchMixin
+from kupfer.obj import helplib
+from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import plugin_support
 
 __kupfer_name__ = _("Document Templates")
