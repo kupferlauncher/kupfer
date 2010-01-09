@@ -17,12 +17,18 @@ from kupfer import pretty
 SERIALIZABLE_ATTRIBUTE = "serilizable"
 
 class SerializedObject (object):
+	# treat the serilizable attribute as a version number, defined on the class
 	def __init__(self, obj):
 		self.data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+		self.version = getattr(obj, SERIALIZABLE_ATTRIBUTE)
 	def __eq__(self, other):
-		return isinstance(other, type(self)) and self.data == other.data
+		return (isinstance(other, type(self)) and self.data == other.data and
+		        self.version == other.version)
 	def reconstruct(self):
-		return pickle.loads(self.data)
+		obj = pickle.loads(self.data)
+		if self.version != getattr(obj, SERIALIZABLE_ATTRIBUTE):
+			raise ValueError("Version mismatch for reconstructed %s" % obj)
+		return obj
 
 def get_unique_id(obj):
 	if obj is None:
