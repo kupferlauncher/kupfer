@@ -1072,6 +1072,7 @@ class RunnableLeaf (Leaf):
 
 class Do (Action):
 	"""Perform the action in a RunnableLeaf"""
+	rank_adjust = 5
 	def __init__(self, name=None):
 		if not name: name = _("Do")
 		super(Do, self).__init__(name=name)
