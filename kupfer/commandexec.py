@@ -30,6 +30,7 @@ class ActionExecutionContext (gobject.GObject):
 		self.task_runner = task.TaskRunner(end_on_finish=False)
 		self._nest_level = 0
 		self._delegate = False
+		self.last_command = None
 
 	def check_valid(self, obj, action, iobj):
 		pass
@@ -65,6 +66,10 @@ class ActionExecutionContext (gobject.GObject):
 				ret = action.activate(obj, iobj)
 			else:
 				ret = action.activate(obj)
+
+		# remember last command, but not delegated commands.
+		if not delegate:
+			self.last_command = (obj, action, iobj)
 
 		# Delegated command execution was previously requested: we take
 		# the result of the nested execution context
