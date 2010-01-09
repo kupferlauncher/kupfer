@@ -70,7 +70,7 @@ def get_plugin_info():
 			pretty.print_error(__name__, "import plugin '%s':" % plugin_name, e)
 			continue
 		localized_name = plugin.get("__kupfer_name__", None)
-		desc = plugin.get("__description__", _("(no description)"))
+		desc = plugin.get("__description__", "")
 		vers = plugin.get("__version__", "")
 		author = plugin.get("__author__", "")
 		# skip false matches;
