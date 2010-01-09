@@ -120,6 +120,11 @@ class GroupingSource (Source):
 		if mergetime > 0.05:
 			self.output_debug("Warning(?): merged in %s seconds" % mergetime)
 
+	def repr_key(self):
+		# Distinguish when used as GroupingSource
+		if type(self) is GroupingSource:
+			return unicode(self)
+		return Source.repr_key(self)
 
 	@classmethod
 	def _make_group_leader(cls, leaves):
