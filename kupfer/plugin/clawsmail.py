@@ -79,7 +79,7 @@ class SendFileByMail(Action):
 		utils.launch_commandline("claws-mail --attach '%s'" % filepath)
 
 	def get_icon_name(self):
-		return "mail-message-new"
+		return "document-send"
 
 	def item_types(self):
 		yield FileLeaf
