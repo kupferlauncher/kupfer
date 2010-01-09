@@ -181,6 +181,8 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		interface = _create_dbus_connection()
 		if interface is not None:
 			self._contacts = list(self._find_all_contacts(interface))
+		else:
+			self._contacts = []
 		return self._contacts
 
 	def _find_all_contacts(self, interface):
