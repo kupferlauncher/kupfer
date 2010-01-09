@@ -28,6 +28,8 @@ class Trigger (RunnableLeaf):
 		yield RemoveTrigger()
 	def run(self):
 		return Triggers.perform_trigger(self.object)
+	def repr_key(self):
+		return self.object
 
 class Triggers (Source):
 	instance = None
