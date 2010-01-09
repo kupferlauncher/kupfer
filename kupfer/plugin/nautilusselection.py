@@ -32,7 +32,7 @@ class SelectedFiles (MultipleLeaf):
 	qf_id = "selectedfile"
 	def __init__(self, paths):
 		files = [FileLeaf(path) for path in paths]
-		MultipleLeaf.__init__(self, files, "Selected Files")
+		MultipleLeaf.__init__(self, files, _("Selected Files"))
 
 	def __repr__(self):
 		return "<%s %s>" % (__name__, self.qf_id)
