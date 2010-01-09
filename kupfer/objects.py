@@ -1215,10 +1215,7 @@ class ComposedLeaf (RunnableLeaf):
 
 	def get_gicon(self):
 		obj, action, iobj = self.object
-		if iobj is None:
-			return icons.ComposedIcon(obj.get_icon(), action.get_icon())
-		else:
-			return icons.ComposedIcon(obj.get_icon(), iobj.get_icon())
+		return icons.ComposedIcon(obj.get_icon(), action.get_icon())
 
 class _MultipleLeafContentSource (Source):
 	def __init__(self, leaf):
