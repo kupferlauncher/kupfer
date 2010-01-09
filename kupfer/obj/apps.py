@@ -1,4 +1,5 @@
-from kupfer.obj.base import InvalidDataError
+from kupfer.obj.base import InvalidDataError, Source
+from kupfer.obj.helplib import PicklingHelperMixin, FilesystemWatchMixin
 from kupfer.obj.objects import AppLeaf
 
 class AppLeafContentMixin (object):
@@ -42,4 +43,8 @@ class AppLeafContentMixin (object):
 	def decorate_item(cls, leaf):
 		if leaf == cls.get_leaf_repr():
 			return cls()
+
+class ApplicationSource(AppLeafContentMixin, Source, PicklingHelperMixin,
+		FilesystemWatchMixin):
+	pass
 
