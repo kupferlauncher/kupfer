@@ -59,7 +59,7 @@ class AppSource (Source, FilesystemWatchMixin):
 		return _("All applications and preferences")
 
 	def get_icon_name(self):
-		return "gnome-applications"
+		return "applications-office"
 	def provides(self):
 		yield AppLeaf
 
