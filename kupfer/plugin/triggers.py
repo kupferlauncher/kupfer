@@ -38,6 +38,16 @@ class Triggers (Source):
 	def __init__(self):
 		Source.__init__(self, _("Triggers"))
 		self.trigger_table = {}
+
+	def config_save(self):
+		return {"triggers": self.trigger_table, "version": self.version}
+
+	def config_save_name(self):
+		return __name__
+
+	def config_restore(self, state):
+		self.trigger_table = state["triggers"]
+		return True
 	
 	def initialize(self):
 		Triggers.instance = self
