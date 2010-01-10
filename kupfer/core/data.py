@@ -283,6 +283,75 @@ class SourcePickler (pretty.OutputMixin):
 		output.close()
 		return True
 
+class SourceDataPickler (pretty.OutputMixin):
+	""" Takes care of pickling and unpickling Kupfer Sources' configuration
+	or data.
+
+	The SourceDataPickler requires a protocol of three methods:
+
+	config_save_name()
+	  Return an ascii name to be used as a token/key for the configuration
+
+	config_save()
+	  Return an object to be saved as configuration
+
+	config_restore(obj)
+	  Receive the configuration object `obj' to load
+	"""
+	pickle_version = 1
+	name_template = "config-%s-v%d.pickle"
+
+	def __init__(self):
+		self.open = open
+
+	@classmethod
+	def get_filename(cls, source):
+		"""Return filename for @source"""
+		name = source.config_save_name()
+		filename = cls.name_template % (name, cls.pickle_version)
+		return config.save_config_file(filename)
+
+	def load_source(self, source):
+		data = self._load_data(self.get_filename(source))
+		if not data:
+			return True
+		source.config_restore(data)
+
+	def _load_data(self, pickle_file):
+		try:
+			pfile = self.open(pickle_file, "rb")
+		except IOError, e:
+			return None
+		try:
+			data = pickle.load(pfile)
+			sname = os.path.basename(pickle_file)
+			self.output_debug("Loaded configuration from", sname)
+			self.output_debug(data)
+		except (pickle.PickleError, Exception), e:
+			data = None
+			self.output_error("Loading %s: %s" % (pickle_file, e))
+		return data
+
+	def save_source(self, source):
+		return self._save_data(self.get_filename(source), source)
+	def _save_data(self, pickle_file, source):
+		sname = os.path.basename(pickle_file)
+		obj = source.config_save()
+		try:
+			data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+		except pickle.PickleError, exc:
+			import traceback
+			self.output_error("Unable to save configuration for", source)
+			self.output_error("Saving configuration raised an exception:")
+			traceback.print_exc()
+			self.output_error("Please file a bug report")
+			data = None
+		if data:
+			self.output_debug("Storing configuration for", source, "as", sname)
+			output = self.open(pickle_file, "wb")
+			output.write(data)
+			output.close()
+		return True
 
 class SourceController (pretty.OutputMixin):
 	"""Control sources; loading, pickling, rescanning"""
