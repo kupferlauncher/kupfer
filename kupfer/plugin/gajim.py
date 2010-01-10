@@ -1,13 +1,15 @@
 # -*- coding: UTF-8 -*-
 import dbus
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin, AppLeaf
-from kupfer import pretty
-from kupfer.helplib import dbus_signal_connect_weakly, PicklingHelperMixin
+from kupfer import icons
 from kupfer import plugin_support
+from kupfer import pretty
+from kupfer.objects import Leaf, Action, Source, AppLeaf
+from kupfer.weaklib import dbus_signal_connect_weakly
+from kupfer.obj.helplib import PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
-from kupfer import icons
 		
 
 __kupfer_name__ = _("Gajim")
