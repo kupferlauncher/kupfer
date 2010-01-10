@@ -97,10 +97,10 @@ def resolve_unique_id(puid, excluding=None):
 			pretty.print_debug(__name__, type(exc).__name__, exc)
 			return None
 	sc = data.GetSourceController()
-	obj = _find_obj_in_catalog(puid, sc._pre_root)
+	obj = _find_obj_in_catalog(puid, sc._firstlevel)
 	if obj is not None:
 		return obj
-	other_sources = set(sc.sources) - set(sc._pre_root)
+	other_sources = set(sc.sources) - set(sc._firstlevel)
 	obj = _find_obj_in_catalog(puid, other_sources)
 	return obj
 
