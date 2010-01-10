@@ -2,7 +2,6 @@ import collections
 import weakref
 
 from kupfer.objects import Leaf, Source, Action
-from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import utils, objects, pretty
 from kupfer import puid
 
@@ -20,24 +19,22 @@ def _FavoritesLeafTypes():
 	"""reasonable pickleable types"""
 	yield Leaf
 
-class FavoritesSource (Source, PicklingHelperMixin):
+class FavoritesSource (Source):
 	"""Keep a list of Leaves that the User may add and remove from"""
 	instance = None
 	def __init__(self):
 		Source.__init__(self, _("Favorites"))
-		self._version = 2
 		self.references = []
-		self.unpickle_finish()
 
-	def pickle_prepare(self):
-		self.mark_for_update()
-		self.references = [puid.get_unique_id(F) for F in self.favorites]
-		self.favorites = []
-		self.reference_table = None
-		self.persist_table = None
+	def config_save(self):
+		references = [puid.get_unique_id(F) for F in self.favorites]
+		return {"favorites": references, "version": self.version}
 
-	def unpickle_finish(self):
-		pass
+	def config_save_name(self):
+		return __name__
+
+	def config_restore(self, state):
+		self.references = state["favorites"]
 
 	def _lookup_item(self, id_):
 		itm = puid.resolve_unique_id(id_, excluding=self)
