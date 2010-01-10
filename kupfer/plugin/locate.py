@@ -2,8 +2,9 @@ import os
 import subprocess
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import (TextLeaf, ConstructFileLeaf, FileLeaf)
+from kupfer.objects import TextLeaf, FileLeaf
 from kupfer import icons, plugin_support
+from kupfer.obj.objects import ConstructFileLeaf
 
 
 __kupfer_name__ = _("Locate Files")
