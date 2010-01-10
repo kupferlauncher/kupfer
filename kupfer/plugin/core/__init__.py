@@ -2,6 +2,7 @@ import gtk
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer import objects
+from kupfer.obj.base import InvalidLeafError
 from kupfer import interface
 from kupfer import pretty
 
@@ -58,7 +59,7 @@ class SearchInside (Action):
 		return True
 	def activate(self, leaf):
 		if not leaf.has_content():
-			raise objects.InvalidLeafError("Must have content")
+			raise InvalidLeafError("Must have content")
 		return leaf.content_source()
 
 	def item_types(self):
