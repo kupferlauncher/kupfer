@@ -311,6 +311,10 @@ class SourceDataPickler (pretty.OutputMixin):
 		filename = cls.name_template % (name, cls.pickle_version)
 		return config.save_config_file(filename)
 
+	@classmethod
+	def source_has_config(self, source):
+		return getattr(source, "config_save_name", None)
+
 	def load_source(self, source):
 		data = self._load_data(self.get_filename(source))
 		if not data:
@@ -355,12 +359,11 @@ class SourceDataPickler (pretty.OutputMixin):
 
 class SourceController (pretty.OutputMixin):
 	"""Control sources; loading, pickling, rescanning"""
-	def __init__(self, pickle=True):
+	def __init__(self):
 		self.rescanner = PeriodicRescanner(period=3)
 		self.sources = set()
 		self.toplevel_sources = set()
 		self.text_sources = set()
-		self.pickle = pickle
 		self.content_decorators = set()
 		self.action_decorators = set()
 
@@ -501,6 +504,12 @@ class SourceController (pretty.OutputMixin):
 	def finish(self):
 		self._pickle_sources(self.sources)
 
+	def save_data(self):
+		configsaver = SourceDataPickler()
+		for source in self.sources:
+			if configsaver.source_has_config(source):
+				configsaver.save_source(source)
+
 	def _try_unpickle(self, sources):
 		"""
 		Try to unpickle the source that is equivalent to the
@@ -508,20 +517,21 @@ class SourceController (pretty.OutputMixin):
 		the "dummy" becomes live.
 		"""
 		sourcepickler = SourcePickler()
+		configsaver = SourceDataPickler()
 		for source in set(sources):
-			if self.pickle:
-				news = sourcepickler.unpickle_source(source)
+			news = None
+			if configsaver.source_has_config(source):
+				configsaver.load_source(source)
 			else:
-				news = None
-			yield news if news is not None else source
+				news = sourcepickler.unpickle_source(source)
+			yield news or source
 
 	def _pickle_sources(self, sources):
-		if not self.pickle:
-			return
 		sourcepickler = SourcePickler()
 		sourcepickler.rm_old_cachefiles()
 		for source in sources:
-			if source.is_dynamic():
+			if (source.is_dynamic() or
+			    SourceDataPickler.source_has_config(source)):
 				continue
 			sourcepickler.pickle_source(source)
 
@@ -985,6 +995,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def _finish(self, sched):
 		self.output_info("Saving data...")
 		learn.finish()
+		GetSourceController().save_data()
 		self.output_info("Saving cache...")
 		GetSourceController().finish()
 
