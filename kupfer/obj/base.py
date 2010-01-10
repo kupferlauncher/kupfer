@@ -174,7 +174,7 @@ class Leaf (KupferObject):
 
 	def add_content(self, content):
 		"""Register content source @content with Leaf"""
-		self._content_source = _NonpersistentToken(content)
+		self._content_source = content and _NonpersistentToken(content)
 
 	def has_content(self):
 		return self._content_source

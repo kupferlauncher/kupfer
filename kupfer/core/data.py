@@ -499,7 +499,7 @@ class SourceController (pretty.OutputMixin):
 		if hasattr(obj, "has_content"):
 			types = tuple(action.object_types()) if action else ()
 			contents = list(self.get_contents_for_leaf(obj, types))
-			content = contents and contents[0]
+			content = contents[0] if contents else None
 			if len(contents) > 1:
 				content = sources.SourcesSource(contents, name=unicode(obj),
 						use_reprs=False)
