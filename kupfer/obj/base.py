@@ -143,6 +143,16 @@ def aslist(seq):
 		seq = list(seq)
 	return seq
 
+class _NonpersistentToken (object):
+	"Goes None when pickled"
+	__slots__ = "object"
+	def __init__(self, object_):
+		self.object = object_
+	def __nonzero__(self):
+		return bool(self.object)
+	def __reduce__(self):
+		return (eval, ("None", ))
+
 class Leaf (KupferObject):
 	"""
 	Base class for objects
@@ -154,7 +164,6 @@ class Leaf (KupferObject):
 		"""Represented object @obj and its @name"""
 		super(Leaf, self).__init__(name)
 		self.object = obj
-		self._has_content = None
 		self._content_source = None
 	
 	def __hash__(self):
@@ -165,16 +174,15 @@ class Leaf (KupferObject):
 
 	def add_content(self, content):
 		"""Register content source @content with Leaf"""
-		self._has_content = bool(content)
-		self._content_source = content
+		self._content_source = _NonpersistentToken(content)
 
 	def has_content(self):
-		return self._has_content
+		return self._content_source
 
 	def content_source(self, alternate=False):
 		"""Content of leaf. it MAY alter behavior with @alternate,
 		as easter egg/extra mode"""
-		return self._content_source
+		return self._content_source and self._content_source.object
 
 	def get_actions(self):
 		"""Default (builtin) actions for this Leaf"""
