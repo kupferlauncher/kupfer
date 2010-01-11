@@ -15,10 +15,6 @@ __description__ = _("Mark commonly used items and store objects for later use")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-def _FavoritesLeafTypes():
-	"""reasonable pickleable types"""
-	yield Leaf
-
 class FavoritesSource (Source):
 	"""Keep a list of Leaves that the User may add and remove from"""
 	instance = None
@@ -128,7 +124,8 @@ class FavoritesSource (Source):
 		return "emblem-favorite"
 
 	def provides(self):
-		return list(_FavoritesLeafTypes())
+		# returning nothing means it provides anything
+		return ()
 
 class AddFavorite (Action):
 	# Rank down, since it applies everywhere
@@ -138,7 +135,7 @@ class AddFavorite (Action):
 	def activate(self, leaf):
 		FavoritesSource.add(leaf)
 	def item_types(self):
-		return list(_FavoritesLeafTypes())
+		return (Leaf, )
 	def valid_for_item(self, item):
 		return not FavoritesSource.has_item(item)
 	def get_description(self):
@@ -153,7 +150,7 @@ class RemoveFavorite (Action):
 	def activate(self, leaf):
 		FavoritesSource.remove(leaf)
 	def item_types(self):
-		return list(_FavoritesLeafTypes())
+		return (Leaf, )
 	def valid_for_item(self, item):
 		return FavoritesSource.has_item(item)
 	def get_description(self):
