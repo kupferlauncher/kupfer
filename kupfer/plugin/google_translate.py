@@ -74,10 +74,10 @@ def _translate(text, lang):
 			sentences = resp.get('sentences')
 			if not sentences:
 				return
-			translation = sentences[0].get('trans')
-			if not translation:
-				return
-			yield translation, ''
+			# Join up all sentences to one text
+			text = u"".join(filter(None, [S.get('trans') for S in sentences]))
+			if text:
+				yield text, ''
 			dictionary = resp.get('dict')
 			if dictionary:
 				for term in dictionary:
