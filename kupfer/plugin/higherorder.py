@@ -1,8 +1,13 @@
 from kupfer.objects import Action, Leaf
+from kupfer.obj.compose import ComposedLeaf
+from kupfer import commandexec
+from kupfer import pretty
 
 __kupfer_name__ = _("Higher-order Actions")
 __kupfer_actions__ = (
 	"Select",
+	"TakeResult",
+	"DiscardResult",
 )
 __description__ = _("Tools to work with Kupfer commands as objects")
 __version__ = "2010-01-11"
@@ -19,3 +24,70 @@ class Select (Action):
 		return leaf
 	def item_types(self):
 		yield Leaf
+
+def _exec_no_show_result(composedleaf):
+	pretty.print_debug(__name__, "Evaluating command", composedleaf)
+	obj, action, iobj = composedleaf.object
+	if iobj is None:
+		return action.activate(obj)
+	else:
+		return action.activate(obj, iobj)
+
+def _save_result(cleaf):
+	# Save the result of @cleaf into a ResultObject
+	# When the ResultObject is to be restored from serialized state,
+	# @cleaf is executed again.
+	# NOTE: This will have unintended consequences outside Trigger use.
+	leaf = _exec_no_show_result(cleaf)
+	class ResultObject (Leaf):
+		serilizable = 1
+		def __init__(self, leaf, cleaf):
+			Leaf.__init__(self, leaf.object, unicode(leaf))
+			vars(self).update(vars(leaf))
+			self.name = u"Result of %s (%s)" % (unicode(cleaf), unicode(self))
+			self.__composed_leaf = cleaf
+			self.__class__.__bases__ = (leaf.__class__, Leaf)
+
+		def get_gicon(self):
+			return None
+		def get_icon_name(self):
+			return Leaf.get_icon_name(self)
+
+		def __reduce__(self):
+			return (_save_result, (self.__composed_leaf, ))
+	return ResultObject(leaf, cleaf)
+
+
+class TakeResult (Action):
+	def __init__(self):
+		Action.__init__(self, _("Run (Take Result)"))
+
+	def has_result(self):
+		return True
+	def activate(self, leaf):
+		return _save_result(leaf)
+
+	def item_types(self):
+		yield ComposedLeaf
+	def valid_for_item(self, leaf):
+		return leaf.object[1].has_result()
+	def get_description(self):
+		return _("Take the result of a command as part of next command")
+
+class DiscardResult (Action):
+	"""Run ComposedLeaf without taking the result"""
+	def __init__(self):
+		Action.__init__(self, _("Run (Discard Result)"))
+
+	def activate(self, leaf):
+		from kupfer import commandexec
+		ctx = commandexec.DefaultActionExecutionContext()
+		obj, action, iobj = leaf.object
+		return ctx.run(obj, action, iobj, delegate=False)
+	def item_types(self):
+		yield ComposedLeaf
+	def valid_for_item(self, leaf):
+		return leaf.object[1].has_result()
+	def get_description(self):
+		return _("Run saved command without showing the result")
+
