@@ -106,8 +106,22 @@ def show_path(path):
 	url = gfile.get_uri()
 	show_url(url)
 
+def _tolocale(ustr):
+	import locale
+	enc = locale.getpreferredencoding(do_setlocale=False)
+	if isinstance(ustr, unicode):
+		return ustr.encode(enc, "replace")
+	return ustr
+
+def show_url_xdg(url):
+	"""Open @url xdg-open"""
+	pretty.print_debug(__name__, "show_url_xdg", url)
+	encoded_url = _tolocale(url)
+	return spawn_async(("xdg-open", encoded_url))
+
 def show_url(url):
 	"""Open any @url with default viewer"""
+	return show_url_xdg(url)
 	from gtk import show_uri, get_current_event_time
 	from gtk.gdk import screen_get_default
 	from glib import GError
