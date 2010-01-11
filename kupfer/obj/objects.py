@@ -48,7 +48,6 @@ class FileLeaf (Leaf, TextRepresentation):
 	"""
 	serilizable = True
 	# To save memory with (really) many instances
-	__slots__ = ("name", "object")
 
 	def __init__(self, obj, name=None):
 		"""Construct a FileLeaf
@@ -325,8 +324,6 @@ class CloseAll (Action):
 		return "gtk-close"
 
 class UrlLeaf (Leaf, TextRepresentation):
-	# slots saves memory since we have lots this Leaf
-	__slots__ = ("name", "object")
 	def __init__(self, obj, name):
 		super(UrlLeaf, self).__init__(obj, name)
 
