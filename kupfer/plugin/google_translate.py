@@ -189,6 +189,7 @@ class _TranslateQuerySource(Source):
 
 
 class _Language(Leaf):
+	serilizable = 1
 	def get_gicon(self):
 		return icons.ComposedIcon("text-x-generic","preferences-desktop-locale")
 
