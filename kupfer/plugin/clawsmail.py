@@ -138,6 +138,11 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		yield ComposeMail()
 		yield ReceiveMail()
 
+	def should_sort_lexically(self):
+		# since it is a grouping source, grouping and non-grouping will be
+		# separate and only grouping leaves will be sorted
+		return True
+
 	def get_description(self):
 		return _("Contacts from Claws Mail Address Book")
 
