@@ -136,7 +136,7 @@ class RevealFile (Action):
 	
 	def activate(self, leaf):
 		fileloc = leaf.object
-		parent = os.path.normpath(path.join(fileloc, os.path.pardir))
+		parent = os.path.normpath(os.path.join(fileloc, os.path.pardir))
 		utils.show_path(parent)
 
 	def get_description(self):
