@@ -69,26 +69,37 @@ class NewMailAction(Action):
 	def valid_for_item(self, item):
 		return bool(email_from_leaf(item))
 
-class SendFileByMail(Action):
-	''' Createn new mail and attach selected file'''
+
+class SendFileByMail (Action):
+	'''Create new e-mail and attach selected file'''
 	def __init__(self):
-		Action.__init__(self, _('Send by Email'))
+		Action.__init__(self, _('Send by Email To..'))
 
-	def activate(self, leaf):
-		filepath = leaf.object
-		utils.launch_commandline("claws-mail --attach '%s'" % filepath)
-
-	def get_icon_name(self):
-		return "document-send"
+	def activate(self, obj, iobj):
+		filepath = obj.object
+		email = email_from_leaf(iobj)
+		utils.launch_commandline("claws-mail --compose '%s' --attach '%s'" %
+				(email, filepath))
 
 	def item_types(self):
 		yield FileLeaf
+	def valid_for_item(self, item):
+		return not item.is_dir()
+
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield ContactLeaf
+		# we can enter email
+		yield TextLeaf
+		yield UrlLeaf
+	def valid_object(self, iobj, for_item=None):
+		return bool(email_from_leaf(iobj))
 
 	def get_description(self):
 		return _("Compose new email in ClawsMail and attach file")
-
-	def valid_for_item(self, item):
-		return os.path.isfile(item.object)
+	def get_icon_name(self):
+		return "document-send"
 
 
 class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
