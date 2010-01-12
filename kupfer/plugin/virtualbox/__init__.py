@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
-from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
+from kupfer.objects import Leaf, Action, Source
 from kupfer import pretty, plugin_support
+from kupfer.obj.apps import ApplicationSource
 
 __kupfer_name__ = _("VirtualBox")
 __kupfer_sources__ = ("VBoxMachinesSource", )
@@ -75,15 +75,13 @@ class VMAction(Action):
 		vbox_support.vm_action(self.command, leaf.object)
 
 
-class VBoxMachinesSource(AppLeafContentMixin, Source, PicklingHelperMixin, 
-		FilesystemWatchMixin):
+class VBoxMachinesSource(ApplicationSource):
 	appleaf_content_id = vbox_support.APP_ID
 
 	def __init__(self, name=_("VirtualBox Machines")):
 		Source.__init__(self, name)
-		self.unpickle_finish()
 
-	def unpickle_finish(self):
+	def initialize(self):
 		if vbox_support.MONITORED_DIRS:
 			self.monitor_token = self.monitor_directories(
 					*vbox_support.MONITORED_DIRS)

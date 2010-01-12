@@ -4,15 +4,15 @@ from __future__ import with_statement
 import codecs
 import os
 
-from kupfer.objects import Source, UrlLeaf, AppLeafContentMixin
-from kupfer import plugin_support, objects
-from kupfer.helplib import PicklingHelperMixin, FilesystemWatchMixin
+from kupfer.objects import Source, UrlLeaf
+from kupfer import plugin_support
+from kupfer.obj.apps import ApplicationSource
 
 
 __kupfer_name__ = _("Opera Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
 __description__ = _("Index of Opera bookmarks")
-__version__ = "0.1"
+__version__ = "2010-01-12"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -21,8 +21,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 BOOKMARKS_FILE = "bookmarks.adr"
 
-class BookmarksSource(AppLeafContentMixin, Source, PicklingHelperMixin,
-		FilesystemWatchMixin):
+class BookmarksSource(ApplicationSource):
 	appleaf_content_id = "opera"
 
 	def __init__(self, name=_("Opera Bookmarks")):
@@ -32,6 +31,8 @@ class BookmarksSource(AppLeafContentMixin, Source, PicklingHelperMixin,
 	def unpickle_finish(self):
 		self._opera_home = os.path.expanduser("~/.opera/")
 		self._bookmarks_path = os.path.join(self._opera_home, BOOKMARKS_FILE)
+
+	def initialize(self):
 		self.monitor_token = self.monitor_directories(self._opera_home)
 
 	def monitor_include_file(self, gfile):

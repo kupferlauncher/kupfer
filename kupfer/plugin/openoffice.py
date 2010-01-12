@@ -5,7 +5,7 @@ from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import Source, FileLeaf, UrlLeaf, AppLeaf
-from kupfer.helplib import PicklingHelperMixin
+from kupfer.obj.helplib import PicklingHelperMixin
 
 __kupfer_name__ = _("OpenOffice")
 __kupfer_sources__ = ("RecentsSource", )
@@ -60,12 +60,11 @@ class RecentsSource (MultiAppContentMixin, Source, PicklingHelperMixin):
 
 	def __init__(self, name=_("OpenOffice Recent Items")):
 		Source.__init__(self, name)
-		self.unpickle_finish()
 
 	def pickle_prepare(self):
 		self.monitor = None
 
-	def unpickle_finish(self):
+	def initialize(self):
 		hist_file_path = _get_history_file_path()
 		if not hist_file_path:
 			return

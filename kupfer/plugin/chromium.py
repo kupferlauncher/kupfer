@@ -1,8 +1,9 @@
 import os
 
-from kupfer.objects import Leaf, Action, Source, AppLeafContentMixin
+from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
 from kupfer import config, plugin_support
+from kupfer.obj.apps import AppLeafContentMixin
 
 __kupfer_name__ = _("Chromium Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )

@@ -2,9 +2,10 @@
 import dbus
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import AppLeafContentMixin, AppLeaf
+from kupfer.objects import AppLeaf
 from kupfer import pretty
 from kupfer import plugin_support
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 

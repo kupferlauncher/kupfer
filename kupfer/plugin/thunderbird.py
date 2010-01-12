@@ -5,8 +5,9 @@ from __future__ import with_statement
 import os
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, AppLeafContentMixin
-from kupfer.helplib import FilesystemWatchMixin
+from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
