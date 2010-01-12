@@ -81,7 +81,7 @@ class SourcePickler (pretty.OutputMixin):
 	"""
 	Takes care of pickling and unpickling Kupfer Sources.
 	"""
-	pickle_version = 3
+	pickle_version = 4
 	name_template = "k%s-v%d.pickle.gz"
 
 	def __init__(self):
@@ -112,7 +112,10 @@ class SourcePickler (pretty.OutputMixin):
 
 	def get_filename(self, source):
 		"""Return cache filename for @source"""
-		bytes = hashlib.md5(repr(source)).digest()
+		# make sure we take the source name into account
+		# so that we get a "break" when locale changes
+		source_id = "%s%s%s" % (repr(source), str(source), source.version)
+		bytes = hashlib.md5(source_id).digest()
 		hashstr = bytes.encode("base64").rstrip("\n=").replace("/", "-")
 		filename = self.name_template % (hashstr, self.pickle_version)
 		return os.path.join(config.get_cache_home(), filename)
