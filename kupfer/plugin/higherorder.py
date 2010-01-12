@@ -29,9 +29,19 @@ def _exec_no_show_result(composedleaf):
 	pretty.print_debug(__name__, "Evaluating command", composedleaf)
 	obj, action, iobj = composedleaf.object
 	if iobj is None:
-		return action.activate(obj)
+		ret = action.activate(obj)
 	else:
-		return action.activate(obj, iobj)
+		ret = action.activate(obj, iobj)
+	if not ret:
+		return None
+	if action.has_result():
+		return ret
+	elif action.is_factory():
+		try:
+			return iter(ret.get_leaves()).next()
+		except StopIteration:
+			pass
+
 
 def _save_result(cleaf):
 	# Save the result of @cleaf into a ResultObject
@@ -39,6 +49,8 @@ def _save_result(cleaf):
 	# @cleaf is executed again.
 	# NOTE: This will have unintended consequences outside Trigger use.
 	leaf = _exec_no_show_result(cleaf)
+	if leaf is None:
+		return None
 	class ResultObject (Leaf):
 		serilizable = 1
 		def __init__(self, leaf, cleaf):
@@ -70,7 +82,8 @@ class TakeResult (Action):
 	def item_types(self):
 		yield ComposedLeaf
 	def valid_for_item(self, leaf):
-		return leaf.object[1].has_result()
+		action = leaf.object[1]
+		return action.has_result() or action.is_factory()
 	def get_description(self):
 		return _("Take the result of a command as part of next command")
 
@@ -87,7 +100,8 @@ class DiscardResult (Action):
 	def item_types(self):
 		yield ComposedLeaf
 	def valid_for_item(self, leaf):
-		return leaf.object[1].has_result()
+		action = leaf.object[1]
+		return action.has_result() or action.is_factory()
 	def get_description(self):
 		return _("Run saved command without showing the result")
 
