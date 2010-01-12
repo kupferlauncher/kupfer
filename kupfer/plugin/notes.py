@@ -169,6 +169,9 @@ class Note (Leaf):
 		Leaf.__init__(self, obj, name)
 	def get_actions(self):
 		yield Open()
+	def repr_key(self):
+		# the Note URI is unique&persistent for each note
+		return self.object
 	def get_description(self):
 		today_date = time.localtime()[:3]
 		yest_date = time.localtime(time.time() - 3600*24)[:3]
