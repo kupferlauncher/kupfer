@@ -8,13 +8,9 @@ from kupfer.obj.base import Leaf, Action, Source, InvalidDataError
 from kupfer.obj.objects import Perform, RunnableLeaf, TextLeaf
 
 class TimedPerform (Perform):
-	"""A timed proxy version of Perform
-
-	Proxy factory/result/async from a delegate action
-	Delay action by a couple of seconds
-	"""
+	"""A timed (delayed) version of Run (Perform) """
 	def __init__(self):
-		Action.__init__(self, _("Run After Delay..."))
+		Action.__init__(self, _("Run after Delay..."))
 
 	def activate(self, leaf, iobj=None):
 		from kupfer import scheduler

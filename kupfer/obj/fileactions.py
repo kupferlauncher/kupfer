@@ -160,12 +160,10 @@ class OpenTerminal (Action):
 		return "terminal"
 
 class Execute (Action):
-	"""
-	Execute executable file (FileLeaf)
-	"""
+	""" Execute executable file (FileLeaf) """
 	rank_adjust = 5
 	def __init__(self, in_terminal=False, quoted=True):
-		name = _("Run in Terminal") if in_terminal else _("Run")
+		name = _("Run in Terminal") if in_terminal else _("Run (Execute)")
 		super(Execute, self).__init__(name)
 		self.in_terminal = in_terminal
 		self.quoted = quoted

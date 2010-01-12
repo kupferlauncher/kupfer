@@ -329,8 +329,7 @@ class UrlLeaf (Leaf, TextRepresentation):
 
 class RunnableLeaf (Leaf):
 	"""Leaf where the Leaf is basically the action itself,
-	for items such as Quit, Log out etc. Is executed by the
-	only action Perform
+	for items such as Quit, Log out etc.
 	"""
 	def __init__(self, obj=None, name=None):
 		Leaf.__init__(self, obj, name)
@@ -352,12 +351,13 @@ class Perform (Action):
 	"""Perform the action in a RunnableLeaf"""
 	rank_adjust = 5
 	def __init__(self, name=None):
-		if not name: name = _("Perform")
+		# TRANS: 'Run' as in Perform a (saved) command
+		if not name: name = _("Run")
 		super(Perform, self).__init__(name=name)
 	def activate(self, leaf):
 		return leaf.run()
 	def get_description(self):
-		return _("Carry out command")
+		return _("Perform command")
 
 class TextLeaf (Leaf, TextRepresentation):
 	"""Represent a text query
