@@ -11,6 +11,7 @@ import gtk
 import pango
 
 from kupfer import config, version
+from kupfer.ui import keybindings
 
 def _window_destroy_on_escape(widget, event):
 	"""
@@ -20,6 +21,9 @@ def _window_destroy_on_escape(widget, event):
 	if event.keyval == gtk.gdk.keyval_from_name("Escape"):
 		widget.destroy()
 		return True
+
+def _get_current_event_time():
+	return gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 def builder_get_objects_from_file(fname, attrs, autoconnect_to=None):
 	"""
@@ -103,7 +107,7 @@ def show_text_result(text, title=None):
 	hsize = int(min(wid + (winwid - oldwid) + 5, max_hsize))
 
 	window.resize(hsize, vsize)
-	window.present()
+	window.present_with_time(_get_current_event_time())
 
 def _wrap_paragraphs(text):
 	"""
@@ -165,3 +169,5 @@ def show_large_type(text):
 		return True
 	window.connect("key-press-event", _window_destroy)
 	window.show_all()
+	window.present_with_time(_get_current_event_time())
+
