@@ -81,7 +81,7 @@ def get_record_score(obj, key=u""):
 	bonus score is given for @key matches
 	"""
 	name = repr(obj)
-	fav = 20 * (name in _favorites)
+	fav = 7 * (name in _favorites)
 	if name not in _register:
 		return fav
 	mns = _register[name]
