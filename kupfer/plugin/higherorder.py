@@ -28,15 +28,11 @@ class Select (Action):
 def _exec_no_show_result(composedleaf):
 	pretty.print_debug(__name__, "Evaluating command", composedleaf)
 	obj, action, iobj = composedleaf.object
-	if iobj is None:
-		ret = action.activate(obj)
-	else:
-		ret = action.activate(obj, iobj)
-	if not ret:
-		return None
-	if action.has_result():
+	ret = commandexec.activate_action(*composedleaf.object)
+	result_type = commandexec.parse_action_result(action, ret)
+	if result_type == commandexec.RESULT_OBJECT:
 		return ret
-	elif action.is_factory():
+	if result_type == commandexec.RESULT_SOURCE:
 		try:
 			return iter(ret.get_leaves()).next()
 		except StopIteration:
