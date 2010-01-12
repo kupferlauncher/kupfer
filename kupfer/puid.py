@@ -11,8 +11,10 @@ try:
 except ImportError:
 	import pickle
 
-from kupfer.core import data, qfurl
 from kupfer import pretty
+
+from kupfer.core import qfurl
+from kupfer.core.sources import GetSourceController
 
 SERIALIZABLE_ATTRIBUTE = "serilizable"
 
@@ -96,7 +98,7 @@ def resolve_unique_id(puid, excluding=None):
 		except Exception, exc:
 			pretty.print_debug(__name__, type(exc).__name__, exc)
 			return None
-	sc = data.GetSourceController()
+	sc = GetSourceController()
 	obj = _find_obj_in_catalog(puid, sc._firstlevel)
 	if obj is not None:
 		return obj
@@ -114,7 +116,7 @@ def resolve_action_id(puid, for_item=None):
 		for action in for_item.get_actions():
 			if get_unique_id(action) == puid:
 				return action
-	sc = data.GetSourceController()
+	sc = GetSourceController()
 	for item_type, actions in sc.action_decorators.iteritems():
 		for action in actions:
 			if get_action_id(action) == puid:
