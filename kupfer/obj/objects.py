@@ -44,10 +44,9 @@ def _directory_content(dirpath, show_hidden):
 
 class FileLeaf (Leaf, TextRepresentation):
 	"""
-	Represents one file
+	Represents one file: the represented object is a bytestring (important!)
 	"""
 	serilizable = True
-	# To save memory with (really) many instances
 
 	def __init__(self, obj, name=None):
 		"""Construct a FileLeaf
@@ -95,9 +94,6 @@ class FileLeaf (Leaf, TextRepresentation):
 		return gobject.filename_display_name(self.object)
 
 	def get_description(self):
-		"""Format the path shorter:
-		replace homedir by ~/
-		"""
 		return utils.get_display_path_for_bytestring(self.canonical_path())
 
 	def get_actions(self):
@@ -117,7 +113,6 @@ class FileLeaf (Leaf, TextRepresentation):
 	def get_gicon(self):
 		return icons.get_gicon_for_file(self.object)
 	def get_icon_name(self):
-		"""A more generic icon"""
 		if self.is_dir():
 			return "folder"
 		else:
@@ -245,9 +240,6 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 class OpenUrl (Action):
 	rank_adjust = 5
 	def __init__(self, name=None):
-		"""
-		open url
-		"""
 		if not name:
 			name = _("Open URL")
 		super(OpenUrl, self).__init__(name)
@@ -266,13 +258,13 @@ class OpenUrl (Action):
 	  	return "forward"
 
 class Launch (Action):
-	"""
-	Launch operation base class
-
-	Launches an application (AppLeaf)
-	"""
+	""" Launches an application (AppLeaf) """
 	rank_adjust = 5
 	def __init__(self, name=None, is_running=False, open_new=False):
+		"""
+		If @is_running, style as if the app is running (Show application)
+		If @open_new, always start a new instance.
+		"""
 		if not name:
 			name = _("Launch")
 		Action.__init__(self, name)
@@ -294,7 +286,6 @@ class Launch (Action):
 		return Action.get_icon_name(self)
 
 class LaunchAgain (Launch):
-	"""Launch instance without checking if running"""
 	rank_adjust = 0
 	def __init__(self, name=None):
 		if not name:
@@ -370,7 +361,7 @@ class Perform (Action):
 
 class TextLeaf (Leaf, TextRepresentation):
 	"""Represent a text query
-	represented object is the unicode string
+	The represented object is a unicode string
 	"""
 	serilizable = True
 	def __init__(self, text, name=None):

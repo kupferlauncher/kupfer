@@ -1,5 +1,6 @@
 """
-Debugging routines. To use this, simply import this module
+Debugging routines, can only be used when Kupfer is run from the Source
+directory.
 """
 
 import atexit

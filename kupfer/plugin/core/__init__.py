@@ -48,10 +48,7 @@ if _is_debug():
 
 
 class SearchInside (Action):
-	"""
-	A factory action: works on a Leaf object with content
-	Return a new source with the contents of the Leaf
-	"""
+	"""Return the content source for a Leaf"""
 	def __init__(self):
 		super(SearchInside, self).__init__(_("Search Contents"))
 
