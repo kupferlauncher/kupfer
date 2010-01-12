@@ -13,7 +13,7 @@ from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 __kupfer_name__ = _("Skype")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'Chat', 'Call')
-__description__ = _("Access to Skype")
+__description__ = _("Access to Skype contacts")
 __version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -198,36 +198,33 @@ class Chat(Action):
 	rank_adjust = 5
 
 	def __init__(self):
-		Action.__init__(self, _("Open Chat Window"))
+		Action.__init__(self, _("Open Chat"))
 
 	def activate(self, leaf):
 		handle = SKYPE_KEY in leaf and leaf[SKYPE_KEY]
 		if handle:
 			Skype.get().open_chat(handle)
 
-	def get_icon_name(self):
-		return 'internet-group-chat'
-
 	def item_types(self):
 		yield ContactLeaf
 
 	def valid_for_item(self, item):
 		return SKYPE_KEY in item and item[SKYPE_KEY]
+
+	def get_icon_name(self):
+		return 'internet-group-chat'
 
 
 class Call(Action):
 	rank_adjust = 5
 
 	def __init__(self):
-		Action.__init__(self, _("Place a Call to Contact"))
+		Action.__init__(self, _("Call"))
 
 	def activate(self, leaf):
 		handle = SKYPE_KEY in leaf and leaf[SKYPE_KEY]
 		if handle:
 			Skype.get().call(handle)
-
-	def get_icon_name(self):
-		return 'call-start'
 
 	def item_types(self):
 		yield ContactLeaf
@@ -235,6 +232,11 @@ class Call(Action):
 	def valid_for_item(self, item):
 		return SKYPE_KEY in item and item[SKYPE_KEY]
 
+	def get_description(self):
+		return _("Place a call to contact")
+
+	def get_icon_name(self):
+		return 'call-start'
 
 
 class ChangeStatus(Action):

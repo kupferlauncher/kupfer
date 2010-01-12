@@ -21,13 +21,13 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 class ComposeMail(RunnableLeaf):
 	''' Create new mail without recipient '''
 	def __init__(self):
-		RunnableLeaf.__init__(self, name=_("Compose New Mail"))
+		RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
 	def run(self):
 		utils.launch_commandline('claws-mail --compose')
 
 	def get_description(self):
-		return _("Compose New Mail with Claws Mail")
+		return _("Compose a new message in Claws Mail")
 
 	def get_icon_name(self):
 		return "mail-message-new"
@@ -36,13 +36,13 @@ class ComposeMail(RunnableLeaf):
 class ReceiveMail(RunnableLeaf):
 	''' Receive all new mail from all accounts '''
 	def __init__(self):
-		RunnableLeaf.__init__(self, name=_("Receive All Mails"))
+		RunnableLeaf.__init__(self, name=_("Receive All Email"))
 
 	def run(self):
 		utils.launch_commandline('claws-mail --receive-all')
 
 	def get_description(self):
-		return _("Receive new mail from all accounts by ClawsMail")
+		return _("Receive new messages from all accounts in ClawsMail")
 
 	def get_icon_name(self):
 		return "mail-send-receive"
@@ -51,7 +51,7 @@ class ReceiveMail(RunnableLeaf):
 class NewMailAction(Action):
 	''' Create new mail to selected leaf'''
 	def __init__(self):
-		Action.__init__(self, _('Compose New Mail To'))
+		Action.__init__(self, _('Compose Email'))
 
 	def activate(self, leaf):
 		email = email_from_leaf(leaf)
@@ -73,7 +73,7 @@ class NewMailAction(Action):
 class SendFileByMail (Action):
 	'''Create new e-mail and attach selected file'''
 	def __init__(self):
-		Action.__init__(self, _('Send by Email To..'))
+		Action.__init__(self, _('Send in Email To...'))
 
 	def activate(self, obj, iobj):
 		filepath = obj.object
@@ -97,7 +97,7 @@ class SendFileByMail (Action):
 		return bool(email_from_leaf(iobj))
 
 	def get_description(self):
-		return _("Compose new email in ClawsMail and attach file")
+		return _("Compose new message in Claws Mail and attach file")
 	def get_icon_name(self):
 		return "document-send"
 

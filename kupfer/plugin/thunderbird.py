@@ -26,14 +26,14 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 class ComposeMail(RunnableLeaf):
 	''' Create new mail without recipient '''
 	def __init__(self):
-		RunnableLeaf.__init__(self, name=_("Compose New Mail"))
+		RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
 	def run(self):
 		if not utils.launch_commandline('thunderbird --compose'):
 			utils.launch_commandline('icedove --compose')
 
 	def get_description(self):
-		return _("Compose New Mail with Thunderbird")
+		return _("Compose a new message in Thunderbird")
 
 	def get_icon_name(self):
 		return "mail-message-new"
@@ -42,7 +42,7 @@ class ComposeMail(RunnableLeaf):
 class NewMailAction(Action):
 	''' Createn new mail to selected leaf (Contact or TextLeaf)'''
 	def __init__(self):
-		Action.__init__(self, _('Compose New Mail To'))
+		Action.__init__(self, _('Compose Email'))
 
 	def activate(self, leaf):
 		email = email_from_leaf(leaf)

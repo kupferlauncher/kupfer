@@ -9,11 +9,12 @@ __kupfer_actions__ = (
 	"SendFileByMail",
 )
 __description__ = _("Compose email using the system's default mailto: handler")
+__version__ = "2010-01-12"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class NewMailAction(Action):
 	def __init__(self):
-		Action.__init__(self, _('Compose New Mail'))
+		Action.__init__(self, _('Compose Email'))
 
 	def activate(self, leaf):
 		email = email_from_leaf(leaf)
@@ -33,7 +34,7 @@ class NewMailAction(Action):
 
 class SendFileByMail (Action):
 	def __init__(self):
-		Action.__init__(self, _('Send by Email To..'))
+		Action.__init__(self, _('Send in Email To...'))
 
 	def activate(self, obj, iobj):
 		filepath = obj.object
