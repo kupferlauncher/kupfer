@@ -26,13 +26,12 @@ test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $0)
 
 # We allow either ``kupfer QUERY`` to pass text on the command line,
 # or reading directly from stdin if we pipe text into Kupfer
-if tty --quiet
+if ! tty --quiet
 then
-	TEXT_INPUT="$*"
-else
 	echo "kupfer: Reading from stdin"
 	TEXT_INPUT=$(cat)
 fi
+test -z "$TEXT_INPUT" && TEXT_INPUT="$*"
 
 # If there are any options, like "--help", we run Kupfer directly
 test "x${1:0:2}" = "x--"
