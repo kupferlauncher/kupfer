@@ -19,6 +19,30 @@ def DefaultActionExecutionContext():
 class ActionExecutionError (Exception):
 	pass
 
+def activate_action(obj, action, iobj):
+	""" Activate @action in simplest manner """
+	if action.requires_object():
+		ret = action.activate(obj, iobj)
+	else:
+		ret = action.activate(obj)
+	return ret
+
+def parse_action_result(action, ret):
+	"""Return result type for @action and return value @ret"""
+	def valid_result(ret):
+		return ret and (not hasattr(ret, "is_valid") or ret.is_valid())
+
+	# handle actions returning "new contexts"
+	res = RESULT_NONE
+	if action.is_factory() and valid_result(ret):
+		res = RESULT_SOURCE
+	if action.has_result() and valid_result(ret):
+		res = RESULT_OBJECT
+	elif action.is_async():
+		res = RESULT_ASYNC
+	return res
+
+
 class ActionExecutionContext (gobject.GObject):
 	"""
 	command-result (result_type, result)
@@ -62,10 +86,7 @@ class ActionExecutionContext (gobject.GObject):
 			raise ActionExecutionError("%s requires indirect object" % action)
 
 		with self._nesting():
-			if action.requires_object():
-				ret = action.activate(obj, iobj)
-			else:
-				ret = action.activate(obj)
+			ret = activate_action(obj, action, iobj)
 
 		# remember last command, but not delegated commands.
 		if not delegate:
@@ -77,18 +98,9 @@ class ActionExecutionContext (gobject.GObject):
 			res, ret = ret
 			return self._return_result(res, ret)
 
-		def valid_result(ret):
-			return ret and (not hasattr(ret, "is_valid") or ret.is_valid())
-
-		# handle actions returning "new contexts"
-		res = RESULT_NONE
-		if action.is_factory() and valid_result(ret):
-			res = RESULT_SOURCE
-		if action.has_result() and valid_result(ret):
-			res = RESULT_OBJECT
-		elif action.is_async():
+		res = parse_action_result(action, ret)
+		if res == RESULT_ASYNC:
 			self.task_runner.add_task(ret)
-			res = RESULT_ASYNC
 
 		# Delegated command execution was requested: we pass
 		# through the result of the action to the parent execution context
