@@ -74,7 +74,7 @@ def get_options():
 		return help_text
 
 	def make_plugin_list():
-		from kupfer import plugins
+		from kupfer.core import plugins
 		plugin_header = _("Available plugins:")
 		plugin_list = plugins.get_plugin_desc()
 		return "\n".join((plugin_header, plugin_list))
