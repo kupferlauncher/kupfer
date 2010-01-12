@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-12 16:17+0100\n"
+"POT-Creation-Date: 2010-01-12 23:46+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -243,7 +243,7 @@ msgstr ""
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
-#: ../kupfer/obj/base.py:390 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:396 ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Fritextträffar"
 
@@ -596,11 +596,11 @@ msgstr "Platser"
 msgid "Bookmarked locations in Nautilus"
 msgstr "Sparade platser i Nautilus"
 
-#: ../kupfer/plugin/epiphany.py:9 ../kupfer/plugin/epiphany.py:22
+#: ../kupfer/plugin/epiphany.py:10 ../kupfer/plugin/epiphany.py:23
 msgid "Epiphany Bookmarks"
 msgstr "Epiphany-bokmärken"
 
-#: ../kupfer/plugin/epiphany.py:11 ../kupfer/plugin/epiphany.py:39
+#: ../kupfer/plugin/epiphany.py:12 ../kupfer/plugin/epiphany.py:40
 msgid "Index of Epiphany bookmarks"
 msgstr "Index över Epiphany-bokmärken"
 
@@ -612,23 +612,23 @@ msgstr "Favoriter"
 msgid "Mark commonly used items and store objects for later use"
 msgstr "Märk ofta använda objekt eller lagra objekt för senare användning"
 
-#: ../kupfer/plugin/favorites.py:121
+#: ../kupfer/plugin/favorites.py:124
 msgid "Shelf of \"Favorite\" items"
 msgstr "Plats för favoritobjekt"
 
-#: ../kupfer/plugin/favorites.py:134
+#: ../kupfer/plugin/favorites.py:137
 msgid "Add to Favorites"
 msgstr "Lägg till favorit"
 
-#: ../kupfer/plugin/favorites.py:142
+#: ../kupfer/plugin/favorites.py:145
 msgid "Add item to favorites shelf"
 msgstr "Lägg till objekt till favorithyllan"
 
-#: ../kupfer/plugin/favorites.py:149
+#: ../kupfer/plugin/favorites.py:152
 msgid "Remove from Favorites"
 msgstr "Ta bort favorit"
 
-#: ../kupfer/plugin/favorites.py:157
+#: ../kupfer/plugin/favorites.py:160
 msgid "Remove item from favorites shelf"
 msgstr "Ta bort objekt från favorithyllan"
 
@@ -741,7 +741,7 @@ msgstr "Markerad fil \"%s\""
 msgid "Selected Files"
 msgstr "Markerade filer"
 
-#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:195
+#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:198
 msgid "Notes"
 msgstr "Anteckningar"
 
@@ -773,18 +773,18 @@ msgstr "Skapa anteckning"
 msgid "Create a new note from this text"
 msgstr "Skapa en ny anteckning från texten"
 
-#: ../kupfer/plugin/notes.py:178
+#: ../kupfer/plugin/notes.py:181
 #, python-format
 msgid "today, %s"
 msgstr "idag, %s"
 
-#: ../kupfer/plugin/notes.py:180
+#: ../kupfer/plugin/notes.py:183
 #, python-format
 msgid "yesterday, %s"
 msgstr "igår, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:184
+#: ../kupfer/plugin/notes.py:187
 #, python-format
 msgid "Last updated %s"
 msgstr "Senast ändrad %s"
@@ -996,8 +996,9 @@ msgstr "Utlösare"
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command' (Ctrl+R)."
-msgstr "Tilldela globala tangentbordsgenvägar till kommandon skapade med "
-"Compose-kommandot (Ctrl+R)"
+msgstr ""
+"Tilldela globala tangentbordsgenvägar till kommandon skapade med Compose-"
+"kommandot (Ctrl+R)"
 
 #: ../kupfer/plugin/triggers.py:135
 msgid "Add Trigger..."
@@ -1013,15 +1014,15 @@ msgstr "URL-kommandon"
 
 #: ../kupfer/plugin/urlactions.py:63
 msgid "Download and Open"
-msgstr "Ladda ner och öppna"
+msgstr "Hämta och öppna"
 
 #: ../kupfer/plugin/urlactions.py:81
 msgid "Download To..."
-msgstr "Ladda ner till..."
+msgstr "Hämta till..."
 
 #: ../kupfer/plugin/urlactions.py:98
 msgid "Download URL to a chosen location"
-msgstr "Ladda ner till en vald plats"
+msgstr "Hämta till en vald plats"
 
 #: ../kupfer/plugin/volumes.py:6 ../kupfer/plugin/volumes.py:72
 msgid "Volumes and Disks"
@@ -1253,11 +1254,11 @@ msgstr ""
 msgid "Playlist"
 msgstr "Spellista"
 
-#: ../kupfer/plugin/chromium.py:7 ../kupfer/plugin/chromium.py:20
+#: ../kupfer/plugin/chromium.py:8 ../kupfer/plugin/chromium.py:21
 msgid "Chromium Bookmarks"
 msgstr "Chromium-bokmärken"
 
-#: ../kupfer/plugin/chromium.py:9 ../kupfer/plugin/chromium.py:42
+#: ../kupfer/plugin/chromium.py:10 ../kupfer/plugin/chromium.py:43
 msgid "Index of Chromium bookmarks"
 msgstr "Index över Chromium-bokmärken"
 
@@ -1269,33 +1270,33 @@ msgstr "Claws Mail"
 msgid "Claws Mail Contacts and Actions"
 msgstr "Claws Mail-kontakter och kommandon"
 
-#: ../kupfer/plugin/clawsmail.py:24 ../kupfer/plugin/defaultmail.py:16
-#: ../kupfer/plugin/thunderbird.py:28
-msgid "Compose New Mail"
-msgstr "Skriv nytt mail"
+#: ../kupfer/plugin/clawsmail.py:24 ../kupfer/plugin/thunderbird.py:29
+msgid "Compose New Email"
+msgstr "Skriv nytt e-postmeddelande"
 
 #: ../kupfer/plugin/clawsmail.py:30
-msgid "Compose New Mail with Claws Mail"
-msgstr "Skriv nytt mail med Claws Mail"
+msgid "Compose a new message in Claws Mail"
+msgstr "Skriv nytt meddelande med Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:39
-msgid "Receive All Mails"
-msgstr "Hämta alla mail"
+msgid "Receive All Email"
+msgstr "Hämta all e-post"
 
 #: ../kupfer/plugin/clawsmail.py:45
-msgid "Receive new mail from all accounts by ClawsMail"
-msgstr "Hämta nya mail från alla konton i Claws Mail"
+msgid "Receive new messages from all accounts in ClawsMail"
+msgstr "Hämta nya meddelanden från alla konton i Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:54 ../kupfer/plugin/thunderbird.py:44
-msgid "Compose New Mail To"
-msgstr "Skriv nytt mail till"
+#: ../kupfer/plugin/clawsmail.py:54 ../kupfer/plugin/defaultmail.py:16
+#: ../kupfer/plugin/thunderbird.py:45
+msgid "Compose Email"
+msgstr "Skriv e-postmeddelande"
 
 #: ../kupfer/plugin/clawsmail.py:76 ../kupfer/plugin/defaultmail.py:36
-msgid "Send by Email To.."
+msgid "Send in Email To..."
 msgstr "Skicka med e-post till..."
 
 #: ../kupfer/plugin/clawsmail.py:100
-msgid "Compose new email in ClawsMail and attach file"
+msgid "Compose new message in Claws Mail and attach file"
 msgstr "Skapa nytt meddelande i ClawsMail och bifoga filen"
 
 #: ../kupfer/plugin/clawsmail.py:109
@@ -1331,7 +1332,7 @@ msgid "Access to Gajim Contacts"
 msgstr "Tillgång till Gajim-kontakter"
 
 #: ../kupfer/plugin/gajim.py:26 ../kupfer/plugin/pidgin.py:145
-#: ../kupfer/plugin/skype.py:28
+#: ../kupfer/plugin/skype.py:29
 msgid "Available"
 msgstr "Tillgänglig"
 
@@ -1340,31 +1341,32 @@ msgid "Free for Chat"
 msgstr ""
 
 #: ../kupfer/plugin/gajim.py:28 ../kupfer/plugin/pidgin.py:145
-#: ../kupfer/plugin/skype.py:30
+#: ../kupfer/plugin/skype.py:31
 msgid "Away"
 msgstr "Frånvarande"
 
-#: ../kupfer/plugin/gajim.py:29 ../kupfer/plugin/skype.py:31
+#: ../kupfer/plugin/gajim.py:29 ../kupfer/plugin/skype.py:32
 msgid "Not Available"
 msgstr ""
 
-#: ../kupfer/plugin/gajim.py:30 ../kupfer/plugin/skype.py:32
+#: ../kupfer/plugin/gajim.py:30 ../kupfer/plugin/skype.py:33
 msgid "Busy"
 msgstr "Stör inte"
 
-#: ../kupfer/plugin/gajim.py:31 ../kupfer/plugin/skype.py:33
+#: ../kupfer/plugin/gajim.py:31 ../kupfer/plugin/skype.py:34
 msgid "Invisible"
 msgstr "Osynlig"
 
-#: ../kupfer/plugin/gajim.py:32 ../kupfer/plugin/skype.py:34
+#: ../kupfer/plugin/gajim.py:32 ../kupfer/plugin/skype.py:35
 msgid "Offline"
 msgstr "Frånkopplad"
 
 #: ../kupfer/plugin/gajim.py:90 ../kupfer/plugin/pidgin.py:86
+#: ../kupfer/plugin/skype.py:201
 msgid "Open Chat"
 msgstr "Öppna chatt"
 
-#: ../kupfer/plugin/gajim.py:118 ../kupfer/plugin/skype.py:244
+#: ../kupfer/plugin/gajim.py:118 ../kupfer/plugin/skype.py:247
 msgid "Change Global Status To..."
 msgstr "Ändra global status till..."
 
@@ -1389,7 +1391,7 @@ msgid "Google Translate"
 msgstr "Google Översätt"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:156
+#: ../kupfer/plugin/google_translate.py:160
 msgid "Translate text with Google Translate"
 msgstr "Översätt text med Google Översätt"
 
@@ -1406,33 +1408,37 @@ msgstr "verb"
 msgid "adjective"
 msgstr "adj."
 
-#: ../kupfer/plugin/google_translate.py:91
+#: ../kupfer/plugin/google_translate.py:90
+msgid "Google Translate connection timed out"
+msgstr "Google Översätt: anslutningen tog för lång tid"
+
+#: ../kupfer/plugin/google_translate.py:93
 msgid "Error connecting to Google Translate"
 msgstr "Fel vid anslutning till Google Översätt"
 
-#: ../kupfer/plugin/google_translate.py:139
-#: ../kupfer/plugin/google_translate.py:223
+#: ../kupfer/plugin/google_translate.py:143
+#: ../kupfer/plugin/google_translate.py:227
 msgid "Translate To..."
 msgstr "Översätt till..."
 
-#: ../kupfer/plugin/google_translate.py:182
+#: ../kupfer/plugin/google_translate.py:186
 #, python-format
 msgid "Translate into %s"
 msgstr "Översätt till %s"
 
-#: ../kupfer/plugin/google_translate.py:203
+#: ../kupfer/plugin/google_translate.py:207
 msgid "Languages"
 msgstr "Språk"
 
-#: ../kupfer/plugin/google_translate.py:238
+#: ../kupfer/plugin/google_translate.py:242
 msgid "Show translated page in browser"
 msgstr "Visa översatt sida i webbläsare"
 
-#: ../kupfer/plugin/google_translate.py:255
+#: ../kupfer/plugin/google_translate.py:259
 msgid "Show Translation To..."
 msgstr "Visa översättning till..."
 
-#: ../kupfer/plugin/google_translate.py:271
+#: ../kupfer/plugin/google_translate.py:275
 msgid "Show translation in browser"
 msgstr "Visa översättning i webbläsare"
 
@@ -1543,7 +1549,7 @@ msgstr "Resultat för \"%s\""
 msgid "OpenOffice"
 msgstr "OpenOffice"
 
-#: ../kupfer/plugin/openoffice.py:12 ../kupfer/plugin/openoffice.py:120
+#: ../kupfer/plugin/openoffice.py:12 ../kupfer/plugin/openoffice.py:119
 msgid "Recently used documents in OpenOffice"
 msgstr "Senaste dokument i OpenOffice"
 
@@ -1551,11 +1557,11 @@ msgstr "Senaste dokument i OpenOffice"
 msgid "OpenOffice Recent Items"
 msgstr "OpenOffice senaste dokument"
 
-#: ../kupfer/plugin/opera.py:12 ../kupfer/plugin/opera.py:28
+#: ../kupfer/plugin/opera.py:12 ../kupfer/plugin/opera.py:27
 msgid "Opera Bookmarks"
 msgstr "Opera-bokmärken"
 
-#: ../kupfer/plugin/opera.py:14 ../kupfer/plugin/opera.py:58
+#: ../kupfer/plugin/opera.py:14 ../kupfer/plugin/opera.py:59
 msgid "Index of Opera bookmarks"
 msgstr "Index över Opera-bokmärken"
 
@@ -1685,46 +1691,42 @@ msgstr "Förkorta med..."
 msgid "Services"
 msgstr "Service"
 
-#: ../kupfer/plugin/skype.py:12
+#: ../kupfer/plugin/skype.py:13
 msgid "Skype"
 msgstr ""
 
-#: ../kupfer/plugin/skype.py:15
-msgid "Access to Skype"
-msgstr ""
+#: ../kupfer/plugin/skype.py:16
+msgid "Access to Skype contacts"
+msgstr "Tillgång till Skype-kontakter"
 
-#: ../kupfer/plugin/skype.py:29
+#: ../kupfer/plugin/skype.py:30
 msgid "Skype Me"
 msgstr ""
 
-#: ../kupfer/plugin/skype.py:35
-#, fuzzy
+#: ../kupfer/plugin/skype.py:36
 msgid "Logged Out"
-msgstr "Logga ut..."
+msgstr "Frånkopplad"
 
-#: ../kupfer/plugin/skype.py:182
-#, fuzzy, python-format
+#: ../kupfer/plugin/skype.py:183
+#, python-format
 msgid "[%(status)s] %(userid)s"
-msgstr "[%(status)s] %(userid)s/%(service)s"
+msgstr "[%(status)s] %(userid)s"
 
-#: ../kupfer/plugin/skype.py:200
-#, fuzzy
-msgid "Open Chat Window"
-msgstr "Öppna chatt"
+#: ../kupfer/plugin/skype.py:222
+msgid "Call"
+msgstr "Ring"
 
-#: ../kupfer/plugin/skype.py:221
-msgid "Place a Call to Contact"
-msgstr ""
+#: ../kupfer/plugin/skype.py:236
+msgid "Place a call to contact"
+msgstr "Påbörja samtal med kontakten"
 
-#: ../kupfer/plugin/skype.py:268
-#, fuzzy
+#: ../kupfer/plugin/skype.py:271
 msgid "Skype Contacts"
-msgstr "Gajim-kontakter"
+msgstr "Skype-kontakter"
 
-#: ../kupfer/plugin/skype.py:288
-#, fuzzy
+#: ../kupfer/plugin/skype.py:291
 msgid "Skype Statuses"
-msgstr "Spara tillstånd"
+msgstr "Skype-status"
 
 #: ../kupfer/plugin_support.py:6
 msgid "Include in top level"
@@ -1769,28 +1771,25 @@ msgstr "Skapa nytt dokument..."
 msgid "Create a new document from template"
 msgstr "Skapa nytt dokument från mall"
 
-#: ../kupfer/plugin/thunderbird.py:16
+#: ../kupfer/plugin/thunderbird.py:17
 msgid "Thunderbird"
 msgstr ""
 
-#: ../kupfer/plugin/thunderbird.py:19
-#, fuzzy
+#: ../kupfer/plugin/thunderbird.py:20
 msgid "Thunderbird/Icedove Contacts and Actions"
-msgstr "Claws Mail-kontakter och kommandon"
+msgstr "Thunderbird eller Icedove-kontakter och kommandon"
 
-#: ../kupfer/plugin/thunderbird.py:35
-#, fuzzy
-msgid "Compose New Mail with Thunderbird"
-msgstr "Skriv nytt mail med Claws Mail"
+#: ../kupfer/plugin/thunderbird.py:36
+msgid "Compose a new message in Thunderbird"
+msgstr "Skriv nytt mail i Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:67
+#: ../kupfer/plugin/thunderbird.py:68
 msgid "Thunderbird Address Book"
-msgstr ""
+msgstr "Thunderbird adressbok"
 
-#: ../kupfer/plugin/thunderbird.py:86
-#, fuzzy
+#: ../kupfer/plugin/thunderbird.py:87
 msgid "Contacts from Thunderbird Address Book"
-msgstr "Kontakter från Claws Mail"
+msgstr "Kontakter från Thunderbird"
 
 #: ../kupfer/plugin/top.py:14
 msgid "Top"
@@ -2008,7 +2007,7 @@ msgstr "Spara tillstånd"
 msgid "Power Off"
 msgstr "Stäng av"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:82
+#: ../kupfer/plugin/virtualbox/__init__.py:81
 msgid "VirtualBox Machines"
 msgstr "VirtualBox virtuella maskiner"
 
