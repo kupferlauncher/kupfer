@@ -81,7 +81,7 @@ def get_plugin_info():
 			"name": plugin_name,
 			"localized_name": localized_name,
 			"version": vers,
-			"description": desc,
+			"description": desc or u"",
 			"author": author,
 			"provides": (),
 		}
