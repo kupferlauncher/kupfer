@@ -52,7 +52,7 @@ def _save_result(cleaf):
 		def __init__(self, leaf, cleaf):
 			Leaf.__init__(self, leaf.object, unicode(leaf))
 			vars(self).update(vars(leaf))
-			self.name = u"Result of %s (%s)" % (unicode(cleaf), unicode(self))
+			self.name = _("Result of %s (%s)") % (cleaf, self)
 			self.__composed_leaf = cleaf
 			self.__class__.__bases__ = (leaf.__class__, Leaf)
 
@@ -81,10 +81,10 @@ class TakeResult (Action):
 		action = leaf.object[1]
 		return action.has_result() or action.is_factory()
 	def get_description(self):
-		return _("Take the result of a command as part of next command")
+		return _("Take the command result as a proxy object")
 
 class DiscardResult (Action):
-	"""Run ComposedLeaf without taking the result"""
+	"""Run ComposedLeaf without showing the result"""
 	def __init__(self):
 		Action.__init__(self, _("Run (Discard Result)"))
 
@@ -99,5 +99,5 @@ class DiscardResult (Action):
 		action = leaf.object[1]
 		return action.has_result() or action.is_factory()
 	def get_description(self):
-		return _("Run saved command without showing the result")
+		return None
 
