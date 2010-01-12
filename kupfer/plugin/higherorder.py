@@ -89,10 +89,7 @@ class DiscardResult (Action):
 		Action.__init__(self, _("Run (Discard Result)"))
 
 	def activate(self, leaf):
-		from kupfer import commandexec
-		ctx = commandexec.DefaultActionExecutionContext()
-		obj, action, iobj = leaf.object
-		return ctx.run(obj, action, iobj, delegate=False)
+		commandexec.activate_action(*leaf.object)
 	def item_types(self):
 		yield ComposedLeaf
 	def valid_for_item(self, leaf):
