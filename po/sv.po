@@ -990,23 +990,22 @@ msgstr[1] "Papperskorgen innehåller %(num)s objekt"
 #: ../kupfer/plugin/triggers.py:11 ../kupfer/plugin/triggers.py:39
 #: ../kupfer/plugin/triggers.py:115
 msgid "Triggers"
-msgstr ""
+msgstr "Utlösare"
 
 #: ../kupfer/plugin/triggers.py:16
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command' (Ctrl+R)."
-msgstr ""
+msgstr "Tilldela globala tangentbordsgenvägar till kommandon skapade med "
+"Compose-kommandot (Ctrl+R)"
 
 #: ../kupfer/plugin/triggers.py:135
-#, fuzzy
 msgid "Add Trigger..."
-msgstr "Lägg till tagg..."
+msgstr "Lägg till utlösare..."
 
 #: ../kupfer/plugin/triggers.py:158
-#, fuzzy
 msgid "Remove Trigger"
-msgstr "Ta bort tagg..."
+msgstr "Ta bort utlösare..."
 
 #: ../kupfer/plugin/urlactions.py:8 ../kupfer/plugin/urlactions.py:15
 msgid "URL Actions"
@@ -2057,6 +2056,3 @@ msgstr "Zim-sidor"
 #: ../kupfer/plugin/zim.py:213
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
-
-#~ msgid "Carry out command"
-#~ msgstr "Utför kommando"
