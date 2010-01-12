@@ -284,3 +284,6 @@ def get_good_name_for_icon_names(names):
 		if _default_theme.has_icon(name):
 			return name
 	return None
+
+def get_gicon_for_names(*names):
+	return ThemedIcon(names)

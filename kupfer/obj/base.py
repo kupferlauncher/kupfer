@@ -106,15 +106,15 @@ class KupferObject (object):
 		The methods are tried in that order.
 		"""
 		gicon = self.get_gicon()
-		if gicon:
-			pbuf = icons.get_icon_for_gicon(gicon, icon_size)
-			if pbuf:
-				return pbuf
+		pbuf = gicon and icons.get_icon_for_gicon(gicon, icon_size)
+		if pbuf:
+			return pbuf
 		icon_name = self.get_icon_name()
-		if icon_name:
-			icon = icons.get_icon_for_name(icon_name, icon_size)
-			if icon: return icon
-		return icons.get_icon_for_name(KupferObject.get_icon_name(self), icon_size)
+		icon = icon_name and icons.get_icon_for_name(icon_name, icon_size)
+		if icon:
+			return icon
+		fallback_class = Action if isinstance(self, Action) else KupferObject
+		return icons.get_icon_for_name(fallback_class.get_icon_name(self), icon_size)
 
 	def get_icon(self):
 		"""
@@ -124,8 +124,14 @@ class KupferObject (object):
 		if they make sense.
 		The methods are tried in that order.
 		"""
-		return icons.get_gicon_with_fallbacks(self.get_gicon(),
-				(self.get_icon_name(), KupferObject.get_icon_name(self)))
+		gicon = self.get_gicon()
+		if gicon and icons.is_good(gicon):
+			return gicon
+		icon_name = self.get_icon_name()
+		if icon_name and icons.get_good_name_for_icon_names((icon_name, )):
+			return icons.get_gicon_for_names(icon_name)
+		fallback_class = Action if isinstance(self, Action) else KupferObject
+		return icons.get_gicon_for_names(fallback_class.get_icon_name(self))
 
 	def get_gicon(self):
 		"""Return GIcon, if there is one"""
