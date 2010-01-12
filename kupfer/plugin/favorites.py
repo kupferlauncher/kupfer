@@ -81,6 +81,8 @@ class FavoritesSource (Source):
 		cls.instance._add(itm)
 
 	def _add(self, itm):
+		if self._has_item(itm):
+			self._remove(itm)
 		learn.add_favorite(itm)
 		self.favorites.append(itm)
 		self.references.append(puid.get_unique_id(itm))
@@ -95,7 +97,8 @@ class FavoritesSource (Source):
 
 	@classmethod
 	def remove(cls, itm):
-		cls.instance._remove(itm)
+		if cls.has_item(itm):
+			cls.instance._remove(itm)
 
 	def _remove(self, itm):
 		learn.remove_favorite(itm)
