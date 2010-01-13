@@ -85,7 +85,7 @@ def try_unquote_url(url):
 		return url
 
 class OpenTextUrl (OpenUrl):
-	rank_adjust = 10
+	rank_adjust = 1
 
 	def activate(self, leaf):
 		url = is_url(leaf.object)
