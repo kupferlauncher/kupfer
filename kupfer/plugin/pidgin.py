@@ -22,6 +22,14 @@ __description__ = _("Access to Pidgin Contacts")
 __version__ = "0.1"
 __author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "show_offline",
+		"label": _("Show offline contacts"),
+		"type": bool,
+		"value": False,
+	},
+)
 
 plugin_support.check_dbus_connection()
 
@@ -221,12 +229,13 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelper
 			return
 
 		accounts = interface.PurpleAccountsGetAllActive()
+		show_offline = __kupfer_settings__["show_offline"]
 		for account in accounts:
 			buddies = interface.PurpleFindBuddies(account, dbus.String(''))
 			protocol = interface.PurpleAccountGetProtocolName(account)
 
 			for buddy in buddies:
-				if not interface.PurpleBuddyIsOnline(buddy):
+				if not (show_offline or interface.PurpleBuddyIsOnline(buddy)):
 					continue
 
 				self.all_buddies[buddy] = self._get_pidgin_contact(interface,
@@ -264,8 +273,9 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelper
 		if interface is None:
 			self._buddy_update_queue.clear()
 			return
+		show_offline = __kupfer_settings__["show_offline"]
 		for buddy in self._buddy_update_queue:
-			if interface.PurpleBuddyIsOnline(buddy):
+			if show_offline or interface.PurpleBuddyIsOnline(buddy):
 				self.output_debug("updating buddy", buddy)
 				pcontact = self._get_pidgin_contact(interface, buddy)
 				self.all_buddies[buddy] = pcontact
