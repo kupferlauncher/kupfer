@@ -70,11 +70,10 @@ class KupferObject (object):
 
 	def __repr__(self):
 		key = self.repr_key()
+		keys = " %s" % (key, ) if key else ""
 		if self._is_builtin:
-			return "".join(("<builtin.", self.__class__.__name__,
-				((" %s" % (key,)) if key else ""), ">"))
-		return "".join(("<", self.__module__, ".", self.__class__.__name__,
-			((" %s" % (key,)) if key else ""), ">"))
+			return "<builtin.%s%s>" % (self.__class__.__name__, keys)
+		return "<%s.%s%s>" % (self.__module__, self.__class__.__name__, keys)
 
 	def repr_key(self):
 		"""
