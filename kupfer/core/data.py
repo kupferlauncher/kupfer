@@ -642,7 +642,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		relevant places"""
 		# If already selected, do nothing
 		panectl = self._panectl_table[pane]
-		if item is panectl.get_selection():
+		if item == panectl.get_selection():
 			return
 		self.cancel_search()
 		panectl.select(item)

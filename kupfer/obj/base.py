@@ -210,6 +210,13 @@ class Action (KupferObject):
 		return True
 	'''
 
+	def __hash__(self):
+		return hash(repr(self))
+
+	def __eq__(self, other):
+		return (type(self) == type(other) and repr(self) == repr(other) and
+				unicode(self) == unicode(other))
+
 	def repr_key(self):
 		"""by default, actions of one type are all the same"""
 		return ""
