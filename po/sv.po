@@ -1573,18 +1573,22 @@ msgstr "Pidgin"
 msgid "Access to Pidgin Contacts"
 msgstr "Tillgång till Pidgin-kontakter"
 
-#: ../kupfer/plugin/pidgin.py:100
+#: ../kupfer/plugin/pidgin.py:28
+msgid "Show offline contacts"
+msgstr "Visa frånkopplade kontakter"
+
+#: ../kupfer/plugin/pidgin.py:108
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (%d tecken)"
+msgstr[1] "%s (%d tecken)"
 
-#: ../kupfer/plugin/pidgin.py:109
+#: ../kupfer/plugin/pidgin.py:117
 msgid "Send Message..."
 msgstr "Skicka meddelande..."
 
-#: ../kupfer/plugin/pidgin.py:177
+#: ../kupfer/plugin/pidgin.py:185
 msgid "Pidgin Contacts"
 msgstr "Pidgin-kontakter"
 
