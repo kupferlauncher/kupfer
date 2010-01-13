@@ -74,3 +74,19 @@ def score_objects(rankables, key):
 			rb.rank = rank
 			yield rb
 
+
+def score_actions(rankables):
+	"""Alternative (rigid) scoring mechanism for objects,
+	putting much more weight in rank_adjust
+	"""
+	get_record_score = learn.get_record_score
+	for obj in rankables:
+		ra = obj.object.rank_adjust
+		if ra > 0:
+			obj.rank = 50 + ra + get_record_score(obj.object)/2
+		elif ra == 0:
+			obj.rank = get_record_score(obj.object)
+		else:
+			obj.rank = -50 + ra + get_record_score(obj.object)
+		yield obj
+

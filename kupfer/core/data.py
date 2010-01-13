@@ -5,7 +5,7 @@ import os
 import gobject
 
 from kupfer.obj import base, sources, compose
-from kupfer import pretty, scheduler, task
+from kupfer import pretty, scheduler
 from kupfer import commandexec
 from kupfer import datatools
 from kupfer.core import search, learn
@@ -30,6 +30,17 @@ def dress_leaves(seq, action):
 	for itm in seq:
 		sc.decorate_object(itm.object, action=action)
 		yield itm
+
+def peekfirst(seq):
+	"""This function will return (firstitem, iter)
+	where firstitem is the first item of @seq or None if empty,
+	and iter an equivalent copy of @seq
+	"""
+	seq = iter(seq)
+	for itm in seq:
+		old_iter = itertools.chain((itm, ), seq)
+		return (itm, old_iter)
+	return (None, seq)
 
 class Searcher (object):
 	"""
@@ -115,21 +126,31 @@ class Searcher (object):
 				if (not hasattr(obj, "is_valid")) or obj.is_valid():
 					yield itm
 
-		def peekfirst(seq):
-			"""This function will return (firstitem, iter)
-			where firstitem is the first item of @seq or None if empty,
-			and iter an equivalent copy of @seq
-			"""
-			seq = iter(seq)
-			for itm in seq:
-				old_iter = itertools.chain((itm, ), seq)
-				return (itm, old_iter)
-			return (None, seq)
-
 		# Check if the items are valid as the search
 		# results are accessed through the iterators
 		unique_matches = as_set_iter(matches)
 		match, match_iter = peekfirst(decorator(valid_check(unique_matches)))
+		return match, match_iter
+
+	def rank_actions(self, objects, key, item_check=None, decorator=None):
+		"""
+		rank @objects, which should be a sequence of KupferObjects,
+		for @key, with the action ranker algorithm.
+
+		Filters and return value like .score().
+		"""
+		if not item_check: item_check = identity
+		if not decorator: decorator = identity
+
+		rankables = search.make_rankables(item_check(objects))
+		if key:
+			rankables = search.score_objects(rankables, key)
+			matches = search.bonus_objects(rankables, key)
+		else:
+			matches = search.score_actions(rankables)
+		matches = sorted(matches, key=operator.attrgetter("rank"), reverse=True)
+
+		match, match_iter = peekfirst(decorator(matches))
 		return match, match_iter
 
 class Pane (gobject.GObject):
@@ -306,8 +327,7 @@ class PrimaryActionPane (Pane):
 				if is_valid_cached(obj.object):
 					yield obj
 
-		sources = (actions, )
-		match, match_iter = self.searcher.search(sources, key,
+		match, match_iter = self.searcher.rank_actions(actions, key,
 				decorator=valid_decorator)
 		self.emit_search_result(match, match_iter, context)
 
