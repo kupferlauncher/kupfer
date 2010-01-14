@@ -120,16 +120,28 @@ gobject.signal_new("command-result", ActionExecutionContext,
 		gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
 
+def _get_leaf_members(leaf):
+	"""
+	Return an iterator to members of @leaf, if it is a multiple leaf
+	"""
+	try:
+		return leaf.get_multiple_leaf_representation()
+	except AttributeError:
+		return (leaf, )
 
 def action_valid_for_item(action, leaf):
-	return action.valid_for_item(leaf)
+	return all(action.valid_for_item(L) for L in _get_leaf_members(leaf))
 
 def actions_for_item(leaf, sourcecontroller):
 	if leaf is None:
 		return []
-	actions = list(leaf.get_actions())
-	if leaf:
-		for act in sourcecontroller.get_actions_for_leaf(leaf):
-			actions.append(act)
+	actions = None
+	for L in _get_leaf_members(leaf):
+		l_actions = set(L.get_actions())
+		l_actions.update(sourcecontroller.get_actions_for_leaf(L))
+		if actions is None:
+			actions = l_actions
+		else:
+			actions.intersection_update(l_actions)
 	return actions
 
