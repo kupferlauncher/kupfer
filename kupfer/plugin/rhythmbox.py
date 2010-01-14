@@ -180,6 +180,8 @@ class CollectionSource (Source):
 	def get_items(self):
 		for song in self.leaf.object:
 			yield SongLeaf(song)
+	def repr_key(self):
+		return self.leaf.repr_key()
 	def get_description(self):
 		return self.leaf.get_description()
 	def get_thumbnail(self, w, h):
