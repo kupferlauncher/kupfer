@@ -157,6 +157,9 @@ class Rename (Action, pretty.OutputMixin):
 		else:
 			return FileLeaf(dest)
 
+	def activate_multiple(self, objs, iobjs):
+		raise NotImplementedError
+
 	def item_types(self):
 		yield FileLeaf
 	def valid_for_item(self, item):
@@ -237,12 +240,18 @@ class UnpackHere (Action):
 class CreateArchive (Action):
 	def __init__(self):
 		Action.__init__(self, _("Create Archive"))
-	def activate(self, leaf):
-		utils.launch_commandline("file-roller --add %s" % leaf.object)
 
-	def valid_for_item(self, item):
-		# FIXME: Only for directories right now
-		return item.is_dir()
+	@classmethod
+	def _make_archive(cls, filepaths):
+		cmd = ["file-roller", "--add"]
+		cmd.extend(filepaths)
+		utils.spawn_async(cmd)
+
+	def activate(self, leaf):
+		self._make_archive((leaf.object, ))
+	def activate_multiple(self, objs):
+		self._make_archive([L.object for L in objs])
+
 	def item_types(self):
 		yield FileLeaf
 	def get_description(self):
@@ -251,18 +260,30 @@ class CreateArchive (Action):
 class CreateArchiveIn (Action):
 	def __init__(self):
 		Action.__init__(self, _("Create Archive In..."))
+
+	@classmethod
+	def _make_archive(cls, basename, dirpath, filepaths):
+		archive_type = __kupfer_settings__["archive_type"]
+		archive_path = \
+			utils.get_destpath_in_directory(dirpath, basename, archive_type)
+		cmd = ["file-roller", "--add-to=%s" % (archive_path, )]
+		cmd.extend(filepaths)
+		utils.spawn_async(cmd)
+		return archive_path
+
 	def activate(self, leaf, iobj):
 		archive_type = __kupfer_settings__["archive_type"]
 		dirpath = iobj.object
 		basename = os_path.basename(leaf.object)
-		archive_path = \
-			utils.get_destpath_in_directory(dirpath, basename, archive_type)
-		utils.launch_commandline("file-roller --add-to='%s' '%s'" %
-				(archive_path, leaf.object))
+		self._make_archive(basename, dirpath, (leaf.object, ))
 
-	def valid_for_item(self, item):
-		# FIXME: Only for directories right now
-		return item.is_dir()
+	def activate_multiple(self, objs, iobjs):
+		archive_type = __kupfer_settings__["archive_type"]
+		for iobj in iobjs:
+			dirpath = iobj.object
+			basename = "archive"
+			self._make_archive("archive", dirpath, [L.object for L in objs])
+
 	def item_types(self):
 		yield FileLeaf
 	def requires_object(self):
