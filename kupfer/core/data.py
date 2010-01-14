@@ -313,19 +313,15 @@ class PrimaryActionPane (Pane):
 
 		self.latest_key = key
 		leaf = self.current_item
-		actions = list(leaf.get_actions()) if leaf else []
-		sc = GetSourceController()
-		if leaf:
-			for act in sc.get_actions_for_leaf(leaf):
-				actions.append(act)
+		actions = commandexec.actions_for_item(leaf, GetSourceController())
 
 		def is_valid_cached(action):
 			"""Check if @action is valid for current item"""
 			cache = self._action_valid_cache
 			valid = cache.get(action)
 			if valid is None:
-				valid = action.valid_for_item(self.current_item)
-			cache[action] = valid
+				valid = commandexec.action_valid_for_item(action, leaf)
+				cache[action] = valid
 			return valid
 
 		def valid_decorator(seq):

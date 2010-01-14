@@ -121,3 +121,15 @@ gobject.signal_new("command-result", ActionExecutionContext,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
 
 
+def action_valid_for_item(action, leaf):
+	return action.valid_for_item(leaf)
+
+def actions_for_item(leaf, sourcecontroller):
+	if leaf is None:
+		return []
+	actions = list(leaf.get_actions())
+	if leaf:
+		for act in sourcecontroller.get_actions_for_leaf(leaf):
+			actions.append(act)
+	return actions
+
