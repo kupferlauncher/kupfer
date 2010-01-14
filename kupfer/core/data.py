@@ -761,16 +761,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._insert_object(SourcePane, found)
 
 	def compose_selection(self):
-		leaf = self.source_pane.get_selection()
-		action = self.action_pane.get_selection()
-		if leaf is None or action is None:
+		leaf, action, iobj = self._get_current_command_objects()
+		if leaf is None:
 			return
-		iobj = self.object_pane.get_selection()
-		if self.mode is SourceActionObjectMode:
-			if iobj is None:
-				return
-		else:
-			iobj = None
+		self.object_stack_clear()
 		obj = compose.ComposedLeaf(leaf, action, iobj)
 		self._insert_object(SourcePane, obj)
 
