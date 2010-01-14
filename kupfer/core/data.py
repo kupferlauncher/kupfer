@@ -653,7 +653,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			assert not item or isinstance(item, base.Leaf), \
 					"Selection in Source pane is not a Leaf!"
 			# populate actions
-			self.action_pane.set_item(item)
+			citem = self._get_pane_object_composed(self.source_pane)
+			self.action_pane.set_item(citem)
 			self.search(ActionPane, interactive=True)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, base.Action), \
@@ -718,9 +719,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 		Activate current selection
 		"""
-		action = self.action_pane.get_selection()
-		leaf = self.source_pane.get_selection()
-		sobject = self.object_pane.get_selection()
+		leaf, action, sobject = self._get_current_command_objects()
 		mode = self.mode
 		try:
 			ctx = self._execution_context
@@ -775,13 +774,40 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		obj = compose.ComposedLeaf(leaf, action, iobj)
 		self._insert_object(SourcePane, obj)
 
+	def _get_pane_object_composed(self, pane):
+		objects = list(pane.object_stack)
+		sel = pane.get_selection()
+		if sel and sel not in objects:
+			objects.append(sel)
+		if not objects:
+			return None
+		elif len(objects) == 1:
+			return objects[0]
+		else:
+			return compose.MultipleLeaf(objects)
+
+	def _get_current_command_objects(self):
+		"""
+		Return a tuple of current (obj, action, iobj)
+		"""
+		objects = self._get_pane_object_composed(self.source_pane)
+		action = self.action_pane.get_selection()
+		if objects is None or action is None:
+			return (None, None, None)
+		iobjects = self._get_pane_object_composed(self.object_pane)
+		if self.mode == SourceActionObjectMode:
+			if not iobjects:
+				return (None, None, None)
+		else:
+			iobjects = None
+		return (objects, action, iobjects)
+
 	def object_stack_push(self, object_):
 		"""
 		Push @object_ onto the stack
 		"""
 		self.source_pane.object_stack_push(object_)
 		self.emit("object-stack-changed", SourcePane)
-
 
 	def object_stack_pop(self):
 		obj = self.source_pane.object_stack_pop()
