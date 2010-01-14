@@ -21,10 +21,29 @@ class ActionExecutionError (Exception):
 
 def activate_action(obj, action, iobj):
 	""" Activate @action in simplest manner """
+	if not _is_multiple(obj) and not _is_multiple(iobj):
+		return _activate_action_single(obj, action, iobj)
+	else:
+		return _activate_action_multiple(obj, action, iobj)
+
+def _activate_action_single(obj, action, iobj):
 	if action.requires_object():
 		ret = action.activate(obj, iobj)
 	else:
 		ret = action.activate(obj)
+	return ret
+
+def _activate_action_multiple(obj, action, iobj):
+	if not hasattr(action, "activate_multiple"):
+		ret = None
+		for leaf in _get_leaf_members(obj):
+			ret = _activate_action_single(leaf, action, iobj) or ret
+		return ret
+
+	if action.requires_object():
+		ret = action.activate_multiple(_get_leaf_members(obj), _get_leaf_members(iobj))
+	else:
+		ret = action.activate_multiple(_get_leaf_members(obj))
 	return ret
 
 def parse_action_result(action, ret):
@@ -119,6 +138,9 @@ class ActionExecutionContext (gobject.GObject):
 gobject.signal_new("command-result", ActionExecutionContext,
 		gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
+
+def _is_multiple(leaf):
+	return hasattr(leaf, "get_multiple_leaf_representation")
 
 def _get_leaf_members(leaf):
 	"""
