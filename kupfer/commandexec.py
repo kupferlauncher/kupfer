@@ -167,3 +167,31 @@ def actions_for_item(leaf, sourcecontroller):
 			actions.intersection_update(l_actions)
 	return actions
 
+def iobjects_valid_for_action(action, for_item):
+	"""
+	Return a filtering *function* that will let through
+	those leaves that are good iobjects for @action and @for_item.
+	"""
+	def valid_object(leaf, for_item):
+		_valid_object = action.valid_object
+		for L in _get_leaf_members(leaf):
+			for I in _get_leaf_members(for_item):
+				if not _valid_object(L, for_item=I):
+					return False
+		return True
+
+	types = tuple(action.object_types())
+	def type_obj_check(iobjs):
+		for i in iobjs:
+			if (isinstance(i, types) and valid_object(i, for_item=for_item)):
+				yield i
+	def type_check(itms):
+		for i in itms:
+			if isinstance(i, types):
+				yield i
+
+	if hasattr(action, "valid_object"):
+		return type_obj_check
+	else:
+		return type_check
+

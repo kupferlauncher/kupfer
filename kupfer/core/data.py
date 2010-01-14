@@ -381,23 +381,8 @@ class SecondaryObjectPane (LeafPane):
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
 
-		types = tuple(self.current_action.object_types())
-		def type_obj_check(itms):
-			valid_object = self.current_action.valid_object
-			item = self.current_item
-			for i in itms:
-				if (isinstance(i, types) and valid_object(i, for_item=item)):
-					yield i
-		def type_check(itms):
-			for i in itms:
-				if isinstance(i, types):
-					yield i
-
-		if hasattr(self.current_action, "valid_object"):
-			item_check = type_obj_check
-		else:
-			item_check = type_check
-
+		item_check = commandexec.iobjects_valid_for_action(self.current_action,
+				self.current_item)
 		decorator = lambda seq: dress_leaves(seq, action=self.current_action)
 
 		match, match_iter = self.searcher.search(sources, key, score=True,
@@ -668,7 +653,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.emit("mode-changed", self.mode, item)
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
-				self.object_pane.set_item_and_action(self.source_pane.get_selection(), item)
+				citem = self._get_pane_object_composed(self.source_pane)
+				self.object_pane.set_item_and_action(citem, item)
 				self.search(ObjectPane, lazy=True)
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, base.Leaf), \
