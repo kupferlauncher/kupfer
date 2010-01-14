@@ -13,6 +13,7 @@ except ImportError:
 
 from kupfer import pretty
 
+from kupfer import commandexec
 from kupfer.core import qfurl
 from kupfer.core.sources import GetSourceController
 
@@ -112,11 +113,11 @@ def resolve_action_id(puid, for_item=None):
 	if isinstance(puid, SerializedObject):
 		return resolve_unique_id(puid)
 	get_action_id = repr
+	sc = GetSourceController()
 	if for_item is not None:
-		for action in for_item.get_actions():
+		for action in commandexec.actions_for_item(for_item, sc):
 			if get_unique_id(action) == puid:
 				return action
-	sc = GetSourceController()
 	for item_type, actions in sc.action_decorators.iteritems():
 		for action in actions:
 			if get_action_id(action) == puid:
