@@ -175,5 +175,8 @@ class _GroupedItemsSource(Source):
 		for leaf in self._leaf.links:
 			yield leaf
 
+	def repr_key(self):
+		return repr(self._leaf)
+
 
 
