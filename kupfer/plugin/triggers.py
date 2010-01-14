@@ -14,7 +14,7 @@ __kupfer_actions__ = (
 	"AddTrigger",
 )
 __description__ = _("Assign global keybindings (triggers) to objects created "
-                    "with 'Compose Command' (Ctrl+R).")
+                    "with 'Compose Command' (Ctrl+Return).")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
