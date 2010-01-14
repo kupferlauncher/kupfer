@@ -1,6 +1,7 @@
 import gtk
 
 from kupfer.objects import Leaf, Action, Source
+from kupfer.obj.sources import MultiSource
 from kupfer import objects
 from kupfer.obj.base import InvalidLeafError
 from kupfer import interface
@@ -46,6 +47,9 @@ if _is_debug():
 	from kupfer.plugin.core import debug
 	register_subplugin(debug)
 
+class _MultiSource (MultiSource):
+	def is_dynamic(self):
+		return False
 
 class SearchInside (Action):
 	"""Return the content source for a Leaf"""
@@ -58,6 +62,9 @@ class SearchInside (Action):
 		if not leaf.has_content():
 			raise InvalidLeafError("Must have content")
 		return leaf.content_source()
+
+	def activate_multiple(self, objects):
+		return _MultiSource([L.content_source() for L in objects])
 
 	def item_types(self):
 		yield Leaf
