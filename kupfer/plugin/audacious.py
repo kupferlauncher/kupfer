@@ -36,6 +36,7 @@ def dequeue_song(info):
 
 def play_song(info):
 	utils.spawn_async((AUDTOOL, "playlist-jump", "%d" % info))
+	utils.spawn_async((AUDTOOL, "playback-play"))
 
 def get_playlist_songs():
 	"""Yield tuples of (position, name) for playlist songs"""
