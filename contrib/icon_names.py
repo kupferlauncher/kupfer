@@ -89,6 +89,8 @@ class IconThemeCategorySource (IconNamesSource):
 		IconNamesSource.__init__(self, category or "All Icons")
 		self.category = category
 
+	def repr_key(self):
+		return self.category
 	def _get_all_items(self):
 		it = gtk.icon_theme_get_default()
 		for icon_name in it.list_icons(self.category):
