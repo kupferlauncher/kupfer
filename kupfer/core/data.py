@@ -349,7 +349,7 @@ class SecondaryObjectPane (LeafPane):
 		self.current_item = item
 		self.current_action = act
 		if item and act:
-			ownsrc = act.object_source(item)
+			ownsrc = commandexec.iobject_source_for_action(act, item)
 			if ownsrc:
 				self.source_rebase(ownsrc)
 			else:

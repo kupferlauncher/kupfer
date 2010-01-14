@@ -167,6 +167,10 @@ def actions_for_item(leaf, sourcecontroller):
 			actions.intersection_update(l_actions)
 	return actions
 
+def iobject_source_for_action(action, for_item):
+	for leaf in _get_leaf_members(for_item):
+		return action.object_source(leaf)
+
 def iobjects_valid_for_action(action, for_item):
 	"""
 	Return a filtering *function* that will let through
