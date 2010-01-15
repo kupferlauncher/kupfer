@@ -942,9 +942,10 @@ class Interface (gobject.GObject):
 				keyv = key_book["Right"]
 			elif keyv == ord(",") and has_selection:
 				cur = self.current.get_current()
-				self.data_controller.object_stack_push(cur)
-				self._relax_search_terms()
-				return True
+				curpane = self._pane_for_widget(self.current)
+				if self.data_controller.object_stack_push(curpane, cur):
+					self._relax_search_terms()
+					return True
 			elif keyv in init_text_keys:
 				if self.try_enable_text_mode():
 					# swallow if it is the direct key
@@ -1056,7 +1057,7 @@ class Interface (gobject.GObject):
 		self.switch_to_source()
 		while self._browse_up():
 			pass
-		self.data_controller.object_stack_clear()
+		self.data_controller.object_stack_clear_all()
 		self.reset_current()
 		self.reset()
 
@@ -1084,8 +1085,7 @@ class Interface (gobject.GObject):
 			else:
 				self.reset_current()
 		else:
-			if self.current == self.search:
-				self.data_controller.object_stack_clear()
+			self.data_controller.object_stack_clear(self._pane_for_widget(self.current))
 			if self.get_in_text_mode():
 				self.toggle_text_mode(False)
 			elif not self.current.get_table_visible():
@@ -1096,9 +1096,9 @@ class Interface (gobject.GObject):
 
 	def _backspace_key_press(self):
 		# backspace: delete from stack
-		if (self.current == self.search and
-				self.data_controller.get_object_stack()):
-			self.data_controller.object_stack_pop()
+		pane = self._pane_for_widget(self.current)
+		if self.data_controller.get_object_stack(pane):
+			self.data_controller.object_stack_pop(pane)
 			self.reset_text()
 			return
 		self._back_key_press()
@@ -1325,7 +1325,7 @@ class Interface (gobject.GObject):
 		Stack of objects (for comma trick) changed in @pane
 		"""
 		wid = self._widget_for_pane(pane)
-		wid.set_object_stack(controller.get_object_stack())
+		wid.set_object_stack(controller.get_object_stack(pane))
 
 	def _selection_changed(self, widget, match):
 		pane = self._pane_for_widget(widget)

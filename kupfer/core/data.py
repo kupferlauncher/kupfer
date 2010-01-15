@@ -735,7 +735,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._insert_object(SourcePane, ret)
 		else:
 			return
-		self.object_stack_clear()
+		self.object_stack_clear_all()
 		self.emit("command-result", result_type)
 
 	def find_object(self, url):
@@ -750,7 +750,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		leaf, action, iobj = self._get_current_command_objects()
 		if leaf is None:
 			return
-		self.object_stack_clear()
+		self.object_stack_clear_all()
 		obj = compose.ComposedLeaf(leaf, action, iobj)
 		self._insert_object(SourcePane, obj)
 
@@ -782,24 +782,38 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			iobjects = None
 		return (objects, action, iobjects)
 
-	def object_stack_push(self, object_):
+	def object_stack_push(self, pane, object_):
 		"""
 		Push @object_ onto the stack
 		"""
-		self.source_pane.object_stack_push(object_)
-		self.emit("object-stack-changed", SourcePane)
+		if pane == SourcePane:
+			self.source_pane.object_stack_push(object_)
+			self.emit("object-stack-changed", SourcePane)
+			return True
 
-	def object_stack_pop(self):
-		obj = self.source_pane.object_stack_pop()
-		self._insert_object(SourcePane, obj)
-		self.emit("object-stack-changed", SourcePane)
+	def object_stack_pop(self, pane):
+		if pane == SourcePane:
+			obj = self.source_pane.object_stack_pop()
+			self._insert_object(SourcePane, obj)
+			self.emit("object-stack-changed", SourcePane)
+			return True
 
-	def object_stack_clear(self):
-		self.source_pane.object_stack[:] = []
-		self.emit("object-stack-changed", SourcePane)
+	def object_stack_clear(self, pane):
+		if pane == SourcePane:
+			self.source_pane.object_stack[:] = []
+			self.emit("object-stack-changed", SourcePane)
 
-	def get_object_stack(self):
-		return self.source_pane.object_stack
+	def object_stack_clear_all(self):
+		"""
+		Clear the object stack for all panes
+		"""
+		for pane in self._panectl_table:
+			self.object_stack_clear(pane)
+
+	def get_object_stack(self, pane):
+		if pane == SourcePane:
+			return self.source_pane.object_stack
+		return ()
 
 # pane cleared or set with new item
 # pane, item
