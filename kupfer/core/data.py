@@ -793,8 +793,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if not self._has_object_stack(pane):
 			return
 		panectl = self._panectl_table[pane]
-		panectl.object_stack_push(object_)
-		self.emit("object-stack-changed", pane)
+		if object_ not in panectl.object_stack:
+			panectl.object_stack_push(object_)
+			self.emit("object-stack-changed", pane)
 		return True
 
 	def object_stack_pop(self, pane):
