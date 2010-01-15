@@ -36,8 +36,10 @@ def _activate_action_single(obj, action, iobj):
 def _activate_action_multiple(obj, action, iobj):
 	if not hasattr(action, "activate_multiple"):
 		ret = None
-		for leaf in _get_leaf_members(obj):
-			ret = _activate_action_single(leaf, action, iobj) or ret
+		iobjs = (None, ) if iobj is None else _get_leaf_members(iobj)
+		for L in _get_leaf_members(obj):
+			for I in iobjs:
+				ret = _activate_action_single(L, action, I) or ret
 		return ret
 
 	if action.requires_object():
