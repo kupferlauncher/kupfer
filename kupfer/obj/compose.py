@@ -3,6 +3,7 @@
 from kupfer import icons
 from kupfer import pretty
 from kupfer import utils
+from kupfer import datatools
 
 from kupfer.obj.base import Leaf, Action, Source, InvalidDataError
 from kupfer.obj.objects import Perform, RunnableLeaf, TextLeaf
@@ -84,12 +85,18 @@ class _MultipleLeafContentSource (Source):
 
 class MultipleLeaf (Leaf):
 	"""
-	A Leaf representing a collection of leaves.
+	A Leaf for the direct representation of many leaves. It is not
+	a container or "source", it *is* the many leaves itself.
 
-	The represented object is a frozenset of the contained Leaves
+	The represented object is a sequence of the contained Leaves
 	"""
-	def __init__(self, obj, name):
-		Leaf.__init__(self, frozenset(obj), name)
+	def __init__(self, obj, name=_("Multiple Objects")):
+		# modifying the list of objects is strictly forbidden
+		robj = list(datatools.UniqueIterator(obj))
+		Leaf.__init__(self, robj, name)
+
+	def get_multiple_leaf_representation(self):
+		return self.object
 
 	def has_content(self):
 		return True
