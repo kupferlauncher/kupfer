@@ -4,6 +4,7 @@ from kupfer import icons
 from kupfer import pretty
 from kupfer import utils
 from kupfer import datatools
+from kupfer import puid
 
 from kupfer.obj.base import Leaf, Action, Source, InvalidDataError
 from kupfer.obj.objects import Perform, RunnableLeaf, TextLeaf
@@ -43,13 +44,11 @@ class ComposedLeaf (RunnableLeaf):
 		RunnableLeaf.__init__(self, object_, name)
 
 	def __getstate__(self):
-		from kupfer import puid
 		state = dict(vars(self))
 		state["object"] = [puid.get_unique_id(o) for o in self.object]
 		return state
 
 	def __setstate__(self, state):
-		from kupfer import puid
 		vars(self).update(state)
 		objid, actid, iobjid = state["object"]
 		obj = puid.resolve_unique_id(objid)
@@ -90,6 +89,8 @@ class MultipleLeaf (Leaf):
 
 	The represented object is a sequence of the contained Leaves
 	"""
+	# NOTE: Still experimental
+	serilizable = -1
 	def __init__(self, obj, name=_("Multiple Objects")):
 		# modifying the list of objects is strictly forbidden
 		robj = list(datatools.UniqueIterator(obj))
@@ -97,6 +98,21 @@ class MultipleLeaf (Leaf):
 
 	def get_multiple_leaf_representation(self):
 		return self.object
+
+	def __getstate__(self):
+		state = dict(vars(self))
+		state["object"] = [puid.get_unique_id(o) for o in self.object]
+		return state
+
+	def __setstate__(self, state):
+		vars(self).update(state)
+		objects = []
+		for id_ in state["object"]:
+			obj = puid.resolve_unique_id(id_)
+			if obj is None:
+				raise InvalidDataError("%s could not be restored!" % (id_, ))
+			objects.append(obj)
+		self.object[:] = objects
 
 	def has_content(self):
 		return True
