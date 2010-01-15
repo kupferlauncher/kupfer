@@ -644,6 +644,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		elif pane is ActionPane:
 			assert not item or isinstance(item, base.Action), \
 					"Selection in Source pane is not an Action!"
+			self.object_stack_clear(ObjectPane)
 			if item and item.requires_object():
 				newmode = SourceActionObjectMode
 			else:
@@ -782,26 +783,35 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			iobjects = None
 		return (objects, action, iobjects)
 
+	def _has_object_stack(self, pane):
+		return pane in (SourcePane, ObjectPane)
+
 	def object_stack_push(self, pane, object_):
 		"""
 		Push @object_ onto the stack
 		"""
-		if pane == SourcePane:
-			self.source_pane.object_stack_push(object_)
-			self.emit("object-stack-changed", SourcePane)
-			return True
+		if not self._has_object_stack(pane):
+			return
+		panectl = self._panectl_table[pane]
+		panectl.object_stack_push(object_)
+		self.emit("object-stack-changed", pane)
+		return True
 
 	def object_stack_pop(self, pane):
-		if pane == SourcePane:
-			obj = self.source_pane.object_stack_pop()
-			self._insert_object(SourcePane, obj)
-			self.emit("object-stack-changed", SourcePane)
-			return True
+		if not self._has_object_stack(pane):
+			return
+		panectl = self._panectl_table[pane]
+		obj = panectl.object_stack_pop()
+		self._insert_object(pane, obj)
+		self.emit("object-stack-changed", pane)
+		return True
 
 	def object_stack_clear(self, pane):
-		if pane == SourcePane:
-			self.source_pane.object_stack[:] = []
-			self.emit("object-stack-changed", SourcePane)
+		if not self._has_object_stack(pane):
+			return
+		panectl = self._panectl_table[pane]
+		panectl.object_stack[:] = []
+		self.emit("object-stack-changed", pane)
 
 	def object_stack_clear_all(self):
 		"""
@@ -811,9 +821,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.object_stack_clear(pane)
 
 	def get_object_stack(self, pane):
-		if pane == SourcePane:
-			return self.source_pane.object_stack
-		return ()
+		if not self._has_object_stack(pane):
+			return ()
+		panectl = self._panectl_table[pane]
+		return panectl.object_stack
 
 # pane cleared or set with new item
 # pane, item
