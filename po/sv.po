@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-12 23:46+0100\n"
+"POT-Creation-Date: 2010-01-15 22:25+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -255,7 +255,11 @@ msgstr "Utför med fördröjning..."
 msgid "Perform command after a specified time interval"
 msgstr "Utför kommando efter angivet tidsintervall"
 
-#: ../kupfer/obj/compose.py:102
+#: ../kupfer/obj/compose.py:94
+msgid "Multiple Objects"
+msgstr "Flera objekt"
+
+#: ../kupfer/obj/compose.py:127
 #, python-format
 msgid "%s object"
 msgid_plural "%s objects"
@@ -995,10 +999,10 @@ msgstr "Utlösare"
 #: ../kupfer/plugin/triggers.py:16
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
-"Command' (Ctrl+R)."
+"Command' (Ctrl+Return)."
 msgstr ""
 "Tilldela globala tangentbordsgenvägar till kommandon skapade med Compose-"
-"kommandot (Ctrl+R)"
+"kommandot (Ctrl+Return)"
 
 #: ../kupfer/plugin/triggers.py:135
 msgid "Add Trigger..."
