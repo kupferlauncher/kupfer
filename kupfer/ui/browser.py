@@ -993,7 +993,7 @@ class Interface (gobject.GObject):
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
 			if not has_input:
-				self._back_key_press()
+				self._backspace_key_press()
 			else:
 				return False
 		elif keyv == key_book["Left"]:
@@ -1094,13 +1094,19 @@ class Interface (gobject.GObject):
 			self.current.hide_table()
 		self.reset_text()
 
-	def _back_key_press(self):
-		"""Handle leftarrow and backspace
-		Go up back through browsed sources.
-		"""
-		if self.current == self.search and self.data_controller.get_object_stack():
+	def _backspace_key_press(self):
+		# backspace: delete from stack
+		if (self.current == self.search and
+				self.data_controller.get_object_stack()):
 			self.data_controller.object_stack_pop()
-		elif self.current.is_showing_result():
+			self.reset_text()
+			return
+		self._back_key_press()
+
+	def _back_key_press(self):
+		# leftarrow (or backspace without object stack)
+		# delete/go up through stource stack
+		if self.current.is_showing_result():
 			self.reset_current(populate=True)
 		else:
 			if self._browse_up():
@@ -1356,7 +1362,7 @@ class Interface (gobject.GObject):
 			curev = gtk.get_current_event()
 			if curev and curev.keyval in (self.key_book["Delete"],
 					self.key_book["BackSpace"]):
-				self._back_key_press()
+				self._backspace_key_press()
 			return
 
 		pane = self._pane_for_widget(self.current)
