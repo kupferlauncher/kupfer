@@ -795,8 +795,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.emit("object-stack-changed", SourcePane)
 
 	def object_stack_clear(self):
-		while self.source_pane.object_stack:
-			self.source_pane.object_stack_pop()
+		self.source_pane.object_stack[:] = []
 		self.emit("object-stack-changed", SourcePane)
 
 	def get_object_stack(self):

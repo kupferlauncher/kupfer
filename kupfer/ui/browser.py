@@ -1056,6 +1056,7 @@ class Interface (gobject.GObject):
 		self.switch_to_source()
 		while self._browse_up():
 			pass
+		self.data_controller.object_stack_clear()
 		self.reset_current()
 		self.reset()
 
