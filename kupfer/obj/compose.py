@@ -123,5 +123,5 @@ class MultipleLeaf (Leaf):
 	def get_description(self):
 		n = len(self.object)
 		return ngettext("%s object", "%s objects", n) % (n, )
-	def get_gicon(self):
-		pass
+	def get_icon_name(self):
+		return "kupfer-object-multiple"
