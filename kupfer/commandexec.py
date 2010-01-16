@@ -4,7 +4,11 @@ import contextlib
 
 import gobject
 
+from kupfer import pretty
 from kupfer import task
+from kupfer.obj.objects import SourceLeaf
+from kupfer.obj.sources import MultiSource
+from kupfer.obj.compose import MultipleLeaf
 
 RESULT_NONE, RESULT_OBJECT, RESULT_SOURCE, RESULT_ASYNC = (1, 2, 3, 4)
 RESULTS_SYNC = (RESULT_OBJECT, RESULT_SOURCE)
@@ -48,17 +52,29 @@ def _activate_action_single(obj, action, iobj):
 
 def _activate_action_multiple(obj, action, iobj):
 	if not hasattr(action, "activate_multiple"):
-		ret = None
 		iobjs = (None, ) if iobj is None else _get_leaf_members(iobj)
-		for L in _get_leaf_members(obj):
-			for I in iobjs:
-				ret = _activate_action_single(L, action, I) or ret
-		return ret
+		return _activate_action_multiple_multiplied(_get_leaf_members(obj),
+				action, iobjs)
 
 	if action.requires_object():
 		ret = action.activate_multiple(_get_leaf_members(obj), _get_leaf_members(iobj))
 	else:
 		ret = action.activate_multiple(_get_leaf_members(obj))
+	return ret
+
+def _activate_action_multiple_multiplied(objs, action, iobjs):
+	"""
+	Multiple dispatch by "mulitplied" invocation of the simple activation
+
+	Return an iterable of the return values.
+	"""
+	rets = []
+	for L in objs:
+		for I in iobjs:
+			ret = _activate_action_single(L, action, I)
+			rets.append(ret)
+	ctx = DefaultActionExecutionContext()
+	ret = ctx._combine_action_result_multiple(action, rets)
 	return ret
 
 def parse_action_result(action, ret):
@@ -72,12 +88,12 @@ def parse_action_result(action, ret):
 		res = RESULT_SOURCE
 	if action.has_result() and valid_result(ret):
 		res = RESULT_OBJECT
-	elif action.is_async():
+	elif action.is_async() and valid_result(ret):
 		res = RESULT_ASYNC
 	return res
 
 
-class ActionExecutionContext (gobject.GObject):
+class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 	"""
 	command-result (result_type, result)
 		Emitted when a command is carried out, with its resulting value
@@ -134,7 +150,10 @@ class ActionExecutionContext (gobject.GObject):
 
 		res = parse_action_result(action, ret)
 		if res == RESULT_ASYNC:
+			# Register the task then "clear" the result
+			self.output_debug("Registering async task", ret)
 			self.task_runner.add_task(ret)
+			res, ret = RESULT_NONE, None
 
 		# Delegated command execution was requested: we pass
 		# through the result of the action to the parent execution context
@@ -148,6 +167,62 @@ class ActionExecutionContext (gobject.GObject):
 		if not self._is_nested():
 			self.emit("command-result", res, ret)
 		return res, ret
+
+
+	def _combine_action_result_multiple(self, action, retvals):
+		self.output_debug("Combining", repr(action), retvals,
+				"delegate=%s" % self._delegate)
+
+		def _make_retvalue(res, values):
+			"Construct a return value for type res"
+			if res == RESULT_SOURCE:
+				return values[0] if len(values) == 1 else MultiSource(values)
+			if res == RESULT_OBJECT:
+				return values[0] if len(values) == 1 else MultipleLeaf(values)
+			if res == RESULT_ASYNC:
+				# Register all tasks now, and return None upwards
+				for task in values:
+					self.output_debug("Registering async task", task)
+					self.task_runner.add_task(task)
+			return None
+
+		if not self._delegate:
+			values = []
+			res = RESULT_NONE
+			for ret in retvals:
+				res_type = parse_action_result(action, ret)
+				if res_type != RESULT_NONE:
+					values.append(ret)
+					res = res_type
+			return _make_retvalue(res, values)
+		else:
+			# Re-parse result values
+			res = RESULT_NONE
+			resmap = {}
+			for ret in retvals:
+				if ret is None:
+					continue
+				res_type, ret_obj = ret
+				if res_type != RESULT_NONE:
+					res = res_type
+					resmap.setdefault(res_type, []).append(ret_obj)
+
+			# register tasks
+			tasks = resmap.pop(RESULT_ASYNC, [])
+			_make_retvalue(RESULT_ASYNC, tasks)
+
+			if len(resmap) == 1:
+				# Return the only of the Source or Object case
+				key, values = resmap.items()[0]
+				return key, _make_retvalue(key, values)
+			elif len(resmap) > 1:
+				# Put the source in a leaf and return a multiple leaf
+				source = _make_retvalue(RESULT_SOURCE, resmap[RESULT_SOURCE])
+				objects = resmap[RESULT_OBJECT]
+				objects.append(SourceLeaf(source))
+				return RESULT_OBJECT, _make_retvalue(RESULT_OBJECT, objects)
+			return RESULT_NONE, None
+
 
 # Action result type, action result
 gobject.signal_new("command-result", ActionExecutionContext,
