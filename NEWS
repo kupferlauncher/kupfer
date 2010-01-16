@@ -7,10 +7,32 @@ kupfer version cXX
 
 Not Released Yet
 
+"So awesome even a half of it would blow your mind"
+
+* Implement the famous "comma trick": Press , (comma) in the first or
+  third pane to make a stack of objects to perform actions on. This allows
+  actions on many objects and even many-to-many actions.
 * New plugin: *Triggers*: Add global keybindings to any command you can
   perform in Kupfer.
-* The *Favorites* plugin is completely revamped: you may favorite (almost)
-  any object. Favorites get a rank boost.
+* New plugin *Skype* by Karol Będkowski
+* New plugin *Thunderbird* (or Icedove) by Karol
+* Implement merging of contacts and hosts: All contacts of the same name are
+  merged into one object. (Karol, Ulrik)
+* New plugin *Higher-order Actions* to work with saved commands as objects
+* The *Favorites* plugin was reimplemented: you may favorite (almost) any
+  object. Favorites get a star and a rank boost.
+* *Window List* plugin was improved, most notably a *Frontmost Window* proxy
+  object was added
+* New proxy object *Last Command*
+* New Czech localization by Marek Cernocky
+
+* Localization updates:
+
+  + cs (Marek Cernocky)
+  + de (Mario Blättermann)
+  + pl (Karol)
+  + sv
+  + sl (Andrej Žnidaršič)
 
 kupfer version c19.1
 --------------------

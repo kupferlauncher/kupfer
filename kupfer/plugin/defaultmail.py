@@ -20,6 +20,11 @@ class NewMailAction(Action):
 		email = email_from_leaf(leaf)
 		utils.show_url("mailto:%s" % email)
 
+	def activate_multiple(self, objects):
+		recipients = ",".join(email_from_leaf(L) for L in objects)
+		url = "mailto:" + recipients
+		utils.show_url(url)
+
 	def item_types(self):
 		yield ContactLeaf
 		yield TextLeaf
@@ -37,10 +42,13 @@ class SendFileByMail (Action):
 		Action.__init__(self, _('Send in Email To...'))
 
 	def activate(self, obj, iobj):
-		filepath = obj.object
-		email = email_from_leaf(iobj)
+		self.activate_multiple((obj, ), (iobj, ))
+
+	def activate_multiple(self, objects, iobjects):
 		# FIXME: revisit for unicode email addresses
-		url = "mailto:%s?attach=%s" % (email, filepath)
+		recipients = ",".join(email_from_leaf(I) for I in iobjects)
+		attachlist = "?attach=" + "&attach=".join(L.object for L in objects)
+		url = "mailto:" + recipients + attachlist
 		utils.show_url(url)
 
 	def item_types(self):

@@ -114,16 +114,34 @@ class PlayTracks (Action):
 	rank_adjust = 5
 	def __init__(self):
 		Action.__init__(self, _("Play"))
+
 	def activate(self, leaf):
-		if isinstance(leaf, SongLeaf):
-			play_song(leaf.object)
-		if isinstance(leaf, TrackCollection):
-			songs = list(leaf.object)
-			if not songs:
-				return
-			# play first, enqueue others
-			play_song(songs[0])
-			enqueue_songs(songs[1:], clear_queue=True)
+		self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objects):
+		# for multiple dispatch, play the first and enqueue the rest
+		to_enqueue = []
+		objects = iter(objects)
+		# take only the first object in the first loop
+		# notice the break
+		for leaf in objects:
+			if isinstance(leaf, SongLeaf):
+				play_song(leaf.object)
+			if isinstance(leaf, TrackCollection):
+				songs = list(leaf.object)
+				if not songs:
+					continue
+				play_song(songs[0])
+				to_enqueue.extend(songs[1:])
+			break
+		for leaf in objects:
+			if isinstance(leaf, SongLeaf):
+				to_enqueue.append(leaf.object)
+			if isinstance(leaf, TrackCollection):
+				songs = list(leaf.object)
+				to_enqueue.extend(songs)
+		if to_enqueue:
+			enqueue_songs(to_enqueue, clear_queue=True)
 
 	def get_description(self):
 		return _("Play tracks in Rhythmbox")

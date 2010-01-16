@@ -45,9 +45,13 @@ class KupferObject (object):
 	@rank_adjust should be used _very_ sparingly:
 		Default actions should have +5 or +1
 		Destructive (dangerous) actions should have -5 or -10
+
+	@fallback_icon_name is a class attribute for the last fallback
+	icon; it must always be accessible.
 	"""
 	__metaclass__ = _BuiltinObject
 	rank_adjust = 0
+	fallback_icon_name = "kupfer-object"
 	def __init__(self, name=None):
 		""" Init kupfer object with, where
 		@name *should* be a unicode object but *may* be
@@ -112,8 +116,7 @@ class KupferObject (object):
 		icon = icon_name and icons.get_icon_for_name(icon_name, icon_size)
 		if icon:
 			return icon
-		fallback_class = Action if isinstance(self, Action) else KupferObject
-		return icons.get_icon_for_name(fallback_class.get_icon_name(self), icon_size)
+		return icons.get_icon_for_name(self.fallback_icon_name, icon_size)
 
 	def get_icon(self):
 		"""
@@ -129,8 +132,7 @@ class KupferObject (object):
 		icon_name = self.get_icon_name()
 		if icon_name and icons.get_good_name_for_icon_names((icon_name, )):
 			return icons.get_gicon_for_names(icon_name)
-		fallback_class = Action if isinstance(self, Action) else KupferObject
-		return icons.get_gicon_for_names(fallback_class.get_icon_name(self))
+		return icons.get_gicon_for_names(self.fallback_icon_name)
 
 	def get_gicon(self):
 		"""Return GIcon, if there is one"""
@@ -140,7 +142,7 @@ class KupferObject (object):
 		"""Return icon name. All items should have at least
 		a generic icon name to return.
 		"""
-		return "kupfer-object"
+		return self.fallback_icon_name
 
 def aslist(seq):
 	"""Return a list out of @seq, or seq if it is a list"""
@@ -209,6 +211,7 @@ class Action (KupferObject):
 		"""
 		return True
 	'''
+	fallback_icon_name = "gtk-execute"
 
 	def __hash__(self):
 		return hash(repr(self))
@@ -273,9 +276,6 @@ class Action (KupferObject):
 		"""
 		return ()
 
-	def get_icon_name(self):
-		return "gtk-execute"
-
 class Source (KupferObject, pretty.OutputMixin):
 	"""
 	Source: Data provider for a kupfer browser
@@ -284,6 +284,7 @@ class Source (KupferObject, pretty.OutputMixin):
 	their @repr are equal!
 
 	"""
+	fallback_icon_name = "kupfer-object-multiple"
 	def __init__(self, name):
 		KupferObject.__init__(self, name)
 		self.cached_items = None

@@ -83,13 +83,19 @@ class OpenWith (Action):
 			self.name_aliases.add(_("Open with %s") % package_name)
 
 	def repr_key(self):
-		return "" if self.is_default else self.desktop_item.get_id()
+		return self.desktop_item.get_id()
 
 	def activate(self, leaf):
+		self._activate(leaf.object)
+
+	def activate_multiple(self, leaves):
+		self._activate(*[L.object for L in leaves])
+
+	def _activate(self, *paths):
 		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
 			pretty.print_error(__name__, self.desktop_item,
 				"says it does not support opening files, still trying to open")
-		utils.launch_app(self.desktop_item, paths=(leaf.object,))
+		utils.launch_app(self.desktop_item, paths=paths)
 
 	def get_description(self):
 		if self.is_default:

@@ -7,6 +7,7 @@ import gobject
 from kupfer.obj import base, sources, compose
 from kupfer import pretty, scheduler
 from kupfer import commandexec
+from kupfer.core import actioncompat
 from kupfer import datatools
 from kupfer.core import search, learn
 from kupfer.core import settings
@@ -191,6 +192,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 		super(LeafPane, self).__init__()
 		self.source_stack = []
 		self.source = None
+		self.object_stack = []
 
 	def _load_source(self, src):
 		"""Try to get a source from the SourceController,
@@ -222,6 +224,12 @@ class LeafPane (Pane, pretty.OutputMixin):
 	def is_at_source_root(self):
 		"""Return True if we have no source stack"""
 		return not self.source_stack
+
+	def object_stack_push(self, obj):
+		self.object_stack.append(obj)
+
+	def object_stack_pop(self):
+		return self.object_stack.pop()
 
 	def get_can_enter_text_mode(self):
 		return self.is_at_source_root()
@@ -306,19 +314,15 @@ class PrimaryActionPane (Pane):
 
 		self.latest_key = key
 		leaf = self.current_item
-		actions = list(leaf.get_actions()) if leaf else []
-		sc = GetSourceController()
-		if leaf:
-			for act in sc.get_actions_for_leaf(leaf):
-				actions.append(act)
+		actions = actioncompat.actions_for_item(leaf, GetSourceController())
 
 		def is_valid_cached(action):
 			"""Check if @action is valid for current item"""
 			cache = self._action_valid_cache
 			valid = cache.get(action)
 			if valid is None:
-				valid = action.valid_for_item(self.current_item)
-			cache[action] = valid
+				valid = actioncompat.action_valid_for_item(action, leaf)
+				cache[action] = valid
 			return valid
 
 		def valid_decorator(seq):
@@ -346,7 +350,7 @@ class SecondaryObjectPane (LeafPane):
 		self.current_item = item
 		self.current_action = act
 		if item and act:
-			ownsrc = act.object_source(item)
+			ownsrc = actioncompat.iobject_source_for_action(act, item)
 			if ownsrc:
 				self.source_rebase(ownsrc)
 			else:
@@ -378,23 +382,8 @@ class SecondaryObjectPane (LeafPane):
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
 
-		types = tuple(self.current_action.object_types())
-		def type_obj_check(itms):
-			valid_object = self.current_action.valid_object
-			item = self.current_item
-			for i in itms:
-				if (isinstance(i, types) and valid_object(i, for_item=item)):
-					yield i
-		def type_check(itms):
-			for i in itms:
-				if isinstance(i, types):
-					yield i
-
-		if hasattr(self.current_action, "valid_object"):
-			item_check = type_obj_check
-		else:
-			item_check = type_check
-
+		item_check = actioncompat.iobjects_valid_for_action(self.current_action,
+				self.current_item)
 		decorator = lambda seq: dress_leaves(seq, action=self.current_action)
 
 		match, match_iter = self.searcher.search(sources, key, score=True,
@@ -650,11 +639,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			assert not item or isinstance(item, base.Leaf), \
 					"Selection in Source pane is not a Leaf!"
 			# populate actions
-			self.action_pane.set_item(item)
+			citem = self._get_pane_object_composed(self.source_pane)
+			self.action_pane.set_item(citem)
 			self.search(ActionPane, interactive=True)
 		elif pane is ActionPane:
 			assert not item or isinstance(item, base.Action), \
 					"Selection in Source pane is not an Action!"
+			self.object_stack_clear(ObjectPane)
 			if item and item.requires_object():
 				newmode = SourceActionObjectMode
 			else:
@@ -664,7 +655,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				self.emit("mode-changed", self.mode, item)
 			if self.mode is SourceActionObjectMode:
 				# populate third pane
-				self.object_pane.set_item_and_action(self.source_pane.get_selection(), item)
+				citem = self._get_pane_object_composed(self.source_pane)
+				self.object_pane.set_item_and_action(citem, item)
 				self.search(ObjectPane, lazy=True)
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, base.Leaf), \
@@ -715,9 +707,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 		Activate current selection
 		"""
-		action = self.action_pane.get_selection()
-		leaf = self.source_pane.get_selection()
-		sobject = self.object_pane.get_selection()
+		leaf, action, sobject = self._get_current_command_objects()
 		mode = self.mode
 		try:
 			ctx = self._execution_context
@@ -742,8 +732,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def _command_execution_result(self, ctx, result_type, ret):
 		if result_type == commandexec.RESULT_SOURCE:
+			self.object_stack_clear_all()
 			self.source_pane.push_source(ret)
 		elif result_type == commandexec.RESULT_OBJECT:
+			self.object_stack_clear_all()
 			self._insert_object(SourcePane, ret)
 		else:
 			return
@@ -758,18 +750,84 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._insert_object(SourcePane, found)
 
 	def compose_selection(self):
-		leaf = self.source_pane.get_selection()
-		action = self.action_pane.get_selection()
-		if leaf is None or action is None:
+		leaf, action, iobj = self._get_current_command_objects()
+		if leaf is None:
 			return
-		iobj = self.object_pane.get_selection()
-		if self.mode is SourceActionObjectMode:
-			if iobj is None:
-				return
-		else:
-			iobj = None
+		self.object_stack_clear_all()
 		obj = compose.ComposedLeaf(leaf, action, iobj)
 		self._insert_object(SourcePane, obj)
+
+	def _get_pane_object_composed(self, pane):
+		objects = list(pane.object_stack)
+		sel = pane.get_selection()
+		if sel and sel not in objects:
+			objects.append(sel)
+		if not objects:
+			return None
+		elif len(objects) == 1:
+			return objects[0]
+		else:
+			return compose.MultipleLeaf(objects)
+
+	def _get_current_command_objects(self):
+		"""
+		Return a tuple of current (obj, action, iobj)
+		"""
+		objects = self._get_pane_object_composed(self.source_pane)
+		action = self.action_pane.get_selection()
+		if objects is None or action is None:
+			return (None, None, None)
+		iobjects = self._get_pane_object_composed(self.object_pane)
+		if self.mode == SourceActionObjectMode:
+			if not iobjects:
+				return (None, None, None)
+		else:
+			iobjects = None
+		return (objects, action, iobjects)
+
+	def _has_object_stack(self, pane):
+		return pane in (SourcePane, ObjectPane)
+
+	def object_stack_push(self, pane, object_):
+		"""
+		Push @object_ onto the stack
+		"""
+		if not self._has_object_stack(pane):
+			return
+		panectl = self._panectl_table[pane]
+		if object_ not in panectl.object_stack:
+			panectl.object_stack_push(object_)
+			self.emit("object-stack-changed", pane)
+		return True
+
+	def object_stack_pop(self, pane):
+		if not self._has_object_stack(pane):
+			return
+		panectl = self._panectl_table[pane]
+		obj = panectl.object_stack_pop()
+		self._insert_object(pane, obj)
+		self.emit("object-stack-changed", pane)
+		return True
+
+	def object_stack_clear(self, pane):
+		if not self._has_object_stack(pane):
+			return
+		panectl = self._panectl_table[pane]
+		panectl.object_stack[:] = []
+		self.emit("object-stack-changed", pane)
+
+	def object_stack_clear_all(self):
+		"""
+		Clear the object stack for all panes
+		"""
+		for pane in self._panectl_table:
+			self.object_stack_clear(pane)
+
+	def get_object_stack(self, pane):
+		if not self._has_object_stack(pane):
+			return ()
+		panectl = self._panectl_table[pane]
+		return panectl.object_stack
 
 # pane cleared or set with new item
 # pane, item
@@ -787,6 +845,10 @@ gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
+# object stack update signal
+# arguments: pane
+gobject.signal_new("object-stack-changed", DataController, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, ))
 # when an command returned a result
 # arguments: result type
 gobject.signal_new("command-result", DataController, gobject.SIGNAL_RUN_LAST,

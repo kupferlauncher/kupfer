@@ -6,6 +6,7 @@ import locale
 import gobject
 
 from kupfer import pretty
+from kupfer import kupferstring
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -69,6 +70,8 @@ def locale_sort(seq, key=unicode):
 
 def spawn_async(argv, in_dir="."):
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
+	argv = [kupferstring.tolocale(A) if isinstance(A, unicode) else A
+			for A in argv]
 	try:
 		return gobject.spawn_async (argv, working_directory=in_dir,
 				flags=gobject.SPAWN_SEARCH_PATH)

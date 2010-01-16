@@ -66,9 +66,17 @@ class AppSource (Source, FilesystemWatchMixin):
 class OpenWith (Action):
 	def __init__(self):
 		Action.__init__(self, _("Open With..."))
+
+	def _activate(self, desktop_item, paths):
+		utils.launch_app(desktop_item, paths=paths)
 	def activate(self, leaf, obj):
 		desktop_item = obj.object
-		utils.launch_app(desktop_item, paths=(leaf.object,))
+		self._activate(desktop_item, (leaf.object, ))
+	def activate_multiple(self, objects, iobjects):
+		# for each application, launch all the files
+		for iobj_app in iobjects:
+			self._activate(iobj_app.object, [L.object for L in objects])
+
 	def item_types(self):
 		yield FileLeaf
 	def requires_object(self):

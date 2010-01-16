@@ -215,6 +215,9 @@ class MatchView (gtk.Bin):
 		self.label_char_width = 25
 		self.match_state = State.Wait
 		self.icon_size = icon_size
+
+		self.object_stack = []
+
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
@@ -259,7 +262,42 @@ class MatchView (gtk.Bin):
 
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
-		
+
+	def _render_composed_icon(self, base, pixbufs, small_size):
+		"""
+		Render the main selection + a string of objects on the stack.
+
+		Scale the main image into the upper portion, leaving a clear
+		strip at the bottom where we line up the small icons.
+
+		@base: main selection pixbuf
+		@pixbufs: icons of the object stack, in final (small) size
+		@small_size: the size of the small icons
+		"""
+		sz = self.icon_size
+		base_scale = min((sz-small_size)*1.0/base.get_height(),
+				sz*1.0/base.get_width())
+		new_sz_x = int(base_scale*base.get_width())
+		new_sz_y = int(base_scale*base.get_height())
+		if not base.get_has_alpha():
+			base = base.add_alpha(False, 0, 0, 0)
+		destbuf = base.scale_simple(sz, sz, gtk.gdk.INTERP_NEAREST)
+		destbuf.fill(0x00000000)
+		# Align in the middle of the area
+		offset_x = (sz - new_sz_x)/2
+		offset_y = ((sz - small_size) - new_sz_y)/2
+		base.composite(destbuf, offset_x, offset_y, new_sz_x, new_sz_y,
+				offset_x, offset_y,
+				base_scale, base_scale, gtk.gdk.INTERP_BILINEAR, 255)
+
+		# @fr is the scale compared to the destination pixbuf
+		fr = small_size*1.0/sz
+		dest_y = offset_y = int((1-fr)*sz)
+		for idx, pbuf in enumerate(pixbufs):
+			dest_x = offset_x = int(fr*sz)*idx
+			pbuf.copy_area(0,0, small_size,small_size, destbuf, dest_x,dest_y)
+		return destbuf
+
 	def update_match(self):
 		"""
 		Update interface to display the currently selected match
@@ -269,6 +307,12 @@ class MatchView (gtk.Bin):
 		if icon:
 			if self.match_state is State.NoMatch:
 				icon = self._dim_icon(icon)
+			if icon and self.object_stack:
+				small_max = 6
+				small_size = 16
+				pixbufs = [o.get_pixbuf(small_size) for o in
+						self.object_stack[-small_max:]]
+				icon = self._render_composed_icon(icon, pixbufs, small_size)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
 			self.icon_view.set_from_icon_name("gtk-file", self.icon_size)
@@ -415,6 +459,10 @@ class Search (gtk.Bin):
 		return current selection
 		"""
 		return self.match
+
+	def set_object_stack(self, stack):
+		self.match_view.object_stack[:] = stack
+		self.match_view.update_match()
 
 	def set_source(self, source):
 		"""Set current source (to get icon, name etc)"""
@@ -771,6 +819,7 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("source-changed", self._new_source)
 		self.data_controller.connect("pane-reset", self._pane_reset)
 		self.data_controller.connect("mode-changed", self._show_hide_third)
+		self.data_controller.connect("object-stack-changed", self._object_stack_changed)
 		self.widget_to_pane = {
 			id(self.search) : data.SourcePane,
 			id(self.action) : data.ActionPane,
@@ -891,6 +940,12 @@ class Interface (gobject.GObject):
 					keyv = key_book["Down"]
 			elif keyv == ord("/") and has_selection:
 				keyv = key_book["Right"]
+			elif keyv == ord(",") and has_selection:
+				cur = self.current.get_current()
+				curpane = self._pane_for_widget(self.current)
+				if self.data_controller.object_stack_push(curpane, cur):
+					self._relax_search_terms()
+					return True
 			elif keyv in init_text_keys:
 				if self.try_enable_text_mode():
 					# swallow if it is the direct key
@@ -939,7 +994,7 @@ class Interface (gobject.GObject):
 			self._browse_down(alternate=mod1_mask)
 		elif keyv == key_book["BackSpace"]:
 			if not has_input:
-				self._back_key_press()
+				self._backspace_key_press()
 			else:
 				return False
 		elif keyv == key_book["Left"]:
@@ -1002,6 +1057,7 @@ class Interface (gobject.GObject):
 		self.switch_to_source()
 		while self._browse_up():
 			pass
+		self.data_controller.object_stack_clear_all()
 		self.reset_current()
 		self.reset()
 
@@ -1029,6 +1085,7 @@ class Interface (gobject.GObject):
 			else:
 				self.reset_current()
 		else:
+			self.data_controller.object_stack_clear(self._pane_for_widget(self.current))
 			if self.get_in_text_mode():
 				self.toggle_text_mode(False)
 			elif not self.current.get_table_visible():
@@ -1037,10 +1094,18 @@ class Interface (gobject.GObject):
 			self.current.hide_table()
 		self.reset_text()
 
+	def _backspace_key_press(self):
+		# backspace: delete from stack
+		pane = self._pane_for_widget(self.current)
+		if self.data_controller.get_object_stack(pane):
+			self.data_controller.object_stack_pop(pane)
+			self.reset_text()
+			return
+		self._back_key_press()
+
 	def _back_key_press(self):
-		"""Handle leftarrow and backspace
-		Go up back through browsed sources.
-		"""
+		# leftarrow (or backspace without object stack)
+		# delete/go up through stource stack
 		if self.current.is_showing_result():
 			self.reset_current(populate=True)
 		else:
@@ -1255,6 +1320,13 @@ class Interface (gobject.GObject):
 	def _pane_for_widget(self, widget):
 		return self.widget_to_pane[id(widget)]
 
+	def _object_stack_changed(self, controller, pane):
+		"""
+		Stack of objects (for comma trick) changed in @pane
+		"""
+		wid = self._widget_for_pane(pane)
+		wid.set_object_stack(controller.get_object_stack(pane))
+
 	def _selection_changed(self, widget, match):
 		pane = self._pane_for_widget(widget)
 		self.data_controller.select(pane, match)
@@ -1290,7 +1362,7 @@ class Interface (gobject.GObject):
 			curev = gtk.get_current_event()
 			if curev and curev.keyval in (self.key_book["Delete"],
 					self.key_book["BackSpace"]):
-				self._back_key_press()
+				self._backspace_key_press()
 			return
 
 		pane = self._pane_for_widget(self.current)

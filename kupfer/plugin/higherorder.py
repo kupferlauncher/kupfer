@@ -1,5 +1,5 @@
 from kupfer.objects import Action, Leaf
-from kupfer.obj.compose import ComposedLeaf
+from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
 from kupfer import commandexec
 from kupfer import pretty
 
@@ -33,10 +33,13 @@ def _exec_no_show_result(composedleaf):
 	if result_type == commandexec.RESULT_OBJECT:
 		return ret
 	if result_type == commandexec.RESULT_SOURCE:
-		try:
-			return iter(ret.get_leaves()).next()
-		except StopIteration:
-			pass
+		leaves = list(ret.get_leaves())
+		if not leaves:
+			return
+		if len(leaves) == 1:
+			return leaves[0]
+		else:
+			return MultipleLeaf(leaves)
 
 
 def _save_result(cleaf):
