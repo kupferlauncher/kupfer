@@ -13,6 +13,7 @@ import xdg.BaseDirectory as base
 from kupfer.objects import Action, Source, Leaf, TextLeaf
 from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
+from kupfer import textutils
 
 __kupfer_name__ = _("Notes")
 __kupfer_sources__ = ("NotesSource", )
@@ -109,38 +110,10 @@ class AppendToNote (Action):
 		return "gtk-add"
 
 def _prepare_note_text(text):
-	"""Prepare note text
-
-	A long text will have its first words on a separate line as title
-	"""
-	if not text.strip():
-		return text
-
-	def split_first_line(text):
-		"""Take first non-empty line of text"""
-		lines = iter(text.splitlines())
-		for l in lines:
-			l = l.strip()
-			if not l:
-				continue
-			rest = u"\n".join(lines)
-			return l, rest
-
-	def split_first_words(text, maxwords):
-		words = text.split(None, maxwords)
-		return u" ".join(words[:maxwords]), u" ".join(words[maxwords:])
-
-	# Take first line -- if it s a good title return text as is
-	# If first line is too long, take first words and *full* text follow
-	maxtitlewords = 7
-	firstline, rest = split_first_line(text)
-	if len(firstline.split(None, maxtitlewords)) > maxtitlewords:
-		firstline, rest = split_first_words(text, maxtitlewords)
-	else:
-		return text.lstrip()
-	if rest.strip():
-		text = u"%s\n%s" % (firstline, text)
-	return text
+	title, body = textutils.extract_title_body(text)
+	if body.lstrip():
+		return u"%s\n%s" % (title, body)
+	return title
 
 class CreateNote (Action):
 	def __init__(self):
