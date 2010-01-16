@@ -732,12 +732,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def _command_execution_result(self, ctx, result_type, ret):
 		if result_type == commandexec.RESULT_SOURCE:
+			self.object_stack_clear_all()
 			self.source_pane.push_source(ret)
 		elif result_type == commandexec.RESULT_OBJECT:
+			self.object_stack_clear_all()
 			self._insert_object(SourcePane, ret)
 		else:
 			return
-		self.object_stack_clear_all()
 		self.emit("command-result", result_type)
 
 	def find_object(self, url):
