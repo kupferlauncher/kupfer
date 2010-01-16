@@ -1,3 +1,4 @@
+# encoding: utf-8
 
 def _unicode_truncate(ustr, length, encoding="UTF-8"):
 	"Truncate @ustr to specific encoded byte length"
@@ -5,7 +6,7 @@ def _unicode_truncate(ustr, length, encoding="UTF-8"):
 	return bstr.decode(encoding, 'ignore')
 
 def extract_title_body(text, maxtitlelen=60):
-	"""Prepare @text: Return a (title, body) tuple
+	u"""Prepare @text: Return a (title, body) tuple
 
 	@text: A user-submitted paragraph or otherwise snippet of text. We
 	try to detect an obvious title and then return the title and the
@@ -15,7 +16,19 @@ def extract_title_body(text, maxtitlelen=60):
 	@maxtitlelen: A unitless measure of approximate length of title.
 	The default value yields a resulting title of approximately 60 ascii
 	characters, or 20 asian characters.
+
+	>>> extract_title_body(u"Short Text")
+	(u'Short Text', u'')
+
+	>>> title, body = extract_title_body(u"執筆方針については、項目名の付け方、"
+	...     "フォーマットや表記上の諸問題に関して多くの方針が存在している。")
+	>>> print title
+	執筆方針については、項目名の付け方、フォ
+	>>> print body			# doctest: +ELLIPSIS
+	執筆方針については、項目名の付け方、フォ...して多くの方針が存在している。
 	"""
+	# if you don't make real tests, it's not not worth doing it at all.
+
 	if not text.strip():
 		return text, u""
 
@@ -55,3 +68,11 @@ def extract_title_body(text, maxtitlelen=60):
 	else:
 		return text, u""
 
+if __name__ == '__main__':
+	# unicode doctest hack
+	import sys
+	reload(sys)
+	sys.setdefaultencoding("UTF-8")
+
+	import doctest
+	doctest.testmod()
