@@ -87,10 +87,9 @@ class MultipleLeaf (Leaf):
 	A Leaf for the direct representation of many leaves. It is not
 	a container or "source", it *is* the many leaves itself.
 
-	The represented object is a sequence of the contained Leaves
+	The represented object is a sequence of Leaves
 	"""
-	# NOTE: Still experimental
-	serilizable = -1
+	serilizable = 1
 	def __init__(self, obj, name=_("Multiple Objects")):
 		# modifying the list of objects is strictly forbidden
 		robj = list(datatools.UniqueIterator(obj))
