@@ -215,6 +215,9 @@ class MatchView (gtk.Bin):
 		self.label_char_width = 25
 		self.match_state = State.Wait
 		self.icon_size = icon_size
+
+		self.object_stack = []
+
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
@@ -259,7 +262,42 @@ class MatchView (gtk.Bin):
 
 	def do_forall (self, include_internals, callback, user_data):
 		callback (self.__child, user_data)
-		
+
+	def _render_composed_icon(self, base, pixbufs, small_size):
+		"""
+		Render the main selection + a string of objects on the stack.
+
+		Scale the main image into the upper portion, leaving a clear
+		strip at the bottom where we line up the small icons.
+
+		@base: main selection pixbuf
+		@pixbufs: icons of the object stack, in final (small) size
+		@small_size: the size of the small icons
+		"""
+		sz = self.icon_size
+		base_scale = min((sz-small_size)*1.0/base.get_height(),
+				sz*1.0/base.get_width())
+		new_sz_x = int(base_scale*base.get_width())
+		new_sz_y = int(base_scale*base.get_height())
+		if not base.get_has_alpha():
+			base = base.add_alpha(False, 0, 0, 0)
+		destbuf = base.scale_simple(sz, sz, gtk.gdk.INTERP_NEAREST)
+		destbuf.fill(0x00000000)
+		# Align in the middle of the area
+		offset_x = (sz - new_sz_x)/2
+		offset_y = ((sz - small_size) - new_sz_y)/2
+		base.composite(destbuf, offset_x, offset_y, new_sz_x, new_sz_y,
+				offset_x, offset_y,
+				base_scale, base_scale, gtk.gdk.INTERP_BILINEAR, 255)
+
+		# @fr is the scale compared to the destination pixbuf
+		fr = small_size*1.0/sz
+		dest_y = offset_y = int((1-fr)*sz)
+		for idx, pbuf in enumerate(pixbufs):
+			dest_x = offset_x = int(fr*sz)*idx
+			pbuf.copy_area(0,0, small_size,small_size, destbuf, dest_x,dest_y)
+		return destbuf
+
 	def update_match(self):
 		"""
 		Update interface to display the currently selected match
@@ -269,6 +307,12 @@ class MatchView (gtk.Bin):
 		if icon:
 			if self.match_state is State.NoMatch:
 				icon = self._dim_icon(icon)
+			if icon and self.object_stack:
+				small_max = 6
+				small_size = 16
+				pixbufs = [o.get_pixbuf(small_size) for o in
+						self.object_stack[-small_max:]]
+				icon = self._render_composed_icon(icon, pixbufs, small_size)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
 			self.icon_view.set_from_icon_name("gtk-file", self.icon_size)
@@ -415,6 +459,10 @@ class Search (gtk.Bin):
 		return current selection
 		"""
 		return self.match
+
+	def set_object_stack(self, stack):
+		self.match_view.object_stack[:] = stack
+		self.match_view.update_match()
 
 	def set_source(self, source):
 		"""Set current source (to get icon, name etc)"""
