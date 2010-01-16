@@ -187,6 +187,9 @@ class _TranslateQuerySource(Source):
 		self._text = text
 		self._lang = lang
 
+	def repr_key(self):
+		return (hash(self._text), self._lang)
+
 	def get_items(self):
 		for translation, desc in _translate(self._text, self._lang):
 			yield TranslationLeaf(translation.replace('\\n ', '\n'), desc)
