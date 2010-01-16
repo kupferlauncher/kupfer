@@ -7,6 +7,7 @@ import gobject
 from kupfer.obj import base, sources, compose
 from kupfer import pretty, scheduler
 from kupfer import commandexec
+from kupfer.core import actioncompat
 from kupfer import datatools
 from kupfer.core import search, learn
 from kupfer.core import settings
@@ -313,14 +314,14 @@ class PrimaryActionPane (Pane):
 
 		self.latest_key = key
 		leaf = self.current_item
-		actions = commandexec.actions_for_item(leaf, GetSourceController())
+		actions = actioncompat.actions_for_item(leaf, GetSourceController())
 
 		def is_valid_cached(action):
 			"""Check if @action is valid for current item"""
 			cache = self._action_valid_cache
 			valid = cache.get(action)
 			if valid is None:
-				valid = commandexec.action_valid_for_item(action, leaf)
+				valid = actioncompat.action_valid_for_item(action, leaf)
 				cache[action] = valid
 			return valid
 
@@ -349,7 +350,7 @@ class SecondaryObjectPane (LeafPane):
 		self.current_item = item
 		self.current_action = act
 		if item and act:
-			ownsrc = commandexec.iobject_source_for_action(act, item)
+			ownsrc = actioncompat.iobject_source_for_action(act, item)
 			if ownsrc:
 				self.source_rebase(ownsrc)
 			else:
@@ -381,7 +382,7 @@ class SecondaryObjectPane (LeafPane):
 			textsrcs = sc.get_text_sources()
 			sources.extend(textsrcs)
 
-		item_check = commandexec.iobjects_valid_for_action(self.current_action,
+		item_check = actioncompat.iobjects_valid_for_action(self.current_action,
 				self.current_item)
 		decorator = lambda seq: dress_leaves(seq, action=self.current_action)
 
