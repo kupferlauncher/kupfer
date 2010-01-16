@@ -191,6 +191,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 		super(LeafPane, self).__init__()
 		self.source_stack = []
 		self.source = None
+		self.object_stack = []
 
 	def _load_source(self, src):
 		"""Try to get a source from the SourceController,
@@ -222,6 +223,12 @@ class LeafPane (Pane, pretty.OutputMixin):
 	def is_at_source_root(self):
 		"""Return True if we have no source stack"""
 		return not self.source_stack
+
+	def object_stack_push(self, obj):
+		self.object_stack.append(obj)
+
+	def object_stack_pop(self):
+		return self.object_stack.pop()
 
 	def get_can_enter_text_mode(self):
 		return self.is_at_source_root()
@@ -747,6 +754,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._insert_object(SourcePane, ret)
 		else:
 			return
+		self.object_stack_clear()
 		self.emit("command-result", result_type)
 
 	def find_object(self, url):
@@ -771,6 +779,27 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		obj = compose.ComposedLeaf(leaf, action, iobj)
 		self._insert_object(SourcePane, obj)
 
+	def object_stack_push(self, object_):
+		"""
+		Push @object_ onto the stack
+		"""
+		self.source_pane.object_stack_push(object_)
+		self.emit("object-stack-changed", SourcePane)
+
+
+	def object_stack_pop(self):
+		obj = self.source_pane.object_stack_pop()
+		self._insert_object(SourcePane, obj)
+		self.emit("object-stack-changed", SourcePane)
+
+	def object_stack_clear(self):
+		while self.source_pane.object_stack:
+			self.source_pane.object_stack_pop()
+		self.emit("object-stack-changed", SourcePane)
+
+	def get_object_stack(self):
+		return self.source_pane.object_stack
+
 # pane cleared or set with new item
 # pane, item
 gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
@@ -787,6 +816,10 @@ gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
 
+# object stack update signal
+# arguments: pane
+gobject.signal_new("object-stack-changed", DataController, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, ))
 # when an command returned a result
 # arguments: result type
 gobject.signal_new("command-result", DataController, gobject.SIGNAL_RUN_LAST,

@@ -819,6 +819,7 @@ class Interface (gobject.GObject):
 		self.data_controller.connect("source-changed", self._new_source)
 		self.data_controller.connect("pane-reset", self._pane_reset)
 		self.data_controller.connect("mode-changed", self._show_hide_third)
+		self.data_controller.connect("object-stack-changed", self._object_stack_changed)
 		self.widget_to_pane = {
 			id(self.search) : data.SourcePane,
 			id(self.action) : data.ActionPane,
@@ -939,6 +940,11 @@ class Interface (gobject.GObject):
 					keyv = key_book["Down"]
 			elif keyv == ord("/") and has_selection:
 				keyv = key_book["Right"]
+			elif keyv == ord(",") and has_selection:
+				cur = self.current.get_current()
+				self.data_controller.object_stack_push(cur)
+				self._relax_search_terms()
+				return True
 			elif keyv in init_text_keys:
 				if self.try_enable_text_mode():
 					# swallow if it is the direct key
@@ -1077,6 +1083,8 @@ class Interface (gobject.GObject):
 			else:
 				self.reset_current()
 		else:
+			if self.current == self.search:
+				self.data_controller.object_stack_clear()
 			if self.get_in_text_mode():
 				self.toggle_text_mode(False)
 			elif not self.current.get_table_visible():
@@ -1089,7 +1097,9 @@ class Interface (gobject.GObject):
 		"""Handle leftarrow and backspace
 		Go up back through browsed sources.
 		"""
-		if self.current.is_showing_result():
+		if self.current == self.search and self.data_controller.get_object_stack():
+			self.data_controller.object_stack_pop()
+		elif self.current.is_showing_result():
 			self.reset_current(populate=True)
 		else:
 			if self._browse_up():
@@ -1302,6 +1312,13 @@ class Interface (gobject.GObject):
 		return self.pane_to_widget[pane]
 	def _pane_for_widget(self, widget):
 		return self.widget_to_pane[id(widget)]
+
+	def _object_stack_changed(self, controller, pane):
+		"""
+		Stack of objects (for comma trick) changed in @pane
+		"""
+		wid = self._widget_for_pane(pane)
+		wid.set_object_stack(controller.get_object_stack())
 
 	def _selection_changed(self, widget, match):
 		pane = self._pane_for_widget(widget)
