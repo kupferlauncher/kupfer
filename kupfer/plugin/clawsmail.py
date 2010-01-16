@@ -54,8 +54,11 @@ class NewMailAction(Action):
 		Action.__init__(self, _('Compose Email'))
 
 	def activate(self, leaf):
-		email = email_from_leaf(leaf)
-		utils.launch_commandline("claws-mail --compose '%s'" % email)
+		self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objects):
+		recipients = ",".join(email_from_leaf(L) for L in objects)
+		utils.spawn_async(["claws-mail", "--compose", recipients])
 
 	def get_icon_name(self):
 		return "mail-message-new"
@@ -76,10 +79,12 @@ class SendFileByMail (Action):
 		Action.__init__(self, _('Send in Email To...'))
 
 	def activate(self, obj, iobj):
-		filepath = obj.object
-		email = email_from_leaf(iobj)
-		utils.launch_commandline("claws-mail --compose '%s' --attach '%s'" %
-				(email, filepath))
+		self.activate_multiple((obj, ), (iobj, ))
+
+	def activate_multiple(self, objects, iobjects):
+		recipients = ",".join(email_from_leaf(I) for I in iobjects)
+		attachlist = ["--attach"] + [L.object for L in objects]
+		utils.spawn_async(["claws-mail", "--compose", recipients] + attachlist)
 
 	def item_types(self):
 		yield FileLeaf
