@@ -9,7 +9,7 @@ __kupfer_actions__ = (
 	"TakeResult",
 	"DiscardResult",
 )
-__description__ = _("Tools to work with Kupfer commands as objects")
+__description__ = _("Tools to work with commands as objects")
 __version__ = "2010-01-11"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
