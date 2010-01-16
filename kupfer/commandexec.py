@@ -1,3 +1,28 @@
+"""
+The main logic for executing constructed commands.
+
+A command is normally a tuple of (object, action, indirect object).
+Where, of course, the indirect object is often not needed (in this module we
+then pass None in its stead).
+
+This code was once a shining machine; While adding the "comma trick" and
+support for "multiple dispatch" was easy in the rest of the program, it shed
+its casualties here: While the main process is simple, we deal here with all
+the exceptions that are, at the moment, tacked on.
+
+The ActionExecutionContext (ACE) keeps track of its nested invocation, so that
+we can catch the results of commands executed inside other commands. The
+delegation mechanism allows a user of the ACE to indicate that the result of
+the command should be passed on from the earlier (more nested) invocation.
+
+Multiple dispatch is straightforward if the action implements the multiple
+dispatch protocol. Is the protocol not implemented, the command is simply
+"multiplied out": executed once for each object, or once for each combination
+of object and indirect object.
+
+With multiple command execution (and delegation), we must then process and
+merge multiple return values.
+"""
 from __future__ import with_statement
 
 import contextlib
