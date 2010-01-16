@@ -47,6 +47,11 @@ def fromlocale(lstr):
 	enc = locale.getpreferredencoding(do_setlocale=False)
 	return lstr.decode(enc, "replace")
 
+def tolocale(ustr):
+	"""Return a locale-encoded bytestring from unicode @ustr"""
+	enc = locale.getpreferredencoding(do_setlocale=False)
+	return ustr.encode(enc, "replace")
+
 
 def tofolded(ustr):
 	u"""Fold @ustr
