@@ -1,6 +1,9 @@
+import glib
+
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf
 from kupfer import textutils
+from kupfer import pretty
 
 __kupfer_name__ = _("Show Notification")
 __kupfer_actions__ = (
@@ -23,7 +26,10 @@ def show_notification(title, body, icon_name=None, critical=False):
 		notification.set_property("icon-name", icon_name)
 	if critical:
 		notification.set_urgency(pynotify.URGENCY_CRITICAL)
-	notification.show()
+	try:
+		notification.show()
+	except glib.GError, exc:
+		pretty.print_error(__name__, exc)
 
 
 class ShowNotification (Action):
@@ -38,7 +44,6 @@ class ShowNotification (Action):
 			show_notification(title, None)
 
 	def item_types(self):
-		#if plugin_support.has_capability("NOTIFICATION"):
 		yield TextLeaf
 
 	def get_icon_name(self):
