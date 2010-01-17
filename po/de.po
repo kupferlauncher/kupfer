@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-01-16 22:21+0000\n"
+"POT-Creation-Date: 2010-01-17 18:48+0000\n"
 "PO-Revision-Date: 2010-01-17 18:42+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -265,7 +265,7 @@ msgstr "Einen Befehl nach einer angegebenen Zeit ausführen"
 
 #: ../kupfer/obj/compose.py:93
 msgid "Multiple Objects"
-msgstr ""
+msgstr "Mehrere Objekte"
 
 #: ../kupfer/obj/compose.py:124
 #, python-format
