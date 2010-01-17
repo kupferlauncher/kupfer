@@ -69,7 +69,16 @@ def get_objects(bus, app, cum_path=""):
 			properties = []
 			for subel in element.childNodes:
 				if subel.nodeName == "method":
-					methods.append(subel.getAttribute("name"))
+					mname = subel.getAttribute("name")
+					margs = []
+					for argel in subel.childNodes:
+						if argel.nodeName == "arg":
+							margs.append((
+								argel.getAttribute("name"),
+								argel.getAttribute("direction"),
+								argel.getAttribute("type"),
+							))
+					methods.append((mname, margs))
 				if subel.nodeName == "signal":
 					signals.append(subel.getAttribute("name"))
 				if subel.nodeName == "property":
@@ -88,10 +97,24 @@ def get_objects(bus, app, cum_path=""):
 	return found_objects
 	
 
-session_bus = dbus.Bus()
-app = get_matching_application(session_bus, "Notifications")
+if __name__ == '__main__':
+	session_bus = dbus.Bus()
+	app_name = "se.kaizer.kupfer"
+	app = get_matching_application(session_bus, app_name)
 
-import pprint
-objs = get_objects(session_bus, app)
-print list(objs)
-pprint.pprint(objs)
+	import pprint
+	objs = get_objects(session_bus, app)
+	print list(objs)
+	pprint.pprint(objs)
+	obj = objs.values()[0]
+	methods = obj["interfaces"][u'org.freedesktop.Notifications']["methods"]
+
+	print app
+	intf = u'org.freedesktop.Notifications'
+	dbusobj = session_bus.get_object(app, objs.keys()[0])
+
+	for meth in methods:
+		print intf, meth
+		methodobject = dbusobj.get_dbus_method(meth, intf)
+		print methodobject
+
