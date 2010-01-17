@@ -1,7 +1,7 @@
 import os
 
 from kupfer.objects import Action, Source, Leaf, FileLeaf, TextLeaf
-from kupfer import icons, plugin_support
+from kupfer import icons
 from kupfer import kupferui
 
 # Since this is a core plugin we break some rules
@@ -13,10 +13,6 @@ __kupfer_sources__ = ("KupferPlugins", )
 __description__ = _("Access Kupfer's plugin list in Kupfer")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-		plugin_support.SETTING_PREFER_CATALOG,
-)
 
 class ShowInfo (Action):
 	def __init__(self):
@@ -64,9 +60,11 @@ class ShowSource (Action):
 		return "dialog-information"
 
 class Plugin (Leaf):
+	# NOTE: Just to be sure that a plugin ranks lower than a
+	# like-named other object by default.
+	rank_adjust = -1
 	def __init__(self, obj, name):
 		Leaf.__init__(self, obj, name)
-		self.name_aliases.add(self.get_description())
 	def get_actions(self):
 		yield ShowInfo()
 		yield ShowSource()
