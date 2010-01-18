@@ -110,6 +110,13 @@ class ShowPlaying (RunnableLeaf):
 	def get_icon_name(self):
 		return "dialog-information"
 
+def _songs_from_leaf(leaf):
+	"return a sequence of songs from @leaf"
+	if isinstance(leaf, SongLeaf):
+		return (leaf.object, )
+	if isinstance(leaf, TrackCollection):
+		return list(leaf.object)
+
 class PlayTracks (Action):
 	rank_adjust = 5
 	def __init__(self):
@@ -125,21 +132,14 @@ class PlayTracks (Action):
 		# take only the first object in the first loop
 		# notice the break
 		for leaf in objects:
-			if isinstance(leaf, SongLeaf):
-				play_song(leaf.object)
-			if isinstance(leaf, TrackCollection):
-				songs = list(leaf.object)
-				if not songs:
-					continue
-				play_song(songs[0])
-				to_enqueue.extend(songs[1:])
+			songs = _songs_from_leaf(leaf)
+			if not songs:
+				continue
+			play_song(songs[0])
+			to_enqueue.extend(songs[1:])
 			break
 		for leaf in objects:
-			if isinstance(leaf, SongLeaf):
-				to_enqueue.append(leaf.object)
-			if isinstance(leaf, TrackCollection):
-				songs = list(leaf.object)
-				to_enqueue.extend(songs)
+			to_enqueue.extend(_songs_from_leaf(leaf))
 		if to_enqueue:
 			enqueue_songs(to_enqueue, clear_queue=True)
 
@@ -152,13 +152,13 @@ class Enqueue (Action):
 	def __init__(self):
 		Action.__init__(self, _("Enqueue"))
 	def activate(self, leaf):
-		if isinstance(leaf, SongLeaf):
-			enqueue_songs((leaf.object, ))
-		if isinstance(leaf, TrackCollection):
-			songs = list(leaf.object)
-			if not songs:
-				return
-			enqueue_songs(songs)
+		self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objects):
+		to_enqueue = []
+		for leaf in objects:
+			to_enqueue.extend(_songs_from_leaf(leaf))
+		enqueue_songs(to_enqueue)
 
 	def get_description(self):
 		return _("Add tracks to the play queue")
