@@ -60,7 +60,10 @@ class SelectionSource (Source, PicklingHelperMixin):
 				byte_arrays=True)
 
 	def _selected_signal(self, selection):
-		self._selection = selection
+		# The SelectionChanged signal carries an array of byte arrays,
+		# which arrive as byte strings here, in effect a list of `str'.
+		# we unwrap the dbus type dbus.ByteArray to str
+		self._selection = [str(S) for S in selection]
 		self.mark_for_update()
 
 	def get_items(self):
