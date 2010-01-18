@@ -1,6 +1,22 @@
+"""
+This file originates in linglish [1], [2], a program by Stuart Langridge.
+
+Copyright 2009 Stuart Langridge
+
+[1]: http://svn.kryogenix.org/svn/linglish/
+[2]: http://www.kryogenix.org/days/2009/02/08/linglish-or-some-thoughts-on-a-scripting-language-for-the-linux-desktop
+
+Stuart has agreed to license the code under the X11 License.
+
+(which permits us to use it in a GPL distribution.)
+"""
+
 import dbus
-import os, dbus, gobject, traceback
+import os
+import traceback
 from xml.dom import minidom
+
+import gobject
 
 class LinglishException(Exception):
     def __init__(self, *args):
@@ -99,22 +115,10 @@ def get_objects(bus, app, cum_path=""):
 
 if __name__ == '__main__':
 	session_bus = dbus.Bus()
-	app_name = "se.kaizer.kupfer"
+	app_name = "Notifications"
 	app = get_matching_application(session_bus, app_name)
 
 	import pprint
 	objs = get_objects(session_bus, app)
-	print list(objs)
 	pprint.pprint(objs)
-	obj = objs.values()[0]
-	methods = obj["interfaces"][u'org.freedesktop.Notifications']["methods"]
-
-	print app
-	intf = u'org.freedesktop.Notifications'
-	dbusobj = session_bus.get_object(app, objs.keys()[0])
-
-	for meth in methods:
-		print intf, meth
-		methodobject = dbusobj.get_dbus_method(meth, intf)
-		print methodobject
 

@@ -13,14 +13,15 @@ from kupfer.objects import Action, Source, Leaf, TextLeaf
 from kupfer import icons, plugin_support
 from kupfer import pretty
 
-from kupfer.plugin.linglish import find
+from . import find
 
 __kupfer_name__ = _("D-Bus Introspection")
 __kupfer_sources__ = ("NameSource", )
 __kupfer_actions__ = ()
 __description__ = ""
 __version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__author__ = ("Ulrik Sverdrup, "
+              "Stuart Langridge (introspection)")
 
 plugin_support.check_dbus_connection()
 
