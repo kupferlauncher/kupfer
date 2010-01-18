@@ -10,6 +10,7 @@ except ImportError:
 import dbus
 
 from kupfer.objects import Action, Source, Leaf, TextLeaf
+from kupfer.obj.compose import MultipleLeaf
 from kupfer import icons, plugin_support
 from kupfer import pretty
 
@@ -133,6 +134,15 @@ class MethodsSource (Source):
 		yield Method
 		yield Signal
 
+class DBusTypeTextLeaf (TextLeaf):
+	"Like a text leaf, but with the original dbus repr in description"
+	def __init__(self, dbusobj):
+		text = unicode(dbusobj)
+		TextLeaf.__init__(self, text)
+		self._description = repr(dbusobj)[:100]
+	def get_description(self):
+		return self._description
+
 def parse_argument_tuple(ustr):
 	""" Return a parsed tuple if successful, else None """
 	try:
@@ -143,14 +153,13 @@ def parse_argument_tuple(ustr):
 		parsed_arguments = (parsed_arguments, )
 	return parsed_arguments
 
-def text_from_result(result, out_parameters):
-	if len(out_parameters) == 1 and out_parameters[0][-1] == "s":
-		rettext = unicode(result)
-	elif len(out_parameters) == 1 and out_parameters[0][-1] == "i":
-		rettext = unicode(int(result))
-	else:
-		rettext = repr(result)
-	return rettext
+def _iterable(obj):
+	return hasattr(obj, "__iter__")
+
+def leaf_from_result(result):
+	if _iterable(result):
+		return MultipleLeaf(leaf_from_result(R) for R in result)
+	return DBusTypeTextLeaf(result)
 
 
 class Call (Action):
@@ -165,11 +174,9 @@ class Call (Action):
 		dbus_iface = dbus.Interface(proxy_obj, leaf.iface_name)
 		name, arguments = leaf.object
 		method = dbus_iface.get_dbus_method(name)
-		in_parameters = [A for A in arguments if A[1] == "in"]
-		out_parameters = [A for A in arguments if A[1] == "out"]
 		ret = method()
 		if ret:
-			return TextLeaf(text_from_result(ret, out_parameters))
+			return leaf_from_result(ret)
 
 class CallWithArguments (Action):
 	def __init__(self):
@@ -183,12 +190,10 @@ class CallWithArguments (Action):
 		dbus_iface = dbus.Interface(proxy_obj, leaf.iface_name)
 		name, arguments = leaf.object
 		method = dbus_iface.get_dbus_method(name)
-		in_parameters = [A for A in arguments if A[1] == "in"]
-		out_parameters = [A for A in arguments if A[1] == "out"]
 		parsed_arguments = parse_argument_tuple(iobj.object)
 		ret = method(*parsed_arguments)
 		if ret:
-			return TextLeaf(text_from_result(ret, out_parameters))
+			return leaf_from_result(ret)
 	
 	def requires_object(self):
 		return True
