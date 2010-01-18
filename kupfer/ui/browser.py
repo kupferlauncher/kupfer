@@ -1360,8 +1360,9 @@ class Interface (gobject.GObject):
 			self.data_controller.cancel_search()
 			# See if it was a deleting key press
 			curev = gtk.get_current_event()
-			if curev and curev.keyval in (self.key_book["Delete"],
-					self.key_book["BackSpace"]):
+			if (curev and curev.type == gtk.gdk.KEY_PRESS and
+			    curev.keyval in (self.key_book["Delete"],
+			        self.key_book["BackSpace"])):
 				self._backspace_key_press()
 			return
 
