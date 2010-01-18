@@ -266,12 +266,12 @@ class SourceController (pretty.OutputMixin):
 		"""Rename actions by the same name (adding a suffix)"""
 		# FIXME: Disambiguate by plugin name, not python module name
 		names = {}
-		renames = []
+		renames = set()
 		for action in actions:
 			name = unicode(action)
 			if name in names:
-				renames.append(names[name])
-				renames.append(action)
+				renames.add(names[name])
+				renames.add(action)
 			else:
 				names[name] = action
 		for action in renames:
