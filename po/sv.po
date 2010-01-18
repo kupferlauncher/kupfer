@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-15 22:25+0100\n"
+"POT-Creation-Date: 2010-01-18 03:23+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -1451,27 +1451,27 @@ msgid "Higher-order Actions"
 msgstr "Högre ordningens kommandon"
 
 #: ../kupfer/plugin/higherorder.py:12
-msgid "Tools to work with Kupfer commands as objects"
-msgstr "Verktyg för att jobba med Kupfer-kommandon som objekt"
+msgid "Tools to work with commands as objects"
+msgstr "Verktyg för att jobba med kommandon som objekt"
 
 #: ../kupfer/plugin/higherorder.py:19
 msgid "Select in Kupfer"
 msgstr "Välj i Kupfer"
 
-#: ../kupfer/plugin/higherorder.py:55
+#: ../kupfer/plugin/higherorder.py:58
 #, python-format
 msgid "Result of %s (%s)"
 msgstr "Resultat av %s (%s)"
 
-#: ../kupfer/plugin/higherorder.py:71
+#: ../kupfer/plugin/higherorder.py:74
 msgid "Run (Take Result)"
 msgstr "Utför (Ta resultat)"
 
-#: ../kupfer/plugin/higherorder.py:84
+#: ../kupfer/plugin/higherorder.py:87
 msgid "Take the command result as a proxy object"
 msgstr "Ta kommandoresultat som proxyobjekt"
 
-#: ../kupfer/plugin/higherorder.py:89
+#: ../kupfer/plugin/higherorder.py:92
 msgid "Run (Discard Result)"
 msgstr "Utför (Kasta bort resultat)"
 
@@ -1548,6 +1548,10 @@ msgstr "Ignorera skillnad i gemener och VERSALER"
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Resultat för \"%s\""
+
+#: ../kupfer/plugin/notification.py:5 ../kupfer/plugin/notification.py:31
+msgid "Show Notification"
+msgstr "Visa notifiering"
 
 #: ../kupfer/plugin/openoffice.py:10
 msgid "OpenOffice"

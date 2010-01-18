@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 # Order: Data files, Regular modules, Object modules, Plugins
-data/kupfer.desktop.in.in
+data/kupfer.desktop.in
 [type: gettext/glade] data/preferences.ui
 [type: gettext/glade] data/result.ui
 extras/kupfer_provider.py
@@ -65,6 +65,7 @@ kupfer/plugin/higherorder.py
 kupfer/plugin/image.py
 kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/locate.py
+kupfer/plugin/notification.py
 kupfer/plugin/openoffice.py
 kupfer/plugin/opera.py
 kupfer/plugin/pidgin.py
