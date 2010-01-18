@@ -52,4 +52,7 @@ then
 	exec ${PYTHON} "$PYTHONDIR/kupfer.py" $*
 fi
 
-${PYTHON} -c "import gtk.gdk; gtk.gdk.notify_startup_complete()"
+if test -n "$DESKTOP_STARTUP_ID"
+then
+	${PYTHON} -c "import gtk.gdk; gtk.gdk.notify_startup_complete()"
+fi
