@@ -642,6 +642,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			citem = self._get_pane_object_composed(self.source_pane)
 			self.action_pane.set_item(citem)
 			self.search(ActionPane, interactive=True)
+			if self.mode == SourceActionObjectMode:
+				self.object_stack_clear(ObjectPane)
+				self._populate_third_pane()
 		elif pane is ActionPane:
 			assert not item or isinstance(item, base.Action), \
 					"Selection in Source pane is not an Action!"
@@ -650,17 +653,20 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				newmode = SourceActionObjectMode
 			else:
 				newmode = SourceActionMode
-			if newmode is not self.mode:
+			if newmode != self.mode:
 				self.mode = newmode
 				self.emit("mode-changed", self.mode, item)
-			if self.mode is SourceActionObjectMode:
-				# populate third pane
-				citem = self._get_pane_object_composed(self.source_pane)
-				self.object_pane.set_item_and_action(citem, item)
-				self.search(ObjectPane, lazy=True)
+			if self.mode == SourceActionObjectMode:
+				self._populate_third_pane()
 		elif pane is ObjectPane:
 			assert not item or isinstance(item, base.Leaf), \
 					"Selection in Object pane is not a Leaf!"
+
+	def _populate_third_pane(self):
+		citem = self._get_pane_object_composed(self.source_pane)
+		action = self.action_pane.get_selection()
+		self.object_pane.set_item_and_action(citem, action)
+		self.search(ObjectPane, lazy=True)
 
 	def get_can_enter_text_mode(self, pane):
 		panectl = self._panectl_table[pane]
