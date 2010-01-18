@@ -30,6 +30,9 @@ class RunningApplicationsSource (Source):
 		is_running = launch.application_is_running
 		return (AppLeaf(ai) for ai in self.all_apps if is_running(ai))
 
+	def provides(self):
+		yield AppLeaf
+
 	def get_description(self):
 		return _("Running applications")
 

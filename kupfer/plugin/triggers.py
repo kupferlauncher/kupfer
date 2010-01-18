@@ -67,6 +67,9 @@ class Triggers (Source):
 	def should_sort_lexically(self):
 		return True
 
+	def provides(self):
+		yield Trigger
+
 	@classmethod
 	def perform_trigger(cls, target):
 		try:
