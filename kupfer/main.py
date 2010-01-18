@@ -129,6 +129,17 @@ def print_banner():
 	except UnicodeEncodeError, e:
 		print banner.encode("ascii", "replace")
 
+def _set_process_title_linux():
+	try:
+		import ctypes
+	except ImportError:
+		return
+	try:
+		libc = ctypes.CDLL("libc.so.6")
+		libc.prctl(15, "kupfer")
+	except (AttributeError, OSError):
+		pass
+
 def main():
 	# parse commandline before importing UI
 	cli_opts = get_options()
@@ -145,6 +156,7 @@ def main():
 		except ImportError, e:
 			pass
 	sys.excepthook = sys.__excepthook__
+	_set_process_title_linux()
 
 	w = browser.WindowController()
 
