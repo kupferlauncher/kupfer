@@ -245,6 +245,7 @@ class SourceController (pretty.OutputMixin):
 		self.text_sources = set()
 		self.content_decorators = set()
 		self.action_decorators = set()
+		self.loaded_successfully = False
 
 	def add(self, srcs, toplevel=False):
 		srcs = set(self._try_unpickle(srcs))
@@ -385,9 +386,15 @@ class SourceController (pretty.OutputMixin):
 			obj.add_content(content)
 
 	def finish(self):
-		self._pickle_sources(self.sources)
+		if self.loaded_successfully:
+			self._pickle_sources(self.sources)
+		else:
+			self.output_debug("Not writing cache on failed load")
 
 	def save_data(self):
+		if not self.loaded_successfully:
+			self.output_info("Not writing configuration on failed load")
+			return
 		configsaver = SourceDataPickler()
 		for source in self.sources:
 			if configsaver.source_has_config(source):
@@ -445,6 +452,7 @@ class SourceController (pretty.OutputMixin):
 			src.initialize()
 		for src in set(self.toplevel_sources):
 			self._checked_rescan_source(src, force=False)
+		self.loaded_successfully = True
 
 _source_controller = None
 def GetSourceController():
