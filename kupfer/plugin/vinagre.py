@@ -65,20 +65,20 @@ class VinagreStartSession(Action):
 
 
 class SessionSource(AppLeafContentMixin, ToplevelGroupingSource,
-		PicklingHelperMixin, FilesystemWatchMixin):
+		PicklingHelperMixin):
 	appleaf_content_id = 'vinagre'
 
 	def __init__(self, name=_("Vinagre Bookmarks")):
 		ToplevelGroupingSource.__init__(self, name, 'hosts')
 		self._version = 2
-		self.unpickle_finish()
 
 	def pickle_prepare(self):
 		self.monitor = None
 
-	def unpickle_finish(self):
-		self._bookmark_file = os.path.expanduser(BOOKMARKS_FILE)
-		gfile = gio.File(self._bookmark_file)
+	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
+		bookmark_file = os.path.expanduser(BOOKMARKS_FILE)
+		gfile = gio.File(bookmark_file)
 		self.monitor = gfile.monitor_file(gio.FILE_MONITOR_NONE, None)
 		if self.monitor:
 			self.monitor.connect("changed", self._on_bookmarks_changed)
@@ -90,11 +90,12 @@ class SessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 			self.mark_for_update()
 
 	def get_items(self):
-		if not os.path.isfile(self._bookmark_file):
+		bookmark_file = os.path.expanduser(BOOKMARKS_FILE)
+		if not os.path.isfile(bookmark_file):
 			return
 
 		try:
-			tree = ElementTree.parse(self._bookmark_file)
+			tree = ElementTree.parse(bookmark_file)
 			for item in tree.findall('item'):
 				protocol = item.find('protocol').text
 				name = item.find('name').text
