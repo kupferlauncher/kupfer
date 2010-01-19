@@ -89,6 +89,8 @@ class ContactAction (Action):
 
 class OpenChat(ContactAction):
 	""" Open Chat Conversation Window with jid """
+	# consider it as main action for pidgin contacts
+	rank_adjust = 5
 
 	def __init__(self):
 		Action.__init__(self, _('Open Chat'))
