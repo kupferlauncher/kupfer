@@ -9,13 +9,10 @@ import os
 import threading
 import time
 
-import gobject
-gobject.threads_init()
-
 from kupfer import config, pretty, scheduler
 from kupfer.obj import base, sources
 
-class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
+class PeriodicRescanner (pretty.OutputMixin):
 	"""
 	Periodically rescan a @catalog of sources
 
@@ -26,7 +23,6 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 	seconds
 	"""
 	def __init__(self, period=5, startup=10, campaign=3600):
-		super(PeriodicRescanner, self).__init__()
 		self.startup = startup
 		self.period = period
 		self.campaign=campaign
@@ -72,11 +68,6 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 
 	def rescan_source(self, source, force_update=True):
 		list(source.get_leaves(force_update=force_update))
-		gobject.idle_add(self.emit, "reloaded-source", source)
-
-gobject.signal_new("reloaded-source", PeriodicRescanner,
-		gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class SourcePickler (pretty.OutputMixin):
 	"""

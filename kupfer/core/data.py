@@ -3,6 +3,7 @@ import operator
 import os
 
 import gobject
+gobject.threads_init()
 
 from kupfer.obj import base, sources, compose
 from kupfer import pretty, scheduler
