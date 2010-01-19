@@ -58,26 +58,24 @@ class PeriodicRescanner (gobject.GObject, pretty.OutputMixin):
 		self.output_info("Campaign finished, pausing %d s" % self.campaign)
 		self.timer.set(self.campaign, self._new_campaign)
 
-	def register_rescan(self, source, sync=False):
-		"""Register an object for rescan
-		If @sync, it will be rescanned synchronously
-		"""
-		self._start_source_rescan(source, sync)
-
-	def _start_source_rescan(self, source, sync=False):
+	def rescan_now(self, source, force_update=False):
+		"Rescan @source immediately"
 		self.latest_rescan_time[source] = time.time()
-		if sync:
-			self.rescan_source(source)
-		elif not source.is_dynamic():
+		self.rescan_source(source, force_update=force_update)
+
+	def _start_source_rescan(self, source):
+		self.latest_rescan_time[source] = time.time()
+		if not source.is_dynamic():
 			thread = threading.Thread(target=self.rescan_source, args=(source,))
 			thread.setDaemon(True)
 			thread.start()
 
-	def rescan_source(self, source):
-		items = source.get_leaves(force_update=True)
+	def rescan_source(self, source, force_update=True):
+		list(source.get_leaves(force_update=force_update))
 		gobject.idle_add(self.emit, "reloaded-source", source)
 
-gobject.signal_new("reloaded-source", PeriodicRescanner, gobject.SIGNAL_RUN_LAST,
+gobject.signal_new("reloaded-source", PeriodicRescanner,
+		gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
 
 class SourcePickler (pretty.OutputMixin):
@@ -451,16 +449,12 @@ class SourceController (pretty.OutputMixin):
 		for src in set(self.sources):
 			with self._exception_guard(src):
 				src.initialize()
+		# Make sure that the toplevel sources are chached
+		# either newly rescanned or the cache is fully loaded
 		for src in set(self.toplevel_sources):
 			with self._exception_guard(src):
-				self._rescan_source(src, force=False)
+				self.rescanner.rescan_now(src, force_update=False)
 		self.loaded_successfully = True
-
-	def _rescan_source(self, source, force=True):
-		if force:
-			self.rescanner.register_rescan(source, sync=True)
-		else:
-			source.get_leaves()
 
 
 _source_controller = None
