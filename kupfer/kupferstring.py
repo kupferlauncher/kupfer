@@ -31,6 +31,8 @@ def tounicode(utf8str):
 	"""Return `unicode` from UTF-8 encoded @utf8str
 	This is to use the same error handling etc everywhere
 	"""
+	if isinstance(utf8str, unicode):
+		return utf8str
 	return utf8str.decode("UTF-8", "replace") if utf8str is not None else u""
 
 def toutf8(ustr):
@@ -40,17 +42,19 @@ def toutf8(ustr):
 	"""
 	if isinstance(ustr, str):
 		return ustr
-	return ustr.encode("UTF-8", "replace")
+	return ustr.encode("UTF-8")
 
 def fromlocale(lstr):
 	"""Return a unicode string from locale bytestring @lstr"""
+	assert isinstance(lstr, str)
 	enc = locale.getpreferredencoding(do_setlocale=False)
 	return lstr.decode(enc, "replace")
 
 def tolocale(ustr):
 	"""Return a locale-encoded bytestring from unicode @ustr"""
+	assert isinstance(ustr, unicode)
 	enc = locale.getpreferredencoding(do_setlocale=False)
-	return ustr.encode(enc, "replace")
+	return ustr.encode(enc)
 
 
 def tofolded(ustr):
