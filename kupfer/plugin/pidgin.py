@@ -133,6 +133,7 @@ class SendMessage (ContactAction):
 
 class PidginContact(ContactLeaf):
 	""" Leaf represent single contact from Pidgin """
+	grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY, )
 	def __init__(self, jid, name, account, icon, protocol, available,
 		status_message):
 		slots = {
