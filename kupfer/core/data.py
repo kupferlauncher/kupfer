@@ -477,7 +477,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		other_sources = set(s_s) - direct_sources
 		sc.add(direct_sources, toplevel=True)
 		sc.add(other_sources, toplevel=False)
-		sc.cache_toplevel_sources()
+		sc.initialize()
 		self.source_pane.source_rebase(sc.root)
 		learn.load()
 

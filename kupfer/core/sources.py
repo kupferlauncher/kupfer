@@ -1,3 +1,6 @@
+from __future__ import with_statement
+
+import contextlib
 import gzip
 import hashlib
 import itertools
@@ -237,7 +240,11 @@ class SourceDataPickler (pretty.OutputMixin):
 		return True
 
 class SourceController (pretty.OutputMixin):
-	"""Control sources; loading, pickling, rescanning"""
+	"""Control sources; loading, pickling, rescanning
+
+	Call .add() to add sources.
+	Call .initialize() before use commences.
+	"""
 	def __init__(self):
 		self.rescanner = PeriodicRescanner(period=3)
 		self.sources = set()
@@ -425,18 +432,11 @@ class SourceController (pretty.OutputMixin):
 				continue
 			sourcepickler.pickle_source(source)
 
-	def _checked_rescan_source(self, source, force=True):
-		"""
-		Rescan @source and check for exceptions, if it
-		raises, we remove it from our source catalog
-		"""
-		# to "rescue the toplevel", we throw out sources that
-		# raise exceptions on rescan
+	@contextlib.contextmanager
+	def _exception_guard(self, source):
+		"Guard for exceptions, ousting @source from catalog if any is raised"
 		try:
-			if force:
-				self.rescanner.register_rescan(source, sync=True)
-			else:
-				source.get_leaves()
+			yield
 		except Exception:
 			import traceback
 			self.output_error("Loading %s raised an exception:" % source)
@@ -446,13 +446,22 @@ class SourceController (pretty.OutputMixin):
 			self.sources.discard(source)
 			self.toplevel_sources.discard(source)
 
-	def cache_toplevel_sources(self):
-		"""Ensure that all toplevel sources are cached"""
+	def initialize(self):
+		"Initialize all sources and cache toplevel sources"
 		for src in set(self.sources):
-			src.initialize()
+			with self._exception_guard(src):
+				src.initialize()
 		for src in set(self.toplevel_sources):
-			self._checked_rescan_source(src, force=False)
+			with self._exception_guard(src):
+				self._rescan_source(src, force=False)
 		self.loaded_successfully = True
+
+	def _rescan_source(self, source, force=True):
+		if force:
+			self.rescanner.register_rescan(source, sync=True)
+		else:
+			source.get_leaves()
+
 
 _source_controller = None
 def GetSourceController():
