@@ -62,13 +62,16 @@ class NewMailAction(Action):
 	def valid_for_item(self, item):
 		return bool(email_from_leaf(item))
 
-class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
+		FilesystemWatchMixin):
 	appleaf_content_id = ('thunderbird', 'icedove')
 
 	def __init__(self, name=_("Thunderbird Address Book")):
-		Source.__init__(self, name)
+		ToplevelGroupingSource.__init__(self, name, "Contacts")
+		self._version = 2
 
 	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		abook_dir = support.get_addressbook_dir()
 		if not abook_dir or not os.path.isdir(abook_dir):
 			return
@@ -82,6 +85,9 @@ class ContactsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 			yield EmailContact(email, name)
 
 		yield ComposeMail()
+
+	def should_sort_lexically(self):
+		return True
 
 	def get_description(self):
 		return _("Contacts from Thunderbird Address Book")
