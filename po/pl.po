@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-16 22:22+0100\n"
+"POT-Creation-Date: 2010-01-19 08:58+0100\n"
 "PO-Revision-Date: 2009-09-17 19:40+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: ../data/kupfer.desktop.in.in.h:1
+#: ../data/kupfer.desktop.in.h:1
 msgid "Application Launcher"
 msgstr "Skrót do programu"
 
-#: ../data/kupfer.desktop.in.in.h:2
+#: ../data/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Wygodne narzędzie do uruchamiania aplikacji i otwierania dokumentów"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/ui/browser.py:1415
+#: ../data/kupfer.desktop.in.h:3 ../kupfer/ui/browser.py:1415
 #: ../kupfer/ui/browser.py:1447 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
 msgid "Kupfer"
@@ -275,7 +275,7 @@ msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
 #: ../kupfer/obj/fileactions.py:72 ../kupfer/obj/fileactions.py:116
-#: ../kupfer/obj/fileactions.py:131 ../kupfer/plugin/notes.py:71
+#: ../kupfer/obj/fileactions.py:131 ../kupfer/plugin/notes.py:72
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:105
 msgid "Open"
 msgstr "Otwórz"
@@ -750,50 +750,50 @@ msgstr "Zaznaczony plik \"%s\""
 msgid "Selected Files"
 msgstr "Wybrane pliki"
 
-#: ../kupfer/plugin/notes.py:17 ../kupfer/plugin/notes.py:198
+#: ../kupfer/plugin/notes.py:18 ../kupfer/plugin/notes.py:171
 msgid "Notes"
 msgstr "Notatki"
 
-#: ../kupfer/plugin/notes.py:23
+#: ../kupfer/plugin/notes.py:24
 msgid "Gnote or Tomboy notes"
 msgstr "Notatki Gnote lub Tomboy"
 
-#: ../kupfer/plugin/notes.py:32
+#: ../kupfer/plugin/notes.py:33
 msgid "Work with application"
 msgstr "Wybierz aplikację"
 
-#: ../kupfer/plugin/notes.py:77
+#: ../kupfer/plugin/notes.py:78
 msgid "Open with notes application"
 msgstr "Otwórz za pomocą aplikacji od notatek"
 
-#: ../kupfer/plugin/notes.py:84
+#: ../kupfer/plugin/notes.py:85
 msgid "Append to Note..."
 msgstr "Dołącz do notatki..."
 
-#: ../kupfer/plugin/notes.py:107
+#: ../kupfer/plugin/notes.py:108
 msgid "Add text to existing note"
 msgstr "Dodaj tekst do istniejącej notatki"
 
-#: ../kupfer/plugin/notes.py:147
+#: ../kupfer/plugin/notes.py:120
 msgid "Create Note"
 msgstr "Utwórz notatkę"
 
-#: ../kupfer/plugin/notes.py:161
+#: ../kupfer/plugin/notes.py:134
 msgid "Create a new note from this text"
 msgstr "Utwórz nową notatkę zawierającą ten tekst"
 
-#: ../kupfer/plugin/notes.py:181
+#: ../kupfer/plugin/notes.py:154
 #, python-format
 msgid "today, %s"
 msgstr "dziś, %s"
 
-#: ../kupfer/plugin/notes.py:183
+#: ../kupfer/plugin/notes.py:156
 #, python-format
 msgid "yesterday, %s"
 msgstr "wczoraj, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:187
+#: ../kupfer/plugin/notes.py:160
 #, python-format
 msgid "Last updated %s"
 msgstr "Ostatnia modyfikacja: %s"
@@ -818,7 +818,7 @@ msgstr "Na najwyższym poziomie uwzględniaj albumy"
 msgid "Include songs in top level"
 msgstr "Na najwyższym poziomie uwzględniaj utwory"
 
-#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:116
+#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:123
 #: ../kupfer/plugin/audacious.py:84 ../kupfer/plugin/audacious.py:130
 msgid "Play"
 msgstr "Odtwarzaj"
@@ -998,7 +998,7 @@ msgstr[1] "W koszu są %(num)s pliki"
 msgstr[2] "W koszu jest %(num)s plików"
 
 #: ../kupfer/plugin/triggers.py:11 ../kupfer/plugin/triggers.py:39
-#: ../kupfer/plugin/triggers.py:115
+#: ../kupfer/plugin/triggers.py:118
 msgid "Triggers"
 msgstr "Wyzwalacze"
 
@@ -1010,11 +1010,11 @@ msgstr ""
 "Przypisz globalny skróty klawiszowe (wyzwalacze) do obiektów stworzonych "
 "przez 'Komponuj' (Ctrl+Return)"
 
-#: ../kupfer/plugin/triggers.py:135
+#: ../kupfer/plugin/triggers.py:138
 msgid "Add Trigger..."
 msgstr "Dodaj wyzwalacz..."
 
-#: ../kupfer/plugin/triggers.py:158
+#: ../kupfer/plugin/triggers.py:161
 msgid "Remove Trigger"
 msgstr "Usuń wyzwalacz"
 
@@ -1457,7 +1457,6 @@ msgid "Higher-order Actions"
 msgstr "Wysoko-poziomowe akcje"
 
 #: ../kupfer/plugin/higherorder.py:12
-#, fuzzy
 msgid "Tools to work with commands as objects"
 msgstr "Narzędzia do pracy z poleceniami jako obietami"
 
@@ -1515,7 +1514,7 @@ msgstr "Obróć automatycznie"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Obróć JPEG biorąc pod uwagę dane EXIF"
 
-#: ../kupfer/plugin/kupfer_plugins.py:11 ../kupfer/plugin/kupfer_plugins.py:84
+#: ../kupfer/plugin/kupfer_plugins.py:11 ../kupfer/plugin/kupfer_plugins.py:82
 msgid "Kupfer Plugins"
 msgstr "Wtyczki Kupfera"
 
@@ -1523,19 +1522,19 @@ msgstr "Wtyczki Kupfera"
 msgid "Access Kupfer's plugin list in Kupfer"
 msgstr "Dostęp do listy wtyczek Kupfera"
 
-#: ../kupfer/plugin/kupfer_plugins.py:23
+#: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
 msgstr "Pokaż informacje"
 
-#: ../kupfer/plugin/kupfer_plugins.py:35
+#: ../kupfer/plugin/kupfer_plugins.py:31
 msgid "Show Source Code"
 msgstr "Pokaż kod źródłowy"
 
-#: ../kupfer/plugin/kupfer_plugins.py:78
+#: ../kupfer/plugin/kupfer_plugins.py:76
 msgid "enabled"
 msgstr "włączony"
 
-#: ../kupfer/plugin/kupfer_plugins.py:78
+#: ../kupfer/plugin/kupfer_plugins.py:76
 msgid "disabled"
 msgstr "wyłączony"
 
@@ -1556,6 +1555,10 @@ msgstr "Ignoruj wielkość liter podczas wyszukiwania plików"
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Wyniki dla \"%s\""
+
+#: ../kupfer/plugin/notification.py:5 ../kupfer/plugin/notification.py:31
+msgid "Show Notification"
+msgstr "Pokaż powiadamiania"
 
 #: ../kupfer/plugin/openoffice.py:10
 msgid "OpenOffice"
