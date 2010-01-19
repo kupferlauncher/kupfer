@@ -136,6 +136,10 @@ class SourceLeaf (Leaf):
 	def get_description(self):
 		return self.object.get_description()
 
+	@property
+	def fallback_icon_name(self):
+		return self.object.fallback_icon_name
+
 	def get_gicon(self):
 		return self.object.get_gicon()
 
