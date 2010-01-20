@@ -110,6 +110,14 @@ class ShowPlaying (RunnableLeaf):
 	def get_icon_name(self):
 		return "dialog-information"
 
+class ClearQueue (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Clear Queue"))
+	def run(self):
+		utils.spawn_async(("rhythmbox-client", "--no-start", "--clear-queue"))
+	def get_icon_name(self):
+		return "edit-clear"
+
 def _songs_from_leaf(leaf):
 	"return a sequence of songs from @leaf"
 	if isinstance(leaf, SongLeaf):
@@ -380,6 +388,7 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 		yield Pause()
 		yield Next()
 		yield Previous()
+		yield ClearQueue()
 		yield ShowPlaying()
 		artist_source = RhythmboxArtistsSource(artists)
 		album_source = RhythmboxAlbumsSource(albums)
