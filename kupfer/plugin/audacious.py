@@ -89,18 +89,6 @@ class JumpToSong(Action):
 	def get_icon_name(self):
 		return "media-playback-start"
 
-class ClearQueue (Action):
-	def __init__(self):
-		Action.__init__(self, _("Clear Queue"))
-	def activate(self, leaf):
-		clear_queue()
-	def get_description(self):
-		return _("Clear the Audacious play queue")
-	def get_gicon(self):
-		return icons.ComposedIcon("gtk-execute", "media-playback-start")
-	def get_icon_name(self):
-		return "media-playback-stop"
-
 class Rescan (Action):
 	"""A source action: Rescan a source!
 
@@ -164,6 +152,16 @@ class Previous (RunnableLeaf):
 		return _("Jump to previous track in Audacious")
 	def get_icon_name(self):
 		return "media-skip-backward"
+
+class ClearQueue (RunnableLeaf):
+	def __init__(self):
+		RunnableLeaf.__init__(self, name=_("Clear Queue"))
+	def run(self):
+		clear_queue()
+	def get_description(self):
+		return _("Clear the Audacious play queue")
+	def get_icon_name(self):
+		return "edit-clear"
 		
 class Shuffle (RunnableLeaf):
 	def __init__(self):
@@ -191,7 +189,6 @@ class SongLeaf (Leaf):
 		yield JumpToSong()
 		yield Enqueue()
 		yield Dequeue()
-		yield ClearQueue()
 	def get_icon_name(self):
 		return "audio-x-generic"
 
@@ -217,6 +214,7 @@ class AudaciousSource (AppLeafContentMixin, Source):
 		yield Pause()
 		yield Next()
 		yield Previous() 
+		yield ClearQueue()
 		# Commented as these seem to have no effect
 		#yield Shuffle()
 		#yield Repeat()
