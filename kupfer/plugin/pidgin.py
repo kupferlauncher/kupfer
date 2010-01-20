@@ -164,9 +164,11 @@ class PidginContact(ContactLeaf):
 		self.account = account
 		self.jid = jid
 		self.icon = icon
+		self.protocol = protocol
 
 	def repr_key(self):
-		return "%s, %s" % (self.object[PIDGIN_ACCOUNT], self.object[PIDGIN_JID])
+		# the repr key should be persistent and hopefully unique
+		return "%s, %s" % (self.protocol, self.object[PIDGIN_JID])
 
 	def get_description(self):
 		return self._description
