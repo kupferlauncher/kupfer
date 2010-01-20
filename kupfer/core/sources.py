@@ -56,7 +56,9 @@ class PeriodicRescanner (pretty.OutputMixin):
 
 	def rescan_now(self, source, force_update=False):
 		"Rescan @source immediately"
-		self.latest_rescan_time[source] = time.time()
+		if force_update:
+			# if forced update, we know that it was brought up to date
+			self.latest_rescan_time[source] = time.time()
 		self.rescan_source(source, force_update=force_update)
 
 	def _start_source_rescan(self, source):
@@ -242,12 +244,16 @@ class SourceController (pretty.OutputMixin):
 		self.content_decorators = set()
 		self.action_decorators = set()
 		self.loaded_successfully = False
+		self._restored_sources = set()
 
 	def add(self, srcs, toplevel=False):
-		srcs = set(self._try_unpickle(srcs))
-		self.sources.update(srcs)
+		sources = set(self._try_restore(srcs))
+		self._restored_sources.update(sources)
+		sources.update(srcs)
+
+		self.sources.update(sources)
 		if toplevel:
-			self.toplevel_sources.update(srcs)
+			self.toplevel_sources.update(sources)
 		self.rescanner.set_catalog(self.sources)
 	def add_text_sources(self, srcs):
 		self.text_sources.update(srcs)
@@ -396,21 +402,21 @@ class SourceController (pretty.OutputMixin):
 			if configsaver.source_has_config(source):
 				configsaver.save_source(source)
 
-	def _try_unpickle(self, sources):
+	def _try_restore(self, sources):
 		"""
-		Try to unpickle the source that is equivalent to the
-		"dummy" instance @source, if it doesn't succeed,
-		the "dummy" becomes live.
+		Try to restor the source that is equivalent to the
+		"dummy" instance @source, from cache, or from saved configuration.
+		yield the instances that succeed.
 		"""
 		sourcepickler = SourcePickler()
 		configsaver = SourceDataPickler()
 		for source in set(sources):
-			news = None
 			if configsaver.source_has_config(source):
 				configsaver.load_source(source)
 			else:
-				news = sourcepickler.unpickle_source(source)
-			yield news or source
+				source = sourcepickler.unpickle_source(source)
+			if source:
+				yield source
 
 	def _pickle_sources(self, sources):
 		sourcepickler = SourcePickler()
@@ -444,8 +450,10 @@ class SourceController (pretty.OutputMixin):
 		# either newly rescanned or the cache is fully loaded
 		for src in set(self.toplevel_sources):
 			with self._exception_guard(src):
-				self.rescanner.rescan_now(src, force_update=False)
+				force = (src not in self._restored_sources)
+				self.rescanner.rescan_now(src, force_update=force)
 		self.loaded_successfully = True
+		self._restored_sources.clear()
 
 
 _source_controller = None
