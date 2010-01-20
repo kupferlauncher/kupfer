@@ -1085,10 +1085,11 @@ class Interface (gobject.GObject):
 			else:
 				self.reset_current()
 		else:
-			self.data_controller.object_stack_clear(self._pane_for_widget(self.current))
 			if self.get_in_text_mode():
 				self.toggle_text_mode(False)
 			elif not self.current.get_table_visible():
+				pane = self._pane_for_widget(self.current)
+				self.data_controller.object_stack_clear(pane)
 				self.emit("cancelled")
 			self._reset_to_toplevel = True
 			self.current.hide_table()
