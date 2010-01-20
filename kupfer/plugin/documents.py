@@ -12,7 +12,7 @@ from kupfer.weaklib import gobject_connect_weakly
 __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
-__description__ = _("Recently used documents and nautilus places")
+__description__ = _("Recently used documents and bookmarked folders")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -161,7 +161,7 @@ class PlacesSource (Source):
 				yield UrlLeaf(gfile.get_uri(), title)
 
 	def get_description(self):
-		return _("Bookmarked locations in Nautilus")
+		return _("Bookmarked folders")
 	def get_icon_name(self):
 		return "file-manager"
 	def provides(self):
