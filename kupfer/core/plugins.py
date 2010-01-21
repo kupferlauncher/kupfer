@@ -248,3 +248,7 @@ def get_plugin_error(plugin_name):
 			return plugin.error_message
 	except ImportError, e:
 		return "'%s' is not a plugin" % plugin_name
+
+def is_plugin_loaded(plugin_name):
+	return (plugin_name in imported_plugins and
+			not get_plugin_attribute(plugin_name, "is_fake_plugin"))
