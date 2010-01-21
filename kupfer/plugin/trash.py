@@ -1,7 +1,7 @@
 import gio
 
 from kupfer.objects import Leaf, Action, Source, SourceLeaf
-from kupfer.obj.fileactions import OpenDirectory
+from kupfer.obj.fileactions import Open
 from kupfer import utils, icons, pretty
 
 __kupfer_name__ = _("Trash")
@@ -98,7 +98,7 @@ class SpecialLocation (Leaf):
 		self.description = description
 		self.icon_name = icon_name
 	def get_actions(self):
-		yield OpenDirectory()
+		yield Open()
 	def get_description(self):
 		return self.description or self.object
 	def get_gicon(self):

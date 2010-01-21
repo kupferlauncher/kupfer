@@ -7,6 +7,9 @@ from kupfer import utils
 
 from kupfer.obj.base import Action, InvalidDataError
 
+class NoDefaultApplicationError (Exception):
+	pass
+
 def get_actions_for_file(fileleaf):
 	acts = [RevealFile(), ]
 	if fileleaf.is_dir():
@@ -14,33 +17,47 @@ def get_actions_for_file(fileleaf):
 	elif fileleaf.is_valid():
 		if fileleaf._is_executable():
 			acts.extend((Execute(), Execute(in_terminal=True)))
-	return [Show()] + acts
+	return [Open()] + acts
 
-class Show (Action):
-	""" Open file with default viewer """
+class Open (Action):
+	""" Open with default application """
 	rank_adjust = 5
 	def __init__(self, name=_("Open")):
-		super(Show, self).__init__(name)
+		Action.__init__(self, name)
+
+	@classmethod
+	def default_application_for_leaf(cls, leaf):
+		content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+		gfile = gio.File(leaf.object)
+		info = gfile.query_info(content_attr)
+		content_type = info.get_attribute_string(content_attr)
+		def_app = gio.app_info_get_default_for_type(content_type, False)
+		if not def_app:
+			apps_for_type = gio.app_info_get_all_for_type(content_type)
+			raise NoDefaultApplicationError(unicode(leaf), content_type)
+		return def_app
 
 	def activate(self, leaf):
-		utils.show_path(leaf.object)
+		self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objects):
+		appmap = {}
+		leafmap = {}
+		for obj in objects:
+			app = self.default_application_for_leaf(obj)
+			id_ = app.get_id()
+			appmap[id_] = app
+			leafmap.setdefault(id_, []).append(obj)
+
+		for id_, leaves in leafmap.iteritems():
+			app = appmap[id_]
+			utils.launch_app(app, paths=[L.object for L in leaves])
 
 	def get_description(self):
-		return _("Open with default viewer")
+		return _("Open with default application")
 
 	def get_icon_name(self):
 		return "gtk-execute"
-
-class OpenDirectory (Show):
-	rank_adjust = 5
-	def __init__(self):
-		super(OpenDirectory, self).__init__(_("Open"))
-
-	def get_description(self):
-		return _("Open folder")
-
-	def get_icon_name(self):
-		return "folder-open"
 
 class RevealFile (Action):
 	def __init__(self, name=_("Reveal")):
