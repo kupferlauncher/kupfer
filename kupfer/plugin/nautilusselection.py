@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Selected File")
+__kupfer_sources__ = ("SelectionSource", )
+__description__ = _("Provides current nautilus selection, using Kupfer's Nautilus Extension")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 
 import dbus
@@ -9,12 +15,6 @@ from kupfer.obj.compose import MultipleLeaf
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.weaklib import DbusWeakCallback
 from kupfer import plugin_support
-
-__kupfer_name__ = _("Selected File")
-__kupfer_sources__ = ("SelectionSource", )
-__description__ = _("Provides current nautilus selection, using Kupfer's Nautilus Extension")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 plugin_support.check_dbus_connection()
 

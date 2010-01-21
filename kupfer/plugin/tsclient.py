@@ -1,6 +1,13 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
+__kupfer_name__ = _("Terminal Server Client")
+__kupfer_sources__ = ("TsclientSessionSource", )
+__kupfer_actions__ = ("TsclientOpenSession", )
+__description__ = _("Session saved in Terminal Server Client")
+__version__ = "2010-01-07"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 import os
 
 from kupfer.objects import Action, AppLeafContentMixin
@@ -8,13 +15,6 @@ from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 
 from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
-
-__kupfer_name__ = _("Terminal Server Client")
-__kupfer_sources__ = ("TsclientSessionSource", )
-__kupfer_actions__ = ("TsclientOpenSession", )
-__description__ = _("Session saved in Terminal Server Client")
-__version__ = "2010-01-07"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 

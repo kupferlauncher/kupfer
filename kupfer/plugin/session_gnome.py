@@ -1,10 +1,10 @@
-from kupfer.plugin import session_support as support
-
 __kupfer_name__ = _("Gnome Session Management")
 __kupfer_sources__ = ("GnomeItemsSource", )
 __description__ = _("Special items and actions for Gnome environment")
 __version__ = "2009-12-05"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+from kupfer.plugin import session_support as support
 
 
 LOGOUT_CMD = ("gnome-panel-logout", "gnome-session-save --kill")

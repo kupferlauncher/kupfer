@@ -1,10 +1,3 @@
-import os
-import shutil
-import urllib2
-
-from kupfer.objects import Action, Source, UrlLeaf, FileLeaf
-from kupfer import utils, pretty, task
-
 __kupfer_name__ = _("URL Actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -15,6 +8,14 @@ __kupfer_actions__ = (
 __description__ = _("URL Actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import os
+import shutil
+import urllib2
+
+from kupfer.objects import Action, Source, UrlLeaf, FileLeaf
+from kupfer import utils, pretty, task
+
 
 class DownloadTask (task.ThreadTask):
 	def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):

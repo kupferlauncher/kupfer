@@ -1,10 +1,3 @@
-import gio
-from gio import app_info_get_all
-from gio.unix import desktop_app_info_set_desktop_env
-
-from kupfer.objects import Action, Source, AppLeaf, FileLeaf
-from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer import config, utils, plugin_support
 
 __kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource", )
@@ -15,6 +8,14 @@ __kupfer_actions__ = (
 __description__ = _("All applications and preferences")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import gio
+from gio import app_info_get_all
+from gio.unix import desktop_app_info_set_desktop_env
+
+from kupfer.objects import Action, Source, AppLeaf, FileLeaf
+from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer import config, utils, plugin_support
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

@@ -1,23 +1,23 @@
 # -*- coding: UTF-8 -*-
+'''
+Translate TextLeaf by Google Translate.
 
-from kupfer.objects import Source, Action, TextLeaf, Leaf, UrlLeaf
-from kupfer import icons, utils, pretty
-
+'''
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", "TranslateUrl", 'OpenTranslatePage')
 __description__ = _("Translate text with Google Translate")
 __version__ = "2009-10-31"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-'''
-Translate TextLeaf by Google Translate.
-
-'''
 import httplib
 import locale
 import urllib
 import re
 import socket
+
+from kupfer.objects import Source, Action, TextLeaf, Leaf, UrlLeaf
+from kupfer import icons, utils, pretty
+
 
 try:
 	import cjson

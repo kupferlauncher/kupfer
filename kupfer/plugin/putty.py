@@ -1,15 +1,6 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
-import os
-import urllib
-
-from kupfer.objects import Action, AppLeafContentMixin
-from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
-from kupfer import utils, icons
-from kupfer.obj.grouping import ToplevelGroupingSource 
-from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf, HOST_ADDRESS_KEY, \
-		HOST_SERVICE_NAME_KEY, HOST_SERVICE_PORT_KEY, HOST_SERVICE_USER_KEY
 
 __kupfer_name__ = _("PuTTY Sessions")
 __kupfer_sources__ = ("PuttySessionSource", )
@@ -19,6 +10,15 @@ __version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
+import os
+import urllib
+
+from kupfer.objects import Action, AppLeafContentMixin
+from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer import utils, icons
+from kupfer.obj.grouping import ToplevelGroupingSource 
+from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf, HOST_ADDRESS_KEY, \
+		HOST_SERVICE_NAME_KEY, HOST_SERVICE_PORT_KEY, HOST_SERVICE_USER_KEY
 
 PUTTY_SESSION_KEY = "PUTTY_SESSION"
 

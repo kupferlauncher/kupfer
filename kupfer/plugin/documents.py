@@ -1,3 +1,10 @@
+__kupfer_name__ = _("Documents")
+__kupfer_sources__ = ("RecentsSource", "PlacesSource", )
+__kupfer_contents__ = ("ApplicationRecentsSource", )
+__description__ = _("Recently used documents and bookmarked folders")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 from os import path
 
 import gio
@@ -8,13 +15,6 @@ from kupfer.objects import (Leaf, Action, Source,
 from kupfer import objects, plugin_support
 from kupfer import launch, icons
 from kupfer.weaklib import gobject_connect_weakly
-
-__kupfer_name__ = _("Documents")
-__kupfer_sources__ = ("RecentsSource", "PlacesSource", )
-__kupfer_contents__ = ("ApplicationRecentsSource", )
-__description__ = _("Recently used documents and bookmarked folders")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

@@ -1,6 +1,12 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
+__kupfer_name__ = _("Top")
+__kupfer_sources__ = ("TaskSource", )
+__description__ = _("Show running tasks and allow sending signals to them")
+__version__ = "2009-11-24"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 import os
 import subprocess
 import signal
@@ -11,11 +17,6 @@ from kupfer.helplib import PicklingHelperMixin
 from kupfer import scheduler
 from kupfer import plugin_support
 
-__kupfer_name__ = _("Top")
-__kupfer_sources__ = ("TaskSource", )
-__description__ = _("Show running tasks and allow sending signals to them")
-__version__ = "2009-11-24"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "sort_order",

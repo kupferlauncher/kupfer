@@ -1,4 +1,11 @@
 # -*- coding: UTF-8 -*-
+__kupfer_name__ = _("Gajim")
+__kupfer_sources__ = ("ContactsSource", )
+__kupfer_actions__ = ("ChangeStatus", 'OpenChat')
+__description__ = _("Access to Gajim Contacts")
+__version__ = "2010-01-06"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 import dbus
 
 from kupfer import icons
@@ -11,13 +18,6 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
 		
-
-__kupfer_name__ = _("Gajim")
-__kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = ("ChangeStatus", 'OpenChat')
-__description__ = _("Access to Gajim Contacts")
-__version__ = "2010-01-06"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 plugin_support.check_dbus_connection()

@@ -1,11 +1,12 @@
-from kupfer.objects import Source, Action, TextLeaf
-from kupfer import utils
-
 __kupfer_name__ = _("Devhelp")
 __kupfer_actions__ = ("LookUp", )
 __description__ = _("Search in Devhelp")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+from kupfer.objects import Source, Action, TextLeaf
+from kupfer import utils
+
 
 class LookUp (Action):
 	def __init__(self):

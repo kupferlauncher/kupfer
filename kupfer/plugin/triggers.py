@@ -1,13 +1,3 @@
-import gtk
-
-
-from kupfer.obj.base import Action, Source, TextSource
-from kupfer.obj.objects import TextLeaf, RunnableLeaf
-from kupfer.obj.compose import ComposedLeaf
-from kupfer import puid
-
-from kupfer.ui import keybindings
-
 __kupfer_name__ = _("Triggers")
 __kupfer_sources__ = ("Triggers", )
 __kupfer_actions__ = (
@@ -17,6 +7,16 @@ __description__ = _("Assign global keybindings (triggers) to objects created "
                     "with 'Compose Command' (Ctrl+Return).")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import gtk
+
+from kupfer.obj.base import Action, Source, TextSource
+from kupfer.obj.objects import TextLeaf, RunnableLeaf
+from kupfer.obj.compose import ComposedLeaf
+from kupfer import puid
+
+from kupfer.ui import keybindings
+
 
 # we import the keybinder module for its side-effects --
 # this plugin needs this module, lest it shall not function.

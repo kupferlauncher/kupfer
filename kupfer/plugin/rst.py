@@ -1,13 +1,14 @@
-import os
-
-from kupfer.objects import Source, Action, TextLeaf, FileLeaf
-from kupfer import utils, icons
-
 __kupfer_name__ = _("reStructuredText")
 __kupfer_actions__ = ("RenderView", )
 __description__ = _("Render reStructuredText and show the result")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import os
+
+from kupfer.objects import Source, Action, TextLeaf, FileLeaf
+from kupfer import utils, icons
+
 
 # docutils is a critical import -- not a core kupfer dependency
 import docutils.core

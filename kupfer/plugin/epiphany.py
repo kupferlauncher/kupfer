@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Epiphany Bookmarks")
+__kupfer_sources__ = ("EpiphanySource", )
+__description__ = _("Index of Epiphany bookmarks")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 
 from kupfer.objects import Leaf, Action, Source
@@ -6,12 +12,6 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import plugin_support
 
 from kupfer.plugin import epiphany_support
-
-__kupfer_name__ = _("Epiphany Bookmarks")
-__kupfer_sources__ = ("EpiphanySource", )
-__description__ = _("Index of Epiphany bookmarks")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,

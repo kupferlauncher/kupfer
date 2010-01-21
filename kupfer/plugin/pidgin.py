@@ -1,5 +1,16 @@
 '''Inspiration from the deskbar pidgin plugin and from the gajim kupfer
 plugin'''
+__kupfer_name__ = _("Pidgin")
+__kupfer_sources__ = ("ContactsSource", )
+__kupfer_actions__ = (
+	"OpenChat",
+	"SendMessage",
+)
+__description__ = _("Access to Pidgin Contacts")
+__version__ = "0.1"
+__author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
+              "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
+
 import dbus
 
 from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
@@ -12,16 +23,6 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf, is_valid_email
 
-__kupfer_name__ = _("Pidgin")
-__kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = (
-	"OpenChat",
-	"SendMessage",
-)
-__description__ = _("Access to Pidgin Contacts")
-__version__ = "0.1"
-__author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
-              "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "show_offline",

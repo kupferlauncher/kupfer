@@ -1,4 +1,10 @@
 from __future__ import division
+__kupfer_name__ = _("Calculator")
+__kupfer_actions__ = ("Calculate", )
+__description__ = _("Calculate expressions starting with '='")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 
 import cmath
 import math
@@ -6,11 +12,6 @@ import math
 from kupfer.objects import Source, Action, TextLeaf
 from kupfer import pretty
 
-__kupfer_name__ = _("Calculator")
-__kupfer_actions__ = ("Calculate", )
-__description__ = _("Calculate expressions starting with '='")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class IgnoreResultException (Exception):
 	pass

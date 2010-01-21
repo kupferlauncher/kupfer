@@ -1,14 +1,6 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
-import os
-
-import glib
-
-from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
-from kupfer.obj.apps import AppLeafContentMixin
-from kupfer import config, utils, pretty, icons, plugin_support
-
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
 __kupfer_actions__ = (
@@ -19,6 +11,15 @@ __description__ = _("Access to Pages stored in Zim - "
                     "A Desktop Wiki and Outliner")
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+import os
+
+import glib
+
+from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer import config, utils, pretty, icons, plugin_support
+
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

@@ -1,19 +1,17 @@
-import gtk
-
-from kupfer.objects import Leaf, Action, Source
-from kupfer.ui import keybindings
-from kupfer.weaklib import gobject_connect_weakly
-from kupfer.obj.helplib import PicklingHelperMixin
-
 __kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", "WorkspacesSource", )
 __description__ = _("All windows on all workspaces")
 __version__ = "2010-01-08"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-# "Critical" imports have to be imported past the plugin information
-# variables in Kupfer, else the plugin can't be shown if the import fails
+import gtk
 import wnck
+
+from kupfer.objects import Leaf, Action, Source
+from kupfer.ui import keybindings
+from kupfer.weaklib import gobject_connect_weakly
+from kupfer.obj.helplib import PicklingHelperMixin
+
 
 def _get_current_event_time():
 	return gtk.get_current_event_time() or keybindings.get_current_event_time()

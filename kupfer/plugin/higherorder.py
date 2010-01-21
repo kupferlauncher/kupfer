@@ -1,8 +1,3 @@
-from kupfer.objects import Action, Leaf
-from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
-from kupfer import commandexec
-from kupfer import pretty
-
 __kupfer_name__ = _("Higher-order Actions")
 __kupfer_actions__ = (
 	"Select",
@@ -12,6 +7,12 @@ __kupfer_actions__ = (
 __description__ = _("Tools to work with commands as objects")
 __version__ = "2010-01-11"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+from kupfer.objects import Action, Leaf
+from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
+from kupfer import commandexec
+from kupfer import pretty
+
 
 class Select (Action):
 	rank_adjust = -15

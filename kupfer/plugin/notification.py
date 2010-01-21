@@ -1,7 +1,3 @@
-from kupfer.objects import Action
-from kupfer.objects import TextLeaf
-from kupfer import textutils
-
 __kupfer_name__ = _("Show Notification")
 __kupfer_actions__ = (
 		"ShowNotification",
@@ -11,6 +7,11 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import pynotify
+
+from kupfer.objects import Action
+from kupfer.objects import TextLeaf
+from kupfer import textutils
+
 
 
 def show_notification(title, body, icon_name=None, critical=False):

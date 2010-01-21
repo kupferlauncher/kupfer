@@ -1,10 +1,3 @@
-import subprocess
-
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf
-from kupfer import icons, kupferstring, task, uiutils, utils
-from kupfer import plugin_support
-
 __kupfer_name__ = _("APT")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -17,6 +10,14 @@ __description__ = _("Interface with the package manager APT")
 __version__ = ""
 __author__ = ("Martin Koelewijn <martinkoelewijn@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
+
+import subprocess
+
+from kupfer.objects import Action, Source, Leaf
+from kupfer.objects import TextLeaf
+from kupfer import icons, kupferstring, task, uiutils, utils
+from kupfer import plugin_support
+
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

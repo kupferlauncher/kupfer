@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Firefox Bookmarks")
+__kupfer_sources__ = ("BookmarksSource", )
+__description__ = _("Index of Firefox bookmarks")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 
 from kupfer.objects import Leaf, Action, Source
@@ -5,11 +11,6 @@ from kupfer.objects import UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import plugin_support
 
-__kupfer_name__ = _("Firefox Bookmarks")
-__kupfer_sources__ = ("BookmarksSource", )
-__description__ = _("Index of Firefox bookmarks")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,

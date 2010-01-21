@@ -1,3 +1,14 @@
+__kupfer_name__ = _("Thunar")
+__kupfer_sources__ = ("ThunarObjects", )
+__kupfer_actions__ = (
+	"Reveal",
+	"GetInfo",
+	"MoveToTrash",
+)
+__description__ = _("File manager Thunar actions")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 
 import dbus
@@ -10,16 +21,6 @@ from kupfer import pretty
 from kupfer import plugin_support
 from kupfer.weaklib import gobject_connect_weakly
 
-__kupfer_name__ = _("Thunar")
-__kupfer_sources__ = ("ThunarObjects", )
-__kupfer_actions__ = (
-	"Reveal",
-	"GetInfo",
-	"MoveToTrash",
-)
-__description__ = _("File manager Thunar actions")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 plugin_support.check_dbus_connection()
 

@@ -1,13 +1,3 @@
-import os
-import urllib
-import xml.etree.cElementTree as ElementTree
-
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf
-from kupfer import utils, config
-
-from kupfer.plugin import firefox_support
-
 __kupfer_name__ = _("Search the Web")
 __kupfer_sources__ = ("OpenSearchSource", )
 __kupfer_text_sources__ = ()
@@ -18,6 +8,17 @@ __kupfer_actions__ = (
 __description__ = _("Search the web with OpenSearch search engines")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import os
+import urllib
+import xml.etree.cElementTree as ElementTree
+
+from kupfer.objects import Action, Source, Leaf
+from kupfer.objects import TextLeaf
+from kupfer import utils, config
+
+from kupfer.plugin import firefox_support
+
 
 def _noescape_urlencode(items):
 	"""Assemble an url param string from @items, without

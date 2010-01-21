@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Kupfer Plugins")
+__kupfer_sources__ = ("KupferPlugins", )
+__description__ = _("Access Kupfer's plugin list in Kupfer")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 
 from kupfer.objects import Action, Source, Leaf, FileLeaf, TextLeaf
@@ -8,11 +14,6 @@ from kupfer import kupferui
 # This module is normally out of bounds for plugins
 from kupfer.core import plugins, settings
 
-__kupfer_name__ = _("Kupfer Plugins")
-__kupfer_sources__ = ("KupferPlugins", )
-__description__ = _("Access Kupfer's plugin list in Kupfer")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class ShowInfo (Action):
 	def __init__(self):

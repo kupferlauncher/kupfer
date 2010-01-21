@@ -1,13 +1,13 @@
-import urllib
-
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf, UrlLeaf
-
 __kupfer_name__ = _("Google Search")
 __kupfer_actions__ = ("Search", )
 __description__ = _("Search Google with results shown directly")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import urllib
+
+from kupfer.objects import Action, Source, Leaf
+from kupfer.objects import TextLeaf, UrlLeaf
 
 try:
 	import cjson

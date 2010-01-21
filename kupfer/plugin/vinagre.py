@@ -1,6 +1,14 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
+__kupfer_name__ = _("Vinagre")
+__kupfer_sources__ = ("SessionSource", )
+__kupfer_actions__ = ('VinagreStartSession', )
+__description__ = _("Vinagre bookmarks and actions")
+__version__ = "2009-11-24"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+
 import os
 import gio
 from xml.etree import cElementTree as ElementTree
@@ -11,14 +19,6 @@ from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 
 from kupfer.obj.hosts import HostServiceLeaf, HOST_ADDRESS_KEY, \
 		HOST_SERVICE_NAME_KEY, HOST_SERVICE_PORT_KEY, HOST_SERVICE_USER_KEY
-
-__kupfer_name__ = _("Vinagre")
-__kupfer_sources__ = ("SessionSource", )
-__kupfer_actions__ = ('VinagreStartSession', )
-__description__ = _("Vinagre bookmarks and actions")
-__version__ = "2009-11-24"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
 
 BOOKMARKS_FILE = '~/.local/share/vinagre/vinagre-bookmarks.xml'
 

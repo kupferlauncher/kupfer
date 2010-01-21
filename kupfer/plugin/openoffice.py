@@ -1,17 +1,17 @@
 # -*- coding: UTF-8 -*-
 
+__kupfer_name__ = _("OpenOffice")
+__kupfer_sources__ = ("RecentsSource", )
+__description__ = _("Recently used documents in OpenOffice")
+__version__ = "2009-11-24"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 import os
 from xml.etree import cElementTree as ElementTree
 import gio
 
 from kupfer.objects import Source, FileLeaf, UrlLeaf, AppLeaf
 from kupfer.obj.helplib import PicklingHelperMixin
-
-__kupfer_name__ = _("OpenOffice")
-__kupfer_sources__ = ("RecentsSource", )
-__description__ = _("Recently used documents in OpenOffice")
-__version__ = "2009-11-24"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 _HISTORY_FILE = "~/.openoffice.org/3/user/registry/data/org/openoffice/Office/Histories.xcu"

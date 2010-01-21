@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Chromium Bookmarks")
+__kupfer_sources__ = ("BookmarksSource", )
+__description__ = _("Index of Chromium bookmarks")
+__version__ = ""
+__author__ = "Francesco Marella <francesco.marella@gmail.com>"
+
 import os
 
 from kupfer.objects import Leaf, Action, Source
@@ -5,11 +11,6 @@ from kupfer.objects import UrlLeaf
 from kupfer import config, plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
 
-__kupfer_name__ = _("Chromium Bookmarks")
-__kupfer_sources__ = ("BookmarksSource", )
-__description__ = _("Index of Chromium bookmarks")
-__version__ = ""
-__author__ = "Francesco Marella <francesco.marella@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,
