@@ -4,7 +4,6 @@ drill down into compressed archives.
 
 Issues to resolve:
 
- * Refuse looking into archives over a certain size
  * Add option to clean up at Kupfer's exit
  * Handle zip, tar.gz and anything we can
 """
@@ -22,6 +21,8 @@ from kupfer.objects import Source, FileLeaf
 from kupfer.obj.sources import DirectorySource
 from kupfer import utils
 
+# Limit this to archives of a couple of megabytes
+MAX_ARCHIVE_BYTE_SIZE = 15 * 1024**2
 
 
 class ArchiveContent (Source):
@@ -60,6 +61,8 @@ class ArchiveContent (Source):
 	def decorate_item(cls, leaf):
 		root, ext = os.path.splitext(leaf.object)
 		if leaf.object.lower().endswith(".tar.gz"):
-			return cls(leaf)
+			byte_size = os.stat(leaf.object).st_size
+			if byte_size < MAX_ARCHIVE_BYTE_SIZE:
+				return cls(leaf)
 		return None
 
