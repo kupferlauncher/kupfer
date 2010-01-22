@@ -2,10 +2,8 @@
 A test project to see if we can make a plugin that allows us to
 drill down into compressed archives.
 
-Issues to resolve:
-
- * Add option to clean up at Kupfer's exit
- * Handle zip, tar.gz and anything we can
+So far we only support .zip and .tar, .tar.gz, .tar.bz2, using Python's
+standard library.
 """
 __kupfer_name__ = _("Deep Archives")
 __kupfer_contents__ = ("ArchiveContent", )
@@ -42,15 +40,39 @@ def extractor(name, extensions, predicate):
 		return func
 	return decorator
 
+
+class UnsafeArchiveError (Exception):
+	def __init__(self, path):
+		Exception.__init__(self, "Refusing to extract unsafe path: %s" % path)
+
+def is_safe_to_unarchive(path):
+	"return whether @path is likely a safe path to unarchive"
+	npth = os.path.normpath(path)
+	return not os.path.isabs(npth) and not npth.startswith(os.path.pardir)
+
 @extractor("tar", (".tar", ".tar.gz", ".tgz", ".tar.bz2"), tarfile.is_tarfile)
 def extract_tarfile(filepath, destpath):
 	zf = tarfile.TarFile.open(filepath, 'r')
-	zf.extractall(path=destpath)
+	try:
+		for member in zf.getnames():
+			if not is_safe_to_unarchive(member):
+				raise UnsafeArchiveError(member)
+		zf.extractall(path=destpath)
+	finally:
+		zf.close()
 
 
+# ZipFile only supports extractall since Python 2.6
 @extractor("zip", (".zip", ), zipfile.is_zipfile)
 def extract_zipfile(filepath, destpath):
-	raise NotImplementedError
+	zf = zipfile.ZipFile(filepath, 'r')
+	try:
+		for member in zf.namelist():
+			if not is_safe_to_unarchive(member):
+				raise UnsafeArchiveError(member)
+		zf.extractall(path=destpath)
+	finally:
+		zf.close()
 
 
 class ArchiveContent (Source):
