@@ -45,7 +45,7 @@ class ArchiveContent (Source):
 			zf = tarfile.TarFile.gzopen(self.path)
 			zf.extractall(path=pth)
 			self._unarchived_files.append(zf)
-		files = list(DirectorySource(pth).get_leaves())
+		files = list(DirectorySource(pth, show_hidden=True).get_leaves())
 		if len(files) == 1 and files[0].has_content():
 			return files[0].content_source().get_leaves()
 		return files
