@@ -295,11 +295,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 			label.set_alignment(0, 0)
 			label.set_markup(u"%s" % gobject.markup_escape_text(val))
 			label.set_line_wrap(True)
+			label.set_selectable(True)
 			infobox.pack_start(label, False)
 		if version:
 			label = gtk.Label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), version))
+			label.set_selectable(True)
 			infobox.pack_start(label, False)
 		about.pack_start(infobox, False)
 
@@ -317,6 +319,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s</b>\n%s" %
 					(_("Plugin could not be read due to an error:"), error))
+			label.set_selectable(True)
 			about.pack_start(label, False)
 
 		wid = self._make_plugin_info_widget(plugin_id)
