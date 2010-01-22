@@ -88,13 +88,14 @@ class ArchiveContent (Source):
 		return self.path
 
 	def get_items(self):
-		# always use the same destination for the same file
+		# always use the same destination for the same file and mtime
 		basename = os.path.basename(os.path.normpath(self.path))
 		root, ext = os.path.splitext(basename)
 		mtime = os.stat(self.path).st_mtime
 		fileid = hashlib.sha1("%s%s" % (self.path, mtime)).hexdigest()
 		pth = os.path.join("/tmp", "kupfer-%s-%s" % (root, fileid, ))
 		if not os.path.exists(pth):
+			self.output_debug("Extracting with %s" % (self.unarchiver, ))
 			self.unarchiver(self.path, pth)
 			self.unarchived_files.append(pth)
 			self.end_timer.set(VERY_LONG_TIME_S, self.clean_up_unarchived_files)
@@ -132,7 +133,7 @@ class ArchiveContent (Source):
 			return
 		pretty.print_info(__name__, "Removing extracted archives..")
 		for filetree in set(cls.unarchived_files):
-			pretty.print_info(__name__, "Removing", os.path.basename(filetree))
+			pretty.print_debug(__name__, "Removing", os.path.basename(filetree))
 			shutil.rmtree(filetree, onerror=cls._clean_up_error_handler)
 		cls.unarchived_files = []
 
