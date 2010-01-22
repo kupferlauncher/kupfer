@@ -3,6 +3,14 @@ import os
 import xml.etree.cElementTree as ElementTree
 
 NEEDED_KEYS= set(("title", "artist", "album", "track-number", "location", ))
+UNICODE_KEYS = set(("title", "artist", "album"))
+
+def _tounicode(bstr):
+	# the XML parser returns `str' only when it's ascii, but we want
+	# unicode objects all the time
+	if isinstance(bstr, unicode):
+		return bstr
+	return bstr.decode("ascii")
 
 def _lookup_string(string, strmap):
 	"""Look up @string in the string map,
@@ -36,8 +44,12 @@ def get_rhythmbox_songs(dbfile, typ="song", keys=NEEDED_KEYS):
 		info = {}
 		for child in entry.getchildren():
 			if child.tag in keys:
+				if child.tag in UNICODE_KEYS:
+					childtext = _tounicode(child.text)
+				else:
+					childtext = child.text
 				tag = _lookup_string(child.tag, strmap)
-				text = _lookup_string(child.text, strmap)
+				text = _lookup_string(childtext, strmap)
 				info[tag] = text
 		lSongs.append(info)
 		entry.clear()
