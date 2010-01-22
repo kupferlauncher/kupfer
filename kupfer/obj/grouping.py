@@ -135,14 +135,12 @@ class GroupingSource (Source):
 			return leaf
 		obj = copy.copy(iter(leaves).next())
 		obj.links = list(leaves)
-		obj.name_aliases = set(obj.name_aliases)
 		for other in leaves:
-			obj.name_aliases.add(unicode(other))
+			obj.kupfer_add_alias(unicode(other))
 			# adding the other's aliases can be misleading
 			# since the matched email address might not be
 			# what we are e-mailing
 			# obj.name_aliases.update(other.name_aliases)
-		obj.name_aliases.discard(unicode(obj))
 		return obj
 
 class ToplevelGroupingSource (GroupingSource):

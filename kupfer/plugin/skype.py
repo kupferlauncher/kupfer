@@ -177,8 +177,7 @@ class Contact(ContactLeaf):
 	def __init__(self, name, handle, status):
 		slots = {SKYPE_KEY: handle, NAME_KEY: name}
 		ContactLeaf.__init__(self, slots, name)
-		if name != handle:
-			self.name_aliases.add(handle)
+		self.kupfer_add_alias(handle)
 
 		self._description = _("[%(status)s] %(userid)s") % \
 			dict(status=status, userid=handle)

@@ -147,9 +147,7 @@ class PidginContact(ContactLeaf):
 
 		ContactLeaf.__init__(self, slots, name or jid)
 
-		# we use @jid as an alias for this contact
-		if unicode(self) != jid:
-			self.name_aliases.add(jid)
+		self.kupfer_add_alias(jid)
 
 		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
 				{
