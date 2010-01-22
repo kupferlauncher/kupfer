@@ -1,3 +1,4 @@
+from __future__ import with_statement
 import os
 
 from kupfer.objects import Leaf, Action, Source
@@ -19,6 +20,30 @@ class BookmarksSource (AppLeafContentMixin, Source):
 	appleaf_content_id = ("firefox", "iceweasel")
 	def __init__(self):
 		super(BookmarksSource, self).__init__(_("Firefox Bookmarks"))
+
+	def _get_ffx3_history(self):
+		"""Query the firefox places database"""
+		import sqlite3
+		from firefox_support import get_firefox_home_file
+		from contextlib import closing
+		fpath = get_firefox_home_file("places.sqlite")
+		if fpath and os.path.isfile(fpath):
+			try:
+				with closing(sqlite3.connect(fpath)) as conn:
+					c = conn.cursor()
+					c.execute("""SELECT DISTINCT(url), title
+							FROM moz_places
+							WHERE visit_count > 100
+							ORDER BY visit_count DESC
+							LIMIT 25""")
+					for url, title in c:
+						yield UrlLeaf(url, title)
+			except Exception, exc:
+				# Something is wrong with the database
+				self.output_error(exc)
+
+	def _all_items(self, bookmarks):
+		return list(bookmarks) + list(self._get_ffx3_history())
 	
 	def _get_ffx3_items(self, fpath):
 		"""Parse Firefox' .json bookmarks backups"""
@@ -48,7 +73,7 @@ class BookmarksSource (AppLeafContentMixin, Source):
 
 		if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
 			try:
-				return list(self._get_ffx3_items(fpath))
+				return self._all_items(self._get_ffx3_items(fpath))
 			except Exception, exc:
 				# Catch JSON parse errors
 				# different exception for cjson and json
@@ -56,7 +81,7 @@ class BookmarksSource (AppLeafContentMixin, Source):
 
 		fpath = firefox_support.get_firefox_home_file("bookmarks.html")
 		if fpath:
-			return self._get_ffx2_items(fpath)
+			return self._all_items(self._get_ffx2_items(fpath))
 
 		self.output_error("No firefox bookmarks file found")
 		return []
