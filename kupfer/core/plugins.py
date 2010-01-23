@@ -111,6 +111,63 @@ def get_plugin_desc():
 
 _imported_plugins = {}
 
+def _truncate_code(code, find_attributes):
+	"Truncate @code where all of @find_attributes have been stored."
+	import dis
+	import types
+
+	found_info_attributes = set(find_attributes)
+	def _new_code(c, codestring):
+		newcode = types.CodeType(c.co_argcount,
+		                         c.co_nlocals,
+		                         c.co_stacksize,
+		                         c.co_flags,
+		                         codestring,
+		                         c.co_consts,
+		                         c.co_names,
+		                         c.co_varnames,
+		                         c.co_filename,
+		                         c.co_name,
+		                         c.co_firstlineno,
+		                         c.co_lnotab)
+		return newcode
+
+	none_index = list(code.co_consts).index(None)
+	i = 0
+	end = len(code.co_code)
+	while i < end:
+		if not found_info_attributes:
+			# Insert an instruction to return [None] right here
+			# then truncate the code at this point
+			endinstr = [
+				dis.opmap["LOAD_CONST"],
+				none_index & 255,
+				none_index >> 8,
+				dis.opmap["RETURN_VALUE"],
+			]
+			c = list(code.co_code)
+			c[i:] = map(chr, endinstr)
+			ncode = _new_code(code, ''.join(c))
+			return ncode
+
+		op = ord(code.co_code[i])
+		name = dis.opname[op]
+
+		if op >= dis.HAVE_ARGUMENT:
+			b1 = ord(code.co_code[i+1])
+			b2 = ord(code.co_code[i+2])
+			num = b2 * 256 + b1
+
+			if name == 'STORE_NAME':
+				global_name = code.co_names[num]
+				found_info_attributes.discard(global_name)
+
+			i += 3
+		else:
+			i += 1
+	pretty.print_debug(__name__, "Code used until end:", code)
+	return code
+
 def _import_plugin_fake(modpath, error=None):
 	"""
 	Return an object that has the plugin info attributes we can rescue
@@ -123,13 +180,18 @@ def _import_plugin_fake(modpath, error=None):
 	loader = pkgutil.get_loader(modpath)
 	if not loader:
 		return None
-	env = {}
+	env = {
+		"__name__": modpath,
+		"__file__": loader.get_filename(),
+	}
+	code = _truncate_code(loader.get_code(), info_attributes)
 	try:
-		eval(loader.get_code(), env)
+		eval(code, env)
 	except Exception, exc:
 		pretty.print_debug(__name__, "Loading", modpath, exc)
 	errmsg = error and unicode(error)
 	attributes = dict((k, env.get(k)) for k in info_attributes)
+	attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
 	return FakePlugin(modpath, attributes, errmsg)
 
 def _import_hook_fake(pathcomps):
