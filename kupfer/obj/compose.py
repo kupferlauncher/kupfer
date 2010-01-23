@@ -35,7 +35,7 @@ class TimedPerform (Perform):
 		return _("Perform command after a specified time interval")
 
 class ComposedLeaf (RunnableLeaf):
-	serilizable = True
+	serializable = 1
 	def __init__(self, obj, action, iobj=None):
 		object_ = (obj, action, iobj)
 		# A slight hack: We remove trailing ellipsis and whitespace
@@ -89,7 +89,7 @@ class MultipleLeaf (Leaf):
 
 	The represented object is a sequence of Leaves
 	"""
-	serilizable = 1
+	serializable = 1
 	def __init__(self, obj, name=_("Multiple Objects")):
 		# modifying the list of objects is strictly forbidden
 		robj = list(datatools.UniqueIterator(obj))

@@ -51,7 +51,7 @@ def _save_result(cleaf):
 	if leaf is None:
 		return None
 	class ResultObject (Leaf):
-		serilizable = 1
+		serializable = 1
 		def __init__(self, leaf, cleaf):
 			Leaf.__init__(self, leaf.object, unicode(leaf))
 			vars(self).update(vars(leaf))

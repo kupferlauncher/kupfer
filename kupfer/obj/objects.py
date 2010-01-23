@@ -46,7 +46,7 @@ class FileLeaf (Leaf, TextRepresentation):
 	"""
 	Represents one file: the represented object is a bytestring (important!)
 	"""
-	serilizable = True
+	serializable = 1
 
 	def __init__(self, obj, name=None):
 		"""Construct a FileLeaf
@@ -367,7 +367,7 @@ class TextLeaf (Leaf, TextRepresentation):
 	"""Represent a text query
 	The represented object is a unicode string
 	"""
-	serilizable = True
+	serializable = 1
 	def __init__(self, text, name=None):
 		"""@text *must* be unicode or UTF-8 str"""
 		text = tounicode(text)

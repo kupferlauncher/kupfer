@@ -24,7 +24,7 @@ __all__ = [
 ]
 
 
-SERIALIZABLE_ATTRIBUTE = "serilizable"
+SERIALIZABLE_ATTRIBUTE = "serializable"
 
 """
 SerializedObject is a saved representation of a KupferObject, i.e. a
@@ -63,7 +63,7 @@ def conservative_loads(pickledata):
 
 
 class SerializedObject (object):
-	# treat the serilizable attribute as a version number, defined on the class
+	# treat the serializable attribute as a version number, defined on the class
 	def __init__(self, obj):
 		self.data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
 		self.version = getattr(obj, SERIALIZABLE_ATTRIBUTE)
