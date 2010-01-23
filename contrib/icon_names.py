@@ -4,16 +4,6 @@ as available on the current system.
 
 __ http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 """
-
-import urllib
-from xml.etree import cElementTree as ET
-
-import gtk
-
-from kupfer.objects import Leaf, Action, Source, SourceLeaf
-from kupfer import uiutils
-from kupfer import plugin_support
-
 __kupfer_name__ = _("Icon Names")
 __kupfer_sources__ = (
 		"StandardIconsSource",
@@ -26,6 +16,16 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,
 )
+
+
+import urllib
+from xml.etree import cElementTree as ET
+
+import gtk
+
+from kupfer.objects import Leaf, Action, Source, SourceLeaf
+from kupfer import uiutils
+from kupfer import plugin_support
 
 
 ICON_SPEC_ADDRESS = "http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-0.8.90.xml"
