@@ -95,7 +95,7 @@ def get_plugin_desc():
 	maxlen = 78
 	left_margin = 2 + idlen + 1 + verlen + 1
 	desc = []
-	for rec in get_plugin_info():
+	for rec in infos:
 		# Wrap the description and align continued lines
 		wrapped = textwrap.wrap(rec["description"], maxlen - left_margin)
 		description = (u"\n" + u" "*left_margin).join(wrapped)
