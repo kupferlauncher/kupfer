@@ -10,7 +10,8 @@ from xdg import DesktopEntry as desktop
 
 
 from kupfer import config, pretty, utils, icons, version
-from kupfer.core import settings, plugins
+from kupfer import scheduler, kupferstring
+from kupfer.core import settings, plugins, relevance
 from kupfer.ui import keybindings
 
 class PreferencesWindowController (pretty.OutputMixin):
@@ -41,6 +42,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.buttonremovedirectory = builder.get_object("buttonremovedirectory")
 		checkautostart = builder.get_object("checkautostart")
 		checkstatusicon = builder.get_object("checkstatusicon")
+		self.entry_plugins_filter = builder.get_object('entry_plugins_filter')
 
 		setctl = settings.GetSettingsController()
 		self.entrykeybinding.set_text(setctl.get_keybinding())
@@ -88,17 +90,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 		#self.table.append_column(icon_col)
 		self.table.append_column(col)
 
+		self.plugin_list_timer = scheduler.Timer()
 		self.plugin_info = utils.locale_sort(plugins.get_plugin_info(),
 				key= lambda rec: rec["localized_name"])
-		for info in self.plugin_info:
-			plugin_id = info["name"]
-			if setctl.get_plugin_is_hidden(plugin_id):
-				continue
-			enabled = setctl.get_plugin_enabled(plugin_id)
-			name = info["localized_name"]
-			desc = info["description"]
-			text = u"%s" % name
-			self.store.append((plugin_id, enabled, "kupfer-object", text))
+		self._refresh_plugin_list()
 		self.output_debug("Standard Plugins: %d" % len(self.store))
 		self.table.show()
 		self.pluglist_parent.add(self.table)
@@ -230,6 +225,46 @@ class PreferencesWindowController (pretty.OutputMixin):
 		pass
 	def on_closebutton_clicked(self, widget):
 		self.hide()
+
+	def _refresh_plugin_list(self):
+		self.store.clear()
+		setctl = settings.GetSettingsController()
+		s_filter = self.entry_plugins_filter.get_text()
+		us_filter = kupferstring.tounicode(s_filter).lower()
+
+		if us_filter:
+			self.plugin_list_timer.set_ms(300, self._show_focus_topmost_plugin)
+		else:
+			self.plugin_list_timer.invalidate()
+
+		for info in self.plugin_info:
+			plugin_id = info["name"]
+			if setctl.get_plugin_is_hidden(plugin_id):
+				continue
+			enabled = setctl.get_plugin_enabled(plugin_id)
+			name = info["localized_name"]
+			folded_name = kupferstring.tofolded(name)
+			desc = info["description"]
+			text = u"%s" % name
+
+			if us_filter:
+				name_score = relevance.score(name, us_filter)
+				fold_name_score = relevance.score(folded_name, us_filter)
+				desc_score = relevance.score(desc, us_filter)
+				if not name_score and not fold_name_score and desc_score < 0.9:
+					continue
+
+			self.store.append((plugin_id, enabled, "kupfer-object", text))
+
+	def _show_focus_topmost_plugin(self):
+		try:
+			first_row = iter(self.store).next()
+		except StopIteration:
+			return
+		plugin_id = first_row[0]
+		self.show_focus_plugin(plugin_id)
+
+
 	def on_checkplugin_toggled(self, cell, path):
 		checkcol = self.columns.index("enabled")
 		plugin_id = self._id_for_table_path(path)
@@ -510,6 +545,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 			return
 		it = self.dir_store.get_iter(curpath)
 		self.remove_directory_model(it, store=True)
+
+	def on_entry_plugins_filter_changed(self, widget):
+		self._refresh_plugin_list()
 
 	def dir_table_cursor_changed(self, table):
 		curpath, curcol = table.get_cursor()
