@@ -1,7 +1,16 @@
+# encoding: utf-8
 from __future__ import with_statement
-import os
-import sqlite3
+
+__kupfer_name__ = _("Firefox Bookmarks")
+__kupfer_sources__ = ("BookmarksSource", )
+__description__ = _("Index of Firefox bookmarks")
+__version__ = "2010-01-23"
+__author__ = "Ulrik, William Friesen, Karol Będkowski"
+
 from contextlib import closing
+import os
+import itertools
+import sqlite3
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
@@ -10,11 +19,6 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import plugin_support
 from kupfer.plugin import firefox_support
 
-__kupfer_name__ = _("Firefox Bookmarks")
-__kupfer_sources__ = ("BookmarksSource", )
-__description__ = _("Index of Firefox bookmarks")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,
@@ -25,6 +29,7 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 	def __init__(self):
 		super(BookmarksSource, self).__init__(_("Firefox Bookmarks"))
 		self._history = []
+		self._version = 2
 
 	def initialize(self):
 		ff_home = firefox_support.get_firefox_home_file('')
@@ -35,44 +40,49 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 	def _get_ffx3_history(self):
 		"""Query the firefox places database"""
-		from firefox_support import get_firefox_home_file
-		fpath = get_firefox_home_file("places.sqlite")
-		if fpath and os.path.isfile(fpath):
-			try:
-				with closing(sqlite3.connect(fpath, timeout=1)) as conn:
-					c = conn.cursor()
-					c.execute("""SELECT DISTINCT(url), title
-							FROM moz_places
-							WHERE visit_count > 100
-							ORDER BY visit_count DESC
-							LIMIT 25""")
-					self._history = [UrlLeaf(url, title) for url, title in c ]
-			except Exception, exc:
-				# Something is wrong with the database
-				self.output_error(exc)
+		min_visit_count = 100
+		max_history_items = 25
+		fpath = firefox_support.get_firefox_home_file("places.sqlite")
+		if not (fpath and os.path.isfile(fpath)):
+			return
+		try:
+			self.output_debug("Reading history from", fpath)
+			with closing(sqlite3.connect(fpath, timeout=1)) as conn:
+				c = conn.cursor()
+				c.execute("""SELECT DISTINCT(url), title
+				             FROM moz_places
+				             WHERE visit_count > ?
+				             ORDER BY visit_count DESC
+				             LIMIT ?""",
+				             (min_visit_count, max_history_items))
+				return [UrlLeaf(url, title) for url, title in c]
+		except sqlite3.Error, exc:
+			# Something is wrong with the database
+			self.output_error(exc)
 
-	def _all_items(self, bookmarks):
-		self._get_ffx3_history()
-		return list(bookmarks) + self._history
-	
-	def _get_ffx3_items(self, fpath):
+	def _get_ffx3_bookmarks(self, fpath):
 		"""Parse Firefox' .json bookmarks backups"""
-		from firefox3_support import get_bookmarks
+		from kupfer.plugin import firefox3_support
 		self.output_debug("Parsing", fpath)
-		bookmarks = get_bookmarks(fpath)
+		bookmarks = firefox3_support.get_bookmarks(fpath)
 		for book in bookmarks:
 			yield UrlLeaf(book["uri"], book["title"])
 
-	def _get_ffx2_items(self, fpath):
+	def _get_ffx2_bookmarks(self, fpath):
 		"""Parse Firefox' bookmarks.html"""
-		from firefox_support import get_bookmarks
 		self.output_debug("Parsing", fpath)
-		bookmarks = get_bookmarks(fpath)
+		bookmarks = firefox_support.get_bookmarks(fpath)
 		for book in bookmarks:
 			yield UrlLeaf(book["href"], book["title"])
 
 	def get_items(self):
-		import firefox_support
+		# try to update the history file
+		history_items = self._get_ffx3_history()
+		if history_items is not None:
+			self._history = history_items
+
+		# now try reading JSON bookmark backups,
+		# with html bookmarks as backup
 		dirloc = firefox_support.get_firefox_home_file("bookmarkbackups")
 		fpath = None
 		if dirloc:
@@ -83,18 +93,21 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 		if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
 			try:
-				return self._all_items(self._get_ffx3_items(fpath))
+				json_bookmarks = list(self._get_ffx3_bookmarks(fpath))
 			except Exception, exc:
 				# Catch JSON parse errors
 				# different exception for cjson and json
 				self.output_error(exc)
+			else:
+				return itertools.chain(self._history, json_bookmarks)
 
 		fpath = firefox_support.get_firefox_home_file("bookmarks.html")
 		if fpath:
-			return self._all_items(self._get_ffx2_items(fpath))
-
-		self.output_error("No firefox bookmarks file found")
-		return []
+			html_bookmarks = self._get_ffx2_bookmarks(fpath)
+		else:
+			self.output_error("No firefox bookmarks file found")
+			html_bookmarks = []
+		return itertools.chain(self._history, html_bookmarks)
 
 	def get_description(self):
 		return _("Index of Firefox bookmarks")
