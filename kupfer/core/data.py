@@ -681,14 +681,18 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		This will trigger .select() with None if items
 		are not valid..
 		"""
-		for paneenum, pane in ((SourcePane, self.source_pane),
-				(ActionPane, self.action_pane)):
-			sel = pane.get_selection()
-			if not sel:
-				break
-			if hasattr(sel, "is_valid") and not sel.is_valid():
-				self.emit("pane-reset", paneenum, None)
-				self.select(paneenum, None)
+		def valid_check(obj):
+			return not (hasattr(obj, "is_valid") and not obj.is_valid())
+
+		for pane, panectl in self._panectl_table.items():
+			sel = panectl.get_selection()
+			if not valid_check(sel):
+				self.emit("pane-reset", pane, None)
+				self.select(pane, None)
+			if self._has_object_stack(pane):
+				new_stack = [o for o in panectl.object_stack if valid_check(o)]
+				if new_stack != panectl.object_stack:
+					self._set_object_stack(pane, new_stack)
 
 	def browse_up(self, pane):
 		"""Try to browse up to previous sources, from current
@@ -794,6 +798,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def _has_object_stack(self, pane):
 		return pane in (SourcePane, ObjectPane)
+
+	def _set_object_stack(self, pane, newstack):
+		panectl = self._panectl_table[pane]
+		panectl.object_stack[:] = list(newstack)
+		self.emit("object-stack-changed", pane)
 
 	def object_stack_push(self, pane, object_):
 		"""
