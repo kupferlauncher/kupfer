@@ -1150,7 +1150,7 @@ class Interface (gobject.GObject):
 		"""
 		val = bool(val) and self.get_can_enter_text_mode()
 		self._is_text_mode = val
-		self.update_text_mode()
+		gobject.idle_add(self.update_text_mode)
 		self.reset()
 		return val
 
