@@ -40,7 +40,6 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 	def _get_ffx3_history(self):
 		"""Query the firefox places database"""
-		min_visit_count = 100
 		max_history_items = 25
 		fpath = firefox_support.get_firefox_home_file("places.sqlite")
 		if not (fpath and os.path.isfile(fpath)):
@@ -51,10 +50,9 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 				c = conn.cursor()
 				c.execute("""SELECT DISTINCT(url), title
 				             FROM moz_places
-				             WHERE visit_count > ?
 				             ORDER BY visit_count DESC
 				             LIMIT ?""",
-				             (min_visit_count, max_history_items))
+				             (max_history_items,))
 				return [UrlLeaf(url, title) for url, title in c]
 		except sqlite3.Error, exc:
 			# Something is wrong with the database
