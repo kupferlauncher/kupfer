@@ -43,7 +43,7 @@ class CommandTextSource (TextSource):
 	def get_rank(self):
 		return 80
 
-	def get_items(self, text):
+	def get_text_items(self, text):
 		if not text.strip():
 			return
 		if len(text.splitlines()) > 1:
