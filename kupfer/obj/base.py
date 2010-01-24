@@ -421,8 +421,11 @@ class TextSource (KupferObject):
 		return 20
 
 	def get_items(self, text):
-		"""Get leaves for unicode string @text"""
 		return ()
+
+	def get_text_items(self, text):
+		"""Get leaves for unicode string @text"""
+		return self.get_items(text)
 
 	def has_parent(self):
 		return False
