@@ -226,11 +226,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 
-	def _refresh_plugin_list(self):
+	def _refresh_plugin_list(self, us_filter=None):
+		"List plugins that pass text filter @us_filter or list all if None"
 		self.store.clear()
 		setctl = settings.GetSettingsController()
-		s_filter = self.entry_plugins_filter.get_text()
-		us_filter = kupferstring.tounicode(s_filter).lower()
 
 		if us_filter:
 			self.plugin_list_timer.set_ms(300, self._show_focus_topmost_plugin)
@@ -547,7 +546,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.remove_directory_model(it, store=True)
 
 	def on_entry_plugins_filter_changed(self, widget):
-		self._refresh_plugin_list()
+		s_filter = widget.get_text()
+		us_filter = kupferstring.tounicode(s_filter).lower()
+		self._refresh_plugin_list(us_filter)
 
 	def dir_table_cursor_changed(self, table):
 		curpath, curcol = table.get_cursor()
@@ -562,7 +563,12 @@ class PreferencesWindowController (pretty.OutputMixin):
 		"""
 		Open and show information about plugin @plugin_id
 		"""
-		table_path = self._table_path_for_id(plugin_id)
+		try:
+			table_path = self._table_path_for_id(plugin_id)
+		except ValueError:
+			self.entry_plugins_filter.set_text(u"")
+			self._refresh_plugin_list()
+			table_path = self._table_path_for_id(plugin_id)
 		self.table.set_cursor(table_path)
 		self.table.scroll_to_cell(table_path)
 		# FIXME: Revisit if we add new pages to the GtkNotebook
