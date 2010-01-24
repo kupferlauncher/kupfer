@@ -158,7 +158,7 @@ class _NonpersistentToken (object):
 	def __nonzero__(self):
 		return bool(self.object)
 	def __reduce__(self):
-		return (eval, ("None", ))
+		return (sum, ((), None))
 
 class Leaf (KupferObject):
 	"""
