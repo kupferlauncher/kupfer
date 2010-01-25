@@ -1,4 +1,11 @@
 # encoding: utf-8
+__kupfer_name__ = _("D-Bus Introspection")
+__kupfer_sources__ = ("NameSource", )
+__kupfer_actions__ = ()
+__description__ = ""
+__version__ = ""
+__author__ = ("Ulrik Sverdrup, "
+              "Stuart Langridge (introspection)")
 
 try:
 	# ast module only available in Python 2.6
@@ -16,13 +23,6 @@ from kupfer import pretty
 
 from . import find
 
-__kupfer_name__ = _("D-Bus Introspection")
-__kupfer_sources__ = ("NameSource", )
-__kupfer_actions__ = ()
-__description__ = ""
-__version__ = ""
-__author__ = ("Ulrik Sverdrup, "
-              "Stuart Langridge (introspection)")
 
 plugin_support.check_dbus_connection()
 
