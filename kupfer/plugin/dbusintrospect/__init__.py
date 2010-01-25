@@ -175,7 +175,7 @@ class Call (Action):
 		name, arguments = leaf.object
 		method = dbus_iface.get_dbus_method(name)
 		ret = method()
-		if ret:
+		if ret is not None:
 			return leaf_from_result(ret)
 
 class CallWithArguments (Action):
@@ -192,7 +192,7 @@ class CallWithArguments (Action):
 		method = dbus_iface.get_dbus_method(name)
 		parsed_arguments = parse_argument_tuple(iobj.object)
 		ret = method(*parsed_arguments)
-		if ret:
+		if ret is not None:
 			return leaf_from_result(ret)
 	
 	def requires_object(self):
