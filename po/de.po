@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-01-17 18:48+0000\n"
-"PO-Revision-Date: 2010-01-17 18:42+0100\n"
+"POT-Creation-Date: 2010-01-18 04:52+0000\n"
+"PO-Revision-Date: 2010-01-27 21:13+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,16 +19,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/kupfer.desktop.in.in.h:1
+#: ../data/kupfer.desktop.in.h:1
 msgid "Application Launcher"
 msgstr "Anwendungsstarter"
 
-#: ../data/kupfer.desktop.in.in.h:2
+#: ../data/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr ""
-"Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
+msgstr "Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
 
-#: ../data/kupfer.desktop.in.in.h:3 ../kupfer/ui/browser.py:1415
+#: ../data/kupfer.desktop.in.h:3 ../kupfer/ui/browser.py:1415
 #: ../kupfer/ui/browser.py:1447 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
 msgid "Kupfer"
@@ -242,8 +241,8 @@ msgstr ""
 "finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit diesem Programm sollten Sie außerdem eine Kopie der GNU General Public "
 "License erhalten\n"
@@ -1518,7 +1517,7 @@ msgstr "Automatisch drehen"
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "JPEG anhand der EXIF-Metadaten drehen"
 
-#: ../kupfer/plugin/kupfer_plugins.py:11 ../kupfer/plugin/kupfer_plugins.py:84
+#: ../kupfer/plugin/kupfer_plugins.py:11 ../kupfer/plugin/kupfer_plugins.py:82
 msgid "Kupfer Plugins"
 msgstr "Kupfer-Plugins"
 
@@ -1526,19 +1525,19 @@ msgstr "Kupfer-Plugins"
 msgid "Access Kupfer's plugin list in Kupfer"
 msgstr "Zugriff auf die Kupfer-Pluginliste in Kupfer"
 
-#: ../kupfer/plugin/kupfer_plugins.py:23
+#: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
 msgstr "Informationen anzeigen"
 
-#: ../kupfer/plugin/kupfer_plugins.py:35
+#: ../kupfer/plugin/kupfer_plugins.py:31
 msgid "Show Source Code"
 msgstr "Quellcode anzeigen"
 
-#: ../kupfer/plugin/kupfer_plugins.py:78
+#: ../kupfer/plugin/kupfer_plugins.py:76
 msgid "enabled"
 msgstr "aktiviert"
 
-#: ../kupfer/plugin/kupfer_plugins.py:78
+#: ../kupfer/plugin/kupfer_plugins.py:76
 msgid "disabled"
 msgstr "deaktiviert"
 
@@ -1559,6 +1558,11 @@ msgstr "Groß-/Kleinschreibung während der Suche ignorieren"
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Ergebnisse für »%s«"
+
+#: ../kupfer/plugin/notification.py:5 ../kupfer/plugin/notification.py:31
+#| msgid "Show icon in notification area"
+msgid "Show Notification"
+msgstr "Benachrichtigung anzeigen"
 
 #: ../kupfer/plugin/openoffice.py:10
 msgid "OpenOffice"
@@ -1994,8 +1998,8 @@ msgid ""
 "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
 "Source Edition."
 msgstr ""
-"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun "
-"als auch die Open Source Edition."
+"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun als "
+"auch die Open Source Edition."
 
 #: ../kupfer/plugin/virtualbox/__init__.py:41
 msgid "Power On"
