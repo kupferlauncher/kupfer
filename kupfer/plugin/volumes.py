@@ -1,13 +1,15 @@
-from kupfer.objects import Leaf, Action, Source
-from kupfer import objects, utils
-
-import gio
-
 __kupfer_name__ = _("Volumes and Disks")
 __kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import gio
+
+from kupfer.objects import Leaf, Action, Source
+from kupfer.obj.fileactions import Open
+from kupfer.obj.sources import DirectorySource
+
 
 class Volume (Leaf):
 	def __init__(self, volume):
@@ -17,7 +19,7 @@ class Volume (Leaf):
 		super(Volume, self).__init__(obj=path, name=volume.get_name())
 
 	def get_actions(self):
-		yield objects.OpenDirectory()
+		yield Open()
 		if self.volume.can_eject():
 			yield Eject()
 		elif self.volume.can_unmount():
@@ -26,7 +28,7 @@ class Volume (Leaf):
 	def has_content(self):
 		return True
 	def content_source(self, alternate=False):
-		return objects.DirectorySource(self.object, show_hidden=alternate)
+		return DirectorySource(self.object, show_hidden=alternate)
 
 	def is_valid(self):
 		vm = gio.volume_monitor_get()
