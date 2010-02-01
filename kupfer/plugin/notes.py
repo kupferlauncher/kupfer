@@ -8,6 +8,7 @@ __kupfer_sources__ = ("NotesSource", )
 __kupfer_actions__ = (
 		"AppendToNote",
 		"CreateNote",
+		"GetNoteSearchResults",
 	)
 __description__ = _("Gnote or Tomboy notes")
 __version__ = ""
@@ -134,6 +135,48 @@ class CreateNote (Action):
 		return _("Create a new note from this text")
 	def get_icon_name(self):
 		return "gtk-new"
+
+class GetNoteSearchResults (Action):
+	def __init__(self):
+		Action.__init__(self, ("Get Note Search Results..."))
+
+	def is_factory(self):
+		return True
+
+	def activate(self, leaf):
+		query = leaf.object
+		return NoteSearchSource(query)
+
+	def item_types(self):
+		yield TextLeaf
+
+	def get_description(self):
+		return _("Show search results for this query")
+
+	def get_icon_name(self):
+		return "gtk-search"
+
+class NoteSearchSource (Source):
+	def __init__(self, query):
+		self.query = query.lower()
+		Source.__init__(self, _("Notes"))
+
+	def get_items(self):
+		notes = _get_notes_interface(activate=True)
+		noteuris = notes.SearchNotes(self.query, False)
+		for noteuri in noteuris:
+			title = notes.GetNoteTitle(noteuri)
+			date = notes.GetNoteChangeDate(noteuri)
+			yield Note(noteuri, title, date)
+
+	def repr_key(self):
+		return self.query
+
+	def get_gicon(self):
+		return icons.get_gicon_with_fallbacks(None, PROGRAM_IDS)
+
+	def provides(self):
+		yield Note
 
 class Note (Leaf):
 	"""The Note Leaf's represented object is the Note URI"""
