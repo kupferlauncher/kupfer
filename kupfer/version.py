@@ -18,6 +18,7 @@ AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 Karol Będkowski
 Francesco Marella
 Chmouel Boudjnah
+Horia V. Corcalciuc
 """.splitlines()
 
 PACKAGERS=u"""
@@ -26,6 +27,7 @@ Francesco Marella (Ubuntu PPA)
 """.splitlines()
 
 TRANSLATORS=u"""
+Marek Černocký (cs)
 Thibaud Roth (de)
 Mario Blättermann (de)
 Leandro Leites (es)
@@ -51,7 +53,7 @@ TRANSLATOR_CREDITS = _("translator-credits")
 WEBSITE = u"http://kaizer.se/wiki/kupfer/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = u"""Copyright © 2007--2009 Ulrik Sverdrup"""
+COPYRIGHT = u"""Copyright © 2007--2010 Ulrik Sverdrup with others"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify
