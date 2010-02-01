@@ -346,7 +346,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			import_error_localized = _("Python module '%s' is needed") % u"\\1"
 			import_error_pat = u"No module named ([^\s]+)"
 			if re.match(import_error_pat, error):
-				error = re.sub("No module named ([^\s]+)",
+				error = re.sub(import_error_pat,
 						import_error_localized,
 						error, count=1)
 			label = gtk.Label()
@@ -354,6 +354,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 			label.set_markup(u"<b>%s</b>\n%s" %
 					(_("Plugin could not be read due to an error:"), error))
 			label.set_selectable(True)
+			about.pack_start(label, False)
+		elif not plugins.is_plugin_loaded(plugin_id):
+			label = gtk.Label()
+			label.set_alignment(0, 0)
+			label.set_text(u"(%s)" % _("disabled"))
 			about.pack_start(label, False)
 
 		wid = self._make_plugin_info_widget(plugin_id)

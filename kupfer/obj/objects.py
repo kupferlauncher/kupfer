@@ -157,15 +157,15 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 		# finish will raise InvalidDataError on invalid item
 		self.finish()
 		Leaf.__init__(self, self.object, self.object.get_name())
-		self.name_aliases.update(self._get_aliases())
+		self._add_aliases()
 
-	def _get_aliases(self):
+	def _add_aliases(self):
 		# find suitable alias
 		# use package name: non-extension part of ID
 		lowername = unicode(self).lower()
 		package_name = self._get_package_name()
 		if package_name and package_name not in lowername:
-			yield package_name
+			self.kupfer_add_alias(package_name)
 
 	def __getstate__(self):
 		self.init_item_id = self.object and self.object.get_id()

@@ -1,3 +1,11 @@
+__kupfer_name__ = _("Locate Files")
+__kupfer_actions__ = (
+		"Locate",
+	)
+__description__ = _("Search filesystem using locate")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 import subprocess
 
@@ -7,13 +15,6 @@ from kupfer import icons, plugin_support
 from kupfer.obj.objects import ConstructFileLeaf
 
 
-__kupfer_name__ = _("Locate Files")
-__kupfer_actions__ = (
-		"Locate",
-	)
-__description__ = _("Search filesystem using locate")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "ignore_case",

@@ -1,9 +1,6 @@
 """
 This is a plugin that should do everything wrong, for debugging Purposes
 """
-
-from kupfer.objects import Leaf, Action, Source
-
 __kupfer_name__ = u"Evil Plugin"
 __kupfer_sources__ = (
 	"EvilSource",
@@ -12,6 +9,9 @@ __kupfer_sources__ = (
 __description__ = u"Evil for debugging purposes (necessary evil)"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+
+from kupfer.objects import Leaf, Action, Source
 
 class EvilError (Exception):
 	pass

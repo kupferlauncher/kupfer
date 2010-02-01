@@ -1,4 +1,9 @@
 # -*- coding: UTF-8 -*-
+__kupfer_name__ = _("Shorten Links")
+__kupfer_actions__ = ("ShortenLinks", )
+__description__ = _("Create short aliases of long URLs")
+__version__ = "2009-12-24"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import re
 import httplib
@@ -6,12 +11,6 @@ import urllib
 
 from kupfer.objects import Leaf, Action, Source, UrlLeaf
 from kupfer import pretty
-
-__kupfer_name__ = _("Shorten Links")
-__kupfer_actions__ = ("ShortenLinks", )
-__description__ = _("Create short aliases of long URLs")
-__version__ = "2009-12-24"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 _HEADER = {

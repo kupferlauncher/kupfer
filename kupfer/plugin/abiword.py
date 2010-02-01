@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Abiword")
+__kupfer_sources__ = ("RecentsSource", )
+__description__ = _("Recently used documents in Abiword")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 import xml.etree.cElementTree as ElementTree
 
@@ -8,11 +14,6 @@ from kupfer.objects import (Leaf, Action, Source,
 from kupfer import objects
 from kupfer import launch, icons
 
-__kupfer_name__ = _("Abiword")
-__kupfer_sources__ = ("RecentsSource", )
-__description__ = _("Recently used documents in Abiword")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 def get_abiword_files(xmlpth, application="abiword"):
 	"""

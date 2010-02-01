@@ -26,6 +26,9 @@ SourceActionMode, SourceActionObjectMode = (1,2)
 def identity(x):
 	return x
 
+def is_iterable(obj):
+	return hasattr(obj, "__iter__")
+
 def dress_leaves(seq, action):
 	"""yield items of @seq "dressed" by the source controller"""
 	sc = GetSourceController()
@@ -80,19 +83,22 @@ class Searcher (object):
 		match_iters = []
 		for src in sources:
 			fixedrank = 0
+			can_cache = True
 			rankables = None
-			if isinstance(src, base.Source):
+			if is_iterable(src):
+				items = item_check(src)
+				can_cache = False
+			else:
+				# Look in source cache for stored rankables
 				try:
-					# stored rankables
 					rankables = self._source_cache[src]
 				except KeyError:
-					# check uncached items
-					items = item_check(src.get_leaves())
-			elif isinstance(src, base.TextSource):
-				items = item_check(src.get_items(key))
-				fixedrank = src.get_rank()
-			else:
-				items = item_check(src)
+					try:
+						items = item_check(src.get_text_items(key))
+						fixedrank = src.get_rank()
+						can_cache = False
+					except AttributeError:
+						items = item_check(src.get_leaves())
 
 			if not rankables:
 				rankables = search.make_rankables(items)
@@ -103,7 +109,7 @@ class Searcher (object):
 				elif key:
 					rankables = search.score_objects(rankables, key)
 				matches = search.bonus_objects(rankables, key)
-				if isinstance(src, base.Source):
+				if can_cache:
 					# we fork off a copy of the iterator to save
 					matches, self._source_cache[src] = itertools.tee(matches)
 			else:
@@ -375,7 +381,7 @@ class SecondaryObjectPane (LeafPane):
 		"""
 		self.latest_key = key
 		sources = []
-		if not text_mode or isinstance(self.get_source(), base.TextSource):
+		if not text_mode or hasattr(self.get_source(), "get_text_items"):
 			sources.append(self.get_source())
 		if key and self.is_at_source_root():
 			# Only use text sources when we are at root catalog

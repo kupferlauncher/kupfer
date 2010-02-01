@@ -1,3 +1,12 @@
+__kupfer_name__ = _("Audacious")
+__kupfer_sources__ = ("AudaciousSource", )
+__kupfer_actions__ = (
+		"Rescan",
+	)
+__description__ = _("Control Audacious playback and playlist")
+__version__ = "2009-12-15"
+__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>"
+
 import subprocess
 
 from kupfer.objects import Leaf, Source, Action
@@ -7,14 +16,6 @@ from kupfer import objects, icons, utils
 from kupfer import plugin_support
 from kupfer import kupferstring
 
-__kupfer_name__ = _("Audacious")
-__kupfer_sources__ = ("AudaciousSource", )
-__kupfer_actions__ = (
-		"Rescan",
-	)
-__description__ = _("Control Audacious playback and playlist")
-__version__ = "2009-12-15"
-__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

@@ -1,11 +1,3 @@
-import os
-# since "path" is a very generic name, you often forget..
-from os import path as os_path
-import subprocess
-
-from kupfer.objects import Leaf, Action, FileLeaf, TextLeaf
-from kupfer import utils, pretty
-
 __kupfer_name__ = _("Image Tools")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -18,6 +10,15 @@ __kupfer_actions__ = (
 __description__ = _("Image transformation tools")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import os
+# since "path" is a very generic name, you often forget..
+from os import path as os_path
+import subprocess
+
+from kupfer.objects import Leaf, Action, FileLeaf, TextLeaf
+from kupfer import utils, pretty
+
 
 class PredefinedSize (Leaf):
 	pass

@@ -1,3 +1,4 @@
+import os
 import sys
 from kupfer import pretty, config
 from kupfer.core import settings
@@ -15,13 +16,14 @@ info_attributes = [
 		"__author__",
 	]
 
+class NotEnabledError (Exception):
+	"Plugin may not be imported since it is not enabled"
+
 def get_plugin_ids():
 	"""Enumerate possible plugin ids;
 	return a sequence of possible plugin ids, not
 	guaranteed to be plugins"""
 	import pkgutil
-	import os
-
 	from kupfer import plugin
 
 	def is_plugname(plug):
@@ -62,7 +64,7 @@ def get_plugin_info():
 	"""
 	for plugin_name in sorted(get_plugin_ids()):
 		try:
-			plugin = import_plugin(plugin_name)
+			plugin = import_plugin_any(plugin_name)
 			if not plugin:
 				continue
 			plugin = vars(plugin)
@@ -95,7 +97,7 @@ def get_plugin_desc():
 	maxlen = 78
 	left_margin = 2 + idlen + 1 + verlen + 1
 	desc = []
-	for rec in get_plugin_info():
+	for rec in infos:
 		# Wrap the description and align continued lines
 		wrapped = textwrap.wrap(rec["description"], maxlen - left_margin)
 		description = (u"\n" + u" "*left_margin).join(wrapped)
@@ -107,82 +109,177 @@ def get_plugin_desc():
 			))
 	return "\n".join(desc)
 
-imported_plugins = {}
+_imported_plugins = {}
 
-def import_fake_plugin(modpath):
+def _truncate_code(code, find_attributes):
+	"Truncate @code where all of @find_attributes have been stored."
+	import dis
+	import types
+
+	found_info_attributes = set(find_attributes)
+	def _new_code(c, codestring):
+		newcode = types.CodeType(c.co_argcount,
+		                         c.co_nlocals,
+		                         c.co_stacksize,
+		                         c.co_flags,
+		                         codestring,
+		                         c.co_consts,
+		                         c.co_names,
+		                         c.co_varnames,
+		                         c.co_filename,
+		                         c.co_name,
+		                         c.co_firstlineno,
+		                         c.co_lnotab)
+		return newcode
+
+	none_index = list(code.co_consts).index(None)
+	i = 0
+	end = len(code.co_code)
+	while i < end:
+		if not found_info_attributes:
+			# Insert an instruction to return [None] right here
+			# then truncate the code at this point
+			endinstr = [
+				dis.opmap["LOAD_CONST"],
+				none_index & 255,
+				none_index >> 8,
+				dis.opmap["RETURN_VALUE"],
+			]
+			c = list(code.co_code)
+			c[i:] = map(chr, endinstr)
+			ncode = _new_code(code, ''.join(c))
+			return ncode
+
+		op = ord(code.co_code[i])
+		name = dis.opname[op]
+
+		if op >= dis.HAVE_ARGUMENT:
+			b1 = ord(code.co_code[i+1])
+			b2 = ord(code.co_code[i+2])
+			num = b2 * 256 + b1
+
+			if name == 'STORE_NAME':
+				global_name = code.co_names[num]
+				found_info_attributes.discard(global_name)
+
+			i += 3
+		else:
+			i += 1
+	pretty.print_debug(__name__, "Code used until end:", code)
+	return code
+
+def _import_plugin_fake(modpath, error=None):
 	"""
 	Return an object that has the plugin info attributes we can rescue
 	from a plugin raising on import.
+
+	If applicable, write in @error as the exception responsible
 	"""
 	import pkgutil
 
 	loader = pkgutil.get_loader(modpath)
 	if not loader:
 		return None
-	env = {}
+	env = {
+		"__name__": modpath,
+		"__file__": loader.get_filename(),
+	}
+	code = _truncate_code(loader.get_code(), info_attributes)
 	try:
-		eval(loader.get_code(), env)
+		eval(code, env)
 	except Exception, exc:
-		error = unicode(exc)
-	else:
-		error = None
-		pretty.print_error(__name__, "Fake plugin for good plugin", modpath)
+		pretty.print_debug(__name__, "Loading", modpath, exc)
+	errmsg = error and unicode(error)
 	attributes = dict((k, env.get(k)) for k in info_attributes)
-	return FakePlugin(modpath, attributes, error)
+	attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
+	return FakePlugin(modpath, attributes, errmsg)
 
-def import_plugin(name):
+def _import_hook_fake(pathcomps):
+	modpath = ".".join(pathcomps)
+	return _import_plugin_fake(modpath)
+
+def _import_hook_true(pathcomps):
+	"""@pathcomps path components to the import"""
+	path = ".".join(pathcomps)
+	fromlist = pathcomps[-1:]
+	try:
+		setctl = settings.GetSettingsController()
+		if not setctl.get_plugin_enabled(pathcomps[-1]):
+			raise NotEnabledError("%s is not enabled" % pathcomps[-1])
+		plugin = __import__(path, fromlist=fromlist)
+	except ImportError, exc:
+		# Try to find a fake plugin if it exists
+		plugin = _import_plugin_fake(path, error=exc)
+		if not plugin:
+			raise
+		pretty.print_error(__name__, "Could not import plugin '%s': %s" %
+				(plugin.__name__, exc))
+	else:
+		pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
+		pretty.print_debug(__name__, "  from %s" % plugin.__file__)
+	return plugin
+
+def _import_plugin_true(name):
 	"""Try to import the plugin from the package, 
 	and then from our plugin directories in $DATADIR
 	"""
-	if name in imported_plugins:
-		return imported_plugins[name]
-	def importit(pathcomps):
-		"""@pathcomps path components to the import"""
-		path = ".".join(pathcomps)
-		fromlist = pathcomps[-1:]
-		try:
-			plugin = __import__(path, fromlist=fromlist)
-		except ImportError, exc:
-			# Try to find a fake plugin if it exists
-			plugin = import_fake_plugin(path)
-			if not plugin:
-				raise
-			pretty.print_error(__name__, "Could not import plugin '%s': %s" %
-					(plugin.__name__, exc))
-		else:
-			pretty.print_debug(__name__, "Loading %s" % plugin.__name__)
-			pretty.print_debug(__name__, "  from %s" % plugin.__file__)
-		return plugin
-
 	plugin = None
 	try:
-		try:
-			plugin = importit(("kupfer", "plugin", name))
-		except ImportError, e:
-			if name not in e.args[0]:
-				raise
-			oldpath = sys.path
-			try:
-				# Look in datadir kupfer/plugins for plugins
-				# (and in current directory)
-				extra_paths = list(config.get_data_dirs("plugins"))
-				sys.path = extra_paths + sys.path
-				plugin = importit((name,))
-			finally:
-				sys.path = oldpath
-	except ImportError, e:
+		plugin = _staged_import(name, _import_hook_true)
+	except ImportError:
 		# Reraise to send this up
+		raise
+	except NotEnabledError:
 		raise
 	except Exception, e:
 		# catch any other error for plugins and write traceback
 		import traceback
 		traceback.print_exc()
 		pretty.print_error(__name__, "Could not import plugin '%s'" % name)
-	finally:
-		# store nonexistant plugins as None here
-		imported_plugins[name] = plugin
 	return plugin
 
+def _staged_import(name, import_hook):
+	"Import first from kupfer.plugin, then from plugins data directories"
+	plugin = None
+	try:
+		plugin = import_hook(("kupfer", "plugin", name))
+	except ImportError, e:
+		if name not in e.args[0]:
+			raise
+
+	if not plugin:
+		oldpath = sys.path
+		try:
+			# Look in datadir kupfer/plugins for plugins
+			# (and in current directory)
+			extra_paths = list(config.get_data_dirs("plugins"))
+			sys.path = extra_paths + sys.path
+			plugin = import_hook((name,))
+		finally:
+			sys.path = oldpath
+	return plugin
+
+
+def import_plugin(name):
+	if name in _imported_plugins:
+		return _imported_plugins[name]
+	plugin = None
+	try:
+		plugin = _import_plugin_true(name)
+	except NotEnabledError:
+		plugin = _staged_import(name, _import_hook_fake)
+	finally:
+		# store nonexistant plugins as None here
+		_imported_plugins[name] = plugin
+	return plugin
+
+def import_plugin_any(name):
+	if name in _imported_plugins:
+		return _imported_plugins[name]
+	return _staged_import(name, _import_hook_fake)
+
+
+# Plugin Attributes
 def get_plugin_attributes(plugin_name, attrs, warn=False):
 	"""Generator of the attributes named @attrs
 	to be found in plugin @plugin_name
@@ -228,6 +325,12 @@ def load_plugin_sources(plugin_name, attr=sources_attribute, instantiate=True):
 		else:
 			pretty.print_info(__name__, "Source not found for %s" % plugin_name)
 
+
+# Plugin Initialization & Error
+def is_plugin_loaded(plugin_name):
+	return (plugin_name in _imported_plugins and
+			not get_plugin_attribute(plugin_name, "is_fake_plugin"))
+
 def initialize_plugin(plugin_name):
 	"""Initialize plugin.
 	Find settings attribute if defined, and initialize it
@@ -248,3 +351,4 @@ def get_plugin_error(plugin_name):
 			return plugin.error_message
 	except ImportError, e:
 		return "'%s' is not a plugin" % plugin_name
+

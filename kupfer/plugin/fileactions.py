@@ -1,12 +1,3 @@
-import gio
-import os
-# since "path" is a very generic name, you often forget..
-from os import path as os_path
-
-from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
-from kupfer import utils, pretty
-from kupfer import plugin_support
-
 __kupfer_name__ = _("File Actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -22,6 +13,16 @@ __kupfer_actions__ = (
 __description__ = _("More file actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import gio
+import os
+# since "path" is a very generic name, you often forget..
+from os import path as os_path
+
+from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
+from kupfer import utils, pretty
+from kupfer import plugin_support
+
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

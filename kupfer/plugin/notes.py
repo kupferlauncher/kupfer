@@ -3,6 +3,16 @@ It *should* be possible to support Tomboy and Gnote equally since
 they support the same DBus protocol. This plugin takes this assumption.
 """
 
+__kupfer_name__ = _("Notes")
+__kupfer_sources__ = ("NotesSource", )
+__kupfer_actions__ = (
+		"AppendToNote",
+		"CreateNote",
+	)
+__description__ = _("Gnote or Tomboy notes")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 import time
 import xml.sax.saxutils
@@ -15,18 +25,8 @@ from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
 from kupfer import textutils
 
-__kupfer_name__ = _("Notes")
-__kupfer_sources__ = ("NotesSource", )
-__kupfer_actions__ = (
-		"AppendToNote",
-		"CreateNote",
-	)
-__description__ = _("Gnote or Tomboy notes")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 PROGRAM_IDS = ["gnote", "tomboy"]
-
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "notes_application",

@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import with_statement
+__kupfer_name__ = _("Thunderbird")
+__kupfer_sources__ = ("ContactsSource", )
+__kupfer_actions__ = ("NewMailAction", )
+__description__ = _("Thunderbird/Icedove Contacts and Actions")
+__version__ = "2009-12-13"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 
@@ -14,12 +20,6 @@ from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from
 
 from kupfer.plugin import thunderbird_support as support
 
-__kupfer_name__ = _("Thunderbird")
-__kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = ("NewMailAction", )
-__description__ = _("Thunderbird/Icedove Contacts and Actions")
-__version__ = "2009-12-13"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 

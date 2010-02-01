@@ -1,13 +1,14 @@
-from kupfer.objects import Leaf, Action, Source
-from kupfer import objects, utils
-
-import gio
-
 __kupfer_name__ = _("Volumes and Disks")
 __kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+from kupfer.objects import Leaf, Action, Source
+from kupfer import objects, utils
+
+import gio
+
 
 class Volume (Leaf):
 	def __init__(self, volume):

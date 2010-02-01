@@ -1,3 +1,9 @@
+__kupfer_name__ = _("Clipboards")
+__kupfer_sources__ = ("ClipboardSource", )
+__description__ = _("Recent clipboards")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 from collections import deque
 
 import gtk
@@ -6,11 +12,6 @@ from kupfer.objects import Source, Action, TextLeaf, Leaf
 from kupfer import utils, plugin_support
 from kupfer.weaklib import gobject_connect_weakly
 
-__kupfer_name__ = _("Clipboards")
-__kupfer_sources__ = ("ClipboardSource", )
-__description__ = _("Recent clipboards")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

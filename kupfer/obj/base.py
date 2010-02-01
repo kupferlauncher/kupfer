@@ -61,9 +61,13 @@ class KupferObject (object):
 			name = self.__class__.__name__
 		self.name = tounicode(name)
 		folded_name = tofolded(self.name)
-		self.name_aliases = set()
-		if folded_name != self.name:
-			self.name_aliases.add(folded_name)
+		self.kupfer_add_alias(folded_name)
+
+	def kupfer_add_alias(self, alias):
+		if alias != unicode(self):
+			if not hasattr(self, "name_aliases"):
+				self.name_aliases = set()
+			self.name_aliases.add(alias)
 
 	def __str__(self):
 		return toutf8(self.name)
@@ -417,8 +421,11 @@ class TextSource (KupferObject):
 		return 20
 
 	def get_items(self, text):
-		"""Get leaves for unicode string @text"""
 		return ()
+
+	def get_text_items(self, text):
+		"""Get leaves for unicode string @text"""
+		return self.get_items(text)
 
 	def has_parent(self):
 		return False

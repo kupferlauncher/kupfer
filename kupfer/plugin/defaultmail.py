@@ -1,8 +1,3 @@
-from kupfer.objects import Action
-from kupfer.objects import TextLeaf, UrlLeaf, FileLeaf
-from kupfer.obj.contacts import ContactLeaf, email_from_leaf
-from kupfer import utils
-
 __kupfer_name__ = _("Default Email Client")
 __kupfer_actions__ = (
 	"NewMailAction",
@@ -11,6 +6,12 @@ __kupfer_actions__ = (
 __description__ = _("Compose email using the system's default mailto: handler")
 __version__ = "2010-01-12"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+from kupfer.objects import Action
+from kupfer.objects import TextLeaf, UrlLeaf, FileLeaf
+from kupfer.obj.contacts import ContactLeaf, email_from_leaf
+from kupfer import utils
+
 
 class NewMailAction(Action):
 	def __init__(self):

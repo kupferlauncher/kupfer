@@ -1,12 +1,3 @@
-import gtk
-
-from kupfer.objects import Leaf, Action, Source
-from kupfer.obj.sources import MultiSource
-from kupfer import objects
-from kupfer.obj.base import InvalidLeafError
-from kupfer import interface
-from kupfer import pretty
-
 __kupfer_name__ = u"Core"
 # The following attributes are updated later
 __kupfer_sources__ = ()
@@ -19,6 +10,16 @@ __kupfer_actions__ = (
 __description__ = u"Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import gtk
+
+from kupfer.objects import Leaf, Action, Source
+from kupfer.obj.sources import MultiSource
+from kupfer import objects
+from kupfer.obj.base import InvalidLeafError
+from kupfer import interface
+from kupfer import pretty
+
 
 def _is_debug():
 	# Return True if Kupfer is in debug mode

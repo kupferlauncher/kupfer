@@ -21,7 +21,7 @@ class BasicTextSource (TextSource):
 	def __init__(self):
 		TextSource.__init__(self, name=_("Text Matches"))
 
-	def get_items(self, text):
+	def get_text_items(self, text):
 		if not text:
 			return
 		yield TextLeaf(text)
@@ -36,7 +36,7 @@ class PathTextSource (TextSource):
 
 	def get_rank(self):
 		return 80
-	def get_items(self, text):
+	def get_text_items(self, text):
 		# Find directories or files
 		prefix = os.path.expanduser(u"~/")
 		ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
@@ -103,7 +103,7 @@ class URLTextSource (TextSource):
 
 	def get_rank(self):
 		return 75
-	def get_items(self, text):
+	def get_text_items(self, text):
 		# Only detect "perfect" URLs
 		text = text.strip()
 		components = list(urlparse.urlparse(text))

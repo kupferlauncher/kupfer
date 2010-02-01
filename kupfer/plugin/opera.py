@@ -1,6 +1,12 @@
 # -*- coding: UTF-8 -*-
 from __future__ import with_statement
 
+__kupfer_name__ = _("Opera Bookmarks")
+__kupfer_sources__ = ("BookmarksSource", )
+__description__ = _("Index of Opera bookmarks")
+__version__ = "2010-01-12"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 import codecs
 import os
 
@@ -8,12 +14,6 @@ from kupfer.objects import Source, UrlLeaf
 from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
 
-
-__kupfer_name__ = _("Opera Bookmarks")
-__kupfer_sources__ = ("BookmarksSource", )
-__description__ = _("Index of Opera bookmarks")
-__version__ = "2010-01-12"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,

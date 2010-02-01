@@ -1,3 +1,10 @@
+__kupfer_name__ = _("Document Templates")
+__kupfer_sources__ = ("TemplatesSource", )
+__kupfer_actions__ = ("CreateNewDocument", )
+__description__ = _("Create new documents from your templates")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 
 import gio
@@ -9,12 +16,6 @@ from kupfer.obj import helplib
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import plugin_support
 
-__kupfer_name__ = _("Document Templates")
-__kupfer_sources__ = ("TemplatesSource", )
-__kupfer_actions__ = ("CreateNewDocument", )
-__description__ = _("Create new documents from your templates")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 DEFAULT_TMPL_DIR = "~/Templates"
 

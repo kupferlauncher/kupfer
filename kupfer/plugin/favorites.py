@@ -1,3 +1,10 @@
+__kupfer_name__ = _("Favorites")
+__kupfer_sources__ = ("FavoritesSource", )
+__kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
+__description__ = _("Mark commonly used items and store objects for later use")
+__version__ = "2009-12-30"
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import collections
 import weakref
 
@@ -8,12 +15,6 @@ from kupfer import puid
 # NOTE: core import
 from kupfer.core import learn
 
-__kupfer_name__ = _("Favorites")
-__kupfer_sources__ = ("FavoritesSource", )
-__kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
-__description__ = _("Mark commonly used items and store objects for later use")
-__version__ = "2009-12-30"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class FavoritesSource (Source):
 	"""Keep a list of Leaves that the User may add and remove from"""

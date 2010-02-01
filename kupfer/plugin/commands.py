@@ -1,3 +1,10 @@
+__kupfer_name__ = _("Shell Commands")
+__kupfer_sources__ = ()
+__kupfer_text_sources__ = ("CommandTextSource",)
+__description__ = _("Run commandline programs")
+__version__ = ""
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 # import symbols in tight loop to local namespace
 from os import access, R_OK, X_OK, path
@@ -8,12 +15,6 @@ from kupfer.objects import TextSource, Leaf, TextLeaf
 from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
 
-__kupfer_name__ = _("Shell Commands")
-__kupfer_sources__ = ()
-__kupfer_text_sources__ = ("CommandTextSource",)
-__description__ = _("Run commandline programs")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class Command (TextLeaf):
 	def __init__(self, exepath, name):
@@ -42,7 +43,7 @@ class CommandTextSource (TextSource):
 	def get_rank(self):
 		return 80
 
-	def get_items(self, text):
+	def get_text_items(self, text):
 		if not text.strip():
 			return
 		if len(text.splitlines()) > 1:

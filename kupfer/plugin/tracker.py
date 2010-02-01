@@ -1,15 +1,3 @@
-import os
-from xml.etree.cElementTree import ElementTree
-
-import gobject
-
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
-from kupfer.obj.objects import ConstructFileLeaf
-from kupfer import utils, pretty
-from kupfer import plugin_support
-
-
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ("TrackerTagsSource", )
 __kupfer_text_sources__ = ()
@@ -23,6 +11,19 @@ __kupfer_actions__ = (
 __description__ = _("Tracker desktop search integration")
 __version__ = "2010-01-03"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+import os
+from xml.etree.cElementTree import ElementTree
+
+import gobject
+
+from kupfer.objects import Action, Source, Leaf
+from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
+from kupfer.obj.objects import ConstructFileLeaf
+from kupfer import utils, pretty
+from kupfer import plugin_support
+
+
 
 plugin_support.check_dbus_connection()
 

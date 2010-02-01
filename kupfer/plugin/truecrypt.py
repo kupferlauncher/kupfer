@@ -1,5 +1,12 @@
 # -*- coding: UTF-8 -*-
 
+__kupfer_name__ = _("TrueCrypt")
+__kupfer_sources__ = ("VolumeSource", )
+__kupfer_actions__ = ('DismountAll', 'MountFile')
+__description__ = _("Volumes from TrueCrypt history")
+__version__ = "2009-11-24"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 import os
 from xml.etree import cElementTree as ElementTree
 import gio
@@ -8,12 +15,6 @@ from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin,
 		AppLeafContentMixin, AppLeaf, FileLeaf)
 from kupfer import utils
 
-__kupfer_name__ = _("TrueCrypt")
-__kupfer_sources__ = ("VolumeSource", )
-__kupfer_actions__ = ('DismountAll', 'MountFile')
-__description__ = _("Volumes from TrueCrypt history")
-__version__ = "2009-11-24"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 _HISTORY_FILE = "~/.TrueCrypt/History.xml"
