@@ -7,134 +7,57 @@ from kupfer import utils
 
 from kupfer.obj.base import Action, InvalidDataError
 
+class NoDefaultApplicationError (Exception):
+	pass
+
 def get_actions_for_file(fileleaf):
 	acts = [RevealFile(), ]
-	app_actions = []
-	default = None
 	if fileleaf.is_dir():
 		acts.append(OpenTerminal())
-		default = OpenDirectory()
 	elif fileleaf.is_valid():
-		gfile = gio.File(fileleaf.object)
-		info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
-		content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
-		def_app = gio.app_info_get_default_for_type(content_type, False)
-		def_key = def_app.get_id() if def_app else None
-		apps_for_type = gio.app_info_get_all_for_type(content_type)
-		apps = {}
-		for info in apps_for_type:
-			key = info.get_id()
-			if key not in apps:
-				try:
-					is_default = (key == def_key)
-					app = OpenWith(info, is_default)
-					apps[key] = app
-				except InvalidDataError:
-					pass
-		if def_key:
-			if not def_key in apps:
-				pretty.print_debug("No default found for %s, but found %s" % (fileleaf, apps))
-			else:
-				app_actions.append(apps.pop(def_key))
-		# sort the non-default OpenWith actions
-		open_with_sorted = utils.locale_sort(apps.values())
-		app_actions.extend(open_with_sorted)
-
 		if fileleaf._is_executable():
 			acts.extend((Execute(), Execute(in_terminal=True)))
-		elif app_actions:
-			default = app_actions.pop(0)
-		else:
-			app_actions.append(Show())
-	if app_actions:
-		acts.extend(app_actions)
-	if default:
-		acts.insert(0, default)
-	return acts
+	return [Open()] + acts
 
-class OpenWith (Action):
-	"""
-	Open a FileLeaf with a specified application
-	"""
-
-	def __init__(self, desktop_item, is_default=False):
-		"""
-		Construct an "Open with application" item:
-
-		Application of @name should open, if
-		@is_default, it means it is the default app and
-		should only be styled "Open"
-		"""
-		if not desktop_item:
-			raise InvalidDataError
-
-		name = desktop_item.get_name()
-		action_name = _("Open") if is_default else _("Open with %s") % name
-		Action.__init__(self, action_name)
-		self.desktop_item = desktop_item
-		self.is_default = is_default
-
-		# add a name alias from the package name of the application
-		if is_default:
-			self.rank_adjust = 5
-			self.name_aliases.add(_("Open with %s") % name)
-		package_name, ext = os.path.splitext(self.desktop_item.get_id() or "")
-		if package_name:
-			self.name_aliases.add(_("Open with %s") % package_name)
-
-	def repr_key(self):
-		return self.desktop_item.get_id()
-
-	def activate(self, leaf):
-		self._activate(leaf.object)
-
-	def activate_multiple(self, leaves):
-		self._activate(*[L.object for L in leaves])
-
-	def _activate(self, *paths):
-		if not self.desktop_item.supports_files() and not self.desktop_item.supports_uris():
-			pretty.print_error(__name__, self.desktop_item,
-				"says it does not support opening files, still trying to open")
-		utils.launch_app(self.desktop_item, paths=paths)
-
-	def get_description(self):
-		if self.is_default:
-			return _("Open with %s") % self.desktop_item.get_name()
-		else:
-			# no description is better than a duplicate title
-			#return _("Open with %s") % self.desktop_item.get_name()
-			return u""
-	def get_gicon(self):
-		return icons.ComposedIcon(self.get_icon_name(),
-				self.desktop_item.get_icon(), emblem_is_fallback=True)
-	def get_icon_name(self):
-		return "gtk-execute"
-
-class Show (Action):
-	""" Open file with default viewer """
+class Open (Action):
+	""" Open with default application """
 	rank_adjust = 5
 	def __init__(self, name=_("Open")):
-		super(Show, self).__init__(name)
-	
+		Action.__init__(self, name)
+
+	@classmethod
+	def default_application_for_leaf(cls, leaf):
+		content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+		gfile = gio.File(leaf.object)
+		info = gfile.query_info(content_attr)
+		content_type = info.get_attribute_string(content_attr)
+		def_app = gio.app_info_get_default_for_type(content_type, False)
+		if not def_app:
+			apps_for_type = gio.app_info_get_all_for_type(content_type)
+			raise NoDefaultApplicationError(unicode(leaf), content_type)
+		return def_app
+
 	def activate(self, leaf):
-		utils.show_path(leaf.object)
+		self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objects):
+		appmap = {}
+		leafmap = {}
+		for obj in objects:
+			app = self.default_application_for_leaf(obj)
+			id_ = app.get_id()
+			appmap[id_] = app
+			leafmap.setdefault(id_, []).append(obj)
+
+		for id_, leaves in leafmap.iteritems():
+			app = appmap[id_]
+			utils.launch_app(app, paths=[L.object for L in leaves])
 
 	def get_description(self):
-		return _("Open with default viewer")
+		return _("Open with default application")
 
 	def get_icon_name(self):
 		return "gtk-execute"
-
-class OpenDirectory (Show):
-	rank_adjust = 5
-	def __init__(self):
-		super(OpenDirectory, self).__init__(_("Open"))
-
-	def get_description(self):
-		return _("Open folder")
-
-	def get_icon_name(self):
-		return "folder-open"
 
 class RevealFile (Action):
 	def __init__(self, name=_("Reveal")):
