@@ -2,12 +2,12 @@
 NEWS for kupfer
 ===============
 
-kupfer version cXX
-------------------
+kupfer version pandoras-box-1
+-----------------------------
 
-Not Released Yet
+"Pandora's box"
 
-"So awesome even a half of it would blow your mind"
+Released Monday, 1 February 2010
 
 * Implement the famous "comma trick": Press , (comma) in the first or
   third pane to make a stack of objects to perform actions on. This allows
@@ -15,7 +15,7 @@ Not Released Yet
 * New plugin: *Triggers*: Add global keybindings to any command you can
   perform in Kupfer.
 * New plugin *Skype* by Karol Będkowski
-* New plugin *Thunderbird* (or Icedove) by Karol
+* New plugin *Thunderbird* (or Icedove) (Karol)
 * Implement merging of contacts and hosts: All contacts of the same name are
   merged into one object. (Karol, Ulrik)
 * New plugin *Higher-order Actions* to work with saved commands as objects
@@ -24,12 +24,17 @@ Not Released Yet
 * *Window List* plugin was improved, most notably a *Frontmost Window* proxy
   object was added
 * New proxy object *Last Command*
-* New Czech localization by Marek Cernocky
+* The *Firefox* plugin now includes most-visited sites from browser history
+  (William Friesen, Karol, Ulrik)
+* The list of plugins has a field to allow filtering the list (Karol)
+* New Czech localization by Marek Černocký
+* Many smaller changes.
 
 * Localization updates:
 
-  + cs (Marek Cernocky)
+  + cs (Marek Černocký, Petr Kovar)
   + de (Mario Blättermann)
+  + nl (Martin Koelewijn)
   + pl (Karol)
   + sv
   + sl (Andrej Žnidaršič)
