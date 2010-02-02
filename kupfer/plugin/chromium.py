@@ -22,9 +22,9 @@ class BookmarksSource (AppLeafContentMixin, Source):
 
 	def _get_chromium_items(self, fpath):
 		"""Parse Chromium' bookmarks backups"""
-		from chromium_support import get_bookmarks
+		from kupfer.plugin import chromium_support
 		self.output_debug("Parsing", fpath)
-		bookmarks = get_bookmarks(fpath)
+		bookmarks = chromium_support.get_bookmarks(fpath)
 		for book in bookmarks:
 			yield UrlLeaf(book["url"], book["name"])
 
