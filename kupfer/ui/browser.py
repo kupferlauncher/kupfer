@@ -622,7 +622,7 @@ class Search (gtk.Bin):
 			match_text = (rankable and rankable.value)
 			self.match_state = State.Match
 			m = self.match
-			pbuf = (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or
+			pbuf = (m.get_thumbnail(self.icon_size*4//3, self.icon_size) or
 				m.get_pixbuf(self.icon_size))
 			self.match_view.set_match_state(match_text, pbuf,
 					match=self.text, state=self.match_state)
@@ -728,8 +728,8 @@ class LeafSearch (Search):
 	def setup_empty(self):
 		icon = None
 		title = _("Type to search")
-		get_pbuf = \
-			lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
+		def get_pbuf(m):
+			return (m.get_thumbnail(self.icon_size*4//3, self.icon_size) or
 					m.get_pixbuf(self.icon_size))
 		if self.source:
 			icon = get_pbuf(self.source)
