@@ -27,35 +27,29 @@ import dbus
 import dbus.glib
 from dbus.gobject_service import ExportedGObject
 import gio
-import gobject, nautilus
+import gobject
 
-service_name="se.kaizer.KupferNautilusPlugin"
-interface_name="se.kaizer.KupferNautilusPlugin"
-object_path = "/se/kaizer/kupfer/NautilusPlugin"
+import nautilus
+
+service_name="se.kaizer.FileSelection"
+interface_name="se.kaizer.FileSelection"
+object_path = "/se/kaizer/FileSelection"
 
 class Object (ExportedGObject):
-	@dbus.service.signal(interface_name, signature="aay")
-	def SelectionChanged(self, paths):
-		"""Nautilus selection changed. Passes an array of byte strings;
-		We have no idea which encoding the filesystem uses, so we
-		send filesystem bytes; the receiver should use glib to
-		decode the byte strings to strings.
-		"""
-		return paths
+	@dbus.service.signal(interface_name, signature="asi")
+	def SelectionChanged(self, uris, window_id):
+		"""Nautilus selection changed.
 
-	@dbus.service.signal(interface_name, signature="as")
-	def SelectionChangedStrings(self, paths):
-		"""Nautilus selection changed. Passes an array of strings;
-		We guess the filesystem encoding, and any files that cannot be
-		decoded are skipped
+		@uris: an array of URI strings.
+		@window_id: An ID for the window where the selection happened
 		"""
-		return paths
+		return uris
 
 class KupferSelectionProvider(nautilus.MenuProvider):
 	def __init__(self):
 		selfname = type(self).__name__
 		print "Initializing", selfname
-		self.cur_selection = []
+		self.cursel = None
 		self.max_threshold = 500
 		try:
 			session_bus = dbus.Bus()
@@ -75,38 +69,15 @@ class KupferSelectionProvider(nautilus.MenuProvider):
 
 		Ask GIO for the file path of each URI item, and pass on any that
 		have a defined path.
-		Then we try to decode the paths to strings to send if possible to
-		decode using the current encoding.
 
 		We use a threshold on the files so that we don't generate too much
 		traffic; with more than 500 files selected, we simply send nothing.
 		"""
 		if len(files) > self.max_threshold:
-			return
-		uris = (f.get_uri() for f in files)
-		paths = filter(None, (gio.File(u).get_path() for u in uris))
-		# try to decode filesystem strings
-		ustrs = []
-		encoding = locale.getpreferredencoding()
-		for p in paths:
-			try:
-				pdec = p.decode(encoding)
-			except UnicodeDecodeError:
-				continue
-			ustrs.append(pdec)
-		if paths != self.cur_selection and self.service:
-			self.service.SelectionChanged(paths)
-			self.service.SelectionChangedStrings(ustrs)
-		self.cur_selection = paths
-		return
-
-		# Put "Send to Kupfer" item here
-		"""
-		item = nautilus.MenuItem('PostrExtension::upload_files',
-								 _('Upload to Flickr...'),
-								 _('Upload the selected files into Flickr'))
-		item.connect('activate', self.upload_files, files)
-
-		return item,
-		"""
-		pass
+			return []
+		window_id = window.window.xid if window.window else 0
+		uris = [f.get_uri() for f in files]
+		if self.cursel != (uris, window_id) and self.service:
+			self.service.SelectionChanged(uris, window_id)
+		self.cursel = (uris, window_id)
+		return []
