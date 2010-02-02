@@ -13,7 +13,7 @@ import signal
 import operator
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer.helplib import PicklingHelperMixin
+from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import scheduler
 from kupfer import plugin_support
 

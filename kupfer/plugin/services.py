@@ -9,7 +9,7 @@ import os
 
 from kupfer import plugin_support
 from kupfer.objects import Leaf, Action, Source 
-from kupfer.helplib import FilesystemWatchMixin
+from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
