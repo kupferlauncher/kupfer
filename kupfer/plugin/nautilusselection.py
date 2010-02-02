@@ -2,6 +2,7 @@ import os
 
 import dbus
 import gobject
+import gio
 
 from kupfer.objects import Source, Leaf
 from kupfer.objects import FileLeaf, SourceLeaf
@@ -56,14 +57,13 @@ class SelectionSource (Source, PicklingHelperMixin):
 		callback.token = session_bus.add_signal_receiver(
 				callback,
 				"SelectionChanged",
-				dbus_interface="se.kaizer.KupferNautilusPlugin",
+				dbus_interface="se.kaizer.FileSelection",
 				byte_arrays=True)
 
-	def _selected_signal(self, selection):
-		# The SelectionChanged signal carries an array of byte arrays,
-		# which arrive as byte strings here, in effect a list of `str'.
-		# we unwrap the dbus type dbus.ByteArray to str
-		self._selection = [str(S) for S in selection]
+	def _selected_signal(self, selection, window_id):
+		# The SelectionChanged signal carries an array of unicode URIs
+		paths = filter(None, [gio.File(uri).get_path() for uri in selection])
+		self._selection = paths
 		self.mark_for_update()
 
 	def get_items(self):
