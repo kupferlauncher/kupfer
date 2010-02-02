@@ -30,6 +30,11 @@ class BookmarksSource (AppLeafContentMixin, Source):
 
 	def get_items(self):
 		fpath = config.get_config_file("Bookmarks", package="chromium/Default")
+
+		# If there is no chromium bookmarks file, look for a google-chrome one
+		if not fpath:
+			fpath = config.get_config_file("Bookmarks",package="google-chrome/Default")
+
 		if fpath:
 			try:
 				return self._get_chromium_items(fpath)
