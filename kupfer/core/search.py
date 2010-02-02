@@ -83,7 +83,7 @@ def score_actions(rankables):
 	for obj in rankables:
 		ra = obj.object.rank_adjust
 		if ra > 0:
-			obj.rank = 50 + ra + get_record_score(obj.object)/2
+			obj.rank = 50 + ra + get_record_score(obj.object)//2
 		elif ra == 0:
 			obj.rank = get_record_score(obj.object)
 		else:
