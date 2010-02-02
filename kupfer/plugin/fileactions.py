@@ -16,6 +16,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gio
 import os
+import re
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
@@ -231,7 +232,9 @@ class UnpackHere (Action):
 	def valid_for_item(self, item):
 		tail, ext = os.path.splitext(item.object)
 		# FIXME: Make this detection smarter
-		return ext.lower() in self.extensions_set
+		# check for standard extension or a multi-part rar extension
+		return (ext.lower() in self.extensions_set or
+			re.search(r".r\d+$", ext.lower()) is not None)
 
 	def item_types(self):
 		yield FileLeaf
