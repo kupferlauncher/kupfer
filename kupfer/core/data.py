@@ -445,7 +445,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			for appl_type in action.item_types():
 				decorate_types.setdefault(appl_type, []).append(action)
 		sc = GetSourceController()
-		sc.set_action_decorators(decorate_types)
+		sc.add_action_decorators(decorate_types)
 		self.output_debug("Action decorators:")
 		for typ in decorate_types:
 			self.output_debug(typ.__name__)
@@ -469,7 +469,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				continue
 			decorate_item_types.setdefault(applies, set()).add(c)
 		sc = GetSourceController()
-		sc.set_content_decorators(decorate_item_types)
+		sc.add_content_decorators(decorate_item_types)
 		self.output_debug("Content decorators:")
 		for typ in decorate_item_types:
 			self.output_debug(typ.__name__)

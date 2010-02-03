@@ -241,8 +241,8 @@ class SourceController (pretty.OutputMixin):
 		self.sources = set()
 		self.toplevel_sources = set()
 		self.text_sources = set()
-		self.content_decorators = set()
-		self.action_decorators = set()
+		self.content_decorators = {}
+		self.action_decorators = {}
 		self.loaded_successfully = False
 		self._restored_sources = set()
 
@@ -259,10 +259,12 @@ class SourceController (pretty.OutputMixin):
 		self.text_sources.update(srcs)
 	def get_text_sources(self):
 		return self.text_sources
-	def set_content_decorators(self, decos):
-		self.content_decorators = decos
-	def set_action_decorators(self, decos):
-		self.action_decorators = decos
+	def add_content_decorators(self, decos):
+		for typ in decos:
+			self.content_decorators.setdefault(typ, set()).update(decos[typ])
+	def add_action_decorators(self, decos):
+		for typ in decos:
+			self.action_decorators.setdefault(typ, set()).update(decos[typ])
 		for typ in self.action_decorators:
 			self._disambiguate_actions(self.action_decorators[typ])
 	def _disambiguate_actions(self, actions):
