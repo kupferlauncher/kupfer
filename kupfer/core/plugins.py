@@ -261,7 +261,7 @@ def _staged_import(name, import_hook):
 
 
 def import_plugin(name):
-	if name in _imported_plugins:
+	if is_plugin_loaded(name):
 		return _imported_plugins[name]
 	plugin = None
 	try:
@@ -329,7 +329,7 @@ def load_plugin_sources(plugin_name, attr=sources_attribute, instantiate=True):
 # Plugin Initialization & Error
 def is_plugin_loaded(plugin_name):
 	return (plugin_name in _imported_plugins and
-			not get_plugin_attribute(plugin_name, "is_fake_plugin"))
+			not getattr(_imported_plugins[plugin_name], "is_fake_plugin", None))
 
 def initialize_plugin(plugin_name):
 	"""Initialize plugin.
