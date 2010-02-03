@@ -13,10 +13,6 @@ __description__ = _("Browse the icons of the Icon Naming Specification")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
-
 
 import urllib
 from xml.etree import cElementTree as ET
@@ -26,6 +22,10 @@ import gtk
 from kupfer.objects import Leaf, Action, Source, SourceLeaf
 from kupfer import uiutils
 from kupfer import plugin_support
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	plugin_support.SETTING_PREFER_CATALOG,
+)
 
 
 ICON_SPEC_ADDRESS = "http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-0.8.90.xml"
@@ -41,7 +41,7 @@ class IconName (Leaf):
 		Leaf.__init__(self, obj, obj)
 		self.description = desc
 		if desc:
-			self.name_aliases.add(desc.splitlines()[0])
+			self.kupfer_add_alias(desc.splitlines()[0])
 	def get_actions(self):
 		yield ShowDescription()
 	def get_description(self):
