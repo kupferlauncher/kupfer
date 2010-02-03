@@ -45,11 +45,7 @@ scheduler.GetScheduler().connect("load", load_kupfer_icons)
 def load_plugin_icon(plugin_name, icon_name, icon_data):
 	"Load icon from @icon_data into the name @icon_name"
 	for size in (24, 96):
-		ploader = gtk.gdk.PixbufLoader()
-		ploader.set_size(size, size)
-		ploader.write(icon_data)
-		ploader.close()
-		pixbuf = ploader.get_pixbuf()
+		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"for", plugin_name)
@@ -307,3 +303,23 @@ def get_good_name_for_icon_names(names):
 
 def get_gicon_for_names(*names):
 	return ThemedIcon(names)
+
+
+def get_pixbuf_from_data(data, width=None, height=None):
+	"""Create pixbuf object from data with optional scaling
+
+	@data: picture as raw data
+	@width, @heigh: optional destination size
+	"""
+	def set_size(img, img_width, img_height):
+		scale = min(width/float(img_width), height/float(img_height))
+		new_width, new_height = int(img_width*scale), int(img_height*scale)
+		img.set_size(new_width, new_height)
+
+	ploader = gtk.gdk.PixbufLoader()
+	if width and height:
+		ploader.connect("size-prepared", set_size)
+	ploader.write(data)
+	ploader.close()
+	return ploader.get_pixbuf()
+
