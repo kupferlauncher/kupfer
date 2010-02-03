@@ -61,23 +61,29 @@ class Trash (Action):
 
 def _good_destination(dpath, spath):
 	"""If directory path @dpath is a valid destination for file @spath
-	to be copied or moved to
+	to be copied or moved to. Additional checking is done in
+	good_destination_final
 	"""
 	if not os_path.isdir(dpath):
 		return False
 	spath = os_path.normpath(spath)
 	dpath = os_path.normpath(dpath)
-	dest_filename = os_path.join(dpath, os_path.basename(spath))
-	if os_path.exists(dest_filename):
-		return False
 	if not os.access(dpath, os.R_OK | os.W_OK | os.X_OK):
 		return False
 	cpfx = os_path.commonprefix((spath, dpath))
-	parent_spath = os_path.dirname(spath)
-	if (os_path.samefile(dpath, spath) or (cpfx == spath) or
-			(dpath == parent_spath)):
+	if os_path.samefile(dpath, spath) or cpfx == spath:
 		return False
 	return True
+
+def _good_destination_final(dpath, spath):
+	"""Perform a final check that the file @spath can
+	be copied or moved to @dpath
+	"""
+	dest_filename = os_path.join(dpath, os_path.basename(spath))
+	if os_path.exists(dest_filename):
+		return False
+	parent_spath = os_path.dirname(spath)
+	return not (dpath == parent_spath)
 
 class MoveTo (Action, pretty.OutputMixin):
 	def __init__(self):
@@ -89,6 +95,8 @@ class MoveTo (Action, pretty.OutputMixin):
 		bname = sfile.get_basename()
 		dfile = gio.File(os_path.join(obj.object, bname))
 		try:
+			if not _good_destination_final(obj.object, leaf.object):
+				raise gio.Error("Target file exists")
 			ret = sfile.move(dfile, flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
@@ -200,6 +208,8 @@ class CopyTo (Action, pretty.OutputMixin):
 		dpath = os_path.join(obj.object, os_path.basename(leaf.object))
 		dfile = gio.File(dpath)
 		try:
+			if not _good_destination_final(obj.object, leaf.object):
+				raise gio.Error("Target file exists")
 			ret = sfile.copy_async(dfile, self._finish_callback,
 					flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
