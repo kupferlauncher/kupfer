@@ -82,6 +82,28 @@ class FrontmostWindow (WindowLeaf):
 	def get_description(self):
 		return self.object and self.object.get_name()
 
+class NextWindow (WindowLeaf):
+	qf_id = "nextwindow"
+	def __init__(self):
+		WindowLeaf.__init__(self, None, _("Next Window"))
+
+	def _set_object(self, obj):
+		pass
+	def _get_object(self):
+		scr = wnck.screen_get_default()
+		wspc = scr.get_active_workspace()
+		for win in scr.get_windows_stacked():
+			if not win.is_skip_tasklist():
+				if win.is_on_workspace(wspc):
+					return win
+	object = property(_get_object, _set_object)
+
+	def repr_key(self):
+		return ""
+
+	def get_description(self):
+		return self.object and self.object.get_name()
+
 class WindowActivateWorkspace (Action):
 	def __init__(self, name=_("Go To")):
 		super(WindowActivateWorkspace, self).__init__(name)
@@ -194,6 +216,7 @@ class WindowsSource (Source):
 		# wnck should be "primed" now to return the true list
 		screen = wnck.screen_get_default()
 		yield FrontmostWindow()
+		yield NextWindow()
 		for win in reversed(screen.get_windows_stacked()):
 			if not win.is_skip_tasklist():
 				name, app = (win.get_name(), win.get_application().get_name())
