@@ -245,8 +245,10 @@ class SourceController (pretty.OutputMixin):
 		self.action_decorators = {}
 		self.loaded_successfully = False
 		self._restored_sources = set()
+		self._pre_root = None
 
 	def add(self, srcs, toplevel=False, initialize=False):
+		self._pre_root = None
 		sources = set(self._try_restore(srcs))
 		self._restored_sources.update(sources)
 		sources.update(srcs)
@@ -310,9 +312,8 @@ class SourceController (pretty.OutputMixin):
 
 	@property
 	def _firstlevel(self):
-		firstlevel = getattr(self, "_pre_root", None)
-		if firstlevel:
-			return firstlevel
+		if self._pre_root:
+			return self._pre_root
 		sourceindex = set(self.sources)
 		kupfer_sources = sources.SourcesSource(self.sources)
 		sourceindex.add(kupfer_sources)
