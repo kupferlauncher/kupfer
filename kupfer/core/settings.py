@@ -200,8 +200,10 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 	def set_plugin_enabled(self, plugin_id, enabled):
 		"""Convenience: set if @plugin_id is enabled"""
-		return self.set_plugin_config(plugin_id, "kupfer_enabled", enabled,
+		ret = self.set_plugin_config(plugin_id, "kupfer_enabled", enabled,
 				value_type=strbool)
+		self.emit("plugin-enabled-changed", plugin_id, enabled)
+		return ret
 
 	def get_plugin_is_toplevel(self, plugin_id):
 		"""Convenience: if @plugin_id items are included in toplevel"""
@@ -286,6 +288,11 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,
 	gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING,
 		gobject.TYPE_PYOBJECT))
+
+# Plugin ID, Value
+gobject.signal_new("plugin-enabled-changed", SettingsController,
+		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_INT))
 
 _settings_controller = None
 def GetSettingsController():
