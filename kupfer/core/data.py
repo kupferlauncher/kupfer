@@ -13,6 +13,7 @@ from kupfer import datatools
 from kupfer.core import search, learn
 from kupfer.core import settings
 from kupfer.core import qfurl
+from kupfer.core import pluginload
 
 from kupfer.core.sources import GetSourceController
 
@@ -527,36 +528,20 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		@s_souces as just as subitems
 		"""
 		from kupfer.core import plugins
-		from kupfer.core.plugins import (load_plugin_sources, sources_attribute,
-				action_decorators_attribute, text_sources_attribute,
-				content_decorators_attribute,
-				initialize_plugin)
 
 		s_sources = []
 		S_sources = []
 
 		setctl = settings.GetSettingsController()
 
-		text_sources = []
-		action_decorators = []
-		content_decorators = []
-
 		for item in plugins.get_plugin_ids():
 			if not setctl.get_plugin_enabled(item):
 				continue
-			initialize_plugin(item)
-			text_sources.extend(load_plugin_sources(item, text_sources_attribute))
-			action_decorators.extend(load_plugin_sources(item,
-				action_decorators_attribute))
-			# Register all Sources as (potential) content decorators
-			content_decorators.extend(load_plugin_sources(item,
-				sources_attribute, instantiate=False))
-			content_decorators.extend(load_plugin_sources(item,
-				content_decorators_attribute, instantiate=False))
+			sources = self._load_plugin(item)
 			if setctl.get_plugin_is_toplevel(item):
-				S_sources.extend(load_plugin_sources(item))
+				S_sources.extend(sources)
 			else:
-				s_sources.extend(load_plugin_sources(item))
+				s_sources.extend(sources)
 
 		D_dirs, d_dirs = self._get_directory_sources()
 		S_sources.extend(D_dirs)
@@ -564,11 +549,18 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		if not S_sources and not s_sources:
 			pretty.print_info(__name__, "No sources found!")
-
-		self.register_text_sources(text_sources)
-		self.register_action_decorators(action_decorators)
-		self.register_content_decorators(content_decorators)
 		return S_sources, s_sources
+
+	def _load_plugin(self, plugin_id):
+		"""
+		Load @plugin_id, register all its Actions, Content and TextSources.
+		Return its sources.
+		"""
+		plugin = pluginload.load_plugin(plugin_id)
+		self.register_text_sources(plugin.text_sources)
+		self.register_action_decorators(plugin.action_decorators)
+		self.register_content_decorators(plugin.content_decorators)
+		return set(plugin.sources)
 
 	def _finish(self, sched):
 		self.output_info("Saving data...")
