@@ -246,7 +246,7 @@ class SourceController (pretty.OutputMixin):
 		self.loaded_successfully = False
 		self._restored_sources = set()
 
-	def add(self, srcs, toplevel=False):
+	def add(self, srcs, toplevel=False, initialize=False):
 		sources = set(self._try_restore(srcs))
 		self._restored_sources.update(sources)
 		sources.update(srcs)
@@ -254,6 +254,9 @@ class SourceController (pretty.OutputMixin):
 		self.sources.update(sources)
 		if toplevel:
 			self.toplevel_sources.update(sources)
+		if initialize:
+			self._initialize_sources(sources)
+			self._cache_sources(sources)
 		self.rescanner.set_catalog(self.sources)
 	def add_text_sources(self, srcs):
 		self.text_sources.update(srcs)
@@ -445,17 +448,23 @@ class SourceController (pretty.OutputMixin):
 
 	def initialize(self):
 		"Initialize all sources and cache toplevel sources"
-		for src in set(self.sources):
+		self._initialize_sources(self.sources)
+		self._cache_sources(self.toplevel_sources)
+		self.loaded_successfully = True
+		self._restored_sources.clear()
+
+	def _initialize_sources(self, sources):
+		for src in set(sources):
 			with self._exception_guard(src):
 				src.initialize()
+
+	def _cache_sources(self, sources):
 		# Make sure that the toplevel sources are chached
 		# either newly rescanned or the cache is fully loaded
-		for src in set(self.toplevel_sources):
+		for src in set(sources):
 			with self._exception_guard(src):
 				force = (src not in self._restored_sources)
 				self.rescanner.rescan_now(src, force_update=force)
-		self.loaded_successfully = True
-		self._restored_sources.clear()
 
 
 _source_controller = None
