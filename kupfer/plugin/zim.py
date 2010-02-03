@@ -9,11 +9,12 @@ __kupfer_actions__ = (
 	)
 __description__ = _("Access to Pages stored in Zim - "
                     "A Desktop Wiki and Outliner")
-__version__ = "0.3"
+__version__ = "2010-02-03"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 
+import gio
 import glib
 
 from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
@@ -38,8 +39,7 @@ TODO:
 
 def _start_zim(notebook, page):
 	''' Start zim and open given notebook and page. '''
-	cli = "zim '%s' '%s'" % (notebook, page.replace("'", "_"))
-	utils.launch_commandline(cli)
+	utils.spawn_async(("zim", notebook, page.replace("'", "_")))
 
 
 class ZimPage(Leaf):
@@ -67,7 +67,7 @@ class CreateZimPage(Action):
 		Action.__init__(self, _('Create Zim Page'))
 
 	def activate(self, leaf):
-		_start_zim("_default_", ":" + leaf.object.strip(':'))
+		_start_zim("", ":" + leaf.object.strip(':'))
 
 	def get_description(self):
 		return _("Create page in default notebook")
@@ -138,6 +138,58 @@ class CreateZimSubPage(Action):
 	def object_source(self, for_item=None):
 		return TextSource()
 
+def _read_zim_notebooks_old(zim_notebooks_file):
+	''' Yield (notebook name, notebook path) from zim config
+
+	@notebook_name: Unicode name
+	@notebook_path: Filesystem byte string
+	'''
+	# We assume the notebook description is UTF-8 encoded
+	with open(zim_notebooks_file, 'r') as notebooks_file:
+		for line in notebooks_file.readlines():
+			if not line.startswith('_default_'):
+				notebook_name, notebook_path = line.strip().split('\t', 2)
+				notebook_name = notebook_name.decode("UTF-8", "replace")
+				notebook_path = os.path.expanduser(notebook_path)
+				yield (notebook_name, notebook_path)
+
+def _read_zim_notebook_name(notebook_path):
+	npath = os.path.join(notebook_path, "notebook.zim")
+	with open(npath, "r") as notebook_file:
+		for line in notebook_file:
+			if line.startswith("name="):
+				_ignored, b_name = line.strip().split("=", 1)
+				us_name = b_name.decode("unicode_escape")
+				return us_name
+	return os.path.basename(notebook_path)
+
+def _read_zim_notebooks_new(zim_notebooks_file):
+	''' Yield (notebook name, notebook path) from zim config
+
+	@notebook_name: Unicode name
+	@notebook_path: Filesystem byte string
+	'''
+	default_url = None
+	with open(zim_notebooks_file, 'r') as notebooks_file:
+		for line in notebooks_file:
+			if line.startswith("["):
+				continue
+			if line.startswith("Default="):
+				_ignored, notebook_url = line.split("=", 1)
+				notebook_url = notebook_url.strip()
+				default_url = notebook_url
+			elif line.strip() != default_url:
+				notebook_url = line.strip()
+			else:
+				continue
+			notebook_path = gio.File(notebook_url).get_path()
+			try:
+				notebook_name = _read_zim_notebook_name(notebook_path)
+			except IOError:
+				pass
+			else:
+				yield (notebook_name, notebook_path)
+
 def _get_zim_notebooks():
 	''' Yield (notebook name, notebook path) from zim config
 
@@ -148,16 +200,15 @@ def _get_zim_notebooks():
 	zim_notebooks_file = config.get_config_file("notebooks.list", package="zim")
 	if not zim_notebooks_file:
 		pretty.print_error(__name__, "Zim notebooks.list not found")
-		return
+		return []
 	try:
-		with open(zim_notebooks_file, 'r') as noteboks_file:
-			for line in noteboks_file.readlines():
-				if not line.startswith('_default_'):
-					notebook_name, notebook_path = line.strip().split('\t', 2)
-					notebook_name = notebook_name.decode("UTF-8", "replace")
-					notebook_path = os.path.expanduser(notebook_path)
-					yield (notebook_name, notebook_path)
-
+		default_url = None
+		with open(zim_notebooks_file, 'r') as notebooks_file:
+			for line in notebooks_file.readlines():
+				if line.strip() == "[NotebookList]":
+					return _read_zim_notebooks_new(zim_notebooks_file)
+				else:
+					return _read_zim_notebooks_old(zim_notebooks_file)
 	except IOError, err:
 		pretty.print_error(__name__, err)
 
@@ -171,7 +222,7 @@ class ZimNotebooksSource (Source):
 
 	def get_items(self):
 		for name, path in _get_zim_notebooks():
-			yield ZimNotebook(name, name)
+			yield ZimNotebook(path, name)
 
 	def get_icon_name(self):
 		return "zim"
