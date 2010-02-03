@@ -533,6 +533,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		S_sources = []
 
 		setctl = settings.GetSettingsController()
+		setctl.connect("plugin-enabled-changed", self._plugin_enabled)
 
 		for item in plugins.get_plugin_ids():
 			if not setctl.get_plugin_enabled(item):
@@ -561,6 +562,21 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.register_action_decorators(plugin.action_decorators)
 		self.register_content_decorators(plugin.content_decorators)
 		return set(plugin.sources)
+
+	def _plugin_enabled(self, setctl, plugin_id, enabled):
+		from kupfer.core import plugins
+		if enabled and not plugins.is_plugin_loaded(plugin_id):
+			sources = self._load_plugin(plugin_id)
+			self._insert_sources(plugin_id, sources)
+
+	def _insert_sources(self, plugin_id, sources):
+		if not sources:
+			return
+		setctl = settings.GetSettingsController()
+		is_toplevel = setctl.get_plugin_is_toplevel(plugin_id)
+		sc = GetSourceController()
+		sc.add(sources, toplevel=is_toplevel, initialize=True)
+		self.source_pane.source_rebase(sc.root)
 
 	def _finish(self, sched):
 		self.output_info("Saving data...")
