@@ -6,6 +6,7 @@ import copy
 
 import glib
 import gobject
+import keyring
 
 from kupfer import config, pretty, scheduler
 
@@ -266,23 +267,33 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if val is None:
 			return default
 
-		if value_type is bool:
-			value_type = strbool
+		if hasattr(value_type, "load"):
+			val_obj = value_type()
+			val_obj.load(plugin, key, val)
+			return val_obj
+		else:
+			if value_type is bool:
+				value_type = strbool
 
-		try:
-			val = value_type(val)
-		except ValueError, err:
-			self.output_info("Error for stored value %s.%s" %
-					(plug_section, key), err)
-			return default
-		return val
+			try:
+				val = value_type(val)
+			except ValueError, err:
+				self.output_info("Error for stored value %s.%s" %
+						(plug_section, key), err)
+				return default
+			return val
 
 	def set_plugin_config(self, plugin, key, value, value_type=str):
 		"""Try set @key for plugin names @plugin, coerce to @value_type
 		first.  """
 		plug_section = "plugin_%s" % plugin
 		self.emit("value-changed", plug_section, key, value)
-		return self._set_raw_config(plug_section, key, value_type(value))
+
+		if hasattr(value_type, "save"):
+			value_repr = value.save(plugin, key)
+		else:
+			value_repr = value_type(value)
+		return self._set_raw_config(plug_section, key, value_repr)
 
 # Section, Key, Value
 gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,
@@ -300,3 +311,44 @@ def GetSettingsController():
 	if _settings_controller is None:
 		_settings_controller = SettingsController()
 	return _settings_controller
+
+
+
+class ExtendedSetting(object):
+	""" Abstract class for defining non-simple configuration option """
+	def load(self, plugin_id, key, config_value):
+		''' load value for @plugin_id and @key, @config_value is value
+		stored in regular Kupfer config for plugin/key'''
+		pass
+
+	def save(self, plugin_id, key):
+		''' Save value for @plugin_id and @key. 
+		@Return value that should be stored in Kupfer config for 
+		plugin/key (string)'''
+		return None
+
+
+class UserNamePassword(ExtendedSetting):
+	''' Configuration type for storing username/password values.
+	Username is stored in Kupfer config, password in keyring '''
+	def __init__(self, obj=None):
+		ExtendedSetting.__init__(self)
+		self.username = None
+		self.password = None
+		if obj:
+			self.username = obj.username
+			self.password = obj.password
+
+	def __repr__(self):
+		return '<UserNamePassword "%s", "%s">' % (self.username, self.password)
+
+	def load(self, plugin_id, key, username):
+		self.password = keyring.get_password(plugin_id, username)
+		self.username = username
+
+	def save(self, plugin_id, key):
+		''' save @user_password - store password in keyring and return username
+		to save in standard configuration file '''
+		keyring.set_password(plugin_id, self.username, self.password)
+		return self.username
+

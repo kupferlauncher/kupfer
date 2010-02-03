@@ -13,6 +13,8 @@ from kupfer import config, pretty, utils, icons, version
 from kupfer import scheduler, kupferstring
 from kupfer.core import settings, plugins, relevance
 from kupfer.ui import keybindings
+from kupfer.ui.credentials_dialog import ask_user_credentials
+
 
 class PreferencesWindowController (pretty.OutputMixin):
 	def __init__(self):
@@ -469,6 +471,18 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl.set_plugin_config(plugin_id, key, value, value_type)
 		return callback
 
+	def _get_plugin_credentials_callback(self, plugin_id, key):
+		def callback(widget):
+			setctl = settings.GetSettingsController()
+			val_type = settings.UserNamePassword
+			upass = setctl.get_plugin_config(plugin_id, key, val_type) \
+					or settings.UserNamePassword()
+			user_password = ask_user_credentials(upass.username, upass.password)
+			if user_password:
+				upass.username, upass.password = user_password
+				setctl.set_plugin_config(plugin_id, key, upass, val_type)
+		return callback
+
 	def _make_plugin_settings_widget(self, plugin_id):
 		plugin_settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
@@ -496,6 +510,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 			if tooltip:
 				hbox.set_tooltip_text(tooltip)
 			label = plugin_settings.get_label(setting)
+
+			if issubclass(typ, settings.UserNamePassword):
+				wid = gtk.Button(label or _("Set username and password"))
+				wid.connect("clicked", self._get_plugin_credentials_callback(
+						plugin_id, setting))
+				hbox.pack_start(wid, False)
+				vbox.pack_start(hbox, False)
+				continue
+
 			label_wid = gtk.Label(label)
 			if issubclass(typ, basestring):
 				if alternatives:

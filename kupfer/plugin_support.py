@@ -1,5 +1,6 @@
 from kupfer import pretty
 from kupfer.core import settings
+from kupfer.core.settings import UserNamePassword
 
 SETTING_PREFER_CATALOG = {
 	"key" : "kupfer_toplevel",
@@ -104,5 +105,6 @@ def check_dbus_connection():
 			_has_dbus_connection = False
 	if not _has_dbus_connection:
 		raise ImportError(_("No D-Bus connection to desktop session"))
+
 
 
