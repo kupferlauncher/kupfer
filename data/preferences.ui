@@ -341,8 +341,9 @@
                         <child>
                           <object class="GtkLabel" id="labelplugininstructions">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">&lt;i&gt;Plugins activate after restart&lt;/i&gt;</property>
+                            <property name="label" translatable="yes">&lt;i&gt;Plugins may not be unloaded at runtime&lt;/i&gt;</property>
                             <property name="use_markup">True</property>
+                            <property name="wrap">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
