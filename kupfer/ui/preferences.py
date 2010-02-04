@@ -339,21 +339,30 @@ class PreferencesWindowController (pretty.OutputMixin):
 			infobox.pack_start(label, False)
 		about.pack_start(infobox, False)
 
-		# Check for plugin load error
-		error = plugins.get_plugin_error(plugin_id)
-		if error:
+		# Check for plugin load exception
+		exc_info = plugins.get_plugin_error(plugin_id)
+		if exc_info is not None:
+			etype, error, tb = exc_info
 			# TRANS: Error message when Plugin needs a Python module to load
 			import_error_localized = _("Python module '%s' is needed") % u"\\1"
 			import_error_pat = u"No module named ([^\s]+)"
-			if re.match(import_error_pat, error):
-				error = re.sub(import_error_pat,
+			errmsg = unicode(error)
+			if re.match(import_error_pat, errmsg):
+				errstr = re.sub(import_error_pat,
 						import_error_localized,
-						error, count=1)
+						errmsg, count=1)
+			else:
+				import traceback
+				errstr = "".join(traceback.format_exception(*exc_info))
+
 			label = gtk.Label()
 			label.set_alignment(0, 0)
-			label.set_markup(u"<b>%s</b>\n%s" %
-					(_("Plugin could not be read due to an error:"), error))
+			label.set_markup(u"<b>%s</b>\n\n%s" % (
+				_("Plugin could not be read due to an error:"),
+				gobject.markup_escape_text(errstr),
+				))
 			label.set_selectable(True)
+			label.set_line_wrap(True)
 			about.pack_start(label, False)
 		elif not plugins.is_plugin_loaded(plugin_id):
 			label = gtk.Label()

@@ -44,9 +44,9 @@ def get_plugin_ids():
 	return plugin_ids
 
 class FakePlugin (object):
-	def __init__(self, plugin_id, attributes, error_message):
+	def __init__(self, plugin_id, attributes, exc_info):
 		self.is_fake_plugin = True
-		self.error_message = error_message
+		self.exc_info = exc_info
 		self.__name__ = plugin_id
 		vars(self).update(attributes)
 	def __repr__(self):
@@ -173,7 +173,7 @@ def _import_plugin_fake(modpath, error=None):
 	Return an object that has the plugin info attributes we can rescue
 	from a plugin raising on import.
 
-	If applicable, write in @error as the exception responsible
+	@error: If applicable, a tuple of exception info
 	"""
 	import pkgutil
 
@@ -189,10 +189,9 @@ def _import_plugin_fake(modpath, error=None):
 		eval(code, env)
 	except Exception, exc:
 		pretty.print_debug(__name__, "Loading", modpath, exc)
-	errmsg = error and unicode(error)
 	attributes = dict((k, env.get(k)) for k in info_attributes)
 	attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
-	return FakePlugin(modpath, attributes, errmsg)
+	return FakePlugin(modpath, attributes, error)
 
 def _import_hook_fake(pathcomps):
 	modpath = ".".join(pathcomps)
@@ -209,7 +208,7 @@ def _import_hook_true(pathcomps):
 		plugin = __import__(path, fromlist=fromlist)
 	except ImportError, exc:
 		# Try to find a fake plugin if it exists
-		plugin = _import_plugin_fake(path, error=exc)
+		plugin = _import_plugin_fake(path, error=sys.exc_info())
 		if not plugin:
 			raise
 		pretty.print_error(__name__, "Could not import plugin '%s': %s" %
@@ -343,12 +342,12 @@ def initialize_plugin(plugin_name):
 def get_plugin_error(plugin_name):
 	"""
 	Return None if plugin is loaded without error, else
-	return a string describing the error.
+	return a tuple of exception information
 	"""
 	try:
 		plugin = import_plugin(plugin_name)
 		if getattr(plugin, "is_fake_plugin", None):
-			return plugin.error_message
-	except ImportError, e:
-		return "'%s' is not a plugin" % plugin_name
+			return plugin.exc_info
+	except ImportError:
+		return sys.exc_info()
 
