@@ -36,7 +36,7 @@ class PuttySession(HostLeaf):
 		return self._description
 
 	def get_gicon(self):
-		return icons.ComposedIcon("computer", "putty")
+		return icons.ComposedIconSmall(self.get_icon_name(), "putty")
 
 
 class PuttyOpenSession(Action):

@@ -26,7 +26,7 @@ BOOKMARKS_FILE = '~/.local/share/vinagre/vinagre-bookmarks.xml'
 
 class Bookmark(HostServiceLeaf):
 	def get_gicon(self):
-		return icons.ComposedIcon(HostServiceLeaf.get_icon_name(self), "vinagre")
+		return icons.ComposedIconSmall(self.get_icon_name(), "vinagre")
 
 
 class VinagreStartSession(Action):

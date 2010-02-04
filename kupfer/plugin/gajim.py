@@ -78,7 +78,7 @@ class GajimContact(JabberContact):
 		return "".join((self.object[JABBER_JID_KEY], self.object[GAJIM_ACCOUNT_KEY]))
 
 	def get_gicon(self):
-		return icons.ComposedIcon(JabberContact.get_icon_name(self), "gajim")
+		return icons.ComposedIconSmall(self.get_icon_name(), "gajim")
 
 
 class AccountStatus(Leaf):

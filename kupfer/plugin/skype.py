@@ -190,7 +190,7 @@ class Contact(ContactLeaf):
 		return self._description
 
 	def get_gicon(self):
-		return icons.ComposedIcon(self.get_icon_name(), "skype")
+		return icons.ComposedIconSmall(self.get_icon_name(), "skype")
 
 
 class AccountStatus(Leaf):

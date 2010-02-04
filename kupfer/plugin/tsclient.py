@@ -33,7 +33,7 @@ class TsclientSession(HostLeaf):
 		return self._description
 
 	def get_gicon(self):
-		return icons.ComposedIcon(HostLeaf.get_icon_name(self), "tsclient")
+		return icons.ComposedIconSmall(self.get_icon_name(), "tsclient")
 
 
 class TsclientOpenSession(Action):

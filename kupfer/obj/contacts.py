@@ -68,7 +68,7 @@ class EmailContact (ContactLeaf):
 		return self.object[EMAIL_KEY]
 
 	def get_gicon(self):
-		return icons.ComposedIcon(ContactLeaf.get_icon_name(self),"stock_mail")
+		return icons.ComposedIconSmall(self.get_icon_name(),"stock_mail")
 
 
 class JabberContact (ContactLeaf):

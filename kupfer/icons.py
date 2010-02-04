@@ -90,14 +90,15 @@ class ComposedIcon (Icon):
 	"""
 	A composed icon, which kupfer will render to pixbuf as
 	background icon with the decorating icon as emblem
-
-	@minimum_icon_size is the minimum size for
-	the composition to be drawn
 	"""
-	minimum_icon_size = 48
 
 	class Implementation (object):
-		"""Base class for the internal implementation"""
+		"""Base class for the internal implementation
+
+		@minimum_icon_size is the minimum size for
+		the composition to be drawn"""
+		minimum_icon_size = 48
+
 		def __init__(self, baseicon, emblem):
 			self.baseicon = baseicon
 			self.emblemicon = emblem
@@ -128,9 +129,16 @@ class ComposedIcon (Icon):
 		return None
 
 
+def ComposedIconSmall(baseicon, emblem, **kwargs):
+	"""Create composed icon for leaves with emblem visible on browser list"""
+	ci = ComposedIcon(baseicon, emblem, **kwargs)
+	ci.minimum_icon_size = 24
+	return ci
+
+
 def _render_composed_icon(composed_icon, icon_size):
 	# If it's too small, render as fallback icon
-	if icon_size < ComposedIcon.minimum_icon_size:
+	if icon_size < composed_icon.minimum_icon_size:
 		return _get_icon_for_standard_gicon(composed_icon, icon_size)
 	emblemicon = composed_icon.emblemicon
 	baseicon = composed_icon.baseicon
