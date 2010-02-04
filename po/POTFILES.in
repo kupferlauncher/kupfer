@@ -78,6 +78,7 @@ kupfer/plugin/shorten_links.py
 kupfer/plugin/skype.py
 kupfer/plugin_support.py
 kupfer/plugin/templates.py
+kupfer/plugin/textfiles.py
 kupfer/plugin/thunar.py
 kupfer/plugin/thunderbird.py
 kupfer/plugin/top.py
