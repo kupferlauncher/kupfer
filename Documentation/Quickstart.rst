@@ -18,43 +18,44 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-Kupfer is a launcher. You do not primarily use it to search your files,
-you use it to summon the object you are thinking about.
+Kupfer is a launcher; you typically use it to summon an application or a
+document quickly by typing parts of its name. It can also do more than
+getting at something quickly: there are different plugins for accessing
+more objects and running custom commands.
 
-Kupfer is written using Python and has a flexible architecture. It can
-work with applications and files, recent documents and web browser
-bookmarks, and many more types of user data.
-
-The philosophy of Kupfer is simplicity. The implementation is simple,
-makes the easy things work first, and does not overimplement unnecessary
-parts of the program.
+Kupfer is written using Python and has a flexible architecture; the
+implementation is simple and makes the easy things work first. One goal
+is that new plugins can be written quickly without too much programming.
 
 SPAWNING
 ========
 
-Running kupfer on the command line (without options) will try to summon
-it if already running.
+Running kupfer on the command line (without options) will try to show
+the program it if already running.
 
 If the keybinder module is installed, kupfer will listen to a
-keybinding. By default the keybinding is ``<Control>space`` to focus
-kupfer.
+keybinding. By default the keybinding is *Ctrl+Space* to show kupfer.
 
 Kupfer can be invoked with a text query, with
 
         ``kupfer`` *QUERY*
 
-This can be used to focus files given as command-line arguments with
-kupfer.
+This can be used to select files given as command-line arguments in the
+program. Then you can invoke actions even on objects from a shell-based
+context.
+
+You may also pipe text to ``kupfer`` to pass it to a currently running
+instance of the program.
 
 OPTIONS
 =======
 
 --no-splash     Launch without presenting main interface
 
---list-plugins  Display a list of all available plugins
+--list-plugins  Display a list of all installed plugins
 
 --debug         Enable more verbose output that can help understanding
-                program operation.
+                the program's operation.
 
 The following are generic options
 
