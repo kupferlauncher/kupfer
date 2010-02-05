@@ -2,6 +2,23 @@
 NEWS for kupfer
 ===============
 
+kupfer version pandoras-box-1.1
+-------------------------------
+
+Not Released Yet
+
+* Fix bug in contact grouping code that could cause unusable Kupfer with Pidgin
+  plugin. Reported by Vadim Peretokin (LP#517548)
+* Chromium plugin will index Google Chrome bookmarks as fallback, by William
+  Friesen (LP#513602)
+* Kupfer's nautilus plugin was changed to be easier to reuse for others
+* Some minor changes
+
+* Localization updates:
+
+  + pt (Carlos Pais)
+
+
 kupfer version pandoras-box-1
 -----------------------------
 
