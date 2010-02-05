@@ -17,6 +17,7 @@ import glib
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import FileLeaf, RunnableLeaf, SourceLeaf
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import pretty
 from kupfer import plugin_support
 from kupfer.weaklib import gobject_connect_weakly
@@ -109,7 +110,8 @@ class EmptyTrash (RunnableLeaf):
 	def get_icon_name(self):
 		return "user-trash-full"
 
-class ThunarObjects (Source):
+class ThunarObjects (AppLeafContentMixin, Source):
+	appleaf_content_id = "Thunar"
 	def __init__(self):
 		Source.__init__(self, _("Thunar"))
 
@@ -118,10 +120,3 @@ class ThunarObjects (Source):
 
 	def provides(self):
 		yield RunnableLeaf
-	def get_leaf_repr(self):
-		return InvisibleSourceLeaf(self)
-
-class InvisibleSourceLeaf (SourceLeaf):
-	# A hack to hide this source
-	def is_valid(self):
-		return False
