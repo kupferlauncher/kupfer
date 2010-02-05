@@ -108,6 +108,8 @@ class GroupingSource (Source):
 			for leaf in list(leaves):
 				for slot2 in leaf.grouping_slots:
 					for value2 in leaf.all(slot2):
+						if not value2:
+							continue
 						merge_groups((slot, value), (slot2, value2))
 		if self.should_sort_lexically():
 			sort_func = utils.locale_sort
