@@ -630,7 +630,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if interactive:
 			ctl.search(key, wrapcontext, text_mode)
 		else:
-			timeout = 300 if lazy else 0 if not key else 50/len(key)
+			timeout = 300 if lazy else 0 if not key else 50//len(key)
 			ctl.outstanding_search = gobject.timeout_add(timeout, ctl.search, 
 					key, wrapcontext, text_mode)
 
