@@ -74,6 +74,16 @@ Custom plugins are added to kupfer by installing them to the directory
 *~/.local/share/kupfer/plugins*, or any kupfer/plugins directory in any
 of ``$XDG_DATA_DIRS``.
 
+ENVIRONMENT VARIABLES
+=====================
+
+If *KUPFER_NO_CUSTOM_PLUGINS* is set, only allow loading built-in
+plugins (installed in the program's python package).
+
+If *KUPFER_NO_CACHE* is set, do not load from or write to any source
+cache files.
+
+
 .. vim: ft=rst tw=72
 .. this document best viewed with::
         rst2pdf Quickstart.rst && xdg-open Quickstart.pdf

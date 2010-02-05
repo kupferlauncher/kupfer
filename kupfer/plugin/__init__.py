@@ -5,6 +5,9 @@ def _extend_path():
 	from kupfer import config
 	from kupfer import pretty
 
+	if not config.has_capability("CUSTOM_PLUGINS"):
+		return
+
 	# Add plugins in data directories
 	__path__.extend(config.get_data_dirs("plugins"))
 

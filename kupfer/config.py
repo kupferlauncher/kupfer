@@ -10,6 +10,9 @@ PACKAGE_NAME="kupfer"
 class ResourceLookupError (StandardError):
 	pass
 
+def has_capability(cap):
+	return not bool(os.getenv("KUPFER_NO_%s" % cap, False))
+
 def get_cache_home():
 	"""
 	Directory where cache files should be put

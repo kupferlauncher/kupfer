@@ -83,6 +83,9 @@ class SourcePickler (pretty.OutputMixin):
 	def __init__(self):
 		self.open = lambda f,mode: gzip.open(f, mode, compresslevel=3)
 
+	def should_use_cache(self):
+		return config.has_capability("CACHE")
+
 	def rm_old_cachefiles(self):
 		"""Checks if there are old cachefiles from last version,
 		and deletes those
@@ -117,6 +120,9 @@ class SourcePickler (pretty.OutputMixin):
 		return os.path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
+		if not self.should_use_cache():
+			return None
+
 		cached = self._unpickle_source(self.get_filename(source))
 		if not cached:
 			return None
@@ -143,6 +149,8 @@ class SourcePickler (pretty.OutputMixin):
 		return source
 
 	def pickle_source(self, source):
+		if not self.should_use_cache():
+			return None
 		return self._pickle_source(self.get_filename(source), source)
 	def _pickle_source(self, pickle_file, source):
 		"""
