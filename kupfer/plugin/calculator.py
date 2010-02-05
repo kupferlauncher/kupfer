@@ -17,26 +17,37 @@ class IgnoreResultException (Exception):
 	pass
 
 class KupferSurprise (float):
+	"""kupfer
+
+	cleverness to the inf**inf
+	"""
 	def __call__(self, *args):
 		from kupfer import utils, version
 		utils.show_url(version.WEBSITE)
 		raise IgnoreResultException
 
+class DummyResult (object):
+	def __unicode__(self):
+		return u"<Result of last expression>"
+
 class Help (object):
+	"""help()
+
+	Show help about the calculator
+	"""
 	def __call__(self):
 		import textwrap
 
 		from kupfer import uiutils
 
-		environment = dict(math.__dict__)
-		environment.update(cmath.__dict__)
+		environment = make_environment(last_result=DummyResult())
 		docstrings = []
 		for attr in sorted(environment):
-			if attr.startswith("_"):
+			if attr != "_" and attr.startswith("_"):
 				continue
 			val = environment[attr]
 			if not callable(val):
-				docstrings.append("%s = %s" % (attr, val))
+				docstrings.append(u"%s = %s" % (attr, val))
 				continue
 			try:
 				docstrings.append(val.__doc__)
@@ -60,6 +71,19 @@ class Help (object):
 
 	def __complex__(self):
 		return self()
+
+def make_environment(last_result=None):
+	"Return a namespace for the calculator's expressions to be executed in."
+	environment = dict(vars(math))
+	environment.update(vars(cmath))
+	# define some constants missing
+	if last_result is not None:
+		environment["_"] = last_result
+	environment["help"] = Help()
+	environment["kupfer"] = KupferSurprise("inf")
+	# make the builtins inaccessible
+	environment["__builtins__"] = {}
+	return environment
 
 def format_result(res):
 	cres = complex(res)
@@ -86,16 +110,7 @@ class Calculate (Action):
 		brackets_missing = expr.count("(") - expr.count(")")
 		if brackets_missing > 0:
 			expr += ")"*brackets_missing
-
-		environment = dict(math.__dict__)
-		environment.update(cmath.__dict__)
-		# define some constants missing
-		if self.last_result is not None:
-			environment["_"] = self.last_result
-		environment["help"] = Help()
-		environment["kupfer"] = KupferSurprise("inf")
-		# make the builtins inaccessible
-		environment["__builtins__"] = {}
+		environment = make_environment(self.last_result)
 
 		pretty.print_debug(__name__, "Evaluating", repr(expr))
 		try:
