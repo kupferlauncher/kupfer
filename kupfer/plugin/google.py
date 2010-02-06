@@ -57,7 +57,7 @@ class SearchResults (Source):
 		results = json_decoder(search_results)
 		data = results['responseData']
 		more_results_url = data['cursor']['moreResultsUrl']
-		total_results = data['cursor']['estimatedResultCount']
+		total_results = data['cursor'].get('estimatedResultCount', 0)
 		for h in data['results']:
 			yield UrlLeaf(h['url'], h['titleNoFormatting'])
 		yield CustomDescriptionUrl(more_results_url,
