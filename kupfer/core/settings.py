@@ -333,6 +333,7 @@ class UserNamePassword(ExtendedSetting):
 	Username is stored in Kupfer config, password in keyring '''
 	def __init__(self, obj=None):
 		ExtendedSetting.__init__(self)
+		self._configure_keyring()
 		self.username = None
 		self.password = None
 		if obj:
@@ -341,6 +342,13 @@ class UserNamePassword(ExtendedSetting):
 
 	def __repr__(self):
 		return '<UserNamePassword "%s", "%s">' % (self.username, self.password)
+
+	@classmethod
+	def _configure_keyring(cls):
+		# Configure the fallback keyring's configuration file if used
+		kr = keyring.get_keyring()
+		if hasattr(kr, "file_path"):
+			kr.file_path = config.save_config_file("keyring.cfg")
 
 	def load(self, plugin_id, key, username):
 		self.password = keyring.get_password(plugin_id, username)
