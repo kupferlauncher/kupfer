@@ -67,7 +67,8 @@ class CreateZimPage(Action):
 		Action.__init__(self, _('Create Zim Page'))
 
 	def activate(self, leaf):
-		_start_zim("", ":" + leaf.object.strip(':'))
+		notebook = _get_default_notebook()
+		_start_zim(notebook, ":" + leaf.object.strip(':'))
 
 	def get_description(self):
 		return _("Create page in default notebook")
@@ -152,6 +153,28 @@ def _read_zim_notebooks_old(zim_notebooks_file):
 				notebook_name = notebook_name.decode("UTF-8", "replace")
 				notebook_path = os.path.expanduser(notebook_path)
 				yield (notebook_name, notebook_path)
+
+
+def _get_default_notebook():
+	''' Find default notebook '''
+	zim_notebooks_file = config.get_config_file("notebooks.list", package="zim")
+	if not zim_notebooks_file:
+		pretty.print_error(__name__, "Zim notebooks.list not found")
+		return None
+	with open(zim_notebooks_file, 'r') as notebooks_file:
+		for line in notebooks_file.readlines():
+			if line.strip() == "[NotebookList]":
+				# new file format == pyzim
+				return ''
+			if line.strip() != '_default_': # when no default notebook
+				notebook_name, notebook_path = line.strip().split('\t', 2)
+				if notebook_name == '_default_':
+					# _default_ is pointing at name of the default notebook
+					return notebook_path.decode("UTF-8", "replace")
+				else:
+					# assume first notebook as default
+					return notebook_name.decode("UTF-8", "replace")
+
 
 def _read_zim_notebook_name(notebook_path):
 	npath = os.path.join(notebook_path, "notebook.zim")
