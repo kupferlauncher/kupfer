@@ -20,7 +20,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		builder = gtk.Builder()
 		builder.set_translation_domain(version.PACKAGE_NAME)
 		ui_file = config.get_data_file("preferences.ui")
-
 		if ui_file:
 			builder.add_from_file(ui_file)
 		else:
@@ -107,7 +106,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.dir_table.get_selection().set_mode(gtk.SELECTION_BROWSE)
 
 		icon_cell = gtk.CellRendererPixbuf()
-			
+
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "gicon", 1)
 
@@ -120,6 +119,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.dir_table.show()
 		self.dirlist_parent.add(self.dir_table)
 		self.read_directory_settings()
+		self.show_categories_sidebar()
 
 	def read_directory_settings(self):
 		setctl = settings.GetSettingsController()
@@ -226,12 +226,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 
-	def _refresh_plugin_list(self, us_filter=None):
-		"List plugins that pass text filter @us_filter or list all if None"
+	def _refresh_plugin_list(self, us_filter=None, select_topmost_plugin=True):
+		"""List plugins that pass text filter @us_filter or list all if None.
+		If @select_topmost_plugin is True, select first plugin on the list.
+		Otherwise don't change current showed plugin panel.
+		"""
 		self.store.clear()
 		setctl = settings.GetSettingsController()
 
-		if us_filter:
+		if us_filter and select_topmost_plugin:
 			self.plugin_list_timer.set_ms(300, self._show_focus_topmost_plugin)
 		else:
 			self.plugin_list_timer.invalidate()
@@ -245,15 +248,20 @@ class PreferencesWindowController (pretty.OutputMixin):
 			folded_name = kupferstring.tofolded(name)
 			desc = info["description"]
 			text = u"%s" % name
+			categories =  info['category']
 
 			if us_filter:
 				name_score = relevance.score(name, us_filter)
 				fold_name_score = relevance.score(folded_name, us_filter)
 				desc_score = relevance.score(desc, us_filter)
-				if not name_score and not fold_name_score and desc_score < 0.9:
+				category_score = max(relevance.score(category, us_filter)
+						for category in categories)
+				if not name_score and not fold_name_score and desc_score < 0.9 \
+						and category_score < 0.9:
 					continue
 
 			self.store.append((plugin_id, enabled, "kupfer-object", text))
+
 
 	def _show_focus_topmost_plugin(self):
 		try:
@@ -302,7 +310,41 @@ class PreferencesWindowController (pretty.OutputMixin):
 		if not curpath:
 			return
 		plugin_id = self._id_for_table_path(curpath)
-		self.plugin_sidebar_update(plugin_id)
+		if plugin_id:
+			self.plugin_sidebar_update(plugin_id)
+		else:
+			self.show_categories_sidebar()
+
+	def show_categories_sidebar(self):
+		categories = {}
+		for info in self.plugin_info:
+			plug_categories =  info['category']
+			for category in plug_categories:
+				categories[category] = categories.get(category, 0) + 1
+
+		links = u'\n'.join((u'<a href="category:%s">%s (%d)</a>' % (
+				category, category, count))
+				for category, count in sorted(categories.iteritems())
+		)
+
+		categories_box = gtk.HBox()
+		categories_box.set_property("spacing", 5)
+		categories_box.set_property("border-width", 5)
+		label = gtk.Label()
+		label.set_alignment(0, 0)
+		label.set_markup(_("<b>Category:</b>\n%s") % links)
+		label.connect("activate-link", self._on_activate_category_link)
+		categories_box.pack_start(label, False)
+
+		oldch = self.plugin_about_parent.get_child()
+		if oldch:
+			self.plugin_about_parent.remove(oldch)
+		vp = gtk.Viewport()
+		vp.set_shadow_type(gtk.SHADOW_NONE)
+		vp.add(categories_box)
+		self.plugin_about_parent.add(vp)
+		self.plugin_about_parent.show_all()
+
 
 	def plugin_sidebar_update(self, plugin_id):
 		about = gtk.VBox()
@@ -337,6 +379,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), version))
 			label.set_selectable(True)
 			infobox.pack_start(label, False)
+		# cateogires aka tags
+		categories = info['category']
+		tagsbox = self._make_categories_box(categories)
+		infobox.pack_start(tagsbox, False)
 		about.pack_start(infobox, False)
 
 		# Check for plugin load exception
@@ -384,6 +430,19 @@ class PreferencesWindowController (pretty.OutputMixin):
 		vp.add(about)
 		self.plugin_about_parent.add(vp)
 		self.plugin_about_parent.show_all()
+
+	def _make_categories_box(self, categories):
+		''' create box with categories links '''
+		tagsbox = gtk.HBox()
+		tagsbox.set_property("spacing", 5)
+		label = gtk.Label()
+		label.set_alignment(0, 0)
+		links = u' '.join((u'<a href="category:%s">%s</a>' % (category, category))
+				for category in categories)
+		label.set_markup(_("<b>Category:</b> %s") % links)
+		label.connect("activate-link", self._on_activate_category_link)
+		tagsbox.pack_start(label, False)
+		return tagsbox
 
 	def _make_plugin_info_widget(self, plugin_id):
 		sources, actions, text_sources = \
@@ -570,6 +629,17 @@ class PreferencesWindowController (pretty.OutputMixin):
 			self.buttonremovedirectory.set_sensitive(False)
 			return
 		self.buttonremovedirectory.set_sensitive(True)
+
+	def on_entry_plugins_filter_icon_press(self, entry, icon, event):
+		''' icon in filter entry was pressed '''
+		self.entry_plugins_filter.set_text('')
+		self._refresh_plugin_list('', False)
+
+	def _on_activate_category_link(self, label, uri):
+		us_filter = kupferstring.tounicode(uri[9:]).lower()
+		self.entry_plugins_filter.set_text(us_filter)
+		self._refresh_plugin_list(us_filter, False)
+		return True
 
 	def show(self):
 		self.window.present()

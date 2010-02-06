@@ -330,7 +330,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
+                            <property name="secondary_icon_stock">gtk-clear</property>
                             <signal name="changed" handler="on_entry_plugins_filter_changed"/>
+                            <signal name="icon_press" handler="on_entry_plugins_filter_icon_press"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>

@@ -2,6 +2,7 @@ import os
 import sys
 from kupfer import pretty, config
 from kupfer.core import settings
+from kupfer.plugin_support import CATEGORY_GENERIC
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
@@ -14,6 +15,7 @@ info_attributes = [
 		"__version__",
 		"__description__",
 		"__author__",
+		'__kupfer_plugin_category__'
 	]
 
 class NotEnabledError (Exception):
@@ -75,6 +77,8 @@ def get_plugin_info():
 		desc = plugin.get("__description__", "")
 		vers = plugin.get("__version__", "")
 		author = plugin.get("__author__", "")
+		category = plugin.get("__kupfer_plugin_category__") or CATEGORY_GENERIC
+		category = list(category) if hasattr(category, "__iter__") else [category]
 		# skip false matches;
 		# all plugins have to have @localized_name
 		if localized_name is None:
@@ -86,6 +90,7 @@ def get_plugin_info():
 			"description": desc or u"",
 			"author": author,
 			"provides": (),
+			"category": category
 		}
 
 def get_plugin_desc():
