@@ -1,3 +1,7 @@
+import contextlib
+
+from kupfer import pretty
+
 from kupfer.core import plugins
 from kupfer.core.plugins import (load_plugin_sources, sources_attribute,
 		action_decorators_attribute, text_sources_attribute,
@@ -44,3 +48,16 @@ def load_plugin(plugin_id):
 	desc.sources = sources
 	return desc
 
+@contextlib.contextmanager
+def exception_guard(name, callback=None, *args):
+	"Guard for exceptions, print traceback and call @callback if any is raised"
+	try:
+		yield
+	except Exception:
+		import traceback
+		pretty.print_error(__name__, "Loading %s raised an exception:" % name)
+		traceback.print_exc()
+		pretty.print_error(__name__, "This error is probably a bug in", name)
+		pretty.print_error(__name__, "Please file a bug report")
+		if callback is not None:
+			callback(*args)

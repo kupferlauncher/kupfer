@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 import itertools
 import operator
 import os
@@ -557,11 +559,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		Load @plugin_id, register all its Actions, Content and TextSources.
 		Return its sources.
 		"""
-		plugin = pluginload.load_plugin(plugin_id)
-		self.register_text_sources(plugin.text_sources)
-		self.register_action_decorators(plugin.action_decorators)
-		self.register_content_decorators(plugin.content_decorators)
-		return set(plugin.sources)
+		with pluginload.exception_guard(plugin_id):
+			plugin = pluginload.load_plugin(plugin_id)
+			self.register_text_sources(plugin.text_sources)
+			self.register_action_decorators(plugin.action_decorators)
+			self.register_content_decorators(plugin.content_decorators)
+			return set(plugin.sources)
+		return set()
 
 	def _plugin_enabled(self, setctl, plugin_id, enabled):
 		from kupfer.core import plugins

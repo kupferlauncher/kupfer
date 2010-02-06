@@ -11,6 +11,7 @@ import time
 
 from kupfer import config, pretty, scheduler
 from kupfer.obj import base, sources
+from kupfer.core import pluginload
 
 class PeriodicRescanner (pretty.OutputMixin):
 	"""
@@ -433,19 +434,13 @@ class SourceController (pretty.OutputMixin):
 				continue
 			sourcepickler.pickle_source(source)
 
-	@contextlib.contextmanager
-	def _exception_guard(self, source):
-		"Guard for exceptions, ousting @source from catalog if any is raised"
-		try:
-			yield
-		except Exception:
-			import traceback
-			self.output_error("Loading %s raised an exception:" % source)
-			traceback.print_exc()
-			self.output_error("This error is probably a bug in %s" % source)
-			self.output_error("Please file a bug report")
-			self.sources.discard(source)
-			self.toplevel_sources.discard(source)
+	def _remove_source(self, source):
+		"Oust @source from catalog if any exception is raised"
+		self.sources.discard(source)
+		self.toplevel_sources.discard(source)
+		source_type = type(source)
+		for typ in self.content_decorators:
+			self.content_decorators[typ].discard(source_type)
 
 	def initialize(self):
 		"Initialize all sources and cache toplevel sources"
@@ -456,14 +451,14 @@ class SourceController (pretty.OutputMixin):
 
 	def _initialize_sources(self, sources):
 		for src in set(sources):
-			with self._exception_guard(src):
+			with pluginload.exception_guard(src, self._remove_source, src):
 				src.initialize()
 
 	def _cache_sources(self, sources):
 		# Make sure that the toplevel sources are chached
 		# either newly rescanned or the cache is fully loaded
 		for src in set(sources):
-			with self._exception_guard(src):
+			with pluginload.exception_guard(src, self._remove_source, src):
 				force = (src not in self._restored_sources)
 				self.rescanner.rescan_now(src, force_update=force)
 
