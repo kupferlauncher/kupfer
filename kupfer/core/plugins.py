@@ -180,11 +180,20 @@ def _import_plugin_fake(modpath, error=None):
 	loader = pkgutil.get_loader(modpath)
 	if not loader:
 		return None
+
+	try:
+		filename = loader.get_filename()
+	except AttributeError:
+		try:
+			filename = loader.archive + loader.prefix
+		except AttributeError:
+			filename = "<%s>" % modpath
+
 	env = {
 		"__name__": modpath,
-		"__file__": loader.get_filename(),
+		"__file__": filename,
 	}
-	code = _truncate_code(loader.get_code(), info_attributes)
+	code = _truncate_code(loader.get_code(modpath), info_attributes)
 	try:
 		eval(code, env)
 	except Exception, exc:
