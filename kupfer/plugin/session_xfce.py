@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*
 
+
 __kupfer_name__ = _("XFCE Session Management")
 __kupfer_sources__ = ("XfceItemsSource", )
 __description__ = _("Special items and actions for XFCE environment")
@@ -8,6 +9,11 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 from kupfer.plugin import session_support as support
 
+from kupfer import plugin_support
+
+__kupfer_plugin_category__ = [ plugin_support.CATEGORY_ENV_X,
+		plugin_support.CATEGORY_ENV_XFCE 
+]
 
 LOGOUT_CMD = ("xfce4-session-logout --logout", )
 SHUTDOWN_CMD = ("xfce4-session-logout", )

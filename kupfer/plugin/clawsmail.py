@@ -11,12 +11,13 @@ from xml.dom import minidom
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf
-from kupfer import utils
+from kupfer import utils, plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_EMAIL
 
 
 class ComposeMail(RunnableLeaf):

@@ -19,6 +19,7 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
 		
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_IM
 
 plugin_support.check_dbus_connection()
 

@@ -14,12 +14,13 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer import utils, icons
+from kupfer import utils, icons, plugin_support
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
 
 from kupfer.plugin import thunderbird_support as support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_EMAIL
 
 
 

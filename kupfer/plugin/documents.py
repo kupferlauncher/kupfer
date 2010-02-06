@@ -16,6 +16,7 @@ from kupfer import objects, plugin_support
 from kupfer import launch, icons
 from kupfer.weaklib import gobject_connect_weakly
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "max_days",

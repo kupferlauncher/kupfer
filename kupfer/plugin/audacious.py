@@ -16,7 +16,7 @@ from kupfer import objects, icons, utils
 from kupfer import plugin_support
 from kupfer import kupferstring
 
-
+__kupfer_plugin_category__ = plugin_support.CATEGORY_MULTIMEDIA
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key": "playlist_toplevel",

@@ -13,10 +13,11 @@ import gtk
 from kupfer.obj.base import Action, Source, TextSource
 from kupfer.obj.objects import TextLeaf, RunnableLeaf
 from kupfer.obj.compose import ComposedLeaf
-from kupfer import puid
+from kupfer import puid, plugin_support
 
 from kupfer.ui import keybindings
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 # we import the keybinder module for its side-effects --
 # this plugin needs this module, lest it shall not function.

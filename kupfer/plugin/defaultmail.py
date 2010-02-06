@@ -10,8 +10,9 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf, UrlLeaf, FileLeaf
 from kupfer.obj.contacts import ContactLeaf, email_from_leaf
-from kupfer import utils
+from kupfer import utils, plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_EMAIL
 
 class NewMailAction(Action):
 	def __init__(self):

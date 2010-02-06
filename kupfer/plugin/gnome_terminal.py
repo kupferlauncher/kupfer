@@ -11,8 +11,11 @@ import glib
 
 from kupfer.objects import Leaf, Action
 from kupfer.obj.apps import ApplicationSource
-from kupfer import utils, icons
+from kupfer import utils, icons, plugin_support
 
+__kupfer_plugin_category__ = [ plugin_support.CATEGORY_ENV_X,
+		plugin_support.CATEGORY_ENV_GNOME
+]
 
 GCONF_KEY = "/apps/gnome-terminal/profiles"
 

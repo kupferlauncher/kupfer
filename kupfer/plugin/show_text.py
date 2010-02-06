@@ -1,3 +1,4 @@
+
 __kupfer_name__ = _("Show Text")
 __kupfer_actions__ = (
 		"ShowText",
@@ -10,7 +11,9 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf
 from kupfer import icons, kupferstring, uiutils
+from kupfer import plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 class ShowText (Action):
 	def __init__(self):

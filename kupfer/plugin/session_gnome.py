@@ -5,7 +5,11 @@ __version__ = "2009-12-05"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from kupfer.plugin import session_support as support
+from kupfer import plugin_support
 
+__kupfer_plugin_category__ = [ plugin_support.CATEGORY_ENV_X,
+		plugin_support.CATEGORY_ENV_GNOME 
+]
 
 LOGOUT_CMD = ("gnome-panel-logout", "gnome-session-save --kill")
 SHUTDOWN_CMD = ("gnome-panel-logout --shutdown", 

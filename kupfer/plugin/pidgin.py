@@ -23,6 +23,7 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf, is_valid_email
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_IM
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "show_offline",

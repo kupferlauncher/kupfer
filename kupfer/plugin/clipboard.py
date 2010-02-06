@@ -13,6 +13,7 @@ from kupfer import utils, plugin_support
 from kupfer.weaklib import gobject_connect_weakly
 
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "max",

@@ -17,6 +17,12 @@ from kupfer.objects import Action, Source, AppLeaf, FileLeaf
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import config, utils, plugin_support
 
+__kupfer_plugin_category__ = [ plugin_support.CATEGORY_ENV_X,
+		plugin_support.CATEGORY_ENV_GNOME,
+		plugin_support.CATEGORY_ENV_XFCE,
+		plugin_support.CATEGORY_ENV_KDE,
+		plugin_support.CATEGORY_ENV_LXDE,
+		plugin_support.CATEGORY_ENV_ROX ]
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "desktop_type",

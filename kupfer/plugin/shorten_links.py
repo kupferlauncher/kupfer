@@ -10,8 +10,9 @@ import httplib
 import urllib
 
 from kupfer.objects import Leaf, Action, Source, UrlLeaf
-from kupfer import pretty
+from kupfer import pretty, plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_WEB
 
 _HEADER = {
 		'Content-type':'application/x-www-form-urlencoded',

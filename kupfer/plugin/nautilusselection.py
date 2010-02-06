@@ -17,6 +17,9 @@ from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.weaklib import DbusWeakCallback
 from kupfer import plugin_support
 
+__kupfer_plugin_category__ = [ plugin_support.CATEGORY_KUPFER,
+		plugin_support.CATEGORY_ENV_GNOME
+]
 plugin_support.check_dbus_connection()
 
 class SelectedFile (FileLeaf):

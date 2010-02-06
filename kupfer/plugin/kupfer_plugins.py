@@ -8,12 +8,13 @@ import os
 
 from kupfer.objects import Action, Source, Leaf, FileLeaf, TextLeaf
 from kupfer import icons
-from kupfer import kupferui
+from kupfer import kupferui, plugin_support
 
 # Since this is a core plugin we break some rules
 # This module is normally out of bounds for plugins
 from kupfer.core import plugins, settings
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 class ShowInfo (Action):
 	def __init__(self):

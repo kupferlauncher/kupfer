@@ -17,6 +17,7 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_IM
 
 # This plugin Requires D-Bus to work
 plugin_support.check_dbus_connection()

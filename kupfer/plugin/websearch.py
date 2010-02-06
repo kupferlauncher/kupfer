@@ -15,9 +15,11 @@ import xml.etree.cElementTree as ElementTree
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
-from kupfer import utils, config
+from kupfer import utils, config, plugin_support
 
 from kupfer.plugin import firefox_support
+
+__kupfer_plugin_category__ = plugin_support.CATEGORY_WEB
 
 
 def _noescape_urlencode(items):

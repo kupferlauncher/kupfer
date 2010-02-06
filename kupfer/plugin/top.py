@@ -17,6 +17,7 @@ from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import scheduler
 from kupfer import plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_SYSTEM
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "sort_order",

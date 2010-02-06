@@ -10,8 +10,9 @@ import pynotify
 
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf
-from kupfer import textutils
+from kupfer import textutils, plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 
 def show_notification(title, body, icon_name=None, critical=False):

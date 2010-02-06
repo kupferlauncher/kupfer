@@ -9,7 +9,9 @@ import gio
 from kupfer.objects import Leaf, Action, Source
 from kupfer.obj.fileactions import Open
 from kupfer.obj.sources import DirectorySource
+from kupfer import plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 
 class Volume (Leaf):
 	def __init__(self, volume):

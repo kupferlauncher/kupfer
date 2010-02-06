@@ -11,6 +11,7 @@ __kupfer_actions__ = (
 __description__ = _("Tracker desktop search integration")
 __version__ = "2010-01-03"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 
 import os
 from xml.etree.cElementTree import ElementTree

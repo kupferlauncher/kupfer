@@ -15,6 +15,7 @@ from kupfer import icons, plugin_support
 from kupfer.obj.objects import ConstructFileLeaf
 
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "ignore_case",

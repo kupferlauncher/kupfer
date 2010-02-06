@@ -16,8 +16,9 @@ import re
 import socket
 
 from kupfer.objects import Source, Action, TextLeaf, Leaf, UrlLeaf
-from kupfer import icons, utils, pretty
+from kupfer import icons, utils, pretty, plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_WEB
 
 try:
 	import cjson

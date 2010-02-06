@@ -11,8 +11,9 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from kupfer.objects import Action, Leaf
 from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
 from kupfer import commandexec
-from kupfer import pretty
+from kupfer import pretty, plugin_support
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 class Select (Action):
 	rank_adjust = -15

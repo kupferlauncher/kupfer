@@ -25,6 +25,7 @@ from kupfer import utils, pretty
 from kupfer import plugin_support
 
 
+__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "archive_type",
