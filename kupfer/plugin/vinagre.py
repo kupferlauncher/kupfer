@@ -13,8 +13,9 @@ import os
 import gio
 from xml.etree import cElementTree as ElementTree
 
-from kupfer.objects import Action, AppLeafContentMixin, UrlLeaf
-from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.objects import Action, UrlLeaf
+from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 
 from kupfer.obj.hosts import HostServiceLeaf, HOST_ADDRESS_KEY, \

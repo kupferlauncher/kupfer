@@ -9,11 +9,9 @@ import xml.etree.cElementTree as ElementTree
 
 import gio
 
-from kupfer.objects import (Leaf, Action, Source,
-		AppLeaf, FileLeaf, UrlLeaf, PicklingHelperMixin, AppLeafContentMixin)
-from kupfer import objects
-from kupfer import launch, icons
-
+from kupfer.objects import Leaf, Action, Source, AppLeaf, FileLeaf, UrlLeaf
+from kupfer.obj.helplib import PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
 
 def get_abiword_files(xmlpth, application="abiword"):
 	"""

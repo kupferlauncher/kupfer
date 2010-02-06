@@ -10,8 +10,9 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 
-from kupfer.objects import Action, AppLeafContentMixin
-from kupfer.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.objects import Action
+from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 
 from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
