@@ -1,6 +1,9 @@
 import os
+import pkgutil
+
 import sys
 from kupfer import pretty, config
+from kupfer import icons
 from kupfer.core import settings
 
 sources_attribute = "__kupfer_sources__"
@@ -23,7 +26,6 @@ def get_plugin_ids():
 	"""Enumerate possible plugin ids;
 	return a sequence of possible plugin ids, not
 	guaranteed to be plugins"""
-	import pkgutil
 	from kupfer import plugin
 
 	def is_plugname(plug):
@@ -175,8 +177,6 @@ def _import_plugin_fake(modpath, error=None):
 
 	@error: If applicable, a tuple of exception info
 	"""
-	import pkgutil
-
 	loader = pkgutil.get_loader(modpath)
 	if not loader:
 		return None
@@ -339,10 +339,52 @@ def is_plugin_loaded(plugin_name):
 	return (plugin_name in _imported_plugins and
 			not getattr(_imported_plugins[plugin_name], "is_fake_plugin", None))
 
+def _loader_hook(modpath):
+	modname = ".".join(modpath)
+	loader = pkgutil.find_loader(modname)
+	if not loader:
+		raise ImportError("No loader found for %s" % modname)
+	if not loader.is_package(modname):
+		raise ImportError("Is not a package")
+	return loader
+
+PLUGIN_ICON_FILE = "icon-list"
+
+def _load_icons(plugin_name):
+	try:
+		loader = _staged_import(plugin_name, _loader_hook)
+	except ImportError, exc:
+		return
+	try:
+		filename = loader.filename
+	except AttributeError:
+		# Special case for zipimport
+		filename = os.path.join(loader.archive, loader.prefix, plugin_name)
+	try:
+		icon_file = loader.get_data(os.path.join(filename, PLUGIN_ICON_FILE))
+	except IOError, exc:
+		pretty.print_error(__name__, type(exc).__name__, exc)
+		return
+
+	for line in icon_file.splitlines():
+		# ignore '#'-comments
+		if line.startswith("#") or not line.strip():
+			continue
+		icon_name, basename = (i.strip() for i in line.split("\t", 1))
+		sizes = (24, 96)
+		icon_path = os.path.join(filename, basename)
+		icon_data = loader.get_data(icon_path)
+		if not icon_data:
+			pretty.print_info(__name__, "Icon", basename, icon_path,"not found")
+			continue
+		icons.load_plugin_icon(plugin_name, icon_name, icon_data)
+
+
 def initialize_plugin(plugin_name):
 	"""Initialize plugin.
 	Find settings attribute if defined, and initialize it
 	"""
+	_load_icons(plugin_name)
 	settings_dict = get_plugin_attribute(plugin_name, settings_attribute)
 	if not settings_dict:
 		return

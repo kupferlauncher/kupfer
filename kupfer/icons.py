@@ -42,6 +42,18 @@ def load_kupfer_icons(sched=None):
 
 scheduler.GetScheduler().connect("load", load_kupfer_icons)
 
+def load_plugin_icon(plugin_name, icon_name, icon_data):
+	"Load icon from @icon_data into the name @icon_name"
+	for size in (24, 96):
+		ploader = gtk.gdk.PixbufLoader()
+		ploader.set_size(size, size)
+		ploader.write(icon_data)
+		ploader.close()
+		pixbuf = ploader.get_pixbuf()
+		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
+				"for", plugin_name)
+
 def get_icon(key, icon_size):
 	"""
 	try retrieve icon in cache
