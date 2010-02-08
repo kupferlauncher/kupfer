@@ -150,7 +150,19 @@ def _new_package(bld, name):
 	obj = bld.new_task_gen("py")
 	obj.find_sources_in_dirs(name)
 	obj.install_path = "${PYTHONDIR}/%s" % name
-	return obj
+
+	# Find embedded package datafiles
+	pkgnode = bld.path.find_dir(name)
+	bld.rescan(pkgnode)
+
+	def is_datafile(fname):
+		if fname in ["icon-list"]:
+			return True
+		return os.path.splitext(fname)[-1] in set([".png", ".svg"])
+
+	for dfile in filter(is_datafile, bld.cache_dir_contents[pkgnode.id]):
+		bld.install_files(obj.install_path,
+				"%s/%s" % (pkgnode.abspath(), dfile))
 
 def _find_packages_in_directory(bld, name):
 	"""Go through directory @name and recursively add all
