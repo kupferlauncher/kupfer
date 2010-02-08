@@ -1,23 +1,16 @@
 from kupfer import pretty
 from kupfer.core import settings
 
-
-CATEGORY_GENERIC = _("Generic")
-CATEGORY_WEB_BROWSER = _("Web browser")
-CATEGORY_IM = _("Instant messaging")
-CATEGORY_EMAIL = _("Email client")
-CATEGORY_MULTIMEDIA = _("Multimedia")
-CATEGORY_APP_SPECIFIC = _("Application specific")
-CATEGORY_ENV_X = _("X Environment")
-CATEGORY_ENV_GNOME = _("Gnome")
-CATEGORY_ENV_XFCE = _("XFCE")
-CATEGORY_ENV_KDE = _("KDE")
-CATEGORY_ENV_ROX = _("ROX")
-CATEGORY_ENV_LXDE = _("LXDE")
-CATEGORY_FILE_MNG = _("File management")
-CATEGORY_KUPFER = _("Kupfer internals")
-CATEGORY_SYSTEM = _("System")
-CATEGORY_WEB = _("Web")
+CATEGORY_GENERIC = "specific"
+CATEGORIES = {
+	"specific": _("Application Specific"),
+	"gnome": _("Gnome"),
+	"xfce": _("XFCE"),
+	"files": _("File Management"),
+	"base": _("Base"),
+	"system": _("System"),
+	"communication": _("Communications"),
+}
 
 
 SETTING_PREFER_CATALOG = {
