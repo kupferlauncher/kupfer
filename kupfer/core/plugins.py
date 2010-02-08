@@ -73,7 +73,11 @@ def get_plugin_info():
 		vers = plugin.get("__version__", "")
 		author = plugin.get("__author__", "")
 		category = plugin.get("__kupfer_category__") or CATEGORY_GENERIC
-		category = list(category) if hasattr(category, "__iter__") else [category]
+		categories = list(category) if hasattr(category, "__iter__") else [category]
+		localized_categories = []
+		for cat in categories:
+			if cat in CATEGORIES:
+				localized_categories.append(CATEGORIES[cat])
 		# skip false matches;
 		# all plugins have to have @localized_name
 		if localized_name is None:
@@ -85,7 +89,7 @@ def get_plugin_info():
 			"description": desc or u"",
 			"author": author,
 			"provides": (),
-			"category": category
+			"category": localized_categories,
 		}
 
 def get_plugin_desc():
