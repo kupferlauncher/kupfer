@@ -2,6 +2,35 @@
 NEWS for kupfer
 ===============
 
+kupfer's next insanity
+----------------------
+
+Not Yet Released
+
+* Plugins can be loaded at runtime, although not unloaded can they not
+* Plugins can bundle icons, and plugins can be packaged in .zip files
+* New plugin *Google Search*
+* New plugin *Textfiles*
+* New plugin *Thunar*
+* New action *Get Note Search Results...* in *Notes* by William Friesen
+  (LP#511954)
+* Detect multiple volume rar files (William Friesen) (LP#516021)
+* Fixed module name collision in user plugins LP#518958, favoriting "loose"
+  applications LP#518908
+* Make *Zim* plugin compatible with newer Zim (Karol Będkowski, Ulrik)
+* Added *Next Window* proxy object to *Window List* plugin
+
+* Kupfer now requires Python 2.6
+
+* Localization updates:
+
+  + cs Marek Černocký
+  + de Mario Blättermann
+  + pl Karol Będkowski
+  + sl Andrej Žnidaršič
+  + sv Ulrik
+
+
 kupfer version pandoras-box-1.1
 -------------------------------
 
