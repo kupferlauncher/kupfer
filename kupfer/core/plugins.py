@@ -2,7 +2,7 @@ import os
 import sys
 from kupfer import pretty, config
 from kupfer.core import settings
-from kupfer.plugin_support import CATEGORY_GENERIC
+from kupfer.plugin_support import CATEGORY_GENERIC, CATEGORIES
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
@@ -15,7 +15,9 @@ info_attributes = [
 		"__version__",
 		"__description__",
 		"__author__",
-		'__kupfer_plugin_category__'
+	]
+extra_info_attributes = [
+		"__kupfer_category__",
 	]
 
 class NotEnabledError (Exception):
@@ -56,13 +58,6 @@ class FakePlugin (object):
 
 def get_plugin_info():
 	"""Generator, yields dictionaries of plugin descriptions
-
-	with at least the fields:
-	name
-	localized_name
-	version
-	description
-	author
 	"""
 	for plugin_name in sorted(get_plugin_ids()):
 		try:
@@ -77,7 +72,7 @@ def get_plugin_info():
 		desc = plugin.get("__description__", "")
 		vers = plugin.get("__version__", "")
 		author = plugin.get("__author__", "")
-		category = plugin.get("__kupfer_plugin_category__") or CATEGORY_GENERIC
+		category = plugin.get("__kupfer_category__") or CATEGORY_GENERIC
 		category = list(category) if hasattr(category, "__iter__") else [category]
 		# skip false matches;
 		# all plugins have to have @localized_name
@@ -204,6 +199,7 @@ def _import_plugin_fake(modpath, error=None):
 	except Exception, exc:
 		pretty.print_debug(__name__, "Loading", modpath, exc)
 	attributes = dict((k, env.get(k)) for k in info_attributes)
+	attributes.update((k, env.get(k)) for k in extra_info_attributes)
 	attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
 	return FakePlugin(modpath, attributes, error)
 
