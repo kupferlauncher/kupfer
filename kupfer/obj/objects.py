@@ -167,6 +167,13 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 		if package_name and package_name not in lowername:
 			self.kupfer_add_alias(package_name)
 
+	def __hash__(self):
+		return hash(unicode(self))
+
+	def __eq__(self, other):
+		return (isinstance(other, type(self)) and
+				self.get_id() == other.get_id())
+
 	def __getstate__(self):
 		self.init_item_id = self.object and self.object.get_id()
 		state = dict(vars(self))
@@ -187,6 +194,8 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 			# Construct an AppInfo item from either path or item_id
 			from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
 			if self.init_path and os.access(self.init_path, os.X_OK):
+				# serilizable if created from a "loose file"
+				self.serializable = 1
 				item = desktop_app_info_new_from_filename(self.init_path)
 				try:
 					# try to annotate the GAppInfo object
