@@ -337,15 +337,12 @@ def _load_icons(plugin_name):
 		loader = _staged_import(plugin_name, _loader_hook)
 	except ImportError, exc:
 		return
+	modname = ".".join(_plugin_path(plugin_name))
+
 	try:
-		filename = loader.filename
-	except AttributeError:
-		# Special case for zipimport
-		filename = os.path.join(loader.archive, loader.prefix, plugin_name)
-	try:
-		icon_file = loader.get_data(os.path.join(filename, PLUGIN_ICON_FILE))
+		icon_file = pkgutil.get_data(modname, PLUGIN_ICON_FILE)
 	except IOError, exc:
-		pretty.print_error(__name__, type(exc).__name__, exc)
+		pretty.print_debug(__name__, type(exc).__name__, exc)
 		return
 
 	for line in icon_file.splitlines():
@@ -353,12 +350,7 @@ def _load_icons(plugin_name):
 		if line.startswith("#") or not line.strip():
 			continue
 		icon_name, basename = (i.strip() for i in line.split("\t", 1))
-		sizes = (24, 96)
-		icon_path = os.path.join(filename, basename)
-		icon_data = loader.get_data(icon_path)
-		if not icon_data:
-			pretty.print_info(__name__, "Icon", basename, icon_path,"not found")
-			continue
+		icon_data = pkgutil.get_data(modname, basename)
 		icons.load_plugin_icon(plugin_name, icon_name, icon_data)
 
 
