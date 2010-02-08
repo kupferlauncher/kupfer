@@ -78,9 +78,6 @@ def set_options(opt):
 	opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
 	opt.add_option('--no-runtime-deps',action='store_false',default=True,
 			help='Do not check for any runtime dependencies',dest='check_deps')
-	opt.add_option('--pythondir-install',action='store_true',default=False,
-			help="Install Kupfer's modules as standard python modules [Default: Install into DATADIR]",
-			dest='pythondir_install')
 	opt.sub_options("extras")
 
 def configure(conf):
@@ -95,8 +92,8 @@ def configure(conf):
 	conf.env["VERSION"] = VERSION
 	conf.sub_config("extras")
 
-	if not Options.options.pythondir_install:
-		conf.env["PYTHONDIR"] = Utils.subst_vars("${DATADIR}/kupfer", conf.env)
+	# Setup PYTHONDIR so we install into $DATADIR
+	conf.env["PYTHONDIR"] = Utils.subst_vars("${DATADIR}/kupfer", conf.env)
 	Utils.pprint("NORMAL",
 			"Installing python modules into: %(PYTHONDIR)s" % conf.env)
 
