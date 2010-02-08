@@ -3,7 +3,6 @@ __kupfer_sources__ = ("ThunarObjects", )
 __kupfer_actions__ = (
 	"Reveal",
 	"GetInfo",
-	"MoveToTrash",
 )
 __description__ = _("File manager Thunar actions")
 __version__ = ""
@@ -13,14 +12,12 @@ import os
 
 import dbus
 import gio
-import glib
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import FileLeaf, RunnableLeaf, SourceLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import pretty
 from kupfer import plugin_support
-from kupfer.weaklib import gobject_connect_weakly
 
 
 plugin_support.check_dbus_connection()
