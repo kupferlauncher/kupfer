@@ -5,7 +5,7 @@ NEWS for kupfer
 kupfer version pandoras-box-1.1
 -------------------------------
 
-Not Released Yet
+Released Monday,  8 February 2010
 
 * Fix bug in contact grouping code that could cause unusable Kupfer with Pidgin
   plugin. Reported by Vadim Peretokin (LP#517548)
