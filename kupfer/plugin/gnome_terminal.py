@@ -68,7 +68,3 @@ class SessionsSource(ApplicationSource):
 	def provides(self):
 		yield Terminal
 
-# Local Variables: ***
-# python-indent: 8 ***
-# indent-tabs-mode: t ***
-# End: ***
