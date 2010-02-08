@@ -24,7 +24,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"key" : "installation_method",
 		"label": _("Installation method"),
 		"type": str,
-		"value": "gksu apt-get install",
+		"value": "gksu -- apt-get install --yes",
 	},
 )
 
