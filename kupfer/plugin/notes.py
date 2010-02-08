@@ -138,7 +138,7 @@ class CreateNote (Action):
 
 class GetNoteSearchResults (Action):
 	def __init__(self):
-		Action.__init__(self, ("Get Note Search Results..."))
+		Action.__init__(self, _("Get Note Search Results..."))
 
 	def is_factory(self):
 		return True
