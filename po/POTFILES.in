@@ -60,6 +60,7 @@ kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
 kupfer/plugin/gajim.py
 kupfer/plugin/gnome_terminal.py
+kupfer/plugin/google_search.py
 kupfer/plugin/google_translate.py
 kupfer/plugin/higherorder.py
 kupfer/plugin/image.py
@@ -77,6 +78,7 @@ kupfer/plugin/shorten_links.py
 kupfer/plugin/skype.py
 kupfer/plugin_support.py
 kupfer/plugin/templates.py
+kupfer/plugin/thunar.py
 kupfer/plugin/thunderbird.py
 kupfer/plugin/top.py
 kupfer/plugin/tracker.py
