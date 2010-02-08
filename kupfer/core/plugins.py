@@ -1,7 +1,7 @@
 import os
 import pkgutil
-
 import sys
+
 from kupfer import pretty, config
 from kupfer import icons
 from kupfer.core import settings
@@ -31,19 +31,9 @@ def get_plugin_ids():
 	def is_plugname(plug):
 		return plug != "__init__" and not plug.endswith("_support")
 
-	plugin_ids = set()
 	for importer, modname, ispkg in pkgutil.iter_modules(plugin.__path__):
 		if is_plugname(modname):
-			plugin_ids.add(modname)
-
-	for plugin_dir in config.get_data_dirs("plugins"):
-		name = lambda f: os.path.splitext(f)[0]
-		try:
-			plugin_ids.update(name(f) for f in os.listdir(plugin_dir)
-					if is_plugname(name(f)))
-		except (OSError, IOError), exc:
-			pretty.print_error(__name__, exc)
-	return plugin_ids
+			yield modname
 
 class FakePlugin (object):
 	def __init__(self, plugin_id, attributes, exc_info):
@@ -247,24 +237,13 @@ def _import_plugin_true(name):
 	return plugin
 
 def _staged_import(name, import_hook):
-	"Import first from kupfer.plugin, then from plugins data directories"
+	"Import plugin @name using @import_hook"
 	plugin = None
 	try:
-		plugin = import_hook(("kupfer", "plugin", name))
+		plugin = import_hook(_plugin_path(name))
 	except ImportError, e:
 		if name not in e.args[0]:
 			raise
-
-	if not plugin:
-		oldpath = sys.path
-		try:
-			# Look in datadir kupfer/plugins for plugins
-			# (and in current directory)
-			extra_paths = list(config.get_data_dirs("plugins"))
-			sys.path = extra_paths + sys.path
-			plugin = import_hook((name,))
-		finally:
-			sys.path = oldpath
 	return plugin
 
 
@@ -285,6 +264,9 @@ def import_plugin_any(name):
 	if name in _imported_plugins:
 		return _imported_plugins[name]
 	return _staged_import(name, _import_hook_fake)
+
+def _plugin_path(name):
+	return ("kupfer", "plugin", name)
 
 
 # Plugin Attributes
