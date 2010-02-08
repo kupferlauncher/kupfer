@@ -1,6 +1,7 @@
 __kupfer_name__ = _("Gnome Terminal Profiles")
-__kupfer_sources__ = ("SessionsSource", )
 __description__ = _("Launch Gnome Terminal profiles")
+__kupfer_sources__ = ("SessionsSource", )
+__kupfer_category__ = ("gnome", )
 __version__ = ""
 __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
@@ -12,10 +13,6 @@ import glib
 from kupfer.objects import Leaf, Action
 from kupfer.obj.apps import ApplicationSource
 from kupfer import utils, icons, plugin_support
-
-__kupfer_plugin_category__ = [ plugin_support.CATEGORY_ENV_X,
-		plugin_support.CATEGORY_ENV_GNOME
-]
 
 GCONF_KEY = "/apps/gnome-terminal/profiles"
 

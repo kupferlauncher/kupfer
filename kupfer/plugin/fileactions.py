@@ -1,4 +1,5 @@
 __kupfer_name__ = _("File Actions")
+__description__ = _("More file actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
@@ -10,7 +11,7 @@ __kupfer_actions__ = (
 		"CreateArchive",
 		"CreateArchiveIn",
 	)
-__description__ = _("More file actions")
+__kupfer_category__ = ("files", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -25,7 +26,6 @@ from kupfer import utils, pretty
 from kupfer import plugin_support
 
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "archive_type",

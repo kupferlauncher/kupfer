@@ -1,8 +1,9 @@
 __kupfer_name__ = _("Locate Files")
+__description__ = _("Search filesystem using locate")
 __kupfer_actions__ = (
 		"Locate",
 	)
-__description__ = _("Search filesystem using locate")
+__kupfer_category__ = ("files", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -15,7 +16,6 @@ from kupfer import icons, plugin_support
 from kupfer.obj.objects import ConstructFileLeaf
 
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "ignore_case",

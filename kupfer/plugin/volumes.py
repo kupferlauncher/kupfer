@@ -1,6 +1,7 @@
 __kupfer_name__ = _("Volumes and Disks")
-__kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
+__kupfer_sources__ = ("VolumesSource", )
+__kupfer_category__ = ("files", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -10,8 +11,6 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.obj.fileactions import Open
 from kupfer.obj.sources import DirectorySource
 from kupfer import plugin_support
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 
 class Volume (Leaf):
 	def __init__(self, volume):

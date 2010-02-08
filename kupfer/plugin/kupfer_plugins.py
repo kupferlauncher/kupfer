@@ -1,6 +1,7 @@
 __kupfer_name__ = _("Kupfer Plugins")
-__kupfer_sources__ = ("KupferPlugins", )
 __description__ = _("Access Kupfer's plugin list in Kupfer")
+__kupfer_sources__ = ("KupferPlugins", )
+__kupfer_category__ = ("base", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -13,8 +14,6 @@ from kupfer import kupferui, plugin_support
 # Since this is a core plugin we break some rules
 # This module is normally out of bounds for plugins
 from kupfer.core import plugins, settings
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 class ShowInfo (Action):
 	def __init__(self):

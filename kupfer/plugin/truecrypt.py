@@ -1,9 +1,10 @@
 # -*- coding: UTF-8 -*-
 
 __kupfer_name__ = _("TrueCrypt")
+__description__ = _("Volumes from TrueCrypt history")
 __kupfer_sources__ = ("VolumeSource", )
 __kupfer_actions__ = ('DismountAll', 'MountFile')
-__description__ = _("Volumes from TrueCrypt history")
+__kupfer_plugin_category__ = ("files", )
 __version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 

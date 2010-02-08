@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 __kupfer_name__ = _("Gajim")
+__description__ = _("Access to Gajim Contacts")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'OpenChat')
-__description__ = _("Access to Gajim Contacts")
+__kupfer_category__ = ("communication", )
 __version__ = "2010-01-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -17,9 +18,7 @@ from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
-		
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_IM
 
 plugin_support.check_dbus_connection()
 

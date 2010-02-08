@@ -1,6 +1,7 @@
 __kupfer_name__ = _("Trash")
-__kupfer_sources__ = ("TrashSource", )
 __description__ = _("Access trash contents")
+__kupfer_sources__ = ("TrashSource", )
+__kupfer_category__ = ("files", )
 __version__ = "2009-12-06"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

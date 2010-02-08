@@ -19,8 +19,6 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import plugin_support
 from kupfer.plugin import firefox_support
 
-__kupfer_plugin_category__ = [ plugin_support.CATEGORY_WEB_BROWSER,
-		plugin_support.CATEGORY_APP_SPECIFIC ]
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,
 )

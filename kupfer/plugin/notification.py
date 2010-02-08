@@ -1,8 +1,9 @@
 __kupfer_name__ = _("Show Notification")
+__description__ = None
 __kupfer_actions__ = (
 		"ShowNotification",
 	)
-__description__ = ""
+__kupfer_category__ = ("base", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -11,8 +12,6 @@ import pynotify
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf
 from kupfer import textutils, plugin_support
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 
 def show_notification(title, body, icon_name=None, critical=False):

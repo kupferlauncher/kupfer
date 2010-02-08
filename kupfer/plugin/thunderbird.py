@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import with_statement
+
 __kupfer_name__ = _("Thunderbird")
+__description__ = _("Thunderbird/Icedove Contacts and Actions")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
-__description__ = _("Thunderbird/Icedove Contacts and Actions")
+__kupfer_category__ = ("communication", )
 __version__ = "2009-12-13"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -19,9 +20,6 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
 
 from kupfer.plugin import thunderbird_support as support
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_EMAIL
-
 
 
 class ComposeMail(RunnableLeaf):

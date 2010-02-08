@@ -13,8 +13,6 @@ from kupfer.weaklib import gobject_connect_weakly
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import plugin_support
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_ENV_X
-
 def _get_current_event_time():
 	return gtk.get_current_event_time() or keybindings.get_current_event_time()
 

@@ -1,11 +1,12 @@
 __kupfer_name__ = _("Thunar")
+__description__ = _("File manager Thunar actions")
 __kupfer_sources__ = ("ThunarObjects", )
 __kupfer_actions__ = (
 	"Reveal",
 	"GetInfo",
 	"MoveToTrash",
 )
-__description__ = _("File manager Thunar actions")
+__kupfer_category__ = ("files", "xfce")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

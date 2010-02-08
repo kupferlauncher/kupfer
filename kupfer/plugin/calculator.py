@@ -1,7 +1,9 @@
 from __future__ import division
+
 __kupfer_name__ = _("Calculator")
-__kupfer_actions__ = ("Calculate", )
 __description__ = _("Calculate expressions starting with '='")
+__kupfer_actions__ = ("Calculate", )
+__kupfer_category__ = ("base", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

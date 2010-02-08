@@ -1,12 +1,11 @@
 __kupfer_name__ = _("APT")
-__kupfer_sources__ = ()
-__kupfer_text_sources__ = ()
+__description__ = _("Interface with the package manager APT")
 __kupfer_actions__ = (
 		"ShowPackageInfo",
 		"SearchPackageName",
 		"InstallPackage",
 	)
-__description__ = _("Interface with the package manager APT")
+__kupfer_category__ = ("system", )
 __version__ = ""
 __author__ = ("Martin Koelewijn <martinkoelewijn@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
@@ -19,7 +18,6 @@ from kupfer import icons, kupferstring, task, uiutils, utils
 from kupfer import plugin_support
 
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_SYSTEM
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "installation_method",

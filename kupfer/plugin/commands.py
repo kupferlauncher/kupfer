@@ -1,7 +1,7 @@
 __kupfer_name__ = _("Shell Commands")
-__kupfer_sources__ = ()
-__kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = _("Run commandline programs")
+__kupfer_text_sources__ = ("CommandTextSource",)
+__kupfer_category__ = ("system", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

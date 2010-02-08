@@ -19,9 +19,6 @@ from kupfer import utils, config, plugin_support
 
 from kupfer.plugin import firefox_support
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_WEB
-
-
 def _noescape_urlencode(items):
 	"""Assemble an url param string from @items, without
 	using any url encoding.

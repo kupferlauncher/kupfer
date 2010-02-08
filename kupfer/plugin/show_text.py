@@ -1,10 +1,11 @@
 
 __kupfer_name__ = _("Show Text")
+__description__ = _("Display text in a window")
 __kupfer_actions__ = (
 		"ShowText",
 		"LargeType",
 	)
-__description__ = _("Display text in a window")
+__kupfer_category__ = ("base", )
 __version__ = "0.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -12,8 +13,6 @@ from kupfer.objects import Action
 from kupfer.objects import TextLeaf
 from kupfer import icons, kupferstring, uiutils
 from kupfer import plugin_support
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
 
 class ShowText (Action):
 	def __init__(self):

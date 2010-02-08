@@ -1,13 +1,12 @@
 __kupfer_name__ = _("Image Tools")
-__kupfer_sources__ = ()
-__kupfer_text_sources__ = ()
+__description__ = _("Image transformation tools")
 __kupfer_actions__ = (
 		"Scale",
 		"Rotate90",
 		"Rotate270",
 		"Autorotate",
 	)
-__description__ = _("Image transformation tools")
+__kupfer_category__ = ("files", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

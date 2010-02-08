@@ -1,6 +1,6 @@
 __kupfer_name__ = _("Tracker")
+__description__ = _("Tracker desktop search integration")
 __kupfer_sources__ = ("TrackerTagsSource", )
-__kupfer_text_sources__ = ()
 __kupfer_contents__ = ("TrackerQuerySource", )
 __kupfer_actions__ = (
 		"TrackerSearch",
@@ -8,10 +8,9 @@ __kupfer_actions__ = (
 		"TrackerAddTag",
 		"TrackerRemoveTag",
 	)
-__description__ = _("Tracker desktop search integration")
+__kupfer_category__ = ("files", )
 __version__ = "2010-01-03"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-__kupfer_plugin_category__ = plugin_support.CATEGORY_FILE_MNG
 
 import os
 from xml.etree.cElementTree import ElementTree
@@ -23,7 +22,6 @@ from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
 from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
 from kupfer import plugin_support
-
 
 
 plugin_support.check_dbus_connection()

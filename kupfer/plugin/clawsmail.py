@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 __kupfer_name__ = _("Claws Mail")
+__description__ = _("Claws Mail Contacts and Actions")
 __kupfer_sources__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", "SendFileByMail")
-__description__ = _("Claws Mail Contacts and Actions")
+__kupfer_category__ = ("communication", )
 __version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -17,7 +18,6 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_EMAIL
 
 
 class ComposeMail(RunnableLeaf):

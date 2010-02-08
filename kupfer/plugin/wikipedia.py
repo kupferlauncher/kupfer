@@ -14,8 +14,6 @@ import urllib
 from kupfer.objects import Action, TextLeaf
 from kupfer import utils, plugin_support
 
-
-__kupfer_plugin_category = plugin_support.CATEGORY_WEB
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key": "lang",

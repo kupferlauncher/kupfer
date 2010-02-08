@@ -1,7 +1,8 @@
 __kupfer_name__ = _("Favorites")
+__description__ = _("Mark commonly used items and store objects for later use")
 __kupfer_sources__ = ("FavoritesSource", )
 __kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
-__description__ = _("Mark commonly used items and store objects for later use")
+__kupfer_category__ = ("base", )
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

@@ -16,8 +16,6 @@ import urllib2
 from kupfer.objects import Action, Source, UrlLeaf, FileLeaf
 from kupfer import utils, pretty, task, plugin_support
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_KUPFER
-
 
 class DownloadTask (task.ThreadTask):
 	def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):

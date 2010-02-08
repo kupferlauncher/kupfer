@@ -12,7 +12,6 @@ from kupfer import config, plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
 
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_WEB_BROWSER
 __kupfer_settings__ = plugin_support.PluginSettings(
 	plugin_support.SETTING_PREFER_CATALOG,
 )

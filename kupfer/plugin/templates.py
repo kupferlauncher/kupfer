@@ -1,7 +1,8 @@
 __kupfer_name__ = _("Document Templates")
+__description__ = _("Create new documents from your templates")
 __kupfer_sources__ = ("TemplatesSource", )
 __kupfer_actions__ = ("CreateNewDocument", )
-__description__ = _("Create new documents from your templates")
+__kupfer_category__ = ("files", )
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

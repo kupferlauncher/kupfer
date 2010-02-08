@@ -14,8 +14,6 @@ from kupfer.objects import Source, UrlLeaf
 from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
 
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_WEB_BROWSERS
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 )

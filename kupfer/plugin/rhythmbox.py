@@ -16,7 +16,6 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import plugin_support
 from kupfer.plugin import rhythmbox_support
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_MULTIMEDIA
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "toplevel_artists",

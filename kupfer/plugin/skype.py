@@ -1,8 +1,9 @@
 # -*- coding: UTF-8 -*-
 __kupfer_name__ = _("Skype")
+__description__ = _("Access to Skype contacts")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'Chat', 'Call')
-__description__ = _("Access to Skype contacts")
+__kupfer_category__ = ("communication", )
 __version__ = "2010-01-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -16,8 +17,6 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 
-
-__kupfer_plugin_category__ = plugin_support.CATEGORY_IM
 
 # This plugin Requires D-Bus to work
 plugin_support.check_dbus_connection()

@@ -1,7 +1,8 @@
 # -*- coding: UTF-8 -*-
 __kupfer_name__ = _("System Services")
-__kupfer_sources__ = ("SystemServicesSource", )
 __description__ = _("Start, stop or restart system services via init scripts")
+__kupfer_sources__ = ("SystemServicesSource", )
+__kupfer_category__ = ("system", )
 __version__ = "0.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
@@ -12,7 +13,6 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils
 
-__kupfer_plugin_category__ = plugin_support.CATEGORY_SYSTEM
 __kupfer_settings__ = plugin_support.PluginSettings(
 		plugin_support.SETTING_PREFER_CATALOG,
 		dict(key='sudo_cmd', label=_("Sudo-like Command"), type=str, value="gksu"),
