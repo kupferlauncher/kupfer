@@ -1,1 +1,3 @@
-Documentation/Manual.rst	ident
+/Documentation/Manual.rst	ident
+/.gitattributes		export-ignore
+/debug.py		export-ignore
