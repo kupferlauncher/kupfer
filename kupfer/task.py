@@ -126,9 +126,14 @@ class BackgroundTaskRunner(pretty.OutputMixin):
 		self.result_callback = None
 		self.error_callback = None
 		self.next_run_timer = scheduler.Timer()
+		self._active = False
 
 	def start(self):
-		''' Start thread. If task is not ready - only mark as active. '''
+		''' Start thread.'''
+		self.output_info('Start task', self.name,
+				'delay:', self.startup_delay,
+				'interval:', self.interval)
+		self._active = True
 		self.next_run_timer.set(self.startup_delay, self._run)
 
 	@property
@@ -136,16 +141,16 @@ class BackgroundTaskRunner(pretty.OutputMixin):
 		return not self.next_run_timer.is_valid()
 
 	def _task_finished(self, task):
+		if not self._active:
+			# task is stoped
+			return
 		# wait for next run
 		interval = (self.interval_after_error if task.error_occurred
 				else self.interval)
 		self.next_run_timer.set(interval, self._run)
 
 	def _run(self):
-		self.output_info('Start task', self.name,
-				'delay:', self.startup_delay,
-				'interval:', self.interval)
-		# get data
+		self.output_debug('_run task', self.name)
 		task = _BackgroundTask(self._job, self.name, self.result_callback,
 				self.error_callback)
 		task.start(self._task_finished)
@@ -154,4 +159,10 @@ class BackgroundTaskRunner(pretty.OutputMixin):
 		''' Force run job (break waiting phase). '''
 		if not self.is_running:
 			self.next_run_timer.set(0, self._run)
+
+	def stop(self):
+		''' Stop background task '''
+		self.output_info('Stop task', self.name)
+		self._active = False
+		self.next_run_timer.invalidate()
 

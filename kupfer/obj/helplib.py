@@ -185,5 +185,11 @@ class _BackgroundLoader (object):
 	def activate(self):
 		self.job.activate()
 
+	def stop(self):
+		self.job.stop()
+
+	def start(self):
+		self.job.start()
+
 	def __call__(self):
 		return iter(self.cache)
