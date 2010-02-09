@@ -1,22 +1,25 @@
 """
 Persistent Globally Unique Indentifiers for KupferObjects.
+
+Some objects are assigned identifiers by reference, some are assigned
+identifiers containing the whole object data (SerializedObject).
+
+SerializedObject is a saved representation of a KupferObject, i.e. a
+data model user-level object.
+
+We unpickle SerializedObjects in an especially conservative way: new
+module loading is always refused; this way, we avoid loading parts of
+the program that we didn't wish to activate.
 """
 
-from __future__ import with_statement
-
 import contextlib
-import cPickle as pickle
-import sys
-
-try:
-	from cStringIO import StringIO
-except ImportError:
-	from StringIO import StringIO
+import pickle
 
 from kupfer import pretty
 from kupfer.core import actioncompat
 from kupfer.core import qfurl
 from kupfer.core.sources import GetSourceController
+from kupfer.conspickle import ConservativeUnpickler
 
 __all__ = [
 	"SerializedObject", "SERIALIZABLE_ATTRIBUTE",
@@ -25,41 +28,6 @@ __all__ = [
 
 
 SERIALIZABLE_ATTRIBUTE = "serializable"
-
-"""
-SerializedObject is a saved representation of a KupferObject, i.e. a
-data model user-level object.
-
-We unpickle SerializedObjects in an especially conservative way: new
-module loading is always refused; this way, we avoid loading parts of
-the program that we didn't wish to activate.
-
-The implementation with Pure-Python pickle would look like::
-
-	class ConservativeUnpickler (pickle.Unpickler):
-		"An Unpickler that refuses to import new modules"
-		def find_class(self, module, name):
-			if module not in sys.modules:
-				raise ValueError("Plugin %s is not loaded" % module)
-			return pickle.Unpickler.find_class(self, module, name)
-
-		@classmethod
-		def loads(cls, pickledata):
-			unpickler = cls(StringIO(pickledata))
-			return unpickler.load()
-
-"""
-
-def _conservative_find_global(module, name):
-	if module not in sys.modules:
-		raise pickle.UnpicklingError("Refusing to load module %s" % module)
-	return getattr(sys.modules[module], name)
-
-def conservative_loads(pickledata):
-	"Unpickle, but refuse to import new modules"
-	unpickler = pickle.Unpickler(StringIO(pickledata))
-	unpickler.find_global = _conservative_find_global
-	return unpickler.load()
 
 
 class SerializedObject (object):
@@ -71,7 +39,7 @@ class SerializedObject (object):
 		return (isinstance(other, type(self)) and self.data == other.data and
 		        self.version == other.version)
 	def reconstruct(self):
-		obj = conservative_loads(self.data)
+		obj = ConservativeUnpickler.loads(self.data)
 		if self.version != getattr(obj, SERIALIZABLE_ATTRIBUTE):
 			raise ValueError("Version mismatch for reconstructed %s" % obj)
 		return obj
