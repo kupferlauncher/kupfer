@@ -58,6 +58,7 @@ kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
+kupfer/plugin/evolution.py
 kupfer/plugin/gajim.py
 kupfer/plugin/gnome_terminal.py
 kupfer/plugin/google_search.py
