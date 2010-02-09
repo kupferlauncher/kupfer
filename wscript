@@ -32,42 +32,63 @@ def _read_git_version():
 		global VERSION
 		VERSION = version
 
-_read_git_version()
+def _write_git_version():
+	""" Write the revision to a file called GIT_VERSION,
+	to grab the current version number from git when
+	generating the dist tarball."""
+	version = _get_git_version()
+	if not version:
+		return False
+	version_file = open("GIT_VERSION", "w")
+	version_file.write(version + "\n")
+	version_file.close()
+	return True
 
-VERSION_MAJOR_MINOR = ".".join(VERSION.split(".")[0:2])
+
+_read_git_version()
 
 # these variables are mandatory ('/' are converted automatically)
 srcdir = '.'
 blddir = 'build'
 
-def dist_hook():
-	"""in the dist preparation dir, delete unwanted files"""
-	DIST_GIT_IGNORE = """
-		debug.py
-		makedist.sh
-		""".split()
+EXTRA_DIST = [
+	"waf",
+	"GIT_VERSION",
+]
 
-	for ignfile in filter(os.path.exists, DIST_GIT_IGNORE):
-		os.unlink(ignfile)
+def _tarfile_append_as(tarname, filename, destname):
+	import tarfile
+	tf = tarfile.TarFile.open(tarname, "a")
+	try:
+		tf.add(filename, destname)
+	finally:
+		tf.close()
+
+def gitdist(ctx):
+	"""Make the release tarball using git-archive"""
+	import subprocess
+	if not _write_git_version():
+		raise Exception("No version")
+	basename = "%s-%s" % (APPNAME, VERSION)
+	outname = basename + ".tar"
+	proc = subprocess.Popen(
+		["git", "archive", "--format=tar", "--prefix=%s/" % basename, "HEAD"],
+		stdout=subprocess.PIPE)
+	fd = os.open(outname, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0666)
+	os.write(fd, proc.communicate()[0])
+	os.close(fd)
+	for distfile in EXTRA_DIST:
+		_tarfile_append_as(outname, distfile, os.path.join(basename, distfile))
+	subprocess.call(["gzip", outname])
+	subprocess.call(["sha1sum", outname + ".gz"])
 
 def dist():
-	"""Make the dist tarball and print its SHA-1 """
-	def write_git_version():
-		""" Write the revision to a file called GIT_VERSION,
-		to grab the current version number from git when
-		generating the dist tarball."""
-		version = _get_git_version()
-		if not version:
-			return False
-		version_file = open("GIT_VERSION", "w")
-		version_file.write(version + "\n")
-		version_file.close()
-		return True
-
+	"The standard waf dist process"
 	import Scripting
-	write_git_version()
+	_write_git_version()
 	Scripting.g_gz = "gz"
 	Scripting.dist(APPNAME, VERSION)
+
 
 def set_options(opt):
 	# options for disabling pyc or pyo compilation
