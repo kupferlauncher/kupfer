@@ -85,3 +85,73 @@ class TaskRunner (pretty.OutputMixin):
 			for task in self.tasks:
 				self.output_info(task)
 
+
+class _BackgroundTask (ThreadTask):
+	def __init__(self, job, name, result_callback, error_callback):
+		ThreadTask.__init__(self, name)
+		self.job = job
+		self.result_callback = result_callback
+		self.error_callback = error_callback
+		self.error_occurred = True
+
+	def thread_do(self):
+		ret = self.job()
+		self.error_occurred = False
+		gobject.idle_add(self.result_callback, ret)
+
+	def thread_finally(self, exc_info):
+		if exc_info:
+			self.error_callback(exc_info)
+
+
+class BackgroundTaskRunner(pretty.OutputMixin):
+	""" Background job for load some data and cache it. """
+
+	def __init__(self, job, interval, delay=10, name=None):
+		""" Constr.
+
+		@job: function to run
+		@interval: time between reloading data (run job function, in seconds)
+		@delay: startup delay in second
+		@name: name of thread
+		"""
+		self.name = name or repr(job)
+		# function to run
+		self._job = job
+		self.interval = interval
+		# optional interval after error running job
+		self.interval_after_error = interval
+		self.startup_delay = delay
+		# function called after run job
+		self.result_callback = None
+		self.error_callback = None
+		self.next_run_timer = scheduler.Timer()
+
+	def start(self):
+		''' Start thread. If task is not ready - only mark as active. '''
+		self.next_run_timer.set(self.startup_delay, self._run)
+
+	@property
+	def is_running(self):
+		return not self.next_run_timer.is_valid()
+
+	def _task_finished(self, task):
+		# wait for next run
+		interval = (self.interval_after_error if task.error_occurred
+				else self.interval)
+		self.next_run_timer.set(interval, self._run)
+
+	def _run(self):
+		self.output_info('Start task', self.name,
+				'delay:', self.startup_delay,
+				'interval:', self.interval)
+		# get data
+		task = _BackgroundTask(self._job, self.name, self.result_callback,
+				self.error_callback)
+		task.start(self._task_finished)
+
+	def activate(self):
+		''' Force run job (break waiting phase). '''
+		if not self.is_running:
+			self.next_run_timer.set(0, self._run)
+
