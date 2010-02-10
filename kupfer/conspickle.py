@@ -32,3 +32,12 @@ class ConservativeUnpickler (pickle.Unpickler):
 	def loads(cls, pickledata):
 		unpickler = cls(io.BytesIO(pickledata))
 		return unpickler.load()
+
+class BasicUnpickler (ConservativeUnpickler):
+	"An Unpickler that can only unpickle persistend ids and select builtins"
+	safe_modules = {
+		"__builtin__" : set(["object"]),
+		"copy_reg" : set(["_reconstructor"]),
+		"kupfer.puid" : set(["SerializedObject"]),
+	}
+
