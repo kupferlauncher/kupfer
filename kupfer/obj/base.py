@@ -8,6 +8,13 @@ __all__ = [
 	"InvalidDataError", "KupferObject", "Leaf", "Action", "Source", "TextSource"
 ]
 
+# If no gettext function is loaded at this point, we load a substitute,
+# so that testing code can still work
+import __builtin__
+if not hasattr(__builtin__, "_"):
+	def identity(x): x
+	__builtin__._ = identity
+
 class Error (Exception):
 	pass
 
