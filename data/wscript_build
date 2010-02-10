@@ -5,18 +5,3 @@ bld.install_files("${DATADIR}/kupfer", "*.ui")
 # install all pure data files
 bld.install_files("${DATADIR}/kupfer/art", "art/*")
 bld.install_files("${DATADIR}/kupfer/searchplugins", "searchplugins/*")
-
-# merge translations into the .desktop file
-# and set it up to be installed
-desktop_subst_file = "kupfer.desktop"
-dtptrans = bld.new_task_gen(
-	"intltool_in",
-	podir="../po",
-	flags = ("-d", "-q", "-u", "-c"),
-	source = desktop_subst_file  + ".in",
-	target = desktop_subst_file,
-	install_path = "${DATADIR}/applications",
-	chmod = 0755,
-)
-
-

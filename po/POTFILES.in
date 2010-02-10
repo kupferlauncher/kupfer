@@ -1,7 +1,8 @@
 # encoding: UTF-8
 
 # Order: Data files, Regular modules, Object modules, Plugins
-data/kupfer.desktop.in
+auxdata/kupfer.desktop.in
+auxdata/kupfer-exec.desktop.in
 [type: gettext/glade] data/preferences.ui
 [type: gettext/glade] data/result.ui
 [type: gettext/glade] data/credentials_dialog.ui

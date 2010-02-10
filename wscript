@@ -199,11 +199,13 @@ def build(bld):
 	binary_subst_file = "kupfer-activate.sh"
 	bin = bld.new_task_gen("subst",
 		source = binary_subst_file,
-		target = "data/kupfer",
+		target = "bin/kupfer",
 		install_path = "${BINDIR}",
 		chmod = 0755,
 		dict = _dict_slice(bld.env, "PYTHON PYTHONDIR".split())
 		)
+	bld.install_files("${BINDIR}", "bin/kupfer-exec", chmod=0755)
+
 	# Documentation
 	if bld.env["RST2MAN"]:
 		# generate man page from Quickstart.rst
@@ -214,14 +216,18 @@ def build(bld):
 		)
 		bld.add_group()
 		# compress and install man page
-		bld.new_task_gen(
+		manpage = bld.new_task_gen(
 			source = "kupfer.1",
 			target = "kupfer.1.gz",
-			rule = 'gzip -c ${SRC} > ${TGT}',
+			rule = 'gzip -9 -c ${SRC} > ${TGT}',
 			install_path = "${MANDIR}/man1",
 		)
+		man_path = Utils.subst_vars(
+				os.path.join(manpage.install_path, manpage.target),
+				bld.env)
+		bld.symlink_as("${MANDIR}/man1/kupfer-exec.1.gz", man_path)
 
-	bld.add_subdirs("po data extras")
+	bld.add_subdirs("po auxdata data extras")
 
 def intlupdate(util):
 	print "You should use intltool-update directly."

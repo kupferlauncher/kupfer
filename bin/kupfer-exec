@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# This is a helper program to execute saved command files,
+# by sending them to a running instance of Kupfer.
+
+if test ! -f "$1"
+then
+	echo "A file argument required"
+	exit 1
+fi
+
+while test $# != 0
+do
+	FILE=$(realpath -s "$1")
+	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
+		se.kaizer.kupfer.Listener.ExecuteFile string:"$FILE" \
+		> /dev/null 2>&1
+	KUPFER_RUNNING=$?
+
+	if test $KUPFER_RUNNING != 0
+	then
+		zenity --info --text "Kupfer was not found running" &
+		exit 1
+	fi
+	shift
+done

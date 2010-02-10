@@ -13,7 +13,8 @@ Convenient command and access tool for applications and documents
 SYNOPSIS
 ========
 
-``kupfer`` [ *OPTIONS* | *QUERY* ]
+| ``kupfer`` [ *OPTIONS* | *QUERY* ]
+| ``kupfer-exec`` *FILE* ...
 
 DESCRIPTION
 ===========
@@ -26,6 +27,9 @@ more objects and running custom commands.
 Kupfer is written using Python and has a flexible architecture; the
 implementation is simple and makes the easy things work first. One goal
 is that new plugins can be written quickly without too much programming.
+
+``kupfer-exec`` is a helper script that can execute commands saved to
+file, but only by connecting to an already running instace of Kupfer.
 
 SPAWNING
 ========
