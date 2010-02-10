@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/x-kfcom">
+    <comment>Saved Kupfer Command</comment>
+    <comment xml:lang="sv">Sparat Kupfer-kommando</comment>
+    <glob pattern="*.kfcom"/>
+    <magic priority="50">
+      <match type="string" offset="0" value="#!/usr/bin/env kupfer-exec"/>
+    </magic>
+    <generic-icon name="text-x-script"/>
+  </mime-type>
+</mime-info>
