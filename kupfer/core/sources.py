@@ -10,6 +10,7 @@ import threading
 import time
 
 from kupfer import config, pretty, scheduler
+from kupfer import conspickle
 from kupfer.obj import base, sources
 from kupfer.core import pluginload
 
@@ -201,7 +202,7 @@ class SourceDataPickler (pretty.OutputMixin):
 		except IOError, e:
 			return None
 		try:
-			data = pickle.load(pfile)
+			data = conspickle.BasicUnpickler.loads(pfile.read())
 			sname = os.path.basename(pickle_file)
 			self.output_debug("Loaded configuration from", sname)
 			self.output_debug(data)
