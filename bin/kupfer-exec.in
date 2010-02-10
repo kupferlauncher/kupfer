@@ -1,7 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # This is a helper program to execute saved command files,
 # by sending them to a running instance of Kupfer.
+
+export TEXTDOMAIN='@PACKAGE@'
+export TEXTDOMAINDIR='@LOCALEDIR@'
 
 if test ! -f "$1"
 then
@@ -19,7 +22,9 @@ do
 
 	if test $KUPFER_RUNNING != 0
 	then
-		zenity --info --text "Kupfer was not found running" &
+		# NOTE: If you change this string, you have to change
+		# it inside kupfer/version.py as well.
+		zenity --info --text $"Could not find running Kupfer" &
 		exit 1
 	fi
 	shift

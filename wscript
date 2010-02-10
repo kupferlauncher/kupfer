@@ -197,14 +197,20 @@ def build(bld):
 	# We have to put this in an intermediate build directory,
 	# inside data/ not to clash with the 'kupfer' module(!)
 	binary_subst_file = "kupfer-activate.sh"
-	bin = bld.new_task_gen("subst",
+	bld.new_task_gen("subst",
 		source = binary_subst_file,
 		target = "bin/kupfer",
 		install_path = "${BINDIR}",
 		chmod = 0755,
 		dict = _dict_slice(bld.env, "PYTHON PYTHONDIR".split())
 		)
-	bld.install_files("${BINDIR}", "bin/kupfer-exec", chmod=0755)
+	bld.new_task_gen("subst",
+		source = "bin/kupfer-exec.in",
+		target = "bin/kupfer-exec",
+		install_path = "${BINDIR}",
+		chmod = 0755,
+		dict = _dict_slice(bld.env, "PACKAGE LOCALEDIR".split())
+		)
 
 	# Documentation
 	if bld.env["RST2MAN"]:
