@@ -4,6 +4,7 @@
 data/kupfer.desktop.in
 [type: gettext/glade] data/preferences.ui
 [type: gettext/glade] data/result.ui
+[type: gettext/glade] data/credentials_dialog.ui
 extras/kupfer_provider.py
 
 kupfer/main.py
