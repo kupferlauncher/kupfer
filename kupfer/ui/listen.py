@@ -50,21 +50,33 @@ class Service (ExportedGObject):
 	@dbus.service.method(interface_name)
 	def Present(self):
 		self.emit("present")
+
 	@dbus.service.method(interface_name)
 	def ShowHide(self):
 		self.emit("show-hide")
+
 	@dbus.service.method(interface_name, in_signature="ss")
 	def PutText(self, working_directory, text):
 		self.emit("put-text", working_directory, text)
+
+	@dbus.service.method(interface_name, in_signature="s")
+	def ExecuteFile(self, filepath):
+		self.emit("execute-file", filepath)
+
 	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
+
 gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
+
 gobject.signal_new("put-text", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING))
+gobject.signal_new("execute-file", Service, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING,))
+
 gobject.signal_new("quit", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 

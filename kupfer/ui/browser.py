@@ -1515,6 +1515,10 @@ class WindowController (pretty.OutputMixin):
 		else:
 			self.interface.put_text(text)
 
+	def _execute_file_received(self, sender, filepath):
+		from kupfer import execfile
+		execfile.execute_file(filepath)
+
 	def _close_window(self, window, event):
 		self.put_away()
 		return True
@@ -1608,6 +1612,7 @@ class WindowController (pretty.OutputMixin):
 			kserv.connect("present", self.activate)
 			kserv.connect("show-hide", self.show_hide)
 			kserv.connect("put-text", self._put_text_recieved)
+			kserv.connect("execute-file", self._execute_file_received)
 			kserv.connect("quit", self.quit)
 
 		# Load data and present UI
