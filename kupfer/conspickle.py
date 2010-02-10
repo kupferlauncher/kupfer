@@ -8,7 +8,28 @@ class universalset (object):
 		return True
 
 class ConservativeUnpickler (pickle.Unpickler):
-	"An Unpickler that refuses to import new modules"
+	"""An Unpickler that refuses to import new modules
+
+	>>> import pickle
+
+	>>> import kupfer.objects
+	>>> ConservativeUnpickler.loads(pickle.dumps(kupfer.objects.FileLeaf("A")))
+	<builtin.FileLeaf A>
+
+	>>> ConservativeUnpickler.loads(pickle.dumps(eval))
+	Traceback (most recent call last):
+	    ...
+	UnpicklingError: Refusing unsafe __builtin__.eval
+
+	>>> import sys
+	>>> import kupfer.obj.base
+	>>> pdata = pickle.dumps(kupfer.obj.base.Leaf(1, "A"))
+	>>> del sys.modules["kupfer.obj.base"]
+	>>> ConservativeUnpickler.loads(pdata)
+	Traceback (most recent call last):
+	    ...
+	UnpicklingError: Refusing to load module kupfer.obj.base
+	"""
 	safe_modules = {
 		"__builtin__" : set(["set", "sum", "object"]),
 		"copy_reg" : set(["_reconstructor"]),
@@ -34,10 +55,23 @@ class ConservativeUnpickler (pickle.Unpickler):
 		return unpickler.load()
 
 class BasicUnpickler (ConservativeUnpickler):
-	"An Unpickler that can only unpickle persistend ids and select builtins"
+	"""An Unpickler that can only unpickle persistend ids and select builtins
+
+	>>> import pickle
+
+	>>> import kupfer.objects
+	>>> BasicUnpickler.loads(pickle.dumps(kupfer.objects.FileLeaf("A")))
+	Traceback (most recent call last):
+	    ...
+	UnpicklingError: Refusing unsafe kupfer.obj.objects.FileLeaf
+	"""
+
 	safe_modules = {
 		"__builtin__" : set(["object"]),
 		"copy_reg" : set(["_reconstructor"]),
 		"kupfer.puid" : set(["SerializedObject"]),
 	}
 
+if __name__ == '__main__':
+	import doctest
+	doctest.testmod()
