@@ -16,4 +16,12 @@ install_desktop_file("kupfer-exec.desktop")
 
 # install mimetype descriptions
 
-bld.install_files("${DATADIR}/mime/packages/", "kupfer-mimetypes.xml")
+mimetypes_file = "kupfer-mimetypes.xml"
+bld.new_task_gen(
+	"intltool_in",
+	podir="../po",
+	flags = ("-x", "-q", "-u", "-c"),
+	source = mimetypes_file  + ".in",
+	target = mimetypes_file,
+	install_path = "${DATADIR}/mime/packages/",
+)
