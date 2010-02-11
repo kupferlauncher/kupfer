@@ -7,6 +7,7 @@ the module API does not depend on the session API used
 """
 
 import os
+import time
 
 import dbus
 import gobject
@@ -31,6 +32,12 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 			succ = self._connect_session_manager()
 		except dbus.DBusException, exc:
 			self.output_error(exc)
+		if not succ:
+			# try to bind to xfce session manager
+			try:
+				succ = self._connect_xfce_session_manager()
+			except dbus.DBusException, exc:
+				self.output_error(exc)
 		if not succ:
 			succ = self._connect_gnomeui()
 
@@ -93,6 +100,29 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 				dbus_interface=private_iface_name)
 		return True
 
+	def _connect_xfce_session_manager(self):
+		bus = dbus.SessionBus()
+		proxy_obj = bus.get_object('org.freedesktop.DBus',
+				'/org/freedesktop/DBus')
+		dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
+		service_name = "org.xfce.SessionManager"
+		obj_name = "/org/xfce/SessionManager"
+
+		if not dbus_iface.NameHasOwner(service_name):
+			self.output_debug("D-Bus name %s not found" % service_name)
+			return False
+
+		try:
+			bus.get_object(service_name, obj_name)
+		except dbus.DBusException, e:
+			pretty.print_error(__name__, e)
+			return False
+
+		private_iface_name = "org.xfce.Session.Manager"
+		bus.add_signal_receiver(self._xfce_session_state_changed, "StateChanged",
+				dbus_interface=private_iface_name)
+		return True
+
 	def _get_response_obj(self):
 		"""Return D-Bus session object for ClientPrivate Interface"""
 		service_name = "org.gnome.SessionManager"
@@ -121,6 +151,12 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 			self.emit("save-yourself")
 		smanager = self._get_response_obj()
 		smanager and smanager.EndSessionResponse(True, "Always OK")
+
+	def _xfce_session_state_changed(self, old_value, new_value):
+		self.output_debug("XFCE Session change", time.asctime(),
+				old_value, new_value)
+		if new_value == 4:
+			self.emit("save-yourself")
 
 	def _stop_signal(self):
 		self.output_debug("Session stop")
