@@ -16,6 +16,7 @@ class SaveToFile (Action):
 
 	def activate(self, obj, iobj):
 		execfile.save_to_file(obj, iobj.object)
+		execfile.update_icon(obj, iobj.object)
 		return FileLeaf(os.path.abspath(iobj.object))
 
 	def item_types(self):

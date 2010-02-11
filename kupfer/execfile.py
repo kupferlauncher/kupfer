@@ -1,5 +1,9 @@
+import hashlib
 import pickle
 import os
+
+import gio
+import glib
 
 from kupfer import pretty
 from kupfer import puid
@@ -32,6 +36,7 @@ def execute_file(filepath):
 		pretty.print_error(__name__, "Could not read", filepath, err)
 		return
 	command_object.run()
+	glib.idle_add(update_icon, command_object, filepath)
 
 def save_to_file(command_leaf, filename):
 	fd = os.open(filename, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o777)
@@ -41,6 +46,32 @@ def save_to_file(command_leaf, filename):
 		pickle.dump(puid.get_unique_id(command_leaf), wfile, 0)
 	finally:
 		wfile.close()
+
+def _write_thumbnail(gfile, pixbuf):
+	uri = gfile.get_uri()
+	hashname = hashlib.md5(uri).hexdigest()
+	thumb_dir = os.path.expanduser("~/.thumbnails/normal")
+	if not os.path.exists(thumb_dir):
+		os.makedirs(thumb_dir, 0700)
+	thumb_filename = os.path.join(thumb_dir, hashname + ".png")
+	pixbuf.save(thumb_filename, "png")
+	return thumb_filename
+
+def update_icon(kobj, filepath):
+	"Give @filepath a custom icon taken from @kobj"
+	icon_key = "metadata::custom-icon"
+
+	gfile = gio.File(filepath)
+	finfo = gfile.query_info(icon_key)
+	custom_icon_uri = finfo.get_attribute_string(icon_key)
+	if custom_icon_uri and gio.File(custom_icon_uri).query_exists():
+		return
+	pretty.print_debug(__name__, "Updating icon for", filepath)
+	thumb_filename = _write_thumbnail(gfile, kobj.get_pixbuf(128))
+	if any(N.name == "metadata" for N in gfile.query_writable_namespaces()):
+		gfile.set_attribute_string("metadata::custom-icon",
+				gio.File(thumb_filename).get_uri())
+
 
 if __name__ == '__main__':
 	import doctest
