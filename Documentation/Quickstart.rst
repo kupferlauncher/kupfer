@@ -13,7 +13,7 @@ Convenient command and access tool for applications and documents
 SYNOPSIS
 ========
 
-| ``kupfer`` [ *OPTIONS* | *QUERY* ]
+| ``kupfer`` [ *OPTIONS* | *FILE* ... ]
 | ``kupfer-exec`` *FILE* ...
 
 DESCRIPTION
@@ -40,9 +40,9 @@ the program it if already running.
 If the keybinder module is installed, kupfer will listen to a
 keybinding. By default the keybinding is *Ctrl+Space* to show kupfer.
 
-Kupfer can be invoked with a text query, with
+Kupfer can be invoked with a list of files
 
-        ``kupfer`` *QUERY*
+        ``kupfer`` *FILE* ...
 
 This can be used to select files given as command-line arguments in the
 program. Then you can invoke actions even on objects from a shell-based

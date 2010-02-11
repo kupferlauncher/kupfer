@@ -31,7 +31,6 @@ then
 	echo "kupfer: Reading from stdin"
 	TEXT_INPUT=$(cat)
 fi
-test -z "$TEXT_INPUT" && TEXT_INPUT="$*"
 
 # If there are any options, like "--help", we run Kupfer directly
 test "x${1:0:2}" = "x--"
@@ -43,9 +42,29 @@ KUPFER_RUNNING=$?
 if test \( -n "$TEXT_INPUT" -a $KUPFER_HAS_OPTIONS != 0 \)
 then
 	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
-	se.kaizer.kupfer.Listener.PutText string:"$PWD" string:"$TEXT_INPUT" \
-	>/dev/null 2>&1
+		se.kaizer.kupfer.Listener.PutText string:"$TEXT_INPUT" \
+		>/dev/null 2>&1
 fi
+
+_realpaths () {
+	# Emit realpaths for arguments, separated by NUL bytes
+	while test $# != 0
+	do
+		echo -ne $(realpath "$1")"\0"
+		shift
+	done
+}
+
+if test \( -n "$1" -a $KUPFER_HAS_OPTIONS != 0 \)
+then
+	# FIXME: How to handle files with , in filename
+	ARRAY=$(_realpaths "$@" | tr \\0 ,)
+	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
+		se.kaizer.kupfer.Listener.PutFiles array:string:"$ARRAY" \
+		>/dev/null 2>&1
+fi
+
+
 
 if test $KUPFER_RUNNING != 0
 then

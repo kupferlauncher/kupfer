@@ -1349,6 +1349,12 @@ class Interface (gobject.GObject):
 		self.entry.set_text(text)
 		self.entry.set_position(-1)
 
+	def put_files(self, fileuris):
+		leaves = map(interface.get_fileleaf_for_path,
+			filter(None, [gio.File(U).get_path() for U in fileuris]))
+		if leaves:
+			self.data_controller.insert_objects(data.SourcePane, leaves)
+
 	def _changed(self, editable):
 		"""
 		The entry changed callback: Here we have to be sure to use
@@ -1506,14 +1512,15 @@ class WindowController (pretty.OutputMixin):
 			self.activate(time=event_time)
 			self.interface.select_selected_file()
 
-	def _put_text_recieved(self, sender, working_dir, text):
+	def _put_text_received(self, sender, text):
 		"""We got a search query from dbus"""
-		buildpath = os.path.join(working_dir, text)
 		self.activate()
-		if os.path.exists(buildpath):
-			self.interface.put_text(buildpath)
-		else:
-			self.interface.put_text(text)
+		self.interface.put_text(text)
+
+	def _put_files_received(self, sender, fileuris):
+		"""We got a search query from dbus"""
+		self.activate()
+		self.interface.put_files(fileuris)
 
 	def _execute_file_received(self, sender, filepath):
 		from kupfer import execfile
@@ -1611,7 +1618,8 @@ class WindowController (pretty.OutputMixin):
 		else:
 			kserv.connect("present", self.activate)
 			kserv.connect("show-hide", self.show_hide)
-			kserv.connect("put-text", self._put_text_recieved)
+			kserv.connect("put-text", self._put_text_received)
+			kserv.connect("put-files", self._put_files_received)
 			kserv.connect("execute-file", self._execute_file_received)
 			kserv.connect("quit", self.quit)
 

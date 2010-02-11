@@ -755,9 +755,21 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 	def _insert_object(self, pane, obj):
 		"Insert @obj in @pane: prepare the object, then emit pane-reset"
-		sc = GetSourceController()
-		sc.decorate_object(obj)
+		self._decorate_object(obj)
 		self.emit("pane-reset", pane, search.wrap_rankable(obj))
+
+	def _decorate_object(self, *objects):
+		sc = GetSourceController()
+		for obj in objects:
+			sc.decorate_object(obj)
+
+	def insert_objects(self, pane, objects):
+		"Select @objects in @pane"
+		if pane != SourcePane:
+			raise ValueError("Can only insert in first pane")
+		self._decorate_object(objects[:-1])
+		self._set_object_stack(pane, objects[:-1])
+		self._insert_object(pane, objects[-1])
 
 	def _command_execution_result(self, ctx, result_type, ret):
 		if result_type == commandexec.RESULT_SOURCE:

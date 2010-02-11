@@ -53,7 +53,7 @@ def get_options():
 		defaults_filename = "defaults.cfg"
 		conf_path = config.save_config_file(config_filename)
 		defaults_path = config.get_data_file(defaults_filename)
-		usage_string = _("Usage: kupfer [OPTIONS | QUERY]")
+		usage_string = _("Usage: kupfer [ OPTIONS | FILE ... ]")
 		def format_options(opts):
 			return "\n".join("  --%-15s  %s" % (o,h) for o,h in opts)
 

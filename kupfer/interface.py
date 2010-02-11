@@ -25,3 +25,7 @@ def copy_to_clipboard(obj, clipboard):
 		return True
 	except AttributeError:
 		return False
+
+def get_fileleaf_for_path(pth):
+	import kupfer.objects
+	return kupfer.objects.FileLeaf(pth)
