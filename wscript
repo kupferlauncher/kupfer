@@ -196,6 +196,8 @@ def _dict_slice(D, keys):
 def build(bld):
 	# always read new version
 	bld.env["VERSION"] = VERSION
+
+	# kupfer/
 	# kupfer module version info file
 	version_subst_file = "kupfer/version_subst.py"
 	obj = bld.new_task_gen("subst",
@@ -213,13 +215,10 @@ def build(bld):
 	# Add all Python packages recursively
 	_find_packages_in_directory(bld, "kupfer")
 
-	# binary
-	# Subst in the python version
-	# We have to put this in an intermediate build directory,
-	# inside data/ not to clash with the 'kupfer' module(!)
-	binary_subst_file = "kupfer-activate.sh"
+	# bin/
+	# Write in some variables in the shell script binaries
 	bld.new_task_gen("subst",
-		source = binary_subst_file,
+		source = "bin/kupfer.in",
 		target = "bin/kupfer",
 		install_path = "${BINDIR}",
 		chmod = 0755,
@@ -233,7 +232,7 @@ def build(bld):
 		dict = _dict_slice(bld.env, "PACKAGE LOCALEDIR".split())
 		)
 
-	# Documentation
+	# Documentation/
 	if bld.env["RST2MAN"]:
 		# generate man page from Quickstart.rst
 		bld.new_task_gen(
@@ -254,6 +253,7 @@ def build(bld):
 				bld.env)
 		bld.symlink_as("${MANDIR}/man1/kupfer-exec.1.gz", man_path)
 
+	# Separate subdirectories
 	bld.add_subdirs("po auxdata data extras")
 
 def intlupdate(util):
