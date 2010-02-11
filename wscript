@@ -106,7 +106,7 @@ def set_options(opt):
 
 def configure(conf):
 	conf.check_tool("python")
-	conf.check_python_version((2,5,0))
+	conf.check_python_version((2,6,0))
 	conf.check_tool("misc gnu_dirs")
 
 	# BUG: intltool requires gcc
