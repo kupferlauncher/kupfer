@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-08 14:25+0100\n"
+"POT-Creation-Date: 2010-02-11 02:27+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -247,7 +247,12 @@ msgstr ""
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
-#: ../kupfer/obj/base.py:407 ../kupfer/plugin/core/text.py:22
+#. Strings used elsewhere(!)
+#: ../kupfer/version.py:74
+msgid "Could not find running Kupfer"
+msgstr "Hittade ingen aktiv Kupfer-process"
+
+#: ../kupfer/obj/base.py:414 ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Fritextträffar"
 

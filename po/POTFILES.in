@@ -19,6 +19,7 @@ kupfer/obj/contacts.py
 kupfer/obj/fileactions.py
 kupfer/obj/objects.py
 kupfer/obj/sources.py
+kupfer/obj/special.py
 
 # Plugin order: First, all by default enabled plugins, then others. Sorted.
 kupfer/plugin/core/contents.py
