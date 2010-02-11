@@ -51,6 +51,9 @@ _read_git_version()
 srcdir = '.'
 blddir = 'build'
 
+config_subdirs = "auxdata extras"
+build_subdirs = "auxdata data po extras"
+
 EXTRA_DIST = [
 	"waf",
 	"GIT_VERSION",
@@ -99,7 +102,7 @@ def set_options(opt):
 	opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
 	opt.add_option('--no-runtime-deps',action='store_false',default=True,
 			help='Do not check for any runtime dependencies',dest='check_deps')
-	opt.sub_options("extras")
+	opt.sub_options(config_subdirs)
 
 def configure(conf):
 	conf.check_tool("python")
@@ -111,7 +114,7 @@ def configure(conf):
 
 	conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
 	conf.env["VERSION"] = VERSION
-	conf.sub_config("extras")
+	conf.sub_config(config_subdirs)
 
 	# Setup PYTHONDIR so we install into $DATADIR
 	conf.env["PYTHONDIR"] = Utils.subst_vars("${DATADIR}/kupfer", conf.env)
@@ -254,7 +257,7 @@ def build(bld):
 		bld.symlink_as("${MANDIR}/man1/kupfer-exec.1.gz", man_path)
 
 	# Separate subdirectories
-	bld.add_subdirs("po auxdata data extras")
+	bld.add_subdirs(build_subdirs)
 
 def intlupdate(util):
 	print "You should use intltool-update directly."
