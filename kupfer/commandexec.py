@@ -26,11 +26,14 @@ merge multiple return values.
 from __future__ import with_statement
 
 import contextlib
+import sys
 
 import gobject
 
 from kupfer import pretty
 from kupfer import task
+from kupfer import uiutils
+from kupfer.objects import OperationError
 from kupfer.obj.objects import SourceLeaf
 from kupfer.obj.sources import MultiSource
 from kupfer.obj.compose import MultipleLeaf
@@ -146,6 +149,28 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 	def _is_nested(self):
 		return self._nest_level
 
+	@contextlib.contextmanager
+	def _error_conversion(self, *cmdtuple):
+		try:
+			yield
+		except OperationError:
+			self.output_debug(sys.exc_info())
+			if not self.operation_error(sys.exc_info(), cmdtuple):
+				raise
+			raise ActionExecutionError("Encountered an Operation Error")
+
+	def operation_error(self, exc_info, cmdtuple):
+		"Error when executing action. Return True when error was handled"
+		if self._is_nested():
+			return
+		etype, value, tb = exc_info
+		obj, action, iobj = cmdtuple
+		# TRANS: When an error occurs in an action to be carried out,
+		# TRANS: then this is the heading of the error notification
+		return uiutils.show_notification(
+				_("Could not to carry out '%s'") % action,
+				unicode(value))
+
 	def run(self, obj, action, iobj, delegate=False):
 		"""
 		Activate the command (obj, action, iobj), where @iobj may be None
@@ -160,8 +185,9 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		if iobj is None and action.requires_object():
 			raise ActionExecutionError("%s requires indirect object" % action)
 
-		with self._nesting():
-			ret = activate_action(obj, action, iobj)
+		with self._error_conversion(obj, action, iobj):
+			with self._nesting():
+				ret = activate_action(obj, action, iobj)
 
 		# remember last command, but not delegated commands.
 		if not delegate:
