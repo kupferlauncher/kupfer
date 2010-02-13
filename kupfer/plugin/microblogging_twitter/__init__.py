@@ -198,9 +198,8 @@ class Friend(ContactLeaf):
 	def get_description(self):
 		return self[TWITTER_USERNAME_KEY]
 
-# waiting for ComposedIconSmall
-#	def get_gicon(self):
-#		return icons.ComposedIconSmall(self.get_icon_name(), "twitter")
+	def get_gicon(self):
+		return icons.ComposedIconSmall(self.get_icon_name(), "twitter")
 
 	def get_thumbnail(self, width, height):
 		if self.image:
