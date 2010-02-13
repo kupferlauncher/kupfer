@@ -12,7 +12,7 @@ __all__ = [
 # so that testing code can still work
 import __builtin__
 if not hasattr(__builtin__, "_"):
-	def identity(x): x
+	def identity(x): return x
 	__builtin__._ = identity
 
 class Error (Exception):
