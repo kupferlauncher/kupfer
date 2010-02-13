@@ -13,6 +13,8 @@ kupfer/main.py
 kupfer/ui/browser.py
 kupfer/ui/preferences.py
 kupfer/version.py
+kupfer/commandexec.py
+kupfer/execfile.py
 
 kupfer/obj/base.py
 kupfer/obj/compose.py
@@ -23,6 +25,7 @@ kupfer/obj/sources.py
 kupfer/obj/special.py
 
 # Plugin order: First, all by default enabled plugins, then others. Sorted.
+kupfer/plugin/core/commands.py
 kupfer/plugin/core/contents.py
 kupfer/plugin/core/debug.py
 kupfer/plugin/core/__init__.py

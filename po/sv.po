@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-11 20:18+0100\n"
+"POT-Creation-Date: 2010-02-13 16:28+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -82,6 +82,18 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
+#: ../data/credentials_dialog.ui.h:1
+msgid "User credentials"
+msgstr "Användaruppgifter"
+
+#: ../data/credentials_dialog.ui.h:2
+msgid "_Password:"
+msgstr "_Lösenord:"
+
+#: ../data/credentials_dialog.ui.h:3
+msgid "_User:"
+msgstr "_Användare:"
+
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
@@ -103,8 +115,8 @@ msgid "show version information"
 msgstr "visa programversion"
 
 #: ../kupfer/main.py:56
-msgid "Usage: kupfer [OPTIONS | QUERY]"
-msgstr "Användning: kupfer [FLAGGOR | SÖKTERM]"
+msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
+msgstr "Användning: kupfer [ FLAGGOR | FIL ... ]"
 
 #: ../kupfer/main.py:63
 msgid "To configure kupfer, edit:"
@@ -210,6 +222,10 @@ msgstr "Kommandon"
 msgid "Configuration"
 msgstr "Inställningar"
 
+#: ../kupfer/ui/preferences.py:515
+msgid "Set username and password"
+msgstr "Ställ in användaruppgifter"
+
 #. TRANS: File Chooser Title
 #: ../kupfer/ui/preferences.py:546
 msgid "Choose a Directory"
@@ -255,12 +271,27 @@ msgstr ""
 "Du bör ha fått en kopia av GNU General Public License tillsammans med\n"
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
-#. Strings used elsewhere(!)
-#: ../kupfer/version.py:74
+#. follows strings used elsewhere
+#: ../kupfer/version.py:75
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
 
-#: ../kupfer/obj/base.py:414 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/commandexec.py:171
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Kunde inte utföra \"%s\""
+
+#: ../kupfer/execfile.py:29
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "Utan rättighet att utföra \"%s\" (ej körbar)"
+
+#: ../kupfer/execfile.py:46
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Kommando i \"%s\" är ej tillgängligt"
+
+#: ../kupfer/obj/base.py:416 ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Fritextträffar"
 
@@ -289,99 +320,104 @@ msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
 #: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:73
-#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:106
+#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Öppna"
 
-#: ../kupfer/obj/fileactions.py:57
+#: ../kupfer/obj/fileactions.py:38
+#, python-format
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "Det finns inget förvalt program för \"%(file)s\" (%(type)s)."
+
+#: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
 msgstr "Öppna med förvalt program"
 
-#: ../kupfer/obj/fileactions.py:63
+#: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
 msgstr "Visa"
 
-#: ../kupfer/obj/fileactions.py:72
+#: ../kupfer/obj/fileactions.py:75
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: ../kupfer/obj/fileactions.py:78
+#: ../kupfer/obj/fileactions.py:81
 msgid "Open Terminal Here"
 msgstr "Öppna i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:87
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open this location in a terminal"
 msgstr "Öppna platsen i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run (Execute)"
 msgstr "Kör"
 
-#: ../kupfer/obj/fileactions.py:109
+#: ../kupfer/obj/fileactions.py:112
 msgid "Run this program in a Terminal"
 msgstr "Kör programmet i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:114
 msgid "Run this program"
 msgstr "Kör programmet"
 
-#: ../kupfer/obj/objects.py:222 ../kupfer/plugin/windows.py:108
+#: ../kupfer/obj/objects.py:232 ../kupfer/plugin/windows.py:108
 #: ../kupfer/plugin/windows.py:245
 msgid "Go To"
 msgstr "Gå till"
 
-#: ../kupfer/obj/objects.py:248
+#: ../kupfer/obj/objects.py:258
 msgid "Open URL"
 msgstr "Öppna URL"
 
-#: ../kupfer/obj/objects.py:259
+#: ../kupfer/obj/objects.py:269
 msgid "Open URL with default viewer"
 msgstr "Öppna URL med standardprogram"
 
-#: ../kupfer/obj/objects.py:273
+#: ../kupfer/obj/objects.py:283
 msgid "Launch"
 msgstr "Starta"
 
-#: ../kupfer/obj/objects.py:284
+#: ../kupfer/obj/objects.py:294
 msgid "Show application window"
 msgstr "Visa programfönster"
 
-#: ../kupfer/obj/objects.py:285
+#: ../kupfer/obj/objects.py:295
 msgid "Launch application"
 msgstr "Starta program"
 
-#: ../kupfer/obj/objects.py:296
+#: ../kupfer/obj/objects.py:306
 msgid "Launch Again"
 msgstr "Starta igen"
 
-#: ../kupfer/obj/objects.py:303
+#: ../kupfer/obj/objects.py:313
 msgid "Launch another instance of this application"
 msgstr "Starta programmet igen"
 
-#: ../kupfer/obj/objects.py:309 ../kupfer/plugin/windows.py:42
+#: ../kupfer/obj/objects.py:319 ../kupfer/plugin/windows.py:42
 msgid "Close"
 msgstr "Stäng"
 
-#: ../kupfer/obj/objects.py:317
+#: ../kupfer/obj/objects.py:327
 msgid "Attept to close all application windows"
 msgstr "Försök att stänga alla programmets fönster"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:359
+#: ../kupfer/obj/objects.py:369
 msgid "Run"
 msgstr "Utför"
 
-#: ../kupfer/obj/objects.py:364
+#: ../kupfer/obj/objects.py:374
 msgid "Perform command"
 msgstr "Utför kommando"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:392
+#: ../kupfer/obj/objects.py:402
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -419,6 +455,24 @@ msgstr "Katalog"
 #: ../kupfer/obj/sources.py:164
 msgid "Root catalog"
 msgstr "Rotkatalog"
+
+#: ../kupfer/obj/special.py:10
+msgid "Please Configure Plugin"
+msgstr "V.v konfigurera insticksmodulen"
+
+#: ../kupfer/obj/special.py:11
+#, python-format
+msgid "Plugin %s is not configured"
+msgstr "%s är inte konfigurerad"
+
+#: ../kupfer/obj/special.py:28
+#, python-format
+msgid "Invalid user credentials for %s"
+msgstr "Ogiltiga användaruppgifter för %s"
+
+#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:30
+msgid "Save As..."
+msgstr "Spara som..."
 
 #: ../kupfer/plugin/core/contents.py:41
 msgid "Quit"
@@ -1347,6 +1401,22 @@ msgstr "Devhelp"
 #: ../kupfer/plugin/devhelp.py:3 ../kupfer/plugin/devhelp.py:13
 msgid "Search in Devhelp"
 msgstr "Sök i Devhelp"
+
+#: ../kupfer/plugin/evolution.py:4
+msgid "Evolution"
+msgstr "Evolution"
+
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:80
+msgid "Evolution contacts"
+msgstr "Evolution-kontakter"
+
+#: ../kupfer/plugin/evolution.py:29
+msgid "Compose a new message in Evolution"
+msgstr "Skriv nytt meddelande med Evolution"
+
+#: ../kupfer/plugin/evolution.py:63
+msgid "Evolution Address Book"
+msgstr "Evolution-adressbok"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gajim.py:2
