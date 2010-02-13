@@ -126,6 +126,8 @@ def _get_machine_info(vm_uuid, config_file):
 def get_machines():
 	if os.path.isfile(_VBOX_CONFIG_FILE):
 		for vm_uuid, config in _get_virtual_machines(_VBOX_CONFIG_FILE):
+			if not os.path.isabs(config):
+				config = os.path.join(os.path.dirname(_VBOX_CONFIG_FILE), config)
 			name, description = _get_machine_info(vm_uuid, config)
 			if name:
 				yield (vm_uuid, name, description)
