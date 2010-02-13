@@ -5,9 +5,9 @@ from kupfer import icons
 from kupfer import pretty
 from kupfer import utils
 
-from kupfer.obj.base import Action, InvalidDataError
+from kupfer.obj.base import Action, InvalidDataError, OperationError
 
-class NoDefaultApplicationError (Exception):
+class NoDefaultApplicationError (OperationError):
 	pass
 
 def get_actions_for_file(fileleaf):
@@ -34,7 +34,10 @@ class Open (Action):
 		def_app = gio.app_info_get_default_for_type(content_type, False)
 		if not def_app:
 			apps_for_type = gio.app_info_get_all_for_type(content_type)
-			raise NoDefaultApplicationError(unicode(leaf), content_type)
+			raise NoDefaultApplicationError(
+					_("No default application for %(file)s (%(type)s)") % 
+					{"file": unicode(leaf), "type": content_type}
+				)
 		return def_app
 
 	def activate(self, leaf):
