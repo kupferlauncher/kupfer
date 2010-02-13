@@ -55,9 +55,9 @@ class LocateQuerySource (Source):
 		# (regrettably, locate wont output streamingly to stdout)
 		# but we ask the second for results only after iterating the first few
 		first_num = 12
-		first_command = ("locate --quiet --null --limit %d %s '%s'" %
+		first_command = ("locate --null --limit %d %s '%s'" %
 				(first_num, ignore_case, self.query))
-		full_command = ("locate --quiet --null --limit %d %s '%s'" %
+		full_command = ("locate --null --limit %d %s '%s'" %
 				(self.max_items, ignore_case, self.query))
 		p1 = subprocess.Popen(first_command, shell=True, stdout=subprocess.PIPE)
 		p2 = subprocess.Popen(full_command, shell=True, stdout=subprocess.PIPE)
