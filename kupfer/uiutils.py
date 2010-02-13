@@ -10,6 +10,7 @@ import glib
 import gtk
 import pango
 
+from kupfer import pretty
 from kupfer import config, version
 from kupfer.ui import keybindings
 
@@ -170,4 +171,27 @@ def show_large_type(text):
 	window.connect("key-press-event", _window_destroy)
 	window.show_all()
 	window.present_with_time(_get_current_event_time())
+
+SERVICE_NAME = "org.freedesktop.Notifications"
+OBJECT_PATH = "/org/freedesktop/Notifications"
+IFACE_NAME = "org.freedesktop.Notifications"
+def _get_notification_iface():
+	"we will activate it over d-bus (start if not running)"
+	import dbus
+	try:
+		bus = dbus.SessionBus()
+		proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
+	except dbus.DBusException, e:
+		pretty.print_debug(__name__, e)
+		return
+	iface_obj = dbus.Interface(proxy_obj, IFACE_NAME)
+	return iface_obj
+
+def show_notification(title, text="", icon_name=""):
+	notifications = _get_notification_iface()
+	if not notifications:
+		return None
+	rid = notifications.Notify("kupfer", 0, icon_name, title, text, (), {}, -1)
+	return rid
+
 
