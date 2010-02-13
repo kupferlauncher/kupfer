@@ -5,7 +5,8 @@ from kupfer.utils import locale_sort
 from kupfer.kupferstring import tounicode, toutf8, tofolded
 
 __all__ = [
-	"InvalidDataError", "KupferObject", "Leaf", "Action", "Source", "TextSource"
+	"Error", "InvalidDataError", "OperationError", "InvalidLeafError",
+	"KupferObject", "Leaf", "Action", "Source", "TextSource",
 ]
 
 # If no gettext function is loaded at this point, we load a substitute,
@@ -19,12 +20,13 @@ class Error (Exception):
 	pass
 
 class InvalidDataError (Error):
-	"""The data is wrong for the given Leaf"""
-	pass
+	"The data is wrong for the given Leaf"
 
-class InvalidLeafError (Error):
-	"""The Leaf passed to an Action is invalid"""
-	pass
+class OperationError (Error):
+	"Command execution experienced an error"
+
+class InvalidLeafError (OperationError):
+	"The Leaf passed to an Action is invalid"
 
 _builtin_modules = frozenset([
 	"kupfer.obj.objects",
