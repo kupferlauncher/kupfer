@@ -1524,7 +1524,12 @@ class WindowController (pretty.OutputMixin):
 
 	def _execute_file_received(self, sender, filepath):
 		from kupfer import execfile
-		execfile.execute_file(filepath)
+		from kupfer import uiutils
+		try:
+			execfile.execute_file(filepath)
+		except execfile.ExecutionError, exc:
+			if not uiutils.show_notification(unicode(exc)):
+				raise
 
 	def _close_window(self, window, event):
 		self.put_away()

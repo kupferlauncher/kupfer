@@ -11,6 +11,9 @@ from kupfer import conspickle
 
 KUPFER_COMMAND_SHEBANG="#!/usr/bin/env kupfer-exec\n"
 
+class ExecutionError (Exception):
+	pass
+
 def execute_file(filepath):
 	"""Execute serialized command inside @filepath
 
@@ -18,14 +21,16 @@ def execute_file(filepath):
 	>>> execute_file(__file__)  # doctest: +ELLIPSIS
 	Traceback (most recent call last):
 	    ...
-	OSError: ... is not executable
+	ExecutionError: ... (not executable)
 	"""
 	if not os.path.exists(filepath):
-		raise IOError("%s does not exist" % (filepath, ))
+		raise IOError('"%s" does not exist' % (filepath, ))
 	if not os.access(filepath, os.X_OK):
-		raise OSError("%s is not executable" % (filepath, ))
-	data = open(filepath).read()
+		raise ExecutionError(_('No permission to run "%s" (not executable)') %
+				glib.filename_display_basename(filepath))
+
 	# strip shebang away
+	data = open(filepath).read()
 	if data.startswith("#!") and "\n" in data:
 		shebang, data = data.split("\n", 1)
 
@@ -33,8 +38,14 @@ def execute_file(filepath):
 		id_ = conspickle.BasicUnpickler.loads(data)
 		command_object = puid.resolve_unique_id(id_)
 	except pickle.UnpicklingError, err:
-		pretty.print_error(__name__, "Could not read", filepath, err)
-		return
+		raise ExecutionError("Could not parse: %s" % unicode(err))
+	except Exception:
+		raise ExecutionError('"%s" is not a saved command' %
+				os.path.basename(filepath))
+	if command_object is None:
+		raise ExecutionError(_('Command in "%s" is not available') %
+				glib.filename_display_basename(filepath))
+
 	command_object.run()
 	glib.idle_add(update_icon, command_object, filepath)
 
