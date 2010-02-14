@@ -21,7 +21,7 @@
 
 PYTHON="@PYTHON@"
 PYTHONDIR="@PYTHONDIR@"
-test ${PYTHON:0:1} = "@" && PYTHON=python
+test ${PYTHON:0:1} = "@" && PYTHON=python2.6
 test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $(realpath $0))/..
 
 # We allow either ``kupfer QUERY`` to pass text on the command line,
