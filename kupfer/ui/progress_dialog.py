@@ -15,7 +15,7 @@ def idle_call(func):
 _HEADER_MARKUP = '<span weight="bold" size="larger">%s</span>'
 
 class ProgressDialogController (object):
-	def __init__(self, title, header=None, label=None, max_value=100):
+	def __init__(self, title, header=None, max_value=100):
 		"""Create a new progress dialog
 
 		@header: first line of dialog
@@ -44,11 +44,12 @@ class ProgressDialogController (object):
 
 		self.window.set_title(title)
 		if header:
-			self.label_header.set_markup(_HEADER_MARKUP % header)
+			self.label_header.set_markup(_HEADER_MARKUP %
+					glib.markup_escape_text(header))
 		else:
 			self.label_header.hide()
 
-		self.update(0, label or '')
+		self.update(0, '', '')
 
 	def on_button_abort_clicked(self, widget):
 		self.aborted = True
@@ -63,13 +64,18 @@ class ProgressDialogController (object):
 		self.window.hide()
 
 	@idle_call
-	def update(self, value, info):
+	def update(self, value, label, text):
 		""" Update dialog information.
 
 		@value: value to set for progress bar
-		@info: information to show in dialog, above the progress bar
+		@label: current action (displayed in emphasized style)
+		@text: current information (normal style)
 		"""
 		self.progressbar.set_fraction(min(value/self.max_value, 1.0))
-		self.label_info.set_markup(kupferstring.toutf8(info))
+		self.label_info.set_markup(u"<b>%s</b> %s" %
+			(
+				glib.markup_escape_text(label),
+				glib.markup_escape_text(text),
+			))
 		return self.aborted
 
