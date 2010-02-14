@@ -19,6 +19,7 @@ from kupfer import plugin_support, pretty, icons
 from kupfer.ui.progress_dialog import ProgressDialogController
 from kupfer.obj.helplib import background_loader
 from kupfer import kupferstring
+from kupfer import utils
 from kupfer import task
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -88,19 +89,19 @@ class UploadTask(task.ThreadTask):
 		gd_client = picasa_login()
 		if not gd_client:
 			return
-		progres_dialog = ProgressDialogController(
-				_('Kupfer - Uploading files'),
-				_("Uploading files and dirs to Picasa Web Album"),
+		progress_dialog = ProgressDialogController(
+				_("Uploading Pictures"),
+				_("Uploading pictures to Picasa Web Album"),
 				max_value=self._files_albums_count)
-		progres_dialog.show()
+		progress_dialog.show()
 		try:
 			upass = __kupfer_settings__['userpass']
 			progress = 0
 			for files, album_id, album_name in self._files_to_upload:
 				# create album
 				if album_id is None:
-					progres_dialog.update(progress, _('<b>Creating album:</b> %s') \
-							% album_name)
+					progress_dialog.update(progress, _("Creating album:"),
+							album_name)
 					album = gd_client.InsertAlbum(title=album_name,
 							summary=_('Album created by Kupfer'))
 					album_id = album.gphoto_id.text
@@ -109,8 +110,9 @@ class UploadTask(task.ThreadTask):
 				album_url = ALBUM_URL % (upass.username, album_id)
 				for filename in files:
 					pretty.print_debug(__name__, 'upload: sending', filename)
-					progres_dialog.update(progress, _('<b>File:</b> %s') % filename)
-					if progres_dialog.aborted:
+					progress_dialog.update(progress, _('File:'),
+							utils.get_display_path_for_bytestring(filename))
+					if progress_dialog.aborted:
 						pretty.print_debug(__name__, 'upload: abort')
 						break
 					# send file
@@ -124,7 +126,7 @@ class UploadTask(task.ThreadTask):
 			pretty.print_error(__name__, 'upload error', err)
 
 		finally:
-			progres_dialog.hide()
+			progress_dialog.hide()
 
 	def thread_finish(self):
 		get_albums.activate()
