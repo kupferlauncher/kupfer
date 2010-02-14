@@ -57,8 +57,9 @@ _realpaths () {
 
 if test \( -n "$1" -a $KUPFER_HAS_OPTIONS != 0 \)
 then
-	# FIXME: How to handle files with , in filename
-	ARRAY=$(_realpaths "$@" | tr \\0 ,)
+	# NOTE: We must escape commas here since it is dbus-send's
+	# array item separator. This is then unescaped by kupfer
+	ARRAY=$(_realpaths "$@" | sed -e 's/,/%%kupfercomma%%/g' | tr \\0 ,)
 	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
 		se.kaizer.kupfer.Listener.PutFiles array:string:"$ARRAY" \
 		>/dev/null 2>&1
