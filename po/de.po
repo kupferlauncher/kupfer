@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-02-11 19:45+0000\n"
-"PO-Revision-Date: 2010-02-12 23:33+0100\n"
+"POT-Creation-Date: 2010-02-13 15:44+0000\n"
+"PO-Revision-Date: 2010-02-14 11:58+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,6 @@ msgid "Kupfer"
 msgstr "Kupfer"
 
 #: ../auxdata/kupfer-exec.desktop.in.h:1
-#| msgid "Select in Kupfer"
 msgid "Execute in Kupfer"
 msgstr "In Kupfer ausführen"
 
@@ -115,7 +114,6 @@ msgid "show version information"
 msgstr "Versionsinformationen anzeigen"
 
 #: ../kupfer/main.py:56
-#| msgid "Usage: kupfer [OPTIONS | QUERY]"
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Aufruf: kupfer [OPTIONEN | DATEI …]"
 
@@ -285,7 +283,22 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 
-#: ../kupfer/obj/base.py:414 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/commandexec.py:171
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Aktion »%s« konnte nicht ausgeführt werden"
+
+#: ../kupfer/execfile.py:29
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "Keine Zugriffsrechte zur Ausführung von »%s« (nicht ausführbar)"
+
+#: ../kupfer/execfile.py:46
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Befehl in »%s« ist nicht verfügbar"
+
+#: ../kupfer/obj/base.py:416 ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Übereinstimmungen im Text"
 
@@ -318,39 +331,45 @@ msgstr "[%(status)s] %(userid)s/%(service)s"
 msgid "Open"
 msgstr "Öffnen"
 
-#: ../kupfer/obj/fileactions.py:57
+#: ../kupfer/obj/fileactions.py:38
+#, python-format
+#| msgid "Set default application to open this file type"
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "Keine Standardanwendung für %(file)s (%(type)s)"
+
+#: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
 msgstr "Mit der Standardanwendung öffnen"
 
-#: ../kupfer/obj/fileactions.py:63
+#: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
 msgstr "Beinhaltenden Ordner öffnen"
 
-#: ../kupfer/obj/fileactions.py:72
+#: ../kupfer/obj/fileactions.py:75
 msgid "Open parent folder"
 msgstr "Übergeordneten Ordner öffnen"
 
-#: ../kupfer/obj/fileactions.py:78
+#: ../kupfer/obj/fileactions.py:81
 msgid "Open Terminal Here"
 msgstr "Hier ein Terminal öffnen"
 
-#: ../kupfer/obj/fileactions.py:87
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open this location in a terminal"
 msgstr "Diesen Ort in einem Terminal öffnen"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run in Terminal"
 msgstr "Im Terminal ausführen"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run (Execute)"
 msgstr "Ausführen (Starten)"
 
-#: ../kupfer/obj/fileactions.py:109
+#: ../kupfer/obj/fileactions.py:112
 msgid "Run this program in a Terminal"
 msgstr "Dieses Programm in einem Terminal ausführen"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:114
 msgid "Run this program"
 msgstr "Dieses Programm ausführen"
 
@@ -456,9 +475,13 @@ msgstr "Plugin %s ist nicht konfiguriert"
 
 #: ../kupfer/obj/special.py:28
 #, python-format
-#| msgid "Recently used documents for %s"
 msgid "Invalid user credentials for %s"
 msgstr "Ungültige Anmeldedaten für %s"
+
+#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:30
+#| msgid "Scale..."
+msgid "Save As..."
+msgstr "Speichern unter …"
 
 #: ../kupfer/plugin/core/contents.py:41
 msgid "Quit"
@@ -804,12 +827,10 @@ msgid "Create a new note from this text"
 msgstr "Eine neue Notiz aus diesem Text erstellen"
 
 #: ../kupfer/plugin/notes.py:141
-#| msgid "Get Tracker Results..."
 msgid "Get Note Search Results..."
 msgstr "Suchergebnisse für Notizen einholen …"
 
 #: ../kupfer/plugin/notes.py:154
-#| msgid "Show Tracker results for query"
 msgid "Show search results for this query"
 msgstr "Suchergebnisse für diese Abfrage anzeigen"
 
@@ -1399,17 +1420,14 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:80
-#| msgid "Show offline contacts"
 msgid "Evolution contacts"
 msgstr "Evolution-Kontakte"
 
 #: ../kupfer/plugin/evolution.py:29
-#| msgid "Compose a new message in Claws Mail"
 msgid "Compose a new message in Evolution"
 msgstr "Eine neue E-Mail mit Evolution erstellen"
 
 #: ../kupfer/plugin/evolution.py:63
-#| msgid "Claws Mail Address Book"
 msgid "Evolution Address Book"
 msgstr "Adressbuch von Evolution"
 
@@ -1493,7 +1511,6 @@ msgstr "Ergebnisse für »%s«"
 
 #: ../kupfer/plugin/google_search.py:64
 #, python-format
-#| msgid "Results for \"%s\""
 msgid "Show More Results For \"%s\""
 msgstr "Weitere Ergebnisse für »%s« anzeigen"
 
@@ -1894,22 +1911,18 @@ msgid "Textfiles"
 msgstr "Textdateien"
 
 #: ../kupfer/plugin/textfiles.py:49
-#| msgid "Append to Note..."
 msgid "Append To..."
 msgstr "Anhängen an …"
 
 #: ../kupfer/plugin/textfiles.py:73
-#| msgid "Append to Note..."
 msgid "Append..."
 msgstr "Anhängen …"
 
 #: ../kupfer/plugin/textfiles.py:77
-#| msgid "Translate To..."
 msgid "Write To..."
 msgstr "Schreiben an …"
 
 #: ../kupfer/plugin/textfiles.py:109
-#| msgid "Search Contents"
 msgid "Get Text Contents"
 msgstr "Textinhalte holen"
 
@@ -1922,7 +1935,6 @@ msgid "File manager Thunar actions"
 msgstr "Aktionen des Dateimanagers Thunar"
 
 #: ../kupfer/plugin/thunar.py:66
-#| msgid "Select in Kupfer"
 msgid "Select in File Manager"
 msgstr "Im Dateimanager auswählen"
 
@@ -1931,12 +1943,10 @@ msgid "Show Properties"
 msgstr "Eigenschaften anzeigen"
 
 #: ../kupfer/plugin/thunar.py:95
-#| msgid "Show information about Kupfer authors and license"
 msgid "Show information about file in file manager"
 msgstr "Informationen über die Datei im Dateimanager anzeigen"
 
 #: ../kupfer/plugin/thunar.py:99
-#| msgid "Trash"
 msgid "Empty Trash"
 msgstr "Müll ist leer"
 
