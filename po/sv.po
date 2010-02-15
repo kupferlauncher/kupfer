@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-13 16:28+0100\n"
+"POT-Creation-Date: 2010-02-15 02:05+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -1885,13 +1885,21 @@ msgstr "%s-mall"
 msgid "Empty File"
 msgstr "Tom fil"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:49
+msgid "New Folder"
+msgstr "Ny mapp"
+
+#: ../kupfer/plugin/templates.py:59
 msgid "Create New Document..."
 msgstr "Skapa nytt dokument..."
 
-#: ../kupfer/plugin/templates.py:80
+#: ../kupfer/plugin/templates.py:98
 msgid "Create a new document from template"
 msgstr "Skapa nytt dokument från mall"
+
+#: ../kupfer/plugin/templates.py:105
+msgid "Create Document In..."
+msgstr "Skapa dokument i..."
 
 #: ../kupfer/plugin/textfiles.py:13
 msgid "Textfiles"
