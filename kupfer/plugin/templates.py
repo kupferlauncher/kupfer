@@ -37,10 +37,22 @@ class Template (FileLeaf):
 class EmptyFile (Leaf):
 	def __init__(self):
 		Leaf.__init__(self, None, _("Empty File"))
+	def repr_key(self):
+		return ""
 	def get_actions(self):
 		yield CreateDocumentIn()
 	def get_icon_name(self):
 		return "gtk-file"
+
+class NewFolder (Leaf):
+	def __init__(self):
+		Leaf.__init__(self, None, _("New Folder"))
+	def repr_key(self):
+		return ""
+	def get_actions(self):
+		yield CreateDocumentIn()
+	def get_icon_name(self):
+		return "folder"
 
 class CreateNewDocument (Action):
 	def __init__(self):
@@ -49,13 +61,17 @@ class CreateNewDocument (Action):
 	def has_result(self):
 		return True
 	def activate(self, leaf, iobj):
-		if iobj.object:
+		if iobj.object is not None:
 			# Copy the template to destination directory
 			basename = os.path.basename(iobj.object)
 			tmpl_gfile = gio.File(iobj.object)
 			destpath = utils.get_destpath_in_directory(leaf.object, basename)
 			destfile = gio.File(destpath)
 			tmpl_gfile.copy(destfile, flags=gio.FILE_COPY_ALL_METADATA)
+		elif isinstance(iobj, NewFolder):
+			filename = unicode(iobj)
+			destpath = utils.get_destpath_in_directory(leaf.object, filename)
+			os.makedirs(destpath)
 		else:
 			# create new empty file
 			filename = unicode(iobj)
@@ -73,6 +89,8 @@ class CreateNewDocument (Action):
 	def object_types(self):
 		yield Template
 		yield EmptyFile
+		yield NewFolder
+
 	def object_source(self, for_item=None):
 		return TemplatesSource()
 
@@ -83,6 +101,8 @@ class CreateNewDocument (Action):
 
 class CreateDocumentIn(helplib.reverse_action(CreateNewDocument)):
 	rank_adjust = 10
+	def __init__(self):
+		Action.__init__(self, _("Create Document In..."))
 
 class TemplatesSource (Source, FilesystemWatchMixin):
 	def __init__(self):
@@ -101,6 +121,7 @@ class TemplatesSource (Source, FilesystemWatchMixin):
 	def get_items(self):
 		tmpl_dir = self._get_tmpl_dir()
 		yield EmptyFile()
+		yield NewFolder()
 		try:
 			for fname in os.listdir(tmpl_dir):
 				yield Template(os.path.join(tmpl_dir, fname))
