@@ -146,7 +146,7 @@ class SourceLeaf (Leaf):
 	def get_icon_name(self):
 		return self.object.get_icon_name()
 
-class AppLeaf (Leaf, pretty.OutputMixin):
+class AppLeaf (Leaf):
 	def __init__(self, item=None, init_path=None, app_id=None):
 		"""Try constructing an Application for GAppInfo @item,
 		for file @path or for package name @app_id.
@@ -201,13 +201,13 @@ class AppLeaf (Leaf, pretty.OutputMixin):
 					# try to annotate the GAppInfo object
 					item.init_path = self.init_path
 				except AttributeError, exc:
-					self.output_debug(exc)
+					pretty.print_debug(__name__, exc)
 			elif self.init_item_id:
 				try:
 					item = DesktopAppInfo(self.init_item_id)
 				except RuntimeError:
-					self.output_debug(self, "Application", self.init_item_id,
-							"not found")
+					pretty.print_debug(__name__, "Application not found:",
+							self.init_item_id)
 		self.object = item
 		if not self.object:
 			raise InvalidDataError
