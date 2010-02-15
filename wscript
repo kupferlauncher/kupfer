@@ -137,6 +137,7 @@ def configure(conf):
 		gtk
 		xdg
 		dbus
+		keyring
 		"""
 	for module in python_modules.split():
 		conf.check_python_module(module)
