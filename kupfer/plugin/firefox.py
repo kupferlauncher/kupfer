@@ -54,9 +54,9 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 				             LIMIT ?""",
 				             (max_history_items,))
 				return [UrlLeaf(url, title) for url, title in c]
-		except sqlite3.Error, exc:
+		except sqlite3.Error:
 			# Something is wrong with the database
-			self.output_error(exc)
+			self.output_exc()
 
 	def _get_ffx3_bookmarks(self, fpath):
 		"""Parse Firefox' .json bookmarks backups"""
@@ -92,10 +92,10 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 		if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
 			try:
 				json_bookmarks = list(self._get_ffx3_bookmarks(fpath))
-			except Exception, exc:
+			except Exception:
 				# Catch JSON parse errors
 				# different exception for cjson and json
-				self.output_error(exc)
+				self.output_exc()
 			else:
 				return itertools.chain(self._history, json_bookmarks)
 
