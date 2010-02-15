@@ -17,14 +17,16 @@ Building blocks
 
 Kupfer's architecture is built around objects that can be acted on by
 actions. Kupfer's basic concept for understanding objects is in
-``kupfer/objects.py``. The basic building block is ``KupferObject``.
+``kupfer/obj/base.py``. The basic building block is ``KupferObject``.
+
+Further built-in objects are defined in all of the ``kupfer/obj``
+package, most importantly in ``kupfer/obj/objects.py``.
 
 .. note::
 
     This document is a Work in progress.
 
-    If you have questions, just fire them away directly to me,
-    using the address <ulrik.sverdrup@gmail.com>
+    If you have questions, just email them away directly to me.
 
 
 KupferObject
@@ -48,12 +50,13 @@ Below follows a summary. For complete information, you should read
 kupfer's python interface documentation: go to the directory containing
 the kupfer module and do::
 
-    $ python
-    >>> from kupfer import main, objects
-    >>> help(objects.KupferObject)
-    >>> help(objects.Leaf)
-    >>> help(objects.Action)
-    >>> help(objects.Source)
+    $ pydoc2.6 kupfer.obj.base
+
+or equivalently::
+
+    >>> import kupfer.obj.base
+    >>> help(kupfer.obj.base.KupferObject)
+    >>> help(kupfer.obj.base)
 
 Leaf
 ....
@@ -88,8 +91,9 @@ Action
 ......
 
 An Action represents a command using a direct object and an optional
-indirect object. One example is ``objects.Show`` that will open its
-direct object (which must be a file), with its default viewer.
+indirect object. One example is ``kupfer.obj.fileactions.Open`` that
+will open its direct object (which must be a file), with its default
+viewer.
 
 Actions are the most versatile parts of Kupfer, since they can define
 ways to use objects together. They also have to decide, which types of
@@ -160,6 +164,10 @@ This defines, in addition to KupferObject:
 ``provides()``
     Return a sequence of all precise Leaf types the Source may contain
 
+``initialize()``
+    Called when the source should be made ready to use. This is where it
+    should register for external change callbacks, for example.
+
 ``get_leaf_repr()``
     Return a Leaf that represents the Source, if applicable; for example
     the DirectorySource is represented by a FileLeaf for the directory.
@@ -174,7 +182,7 @@ TextSource
 A text source returns items for a given text string, it is much like a
 simplified version of Source.
 
-``get_item(text)``
+``get_text_items(text)``
     Return items for the given query.
 ``provides()``
     Return a sequence of the Leaf types it may contain
