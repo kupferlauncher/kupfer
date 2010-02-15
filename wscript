@@ -106,7 +106,15 @@ def set_options(opt):
 
 def configure(conf):
 	conf.check_tool("python")
-	conf.check_python_version((2,6,0))
+	try:
+		conf.check_python_version((2,6,0))
+	except Configure.ConfigurationError:
+		# with explicitly set python that is not found, we
+		# must show an error
+		if os.getenv("PYTHON"):
+			raise
+		conf.env["PYTHON"] = "python2.6"
+		conf.check_python_version((2,6,0))
 	conf.check_tool("misc gnu_dirs")
 
 	# BUG: intltool requires gcc
