@@ -47,31 +47,14 @@ def get_options():
 
 	import getopt
 	def make_help_text():
-		from kupfer import config
-
-		config_filename = "kupfer.cfg"
-		defaults_filename = "defaults.cfg"
-		conf_path = config.save_config_file(config_filename)
-		defaults_path = config.get_data_file(defaults_filename)
 		usage_string = _("Usage: kupfer [ OPTIONS | FILE ... ]")
 		def format_options(opts):
 			return "\n".join("  --%-15s  %s" % (o,h) for o,h in opts)
 
-		options_string = u"%s\n\n%s\n\n%s" % (usage_string,
+		options_string = u"%s\n\n%s\n\n%s\n" % (usage_string,
 				format_options(program_options), format_options(misc_options))
 
-		configure_help1 = _("To configure kupfer, edit:")
-		configure_help2 = _("The default config for reference is at:")
-		help_text = "\n".join((
-			options_string,
-			"\n",
-			configure_help1,
-			"\t%s" % conf_path,
-			configure_help2,
-			"\t%s" % defaults_path,
-			"\n",
-		))
-		return help_text
+		return options_string
 
 	def make_plugin_list():
 		from kupfer.core import plugins
