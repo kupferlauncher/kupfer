@@ -7,7 +7,9 @@ auxdata/kupfer-mimetypes.xml.in
 [type: gettext/glade] data/preferences.ui
 [type: gettext/glade] data/result.ui
 [type: gettext/glade] data/credentials_dialog.ui
+[type: gettext/glade] data/progress_dialog.ui
 extras/kupfer_provider.py
+
 
 kupfer/main.py
 kupfer/ui/browser.py
@@ -60,6 +62,7 @@ kupfer/plugin/windows.py
 # Optional plugins follow
 kupfer/plugin/abiword.py
 kupfer/plugin/apt_tools.py
+kupfer/plugin/archiveinside.py
 kupfer/plugin/audacious.py
 kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
@@ -68,12 +71,15 @@ kupfer/plugin/devhelp.py
 kupfer/plugin/evolution.py
 kupfer/plugin/gajim.py
 kupfer/plugin/gnome_terminal.py
+kupfer/plugin/google_mail/__init__.py
+kupfer/plugin/google_picasa/__init__.py
 kupfer/plugin/google_search.py
 kupfer/plugin/google_translate.py
 kupfer/plugin/higherorder.py
 kupfer/plugin/image.py
 kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/locate.py
+kupfer/plugin/microblogging_twitter/__init__.py
 kupfer/plugin/openoffice.py
 kupfer/plugin/opera.py
 kupfer/plugin/pidgin.py
