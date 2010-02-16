@@ -11,6 +11,7 @@ class PleaseConfigureLeaf(RunnableLeaf):
 	description = _("Plugin %s is not configured")
 
 	def __init__(self, plugin_id, plugin_name):
+		plugin_id = plugin_id.split('.')[-1]
 		RunnableLeaf.__init__(self, plugin_id, self.message)
 		self.plugin_name = plugin_name
 
