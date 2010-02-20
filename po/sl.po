@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
-# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009.
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-02-11 23:06+0000\n"
-"PO-Revision-Date: 2010-02-12 13:46+0100\n"
+"POT-Creation-Date: 2010-02-17 10:46+0000\n"
+"PO-Revision-Date: 2010-02-20 20:58+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -96,6 +96,10 @@ msgstr "_Geslo:"
 msgid "_User:"
 msgstr "_Uporabnik:"
 
+#: ../data/progress_dialog.ui.h:1
+msgid "label"
+msgstr "oznaka"
+
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
 msgstr "ob zagonu ne pokaži glavnega vmesnika"
@@ -116,23 +120,15 @@ msgstr "pokaži uporabo pomoči"
 msgid "show version information"
 msgstr "pokaži podrobnosti različice"
 
-#: ../kupfer/main.py:56
+#: ../kupfer/main.py:50
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Uporaba: kupfer [MOŽNOSTI | DATOEKA ...]"
 
-#: ../kupfer/main.py:63
-msgid "To configure kupfer, edit:"
-msgstr "Za nastavljanje kupfer, uredite:"
-
-#: ../kupfer/main.py:64
-msgid "The default config for reference is at:"
-msgstr "Privzeta nastavitev za sklic je na:"
-
-#: ../kupfer/main.py:78
+#: ../kupfer/main.py:61
 msgid "Available plugins:"
 msgstr "Razpoložljivi vstavki:"
 
-#: ../kupfer/main.py:122
+#: ../kupfer/main.py:105
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -279,7 +275,22 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Ni mogoče Kupfer v teku"
 
-#: ../kupfer/obj/base.py:414
+#: ../kupfer/commandexec.py:171
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Ni mogoče izvesti '%s'"
+
+#: ../kupfer/execfile.py:28
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "Ni dovoljenj za zagon \"%s\" (ni izvedljiva)"
+
+#: ../kupfer/execfile.py:45
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Ukaz v \"%s\" ni na voljo"
+
+#: ../kupfer/obj/base.py:416
 #: ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Zadetki besedila"
@@ -318,39 +329,44 @@ msgstr "[%(status)s] %(userid)s/%(service)s"
 msgid "Open"
 msgstr "Odpri"
 
-#: ../kupfer/obj/fileactions.py:57
+#: ../kupfer/obj/fileactions.py:38
+#, python-format
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "Ni privzetega programa za %(file)s (%(type)s)"
+
+#: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
 msgstr "Odpri s privzetim programom"
 
-#: ../kupfer/obj/fileactions.py:63
+#: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
 msgstr "Razkrij"
 
-#: ../kupfer/obj/fileactions.py:72
+#: ../kupfer/obj/fileactions.py:75
 msgid "Open parent folder"
 msgstr "Odpri nadrejeno mapo"
 
-#: ../kupfer/obj/fileactions.py:78
+#: ../kupfer/obj/fileactions.py:81
 msgid "Open Terminal Here"
 msgstr "Odpri terminal tukaj"
 
-#: ../kupfer/obj/fileactions.py:87
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open this location in a terminal"
 msgstr "Odpri to mesto v terminalu"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run in Terminal"
 msgstr "Zaženi v terminalu"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run (Execute)"
 msgstr "Zaženi (izvedi)"
 
-#: ../kupfer/obj/fileactions.py:109
+#: ../kupfer/obj/fileactions.py:112
 msgid "Run this program in a Terminal"
 msgstr "Zaženi ta program v teminalu"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:114
 msgid "Run this program"
 msgstr "Zaženi ta program"
 
@@ -459,10 +475,15 @@ msgstr "Nastavitve vstavek"
 msgid "Plugin %s is not configured"
 msgstr "Vstavek %s ni nastavljen"
 
-#: ../kupfer/obj/special.py:28
+#: ../kupfer/obj/special.py:29
 #, python-format
 msgid "Invalid user credentials for %s"
 msgstr "Neveljavna uporabniška poverila za %s"
+
+#: ../kupfer/plugin/core/commands.py:12
+#: ../kupfer/plugin/core/commands.py:30
+msgid "Save As..."
+msgstr "Shrani kot..."
 
 #: ../kupfer/plugin/core/contents.py:41
 msgid "Quit"
@@ -960,6 +981,7 @@ msgid "Tracks by %s"
 msgstr "Skladbe od %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
+#: ../kupfer/plugin/google_picasa/__init__.py:422
 msgid "Albums"
 msgstr "Albumi"
 
@@ -1027,20 +1049,24 @@ msgid "Special items and actions for XFCE environment"
 msgstr "Posebni predmeti in dejanja za okolje XFCE"
 
 #: ../kupfer/plugin/show_text.py:1
-#: ../kupfer/plugin/show_text.py:17
-#: ../kupfer/plugin/show_text.py:20
+#: ../kupfer/plugin/show_text.py:19
+#: ../kupfer/plugin/show_text.py:22
 msgid "Show Text"
 msgstr "Pokaži besedilo"
 
-#: ../kupfer/plugin/show_text.py:6
-#: ../kupfer/plugin/show_text.py:26
-#: ../kupfer/plugin/show_text.py:41
+#: ../kupfer/plugin/show_text.py:7
+#: ../kupfer/plugin/show_text.py:28
+#: ../kupfer/plugin/show_text.py:43
 msgid "Display text in a window"
 msgstr "Prikaz besedila v oknu"
 
-#: ../kupfer/plugin/show_text.py:32
+#: ../kupfer/plugin/show_text.py:34
 msgid "Large Type"
 msgstr "Velika vrsta"
+
+#: ../kupfer/plugin/show_text.py:51
+msgid "Show Notification"
+msgstr "Pokaži obvestilo"
 
 #: ../kupfer/plugin/trash.py:1
 #: ../kupfer/plugin/trash.py:140
@@ -1303,6 +1329,19 @@ msgstr "Paketi skladni z \"%s\""
 msgid "Search Package Name..."
 msgstr "Poišči ime paketa ..."
 
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr "Globoki arhivi"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Dovoli brskanje znotraj stisnjenih arhivskih datotek"
+
+#: ../kupfer/plugin/archiveinside.py:83
+#, python-format
+msgid "Content of %s"
+msgstr "Vsebina %s"
+
 #: ../kupfer/plugin/audacious.py:1
 #: ../kupfer/plugin/audacious.py:212
 msgid "Audacious"
@@ -1388,7 +1427,7 @@ msgid "Claws Mail Contacts and Actions"
 msgstr "Stiki in dejanja Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:25
-#: ../kupfer/plugin/evolution.py:23
+#: ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Sestavi novo pošte"
@@ -1407,13 +1446,14 @@ msgstr "Prejem nove pošte za vse račune v ClawsMail"
 
 #: ../kupfer/plugin/clawsmail.py:55
 #: ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:38
+#: ../kupfer/plugin/evolution.py:39
 #: ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Sestavi e-pošto"
 
 #: ../kupfer/plugin/clawsmail.py:80
 #: ../kupfer/plugin/defaultmail.py:43
+#: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
 msgstr "Pošlji v e-pošti ..."
 
@@ -1451,15 +1491,19 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: ../kupfer/plugin/evolution.py:7
-#: ../kupfer/plugin/evolution.py:80
+#: ../kupfer/plugin/evolution.py:116
 msgid "Evolution contacts"
 msgstr "Stiki Evolution"
 
-#: ../kupfer/plugin/evolution.py:29
+#: ../kupfer/plugin/evolution.py:30
 msgid "Compose a new message in Evolution"
 msgstr "Sestavi novo sporočilo v Evolution"
 
-#: ../kupfer/plugin/evolution.py:63
+#: ../kupfer/plugin/evolution.py:91
+msgid "Compose new message in Evolution and attach file"
+msgstr "Sestavljanje novega sporočila v Evolution in priloga datoteke"
+
+#: ../kupfer/plugin/evolution.py:99
 msgid "Evolution Address Book"
 msgstr "Imenik Evolution"
 
@@ -1535,6 +1579,112 @@ msgstr "Profili Gnome Terminala"
 #: ../kupfer/plugin/gnome_terminal.py:3
 msgid "Launch Gnome Terminal profiles"
 msgstr "Naloži profile Gnome Terminala"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/google_mail/__init__.py:2
+#: ../kupfer/plugin/google_mail/__init__.py:146
+msgid "Google Mail"
+msgstr "Google pošta"
+
+#: ../kupfer/plugin/google_mail/__init__.py:5
+msgid "Load contacts and compose new email in Google Mail"
+msgstr "Nalaganje stikov in sestavljanje nove elektronske pošte v Google pošti"
+
+#: ../kupfer/plugin/google_mail/__init__.py:31
+msgid "Load contacts icons"
+msgstr "Naloži ikone stikov"
+
+#: ../kupfer/plugin/google_mail/__init__.py:52
+msgid "Compose Email in GMail"
+msgstr "Sestavljanje elektronske pošte v GMailu"
+
+#: ../kupfer/plugin/google_mail/__init__.py:75
+msgid "Open web browser and compose new email in GMail"
+msgstr "Odpiranje spletnega brskalnika in sestavljanje nove elektronske pošte v GMail"
+
+#: ../kupfer/plugin/google_mail/__init__.py:170
+msgid "Contacts from Google services (Google Mail)"
+msgstr "Stiki iz storitev Google (Google pošta)"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/google_picasa/__init__.py:2
+msgid "Google Picasa"
+msgstr "Google Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:5
+msgid "Show albums and upload files to Picasa."
+msgstr "Prikaz albumov in pošiljanje datotek v Picasa."
+
+#: ../kupfer/plugin/google_picasa/__init__.py:34
+msgid "Users to show: (,-separated)"
+msgstr "Uporabniki za prikaz: (,-ločeno)"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:40
+msgid "Load user and album icons"
+msgstr "Nalaganje ikon uporabnikov in albumov"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:93
+msgid "Uploading Pictures"
+msgstr "Pošiljanje slik"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:94
+msgid "Uploading pictures to Picasa Web Album"
+msgstr "Pošiljanje slik na Picasa spletni album"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:103
+msgid "Creating album:"
+msgstr "Ustvarjanje albuma:"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:106
+msgid "Album created by Kupfer"
+msgstr "Album je ustvaril s Kupfer"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:113
+msgid "File:"
+msgstr "Datoteka:"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:246
+#, python-format
+msgid "One album"
+msgid_plural "%(num)d albums"
+msgstr[0] "%(num)d albumov"
+msgstr[1] "%(num)d album"
+msgstr[2] "%(num)d albuma"
+msgstr[3] "%(num)d albumi"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:273
+#, python-format
+msgid "one photo"
+msgid_plural "%(num)s photos"
+msgstr[0] "%(num)s fotografij"
+msgstr[1] "%(num)s fotografija"
+msgstr[2] "%(num)s fotografiji"
+msgstr[3] "%(num)s fotografije"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:293
+msgid "Upload to Picasa Album..."
+msgstr "Pošlji na album Picasa ..."
+
+#: ../kupfer/plugin/google_picasa/__init__.py:337
+msgid "Upload files to Picasa album"
+msgstr "Pošlji datoteke v album Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:343
+msgid "Upload to Picasa as New Album"
+msgstr "Pošlji na Picaso kot nov album"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:371
+msgid "Create album from selected local directory"
+msgstr "Ustvari ikono albuma za izbrano krajevno mapo"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:375
+#: ../kupfer/plugin/google_picasa/__init__.py:393
+msgid "Picasa Albums"
+msgstr "Albumi Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:414
+msgid "User albums in Picasa"
+msgstr "Uporabniški albumi v Picasi"
 
 #: ../kupfer/plugin/google_search.py:1
 #: ../kupfer/plugin/google_search.py:23
@@ -1715,10 +1865,67 @@ msgstr "Iskanje datotečnega sistema z locate"
 msgid "Ignore case distinctions when searching files"
 msgstr "Prezri različne velikosti črk pri iskanju datotek"
 
-#: ../kupfer/plugin/notification.py:1
-#: ../kupfer/plugin/notification.py:32
-msgid "Show Notification"
-msgstr "Pokaži obvestilo"
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:2
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:6
+msgid "Microblogging with Twitter: send updates and show friends' tweets"
+msgstr "Mikrobloganje s Twitterjem: pošiljanje posodobitev in prikaz tweetov prijateljev"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:34
+msgid "Load users' pictures"
+msgstr "Naloži uporabniške slike"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:40
+msgid "Load friends' public tweets"
+msgstr "Nalaganje javnih tweetov prijateljev"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:46
+msgid "Load timeline"
+msgstr "Naloži časovnico"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:163
+msgid "<Friend Tweets>"
+msgstr "<Tweeti prijateljev>"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:174
+msgid "All friends timeline"
+msgstr "Časovnica vseh prijateljev"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:213
+msgid "Post Update to Twitter"
+msgstr "Pošlji posodobitev na Twitter"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:233
+msgid "Post Direct Message"
+msgstr "Pošlji neposredno sporočilo"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:259
+msgid "Post Direct Message To..."
+msgstr "Pošlji neposredno sporočilo na ..."
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:287
+msgid "Reply"
+msgstr "Odgovori"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:311
+#, python-format
+msgid "%(user)s %(when)s"
+msgstr "%(user)s %(when)s"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:330
+msgid "Twitter Timeline"
+msgstr "Časovnica Twitter"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:355
+msgid "Twitter Friends"
+msgstr "Prijatelji Twitter"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:379
+msgid "Friend Statuses"
+msgstr "Stanja prijateljev"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -1940,7 +2147,7 @@ msgid "No D-Bus connection to desktop session"
 msgstr "Ni D-Bus povezave z namizno sejo"
 
 #: ../kupfer/plugin/templates.py:1
-#: ../kupfer/plugin/templates.py:89
+#: ../kupfer/plugin/templates.py:109
 msgid "Document Templates"
 msgstr "Predloge dokumenta"
 
@@ -1958,13 +2165,21 @@ msgstr "predloga %s"
 msgid "Empty File"
 msgstr "Prazna datoteka"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:49
+msgid "New Folder"
+msgstr "Nova mapa"
+
+#: ../kupfer/plugin/templates.py:59
 msgid "Create New Document..."
 msgstr "Ustvari nov dokument ..."
 
-#: ../kupfer/plugin/templates.py:80
+#: ../kupfer/plugin/templates.py:98
 msgid "Create a new document from template"
 msgstr "Ustvari nov dokument iz predloge"
+
+#: ../kupfer/plugin/templates.py:105
+msgid "Create Document In..."
+msgstr "Us_tvari dokument v ..."
 
 #: ../kupfer/plugin/textfiles.py:13
 msgid "Textfiles"
@@ -2301,12 +2516,14 @@ msgstr "Strani Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležnicah Zim"
 
+#~ msgid "To configure kupfer, edit:"
+#~ msgstr "Za nastavljanje kupfer, uredite:"
+#~ msgid "The default config for reference is at:"
+#~ msgstr "Privzeta nastavitev za sklic je na:"
 #~ msgid "Open with %s"
 #~ msgstr "Odpri z %s"
 #~ msgid "Open with default viewer"
 #~ msgstr "Odpri s privzetim pregledovalnikom"
-#~ msgid "Open folder"
-#~ msgstr "Odpri mapo"
 #~ msgid "Recently used documents and nautilus places"
 #~ msgstr "Nedavno uporabljeni dokumenti in mesta nautilusa"
 #~ msgid "Bookmarked locations in Nautilus"
