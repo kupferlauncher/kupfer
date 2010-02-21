@@ -1,17 +1,15 @@
 # Czech translation for kupfer.
-# Copyright (C) 2009 the author(s) of kupfer.
+# Copyright (C) 2009, 2010 the author(s) of kupfer.
 # This file is distributed under the same license as the kupfer package.
-#
 # Marek Černocký <marek@manet.cz>, 2009, 2010.
 # Lucas Lommer <llommer@svn.gnome.org>, 2010.
 # Petr Kovar <pknbe@volny.cz>, 2010.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
-"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-02-11 19:45+0000\n"
-"PO-Revision-Date: 2010-02-09 20:22+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-21 19:49+0100\n"
+"PO-Revision-Date: 2010-02-13 15:34+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,14 +36,12 @@ msgid "Kupfer"
 msgstr "Kupfer"
 
 #: ../auxdata/kupfer-exec.desktop.in.h:1
-#, fuzzy
-#| msgid "Select in Kupfer"
 msgid "Execute in Kupfer"
-msgstr "Vybrat v aplikaci Kupfer"
+msgstr "Spustit v aplikaci Kupfer"
 
 #: ../auxdata/kupfer-mimetypes.xml.in.h:1
 msgid "Saved Kupfer Command"
-msgstr ""
+msgstr "Uložený příkaz aplikace Kupfer"
 
 #: ../data/preferences.ui.h:1
 msgid "<b>Directories</b>"
@@ -89,14 +85,18 @@ msgstr "Spouštět automaticky po přihlášení"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
-msgstr ""
+msgstr "Přístupové údaje uživatele"
 
 #: ../data/credentials_dialog.ui.h:2
 msgid "_Password:"
-msgstr ""
+msgstr "_Heslo:"
 
 #: ../data/credentials_dialog.ui.h:3
 msgid "_User:"
+msgstr "_Uživatel:"
+
+#: ../data/progress_dialog.ui.h:1
+msgid "label"
 msgstr ""
 
 #: ../kupfer/main.py:39
@@ -119,25 +119,15 @@ msgstr "zobrazit nápovědu k použití"
 msgid "show version information"
 msgstr "zobrazit informace o verzi"
 
-#: ../kupfer/main.py:56
-#, fuzzy
-#| msgid "Usage: kupfer [OPTIONS | QUERY]"
+#: ../kupfer/main.py:50
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
-msgstr "Použití: kupfer [PŘEPÍNAČE | DOTAZ]"
+msgstr "Použití: kupfer [PŘEPÍNAČE | SOUBOR … ]"
 
-#: ../kupfer/main.py:63
-msgid "To configure kupfer, edit:"
-msgstr "Pokud potřebujete Kupfer nastavit, upravte:"
-
-#: ../kupfer/main.py:64
-msgid "The default config for reference is at:"
-msgstr "Výchozí nastavení, ze kterého můžete vycházet, je v:"
-
-#: ../kupfer/main.py:78
+#: ../kupfer/main.py:61
 msgid "Available plugins:"
 msgstr "Dostupné zásuvné moduly:"
 
-#: ../kupfer/main.py:122
+#: ../kupfer/main.py:105
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -231,7 +221,7 @@ msgstr "Nastavení"
 
 #: ../kupfer/ui/preferences.py:515
 msgid "Set username and password"
-msgstr ""
+msgstr "Nastavit jméno a heslo"
 
 #. TRANS: File Chooser Title
 #: ../kupfer/ui/preferences.py:569
@@ -281,9 +271,24 @@ msgstr ""
 #. follows strings used elsewhere
 #: ../kupfer/version.py:75
 msgid "Could not find running Kupfer"
+msgstr "Nelze najít běžící aplikaci Kupfer"
+
+#: ../kupfer/commandexec.py:171
+#, python-format
+msgid "Could not to carry out '%s'"
 msgstr ""
 
-#: ../kupfer/obj/base.py:414 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/execfile.py:28
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr ""
+
+#: ../kupfer/execfile.py:45
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr ""
+
+#: ../kupfer/obj/base.py:416 ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Odpovídající texty"
 
@@ -317,39 +322,44 @@ msgstr "[%(status)s] %(userid)s/%(service)s"
 msgid "Open"
 msgstr "Otevřít"
 
-#: ../kupfer/obj/fileactions.py:57
+#: ../kupfer/obj/fileactions.py:38
+#, fuzzy, python-format
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "Nastavit výchozí aplikaci na otevírání tohoto typu souboru"
+
+#: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
 msgstr "Otevřít pomocí výchozí aplikace"
 
-#: ../kupfer/obj/fileactions.py:63
+#: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
 msgstr "Ukázat"
 
-#: ../kupfer/obj/fileactions.py:72
+#: ../kupfer/obj/fileactions.py:75
 msgid "Open parent folder"
 msgstr "Otevřít rodičovskou složku"
 
-#: ../kupfer/obj/fileactions.py:78
+#: ../kupfer/obj/fileactions.py:81
 msgid "Open Terminal Here"
 msgstr "Otevřít zde terminál"
 
-#: ../kupfer/obj/fileactions.py:87
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open this location in a terminal"
 msgstr "Otevřít toto umístění v terminálu"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run in Terminal"
 msgstr "Spustit v terminálu"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run (Execute)"
 msgstr "Spustit (provést)"
 
-#: ../kupfer/obj/fileactions.py:109
+#: ../kupfer/obj/fileactions.py:112
 msgid "Run this program in a Terminal"
 msgstr "Spustit tento program v terminálu"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:114
 msgid "Run this program"
 msgstr "Spustit tento program"
 
@@ -447,18 +457,22 @@ msgstr "Kořenový katalog"
 
 #: ../kupfer/obj/special.py:10
 msgid "Please Configure Plugin"
-msgstr ""
+msgstr "Nastavte prosím zásuvný modul"
 
 #: ../kupfer/obj/special.py:11
 #, python-format
 msgid "Plugin %s is not configured"
-msgstr ""
+msgstr "Zásuvný modul %s není nastavený"
 
-#: ../kupfer/obj/special.py:28
-#, fuzzy, python-format
-#| msgid "Recently used documents for %s"
+#: ../kupfer/obj/special.py:29
+#, python-format
 msgid "Invalid user credentials for %s"
-msgstr "Nedávno použité dokumenty pro %s"
+msgstr "Neplatné přístupové údaje uživatele pro %s"
+
+#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:30
+#, fuzzy
+msgid "Save As..."
+msgstr "Změnit velikost…"
 
 #: ../kupfer/plugin/core/contents.py:41
 msgid "Quit"
@@ -925,6 +939,7 @@ msgid "Tracks by %s"
 msgstr "Skladby od interpreta %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
+#: ../kupfer/plugin/google_picasa/__init__.py:422
 msgid "Albums"
 msgstr "Alba"
 
@@ -989,19 +1004,23 @@ msgstr "Správa sezení XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Speciální položky a akce pro pracovní prostředí XFCE"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:17
-#: ../kupfer/plugin/show_text.py:20
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
+#: ../kupfer/plugin/show_text.py:22
 msgid "Show Text"
 msgstr "Zobrazit text"
 
-#: ../kupfer/plugin/show_text.py:6 ../kupfer/plugin/show_text.py:26
-#: ../kupfer/plugin/show_text.py:41
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
+#: ../kupfer/plugin/show_text.py:43
 msgid "Display text in a window"
 msgstr "Zobrazit text v okně"
 
-#: ../kupfer/plugin/show_text.py:32
+#: ../kupfer/plugin/show_text.py:34
 msgid "Large Type"
 msgstr "Rozsáhlý typ"
+
+#: ../kupfer/plugin/show_text.py:51
+msgid "Show Notification"
+msgstr "Zobrazovat oznámení"
 
 #: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:140
 msgid "Trash"
@@ -1256,6 +1275,20 @@ msgstr "Odpovídající balíčky „%s“"
 msgid "Search Package Name..."
 msgstr "Vyhledat balíček podle názvu…"
 
+#: ../kupfer/plugin/archiveinside.py:8
+#, fuzzy
+msgid "Deep Archives"
+msgstr "Vytvořit archiv"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr ""
+
+#: ../kupfer/plugin/archiveinside.py:83
+#, fuzzy, python-format
+msgid "Content of %s"
+msgstr "Obsah"
+
 #: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:212
 msgid "Audacious"
 msgstr "Audacious"
@@ -1337,7 +1370,7 @@ msgstr "Claws Mail"
 msgid "Claws Mail Contacts and Actions"
 msgstr "Kontakty a akce v Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:23
+#: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Napsat nový e-mail"
@@ -1356,11 +1389,12 @@ msgstr ""
 "Přijmout pomocí poštovního klienta Claws Mail nové zprávy ze všech účtů"
 
 #: ../kupfer/plugin/clawsmail.py:55 ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:38 ../kupfer/plugin/thunderbird.py:45
+#: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Napsat e-mail"
 
 #: ../kupfer/plugin/clawsmail.py:80 ../kupfer/plugin/defaultmail.py:43
+#: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
 msgstr "Odeslat e-mailem…"
 
@@ -1394,25 +1428,24 @@ msgstr "Hledat v nápovědě pro vývojáře DevHelp"
 
 #: ../kupfer/plugin/evolution.py:4
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:80
-#, fuzzy
-#| msgid "Show offline contacts"
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
 msgid "Evolution contacts"
-msgstr "Zobrazit odpojené kontakty"
+msgstr "Kontakty aplikace Evolution"
 
-#: ../kupfer/plugin/evolution.py:29
-#, fuzzy
-#| msgid "Compose a new message in Claws Mail"
+#: ../kupfer/plugin/evolution.py:30
 msgid "Compose a new message in Evolution"
-msgstr "Napsat nový e-mail v poštovním klientovi Claws Mail"
+msgstr "Napsat nový e-mail v poštovním klientovi Evolution"
 
-#: ../kupfer/plugin/evolution.py:63
+#: ../kupfer/plugin/evolution.py:91
 #, fuzzy
-#| msgid "Claws Mail Address Book"
+msgid "Compose new message in Evolution and attach file"
+msgstr "Napsat novou zprávu v poštovním klientovi Claws Mail a přiložit soubor"
+
+#: ../kupfer/plugin/evolution.py:99
 msgid "Evolution Address Book"
-msgstr "Adresář z Claws Mail"
+msgstr "Adresář aplikace Evolution"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gajim.py:2
@@ -1477,6 +1510,115 @@ msgstr "Profily terminálu Gnome"
 #: ../kupfer/plugin/gnome_terminal.py:3
 msgid "Launch Gnome Terminal profiles"
 msgstr "Profily pro spouštění terminálu Gnome"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/google_mail/__init__.py:2
+#: ../kupfer/plugin/google_mail/__init__.py:146
+#, fuzzy
+msgid "Google Mail"
+msgstr "Vyhledávač Google"
+
+#: ../kupfer/plugin/google_mail/__init__.py:5
+msgid "Load contacts and compose new email in Google Mail"
+msgstr ""
+
+#: ../kupfer/plugin/google_mail/__init__.py:31
+msgid "Load contacts icons"
+msgstr ""
+
+#: ../kupfer/plugin/google_mail/__init__.py:52
+#, fuzzy
+msgid "Compose Email in GMail"
+msgstr "Napsat e-mail"
+
+#: ../kupfer/plugin/google_mail/__init__.py:75
+msgid "Open web browser and compose new email in GMail"
+msgstr ""
+
+#: ../kupfer/plugin/google_mail/__init__.py:170
+msgid "Contacts from Google services (Google Mail)"
+msgstr ""
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/google_picasa/__init__.py:2
+#, fuzzy
+msgid "Google Picasa"
+msgstr "Překladač Google"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:5
+msgid "Show albums and upload files to Picasa."
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:34
+msgid "Users to show: (,-separated)"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:40
+msgid "Load user and album icons"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:93
+msgid "Uploading Pictures"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:94
+msgid "Uploading pictures to Picasa Web Album"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:103
+msgid "Creating album:"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:106
+#, fuzzy
+msgid "Album created by Kupfer"
+msgstr "O aplikaci Kupfer"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:113
+msgid "File:"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:246
+#, python-format
+msgid "One album"
+msgid_plural "%(num)d albums"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:273
+#, python-format
+msgid "one photo"
+msgid_plural "%(num)s photos"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:293
+msgid "Upload to Picasa Album..."
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:337
+msgid "Upload files to Picasa album"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:343
+msgid "Upload to Picasa as New Album"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:371
+msgid "Create album from selected local directory"
+msgstr ""
+
+#: ../kupfer/plugin/google_picasa/__init__.py:375
+#: ../kupfer/plugin/google_picasa/__init__.py:393
+#, fuzzy
+msgid "Picasa Albums"
+msgstr "Alba"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:414
+msgid "User albums in Picasa"
+msgstr ""
 
 #: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:23
 msgid "Google Search"
@@ -1652,9 +1794,69 @@ msgstr "Prohledat souborový systém pomocí programu „locate“"
 msgid "Ignore case distinctions when searching files"
 msgstr "Při vyhledávání souborů nebrat ohled na velikost písmen"
 
-#: ../kupfer/plugin/notification.py:1 ../kupfer/plugin/notification.py:32
-msgid "Show Notification"
-msgstr "Zobrazovat oznámení"
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:2
+msgid "Twitter"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:6
+msgid "Microblogging with Twitter: send updates and show friends' tweets"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:34
+msgid "Load users' pictures"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:40
+msgid "Load friends' public tweets"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:46
+msgid "Load timeline"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:163
+msgid "<Friend Tweets>"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:174
+msgid "All friends timeline"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:213
+msgid "Post Update to Twitter"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:233
+msgid "Post Direct Message"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:259
+#, fuzzy
+msgid "Post Direct Message To..."
+msgstr "Odeslat zprávu…"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:287
+msgid "Reply"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:311
+#, fuzzy, python-format
+msgid "%(user)s %(when)s"
+msgstr "[%(status)s] %(userid)s"
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:330
+msgid "Twitter Timeline"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:355
+msgid "Twitter Friends"
+msgstr ""
+
+#: ../kupfer/plugin/microblogging_twitter/__init__.py:379
+#, fuzzy
+msgid "Friend Statuses"
+msgstr "Stav komunikátoru Skype"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -1869,7 +2071,7 @@ msgid "No D-Bus connection to desktop session"
 msgstr ""
 "Neexistuje žádné napojení sběrnice D-Bus na sezení pracovního prostředí"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:89
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:109
 msgid "Document Templates"
 msgstr "Šablony dokumentů"
 
@@ -1886,13 +2088,22 @@ msgstr "Šablona %s"
 msgid "Empty File"
 msgstr "Prázdný soubor"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:49
+msgid "New Folder"
+msgstr ""
+
+#: ../kupfer/plugin/templates.py:59
 msgid "Create New Document..."
 msgstr "Vytvořit nový dokument…"
 
-#: ../kupfer/plugin/templates.py:80
+#: ../kupfer/plugin/templates.py:98
 msgid "Create a new document from template"
 msgstr "Vytvořit nový dokument ze šablony"
+
+#: ../kupfer/plugin/templates.py:105
+#, fuzzy
+msgid "Create Document In..."
+msgstr "Vytvořit nový dokument…"
 
 #: ../kupfer/plugin/textfiles.py:13
 msgid "Textfiles"
@@ -2225,3 +2436,8 @@ msgstr "Stránky Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Stránky uchované v zápisnících Zim"
 
+#~ msgid "To configure kupfer, edit:"
+#~ msgstr "Pokud potřebujete Kupfer nastavit, upravte:"
+
+#~ msgid "The default config for reference is at:"
+#~ msgstr "Výchozí nastavení, ze kterého můžete vycházet, je v:"
