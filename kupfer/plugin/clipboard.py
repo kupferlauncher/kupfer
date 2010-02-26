@@ -8,8 +8,8 @@ from collections import deque
 
 import gtk
 
-from kupfer.objects import Source, Action, TextLeaf, Leaf
-from kupfer import utils, plugin_support
+from kupfer.objects import Source, TextLeaf
+from kupfer import plugin_support
 from kupfer.weaklib import gobject_connect_weakly
 
 
@@ -19,6 +19,12 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"label": _("Number of recent clipboards"),
 		"type": int,
 		"value": 10,
+	},
+	{
+		"key" : "use_selection",
+		"label": _("Include recent selections"),
+		"type": bool,
+		"value": False,
 	},
 )
 
@@ -40,8 +46,14 @@ class ClipboardSource (Source):
 	def initialize(self):
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
+		clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
+		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 
-	def _clipboard_changed(self, clip, *args):
+	def _clipboard_changed(self, clip, event, *args):
+		is_selection = (event.selection == gtk.gdk.SELECTION_PRIMARY)
+		if is_selection and not __kupfer_settings__["use_selection"]:
+			return
+
 		max_len = __kupfer_settings__["max"]
 		newtext = clip.wait_for_text()
 		if not (newtext and newtext.strip()):
