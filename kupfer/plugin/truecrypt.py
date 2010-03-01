@@ -11,8 +11,9 @@ import os
 from xml.etree import cElementTree as ElementTree
 import gio
 
-from kupfer.objects import (Action, Source, Leaf, PicklingHelperMixin, 
-		AppLeafContentMixin, AppLeaf, FileLeaf)
+from kupfer.objects import (Action, Source, Leaf,AppLeaf, FileLeaf)
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import utils
 
 
