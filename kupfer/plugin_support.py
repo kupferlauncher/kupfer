@@ -2,6 +2,13 @@ from kupfer import pretty
 from kupfer.core import settings
 from kupfer.core.settings import UserNamePassword
 
+__all__ = [
+	"UserNamePassword",
+	"SETTING_PREFER_CATALOG",
+	"PluginSettings",
+	"check_dbus_connection",
+]
+
 SETTING_PREFER_CATALOG = {
 	"key" : "kupfer_toplevel",
 	"label": _("Include in top level"),
