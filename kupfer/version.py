@@ -11,7 +11,7 @@ else:
 	VERSION = version_subst.VERSION
 	PACKAGE_NAME = version_subst.PACKAGE_NAME
 
-ICON_NAME = "search"
+ICON_NAME = "system-search"
 PROGRAM_NAME = _("Kupfer")
 
 AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>

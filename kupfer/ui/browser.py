@@ -1391,7 +1391,6 @@ class WindowController (pretty.OutputMixin):
 	def __init__(self):
 		"""
 		"""
-		self.icon_name = gtk.STOCK_FIND
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 
 		data_controller = data.DataController()
@@ -1418,9 +1417,10 @@ class WindowController (pretty.OutputMixin):
 
 	def _setup_status_icon(self):
 		from kupfer import kupferui
+		from kupfer import version
 
-		status = gtk.status_icon_new_from_stock(self.icon_name)
-		status.set_tooltip(_("Kupfer"))
+		status = gtk.status_icon_new_from_icon_name(version.ICON_NAME)
+		status.set_tooltip(version.PROGRAM_NAME)
 		menu = gtk.Menu()
 
 		def menu_callback(menuitem, callback):
@@ -1447,13 +1447,15 @@ class WindowController (pretty.OutputMixin):
 		"""
 		Returns window
 		"""
+		from kupfer import version
+
 		self.window.connect("delete-event", self._close_window)
 		widget = self.interface.get_widget()
 		widget.show()
 		
 		self.window.add(widget)
-		self.window.set_title(_("Kupfer"))
-		self.window.set_icon_name(self.icon_name)
+		self.window.set_title(version.PROGRAM_NAME)
+		self.window.set_icon_name(version.ICON_NAME)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
