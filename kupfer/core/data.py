@@ -741,8 +741,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		try:
 			ctx = self._execution_context
 			res, ret = ctx.run(leaf, action, sobject)
-		except commandexec.ActionExecutionError, exc:
-			self.output_error(exc)
+		except commandexec.ActionExecutionError:
+			self.output_exc()
 			return
 
 		# register search to learning database

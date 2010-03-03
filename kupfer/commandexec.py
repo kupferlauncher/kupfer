@@ -154,10 +154,10 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		try:
 			yield
 		except OperationError:
-			self.output_debug(sys.exc_info())
 			if not self.operation_error(sys.exc_info(), cmdtuple):
 				raise
-			raise ActionExecutionError("Encountered an Operation Error")
+			etype, value, tb = sys.exc_info()
+			raise ActionExecutionError, value, tb
 
 	def operation_error(self, exc_info, cmdtuple):
 		"Error when executing action. Return True when error was handled"
