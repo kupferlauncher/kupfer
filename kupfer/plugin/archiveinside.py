@@ -30,16 +30,6 @@ MAX_ARCHIVE_BYTE_SIZE = 15 * 1024**2
 # archive files
 VERY_LONG_TIME_S = 3600*24*365
 
-UNARCHIVE_COMPAT = {}
-UNARCHIVE_FUNC = {}
-
-def extractor(name, extensions, predicate):
-	def decorator(func):
-		UNARCHIVE_COMPAT[name] = (extensions, predicate)
-		UNARCHIVE_FUNC[name] = func
-		return func
-	return decorator
-
 
 class UnsafeArchiveError (Exception):
 	def __init__(self, path):
@@ -50,32 +40,9 @@ def is_safe_to_unarchive(path):
 	npth = os.path.normpath(path)
 	return not os.path.isabs(npth) and not npth.startswith(os.path.pardir)
 
-@extractor("tar", (".tar", ".tar.gz", ".tgz", ".tar.bz2"), tarfile.is_tarfile)
-def extract_tarfile(filepath, destpath):
-	zf = tarfile.TarFile.open(filepath, 'r')
-	try:
-		for member in zf.getnames():
-			if not is_safe_to_unarchive(member):
-				raise UnsafeArchiveError(member)
-		zf.extractall(path=destpath)
-	finally:
-		zf.close()
-
-
-# ZipFile only supports extractall since Python 2.6
-@extractor("zip", (".zip", ), zipfile.is_zipfile)
-def extract_zipfile(filepath, destpath):
-	zf = zipfile.ZipFile(filepath, 'r')
-	try:
-		for member in zf.namelist():
-			if not is_safe_to_unarchive(member):
-				raise UnsafeArchiveError(member)
-		zf.extractall(path=destpath)
-	finally:
-		zf.close()
-
 
 class ArchiveContent (Source):
+	extractors = []
 	unarchived_files = []
 	end_timer = scheduler.Timer(True)
 
@@ -114,9 +81,9 @@ class ArchiveContent (Source):
 	@classmethod
 	def decorate_item(cls, leaf):
 		basename = os.path.basename(leaf.object).lower()
-		for extractor, (extensions, predicate) in UNARCHIVE_COMPAT.iteritems():
-			if any(basename.endswith(ext) for ext in extensions):
-				if predicate(leaf.object):
+		for extractor in cls.extractors:
+			if any(basename.endswith(ext) for ext in extractor.extensions):
+				if extractor.predicate(leaf.object):
 					return cls._source_for_path(leaf, extractor)
 
 
@@ -124,7 +91,7 @@ class ArchiveContent (Source):
 	def _source_for_path(cls, leaf, extractor):
 		byte_size = os.stat(leaf.object).st_size
 		if byte_size < MAX_ARCHIVE_BYTE_SIZE:
-			return cls(leaf, UNARCHIVE_FUNC[extractor])
+			return cls(leaf, extractor)
 		return None
 
 	@classmethod
@@ -143,3 +110,37 @@ class ArchiveContent (Source):
 		pretty.print_error(__name__, "Error in %s deleting %s:" % (func, path))
 		pretty.print_error(__name__, exc_info)
 
+	@classmethod
+	def extractor(cls, extensions, predicate):
+		def decorator(func):
+			func.extensions = extensions
+			func.predicate = predicate
+			cls.extractors.append(func)
+			return func
+		return decorator
+
+
+@ArchiveContent.extractor((".tar", ".tar.gz", ".tgz", ".tar.bz2"),
+		tarfile.is_tarfile)
+def extract_tarfile(filepath, destpath):
+	zf = tarfile.TarFile.open(filepath, 'r')
+	try:
+		for member in zf.getnames():
+			if not is_safe_to_unarchive(member):
+				raise UnsafeArchiveError(member)
+		zf.extractall(path=destpath)
+	finally:
+		zf.close()
+
+
+# ZipFile only supports extractall since Python 2.6
+@ArchiveContent.extractor((".zip", ), zipfile.is_zipfile)
+def extract_zipfile(filepath, destpath):
+	zf = zipfile.ZipFile(filepath, 'r')
+	try:
+		for member in zf.namelist():
+			if not is_safe_to_unarchive(member):
+				raise UnsafeArchiveError(member)
+		zf.extractall(path=destpath)
+	finally:
+		zf.close()
