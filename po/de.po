@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-02-16 21:05+0000\n"
-"PO-Revision-Date: 2010-02-17 11:44+0100\n"
+"POT-Creation-Date: 2010-03-03 17:21+0000\n"
+"PO-Revision-Date: 2010-03-03 21:25+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,8 +27,7 @@ msgstr "Anwendungsstarter"
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
 
-#: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/ui/browser.py:1423
-#: ../kupfer/ui/browser.py:1455 ../kupfer/version.py:15
+#: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -86,16 +85,16 @@ msgid "User credentials"
 msgstr "Anmeldedaten"
 
 #: ../data/credentials_dialog.ui.h:2
+msgid "_Change"
+msgstr "Ä_ndern"
+
+#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Passwort:"
 
-#: ../data/credentials_dialog.ui.h:3
+#: ../data/credentials_dialog.ui.h:4
 msgid "_User:"
 msgstr "_Benutzer:"
-
-#: ../data/progress_dialog.ui.h:1
-msgid "label"
-msgstr "Bezeichnung"
 
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
@@ -1280,7 +1279,6 @@ msgid "Search Package Name..."
 msgstr "Nach Paketnamen suchen …"
 
 #: ../kupfer/plugin/archiveinside.py:8
-#| msgid "Create Archive"
 msgid "Deep Archives"
 msgstr "In Archive vertiefen"
 
@@ -1288,9 +1286,8 @@ msgstr "In Archive vertiefen"
 msgid "Allow browsing inside compressed archive files"
 msgstr "Suchen innerhalb gepackter Archivdateien ermöglichen"
 
-#: ../kupfer/plugin/archiveinside.py:83
+#: ../kupfer/plugin/archiveinside.py:50
 #, python-format
-#| msgid "Content of"
 msgid "Content of %s"
 msgstr "Inhalt von %s"
 
@@ -1443,7 +1440,6 @@ msgid "Compose a new message in Evolution"
 msgstr "Eine neue E-Mail mit Evolution erstellen"
 
 #: ../kupfer/plugin/evolution.py:91
-#| msgid "Compose new message in Claws Mail and attach file"
 msgid "Compose new message in Evolution and attach file"
 msgstr "Eine neue Nachricht in Evolution erstellen und Datei anhängen"
 
@@ -1518,7 +1514,6 @@ msgstr "GNOME-Terminal-Profile starten"
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/google_mail/__init__.py:2
 #: ../kupfer/plugin/google_mail/__init__.py:146
-#| msgid "Google Search"
 msgid "Google Mail"
 msgstr "Google Mail"
 
@@ -1531,7 +1526,6 @@ msgid "Load contacts icons"
 msgstr "Symbole für Kontakte laden"
 
 #: ../kupfer/plugin/google_mail/__init__.py:52
-#| msgid "Compose Email"
 msgid "Compose Email in GMail"
 msgstr "Neue E-Mail in GMail verfassen"
 
@@ -1545,7 +1539,6 @@ msgstr "Kontakte aus Google-Diensten (Google Mail)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/google_picasa/__init__.py:2
-#| msgid "Google Translate"
 msgid "Google Picasa"
 msgstr "Google Picasa"
 
@@ -1574,7 +1567,6 @@ msgid "Creating album:"
 msgstr "Album wird erstellt:"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:106
-#| msgid "About Kupfer"
 msgid "Album created by Kupfer"
 msgstr "Album erstellt von Kupfer"
 
@@ -1614,7 +1606,6 @@ msgstr "Album aus dem gewählten lokalen Ordner erstellen"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:375
 #: ../kupfer/plugin/google_picasa/__init__.py:393
-#| msgid "Albums"
 msgid "Picasa Albums"
 msgstr "Picasa-Alben"
 
@@ -1835,7 +1826,6 @@ msgid "Post Direct Message"
 msgstr "Direkte Nachricht senden"
 
 #: ../kupfer/plugin/microblogging_twitter/__init__.py:259
-#| msgid "Send Message..."
 msgid "Post Direct Message To..."
 msgstr "Direkte Nachricht senden an…"
 
@@ -1845,7 +1835,6 @@ msgstr "Antworten"
 
 #: ../kupfer/plugin/microblogging_twitter/__init__.py:311
 #, python-format
-#| msgid "[%(status)s] %(userid)s"
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
@@ -1858,7 +1847,6 @@ msgid "Twitter Friends"
 msgstr "Twitter-Freunde"
 
 #: ../kupfer/plugin/microblogging_twitter/__init__.py:379
-#| msgid "Skype Statuses"
 msgid "Friend Statuses"
 msgstr "Status der Freunde"
 
@@ -2053,11 +2041,11 @@ msgstr "Skype-Kontakte"
 msgid "Skype Statuses"
 msgstr "Skype-Status"
 
-#: ../kupfer/plugin_support.py:7
+#: ../kupfer/plugin_support.py:14
 msgid "Include in top level"
 msgstr "Auf erster Ebene einbinden"
 
-#: ../kupfer/plugin_support.py:11
+#: ../kupfer/plugin_support.py:18
 msgid ""
 "If enabled, objects from the plugin's source(s) will be available in the top "
 "level.\n"
@@ -2067,7 +2055,7 @@ msgstr ""
 "Ebene verfügbar sein.\n"
 "Quellen sind immer als Unterkataloge auf der ersten Ebene verfügbar."
 
-#: ../kupfer/plugin_support.py:107
+#: ../kupfer/plugin_support.py:114
 msgid "No D-Bus connection to desktop session"
 msgstr "Keine D-Bus-Verbindung zur Desktopsitzung"
 
@@ -2089,7 +2077,6 @@ msgid "Empty File"
 msgstr "Leere Datei"
 
 #: ../kupfer/plugin/templates.py:49
-#| msgid "Open folder"
 msgid "New Folder"
 msgstr "Neuer Ordner"
 
@@ -2102,7 +2089,6 @@ msgid "Create a new document from template"
 msgstr "Ein neues Dokument aus einer Vorlage erstellen"
 
 #: ../kupfer/plugin/templates.py:105
-#| msgid "Create New Document..."
 msgid "Create Document In..."
 msgstr "Dokument erstellen in …"
 
@@ -2285,32 +2271,32 @@ msgstr "Tracker-Schlagwort von der Datei entfernen"
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:139
+#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:140
 msgid "Volumes from TrueCrypt history"
 msgstr "Datenträger der TrueCrypt-Chronik"
 
-#: ../kupfer/plugin/truecrypt.py:43
+#: ../kupfer/plugin/truecrypt.py:44
 #, python-format
 msgid "TrueCrypt volume: %(file)s"
 msgstr "TrueCrypt-Datenträger: %(file)s"
 
-#: ../kupfer/plugin/truecrypt.py:51
+#: ../kupfer/plugin/truecrypt.py:52
 msgid "Mount Volume"
 msgstr "Datenträger einhängen"
 
-#: ../kupfer/plugin/truecrypt.py:62
+#: ../kupfer/plugin/truecrypt.py:63
 msgid "Mount in Truecrypt"
 msgstr "In TrueCrypt einhängen"
 
-#: ../kupfer/plugin/truecrypt.py:71
+#: ../kupfer/plugin/truecrypt.py:72
 msgid "Try to mount file as Truecrypt volume"
 msgstr "Versuchen, eine Datei in TrueCrypt einzuhängen"
 
-#: ../kupfer/plugin/truecrypt.py:79
+#: ../kupfer/plugin/truecrypt.py:80
 msgid "Dismount All Volumes"
 msgstr "Alle Datenträger aushängen"
 
-#: ../kupfer/plugin/truecrypt.py:97
+#: ../kupfer/plugin/truecrypt.py:98
 msgid "TrueCrypt Volumes"
 msgstr "TrueCrypt-Datenträger"
 
@@ -2437,6 +2423,9 @@ msgstr "Zim-Seiten"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "In Zim-Notizbüchern gespeicherte Seiten"
+
+#~ msgid "label"
+#~ msgstr "Bezeichnung"
 
 #~ msgid "To configure kupfer, edit:"
 #~ msgstr "Um Kupfer zu konfigurieren, bearbeiten Sie:"
