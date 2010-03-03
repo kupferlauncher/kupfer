@@ -9,16 +9,27 @@ Not Yet Released
 
 * Plugins can be loaded at runtime, although not unloaded can they not
 * Plugins can bundle icons, and plugins can be packaged in .zip files
-* New plugin *Google Search*
-* New plugin *Textfiles*
-* New plugin *Thunar*
+* New plugins *Google Search*, *Textfiles* and *Thunar*
+* New plugin *Deep Archives* to browse inside .zip and .tar files
+* New plugins *Twitter*, *Gmail* and *Google Picasa* by Karol Będkowski
+* New plugin *Evolution* by Francesco Marella
 * New action *Get Note Search Results...* in *Notes* by William Friesen
   (LP#511954)
-* Detect multiple volume rar files (William Friesen) (LP#516021)
-* Fixed module name collision in user plugins LP#518958, favoriting "loose"
-  applications LP#518908
-* Make *Zim* plugin compatible with newer Zim (Karol Będkowski, Ulrik)
+* New plugin capabilities (user credentials, background loader) by Karol
 * Added *Next Window* proxy object to *Window List* plugin
+* Allow saving Kupfer commands to .kfcom files, and executing them with
+  the ``kupfer-exec`` helper script.
+* Display error notifications to the user when some actions can not be
+  carried out.
+
+* Make *Zim* plugin compatible with newer Zim (Karol, Ulrik)
+* Detect multiple volume rar files (William Friesen) (LP#516021)
+* Detect XFCE logout better (Karol) (LP#517819)
+* Fix reading VirtualBox config files (Alexey Porotnikov) (LP#520987)
+* Fixed module name collision in user plugins (LP#518958), favoriting "loose"
+  applications (LP#518908), bookmarked folders description (LP#509385),
+  Locate plugin on OpenSUSE (LP#517819)
+* New French translation by Christophe Benz
 
 * Kupfer now requires Python 2.6
 
@@ -26,6 +37,7 @@ Not Yet Released
 
   + cs Marek Černocký
   + de Mario Blättermann
+  + fr Christophe Benz
   + pl Karol Będkowski
   + sl Andrej Žnidaršič
   + sv Ulrik
