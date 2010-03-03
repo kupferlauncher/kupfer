@@ -1,3 +1,5 @@
 /Documentation/Manual.rst	ident
 /.gitattributes		export-ignore
 /debug.py		export-ignore
+
+/po/sv.po		filter=cleanpo
