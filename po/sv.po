@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-15 02:05+0100\n"
+"POT-Creation-Date: 2010-03-03 02:49+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -87,6 +87,10 @@ msgid "User credentials"
 msgstr "Användaruppgifter"
 
 #: ../data/credentials_dialog.ui.h:2
+msgid "_Change"
+msgstr "_Ändra"
+
+#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Lösenord:"
 
@@ -114,23 +118,15 @@ msgstr "visa hjälpmeddelande"
 msgid "show version information"
 msgstr "visa programversion"
 
-#: ../kupfer/main.py:56
+#: ../kupfer/main.py:50
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Användning: kupfer [ FLAGGOR | FIL ... ]"
 
-#: ../kupfer/main.py:63
-msgid "To configure kupfer, edit:"
-msgstr "För att konfigurera kupfer, redigera:"
-
-#: ../kupfer/main.py:64
-msgid "The default config for reference is at:"
-msgstr "Standardinställningarna är dokumenterade i:"
-
-#: ../kupfer/main.py:78
+#: ../kupfer/main.py:61
 msgid "Available plugins:"
 msgstr "Tillgängliga insticksmoduler:"
 
-#: ../kupfer/main.py:122
+#: ../kupfer/main.py:105
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -1002,19 +998,23 @@ msgstr "Sessionshantering i XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Speicella objekt och kommandon för XFCE"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:17
-#: ../kupfer/plugin/show_text.py:20
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
+#: ../kupfer/plugin/show_text.py:22
 msgid "Show Text"
 msgstr "Visa text"
 
-#: ../kupfer/plugin/show_text.py:6 ../kupfer/plugin/show_text.py:26
-#: ../kupfer/plugin/show_text.py:41
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
+#: ../kupfer/plugin/show_text.py:43
 msgid "Display text in a window"
 msgstr "Visa text i ett fönster"
 
-#: ../kupfer/plugin/show_text.py:32
+#: ../kupfer/plugin/show_text.py:34
 msgid "Large Type"
 msgstr "Visa med stor text"
+
+#: ../kupfer/plugin/show_text.py:51
+msgid "Show Notification"
+msgstr "Visa notifiering"
 
 #: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:140
 msgid "Trash"
@@ -1267,6 +1267,19 @@ msgstr "Paket som matchar \"%s\""
 #: ../kupfer/plugin/apt_tools.py:126
 msgid "Search Package Name..."
 msgstr "Sök paketnamn..."
+
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr "Djupa arkiv"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Tillåt att titta inuti komprimerade filer"
+
+#: ../kupfer/plugin/archiveinside.py:50
+#, python-format
+msgid "Content of %s"
+msgstr "Innehåll för %s"
 
 #: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:212
 msgid "Audacious"
@@ -1654,10 +1667,6 @@ msgstr "Sök filsystemet med 'locate'"
 #: ../kupfer/plugin/locate.py:21
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorera skillnad i gemener och VERSALER"
-
-#: ../kupfer/plugin/notification.py:1 ../kupfer/plugin/notification.py:32
-msgid "Show Notification"
-msgstr "Visa notifiering"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -2208,41 +2217,26 @@ msgstr "Zim-sida från anteckningsblock \"%s\""
 msgid "Create Zim Page"
 msgstr "Skapa Zim-sida"
 
-#: ../kupfer/plugin/zim.py:73
+#: ../kupfer/plugin/zim.py:74
 msgid "Create page in default notebook"
 msgstr "Skapa sida i förvalt anteckningsblock"
 
-#: ../kupfer/plugin/zim.py:83
+#: ../kupfer/plugin/zim.py:84
 msgid "Create Zim Page In..."
 msgstr "Skapa Zim-sida i..."
 
-#: ../kupfer/plugin/zim.py:121
+#: ../kupfer/plugin/zim.py:122
 msgid "Create Subpage..."
 msgstr "Skapa undersida..."
 
-#: ../kupfer/plugin/zim.py:170
+#: ../kupfer/plugin/zim.py:244
 msgid "Zim Notebooks"
 msgstr "Zim-anteckingsblock"
 
-#: ../kupfer/plugin/zim.py:186
+#: ../kupfer/plugin/zim.py:260
 msgid "Zim Pages"
 msgstr "Zim-sidor"
 
-#: ../kupfer/plugin/zim.py:214
+#: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
-
-#~ msgid "Open with %s"
-#~ msgstr "Öppna med %s"
-
-#~ msgid "Open with default viewer"
-#~ msgstr "Öppna med standardprogram"
-
-#~ msgid "Open folder"
-#~ msgstr "Öppna mapp"
-
-#~ msgid "Recently used documents and nautilus places"
-#~ msgstr "Senaste dokument och sparade platser"
-
-#~ msgid "Bookmarked locations in Nautilus"
-#~ msgstr "Sparade platser i Nautilus"
