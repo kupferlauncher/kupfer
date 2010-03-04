@@ -3,3 +3,4 @@
 /debug.py		export-ignore
 
 /po/sv.po		filter=cleanpo
+/po/pl.po		filter=cleanpo

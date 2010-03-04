@@ -1,10 +1,11 @@
 # -*- coding: UTF-8 -*-
+from __future__ import absolute_import
 __kupfer_name__ = _("Twitter")
 __kupfer_sources__ = ("FriendsSource", "TimelineSource")
-__kupfer_actions__ = ("PostUpdate", "PostDirectMessage", 
-		'PostAsDirectMessageToFriend' )
+__kupfer_actions__ = ("PostUpdate", "SendDirectMessage", 
+		'SendAsDirectMessageToFriend' )
 __description__ = _("Microblogging with Twitter: send updates and show friends' tweets")
-__version__ = "2010-02-04"
+__version__ = "2010-03-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import urllib2
@@ -15,7 +16,8 @@ import twitter as twitter
 from kupfer import icons, pretty
 from kupfer import plugin_support
 from kupfer import kupferstring
-from kupfer.objects import Action, TextLeaf, Source, Leaf, SourceLeaf
+from kupfer.objects import Action, TextLeaf, Source, Leaf, SourceLeaf, \
+		TextSource
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 from kupfer.obj.special import PleaseConfigureLeaf
@@ -31,7 +33,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 	{
 		'key': 'loadicons',
-		'label': _("Load users' pictures"), 
+		'label': _("Load friends' pictures"), 
 		'type': bool,
 		'value': True
 	},
@@ -67,7 +69,7 @@ def get_twitter_api():
 	api = None
 	if upass:
 		api = twitter.Api(username=upass.username, password=upass.password)
-		api.SetXTwitterHeaders('Kupfer', '', __version__)
+		api.SetXTwitterHeaders('Kupfer', '', __version__) # optional
 	return api
 
 
@@ -79,7 +81,7 @@ def send_direct_message(user, message):
 
 def trunc_message(message):
 	if len(message) > 140:
-		message = message[:137] + '...'
+		message = message[:139] + '…'
 	return message
 
 
@@ -158,25 +160,6 @@ def load_data_timeline():
 	return result
 
 
-class FriendsTimeline(Leaf):
-	rank_adjust = 15
-	def __init__(self, tweets, name=_('<Friend Tweets>')):
-		Leaf.__init__(self, tweets, name)
-		self.tweets = self.object
-
-	def has_content(self):
-		return bool(self.object)
-
-	def content_source(self, alternate=False):
-		return FriendStatusesSource(self)
-
-	def get_description(self):
-		return _("All friends timeline")
-
-	def get_icon_name(self):
-		return 'twitter'
-
-
 class Friend(ContactLeaf):
 	grouping_slots = ContactLeaf.grouping_slots + (TWITTER_USERNAME_KEY, )
 	def __init__(self, username, name, image=None):
@@ -227,10 +210,10 @@ class PostUpdate(Action):
 		return icons.ComposedIcon("mail-message-new", "twitter")
 
 
-class PostDirectMessage(Action):
+class SendDirectMessage(Action):
 	''' send direct message to contact '''
 	def __init__(self):
-		Action.__init__(self, _('Post Direct Message'))
+		Action.__init__(self, _('Send Direct Message...'))
 
 	def activate(self, leaf, iobj):
 		user = TWITTER_USERNAME_KEY in leaf and leaf[TWITTER_USERNAME_KEY]
@@ -249,14 +232,17 @@ class PostDirectMessage(Action):
 	def object_types(self):
 		yield TextLeaf
 
+	def object_source(self, for_item=None):
+		return StatusTextSource()
+
 	def get_gicon(self):
 		return icons.ComposedIcon("mail-message-new", "twitter")
 
 
-class PostAsDirectMessageToFriend(Action):
+class SendAsDirectMessageToFriend(Action):
 	''' send text to friend '''
 	def __init__(self):
-		Action.__init__(self, _('Post Direct Message To...'))
+		Action.__init__(self, _('Send Direct Message To...'))
 
 	def activate(self, leaf, iobj):
 		user = TWITTER_USERNAME_KEY in iobj and iobj[TWITTER_USERNAME_KEY]
@@ -284,7 +270,7 @@ class PostAsDirectMessageToFriend(Action):
 class PostReply(Action):
 	''' send reply to the message '''
 	def __init__(self):
-		Action.__init__(self, _('Reply'))
+		Action.__init__(self, _('Reply...'))
 
 	def activate(self, leaf, iobj):
 		if iobj.object:
@@ -300,6 +286,9 @@ class PostReply(Action):
 
 	def object_types(self):
 		yield TextLeaf
+
+	def object_source(self, for_item=None):
+		return StatusTextSource()
 
 	def get_gicon(self):
 		return icons.ComposedIcon("mail-message-reply", "twitter")
@@ -342,7 +331,8 @@ class TimelineSource(Source):
 		return 'twitter'
 
 	def provides(self):
-		yield FriendsTimeline
+		yield StatusLeaf
+		yield PleaseConfigureLeaf
 
 	def get_leaf_repr(self):
 		return None if self._is_valid() else InvisibleSourceLeaf(self) 
@@ -376,7 +366,8 @@ class FriendsSource(ToplevelGroupingSource):
 
 
 class FriendStatusesSource(Source):
-	def __init__(self, friend, name=_('Friend Statuses')):
+	def __init__(self, friend):
+		name = _("Timeline for %s") % friend
 		Source.__init__(self, name)
 		self.friend = friend
 
@@ -389,11 +380,20 @@ class FriendStatusesSource(Source):
 	def provides(self):
 		yield StatusLeaf
 
-	def should_sort_lexically(self):
-		return False
-
 	def has_parent(self):
 		return True
 
-	def get_parent(self):
-		return self.friend
+
+class StatusTextSource (TextSource):
+	def get_rank(self):
+		return 100
+
+	def get_text_items(self, text):
+		n = len(text)
+		summary = trunc_message(text)
+		desc_template = ngettext("%s (%d character)", "%s (%d characters)", n)
+		yield TextLeaf(text, desc_template % (summary, n))
+
+	def get_items(self, text):
+		return self.get_text_items(text)
+
