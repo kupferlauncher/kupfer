@@ -2,7 +2,7 @@
 __kupfer_name__ = _("Google Picasa")
 __kupfer_sources__ = ("PicasaUsersSource", )
 __kupfer_actions__ = ('UploadFileToPicasa', 'UploadDirToPicasa')
-__description__ = _("Show albums and upload files to Picasa.")
+__description__ = _("Show albums and upload files to Picasa")
 __version__ = "2010-02-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
