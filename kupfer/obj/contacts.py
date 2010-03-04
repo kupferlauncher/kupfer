@@ -67,6 +67,9 @@ class EmailContact (ContactLeaf):
 	def get_description(self):
 		return self.object[EMAIL_KEY]
 
+	def get_text_representation(self):
+		return self.object[EMAIL_KEY]
+
 	def get_gicon(self):
 		return icons.ComposedIconSmall(self.get_icon_name(),"stock_mail")
 
