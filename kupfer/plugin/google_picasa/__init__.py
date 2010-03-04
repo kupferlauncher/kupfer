@@ -388,6 +388,9 @@ class PicasaPrivAlbumsSource(Source):
 	def provides(self):
 		yield PicasaAlbum
 
+	def get_icon_name(self):
+		return "picasa"
+
 
 class PicasaUsersSource(Source):
 	def __init__(self, name=_("Picasa Albums")):
@@ -437,3 +440,6 @@ class PicasaAlbumSource(Source):
 
 	def get_parent(self):
 		return self.picasa_user
+
+	def get_icon_name(self):
+		return "picasa"
