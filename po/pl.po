@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-04 20:58+0100\n"
-"PO-Revision-Date: 2010-03-04 20:58+0100\n"
+"POT-Creation-Date: 2010-03-04 21:04+0100\n"
+"PO-Revision-Date: 2010-03-04 21:05+0100\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -1152,13 +1152,13 @@ msgid "Launch Gnome Terminal profiles"
 msgstr "Uruchomianie profili Terminala Gnome"
 
 #. -*- coding: UTF-8 -*-
-msgid "Google Mail"
-msgstr "Poczta Google"
+msgid "Gmail"
+msgstr "Gmail"
 
-msgid "Load contacts and compose new email in Google Mail"
-msgstr "Kontakty i akcje Google Mail"
+msgid "Load contacts and compose new email in Gmail"
+msgstr "Kontakty i akcje poczty Google (Gmail)"
 
-msgid "Load contacts icons"
+msgid "Load contacts' pictures"
 msgstr "Pokazywanie ikonek kontaktów"
 
 msgid "Compose Email in GMail"
@@ -1167,8 +1167,8 @@ msgstr "Utwórz email w GMail"
 msgid "Open web browser and compose new email in GMail"
 msgstr "Otwiera przeglądarkę i tworzy nową wiadomość w GMail"
 
-msgid "Contacts from Google services (Google Mail)"
-msgstr "Kontakty Google (Poczta Google)"
+msgid "Contacts from Google services (Gmail)"
+msgstr "Kontakty z usług Google (Gmail)"
 
 #. -*- coding: UTF-8 -*-
 msgid "Google Picasa"
@@ -1400,7 +1400,7 @@ msgstr "Przyjaciele z Twittera"
 
 #, python-format
 msgid "Timeline for %s"
-msgstr ""
+msgstr "Linia czasu %s"
 
 #, python-format
 msgid "%s (%d character)"
@@ -1839,6 +1839,9 @@ msgstr "Strony Zima"
 
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
+
+#~ msgid "Google Mail"
+#~ msgstr "Poczta Google"
 
 #~ msgid "label"
 #~ msgstr "etykieta"

@@ -1,9 +1,9 @@
 # -*- coding: UTF-8 -*-
-__kupfer_name__ = _("Google Mail")
+__kupfer_name__ = _("Gmail")
 __kupfer_sources__ = ("GoogleContactsSource", )
 __kupfer_actions__ = ('NewMailAction', )
-__description__ = _("Load contacts and compose new email in Google Mail")
-__version__ = "2010-02-04"
+__description__ = _("Load contacts and compose new email in Gmail")
+__version__ = "2010-03-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import urllib
@@ -28,7 +28,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 	{
 		'key': 'loadicons',
-		'label': _('Load contacts icons'),
+		'label': _("Load contacts' pictures"),
 		'type': bool,
 		'value': True,
 	}
@@ -83,14 +83,14 @@ def get_gclient():
 	gd_client = gdata.contacts.service.ContactsService()
 	gd_client.email = upass.username
 	gd_client.password = upass.password
-	gd_client.source = 'kupfer-google_mail'
+	gd_client.source = 'kupfer.gmail'
 	gd_client.ProgrammaticLogin()
 	return gd_client
 
 
 # background loader
 @background_loader(interval=UPDATE_INTERVAL_S, delay=UPDATE_STARTU_DELAY_S,
-		name='google-contacts')
+		name='gmail-contacts')
 def get_contacts():
 	''' load all contacts '''
 	pretty.print_debug(__name__, 'get_contacts start')
@@ -143,7 +143,7 @@ class GoogleContact(EmailContact):
 
 
 class GoogleContactsSource(ToplevelGroupingSource):
-	def __init__(self, name=_("Google Mail")):
+	def __init__(self, name=_("Gmail")):
 		super(GoogleContactsSource, self).__init__(name, "Contacts")
 		self._version = 3
 
@@ -167,7 +167,7 @@ class GoogleContactsSource(ToplevelGroupingSource):
 		yield PleaseConfigureLeaf
 
 	def get_description(self):
-		return _("Contacts from Google services (Google Mail)")
+		return _("Contacts from Google services (Gmail)")
 
 	def get_icon_name(self):
 		return "gmail"
