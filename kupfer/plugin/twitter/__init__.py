@@ -153,7 +153,7 @@ def load_data_timeline():
 	if api:
 		result = list(_load_tweets(api, None, MAX_TIMELINE_STATUSES_COUNT))
 	else:
-		result = [PleaseConfigureLeaf('microbloging_twitter', __kupfer_name__)]
+		result = [PleaseConfigureLeaf(__name__, __kupfer_name__)]
 
 	pretty.print_debug(__name__, 'load_data_timeline: finished; load', 
 			len(result), time.time()-start_time)
