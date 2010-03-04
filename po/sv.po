@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-03 02:49+0100\n"
+"POT-Creation-Date: 2010-03-04 22:01+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -1091,6 +1091,9 @@ msgstr "Evolution-kontakter"
 msgid "Compose a new message in Evolution"
 msgstr "Skriv nytt meddelande med Evolution"
 
+msgid "Compose new message in Evolution and attach file"
+msgstr "Skapa nytt meddelande i Evolution och bifoga filen"
+
 msgid "Evolution Address Book"
 msgstr "Evolution-adressbok"
 
@@ -1139,6 +1142,83 @@ msgstr "Gnome terminal-profiler"
 
 msgid "Launch Gnome Terminal profiles"
 msgstr "Starta Gnome terminal-profiler"
+
+#. -*- coding: UTF-8 -*-
+msgid "Gmail"
+msgstr "Gmail"
+
+msgid "Load contacts and compose new email in Gmail"
+msgstr "Lista kontakter och skriv nya meddelanden i Gmail"
+
+msgid "Load contacts' pictures"
+msgstr "Läs in kontaktikoner"
+
+msgid "Compose Email in GMail"
+msgstr "Skriv e-postmeddelande i Gmail"
+
+msgid "Open web browser and compose new email in GMail"
+msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
+
+msgid "Contacts from Google services (Gmail)"
+msgstr "Kontakter från Google-tjänster (Gmail)"
+
+#. -*- coding: UTF-8 -*-
+msgid "Google Picasa"
+msgstr "Google Picasa"
+
+msgid "Show albums and upload files to Picasa"
+msgstr "Visa album och ladda upp bilder till Picasa"
+
+msgid "Users to show: (,-separated)"
+msgstr "Användare att visa: (,-separerade)"
+
+msgid "Load user and album icons"
+msgstr "Läs in användar- och albumikoner"
+
+msgid "Uploading Pictures"
+msgstr "Skickar foton"
+
+msgid "Uploading pictures to Picasa Web Album"
+msgstr "Skickar foton till Picasa Webbalbum"
+
+msgid "Creating album:"
+msgstr "Skapar album:"
+
+msgid "Album created by Kupfer"
+msgstr "Album skapat av Kupfer"
+
+msgid "File:"
+msgstr "Fil:"
+
+#, python-format
+msgid "One album"
+msgid_plural "%(num)d albums"
+msgstr[0] "Ett album"
+msgstr[1] "%(num)d album"
+
+#, python-format
+msgid "one photo"
+msgid_plural "%(num)s photos"
+msgstr[0] "ett foto"
+msgstr[1] "%(num)s foton"
+
+msgid "Upload to Picasa Album..."
+msgstr "Skicka till Picasa-album..."
+
+msgid "Upload files to Picasa album"
+msgstr "Skicka foton till ett album"
+
+msgid "Upload to Picasa as New Album"
+msgstr "Skicka till Picasa som nytt album"
+
+msgid "Create album from selected local directory"
+msgstr "Skapa album från markerad mapp"
+
+msgid "Picasa Albums"
+msgstr "Picasa-album"
+
+msgid "User albums in Picasa"
+msgstr "Användaralbum i Picasa"
 
 msgid "Google Search"
 msgstr "Sök Google"
@@ -1269,6 +1349,53 @@ msgstr "Sök filsystemet med 'locate'"
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorera skillnad i gemener och VERSALER"
 
+msgid "Twitter"
+msgstr "Twitter"
+
+msgid "Microblogging with Twitter: send updates and show friends' tweets"
+msgstr "Mikroblogga med Twitter: Skicka uppdateringar och åtkom vänners tweets"
+
+msgid "Load friends' pictures"
+msgstr "Läs in vänners bilder"
+
+msgid "Load friends' public tweets"
+msgstr "Läs in vänners publika tweets"
+
+msgid "Load timeline"
+msgstr "Läs in tidslinje"
+
+msgid "Post Update to Twitter"
+msgstr "Skicka uppdatering till Twitter"
+
+msgid "Send Direct Message..."
+msgstr "Skicka direktmeddelande..."
+
+msgid "Send Direct Message To..."
+msgstr "Skicka direktmeddelande till..."
+
+msgid "Reply..."
+msgstr "Svara..."
+
+#, python-format
+msgid "%(user)s %(when)s"
+msgstr "%(user)s %(when)s"
+
+msgid "Twitter Timeline"
+msgstr "Twitter-tidslinje"
+
+msgid "Twitter Friends"
+msgstr "Twitter-vänner"
+
+#, python-format
+msgid "Timeline for %s"
+msgstr "Tidslinje för %s"
+
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d tecken)"
+msgstr[1] "%s (%d tecken)"
+
 #. -*- coding: UTF-8 -*-
 msgid "OpenOffice"
 msgstr "OpenOffice"
@@ -1293,12 +1420,6 @@ msgstr "Tillgång till Pidgin-kontakter"
 
 msgid "Show offline contacts"
 msgstr "Visa frånkopplade kontakter"
-
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d tecken)"
-msgstr[1] "%s (%d tecken)"
 
 msgid "Send Message..."
 msgstr "Skicka meddelande..."
