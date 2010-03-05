@@ -1,0 +1,95 @@
+# British English translations for the kupfer package
+# Copyright (C) 2009--2010 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the kupfer package. (GPLv3)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-05 18:33+0100\n"
+"PO-Revision-Date: 2009-06-23 20:19+0200\n"
+"Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
+"Language-Team: British English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Favorites"
+msgstr "Favourites"
+
+msgid "Mark commonly used items and store objects for later use"
+msgstr ""
+
+msgid "Shelf of \"Favorite\" items"
+msgstr "Shelf of \"Favourite\" items"
+
+msgid "Add to Favorites"
+msgstr "Add to Favourites"
+
+msgid "Add item to favorites shelf"
+msgstr "Add item to favourites shelf"
+
+msgid "Remove from Favorites"
+msgstr "Remove from Favourites"
+
+msgid "Remove item from favorites shelf"
+msgstr "Remove item from favourites shelf"
+
+msgid "Move to Trash"
+msgstr "Move to Wastebasket"
+
+msgid "Move this file to trash"
+msgstr "Move this file to the wastebasket"
+
+msgid "Trash"
+msgstr "Wastebasket"
+
+msgid "Access trash contents"
+msgstr "Access the content of the wastebasket"
+
+msgid "Restore"
+msgstr ""
+
+msgid "Move file back to original location"
+msgstr ""
+
+msgid "Trash is empty"
+msgstr "The wastebasket is empty"
+
+#. proper translation of plural
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "The wastebasket contains one file"
+msgstr[1] "The wastebasket contains %(num)s files"
+
+msgid "Shade"
+msgstr ""
+
+msgid "Unshade"
+msgstr ""
+
+msgid "Minimize"
+msgstr "Minimise"
+
+msgid "Unminimize"
+msgstr "Unminimise"
+
+msgid "Maximize"
+msgstr "Maximise"
+
+msgid "Unmaximize"
+msgstr "Unmaximise"
+
+msgid "Maximize Vertically"
+msgstr "Maximise Vertically"
+
+msgid "Unmaximize Vertically"
+msgstr "Unmaximise Vertically"
+
+msgid "Empty Trash"
+msgstr "Empty the Wastebasket"
+
+msgid "translator-credits"
+msgstr "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
