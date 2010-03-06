@@ -51,8 +51,8 @@ _read_git_version()
 srcdir = '.'
 blddir = 'build'
 
-config_subdirs = "auxdata extras"
-build_subdirs = "auxdata data po extras"
+config_subdirs = "auxdata extras help"
+build_subdirs = "auxdata data po extras help"
 
 EXTRA_DIST = [
 	"waf",

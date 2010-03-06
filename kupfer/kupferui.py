@@ -9,8 +9,8 @@ def show_help():
 	"""
 	Show Kupfer help pages, if possible
 	"""
-	utils.show_url(version.WEBSITE)
-
+	if not utils.show_url("ghelp:%s" % version.PACKAGE_NAME):
+		utils.show_url(version.WEBSITE)
 
 _about_dialog = None
 
