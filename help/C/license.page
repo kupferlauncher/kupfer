@@ -10,10 +10,10 @@
   <title>License</title>
 
   <p> 
-    This program is free software; you can redistribute it and/or modify it 
-    under the terms of the <em>GNU General Public License</em> 
-    as published by the Free Software Foundation; either version 2 of the 
-    License, or (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the <em>GNU General Public License</em> as published
+    by the Free Software Foundation, either version 3 of the License, or (at
+    your option) any later version.
   </p>
   <p>
     This program is distributed in the hope that it will be useful, but
@@ -22,19 +22,10 @@
     <em>GNU General Public License</em> for more details.
   </p>
   <p>
-    A copy of the <em>GNU General Public License</em> is
-    included as an appendix to the <em>GNOME Users
-    Guide</em>.  You may also obtain a copy of the <em>GNU
-    General Public License</em> from the Free Software Foundation by
-    visiting <link type="http" url="http://www.fsf.org">their Web
-    site</link> or by writing to
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see
+    <link href="http://www.gnu.org/licenses/">gnu.org/licenses</link>.
   </p>
-    <code>
-     Free Software Foundation, Inc.  
-     59 Temple Place - Suite 330 
-     Boston, MA 02111-1307 
-     USA 
-    </code>
 
   <p>
     This documentation is licensed under a
