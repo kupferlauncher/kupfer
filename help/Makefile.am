@@ -1,3 +1,14 @@
+#
+# This file defines variables and files for Kupfer's
+# mallard documentation.
+#
+# This file is needed for Gnome's translation infrastructure,
+# but it is never used as a real Makefile.
+#
+# Define all languages for translation in the variable DOC_LINGUAS
+#
+
+
 include $(top_srcdir)/gnome-doc-utils.make
 
 DOC_ID = kupfer
@@ -13,4 +24,6 @@ DOC_PAGES = \
 
 
 DOC_LINGUAS = de
+
+
 dist-hook: doc-dist-hook
