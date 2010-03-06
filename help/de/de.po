@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer docs\n"
-"POT-Creation-Date: 2009-12-07 10:31+0100\n"
-"PO-Revision-Date: 2009-11-29 16:57+0100\n"
+"POT-Creation-Date: 2010-03-06 12:29+0000\n"
+"PO-Revision-Date: 2010-03-06 13:58+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,573 +14,519 @@ msgstr ""
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
 
-#: tips.page:7(app) tips.page:19(app) plugins.page:7(app) plugins.page:14(app)
-#: plugins.page:23(app) plugins.page:27(app) plugins.page:46(app)
-#: plugins.page:47(app) plugins.page:59(app) plugins.page:60(app)
-#: plugins.page:79(app) plugins.page:82(app) plugins.page:83(app)
-#: plugins.page:84(app) plugins.page:92(app) plugins.page:135(app)
-#: plugins.page:136(app) plugins.page:139(app) plugins.page:140(app)
-#: plugins.page:144(app) plugins.page:148(app) plugins.page:149(app)
-#: plugins.page:157(app) plugins.page:158(app) plugins.page:165(app)
-#: plugins.page:172(app) plugins.page:179(app) introduction.page:7(app)
-#: introduction.page:13(app) introduction.page:20(app)
-#: introduction.page:26(app) introduction.page:32(app)
-#: introduction.page:37(app)
-msgid "Kupfer"
-msgstr "Kupfer"
-
-#: tips.page:7(desc)
-msgid "Using <placeholder-1/> more convenient."
+#: C/tips.page:7(desc)
+msgid "Using <app>Kupfer</app> more convenient."
 msgstr ""
 
-#: tips.page:10(title)
+#: C/tips.page:10(title)
 msgid "Basic Usage"
-msgstr ""
+msgstr "Grundlagen der Bedienung"
 
-#: tips.page:13(key) plugins.page:58(key) plugins.page:66(key)
-#: plugins.page:68(key)
-msgid "Ctrl"
-msgstr "Strg"
-
-#: tips.page:13(key) plugins.page:58(key) plugins.page:66(key)
-#: plugins.page:68(key)
-msgid "Space"
-msgstr "Leertaste"
-
-#: tips.page:12(p)
+#: C/tips.page:12(p)
 msgid ""
-"By default, with the keybinder module installed, <keyseq><placeholder-1/"
-"><placeholder-2/></keyseq> will summon the Kupfer window."
+"By default, with the keybinder module installed, <keyseq><key>Ctrl</"
+"key><key>Space</key></keyseq> will summon the Kupfer window."
 msgstr ""
+"Standardmäßig rufen Sie mit der Tastenkombination <keyseq><key>Strg</"
+"key><key>Leertaste</key></keyseq> das <app>Kupfer</app>-Fenster auf, sofern "
+"das Keybinder-Modul installiert ist."
 
-#: tips.page:17(p)
+#: C/tips.page:17(p)
 msgid ""
 "Included toplevel directories (by default home an desktop) are monitored so "
-"new files will be found immediately. Most plugins in <placeholder-1/> try to "
+"new files will be found immediately. Most plugins in <app>Kupfer</app> try to "
 "use the change notifications that are available from the system, to keep up "
 "to date with the instant."
 msgstr ""
 
-#: tips.page:26(key)
-msgid "right-arrow"
-msgstr ""
-
-#: tips.page:24(p)
+#: C/tips.page:24(p)
 msgid ""
 "Objects that have content, like folders, are marked with an arrow. Pressing "
-"<placeholder-1/> will enter these objects."
+"<key>right-arrow</key> will enter these objects."
 msgstr ""
 
-#: tips.page:29(p)
+#: C/tips.page:29(p)
 msgid "In command mode, some keybindings are:"
 msgstr ""
+"Im Befehlsmodus stehen Ihnen beispielsweise folgende Tastenkürzel zur "
+"Verfügung:"
 
-#: tips.page:35(key)
-#, fuzzy
-msgid "space"
-msgstr "Leertaste"
+#: C/tips.page:34(p)
+msgid "<key>space</key> to go to the next match"
+msgstr "<key>Leertaste</key>, um zum nächsten Treffer zu gehen"
 
-#: tips.page:34(p)
-msgid "<placeholder-1/> to go to the next match"
+#: C/tips.page:39(p)
+msgid "<key>.</key> to activate free-text mode"
 msgstr ""
 
-#: tips.page:40(key)
-msgid "."
+#: C/tips.page:44(p)
+msgid "<key>/</key> to descend into an object with content"
 msgstr ""
 
-#: tips.page:39(p)
-msgid "<placeholder-1/> to activate free-text mode"
+#: C/tips.page:49(p)
+msgid "<key>Backspace</key> to go back upspace to go to the next match"
 msgstr ""
 
-#: tips.page:45(key)
-msgid "/"
-msgstr ""
-
-#: tips.page:44(p)
-msgid "<placeholder-1/> to descend into an object with content"
-msgstr ""
-
-#: tips.page:50(key)
-msgid "Backspace"
-msgstr ""
-
-#: tips.page:49(p)
-msgid "<placeholder-1/> to go back upspace to go to the next match"
-msgstr ""
-
-#: tips.page:57(title)
+#: C/tips.page:57(title)
 msgid "Configuration files and paths"
-msgstr ""
+msgstr "Konfigurationsdateien und Pfade"
 
-#: tips.page:59(file)
-msgid "~/.cache/kupfer"
-msgstr "~/.cache/kupfer"
-
-#: tips.page:60(file)
-msgid "~/.config/kupfer"
-msgstr "~/.config/kupfer"
-
-#: tips.page:60(file)
-msgid "~/.local/share/kupfer"
-msgstr "~/.local/share/kupfer"
-
-#: tips.page:58(p)
+#: C/tips.page:58(p)
 msgid ""
-"Kupfer cache, config and data are in <placeholder-1/>, <placeholder-2/> and "
-"<placeholder-3/>."
+"Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, <file>~/."
+"config/kupfer</file> and <file>~/.local/share/kupfer</file>."
 msgstr ""
 
-#: tips.page:64(file)
-msgid "~/.local/share/kupfer/plugins/"
-msgstr "~/.local/share/kupfer/plugins/"
+#: C/tips.page:63(p)
+msgid "Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>"
+msgstr ""
+"Installieren Sie benutzerdefinierte Plugins in <file>~/.local/share/kupfer/"
+"plugins/</file>"
 
-#: tips.page:63(p)
-#, fuzzy
-msgid "Install custom plugins in <placeholder-1/>"
-msgstr "Einführung in <placeholder-1/>."
+#: C/plugins.page:7(desc)
+msgid "Using <app>Kupfer</app> plugins."
+msgstr "Verwendung der <app>Kupfer</app>-Plugins."
 
-#: plugins.page:7(desc)
-#, fuzzy
-msgid "Using <placeholder-1/> plugins."
-msgstr "kupfer <placeholder-1/>"
-
-#: plugins.page:10(title)
+#: C/plugins.page:10(title)
 msgid "Plugins"
 msgstr "Plugins"
 
-#: plugins.page:12(p)
+#: C/plugins.page:12(p)
 msgid ""
 "You can install custom plugins into ~/.local/share/kupfer/plugins; adding to "
-"<placeholder-1/>'s object knowledge can be surprisingly easy, just look at "
+"<app>Kupfer</app>'s object knowledge can be surprisingly easy, just look at "
 "the default plugins if you want to create new."
 msgstr ""
 
-#: plugins.page:19(title)
+#: C/plugins.page:19(title)
 msgid "Search the Web Search Engines"
 msgstr ""
 
-#: plugins.page:21(app)
-msgid "Firefox'"
-msgstr "Firefox'"
-
-#: plugins.page:22(app)
-msgid "Firefox"
-msgstr "Firefox"
-
-#: plugins.page:20(p)
+#: C/plugins.page:20(p)
 msgid ""
-"The Search the Web plugin uses <placeholder-1/> search engines, so you can "
-"add Search Engines directly in <placeholder-2/> and <placeholder-3/> will "
+"The Search the Web plugin uses <app>Firefox'</app> search engines, so you can "
+"add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> will "
 "find them later."
 msgstr ""
 
-#: plugins.page:25(p)
+#: C/plugins.page:25(p)
 msgid ""
-"You can also install custom search plugins directly, only for <placeholder-1/"
-">, in the folder:"
+"You can also install custom search plugins directly, only for <app>Kupfer</"
+"app>, in the folder:"
 msgstr ""
 
-#: plugins.page:29(code)
+#: C/plugins.page:29(code)
+#, no-wrap
 msgid "~/.local/share/kupfer/searchplugins/"
 msgstr "~/.local/share/kupfer/searchplugins/"
 
-#: plugins.page:34(title)
+#: C/plugins.page:34(title)
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Terminal hier öffnen"
 
-#: plugins.page:36(cmd) plugins.page:38(cmd)
-msgid "xdg-terminal"
-msgstr "xdg-terminal"
-
-#: plugins.page:36(cmd)
-msgid "gnome-terminal"
-msgstr "gnome-terminal"
-
-#: plugins.page:39(em)
-msgid "called"
-msgstr ""
-
-#: plugins.page:35(p)
+#: C/plugins.page:35(p)
 msgid ""
-"Open terminal first calls <placeholder-1/>, then <placeholder-2/>. xdg-"
-"terminal is a script to find the user's configured terminal program for his/"
-"her Desktop Environment. Install <placeholder-3/> if you need this (or "
-"install a symlink <placeholder-4/> xdg-terminal)."
+"Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-terminal</"
+"cmd>. xdg-terminal is a script to find the user's configured terminal program "
+"for his/her Desktop Environment. Install <cmd>xdg-terminal</cmd> if you need "
+"this (or install a symlink <em>called</em> xdg-terminal)."
 msgstr ""
 
-#: plugins.page:44(title)
+#: C/plugins.page:44(title)
 msgid "Grab current selection"
 msgstr ""
 
-#: plugins.page:48(file)
-msgid "~/.config/kupfer/kupfer.cfg"
-msgstr "~/.config/kupfer/kupfer.cfg"
-
-#: plugins.page:45(p)
+#: C/plugins.page:45(p)
 msgid ""
-"To use <placeholder-1/> like a pro, you can configure a \"Magic Keybinding\" "
-"for <placeholder-2/>. GUI configuration is not yet supported, but edit the "
-"configuration file <placeholder-3/> to include the following:"
+"To use <app>Kupfer</app> like a pro, you can configure a \"Magic Keybinding\" "
+"for <app>Kupfer</app>. GUI configuration is not yet supported, but edit the "
+"configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include the "
+"following:"
 msgstr ""
 
-#: plugins.page:51(code)
+#: C/plugins.page:51(code)
+#, no-wrap
 msgid ""
-"[Kupfer] keybinding = &lt;Control&gt;space magickeybinding = &lt;Ctrl&gt;&lt;"
-"Alt&gt;space"
+"\n"
+"[Kupfer]\n"
+"keybinding = &lt;Control&gt;space\n"
+"magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
+"  "
 msgstr ""
+"\n"
+"[Kupfer]\n"
+"keybinding = &lt;Control&gt;space\n"
+"magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
+"  "
 
-#: plugins.page:58(key) plugins.page:66(key) plugins.page:68(key)
-msgid "Alt"
-msgstr "Alt"
-
-#: plugins.page:57(p)
+#: C/plugins.page:57(p)
 msgid ""
-"Now, pressing <keyseq><placeholder-1/><placeholder-2/><placeholder-3/></"
-"keyseq> will summon <placeholder-4/> with the current selection in focus. "
-"Make sure you have installed <placeholder-5/>'s nautilus plugin, then both "
-"the currently selected file in Nautilus, or the currently selected text in "
-"the front application will be selected."
+"Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq> "
+"will summon <app>Kupfer</app> with the current selection in focus. Make sure "
+"you have installed <app>Kupfer</app>'s nautilus plugin, then both the "
+"currently selected file in Nautilus, or the currently selected text in the "
+"front application will be selected."
 msgstr ""
 
-#: plugins.page:67(gui)
-msgid "Look Up"
-msgstr ""
-
-#: plugins.page:69(gui)
-#, fuzzy
-msgid "Scale"
-msgstr "Leertaste"
-
-#: plugins.page:69(gui)
-msgid "1000"
-msgstr ""
-
-#: plugins.page:64(p)
+#: C/plugins.page:64(p)
 msgid ""
-"Now you can select a word in, say, a web browser, use <keyseq><placeholder-1/"
-"><placeholder-2/><placeholder-3/></keyseq>, and select action <placeholder-4/"
-"> to look up the selected word. Or select an image file, use "
-"<keyseq><placeholder-5/><placeholder-6/><placeholder-7/></keyseq>, select "
-"action <placeholder-8/> with object <placeholder-9/> to scale the image to "
-"1000 pixels wide!"
+"Now you can select a word in, say, a web browser, use <keyseq><key>Ctrl</"
+"key><key>Alt</key><key>Space</key></keyseq>, and select action <gui>Look Up</"
+"gui> to look up the selected word. Or select an image file, use "
+"<keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select action "
+"<gui>Scale</gui> with object <gui>1000</gui> to scale the image to 1000 "
+"pixels wide!"
 msgstr ""
 
-#: plugins.page:74(title)
+#: C/plugins.page:74(title)
 msgid "Adding your actions and scripts"
-msgstr ""
+msgstr "Eigene Aktionen und Skripte hinzufügen"
 
-#: plugins.page:79(file)
-msgid "~/.local/share/applications"
-msgstr "~/.local/share/applications"
-
-#: plugins.page:75(p)
+#: C/plugins.page:75(p)
 msgid ""
 "If you want to add a custom application, or an application called with "
 "special options, you can create a new launcher for it and place it in one of "
-"the standard places for applications, for example <placeholder-1/>, where "
-"<placeholder-2/> will find it."
+"the standard places for applications, for example <file>~/.local/share/"
+"applications</file>, where <app>Kupfer</app> will find it."
 msgstr ""
 
-#: plugins.page:81(p)
+#: C/plugins.page:81(p)
 msgid ""
-"If you have a collection of scripts that you want to call from <placeholder-"
-"1/>, you can add the scripts folder as a catalog directory to <placeholder-2/"
-"> in the preferences. Scripts that you add to <placeholder-3/>'s catalog "
+"If you have a collection of scripts that you want to call from <app>Kupfer</"
+"app>, you can add the scripts folder as a catalog directory to <app>Kupfer</"
+"app> in the preferences. Scripts that you add to <app>Kupfer</app>'s catalog "
 "this way can be run directly or in the terminal as long as they are "
 "executable."
 msgstr ""
 
-#: plugins.page:88(link)
-msgid "here"
-msgstr "hier"
-
-#: plugins.page:89(app)
-msgid "Rhythmbox"
-msgstr ""
-
-#: plugins.page:90(file)
-msgid "rhrating.py"
-msgstr ""
-
-#: plugins.page:87(p)
+#: C/plugins.page:87(p)
 msgid ""
-"An example useful script is <placeholder-1/> which changes the rating of "
-"<placeholder-2/>'s currently playing song; I have added five scriptlets "
-"calling <placeholder-3/> with numbers from 0 to 5 to my catalog to quickly "
-"rate tracks. (This is something that might be integrated into <placeholder-4/"
-"> later)"
+"An example useful script is <link href=\"http://kaizer.se/wiki/code/rhrating."
+"py/\"> here</link> which changes the rating of <app>Rhythmbox</app>'s "
+"currently playing song; I have added five scriptlets calling <file>rhrating."
+"py</file> with numbers from 0 to 5 to my catalog to quickly rate tracks. "
+"(This is something that might be integrated into <app>Kupfer</app> later)"
 msgstr ""
 
-#: plugins.page:97(title)
+#: C/plugins.page:97(title)
 msgid "Calculator Plugin"
-msgstr ""
+msgstr "Taschenrechner-Plugin"
 
-#: plugins.page:98(p)
+#: C/plugins.page:98(p)
 msgid ""
-"The calculator plugin lets you calculate expressions quickly. It can "
-"evaluate expressions entered as text starting with \"=\". Entering = from "
-"command mode will start text mode directly with = prefixed for quick access."
+"The calculator plugin lets you calculate expressions quickly. It can evaluate "
+"expressions entered as text starting with \"=\". Entering = from command mode "
+"will start text mode directly with = prefixed for quick access."
 msgstr ""
 
-#: plugins.page:107(cmd)
-msgid "=help"
-msgstr "=help"
-
-#: plugins.page:103(p)
+#: C/plugins.page:103(p)
 msgid ""
 "The Calculator uses python's math and complex math modules, and parses "
-"expressions as Python expressions. You may use common mathematical "
-"functions, such as sqrt, sin, exp and log; the command <placeholder-1/> will "
-"show a list of all defined functions and constants."
+"expressions as Python expressions. You may use common mathematical functions, "
+"such as sqrt, sin, exp and log; the command <cmd>=help</cmd> will show a list "
+"of all defined functions and constants."
 msgstr ""
 
-#: plugins.page:111(p)
+#: C/plugins.page:111(p)
 msgid ""
 "Notice that the power operator in Python is double stars, for example =3**3 "
 "will evaluate to 27."
 msgstr ""
 
-#: plugins.page:117(p)
+#: C/plugins.page:117(p)
 msgid "To calculate trig functions for angles, convert to radians first:"
 msgstr ""
+"Um trigonometrische Funktionen für Winkel berechnen zu lassen, wandeln Sie "
+"diese zunächst in Radiant um:"
 
-#: plugins.page:120(code)
+#: C/plugins.page:120(code)
+#, no-wrap
 msgid "sin(radians(30)) -&gt; 0.5"
-msgstr ""
+msgstr "sin(radians(30)) -&gt; 0.5"
 
-#: plugins.page:123(p)
+#: C/plugins.page:123(p)
 msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
 
-#: plugins.page:133(title)
+#: C/plugins.page:133(title)
 msgid "Command line connection"
 msgstr ""
 
-#: plugins.page:137(app)
-#, fuzzy
-msgid "kupfer"
-msgstr "Kupfer"
-
-#: plugins.page:138(var)
-msgid "QUERY"
-msgstr "ABFRAGE"
-
-#: plugins.page:134(p)
+#: C/plugins.page:134(p)
 msgid ""
-"<placeholder-1/> is its own remote control. When <placeholder-2/> is already "
-"running, <placeholder-3/> on the command-line will focus its window, but "
-"there is more you can do: If you invoke <cmd><placeholder-4/><placeholder-5/"
-"></cmd> where <placeholder-6/> is a text string or a filename, <placeholder-"
-"7/> will focus, and select this item. This way, you can quickly invoke "
-"<placeholder-8/> actions even on objects from a shell-based context."
+"<app>Kupfer</app> is its own remote control. When <app>Kupfer</app> is "
+"already running, <app>Kupfer</app> on the command-line will focus its window, "
+"but there is more you can do: If you invoke <cmd><app>kupfer</app><var>QUERY</"
+"var></cmd> where <var>QUERY</var> is a text string or a filename, "
+"<app>Kupfer</app> will focus, and select this item. This way, you can quickly "
+"invoke <app>Kupfer</app> actions even on objects from a shell-based context."
 msgstr ""
 
-#: plugins.page:145(cmd)
-msgid "kupfer report.pdf"
-msgstr "kupfer report.pdf"
-
-#: plugins.page:142(p)
+#: C/plugins.page:142(p)
 msgid ""
 "For example, if you are using the shell in a directory where you have a file "
-"called \"report.pdf\", you can focus this file in <placeholder-1/> by "
-"running <placeholder-2/>."
+"called \"report.pdf\", you can focus this file in <app>Kupfer</app> by "
+"running <cmd>kupfer report.pdf</cmd>."
 msgstr ""
 
-#: plugins.page:147(p)
+#: C/plugins.page:147(p)
 msgid ""
-"You can also pipe the output of a command into <placeholder-1/> to send text "
-"to the already running instance of <placeholder-2/>."
+"You can also pipe the output of a command into <app>Kupfer</app> to send text "
+"to the already running instance of <app>Kupfer</app>."
 msgstr ""
 
-#: plugins.page:154(title)
+#: C/plugins.page:154(title)
 msgid "Managing Context and Current Selection"
 msgstr ""
 
-#: plugins.page:155(p)
+#: C/plugins.page:155(p)
 msgid ""
-"If you find the object you want to use, then invoke an action, <placeholder-"
-"1/> goes away to perform the action (for example start a program or play a "
-"song). When you come back to <placeholder-2/>, it will still keep the same "
+"If you find the object you want to use, then invoke an action, <app>Kupfer</"
+"app> goes away to perform the action (for example start a program or play a "
+"song). When you come back to <app>Kupfer</app>, it will still keep the same "
 "object and action selected. Some actions make sense to be repeated (like "
 "skipping to the next song) and it can be useful to perform different actions "
 "on the same object."
 msgstr ""
 
-#: plugins.page:163(p)
+#: C/plugins.page:163(p)
 msgid ""
 "However, you always have the top level catalog reachable when you \"come back"
-"\" to <placeholder-1/> -- say you went into the subcatalog \"Albums\" to "
+"\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to "
 "browse your albums only; you select and album to play, and play it. You come "
 "back with the album selected -- but your next search will still go over the "
 "top level catalog, not just albums."
 msgstr ""
 
-#: plugins.page:170(p)
+#: C/plugins.page:170(p)
 msgid ""
 "How to come back into the subcatalog you were in? You do that by simply "
-"browsing, not searching the first thing you do when you focus <placeholder-1/"
-"> again. A quick way is to press down-arrow or space to open the browse "
+"browsing, not searching the first thing you do when you focus <app>Kupfer</"
+"app> again. A quick way is to press down-arrow or space to open the browse "
 "window; think of it as saying \"I want to stay in this subfolder\". With the "
 "browse window open, your next query will search the current subcatalog."
 msgstr ""
 
-#: plugins.page:177(p)
+#: C/plugins.page:177(p)
 msgid ""
-"This way you can work both ways -- you can quickly drill down into folders "
-"to find a file, and when you come back for the next action with <placeholder-"
-"1/> you can either summon any normal toplevel object (just start typing), or "
+"This way you can work both ways -- you can quickly drill down into folders to "
+"find a file, and when you come back for the next action with <app>Kupfer</"
+"app> you can either summon any normal toplevel object (just start typing), or "
 "stay around where you were, deep in that folder (press space, then type a "
 "query)."
 msgstr ""
 
-#: license.page:7(desc)
+#: C/license.page:7(desc)
 msgid "Legal Information."
-msgstr ""
+msgstr "Rechtliche Hinweise."
 
-#: license.page:10(title)
+#: C/license.page:10(title)
 msgid "License"
 msgstr "Lizenz"
 
-#: license.page:14(em) license.page:22(em) license.page:25(em)
-#: license.page:27(em)
-msgid "GNU General Public License"
-msgstr ""
-
-#: license.page:12(p)
+#: C/license.page:12(p)
 msgid ""
-"This program is free software; you can redistribute it and/or modify it "
-"under the terms of the <placeholder-1/> as published by the Free Software "
-"Foundation; either version 2 of the License, or (at your option) any later "
-"version."
+"This program is free software: you can redistribute it and/or modify it under "
+"the terms of the <em>GNU General Public License</em> as published by the Free "
+"Software Foundation, either version 3 of the License, or (at your option) any "
+"later version."
 msgstr ""
+"Dieses Programm ist freie Software. Sie können es unter den Bedingungen der "
+"<citetitle>GNU General Public License</citetitle>, wie von der Free Software "
+"Foundation veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß "
+"Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version."
 
-#: license.page:18(p)
+#: C/license.page:18(p)
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE. See the <placeholder-1/> for more details."
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE. See the <em>GNU General Public License</em> for "
+"more details."
 msgstr ""
+"Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, dass es Ihnen "
+"von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die implizite "
+"Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. "
+"Details finden Sie in der <citetitle>GNU General Public License</citetitle>."
 
-#: license.page:26(em)
-msgid "GNOME Users Guide"
-msgstr ""
-
-#: license.page:29(link)
-msgid "their Web site"
-msgstr ""
-
-#: license.page:24(p)
+#: C/license.page:24(p)
 msgid ""
-"A copy of the <placeholder-1/> is included as an appendix to the "
-"<placeholder-2/>. You may also obtain a copy of the <placeholder-3/> from "
-"the Free Software Foundation by visiting <placeholder-4/> or by writing to"
+"You should have received a copy of the GNU General Public License along with "
+"this program. If not, see <link href=\"http://www.gnu.org/licenses/\">gnu.org/"
+"licenses</link>."
 msgstr ""
+"Sie sollten eine Kopie der Allgemeinen Öffentlichen GNU-Lizenz zusammen mit "
+"diesem Programm erhalten haben. Falls nicht finden Sie sie <link href="
+"\"http://www.gnu.org/licenses/\">hier</link>."
 
-#: license.page:32(code)
+#: C/license.page:30(p)
 msgid ""
-"Free Software Foundation, Inc. 59 Temple Place - Suite 330 Boston, MA 02111-"
-"1307 USA"
+"This documentation is licensed under a <link href=\"http://creativecommons."
+"org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 "
+"Unported License</link>."
 msgstr ""
+"Diese Dokumentation ist lizenziert unter einer <link href=\"http://"
+"creativecommons.org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share "
+"Alike 3.0 Unported License</link>."
 
-#: license.page:41(link)
-msgid "Creative Commons Attribution-Share Alike 3.0 Unported License"
-msgstr ""
-
-#: license.page:39(p)
-msgid "This documentation is licensed under a <placeholder-1/>."
-msgstr ""
-
-#: license.page:45(p)
+#: C/license.page:36(p)
 msgid ""
 "As a special exception, the copyright holders give you permission to copy, "
 "modify, and distribute the example code contained in this document under the "
 "terms of your choosing, without restriction."
 msgstr ""
+"Als besondere Ausnahme erteilen Ihnen die Urheberrechtsinhaber die "
+"Genehmigung, den in diesem Dokument enthaltenen Beispielcode ohne "
+"Einschränkung unter den Bedingungen Ihrer Wahl zu verbreiten."
 
-#: introduction.page:7(desc)
-msgid "Introduction to <placeholder-1/>."
-msgstr "Einführung in <placeholder-1/>."
+#: C/introduction.page:7(desc)
+#| msgid "Introduction to <placeholder-1/>."
+msgid "Introduction to <app>Kupfer</app>."
+msgstr "Einführung in <app>Kupfer</app>."
 
-#: introduction.page:10(title)
+#: C/introduction.page:10(title)
 msgid "Introduction"
 msgstr "Einführung"
 
-#: introduction.page:14(link)
-msgid "Quicksilver"
-msgstr "Quicksilver"
-
-#: introduction.page:12(p)
+#: C/introduction.page:12(p)
 msgid ""
-"<placeholder-1/> is a command tool heavily inspired by <placeholder-2/>; you "
-"do not use it to search your files, you use it to summon an application or "
-"document quickly by typing the first parts of its name."
+"<app>Kupfer</app> is a command tool heavily inspired by <link href=\"http://"
+"www.blacktree.com/\">Quicksilver</link>; you do not use it to search your "
+"files, you use it to summon an application or document quickly by typing the "
+"first parts of its name."
 msgstr ""
 
-#: introduction.page:19(p)
+#: C/introduction.page:19(p)
 msgid ""
-"<placeholder-1/> is written using Python and has a flexible architecture. "
-"Objects that it can access are implemented in plugins, and new plugins can "
-"be written quickly."
+"<app>Kupfer</app> is written using Python and has a flexible architecture. "
+"Objects that it can access are implemented in plugins, and new plugins can be "
+"written quickly."
 msgstr ""
 
-#: introduction.page:25(p)
+#: C/introduction.page:25(p)
 msgid ""
-"The philosophy of <placeholder-1/> is simplicity. The implementation is "
-"simple, makes the easy things work first, and does not overdesign "
-"unnecessary parts of the program."
+"The philosophy of <app>Kupfer</app> is simplicity. The implementation is "
+"simple, makes the easy things work first, and does not overdesign unnecessary "
+"parts of the program."
 msgstr ""
 
-#: introduction.page:32(app)
-msgid "Kupfer's"
-msgstr "Kupfers"
-
-#: introduction.page:31(p)
+#: C/introduction.page:31(p)
 msgid ""
-"When you run <placeholder-1/>, it launches, then anytime you type "
-"<placeholder-2/> keybinding -- immediately its window is presented ready for "
-"a new query."
+"When you run <app>Kupfer</app>, it launches, then anytime you type "
+"<app>Kupfer's</app> keybinding -- immediately its window is presented ready "
+"for a new query."
 msgstr ""
 
-#: introduction.page:38(link)
-msgid "homepage"
-msgstr ""
-
-#: introduction.page:36(p)
+#: C/introduction.page:36(p)
 msgid ""
-"For more information about <placeholder-1/>, visit its <placeholder-2/>."
+"For more information about <app>Kupfer</app>, visit its <link href=\"http://"
+"kaizer.se/wiki/kupfer/\">homepage</link>."
 msgstr ""
+"Weitere Informationen über <app>Kupfer</app> finden Sie auf dessen <link href="
+"\"http://kaizer.se/wiki/kupfer/\">Webseite</link>."
 
-#: index.page:9(name)
+#: C/index.page:9(name)
 msgid "Ulrik Sverdrup"
 msgstr "Ulrik Sverdrup"
 
-#: index.page:10(email)
+#: C/index.page:10(email)
 msgid "ulrik.sverdrup@gmail.com"
 msgstr "ulrik.sverdrup@gmail.com"
 
-#: index.page:13(year)
+#: C/index.page:13(year)
 msgid "2009"
 msgstr "2009"
 
-#: index.page:14(name)
+#: C/index.page:14(name)
 msgid "Kupfer Development Team"
 msgstr "Kupfer-Entwicklungsteam"
 
-#: index.page:17(license)
+#: C/index.page:17(license)
 msgid "Creative Commons Share Alike 3.0"
-msgstr ""
+msgstr "Creative Commons Share Alike 3.0"
 
-#: index.page:21(title)
+#: C/index.page:21(title)
 msgid "Kupfer manual"
-msgstr ""
+msgstr "Kupfer-Handbuch"
 
-#: index.page:24(title)
+#: C/index.page:24(title)
 msgid "Using Kupfer"
-msgstr ""
+msgstr "Kuper verwenden"
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
-#: index.page:0(None)
+#: C/index.page:0(None)
 msgid "translator-credits"
-msgstr "Mario Blättermann <mariobl@gnome.org>, 2009"
+msgstr "Mario Blättermann <mariobl@gnome.org>, 2009, 2010"
+
+#~ msgid "Kupfer"
+#~ msgstr "Kupfer"
+
+#~ msgid "Ctrl"
+#~ msgstr "Strg"
+
+#~ msgid "Space"
+#~ msgstr "Leertaste"
+
+#, fuzzy
+#~ msgid "space"
+#~ msgstr "Leertaste"
+
+#~ msgid "~/.cache/kupfer"
+#~ msgstr "~/.cache/kupfer"
+
+#~ msgid "~/.config/kupfer"
+#~ msgstr "~/.config/kupfer"
+
+#~ msgid "~/.local/share/kupfer"
+#~ msgstr "~/.local/share/kupfer"
+
+#~ msgid "~/.local/share/kupfer/plugins/"
+#~ msgstr "~/.local/share/kupfer/plugins/"
+
+#~ msgid "Firefox'"
+#~ msgstr "Firefox'"
+
+#~ msgid "Firefox"
+#~ msgstr "Firefox"
+
+#~ msgid "xdg-terminal"
+#~ msgstr "xdg-terminal"
+
+#~ msgid "gnome-terminal"
+#~ msgstr "gnome-terminal"
+
+#~ msgid "~/.config/kupfer/kupfer.cfg"
+#~ msgstr "~/.config/kupfer/kupfer.cfg"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#, fuzzy
+#~ msgid "Scale"
+#~ msgstr "Leertaste"
+
+#~ msgid "~/.local/share/applications"
+#~ msgstr "~/.local/share/applications"
+
+#~ msgid "here"
+#~ msgstr "hier"
+
+#~ msgid "=help"
+#~ msgstr "=help"
+
+#, fuzzy
+#~ msgid "kupfer"
+#~ msgstr "Kupfer"
+
+#~ msgid "QUERY"
+#~ msgstr "ABFRAGE"
+
+#~ msgid "kupfer report.pdf"
+#~ msgstr "kupfer report.pdf"
+
+#~ msgid "Quicksilver"
+#~ msgstr "Quicksilver"
+
+#~ msgid "Kupfer's"
+#~ msgstr "Kupfers"
