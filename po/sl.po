@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-02-17 10:46+0000\n"
-"PO-Revision-Date: 2010-02-20 20:58+0100\n"
+"POT-Creation-Date: 2010-03-06 01:52+0000\n"
+"PO-Revision-Date: 2010-03-06 09:22+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -28,8 +28,6 @@ msgid "Convenient command and access tool for applications and documents"
 msgstr "Prikladno orodje za izvajanje ukazov in dostopa do programov in dokumentov"
 
 #: ../auxdata/kupfer.desktop.in.h:3
-#: ../kupfer/ui/browser.py:1423
-#: ../kupfer/ui/browser.py:1455
 #: ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
 msgid "Kupfer"
@@ -89,16 +87,16 @@ msgid "User credentials"
 msgstr "Uporabniška poverila"
 
 #: ../data/credentials_dialog.ui.h:2
+msgid "_Change"
+msgstr "_Spremeni"
+
+#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Geslo:"
 
-#: ../data/credentials_dialog.ui.h:3
+#: ../data/credentials_dialog.ui.h:4
 msgid "_User:"
 msgstr "_Uporabnik:"
-
-#: ../data/progress_dialog.ui.h:1
-msgid "label"
-msgstr "oznaka"
 
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
@@ -316,7 +314,7 @@ msgstr[1] "%s predmet"
 msgstr[2] "%s predmeta"
 msgstr[3] "%s predmeti"
 
-#: ../kupfer/obj/contacts.py:84
+#: ../kupfer/obj/contacts.py:87
 #: ../kupfer/plugin/pidgin.py:153
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
@@ -981,7 +979,7 @@ msgid "Tracks by %s"
 msgstr "Skladbe od %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
-#: ../kupfer/plugin/google_picasa/__init__.py:422
+#: ../kupfer/plugin/google_picasa/__init__.py:425
 msgid "Albums"
 msgstr "Albumi"
 
@@ -1163,7 +1161,7 @@ msgstr "Izvrzi"
 
 #: ../kupfer/plugin/volumes.py:71
 msgid "Unmount and eject this media"
-msgstr "Odklopi in izvrže ta medij"
+msgstr "Odklopi in izvrže nosilec"
 
 #: ../kupfer/plugin/websearch.py:1
 msgid "Search the Web"
@@ -1337,7 +1335,7 @@ msgstr "Globoki arhivi"
 msgid "Allow browsing inside compressed archive files"
 msgstr "Dovoli brskanje znotraj stisnjenih arhivskih datotek"
 
-#: ../kupfer/plugin/archiveinside.py:83
+#: ../kupfer/plugin/archiveinside.py:50
 #, python-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
@@ -1581,29 +1579,29 @@ msgid "Launch Gnome Terminal profiles"
 msgstr "Naloži profile Gnome Terminala"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/google_mail/__init__.py:2
-#: ../kupfer/plugin/google_mail/__init__.py:146
-msgid "Google Mail"
-msgstr "Google pošta"
+#: ../kupfer/plugin/gmail/__init__.py:2
+#: ../kupfer/plugin/gmail/__init__.py:146
+msgid "Gmail"
+msgstr "Gmail"
 
-#: ../kupfer/plugin/google_mail/__init__.py:5
-msgid "Load contacts and compose new email in Google Mail"
+#: ../kupfer/plugin/gmail/__init__.py:5
+msgid "Load contacts and compose new email in Gmail"
 msgstr "Nalaganje stikov in sestavljanje nove elektronske pošte v Google pošti"
 
-#: ../kupfer/plugin/google_mail/__init__.py:31
-msgid "Load contacts icons"
-msgstr "Naloži ikone stikov"
+#: ../kupfer/plugin/gmail/__init__.py:31
+msgid "Load contacts' pictures"
+msgstr "Naloži slike stikov"
 
-#: ../kupfer/plugin/google_mail/__init__.py:52
+#: ../kupfer/plugin/gmail/__init__.py:52
 msgid "Compose Email in GMail"
 msgstr "Sestavljanje elektronske pošte v GMailu"
 
-#: ../kupfer/plugin/google_mail/__init__.py:75
+#: ../kupfer/plugin/gmail/__init__.py:75
 msgid "Open web browser and compose new email in GMail"
 msgstr "Odpiranje spletnega brskalnika in sestavljanje nove elektronske pošte v GMail"
 
-#: ../kupfer/plugin/google_mail/__init__.py:170
-msgid "Contacts from Google services (Google Mail)"
+#: ../kupfer/plugin/gmail/__init__.py:170
+msgid "Contacts from Google services (Gmail)"
 msgstr "Stiki iz storitev Google (Google pošta)"
 
 #. -*- coding: UTF-8 -*-
@@ -1612,8 +1610,8 @@ msgid "Google Picasa"
 msgstr "Google Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:5
-msgid "Show albums and upload files to Picasa."
-msgstr "Prikaz albumov in pošiljanje datotek v Picasa."
+msgid "Show albums and upload files to Picasa"
+msgstr "Prikaz albumov in pošiljanje datotek v Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:34
 msgid "Users to show: (,-separated)"
@@ -1678,11 +1676,11 @@ msgid "Create album from selected local directory"
 msgstr "Ustvari ikono albuma za izbrano krajevno mapo"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:375
-#: ../kupfer/plugin/google_picasa/__init__.py:393
+#: ../kupfer/plugin/google_picasa/__init__.py:396
 msgid "Picasa Albums"
 msgstr "Albumi Picasa"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:414
+#: ../kupfer/plugin/google_picasa/__init__.py:417
 msgid "User albums in Picasa"
 msgstr "Uporabniški albumi v Picasi"
 
@@ -1865,67 +1863,69 @@ msgstr "Iskanje datotečnega sistema z locate"
 msgid "Ignore case distinctions when searching files"
 msgstr "Prezri različne velikosti črk pri iskanju datotek"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:2
+#: ../kupfer/plugin/twitter/__init__.py:3
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:6
+#: ../kupfer/plugin/twitter/__init__.py:7
 msgid "Microblogging with Twitter: send updates and show friends' tweets"
 msgstr "Mikrobloganje s Twitterjem: pošiljanje posodobitev in prikaz tweetov prijateljev"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:34
-msgid "Load users' pictures"
-msgstr "Naloži uporabniške slike"
+#: ../kupfer/plugin/twitter/__init__.py:36
+msgid "Load friends' pictures"
+msgstr "Naloži slike prijateljev"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:40
+#: ../kupfer/plugin/twitter/__init__.py:42
 msgid "Load friends' public tweets"
 msgstr "Nalaganje javnih tweetov prijateljev"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:46
+#: ../kupfer/plugin/twitter/__init__.py:48
 msgid "Load timeline"
 msgstr "Naloži časovnico"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:163
-msgid "<Friend Tweets>"
-msgstr "<Tweeti prijateljev>"
-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:174
-msgid "All friends timeline"
-msgstr "Časovnica vseh prijateljev"
-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:213
+#: ../kupfer/plugin/twitter/__init__.py:196
 msgid "Post Update to Twitter"
 msgstr "Pošlji posodobitev na Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:233
-msgid "Post Direct Message"
-msgstr "Pošlji neposredno sporočilo"
+#: ../kupfer/plugin/twitter/__init__.py:216
+msgid "Send Direct Message..."
+msgstr "Pošlji neposredno sporočilo ..."
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:259
-msgid "Post Direct Message To..."
-msgstr "Pošlji neposredno sporočilo na ..."
+#: ../kupfer/plugin/twitter/__init__.py:245
+msgid "Send Direct Message To..."
+msgstr "Pošlji neposredno sporočilo osebi ..."
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:287
-msgid "Reply"
-msgstr "Odgovori"
+#: ../kupfer/plugin/twitter/__init__.py:273
+msgid "Reply..."
+msgstr "Odgovori ..."
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:311
+#: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:330
+#: ../kupfer/plugin/twitter/__init__.py:319
 msgid "Twitter Timeline"
 msgstr "Časovnica Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:355
+#: ../kupfer/plugin/twitter/__init__.py:345
 msgid "Twitter Friends"
 msgstr "Prijatelji Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:379
-msgid "Friend Statuses"
-msgstr "Stanja prijateljev"
+#: ../kupfer/plugin/twitter/__init__.py:370
+#, python-format
+msgid "Timeline for %s"
+msgstr "Časovnica za %s"
+
+#: ../kupfer/plugin/twitter/__init__.py:394
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znakov)"
+msgstr[1] "%s (%d znak)"
+msgstr[2] "%s (%d znaka)"
+msgstr[3] "%s (%d znaki)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -1962,15 +1962,6 @@ msgstr "Dostop do stikov Pidgin"
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Pokaži nepovezane stike"
-
-#: ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d znakov)"
-msgstr[1] "%s (%d znak)"
-msgstr[2] "%s (%d znaka)"
-msgstr[3] "%s (%d znaki)"
 
 #: ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
@@ -2130,11 +2121,11 @@ msgstr "Stiki Skype"
 msgid "Skype Statuses"
 msgstr "Stanja Skype"
 
-#: ../kupfer/plugin_support.py:7
+#: ../kupfer/plugin_support.py:14
 msgid "Include in top level"
 msgstr "Vključi v vrhnjo raven"
 
-#: ../kupfer/plugin_support.py:11
+#: ../kupfer/plugin_support.py:18
 msgid ""
 "If enabled, objects from the plugin's source(s) will be available in the top level.\n"
 "Sources are always available as subcatalogs in the top level."
@@ -2142,7 +2133,7 @@ msgstr ""
 "Izbrana možnost omogoči razpoložljivost vira vstavka na zgornji ravni.\n"
 "Viri so vedno razpoložljivi kot podkatalogi v zgornji ravni."
 
-#: ../kupfer/plugin_support.py:107
+#: ../kupfer/plugin_support.py:114
 msgid "No D-Bus connection to desktop session"
 msgstr "Ni D-Bus povezave z namizno sejo"
 
@@ -2368,32 +2359,32 @@ msgid "TrueCrypt"
 msgstr "TrueCrypt"
 
 #: ../kupfer/plugin/truecrypt.py:6
-#: ../kupfer/plugin/truecrypt.py:139
+#: ../kupfer/plugin/truecrypt.py:140
 msgid "Volumes from TrueCrypt history"
 msgstr "Nosilci iz zgodovine TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:43
+#: ../kupfer/plugin/truecrypt.py:44
 #, python-format
 msgid "TrueCrypt volume: %(file)s"
 msgstr "Nosilec TrueCrypt: %(file)s"
 
-#: ../kupfer/plugin/truecrypt.py:51
+#: ../kupfer/plugin/truecrypt.py:52
 msgid "Mount Volume"
 msgstr "Priklopi nosilce"
 
-#: ../kupfer/plugin/truecrypt.py:62
+#: ../kupfer/plugin/truecrypt.py:63
 msgid "Mount in Truecrypt"
 msgstr "Priklop v Truecrypt"
 
-#: ../kupfer/plugin/truecrypt.py:71
+#: ../kupfer/plugin/truecrypt.py:72
 msgid "Try to mount file as Truecrypt volume"
 msgstr "Poskus priklopa datoteke kot nosilec Truecrypt"
 
-#: ../kupfer/plugin/truecrypt.py:79
+#: ../kupfer/plugin/truecrypt.py:80
 msgid "Dismount All Volumes"
 msgstr "Odklopi vse nosilce"
 
-#: ../kupfer/plugin/truecrypt.py:97
+#: ../kupfer/plugin/truecrypt.py:98
 msgid "TrueCrypt Volumes"
 msgstr "Nosilci TrueCrypt"
 
@@ -2516,6 +2507,20 @@ msgstr "Strani Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležnicah Zim"
 
+#~ msgid "label"
+#~ msgstr "oznaka"
+#~ msgid "Google Mail"
+#~ msgstr "Google pošta"
+#~ msgid "Load users' pictures"
+#~ msgstr "Naloži uporabniške slike"
+#~ msgid "<Friend Tweets>"
+#~ msgstr "<Tweeti prijateljev>"
+#~ msgid "All friends timeline"
+#~ msgstr "Časovnica vseh prijateljev"
+#~ msgid "Post Direct Message"
+#~ msgstr "Pošlji neposredno sporočilo"
+#~ msgid "Friend Statuses"
+#~ msgstr "Stanja prijateljev"
 #~ msgid "To configure kupfer, edit:"
 #~ msgstr "Za nastavljanje kupfer, uredite:"
 #~ msgid "The default config for reference is at:"
