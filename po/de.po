@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-03 17:21+0000\n"
-"PO-Revision-Date: 2010-03-03 21:25+0100\n"
+"POT-Creation-Date: 2010-03-04 21:17+0000\n"
+"PO-Revision-Date: 2010-03-06 14:53+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1512,29 +1512,32 @@ msgid "Launch Gnome Terminal profiles"
 msgstr "GNOME-Terminal-Profile starten"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/google_mail/__init__.py:2
-#: ../kupfer/plugin/google_mail/__init__.py:146
-msgid "Google Mail"
-msgstr "Google Mail"
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
+#| msgid "Gajim"
+msgid "Gmail"
+msgstr "Gmail"
 
-#: ../kupfer/plugin/google_mail/__init__.py:5
-msgid "Load contacts and compose new email in Google Mail"
+#: ../kupfer/plugin/gmail/__init__.py:5
+#| msgid "Load contacts and compose new email in Google Mail"
+msgid "Load contacts and compose new email in Gmail"
 msgstr "Kontakte laden und eine neue Nachricht in Google Mail erstellen"
 
-#: ../kupfer/plugin/google_mail/__init__.py:31
-msgid "Load contacts icons"
-msgstr "Symbole für Kontakte laden"
+#: ../kupfer/plugin/gmail/__init__.py:31
+#| msgid "Load contacts icons"
+msgid "Load contacts' pictures"
+msgstr "Bilder für Kontakte laden"
 
-#: ../kupfer/plugin/google_mail/__init__.py:52
+#: ../kupfer/plugin/gmail/__init__.py:52
 msgid "Compose Email in GMail"
 msgstr "Neue E-Mail in GMail verfassen"
 
-#: ../kupfer/plugin/google_mail/__init__.py:75
+#: ../kupfer/plugin/gmail/__init__.py:75
 msgid "Open web browser and compose new email in GMail"
 msgstr "Webbrowser öffnen und eine neue Nachricht in GMail erstellen"
 
-#: ../kupfer/plugin/google_mail/__init__.py:170
-msgid "Contacts from Google services (Google Mail)"
+#: ../kupfer/plugin/gmail/__init__.py:170
+#| msgid "Contacts from Google services (Google Mail)"
+msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakte aus Google-Diensten (Google Mail)"
 
 #. -*- coding: UTF-8 -*-
@@ -1543,8 +1546,9 @@ msgid "Google Picasa"
 msgstr "Google Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:5
-msgid "Show albums and upload files to Picasa."
-msgstr "Alben anzeigen und Dateien zu Picasa hochladen."
+#| msgid "Show albums and upload files to Picasa."
+msgid "Show albums and upload files to Picasa"
+msgstr "Alben anzeigen und Dateien zu Picasa hochladen"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:34
 msgid "Users to show: (,-separated)"
@@ -1786,69 +1790,72 @@ msgstr "Das Dateisystem mit locate durchsuchen"
 msgid "Ignore case distinctions when searching files"
 msgstr "Groß-/Kleinschreibung während der Suche ignorieren"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:2
+#: ../kupfer/plugin/twitter/__init__.py:3
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:6
+#: ../kupfer/plugin/twitter/__init__.py:7
 msgid "Microblogging with Twitter: send updates and show friends' tweets"
 msgstr ""
 "Microblogging mit Twitter: Aktualisierungen senden und Tweets von Freunden "
 "anzeigen"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:34
-msgid "Load users' pictures"
-msgstr "Benutzerbilder laden"
+#: ../kupfer/plugin/twitter/__init__.py:36
+#| msgid "Load friends' public tweets"
+msgid "Load friends' pictures"
+msgstr "Bilder von Freunden laden"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:40
+#: ../kupfer/plugin/twitter/__init__.py:42
 msgid "Load friends' public tweets"
 msgstr "Öffentliche Tweets von Freunden laden"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:46
+#: ../kupfer/plugin/twitter/__init__.py:48
 msgid "Load timeline"
 msgstr "Zeitlinie laden"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:163
-msgid "<Friend Tweets>"
-msgstr "<Tweets von Freunden>"
-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:174
-msgid "All friends timeline"
-msgstr "Zeitlinie aller Freunde"
-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:213
+#: ../kupfer/plugin/twitter/__init__.py:196
 msgid "Post Update to Twitter"
 msgstr "Aktualisierung an Twitter senden"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:233
-msgid "Post Direct Message"
-msgstr "Direkte Nachricht senden"
+#: ../kupfer/plugin/twitter/__init__.py:216
+#| msgid "Send Message..."
+msgid "Send Direct Message..."
+msgstr "Direkte Nachricht senden …"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:259
-msgid "Post Direct Message To..."
-msgstr "Direkte Nachricht senden an…"
+#: ../kupfer/plugin/twitter/__init__.py:245
+#| msgid "Post Direct Message To..."
+msgid "Send Direct Message To..."
+msgstr "Direkte Nachricht senden an …"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:287
-msgid "Reply"
-msgstr "Antworten"
+#: ../kupfer/plugin/twitter/__init__.py:273
+#| msgid "Reply"
+msgid "Reply..."
+msgstr "Antworten …"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:311
+#: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:330
+#: ../kupfer/plugin/twitter/__init__.py:319
 msgid "Twitter Timeline"
 msgstr "Twitter-Zeitlinie"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:355
+#: ../kupfer/plugin/twitter/__init__.py:345
 msgid "Twitter Friends"
 msgstr "Twitter-Freunde"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:379
-msgid "Friend Statuses"
-msgstr "Status der Freunde"
+#: ../kupfer/plugin/twitter/__init__.py:370
+#, python-format
+msgid "Timeline for %s"
+msgstr "Zeitlinie für %s"
+
+#: ../kupfer/plugin/twitter/__init__.py:394 ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d Zeichen)"
+msgstr[1] "%s (%d Zeichen)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -1882,13 +1889,6 @@ msgstr "Zugriff auf Pidgin-Kontakte"
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Abgemeldete Kontakte anzeigen"
-
-#: ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d Zeichen)"
-msgstr[1] "%s (%d Zeichen)"
 
 #: ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
@@ -2423,6 +2423,24 @@ msgstr "Zim-Seiten"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "In Zim-Notizbüchern gespeicherte Seiten"
+
+#~ msgid "Google Mail"
+#~ msgstr "Google Mail"
+
+#~ msgid "Load users' pictures"
+#~ msgstr "Benutzerbilder laden"
+
+#~ msgid "<Friend Tweets>"
+#~ msgstr "<Tweets von Freunden>"
+
+#~ msgid "All friends timeline"
+#~ msgstr "Zeitlinie aller Freunde"
+
+#~ msgid "Post Direct Message"
+#~ msgstr "Direkte Nachricht senden"
+
+#~ msgid "Friend Statuses"
+#~ msgstr "Status der Freunde"
 
 #~ msgid "label"
 #~ msgstr "Bezeichnung"
