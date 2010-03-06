@@ -76,7 +76,7 @@ def set_options(opt):
 
 def configure(conf):
 	xml2po = conf.find_program('xml2po', var='XML2PO')
-	conf.env['XML2POFLAGS'] = '-e -p'
+	conf.env['XML2POFLAGS'] = '-mmallard -p'
 
 def build(bld):
 	if bld.env["XML2PO"]:
