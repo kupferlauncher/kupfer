@@ -58,9 +58,15 @@ class ClipboardSource (Source):
 		newtext = clip.wait_for_text()
 		if not (newtext and newtext.strip()):
 			return
+
 		if newtext in self.clipboards:
 			self.clipboards.remove(newtext)
+		# if the previous text is a prefix of the new selection, supercede it
+		if (is_selection and self.clipboards and
+		    newtext.startswith(self.clipboards[-1])):
+			self.clipboards.pop()
 		self.clipboards.append(newtext)
+
 		while len(self.clipboards) > max_len:
 			self.clipboards.popleft()
 		self.mark_for_update()
