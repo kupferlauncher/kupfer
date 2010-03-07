@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-02-21 18:49+0000\n"
-"PO-Revision-Date: 2010-02-22 21:14+0100\n"
+"POT-Creation-Date: 2010-03-05 10:46+0000\n"
+"PO-Revision-Date: 2010-03-03 23:13+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -31,8 +31,7 @@ msgid "Convenient command and access tool for applications and documents"
 msgstr ""
 "Nástroj pro pohodlné provádění příkazů a přístup k aplikacím a dokumentům"
 
-#: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/ui/browser.py:1423
-#: ../kupfer/ui/browser.py:1455 ../kupfer/version.py:15
+#: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -90,16 +89,16 @@ msgid "User credentials"
 msgstr "Přístupové údaje uživatele"
 
 #: ../data/credentials_dialog.ui.h:2
+msgid "_Change"
+msgstr "_Změnit"
+
+#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Heslo:"
 
-#: ../data/credentials_dialog.ui.h:3
+#: ../data/credentials_dialog.ui.h:4
 msgid "_User:"
 msgstr "_Uživatel:"
-
-#: ../data/progress_dialog.ui.h:1
-msgid "label"
-msgstr "label"
 
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
@@ -314,7 +313,7 @@ msgstr[0] "%s objekt"
 msgstr[1] "%s objekty"
 msgstr[2] "%s objektů"
 
-#: ../kupfer/obj/contacts.py:84 ../kupfer/plugin/pidgin.py:153
+#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:153
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -940,7 +939,7 @@ msgid "Tracks by %s"
 msgstr "Skladby od interpreta %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
-#: ../kupfer/plugin/google_picasa/__init__.py:422
+#: ../kupfer/plugin/google_picasa/__init__.py:425
 msgid "Albums"
 msgstr "Alba"
 
@@ -1284,7 +1283,7 @@ msgstr "Do hloubky archivů"
 msgid "Allow browsing inside compressed archive files"
 msgstr "Umožňuje procházení uvnitř komprimovaných archivních souborů"
 
-#: ../kupfer/plugin/archiveinside.py:83
+#: ../kupfer/plugin/archiveinside.py:50
 #, python-format
 msgid "Content of %s"
 msgstr "Obsah archivu %s"
@@ -1511,29 +1510,36 @@ msgid "Launch Gnome Terminal profiles"
 msgstr "Profily pro spouštění terminálu Gnome"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/google_mail/__init__.py:2
-#: ../kupfer/plugin/google_mail/__init__.py:146
-msgid "Google Mail"
-msgstr "Google Mail"
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
+#, fuzzy
+#| msgid "Gajim"
+msgid "Gmail"
+msgstr "Gajim"
 
-#: ../kupfer/plugin/google_mail/__init__.py:5
-msgid "Load contacts and compose new email in Google Mail"
+#: ../kupfer/plugin/gmail/__init__.py:5
+#, fuzzy
+#| msgid "Load contacts and compose new email in Google Mail"
+msgid "Load contacts and compose new email in Gmail"
 msgstr "Načítání kontaktů a psaní nových e-mailů v Google Mail"
 
-#: ../kupfer/plugin/google_mail/__init__.py:31
-msgid "Load contacts icons"
+#: ../kupfer/plugin/gmail/__init__.py:31
+#, fuzzy
+#| msgid "Load contacts icons"
+msgid "Load contacts' pictures"
 msgstr "Načítat ikony kontaktů"
 
-#: ../kupfer/plugin/google_mail/__init__.py:52
+#: ../kupfer/plugin/gmail/__init__.py:52
 msgid "Compose Email in GMail"
 msgstr "Napsat e-mail v GMail"
 
-#: ../kupfer/plugin/google_mail/__init__.py:75
+#: ../kupfer/plugin/gmail/__init__.py:75
 msgid "Open web browser and compose new email in GMail"
 msgstr "Otevřít webový prohlížeč a napsat nový e-mail v GMail"
 
-#: ../kupfer/plugin/google_mail/__init__.py:170
-msgid "Contacts from Google services (Google Mail)"
+#: ../kupfer/plugin/gmail/__init__.py:170
+#, fuzzy
+#| msgid "Contacts from Google services (Google Mail)"
+msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakty ze služeb Google (Google Mail)"
 
 #. -*- coding: UTF-8 -*-
@@ -1542,7 +1548,9 @@ msgid "Google Picasa"
 msgstr "Google Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:5
-msgid "Show albums and upload files to Picasa."
+#, fuzzy
+#| msgid "Show albums and upload files to Picasa."
+msgid "Show albums and upload files to Picasa"
 msgstr "Zobrazit alba a odesílat soubory do služby Picasa."
 
 #: ../kupfer/plugin/google_picasa/__init__.py:34
@@ -1606,11 +1614,11 @@ msgid "Create album from selected local directory"
 msgstr "Vytvořit album z vybrané místní složky"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:375
-#: ../kupfer/plugin/google_picasa/__init__.py:393
+#: ../kupfer/plugin/google_picasa/__init__.py:396
 msgid "Picasa Albums"
 msgstr "Alba Picasa"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:414
+#: ../kupfer/plugin/google_picasa/__init__.py:417
 msgid "User albums in Picasa"
 msgstr "Uživatelská alba ve službě Picasa"
 
@@ -1788,68 +1796,76 @@ msgstr "Prohledat souborový systém pomocí programu „locate“"
 msgid "Ignore case distinctions when searching files"
 msgstr "Při vyhledávání souborů nebrat ohled na velikost písmen"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:2
+#: ../kupfer/plugin/twitter/__init__.py:3
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:6
+#: ../kupfer/plugin/twitter/__init__.py:7
 msgid "Microblogging with Twitter: send updates and show friends' tweets"
 msgstr ""
 "Mikroblogování na Twitteru: zasílat aktualizace a zobrazovat příspěvky přátel"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:34
-msgid "Load users' pictures"
-msgstr "Načítat obrázky uživatelů"
+#: ../kupfer/plugin/twitter/__init__.py:36
+#, fuzzy
+#| msgid "Load friends' public tweets"
+msgid "Load friends' pictures"
+msgstr "Načítat veřejné příspěvky přátel"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:40
+#: ../kupfer/plugin/twitter/__init__.py:42
 msgid "Load friends' public tweets"
 msgstr "Načítat veřejné příspěvky přátel"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:46
+#: ../kupfer/plugin/twitter/__init__.py:48
 msgid "Load timeline"
 msgstr "Načítat časovou posloupnost"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:163
-msgid "<Friend Tweets>"
-msgstr "<Příspěvky přátel>"
-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:174
-msgid "All friends timeline"
-msgstr "Časová posloupnost pro všechny přátele"
-
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:213
+#: ../kupfer/plugin/twitter/__init__.py:196
 msgid "Post Update to Twitter"
 msgstr "Odeslat aktualizaci na Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:233
-msgid "Post Direct Message"
-msgstr "Odeslat přímou zprávu"
+#: ../kupfer/plugin/twitter/__init__.py:216
+#, fuzzy
+#| msgid "Send Message..."
+msgid "Send Direct Message..."
+msgstr "Odeslat zprávu…"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:259
-msgid "Post Direct Message To..."
+#: ../kupfer/plugin/twitter/__init__.py:245
+#, fuzzy
+#| msgid "Post Direct Message To..."
+msgid "Send Direct Message To..."
 msgstr "Odeslat přímou zprávu pro…"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:287
-msgid "Reply"
+#: ../kupfer/plugin/twitter/__init__.py:273
+#, fuzzy
+#| msgid "Reply"
+msgid "Reply..."
 msgstr "Odpovědět"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:311
+#: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:330
+#: ../kupfer/plugin/twitter/__init__.py:319
 msgid "Twitter Timeline"
 msgstr "Časová posloupnost Twitter"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:355
+#: ../kupfer/plugin/twitter/__init__.py:345
 msgid "Twitter Friends"
 msgstr "Přátelé na Twitteru"
 
-#: ../kupfer/plugin/microblogging_twitter/__init__.py:379
-msgid "Friend Statuses"
-msgstr "Stavy přátel"
+#: ../kupfer/plugin/twitter/__init__.py:370
+#, python-format
+msgid "Timeline for %s"
+msgstr ""
+
+#: ../kupfer/plugin/twitter/__init__.py:394 ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znak)"
+msgstr[1] "%s (%d znaky)"
+msgstr[2] "%s (%d znaků)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -1883,14 +1899,6 @@ msgstr "Přístup ke kontaktům v komunikátoru Pidgin"
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Zobrazovat odpojené kontakty"
-
-#: ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d znak)"
-msgstr[1] "%s (%d znaky)"
-msgstr[2] "%s (%d znaků)"
 
 #: ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
@@ -2045,11 +2053,11 @@ msgstr "Kontakty v komunikátoru Skype"
 msgid "Skype Statuses"
 msgstr "Stav komunikátoru Skype"
 
-#: ../kupfer/plugin_support.py:7
+#: ../kupfer/plugin_support.py:14
 msgid "Include in top level"
 msgstr "Zahrnout do nejvyšší úrovně"
 
-#: ../kupfer/plugin_support.py:11
+#: ../kupfer/plugin_support.py:18
 msgid ""
 "If enabled, objects from the plugin's source(s) will be available in the top "
 "level.\n"
@@ -2059,7 +2067,7 @@ msgstr ""
 "nejvyšší úrovni.\n"
 "V podkatalozích nejvyšší úrovně jsou zdroje dostupné vždy."
 
-#: ../kupfer/plugin_support.py:107
+#: ../kupfer/plugin_support.py:114
 msgid "No D-Bus connection to desktop session"
 msgstr ""
 "Neexistuje žádné napojení sběrnice D-Bus na sezení pracovního prostředí"
@@ -2276,32 +2284,32 @@ msgstr "Odstranit souboru značku prohledávače Tracker"
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:139
+#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:140
 msgid "Volumes from TrueCrypt history"
 msgstr "Svazky z historie TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:43
+#: ../kupfer/plugin/truecrypt.py:44
 #, python-format
 msgid "TrueCrypt volume: %(file)s"
 msgstr "Svazek TrueCrypt: %(file)s"
 
-#: ../kupfer/plugin/truecrypt.py:51
+#: ../kupfer/plugin/truecrypt.py:52
 msgid "Mount Volume"
 msgstr "Připojit svazek"
 
-#: ../kupfer/plugin/truecrypt.py:62
+#: ../kupfer/plugin/truecrypt.py:63
 msgid "Mount in Truecrypt"
 msgstr "Připojit v Truecrypt"
 
-#: ../kupfer/plugin/truecrypt.py:71
+#: ../kupfer/plugin/truecrypt.py:72
 msgid "Try to mount file as Truecrypt volume"
 msgstr "Zkusit připojit soubor jako svazek Truecrypt"
 
-#: ../kupfer/plugin/truecrypt.py:79
+#: ../kupfer/plugin/truecrypt.py:80
 msgid "Dismount All Volumes"
 msgstr "Odpojit všechny svazky"
 
-#: ../kupfer/plugin/truecrypt.py:97
+#: ../kupfer/plugin/truecrypt.py:98
 msgid "TrueCrypt Volumes"
 msgstr "Svazky TrueCrypt"
 
