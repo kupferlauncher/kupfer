@@ -173,10 +173,13 @@ class Friend(ContactLeaf):
 		return self.object[TWITTER_USERNAME_KEY]
 
 	def has_content(self):
-		return bool(self.tweets)
+		return bool(self.tweets) or ContactLeaf.has_content(self)
 
 	def content_source(self, alternate=False):
-		return FriendStatusesSource(self)
+		if ContactLeaf.has_content(self):
+			return ContactLeaf.content_source(self, alternate=alternate)
+		if self.tweets:
+			return FriendStatusesSource(self)
 
 	def get_description(self):
 		return self[TWITTER_USERNAME_KEY]
