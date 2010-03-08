@@ -11,6 +11,7 @@ import traceback
 import gio
 
 from kupfer import task
+from kupfer import pretty
 
 class PicklingHelperMixin (object):
 	""" This pickling helper will define __getstate__/__setstate__
@@ -172,7 +173,7 @@ class _BackgroundLoader (object):
 				self.new_data_callback()
 
 	def _error_callback(self, exc_info):
-		traceback.print_exception(*exc_info)
+		pretty.print_exc(__name__, exc_info)
 
 	def fill_cache(self, data):
 		if data:
