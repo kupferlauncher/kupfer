@@ -62,8 +62,9 @@ class ClipboardSource (Source):
 		if newtext in self.clipboards:
 			self.clipboards.remove(newtext)
 		# if the previous text is a prefix of the new selection, supercede it
-		if (is_selection and self.clipboards and
-		    newtext.startswith(self.clipboards[-1])):
+		if (is_selection and self.clipboards
+				and (newtext.startswith(self.clipboards[-1])
+				or newtext.endswith(self.clipboards[-1]))):
 			self.clipboards.pop()
 		self.clipboards.append(newtext)
 
