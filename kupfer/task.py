@@ -20,7 +20,7 @@ class ThreadTask (Task):
 	"""Run in a thread"""
 	def __init__(self, name=None):
 		Task.__init__(self, name)
-		self.finish_callback = None
+		self._finish_callback = None
 
 	def thread_do(self):
 		"""Override this to run what should be done in the thread"""
@@ -40,7 +40,7 @@ class ThreadTask (Task):
 		try:
 			self.thread_finally(exc_info)
 		finally:
-			self.finish_callback(self)
+			self._finish_callback(self)
 
 	def _run_thread(self):
 		try:
@@ -55,7 +55,7 @@ class ThreadTask (Task):
 			gobject.idle_add(self._thread_finally, exc_info)
 
 	def start(self, finish_callback):
-		self.finish_callback = finish_callback
+		self._finish_callback = finish_callback
 		thread = threading.Thread(target=self._run_thread)
 		thread.start()
 
