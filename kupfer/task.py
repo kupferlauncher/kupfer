@@ -34,7 +34,9 @@ class ThreadTask (Task):
 
 	def thread_finally(self, exc_info):
 		"""Always run at thread finish"""
-		pass
+		if exc_info is not None:
+			etype, value, tb = exc_info
+			raise etype, value, tb
 
 	def _thread_finally(self, exc_info):
 		try:
@@ -48,7 +50,6 @@ class ThreadTask (Task):
 			gobject.idle_add(self.thread_finish)
 		except:
 			exc_info = sys.exc_info()
-			raise
 		else:
 			exc_info = None
 		finally:
