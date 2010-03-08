@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-05 10:46+0000\n"
-"PO-Revision-Date: 2010-03-03 23:13+0100\n"
+"POT-Creation-Date: 2010-03-07 18:27+0000\n"
+"PO-Revision-Date: 2010-03-07 20:55+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1511,22 +1511,16 @@ msgstr "Profily pro spouštění terminálu Gnome"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
-#, fuzzy
-#| msgid "Gajim"
 msgid "Gmail"
-msgstr "Gajim"
+msgstr "Gmail"
 
 #: ../kupfer/plugin/gmail/__init__.py:5
-#, fuzzy
-#| msgid "Load contacts and compose new email in Google Mail"
 msgid "Load contacts and compose new email in Gmail"
-msgstr "Načítání kontaktů a psaní nových e-mailů v Google Mail"
+msgstr "Načítání kontaktů a psaní nových e-mailů v Gmail"
 
 #: ../kupfer/plugin/gmail/__init__.py:31
-#, fuzzy
-#| msgid "Load contacts icons"
 msgid "Load contacts' pictures"
-msgstr "Načítat ikony kontaktů"
+msgstr "Načítat obrázky kontaktů"
 
 #: ../kupfer/plugin/gmail/__init__.py:52
 msgid "Compose Email in GMail"
@@ -1537,10 +1531,8 @@ msgid "Open web browser and compose new email in GMail"
 msgstr "Otevřít webový prohlížeč a napsat nový e-mail v GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:170
-#, fuzzy
-#| msgid "Contacts from Google services (Google Mail)"
 msgid "Contacts from Google services (Gmail)"
-msgstr "Kontakty ze služeb Google (Google Mail)"
+msgstr "Kontakty ze služeb Google (Gmail)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/google_picasa/__init__.py:2
@@ -1548,10 +1540,8 @@ msgid "Google Picasa"
 msgstr "Google Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:5
-#, fuzzy
-#| msgid "Show albums and upload files to Picasa."
 msgid "Show albums and upload files to Picasa"
-msgstr "Zobrazit alba a odesílat soubory do služby Picasa."
+msgstr "Zobrazit alba a odesílat soubory do služby Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:34
 msgid "Users to show: (,-separated)"
@@ -1806,10 +1796,8 @@ msgstr ""
 "Mikroblogování na Twitteru: zasílat aktualizace a zobrazovat příspěvky přátel"
 
 #: ../kupfer/plugin/twitter/__init__.py:36
-#, fuzzy
-#| msgid "Load friends' public tweets"
 msgid "Load friends' pictures"
-msgstr "Načítat veřejné příspěvky přátel"
+msgstr "Načítat obrázky přátel"
 
 #: ../kupfer/plugin/twitter/__init__.py:42
 msgid "Load friends' public tweets"
@@ -1824,22 +1812,16 @@ msgid "Post Update to Twitter"
 msgstr "Odeslat aktualizaci na Twitter"
 
 #: ../kupfer/plugin/twitter/__init__.py:216
-#, fuzzy
-#| msgid "Send Message..."
 msgid "Send Direct Message..."
-msgstr "Odeslat zprávu…"
+msgstr "Odeslat přímou zprávu…"
 
 #: ../kupfer/plugin/twitter/__init__.py:245
-#, fuzzy
-#| msgid "Post Direct Message To..."
 msgid "Send Direct Message To..."
 msgstr "Odeslat přímou zprávu pro…"
 
 #: ../kupfer/plugin/twitter/__init__.py:273
-#, fuzzy
-#| msgid "Reply"
 msgid "Reply..."
-msgstr "Odpovědět"
+msgstr "Odpovědět…"
 
 #: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
@@ -1857,7 +1839,7 @@ msgstr "Přátelé na Twitteru"
 #: ../kupfer/plugin/twitter/__init__.py:370
 #, python-format
 msgid "Timeline for %s"
-msgstr ""
+msgstr "Časová posloupnost pro %s"
 
 #: ../kupfer/plugin/twitter/__init__.py:394 ../kupfer/plugin/pidgin.py:111
 #, python-format
