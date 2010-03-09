@@ -1,5 +1,6 @@
 __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource", )
+__kupfer_actions__ = ("ClearClipboards", )
 __description__ = _("Recent clipboards")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -8,7 +9,7 @@ from collections import deque
 
 import gtk
 
-from kupfer.objects import Source, TextLeaf
+from kupfer.objects import Source, TextLeaf, Action, SourceLeaf
 from kupfer import plugin_support
 from kupfer.weaklib import gobject_connect_weakly
 
@@ -37,6 +38,27 @@ class ClipboardText (TextLeaf):
 		return ngettext('Clipboard "%(desc)s"',
 			'Clipboard with %(num)d lines "%(desc)s"',
 			numlines) % {"num": numlines, "desc": desc }
+
+
+class ClearClipboards(Action):
+	def __init__(self):
+		Action.__init__(self, _("Clear"))
+
+	def activate(self, leaf):
+		leaf.object.clear()
+
+	def item_types(self):
+		yield SourceLeaf
+
+	def valid_for_item(self, leaf):
+		return isinstance(leaf.object, ClipboardSource)
+
+	def get_description(self):
+		return _("Remove all recent clipboards")
+
+	def get_icon_name(self):
+		return "edit-clear"
+
 
 class ClipboardSource (Source):
 	def __init__(self):
@@ -71,7 +93,7 @@ class ClipboardSource (Source):
 		while len(self.clipboards) > max_len:
 			self.clipboards.popleft()
 		self.mark_for_update()
-	
+
 	def get_items(self):
 		for t in reversed(self.clipboards):
 			yield ClipboardText(t)
@@ -85,3 +107,6 @@ class ClipboardSource (Source):
 	def provides(self):
 		yield TextLeaf
 
+	def clear(self):
+		self.clipboards.clear()
+		self.mark_for_update()
