@@ -1,4 +1,4 @@
-# German translations for the kupfer package
+# German translations for the kupfer package.
 # Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 # This file is distributed under the same license as the kupfer package. (GPLv3)
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-04 21:17+0000\n"
-"PO-Revision-Date: 2010-03-06 14:53+0100\n"
+"POT-Creation-Date: 2010-03-08 23:11+0000\n"
+"PO-Revision-Date: 2010-03-11 10:34+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,8 @@ msgstr "Anwendungsstarter"
 
 #: ../auxdata/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr "Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
+msgstr ""
+"Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
 
 #: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
@@ -264,8 +265,8 @@ msgstr ""
 "finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
-"(GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public "
+"License (GNU GPL) nach.\n"
 "\n"
 "Mit diesem Programm sollten Sie außerdem eine Kopie der GNU General Public "
 "License erhalten\n"
@@ -316,7 +317,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s Objekt"
 msgstr[1] "%s Objekte"
 
-#: ../kupfer/obj/contacts.py:84 ../kupfer/plugin/pidgin.py:153
+#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:153
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -585,11 +586,11 @@ msgstr "Ausdrücke beginnend mit »=« berechnen"
 msgid "Calculate"
 msgstr "Berechnen"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:43
 msgid "Clipboards"
 msgstr "Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:61
+#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:80
 msgid "Recent clipboards"
 msgstr "Aktuelle Zwischenablagen"
 
@@ -597,7 +598,11 @@ msgstr "Aktuelle Zwischenablagen"
 msgid "Number of recent clipboards"
 msgstr "Anzahl der aktuellen Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:25
+msgid "Include recent selections"
+msgstr "Kürzlich getroffene Auswahlen einschließen"
+
+#: ../kupfer/plugin/clipboard.py:37
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -942,7 +947,7 @@ msgid "Tracks by %s"
 msgstr "Lieder von %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
-#: ../kupfer/plugin/google_picasa/__init__.py:422
+#: ../kupfer/plugin/google_picasa/__init__.py:425
 msgid "Albums"
 msgstr "Alben"
 
@@ -1513,17 +1518,14 @@ msgstr "GNOME-Terminal-Profile starten"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
-#| msgid "Gajim"
 msgid "Gmail"
 msgstr "Gmail"
 
 #: ../kupfer/plugin/gmail/__init__.py:5
-#| msgid "Load contacts and compose new email in Google Mail"
 msgid "Load contacts and compose new email in Gmail"
 msgstr "Kontakte laden und eine neue Nachricht in Google Mail erstellen"
 
 #: ../kupfer/plugin/gmail/__init__.py:31
-#| msgid "Load contacts icons"
 msgid "Load contacts' pictures"
 msgstr "Bilder für Kontakte laden"
 
@@ -1536,7 +1538,6 @@ msgid "Open web browser and compose new email in GMail"
 msgstr "Webbrowser öffnen und eine neue Nachricht in GMail erstellen"
 
 #: ../kupfer/plugin/gmail/__init__.py:170
-#| msgid "Contacts from Google services (Google Mail)"
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakte aus Google-Diensten (Google Mail)"
 
@@ -1546,7 +1547,6 @@ msgid "Google Picasa"
 msgstr "Google Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:5
-#| msgid "Show albums and upload files to Picasa."
 msgid "Show albums and upload files to Picasa"
 msgstr "Alben anzeigen und Dateien zu Picasa hochladen"
 
@@ -1609,11 +1609,11 @@ msgid "Create album from selected local directory"
 msgstr "Album aus dem gewählten lokalen Ordner erstellen"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:375
-#: ../kupfer/plugin/google_picasa/__init__.py:393
+#: ../kupfer/plugin/google_picasa/__init__.py:396
 msgid "Picasa Albums"
 msgstr "Picasa-Alben"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:414
+#: ../kupfer/plugin/google_picasa/__init__.py:417
 msgid "User albums in Picasa"
 msgstr "Benutzeralben in Picasa"
 
@@ -1801,7 +1801,6 @@ msgstr ""
 "anzeigen"
 
 #: ../kupfer/plugin/twitter/__init__.py:36
-#| msgid "Load friends' public tweets"
 msgid "Load friends' pictures"
 msgstr "Bilder von Freunden laden"
 
@@ -1813,44 +1812,41 @@ msgstr "Öffentliche Tweets von Freunden laden"
 msgid "Load timeline"
 msgstr "Zeitlinie laden"
 
-#: ../kupfer/plugin/twitter/__init__.py:196
+#: ../kupfer/plugin/twitter/__init__.py:199
 msgid "Post Update to Twitter"
 msgstr "Aktualisierung an Twitter senden"
 
-#: ../kupfer/plugin/twitter/__init__.py:216
-#| msgid "Send Message..."
+#: ../kupfer/plugin/twitter/__init__.py:219
 msgid "Send Direct Message..."
 msgstr "Direkte Nachricht senden …"
 
-#: ../kupfer/plugin/twitter/__init__.py:245
-#| msgid "Post Direct Message To..."
+#: ../kupfer/plugin/twitter/__init__.py:248
 msgid "Send Direct Message To..."
 msgstr "Direkte Nachricht senden an …"
 
-#: ../kupfer/plugin/twitter/__init__.py:273
-#| msgid "Reply"
+#: ../kupfer/plugin/twitter/__init__.py:276
 msgid "Reply..."
 msgstr "Antworten …"
 
-#: ../kupfer/plugin/twitter/__init__.py:300
+#: ../kupfer/plugin/twitter/__init__.py:303
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/twitter/__init__.py:319
+#: ../kupfer/plugin/twitter/__init__.py:322
 msgid "Twitter Timeline"
 msgstr "Twitter-Zeitlinie"
 
-#: ../kupfer/plugin/twitter/__init__.py:345
+#: ../kupfer/plugin/twitter/__init__.py:348
 msgid "Twitter Friends"
 msgstr "Twitter-Freunde"
 
-#: ../kupfer/plugin/twitter/__init__.py:370
+#: ../kupfer/plugin/twitter/__init__.py:373
 #, python-format
 msgid "Timeline for %s"
 msgstr "Zeitlinie für %s"
 
-#: ../kupfer/plugin/twitter/__init__.py:394 ../kupfer/plugin/pidgin.py:111
+#: ../kupfer/plugin/twitter/__init__.py:397 ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -2342,8 +2338,8 @@ msgid ""
 "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
 "Source Edition."
 msgstr ""
-"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun als "
-"auch die Open Source Edition."
+"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun "
+"als auch die Open Source Edition."
 
 #: ../kupfer/plugin/virtualbox/__init__.py:42
 msgid "Power On"
