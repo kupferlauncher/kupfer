@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer docs\n"
-"POT-Creation-Date: 2010-03-06 12:29+0000\n"
-"PO-Revision-Date: 2010-03-06 13:58+0100\n"
+"POT-Creation-Date: 2010-03-06 13:01+0000\n"
+"PO-Revision-Date: 2010-03-11 11:02+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #: C/tips.page:7(desc)
 msgid "Using <app>Kupfer</app> more convenient."
-msgstr ""
+msgstr "<app>Kupfer</app> bequemer benutzen."
 
 #: C/tips.page:10(title)
 msgid "Basic Usage"
@@ -38,12 +38,19 @@ msgid ""
 "use the change notifications that are available from the system, to keep up "
 "to date with the instant."
 msgstr ""
+"Die Ordner der obersten Ebene werden überwacht (als Vorgabe der persönliche "
+"Ordner und die Arbeitsfläche), so dass neu hinzukommende Dateien unmittelbar "
+"gefunden werden können. Die meisten Plugins in <app>Kupfer</app> versuchen, "
+"die vom System bereitgestellten Änderungsmeldungen zu nutzen, so dass die "
+"Daten aktuell gehalten werden können."
 
 #: C/tips.page:24(p)
 msgid ""
 "Objects that have content, like folders, are marked with an arrow. Pressing "
 "<key>right-arrow</key> will enter these objects."
 msgstr ""
+"Objekte mit Inhalten (z.B. Ordner) werden mit einem Pfeil markiert. Ein Druck "
+"auf die <key>Pfeiltaste rechts</key> öffnet diese Objekte."
 
 #: C/tips.page:29(p)
 msgid "In command mode, some keybindings are:"
@@ -57,11 +64,11 @@ msgstr "<key>Leertaste</key>, um zum nächsten Treffer zu gehen"
 
 #: C/tips.page:39(p)
 msgid "<key>.</key> to activate free-text mode"
-msgstr ""
+msgstr "<key>.</key> zur Aktivierung des freien Textmodus"
 
 #: C/tips.page:44(p)
 msgid "<key>/</key> to descend into an object with content"
-msgstr ""
+msgstr "<key>/</key> zum Eintauchen in ein Objekt mit Inhalten"
 
 #: C/tips.page:49(p)
 msgid "<key>Backspace</key> to go back upspace to go to the next match"
@@ -76,6 +83,9 @@ msgid ""
 "Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, <file>~/."
 "config/kupfer</file> and <file>~/.local/share/kupfer</file>."
 msgstr ""
+"Die Daten des Zwischenspeichers, die Konfiguration und die sonstigen Daten "
+"von <app>Kupfer</app> werden in <file>~/.cache/kupfer</file>, <file>~/.config/"
+"kupfer</file> und <file>~/.local/share/kupfer</file> gespeichert."
 
 #: C/tips.page:63(p)
 msgid "Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>"
@@ -97,6 +107,10 @@ msgid ""
 "<app>Kupfer</app>'s object knowledge can be surprisingly easy, just look at "
 "the default plugins if you want to create new."
 msgstr ""
+"Sie können eigene Plugins in ~/.local/share/kupfer/plugins speichern. Das "
+"Hinzufügen von Plugins zur Objektverwaltung von <app>Kupfer</app> kann "
+"überraschend einfach sein. Werfen Sie einen Blick auf die Standardplugins, "
+"falls Sie eigene Plugins entwerfen wollen."
 
 #: C/plugins.page:19(title)
 msgid "Search the Web Search Engines"
@@ -114,6 +128,8 @@ msgid ""
 "You can also install custom search plugins directly, only for <app>Kupfer</"
 "app>, in the folder:"
 msgstr ""
+"Benutzerdefinierte Suchplugins (nur für <app>Kupfer</app>) können sie direkt "
+"in folgendem Ordner installieren:"
 
 #: C/plugins.page:29(code)
 #, no-wrap
@@ -131,6 +147,12 @@ msgid ""
 "for his/her Desktop Environment. Install <cmd>xdg-terminal</cmd> if you need "
 "this (or install a symlink <em>called</em> xdg-terminal)."
 msgstr ""
+"Beim Öffnen eines Terminals wird zuerst <cmd>xdg-terminal</cmd> und dann "
+"<cmd>gnome-terminal</cmd> aufgerufen. <app>xdg-terminal</app> ist ein Skript "
+"zum Finden des für die Arbeitsumgebung des Benutzers eingestellten "
+"Terminalprogramms. Installieren Sie <cmd>xdg-terminal</cmd>, falls nötig, "
+"oder richten Sie eine symbolische Verknüpfung namens <cmd>xdg-terminal</cmd> "
+"ein."
 
 #: C/plugins.page:44(title)
 msgid "Grab current selection"
@@ -198,6 +220,11 @@ msgid ""
 "this way can be run directly or in the terminal as long as they are "
 "executable."
 msgstr ""
+"Falls sie über eine Skriptsammlung verfügen, die Sie aus <app>Kupfer</app> "
+"heraus aufrufen wollen, dann können Sie den Skriptordner direkt als Katalog "
+"in den Einstellungen von <app>Kupfer</app> hinzufügen. Auf diese Weise zum "
+"Katalog von <app>Kupfer</app> hinzugefügte Skripte können direkt oder im "
+"Terminal aufgerufen werden, sofern Sie ausführbar sind."
 
 #: C/plugins.page:87(p)
 msgid ""
@@ -207,6 +234,13 @@ msgid ""
 "py</file> with numbers from 0 to 5 to my catalog to quickly rate tracks. "
 "(This is something that might be integrated into <app>Kupfer</app> later)"
 msgstr ""
+"Ein nützliches Beispielskript finden Sie <link href=\"http://kaizer.se/wiki/"
+"code/rhrating.py/\">hier</link>, welches die Bewertung des aktuell in "
+"<app>Rhythmbox</app> abgespielten Liedes ändert. Ich habe fünf kleine Skripte "
+"namens <file>rhrating.py</file> mit den Nummern 0 bis 5 zu meinem Katalog "
+"hinzugefügt, welche die schnelle und einfache Bewertung von Titeln "
+"ermöglichen. Diese könnten eventuell später direkt in <app>Kupfer</app> "
+"integriert werden."
 
 #: C/plugins.page:97(title)
 msgid "Calculator Plugin"
@@ -218,6 +252,11 @@ msgid ""
 "expressions entered as text starting with \"=\". Entering = from command mode "
 "will start text mode directly with = prefixed for quick access."
 msgstr ""
+"Mit dem Taschenrechner-Plugin können Sie Ausdrücke schnell und einfach "
+"berechnen lassen. Die Berechnung von Ausdrücken ist möglich, welche als Text "
+"eingegeben werden, beginnend mit »=«. Die Eingabe eines = im Befehlsmodus "
+"startet direkt den Textmodus, wobei für den schnellen Zugriff der Eingabe ein "
+"= vorangestellt wird."
 
 #: C/plugins.page:103(p)
 msgid ""
@@ -232,6 +271,8 @@ msgid ""
 "Notice that the power operator in Python is double stars, for example =3**3 "
 "will evaluate to 27."
 msgstr ""
+"Beachten Sie, dass Python als Potenzzeichen einen doppelten Asterisk "
+"verwendet. Beispielsweise wird die Eingabe =3**3 im Ergebnis zu 27."
 
 #: C/plugins.page:117(p)
 msgid "To calculate trig functions for angles, convert to radians first:"
@@ -249,10 +290,12 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
+"Das letzte Ergebnis wird als Unterstrich gespeichert (wie in der Python-"
+"Konsole)."
 
 #: C/plugins.page:133(title)
 msgid "Command line connection"
-msgstr ""
+msgstr "Verbindung zur Befehlszeile"
 
 #: C/plugins.page:134(p)
 msgid ""
@@ -381,7 +424,6 @@ msgstr ""
 "Einschränkung unter den Bedingungen Ihrer Wahl zu verbreiten."
 
 #: C/introduction.page:7(desc)
-#| msgid "Introduction to <placeholder-1/>."
 msgid "Introduction to <app>Kupfer</app>."
 msgstr "Einführung in <app>Kupfer</app>."
 
