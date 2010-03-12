@@ -216,7 +216,7 @@ class AppLeaf (Leaf):
 		return self.get_id()
 
 	def _get_package_name(self):
-		return os.path.basename(self.get_id())
+		return gobject.filename_display_basename(self.get_id())
 
 	def get_id(self):
 		"""Return the unique ID for this app.
