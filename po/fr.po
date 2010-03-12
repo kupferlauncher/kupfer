@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-11 12:21+0100\n"
-"PO-Revision-Date: 2010-02-11 12:21+0100\n"
+"POT-Creation-Date: 2010-03-12 14:33+0100\n"
+"PO-Revision-Date: 2010-03-12 14:48+0100\n"
 "Last-Translator: Christophe Benz <christophe.benz@gmail.com>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,24 +16,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../data/kupfer.desktop.in.h:1
+#: ../auxdata/kupfer.desktop.in.h:1
 msgid "Application Launcher"
 msgstr "Lanceur d'applications"
 
-#: ../data/kupfer.desktop.in.h:2
+#: ../auxdata/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
 msgstr ""
 "Outil pratique de lancement et de contrôle d'applications et de documents"
 
-#: ../data/kupfer.desktop.in.h:3 ../kupfer/ui/browser.py:1417
-#: ../kupfer/ui/browser.py:1449 ../kupfer/version.py:15
+#: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
 msgid "Kupfer"
 msgstr "Kupfer"
 
+#: ../auxdata/kupfer-exec.desktop.in.h:1
+msgid "Execute in Kupfer"
+msgstr "Exécuter dans Kupfer"
+
+#: ../auxdata/kupfer-mimetypes.xml.in.h:1
+msgid "Saved Kupfer Command"
+msgstr "Commande Kupfer sauvegardée"
+
 #: ../data/preferences.ui.h:1
 msgid "<b>Directories</b>"
-msgstr "<b>Répertoires</b>"
+msgstr "<b>Dossiers</b>"
 
 #: ../data/preferences.ui.h:2
 msgid "<b>Interface</b>"
@@ -76,10 +83,14 @@ msgid "User credentials"
 msgstr "Authentification d'un utilisateur"
 
 #: ../data/credentials_dialog.ui.h:2
+msgid "_Change"
+msgstr "_Changer"
+
+#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Mot de passe :"
 
-#: ../data/credentials_dialog.ui.h:3
+#: ../data/credentials_dialog.ui.h:4
 msgid "_User:"
 msgstr "_Utilisateur :"
 
@@ -103,23 +114,15 @@ msgstr "affiche l'aide"
 msgid "show version information"
 msgstr "affiche les informations de version"
 
-#: ../kupfer/main.py:56
-msgid "Usage: kupfer [OPTIONS | QUERY]"
-msgstr "Utilisation : kupfer [OPTIONS | REQUÊTE]"
+#: ../kupfer/main.py:50
+msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
+msgstr "Utilisation : kupfer [ OPTIONS | FICHIER ... ]"
 
-#: ../kupfer/main.py:63
-msgid "To configure kupfer, edit:"
-msgstr "Pour configurer kupfer, éditer :"
-
-#: ../kupfer/main.py:64
-msgid "The default config for reference is at:"
-msgstr "Le fichier de configuration de référence est :"
-
-#: ../kupfer/main.py:78
+#: ../kupfer/main.py:61
 msgid "Available plugins:"
 msgstr "Extensions disponibles :"
 
-#: ../kupfer/main.py:122
+#: ../kupfer/main.py:105
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -218,7 +221,7 @@ msgstr "Configurer le nom d'utilisateur et le mot de passe"
 #. TRANS: File Chooser Title
 #: ../kupfer/ui/preferences.py:569
 msgid "Choose a Directory"
-msgstr "Choisir un répertoire"
+msgstr "Choisir un dossier"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
@@ -246,8 +249,41 @@ msgid ""
 "You should have received a copy of the GNU General Public License\n"
 "along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
 msgstr ""
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
 
-#: ../kupfer/obj/base.py:414 ../kupfer/plugin/core/text.py:22
+#. follows strings used elsewhere
+#: ../kupfer/version.py:75
+msgid "Could not find running Kupfer"
+msgstr "Impossible de trouver Kupfer en exécution"
+
+#: ../kupfer/commandexec.py:171
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Impossible d'exécuter « %s »"
+
+#: ../kupfer/execfile.py:28
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "Permissions d'exécution manquantes pour « %s »"
+
+#: ../kupfer/execfile.py:45
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "La commande n'est pas disponible dans « %s »"
+
+#: ../kupfer/obj/base.py:416 ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Le texte correspond"
 
@@ -257,7 +293,7 @@ msgstr "Exécuter après un délai..."
 
 #: ../kupfer/obj/compose.py:35
 msgid "Perform command after a specified time interval"
-msgstr "Exécute la commande après un intervalle temporel spécifié"
+msgstr "Exécute la commande après un délai"
 
 #: ../kupfer/obj/compose.py:93
 msgid "Multiple Objects"
@@ -270,7 +306,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s objet"
 msgstr[1] "%s objects"
 
-#: ../kupfer/obj/contacts.py:84 ../kupfer/plugin/pidgin.py:153
+#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:153
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -280,39 +316,44 @@ msgstr "[%(status)s] %(userid)s/%(service)s"
 msgid "Open"
 msgstr "Ouvrir"
 
-#: ../kupfer/obj/fileactions.py:57
+#: ../kupfer/obj/fileactions.py:38
+#, python-format
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "Aucune application par défaut pour %(file)s (%(type)s)"
+
+#: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
 msgstr "Ouvrir avec l'application par défaut"
 
-#: ../kupfer/obj/fileactions.py:63
+#: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
-msgstr "Montrer"
+msgstr "Ouvrir le dossier"
 
-#: ../kupfer/obj/fileactions.py:72
+#: ../kupfer/obj/fileactions.py:75
 msgid "Open parent folder"
-msgstr "Ouvrir le répertoire parent"
+msgstr "Ouvrir le dossier parent"
 
-#: ../kupfer/obj/fileactions.py:78
+#: ../kupfer/obj/fileactions.py:81
 msgid "Open Terminal Here"
 msgstr "Ouvrir un terminal ici"
 
-#: ../kupfer/obj/fileactions.py:87
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open this location in a terminal"
 msgstr "Ouvre cet emplacement dans un terminal"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run in Terminal"
 msgstr "Exécuter dans un terminal"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:98
 msgid "Run (Execute)"
 msgstr "Exécuter"
 
-#: ../kupfer/obj/fileactions.py:109
+#: ../kupfer/obj/fileactions.py:112
 msgid "Run this program in a Terminal"
 msgstr "Exécute ce programme dans un terminal"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:114
 msgid "Run this program"
 msgstr "Exécute ce programme"
 
@@ -389,7 +430,7 @@ msgstr "Source récursive de %(dir)s, (%(levels)d niveaux)"
 #: ../kupfer/obj/sources.py:102
 #, python-format
 msgid "Directory source %s"
-msgstr "Répertoire source %s"
+msgstr "Dossier source %s"
 
 #: ../kupfer/obj/sources.py:118
 msgid "Catalog Index"
@@ -406,6 +447,24 @@ msgstr "Catalogue"
 #: ../kupfer/obj/sources.py:164
 msgid "Root catalog"
 msgstr "Catalogue racine"
+
+#: ../kupfer/obj/special.py:10
+msgid "Please Configure Plugin"
+msgstr "Veuillez configurer l'extension"
+
+#: ../kupfer/obj/special.py:11
+#, python-format
+msgid "Plugin %s is not configured"
+msgstr "L'extension %s n'est pas configurée"
+
+#: ../kupfer/obj/special.py:29
+#, python-format
+msgid "Invalid user credentials for %s"
+msgstr "Erreur d'authentification pour %s"
+
+#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:30
+msgid "Save As..."
+msgstr "Enregistrer sous..."
 
 #: ../kupfer/plugin/core/contents.py:41
 msgid "Quit"
@@ -443,19 +502,19 @@ msgstr "Scanner à nouveau"
 msgid "Force reindex of this source"
 msgstr "Forcer la ré-indexation de cette source"
 
-#: ../kupfer/plugin/core/__init__.py:58
+#: ../kupfer/plugin/core/__init__.py:59
 msgid "Search Contents"
 msgstr "Chercher dans le contenu"
 
-#: ../kupfer/plugin/core/__init__.py:76
+#: ../kupfer/plugin/core/__init__.py:77
 msgid "Search inside this catalog"
 msgstr "Chercher à l'intérieur de ce catalogue"
 
-#: ../kupfer/plugin/core/__init__.py:84
+#: ../kupfer/plugin/core/__init__.py:85
 msgid "Copy"
 msgstr "Copier"
 
-#: ../kupfer/plugin/core/__init__.py:96
+#: ../kupfer/plugin/core/__init__.py:97
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papiers"
 
@@ -516,11 +575,11 @@ msgstr "Calcule les expressions commençant par '='"
 msgid "Calculate"
 msgstr "Calculer"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:43
 msgid "Clipboards"
 msgstr "Presse-papiers"
 
-#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:61
+#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:80
 msgid "Recent clipboards"
 msgstr "Presse-papiers récents"
 
@@ -528,7 +587,11 @@ msgstr "Presse-papiers récents"
 msgid "Number of recent clipboards"
 msgstr "Nombre de presse-papiers récents"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:25
+msgid "Include recent selections"
+msgstr "Inclure les sélections récentes"
+
+#: ../kupfer/plugin/clipboard.py:37
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -561,7 +624,7 @@ msgstr "Documents"
 
 #: ../kupfer/plugin/documents.py:4
 msgid "Recently used documents and bookmarked folders"
-msgstr "Répertoires de documents et marque-pages récemment utilisés"
+msgstr "Dossiers récemment utilisés contenant documents et marque-pages"
 
 #: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
@@ -591,7 +654,7 @@ msgstr "Raccourcis"
 
 #: ../kupfer/plugin/documents.py:164
 msgid "Bookmarked folders"
-msgstr "Répertoires en marque-page"
+msgstr "Dossiers en marque-page"
 
 #: ../kupfer/plugin/epiphany.py:1 ../kupfer/plugin/epiphany.py:23
 msgid "Epiphany Bookmarks"
@@ -683,7 +746,7 @@ msgstr "Créer une archive"
 
 #: ../kupfer/plugin/fileactions.py:262 ../kupfer/plugin/fileactions.py:300
 msgid "Create a compressed archive from folder"
-msgstr "Créer une archive compressée d'un répertoire"
+msgstr "Créer une archive compressée du dossier"
 
 #: ../kupfer/plugin/fileactions.py:266
 msgid "Create Archive In..."
@@ -870,6 +933,7 @@ msgid "Tracks by %s"
 msgstr "Pistes par %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
+#: ../kupfer/plugin/google_picasa/__init__.py:425
 msgid "Albums"
 msgstr "Albums"
 
@@ -934,19 +998,23 @@ msgstr "Gestion de la session XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Éléments et actions spécifiques à l'environnement XFCE"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:17
-#: ../kupfer/plugin/show_text.py:20
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
+#: ../kupfer/plugin/show_text.py:22
 msgid "Show Text"
 msgstr "Afficher le texte"
 
-#: ../kupfer/plugin/show_text.py:6 ../kupfer/plugin/show_text.py:26
-#: ../kupfer/plugin/show_text.py:41
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
+#: ../kupfer/plugin/show_text.py:43
 msgid "Display text in a window"
 msgstr "Afficher le texte dans une fenêtre"
 
-#: ../kupfer/plugin/show_text.py:32
+#: ../kupfer/plugin/show_text.py:34
 msgid "Large Type"
 msgstr "Afficher en gros"
+
+#: ../kupfer/plugin/show_text.py:51
+msgid "Show Notification"
+msgstr "Afficher la notification"
 
 #: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:140
 msgid "Trash"
@@ -999,7 +1067,7 @@ msgstr "Supprimer le raccourci déclencheur"
 
 #: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
 msgid "URL Actions"
-msgstr "Actions pour les URL"
+msgstr "Actions sur les URL"
 
 #: ../kupfer/plugin/urlactions.py:64
 msgid "Download and Open"
@@ -1189,7 +1257,7 @@ msgstr "Installer"
 
 #: ../kupfer/plugin/apt_tools.py:83
 msgid "Install package using the configured method"
-msgstr "Installer le paquet en utilisant la méthode configurée"
+msgstr "Installer le paquet avec la méthode configurée"
 
 #: ../kupfer/plugin/apt_tools.py:102
 #, python-format
@@ -1199,6 +1267,19 @@ msgstr "Paquets correspondant à « %s »"
 #: ../kupfer/plugin/apt_tools.py:126
 msgid "Search Package Name..."
 msgstr "Rechercher un paquet par nom..."
+
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr "Plongée dans les archives"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Parcourir l'intérieur des fichiers d'archives"
+
+#: ../kupfer/plugin/archiveinside.py:50
+#, python-format
+msgid "Content of %s"
+msgstr "Contenu de %s"
 
 #: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:212
 msgid "Audacious"
@@ -1281,14 +1362,14 @@ msgstr "Claws Mail"
 msgid "Claws Mail Contacts and Actions"
 msgstr "Contacts et actions pour Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:23
+#: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Composer un nouvel email"
 
 #: ../kupfer/plugin/clawsmail.py:31
 msgid "Compose a new message in Claws Mail"
-msgstr "Composer un nouveau message dans Claws Mail"
+msgstr "Composer un message dans Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:40
 msgid "Receive All Email"
@@ -1299,17 +1380,18 @@ msgid "Receive new messages from all accounts in ClawsMail"
 msgstr "Relever les nouveaux messages pour tous les comptes dans Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:55 ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:38 ../kupfer/plugin/thunderbird.py:45
+#: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Composer un email"
 
 #: ../kupfer/plugin/clawsmail.py:80 ../kupfer/plugin/defaultmail.py:43
+#: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
 msgstr "Envoyer par email à..."
 
 #: ../kupfer/plugin/clawsmail.py:106
 msgid "Compose new message in Claws Mail and attach file"
-msgstr "Composer un nouveau message dans Claws Mail avec une pièce jointe"
+msgstr "Composer un message dans Claws Mail avec pièce jointe"
 
 #: ../kupfer/plugin/clawsmail.py:115
 msgid "Claws Mail Address Book"
@@ -1341,15 +1423,19 @@ msgstr "Chercher dans Devhelp"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:80
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
 msgid "Evolution contacts"
 msgstr "Contacts d'Evolution"
 
-#: ../kupfer/plugin/evolution.py:29
+#: ../kupfer/plugin/evolution.py:30
 msgid "Compose a new message in Evolution"
-msgstr "Composer un nouveau message dans Evolution"
+msgstr "Composer un message dans Evolution"
 
-#: ../kupfer/plugin/evolution.py:63
+#: ../kupfer/plugin/evolution.py:91
+msgid "Compose new message in Evolution and attach file"
+msgstr "Composer un message dans Evolution avec pièce jointe"
+
+#: ../kupfer/plugin/evolution.py:99
 msgid "Evolution Address Book"
 msgstr "Carnet d'adresses d'Evolution"
 
@@ -1417,13 +1503,114 @@ msgstr "Profils Gnome Terminal"
 msgid "Launch Gnome Terminal profiles"
 msgstr "Lancer les profils Gnome Terminal"
 
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
+msgid "Gmail"
+msgstr "Gmail"
+
+#: ../kupfer/plugin/gmail/__init__.py:5
+msgid "Load contacts and compose new email in Gmail"
+msgstr "Charger les contacts et composer un email dans Gmail"
+
+#: ../kupfer/plugin/gmail/__init__.py:31
+msgid "Load contacts' pictures"
+msgstr "Charger les images des contacts"
+
+#: ../kupfer/plugin/gmail/__init__.py:52
+msgid "Compose Email in GMail"
+msgstr "Composer un email dans GMail"
+
+#: ../kupfer/plugin/gmail/__init__.py:75
+msgid "Open web browser and compose new email in GMail"
+msgstr "Ouvrir le navigateur et composer un email"
+
+#: ../kupfer/plugin/gmail/__init__.py:170
+msgid "Contacts from Google services (Gmail)"
+msgstr "Contacts des services Google (GMail)"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/google_picasa/__init__.py:2
+msgid "Google Picasa"
+msgstr "Google Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:5
+msgid "Show albums and upload files to Picasa"
+msgstr "Afficher les albums et pousser les fichiers vers Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:34
+msgid "Users to show: (,-separated)"
+msgstr "Utilisateurs à afficher : (séparés par ',')"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:40
+msgid "Load user and album icons"
+msgstr "Charger les icônes des utilisateurs et des albums"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:93
+msgid "Uploading Pictures"
+msgstr "Envoi des images"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:94
+msgid "Uploading pictures to Picasa Web Album"
+msgstr "Envoi des images vers l'album Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:103
+msgid "Creating album:"
+msgstr "Création de l'album :"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:106
+msgid "Album created by Kupfer"
+msgstr "Album créé par Kupfer"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:113
+msgid "File:"
+msgstr "Fichier :"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:246
+#, python-format
+msgid "One album"
+msgid_plural "%(num)d albums"
+msgstr[0] "Un album"
+msgstr[1] "%(num)d albums"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:273
+#, python-format
+msgid "one photo"
+msgid_plural "%(num)s photos"
+msgstr[0] "une photo"
+msgstr[1] "%(num)s photos"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:293
+msgid "Upload to Picasa Album..."
+msgstr "Pousser vers l'album Picasa..."
+
+#: ../kupfer/plugin/google_picasa/__init__.py:337
+msgid "Upload files to Picasa album"
+msgstr "Pousser les fichiers vers l'album Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:343
+msgid "Upload to Picasa as New Album"
+msgstr "Pousser vers Picasa comme nouvel album"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:371
+msgid "Create album from selected local directory"
+msgstr "Créer un album depuis le dossier sélectionné"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:375
+#: ../kupfer/plugin/google_picasa/__init__.py:396
+msgid "Picasa Albums"
+msgstr "Picasa Albums"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:417
+msgid "User albums in Picasa"
+msgstr "Albums de l'utilisateur dans Picasa"
+
 #: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:23
 msgid "Google Search"
-msgstr "Recherche Google"
+msgstr "Rechercher sur Google"
 
 #: ../kupfer/plugin/google_search.py:3
 msgid "Search Google with results shown directly"
-msgstr "Rechercher sur Google avec les résultats affichés directement"
+msgstr "Récupérer les résultats de Google"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
 #: ../kupfer/plugin/tracker.py:67 ../kupfer/plugin/tracker.py:105
@@ -1590,9 +1777,67 @@ msgstr "Rechercher dans le système de fichiers en utilisant locate"
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorer la casse lors des recherches"
 
-#: ../kupfer/plugin/notification.py:1 ../kupfer/plugin/notification.py:32
-msgid "Show Notification"
-msgstr "Afficher la notification"
+#: ../kupfer/plugin/twitter/__init__.py:3
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../kupfer/plugin/twitter/__init__.py:7
+msgid "Microblogging with Twitter: send updates and show friends' tweets"
+msgstr ""
+"Microblog avec Twitter : envoyer des statuts et afficher les tweets des amis"
+
+#: ../kupfer/plugin/twitter/__init__.py:36
+msgid "Load friends' pictures"
+msgstr "Charger les images des amis"
+
+#: ../kupfer/plugin/twitter/__init__.py:42
+msgid "Load friends' public tweets"
+msgstr "Charger les tweets publics des utilisateurs"
+
+#: ../kupfer/plugin/twitter/__init__.py:48
+msgid "Load timeline"
+msgstr "Charger la chonologie"
+
+#: ../kupfer/plugin/twitter/__init__.py:199
+msgid "Post Update to Twitter"
+msgstr "Envoyer les mises à jour à Twitter"
+
+#: ../kupfer/plugin/twitter/__init__.py:219
+msgid "Send Direct Message..."
+msgstr "Envoyer un message direct..."
+
+#: ../kupfer/plugin/twitter/__init__.py:248
+msgid "Send Direct Message To..."
+msgstr "Poster un message direct à..."
+
+#: ../kupfer/plugin/twitter/__init__.py:276
+msgid "Reply..."
+msgstr "Répondre..."
+
+#: ../kupfer/plugin/twitter/__init__.py:303
+#, python-format
+msgid "%(user)s %(when)s"
+msgstr "%(user)s %(when)s"
+
+#: ../kupfer/plugin/twitter/__init__.py:322
+msgid "Twitter Timeline"
+msgstr "Chonologie Twitter"
+
+#: ../kupfer/plugin/twitter/__init__.py:348
+msgid "Twitter Friends"
+msgstr "Amis Twitter"
+
+#: ../kupfer/plugin/twitter/__init__.py:373
+#, python-format
+msgid "Timeline for %s"
+msgstr "Chronologie pour %s"
+
+#: ../kupfer/plugin/twitter/__init__.py:397 ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d caractère)"
+msgstr[1] "%s (%d caractères)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -1626,13 +1871,6 @@ msgstr "Accéder aux contacts de Pidgin"
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Afficher les contacts déconnectés"
-
-#: ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d caractère)"
-msgstr[1] "%s (%d caractères)"
 
 #: ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
@@ -1785,11 +2023,11 @@ msgstr "Contacts Skype"
 msgid "Skype Statuses"
 msgstr "Statuts Skype"
 
-#: ../kupfer/plugin_support.py:7
+#: ../kupfer/plugin_support.py:14
 msgid "Include in top level"
 msgstr "Inclure au premier niveau"
 
-#: ../kupfer/plugin_support.py:11
+#: ../kupfer/plugin_support.py:18
 msgid ""
 "If enabled, objects from the plugin's source(s) will be available in the top "
 "level.\n"
@@ -1799,11 +2037,11 @@ msgstr ""
 "Les sources sont toujours disponibles dans les sous-catalogues du catalogue "
 "de premier niveau."
 
-#: ../kupfer/plugin_support.py:107
+#: ../kupfer/plugin_support.py:114
 msgid "No D-Bus connection to desktop session"
 msgstr "Aucune connexion D-Bus à votre session de bureau"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:89
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:109
 msgid "Document Templates"
 msgstr "Modèles de documents"
 
@@ -1820,13 +2058,21 @@ msgstr "Modèle %s"
 msgid "Empty File"
 msgstr "Fichier vide"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:49
+msgid "New Folder"
+msgstr "Nouveau dossier"
+
+#: ../kupfer/plugin/templates.py:59
 msgid "Create New Document..."
 msgstr "Créer un nouveau document..."
 
-#: ../kupfer/plugin/templates.py:80
+#: ../kupfer/plugin/templates.py:98
 msgid "Create a new document from template"
 msgstr "Créer un nouveau document depuis un modèle"
+
+#: ../kupfer/plugin/templates.py:105
+msgid "Create Document In..."
+msgstr "Créer un nouveau document dans..."
 
 #: ../kupfer/plugin/textfiles.py:13
 msgid "Textfiles"
@@ -1883,7 +2129,7 @@ msgstr "Contacts et actions de Thunderbird/Icedove"
 
 #: ../kupfer/plugin/thunderbird.py:36
 msgid "Compose a new message in Thunderbird"
-msgstr "Composer un nouveau message dans Thunderbird"
+msgstr "Composer un message dans Thunderbird"
 
 #: ../kupfer/plugin/thunderbird.py:69
 msgid "Thunderbird Address Book"
@@ -1956,15 +2202,15 @@ msgstr "Rechercher dans Tracker"
 
 #: ../kupfer/plugin/tracker.py:41
 msgid "Open Tracker Search Tool and search for this term"
-msgstr "Ouvrir l'outil de recherche de Tracker sur ce terme"
+msgstr "Ouvrir Tracker sur ce terme"
 
 #: ../kupfer/plugin/tracker.py:50
 msgid "Get Tracker Results..."
-msgstr "Récupérer les résultats de Tracker..."
+msgstr "Résultats de Tracker..."
 
 #: ../kupfer/plugin/tracker.py:59
 msgid "Show Tracker results for query"
-msgstr "Afficher les résultats de Tracker pour la requête"
+msgstr "Récupérer les résultats de Tracker"
 
 #: ../kupfer/plugin/tracker.py:157 ../kupfer/plugin/tracker.py:163
 msgid "Tracker tags"
@@ -2009,32 +2255,32 @@ msgstr "Retirer l'étiquette Tracker du fichier"
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:139
+#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:140
 msgid "Volumes from TrueCrypt history"
 msgstr "Volumes de l'historique de TrueCrypt"
 
-#: ../kupfer/plugin/truecrypt.py:43
+#: ../kupfer/plugin/truecrypt.py:44
 #, python-format
 msgid "TrueCrypt volume: %(file)s"
 msgstr "Volume TrueCrypt : %(file)s"
 
-#: ../kupfer/plugin/truecrypt.py:51
+#: ../kupfer/plugin/truecrypt.py:52
 msgid "Mount Volume"
 msgstr "Monter un volume"
 
-#: ../kupfer/plugin/truecrypt.py:62
+#: ../kupfer/plugin/truecrypt.py:63
 msgid "Mount in Truecrypt"
 msgstr "Monter avec Truecrypt"
 
-#: ../kupfer/plugin/truecrypt.py:71
+#: ../kupfer/plugin/truecrypt.py:72
 msgid "Try to mount file as Truecrypt volume"
 msgstr "Essaie de monter le fichier en tant que volume Truecrypt"
 
-#: ../kupfer/plugin/truecrypt.py:79
+#: ../kupfer/plugin/truecrypt.py:80
 msgid "Dismount All Volumes"
 msgstr "Démonter tous les volumes"
 
-#: ../kupfer/plugin/truecrypt.py:97
+#: ../kupfer/plugin/truecrypt.py:98
 msgid "TrueCrypt Volumes"
 msgstr "Volumes TrueCrypt"
 
@@ -2160,3 +2406,21 @@ msgstr "Pages Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Pages stockées dans les bloc-notes de Zim"
+
+#~ msgid "label"
+#~ msgstr "étiquette"
+
+#~ msgid "Google Mail"
+#~ msgstr "Google Mail"
+
+#~ msgid "Load users' pictures"
+#~ msgstr "Charger les avatars des utilisateurs"
+
+#~ msgid "Friend Statuses"
+#~ msgstr "Statuts des amis"
+
+#~ msgid "To configure kupfer, edit:"
+#~ msgstr "Pour configurer kupfer, éditer :"
+
+#~ msgid "The default config for reference is at:"
+#~ msgstr "Le fichier de configuration de référence est :"
