@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-04 21:04+0100\n"
-"PO-Revision-Date: 2010-03-04 21:05+0100\n"
+"POT-Creation-Date: 2010-03-11 19:15+0100\n"
+"PO-Revision-Date: 2010-03-11 19:28+0100\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Execute in Kupfer"
 msgstr "Wykonaj w Kupferze"
 
 msgid "Saved Kupfer Command"
-msgstr "Zapisana polecenie programu Kupfer"
+msgstr "Zapisane polecenie programu Kupfer"
 
 msgid "<b>Directories</b>"
 msgstr "<b>Katalogi</b>"
@@ -60,7 +60,7 @@ msgid "Show icon in notification area"
 msgstr "Wyświetlanie ikony w obszarze powiadamiania"
 
 msgid "Start automatically on login"
-msgstr "Uruchamianie automatycznie po zalogowaniu"
+msgstr "Automatycznie uruchamianie po zalogowaniu"
 
 msgid "User credentials"
 msgstr "Dane użytkownika"
@@ -309,7 +309,7 @@ msgid "Launch application"
 msgstr "Uruchamia program"
 
 msgid "Launch Again"
-msgstr "Uruchom ponownie"
+msgstr "Uruchom jeszcze raz"
 
 msgid "Launch another instance of this application"
 msgstr "Uruchamia kolejną instancję programu"
@@ -465,6 +465,9 @@ msgstr "Ostatnie elementy umieszczone w schowku"
 
 msgid "Number of recent clipboards"
 msgstr "Liczba ostatnich elementów w schowku"
+
+msgid "Include recent selections"
+msgstr "Uwzględnianie ostatnich zaznaczeń"
 
 #, python-format
 msgid "Clipboard \"%(desc)s\""
@@ -662,13 +665,13 @@ msgid "Play and enqueue tracks and browse the music library"
 msgstr "Odtwarzanie i kolejkowanie utworów oraz przeglądanie kolekcji"
 
 msgid "Include artists in top level"
-msgstr "Umieszczaj wykonawców na najwyższym poziomie listy"
+msgstr "Wyświetlanie wykonawców na najwyższym poziomie listy"
 
 msgid "Include albums in top level"
-msgstr "Umieszczaj albumy na najwyższym poziomie listy"
+msgstr "Wyświetlanie albumół na najwyższym poziomie listy"
 
 msgid "Include songs in top level"
-msgstr "Umieszczaj utwory na najwyższym poziomie listy"
+msgstr "Wyświetlanie utworów na najwyższym poziomie listy"
 
 msgid "Play"
 msgstr "Odtwarzaj"
@@ -1159,7 +1162,7 @@ msgid "Load contacts and compose new email in Gmail"
 msgstr "Kontakty i akcje poczty Google (Gmail)"
 
 msgid "Load contacts' pictures"
-msgstr "Pokazywanie ikonek kontaktów"
+msgstr "Wyświetlanie ikonek kontaktów"
 
 msgid "Compose Email in GMail"
 msgstr "Utwórz email w GMail"
@@ -1178,10 +1181,10 @@ msgid "Show albums and upload files to Picasa"
 msgstr "Pokazuje albumy i pozwala na wysyłanie plików do Picasy"
 
 msgid "Users to show: (,-separated)"
-msgstr "Pokazywani użytkownicy (oddzieleni przecinkiem)"
+msgstr "Wyświetlani użytkownicy (oddzieleni przecinkiem)"
 
 msgid "Load user and album icons"
-msgstr "Pokazywanie ikonek kontaktów i albumów"
+msgstr "Wyświetlanie ikonek kontaktów i albumów"
 
 msgid "Uploading Pictures"
 msgstr "Wysyłanie obrazów"
@@ -1252,7 +1255,7 @@ msgid "Google Translate"
 msgstr "Tłumacz Google"
 
 msgid "Translate text with Google Translate"
-msgstr "Przetłumaczy tekst z użyciem Tłumacza Google"
+msgstr "Tłumaczy tekst z użyciem Tłumacza Google"
 
 #. TRANS: Dictionary lookup word classes
 msgid "noun"
@@ -1683,7 +1686,7 @@ msgid "Search in Tracker"
 msgstr "Szukaj w Trackerze"
 
 msgid "Open Tracker Search Tool and search for this term"
-msgstr "Otwiera narzędzie Tracker i wyszukuje termin"
+msgstr "Otwiera narzędzie Tracker i wyszukuje wyrażenie"
 
 msgid "Get Tracker Results..."
 msgstr "Pobierz wyniki Trackera..."
@@ -1896,9 +1899,6 @@ msgstr "Strony w notatnikach Zima"
 
 #~ msgid "Shorten links with various services (for now only TinyUrl)"
 #~ msgstr "Skróć linki z użyciem różnych serwisów"
-
-#~ msgid "Provides current selection"
-#~ msgstr "Umożliwia operacje z aktualnie zaznaczonym tekstem"
 
 #~ msgid "Free-text Queries"
 #~ msgstr "Zapytania Free-text"
