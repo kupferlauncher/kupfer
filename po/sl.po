@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-06 01:52+0000\n"
-"PO-Revision-Date: 2010-03-06 09:22+0100\n"
+"POT-Creation-Date: 2010-03-12 03:13+0000\n"
+"PO-Revision-Date: 2010-03-12 18:30+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -599,12 +599,12 @@ msgid "Calculate"
 msgstr "Izračunaj"
 
 #: ../kupfer/plugin/clipboard.py:1
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:43
 msgid "Clipboards"
 msgstr "Odložišča"
 
 #: ../kupfer/plugin/clipboard.py:3
-#: ../kupfer/plugin/clipboard.py:61
+#: ../kupfer/plugin/clipboard.py:80
 msgid "Recent clipboards"
 msgstr "Nedavna odložišča"
 
@@ -612,7 +612,11 @@ msgstr "Nedavna odložišča"
 msgid "Number of recent clipboards"
 msgstr "Število nedavnih odložišč"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:25
+msgid "Include recent selections"
+msgstr "Vključi nedavne izbire"
+
+#: ../kupfer/plugin/clipboard.py:37
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -1883,41 +1887,41 @@ msgstr "Nalaganje javnih tweetov prijateljev"
 msgid "Load timeline"
 msgstr "Naloži časovnico"
 
-#: ../kupfer/plugin/twitter/__init__.py:196
+#: ../kupfer/plugin/twitter/__init__.py:199
 msgid "Post Update to Twitter"
 msgstr "Pošlji posodobitev na Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:216
+#: ../kupfer/plugin/twitter/__init__.py:219
 msgid "Send Direct Message..."
 msgstr "Pošlji neposredno sporočilo ..."
 
-#: ../kupfer/plugin/twitter/__init__.py:245
+#: ../kupfer/plugin/twitter/__init__.py:248
 msgid "Send Direct Message To..."
 msgstr "Pošlji neposredno sporočilo osebi ..."
 
-#: ../kupfer/plugin/twitter/__init__.py:273
+#: ../kupfer/plugin/twitter/__init__.py:276
 msgid "Reply..."
 msgstr "Odgovori ..."
 
-#: ../kupfer/plugin/twitter/__init__.py:300
+#: ../kupfer/plugin/twitter/__init__.py:303
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/twitter/__init__.py:319
+#: ../kupfer/plugin/twitter/__init__.py:322
 msgid "Twitter Timeline"
 msgstr "Časovnica Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:345
+#: ../kupfer/plugin/twitter/__init__.py:348
 msgid "Twitter Friends"
 msgstr "Prijatelji Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:370
+#: ../kupfer/plugin/twitter/__init__.py:373
 #, python-format
 msgid "Timeline for %s"
 msgstr "Časovnica za %s"
 
-#: ../kupfer/plugin/twitter/__init__.py:394
+#: ../kupfer/plugin/twitter/__init__.py:397
 #: ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
@@ -2545,8 +2549,6 @@ msgstr "Strani shranjene v beležnicah Zim"
 #~ msgstr "(Enostaven) vstavek priljubljenih"
 #~ msgid "(no description)"
 #~ msgstr "(brez opisa)"
-#~ msgid "Provides current selection"
-#~ msgstr "Zagotovi trenutni izbor"
 #~ msgid "  %(name)-20s %(version)-4s %(description)s"
 #~ msgstr "  %(name)-20s %(version)-4s %(description)s"
 #~ msgid "Free-text Queries"
