@@ -49,7 +49,8 @@ Optional, but very recommended dependencies:
 * gvfs
 * xdg-terminal (to find which terminal application you use, if it's not
   Gnome Terminal)
-* rst2man
+* rst2man / python docutils  to build manpages
+* xml2po / gnome docutils  to install mallard help pages
 * python-keyring-gnome or python-keyring-kwallet
 
 Some plugins might require additional python modules!

@@ -2,8 +2,8 @@
 NEWS for kupfer
 ===============
 
-kupfer's next insanity
-----------------------
+kupfer version pandoras-box-1.99
+--------------------------------
 
 Not Yet Released
 
@@ -21,6 +21,8 @@ Not Yet Released
   the ``kupfer-exec`` helper script.
 * Display error notifications to the user when some actions can not be
   carried out.
+* Allow collecting selections with the *Clipboard* plugin (Karol)
+* Include Gnome/Yelp documentation written using Mallard (Mario Blättermann)
 
 * Make *Zim* plugin compatible with newer Zim (Karol, Ulrik)
 * Detect multiple volume rar files (William Friesen) (LP#516021)
@@ -28,8 +30,10 @@ Not Yet Released
 * Fix reading VirtualBox config files (Alexey Porotnikov) (LP#520987)
 * Fixed module name collision in user plugins (LP#518958), favoriting "loose"
   applications (LP#518908), bookmarked folders description (LP#509385),
-  Locate plugin on OpenSUSE (LP#517819)
+  Locate plugin on OpenSUSE (LP#517819), Encoding problem for application
+  aliases (LP#537730)
 * New French translation by Christophe Benz
+* New Norwegian (Bokmål) translation by Kjartan Maraas
 
 * Kupfer now requires Python 2.6
 
@@ -37,8 +41,12 @@ Not Yet Released
 
   + cs Marek Černocký
   + de Mario Blättermann
+  + es Jorge González
   + fr Christophe Benz
+  + it Francesco Marella
+  + nb Kjartan Maraas
   + pl Karol Będkowski
+  + pt Carlos Pais
   + sl Andrej Žnidaršič
   + sv Ulrik
 
