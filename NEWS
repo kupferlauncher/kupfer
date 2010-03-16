@@ -5,7 +5,7 @@ NEWS for kupfer
 kupfer version pandoras-box-1.99
 --------------------------------
 
-Not Yet Released
+Released Tuesday, 16 March 2010
 
 * Plugins can be loaded at runtime, although not unloaded can they not
 * Plugins can bundle icons, and plugins can be packaged in .zip files
