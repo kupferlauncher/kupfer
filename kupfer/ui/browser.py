@@ -898,6 +898,7 @@ class Interface (gobject.GObject):
 			"<Control>q" : "select_quit",
 			"<Alt>a" : "activate",
 			"<Control>Return": "compose_action",
+			"F1" : "show_help",
 		}
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
@@ -1219,6 +1220,10 @@ class Interface (gobject.GObject):
 
 	def select_quit(self):
 		self.data_controller.find_object("qpfer:quit")
+
+	def show_help(self):
+		from kupfer import kupferui
+		kupferui.show_help()
 
 	def compose_action(self):
 		self.data_controller.compose_selection()
