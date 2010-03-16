@@ -1,11 +1,11 @@
-# Norwegian bokmål translation of deskbar-applet.
-# Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the deskbar-applet package.
+# Norwegian bokmål translation of kupfer
+# Copyright (C) 2007--2010 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the Kupfer package.
 # Kjartan Maraas <kmaraas@gnome.org>, 2005-2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: deskbar-applet 2.29.x\n"
+"Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-15 13:46+0100\n"
 "PO-Revision-Date: 2010-03-15 13:56+0100\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 #: ../auxdata/kupfer.desktop.in.h:1
 msgid "Application Launcher"
-msgstr ""
+msgstr "Programstarter"
 
 #: ../auxdata/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr ""
+msgstr "Praktiskt kommandoverktøy for programmer og dokumenter "
 
 #: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
@@ -55,7 +55,7 @@ msgstr "<b>Start</b>"
 
 #: ../data/preferences.ui.h:5
 msgid "<i>Plugins may not be unloaded at runtime</i>"
-msgstr ""
+msgstr "<i>Tillegg deaktiveres først etter omstart</i>"
 
 #: ../data/preferences.ui.h:6
 msgid "General"
@@ -71,19 +71,19 @@ msgstr "Tillegg"
 
 #: ../data/preferences.ui.h:9
 msgid "Show icon in notification area"
-msgstr ""
+msgstr "Vis ikon i statusfeltet"
 
 #: ../data/preferences.ui.h:10
 msgid "Start automatically on login"
-msgstr ""
+msgstr "Start automatisk ved innlogging"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
-msgstr ""
+msgstr "Brukerinformasjon"
 
 #: ../data/credentials_dialog.ui.h:2
 msgid "_Change"
-msgstr "_Bytt"
+msgstr "_Bruk"
 
 #: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
@@ -95,31 +95,31 @@ msgstr "Br_uker:"
 
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
-msgstr ""
+msgstr "ikke vis grensesnitt ved start"
 
 #: ../kupfer/main.py:40
 msgid "list available plugins"
-msgstr ""
+msgstr "liste tilgjenelige tillegg"
 
 #: ../kupfer/main.py:41
 msgid "enable debug info"
-msgstr ""
+msgstr "aktiver felsøkingsinformasjon"
 
 #: ../kupfer/main.py:44
 msgid "show usage help"
-msgstr ""
+msgstr "vis brukshjelp"
 
 #: ../kupfer/main.py:45
 msgid "show version information"
-msgstr ""
+msgstr "vis versjonsinformasjon"
 
 #: ../kupfer/main.py:50
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
-msgstr ""
+msgstr "Bruk: kupfer [ VALG | FIL ... ]"
 
 #: ../kupfer/main.py:61
 msgid "Available plugins:"
-msgstr ""
+msgstr "Tilgjengelige tillegg:"
 
 #: ../kupfer/main.py:105
 #, python-format
@@ -132,12 +132,12 @@ msgstr ""
 #: ../kupfer/ui/browser.py:715
 #, python-format
 msgid "%s is empty"
-msgstr ""
+msgstr "%s er tom"
 
 #: ../kupfer/ui/browser.py:719
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
-msgstr ""
+msgstr "Ingen treff i %(src)s for «%(query)s»"
 
 #: ../kupfer/ui/browser.py:725
 msgid "No matches"
@@ -145,12 +145,12 @@ msgstr "Ingen treff"
 
 #: ../kupfer/ui/browser.py:730
 msgid "Type to search"
-msgstr ""
+msgstr "Skriv for å søke"
 
 #: ../kupfer/ui/browser.py:736
 #, python-format
 msgid "Type to search %s"
-msgstr ""
+msgstr "Skriv for å søke i %s"
 
 #: ../kupfer/ui/browser.py:748
 msgid "No action"
@@ -158,11 +158,11 @@ msgstr "Ingen handling"
 
 #: ../kupfer/ui/preferences.py:214
 msgid "Applied"
-msgstr ""
+msgstr "Tatt i bruk"
 
 #: ../kupfer/ui/preferences.py:219
 msgid "Keybinding could not be bound"
-msgstr ""
+msgstr "Tastaturbinding kunne ikke bindes"
 
 #. TRANS: Plugin info fields
 #: ../kupfer/ui/preferences.py:322
@@ -171,7 +171,7 @@ msgstr "Beskrivelse"
 
 #: ../kupfer/ui/preferences.py:322
 msgid "Author"
-msgstr ""
+msgstr "Utvikler"
 
 #: ../kupfer/ui/preferences.py:339
 msgid "Version"
@@ -181,15 +181,15 @@ msgstr "Versjon"
 #: ../kupfer/ui/preferences.py:349
 #, python-format
 msgid "Python module '%s' is needed"
-msgstr ""
+msgstr "Python-modulen '%s' trenges"
 
 #: ../kupfer/ui/preferences.py:363
 msgid "Plugin could not be read due to an error:"
-msgstr ""
+msgstr "Tillegget kunne ikke leses på grunn av en feil:"
 
 #: ../kupfer/ui/preferences.py:372 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
-msgstr ""
+msgstr "deaktivert"
 
 #: ../kupfer/ui/preferences.py:444
 msgid "Content of"
@@ -197,9 +197,8 @@ msgstr "Innholdet av"
 
 #. TRANS: Plugin contents header
 #: ../kupfer/ui/preferences.py:453
-#, fuzzy
 msgid "Sources"
-msgstr "Søk"
+msgstr "Kilder"
 
 #. TRANS: Plugin contents header
 #: ../kupfer/ui/preferences.py:457
@@ -228,7 +227,7 @@ msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
 #: ../kupfer/version.py:55
 msgid "A free software (GPLv3+) launcher"
-msgstr ""
+msgstr "En programstarter og fri programvare (GPLv3+)"
 
 #: ../kupfer/version.py:58
 msgid ""
@@ -255,7 +254,7 @@ msgstr ""
 #: ../kupfer/commandexec.py:171
 #, python-format
 msgid "Could not to carry out '%s'"
-msgstr ""
+msgstr "Kunne ikke utføre «%s»"
 
 #: ../kupfer/execfile.py:28
 #, python-format
@@ -274,7 +273,7 @@ msgstr "Tilbake til treff"
 
 #: ../kupfer/obj/compose.py:15
 msgid "Run after Delay..."
-msgstr ""
+msgstr "Kjør etter ventetid..."
 
 #: ../kupfer/obj/compose.py:35
 msgid "Perform command after a specified time interval"
@@ -282,14 +281,14 @@ msgstr ""
 
 #: ../kupfer/obj/compose.py:93
 msgid "Multiple Objects"
-msgstr ""
+msgstr "Flere objekter"
 
 #: ../kupfer/obj/compose.py:124
 #, python-format
 msgid "%s object"
 msgid_plural "%s objects"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "et objekt"
+msgstr[1] "%s objekter"
 
 #: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:153
 #, python-format
@@ -308,23 +307,23 @@ msgstr ""
 
 #: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
-msgstr ""
+msgstr "Åpne med standardapplikasjon"
 
 #: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
-msgstr ""
+msgstr "Vis"
 
 #: ../kupfer/obj/fileactions.py:75
 msgid "Open parent folder"
-msgstr ""
+msgstr "Åpne foreldermappe"
 
 #: ../kupfer/obj/fileactions.py:81
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Åpne terminal her"
 
 #: ../kupfer/obj/fileactions.py:90
 msgid "Open this location in a terminal"
-msgstr ""
+msgstr "Åpne plassen i en terminal"
 
 #: ../kupfer/obj/fileactions.py:98
 msgid "Run in Terminal"
@@ -361,15 +360,15 @@ msgstr "Start"
 
 #: ../kupfer/obj/objects.py:293
 msgid "Show application window"
-msgstr ""
+msgstr "Vis programvindu"
 
 #: ../kupfer/obj/objects.py:294
 msgid "Launch application"
-msgstr ""
+msgstr "Start program"
 
 #: ../kupfer/obj/objects.py:305
 msgid "Launch Again"
-msgstr ""
+msgstr "Start igjen"
 
 #: ../kupfer/obj/objects.py:312
 msgid "Launch another instance of this application"
@@ -377,7 +376,7 @@ msgstr ""
 
 #: ../kupfer/obj/objects.py:318 ../kupfer/plugin/windows.py:42
 msgid "Close"
-msgstr ""
+msgstr "Steng"
 
 #: ../kupfer/obj/objects.py:326
 msgid "Attept to close all application windows"
@@ -390,7 +389,7 @@ msgstr "Kjør"
 
 #: ../kupfer/obj/objects.py:373
 msgid "Perform command"
-msgstr ""
+msgstr "Utfør kommando"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
@@ -398,8 +397,8 @@ msgstr ""
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "«%(text)s»"
+msgstr[1] "(%(num)d linjer) «%(text)s»"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
 #: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
@@ -418,9 +417,8 @@ msgid "Directory source %s"
 msgstr ""
 
 #: ../kupfer/obj/sources.py:118
-#, fuzzy
 msgid "Catalog Index"
-msgstr "Katalansk"
+msgstr "Katalogindeks"
 
 #: ../kupfer/obj/sources.py:133
 #, fuzzy
@@ -428,9 +426,8 @@ msgid "An index of all available sources"
 msgstr "Vis alle tilgjengelige søkemotorer"
 
 #: ../kupfer/obj/sources.py:144
-#, fuzzy
 msgid "Catalog"
-msgstr "Katalansk"
+msgstr "Katalog"
 
 #: ../kupfer/obj/sources.py:164
 msgid "Root catalog"
@@ -468,19 +465,19 @@ msgstr "Om Kupfer"
 
 #: ../kupfer/plugin/core/contents.py:57
 msgid "Show information about Kupfer authors and license"
-msgstr ""
+msgstr "Vis informasjon om Kupfers utviklere og lisens"
 
 #: ../kupfer/plugin/core/contents.py:63
 msgid "Kupfer Help"
-msgstr ""
+msgstr "Hjelp med Kupfer"
 
 #: ../kupfer/plugin/core/contents.py:68
 msgid "Get help with Kupfer"
-msgstr ""
+msgstr "Få hjelp med Kupfer"
 
 #: ../kupfer/plugin/core/contents.py:79
 msgid "Show preferences window for Kupfer"
-msgstr ""
+msgstr "Vis Kupfers brukervalg"
 
 #: ../kupfer/plugin/core/debug.py:37 ../kupfer/plugin/audacious.py:100
 #, fuzzy
@@ -509,20 +506,20 @@ msgstr "Kopier til utklippstavlen"
 
 #: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:36
 msgid "Selected Text"
-msgstr ""
+msgstr "Markert tekst"
 
 #: ../kupfer/plugin/core/selection.py:23
 #, python-format
 msgid "Selected Text \"%s\""
-msgstr ""
+msgstr "Markert tekst «%s»"
 
 #: ../kupfer/plugin/core/internal.py:13
 msgid "Last Command"
-msgstr ""
+msgstr "Siste kommando"
 
 #: ../kupfer/plugin/core/internal.py:22
 msgid "Internal Kupfer Objects"
-msgstr ""
+msgstr "Interne Kupfer-objekter"
 
 #: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
 msgid "Applications"
@@ -542,11 +539,11 @@ msgstr "Åpne med..."
 
 #: ../kupfer/plugin/applications.py:89
 msgid "Open with any application"
-msgstr ""
+msgstr "Åpne med valgfritt program"
 
 #: ../kupfer/plugin/applications.py:93
 msgid "Set Default Application..."
-msgstr ""
+msgstr "Velg standardprogram"
 
 #: ../kupfer/plugin/applications.py:108
 msgid "Set default application to open this file type"
@@ -562,7 +559,7 @@ msgstr ""
 
 #: ../kupfer/plugin/calculator.py:101
 msgid "Calculate"
-msgstr ""
+msgstr "Beregn"
 
 #: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:43
 msgid "Clipboards"
@@ -570,15 +567,15 @@ msgstr "Utklippstavler"
 
 #: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:80
 msgid "Recent clipboards"
-msgstr ""
+msgstr "Nylige utklippstavler"
 
 #: ../kupfer/plugin/clipboard.py:19
 msgid "Number of recent clipboards"
-msgstr ""
+msgstr "Antall nylige utklippstavler"
 
 #: ../kupfer/plugin/clipboard.py:25
 msgid "Include recent selections"
-msgstr ""
+msgstr "Inkluder nylige markeringer"
 
 #: ../kupfer/plugin/clipboard.py:37
 #, python-format
@@ -589,7 +586,7 @@ msgstr[1] ""
 
 #: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:41
 msgid "Shell Commands"
-msgstr ""
+msgstr "Skallkommando"
 
 #: ../kupfer/plugin/commands.py:4 ../kupfer/plugin/commands.py:64
 msgid "Run commandline programs"
@@ -672,7 +669,7 @@ msgstr ""
 
 #: ../kupfer/plugin/favorites.py:138
 msgid "Add to Favorites"
-msgstr ""
+msgstr "Legg til favoritt"
 
 #: ../kupfer/plugin/favorites.py:146
 msgid "Add item to favorites shelf"
@@ -680,7 +677,7 @@ msgstr ""
 
 #: ../kupfer/plugin/favorites.py:153
 msgid "Remove from Favorites"
-msgstr ""
+msgstr "Ta bort favoritt"
 
 #: ../kupfer/plugin/favorites.py:161
 msgid "Remove item from favorites shelf"
@@ -702,7 +699,7 @@ msgstr ""
 
 #: ../kupfer/plugin/fileactions.py:48
 msgid "Move to Trash"
-msgstr ""
+msgstr "Flytt til papirkurven"
 
 #: ../kupfer/plugin/fileactions.py:56
 msgid "Move this file to trash"
@@ -710,7 +707,7 @@ msgstr ""
 
 #: ../kupfer/plugin/fileactions.py:84 ../kupfer/plugin/windows.py:123
 msgid "Move To..."
-msgstr ""
+msgstr "Flytt til..."
 
 #: ../kupfer/plugin/fileactions.py:111
 msgid "Move file to new location"
@@ -718,7 +715,7 @@ msgstr ""
 
 #: ../kupfer/plugin/fileactions.py:122 ../kupfer/plugin/fileactions.py:145
 msgid "Rename To..."
-msgstr ""
+msgstr "Endre navn til..."
 
 #: ../kupfer/plugin/fileactions.py:188
 msgid "Copy To..."
@@ -729,9 +726,8 @@ msgid "Copy file to a chosen location"
 msgstr ""
 
 #: ../kupfer/plugin/fileactions.py:226
-#, fuzzy
 msgid "Extract Here"
-msgstr "Henter ut arkiv"
+msgstr "Pakk ut her"
 
 #: ../kupfer/plugin/fileactions.py:242
 #, fuzzy
@@ -748,12 +744,11 @@ msgstr ""
 
 #: ../kupfer/plugin/fileactions.py:266
 msgid "Create Archive In..."
-msgstr ""
+msgstr "Lag arkiv i..."
 
 #: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:30
-#, fuzzy
 msgid "Firefox Bookmarks"
-msgstr "Åpne bokmerke %s"
+msgstr "Firefox-bokmerker"
 
 #: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:111
 msgid "Index of Firefox bookmarks"
@@ -762,7 +757,7 @@ msgstr ""
 #: ../kupfer/plugin/nautilusselection.py:1
 #: ../kupfer/plugin/nautilusselection.py:48
 msgid "Selected File"
-msgstr ""
+msgstr "Markert fil"
 
 #: ../kupfer/plugin/nautilusselection.py:3
 msgid "Provides current nautilus selection, using Kupfer's Nautilus Extension"
@@ -771,11 +766,11 @@ msgstr ""
 #: ../kupfer/plugin/nautilusselection.py:27
 #, python-format
 msgid "Selected File \"%s\""
-msgstr ""
+msgstr "Markert fil «%s»"
 
 #: ../kupfer/plugin/nautilusselection.py:36
 msgid "Selected Files"
-msgstr ""
+msgstr "Markerte filer"
 
 #: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:162
 #: ../kupfer/plugin/notes.py:214
@@ -783,9 +778,8 @@ msgid "Notes"
 msgstr "Notater"
 
 #: ../kupfer/plugin/notes.py:13
-#, fuzzy
 msgid "Gnote or Tomboy notes"
-msgstr "Søk i dine Tomboy notater"
+msgstr "Søk i dine Gnote- eller Tomboy-notater"
 
 #: ../kupfer/plugin/notes.py:34
 msgid "Work with application"
@@ -797,7 +791,7 @@ msgstr ""
 
 #: ../kupfer/plugin/notes.py:86
 msgid "Append to Note..."
-msgstr ""
+msgstr "Tilføy til notat..."
 
 #: ../kupfer/plugin/notes.py:109
 msgid "Add text to existing note"
@@ -814,7 +808,7 @@ msgstr "Opprett nye filer fra dine maler"
 
 #: ../kupfer/plugin/notes.py:141
 msgid "Get Note Search Results..."
-msgstr ""
+msgstr "Hent søktreffer i notater..."
 
 #: ../kupfer/plugin/notes.py:154
 #, fuzzy
@@ -824,12 +818,12 @@ msgstr "Vis søkeoppføring"
 #: ../kupfer/plugin/notes.py:197
 #, python-format
 msgid "today, %s"
-msgstr ""
+msgstr "idag, %s"
 
 #: ../kupfer/plugin/notes.py:199
 #, python-format
 msgid "yesterday, %s"
-msgstr ""
+msgstr "igår, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
 #: ../kupfer/plugin/notes.py:203
@@ -1011,11 +1005,11 @@ msgstr "Vis tekst i et vindu"
 
 #: ../kupfer/plugin/show_text.py:34
 msgid "Large Type"
-msgstr ""
+msgstr "Vis med stor tekst"
 
 #: ../kupfer/plugin/show_text.py:51
 msgid "Show Notification"
-msgstr ""
+msgstr "Vis varsling"
 
 #: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:140
 msgid "Trash"
@@ -1035,20 +1029,20 @@ msgstr ""
 
 #: ../kupfer/plugin/trash.py:128
 msgid "Trash is empty"
-msgstr ""
+msgstr "Papirkurven er tom"
 
 #. proper translation of plural
 #: ../kupfer/plugin/trash.py:130
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Papirkurven inneholder én fil"
+msgstr[1] "Papirkurven inneholder %(num)s filer"
 
 #: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:39
 #: ../kupfer/plugin/triggers.py:118
 msgid "Triggers"
-msgstr ""
+msgstr "Utløsere"
 
 #: ../kupfer/plugin/triggers.py:6
 msgid ""
@@ -1122,11 +1116,11 @@ msgstr "Søk på nettet med nettleserens innstillinger for søk"
 
 #: ../kupfer/plugin/websearch.py:43
 msgid "Search With..."
-msgstr ""
+msgstr "Søk med..."
 
 #: ../kupfer/plugin/websearch.py:72
 msgid "Search For..."
-msgstr ""
+msgstr "Søk etter..."
 
 #: ../kupfer/plugin/websearch.py:113
 msgid "Search Engines"
@@ -1147,7 +1141,7 @@ msgstr "Wikipedia-språk"
 #. TRANS: Default wikipedia language code
 #: ../kupfer/plugin/wikipedia.py:24
 msgid "en"
-msgstr ""
+msgstr "no"
 
 #: ../kupfer/plugin/wikipedia.py:44
 #, python-format
