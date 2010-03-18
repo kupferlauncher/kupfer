@@ -2,7 +2,7 @@
 # This file defines variables and files for Kupfer's
 # mallard documentation.
 #
-# This file is needed for Gnome's translation infrastructure,
+# This file is needed for GNOME's translation infrastructure,
 # but it is never used as a real Makefile.
 #
 # Define all languages for translation in the variable DOC_LINGUAS

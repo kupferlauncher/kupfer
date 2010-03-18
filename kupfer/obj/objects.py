@@ -312,7 +312,7 @@ class LaunchAgain (Launch):
 		return _("Launch another instance of this application")
 
 class CloseAll (Action):
-	"""Attept to close all application windows"""
+	"""Attempt to close all application windows"""
 	rank_adjust = -10
 	def __init__(self):
 		Action.__init__(self, _("Close"))
@@ -323,7 +323,7 @@ class CloseAll (Action):
 	def valid_for_item(self, leaf):
 		return launch.application_is_running(leaf.object)
 	def get_description(self):
-		return _("Attept to close all application windows")
+		return _("Attempt to close all application windows")
 	def get_icon_name(self):
 		return "gtk-close"
 

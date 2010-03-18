@@ -1,6 +1,6 @@
-__kupfer_name__ = _("Gnome Terminal Profiles")
+__kupfer_name__ = _("GNOME Terminal Profiles")
 __kupfer_sources__ = ("SessionsSource", )
-__description__ = _("Launch Gnome Terminal profiles")
+__description__ = _("Launch GNOME Terminal profiles")
 __version__ = ""
 __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
@@ -18,7 +18,7 @@ GCONF_KEY = "/apps/gnome-terminal/profiles"
 
 
 class Terminal(Leaf):
-	""" Leaf represent profile saved in Gnome Terminal"""
+	""" Leaf represent profile saved in GNOME Terminal"""
 
 	def __init__(self, name):
 		Leaf.__init__(self, name, name)
@@ -31,7 +31,7 @@ class Terminal(Leaf):
 
 
 class OpenSession(Action):
-	""" Opens Gnome Terminal profile """
+	""" Opens GNOME Terminal profile """
 	def __init__(self):
 		Action.__init__(self, _("Open"))
 
@@ -45,11 +45,11 @@ class OpenSession(Action):
 
 
 class SessionsSource(ApplicationSource):
-	""" Yield Gnome Terminal profiles """
+	""" Yield GNOME Terminal profiles """
 	appleaf_content_id = 'gnome-terminal'
 
 	def __init__(self):
-		ApplicationSource.__init__(self, name=_("Gnome Terminal Profiles"))
+		ApplicationSource.__init__(self, name=_("GNOME Terminal Profiles"))
 
 	def get_items(self):
 		gc = gconf.client_get_default()

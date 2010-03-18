@@ -287,7 +287,7 @@ kupfer is translated using gettext and it is managed in the build system
 using ``intltool``. Translation messages are located in the ``po/``
 directory.
 
-Kupfer's localizations are listed among Gnome's modules. Its homepage
+Kupfer's localizations are listed among GNOME's modules. Its homepage
 is:
 
     http://l10n.gnome.org/module/kupfer/
@@ -344,7 +344,7 @@ Go into the directory ``po``
 
    + Write in yourself as author
    + Check ``plurals`` (copy from a language that you know uses the same
-     number of plural forms, or look up in Gnome's translation pages.)
+     number of plural forms, or look up in GNOME's translation pages.)
    + Replace everything written in CAPS
 
 Fill in the charset used; Kupfer translations *must* use the UTF-8 encoding.

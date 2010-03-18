@@ -1,6 +1,6 @@
-__kupfer_name__ = _("Gnome Session Management")
+__kupfer_name__ = _("GNOME Session Management")
 __kupfer_sources__ = ("GnomeItemsSource", )
-__description__ = _("Special items and actions for Gnome environment")
+__description__ = _("Special items and actions for GNOME environment")
 __version__ = "2009-12-05"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -14,7 +14,7 @@ LOCKSCREEN_CMD = ("gnome-screensaver-command --lock", "xdg-screensaver lock")
 
 class GnomeItemsSource (support.CommonSource):
 	def __init__(self):
-		support.CommonSource.__init__(self, _("Gnome Session Management"))
+		support.CommonSource.__init__(self, _("GNOME Session Management"))
 	def get_items(self):
 		return (
 			support.Logout(LOGOUT_CMD),
