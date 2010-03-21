@@ -14,6 +14,7 @@ __description__ = _("Gnote or Tomboy notes")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import locale
 import os
 import time
 import xml.sax.saxutils
@@ -39,6 +40,11 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 plugin_support.check_dbus_connection()
+
+def unicode_strftime(fmt, time_tuple=None):
+	enc = locale.getpreferredencoding(False)
+	return unicode(time.strftime(fmt, time_tuple), enc, "replace")
+
 
 def _get_notes_interface(activate=False):
 	"""Return the dbus proxy object for our Note Application.
@@ -194,11 +200,11 @@ class Note (Leaf):
 		change_time = time.localtime(self.changedate)
 
 		if today_date == change_time[:3]:
-			time_str = _("today, %s") % time.strftime("%X", change_time)
+			time_str = _("today, %s") % unicode_strftime("%X", change_time)
 		elif yest_date == change_time[:3]:
-			time_str = _("yesterday, %s") % time.strftime("%X", change_time)
+			time_str = _("yesterday, %s") % unicode_strftime("%X", change_time)
 		else:
-			time_str = time.strftime("%c", change_time)
+			time_str = unicode_strftime("%c", change_time)
 		# TRANS: Note description, %s is last changed time in locale format
 		return _("Last updated %s") % time_str
 	def get_icon_name(self):
