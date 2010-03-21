@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-16 17:47+0000\n"
-"PO-Revision-Date: 2010-03-21 17:19+0100\n"
+"POT-Creation-Date: 2010-03-21 16:19+0000\n"
+"PO-Revision-Date: 2010-03-21 17:24+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -317,7 +317,7 @@ msgstr[1] "%s objetos"
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:73
+#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Abrir"
@@ -401,7 +401,8 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: ../kupfer/obj/objects.py:326
-msgid "Attept to close all application windows"
+#| msgid "Attept to close all application windows"
+msgid "Attempt to close all application windows"
 msgstr "Intentar cerrar todas las ventanas de la aplicación"
 
 #. TRANS: 'Run' as in Perform a (saved) command
@@ -787,8 +788,8 @@ msgstr "Archivo seleccionado «%s»"
 msgid "Selected Files"
 msgstr "Archivos seleccionados"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:162
-#: ../kupfer/plugin/notes.py:214
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:168
+#: ../kupfer/plugin/notes.py:220
 msgid "Notes"
 msgstr "Notas"
 
@@ -796,50 +797,50 @@ msgstr "Notas"
 msgid "Gnote or Tomboy notes"
 msgstr "Notas de GNote o Tomboy"
 
-#: ../kupfer/plugin/notes.py:34
+#: ../kupfer/plugin/notes.py:35
 msgid "Work with application"
 msgstr "Trabajar con aplicación"
 
-#: ../kupfer/plugin/notes.py:79
+#: ../kupfer/plugin/notes.py:85
 msgid "Open with notes application"
 msgstr "Abrir con la aplicación de notas"
 
-#: ../kupfer/plugin/notes.py:86
+#: ../kupfer/plugin/notes.py:92
 msgid "Append to Note..."
 msgstr "Añadir a nota…"
 
-#: ../kupfer/plugin/notes.py:109
+#: ../kupfer/plugin/notes.py:115
 msgid "Add text to existing note"
 msgstr "Añadir texto a una nota existente"
 
-#: ../kupfer/plugin/notes.py:121
+#: ../kupfer/plugin/notes.py:127
 msgid "Create Note"
 msgstr "Crear nota"
 
-#: ../kupfer/plugin/notes.py:135
+#: ../kupfer/plugin/notes.py:141
 msgid "Create a new note from this text"
 msgstr "Crear una nota nueva desde este texto"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:147
 msgid "Get Note Search Results..."
 msgstr "Obtener los resultados de búsqueda de notas…"
 
-#: ../kupfer/plugin/notes.py:154
+#: ../kupfer/plugin/notes.py:160
 msgid "Show search results for this query"
 msgstr "Mostrar los resultados de búsqueda para esta consulta"
 
-#: ../kupfer/plugin/notes.py:197
+#: ../kupfer/plugin/notes.py:203
 #, python-format
 msgid "today, %s"
 msgstr "hoy, %s"
 
-#: ../kupfer/plugin/notes.py:199
+#: ../kupfer/plugin/notes.py:205
 #, python-format
 msgid "yesterday, %s"
 msgstr "ayer, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:209
 #, python-format
 msgid "Last updated %s"
 msgstr "Última actualización %s"
@@ -966,11 +967,13 @@ msgid "Songs in Rhythmbox library"
 msgstr "Canciones en la biblioteca de Rhythmbox"
 
 #: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:17
-msgid "Gnome Session Management"
+#| msgid "XFCE Session Management"
+msgid "GNOME Session Management"
 msgstr "Gestión de la sesión de GNOME"
 
 #: ../kupfer/plugin/session_gnome.py:3
-msgid "Special items and actions for Gnome environment"
+#| msgid "Special items and actions for XFCE environment"
+msgid "Special items and actions for GNOME environment"
 msgstr "Elementos y acciones especiales para el entorno GNOME"
 
 #: ../kupfer/plugin/session_support.py:31
@@ -1222,10 +1225,9 @@ msgid "Jump to this window's workspace and focus"
 msgstr "Saltar al área de trabajo de esta ventana y dar foco"
 
 #: ../kupfer/plugin/windows.py:253
-#, fuzzy
 #| msgid "Jump to this window's workspace and focus"
 msgid "Jump to this workspace"
-msgstr "Saltar al área de trabajo de esta ventana y dar foco"
+msgstr "Saltar a este área de trabajo"
 
 #: ../kupfer/plugin/windows.py:260
 msgid "Workspaces"
@@ -1277,48 +1279,43 @@ msgid "Search Package Name..."
 msgstr "Buscar paquete por nombre…"
 
 #: ../kupfer/plugin/archiveinside.py:8
-#, fuzzy
 #| msgid "Create Archive"
 msgid "Deep Archives"
-msgstr "Crear archivador"
+msgstr "Archivadores profundos"
 
 #: ../kupfer/plugin/archiveinside.py:10
 msgid "Allow browsing inside compressed archive files"
-msgstr ""
+msgstr "Permitir examinar dentro de archivadores comprimidos"
 
 #: ../kupfer/plugin/archiveinside.py:50
-#, fuzzy, python-format
+#, python-format
 #| msgid "Translate into %s"
 msgid "Content of %s"
-msgstr "Traducir a %s"
+msgstr "Contenido de %s"
 
 #: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:212
-#, fuzzy
 #| msgid "Actions"
 msgid "Audacious"
-msgstr "Acciones"
+msgstr "Audacious"
 
 #: ../kupfer/plugin/audacious.py:6
 msgid "Control Audacious playback and playlist"
-msgstr ""
+msgstr "Controlar la reproducción y listas de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:65
-#, fuzzy
 #| msgid "Add tracks to the play queue"
 msgid "Add track to the Audacious play queue"
-msgstr "Añade pistas a la cola de reproducción"
+msgstr "Añadir pistas a la cola de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:73
-#, fuzzy
 #| msgid "Enqueue"
 msgid "Dequeue"
-msgstr "Encolar"
+msgstr "Dequeue"
 
 #: ../kupfer/plugin/audacious.py:77
-#, fuzzy
 #| msgid "Add tracks to the play queue"
 msgid "Remove track from the Audacious play queue"
-msgstr "Añade pistas a la cola de reproducción"
+msgstr "Quitar pistas de la cola de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:89
 #, fuzzy
@@ -1360,23 +1357,21 @@ msgstr "Aleatorio"
 
 #: ../kupfer/plugin/audacious.py:173
 msgid "Toggle shuffle in Audacious"
-msgstr ""
+msgstr "Conmutar la reproducción aleatoria en Audacious"
 
 #: ../kupfer/plugin/audacious.py:179
-#, fuzzy
 #| msgid "Reveal"
 msgid "Repeat"
-msgstr "Mostrar"
+msgstr "Repetir"
 
 #: ../kupfer/plugin/audacious.py:183
 msgid "Toggle repeat in Audacious"
-msgstr ""
+msgstr "Conmutar la repetición en Audacious"
 
 #: ../kupfer/plugin/audacious.py:198
-#, fuzzy
 #| msgid "Play"
 msgid "Playlist"
-msgstr "Reproducir"
+msgstr "Lista de reproducción"
 
 #: ../kupfer/plugin/chromium.py:1 ../kupfer/plugin/chromium.py:22
 msgid "Chromium Bookmarks"
@@ -1397,16 +1392,14 @@ msgstr "Contactos y acciones de Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
-#, fuzzy
 #| msgid "Compose New Mail"
 msgid "Compose New Email"
-msgstr "Redactar un correo nuevo"
+msgstr "Redactar un correo electrónico nuevo"
 
 #: ../kupfer/plugin/clawsmail.py:31
-#, fuzzy
 #| msgid "Compose New Mail with Claws Mail"
 msgid "Compose a new message in Claws Mail"
-msgstr "Redactar correo nuevo con Claws Mail"
+msgstr "Redactar un correo electrónico nuevo con Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:40
 #, fuzzy
@@ -1545,12 +1538,14 @@ msgstr "Estado de las cuentas de Gajim"
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
 #, fuzzy
 #| msgid "Open Terminal Here"
-msgid "Gnome Terminal Profiles"
+msgid "GNOME Terminal Profiles"
 msgstr "Abrir terminal aquí"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch Gnome Terminal profiles"
-msgstr ""
+#, fuzzy
+#| msgid "Open Terminal Here"
+msgid "Launch GNOME Terminal profiles"
+msgstr "Abrir terminal aquí"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
@@ -1668,7 +1663,7 @@ msgid "Search Google with results shown directly"
 msgstr "Buscar en Google mostrando directamente los resultados"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:67 ../kupfer/plugin/tracker.py:105
+#: ../kupfer/plugin/tracker.py:68 ../kupfer/plugin/tracker.py:106
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Resultados para «%s»"
@@ -1911,12 +1906,10 @@ msgid "OpenOffice"
 msgstr "OpenOffice"
 
 #: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:119
-#| msgid "Recently used documents in Abiword"
 msgid "Recently used documents in OpenOffice"
 msgstr "Documentos recientemente utilizados en OpenOffice"
 
 #: ../kupfer/plugin/openoffice.py:61
-#| msgid "Recent Items"
 msgid "OpenOffice Recent Items"
 msgstr "Elementos recientes de OpenOffice"
 
@@ -2062,7 +2055,6 @@ msgid "Skype"
 msgstr "Skype"
 
 #: ../kupfer/plugin/skype.py:5
-#| msgid "Access to Gajim Contacts"
 msgid "Access to Skype contacts"
 msgstr "Acceder a los contactos de Skype"
 
@@ -2078,7 +2070,6 @@ msgstr "Cerrar sesión…"
 
 #: ../kupfer/plugin/skype.py:183
 #, python-format
-#| msgid "[%(status)s] %(userid)s/%(service)s"
 msgid "[%(status)s] %(userid)s"
 msgstr "[%(status)s] %(userid)s"
 
@@ -2198,7 +2189,6 @@ msgid "Thunderbird"
 msgstr "Thunderbird"
 
 #: ../kupfer/plugin/thunderbird.py:7
-#| msgid "Claws Mail Contacts and Actions"
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Contactos y acciones de Thunderbird/Icedove"
 
@@ -2270,57 +2260,57 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Integración con la búsqueda de escritorio Tracker"
 
-#: ../kupfer/plugin/tracker.py:36
+#: ../kupfer/plugin/tracker.py:37
 msgid "Search in Tracker"
 msgstr "Buscar en Tracker"
 
-#: ../kupfer/plugin/tracker.py:41
+#: ../kupfer/plugin/tracker.py:42
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Abrir herramienta de búsqueda de Tracker"
 
-#: ../kupfer/plugin/tracker.py:50
+#: ../kupfer/plugin/tracker.py:51
 msgid "Get Tracker Results..."
 msgstr "Obtener resultados de Tracker…"
 
-#: ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/tracker.py:60
 msgid "Show Tracker results for query"
 msgstr "Mostrar resultados de Tracker para la consulta"
 
-#: ../kupfer/plugin/tracker.py:157 ../kupfer/plugin/tracker.py:163
+#: ../kupfer/plugin/tracker.py:158 ../kupfer/plugin/tracker.py:164
 msgid "Tracker tags"
 msgstr "Etiquetas de Tracker"
 
-#: ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:173
 msgid "Tracker Tags"
 msgstr "Etiquetas de Tracker"
 
-#: ../kupfer/plugin/tracker.py:178
+#: ../kupfer/plugin/tracker.py:179
 msgid "Browse Tracker's tags"
 msgstr "Examinar las etiquetas de Tracker"
 
-#: ../kupfer/plugin/tracker.py:189 ../kupfer/plugin/tracker.py:196
+#: ../kupfer/plugin/tracker.py:190 ../kupfer/plugin/tracker.py:197
 #, python-format
 msgid "Tag %s"
 msgstr "Etiqueta %s"
 
-#: ../kupfer/plugin/tracker.py:203
+#: ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objetos con etiqueta %s en Tracker"
 
-#: ../kupfer/plugin/tracker.py:215
+#: ../kupfer/plugin/tracker.py:216
 msgid "Add Tag..."
 msgstr "Añadir etiqueta…"
 
-#: ../kupfer/plugin/tracker.py:241
+#: ../kupfer/plugin/tracker.py:242
 msgid "Add tracker tag to file"
 msgstr "Añadir etiqueta Tracker al archivo"
 
-#: ../kupfer/plugin/tracker.py:247
+#: ../kupfer/plugin/tracker.py:248
 msgid "Remove Tag..."
 msgstr "Quitar etiqueta…"
 
-#: ../kupfer/plugin/tracker.py:266
+#: ../kupfer/plugin/tracker.py:267
 msgid "Remove tracker tag from file"
 msgstr "Quitar etiqueta Tracker del archivo"
 
@@ -2480,6 +2470,12 @@ msgstr "Páginas de Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páginas almacenadas en el libro de notas Zim"
+
+#~ msgid "Gnome Session Management"
+#~ msgstr "Gestión de la sesión de GNOME"
+
+#~ msgid "Special items and actions for Gnome environment"
+#~ msgstr "Elementos y acciones especiales para el entorno GNOME"
 
 #~ msgid "To configure kupfer, edit:"
 #~ msgstr "Para configurar kupfer, editar:"
