@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-15 13:46+0100\n"
+"POT-Creation-Date: 2010-03-21 01:19+0100\n"
 "PO-Revision-Date: 2010-03-15 13:56+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -303,11 +303,11 @@ msgstr "Åpne"
 #: ../kupfer/obj/fileactions.py:38
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
-msgstr ""
+msgstr "Har ikke standardprogram for %(file)s (%(type)s)"
 
 #: ../kupfer/obj/fileactions.py:60
 msgid "Open with default application"
-msgstr "Åpne med standardapplikasjon"
+msgstr "Åpne med standardprogram"
 
 #: ../kupfer/obj/fileactions.py:66
 msgid "Reveal"
@@ -376,7 +376,7 @@ msgstr ""
 
 #: ../kupfer/obj/objects.py:318 ../kupfer/plugin/windows.py:42
 msgid "Close"
-msgstr "Steng"
+msgstr "Lukk"
 
 #: ../kupfer/obj/objects.py:326
 msgid "Attept to close all application windows"
@@ -618,24 +618,22 @@ msgid "Max recent document days"
 msgstr "Siste dokumenter"
 
 #: ../kupfer/plugin/documents.py:32
-#, fuzzy
 msgid "Recent Items"
-msgstr "Siste dokumenter"
+msgstr "Nylig brukte dokumenter"
 
 #: ../kupfer/plugin/documents.py:78
-#, fuzzy
 msgid "Recently used documents"
-msgstr "Siste dokumenter"
+msgstr "Nylig brukte dokumenter"
 
 #: ../kupfer/plugin/documents.py:88
-#, fuzzy, python-format
+#, python-format
 msgid "%s Documents"
-msgstr "Dokumenter"
+msgstr "%s-dokumenter"
 
 #: ../kupfer/plugin/documents.py:113
-#, fuzzy, python-format
+#, python-format
 msgid "Recently used documents for %s"
-msgstr "Siste dokumenter"
+msgstr "Nylig brukte dokumenter for %s"
 
 #: ../kupfer/plugin/documents.py:132
 msgid "Places"
@@ -781,52 +779,52 @@ msgstr "Notater"
 msgid "Gnote or Tomboy notes"
 msgstr "Søk i dine Gnote- eller Tomboy-notater"
 
-#: ../kupfer/plugin/notes.py:34
+#: ../kupfer/plugin/notes.py:35
 msgid "Work with application"
 msgstr ""
 
-#: ../kupfer/plugin/notes.py:79
+#: ../kupfer/plugin/notes.py:85
 msgid "Open with notes application"
 msgstr ""
 
-#: ../kupfer/plugin/notes.py:86
+#: ../kupfer/plugin/notes.py:92
 msgid "Append to Note..."
 msgstr "Tilføy til notat..."
 
-#: ../kupfer/plugin/notes.py:109
+#: ../kupfer/plugin/notes.py:115
 msgid "Add text to existing note"
 msgstr ""
 
-#: ../kupfer/plugin/notes.py:121
+#: ../kupfer/plugin/notes.py:127
 msgid "Create Note"
 msgstr "Lag notat"
 
-#: ../kupfer/plugin/notes.py:135
+#: ../kupfer/plugin/notes.py:141
 #, fuzzy
 msgid "Create a new note from this text"
 msgstr "Opprett nye filer fra dine maler"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:147
 msgid "Get Note Search Results..."
-msgstr "Hent søktreffer i notater..."
+msgstr "Hent søketreff i notater..."
 
-#: ../kupfer/plugin/notes.py:154
+#: ../kupfer/plugin/notes.py:160
 #, fuzzy
 msgid "Show search results for this query"
 msgstr "Vis søkeoppføring"
 
-#: ../kupfer/plugin/notes.py:197
+#: ../kupfer/plugin/notes.py:203
 #, python-format
 msgid "today, %s"
 msgstr "idag, %s"
 
-#: ../kupfer/plugin/notes.py:199
+#: ../kupfer/plugin/notes.py:205
 #, python-format
 msgid "yesterday, %s"
 msgstr "igår, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:209
 #, python-format
 msgid "Last updated %s"
 msgstr ""
