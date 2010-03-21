@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-08 23:11+0000\n"
-"PO-Revision-Date: 2010-03-16 18:47+0100\n"
+"POT-Creation-Date: 2010-03-16 17:47+0000\n"
+"PO-Revision-Date: 2010-03-21 17:19+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -594,7 +594,6 @@ msgid "Number of recent clipboards"
 msgstr "Numero de portapapeles recientes"
 
 #: ../kupfer/plugin/clipboard.py:25
-#| msgid "Provides current selection"
 msgid "Include recent selections"
 msgstr "Incluir selecciones recientes"
 
@@ -822,7 +821,6 @@ msgid "Create a new note from this text"
 msgstr "Crear una nota nueva desde este texto"
 
 #: ../kupfer/plugin/notes.py:141
-#| msgid "Get Tracker Results..."
 msgid "Get Note Search Results..."
 msgstr "Obtener los resultados de búsqueda de notas…"
 
@@ -1615,7 +1613,6 @@ msgid "Creating album:"
 msgstr "Creando álbum:"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:106
-#| msgid "About Kupfer"
 msgid "Album created by Kupfer"
 msgstr "Álbum creado por Kupfer"
 
@@ -1655,7 +1652,6 @@ msgstr ""
 
 #: ../kupfer/plugin/google_picasa/__init__.py:375
 #: ../kupfer/plugin/google_picasa/__init__.py:396
-#| msgid "Albums"
 msgid "Picasa Albums"
 msgstr "Álbumes de Picasa"
 
@@ -1679,7 +1675,6 @@ msgstr "Resultados para «%s»"
 
 #: ../kupfer/plugin/google_search.py:64
 #, python-format
-#| msgid "Results for \"%s\""
 msgid "Show More Results For \"%s\""
 msgstr "Mostrar más resultados para «%s»"
 
@@ -1699,7 +1694,6 @@ msgstr "Traducir texto con Google"
 
 #. TRANS: Dictionary lookup word classes
 #: ../kupfer/plugin/google_translate.py:55
-#| msgid "Unmount"
 msgid "noun"
 msgstr "sustantivo"
 
@@ -1712,7 +1706,6 @@ msgid "adjective"
 msgstr "adjetivo"
 
 #: ../kupfer/plugin/google_translate.py:90
-#| msgid "Google Translate"
 msgid "Google Translate connection timed out"
 msgstr "Expiró el tiempo de conexión con Google Translate"
 
@@ -1918,16 +1911,14 @@ msgid "OpenOffice"
 msgstr "OpenOffice"
 
 #: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:119
-#, fuzzy
 #| msgid "Recently used documents in Abiword"
 msgid "Recently used documents in OpenOffice"
-msgstr "Documentos recientemente utilizados en Abiword"
+msgstr "Documentos recientemente utilizados en OpenOffice"
 
 #: ../kupfer/plugin/openoffice.py:61
-#, fuzzy
 #| msgid "Recent Items"
 msgid "OpenOffice Recent Items"
-msgstr "Elementos recientes"
+msgstr "Elementos recientes de OpenOffice"
 
 #: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:27
 msgid "Opera Bookmarks"
@@ -2062,7 +2053,6 @@ msgid "Shorten With..."
 msgstr "Abrir con…"
 
 #: ../kupfer/plugin/shorten_links.py:146
-#| msgid "%s Service"
 msgid "Services"
 msgstr "Servicios"
 
@@ -2072,10 +2062,9 @@ msgid "Skype"
 msgstr "Skype"
 
 #: ../kupfer/plugin/skype.py:5
-#, fuzzy
 #| msgid "Access to Gajim Contacts"
 msgid "Access to Skype contacts"
-msgstr "Acceder a los contactos de Gajim"
+msgstr "Acceder a los contactos de Skype"
 
 #: ../kupfer/plugin/skype.py:31
 msgid "Skype Me"
@@ -2088,13 +2077,12 @@ msgid "Logged Out"
 msgstr "Cerrar sesión…"
 
 #: ../kupfer/plugin/skype.py:183
-#, fuzzy, python-format
+#, python-format
 #| msgid "[%(status)s] %(userid)s/%(service)s"
 msgid "[%(status)s] %(userid)s"
-msgstr "[%(status)s] %(userid)s/%(service)s"
+msgstr "[%(status)s] %(userid)s"
 
 #: ../kupfer/plugin/skype.py:225
-#| msgid "Calculate"
 msgid "Call"
 msgstr "Llamar"
 
@@ -2103,12 +2091,10 @@ msgid "Place a call to contact"
 msgstr ""
 
 #: ../kupfer/plugin/skype.py:274
-#| msgid "Gajim Contacts"
 msgid "Skype Contacts"
 msgstr "Contactos de Skype"
 
 #: ../kupfer/plugin/skype.py:294
-#| msgid "Save State"
 msgid "Skype Statuses"
 msgstr "Estados de Skype"
 
@@ -2148,7 +2134,6 @@ msgid "Empty File"
 msgstr "Archivo vacío"
 
 #: ../kupfer/plugin/templates.py:49
-#| msgid "Open folder"
 msgid "New Folder"
 msgstr "Carpeta nueva"
 
@@ -2161,7 +2146,6 @@ msgid "Create a new document from template"
 msgstr "Crear un documento nuevo desde una plantilla"
 
 #: ../kupfer/plugin/templates.py:105
-#| msgid "Create New Document..."
 msgid "Create Document In..."
 msgstr "Crear documento en…"
 
@@ -2170,22 +2154,18 @@ msgid "Textfiles"
 msgstr "Archivos de texto"
 
 #: ../kupfer/plugin/textfiles.py:49
-#| msgid "Append to Note..."
 msgid "Append To..."
 msgstr "Añadir a…"
 
 #: ../kupfer/plugin/textfiles.py:73
-#| msgid "Append to Note..."
 msgid "Append..."
 msgstr "Añadir…"
 
 #: ../kupfer/plugin/textfiles.py:77
-#| msgid "Translate To..."
 msgid "Write To..."
 msgstr "Escribir a…"
 
 #: ../kupfer/plugin/textfiles.py:109
-#| msgid "Search Contents"
 msgid "Get Text Contents"
 msgstr "Obtener el contenido del texto"
 
@@ -2198,7 +2178,6 @@ msgid "File manager Thunar actions"
 msgstr "Acciones Thunar del gestor de archivos"
 
 #: ../kupfer/plugin/thunar.py:66
-#| msgid "Selected File"
 msgid "Select in File Manager"
 msgstr "Seleccionar en el gestor de archivos"
 
@@ -2207,7 +2186,6 @@ msgid "Show Properties"
 msgstr "Mostrar las propiedades"
 
 #: ../kupfer/plugin/thunar.py:95
-#| msgid "Show information about Kupfer authors and license"
 msgid "Show information about file in file manager"
 msgstr "Mostrar información acerca del archivo en el gestor de archivos"
 
@@ -2220,10 +2198,9 @@ msgid "Thunderbird"
 msgstr "Thunderbird"
 
 #: ../kupfer/plugin/thunderbird.py:7
-#, fuzzy
 #| msgid "Claws Mail Contacts and Actions"
 msgid "Thunderbird/Icedove Contacts and Actions"
-msgstr "Contactos y acciones de Claws Mail"
+msgstr "Contactos y acciones de Thunderbird/Icedove"
 
 #: ../kupfer/plugin/thunderbird.py:36
 msgid "Compose a new message in Thunderbird"
@@ -2234,21 +2211,20 @@ msgid "Thunderbird Address Book"
 msgstr "Libreta de direcciones de Thunderbird"
 
 #: ../kupfer/plugin/thunderbird.py:93
-#| msgid "Contacts from Claws Mail Address Book"
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Contactos de la libreta de direcciones de Thunderbird"
 
 #: ../kupfer/plugin/top.py:4
 msgid "Top"
-msgstr ""
+msgstr "Top"
 
 #: ../kupfer/plugin/top.py:6
 msgid "Show running tasks and allow sending signals to them"
-msgstr ""
+msgstr "Mostrar las tareas en ejecución y permitir mandarlas señales"
 
 #: ../kupfer/plugin/top.py:23
 msgid "Sort Order"
-msgstr ""
+msgstr "Ordenación"
 
 #: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
 #: ../kupfer/plugin/top.py:110
@@ -2257,15 +2233,14 @@ msgstr "Línea de comandos"
 
 #: ../kupfer/plugin/top.py:26
 msgid "CPU usage (descending)"
-msgstr ""
+msgstr "Uso de CPU (descendiente)"
 
 #. sort processes (top don't allow to sort via cmd line)
 #: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:108
 msgid "Memory usage (descending)"
-msgstr ""
+msgstr "Uso de memoria (descendiente)"
 
 #: ../kupfer/plugin/top.py:50
-#| msgid "Send Power Off Signal"
 msgid "Send Signal..."
 msgstr "Enviar señal…"
 
@@ -2364,7 +2339,6 @@ msgid "TrueCrypt volume: %(file)s"
 msgstr "Volumen TrueCrypt: %(file)s"
 
 #: ../kupfer/plugin/truecrypt.py:52
-#| msgid "Unmount this volume"
 msgid "Mount Volume"
 msgstr "Montar volumen"
 
@@ -2377,7 +2351,6 @@ msgid "Try to mount file as Truecrypt volume"
 msgstr "Intentar montar el archivo como un volumen TrueCrypt"
 
 #: ../kupfer/plugin/truecrypt.py:80
-#| msgid "Unmount this volume"
 msgid "Dismount All Volumes"
 msgstr "Desmontar todos los volúmenes"
 
@@ -2406,17 +2379,14 @@ msgid "Vinagre"
 msgstr "Vinagre"
 
 #: ../kupfer/plugin/vinagre.py:7
-#| msgid "Special items and actions"
 msgid "Vinagre bookmarks and actions"
 msgstr "Acciones y marcadores de Vinagre"
 
 #: ../kupfer/plugin/vinagre.py:34
-#| msgid "Start Session"
 msgid "Start Vinagre Session"
 msgstr "Iniciar sesión de Vinagre"
 
 #: ../kupfer/plugin/vinagre.py:72
-#| msgid "Firefox Bookmarks"
 msgid "Vinagre Bookmarks"
 msgstr "Marcadores de Vinagre"
 
