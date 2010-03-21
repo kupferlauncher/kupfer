@@ -21,6 +21,7 @@ from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
 from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
+from kupfer import kupferstring
 from kupfer import plugin_support
 
 
@@ -128,16 +129,17 @@ class TrackerQuerySource (Source):
 			return None
 
 # FIXME: Use dbus for this communication
+def cmd_output_lines(cmd):
+	return kupferstring.fromlocale(os.popen(cmd).read()).splitlines()
+
 def get_tracker_tags(for_file=None):
-	from os import popen
 	if not for_file:
-		output = popen("tracker-tag --list").readlines()
-		for tagline in output[1:]:
+		for tagline in cmd_output_lines("tracker-tag --list")[1:]:
 			tag, count = tagline.rsplit(",", 1)
 			tag = tag.strip()
 			yield tag
 	else:
-		output = popen("tracker-tag --list '%s'" % for_file).readlines()
+		output = cmd_output_lines("tracker-tag --list '%s'" % for_file)
 		for tagline in output[1:]:
 			fil, tagstr = tagline.rsplit(": ", 1)
 			tags = tagstr.strip().split("|")
@@ -145,8 +147,7 @@ def get_tracker_tags(for_file=None):
 				yield t
 
 def get_tracker_tag_items(tag):
-	from os import popen
-	output = popen("tracker-tag -s '%s'" % tag).readlines()
+	output = cmd_output_lines("tracker-tag -s '%s'" % tag)
 	for tagline in output[1:]:
 		yield tagline.strip()
 
