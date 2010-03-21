@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-08 23:11+0000\n"
-"PO-Revision-Date: 2010-03-11 10:34+0100\n"
+"POT-Creation-Date: 2010-03-21 00:11+0000\n"
+"PO-Revision-Date: 2010-03-21 16:31+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -322,7 +322,7 @@ msgstr[1] "%s Objekte"
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:73
+#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Öffnen"
@@ -406,7 +406,7 @@ msgid "Close"
 msgstr "Schließen"
 
 #: ../kupfer/obj/objects.py:326
-msgid "Attept to close all application windows"
+msgid "Attempt to close all application windows"
 msgstr "Versuchen, alle Anwendungsfenster zu schließen"
 
 #. TRANS: 'Run' as in Perform a (saved) command
@@ -791,8 +791,8 @@ msgstr "Ausgewählte Datei »%s«"
 msgid "Selected Files"
 msgstr "Ausgewählte Dateien"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:162
-#: ../kupfer/plugin/notes.py:214
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:168
+#: ../kupfer/plugin/notes.py:220
 msgid "Notes"
 msgstr "Notizen"
 
@@ -800,50 +800,50 @@ msgstr "Notizen"
 msgid "Gnote or Tomboy notes"
 msgstr "Gnote- oder Tomboy-Notizen"
 
-#: ../kupfer/plugin/notes.py:34
+#: ../kupfer/plugin/notes.py:35
 msgid "Work with application"
 msgstr "Mit einer Anwendung arbeiten"
 
-#: ../kupfer/plugin/notes.py:79
+#: ../kupfer/plugin/notes.py:85
 msgid "Open with notes application"
 msgstr "Mit der Notiz-Anwendung öffnen"
 
-#: ../kupfer/plugin/notes.py:86
+#: ../kupfer/plugin/notes.py:92
 msgid "Append to Note..."
 msgstr "An eine Notiz anfügen …"
 
-#: ../kupfer/plugin/notes.py:109
+#: ../kupfer/plugin/notes.py:115
 msgid "Add text to existing note"
 msgstr "Den Text zu einer bereits vorhandenen Notiz hinzufügen"
 
-#: ../kupfer/plugin/notes.py:121
+#: ../kupfer/plugin/notes.py:127
 msgid "Create Note"
 msgstr "Notiz erstellen"
 
-#: ../kupfer/plugin/notes.py:135
+#: ../kupfer/plugin/notes.py:141
 msgid "Create a new note from this text"
 msgstr "Eine neue Notiz aus diesem Text erstellen"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:147
 msgid "Get Note Search Results..."
 msgstr "Suchergebnisse für Notizen einholen …"
 
-#: ../kupfer/plugin/notes.py:154
+#: ../kupfer/plugin/notes.py:160
 msgid "Show search results for this query"
 msgstr "Suchergebnisse für diese Abfrage anzeigen"
 
-#: ../kupfer/plugin/notes.py:197
+#: ../kupfer/plugin/notes.py:203
 #, python-format
 msgid "today, %s"
 msgstr "heute, %s"
 
-#: ../kupfer/plugin/notes.py:199
+#: ../kupfer/plugin/notes.py:205
 #, python-format
 msgid "yesterday, %s"
 msgstr "gestern, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:209
 #, python-format
 msgid "Last updated %s"
 msgstr "Zuletzt aktualisiert %s"
@@ -972,11 +972,11 @@ msgid "Songs in Rhythmbox library"
 msgstr "Lieder in der Rhythmbox-Bibliothek"
 
 #: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:17
-msgid "Gnome Session Management"
+msgid "GNOME Session Management"
 msgstr "GNOME-Sitzungsverwaltung"
 
 #: ../kupfer/plugin/session_gnome.py:3
-msgid "Special items and actions for Gnome environment"
+msgid "Special items and actions for GNOME environment"
 msgstr "Spezielle Objekte und Aktionen für die GNOME-Arbeitsumgebung"
 
 #: ../kupfer/plugin/session_support.py:31
@@ -1509,11 +1509,11 @@ msgid "Gajim Account Status"
 msgstr "Kontenstatus von Gajim"
 
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
-msgid "Gnome Terminal Profiles"
+msgid "GNOME Terminal Profiles"
 msgstr "GNOME-Terminal-Profile"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch Gnome Terminal profiles"
+msgid "Launch GNOME Terminal profiles"
 msgstr "GNOME-Terminal-Profile starten"
 
 #. -*- coding: UTF-8 -*-
@@ -1626,7 +1626,7 @@ msgid "Search Google with results shown directly"
 msgstr "Mit Google suchen und Ergebnisse direkt anzeigen"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:67 ../kupfer/plugin/tracker.py:105
+#: ../kupfer/plugin/tracker.py:68 ../kupfer/plugin/tracker.py:106
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Ergebnisse für »%s«"
@@ -2208,57 +2208,57 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Einbindung der Tracker Desktop-Suche"
 
-#: ../kupfer/plugin/tracker.py:36
+#: ../kupfer/plugin/tracker.py:37
 msgid "Search in Tracker"
 msgstr "Mit Tracker suchen"
 
-#: ../kupfer/plugin/tracker.py:41
+#: ../kupfer/plugin/tracker.py:42
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Tracker Suchwerkzeug öffnen und nach diesem Begriff suchen"
 
-#: ../kupfer/plugin/tracker.py:50
+#: ../kupfer/plugin/tracker.py:51
 msgid "Get Tracker Results..."
 msgstr "Tracker-Ergebnisse einholen …"
 
-#: ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/tracker.py:60
 msgid "Show Tracker results for query"
 msgstr "Tracker Ergebnisse für den Suchbegriff anzeigen"
 
-#: ../kupfer/plugin/tracker.py:157 ../kupfer/plugin/tracker.py:163
+#: ../kupfer/plugin/tracker.py:158 ../kupfer/plugin/tracker.py:164
 msgid "Tracker tags"
 msgstr "Tracker-Schlagworte"
 
-#: ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:173
 msgid "Tracker Tags"
 msgstr "Tracker-Schlagworte"
 
-#: ../kupfer/plugin/tracker.py:178
+#: ../kupfer/plugin/tracker.py:179
 msgid "Browse Tracker's tags"
 msgstr "Tracker-Schlagworte anzeigen"
 
-#: ../kupfer/plugin/tracker.py:189 ../kupfer/plugin/tracker.py:196
+#: ../kupfer/plugin/tracker.py:190 ../kupfer/plugin/tracker.py:197
 #, python-format
 msgid "Tag %s"
 msgstr "Schlagwort %s"
 
-#: ../kupfer/plugin/tracker.py:203
+#: ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekte mit dem Schlagwort %s in Tracker"
 
-#: ../kupfer/plugin/tracker.py:215
+#: ../kupfer/plugin/tracker.py:216
 msgid "Add Tag..."
 msgstr "Schlagwort hinzufügen …"
 
-#: ../kupfer/plugin/tracker.py:241
+#: ../kupfer/plugin/tracker.py:242
 msgid "Add tracker tag to file"
 msgstr "Tracker-Schlagwort zur Datei hinzufügen"
 
-#: ../kupfer/plugin/tracker.py:247
+#: ../kupfer/plugin/tracker.py:248
 msgid "Remove Tag..."
 msgstr "Schlagwort entfernen …"
 
-#: ../kupfer/plugin/tracker.py:266
+#: ../kupfer/plugin/tracker.py:267
 msgid "Remove tracker tag from file"
 msgstr "Tracker-Schlagwort von der Datei entfernen"
 
@@ -2419,6 +2419,12 @@ msgstr "Zim-Seiten"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "In Zim-Notizbüchern gespeicherte Seiten"
+
+#~ msgid "Gnome Session Management"
+#~ msgstr "GNOME-Sitzungsverwaltung"
+
+#~ msgid "Special items and actions for Gnome environment"
+#~ msgstr "Spezielle Objekte und Aktionen für die GNOME-Arbeitsumgebung"
 
 #~ msgid "Google Mail"
 #~ msgstr "Google Mail"
