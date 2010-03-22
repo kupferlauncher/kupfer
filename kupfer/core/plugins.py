@@ -171,6 +171,10 @@ def _import_plugin_fake(modpath, error=None):
 	if not loader:
 		return None
 
+	code = loader.get_code(modpath)
+	if not code:
+		return None
+
 	try:
 		filename = loader.get_filename()
 	except AttributeError:
@@ -183,7 +187,7 @@ def _import_plugin_fake(modpath, error=None):
 		"__name__": modpath,
 		"__file__": filename,
 	}
-	code = _truncate_code(loader.get_code(modpath), info_attributes)
+	code = _truncate_code(code, info_attributes)
 	try:
 		eval(code, env)
 	except Exception, exc:
