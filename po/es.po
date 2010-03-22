@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-21 16:19+0000\n"
-"PO-Revision-Date: 2010-03-21 17:24+0100\n"
+"POT-Creation-Date: 2010-03-21 16:25+0000\n"
+"PO-Revision-Date: 2010-03-22 20:02+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,6 @@ msgid "Close"
 msgstr "Cerrar"
 
 #: ../kupfer/obj/objects.py:326
-#| msgid "Attept to close all application windows"
 msgid "Attempt to close all application windows"
 msgstr "Intentar cerrar todas las ventanas de la aplicación"
 
@@ -967,12 +966,10 @@ msgid "Songs in Rhythmbox library"
 msgstr "Canciones en la biblioteca de Rhythmbox"
 
 #: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:17
-#| msgid "XFCE Session Management"
 msgid "GNOME Session Management"
 msgstr "Gestión de la sesión de GNOME"
 
 #: ../kupfer/plugin/session_gnome.py:3
-#| msgid "Special items and actions for XFCE environment"
 msgid "Special items and actions for GNOME environment"
 msgstr "Elementos y acciones especiales para el entorno GNOME"
 
@@ -1065,6 +1062,8 @@ msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command' (Ctrl+Return)."
 msgstr ""
+"Asignar combinaciones de teclas globales (disparadores) a objetos creados "
+"con «Editar comando» (Ctrl+Intro)."
 
 #: ../kupfer/plugin/triggers.py:138
 msgid "Add Trigger..."
@@ -1214,7 +1213,7 @@ msgstr "Ventana en %(wkspc)s"
 
 #: ../kupfer/plugin/windows.py:59
 msgid "Frontmost Window"
-msgstr ""
+msgstr "Ventana de primer plano"
 
 #: ../kupfer/plugin/windows.py:88
 msgid "Next Window"
@@ -1225,7 +1224,6 @@ msgid "Jump to this window's workspace and focus"
 msgstr "Saltar al área de trabajo de esta ventana y dar foco"
 
 #: ../kupfer/plugin/windows.py:253
-#| msgid "Jump to this window's workspace and focus"
 msgid "Jump to this workspace"
 msgstr "Saltar a este área de trabajo"
 
@@ -1279,7 +1277,6 @@ msgid "Search Package Name..."
 msgstr "Buscar paquete por nombre…"
 
 #: ../kupfer/plugin/archiveinside.py:8
-#| msgid "Create Archive"
 msgid "Deep Archives"
 msgstr "Archivadores profundos"
 
@@ -1289,12 +1286,10 @@ msgstr "Permitir examinar dentro de archivadores comprimidos"
 
 #: ../kupfer/plugin/archiveinside.py:50
 #, python-format
-#| msgid "Translate into %s"
 msgid "Content of %s"
 msgstr "Contenido de %s"
 
 #: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:212
-#| msgid "Actions"
 msgid "Audacious"
 msgstr "Audacious"
 
@@ -1303,49 +1298,41 @@ msgid "Control Audacious playback and playlist"
 msgstr "Controlar la reproducción y listas de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:65
-#| msgid "Add tracks to the play queue"
 msgid "Add track to the Audacious play queue"
 msgstr "Añadir pistas a la cola de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:73
-#| msgid "Enqueue"
 msgid "Dequeue"
 msgstr "Dequeue"
 
 #: ../kupfer/plugin/audacious.py:77
-#| msgid "Add tracks to the play queue"
 msgid "Remove track from the Audacious play queue"
 msgstr "Quitar pistas de la cola de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:89
-#, fuzzy
 #| msgid "Jump to next track in Rhythmbox"
 msgid "Jump to track in Audacious"
-msgstr "Saltar a la pista siguiente en Rhythmbox"
+msgstr "Saltar a la pista siguiente en Audacious"
 
 #: ../kupfer/plugin/audacious.py:123
-#, fuzzy
 #| msgid "Resume playback in Rhythmbox"
 msgid "Resume playback in Audacious"
-msgstr "Continuar reproducción en Rhythmbox"
+msgstr "Continuar reproducción en Audacious"
 
 #: ../kupfer/plugin/audacious.py:133
-#, fuzzy
 #| msgid "Pause playback in Rhythmbox"
 msgid "Pause playback in Audacious"
-msgstr "Pausar reproducción en Rhythmbox"
+msgstr "Pausar reproducción en Audacious"
 
 #: ../kupfer/plugin/audacious.py:143
-#, fuzzy
 #| msgid "Jump to next track in Rhythmbox"
 msgid "Jump to next track in Audacious"
-msgstr "Saltar a la pista siguiente en Rhythmbox"
+msgstr "Saltar a la pista siguiente en Audacious"
 
 #: ../kupfer/plugin/audacious.py:153
-#, fuzzy
 #| msgid "Jump to previous track in Rhythmbox"
 msgid "Jump to previous track in Audacious"
-msgstr "Saltar a la pista anterior en Rhythmbox"
+msgstr "Saltar a la pista anterior en Audacious"
 
 #: ../kupfer/plugin/audacious.py:163
 msgid "Clear the Audacious play queue"
@@ -1360,7 +1347,6 @@ msgid "Toggle shuffle in Audacious"
 msgstr "Conmutar la reproducción aleatoria en Audacious"
 
 #: ../kupfer/plugin/audacious.py:179
-#| msgid "Reveal"
 msgid "Repeat"
 msgstr "Repetir"
 
@@ -1369,7 +1355,6 @@ msgid "Toggle repeat in Audacious"
 msgstr "Conmutar la repetición en Audacious"
 
 #: ../kupfer/plugin/audacious.py:198
-#| msgid "Play"
 msgid "Playlist"
 msgstr "Lista de reproducción"
 
@@ -1392,30 +1377,25 @@ msgstr "Contactos y acciones de Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
-#| msgid "Compose New Mail"
 msgid "Compose New Email"
 msgstr "Redactar un correo electrónico nuevo"
 
 #: ../kupfer/plugin/clawsmail.py:31
-#| msgid "Compose New Mail with Claws Mail"
 msgid "Compose a new message in Claws Mail"
 msgstr "Redactar un correo electrónico nuevo con Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:40
-#, fuzzy
 #| msgid "Receive All Mails"
 msgid "Receive All Email"
 msgstr "Recibir todos los correos"
 
 #: ../kupfer/plugin/clawsmail.py:46
-#, fuzzy
 #| msgid "Receive new mail from all accounts by ClawsMail"
 msgid "Receive new messages from all accounts in ClawsMail"
-msgstr "Recibir nuevo correo para todas las cuentas de Claws Mail"
+msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:55 ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
-#, fuzzy
 #| msgid "Compose New Mail"
 msgid "Compose Email"
 msgstr "Redactar un correo nuevo"
@@ -1423,13 +1403,12 @@ msgstr "Redactar un correo nuevo"
 #: ../kupfer/plugin/clawsmail.py:80 ../kupfer/plugin/defaultmail.py:43
 #: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
-msgstr ""
+msgstr "Enviar un correo-e a…"
 
 #: ../kupfer/plugin/clawsmail.py:106
-#, fuzzy
 #| msgid "Compose New Mail with Claws Mail"
 msgid "Compose new message in Claws Mail and attach file"
-msgstr "Redactar correo nuevo con Claws Mail"
+msgstr "Redactar mensaje nuevo con Claws Mail y adjuntar el archivo"
 
 #: ../kupfer/plugin/clawsmail.py:115
 msgid "Claws Mail Address Book"
@@ -1441,11 +1420,13 @@ msgstr "Contactos desde la libreta de direcciones de Claws Mail"
 
 #: ../kupfer/plugin/defaultmail.py:1
 msgid "Default Email Client"
-msgstr ""
+msgstr "Cliente de correo-e predeterminado"
 
 #: ../kupfer/plugin/defaultmail.py:6
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
+"Redactar un correo-e usando el manejador predeterminado del sistema para "
+"«mailto:»"
 
 #: ../kupfer/plugin/devhelp.py:1
 msgid "Devhelp"
@@ -1457,27 +1438,25 @@ msgstr "Buscar en Devhelp"
 
 #: ../kupfer/plugin/evolution.py:4
 msgid "Evolution"
-msgstr ""
+msgstr "Evolution"
 
 #: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
-#, fuzzy
 #| msgid "Pidgin Contacts"
 msgid "Evolution contacts"
-msgstr "Contactos de Pidgin"
+msgstr "Contactos de Evolution"
 
 #: ../kupfer/plugin/evolution.py:30
 msgid "Compose a new message in Evolution"
-msgstr ""
+msgstr "Escribir un mensaje nuevo en Evolution"
 
 #: ../kupfer/plugin/evolution.py:91
 msgid "Compose new message in Evolution and attach file"
-msgstr ""
+msgstr "Redactar mensaje nuevo con Evolution y adjuntar el archivo"
 
 #: ../kupfer/plugin/evolution.py:99
-#, fuzzy
 #| msgid "Claws Mail Address Book"
 msgid "Evolution Address Book"
-msgstr "Libreta de direcciones de Claws Mail"
+msgstr "Libreta de direcciones de Evolution"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gajim.py:2
@@ -1536,60 +1515,55 @@ msgid "Gajim Account Status"
 msgstr "Estado de las cuentas de Gajim"
 
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
-#, fuzzy
 #| msgid "Open Terminal Here"
 msgid "GNOME Terminal Profiles"
-msgstr "Abrir terminal aquí"
+msgstr "Perfiles de la terminal de GNOME"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-#, fuzzy
 #| msgid "Open Terminal Here"
 msgid "Launch GNOME Terminal profiles"
-msgstr "Abrir terminal aquí"
+msgstr "Lanzar los perfiles de la terminal de GNOME"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
-#, fuzzy
 #| msgid "Gajim"
 msgid "Gmail"
-msgstr "Gajim"
+msgstr "Gmail"
 
 #: ../kupfer/plugin/gmail/__init__.py:5
 msgid "Load contacts and compose new email in Gmail"
-msgstr ""
+msgstr "Cargar contactos y redactar un correo-e nuevo en GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:31
 msgid "Load contacts' pictures"
-msgstr ""
+msgstr "Cargar las imágenes de los contactos"
 
 #: ../kupfer/plugin/gmail/__init__.py:52
-#, fuzzy
 #| msgid "Compose New Mail"
 msgid "Compose Email in GMail"
-msgstr "Redactar un correo nuevo"
+msgstr "Redactar un correo-e nuevo en GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:75
 msgid "Open web browser and compose new email in GMail"
-msgstr ""
+msgstr "Abrir el navegador y redactar un correo-e nuevo en GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:170
 msgid "Contacts from Google services (Gmail)"
-msgstr ""
+msgstr "Contactos de los servicios de Google (GMail)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/google_picasa/__init__.py:2
-#, fuzzy
 #| msgid "Google Translate"
 msgid "Google Picasa"
-msgstr "Traducir con Google"
+msgstr "Google Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:5
 msgid "Show albums and upload files to Picasa"
-msgstr ""
+msgstr "Mostrar álbumes y subir archivos a Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:34
 msgid "Users to show: (,-separated)"
-msgstr ""
+msgstr "Usuarios para mostrar: (, -separados)"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:40
 msgid "Load user and album icons"
@@ -1631,19 +1605,19 @@ msgstr[1] "%(num)s fotos"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:293
 msgid "Upload to Picasa Album..."
-msgstr ""
+msgstr "Subir a un álbum en Picasa…"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:337
 msgid "Upload files to Picasa album"
-msgstr ""
+msgstr "Subir archivos al álbum de Picasa"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:343
 msgid "Upload to Picasa as New Album"
-msgstr ""
+msgstr "Subir a Picasa como un álbum nuevo"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:371
 msgid "Create album from selected local directory"
-msgstr ""
+msgstr "Crear un álbum desde la carpeta local seleccionada"
 
 #: ../kupfer/plugin/google_picasa/__init__.py:375
 #: ../kupfer/plugin/google_picasa/__init__.py:396
@@ -1735,36 +1709,33 @@ msgid "Show translation in browser"
 msgstr "Mostrar la traducción en un navegador"
 
 #: ../kupfer/plugin/higherorder.py:1
-#, fuzzy
 #| msgid "File Actions"
 msgid "Higher-order Actions"
-msgstr "Acciones sobre archivos"
+msgstr "Acciones de nivel más alto"
 
 #: ../kupfer/plugin/higherorder.py:7
 msgid "Tools to work with commands as objects"
-msgstr ""
+msgstr "Herramientas para trabajar como comandos como objetos"
 
 #: ../kupfer/plugin/higherorder.py:20
-#, fuzzy
 #| msgid "Selected File"
 msgid "Select in Kupfer"
-msgstr "Archivo seleccionado"
+msgstr "Seleccionar en Kupfer"
 
 #: ../kupfer/plugin/higherorder.py:59
-#, fuzzy, python-format
+#, python-format
 #| msgid "Results for \"%s\""
 msgid "Result of %s (%s)"
-msgstr "Resultados para «%s»"
+msgstr "Resultado de %s (%s)"
 
 #: ../kupfer/plugin/higherorder.py:75
-#, fuzzy
 #| msgid "Get Tracker Results..."
 msgid "Run (Take Result)"
-msgstr "Obtener resultados de Tracker…"
+msgstr "Ejecutar (obtener el resultado)"
 
 #: ../kupfer/plugin/higherorder.py:88
 msgid "Take the command result as a proxy object"
-msgstr ""
+msgstr "Tomar el resultado del comando como un objeto del proxy"
 
 #: ../kupfer/plugin/higherorder.py:93
 msgid "Run (Discard Result)"
@@ -1841,34 +1812,34 @@ msgstr "Twitter"
 #: ../kupfer/plugin/twitter/__init__.py:7
 msgid "Microblogging with Twitter: send updates and show friends' tweets"
 msgstr ""
+"Microblogging con Twitter: enviar actualizaciones y mostrar los «tweets» de "
+"mis amigos"
 
 #: ../kupfer/plugin/twitter/__init__.py:36
 msgid "Load friends' pictures"
-msgstr ""
+msgstr "Cargar las imágenes de mis amigos"
 
 #: ../kupfer/plugin/twitter/__init__.py:42
 msgid "Load friends' public tweets"
-msgstr ""
+msgstr "Cargar los «tweets» públicos de mis amigos"
 
 #: ../kupfer/plugin/twitter/__init__.py:48
 msgid "Load timeline"
-msgstr ""
+msgstr "Cargar cronología"
 
 #: ../kupfer/plugin/twitter/__init__.py:199
 msgid "Post Update to Twitter"
-msgstr ""
+msgstr "Publicar actualización en Twitter"
 
 #: ../kupfer/plugin/twitter/__init__.py:219
-#, fuzzy
 #| msgid "Send Message..."
 msgid "Send Direct Message..."
-msgstr "Enviar mensaje…"
+msgstr "Enviar mensaje directo…"
 
 #: ../kupfer/plugin/twitter/__init__.py:248
-#, fuzzy
 #| msgid "Send Message..."
 msgid "Send Direct Message To..."
-msgstr "Enviar mensaje…"
+msgstr "Enviar mensaje directo a…"
 
 #: ../kupfer/plugin/twitter/__init__.py:276
 msgid "Reply..."
@@ -1888,17 +1859,17 @@ msgid "Twitter Friends"
 msgstr "Amigos de Twitter"
 
 #: ../kupfer/plugin/twitter/__init__.py:373
-#, fuzzy, python-format
+#, python-format
 #| msgid "Settings for %s"
 msgid "Timeline for %s"
-msgstr "Preferencias para \"%s\""
+msgstr "Cronología de %s"
 
 #: ../kupfer/plugin/twitter/__init__.py:397 ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s (%d carácter)"
+msgstr[1] "%s (%d carácteres)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -2028,11 +1999,11 @@ msgstr "Servicio %s"
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/shorten_links.py:2
 msgid "Shorten Links"
-msgstr ""
+msgstr "Acortar enlaces"
 
 #: ../kupfer/plugin/shorten_links.py:4
 msgid "Create short aliases of long URLs"
-msgstr ""
+msgstr "Crear alias cortos para URL largas"
 
 #: ../kupfer/plugin/shorten_links.py:55 ../kupfer/plugin/shorten_links.py:108
 #: ../kupfer/plugin/shorten_links.py:112
@@ -2040,10 +2011,9 @@ msgid "Error"
 msgstr "Error"
 
 #: ../kupfer/plugin/shorten_links.py:119
-#, fuzzy
 #| msgid "Open With..."
 msgid "Shorten With..."
-msgstr "Abrir con…"
+msgstr "Acortar con…"
 
 #: ../kupfer/plugin/shorten_links.py:146
 msgid "Services"
@@ -2063,10 +2033,9 @@ msgid "Skype Me"
 msgstr "Eskypéame"
 
 #: ../kupfer/plugin/skype.py:37
-#, fuzzy
 #| msgid "Log Out..."
 msgid "Logged Out"
-msgstr "Cerrar sesión…"
+msgstr "Cerró la sesión"
 
 #: ../kupfer/plugin/skype.py:183
 #, python-format
@@ -2079,7 +2048,7 @@ msgstr "Llamar"
 
 #: ../kupfer/plugin/skype.py:239
 msgid "Place a call to contact"
-msgstr ""
+msgstr "Llamar al contacto"
 
 #: ../kupfer/plugin/skype.py:274
 msgid "Skype Contacts"
@@ -2105,7 +2074,7 @@ msgstr ""
 
 #: ../kupfer/plugin_support.py:114
 msgid "No D-Bus connection to desktop session"
-msgstr ""
+msgstr "Sin conexión de D-Bus con la sesión del escritorio"
 
 #: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:109
 msgid "Document Templates"
