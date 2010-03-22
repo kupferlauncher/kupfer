@@ -50,9 +50,7 @@ def apply_mallard(self):
 			src = self.path.find_resource('C/%s' % page)
 			tsk.set_inputs([node,src])
 			tsk.set_outputs(out)
-			instdir = os.path.join(self.install_path, lang)
-			if bld.is_install:
-				bld.install_files(instdir, out.abspath(self.env))
+			tsk.install_path = os.path.join(self.install_path, lang)
 	if bld.is_install:
 		for page in pages:
 			out = "%s/%s" % (cnode.abspath(), page)
