@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-21 00:11+0000\n"
-"PO-Revision-Date: 2010-03-21 16:31+0100\n"
+"POT-Creation-Date: 2010-03-24 13:39+0000\n"
+"PO-Revision-Date: 2010-03-24 22:31+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -586,28 +586,36 @@ msgstr "Ausdrücke beginnend mit »=« berechnen"
 msgid "Calculate"
 msgstr "Berechnen"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:43
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:65
 msgid "Clipboards"
 msgstr "Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:80
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:102
 msgid "Recent clipboards"
 msgstr "Aktuelle Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:19
+#: ../kupfer/plugin/clipboard.py:20
 msgid "Number of recent clipboards"
 msgstr "Anzahl der aktuellen Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:25
+#: ../kupfer/plugin/clipboard.py:26
 msgid "Include recent selections"
 msgstr "Kürzlich getroffene Auswahlen einschließen"
 
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:38
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Zwischenablage »%(desc)s«"
 msgstr[1] "Zwischenablage mit %(num)d Zeilen »%(desc)s«"
+
+#: ../kupfer/plugin/clipboard.py:45
+msgid "Clear"
+msgstr "Leeren"
+
+#: ../kupfer/plugin/clipboard.py:57
+msgid "Remove all recent clipboards"
+msgstr "Alle aktuellen Zwischenablagen entfernen"
 
 #: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:41
 msgid "Shell Commands"
