@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-21 16:25+0000\n"
-"PO-Revision-Date: 2010-03-22 20:02+0100\n"
+"POT-Creation-Date: 2010-03-24 13:39+0000\n"
+"PO-Revision-Date: 2010-03-24 21:10+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -581,28 +581,38 @@ msgstr "Calcular expresión empezando por «=»"
 msgid "Calculate"
 msgstr "Calcular"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:43
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:65
 msgid "Clipboards"
 msgstr "Portapapeles"
 
-#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:80
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:102
 msgid "Recent clipboards"
 msgstr "Portapapeles recientes"
 
-#: ../kupfer/plugin/clipboard.py:19
+#: ../kupfer/plugin/clipboard.py:20
 msgid "Number of recent clipboards"
 msgstr "Numero de portapapeles recientes"
 
-#: ../kupfer/plugin/clipboard.py:25
+#: ../kupfer/plugin/clipboard.py:26
 msgid "Include recent selections"
 msgstr "Incluir selecciones recientes"
 
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:38
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Portapapeles \"%(desc)s\""
 msgstr[1] "Portapapeles con %(num)d líneas «%(desc)s»"
+
+#: ../kupfer/plugin/clipboard.py:45
+#| msgid "Clear Queue"
+msgid "Clear"
+msgstr "Limpiar"
+
+#: ../kupfer/plugin/clipboard.py:57
+#| msgid "Number of recent clipboards"
+msgid "Remove all recent clipboards"
+msgstr "Limpiar todos los elementos recientes en el portapapeles"
 
 #: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:41
 msgid "Shell Commands"
@@ -1310,27 +1320,22 @@ msgid "Remove track from the Audacious play queue"
 msgstr "Quitar pistas de la cola de reproducción de Audacious"
 
 #: ../kupfer/plugin/audacious.py:89
-#| msgid "Jump to next track in Rhythmbox"
 msgid "Jump to track in Audacious"
 msgstr "Saltar a la pista siguiente en Audacious"
 
 #: ../kupfer/plugin/audacious.py:123
-#| msgid "Resume playback in Rhythmbox"
 msgid "Resume playback in Audacious"
 msgstr "Continuar reproducción en Audacious"
 
 #: ../kupfer/plugin/audacious.py:133
-#| msgid "Pause playback in Rhythmbox"
 msgid "Pause playback in Audacious"
 msgstr "Pausar reproducción en Audacious"
 
 #: ../kupfer/plugin/audacious.py:143
-#| msgid "Jump to next track in Rhythmbox"
 msgid "Jump to next track in Audacious"
 msgstr "Saltar a la pista siguiente en Audacious"
 
 #: ../kupfer/plugin/audacious.py:153
-#| msgid "Jump to previous track in Rhythmbox"
 msgid "Jump to previous track in Audacious"
 msgstr "Saltar a la pista anterior en Audacious"
 
@@ -1385,18 +1390,15 @@ msgid "Compose a new message in Claws Mail"
 msgstr "Redactar un correo electrónico nuevo con Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:40
-#| msgid "Receive All Mails"
 msgid "Receive All Email"
 msgstr "Recibir todos los correos"
 
 #: ../kupfer/plugin/clawsmail.py:46
-#| msgid "Receive new mail from all accounts by ClawsMail"
 msgid "Receive new messages from all accounts in ClawsMail"
 msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:55 ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
-#| msgid "Compose New Mail"
 msgid "Compose Email"
 msgstr "Redactar un correo nuevo"
 
@@ -1406,7 +1408,6 @@ msgid "Send in Email To..."
 msgstr "Enviar un correo-e a…"
 
 #: ../kupfer/plugin/clawsmail.py:106
-#| msgid "Compose New Mail with Claws Mail"
 msgid "Compose new message in Claws Mail and attach file"
 msgstr "Redactar mensaje nuevo con Claws Mail y adjuntar el archivo"
 
@@ -1441,7 +1442,6 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
-#| msgid "Pidgin Contacts"
 msgid "Evolution contacts"
 msgstr "Contactos de Evolution"
 
@@ -1454,7 +1454,6 @@ msgid "Compose new message in Evolution and attach file"
 msgstr "Redactar mensaje nuevo con Evolution y adjuntar el archivo"
 
 #: ../kupfer/plugin/evolution.py:99
-#| msgid "Claws Mail Address Book"
 msgid "Evolution Address Book"
 msgstr "Libreta de direcciones de Evolution"
 
@@ -1515,18 +1514,15 @@ msgid "Gajim Account Status"
 msgstr "Estado de las cuentas de Gajim"
 
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
-#| msgid "Open Terminal Here"
 msgid "GNOME Terminal Profiles"
 msgstr "Perfiles de la terminal de GNOME"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-#| msgid "Open Terminal Here"
 msgid "Launch GNOME Terminal profiles"
 msgstr "Lanzar los perfiles de la terminal de GNOME"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
-#| msgid "Gajim"
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -1539,7 +1535,6 @@ msgid "Load contacts' pictures"
 msgstr "Cargar las imágenes de los contactos"
 
 #: ../kupfer/plugin/gmail/__init__.py:52
-#| msgid "Compose New Mail"
 msgid "Compose Email in GMail"
 msgstr "Redactar un correo-e nuevo en GMail"
 
@@ -1553,7 +1548,6 @@ msgstr "Contactos de los servicios de Google (GMail)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/google_picasa/__init__.py:2
-#| msgid "Google Translate"
 msgid "Google Picasa"
 msgstr "Google Picasa"
 
@@ -1709,7 +1703,6 @@ msgid "Show translation in browser"
 msgstr "Mostrar la traducción en un navegador"
 
 #: ../kupfer/plugin/higherorder.py:1
-#| msgid "File Actions"
 msgid "Higher-order Actions"
 msgstr "Acciones de nivel más alto"
 
@@ -1718,18 +1711,15 @@ msgid "Tools to work with commands as objects"
 msgstr "Herramientas para trabajar como comandos como objetos"
 
 #: ../kupfer/plugin/higherorder.py:20
-#| msgid "Selected File"
 msgid "Select in Kupfer"
 msgstr "Seleccionar en Kupfer"
 
 #: ../kupfer/plugin/higherorder.py:59
 #, python-format
-#| msgid "Results for \"%s\""
 msgid "Result of %s (%s)"
 msgstr "Resultado de %s (%s)"
 
 #: ../kupfer/plugin/higherorder.py:75
-#| msgid "Get Tracker Results..."
 msgid "Run (Take Result)"
 msgstr "Ejecutar (obtener el resultado)"
 
@@ -1832,12 +1822,10 @@ msgid "Post Update to Twitter"
 msgstr "Publicar actualización en Twitter"
 
 #: ../kupfer/plugin/twitter/__init__.py:219
-#| msgid "Send Message..."
 msgid "Send Direct Message..."
 msgstr "Enviar mensaje directo…"
 
 #: ../kupfer/plugin/twitter/__init__.py:248
-#| msgid "Send Message..."
 msgid "Send Direct Message To..."
 msgstr "Enviar mensaje directo a…"
 
@@ -1860,7 +1848,6 @@ msgstr "Amigos de Twitter"
 
 #: ../kupfer/plugin/twitter/__init__.py:373
 #, python-format
-#| msgid "Settings for %s"
 msgid "Timeline for %s"
 msgstr "Cronología de %s"
 
@@ -2011,7 +1998,6 @@ msgid "Error"
 msgstr "Error"
 
 #: ../kupfer/plugin/shorten_links.py:119
-#| msgid "Open With..."
 msgid "Shorten With..."
 msgstr "Acortar con…"
 
@@ -2033,7 +2019,6 @@ msgid "Skype Me"
 msgstr "Eskypéame"
 
 #: ../kupfer/plugin/skype.py:37
-#| msgid "Log Out..."
 msgid "Logged Out"
 msgstr "Cerró la sesión"
 
