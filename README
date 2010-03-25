@@ -37,7 +37,7 @@ Requirements
 
 Kupfer requires Python 2.6 or later, and the following important libraries:
 
-* gtk python bindings, version 2.14
+* gtk python bindings, GTK+ version 2.16
 * glib python bindings (pygobject) 2.18
 * dbus python bindings
 * keyring python module

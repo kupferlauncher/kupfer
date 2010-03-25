@@ -109,7 +109,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.dir_table.get_selection().set_mode(gtk.SELECTION_BROWSE)
 
 		icon_cell = gtk.CellRendererPixbuf()
-			
+
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "gicon", 1)
 
@@ -264,7 +264,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 			return
 		plugin_id = first_row[0]
 		self.show_focus_plugin(plugin_id)
-
 
 	def on_checkplugin_toggled(self, cell, path):
 		checkcol = self.columns.index("enabled")
@@ -586,6 +585,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		s_filter = widget.get_text()
 		us_filter = kupferstring.tounicode(s_filter).lower()
 		self._refresh_plugin_list(us_filter)
+
+	def on_entry_plugins_filter_icon_press(self, entry, icon_pos, event):
+		entry.set_text('')
 
 	def dir_table_cursor_changed(self, table):
 		curpath, curcol = table.get_cursor()
