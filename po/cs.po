@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-07 18:27+0000\n"
-"PO-Revision-Date: 2010-03-07 20:55+0100\n"
+"POT-Creation-Date: 2010-03-24 13:39+0000\n"
+"PO-Revision-Date: 2010-03-20 09:27+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -318,7 +318,7 @@ msgstr[2] "%s objektů"
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:73
+#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Otevřít"
@@ -402,7 +402,9 @@ msgid "Close"
 msgstr "Zavřít"
 
 #: ../kupfer/obj/objects.py:326
-msgid "Attept to close all application windows"
+#, fuzzy
+#| msgid "Attept to close all application windows"
+msgid "Attempt to close all application windows"
 msgstr "Zkusit zavřít okna všech aplikací"
 
 #. TRANS: 'Run' as in Perform a (saved) command
@@ -583,25 +585,41 @@ msgstr "Vypočítat výraz začínajících „=“"
 msgid "Calculate"
 msgstr "Vypočítat"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:65
 msgid "Clipboards"
 msgstr "Schránky"
 
-#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:61
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:102
 msgid "Recent clipboards"
 msgstr "Nedávný obsah schránek"
 
-#: ../kupfer/plugin/clipboard.py:19
+#: ../kupfer/plugin/clipboard.py:20
 msgid "Number of recent clipboards"
 msgstr "Počet nedávných položek schránek"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:26
+msgid "Include recent selections"
+msgstr "Zahrnout nedávno vybrané"
+
+#: ../kupfer/plugin/clipboard.py:38
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Schránka „%(desc)s“"
 msgstr[1] "Schránka s %(num)d řádky „%(desc)s“"
 msgstr[2] "Schránka s %(num)d řádky „%(desc)s“"
+
+#: ../kupfer/plugin/clipboard.py:45
+#, fuzzy
+#| msgid "Clear Queue"
+msgid "Clear"
+msgstr "Vymazat frontu"
+
+#: ../kupfer/plugin/clipboard.py:57
+#, fuzzy
+#| msgid "Number of recent clipboards"
+msgid "Remove all recent clipboards"
+msgstr "Počet nedávných položek schránek"
 
 #: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:41
 msgid "Shell Commands"
@@ -785,8 +803,8 @@ msgstr "Vybraný soubor „%s“"
 msgid "Selected Files"
 msgstr "Vybrané soubory"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:162
-#: ../kupfer/plugin/notes.py:214
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:168
+#: ../kupfer/plugin/notes.py:220
 msgid "Notes"
 msgstr "Poznámky"
 
@@ -794,50 +812,50 @@ msgstr "Poznámky"
 msgid "Gnote or Tomboy notes"
 msgstr "Poznámky v aplikacích Gnote nebo Tomboy"
 
-#: ../kupfer/plugin/notes.py:34
+#: ../kupfer/plugin/notes.py:35
 msgid "Work with application"
 msgstr "Pracovat s aplikací"
 
-#: ../kupfer/plugin/notes.py:79
+#: ../kupfer/plugin/notes.py:85
 msgid "Open with notes application"
 msgstr "Otevřít s aplikací pro práci s poznámkami"
 
-#: ../kupfer/plugin/notes.py:86
+#: ../kupfer/plugin/notes.py:92
 msgid "Append to Note..."
 msgstr "Připojit k poznámce…"
 
-#: ../kupfer/plugin/notes.py:109
+#: ../kupfer/plugin/notes.py:115
 msgid "Add text to existing note"
 msgstr "Přidat text do stávající poznámky"
 
-#: ../kupfer/plugin/notes.py:121
+#: ../kupfer/plugin/notes.py:127
 msgid "Create Note"
 msgstr "Vytvořit poznámku"
 
-#: ../kupfer/plugin/notes.py:135
+#: ../kupfer/plugin/notes.py:141
 msgid "Create a new note from this text"
 msgstr "Vytvořit novou poznámku z tohoto textu"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:147
 msgid "Get Note Search Results..."
 msgstr "Získat výsledky vyhledávání poznámek…"
 
-#: ../kupfer/plugin/notes.py:154
+#: ../kupfer/plugin/notes.py:160
 msgid "Show search results for this query"
 msgstr "Zobrazit výsledky hledání pro tento dotaz"
 
-#: ../kupfer/plugin/notes.py:197
+#: ../kupfer/plugin/notes.py:203
 #, python-format
 msgid "today, %s"
 msgstr "dnes, %s"
 
-#: ../kupfer/plugin/notes.py:199
+#: ../kupfer/plugin/notes.py:205
 #, python-format
 msgid "yesterday, %s"
 msgstr "včera, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:209
 #, python-format
 msgid "Last updated %s"
 msgstr "Naposledy aktualizováno %s"
@@ -964,12 +982,16 @@ msgid "Songs in Rhythmbox library"
 msgstr "Skladba v knihovně Rhythmbox"
 
 #: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:17
-msgid "Gnome Session Management"
-msgstr "Správa sezení Gnome"
+#, fuzzy
+#| msgid "XFCE Session Management"
+msgid "GNOME Session Management"
+msgstr "Správa sezení XFCE"
 
 #: ../kupfer/plugin/session_gnome.py:3
-msgid "Special items and actions for Gnome environment"
-msgstr "Speciální položky a akce pro pracovní prostředí Gnome"
+#, fuzzy
+#| msgid "Special items and actions for XFCE environment"
+msgid "Special items and actions for GNOME environment"
+msgstr "Speciální položky a akce pro pracovní prostředí XFCE"
 
 #: ../kupfer/plugin/session_support.py:31
 msgid "Log Out..."
@@ -1502,11 +1524,15 @@ msgid "Gajim Account Status"
 msgstr "Stav účtu Gajim"
 
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
-msgid "Gnome Terminal Profiles"
+#, fuzzy
+#| msgid "Gnome Terminal Profiles"
+msgid "GNOME Terminal Profiles"
 msgstr "Profily terminálu Gnome"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch Gnome Terminal profiles"
+#, fuzzy
+#| msgid "Launch Gnome Terminal profiles"
+msgid "Launch GNOME Terminal profiles"
 msgstr "Profily pro spouštění terminálu Gnome"
 
 #. -*- coding: UTF-8 -*-
@@ -1621,7 +1647,7 @@ msgid "Search Google with results shown directly"
 msgstr "Vyhledávání pomocí Google s přímým zobrazením výsledků"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:67 ../kupfer/plugin/tracker.py:105
+#: ../kupfer/plugin/tracker.py:68 ../kupfer/plugin/tracker.py:106
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Výsledky pro „%s“"
@@ -1807,41 +1833,41 @@ msgstr "Načítat veřejné příspěvky přátel"
 msgid "Load timeline"
 msgstr "Načítat časovou posloupnost"
 
-#: ../kupfer/plugin/twitter/__init__.py:196
+#: ../kupfer/plugin/twitter/__init__.py:199
 msgid "Post Update to Twitter"
 msgstr "Odeslat aktualizaci na Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:216
+#: ../kupfer/plugin/twitter/__init__.py:219
 msgid "Send Direct Message..."
 msgstr "Odeslat přímou zprávu…"
 
-#: ../kupfer/plugin/twitter/__init__.py:245
+#: ../kupfer/plugin/twitter/__init__.py:248
 msgid "Send Direct Message To..."
 msgstr "Odeslat přímou zprávu pro…"
 
-#: ../kupfer/plugin/twitter/__init__.py:273
+#: ../kupfer/plugin/twitter/__init__.py:276
 msgid "Reply..."
 msgstr "Odpovědět…"
 
-#: ../kupfer/plugin/twitter/__init__.py:300
+#: ../kupfer/plugin/twitter/__init__.py:303
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/twitter/__init__.py:319
+#: ../kupfer/plugin/twitter/__init__.py:322
 msgid "Twitter Timeline"
 msgstr "Časová posloupnost Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:345
+#: ../kupfer/plugin/twitter/__init__.py:348
 msgid "Twitter Friends"
 msgstr "Přátelé na Twitteru"
 
-#: ../kupfer/plugin/twitter/__init__.py:370
+#: ../kupfer/plugin/twitter/__init__.py:373
 #, python-format
 msgid "Timeline for %s"
 msgstr "Časová posloupnost pro %s"
 
-#: ../kupfer/plugin/twitter/__init__.py:394 ../kupfer/plugin/pidgin.py:111
+#: ../kupfer/plugin/twitter/__init__.py:397 ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -2207,57 +2233,57 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Vyhledávač Tracker integrovaný v pracovním prostředí"
 
-#: ../kupfer/plugin/tracker.py:36
+#: ../kupfer/plugin/tracker.py:37
 msgid "Search in Tracker"
 msgstr "Vyhledat prohledávačem Tracker"
 
-#: ../kupfer/plugin/tracker.py:41
+#: ../kupfer/plugin/tracker.py:42
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Otevřít vyhledávací nástroj Tracker a vyhledat tento výraz"
 
-#: ../kupfer/plugin/tracker.py:50
+#: ../kupfer/plugin/tracker.py:51
 msgid "Get Tracker Results..."
 msgstr "Získat výsledky prohledávače Tracker…"
 
-#: ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/tracker.py:60
 msgid "Show Tracker results for query"
 msgstr "Zobrazit výsledky dotazu z prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:157 ../kupfer/plugin/tracker.py:163
+#: ../kupfer/plugin/tracker.py:158 ../kupfer/plugin/tracker.py:164
 msgid "Tracker tags"
 msgstr "Značky prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:173
 msgid "Tracker Tags"
 msgstr "Značky prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:178
+#: ../kupfer/plugin/tracker.py:179
 msgid "Browse Tracker's tags"
 msgstr "Procházet značky prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:189 ../kupfer/plugin/tracker.py:196
+#: ../kupfer/plugin/tracker.py:190 ../kupfer/plugin/tracker.py:197
 #, python-format
 msgid "Tag %s"
 msgstr "Značka %s"
 
-#: ../kupfer/plugin/tracker.py:203
+#: ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekt má značku %s od prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:215
+#: ../kupfer/plugin/tracker.py:216
 msgid "Add Tag..."
 msgstr "Přidat značku…"
 
-#: ../kupfer/plugin/tracker.py:241
+#: ../kupfer/plugin/tracker.py:242
 msgid "Add tracker tag to file"
 msgstr "Přidat souboru značku prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:247
+#: ../kupfer/plugin/tracker.py:248
 msgid "Remove Tag..."
 msgstr "Odstranit značku…"
 
-#: ../kupfer/plugin/tracker.py:266
+#: ../kupfer/plugin/tracker.py:267
 msgid "Remove tracker tag from file"
 msgstr "Odstranit souboru značku prohledávače Tracker"
 
