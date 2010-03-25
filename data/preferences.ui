@@ -346,11 +346,12 @@
                             <property name="label" translatable="yes">&lt;i&gt;Plugins may not be unloaded at runtime&lt;/i&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
+                            <property name="width_chars">30</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="padding">5</property>
+                            <property name="padding">2</property>
                             <property name="position">2</property>
                           </packing>
                         </child>
