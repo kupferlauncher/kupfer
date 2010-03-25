@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-11 19:15+0100\n"
-"PO-Revision-Date: 2010-03-11 19:28+0100\n"
+"POT-Creation-Date: 2010-03-25 20:28+0100\n"
+"PO-Revision-Date: 2010-03-25 20:28+0100\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -31,14 +31,17 @@ msgstr "Wykonaj w Kupferze"
 msgid "Saved Kupfer Command"
 msgstr "Zapisane polecenie programu Kupfer"
 
+msgid "<b>Browser Keyboard Shortcuts</b>"
+msgstr "<b>Skróty klawiszowe listy elementów</b>"
+
 msgid "<b>Directories</b>"
 msgstr "<b>Katalogi</b>"
 
+msgid "<b>Global Keyboard Shortcuts</b>"
+msgstr "<b>Globalne skróty klawiszowe</b>"
+
 msgid "<b>Interface</b>"
 msgstr "<b>Interfejs</b>"
-
-msgid "<b>Keybinding</b>"
-msgstr "<b>Skrót klawiszowy</b>"
 
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
@@ -50,11 +53,17 @@ msgstr ""
 msgid "General"
 msgstr "Ogólne"
 
+msgid "Keyboard"
+msgstr "Klawiatura"
+
 msgid "Kupfer Preferences"
 msgstr "Ustawienia Kupfera"
 
 msgid "Plugins"
 msgstr "Wtyczki"
+
+msgid "Reset"
+msgstr "Przywróć"
 
 msgid "Show icon in notification area"
 msgstr "Wyświetlanie ikony w obszarze powiadamiania"
@@ -73,6 +82,21 @@ msgstr "_Hasło:"
 
 msgid "_User:"
 msgstr "_Użytkownik:"
+
+msgid ""
+"<span weight=\"bold\" size=\"larger\">Set keybinding</span>\n"
+"\n"
+"Please press expected key"
+msgstr ""
+"<span weight=\"bold\" size=\"larger\">Ustaw klawisz skrótu</span>\n"
+"\n"
+"Proszę nacisnąć klawisz"
+
+msgid "Get key"
+msgstr "Pobierz klawisz"
+
+msgid "Keybinding could not be bound"
+msgstr "Przypisanie klawisza nie powiodło się"
 
 msgid "do not present main interface on launch"
 msgstr "nie pokazuj głównego okna po uruchomieniu"
@@ -126,11 +150,32 @@ msgstr "Pisz aby przeszukać %s"
 msgid "No action"
 msgstr "Brak akcji"
 
-msgid "Applied"
-msgstr "Przypisano"
+msgid "Show main interface"
+msgstr "Wyświetlenie głównego interfejsu"
 
-msgid "Keybinding could not be bound"
-msgstr "Przypisanie klawisza nie powiodło się"
+msgid "Toggle text mode"
+msgstr "Przełączenie trybu tekstowego"
+
+msgid "Switch to source"
+msgstr "Przełączenie do źródła"
+
+msgid "Reset all"
+msgstr "Zresetowanie"
+
+msgid "Select selected file"
+msgstr "Wybranie wybranego pliku"
+
+msgid "Select selected text"
+msgstr "Wybranie zaznaczonego tekstu"
+
+msgid "Select quit"
+msgstr "Wybranie wyjścia"
+
+msgid "Activate"
+msgstr "Aktywuj"
+
+msgid "Compose action"
+msgstr "Komponowanie akcji"
 
 #. TRANS: Plugin info fields
 msgid "Description"
@@ -174,6 +219,15 @@ msgstr "Ustaw nazwę i hasło użytkownika"
 #. TRANS: File Chooser Title
 msgid "Choose a Directory"
 msgstr "Wybór katalog"
+
+msgid "Reset all keybindings to default values?"
+msgstr "Czy przywrócić wszystkie skróty klawiszowe do ich domyślnych wartości?"
+
+msgid "Name"
+msgstr "Nazwa"
+
+msgid "Key"
+msgstr "Klawisz"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
@@ -317,7 +371,7 @@ msgstr "Uruchamia kolejną instancję programu"
 msgid "Close"
 msgstr "Zamknij"
 
-msgid "Attept to close all application windows"
+msgid "Attempt to close all application windows"
 msgstr "Próbuje zamknąć wszystkie okna aplikacji"
 
 #. TRANS: 'Run' as in Perform a (saved) command
@@ -475,6 +529,12 @@ msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Schowek z %(num)d linią \"%(desc)s\""
 msgstr[1] "Schowek z %(num)d liniami \"%(desc)s\""
 msgstr[2] "Schowek z %(num)d liniami \"%(desc)s\""
+
+msgid "Clear"
+msgstr "Wyczyść"
+
+msgid "Remove all recent clipboards"
+msgstr "Usunięcie wszystkich schowków"
 
 msgid "Shell Commands"
 msgstr "Komendy powłoki"
@@ -748,11 +808,11 @@ msgstr "Utwory"
 msgid "Songs in Rhythmbox library"
 msgstr "Utwory w bibliotece Rhythmboksa"
 
-msgid "Gnome Session Management"
-msgstr "Menadżer sesji Gnome"
+msgid "GNOME Session Management"
+msgstr "Menadżer sesji GNOME"
 
-msgid "Special items and actions for Gnome environment"
-msgstr "Specjalne elementy i akcje dla środowiska Gnome"
+msgid "Special items and actions for GNOME environment"
+msgstr "Specjalne elementy i akcje dla środowiska GNOME"
 
 msgid "Log Out..."
 msgstr "Wyloguj..."
@@ -901,9 +961,6 @@ msgstr "Lista okien"
 
 msgid "All windows on all workspaces"
 msgstr "Wszystkie okna ze wszystkich obszarów roboczych"
-
-msgid "Activate"
-msgstr "Aktywuj"
 
 msgid "Shade"
 msgstr "Zwiń"
@@ -1148,11 +1205,11 @@ msgstr "Kontakty Gajima"
 msgid "Gajim Account Status"
 msgstr "Status konta w Gajim"
 
-msgid "Gnome Terminal Profiles"
-msgstr "Profile Terminala Gnome"
+msgid "GNOME Terminal Profiles"
+msgstr "Profile Terminala GNOME"
 
-msgid "Launch Gnome Terminal profiles"
-msgstr "Uruchomianie profili Terminala Gnome"
+msgid "Launch GNOME Terminal profiles"
+msgstr "Uruchomianie profili Terminala GNOME"
 
 #. -*- coding: UTF-8 -*-
 msgid "Gmail"
@@ -1842,6 +1899,24 @@ msgstr "Strony Zima"
 
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
+
+#~ msgid "<b>Keybindings</b>"
+#~ msgstr "<b>Skróty klawiszowe</b>"
+
+#~ msgid "Keybindings"
+#~ msgstr "Skróty klawiszowe"
+
+#~ msgid "Set default"
+#~ msgstr "Ustaw domyślne"
+
+#~ msgid "Gnome Session Management"
+#~ msgstr "Menadżer sesji Gnome"
+
+#~ msgid "Special items and actions for Gnome environment"
+#~ msgstr "Specjalne elementy i akcje dla środowiska Gnome"
+
+#~ msgid "Applied"
+#~ msgstr "Przypisano"
 
 #~ msgid "Google Mail"
 #~ msgstr "Poczta Google"
