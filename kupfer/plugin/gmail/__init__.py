@@ -17,7 +17,6 @@ from kupfer.obj.special import PleaseConfigureLeaf, InvalidCredentialsLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 from kupfer import plugin_support, pretty, utils, icons, kupferstring
-from kupfer.obj.helplib import background_loader
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
@@ -34,8 +33,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	}
 )
 
-UPDATE_STARTU_DELAY_S = 5
-UPDATE_INTERVAL_S = 15*60 # 15 min
 GMAIL_NEW_MAIL_URL = \
 	"https://mail.google.com/mail/?view=cm&ui=2&tf=0&to=%(emails)s&fs=1"
 
@@ -88,9 +85,6 @@ def get_gclient():
 	return gd_client
 
 
-# background loader
-@background_loader(interval=UPDATE_INTERVAL_S, delay=UPDATE_STARTU_DELAY_S,
-		name='gmail-contacts')
 def get_contacts():
 	''' load all contacts '''
 	pretty.print_debug(__name__, 'get_contacts start')
@@ -146,13 +140,6 @@ class GoogleContactsSource(ToplevelGroupingSource):
 	def __init__(self, name=_("Gmail")):
 		super(GoogleContactsSource, self).__init__(name, "Contacts")
 		self._version = 3
-
-	def initialize(self):
-		ToplevelGroupingSource.initialize(self)
-		# fill loader cache by source cache
-		get_contacts.fill_cache(self.cached_items)
-		# start background job
-		get_contacts.bind_and_start(self.mark_for_update)
 
 	def get_items(self):
 		if is_plugin_configured():

@@ -17,7 +17,6 @@ from kupfer.objects import UrlLeaf, Source
 from kupfer.obj.special import PleaseConfigureLeaf, InvalidCredentialsLeaf
 from kupfer import plugin_support, pretty, icons
 from kupfer.ui.progress_dialog import ProgressDialogController
-from kupfer.obj.helplib import background_loader
 from kupfer import kupferstring
 from kupfer import utils
 from kupfer import task
@@ -44,8 +43,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 
-UPDATE_DELAY_S = 15
-UPDATE_INTERVAL_S = 30 * 60 # 30 min
 ALBUM_URL = '/data/feed/api/user/%s/albumid/%s'
 USER_URL = 'http://picasaweb.google.com/%(user)s'
 
@@ -129,7 +126,8 @@ class UploadTask(task.ThreadTask):
 			progress_dialog.hide()
 
 	def thread_finish(self):
-		get_albums.activate()
+		pass
+#		get_albums.activate()
 
 
 def picasa_login():
@@ -177,50 +175,55 @@ def get_user_leaf(gd_client, user_name):
 	return leaf
 
 
-@background_loader(interval=UPDATE_INTERVAL_S, delay=UPDATE_DELAY_S,
-		name='picasa-albums')
-def get_albums():
-	''' Load user albums, and albums users defined in 'showusers' setting. '''
-	pretty.print_debug(__name__, 'get_albums')
-	start_time = time.time()
-	gd_client = picasa_login()
-	if not gd_client:
-		return [InvalidCredentialsLeaf(__name__, __kupfer_name__)]
+class PicasaDataCache():
+	data = []
 
-	pusers = []
-	try:
-		user = __kupfer_settings__['userpass'].username
-		user_names = (__kupfer_settings__['showusers'] or '').split(',')
-		if user not in user_names:
-			user_names.append(user)
+	@classmethod
+	def get_albums(cls, force=False):
+		''' Load user albums, and albums users defined in 'showusers' setting. '''
+		pretty.print_debug(__name__, 'get_albums', str(force))
+		if cls.data and not force:
+			return cls.data
+		start_time = time.time()
+		gd_client = picasa_login()
+		if not gd_client:
+			return [InvalidCredentialsLeaf(__name__, __kupfer_name__)]
 
-		for user_name in user_names:
-			pretty.print_debug(__name__, 'get_albums: get album', user_name)
-			# get user info
-			picasa_user_leaf = get_user_leaf(gd_client, user_name)
-			if picasa_user_leaf is None:
-				continue
-			picasa_user_leaf.my_albums = (user_name == user) # mark my albums
-			# get albums
-			user_albums = []
-			for album in gd_client.GetUserFeed(user=user_name).entry:
-				# get album thumbnail:
-				thumb = None
-				if album.media.thumbnail and __kupfer_settings__['loadicons']:
-					thumb = get_thumb(gd_client, album.media.thumbnail[0].url)
-				name = kupferstring.tounicode(album.title.text)
-				album = PicasaAlbum(album.GetAlternateLink().href,
-						name, album.numphotos.text,
-						album.gphoto_id.text, thumb,
-						kupferstring.tounicode(user_name))
-				user_albums.append(album)
-			picasa_user_leaf.update_albums(user_albums)
-			pusers.append(picasa_user_leaf)
-	except gdata.service.Error, err:
-		pretty.print_error(__name__, 'get_albums', err)
-	pretty.print_debug(__name__, 'get_albums finished', 'loaded: ', len(pusers),
-			str(time.time()-start_time))
-	return pusers
+		pusers = []
+		try:
+			user = __kupfer_settings__['userpass'].username
+			user_names = (__kupfer_settings__['showusers'] or '').split(',')
+			if user not in user_names:
+				user_names.append(user)
+
+			for user_name in user_names:
+				pretty.print_debug(__name__, 'get_albums: get album', user_name)
+				# get user info
+				picasa_user_leaf = get_user_leaf(gd_client, user_name)
+				if picasa_user_leaf is None:
+					continue
+				picasa_user_leaf.my_albums = (user_name == user) # mark my albums
+				# get albums
+				user_albums = []
+				for album in gd_client.GetUserFeed(user=user_name).entry:
+					# get album thumbnail:
+					thumb = None
+					if album.media.thumbnail and __kupfer_settings__['loadicons']:
+						thumb = get_thumb(gd_client, album.media.thumbnail[0].url)
+					name = kupferstring.tounicode(album.title.text)
+					album = PicasaAlbum(album.GetAlternateLink().href,
+							name, album.numphotos.text,
+							album.gphoto_id.text, thumb,
+							kupferstring.tounicode(user_name))
+					user_albums.append(album)
+				picasa_user_leaf.update_albums(user_albums)
+				pusers.append(picasa_user_leaf)
+		except gdata.service.Error, err:
+			pretty.print_error(__name__, 'get_albums', err)
+		pretty.print_debug(__name__, 'get_albums finished', 'loaded: ', len(pusers),
+				str(time.time()-start_time))
+		cls.data = pusers
+		return pusers
 
 
 def _get_valid_files_in_dir(dir_path):
@@ -377,7 +380,7 @@ class PicasaPrivAlbumsSource(Source):
 
 	def get_items(self):
 		if is_plugin_configured():
-			for user in get_albums() or []:
+			for user in PicasaDataCache.get_albums() or []:
 				if user.my_albums:
 					return user.albums
 		return []
@@ -398,12 +401,12 @@ class PicasaUsersSource(Source):
 		self._version = 2
 
 	def initialize(self):
-		get_albums.fill_cache(self.cached_items)
-		get_albums.bind_and_start(self.mark_for_update)
+		# fill loader cache by source cache
+		PicasaDataCache.data = self.cached_items
 
 	def get_items(self):
 		if is_plugin_configured():
-			return get_albums() or []
+			return PicasaDataCache.get_albums(True) or []
 		return [PleaseConfigureLeaf(__name__, __kupfer_name__)]
 
 	def should_sort_lexically(self):
