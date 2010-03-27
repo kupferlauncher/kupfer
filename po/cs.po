@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-24 13:39+0000\n"
-"PO-Revision-Date: 2010-03-20 09:27+0100\n"
+"POT-Creation-Date: 2010-03-26 00:36+0000\n"
+"PO-Revision-Date: 2010-03-25 18:14+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,57 +175,57 @@ msgid "Keybinding could not be bound"
 msgstr "Nelze najít klávesovou zkratku"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:322
+#: ../kupfer/ui/preferences.py:321
 msgid "Description"
 msgstr "Popis"
 
-#: ../kupfer/ui/preferences.py:322
+#: ../kupfer/ui/preferences.py:321
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:339
+#: ../kupfer/ui/preferences.py:338
 msgid "Version"
 msgstr "Verze"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:349
+#: ../kupfer/ui/preferences.py:348
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Je zapotřebí modul Python „%s“"
 
-#: ../kupfer/ui/preferences.py:363
+#: ../kupfer/ui/preferences.py:362
 msgid "Plugin could not be read due to an error:"
 msgstr "Zásuvný modul nemohl být načten kvůli výskytu chyby:"
 
-#: ../kupfer/ui/preferences.py:372 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:371 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "vypnutý"
 
-#: ../kupfer/ui/preferences.py:444
+#: ../kupfer/ui/preferences.py:443
 msgid "Content of"
 msgstr "Obsah"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:453
+#: ../kupfer/ui/preferences.py:452
 msgid "Sources"
 msgstr "Zdroje"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:457
+#: ../kupfer/ui/preferences.py:456
 msgid "Actions"
 msgstr "Akce"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:495
+#: ../kupfer/ui/preferences.py:494
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../kupfer/ui/preferences.py:515
+#: ../kupfer/ui/preferences.py:514
 msgid "Set username and password"
 msgstr "Nastavit jméno a heslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:569
+#: ../kupfer/ui/preferences.py:568
 msgid "Choose a Directory"
 msgstr "Výběr složky"
 
@@ -402,8 +402,6 @@ msgid "Close"
 msgstr "Zavřít"
 
 #: ../kupfer/obj/objects.py:326
-#, fuzzy
-#| msgid "Attept to close all application windows"
 msgid "Attempt to close all application windows"
 msgstr "Zkusit zavřít okna všech aplikací"
 
@@ -610,16 +608,12 @@ msgstr[1] "Schránka s %(num)d řádky „%(desc)s“"
 msgstr[2] "Schránka s %(num)d řádky „%(desc)s“"
 
 #: ../kupfer/plugin/clipboard.py:45
-#, fuzzy
-#| msgid "Clear Queue"
 msgid "Clear"
-msgstr "Vymazat frontu"
+msgstr "Vyčistit"
 
 #: ../kupfer/plugin/clipboard.py:57
-#, fuzzy
-#| msgid "Number of recent clipboards"
 msgid "Remove all recent clipboards"
-msgstr "Počet nedávných položek schránek"
+msgstr "Odstranit všechny nedávné položky ze schránky"
 
 #: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:41
 msgid "Shell Commands"
@@ -982,16 +976,12 @@ msgid "Songs in Rhythmbox library"
 msgstr "Skladba v knihovně Rhythmbox"
 
 #: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:17
-#, fuzzy
-#| msgid "XFCE Session Management"
 msgid "GNOME Session Management"
-msgstr "Správa sezení XFCE"
+msgstr "Správa sezení GNOME"
 
 #: ../kupfer/plugin/session_gnome.py:3
-#, fuzzy
-#| msgid "Special items and actions for XFCE environment"
 msgid "Special items and actions for GNOME environment"
-msgstr "Speciální položky a akce pro pracovní prostředí XFCE"
+msgstr "Speciální položky a akce pro pracovní prostředí GNOME"
 
 #: ../kupfer/plugin/session_support.py:31
 msgid "Log Out..."
@@ -1524,16 +1514,12 @@ msgid "Gajim Account Status"
 msgstr "Stav účtu Gajim"
 
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
-#, fuzzy
-#| msgid "Gnome Terminal Profiles"
 msgid "GNOME Terminal Profiles"
-msgstr "Profily terminálu Gnome"
+msgstr "Profily terminálu GNOME"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-#, fuzzy
-#| msgid "Launch Gnome Terminal profiles"
 msgid "Launch GNOME Terminal profiles"
-msgstr "Profily pro spouštění terminálu Gnome"
+msgstr "Profily pro spouštění terminálu GNOME"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:146
