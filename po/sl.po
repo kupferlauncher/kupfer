@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-12 03:13+0000\n"
-"PO-Revision-Date: 2010-03-12 18:30+0100\n"
+"POT-Creation-Date: 2010-03-27 12:35+0000\n"
+"PO-Revision-Date: 2010-03-28 20:20+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -173,58 +173,58 @@ msgid "Keybinding could not be bound"
 msgstr "Tipkovna bližnjica ne more biti vezana"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:322
+#: ../kupfer/ui/preferences.py:321
 msgid "Description"
 msgstr "Opis"
 
-#: ../kupfer/ui/preferences.py:322
+#: ../kupfer/ui/preferences.py:321
 msgid "Author"
 msgstr "Avtor"
 
-#: ../kupfer/ui/preferences.py:339
+#: ../kupfer/ui/preferences.py:338
 msgid "Version"
 msgstr "Različica"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:349
+#: ../kupfer/ui/preferences.py:348
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Zahtevan je Python modul '%s'"
 
-#: ../kupfer/ui/preferences.py:363
+#: ../kupfer/ui/preferences.py:362
 msgid "Plugin could not be read due to an error:"
 msgstr "Vstavka ni mogoče prebrati zaradi napake:"
 
-#: ../kupfer/ui/preferences.py:372
+#: ../kupfer/ui/preferences.py:371
 #: ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "onemogočeno"
 
-#: ../kupfer/ui/preferences.py:444
+#: ../kupfer/ui/preferences.py:443
 msgid "Content of"
 msgstr "Vsebina"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:453
+#: ../kupfer/ui/preferences.py:452
 msgid "Sources"
 msgstr "Viri"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:457
+#: ../kupfer/ui/preferences.py:456
 msgid "Actions"
 msgstr "Dejanja"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:495
+#: ../kupfer/ui/preferences.py:494
 msgid "Configuration"
 msgstr "Nastavitev"
 
-#: ../kupfer/ui/preferences.py:515
+#: ../kupfer/ui/preferences.py:514
 msgid "Set username and password"
 msgstr "Nastavi uporabniško imein geslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:569
+#: ../kupfer/ui/preferences.py:568
 msgid "Choose a Directory"
 msgstr "Izbor mape"
 
@@ -321,7 +321,7 @@ msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
 #: ../kupfer/obj/fileactions.py:25
-#: ../kupfer/plugin/notes.py:73
+#: ../kupfer/plugin/notes.py:79
 #: ../kupfer/plugin/gnome_terminal.py:36
 #: ../kupfer/plugin/zim.py:107
 msgid "Open"
@@ -408,7 +408,7 @@ msgid "Close"
 msgstr "Zapri"
 
 #: ../kupfer/obj/objects.py:326
-msgid "Attept to close all application windows"
+msgid "Attempt to close all application windows"
 msgstr "Poskus zapiranja vseh oken programa"
 
 #. TRANS: 'Run' as in Perform a (saved) command
@@ -599,24 +599,24 @@ msgid "Calculate"
 msgstr "Izračunaj"
 
 #: ../kupfer/plugin/clipboard.py:1
-#: ../kupfer/plugin/clipboard.py:43
+#: ../kupfer/plugin/clipboard.py:65
 msgid "Clipboards"
 msgstr "Odložišča"
 
-#: ../kupfer/plugin/clipboard.py:3
-#: ../kupfer/plugin/clipboard.py:80
+#: ../kupfer/plugin/clipboard.py:4
+#: ../kupfer/plugin/clipboard.py:102
 msgid "Recent clipboards"
 msgstr "Nedavna odložišča"
 
-#: ../kupfer/plugin/clipboard.py:19
+#: ../kupfer/plugin/clipboard.py:20
 msgid "Number of recent clipboards"
 msgstr "Število nedavnih odložišč"
 
-#: ../kupfer/plugin/clipboard.py:25
+#: ../kupfer/plugin/clipboard.py:26
 msgid "Include recent selections"
 msgstr "Vključi nedavne izbire"
 
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:38
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -624,6 +624,14 @@ msgstr[0] "Odložišče z %(num)d vrsticami \"%(desc)s\""
 msgstr[1] "Odložišče z %(num)d vrstico \"%(desc)s\""
 msgstr[2] "Odložišče z %(num)d vrsticama \"%(desc)s\""
 msgstr[3] "Odložišče z %(num)d vrsticami \"%(desc)s\""
+
+#: ../kupfer/plugin/clipboard.py:45
+msgid "Clear"
+msgstr "Počisti"
+
+#: ../kupfer/plugin/clipboard.py:57
+msgid "Remove all recent clipboards"
+msgstr "Odstrani vsa nedavna odložišča"
 
 #: ../kupfer/plugin/commands.py:1
 #: ../kupfer/plugin/commands.py:41
@@ -819,8 +827,8 @@ msgid "Selected Files"
 msgstr "Izbrane datoteke"
 
 #: ../kupfer/plugin/notes.py:6
-#: ../kupfer/plugin/notes.py:162
-#: ../kupfer/plugin/notes.py:214
+#: ../kupfer/plugin/notes.py:168
+#: ../kupfer/plugin/notes.py:220
 msgid "Notes"
 msgstr "Sporočilca"
 
@@ -828,50 +836,50 @@ msgstr "Sporočilca"
 msgid "Gnote or Tomboy notes"
 msgstr "Gnote ali Tomboy sporočilca"
 
-#: ../kupfer/plugin/notes.py:34
+#: ../kupfer/plugin/notes.py:35
 msgid "Work with application"
 msgstr "Delo s programom"
 
-#: ../kupfer/plugin/notes.py:79
+#: ../kupfer/plugin/notes.py:85
 msgid "Open with notes application"
 msgstr "Odpri s programom sporočilc"
 
-#: ../kupfer/plugin/notes.py:86
+#: ../kupfer/plugin/notes.py:92
 msgid "Append to Note..."
 msgstr "Pripni sporočilcu ..."
 
-#: ../kupfer/plugin/notes.py:109
+#: ../kupfer/plugin/notes.py:115
 msgid "Add text to existing note"
 msgstr "Dodajanje besedila obstoječemu sporočilcu"
 
-#: ../kupfer/plugin/notes.py:121
+#: ../kupfer/plugin/notes.py:127
 msgid "Create Note"
 msgstr "Ustvari sporočilce"
 
-#: ../kupfer/plugin/notes.py:135
+#: ../kupfer/plugin/notes.py:141
 msgid "Create a new note from this text"
 msgstr "Ustvarjanje novega sporočilca iz tega besedila"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:147
 msgid "Get Note Search Results..."
 msgstr "Dobivam rezultate iskanja sporočilc ..."
 
-#: ../kupfer/plugin/notes.py:154
+#: ../kupfer/plugin/notes.py:160
 msgid "Show search results for this query"
 msgstr "Pokaži rezultate iskanja za to poizvedbo"
 
-#: ../kupfer/plugin/notes.py:197
+#: ../kupfer/plugin/notes.py:203
 #, python-format
 msgid "today, %s"
 msgstr "danes, %s"
 
-#: ../kupfer/plugin/notes.py:199
+#: ../kupfer/plugin/notes.py:205
 #, python-format
 msgid "yesterday, %s"
 msgstr "včeraj, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:209
 #, python-format
 msgid "Last updated %s"
 msgstr "Zadnjič posodobljeno %s"
@@ -1009,11 +1017,11 @@ msgstr "Pesmi v knjižnici Rhythmbox"
 
 #: ../kupfer/plugin/session_gnome.py:1
 #: ../kupfer/plugin/session_gnome.py:17
-msgid "Gnome Session Management"
+msgid "GNOME Session Management"
 msgstr "Upravljanje seje Gnome"
 
 #: ../kupfer/plugin/session_gnome.py:3
-msgid "Special items and actions for Gnome environment"
+msgid "Special items and actions for GNOME environment"
 msgstr "Posebni predmeti in dejanja za okolje Gnome"
 
 #: ../kupfer/plugin/session_support.py:31
@@ -1575,12 +1583,12 @@ msgstr "Stanje računa Gajim"
 
 #: ../kupfer/plugin/gnome_terminal.py:1
 #: ../kupfer/plugin/gnome_terminal.py:52
-msgid "Gnome Terminal Profiles"
+msgid "GNOME Terminal Profiles"
 msgstr "Profili Gnome Terminala"
 
 #: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch Gnome Terminal profiles"
-msgstr "Naloži profile Gnome Terminala"
+msgid "Launch GNOME Terminal profiles"
+msgstr "Zaženi profile Gnome Terminala"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2
@@ -1699,8 +1707,8 @@ msgstr "Iskanje Google z neposredno prikazanimi rezultati"
 
 #: ../kupfer/plugin/google_search.py:46
 #: ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:67
-#: ../kupfer/plugin/tracker.py:105
+#: ../kupfer/plugin/tracker.py:68
+#: ../kupfer/plugin/tracker.py:106
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultati za \"%s\""
@@ -2300,60 +2308,60 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Povezava s Tracker namiznim iskanjem"
 
-#: ../kupfer/plugin/tracker.py:36
+#: ../kupfer/plugin/tracker.py:37
 msgid "Search in Tracker"
 msgstr "Išči v Tracker-ju"
 
-#: ../kupfer/plugin/tracker.py:41
+#: ../kupfer/plugin/tracker.py:42
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Odprtje iskalnega orodja Tracker in iskanje tega izraza"
 
-#: ../kupfer/plugin/tracker.py:50
+#: ../kupfer/plugin/tracker.py:51
 msgid "Get Tracker Results..."
 msgstr "Dobi rezultate Tracker-ja ..."
 
-#: ../kupfer/plugin/tracker.py:59
+#: ../kupfer/plugin/tracker.py:60
 msgid "Show Tracker results for query"
 msgstr "Pokaži rezultate sledilnika za poizvedbo"
 
-#: ../kupfer/plugin/tracker.py:157
-#: ../kupfer/plugin/tracker.py:163
+#: ../kupfer/plugin/tracker.py:158
+#: ../kupfer/plugin/tracker.py:164
 msgid "Tracker tags"
 msgstr "Oznake Tracker"
 
-#: ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:173
 msgid "Tracker Tags"
 msgstr "Oznake Tracker"
 
-#: ../kupfer/plugin/tracker.py:178
+#: ../kupfer/plugin/tracker.py:179
 msgid "Browse Tracker's tags"
 msgstr "Prebrskaj oznake Tracker-ja"
 
-#: ../kupfer/plugin/tracker.py:189
-#: ../kupfer/plugin/tracker.py:196
+#: ../kupfer/plugin/tracker.py:190
+#: ../kupfer/plugin/tracker.py:197
 #, python-format
 msgid "Tag %s"
 msgstr "Oznaka %s"
 
-#: ../kupfer/plugin/tracker.py:203
+#: ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Predmeti označeni %s s Tracker-jem"
 
-#: ../kupfer/plugin/tracker.py:215
+#: ../kupfer/plugin/tracker.py:216
 msgid "Add Tag..."
 msgstr "Dodaj oznako ..."
 
-#: ../kupfer/plugin/tracker.py:241
+#: ../kupfer/plugin/tracker.py:242
 msgid "Add tracker tag to file"
 msgstr "Dodajanje oznake sledilca v datoteko"
 
-#: ../kupfer/plugin/tracker.py:247
+#: ../kupfer/plugin/tracker.py:248
 msgid "Remove Tag..."
 msgstr "Odstrani oznako ..."
 
 # sledilec ali sledilnik???
-#: ../kupfer/plugin/tracker.py:266
+#: ../kupfer/plugin/tracker.py:267
 msgid "Remove tracker tag from file"
 msgstr "Odstranitev oznake sledilca iz datoteke"
 
@@ -2511,6 +2519,10 @@ msgstr "Strani Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležnicah Zim"
 
+#~ msgid "Gnome Session Management"
+#~ msgstr "Upravljanje seje Gnome"
+#~ msgid "Special items and actions for Gnome environment"
+#~ msgstr "Posebni predmeti in dejanja za okolje Gnome"
 #~ msgid "label"
 #~ msgstr "oznaka"
 #~ msgid "Google Mail"
