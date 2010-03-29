@@ -1,5 +1,5 @@
 
-from kupfer.objects import Source
+from kupfer.objects import Source, Leaf
 from kupfer.objects import RunnableLeaf
 from kupfer import commandexec
 
@@ -30,6 +30,30 @@ class KupferInterals (Source):
 	def provides(self):
 		yield LastCommand
 
+class LastResultObject (Leaf):
+	"dummy superclass"
+
+def _make_first_result_object(leaf):
+	global LastResultObject
+	class LastResultObject (LastResultObject):
+		qf_id = "lastresult"
+		def __init__(self, leaf):
+			Leaf.__init__(self, leaf.object, _("Last Result"))
+			vars(self).update(vars(leaf))
+			self.name = _("Last Result")
+			self.__orignal_leaf = leaf
+			self.__class__.__bases__ = (leaf.__class__, Leaf)
+
+		def get_gicon(self):
+			return None
+		def get_icon_name(self):
+			return Leaf.get_icon_name(self)
+		def get_description(self):
+			return unicode(self.__orignal_leaf)
+
+	return LastResultObject(leaf)
+
+
 class CommandResults (Source):
 	def __init__(self):
 		Source.__init__(self, _("Command Results"))
@@ -39,5 +63,12 @@ class CommandResults (Source):
 		ctx = commandexec.DefaultActionExecutionContext()
 		for x in reversed(ctx.last_results):
 			yield x
+		try:
+			leaf = ctx.last_results[-1]
+		except IndexError:
+			return
+		yield _make_first_result_object(leaf)
+
 	def provides(self):
-		return ()
+		yield Leaf
+		yield LastResultObject
