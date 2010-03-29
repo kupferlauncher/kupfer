@@ -25,6 +25,7 @@ from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer import utils, pretty
 from kupfer import plugin_support
 from kupfer import commandexec
+from kupfer import runtimehelper
 
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -287,6 +288,7 @@ class CreateArchiveIn (Action):
 			utils.get_destpath_in_directory(dirpath, basename, archive_type)
 		cmd = ["file-roller", "--add-to=%s" % (archive_path, )]
 		cmd.extend(filepaths)
+		runtimehelper.register_async_file_result(archive_path)
 		utils.spawn_async(cmd)
 		return archive_path
 

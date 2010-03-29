@@ -18,10 +18,8 @@ import subprocess
 
 from kupfer.objects import Leaf, Action, FileLeaf, TextLeaf
 from kupfer import utils, pretty
+from kupfer import runtimehelper
 
-
-class PredefinedSize (Leaf):
-	pass
 
 class Scale (Action):
 	def __init__(self):
@@ -38,6 +36,7 @@ class Scale (Action):
 		filename = "%s_%s%s" % (head, size, ext)
 		dpath = utils.get_destpath_in_directory(dirname, filename)
 		cmdline = "convert -scale '%s' '%s' '%s'" % (size, fpath, dpath)
+		runtimehelper.register_async_file_result(dpath)
 		utils.launch_commandline(cmdline)
 		return FileLeaf(dpath)
 
@@ -53,7 +52,6 @@ class Scale (Action):
 		return True
 
 	def object_types(self):
-		yield PredefinedSize
 		yield TextLeaf
 
 	@classmethod
@@ -71,10 +69,7 @@ class Scale (Action):
 		return size
 
 	def valid_object(self, obj, for_item=None):
-		if isinstance(obj, TextLeaf):
-			return self._make_size(obj.object)
-		elif isinstance(obj, PredefinedSize):
-			return True
+		return self._make_size(obj.object)
 
 	def get_description(self):
 		return _("Scale image to fit inside given pixel measure(s)")
@@ -95,6 +90,7 @@ class RotateBase (Action):
 		dpath = utils.get_destpath_in_directory(dirname, filename)
 		cmdline = ("jpegtran -copy all -rotate '%s' -outfile '%s' '%s'" %
 				(self.rotation, dpath, fpath))
+		runtimehelper.register_async_file_result(dpath)
 		utils.launch_commandline(cmdline)
 		return FileLeaf(dpath)
 
