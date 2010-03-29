@@ -6,7 +6,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gio
 
-from kupfer.objects import Leaf, Action, Source, SourceLeaf
+from kupfer.objects import Leaf, Action, Source, SourceLeaf, FileLeaf
 from kupfer.obj.fileactions import Open
 from kupfer import utils, icons, pretty
 
@@ -17,6 +17,9 @@ TRASH_URI = 'trash://'
 class RestoreTrashedFile (Action):
 	def __init__(self):
 		Action.__init__(self, _("Restore"))
+
+	def has_result(self):
+		return True
 
 	def activate(self, leaf):
 		orig_path = leaf.get_orig_path()
@@ -29,6 +32,7 @@ class RestoreTrashedFile (Action):
 		pretty.print_debug(__name__, "Move %s to %s" % (cur_gfile, orig_gfile))
 		ret = cur_gfile.move(orig_gfile)
 		pretty.print_debug(__name__, "Move ret=%s" % (ret, ))
+		return FileLeaf(orig_gfile.get_path())
 
 	def get_description(self):
 		return _("Move file back to original location")
