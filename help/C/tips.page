@@ -9,13 +9,6 @@
 
   <title>Basic Usage</title>
 
-  <p>
-    By default, with the keybinder module installed,
-    <keyseq><key>Ctrl</key><key>Space</key></keyseq> 
-    will summon the Kupfer window. This and other global keybinding can be
-    configured in the preferences.
-  </p>
-
   <section>
     <title>The Catalog</title>
     <p>
@@ -106,7 +99,8 @@
     <p>
       Kupfer listens to global shortcuts, even if Kupfer is not
       currently in the foreground. The most important global shortcut is
-      the shortcut to show and hide Kupfer's command window.
+      the shortcut to show and hide Kupfer's command window which by
+      default is <keyseq><key>Ctrl</key><key>Space</key></keyseq>.
     </p>
     <p>
       Global Keyboard Shortcuts are configured in Kupfer's preferences.
