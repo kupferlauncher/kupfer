@@ -732,8 +732,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		return result
 
 
-_conf_keys_list_columns = [{"key": "name", "type":str, 'header': _('Name')},
-		{"key": "key", "type": str, 'header': _('Key') },
+_conf_keys_list_columns = [{"key": "name", "type":str, 'header': _('Command')},
+		{"key": "key", "type": str, 'header': _('Shortcut') },
 		{"key": "keybinding_id", "type": str, 'header':  None}]
 _conf_keys_list_column_types = [c["type"] for c in _conf_keys_list_columns]
 
