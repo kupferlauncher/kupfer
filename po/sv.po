@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-16 01:04+0100\n"
+"POT-Creation-Date: 2010-03-29 06:57+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -35,14 +35,17 @@ msgstr "Kör i Kupfer"
 msgid "Saved Kupfer Command"
 msgstr "Sparat Kupfer-kommando"
 
+msgid "<b>Browser Keyboard Shortcuts</b>"
+msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
+
 msgid "<b>Directories</b>"
 msgstr "<b>Kataloger</b>"
 
+msgid "<b>Global Keyboard Shortcuts</b>"
+msgstr "<b>Globala Tagentbordsgenvägar</b>"
+
 msgid "<b>Interface</b>"
 msgstr "<b>Gränssnitt</b>"
-
-msgid "<b>Keybinding</b>"
-msgstr "<b>Snabbtangent</b>"
 
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
@@ -53,17 +56,27 @@ msgstr "<i>Insticksmoduler deaktiveras först efter omstart</i>"
 msgid "General"
 msgstr "Allmänt"
 
+msgid "Keyboard"
+msgstr "Tangentbord"
+
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
 
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
+msgid "Reset"
+msgstr "Återställ"
+
 msgid "Show icon in notification area"
 msgstr "Visa ikon i notifieringsytan"
 
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
+
+msgid "Use single keystroke commands (Space, /, period, comma etc.)"
+msgstr ""
+"Använd enstaka tangenter som kommandon (Blanksteg, /, punkt, komma etc.)"
 
 msgid "User credentials"
 msgstr "Användaruppgifter"
@@ -76,6 +89,15 @@ msgstr "_Lösenord:"
 
 msgid "_User:"
 msgstr "_Användare:"
+
+msgid "Keybinding could not be bound"
+msgstr "Snabbtangenten kunde inte bindas"
+
+msgid "Please press desired key combination"
+msgstr "Tryck önskad tangentkombination"
+
+msgid "Set Keyboard Shortcut"
+msgstr "Ställ in tangentgenväg"
 
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
@@ -129,11 +151,41 @@ msgstr "Skriv för att söka i %s"
 msgid "No action"
 msgstr "Inget kommando"
 
-msgid "Applied"
-msgstr "Verkställt"
+msgid "Show Main Interface"
+msgstr "Visa huvudgränssnitt"
 
-msgid "Keybinding could not be bound"
-msgstr "Snabbtangenten kunde inte bindas"
+msgid "Show with Selection"
+msgstr "Visa med markering"
+
+msgid "Alternate Activate"
+msgstr "Alternativ aktivera"
+
+msgid "Comma Trick"
+msgstr "Kommatricket"
+
+msgid "Compose Command"
+msgstr "Bygg kommando"
+
+msgid "Reset All"
+msgstr "Återställ alla"
+
+msgid "Select Quit"
+msgstr "Välj Avsluta"
+
+msgid "Select Selected File"
+msgstr "Välj Markerad fil"
+
+msgid "Select Selected Text"
+msgstr "Välj Markering"
+
+msgid "Show Help"
+msgstr "Visa Hjälp"
+
+msgid "Switch to First Pane"
+msgstr "Välj första rutan"
+
+msgid "Toggle Text Mode"
+msgstr "Växla fritextläge"
 
 #. TRANS: Plugin info fields
 msgid "Description"
@@ -177,6 +229,15 @@ msgstr "Ställ in användaruppgifter"
 #. TRANS: File Chooser Title
 msgid "Choose a Directory"
 msgstr "Välj mapp"
+
+msgid "Reset all shortcuts to default values?"
+msgstr "Återställ alla genvägar till standardinställningen?"
+
+msgid "Command"
+msgstr "Kommando"
+
+msgid "Shortcut"
+msgstr "Genväg"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
@@ -314,7 +375,7 @@ msgstr "Starta programmet igen"
 msgid "Close"
 msgstr "Stäng"
 
-msgid "Attept to close all application windows"
+msgid "Attempt to close all application windows"
 msgstr "Försök att stänga alla programmets fönster"
 
 #. TRANS: 'Run' as in Perform a (saved) command
@@ -470,6 +531,12 @@ msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Urklipp \"%(desc)s\""
 msgstr[1] "Urklipp med %(num)d rader \"%(desc)s\""
+
+msgid "Clear"
+msgstr "Rensa"
+
+msgid "Remove all recent clipboards"
+msgstr "Ta bort senaste urklipp"
 
 msgid "Shell Commands"
 msgstr "Skalkommandon"
@@ -741,11 +808,11 @@ msgstr "Låtar"
 msgid "Songs in Rhythmbox library"
 msgstr "Låtar i Rhythmboxs bibliotek"
 
-msgid "Gnome Session Management"
-msgstr "Sessionshantering i Gnome"
+msgid "GNOME Session Management"
+msgstr "Sessionshantering i GNOME"
 
-msgid "Special items and actions for Gnome environment"
-msgstr "Speicella objekt och kommandon för Gnome"
+msgid "Special items and actions for GNOME environment"
+msgstr "Speicella objekt och kommandon för GNOME"
 
 msgid "Log Out..."
 msgstr "Logga ut..."
@@ -1140,11 +1207,11 @@ msgstr "Gajim-kontakter"
 msgid "Gajim Account Status"
 msgstr "Gajim status"
 
-msgid "Gnome Terminal Profiles"
-msgstr "Gnome terminal-profiler"
+msgid "GNOME Terminal Profiles"
+msgstr "GNOME-terminal-profiler"
 
-msgid "Launch Gnome Terminal profiles"
-msgstr "Starta Gnome terminal-profiler"
+msgid "Launch GNOME Terminal profiles"
+msgstr "Starta GNOME-terminal-profiler"
 
 #. -*- coding: UTF-8 -*-
 msgid "Gmail"
