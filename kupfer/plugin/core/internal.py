@@ -48,6 +48,8 @@ def _make_first_result_object(leaf):
 			return None
 		def get_icon_name(self):
 			return Leaf.get_icon_name(self)
+		def get_thumbnail(self, w, h):
+			return None
 		def get_description(self):
 			return unicode(self.__orignal_leaf)
 
