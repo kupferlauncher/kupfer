@@ -3,7 +3,7 @@ from kupfer.objects import Source
 from kupfer.objects import RunnableLeaf
 from kupfer import commandexec
 
-__kupfer_sources__ = ("KupferInterals", )
+__kupfer_sources__ = ("KupferInterals", "CommandResults", )
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class LastCommand (RunnableLeaf):
@@ -29,3 +29,15 @@ class KupferInterals (Source):
 		yield LastCommand(ctx.last_command)
 	def provides(self):
 		yield LastCommand
+
+class CommandResults (Source):
+	def __init__(self):
+		Source.__init__(self, _("Command Results"))
+	def is_dynamic(self):
+		return True
+	def get_items(self):
+		ctx = commandexec.DefaultActionExecutionContext()
+		for x in reversed(ctx.last_results):
+			yield x
+	def provides(self):
+		return ()

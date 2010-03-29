@@ -426,9 +426,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
 		self._search_ids = itertools.count(1)
+		self._latest_interaction = -1
 		self._execution_context = commandexec.DefaultActionExecutionContext()
 		self._execution_context.connect("command-result",
 				self._command_execution_result)
+		self._execution_context.connect("late-command-result",
+				self._late_command_execution_result)
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
@@ -636,6 +639,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 
 		self.cancel_search(pane)
+		self._latest_interaction = self._execution_context.last_command_id
 		ctl = self._panectl_table[pane]
 		ctl.outstanding_search_id = self._search_ids.next()
 		wrapcontext = (ctl.outstanding_search_id, context)
@@ -789,6 +793,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		else:
 			return
 		self.emit("command-result", result_type)
+
+	def _late_command_execution_result(self, ctx, id_, result_type, ret):
+		"Receive late command result"
+		if self._latest_interaction < id_:
+			self._command_execution_result(ctx, result_type, ret)
 
 	def find_object(self, url):
 		"""Find object with URI @url and select it in the first pane"""

@@ -25,7 +25,9 @@ merge multiple return values.
 """
 from __future__ import with_statement
 
+import collections
 import contextlib
+import itertools
 import sys
 
 import gobject
@@ -40,6 +42,8 @@ from kupfer.obj.compose import MultipleLeaf
 
 RESULT_NONE, RESULT_OBJECT, RESULT_SOURCE, RESULT_ASYNC = (1, 2, 3, 4)
 RESULTS_SYNC = (RESULT_OBJECT, RESULT_SOURCE)
+
+_MAX_LAST_RESULTS = 10
 
 _action_exec_context = None
 def DefaultActionExecutionContext():
@@ -136,6 +140,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		self.last_command_id = -1
 		self.last_command = None
 		self.last_executed_command = None
+		self.last_results = collections.deque([], _MAX_LAST_RESULTS)
 
 	def check_valid(self, obj, action, iobj):
 		pass
@@ -193,8 +198,25 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		self._do_error_conversion(cmdtuple, exc_info)
 
 	def register_late_result(self, token, result):
-		"Register a late result (as in result object, not factory or async)"
-		self.output_info("Late result", repr(result))
+		"Register a late result (as in result Leaf, not factory or async)"
+		self.output_info("Late result", repr(result), "for", token)
+		command_id, (_ign1, action, _ign2) = token
+		if result is None:
+			raise ActionExecutionError("Late result from %s was None" % action)
+		res_name = unicode(result)
+		res_desc = result.get_description()
+		if res_desc:
+			description = "%s (%s)" % (res_name, res_desc)
+		else:
+			description = res_name
+		uiutils.show_notification(_('"%s" produced a result') % action,
+				description)
+		self.emit("late-command-result", command_id, RESULT_OBJECT, result)
+		self._append_result(RESULT_OBJECT, result)
+
+	def _append_result(self, res_type, result):
+		if res_type == RESULT_OBJECT:
+			self.last_results.append(result)
 
 	def run(self, obj, action, iobj, delegate=False):
 		"""
@@ -238,12 +260,12 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		# through the result of the action to the parent execution context
 		if delegate and self._is_nested():
 			self._delegate = True
-			return (res, ret)
 
 		return self._return_result(res, ret)
 
 	def _return_result(self, res, ret):
 		if not self._is_nested():
+			self._append_result(res, ret)
 			self.emit("command-result", res, ret)
 		return res, ret
 
@@ -308,3 +330,8 @@ gobject.signal_new("command-result", ActionExecutionContext,
 		gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
 
+# Command ID, Action result type, action result
+gobject.signal_new("late-command-result", ActionExecutionContext,
+		gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.gobject.TYPE_INT,
+			gobject.TYPE_PYOBJECT))
