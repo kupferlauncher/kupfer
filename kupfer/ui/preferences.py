@@ -16,6 +16,16 @@ from kupfer.ui import keybindings
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
 
+# A major HACK
+# http://tadeboro.blogspot.com/2009/05/wrapping-adn-resizing-gtklabel.html
+def _cb_allocate(label, allocation):
+	label.set_size_request(allocation.width, -1)
+
+def wrapped_label(text=None):
+	label = gtk.Label(text)
+	label.set_line_wrap(True)
+	label.connect("size-allocate", _cb_allocate)
+	return label
 
 class PreferencesWindowController (pretty.OutputMixin):
 
@@ -367,14 +377,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s</b>" % field)
 			infobox.pack_start(label, False)
-			label = gtk.Label()
+			label = wrapped_label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"%s" % gobject.markup_escape_text(val))
-			label.set_line_wrap(True)
 			label.set_selectable(True)
 			infobox.pack_start(label, False)
 		if version:
-			label = gtk.Label()
+			label = wrapped_label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), version))
 			label.set_selectable(True)
@@ -397,14 +406,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 				import traceback
 				errstr = "".join(traceback.format_exception(*exc_info))
 
-			label = gtk.Label()
+			label = wrapped_label()
 			label.set_alignment(0, 0)
 			label.set_markup(u"<b>%s</b>\n\n%s" % (
 				_("Plugin could not be read due to an error:"),
 				gobject.markup_escape_text(errstr),
 				))
 			label.set_selectable(True)
-			label.set_line_wrap(True)
 			about.pack_start(label, False)
 		elif not plugins.is_plugin_loaded(plugin_id):
 			label = gtk.Label()
@@ -462,7 +470,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				name_label = \
 					u"%s\n<small>%s</small>" % (name, desc) if desc else \
 					u"%s" % (name, )
-				label = gtk.Label()
+				label = wrapped_label()
 				label.set_markup(name_label)
 				hbox.pack_start(label, False)
 				objvbox.pack_start(hbox)
@@ -559,7 +567,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				vbox.pack_start(hbox, False)
 				continue
 
-			label_wid = gtk.Label(label)
+			label_wid = wrapped_label(label)
 			if issubclass(typ, basestring):
 				if alternatives:
 					wid = gtk.combo_box_new_text()
