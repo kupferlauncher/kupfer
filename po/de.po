@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-24 13:39+0000\n"
-"PO-Revision-Date: 2010-03-24 22:31+0100\n"
+"POT-Creation-Date: 2010-03-29 05:04+0000\n"
+"PO-Revision-Date: 2010-03-29 16:14+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,8 +25,7 @@ msgstr "Anwendungsstarter"
 
 #: ../auxdata/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr ""
-"Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
+msgstr "Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
 
 #: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:85
@@ -42,44 +41,63 @@ msgid "Saved Kupfer Command"
 msgstr "Gespeicherter Kupfer-Befehl"
 
 #: ../data/preferences.ui.h:1
+msgid "<b>Browser Keyboard Shortcuts</b>"
+msgstr "<b>Tastenkombinationen für Browser</b>"
+
+#: ../data/preferences.ui.h:2
 msgid "<b>Directories</b>"
 msgstr "<b>Ordner</b>"
 
-#: ../data/preferences.ui.h:2
+#: ../data/preferences.ui.h:3
+msgid "<b>Global Keyboard Shortcuts</b>"
+msgstr "<b>Globale Tastenkombinationen</b>"
+
+#: ../data/preferences.ui.h:4
 msgid "<b>Interface</b>"
 msgstr "<b>Schnittstelle</b>"
 
-#: ../data/preferences.ui.h:3
-msgid "<b>Keybinding</b>"
-msgstr "<b>Tastenkürzel</b>"
-
-#: ../data/preferences.ui.h:4
+#: ../data/preferences.ui.h:5
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
-#: ../data/preferences.ui.h:5
+#: ../data/preferences.ui.h:6
 msgid "<i>Plugins may not be unloaded at runtime</i>"
 msgstr "<i>Plugins werden zur Laufzeit nicht entladen</i>"
 
-#: ../data/preferences.ui.h:6
+#: ../data/preferences.ui.h:7
 msgid "General"
 msgstr "Allgemein"
 
-#: ../data/preferences.ui.h:7 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:8
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: ../data/preferences.ui.h:9 ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Kupfer-Einstellungen"
 
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:10
 msgid "Plugins"
 msgstr "Erweiterungen"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:729
+#| msgid "Repeat"
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: ../data/preferences.ui.h:12
 msgid "Show icon in notification area"
 msgstr "Symbol im Benachrichtigungsfeld anzeigen"
 
-#: ../data/preferences.ui.h:10
+#: ../data/preferences.ui.h:13
 msgid "Start automatically on login"
 msgstr "Beim Anmelden automatisch starten"
+
+#: ../data/preferences.ui.h:14
+msgid "Use single keystroke commands (Space, /, period, comma etc.)"
+msgstr ""
+"Einzelne Tastaturbefehle verwenden (Leerzeichen, Schrägstrich, Punkt, Komma "
+"usw.)"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
@@ -96,6 +114,18 @@ msgstr "_Passwort:"
 #: ../data/credentials_dialog.ui.h:4
 msgid "_User:"
 msgstr "_Benutzer:"
+
+#: ../data/getkey_dialog.ui.h:1
+msgid "Keybinding could not be bound"
+msgstr "Tastenkürzel konnte nicht gefunden werden"
+
+#: ../data/getkey_dialog.ui.h:2
+msgid "Please press desired key combination"
+msgstr "Bitte die gewünschte Tastenkombination drücken"
+
+#: ../data/getkey_dialog.ui.h:3
+msgid "Set Keyboard Shortcut"
+msgstr "Tastenkombination festlegen"
 
 #: ../kupfer/main.py:39
 msgid "do not present main interface on launch"
@@ -163,68 +193,129 @@ msgstr "Eingeben, um »%s« zu durchsuchen"
 msgid "No action"
 msgstr "Keine Aktion"
 
-#: ../kupfer/ui/preferences.py:214
-msgid "Applied"
-msgstr "Angewendet"
+#: ../kupfer/ui/preferences.py:23
+#| msgid "Show offline contacts"
+msgid "Show Main Interface"
+msgstr "Haupt-Bedienoberfläche anzeigen"
 
-#: ../kupfer/ui/preferences.py:219
-msgid "Keybinding could not be bound"
-msgstr "Tastenkürzel konnte nicht gefunden werden"
+#: ../kupfer/ui/preferences.py:24
+#| msgid "Work with application"
+msgid "Show with Selection"
+msgstr "Mit Auswahl anzeigen"
+
+#: ../kupfer/ui/preferences.py:33
+#| msgid "Create Archive"
+msgid "Alternate Activate"
+msgstr "Alternative Aktivierung"
+
+#: ../kupfer/ui/preferences.py:34
+msgid "Comma Trick"
+msgstr "Komma-Trick"
+
+#: ../kupfer/ui/preferences.py:35
+#| msgid "Compose Email"
+msgid "Compose Command"
+msgstr "Compose-Befehl"
+
+#: ../kupfer/ui/preferences.py:36
+msgid "Reset All"
+msgstr "Alle zurücksetzen"
+
+#: ../kupfer/ui/preferences.py:37
+#| msgid "Selected Text"
+msgid "Select Quit"
+msgstr "Beenden wählen"
+
+#: ../kupfer/ui/preferences.py:38
+#| msgid "Selected File"
+msgid "Select Selected File"
+msgstr "Ausgewählte Datei wählen"
+
+#: ../kupfer/ui/preferences.py:39
+#| msgid "Selected Text"
+msgid "Select Selected Text"
+msgstr "Markierten Text wählen"
+
+#: ../kupfer/ui/preferences.py:40
+#| msgid "Show Text"
+msgid "Show Help"
+msgstr "Hilfe anzeigen"
+
+#: ../kupfer/ui/preferences.py:41
+msgid "Switch to First Pane"
+msgstr "In erste Leiste wechseln"
+
+#: ../kupfer/ui/preferences.py:42
+msgid "Toggle Text Mode"
+msgstr "Textmodus umschalten"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:322
+#: ../kupfer/ui/preferences.py:362
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../kupfer/ui/preferences.py:322
+#: ../kupfer/ui/preferences.py:362
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:339
+#: ../kupfer/ui/preferences.py:379
 msgid "Version"
 msgstr "Version"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:349
+#: ../kupfer/ui/preferences.py:389
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Python-Modul »%s« wird benötigt"
 
-#: ../kupfer/ui/preferences.py:363
+#: ../kupfer/ui/preferences.py:403
 msgid "Plugin could not be read due to an error:"
 msgstr "Plugin konnte wegen eines Fehlers nicht gelesen werden:"
 
-#: ../kupfer/ui/preferences.py:372 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:412 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: ../kupfer/ui/preferences.py:444
+#: ../kupfer/ui/preferences.py:484
 msgid "Content of"
 msgstr "Inhalt von"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:453
+#: ../kupfer/ui/preferences.py:493
 msgid "Sources"
 msgstr "Quellen"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:457
+#: ../kupfer/ui/preferences.py:497
 msgid "Actions"
 msgstr "Aktionen"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:495
+#: ../kupfer/ui/preferences.py:535
 msgid "Configuration"
 msgstr "Einstellungen"
 
-#: ../kupfer/ui/preferences.py:515
+#: ../kupfer/ui/preferences.py:555
 msgid "Set username and password"
 msgstr "Benutzername und Passwort festlegen"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:569
+#: ../kupfer/ui/preferences.py:609
 msgid "Choose a Directory"
 msgstr "Einen Ordner auswählen"
+
+#: ../kupfer/ui/preferences.py:727
+msgid "Reset all shortcuts to default values?"
+msgstr "Sollen alle Tastenkombinationen auf Standardwerte zurückgesetzt werden?"
+
+#: ../kupfer/ui/preferences.py:735
+#| msgid "Commandline"
+msgid "Command"
+msgstr "Befehl"
+
+#: ../kupfer/ui/preferences.py:736
+msgid "Shortcut"
+msgstr "Kürzel"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
@@ -265,8 +356,8 @@ msgstr ""
 "finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit diesem Programm sollten Sie außerdem eine Kopie der GNU General Public "
 "License erhalten\n"
@@ -2346,8 +2437,8 @@ msgid ""
 "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
 "Source Edition."
 msgstr ""
-"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun "
-"als auch die Open Source Edition."
+"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun als "
+"auch die Open Source Edition."
 
 #: ../kupfer/plugin/virtualbox/__init__.py:42
 msgid "Power On"
@@ -2427,6 +2518,12 @@ msgstr "Zim-Seiten"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "In Zim-Notizbüchern gespeicherte Seiten"
+
+#~ msgid "<b>Keybinding</b>"
+#~ msgstr "<b>Tastenkürzel</b>"
+
+#~ msgid "Applied"
+#~ msgstr "Angewendet"
 
 #~ msgid "Gnome Session Management"
 #~ msgstr "GNOME-Sitzungsverwaltung"
