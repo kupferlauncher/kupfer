@@ -54,7 +54,7 @@ class Triggers (Source):
 		keybindings.GetKeyboundObject().connect("keybinding", self._callback)
 		for target, (keystr, name, id_) in self.trigger_table.iteritems():
 			keybindings.bind_key(keystr, target)
-		self.output_debug(self.trigger_table)
+		self.output_debug("Loaded triggers, count:", len(self.trigger_table))
 
 	def _callback(self, keyobj, target, event_time):
 		self.perform_trigger(target)

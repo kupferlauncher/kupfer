@@ -447,13 +447,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		for action in actions:
 			for appl_type in action.item_types():
 				decorate_types.setdefault(appl_type, []).append(action)
+		if not decorate_types:
+			return
 		sc = GetSourceController()
 		sc.add_action_decorators(decorate_types)
-		self.output_debug("Action decorators:")
+		self.output_debug("Actions:")
 		for typ in decorate_types:
 			self.output_debug(typ.__name__)
-			for dec in decorate_types[typ]:
-				self.output_debug(type(dec).__module__, type(dec).__name__,sep=".")
+			self._list_plugin_objects(decorate_types[typ])
 
 	def register_content_decorators(self, contents):
 		"""
@@ -471,13 +472,20 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			except AttributeError:
 				continue
 			decorate_item_types.setdefault(applies, set()).add(c)
+		if not decorate_item_types:
+			return
 		sc = GetSourceController()
 		sc.add_content_decorators(decorate_item_types)
 		self.output_debug("Content decorators:")
 		for typ in decorate_item_types:
 			self.output_debug(typ.__name__)
-			for dec in decorate_item_types[typ]:
-				self.output_debug(dec.__module__, dec.__name__, sep=".")
+			self._list_plugin_objects(decorate_item_types[typ])
+
+	def _list_plugin_objects(self, objs):
+		"Print a list of plugin objects to debug output"
+		for o in objs:
+			typ = type(o) if hasattr(o, "__class__") else o
+			self.output_debug(" ", typ.__module__, ".", typ.__name__, sep="")
 
 	def _load(self, sched):
 		"""Load data from persistent store"""

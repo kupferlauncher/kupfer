@@ -213,7 +213,7 @@ class SourceDataPickler (pretty.OutputMixin):
 			data = conspickle.BasicUnpickler.loads(pfile.read())
 			sname = os.path.basename(pickle_file)
 			self.output_debug("Loaded configuration from", sname)
-			self.output_debug(data)
+			# self.output_debug(data)
 		except (pickle.PickleError, Exception), e:
 			data = None
 			self.output_error("Loading %s: %s" % (pickle_file, e))

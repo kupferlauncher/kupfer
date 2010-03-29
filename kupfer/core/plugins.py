@@ -310,8 +310,6 @@ def load_plugin_sources(plugin_name, attr=sources_attribute, instantiate=True):
 		return
 	for source in get_plugin_attributes(plugin_name, sources, warn=True):
 		if source:
-			pretty.print_debug(__name__, "Found %s.%s" % ( source.__module__,
-				source.__name__))
 			if instantiate:
 				yield source()
 			else:
