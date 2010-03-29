@@ -2,6 +2,22 @@
 NEWS for kupfer
 ===============
 
+kupfer's next insanity
+----------------------
+
+Not Yet Released
+
+* Add Keyboard Shortcut configuration (Karol Będkowski)
+* Make it easier to copy and move files (William Friesen), while showing
+  user-friendly errors when action is not possible (Ulrik)
+* Collect results in a *Command Results* subcatalog, including results from
+  asynchronous commands (Pro tip: Bind a trigger to Command Results ->
+  Search Contents, for quick access to copied files, downloaded files etc!)
+* *Last Result* proxy object implemented
+* Add *Cliboards* -> *Clear* action (Karol)
+* Add an icon in the plugin list search field to enable clearing it (Karol)
+* Fix bug :lp:`544289`
+
 kupfer version pandoras-box-1.99
 --------------------------------
 
