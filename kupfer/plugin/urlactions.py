@@ -13,15 +13,16 @@ import os
 import shutil
 import urllib2
 
-from kupfer.objects import Action, Source, UrlLeaf, FileLeaf
+from kupfer.objects import Action, Source, UrlLeaf, FileLeaf, OperationError
 from kupfer import utils, pretty, task
+from kupfer import commandexec
 
 
 class DownloadTask (task.ThreadTask):
 	def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):
 		super(DownloadTask, self).__init__()
 		self.uri = uri
-		self.finish_callback = finish_callback
+		self.download_finish_callback = finish_callback
 		self.destdir = destdir
 		self.use_tempfile = tempfile
 
@@ -55,8 +56,8 @@ class DownloadTask (task.ThreadTask):
 			self.response.close()
 
 	def thread_finish(self):
-		if self.finish_callback:
-			self.finish_callback(self.destpath)
+		if self.download_finish_callback:
+			self.download_finish_callback(self.destpath)
 
 class DownloadAndOpen (Action):
 	"""Asynchronous action to download file and open it"""
@@ -66,11 +67,16 @@ class DownloadAndOpen (Action):
 	def is_async(self):
 		return True
 	def activate(self, leaf):
+		ctx = commandexec.DefaultActionExecutionContext()
+		self.async_token = ctx.get_async_token()
 		uri = leaf.object
 		return DownloadTask(uri, None, True, self._finish_action)
 
 	def _finish_action(self, filename):
 		utils.show_path(filename)
+		ctx = commandexec.DefaultActionExecutionContext()
+		ctx.register_late_result(self.async_token, FileLeaf(filename),
+				show=False)
 
 	def item_types(self):
 		yield UrlLeaf
@@ -85,7 +91,13 @@ class DownloadTo (Action):
 		return True
 	def activate(self, leaf, obj):
 		uri = leaf.object
-		return DownloadTask(uri, obj.object)
+		ctx = commandexec.DefaultActionExecutionContext()
+		self.async_token = ctx.get_async_token()
+		return DownloadTask(uri, obj.object, False, self._finish_action)
+
+	def _finish_action(self, filename):
+		ctx = commandexec.DefaultActionExecutionContext()
+		ctx.register_late_result(self.async_token, FileLeaf(filename))
 
 	def item_types(self):
 		yield UrlLeaf
