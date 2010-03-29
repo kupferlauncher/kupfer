@@ -10,27 +10,24 @@
   <title>Introduction</title>
 
   <p>
-    <app>Kupfer</app> is a command tool heavily inspired by 
-    <link href="http://www.blacktree.com/">Quicksilver</link>; you do not use 
-    it to search your files, you use it to summon an application or document 
-    quickly by typing the first parts of its name.
+    <app>Kupfer</app> is a program to change, speed up and make everything
+    about files and programs more fun on your computer.
+
+    <app>Kupfer</app> is a launcher; you typically use it to summon an
+    application or a document quickly by typing parts of its name. It can also
+    do more than getting at something quickly: there are different plugins for
+    accessing more objects and running custom commands.
   </p>
 
   <p>
-    <app>Kupfer</app> is written using Python and has a flexible architecture. 
-    Objects that it can access are implemented in plugins, and new plugins can 
-    be written quickly.
+    <app>Kupfer</app> is written using Python and has a flexible architecture;
+    the implementation is simple and makes the easy things work first. One
+    goal is that new plugins can be written quickly without too much
+    programming.
   </p>
-
   <p>
-    The philosophy of <app>Kupfer</app> is simplicity. The implementation is simple, 
-    makes the easy things work first, and does not overdesign unnecessary parts 
-    of the program.
-  </p>
-
-  <p>
-    When you run <app>Kupfer</app>, it launches, then anytime you type <app>Kupfer's</app> 
-    keybinding -- immediately its window is presented ready for a new query.
+    The program is very inspired by
+    <link href="http://www.blacktree.com/">Quicksilver</link>.
   </p>
 
   <p>

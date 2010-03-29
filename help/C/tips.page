@@ -4,65 +4,142 @@
 
   <info>
    <link type="guide" xref="index#usage"/>
-   <desc>Using <app>Kupfer</app> more convenient.</desc>
+   <desc>Using <app>Kupfer</app> more conveniently.</desc>
   </info>
 
   <title>Basic Usage</title>
 
   <p>
-    By default, with the keybinder module installed, <keyseq><key>Ctrl</key><key>Space</key></keyseq> 
-    will summon the Kupfer window.
+    By default, with the keybinder module installed,
+    <keyseq><key>Ctrl</key><key>Space</key></keyseq> 
+    will summon the Kupfer window. This and other global keybinding can be
+    configured in the preferences.
   </p>
 
-  <p>
-    Included toplevel directories (by default home an desktop) are monitored 
-    so new files will be found immediately. Most plugins in <app>Kupfer</app> 
-    try to use the change notifications that are available from the system, to 
-    keep up to date with the instant.
-  </p>
+  <section>
+    <title>The Catalog</title>
+    <p>
+      The Catalog is the collection of objects you can
+      access in Kupfer, such as documents and programs. 
+    </p>
+
+    <p>
+      Objects in the catalog that have content, like folders, are marked
+      with an arrow. Pressing <key>right-arrow</key> will enter these
+      objects. Much of the catalog is composed of subcatalogs; plugin
+      subcatalogs do in general list objects that are also available
+      directly from the top level.  Subcatalogs can be used for a
+      narrower view or search scope, when using Kupfer.
+    </p>
+
+    <p>
+      Most subcatalogs update their content automatically. For example,
+      the Desktop folder catalog  is always uptodate.
+    </p>
+  </section>
+
+  <section>
+    <title>Keyboard Interface</title>
+
+    <p>
+      <app>Kupfer</app> is to the largest part a keyboard-managed
+      interface to applications and documents.
+    </p>
+    <p>
+      Kupfer's default mode is the command mode: If you type a query,
+      kupfer will search for a match in its catalog.
+    </p>
+      
+    <p>
+      The arrow keys allow you to browse query matches quite naturally,
+      going to the previous or next match, and going up and down in the
+      subcatalogs.
+    </p>
 
   <p>
-    Objects that have content, like folders, are marked with an arrow. Pressing 
-    <key>right-arrow</key> will enter these objects.
+    In command mode, some keystrokes have special meanings: 
   </p>
-
+   <terms>
+    <item>
+      <title><key>Space</key> or <key>↓</key></title>
+      <p> Go to the next match </p>
+    </item>
+    <item>
+     <title> <key>Shift+Space</key> or <key>↑</key></title>
+     <p>
+       Go to the previous match
+     </p>
+    </item>
+    <item>
+     <title> <key>.</key></title>
+     <p>
+       Activate free-text mode
+     </p>
+    </item>
+    <item>
+     <title> <key>/</key>  or <key>→</key></title>
+     <p>
+       Descend into an object with content
+     </p>
+    </item>
+    <item>
+     <title> <key>Backspace</key></title>
+     <p>
+       Erase a character from the query. If the
+       query is empty, go up a level 
+     </p>
+    </item>
+    <item>
+     <title> <key>,</key></title>
+     <p>
+       Put selected object on the stack ("Comma Trick") 
+     </p>
+    </item>
+   </terms>
   <p>
-    In command mode, some keybindings are:
+    Additionally, the key <key>Return</key> activates the current
+    selection: the command is executed. <key>Escape</key> clears the
+    current selection.
   </p>
-   <list>
-    <item>
-     <p>
-      <key>space</key> to go to the next match
-     </p>
-    </item>
-    <item>
-     <p>
-     <key>.</key> to activate free-text mode
-     </p>
-    </item>
-    <item>
-     <p>
-      <key>/</key> to descend into an object with content
-     </p>
-    </item>
-    <item>
-     <p>
-     <key>Backspace</key> to go back upspace to go to the next match
-     </p>
-    </item>
-   </list>
+  <section>
+    <title>Global Keyboard Shortcuts</title>
+    <p>
+      Kupfer listens to global shortcuts, even if Kupfer is not
+      currently in the foreground. The most important global shortcut is
+      the shortcut to show and hide Kupfer's command window.
+    </p>
+    <p>
+      Global Keyboard Shortcuts are configured in Kupfer's preferences.
+    </p>
+    <p>
+      The Triggers plugin allows to configure actions to be activated by
+      global shortcuts, but triggers can only be configured in that
+      plugin.
+    </p>
+  </section>
+  <section>
+    <title>Additional Keyboard Shortcuts</title>
+    <p>
+      Additional keyboard shortcuts that work with Kupfer when it is in
+      the foreground can be configured in Kupfer's preferences.
+    </p>
+  </section>
+ </section>
+
   
 
  <section>
   <title>Configuration files and paths</title>
   <p>
-    Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, 
-    <file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</file>.
+    Install custom plugins in the folder
+    <file>~/.local/share/kupfer/plugins/</file>
+  </p>
+  <p>
+    Kupfer cache, config and data are located in the directories
+    <file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> and
+    <file>~/.local/share/kupfer</file>.
   </p>
   
-  <p>
-    Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>
-  </p>
  </section>
 
 </page>
