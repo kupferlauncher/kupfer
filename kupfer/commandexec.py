@@ -197,8 +197,13 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		command_id, cmdtuple = token
 		self._do_error_conversion(cmdtuple, exc_info)
 
-	def register_late_result(self, token, result):
-		"Register a late result (as in result Leaf, not factory or async)"
+	def register_late_result(self, token, result, show=True):
+		"""Register a late result
+
+		Result must be a Leaf (as in result object, not factory or async)
+
+		If @show, possibly display the result to the user.
+		"""
 		self.output_info("Late result", repr(result), "for", token)
 		command_id, (_ign1, action, _ign2) = token
 		if result is None:
@@ -211,6 +216,10 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 			description = res_name
 		uiutils.show_notification(_('"%s" produced a result') % action,
 				description)
+
+		# If only registration was requsted, remove the command id info
+		if not show:
+			command_id = -1
 		self.emit("late-command-result", command_id, RESULT_OBJECT, result)
 		self._append_result(RESULT_OBJECT, result)
 
