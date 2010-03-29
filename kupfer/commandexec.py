@@ -132,7 +132,10 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		self.task_runner = task.TaskRunner(end_on_finish=False)
 		self._nest_level = 0
 		self._delegate = False
+		self._command_counter = itertools.count()
+		self.last_command_id = -1
 		self.last_command = None
+		self.last_executed_command = None
 
 	def check_valid(self, obj, action, iobj):
 		pass
@@ -154,10 +157,21 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		try:
 			yield
 		except OperationError:
-			if not self.operation_error(sys.exc_info(), cmdtuple):
-				raise
-			etype, value, tb = sys.exc_info()
-			raise ActionExecutionError, value, tb
+			self._do_error_conversion(cmdtuple, sys.exc_info())
+
+	def _do_error_conversion(self, cmdtuple, exc_info):
+		if not self.operation_error(exc_info, cmdtuple):
+			raise
+		etype, value, tb = exc_info
+		raise ActionExecutionError, value, tb
+
+	def get_async_token(self):
+		"""Get an action execution for current execution
+
+		Return a token for the currently active command execution.
+		The token must be used for posting late results or late errors.
+		"""
+		return (self.last_command_id, self.last_executed_command)
 
 	def operation_error(self, exc_info, cmdtuple):
 		"Error when executing action. Return True when error was handled"
@@ -171,6 +185,17 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 				_("Could not to carry out '%s'") % action,
 				unicode(value))
 
+	def register_late_error(self, token, exc_info=None):
+		"Register an error in exc_info. The error must be an OperationError"
+		if exc_info is None:
+			exc_info = sys.exc_info()
+		command_id, cmdtuple = token
+		self._do_error_conversion(cmdtuple, exc_info)
+
+	def register_late_result(self, token, result):
+		"Register a late result (as in result object, not factory or async)"
+		self.output_info("Late result", repr(result))
+
 	def run(self, obj, action, iobj, delegate=False):
 		"""
 		Activate the command (obj, action, iobj), where @iobj may be None
@@ -180,6 +205,9 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		If a command carries out another command as part of its execution,
 		and wishes to delegate to it, pass True for @delegate.
 		"""
+		self.last_command_id = self._command_counter.next()
+		self.last_executed_command = (obj, action, iobj)
+
 		if not action or not obj:
 			raise ActionExecutionError("Primary Object and Action required")
 		if iobj is None and action.requires_object():
@@ -191,7 +219,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 
 		# remember last command, but not delegated commands.
 		if not delegate:
-			self.last_command = (obj, action, iobj)
+			self.last_command = self.last_executed_command
 
 		# Delegated command execution was previously requested: we take
 		# the result of the nested execution context
