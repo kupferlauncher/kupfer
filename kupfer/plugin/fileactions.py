@@ -20,9 +20,11 @@ import re
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
+from kupfer.objects import OperationError
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer import utils, pretty
 from kupfer import plugin_support
+from kupfer import commandexec
 
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -95,12 +97,10 @@ class MoveTo (Action, pretty.OutputMixin):
 		bname = sfile.get_basename()
 		dfile = gio.File(os_path.join(obj.object, bname))
 		try:
-			if not _good_destination_final(obj.object, leaf.object):
-				raise gio.Error("Target file exists")
 			ret = sfile.move(dfile, flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
-			self.output_error("Move %s to %s Error: %s" % (sfile, dfile, exc))
+			raise OperationError(unicode(exc))
 		else:
 			return FileLeaf(dfile.get_path())
 
@@ -163,7 +163,7 @@ class Rename (Action, pretty.OutputMixin):
 			ret = sfile.move(dfile)
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
-			self.output_error("Move %s to %s Error: %s" % (sfile, dfile, exc))
+			raise OperationError(unicode(exc))
 		else:
 			return FileLeaf(dest)
 
@@ -194,29 +194,34 @@ class Rename (Action, pretty.OutputMixin):
 class CopyTo (Action, pretty.OutputMixin):
 	def __init__(self):
 		Action.__init__(self, _("Copy To..."))
-		if gio.pygio_version < (2, 18):
-			self.output_info("Requires pygobject version 2.18 or later")
 
 	def has_result(self):
 		return True
 
-	def _finish_callback(self, gfile, result):
+	def _finish_callback(self, gfile, result, data):
+		ctx = commandexec.DefaultActionExecutionContext()
 		self.output_debug("Finished copying", gfile)
+		dfile, action_token = data
+		try:
+			gfile.copy_finish(result)
+		except gio.Error:
+			ctx.register_late_error(action_token)
+		else:
+			ctx.register_late_result(action_token, FileLeaf(dfile.get_path()))
 
 	def activate(self, leaf, obj):
 		sfile = gio.File(leaf.object)
 		dpath = os_path.join(obj.object, os_path.basename(leaf.object))
 		dfile = gio.File(dpath)
+		ctx = commandexec.DefaultActionExecutionContext()
+		action_token = ctx.get_async_token()
 		try:
-			if not _good_destination_final(obj.object, leaf.object):
-				raise gio.Error("Target file exists")
 			ret = sfile.copy_async(dfile, self._finish_callback,
+					user_data=(dfile, action_token),
 					flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
-			self.output_error("Copy %s to %s Error: %s" % (sfile, dfile, exc))
-		else:
-			return FileLeaf(dpath)
+			raise OperationError(unicode(exc))
 
 	def item_types(self):
 		yield FileLeaf
