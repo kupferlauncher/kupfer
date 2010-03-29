@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-29 06:57+0200\n"
+"POT-Creation-Date: 2010-03-29 22:38+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -285,6 +285,10 @@ msgid "Could not to carry out '%s'"
 msgstr "Kunde inte utföra \"%s\""
 
 #, python-format
+msgid "\"%s\" produced a result"
+msgstr "\"%s\" lämnade ett resultat"
+
+#, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "Utan rättighet att utföra \"%s\" (ej körbar)"
 
@@ -484,6 +488,12 @@ msgstr "Senaste kommando"
 msgid "Internal Kupfer Objects"
 msgstr "Interna Kupfer-objekt"
 
+msgid "Last Result"
+msgstr "Senaste resultat"
+
+msgid "Command Results"
+msgstr "Kommandoresultat"
+
 msgid "Applications"
 msgstr "Program"
 
@@ -653,6 +663,10 @@ msgstr "Skapa komprimerat arkiv av mappen"
 
 msgid "Create Archive In..."
 msgstr "Skapa arkiv i..."
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+msgid "Archive"
+msgstr "Arkiv"
 
 msgid "Firefox Bookmarks"
 msgstr "Firefox-bokmärken"
