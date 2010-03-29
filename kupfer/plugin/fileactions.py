@@ -300,10 +300,10 @@ class CreateArchiveIn (Action):
 
 	def activate_multiple(self, objs, iobjs):
 		archive_type = __kupfer_settings__["archive_type"]
+		# TRANS: Default filename (no extension) for 'Create Archive In...'
+		basename = _("Archive")
 		for iobj in iobjs:
-			dirpath = iobj.object
-			basename = "archive"
-			self._make_archive("archive", dirpath, [L.object for L in objs])
+			self._make_archive(basename, iobj.object, [L.object for L in objs])
 
 	def item_types(self):
 		yield FileLeaf
