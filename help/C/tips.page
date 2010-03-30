@@ -52,43 +52,34 @@
   <p>
     In command mode, some keystrokes have special meanings: 
   </p>
-   <terms>
-    <item>
-      <title><key>Space</key> or <key>↓</key></title>
-      <p> Go to the next match </p>
-    </item>
-    <item>
-     <title> <key>Shift+Space</key> or <key>↑</key></title>
-     <p>
-       Go to the previous match
-     </p>
-    </item>
-    <item>
-     <title> <key>.</key></title>
-     <p>
-       Activate free-text mode
-     </p>
-    </item>
-    <item>
-     <title> <key>/</key>  or <key>→</key></title>
-     <p>
-       Descend into an object with content
-     </p>
-    </item>
-    <item>
-     <title> <key>Backspace</key></title>
-     <p>
-       Erase a character from the query. If the
+  <table>
+    <tr>
+      <td><p><key>Space</key> or <key>↓</key></p></td>
+      <td><p> Go to the next match </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>Shift+Space</key> or <key>↑</key></p></td>
+     <td><p> Go to the previous match </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>.</key></p></td>
+     <td><p> Activate free-text mode </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>/</key>  or <key>→</key></p></td>
+     <td><p> Descend into an object with content </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>Backspace</key></p></td>
+     <td><p> Erase a character from the query. If the
        query is empty, go up a level 
-     </p>
-    </item>
-    <item>
-     <title> <key>,</key></title>
-     <p>
-       Put selected object on the stack ("Comma Trick") 
-     </p>
-    </item>
-   </terms>
+   </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>,</key></p></td>
+     <td><p> Put selected object on the stack ("Comma Trick") </p></td>
+    </tr>
+   </table>
   <p>
     Additionally, the key <key>Return</key> activates the current
     selection: the command is executed. <key>Escape</key> clears the
