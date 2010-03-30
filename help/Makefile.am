@@ -9,7 +9,7 @@
 #
 
 
-include $(top_srcdir)/gnome-doc-utils.make
+# include $(top_srcdir)/gnome-doc-utils.make
 
 DOC_ID = kupfer
 DOC_INCLUDES =
@@ -26,4 +26,4 @@ DOC_PAGES = \
 DOC_LINGUAS = de
 
 
-dist-hook: doc-dist-hook
+# dist-hook: doc-dist-hook
