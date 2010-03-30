@@ -239,6 +239,59 @@ ImportErrors will be caught by the plugin loader and the plugin disabled
 Look in ``contrib/`` and in ``kupfer/plugin/`` for using the existing
 plugins as example
 
+Guidelines and Policy
+=====================
+
+Contributing
+------------
+
+You can clone git from its official repository at git.gnome.org, see:
+
+    http://git.gnome.org/browse/kupfer/
+
+You can structure your changes into a series of commits in git. A series
+of well disposed changes is easy to review. Write a sufficient commit
+log message for each change. Do not fear writing down details about
+why the change is implemented as it is, if there are multiple
+alternatives. Also, if you forsee any future possibilites or problems,
+please describe them in the commit log.
+
+It is not easy to write good commit messgages, because writing is an
+art. It is however essensial, and only by trying it, can you improve.
+
+You may publish your changes by sending an email to the mailing list,
+<kupfer-list@gnome.org>. You can attach your changes as patches, or you
+may also just attach a link to your published git repository.
+
+You can find kupfer's git repository in github.com and fork it there,
+for easy publication of your changes.
+
+If you suggest your changes for inclusion into Kupfer, make sure you
+have read the whole *Guidelines and Policy* chapter of this manual. And
+take care to structure your changes, do not fear asking for advice. Good
+Luck!
+
+
+Icon Guidelines
+---------------
+
+Consider the following:
+
+* A Leaf is an object, a metaphor for a physical thing. It can have as
+  detailed icon as is possible.
+
+* An Action is a verb, a command that can be carried out. Choose its
+  name with care. The icon should be simple, maybe assign the action
+  to a category, rather than trying to illustrate the action itself.
+  For example, all text display actions use the "bold style" icon, in
+  some icon themes simply a bold "A".
+
+.. important::
+
+    Actions should have stylized, simple icons. Leaves and Sources
+    should have detailed, specific icons.
+
+
 Coding style
 ------------
 
@@ -249,7 +302,7 @@ contribute to kupfer keep in mind that
 * Python code should be clear
 * Kupfer is a simple project. Do simple first. [#simple]_
 
-Python's general style guideline is called `PEP 8`_, and all Python
+Python's general style guideline is called `PEP 8`_, and you should
 programmers should read it. The advice given there is very useful when
 coding for Kupfer.
 
@@ -264,14 +317,39 @@ coding for Kupfer.
              optimizations.
 
 
-Living and learning
+Specific Points
+---------------
+
+Using ``rank_adjust``
+.....................
+
+A declaration like this can modify the ranking of an object::
+
+    class MyAction (Action):
+        rank_adjust = -5
+        ...
+
+1. Often, this is useless. Don't use it, let Kupfer learn which actions
+   are important.
+
+2. If the action is destructive, the adjust should be negative. Never
+   positive. For example *Move to Trash* has a negative 10
+   ``rank_adjust``.
+
+3. If the action is very general, and applies to almost everything but
+   still should never be the default for anything, the adjust should be
+   negative.
+
+
+Using ``super(..)``
 ...................
 
-Most of kupfer plugin code uses super statements such as::
+Many of kupfer plugin code uses super statements such as::
 
     super(RecentsSource, self).__init__(_("Recent items"))
 
-when writing new code, you should however use the following style::
+We have learnt that it is not so practical. Therefore, when writing new
+code, you should however use the following style::
 
     Source.__init__(self, _("Recent items"))
 
@@ -279,6 +357,7 @@ Why? Because the second version is easier to copy! If you copy the whole
 class and rename it, which you often do to create new plugins, the
 second version does not need to be updated -- you are probably using the
 same superclass.
+
 
 Localization
 ============
@@ -294,6 +373,27 @@ is:
 
 You can download the latest version of your language's translation file
 there, if Kupfer is already translated to your language.
+
+
+To create a new translation
+---------------------------
+
+Go into the directory ``po``
+
+1. Add the language code ``$LANG`` to the file ``LINGUAS``
+2. Run ``intltool-update --pot``, and copy ``untitled.pot`` to ``$LANG.po``
+3. Edit and check the whole file header: 
+
+   + Write in yourself as author
+   + Check ``plurals`` (copy from a language that you know uses the same
+     number of plural forms, or look up in GNOME's translation pages.)
+   + Replace everything written in CAPS
+
+Fill in the charset used; Kupfer translations *must* use the UTF-8 encoding.
+
+When the header is filled-in, go to `To update or check an existing
+translation`_
+
 
 To update or check an existing translation
 ------------------------------------------
@@ -333,25 +433,6 @@ you can use git if you have a checked-out copy of kupfer::
 You can send the patch, or the whole file, to the mailing list
 kupfer-list@gnome.org.
 
-To create a new translation
----------------------------
-
-Go into the directory ``po``
-
-1. Add the language code ``$LANG`` to the file ``LINGUAS``
-2. Run ``intltool-update --pot``, and copy ``untitled.pot`` to ``$LANG.po``
-3. Edit and check the whole file header: 
-
-   + Write in yourself as author
-   + Check ``plurals`` (copy from a language that you know uses the same
-     number of plural forms, or look up in GNOME's translation pages.)
-   + Replace everything written in CAPS
-
-Fill in the charset used; Kupfer translations *must* use the UTF-8 encoding.
-
-When the header is filled-in, go to `To update or check an existing
-translation`_
-
 To try the new translation
 --------------------------
 
@@ -362,10 +443,12 @@ can run kupfer as normal.
 
 .. note::
 
-    If you run ``./kupfer-activate.sh`` from the source directory it won't
+    If you run ``./kupfer-run`` from the source directory it won't
     find the installed translations unless you make a symlink called
     ``locale`` to the installed location (for example
-    ``~/.local/share/locale`` if install prefix was ``~/.local``).
+    ``~/.local/share/locale`` if install prefix was ``~/.local``)::
+
+        $ ln -s ~/.local/share/locale
 
 
 Copyright
@@ -381,6 +464,6 @@ source distribution.
 
 Copyright 2009, Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 
-.. vim: ft=rst tw=72
+.. vim: ft=rst tw=72 et sts=4
 .. this document best viewed with::
         rst2pdf Manual.rst && xdg-open Manual.pdf
