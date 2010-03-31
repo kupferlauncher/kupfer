@@ -662,17 +662,19 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def _is_good_keystr(self, keystr):
 		# Reject single letters so you can't bind 'A' etc
 		if keystr is None:
-			return False
-		ukeystr = kupferstring.tounicode(keystr)
-		return not (len(ukeystr) == 1 and ukeystr.isalnum())
+			return
+		label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+		ulabel = kupferstring.tounicode(label)
+		return not (len(ulabel) == 1 and ulabel.isalnum())
 
 	def on_gkeybindings_row_activate(self, treeview, path, view_column):
 		it = self.gkeybind_store.get_iter(path)
 		keybind_id = self.gkeybind_store.get_value(it, 2)
 		setctl = settings.GetSettingsController()
 		curr_key = setctl.get_accelerator(keybind_id)
-		keystr = getkey_dialog.ask_for_key(previous_key=curr_key)
-		if self._is_good_keystr(keystr):
+		keystr = getkey_dialog.ask_for_key(self._is_good_keystr,
+				previous_key=curr_key)
+		if keystr is not None:
 			setctl.set_accelerator(keybind_id, keystr)
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
 			self.gkeybind_store.set_value(it, 1, label)
