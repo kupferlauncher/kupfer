@@ -653,8 +653,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		keystr = getkey_dialog.ask_for_key(bind_func, curr_key)
 		if keystr == '':
 			keybindings.bind_key(None, self.KEYBINDING_TARGETS[keybind_id])
+			setctl.set_global_keybinding(keybind_id, keystr)
 			self.keybind_store.set_value(it, 1, '')
-		elif self._is_good_keystr(keystr):
+		elif keystr is not None:
 			setctl.set_global_keybinding(keybind_id, keystr)
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
 			self.keybind_store.set_value(it, 1, label)
