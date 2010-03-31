@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-03-29 20:33+0000\n"
-"PO-Revision-Date: 2010-03-30 23:18+0200\n"
+"POT-Creation-Date: 2010-03-31 02:25+0000\n"
+"PO-Revision-Date: 2010-03-31 08:40+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -78,8 +78,7 @@ msgstr "Preferencias de Kupfer"
 msgid "Plugins"
 msgstr "Complementos"
 
-#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:729
-#| msgid "Repeat"
+#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:738
 msgid "Reset"
 msgstr "Restablecer"
 
@@ -93,7 +92,7 @@ msgstr "Iniciar automáticamente al iniciar sesión"
 
 #: ../data/preferences.ui.h:14
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
-msgstr ""
+msgstr "Usar comandos de una sola tecla (espacio, /, punto, coma, etc.)"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
@@ -162,156 +161,152 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:715
+#: ../kupfer/ui/browser.py:719
 #, python-format
 msgid "%s is empty"
 msgstr "%s está vacío"
 
-#: ../kupfer/ui/browser.py:719
+#: ../kupfer/ui/browser.py:723
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "No hay coincidencias en %(src)s para «%(query)s»"
 
-#: ../kupfer/ui/browser.py:725
+#: ../kupfer/ui/browser.py:729
 msgid "No matches"
 msgstr "No hay coincidencias"
 
-#: ../kupfer/ui/browser.py:730
+#: ../kupfer/ui/browser.py:734
 msgid "Type to search"
 msgstr "Teclear para buscar"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:740
 #, python-format
 msgid "Type to search %s"
 msgstr "Teclear para buscar %s"
 
-#: ../kupfer/ui/browser.py:748
+#: ../kupfer/ui/browser.py:752
 msgid "No action"
 msgstr "Sin acción"
 
-#: ../kupfer/ui/preferences.py:23
-#| msgid "Show offline contacts"
+#: ../kupfer/ui/preferences.py:33
 msgid "Show Main Interface"
 msgstr "Mostrar la interfaz principal"
 
-#: ../kupfer/ui/preferences.py:24
-#| msgid "Work with application"
+#: ../kupfer/ui/preferences.py:34
 msgid "Show with Selection"
 msgstr "Mostrar con selección"
 
-#: ../kupfer/ui/preferences.py:33
-#| msgid "Create Archive"
+#: ../kupfer/ui/preferences.py:43
 msgid "Alternate Activate"
-msgstr ""
+msgstr "Activación alternativa"
 
-#: ../kupfer/ui/preferences.py:34
+#: ../kupfer/ui/preferences.py:44
 msgid "Comma Trick"
 msgstr "Truco de la coma"
 
-#: ../kupfer/ui/preferences.py:35
-#| msgid "Compose Email"
+#: ../kupfer/ui/preferences.py:45
 msgid "Compose Command"
 msgstr "Componer comando"
 
-#: ../kupfer/ui/preferences.py:36
+#: ../kupfer/ui/preferences.py:46
 msgid "Reset All"
 msgstr "Restablecer todo"
 
-#: ../kupfer/ui/preferences.py:37
-#| msgid "Selected Text"
+#: ../kupfer/ui/preferences.py:47
 msgid "Select Quit"
 msgstr "Seleccionar Salir"
 
-#: ../kupfer/ui/preferences.py:38
-#| msgid "Selected File"
+#: ../kupfer/ui/preferences.py:48
 msgid "Select Selected File"
 msgstr "Seleccionar Archivo seleccionado"
 
-#: ../kupfer/ui/preferences.py:39
-#| msgid "Selected Text"
+#: ../kupfer/ui/preferences.py:49
 msgid "Select Selected Text"
 msgstr "Seleccionar Texto seleccionado"
 
-#: ../kupfer/ui/preferences.py:40
-#| msgid "Show Text"
+#: ../kupfer/ui/preferences.py:50
 msgid "Show Help"
 msgstr "Mostrar ayuda"
 
-#: ../kupfer/ui/preferences.py:41
+#: ../kupfer/ui/preferences.py:51
+#| msgid "Show Properties"
+msgid "Show Preferences"
+msgstr "Mostrar las preferencias"
+
+#: ../kupfer/ui/preferences.py:52
 msgid "Switch to First Pane"
 msgstr "Cambiar al primer panel"
 
-#: ../kupfer/ui/preferences.py:42
+#: ../kupfer/ui/preferences.py:53
 msgid "Toggle Text Mode"
 msgstr "Conmutar el modo texto"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:362
+#: ../kupfer/ui/preferences.py:373
 msgid "Description"
 msgstr "Descripción"
 
-#: ../kupfer/ui/preferences.py:362
+#: ../kupfer/ui/preferences.py:373
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:379
+#: ../kupfer/ui/preferences.py:389
 msgid "Version"
 msgstr "Versión"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:389
+#: ../kupfer/ui/preferences.py:399
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Se necesita el módulo de Python «%s»"
 
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:413
 msgid "Plugin could not be read due to an error:"
 msgstr "No se puede leer el complemento debido al error:"
 
-#: ../kupfer/ui/preferences.py:412 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:421 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "desactivado"
 
-#: ../kupfer/ui/preferences.py:484
+#: ../kupfer/ui/preferences.py:493
 msgid "Content of"
 msgstr "Contenido de"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:493
+#: ../kupfer/ui/preferences.py:502
 msgid "Sources"
 msgstr "Fuentes"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:497
+#: ../kupfer/ui/preferences.py:506
 msgid "Actions"
 msgstr "Acciones"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:535
+#: ../kupfer/ui/preferences.py:544
 msgid "Configuration"
 msgstr "Configuración"
 
-#: ../kupfer/ui/preferences.py:555
+#: ../kupfer/ui/preferences.py:564
 msgid "Set username and password"
 msgstr "Establecer el nombre de usuario y la contraseña"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:609
+#: ../kupfer/ui/preferences.py:618
 msgid "Choose a Directory"
 msgstr "Elegir un directorio"
 
-#: ../kupfer/ui/preferences.py:727
+#: ../kupfer/ui/preferences.py:736
 msgid "Reset all shortcuts to default values?"
 msgstr ""
 "¿Quiere restablecer todos los atajos de teclado a los valores "
 "predeterminados?"
 
-#: ../kupfer/ui/preferences.py:735
-#| msgid "Commandline"
+#: ../kupfer/ui/preferences.py:744
 msgid "Command"
 msgstr "Comando"
 
-#: ../kupfer/ui/preferences.py:736
+#: ../kupfer/ui/preferences.py:745
 msgid "Shortcut"
 msgstr "Atajo"
 
@@ -643,7 +638,6 @@ msgid "Last Result"
 msgstr "Último resultado"
 
 #: ../kupfer/plugin/core/internal.py:61
-#| msgid "Commandline"
 msgid "Command Results"
 msgstr "Resultados del comando"
 
@@ -875,7 +869,6 @@ msgstr "Crear archivador en…"
 
 #. TRANS: Default filename (no extension) for 'Create Archive In...'
 #: ../kupfer/plugin/fileactions.py:304
-#| msgid "Deep Archives"
 msgid "Archive"
 msgstr "Archivador"
 
@@ -1392,7 +1385,7 @@ msgstr "Instalar el paquete usando el método configurado"
 msgid "Packages matching \"%s\""
 msgstr "Paquetes que coinciden con «%s»"
 
-#: ../kupfer/plugin/apt_tools.py:126
+#: ../kupfer/plugin/apt_tools.py:129
 msgid "Search Package Name..."
 msgstr "Buscar paquete por nombre…"
 
@@ -1741,17 +1734,17 @@ msgid "Search Google with results shown directly"
 msgstr "Buscar en Google mostrando directamente los resultados"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:68 ../kupfer/plugin/tracker.py:106
+#: ../kupfer/plugin/tracker.py:68 ../kupfer/plugin/tracker.py:109
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Resultados para «%s»"
 
-#: ../kupfer/plugin/google_search.py:64
+#: ../kupfer/plugin/google_search.py:67
 #, python-format
 msgid "Show More Results For \"%s\""
 msgstr "Mostrar más resultados para «%s»"
 
-#: ../kupfer/plugin/google_search.py:65
+#: ../kupfer/plugin/google_search.py:68
 #, python-format
 msgid "%s total found"
 msgstr "%s encontradas en total"
@@ -2340,41 +2333,41 @@ msgstr "Obtener resultados de Tracker…"
 msgid "Show Tracker results for query"
 msgstr "Mostrar resultados de Tracker para la consulta"
 
-#: ../kupfer/plugin/tracker.py:158 ../kupfer/plugin/tracker.py:164
+#: ../kupfer/plugin/tracker.py:161 ../kupfer/plugin/tracker.py:167
 msgid "Tracker tags"
 msgstr "Etiquetas de Tracker"
 
-#: ../kupfer/plugin/tracker.py:173
+#: ../kupfer/plugin/tracker.py:176
 msgid "Tracker Tags"
 msgstr "Etiquetas de Tracker"
 
-#: ../kupfer/plugin/tracker.py:179
+#: ../kupfer/plugin/tracker.py:182
 msgid "Browse Tracker's tags"
 msgstr "Examinar las etiquetas de Tracker"
 
-#: ../kupfer/plugin/tracker.py:190 ../kupfer/plugin/tracker.py:197
+#: ../kupfer/plugin/tracker.py:193 ../kupfer/plugin/tracker.py:200
 #, python-format
 msgid "Tag %s"
 msgstr "Etiqueta %s"
 
-#: ../kupfer/plugin/tracker.py:204
+#: ../kupfer/plugin/tracker.py:207
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objetos con etiqueta %s en Tracker"
 
-#: ../kupfer/plugin/tracker.py:216
+#: ../kupfer/plugin/tracker.py:219
 msgid "Add Tag..."
 msgstr "Añadir etiqueta…"
 
-#: ../kupfer/plugin/tracker.py:242
+#: ../kupfer/plugin/tracker.py:245
 msgid "Add tracker tag to file"
 msgstr "Añadir etiqueta Tracker al archivo"
 
-#: ../kupfer/plugin/tracker.py:248
+#: ../kupfer/plugin/tracker.py:251
 msgid "Remove Tag..."
 msgstr "Quitar etiqueta…"
 
-#: ../kupfer/plugin/tracker.py:267
+#: ../kupfer/plugin/tracker.py:270
 msgid "Remove tracker tag from file"
 msgstr "Quitar etiqueta Tracker del archivo"
 
