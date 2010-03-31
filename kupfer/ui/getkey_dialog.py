@@ -20,6 +20,7 @@ class GetKeyDialogController(object):
 		self.labelkey = builder.get_object('labelkey')
 		self.imagekeybindingaux = builder.get_object('imagekeybindingaux')
 		self.labelkeybindingaux = builder.get_object('labelkeybindingaux')
+		self.labelaccelerator = builder.get_object('labelaccelerator')
 
 		self.imagekeybindingaux.hide()
 		self.labelkeybindingaux.hide()
@@ -27,12 +28,14 @@ class GetKeyDialogController(object):
 		self._key = None
 		self._check_callback = check_callback
 		self._previous_key = previous_key
+		self._press_time = None
 
 		self.window.connect("focus-in-event", self.on_window_focus_in)
 		self.window.connect("focus-out-event", self.on_window_focus_out)
 
 	def run(self):
 		''' Run dialog, return key codes or None when user press cancel'''
+		self.window.set_keep_above(True)
 		self.window.run()
 		self.window.destroy()
 		return self._key
@@ -41,9 +44,7 @@ class GetKeyDialogController(object):
 		self._key = None
 		self.window.hide()
 
-	def on_dialoggetkey_key_press_event(self, _widget, event):
-		self.imagekeybindingaux.hide()
-		self.labelkeybindingaux.hide()
+	def translate_keyboard_event(self, event):
 		keymap = gtk.gdk.keymap_get_default()
 		# translate keys properly
 		keyval, egroup, level, consumed = keymap.translate_keyboard_state(
@@ -51,6 +52,19 @@ class GetKeyDialogController(object):
 		modifiers = gtk.accelerator_get_default_mod_mask() & ~consumed
 
 		state = event.state & modifiers
+
+		return keyval, state
+
+	def update_accelerator_label(self, keyval, state):
+		accel_label = gtk.accelerator_get_label(keyval, state)
+		self.labelaccelerator.set_text(accel_label)
+
+	def on_dialoggetkey_key_press_event(self, _widget, event):
+		self.imagekeybindingaux.hide()
+		self.labelkeybindingaux.hide()
+		self._press_time = event.time
+
+		keyval, state = self.translate_keyboard_event(event)
 		keyname = gtk.gdk.keyval_name(keyval)
 		if keyname == 'Escape':
 			self._key = None
@@ -58,7 +72,15 @@ class GetKeyDialogController(object):
 		elif keyname == 'BackSpace':
 			self._key = ''
 			self.window.hide()
-		elif gtk.accelerator_valid(keyval, state):
+		self.update_accelerator_label(keyval, state)
+
+	def on_dialoggetkey_key_release_event(self, widget, event):
+		if not self._press_time:
+			return
+		keyval, state = self.translate_keyboard_event(event)
+		self.update_accelerator_label(0, 0)
+
+		if gtk.accelerator_valid(keyval, state):
 			self._key = gtk.accelerator_name(keyval, state)
 			if (self._previous_key is not None and
 					self._key == self._previous_key):
@@ -75,8 +97,6 @@ class GetKeyDialogController(object):
 				self.labelkeybindingaux.show()
 				self._key = None
 
-	def on_dialoggetkey_key_release_event(self, widget, event):
-		pass
 
 	def on_window_focus_in(self, window, _event):
 		pass
