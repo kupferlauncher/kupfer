@@ -889,8 +889,6 @@ class Interface (gobject.GObject):
 		Intercept arrow keys and manipulate table
 		without losing focus from entry field
 		"""
-		keyv = event.keyval
-		key_book = self.key_book
 
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
@@ -899,10 +897,11 @@ class Interface (gobject.GObject):
 		# translate keys properly
 		keyv, egroup, level, consumed = keymap.translate_keyboard_state(
 					event.hardware_keycode, event.state, event.group)
-		modifiers = gtk.accelerator_get_default_mod_mask() & ~consumed
+		all_modifiers = gtk.accelerator_get_default_mod_mask()
+		modifiers = all_modifiers & ~consumed
 		# MOD1_MASK is alt/option
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
-		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
+		shift_mask = ((event.state & all_modifiers) == gtk.gdk.SHIFT_MASK)
 
 		text_mode = self.get_in_text_mode()
 		has_input = bool(self.entry.get_text())
@@ -926,6 +925,7 @@ class Interface (gobject.GObject):
 					action_method()
 				return True
 
+		key_book = self.key_book
 		use_command_keys = setctl.get_use_command_keys()
 		has_selection = (self.current.get_match_state() is State.Match)
 		if not text_mode and use_command_keys:
@@ -996,7 +996,7 @@ class Interface (gobject.GObject):
 			self._back_key_press()
 		elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
 			self.current.hide_table()
-			self.switch_current(reverse=shift_mask)
+			self.switch_current(reverse=(keyv == key_book["ISO_Left_Tab"]))
 		elif keyv == key_book['Home']:
 			self.current.go_first()
 		else:
