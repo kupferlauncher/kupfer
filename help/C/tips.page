@@ -54,19 +54,17 @@
   </p>
   <table>
     <tr>
-      <td><p><key>Space</key> or <key>↓</key></p></td>
+      <td><p><key>↓</key> or <key>Space</key></p></td>
       <td><p> Go to the next match </p></td>
     </tr>
     <tr>
-      <td><p> <key>Shift+Space</key> or <key>↑</key></p></td>
+      <td><p>
+        <key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>
+      </p></td>
      <td><p> Go to the previous match </p></td>
     </tr>
     <tr>
-      <td><p> <key>.</key></p></td>
-     <td><p> Activate free-text mode </p></td>
-    </tr>
-    <tr>
-      <td><p> <key>/</key>  or <key>→</key></p></td>
+      <td><p> <key>→</key> or <key>/</key>  </p></td>
      <td><p> Descend into an object with content </p></td>
     </tr>
     <tr>
@@ -74,6 +72,10 @@
      <td><p> Erase a character from the query. If the
        query is empty, go up a level 
    </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>.</key></p></td>
+     <td><p> Activate free-text mode </p></td>
     </tr>
     <tr>
       <td><p> <key>,</key></p></td>
