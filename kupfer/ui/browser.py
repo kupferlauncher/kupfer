@@ -1206,7 +1206,6 @@ class Interface (gobject.GObject):
 
 	def select_selected_file(self):
 		# Add optional lookup data to narrow the search
-		self.data_controller.find_object("qpfer:selectedtext#any.TextLeaf")
 		self.data_controller.find_object("qpfer:selectedfile#any.FileLeaf")
 
 	def select_selected_text(self):
@@ -1526,6 +1525,7 @@ class WindowController (pretty.OutputMixin):
 			self.show_hide(time=event_time)
 		elif keybinding_number == keybindings.KEYBINDING_MAGIC:
 			self.activate(time=event_time)
+			self.interface.select_selected_text()
 			self.interface.select_selected_file()
 
 	def _put_text_received(self, sender, text):
