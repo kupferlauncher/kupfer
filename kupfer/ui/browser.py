@@ -12,6 +12,9 @@ import gtk
 import gio
 import gobject
 
+from kupfer import kupferui
+from kupfer import version
+
 from kupfer import scheduler
 from kupfer.ui  import listen
 from kupfer.ui import keybindings
@@ -1211,8 +1214,12 @@ class Interface (gobject.GObject):
 		self.data_controller.find_object("qpfer:quit")
 
 	def show_help(self):
-		from kupfer import kupferui
 		kupferui.show_help()
+		self.emit("launched-action")
+
+	def show_preferences(self):
+		kupferui.show_preferences()
+		self.emit("launched-action")
 
 	def compose_action(self):
 		self.data_controller.compose_selection()
@@ -1388,6 +1395,9 @@ class Interface (gobject.GObject):
 gobject.type_register(Interface)
 gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
+# Send only when the interface itself launched an action directly
+gobject.signal_new("launched-action", Interface, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
 
 class WindowController (pretty.OutputMixin):
 	"""
@@ -1403,6 +1413,7 @@ class WindowController (pretty.OutputMixin):
 		data_controller.connect("command-result", self.result_callback)
 
 		self.interface = Interface(data_controller, self.window)
+		self.interface.connect("launched-action", self.launch_callback)
 		self.interface.connect("cancelled", self._cancelled)
 		self._setup_window()
 		self._statusicon = None
@@ -1421,9 +1432,6 @@ class WindowController (pretty.OutputMixin):
 			else: self.hide_statusicon()
 
 	def _setup_status_icon(self):
-		from kupfer import kupferui
-		from kupfer import version
-
 		status = gtk.status_icon_new_from_icon_name(version.ICON_NAME)
 		status.set_tooltip(version.PROGRAM_NAME)
 		menu = gtk.Menu()
@@ -1452,7 +1460,6 @@ class WindowController (pretty.OutputMixin):
 		"""
 		Returns window
 		"""
-		from kupfer import version
 
 		self.window.connect("delete-event", self._close_window)
 		widget = self.interface.get_widget()

@@ -48,6 +48,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		'select_selected_file': _('Select Selected File'),
 		'select_selected_text': _('Select Selected Text'),
 		'show_help': _('Show Help'),
+		'show_preferences': _('Show Preferences'),
 		'switch_to_source': _('Switch to First Pane'),
 		"toggle_text_mode_quick": _('Toggle Text Mode'),
 	}
