@@ -1224,6 +1224,8 @@ class Interface (gobject.GObject):
 		curpane = self._pane_for_widget(self.current)
 		if self.data_controller.object_stack_push(curpane, cur):
 			self._relax_search_terms()
+			if self.get_in_text_mode():
+				self.reset_text()
 			return True
 
 	def _pane_reset(self, controller, pane, item):
