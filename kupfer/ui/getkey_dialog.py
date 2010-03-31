@@ -40,9 +40,13 @@ class GetKeyDialogController(object):
 		self.window.destroy()
 		return self._key
 
-	def on_buttoncancel_activate(self, _widget):
-		self._key = None
+	def _return(self, key):
+		" Finish dialog with @key as result"
+		self._key = key
 		self.window.hide()
+
+	def on_buttoncancel_activate(self, _widget):
+		self._return(None)
 
 	def translate_keyboard_event(self, event):
 		keymap = gtk.gdk.keymap_get_default()
@@ -67,11 +71,9 @@ class GetKeyDialogController(object):
 		keyval, state = self.translate_keyboard_event(event)
 		keyname = gtk.gdk.keyval_name(keyval)
 		if keyname == 'Escape':
-			self._key = None
-			self.window.hide()
+			self._return(None)
 		elif keyname == 'BackSpace':
-			self._key = ''
-			self.window.hide()
+			self._return('')
 		self.update_accelerator_label(keyval, state)
 
 	def on_dialoggetkey_key_release_event(self, widget, event):
@@ -81,21 +83,16 @@ class GetKeyDialogController(object):
 		self.update_accelerator_label(0, 0)
 
 		if gtk.accelerator_valid(keyval, state):
-			self._key = gtk.accelerator_name(keyval, state)
+			key = gtk.accelerator_name(keyval, state)
 			if (self._previous_key is not None and
-					self._key == self._previous_key):
-				self._key = None
-				self.window.hide()
+					key == self._previous_key):
+				self._return(None)
 				return
-			if self._check_callback is None:
-				self.window.hide()
-				return
-			if self._check_callback(self._key):
-				self.window.hide()
+			if self._check_callback is None or self._check_callback(key):
+				self._return(key)
 			else:
 				self.imagekeybindingaux.show()
 				self.labelkeybindingaux.show()
-				self._key = None
 
 
 	def on_window_focus_in(self, window, _event):
