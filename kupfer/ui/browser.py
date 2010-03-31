@@ -19,6 +19,7 @@ from kupfer import scheduler
 from kupfer.ui  import listen
 from kupfer.ui import keybindings
 from kupfer.core import data, relevance, learn
+from kupfer.core import settings
 from kupfer import icons
 from kupfer import interface
 from kupfer import pretty
@@ -891,16 +892,15 @@ class Interface (gobject.GObject):
 		keyv = event.keyval
 		key_book = self.key_book
 
-		from kupfer.core import settings
-		setctl = settings.GetSettingsController()
-		keybindings = setctl.get_accelerators()
-		use_command_keys = setctl.get_use_command_keys()
-
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
 		init_text_keys.append(direct_text_key)
-		# test for alt modifier (MOD1_MASK is alt/option)
-		modifiers = gtk.accelerator_get_default_mod_mask()
+		keymap = gtk.gdk.keymap_get_default()
+		# translate keys properly
+		keyv, egroup, level, consumed = keymap.translate_keyboard_state(
+					event.hardware_keycode, event.state, event.group)
+		modifiers = gtk.accelerator_get_default_mod_mask() & ~consumed
+		# MOD1_MASK is alt/option
 		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
 		shift_mask = ((event.state & modifiers) == gtk.gdk.SHIFT_MASK)
 
@@ -912,8 +912,9 @@ class Interface (gobject.GObject):
 		self._latest_input_timer.set(self._slow_input_interval,
 				self._relax_search_terms)
 
+		setctl = settings.GetSettingsController()
 		# process accelerators
-		for action, accel in keybindings.iteritems():
+		for action, accel in setctl.get_accelerators().iteritems():
 			akeyv, amodf = gtk.accelerator_parse(accel)
 			if not akeyv:
 				continue
@@ -925,6 +926,7 @@ class Interface (gobject.GObject):
 					action_method()
 				return True
 
+		use_command_keys = setctl.get_use_command_keys()
 		has_selection = (self.current.get_match_state() is State.Match)
 		if not text_mode and use_command_keys:
 			# translate extra commands to normal commands here
@@ -1591,7 +1593,6 @@ class WindowController (pretty.OutputMixin):
 		"""
 		import signal
 		from kupfer.ui import session
-		from kupfer.core import settings
 
 		self.output_debug("in lazy_setup")
 

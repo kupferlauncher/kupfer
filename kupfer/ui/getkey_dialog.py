@@ -44,18 +44,24 @@ class GetKeyDialogController(object):
 	def on_dialoggetkey_key_press_event(self, _widget, event):
 		self.imagekeybindingaux.hide()
 		self.labelkeybindingaux.hide()
-		keyname = gtk.gdk.keyval_name(event.keyval)
+		keymap = gtk.gdk.keymap_get_default()
+		# translate keys properly
+		keyval, egroup, level, consumed = keymap.translate_keyboard_state(
+					event.hardware_keycode, event.state, event.group)
+		modifiers = gtk.accelerator_get_default_mod_mask() & ~consumed
+
+		state = event.state & modifiers
+		keyname = gtk.gdk.keyval_name(keyval)
 		if keyname == 'Escape':
 			self._key = None
 			self.window.hide()
 		elif keyname == 'BackSpace':
 			self._key = ''
 			self.window.hide()
-		elif gtk.accelerator_valid(event.keyval, event.state):
-			modifiers = gtk.accelerator_get_default_mod_mask()
-			state = event.state & modifiers
-			self._key = gtk.accelerator_name(event.keyval, state)
-			if self._previous_key is not None and self._key == self._previous_key:
+		elif gtk.accelerator_valid(keyval, state):
+			self._key = gtk.accelerator_name(keyval, state)
+			if (self._previous_key is not None and
+					self._key == self._previous_key):
 				self._key = None
 				self.window.hide()
 				return
