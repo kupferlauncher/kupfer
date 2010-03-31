@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-29 22:38+0200\n"
+"POT-Creation-Date: 2010-03-31 13:47+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -173,13 +173,16 @@ msgid "Select Quit"
 msgstr "Välj Avsluta"
 
 msgid "Select Selected File"
-msgstr "Välj Markerad fil"
+msgstr "Välj markerad fil"
 
 msgid "Select Selected Text"
-msgstr "Välj Markering"
+msgstr "Välj markering"
 
 msgid "Show Help"
-msgstr "Visa Hjälp"
+msgstr "Visa hjälp"
+
+msgid "Show Preferences"
+msgstr "Visa inställningar"
 
 msgid "Switch to First Pane"
 msgstr "Välj första rutan"
