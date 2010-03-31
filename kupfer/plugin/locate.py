@@ -48,6 +48,9 @@ class LocateQuerySource (Source):
 		self.query = query
 		self.max_items = 500
 
+	def repr_key(self):
+		return self.query
+
 	def get_items(self):
 		ignore_case = '--ignore-case' if __kupfer_settings__["ignore_case"] else ''
 		# Start two processes, one to take the first hits, one

@@ -101,6 +101,9 @@ class PackageSearchSource (Source):
 		self.query = query
 		Source.__init__(self, _('Packages matching "%s"') % query)
 
+	def repr_key(self):
+		return self.query
+
 	def get_items(self):
 		package = self.query
 		P = subprocess.PIPE

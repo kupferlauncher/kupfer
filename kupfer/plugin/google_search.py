@@ -46,6 +46,9 @@ class SearchResults (Source):
 		Source.__init__(self, _('Results for "%s"') % query)
 		self.query = query
 
+	def repr_key(self):
+		return self.query
+
 	def get_items(self):
 		query = urllib.urlencode({'q': self.query})
 		search_response = urllib.urlopen(SEARCH_URL + query)

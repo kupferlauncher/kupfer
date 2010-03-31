@@ -69,6 +69,9 @@ class TrackerQuerySource (Source):
 		self.query = query
 		self.max_items = 50
 
+	def repr_key(self):
+		return self.query
+
 	def get_items(self):
 		try:
 			import dbus
