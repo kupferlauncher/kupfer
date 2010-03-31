@@ -9,13 +9,17 @@ __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gtk
+import glib
 
 from kupfer.obj.base import Action, Source, TextSource
 from kupfer.obj.objects import TextLeaf, RunnableLeaf
 from kupfer.obj.compose import ComposedLeaf
 from kupfer import puid
+from kupfer import kupferstring
+from kupfer import task
 
 from kupfer.ui import keybindings
+from kupfer.ui import getkey_dialog
 
 
 # we import the keybinder module for its side-effects --
@@ -106,52 +110,42 @@ class Triggers (Source):
 	def get_icon_name(self):
 		return "key_bindings"
 
-def _accelerator_label(keystr):
-	return gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+def try_bind_key(keystr):
+	label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+	ulabel = kupferstring.tounicode(label)
+	if len(ulabel) == 1 and ulabel.isalnum():
+		return False
+	target = keybindings.KEYRANGE_TRIGGERS[-1] - 1
+	succ = keybindings.bind_key(keystr, target)
+	if succ:
+		keybindings.bind_key(None, target)
+	return succ
 
-def _valid_accelerator(keystr):
-	val, mod = gtk.accelerator_parse(keystr)
-	return val or mod
+class BindTask (task.Task):
+	def __init__(self, leaf):
+		self.leaf = leaf
 
-class AcceleratorSuggestionsSource (TextSource):
-	def __init__(self):
-		TextSource.__init__(self, _("Triggers"))
+	def start(self, finish_callback):
+		glib.idle_add(self.ask_key, finish_callback)
 
-	def get_text_items(self, text):
-		if not text or not _valid_accelerator(text):
-			return
-		pfix = ["<Ctrl><Alt>", "<Ctrl><Shift>", "<Ctrl><Alt><Shift>", "<Super>"]
-		texts = [text] + [p + text for p in pfix]
-		for accel in texts:
-			if not _valid_accelerator(accel):
-				continue
-			yield TextLeaf(accel, _accelerator_label(accel))
-
-	def get_items(self, text):
-		return self.get_text_items(text)
-
-	def provides(self):
-		yield TextLeaf
+	def ask_key(self, finish_callback):
+		keystr = getkey_dialog.ask_for_key(try_bind_key)
+		if keystr:
+			Triggers.add_trigger(self.leaf, keystr)
+		finish_callback(self)
 
 class AddTrigger (Action):
 	def __init__(self):
 		Action.__init__(self, _("Add Trigger..."))
 	
-	def activate(self, leaf, iobj):
-		Triggers.add_trigger(leaf, iobj.object)
+	def is_async(self):
+		return True
+
+	def activate(self, leaf):
+		return BindTask(leaf)
 
 	def item_types(self):
 		yield ComposedLeaf
-
-	def requires_object(self):
-		return True
-	def object_types(self):
-		yield TextLeaf
-	def object_source(self, for_item=None):
-		return AcceleratorSuggestionsSource()
-
-	def valid_object(self, iobj, for_item=None):
-		return len(iobj.object) > 1 and _valid_accelerator(iobj.object)
 
 	def get_icon_name(self):
 		return "list-add"
