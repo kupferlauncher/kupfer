@@ -36,14 +36,15 @@ fi
 test "x${1:0:2}" = "x--"
 KUPFER_HAS_OPTIONS=$?
 
-test $KUPFER_HAS_OPTIONS != 0 && dbus-send --print-reply --dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.Present >/dev/null 2>&1
+test $KUPFER_HAS_OPTIONS != 0 && dbus-send --type=method_call --print-reply \
+	--dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.Present \
+	>/dev/null 2>&1
 KUPFER_RUNNING=$?
 
 if test \( -n "$TEXT_INPUT" -a $KUPFER_HAS_OPTIONS != 0 \)
 then
-	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
-		se.kaizer.kupfer.Listener.PutText string:"$TEXT_INPUT" \
-		>/dev/null 2>&1
+	dbus-send --type=method_call --dest=se.kaizer.kupfer /interface \
+		se.kaizer.kupfer.Listener.PutText string:"$TEXT_INPUT"
 fi
 
 _realpaths () {
@@ -60,9 +61,8 @@ then
 	# NOTE: We must escape commas here since it is dbus-send's
 	# array item separator. This is then unescaped by kupfer
 	ARRAY=$(_realpaths "$@" | sed -e 's/,/%%kupfercomma%%/g' | tr \\0 ,)
-	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
-		se.kaizer.kupfer.Listener.PutFiles array:string:"$ARRAY" \
-		>/dev/null 2>&1
+	dbus-send --type=method_call --dest=se.kaizer.kupfer /interface  \
+		se.kaizer.kupfer.Listener.PutFiles array:string:"$ARRAY"
 fi
 
 
