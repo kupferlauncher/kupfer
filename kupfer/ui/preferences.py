@@ -18,13 +18,16 @@ from kupfer.ui import getkey_dialog
 
 # A major HACK
 # http://tadeboro.blogspot.com/2009/05/wrapping-adn-resizing-gtklabel.html
-def _cb_allocate(label, allocation):
-	label.set_size_request(allocation.width, -1)
+def _cb_allocate(label, allocation, maxwid):
+	if maxwid == -1:
+		maxwid = 300
+	label.set_size_request(min(maxwid, allocation.width), -1)
+	pass
 
-def wrapped_label(text=None):
+def wrapped_label(text=None, maxwid=-1):
 	label = gtk.Label(text)
 	label.set_line_wrap(True)
-	label.connect("size-allocate", _cb_allocate)
+	label.connect("size-allocate", _cb_allocate, maxwid)
 	return label
 
 class PreferencesWindowController (pretty.OutputMixin):
@@ -568,7 +571,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				vbox.pack_start(hbox, False)
 				continue
 
-			label_wid = wrapped_label(label)
+			label_wid = wrapped_label(label, maxwid=200)
 			if issubclass(typ, basestring):
 				if alternatives:
 					wid = gtk.combo_box_new_text()
@@ -604,7 +607,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				wid.set_increments(1, 1)
 				wid.set_range(0, 1000)
 				wid.set_value(plugin_settings[setting])
-				hbox.pack_start(label_wid, False, True)
+				hbox.pack_start(label_wid, False)
 				hbox.pack_start(wid, False)
 				wid.connect("changed", self._get_plugin_change_callback(
 					plugin_id, setting, typ, "get_text", no_false_values=True))
