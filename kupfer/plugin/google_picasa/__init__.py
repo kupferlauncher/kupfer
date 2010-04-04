@@ -3,7 +3,7 @@ __kupfer_name__ = _("Google Picasa")
 __kupfer_sources__ = ("PicasaUsersSource", )
 __kupfer_actions__ = ('UploadFileToPicasa', 'UploadDirToPicasa')
 __description__ = _("Show albums and upload files to Picasa")
-__version__ = "2010-02-04"
+__version__ = "2010-04-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os.path
@@ -127,7 +127,6 @@ class UploadTask(task.ThreadTask):
 
 	def thread_finish(self):
 		pass
-#		get_albums.activate()
 
 
 def picasa_login():
@@ -182,7 +181,7 @@ class PicasaDataCache():
 	def get_albums(cls, force=False):
 		''' Load user albums, and albums users defined in 'showusers' setting. '''
 		pretty.print_debug(__name__, 'get_albums', str(force))
-		if cls.data and not force:
+		if not force:
 			return cls.data
 		start_time = time.time()
 		gd_client = picasa_login()
@@ -380,7 +379,7 @@ class PicasaPrivAlbumsSource(Source):
 
 	def get_items(self):
 		if is_plugin_configured():
-			for user in PicasaDataCache.get_albums() or []:
+			for user in PicasaDataCache.get_albums():
 				if user.my_albums:
 					return user.albums
 		return []
@@ -402,11 +401,16 @@ class PicasaUsersSource(Source):
 
 	def initialize(self):
 		# fill loader cache by source cache
-		PicasaDataCache.data = self.cached_items
+		PicasaDataCache.data = self.cached_items or []
 
 	def get_items(self):
 		if is_plugin_configured():
-			return PicasaDataCache.get_albums(True) or []
+			return PicasaDataCache.get_albums()
+		return [PleaseConfigureLeaf(__name__, __kupfer_name__)]
+
+	def get_items_forced(self):
+		if is_plugin_configured():
+			return PicasaDataCache.get_albums(True)
 		return [PleaseConfigureLeaf(__name__, __kupfer_name__)]
 
 	def should_sort_lexically(self):

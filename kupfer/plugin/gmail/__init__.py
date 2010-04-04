@@ -3,7 +3,7 @@ __kupfer_name__ = _("Gmail")
 __kupfer_sources__ = ("GoogleContactsSource", )
 __kupfer_actions__ = ('NewMailAction', )
 __description__ = _("Load contacts and compose new email in Gmail")
-__version__ = "2010-03-04"
+__version__ = "2010-04-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import urllib
@@ -139,11 +139,18 @@ class GoogleContact(EmailContact):
 class GoogleContactsSource(ToplevelGroupingSource):
 	def __init__(self, name=_("Gmail")):
 		super(GoogleContactsSource, self).__init__(name, "Contacts")
-		self._version = 3
+		self._version = 4
+		self._contacts = []
 
 	def get_items(self):
 		if is_plugin_configured():
-			return get_contacts() or []
+			return self._contacts
+		return [PleaseConfigureLeaf(__name__, __kupfer_name__)]
+
+	def get_items_forced(self):
+		if is_plugin_configured():
+			self._contacts = get_contacts() or []
+			return self._contacts
 		return [PleaseConfigureLeaf(__name__, __kupfer_name__)]
 
 	def should_sort_lexically(self):

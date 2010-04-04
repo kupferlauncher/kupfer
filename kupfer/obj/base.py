@@ -341,6 +341,13 @@ class Source (KupferObject, pretty.OutputMixin):
 		"""
 		return []
 
+	def get_items_forced(self):
+		"""
+		Force compute and return items for source.
+		Default - call get_items method.
+		"""
+		return self.get_items()
+
 	def is_dynamic(self):
 		"""
 		Whether to recompute contents each time it is accessed
@@ -378,14 +385,18 @@ class Source (KupferObject, pretty.OutputMixin):
 			sort_func = lambda x: x
 
 		if self.is_dynamic():
-			return sort_func(self.get_items())
-		
-		if self.cached_items is None or force_update:
-			cache_type = aslist if force_update else datatools.SavedIterable
-			self.cached_items = cache_type(sort_func(self.get_items()))
 			if force_update:
+				return sort_func(self.get_items_forced())
+			else:
+				return sort_func(self.get_items())
+
+		if self.cached_items is None or force_update:
+			if force_update:
+				self.cached_items = aslist(sort_func(self.get_items_forced()))
 				self.output_info("Loaded %d items" % len(self.cached_items))
 			else:
+				self.cached_items = \
+						datatools.SavedIterable(sort_func(self.get_items()))
 				self.output_debug("Loaded items")
 		return self.cached_items
 

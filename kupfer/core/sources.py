@@ -468,8 +468,7 @@ class SourceController (pretty.OutputMixin):
 		# either newly rescanned or the cache is fully loaded
 		for src in set(sources):
 			with pluginload.exception_guard(src, self._remove_source, src):
-				force = (src not in self._restored_sources)
-				self.rescanner.rescan_now(src, force_update=force)
+				self.rescanner.rescan_now(src, force_update=False)
 
 
 _source_controller = None
