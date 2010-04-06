@@ -3,7 +3,7 @@ __kupfer_name__ = _("Google Picasa")
 __kupfer_sources__ = ("PicasaUsersSource", )
 __kupfer_actions__ = ('UploadFileToPicasa', 'UploadDirToPicasa')
 __description__ = _("Show albums and upload files to Picasa")
-__version__ = "2010-04-04"
+__version__ = "2010-04-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os.path
@@ -395,6 +395,8 @@ class PicasaPrivAlbumsSource(Source):
 
 
 class PicasaUsersSource(Source):
+	source_user_reloadable = True
+
 	def __init__(self, name=_("Picasa Albums")):
 		Source.__init__(self, name)
 		self._version = 2

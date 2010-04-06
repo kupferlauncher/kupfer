@@ -319,6 +319,8 @@ class InvisibleSourceLeaf (SourceLeaf):
 
 class TimelineSource(Source):
 	""" Source for main user timeline """
+	source_user_reloadable = True
+
 	def __init__(self, name=_("Twitter Timeline")):
 		Source.__init__(self, name)
 
@@ -345,6 +347,8 @@ class TimelineSource(Source):
 
 
 class FriendsSource(ToplevelGroupingSource):
+	source_user_reloadable = True
+
 	def __init__(self, name=_('Twitter Friends')):
 		super(FriendsSource, self).__init__(name, "Contacts")
 		self._version = 1

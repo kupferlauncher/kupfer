@@ -3,7 +3,7 @@ __kupfer_name__ = _("Gmail")
 __kupfer_sources__ = ("GoogleContactsSource", )
 __kupfer_actions__ = ('NewMailAction', )
 __description__ = _("Load contacts and compose new email in Gmail")
-__version__ = "2010-04-04"
+__version__ = "2010-04-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import urllib
@@ -137,6 +137,8 @@ class GoogleContact(EmailContact):
 
 
 class GoogleContactsSource(ToplevelGroupingSource):
+	source_user_reloadable = True
+
 	def __init__(self, name=_("Gmail")):
 		super(GoogleContactsSource, self).__init__(name, "Contacts")
 		self._version = 4
