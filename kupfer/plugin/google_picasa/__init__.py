@@ -191,7 +191,9 @@ class PicasaDataCache():
 		pusers = []
 		try:
 			user = __kupfer_settings__['userpass'].username
-			user_names = (__kupfer_settings__['showusers'] or '').split(',')
+			show_users = (__kupfer_settings__['showusers'] or '')
+			user_names = [U.strip() for U in show_users.split(',') if U.strip()]
+
 			if user not in user_names:
 				user_names.append(user)
 
