@@ -6,6 +6,7 @@ __kupfer_contents__ = ()
 __kupfer_actions__ = (
 	"SearchInside",
 	"CopyToClipboard",
+	"Rescan",
 	)
 __description__ = u"Core actions and items"
 __version__ = ""
@@ -98,3 +99,31 @@ class CopyToClipboard (Action):
 	def get_icon_name(self):
 		return "gtk-copy"
 
+
+class Rescan (Action):
+	"""A source action: Rescan a source!  """
+	rank_adjust = -5
+	def __init__(self):
+		Action.__init__(self, _("Rescan"))
+
+	def activate(self, leaf):
+		if not leaf.has_content():
+			raise InvalidLeafError("Must have content")
+		source = leaf.content_source()
+		source.get_leaves(force_update=True)
+
+	def get_description(self):
+		return _("Force reindex of this source")
+	def get_icon_name(self):
+		return "gtk-refresh"
+
+	def item_types(self):
+		yield objects.AppLeaf
+		yield objects.SourceLeaf
+
+	def valid_for_item(self, item):
+		if not item.has_content():
+			return False
+		if item.content_source().is_dynamic():
+			return False
+		return _is_debug() or item.content_source().source_user_reloadable

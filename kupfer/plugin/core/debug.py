@@ -15,45 +15,12 @@ __kupfer_contents__ = (
 		"ComposedSource",
 	)
 __kupfer_actions__ = (
-		"Rescan",
 		"DebugInfo",
 		"Forget",
 	)
 __description__ = __doc__
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-
-class Rescan (Action):
-	"""A source action: Rescan a source!
-
-	This is a debug action because normal users should not need to use it;
-	it is only confusing and inconsistent:
-
-	* Sources with internal caching don't really rescan anyway.
-	* Change callbacks make it redundant
-	"""
-	rank_adjust = -5
-	def __init__(self):
-		Action.__init__(self, _("Rescan"))
-
-	def activate(self, leaf):
-		if not leaf.has_content():
-			raise InvalidLeafError("Must have content")
-		source = leaf.content_source()
-		source.get_leaves(force_update=True)
-
-	def get_description(self):
-		return _("Force reindex of this source")
-	def get_icon_name(self):
-		return "gtk-refresh"
-
-	def item_types(self):
-		yield objects.AppLeaf
-		yield objects.SourceLeaf
-	def valid_for_item(self, item):
-		if not item.has_content():
-			return False
-		return not item.content_source().is_dynamic()
 
 class DebugInfo (Action):
 	""" Print debug info to terminal """

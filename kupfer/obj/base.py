@@ -296,8 +296,12 @@ class Source (KupferObject, pretty.OutputMixin):
 	All Sources should be hashable and treated as equal if
 	their @repr are equal!
 
+	@source_user_reloadable if True source get "Reload" action without
+		debug mode.
 	"""
 	fallback_icon_name = "kupfer-object-multiple"
+	source_user_reloadable = False
+
 	def __init__(self, name):
 		KupferObject.__init__(self, name)
 		self.cached_items = None
