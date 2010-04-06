@@ -9,14 +9,29 @@ Not Yet Released
 
 * Add Keyboard Shortcut configuration (Karol Będkowski)
 * Make it easier to copy and move files (William Friesen), while showing
-  user-friendly errors when action is not possible (Ulrik)
+  user-friendly errors when action is not possible (Ulrik) (:lp:`516530`)
 * Collect results in a *Command Results* subcatalog, including results from
-  asynchronous commands (Pro tip: Bind a trigger to Command Results ->
-  Search Contents, for quick access to copied files, downloaded files etc!)
+  asynchronous commands (Pro tip: Bind a trigger to *Command Results* →
+  *Search Contents*, for quick access to copied files, downloaded files etc)
 * *Last Result* proxy object implemented
 * Add *Cliboards* -> *Clear* action (Karol)
+* Add *Rescan* action for some sources (Karol)
 * Add an icon in the plugin list search field to enable clearing it (Karol)
+* Fix spelling (Francesco Marella)
 * Fix bug :lp:`544289`
+* Require python module ``keyring`` (since pandoras-box-1.99, but was not
+  mentioned)
+* Recommend python-keybinder version 0.0.9 or later
+
+* Localization updates:
+
+  + cs Marek Černocký
+  + de Mario Blättermann
+  + es Jorge González
+  + pl Karol Będkowski
+  + sl Andrej Žnidaršič
+  + sv Ulrik
+  + zh_CN Aron Xu
 
 kupfer version pandoras-box-1.99
 --------------------------------
