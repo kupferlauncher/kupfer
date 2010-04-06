@@ -1,8 +1,5 @@
 __kupfer_name__ = _("Audacious")
 __kupfer_sources__ = ("AudaciousSource", )
-__kupfer_actions__ = (
-		"Rescan",
-	)
 __description__ = _("Control Audacious playback and playlist")
 __version__ = "2009-12-15"
 __author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>"
@@ -89,30 +86,6 @@ class JumpToSong(Action):
 		return _("Jump to track in Audacious")
 	def get_icon_name(self):
 		return "media-playback-start"
-
-class Rescan (Action):
-	"""A source action: Rescan a source!
-
-	A simplified version of the original core Rescan action
-	"""
-	rank_adjust = -5
-	def __init__(self):
-		Action.__init__(self, _("Rescan"))
-
-	def activate(self, leaf):
-		if not leaf.has_content():
-			raise objects.InvalidLeafError("Must have content")
-		source = leaf.content_source()
-		source.get_leaves(force_update=True)
-
-	def get_description(self):
-		return _("Force reindex of this source")
-	def get_icon_name(self):
-		return "gtk-refresh"
-	def item_types(self):
-		yield AppLeaf
-	def valid_for_item(self, item):
-		return item.get_id() == AUDACIOUS
 
 class Play (RunnableLeaf):
 	def __init__(self):
@@ -208,6 +181,8 @@ class AudaciousSongsSource (Source):
 
 class AudaciousSource (AppLeafContentMixin, Source):
 	appleaf_content_id = AUDACIOUS
+	source_user_reloadable = True
+
 	def __init__(self):
 		Source.__init__(self, _("Audacious"))
 	def get_items(self):
