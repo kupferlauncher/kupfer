@@ -2,10 +2,10 @@
 from __future__ import absolute_import
 __kupfer_name__ = _("Twitter")
 __kupfer_sources__ = ("FriendsSource", "TimelineSource")
-__kupfer_actions__ = ("PostUpdate", "SendDirectMessage", 
+__kupfer_actions__ = ("PostUpdate", "SendDirectMessage",
 		'SendAsDirectMessageToFriend' )
 __description__ = _("Microblogging with Twitter: send updates and show friends' tweets")
-__version__ = "2010-03-04"
+__version__ = "2010-04-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import urllib2
@@ -16,12 +16,10 @@ import twitter as twitter
 from kupfer import icons, pretty
 from kupfer import plugin_support
 from kupfer import kupferstring
-from kupfer.objects import Action, TextLeaf, Source, Leaf, SourceLeaf, \
-		TextSource
+from kupfer.objects import Action, TextLeaf, Source, SourceLeaf, TextSource
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 from kupfer.obj.special import PleaseConfigureLeaf
-from kupfer.obj.helplib import background_loader
 
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -33,7 +31,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 	{
 		'key': 'loadicons',
-		'label': _("Load friends' pictures"), 
+		'label': _("Load friends' pictures"),
 		'type': bool,
 		'value': True
 	},
@@ -105,14 +103,12 @@ def _load_tweets(api, user, count):
 		for status in timeline:
 			text = kupferstring.tounicode(status.text)
 			name = kupferstring.tounicode(status.user.name)
-			yield StatusLeaf(text, name, status.relative_created_at, 
+			yield StatusLeaf(text, name, status.relative_created_at,
 					status.id)
 	except urllib2.HTTPError, err:
 		pretty.print_error(__name__, '_load_tweets', user, count, err)
 
 
-@background_loader(interval=UPDATE_FR_INTERVAL_S, name='twitter', 
-		delay=UPDATE_FR_STARTUP_S)
 def load_data():
 	pretty.print_debug(__name__, 'load_data: start')
 	start_time = time.time()
@@ -127,20 +123,18 @@ def load_data():
 			name = kupferstring.tounicode(friend.name)
 			fobj = Friend(screen_name, name, image)
 			if __kupfer_settings__['loadtweets']:
-				fobj.tweets = list(_load_tweets(api, friend.screen_name, 
+				fobj.tweets = list(_load_tweets(api, friend.screen_name,
 						MAX_STATUSES_COUNT))
 			result.append(fobj)
 	else:
 		confl = PleaseConfigureLeaf(__name__, __kupfer_name__)
 		result = [ confl ]
 
-	pretty.print_debug(__name__, 'load_data: finished; load', len(result), 
+	pretty.print_debug(__name__, 'load_data: finished; load', len(result),
 			time.time()-start_time)
 	return result
 
 
-@background_loader(interval=UPDATE_TL_INTERVAL_S, name='twitter-timeline', 
-		delay=UPDATE_TL_START_S)
 def load_data_timeline():
 	if not __kupfer_settings__['loadtimeline']:
 		return None
@@ -155,7 +149,7 @@ def load_data_timeline():
 	else:
 		result = [PleaseConfigureLeaf(__name__, __kupfer_name__)]
 
-	pretty.print_debug(__name__, 'load_data_timeline: finished; load', 
+	pretty.print_debug(__name__, 'load_data_timeline: finished; load',
 			len(result), time.time()-start_time)
 	return result
 
@@ -323,14 +317,14 @@ class TimelineSource(Source):
 
 	def __init__(self, name=_("Twitter Timeline")):
 		Source.__init__(self, name)
-
-	def initialize(self):
-		if self._is_valid():
-			load_data_timeline.fill_cache(self.cached_items)
-			load_data_timeline.bind_and_start(self.mark_for_update)
+		self.timeline = []
 
 	def get_items(self):
-		return load_data_timeline() or []
+		return self.timeline
+
+	def get_items_forced(self):
+		self.timeline = load_data_timeline() or []
+		return self.timeline
 
 	def get_icon_name(self):
 		return 'twitter'
@@ -340,7 +334,7 @@ class TimelineSource(Source):
 		yield PleaseConfigureLeaf
 
 	def get_leaf_repr(self):
-		return None if self._is_valid() else InvisibleSourceLeaf(self) 
+		return None if self._is_valid() else InvisibleSourceLeaf(self)
 
 	def _is_valid(self):
 		return __kupfer_settings__['loadtimeline']
@@ -352,14 +346,14 @@ class FriendsSource(ToplevelGroupingSource):
 	def __init__(self, name=_('Twitter Friends')):
 		super(FriendsSource, self).__init__(name, "Contacts")
 		self._version = 1
-
-	def initialize(self):
-		ToplevelGroupingSource.initialize(self)
-		load_data.fill_cache(self.cached_items)
-		load_data.bind_and_start(self.mark_for_update)
+		self.items = []
 
 	def get_items(self):
-		return load_data() or []
+		return self.items
+
+	def get_items_forced(self):
+		self.items = load_data() or []
+		return self.items
 
 	def get_icon_name(self):
 		return 'twitter'
