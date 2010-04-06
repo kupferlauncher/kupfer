@@ -131,7 +131,7 @@ def load_data():
 						MAX_STATUSES_COUNT))
 			result.append(fobj)
 	else:
-		confl = PleaseConfigureLeaf('microbloging_twitter', __kupfer_name__)
+		confl = PleaseConfigureLeaf(__name__, __kupfer_name__)
 		result = [ confl ]
 
 	pretty.print_debug(__name__, 'load_data: finished; load', len(result), 
