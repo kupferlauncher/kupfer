@@ -1,6 +1,7 @@
 import gobject
 
 from kupfer import pretty
+from kupfer import kupferstring
 
 KEYBINDING_DEFAULT = 1
 KEYBINDING_MAGIC = 2
@@ -65,7 +66,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 
 	keybinding_target = int(keybinding_target)
 	callback = lambda : GetKeyboundObject()._keybinding(keybinding_target)
-	if keystr and len(keystr) == 1:
+	if not _is_sane_keybinding(keystr):
 		pretty.print_error(__name__, "Refusing to bind key", repr(keystr))
 		return False
 
@@ -85,3 +86,13 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 		_register_bound_key(keystr, keybinding_target)
 	return succ
 
+
+def _is_sane_keybinding(keystr):
+	"Refuse keys that we absolutely do not want to bind"
+	if keystr is None:
+		return True
+	if len(keystr) == 1 and keystr.isalnum():
+		return False
+	if keystr in set(["Return", "space", "BackSpace", "Escape"]):
+		return False
+	return True
