@@ -20,6 +20,7 @@ from kupfer import objects
 from kupfer.obj.base import InvalidLeafError
 from kupfer import interface
 from kupfer import pretty
+from kupfer import task
 
 
 def _is_debug():
@@ -100,6 +101,15 @@ class CopyToClipboard (Action):
 		return "gtk-copy"
 
 
+class RescanActionTask(task.ThreadTask):
+	def __init__(self, source):
+		task.ThreadTask.__init__(self)
+		self.source = source
+
+	def thread_do(self):
+		self.source.get_leaves(force_update=True)
+
+
 class Rescan (Action):
 	"""A source action: Rescan a source!  """
 	rank_adjust = -5
@@ -110,10 +120,14 @@ class Rescan (Action):
 		if not leaf.has_content():
 			raise InvalidLeafError("Must have content")
 		source = leaf.content_source()
-		source.get_leaves(force_update=True)
+		return RescanActionTask(source)
+
+	def is_async(self):
+		return True
 
 	def get_description(self):
 		return _("Force reindex of this source")
+
 	def get_icon_name(self):
 		return "gtk-refresh"
 
