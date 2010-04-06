@@ -18,6 +18,7 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.obj.sources import MultiSource
 from kupfer import objects
 from kupfer.obj.base import InvalidLeafError
+from kupfer import commandexec
 from kupfer import interface
 from kupfer import pretty
 from kupfer import task
@@ -102,12 +103,18 @@ class CopyToClipboard (Action):
 
 
 class RescanActionTask(task.ThreadTask):
-	def __init__(self, source):
+	def __init__(self, source, async_token, retval):
 		task.ThreadTask.__init__(self)
 		self.source = source
+		self.async_token = async_token
+		self.retval = retval
 
 	def thread_do(self):
 		self.source.get_leaves(force_update=True)
+
+	def thread_finish(self):
+		ctx = commandexec.DefaultActionExecutionContext()
+		ctx.register_late_result(self.async_token, self.retval)
 
 
 class Rescan (Action):
@@ -120,7 +127,8 @@ class Rescan (Action):
 		if not leaf.has_content():
 			raise InvalidLeafError("Must have content")
 		source = leaf.content_source()
-		return RescanActionTask(source)
+		ctx = commandexec.DefaultActionExecutionContext()
+		return RescanActionTask(source, ctx.get_async_token(), leaf)
 
 	def is_async(self):
 		return True
