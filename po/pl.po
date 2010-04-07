@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-30 16:59+0200\n"
-"PO-Revision-Date: 2010-03-30 17:10+0200\n"
+"POT-Creation-Date: 2010-04-07 20:11+0200\n"
+"PO-Revision-Date: 2010-04-07 20:23+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,8 @@ msgid "Start automatically on login"
 msgstr "Automatycznie uruchamianie po zalogowaniu"
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
-msgstr "Włącz jedno-klawiszowe komendy (Spacja, /, kropka, przecinek, itd)"
+msgstr ""
+"Włączenie jedno-klawiszowych poleceń (Spacja, /, kropka, przecinek, itd)"
 
 msgid "User credentials"
 msgstr "Dane użytkownika"
@@ -176,6 +177,9 @@ msgstr "Przejdź do zaznaczonego tekstu"
 
 msgid "Show Help"
 msgstr "Wyświetl pomoc"
+
+msgid "Show Preferences"
+msgstr "Wyświetl ustawienia"
 
 msgid "Switch to First Pane"
 msgstr "Przejdź do pierwszego panelu"
@@ -460,12 +464,6 @@ msgstr "Wyświetla pomocy programu Kupfer"
 msgid "Show preferences window for Kupfer"
 msgstr "Wyświetla okno ustawień programu Kupfer"
 
-msgid "Rescan"
-msgstr "Odśwież"
-
-msgid "Force reindex of this source"
-msgstr "Wymusza odświeżenia źródła"
-
 msgid "Search Contents"
 msgstr "Przeszukaj zawartość"
 
@@ -477,6 +475,12 @@ msgstr "Kopiuj"
 
 msgid "Copy to clipboard"
 msgstr "Kopiuje do schowka"
+
+msgid "Rescan"
+msgstr "Odśwież"
+
+msgid "Force reindex of this source"
+msgstr "Wymusza odświeżenia źródła"
 
 msgid "Selected Text"
 msgstr "Zaznaczony tekst"
@@ -550,7 +554,7 @@ msgid "Clear"
 msgstr "Wyczyść"
 
 msgid "Remove all recent clipboards"
-msgstr "Usunięcie wszystkich schowków"
+msgstr "Usuwa wszystkie elementy ze schowka"
 
 msgid "Shell Commands"
 msgstr "Komendy powłoki"
