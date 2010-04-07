@@ -2,10 +2,10 @@
 NEWS for kupfer
 ===============
 
-kupfer's next insanity
-----------------------
+kupfer v200
+-----------
 
-Not Yet Released
+Released Wednesday,  7 April 2010
 
 * Add Keyboard Shortcut configuration (Karol Będkowski)
 * Make it easier to copy and move files (William Friesen), while showing
@@ -18,7 +18,7 @@ Not Yet Released
 * Add *Rescan* action for some sources (Karol)
 * Add an icon in the plugin list search field to enable clearing it (Karol)
 * Fix spelling (Francesco Marella)
-* Fix bug :lp:`544289`
+* Fix bug `544289`:lp:
 * Require python module ``keyring`` (since pandoras-box-1.99, but was not
   mentioned)
 * Recommend python-keybinder version 0.0.9 or later
