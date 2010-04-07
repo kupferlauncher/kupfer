@@ -33,6 +33,7 @@ def wrapped_label(text=None, maxwid=-1):
 class PreferencesWindowController (pretty.OutputMixin):
 
 	KEYBINDING_NAMES = {
+		# TRANS: Names of global keyboard shortcuts
 		'keybinding': _("Show Main Interface"),
 		'magickeybinding': _("Show with Selection"),
 	}
@@ -43,8 +44,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 	}
 
 	ACCELERATOR_NAMES = {
+		# TRANS: Names of accelerators in the interface
 		'activate': _('Alternate Activate'),
+		# TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+		# TRANS: user to select many objects to be used for one action
 		'comma_trick': _('Comma Trick'),
+		# TRANS: "Compose Command" makes one object out of the selected
+		# TRANS: object + action (+iobject)
 		'compose_action': _('Compose Command'),
 		'reset_all': _('Reset All'),
 		'select_quit': _('Select Quit'),
