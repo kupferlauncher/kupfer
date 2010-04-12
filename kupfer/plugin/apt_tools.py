@@ -70,10 +70,15 @@ class ShowPackageInfo (Action):
 class InstallPackage (Action):
 	def __init__(self):
 		Action.__init__(self, _("Install"))
+
 	def activate(self, leaf):
-		pkg = leaf.object.strip()
-		cli = "%s %s" % (__kupfer_settings__["installation_method"], pkg)
-		utils.launch_commandline(cli, in_terminal=True)
+		self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objs):
+		program = (__kupfer_settings__["installation_method"])
+		pkgs = " ".join(o.object.strip() for o in objs)
+		utils.launch_commandline("%s %s" % (program, pkgs),
+		                         in_terminal=True)
 
 	def item_types(self):
 		yield Package
