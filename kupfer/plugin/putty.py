@@ -6,7 +6,7 @@ __kupfer_name__ = _("PuTTY Sessions")
 __kupfer_sources__ = ("PuttySessionSource", )
 __kupfer_actions__ = ("PuttyOpenSession", )
 __description__ = _("Quick access to PuTTY Sessions")
-__version__ = "2010-01-07"
+__version__ = "2010-04-12"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -28,7 +28,8 @@ class PuttySession(HostLeaf):
 	""" Leaf represent session saved in PuTTy"""
 
 	def __init__(self, name, hostname, description):
-		slots = {HOST_NAME_KEY: hostname, PUTTY_SESSION_KEY: name}
+		slots = {HOST_NAME_KEY: hostname, PUTTY_SESSION_KEY: name,
+				HOST_ADDRESS_KEY: hostname, HOST_SERVICE_NAME_KEY: 'ssh'}
 		HostLeaf.__init__(self, slots, name)
 		self._description = description
 
