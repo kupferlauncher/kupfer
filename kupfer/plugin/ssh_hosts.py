@@ -1,17 +1,21 @@
 # -*- coding: UTF-8 -*-
 __kupfer_name__ = _("SSH Hosts")
 __description__ = _("Adds the SSH hosts found in ~/.ssh/config.")
-__version__ = "2010-04-11"
+__version__ = "2010-04-12"
 __author__ = "Fabian Carlström"
 
 __kupfer_sources__ = ("SSHSource", )
+__kupfer_actions__ = ("SSHConnect", )
 
 import codecs
 import os
 
 from kupfer import icons, utils, plugin_support
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Action
 from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf, HOST_SERVICE_NAME_KEY, \
+		HOST_ADDRESS_KEY
 
 __kupfer_settings__  = plugin_support.PluginSettings(
 	{
@@ -39,21 +43,21 @@ __kupfer_settings__  = plugin_support.PluginSettings(
 )
 
 
-class SSHLeaf (Leaf):
+class SSHLeaf (HostLeaf):
 	"""The SSH host. It only stores the "Host" as it was
 	specified in the ssh config.
 	"""
 	def __init__(self, name):
-		Leaf.__init__(self, obj=name, name=_(name))
-
-	def get_actions(self):
-		yield SSHConnect()
+		slots = {HOST_NAME_KEY: name, HOST_ADDRESS_KEY: name,
+				HOST_SERVICE_NAME_KEY: "ssh"}
+		HostLeaf.__init__(self, slots, name)
 
 	def get_description(self):
 		return _("SSH host")
 
-	def get_icon_name(self):
-		return "applications-internet"
+	def get_gicon(self):
+		return icons.ComposedIconSmall(self.get_icon_name(), "applications-internet")
+
 
 class SSHConnect (Action):
 	"""Used to launch a terminal connecting to the specified
@@ -65,7 +69,7 @@ class SSHConnect (Action):
 	def activate(self, leaf):
 		terminal = __kupfer_settings__["terminal_emulator"]
 		exarg = __kupfer_settings__["terminal_emulator_exarg"]
-		utils.spawn_async([terminal, exarg, "ssh", leaf.object])
+		utils.spawn_async([terminal, exarg, "ssh", leaf[HOST_ADDRESS_KEY]])
 
 	def get_description(self):
 		return _("Connect to SSH host")
@@ -73,8 +77,16 @@ class SSHConnect (Action):
 	def get_icon_name(self):
 		return "network-server"
 
+	def item_types(self):
+		yield HostLeaf
 
-class SSHSource (Source, FilesystemWatchMixin):
+	def valid_for_item(self, item):
+		if item.check_key(HOST_SERVICE_NAME_KEY):
+			return item[HOST_SERVICE_NAME_KEY] == 'ssh'
+		return False
+
+
+class SSHSource (ToplevelGroupingSource, FilesystemWatchMixin):
 	"""Reads ~/.ssh/config and creates leaves for the hosts found.
 	"""
 	_ssh_home = os.path.expanduser("~/.ssh/")
@@ -82,9 +94,10 @@ class SSHSource (Source, FilesystemWatchMixin):
 	_config_path = os.path.join(_ssh_home, _ssh_config_file)
 
 	def __init__(self, name=_("SSH Hosts")):
-		Source.__init__(self, name)
+		ToplevelGroupingSource.__init__(self, name, "hosts")
 
 	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		self.monitor_token = self.monitor_directories(self._ssh_home)
 
 	def monitor_include_file(self, gfile):
