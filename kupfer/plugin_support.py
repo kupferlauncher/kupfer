@@ -9,6 +9,9 @@ __all__ = [
 	"check_dbus_connection",
 ]
 
+# NOTE: This setting is a hack and a workaround.
+# A real solution is a catalog configuration pane in preferences.
+# Only use this for plugins with potentially *thousands* of leaves.
 SETTING_PREFER_CATALOG = {
 	"key" : "kupfer_toplevel",
 	"label": _("Include in top level"),
