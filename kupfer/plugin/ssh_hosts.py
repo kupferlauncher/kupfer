@@ -95,6 +95,7 @@ class SSHSource (ToplevelGroupingSource, FilesystemWatchMixin):
 
 	def __init__(self, name=_("SSH Hosts")):
 		ToplevelGroupingSource.__init__(self, name, "hosts")
+		self._version = 2
 
 	def initialize(self):
 		ToplevelGroupingSource.initialize(self)
