@@ -1,7 +1,8 @@
 import cPickle as pickle
 
-from kupfer import pretty
 from kupfer import config
+from kupfer import conspickle
+from kupfer import pretty
 
 mnemonics_filename = "mnemonics.pickle"
 
@@ -46,20 +47,21 @@ class Learning (object):
 		except IOError, e:
 			return None
 		try:
-			source = pickle.loads(pfile.read())
-			assert isinstance(source, dict), "Stored object not a dict"
+			data = conspickle.ConservativeUnpickler.loads(pfile.read())
+			assert isinstance(data, dict), "Stored object not a dict"
 			pretty.print_debug(__name__, "Reading from %s" % (pickle_file, ))
 		except (pickle.PickleError, Exception), e:
-			source = None
+			data = None
 			pretty.print_error(__name__, "Error loading %s: %s" % (pickle_file, e))
-		return source
+		finally:
+			pfile.close()
+		return data
 
 	@classmethod
 	def _pickle_register(self, reg, pickle_file):
-		output = open(pickle_file, "wb")
-		pretty.print_debug(__name__, "Saving to %s" % (pickle_file, ))
-		output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
-		output.close()
+		with open(pickle_file, "wb") as output:
+			pretty.print_debug(__name__, "Saving to %s" % (pickle_file, ))
+			output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
 		return True
 
 _register = {}
