@@ -64,7 +64,7 @@ class SSHConnect (Action):
 	SSH host.
 	"""
 	def __init__(self):
-		Action.__init__(self, name=_("Connect to"))
+		Action.__init__(self, name=_("Connect"))
 
 	def activate(self, leaf):
 		terminal = __kupfer_settings__["terminal_emulator"]
