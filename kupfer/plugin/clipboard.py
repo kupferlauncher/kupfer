@@ -27,6 +27,12 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"type": bool,
 		"value": False,
 	},
+	{
+		"key" : "sync_selection",
+		"label": _("Copy selection to primary clipboard"),
+		"type": bool,
+		"value": False,
+	},
 )
 
 class ClipboardText (TextLeaf):
@@ -89,6 +95,9 @@ class ClipboardSource (Source):
 				or newtext.endswith(self.clipboards[-1]))):
 			self.clipboards.pop()
 		self.clipboards.append(newtext)
+
+		if is_selection and __kupfer_settings__["sync_selection"]:
+			gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD).set_text(newtext)
 
 		while len(self.clipboards) > max_len:
 			self.clipboards.popleft()
