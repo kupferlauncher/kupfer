@@ -15,6 +15,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 from xml.etree.cElementTree import ElementTree
 
+import dbus
+import gio
 import gobject
 
 from kupfer.objects import Action, Source, Leaf
@@ -25,12 +27,15 @@ from kupfer import kupferstring
 from kupfer import plugin_support
 
 
-
 plugin_support.check_dbus_connection()
 
 SERVICE_NAME = "org.freedesktop.Tracker"
 SEARCH_OBJECT_PATH = "/org/freedesktop/Tracker/Search"
 SEARCH_INTERFACE = "org.freedesktop.Tracker.Search"
+
+SERVICE1_NAME = "org.freedesktop.Tracker1"
+SEARCH_OBJECT1_PATH = "/org/freedesktop/Tracker1/Resources"
+SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
 
 class TrackerSearch (Action):
 	def __init__(self):
@@ -63,6 +68,84 @@ class TrackerSearchHere (Action):
 	def item_types(self):
 		yield TextLeaf
 
+def is_ok_char(c):
+	return c.isalnum() or c == " "
+
+def get_file_results_sparql(searchobj, query, max_items):
+	# We don't have any real escape function for queries
+	# so we instead strip everything not alphanumeric
+	clean_query = u"".join([c for c in query if is_ok_char(c)])
+	sql = u"""SELECT tracker:coalesce (nie:url (?s), ?s)
+	          WHERE {  ?s fts:match "%s*" .  ?s tracker:available true . }
+			  ORDER BY tracker:weight(?s)
+			  OFFSET 0 LIMIT %d""" % (clean_query, int(max_items))
+
+	pretty.print_debug(__name__, "Searching for %s (%s)",
+			repr(clean_query), repr(query))
+	pretty.print_debug(__name__, sql)
+	results = searchobj.SparqlQuery(sql)
+
+	gio_File = gio.File
+	for result in results:
+		yield FileLeaf(gio_File(result[0]).get_path())
+
+def get_file_results_old(searchobj, query, max_items):
+	try:
+		file_hits = searchobj.Text(1, "Files", query, 0, max_items)
+	except dbus.DBusException, exc:
+		pretty.print_error(__name__, exc)
+		return
+
+	for filestr in file_hits:
+		# A bit of encoding carousel
+		# dbus strings are subclasses of unicode
+		# but FileLeaf expects a filesystem encoded object
+		bytes = filestr.decode("UTF-8", "replace")
+		filename = gobject.filename_from_utf8(bytes)
+		yield ConstructFileLeaf(filename)
+
+use_version = None
+versions = {
+	"0.8": (SERVICE1_NAME, SEARCH_OBJECT1_PATH, SEARCH1_INTERFACE),
+	"0.6": (SERVICE_NAME, SEARCH_OBJECT_PATH, SEARCH_INTERFACE),
+}
+
+version_query = {
+	"0.8": get_file_results_sparql,
+	"0.6": get_file_results_old,
+}
+
+
+def get_searchobject(sname, opath, sinface):
+	bus = dbus.SessionBus()
+	searchobj = None
+	try:
+		tobj = bus.get_object(sname, opath)
+		searchobj = dbus.Interface(tobj, sinface)
+	except dbus.DBusException, exc:
+		pretty.print_debug(__name__, exc)
+	return searchobj
+
+def get_tracker_filequery(query, max_items):
+	searchobj = None
+	global use_version
+	if use_version is None:
+		for version, (sname, opath, sinface) in versions.items():
+			pretty.print_debug(__name__, "Trying", sname, version)
+			searchobj = get_searchobject(sname, opath, sinface)
+			if searchobj is not None:
+				use_version = version
+				break
+	else:
+		searchobj = get_searchobject(*versions[use_version])
+	if searchobj is None:
+		use_version = None
+		pretty.print_error(__name__, "Could not connect to Tracker")
+		return ()
+
+	queryfunc = version_query[use_version]
+	return queryfunc(searchobj, query, max_items)
+
 class TrackerQuerySource (Source):
 	def __init__(self, query):
 		Source.__init__(self, name=_('Results for "%s"') % query)
@@ -73,37 +156,7 @@ class TrackerQuerySource (Source):
 		return self.query
 
 	def get_items(self):
-		try:
-			import dbus
-		except ImportError:
-			pretty.print_info(__name__, "Dbus not available!")
-			return
-		bus = dbus.SessionBus()
-		try:
-			tobj = bus.get_object(SERVICE_NAME, SEARCH_OBJECT_PATH)
-			searchobj = dbus.Interface(tobj, SEARCH_INTERFACE)
-		except dbus.DBusException, exc:
-			pretty.print_error(__name__, exc)
-			pretty.print_error(__name__, "Could not connect to Tracker")
-			return
-
-		# Text interface
-		# (i) live_query_id, (s) service, (s) search_text,
-		# (i) offset, (i) max_hits
-		# Returns array of strings for results
-		try:
-			file_hits = searchobj.Text(1, "Files", self.query, 0, self.max_items)
-		except dbus.DBusException, exc:
-			pretty.print_error(__name__, exc)
-			return
-
-		for filestr in file_hits:
-			# A bit of encoding carousel
-			# dbus strings are subclasses of unicode
-			# but FileLeaf expects a filesystem encoded object
-			bytes = filestr.decode("UTF-8", "replace")
-			filename = gobject.filename_from_utf8(bytes)
-			yield ConstructFileLeaf(filename)
+		return get_tracker_filequery(self.query, self.max_items)
 
 	def get_description(self):
 		return _('Results for "%s"') % self.query
