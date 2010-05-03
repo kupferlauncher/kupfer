@@ -40,19 +40,6 @@ SERVICE1_NAME = "org.freedesktop.Tracker1"
 SEARCH_OBJECT1_PATH = "/org/freedesktop/Tracker1/Resources"
 SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
 
-class TrackerSearch (Action):
-	def __init__(self):
-		Action.__init__(self, _("Search in Tracker"))
-
-	def activate(self, leaf):
-		utils.launch_commandline("tracker-search-tool %s" % leaf.object)
-	def get_description(self):
-		return _("Open Tracker Search Tool and search for this term")
-	def get_icon_name(self):
-		return "search"
-	def item_types(self):
-		yield TextLeaf
-
 
 class TrackerSearchHere (Action):
 	def __init__(self):
