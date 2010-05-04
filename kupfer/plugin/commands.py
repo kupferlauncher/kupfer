@@ -6,15 +6,51 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
-# import symbols in tight loop to local namespace
-from os import access, R_OK, X_OK, path
+import shlex
 
 import gobject
 
-from kupfer.objects import TextSource, Leaf, TextLeaf
+from kupfer.objects import TextSource, Leaf, TextLeaf, Action
 from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
+from kupfer import commandexec
+from kupfer import kupferstring
+from kupfer import pretty
 
+def unicode_shlex_split(ustr, **kwargs):
+	"""shlex.split is depressingly broken on unicode input"""
+	s_str = ustr.encode("UTF-8")
+	return [kupferstring.tounicode(t) for t in shlex.split(s_str, **kwargs)]
+
+
+class GetOutput (Action):
+	def __init__(self):
+		Action.__init__(self, _("Run (Get Output)"))
+
+	def activate(self, leaf):
+		# use shlex to allow simple quoting
+		commandline = leaf.object
+		try:
+			argv = unicode_shlex_split(commandline)
+		except ValueError:
+			# Exception raised on unpaired quotation marks
+			if " " in commandline:
+				argv = commandline.split(None, 1)
+			else:
+				argv = [commandline]
+		ctx = commandexec.DefaultActionExecutionContext()
+		token = ctx.get_async_token()
+		pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
+		acom = utils.AsyncCommand(argv, self.finish_callback, 15)
+		acom.token = token
+
+	def finish_callback(self, acommand, output):
+		ctx = commandexec.DefaultActionExecutionContext()
+		leaf = TextLeaf(kupferstring.fromlocale(output))
+		ctx.register_late_result(acommand.token, leaf)
+
+	def get_description(self):
+		return _("Run program and return its output")
 
 class Command (TextLeaf):
 	def __init__(self, exepath, name):
@@ -24,6 +60,7 @@ class Command (TextLeaf):
 	def get_actions(self):
 		yield Execute(quoted=False)
 		yield Execute(in_terminal=True, quoted=False)
+		yield GetOutput()
 
 	def get_description(self):
 		args = u" ".join(unicode(self).split(None, 1)[1:])
@@ -54,10 +91,10 @@ class CommandTextSource (TextSource):
 		# iterate over $PATH directories
 		PATH = os.environ.get("PATH") or os.defpath
 		for execdir in PATH.split(os.pathsep):
-			exepath = path.join(execdir, firstword)
+			exepath = os.path.join(execdir, firstword)
 			# use filesystem encoding here
 			exepath = gobject.filename_from_utf8(exepath)
-			if access(exepath, R_OK | X_OK) and path.isfile(exepath):
+			if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
 				yield Command(exepath, text)
 				break
 	def get_description(self):

@@ -70,6 +70,10 @@ def locale_sort(seq, key=unicode):
 	seq.sort(cmp=locale_cmp)
 	return seq
 
+def _argv_to_locale(argv):
+	"encode unicode strings in @argv according to the locale encoding"
+	return [kupferstring.tolocale(A) if isinstance(A, unicode) else A
+			for A in argv]
 
 class AsyncCommand (object):
 	# the maximum input (bytes) we'll read in one shot (one io_callback)
@@ -90,6 +94,10 @@ class AsyncCommand (object):
 		self.killed = False
 		self.finished = False
 		self.finish_callback = finish_callback
+
+		argv = _argv_to_locale(argv)
+		pretty.print_debug(__name__, "AsyncCommand:", argv)
+
 		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_STDERR_TO_DEV_NULL |
 		         glib.SPAWN_DO_NOT_REAP_CHILD)
 		pid, stdin_fd, stdout_fd, stderr_fd = \
@@ -132,8 +140,7 @@ class AsyncCommand (object):
 
 def spawn_async(argv, in_dir="."):
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
-	argv = [kupferstring.tolocale(A) if isinstance(A, unicode) else A
-			for A in argv]
+	argv = _argv_to_locale(argv)
 	try:
 		return gobject.spawn_async (argv, working_directory=in_dir,
 				flags=gobject.SPAWN_SEARCH_PATH)
