@@ -112,3 +112,23 @@ def save_config_file(filename):
 		return None
 	filepath = os.path.join(direc, filename)
 	return filepath
+
+def get_config_paths():
+	'''Return iterator to config paths'''
+	return base.load_config_paths(PACKAGE_NAME)
+
+def get_plugin_data_file(plugin_name, filename):
+	'''Return path to @filename data file for @plugin_name.
+	File can be stored in plugin dir or in 'data' subdir in plugin dir.
+	'''
+	from kupfer import plugin
+	base_plugin_path = plugin.__path__[0]
+	plugin_id = plugin_name.split('.')[-1]
+	plugin_path = os.path.join(base_plugin_path, plugin_id)
+	data_file = os.path.join(plugin_path, filename)
+	if os.path.isfile(data_file):
+		return data_file
+	data_file = os.path.join(plugin_path, 'data', filename)
+	if os.path.isfile(data_file):
+		return data_file
+	return None
