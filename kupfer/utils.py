@@ -4,6 +4,8 @@ from os import path as os_path
 import locale
 
 import gobject
+import glib
+
 
 from kupfer import pretty
 from kupfer import kupferstring
@@ -67,6 +69,66 @@ def locale_sort(seq, key=unicode):
 	seq = seq if isinstance(seq, list) else list(seq)
 	seq.sort(cmp=locale_cmp)
 	return seq
+
+
+class AsyncCommand (object):
+	# the maximum input (bytes) we'll read in one shot (one io_callback)
+	max_input_buf = 512 * 1024
+	"""
+	Run a command asynchronously (using the GLib mainloop)
+
+	call @finish_callback when command terminates, or
+	when command is killed after @timeout_s seconds, whichever
+	comes first.
+
+	finish_callback -> (AsyncCommand, stdout_output)
+	"""
+
+	def __init__(self, argv, finish_callback, timeout_s):
+		self.stdout = []
+		self.timeout = False
+		self.killed = False
+		self.finished = False
+		self.finish_callback = finish_callback
+		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_STDERR_TO_DEV_NULL |
+		         glib.SPAWN_DO_NOT_REAP_CHILD)
+		pid, stdin_fd, stdout_fd, stderr_fd = \
+		     glib.spawn_async(argv, standard_output=True, standard_input=True,
+		                      child_setup=self.child_setup, flags=flags)
+		os.close(stdin_fd)
+		glib.io_add_watch(stdout_fd, glib.IO_IN | glib.IO_ERR |
+		                             glib.IO_HUP | glib.IO_NVAL,
+		                  self.io_callback)
+		self.pid = pid
+		glib.child_watch_add(pid, self.child_callback)
+		glib.timeout_add_seconds(timeout_s, self.timeout_callback)
+
+	def child_setup(self):
+		pass
+
+	def io_callback(self, sourcefd, condition):
+		if condition & glib.IO_IN:
+			self.stdout.append(os.read(sourcefd, self.max_input_buf))
+			return True
+		return False
+
+	def child_callback(self, pid, condition):
+		self.finished = True
+		self.finish_callback(self, "".join(self.stdout))
+
+	def timeout_callback(self):
+		"send term signal on timeout"
+		if not self.finished:
+			self.timeout = True
+			os.kill(self.pid, 15)
+			glib.timeout_add_seconds(2, self.kill_callback)
+
+	def kill_callback(self):
+		"Last resort, send kill signal"
+		if not self.finished:
+			self.killed = True
+			os.kill(self.pid, signal.SIGKILL)
+
 
 def spawn_async(argv, in_dir="."):
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
