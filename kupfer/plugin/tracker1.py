@@ -58,13 +58,23 @@ class TrackerSearchHere (Action):
 	def item_types(self):
 		yield TextLeaf
 
-def is_ok_char(c):
-	return c.isalnum() or c == " "
+def sparql_escape(ustr):
+	"""Escape unicode string @ustr for insertion into a SPARQL query
+
+	Implemented to behave like tracker_sparql_escape in libtracker-client
+	"""
+	sparql_escape_table = {
+		ord(u'\t'): ur'\t',
+		ord(u'\n'): ur'\n',
+		ord(u'\b'): ur'\b',
+		ord(u'\f'): ur'\f',
+		ord(u'"') : ur'\"',
+		ord(u'\\'): u'\\\\',
+	}
+	return ustr.translate(sparql_escape_table)
 
 def get_file_results_sparql(searchobj, query, max_items):
-	# We don't have any real escape function for queries
-	# so we instead strip everything not alphanumeric
-	clean_query = u"".join([c for c in query if is_ok_char(c)])
+	clean_query = sparql_escape(query)
 	sql = u"""SELECT tracker:coalesce (nie:url (?s), ?s)
 	          WHERE {  ?s fts:match "%s*" .  ?s tracker:available true . }
 			  ORDER BY tracker:weight(?s)
@@ -170,7 +180,8 @@ class TrackerQuerySource (Source):
 		try:
 			et = ElementTree(file=leaf.object)
 			query = et.getroot().find("text").text
-			return cls(query)
+			us_query = kupferstring.tounicode(query)
+			return cls(us_query)
 		except Exception:
 			return None
 
