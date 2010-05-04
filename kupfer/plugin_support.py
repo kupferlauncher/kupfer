@@ -1,3 +1,5 @@
+import gobject
+
 from kupfer import pretty
 from kupfer.core import settings
 from kupfer.core.settings import UserNamePassword
@@ -26,13 +28,15 @@ SETTING_PREFER_CATALOG = {
 def _is_core_setting(key):
 	return key.startswith("kupfer_")
 
-class PluginSettings (pretty.OutputMixin):
+class PluginSettings (gobject.GObject, pretty.OutputMixin):
 	"""Allows plugins to have preferences by assigning an instance
 	of this class to the plugin's __kupfer_settings__ attribute.
 
 	Setting values are accessed by the getitem operator [] with
 	the setting's 'key' attribute
 	"""
+	__gtype_name__ = "PluginSettings"
+
 	def __init__(self, *setdescs):
 		"""Create a settings collection by passing in dictionaries
 		as arguments, where each dictionary must have the following keys:
@@ -44,6 +48,7 @@ class PluginSettings (pretty.OutputMixin):
 		the @key may be any string except strings starting with
 		'kupfer_', which are reserved
 		"""
+		gobject.GObject.__init__(self)
 		self.setting_descriptions = {}
 		self.setting_key_order = []
 		req_keys = set(("key", "value", "type", "label"))
@@ -75,10 +80,14 @@ class PluginSettings (pretty.OutputMixin):
 	def __setitem__(self, key, value):
 		value_type = self.setting_descriptions[key]["type"]
 		self.setting_descriptions[key]["value"] = value_type(value)
+		if not _is_core_setting(key):
+			self.emit("plugin-setting-changed", key, value)
+
 	def _value_changed(self, setctl, section, key, value, plugin_name):
 		"""Preferences changed, update object"""
 		if key in self and plugin_name in section:
 			self[key] = value
+
 	def get_value_type(self, key):
 		"""Return type of setting @key"""
 		return self.setting_descriptions[key]["type"]
@@ -91,6 +100,15 @@ class PluginSettings (pretty.OutputMixin):
 	def get_tooltip(self, key):
 		"""Return tooltip string for setting @key (if any)"""
 		return self.setting_descriptions[key].get("tooltip")
+
+	def connect_settings_changed_cb(self, callback, *args):
+		self.connect("plugin-setting-changed", callback, *args)
+
+
+# Section, Key, Value
+gobject.signal_new("plugin-setting-changed", PluginSettings,
+		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT))
 
 # Plugin convenience functions for dependencies
 
