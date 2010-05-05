@@ -402,7 +402,8 @@ class UserNamePassword(ExtendedSetting):
 			self.password = obj.password
 
 	def __repr__(self):
-		return '<UserNamePassword "%s", "%s">' % (self.username, self.password)
+		return '<UserNamePassword "%s", %s>' % (self.username,
+		                                        bool(self.password))
 
 	@classmethod
 	def _configure_keyring(cls):
