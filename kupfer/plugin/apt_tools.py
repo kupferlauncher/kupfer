@@ -28,23 +28,38 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 )
 
-class InfoTask(task.ThreadTask):
+class InfoTask(task.Task):
 	def __init__(self, text):
 		super(InfoTask, self).__init__()
 		self.text = text
-	def thread_do(self):
-		P = subprocess.PIPE
-		apt = subprocess.Popen("aptitude show '%s'" % self.text, shell=True,
-				stdout=P, stderr=P)
-		acp = subprocess.Popen("apt-cache policy '%s'" % self.text, shell=True,
-				stdout=P, stderr=P)
-		apt_out, apt_err = apt.communicate()
-		acp_out, acp_err = acp.communicate()
-		# Commandline output is encoded according to locale
-		self.info = u"".join(kupferstring.fromlocale(s)
-				for s in (apt_err, acp_err, apt_out, acp_out))
-	def thread_finish(self):
-		uiutils.show_text_result(self.info, title=_("Show Package Information"))
+		self.aptitude = None
+		self.apt_cache = None
+
+	def start(self, finish_callback):
+		self._finish_callback = finish_callback
+		timeout = 60
+		AC = utils.AsyncCommand
+		AC(["aptitude", "show", self.text], self.aptitude_finished, timeout)
+		AC(["apt-cache", "policy", self.text], self.aptcache_finished, timeout)
+
+	def aptitude_finished(self, acommand, stdout, stderr):
+		self.aptitude = stderr
+		self.aptitude += stdout
+		self._check_end()
+
+	def aptcache_finished(self, acommand, stdout, stderr):
+		self.apt_cache = stderr
+		self.apt_cache += stdout
+		self._check_end()
+
+	def _check_end(self):
+		if self.aptitude is not None and self.apt_cache is not None:
+			self.finish(u"".join(kupferstring.fromlocale(s)
+			            for s in (self.aptitude, self.apt_cache)))
+
+	def finish(self, text):
+		uiutils.show_text_result(text, title=_("Show Package Information"))
+		self._finish_callback(self)
 
 class ShowPackageInfo (Action):
 	def __init__(self):
