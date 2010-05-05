@@ -2,6 +2,7 @@ import itertools
 import os
 from os import path as os_path
 import locale
+import signal
 
 import gobject
 import glib
@@ -76,8 +77,6 @@ def _argv_to_locale(argv):
 			for A in argv]
 
 class AsyncCommand (object):
-	# the maximum input (bytes) we'll read in one shot (one io_callback)
-	max_input_buf = 512 * 1024
 	"""
 	Run a command asynchronously (using the GLib mainloop)
 
@@ -85,11 +84,14 @@ class AsyncCommand (object):
 	when command is killed after @timeout_s seconds, whichever
 	comes first.
 
-	finish_callback -> (AsyncCommand, stdout_output)
+	finish_callback -> (AsyncCommand, stdout_output, stderr_output)
 	"""
+	# the maximum input (bytes) we'll read in one shot (one io_callback)
+	max_input_buf = 512 * 1024
 
 	def __init__(self, argv, finish_callback, timeout_s):
 		self.stdout = []
+		self.stderr = []
 		self.timeout = False
 		self.killed = False
 		self.finished = False
@@ -98,40 +100,36 @@ class AsyncCommand (object):
 		argv = _argv_to_locale(argv)
 		pretty.print_debug(__name__, "AsyncCommand:", argv)
 
-		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_STDERR_TO_DEV_NULL |
-		         glib.SPAWN_DO_NOT_REAP_CHILD)
+		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
 		pid, stdin_fd, stdout_fd, stderr_fd = \
 		     glib.spawn_async(argv, standard_output=True, standard_input=True,
-		                      child_setup=self.child_setup, flags=flags)
+		                      standard_error=True, flags=flags)
 		os.close(stdin_fd)
-		glib.io_add_watch(stdout_fd, glib.IO_IN | glib.IO_ERR |
-		                             glib.IO_HUP | glib.IO_NVAL,
-		                  self.io_callback)
+		io_flags = glib.IO_IN | glib.IO_ERR | glib.IO_HUP | glib.IO_NVAL
+		glib.io_add_watch(stdout_fd, io_flags, self._io_callback, self.stdout)
+		glib.io_add_watch(stderr_fd, io_flags, self._io_callback, self.stderr)
 		self.pid = pid
-		glib.child_watch_add(pid, self.child_callback)
-		glib.timeout_add_seconds(timeout_s, self.timeout_callback)
+		glib.child_watch_add(pid, self._child_callback)
+		glib.timeout_add_seconds(timeout_s, self._timeout_callback)
 
-	def child_setup(self):
-		pass
-
-	def io_callback(self, sourcefd, condition):
+	def _io_callback(self, sourcefd, condition, databuf):
 		if condition & glib.IO_IN:
-			self.stdout.append(os.read(sourcefd, self.max_input_buf))
+			databuf.append(os.read(sourcefd, self.max_input_buf))
 			return True
 		return False
 
-	def child_callback(self, pid, condition):
+	def _child_callback(self, pid, condition):
 		self.finished = True
-		self.finish_callback(self, "".join(self.stdout))
+		self.finish_callback(self, "".join(self.stdout), "".join(self.stderr))
 
-	def timeout_callback(self):
+	def _timeout_callback(self):
 		"send term signal on timeout"
 		if not self.finished:
 			self.timeout = True
-			os.kill(self.pid, 15)
-			glib.timeout_add_seconds(2, self.kill_callback)
+			os.kill(self.pid, signal.SIGTERM)
+			glib.timeout_add_seconds(2, self._kill_callback)
 
-	def kill_callback(self):
+	def _kill_callback(self):
 		"Last resort, send kill signal"
 		if not self.finished:
 			self.killed = True

@@ -44,9 +44,9 @@ class GetOutput (Action):
 		acom = utils.AsyncCommand(argv, self.finish_callback, 15)
 		acom.token = token
 
-	def finish_callback(self, acommand, output):
+	def finish_callback(self, acommand, stdout, stderr):
 		ctx = commandexec.DefaultActionExecutionContext()
-		leaf = TextLeaf(kupferstring.fromlocale(output))
+		leaf = TextLeaf(kupferstring.fromlocale(stdout))
 		ctx.register_late_result(acommand.token, leaf)
 
 	def get_description(self):
