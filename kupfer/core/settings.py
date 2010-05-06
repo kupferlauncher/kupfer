@@ -1,5 +1,6 @@
 from __future__ import with_statement
 
+import ast
 import os, sys
 import ConfigParser
 import copy
@@ -40,6 +41,9 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 		'Keybindings': {},
+		"SessionPositions" : {
+			"main": "",
+		}
 	}
 	def __init__(self):
 		gobject.GObject.__init__(self)
@@ -294,6 +298,20 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 	def set_directories(self, dirs):
 		return self._set_config("Directories", "direct", dirs)
+
+	def get_session_position(self, key, default=(-1, -1)):
+		"get ui object position for @key"
+		posstr = self.get_config("SessionPositions", key)
+		try:
+			x, y = ast.literal_eval(posstr)
+		except (SyntaxError, ValueError):
+			return default
+		return x, y
+
+	def set_session_position(self, key, value):
+		"set a ui object position key (x, y) pair"
+		x, y = value
+		self._set_config("SessionPositions", key, repr((x,y)))
 
 	def get_plugin_config(self, plugin, key, value_type=str, default=None):
 		"""Return setting @key for plugin names @plugin, try

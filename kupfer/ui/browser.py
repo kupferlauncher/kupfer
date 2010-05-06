@@ -1193,16 +1193,12 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 		# Check that items are still valid when "coming back"
 		self.data_controller.validate()
-		if self._pane_three_is_visible:
-			self._ui_transition_timer.set_ms(200, self._show_third_pane, True)
 
 	def put_away(self):
 		"""Called when the interface is hidden"""
 		self._relax_search_terms()
 		self._reset_to_toplevel = True
-		if self._pane_three_is_visible:
-			self._show_third_pane(False)
-		self._ui_transition_timer.invalidate()
+		# no hide / show pane three on put away -> focus anymore
 
 	def select_selected_file(self):
 		# Add optional lookup data to narrow the search
@@ -1408,6 +1404,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		self.window_position = -1, -1
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1463,6 +1460,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 
 		self.window.connect("delete-event", self._close_window)
+		self.window.connect("configure-event", self._window_frame_event)
 		widget = self.interface.get_widget()
 		widget.show()
 
@@ -1494,7 +1492,27 @@ class WindowController (pretty.OutputMixin):
 	def result_callback(self, sender, result_type):
 		self.activate()
 
+	def _load_window_position(self):
+		setctl = settings.GetSettingsController()
+		self.window_position = setctl.get_session_position("main")
+
+	def _window_frame_event(self, window, event):
+		# save most recent window position
+		window_pos = self.window.get_position()
+		if (self.window.get_property("visible") and
+		    window_pos != self.window_position):
+			self.window_position = self.window.get_position()
+			setctl = settings.GetSettingsController()
+			setctl.set_session_position("main", self.window_position)
+
+	def _move_window_to_position(self):
+		pos = self.window.get_position()
+		if self.window_position[0] > 0 and pos != self.window_position:
+			self.window.move(*self.window_position)
+			self.output_debug("Moving window to", self.window_position)
+
 	def activate(self, sender=None, time=0):
+		self._move_window_to_position()
 		if not time:
 			time = (gtk.get_current_event_time() or
 			        keybindings.get_current_event_time())
@@ -1502,6 +1520,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
 		self.interface.focus()
+		self._move_window_to_position()
 
 	def put_away(self):
 		self.interface.put_away()
@@ -1646,6 +1665,7 @@ class WindowController (pretty.OutputMixin):
 		# Load data and present UI
 		sch = scheduler.GetScheduler()
 		sch.load()
+		self._load_window_position()
 
 		if not quiet:
 			self.activate()
