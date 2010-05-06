@@ -150,7 +150,7 @@ class KupferObject (object):
 	def get_gicon(self):
 		"""Return GIcon, if there is one"""
 		return None
-	
+
 	def get_icon_name(self):
 		"""Return icon name. All items should have at least
 		a generic icon name to return.
@@ -185,7 +185,7 @@ class Leaf (KupferObject):
 		super(Leaf, self).__init__(name)
 		self.object = obj
 		self._content_source = None
-	
+
 	def __hash__(self):
 		return hash(unicode(self))
 
@@ -458,3 +458,16 @@ class TextSource (KupferObject):
 		"""A seq of the types of items it provides"""
 		yield Leaf
 
+
+class ActionGenerator (object):
+	"""A "source" for actions
+
+	NOTE: The ActionGenerator should not perform any expensive
+	computation, and not access any slow media (files, network) when
+	returning actions.  Such expensive checks must be performed in
+	each Action's valid_for_item method.
+	"""
+
+	def get_actions_for_leaf(self, leaf):
+		'''Return actions appropriate for given leaf. '''
+		return []

@@ -11,6 +11,7 @@ text_sources_attribute = "__kupfer_text_sources__"
 content_decorators_attribute = "__kupfer_contents__"
 action_decorators_attribute = "__kupfer_actions__"
 settings_attribute = "__kupfer_settings__"
+action_generators_attribute = "__kupfer_action_generators__"
 
 info_attributes = [
 		"__kupfer_name__",

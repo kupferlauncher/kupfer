@@ -253,6 +253,7 @@ class SourceController (pretty.OutputMixin):
 		self.text_sources = set()
 		self.content_decorators = {}
 		self.action_decorators = {}
+		self.action_generators = []
 		self.loaded_successfully = False
 		self._restored_sources = set()
 		self._pre_root = None
@@ -282,6 +283,8 @@ class SourceController (pretty.OutputMixin):
 			self.action_decorators.setdefault(typ, set()).update(decos[typ])
 		for typ in self.action_decorators:
 			self._disambiguate_actions(self.action_decorators[typ])
+	def add_action_generator(self, agenerator):
+		self.action_generators.append(agenerator)
 	def _disambiguate_actions(self, actions):
 		"""Rename actions by the same name (adding a suffix)"""
 		# FIXME: Disambiguate by plugin name, not python module name
@@ -392,6 +395,9 @@ class SourceController (pretty.OutputMixin):
 			if isinstance(leaf, typ):
 				for act in self.action_decorators[typ]:
 					yield act
+		for agenerator in self.action_generators:
+			for action in agenerator.get_actions_for_leaf(leaf):
+				yield action
 
 	def decorate_object(self, obj, action=None):
 		if hasattr(obj, "has_content"):

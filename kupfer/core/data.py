@@ -484,6 +484,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.output_debug(typ.__name__)
 			self._list_plugin_objects(decorate_item_types[typ])
 
+	def register_action_generators(self, generators):
+		sc = GetSourceController()
+		for generator in generators:
+			sc.add_action_generator(generator)
+
 	def _list_plugin_objects(self, objs):
 		"Print a list of plugin objects to debug output"
 		for o in objs:
@@ -575,6 +580,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.register_text_sources(plugin.text_sources)
 			self.register_action_decorators(plugin.action_decorators)
 			self.register_content_decorators(plugin.content_decorators)
+			self.register_action_generators(plugin.action_generators)
 			return set(plugin.sources)
 		return set()
 

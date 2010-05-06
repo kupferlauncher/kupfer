@@ -5,13 +5,14 @@ from kupfer import pretty
 from kupfer.core import plugins
 from kupfer.core.plugins import (load_plugin_sources, sources_attribute,
 		action_decorators_attribute, text_sources_attribute,
-		content_decorators_attribute,
+		content_decorators_attribute, action_generators_attribute,
 		initialize_plugin)
 
 class PluginDescription (object):
 	text_sources = ()
 	action_decorators = ()
 	content_decorators = ()
+	action_generators = ()
 	sources = ()
 
 def load_plugin(plugin_id):
@@ -23,6 +24,7 @@ def load_plugin(plugin_id):
 	text_sources = []
 	action_decorators = []
 	content_decorators = []
+	action_generators = []
 
 	item = plugin_id
 
@@ -32,6 +34,8 @@ def load_plugin(plugin_id):
 	text_sources.extend(load_plugin_sources(item, text_sources_attribute))
 	action_decorators.extend(load_plugin_sources(item,
 		action_decorators_attribute))
+	action_generators.extend(load_plugin_sources(item,
+		action_generators_attribute))
 
 	# Register all Sources as (potential) content decorators
 	content_decorators.extend(load_plugin_sources(item,
@@ -46,6 +50,7 @@ def load_plugin(plugin_id):
 	desc.action_decorators = action_decorators
 	desc.content_decorators = content_decorators
 	desc.sources = sources
+	desc.action_generators = action_generators
 	return desc
 
 @contextlib.contextmanager
