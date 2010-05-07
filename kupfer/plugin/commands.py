@@ -34,10 +34,7 @@ class GetOutput (Action):
 			argv = unicode_shlex_split(commandline)
 		except ValueError:
 			# Exception raised on unpaired quotation marks
-			if " " in commandline:
-				argv = commandline.split(None, 1)
-			else:
-				argv = [commandline]
+			argv = commandline.split(None, 1)
 		ctx = commandexec.DefaultActionExecutionContext()
 		token = ctx.get_async_token()
 		pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
