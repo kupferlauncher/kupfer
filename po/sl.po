@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-04-30 05:57+0000\n"
-"PO-Revision-Date: 2010-05-01 09:40+0100\n"
+"POT-Creation-Date: 2010-05-06 10:47+0000\n"
+"PO-Revision-Date: 2010-05-08 09:44+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -700,12 +700,12 @@ msgid "Calculate"
 msgstr "Izračunaj"
 
 #: ../kupfer/plugin/clipboard.py:1
-#: ../kupfer/plugin/clipboard.py:65
+#: ../kupfer/plugin/clipboard.py:71
 msgid "Clipboards"
 msgstr "Odložišča"
 
 #: ../kupfer/plugin/clipboard.py:4
-#: ../kupfer/plugin/clipboard.py:102
+#: ../kupfer/plugin/clipboard.py:111
 msgid "Recent clipboards"
 msgstr "Nedavna odložišča"
 
@@ -717,7 +717,11 @@ msgstr "Število nedavnih odložišč"
 msgid "Include recent selections"
 msgstr "Vključi nedavne izbire"
 
-#: ../kupfer/plugin/clipboard.py:38
+#: ../kupfer/plugin/clipboard.py:32
+msgid "Copy selection to primary clipboard"
+msgstr "Kopiranje izbora v osnovno odložišče"
+
+#: ../kupfer/plugin/clipboard.py:44
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -726,23 +730,31 @@ msgstr[1] "Odložišče z %(num)d vrstico \"%(desc)s\""
 msgstr[2] "Odložišče z %(num)d vrsticama \"%(desc)s\""
 msgstr[3] "Odložišče z %(num)d vrsticami \"%(desc)s\""
 
-#: ../kupfer/plugin/clipboard.py:45
+#: ../kupfer/plugin/clipboard.py:51
 msgid "Clear"
 msgstr "Počisti"
 
-#: ../kupfer/plugin/clipboard.py:57
+#: ../kupfer/plugin/clipboard.py:63
 msgid "Remove all recent clipboards"
 msgstr "Odstrani vsa nedavna odložišča"
 
 #: ../kupfer/plugin/commands.py:1
-#: ../kupfer/plugin/commands.py:41
+#: ../kupfer/plugin/commands.py:78
 msgid "Shell Commands"
 msgstr "Ukazi lupine"
 
 #: ../kupfer/plugin/commands.py:4
-#: ../kupfer/plugin/commands.py:64
+#: ../kupfer/plugin/commands.py:101
 msgid "Run commandline programs"
 msgstr "Zaženi programe ukazne vrstice"
+
+#: ../kupfer/plugin/commands.py:28
+msgid "Run (Get Output)"
+msgstr "Poženi (Dobi izhod)"
+
+#: ../kupfer/plugin/commands.py:53
+msgid "Run program and return its output"
+msgstr "Zažene program in vrne njegov izhod"
 
 #: ../kupfer/plugin/dictionary.py:1
 msgid "Dictionary"
@@ -1422,25 +1434,25 @@ msgstr "Vmesnik z upravljalnikom paketov APT"
 msgid "Installation method"
 msgstr "Način namestitve"
 
-#: ../kupfer/plugin/apt_tools.py:47
-#: ../kupfer/plugin/apt_tools.py:51
+#: ../kupfer/plugin/apt_tools.py:61
+#: ../kupfer/plugin/apt_tools.py:66
 msgid "Show Package Information"
 msgstr "Prikaz podrobnosti paketa"
 
-#: ../kupfer/plugin/apt_tools.py:72
+#: ../kupfer/plugin/apt_tools.py:87
 msgid "Install"
 msgstr "Namesti"
 
-#: ../kupfer/plugin/apt_tools.py:88
+#: ../kupfer/plugin/apt_tools.py:103
 msgid "Install package using the configured method"
 msgstr "Namestitev paketa z nastavljeno metodo"
 
-#: ../kupfer/plugin/apt_tools.py:107
+#: ../kupfer/plugin/apt_tools.py:122
 #, python-format
 msgid "Packages matching \"%s\""
 msgstr "Paketi skladni z \"%s\""
 
-#: ../kupfer/plugin/apt_tools.py:134
+#: ../kupfer/plugin/apt_tools.py:149
 msgid "Search Package Name..."
 msgstr "Poišči ime paketa ..."
 
@@ -1814,8 +1826,8 @@ msgstr "Iskanje Google z neposredno prikazanimi rezultati"
 #: ../kupfer/plugin/locate.py:47
 #: ../kupfer/plugin/tracker.py:73
 #: ../kupfer/plugin/tracker.py:114
-#: ../kupfer/plugin/tracker1.py:154
-#: ../kupfer/plugin/tracker1.py:165
+#: ../kupfer/plugin/tracker1.py:151
+#: ../kupfer/plugin/tracker1.py:162
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultati za \"%s\""
@@ -2282,11 +2294,11 @@ msgstr "Poveži se z gostiteljem SSH"
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "Gostitelji SSH kot so navedeni v ~/.ssh/config"
 
-#: ../kupfer/plugin_support.py:17
+#: ../kupfer/plugin_support.py:19
 msgid "Include in top level"
 msgstr "Vključi v vrhnjo raven"
 
-#: ../kupfer/plugin_support.py:21
+#: ../kupfer/plugin_support.py:23
 msgid ""
 "If enabled, objects from the plugin's source(s) will be available in the top level.\n"
 "Sources are always available as subcatalogs in the top level."
@@ -2294,7 +2306,7 @@ msgstr ""
 "Izbrana možnost omogoči razpoložljivost vira vstavka na zgornji ravni.\n"
 "Viri so vedno razpoložljivi kot podkatalogi v zgornji ravni."
 
-#: ../kupfer/plugin_support.py:117
+#: ../kupfer/plugin_support.py:135
 msgid "No D-Bus connection to desktop session"
 msgstr "Ni D-Bus povezave z namizno sejo"
 
@@ -2459,22 +2471,20 @@ msgid "Tracker desktop search integration"
 msgstr "Povezava s Tracker namiznim iskanjem"
 
 #: ../kupfer/plugin/tracker.py:42
-#: ../kupfer/plugin/tracker1.py:45
 msgid "Search in Tracker"
 msgstr "Išči v Tracker-ju"
 
 #: ../kupfer/plugin/tracker.py:47
-#: ../kupfer/plugin/tracker1.py:50
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Odprtje iskalnega orodja Tracker in iskanje tega izraza"
 
 #: ../kupfer/plugin/tracker.py:56
-#: ../kupfer/plugin/tracker1.py:59
+#: ../kupfer/plugin/tracker1.py:46
 msgid "Get Tracker Results..."
 msgstr "Dobi rezultate Tracker-ja ..."
 
 #: ../kupfer/plugin/tracker.py:65
-#: ../kupfer/plugin/tracker1.py:68
+#: ../kupfer/plugin/tracker1.py:55
 msgid "Show Tracker results for query"
 msgstr "Pokaži rezultate sledilnika za poizvedbo"
 
@@ -2593,6 +2603,18 @@ msgstr "Zaženi sejo Vinagre"
 #: ../kupfer/plugin/vinagre.py:72
 msgid "Vinagre Bookmarks"
 msgstr "Zaznamki Vinagre"
+
+#: ../kupfer/plugin/vim.py:1
+msgid "Vim"
+msgstr "Vim"
+
+#: ../kupfer/plugin/vim.py:3
+msgid "Recently used documents in Vim"
+msgstr "Nedavno uporabljeni dokumenti v Vim"
+
+#: ../kupfer/plugin/vim.py:47
+msgid "Vim Recent Documents"
+msgstr "Nedavni dokumenti Vim"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/virtualbox/__init__.py:3
