@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-04-29 16:22+0000\n"
-"PO-Revision-Date: 2010-05-02 12:18+0100\n"
+"POT-Creation-Date: 2010-05-04 23:08+0000\n"
+"PO-Revision-Date: 2010-05-08 23:44+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -690,11 +690,11 @@ msgstr "Ausdrücke beginnend mit »=« berechnen"
 msgid "Calculate"
 msgstr "Berechnen"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:65
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:71
 msgid "Clipboards"
 msgstr "Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:102
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:111
 msgid "Recent clipboards"
 msgstr "Aktuelle Zwischenablagen"
 
@@ -706,28 +706,42 @@ msgstr "Anzahl der aktuellen Zwischenablagen"
 msgid "Include recent selections"
 msgstr "Kürzlich getroffene Auswahlen einschließen"
 
-#: ../kupfer/plugin/clipboard.py:38
+#: ../kupfer/plugin/clipboard.py:32
+#| msgid "Copy to clipboard"
+msgid "Copy selection to primary clipboard"
+msgstr "Auswahl in die primäre Zwischenablage kopieren"
+
+#: ../kupfer/plugin/clipboard.py:44
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Zwischenablage »%(desc)s«"
 msgstr[1] "Zwischenablage mit %(num)d Zeilen »%(desc)s«"
 
-#: ../kupfer/plugin/clipboard.py:45
+#: ../kupfer/plugin/clipboard.py:51
 msgid "Clear"
 msgstr "Leeren"
 
-#: ../kupfer/plugin/clipboard.py:57
+#: ../kupfer/plugin/clipboard.py:63
 msgid "Remove all recent clipboards"
 msgstr "Alle aktuellen Zwischenablagen entfernen"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:41
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:78
 msgid "Shell Commands"
 msgstr "Shell-Befehle"
 
-#: ../kupfer/plugin/commands.py:4 ../kupfer/plugin/commands.py:64
+#: ../kupfer/plugin/commands.py:4 ../kupfer/plugin/commands.py:101
 msgid "Run commandline programs"
 msgstr "Befehlszeilenprogramme ausführen"
+
+#: ../kupfer/plugin/commands.py:28
+#| msgid "Run (Execute)"
+msgid "Run (Get Output)"
+msgstr "Ausführen (Ausgabe erhalten)"
+
+#: ../kupfer/plugin/commands.py:53
+msgid "Run program and return its output"
+msgstr "Programm ausführen und dessen Ausgabe zurückgeben"
 
 #: ../kupfer/plugin/dictionary.py:1
 msgid "Dictionary"
@@ -1743,7 +1757,7 @@ msgstr "Mit Google suchen und Ergebnisse direkt anzeigen"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
 #: ../kupfer/plugin/tracker.py:73 ../kupfer/plugin/tracker.py:114
-#: ../kupfer/plugin/tracker1.py:154 ../kupfer/plugin/tracker1.py:165
+#: ../kupfer/plugin/tracker1.py:151 ../kupfer/plugin/tracker1.py:162
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Ergebnisse für »%s«"
@@ -2174,7 +2188,6 @@ msgstr ""
 "verwendet."
 
 #: ../kupfer/plugin/ssh_hosts.py:33
-#| msgid "Execute in Kupfer"
 msgid "Execute flag"
 msgstr "Ausführungsargument"
 
@@ -2368,7 +2381,6 @@ msgid "Running tasks for current user"
 msgstr "Laufende Prozesse des derzeitigen Benutzers"
 
 #: ../kupfer/plugin/tracker.py:6
-#| msgid "Tracker"
 msgid "Tracker 0.6"
 msgstr "Tracker 0.6"
 
@@ -2376,19 +2388,19 @@ msgstr "Tracker 0.6"
 msgid "Tracker desktop search integration"
 msgstr "Einbindung der Tracker Desktop-Suche"
 
-#: ../kupfer/plugin/tracker.py:42 ../kupfer/plugin/tracker1.py:45
+#: ../kupfer/plugin/tracker.py:42
 msgid "Search in Tracker"
 msgstr "Mit Tracker suchen"
 
-#: ../kupfer/plugin/tracker.py:47 ../kupfer/plugin/tracker1.py:50
+#: ../kupfer/plugin/tracker.py:47
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Tracker Suchwerkzeug öffnen und nach diesem Begriff suchen"
 
-#: ../kupfer/plugin/tracker.py:56 ../kupfer/plugin/tracker1.py:59
+#: ../kupfer/plugin/tracker.py:56 ../kupfer/plugin/tracker1.py:46
 msgid "Get Tracker Results..."
 msgstr "Tracker-Ergebnisse einholen …"
 
-#: ../kupfer/plugin/tracker.py:65 ../kupfer/plugin/tracker1.py:68
+#: ../kupfer/plugin/tracker.py:65 ../kupfer/plugin/tracker1.py:55
 msgid "Show Tracker results for query"
 msgstr "Tracker Ergebnisse für den Suchbegriff anzeigen"
 
@@ -2431,7 +2443,6 @@ msgid "Remove tracker tag from file"
 msgstr "Tracker-Schlagwort von der Datei entfernen"
 
 #: ../kupfer/plugin/tracker1.py:7
-#| msgid "Tracker"
 msgid "Tracker 0.8"
 msgstr "Tracker 0.8"
 
@@ -2503,6 +2514,21 @@ msgstr "Vinagre-Sitzung starten"
 #: ../kupfer/plugin/vinagre.py:72
 msgid "Vinagre Bookmarks"
 msgstr "Lesezeichen in Vinagre"
+
+#: ../kupfer/plugin/vim.py:1
+#| msgid "Zim"
+msgid "Vim"
+msgstr "Vim"
+
+#: ../kupfer/plugin/vim.py:3
+#| msgid "Recently used documents in Abiword"
+msgid "Recently used documents in Vim"
+msgstr "Kürzlich in Vim verwendete Dokumente"
+
+#: ../kupfer/plugin/vim.py:47
+#| msgid "Recently used documents"
+msgid "Vim Recent Documents"
+msgstr "Zuletzt in Vim geöffnete Dokumente"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/virtualbox/__init__.py:3
