@@ -1417,6 +1417,7 @@ class WindowController (pretty.OutputMixin):
 		self.interface.connect("cancelled", self._cancelled)
 		self._setup_window()
 		self._statusicon = None
+		self._window_hide_timer = scheduler.Timer()
 
 	def show_statusicon(self):
 		if not self._statusicon:
@@ -1489,7 +1490,7 @@ class WindowController (pretty.OutputMixin):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
-		gobject.idle_add(self.put_away)
+		self._window_hide_timer.set_ms(100, self.put_away)
 
 	def result_callback(self, sender, result_type):
 		self.activate()
@@ -1514,6 +1515,7 @@ class WindowController (pretty.OutputMixin):
 			self.output_debug("Moving window to", self.window_position)
 
 	def activate(self, sender=None, time=0):
+		self._window_hide_timer.invalidate()
 		self._move_window_to_position()
 		if not time:
 			time = (gtk.get_current_event_time() or
