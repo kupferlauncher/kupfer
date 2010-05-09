@@ -3,7 +3,7 @@ __kupfer_name__ = _("Getting Things GNOME")
 __kupfer_sources__ = ("TasksSource", )
 __kupfer_actions__ = ("CreateNewTask",)
 __description__ = _("Browse and create new task in GTG")
-__version__ = "2010-05-07"
+__version__ = "2010-05-09"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -61,6 +61,8 @@ def _load_tasks(interface):
 def _load_task_from_xml():
 	''' Load tasks by xml file (when no gtg running) '''
 	gtg_local_dir = os.path.expanduser("~/.local/share/gtg/")
+	if not os.path.isdir(gtg_local_dir):
+		return
 	for fname in os.listdir(gtg_local_dir):
 		if not fname.endswith('.xml') or fname == 'projects.xml' or \
 				fname == 'tags.xml':
@@ -196,10 +198,8 @@ class CreateNewTask(Action):
 			else:
 				interface.open_new_task(leaf.object, '')
 		else:
-			p = subprocess.Popen(["gtg_new_task", "-i"], stdin=subprocess.PIPE,
-					close_fds=True)
-			p.stdin.write(leaf.object)
-			p.stdin.close()
+			p = subprocess.Popen(["gtg_new_task", "-i"], stdin=subprocess.PIPE)
+			p.communicate(leaf.object)
 
 	def item_types(self):
 		yield TextLeaf
