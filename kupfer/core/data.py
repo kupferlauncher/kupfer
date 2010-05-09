@@ -437,14 +437,14 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sch.connect("load", self._load)
 		sch.connect("finish", self._finish)
 
-	def register_text_sources(self, srcs):
+	def register_text_sources(self, plugin_id, srcs):
 		"""Pass in text sources as @srcs
 
 		we register text sources """
 		sc = GetSourceController()
-		sc.add_text_sources(srcs)
+		sc.add_text_sources(plugin_id, srcs)
 	
-	def register_action_decorators(self, actions):
+	def register_action_decorators(self, plugin_id, actions):
 		# Keep a mapping: Decorated Leaf Type -> List of actions
 		decorate_types = {}
 		for action in actions:
@@ -453,13 +453,9 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if not decorate_types:
 			return
 		sc = GetSourceController()
-		sc.add_action_decorators(decorate_types)
-		self.output_debug("Actions:")
-		for typ in decorate_types:
-			self.output_debug(typ.__name__)
-			self._list_plugin_objects(decorate_types[typ])
+		sc.add_action_decorators(plugin_id, decorate_types)
 
-	def register_content_decorators(self, contents):
+	def register_content_decorators(self, plugin_id, contents):
 		"""
 		Register the sequence of classes @contents as
 		potential content decorators. Classes not conforming to
@@ -478,31 +474,23 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if not decorate_item_types:
 			return
 		sc = GetSourceController()
-		sc.add_content_decorators(decorate_item_types)
-		self.output_debug("Content decorators:")
-		for typ in decorate_item_types:
-			self.output_debug(typ.__name__)
-			self._list_plugin_objects(decorate_item_types[typ])
+		sc.add_content_decorators(plugin_id, decorate_item_types)
 
-	def register_action_generators(self, generators):
+	def register_action_generators(self, plugin_id, generators):
 		sc = GetSourceController()
 		for generator in generators:
-			sc.add_action_generator(generator)
-
-	def _list_plugin_objects(self, objs):
-		"Print a list of plugin objects to debug output"
-		for o in objs:
-			typ = type(o) if hasattr(o, "__class__") else o
-			self.output_debug(" ", typ.__module__, ".", typ.__name__, sep="")
+			sc.add_action_generator(plugin_id, generator)
 
 	def _load(self, sched):
 		"""Load data from persistent store"""
-		S_s, s_s = self._setup_plugins()
+		setctl = settings.GetSettingsController()
+		setctl.connect("plugin-enabled-changed", self._plugin_enabled)
+
+		self._load_all_plugins()
+		D_s, d_s = self._get_directory_sources()
 		sc = GetSourceController()
-		direct_sources = set(S_s)
-		other_sources = set(s_s) - direct_sources
-		sc.add(direct_sources, toplevel=True)
-		sc.add(other_sources, toplevel=False)
+		sc.add(None, D_s, toplevel=True)
+		sc.add(None, d_s, toplevel=False)
 		sc.initialize()
 		self.source_pane.source_rebase(sc.root)
 		learn.load()
@@ -540,35 +528,18 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		return S_sources, s_sources
 
-	def _setup_plugins(self):
+	def _load_all_plugins(self):
 		"""
-		@S_sources are to be included directly in the catalog,
-		@s_souces as just as subitems
+		Insert all plugin sources into the catalog
 		"""
 		from kupfer.core import plugins
 
-		s_sources = []
-		S_sources = []
-
 		setctl = settings.GetSettingsController()
-		setctl.connect("plugin-enabled-changed", self._plugin_enabled)
-
 		for item in plugins.get_plugin_ids():
 			if not setctl.get_plugin_enabled(item):
 				continue
 			sources = self._load_plugin(item)
-			if setctl.get_plugin_is_toplevel(item):
-				S_sources.extend(sources)
-			else:
-				s_sources.extend(sources)
-
-		D_dirs, d_dirs = self._get_directory_sources()
-		S_sources.extend(D_dirs)
-		s_sources.extend(d_dirs)
-
-		if not S_sources and not s_sources:
-			pretty.print_info(__name__, "No sources found!")
-		return S_sources, s_sources
+			self._insert_sources(item, sources, initialize=False)
 
 	def _load_plugin(self, plugin_id):
 		"""
@@ -577,10 +548,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""
 		with pluginload.exception_guard(plugin_id):
 			plugin = pluginload.load_plugin(plugin_id)
-			self.register_text_sources(plugin.text_sources)
-			self.register_action_decorators(plugin.action_decorators)
-			self.register_content_decorators(plugin.content_decorators)
-			self.register_action_generators(plugin.action_generators)
+			self.register_text_sources(plugin_id, plugin.text_sources)
+			self.register_action_decorators(plugin_id, plugin.action_decorators)
+			self.register_content_decorators(plugin_id, plugin.content_decorators)
+			self.register_action_generators(plugin_id, plugin.action_generators)
 			return set(plugin.sources)
 		return set()
 
@@ -590,13 +561,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			sources = self._load_plugin(plugin_id)
 			self._insert_sources(plugin_id, sources)
 
-	def _insert_sources(self, plugin_id, sources):
+	def _insert_sources(self, plugin_id, sources, initialize=True):
 		if not sources:
 			return
 		setctl = settings.GetSettingsController()
 		is_toplevel = setctl.get_plugin_is_toplevel(plugin_id)
 		sc = GetSourceController()
-		sc.add(sources, toplevel=is_toplevel, initialize=True)
+		sc.add(plugin_id, sources, toplevel=is_toplevel, initialize=initialize)
 		self.source_pane.source_rebase(sc.root)
 
 	def _finish(self, sched):

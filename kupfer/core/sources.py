@@ -8,6 +8,7 @@ import cPickle as pickle
 import os
 import threading
 import time
+import weakref
 
 from kupfer import config, pretty, scheduler
 from kupfer import conspickle
@@ -254,14 +255,13 @@ class SourceController (pretty.OutputMixin):
 		self.content_decorators = {}
 		self.action_decorators = {}
 		self.action_generators = []
+		self.plugin_object_map = weakref.WeakKeyDictionary()
 		self.loaded_successfully = False
-		self._restored_sources = set()
 		self._pre_root = None
 
-	def add(self, srcs, toplevel=False, initialize=False):
-		self._pre_root = None
+	def add(self, plugin_id, srcs, toplevel=False, initialize=False):
+		self._invalidate_root()
 		sources = set(self._try_restore(srcs))
-		self._restored_sources.update(sources)
 		sources.update(srcs)
 
 		self.sources.update(sources)
@@ -270,21 +270,88 @@ class SourceController (pretty.OutputMixin):
 		if initialize:
 			self._initialize_sources(sources)
 			self._cache_sources(sources)
+		if plugin_id:
+			self._register_plugin_objects(plugin_id, *sources)
 		self.rescanner.set_catalog(self.sources)
-	def add_text_sources(self, srcs):
+
+	def _register_plugin_objects(self, plugin_id, *objects):
+		"Register a plugin id mapping for @objects"
+		for obj in objects:
+			self.plugin_object_map[obj] = plugin_id
+			pretty.print_debug(__name__, "Add", repr(obj))
+
+	def _remove(self, src):
+		self._invalidate_root()
+		self.toplevel_sources.discard(src)
+		self.sources.discard(src)
+		self.rescanner.set_catalog(self.sources)
+		self._finalize_source(src)
+		pretty.print_debug(__name__, "Remove", repr(src))
+
+	def get_plugin_id_for_object(self, obj):
+		id_ = self.plugin_object_map.get(obj)
+		#self.output_debug("Object", repr(obj), "has id", id_, id(obj))
+		return id_
+
+	def remove_objects_for_plugin_id(self, plugin_id):
+		"""Remove all objects for @plugin_id
+
+		Return True if the catalog configuration changed
+		"""
+		removed_source = False
+		self.output_debug("Removing objects for plugin:", plugin_id)
+
+		# sources
+		for src in list(self.sources):
+			if self.get_plugin_id_for_object(src) == plugin_id:
+				self._remove(src)
+				removed_source = True
+
+		# all other objects
+		def remove_matching_objects(collection, plugin_id):
+			for obj in list(collection):
+				if self.get_plugin_id_for_object(obj) == plugin_id:
+					collection.remove(obj)
+					pretty.print_debug(__name__, "Remove", repr(obj))
+
+		remove_matching_objects(self.text_sources, plugin_id)
+
+		for typ in self.content_decorators:
+			remove_matching_objects(self.content_decorators[typ], plugin_id)
+
+		for typ in self.action_decorators:
+			remove_matching_objects(self.action_decorators[typ], plugin_id)
+
+		remove_matching_objects(self.action_generators[typ], plugin_id)
+
+		return removed_source
+
+	def get_sources(self):
+		return self.sources
+
+	def add_text_sources(self, plugin_id, srcs):
 		self.text_sources.update(srcs)
+		self._register_plugin_objects(plugin_id, *srcs)
+
 	def get_text_sources(self):
 		return self.text_sources
-	def add_content_decorators(self, decos):
+
+	def add_content_decorators(self, plugin_id, decos):
 		for typ in decos:
 			self.content_decorators.setdefault(typ, set()).update(decos[typ])
-	def add_action_decorators(self, decos):
+			self._register_plugin_objects(plugin_id, *decos[typ])
+
+	def add_action_decorators(self, plugin_id, decos):
 		for typ in decos:
 			self.action_decorators.setdefault(typ, set()).update(decos[typ])
+			self._register_plugin_objects(plugin_id, *decos[typ])
 		for typ in self.action_decorators:
 			self._disambiguate_actions(self.action_decorators[typ])
-	def add_action_generator(self, agenerator):
+
+	def add_action_generator(self, plugin_id, agenerator):
 		self.action_generators.append(agenerator)
+		self._register_plugin_objects(plugin_id, agenerator)
+
 	def _disambiguate_actions(self, actions):
 		"""Rename actions by the same name (adding a suffix)"""
 		# FIXME: Disambiguate by plugin name, not python module name
@@ -301,8 +368,6 @@ class SourceController (pretty.OutputMixin):
 			self.output_debug("Disambiguate Action %s" % (action, ))
 			action.name += " (%s)" % (type(action).__module__.split(".")[-1],)
 
-	def clear_sources(self):
-		pass
 	def __contains__(self, src):
 		return src in self.sources
 	def __getitem__(self, src):
@@ -322,6 +387,10 @@ class SourceController (pretty.OutputMixin):
 		else:
 			root_catalog = None
 		return root_catalog
+
+	def _invalidate_root(self):
+		"The source root needs to be recalculated"
+		self._pre_root = None
 
 	@property
 	def _firstlevel(self):
@@ -481,7 +550,6 @@ class SourceController (pretty.OutputMixin):
 		self._initialize_sources(self.sources)
 		self._cache_sources(self.toplevel_sources)
 		self.loaded_successfully = True
-		self._restored_sources.clear()
 
 	def _initialize_sources(self, sources):
 		for src in set(sources):
