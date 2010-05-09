@@ -60,6 +60,10 @@ class Triggers (Source):
 			keybindings.bind_key(keystr, target)
 		self.output_debug("Loaded triggers, count:", len(self.trigger_table))
 
+	def finalize(self):
+		for target, (keystr, name, id_) in self.trigger_table.iteritems():
+			keybindings.bind_key(None, target)
+
 	def _callback(self, keyobj, target, event_time):
 		self.perform_trigger(target)
 
