@@ -26,7 +26,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"alternatives": [_("Commandline"), _("CPU usage (descending)"),
 				_("Memory usage (descending)") ]
 	},
-	plugin_support.SETTING_PREFER_CATALOG,
 )
 
 

@@ -13,8 +13,12 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
-		plugin_support.SETTING_PREFER_CATALOG,
-		dict(key='sudo_cmd', label=_("Sudo-like Command"), type=str, value="gksu"),
+	{
+		'key': 'sudo_cmd',
+		'label': _("Sudo-like Command"),
+		'type': str,
+		'value': 'gksu',
+	},
 )
 
 

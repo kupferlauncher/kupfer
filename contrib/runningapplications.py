@@ -8,12 +8,6 @@ import gio
 
 from kupfer.objects import Source, AppLeaf
 from kupfer import launch
-from kupfer import plugin_support
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
-
 
 class RunningApplicationsSource (Source):
 	"""List currently running applications """

@@ -39,7 +39,6 @@ __kupfer_settings__  = plugin_support.PluginSettings(
 		             "(e.g. '-x' for gnome-terminal and terminal, "
 		             "'-e' for konsole and urxvt).")
 	},
-	#plugin_support.SETTING_PREFER_CATALOG
 )
 
 

@@ -11,10 +11,6 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer import pretty, plugin_support
 from kupfer.obj.apps import ApplicationSource
 
-__kupfer_settings__ = plugin_support.PluginSettings(
-		plugin_support.SETTING_PREFER_CATALOG,
-)
-
 try:
 	from kupfer.plugin.virtualbox import vboxapi_support as vbox_support
 	pretty.print_info(__name__, 'Using vboxapi...')

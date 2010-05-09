@@ -8,13 +8,9 @@ import os
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
-from kupfer import config, plugin_support
+from kupfer import config
 from kupfer.obj.apps import AppLeafContentMixin
 
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
 
 class BookmarksSource (AppLeafContentMixin, Source):
 	appleaf_content_id = ("chromium-browser")

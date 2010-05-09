@@ -9,13 +9,8 @@ import os
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer import plugin_support
 
 from kupfer.plugin import epiphany_support
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
 
 class EpiphanySource (AppLeafContentMixin, Source):
 	appleaf_content_id = "epiphany"

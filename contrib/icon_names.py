@@ -21,11 +21,6 @@ import gtk
 
 from kupfer.objects import Leaf, Action, Source, SourceLeaf
 from kupfer import uiutils
-from kupfer import plugin_support
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-	plugin_support.SETTING_PREFER_CATALOG,
-)
 
 
 ICON_SPEC_ADDRESS = "http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-0.8.90.xml"

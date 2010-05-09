@@ -15,10 +15,6 @@ from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
 
 
-__kupfer_settings__ = plugin_support.PluginSettings(
-		plugin_support.SETTING_PREFER_CATALOG,
-)
-
 BOOKMARKS_FILE = "bookmarks.adr"
 
 class BookmarksSource(ApplicationSource):
