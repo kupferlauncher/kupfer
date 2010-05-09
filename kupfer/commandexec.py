@@ -204,7 +204,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 
 		If @show, possibly display the result to the user.
 		"""
-		self.output_info("Late result", repr(result), "for", token)
+		self.output_debug("Late result", repr(result), "for", token)
 		command_id, (_ign1, action, _ign2) = token
 		if result is None:
 			raise ActionExecutionError("Late result from %s was None" % action)
