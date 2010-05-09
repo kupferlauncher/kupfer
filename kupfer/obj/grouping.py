@@ -157,6 +157,8 @@ class ToplevelGroupingSource (GroupingSource):
 		self.category = category
 
 	def toplevel_source(self):
+		if self.category not in self._sources:
+			return self
 		sources = self._sources[self.category].keys()
 		return GroupingSource(self.category, sources)
 
