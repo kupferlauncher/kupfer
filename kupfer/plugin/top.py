@@ -8,7 +8,6 @@ __version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
-import subprocess
 import signal
 import operator
 
@@ -16,6 +15,7 @@ from kupfer.objects import Action, Source, Leaf
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import scheduler
 from kupfer import plugin_support
+from kupfer import utils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
@@ -87,26 +87,32 @@ class _SignalsSource(Source):
 	
 
 class TaskSource(Source, PicklingHelperMixin):
+	task_update_interval_sec = 5
+
 	def __init__(self, name=_("Running Tasks")):
 		Source.__init__(self, name)
+		self._cache = []
+		self._version = 2
 
 	def pickle_prepare(self):
 		# clear saved processes
 		self.mark_for_update()
-		self._timer = None
 
 	def initialize(self):
 		self._timer = scheduler.Timer()
 
-	def get_items(self):
-		# update after a few seconds
-		self._timer.set(5, self.mark_for_update)
-		# tasks for current user
+	def finalize(self):
+		self._timer = None
+		self._cache = []
 
-		processes = get_processes()
+	def _async_top_finished(self, acommand, stdout, stderr):
+		self._cache = []
+
+		processes = parse_top_output(stdout)
 		# sort processes (top don't allow to sort via cmd line)
 		if __kupfer_settings__['sort_order'] == _("Memory usage (descending)"):
-			processes = sorted(processes, key=operator.itemgetter(2), reverse=True)
+			processes = sorted(processes, key=operator.itemgetter(2),
+			                   reverse=True)
 		elif __kupfer_settings__['sort_order'] == _("Commandline"):
 			processes = sorted(processes, key=operator.itemgetter(4))
 		# default: by cpu
@@ -114,8 +120,21 @@ class TaskSource(Source, PicklingHelperMixin):
 		fields = _("pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s")
 		for pid, cpu, mem, ptime, cmd in processes:
 			description = fields % dict(pid=pid, cpu=cpu, mem=mem, time=ptime)
-			yield Task(pid, cmd, description)
+			self._cache.append(Task(pid, cmd, description))
 
+		self.mark_for_update()
+
+	def _async_top_start(self):
+		uid = os.getuid()
+		utils.AsyncCommand(["top", "-b", "-n", "1", "-u", "%d" % uid],
+		                   self._async_top_finished, 60)
+
+	def get_items(self):
+		for task in self._cache:
+			yield task
+		update_wait = self.task_update_interval_sec if self._cache else 0
+		# update after a few seconds
+		self._timer.set(update_wait, self._async_top_start)
 
 	def get_description(self):
 		return _("Running tasks for current user")
@@ -127,12 +146,10 @@ class TaskSource(Source, PicklingHelperMixin):
 		yield Task
 
 
-def get_processes():
-	uid = os.getuid()
-	command = 'top -b -n 1 -u %d' % uid
-	proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
-	out, _err = proc.communicate()
-
+def parse_top_output(out):
+	"""
+	Yield tuples of (pid, cpu, mem, ptime, cmd)
+	"""
 	fields_map = None
 	fields_count = 0
 	header_read = False
