@@ -586,7 +586,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			is_toplevel = setctl.get_source_is_toplevel(plugin_id, src)
 			sc.add(plugin_id, (src, ), toplevel=is_toplevel,
 			       initialize=initialize)
-		self._reload_source_root()
+		if initialize:
+			self._reload_source_root()
 
 	def _finish(self, sched):
 		self.output_info("Saving data...")
