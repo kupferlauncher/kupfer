@@ -422,7 +422,20 @@ class SourceController (pretty.OutputMixin):
 		configsaver = SourceDataPickler()
 		for source in self.sources:
 			if configsaver.source_has_config(source):
-				configsaver.save_source(source)
+				self._save_source(source, pickler=configsaver)
+
+	@classmethod
+	def _save_source(self, source, pickler=None):
+		source.finalize()
+		configsaver = pickler or SourceDataPickler()
+		configsaver.save_source(source)
+
+	def _finalize_source(self, source):
+		"Either save config, or save cache for @source"
+		if SourceDataPickler.source_has_config(source):
+			self._save_source(source)
+		elif not source.is_dynamic():
+			self._pickle_source(source)
 
 	def _try_restore(self, sources):
 		"""
@@ -445,9 +458,15 @@ class SourceController (pretty.OutputMixin):
 		sourcepickler.rm_old_cachefiles()
 		for source in sources:
 			if (source.is_dynamic() or
-			    SourceDataPickler.source_has_config(source)):
+				SourceDataPickler.source_has_config(source)):
 				continue
-			sourcepickler.pickle_source(source)
+			self._pickle_source(source, pickler=sourcepickler)
+
+	@classmethod
+	def _pickle_source(self, source, pickler=None):
+		source.finalize()
+		sourcepickler = pickler or SourcePickler()
+		sourcepickler.pickle_source(source)
 
 	def _remove_source(self, source):
 		"Oust @source from catalog if any exception is raised"

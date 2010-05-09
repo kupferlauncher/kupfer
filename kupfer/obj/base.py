@@ -333,6 +333,12 @@ class Source (KupferObject, pretty.OutputMixin):
 		"""
 		pass
 
+	def finalize(self):
+		"""
+		Called before a source is deactivated.
+		"""
+		pass
+
 	def repr_key(self):
 		return ""
 
