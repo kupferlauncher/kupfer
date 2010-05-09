@@ -270,9 +270,9 @@ class SourceController (pretty.OutputMixin):
 		if initialize:
 			self._initialize_sources(sources)
 			self._cache_sources(sources)
+			self.rescanner.set_catalog(self.sources)
 		if plugin_id:
 			self._register_plugin_objects(plugin_id, *sources)
-		self.rescanner.set_catalog(self.sources)
 
 	def _register_plugin_objects(self, plugin_id, *objects):
 		"Register a plugin id mapping for @objects"
@@ -548,6 +548,7 @@ class SourceController (pretty.OutputMixin):
 	def initialize(self):
 		"Initialize all sources and cache toplevel sources"
 		self._initialize_sources(self.sources)
+		self.rescanner.set_catalog(self.sources)
 		self._cache_sources(self.toplevel_sources)
 		self.loaded_successfully = True
 
