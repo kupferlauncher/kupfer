@@ -30,7 +30,7 @@ class PeriodicRescanner (pretty.OutputMixin):
 		self.campaign=campaign
 		self.timer = scheduler.Timer()
 		# Source -> time mapping
-		self.latest_rescan_time = {}
+		self.latest_rescan_time = weakref.WeakKeyDictionary()
 		self._min_rescan_interval = campaign//4
 
 	def set_catalog(self, catalog):
