@@ -274,6 +274,14 @@ class SourceController (pretty.OutputMixin):
 		if plugin_id:
 			self._register_plugin_objects(plugin_id, *sources)
 
+	def set_toplevel(self, src, toplevel):
+		assert src in self.sources, "Source is not tracked in SourceController"
+		self._invalidate_root()
+		if toplevel:
+			self.toplevel_sources.add(src)
+		else:
+			self.toplevel_sources.discard(src)
+
 	def _register_plugin_objects(self, plugin_id, *objects):
 		"Register a plugin id mapping for @objects"
 		for obj in objects:

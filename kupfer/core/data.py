@@ -485,6 +485,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		"""Load data from persistent store"""
 		setctl = settings.GetSettingsController()
 		setctl.connect("plugin-enabled-changed", self._plugin_enabled)
+		setctl.connect("plugin-toplevel-changed", self._plugin_catalog_changed)
 
 		self._load_all_plugins()
 		D_s, d_s = self._get_directory_sources()

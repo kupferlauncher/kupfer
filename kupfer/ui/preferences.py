@@ -11,10 +11,16 @@ from xdg import DesktopEntry as desktop
 
 from kupfer import config, pretty, utils, icons, version
 from kupfer import scheduler, kupferstring
-from kupfer.core import settings, plugins, relevance
+from kupfer.core import settings, plugins, relevance, sources
 from kupfer.ui import keybindings
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
+
+# index in GtkNotebook
+PLUGIN_LIST_PAGE = 2
+
+# List icon pixel size
+LIST_ICON_SIZE = 18
 
 # A major HACK
 # http://tadeboro.blogspot.com/2009/05/wrapping-adn-resizing-gtklabel.html
@@ -29,6 +35,18 @@ def wrapped_label(text=None, maxwid=-1):
 	label.set_line_wrap(True)
 	label.connect("size-allocate", _cb_allocate, maxwid)
 	return label
+
+def kobject_should_show(obj):
+	try:
+		leaf_repr = obj.get_leaf_repr()
+	except AttributeError:
+		pass
+	else:
+		if leaf_repr is None:
+			return True
+		if hasattr(leaf_repr, "is_valid") and not leaf_repr.is_valid():
+			return False
+	return True
 
 class PreferencesWindowController (pretty.OutputMixin):
 
@@ -89,6 +107,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.entry_plugins_filter = builder.get_object('entry_plugins_filter')
 		self.keybindings_list_parent = builder.get_object('keybindings_list_parent')
 		self.gkeybindings_list_parent = builder.get_object('gkeybindings_list_parent')
+		source_list_parent = builder.get_object("source_list_parent")
+		self.sources_list_ctrl = SourceListController(source_list_parent)
 
 		setctl = settings.GetSettingsController()
 		checkautostart.set_active(self._get_should_autostart())
@@ -120,8 +140,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		checkcell.connect("toggled", self.on_checkplugin_toggled)
 
 		icon_cell = gtk.CellRendererPixbuf()
-		icon_cell.set_property("height", 18)
-		icon_cell.set_property("width", 18)
+		icon_cell.set_property("height", LIST_ICON_SIZE)
+		icon_cell.set_property("width", LIST_ICON_SIZE)
 
 		icon_col = gtk.TreeViewColumn("icon", icon_cell)
 		icon_col.add_attribute(icon_cell, "icon-name",
@@ -485,13 +505,13 @@ class PreferencesWindowController (pretty.OutputMixin):
 				hbox.pack_start(label, False)
 				objvbox.pack_start(hbox)
 				# Display information for application content-sources.
+				if not kobject_should_show(obj):
+					continue
 				try:
 					leaf_repr = obj.get_leaf_repr()
 				except AttributeError:
 					continue
 				if leaf_repr is None:
-					continue
-				if hasattr(leaf_repr, "is_valid") and not leaf_repr.is_valid():
 					continue
 				hbox = gtk.HBox()
 				hbox.set_property("spacing", 3)
@@ -732,9 +752,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			table_path = self._table_path_for_id(plugin_id)
 		self.table.set_cursor(table_path)
 		self.table.scroll_to_cell(table_path)
-		# FIXME: Revisit if we add new pages to the GtkNotebook
-		self.preferences_notebook.next_page()
-		self.preferences_notebook.next_page()
+		self.preferences_notebook.set_current_page(PLUGIN_LIST_PAGE)
 		self.window.present()
 
 	def hide(self):
@@ -780,3 +798,86 @@ def GetPreferencesWindowController():
 	if _preferences_window is None:
 		_preferences_window = PreferencesWindowController()
 	return _preferences_window
+
+class SourceListController (object):
+	def __init__(self, parent_widget):
+		columns = [
+			{"key": "source", "type": gobject.TYPE_PYOBJECT },
+			{"key": "plugin_id", "type": str },
+			{"key": "toplevel", "type": bool },
+			{"key": "icon", "type": gio.Icon },
+			{"key": "markup", "type": str },
+		]
+		# setup plugin list table
+		column_types = [c["type"] for c in columns]
+		self.columns = [c["key"] for c in columns]
+		self.store = gtk.ListStore(*column_types)
+		self.table = gtk.TreeView(self.store)
+		self.table.set_headers_visible(False)
+		self.table.set_property("enable-search", False)
+		self.table.set_rules_hint(True)
+		#self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
+		self.table.get_selection().set_mode(gtk.SELECTION_NONE)
+
+		checkcell = gtk.CellRendererToggle()
+		checkcol = gtk.TreeViewColumn("item", checkcell)
+		checkcol.add_attribute(checkcell, "active",
+				self.columns.index("toplevel"))
+		checkcell.connect("toggled", self.on_checktoplevel_enabled)
+
+		icon_cell = gtk.CellRendererPixbuf()
+		icon_cell.set_property("height", LIST_ICON_SIZE)
+		icon_cell.set_property("width", LIST_ICON_SIZE)
+
+		icon_col = gtk.TreeViewColumn("icon", icon_cell)
+		icon_col.add_attribute(icon_cell, "gicon",
+				self.columns.index("icon"))
+
+		cell = gtk.CellRendererText()
+		col = gtk.TreeViewColumn("item", cell)
+		col.add_attribute(cell, "markup", self.columns.index("markup"))
+
+		self.table.append_column(checkcol)
+		self.table.append_column(icon_col)
+		self.table.append_column(col)
+
+		self._refresh()
+		self.table.show()
+		parent_widget.add(self.table)
+
+		setctl = settings.GetSettingsController()
+		setctl.connect("plugin-enabled-changed", self._refresh)
+
+	def _refresh(self, *ignored):
+		self.store.clear()
+		setctl = settings.GetSettingsController()
+		sc = sources.GetSourceController()
+		srcs = sorted(sc.get_sources(), key=unicode)
+
+		for src in srcs:
+			name = unicode(src)
+			plugin_id = sc.get_plugin_id_for_object(src)
+			if not plugin_id or setctl.get_plugin_is_hidden(plugin_id):
+				continue
+			if not kobject_should_show(src):
+				continue
+			gicon = src.get_icon()
+			toplevel = setctl.get_source_is_toplevel(plugin_id, src)
+
+			self.store.append((src, plugin_id, toplevel, gicon, name))
+
+	def on_checktoplevel_enabled(self, cell, path):
+		it = self.store.get_iter(path)
+		checkcol = self.columns.index("toplevel")
+		idcol = self.columns.index("plugin_id")
+		srccol = self.columns.index("source")
+		is_toplevel = not self.store.get_value(it, checkcol)
+		plugin_id = self.store.get_value(it, idcol)
+		src = self.store.get_value(it, srccol)
+
+		sc = sources.GetSourceController()
+		sc.set_toplevel(src, is_toplevel)
+
+		setctl = settings.GetSettingsController()
+		setctl.set_source_is_toplevel(plugin_id, src, is_toplevel)
+		self.store.set_value(it, checkcol, is_toplevel)
