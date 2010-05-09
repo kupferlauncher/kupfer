@@ -6,7 +6,17 @@ import gobject
 from kupfer import scheduler, pretty
 
 class Task (object):
-	"""Represent a task that can be done in the background"""
+	"""Represent a task that can be done in the background
+
+	The finish_callback received in Task.start(..) must be stored,
+	and regardless if the task exits with an error, or completes
+	successfully, the callback *must* be called.
+
+	The finish callback must pass the Task instance itself as
+	the only and first argument:
+
+	    finish_callback(self)
+	"""
 	def __init__(self, name=None):
 		self.name = name
 
