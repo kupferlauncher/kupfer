@@ -3,6 +3,8 @@
 
 import itertools
 import os
+import signal
+import sys
 import time
 
 import pygtk
@@ -1577,6 +1579,9 @@ class WindowController (pretty.OutputMixin):
 		self.output_info("Caught signal", signal, "exiting..")
 		self.quit()
 
+	def _on_early_interrupt(self, signal, frame):
+		sys.exit(1)
+
 	def save_data(self):
 		"""Save state before quit"""
 		sch = scheduler.GetScheduler()
@@ -1610,7 +1615,6 @@ class WindowController (pretty.OutputMixin):
 		Connect to desktop services (keybinding callback, session logout
 		callbacks etc).
 		"""
-		import signal
 		from kupfer.ui import session
 
 		self.output_debug("in lazy_setup")
@@ -1646,6 +1650,7 @@ class WindowController (pretty.OutputMixin):
 
 	def main(self, quiet=False):
 		"""Start WindowController, present its window (if not @quiet)"""
+		signal.signal(signal.SIGINT, self._on_early_interrupt)
 
 		try:
 			kserv = listen.Service()
