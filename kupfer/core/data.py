@@ -580,11 +580,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def _insert_sources(self, plugin_id, sources, initialize=True):
 		if not sources:
 			return
-		setctl = settings.GetSettingsController()
-		is_toplevel = setctl.get_plugin_is_toplevel(plugin_id)
 		sc = GetSourceController()
-		sc.add(plugin_id, sources, toplevel=is_toplevel, initialize=initialize)
-		self.source_pane.source_rebase(sc.root)
+		setctl = settings.GetSettingsController()
+		for src in sources:
+			is_toplevel = setctl.get_source_is_toplevel(plugin_id, src)
+			sc.add(plugin_id, (src, ), toplevel=is_toplevel,
+			       initialize=initialize)
+		self._reload_source_root()
 
 	def _finish(self, sched):
 		self.output_info("Saving data...")

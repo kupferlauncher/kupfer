@@ -228,15 +228,27 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		self.emit("plugin-enabled-changed", plugin_id, enabled)
 		return ret
 
-	def get_plugin_is_toplevel(self, plugin_id):
-		"""Convenience: if @plugin_id items are included in toplevel"""
-		return self.get_plugin_config(plugin_id, "kupfer_toplevel",
-				value_type=strbool, default=True)
-
 	def get_plugin_is_hidden(self, plugin_id):
 		"""Convenience: if @plugin_id is hidden"""
 		return self.get_plugin_config(plugin_id, "kupfer_hidden",
 				value_type=strbool, default=False)
+
+	@classmethod
+	def _source_config_repr(self, obj):
+		name = type(obj).__name__
+		return "".join([(c if c.isalnum() else '_') for c in name])
+
+	def get_source_is_toplevel(self, plugin_id, src):
+		key = "kupfer_toplevel_" + self._source_config_repr(src)
+		default = not getattr(src, "source_prefer_sublevel", False)
+		return self.get_plugin_config(plugin_id, key,
+		                              value_type=strbool, default=default)
+
+	def set_source_is_toplevel(self, plugin_id, src, value):
+		key = "kupfer_toplevel_" + self._source_config_repr(src)
+		self.emit("plugin-toplevel-changed", plugin_id, value)
+		return self.set_plugin_config(plugin_id, key,
+		                              value, value_type=strbool)
 
 	def get_keybinding(self):
 		"""Convenience: Kupfer keybinding as string"""
@@ -381,6 +393,11 @@ gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,
 
 # Plugin ID, Value
 gobject.signal_new("plugin-enabled-changed", SettingsController,
+		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_INT))
+
+# Plugin ID, Value
+gobject.signal_new("plugin-toplevel-changed", SettingsController,
 		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, gobject.TYPE_INT))
 

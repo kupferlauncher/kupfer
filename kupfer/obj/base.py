@@ -298,9 +298,13 @@ class Source (KupferObject, pretty.OutputMixin):
 
 	@source_user_reloadable if True source get "Reload" action without
 		debug mode.
+	@source_prefer_sublevel if True, the source by default exports
+		its contents in a subcatalog, not to the toplevel.
+		NOTE: *Almost never* use this: let the user decide, default to toplevel.
 	"""
 	fallback_icon_name = "kupfer-object-multiple"
 	source_user_reloadable = False
+	source_prefer_sublevel = False
 
 	def __init__(self, name):
 		KupferObject.__init__(self, name)
