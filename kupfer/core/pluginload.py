@@ -66,3 +66,6 @@ def exception_guard(name, callback=None, *args):
 		pretty.print_error(__name__, "Please file a bug report")
 		if callback is not None:
 			callback(*args)
+
+def remove_plugin(plugin_id):
+	plugins.unimport_plugin(plugin_id)

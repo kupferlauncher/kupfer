@@ -322,7 +322,7 @@ class SourceController (pretty.OutputMixin):
 		for typ in self.action_decorators:
 			remove_matching_objects(self.action_decorators[typ], plugin_id)
 
-		remove_matching_objects(self.action_generators[typ], plugin_id)
+		remove_matching_objects(self.action_generators, plugin_id)
 
 		return removed_source
 

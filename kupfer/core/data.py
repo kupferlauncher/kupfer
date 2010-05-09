@@ -492,7 +492,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc.add(None, D_s, toplevel=True)
 		sc.add(None, d_s, toplevel=False)
 		sc.initialize()
-		self.source_pane.source_rebase(sc.root)
+		self._reload_source_root()
 		learn.load()
 
 	def _get_directory_sources(self):
@@ -559,7 +559,23 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		from kupfer.core import plugins
 		if enabled and not plugins.is_plugin_loaded(plugin_id):
 			sources = self._load_plugin(plugin_id)
-			self._insert_sources(plugin_id, sources)
+			self._insert_sources(plugin_id, sources, initialize=True)
+		elif not enabled:
+			self._remove_plugin(plugin_id)
+
+	def _remove_plugin(self, plugin_id):
+		sc = GetSourceController()
+		if sc.remove_objects_for_plugin_id(plugin_id):
+			self._reload_source_root()
+		pluginload.remove_plugin(plugin_id)
+
+	def _reload_source_root(self):
+		self.output_debug("Reloading source root")
+		sc = GetSourceController()
+		self.source_pane.source_rebase(sc.root)
+
+	def _plugin_catalog_changed(self, setctl, plugin_id, toplevel):
+		self._reload_source_root()
 
 	def _insert_sources(self, plugin_id, sources, initialize=True):
 		if not sources:
