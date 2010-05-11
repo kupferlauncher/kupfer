@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# This script invokes kupfer by calling for an already running instance, or
+# This script invokes kupfer by calling an already running instance, or
 # starting a new if none is found running.
 
 PYTHON="@PYTHON@"
@@ -24,11 +24,14 @@ PYTHONDIR="@PYTHONDIR@"
 test ${PYTHON:0:1} = "@" && PYTHON=python2.6
 test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $(realpath $0))/..
 
-# We allow either ``kupfer QUERY`` to pass text on the command line,
-# or reading directly from stdin if we pipe text into Kupfer
+SERVICE="se.kaizer.kupfer"
+OBJ="/interface"
+IFACE="se.kaizer.kupfer.Listener"
+
+# We allow reading directly from stdin if we pipe text into Kupfer
 if ! tty --quiet
 then
-	echo "kupfer: Reading from stdin"
+	echo "kupfer: Reading from stdin" > /dev/stderr
 	TEXT_INPUT=$(cat)
 fi
 
@@ -37,14 +40,13 @@ test "x${1:0:2}" = "x--"
 KUPFER_HAS_OPTIONS=$?
 
 test $KUPFER_HAS_OPTIONS != 0 && dbus-send --type=method_call --print-reply \
-	--dest=se.kaizer.kupfer /interface se.kaizer.kupfer.Listener.Present \
-	>/dev/null 2>&1
+	--dest=$SERVICE $OBJ $IFACE.Present >/dev/null 2>&1
 KUPFER_RUNNING=$?
 
 if test \( -n "$TEXT_INPUT" -a $KUPFER_HAS_OPTIONS != 0 \)
 then
-	dbus-send --type=method_call --dest=se.kaizer.kupfer /interface \
-		se.kaizer.kupfer.Listener.PutText string:"$TEXT_INPUT"
+	dbus-send --type=method_call --dest=$SERVICE $OBJ \
+		$IFACE.PutText string:"$TEXT_INPUT"
 fi
 
 _realpaths () {
@@ -61,8 +63,8 @@ then
 	# NOTE: We must escape commas here since it is dbus-send's
 	# array item separator. This is then unescaped by kupfer
 	ARRAY=$(_realpaths "$@" | sed -e 's/,/%%kupfercomma%%/g' | tr \\0 ,)
-	dbus-send --type=method_call --dest=se.kaizer.kupfer /interface  \
-		se.kaizer.kupfer.Listener.PutFiles array:string:"$ARRAY"
+	dbus-send --type=method_call --dest=$SERVICE $OBJ \
+		$IFACE.PutFiles array:string:"$ARRAY"
 fi
 
 
