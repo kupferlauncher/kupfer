@@ -29,7 +29,7 @@ implementation is simple and makes the easy things work first. One goal
 is that new plugins can be written quickly without too much programming.
 
 ``kupfer-exec`` is a helper script that can execute commands saved to
-file, but only by connecting to an already running instace of Kupfer.
+file, but only by connecting to an already running instance of Kupfer.
 
 SPAWNING
 ========
