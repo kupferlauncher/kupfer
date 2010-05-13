@@ -3,7 +3,7 @@ __kupfer_name__ = _("Getting Things GNOME")
 __kupfer_sources__ = ("TasksSource", )
 __kupfer_actions__ = ("CreateNewTask",)
 __description__ = _("Browse and create new task in GTG")
-__version__ = "2010-05-09"
+__version__ = "2010-05-13"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -26,6 +26,8 @@ plugin_support.check_dbus_connection()
 _SERVICE_NAME = 'org.GTG'
 _OBJECT_NAME = '/org/GTG'
 _IFACE_NAME = 'org.GTG'
+_GTG_INTERNAL_FILES = ('projects.xml', 'tags.xml')
+_GTG_HOME = "~/.local/share/gtg/"
 
 
 def _create_dbus_connection(activate=False):
@@ -50,7 +52,11 @@ def _create_dbus_connection(activate=False):
 def _load_tasks(interface):
 	''' Load task by dbus interface '''
 	for task in interface.get_tasks():
-		title = task['title'] or task['text'][:80]
+		title = task['title'].strip()
+		if not title:
+			title = task['text'].strip()
+			if len(title) > 80:
+				title = title[:79] + '…'
 		otask = Task(task['id'], title, task['status'])
 		otask.duedate = task['duedate']
 		otask.startdate = task['startdate']
@@ -60,12 +66,11 @@ def _load_tasks(interface):
 
 def _load_task_from_xml():
 	''' Load tasks by xml file (when no gtg running) '''
-	gtg_local_dir = os.path.expanduser("~/.local/share/gtg/")
+	gtg_local_dir = os.path.expanduser(_GTG_HOME)
 	if not os.path.isdir(gtg_local_dir):
 		return
 	for fname in os.listdir(gtg_local_dir):
-		if not fname.endswith('.xml') or fname == 'projects.xml' or \
-				fname == 'tags.xml':
+		if not fname.endswith('.xml') or fname in _GTG_INTERNAL_FILES:
 			continue
 		ffullpath = os.path.join(gtg_local_dir, fname)
 		if not os.path.isfile(ffullpath):
@@ -77,6 +82,13 @@ def _load_task_from_xml():
 				continue
 			task_id = task.attrib['id']
 			title = task.find('title').text.strip()
+			if not title:
+				content = task.find('content')
+				if content is None:
+					continue
+				title = content.text.strip()
+				if len(title) > 80:
+					title = title[:79] + '…'
 			otask = Task(task_id, title, status)
 			tags = task.attrib['tags']
 			if tags:
@@ -88,6 +100,14 @@ def _load_task_from_xml():
 			if startdate_n is not None:
 				otask.startdate = startdate_n.text.strip()
 			yield otask
+
+
+def _change_task_status(task_id, status):
+	interface = _create_dbus_connection()
+	if interface is not None:
+		task = interface.get_task(task_id)
+		task['status'] = status
+		interface.modify_task(task_id, task)
 
 
 class Task(Leaf):
@@ -143,7 +163,7 @@ class DeleteTask(Action):
 			interface.delete_task(leaf.object)
 
 	def get_icon_name(self):
-		return 'delete'
+		return 'gtk-delete'
 
 	def get_description(self):
 		return _("Permanently remove this task")
@@ -154,14 +174,10 @@ class MarkTaskDone(Action):
 		Action.__init__(self, _("Mark Task Done"))
 
 	def activate(self, leaf):
-		interface = _create_dbus_connection()
-		if interface is not None:
-			task = interface.get_task(leaf.object)
-			task['status'] = 'Done'
-			interface.modify_task(leaf.object, task)
+		_change_task_status(leaf.object, 'Done')
 
 	def get_icon_name(self):
-		return 'gtg-task-done'
+		return 'gtk-yes'
 
 	def get_description(self):
 		return _("Mark this task as done")
@@ -172,14 +188,10 @@ class DismissTask (Action):
 		Action.__init__(self, _("Dismiss Task"))
 
 	def activate(self, leaf):
-		interface = _create_dbus_connection()
-		if interface is not None:
-			task = interface.get_task(leaf.object)
-			task['status'] = 'Dismiss'
-			interface.modify_task(leaf.object, task)
+		_change_task_status(leaf.object, 'Dismiss')
 
 	def get_icon_name(self):
-		return 'gtg-task-dismiss'
+		return 'gtk-cancel'
 
 	def get_description(self):
 		return _("Mark this task as not to be done anymore")
@@ -205,7 +217,7 @@ class CreateNewTask(Action):
 		yield TextLeaf
 
 	def get_icon_name(self):
-		return 'gtg-task-new'
+		return 'gtk-new'
 
 	def get_description(self):
 		return _("Create new task in Getting Things GNOME")
@@ -220,8 +232,7 @@ class TasksSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 		self._version = 2
 
 	def initialize(self):
-		gtg_local_dir = os.path.expanduser("~/.local/share/gtg/")
-		gfile = gio.File(gtg_local_dir)
+		gfile = gio.File(os.path.expanduser(_GTG_HOME))
 		self.monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
 		if self.monitor:
 			self.monitor.connect("changed", self._changed)
@@ -231,7 +242,6 @@ class TasksSource(AppLeafContentMixin, Source, PicklingHelperMixin):
 
 	def get_items(self):
 		interface = _create_dbus_connection()
-		self._tasks = []
 		if interface is None:
 			self._tasks = list(_load_task_from_xml())
 		else:
