@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-05-06 10:47+0000\n"
-"PO-Revision-Date: 2010-05-08 09:44+0100\n"
+"POT-Creation-Date: 2010-05-14 16:31+0000\n"
+"PO-Revision-Date: 2010-05-14 19:38+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -60,8 +60,9 @@ msgid "<b>Start</b>"
 msgstr "<b>Zaženi</b>"
 
 #: ../data/preferences.ui.h:6
-msgid "<i>Plugins may not be unloaded at runtime</i>"
-msgstr "<i>Vstavkov ni mogoče razložiti med zagonom programa</i>"
+#: ../kupfer/obj/sources.py:144
+msgid "Catalog"
+msgstr "Katalog"
 
 #: ../data/preferences.ui.h:7
 msgid "General"
@@ -81,7 +82,7 @@ msgid "Plugins"
 msgstr "Vstavki"
 
 #: ../data/preferences.ui.h:11
-#: ../kupfer/ui/preferences.py:750
+#: ../kupfer/ui/preferences.py:768
 msgid "Reset"
 msgstr "Ponastavi"
 
@@ -94,6 +95,16 @@ msgid "Start automatically on login"
 msgstr "Samodejno zaženi ob prijavi"
 
 #: ../data/preferences.ui.h:14
+msgid ""
+"Tick the box next to a source to make sure its objects are exported to the top level of the catalog. An unticked source's contents are only available by locating its subcatalog and entering it.\n"
+"\n"
+"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed to carry a catalog larger than a couple of thousand objects, and may become slow if overly large subcatalogs are included in the top level."
+msgstr ""
+"Izberite polje poleg vira, da bodo njegovi predmeti izvoženi na vrhnjo raven kataloga. Vsebina neizbranega kataloga je na voljo le z iskanjem in vnosom podkataloga.\n"
+"\n"
+"Opomba: Kupfer je le integrator in ne pripravljalnik kazala. Kupfer ni zasnovan za kataloge z več kot nekaj tisoč predmeti in lahko postane počasen, če so na vrhnji ravni vključeni preveliki podkatalogi."
+
+#: ../data/preferences.ui.h:17
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Uporabi ukaze enega udarca tipk (presledek, /, pika, vejica, itn.)"
 
@@ -164,156 +175,156 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:719
+#: ../kupfer/ui/browser.py:721
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prazen"
 
-#: ../kupfer/ui/browser.py:723
+#: ../kupfer/ui/browser.py:725
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "V %(src)s ni zadetkov za \"%(query)s\""
 
-#: ../kupfer/ui/browser.py:729
+#: ../kupfer/ui/browser.py:731
 msgid "No matches"
 msgstr "Ni zadetkov"
 
-#: ../kupfer/ui/browser.py:734
+#: ../kupfer/ui/browser.py:736
 msgid "Type to search"
 msgstr "Vtipkajte za iskanje"
 
-#: ../kupfer/ui/browser.py:740
+#: ../kupfer/ui/browser.py:742
 #, python-format
 msgid "Type to search %s"
 msgstr "Vtipkajte za iskanje %s"
 
-#: ../kupfer/ui/browser.py:752
+#: ../kupfer/ui/browser.py:754
 msgid "No action"
 msgstr "Ni dejanja"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/preferences.py:37
+#: ../kupfer/ui/preferences.py:55
 msgid "Show Main Interface"
 msgstr "Pokaži glavni vmesnik"
 
-#: ../kupfer/ui/preferences.py:38
+#: ../kupfer/ui/preferences.py:56
 msgid "Show with Selection"
 msgstr "Pokaži z izbiro"
 
 #. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/preferences.py:48
+#: ../kupfer/ui/preferences.py:66
 msgid "Alternate Activate"
 msgstr "Dodatno omogoči"
 
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/preferences.py:51
+#: ../kupfer/ui/preferences.py:69
 msgid "Comma Trick"
 msgstr "Trik vejice"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
-#: ../kupfer/ui/preferences.py:54
+#: ../kupfer/ui/preferences.py:72
 msgid "Compose Command"
 msgstr "Sestavi ukaz"
 
-#: ../kupfer/ui/preferences.py:55
+#: ../kupfer/ui/preferences.py:73
 msgid "Reset All"
 msgstr "Ponastavi vse"
 
-#: ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/preferences.py:74
 msgid "Select Quit"
 msgstr "Izberi končaj"
 
-#: ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/preferences.py:75
 msgid "Select Selected File"
 msgstr "Izberi izbrano datoteko"
 
-#: ../kupfer/ui/preferences.py:58
+#: ../kupfer/ui/preferences.py:76
 msgid "Select Selected Text"
 msgstr "Izberi izbrano besedilo"
 
-#: ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/preferences.py:77
 msgid "Show Help"
 msgstr "Pokaži pomoč"
 
-#: ../kupfer/ui/preferences.py:60
+#: ../kupfer/ui/preferences.py:78
 msgid "Show Preferences"
 msgstr "Pokaži možnost"
 
-#: ../kupfer/ui/preferences.py:61
+#: ../kupfer/ui/preferences.py:79
 msgid "Switch to First Pane"
 msgstr "Preklopi na prvi pladenj"
 
-#: ../kupfer/ui/preferences.py:62
+#: ../kupfer/ui/preferences.py:80
 msgid "Toggle Text Mode"
 msgstr "Preklopi besedilni način"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:382
+#: ../kupfer/ui/preferences.py:402
 msgid "Description"
 msgstr "Opis"
 
-#: ../kupfer/ui/preferences.py:382
+#: ../kupfer/ui/preferences.py:402
 msgid "Author"
 msgstr "Avtor"
 
-#: ../kupfer/ui/preferences.py:398
+#: ../kupfer/ui/preferences.py:418
 msgid "Version"
 msgstr "Različica"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:408
+#: ../kupfer/ui/preferences.py:428
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Zahtevan je Python modul '%s'"
 
-#: ../kupfer/ui/preferences.py:422
+#: ../kupfer/ui/preferences.py:442
 msgid "Plugin could not be read due to an error:"
 msgstr "Vstavka ni mogoče prebrati zaradi napake:"
 
-#: ../kupfer/ui/preferences.py:430
+#: ../kupfer/ui/preferences.py:450
 #: ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "onemogočeno"
 
-#: ../kupfer/ui/preferences.py:502
+#: ../kupfer/ui/preferences.py:522
 msgid "Content of"
 msgstr "Vsebina"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:511
+#: ../kupfer/ui/preferences.py:531
 msgid "Sources"
 msgstr "Viri"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:515
+#: ../kupfer/ui/preferences.py:535
 msgid "Actions"
 msgstr "Dejanja"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:553
+#: ../kupfer/ui/preferences.py:573
 msgid "Configuration"
 msgstr "Nastavitev"
 
-#: ../kupfer/ui/preferences.py:573
+#: ../kupfer/ui/preferences.py:593
 msgid "Set username and password"
 msgstr "Nastavi uporabniško imein geslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:627
+#: ../kupfer/ui/preferences.py:647
 msgid "Choose a Directory"
 msgstr "Izbor mape"
 
-#: ../kupfer/ui/preferences.py:748
+#: ../kupfer/ui/preferences.py:766
 msgid "Reset all shortcuts to default values?"
 msgstr "Ponastavitev vseh bližnjic na privzete vrednosti?"
 
-#: ../kupfer/ui/preferences.py:756
+#: ../kupfer/ui/preferences.py:774
 msgid "Command"
 msgstr "Ukaz"
 
-#: ../kupfer/ui/preferences.py:757
+#: ../kupfer/ui/preferences.py:775
 msgid "Shortcut"
 msgstr "Bližnjica"
 
@@ -382,7 +393,7 @@ msgstr "Ni dovoljenj za zagon \"%s\" (ni izvedljiva)"
 msgid "Command in \"%s\" is not available"
 msgstr "Ukaz v \"%s\" ni na voljo"
 
-#: ../kupfer/obj/base.py:431
+#: ../kupfer/obj/base.py:441
 #: ../kupfer/plugin/core/text.py:22
 msgid "Text Matches"
 msgstr "Zadetki besedila"
@@ -549,10 +560,6 @@ msgstr "Kazalo kataloga"
 #: ../kupfer/obj/sources.py:133
 msgid "An index of all available sources"
 msgstr "Kazalo vseh dostopnih virov"
-
-#: ../kupfer/obj/sources.py:144
-msgid "Catalog"
-msgstr "Katalog"
 
 #: ../kupfer/obj/sources.py:164
 msgid "Root catalog"
@@ -739,12 +746,12 @@ msgid "Remove all recent clipboards"
 msgstr "Odstrani vsa nedavna odložišča"
 
 #: ../kupfer/plugin/commands.py:1
-#: ../kupfer/plugin/commands.py:78
+#: ../kupfer/plugin/commands.py:75
 msgid "Shell Commands"
 msgstr "Ukazi lupine"
 
 #: ../kupfer/plugin/commands.py:4
-#: ../kupfer/plugin/commands.py:101
+#: ../kupfer/plugin/commands.py:98
 msgid "Run commandline programs"
 msgstr "Zaženi programe ukazne vrstice"
 
@@ -752,7 +759,7 @@ msgstr "Zaženi programe ukazne vrstice"
 msgid "Run (Get Output)"
 msgstr "Poženi (Dobi izhod)"
 
-#: ../kupfer/plugin/commands.py:53
+#: ../kupfer/plugin/commands.py:50
 msgid "Run program and return its output"
 msgstr "Zažene program in vrne njegov izhod"
 
@@ -810,12 +817,12 @@ msgid "Bookmarked folders"
 msgstr "Zaznamovane mape"
 
 #: ../kupfer/plugin/epiphany.py:1
-#: ../kupfer/plugin/epiphany.py:23
+#: ../kupfer/plugin/epiphany.py:18
 msgid "Epiphany Bookmarks"
 msgstr "Zaznamki Epihphany"
 
 #: ../kupfer/plugin/epiphany.py:3
-#: ../kupfer/plugin/epiphany.py:40
+#: ../kupfer/plugin/epiphany.py:35
 msgid "Index of Epiphany bookmarks"
 msgstr "Kazalo zaznamkov Epiphany"
 
@@ -917,12 +924,12 @@ msgid "Archive"
 msgstr "Arhiv"
 
 #: ../kupfer/plugin/firefox.py:4
-#: ../kupfer/plugin/firefox.py:30
+#: ../kupfer/plugin/firefox.py:25
 msgid "Firefox Bookmarks"
 msgstr "Zaznamki Firefox"
 
 #: ../kupfer/plugin/firefox.py:6
-#: ../kupfer/plugin/firefox.py:111
+#: ../kupfer/plugin/firefox.py:106
 msgid "Index of Firefox bookmarks"
 msgstr "Kazalo zaznamkov Firefox"
 
@@ -1038,7 +1045,7 @@ msgstr "Nadaljevanje predvajanja v Rhythmbox"
 
 #: ../kupfer/plugin/rhythmbox.py:73
 #: ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:49
+#: ../kupfer/plugin/virtualbox/__init__.py:45
 msgid "Pause"
 msgstr "Premor"
 
@@ -1236,11 +1243,11 @@ msgstr "Sprožilniki"
 msgid "Assign global keybindings (triggers) to objects created with 'Compose Command' (Ctrl+Return)."
 msgstr "Določanje splošnih tipkovnih bližnjic (sprožilcev) predmetov ustvarjenih z 'Ukazom Ustvari' (Ctrl+Vnosna tipka)."
 
-#: ../kupfer/plugin/triggers.py:139
+#: ../kupfer/plugin/triggers.py:143
 msgid "Add Trigger..."
 msgstr "Dodajanje sprožilca ..."
 
-#: ../kupfer/plugin/triggers.py:155
+#: ../kupfer/plugin/triggers.py:159
 msgid "Remove Trigger"
 msgstr "Odstranjevanje sprožilca"
 
@@ -1535,12 +1542,12 @@ msgid "Playlist"
 msgstr "Seznam predvajanja"
 
 #: ../kupfer/plugin/chromium.py:1
-#: ../kupfer/plugin/chromium.py:22
+#: ../kupfer/plugin/chromium.py:18
 msgid "Chromium Bookmarks"
 msgstr "Zaznamki Chromium"
 
 #: ../kupfer/plugin/chromium.py:3
-#: ../kupfer/plugin/chromium.py:49
+#: ../kupfer/plugin/chromium.py:45
 msgid "Index of Chromium bookmarks"
 msgstr "Kazalo zaznamkov Chromium"
 
@@ -1633,6 +1640,27 @@ msgstr "Sestavljanje novega sporočila v Evolution in priloga datoteke"
 #: ../kupfer/plugin/evolution.py:99
 msgid "Evolution Address Book"
 msgstr "Imenik Evolution"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/filezilla.py:3
+msgid "Filezilla"
+msgstr "Filezilla"
+
+#: ../kupfer/plugin/filezilla.py:6
+msgid "Show sites and handle ftp addresses by Filezilla"
+msgstr "Pokaže strani in upravlja naslove ftp s Filezillo"
+
+#: ../kupfer/plugin/filezilla.py:42
+msgid "Open Site with Filezilla"
+msgstr "Odpri strani s Filezilla"
+
+#: ../kupfer/plugin/filezilla.py:87
+msgid "Filezilla Sites"
+msgstr "Strani Filezille"
+
+#: ../kupfer/plugin/filezilla.py:122
+msgid "Sites from Filezilla"
+msgstr "Strani s Filezille"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gajim.py:2
@@ -2073,12 +2101,12 @@ msgid "OpenOffice Recent Items"
 msgstr "Nedavni predmeti OpenOffice"
 
 #: ../kupfer/plugin/opera.py:4
-#: ../kupfer/plugin/opera.py:27
+#: ../kupfer/plugin/opera.py:23
 msgid "Opera Bookmarks"
 msgstr "Zaznamki Opera"
 
 #: ../kupfer/plugin/opera.py:6
-#: ../kupfer/plugin/opera.py:59
+#: ../kupfer/plugin/opera.py:55
 msgid "Index of Opera bookmarks"
 msgstr "Kazalo zaznamkov Opera"
 
@@ -2162,7 +2190,7 @@ msgstr "Priloži"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/services.py:2
-#: ../kupfer/plugin/services.py:93
+#: ../kupfer/plugin/services.py:97
 msgid "System Services"
 msgstr "Sistemske storitve"
 
@@ -2170,23 +2198,23 @@ msgstr "Sistemske storitve"
 msgid "Start, stop or restart system services via init scripts"
 msgstr "Zagon, zaustavitev ali ponoven zagon sistemskih storitev preko skript init"
 
-#: ../kupfer/plugin/services.py:17
+#: ../kupfer/plugin/services.py:18
 msgid "Sudo-like Command"
 msgstr "Sudo-podoben ukaz"
 
-#: ../kupfer/plugin/services.py:75
+#: ../kupfer/plugin/services.py:79
 msgid "Start Service"
 msgstr "Zaženi storitev"
 
-#: ../kupfer/plugin/services.py:81
+#: ../kupfer/plugin/services.py:85
 msgid "Restart Service"
 msgstr "Ponovno zaženi storitev"
 
-#: ../kupfer/plugin/services.py:87
+#: ../kupfer/plugin/services.py:91
 msgid "Stop Service"
 msgstr "Zaustavi storitev"
 
-#: ../kupfer/plugin/services.py:123
+#: ../kupfer/plugin/services.py:127
 #, python-format
 msgid "%s Service"
 msgstr "Storitev %s"
@@ -2254,7 +2282,7 @@ msgstr "Stanja Skype"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/ssh_hosts.py:2
-#: ../kupfer/plugin/ssh_hosts.py:96
+#: ../kupfer/plugin/ssh_hosts.py:95
 msgid "SSH Hosts"
 msgstr "Gostitelji SSH"
 
@@ -2278,35 +2306,23 @@ msgstr "Izvedi zastavico"
 msgid "The flag which makes the terminal execute everything following it inside the terminal (e.g. '-x' for gnome-terminal and terminal, '-e' for konsole and urxvt)."
 msgstr "Zastavica, ki terminal prisili v izvedbo vsega in mu sledi znotraj terminala (na primer '-x' za gnome-terminal in terminal '-e' za konsole in urxvt)."
 
-#: ../kupfer/plugin/ssh_hosts.py:56
+#: ../kupfer/plugin/ssh_hosts.py:55
 msgid "SSH host"
 msgstr "Gostitelj SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:67
+#: ../kupfer/plugin/ssh_hosts.py:66
 msgid "Connect"
 msgstr "Poveži se"
 
-#: ../kupfer/plugin/ssh_hosts.py:75
+#: ../kupfer/plugin/ssh_hosts.py:74
 msgid "Connect to SSH host"
 msgstr "Poveži se z gostiteljem SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:128
+#: ../kupfer/plugin/ssh_hosts.py:127
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "Gostitelji SSH kot so navedeni v ~/.ssh/config"
 
-#: ../kupfer/plugin_support.py:19
-msgid "Include in top level"
-msgstr "Vključi v vrhnjo raven"
-
-#: ../kupfer/plugin_support.py:23
-msgid ""
-"If enabled, objects from the plugin's source(s) will be available in the top level.\n"
-"Sources are always available as subcatalogs in the top level."
-msgstr ""
-"Izbrana možnost omogoči razpoložljivost vira vstavka na zgornji ravni.\n"
-"Viri so vedno razpoložljivi kot podkatalogi v zgornji ravni."
-
-#: ../kupfer/plugin_support.py:135
+#: ../kupfer/plugin_support.py:120
 msgid "No D-Bus connection to desktop session"
 msgstr "Ni D-Bus povezave z namizno sejo"
 
@@ -2424,7 +2440,7 @@ msgstr "Vrstni red"
 
 #: ../kupfer/plugin/top.py:25
 #: ../kupfer/plugin/top.py:26
-#: ../kupfer/plugin/top.py:110
+#: ../kupfer/plugin/top.py:115
 msgid "Commandline"
 msgstr "Ukazna vrstica"
 
@@ -2434,29 +2450,29 @@ msgstr "Uporaba CPE (naraščajoče)"
 
 #. sort processes (top don't allow to sort via cmd line)
 #: ../kupfer/plugin/top.py:27
-#: ../kupfer/plugin/top.py:108
+#: ../kupfer/plugin/top.py:112
 msgid "Memory usage (descending)"
 msgstr "Uporaba pomnilnika (padajoče)"
 
-#: ../kupfer/plugin/top.py:50
+#: ../kupfer/plugin/top.py:49
 msgid "Send Signal..."
 msgstr "Pošlji signal ..."
 
-#: ../kupfer/plugin/top.py:80
+#: ../kupfer/plugin/top.py:79
 msgid "Signals"
 msgstr "Signali"
 
-#: ../kupfer/plugin/top.py:90
+#: ../kupfer/plugin/top.py:91
 msgid "Running Tasks"
 msgstr "Opravila v teku"
 
 #. default: by cpu
-#: ../kupfer/plugin/top.py:114
+#: ../kupfer/plugin/top.py:119
 #, python-format
 msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
 msgstr "pid: %(pid)s  cpe: %(cpu)g%%  spomin: %(mem)g%%  čas: %(time)s"
 
-#: ../kupfer/plugin/top.py:121
+#: ../kupfer/plugin/top.py:139
 msgid "Running tasks for current user"
 msgstr "Opravila v teku za trenutnega uporabnika"
 
@@ -2625,36 +2641,36 @@ msgstr "VirtualBox"
 msgid "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open Source Edition."
 msgstr "Nadzor VirtualBox navideznih računalnikov. Podpira Sun VirtualBox in odprtokodno različico."
 
-#: ../kupfer/plugin/virtualbox/__init__.py:42
+#: ../kupfer/plugin/virtualbox/__init__.py:38
 msgid "Power On"
 msgstr "Vključi"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:44
+#: ../kupfer/plugin/virtualbox/__init__.py:40
 msgid "Power On Headless"
 msgstr "Vključi brez glave"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:47
+#: ../kupfer/plugin/virtualbox/__init__.py:43
 msgid "Send Power Off Signal"
 msgstr "Pošlji signal izklopa"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:50
+#: ../kupfer/plugin/virtualbox/__init__.py:46
 msgid "Reboot"
 msgstr "Ponovni zagon"
 
 #. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:53
+#: ../kupfer/plugin/virtualbox/__init__.py:49
 msgid "Resume"
 msgstr "Nadaljuj"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:56
+#: ../kupfer/plugin/virtualbox/__init__.py:52
 msgid "Save State"
 msgstr "Shrani stanje"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:58
+#: ../kupfer/plugin/virtualbox/__init__.py:54
 msgid "Power Off"
 msgstr "Izklop"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:82
+#: ../kupfer/plugin/virtualbox/__init__.py:78
 msgid "VirtualBox Machines"
 msgstr "Naprave VirtualBox"
 
@@ -2703,6 +2719,17 @@ msgstr "Strani Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležnicah Zim"
 
+#~ msgid "<i>Plugins may not be unloaded at runtime</i>"
+#~ msgstr "<i>Vstavkov ni mogoče razložiti med zagonom programa</i>"
+#~ msgid "Include in top level"
+#~ msgstr "Vključi v vrhnjo raven"
+#~ msgid ""
+#~ "If enabled, objects from the plugin's source(s) will be available in the "
+#~ "top level.\n"
+#~ "Sources are always available as subcatalogs in the top level."
+#~ msgstr ""
+#~ "Izbrana možnost omogoči razpoložljivost vira vstavka na zgornji ravni.\n"
+#~ "Viri so vedno razpoložljivi kot podkatalogi v zgornji ravni."
 #~ msgid "<b>Keybinding</b>"
 #~ msgstr "<b>Tipkovna povezava</b>"
 #~ msgid "Applied"
