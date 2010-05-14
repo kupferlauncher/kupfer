@@ -4,7 +4,7 @@ from __future__ import with_statement
 __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
 __description__ = _("Index of Firefox bookmarks")
-__version__ = "2010-01-23"
+__version__ = "2010-05-14"
 __author__ = "Ulrik, William Friesen, Karol Będkowski"
 
 from contextlib import closing
@@ -12,11 +12,22 @@ import os
 import itertools
 import sqlite3
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer import plugin_support
+from kupfer.objects import Source
 from kupfer.objects import UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.plugin import firefox_support
+
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key": "load_history",
+		"label": _("Include visited sites"),
+		"type": bool,
+		"value": True,
+	},
+)
 
 
 class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
@@ -70,9 +81,12 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 	def get_items(self):
 		# try to update the history file
-		history_items = self._get_ffx3_history()
-		if history_items is not None:
-			self._history = history_items
+		if __kupfer_settings__['load_history']:
+			history_items = self._get_ffx3_history()
+			if history_items is not None:
+				self._history = history_items
+		else:
+			self._history = []
 
 		# now try reading JSON bookmark backups,
 		# with html bookmarks as backup
