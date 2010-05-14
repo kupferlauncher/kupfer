@@ -36,6 +36,8 @@ def show_about_dialog(*ignored, **kwds):
 			ab.set_documenters(version.DOCUMENTERS)
 		if version.TRANSLATOR_CREDITS:
 			ab.set_translator_credits(version.TRANSLATOR_CREDITS)
+		if version.ARTISTS:
+			ab.set_artists(version.ARTISTS)
 
 		ab.connect("response", _response_callback)
 		# do not delete window on close

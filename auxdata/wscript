@@ -48,3 +48,17 @@ def build(bld):
 				Utils.subst_vars("${DATADIR}/mime", bld.env)])
 		bld.exec_command(["update-desktop-database",
 				Utils.subst_vars("${DATADIR}/applications", bld.env)])
+
+	icons_inst = bld.install_files("${DATADIR}/icons/hicolor/scalable/apps",
+	                               "kupfer.svg")
+
+	# Waf's "gnome" tool  -- def postinstall_icons():
+	if icons_inst and bld.is_install:
+		icon_dir = bld.get_install_path('${DATADIR}/icons/hicolor')
+		if not Options.options.destdir:
+			Utils.pprint('YELLOW',"Updating Gtk icon cache.")
+			command='gtk-update-icon-cache -q -f -t %s' % icon_dir
+			ret=Utils.exec_command(command)
+		else:
+			Utils.pprint('YELLOW','Icon cache not updated. After install, run this:')
+			Utils.pprint('YELLOW','gtk-update-icon-cache -q -f -t %s'%icon_dir)

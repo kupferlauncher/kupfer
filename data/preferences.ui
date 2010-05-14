@@ -7,7 +7,7 @@
     <property name="title" translatable="yes">Kupfer Preferences</property>
     <property name="role">Preferences</property>
     <property name="window_position">center</property>
-    <property name="icon_name">system-search</property>
+    <property name="icon_name">kupfer</property>
     <signal name="key_press_event" handler="on_preferenceswindow_key_press_event"/>
     <child>
       <object class="GtkVBox" id="vbox1">

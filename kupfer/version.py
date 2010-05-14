@@ -11,7 +11,7 @@ else:
 	VERSION = version_subst.VERSION
 	PACKAGE_NAME = version_subst.PACKAGE_NAME
 
-ICON_NAME = "system-search"
+ICON_NAME = "kupfer"
 PROGRAM_NAME = _("Kupfer")
 
 AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
@@ -42,7 +42,10 @@ Andrej Žnidaršič (sl)
 lh (zh_CN)
 """.splitlines()
 
-AUTHORS += PACKAGERS + TRANSLATORS
+ARTISTS=u"""Nasser Alshammari <designernasser@gmail.com>
+""".splitlines()
+
+AUTHORS += ARTISTS + PACKAGERS + TRANSLATORS
 
 DOCUMENTERS = []
 
