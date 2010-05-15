@@ -10,11 +10,6 @@ import threading
 import time
 import weakref
 
-import glib
-import gtk
-glib.threads_init()
-gtk.gdk.threads_init()
-
 from kupfer import config, pretty, scheduler
 from kupfer import conspickle
 from kupfer.obj import base, sources
