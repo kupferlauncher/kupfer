@@ -1407,6 +1407,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window_position = -1, -1
+		self._latest_window_position = None
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1501,14 +1502,20 @@ class WindowController (pretty.OutputMixin):
 
 	def _window_frame_event(self, window, event):
 		# save most recent window position
+		# but only save it on user moves -- detect this by catching two
+		# successive (different) positions
 		window_pos = self.window.get_position()
 		if (self.window.get_property("visible") and
 		    window_pos != self.window_position):
 			self.window_position = self.window.get_position()
-			setctl = settings.GetSettingsController()
-			setctl.set_session_position("main", self.window_position)
+			if (self._latest_window_position is not None and
+			    self._latest_window_position != window_pos):
+				setctl = settings.GetSettingsController()
+				setctl.set_session_position("main", self.window_position)
+			self._latest_window_position = window_pos
 
 	def _move_window_to_position(self):
+		self._latest_window_position = None
 		pos = self.window.get_position()
 		if self.window_position[0] > 0 and pos != self.window_position:
 			self.window.move(*self.window_position)
