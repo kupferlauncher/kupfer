@@ -2,12 +2,13 @@
 # Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 # This file is distributed under the same license as the kupfer package. (GPLv3)
 # Maciej Kwiatkowski <kfiadeg@gmail.com>, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-07 20:11+0200\n"
-"PO-Revision-Date: 2010-04-07 20:23+0200\n"
+"POT-Creation-Date: 2010-05-18 08:05+0200\n"
+"PO-Revision-Date: 2010-05-18 08:20+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -46,9 +47,8 @@ msgstr "<b>Interfejs</b>"
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
-msgid "<i>Plugins may not be unloaded at runtime</i>"
-msgstr ""
-"<i>Wtyczki mogą pozostać załadowane do czasu ponownego uruchomienia</i>"
+msgid "Catalog"
+msgstr "Katalog"
 
 msgid "General"
 msgstr "Ogólne"
@@ -70,6 +70,24 @@ msgstr "Wyświetlanie ikony w obszarze powiadamiania"
 
 msgid "Start automatically on login"
 msgstr "Automatycznie uruchamianie po zalogowaniu"
+
+msgid ""
+"Tick the box next to a source to make sure its objects are exported to the "
+"top level of the catalog. An unticked source's contents are only available "
+"by locating its subcatalog and entering it.\n"
+"\n"
+"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
+"to carry a catalog larger than a couple of thousand objects, and may become "
+"slow if overly large subcatalogs are included in the top level."
+msgstr ""
+"Zaznacz pole przy źródle aby jego obiekty pojawiły się na najwyższym "
+"poziomie katalogu. Zawartość niezaznaczonych źródeł będzie dostępna jedynie "
+"przez odnalezienie podkatalogu i wejście do niego.\n"
+"\n"
+"Uwaga: Kufer jest integratorem, nie indeksuje swojej zawartości. Kufer nie "
+"jest zaprojektowany do obsługi katalogów większych niż kilka tysięcy "
+"obiektów i może zrobić się powolny gdy duże podkatalogu umieszczone zostaną "
+"na najwyższym poziomie."
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
@@ -148,18 +166,24 @@ msgstr "Pisz aby przeszukać %s"
 msgid "No action"
 msgstr "Brak akcji"
 
+#. TRANS: Names of global keyboard shortcuts
 msgid "Show Main Interface"
 msgstr "Wyświetlenie głównego interfejsu"
 
 msgid "Show with Selection"
 msgstr "Wyświetlenie zaznaczenia"
 
+#. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternatywna aktywacja"
 
+#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+#. TRANS: user to select many objects to be used for one action
 msgid "Comma Trick"
 msgstr "Trik z kropką"
 
+#. TRANS: "Compose Command" makes one object out of the selected
+#. TRANS: object + action (+iobject)
 msgid "Compose Command"
 msgstr "Komponuj"
 
@@ -423,9 +447,6 @@ msgstr "Indeks katalogu"
 msgid "An index of all available sources"
 msgstr "Indeks wszystkich dostępnych źródeł"
 
-msgid "Catalog"
-msgstr "Katalog"
-
 msgid "Root catalog"
 msgstr "Katalog główny"
 
@@ -543,6 +564,9 @@ msgstr "Liczba ostatnich elementów w schowku"
 msgid "Include recent selections"
 msgstr "Uwzględnianie ostatnich zaznaczeń"
 
+msgid "Copy selection to primary clipboard"
+msgstr "Kopiuje zaznaczenie do podstawowego schowka"
+
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -561,6 +585,12 @@ msgstr "Komendy powłoki"
 
 msgid "Run commandline programs"
 msgstr "Uruchamia polecenie linii komend"
+
+msgid "Run (Get Output)"
+msgstr "Uruchom (pobierz wynik)"
+
+msgid "Run program and return its output"
+msgstr "Uruchamia program i zwraca jego wynik"
 
 msgid "Dictionary"
 msgstr "Słownik"
@@ -1193,6 +1223,22 @@ msgid "Evolution Address Book"
 msgstr "Książka adresowa Evolution"
 
 #. -*- coding: UTF-8 -*-
+msgid "Filezilla"
+msgstr "Filezilla"
+
+msgid "Show sites and handle ftp addresses by Filezilla"
+msgstr "Pokazuje miejsca i obsługuje adresy ftp przez Filezillę"
+
+msgid "Open Site with Filezilla"
+msgstr "Otwórz miejsce w Filezilli"
+
+msgid "Filezilla Sites"
+msgstr "Miejsca Filezilli"
+
+msgid "Sites from Filezilla"
+msgstr "Miejsca zdefiniowane w Filezilli"
+
+#. -*- coding: UTF-8 -*-
 msgid "Gajim"
 msgstr "Gajim"
 
@@ -1636,17 +1682,43 @@ msgstr "Kontakty Skype"
 msgid "Skype Statuses"
 msgstr "Statusy Skype"
 
-msgid "Include in top level"
-msgstr "Umieszczanie elementów na najwyższym poziomie"
+#. -*- coding: UTF-8 -*-
+msgid "SSH Hosts"
+msgstr "Hosty SSH"
+
+msgid "Adds the SSH hosts found in ~/.ssh/config."
+msgstr "Dodaje host SSH znalezione w ~/.ssh/config."
+
+msgid "Preferred terminal"
+msgstr "Preferowany terminal"
+
+msgid "The preferred terminal emulator. It's used to launch the SSH sessions."
+msgstr ""
+"Preferowany emulator terminala. Zostanie użyty do uruchomienia sesji SSH."
+
+msgid "Execute flag"
+msgstr "Parametr wykonania"
 
 msgid ""
-"If enabled, objects from the plugin's source(s) will be available in the top "
-"level.\n"
-"Sources are always available as subcatalogs in the top level."
+"The flag which makes the terminal execute everything following it inside the "
+"terminal (e.g. '-x' for gnome-terminal and terminal, '-e' for konsole and "
+"urxvt)."
 msgstr ""
-"Określa, czy elementy pochodzące ze źródeł będą widoczne na najwyższym "
-"poziomie listy.\n"
-"Źródła zawsze będą pokazywane jako podkatalogi na najwyższym poziomie."
+"Flaga, która powoduje uruchomienie wszystkiego po niej następującego we "
+"wnętrzu terminala (np. '-x' dla gnome-terminal i terminal, '-e' dla konsole "
+"i urxvt)."
+
+msgid "SSH host"
+msgstr "Host SSH"
+
+msgid "Connect"
+msgstr "Połącz"
+
+msgid "Connect to SSH host"
+msgstr "Nawiąż połączenie z hostem SSH"
+
+msgid "SSH hosts as specified in ~/.ssh/config"
+msgstr "Hosty SSH określone w ~/.ssh/config"
 
 msgid "No D-Bus connection to desktop session"
 msgstr "Brak połączenia D-Bus do sesji pulpitu"
@@ -1760,8 +1832,8 @@ msgstr "pid: %(pid)s  cpu: %(cpu)g%%  pamięć: %(mem)g%%  czas: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Uruchomione zadania bieżącego użytkownika"
 
-msgid "Tracker"
-msgstr "Tracker"
+msgid "Tracker 0.6"
+msgstr "Tracker 0.6"
 
 msgid "Tracker desktop search integration"
 msgstr "Integracja z programem Tracker"
@@ -1807,6 +1879,12 @@ msgstr "Usuń tag..."
 msgid "Remove tracker tag from file"
 msgstr "Usuń tag programu Tracker z pliku"
 
+msgid "Tracker 0.8"
+msgstr "Tracker 0.8"
+
+#. FIXME: Port tracker tag sources and actions
+#. to the new, much more powerful sparql + dbus API
+#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
 #. -*- coding: UTF-8 -*-
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
@@ -1856,6 +1934,15 @@ msgstr "Rozpocznij sesje Vinegre"
 
 msgid "Vinagre Bookmarks"
 msgstr "Zakładki Vinegre"
+
+msgid "Vim"
+msgstr "Vim"
+
+msgid "Recently used documents in Vim"
+msgstr "Ostatnio używane dokumenty w Vimie"
+
+msgid "Vim Recent Documents"
+msgstr "Ostatnio używane dokumenty Vima"
 
 #. -*- coding: UTF-8 -*-
 msgid "VirtualBox"
@@ -1926,6 +2013,22 @@ msgstr "Strony Zima"
 
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
+
+#~ msgid "<i>Plugins may not be unloaded at runtime</i>"
+#~ msgstr ""
+#~ "<i>Wtyczki mogą pozostać załadowane do czasu ponownego uruchomienia</i>"
+
+#~ msgid "Include in top level"
+#~ msgstr "Umieszczanie elementów na najwyższym poziomie"
+
+#~ msgid ""
+#~ "If enabled, objects from the plugin's source(s) will be available in the "
+#~ "top level.\n"
+#~ "Sources are always available as subcatalogs in the top level."
+#~ msgstr ""
+#~ "Określa, czy elementy pochodzące ze źródeł będą widoczne na najwyższym "
+#~ "poziomie listy.\n"
+#~ "Źródła zawsze będą pokazywane jako podkatalogi na najwyższym poziomie."
 
 #~ msgid ""
 #~ "<span weight=\"bold\" size=\"larger\">Set keybinding</span>\n"
