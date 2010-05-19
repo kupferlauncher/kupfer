@@ -3,11 +3,12 @@ __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", "SendFileByMail")
 __description__ = _("Claws Mail Contacts and Actions")
-__version__ = "2010-01-07"
+__version__ = "2010-05-19"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 from xml.dom import minidom
+import xml
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf
@@ -148,8 +149,7 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 						for address in addresses:
 							email = address.getAttribute('email')
 							yield EmailContact(email, cn)
-
-				except StandardError, err:
+				except (StandardError, xml.parsers.expat.ExpatError), err:
 					self.output_error(err)
 
 		yield ComposeMail()
@@ -176,8 +176,7 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 			dtree = minidom.parse(self._claws_addrbook_index)
 			for book in dtree.getElementsByTagName('book'):
 				yield book.getAttribute('file')
-
-		except StandardError, err:
+		except (StandardError, xml.parsers.expat.ExpatError), err:
 			self.output_error(err)
 
 
