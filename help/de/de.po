@@ -1,11 +1,11 @@
 # German translation of the kupfer manual.
-# Mario Blättermann <mariobl@gnome.org>, 2009.
+# Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer docs\n"
-"POT-Creation-Date: 2010-03-06 13:01+0000\n"
-"PO-Revision-Date: 2010-03-11 11:02+0100\n"
+"POT-Creation-Date: 2010-03-31 02:25+0000\n"
+"PO-Revision-Date: 2010-05-20 22:41+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,83 +15,206 @@ msgstr ""
 "X-Poedit-Country: GERMANY\n"
 
 #: C/tips.page:7(desc)
-msgid "Using <app>Kupfer</app> more convenient."
+#| msgid "Using <app>Kupfer</app> more convenient."
+msgid "Using <app>Kupfer</app> more conveniently."
 msgstr "<app>Kupfer</app> bequemer benutzen."
 
 #: C/tips.page:10(title)
 msgid "Basic Usage"
 msgstr "Grundlagen der Bedienung"
 
-#: C/tips.page:12(p)
+#: C/tips.page:13(title)
+msgid "The Catalog"
+msgstr "Der Katalog"
+
+#: C/tips.page:14(p)
 msgid ""
-"By default, with the keybinder module installed, <keyseq><key>Ctrl</"
-"key><key>Space</key></keyseq> will summon the Kupfer window."
+"The Catalog is the collection of objects you can access in Kupfer, such as "
+"documents and programs."
 msgstr ""
-"Standardmäßig rufen Sie mit der Tastenkombination <keyseq><key>Strg</"
-"key><key>Leertaste</key></keyseq> das <app>Kupfer</app>-Fenster auf, sofern "
-"das Keybinder-Modul installiert ist."
+"Der Katalog ist die Objektsammlung, auf die Sie in Kupfer zugreifen können, "
+"wie Dokumente und Programme."
 
-#: C/tips.page:17(p)
+#: C/tips.page:19(p)
 msgid ""
-"Included toplevel directories (by default home an desktop) are monitored so "
-"new files will be found immediately. Most plugins in <app>Kupfer</app> try to "
-"use the change notifications that are available from the system, to keep up "
-"to date with the instant."
+"Objects in the catalog that have content, like folders, are marked with an "
+"arrow. Pressing <key>right-arrow</key> will enter these objects. Much of the "
+"catalog is composed of subcatalogs; plugin subcatalogs do in general list "
+"objects that are also available directly from the top level. Subcatalogs can "
+"be used for a narrower view or search scope, when using Kupfer."
 msgstr ""
-"Die Ordner der obersten Ebene werden überwacht (als Vorgabe der persönliche "
-"Ordner und die Arbeitsfläche), so dass neu hinzukommende Dateien unmittelbar "
-"gefunden werden können. Die meisten Plugins in <app>Kupfer</app> versuchen, "
-"die vom System bereitgestellten Änderungsmeldungen zu nutzen, so dass die "
-"Daten aktuell gehalten werden können."
+"Objekte im Katalog mit Inhalten, wie Ordner, werden mit einem Pfeil markiert. "
+"Durch Drücken der <key>Pfeiltaste rechts</key> öffnen Sie diese Objekte. Ein "
+"Großteil des Katalogs besteht aus Unterkatalogen. Das Einbinden von "
+"Unterkatalogen als allgemeine Listenobjekte in die oberste Ebene des "
+"Kataloges ist möglich. Unterkataloge können in Kupfer zur Eingrenzung der "
+"Ansicht oder des Suchbereichs genutzt werden."
 
-#: C/tips.page:24(p)
+#: C/tips.page:28(p)
 msgid ""
-"Objects that have content, like folders, are marked with an arrow. Pressing "
-"<key>right-arrow</key> will enter these objects."
+"Most subcatalogs update their content automatically. For example, the Desktop "
+"folder catalog is always uptodate."
 msgstr ""
-"Objekte mit Inhalten (z.B. Ordner) werden mit einem Pfeil markiert. Ein Druck "
-"auf die <key>Pfeiltaste rechts</key> öffnet diese Objekte."
+"Die meisten Unterkataloge aktualisieren ihre Inhalte automatisch. "
+"Beispielsweise ist der Katalog für den »Desktop«-Ordner immer auf dem neuesten "
+"Stand."
 
-#: C/tips.page:29(p)
-msgid "In command mode, some keybindings are:"
+#: C/tips.page:35(title)
+msgid "Keyboard Interface"
+msgstr "Tastaturschnittstelle"
+
+#: C/tips.page:37(p)
+msgid ""
+"<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
+"applications and documents."
 msgstr ""
-"Im Befehlsmodus stehen Ihnen beispielsweise folgende Tastenkürzel zur "
-"Verfügung:"
+"<app>Kupfer</app> ist zum größten Teil eine über die Tastatur bedienbare "
+"Schnittstelle zu Anwendungen und Dokumenten."
 
-#: C/tips.page:34(p)
-msgid "<key>space</key> to go to the next match"
-msgstr "<key>Leertaste</key>, um zum nächsten Treffer zu gehen"
+#: C/tips.page:41(p)
+msgid ""
+"Kupfer's default mode is the command mode: If you type a query, kupfer will "
+"search for a match in its catalog."
+msgstr ""
+"Der Standardmodus von <app>Kupfer</app> ist der Befehlsmodus: Sobald Sie eine "
+"Suche eingeben, sucht <app>Kupfer</app> nach Treffern in seinem Katalog."
 
-#: C/tips.page:39(p)
-msgid "<key>.</key> to activate free-text mode"
-msgstr "<key>.</key> zur Aktivierung des freien Textmodus"
+#: C/tips.page:46(p)
+msgid ""
+"The arrow keys allow you to browse query matches quite naturally, going to "
+"the previous or next match, and going up and down in the subcatalogs."
+msgstr ""
+"Mit Hilfe der Pfeiltasten können Sie ganz einfach durch die Treffer "
+"navigieren, in dem Sie zum nächsten oder vorherigen Treffer gehen oder in den "
+"Unterkatalogen suchen."
 
-#: C/tips.page:44(p)
-msgid "<key>/</key> to descend into an object with content"
-msgstr "<key>/</key> zum Eintauchen in ein Objekt mit Inhalten"
+#: C/tips.page:52(p)
+#| msgid "In command mode, some keybindings are:"
+msgid "In command mode, some keystrokes have special meanings:"
+msgstr "Im Befehlsmodus haben einige Tastenkürzel besondere Bedeutungen:"
 
-#: C/tips.page:49(p)
-msgid "<key>Backspace</key> to go back upspace to go to the next match"
+#: C/tips.page:57(p)
+msgid "<key>↓</key> or <key>Space</key>"
+msgstr "<key>↓</key> oder <key>Leertaste</key>"
+
+#: C/tips.page:58(p)
+#| msgid "<key>space</key> to go to the next match"
+msgid "Go to the next match"
+msgstr "Zum nächsten Treffer gehen"
+
+#: C/tips.page:61(p)
+msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
+msgstr ""
+"<key>↑</key> oder <keyseq><key>Umschalttaste</key><key>Leertaste</key></"
+"keyseq>"
+
+#: C/tips.page:64(p)
+msgid "Go to the previous match"
+msgstr "Zum vorherigen Treffer gehen"
+
+#: C/tips.page:67(p)
+msgid "<key>→</key> or <key>/</key>"
+msgstr "<key>→</key> oder <key>/</key>"
+
+#: C/tips.page:68(p)
+#| msgid "<key>/</key> to descend into an object with content"
+msgid "Descend into an object with content"
+msgstr "Eintauchen in ein Objekt mit Inhalten"
+
+#: C/tips.page:71(key)
+msgid "Backspace"
+msgstr "Löschtaste"
+
+#: C/tips.page:72(p)
+msgid "Erase a character from the query. If the query is empty, go up a level"
+msgstr ""
+"Das Zeichen aus der Suche löschen. Falls die Suche leer ist, eine Ebene nach "
+"oben gehen."
+
+#: C/tips.page:77(key)
+msgid "."
+msgstr "."
+
+#: C/tips.page:78(p)
+#| msgid "<key>.</key> to activate free-text mode"
+msgid "Activate free-text mode"
+msgstr "Aktivierung des freien Textmodus"
+
+#: C/tips.page:81(key)
+msgid ","
+msgstr ","
+
+#: C/tips.page:82(p)
+msgid "Put selected object on the stack (\"Comma Trick\")"
 msgstr ""
 
-#: C/tips.page:57(title)
+#: C/tips.page:85(p)
+msgid ""
+"Additionally, the key <key>Return</key> activates the current selection: the "
+"command is executed. <key>Escape</key> clears the current selection."
+msgstr ""
+"Zusätzlich aktiviert die <key>Eingabetaste</key> die aktuelle Auswahl: der "
+"Befehl wird ausgeführt. Die <key>Esc</key>-Taste löscht die aktuelle Auswahl."
+
+#: C/tips.page:91(title)
+msgid "Global Keyboard Shortcuts"
+msgstr "Globale Tastenkombinationen"
+
+#: C/tips.page:92(p)
+msgid ""
+"Kupfer listens to global shortcuts, even if Kupfer is not currently in the "
+"foreground. The most important global shortcut is the shortcut to show and "
+"hide Kupfer's command window which by default is <keyseq><key>Ctrl</"
+"key><key>Space</key></keyseq>."
+msgstr ""
+
+#: C/tips.page:98(p)
+msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
+msgstr ""
+"Globale Tastenkombinationen werden in den Einstellungen von <app>Kupfer</app> "
+"eingerichtet."
+
+#: C/tips.page:101(p)
+msgid ""
+"The Triggers plugin allows to configure actions to be activated by global "
+"shortcuts, but triggers can only be configured in that plugin."
+msgstr ""
+
+#: C/tips.page:108(title)
+msgid "Additional Keyboard Shortcuts"
+msgstr "Zusätzliche Tastenkombinationen"
+
+#: C/tips.page:109(p)
+msgid ""
+"Additional keyboard shortcuts that work with Kupfer when it is in the "
+"foreground can be configured in Kupfer's preferences."
+msgstr ""
+
+#: C/tips.page:119(title)
 msgid "Configuration files and paths"
 msgstr "Konfigurationsdateien und Pfade"
 
-#: C/tips.page:58(p)
+#: C/tips.page:120(p)
+#| msgid "Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>"
 msgid ""
-"Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, <file>~/."
-"config/kupfer</file> and <file>~/.local/share/kupfer</file>."
+"Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/</"
+"file>"
+msgstr ""
+"Installieren Sie benutzerdefinierte Plugins in <file>~/.local/share/kupfer/"
+"plugins/</file>"
+
+#: C/tips.page:124(p)
+#| msgid ""
+#| "Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, "
+#| "<file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</file>."
+msgid ""
+"Kupfer cache, config and data are located in the directories <file>~/.cache/"
+"kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</"
+"file>."
 msgstr ""
 "Die Daten des Zwischenspeichers, die Konfiguration und die sonstigen Daten "
 "von <app>Kupfer</app> werden in <file>~/.cache/kupfer</file>, <file>~/.config/"
 "kupfer</file> und <file>~/.local/share/kupfer</file> gespeichert."
-
-#: C/tips.page:63(p)
-msgid "Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>"
-msgstr ""
-"Installieren Sie benutzerdefinierte Plugins in <file>~/.local/share/kupfer/"
-"plugins/</file>"
 
 #: C/plugins.page:7(desc)
 msgid "Using <app>Kupfer</app> plugins."
@@ -114,7 +237,7 @@ msgstr ""
 
 #: C/plugins.page:19(title)
 msgid "Search the Web Search Engines"
-msgstr ""
+msgstr "Suchmaschinen zur Websuche"
 
 #: C/plugins.page:20(p)
 msgid ""
@@ -433,34 +556,30 @@ msgstr "Einführung"
 
 #: C/introduction.page:12(p)
 msgid ""
-"<app>Kupfer</app> is a command tool heavily inspired by <link href=\"http://"
-"www.blacktree.com/\">Quicksilver</link>; you do not use it to search your "
-"files, you use it to summon an application or document quickly by typing the "
-"first parts of its name."
+"<app>Kupfer</app> is a program to change, speed up and make everything about "
+"files and programs more fun on your computer. <app>Kupfer</app> is a "
+"launcher; you typically use it to summon an application or a document quickly "
+"by typing parts of its name. It can also do more than getting at something "
+"quickly: there are different plugins for accessing more objects and running "
+"custom commands."
 msgstr ""
 
-#: C/introduction.page:19(p)
+#: C/introduction.page:22(p)
 msgid ""
-"<app>Kupfer</app> is written using Python and has a flexible architecture. "
-"Objects that it can access are implemented in plugins, and new plugins can be "
-"written quickly."
+"<app>Kupfer</app> is written using Python and has a flexible architecture; "
+"the implementation is simple and makes the easy things work first. One goal "
+"is that new plugins can be written quickly without too much programming."
 msgstr ""
 
-#: C/introduction.page:25(p)
+#: C/introduction.page:28(p)
 msgid ""
-"The philosophy of <app>Kupfer</app> is simplicity. The implementation is "
-"simple, makes the easy things work first, and does not overdesign unnecessary "
-"parts of the program."
+"The program is very inspired by <link href=\"http://www.blacktree.com/"
+"\">Quicksilver</link>."
 msgstr ""
+"Das Programm ist stark von <link href=\"http://www.blacktree.com/"
+"\">Quicksilver</link> inspiriert."
 
-#: C/introduction.page:31(p)
-msgid ""
-"When you run <app>Kupfer</app>, it launches, then anytime you type "
-"<app>Kupfer's</app> keybinding -- immediately its window is presented ready "
-"for a new query."
-msgstr ""
-
-#: C/introduction.page:36(p)
+#: C/introduction.page:33(p)
 msgid ""
 "For more information about <app>Kupfer</app>, visit its <link href=\"http://"
 "kaizer.se/wiki/kupfer/\">homepage</link>."
@@ -501,6 +620,34 @@ msgstr "Kuper verwenden"
 msgid "translator-credits"
 msgstr "Mario Blättermann <mariobl@gnome.org>, 2009, 2010"
 
+#~ msgid ""
+#~ "By default, with the keybinder module installed, <keyseq><key>Ctrl</"
+#~ "key><key>Space</key></keyseq> will summon the Kupfer window."
+#~ msgstr ""
+#~ "Standardmäßig rufen Sie mit der Tastenkombination <keyseq><key>Strg</"
+#~ "key><key>Leertaste</key></keyseq> das <app>Kupfer</app>-Fenster auf, "
+#~ "sofern das Keybinder-Modul installiert ist."
+
+#~ msgid ""
+#~ "Included toplevel directories (by default home an desktop) are monitored "
+#~ "so new files will be found immediately. Most plugins in <app>Kupfer</app> "
+#~ "try to use the change notifications that are available from the system, to "
+#~ "keep up to date with the instant."
+#~ msgstr ""
+#~ "Die Ordner der obersten Ebene werden überwacht (als Vorgabe der "
+#~ "persönliche Ordner und die Arbeitsfläche), so dass neu hinzukommende "
+#~ "Dateien unmittelbar gefunden werden können. Die meisten Plugins in "
+#~ "<app>Kupfer</app> versuchen, die vom System bereitgestellten "
+#~ "Änderungsmeldungen zu nutzen, so dass die Daten aktuell gehalten werden "
+#~ "können."
+
+#~ msgid ""
+#~ "Objects that have content, like folders, are marked with an arrow. "
+#~ "Pressing <key>right-arrow</key> will enter these objects."
+#~ msgstr ""
+#~ "Objekte mit Inhalten (z.B. Ordner) werden mit einem Pfeil markiert. Ein "
+#~ "Druck auf die <key>Pfeiltaste rechts</key> öffnet diese Objekte."
+
 #~ msgid "Kupfer"
 #~ msgstr "Kupfer"
 
@@ -508,10 +655,6 @@ msgstr "Mario Blättermann <mariobl@gnome.org>, 2009, 2010"
 #~ msgstr "Strg"
 
 #~ msgid "Space"
-#~ msgstr "Leertaste"
-
-#, fuzzy
-#~ msgid "space"
 #~ msgstr "Leertaste"
 
 #~ msgid "~/.cache/kupfer"
