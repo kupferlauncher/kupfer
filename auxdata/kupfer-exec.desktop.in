@@ -4,5 +4,6 @@ Version=1.0
 Type=Application
 Exec=kupfer-exec %F
 _Name=Execute in Kupfer
+Icon=kupfer
 NoDisplay=true
 MimeType=text/x-kfcom;
