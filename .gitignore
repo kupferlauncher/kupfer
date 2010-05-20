@@ -1,0 +1,9 @@
+/GIT_VERSION
+/build/
+/waf
+/.waf-*/
+/.lock-wscript
+
+/po/untitled.pot
+
+*.pyc
