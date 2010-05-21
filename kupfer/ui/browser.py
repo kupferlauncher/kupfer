@@ -224,18 +224,23 @@ class MatchView (gtk.Bin):
 
 		self.object_stack = []
 
+		self.connect("realize", self._update_theme)
+		self.connect("style-set", self._update_theme)
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
 		self.cur_text = None
 		self.cur_match = None
 
-		# Get the current selection color
-		ent = gtk.Entry()
-		selectedc = ent.style.bg[gtk.STATE_SELECTED]
-		activec = gtk.gdk.color_parse("light blue")
+	def _update_theme(self, *args):
+		# Style subtables to choose from
+		# fg, bg, text, base
+		# light, mid, dark
+
+		# Use a darker color for selected state
+		# leave active state as preset
+		selectedc = self.style.dark[gtk.STATE_SELECTED]
 		self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
-		self.event_box.modify_bg(gtk.STATE_ACTIVE, activec)
 
 	def build_widget(self):
 		"""
@@ -792,10 +797,9 @@ class Interface (gobject.GObject):
 		self._key_press_time = None
 		self._key_press_interval = 0.8
 		self._key_pressed = None
-		self._theme_colors = {}
 		self._reset_to_toplevel = False
 		self.entry.set_size_request(0, 0)
-		window.connect("map-event", self._map_window)
+		self.entry.connect("realize", self._entry_realized)
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -870,12 +874,7 @@ class Interface (gobject.GObject):
 		self._widget = vbox
 		return vbox
 
-	def _map_window(self, widget, event):
-		"""When Interface's widget is mapped and shown on the screen"""
-		# Now we can read the style from the real theme
-		if not self._theme_colors:
-			self._theme_colors["bg"] = self.entry.style.bg[gtk.STATE_NORMAL]
-			self._theme_colors["text"] = self.entry.style.text[gtk.STATE_NORMAL]
+	def _entry_realized(self, widget):
 		self.update_text_mode()
 
 	def _pane_button_press(self, widget, event):
@@ -1161,22 +1160,18 @@ class Interface (gobject.GObject):
 
 	def update_text_mode(self):
 		"""update appearance to whether text mode enabled or not"""
-		if not self._theme_colors:
-			return
 		if self._is_text_mode:
 			self.entry.set_size_request(-1,-1)
 			self.entry.set_property("has-frame", True)
-			bgcolor = gtk.gdk.color_parse("light goldenrod yellow")
-			theme_entry_text = self._theme_colors["text"]
-			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_text)
-			self.entry.modify_base(gtk.STATE_NORMAL, bgcolor)
+			# Reset text style to normal
+			self.entry.modify_text(gtk.STATE_NORMAL, None)
 			self.current.set_state(gtk.STATE_ACTIVE)
 		else:
 			self.entry.set_size_request(0,0)
 			self.entry.set_property("has-frame", False)
-			theme_entry_bg = self._theme_colors["bg"]
+			# Use text color = background color
+			theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
 			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_bg)
-			self.entry.modify_base(gtk.STATE_NORMAL, theme_entry_bg)
 			self.current.set_state(gtk.STATE_SELECTED)
 
 	def switch_to_source(self):
