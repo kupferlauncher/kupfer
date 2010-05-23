@@ -3,7 +3,7 @@ __kupfer_name__ = _("Getting Things GNOME")
 __kupfer_sources__ = ("TasksSource", )
 __kupfer_actions__ = ("CreateNewTask",)
 __description__ = _("Browse and create new task in GTG")
-__version__ = "2010-05-13"
+__version__ = "2010-05-23"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
@@ -16,6 +16,7 @@ import gio
 
 from kupfer import plugin_support
 from kupfer import pretty
+from kupfer import textutils
 from kupfer.obj.base import Leaf, Action, Source
 from kupfer.obj.objects import TextLeaf
 from kupfer.obj.apps import AppLeafContentMixin
@@ -49,14 +50,19 @@ def _create_dbus_connection(activate=False):
 	return interface
 
 
+def _truncate_long_text(text, maxlen=80):
+	if len(text) > maxlen:
+		return text[:maxlen - 1] + '…'
+	return text
+
+
 def _load_tasks(interface):
 	''' Load task by dbus interface '''
 	for task in interface.get_tasks():
 		title = task['title'].strip()
 		if not title:
 			title = task['text'].strip()
-			if len(title) > 80:
-				title = title[:79] + '…'
+		title = _truncate_long_text(title)
 		otask = Task(task['id'], title, task['status'])
 		otask.duedate = task['duedate']
 		otask.startdate = task['startdate']
@@ -87,8 +93,7 @@ def _load_task_from_xml():
 				if content is None:
 					continue
 				title = content.text.strip()
-				if len(title) > 80:
-					title = title[:79] + '…'
+			title = _truncate_long_text(title)
 			otask = Task(task_id, title, status)
 			tags = task.attrib['tags']
 			if tags:
@@ -132,13 +137,13 @@ class Task(Leaf):
 		return 'gtg'
 
 	def get_actions(self):
-		yield OpenTaskEditor()
-		yield DeleteTask()
-		yield MarkTaskDone()
-		yield DismissTask()
+		yield OpenEditor()
+		yield Delete()
+		yield MarkDone()
+		yield Dismiss()
 
 
-class OpenTaskEditor(Action):
+class OpenEditor(Action):
 	def __init__(self):
 		Action.__init__(self, _("Open Task Editor"))
 
@@ -151,7 +156,7 @@ class OpenTaskEditor(Action):
 		return 'gtk-open'
 
 
-class DeleteTask(Action):
+class Delete(Action):
 	rank_adjust = -5
 
 	def __init__(self):
@@ -169,7 +174,7 @@ class DeleteTask(Action):
 		return _("Permanently remove this task")
 
 
-class MarkTaskDone(Action):
+class MarkDone(Action):
 	def __init__(self):
 		Action.__init__(self, _("Mark Task Done"))
 
@@ -183,7 +188,7 @@ class MarkTaskDone(Action):
 		return _("Mark this task as done")
 
 
-class DismissTask (Action):
+class Dismiss (Action):
 	def __init__(self):
 		Action.__init__(self, _("Dismiss Task"))
 
@@ -203,15 +208,13 @@ class CreateNewTask(Action):
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
+		title, body = textutils.extract_title_body(leaf.object)
 		if interface is not None:
-			if '\n' in leaf.object:
-				title, text = leaf.object.split('\n', 1)
-				interface.open_new_task(title, text)
-			else:
-				interface.open_new_task(leaf.object, '')
+			interface.open_new_task(title, body)
 		else:
-			p = subprocess.Popen(["gtg_new_task", "-i"], stdin=subprocess.PIPE)
-			p.communicate(leaf.object)
+			p = subprocess.Popen(["gtg_new_task", "-i", title],
+					stdin=subprocess.PIPE)
+			p.communicate(body)
 
 	def item_types(self):
 		yield TextLeaf
