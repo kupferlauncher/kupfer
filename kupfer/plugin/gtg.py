@@ -145,7 +145,7 @@ class Task(Leaf):
 
 class OpenEditor(Action):
 	def __init__(self):
-		Action.__init__(self, _("Open Task Editor"))
+		Action.__init__(self, _("Edit in GTG"))
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
@@ -160,7 +160,7 @@ class Delete(Action):
 	rank_adjust = -5
 
 	def __init__(self):
-		Action.__init__(self, _("Delete Task"))
+		Action.__init__(self, _("Delete"))
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
@@ -176,7 +176,7 @@ class Delete(Action):
 
 class MarkDone(Action):
 	def __init__(self):
-		Action.__init__(self, _("Mark Task Done"))
+		Action.__init__(self, _("Mark Done"))
 
 	def activate(self, leaf):
 		_change_task_status(leaf.object, 'Done')
@@ -190,7 +190,7 @@ class MarkDone(Action):
 
 class Dismiss (Action):
 	def __init__(self):
-		Action.__init__(self, _("Dismiss Task"))
+		Action.__init__(self, _("Dismiss"))
 
 	def activate(self, leaf):
 		_change_task_status(leaf.object, 'Dismiss')
@@ -204,7 +204,7 @@ class Dismiss (Action):
 
 class CreateNewTask(Action):
 	def __init__(self):
-		Action.__init__(self, _("Create New Task"))
+		Action.__init__(self, _("Create Task"))
 
 	def activate(self, leaf):
 		interface = _create_dbus_connection()
