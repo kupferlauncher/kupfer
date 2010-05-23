@@ -187,17 +187,6 @@ simplified version of Source.
 ``provides()``
     Return a sequence of the Leaf types it may contain
 
-Strings
--------
-
-Kupfer deals with PyGTK a lot, which always returns UTF-8-encoded
-strings (almost always). However Kupfer works internally with unicode
-strings; only then does slicing, lowercasing etc work across other than
-ascii charsets.
-Kupfer accepts UTF-8-encoded strings as well as unicode objects for the
-most parts, but all internals should be unicode. Note that the gettext
-function ``_()`` will return a unicode string.
-
 Plugins
 -------
 
@@ -357,6 +346,25 @@ Why? Because the second version is easier to copy! If you copy the whole
 class and rename it, which you often do to create new plugins, the
 second version does not need to be updated -- you are probably using the
 same superclass.
+
+Text and Encodings
+..................
+
+Care must be taken with all input and output text and its encoding!
+Internally, kupfer must use ``unicode`` for all internal text.
+The module ``kupfer.kupferstring`` has functions for the most important
+text conversions.
+
+A good introduction to unicode in Python is to read here:
+http://farmdev.com/talks/unicode/
+
+**Always** find out what encoding you must expect for externally read
+text (from files or command output). If you must guess, use the locale
+encoding.
+Text received from PyGTK is either already unicode or in the UTF-8
+encoding, so this text can be passed to ``kupferstring.tounicode``.
+
+Note that the gettext function ``_()`` always returns a unicode string.
 
 
 Localization
