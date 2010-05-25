@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-05-09 15:55+0000\n"
-"PO-Revision-Date: 2010-05-10 20:25+0200\n"
+"POT-Creation-Date: 2010-05-24 18:07+0000\n"
+"PO-Revision-Date: 2010-05-25 18:34+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -181,30 +181,30 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:721
+#: ../kupfer/ui/browser.py:726
 #, python-format
 msgid "%s is empty"
 msgstr "%s está vacío"
 
-#: ../kupfer/ui/browser.py:725
+#: ../kupfer/ui/browser.py:730
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "No hay coincidencias en %(src)s para «%(query)s»"
 
-#: ../kupfer/ui/browser.py:731
+#: ../kupfer/ui/browser.py:736
 msgid "No matches"
 msgstr "No hay coincidencias"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "Type to search"
 msgstr "Teclear para buscar"
 
-#: ../kupfer/ui/browser.py:742
+#: ../kupfer/ui/browser.py:747
 #, python-format
 msgid "Type to search %s"
 msgstr "Teclear para buscar %s"
 
-#: ../kupfer/ui/browser.py:754
+#: ../kupfer/ui/browser.py:759
 msgid "No action"
 msgstr "Sin acción"
 
@@ -337,18 +337,18 @@ msgstr "Atajo"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:51
+#: ../kupfer/version.py:54
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2009-2010\n"
 "Leandro Leites <laloleites@gmail.com>\n"
 "Jesús Barbero Rodríguez <chuchiperriman@gmail.com>"
 
-#: ../kupfer/version.py:55
+#: ../kupfer/version.py:58
 msgid "A free software (GPLv3+) launcher"
 msgstr "Un lanzador de aplicaciones libre (GPLv3+)"
 
-#: ../kupfer/version.py:58
+#: ../kupfer/version.py:61
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -382,7 +382,7 @@ msgstr ""
 "En caso contrario, consulte <http://www.gnu.org/licenses/>.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:75
+#: ../kupfer/version.py:78
 msgid "Could not find running Kupfer"
 msgstr "No se pudo encontrar un Kupfer en ejecución"
 
@@ -905,13 +905,18 @@ msgstr "Crear archivador en…"
 msgid "Archive"
 msgstr "Archivador"
 
-#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:25
+#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:36
 msgid "Firefox Bookmarks"
 msgstr "Marcadores de Firefox"
 
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:106
+#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:120
 msgid "Index of Firefox bookmarks"
 msgstr "Índice de marcadores de Firefox"
+
+#: ../kupfer/plugin/firefox.py:26
+#| msgid "Include artists in top level"
+msgid "Include visited sites"
+msgstr "Incluir sitios visitados"
 
 #: ../kupfer/plugin/nautilusselection.py:1
 #: ../kupfer/plugin/nautilusselection.py:48
@@ -1515,38 +1520,38 @@ msgstr "Claws Mail"
 msgid "Claws Mail Contacts and Actions"
 msgstr "Contactos y acciones de Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:24
+#: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Redactar un correo electrónico nuevo"
 
-#: ../kupfer/plugin/clawsmail.py:31
+#: ../kupfer/plugin/clawsmail.py:32
 msgid "Compose a new message in Claws Mail"
 msgstr "Redactar un correo electrónico nuevo con Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:40
+#: ../kupfer/plugin/clawsmail.py:41
 msgid "Receive All Email"
 msgstr "Recibir todos los correos"
 
-#: ../kupfer/plugin/clawsmail.py:46
+#: ../kupfer/plugin/clawsmail.py:47
 msgid "Receive new messages from all accounts in ClawsMail"
 msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:55 ../kupfer/plugin/defaultmail.py:18
+#: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Redactar un correo nuevo"
 
-#: ../kupfer/plugin/clawsmail.py:80 ../kupfer/plugin/defaultmail.py:43
+#: ../kupfer/plugin/clawsmail.py:81 ../kupfer/plugin/defaultmail.py:43
 #: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
 msgstr "Enviar un correo-e a…"
 
-#: ../kupfer/plugin/clawsmail.py:106
+#: ../kupfer/plugin/clawsmail.py:107
 msgid "Compose new message in Claws Mail and attach file"
 msgstr "Redactar mensaje nuevo con Claws Mail y adjuntar el archivo"
 
-#: ../kupfer/plugin/clawsmail.py:115
+#: ../kupfer/plugin/clawsmail.py:116
 msgid "Claws Mail Address Book"
 msgstr "Libreta de direcciones de Claws Mail"
 
