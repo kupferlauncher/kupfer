@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-05-14 16:31+0000\n"
-"PO-Revision-Date: 2010-05-14 19:38+0100\n"
+"POT-Creation-Date: 2010-05-28 10:32+0000\n"
+"PO-Revision-Date: 2010-05-28 19:46+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -175,30 +175,30 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:721
+#: ../kupfer/ui/browser.py:726
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prazen"
 
-#: ../kupfer/ui/browser.py:725
+#: ../kupfer/ui/browser.py:730
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "V %(src)s ni zadetkov za \"%(query)s\""
 
-#: ../kupfer/ui/browser.py:731
+#: ../kupfer/ui/browser.py:736
 msgid "No matches"
 msgstr "Ni zadetkov"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "Type to search"
 msgstr "Vtipkajte za iskanje"
 
-#: ../kupfer/ui/browser.py:742
+#: ../kupfer/ui/browser.py:747
 #, python-format
 msgid "Type to search %s"
 msgstr "Vtipkajte za iskanje %s"
 
-#: ../kupfer/ui/browser.py:754
+#: ../kupfer/ui/browser.py:759
 msgid "No action"
 msgstr "Ni dejanja"
 
@@ -330,15 +330,15 @@ msgstr "Bližnjica"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:51
+#: ../kupfer/version.py:54
 msgid "translator-credits"
 msgstr "Andrej Žnidaršič, <andrej.znidarsic@gmail.com>"
 
-#: ../kupfer/version.py:55
+#: ../kupfer/version.py:58
 msgid "A free software (GPLv3+) launcher"
 msgstr "Zaganjalnik proste programske opreme (GPLv3+)"
 
-#: ../kupfer/version.py:58
+#: ../kupfer/version.py:61
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -369,7 +369,7 @@ msgstr ""
 "v primeru, da kopije niste prejeli, si oglejte <http://www.gnu.org/licenses/>.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:75
+#: ../kupfer/version.py:78
 msgid "Could not find running Kupfer"
 msgstr "Ni mogoče Kupfer v teku"
 
@@ -428,6 +428,7 @@ msgstr "[%(status)s] %(userid)s/%(service)s"
 #: ../kupfer/obj/fileactions.py:25
 #: ../kupfer/plugin/notes.py:79
 #: ../kupfer/plugin/gnome_terminal.py:36
+#: ../kupfer/plugin/gtg.py:108
 #: ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Odpri"
@@ -924,14 +925,18 @@ msgid "Archive"
 msgstr "Arhiv"
 
 #: ../kupfer/plugin/firefox.py:4
-#: ../kupfer/plugin/firefox.py:25
+#: ../kupfer/plugin/firefox.py:36
 msgid "Firefox Bookmarks"
 msgstr "Zaznamki Firefox"
 
 #: ../kupfer/plugin/firefox.py:6
-#: ../kupfer/plugin/firefox.py:106
+#: ../kupfer/plugin/firefox.py:120
 msgid "Index of Firefox bookmarks"
 msgstr "Kazalo zaznamkov Firefox"
+
+#: ../kupfer/plugin/firefox.py:26
+msgid "Include visited sites"
+msgstr "Vključi obiskane strani"
 
 #: ../kupfer/plugin/nautilusselection.py:1
 #: ../kupfer/plugin/nautilusselection.py:48
@@ -1560,42 +1565,42 @@ msgstr "Claws Mail"
 msgid "Claws Mail Contacts and Actions"
 msgstr "Stiki in dejanja Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:25
+#: ../kupfer/plugin/clawsmail.py:26
 #: ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Sestavi novo pošte"
 
-#: ../kupfer/plugin/clawsmail.py:31
+#: ../kupfer/plugin/clawsmail.py:32
 msgid "Compose a new message in Claws Mail"
 msgstr "Sestavljanje nove pošte v ClawsMail"
 
-#: ../kupfer/plugin/clawsmail.py:40
+#: ../kupfer/plugin/clawsmail.py:41
 msgid "Receive All Email"
 msgstr "Prejem vse pošte"
 
-#: ../kupfer/plugin/clawsmail.py:46
+#: ../kupfer/plugin/clawsmail.py:47
 msgid "Receive new messages from all accounts in ClawsMail"
 msgstr "Prejem nove pošte za vse račune v ClawsMail"
 
-#: ../kupfer/plugin/clawsmail.py:55
+#: ../kupfer/plugin/clawsmail.py:56
 #: ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:39
 #: ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Sestavi e-pošto"
 
-#: ../kupfer/plugin/clawsmail.py:80
+#: ../kupfer/plugin/clawsmail.py:81
 #: ../kupfer/plugin/defaultmail.py:43
 #: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
 msgstr "Pošlji v e-pošti ..."
 
-#: ../kupfer/plugin/clawsmail.py:106
+#: ../kupfer/plugin/clawsmail.py:107
 msgid "Compose new message in Claws Mail and attach file"
 msgstr "Sestavljanje novega sporočila v Claws mail in pripenjanje datoteke"
 
-#: ../kupfer/plugin/clawsmail.py:115
+#: ../kupfer/plugin/clawsmail.py:116
 msgid "Claws Mail Address Book"
 msgstr "Imenik Claws Mail"
 
@@ -1925,6 +1930,66 @@ msgstr "Pokaži prevod v ..."
 #: ../kupfer/plugin/google_translate.py:278
 msgid "Show translation in browser"
 msgstr "Pokaži prevod v brskalniku"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gtg.py:2
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+#: ../kupfer/plugin/gtg.py:5
+msgid "Browse and create new tasks in GTG"
+msgstr "Brskanje in ustvarjanje novih opravil v GTG"
+
+#: ../kupfer/plugin/gtg.py:87
+#, python-format
+msgid "due: %s"
+msgstr "rok: %s"
+
+#: ../kupfer/plugin/gtg.py:89
+#, python-format
+msgid "start: %s"
+msgstr "začni: %s"
+
+#: ../kupfer/plugin/gtg.py:91
+#, python-format
+msgid "tags: %s"
+msgstr "oznake: %s"
+
+#: ../kupfer/plugin/gtg.py:118
+msgid "Open task in Getting Things GNOME!"
+msgstr "Odpri opravilo v Getting Things GNOME!"
+
+#: ../kupfer/plugin/gtg.py:125
+msgid "Delete"
+msgstr "Izbriši"
+
+#: ../kupfer/plugin/gtg.py:135
+msgid "Permanently remove this task"
+msgstr "Trajno odstrani to opravilo"
+
+#: ../kupfer/plugin/gtg.py:140
+msgid "Mark Done"
+msgstr "Označi končano"
+
+#: ../kupfer/plugin/gtg.py:149
+msgid "Mark this task as done"
+msgstr "Označi to opravilo kot končano"
+
+#: ../kupfer/plugin/gtg.py:154
+msgid "Dismiss"
+msgstr "Zavrzi"
+
+#: ../kupfer/plugin/gtg.py:163
+msgid "Mark this task as not to be done anymore"
+msgstr "Označi to opravilo kot takšno, ki ga ni potrebno več opraviti "
+
+#: ../kupfer/plugin/gtg.py:168
+msgid "Create Task"
+msgstr "Ustvari novo _opravilo"
+
+#: ../kupfer/plugin/gtg.py:182
+msgid "Create new task in Getting Things GNOME"
+msgstr "Ustvari novo opravilo v Getting Things GNOME"
 
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
