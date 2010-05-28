@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-05-24 18:07+0000\n"
-"PO-Revision-Date: 2010-05-25 18:34+0200\n"
+"POT-Creation-Date: 2010-05-27 19:18+0000\n"
+"PO-Revision-Date: 2010-05-28 19:43+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -435,7 +435,8 @@ msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
 #: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
-#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:107
+#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
+#: ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Abrir"
 
@@ -914,7 +915,6 @@ msgid "Index of Firefox bookmarks"
 msgstr "Índice de marcadores de Firefox"
 
 #: ../kupfer/plugin/firefox.py:26
-#| msgid "Include artists in top level"
 msgid "Include visited sites"
 msgstr "Incluir sitios visitados"
 
@@ -1863,6 +1863,69 @@ msgstr "Mostrar la traducción a…"
 #: ../kupfer/plugin/google_translate.py:278
 msgid "Show translation in browser"
 msgstr "Mostrar la traducción en un navegador"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gtg.py:2
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+#: ../kupfer/plugin/gtg.py:5
+msgid "Browse and create new tasks in GTG"
+msgstr "Examinar y crear tareas nuevas en GTG"
+
+#: ../kupfer/plugin/gtg.py:87
+#, python-format
+msgid "due: %s"
+msgstr "vence: %s"
+
+#: ../kupfer/plugin/gtg.py:89
+#, python-format
+msgid "start: %s"
+msgstr "inicio: %s"
+
+#: ../kupfer/plugin/gtg.py:91
+#, python-format
+#| msgid "Tag %s"
+msgid "tags: %s"
+msgstr "etiquetas: %s"
+
+#: ../kupfer/plugin/gtg.py:118
+msgid "Open task in Getting Things GNOME!"
+msgstr "Abrir tarea en Getting Things GNOME"
+
+#: ../kupfer/plugin/gtg.py:125
+#| msgid "Dequeue"
+msgid "Delete"
+msgstr "Eliminar"
+
+#: ../kupfer/plugin/gtg.py:135
+msgid "Permanently remove this task"
+msgstr "Eliminar permanentemente esta tarea"
+
+#: ../kupfer/plugin/gtg.py:140
+msgid "Mark Done"
+msgstr "Marcar como realizada"
+
+#: ../kupfer/plugin/gtg.py:149
+msgid "Mark this task as done"
+msgstr "Marcar esta tarea como realizada"
+
+#: ../kupfer/plugin/gtg.py:154
+msgid "Dismiss"
+msgstr "Descartar"
+
+#: ../kupfer/plugin/gtg.py:163
+msgid "Mark this task as not to be done anymore"
+msgstr "Marcar esta tarea como para no realizar"
+
+#: ../kupfer/plugin/gtg.py:168
+#| msgid "Create Note"
+msgid "Create Task"
+msgstr "Crear tarea"
+
+#: ../kupfer/plugin/gtg.py:182
+msgid "Create new task in Getting Things GNOME"
+msgstr "Crear una tarea nueva en Getting Things GNOME"
 
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
