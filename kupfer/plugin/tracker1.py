@@ -1,14 +1,13 @@
 """
 Tracker plugins are versioned by the D-Bus API version
-This is version naught, working with tracker 0.8.x,
-where the API is called Tracker1
-versions.
+This is version works with tracker 0.8.x, where the API is called Tracker1
 """
 __kupfer_name__ = _("Tracker 0.8")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_contents__ = ("TrackerQuerySource", )
 __kupfer_actions__ = (
+		"TrackerSearch",
 		"TrackerSearchHere",
 	)
 __description__ = _("Tracker desktop search integration")
@@ -40,6 +39,19 @@ SERVICE1_NAME = "org.freedesktop.Tracker1"
 SEARCH_OBJECT1_PATH = "/org/freedesktop/Tracker1/Resources"
 SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
 
+
+class TrackerSearch (Action):
+	def __init__(self):
+		Action.__init__(self, _("Search in Tracker"))
+
+	def activate(self, leaf):
+		utils.spawn_async(["tracker-search-tool", leaf.object])
+	def get_description(self):
+		return _("Open Tracker Search Tool and search for this term")
+	def get_icon_name(self):
+		return "system-search"
+	def item_types(self):
+		yield TextLeaf
 
 class TrackerSearchHere (Action):
 	def __init__(self):

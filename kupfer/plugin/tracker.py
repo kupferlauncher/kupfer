@@ -1,7 +1,6 @@
 """
 Tracker plugins are versioned by the D-Bus API version
-This is version naught, working with the "original" tracker 0.6.x
-versions.
+This is version works with the "original" tracker 0.6.x dbus API.
 """
 __kupfer_name__ = _("Tracker 0.6")
 __kupfer_sources__ = ("TrackerTagsSource", )
@@ -42,11 +41,11 @@ class TrackerSearch (Action):
 		Action.__init__(self, _("Search in Tracker"))
 
 	def activate(self, leaf):
-		utils.launch_commandline("tracker-search-tool %s" % leaf.object)
+		utils.spawn_async(["tracker-search-tool", leaf.object])
 	def get_description(self):
 		return _("Open Tracker Search Tool and search for this term")
 	def get_icon_name(self):
-		return "search"
+		return "system-search"
 	def item_types(self):
 		yield TextLeaf
 
