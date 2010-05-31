@@ -123,4 +123,4 @@ class GetTextContents (Action):
 		return is_content_type(item, "text/plain")
 
 	def get_icon_name(self):
-		return "gtk-copy"
+		return "edit-copy"

@@ -111,7 +111,7 @@ class ClipboardSource (Source):
 		return _("Recent clipboards")
 
 	def get_icon_name(self):
-		return "gtk-paste"
+		return "edit-paste"
 
 	def provides(self):
 		yield TextLeaf

@@ -116,7 +116,7 @@ class FileLeaf (Leaf, TextRepresentation):
 		if self.is_dir():
 			return "folder"
 		else:
-			return "gtk-file"
+			return "text-x-generic"
 
 class SourceLeaf (Leaf):
 	def __init__(self, obj, name=None):
@@ -295,7 +295,7 @@ class Launch (Action):
 
 	def get_icon_name(self):
 		if self.is_running:
-			return "gtk-jump-to-ltr"
+			return "go-jump"
 		return Action.get_icon_name(self)
 
 class LaunchAgain (Launch):
@@ -325,7 +325,7 @@ class CloseAll (Action):
 	def get_description(self):
 		return _("Attempt to close all application windows")
 	def get_icon_name(self):
-		return "gtk-close"
+		return "window-close"
 
 class UrlLeaf (Leaf, TextRepresentation):
 	def __init__(self, obj, name):
@@ -402,5 +402,5 @@ class TextLeaf (Leaf, TextRepresentation):
 			numlines) % {"num": numlines, "text": desc }
 
 	def get_icon_name(self):
-		return "gtk-select-all"
+		return "edit-select-all"
 

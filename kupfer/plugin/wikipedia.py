@@ -43,5 +43,5 @@ class WikipediaSearch (Action):
 		lang_code = __kupfer_settings__["lang"]
 		return _("Search for this term in %s.wikipedia.org") % lang_code
 	def get_icon_name(self):
-		return "gtk-find"
+		return "edit-find"
 

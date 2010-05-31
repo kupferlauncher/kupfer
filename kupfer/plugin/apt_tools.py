@@ -80,7 +80,7 @@ class ShowPackageInfo (Action):
 		return len(text.split(None, 1)) == 1
 
 	def get_gicon(self):
-		return icons.ComposedIcon("dialog-information", "package")
+		return icons.ComposedIcon("dialog-information", "package-x-generic")
 
 class InstallPackage (Action):
 	def __init__(self):
@@ -102,7 +102,7 @@ class InstallPackage (Action):
 	def get_description(self):
 		return _("Install package using the configured method")
 	def get_icon_name(self):
-		return "gtk-save"
+		return "document-save"
 
 class Package (Leaf):
 	def __init__(self, package, desc):
@@ -114,7 +114,7 @@ class Package (Leaf):
 	def get_description(self):
 		return self.desc
 	def get_icon_name(self):
-		return "package"
+		return "package-x-generic"
 
 class PackageSearchSource (Source):
 	def __init__(self, query):

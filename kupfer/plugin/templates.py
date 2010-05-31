@@ -42,7 +42,7 @@ class EmptyFile (Leaf):
 	def get_actions(self):
 		yield CreateDocumentIn()
 	def get_icon_name(self):
-		return "gtk-file"
+		return "text-x-generic"
 
 class NewFolder (Leaf):
 	def __init__(self):

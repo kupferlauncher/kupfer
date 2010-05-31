@@ -53,5 +53,5 @@ class NameSource (TextSource):
 		return self.sourcefile and self.sourcefile.get_gicon()
 
 	def get_icon_name(self):
-		return "gtk-file"
+		return "text-x-generic"
 

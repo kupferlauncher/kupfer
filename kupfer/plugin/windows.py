@@ -30,16 +30,16 @@ class WindowLeaf (Leaf):
 		yield ToggleAction(_("Minimize"), _("Unminimize"),
 				"minimize", "unminimize",
 				W.is_minimized(), T.is_minimized,
-				time=True, icon="gtk-remove")
+				time=True, icon="list-remove")
 		yield ToggleAction(_("Maximize"), _("Unmaximize"),
 				"maximize", "unmaximize",
 				W.is_maximized(), T.is_maximized,
-				icon="gtk-add")
+				icon="list-add")
 		yield ToggleAction(_("Maximize Vertically"), _("Unmaximize Vertically"),
 				"maximize_vertically", "unmaximize_vertically",
 				W.is_maximized_vertically(), T.is_maximized_vertically,
-				icon="gtk-add")
-		yield WindowAction(_("Close"), "close", time=True, icon="gtk-close")
+				icon="list-add")
+		yield WindowAction(_("Close"), "close", time=True, icon="window-close")
 
 	def is_valid(self):
 		return self.object and self.object.get_xid()
@@ -116,7 +116,7 @@ class WindowActivateWorkspace (Action):
 	def get_description(self):
 		return _("Jump to this window's workspace and focus")
 	def get_icon_name(self):
-		return "gtk-jump-to-ltr"
+		return "go-jump"
 
 class WindowMoveToWorkspace (Action):
 	def __init__(self):
@@ -252,7 +252,7 @@ class ActivateWorkspace (Action):
 	def get_description(self):
 		return _("Jump to this workspace")
 	def get_icon_name(self):
-		return "gtk-jump-to-ltr"
+		return "go-jump"
 
 
 class WorkspacesSource (Source, PicklingHelperMixin):

@@ -61,7 +61,7 @@ class SearchWithEngine (Action):
 	def get_description(self):
 		return _("Search the web with OpenSearch search engines")
 	def get_icon_name(self):
-		return "gtk-find"
+		return "edit-find"
 
 class SearchFor (Action):
 	"""SearchEngine -> SearchFor -> TextLeaf
@@ -88,7 +88,7 @@ class SearchFor (Action):
 	def get_description(self):
 		return _("Search the web with OpenSearch search engines")
 	def get_icon_name(self):
-		return "gtk-find"
+		return "edit-find"
 
 class SearchEngine (Leaf):
 	def get_description(self):

@@ -114,7 +114,7 @@ class AppendToNote (Action):
 	def get_description(self):
 		return _("Add text to existing note")
 	def get_icon_name(self):
-		return "gtk-add"
+		return "list-add"
 
 def _prepare_note_text(text):
 	title, body = textutils.extract_title_body(text)
@@ -140,7 +140,7 @@ class CreateNote (Action):
 	def get_description(self):
 		return _("Create a new note from this text")
 	def get_icon_name(self):
-		return "gtk-new"
+		return "document-new"
 
 class GetNoteSearchResults (Action):
 	def __init__(self):
@@ -158,9 +158,6 @@ class GetNoteSearchResults (Action):
 
 	def get_description(self):
 		return _("Show search results for this query")
-
-	def get_icon_name(self):
-		return "gtk-search"
 
 class NoteSearchSource (Source):
 	def __init__(self, query):

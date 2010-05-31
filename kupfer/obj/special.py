@@ -19,7 +19,7 @@ class PleaseConfigureLeaf(RunnableLeaf):
 		kupferui.show_plugin_info(self.object)
 
 	def get_icon_name(self):
-		return 'gtk-preferences'
+		return "preferences-desktop"
 
 	def get_description(self):
 		return self.description % self.plugin_name

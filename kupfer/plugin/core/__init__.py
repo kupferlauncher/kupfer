@@ -99,7 +99,7 @@ class CopyToClipboard (Action):
 	def get_description(self):
 		return _("Copy to clipboard")
 	def get_icon_name(self):
-		return "gtk-copy"
+		return "edit-copy"
 
 
 class RescanActionTask(task.ThreadTask):
@@ -137,7 +137,7 @@ class Rescan (Action):
 		return _("Force reindex of this source")
 
 	def get_icon_name(self):
-		return "gtk-refresh"
+		return "view-refresh"
 
 	def item_types(self):
 		yield objects.AppLeaf

@@ -37,7 +37,7 @@ class RestoreTrashedFile (Action):
 	def get_description(self):
 		return _("Move file back to original location")
 	def get_icon_name(self):
-		return "gtk-undo-ltr"
+		return "edit-undo"
 
 class TrashFile (Leaf):
 	"""A file in the trash. Represented object is a file info object"""
@@ -69,7 +69,7 @@ class TrashFile (Leaf):
 	def get_gicon(self):
 		return self.object.get_icon()
 	def get_icon_name(self):
-		return "gtk-file"
+		return "text-x-generic"
 
 class TrashContentSource (Source):
 	def __init__(self, trash_uri, name):

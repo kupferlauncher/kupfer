@@ -112,7 +112,7 @@ class OpenEditor (Action):
 		interface.open_task_editor(leaf.object)
 
 	def get_icon_name(self):
-		return 'gtk-open'
+		return 'document-open'
 
 	def get_description(self):
 		return _("Open task in Getting Things GNOME!")
@@ -129,7 +129,7 @@ class Delete (Action):
 		interface.delete_task(leaf.object)
 
 	def get_icon_name(self):
-		return 'gtk-delete'
+		return 'edit-delete'
 
 	def get_description(self):
 		return _("Permanently remove this task")
@@ -176,7 +176,7 @@ class CreateNewTask (Action):
 		yield TextLeaf
 
 	def get_icon_name(self):
-		return 'gtk-new'
+		return 'document-new'
 
 	def get_description(self):
 		return _("Create new task in Getting Things GNOME")

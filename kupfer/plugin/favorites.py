@@ -145,7 +145,7 @@ class AddFavorite (Action):
 	def get_description(self):
 		return _("Add item to favorites shelf")
 	def get_icon_name(self):
-		return "gtk-add"
+		return "list-add"
 
 class RemoveFavorite (Action):
 	rank_adjust = -15
@@ -160,4 +160,4 @@ class RemoveFavorite (Action):
 	def get_description(self):
 		return _("Remove item from favorites shelf")
 	def get_icon_name(self):
-		return "gtk-remove"
+		return "list-remove"

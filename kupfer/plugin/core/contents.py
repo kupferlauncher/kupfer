@@ -33,7 +33,7 @@ class DebugRestart (RunnableLeaf):
 	def get_description(self):
 		return u"Restart Kupfer quickly (for internal kupfer use)"
 	def get_icon_name(self):
-		return gtk.STOCK_REFRESH
+		return "view-refresh"
 
 class Quit (RunnableLeaf):
 	qf_id = "quit"
@@ -45,7 +45,7 @@ class Quit (RunnableLeaf):
 	def get_description(self):
 		return _("Quit Kupfer")
 	def get_icon_name(self):
-		return gtk.STOCK_QUIT
+		return "application-exit"
 
 class About (RunnableLeaf):
 	def __init__(self, name=None):
@@ -56,7 +56,7 @@ class About (RunnableLeaf):
 	def get_description(self):
 		return _("Show information about Kupfer authors and license")
 	def get_icon_name(self):
-		return gtk.STOCK_ABOUT
+		return "help-about"
 
 class Help (RunnableLeaf):
 	def __init__(self, name=None):
@@ -67,7 +67,7 @@ class Help (RunnableLeaf):
 	def get_description(self):
 		return _("Get help with Kupfer")
 	def get_icon_name(self):
-		return "help-browser"
+		return "help-contents"
 
 class Preferences (RunnableLeaf):
 	def __init__(self, name=None):
@@ -78,7 +78,7 @@ class Preferences (RunnableLeaf):
 	def get_description(self):
 		return _("Show preferences window for Kupfer")
 	def get_icon_name(self):
-		return gtk.STOCK_PREFERENCES
+		return "preferences-desktop"
 
 class KupferSource (AppLeafContentMixin, Source):
 	appleaf_content_id = "kupfer"

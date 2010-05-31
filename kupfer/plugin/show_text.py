@@ -27,7 +27,7 @@ class ShowText (Action):
 	def get_description(self):
 		return _("Display text in a window")
 	def get_icon_name(self):
-		return "gtk-bold"
+		return "format-text-bold"
 
 class LargeType (Action):
 	def __init__(self):
@@ -42,9 +42,9 @@ class LargeType (Action):
 	def get_description(self):
 		return _("Display text in a window")
 	def get_gicon(self):
-		return icons.ComposedIcon("gtk-bold", "zoom-in")
+		return icons.ComposedIcon("format-text-bold", "zoom-in")
 	def get_icon_name(self):
-		return "gtk-bold"
+		return "format-text-bold"
 
 class ShowNotification (Action):
 	def __init__(self):
@@ -62,5 +62,5 @@ class ShowNotification (Action):
 		yield TextLeaf
 
 	def get_icon_name(self):
-		return "gtk-bold"
+		return "format-text-bold"
 

@@ -248,7 +248,7 @@ class TrackerAddTag (Action):
 	def get_description(self):
 		return _("Add tracker tag to file")
 	def get_icon_name(self):
-		return "gtk-add"
+		return "list-add"
 
 class TrackerRemoveTag (Action):
 	def __init__(self):
@@ -273,5 +273,5 @@ class TrackerRemoveTag (Action):
 	def get_description(self):
 		return _("Remove tracker tag from file")
 	def get_icon_name(self):
-		return "gtk-remove"
+		return "list-remove"
 

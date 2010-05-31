@@ -38,9 +38,9 @@ class Locate (Action):
 	def get_description(self):
 		return _("Search filesystem using locate")
 	def get_gicon(self):
-		return icons.ComposedIcon("gnome-terminal", "gtk-find")
+		return icons.ComposedIcon("gnome-terminal", self.get_icon_name())
 	def get_icon_name(self):
-		return "gtk-find"
+		return "edit-find"
 
 class LocateQuerySource (Source):
 	def __init__(self, query):
@@ -75,6 +75,6 @@ class LocateQuerySource (Source):
 			yield F
 
 	def get_gicon(self):
-		return icons.ComposedIcon("gnome-terminal", "gtk-find")
+		return icons.ComposedIcon("gnome-terminal", self.get_icon_name())
 	def get_icon_name(self):
-		return "gtk-find"
+		return "edit-find"
