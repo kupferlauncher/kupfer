@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-17 00:23+0200\n"
-"PO-Revision-Date: 2010-05-04 07:44+0200\n"
+"POT-Creation-Date: 2010-05-31 23:09+0200\n"
+"PO-Revision-Date: 2010-05-17 09:20+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,6 +104,14 @@ msgid ""
 "to carry a catalog larger than a couple of thousand objects, and may become "
 "slow if overly large subcatalogs are included in the top level."
 msgstr ""
+"Zaškrtněte políčko vedle zdroje, abyste zajistili, že jeho objekty budou "
+"exportovány do nejvyšší úrovně katalogu. Obsah nezaškrtnutých zdrojů bude "
+"dostupný jen při prohledávání podkatalogu a při vstoupení do něj.\n"
+"\n"
+"Poznámka: Aplikace Kupfer provádí pouze integraci, sama o sobě neprovádí "
+"indexování. Není navržena k tomu, aby spravovala katalogy větší než pár "
+"tisíc objektů a pokud se do nejvyšší úrovně zařadí opravdu rozsáhlý katalog, "
+"může pracovat pomalu."
 
 #: ../data/preferences.ui.h:17
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
@@ -176,30 +184,30 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:721
+#: ../kupfer/ui/browser.py:726
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prázdný"
 
-#: ../kupfer/ui/browser.py:725
+#: ../kupfer/ui/browser.py:730
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ve zdroji %(src)s nebylo pro dotaz \"%(query)s\" nic nalezeno"
 
-#: ../kupfer/ui/browser.py:731
+#: ../kupfer/ui/browser.py:736
 msgid "No matches"
 msgstr "Nic nenalezeno"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "Type to search"
 msgstr "Pište co se má vyhledat"
 
-#: ../kupfer/ui/browser.py:742
+#: ../kupfer/ui/browser.py:747
 #, python-format
 msgid "Type to search %s"
 msgstr "Pište a prohledá se %s"
 
-#: ../kupfer/ui/browser.py:754
+#: ../kupfer/ui/browser.py:759
 msgid "No action"
 msgstr "Žádná akce"
 
@@ -424,7 +432,8 @@ msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
 #: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
-#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/zim.py:107
+#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
+#: ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "Otevřít"
 
@@ -709,9 +718,8 @@ msgid "Include recent selections"
 msgstr "Zahrnout nedávno vybrané"
 
 #: ../kupfer/plugin/clipboard.py:32
-#, fuzzy
 msgid "Copy selection to primary clipboard"
-msgstr "Kopírovat do schránky"
+msgstr "Kopírovat výběr do hlavní schránky"
 
 #: ../kupfer/plugin/clipboard.py:44
 #, python-format
@@ -738,13 +746,12 @@ msgid "Run commandline programs"
 msgstr "Spustit program příkazové řádky"
 
 #: ../kupfer/plugin/commands.py:28
-#, fuzzy
 msgid "Run (Get Output)"
-msgstr "Spustit (provést)"
+msgstr "Spustit (získat výstup)"
 
 #: ../kupfer/plugin/commands.py:50
 msgid "Run program and return its output"
-msgstr ""
+msgstr "Spustit program a vrátit jeho výstup"
 
 #: ../kupfer/plugin/dictionary.py:1
 msgid "Dictionary"
@@ -897,13 +904,18 @@ msgstr "Vytvořit archiv v…"
 msgid "Archive"
 msgstr "Archiv"
 
-#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:25
+#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:36
 msgid "Firefox Bookmarks"
 msgstr "Záložky ve Firefoxu"
 
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:106
+#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:120
 msgid "Index of Firefox bookmarks"
 msgstr "Seznam záložek v prohlížeči Firefox"
+
+#: ../kupfer/plugin/firefox.py:26
+#, fuzzy
+msgid "Include visited sites"
+msgstr "Zahrnout umělce do nejvyšší úrovně"
 
 #: ../kupfer/plugin/nautilusselection.py:1
 #: ../kupfer/plugin/nautilusselection.py:48
@@ -1508,39 +1520,39 @@ msgstr "Claws Mail"
 msgid "Claws Mail Contacts and Actions"
 msgstr "Kontakty a akce v Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:25 ../kupfer/plugin/evolution.py:24
+#: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Napsat nový e-mail"
 
-#: ../kupfer/plugin/clawsmail.py:31
+#: ../kupfer/plugin/clawsmail.py:32
 msgid "Compose a new message in Claws Mail"
 msgstr "Napsat nový e-mail v poštovním klientovi Claws Mail"
 
-#: ../kupfer/plugin/clawsmail.py:40
+#: ../kupfer/plugin/clawsmail.py:41
 msgid "Receive All Email"
 msgstr "Přijmout všechny e-maily"
 
-#: ../kupfer/plugin/clawsmail.py:46
+#: ../kupfer/plugin/clawsmail.py:47
 msgid "Receive new messages from all accounts in ClawsMail"
 msgstr ""
 "Přijmout pomocí poštovního klienta Claws Mail nové zprávy ze všech účtů"
 
-#: ../kupfer/plugin/clawsmail.py:55 ../kupfer/plugin/defaultmail.py:18
+#: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Napsat e-mail"
 
-#: ../kupfer/plugin/clawsmail.py:80 ../kupfer/plugin/defaultmail.py:43
+#: ../kupfer/plugin/clawsmail.py:81 ../kupfer/plugin/defaultmail.py:43
 #: ../kupfer/plugin/evolution.py:64
 msgid "Send in Email To..."
 msgstr "Odeslat e-mailem…"
 
-#: ../kupfer/plugin/clawsmail.py:106
+#: ../kupfer/plugin/clawsmail.py:107
 msgid "Compose new message in Claws Mail and attach file"
 msgstr "Napsat novou zprávu v poštovním klientovi Claws Mail a přiložit soubor"
 
-#: ../kupfer/plugin/clawsmail.py:115
+#: ../kupfer/plugin/clawsmail.py:116
 msgid "Claws Mail Address Book"
 msgstr "Adresář z Claws Mail"
 
@@ -1587,23 +1599,23 @@ msgstr "Adresář aplikace Evolution"
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/filezilla.py:3
 msgid "Filezilla"
-msgstr ""
+msgstr "Filezilla"
 
 #: ../kupfer/plugin/filezilla.py:6
 msgid "Show sites and handle ftp addresses by Filezilla"
-msgstr ""
+msgstr "Zobrazit servery a pracovat s FTP pomocí aplikace Filezilla"
 
 #: ../kupfer/plugin/filezilla.py:42
 msgid "Open Site with Filezilla"
-msgstr ""
+msgstr "Připojit se k serveru pomocí aplikace Filezilla"
 
 #: ../kupfer/plugin/filezilla.py:87
 msgid "Filezilla Sites"
-msgstr ""
+msgstr "Servery Filezilla"
 
 #: ../kupfer/plugin/filezilla.py:122
 msgid "Sites from Filezilla"
-msgstr ""
+msgstr "Servery z aplikace Filezilla"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gajim.py:2
@@ -1781,8 +1793,8 @@ msgid "Search Google with results shown directly"
 msgstr "Vyhledávání pomocí Google s přímým zobrazením výsledků"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:73 ../kupfer/plugin/tracker.py:114
-#: ../kupfer/plugin/tracker1.py:151 ../kupfer/plugin/tracker1.py:162
+#: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
+#: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Výsledky pro „%s“"
@@ -1852,6 +1864,68 @@ msgstr "Zobrazit překlad do…"
 #: ../kupfer/plugin/google_translate.py:278
 msgid "Show translation in browser"
 msgstr "Zobrazit překlad v prohlížeči"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gtg.py:2
+msgid "Getting Things GNOME"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:5
+msgid "Browse and create new tasks in GTG"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:87
+#, python-format
+msgid "due: %s"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:89
+#, python-format
+msgid "start: %s"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:91
+#, fuzzy, python-format
+msgid "tags: %s"
+msgstr "Značka %s"
+
+#: ../kupfer/plugin/gtg.py:118
+msgid "Open task in Getting Things GNOME!"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:125
+#, fuzzy
+msgid "Delete"
+msgstr "Vyjmout z fronty"
+
+#: ../kupfer/plugin/gtg.py:135
+msgid "Permanently remove this task"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:140
+msgid "Mark Done"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:149
+msgid "Mark this task as done"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:154
+msgid "Dismiss"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:163
+msgid "Mark this task as not to be done anymore"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:168
+#, fuzzy
+msgid "Create Task"
+msgstr "Vytvořit poznámku"
+
+#: ../kupfer/plugin/gtg.py:182
+msgid "Create new task in Getting Things GNOME"
+msgstr ""
 
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
@@ -2394,69 +2468,69 @@ msgstr "pid: %(pid)s  cpu: %(cpu)g%%  paměť: %(mem)g%%  čas: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Úlohy běžící pro současného uživatele"
 
-#: ../kupfer/plugin/tracker.py:6
+#: ../kupfer/plugin/tracker.py:5
 msgid "Tracker 0.6"
 msgstr "Tracker 0.6"
 
-#: ../kupfer/plugin/tracker.py:16 ../kupfer/plugin/tracker1.py:14
+#: ../kupfer/plugin/tracker.py:15 ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Vyhledávač Tracker integrovaný v pracovním prostředí"
 
-#: ../kupfer/plugin/tracker.py:42
+#: ../kupfer/plugin/tracker.py:41 ../kupfer/plugin/tracker1.py:45
 msgid "Search in Tracker"
 msgstr "Vyhledat prohledávačem Tracker"
 
-#: ../kupfer/plugin/tracker.py:47
+#: ../kupfer/plugin/tracker.py:46 ../kupfer/plugin/tracker1.py:50
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Otevřít vyhledávací nástroj Tracker a vyhledat tento výraz"
 
-#: ../kupfer/plugin/tracker.py:56 ../kupfer/plugin/tracker1.py:46
+#: ../kupfer/plugin/tracker.py:55 ../kupfer/plugin/tracker1.py:58
 msgid "Get Tracker Results..."
 msgstr "Získat výsledky prohledávače Tracker…"
 
-#: ../kupfer/plugin/tracker.py:65 ../kupfer/plugin/tracker1.py:55
+#: ../kupfer/plugin/tracker.py:64 ../kupfer/plugin/tracker1.py:67
 msgid "Show Tracker results for query"
 msgstr "Zobrazit výsledky dotazu z prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:166 ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:165 ../kupfer/plugin/tracker.py:171
 msgid "Tracker tags"
 msgstr "Značky prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:181
+#: ../kupfer/plugin/tracker.py:180
 msgid "Tracker Tags"
 msgstr "Značky prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:187
+#: ../kupfer/plugin/tracker.py:186
 msgid "Browse Tracker's tags"
 msgstr "Procházet značky prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:198 ../kupfer/plugin/tracker.py:205
+#: ../kupfer/plugin/tracker.py:197 ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Tag %s"
 msgstr "Značka %s"
 
-#: ../kupfer/plugin/tracker.py:212
+#: ../kupfer/plugin/tracker.py:211
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekt má značku %s od prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:224
+#: ../kupfer/plugin/tracker.py:223
 msgid "Add Tag..."
 msgstr "Přidat značku…"
 
-#: ../kupfer/plugin/tracker.py:250
+#: ../kupfer/plugin/tracker.py:249
 msgid "Add tracker tag to file"
 msgstr "Přidat souboru značku prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker.py:256
+#: ../kupfer/plugin/tracker.py:255
 msgid "Remove Tag..."
 msgstr "Odstranit značku…"
 
-#: ../kupfer/plugin/tracker.py:275
+#: ../kupfer/plugin/tracker.py:274
 msgid "Remove tracker tag from file"
 msgstr "Odstranit souboru značku prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker1.py:7
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker 0.8"
 msgstr "Tracker 0.8"
 
@@ -2530,19 +2604,16 @@ msgid "Vinagre Bookmarks"
 msgstr "Záložky ve Vinagre"
 
 #: ../kupfer/plugin/vim.py:1
-#, fuzzy
 msgid "Vim"
-msgstr "Zim"
+msgstr "Vim"
 
 #: ../kupfer/plugin/vim.py:3
-#, fuzzy
 msgid "Recently used documents in Vim"
-msgstr "Nedávno použité dokumenty v aplikaci Abiword"
+msgstr "Nedávno použité dokumenty v aplikaci Vim"
 
 #: ../kupfer/plugin/vim.py:47
-#, fuzzy
 msgid "Vim Recent Documents"
-msgstr "Nedávno použité dokumenty"
+msgstr "Nedávné dokumenty Vim"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/virtualbox/__init__.py:3
