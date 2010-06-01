@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-18 08:05+0200\n"
-"PO-Revision-Date: 2010-05-18 08:20+0200\n"
+"POT-Creation-Date: 2010-06-01 22:42+0200\n"
+"PO-Revision-Date: 2010-06-01 22:50+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -713,6 +714,9 @@ msgstr "Zakładki Firefoksa"
 
 msgid "Index of Firefox bookmarks"
 msgstr "Zakładki programu Firefoksa"
+
+msgid "Include visited sites"
+msgstr "Dołączenie odwiedzonych miejsc"
 
 msgid "Selected File"
 msgstr "Wybrany plik"
@@ -1421,6 +1425,52 @@ msgstr "Pokaż tłumaczenie na..."
 
 msgid "Show translation in browser"
 msgstr "Pokazuje tłumaczenie w przeglądarce"
+
+#. -*- coding: UTF-8 -*-
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Przeglądanie i tworzenie zadań w GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "do: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "początek: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "znaczniki: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Otwiera zadanie w Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Usuń"
+
+msgid "Permanently remove this task"
+msgstr "Trwale usuwa zadanie."
+
+msgid "Mark Done"
+msgstr "Wykonane"
+
+msgid "Mark this task as done"
+msgstr "Zaznacza zadanie jako wykonane"
+
+msgid "Dismiss"
+msgstr "Oddal"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Zaznacza zadanie jako zadanie do pominięcia"
+
+msgid "Create Task"
+msgstr "Utwórz zadanie"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Tworzy nowe zadanie w Getting Things GNOME"
 
 msgid "Higher-order Actions"
 msgstr "Wysoko-poziomowe akcje"
