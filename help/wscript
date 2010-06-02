@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 
+# Mallard waf adaptor written by Ulrik Sverdrup
+# may be distributed, changed, used, etc freely for any purpose
+
 ## Mallard functionality definitions ##
 import os
 import Task
 import TaskGen
+
+# FIXME: Support for figures
 
 def _read_makefile_am(filename):
 	"read a Makefile.am file for DOC_* variable definitions, return a dict"

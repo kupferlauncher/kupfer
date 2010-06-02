@@ -1,6 +1,9 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
+# Kupfer's main wscript description file for Waf, written by Ulrik Sverdrup
+# may be distributed, changed, used, etc freely for any purpose
+
 import os
 import sys
 import Configure
