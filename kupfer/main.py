@@ -123,6 +123,15 @@ def _set_process_title_linux():
 	except (AttributeError, OSError):
 		pass
 
+def _set_process_title():
+	try:
+		import setproctitle
+	except ImportError:
+		if sys.platform == "linux2":
+			_set_process_title_linux()
+	else:
+		setproctitle.setproctitle("kupfer")
+
 def main():
 	# parse commandline before importing UI
 	cli_opts = get_options()
@@ -139,7 +148,7 @@ def main():
 		except ImportError, e:
 			pass
 	sys.excepthook = sys.__excepthook__
-	_set_process_title_linux()
+	_set_process_title()
 
 	w = browser.WindowController()
 

@@ -53,6 +53,13 @@ Optional, but very recommended dependencies:
 * xml2po / gnome docutils  to install mallard help pages
 * python-keyring-gnome or python-keyring-kwallet
 
+Opportunistic dependencies
+
+* The deprecated 'gnome' module is used for session connection as
+  fallback
+* If available, 'setproctitle' is used to set the process name
+
+
 Some plugins might require additional python modules!
 
 Spawning
