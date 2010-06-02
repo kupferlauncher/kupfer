@@ -59,7 +59,7 @@ class Service (ExportedGObject):
 	def PutText(self, text):
 		self.emit("put-text", text)
 
-	@dbus.service.method(interface_name, in_signature="s")
+	@dbus.service.method(interface_name, in_signature="as")
 	def PutFiles(self, fileuris):
 		# files sent with dbus-send from kupfer have a custom comma
 		# escape that we have to unescape here
