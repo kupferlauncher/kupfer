@@ -86,6 +86,7 @@ kupfer/plugin/locate.py
 kupfer/plugin/twitter/__init__.py
 kupfer/plugin/openoffice.py
 kupfer/plugin/opera.py
+kupfer/plugin/operamail.py
 kupfer/plugin/pidgin.py
 kupfer/plugin/putty.py
 kupfer/plugin/rst.py
