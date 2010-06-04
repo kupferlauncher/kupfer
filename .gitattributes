@@ -2,6 +2,17 @@
 /.gitattributes		export-ignore
 /debug.py		export-ignore
 
+# Filter .po files before committing
+# The filter will remove all filename:line comments when
+# translation files are committed, to make the diffs clearer
+# To enable this, add the following section to .git/config
+# in this repository (without leading '#' of course):
+#
+# [filter "cleanpo"]
+#      clean = grep -v -E "^#: "
+#
+# This filter must be configured for all editors and committers
+# of the language. The .po file must be explicitly listed below.
 /po/en_GB.po		filter=cleanpo
 /po/sv.po		filter=cleanpo
 /po/pl.po		filter=cleanpo
