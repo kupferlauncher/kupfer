@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-05-27 19:18+0000\n"
-"PO-Revision-Date: 2010-05-28 12:30+0100\n"
+"POT-Creation-Date: 2010-06-04 20:42+0000\n"
+"PO-Revision-Date: 2010-06-06 22:38+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -942,8 +942,8 @@ msgstr "Ausgewählte Datei »%s«"
 msgid "Selected Files"
 msgstr "Ausgewählte Dateien"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:168
-#: ../kupfer/plugin/notes.py:220
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:165
+#: ../kupfer/plugin/notes.py:217
 msgid "Notes"
 msgstr "Notizen"
 
@@ -983,18 +983,18 @@ msgstr "Suchergebnisse für Notizen einholen …"
 msgid "Show search results for this query"
 msgstr "Suchergebnisse für diese Abfrage anzeigen"
 
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:200
 #, python-format
 msgid "today, %s"
 msgstr "heute, %s"
 
-#: ../kupfer/plugin/notes.py:205
+#: ../kupfer/plugin/notes.py:202
 #, python-format
 msgid "yesterday, %s"
 msgstr "gestern, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:209
+#: ../kupfer/plugin/notes.py:206
 #, python-format
 msgid "Last updated %s"
 msgstr "Zuletzt aktualisiert %s"
@@ -1528,7 +1528,7 @@ msgid "Claws Mail Contacts and Actions"
 msgstr "Kontakte und Aktionen in Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/thunderbird.py:29
+#: ../kupfer/plugin/operamail.py:25 ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Neue E-Mail verfassen"
 
@@ -1545,7 +1545,8 @@ msgid "Receive new messages from all accounts in ClawsMail"
 msgstr "Neue E-Mails für alle Konten in Claws Mail empfangen"
 
 #: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/thunderbird.py:45
+#: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/operamail.py:40
+#: ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Neue E-Mail verfassen"
 
@@ -1797,8 +1798,8 @@ msgid "Search Google with results shown directly"
 msgstr "Mit Google suchen und Ergebnisse direkt anzeigen"
 
 #: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:73 ../kupfer/plugin/tracker.py:114
-#: ../kupfer/plugin/tracker1.py:151 ../kupfer/plugin/tracker1.py:162
+#: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
+#: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Ergebnisse für »%s«"
@@ -1890,7 +1891,6 @@ msgstr "Beginn: %s"
 
 #: ../kupfer/plugin/gtg.py:91
 #, python-format
-#| msgid "Tag %s"
 msgid "tags: %s"
 msgstr "Schlagworte: %s"
 
@@ -1899,7 +1899,6 @@ msgid "Open task in Getting Things GNOME!"
 msgstr "Aufgabe in Getting Things GNOME! öffnen"
 
 #: ../kupfer/plugin/gtg.py:125
-#| msgid "Dequeue"
 msgid "Delete"
 msgstr "Löschen"
 
@@ -1924,7 +1923,6 @@ msgid "Mark this task as not to be done anymore"
 msgstr "Diese Aufgabe als nicht mehr zu erledigen markieren"
 
 #: ../kupfer/plugin/gtg.py:168
-#| msgid "Create Note"
 msgid "Create Task"
 msgstr "Aufgabe anlegen"
 
@@ -2108,6 +2106,27 @@ msgstr "Lesezeichen in Opera"
 #: ../kupfer/plugin/opera.py:6 ../kupfer/plugin/opera.py:55
 msgid "Index of Opera bookmarks"
 msgstr "Index der Lesezeichen in Opera"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/operamail.py:2
+msgid "Opera Mail"
+msgstr "Opera Mail"
+
+#: ../kupfer/plugin/operamail.py:5
+msgid "Opera Mail contacts and actions"
+msgstr "Kontakte und Aktionen in Opera Mail"
+
+#: ../kupfer/plugin/operamail.py:31
+msgid "Compose a new message in Opera Mail"
+msgstr "Eine neue E-Mail mit Opera Mail erstellen"
+
+#: ../kupfer/plugin/operamail.py:63
+msgid "Opera Mail Contacts"
+msgstr "Opera-Mail-Kontakte"
+
+#: ../kupfer/plugin/operamail.py:115
+msgid "Contacts from Opera Mail"
+msgstr "Kontakte aus Opera Mail"
 
 #: ../kupfer/plugin/pidgin.py:3
 msgid "Pidgin"
@@ -2470,69 +2489,69 @@ msgstr "PID: %(pid)s  Proz.: %(cpu)g%%  Speich.: %(mem)g%%  Zeit: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Laufende Prozesse des derzeitigen Benutzers"
 
-#: ../kupfer/plugin/tracker.py:6
+#: ../kupfer/plugin/tracker.py:5
 msgid "Tracker 0.6"
 msgstr "Tracker 0.6"
 
-#: ../kupfer/plugin/tracker.py:16 ../kupfer/plugin/tracker1.py:14
+#: ../kupfer/plugin/tracker.py:15 ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Einbindung der Tracker Desktop-Suche"
 
-#: ../kupfer/plugin/tracker.py:42
+#: ../kupfer/plugin/tracker.py:41 ../kupfer/plugin/tracker1.py:45
 msgid "Search in Tracker"
 msgstr "Mit Tracker suchen"
 
-#: ../kupfer/plugin/tracker.py:47
+#: ../kupfer/plugin/tracker.py:46 ../kupfer/plugin/tracker1.py:50
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Tracker Suchwerkzeug öffnen und nach diesem Begriff suchen"
 
-#: ../kupfer/plugin/tracker.py:56 ../kupfer/plugin/tracker1.py:46
+#: ../kupfer/plugin/tracker.py:55 ../kupfer/plugin/tracker1.py:58
 msgid "Get Tracker Results..."
 msgstr "Tracker-Ergebnisse einholen …"
 
-#: ../kupfer/plugin/tracker.py:65 ../kupfer/plugin/tracker1.py:55
+#: ../kupfer/plugin/tracker.py:64 ../kupfer/plugin/tracker1.py:67
 msgid "Show Tracker results for query"
 msgstr "Tracker Ergebnisse für den Suchbegriff anzeigen"
 
-#: ../kupfer/plugin/tracker.py:166 ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:165 ../kupfer/plugin/tracker.py:171
 msgid "Tracker tags"
 msgstr "Tracker-Schlagworte"
 
-#: ../kupfer/plugin/tracker.py:181
+#: ../kupfer/plugin/tracker.py:180
 msgid "Tracker Tags"
 msgstr "Tracker-Schlagworte"
 
-#: ../kupfer/plugin/tracker.py:187
+#: ../kupfer/plugin/tracker.py:186
 msgid "Browse Tracker's tags"
 msgstr "Tracker-Schlagworte anzeigen"
 
-#: ../kupfer/plugin/tracker.py:198 ../kupfer/plugin/tracker.py:205
+#: ../kupfer/plugin/tracker.py:197 ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Tag %s"
 msgstr "Schlagwort %s"
 
-#: ../kupfer/plugin/tracker.py:212
+#: ../kupfer/plugin/tracker.py:211
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Objekte mit dem Schlagwort %s in Tracker"
 
-#: ../kupfer/plugin/tracker.py:224
+#: ../kupfer/plugin/tracker.py:223
 msgid "Add Tag..."
 msgstr "Schlagwort hinzufügen …"
 
-#: ../kupfer/plugin/tracker.py:250
+#: ../kupfer/plugin/tracker.py:249
 msgid "Add tracker tag to file"
 msgstr "Tracker-Schlagwort zur Datei hinzufügen"
 
-#: ../kupfer/plugin/tracker.py:256
+#: ../kupfer/plugin/tracker.py:255
 msgid "Remove Tag..."
 msgstr "Schlagwort entfernen …"
 
-#: ../kupfer/plugin/tracker.py:275
+#: ../kupfer/plugin/tracker.py:274
 msgid "Remove tracker tag from file"
 msgstr "Tracker-Schlagwort von der Datei entfernen"
 
-#: ../kupfer/plugin/tracker1.py:7
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker 0.8"
 msgstr "Tracker 0.8"
 
