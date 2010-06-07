@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-05-28 10:32+0000\n"
-"PO-Revision-Date: 2010-05-28 19:46+0100\n"
+"POT-Creation-Date: 2010-06-04 21:03+0000\n"
+"PO-Revision-Date: 2010-06-05 08:39+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -957,8 +957,8 @@ msgid "Selected Files"
 msgstr "Izbrane datoteke"
 
 #: ../kupfer/plugin/notes.py:6
-#: ../kupfer/plugin/notes.py:168
-#: ../kupfer/plugin/notes.py:220
+#: ../kupfer/plugin/notes.py:165
+#: ../kupfer/plugin/notes.py:217
 msgid "Notes"
 msgstr "Sporočilca"
 
@@ -998,18 +998,18 @@ msgstr "Dobivam rezultate iskanja sporočilc ..."
 msgid "Show search results for this query"
 msgstr "Pokaži rezultate iskanja za to poizvedbo"
 
-#: ../kupfer/plugin/notes.py:203
+#: ../kupfer/plugin/notes.py:200
 #, python-format
 msgid "today, %s"
 msgstr "danes, %s"
 
-#: ../kupfer/plugin/notes.py:205
+#: ../kupfer/plugin/notes.py:202
 #, python-format
 msgid "yesterday, %s"
 msgstr "včeraj, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:209
+#: ../kupfer/plugin/notes.py:206
 #, python-format
 msgid "Last updated %s"
 msgstr "Zadnjič posodobljeno %s"
@@ -1567,6 +1567,7 @@ msgstr "Stiki in dejanja Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:26
 #: ../kupfer/plugin/evolution.py:24
+#: ../kupfer/plugin/operamail.py:25
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Sestavi novo pošte"
@@ -1586,6 +1587,7 @@ msgstr "Prejem nove pošte za vse račune v ClawsMail"
 #: ../kupfer/plugin/clawsmail.py:56
 #: ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:39
+#: ../kupfer/plugin/operamail.py:40
 #: ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Sestavi e-pošto"
@@ -1857,10 +1859,10 @@ msgstr "Iskanje Google z neposredno prikazanimi rezultati"
 
 #: ../kupfer/plugin/google_search.py:46
 #: ../kupfer/plugin/locate.py:47
-#: ../kupfer/plugin/tracker.py:73
-#: ../kupfer/plugin/tracker.py:114
-#: ../kupfer/plugin/tracker1.py:151
-#: ../kupfer/plugin/tracker1.py:162
+#: ../kupfer/plugin/tracker.py:72
+#: ../kupfer/plugin/tracker.py:113
+#: ../kupfer/plugin/tracker1.py:163
+#: ../kupfer/plugin/tracker1.py:174
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultati za \"%s\""
@@ -2174,6 +2176,27 @@ msgstr "Zaznamki Opera"
 #: ../kupfer/plugin/opera.py:55
 msgid "Index of Opera bookmarks"
 msgstr "Kazalo zaznamkov Opera"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/operamail.py:2
+msgid "Opera Mail"
+msgstr "Opera pošta"
+
+#: ../kupfer/plugin/operamail.py:5
+msgid "Opera Mail contacts and actions"
+msgstr "Stiki in dejanja Opera pošte"
+
+#: ../kupfer/plugin/operamail.py:31
+msgid "Compose a new message in Opera Mail"
+msgstr "Sestavljanje nove pošte v Opera pošti"
+
+#: ../kupfer/plugin/operamail.py:63
+msgid "Opera Mail Contacts"
+msgstr "Usklajevanje stikov Opera pošte"
+
+#: ../kupfer/plugin/operamail.py:115
+msgid "Contacts from Opera Mail"
+msgstr "Stiki iz Opera pošte"
 
 #: ../kupfer/plugin/pidgin.py:3
 msgid "Pidgin"
@@ -2542,76 +2565,78 @@ msgid "Running tasks for current user"
 msgstr "Opravila v teku za trenutnega uporabnika"
 
 # Tukaj je tracker ime programa
-#: ../kupfer/plugin/tracker.py:6
+#: ../kupfer/plugin/tracker.py:5
 msgid "Tracker 0.6"
 msgstr "Tracker 0.6"
 
-#: ../kupfer/plugin/tracker.py:16
-#: ../kupfer/plugin/tracker1.py:14
+#: ../kupfer/plugin/tracker.py:15
+#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Povezava s Tracker namiznim iskanjem"
 
-#: ../kupfer/plugin/tracker.py:42
+#: ../kupfer/plugin/tracker.py:41
+#: ../kupfer/plugin/tracker1.py:45
 msgid "Search in Tracker"
 msgstr "Išči v Tracker-ju"
 
-#: ../kupfer/plugin/tracker.py:47
+#: ../kupfer/plugin/tracker.py:46
+#: ../kupfer/plugin/tracker1.py:50
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Odprtje iskalnega orodja Tracker in iskanje tega izraza"
 
-#: ../kupfer/plugin/tracker.py:56
-#: ../kupfer/plugin/tracker1.py:46
+#: ../kupfer/plugin/tracker.py:55
+#: ../kupfer/plugin/tracker1.py:58
 msgid "Get Tracker Results..."
 msgstr "Dobi rezultate Tracker-ja ..."
 
-#: ../kupfer/plugin/tracker.py:65
-#: ../kupfer/plugin/tracker1.py:55
+#: ../kupfer/plugin/tracker.py:64
+#: ../kupfer/plugin/tracker1.py:67
 msgid "Show Tracker results for query"
 msgstr "Pokaži rezultate sledilnika za poizvedbo"
 
-#: ../kupfer/plugin/tracker.py:166
-#: ../kupfer/plugin/tracker.py:172
+#: ../kupfer/plugin/tracker.py:165
+#: ../kupfer/plugin/tracker.py:171
 msgid "Tracker tags"
 msgstr "Oznake Tracker"
 
-#: ../kupfer/plugin/tracker.py:181
+#: ../kupfer/plugin/tracker.py:180
 msgid "Tracker Tags"
 msgstr "Oznake Tracker"
 
-#: ../kupfer/plugin/tracker.py:187
+#: ../kupfer/plugin/tracker.py:186
 msgid "Browse Tracker's tags"
 msgstr "Prebrskaj oznake Tracker-ja"
 
-#: ../kupfer/plugin/tracker.py:198
-#: ../kupfer/plugin/tracker.py:205
+#: ../kupfer/plugin/tracker.py:197
+#: ../kupfer/plugin/tracker.py:204
 #, python-format
 msgid "Tag %s"
 msgstr "Oznaka %s"
 
-#: ../kupfer/plugin/tracker.py:212
+#: ../kupfer/plugin/tracker.py:211
 #, python-format
 msgid "Objects tagged %s with Tracker"
 msgstr "Predmeti označeni %s s Tracker-jem"
 
-#: ../kupfer/plugin/tracker.py:224
+#: ../kupfer/plugin/tracker.py:223
 msgid "Add Tag..."
 msgstr "Dodaj oznako ..."
 
-#: ../kupfer/plugin/tracker.py:250
+#: ../kupfer/plugin/tracker.py:249
 msgid "Add tracker tag to file"
 msgstr "Dodajanje oznake sledilca v datoteko"
 
-#: ../kupfer/plugin/tracker.py:256
+#: ../kupfer/plugin/tracker.py:255
 msgid "Remove Tag..."
 msgstr "Odstrani oznako ..."
 
 # sledilec ali sledilnik???
-#: ../kupfer/plugin/tracker.py:275
+#: ../kupfer/plugin/tracker.py:274
 msgid "Remove tracker tag from file"
 msgstr "Odstranitev oznake sledilca iz datoteke"
 
 # Tukaj je tracker ime programa
-#: ../kupfer/plugin/tracker1.py:7
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker 0.8"
 msgstr "Tracker 0.8"
 
