@@ -355,8 +355,10 @@ Internally, kupfer must use ``unicode`` for all internal text.
 The module ``kupfer.kupferstring`` has functions for the most important
 text conversions.
 
-A good introduction to unicode in Python is to read here:
-http://farmdev.com/talks/unicode/
+Two good resources for unicode in Python are to be found here:
+
+| http://farmdev.com/talks/unicode/
+| http://www.amk.ca/python/howto/unicode
 
 **Always** find out what encoding you must expect for externally read
 text (from files or command output). If you must guess, use the locale
