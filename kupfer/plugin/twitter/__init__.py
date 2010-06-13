@@ -21,6 +21,7 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, NAME_KEY
 from kupfer.obj.special import PleaseConfigureLeaf
 
+plugin_support.check_keyring_support()
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

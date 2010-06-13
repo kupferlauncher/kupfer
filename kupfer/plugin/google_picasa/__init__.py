@@ -21,6 +21,8 @@ from kupfer import kupferstring
 from kupfer import utils
 from kupfer import task
 
+plugin_support.check_keyring_support()
+
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		'key': 'userpass',

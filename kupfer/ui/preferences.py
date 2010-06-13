@@ -15,6 +15,7 @@ from kupfer.core import settings, plugins, relevance, sources
 from kupfer.ui import keybindings
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
+from kupfer import plugin_support
 
 # index in GtkNotebook
 PLUGIN_LIST_PAGE = 2
@@ -552,9 +553,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def _get_plugin_credentials_callback(self, plugin_id, key):
 		def callback(widget):
 			setctl = settings.GetSettingsController()
-			val_type = settings.UserNamePassword
+			val_type = plugin_support.UserNamePassword
 			upass = setctl.get_plugin_config(plugin_id, key, val_type) \
-					or settings.UserNamePassword()
+					or plugin_support.UserNamePassword()
 			user_password = ask_user_credentials(upass.username, upass.password)
 			if user_password:
 				upass.username, upass.password = user_password
@@ -589,7 +590,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				hbox.set_tooltip_text(tooltip)
 			label = plugin_settings.get_label(setting)
 
-			if issubclass(typ, settings.UserNamePassword):
+			if issubclass(typ, plugin_support.UserNamePassword):
 				wid = gtk.Button(label or _("Set username and password"))
 				wid.connect("clicked", self._get_plugin_credentials_callback(
 						plugin_id, setting))

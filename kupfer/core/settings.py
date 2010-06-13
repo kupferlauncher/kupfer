@@ -7,7 +7,6 @@ import copy
 
 import glib
 import gobject
-import keyring
 
 from kupfer import config, pretty, scheduler
 
@@ -422,38 +421,4 @@ class ExtendedSetting(object):
 		@Return value that should be stored in Kupfer config for
 		plugin/key (string)'''
 		return None
-
-
-class UserNamePassword(ExtendedSetting):
-	''' Configuration type for storing username/password values.
-	Username is stored in Kupfer config, password in keyring '''
-	def __init__(self, obj=None):
-		ExtendedSetting.__init__(self)
-		self._configure_keyring()
-		self.username = None
-		self.password = None
-		if obj:
-			self.username = obj.username
-			self.password = obj.password
-
-	def __repr__(self):
-		return '<UserNamePassword "%s", %s>' % (self.username,
-		                                        bool(self.password))
-
-	@classmethod
-	def _configure_keyring(cls):
-		# Configure the fallback keyring's configuration file if used
-		kr = keyring.get_keyring()
-		if hasattr(kr, "file_path"):
-			kr.file_path = config.save_config_file("keyring.cfg")
-
-	def load(self, plugin_id, key, username):
-		self.password = keyring.get_password(plugin_id, username)
-		self.username = username
-
-	def save(self, plugin_id, key):
-		''' save @user_password - store password in keyring and return username
-		to save in standard configuration file '''
-		keyring.set_password(plugin_id, self.username, self.password)
-		return self.username
 

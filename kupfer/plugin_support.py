@@ -1,8 +1,14 @@
 import gobject
 
+try:
+	import keyring
+except ImportError:
+	keyring = None
+
+
 from kupfer import pretty
+from kupfer import config
 from kupfer.core import settings
-from kupfer.core.settings import UserNamePassword
 
 __all__ = [
 	"UserNamePassword",
@@ -124,5 +130,51 @@ def check_dbus_connection():
 	if not _has_dbus_connection:
 		raise ImportError(_("No D-Bus connection to desktop session"))
 
+def check_keyring_support():
+	"""
+	Check if the UserNamePassword class can be used,
+	else raise ImportError with an explanatory error message.
+	"""
+	import keyring
 
+class UserNamePassword (settings.ExtendedSetting):
+	''' Configuration type for storing username/password values.
+	Username is stored in Kupfer config, password in keyring '''
+	def __init__(self, obj=None):
+		settings.ExtendedSetting.__init__(self)
+		self._configure_keyring()
+		self.username = None
+		self.password = None
+		if obj:
+			self.username = obj.username
+			self.password = obj.password
+
+	def __repr__(self):
+		return '<UserNamePassword "%s", %s>' % (self.username,
+		                                        bool(self.password))
+
+	@classmethod
+	def _configure_keyring(cls):
+		# Configure the fallback keyring's configuration file if used
+		import keyring.backend
+		kr = keyring.get_keyring()
+		if hasattr(kr, "crypted_password"):
+			keyring.set_keyring(keyring.backend.UncryptedFileKeyring())
+			kr = keyring.get_keyring()
+		if hasattr(kr, "file_path"):
+			kr.file_path = config.save_config_file("keyring.cfg")
+
+	def load(self, plugin_id, key, username):
+		self.password = keyring.get_password(plugin_id, username)
+		self.username = username
+
+	def save(self, plugin_id, key):
+		''' save @user_password - store password in keyring and return username
+		to save in standard configuration file '''
+		keyring.set_password(plugin_id, self.username, self.password)
+		return self.username
+
+if not keyring:
+	class UserNamePassword (object):
+		pass
 

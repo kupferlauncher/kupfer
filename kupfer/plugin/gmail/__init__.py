@@ -18,6 +18,8 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 from kupfer import plugin_support, pretty, utils, icons, kupferstring
 
+plugin_support.check_keyring_support()
+
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		'key': 'userpass',
