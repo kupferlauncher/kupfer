@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-06-04 20:42+0000\n"
-"PO-Revision-Date: 2010-06-06 22:38+0100\n"
+"POT-Creation-Date: 2010-06-13 18:52+0000\n"
+"PO-Revision-Date: 2010-06-14 01:07+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Kupfer-Einstellungen"
 msgid "Plugins"
 msgstr "Erweiterungen"
 
-#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:768
+#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:769
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -214,127 +214,127 @@ msgid "No action"
 msgstr "Keine Aktion"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/preferences.py:55
+#: ../kupfer/ui/preferences.py:56
 msgid "Show Main Interface"
 msgstr "Haupt-Bedienoberfläche anzeigen"
 
-#: ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/preferences.py:57
 msgid "Show with Selection"
 msgstr "Mit Auswahl anzeigen"
 
 #. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/preferences.py:66
+#: ../kupfer/ui/preferences.py:67
 msgid "Alternate Activate"
 msgstr "Alternative Aktivierung"
 
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/preferences.py:69
+#: ../kupfer/ui/preferences.py:70
 msgid "Comma Trick"
 msgstr "Komma-Trick"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
-#: ../kupfer/ui/preferences.py:72
+#: ../kupfer/ui/preferences.py:73
 msgid "Compose Command"
 msgstr "Compose-Befehl"
 
-#: ../kupfer/ui/preferences.py:73
+#: ../kupfer/ui/preferences.py:74
 msgid "Reset All"
 msgstr "Alle zurücksetzen"
 
-#: ../kupfer/ui/preferences.py:74
+#: ../kupfer/ui/preferences.py:75
 msgid "Select Quit"
 msgstr "Beenden wählen"
 
-#: ../kupfer/ui/preferences.py:75
+#: ../kupfer/ui/preferences.py:76
 msgid "Select Selected File"
 msgstr "Ausgewählte Datei wählen"
 
-#: ../kupfer/ui/preferences.py:76
+#: ../kupfer/ui/preferences.py:77
 msgid "Select Selected Text"
 msgstr "Markierten Text wählen"
 
-#: ../kupfer/ui/preferences.py:77
+#: ../kupfer/ui/preferences.py:78
 msgid "Show Help"
 msgstr "Hilfe anzeigen"
 
-#: ../kupfer/ui/preferences.py:78
+#: ../kupfer/ui/preferences.py:79
 msgid "Show Preferences"
 msgstr "Einstellungen anzeigen"
 
-#: ../kupfer/ui/preferences.py:79
+#: ../kupfer/ui/preferences.py:80
 msgid "Switch to First Pane"
 msgstr "In erste Leiste wechseln"
 
-#: ../kupfer/ui/preferences.py:80
+#: ../kupfer/ui/preferences.py:81
 msgid "Toggle Text Mode"
 msgstr "Textmodus umschalten"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:402
+#: ../kupfer/ui/preferences.py:403
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../kupfer/ui/preferences.py:402
+#: ../kupfer/ui/preferences.py:403
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:418
+#: ../kupfer/ui/preferences.py:419
 msgid "Version"
 msgstr "Version"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:428
+#: ../kupfer/ui/preferences.py:429
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Python-Modul »%s« wird benötigt"
 
-#: ../kupfer/ui/preferences.py:442
+#: ../kupfer/ui/preferences.py:443
 msgid "Plugin could not be read due to an error:"
 msgstr "Plugin konnte wegen eines Fehlers nicht gelesen werden:"
 
-#: ../kupfer/ui/preferences.py:450 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:451 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: ../kupfer/ui/preferences.py:522
+#: ../kupfer/ui/preferences.py:523
 msgid "Content of"
 msgstr "Inhalt von"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:531
+#: ../kupfer/ui/preferences.py:532
 msgid "Sources"
 msgstr "Quellen"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:535
+#: ../kupfer/ui/preferences.py:536
 msgid "Actions"
 msgstr "Aktionen"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:573
+#: ../kupfer/ui/preferences.py:574
 msgid "Configuration"
 msgstr "Einstellungen"
 
-#: ../kupfer/ui/preferences.py:593
+#: ../kupfer/ui/preferences.py:594
 msgid "Set username and password"
 msgstr "Benutzername und Passwort festlegen"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:647
+#: ../kupfer/ui/preferences.py:648
 msgid "Choose a Directory"
 msgstr "Einen Ordner auswählen"
 
-#: ../kupfer/ui/preferences.py:766
+#: ../kupfer/ui/preferences.py:767
 msgid "Reset all shortcuts to default values?"
 msgstr "Sollen alle Tastenkombinationen auf Standardwerte zurückgesetzt werden?"
 
-#: ../kupfer/ui/preferences.py:774
+#: ../kupfer/ui/preferences.py:775
 msgid "Command"
 msgstr "Befehl"
 
-#: ../kupfer/ui/preferences.py:775
+#: ../kupfer/ui/preferences.py:776
 msgid "Shortcut"
 msgstr "Kürzel"
 
@@ -1098,7 +1098,7 @@ msgid "Tracks by %s"
 msgstr "Lieder von %s"
 
 #: ../kupfer/plugin/rhythmbox.py:299
-#: ../kupfer/plugin/google_picasa/__init__.py:436
+#: ../kupfer/plugin/google_picasa/__init__.py:444
 msgid "Albums"
 msgstr "Alben"
 
@@ -1689,7 +1689,7 @@ msgid "Launch GNOME Terminal profiles"
 msgstr "GNOME-Terminal-Profile starten"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:142
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:144
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -1697,19 +1697,19 @@ msgstr "Gmail"
 msgid "Load contacts and compose new email in Gmail"
 msgstr "Kontakte laden und eine neue Nachricht in Google Mail erstellen"
 
-#: ../kupfer/plugin/gmail/__init__.py:30
+#: ../kupfer/plugin/gmail/__init__.py:32
 msgid "Load contacts' pictures"
 msgstr "Bilder für Kontakte laden"
 
-#: ../kupfer/plugin/gmail/__init__.py:49
+#: ../kupfer/plugin/gmail/__init__.py:51
 msgid "Compose Email in GMail"
 msgstr "Neue E-Mail in GMail verfassen"
 
-#: ../kupfer/plugin/gmail/__init__.py:72
+#: ../kupfer/plugin/gmail/__init__.py:74
 msgid "Open web browser and compose new email in GMail"
 msgstr "Webbrowser öffnen und eine neue Nachricht in GMail erstellen"
 
-#: ../kupfer/plugin/gmail/__init__.py:166
+#: ../kupfer/plugin/gmail/__init__.py:176
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakte aus Google-Diensten (Google Mail)"
 
@@ -1722,70 +1722,70 @@ msgstr "Google Picasa"
 msgid "Show albums and upload files to Picasa"
 msgstr "Alben anzeigen und Dateien zu Picasa hochladen"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:33
+#: ../kupfer/plugin/google_picasa/__init__.py:35
 msgid "Users to show: (,-separated)"
 msgstr "Anzuzeigende Benutzer (durch Kommata getrennt):"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:39
+#: ../kupfer/plugin/google_picasa/__init__.py:41
 msgid "Load user and album icons"
 msgstr "Symbole für Benutzer und Alben laden"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:90
+#: ../kupfer/plugin/google_picasa/__init__.py:92
 msgid "Uploading Pictures"
 msgstr "Bilder werden übertragen"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:91
+#: ../kupfer/plugin/google_picasa/__init__.py:93
 msgid "Uploading pictures to Picasa Web Album"
 msgstr "Bilder werden zum Picasa-Webalbum übertragen"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:100
+#: ../kupfer/plugin/google_picasa/__init__.py:102
 msgid "Creating album:"
 msgstr "Album wird erstellt:"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:103
+#: ../kupfer/plugin/google_picasa/__init__.py:105
 msgid "Album created by Kupfer"
 msgstr "Album erstellt von Kupfer"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:110
+#: ../kupfer/plugin/google_picasa/__init__.py:112
 msgid "File:"
 msgstr "Datei:"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:250
+#: ../kupfer/plugin/google_picasa/__init__.py:252
 #, python-format
 msgid "One album"
 msgid_plural "%(num)d albums"
 msgstr[0] "One album"
 msgstr[1] "%(num)d Alben"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:277
+#: ../kupfer/plugin/google_picasa/__init__.py:279
 #, python-format
 msgid "one photo"
 msgid_plural "%(num)s photos"
 msgstr[0] "Ein Foto"
 msgstr[1] "%(num)s Fotos"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:297
+#: ../kupfer/plugin/google_picasa/__init__.py:299
 msgid "Upload to Picasa Album..."
 msgstr "Bilder zum Picasa-Album hochladen …"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:341
+#: ../kupfer/plugin/google_picasa/__init__.py:343
 msgid "Upload files to Picasa album"
 msgstr "Dateien zum Picasa-Album hochladen"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:347
+#: ../kupfer/plugin/google_picasa/__init__.py:349
 msgid "Upload to Picasa as New Album"
 msgstr "Dateien zu Picasa als neues Album hochladen"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:375
+#: ../kupfer/plugin/google_picasa/__init__.py:377
 msgid "Create album from selected local directory"
 msgstr "Album aus dem gewählten lokalen Ordner erstellen"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:379
-#: ../kupfer/plugin/google_picasa/__init__.py:402
+#: ../kupfer/plugin/google_picasa/__init__.py:381
+#: ../kupfer/plugin/google_picasa/__init__.py:404
 msgid "Picasa Albums"
 msgstr "Picasa-Alben"
 
-#: ../kupfer/plugin/google_picasa/__init__.py:428
+#: ../kupfer/plugin/google_picasa/__init__.py:436
 msgid "User albums in Picasa"
 msgstr "Benutzeralben in Picasa"
 
@@ -2033,53 +2033,53 @@ msgstr ""
 "Microblogging mit Twitter: Aktualisierungen senden und Tweets von Freunden "
 "anzeigen"
 
-#: ../kupfer/plugin/twitter/__init__.py:34
+#: ../kupfer/plugin/twitter/__init__.py:35
 msgid "Load friends' pictures"
 msgstr "Bilder von Freunden laden"
 
-#: ../kupfer/plugin/twitter/__init__.py:40
+#: ../kupfer/plugin/twitter/__init__.py:41
 msgid "Load friends' public tweets"
 msgstr "Öffentliche Tweets von Freunden laden"
 
-#: ../kupfer/plugin/twitter/__init__.py:46
+#: ../kupfer/plugin/twitter/__init__.py:47
 msgid "Load timeline"
 msgstr "Zeitlinie laden"
 
-#: ../kupfer/plugin/twitter/__init__.py:193
+#: ../kupfer/plugin/twitter/__init__.py:194
 msgid "Post Update to Twitter"
 msgstr "Aktualisierung an Twitter senden"
 
-#: ../kupfer/plugin/twitter/__init__.py:213
+#: ../kupfer/plugin/twitter/__init__.py:214
 msgid "Send Direct Message..."
 msgstr "Direkte Nachricht senden …"
 
-#: ../kupfer/plugin/twitter/__init__.py:242
+#: ../kupfer/plugin/twitter/__init__.py:243
 msgid "Send Direct Message To..."
 msgstr "Direkte Nachricht senden an …"
 
-#: ../kupfer/plugin/twitter/__init__.py:270
+#: ../kupfer/plugin/twitter/__init__.py:271
 msgid "Reply..."
 msgstr "Antworten …"
 
-#: ../kupfer/plugin/twitter/__init__.py:297
+#: ../kupfer/plugin/twitter/__init__.py:298
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/twitter/__init__.py:318
+#: ../kupfer/plugin/twitter/__init__.py:319
 msgid "Twitter Timeline"
 msgstr "Twitter-Zeitlinie"
 
-#: ../kupfer/plugin/twitter/__init__.py:346
+#: ../kupfer/plugin/twitter/__init__.py:347
 msgid "Twitter Friends"
 msgstr "Twitter-Freunde"
 
-#: ../kupfer/plugin/twitter/__init__.py:371
+#: ../kupfer/plugin/twitter/__init__.py:372
 #, python-format
 msgid "Timeline for %s"
 msgstr "Zeitlinie für %s"
 
-#: ../kupfer/plugin/twitter/__init__.py:395 ../kupfer/plugin/pidgin.py:111
+#: ../kupfer/plugin/twitter/__init__.py:396 ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -2340,7 +2340,7 @@ msgstr "Mit einem SSH-Rechner verbinden"
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "SSH-Rechner wie in ~/.ssh/config angegeben"
 
-#: ../kupfer/plugin_support.py:120
+#: ../kupfer/plugin_support.py:131
 msgid "No D-Bus connection to desktop session"
 msgstr "Keine D-Bus-Verbindung zur Desktopsitzung"
 
@@ -2397,29 +2397,37 @@ msgstr "Schreiben an …"
 msgid "Get Text Contents"
 msgstr "Textinhalte holen"
 
-#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:113
+#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:141
 msgid "Thunar"
 msgstr "Thunar"
 
-#: ../kupfer/plugin/thunar.py:7
+#: ../kupfer/plugin/thunar.py:8
 msgid "File manager Thunar actions"
 msgstr "Aktionen des Dateimanagers Thunar"
 
-#: ../kupfer/plugin/thunar.py:66
+#: ../kupfer/plugin/thunar.py:68
 msgid "Select in File Manager"
 msgstr "Im Dateimanager auswählen"
 
-#: ../kupfer/plugin/thunar.py:83
+#: ../kupfer/plugin/thunar.py:85
 msgid "Show Properties"
 msgstr "Eigenschaften anzeigen"
 
-#: ../kupfer/plugin/thunar.py:95
+#: ../kupfer/plugin/thunar.py:97
 msgid "Show information about file in file manager"
 msgstr "Informationen über die Datei im Dateimanager anzeigen"
 
-#: ../kupfer/plugin/thunar.py:99
+#: ../kupfer/plugin/thunar.py:103
+msgid "Send To..."
+msgstr "Senden an …"
+
+#: ../kupfer/plugin/thunar.py:127
 msgid "Empty Trash"
 msgstr "Müll ist leer"
+
+#: ../kupfer/plugin/thunar.py:153
+msgid "Thunar Send To Objects"
+msgstr "Objekte aus Thunar versenden"
 
 #: ../kupfer/plugin/thunderbird.py:4
 msgid "Thunderbird"
