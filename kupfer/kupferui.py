@@ -25,6 +25,7 @@ def show_about_dialog(*ignored, **kwds):
 	else:
 		ab = gtk.AboutDialog()
 		ab.set_program_name(version.PROGRAM_NAME)
+		ab.set_icon_name(version.ICON_NAME)
 		ab.set_logo_icon_name(version.ICON_NAME)
 		ab.set_version(version.VERSION)
 		ab.set_comments(version.SHORT_DESCRIPTION)

@@ -7,7 +7,7 @@
     <property name="window_position">center</property>
     <property name="default_width">800</property>
     <property name="default_height">600</property>
-    <property name="icon_name">search</property>
+    <property name="icon_name">kupfer</property>
     <signal name="key_press_event" handler="on_text_result_window_key_press_event"/>
     <child>
       <object class="GtkVBox" id="vbox1">
