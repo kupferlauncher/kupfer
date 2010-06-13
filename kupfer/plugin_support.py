@@ -19,6 +19,11 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 
 	Setting values are accessed by the getitem operator [] with
 	the setting's 'key' attribute
+
+	Signals:
+
+		plugin-setting-changed: key, value
+
 	"""
 	__gtype_name__ = "PluginSettings"
 
@@ -90,7 +95,7 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 		self.connect("plugin-setting-changed", callback, *args)
 
 
-# Section, Key, Value
+# Signature: Key, Value
 gobject.signal_new("plugin-setting-changed", PluginSettings,
 		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT))

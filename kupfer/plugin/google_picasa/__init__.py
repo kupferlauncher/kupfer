@@ -406,6 +406,12 @@ class PicasaUsersSource(Source):
 	def initialize(self):
 		# fill loader cache by source cache
 		PicasaDataCache.data = self.cached_items or []
+		__kupfer_settings__.connect("plugin-setting-changed", self._changed)
+
+	def _changed(self, settings, key, value):
+		if key == "userpass":
+			PicasaDataCache.data = []
+			self.mark_for_update()
 
 	def get_items(self):
 		if is_plugin_configured():

@@ -38,7 +38,7 @@ GMAIL_NEW_MAIL_URL = \
 
 
 def is_plugin_configured():
-	''' Chec is plugin is configuret (user name and password is configured) '''
+	''' Check if plugin is configured (user name and password is configured) '''
 	upass = __kupfer_settings__['userpass']
 	return bool(upass and upass.username and upass.password)
 
@@ -143,6 +143,14 @@ class GoogleContactsSource(ToplevelGroupingSource):
 		super(GoogleContactsSource, self).__init__(name, "Contacts")
 		self._version = 4
 		self._contacts = []
+
+	def initialize(self):
+		__kupfer_settings__.connect("plugin-setting-changed", self._changed)
+
+	def _changed(self, settings, key, value):
+		if key == "userpass":
+			self._contacts = []
+			self.mark_for_update()
 
 	def get_items(self):
 		if is_plugin_configured():
