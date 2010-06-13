@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-01 00:09+0200\n"
+"POT-Creation-Date: 2010-06-13 21:37+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -50,8 +50,8 @@ msgstr "<b>Gränssnitt</b>"
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
-msgid "<i>Plugins may not be unloaded at runtime</i>"
-msgstr "<i>Insticksmoduler deaktiveras först efter omstart</i>"
+msgid "Catalog"
+msgstr "Katalog"
 
 msgid "General"
 msgstr "Allmänt"
@@ -73,6 +73,24 @@ msgstr "Visa ikon i notifieringsytan"
 
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
+
+msgid ""
+"Tick the box next to a source to make sure its objects are exported to the "
+"top level of the catalog. An unticked source's contents are only available "
+"by locating its subcatalog and entering it.\n"
+"\n"
+"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
+"to carry a catalog larger than a couple of thousand objects, and may become "
+"slow if overly large subcatalogs are included in the top level."
+msgstr ""
+"Markera rutan vid en källa för att dess objekt ska exporteras till "
+"katalogens toppnivå. En urkryssad källas innehåll är endast tillgängligt "
+"genom dess underkatalog.\n"
+"\n"
+"Observera: Kupfer är ett integrationsverktyg, och inte i sig ett "
+"indexeringsprogram. Kupfer är inte designat för en katalog på mer än ett par "
+"tusental objekt, och kan bli långsam om för stora underkataloger inkluderas "
+"i toppnivån."
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
@@ -151,18 +169,24 @@ msgstr "Skriv för att söka i %s"
 msgid "No action"
 msgstr "Inget kommando"
 
+#. TRANS: Names of global keyboard shortcuts
 msgid "Show Main Interface"
 msgstr "Visa huvudgränssnitt"
 
 msgid "Show with Selection"
 msgstr "Visa med markering"
 
+#. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
 
+#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+#. TRANS: user to select many objects to be used for one action
 msgid "Comma Trick"
 msgstr "Kommatricket"
 
+#. TRANS: "Compose Command" makes one object out of the selected
+#. TRANS: object + action (+iobject)
 msgid "Compose Command"
 msgstr "Bygg kommando"
 
@@ -419,9 +443,6 @@ msgstr "Katalogindex"
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-msgid "Catalog"
-msgstr "Katalog"
-
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
@@ -460,12 +481,6 @@ msgstr "Få hjälp med Kupfer"
 msgid "Show preferences window for Kupfer"
 msgstr "Visa Kupfers inställningsfönster"
 
-msgid "Rescan"
-msgstr "Uppdatera"
-
-msgid "Force reindex of this source"
-msgstr "Tvinga omläsning av källan"
-
 msgid "Search Contents"
 msgstr "Sök inuti"
 
@@ -477,6 +492,12 @@ msgstr "Kopiera"
 
 msgid "Copy to clipboard"
 msgstr "Kopiera till urklipp"
+
+msgid "Rescan"
+msgstr "Uppdatera"
+
+msgid "Force reindex of this source"
+msgstr "Tvinga omläsning av källan"
 
 msgid "Selected Text"
 msgstr "Markering"
@@ -539,6 +560,9 @@ msgstr "Antal senaste urklipp"
 msgid "Include recent selections"
 msgstr "Inkludera markerad text"
 
+msgid "Copy selection to primary clipboard"
+msgstr "Kopiera markering till urklipp"
+
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -556,6 +580,12 @@ msgstr "Skalkommandon"
 
 msgid "Run commandline programs"
 msgstr "Kör kommandoradsprogram"
+
+msgid "Run (Get Output)"
+msgstr "Kör (Hämta utdata)"
+
+msgid "Run program and return its output"
+msgstr "Kör program och returnera dess utdata"
 
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -676,6 +706,9 @@ msgstr "Firefox-bokmärken"
 
 msgid "Index of Firefox bookmarks"
 msgstr "Index över Firefox-bokmärken"
+
+msgid "Include visited sites"
+msgstr "Inkludera besökta sidor"
 
 msgid "Selected File"
 msgstr "Markerad fil"
@@ -1185,6 +1218,22 @@ msgid "Evolution Address Book"
 msgstr "Evolution-adressbok"
 
 #. -*- coding: UTF-8 -*-
+msgid "Filezilla"
+msgstr "Filezilla"
+
+msgid "Show sites and handle ftp addresses by Filezilla"
+msgstr "Visa platser och hantera ftp-adresser från Filezilla"
+
+msgid "Open Site with Filezilla"
+msgstr "Öppna plats med Filezilla"
+
+msgid "Filezilla Sites"
+msgstr "Filezilla-platser"
+
+msgid "Sites from Filezilla"
+msgstr "Platser från Filezilla"
+
+#. -*- coding: UTF-8 -*-
 msgid "Gajim"
 msgstr "Gajim"
 
@@ -1366,6 +1415,52 @@ msgstr "Visa översättning till..."
 msgid "Show translation in browser"
 msgstr "Visa översättning i webbläsare"
 
+#. -*- coding: UTF-8 -*-
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME!"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Bläddra i och skapa nya uppgifter i GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "förfaller: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "start: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "taggar: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Öppna uppgift i Getting Things GNOME"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Permanently remove this task"
+msgstr "Ta bort uppgift permanent"
+
+msgid "Mark Done"
+msgstr "Markera som slutförd"
+
+msgid "Mark this task as done"
+msgstr "Markera uppgift som slutförd"
+
+msgid "Dismiss"
+msgstr "Avfärda"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Markera att uppgiften inte ska göras längre"
+
+msgid "Create Task"
+msgstr "Skapa uppgift"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Skapa ny uppgift i Getting Things GNOME"
+
 msgid "Higher-order Actions"
 msgstr "Högre ordningens kommandon"
 
@@ -1499,6 +1594,22 @@ msgstr "Opera-bokmärken"
 msgid "Index of Opera bookmarks"
 msgstr "Index över Opera-bokmärken"
 
+#. -*- coding: UTF-8 -*-
+msgid "Opera Mail"
+msgstr "Opera Mail"
+
+msgid "Opera Mail contacts and actions"
+msgstr "Opera Mail-kontakter och kommandon"
+
+msgid "Compose a new message in Opera Mail"
+msgstr "Skriv nytt meddelande med Opera Mail"
+
+msgid "Opera Mail Contacts"
+msgstr "Opera Mail-kontakter"
+
+msgid "Contacts from Opera Mail"
+msgstr "Kontakter från Opera Mail"
+
 msgid "Pidgin"
 msgstr "Pidgin"
 
@@ -1622,17 +1733,41 @@ msgstr "Skype-kontakter"
 msgid "Skype Statuses"
 msgstr "Skype-status"
 
-msgid "Include in top level"
-msgstr "Inkludera i toppnivån"
+#. -*- coding: UTF-8 -*-
+msgid "SSH Hosts"
+msgstr "SSH-värdar"
+
+msgid "Adds the SSH hosts found in ~/.ssh/config."
+msgstr "Tillhandahåller SSH-värdar från ~/.ssh/config"
+
+msgid "Preferred terminal"
+msgstr "Förvald terminal"
+
+msgid "The preferred terminal emulator. It's used to launch the SSH sessions."
+msgstr "Förvald terminal för att starta SSH-sessioner"
+
+msgid "Execute flag"
+msgstr "Kör-flagga"
 
 msgid ""
-"If enabled, objects from the plugin's source(s) will be available in the top "
-"level.\n"
-"Sources are always available as subcatalogs in the top level."
+"The flag which makes the terminal execute everything following it inside the "
+"terminal (e.g. '-x' for gnome-terminal and terminal, '-e' for konsole and "
+"urxvt)."
 msgstr ""
-"När alternativet är aktiverat inkluderas objekt från insticksmodulens källor "
-"i toppnivån.\n"
-"Källor är alltid tillgängliga som underkataloger i toppnivån."
+"Flagga som gör att terminalen kör alla följande kommandoradsargument "
+"(exempelvis -x för gnome-terminal)"
+
+msgid "SSH host"
+msgstr "SSH-värd"
+
+msgid "Connect"
+msgstr "Anslut"
+
+msgid "Connect to SSH host"
+msgstr "Anslut till SSH-värd"
+
+msgid "SSH hosts as specified in ~/.ssh/config"
+msgstr "SSH-värdar konfigurerade i ~/.ssh/config"
 
 msgid "No D-Bus connection to desktop session"
 msgstr "Ingen D-Bus-anslutning till sessionen"
@@ -1692,8 +1827,14 @@ msgstr "Visa egenskaper"
 msgid "Show information about file in file manager"
 msgstr "Visa information om filen i filhanteraren"
 
+msgid "Send To..."
+msgstr "Skicka till..."
+
 msgid "Empty Trash"
 msgstr "Töm papperskorgen"
+
+msgid "Thunar Send To Objects"
+msgstr "Thunar Skicka till-objekt"
 
 msgid "Thunderbird"
 msgstr "Thunderbird"
@@ -1746,8 +1887,8 @@ msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Aktuella processer för nuvarande användare"
 
-msgid "Tracker"
-msgstr "Tracker"
+msgid "Tracker 0.6"
+msgstr "Tracker 0.6"
 
 msgid "Tracker desktop search integration"
 msgstr "Integration med sökprogrammet Tracker"
@@ -1793,6 +1934,12 @@ msgstr "Ta bort tagg..."
 msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
+msgid "Tracker 0.8"
+msgstr "Tracker 0.8"
+
+#. FIXME: Port tracker tag sources and actions
+#. to the new, much more powerful sparql + dbus API
+#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
 #. -*- coding: UTF-8 -*-
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
@@ -1842,6 +1989,15 @@ msgstr "Starta Vinagre-session"
 
 msgid "Vinagre Bookmarks"
 msgstr "Vinagre-bokmärken"
+
+msgid "Vim"
+msgstr "Vim"
+
+msgid "Recently used documents in Vim"
+msgstr "Senaste dokument i Vim"
+
+msgid "Vim Recent Documents"
+msgstr "Senast använda dokument i Vim"
 
 #. -*- coding: UTF-8 -*-
 msgid "VirtualBox"
