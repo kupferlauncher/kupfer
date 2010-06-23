@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the kupfer package. (GPLv3)
 #
 # Andrea Zagli <azagli@libero.it>, 2009.
+# Francesco Marella <francesco.marella@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
