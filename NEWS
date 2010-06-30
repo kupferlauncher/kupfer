@@ -2,10 +2,10 @@
 NEWS for kupfer
 ===============
 
-kupfer's next insanity
-----------------------
+kupfer v201
+-----------
 
-Not Released Yet
+Released Wednesday, 30 June 2010
 
 * New Logo and Icon by Nasser Alshammari!
 * New plugin *Opera Mail* by Chris Parsons
@@ -14,7 +14,7 @@ Not Released Yet
 * New plugin *Getting Things GNOME!* (Karol)
 * New plugin *Vim* (recent files)
 * *Clipboard:* Option *Copy selection to primary clipboard* (Karol)
-* *Firefox:* Option *Include visited sites* (Karol)
+* *Firefox:* Option *Include visited sites* (Karol) (:lp:`584618`)
 * *Thunar:* Action *Send To...* (Karol)
 * New preferences tab for Catalog configuration
 * Allow disabling and "unloading" plugins at runtime
@@ -24,6 +24,7 @@ Not Released Yet
   notifications (Karol)
 * Use ``setproctitle`` module if available to set process title to
   ``kupfer`` (new optional dependency)
+* Don't use a crypted keyring (partially addresses :lp:`593319`)
 * Fix :lp:`544908`: Retain window position across sessions
 * Fix :lp:`583747`: Use real theme colors for highlight
 * Fix :lp:`593312`: About window has no icon
