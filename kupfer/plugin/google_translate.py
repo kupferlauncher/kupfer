@@ -6,7 +6,7 @@ Translate TextLeaf by Google Translate.
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", "TranslateUrl", 'OpenTranslatePage')
 __description__ = _("Translate text with Google Translate")
-__version__ = "2009-10-31"
+__version__ = "2010-07-02"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import httplib
@@ -69,23 +69,19 @@ def _translate(text, lang):
 		response_data = resp.read()
 		encoding = _parse_encoding_header(resp)
 		response_data = response_data.decode(encoding, 'replace')
-		resp = json_decoder(response_data)
-		if resp:
-			sentences = resp.get('sentences')
-			if not sentences:
-				return
-			# Join up all sentences to one text
-			text = u"".join(filter(None, [S.get('trans') for S in sentences]))
-			if text:
-				yield text, ''
-			dictionary = resp.get('dict')
-			if dictionary:
-				for term in dictionary:
-					pos = term.get('pos')
-					word_class = word_classes.get(pos, pos) if pos else None
-					for t in term.get('terms'):
-						yield t, word_class
-
+		try:
+			resp = json_decoder(response_data)
+		except:  # google return invalid json result when no translation found
+			yield text, ''
+			return
+		else:
+			primary_trans, all_trans, dlang = resp
+			if primary_trans:
+				yield primary_trans[0][0], '%s (%s)' % (primary_trans[0][1], dlang)
+			for word_class_name, terms in all_trans:
+				word_class = word_classes.get(word_class_name, word_class_name)
+				for word in terms:
+					yield word, word_class
 	except socket.timeout:
 		yield  _("Google Translate connection timed out"), ""
 	except (httplib.HTTPException, ValueError), err:
