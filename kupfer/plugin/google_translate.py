@@ -26,9 +26,11 @@ except ImportError:
 	import json
 	json_decoder = json.loads
 
-_GOOGLE_TRANSLATE_HOST = 'translate.google.com'
-_GOOGLE_TRANSLATE_PATH = '/translate_a/t?client=t&sl=auto&ie=UTF-8'
+
+_GOOGLE_TRANSLATE_HOST = 'ajax.googleapis.com'
+_GOOGLE_TRANSLATE_PATH = '/ajax/services/language/translate?'
 _GOOGLE_TRANS_LANG_PATH = '/#'
+_GOOGLE_TRANS_LANG_HOST = 'translate.google.com'
 
 _HEADER = {
 		'Content-type':'application/x-www-form-urlencoded',
@@ -49,7 +51,8 @@ def _parse_encoding_header(response, default="UTF-8"):
 
 def _translate(text, lang):
 	''' Translate @text to @lang. '''
-	query_param = urllib.urlencode(dict(tl=lang, text=text.encode('utf-8')))
+	query_param = urllib.urlencode(dict(v="1.0",langpair="|"+lang,
+		                                q=text.encode('utf-8')))
 	word_classes = {
 		# TRANS: Dictionary lookup word classes
 		"noun": _("noun"),
@@ -69,19 +72,14 @@ def _translate(text, lang):
 		response_data = resp.read()
 		encoding = _parse_encoding_header(resp)
 		response_data = response_data.decode(encoding, 'replace')
+		pretty.print_debug(__name__, "Translate response:", repr(response_data))
 		try:
 			resp = json_decoder(response_data)
-		except:  # google return invalid json result when no translation found
+			yield resp['responseData']['translatedText'], ''
+		except:
+			pretty.print_exc(__name__)
 			yield text, ''
-			return
-		else:
-			primary_trans, all_trans, dlang = resp
-			if primary_trans:
-				yield primary_trans[0][0], '%s (%s)' % (primary_trans[0][1], dlang)
-			for word_class_name, terms in all_trans:
-				word_class = word_classes.get(word_class_name, word_class_name)
-				for word in terms:
-					yield word, word_class
+
 	except socket.timeout:
 		yield  _("Google Translate connection timed out"), ""
 	except (httplib.HTTPException, ValueError), err:
@@ -107,7 +105,7 @@ def _load_languages():
 	user_language = locale.getlocale(locale.LC_MESSAGES)[0]
 	pretty.print_debug(__name__, '_load_languages')
 	try:
-		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
+		conn = httplib.HTTPConnection(_GOOGLE_TRANS_LANG_HOST)
 		conn.connect()
 		conn.sock.settimeout(10) # set timeout to 10 sec
 		headers = {
