@@ -10,6 +10,11 @@ import time
 import pygtk
 pygtk.require('2.0')
 
+try:
+	import appindicator
+except ImportError:
+	appindicator = None
+
 import gtk
 import gio
 import gobject
@@ -1418,30 +1423,41 @@ class WindowController (pretty.OutputMixin):
 	def show_statusicon(self):
 		if not self._statusicon:
 			self._statusicon = self._setup_status_icon()
-		self._statusicon.set_visible(True)
+		try:
+			self._statusicon.set_visible(True)
+		except AttributeError:
+			pass
+
 	def hide_statusicon(self):
 		if self._statusicon:
-			self._statusicon.set_visible(False)
+			try:
+				self._statusicon.set_visible(False)
+			except AttributeError:
+				self._statusicon = None
 
 	def _settings_changed(self, setctl, section, key, value):
 		if section == "Kupfer" and key == "showstatusicon":
 			if value: self.show_statusicon()
 			else: self.hide_statusicon()
 
-	def _setup_status_icon(self):
-		status = gtk.status_icon_new_from_icon_name(version.ICON_NAME)
-		status.set_tooltip(version.PROGRAM_NAME)
+	def _setup_menu(self):
 		menu = gtk.Menu()
 
 		def menu_callback(menuitem, callback):
 			callback()
 			return True
 
-		def add_menu_item(icon, callback):
-			mitem = gtk.ImageMenuItem(icon)
+		def add_menu_item(icon, callback, label=None):
+			mitem = None
+			if label and not icon:
+				mitem = gtk.MenuItem(label=label)
+			else:
+				mitem = gtk.ImageMenuItem(icon)
 			mitem.connect("activate", menu_callback, callback)
 			menu.append(mitem)
 
+		add_menu_item(None, self.activate, _("Show Main Interface"))
+		menu.append(gtk.SeparatorMenuItem())
 		add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
 		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
 		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
@@ -1449,9 +1465,31 @@ class WindowController (pretty.OutputMixin):
 		add_menu_item(gtk.STOCK_QUIT, self.quit)
 		menu.show_all()
 
+		return menu
+
+	def _setup_status_icon(self):
+		menu = self._setup_menu()
+		if appindicator:
+			return self._setup_appindicator(menu)
+		else:
+			return self._setup_gtk_status_icon(menu)
+
+	def _setup_gtk_status_icon(self, menu):
+		status = gtk.status_icon_new_from_icon_name(version.ICON_NAME)
+		status.set_tooltip(version.PROGRAM_NAME)
+
 		status.connect("popup-menu", self._popup_menu, menu)
 		status.connect("activate", self.show_hide)
 		return status
+
+	def _setup_appindicator(self, menu):
+		indicator = appindicator.Indicator(version.PROGRAM_NAME,
+			version.ICON_NAME,
+			appindicator.CATEGORY_APPLICATION_STATUS)
+		indicator.set_status(appindicator.STATUS_ACTIVE)
+
+		indicator.set_menu(menu)
+		return indicator
 
 	def _setup_window(self):
 		"""

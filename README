@@ -58,6 +58,7 @@ Opportunistic dependencies
 * The deprecated 'gnome' module is used for session connection as
   fallback
 * If available, 'setproctitle' is used to set the process name
+* python-appindicator for ubuntu-style notification icon
 
 
 Some plugins might require additional python modules!

@@ -2,6 +2,15 @@
 NEWS for kupfer
 ===============
 
+kupfer's next release
+---------------------
+
+Not Released Yet
+
+* Use application indicators when available (Francesco Marella)
+  (:lp:`601861`)
+
+
 kupfer v201
 -----------
 
