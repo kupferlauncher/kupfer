@@ -140,7 +140,6 @@ def configure(conf):
 		gtk
 		xdg
 		dbus
-		keyring
 		"""
 	for module in python_modules.split():
 		conf.check_python_module(module)
@@ -155,6 +154,7 @@ def configure(conf):
 			"wnck": "Identify and focus running applications",
 			"gnome": ("Log out cleanly with session managers *OTHER* than "
 				"gnome-session >= 2.24"),
+			"keyring": "Required by plugins that save passwords",
 		}
 
 	for prog in opt_programs:
