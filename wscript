@@ -132,6 +132,15 @@ def configure(conf):
 	Utils.pprint("NORMAL",
 			"Installing python modules into: %(PYTHONDIR)s" % conf.env)
 
+	opt_build_programs = {
+			"rst2man": "Generate and install man page",
+		}
+	for prog in opt_build_programs:
+		prog_path = conf.find_program(prog, var=prog.replace("-", "_").upper())
+		if not prog_path:
+			Utils.pprint("YELLOW",
+			             "Optional, allows: %s" % opt_build_programs[prog])
+
 	if not Options.options.check_deps:
 		return
 
@@ -148,7 +157,6 @@ def configure(conf):
 
 	opt_programs = {
 			"dbus-send": "Focus kupfer from the command line",
-			"rst2man": "Generate and install man page",
 		}
 	opt_pymodules = {
 			"wnck": "Identify and focus running applications",
