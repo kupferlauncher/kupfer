@@ -1,7 +1,8 @@
 from __future__ import division
 __kupfer_name__ = _("Calculator")
 __kupfer_actions__ = ("Calculate", )
-__description__ = _("Calculate expressions starting with '='")
+__description__ = _("Calculate expressions starting with '=', or " \
+"containing mathematical operators")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -128,7 +129,12 @@ class Calculate (Action):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
 		text = leaf.object
-		return text and text.startswith("=")
+		return text and (text.startswith("=") or
+				"+" in text or
+				"-" in text or
+				"*" in text or
+				"/" in text or
+				"^" in text)
 
 	def get_description(self):
 		return None
