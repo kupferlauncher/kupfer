@@ -1,0 +1,699 @@
+# Italian translation for the kupfer help
+# Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the kupfer package. (GPLv3)
+# Francesco Marella <francesco.marella@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer beta\n"
+"POT-Creation-Date: 2010-07-11 16:18+0000\n"
+"PO-Revision-Date: 2010-07-19 12:29+0200\n"
+"Last-Translator: Francesco Marella <francesco.marella@gmail.com>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: C/tips.page:7(desc)
+msgid "Using <app>Kupfer</app> more conveniently."
+msgstr "Using <app>Kupfer</app> more conveniently."
+
+#: C/tips.page:10(title)
+msgid "Basic Usage"
+msgstr "Uso di base"
+
+#: C/tips.page:13(title)
+msgid "The Catalog"
+msgstr "Il catalogo"
+
+#: C/tips.page:14(p)
+msgid ""
+"The Catalog is the collection of objects you can access in Kupfer, such as "
+"documents and programs."
+msgstr ""
+"Il catalogo è la collezione di oggetti a cui puoi accedere in Kupfer, ad "
+"esempio documenti e programmi."
+
+#: C/tips.page:19(p)
+msgid ""
+"Objects in the catalog that have content, like folders, are marked with an "
+"arrow. Pressing <key>right-arrow</key> will enter these objects. Much of the "
+"catalog is composed of subcatalogs; plugin subcatalogs do in general list "
+"objects that are also available directly from the top level. Subcatalogs can "
+"be used for a narrower view or search scope, when using Kupfer."
+msgstr ""
+"Gli oggetti nel catalogo che hanno contenuto, come le cartelle, sono "
+"contrassegnati con una freccia. Premendo <key>→</key> si entra nell'oggetto. "
+"Gran parte del catalogo è composto da sotto cataloghi; il plugin sotto "
+"catalogo generalmente cataloga oggetti che sono anche disponibili "
+"direttamente dal livello superiore. I sotto cataloghi possono essere usati "
+"per una vista o ambito di ricerca ristretto, quando si utilizza Kupfer."
+
+#: C/tips.page:28(p)
+msgid ""
+"Most subcatalogs update their content automatically. For example, the "
+"Desktop folder catalog is always uptodate."
+msgstr ""
+"La maggior parte dei sotto cataloghi aggiornano il loro contenuto "
+"automaticamente. Per esempio, il catalogo per la cartella Scrivania è sempre "
+"aggiornato."
+
+#: C/tips.page:35(title)
+msgid "Keyboard Interface"
+msgstr "Interfaccia da tastiera"
+
+#: C/tips.page:37(p)
+msgid ""
+"<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
+"applications and documents."
+msgstr ""
+"<app>Kupfer</app> è grosso modo una interfaccia, gestita da tastiera, ad "
+"applicazioni e documenti."
+
+#: C/tips.page:41(p)
+msgid ""
+"Kupfer's default mode is the command mode: If you type a query, kupfer will "
+"search for a match in its catalog."
+msgstr ""
+"La modalità predefinita di Kupfer è quella a comando: se viene digitata "
+"l'interrogazione, Kupfer cercherà una corrispondenza nel suo catalogo."
+
+#: C/tips.page:46(p)
+msgid ""
+"The arrow keys allow you to browse query matches quite naturally, going to "
+"the previous or next match, and going up and down in the subcatalogs."
+msgstr ""
+"I tasti freccia permettono di scorrere tra i risultati dell'interrogazione "
+"naturalmente, andando alla corrispondenza precedente o a quella successiva, "
+"e andando su e giù nei sotto cataloghi."
+
+#: C/tips.page:52(p)
+msgid "In command mode, some keystrokes have special meanings:"
+msgstr ""
+"In modalità comando, la pressione di alcuni tasti ha un significato speciale:"
+
+#: C/tips.page:57(p)
+msgid "<key>↓</key> or <key>Space</key>"
+msgstr "<key>↓</key> o <key>Spazio</key>"
+
+#: C/tips.page:58(p)
+msgid "Go to the next match"
+msgstr "Vai alla prossima corrispondenza"
+
+#: C/tips.page:61(p)
+msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
+msgstr "<key>↑</key> o <keyseq><key>Maiusc</key><key>Spazio</key></keyseq>"
+
+#: C/tips.page:64(p)
+msgid "Go to the previous match"
+msgstr "Vai alla precedente corrispondenza"
+
+#: C/tips.page:67(p)
+msgid "<key>→</key> or <key>/</key>"
+msgstr "<key>→</key> o <key>/</key>"
+
+#: C/tips.page:68(p)
+msgid "Descend into an object with content"
+msgstr "Discendere in un oggetto con contenuto"
+
+#: C/tips.page:71(key)
+msgid "Backspace"
+msgstr "Backspace"
+
+#: C/tips.page:72(p)
+msgid "Erase a character from the query. If the query is empty, go up a level"
+msgstr ""
+"Cancellare il carattere dall'interrogazione. Se l'interrogazione è vuota, "
+"salire di un livello"
+
+#: C/tips.page:77(key)
+msgid "."
+msgstr "."
+
+#: C/tips.page:78(p)
+msgid "Activate free-text mode"
+msgstr "Attivare la modalità testo libero"
+
+#: C/tips.page:81(key)
+msgid ","
+msgstr ","
+
+#: C/tips.page:82(p)
+msgid "Put selected object on the stack (\"Comma Trick\")"
+msgstr "Mettere l'oggetto selezionato sulla pila (\"Comma Trick\")"
+
+#: C/tips.page:85(p)
+msgid ""
+"Additionally, the key <key>Return</key> activates the current selection: the "
+"command is executed. <key>Escape</key> clears the current selection."
+msgstr ""
+"Inoltre, il tasto <key>Invio</key> attiva la selezione corrente: il comando "
+"viene eseguito. <key>Esc</key> cancella la selezione corrente."
+
+#: C/tips.page:91(title)
+msgid "Global Keyboard Shortcuts"
+msgstr "Scorciatoie da tastiera globali"
+
+#: C/tips.page:92(p)
+msgid ""
+"Kupfer listens to global shortcuts, even if Kupfer is not currently in the "
+"foreground. The most important global shortcut is the shortcut to show and "
+"hide Kupfer's command window which by default is <keyseq><key>Ctrl</"
+"key><key>Space</key></keyseq>."
+msgstr ""
+"Kupfer resta in ascolto per le scorciatoie globali, anche se Kupfer non è "
+"attualmente in primo piano. La scorciatoia globale più importante è quella "
+"per mostrare e nascondere la finestra di comando di Kupfer che di default è "
+"<keyseq><key>Ctrl</key><key>Spazio</key></keyseq>."
+
+#: C/tips.page:98(p)
+msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
+msgstr ""
+"Collegamenti da tastiera globali vengono configurati nelle preferenze di "
+"Kupfer."
+
+#: C/tips.page:101(p)
+msgid ""
+"The Triggers plugin allows to configure actions to be activated by global "
+"shortcuts, but triggers can only be configured in that plugin."
+msgstr ""
+"Il plugin Trigger permette di configurare azioni da attivare con scorciatoie "
+"globali, ma i trigger possono essere solo configurati in questo plugin."
+
+#: C/tips.page:108(title)
+msgid "Additional Keyboard Shortcuts"
+msgstr "Scorciatoie da tastiera aggiuntive"
+
+#: C/tips.page:109(p)
+msgid ""
+"Additional keyboard shortcuts that work with Kupfer when it is in the "
+"foreground can be configured in Kupfer's preferences."
+msgstr ""
+"Scorciatoie da tastiera aggiuntive che funzionano con Kupfer quando esso è "
+"in primo piano possono essere configurati nelle preferenze di Kupfer."
+
+#: C/tips.page:119(title)
+msgid "Configuration files and paths"
+msgstr "File di configurazione e percorsi"
+
+#: C/tips.page:120(p)
+msgid ""
+"Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/</"
+"file>"
+msgstr ""
+"Installare plugin personalizzati nella cartella <file>~/.local/share/kupfer/"
+"plugins/</file>"
+
+#: C/tips.page:124(p)
+msgid ""
+"Kupfer cache, config and data are located in the directories <file>~/.cache/"
+"kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/share/"
+"kupfer</file>."
+msgstr ""
+"La cache di Kupfer, configurazione e dati sono presenti nelle cartelle "
+"<file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> e <file>~/.local/"
+"share/kupfer</file>."
+
+#: C/plugins.page:7(desc)
+msgid "Using <app>Kupfer</app> plugins."
+msgstr "Utilizzo dei plugin di <app>Kupfer</app>."
+
+#: C/plugins.page:10(title)
+msgid "Plugins"
+msgstr "Plugin"
+
+#: C/plugins.page:12(p)
+msgid ""
+"You can install custom plugins into ~/.local/share/kupfer/plugins; adding to "
+"<app>Kupfer</app>'s object knowledge can be surprisingly easy, just look at "
+"the default plugins if you want to create new."
+msgstr ""
+"Si possono installare plugin personalizzati in ~/.local/share/kupfer/"
+"plugins; aggiungere conoscenza agli oggetti di <app>Kupfer</app> può essere "
+"sorprendentemente facile, basta dare un'occhiata ai plugin di default se si "
+"vuole crearne di nuovi."
+
+#: C/plugins.page:19(title)
+msgid "Search the Web Search Engines"
+msgstr "Motore di ricerca per il Web"
+
+#: C/plugins.page:20(p)
+msgid ""
+"The Search the Web plugin uses <app>Firefox'</app> search engines, so you "
+"can add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> "
+"will find them later."
+msgstr ""
+"Il plugin per la ricerca sul Web utilizza i motori di ricerca di "
+"<app>Firefox</app>, quindi si possono aggiungere motori di ricerca "
+"direttamente in <app>Firefox</app> e <app>Kupfer</app> li troverà in seguito."
+
+#: C/plugins.page:25(p)
+msgid ""
+"You can also install custom search plugins directly, only for <app>Kupfer</"
+"app>, in the folder:"
+msgstr ""
+"Si possono installare direttamente plugin per la ricerca personalizzata, "
+"solo per <app>Kupfer</app>, nella cartella:"
+
+#: C/plugins.page:29(code)
+#, no-wrap
+msgid "~/.local/share/kupfer/searchplugins/"
+msgstr "~/.local/share/kupfer/searchplugins/"
+
+#: C/plugins.page:34(title)
+msgid "Open Terminal Here"
+msgstr "Apri terminale qui"
+
+#: C/plugins.page:35(p)
+msgid ""
+"Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-terminal</"
+"cmd>. xdg-terminal is a script to find the user's configured terminal "
+"program for his/her Desktop Environment. Install <cmd>xdg-terminal</cmd> if "
+"you need this (or install a symlink <em>called</em> xdg-terminal)."
+msgstr ""
+"Apri terminale interroga prima <cmd>xdg-terminal</cmd>, quindi <cmd>gnome-"
+"terminal</cmd>. xdg-terminal è uno script per individuare il terminale "
+"configurato dall'utente per il suo ambiente desktop. Installare <cmd>xdg-"
+"terminal</cmd> se necessario (oppure installare un collegamento <em>con "
+"nome</em> xdg-terminal)."
+
+#: C/plugins.page:44(title)
+msgid "Grab current selection"
+msgstr "Cattura la selezione corrente"
+
+#: C/plugins.page:45(p)
+msgid ""
+"To use <app>Kupfer</app> like a pro, you can configure a \"Magic Keybinding"
+"\" for <app>Kupfer</app>. GUI configuration is not yet supported, but edit "
+"the configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include "
+"the following:"
+msgstr ""
+"Per utilizzare <app>Kupfer</app> in modo professionale, si può configurare "
+"una \"associazione di tasti magica\" per <app>Kupfer</app>. Una "
+"configurazione grafica non è ancora supportata, ma è possibile modificare il "
+"file di configurazione <file>~/.config/kupfer/kupfer.cfg</file> e includere "
+"il seguente:"
+
+#: C/plugins.page:51(code)
+#, no-wrap
+msgid ""
+"\n"
+"[Kupfer]\n"
+"keybinding = &lt;Control&gt;space\n"
+"magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
+"  "
+msgstr ""
+"\n"
+"[Kupfer]\n"
+"keybinding = &lt;Control&gt;space\n"
+"magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
+"  "
+
+#: C/plugins.page:57(p)
+msgid ""
+"Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq> "
+"will summon <app>Kupfer</app> with the current selection in focus. Make sure "
+"you have installed <app>Kupfer</app>'s nautilus plugin, then both the "
+"currently selected file in Nautilus, or the currently selected text in the "
+"front application will be selected."
+msgstr ""
+"Ora, premendo <keyseq><key>Ctrl</key><key>Alt</key><key>Spazio</key></"
+"keyseq> verrà richiamato <app>Kupfer</app> con la selezione corrente in "
+"primo piano. Assicurarsi di avere installato il plugin per Nautilus di "
+"<app>Kupfer</app>, quindi sia il file attualmente selezionato in Nautilus, "
+"che il testo attualmente selezionato nell'applicazione in primo piano sarà "
+"selezionato."
+
+#: C/plugins.page:64(p)
+msgid ""
+"Now you can select a word in, say, a web browser, use <keyseq><key>Ctrl</"
+"key><key>Alt</key><key>Space</key></keyseq>, and select action <gui>Look Up</"
+"gui> to look up the selected word. Or select an image file, use "
+"<keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select "
+"action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to "
+"1000 pixels wide!"
+msgstr ""
+"Ora per selezionare una parola in, ad esempio, un browser web, usare "
+"<keyseq><key>Ctrl</key><key>Alt</key><key>Spazio</key></keyseq>, e "
+"selezionare l'azione <gui>Cerca</gui> per cercare la parola selezionata. "
+"Altrimenti selezionare un file immagine, usare <keyseq><key>Ctrl</"
+"key><key>Alt</key><key>Spazio</key></keyseq>, selezionare l'azione "
+"<gui>Scala</gui> con l'oggetto <gui>1000</gui> per scalare l'immagine a 1000 "
+"pixel di larghezza!"
+
+#: C/plugins.page:74(title)
+msgid "Adding your actions and scripts"
+msgstr "Aggiungere azioni e script personali"
+
+#: C/plugins.page:75(p)
+msgid ""
+"If you want to add a custom application, or an application called with "
+"special options, you can create a new launcher for it and place it in one of "
+"the standard places for applications, for example <file>~/.local/share/"
+"applications</file>, where <app>Kupfer</app> will find it."
+msgstr ""
+"Se si vuole aggiungere una applicazione personalizzata, o una applicazione "
+"chiamata con opzioni speciali, si può creare un nuovo lanciatore e "
+"posizionarlo in una delle posizioni predefinite per le applicazioni, per "
+"esempio <file>~/.local/share/applications</file>, dove <app>Kupfer</app> "
+"potrà trovarlo."
+
+#: C/plugins.page:81(p)
+msgid ""
+"If you have a collection of scripts that you want to call from <app>Kupfer</"
+"app>, you can add the scripts folder as a catalog directory to <app>Kupfer</"
+"app> in the preferences. Scripts that you add to <app>Kupfer</app>'s catalog "
+"this way can be run directly or in the terminal as long as they are "
+"executable."
+msgstr ""
+"Se si ha una collezione di script che si vuole chiamare da <app>Kupfer</"
+"app>, si può aggiungere la cartella degli script come un catalogo cartella a "
+"<app>Kupfer</app> nelle preferenze. Gli script che vengono aggiunti nel "
+"catalogo di <app>Kupfer</app> in questo modo possono essere eseguiti "
+"direttamente o nel terminale a condizione che siano eseguibili."
+
+#: C/plugins.page:87(p)
+msgid ""
+"An example useful script is <link href=\"http://kaizer.se/wiki/code/rhrating."
+"py/\"> here</link> which changes the rating of <app>Rhythmbox</app>'s "
+"currently playing song; I have added five scriptlets calling <file>rhrating."
+"py</file> with numbers from 0 to 5 to my catalog to quickly rate tracks. "
+"(This is something that might be integrated into <app>Kupfer</app> later)"
+msgstr ""
+"Uno script di esempio utile è <link href=\"http://kaizer.se/wiki/code/"
+"rhrating.py/\"> qui</link> il quale cambia il giudizio di un brano "
+"attualmente in ascolto in <app>Rhythmbox</app>; ho aggiunto cinque scriptlet "
+"che chiamano <file>rhrating.py</file> con numeri da 0 a 5 per giudicare "
+"velocemente le tracce nel catalogo. (Questo potrebbe essere integrato in "
+"<app>Kupfer</app> successivamente)"
+
+#: C/plugins.page:97(title)
+msgid "Calculator Plugin"
+msgstr "Plugin calcolatrice"
+
+#: C/plugins.page:98(p)
+msgid ""
+"The calculator plugin lets you calculate expressions quickly. It can "
+"evaluate expressions entered as text starting with \"=\". Entering = from "
+"command mode will start text mode directly with = prefixed for quick access."
+msgstr ""
+"Il plugin calcolatrice permette di calcolare espressioni velocemente. Può "
+"valutare espressioni inserite come testo che iniziano con \"=\". Digitando = "
+"in modalità comando si entra direttamente in modalità testo con il prefisso "
+"= per l'accesso veloce."
+
+#: C/plugins.page:103(p)
+msgid ""
+"The Calculator uses python's math and complex math modules, and parses "
+"expressions as Python expressions. You may use common mathematical "
+"functions, such as sqrt, sin, exp and log; the command <cmd>=help</cmd> will "
+"show a list of all defined functions and constants."
+msgstr ""
+"La calcolatrice utilizza i moduli di matematica e matematica complessa di "
+"Python, e analizza le espressioni come espressioni di Python. Si possono "
+"utilizzare funzioni matematiche comuni, come sqrt, sin, exp e log; il "
+"comando <cmd>=help</cmd> mostra una lista di tutte le funzioni e costanti "
+"definite."
+
+#: C/plugins.page:111(p)
+msgid ""
+"Notice that the power operator in Python is double stars, for example =3**3 "
+"will evaluate to 27."
+msgstr ""
+"Notare che l'operatore potenza in Python è la doppia stella, per esempio "
+"=3**3 sarà valutato come 27."
+
+#: C/plugins.page:117(p)
+msgid "To calculate trig functions for angles, convert to radians first:"
+msgstr ""
+"Per calcolare le funzioni trigonometriche per gli angoli, prima convertire "
+"in radianti:"
+
+#: C/plugins.page:120(code)
+#, no-wrap
+msgid "sin(radians(30)) -&gt; 0.5"
+msgstr "sin(radians(30)) -&gt; 0.5"
+
+#: C/plugins.page:123(p)
+msgid ""
+"The last result is stored as the name _ (an underscore, just like in the "
+"Python console)."
+msgstr ""
+"L'ultimo risultato è memorizzato con il nome _ (un trattino basso, così come "
+"avviene in una console di Python)."
+
+#: C/plugins.page:133(title)
+msgid "Command line connection"
+msgstr "Connessione alla linea di comando"
+
+#: C/plugins.page:134(p)
+msgid ""
+"<app>Kupfer</app> is its own remote control. When <app>Kupfer</app> is "
+"already running, <app>Kupfer</app> on the command-line will focus its "
+"window, but there is more you can do: If you invoke <cmd><app>kupfer</"
+"app><var>QUERY</var></cmd> where <var>QUERY</var> is a text string or a "
+"filename, <app>Kupfer</app> will focus, and select this item. This way, you "
+"can quickly invoke <app>Kupfer</app> actions even on objects from a shell-"
+"based context."
+msgstr ""
+"<app>Kupfer</app> controlla a distanza se stesso. Quando <app>Kupfer</app> è "
+"già in esecuzione, <app>Kupfer</app> da riga di comando porta in primo piano "
+"la sua finestra, ma è possibile ottenere di più: Se viene invocato "
+"<cmd><app>kupfer</app><var>QUERY</var></cmd> dove <var>QUERY</var> è una "
+"stringa di testo o il nome di un file, <app>Kupfer</app> porterà in primo "
+"piano e selezionerà questo elemento. In questo modo, si possono invocare "
+"velocemente le azioni di <app>Kupfer</app> persino su oggetti provenienti da "
+"un contesto basato su shell."
+
+#: C/plugins.page:142(p)
+msgid ""
+"For example, if you are using the shell in a directory where you have a file "
+"called \"report.pdf\", you can focus this file in <app>Kupfer</app> by "
+"running <cmd>kupfer report.pdf</cmd>."
+msgstr ""
+"Per esempio, se si utilizza la shell in una cartella in cui è presente un "
+"file chiamato \"report.pdf\", si può evidenziare questo file in <app>Kupfer</"
+"app> eseguendo <cmd>kupfer report.pdf</cmd>."
+
+#: C/plugins.page:147(p)
+msgid ""
+"You can also pipe the output of a command into <app>Kupfer</app> to send "
+"text to the already running instance of <app>Kupfer</app>."
+msgstr ""
+"Si può anche incanalare l'output di un comando in <app>Kupfer</app> per "
+"inviare il testo all'istanza in esecuzione di <app>Kupfer</app>."
+
+#: C/plugins.page:154(title)
+msgid "Managing Context and Current Selection"
+msgstr "Gestione del contesto e della selezione corrente"
+
+#: C/plugins.page:155(p)
+msgid ""
+"If you find the object you want to use, then invoke an action, <app>Kupfer</"
+"app> goes away to perform the action (for example start a program or play a "
+"song). When you come back to <app>Kupfer</app>, it will still keep the same "
+"object and action selected. Some actions make sense to be repeated (like "
+"skipping to the next song) and it can be useful to perform different actions "
+"on the same object."
+msgstr ""
+"Se è stato individuato l'oggetto da utilizzare, quindi si richiama "
+"un'azione, <app>Kupfer</app> scompare per eseguire l'azione (per esempio "
+"avviare un programma o riprodurre un brano). Quando si ritorna a "
+"<app>Kupfer</app>, verrà mantenuto lo stesso oggetto e l'azione selezionata. "
+"Alcune azioni hanno senso di essere ripetute (come saltare ad un brano "
+"successivo) e può essere utile eseguire azioni differenti sullo stesso "
+"oggetto."
+
+#: C/plugins.page:163(p)
+msgid ""
+"However, you always have the top level catalog reachable when you \"come back"
+"\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to "
+"browse your albums only; you select and album to play, and play it. You come "
+"back with the album selected -- but your next search will still go over the "
+"top level catalog, not just albums."
+msgstr ""
+"Tuttavia, è sempre disponibile il livello superiore del catalogo, "
+"raggiungibile quando \"si ritorna\" a <app>Kupfer</app> -- per esempio si "
+"entra nel sotto catalogo \"Album\" per scorrere solo l'album selezionato; "
+"una volta selezionato l'album, esso viene riprodotto. Si ritorna all'album "
+"selezionato -- ma la ricerca successiva andrà ancora al livello superiore "
+"del catalogo, non tra gli album."
+
+#: C/plugins.page:170(p)
+msgid ""
+"How to come back into the subcatalog you were in? You do that by simply "
+"browsing, not searching the first thing you do when you focus <app>Kupfer</"
+"app> again. A quick way is to press down-arrow or space to open the browse "
+"window; think of it as saying \"I want to stay in this subfolder\". With the "
+"browse window open, your next query will search the current subcatalog."
+msgstr ""
+"Come tornare nel sotto catalogo in cui si era in precedenza? Si può fare "
+"semplicemente sfogliando e non cercando nuovamente l'elemento in "
+"<app>Kupfer</app>. Un modo veloce è quello di premere la freccia verso il "
+"basso o spazio per aprire la finestra di navigazione; è come dire \"Voglio "
+"restare in questa sotto cartella\". Con la finestra di navigazione aperta, "
+"la prossima interrogazione cercherà nel sotto catalogo corrente."
+
+#: C/plugins.page:177(p)
+msgid ""
+"This way you can work both ways -- you can quickly drill down into folders "
+"to find a file, and when you come back for the next action with <app>Kupfer</"
+"app> you can either summon any normal toplevel object (just start typing), "
+"or stay around where you were, deep in that folder (press space, then type a "
+"query)."
+msgstr ""
+"In questo modo si può lavorare in entrambi i modi -- si può rapidamente "
+"scendere nelle cartelle per trovare un file e quando si torna indietro per "
+"la prossima azione con <app>Kupfer</app> si può sia richiamare un oggetto "
+"qualsiasi dal livello superiore (iniziando a digitare), oppure rimanendo "
+"dove si era, scendendo in quella cartella (premere spazio, quindi digitare "
+"una interrogazione)."
+
+#: C/license.page:7(desc)
+msgid "Legal Information."
+msgstr "Informazioni legali."
+
+#: C/license.page:10(title)
+msgid "License"
+msgstr "Licenza"
+
+#: C/license.page:12(p)
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the <em>GNU General Public License</em> as published by "
+"the Free Software Foundation, either version 3 of the License, or (at your "
+"option) any later version."
+msgstr ""
+"Questo programma è software libero: è possibile ridistribuirlo o modificarlo "
+"secondo i termini della licenza <em>GNU General Public License</em> così "
+"come pubblicata dalla Free Software Foundation, nella versione 3 della "
+"Licenza, o (a vostra discrezione) successive."
+
+#: C/license.page:18(p)
+msgid ""
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the <em>GNU General Public License</"
+"em> for more details."
+msgstr ""
+"Questo programma è distribuito con la speranza si dimostri utile, ma SENZA "
+"ALCUNA GARANZIA; si esclude anche l'implicita garanzia di COMMERCIABILITA' o "
+"IDONEITA' A UN PARTICOLARE SCOPO. Si consulti la licenza <em>GNU General "
+"Public License</em> per ulteriori dettagli."
+
+#: C/license.page:24(p)
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program. If not, see <link href=\"http://www.gnu.org/licenses/\">gnu."
+"org/licenses</link>."
+msgstr ""
+"Si dovrebbe ricevere una copia della licenza GNU General Public License con "
+"questo programma. In caso contrario, consultare <link href=\"http://www.gnu."
+"org/licenses/\">gnu.org/licenses</link>.\n"
+"La traduzione in Italiano di questa licenza non è ufficiale e da considerare "
+"solo a fini informativi."
+
+#: C/license.page:30(p)
+msgid ""
+"This documentation is licensed under a <link href=\"http://creativecommons."
+"org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 "
+"Unported License</link>."
+msgstr ""
+"Questa documentazione è sotto una licenza <link href=\"http://"
+"creativecommons.org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share "
+"Alike 3.0 Unported License</link>."
+
+#: C/license.page:36(p)
+msgid ""
+"As a special exception, the copyright holders give you permission to copy, "
+"modify, and distribute the example code contained in this document under the "
+"terms of your choosing, without restriction."
+msgstr ""
+"Come eccezione, i detentori del copyright concedono il permesso di copiare, "
+"modificare e distribuire il codice di esempio contenuto in questo documento "
+"nei termini di tua scelta, senza restrizioni."
+
+#: C/introduction.page:7(desc)
+msgid "Introduction to <app>Kupfer</app>."
+msgstr "Introduzione a <app>Kupfer</app>."
+
+#: C/introduction.page:10(title)
+msgid "Introduction"
+msgstr "Introduzione"
+
+#: C/introduction.page:12(p)
+msgid ""
+"<app>Kupfer</app> is a program to change, speed up and make everything about "
+"files and programs more fun on your computer. <app>Kupfer</app> is a "
+"launcher; you typically use it to summon an application or a document "
+"quickly by typing parts of its name. It can also do more than getting at "
+"something quickly: there are different plugins for accessing more objects "
+"and running custom commands."
+msgstr ""
+"<app>Kupfer</app> è un programma per modificare, velocizzare e operare su "
+"file e programmi in modo più divertente sul tuo computer. <app>Kupfer</app> "
+"è un lanciatore; tipicamente viene utilizzato per richiamare un'applicazione "
+"o un documento velocemente digitando parti del suo nome. Può fare anche di "
+"più che ottenere qualcosa rapidamente: sono disponibili diversi plugin per "
+"accedere a più oggetti ed eseguire comandi personalizzati."
+
+#: C/introduction.page:22(p)
+msgid ""
+"<app>Kupfer</app> is written using Python and has a flexible architecture; "
+"the implementation is simple and makes the easy things work first. One goal "
+"is that new plugins can be written quickly without too much programming."
+msgstr ""
+"<app>Kupfer</app> è scritto in Python e ha una architettura flessibile; "
+"l'implementazione è semplice e fa funzionare prima le cose facili. "
+"L'obbiettivo principale è rendere la scrittura dei nuovi plugin veloce senza "
+"troppe conoscenze di programmazione."
+
+#: C/introduction.page:28(p)
+msgid ""
+"The program is very inspired by <link href=\"http://www.blacktree.com/"
+"\">Quicksilver</link>."
+msgstr ""
+"Il programma si ispira molto a <link href=\"http://www.blacktree.com/"
+"\">Quicksilver</link>."
+
+#: C/introduction.page:33(p)
+msgid ""
+"For more information about <app>Kupfer</app>, visit its <link href=\"http://"
+"kaizer.se/wiki/kupfer/\">homepage</link>."
+msgstr ""
+"Per maggiori informazioni su <app>Kupfer</app>, visita la sua <link href="
+"\"http://kaizer.se/wiki/kupfer/\">pagina web</link>."
+
+#: C/index.page:9(name)
+msgid "Ulrik Sverdrup"
+msgstr "Ulrik Sverdrup"
+
+#: C/index.page:10(email)
+msgid "ulrik.sverdrup@gmail.com"
+msgstr "ulrik.sverdrup@gmail.com"
+
+#: C/index.page:13(year)
+msgid "2009"
+msgstr "2009"
+
+#: C/index.page:14(name)
+msgid "Kupfer Development Team"
+msgstr "Team di sviluppo di Kupfer"
+
+#: C/index.page:17(license)
+msgid "Creative Commons Share Alike 3.0"
+msgstr "Creative Commons Share Alike 3.0"
+
+#: C/index.page:21(title)
+msgid "Kupfer manual"
+msgstr "Manuale di Kupfer"
+
+#: C/index.page:24(title)
+msgid "Using Kupfer"
+msgstr "Utilizzo di Kupfer"
+
+#. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
+#: C/index.page:0(None)
+msgid "translator-credits"
+msgstr "Francesco Marella <francesco.marella@gmail.com>, 2010"
