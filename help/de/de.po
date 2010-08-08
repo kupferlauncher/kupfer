@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer docs\n"
-"POT-Creation-Date: 2010-03-31 02:25+0000\n"
-"PO-Revision-Date: 2010-05-20 22:41+0100\n"
+"POT-Creation-Date: 2010-05-20 20:45+0000\n"
+"PO-Revision-Date: 2010-08-08 11:49+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,6 @@ msgstr ""
 "X-Poedit-Country: GERMANY\n"
 
 #: C/tips.page:7(desc)
-#| msgid "Using <app>Kupfer</app> more convenient."
 msgid "Using <app>Kupfer</app> more conveniently."
 msgstr "<app>Kupfer</app> bequemer benutzen."
 
@@ -56,8 +55,8 @@ msgid ""
 "folder catalog is always uptodate."
 msgstr ""
 "Die meisten Unterkataloge aktualisieren ihre Inhalte automatisch. "
-"Beispielsweise ist der Katalog für den »Desktop«-Ordner immer auf dem neuesten "
-"Stand."
+"Beispielsweise ist der Katalog für den »Desktop«-Ordner immer auf dem "
+"neuesten Stand."
 
 #: C/tips.page:35(title)
 msgid "Keyboard Interface"
@@ -89,7 +88,6 @@ msgstr ""
 "Unterkatalogen suchen."
 
 #: C/tips.page:52(p)
-#| msgid "In command mode, some keybindings are:"
 msgid "In command mode, some keystrokes have special meanings:"
 msgstr "Im Befehlsmodus haben einige Tastenkürzel besondere Bedeutungen:"
 
@@ -98,7 +96,6 @@ msgid "<key>↓</key> or <key>Space</key>"
 msgstr "<key>↓</key> oder <key>Leertaste</key>"
 
 #: C/tips.page:58(p)
-#| msgid "<key>space</key> to go to the next match"
 msgid "Go to the next match"
 msgstr "Zum nächsten Treffer gehen"
 
@@ -117,7 +114,6 @@ msgid "<key>→</key> or <key>/</key>"
 msgstr "<key>→</key> oder <key>/</key>"
 
 #: C/tips.page:68(p)
-#| msgid "<key>/</key> to descend into an object with content"
 msgid "Descend into an object with content"
 msgstr "Eintauchen in ein Objekt mit Inhalten"
 
@@ -136,7 +132,6 @@ msgid "."
 msgstr "."
 
 #: C/tips.page:78(p)
-#| msgid "<key>.</key> to activate free-text mode"
 msgid "Activate free-text mode"
 msgstr "Aktivierung des freien Textmodus"
 
@@ -146,7 +141,7 @@ msgstr ","
 
 #: C/tips.page:82(p)
 msgid "Put selected object on the stack (\"Comma Trick\")"
-msgstr ""
+msgstr "Ausgewähltes Objekt zum Stapel hinzufügen (»Komma-Trick«)"
 
 #: C/tips.page:85(p)
 msgid ""
@@ -167,6 +162,10 @@ msgid ""
 "hide Kupfer's command window which by default is <keyseq><key>Ctrl</"
 "key><key>Space</key></keyseq>."
 msgstr ""
+"<app>Kupfer</app> achtet auf globale Tastenkürzel, selbst wenn es gerade "
+"nicht im Vordergrund ist. Das wichtigste globale Tastenkürzel ist "
+"<keyseq><key>Strg</key><key>Leertaste</key></keyseq>, welches zum Anzeigen "
+"oder Verbergen des Befehlsfensters von <app>Kupfer</app> dient."
 
 #: C/tips.page:98(p)
 msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
@@ -179,6 +178,9 @@ msgid ""
 "The Triggers plugin allows to configure actions to be activated by global "
 "shortcuts, but triggers can only be configured in that plugin."
 msgstr ""
+"Das Auslöser-Plugin ermöglicht die Konfiguration von Aktionen, die durch "
+"globale Tastenkürzel aktiviert werden. Auslöser können nur in diesem Plugin "
+"konfiguriert werden."
 
 #: C/tips.page:108(title)
 msgid "Additional Keyboard Shortcuts"
@@ -189,13 +191,15 @@ msgid ""
 "Additional keyboard shortcuts that work with Kupfer when it is in the "
 "foreground can be configured in Kupfer's preferences."
 msgstr ""
+"Zusätzliche Tastenkürzel, die angewendet werden können, wenn <app>Kupfer</"
+"app> im Vordergrund ist, können in den Einstellungen von <app>Kupfer</app> "
+"festgelegt werden."
 
 #: C/tips.page:119(title)
 msgid "Configuration files and paths"
 msgstr "Konfigurationsdateien und Pfade"
 
 #: C/tips.page:120(p)
-#| msgid "Install custom plugins in <file>~/.local/share/kupfer/plugins/</file>"
 msgid ""
 "Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/</"
 "file>"
@@ -204,9 +208,6 @@ msgstr ""
 "plugins/</file>"
 
 #: C/tips.page:124(p)
-#| msgid ""
-#| "Kupfer cache, config and data are in <file>~/.cache/kupfer</file>, "
-#| "<file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</file>."
 msgid ""
 "Kupfer cache, config and data are located in the directories <file>~/.cache/"
 "kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</"
@@ -245,6 +246,9 @@ msgid ""
 "add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> will "
 "find them later."
 msgstr ""
+"Das Websuche-Plugin nutzt die Suchfunktionen von <app>Firefox</app>. Sie "
+"können Suchfunktionen direkt in <app>Firefox</app> hinzufügen, so dass sie "
+"<app>Kupfer</app> später ebenfalls finden und nutzen kann."
 
 #: C/plugins.page:25(p)
 msgid ""
@@ -279,7 +283,7 @@ msgstr ""
 
 #: C/plugins.page:44(title)
 msgid "Grab current selection"
-msgstr ""
+msgstr "Aktuelle Auswahl markieren"
 
 #: C/plugins.page:45(p)
 msgid ""
@@ -288,6 +292,10 @@ msgid ""
 "configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include the "
 "following:"
 msgstr ""
+"Um mit <app>Kupfer</app> wie ein wahrer Profi zu arbeiten, können Sie ein "
+"»Magisches Tastenkürzel« für <app>Kupfer</app> festlegen. Eine grafische "
+"Konfiguration ist noch nicht möglich, aber Sie können zur Konfigurationsdatei "
+"<file>~/.config/kupfer/kupfer.cfg</file> Folgendes hinzufügen:"
 
 #: C/plugins.page:51(code)
 #, no-wrap
@@ -312,6 +320,12 @@ msgid ""
 "currently selected file in Nautilus, or the currently selected text in the "
 "front application will be selected."
 msgstr ""
+"Durch Drücken von <keyseq><key>Strg</key><key>Alt</key><key>Leertaste</key></"
+"keyseq> wird <app>Kupfer</app> nun mit der aktuell markierten Auswahl "
+"aufgerufen. Stellen sie sicher, dass Sie das <app>Nautilus</app>-Plugin von "
+"<app>Kupfer</app> installiert haben. Dann werden sowohl die aktuell in "
+"<app>Nautilus</app> markierte Datei als auch der aktuell markierte Text in "
+"der Vordergrundanwendung ausgewählt."
 
 #: C/plugins.page:64(p)
 msgid ""
@@ -322,6 +336,13 @@ msgid ""
 "<gui>Scale</gui> with object <gui>1000</gui> to scale the image to 1000 "
 "pixels wide!"
 msgstr ""
+"Nun können Sie ein Wort in beispielsweise einen Webbrowser markieren und "
+"<keyseq><key>Strg</key><key>Alt</key><key>Leertaste</key></keyseq> drücken. "
+"Wählen Sie dann die Aktion <gui>Nachschlagen</gui>, um das markierte Wort "
+"nachzuschlagen. Oder wählen Sie eine Bilddatei und drücken Sie "
+"<keyseq><key>Strl</key><key>Alt</key><key>Leertaste</key></keyseq>. Wählen "
+"Sie dann die Aktion <gui>Skalieren</gui> mit Objekt <gui>1000</gui>, um das "
+"Bild auf 1000 Pixel Breite zu skalieren."
 
 #: C/plugins.page:74(title)
 msgid "Adding your actions and scripts"
@@ -334,6 +355,11 @@ msgid ""
 "the standard places for applications, for example <file>~/.local/share/"
 "applications</file>, where <app>Kupfer</app> will find it."
 msgstr ""
+"Wenn Sie eine benutzerdefinierte Anwendung hinzufügen wollen oder eine "
+"Anwendung, die mit speziellen Parametern aufgerufen werden soll, dann können "
+"Sie einen neuen Anwendungsstarter dafür erstellen und die Datei an einem der "
+"Standardorte für Anwendungen ablegen, beispielsweise <file>~/.local/share/"
+"applications</file>, wo <app>Kupfer</app> ihn finden kann."
 
 #: C/plugins.page:81(p)
 msgid ""
@@ -388,6 +414,11 @@ msgid ""
 "such as sqrt, sin, exp and log; the command <cmd>=help</cmd> will show a list "
 "of all defined functions and constants."
 msgstr ""
+"Der Taschenrechner verwendet die Mathematik- und komplexen Mathematikmodule "
+"aus Python. Ausdrücke werden als Python-Ausdrücke interpretiert. Sie können "
+"übliche mathematische Funktionen verwenden, wie beispielsweise sqrt, sin, exp "
+"und log. Der Befehl <cmd>=help</cmd> zeigt eine Liste aller definierten "
+"Funktionen und Konstanten."
 
 #: C/plugins.page:111(p)
 msgid ""
@@ -429,6 +460,14 @@ msgid ""
 "<app>Kupfer</app> will focus, and select this item. This way, you can quickly "
 "invoke <app>Kupfer</app> actions even on objects from a shell-based context."
 msgstr ""
+"<app>Kupfer</app> ist seine eigene Fernbedienung! Wenn <app>Kupfer</app> "
+"bereits läuft, dann wird die Eingabe von <app>Kupfer</app> in der "
+"Befehlszeile sein eigenes Fenster in den Vordergrund bringen. Doch es ist "
+"noch mehr möglich: Der Aufruf von <cmd><app>kupfer</app><var>ABFRAGE</var></"
+"cmd>, wobei <var>ABFRAGE</var> eine Text-Zeichenkette oder ein Dateiname ist, "
+"fokussiert <app>Kupfer</app> es und markiert dieses Objekt. Auf diese Weise "
+"können Sie <app>Kupfer</app>-Aktionen schnell und unkompliziert aufrufen, "
+"selbst für Objekte im Shell-basierten Kontext."
 
 #: C/plugins.page:142(p)
 msgid ""
@@ -436,16 +475,21 @@ msgid ""
 "called \"report.pdf\", you can focus this file in <app>Kupfer</app> by "
 "running <cmd>kupfer report.pdf</cmd>."
 msgstr ""
+"Wenn Sie beispielsweise die Shell in einem Ordner verwenden, in dem sich eine "
+"Datei namens »report.pdf« befindet, können Sie diese Datei mittels "
+"<app>Kupfer</app> markieren, indem Sie <cmd>kupfer report.pdf</cmd> aufrufen."
 
 #: C/plugins.page:147(p)
 msgid ""
 "You can also pipe the output of a command into <app>Kupfer</app> to send text "
 "to the already running instance of <app>Kupfer</app>."
 msgstr ""
+"Sie können auch die Ausgabe eines Befehls an <app>Kupfer</app> weiterleiten, "
+"um den Text an die laufende Instanz von <app>Kupfer</app> zu senden."
 
 #: C/plugins.page:154(title)
 msgid "Managing Context and Current Selection"
-msgstr ""
+msgstr "Verwaltung des Kontexts und der aktuellen Auswahl"
 
 #: C/plugins.page:155(p)
 msgid ""
@@ -456,6 +500,14 @@ msgid ""
 "skipping to the next song) and it can be useful to perform different actions "
 "on the same object."
 msgstr ""
+"Wenn Sie das Objekt gefunden haben, das Sie benötigen, dann rufen sie die "
+"Aktion auf, und <app>Kupfer</app> verschwindet, um die Aktion auszuführen, "
+"beispielsweise um ein Programm zu starten oder ein Lied abzuspielen. Wenn Sie "
+"erneut zu <app>Kupfer</app> zurückkehren, dann ist noch immer die gleiche "
+"Aktion und das gleiche Objekt ausgewählt. Bei einigen Aktionen ergibt es "
+"durchaus Sinn, sie zu wiederholen, wie beim Springen zum nächsten "
+"wiederzugebenden Lied. Es kann nützlich sein, verschiedene Aktionen mit dem "
+"gleichen Objekt auszuführen."
 
 #: C/plugins.page:163(p)
 msgid ""
@@ -465,6 +517,11 @@ msgid ""
 "back with the album selected -- but your next search will still go over the "
 "top level catalog, not just albums."
 msgstr ""
+"Sie befinden sich für die Suche immer im Katalog der obersten Ebene, wenn Sie "
+"zu <app>Kupfer</app> »zurückkehren«. Wenn Sie in den Unterkatalog »Alben« "
+"abtauchen, durchsuchen Sie damit nur die Alben, wählen eines zur Wiedergabe "
+"aus und lassen es abspielen. Doch Ihre nächste Suche springt wieder in den "
+"Katalog der obersten Ebene und durchsucht nicht nur die Alben."
 
 #: C/plugins.page:170(p)
 msgid ""
@@ -474,6 +531,14 @@ msgid ""
 "window; think of it as saying \"I want to stay in this subfolder\". With the "
 "browse window open, your next query will search the current subcatalog."
 msgstr ""
+"Wie kommen Sie nun wieder in den Unterkatalog zurück, in welchem Sie bereits "
+"waren? Durch einfaches Navigieren, nicht durch Suchen nach dem ersten Objekt, "
+"wenn Sie <app>Kupfer</app> wieder fokussieren. Ein einfacher Weg ist das "
+"Drücken der Pfeiltaste nach unten oder der Leertaste, um das "
+"Navigationsfenster zu öffnen. Stellen Sie sich das so vor, als ob Sie sagen "
+"würden: »Ich will in diesem Unterordner bleiben«. Mit geöffnetem "
+"Navigationsfenster wird für die Suche nur der aktuell markierte Unterkatalog "
+"abgefragt."
 
 #: C/plugins.page:177(p)
 msgid ""
@@ -483,6 +548,12 @@ msgid ""
 "stay around where you were, deep in that folder (press space, then type a "
 "query)."
 msgstr ""
+"So schlagen Sie zwei Fliegen mit einer Klappe -- Sie tauchen schnell in "
+"Unterordner ab, um eine Datei zu finden, und wenn Sie das nächste Mal zu "
+"<app>Kupfer</app> zurückkehren, können sie entweder jedes gewöhnliche Objekt "
+"der obersten Ebene erfassen (einfach eintippen!) oder Sie bleiben da, wo Sie "
+"sind, tief in dem jeweiligen Ordner (Leertaste drücken, dann Abfrage "
+"eingeben)."
 
 #: C/license.page:7(desc)
 msgid "Legal Information."
@@ -563,6 +634,13 @@ msgid ""
 "quickly: there are different plugins for accessing more objects and running "
 "custom commands."
 msgstr ""
+"<app>Kupfer</app> ist ein Programm für alles, was in irgendeiner Weise mit "
+"Dateien zu tun hat. Es ist ein schnelles Allroundtalent, das mehr Spaß auf "
+"Ihren Rechner bringt. <app>Kupfer</app> ist ein Programmstarter. Sie nutzen "
+"es typischerweise zum »Erfassen« einer Anwendung oder eines Dokuments, indem "
+"Sie Teile seines Namens eingeben. Sie können allerdings noch weitaus mehr tun "
+"als die Arbeitsgeschwindigkeit verbessern. Es gibt verschiedene Plugins zum "
+"Zugriff auf mehr Objekte und zur Ausführung benutzerdefinierter Befehle."
 
 #: C/introduction.page:22(p)
 msgid ""
@@ -570,6 +648,10 @@ msgid ""
 "the implementation is simple and makes the easy things work first. One goal "
 "is that new plugins can be written quickly without too much programming."
 msgstr ""
+"<app>Kupfer</app> ist in Python geschrieben und verfügt über eine flexible "
+"Architektur. Die Implementation ist einfach und sorgt dafür, dass einfache "
+"Dinge gleich funktionieren. Neue Plugins können geschrieben werden, ohne sich "
+"allzuviel mit Programmierung auszukennen."
 
 #: C/introduction.page:28(p)
 msgid ""
@@ -620,98 +702,3 @@ msgstr "Kuper verwenden"
 msgid "translator-credits"
 msgstr "Mario Blättermann <mariobl@gnome.org>, 2009, 2010"
 
-#~ msgid ""
-#~ "By default, with the keybinder module installed, <keyseq><key>Ctrl</"
-#~ "key><key>Space</key></keyseq> will summon the Kupfer window."
-#~ msgstr ""
-#~ "Standardmäßig rufen Sie mit der Tastenkombination <keyseq><key>Strg</"
-#~ "key><key>Leertaste</key></keyseq> das <app>Kupfer</app>-Fenster auf, "
-#~ "sofern das Keybinder-Modul installiert ist."
-
-#~ msgid ""
-#~ "Included toplevel directories (by default home an desktop) are monitored "
-#~ "so new files will be found immediately. Most plugins in <app>Kupfer</app> "
-#~ "try to use the change notifications that are available from the system, to "
-#~ "keep up to date with the instant."
-#~ msgstr ""
-#~ "Die Ordner der obersten Ebene werden überwacht (als Vorgabe der "
-#~ "persönliche Ordner und die Arbeitsfläche), so dass neu hinzukommende "
-#~ "Dateien unmittelbar gefunden werden können. Die meisten Plugins in "
-#~ "<app>Kupfer</app> versuchen, die vom System bereitgestellten "
-#~ "Änderungsmeldungen zu nutzen, so dass die Daten aktuell gehalten werden "
-#~ "können."
-
-#~ msgid ""
-#~ "Objects that have content, like folders, are marked with an arrow. "
-#~ "Pressing <key>right-arrow</key> will enter these objects."
-#~ msgstr ""
-#~ "Objekte mit Inhalten (z.B. Ordner) werden mit einem Pfeil markiert. Ein "
-#~ "Druck auf die <key>Pfeiltaste rechts</key> öffnet diese Objekte."
-
-#~ msgid "Kupfer"
-#~ msgstr "Kupfer"
-
-#~ msgid "Ctrl"
-#~ msgstr "Strg"
-
-#~ msgid "Space"
-#~ msgstr "Leertaste"
-
-#~ msgid "~/.cache/kupfer"
-#~ msgstr "~/.cache/kupfer"
-
-#~ msgid "~/.config/kupfer"
-#~ msgstr "~/.config/kupfer"
-
-#~ msgid "~/.local/share/kupfer"
-#~ msgstr "~/.local/share/kupfer"
-
-#~ msgid "~/.local/share/kupfer/plugins/"
-#~ msgstr "~/.local/share/kupfer/plugins/"
-
-#~ msgid "Firefox'"
-#~ msgstr "Firefox'"
-
-#~ msgid "Firefox"
-#~ msgstr "Firefox"
-
-#~ msgid "xdg-terminal"
-#~ msgstr "xdg-terminal"
-
-#~ msgid "gnome-terminal"
-#~ msgstr "gnome-terminal"
-
-#~ msgid "~/.config/kupfer/kupfer.cfg"
-#~ msgstr "~/.config/kupfer/kupfer.cfg"
-
-#~ msgid "Alt"
-#~ msgstr "Alt"
-
-#, fuzzy
-#~ msgid "Scale"
-#~ msgstr "Leertaste"
-
-#~ msgid "~/.local/share/applications"
-#~ msgstr "~/.local/share/applications"
-
-#~ msgid "here"
-#~ msgstr "hier"
-
-#~ msgid "=help"
-#~ msgstr "=help"
-
-#, fuzzy
-#~ msgid "kupfer"
-#~ msgstr "Kupfer"
-
-#~ msgid "QUERY"
-#~ msgstr "ABFRAGE"
-
-#~ msgid "kupfer report.pdf"
-#~ msgstr "kupfer report.pdf"
-
-#~ msgid "Quicksilver"
-#~ msgstr "Quicksilver"
-
-#~ msgid "Kupfer's"
-#~ msgstr "Kupfers"
