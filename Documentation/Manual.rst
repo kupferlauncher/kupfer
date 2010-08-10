@@ -252,13 +252,15 @@ You may publish your changes by sending an email to the mailing list,
 <kupfer-list@gnome.org>. You can attach your changes as patches, or you
 may also just attach a link to your published git repository.
 
-You can find kupfer's git repository in github.com and fork it there,
+You can find kupfer's `git repository at github`__ and fork it there,
 for easy publication of your changes.
 
 If you suggest your changes for inclusion into Kupfer, make sure you
 have read the whole *Guidelines and Policy* chapter of this manual. And
 take care to structure your changes, do not fear asking for advice. Good
 Luck!
+
+__ http://github.com/engla/kupfer
 
 
 Icon Guidelines
