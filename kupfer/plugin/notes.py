@@ -25,7 +25,7 @@ import xdg.BaseDirectory as base
 from kupfer.objects import Action, Source, Leaf, TextLeaf
 from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
-from kupfer import textutils
+from kupfer import pretty, textutils
 
 
 PROGRAM_IDS = ["gnote", "tomboy"]
