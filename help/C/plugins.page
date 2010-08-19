@@ -163,7 +163,7 @@ magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space
   <p>
     However, you always have the top level catalog reachable when you 
     "come back" to <app>Kupfer</app> -- say you went into the subcatalog "Albums" 
-    to browse your albums only; you select and album to play, and play it. 
+    to browse your albums only; you select an album to play, and play it. 
     You come back with the album selected -- but your next search will still 
     go over the top level catalog, not just albums.
   </p>
