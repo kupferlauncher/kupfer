@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "POT-Creation-Date: 2010-07-11 16:18+0000\n"
-"PO-Revision-Date: 2010-07-19 12:29+0200\n"
+"PO-Revision-Date: 2010-08-19 09:51+0200\n"
 "Last-Translator: Francesco Marella <francesco.marella@gmail.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: C/tips.page:7(desc)
 msgid "Using <app>Kupfer</app> more conveniently."
-msgstr "Using <app>Kupfer</app> more conveniently."
+msgstr "Usare <app>Kupfer</app> opportunamente."
 
 #: C/tips.page:10(title)
 msgid "Basic Usage"
@@ -32,7 +32,7 @@ msgid ""
 "The Catalog is the collection of objects you can access in Kupfer, such as "
 "documents and programs."
 msgstr ""
-"Il catalogo è la collezione di oggetti a cui puoi accedere in Kupfer, ad "
+"Il catalogo è la raccolta di oggetti a cui puoi accedere in Kupfer, ad "
 "esempio documenti e programmi."
 
 #: C/tips.page:19(p)
@@ -45,7 +45,7 @@ msgid ""
 msgstr ""
 "Gli oggetti nel catalogo che hanno contenuto, come le cartelle, sono "
 "contrassegnati con una freccia. Premendo <key>→</key> si entra nell'oggetto. "
-"Gran parte del catalogo è composto da sotto cataloghi; il plugin sotto "
+"Gran parte del catalogo è composta da sotto cataloghi; il plugin sotto "
 "catalogo generalmente cataloga oggetti che sono anche disponibili "
 "direttamente dal livello superiore. I sotto cataloghi possono essere usati "
 "per una vista o ambito di ricerca ristretto, quando si utilizza Kupfer."
@@ -55,7 +55,7 @@ msgid ""
 "Most subcatalogs update their content automatically. For example, the "
 "Desktop folder catalog is always uptodate."
 msgstr ""
-"La maggior parte dei sotto cataloghi aggiornano il loro contenuto "
+"La maggior parte dei sotto cataloghi aggiorna il loro contenuto "
 "automaticamente. Per esempio, il catalogo per la cartella Scrivania è sempre "
 "aggiornato."
 
@@ -85,8 +85,8 @@ msgid ""
 "the previous or next match, and going up and down in the subcatalogs."
 msgstr ""
 "I tasti freccia permettono di scorrere tra i risultati dell'interrogazione "
-"naturalmente, andando alla corrispondenza precedente o a quella successiva, "
-"e andando su e giù nei sotto cataloghi."
+"naturalmente, andando alla corrispondenza precedente o a quella successiva e "
+"andando su e giù nei sotto cataloghi."
 
 #: C/tips.page:52(p)
 msgid "In command mode, some keystrokes have special meanings:"
@@ -99,7 +99,7 @@ msgstr "<key>↓</key> o <key>Spazio</key>"
 
 #: C/tips.page:58(p)
 msgid "Go to the next match"
-msgstr "Vai alla prossima corrispondenza"
+msgstr "Va alla prossima corrispondenza"
 
 #: C/tips.page:61(p)
 msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
@@ -107,7 +107,7 @@ msgstr "<key>↑</key> o <keyseq><key>Maiusc</key><key>Spazio</key></keyseq>"
 
 #: C/tips.page:64(p)
 msgid "Go to the previous match"
-msgstr "Vai alla precedente corrispondenza"
+msgstr "Va alla precedente corrispondenza"
 
 #: C/tips.page:67(p)
 msgid "<key>→</key> or <key>/</key>"
@@ -115,7 +115,7 @@ msgstr "<key>→</key> o <key>/</key>"
 
 #: C/tips.page:68(p)
 msgid "Descend into an object with content"
-msgstr "Discendere in un oggetto con contenuto"
+msgstr "Discende in un oggetto con contenuto"
 
 #: C/tips.page:71(key)
 msgid "Backspace"
@@ -124,7 +124,7 @@ msgstr "Backspace"
 #: C/tips.page:72(p)
 msgid "Erase a character from the query. If the query is empty, go up a level"
 msgstr ""
-"Cancellare il carattere dall'interrogazione. Se l'interrogazione è vuota, "
+"Elimina un carattere dall'interrogazione. Se l'interrogazione è vuota, "
 "salire di un livello"
 
 #: C/tips.page:77(key)
@@ -133,7 +133,7 @@ msgstr "."
 
 #: C/tips.page:78(p)
 msgid "Activate free-text mode"
-msgstr "Attivare la modalità testo libero"
+msgstr "Attiva la modalità testo libero"
 
 #: C/tips.page:81(key)
 msgid ","
@@ -141,7 +141,7 @@ msgstr ","
 
 #: C/tips.page:82(p)
 msgid "Put selected object on the stack (\"Comma Trick\")"
-msgstr "Mettere l'oggetto selezionato sulla pila (\"Comma Trick\")"
+msgstr "Mette l'oggetto selezionato sulla pila (\"Comma Trick\")"
 
 #: C/tips.page:85(p)
 msgid ""
@@ -164,8 +164,8 @@ msgid ""
 msgstr ""
 "Kupfer resta in ascolto per le scorciatoie globali, anche se Kupfer non è "
 "attualmente in primo piano. La scorciatoia globale più importante è quella "
-"per mostrare e nascondere la finestra di comando di Kupfer che di default è "
-"<keyseq><key>Ctrl</key><key>Spazio</key></keyseq>."
+"per mostrare e nascondere la finestra di comando di Kupfer che in maniera "
+"predefinita è <keyseq><key>Ctrl</key><key>Spazio</key></keyseq>."
 
 #: C/tips.page:98(p)
 msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
@@ -191,7 +191,7 @@ msgid ""
 "foreground can be configured in Kupfer's preferences."
 msgstr ""
 "Scorciatoie da tastiera aggiuntive che funzionano con Kupfer quando esso è "
-"in primo piano possono essere configurati nelle preferenze di Kupfer."
+"in primo piano possono essere configurate nelle preferenze di Kupfer."
 
 #: C/tips.page:119(title)
 msgid "Configuration files and paths"
@@ -231,7 +231,7 @@ msgid ""
 msgstr ""
 "Si possono installare plugin personalizzati in ~/.local/share/kupfer/"
 "plugins; aggiungere conoscenza agli oggetti di <app>Kupfer</app> può essere "
-"sorprendentemente facile, basta dare un'occhiata ai plugin di default se si "
+"sorprendentemente facile, basta dare un'occhiata ai plugin predefiniti se si "
 "vuole crearne di nuovi."
 
 #: C/plugins.page:19(title)
@@ -293,7 +293,7 @@ msgstr ""
 "una \"associazione di tasti magica\" per <app>Kupfer</app>. Una "
 "configurazione grafica non è ancora supportata, ma è possibile modificare il "
 "file di configurazione <file>~/.config/kupfer/kupfer.cfg</file> e includere "
-"il seguente:"
+"quanto segue:"
 
 #: C/plugins.page:51(code)
 #, no-wrap
@@ -334,7 +334,7 @@ msgid ""
 "action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to "
 "1000 pixels wide!"
 msgstr ""
-"Ora per selezionare una parola in, ad esempio, un browser web, usare "
+"Ora si può selezionare una parola, ad esempio in un browser web usare "
 "<keyseq><key>Ctrl</key><key>Alt</key><key>Spazio</key></keyseq>, e "
 "selezionare l'azione <gui>Cerca</gui> per cercare la parola selezionata. "
 "Altrimenti selezionare un file immagine, usare <keyseq><key>Ctrl</"
@@ -367,8 +367,8 @@ msgid ""
 "this way can be run directly or in the terminal as long as they are "
 "executable."
 msgstr ""
-"Se si ha una collezione di script che si vuole chiamare da <app>Kupfer</"
-"app>, si può aggiungere la cartella degli script come un catalogo cartella a "
+"Se si ha una raccolta di script che si vuole chiamare da <app>Kupfer</app>, "
+"si può aggiungere la cartella degli script come un directory di cataloghi a "
 "<app>Kupfer</app> nelle preferenze. Gli script che vengono aggiunti nel "
 "catalogo di <app>Kupfer</app> in questo modo possono essere eseguiti "
 "direttamente o nel terminale a condizione che siano eseguibili."
@@ -411,7 +411,7 @@ msgid ""
 "show a list of all defined functions and constants."
 msgstr ""
 "La calcolatrice utilizza i moduli di matematica e matematica complessa di "
-"Python, e analizza le espressioni come espressioni di Python. Si possono "
+"Python e analizza le espressioni come espressioni di Python. Si possono "
 "utilizzare funzioni matematiche comuni, come sqrt, sin, exp e log; il "
 "comando <cmd>=help</cmd> mostra una lista di tutte le funzioni e costanti "
 "definite."
@@ -421,8 +421,8 @@ msgid ""
 "Notice that the power operator in Python is double stars, for example =3**3 "
 "will evaluate to 27."
 msgstr ""
-"Notare che l'operatore potenza in Python è la doppia stella, per esempio "
-"=3**3 sarà valutato come 27."
+"Notare che l'operatore elevamento a potenza in Python è la doppia stella, "
+"per esempio =3**3 sarà valutato come 27."
 
 #: C/plugins.page:117(p)
 msgid "To calculate trig functions for angles, convert to radians first:"
@@ -459,7 +459,7 @@ msgid ""
 msgstr ""
 "<app>Kupfer</app> controlla a distanza se stesso. Quando <app>Kupfer</app> è "
 "già in esecuzione, <app>Kupfer</app> da riga di comando porta in primo piano "
-"la sua finestra, ma è possibile ottenere di più: Se viene invocato "
+"la sua finestra, ma è possibile ottenere di più: se viene invocato "
 "<cmd><app>kupfer</app><var>QUERY</var></cmd> dove <var>QUERY</var> è una "
 "stringa di testo o il nome di un file, <app>Kupfer</app> porterà in primo "
 "piano e selezionerà questo elemento. In questo modo, si possono invocare "
@@ -481,8 +481,8 @@ msgid ""
 "You can also pipe the output of a command into <app>Kupfer</app> to send "
 "text to the already running instance of <app>Kupfer</app>."
 msgstr ""
-"Si può anche incanalare l'output di un comando in <app>Kupfer</app> per "
-"inviare il testo all'istanza in esecuzione di <app>Kupfer</app>."
+"Si può anche passare l'output di un comando in <app>Kupfer</app> per inviare "
+"il testo all'istanza in esecuzione di <app>Kupfer</app>."
 
 #: C/plugins.page:154(title)
 msgid "Managing Context and Current Selection"
@@ -513,12 +513,12 @@ msgid ""
 "back with the album selected -- but your next search will still go over the "
 "top level catalog, not just albums."
 msgstr ""
-"Tuttavia, è sempre disponibile il livello superiore del catalogo, "
-"raggiungibile quando \"si ritorna\" a <app>Kupfer</app> -- per esempio si "
+"Tuttavia, è sempre disponibile il livello superiore del catalogo "
+"raggiungibile quando \"si ritorna\" a <app>Kupfer</app> — per esempio si "
 "entra nel sotto catalogo \"Album\" per scorrere solo l'album selezionato; "
 "una volta selezionato l'album, esso viene riprodotto. Si ritorna all'album "
-"selezionato -- ma la ricerca successiva andrà ancora al livello superiore "
-"del catalogo, non tra gli album."
+"selezionato — ma la ricerca successiva andrà ancora al livello superiore del "
+"catalogo, non tra gli album."
 
 #: C/plugins.page:170(p)
 msgid ""
@@ -543,7 +543,7 @@ msgid ""
 "or stay around where you were, deep in that folder (press space, then type a "
 "query)."
 msgstr ""
-"In questo modo si può lavorare in entrambi i modi -- si può rapidamente "
+"In questo modo si può lavorare in entrambi i modi — si può rapidamente "
 "scendere nelle cartelle per trovare un file e quando si torna indietro per "
 "la prossima azione con <app>Kupfer</app> si può sia richiamare un oggetto "
 "qualsiasi dal livello superiore (iniziando a digitare), oppure rimanendo "
@@ -578,8 +578,8 @@ msgid ""
 "em> for more details."
 msgstr ""
 "Questo programma è distribuito con la speranza si dimostri utile, ma SENZA "
-"ALCUNA GARANZIA; si esclude anche l'implicita garanzia di COMMERCIABILITA' o "
-"IDONEITA' A UN PARTICOLARE SCOPO. Si consulti la licenza <em>GNU General "
+"ALCUNA GARANZIA; si esclude anche l'implicita garanzia di COMMERCIABILITÀ o "
+"IDONEITÀ A UN PARTICOLARE SCOPO. Si consulti la licenza <em>GNU General "
 "Public License</em> per ulteriori dettagli."
 
 #: C/license.page:24(p)
