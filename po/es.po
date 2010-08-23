@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kupfer beta\n"
+"Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-06-13 18:52+0000\n"
-"PO-Revision-Date: 2010-06-17 08:48+0200\n"
+"POT-Creation-Date: 2010-08-23 19:29+0000\n"
+"PO-Revision-Date: 2010-08-24 00:14+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -68,30 +68,34 @@ msgid "General"
 msgstr "General"
 
 #: ../data/preferences.ui.h:8
+msgid "Hide Kupfer when focus is lost"
+msgstr "Ocultar Kupfer cuando pierda el foco"
+
+#: ../data/preferences.ui.h:9
 msgid "Keyboard"
 msgstr "Teclado"
 
-#: ../data/preferences.ui.h:9 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:10 ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Preferencias de Kupfer"
 
-#: ../data/preferences.ui.h:10
+#: ../data/preferences.ui.h:11
 msgid "Plugins"
 msgstr "Complementos"
 
-#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:769
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:775
 msgid "Reset"
 msgstr "Restablecer"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:13
 msgid "Show icon in notification area"
 msgstr "Mostrar icono en el área de notificación"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:14
 msgid "Start automatically on login"
 msgstr "Iniciar automáticamente al iniciar sesión"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:15
 msgid ""
 "Tick the box next to a source to make sure its objects are exported to the "
 "top level of the catalog. An unticked source's contents are only available "
@@ -110,7 +114,7 @@ msgstr ""
 "diseñado para catalogar más de un par de miles de objetos y puede acabar "
 "siendo lento si se incluyen grandes subcatálogos en el nivel superior."
 
-#: ../data/preferences.ui.h:17
+#: ../data/preferences.ui.h:18
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Usar comandos de una sola tecla (espacio, /, punto, coma, etc.)"
 
@@ -181,35 +185,35 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:726
+#: ../kupfer/ui/browser.py:731
 #, python-format
 msgid "%s is empty"
 msgstr "%s está vacío"
 
-#: ../kupfer/ui/browser.py:730
+#: ../kupfer/ui/browser.py:735
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "No hay coincidencias en %(src)s para «%(query)s»"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "No matches"
 msgstr "No hay coincidencias"
 
-#: ../kupfer/ui/browser.py:741
+#: ../kupfer/ui/browser.py:746
 msgid "Type to search"
 msgstr "Teclear para buscar"
 
-#: ../kupfer/ui/browser.py:747
+#: ../kupfer/ui/browser.py:752
 #, python-format
 msgid "Type to search %s"
 msgstr "Teclear para buscar %s"
 
-#: ../kupfer/ui/browser.py:759
+#: ../kupfer/ui/browser.py:764
 msgid "No action"
 msgstr "Sin acción"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/browser.py:1460 ../kupfer/ui/preferences.py:56
 msgid "Show Main Interface"
 msgstr "Mostrar la interfaz principal"
 
@@ -267,71 +271,71 @@ msgid "Toggle Text Mode"
 msgstr "Conmutar el modo texto"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Description"
 msgstr "Descripción"
 
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:419
+#: ../kupfer/ui/preferences.py:421
 msgid "Version"
 msgstr "Versión"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:429
+#: ../kupfer/ui/preferences.py:431
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Se necesita el módulo de Python «%s»"
 
-#: ../kupfer/ui/preferences.py:443
+#: ../kupfer/ui/preferences.py:445
 msgid "Plugin could not be read due to an error:"
 msgstr "No se puede leer el complemento debido al error:"
 
-#: ../kupfer/ui/preferences.py:451 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:453 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "desactivado"
 
-#: ../kupfer/ui/preferences.py:523
+#: ../kupfer/ui/preferences.py:525
 msgid "Content of"
 msgstr "Contenido de"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:532
+#: ../kupfer/ui/preferences.py:534
 msgid "Sources"
 msgstr "Fuentes"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:536
+#: ../kupfer/ui/preferences.py:538
 msgid "Actions"
 msgstr "Acciones"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:574
+#: ../kupfer/ui/preferences.py:576
 msgid "Configuration"
 msgstr "Configuración"
 
-#: ../kupfer/ui/preferences.py:594
+#: ../kupfer/ui/preferences.py:596
 msgid "Set username and password"
 msgstr "Establecer el nombre de usuario y la contraseña"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:648
+#: ../kupfer/ui/preferences.py:650
 msgid "Choose a Directory"
 msgstr "Elegir un directorio"
 
-#: ../kupfer/ui/preferences.py:767
+#: ../kupfer/ui/preferences.py:773
 msgid "Reset all shortcuts to default values?"
 msgstr ""
 "¿Quiere restablecer todos los atajos de teclado a los valores "
 "predeterminados?"
 
-#: ../kupfer/ui/preferences.py:775
+#: ../kupfer/ui/preferences.py:781
 msgid "Command"
 msgstr "Comando"
 
-#: ../kupfer/ui/preferences.py:776
+#: ../kupfer/ui/preferences.py:782
 msgid "Shortcut"
 msgstr "Atajo"
 
@@ -1814,54 +1818,54 @@ msgid "Google Translate"
 msgstr "Traducir con Google"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:160
+#: ../kupfer/plugin/google_translate.py:154
 msgid "Translate text with Google Translate"
 msgstr "Traducir texto con Google"
 
 #. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:55
+#: ../kupfer/plugin/google_translate.py:58
 msgid "noun"
 msgstr "sustantivo"
 
-#: ../kupfer/plugin/google_translate.py:56
+#: ../kupfer/plugin/google_translate.py:59
 msgid "verb"
 msgstr "verbo"
 
-#: ../kupfer/plugin/google_translate.py:57
+#: ../kupfer/plugin/google_translate.py:60
 msgid "adjective"
 msgstr "adjetivo"
 
-#: ../kupfer/plugin/google_translate.py:90
+#: ../kupfer/plugin/google_translate.py:84
 msgid "Google Translate connection timed out"
 msgstr "Expiró el tiempo de conexión con Google Translate"
 
-#: ../kupfer/plugin/google_translate.py:93
+#: ../kupfer/plugin/google_translate.py:87
 msgid "Error connecting to Google Translate"
 msgstr "Error al contactar con Google"
 
-#: ../kupfer/plugin/google_translate.py:143
-#: ../kupfer/plugin/google_translate.py:230
+#: ../kupfer/plugin/google_translate.py:137
+#: ../kupfer/plugin/google_translate.py:224
 msgid "Translate To..."
 msgstr "Traducir a…"
 
-#: ../kupfer/plugin/google_translate.py:186
+#: ../kupfer/plugin/google_translate.py:180
 #, python-format
 msgid "Translate into %s"
 msgstr "Traducir a %s"
 
-#: ../kupfer/plugin/google_translate.py:210
+#: ../kupfer/plugin/google_translate.py:204
 msgid "Languages"
 msgstr "Idiomas"
 
-#: ../kupfer/plugin/google_translate.py:245
+#: ../kupfer/plugin/google_translate.py:239
 msgid "Show translated page in browser"
 msgstr "Mostrar la página traducida en un navegador"
 
-#: ../kupfer/plugin/google_translate.py:262
+#: ../kupfer/plugin/google_translate.py:256
 msgid "Show Translation To..."
 msgstr "Mostrar la traducción a…"
 
-#: ../kupfer/plugin/google_translate.py:278
+#: ../kupfer/plugin/google_translate.py:272
 msgid "Show translation in browser"
 msgstr "Mostrar la traducción en un navegador"
 
@@ -2104,27 +2108,22 @@ msgstr "Índice de marcadores de Opera"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/operamail.py:2
-#| msgid "Claws Mail"
 msgid "Opera Mail"
 msgstr "Opera Mail"
 
 #: ../kupfer/plugin/operamail.py:5
-#| msgid "Claws Mail Contacts and Actions"
 msgid "Opera Mail contacts and actions"
 msgstr "Contactos y acciones de Opera Mail"
 
 #: ../kupfer/plugin/operamail.py:31
-#| msgid "Compose a new message in Claws Mail"
 msgid "Compose a new message in Opera Mail"
 msgstr "Redactar un correo electrónico nuevo con Opera Mail"
 
 #: ../kupfer/plugin/operamail.py:63
-#| msgid "Gajim Contacts"
 msgid "Opera Mail Contacts"
 msgstr "Contactos de Opera Mail"
 
 #: ../kupfer/plugin/operamail.py:115
-#| msgid "Contacts from Claws Mail Address Book"
 msgid "Contacts from Opera Mail"
 msgstr "Contactos de Opera Mail"
 
@@ -2417,7 +2416,6 @@ msgid "Show information about file in file manager"
 msgstr "Mostrar información acerca del archivo en el gestor de archivos"
 
 #: ../kupfer/plugin/thunar.py:103
-#| msgid "Append To..."
 msgid "Send To..."
 msgstr "Enviar a…"
 
