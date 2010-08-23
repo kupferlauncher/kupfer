@@ -7,8 +7,22 @@ kupfer's next release
 
 Not Released Yet
 
+* Add option to hide Kupfer when focus is lost (and enable by default)
+  (Grigory Javadyan)
 * Use application indicators when available (Francesco Marella)
   (:lp:`601861`)
+* Python module `keyring` is now optional for Kupfer (but required for
+  the same plugins that used them before)
+* Small changes (Francesco Marella)
+* New Czech translation of the help pages (Marek Černocký)
+* New Galician translation (Fran Diéguez)
+
+* Localization updates:
+
+  + cs (Marek Černocký)
+  + de (Mario Blättermann)
+  + sl (Andrej Žnidaršič)
+  + zh_CN (Aron Xu)
 
 
 kupfer v201
