@@ -36,6 +36,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			"magickeybinding": "",
 			"showstatusicon" : True,
 			"usecommandkeys" : True,
+			"closeonunfocus" : True,
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
@@ -248,6 +249,12 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		self.emit("plugin-toplevel-changed", plugin_id, value)
 		return self.set_plugin_config(plugin_id, key,
 		                              value, value_type=strbool)
+
+	def get_close_on_unfocus(self):
+		return self.get_config("Kupfer", "closeonunfocus")
+
+	def set_close_on_unfocus(self, val):
+		return self._set_config("Kupfer", "closeonunfocus", val)
 
 	def get_keybinding(self):
 		"""Convenience: Kupfer keybinding as string"""
