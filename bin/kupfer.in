@@ -53,7 +53,7 @@ _realpaths () {
 	# Emit realpaths for arguments, separated by NUL bytes
 	while test $# != 0
 	do
-		echo -ne $(realpath "$1")"\0"
+		echo -ne $(realpath -- "$1")"\0"
 		shift
 	done
 }
