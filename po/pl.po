@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-01 22:42+0200\n"
-"PO-Revision-Date: 2010-06-01 22:50+0200\n"
+"POT-Creation-Date: 2010-08-24 13:29+0200\n"
+"PO-Revision-Date: 2010-08-24 18:23+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: \n"
@@ -54,6 +54,9 @@ msgstr "Katalog"
 msgid "General"
 msgstr "Ogólne"
 
+msgid "Hide Kupfer when focus is lost"
+msgstr "Ukrywanie Kupfera po utracie skupienia"
+
 msgid "Keyboard"
 msgstr "Klawiatura"
 
@@ -87,7 +90,7 @@ msgstr ""
 "\n"
 "Uwaga: Kufer jest integratorem, nie indeksuje swojej zawartości. Kufer nie "
 "jest zaprojektowany do obsługi katalogów większych niż kilka tysięcy "
-"obiektów i może zrobić się powolny gdy duże podkatalogu umieszczone zostaną "
+"obiektów i może zrobić się powolny gdy duże podkatalogi umieszczone zostaną "
 "na najwyższym poziomie."
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
@@ -1608,6 +1611,22 @@ msgstr "Zakładki Opery"
 msgid "Index of Opera bookmarks"
 msgstr "Zakładki programu Opera"
 
+#. -*- coding: UTF-8 -*-
+msgid "Opera Mail"
+msgstr "Opera Mail"
+
+msgid "Opera Mail contacts and actions"
+msgstr "Kontakty i akcje programu Opera Mail"
+
+msgid "Compose a new message in Opera Mail"
+msgstr "Tworzy nową wiadomość w Opera Mail"
+
+msgid "Opera Mail Contacts"
+msgstr "Kontakty Opera Mail"
+
+msgid "Contacts from Opera Mail"
+msgstr "Kontakty z książki adresowej Opera Mail"
+
 msgid "Pidgin"
 msgstr "Pidgin"
 
@@ -1828,8 +1847,14 @@ msgstr "Pokaż właściwości"
 msgid "Show information about file in file manager"
 msgstr "Pokazuje informacje o pliku w menadżerze plików"
 
+msgid "Send To..."
+msgstr "Wyślij do..."
+
 msgid "Empty Trash"
 msgstr "Opóźnij kosz"
+
+msgid "Thunar Send To Objects"
+msgstr "Obiekty \"Wyślij do\" Thunara"
 
 msgid "Thunderbird"
 msgstr "Thunderbird"
