@@ -4,12 +4,13 @@
 # Lucas Lommer <llommer@svn.gnome.org>, 2010.
 # Petr Kovar <pknbe@volny.cz>, 2010.
 # Marek Černocký <marek@manet.cz>, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-30 15:57+0200\n"
-"PO-Revision-Date: 2010-06-28 14:32+0200\n"
+"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
+"POT-Creation-Date: 2010-08-24 19:38+0000\n"
+"PO-Revision-Date: 2010-08-26 12:04+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -71,30 +72,34 @@ msgid "General"
 msgstr "Obecné"
 
 #: ../data/preferences.ui.h:8
+msgid "Hide Kupfer when focus is lost"
+msgstr "Skrýt Kupfer při ztrátě zaměření"
+
+#: ../data/preferences.ui.h:9
 msgid "Keyboard"
 msgstr "Klávesnice"
 
-#: ../data/preferences.ui.h:9 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:10 ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Předvolby Kupfer"
 
-#: ../data/preferences.ui.h:10
+#: ../data/preferences.ui.h:11
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:769
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:775
 msgid "Reset"
 msgstr "Vrátit původní"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:13
 msgid "Show icon in notification area"
 msgstr "Zobrazovat ikonu v oznamovací oblasti"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:14
 msgid "Start automatically on login"
 msgstr "Spouštět automaticky po přihlášení"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:15
 msgid ""
 "Tick the box next to a source to make sure its objects are exported to the "
 "top level of the catalog. An unticked source's contents are only available "
@@ -113,7 +118,7 @@ msgstr ""
 "tisíc objektů a pokud se do nejvyšší úrovně zařadí opravdu rozsáhlý katalog, "
 "může pracovat pomalu."
 
-#: ../data/preferences.ui.h:17
+#: ../data/preferences.ui.h:18
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Použít jednoklávesové příkazy (mezerník, lomítko, tečka, čárka atd.)"
 
@@ -184,35 +189,35 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:726
+#: ../kupfer/ui/browser.py:731
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prázdný"
 
-#: ../kupfer/ui/browser.py:730
+#: ../kupfer/ui/browser.py:735
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ve zdroji %(src)s nebylo pro dotaz \"%(query)s\" nic nalezeno"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "No matches"
 msgstr "Nic nenalezeno"
 
-#: ../kupfer/ui/browser.py:741
+#: ../kupfer/ui/browser.py:746
 msgid "Type to search"
 msgstr "Pište co se má vyhledat"
 
-#: ../kupfer/ui/browser.py:747
+#: ../kupfer/ui/browser.py:752
 #, python-format
 msgid "Type to search %s"
 msgstr "Pište a prohledá se %s"
 
-#: ../kupfer/ui/browser.py:759
+#: ../kupfer/ui/browser.py:764
 msgid "No action"
 msgstr "Žádná akce"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/browser.py:1460 ../kupfer/ui/preferences.py:56
 msgid "Show Main Interface"
 msgstr "Zobrazovat hlavní rozhraní"
 
@@ -271,69 +276,69 @@ msgid "Toggle Text Mode"
 msgstr "Přepnout textový režim"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Description"
 msgstr "Popis"
 
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:419
+#: ../kupfer/ui/preferences.py:421
 msgid "Version"
 msgstr "Verze"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:429
+#: ../kupfer/ui/preferences.py:431
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Je zapotřebí modul Python „%s“"
 
-#: ../kupfer/ui/preferences.py:443
+#: ../kupfer/ui/preferences.py:445
 msgid "Plugin could not be read due to an error:"
 msgstr "Zásuvný modul nemohl být načten kvůli výskytu chyby:"
 
-#: ../kupfer/ui/preferences.py:451 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:453 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "vypnutý"
 
-#: ../kupfer/ui/preferences.py:523
+#: ../kupfer/ui/preferences.py:525
 msgid "Content of"
 msgstr "Obsah"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:532
+#: ../kupfer/ui/preferences.py:534
 msgid "Sources"
 msgstr "Zdroje"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:536
+#: ../kupfer/ui/preferences.py:538
 msgid "Actions"
 msgstr "Akce"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:574
+#: ../kupfer/ui/preferences.py:576
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../kupfer/ui/preferences.py:594
+#: ../kupfer/ui/preferences.py:596
 msgid "Set username and password"
 msgstr "Nastavit jméno a heslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:648
+#: ../kupfer/ui/preferences.py:650
 msgid "Choose a Directory"
 msgstr "Výběr složky"
 
-#: ../kupfer/ui/preferences.py:767
+#: ../kupfer/ui/preferences.py:773
 msgid "Reset all shortcuts to default values?"
 msgstr "Nastavit všechny klávesové zkratky na výchozí hodnoty?"
 
-#: ../kupfer/ui/preferences.py:775
+#: ../kupfer/ui/preferences.py:781
 msgid "Command"
 msgstr "Příkaz"
 
-#: ../kupfer/ui/preferences.py:776
+#: ../kupfer/ui/preferences.py:782
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
@@ -1814,54 +1819,54 @@ msgid "Google Translate"
 msgstr "Překladač Google"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:160
+#: ../kupfer/plugin/google_translate.py:154
 msgid "Translate text with Google Translate"
 msgstr "Přeložit text pomocí překladače Google"
 
 #. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:55
+#: ../kupfer/plugin/google_translate.py:58
 msgid "noun"
 msgstr "podst. jm."
 
-#: ../kupfer/plugin/google_translate.py:56
+#: ../kupfer/plugin/google_translate.py:59
 msgid "verb"
 msgstr "sloveso"
 
-#: ../kupfer/plugin/google_translate.py:57
+#: ../kupfer/plugin/google_translate.py:60
 msgid "adjective"
 msgstr "příd. jm."
 
-#: ../kupfer/plugin/google_translate.py:90
+#: ../kupfer/plugin/google_translate.py:84
 msgid "Google Translate connection timed out"
 msgstr "Vypršel čas pro připojení k Překladači Google"
 
-#: ../kupfer/plugin/google_translate.py:93
+#: ../kupfer/plugin/google_translate.py:87
 msgid "Error connecting to Google Translate"
 msgstr "Chyba při připojování k překladači Google"
 
-#: ../kupfer/plugin/google_translate.py:143
-#: ../kupfer/plugin/google_translate.py:230
+#: ../kupfer/plugin/google_translate.py:137
+#: ../kupfer/plugin/google_translate.py:224
 msgid "Translate To..."
 msgstr "Přeložit do…"
 
-#: ../kupfer/plugin/google_translate.py:186
+#: ../kupfer/plugin/google_translate.py:180
 #, python-format
 msgid "Translate into %s"
 msgstr "Přeložit do jazyka %s"
 
-#: ../kupfer/plugin/google_translate.py:210
+#: ../kupfer/plugin/google_translate.py:204
 msgid "Languages"
 msgstr "Jazyky"
 
-#: ../kupfer/plugin/google_translate.py:245
+#: ../kupfer/plugin/google_translate.py:239
 msgid "Show translated page in browser"
 msgstr "Zobrazit přeloženou stránku v prohlížeči"
 
-#: ../kupfer/plugin/google_translate.py:262
+#: ../kupfer/plugin/google_translate.py:256
 msgid "Show Translation To..."
 msgstr "Zobrazit překlad do…"
 
-#: ../kupfer/plugin/google_translate.py:278
+#: ../kupfer/plugin/google_translate.py:272
 msgid "Show translation in browser"
 msgstr "Zobrazit překlad v prohlížeči"
 
@@ -2733,23 +2738,3 @@ msgstr "Stránky Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Stránky uchované v zápisnících Zim"
 
-#~ msgid "<i>Plugins may not be unloaded at runtime</i>"
-#~ msgstr "<i>Zásuvné moduly nelze uvolnit z paměti za běhu</i>"
-
-#~ msgid "Include in top level"
-#~ msgstr "Zahrnout do nejvyšší úrovně"
-
-#~ msgid ""
-#~ "If enabled, objects from the plugin's source(s) will be available in the "
-#~ "top level.\n"
-#~ "Sources are always available as subcatalogs in the top level."
-#~ msgstr ""
-#~ "Pokud je zapnuto, objekty ze zdrojů zásuvného modulu budou dostupné v "
-#~ "nejvyšší úrovni.\n"
-#~ "V podkatalozích nejvyšší úrovně jsou zdroje dostupné vždy."
-
-#~ msgid "<b>Keybinding</b>"
-#~ msgstr "<b>Klávesová zkratka</b>"
-
-#~ msgid "Applied"
-#~ msgstr "Použito"
