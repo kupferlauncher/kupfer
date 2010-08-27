@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-24 13:29+0200\n"
-"PO-Revision-Date: 2010-08-24 18:23+0200\n"
+"PO-Revision-Date: 2010-08-27 12:14+0200\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: \n"
@@ -184,7 +184,7 @@ msgstr "Alternatywna aktywacja"
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
 msgid "Comma Trick"
-msgstr "Trik z kropką"
+msgstr "Trik z przecinkiem"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
