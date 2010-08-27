@@ -1407,8 +1407,6 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-		self.window_position = -1, -1
-		self._latest_window_position = None
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1498,7 +1496,6 @@ class WindowController (pretty.OutputMixin):
 		"""
 
 		self.window.connect("delete-event", self._close_window)
-		self.window.connect("configure-event", self._window_frame_event)
 		self.window.connect("focus-out-event", self._lost_focus)
 		widget = self.interface.get_widget()
 		widget.show()
@@ -1531,24 +1528,6 @@ class WindowController (pretty.OutputMixin):
 	def result_callback(self, sender, result_type):
 		self.activate()
 
-	def _load_window_position(self):
-		setctl = settings.GetSettingsController()
-		self.window_position = setctl.get_session_position("main")
-
-	def _window_frame_event(self, window, event):
-		# save most recent window position
-		# but only save it on user moves -- detect this by catching two
-		# successive (different) positions
-		window_pos = self.window.get_position()
-		if (self.window.get_property("visible") and
-		    window_pos != self.window_position):
-			self.window_position = self.window.get_position()
-			if (self._latest_window_position is not None and
-			    self._latest_window_position != window_pos):
-				setctl = settings.GetSettingsController()
-				setctl.set_session_position("main", self.window_position)
-			self._latest_window_position = window_pos
-
 	def _lost_focus(self, window, event):
 		setctl = settings.GetSettingsController()
 		if setctl.get_close_on_unfocus():
@@ -1567,24 +1546,16 @@ class WindowController (pretty.OutputMixin):
 			    y not in xrange(w_y, w_y + w_h)):
 				self._window_hide_timer.set_ms(50, self.put_away)
 
-	def _move_window_to_position(self):
-		self._latest_window_position = None
-		pos = self.window.get_position()
-		if self.window_position[0] > 0 and pos != self.window_position:
-			self.window.move(*self.window_position)
-			self.output_debug("Moving window to", self.window_position)
-
 	def activate(self, sender=None, time=0):
 		self._window_hide_timer.invalidate()
-		self._move_window_to_position()
 		if not time:
 			time = (gtk.get_current_event_time() or
 			        keybindings.get_current_event_time())
 		self.window.stick()
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
+		self.window.set_position(gtk.WIN_POS_NONE)
 		self.interface.focus()
-		self._move_window_to_position()
 
 	def put_away(self):
 		self.interface.put_away()
@@ -1732,7 +1703,6 @@ class WindowController (pretty.OutputMixin):
 		# Load data and present UI
 		sch = scheduler.GetScheduler()
 		sch.load()
-		self._load_window_position()
 
 		if not quiet:
 			self.activate()

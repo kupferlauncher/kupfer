@@ -13,6 +13,7 @@ Not Released Yet
   (:lp:`601861`)
 * Python module `keyring` is now optional for Kupfer (but required for
   the same plugins that used them before)
+* Disable saving window position until a better solution is found
 * Small changes (Francesco Marella)
 * New Czech translation of the help pages (Marek Černocký)
 * New Galician translation (Fran Diéguez)
