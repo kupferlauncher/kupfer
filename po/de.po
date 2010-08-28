@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-06-13 18:52+0000\n"
-"PO-Revision-Date: 2010-06-14 01:07+0100\n"
+"POT-Creation-Date: 2010-08-23 19:29+0000\n"
+"PO-Revision-Date: 2010-08-28 21:33+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -69,30 +69,34 @@ msgid "General"
 msgstr "Allgemein"
 
 #: ../data/preferences.ui.h:8
+msgid "Hide Kupfer when focus is lost"
+msgstr "Kupfer verbergen, wenn Fenster nicht fokussiert ist"
+
+#: ../data/preferences.ui.h:9
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: ../data/preferences.ui.h:9 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:10 ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Kupfer-Einstellungen"
 
-#: ../data/preferences.ui.h:10
+#: ../data/preferences.ui.h:11
 msgid "Plugins"
 msgstr "Erweiterungen"
 
-#: ../data/preferences.ui.h:11 ../kupfer/ui/preferences.py:769
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:775
 msgid "Reset"
 msgstr "Zurücksetzen"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:13
 msgid "Show icon in notification area"
 msgstr "Symbol im Benachrichtigungsfeld anzeigen"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:14
 msgid "Start automatically on login"
 msgstr "Beim Anmelden automatisch starten"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:15
 msgid ""
 "Tick the box next to a source to make sure its objects are exported to the "
 "top level of the catalog. An unticked source's contents are only available by "
@@ -113,7 +117,7 @@ msgstr ""
 "verringern, wenn übermäßig viele Unterkataloge in die oberste Ebene "
 "integriert werden."
 
-#: ../data/preferences.ui.h:17
+#: ../data/preferences.ui.h:18
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Einzelne Tastaturbefehle verwenden (Leerzeichen, Schrägstrich, Punkt, Komma "
@@ -186,35 +190,35 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:726
+#: ../kupfer/ui/browser.py:731
 #, python-format
 msgid "%s is empty"
 msgstr "%s ist leer"
 
-#: ../kupfer/ui/browser.py:730
+#: ../kupfer/ui/browser.py:735
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Keine Treffer in %(src)s für »%(query)s«"
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "No matches"
 msgstr "Keine Treffer"
 
-#: ../kupfer/ui/browser.py:741
+#: ../kupfer/ui/browser.py:746
 msgid "Type to search"
 msgstr "Eingeben, um zu suchen"
 
-#: ../kupfer/ui/browser.py:747
+#: ../kupfer/ui/browser.py:752
 #, python-format
 msgid "Type to search %s"
 msgstr "Eingeben, um »%s« zu durchsuchen"
 
-#: ../kupfer/ui/browser.py:759
+#: ../kupfer/ui/browser.py:764
 msgid "No action"
 msgstr "Keine Aktion"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/browser.py:1460 ../kupfer/ui/preferences.py:56
 msgid "Show Main Interface"
 msgstr "Haupt-Bedienoberfläche anzeigen"
 
@@ -272,69 +276,69 @@ msgid "Toggle Text Mode"
 msgstr "Textmodus umschalten"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:419
+#: ../kupfer/ui/preferences.py:421
 msgid "Version"
 msgstr "Version"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:429
+#: ../kupfer/ui/preferences.py:431
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Python-Modul »%s« wird benötigt"
 
-#: ../kupfer/ui/preferences.py:443
+#: ../kupfer/ui/preferences.py:445
 msgid "Plugin could not be read due to an error:"
 msgstr "Plugin konnte wegen eines Fehlers nicht gelesen werden:"
 
-#: ../kupfer/ui/preferences.py:451 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:453 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "deaktiviert"
 
-#: ../kupfer/ui/preferences.py:523
+#: ../kupfer/ui/preferences.py:525
 msgid "Content of"
 msgstr "Inhalt von"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:532
+#: ../kupfer/ui/preferences.py:534
 msgid "Sources"
 msgstr "Quellen"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:536
+#: ../kupfer/ui/preferences.py:538
 msgid "Actions"
 msgstr "Aktionen"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:574
+#: ../kupfer/ui/preferences.py:576
 msgid "Configuration"
 msgstr "Einstellungen"
 
-#: ../kupfer/ui/preferences.py:594
+#: ../kupfer/ui/preferences.py:596
 msgid "Set username and password"
 msgstr "Benutzername und Passwort festlegen"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:648
+#: ../kupfer/ui/preferences.py:650
 msgid "Choose a Directory"
 msgstr "Einen Ordner auswählen"
 
-#: ../kupfer/ui/preferences.py:767
+#: ../kupfer/ui/preferences.py:773
 msgid "Reset all shortcuts to default values?"
 msgstr "Sollen alle Tastenkombinationen auf Standardwerte zurückgesetzt werden?"
 
-#: ../kupfer/ui/preferences.py:775
+#: ../kupfer/ui/preferences.py:781
 msgid "Command"
 msgstr "Befehl"
 
-#: ../kupfer/ui/preferences.py:776
+#: ../kupfer/ui/preferences.py:782
 msgid "Shortcut"
 msgstr "Kürzel"
 
@@ -1819,54 +1823,54 @@ msgid "Google Translate"
 msgstr "Google Translate"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:160
+#: ../kupfer/plugin/google_translate.py:154
 msgid "Translate text with Google Translate"
 msgstr "Text mit Google Translate übersetzen"
 
 #. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:55
+#: ../kupfer/plugin/google_translate.py:58
 msgid "noun"
 msgstr "Substantiv"
 
-#: ../kupfer/plugin/google_translate.py:56
+#: ../kupfer/plugin/google_translate.py:59
 msgid "verb"
 msgstr "Verb"
 
-#: ../kupfer/plugin/google_translate.py:57
+#: ../kupfer/plugin/google_translate.py:60
 msgid "adjective"
 msgstr "Adjektiv"
 
-#: ../kupfer/plugin/google_translate.py:90
+#: ../kupfer/plugin/google_translate.py:84
 msgid "Google Translate connection timed out"
 msgstr "Zeitüberschreitung bei Google Translate"
 
-#: ../kupfer/plugin/google_translate.py:93
+#: ../kupfer/plugin/google_translate.py:87
 msgid "Error connecting to Google Translate"
 msgstr "Fehler bei der Verbindung mit Google Translate"
 
-#: ../kupfer/plugin/google_translate.py:143
-#: ../kupfer/plugin/google_translate.py:230
+#: ../kupfer/plugin/google_translate.py:137
+#: ../kupfer/plugin/google_translate.py:224
 msgid "Translate To..."
 msgstr "Übersetzen nach …"
 
-#: ../kupfer/plugin/google_translate.py:186
+#: ../kupfer/plugin/google_translate.py:180
 #, python-format
 msgid "Translate into %s"
 msgstr "Übersetzen nach %s"
 
-#: ../kupfer/plugin/google_translate.py:210
+#: ../kupfer/plugin/google_translate.py:204
 msgid "Languages"
 msgstr "Sprachen"
 
-#: ../kupfer/plugin/google_translate.py:245
+#: ../kupfer/plugin/google_translate.py:239
 msgid "Show translated page in browser"
 msgstr "Übersetzte Seite im Browser anzeigen"
 
-#: ../kupfer/plugin/google_translate.py:262
+#: ../kupfer/plugin/google_translate.py:256
 msgid "Show Translation To..."
 msgstr "Anzeigen der Übersetzung nach …"
 
-#: ../kupfer/plugin/google_translate.py:278
+#: ../kupfer/plugin/google_translate.py:272
 msgid "Show translation in browser"
 msgstr "Übersetzung im Browser anzeigen"
 
