@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-06-17 06:51+0000\n"
-"PO-Revision-Date: 2010-08-13 21:18+0100\n"
+"POT-Creation-Date: 2010-08-28 19:37+0000\n"
+"PO-Revision-Date: 2010-08-31 18:26+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -69,32 +69,36 @@ msgid "General"
 msgstr "Splošno"
 
 #: ../data/preferences.ui.h:8
+msgid "Hide Kupfer when focus is lost"
+msgstr "Skrij program ob izgubi žarišča"
+
+#: ../data/preferences.ui.h:9
 msgid "Keyboard"
 msgstr "Tipkovnica"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:10
 #: ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Možnosti Kupfer"
 
-#: ../data/preferences.ui.h:10
+#: ../data/preferences.ui.h:11
 msgid "Plugins"
 msgstr "Vstavki"
 
-#: ../data/preferences.ui.h:11
-#: ../kupfer/ui/preferences.py:769
+#: ../data/preferences.ui.h:12
+#: ../kupfer/ui/preferences.py:775
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:13
 msgid "Show icon in notification area"
 msgstr "Pokaži ikono v obvestilnem področju"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:14
 msgid "Start automatically on login"
 msgstr "Samodejno zaženi ob prijavi"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:15
 msgid ""
 "Tick the box next to a source to make sure its objects are exported to the top level of the catalog. An unticked source's contents are only available by locating its subcatalog and entering it.\n"
 "\n"
@@ -104,7 +108,7 @@ msgstr ""
 "\n"
 "Opomba: Kupfer je le integrator in ne pripravljalnik kazala. Kupfer ni zasnovan za kataloge z več kot nekaj tisoč predmeti in lahko postane počasen, če so na vrhnji ravni vključeni preveliki podkatalogi."
 
-#: ../data/preferences.ui.h:17
+#: ../data/preferences.ui.h:18
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Uporabi ukaze enega udarca tipk (presledek, /, pika, vejica, itn.)"
 
@@ -175,34 +179,35 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:726
+#: ../kupfer/ui/browser.py:731
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prazen"
 
-#: ../kupfer/ui/browser.py:730
+#: ../kupfer/ui/browser.py:735
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "V %(src)s ni zadetkov za \"%(query)s\""
 
-#: ../kupfer/ui/browser.py:736
+#: ../kupfer/ui/browser.py:741
 msgid "No matches"
 msgstr "Ni zadetkov"
 
-#: ../kupfer/ui/browser.py:741
+#: ../kupfer/ui/browser.py:746
 msgid "Type to search"
 msgstr "Vtipkajte za iskanje"
 
-#: ../kupfer/ui/browser.py:747
+#: ../kupfer/ui/browser.py:752
 #, python-format
 msgid "Type to search %s"
 msgstr "Vtipkajte za iskanje %s"
 
-#: ../kupfer/ui/browser.py:759
+#: ../kupfer/ui/browser.py:764
 msgid "No action"
 msgstr "Ni dejanja"
 
 #. TRANS: Names of global keyboard shortcuts
+#: ../kupfer/ui/browser.py:1458
 #: ../kupfer/ui/preferences.py:56
 msgid "Show Main Interface"
 msgstr "Pokaži glavni vmesnik"
@@ -261,70 +266,70 @@ msgid "Toggle Text Mode"
 msgstr "Preklopi besedilni način"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Description"
 msgstr "Opis"
 
-#: ../kupfer/ui/preferences.py:403
+#: ../kupfer/ui/preferences.py:405
 msgid "Author"
 msgstr "Avtor"
 
-#: ../kupfer/ui/preferences.py:419
+#: ../kupfer/ui/preferences.py:421
 msgid "Version"
 msgstr "Različica"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:429
+#: ../kupfer/ui/preferences.py:431
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Zahtevan je Python modul '%s'"
 
-#: ../kupfer/ui/preferences.py:443
+#: ../kupfer/ui/preferences.py:445
 msgid "Plugin could not be read due to an error:"
 msgstr "Vstavka ni mogoče prebrati zaradi napake:"
 
-#: ../kupfer/ui/preferences.py:451
+#: ../kupfer/ui/preferences.py:453
 #: ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "onemogočeno"
 
-#: ../kupfer/ui/preferences.py:523
+#: ../kupfer/ui/preferences.py:525
 msgid "Content of"
 msgstr "Vsebina"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:532
+#: ../kupfer/ui/preferences.py:534
 msgid "Sources"
 msgstr "Viri"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:536
+#: ../kupfer/ui/preferences.py:538
 msgid "Actions"
 msgstr "Dejanja"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:574
+#: ../kupfer/ui/preferences.py:576
 msgid "Configuration"
 msgstr "Nastavitev"
 
-#: ../kupfer/ui/preferences.py:594
+#: ../kupfer/ui/preferences.py:596
 msgid "Set username and password"
 msgstr "Nastavi uporabniško ime in geslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:648
+#: ../kupfer/ui/preferences.py:650
 msgid "Choose a Directory"
 msgstr "Izbor mape"
 
-#: ../kupfer/ui/preferences.py:767
+#: ../kupfer/ui/preferences.py:773
 msgid "Reset all shortcuts to default values?"
 msgstr "Ali naj bodo vse bližnjice ponastavljene na privzete vrednosti?"
 
-#: ../kupfer/ui/preferences.py:775
+#: ../kupfer/ui/preferences.py:781
 msgid "Command"
 msgstr "Ukaz"
 
-#: ../kupfer/ui/preferences.py:776
+#: ../kupfer/ui/preferences.py:782
 msgid "Shortcut"
 msgstr "Bližnjica"
 
@@ -1882,54 +1887,54 @@ msgid "Google Translate"
 msgstr "Google prevajalnik"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:160
+#: ../kupfer/plugin/google_translate.py:154
 msgid "Translate text with Google Translate"
 msgstr "Prevede besedilo z Google prevajalnikom"
 
 #. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:55
+#: ../kupfer/plugin/google_translate.py:58
 msgid "noun"
 msgstr "samostalnik"
 
-#: ../kupfer/plugin/google_translate.py:56
+#: ../kupfer/plugin/google_translate.py:59
 msgid "verb"
 msgstr "glagol"
 
-#: ../kupfer/plugin/google_translate.py:57
+#: ../kupfer/plugin/google_translate.py:60
 msgid "adjective"
 msgstr "pridevnik"
 
-#: ../kupfer/plugin/google_translate.py:90
+#: ../kupfer/plugin/google_translate.py:84
 msgid "Google Translate connection timed out"
 msgstr "Povezava z Google prevajalnikom je zakasnela"
 
-#: ../kupfer/plugin/google_translate.py:93
+#: ../kupfer/plugin/google_translate.py:87
 msgid "Error connecting to Google Translate"
 msgstr "Napaka med povezovanjem z Google prevajalnikom"
 
-#: ../kupfer/plugin/google_translate.py:143
-#: ../kupfer/plugin/google_translate.py:230
+#: ../kupfer/plugin/google_translate.py:137
+#: ../kupfer/plugin/google_translate.py:224
 msgid "Translate To..."
 msgstr "Prevedi v ..."
 
-#: ../kupfer/plugin/google_translate.py:186
+#: ../kupfer/plugin/google_translate.py:180
 #, python-format
 msgid "Translate into %s"
 msgstr "Prevedi v %s"
 
-#: ../kupfer/plugin/google_translate.py:210
+#: ../kupfer/plugin/google_translate.py:204
 msgid "Languages"
 msgstr "Jeziki"
 
-#: ../kupfer/plugin/google_translate.py:245
+#: ../kupfer/plugin/google_translate.py:239
 msgid "Show translated page in browser"
 msgstr "Pokaži prevedeno stran v brskalniku"
 
-#: ../kupfer/plugin/google_translate.py:262
+#: ../kupfer/plugin/google_translate.py:256
 msgid "Show Translation To..."
 msgstr "Pokaži prevod v ..."
 
-#: ../kupfer/plugin/google_translate.py:278
+#: ../kupfer/plugin/google_translate.py:272
 msgid "Show translation in browser"
 msgstr "Pokaži prevod v brskalniku"
 
