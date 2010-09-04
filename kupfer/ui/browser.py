@@ -517,6 +517,9 @@ class Search (gtk.Bin):
 		if not text_direction_is_ltr():
 			sub_x += win_width - subwin_width
 		self.list_window.move(sub_x, sub_y)
+		if not subwin_height:
+			subwin_height = 200
+			subwin_width = win_width
 		self.list_window.resize(subwin_width, subwin_height)
 
 		win = self.get_toplevel()
