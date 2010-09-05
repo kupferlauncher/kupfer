@@ -2,26 +2,33 @@
 NEWS for kupfer
 ===============
 
-kupfer's next release
----------------------
+kupfer v202
+-----------
 
-Not Released Yet
+Released Sunday,  5 September 2010
 
 * Add option to hide Kupfer when focus is lost (and enable by default)
-  (Grigory Javadyan)
+  (Grigory Javadyan) (:lp:`511972`)
 * Use application indicators when available (Francesco Marella)
   (:lp:`601861`)
 * Python module `keyring` is now optional for Kupfer (but required for
   the same plugins that used them before)
+* Update *Google Translate* for protocol changes (Karol, Ulrik) (:lp:`600406`)
 * Disable saving window position until a better solution is found
+* Use 'mailto:' as URL (:lp:`630489`)
+* Fix UI glictch with empty Source (William Friesen) (:lp:`630244`)
 * Small changes (Francesco Marella)
 * New Czech translation of the help pages (Marek Černocký)
+* New Italian translation of the help pages (Francesco Marella)
+* New Polish translation of the help pages (Karol Będkowski)
+* New Basque translation (Oier Mees, Iñaki Larrañaga Murgoitio)
 * New Galician translation (Fran Diéguez)
 
 * Localization updates:
 
   + cs (Marek Černocký)
   + de (Mario Blättermann)
+  + pl (Karol Będkowski)
   + sl (Andrej Žnidaršič)
   + zh_CN (Aron Xu)
 
