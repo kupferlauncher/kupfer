@@ -141,7 +141,7 @@ def _render_composed_icon(composed_icon, icon_size):
 	toppbuf = _get_icon_dwim(emblemicon, icon_size)
 	bottompbuf = _get_icon_dwim(baseicon, icon_size)
 	if not toppbuf or not bottompbuf:
-		return None
+		return _get_icon_for_standard_gicon(composed_icon, icon_size)
 
 	dest = bottompbuf.copy()
 	# @fr is the scale
