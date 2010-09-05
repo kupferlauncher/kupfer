@@ -110,12 +110,11 @@ class URLTextSource (TextSource):
 		domain = "".join(components[1:])
 
 		# If urlparse parses a scheme (http://), it's an URL
-		if len(domain.split()) == 1 and components[0]:
+		if len(domain.split()) <= 1 and components[0]:
 			url = text
 			name = ("".join(components[1:3])).strip("/")
-			name = try_unquote_url(name)
-			if name:
-				yield UrlLeaf(url, name=name)
+			name = try_unquote_url(name) or url
+			yield UrlLeaf(url, name=name)
 
 	def provides(self):
 		yield UrlLeaf
