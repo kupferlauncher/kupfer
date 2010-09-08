@@ -22,7 +22,7 @@
 PYTHON="@PYTHON@"
 PYTHONDIR="@PYTHONDIR@"
 test ${PYTHON:0:1} = "@" && PYTHON=python2.6
-test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $(realpath $0))/..
+test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $(readlink -f -- $0))/..
 
 SERVICE="se.kaizer.kupfer"
 OBJ="/interface"
@@ -53,7 +53,13 @@ _realpaths () {
 	# Emit realpaths for arguments, separated by NUL bytes
 	while test $# != 0
 	do
-		echo -ne $(realpath -- "$1")"\0"
+		LINK=$(readlink -e -- "$1")
+		if test $? != 0 ; then
+			echo "Error: $1 does not exist" > /dev/stderr
+			shift
+			continue
+		fi
+		echo -ne "$LINK\0"
 		shift
 	done
 }
