@@ -5,21 +5,29 @@ __kupfer_name__ = _("Terminal Server Client")
 __kupfer_sources__ = ("TsclientSessionSource", )
 __kupfer_actions__ = ("TsclientOpenSession", )
 __description__ = _("Session saved in Terminal Server Client")
-__version__ = "2010-01-07"
+__version__ = "2010-10-01"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+'''
+Changes:
+2010-10-01
+	Freddie Brandt
+	- read files in subdirs ~/.tsclient
+	Karol:
+	- drop FilesystemWatchMixin, add source_user_reloadable
+'''
 
 import os
 
 from kupfer.objects import Action
-from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import utils, icons
-from kupfer.obj.grouping import ToplevelGroupingSource 
+from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf
 
 
-
 TSCLIENT_SESSION_KEY = "TSCLIENT_SESSION"
+
 
 class TsclientSession(HostLeaf):
 	""" Leaf represent session saved in Tsclient"""
@@ -55,11 +63,11 @@ class TsclientOpenSession(Action):
 		return item.check_key(TSCLIENT_SESSION_KEY)
 
 
-class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource,
-		FilesystemWatchMixin, PicklingHelperMixin):
+class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource):
 	''' indexes session saved in tsclient '''
 
 	appleaf_content_id = 'tsclient'
+	source_user_reloadable = True
 
 	def __init__(self, name=_("TSClient sessions")):
 		ToplevelGroupingSource.__init__(self, name, "hosts")
@@ -68,26 +76,19 @@ class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 
 	def initialize(self):
 		ToplevelGroupingSource.initialize(self)
-		if not os.path.isdir(self._sessions_dir):
-			return
-		self.monitor_token = self.monitor_directories(self._sessions_dir)
-
-	def monitor_include_file(self, gfile):
-		return gfile and gfile.get_basename().endswith('.rdp')
 
 	def get_items(self):
 		if not os.path.isdir(self._sessions_dir):
 			return
-
-		for filename in os.listdir(self._sessions_dir):
-			if not filename.endswith('.rdp'):
-				continue
-
-			obj_path = os.path.join(self._sessions_dir, filename)
-			if os.path.isfile(obj_path):
-				name = filename[:-4]
-				description = self._load_descr_from_session_file(obj_path)
-				yield TsclientSession(obj_path, name, description)
+		for root, sub_folders_, files in os.walk(self._sessions_dir):
+			for filename in files:
+				if not filename.endswith('.rdp'):
+					continue
+				obj_path = os.path.join(root, filename)
+				if os.path.isfile(obj_path):
+					name = filename[:-4]
+					description = self._load_descr_from_session_file(obj_path)
+					yield TsclientSession(obj_path, name, description)
 
 	def get_description(self):
 		return _("Saved sessions in Terminal Server Client")
@@ -106,20 +107,12 @@ class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 				for line in session_file:
 					if line.startswith('full address:s:'):
 						host = line.split(':s:', 2)[1].strip()
-
 					elif line.startswith('username:s:'):
 						user = line.split(':s:', 2)[1].strip()
-
 		except IOError, err:
 			self.output_error(err)
-
 		else:
 			if host:
 				return unicode(user + '@' + host if user else host, "UTF-8",
 						"replace")
-
 		return u'Terminal Server Client Session'
-
-
-
-
