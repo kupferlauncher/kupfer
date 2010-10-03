@@ -108,6 +108,8 @@ class ChangeStatus(Action):
 		Action.__init__(self, _('Change Global Status To...'))
 
 	def activate(self, leaf, iobj):
+                bus = dbus.SessionBus()
+                interface = _create_dbus_connection()
                 for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
                         account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
                         connection_status = account.Get(ACCOUNT_IFACE, "ConnectionStatus")
@@ -164,7 +166,8 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 			self._contacts = []
 		return self._contacts
 
-        def _find_all_contacts(interface):
+        def _find_all_contacts(self, interface):
+                bus = dbus.SessionBus()
                 for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
                         account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
                         connection_status = account.Get(ACCOUNT_IFACE, "ConnectionStatus")
@@ -183,13 +186,15 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
                                         contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
                                         contact_attributes = [str(a) for a in contact_attributes]
                                         contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
+                                        account_name = str(account).split("/").pop()
+                                        #account_name = account_name.replace("_40", "@").replace("_2e", ".")
                                         for contact, details in contact_details.iteritems():
                                                 empathy_contact = EmpathyContact(
                                                                                 details[_ATTRIBUTES.get("jid")],
                                                                                 details[_ATTRIBUTES.get("alias")],
                                                                                 _STATUSES.get(details[_ATTRIBUTES.get("presence")][1]),
-                                                                                u'', # empathy does not seem to provide resources here
-                                                                                account,
+                                                                                '',
+                                                                                account_name,
                                                                                 )
                                                 yield empathy_contact
 
