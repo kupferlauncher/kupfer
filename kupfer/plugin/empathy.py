@@ -1,0 +1,213 @@
+# -*- coding: UTF-8 -*-
+# vim: set expandtab ts=8 sw=8:
+__kupfer_name__ = _("Empathy")
+__kupfer_sources__ = ("ContactsSource", )
+__kupfer_actions__ = ("ChangeStatus", 'OpenChat')
+__description__ = _("Access to Empathy Contacts")
+__version__ = "2010-01-06"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
+import dbus
+
+from kupfer import icons
+from kupfer import plugin_support
+from kupfer import pretty
+from kupfer.objects import Leaf, Action, Source, AppLeaf
+from kupfer.weaklib import dbus_signal_connect_weakly
+from kupfer.obj.helplib import PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
+		
+plugin_support.check_dbus_connection()
+
+_STATUSES = {
+        'available':	_('Available'),
+        'away':		_('Away'),
+        'dnd':		_('Busy'),
+        'xa':		_('Not Available'),
+        'hidden':       _('Invisible'),
+        'offline':	_('Offline')
+}
+
+_ATTRIBUTES = {
+        'alias':          dbus.String(u'org.freedesktop.Telepathy.Connection.Interface.Aliasing/alias'),
+        'presence':       dbus.String(u'org.freedesktop.Telepathy.Connection.Interface.SimplePresence/presence'),
+        'contact_caps':   dbus.String(u'org.freedesktop.Telepathy.Connection.Interface.ContactCapabilities.DRAFT/caps'),
+        'jid':            dbus.String(u'org.freedesktop.Telepathy.Connection/contact-id'),
+        'caps':           dbus.String(u'org.freedesktop.Telepathy.Connection.Interface.Capabilities/caps'),
+}
+
+
+ACCOUNTMANAGER_PATH = "/org/freedesktop/Telepathy/AccountManager"
+ACCOUNTMANAGER_IFACE = "org.freedesktop.Telepathy.AccountManager"
+ACCOUNT_IFACE = "org.freedesktop.Telepathy.Account"
+CHANNEL_GROUP_IFACE = "org.freedesktop.Telepathy.Channel.Interface.Group"
+CONTACT_IFACE = "org.freedesktop.Telepathy.Connection.Interface.Contacts"
+SIMPLE_PRESENCE_IFACE = "org.freedesktop.Telepathy.Connection.Interface.SimplePresence"
+DBUS_PROPS_IFACE = "org.freedesktop.DBus.Properties"
+
+EMPATHY_ACCOUNT_KEY = "EMPATHY_ACCOUNT"
+
+def _create_dbus_connection(activate=False):
+	''' Create dbus connection to Empathy
+		@activate: true=starts empathy if not running
+	'''
+	interface = None
+	sbus = dbus.SessionBus()
+	proxy_obj = sbus.get_object(ACCOUNTMANAGER_IFACE, ACCOUNTMANAGER_PATH)
+	dbus_iface = dbus.Interface(proxy_obj, DBUS_PROPS_IFACE)
+	return dbus_iface
+
+
+class EmpathyContact(JabberContact):
+	def __init__(self, jid, name, status, resources, account):
+		empathy_slots= { EMPATHY_ACCOUNT_KEY: account }
+		JabberContact.__init__(self, jid, name, status, resources, empathy_slots)
+
+	def repr_key(self):
+		return "".join((self.object[JABBER_JID_KEY], self.object[EMPATHY_ACCOUNT_KEY]))
+
+	def get_gicon(self):
+		return icons.ComposedIconSmall(self.get_icon_name(), "empathy")
+
+
+class AccountStatus(Leaf):
+	pass
+
+
+class OpenChat(Action):
+	def __init__(self):
+		Action.__init__(self, _('Open Chat'))
+
+	def activate(self, leaf):
+		interface = _create_dbus_connection()
+		jid = JABBER_JID_KEY in leaf and leaf[JABBER_JID_KEY]
+		account = leaf[EMPATHY_ACCOUNT_KEY]
+		if interface is not None:
+			vmaj,vmin,vbuild = _check_gajim_version(interface)
+			if vmaj == 0 and vmin < 13:
+				interface.open_chat(jid, account)
+			else:
+				interface.open_chat(jid, account, '')
+
+	def get_icon_name(self):
+		return 'empathy'
+
+	def item_types(self):
+		yield ContactLeaf
+
+	def valid_for_item(self, item):
+		return EMPATHY_ACCOUNT_KEY in item and item[EMPATHY_ACCOUNT_KEY]
+
+
+class ChangeStatus(Action):
+	''' Change global status '''
+
+	def __init__(self):
+		Action.__init__(self, _('Change Global Status To...'))
+
+	def activate(self, leaf, iobj):
+                for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
+                        account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
+                        connection_status = account.Get(ACCOUNT_IFACE, "ConnectionStatus")
+                        if connection_status != 0:
+                                continue
+
+                        connection_path = account.Get(ACCOUNT_IFACE, "Connection")
+                        connection_iface = connection_path.replace("/", ".")[1:]
+                        connection = bus.get_object(connection_iface, connection_path)
+                        simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
+                        simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
+
+	def item_types(self):
+		yield AppLeaf
+
+	def valid_for_item(self, leaf):
+		return leaf.get_id() == 'empathy'
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield AccountStatus
+
+	def object_source(self, for_item=None):
+		return StatusSource()
+
+
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
+		PicklingHelperMixin):
+	''' Get contacts from all on-line accounts in Empathy via DBus '''
+	appleaf_content_id = 'empathy'
+
+	def __init__(self, name=_('Empathy Contacts')):
+		super(ContactsSource, self).__init__(name, "Contacts")
+		self._version = 2
+		self.unpickle_finish()
+
+	def pickle_prepare(self):
+		self._contacts = []
+
+	def unpickle_finish(self):
+		self.mark_for_update()
+		self._contacts = []
+
+	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
+
+	def get_items(self):
+		interface = _create_dbus_connection()
+		if interface is not None:
+			self._contacts = list(self._find_all_contacts(interface))
+		else:
+			self._contacts = []
+		return self._contacts
+
+        def _find_all_contacts(interface):
+                for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
+                        account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
+                        connection_status = account.Get(ACCOUNT_IFACE, "ConnectionStatus")
+                        if connection_status != 0:
+                                continue
+
+                        connection_path = account.Get(ACCOUNT_IFACE, "Connection")
+                        connection_iface = connection_path.replace("/", ".")[1:]
+                        connection = bus.get_object(connection_iface, connection_path)
+                        channels = connection.ListChannels()
+                        for channel in channels:
+                                contact_group = bus.get_object(connection_iface, channel[0])
+                                contacts = contact_group.Get(CHANNEL_GROUP_IFACE, "Members")
+                                if contacts:
+                                        contacts = [c for c in contacts]
+                                        contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
+                                        contact_attributes = [str(a) for a in contact_attributes]
+                                        contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
+                                        for contact, details in contact_details.iteritems():
+                                                empathy_contact = EmpathyContact(
+                                                                                details[_ATTRIBUTES.get("jid")],
+                                                                                details[_ATTRIBUTES.get("alias")],
+                                                                                _STATUSES.get(details[_ATTRIBUTES.get("presence")][1]),
+                                                                                u'', # empathy does not seem to provide resources here
+                                                                                account,
+                                                                                )
+                                                yield empathy_contact
+
+	def get_icon_name(self):
+		return 'empathy'
+
+	def provides(self):
+		yield ContactLeaf
+
+
+class StatusSource(Source):
+	def __init__(self):
+		Source.__init__(self, _("Empathy Account Status"))
+
+	def get_items(self):
+		for status, name in _STATUSES.iteritems():
+			yield AccountStatus(status, name)
+
+	def provides(self):
+		yield AccountStatus
+
