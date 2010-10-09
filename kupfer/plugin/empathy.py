@@ -27,7 +27,7 @@ _STATUSES = {
         'away':		_('Away'),
         'dnd':		_('Busy'),
         'xa':		_('Not Available'),
-        'hidden':      _('Invisible'),
+        'hidden':	_('Invisible'),
         'offline':	_('Offline')
 }
 
