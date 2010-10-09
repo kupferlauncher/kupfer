@@ -26,7 +26,7 @@ _STATUSES = {
         'away':		_('Away'),
         'dnd':		_('Busy'),
         'xa':		_('Not Available'),
-        'hidden':       _('Invisible'),
+        'hidden':      _('Invisible'),
         'offline':	_('Offline')
 }
 
@@ -116,11 +116,15 @@ class ChangeStatus(Action):
                         if connection_status != 0:
                                 continue
 
-                        connection_path = account.Get(ACCOUNT_IFACE, "Connection")
-                        connection_iface = connection_path.replace("/", ".")[1:]
-                        connection = bus.get_object(connection_iface, connection_path)
-                        simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
-                        simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
+                        if iobj.object == "offline":
+                                false = dbus.Boolean(0, variant_level=1)
+                                account.Set(ACCOUNT_IFACE, "Enabled", false)
+                        else:
+                                connection_path = account.Get(ACCOUNT_IFACE, "Connection")
+                                connection_iface = connection_path.replace("/", ".")[1:]
+                                connection = bus.get_object(connection_iface, connection_path)
+                                simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
+                                simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
 
 	def item_types(self):
 		yield AppLeaf
