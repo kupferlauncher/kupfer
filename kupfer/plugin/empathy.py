@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-# vim: set expandtab ts=8 sw=8:
+# vim: set noexpandtab ts=8 sw=8:
 __kupfer_name__ = _("Empathy")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'OpenChat')
@@ -8,6 +8,7 @@ __version__ = "2010-01-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import dbus
+import time
 
 from kupfer import icons
 from kupfer import plugin_support
@@ -46,8 +47,16 @@ CHANNEL_GROUP_IFACE = "org.freedesktop.Telepathy.Channel.Interface.Group"
 CONTACT_IFACE = "org.freedesktop.Telepathy.Connection.Interface.Contacts"
 SIMPLE_PRESENCE_IFACE = "org.freedesktop.Telepathy.Connection.Interface.SimplePresence"
 DBUS_PROPS_IFACE = "org.freedesktop.DBus.Properties"
+CHANNELDISPATCHER_IFACE = "org.freedesktop.Telepathy.ChannelDispatcher"
+CHANNELDISPATCHER_PATH = "/org/freedesktop/Telepathy/ChannelDispatcher"
+CHANNEL_TYPE = "org.freedesktop.Telepathy.Channel.ChannelType";
+CHANNEL_TYPE_TEXT = "org.freedesktop.Telepathy.Channel.Type.Text"
+CHANNEL_TARGETHANDLE = "org.freedesktop.Telepathy.Channel.TargetHandle"
+CHANNEL_TARGETHANDLETYPE = "org.freedesktop.Telepathy.Channel.TargetHandleType"
+EMPATHY_CLIENT_IFACE = "org.freedesktop.Telepathy.Client.Empathy"
 
 EMPATHY_ACCOUNT_KEY = "EMPATHY_ACCOUNT"
+EMPATHY_CONTACT_ID = "EMPATHY_CONTACT_ID"
 
 def _create_dbus_connection(activate=False):
 	''' Create dbus connection to Empathy
@@ -61,8 +70,8 @@ def _create_dbus_connection(activate=False):
 
 
 class EmpathyContact(JabberContact):
-	def __init__(self, jid, name, status, resources, account):
-		empathy_slots= { EMPATHY_ACCOUNT_KEY: account }
+	def __init__(self, jid, name, status, resources, account, contact_id):
+                empathy_slots= { EMPATHY_ACCOUNT_KEY: account, EMPATHY_CONTACT_ID: contact_id }
 		JabberContact.__init__(self, jid, name, status, resources, empathy_slots)
 
 	def repr_key(self):
@@ -81,15 +90,21 @@ class OpenChat(Action):
 		Action.__init__(self, _('Open Chat'))
 
 	def activate(self, leaf):
-		interface = _create_dbus_connection()
-		jid = JABBER_JID_KEY in leaf and leaf[JABBER_JID_KEY]
-		account = leaf[EMPATHY_ACCOUNT_KEY]
-		if interface is not None:
-			vmaj,vmin,vbuild = _check_gajim_version(interface)
-			if vmaj == 0 and vmin < 13:
-				interface.open_chat(jid, account)
-			else:
-				interface.open_chat(jid, account, '')
+		bus = dbus.SessionBus()
+                jid = JABBER_JID_KEY in leaf and leaf[JABBER_JID_KEY]
+                account = bus.get_object(ACCOUNTMANAGER_IFACE, leaf[EMPATHY_ACCOUNT_KEY])
+                contact_id = leaf[EMPATHY_CONTACT_ID]
+
+                cd_iface = bus.get_object(CHANNELDISPATCHER_IFACE, CHANNELDISPATCHER_PATH)
+                ticks = dbus.Int64(time.time())
+                ch_req_params = dbus.Dictionary()
+                ch_req_params[CHANNEL_TYPE] = dbus.String(CHANNEL_TYPE_TEXT, variant_level=1)
+                ch_req_params[CHANNEL_TARGETHANDLETYPE] = dbus.UInt32(1, variant_level=1)
+                ch_req_params[CHANNEL_TARGETHANDLE] = contact_id
+                msg_ch_path = cd_iface.EnsureChannel(account, ch_req_params, ticks, EMPATHY_CLIENT_IFACE)
+                ch_req = bus.get_object(ACCOUNTMANAGER_IFACE, msg_ch_path)
+                ch_req.Proceed()
+        
 
 	def get_icon_name(self):
 		return 'empathy'
@@ -190,15 +205,14 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
                                         contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
                                         contact_attributes = [str(a) for a in contact_attributes]
                                         contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
-                                        account_name = str(account).split("/").pop()
-                                        #account_name = account_name.replace("_40", "@").replace("_2e", ".")
                                         for contact, details in contact_details.iteritems():
                                                 empathy_contact = EmpathyContact(
                                                                                 details[_ATTRIBUTES.get("jid")],
                                                                                 details[_ATTRIBUTES.get("alias")],
                                                                                 _STATUSES.get(details[_ATTRIBUTES.get("presence")][1]),
                                                                                 '',
-                                                                                account_name,
+                                                                                valid_account,
+                                                                                contact
                                                                                 )
                                                 yield empathy_contact
 
