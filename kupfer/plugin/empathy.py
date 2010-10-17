@@ -58,10 +58,7 @@ EMPATHY_CLIENT_IFACE = "org.freedesktop.Telepathy.Client.Empathy"
 EMPATHY_ACCOUNT_KEY = "EMPATHY_ACCOUNT"
 EMPATHY_CONTACT_ID = "EMPATHY_CONTACT_ID"
 
-def _create_dbus_connection(activate=False):
-	''' Create dbus connection to Empathy
-		@activate: true=starts empathy if not running
-	'''
+def _create_dbus_connection():
 	interface = None
 	sbus = dbus.SessionBus()
 	proxy_obj = sbus.get_object(ACCOUNTMANAGER_IFACE, ACCOUNTMANAGER_PATH)
@@ -95,15 +92,15 @@ class OpenChat(Action):
                 account = bus.get_object(ACCOUNTMANAGER_IFACE, leaf[EMPATHY_ACCOUNT_KEY])
                 contact_id = leaf[EMPATHY_CONTACT_ID]
 
-                cd_iface = bus.get_object(CHANNELDISPATCHER_IFACE, CHANNELDISPATCHER_PATH)
+                channel_dispatcher_iface = bus.get_object(CHANNELDISPATCHER_IFACE, CHANNELDISPATCHER_PATH)
                 ticks = dbus.Int64(time.time())
-                ch_req_params = dbus.Dictionary()
-                ch_req_params[CHANNEL_TYPE] = dbus.String(CHANNEL_TYPE_TEXT, variant_level=1)
-                ch_req_params[CHANNEL_TARGETHANDLETYPE] = dbus.UInt32(1, variant_level=1)
-                ch_req_params[CHANNEL_TARGETHANDLE] = contact_id
-                msg_ch_path = cd_iface.EnsureChannel(account, ch_req_params, ticks, EMPATHY_CLIENT_IFACE)
-                ch_req = bus.get_object(ACCOUNTMANAGER_IFACE, msg_ch_path)
-                ch_req.Proceed()
+                channel_request_params = dbus.Dictionary()
+                channel_request_params[CHANNEL_TYPE] = dbus.String(CHANNEL_TYPE_TEXT, variant_level=1)
+                channel_request_params[CHANNEL_TARGETHANDLETYPE] = dbus.UInt32(1, variant_level=1)
+                channel_request_params[CHANNEL_TARGETHANDLE] = contact_id
+                message_channel_path = channel_dispatcher_iface.EnsureChannel(account, channel_request_params, ticks, EMPATHY_CLIENT_IFACE)
+                channel_request = bus.get_object(ACCOUNTMANAGER_IFACE, message_channel_path)
+                channel_request.Proceed()
         
 
 	def get_icon_name(self):
