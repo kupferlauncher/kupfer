@@ -4,8 +4,8 @@ __kupfer_name__ = _("Empathy")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'OpenChat')
 __description__ = _("Access to Empathy Contacts")
-__version__ = "2010-01-06"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+__version__ = "2010-10-17"
+__author__ = "Jakh Daven <tuxcanfly@gmail.com>"
 
 import dbus
 import time
@@ -18,8 +18,8 @@ from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY 
-		
+from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY
+
 plugin_support.check_dbus_connection()
 
 _STATUSES = {
@@ -49,7 +49,7 @@ SIMPLE_PRESENCE_IFACE = "org.freedesktop.Telepathy.Connection.Interface.SimplePr
 DBUS_PROPS_IFACE = "org.freedesktop.DBus.Properties"
 CHANNELDISPATCHER_IFACE = "org.freedesktop.Telepathy.ChannelDispatcher"
 CHANNELDISPATCHER_PATH = "/org/freedesktop/Telepathy/ChannelDispatcher"
-CHANNEL_TYPE = "org.freedesktop.Telepathy.Channel.ChannelType";
+CHANNEL_TYPE = "org.freedesktop.Telepathy.Channel.ChannelType"
 CHANNEL_TYPE_TEXT = "org.freedesktop.Telepathy.Channel.Type.Text"
 CHANNEL_TARGETHANDLE = "org.freedesktop.Telepathy.Channel.TargetHandle"
 CHANNEL_TARGETHANDLETYPE = "org.freedesktop.Telepathy.Channel.TargetHandleType"
@@ -67,6 +67,7 @@ def _create_dbus_connection():
 
 
 class EmpathyContact(JabberContact):
+
 	def __init__(self, jid, name, status, resources, account, contact_id):
                 empathy_slots= { EMPATHY_ACCOUNT_KEY: account, EMPATHY_CONTACT_ID: contact_id }
 		JabberContact.__init__(self, jid, name, status, resources, empathy_slots)
@@ -83,6 +84,7 @@ class AccountStatus(Leaf):
 
 
 class OpenChat(Action):
+
 	def __init__(self):
 		Action.__init__(self, _('Open Chat'))
 
@@ -101,7 +103,7 @@ class OpenChat(Action):
                 message_channel_path = channel_dispatcher_iface.EnsureChannel(account, channel_request_params, ticks, EMPATHY_CLIENT_IFACE)
                 channel_request = bus.get_object(ACCOUNTMANAGER_IFACE, message_channel_path)
                 channel_request.Proceed()
-        
+
 
 	def get_icon_name(self):
 		return 'empathy'
@@ -207,7 +209,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
                                                                                 details[_ATTRIBUTES.get("jid")],
                                                                                 details[_ATTRIBUTES.get("alias")],
                                                                                 _STATUSES.get(details[_ATTRIBUTES.get("presence")][1]),
-                                                                                '',
+                                                                                '', # empathy does not provide resource here AFAIK
                                                                                 valid_account,
                                                                                 contact
                                                                                 )
@@ -221,6 +223,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 
 
 class StatusSource(Source):
+
 	def __init__(self):
 		Source.__init__(self, _("Empathy Account Status"))
 
