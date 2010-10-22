@@ -23,7 +23,7 @@ DOC_PAGES = \
 	tips.page 
 
 
-DOC_LINGUAS = cs de es it pl
+DOC_LINGUAS = cs de es it pl sl
 
 
 # dist-hook: doc-dist-hook
