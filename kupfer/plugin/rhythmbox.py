@@ -248,26 +248,38 @@ class AlbumLeaf (TrackCollection):
 				break
 		# TRANS: Album description "by Artist"
 		return _("by %s") % (artist, )
+
+	def _get_thumb_local(self):
+		# try local filesystem
+		uri = self.object[0]["location"]
+		gfile = gio.File(uri)
+		for cover_name in ("album.jpg", "cover.jpg"):
+			cfile = gfile.resolve_relative_path("../" + cover_name)
+			if cfile.query_exists():
+				return cfile.get_path()
+
+	def _get_thumb_mediaart(self):
+		"""old thumb location"""
+		ltitle = unicode(self).lower()
+		# ignore the track artist -- use the space fallback
+		# hash of ' ' as fallback
+		hspace = "7215ee9c7d9dc229d2921a40e899ec5f"
+		htitle = md5(_tostr(ltitle)).hexdigest()
+		hartist = hspace
+		cache_name = "album-%s-%s.jpeg" % (hartist, htitle)
+		return config.get_cache_file(("media-art", cache_name))
+
+	def _get_thumb_rhythmbox(self):
+		artist = self.object[0]["artist"]
+		album = unicode(self)
+		return config.get_cache_file(("rhythmbox", "covers",
+		                              "%s - %s.jpg" % (artist, album)))
+
 	def get_thumbnail(self, width, height):
 		if not hasattr(self, "cover_file"):
-			ltitle = unicode(self).lower()
-			# ignore the track artist -- use the space fallback
-			# hash of ' ' as fallback
-			hspace = "7215ee9c7d9dc229d2921a40e899ec5f"
-			htitle = md5(_tostr(ltitle)).hexdigest()
-			hartist = hspace
-			cache_name = "album-%s-%s.jpeg" % (hartist, htitle)
-			cache_file = config.get_cache_file(("media-art", cache_name))
-			# now try filesystem
-			if not cache_file:
-				uri = self.object[0]["location"]
-				gfile = gio.File(uri)
-				for cover_name in ("album.jpg", "cover.jpg"):
-					cfile = gfile.resolve_relative_path("../" + cover_name)
-					if cfile.query_exists():
-						cache_file = cfile.get_path()
-						break
-			self.cover_file = cache_file
+			self.cover_file = (self._get_thumb_rhythmbox() or
+			                   self._get_thumb_mediaart() or
+			                   self._get_thumb_local())
 		return icons.get_pixbuf_from_file(self.cover_file, width, height)
 
 class ArtistAlbumsSource (CollectionSource):
