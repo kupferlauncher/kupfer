@@ -1531,6 +1531,11 @@ class WindowController (pretty.OutputMixin):
 	def result_callback(self, sender, result_type):
 		self.activate()
 
+	def _window_recenter(self, *args):
+		"""Recenter window on event"""
+		# Temporarily make the window centering again
+		self.window.set_position(gtk.WIN_POS_CENTER)
+
 	def _lost_focus(self, window, event):
 		setctl = settings.GetSettingsController()
 		if setctl.get_close_on_unfocus():
@@ -1681,6 +1686,10 @@ class WindowController (pretty.OutputMixin):
 		client = session.SessionClient()
 		client.connect("save-yourself", self._session_save)
 		client.connect("die", self._session_die)
+
+		# GTK Screen callbacks
+		scr = gtk.gdk.screen_get_default()
+		scr.connect("monitors-changed", self._window_recenter)
 
 		self.output_debug("finished lazy_setup")
 
