@@ -808,6 +808,7 @@ class Interface (gobject.GObject):
 		self._reset_to_toplevel = False
 		self.entry.set_size_request(0, 0)
 		self.entry.connect("realize", self._entry_realized)
+		self.entry.set_property("im-module", "gtk-im-context-simple")
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
