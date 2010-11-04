@@ -1510,7 +1510,6 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
-		self.window.set_position(gtk.WIN_POS_CENTER)
 		if not text_direction_is_ltr():
 			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
 		# Setting not resizable changes from utility window
@@ -1532,11 +1531,6 @@ class WindowController (pretty.OutputMixin):
 	def result_callback(self, sender, result_type):
 		self.activate()
 
-	def _window_recenter(self, *args):
-		"""Recenter window on event"""
-		# Temporarily make the window centering again
-		self.window.set_position(gtk.WIN_POS_CENTER)
-
 	def _lost_focus(self, window, event):
 		setctl = settings.GetSettingsController()
 		if setctl.get_close_on_unfocus():
@@ -1555,15 +1549,40 @@ class WindowController (pretty.OutputMixin):
 			    y not in xrange(w_y, w_y + w_h)):
 				self._window_hide_timer.set_ms(50, self.put_away)
 
+	def _center_window(self, *ignored):
+		"""Center Window on the monitor the pointer is currently on"""
+		display = gtk.gdk.display_get_default()
+		screen, x, y, modifiers = display.get_pointer()
+		self.window.set_screen(screen)
+		monitor_nr = screen.get_monitor_at_point(x, y)
+		geo = screen.get_monitor_geometry(monitor_nr)
+		wid, hei = self.window.get_size()
+		midx = (geo.x + geo.width) / 2.0 - wid/2.0
+		midy = (geo.y + geo.height) / 2.0 - hei/2.0
+		self.window.move(midx, midy)
+
+	def _should_recenter_window(self):
+		"""Return True if the mouse pointer and the window
+		are on different monitors.
+		"""
+		# Check if the GtkWindow was realized yet
+		if not self.window.window:
+			return True
+		display = gtk.gdk.display_get_default()
+		screen, x, y, modifiers = display.get_pointer()
+		return (screen.get_monitor_at_point(x,y) !=
+		        screen.get_monitor_at_window(self.window.window))
+
 	def activate(self, sender=None, time=0):
 		self._window_hide_timer.invalidate()
 		if not time:
 			time = (gtk.get_current_event_time() or
 			        keybindings.get_current_event_time())
+		if self._should_recenter_window():
+			self._center_window()
 		self.window.stick()
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
-		self.window.set_position(gtk.WIN_POS_NONE)
 		self.interface.focus()
 
 	def put_away(self):
@@ -1690,7 +1709,7 @@ class WindowController (pretty.OutputMixin):
 
 		# GTK Screen callbacks
 		scr = gtk.gdk.screen_get_default()
-		scr.connect("monitors-changed", self._window_recenter)
+		scr.connect("monitors-changed", self._center_window)
 
 		self.output_debug("finished lazy_setup")
 
