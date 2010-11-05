@@ -1,7 +1,7 @@
 import Options, Utils
 import os
 
-def set_options(opt):
+def options(opt):
 	opt.add_option('--no-install-nautilus-extension',
 			action='store_true',
 			default=False,

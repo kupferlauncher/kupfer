@@ -1,9 +1,8 @@
 #! /usr/bin/env python
 
-import Options
-import Utils
+from waflib import Options, Utils, Logs
 
-def set_options(opt):
+def options(opt):
 	opt.add_option('--no-update-mime',
 			action='store_true',
 			default=False,
@@ -18,14 +17,14 @@ def build(bld):
 	# merge translations into the .desktop file
 	# and set it up to be installed
 	def install_desktop_file(desktop_subst_file):
-		bld.new_task_gen(
-			"intltool_in",
+		bld(
+			features="intltool_in",
 			podir="../po",
 			flags = ("-d", "-q", "-u", "-c"),
 			source = desktop_subst_file  + ".in",
 			target = desktop_subst_file,
 			install_path = "${DATADIR}/applications",
-			chmod = 0755,
+			chmod = 0o755,
 		)
 
 	install_desktop_file("kupfer.desktop")
@@ -34,8 +33,8 @@ def build(bld):
 	# install mimetype descriptions
 
 	mimetypes_file = "kupfer-mimetypes.xml"
-	bld.new_task_gen(
-		"intltool_in",
+	bld(
+		features="intltool_in",
 		podir="../po",
 		flags = ("-x", "-q", "-u", "-c"),
 		source = mimetypes_file  + ".in",
@@ -54,11 +53,11 @@ def build(bld):
 
 	# Waf's "gnome" tool  -- def postinstall_icons():
 	if icons_inst and bld.is_install:
-		icon_dir = bld.get_install_path('${DATADIR}/icons/hicolor')
+		icon_dir = Utils.subst_vars('${DATADIR}/icons/hicolor', bld.env)
 		if not Options.options.destdir:
-			Utils.pprint('YELLOW',"Updating Gtk icon cache.")
+			Logs.pprint('GREEN',"Updating Gtk icon cache.")
 			command='gtk-update-icon-cache -q -f -t %s' % icon_dir
-			ret=Utils.exec_command(command)
+			bld.exec_command(command)
 		else:
-			Utils.pprint('YELLOW','Icon cache not updated. After install, run this:')
-			Utils.pprint('YELLOW','gtk-update-icon-cache -q -f -t %s'%icon_dir)
+			Logs.pprint('YELLOW','Icon cache not updated. After install, run this:')
+			Logs.pprint('YELLOW','gtk-update-icon-cache -q -f -t %s'%icon_dir)

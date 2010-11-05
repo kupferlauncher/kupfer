@@ -5,8 +5,7 @@
 
 ## Mallard functionality definitions ##
 import os
-import Task
-import TaskGen
+from waflib import Task, TaskGen, Utils
 
 # FIXME: Support for figures
 
@@ -25,8 +24,8 @@ def init_mallard(self):
 	have_vars = set(var for var in DOC_VAR if DOC_VAR[var])
 	missing_vars = set(require_vars).difference(have_vars)
 	if missing_vars:
-		print "Missing DOC variable declarations in %s:" % (mf_am.abspath())
-		print "\n".join(missing_vars)
+		print("Missing DOC variable declarations in %s:" % (mf_am.abspath()))
+		print("\n".join(missing_vars))
 
 	self.bld.env.update(DOC_VAR)
 	self.default_install_path='${PREFIX}/share/gnome/help/${DOC_ID}'
@@ -35,17 +34,16 @@ def apply_mallard(self):
 	bld = self.bld
 	lst = self.to_list(bld.env["DOC_LINGUAS"])
 	cnode = self.path.find_dir("C")
-	self.bld.rescan(cnode)
 
-	pages = [p for p in self.bld.cache_dir_contents[cnode.id]
-			if (os.path.splitext(p)[-1].lower()) == ".page"]
+	pages = cnode.ant_glob("*.page")
+	self.install_path = Utils.subst_vars(self.default_install_path, self.env)
 
 	# Check if the declared page list is consistent
 	declared_pages = self.to_list(bld.env["DOC_PAGES"])
-	missing_pages = set(pages).difference(declared_pages)
+	missing_pages = set([str(p) for p in pages]).difference(declared_pages)
 	if missing_pages:
-		print "Warning: Some pages not declared:"
-		print "\n".join(missing_pages)
+		print("Warning: Some pages not declared:")
+		print("\n".join([str(p) for p in missing_pages]))
 
 	for lang in lst:
 		node = self.path.find_resource("%s/%s.po" % (lang, lang))
@@ -55,12 +53,11 @@ def apply_mallard(self):
 			src = self.path.find_resource('C/%s' % page)
 			tsk.set_inputs([node,src])
 			tsk.set_outputs(out)
-			tsk.install_path = os.path.join(self.install_path, lang)
-	if bld.is_install:
-		for page in pages:
-			out = "%s/%s" % (cnode.abspath(), page)
-			instdir = os.path.join(self.install_path, "C")
-			bld.install_files(instdir, out)
+			bld.install_files(os.path.join(self.install_path, lang),
+			                  tsk.outputs)
+	for page in pages:
+		instdir = os.path.join(self.install_path, "C")
+		bld.install_files(instdir, page)
 
 Task.simple_task_type('xml2po', '${XML2PO} ${XML2POFLAGS} ${SRC} > ${TGT}',
 		color='BLUE')
@@ -74,7 +71,7 @@ TaskGen.after('init_mallard')(apply_mallard)
 
 # Build Configuration
 
-def set_options(opt):
+def options(opt):
 	pass
 
 def configure(conf):
@@ -83,7 +80,6 @@ def configure(conf):
 
 def build(bld):
 	if bld.env["XML2PO"]:
-		task = bld.new_task_gen(
-			features="mallard",
+		task = bld(features="mallard",
 			variable_definitions="Makefile.am",
 		)
