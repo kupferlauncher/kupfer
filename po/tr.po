@@ -1,0 +1,2703 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-06 16:05+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Deran Delice <deran.web@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../auxdata/kupfer.desktop.in.h:1
+msgid "Application Launcher"
+msgstr "Uygulama Çalıştırıcı"
+
+#: ../auxdata/kupfer.desktop.in.h:2
+msgid "Convenient command and access tool for applications and documents"
+msgstr ""
+
+#: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
+#: ../kupfer/plugin/core/contents.py:85
+msgid "Kupfer"
+msgstr "Kupfer"
+
+#: ../auxdata/kupfer-exec.desktop.in.h:1
+msgid "Execute in Kupfer"
+msgstr "Kupfer içinde çalıştır"
+
+#: ../auxdata/kupfer-mimetypes.xml.in.h:1
+msgid "Saved Kupfer Command"
+msgstr "Kayıtlı Kupfer Komutu"
+
+#: ../data/preferences.ui.h:1
+msgid "<b>Browser Keyboard Shortcuts</b>"
+msgstr "<b>Klavye Kısayollarını Görüntüle</b>"
+
+#: ../data/preferences.ui.h:2
+msgid "<b>Directories</b>"
+msgstr "<b>Klasörler</b>"
+
+#: ../data/preferences.ui.h:3
+msgid "<b>Global Keyboard Shortcuts</b>"
+msgstr "<b>Genel Klavye Kısayolları</b>"
+
+#: ../data/preferences.ui.h:4
+msgid "<b>Interface</b>"
+msgstr "<b>Arayüz</b>"
+
+#: ../data/preferences.ui.h:5
+msgid "<b>Start</b>"
+msgstr "<b>Başlat</b>"
+
+#: ../data/preferences.ui.h:6 ../kupfer/obj/sources.py:144
+msgid "Catalog"
+msgstr "Katalog"
+
+#: ../data/preferences.ui.h:7
+msgid "General"
+msgstr "Genel"
+
+#: ../data/preferences.ui.h:8
+msgid "Hide Kupfer when focus is lost"
+msgstr "Başka pencereye odaklanıldığında uygulamayı gizle"
+
+#: ../data/preferences.ui.h:9
+msgid "Keyboard"
+msgstr "Klavye"
+
+#: ../data/preferences.ui.h:10 ../kupfer/plugin/core/contents.py:74
+msgid "Kupfer Preferences"
+msgstr "Kupfer Özellikleri"
+
+#: ../data/preferences.ui.h:11
+msgid "Plugins"
+msgstr "Eklentiler"
+
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:775
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: ../data/preferences.ui.h:13
+msgid "Show icon in notification area"
+msgstr "Bildirim alanında simge görüntüle"
+
+#: ../data/preferences.ui.h:14
+msgid "Start automatically on login"
+msgstr "Oturum açıldığında başlat"
+
+#: ../data/preferences.ui.h:15
+msgid ""
+"Tick the box next to a source to make sure its objects are exported to the "
+"top level of the catalog. An unticked source's contents are only available "
+"by locating its subcatalog and entering it.\n"
+"\n"
+"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
+"to carry a catalog larger than a couple of thousand objects, and may become "
+"slow if overly large subcatalogs are included in the top level."
+msgstr ""
+
+#: ../data/preferences.ui.h:18
+msgid "Use single keystroke commands (Space, /, period, comma etc.)"
+msgstr "Tek klavye kısayolu komutu kullan (Boşluk,/,virgül gibi)"
+
+#: ../data/credentials_dialog.ui.h:1
+msgid "User credentials"
+msgstr "Kullanıcı kimlik bilgileri"
+
+#: ../data/credentials_dialog.ui.h:2
+msgid "_Change"
+msgstr "_Değiştir"
+
+#: ../data/credentials_dialog.ui.h:3
+msgid "_Password:"
+msgstr "_Şifre:"
+
+#: ../data/credentials_dialog.ui.h:4
+msgid "_User:"
+msgstr "_Kullanıcı:"
+
+#: ../data/getkey_dialog.ui.h:1
+msgid "Keybinding could not be bound"
+msgstr "Klavye kısayolu bulunamadı"
+
+#: ../data/getkey_dialog.ui.h:2
+msgid "Please press desired key combination"
+msgstr "Lütfen istenen tuş bileşimini girin"
+
+#: ../data/getkey_dialog.ui.h:3
+msgid "Set Keyboard Shortcut"
+msgstr "Klavye Kısayolu Ayarla"
+
+#: ../kupfer/main.py:39
+msgid "do not present main interface on launch"
+msgstr "açılışta uygulama penceresini gösterme"
+
+#: ../kupfer/main.py:40
+msgid "list available plugins"
+msgstr "kullanılabilir eklenti listesi"
+
+#: ../kupfer/main.py:41
+msgid "enable debug info"
+msgstr "hata ayıklama bilgisini etkinleştir"
+
+#: ../kupfer/main.py:44
+msgid "show usage help"
+msgstr "kullanım yardımını göster"
+
+#: ../kupfer/main.py:45
+msgid "show version information"
+msgstr "sürüm bilgisini göster"
+
+#: ../kupfer/main.py:50
+msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
+msgstr "Kullanımı: kupfer [ OPTIONS | FILE ... ]"
+
+#: ../kupfer/main.py:61
+msgid "Available plugins:"
+msgstr "Uygun eklentiler:"
+
+#: ../kupfer/main.py:105
+#, python-format
+msgid ""
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"\t%(COPYRIGHT)s\n"
+"\t%(WEBSITE)s\n"
+msgstr ""
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"\t%(COPYRIGHT)s\n"
+"\t%(WEBSITE)s\n"
+
+#: ../kupfer/ui/browser.py:734
+#, python-format
+msgid "%s is empty"
+msgstr "%s boş"
+
+#: ../kupfer/ui/browser.py:738
+#, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr ""
+
+#: ../kupfer/ui/browser.py:744
+msgid "No matches"
+msgstr "Eşleşme bulunamadı"
+
+#: ../kupfer/ui/browser.py:749
+msgid "Type to search"
+msgstr "Aramak için yazın"
+
+#: ../kupfer/ui/browser.py:755
+#, python-format
+msgid "Type to search %s"
+msgstr " %s'da aramak için yazın "
+
+#: ../kupfer/ui/browser.py:767
+msgid "No action"
+msgstr "Eylem yok"
+
+#. TRANS: Names of global keyboard shortcuts
+#: ../kupfer/ui/browser.py:1462 ../kupfer/ui/preferences.py:56
+msgid "Show Main Interface"
+msgstr "Uygulama Penceresini Göster"
+
+#: ../kupfer/ui/preferences.py:57
+msgid "Show with Selection"
+msgstr "Seçim ile Göster"
+
+#. TRANS: Names of accelerators in the interface
+#: ../kupfer/ui/preferences.py:67
+msgid "Alternate Activate"
+msgstr ""
+
+#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+#. TRANS: user to select many objects to be used for one action
+#: ../kupfer/ui/preferences.py:70
+msgid "Comma Trick"
+msgstr "Virgül Hileleri"
+
+#. TRANS: "Compose Command" makes one object out of the selected
+#. TRANS: object + action (+iobject)
+#: ../kupfer/ui/preferences.py:73
+msgid "Compose Command"
+msgstr "Komut Oluştur"
+
+#: ../kupfer/ui/preferences.py:74
+msgid "Reset All"
+msgstr "Tümünü Sıfırla"
+
+#: ../kupfer/ui/preferences.py:75
+msgid "Select Quit"
+msgstr "Çıkış Yap"
+
+#: ../kupfer/ui/preferences.py:76
+msgid "Select Selected File"
+msgstr "Seçilmiş Dosyayı Seç"
+
+#: ../kupfer/ui/preferences.py:77
+msgid "Select Selected Text"
+msgstr "Seçilmiş Yazıyı Seç"
+
+#: ../kupfer/ui/preferences.py:78
+msgid "Show Help"
+msgstr "Yardımı Göster"
+
+#: ../kupfer/ui/preferences.py:79
+msgid "Show Preferences"
+msgstr "Ayarları Göster"
+
+#: ../kupfer/ui/preferences.py:80
+msgid "Switch to First Pane"
+msgstr ""
+
+#: ../kupfer/ui/preferences.py:81
+msgid "Toggle Text Mode"
+msgstr "Metin Kipine Geç"
+
+#. TRANS: Plugin info fields
+#: ../kupfer/ui/preferences.py:405
+msgid "Description"
+msgstr "Açıklama"
+
+#: ../kupfer/ui/preferences.py:405
+msgid "Author"
+msgstr "Yazar"
+
+#: ../kupfer/ui/preferences.py:421
+msgid "Version"
+msgstr "Sürüm"
+
+#. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/ui/preferences.py:431
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr "'%s' Python modülü gerekli"
+
+#: ../kupfer/ui/preferences.py:445
+msgid "Plugin could not be read due to an error:"
+msgstr ""
+
+#: ../kupfer/ui/preferences.py:453 ../kupfer/plugin/kupfer_plugins.py:77
+msgid "disabled"
+msgstr "devre dışı"
+
+#: ../kupfer/ui/preferences.py:525
+msgid "Content of"
+msgstr "İçeriği"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:534
+msgid "Sources"
+msgstr "Kaynaklar"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:538
+msgid "Actions"
+msgstr "Eylemler"
+
+#. TRANS: Plugin-specific configuration (header)
+#: ../kupfer/ui/preferences.py:576
+msgid "Configuration"
+msgstr "Ayarlar"
+
+#: ../kupfer/ui/preferences.py:596
+msgid "Set username and password"
+msgstr "Kullanıcı adı, şifre ayarla"
+
+#. TRANS: File Chooser Title
+#: ../kupfer/ui/preferences.py:650
+msgid "Choose a Directory"
+msgstr "Bir klasör seçin"
+
+#: ../kupfer/ui/preferences.py:773
+msgid "Reset all shortcuts to default values?"
+msgstr "Tüm kısayollar öntanımlı değerlerine sıfırlansın mı ?"
+
+#: ../kupfer/ui/preferences.py:781
+msgid "Command"
+msgstr "Komut"
+
+#: ../kupfer/ui/preferences.py:782
+msgid "Shortcut"
+msgstr "Kısayol"
+
+#. TRANS: Don't translate literally!
+#. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:54
+msgid "translator-credits"
+msgstr "M. Deran Delice"
+
+#: ../kupfer/version.py:58
+msgid "A free software (GPLv3+) launcher"
+msgstr "Özgür Yazılım Lisanslı (GPLv3+) Başlatıcı yazılımı"
+
+#: ../kupfer/version.py:61
+msgid ""
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
+msgstr ""
+"\n"
+"Kupfer özgür yazılımdır ve Özgür Yazılım Vakfı tarafından yayınlanan\n"
+"GNU Genel Kamu Lisansı sürüm 2 veya daha sonraki bir sürümün şartları\n"
+"altında yeniden dağıtabilir ve/veya değiştirebilirsiniz.\n"
+"Bu program HERHANGİ BİR GARANTİ OLMADAN; hatta dolaylı olarak ORTALAMA\n"
+"BİR KALİTE GARANTİSİ veya ÖZEL BİR AMAÇ İÇİN UYGUNLUĞU bile olmadan \n"
+"faydalı olması umuduyla dağıtılmaktadır.Bu program ile birlikte GNU Genel "
+"Kamu Lisansının\n"
+"bir kopyasını almış olmanız gereklidir; eğer almadıysanız <http://www.gnu."
+"org/licenses/> adresinden gözatabilirsiniz.\n"
+
+#. follows strings used elsewhere
+#: ../kupfer/version.py:78
+msgid "Could not find running Kupfer"
+msgstr "Çalışan Kupfer bulunamadı."
+
+#: ../kupfer/commandexec.py:190
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "'%s' taşınamıyor"
+
+#: ../kupfer/commandexec.py:217
+#, fuzzy, python-format
+msgid "\"%s\" produced a result"
+msgstr "\"%s\" bir sonuç üretti"
+
+#: ../kupfer/execfile.py:28
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr ""
+" \"%s\" dosyasını çalıştırmak için yeterli izniniz yok (çalıştırılabilir "
+"değil)"
+
+#: ../kupfer/execfile.py:45
+#, fuzzy, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "\"%s\" komutu bulunamadı"
+
+#: ../kupfer/obj/base.py:441 ../kupfer/plugin/core/text.py:22
+msgid "Text Matches"
+msgstr "Eşleşmeler"
+
+#: ../kupfer/obj/compose.py:15
+msgid "Run after Delay..."
+msgstr "Gecikmeden sonra çalıştır..."
+
+#: ../kupfer/obj/compose.py:35
+msgid "Perform command after a specified time interval"
+msgstr "Belirtilen süre gecikmesinin ardından komutu çalıştır"
+
+#: ../kupfer/obj/compose.py:93
+msgid "Multiple Objects"
+msgstr "Çoklu Nesneler"
+
+#: ../kupfer/obj/compose.py:124
+#, python-format
+msgid "%s object"
+msgid_plural "%s objects"
+msgstr[0] "%s nesne"
+msgstr[1] "%s nesne"
+
+#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:153
+#, python-format
+msgid "[%(status)s] %(userid)s/%(service)s"
+msgstr "[%(status)s] %(userid)s/%(service)s"
+
+#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
+#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
+#: ../kupfer/plugin/zim.py:107
+msgid "Open"
+msgstr "Aç"
+
+#: ../kupfer/obj/fileactions.py:38
+#, python-format
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "%(file)s (%(type)s) dosya türü için öntenımlı uygulama yok"
+
+#: ../kupfer/obj/fileactions.py:60
+msgid "Open with default application"
+msgstr "Öntanımlı uygulama ile aç"
+
+#: ../kupfer/obj/fileactions.py:66
+msgid "Reveal"
+msgstr "Göster"
+
+#: ../kupfer/obj/fileactions.py:75
+msgid "Open parent folder"
+msgstr "Üst dizini aç"
+
+#: ../kupfer/obj/fileactions.py:81
+msgid "Open Terminal Here"
+msgstr "Uçbirimi Burada Aç"
+
+#: ../kupfer/obj/fileactions.py:90
+msgid "Open this location in a terminal"
+msgstr "Bu konumu uçbirimde aç"
+
+#: ../kupfer/obj/fileactions.py:98
+msgid "Run in Terminal"
+msgstr "Uçbirimde çalıştır"
+
+#: ../kupfer/obj/fileactions.py:98
+msgid "Run (Execute)"
+msgstr "Çalıştır"
+
+#: ../kupfer/obj/fileactions.py:112
+msgid "Run this program in a Terminal"
+msgstr "Bu uygulamayı uçbirimde çalıştır"
+
+#: ../kupfer/obj/fileactions.py:114
+msgid "Run this program"
+msgstr "Bu uygulamayı çalıştır"
+
+#: ../kupfer/obj/objects.py:231 ../kupfer/plugin/windows.py:108
+#: ../kupfer/plugin/windows.py:245
+msgid "Go To"
+msgstr "Git"
+
+#: ../kupfer/obj/objects.py:257
+msgid "Open URL"
+msgstr "Bağlantı aç"
+
+#: ../kupfer/obj/objects.py:268
+msgid "Open URL with default viewer"
+msgstr "Öntanımlı görüntüleyici ile bağlantı aç"
+
+#: ../kupfer/obj/objects.py:282
+msgid "Launch"
+msgstr "Çalıştır"
+
+#: ../kupfer/obj/objects.py:293
+msgid "Show application window"
+msgstr "Uygulama penceresini göster"
+
+#: ../kupfer/obj/objects.py:294
+msgid "Launch application"
+msgstr "Uygulamayı çalıştır"
+
+#: ../kupfer/obj/objects.py:305
+msgid "Launch Again"
+msgstr "Tekrar Çalıştır"
+
+#: ../kupfer/obj/objects.py:312
+msgid "Launch another instance of this application"
+msgstr "Bu uygulamadan bir tane daha çalıştır"
+
+#: ../kupfer/obj/objects.py:318 ../kupfer/plugin/windows.py:42
+msgid "Close"
+msgstr "Kapat"
+
+#: ../kupfer/obj/objects.py:326
+msgid "Attempt to close all application windows"
+msgstr "Tüm uygulama pencereleri kapatılmaya çalışıldı"
+
+#. TRANS: 'Run' as in Perform a (saved) command
+#: ../kupfer/obj/objects.py:368
+msgid "Run"
+msgstr "Çalıştır"
+
+#: ../kupfer/obj/objects.py:373
+msgid "Perform command"
+msgstr "Komutu uygula"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#: ../kupfer/obj/objects.py:401
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "\"%(text)s\""
+msgstr[1] "(%(num)d satır) \"%(text)s\""
+
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
+#, python-format
+msgid "%s et. al."
+msgstr ""
+
+#: ../kupfer/obj/sources.py:54
+#, python-format
+msgid "Recursive source of %(dir)s, (%(levels)d levels)"
+msgstr ""
+
+#: ../kupfer/obj/sources.py:102
+#, python-format
+msgid "Directory source %s"
+msgstr "%s Sözlük Kaynağı"
+
+#: ../kupfer/obj/sources.py:118
+msgid "Catalog Index"
+msgstr "Katalog İçeriği"
+
+#: ../kupfer/obj/sources.py:133
+msgid "An index of all available sources"
+msgstr "Uygun tüm kaynakların listesi"
+
+#: ../kupfer/obj/sources.py:164
+msgid "Root catalog"
+msgstr "Yönetici katalogu"
+
+#: ../kupfer/obj/special.py:10
+msgid "Please Configure Plugin"
+msgstr "Lütfen Eklentiyi Yapılandırın"
+
+#: ../kupfer/obj/special.py:11
+#, python-format
+msgid "Plugin %s is not configured"
+msgstr "%s eklentisi yapılandırılmamış"
+
+#: ../kupfer/obj/special.py:29
+#, python-format
+msgid "Invalid user credentials for %s"
+msgstr "%s için geçersiz kullanıcı bilgisi"
+
+#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:30
+msgid "Save As..."
+msgstr "Farklı Kaydet..."
+
+#: ../kupfer/plugin/core/contents.py:41
+msgid "Quit"
+msgstr "Çıkış"
+
+#: ../kupfer/plugin/core/contents.py:46
+msgid "Quit Kupfer"
+msgstr "Kupfer'dan çık"
+
+#: ../kupfer/plugin/core/contents.py:52
+msgid "About Kupfer"
+msgstr "Kupfer Hakkında"
+
+#: ../kupfer/plugin/core/contents.py:57
+msgid "Show information about Kupfer authors and license"
+msgstr "Kupfer geliştiricileri ve lisansı hakkında bilgileri göster"
+
+#: ../kupfer/plugin/core/contents.py:63
+msgid "Kupfer Help"
+msgstr "Kupfer Yardım"
+
+#: ../kupfer/plugin/core/contents.py:68
+msgid "Get help with Kupfer"
+msgstr "Kupfer ile ilgili yardım alın"
+
+#: ../kupfer/plugin/core/contents.py:79
+msgid "Show preferences window for Kupfer"
+msgstr "Kupfer seçenekleri penceresini göster"
+
+#: ../kupfer/plugin/core/__init__.py:62
+msgid "Search Contents"
+msgstr "İçeriği Ara"
+
+#: ../kupfer/plugin/core/__init__.py:80
+msgid "Search inside this catalog"
+msgstr "Bu katalog içinde ara"
+
+#: ../kupfer/plugin/core/__init__.py:88
+msgid "Copy"
+msgstr "Kopyala"
+
+#: ../kupfer/plugin/core/__init__.py:100
+msgid "Copy to clipboard"
+msgstr "Panoya kopyala"
+
+#: ../kupfer/plugin/core/__init__.py:124
+msgid "Rescan"
+msgstr "Yeniden Tara"
+
+#: ../kupfer/plugin/core/__init__.py:137
+msgid "Force reindex of this source"
+msgstr "Bu kaynağı yeniden taramak için zorla"
+
+#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:36
+msgid "Selected Text"
+msgstr "Seçili Yazı"
+
+#: ../kupfer/plugin/core/selection.py:23
+#, fuzzy, python-format
+msgid "Selected Text \"%s\""
+msgstr "\"%s\" Seçili Yazı"
+
+#: ../kupfer/plugin/core/internal.py:13
+msgid "Last Command"
+msgstr "Son Komut"
+
+#: ../kupfer/plugin/core/internal.py:22
+msgid "Internal Kupfer Objects"
+msgstr "Dahili Kupfer Nesneleri"
+
+#: ../kupfer/plugin/core/internal.py:41 ../kupfer/plugin/core/internal.py:43
+msgid "Last Result"
+msgstr "Son Sonuçlar"
+
+#: ../kupfer/plugin/core/internal.py:61
+msgid "Command Results"
+msgstr "Komut Sonuçları"
+
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
+msgid "Applications"
+msgstr "Uygulamalar"
+
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:61
+msgid "All applications and preferences"
+msgstr "Tüm uygulamalar ve ayarları"
+
+#: ../kupfer/plugin/applications.py:23
+msgid "Applications for Desktop Environment"
+msgstr "Masaüstü Ortamı İçin Uygulamalar"
+
+#: ../kupfer/plugin/applications.py:70
+msgid "Open With..."
+msgstr "Birlikte Aç..."
+
+#: ../kupfer/plugin/applications.py:89
+msgid "Open with any application"
+msgstr "Herhangi bir uygulama ile aç"
+
+#: ../kupfer/plugin/applications.py:93
+msgid "Set Default Application..."
+msgstr "Öntanımlı Uygulama Olarak Ayarla...."
+
+#: ../kupfer/plugin/applications.py:108
+msgid "Set default application to open this file type"
+msgstr "Bu dosya türü için öntanımlı uygulama olarak ayarla"
+
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:69
+msgid "Calculator"
+msgstr "Hesap Makinesi"
+
+#: ../kupfer/plugin/calculator.py:4
+msgid "Calculate expressions starting with '='"
+msgstr "'=' ile başlayan ifadeleri hesapla"
+
+#: ../kupfer/plugin/calculator.py:101
+msgid "Calculate"
+msgstr "Hesapla"
+
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:71
+msgid "Clipboards"
+msgstr "Panolar"
+
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:111
+msgid "Recent clipboards"
+msgstr "En son kullanılan panolar"
+
+#: ../kupfer/plugin/clipboard.py:20
+msgid "Number of recent clipboards"
+msgstr "Son kullanılan pano sayısı"
+
+#: ../kupfer/plugin/clipboard.py:26
+msgid "Include recent selections"
+msgstr "Son seçilenleri içer"
+
+#: ../kupfer/plugin/clipboard.py:32
+msgid "Copy selection to primary clipboard"
+msgstr "Seçimi birincil panoya kopyala"
+
+#: ../kupfer/plugin/clipboard.py:44
+#, fuzzy, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Pano  \"%(desc)s\""
+msgstr[1] "%(num)d satırlı pano \"%(desc)s\""
+
+#: ../kupfer/plugin/clipboard.py:51
+msgid "Clear"
+msgstr "Temizle"
+
+#: ../kupfer/plugin/clipboard.py:63
+msgid "Remove all recent clipboards"
+msgstr "Son kullanılan panoları sil"
+
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:75
+msgid "Shell Commands"
+msgstr "Kabuk Komutları"
+
+#: ../kupfer/plugin/commands.py:4 ../kupfer/plugin/commands.py:98
+msgid "Run commandline programs"
+msgstr "Komutsatırı uygulamalarını çalıştır"
+
+#: ../kupfer/plugin/commands.py:28
+msgid "Run (Get Output)"
+msgstr "Çalıştır (Sonuçları Getir)"
+
+#: ../kupfer/plugin/commands.py:50
+msgid "Run program and return its output"
+msgstr "Uygulamayı çalıştır ve sonucunu getir"
+
+#: ../kupfer/plugin/dictionary.py:1
+msgid "Dictionary"
+msgstr "Sözlük"
+
+#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:24
+msgid "Look up word in dictionary"
+msgstr "Sözlükte kelime ara"
+
+#: ../kupfer/plugin/dictionary.py:13 ../kupfer/plugin/dictionary.py:17
+msgid "Look Up"
+msgstr "Gözat"
+
+#: ../kupfer/plugin/documents.py:1
+msgid "Documents"
+msgstr "Belgeler"
+
+#: ../kupfer/plugin/documents.py:4
+msgid "Recently used documents and bookmarked folders"
+msgstr "En son kullanılan belgeler ve yerimlenmiş dizinler"
+
+#: ../kupfer/plugin/documents.py:22
+msgid "Max recent document days"
+msgstr "En son kullanılan belgelere eklenmesi için en geç süre"
+
+#: ../kupfer/plugin/documents.py:32
+msgid "Recent Items"
+msgstr "Son Kullanılan Öğeler"
+
+#: ../kupfer/plugin/documents.py:78
+msgid "Recently used documents"
+msgstr "Son kullanılan belgeler"
+
+#: ../kupfer/plugin/documents.py:88
+#, python-format
+msgid "%s Documents"
+msgstr "%s Belgeleri"
+
+#: ../kupfer/plugin/documents.py:113
+#, python-format
+msgid "Recently used documents for %s"
+msgstr "%s için son kullanılan belgeler"
+
+#: ../kupfer/plugin/documents.py:132
+msgid "Places"
+msgstr "Yerler"
+
+#: ../kupfer/plugin/documents.py:164
+msgid "Bookmarked folders"
+msgstr "Yerimi dizinleri"
+
+#: ../kupfer/plugin/epiphany.py:1 ../kupfer/plugin/epiphany.py:18
+msgid "Epiphany Bookmarks"
+msgstr "Epiphany Yerimleri"
+
+#: ../kupfer/plugin/epiphany.py:3 ../kupfer/plugin/epiphany.py:35
+msgid "Index of Epiphany bookmarks"
+msgstr "Epiphany Yerimleri İçeriği"
+
+#: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:23
+msgid "Favorites"
+msgstr "Sık Kullanılanlar"
+
+#: ../kupfer/plugin/favorites.py:4
+msgid "Mark commonly used items and store objects for later use"
+msgstr "Sıkça kullanılan öğleri işaretle ve daha sonra kullanmak için sakla"
+
+#: ../kupfer/plugin/favorites.py:125
+msgid "Shelf of \"Favorite\" items"
+msgstr "\"Sık Kullanılanlar\" Bölümü öğeleri"
+
+#: ../kupfer/plugin/favorites.py:138
+msgid "Add to Favorites"
+msgstr "Beğenilenlere Ekle"
+
+#: ../kupfer/plugin/favorites.py:146
+msgid "Add item to favorites shelf"
+msgstr "Öğeyi sık kullanılanlara ekle"
+
+#: ../kupfer/plugin/favorites.py:153
+msgid "Remove from Favorites"
+msgstr "Beğenilenlerden Kaldır"
+
+#: ../kupfer/plugin/favorites.py:161
+msgid "Remove item from favorites shelf"
+msgstr "Öğeyi sık kullanılanlardan kaldır"
+
+#: ../kupfer/plugin/fileactions.py:1
+msgid "File Actions"
+msgstr "Dosya İşlemleri"
+
+#: ../kupfer/plugin/fileactions.py:13
+msgid "More file actions"
+msgstr "Daha fazla dosya eylemi"
+
+#: ../kupfer/plugin/fileactions.py:34
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr ""
+
+#: ../kupfer/plugin/fileactions.py:51
+msgid "Move to Trash"
+msgstr "Çöpe Taşı"
+
+#: ../kupfer/plugin/fileactions.py:59
+msgid "Move this file to trash"
+msgstr "Bu dosyayı çöpe gönder"
+
+#: ../kupfer/plugin/fileactions.py:93 ../kupfer/plugin/windows.py:123
+msgid "Move To..."
+msgstr "Taşı..."
+
+#: ../kupfer/plugin/fileactions.py:120
+msgid "Move file to new location"
+msgstr "Dosyayı yeni bir konuma taşı"
+
+#: ../kupfer/plugin/fileactions.py:131 ../kupfer/plugin/fileactions.py:154
+msgid "Rename To..."
+msgstr "Yeniden Adlandır..."
+
+#: ../kupfer/plugin/fileactions.py:197
+msgid "Copy To..."
+msgstr "Kopyala..."
+
+#: ../kupfer/plugin/fileactions.py:238
+msgid "Copy file to a chosen location"
+msgstr "Dosyayı seçilen konuma kopyala"
+
+#: ../kupfer/plugin/fileactions.py:242
+msgid "Extract Here"
+msgstr "Buraya Aç"
+
+#: ../kupfer/plugin/fileactions.py:258
+msgid "Extract compressed archive"
+msgstr "Sıkıştırılmış arşivi çıkar"
+
+#: ../kupfer/plugin/fileactions.py:262
+msgid "Create Archive"
+msgstr "Arşiv Oluştur"
+
+#: ../kupfer/plugin/fileactions.py:278 ../kupfer/plugin/fileactions.py:317
+msgid "Create a compressed archive from folder"
+msgstr "Klasörü sıkıştır"
+
+#: ../kupfer/plugin/fileactions.py:282
+msgid "Create Archive In..."
+msgstr "Arşiv Oluştur..."
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+#: ../kupfer/plugin/fileactions.py:304
+msgid "Archive"
+msgstr "Arşiv"
+
+#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:36
+msgid "Firefox Bookmarks"
+msgstr "Firefox Yerimleri"
+
+#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:120
+msgid "Index of Firefox bookmarks"
+msgstr "Firefox yerimleri içeriği"
+
+#: ../kupfer/plugin/firefox.py:26
+msgid "Include visited sites"
+msgstr "Ziyaret edilen siteleride içer"
+
+#: ../kupfer/plugin/nautilusselection.py:1
+#: ../kupfer/plugin/nautilusselection.py:48
+msgid "Selected File"
+msgstr "Seçili Dosya"
+
+#: ../kupfer/plugin/nautilusselection.py:3
+msgid "Provides current nautilus selection, using Kupfer's Nautilus Extension"
+msgstr ""
+
+#: ../kupfer/plugin/nautilusselection.py:27
+#, fuzzy, python-format
+msgid "Selected File \"%s\""
+msgstr " \"%s\" Seçili Dosya"
+
+#: ../kupfer/plugin/nautilusselection.py:36
+msgid "Selected Files"
+msgstr "Seçili Dosyalar"
+
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:165
+#: ../kupfer/plugin/notes.py:217
+msgid "Notes"
+msgstr "Notlar"
+
+#: ../kupfer/plugin/notes.py:13
+msgid "Gnote or Tomboy notes"
+msgstr "Gnote veya Tomboy notları"
+
+#: ../kupfer/plugin/notes.py:35
+msgid "Work with application"
+msgstr "Uygulama ile çalıştır"
+
+#: ../kupfer/plugin/notes.py:85
+msgid "Open with notes application"
+msgstr "Not uygulaması ile aç"
+
+#: ../kupfer/plugin/notes.py:92
+msgid "Append to Note..."
+msgstr "Nota Ekle..."
+
+#: ../kupfer/plugin/notes.py:115
+msgid "Add text to existing note"
+msgstr "Varolan bir nota yazı ekle"
+
+#: ../kupfer/plugin/notes.py:127
+msgid "Create Note"
+msgstr "Not Oluştur"
+
+#: ../kupfer/plugin/notes.py:141
+msgid "Create a new note from this text"
+msgstr "Bu yazıdan yeni bir not oluştur"
+
+#: ../kupfer/plugin/notes.py:147
+msgid "Get Note Search Results..."
+msgstr "Not Arama Sonuçlarını Getir..."
+
+#: ../kupfer/plugin/notes.py:160
+msgid "Show search results for this query"
+msgstr "Bu sorgu için arama sonuçlarını göster"
+
+#: ../kupfer/plugin/notes.py:200
+#, python-format
+msgid "today, %s"
+msgstr "bugün, %s"
+
+#: ../kupfer/plugin/notes.py:202
+#, python-format
+msgid "yesterday, %s"
+msgstr "dün, %s"
+
+#. TRANS: Note description, %s is last changed time in locale format
+#: ../kupfer/plugin/notes.py:206
+#, python-format
+msgid "Last updated %s"
+msgstr "son güncelleme%s"
+
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:389
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:423
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Müzik kütüphanenize göz atın, şarkıları çalma listesine ekleyi ve oynatın"
+
+#: ../kupfer/plugin/rhythmbox.py:22
+msgid "Include artists in top level"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:28
+msgid "Include albums in top level"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
+msgid "Include songs in top level"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
+#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
+msgid "Play"
+msgstr "Oynat"
+
+#: ../kupfer/plugin/rhythmbox.py:67
+msgid "Resume playback in Rhythmbox"
+msgstr "Rhythmbox'da çalmayı sürdür"
+
+#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
+#: ../kupfer/plugin/virtualbox/__init__.py:45
+msgid "Pause"
+msgstr "Duraklat"
+
+#: ../kupfer/plugin/rhythmbox.py:77
+msgid "Pause playback in Rhythmbox"
+msgstr "Rhythmbox'da çalmayı duraklat"
+
+#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
+msgid "Next"
+msgstr "Sonraki"
+
+#: ../kupfer/plugin/rhythmbox.py:87
+msgid "Jump to next track in Rhythmbox"
+msgstr "Rhythmbox'da sonraki şarkıya atla"
+
+#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
+msgid "Previous"
+msgstr "Önceki"
+
+#: ../kupfer/plugin/rhythmbox.py:97
+msgid "Jump to previous track in Rhythmbox"
+msgstr "Rhythmbox'da önceki şarkıya atla"
+
+#: ../kupfer/plugin/rhythmbox.py:103
+msgid "Show Playing"
+msgstr "Oynatılan Dosyayı Göster"
+
+#: ../kupfer/plugin/rhythmbox.py:107
+msgid "Tell which song is currently playing"
+msgstr "Hangi şarkının çaldığını söyle"
+
+#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
+msgid "Clear Queue"
+msgstr "Çalma Listesini Temizle"
+
+#: ../kupfer/plugin/rhythmbox.py:155
+msgid "Play tracks in Rhythmbox"
+msgstr "Şarkıları Rhythmbox'ta çal"
+
+#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
+msgid "Enqueue"
+msgstr "Çalma Listesi"
+
+#: ../kupfer/plugin/rhythmbox.py:172
+msgid "Add tracks to the play queue"
+msgstr "Şarkıları çalma listesine ekle"
+
+#. TRANS: Song description
+#: ../kupfer/plugin/rhythmbox.py:195
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "%(artist)s tarafından %(album)s albümünde"
+
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:250
+#, python-format
+msgid "by %s"
+msgstr "%s tarafından"
+
+#. TRANS: Artist songs collection description
+#: ../kupfer/plugin/rhythmbox.py:301
+#, python-format
+msgid "Tracks by %s"
+msgstr "%s Şarkıları"
+
+#: ../kupfer/plugin/rhythmbox.py:311
+#: ../kupfer/plugin/google_picasa/__init__.py:444
+msgid "Albums"
+msgstr "Albümler"
+
+#: ../kupfer/plugin/rhythmbox.py:321
+msgid "Music albums in Rhythmbox Library"
+msgstr "Rhythmbox Kütüphanesindeki albümler"
+
+#: ../kupfer/plugin/rhythmbox.py:332
+msgid "Artists"
+msgstr "Sanatçılar"
+
+#: ../kupfer/plugin/rhythmbox.py:342
+msgid "Music artists in Rhythmbox Library"
+msgstr "Rhythmbox Kütüphanesindeki şarkıcılar"
+
+#: ../kupfer/plugin/rhythmbox.py:369
+msgid "Songs"
+msgstr "Şarkılar"
+
+#: ../kupfer/plugin/rhythmbox.py:379
+msgid "Songs in Rhythmbox library"
+msgstr "Rhythmbox Kütüphanesindeki şarkılar"
+
+#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:17
+msgid "GNOME Session Management"
+msgstr "GNOME Oturum Yönetimi"
+
+#: ../kupfer/plugin/session_gnome.py:3
+msgid "Special items and actions for GNOME environment"
+msgstr "GNOME masaüstü ortamı için özel öğeler ve eylemler"
+
+#: ../kupfer/plugin/session_support.py:31
+msgid "Log Out..."
+msgstr "Oturumu Kapat..."
+
+#: ../kupfer/plugin/session_support.py:34
+msgid "Log out or change user"
+msgstr "Oturumu kapat veya kullanıcı değiştir"
+
+#: ../kupfer/plugin/session_support.py:41
+msgid "Shut Down..."
+msgstr "Kapat..."
+
+#: ../kupfer/plugin/session_support.py:44
+msgid "Shut down, restart or suspend computer"
+msgstr "Kapat, yeniden başlat veya askıya al"
+
+#: ../kupfer/plugin/session_support.py:51
+msgid "Lock Screen"
+msgstr "Ekranı Kilitle"
+
+#: ../kupfer/plugin/session_support.py:54
+msgid "Enable screensaver and lock"
+msgstr "Ekran koruyucu ve kilitleme etkin"
+
+#. -*- coding: utf-8 -*
+#: ../kupfer/plugin/session_xfce.py:3 ../kupfer/plugin/session_xfce.py:19
+msgid "XFCE Session Management"
+msgstr "XFCE Oturum Yönetimi"
+
+#: ../kupfer/plugin/session_xfce.py:5
+msgid "Special items and actions for XFCE environment"
+msgstr "XFCE masaüstü ortamı için özel öğeler ve eylemler"
+
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
+#: ../kupfer/plugin/show_text.py:22
+msgid "Show Text"
+msgstr "Yazıyı Göster"
+
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
+#: ../kupfer/plugin/show_text.py:43
+msgid "Display text in a window"
+msgstr "Yazıyı pencere içinde göster"
+
+#: ../kupfer/plugin/show_text.py:34
+msgid "Large Type"
+msgstr "Büyük Yaz"
+
+#: ../kupfer/plugin/show_text.py:51
+msgid "Show Notification"
+msgstr "Uyarı Görüntüle"
+
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:144
+msgid "Trash"
+msgstr "Çöp"
+
+#: ../kupfer/plugin/trash.py:3
+msgid "Access trash contents"
+msgstr "Çöpün içeriğine erişin"
+
+#: ../kupfer/plugin/trash.py:19
+msgid "Restore"
+msgstr "Geri Yükle"
+
+#: ../kupfer/plugin/trash.py:38
+msgid "Move file back to original location"
+msgstr "Dosyayı eski konumuna döndür"
+
+#: ../kupfer/plugin/trash.py:132
+msgid "Trash is empty"
+msgstr "Çöp boş"
+
+#. proper translation of plural
+#: ../kupfer/plugin/trash.py:134
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "Çöpte bir dosya var"
+msgstr[1] "Çöpte %(num)s dosya var"
+
+#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:43
+msgid "Triggers"
+msgstr ""
+
+#: ../kupfer/plugin/triggers.py:6
+msgid ""
+"Assign global keybindings (triggers) to objects created with 'Compose "
+"Command' (Ctrl+Return)."
+msgstr ""
+
+#: ../kupfer/plugin/triggers.py:143
+msgid "Add Trigger..."
+msgstr ""
+
+#: ../kupfer/plugin/triggers.py:159
+msgid "Remove Trigger"
+msgstr ""
+
+#: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
+msgid "URL Actions"
+msgstr "URL Eylemleri"
+
+#: ../kupfer/plugin/urlactions.py:65
+msgid "Download and Open"
+msgstr "İndir ve Aç"
+
+#: ../kupfer/plugin/urlactions.py:88
+msgid "Download To..."
+msgstr "İndir..."
+
+#: ../kupfer/plugin/urlactions.py:111
+msgid "Download URL to a chosen location"
+msgstr "Seçili konuma bağlantıyı indirin"
+
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:74
+msgid "Volumes and Disks"
+msgstr "Diskler ve Bölümler"
+
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:84
+msgid "Mounted volumes and disks"
+msgstr "Bağlı birim ve diskler"
+
+#: ../kupfer/plugin/volumes.py:38
+#, python-format
+msgid "Volume mounted at %s"
+msgstr "%s bölüm bağlı"
+
+#: ../kupfer/plugin/volumes.py:46
+msgid "Unmount"
+msgstr "Ayır"
+
+#: ../kupfer/plugin/volumes.py:61
+msgid "Unmount this volume"
+msgstr "Bölümü ayır"
+
+#: ../kupfer/plugin/volumes.py:68
+msgid "Eject"
+msgstr "Çıkar"
+
+#: ../kupfer/plugin/volumes.py:71
+msgid "Unmount and eject this media"
+msgstr "Ayır ve ortam aygıtını çıkar"
+
+#: ../kupfer/plugin/websearch.py:1
+msgid "Search the Web"
+msgstr "Web'de ara"
+
+#: ../kupfer/plugin/websearch.py:8 ../kupfer/plugin/websearch.py:62
+#: ../kupfer/plugin/websearch.py:89
+msgid "Search the web with OpenSearch search engines"
+msgstr "OpenSearch destekleyen arama motorları ile web'de ara"
+
+#: ../kupfer/plugin/websearch.py:43
+msgid "Search With..."
+msgstr "Birlikte Ara...."
+
+#: ../kupfer/plugin/websearch.py:72
+msgid "Search For..."
+msgstr "Ara..."
+
+#: ../kupfer/plugin/websearch.py:113
+msgid "Search Engines"
+msgstr "Arama Motorları"
+
+#: ../kupfer/plugin/wikipedia.py:5
+msgid "Wikipedia"
+msgstr "Vikipedi"
+
+#: ../kupfer/plugin/wikipedia.py:8 ../kupfer/plugin/wikipedia.py:31
+msgid "Search in Wikipedia"
+msgstr "Vikipedi'de ara"
+
+#: ../kupfer/plugin/wikipedia.py:21
+msgid "Wikipedia language"
+msgstr "Vikipedi Dili"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:24
+msgid "en"
+msgstr "tr"
+
+#: ../kupfer/plugin/wikipedia.py:44
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Bu ifadeyi %s.wikipedia.org 'da ara"
+
+#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:205
+msgid "Window List"
+msgstr "Pencere Listesi"
+
+#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:228
+msgid "All windows on all workspaces"
+msgstr "Tüm çalışma alanlarındaki bütün pencereler"
+
+#: ../kupfer/plugin/windows.py:23
+msgid "Activate"
+msgstr "Etkin"
+
+#: ../kupfer/plugin/windows.py:27
+msgid "Shade"
+msgstr "Sar"
+
+#: ../kupfer/plugin/windows.py:27
+msgid "Unshade"
+msgstr "Genişlet"
+
+#: ../kupfer/plugin/windows.py:30
+msgid "Minimize"
+msgstr "Küçült"
+
+#: ../kupfer/plugin/windows.py:30
+msgid "Unminimize"
+msgstr "Büyüt"
+
+#: ../kupfer/plugin/windows.py:34
+msgid "Maximize"
+msgstr "Ekranı Kapla"
+
+#: ../kupfer/plugin/windows.py:34
+msgid "Unmaximize"
+msgstr "Küçült"
+
+#: ../kupfer/plugin/windows.py:38
+msgid "Maximize Vertically"
+msgstr "Dikey Büyüt"
+
+#: ../kupfer/plugin/windows.py:38
+msgid "Unmaximize Vertically"
+msgstr "Dikey Küçült"
+
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:51
+#, fuzzy, python-format
+msgid "Window on %(wkspc)s"
+msgstr "Pencere %(wkspc)s alanında"
+
+#: ../kupfer/plugin/windows.py:59
+msgid "Frontmost Window"
+msgstr "Öndeki Pencere"
+
+#: ../kupfer/plugin/windows.py:88
+msgid "Next Window"
+msgstr "Sonraki Pencere"
+
+#: ../kupfer/plugin/windows.py:117
+msgid "Jump to this window's workspace and focus"
+msgstr "Bu pencerenin çalışma alanına geç ve odaklan"
+
+#: ../kupfer/plugin/windows.py:253
+msgid "Jump to this workspace"
+msgstr "Bu çalışma alanına geç"
+
+#: ../kupfer/plugin/windows.py:260
+msgid "Workspaces"
+msgstr "Çalışma Alanları"
+
+#: ../kupfer/plugin/abiword.py:1
+msgid "Abiword"
+msgstr "Abiword"
+
+#: ../kupfer/plugin/abiword.py:3 ../kupfer/plugin/abiword.py:88
+msgid "Recently used documents in Abiword"
+msgstr "Abiword'de en son kullanılan dosyalar"
+
+#: ../kupfer/plugin/abiword.py:34
+msgid "Abiword Recent Items"
+msgstr "Abiword Son Öğeler"
+
+#: ../kupfer/plugin/apt_tools.py:1
+msgid "APT"
+msgstr "APT"
+
+#: ../kupfer/plugin/apt_tools.py:9
+msgid "Interface with the package manager APT"
+msgstr ""
+
+#: ../kupfer/plugin/apt_tools.py:25
+msgid "Installation method"
+msgstr "Yükleme Yöntemi"
+
+#: ../kupfer/plugin/apt_tools.py:61 ../kupfer/plugin/apt_tools.py:66
+msgid "Show Package Information"
+msgstr "Paket Bilgisini Göster"
+
+#: ../kupfer/plugin/apt_tools.py:87
+msgid "Install"
+msgstr "Yükle"
+
+#: ../kupfer/plugin/apt_tools.py:103
+msgid "Install package using the configured method"
+msgstr ""
+
+#: ../kupfer/plugin/apt_tools.py:122
+#, python-format
+msgid "Packages matching \"%s\""
+msgstr "\"%s\" ile eşleşen paketler"
+
+#: ../kupfer/plugin/apt_tools.py:149
+msgid "Search Package Name..."
+msgstr "Paket İsmi Ara."
+
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr ""
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Sıkıştırılmış arşiv dosyalarının içini görmenizi sağlar"
+
+#: ../kupfer/plugin/archiveinside.py:50
+#, python-format
+msgid "Content of %s"
+msgstr "%s İçeriği"
+
+#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
+msgid "Audacious"
+msgstr "Audacious"
+
+#: ../kupfer/plugin/audacious.py:3
+msgid "Control Audacious playback and playlist"
+msgstr " Audacious Oynatım ve Çalma listesini denetle"
+
+#: ../kupfer/plugin/audacious.py:62
+msgid "Add track to the Audacious play queue"
+msgstr "Şarkıyı Audacious oynatma listesine ekle"
+
+#: ../kupfer/plugin/audacious.py:70
+msgid "Dequeue"
+msgstr "Çalma Listesinden Çıkar"
+
+#: ../kupfer/plugin/audacious.py:74
+msgid "Remove track from the Audacious play queue"
+msgstr "Şarkıyı Audacious parça listesinden sil"
+
+#: ../kupfer/plugin/audacious.py:86
+msgid "Jump to track in Audacious"
+msgstr ""
+
+#: ../kupfer/plugin/audacious.py:96
+msgid "Resume playback in Audacious"
+msgstr "Audacious'ta oynatımı sürdür"
+
+#: ../kupfer/plugin/audacious.py:106
+msgid "Pause playback in Audacious"
+msgstr "Audacious'ta oynatımı durdur"
+
+#: ../kupfer/plugin/audacious.py:116
+msgid "Jump to next track in Audacious"
+msgstr "Audacious'ta sonraki şarkıya geç"
+
+#: ../kupfer/plugin/audacious.py:126
+msgid "Jump to previous track in Audacious"
+msgstr "Audacious'ta önceki şarkıya dön"
+
+#: ../kupfer/plugin/audacious.py:136
+msgid "Clear the Audacious play queue"
+msgstr "Audacious Çalıma listesini temizle"
+
+#: ../kupfer/plugin/audacious.py:142
+msgid "Shuffle"
+msgstr "Karışık"
+
+#: ../kupfer/plugin/audacious.py:146
+msgid "Toggle shuffle in Audacious"
+msgstr ""
+
+#: ../kupfer/plugin/audacious.py:152
+msgid "Repeat"
+msgstr "Tekrarla"
+
+#: ../kupfer/plugin/audacious.py:156
+msgid "Toggle repeat in Audacious"
+msgstr ""
+
+#: ../kupfer/plugin/audacious.py:171
+msgid "Playlist"
+msgstr "Oynatma Listesi"
+
+#: ../kupfer/plugin/chromium.py:1 ../kupfer/plugin/chromium.py:18
+msgid "Chromium Bookmarks"
+msgstr "Chromium Yerimleri"
+
+#: ../kupfer/plugin/chromium.py:3 ../kupfer/plugin/chromium.py:45
+msgid "Index of Chromium bookmarks"
+msgstr "Chromium yerimleri içeriği"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/clawsmail.py:2
+msgid "Claws Mail"
+msgstr "Claws Mail"
+
+#: ../kupfer/plugin/clawsmail.py:5
+msgid "Claws Mail Contacts and Actions"
+msgstr "Claws Mail Kişi ve eylemleri"
+
+#: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
+#: ../kupfer/plugin/operamail.py:25 ../kupfer/plugin/thunderbird.py:29
+msgid "Compose New Email"
+msgstr "Yeni E-posta yaz"
+
+#: ../kupfer/plugin/clawsmail.py:32
+msgid "Compose a new message in Claws Mail"
+msgstr "Claws Mail'de yeni ileti yaz"
+
+#: ../kupfer/plugin/clawsmail.py:41
+msgid "Receive All Email"
+msgstr "Tüm E-postaları al"
+
+#: ../kupfer/plugin/clawsmail.py:47
+msgid "Receive new messages from all accounts in ClawsMail"
+msgstr "ClawsMail'de ki tüm hesapların yeni iletilerini al"
+
+#: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
+#: ../kupfer/plugin/evolution.py:39 ../kupfer/plugin/operamail.py:40
+#: ../kupfer/plugin/thunderbird.py:45
+msgid "Compose Email"
+msgstr "E-Posta yaz"
+
+#: ../kupfer/plugin/clawsmail.py:81 ../kupfer/plugin/defaultmail.py:43
+#: ../kupfer/plugin/evolution.py:64
+msgid "Send in Email To..."
+msgstr "E-posta gönder..."
+
+#: ../kupfer/plugin/clawsmail.py:107
+msgid "Compose new message in Claws Mail and attach file"
+msgstr ""
+
+#: ../kupfer/plugin/clawsmail.py:116
+msgid "Claws Mail Address Book"
+msgstr "Claws Mail Adres Defteri"
+
+#: ../kupfer/plugin/clawsmail.py:164
+msgid "Contacts from Claws Mail Address Book"
+msgstr "Claws Mail Adres Defterindeki Kişiler"
+
+#: ../kupfer/plugin/defaultmail.py:1
+msgid "Default Email Client"
+msgstr "Öntanımlı E-posta İstemcisi"
+
+#: ../kupfer/plugin/defaultmail.py:6
+msgid "Compose email using the system's default mailto: handler"
+msgstr ""
+
+#: ../kupfer/plugin/devhelp.py:1
+msgid "Devhelp"
+msgstr "Devhelp"
+
+#: ../kupfer/plugin/devhelp.py:3 ../kupfer/plugin/devhelp.py:13
+msgid "Search in Devhelp"
+msgstr "Devhelp'te ara"
+
+#: ../kupfer/plugin/evolution.py:4
+msgid "Evolution"
+msgstr "Evolution"
+
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
+msgid "Evolution contacts"
+msgstr "Evolution kişileri"
+
+#: ../kupfer/plugin/evolution.py:30
+msgid "Compose a new message in Evolution"
+msgstr "Evolution'da yeni ileti yaz"
+
+#: ../kupfer/plugin/evolution.py:91
+msgid "Compose new message in Evolution and attach file"
+msgstr "Evolution'da yeni ileti yaz ve dosya ekle"
+
+#: ../kupfer/plugin/evolution.py:99
+msgid "Evolution Address Book"
+msgstr "Evolution Adres Defteri"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/filezilla.py:3
+msgid "Filezilla"
+msgstr "Filezilla"
+
+#: ../kupfer/plugin/filezilla.py:6
+msgid "Show sites and handle ftp addresses by Filezilla"
+msgstr ""
+"Filezilla kullanarak siteleri görüntüleyin veya ftp adreslerinizi yönetin."
+
+#: ../kupfer/plugin/filezilla.py:42
+msgid "Open Site with Filezilla"
+msgstr "Siteyi Filezilla ile aç"
+
+#: ../kupfer/plugin/filezilla.py:87
+msgid "Filezilla Sites"
+msgstr "Filezilla Siteleri"
+
+#: ../kupfer/plugin/filezilla.py:122
+msgid "Sites from Filezilla"
+msgstr "Filezilla'da ki siteler"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gajim.py:2
+msgid "Gajim"
+msgstr "Gajim"
+
+#: ../kupfer/plugin/gajim.py:5
+msgid "Access to Gajim Contacts"
+msgstr "Gajim Kişilerine Erişin"
+
+#: ../kupfer/plugin/gajim.py:26 ../kupfer/plugin/pidgin.py:155
+#: ../kupfer/plugin/skype.py:30
+msgid "Available"
+msgstr "Uygun"
+
+#: ../kupfer/plugin/gajim.py:27
+msgid "Free for Chat"
+msgstr "Sohbet için uygun"
+
+#: ../kupfer/plugin/gajim.py:28 ../kupfer/plugin/pidgin.py:155
+#: ../kupfer/plugin/skype.py:32
+msgid "Away"
+msgstr "Uzakta"
+
+#: ../kupfer/plugin/gajim.py:29 ../kupfer/plugin/skype.py:33
+msgid "Not Available"
+msgstr "Uygun Değil"
+
+#: ../kupfer/plugin/gajim.py:30 ../kupfer/plugin/skype.py:34
+msgid "Busy"
+msgstr "Meşgul"
+
+#: ../kupfer/plugin/gajim.py:31 ../kupfer/plugin/skype.py:35
+msgid "Invisible"
+msgstr "Görünmez"
+
+#: ../kupfer/plugin/gajim.py:32 ../kupfer/plugin/skype.py:36
+msgid "Offline"
+msgstr "Çevrimdışı"
+
+#: ../kupfer/plugin/gajim.py:90 ../kupfer/plugin/pidgin.py:97
+#: ../kupfer/plugin/skype.py:204
+msgid "Open Chat"
+msgstr "Sohbet Başlat"
+
+#: ../kupfer/plugin/gajim.py:118 ../kupfer/plugin/skype.py:250
+msgid "Change Global Status To..."
+msgstr "Genel durumu değiştir..."
+
+#: ../kupfer/plugin/gajim.py:146
+msgid "Gajim Contacts"
+msgstr "Gajim Kişileri"
+
+#: ../kupfer/plugin/gajim.py:210
+msgid "Gajim Account Status"
+msgstr "Gajim Hesap Durumu"
+
+#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
+msgid "GNOME Terminal Profiles"
+msgstr "GNOME Uçbirim Profilleri"
+
+#: ../kupfer/plugin/gnome_terminal.py:3
+msgid "Launch GNOME Terminal profiles"
+msgstr "GNOME Uçbirim Profillerini çalıştır"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:144
+msgid "Gmail"
+msgstr "Gmail"
+
+#: ../kupfer/plugin/gmail/__init__.py:5
+msgid "Load contacts and compose new email in Gmail"
+msgstr "Kişileri yükle ve Gmail'de yeni e-posta yaz"
+
+#: ../kupfer/plugin/gmail/__init__.py:32
+msgid "Load contacts' pictures"
+msgstr "Kişi resimlerini yükle"
+
+#: ../kupfer/plugin/gmail/__init__.py:51
+msgid "Compose Email in GMail"
+msgstr "GMail'de E-Posta Yaz"
+
+#: ../kupfer/plugin/gmail/__init__.py:74
+msgid "Open web browser and compose new email in GMail"
+msgstr "Bir web tarayıcı aç ve Gmail'de yeni e-posta yaz"
+
+#: ../kupfer/plugin/gmail/__init__.py:176
+msgid "Contacts from Google services (Gmail)"
+msgstr "Google Servis Kişileri (Gmail)"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/google_picasa/__init__.py:2
+msgid "Google Picasa"
+msgstr "Google Picasa"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:5
+msgid "Show albums and upload files to Picasa"
+msgstr "Albümleri göster ve Picasa'ya dosyları yükle"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:35
+msgid "Users to show: (,-separated)"
+msgstr "Gösterilecek kullanıcılar: (,-virgülle ayrılmış)"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:41
+msgid "Load user and album icons"
+msgstr "Kullanıcıları ve albüm simgelerini yükle"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:92
+msgid "Uploading Pictures"
+msgstr "Resimler yükleniyor"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:93
+msgid "Uploading pictures to Picasa Web Album"
+msgstr "Resimler, Picasa Web Albümleri'ne yükleniyor"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:102
+msgid "Creating album:"
+msgstr "Oluşturulan albüm:"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:105
+msgid "Album created by Kupfer"
+msgstr "Albüm Kupfer tarafından oluşturulmuştur."
+
+#: ../kupfer/plugin/google_picasa/__init__.py:112
+msgid "File:"
+msgstr "Dosya:"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:252
+#, python-format
+msgid "One album"
+msgid_plural "%(num)d albums"
+msgstr[0] "Bir albüm"
+msgstr[1] "%(num)d albüm"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:279
+#, python-format
+msgid "one photo"
+msgid_plural "%(num)s photos"
+msgstr[0] "Bir fotoğraf"
+msgstr[1] "%(num)s fotoğraf"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:299
+msgid "Upload to Picasa Album..."
+msgstr "Picasa Albümlerine Yükle..."
+
+#: ../kupfer/plugin/google_picasa/__init__.py:343
+msgid "Upload files to Picasa album"
+msgstr "Dosyaları Picasa albümlerine yükle"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:349
+msgid "Upload to Picasa as New Album"
+msgstr "Picasa'ya Yeni Albüm Olarak Yükle"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:377
+msgid "Create album from selected local directory"
+msgstr "Seçili yerel klasörden albüm oluştur"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:381
+#: ../kupfer/plugin/google_picasa/__init__.py:404
+msgid "Picasa Albums"
+msgstr "Picasa Albümleri"
+
+#: ../kupfer/plugin/google_picasa/__init__.py:436
+msgid "User albums in Picasa"
+msgstr "Picasa'da ki kullanıcı albümleri"
+
+#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:23
+msgid "Google Search"
+msgstr "Google Arama"
+
+#: ../kupfer/plugin/google_search.py:3
+msgid "Search Google with results shown directly"
+msgstr "Google'da hemen görüntülenen sonuçlar ile arama yapın"
+
+#: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
+#: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
+#, python-format
+msgid "Results for \"%s\""
+msgstr "\"%s\" için sonuçlar"
+
+#: ../kupfer/plugin/google_search.py:67
+#, python-format
+msgid "Show More Results For \"%s\""
+msgstr " \"%s\" İçin Daha Fazla Sonuç Göster"
+
+#: ../kupfer/plugin/google_search.py:68
+#, python-format
+msgid "%s total found"
+msgstr "Toplam %s bulundu"
+
+#: ../kupfer/plugin/google_translate.py:6
+msgid "Google Translate"
+msgstr "Google Çeviri"
+
+#: ../kupfer/plugin/google_translate.py:8
+#: ../kupfer/plugin/google_translate.py:154
+msgid "Translate text with Google Translate"
+msgstr "Google Çeviri kullanarak yazıyı tercüme et"
+
+#. TRANS: Dictionary lookup word classes
+#: ../kupfer/plugin/google_translate.py:58
+msgid "noun"
+msgstr "isim"
+
+#: ../kupfer/plugin/google_translate.py:59
+msgid "verb"
+msgstr "fiil"
+
+#: ../kupfer/plugin/google_translate.py:60
+msgid "adjective"
+msgstr "sıfat"
+
+#: ../kupfer/plugin/google_translate.py:84
+msgid "Google Translate connection timed out"
+msgstr "Google Çeviri bağlantısı zaman aşımına uğradı."
+
+#: ../kupfer/plugin/google_translate.py:87
+msgid "Error connecting to Google Translate"
+msgstr "Google Çeviriye bağlanırken hata"
+
+#: ../kupfer/plugin/google_translate.py:137
+#: ../kupfer/plugin/google_translate.py:224
+msgid "Translate To..."
+msgstr "Çevir..."
+
+#: ../kupfer/plugin/google_translate.py:180
+#, fuzzy, python-format
+msgid "Translate into %s"
+msgstr "%s Çevir"
+
+#: ../kupfer/plugin/google_translate.py:204
+msgid "Languages"
+msgstr "Diller"
+
+#: ../kupfer/plugin/google_translate.py:239
+msgid "Show translated page in browser"
+msgstr "Çevirilen sayfayı tarayıcıda göster"
+
+#: ../kupfer/plugin/google_translate.py:256
+msgid "Show Translation To..."
+msgstr "Çeviriyi göster..."
+
+#: ../kupfer/plugin/google_translate.py:272
+msgid "Show translation in browser"
+msgstr "Çeviriyi tarayıcıda göster"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/gtg.py:2
+msgid "Getting Things GNOME"
+msgstr "GNOME'la, hayatını yaşa!"
+
+#: ../kupfer/plugin/gtg.py:5
+msgid "Browse and create new tasks in GTG"
+msgstr "GHY'da bulunan görevlere göz at ve yenilerini oluştur"
+
+#: ../kupfer/plugin/gtg.py:87
+#, python-format
+msgid "due: %s"
+msgstr ""
+
+#: ../kupfer/plugin/gtg.py:89
+#, python-format
+msgid "start: %s"
+msgstr "başlat: %s"
+
+#: ../kupfer/plugin/gtg.py:91
+#, python-format
+msgid "tags: %s"
+msgstr "etiket:  %s"
+
+#: ../kupfer/plugin/gtg.py:118
+msgid "Open task in Getting Things GNOME!"
+msgstr "Gnome'la, Hayatını Yaşa'da görev aç"
+
+#: ../kupfer/plugin/gtg.py:125
+msgid "Delete"
+msgstr "Sil"
+
+#: ../kupfer/plugin/gtg.py:135
+msgid "Permanently remove this task"
+msgstr "Bu görevi kalıcı olark sil"
+
+#: ../kupfer/plugin/gtg.py:140
+msgid "Mark Done"
+msgstr "Tamamlanmış Olarak İşaretle"
+
+#: ../kupfer/plugin/gtg.py:149
+msgid "Mark this task as done"
+msgstr "Bunu Tamamlandı Olarak İşaretle"
+
+#: ../kupfer/plugin/gtg.py:154
+msgid "Dismiss"
+msgstr "Kapat"
+
+#: ../kupfer/plugin/gtg.py:163
+msgid "Mark this task as not to be done anymore"
+msgstr "Yapılmayacak olarak işaretle"
+
+#: ../kupfer/plugin/gtg.py:168
+msgid "Create Task"
+msgstr "Görev Oluştur"
+
+#: ../kupfer/plugin/gtg.py:182
+msgid "Create new task in Getting Things GNOME"
+msgstr "GNOME'la, hayatını yaşa'da yeni görev oluştur"
+
+#: ../kupfer/plugin/higherorder.py:1
+msgid "Higher-order Actions"
+msgstr "Yüksek Öncelikli Eylemler"
+
+#: ../kupfer/plugin/higherorder.py:7
+msgid "Tools to work with commands as objects"
+msgstr ""
+
+#: ../kupfer/plugin/higherorder.py:20
+msgid "Select in Kupfer"
+msgstr "Kupfer'da seç"
+
+#: ../kupfer/plugin/higherorder.py:59
+#, python-format
+msgid "Result of %s (%s)"
+msgstr " %s (%s) sonuçları"
+
+#: ../kupfer/plugin/higherorder.py:75
+msgid "Run (Take Result)"
+msgstr "Çalıştır (Sonuçları al)"
+
+#: ../kupfer/plugin/higherorder.py:88
+msgid "Take the command result as a proxy object"
+msgstr ""
+
+#: ../kupfer/plugin/higherorder.py:93
+msgid "Run (Discard Result)"
+msgstr "Çalıştır (Sonuçları Alma)"
+
+#: ../kupfer/plugin/image.py:1
+msgid "Image Tools"
+msgstr "Resim Araçları"
+
+#: ../kupfer/plugin/image.py:10
+msgid "Image transformation tools"
+msgstr "Resim dönüştürme araçları"
+
+#: ../kupfer/plugin/image.py:26
+msgid "Scale..."
+msgstr "Boyutlandır..."
+
+#: ../kupfer/plugin/image.py:75
+msgid "Scale image to fit inside given pixel measure(s)"
+msgstr "Resimi verilen piksel uzunluğuna göre boyutlandır"
+
+#: ../kupfer/plugin/image.py:107
+msgid "Rotate Clockwise"
+msgstr "Saat Yönünde Döndür"
+
+#: ../kupfer/plugin/image.py:114
+msgid "Rotate Counter-Clockwise"
+msgstr "Saat Yönünün Tersine Döndür"
+
+#: ../kupfer/plugin/image.py:121
+msgid "Autorotate"
+msgstr "Otomatik Döndür"
+
+#: ../kupfer/plugin/image.py:151
+msgid "Rotate JPEG (in-place) according to its EXIF metadata"
+msgstr ""
+
+#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:83
+msgid "Kupfer Plugins"
+msgstr "Kupfer Eklentileri"
+
+#: ../kupfer/plugin/kupfer_plugins.py:3
+msgid "Access Kupfer's plugin list in Kupfer"
+msgstr "Kupfer eklenti listesine Kupfer içinde erişin"
+
+#: ../kupfer/plugin/kupfer_plugins.py:20
+msgid "Show Information"
+msgstr "Bilgi Göster"
+
+#: ../kupfer/plugin/kupfer_plugins.py:32
+msgid "Show Source Code"
+msgstr "Kaynak Kodu Göster"
+
+#: ../kupfer/plugin/kupfer_plugins.py:77
+msgid "enabled"
+msgstr "etkin"
+
+#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
+#, fuzzy
+msgid "Locate Files"
+msgstr "Dosyaları yerleştir"
+
+#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
+msgid "Search filesystem using locate"
+msgstr ""
+
+#: ../kupfer/plugin/locate.py:21
+msgid "Ignore case distinctions when searching files"
+msgstr "Dosyaları ararken karakter boyutunu önemseme"
+
+#: ../kupfer/plugin/twitter/__init__.py:3
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../kupfer/plugin/twitter/__init__.py:7
+msgid "Microblogging with Twitter: send updates and show friends' tweets"
+msgstr ""
+
+#: ../kupfer/plugin/twitter/__init__.py:35
+msgid "Load friends' pictures"
+msgstr "Arkadaşlarının resimlerini yükle"
+
+#: ../kupfer/plugin/twitter/__init__.py:41
+msgid "Load friends' public tweets"
+msgstr ""
+
+#: ../kupfer/plugin/twitter/__init__.py:47
+msgid "Load timeline"
+msgstr "Zaman çizelgesini yülke"
+
+#: ../kupfer/plugin/twitter/__init__.py:194
+msgid "Post Update to Twitter"
+msgstr "Twitter hesabınıza güncellemeleri gönderin"
+
+#: ../kupfer/plugin/twitter/__init__.py:214
+msgid "Send Direct Message..."
+msgstr ""
+
+#: ../kupfer/plugin/twitter/__init__.py:243
+msgid "Send Direct Message To..."
+msgstr ""
+
+#: ../kupfer/plugin/twitter/__init__.py:271
+msgid "Reply..."
+msgstr "Yanıtla..."
+
+#: ../kupfer/plugin/twitter/__init__.py:298
+#, python-format
+msgid "%(user)s %(when)s"
+msgstr "%(user)s %(when)s"
+
+#: ../kupfer/plugin/twitter/__init__.py:319
+msgid "Twitter Timeline"
+msgstr "Twitter Zaman Çizelgesi"
+
+#: ../kupfer/plugin/twitter/__init__.py:347
+msgid "Twitter Friends"
+msgstr "Twitter Arkadaşları"
+
+#: ../kupfer/plugin/twitter/__init__.py:372
+#, python-format
+msgid "Timeline for %s"
+msgstr "%s için zaman çizelgesi"
+
+#: ../kupfer/plugin/twitter/__init__.py:396 ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d karakter)"
+msgstr[1] "%s (%d karakter)"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/openoffice.py:3
+msgid "OpenOffice"
+msgstr "OpenOffice"
+
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:119
+msgid "Recently used documents in OpenOffice"
+msgstr "OpenOffice'de en son kullanılan belgeler"
+
+#: ../kupfer/plugin/openoffice.py:61
+msgid "OpenOffice Recent Items"
+msgstr "OpenOffice Son Kullanılan Öğeler"
+
+#: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:23
+msgid "Opera Bookmarks"
+msgstr "Opera Yerimleri"
+
+#: ../kupfer/plugin/opera.py:6 ../kupfer/plugin/opera.py:55
+msgid "Index of Opera bookmarks"
+msgstr "Opera Yerimleri İçeriği"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/operamail.py:2
+msgid "Opera Mail"
+msgstr "Opera Mail"
+
+#: ../kupfer/plugin/operamail.py:5
+msgid "Opera Mail contacts and actions"
+msgstr "Opera Mail Kişi ve Eylemleri"
+
+#: ../kupfer/plugin/operamail.py:31
+msgid "Compose a new message in Opera Mail"
+msgstr "Opera Mail'de yeni bir mesaj yaz"
+
+#: ../kupfer/plugin/operamail.py:63
+msgid "Opera Mail Contacts"
+msgstr "Opera Mail Kişileri"
+
+#: ../kupfer/plugin/operamail.py:119
+msgid "Contacts from Opera Mail"
+msgstr "Opera Mail'de ki kişiler"
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Pidgin Kişilerine Eriş"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Çevrimdışı kişileri göster"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Mesaj Gönder..."
+
+#: ../kupfer/plugin/pidgin.py:189
+msgid "Pidgin Contacts"
+msgstr "Pidgin Kişileri"
+
+#: ../kupfer/plugin/putty.py:5 ../kupfer/plugin/putty.py:81
+msgid "PuTTY Sessions"
+msgstr "PuTTY Oturumları"
+
+#: ../kupfer/plugin/putty.py:8
+msgid "Quick access to PuTTY Sessions"
+msgstr "PuTTY Oturumlarına hızlı erişim"
+
+#: ../kupfer/plugin/putty.py:46 ../kupfer/plugin/tsclient.py:42
+msgid "Start Session"
+msgstr "Oturum Başlat"
+
+#: ../kupfer/plugin/rst.py:1
+msgid "reStructuredText"
+msgstr ""
+
+#: ../kupfer/plugin/rst.py:3
+msgid "Render reStructuredText and show the result"
+msgstr ""
+
+#: ../kupfer/plugin/rst.py:18
+msgid "View as HTML Document"
+msgstr "HTML olarak görüntüle"
+
+#: ../kupfer/plugin/screen.py:1 ../kupfer/plugin/screen.py:96
+msgid "GNU Screen"
+msgstr ""
+
+#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:81
+msgid "Active GNU Screen sessions"
+msgstr ""
+
+#: ../kupfer/plugin/screen.py:50
+msgid "Attached"
+msgstr "Eklenmiş"
+
+#: ../kupfer/plugin/screen.py:51
+msgid "Detached"
+msgstr "Ayrılmış"
+
+#: ../kupfer/plugin/screen.py:54
+#, python-format
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "%(status)s oturumu (%(pid)s) %(time)s tarihinde oluşturuldu"
+
+#: ../kupfer/plugin/screen.py:63
+msgid "Screen Sessions"
+msgstr "Ekran Oturumları"
+
+#: ../kupfer/plugin/screen.py:91
+msgid "Attach"
+msgstr "Ekle"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/services.py:2 ../kupfer/plugin/services.py:97
+msgid "System Services"
+msgstr "Sistem Servisleri"
+
+#: ../kupfer/plugin/services.py:4
+msgid "Start, stop or restart system services via init scripts"
+msgstr ""
+
+#: ../kupfer/plugin/services.py:18
+#, fuzzy
+msgid "Sudo-like Command"
+msgstr "Sudo benzeri komut"
+
+#: ../kupfer/plugin/services.py:79
+msgid "Start Service"
+msgstr "Servisi Başlat"
+
+#: ../kupfer/plugin/services.py:85
+msgid "Restart Service"
+msgstr "Servisi Yeniden Başlat"
+
+#: ../kupfer/plugin/services.py:91
+msgid "Stop Service"
+msgstr "Servisi Durdur"
+
+#: ../kupfer/plugin/services.py:127
+#, python-format
+msgid "%s Service"
+msgstr "%s Servisi"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/shorten_links.py:2
+msgid "Shorten Links"
+msgstr "Kısaltılmış Bağlantılar"
+
+#: ../kupfer/plugin/shorten_links.py:4
+msgid "Create short aliases of long URLs"
+msgstr "Uzun bağlantılarınızı kısaltın"
+
+#: ../kupfer/plugin/shorten_links.py:55 ../kupfer/plugin/shorten_links.py:108
+#: ../kupfer/plugin/shorten_links.py:112
+msgid "Error"
+msgstr "HatA"
+
+#: ../kupfer/plugin/shorten_links.py:119
+msgid "Shorten With..."
+msgstr "Kısaltıldı..."
+
+#: ../kupfer/plugin/shorten_links.py:146
+msgid "Services"
+msgstr "Servisler"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/skype.py:2
+msgid "Skype"
+msgstr "Skype"
+
+#: ../kupfer/plugin/skype.py:5
+msgid "Access to Skype contacts"
+msgstr "Skype kişilerine erişin"
+
+#: ../kupfer/plugin/skype.py:31
+msgid "Skype Me"
+msgstr ""
+
+#: ../kupfer/plugin/skype.py:37
+msgid "Logged Out"
+msgstr "Oturum Kapatılmış"
+
+#: ../kupfer/plugin/skype.py:183
+#, python-format
+msgid "[%(status)s] %(userid)s"
+msgstr "[%(status)s] %(userid)s"
+
+#: ../kupfer/plugin/skype.py:225
+msgid "Call"
+msgstr "Ara"
+
+#: ../kupfer/plugin/skype.py:239
+msgid "Place a call to contact"
+msgstr "Kişi arayın"
+
+#: ../kupfer/plugin/skype.py:274
+msgid "Skype Contacts"
+msgstr "Skype Kişileri"
+
+#: ../kupfer/plugin/skype.py:294
+msgid "Skype Statuses"
+msgstr "Skype Durumları"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:95
+msgid "SSH Hosts"
+msgstr "SSH Sunucular"
+
+#: ../kupfer/plugin/ssh_hosts.py:3
+msgid "Adds the SSH hosts found in ~/.ssh/config."
+msgstr "~/.ssh/config dosyasında ki SSH sunucularına ekler"
+
+#: ../kupfer/plugin/ssh_hosts.py:23
+msgid "Preferred terminal"
+msgstr "Tercih edilen uçbirim"
+
+#: ../kupfer/plugin/ssh_hosts.py:28
+msgid "The preferred terminal emulator. It's used to launch the SSH sessions."
+msgstr ""
+
+#: ../kupfer/plugin/ssh_hosts.py:33
+msgid "Execute flag"
+msgstr ""
+
+#: ../kupfer/plugin/ssh_hosts.py:37
+msgid ""
+"The flag which makes the terminal execute everything following it inside the "
+"terminal (e.g. '-x' for gnome-terminal and terminal, '-e' for konsole and "
+"urxvt)."
+msgstr ""
+
+#: ../kupfer/plugin/ssh_hosts.py:55
+msgid "SSH host"
+msgstr "SSH Sunucu"
+
+#: ../kupfer/plugin/ssh_hosts.py:66
+msgid "Connect"
+msgstr "Bağlan"
+
+#: ../kupfer/plugin/ssh_hosts.py:74
+msgid "Connect to SSH host"
+msgstr "SSH Sunucuya Bağlan"
+
+#: ../kupfer/plugin/ssh_hosts.py:127
+msgid "SSH hosts as specified in ~/.ssh/config"
+msgstr "~/.ssh/config dosyasında belirtilen SSH sunucuları"
+
+#: ../kupfer/plugin_support.py:131
+msgid "No D-Bus connection to desktop session"
+msgstr "Masaüstü oturumu için D-Bus bağlantısı yok"
+
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:109
+msgid "Document Templates"
+msgstr "Şablonlar"
+
+#: ../kupfer/plugin/templates.py:4
+msgid "Create new documents from your templates"
+msgstr "Şablonlarından yeni belge oluştur"
+
+#: ../kupfer/plugin/templates.py:26
+#, python-format
+msgid "%s template"
+msgstr "%s şablonu"
+
+#: ../kupfer/plugin/templates.py:39 ../kupfer/plugin/textfiles.py:84
+msgid "Empty File"
+msgstr "Boş Dosya"
+
+#: ../kupfer/plugin/templates.py:49
+msgid "New Folder"
+msgstr "Yeni Klasör"
+
+#: ../kupfer/plugin/templates.py:59
+msgid "Create New Document..."
+msgstr "Yeni Belge Oluştur..."
+
+#: ../kupfer/plugin/templates.py:98
+msgid "Create a new document from template"
+msgstr "Şablondan yeni belge oluştur"
+
+#: ../kupfer/plugin/templates.py:105
+msgid "Create Document In..."
+msgstr "Belge Oluştur..."
+
+#: ../kupfer/plugin/textfiles.py:13
+msgid "Textfiles"
+msgstr "Yazıdosyaları"
+
+#: ../kupfer/plugin/textfiles.py:49
+#, fuzzy
+msgid "Append To..."
+msgstr "Ekle..."
+
+#: ../kupfer/plugin/textfiles.py:73
+msgid "Append..."
+msgstr "Ekle..."
+
+#: ../kupfer/plugin/textfiles.py:77
+msgid "Write To..."
+msgstr "Yaz..."
+
+#: ../kupfer/plugin/textfiles.py:109
+msgid "Get Text Contents"
+msgstr "Yazı içeriğini getir"
+
+#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:141
+msgid "Thunar"
+msgstr "Thunar"
+
+#: ../kupfer/plugin/thunar.py:8
+msgid "File manager Thunar actions"
+msgstr "Dosya yöneticisi Thunar eylemleri"
+
+#: ../kupfer/plugin/thunar.py:68
+msgid "Select in File Manager"
+msgstr "Dosya Yöneticisinde Seç"
+
+#: ../kupfer/plugin/thunar.py:85
+msgid "Show Properties"
+msgstr "Özellikleri Göster"
+
+#: ../kupfer/plugin/thunar.py:97
+msgid "Show information about file in file manager"
+msgstr "Dosya bilgilerini dosya yöneticisinde göster"
+
+#: ../kupfer/plugin/thunar.py:103
+msgid "Send To..."
+msgstr "Gönder..."
+
+#: ../kupfer/plugin/thunar.py:127
+msgid "Empty Trash"
+msgstr "Çöpü Boşalt"
+
+#: ../kupfer/plugin/thunar.py:153
+msgid "Thunar Send To Objects"
+msgstr ""
+
+#: ../kupfer/plugin/thunderbird.py:4
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:7
+msgid "Thunderbird/Icedove Contacts and Actions"
+msgstr "Thunderbird/Icedove Kişi ve Eylemleri"
+
+#: ../kupfer/plugin/thunderbird.py:36
+msgid "Compose a new message in Thunderbird"
+msgstr "Thunderbird'de yeni ileti yaz"
+
+#: ../kupfer/plugin/thunderbird.py:69
+msgid "Thunderbird Address Book"
+msgstr "Thunderbird Adres Defteri"
+
+#: ../kupfer/plugin/thunderbird.py:93
+msgid "Contacts from Thunderbird Address Book"
+msgstr "Thunderbird Adres defteri kişileri"
+
+#: ../kupfer/plugin/top.py:4
+msgid "Top"
+msgstr "Üst"
+
+#: ../kupfer/plugin/top.py:6
+msgid "Show running tasks and allow sending signals to them"
+msgstr "Yürütülen işlemleri gösterir ve onlara sinyal göndermenizi sağlar"
+
+#: ../kupfer/plugin/top.py:23
+msgid "Sort Order"
+msgstr "Sıralama Düzeni"
+
+#: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
+#: ../kupfer/plugin/top.py:115
+msgid "Commandline"
+msgstr "Komutsatırı"
+
+#: ../kupfer/plugin/top.py:26
+msgid "CPU usage (descending)"
+msgstr "CPU kullanımı (azalan)"
+
+#. sort processes (top don't allow to sort via cmd line)
+#: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:112
+msgid "Memory usage (descending)"
+msgstr "Bellek kullanımı  (azalan)"
+
+#: ../kupfer/plugin/top.py:49
+msgid "Send Signal..."
+msgstr "Sinyal Gönder..."
+
+#: ../kupfer/plugin/top.py:79
+msgid "Signals"
+msgstr "Sinyaller"
+
+#: ../kupfer/plugin/top.py:91
+msgid "Running Tasks"
+msgstr "Çaşılan İşlemler"
+
+#. default: by cpu
+#: ../kupfer/plugin/top.py:119
+#, python-format
+msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
+msgstr "pid: %(pid)s  işl: %(cpu)g%%  haf: %(mem)g%%  süre: %(time)s"
+
+#: ../kupfer/plugin/top.py:139
+msgid "Running tasks for current user"
+msgstr "Aktif kullanıcı içi yürütülen işlemler"
+
+#: ../kupfer/plugin/tracker.py:5
+msgid "Tracker 0.6"
+msgstr "Tracker 0.6"
+
+#: ../kupfer/plugin/tracker.py:15 ../kupfer/plugin/tracker1.py:13
+msgid "Tracker desktop search integration"
+msgstr "Tracker masaüstü arama bütünleşmesi"
+
+#: ../kupfer/plugin/tracker.py:41 ../kupfer/plugin/tracker1.py:45
+msgid "Search in Tracker"
+msgstr "Tracker'da ara"
+
+#: ../kupfer/plugin/tracker.py:46 ../kupfer/plugin/tracker1.py:50
+msgid "Open Tracker Search Tool and search for this term"
+msgstr "Tracker arama aracını aç ve bu terim için ara"
+
+#: ../kupfer/plugin/tracker.py:55 ../kupfer/plugin/tracker1.py:58
+msgid "Get Tracker Results..."
+msgstr "Tracker sonuçlarını getir"
+
+#: ../kupfer/plugin/tracker.py:64 ../kupfer/plugin/tracker1.py:67
+msgid "Show Tracker results for query"
+msgstr "Bu sorgu için Tracker sonuçlarını göster"
+
+#: ../kupfer/plugin/tracker.py:165 ../kupfer/plugin/tracker.py:171
+msgid "Tracker tags"
+msgstr "Tracker etiketleri"
+
+#: ../kupfer/plugin/tracker.py:180
+msgid "Tracker Tags"
+msgstr "Tracker etiketleri"
+
+#: ../kupfer/plugin/tracker.py:186
+msgid "Browse Tracker's tags"
+msgstr "Tracker etiketlerine gözat"
+
+#: ../kupfer/plugin/tracker.py:197 ../kupfer/plugin/tracker.py:204
+#, python-format
+msgid "Tag %s"
+msgstr "%s Etiket"
+
+#: ../kupfer/plugin/tracker.py:211
+#, python-format
+msgid "Objects tagged %s with Tracker"
+msgstr "Tracker'da %s ile etiketlenmiş dosyalar"
+
+#: ../kupfer/plugin/tracker.py:223
+msgid "Add Tag..."
+msgstr "Etiket Ekle..."
+
+#: ../kupfer/plugin/tracker.py:249
+msgid "Add tracker tag to file"
+msgstr "Dosyaya Tracker etiketi ekle"
+
+#: ../kupfer/plugin/tracker.py:255
+msgid "Remove Tag..."
+msgstr "Etiketi Sil..."
+
+#: ../kupfer/plugin/tracker.py:274
+msgid "Remove tracker tag from file"
+msgstr "Dosyanın Tracker etiketini sil"
+
+#: ../kupfer/plugin/tracker1.py:5
+msgid "Tracker 0.8"
+msgstr "Tracker 0.8"
+
+#. FIXME: Port tracker tag sources and actions
+#. to the new, much more powerful sparql + dbus API
+#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/truecrypt.py:3
+msgid "TrueCrypt"
+msgstr "TrueCrypt"
+
+#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:140
+msgid "Volumes from TrueCrypt history"
+msgstr "TrueCrypt geçmişinden birimler"
+
+#: ../kupfer/plugin/truecrypt.py:44
+#, python-format
+msgid "TrueCrypt volume: %(file)s"
+msgstr "TrueCrypt Birimi: %(file)s"
+
+#: ../kupfer/plugin/truecrypt.py:52
+msgid "Mount Volume"
+msgstr "Birimi Bağla"
+
+#: ../kupfer/plugin/truecrypt.py:63
+msgid "Mount in Truecrypt"
+msgstr "TrueCrypt'ta bağla"
+
+#: ../kupfer/plugin/truecrypt.py:72
+msgid "Try to mount file as Truecrypt volume"
+msgstr "Dosyayı TrueCrypt Birimi olarak bağlamayı dene"
+
+#: ../kupfer/plugin/truecrypt.py:80
+msgid "Dismount All Volumes"
+msgstr "Bütün Birimlerin Bağını Kaldır"
+
+#: ../kupfer/plugin/truecrypt.py:98
+msgid "TrueCrypt Volumes"
+msgstr "TrueCrypt Birimleri"
+
+#: ../kupfer/plugin/tsclient.py:4
+msgid "Terminal Server Client"
+msgstr "Uçbirim sunucu istemcisi"
+
+#: ../kupfer/plugin/tsclient.py:7
+msgid "Session saved in Terminal Server Client"
+msgstr "Oturum, uçbirim sunucu istemcisine kayıt edildi"
+
+#: ../kupfer/plugin/tsclient.py:64
+msgid "TSClient sessions"
+msgstr "TSClient oturumları"
+
+#: ../kupfer/plugin/tsclient.py:93
+msgid "Saved sessions in Terminal Server Client"
+msgstr "Uçbirim sunucu istemcisine kayıtlı oturumlar"
+
+#: ../kupfer/plugin/vinagre.py:4
+msgid "Vinagre"
+msgstr "Vinagre"
+
+#: ../kupfer/plugin/vinagre.py:7
+msgid "Vinagre bookmarks and actions"
+msgstr "Vinagre Yerimleri ve Eylemleri"
+
+#: ../kupfer/plugin/vinagre.py:34
+msgid "Start Vinagre Session"
+msgstr "Vinagre Oturumu Başlat"
+
+#: ../kupfer/plugin/vinagre.py:72
+msgid "Vinagre Bookmarks"
+msgstr "Vinagre Yerimleri"
+
+#: ../kupfer/plugin/vim.py:1
+msgid "Vim"
+msgstr "Vim"
+
+#: ../kupfer/plugin/vim.py:3
+msgid "Recently used documents in Vim"
+msgstr "Vim'de en son kullanılan belgeler"
+
+#: ../kupfer/plugin/vim.py:47
+msgid "Vim Recent Documents"
+msgstr "Vim En son kullanılan belgeler"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/virtualbox/__init__.py:3
+msgid "VirtualBox"
+msgstr "VirtualBox"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:5
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
+msgstr ""
+"VirtualBox Sanal makinelerini yönetin. Sun VirtualBox veya Açık kaynaklı "
+"sürümlerini destekler."
+
+#: ../kupfer/plugin/virtualbox/__init__.py:38
+msgid "Power On"
+msgstr "Aç"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:40
+msgid "Power On Headless"
+msgstr ""
+
+#: ../kupfer/plugin/virtualbox/__init__.py:43
+msgid "Send Power Off Signal"
+msgstr "Makineye Kapatma Sinyali Gönder"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:46
+msgid "Reboot"
+msgstr "Yeniden Başlat"
+
+#. VM_STATE_PAUSED
+#: ../kupfer/plugin/virtualbox/__init__.py:49
+msgid "Resume"
+msgstr "Sürdür"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:52
+msgid "Save State"
+msgstr "Şu an ki durumu kaydet"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:54
+msgid "Power Off"
+msgstr "Kapat"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:78
+msgid "VirtualBox Machines"
+msgstr "VirtualBox Makineleri"
+
+#: ../kupfer/plugin/zim.py:4
+msgid "Zim"
+msgstr "Zim"
+
+#: ../kupfer/plugin/zim.py:10
+msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
+msgstr ""
+
+#: ../kupfer/plugin/zim.py:28
+msgid "Page names start with :colon"
+msgstr ""
+
+#: ../kupfer/plugin/zim.py:58
+#, python-format
+msgid "Zim Page from Notebook \"%s\""
+msgstr ""
+
+#: ../kupfer/plugin/zim.py:67
+msgid "Create Zim Page"
+msgstr "Zim Sayfası Oluştur"
+
+#: ../kupfer/plugin/zim.py:74
+msgid "Create page in default notebook"
+msgstr "Öntanımlı not defterinde sayfa oluştur"
+
+#: ../kupfer/plugin/zim.py:84
+msgid "Create Zim Page In..."
+msgstr ""
+
+#: ../kupfer/plugin/zim.py:122
+msgid "Create Subpage..."
+msgstr ""
+
+#: ../kupfer/plugin/zim.py:244
+msgid "Zim Notebooks"
+msgstr ""
+
+#: ../kupfer/plugin/zim.py:260
+msgid "Zim Pages"
+msgstr "Zim Sayfaları"
+
+#: ../kupfer/plugin/zim.py:288
+msgid "Pages stored in Zim Notebooks"
+msgstr ""
