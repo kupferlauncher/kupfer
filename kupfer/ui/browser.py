@@ -1557,8 +1557,8 @@ class WindowController (pretty.OutputMixin):
 		monitor_nr = screen.get_monitor_at_point(x, y)
 		geo = screen.get_monitor_geometry(monitor_nr)
 		wid, hei = self.window.get_size()
-		midx = geo.x + geo.width / 2.0 - wid / 2.0
-		midy = geo.y + geo.height / 2.0 - hei / 2.0
+		midx = geo.x + geo.width / 2 - wid / 2
+		midy = geo.y + geo.height / 2 - hei / 2
 		self.window.move(midx, midy)
 
 	def _should_recenter_window(self):
