@@ -311,7 +311,7 @@ msgstr "Dovoljenje"
 
 #: C/license.page:12(p)
 msgid "This program is free software: you can redistribute it and/or modify it under the terms of the <em>GNU General Public License</em> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."
-msgstr "Ta program je prosta programska oprema; lahko ga širite in/ali spreminjate pod pogoji <em>GNU General Public License</em>, kot ga je objavila ustanova Free Software Foundation; bodisi različice 3 ali (po vaši izbiri) katerekoli poznejše različice.\n"
+msgstr "Ta program je prosta programska oprema; lahko ga širite in/ali spreminjate pod pogoji <em>GNU General Public License</em>, kot ga je objavila ustanova Free Software Foundation; bodisi različice 3 ali (po vaši izbiri) katerekoli poznejše različice."
 
 #: C/license.page:18(p)
 msgid "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <em>GNU General Public License</em> for more details."
