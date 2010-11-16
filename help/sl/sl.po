@@ -2,15 +2,16 @@
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
 #
-# Ime Priimek <email>, leto
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2010
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer help master\n"
-"POT-Creation-Date: 2010-09-27 14:15+0000\n"
-"PO-Revision-Date: 2010-10-22 08:14+0100\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"POT-Creation-Date: 2010-11-08 11:08+0000\n"
+"PO-Revision-Date: 2010-11-16 11:32+0100\n"
+"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,79 +22,79 @@ msgstr ""
 
 #: C/tips.page:7(desc)
 msgid "Using <app>Kupfer</app> more conveniently."
-msgstr ""
+msgstr "Priročnejša uporaba <app>Kupferja</app>."
 
 #: C/tips.page:10(title)
 msgid "Basic Usage"
-msgstr ""
+msgstr "Osnovna uporaba"
 
 #: C/tips.page:13(title)
 msgid "The Catalog"
-msgstr ""
+msgstr "Katalog"
 
 #: C/tips.page:14(p)
 msgid "The Catalog is the collection of objects you can access in Kupfer, such as documents and programs."
-msgstr ""
+msgstr "Katalog je zbirka predmetov do katerih lahko dostopate v Kupferju, kot so dokumenti in programi."
 
 #: C/tips.page:19(p)
 msgid "Objects in the catalog that have content, like folders, are marked with an arrow. Pressing <key>right-arrow</key> will enter these objects. Much of the catalog is composed of subcatalogs; plugin subcatalogs do in general list objects that are also available directly from the top level. Subcatalogs can be used for a narrower view or search scope, when using Kupfer."
-msgstr ""
+msgstr "Predmeti v katalogu, ki imajo vsebino (kot na primer mape) so označeni s puščico. Pritiskanje <key>desne puščice</key> bo vneslo te predmete. Večina kataloga je sestavljena iz podkatalogov, vstavki podkatalogov v splošnem naštejejo predmete, ki so na voljo tudi neposredno iz zgornje ravni. Podkataloge je mogoče uporabiti za ožji pogled ali iskalni obseg pri uporabi Kupferja."
 
 #: C/tips.page:28(p)
 msgid "Most subcatalogs update their content automatically. For example, the Desktop folder catalog is always uptodate."
-msgstr ""
+msgstr "Večina podkatalogov svojo vsebino samodejno posodobi. Na primer, katalog mape Namizje se vedno samodejno posodablja."
 
 #: C/tips.page:35(title)
 msgid "Keyboard Interface"
-msgstr ""
+msgstr "Vmesnik tipkovnice"
 
 #: C/tips.page:37(p)
 msgid "<app>Kupfer</app> is to the largest part a keyboard-managed interface to applications and documents."
-msgstr ""
+msgstr "<app>Kupfer</app> je večinoma s tipkovnico upravljan vmesnik do programov in dokumentov."
 
 #: C/tips.page:41(p)
 msgid "Kupfer's default mode is the command mode: If you type a query, kupfer will search for a match in its catalog."
-msgstr ""
+msgstr "Privzeti način Kupferja je način ukaza: če vnesete poizvedbo, bo kupfer iskal ujemanje v svojem katalogu."
 
 #: C/tips.page:46(p)
 msgid "The arrow keys allow you to browse query matches quite naturally, going to the previous or next match, and going up and down in the subcatalogs."
-msgstr ""
+msgstr "Smerne tipke vam omogočajo naravno brskanje ujemajočih poizvedb, premik na predhodno ali naslednje ujemanja in navzgor ali navzdol po podkatalogih."
 
 #: C/tips.page:52(p)
 msgid "In command mode, some keystrokes have special meanings:"
-msgstr ""
+msgstr "V načinu ukaza imajo nekatere tipke poseben pomen:"
 
 #: C/tips.page:57(p)
 msgid "<key>↓</key> or <key>Space</key>"
-msgstr ""
+msgstr "<key>↓</key> ali <key>Preslednica</key>"
 
 #: C/tips.page:58(p)
 msgid "Go to the next match"
-msgstr ""
+msgstr "Pojdi na naslednji zadetek"
 
 #: C/tips.page:61(p)
 msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
-msgstr ""
+msgstr "<key>↑</key> ali <keyseq><key>Shift</key><key>Preslednica</key></keyseq>"
 
 #: C/tips.page:64(p)
 msgid "Go to the previous match"
-msgstr ""
+msgstr "Pojdi na predhodni zadetek"
 
 #: C/tips.page:67(p)
 msgid "<key>→</key> or <key>/</key>"
-msgstr ""
+msgstr "<key>→</key> ali <key>/</key>"
 
 #: C/tips.page:68(p)
 msgid "Descend into an object with content"
-msgstr ""
+msgstr "Spusti se v predmet z vsebino"
 
 #: C/tips.page:71(key)
 msgid "Backspace"
-msgstr ""
+msgstr "Vračalka"
 
 #: C/tips.page:72(p)
 msgid "Erase a character from the query. If the query is empty, go up a level"
-msgstr ""
+msgstr "Izbriše znak iz poizvedbe. Če je poizvedba prazna, gre eno raven navzgor"
 
 #: C/tips.page:77(key)
 msgid "."
@@ -101,59 +102,59 @@ msgstr "."
 
 #: C/tips.page:78(p)
 msgid "Activate free-text mode"
-msgstr ""
+msgstr "Omogočite način prostega besedila"
 
 #: C/tips.page:81(key)
 msgid ","
-msgstr ""
+msgstr ","
 
 #: C/tips.page:82(p)
 msgid "Put selected object on the stack (\"Comma Trick\")"
-msgstr ""
+msgstr "Postavite izbrane predmete v sklad (\"Trik z vejico\")"
 
 #: C/tips.page:85(p)
 msgid "Additionally, the key <key>Return</key> activates the current selection: the command is executed. <key>Escape</key> clears the current selection."
-msgstr ""
+msgstr "<key>Vnosna tipka</key> omogoči trenutno izbiro: ukaz je izveden. <key>Ubežna tipka</key> počisti trenutno izbiro."
 
 #: C/tips.page:91(title)
 msgid "Global Keyboard Shortcuts"
-msgstr ""
+msgstr "Splošne tipkovne bližnjice"
 
 #: C/tips.page:92(p)
 msgid "Kupfer listens to global shortcuts, even if Kupfer is not currently in the foreground. The most important global shortcut is the shortcut to show and hide Kupfer's command window which by default is <keyseq><key>Ctrl</key><key>Space</key></keyseq>."
-msgstr ""
+msgstr "Kupfer čaka na splošne bližnjice tudi če trenutni ni v ospredju. Najbolj pomembna splošna bližnjica je bližnjica za prikaz in skritje Kupferjevega okna ukazov, ki je privzeto <keyseq><key>Ctrl</key><key>Preslednica</key></keyseq>."
 
 #: C/tips.page:98(p)
 msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
-msgstr ""
+msgstr "Splošne tipkovne bližnjice je mogoče nastaviti v možnostih Kupferja."
 
 #: C/tips.page:101(p)
 msgid "The Triggers plugin allows to configure actions to be activated by global shortcuts, but triggers can only be configured in that plugin."
-msgstr ""
+msgstr "Vstavek sprožilci omogoča nastavitev dejanj, ki jih sprožijo splošne bližnjice, vendar jih je mogoče nastaviti le v tem vstavku."
 
 #: C/tips.page:108(title)
 msgid "Additional Keyboard Shortcuts"
-msgstr ""
+msgstr "Dodatne tipkovne bližnjice"
 
 #: C/tips.page:109(p)
 msgid "Additional keyboard shortcuts that work with Kupfer when it is in the foreground can be configured in Kupfer's preferences."
-msgstr ""
+msgstr "Dodatne tipkovne bližnjice, ki delujejo s Kupferjem kadar je v ospredju in jih je mogoče nastaviti v možnostih Kupferja."
 
 #: C/tips.page:119(title)
 msgid "Configuration files and paths"
-msgstr ""
+msgstr "Nastavitvene datoteke in poti"
 
 #: C/tips.page:120(p)
 msgid "Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/</file>"
-msgstr ""
+msgstr "Namestite vstavke po meri v mapo <file>~/.local/share/kupfer/plugins/</file>"
 
 #: C/tips.page:124(p)
 msgid "Kupfer cache, config and data are located in the directories <file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/share/kupfer</file>."
-msgstr ""
+msgstr "Predpomnilnik Kupfer, nastavitve in podatki so v mapah <file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> in <file>~/.local/share/kupfer</file>."
 
 #: C/plugins.page:7(desc)
 msgid "Using <app>Kupfer</app> plugins."
-msgstr ""
+msgstr "Uporaba vstavkov <app>Kupfer</app>."
 
 #: C/plugins.page:10(title)
 msgid "Plugins"
@@ -161,40 +162,40 @@ msgstr "Vstavki"
 
 #: C/plugins.page:12(p)
 msgid "You can install custom plugins into ~/.local/share/kupfer/plugins; adding to <app>Kupfer</app>'s object knowledge can be surprisingly easy, just look at the default plugins if you want to create new."
-msgstr ""
+msgstr "Vstavke po meri lahko namestite v ~/.local/share/kupfer/plugins. Dodajanje <app>Kupferjevemu</app> poznavanju predmetov je lahko presenetljivo enostavno. Če želite ustvariti nove vstavke, si poglejte kako delujejo privzeti vstavki."
 
 #: C/plugins.page:19(title)
 msgid "Search the Web Search Engines"
-msgstr ""
+msgstr "Iščite po spletu s spletnimi iskalniki "
 
 #: C/plugins.page:20(p)
 msgid "The Search the Web plugin uses <app>Firefox'</app> search engines, so you can add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> will find them later."
-msgstr ""
+msgstr "Vstavek Išči po spletu uporablja iskalnike <app>Firefox</app> zato lahko iskalnike dodate neposredno v <app>Firefox</app>, saj jih bo <app>Kupfer</app> našel."
 
 #: C/plugins.page:25(p)
 msgid "You can also install custom search plugins directly, only for <app>Kupfer</app>, in the folder:"
-msgstr ""
+msgstr "Vstavke po meri lahko namestite neposredno samo za <app>Kupfer</app> v mapo:"
 
 #: C/plugins.page:29(code)
 #, no-wrap
 msgid "~/.local/share/kupfer/searchplugins/"
-msgstr ""
+msgstr "~/.local/share/kupfer/searchplugins/"
 
 #: C/plugins.page:34(title)
 msgid "Open Terminal Here"
-msgstr ""
+msgstr "Odpri terminal tukaj"
 
 #: C/plugins.page:35(p)
 msgid "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-terminal</cmd>. xdg-terminal is a script to find the user's configured terminal program for his/her Desktop Environment. Install <cmd>xdg-terminal</cmd> if you need this (or install a symlink <em>called</em> xdg-terminal)."
-msgstr ""
+msgstr "Ukaz odpri terminal najprej pokliče <cmd>xdg-terminal</cmd>, nato pa <cmd>gnome-terminal</cmd>. xdg-terminal je skript za iskanje uporabniško določenega programa terminala za njegovo/njeno namizno okolje. Če to potrebujete, namestite <cmd>xdg-terminal</cmd> (ali namestite simbolno povezavo <em>z imenom</em> xdg-terminal)."
 
 #: C/plugins.page:44(title)
 msgid "Grab current selection"
-msgstr ""
+msgstr "Zgrabi trenutno izbiro"
 
 #: C/plugins.page:45(p)
 msgid "To use <app>Kupfer</app> like a pro, you can configure a \"Magic Keybinding\" for <app>Kupfer</app>. GUI configuration is not yet supported, but edit the configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include the following:"
-msgstr ""
+msgstr "Za uporabo <app>Kupferja</app> kot profesionalec lahko za <app>Kupfer</app> nastavite \"Čarobno tipkovno bližnjico\". Grafična nastavitev še ni podprta, zato morate urediti nastavitveno datoteko <file>~/.config/kupfer/kupfer.cfg</file> tako, da bo vključevala naslednje:"
 
 #: C/plugins.page:51(code)
 #, no-wrap
@@ -205,99 +206,104 @@ msgid ""
 "magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
 "  "
 msgstr ""
+"\n"
+"[Kupfer]\n"
+"tipkovna bližnica = &lt;Control&gt;preslednica\n"
+"čarobna tipkovna bližnica = &lt;Ctrl&gt;&lt;Alt&gt;preslednica\n"
+"  "
 
 #: C/plugins.page:57(p)
 msgid "Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq> will summon <app>Kupfer</app> with the current selection in focus. Make sure you have installed <app>Kupfer</app>'s nautilus plugin, then both the currently selected file in Nautilus, or the currently selected text in the front application will be selected."
-msgstr ""
+msgstr "Sedaj pritisnite <keyseq><key>Ctrl</key><key>Alt</key><key>Preslednica</key></keyseq>, ki bo priklicala <app>Kupfer</app> s trenutno izbiro v žarišču. Prepričajte se, da imate nameščen <app>Kupferjev</app> vstavek nautilus. V tem primeru, bosta tako izbrana datoteka v Nautilusu ali trenutno izbrano besedilo v sprednjem programu izbrana. "
 
 #: C/plugins.page:64(p)
 msgid "Now you can select a word in, say, a web browser, use <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, and select action <gui>Look Up</gui> to look up the selected word. Or select an image file, use <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to 1000 pixels wide!"
-msgstr ""
+msgstr "Sedaj lahko izberete besedo, na primer v spletnem brskalniku, uporabite <keyseq><key>Ctrl</key><key>Alt</key><key>Preslednica</key></keyseq> in izberete dejanje <gui>Poišči</gui> za iskanje izbrane besede. Ali pa izberite slikovno datoteko, uporabite <keyseq><key>Ctrl</key><key>Alt</key><key>Preslednica</key></keyseq>, izberite <gui>Prilagodi velikost</gui> s predmetom <gui>1000</gui> za spremembo velikosti slike na širino 1000 točk. "
 
 #: C/plugins.page:74(title)
 msgid "Adding your actions and scripts"
-msgstr ""
+msgstr "Dodajanje vaših dejanj in skriptov"
 
 #: C/plugins.page:75(p)
 msgid "If you want to add a custom application, or an application called with special options, you can create a new launcher for it and place it in one of the standard places for applications, for example <file>~/.local/share/applications</file>, where <app>Kupfer</app> will find it."
-msgstr ""
+msgstr "Če želite dodati program po meri, ali program klican s posebnimi možnostmi, lahko ustvarite nov zaganjalnik zanj in ga postavite v eno od standardnih mest za program, na primer  <file>~/.local/share/applications</file>, kjer ga bo <app>Kupfer</app> našel."
 
 #: C/plugins.page:81(p)
 msgid "If you have a collection of scripts that you want to call from <app>Kupfer</app>, you can add the scripts folder as a catalog directory to <app>Kupfer</app> in the preferences. Scripts that you add to <app>Kupfer</app>'s catalog this way can be run directly or in the terminal as long as they are executable."
-msgstr ""
+msgstr "Če imate zbirko skriptov, ki jih želite poklicati v <app>Kupferju</app>, lahko v možnostih dodate mapo skriptov kot mapo katalogov v <app>Kupfer</app>. Skripte, ki jih dodate v <app>Kupferjev</app> katalog na ta način, je mogoče zagnati neposredno v terminalu, če so izvedljivi. "
 
 #: C/plugins.page:87(p)
 msgid "An example useful script is <link href=\"http://kaizer.se/wiki/code/rhrating.py/\"> here</link> which changes the rating of <app>Rhythmbox</app>'s currently playing song; I have added five scriptlets calling <file>rhrating.py</file> with numbers from 0 to 5 to my catalog to quickly rate tracks. (This is something that might be integrated into <app>Kupfer</app> later)"
-msgstr ""
+msgstr "Primer uporabnega skripta je <link href=\"http://kaizer.se/wiki/code/rhrating.py/\"> tukaj</link>, ki spremeni oceno trenutno predvajajoče se skladbe v programu <app>Rhythmbox</app>. Dodanih je bilo pet majhnih skript <file>rhrating.py</file> s števili od 0 to 5 za hitro ocenjevanje skladb. (To bo morda kasneje vključeno v <app>Kupfer</app>)"
 
 #: C/plugins.page:97(title)
 msgid "Calculator Plugin"
-msgstr ""
+msgstr "Vstavek računala"
 
 #: C/plugins.page:98(p)
 msgid "The calculator plugin lets you calculate expressions quickly. It can evaluate expressions entered as text starting with \"=\". Entering = from command mode will start text mode directly with = prefixed for quick access."
-msgstr ""
+msgstr "Vstavek računalo vam omogoča hiter izračun izrazov. Oceni lahko izraze, vnesene kot besedilo, ki se začne z \"=\". Vnos = v načinu ukaza bo začel besedilni način neposredno s predpono = za hiter dostop."
 
 #: C/plugins.page:103(p)
 msgid "The Calculator uses python's math and complex math modules, and parses expressions as Python expressions. You may use common mathematical functions, such as sqrt, sin, exp and log; the command <cmd>=help</cmd> will show a list of all defined functions and constants."
-msgstr ""
+msgstr "Računalo uporablja pythonove module matematike in kompleksne matematike in izraze razčleni kot izraze Python. Uporabite lahko pogoste matematične funkcije kot so sqrt, sin, exp in log. Ukaz <cmd>=help</cmd> vam bo prikazal seznam vseh definiranih funkcij in konstant."
 
 #: C/plugins.page:111(p)
 msgid "Notice that the power operator in Python is double stars, for example =3**3 will evaluate to 27."
-msgstr ""
+msgstr "Operator potenc v Pythonu so dvojne zvezdice. Na primer =3**3 bo enako 27."
 
 #: C/plugins.page:117(p)
 msgid "To calculate trig functions for angles, convert to radians first:"
-msgstr ""
+msgstr "Za izračun trigonometrijskih funkcij kote najprej pretvorite v radiane:"
 
 #: C/plugins.page:120(code)
 #, no-wrap
 msgid "sin(radians(30)) -&gt; 0.5"
-msgstr ""
+msgstr "sin(radians(30)) -&gt; 0.5"
 
 #: C/plugins.page:123(p)
 msgid "The last result is stored as the name _ (an underscore, just like in the Python console)."
-msgstr ""
+msgstr "Zadnji rezultat je shranjen kot ime _ (podčrtaj, takšen kot v konzoli Python)."
 
 #: C/plugins.page:133(title)
 msgid "Command line connection"
-msgstr ""
+msgstr "Povezava ukazne vrstice"
 
 #: C/plugins.page:134(p)
 msgid "<app>Kupfer</app> is its own remote control. When <app>Kupfer</app> is already running, <app>Kupfer</app> on the command-line will focus its window, but there is more you can do: If you invoke <cmd><app>kupfer</app><var>QUERY</var></cmd> where <var>QUERY</var> is a text string or a filename, <app>Kupfer</app> will focus, and select this item. This way, you can quickly invoke <app>Kupfer</app> actions even on objects from a shell-based context."
-msgstr ""
+msgstr "<app>Kupfer</app> je svoj lasten daljinski upravljalnik. Ko <app>Kupfer</app> že teče, bo <app>Kupfer</app> v ukazni vrstici spravil njegovo okno v žarišče. Storite pa lahko še več: če prikličete <cmd><app>kupfer</app><var>POIZVEDBA</var></cmd>, kjer je <var>POIZVEDBA</var> besedilni niz ali ime datoteke, bo <app>Kupfer</app> prišel v žarišče in izbral ta predmet. Na ta način lahko hitro prikličete dejanja <app>Kupfer</app> na predmetih tudi iz lupine."
 
 #: C/plugins.page:142(p)
 msgid "For example, if you are using the shell in a directory where you have a file called \"report.pdf\", you can focus this file in <app>Kupfer</app> by running <cmd>kupfer report.pdf</cmd>."
-msgstr ""
+msgstr "Na primer, če uporabljate lupino v mapi, kjer imate datoteko \"poročilo.pdf\", lahko v <app>Kupferju</app> to datoteko spravite v žarišče s poganjanjem <cmd>kupfer porocilo.pdf</cmd>."
 
 #: C/plugins.page:147(p)
 msgid "You can also pipe the output of a command into <app>Kupfer</app> to send text to the already running instance of <app>Kupfer</app>."
-msgstr ""
+msgstr "Izhod ukaza lahko preusmerite v <app>Kupfer</app> za pošiljanje besedila že delujočemu primerku programa <app>Kupfer</app>."
 
 #: C/plugins.page:154(title)
 msgid "Managing Context and Current Selection"
-msgstr ""
+msgstr "Upravljanje vsebine in trenutne izbire"
 
 #: C/plugins.page:155(p)
 msgid "If you find the object you want to use, then invoke an action, <app>Kupfer</app> goes away to perform the action (for example start a program or play a song). When you come back to <app>Kupfer</app>, it will still keep the same object and action selected. Some actions make sense to be repeated (like skipping to the next song) and it can be useful to perform different actions on the same object."
-msgstr ""
+msgstr "V primeru, da najdete predmet, ki ga želite uporabiti, prikličite dejanje. <app>Kupfer</app> bo odšel stran za izvedbo dejanja (na primer zagnal program ali predvajal skladbo). Ko pridete nazaj v <app>Kupfer</app>, bo le-ta obdržal izbiro istega predmeta in dejanja. Nekatera dejanja je smiselno ponavljati (na primer preskok na naslednjo skladbo), uporabno pa je lahko tudi izvajanje različnih dejanj na istem predmetu."
 
 #: C/plugins.page:163(p)
 msgid "However, you always have the top level catalog reachable when you \"come back\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to browse your albums only; you select an album to play, and play it. You come back with the album selected -- but your next search will still go over the top level catalog, not just albums."
-msgstr ""
+msgstr "Vendar pa je katalog zgornje ravni dosegljiv vedno, ko \"pridete nazaj\" h programu <app>Kupfer</app> -- recimo, da greste v podkatalog \"Albumi\" za brskanje le vaših albumov, izberete album za predvajanje in ga predvajate. Prišli ste nazaj z izbranim albumom -- toda vaše naslednje iskanje bo še vedno izvedeno na katalogu gornje ravni, ne samo v albumih. "
 
 #: C/plugins.page:170(p)
 msgid "How to come back into the subcatalog you were in? You do that by simply browsing, not searching the first thing you do when you focus <app>Kupfer</app> again. A quick way is to press down-arrow or space to open the browse window; think of it as saying \"I want to stay in this subfolder\". With the browse window open, your next query will search the current subcatalog."
-msgstr ""
+msgstr "Kako priti nazaj v podkatalog v katerem ste bili? To lahko storite z enostavnim brskanjem in ne iskanje, ko je <app>Kupfer</app> znova v žarišču. Hiter način je pritisk na puščico navzdol ali preslednico za odprtje okna brskalnika. O tem mislite kot da bi rekli \"Želim ostati v tej podmapi\". Ko se odpre okno brskanja, bo vaša naslednja poizvedba iskala po trenutnem podkatalogu."
 
 #: C/plugins.page:177(p)
 msgid "This way you can work both ways -- you can quickly drill down into folders to find a file, and when you come back for the next action with <app>Kupfer</app> you can either summon any normal toplevel object (just start typing), or stay around where you were, deep in that folder (press space, then type a query)."
-msgstr ""
+msgstr "Na ta način lahko delate na oba načina - hitro lahko raziščete mape za iskanje datoteke in ko pridete nazaj za naslednje dejanje s <app>Kupferjem</app> lahko pokličete katerikoli predmet zgornje ravni ali pa ostanete, kjer ste bili globoko v tisti mapi (pritisnite presledek in nato vpišite poizvedbo)."
 
 #: C/license.page:7(desc)
 msgid "Legal Information."
-msgstr ""
+msgstr "Pravne podrobnosti."
 
 #: C/license.page:10(title)
 msgid "License"
@@ -305,27 +311,27 @@ msgstr "Dovoljenje"
 
 #: C/license.page:12(p)
 msgid "This program is free software: you can redistribute it and/or modify it under the terms of the <em>GNU General Public License</em> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version."
-msgstr ""
+msgstr "Ta program je prosta programska oprema; lahko ga širite in/ali spreminjate pod pogoji <em>GNU General Public License</em>, kot ga je objavila ustanova Free Software Foundation; bodisi različice 3 ali (po vaši izbiri) katerekoli poznejše različice.\n"
 
 #: C/license.page:18(p)
 msgid "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the <em>GNU General Public License</em> for more details."
-msgstr ""
+msgstr "Program je na voljo v upanju, da bo uporaben, vendar je BREZ VSAKRŠNEGA JAMSTVA; tudi brez jamstva o USTREZNOSTI ZA PRODAJO ali PRIMERNOSTI ZA DOLOČEN NAMEN. Za več podrobnosti si oglejte <em>GNU General Public License</em>."
 
 #: C/license.page:24(p)
 msgid "You should have received a copy of the GNU General Public License along with this program. If not, see <link href=\"http://www.gnu.org/licenses/\">gnu.org/licenses</link>."
-msgstr ""
+msgstr "Kopijo GNU General Public License bi morali prejeti skupaj s tem programom. Če je niste, si oglejte <link href=\"http://www.gnu.org/licenses/\">gnu.org/licenses</link>."
 
 #: C/license.page:30(p)
 msgid "This documentation is licensed under a <link href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 Unported License</link>."
-msgstr ""
+msgstr "Ta dokument je licenciran pod licenco <link href=\"http://creativecommons.org/licenses/by-sa/3.0/\">Dovoljenje Creative Commons - priznanje avtorstva - deljenje pod istimi pogoji 3.0 brez prenosa</link>."
 
 #: C/license.page:36(p)
 msgid "As a special exception, the copyright holders give you permission to copy, modify, and distribute the example code contained in this document under the terms of your choosing, without restriction."
-msgstr ""
+msgstr "Kot posebno izjemo vam lastniki avtorskih pravic dajejo dovoljenje za kopiranje, spreminjanje in distribuiranje kode primerov, ki jo vsebuje ta dokument, pod svojimi pogoji brez omejitev."
 
 #: C/introduction.page:7(desc)
 msgid "Introduction to <app>Kupfer</app>."
-msgstr ""
+msgstr "Uvod v <app>Kupfer</app>."
 
 #: C/introduction.page:10(title)
 msgid "Introduction"
@@ -333,19 +339,19 @@ msgstr "Uvod"
 
 #: C/introduction.page:12(p)
 msgid "<app>Kupfer</app> is a program to change, speed up and make everything about files and programs more fun on your computer. <app>Kupfer</app> is a launcher; you typically use it to summon an application or a document quickly by typing parts of its name. It can also do more than getting at something quickly: there are different plugins for accessing more objects and running custom commands."
-msgstr ""
+msgstr "<app>Kupfer</app> je program za spreminjanje, pohitritev in delanje datotek in programov na vašem računalniku bolj zabavnih. <app>Kupfer</app> je zaganjalnik. Običajno ga uporabite za hiter zagon programa ali dokumenta s tipkanjem dela njegovega imena. Naredi lahko veliko več kot nekaj hitro zažene - obstajajo različni vstavki za dostop do več predmetov in zagon ukazov po meri."
 
 #: C/introduction.page:22(p)
 msgid "<app>Kupfer</app> is written using Python and has a flexible architecture; the implementation is simple and makes the easy things work first. One goal is that new plugins can be written quickly without too much programming."
-msgstr ""
+msgstr "<app>Kupfer</app> je napisan v Pythonu in ima prilagodljivo arhitekturo. Podpora je enostavna in najprej omogoča delovanje enostavnih stvari. Eden od ciljev programa je možnost hitrega pisanja novih vstavkov brez preveč programiranja."
 
 #: C/introduction.page:28(p)
 msgid "The program is very inspired by <link href=\"http://www.blacktree.com/\">Quicksilver</link>."
-msgstr ""
+msgstr "Ta program je močno navdihnil <link href=\"http://www.blacktree.com/\">Quicksilver</link>."
 
 #: C/introduction.page:33(p)
 msgid "For more information about <app>Kupfer</app>, visit its <link href=\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
-msgstr ""
+msgstr "Za več podrobnosti o programu <app>Kupfer</app> obiščite njegovo <link href=\"http://kaizer.se/wiki/kupfer/\">domačo stran</link>."
 
 #: C/index.page:9(name)
 msgid "Ulrik Sverdrup"
@@ -361,22 +367,22 @@ msgstr "2009"
 
 #: C/index.page:14(name)
 msgid "Kupfer Development Team"
-msgstr ""
+msgstr "Razvijalska ekipa Kupfer"
 
 #: C/index.page:17(license)
 msgid "Creative Commons Share Alike 3.0"
-msgstr ""
+msgstr "Dovoljenje Creative Commons - priznanje avtorstva - deljenje pod istimi pogoji 3.0"
 
 #: C/index.page:21(title)
 msgid "Kupfer manual"
-msgstr ""
+msgstr "Priročnik Kupfer"
 
 #: C/index.page:24(title)
 msgid "Using Kupfer"
-msgstr ""
+msgstr "Uporabljanje programa Kupfer"
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
 msgid "translator-credits"
-msgstr ""
+msgstr "Andrej Žnidaršič"
 
