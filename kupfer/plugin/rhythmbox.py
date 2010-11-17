@@ -8,6 +8,7 @@ import itertools
 from hashlib import md5
 
 import gio
+import os
 
 from kupfer.objects import (Leaf, Source, AppLeaf, Action, RunnableLeaf,
 		SourceLeaf )
@@ -252,10 +253,18 @@ class AlbumLeaf (TrackCollection):
 	def _get_thumb_local(self):
 		# try local filesystem
 		uri = self.object[0]["location"]
+		artist = self.object[0]["artist"].lower()
+		album = self.object[0]["album"].lower()
 		gfile = gio.File(uri)
-		for cover_name in ("album.jpg", "cover.jpg"):
-			cfile = gfile.resolve_relative_path("../" + cover_name)
-			if cfile.query_exists():
+		cdir = gfile.resolve_relative_path("../").get_path()
+		# We don't support unicode ATM
+		bs_artist_album = \
+			" - ".join([us.encode("ascii", "ignore") for us in (artist, album)])
+		cover_names = ("cover.jpg", "album.jpg", "albumart.jpg",
+				".folder.jpg", "folder.jpg", bs_artist_album + ".jpg")
+		for cover_name in os.listdir(cdir):
+			if cover_name.lower() in cover_names:
+				cfile = gfile.resolve_relative_path("../" + cover_name)
 				return cfile.get_path()
 
 	def _get_thumb_mediaart(self):
