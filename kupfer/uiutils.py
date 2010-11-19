@@ -187,11 +187,17 @@ def _get_notification_iface():
 	iface_obj = dbus.Interface(proxy_obj, IFACE_NAME)
 	return iface_obj
 
-def show_notification(title, text="", icon_name=""):
+def show_notification(title, text="", icon_name="", nid=0):
+	"""
+	@nid: If not 0, the id of the notification to replace.
+
+	Returns the id of the displayed notification.
+	"""
 	notifications = _get_notification_iface()
 	if not notifications:
 		return None
-	rid = notifications.Notify("kupfer", 0, icon_name, title, text, (), {}, -1)
+	rid = notifications.Notify("kupfer",
+	                           nid, icon_name, title, text, (), {}, -1)
 	return rid
 
 
