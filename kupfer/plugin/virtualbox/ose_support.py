@@ -106,7 +106,7 @@ def _get_machine_info(vm_uuid, config_file):
 		os_type = machine_registry.getAttribute('OSType')
 		name = machine_registry.getAttribute('name')
 		description = None
-		for machine_registry_child in machine_registry.childNodes:
+		for machine_registry_child in machine_registry.get_child()Nodes:
 			if machine_registry_child.nodeName == 'Description':
 				if machine_registry_child.hasChildNodes():
 					description = machine_registry_child.firstChild.nodeValue

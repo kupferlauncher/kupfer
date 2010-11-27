@@ -1,10 +1,15 @@
 import os
 
-import gtk
-from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
-from gtk.gdk import pixbuf_new_from_file_at_size
-from gio import Icon, ThemedIcon, FileIcon, File
-from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
+import gobject
+from gi.repository import Gdk
+from gi.repository import Gtk
+from gi.repository import Gio
+from gi.repository import GdkPixbuf
+from gi.repository.Gio import  Icon, ThemedIcon, FileIcon, File
+#from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
+#from Gtk.gdk import pixbuf_new_from_file_at_size
+#from gio import Icon, ThemedIcon, FileIcon, File
+#from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
 from gobject import GError
 
 from kupfer import config, pretty, scheduler
@@ -16,7 +21,7 @@ def _icon_theme_changed(theme):
 	global icon_cache
 	icon_cache = {}
 
-_default_theme = gtk.icon_theme_get_default()
+_default_theme = Gtk.IconTheme.get_default()
 _default_theme.connect("changed", _icon_theme_changed)
 
 def load_kupfer_icons(sched=None):
@@ -35,8 +40,8 @@ def load_kupfer_icons(sched=None):
 		if not icon_path:
 			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
 			continue
-		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
-		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(icon_path, size,size)
+		Gtk.IconTheme.add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"from", icon_path)
 
@@ -46,7 +51,7 @@ def load_plugin_icon(plugin_name, icon_name, icon_data):
 	"Load icon from @icon_data into the name @icon_name"
 	for size in (24, 96):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
-		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		Gtk.IconTheme.add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"for", plugin_name)
 
@@ -82,7 +87,7 @@ def _get_icon_dwim(icon, icon_size):
 		return get_icon_for_name(icon, icon_size)
 	return None
 
-class ComposedIcon (Icon):
+class ComposedIcon (object):
 	"""
 	A composed icon, which kupfer will render to pixbuf as
 	background icon with the decorating icon as emblem
@@ -150,7 +155,7 @@ def _render_composed_icon(composed_icon, icon_size):
 	dsize = int(fr*icon_size)
 	# http://library.gnome.org/devel/gdk-pixbuf/unstable//gdk-pixbuf-scaling.html
 	toppbuf.composite(dest, dcoord, dcoord, dsize, dsize,
-			dcoord, dcoord, fr, fr, gtk.gdk.INTERP_BILINEAR, 255)
+			dcoord, dcoord, fr, fr, Gdk.INTERP_BILINEAR, 255)
 	return dest
 
 def get_thumbnail_for_file(uri, width=-1, height=-1):
@@ -162,11 +167,11 @@ def get_thumbnail_for_file(uri, width=-1, height=-1):
 	return None if not found
 	"""
 
-	gfile = File(uri)
-	if not gfile.query_exists():
+	gfile = Gio.file_new_for_path(uri)
+	if not gfile.query_exists(None):
 		return None
-	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH)
-	thumb_path = finfo.get_attribute_byte_string(FILE_ATTRIBUTE_THUMBNAIL_PATH)
+	finfo = gfile.query_info(Gio.FILE_ATTRIBUTE_THUMBNAIL_PATH, Gio.FileQueryInfoFlags.NONE, None)
+	thumb_path = finfo.get_attribute_byte_string(Gio.FILE_ATTRIBUTE_THUMBNAIL_PATH)
 
 	return get_pixbuf_from_file(thumb_path, width, height)
 
@@ -181,7 +186,7 @@ def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
 	if not thumb_path:
 		return None
 	try:
-		icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
+		icon = GdkPixbuf.Pixbuf.new_from_file_at_size(thumb_path, width, height)
 		return icon
 	except GError, e:
 		# this error is not important, the program continues on fine,
@@ -197,12 +202,12 @@ def get_gicon_for_file(uri):
 	return None if not found
 	"""
 
-	gfile = File(uri)
-	if not gfile.query_exists():
+	gfile = Gio.file_new_for_path(uri)
+	if not gfile.query_exists(None):
 		return None
 
-	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
-	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
+	finfo = gfile.query_info(Gio.FILE_ATTRIBUTE_STANDARD_ICON, Gio.FileQueryInfoFlags.NONE, None)
+	gicon = finfo.get_attribute_object(Gio.FILE_ATTRIBUTE_STANDARD_ICON)
 	return gicon
 
 def get_icon_for_gicon(gicon, icon_size):
@@ -240,7 +245,7 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	# Try the whole list of given names
 	for load_name in icon_names:
 		try:
-			icon = _default_theme.load_icon(load_name, icon_size, ICON_LOOKUP_USE_BUILTIN | ICON_LOOKUP_FORCE_SIZE)
+			icon = _default_theme.load_icon(load_name, icon_size, Gtk.IconLookupFlags.USE_BUILTIN | Gtk.IconLookupFlags.FORCE_SIZE)
 			if icon:
 				break
 		except GError, e:
@@ -262,7 +267,7 @@ def get_icon_from_file(icon_file, icon_size):
 		return icon
 
 	try:
-		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
+		icon = GdkPixbuf.Pixbuf.new_from_file_at_size(icon_file, icon_size, icon_size)
 		store_icon(icon_file, icon_size, icon)
 		return icon
 	except GError, e:
@@ -279,17 +284,13 @@ def is_good(gicon):
 		return bool(get_good_name_for_icon_names(gicon.get_names()))
 	if isinstance(gicon, FileIcon):
 		ifile = gicon.get_file()
-		return ifile.query_exists()
+		return ifile.query_exists(None)
 	# Since we can't load it otherwise (right now, see above)
 	return False
 
 def get_gicon_with_fallbacks(gicon, names):
 	if not is_good(gicon):
-		for name in names:
-			gicon = ThemedIcon(name)
-			if is_good(gicon):
-				return gicon
-		return ThemedIcon(name)
+		return Gio.ThemedIcon.new_from_names(names)
 	return gicon
 
 def get_good_name_for_icon_names(names):
@@ -302,7 +303,7 @@ def get_good_name_for_icon_names(names):
 	return None
 
 def get_gicon_for_names(*names):
-	return ThemedIcon(names)
+	return ThemedIcon.new_from_names(names)
 
 
 def get_pixbuf_from_data(data, width=None, height=None):
@@ -316,7 +317,7 @@ def get_pixbuf_from_data(data, width=None, height=None):
 		new_width, new_height = int(img_width*scale), int(img_height*scale)
 		img.set_size(new_width, new_height)
 
-	ploader = gtk.gdk.PixbufLoader()
+	ploader = Gdk.PixbufLoader()
 	if width and height:
 		ploader.connect("size-prepared", set_size)
 	ploader.write(data)

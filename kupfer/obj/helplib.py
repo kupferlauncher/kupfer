@@ -8,7 +8,7 @@ more information.
 import functools
 import traceback
 
-import gio
+from gi.repository import Gio
 
 from kupfer import task
 from kupfer import pretty
@@ -67,10 +67,10 @@ class FilesystemWatchMixin (object):
 		"""
 		tokens = []
 		for directory in directories:
-			gfile = gio.File(directory)
-			if not gfile.query_exists():
+			gfile = Gio.file_new_for_path(directory)
+			if not gfile.query_exists(None):
 				continue
-			monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
+			monitor = gfile.monitor_directory(Gio.FileMonitorFlags.NONE, None)
 			if monitor:
 				monitor.connect("changed", self.__directory_changed)
 				tokens.append(monitor)
@@ -83,8 +83,8 @@ class FilesystemWatchMixin (object):
 		return not (gfile and gfile.get_basename().startswith("."))
 
 	def __directory_changed(self, monitor, file1, file2, evt_type):
-		if (evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
-				gio.FILE_MONITOR_EVENT_DELETED) and
+		if (evt_type in (Gio.FileMonitorEvent.CREATED,
+				Gio.FileMonitorEvent.DELETED) and
 				self.monitor_include_file(file1)):
 			self.mark_for_update()
 

@@ -12,6 +12,7 @@ import os
 from os import path
 
 import gobject
+from gi.repository import Gio
 
 from kupfer import icons, launch, utils
 from kupfer import pretty
@@ -156,7 +157,7 @@ class AppLeaf (Leaf):
 		self.init_item_id = app_id and app_id + ".desktop"
 		# finish will raise InvalidDataError on invalid item
 		self.finish()
-		Leaf.__init__(self, self.object, self.object.get_name())
+		Leaf.__init__(self, self.object, self.object.get_display_name())
 		self._add_aliases()
 
 	def _add_aliases(self):
@@ -192,20 +193,23 @@ class AppLeaf (Leaf):
 			item = self.init_item
 		else:
 			# Construct an AppInfo item from either path or item_id
-			from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
 			if self.init_path and os.access(self.init_path, os.X_OK):
 				# serilizable if created from a "loose file"
 				self.serializable = 1
-				item = desktop_app_info_new_from_filename(self.init_path)
 				try:
-					# try to annotate the GAppInfo object
-					item.init_path = self.init_path
-				except AttributeError, exc:
-					pretty.print_debug(__name__, exc)
+					item = Gio.DesktopAppInfo.new_from_filename(self.init_path)
+				except TypeError:
+					item = None
+				else:
+					try:
+						# try to annotate the GAppInfo object
+						item.init_path = self.init_path
+					except AttributeError, exc:
+						pretty.print_debug(__name__, exc)
 			elif self.init_item_id:
 				try:
-					item = DesktopAppInfo(self.init_item_id)
-				except RuntimeError:
+					item = Gio.DesktopAppInfo.new(self.init_item_id)
+				except TypeError:
 					pretty.print_debug(__name__, "Application not found:",
 							self.init_item_id)
 		self.object = item

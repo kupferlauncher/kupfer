@@ -12,7 +12,7 @@ __author__ = "Thomas Renard <cybaer42@web.de>"
 
 import StringIO
 
-import gtk
+import gtklasdkjf
 import qrencode
 
 from kupfer.objects import Action, Leaf

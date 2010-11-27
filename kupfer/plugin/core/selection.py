@@ -1,4 +1,5 @@
-import gtk
+from gi.repository import Gdk
+from gi.repository import Gtk
 
 from kupfer.objects import Source, Leaf
 from kupfer.objects import TextLeaf, SourceLeaf
@@ -37,7 +38,8 @@ class SelectionSource (Source):
 
 	def initialize(self):
 		self._text = None
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
+		return
+		clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
 		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 
 	def _clipboard_changed(self, clipboard, event):

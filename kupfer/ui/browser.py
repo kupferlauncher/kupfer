@@ -6,13 +6,17 @@ import signal
 import sys
 import time
 
+import pygtk
+pygtk.require('2.0')
+
 try:
 	import appindicator
 except ImportError:
 	appindicator = None
 
-import gtk
-import gio
+from gi.repository import Gdk
+from gi.repository import Gtk
+from gi.repository import Gio
 import gobject
 
 from kupfer import kupferui
@@ -39,6 +43,10 @@ def tounicode(ustr):
 		return ustr
 	return ustr.decode("UTF-8", "replace")
 
+def toutf8(ustr):
+	assert isinstance(ustr, unicode), "%s is not Unicode string" % (repr(ustr), )
+	return ustr.encode("UTF-8")
+
 def escape_markup_str(mstr):
 	"""
 	Use a simeple homegrown replace table to replace &, <, > with
@@ -47,7 +55,7 @@ def escape_markup_str(mstr):
 	return tounicode(mstr).translate(_escape_table)
 
 def text_direction_is_ltr():
-	return gtk.widget_get_default_direction() != gtk.TEXT_DIR_RTL
+	return Gtk.Widget.get_default_direction() != Gtk.TextDirection.RTL
 
 # State Constants
 class State (object):
@@ -66,8 +74,8 @@ class LeafModel (object):
 		First column is always the object -- returned by get_object
 		it needs not be specified in columns
 		"""
-		columns = (gobject.TYPE_OBJECT, str, str, str)
-		self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
+		columns = [gobject.TYPE_OBJECT, str, str, str]
+		self.store = Gtk.ListStore.newv([gobject.TYPE_PYOBJECT] + columns)
 		self.object_column = 0
 		self.base = None
 		self._setup_columns()
@@ -85,36 +93,40 @@ class LeafModel (object):
 		show_rank_col = pretty.debug
 
 		from pango import ELLIPSIZE_MIDDLE
-		cell = gtk.CellRendererText()
+		cell = Gtk.CellRendererText()
 		cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
 		cell.set_property("width-chars", 45)
-		col = gtk.TreeViewColumn("item", cell)
-
-		"""
-		info_cell = gtk.CellRendererPixbuf()
-		info_cell.set_property("height", 16)
-		info_cell.set_property("width", 16)
-		info_col = gtk.TreeViewColumn("info", info_cell)
-		info_col.add_attribute(info_cell, "icon-name", self.info_col)
-		"""
-		info_cell = gtk.CellRendererText()
-		info_cell.set_property("width-chars", 1)
-		info_col = gtk.TreeViewColumn("info", info_cell)
-		info_col.add_attribute(info_cell, "text", self.info_col)
-
+		col = Gtk.TreeViewColumn(title="item")
+		col.pack_start(cell, True)
 		col.add_attribute(cell, "markup", self.val_col)
 
-		nbr_cell = gtk.CellRendererText()
-		nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
+		"""
+		info_cell = Gtk.CellRendererPixbuf()
+		info_cell.set_property("height", 16)
+		info_cell.set_property("width", 16)
+		info_col = Gtk.TreeViewColumn("info", info_cell)
+		info_col.add_attribute(info_cell, "icon-name", self.info_col)
+		"""
+		info_cell = Gtk.CellRendererText()
+		info_cell.set_property("width-chars", 1)
+		info_col = Gtk.TreeViewColumn(title="info")
+		info_col.pack_start(info_cell, True)
+		info_col.add_attribute(info_cell, "text", self.info_col)
+
+
+		nbr_cell = Gtk.CellRendererText()
+		nbr_col = Gtk.TreeViewColumn(title="rank")
 		nbr_cell.set_property("width-chars", 3)
+		nbr_col.pack_start(nbr_cell, True)
 		nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
 
-		icon_cell = gtk.CellRendererPixbuf()
+		icon_cell = Gtk.CellRendererPixbuf()
 		#icon_cell.set_property("height", 32)
 		#icon_cell.set_property("width", 32)
-		#icon_cell.set_property("stock-size", gtk.ICON_SIZE_LARGE_TOOLBAR)
+		#icon_cell.set_property("stock-size", Gtk.IconSize.LARGE_TOOLBAR)
 
-		icon_col = gtk.TreeViewColumn("icon", icon_cell)
+		icon_col = Gtk.TreeViewColumn(title="icon")
+		icon_col.pack_start(icon_cell, True)
 		icon_col.add_attribute(icon_cell, "pixbuf", self.icon_col)
 
 		self.columns = [icon_col, col, info_col,]
@@ -172,7 +184,8 @@ class LeafModel (object):
 		self.store.append(self._get_row(rankable))
 
 	def add_first(self, rankable):
-		self.store.prepend(self._get_row(rankable))
+		itr = self.store.prepend()
+		self.store.set_row(itr, self._get_row(rankable))
 
 	def get_icon_size(self):
 		return 24
@@ -213,7 +226,7 @@ class LeafModel (object):
 		# Display rank empty instead of 0 since it looks better
 		return str(int(rank)) if rank else ""
 
-class MatchView (gtk.Bin):
+class MatchView (Gtk.Bin):
 	"""
 	A Widget for displaying name, icon and underlining properly if
 	it matches
@@ -238,40 +251,42 @@ class MatchView (gtk.Bin):
 		self.cur_match = None
 
 	def _update_theme(self, *args):
+		print "Realize or style set in MatchView"
 		# Style subtables to choose from
 		# fg, bg, text, base
 		# light, mid, dark
 
 		# Use a darker color for selected state
 		# leave active state as preset
-		selectedc = self.style.dark[gtk.STATE_SELECTED]
-		self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
+		#selectedc = self.style.dark[Gtk.StateType.SELECTED]
+		#self.event_box.modify_bg(Gtk.StateType.SELECTED, selectedc)
+		print "Modified style done!"
 
 	def build_widget(self):
 		"""
 		Core initalization method that builds the widget
 		"""
 		from pango import ELLIPSIZE_MIDDLE
-		self.label = gtk.Label("<match>")
-		self.label.set_justify(gtk.JUSTIFY_CENTER)
+		self.label = Gtk.Label(label="<match>")
+		self.label.set_justify(Gtk.Justification.CENTER)
 		self.label.set_width_chars(self.label_char_width)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
-		self.icon_view = gtk.Image()
+		self.icon_view = Gtk.Image()
 
 		# infobox: icon and match name
-		infobox = gtk.HBox()
+		infobox = Gtk.HBox()
 		infobox.pack_start(self.icon_view, True, True, 0)
-		box = gtk.VBox()
+		box = Gtk.VBox()
 		box.pack_start(infobox, True, False, 0)
 		box.pack_start(self.label, False, True, 0)
-		self.event_box = gtk.EventBox()
+		self.event_box = Gtk.EventBox()
 		self.event_box.add(box)
 		self.add(self.event_box)
 		self.event_box.show_all()
 		self.__child = self.event_box
 
 	def do_size_request (self, requisition):
-		requisition.width, requisition.height = self.__child.size_request ()
+		return self.__child.size_request (requisition)
 
 	def do_size_allocate (self, allocation):
 		self.__child.size_allocate (allocation)
@@ -290,6 +305,7 @@ class MatchView (gtk.Bin):
 		@pixbufs: icons of the object stack, in final (small) size
 		@small_size: the size of the small icons
 		"""
+		from gi.repository import GdkPixbuf
 		sz = self.icon_size
 		base_scale = min((sz-small_size)*1.0/base.get_height(),
 				sz*1.0/base.get_width())
@@ -297,14 +313,14 @@ class MatchView (gtk.Bin):
 		new_sz_y = int(base_scale*base.get_height())
 		if not base.get_has_alpha():
 			base = base.add_alpha(False, 0, 0, 0)
-		destbuf = base.scale_simple(sz, sz, gtk.gdk.INTERP_NEAREST)
+		destbuf = base.scale_simple(sz, sz, GdkPixbuf.InterpType.NEAREST)
 		destbuf.fill(0x00000000)
 		# Align in the middle of the area
 		offset_x = (sz - new_sz_x)/2
 		offset_y = ((sz - small_size) - new_sz_y)/2
 		base.composite(destbuf, offset_x, offset_y, new_sz_x, new_sz_y,
 				offset_x, offset_y,
-				base_scale, base_scale, gtk.gdk.INTERP_BILINEAR, 255)
+				base_scale, base_scale, GdkPixbuf.InterpType.BILINEAR, 255)
 
 		# @fr is the scale compared to the destination pixbuf
 		fr = small_size*1.0/sz
@@ -331,7 +347,7 @@ class MatchView (gtk.Bin):
 				icon = self._render_composed_icon(icon, pixbufs, small_size)
 			self.icon_view.set_from_pixbuf(icon)
 		else:
-			self.icon_view.set_from_icon_name("gtk-file", self.icon_size)
+			self.icon_view.set_from_icon_name("gtk-file", Gtk.IconSize.LARGE_TOOLBAR)
 			self.icon_view.set_pixel_size(self.icon_size)
 
 		if not self.cur_text:
@@ -341,9 +357,9 @@ class MatchView (gtk.Bin):
 		if not self.cur_match:
 			if self.match_state is not State.Match:
 				# Allow markup in the text string if we have no match
-				self.label.set_markup(self.cur_text)
+				self.label.set_markup(toutf8(self.cur_text))
 			else:
-				self.label.set_text(self.cur_text)
+				self.label.set_text(toutf8(self.cur_text))
 			return
 
 		# update the text label
@@ -397,12 +413,12 @@ class MatchView (gtk.Bin):
 		Widget state (Active/normal/prelight etc)
 		"""
 		super(MatchView, self).set_state(state)
-		#self.label.set_state(gtk.STATE_NORMAL)
+		#self.label.set_state(Gtk.StateType.NORMAL)
 		self.event_box.queue_draw()
 
 gobject.type_register(MatchView)
 
-class Search (gtk.Bin):
+class Search (Gtk.Bin):
 	"""
 	A Widget for displaying search results
 	icon + aux table etc
@@ -443,7 +459,7 @@ class Search (gtk.Bin):
 		"""
 		self.match_view = MatchView(self.icon_size)
 
-		self.table = gtk.TreeView(self.model.get_store())
+		self.table = Gtk.TreeView.new_with_model(self.model.get_store())
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
 
@@ -453,15 +469,15 @@ class Search (gtk.Bin):
 		self.table.connect("row-activated", self._row_activated)
 		self.table.connect("cursor-changed", self._cursor_changed)
 
-		self.scroller = gtk.ScrolledWindow()
-		self.scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+		self.scroller = Gtk.ScrolledWindow()
+		self.scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
 		self.scroller.add(self.table)
 		vscroll = self.scroller.get_vscrollbar()
 		vscroll.connect("change-value", self._table_scroll_changed)
 
-		self.list_window = gtk.Window(gtk.WINDOW_POPUP)
+		self.list_window = Gtk.Window(type=Gtk.WindowType.POPUP)
 
-		box = gtk.VBox()
+		box = Gtk.VBox()
 		box.pack_start(self.match_view, True, True, 0)
 		self.add(box)
 		box.show_all()
@@ -486,11 +502,12 @@ class Search (gtk.Bin):
 
 	def get_match_state(self):
 		return self.match_state
+
 	def get_match_text(self):
 		return self.text
 
 	def do_size_request (self, requisition):
-		requisition.width, requisition.height = self.__child.size_request ()
+		return self.__child.size_request (requisition)
 
 	def do_size_allocate (self, allocation):
 		self.__child.size_allocate (allocation)
@@ -507,13 +524,26 @@ class Search (gtk.Bin):
 	def _show_table(self):
 		# self.window is a GdkWindow
 		win_width, win_height = self.window.get_size()
-		pos_x, pos_y = self.window.get_position()
+		# A workaround way to get self.window's position!
+		screen = Gdk.Screen.get_default()
+		display = Gdk.Display.get_default()
+		px, py, _ign = display.get_pointer(None)
+		_ign, wpx, wpy, _ign = self.window.get_pointer()
+		pos_x, pos_y = (px - wpx, py - wpy)
+		#r = Gtk.Requisition()
+		#self.window.size_request(r)
+		#pos_x, pos_y = self.get_toplevel().get_position()
+		#pos_x, pos_y = 0,0
 		sub_x = pos_x
 		sub_y = pos_y + win_height
 		x_coord = pos_x
-		table_w, table_len = self.table.size_request()
+		r = Gtk.Requisition()
+		self.table.size_request(r)
+		table_w, table_len = r.width, r.height
 		subwin_height = min(table_len, 200)
-		subwin_width = self.list_window.size_request()[0]
+		#subwin_width = self.list_window.size_request()[0]
+		self.list_window.size_request(r)
+		subwin_width = r.width
 		if not text_direction_is_ltr():
 			sub_x += win_width - subwin_width
 		self.list_window.move(sub_x, sub_y)
@@ -543,14 +573,17 @@ class Search (gtk.Bin):
 
 	# table methods
 	def _table_set_cursor_at_row(self, row):
-		path_at_row = lambda r: (r,)
-		self.table.set_cursor(path_at_row(row))
+		t = Gtk.TreePath.new_first()
+		for x in xrange(0, row):
+			t.next()
+		#path_at_row = lambda r: (r,)
+		self.table.set_cursor(t, None, False)
 
 	def go_up(self, rows_count=1):
 		"""
 		Upwards in the table
 		"""
-		row_at_path = lambda p: p[0]
+		row_at_path = lambda p: p.get_indices_with_depth()[0]
 
 		# go up, simply. close table if we go up from row 0
 		path, col = self.table.get_cursor()
@@ -565,7 +598,7 @@ class Search (gtk.Bin):
 		"""
 		Down in the table
 		"""
-		row_at_path = lambda p: p[0]
+		row_at_path = lambda p: p.get_indices_with_depth()[0]
 
 		table_visible = self.get_table_visible()
 		# if no data is loaded (frex viewing catalog), load
@@ -606,9 +639,11 @@ class Search (gtk.Bin):
 		"""
 		When the window moves
 		"""
-		winpos = event.x, event.y
+		print "Window configure event"
+		(winx, winy) = event.get_coords()
 		# only hide on move, not resize
 		# set old win position in _show_table
+		winpos = (winx, winy)
 		if self.get_table_visible() and winpos != self._old_win_position:
 			self.hide_table()
 			gobject.timeout_add(300, self._show_table)
@@ -712,7 +747,7 @@ class Search (gtk.Bin):
 
 	def set_active(self, act):
 		self.active = act
-		state = (gtk.STATE_NORMAL, gtk.STATE_SELECTED)[act]
+		state = (Gtk.StateType.NORMAL, Gtk.StateType.SELECTED)[act]
 		self.match_view.set_state(state)
 
 # Take care of gobject things to set up the Search class
@@ -791,8 +826,8 @@ class Interface (gobject.GObject):
 		self.search = LeafSearch()
 		self.action = ActionSearch()
 		self.third = LeafSearch()
-		self.entry = gtk.Entry()
-		self.label = gtk.Label()
+		self.entry = Gtk.Entry()
+		self.label = Gtk.Label()
 
 		self.current = None
 
@@ -856,7 +891,7 @@ class Interface (gobject.GObject):
 			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
 			"space", 'Page_Up', 'Page_Down', 'Home'
 			)
-		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
+		self.key_book = dict((k, Gdk.keyval_from_name(k)) for k in keys)
 		if not text_direction_is_ltr():
 			# for RTL languages, simply swap the meaning of Left and Right
 			# (for keybindings!)
@@ -870,11 +905,11 @@ class Interface (gobject.GObject):
 		"""Return a Widget containing the whole Interface"""
 		if self._widget:
 			return self._widget
-		box = gtk.HBox()
+		box = Gtk.HBox()
 		box.pack_start(self.search, True, True, 0)
 		box.pack_start(self.action, True, True, 0)
 		box.pack_start(self.third, True, True, 0)
-		vbox = gtk.VBox()
+		vbox = Gtk.VBox()
 		vbox.pack_start(box, True, True, 0)
 		vbox.pack_start(self.label, True, True, 0)
 		vbox.pack_start(self.entry, True, True, 0)
@@ -885,6 +920,7 @@ class Interface (gobject.GObject):
 		return vbox
 
 	def _entry_realized(self, widget):
+		print "Entry realized!"
 		self.update_text_mode()
 
 	def _pane_button_press(self, widget, event):
@@ -901,18 +937,20 @@ class Interface (gobject.GObject):
 		without losing focus from entry field
 		"""
 
-		direct_text_key = gtk.gdk.keyval_from_name("period")
-		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
+		direct_text_key = Gdk.keyval_from_name("period")
+		init_text_keys = map(Gdk.keyval_from_name, ("slash", "equal"))
 		init_text_keys.append(direct_text_key)
-		keymap = gtk.gdk.keymap_get_default()
+		keyv = event.keyval
+		#keymap = Gdk.Keymap()
 		# translate keys properly
-		keyv, egroup, level, consumed = keymap.translate_keyboard_state(
-					event.hardware_keycode, event.state, event.group)
-		all_modifiers = gtk.accelerator_get_default_mod_mask()
-		modifiers = all_modifiers & ~consumed
+		#keyv, egroup, level, consumed = keymap.translate_keyboard_state(
+					#event.hardware_keycode, event.get_state(), event.group)
+		all_modifiers = Gtk.accelerator_get_default_mod_mask()
+		#print keyv, egroup, level, hex(consumed)
+		modifiers = all_modifiers# & ~consumed
 		# MOD1_MASK is alt/option
-		mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
-		shift_mask = ((event.state & all_modifiers) == gtk.gdk.SHIFT_MASK)
+		mod1_mask = ((event.get_state() & modifiers) == Gdk.ModifierType.MOD1_MASK)
+		shift_mask = ((event.get_state() & all_modifiers) == Gdk.ModifierType.SHIFT_MASK)
 
 		text_mode = self.get_in_text_mode()
 		has_input = bool(self.entry.get_text())
@@ -925,10 +963,11 @@ class Interface (gobject.GObject):
 		setctl = settings.GetSettingsController()
 		# process accelerators
 		for action, accel in setctl.get_accelerators().iteritems():
-			akeyv, amodf = gtk.accelerator_parse(accel)
+			break
+			akeyv, amodf = Gtk.accelerator_parse(accel)
 			if not akeyv:
 				continue
-			if akeyv == keyv and (amodf == (event.state & modifiers)):
+			if akeyv == keyv and (amodf == (event.get_state() & modifiers)):
 				action_method = getattr(self, action, None)
 				if not action_method:
 					pretty.print_error(__name__, "Action invalid '%s'" % action)
@@ -1024,7 +1063,7 @@ class Interface (gobject.GObject):
 		selection = self.current.get_current()
 		if selection is None:
 			return False
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
 		return interface.copy_to_clipboard(selection, clip)
 
 	def _entry_cut_clipboard(self, entry):
@@ -1174,15 +1213,16 @@ class Interface (gobject.GObject):
 			self.entry.set_size_request(-1,-1)
 			self.entry.set_property("has-frame", True)
 			# Reset text style to normal
-			self.entry.modify_text(gtk.STATE_NORMAL, None)
-			self.current.set_state(gtk.STATE_ACTIVE)
+			self.entry.modify_text(Gtk.StateType.NORMAL, None)
+			self.current.set_state(Gtk.StateType.ACTIVE)
 		else:
 			self.entry.set_size_request(0,0)
 			self.entry.set_property("has-frame", False)
 			# Use text color = background color
-			theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
-			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_bg)
-			self.current.set_state(gtk.STATE_SELECTED)
+			self.entry.ensure_style()
+			#theme_entry_bg = self.entry.style.bg[Gtk.StateType.NORMAL]
+			#self.entry.modify_text(Gtk.StateType.NORMAL, theme_entry_bg)
+			self.current.set_state(Gtk.StateType.SELECTED)
 
 	def switch_to_source(self):
 		if self.current is not self.search:
@@ -1372,7 +1412,7 @@ class Interface (gobject.GObject):
 
 	def put_files(self, fileuris):
 		leaves = map(interface.get_fileleaf_for_path,
-			filter(None, [gio.File(U).get_path() for U in fileuris]))
+			filter(None, [Gio.File(U).get_path() for U in fileuris]))
 		if leaves:
 			self.data_controller.insert_objects(data.SourcePane, leaves)
 
@@ -1387,8 +1427,8 @@ class Interface (gobject.GObject):
 		if not text:
 			self.data_controller.cancel_search()
 			# See if it was a deleting key press
-			curev = gtk.get_current_event()
-			if (curev and curev.type == gtk.gdk.KEY_PRESS and
+			curev = Gtk.get_current_event()
+			if (curev and curev.type == Gdk.EventType.KEY_PRESS and
 			    curev.keyval in (self.key_book["Delete"],
 			        self.key_book["BackSpace"])):
 				self._backspace_key_press()
@@ -1415,8 +1455,8 @@ class WindowController (pretty.OutputMixin):
 	def __init__(self):
 		"""
 		"""
-		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		self.window = Gtk.Window(type=Gtk.WindowType.TOPLEVEL)
+		self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1450,7 +1490,7 @@ class WindowController (pretty.OutputMixin):
 			else: self.hide_statusicon()
 
 	def _setup_menu(self):
-		menu = gtk.Menu()
+		menu = Gtk.Menu()
 
 		def menu_callback(menuitem, callback):
 			callback()
@@ -1459,19 +1499,20 @@ class WindowController (pretty.OutputMixin):
 		def add_menu_item(icon, callback, label=None):
 			mitem = None
 			if label and not icon:
-				mitem = gtk.MenuItem(label=label)
+				mitem = Gtk.MenuItem.new_with_label(toutf8(label))
 			else:
-				mitem = gtk.ImageMenuItem(icon)
+				mitem = Gtk.ImageMenuItem.new_with_label(icon)
+				mitem.set_use_stock(True)
 			mitem.connect("activate", menu_callback, callback)
 			menu.append(mitem)
 
 		add_menu_item(None, self.activate, _("Show Main Interface"))
-		menu.append(gtk.SeparatorMenuItem())
-		add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
-		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
-		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
-		menu.append(gtk.SeparatorMenuItem())
-		add_menu_item(gtk.STOCK_QUIT, self.quit)
+		menu.append(Gtk.SeparatorMenuItem())
+		add_menu_item(Gtk.STOCK_PREFERENCES, kupferui.show_preferences)
+		add_menu_item(Gtk.STOCK_HELP, kupferui.show_help)
+		add_menu_item(Gtk.STOCK_ABOUT, kupferui.show_about_dialog)
+		menu.append(Gtk.SeparatorMenuItem())
+		add_menu_item(Gtk.STOCK_QUIT, self.quit)
 		menu.show_all()
 
 		return menu
@@ -1484,8 +1525,8 @@ class WindowController (pretty.OutputMixin):
 			return self._setup_gtk_status_icon(menu)
 
 	def _setup_gtk_status_icon(self, menu):
-		status = gtk.status_icon_new_from_icon_name(version.ICON_NAME)
-		status.set_tooltip(version.PROGRAM_NAME)
+		status = Gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
+		status.set_tooltip(toutf8(version.PROGRAM_NAME))
 
 		status.connect("popup-menu", self._popup_menu, menu)
 		status.connect("activate", self.show_hide)
@@ -1511,13 +1552,13 @@ class WindowController (pretty.OutputMixin):
 		widget.show()
 
 		self.window.add(widget)
-		self.window.set_title(version.PROGRAM_NAME)
+		self.window.set_title(toutf8(version.PROGRAM_NAME))
 		self.window.set_icon_name(version.ICON_NAME)
-		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+		self.window.set_type_hint(Gdk.WindowTypeHint.UTILITY)
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
 		if not text_direction_is_ltr():
-			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
+			self.window.set_gravity(Gdk.GRAVITY_NORTH_EAST)
 		# Setting not resizable changes from utility window
 		# on metacity
 		self.window.set_resizable(False)
@@ -1526,7 +1567,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		When the StatusIcon is right-clicked
 		"""
-		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
+		menu.popup(None, None, Gtk.StatusIcon.position_menu, button, activate_time, status_icon)
 
 	def launch_callback(self, sender):
 		# Separate window hide from the action being
@@ -1539,6 +1580,7 @@ class WindowController (pretty.OutputMixin):
 		self.activate()
 
 	def _lost_focus(self, window, event):
+		return
 		setctl = settings.GetSettingsController()
 		if setctl.get_close_on_unfocus():
 			# Since focus-out-event is triggered even
@@ -1558,12 +1600,17 @@ class WindowController (pretty.OutputMixin):
 
 	def _center_window(self, *ignored):
 		"""Center Window on the monitor the pointer is currently on"""
-		display = gtk.gdk.display_get_default()
-		screen, x, y, modifiers = display.get_pointer()
+		screen = Gdk.Screen.get_default()
+		display = Gdk.Display.get_default()
+		x, y, modifiers = display.get_pointer(None)
+		print "in _center_window:", screen, display, x,y, modifiers
+		print "After get default again...", screen, display, x,y, modifiers
 		self.window.set_screen(screen)
 		monitor_nr = screen.get_monitor_at_point(x, y)
-		geo = screen.get_monitor_geometry(monitor_nr)
+		geo = Gdk.Rectangle(0,0,0,0)
+		screen.get_monitor_geometry(monitor_nr, geo)
 		wid, hei = self.window.get_size()
+		print "got size", wid, hei
 		midx = geo.x + geo.width / 2 - wid / 2
 		midy = geo.y + geo.height / 2 - hei / 2
 		self.window.move(midx, midy)
@@ -1575,21 +1622,31 @@ class WindowController (pretty.OutputMixin):
 		# Check if the GtkWindow was realized yet
 		if not self.window.window:
 			return True
-		display = gtk.gdk.display_get_default()
-		screen, x, y, modifiers = display.get_pointer()
+		screen = Gdk.Screen.get_default()
+		display = Gdk.Display.get_default()
+		print "in _should_recenter_window:", display, screen
+		x, y, modifiers = display.get_pointer(None)
+		print "in _should_recenter_window:", display, screen
 		return (screen.get_monitor_at_point(x,y) !=
 		        screen.get_monitor_at_window(self.window.window))
 
 	def activate(self, sender=None, time=0):
+		print "enter activate"
 		self._window_hide_timer.invalidate()
 		if not time:
-			time = (gtk.get_current_event_time() or
+			print "Now take time from stuff"
+			time = (Gtk.get_current_event_time() or
 			        keybindings.get_current_event_time())
+		print "After time, now recenter calc"
 		if self._should_recenter_window():
 			self._center_window()
+		print "After center window"
 		self.window.stick()
+		print "After window stick"
 		self.window.present_with_time(time)
-		self.window.window.focus(timestamp=time)
+		print "After present"
+		self.window.window.focus(time)
+		print "Focused window"
 		self.interface.focus()
 
 	def put_away(self):
@@ -1656,7 +1713,7 @@ class WindowController (pretty.OutputMixin):
 		sch.finish()
 
 	def quit(self, sender=None):
-		gtk.main_quit()
+		Gtk.main_quit()
 
 	def quit_now(self):
 		"""Quit immediately (state save should already be done)"""
@@ -1715,7 +1772,8 @@ class WindowController (pretty.OutputMixin):
 		client.connect("die", self._session_die)
 
 		# GTK Screen callbacks
-		scr = gtk.gdk.screen_get_default()
+		scr = Gdk.Screen.get_default()
+		print scr
 		scr.connect("monitors-changed", self._center_window)
 
 		self.output_debug("finished lazy_setup")
@@ -1745,17 +1803,19 @@ class WindowController (pretty.OutputMixin):
 
 		if not quiet:
 			self.activate()
+			print "did activate"
 		gobject.idle_add(self.lazy_setup)
 
 		def do_main_iterations(max_events=0):
 			# use sentinel form of iter
-			for idx, pending in enumerate(iter(gtk.events_pending, False)):
+			for idx, pending in enumerate(iter(Gtk.events_pending, False)):
 				if max_events and idx > max_events:
 					break
-				gtk.main_iteration()
+				Gtk.main_iteration()
 
 		try:
-			gtk.main()
+			Gtk.main()
+			print "After gtk-main"
 			# put away window *before exiting further*
 			self.put_away()
 			do_main_iterations(10)
@@ -1770,6 +1830,6 @@ class WindowController (pretty.OutputMixin):
 
 		do_main_iterations(100)
 		# if we are still waiting, print a message
-		if gtk.events_pending():
+		if Gtk.events_pending():
 			self.output_info("Waiting for tasks to finish...")
 			do_main_iterations()

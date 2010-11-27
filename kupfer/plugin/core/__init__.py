@@ -12,7 +12,8 @@ __description__ = u"Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gtk
+from gi.repository import Gdk
+from gi.repository import Gtk
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.obj.sources import MultiSource
@@ -87,7 +88,7 @@ class CopyToClipboard (Action):
 	def __init__(self):
 		Action.__init__(self, _("Copy"))
 	def activate(self, leaf):
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clip = Gtk.Clipboard.get(None)
 		interface.copy_to_clipboard(leaf, clip)
 	def item_types(self):
 		yield Leaf

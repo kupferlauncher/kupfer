@@ -9,9 +9,7 @@ __description__ = _("All applications and preferences")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gio
-from gio import app_info_get_all
-from gio.unix import desktop_app_info_set_desktop_env
+from gi.repository import Gio
 
 from kupfer.objects import Action, Source, AppLeaf, FileLeaf
 from kupfer.obj.helplib import FilesystemWatchMixin
@@ -46,11 +44,11 @@ class AppSource (Source, FilesystemWatchMixin):
 		# We get exactly the apps shown in the menu,
 		# as well as the preference panes
 		desktop_type = __kupfer_settings__["desktop_type"]
-		desktop_app_info_set_desktop_env(desktop_type)
+		Gio.DesktopAppInfo.set_desktop_env(desktop_type)
 		# Add this to the default
 		# if you set/reset default handler for folders it is useful
 		whitelist = set(["nautilus-folder-handler.desktop"])
-		for item in app_info_get_all():
+		for item in Gio.app_info_get_all():
 			if item.should_show() or item.get_id() in whitelist:
 				yield AppLeaf(item)
 
@@ -92,9 +90,10 @@ class SetDefaultApplication (Action):
 	def __init__(self):
 		Action.__init__(self, _("Set Default Application..."))
 	def activate(self, leaf, obj):
-		gfile = gio.File(leaf.object)
-		info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
-		content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
+		gfile = Gio.File.new_for_path(leaf.object)
+		info = gfile.query_info(Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+		                        Gio.FileQueryInfoFlags.NONE, None)
+		content_type = info.get_attribute_string(Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 		print content_type, gfile
 		desktop_item = obj.object
 		desktop_item.set_as_default_for_type(content_type)

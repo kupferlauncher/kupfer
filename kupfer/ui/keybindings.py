@@ -57,9 +57,13 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 	Bind @keystr, unbinding any previous key for @keybinding_target.
 	If @keystr is a false value, any previous key will be unbound.
 	"""
+	import sys
+	# it looks for gtk... filling it with a real dummy
+	sys.modules["gtk"] = sys.modules[__name__] #sys.modules["gi.repository.Gtk"]
 	try:
 		import keybinder
 	except ImportError:
+		pretty.print_exc(__name__)
 		pretty.print_error(__name__, "Could not import keybinder, "
 				"keybindings disabled!")
 		return False

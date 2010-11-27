@@ -16,7 +16,7 @@ def get_text_representation(obj):
 
 def copy_to_clipboard(obj, clipboard):
 	"""
-	Copy @obj to @clipboard, a gtk.Clipboard
+	Copy @obj to @clipboard, a Gtk.Clipboard
 
 	Return True if successful
 	"""

@@ -2,7 +2,7 @@ from time import time
 import os
 import cPickle as pickle
 
-import gtk
+from gi.repository import Gtk
 import gobject
 
 from kupfer import pretty, config
@@ -10,10 +10,10 @@ from kupfer import scheduler
 from kupfer.ui import keybindings
 
 try:
-	import wnck
+	from gi.repository import Wnck
 except ImportError, e:
 	pretty.print_info(__name__, "Disabling launch module:", e)
-	wnck = None
+	Wnck = None
 
 kupfer_env = "KUPFER_APP_ID"
 
@@ -63,7 +63,7 @@ def application_id(app_info):
 	return app_id
 
 def _current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
+	return Gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 def launch_application(app_info, files=(), uris=(), paths=(), track=True, activate=True):
 	"""
@@ -77,17 +77,16 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	"""
 	assert app_info
 
-	from gtk.gdk import AppLaunchContext
-	from gio import File
+	from gi.repository import Gdk, Gio
 	from glib import GError
 
-	ctx = AppLaunchContext()
+	ctx = Gdk.AppLaunchContext()
 	if paths:
-		files = [File(p) for p in paths]
+		files = [Gio.file_new_for_path(p) for p in paths]
 
-	if wnck:
+	if Wnck:
 		# launch on current workspace
-		workspace = wnck.screen_get_default().get_active_workspace()
+		workspace = Wnck.Screen.get_default().get_active_workspace()
 		nbr = workspace.get_number() if workspace else -1
 		ctx.set_desktop(nbr)
 	ctx.set_timestamp(_current_event_time())
@@ -141,9 +140,9 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	@classmethod
 	def _get_wnck_screen_windows_stacked(cls):
-		if not wnck:
+		if not Wnck:
 			return ()
-		screen = wnck.screen_get_default()
+		screen = Wnck.Screen.get_default()
 		return screen.get_windows_stacked()
 
 	def _get_filename(self):
@@ -258,7 +257,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			# only show desktop if it's the only window of this app
 			if w.get_name() == "x-nautilus-desktop":
 				if len(application_windows) == 1:
-					screen = wnck.screen_get_default()
+					screen = Wnck.Screen.get_default()
 					screen.toggle_showing_desktop(True)
 				else:
 					continue

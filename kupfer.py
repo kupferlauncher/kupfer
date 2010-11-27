@@ -17,6 +17,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+blacklist = """
+	gtk
+	appindicator
+	wnck
+	gio
+	""".split()
+
+import sys
+for mod in blacklist:
+	sys.modules[mod] = None
+
 if __name__ == '__main__':
 	from kupfer import main
 	main.main()

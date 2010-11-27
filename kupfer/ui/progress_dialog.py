@@ -1,7 +1,7 @@
 import functools
 
 import glib
-import gtk
+from gi.repository import Gtk
 
 from kupfer import version, config, kupferstring
 
@@ -31,7 +31,7 @@ class ProgressDialogController (object):
 	@idle_call
 	def _construct_dialog(self, ui_file, title, header):
 
-		builder = gtk.Builder()
+		builder = Gtk.Builder()
 		builder.set_translation_domain(version.PACKAGE_NAME)
 
 		builder.add_from_file(ui_file)

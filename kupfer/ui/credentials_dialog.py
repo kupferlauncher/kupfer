@@ -1,11 +1,11 @@
-import gtk
+from gi.repository import Gtk
 
 from kupfer import version, config, kupferstring
 
 class CredentialsDialogController():
 	def __init__(self, username, password):
 		"""Load ui from data file"""
-		builder = gtk.Builder()
+		builder = Gtk.Builder()
 		builder.set_translation_domain(version.PACKAGE_NAME)
 		ui_file = config.get_data_file("credentials_dialog.ui")
 		builder.add_from_file(ui_file)
@@ -19,11 +19,11 @@ class CredentialsDialogController():
 		self.entry_pass.set_text(password or '')
 
 	def on_button_ok_clicked(self, widget):
-		self.window.response(gtk.RESPONSE_ACCEPT)
+		self.window.response(Gtk.ResponseType.ACCEPT)
 		self.window.hide()
 
 	def on_button_cancel_clicked(self, widget):
-		self.window.response(gtk.RESPONSE_CANCEL)
+		self.window.response(Gtk.ResponseType.CANCEL)
 		self.window.hide()
 
 	def show(self):
@@ -47,7 +47,7 @@ def ask_user_credentials(user=None, password=None):
 	None when user press "cancel" button '''
 	dialog = CredentialsDialogController(user, password)
 	result = None
-	if dialog.show() == gtk.RESPONSE_ACCEPT:
+	if dialog.show() == Gtk.ResponseType.ACCEPT:
 		result = dialog.username, dialog.password
 	return result
 

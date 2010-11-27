@@ -7,7 +7,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from collections import deque
 
-import gtk
+from gi.repository import Gdk
+from gi.repository import Gtk
 
 from kupfer.objects import Source, TextLeaf, Action, SourceLeaf
 from kupfer import plugin_support
@@ -72,13 +73,13 @@ class ClipboardSource (Source):
 		self.clipboards = deque()
 
 	def initialize(self):
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clip = Gtk.Clipboard.get(None)
 		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
-		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
+		#clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
+		#gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 
 	def _clipboard_changed(self, clip, event, *args):
-		is_selection = (event.selection == gtk.gdk.SELECTION_PRIMARY)
+		is_selection = (event.selection == Gdk.SELECTION_PRIMARY)
 		if is_selection and not __kupfer_settings__["use_selection"]:
 			return
 
@@ -97,7 +98,7 @@ class ClipboardSource (Source):
 		self.clipboards.append(newtext)
 
 		if is_selection and __kupfer_settings__["sync_selection"]:
-			gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD).set_text(newtext)
+			Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD).set_text(newtext)
 
 		while len(self.clipboards) > max_len:
 			self.clipboards.popleft()

@@ -6,7 +6,7 @@ __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
 import os
 
-import gconf
+from gi.repository import GConf
 import glib
 
 from kupfer.objects import Leaf, Action
@@ -52,7 +52,7 @@ class SessionsSource(ApplicationSource):
 		ApplicationSource.__init__(self, name=_("GNOME Terminal Profiles"))
 
 	def get_items(self):
-		gc = gconf.client_get_default()
+		gc = GConf.Client.get_default()
 		try:
 			if not gc.dir_exists(GCONF_KEY):
 				return

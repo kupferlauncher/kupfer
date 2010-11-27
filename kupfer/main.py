@@ -19,7 +19,7 @@ def setup_locale_and_gettext():
 	# also install ngettext()
 	gettext.install(package_name, localedir=localedir, unicode=True,
 			names=("ngettext",))
-	# For gtk.Builder, we need to call the C library gettext functions
+	# For Gtk.Builder, we need to call the C library gettext functions
 	# As well as set the codeset to avoid locale-dependent translation
 	# of the message catalog
 	locale.bindtextdomain(package_name, localedir)
@@ -135,11 +135,6 @@ def _set_process_title():
 def gtkmain(quiet):
 	import pygtk
 	pygtk.require('2.0')
-	import gtk
-
-	if not gtk.gdk.screen_get_default():
-		print >>sys.stderr, "No Screen Found, Exiting..."
-		sys.exit(1)
 
 	from kupfer.ui import browser
 	w = browser.WindowController()

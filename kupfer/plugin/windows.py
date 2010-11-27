@@ -4,8 +4,8 @@ __description__ = _("All windows on all workspaces")
 __version__ = "2010-01-08"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gtk
-import wnck
+from gi.repository import Gtk
+from gi.repository import Wnck
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.ui import keybindings
@@ -14,7 +14,7 @@ from kupfer.obj.helplib import PicklingHelperMixin
 
 
 def _get_current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
+	return Gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 class WindowLeaf (Leaf):
 	def get_actions(self):
@@ -63,7 +63,7 @@ class FrontmostWindow (WindowLeaf):
 	def _set_object(self, obj):
 		pass
 	def _get_object(self):
-		scr = wnck.screen_get_default()
+		scr = Wnck.Screen.get_default()
 		active = scr.get_active_window() or scr.get_previously_active_window()
 		# FIXME: Ignore Kupfer's main window reliably
 		if active and active.get_application().get_name() != "kupfer.py":
@@ -90,7 +90,7 @@ class NextWindow (WindowLeaf):
 	def _set_object(self, obj):
 		pass
 	def _get_object(self):
-		scr = wnck.screen_get_default()
+		scr = Wnck.Screen.get_default()
 		wspc = scr.get_active_workspace()
 		for win in scr.get_windows_stacked():
 			if not win.is_skip_tasklist():
@@ -207,14 +207,14 @@ class WindowsSource (Source):
 		# "preload" windows: Ask for them early
 		# since the first call "primes" the event loop
 		# and always comes back empty
-		screen = wnck.screen_get_default()
+		screen = Wnck.Screen.get_default()
 		screen.get_windows_stacked()
 
 	def is_dynamic(self):
 		return True
 	def get_items(self):
 		# wnck should be "primed" now to return the true list
-		screen = wnck.screen_get_default()
+		screen = Wnck.Screen.get_default()
 		yield FrontmostWindow()
 		yield NextWindow()
 		for win in reversed(screen.get_windows_stacked()):
@@ -258,14 +258,14 @@ class ActivateWorkspace (Action):
 class WorkspacesSource (Source, PicklingHelperMixin):
 	def __init__(self):
 		Source.__init__(self, _("Workspaces"))
-		screen = wnck.screen_get_default()
+		screen = Wnck.Screen.get_default()
 		screen.get_workspaces()
 
 	def pickle_prepare(self):
 		self.mark_for_update()
 
 	def initialize(self):
-		screen = wnck.screen_get_default()
+		screen = Wnck.Screen.get_default()
 		gobject_connect_weakly(screen, "workspace-created", self._changed)
 		gobject_connect_weakly(screen, "workspace-destroyed", self._changed)
 
@@ -274,7 +274,7 @@ class WorkspacesSource (Source, PicklingHelperMixin):
 
 	def get_items(self):
 		# wnck should be "primed" now to return the true list
-		screen = wnck.screen_get_default()
+		screen = Wnck.Screen.get_default()
 		for wspc in screen.get_workspaces():
 			yield Workspace(wspc, wspc.get_name())
 

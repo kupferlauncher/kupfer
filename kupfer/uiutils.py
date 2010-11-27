@@ -7,8 +7,9 @@ purpose), but care should be taken to only call UI functions from the main
 """
 
 import glib
-import gtk
-import pango
+from gi.repository import Gdk
+from gi.repository import Gtk
+from gi.repository import Pango
 
 from kupfer import pretty
 from kupfer import config, version
@@ -19,22 +20,22 @@ def _window_destroy_on_escape(widget, event):
 	Callback function for Window's key press event, will destroy window
 	on escape
 	"""
-	if event.keyval == gtk.gdk.keyval_from_name("Escape"):
+	if event.keyval == Gdk.keyval_from_name("Escape"):
 		widget.destroy()
 		return True
 
 def _get_current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
+	return Gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 def builder_get_objects_from_file(fname, attrs, autoconnect_to=None):
 	"""
-	Open @fname with gtk.Builder and yield objects named @attrs
+	Open @fname with Gtk.Builder and yield objects named @attrs
 
 	@fname is sought in the data directories.
 	If @autoconnect_to is not None, signals are autoconnected to this object,
 	and a user_data object is passed as a namespace containing all @attrs
 	"""
-	builder = gtk.Builder()
+	builder = Gtk.Builder()
 	builder.set_translation_domain(version.PACKAGE_NAME)
 
 	ui_file = config.get_data_file(fname)
@@ -63,7 +64,7 @@ def show_text_result(text, title=None):
 			names.text_result_window.window.destroy()
 			return True
 		def on_copy_button_clicked(self, widget, names):
-			clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+			clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
 			textview = names.result_textview
 			buf = textview.get_buffer()
 			buf.select_range(*buf.get_bounds())
@@ -75,18 +76,18 @@ def show_text_result(text, title=None):
 
 
 	# Set up text buffer
-	buf = gtk.TextBuffer()
+	buf = Gtk.TextBuffer()
 	buf.set_text(text)
-	monospace = gtk.TextTag("fixed")
+	monospace = Gtk.TextTag("fixed")
 	monospace.set_property("family", "Monospace")
-	monospace.set_property("scale", pango.SCALE_LARGE)
+	monospace.set_property("scale", Pango.SCALE_LARGE)
 	beg, end = buf.get_bounds()
 	tag_table = buf.get_tag_table()
 	tag_table.add(monospace)
 	buf.apply_tag(monospace, beg, end)
 
 	textview.set_buffer(buf)
-	textview.set_wrap_mode(gtk.WRAP_NONE)
+	textview.set_wrap_mode(Gtk.WRAP_NONE)
 
 	if title:
 		window.set_title(title)
@@ -102,7 +103,7 @@ def show_text_result(text, title=None):
 
 	max_hsize, max_vsize = window.get_default_size()
 	wid, hei = textview.size_request()
-	textview.set_wrap_mode(gtk.WRAP_WORD)
+	textview.set_wrap_mode(Gtk.WRAP_WORD)
 
 	vsize = int(min(hei + (winhei - oldhei) + 5, max_vsize))
 	hsize = int(min(wid + (winwid - oldwid) + 5, max_hsize))
@@ -124,14 +125,14 @@ def show_large_type(text):
 	import math
 
 	text = text.strip()
-	window = gtk.Window()
-	label = gtk.Label()
+	window = Gtk.Window()
+	label = Gtk.Label()
 	label.set_text(text)
 
 	def set_font_size(label, fontsize=48.0):
-		siz_attr = pango.AttrFontDesc(
-				pango.FontDescription (str(fontsize)), 0, -1)
-		attrs = pango.AttrList()
+		siz_attr = Pango.AttrFontDesc(
+				Pango.Font.description_from_string (str(fontsize)), 0, -1)
+		attrs = Pango.AttrList()
 		attrs.insert(siz_attr)
 		label.set_attributes(attrs)
 	label.show()
@@ -139,8 +140,8 @@ def show_large_type(text):
 	size = 72.0
 	set_font_size(label, size)
 
-	maxwid = gtk.gdk.screen_width() - 50
-	maxhei = gtk.gdk.screen_height() - 100
+	maxwid = Gdk.Screen.width() - 50
+	maxhei = Gdk.Screen.height() - 100
 	wid, hei = label.size_request()
 
 	# If the text contains long lines, we try to
@@ -158,12 +159,12 @@ def show_large_type(text):
 		set_font_size(label, math.floor(min(wscale, hscale)*size) or 1.0)
 
 	window.add(label)
-	window.set_position(gtk.WIN_POS_CENTER)
+	window.set_position(Gtk.WIN_POS_CENTER)
 	window.set_resizable(False)
 	window.set_decorated(False)
 	window.set_property("border-width", 10)
-	window.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
-	label.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+	window.modify_bg(Gtk.StateType.NORMAL, Gdk.color_parse("black"))
+	label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse("white"))
 
 	def _window_destroy(widget, event):
 		widget.destroy()

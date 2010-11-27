@@ -1,5 +1,5 @@
 import os
-import gio
+from gi.repository import Gio
 
 from kupfer import icons
 from kupfer import pretty
@@ -27,13 +27,13 @@ class Open (Action):
 
 	@classmethod
 	def default_application_for_leaf(cls, leaf):
-		content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-		gfile = gio.File(leaf.object)
-		info = gfile.query_info(content_attr)
+		content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+		gfile = Gio.file_new_for_path(leaf.object)
+		info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
 		content_type = info.get_attribute_string(content_attr)
-		def_app = gio.app_info_get_default_for_type(content_type, False)
+		def_app = Gio.app_info_get_default_for_type(content_type, False)
 		if not def_app:
-			apps_for_type = gio.app_info_get_all_for_type(content_type)
+			apps_for_type = Gio.app_info_get_all_for_type(content_type)
 			raise NoDefaultApplicationError(
 					_("No default application for %(file)s (%(type)s)") % 
 					{"file": unicode(leaf), "type": content_type}

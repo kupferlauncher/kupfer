@@ -2,7 +2,7 @@ import hashlib
 import pickle
 import os
 
-import gio
+from gi.repository import Gio
 import glib
 
 from kupfer import pretty
@@ -72,15 +72,15 @@ def update_icon(kobj, filepath):
 	icon_key = "metadata::custom-icon"
 	icon_namespace = icon_key.split(":")[0]
 
-	gfile = gio.File(filepath)
+	gfile = Gio.file_new_for_path(filepath)
 	finfo = gfile.query_info(icon_key)
 	custom_icon_uri = finfo.get_attribute_string(icon_key)
-	if custom_icon_uri and gio.File(custom_icon_uri).query_exists():
+	if custom_icon_uri and Gio.file_new_for_uri(custom_icon_uri).query_exists():
 		return
 	if icon_namespace in (N.name for N in gfile.query_writable_namespaces()):
 		pretty.print_debug(__name__, "Updating icon for", filepath)
 		thumb_filename = _write_thumbnail(gfile, kobj.get_pixbuf(128))
-		gfile.set_attribute_string(icon_key, gio.File(thumb_filename).get_uri())
+		gfile.set_attribute_string(icon_key, Gio.file_new_for_path(thumb_filename).get_uri())
 
 
 if __name__ == '__main__':

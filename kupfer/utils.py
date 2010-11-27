@@ -211,7 +211,7 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 def show_path(path):
 	"""Open local @path with default viewer"""
 	from gio import File
-	# Implemented using gtk.show_uri
+	# Implemented using Gtk.show_uri
 	gfile = File(path)
 	if not gfile:
 		return
@@ -220,14 +220,16 @@ def show_path(path):
 
 def show_url(url):
 	"""Open any @url with default viewer"""
-	from gtk import show_uri, get_current_event_time
-	from gtk.gdk import screen_get_default
+	#from gtk import show_uri, get_current_event_time
+	#from Gtk.gdk import screen_get_default
+	#from glib import GError
+	from gi.repository import Gtk, Gdk
 	from glib import GError
 	try:
 		pretty.print_debug(__name__, "show_url", url)
-		return show_uri(screen_get_default(), url, get_current_event_time())
-	except GError, exc:
-		pretty.print_error(__name__, "gtk.show_uri:", exc)
+		return Gtk.show_uri(Gdk.Screen.get_default(), url, Gtk.get_current_event_time())
+	except GError:
+		pretty.print_exc(__name__)
 
 def is_directory_writable(dpath):
 	"""If directory path @dpath is a valid destination to write new files?
