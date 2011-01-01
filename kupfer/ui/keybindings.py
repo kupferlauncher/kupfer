@@ -34,7 +34,7 @@ class KeyboundObject (gobject.GObject):
 		self.emit("keybinding", target, time)
 
 gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_INT))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_INT64))
 
 _currently_bound = {}
 
