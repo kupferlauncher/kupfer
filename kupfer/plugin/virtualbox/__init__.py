@@ -8,17 +8,44 @@ __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer import pretty, plugin_support
+from kupfer import pretty
+from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
 
 try:
-	from kupfer.plugin.virtualbox import vboxapi_support as vbox_support
-	pretty.print_info(__name__, 'Using vboxapi...')
+	try:
+		from kupfer.plugin.virtualbox import vboxapi4_support as vboxapi_support
+		pretty.print_info(__name__, 'Using vboxapi4...')
+	except ImportError, err:
+		from kupfer.plugin.virtualbox import vboxapi_support
+		pretty.print_info(__name__, 'Using vboxapi...')
 except ImportError, err:
-	from kupfer.plugin.virtualbox import ose_support as vbox_support
-	pretty.print_info(__name__, 'Using cli...', err)
+	pretty.print_info(__name__, 'vboxapi not available...', err)
+	vboxapi_support = None
 
+from kupfer.plugin.virtualbox import ose_support
 from kupfer.plugin.virtualbox import constants as vbox_const
+
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key": "force_cli",
+		"label": _("Force use CLI interface"),
+		"type": bool,
+		"value": False,
+	},
+)
+
+
+class _VBoxSupportProxy:
+	def __getattr__(self, attr):
+		vbox = ose_support
+		if vboxapi_support and not __kupfer_settings__['force_cli']:
+			vbox = vboxapi_support
+		return getattr(vbox, attr)
+
+
+vbox_support = _VBoxSupportProxy()
 
 
 class VirtualMachine(Leaf):
@@ -43,9 +70,14 @@ class VirtualMachine(Leaf):
 			yield VMAction(_('Send Power Off Signal'), 'system-shutdown',
 					vbox_const.VM_ACPI_POWEROFF, -5)
 			yield VMAction(_('Pause'), 'pause', vbox_const.VM_PAUSE)
-			yield VMAction(_('Reboot'), 'system-reboot', 
+			yield VMAction(_('Reboot'), 'system-reboot',
 					vbox_const.VM_REBOOT, -10)
-		else: # VM_STATE_PAUSED
+		elif state == vbox_const.VM_STATE_SAVED:
+			yield VMAction(_('Power On'), 'system-run',
+					vbox_const.VM_START_NORMAL)
+			yield VMAction(_('Power On Headless'), 'system-run',
+					vbox_const.VM_START_HEADLESS, -5)
+		else:  # VM_STATE_PAUSED
 			yield VMAction(_('Resume'), 'resume', vbox_const.VM_RESUME)
 
 		if state in (vbox_const.VM_STATE_POWERON, vbox_const.VM_STATE_PAUSED):
@@ -98,6 +130,3 @@ class VBoxMachinesSource(ApplicationSource):
 
 	def provides(self):
 		yield VirtualMachine
-
-
-

@@ -6,7 +6,7 @@ Control VirtualBox via Python interface (vboxapi).
 Only (?) Sun VirtualBox (no OSE).
 '''
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-__version__ = "2011-01-20"
+__version__ = "0.3"
 
 from kupfer import pretty
 
@@ -14,12 +14,19 @@ from kupfer import pretty
 
 import vboxapi
 
+# check api
+try:
+	vboxapi.VirtualBoxReflectionInfo(None).SessionState_Locked
+except AttributeError:
+	raise ImportError()
+
 from kupfer.plugin.virtualbox import constants as vbox_const
 
 MONITORED_DIRS = None
 IS_DYNAMIC = False
 ICON = "VBox"
 APP_ID = "virtualbox"
+
 
 _ACTIONS = {
 		vbox_const.VM_POWEROFF: lambda c: c.powerDown(),
@@ -33,42 +40,44 @@ _ACTIONS = {
 
 def _get_object_session():
 	''' get new session to vm '''
-	pretty.print_debug(__name__, '_get_object_session start')
 	vbox, session = None, None
 	try:
 		vbox = vboxapi.VirtualBoxManager(None, None)
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 	except Exception, err:
 		pretty.print_error(__name__, 'virtualbox: get session error ', err)
-	pretty.print_debug(__name__, '_get_object_session finished', vbox, session)
 	return vbox, session
 
 
 def _get_existing_session(vm_uuid):
 	''' get existing session by machine uuid '''
-	pretty.print_debug(__name__, '_get_existing_session start')
 	vbox, session = None, None
 	try:
 		vbox = vboxapi.VirtualBoxManager(None, None)
 		session = vbox.mgr.getSessionObject(vbox.vbox)
-		vbox.vbox.openExistingSession(session, vm_uuid)
 	except Exception, err:
 		pretty.print_error(__name__, 'virtualbox: get session error', vm_uuid,
 				err)
-	pretty.print_debug(__name__, '_get_existing_session finished', vbox, session)
 	return vbox, session
+
+
+def get_machine_by_id(vbox, mid):
+	try:
+		mach = vbox.getMachine(mid)
+	except:
+		mach = vbox.findMachine(mid)
+	return mach
 
 
 def get_machine_state(machine_id):
 	''' check vms state (on/off/paused) '''
-	pretty.print_debug(__name__, 'get_machine_state', machine_id)
 	vbox, vbox_sess = _get_object_session()
 	if vbox_sess is None:
 		return vbox_const.VM_STATE_POWEROFF
 	state = vbox_const.VM_STATE_POWERON
 	try:
-		vbox.vbox.openExistingSession(vbox_sess, machine_id)
-		machine_state = vbox_sess.machine.state
+		machine = get_machine_by_id(vbox.vbox, machine_id)
+		machine_state = machine.state
 		if machine_state == vbox.constants.MachineState_Paused:
 			state = vbox_const.VM_STATE_PAUSED
 		elif machine_state in (vbox.constants.MachineState_PoweredOff,
@@ -77,16 +86,10 @@ def get_machine_state(machine_id):
 			state = vbox_const.VM_STATE_POWEROFF
 		elif machine_state == vbox.constants.MachineState_Saved:
 			state = vbox_const.VM_STATE_SAVED
-	except Exception:  # exception == machine is off (xpcom.Exception)
+	except Exception, err:  # exception == machine is off (xpcom.Exception)
+		pretty.print_debug(__name__, 'get_machine_state', machine_state, err)
 		# silently set state to off
 		state = vbox_const.VM_STATE_POWEROFF
-		pretty.print_debug(__name__, 'get_machine_state error', err)
-	try:
-		if vbox_sess.state == vbox.constants.SessionState_Open:
-			vbox_sess.close()
-	except Exception:  # varoius errors (xpcom.Exception)
-		pass
-	pretty.print_debug(__name__, 'get_machine_state finish', machine_id, state)
 	return state
 
 
@@ -98,17 +101,13 @@ def _machine_start(vm_uuid, mode):
 	vbox, session = _get_object_session()
 	if session:
 		try:
-			remote_sess = vbox.vbox.openRemoteSession(session, vm_uuid, mode,
-					'')
+			mach = get_machine_by_id(vbox.vbox, vm_uuid)
+			remote_sess = mach.launchVMProcess(session, mode, '')
 			remote_sess.waitForCompletion(-1)
+			session.unlockMachine()
 		except Exception, err:
 			pretty.print_error(__name__, "StartVM:", vm_uuid, "Mode ", mode,
 					"error", err)
-		try:
-			if session.state == vbox.constants.SessionState_Open:
-				session.close()
-		except Exception:  # varoius errors (xpcom.Exception)
-			pass
 
 
 def _execute_machine_action(vm_uuid, action):
@@ -118,15 +117,13 @@ def _execute_machine_action(vm_uuid, action):
 	'''
 	vbox, session = _get_existing_session(vm_uuid)
 	try:
+		mach = get_machine_by_id(vbox.vbox, vm_uuid)
+		mach.lockMachine(session, vbox.constants.LockType_Shared)
 		action(session.console)
+		session.unlockMachine()
 	except Exception, err:
 		pretty.print_error(__name__, "_execute_machine_action:", repr(action),
 				" vm:", vm_uuid, "error", err)
-	try:
-		if session.state == vbox.constants.SessionState_Open:
-			session.close()
-	except Exception:  # varoius errors (xpcom.Exception)
-		pass
 
 
 def vm_action(action, vm_uuid):
@@ -147,14 +144,11 @@ def get_machines():
 	''' Get generator of items:
 		(machine uuid, machine name, machine description)
 	'''
-	pretty.print_debug(__name__, 'get_machines start')
 	vbox, vbox_sess = _get_object_session()
 	if vbox_sess is None:
 		return
+
 	machines = vbox.getArray(vbox.vbox, 'machines')
 	for machine in machines:
-		pretty.print_debug(__name__, 'get_machines; found machine',
-				machine.id, machine.name)
 		description = machine.description or machine.OSTypeId
 		yield (machine.id, machine.name, description)
-	pretty.print_debug(__name__, 'get_machines finished')
