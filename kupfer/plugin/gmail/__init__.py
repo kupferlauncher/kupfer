@@ -15,8 +15,11 @@ import gdata.contacts.service
 from kupfer.objects import Action, TextLeaf, UrlLeaf
 from kupfer.obj.special import PleaseConfigureLeaf, InvalidCredentialsLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
+from kupfer.obj.contacts import ContactLeaf, email_from_leaf
+from kupfer.obj.contacts import JabberContact, AddressContact, PhoneContact
+from kupfer.obj.contacts import IMContact, EmailContact
 from kupfer import plugin_support, pretty, utils, icons, kupferstring
+from kupfer.plugin.skype import Contact as SkypeContact
 
 plugin_support.check_keyring_support()
 
@@ -40,6 +43,44 @@ GMAIL_NEW_MAIL_URL = \
 
 GMAIL_EDIT_CONTACT_URL = "https://mail.google.com/mail/#contact/%(contact)s"
 
+REL_TYPE_EMAIL = "email"
+REL_TYPE_ADDRESS = "address"
+REL_TYPE_PHONE = "phone"
+REL_TYPE_IM = "im"
+REL_LIST = {}
+
+REL_LIST[REL_TYPE_EMAIL] = {gdata.contacts.REL_WORK: _("Work email"),
+                            gdata.contacts.REL_HOME: _("Home email"),
+                            gdata.contacts.REL_OTHER: _("Other email")
+}
+
+REL_LIST[REL_TYPE_ADDRESS] = {gdata.contacts.REL_WORK: _("Work address"),
+                              gdata.contacts.REL_HOME: _("Home address"),
+                              gdata.contacts.REL_OTHER: _("Other address")
+}
+
+REL_LIST[REL_TYPE_PHONE] = {gdata.contacts.PHONE_CAR: _("Car phone"),
+                            gdata.contacts.PHONE_FAX: _("Fax"),
+                            gdata.contacts.PHONE_GENERAL: _("General"),
+                            gdata.contacts.PHONE_HOME: _("Home phone"),
+                            gdata.contacts.PHONE_HOME_FAX: _("Home fax"),
+                            gdata.contacts.PHONE_INTERNAL: _("Internal phone"),
+                            gdata.contacts.PHONE_MOBILE: _("Mobile"),
+                            gdata.contacts.PHONE_OTHER: _("Other"),
+                            gdata.contacts.PHONE_VOIP: _("VOIP"),
+                            gdata.contacts.PHONE_WORK: _("Work phone"),
+                            gdata.contacts.PHONE_WORK_FAX: _("Work fax")
+}
+
+REL_LIST[REL_TYPE_IM] = {gdata.contacts.IM_AIM: _("Aim"),
+                         gdata.contacts.IM_GOOGLE_TALK: _("Google Talk"),
+                         gdata.contacts.IM_ICQ: _("ICQ"),
+                         gdata.contacts.IM_JABBER: _("Jabber"),
+                         gdata.contacts.IM_MSN: _("MSN"),
+                         gdata.contacts.IM_QQ: _("QQ"),
+                         gdata.contacts.IM_SKYPE: _("Skype"),
+                         gdata.contacts.IM_YAHOO: _("Yahoo")
+}
 
 def is_plugin_configured():
 	''' Check if plugin is configured (user name and password is configured) '''
@@ -105,21 +146,27 @@ def get_gclient():
 	gd_client.ProgrammaticLogin()
 	return gd_client
 
+def get_label(rel_type, key):
+	try:
+		return REL_LIST[rel_type][key]
+	except KeyError:
+		return u''
 
 def get_contacts():
 	''' load all contacts '''
 	pretty.print_debug(__name__, 'get_contacts start')
-	contacts = None
 	start_time = time.time()
+	num_contacts = 0
 	try:
 		gd_client = get_gclient()
-		if gd_client is None:
-			return None
 
-		contacts = []
+		if gd_client is None:
+			return
+
 		query = gdata.contacts.service.ContactsQuery()
 		query.max_results = 9999 # load all contacts
 		for entry in gd_client.GetContactsFeed(query.ToUri()).entry:
+			num_contacts += 1
 			common_name = kupferstring.tounicode(entry.title.text)
 			contact_id = None
 			try:
@@ -136,23 +183,40 @@ def get_contacts():
 						except:
 							pass
 					email = email.address
-					contacts.append(GoogleContact(email, common_name or email,
-							image, contact_id))
+					yield GoogleContact(email, common_name or email, image, contact_id)
+
+			for phone in entry.phone_number:
+				if not phone.text:
+					continue
+				yield PhoneContact(phone.text, common_name, get_label(REL_TYPE_PHONE, phone.rel))
+
+			for address in entry.postal_address:
+				if not address.text:
+					continue
+				yield AddressContact(address.text, common_name, get_label(REL_TYPE_ADDRESS, address.rel))
+
+			for im in entry.im:
+				if not im.text:
+					continue
+				if im.rel == gdata.contacts.IM_SKYPE:
+					yield SkypeContact(common_name, im.text, "Unknown")
+				elif im.rel == gdata.contacts.IM_JABBER:
+					yield JabberContact(im.text, common_name, "Unknown", None)
+				else:
+					yield IMContact(im.text, common_name, get_label(REL_TYPE_IM, im.rel))
 
 	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired), err:
 		pretty.print_error(__name__, 'get_contacts error',
 				'authentication error', err)
-		contacts = [InvalidCredentialsLeaf(__name__, __kupfer_name__)]
+		yield InvalidCredentialsLeaf(__name__, __kupfer_name__)
 
 	except gdata.service.Error, err:
 		pretty.print_error(__name__, 'get_contacts error', err)
 
 	else:
 		pretty.print_debug(__name__, 'get_contacts finished; load contacts:',
-				len(contacts), 'in:', time.time()-start_time, 'load_icons:',
+				num_contacts, 'in:', time.time()-start_time, 'load_icons:',
 				__kupfer_settings__['loadicons'])
-
-	return contacts
 
 
 class GoogleContact(EmailContact):
@@ -195,7 +259,7 @@ class GoogleContactsSource(ToplevelGroupingSource):
 
 	def get_items_forced(self):
 		if is_plugin_configured():
-			self._contacts = get_contacts() or []
+			self._contacts = list(get_contacts())
 			return self._contacts
 		return [PleaseConfigureLeaf(__name__, __kupfer_name__)]
 

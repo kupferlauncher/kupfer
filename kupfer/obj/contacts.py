@@ -12,12 +12,17 @@ import re
 
 from kupfer import icons
 from kupfer.obj.grouping import GroupingLeaf
+from kupfer.plugin.show_text import LargeType
 
 __author__ = ("Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "
               "Karol Będkowski <karol.bedkowsk+gh@gmail.com>" )
 
 EMAIL_KEY = "EMAIL"
 NAME_KEY = "NAME"
+PHONE_KEY = "PHONE"
+ADDRESS_KEY = "ADDRESS"
+IM_ID_KEY = "IM_ID"
+LABEL_KEY = "LABEL"
 JABBER_JID_KEY = "JID"
 JABBER_STATUS_KEY = "JABBER_STATUS"
 JABBER_RESOURCE_KEY = "JABBER_RESOURCE"
@@ -97,3 +102,49 @@ class JabberContact (ContactLeaf):
 	def get_description(self):
 		return self._description
 
+class PhoneContact(ContactLeaf):
+	def __init__(self, number, name, label):
+		slots = {PHONE_KEY: number, NAME_KEY: name, LABEL_KEY: label}
+		ContactLeaf.__init__(self, slots, name)
+
+	def repr_key(self):
+		return self.object[PHONE_KEY]
+
+	def get_description(self):
+		return '%s: %s' %(self.object[LABEL_KEY], self.object[PHONE_KEY])
+
+	def get_actions(self):
+		"""returns the action allowed in the leaf"""
+		yield LargeType()
+
+
+class AddressContact(ContactLeaf):
+	def __init__(self, address, name, label):
+		slots = {ADDRESS_KEY: address, NAME_KEY: name, LABEL_KEY: label}
+		ContactLeaf.__init__(self, slots, name)
+
+	def repr_key(self):
+		return self.object[ADDRESS_KEY]
+
+	def get_description(self):
+		return '%s:\n%s' %(self.object[LABEL_KEY], self.object[ADDRESS_KEY])
+
+	def get_actions(self):
+		"""returns the action allowed in the leaf"""
+		yield LargeType()
+
+
+class IMContact(ContactLeaf):
+	def __init__(self, im_id, name, label):
+		slots = {IM_ID_KEY: im_id, NAME_KEY: name, LABEL_KEY: label}
+		ContactLeaf.__init__(self, slots, name)
+
+	def repr_key(self):
+		return self.object[IM_ID_KEY]
+
+	def get_description(self):
+		return '%s: %s' %(self.object[LABEL_KEY], self.object[IM_ID_KEY])
+
+	def get_actions(self):
+		"""returns the action allowed in the leaf"""
+		yield LargeType()
