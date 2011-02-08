@@ -3,12 +3,14 @@
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
 # Jorge González <jorgegonz@svn.gnome.org>, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2010-04-06 14:38+0000\n"
-"PO-Revision-Date: 2010-04-06 20:00+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"POT-Creation-Date: 2010-08-23 18:51+0000\n"
+"PO-Revision-Date: 2011-02-08 15:47+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,6 +35,8 @@ msgid ""
 "The Catalog is the collection of objects you can access in Kupfer, such as "
 "documents and programs."
 msgstr ""
+"El catálogo es la colección de objetos a la que puede acceder en Kupfer, "
+"como documentos y programas."
 
 #: C/tips.page:19(p)
 msgid ""
@@ -42,12 +46,20 @@ msgid ""
 "objects that are also available directly from the top level. Subcatalogs can "
 "be used for a narrower view or search scope, when using Kupfer."
 msgstr ""
+"Los objetos del catálogo que tienen contenidos, como las carpetas, se marcan "
+"con una flecha. Pulsando <key>→</key> entrará en estos objetos. La mayoría "
+"de los catálogos se componen de subcatálogos; los subcatálogos de "
+"complementos, en general, listan objetos que también están disponibles "
+"directamente desde el nivel superior. Al usar Kupfer, Se pueden usar los "
+"subcatálogos para una vista estrecha o un rango de búsqueda."
 
 #: C/tips.page:28(p)
 msgid ""
 "Most subcatalogs update their content automatically. For example, the "
 "Desktop folder catalog is always uptodate."
 msgstr ""
+"La mayoría de subcatálogos actualizan su contenido automáticamente. Por "
+"ejemplo, el catálogo de la carpeta «Escritorio» siempre está actualizado."
 
 #: C/tips.page:35(title)
 msgid "Keyboard Interface"
@@ -58,22 +70,31 @@ msgid ""
 "<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
 "applications and documents."
 msgstr ""
+"<app>Kupfer</app> es la parte más grande de una interfaz gestionada por "
+"teclado de aplicaciones y documentos."
 
 #: C/tips.page:41(p)
 msgid ""
 "Kupfer's default mode is the command mode: If you type a query, kupfer will "
 "search for a match in its catalog."
 msgstr ""
+"El modo predeterminado de Kupfer es en modo comandos: si escribe una "
+"consulta, Kupfer buscará una coincidencia en su catálogo."
 
 #: C/tips.page:46(p)
 msgid ""
 "The arrow keys allow you to browse query matches quite naturally, going to "
 "the previous or next match, and going up and down in the subcatalogs."
 msgstr ""
+"Las teclas de flechas le permiten examinar las coincidencias de las "
+"consultas de manera más natural, yendo a la coincidencia anterior o a la "
+"siguiente, y yendo arriba y abajo en los subcatálogos."
 
 #: C/tips.page:52(p)
 msgid "In command mode, some keystrokes have special meanings:"
 msgstr ""
+"En modo comando, algunas pulsaciones del teclado tienen un significado "
+"especial:"
 
 #: C/tips.page:57(p)
 msgid "<key>↓</key> or <key>Space</key>"
@@ -97,7 +118,7 @@ msgstr "<key>→</key> o <key>/</key>"
 
 #: C/tips.page:68(p)
 msgid "Descend into an object with content"
-msgstr ""
+msgstr "Descender a un objeto con contenido"
 
 #: C/tips.page:71(key)
 msgid "Backspace"
@@ -106,6 +127,7 @@ msgstr "Retroceso"
 #: C/tips.page:72(p)
 msgid "Erase a character from the query. If the query is empty, go up a level"
 msgstr ""
+"Quitar un carácter de la consulta. Si la consulta está vacía, subir un nivel"
 
 #: C/tips.page:77(key)
 msgid "."
@@ -113,7 +135,7 @@ msgstr "."
 
 #: C/tips.page:78(p)
 msgid "Activate free-text mode"
-msgstr ""
+msgstr "Activar el modo de texto libre"
 
 #: C/tips.page:81(key)
 msgid ","
@@ -121,7 +143,7 @@ msgstr ","
 
 #: C/tips.page:82(p)
 msgid "Put selected object on the stack (\"Comma Trick\")"
-msgstr ""
+msgstr "Poner un objeto seleccionado en la pila («truco de la coma»)"
 
 #: C/tips.page:85(p)
 msgid ""
@@ -150,10 +172,13 @@ msgid ""
 "The Triggers plugin allows to configure actions to be activated by global "
 "shortcuts, but triggers can only be configured in that plugin."
 msgstr ""
+"El complemento «Triggers» le permite configurar acciones que se activarán con "
+"atajos globales, pero los disparadores sólo se pueden configurar en ese "
+"complemento."
 
 #: C/tips.page:108(title)
 msgid "Additional Keyboard Shortcuts"
-msgstr ""
+msgstr "Atajos de teclado adicionales"
 
 #: C/tips.page:109(p)
 msgid ""
@@ -163,7 +188,7 @@ msgstr ""
 
 #: C/tips.page:119(title)
 msgid "Configuration files and paths"
-msgstr ""
+msgstr "Archivos de configuración y rutas"
 
 #: C/tips.page:120(p)
 msgid ""
@@ -177,10 +202,13 @@ msgid ""
 "kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/share/"
 "kupfer</file>."
 msgstr ""
+"La caché de Kupfer, la configuración y los datos se ubican en las carpetas "
+"<file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> y <file>~/.local/"
+"share/kupfer</file>."
 
 #: C/plugins.page:7(desc)
 msgid "Using <app>Kupfer</app> plugins."
-msgstr ""
+msgstr "Usar los complementos de <app>Kupfer</app>."
 
 #: C/plugins.page:10(title)
 msgid "Plugins"
@@ -275,7 +303,7 @@ msgstr ""
 
 #: C/plugins.page:74(title)
 msgid "Adding your actions and scripts"
-msgstr ""
+msgstr "Añadir sus acciones y su scripts"
 
 #: C/plugins.page:75(p)
 msgid ""
@@ -327,6 +355,8 @@ msgid ""
 "Notice that the power operator in Python is double stars, for example =3**3 "
 "will evaluate to 27."
 msgstr ""
+"Tenga en cuenta que el operador exponencial en Python son dos asteriscos, "
+"por ejemplo =3**3 se evaluará como 27."
 
 #: C/plugins.page:117(p)
 msgid "To calculate trig functions for angles, convert to radians first:"
@@ -344,6 +374,8 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
+"consola de Python)."
 
 #: C/plugins.page:133(title)
 msgid "Command line connection"
@@ -366,12 +398,17 @@ msgid ""
 "called \"report.pdf\", you can focus this file in <app>Kupfer</app> by "
 "running <cmd>kupfer report.pdf</cmd>."
 msgstr ""
+"Por ejemplo, si está usando la terminal en una carpeta donde tiene un "
+"archivo llamado «reporte.pdf», puede enfocar este archivo en <app>Kupfer</"
+"app> ejecutando <cmd>kupfer reporte.pdf</cmd>."
 
 #: C/plugins.page:147(p)
 msgid ""
 "You can also pipe the output of a command into <app>Kupfer</app> to send "
 "text to the already running instance of <app>Kupfer</app>."
 msgstr ""
+"También puede redirigir la salida de un comando hacia <app>Kupfer</app> para "
+"enviar texto a la instancia de <app>Kupfer</app> en ejecución."
 
 #: C/plugins.page:154(title)
 msgid "Managing Context and Current Selection"
@@ -391,7 +428,7 @@ msgstr ""
 msgid ""
 "However, you always have the top level catalog reachable when you \"come back"
 "\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to "
-"browse your albums only; you select and album to play, and play it. You come "
+"browse your albums only; you select an album to play, and play it. You come "
 "back with the album selected -- but your next search will still go over the "
 "top level catalog, not just albums."
 msgstr ""
@@ -429,6 +466,10 @@ msgid ""
 "the Free Software Foundation, either version 3 of the License, or (at your "
 "option) any later version."
 msgstr ""
+"Este programa es software libre; puede redistribuirlo y/o modificarlo bajo "
+"los términos de la <em>Licencia Pública General GNU</em> tal como se publica "
+"por la Free Software Foundation; ya sea la versión 3 de la Licencia, o (a su "
+"elección) cualquier versión posterior."
 
 #: C/license.page:18(p)
 msgid ""
@@ -448,6 +489,9 @@ msgid ""
 "this program. If not, see <link href=\"http://www.gnu.org/licenses/\">gnu."
 "org/licenses</link>."
 msgstr ""
+"Debería haber recibido una copia de la Licencia Pública General de GNU junto "
+"con este programa. Si no es así, consulte <link href=\"http://www.gnu.org/"
+"licenses/\">gnu.org/licenses</link>."
 
 #: C/license.page:30(p)
 msgid ""
@@ -486,6 +530,12 @@ msgid ""
 "something quickly: there are different plugins for accessing more objects "
 "and running custom commands."
 msgstr ""
+"<app>Kupfer</app> es un programa para cambiar, acelerar y hacer todo lo "
+"referente a archivos y programas más ameno en su equioi. <app>Kupfer</app> "
+"es un lanzador; generalmente lo usa para lanzar un aplicación o un documento "
+"rápidamente escribiendo partes de su nombre. También puede hacer algo más "
+"que acelerar las cosas: hay diferentes complementos para acceder a más "
+"objetos y ejecutar comandos personalizados."
 
 #: C/introduction.page:22(p)
 msgid ""
@@ -493,6 +543,10 @@ msgid ""
 "the implementation is simple and makes the easy things work first. One goal "
 "is that new plugins can be written quickly without too much programming."
 msgstr ""
+"<app>Kupfer</app> está escrito en Python y tiene una arquitectura flexible; "
+"la implementación es sencilla y hace que primero funcionen las cosas "
+"fáciles. Un objetivo es que los complementos nuevos se puedan escribir "
+"rápidamente sin demasiada programación."
 
 #: C/introduction.page:28(p)
 msgid ""
@@ -541,4 +595,6 @@ msgstr "Usar Kupfer"
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
 msgid "translator-credits"
-msgstr "Jorge González <jorgegonz@svn.gnome.org>, 2010"
+msgstr ""
+"Jorge González <jorgegonz@svn.gnome.org>, 2010\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2011"
