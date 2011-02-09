@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2010-08-23 18:51+0000\n"
-"PO-Revision-Date: 2011-02-08 15:47+0100\n"
+"POT-Creation-Date: 2011-02-08 20:02+0000\n"
+"PO-Revision-Date: 2011-02-09 11:34+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -150,6 +150,8 @@ msgid ""
 "Additionally, the key <key>Return</key> activates the current selection: the "
 "command is executed. <key>Escape</key> clears the current selection."
 msgstr ""
+"Adicionalmente, la tecla <key>Intro</key> activa la selección actual: el "
+"comando se ejecuta. <key>Espacio</key> limpia la selección actual."
 
 #: C/tips.page:91(title)
 msgid "Global Keyboard Shortcuts"
@@ -162,10 +164,16 @@ msgid ""
 "hide Kupfer's command window which by default is <keyseq><key>Ctrl</"
 "key><key>Space</key></keyseq>."
 msgstr ""
+"Kupfer escucha los atajos globales, aunque no esté actualmente en primer "
+"plano. El atajo global más importante es el que muestra y oculta la ventana "
+"de comandos de Kupfer, que de manera predeterminada es <keyseq><key>Ctrl</"
+"key><key>Espacio</key></keyseq>."
 
 #: C/tips.page:98(p)
 msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
 msgstr ""
+"Los atajos globales de teclado están configurados en las preferencias de "
+"Kupfer."
 
 #: C/tips.page:101(p)
 msgid ""
@@ -185,6 +193,8 @@ msgid ""
 "Additional keyboard shortcuts that work with Kupfer when it is in the "
 "foreground can be configured in Kupfer's preferences."
 msgstr ""
+"Adicionalmente, los atajos de teclado que funcionan en Kupfer en primer "
+"plano se pueden configurar en las preferencias de Kupfer."
 
 #: C/tips.page:119(title)
 msgid "Configuration files and paths"
@@ -195,6 +205,8 @@ msgid ""
 "Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/</"
 "file>"
 msgstr ""
+"Instale los complementos personalizados en la carpeta <file>~/.local/share/"
+"kupfer/plugins/</file>"
 
 #: C/tips.page:124(p)
 msgid ""
@@ -220,10 +232,14 @@ msgid ""
 "<app>Kupfer</app>'s object knowledge can be surprisingly easy, just look at "
 "the default plugins if you want to create new."
 msgstr ""
+"Puede instalar complementos personalizados en ~/.local/share/kupfer/plugins; "
+"añadirlos al conocimiento de objetos de <app>Kupfer</app> puede ser "
+"sorprendentemente fácil, simplemente mire los complementos predeterminados "
+"si quiere crear uno nuevo."
 
 #: C/plugins.page:19(title)
 msgid "Search the Web Search Engines"
-msgstr ""
+msgstr "Buscar los motores de búsqueda web"
 
 #: C/plugins.page:20(p)
 msgid ""
@@ -241,7 +257,7 @@ msgstr ""
 #: C/plugins.page:29(code)
 #, no-wrap
 msgid "~/.local/share/kupfer/searchplugins/"
-msgstr ""
+msgstr "~/.local/share/kupfer/searchplugins/"
 
 #: C/plugins.page:34(title)
 msgid "Open Terminal Here"
@@ -254,10 +270,15 @@ msgid ""
 "program for his/her Desktop Environment. Install <cmd>xdg-terminal</cmd> if "
 "you need this (or install a symlink <em>called</em> xdg-terminal)."
 msgstr ""
+"Al abrir una terminal se llama a <cmd>xdg-terminal</cmd>, y luego a "
+"<cmd>gnome-terminal</cmd>. «xdg-terminal» es un script para encontrar la el "
+"programa de terminal configurado por el usuario para su entorno de "
+"escritorio. Instale <cmd>xdg-terminal</cmd> si lo necesita (o cree un enlace "
+"simbólico llamado «xdg-terminal»)."
 
 #: C/plugins.page:44(title)
 msgid "Grab current selection"
-msgstr ""
+msgstr "Capturar la selección actual"
 
 #: C/plugins.page:45(p)
 msgid ""
@@ -266,6 +287,10 @@ msgid ""
 "the configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include "
 "the following:"
 msgstr ""
+"Para usar <app>Kupfer</app> como un profesional, puede configurar una "
+"«asociación de teclas mágica» para <app>Kupfer</app>. La configuración de la "
+"IGU todavía no está soportada, pero edite el archivo de configuración "
+"<file>~/.config/kupfer/kupfer.cfg</file> para incluir lo siguiente:"
 
 #: C/plugins.page:51(code)
 #, no-wrap
@@ -290,6 +315,11 @@ msgid ""
 "currently selected file in Nautilus, or the currently selected text in the "
 "front application will be selected."
 msgstr ""
+"Ahora, pulsando <keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</key></"
+"keyseq> se ejecutará <app>Kupfer</app> con el foco en la selección actual. "
+"Asegúrese de que tiene instalado el complemento de <app>Kupfer</app> para "
+"Nautilus, y entonces se seleccionarán el archivo seleccionado en Nautilus, o "
+"el texto seleccionado en la aplicación."
 
 #: C/plugins.page:64(p)
 msgid ""
@@ -321,6 +351,11 @@ msgid ""
 "this way can be run directly or in the terminal as long as they are "
 "executable."
 msgstr ""
+"Si tiene una colección de scripts a los que quiere llamar desde <app>Kupfer</"
+"app>, puede añadir la carpeta de los scripts como un catálogo de carpeta a "
+"<app>Kupfer</app> en las preferencias. Los scripts que añada al catálogo "
+"<app>Kupfer</app> de esta manera se puede ejecutar directamente en la "
+"terminal, siempre y cuando sean ejecutables."
 
 #: C/plugins.page:87(p)
 msgid ""
@@ -341,6 +376,10 @@ msgid ""
 "evaluate expressions entered as text starting with \"=\". Entering = from "
 "command mode will start text mode directly with = prefixed for quick access."
 msgstr ""
+"El complemento «calculator» le permite calcular expresiones rápidamente. "
+"Puede evaluar expresiones introducidas como texto que comiencen por «=». Si "
+"introduce «=» en el modo comando se iniciará directamente el modo texto con "
+"el prefijo «=» para un acceso rápido."
 
 #: C/plugins.page:103(p)
 msgid ""
@@ -441,6 +480,12 @@ msgid ""
 "window; think of it as saying \"I want to stay in this subfolder\". With the "
 "browse window open, your next query will search the current subcatalog."
 msgstr ""
+"¿Cómo volver al subcatálogo en el que estaba? Puede hacer simplemente "
+"navegando, sin buscar la primera cosa que hizo cuando abrió <app>Kupfer</"
+"app> otra vez. Una forma rápida es pulsar ↓ o espacio para abrir la ventana "
+"del navegador; piense en esto diciendo «quiero estar en esta subcarpeta». "
+"Mientras se abre la ventana del navegador, su siguiente consulta buscará el "
+"subcatálogo actual."
 
 #: C/plugins.page:177(p)
 msgid ""
