@@ -2,15 +2,15 @@
 # Spanish translation for kupfer.
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
-# Jorge González <jorgegonz@svn.gnome.org>, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# Jorge González <jorgegonz@svn.gnome.org>, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-02-08 20:02+0000\n"
-"PO-Revision-Date: 2011-02-09 11:34+0100\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"POT-Creation-Date: 2011-02-09 18:22+0000\n"
+"PO-Revision-Date: 2011-02-12 14:20+0100\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -180,8 +180,8 @@ msgid ""
 "The Triggers plugin allows to configure actions to be activated by global "
 "shortcuts, but triggers can only be configured in that plugin."
 msgstr ""
-"El complemento «Triggers» le permite configurar acciones que se activarán con "
-"atajos globales, pero los disparadores sólo se pueden configurar en ese "
+"El complemento «Triggers» le permite configurar acciones que se activarán "
+"con atajos globales, pero los disparadores sólo se pueden configurar en ese "
 "complemento."
 
 #: C/tips.page:108(title)
@@ -239,7 +239,7 @@ msgstr ""
 
 #: C/plugins.page:19(title)
 msgid "Search the Web Search Engines"
-msgstr "Buscar los motores de búsqueda web"
+msgstr "Buscar en los motores de búsqueda de la web"
 
 #: C/plugins.page:20(p)
 msgid ""
@@ -247,12 +247,17 @@ msgid ""
 "can add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> "
 "will find them later."
 msgstr ""
+"El complemento «Buscar en la web» usa los motores de búsqueda de "
+"<app>Firefox</app> por lo que puede añadir motores de búsqueda directamente "
+"en <app>Firefox</app> y luego <app>Kupfer</app> los encontrará."
 
 #: C/plugins.page:25(p)
 msgid ""
 "You can also install custom search plugins directly, only for <app>Kupfer</"
 "app>, in the folder:"
 msgstr ""
+"También puede instalar complementos de búsqueda personalizados directamente, "
+"sólo para <app>Kupfer</app>, en la carpeta:"
 
 #: C/plugins.page:29(code)
 #, no-wrap
@@ -330,6 +335,12 @@ msgid ""
 "action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to "
 "1000 pixels wide!"
 msgstr ""
+"Ahora puede seleccionar una palabra en, por ejemplo, un navegador web. Use "
+"<keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</key></keyseq> y elija la "
+"acción <gui>Buscar</gui> para buscar la palabra seleccionada. O seleccione "
+"un archivo de imagen, use <keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</"
+"key></keyseq>, elija la acción <gui>Escalar</gui> con el objeto <gui>1000</"
+"gui> para escalar la imagen a 1000 píxeles de anchura."
 
 #: C/plugins.page:74(title)
 msgid "Adding your actions and scripts"
@@ -342,6 +353,10 @@ msgid ""
 "the standard places for applications, for example <file>~/.local/share/"
 "applications</file>, where <app>Kupfer</app> will find it."
 msgstr ""
+"Si quiere añadir una aplicación personalizada, o una aplicación ejecutada "
+"con opciones especiales, puede crear un lanzador nuevo y colocarlo en uno de "
+"los sitios estándar para aplicaciones, por ejemplo <file>~/.local/share/"
+"applications</file>, donde <app>Kupfer</app> lo encontrará."
 
 #: C/plugins.page:81(p)
 msgid ""
@@ -365,10 +380,16 @@ msgid ""
 "py</file> with numbers from 0 to 5 to my catalog to quickly rate tracks. "
 "(This is something that might be integrated into <app>Kupfer</app> later)"
 msgstr ""
+"<link href=\"http://kaizer.se/wiki/code/rhrating.py/\">Aquí</link> hay un "
+"ejemplo de script útil, que cambia la valoración de la canción que "
+"actualmente se está reproduciendo en <app>Rhythmbox</app>; se han añadido "
+"cinco scriptlets que llaman a <file>rhrating.py</file> con números de 0 a 5 "
+"para valorar canciones rápidamente. (Esto es algo que se debe integrar en "
+"<app>Kupfer</app> más adelante)"
 
 #: C/plugins.page:97(title)
 msgid "Calculator Plugin"
-msgstr "Complemento de la calculadora"
+msgstr "Complemento «Calculadora»"
 
 #: C/plugins.page:98(p)
 msgid ""
@@ -376,7 +397,7 @@ msgid ""
 "evaluate expressions entered as text starting with \"=\". Entering = from "
 "command mode will start text mode directly with = prefixed for quick access."
 msgstr ""
-"El complemento «calculator» le permite calcular expresiones rápidamente. "
+"El complemento «Calculadora» le permite calcular expresiones rápidamente. "
 "Puede evaluar expresiones introducidas como texto que comiencen por «=». Si "
 "introduce «=» en el modo comando se iniciará directamente el modo texto con "
 "el prefijo «=» para un acceso rápido."
@@ -388,6 +409,11 @@ msgid ""
 "functions, such as sqrt, sin, exp and log; the command <cmd>=help</cmd> will "
 "show a list of all defined functions and constants."
 msgstr ""
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
+"y analiza expresiones como expresiones de Python. Puede usar funciones "
+"matemáticas comunes, como «sqrt», «sin», «exp» y «log»; el comando "
+"<cmd>=help</cmd> mostrará una lista de todas las funciones y constantes "
+"definidas."
 
 #: C/plugins.page:111(p)
 msgid ""
@@ -413,8 +439,8 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
-"consola de Python)."
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
+"la consola de Python)."
 
 #: C/plugins.page:133(title)
 msgid "Command line connection"
@@ -430,6 +456,13 @@ msgid ""
 "can quickly invoke <app>Kupfer</app> actions even on objects from a shell-"
 "based context."
 msgstr ""
+"<app>Kupfer</app> es su propio control remoto. Cuando <app>Kupfer</app> ya "
+"está en ejecución, <app>Kupfer</app> en la línea de comandos enfocará a su "
+"ventana, pero hay algo más que puede hacer: si ejecuta <cmd><app>kupfer</"
+"app><var>CONSULTA</var></cmd>, donde <var>CONSULTA</var> es una cadena de "
+"texto o un nombre de archivo, <app>Kupfer</app> enfocará y seleccionará este "
+"elemento. De este modo, puede ejecutar acciones de <app>Kupfer</app> "
+"rápidamente incluso en objetos desde una terminal."
 
 #: C/plugins.page:142(p)
 msgid ""
@@ -462,6 +495,12 @@ msgid ""
 "skipping to the next song) and it can be useful to perform different actions "
 "on the same object."
 msgstr ""
+"Si encuentra el objeto que quiere usar, y ejecuta una acción, <app>Kupfer</"
+"app> realizará la acción (por ejemplo, ejecutar un programa o reproducir una "
+"canción). Cuando regrese a <app>Kupfer</app>, todavía mantendrá seleccionado "
+"el mismo objeto y la misma acción. Algunas acciones tienden a repetirse "
+"(como omitir la siguiente canción) y puede ser útil realizar diferentes "
+"acciones sobre un mismo objeto."
 
 #: C/plugins.page:163(p)
 msgid ""
@@ -471,6 +510,12 @@ msgid ""
 "back with the album selected -- but your next search will still go over the "
 "top level catalog, not just albums."
 msgstr ""
+"Sin embargo, siempre tiene el catálogo de nivel superior disponible cuando "
+"«regresa» a <app>Kupfer</app>: por ejemplo, va al subcatálogo «Álbumes» para "
+"explorar sólo sus álbumes; selecciona un álbum que reproducir y lo "
+"reproduce. Vuelve con el álbum seleccionado; pero su siguiente búsqueda "
+"volverá a ser sobre el nivel superior del catálogo, no sólo sobre los "
+"álbumes."
 
 #: C/plugins.page:170(p)
 msgid ""
@@ -495,6 +540,11 @@ msgid ""
 "or stay around where you were, deep in that folder (press space, then type a "
 "query)."
 msgstr ""
+"De este modo, puede trabajar de ambas maneras; puede descender rápidamente "
+"por las carpetas para encontrar un archivo, y cuando vuelve para la "
+"siguiente acción con <app>Kupfer</app> también puede llamar a un objeto "
+"normal del nivel superior (simplemente empiece a escribir), o mantenerse "
+"donde está, en esa carpeta (pulse espacio y escriba una consulta)."
 
 #: C/license.page:7(desc)
 msgid "Legal Information."
