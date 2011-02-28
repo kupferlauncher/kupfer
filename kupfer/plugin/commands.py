@@ -58,13 +58,7 @@ class WriteToCommand (Action):
 		Action.__init__(self, _("Send to Command..."))
 
 	def activate(self, leaf, iobj):
-		# use shlex to allow simple quoting
-		commandline = iobj.object
-		try:
-			argv = unicode_shlex_split(commandline)
-		except ValueError:
-			# Exception raised on unpaired quotation marks
-			argv = commandline.split(None, 1)
+		argv = [iobj.object]
 		ctx = commandexec.DefaultActionExecutionContext()
 		token = ctx.get_async_token()
 		pretty.print_debug(__name__, "Spawning without timeout")
@@ -96,13 +90,7 @@ class FilterThroughCommand (Action):
 		Action.__init__(self, _("Filter through Command..."))
 
 	def activate(self, leaf, iobj):
-		# use shlex to allow simple quoting
-		commandline = iobj.object
-		try:
-			argv = unicode_shlex_split(commandline)
-		except ValueError:
-			# Exception raised on unpaired quotation marks
-			argv = commandline.split(None, 1)
+		argv = [iobj.object]
 		ctx = commandexec.DefaultActionExecutionContext()
 		token = ctx.get_async_token()
 		pretty.print_debug(__name__, "Spawning without timeout")
