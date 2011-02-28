@@ -84,14 +84,19 @@ class AsyncCommand (object):
 	when command is killed after @timeout_s seconds, whichever
 	comes first.
 
+	If @timeout_s is None, no timeout is used
+
+	If stdin is a byte string, it is supplied on the command's stdin.
+
 	finish_callback -> (AsyncCommand, stdout_output, stderr_output)
 	"""
 	# the maximum input (bytes) we'll read in one shot (one io_callback)
 	max_input_buf = 512 * 1024
 
-	def __init__(self, argv, finish_callback, timeout_s):
+	def __init__(self, argv, finish_callback, timeout_s, stdin=None):
 		self.stdout = []
 		self.stderr = []
+		self.stdin = []
 		self.timeout = False
 		self.killed = False
 		self.finished = False
@@ -104,17 +109,47 @@ class AsyncCommand (object):
 		pid, stdin_fd, stdout_fd, stderr_fd = \
 		     glib.spawn_async(argv, standard_output=True, standard_input=True,
 		                      standard_error=True, flags=flags)
-		os.close(stdin_fd)
+
+		if stdin:
+			self.stdin[:] = self._split_string(stdin, self.max_input_buf)
+			in_io_flags = glib.IO_OUT | glib.IO_ERR | glib.IO_HUP | glib.IO_NVAL
+			glib.io_add_watch(stdin_fd, in_io_flags, self._in_io_callback,
+			                  self.stdin)
+		else:
+			os.close(stdin_fd)
+
 		io_flags = glib.IO_IN | glib.IO_ERR | glib.IO_HUP | glib.IO_NVAL
 		glib.io_add_watch(stdout_fd, io_flags, self._io_callback, self.stdout)
 		glib.io_add_watch(stderr_fd, io_flags, self._io_callback, self.stderr)
 		self.pid = pid
 		glib.child_watch_add(pid, self._child_callback)
-		glib.timeout_add_seconds(timeout_s, self._timeout_callback)
+		if timeout_s is not None:
+			glib.timeout_add_seconds(timeout_s, self._timeout_callback)
+
+	def _split_string(self, s, length):
+		"""Split @s in pieces of @length"""
+		L = []
+		for i in xrange(0, len(s)//length + 1):
+			L.append(s[i*length:(i+1)*length])
+		return L
 
 	def _io_callback(self, sourcefd, condition, databuf):
 		if condition & glib.IO_IN:
 			databuf.append(os.read(sourcefd, self.max_input_buf))
+			return True
+		return False
+
+	def _in_io_callback(self, sourcefd, condition, databuf):
+		"""write to child's stdin"""
+		if condition & glib.IO_OUT:
+			if not databuf:
+				os.close(sourcefd)
+				return False
+			s = databuf.pop(0)
+			written = os.write(sourcefd, s)
+			if written < len(s):
+				databuf.insert(0, s[written:])
+			pretty.print_debug(__name__, "Wrote", repr(s[:written]))
 			return True
 		return False
 

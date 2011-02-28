@@ -1,5 +1,9 @@
 __kupfer_name__ = _("Shell Commands")
 __kupfer_sources__ = ()
+__kupfer_actions__ = (
+		"WriteToCommand",
+		"FilterThroughCommand",
+	)
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = _("Run commandline programs")
 __version__ = ""
@@ -10,7 +14,7 @@ import shlex
 
 import gobject
 
-from kupfer.objects import TextSource, Leaf, TextLeaf, Action
+from kupfer.objects import TextSource, Leaf, TextLeaf, Action, FileLeaf
 from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
 from kupfer import commandexec
@@ -48,6 +52,84 @@ class GetOutput (Action):
 
 	def get_description(self):
 		return _("Run program and return its output")
+
+class WriteToCommand (Action):
+	def __init__(self):
+		Action.__init__(self, _("Send to Command..."))
+
+	def activate(self, leaf, iobj):
+		# use shlex to allow simple quoting
+		commandline = iobj.object
+		try:
+			argv = unicode_shlex_split(commandline)
+		except ValueError:
+			# Exception raised on unpaired quotation marks
+			argv = commandline.split(None, 1)
+		ctx = commandexec.DefaultActionExecutionContext()
+		token = ctx.get_async_token()
+		pretty.print_debug(__name__, "Spawning without timeout")
+		acom = utils.AsyncCommand(argv, self.finish_callback, None,
+		                          stdin=leaf.object)
+		acom.token = token
+
+	def item_types(self):
+		yield TextLeaf
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield FileLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
+
+	def finish_callback(self, acommand, stdout, stderr):
+		pretty.print_debug(__name__, "Exited:", acommand)
+		pass
+
+	def get_description(self):
+		return _("Run program and supply text on the standard input")
+
+class FilterThroughCommand (Action):
+	def __init__(self):
+		Action.__init__(self, _("Filter through Command..."))
+
+	def activate(self, leaf, iobj):
+		# use shlex to allow simple quoting
+		commandline = iobj.object
+		try:
+			argv = unicode_shlex_split(commandline)
+		except ValueError:
+			# Exception raised on unpaired quotation marks
+			argv = commandline.split(None, 1)
+		ctx = commandexec.DefaultActionExecutionContext()
+		token = ctx.get_async_token()
+		pretty.print_debug(__name__, "Spawning without timeout")
+		acom = utils.AsyncCommand(argv, self.finish_callback, None,
+		                          stdin=leaf.object)
+		acom.token = token
+
+	def item_types(self):
+		yield TextLeaf
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield FileLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
+
+	def finish_callback(self, acommand, stdout, stderr):
+		pretty.print_debug(__name__, "Exited:", acommand)
+		ctx = commandexec.DefaultActionExecutionContext()
+		leaf = TextLeaf(kupferstring.fromlocale(stdout))
+		ctx.register_late_result(acommand.token, leaf)
+
+	def get_description(self):
+		return _("Run program and supply text on the standard input")
 
 class Command (TextLeaf):
 	def __init__(self, exepath, name):
