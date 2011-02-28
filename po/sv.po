@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-23 21:36+0200\n"
+"POT-Creation-Date: 2011-02-28 19:58+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -590,6 +590,15 @@ msgstr "Kör (Hämta utdata)"
 
 msgid "Run program and return its output"
 msgstr "Kör program och returnera dess utdata"
+
+msgid "Send to Command..."
+msgstr "Skicka till kommando..."
+
+msgid "Run program and supply text on the standard input"
+msgstr "Kör program och skicka text på std. in"
+
+msgid "Filter through Command..."
+msgstr "Filtrera genom kommando..."
 
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -1464,6 +1473,18 @@ msgstr "Skapa uppgift"
 
 msgid "Create new task in Getting Things GNOME"
 msgstr "Skapa ny uppgift i Getting Things GNOME"
+
+msgid "Gwibber"
+msgstr "Gwibber"
+
+msgid "Send updates via the microblogging client Gwibber"
+msgstr "Skicka uppdateringar via mikrobloggklienten Gwibber"
+
+msgid "Send Update"
+msgstr "Skicka uppdatering"
+
+msgid "Unable to activate Gwibber service"
+msgstr "Kunde inte aktivera Gwibber-tjänsten"
 
 msgid "Higher-order Actions"
 msgstr "Högre ordningens kommandon"

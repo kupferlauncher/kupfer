@@ -79,6 +79,7 @@ kupfer/plugin/google_picasa/__init__.py
 kupfer/plugin/google_search.py
 kupfer/plugin/google_translate.py
 kupfer/plugin/gtg.py
+kupfer/plugin/gwibber.py
 kupfer/plugin/higherorder.py
 kupfer/plugin/image.py
 kupfer/plugin/kupfer_plugins.py
