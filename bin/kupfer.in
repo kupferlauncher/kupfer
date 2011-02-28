@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # kupfer      A convenient command and access tool
 #
 # Copyright 2007--2010 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
@@ -19,10 +19,14 @@
 # This script invokes kupfer by calling an already running instance, or
 # starting a new if none is found running.
 
+_hasprefix () {
+	test "x${1#$2}" != "x$1"
+}
+
 PYTHON="@PYTHON@"
 PYTHONDIR="@PYTHONDIR@"
-test ${PYTHON:0:1} = "@" && PYTHON=python2.6
-test ${PYTHONDIR:0:1} = "@" && PYTHONDIR=$(dirname $(readlink -f -- $0))/..
+_hasprefix "$PYTHON" "@"  && PYTHON=python2.6
+_hasprefix "$PYTHONDIR" "@" && PYTHONDIR=$(dirname $(readlink -f -- $0))/..
 
 SERVICE="se.kaizer.kupfer"
 OBJ="/interface"
@@ -36,7 +40,7 @@ then
 fi
 
 # If there are any options, like "--help", we run Kupfer directly
-test "x${1:0:2}" = "x--"
+_hasprefix "$1" "--"
 KUPFER_HAS_OPTIONS=$?
 
 test $KUPFER_HAS_OPTIONS != 0 && dbus-send --type=method_call --print-reply \
@@ -59,7 +63,7 @@ _realpaths () {
 			shift
 			continue
 		fi
-		echo -ne "$LINK\0"
+		printf "%s\0" "$LINK"
 		shift
 	done
 }
