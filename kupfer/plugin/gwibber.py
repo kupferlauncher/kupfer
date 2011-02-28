@@ -11,6 +11,7 @@ __author__ = ""
 import dbus
 
 from kupfer.objects import Action, TextLeaf, OperationError
+from kupfer import commandexec
 from kupfer import plugin_support
 from kupfer import pretty
 
@@ -40,22 +41,24 @@ def _get_interface(activate=False):
 		return
 	return dbus.Interface(proxyobj, IFACE_NAME)
 
-# callback function for async callbacks
-def success():
-	pretty.print_debug(__name__, "Successful D-Bus method call")
-
-def error(exc):
-	pretty.print_error(__name__, "Encountered error in D-Bus method call:")
-	pretty.print_error(__name__, exc)
-
 class SendUpdate (Action):
 	def __init__(self):
 		Action.__init__(self, _("Send Update"))
 	def activate(self, leaf):
+		ctx = commandexec.DefaultActionExecutionContext()
+		token = ctx.get_async_token()
+
+		def success_cb():
+			pretty.print_debug(__name__, "Successful D-Bus method call")
+
+		def err_cb(exc):
+			exc_info = (type(exc), exc, None)
+			ctx.register_late_error(token, exc_info)
+
 		gwibber = _get_interface(True)
 		if gwibber:
 			gwibber.SendMessage(leaf.object,
-			                    reply_handler=success, error_handler=error)
+			                    reply_handler=success_cb, error_handler=err_cb)
 		else:
 			pretty.print_error(__name__, "Gwibber Service not found as:",
 			                   (SERVICE_NAME, OBJ_NAME, IFACE_NAME))
