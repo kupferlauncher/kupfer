@@ -14,7 +14,7 @@ fi
 
 while test $# != 0
 do
-	FILE=$(realpath -s "$1")
+	FILE=$(readlink -f "$1")
 	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
 		se.kaizer.kupfer.Listener.ExecuteFile string:"$FILE" \
 		> /dev/null 2>&1
