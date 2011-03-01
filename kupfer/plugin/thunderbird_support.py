@@ -8,7 +8,7 @@ from ConfigParser import RawConfigParser
 
 from kupfer import pretty
 
-__version__ = "2009-12-13"
+__version__ = "2011-01-20"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 '''
@@ -19,12 +19,12 @@ Concept for mork parser from:
 	- mork.cs from GnomeDo by Pierre Östlund
 '''
 
-THUNDERBIRD_HOME = map(os.path.expanduser, 
-		('~/.mozilla-thunderbird/', '~/.thunderbird'))
+THUNDERBIRD_HOME = map(os.path.expanduser,
+		('~/.mozilla-thunderbird/', '~/.thunderbird', '~/.icedove/'))
 
-THUNDERBIRD_PROFILES = [ 
+THUNDERBIRD_PROFILES = [
 		(thome, os.path.join(thome, 'profiles.ini'))
-		for thome in THUNDERBIRD_HOME ]
+		for thome in THUNDERBIRD_HOME]
 
 
 RE_COLS = re.compile(r'<\s*<\(a=c\)>\s*(\/\/)?\s*(\(.+?\))\s*>')
@@ -35,13 +35,16 @@ RE_TABLE = re.compile(
 RE_ROW = re.compile(r'(-?)\s*\[(.+?)((\(.+?\)\s*)*)\]')
 RE_CELL_TEXT = re.compile(r'\^(.+?)=(.*)')
 RE_CELL_OID = re.compile(r'\^(.+?)\^(.+)')
+RE_TRAN_BEGIN = re.compile(r'@\$\$\{.+?\{\@')
+RE_TRAN_END = re.compile(r'@\$\$\}.+?\}\@')
+
 
 COLS_TO_KEEP = (
 		'DisplayName',
 		'FirstName',
 		'LastName',
 		'PrimaryEmail',
-		'SecondEmail'
+		'SecondEmail',
 )
 
 SPECIAL_CHARS = (
@@ -64,10 +67,18 @@ class _Table(object):
 		return 'Table %r: %r' % (self.tableid, self.rows)
 
 	def add_cell(self, rowid, col, atom):
+		if ':' in rowid:
+			rowid = rowid.split(':')[0]
 		row = self.rows.get(rowid)
 		if not row:
 			row = self.rows[rowid] = dict()
 		row[col] = _unescape_data(atom)
+
+	def del_row(self, rowid):
+		if ':' in rowid:
+			rowid = rowid.split(':')[0]
+		if rowid in self.rows:
+			del self.rows[rowid]
 
 
 def _unescape_character(match):
@@ -93,31 +104,30 @@ def _read_mork(filename):
 		if not RE_HEADER.match(header):
 			pretty.print_debug(__name__, '_read_mork: header error', header)
 			return {}
-
 		for line in mfile.readlines():
 			# remove blank lines and comments
 			line = line.strip()
 			if not line:
 				continue
-
 			# remove comments
-			comments = line.find('//')
+			comments = line.find('// ')
 			if comments > -1:
 				line = line[:comments].strip()
-			
 			if line:
 				data.append(line)
-
 		data = ''.join(data)
 
 	if not data:
 		return {}
+
+	data = data.replace('\\)', '$29')
 
 	# decode data
 	cells = {}
 	atoms = {}
 	tables = {}
 	pos = 0
+	active_trans = False
 	while data:
 		data = data[pos:].lstrip()
 		if not data:
@@ -128,9 +138,8 @@ def _read_mork(filename):
 		if match:
 			for cell in RE_CELL.findall(match.group()):
 				key, val = cell.split('=', 1)
-				if val in COLS_TO_KEEP: # skip necessary columns
+				if val in COLS_TO_KEEP:  # skip necessary columns
 					cells[key] = val
-
 			pos = match.span()[1]
 			continue
 
@@ -138,23 +147,25 @@ def _read_mork(filename):
 		match = RE_ATOM.match(data)
 		if match:
 			for cell in RE_CELL.findall(match.group()):
-				key, val = cell.split('=', 1)
-				atoms[key] = val
-
+				if '=' in cell:
+					key, val = cell.split('=', 1)
+					atoms[key] = val
 			pos = match.span()[1]
 			continue
 
 		# tables
 		match = RE_TABLE.match(data)
 		if match:
-			tableid = ':'.join(match.group()[1:2])
+			tableid = ':'.join(match.groups()[0:2])
 			table = tables.get(tableid)
 			if not table:
-				table = tables[tableid] = _Table(match.group(1))
-
+				table = tables[tableid] = _Table(tableid)
 			for row in RE_ROW.findall(match.group()):
 				tran, rowid = row[:2]
-				if tran != '-':
+				if active_trans and rowid[0] == '-':
+					rowid = rowid[1:]
+					table.del_row(rowid)
+				if not active_trans or tran != '-':
 					rowdata = row[2:]
 					for rowcell in rowdata:
 						for cell in RE_CELL.findall(rowcell):
@@ -168,21 +179,34 @@ def _read_mork(filename):
 								if match:
 									col = cells.get(match.group(1))
 									atom = atoms.get(match.group(2))
-
 							if col and atom:
 								table.add_cell(rowid, col, atom)
-
 			pos = match.span()[1]
+			continue
+
+		# transaction
+		match = RE_TRAN_BEGIN.match(data)
+		if match:
+			active_trans = True
+			continue
+
+		match = RE_TRAN_END.match(data)
+		if match:
+			tran = True
 			continue
 
 		# dangling rows
 		match = RE_ROW.match(data)
 		if match:
-			row = match.group()
+			row = match.groups()
 			tran, rowid = row[:2]
+			table = tables.get('1:80')  # bind to default table
+			if rowid[0] == '-':
+				rowid = rowid[1:]
+				if table:
+					table.del_row(rowid)
 			if tran != '-':
 				rowdata = row[2:]
-				table = tables.get('1:80') # bint to default table
 				if not table:
 					table = tables['1:80'] = _Table('1:80')
 				for rowcell in rowdata:
@@ -197,10 +221,8 @@ def _read_mork(filename):
 							if match:
 								col = cells.get(match.group(1))
 								atom = atoms.get(match.group(2))
-
 						if col and atom:
 							table.add_cell(rowid, col, atom)
-
 			pos = match.span()[1]
 			continue
 
@@ -211,7 +233,7 @@ def _read_mork(filename):
 def _mork2contacts(tables):
 	''' Get contacts from mork table prepared by _read_mork '''
 	if not tables:
-		return 
+		return
 
 	for table in tables.itervalues():
 		for row in table.rows.itervalues():
@@ -224,7 +246,6 @@ def _mork2contacts(tables):
 			display_name = display_name.strip()
 			if not display_name:
 				continue
-
 			for key in ('PrimaryEmail', 'SecondEmail'):
 				email = row.get(key)
 				if email:
@@ -238,10 +259,8 @@ def get_addressbook_dir():
 		if os.path.isfile(tprofile):
 			thunderbird_home = thome
 			break
-
 	if not thunderbird_home:
 		return None
-
 	config = RawConfigParser()
 	config.read(tprofile)
 	path = None
@@ -253,7 +272,6 @@ def get_addressbook_dir():
 			break
 		elif config.has_option(section, "Path"):
 			path = config.get(section, "Path")
-
 	if path:
 		path = os.path.join(thunderbird_home, path)
 	# I thought it was strange to return something that is constant here
@@ -265,7 +283,6 @@ def get_addressbook_files():
 	path = get_addressbook_dir()
 	if not path:
 		return
-
 	files = os.listdir(path)
 	for filename in files:
 		if filename.endswith('.mab'):
