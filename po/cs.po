@@ -1,25 +1,24 @@
 # Czech translation for kupfer.
 # Copyright (C) 2009, 2010 the author(s) of kupfer.
 # This file is distributed under the same license as the kupfer package.
+#
 # Lucas Lommer <llommer@svn.gnome.org>, 2010.
 # Petr Kovar <pknbe@volny.cz>, 2010.
-# Marek Černocký <marek@manet.cz>, 2009, 2010.
+# Marek Černocký <marek@manet.cz>, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-08-24 19:38+0000\n"
-"PO-Revision-Date: 2010-08-26 12:04+0200\n"
+"POT-Creation-Date: 2011-02-28 19:01+0000\n"
+"PO-Revision-Date: 2011-03-01 09:46+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Lokalize 1.0\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1
 msgid "Application Launcher"
@@ -189,35 +188,35 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:731
+#: ../kupfer/ui/browser.py:734
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prázdný"
 
-#: ../kupfer/ui/browser.py:735
+#: ../kupfer/ui/browser.py:738
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ve zdroji %(src)s nebylo pro dotaz \"%(query)s\" nic nalezeno"
 
-#: ../kupfer/ui/browser.py:741
+#: ../kupfer/ui/browser.py:744
 msgid "No matches"
 msgstr "Nic nenalezeno"
 
-#: ../kupfer/ui/browser.py:746
+#: ../kupfer/ui/browser.py:749
 msgid "Type to search"
 msgstr "Pište co se má vyhledat"
 
-#: ../kupfer/ui/browser.py:752
+#: ../kupfer/ui/browser.py:755
 #, python-format
 msgid "Type to search %s"
 msgstr "Pište a prohledá se %s"
 
-#: ../kupfer/ui/browser.py:764
+#: ../kupfer/ui/browser.py:767
 msgid "No action"
 msgstr "Žádná akce"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1460 ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/browser.py:1462 ../kupfer/ui/preferences.py:56
 msgid "Show Main Interface"
 msgstr "Zobrazovat hlavní rozhraní"
 
@@ -344,15 +343,15 @@ msgstr "Klávesová zkratka"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:54
+#: ../kupfer/version.py:61
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../kupfer/version.py:58
+#: ../kupfer/version.py:65
 msgid "A free software (GPLv3+) launcher"
 msgstr "Spouštěč vydaný pod svobodnou licencí (GPLv3+)"
 
-#: ../kupfer/version.py:61
+#: ../kupfer/version.py:68
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -383,7 +382,7 @@ msgstr ""
 ">.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:78
+#: ../kupfer/version.py:85
 msgid "Could not find running Kupfer"
 msgstr "Nelze najít běžící aplikaci Kupfer"
 
@@ -742,21 +741,35 @@ msgstr "Vyčistit"
 msgid "Remove all recent clipboards"
 msgstr "Odstranit všechny nedávné položky ze schránky"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:75
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:157
 msgid "Shell Commands"
 msgstr "Příkazy shellu"
 
-#: ../kupfer/plugin/commands.py:4 ../kupfer/plugin/commands.py:98
+#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:180
 msgid "Run commandline programs"
 msgstr "Spustit program příkazové řádky"
 
-#: ../kupfer/plugin/commands.py:28
+#: ../kupfer/plugin/commands.py:32
 msgid "Run (Get Output)"
 msgstr "Spustit (získat výstup)"
 
-#: ../kupfer/plugin/commands.py:50
+#: ../kupfer/plugin/commands.py:54
 msgid "Run program and return its output"
 msgstr "Spustit program a vrátit jeho výstup"
+
+#: ../kupfer/plugin/commands.py:58
+#| msgid "Send To..."
+msgid "Send to Command..."
+msgstr "Odeslat do příkazu…"
+
+#: ../kupfer/plugin/commands.py:92 ../kupfer/plugin/commands.py:132
+#| msgid "Run program and return its output"
+msgid "Run program and supply text on the standard input"
+msgstr "Spustit program a poskytnout text na standardní vstup"
+
+#: ../kupfer/plugin/commands.py:96
+msgid "Filter through Command..."
+msgstr "Filtrovat přes příkaz…"
 
 #: ../kupfer/plugin/dictionary.py:1
 msgid "Dictionary"
@@ -998,11 +1011,11 @@ msgstr "včera, %s"
 msgid "Last updated %s"
 msgstr "Naposledy aktualizováno %s"
 
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:377
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:389
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:411
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:423
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "Přehrávání a přidávání skladeb do fronty a procházení hudební knihovny"
 
@@ -1089,33 +1102,33 @@ msgid "by %s"
 msgstr "od interpreta %s"
 
 #. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:289
+#: ../kupfer/plugin/rhythmbox.py:301
 #, python-format
 msgid "Tracks by %s"
 msgstr "Skladby od interpreta %s"
 
-#: ../kupfer/plugin/rhythmbox.py:299
+#: ../kupfer/plugin/rhythmbox.py:311
 #: ../kupfer/plugin/google_picasa/__init__.py:444
 msgid "Albums"
 msgstr "Alba"
 
-#: ../kupfer/plugin/rhythmbox.py:309
+#: ../kupfer/plugin/rhythmbox.py:321
 msgid "Music albums in Rhythmbox Library"
 msgstr "Hudební album v knihovně Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:320
+#: ../kupfer/plugin/rhythmbox.py:332
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../kupfer/plugin/rhythmbox.py:330
+#: ../kupfer/plugin/rhythmbox.py:342
 msgid "Music artists in Rhythmbox Library"
 msgstr "Hudební umělec v knihovně Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:357
+#: ../kupfer/plugin/rhythmbox.py:369
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../kupfer/plugin/rhythmbox.py:367
+#: ../kupfer/plugin/rhythmbox.py:379
 msgid "Songs in Rhythmbox library"
 msgstr "Skladba v knihovně Rhythmbox"
 
@@ -1930,6 +1943,22 @@ msgstr "Vytvořit úkol"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Vytvořit nový úkol v aplikaci Getting Things GNOME"
 
+#: ../kupfer/plugin/gwibber.py:3
+msgid "Gwibber"
+msgstr "Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:7
+msgid "Send updates via the microblogging client Gwibber"
+msgstr "Poslat aktualizaci přes mikroblogovacího klienta Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:46
+msgid "Send Update"
+msgstr "Poslat aktualizaci"
+
+#: ../kupfer/plugin/gwibber.py:65
+msgid "Unable to activate Gwibber service"
+msgstr "Nelze aktivovat službu Gwibber"
+
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
 msgstr "Akce nejvyšší úrovně"
@@ -2125,7 +2154,7 @@ msgstr "Napsat nový e-mail v poštovním klientovi Opera Mail"
 msgid "Opera Mail Contacts"
 msgstr "Kontakty v Opera Mail"
 
-#: ../kupfer/plugin/operamail.py:115
+#: ../kupfer/plugin/operamail.py:119
 msgid "Contacts from Opera Mail"
 msgstr "Kontakty z adresáře poštovního klienta Opera Mail"
 
@@ -2157,7 +2186,7 @@ msgstr "Sezení PuTTY"
 msgid "Quick access to PuTTY Sessions"
 msgstr "Rychlý přístup k sezením PuTTY"
 
-#: ../kupfer/plugin/putty.py:46 ../kupfer/plugin/tsclient.py:42
+#: ../kupfer/plugin/putty.py:46 ../kupfer/plugin/tsclient.py:50
 msgid "Start Session"
 msgstr "Spustit sezení"
 
@@ -2611,11 +2640,11 @@ msgstr "Terminal Server Client"
 msgid "Session saved in Terminal Server Client"
 msgstr "Sezení uložené v Terminal Server Client"
 
-#: ../kupfer/plugin/tsclient.py:64
+#: ../kupfer/plugin/tsclient.py:72
 msgid "TSClient sessions"
 msgstr "Sezení TSClient"
 
-#: ../kupfer/plugin/tsclient.py:93
+#: ../kupfer/plugin/tsclient.py:94
 msgid "Saved sessions in Terminal Server Client"
 msgstr "Uložená sezení v Terminal Server Client"
 
@@ -2737,4 +2766,3 @@ msgstr "Stránky Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Stránky uchované v zápisnících Zim"
-
