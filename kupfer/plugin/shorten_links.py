@@ -2,23 +2,14 @@
 __kupfer_name__ = _("Shorten Links")
 __kupfer_actions__ = ("ShortenLinks", )
 __description__ = _("Create short aliases of long URLs")
-__version__ = "2009-12-24"
+__version__ = "2011-03-01"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import re
 import httplib
 import urllib
 
-from kupfer.objects import Leaf, Action, Source, UrlLeaf
+from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
 from kupfer import pretty
-
-
-_HEADER = {
-		'Content-type':'application/x-www-form-urlencoded',
-		'Accept': 'text/xml,application/xml,application/xhtml+xml,text/html',
-		'Accept-charset': 'utf-8;q=0.7'
-}
-
 
 class _ShortLinksService(Leaf):
 	def __init__(self, name):
@@ -30,86 +21,68 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
 	""" A unified shortener service working with GET requests """
 	host = None
 	path = None
-	result_regex = None
+	url_key = "url"
 
 	def process(self, url):
-		query_string = urllib.urlencode({"url": url})
+		"""Shorten @url or raise ValueError"""
+		query_string = urllib.urlencode({self.url_key : url})
 		try:
 			conn = httplib.HTTPConnection(self.host)
 			conn.request("GET", self.path+query_string)
 			resp = conn.getresponse()
 			if resp.status != 200:
-				raise ValueError('invalid response %d, %s' % (resp.status,
+				raise ValueError('Invalid response %d, %s' % (resp.status,
 					resp.reason))
 			
 			result = resp.read()
-			if self.result_regex is not None:
-				resurl = re.findall(self.result_regex, result)
-				if resurl:
-					return resurl[0]
-			else:
-				return result
+			return result.strip()
 
-		except (httplib.HTTPException, ValueError), err:
-			self.output_error(type(err), err)
+		except (httplib.HTTPException, ValueError) as exc:
+			raise ValueError(exc)
 		return _('Error')
 
 
+# NOTE: It's important that we use only sites that provide a stable API
+
 class TinyUrl(_GETService):
+	"""
+	Website: http://tinyurl.com
+	"""
 	host = "tinyurl.com"
 	path = "/api-create.php?"
 
 	def __init__(self):
 		_ShortLinksService.__init__(self, u'TinyUrl.com')
 
-class Shorl(_GETService):
-	host = 'shorl.com'
-	path = '/create.php?'
-	result_regex = r'Shorl: \<a href=".+?" rel="nofollow">(.+?)</a>'
+class IsGd(_GETService):
+	"""
+	Website: http://is.gd
+	Reference: http://is.gd/apishorteningreference.php
+	"""
+	host = 'is.gd'
+	path = '/create.php?format=simple&'
 
 	def __init__(self):
-		_ShortLinksService.__init__(self, u'Shorl.com')
+		_ShortLinksService.__init__(self, u'Is.gd')
 
 class BitLy(_GETService):
+	"""
+	Website: http://bit.ly
+	Reference: http://code.google.com/p/bitly-api/wiki/ApiDocumentation
+	"""
+	# No password is available for this login name,
+	# yet there is a possibility that you could track
+	# all URLs shortened using this API key
+	BITLY_LOGIN = "kupferkupfer"
+	BITLY_API_KEY = "R_a617770f00b647d6c22ce162105125c2"
+
 	host = 'bit.ly'
-	path = '/?'
-	result_regex = r'\<input id="shortened-url" value="(.+?)" \/\>'
+	path = ('http://api.bitly.com/v3/shorten?login=%s&apiKey=%s&format=txt&' %
+			(BITLY_LOGIN, BITLY_API_KEY))
+	url_key = "longUrl"
 
 	def __init__(self):
 		_ShortLinksService.__init__(self, u'Bit.ly')
-
-UR1CA_HOST='ur1.ca'
-UR1CA_PATH=''
-UR1CA_RESULT_RE = re.compile(r'\<p class="success">.+?<a href=".+?">(.+?)</a></p>')
-
-class Ur1Ca(_ShortLinksService):
-	""" Shorten urls with Ur1.ca """
-	def __init__(self):
-		_ShortLinksService.__init__(self, u'Ur1.ca')
-
-	def process(self, url):
-		if not (url.startswith('http://') or url.startswith('https://') or 
-				url.startswith('mailto:')):
-			url = 'http://' + url
-		query_param = urllib.urlencode(dict(longurl=url, submit='Make it an ur1!'))
-		try:
-			conn = httplib.HTTPConnection(UR1CA_HOST)
-			#conn.debuglevel=255
-			conn.request("POST", UR1CA_PATH, query_param, _HEADER)
-			resp = conn.getresponse()
-			if resp.status != 200:
-				raise ValueError('invalid response %d, %s' % (resp.status,
-					resp.reason))
-			
-			result = resp.read()
-			resurl = UR1CA_RESULT_RE.findall(result)
-			if resurl:
-				return resurl[0]
-			return _('Error')
-
-		except (httplib.HTTPException, ValueError), err:
-			pretty.print_error(__name__, 'TinyUrl.process error', type(err), err)
-		return _('Error')
 
 
 class ShortenLinks(Action):
@@ -122,7 +95,10 @@ class ShortenLinks(Action):
 		return True
 
 	def activate(self, leaf, iobj):
-		result = iobj.process(leaf.object)
+		try:
+			result = iobj.process(leaf.object)
+		except ValueError as exc:
+			raise OperationError(unicode(exc))
 		return UrlLeaf(result, result)
 
 	def item_types(self):
@@ -147,8 +123,7 @@ class ServicesSource(Source):
 
 	def get_items(self):
 		yield TinyUrl()
-		yield Shorl()
-		yield Ur1Ca()
+		yield IsGd()
 		yield BitLy()
 
 	def should_sort_lexically(self):
