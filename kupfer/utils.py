@@ -89,6 +89,11 @@ class AsyncCommand (object):
 	If stdin is a byte string, it is supplied on the command's stdin.
 
 	finish_callback -> (AsyncCommand, stdout_output, stderr_output)
+
+	Attributes:
+	self.exit_status  Set after process exited
+	self.finished     bool
+
 	"""
 	# the maximum input (bytes) we'll read in one shot (one io_callback)
 	max_input_buf = 512 * 1024
@@ -154,6 +159,8 @@ class AsyncCommand (object):
 		return False
 
 	def _child_callback(self, pid, condition):
+		# @condition is the &status field of waitpid(2) (C library)
+		self.exit_status = os.WEXITSTATUS(condition)
 		self.finished = True
 		self.finish_callback(self, "".join(self.stdout), "".join(self.stderr))
 
