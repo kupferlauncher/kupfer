@@ -89,9 +89,9 @@ class BitLy(_GETService):
 	BITLY_LOGIN = "kupferkupfer"
 	BITLY_API_KEY = "R_a617770f00b647d6c22ce162105125c2"
 
-	host = 'bit.ly'
-	path = ('http://api.bitly.com/v3/shorten?login=%s&apiKey=%s&format=txt&' %
-			(BITLY_LOGIN, BITLY_API_KEY))
+	host = 'api.bitly.com'
+	path = ('/v3/shorten?login=%s&apiKey=%s&format=txt&' %
+	        (BITLY_LOGIN, BITLY_API_KEY))
 	url_key = "longUrl"
 
 	def __init__(self):
