@@ -383,6 +383,8 @@ class TextLeaf (Leaf, TextRepresentation):
 		if not name:
 			lines = [l for l in text.splitlines() if l.strip()]
 			name = lines[0] if lines else text
+		if len(text) == 0:
+			name = _("(Empty Text)")
 		Leaf.__init__(self, text, name)
 
 	def get_actions(self):
