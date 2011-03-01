@@ -65,6 +65,19 @@ class IsGd(_GETService):
 	def __init__(self):
 		_ShortLinksService.__init__(self, u'Is.gd')
 
+class VGd(_GETService):
+	"""
+	Website: http://v.gd
+	Reference: http://v.gd/apishorteningreference.php
+
+	Like is.gd, but v.gd always shows a preview page.
+	"""
+	host = 'v.gd'
+	path = '/create.php?format=simple&'
+
+	def __init__(self):
+		_ShortLinksService.__init__(self, u'V.gd')
+
 class BitLy(_GETService):
 	"""
 	Website: http://bit.ly
@@ -124,6 +137,7 @@ class ServicesSource(Source):
 	def get_items(self):
 		yield TinyUrl()
 		yield IsGd()
+		yield VGd()
 		yield BitLy()
 
 	def should_sort_lexically(self):
