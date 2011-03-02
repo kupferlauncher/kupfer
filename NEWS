@@ -2,6 +2,34 @@
 NEWS for kupfer
 ===============
 
+kupfer's next release
+---------------------
+
+Not Released Yet
+
+* Use and require **Waf 1.6**, which supports building using either Python 3
+  or Python 2.6+. Kupfer itself still uses Python 2.6+ only.
+* Add *Gwibber* plugin
+* *Thunderbird*: Fix problems in the mork parser (Karol Będkowski)
+* *OpenOffice*: Support LibreOffice too (Karol Będkowski)
+* Fix "Y2011 bug" where the time parameter overflowed INT32 in keybinder
+* *Commands*: Add actions *Filter through Command*, *Send to Command*
+* *Shorten Links*: Use only services with stable API, added and removed
+  services.
+* Fix bug with integer division (Francesco Marella)
+* Use ``readlink`` in ``kupfer-exec`` script too since ``realpath`` is not
+  always available.
+* Allow plugins to use update notifications (William Friesen)
+
+* Localization updates:
+  + (cs) Marek Černocký
+  + (da) Joe Hansen
+  + (es) Daniel Mustieles
+  + (gl) Marcos Lans
+  + (sl) Andrej Žnidaršič
+  + (sv) Ulrik
+  + (zh_CN) Aron Xu
+
 kupfer v203
 -----------
 
