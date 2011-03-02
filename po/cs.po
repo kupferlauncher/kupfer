@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-02-28 19:01+0000\n"
-"PO-Revision-Date: 2011-03-01 09:46+0100\n"
+"POT-Creation-Date: 2011-03-01 21:49+0000\n"
+"PO-Revision-Date: 2011-03-02 12:32+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -532,9 +532,14 @@ msgstr "Spustit"
 msgid "Perform command"
 msgstr "Provést příkaz"
 
+#: ../kupfer/obj/objects.py:387
+#| msgid "Empty File"
+msgid "(Empty Text)"
+msgstr "(Prázdný text)"
+
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:401
+#: ../kupfer/obj/objects.py:403
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -741,33 +746,31 @@ msgstr "Vyčistit"
 msgid "Remove all recent clipboards"
 msgstr "Odstranit všechny nedávné položky ze schránky"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:157
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:145
 msgid "Shell Commands"
 msgstr "Příkazy shellu"
 
-#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:180
+#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:168
 msgid "Run commandline programs"
 msgstr "Spustit program příkazové řádky"
 
-#: ../kupfer/plugin/commands.py:32
+#: ../kupfer/plugin/commands.py:59
 msgid "Run (Get Output)"
 msgstr "Spustit (získat výstup)"
 
-#: ../kupfer/plugin/commands.py:54
+#: ../kupfer/plugin/commands.py:73
 msgid "Run program and return its output"
 msgstr "Spustit program a vrátit jeho výstup"
 
-#: ../kupfer/plugin/commands.py:58
-#| msgid "Send To..."
+#: ../kupfer/plugin/commands.py:77
 msgid "Send to Command..."
 msgstr "Odeslat do příkazu…"
 
-#: ../kupfer/plugin/commands.py:92 ../kupfer/plugin/commands.py:132
-#| msgid "Run program and return its output"
+#: ../kupfer/plugin/commands.py:110 ../kupfer/plugin/commands.py:120
 msgid "Run program and supply text on the standard input"
 msgstr "Spustit program a poskytnout text na standardní vstup"
 
-#: ../kupfer/plugin/commands.py:96
+#: ../kupfer/plugin/commands.py:114
 msgid "Filter through Command..."
 msgstr "Filtrovat přes příkaz…"
 
@@ -2118,16 +2121,18 @@ msgstr[2] "%s (%d znaků)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
-msgid "OpenOffice"
-msgstr "OpenOffice"
+msgid "OpenOffice / LibreOffice"
+msgstr "OpenOffice / LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:119
-msgid "Recently used documents in OpenOffice"
-msgstr "Dokumenty nedávno použité v OpenOffice"
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
+#| msgid "Recently used documents in OpenOffice"
+msgid "Recently used documents in OpenOffice/LibreOffice"
+msgstr "Dokumenty nedávno použité v OpenOffice/LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:61
-msgid "OpenOffice Recent Items"
-msgstr "Nedávné položky OpenOffice"
+#: ../kupfer/plugin/openoffice.py:74
+#| msgid "OpenOffice Recent Items"
+msgid "OpenOffice/LibreOffice Recent Items"
+msgstr "Nedávné položky OpenOffice/LibreOffice"
 
 #: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:23
 msgid "Opera Bookmarks"
@@ -2272,16 +2277,15 @@ msgstr "Zkrácené odkazy"
 msgid "Create short aliases of long URLs"
 msgstr "Vytvořit zkrácené přezdívky pro dlouhé URL"
 
-#: ../kupfer/plugin/shorten_links.py:55 ../kupfer/plugin/shorten_links.py:108
-#: ../kupfer/plugin/shorten_links.py:112
+#: ../kupfer/plugin/shorten_links.py:42
 msgid "Error"
 msgstr "Chyba"
 
-#: ../kupfer/plugin/shorten_links.py:119
+#: ../kupfer/plugin/shorten_links.py:105
 msgid "Shorten With..."
 msgstr "Zkrátit pomocí…"
 
-#: ../kupfer/plugin/shorten_links.py:146
+#: ../kupfer/plugin/shorten_links.py:135
 msgid "Services"
 msgstr "Služby"
 
@@ -2766,3 +2770,6 @@ msgstr "Stránky Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Stránky uchované v zápisnících Zim"
+
+#~ msgid "OpenOffice"
+#~ msgstr "OpenOffice"
