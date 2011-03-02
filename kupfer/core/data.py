@@ -26,6 +26,8 @@ SourcePane, ActionPane, ObjectPane = (1,2,3)
 # In two-pane or three-pane mode
 SourceActionMode, SourceActionObjectMode = (1,2)
 
+DATA_SAVE_INTERVAL_S = 3660
+
 def identity(x):
 	return x
 
@@ -433,6 +435,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self._execution_context.connect("late-command-result",
 				self._late_command_execution_result)
 
+		self._save_data_timer = scheduler.Timer()
+
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
 		sch.connect("finish", self._finish)
@@ -482,7 +486,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			sc.add_action_generator(plugin_id, generator)
 
 	def _load(self, sched):
-		"""Load data from persistent store"""
+		"""Begin Data Controller work when we get application 'load' signal
+
+		Load the data model from saved configuration and caches
+		"""
 		setctl = settings.GetSettingsController()
 		setctl.connect("plugin-enabled-changed", self._plugin_enabled)
 		setctl.connect("plugin-toplevel-changed", self._plugin_catalog_changed)
@@ -495,6 +502,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc.initialize()
 		self._reload_source_root()
 		learn.load()
+		self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
 	def _get_directory_sources(self):
 		"""
@@ -591,12 +599,21 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._reload_source_root()
 
 	def _finish(self, sched):
+		"Close down the data model, save user data, and write caches to disk"
 		GetSourceController().finalize()
-		self.output_info("Saving data...")
-		learn.finish()
-		GetSourceController().save_data()
+		self._save_data(final_invocation=True)
 		self.output_info("Saving cache...")
 		GetSourceController().save_cache()
+
+	def _save_data(self, final_invocation=False):
+		"""Save Learning data and User's configuration data in sources
+		(Recurring timer)
+		"""
+		self.output_info("Saving data...")
+		learn.save()
+		GetSourceController().save_data()
+		if not final_invocation:
+			self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
 	def _new_source(self, ctr, src):
 		if ctr is self.source_pane:

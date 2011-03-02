@@ -113,7 +113,7 @@ def _prune_register():
 	rand = random.random
 
 	goalitems = 500
-	flux = 10.0
+	flux = 2.0
 	alpha = flux/goalitems**2
 
 	chance = min(0.1, len(_register)*alpha)
@@ -139,9 +139,9 @@ def load():
 	if not _register:
 		_register = {}
 
-def finish():
+def save():
 	"""
-	Close and save the learning record
+	Save the learning record
 	"""
 	if not _register:
 		pretty.print_debug(__name__, "Not writing empty register")
