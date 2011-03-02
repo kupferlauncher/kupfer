@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-28 19:58+0100\n"
+"POT-Creation-Date: 2011-03-02 19:08+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -419,6 +419,9 @@ msgstr "Utför"
 
 msgid "Perform command"
 msgstr "Utför kommando"
+
+msgid "(Empty Text)"
+msgstr "(Tom text)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
@@ -1604,14 +1607,14 @@ msgstr[0] "%s (%d tecken)"
 msgstr[1] "%s (%d tecken)"
 
 #. -*- coding: UTF-8 -*-
-msgid "OpenOffice"
-msgstr "OpenOffice"
+msgid "OpenOffice / LibreOffice"
+msgstr "OpenOffice / LibreOffice"
 
-msgid "Recently used documents in OpenOffice"
-msgstr "Senaste dokument i OpenOffice"
+msgid "Recently used documents in OpenOffice/LibreOffice"
+msgstr "Senaste dokument i OpenOffice/LibreOffice"
 
-msgid "OpenOffice Recent Items"
-msgstr "OpenOffice senaste dokument"
+msgid "OpenOffice/LibreOffice Recent Items"
+msgstr "OpenOffice/LibreOffice senaste dokument"
 
 msgid "Opera Bookmarks"
 msgstr "Opera-bokmärken"
