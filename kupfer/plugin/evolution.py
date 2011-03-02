@@ -101,6 +101,8 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource):
 
 	def get_items(self):
 		ebook_ = evolution.ebook.open_addressbook("default")
+		if not ebook_:
+			return
 		for contact in ebook_.get_all_contacts():
 			name = contact.get_property("full-name")
 			email = contact.get_property("email-1")
