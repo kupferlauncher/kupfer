@@ -15,6 +15,9 @@ from kupfer import conspickle
 from kupfer.obj import base, sources
 from kupfer.core import pluginload
 
+class InternalError (Exception):
+	pass
+
 class PeriodicRescanner (pretty.OutputMixin):
 	"""
 	Periodically rescan a @catalog of sources
@@ -257,6 +260,7 @@ class SourceController (pretty.OutputMixin):
 		self.action_generators = []
 		self.plugin_object_map = weakref.WeakKeyDictionary()
 		self.loaded_successfully = False
+		self.did_finalize_sources = False
 		self._pre_root = None
 
 	def add(self, plugin_id, srcs, toplevel=False, initialize=False):
@@ -486,13 +490,23 @@ class SourceController (pretty.OutputMixin):
 						use_reprs=False)
 			obj.add_content(content)
 
-	def finish(self):
+	def finalize(self):
+		"Finalize all sources, equivalent to deactivating all sources"
+		for src in self.sources:
+			src.finalize()
+		self.did_finalize_sources = True
+
+	def save_cache(self):
+		"Save all caches (non-important data)"
+		if not self.did_finalize_sources:
+			raise InternalError("Called save_cache without finalize!")
 		if self.loaded_successfully:
 			self._pickle_sources(self.sources)
 		else:
 			self.output_debug("Not writing cache on failed load")
 
 	def save_data(self):
+		"Save (important) user data/configuration"
 		if not self.loaded_successfully:
 			self.output_info("Not writing configuration on failed load")
 			return
@@ -503,32 +517,16 @@ class SourceController (pretty.OutputMixin):
 
 	@classmethod
 	def _save_source(self, source, pickler=None):
-		source.finalize()
 		configsaver = pickler or SourceDataPickler()
 		configsaver.save_source(source)
 
 	def _finalize_source(self, source):
 		"Either save config, or save cache for @source"
+		source.finalize()
 		if SourceDataPickler.source_has_config(source):
 			self._save_source(source)
 		elif not source.is_dynamic():
 			self._pickle_source(source)
-
-	def _try_restore(self, sources):
-		"""
-		Try to restor the source that is equivalent to the
-		"dummy" instance @source, from cache, or from saved configuration.
-		yield the instances that succeed.
-		"""
-		sourcepickler = SourcePickler()
-		configsaver = SourceDataPickler()
-		for source in set(sources):
-			if configsaver.source_has_config(source):
-				configsaver.load_source(source)
-			else:
-				source = sourcepickler.unpickle_source(source)
-			if source:
-				yield source
 
 	def _pickle_sources(self, sources):
 		sourcepickler = SourcePickler()
@@ -541,9 +539,24 @@ class SourceController (pretty.OutputMixin):
 
 	@classmethod
 	def _pickle_source(self, source, pickler=None):
-		source.finalize()
 		sourcepickler = pickler or SourcePickler()
 		sourcepickler.pickle_source(source)
+
+	def _try_restore(self, sources):
+		"""
+		Try to restore the source that is equivalent to the
+		"dummy" instance @source, from cache, or from saved configuration.
+		yield the instances that succeed.
+		"""
+		sourcepickler = SourcePickler()
+		configsaver = SourceDataPickler()
+		for source in set(sources):
+			if configsaver.source_has_config(source):
+				configsaver.load_source(source)
+			else:
+				source = sourcepickler.unpickle_source(source)
+			if source:
+				yield source
 
 	def _remove_source(self, source):
 		"Oust @source from catalog if any exception is raised"

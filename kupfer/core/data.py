@@ -591,11 +591,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._reload_source_root()
 
 	def _finish(self, sched):
+		GetSourceController().finalize()
 		self.output_info("Saving data...")
 		learn.finish()
 		GetSourceController().save_data()
 		self.output_info("Saving cache...")
-		GetSourceController().finish()
+		GetSourceController().save_cache()
 
 	def _new_source(self, ctr, src):
 		if ctr is self.source_pane:
