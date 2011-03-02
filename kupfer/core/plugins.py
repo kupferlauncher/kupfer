@@ -368,8 +368,17 @@ def initialize_plugin(plugin_name):
 	settings_dict.initialize(plugin_name)
 
 def unimport_plugin(plugin_name):
+	"""Remove @plugin_name from the plugin list and dereference its
+	python modules.
+	"""
 	del _imported_plugins[plugin_name]
-	sys.modules.pop(".".join(_plugin_path(plugin_name)))
+	plugin_module_name = ".".join(_plugin_path(plugin_name))
+	pretty.print_debug(__name__, "Dereferencing module", plugin_module_name)
+	sys.modules.pop(plugin_module_name)
+	for mod in list(sys.modules):
+		if mod.startswith(plugin_module_name + "."):
+			pretty.print_debug(__name__, "Dereferencing module", mod)
+			sys.modules.pop(mod)
 
 def get_plugin_error(plugin_name):
 	"""
