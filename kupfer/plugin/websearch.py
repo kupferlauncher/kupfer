@@ -130,15 +130,19 @@ class OpenSearchSource (Source):
 				tagname = gettagname(child.tag)
 				if tagname not in keys:
 					continue
-				if (tagname == "Url" and child.get("type") == "text/html" and
+				# Only pick up Url tags with type="text/html"
+				if tagname == "Url":
+					if (child.get("type") == "text/html" and
 						child.get("template")):
-					text = child.get("template")
-					params = {}
-					for ch in child.getchildren():
-						if gettagname(ch.tag) == "Param":
-							params[ch.get("name")] = ch.get("value")
-					if params:
-						text += _noescape_urlencode(params.items())
+						text = child.get("template")
+						params = {}
+						for ch in child.getchildren():
+							if gettagname(ch.tag) == "Param":
+								params[ch.get("name")] = ch.get("value")
+						if params:
+							text += _noescape_urlencode(params.items())
+					else:
+						continue
 				else:
 					text = (child.text or "").strip()
 				search[tagname] = text
