@@ -27,10 +27,21 @@ def unicode_shlex_split(ustr, **kwargs):
 	s_str = ustr.encode("UTF-8")
 	return [kupferstring.tounicode(t) for t in shlex.split(s_str, **kwargs)]
 
+def rm_quotes(us):
+	"""Remove "quotes" -> quotes if wrapped in " or ' quotes"""
+	if len(us) > 1 and us[0] in ("'", '"') and us[0] == us[-1]:
+		return us[1:-1]
+	return us
+
+def custom_shlex_split(ustr):
+	# Use posix=False so that we don't swallow backslashes "\"
+	# After that we have to remove quotes ourselves
+	return map(rm_quotes, unicode_shlex_split(ustr, posix=False))
+
 def get_commandline_argv(commandline):
-	# use shlex to allow simple quoting
+	""" Use shlex to allow simple quoting in the commandline """
 	try:
-		argv = unicode_shlex_split(commandline)
+		argv = custom_shlex_split(commandline)
 	except ValueError:
 		# Exception raised on unpaired quotation marks
 		argv = commandline.split(None, 1)
