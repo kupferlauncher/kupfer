@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # Copyright (C) 2009  Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 #               2008  Christian Hergert <chris@dronelabs.com>
 #               2007  Chris Halse Rogers, DR Colkitt
