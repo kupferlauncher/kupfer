@@ -132,12 +132,24 @@ def _set_process_title():
 	else:
 		setproctitle.setproctitle("kupfer")
 
+def gtkmain(quiet):
+	import pygtk
+	pygtk.require('2.0')
+	import gtk
+
+	if not gtk.gdk.screen_get_default():
+		print >>sys.stderr, "No Screen Found, Exiting..."
+		sys.exit(1)
+
+	from kupfer.ui import browser
+	w = browser.WindowController()
+	w.main(quiet=quiet)
+
 def main():
 	# parse commandline before importing UI
 	cli_opts = get_options()
 	print_banner()
 
-	from kupfer.ui import browser
 	from kupfer import pretty
 
 	if _debug:
@@ -150,8 +162,6 @@ def main():
 	sys.excepthook = sys.__excepthook__
 	_set_process_title()
 
-	w = browser.WindowController()
-
 	quiet = ("--no-splash" in cli_opts)
-	w.main(quiet=quiet)
+	gtkmain(quiet)
 

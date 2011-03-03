@@ -6,9 +6,6 @@ import signal
 import sys
 import time
 
-import pygtk
-pygtk.require('2.0')
-
 try:
 	import appindicator
 except ImportError:

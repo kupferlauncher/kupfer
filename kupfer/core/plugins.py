@@ -3,8 +3,8 @@ import pkgutil
 import sys
 
 from kupfer import pretty, config
-from kupfer import icons
 from kupfer.core import settings
+# import kupfer.icons on demand later
 
 sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
@@ -334,8 +334,13 @@ def _loader_hook(modpath):
 	return loader
 
 PLUGIN_ICON_FILE = "icon-list"
+icons = None
 
 def _load_icons(plugin_name):
+	global icons
+	if icons is None:
+		from kupfer import icons
+
 	try:
 		loader = _staged_import(plugin_name, _loader_hook)
 	except ImportError, exc:
