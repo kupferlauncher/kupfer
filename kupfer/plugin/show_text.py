@@ -8,8 +8,7 @@ __description__ = _("Display text in a window")
 __version__ = ""
 __author__ = "US"
 
-from kupfer.objects import Action
-from kupfer.objects import TextLeaf
+from kupfer.objects import Action, Leaf, TextLeaf
 from kupfer import icons, uiutils
 from kupfer import textutils
 
@@ -19,7 +18,7 @@ class ShowText (Action):
 		Action.__init__(self, _("Show Text"))
 
 	def activate(self, leaf):
-		uiutils.show_text_result(leaf.object, title=_("Show Text"))
+		uiutils.show_text_result(leaf.get_text_representation(), title=_("Show Text"))
 
 	def item_types(self):
 		yield TextLeaf
@@ -34,10 +33,13 @@ class LargeType (Action):
 		Action.__init__(self, _("Large Type"))
 
 	def activate(self, leaf):
-		uiutils.show_large_type(leaf.object)
+		uiutils.show_large_type(leaf.get_text_representation())
 
 	def item_types(self):
-		yield TextLeaf
+		yield Leaf
+
+	def valid_for_item(self, obj):
+		return hasattr(obj, "get_text_representation")
 
 	def get_description(self):
 		return _("Display text in a window")
