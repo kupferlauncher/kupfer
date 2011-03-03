@@ -147,6 +147,7 @@ class GoogleContactsSource(ToplevelGroupingSource):
 		self._contacts = []
 
 	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
 		__kupfer_settings__.connect("plugin-setting-changed", self._changed)
 
 	def _changed(self, settings, key, value):
