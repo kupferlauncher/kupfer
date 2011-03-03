@@ -1,8 +1,9 @@
 __kupfer_name__ = _("Shell Commands")
 __kupfer_sources__ = ()
 __kupfer_actions__ = (
-		"WriteToCommand",
+		"PassToCommand",
 		"FilterThroughCommand",
+		"WriteToCommand",
 	)
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = _("Run commandline programs")
@@ -82,6 +83,52 @@ class GetOutput (Action):
 
 	def get_description(self):
 		return _("Run program and return its output")
+
+class PassToCommand (Action):
+	def __init__(self):
+		Action.__init__(self, _("Pass to Command..."))
+
+	def activate(self, leaf, iobj):
+		self.activate_multiple((leaf,),(iobj, ))
+
+	def _run_command(self, objs, iobj):
+		if isinstance(iobj, Command):
+			argv = get_commandline_argv(iobj.object)
+		else:
+			argv = [iobj.object]
+		argv.extend([o.object for o in objs])
+		ctx = commandexec.DefaultActionExecutionContext()
+		token = ctx.get_async_token()
+		pretty.print_debug(__name__, "Spawning without timeout")
+		acom = utils.AsyncCommand(argv, self.finish_callback, None)
+		acom.token = token
+
+	def activate_multiple(self, objs, iobjs):
+		for iobj in iobjs:
+			self._run_command(objs, iobj)
+
+	def item_types(self):
+		yield TextLeaf
+		yield FileLeaf
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield FileLeaf
+		yield Command
+
+	def valid_object(self, iobj, for_item=None):
+		if isinstance(iobj, Command):
+			return True
+		return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
+
+	def finish_callback(self, acommand, stdout, stderr):
+		finish_command(acommand.token, acommand, stdout, stderr, False)
+
+	def get_description(self):
+		return _("Run program with object as an additional parameter")
+
 
 class WriteToCommand (Action):
 	def __init__(self):
