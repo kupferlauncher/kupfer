@@ -379,7 +379,8 @@ def unimport_plugin(plugin_name):
 	del _imported_plugins[plugin_name]
 	plugin_module_name = ".".join(_plugin_path(plugin_name))
 	pretty.print_debug(__name__, "Dereferencing module", plugin_module_name)
-	sys.modules.pop(plugin_module_name)
+	if plugin_module_name in sys.modules:
+		sys.modules.pop(plugin_module_name)
 	for mod in list(sys.modules):
 		if mod.startswith(plugin_module_name + "."):
 			pretty.print_debug(__name__, "Dereferencing module", mod)
