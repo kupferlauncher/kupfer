@@ -168,6 +168,10 @@ class ToplevelGroupingSource (GroupingSource):
 		self._sources[self.category][self] = 1
 		self.output_debug("Register %s source %s" % (self.category, self))
 
+	def finalize(self):
+		del self._sources[self.category][self]
+		self.output_debug("Unregister %s source %s" % (self.category, self))
+
 class _GroupedItemsSource(Source):
 	def __init__(self, leaf):
 		Source.__init__(self, unicode(leaf))
