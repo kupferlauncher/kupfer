@@ -195,15 +195,19 @@ class LeafModel (object):
 
 	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
+		fill_space = u"\N{EM SPACE}"
 		if text_direction_is_ltr():
 			content_mark = u"\N{BLACK RIGHT-POINTING SMALL TRIANGLE}"
 		else:
 			content_mark = u"\N{BLACK LEFT-POINTING SMALL TRIANGLE}"
+
 		info = u""
-		if hasattr(leaf, "has_content") and leaf.has_content():
-			info = content_mark
 		if learn.is_favorite(leaf):
 			info += u"\N{BLACK STAR}"
+		else:
+			info += fill_space
+		if hasattr(leaf, "has_content") and leaf.has_content():
+			info += content_mark
 		return info
 	def get_rank_str(self, rank):
 		# Display rank empty instead of 0 since it looks better
