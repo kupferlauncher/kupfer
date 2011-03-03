@@ -10,16 +10,27 @@ Not Released Yet
 * Use and require **Waf 1.6**, which supports building using either Python 3
   or Python 2.6+. Kupfer itself still uses Python 2.6+ only.
 * Add *Gwibber* plugin
+* Add *Show QRCode* plugin by Thomas Renard (:lp:`611162`)
+* Periodically save data from plugins so it's not lost if Kupfer can't exit
+  cleanly at logout
+* *Commands*: Add actions *Pass to Command*, *Filter through Command*, *Send
+  to Command* which add a lot of shell script-related power to Kupfer
+* *Search the Web*: Fix bug in OpenSearch parser (:lp:`682476`)
 * *Thunderbird*: Fix problems in the mork parser (Karol Będkowski)
+  (:lp:`694314`)
 * *OpenOffice*: Support LibreOffice too (Karol Będkowski)
 * Fix "Y2011 bug" where the time parameter overflowed INT32 in keybinder
-* *Commands*: Add actions *Filter through Command*, *Send to Command*
 * *Shorten Links*: Use only services with stable API, added and removed
   services.
+* Fix bug if evolution address book is missing (Luca Falavigna)
+  (:lp:`691305`)
 * Fix bug with integer division (Francesco Marella)
+* Find cover art files just like Rhythmbox (William Friesen) (:lp:`676433`)
 * Use ``readlink`` in ``kupfer-exec`` script too since ``realpath`` is not
   always available.
 * Allow plugins to use update notifications (William Friesen)
+* The *Large Type* action will work with anything that has
+  ``TextRepresentation``
 
 * Localization updates:
   + (cs) Marek Černocký
