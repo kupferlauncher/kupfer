@@ -62,7 +62,8 @@ class SearchResults (Source):
 		more_results_url = data['cursor']['moreResultsUrl']
 		total_results = data['cursor'].get('estimatedResultCount', 0)
 		for h in data['results']:
-			yield UrlLeaf(h['url'], h['titleNoFormatting'])
+			uq_url = urllib.unquote(h['url'])
+			yield UrlLeaf(uq_url, h['titleNoFormatting'])
 		yield CustomDescriptionUrl(more_results_url,
 				_('Show More Results For "%s"') % self.query,
 				_("%s total found") % total_results)
