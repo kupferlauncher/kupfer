@@ -48,6 +48,11 @@ class CustomDescriptionUrl (UrlLeaf):
 	def get_description(self):
 		return self.description
 
+def _xml_unescape(ustr):
+	"""Unescape &amp; to &, &lt; to <,  &gt; to >"""
+	# important to replace &amp; last here
+	return ustr.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
+
 class SearchResults (Source):
 	def __init__(self, query):
 		Source.__init__(self, _('Results for "%s"') % query)
@@ -80,7 +85,8 @@ class SearchResults (Source):
 		total_results = data['cursor'].get('estimatedResultCount', 0)
 		for h in data['results']:
 			uq_url = urllib.unquote(h['url'])
-			yield UrlLeaf(uq_url, h['titleNoFormatting'])
+			uq_title = _xml_unescape(h['titleNoFormatting'])
+			yield UrlLeaf(uq_url, uq_title)
 		yield CustomDescriptionUrl(more_results_url,
 				_('Show More Results For "%s"') % self.query,
 				_("%s total found") % total_results)
