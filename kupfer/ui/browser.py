@@ -1526,6 +1526,7 @@ class WindowController (pretty.OutputMixin):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
+		self.interface.put_away()
 		self._window_hide_timer.set_ms(100, self.put_away)
 
 	def result_callback(self, sender, result_type):
