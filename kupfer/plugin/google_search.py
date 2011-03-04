@@ -4,10 +4,12 @@ __description__ = _("Search Google with results shown directly")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import httplib
 import urllib
 
-from kupfer.objects import Action, Source, Leaf
+from kupfer.objects import Action, Source, Leaf, OperationError
 from kupfer.objects import TextLeaf, UrlLeaf
+from kupfer.plugin import ssl_support
 
 try:
 	import cjson
@@ -16,7 +18,12 @@ except ImportError:
 	import json
 	json_decoder = json.loads
 
-SEARCH_URL = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&'
+
+# Path uses API Key for Kupfer
+SEARCH_HOST =  "ajax.googleapis.com"
+SEARCH_PATH = ("/ajax/services/search/web?v=1.0&"
+               "key=ABQIAAAAV3_egytv7qJVulO0KzPiVRQg95CfKdfDbUDlTS80sgrv"
+               "_Zs39hRNkb5m7HV_qLx_d40GexmdjYGvcg&")
 
 class Search (Action):
 	def __init__(self):
@@ -50,13 +57,23 @@ class SearchResults (Source):
 		return self.query
 
 	def get_items(self):
-		query = urllib.urlencode({'q': self.query})
-		search_response = urllib.urlopen(SEARCH_URL + query)
-		ctype = search_response.headers.get("content-type") or ""
-		parts = ctype.split("charset=", 1)
-		encoding = parts[-1] if len(parts) > 1 else "UTF-8"
-		search_results = search_response.read().decode(encoding)
-		search_response.close()
+		try:
+			query = urllib.urlencode({'q': self.query})
+			if ssl_support.is_supported():
+				conn = ssl_support.VerifiedHTTPSConnection(SEARCH_HOST,
+				                                           timeout=5)
+				self.output_debug("Connected to", SEARCH_HOST, "using SSL")
+			else:
+				conn = httplib.HTTPConnection(SEARCH_HOST, timeout=5)
+			conn.request("GET", SEARCH_PATH + query)
+			response = conn.getresponse()
+			ctype = response.getheader("content-type", default="")
+			parts = ctype.split("charset=", 1)
+			encoding = parts[-1] if len(parts) > 1 else "UTF-8"
+			search_results = response.read().decode(encoding)
+			response.close()
+		except (IOError, httplib.HTTPException) as exc:
+			raise OperationError(unicode(exc))
 		results = json_decoder(search_results)
 		data = results['responseData']
 		more_results_url = data['cursor']['moreResultsUrl']
