@@ -74,9 +74,12 @@ TaskGen.after('init_mallard')(apply_mallard)
 def options(opt):
 	pass
 
-def configure(conf):
-	xml2po = conf.find_program('xml2po', var='XML2PO')
-	conf.env['XML2POFLAGS'] = '-mmallard -p'
+def configure(ctx):
+	try:
+		ctx.find_program('xml2po', var='XML2PO')
+		ctx.env['XML2POFLAGS'] = '-mmallard -p'
+	except ctx.errors.ConfigurationError:
+		pass
 
 def build(bld):
 	if bld.env["XML2PO"]:

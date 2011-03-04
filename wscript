@@ -136,8 +136,9 @@ def configure(conf):
 			"rst2man": "Generate and install man page",
 		}
 	for prog in opt_build_programs:
-		prog_path = conf.find_program(prog, var=prog.replace("-", "_").upper())
-		if not prog_path:
+		try:
+			conf.find_program(prog, var=prog.replace("-", "_").upper())
+		except conf.errors.ConfigurationError:
 			Logs.pprint("YELLOW",
 			             "Optional, allows: %s" % opt_build_programs[prog])
 
@@ -166,8 +167,9 @@ def configure(conf):
 		}
 
 	for prog in opt_programs:
-		prog_path = conf.find_program(prog, var=prog.replace("-", "_").upper())
-		if not prog_path:
+		try:
+			conf.find_program(prog, var=prog.replace("-", "_").upper())
+		except conf.errors.ConfigurationError:
 			Logs.pprint("YELLOW", "Optional, allows: %s" % opt_programs[prog])
 
 	try:
