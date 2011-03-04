@@ -8,7 +8,13 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import httplib
 import urllib
 
+try:
+	import ssl
+except ImportError:
+	ssl = None
+
 from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
+from kupfer.plugin import ssl_support
 from kupfer import pretty
 
 class _ShortLinksService(Leaf):
@@ -22,12 +28,17 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
 	host = None
 	path = None
 	url_key = "url"
+	use_https = False
 
 	def process(self, url):
 		"""Shorten @url or raise ValueError"""
 		query_string = urllib.urlencode({self.url_key : url})
 		try:
-			conn = httplib.HTTPConnection(self.host)
+			if self.use_https and ssl_support.is_supported():
+				conn = ssl_support.VerifiedHTTPSConnection(self.host, timeout=5)
+				pretty.print_debug(__name__, "Connected SSL to", self.host)
+			else:
+				conn = httplib.HTTPConnection(self.host, timeout=5)
 			conn.request("GET", self.path+query_string)
 			resp = conn.getresponse()
 			if resp.status != 200:
@@ -37,7 +48,7 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
 			result = resp.read()
 			return result.strip()
 
-		except (httplib.HTTPException, ValueError) as exc:
+		except (httplib.HTTPException, IOError, ValueError) as exc:
 			raise ValueError(exc)
 		return _('Error')
 
@@ -97,6 +108,16 @@ class BitLy(_GETService):
 	def __init__(self):
 		_ShortLinksService.__init__(self, u'Bit.ly')
 
+class BitLySSL(BitLy):
+	host = 'api-ssl.bitly.com'
+	use_https = True
+
+	def __init__(self):
+		_ShortLinksService.__init__(self, u'Bit.ly (HTTPS)')
+	def process(self, url):
+		resp = BitLy.process(self, url)
+		return resp.replace("http://bit.ly", "https://bit.ly")
+
 
 class ShortenLinks(Action):
 	''' Shorten links with selected engine '''
@@ -139,6 +160,8 @@ class ServicesSource(Source):
 		yield IsGd()
 		yield VGd()
 		yield BitLy()
+		if ssl:
+			yield BitLySSL()
 
 	def should_sort_lexically(self):
 		return True
