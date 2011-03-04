@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-02 19:08+0100\n"
+"POT-Creation-Date: 2011-03-05 17:46+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -594,11 +594,17 @@ msgstr "Kör (Hämta utdata)"
 msgid "Run program and return its output"
 msgstr "Kör program och returnera dess utdata"
 
-msgid "Send to Command..."
+msgid "Pass to Command..."
 msgstr "Skicka till kommando..."
 
+msgid "Run program with object as an additional parameter"
+msgstr "Kör program och skicka objektet som sista parameter"
+
+msgid "Send to Command..."
+msgstr "Skriv till kommando..."
+
 msgid "Run program and supply text on the standard input"
-msgstr "Kör program och skicka text på std. in"
+msgstr "Kör program och skriv text på std. in"
 
 msgid "Filter through Command..."
 msgstr "Filtrera genom kommando..."
@@ -1731,6 +1737,12 @@ msgstr "Förkorta med..."
 
 msgid "Services"
 msgstr "Service"
+
+msgid "Show QRCode"
+msgstr "Visa QRCode"
+
+msgid "Display text as QRCode in a window"
+msgstr "Visa text som QRCode i ett fönster"
 
 #. -*- coding: UTF-8 -*-
 msgid "Skype"

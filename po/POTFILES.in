@@ -94,6 +94,7 @@ kupfer/plugin/rst.py
 kupfer/plugin/screen.py
 kupfer/plugin/services.py
 kupfer/plugin/shorten_links.py
+kupfer/plugin/show_qrcode.py
 kupfer/plugin/skype.py
 kupfer/plugin/ssh_hosts.py
 kupfer/plugin_support.py
