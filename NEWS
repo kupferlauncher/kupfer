@@ -21,7 +21,8 @@ Not Released Yet
 * *OpenOffice*: Support LibreOffice too (Karol Będkowski)
 * Fix "Y2011 bug" where the time parameter overflowed INT32 in keybinder
 * *Shorten Links*: Use only services with stable API, added and removed
-  services.
+  services, including Bit.ly over HTTPS
+* *Google Search*: Prefer connection over HTTPS
 * Fix bug if evolution address book is missing (Luca Falavigna)
   (:lp:`691305`)
 * Fix bug with integer division (Francesco Marella)
