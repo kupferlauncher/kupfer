@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 
-__kupfer_name__ = _("Gwibber")
+__kupfer_name__ = _("Gwibber (Simple)")
 __kupfer_actions__ = (
 		"SendUpdate",
 	)
