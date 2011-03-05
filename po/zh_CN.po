@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2010-12-10 23:24+0000\n"
-"PO-Revision-Date: 2011-01-14 14:42+0800\n"
-"Last-Translator: du baodao <centerpoint@139.com>\n"
+"POT-Creation-Date: 2011-03-04 16:26+0000\n"
+"PO-Revision-Date: 2011-03-05 15:03+0800\n"
+"Last-Translator: Yinghua Wang <wantinghard@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -525,9 +525,13 @@ msgstr "运行"
 msgid "Perform command"
 msgstr "执行命令"
 
+#: ../kupfer/obj/objects.py:387
+msgid "(Empty Text)"
+msgstr "(空文本)"
+
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:401
+#: ../kupfer/obj/objects.py:403
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -535,7 +539,7 @@ msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d 行) ”%(text)s“"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
+#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:248
 #, python-format
 msgid "%s et. al."
 msgstr "%s 等"
@@ -732,21 +736,41 @@ msgstr "清除"
 msgid "Remove all recent clipboards"
 msgstr "清除所有最近的剪贴板"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:75
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:203
 msgid "Shell Commands"
 msgstr "命令行"
 
-#: ../kupfer/plugin/commands.py:4 ../kupfer/plugin/commands.py:98
+#: ../kupfer/plugin/commands.py:9 ../kupfer/plugin/commands.py:226
 msgid "Run commandline programs"
 msgstr "运行命令行程序"
 
-#: ../kupfer/plugin/commands.py:28
+#: ../kupfer/plugin/commands.py:71
 msgid "Run (Get Output)"
 msgstr "运行(获得输出)"
 
-#: ../kupfer/plugin/commands.py:50
+#: ../kupfer/plugin/commands.py:85
 msgid "Run program and return its output"
 msgstr "运行程序并返回它的结果"
+
+#: ../kupfer/plugin/commands.py:89
+msgid "Pass to Command..."
+msgstr "传递给命令..."
+
+#: ../kupfer/plugin/commands.py:130
+msgid "Run program with object as an additional parameter"
+msgstr "以对象为附加参数运行程序"
+
+#: ../kupfer/plugin/commands.py:135
+msgid "Send to Command..."
+msgstr "发送到命令..."
+
+#: ../kupfer/plugin/commands.py:168 ../kupfer/plugin/commands.py:178
+msgid "Run program and supply text on the standard input"
+msgstr "运行程序并在标准输出上提供文本反馈"
+
+#: ../kupfer/plugin/commands.py:172
+msgid "Filter through Command..."
+msgstr "筛选命令..."
 
 #: ../kupfer/plugin/dictionary.py:1
 msgid "Dictionary"
@@ -986,124 +1010,124 @@ msgstr "昨天，%s"
 msgid "Last updated %s"
 msgstr "上次更新 %s"
 
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:389
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:398
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:423
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:432
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "播放，新增音轨，浏览音乐库"
 
-#: ../kupfer/plugin/rhythmbox.py:22
+#: ../kupfer/plugin/rhythmbox.py:23
 msgid "Include artists in top level"
 msgstr "把艺术家放到顶端"
 
-#: ../kupfer/plugin/rhythmbox.py:28
+#: ../kupfer/plugin/rhythmbox.py:29
 msgid "Include albums in top level"
 msgstr "把专辑放到顶端"
 
-#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
+#: ../kupfer/plugin/rhythmbox.py:35 ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "把歌曲放到顶端"
 
-#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
+#: ../kupfer/plugin/rhythmbox.py:64 ../kupfer/plugin/rhythmbox.py:132
 #: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "播放"
 
-#: ../kupfer/plugin/rhythmbox.py:67
+#: ../kupfer/plugin/rhythmbox.py:68
 msgid "Resume playback in Rhythmbox"
 msgstr "恢复 Rhythmbox 播放"
 
-#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
+#: ../kupfer/plugin/rhythmbox.py:74 ../kupfer/plugin/audacious.py:102
 #: ../kupfer/plugin/virtualbox/__init__.py:45
 msgid "Pause"
 msgstr "暂停"
 
-#: ../kupfer/plugin/rhythmbox.py:77
+#: ../kupfer/plugin/rhythmbox.py:78
 msgid "Pause playback in Rhythmbox"
 msgstr "暂停 Rhythmbox 播放"
 
-#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
+#: ../kupfer/plugin/rhythmbox.py:84 ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "下一首"
 
-#: ../kupfer/plugin/rhythmbox.py:87
+#: ../kupfer/plugin/rhythmbox.py:88
 msgid "Jump to next track in Rhythmbox"
 msgstr "跳到下一首歌曲"
 
-#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
+#: ../kupfer/plugin/rhythmbox.py:94 ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "前一首"
 
-#: ../kupfer/plugin/rhythmbox.py:97
+#: ../kupfer/plugin/rhythmbox.py:98
 msgid "Jump to previous track in Rhythmbox"
 msgstr "跳到前一首歌曲"
 
-#: ../kupfer/plugin/rhythmbox.py:103
+#: ../kupfer/plugin/rhythmbox.py:104
 msgid "Show Playing"
 msgstr "显示正在播放"
 
-#: ../kupfer/plugin/rhythmbox.py:107
+#: ../kupfer/plugin/rhythmbox.py:108
 msgid "Tell which song is currently playing"
 msgstr "显示正在播放的歌曲"
 
-#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
+#: ../kupfer/plugin/rhythmbox.py:116 ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "清除队列"
 
-#: ../kupfer/plugin/rhythmbox.py:155
+#: ../kupfer/plugin/rhythmbox.py:156
 msgid "Play tracks in Rhythmbox"
 msgstr "在 Rhythmbox 里面播放音轨"
 
-#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
+#: ../kupfer/plugin/rhythmbox.py:162 ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "打开"
 
-#: ../kupfer/plugin/rhythmbox.py:172
+#: ../kupfer/plugin/rhythmbox.py:173
 msgid "Add tracks to the play queue"
 msgstr "新增音轨到播放队列"
 
 #. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:195
+#: ../kupfer/plugin/rhythmbox.py:196
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr "艺术家 %(artist)s 专辑 %(album)s"
 
 #. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:250
+#: ../kupfer/plugin/rhythmbox.py:251
 #, python-format
 msgid "by %s"
 msgstr "艺术家 %s"
 
 #. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:301
+#: ../kupfer/plugin/rhythmbox.py:310
 #, python-format
 msgid "Tracks by %s"
 msgstr "音轨 %s "
 
-#: ../kupfer/plugin/rhythmbox.py:311
+#: ../kupfer/plugin/rhythmbox.py:320
 #: ../kupfer/plugin/google_picasa/__init__.py:444
 msgid "Albums"
 msgstr "专辑"
 
-#: ../kupfer/plugin/rhythmbox.py:321
+#: ../kupfer/plugin/rhythmbox.py:330
 msgid "Music albums in Rhythmbox Library"
 msgstr "Rhythmbox 媒体库中的音乐专辑"
 
-#: ../kupfer/plugin/rhythmbox.py:332
+#: ../kupfer/plugin/rhythmbox.py:341
 msgid "Artists"
 msgstr "艺术家"
 
-#: ../kupfer/plugin/rhythmbox.py:342
+#: ../kupfer/plugin/rhythmbox.py:351
 msgid "Music artists in Rhythmbox Library"
 msgstr "媒体库中的音乐艺术家"
 
-#: ../kupfer/plugin/rhythmbox.py:369
+#: ../kupfer/plugin/rhythmbox.py:378
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../kupfer/plugin/rhythmbox.py:379
+#: ../kupfer/plugin/rhythmbox.py:388
 msgid "Songs in Rhythmbox library"
 msgstr "媒体库中的歌曲"
 
@@ -1148,21 +1172,21 @@ msgstr "XFCE 会话管理器"
 msgid "Special items and actions for XFCE environment"
 msgstr "XFCE 环境的特殊项目和操作"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
-#: ../kupfer/plugin/show_text.py:22
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
+#: ../kupfer/plugin/show_text.py:21
 msgid "Show Text"
 msgstr "显示文本"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
-#: ../kupfer/plugin/show_text.py:43
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:27
+#: ../kupfer/plugin/show_text.py:45
 msgid "Display text in a window"
 msgstr "在窗口中显示文本"
 
-#: ../kupfer/plugin/show_text.py:34
+#: ../kupfer/plugin/show_text.py:33
 msgid "Large Type"
 msgstr "大字体显示"
 
-#: ../kupfer/plugin/show_text.py:51
+#: ../kupfer/plugin/show_text.py:53
 msgid "Show Notification"
 msgstr "在系统通知区域显示图标"
 
@@ -1569,7 +1593,7 @@ msgstr "在 Devhelp 中查找"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:118
 msgid "Evolution contacts"
 msgstr "Evolution 联系人"
 
@@ -1691,7 +1715,7 @@ msgstr "在 GMail 中编写新邮件"
 msgid "Open web browser and compose new email in GMail"
 msgstr "打开浏览器并在 Gmail 中创作一封新的电子邮件"
 
-#: ../kupfer/plugin/gmail/__init__.py:176
+#: ../kupfer/plugin/gmail/__init__.py:177
 msgid "Contacts from Google services (Gmail)"
 msgstr "来自 Google 服务(Gmail) 的联系人"
 
@@ -1771,7 +1795,7 @@ msgstr "Picasa 相册"
 msgid "User albums in Picasa"
 msgstr "在 Picasa 中使用相册"
 
-#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:23
+#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:30
 msgid "Google Search"
 msgstr "Google 搜索"
 
@@ -1779,19 +1803,19 @@ msgstr "Google 搜索"
 msgid "Search Google with results shown directly"
 msgstr "搜索 Google 并直接显示结果"
 
-#: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:47
 #: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
 #: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
 #, python-format
 msgid "Results for \"%s\""
 msgstr "“%s”的结果"
 
-#: ../kupfer/plugin/google_search.py:67
+#: ../kupfer/plugin/google_search.py:91
 #, python-format
 msgid "Show More Results For \"%s\""
 msgstr "显示更多“%s”的结果"
 
-#: ../kupfer/plugin/google_search.py:68
+#: ../kupfer/plugin/google_search.py:92
 #, python-format
 msgid "%s total found"
 msgstr "总共发现：%s"
@@ -1912,9 +1936,23 @@ msgstr "创建任务"
 msgid "Create new task in Getting Things GNOME"
 msgstr "在 Getting Things GNOME 中创建新任务"
 
+#: ../kupfer/plugin/gwibber.py:3
+msgid "Gwibber"
+msgstr "Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:7
+msgid "Send updates via the microblogging client Gwibber"
+msgstr "通过微博客户端 Gwibber(硅博)发送更新"
+
+#: ../kupfer/plugin/gwibber.py:46
+msgid "Send Update"
+msgstr "发送更新"
+
+#: ../kupfer/plugin/gwibber.py:65
+msgid "Unable to activate Gwibber service"
+msgstr "无法激活 Gwibber 服务"
+
 #: ../kupfer/plugin/higherorder.py:1
-#, fuzzy
-#| msgid "File Actions"
 msgid "Higher-order Actions"
 msgstr "高优先级操作"
 
@@ -2070,16 +2108,16 @@ msgstr[1] "%s (%d 个字符)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
-msgid "OpenOffice"
-msgstr "OpenOffice"
+msgid "OpenOffice / LibreOffice"
+msgstr "OpenOffice / LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:119
-msgid "Recently used documents in OpenOffice"
-msgstr "OpenOffice 最近使用的文档"
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
+msgid "Recently used documents in OpenOffice/LibreOffice"
+msgstr "OpenOffice/LibreOffice 最近使用的文档"
 
-#: ../kupfer/plugin/openoffice.py:61
-msgid "OpenOffice Recent Items"
-msgstr "OpenOffice 最近项目"
+#: ../kupfer/plugin/openoffice.py:74
+msgid "OpenOffice/LibreOffice Recent Items"
+msgstr "OpenOffice/LibreOffice 最近项目"
 
 #: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:23
 msgid "Opera Bookmarks"
@@ -2222,16 +2260,15 @@ msgstr "缩短的链接"
 msgid "Create short aliases of long URLs"
 msgstr "为长 URLs 创建短别名"
 
-#: ../kupfer/plugin/shorten_links.py:55 ../kupfer/plugin/shorten_links.py:108
-#: ../kupfer/plugin/shorten_links.py:112
+#: ../kupfer/plugin/shorten_links.py:53
 msgid "Error"
 msgstr "错误"
 
-#: ../kupfer/plugin/shorten_links.py:119
+#: ../kupfer/plugin/shorten_links.py:126
 msgid "Shorten With..."
 msgstr "取短方式..."
 
-#: ../kupfer/plugin/shorten_links.py:146
+#: ../kupfer/plugin/shorten_links.py:156
 msgid "Services"
 msgstr "服务"
 
@@ -2711,3 +2748,6 @@ msgstr "Zim 页面"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Zim 笔记本中保存的页面"
+
+#~ msgid "OpenOffice"
+#~ msgstr "OpenOffice"
