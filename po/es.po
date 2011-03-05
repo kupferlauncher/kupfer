@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-01 21:49+0000\n"
-"PO-Revision-Date: 2011-03-02 10:43+0100\n"
+"POT-Creation-Date: 2011-03-05 10:47+0000\n"
+"PO-Revision-Date: 2011-03-05 11:50+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -538,7 +538,6 @@ msgid "Perform command"
 msgstr "Ejecutar comando"
 
 #: ../kupfer/obj/objects.py:387
-#| msgid "Empty File"
 msgid "(Empty Text)"
 msgstr "(Texto vacío)"
 
@@ -552,7 +551,7 @@ msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d líneas) \"%(text)s\""
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
+#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:248
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -749,31 +748,40 @@ msgstr "Limpiar"
 msgid "Remove all recent clipboards"
 msgstr "Limpiar todos los elementos recientes en el portapapeles"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:145
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:203
 msgid "Shell Commands"
 msgstr "Comandos de consola"
 
-#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:168
+#: ../kupfer/plugin/commands.py:9 ../kupfer/plugin/commands.py:226
 msgid "Run commandline programs"
 msgstr "Ejecutar programas de consola"
 
-#: ../kupfer/plugin/commands.py:59
+#: ../kupfer/plugin/commands.py:71
 msgid "Run (Get Output)"
 msgstr "Ejecutar (obtener salida)"
 
-#: ../kupfer/plugin/commands.py:73
+#: ../kupfer/plugin/commands.py:85
 msgid "Run program and return its output"
 msgstr "Ejecutar un programa y obtener su salida"
 
-#: ../kupfer/plugin/commands.py:77
+#: ../kupfer/plugin/commands.py:89
+#| msgid "Send to Command..."
+msgid "Pass to Command..."
+msgstr "Enviar a un comando…"
+
+#: ../kupfer/plugin/commands.py:130
+msgid "Run program with object as an additional parameter"
+msgstr "Ejecutar programa con un objeto como un parámetro adicional"
+
+#: ../kupfer/plugin/commands.py:135
 msgid "Send to Command..."
 msgstr "Enviar a un comando…"
 
-#: ../kupfer/plugin/commands.py:110 ../kupfer/plugin/commands.py:120
+#: ../kupfer/plugin/commands.py:168 ../kupfer/plugin/commands.py:178
 msgid "Run program and supply text on the standard input"
 msgstr "Ejecutar programa y proporcionar texto en la salida extándar"
 
-#: ../kupfer/plugin/commands.py:114
+#: ../kupfer/plugin/commands.py:172
 msgid "Filter through Command..."
 msgstr "Filtrar a través de un comando…"
 
@@ -1018,124 +1026,124 @@ msgstr "ayer, %s"
 msgid "Last updated %s"
 msgstr "Última actualización %s"
 
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:389
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:398
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:423
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:432
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "Reproducir, encolar pistas y navegar la biblioteca de música"
 
-#: ../kupfer/plugin/rhythmbox.py:22
+#: ../kupfer/plugin/rhythmbox.py:23
 msgid "Include artists in top level"
 msgstr "Incluir artistas en nivel superior"
 
-#: ../kupfer/plugin/rhythmbox.py:28
+#: ../kupfer/plugin/rhythmbox.py:29
 msgid "Include albums in top level"
 msgstr "Incluir álbum en nivel superior"
 
-#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
+#: ../kupfer/plugin/rhythmbox.py:35 ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "Incluir canciones en nivel superior"
 
-#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
+#: ../kupfer/plugin/rhythmbox.py:64 ../kupfer/plugin/rhythmbox.py:132
 #: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../kupfer/plugin/rhythmbox.py:67
+#: ../kupfer/plugin/rhythmbox.py:68
 msgid "Resume playback in Rhythmbox"
 msgstr "Continuar reproducción en Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
+#: ../kupfer/plugin/rhythmbox.py:74 ../kupfer/plugin/audacious.py:102
 #: ../kupfer/plugin/virtualbox/__init__.py:45
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../kupfer/plugin/rhythmbox.py:77
+#: ../kupfer/plugin/rhythmbox.py:78
 msgid "Pause playback in Rhythmbox"
 msgstr "Pausar reproducción en Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
+#: ../kupfer/plugin/rhythmbox.py:84 ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../kupfer/plugin/rhythmbox.py:87
+#: ../kupfer/plugin/rhythmbox.py:88
 msgid "Jump to next track in Rhythmbox"
 msgstr "Saltar a la pista siguiente en Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
+#: ../kupfer/plugin/rhythmbox.py:94 ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../kupfer/plugin/rhythmbox.py:97
+#: ../kupfer/plugin/rhythmbox.py:98
 msgid "Jump to previous track in Rhythmbox"
 msgstr "Saltar a la pista anterior en Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:103
+#: ../kupfer/plugin/rhythmbox.py:104
 msgid "Show Playing"
 msgstr "Mostrar en reproducción"
 
-#: ../kupfer/plugin/rhythmbox.py:107
+#: ../kupfer/plugin/rhythmbox.py:108
 msgid "Tell which song is currently playing"
 msgstr "Mostrar qué canción se esta reproduciendo"
 
-#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
+#: ../kupfer/plugin/rhythmbox.py:116 ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "Limpiar la cola"
 
-#: ../kupfer/plugin/rhythmbox.py:155
+#: ../kupfer/plugin/rhythmbox.py:156
 msgid "Play tracks in Rhythmbox"
 msgstr "Reproducir pistas en Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
+#: ../kupfer/plugin/rhythmbox.py:162 ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "Encolar"
 
-#: ../kupfer/plugin/rhythmbox.py:172
+#: ../kupfer/plugin/rhythmbox.py:173
 msgid "Add tracks to the play queue"
 msgstr "Añade pistas a la cola de reproducción"
 
 #. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:195
+#: ../kupfer/plugin/rhythmbox.py:196
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr "por %(artist)s de %(album)s"
 
 #. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:250
+#: ../kupfer/plugin/rhythmbox.py:251
 #, python-format
 msgid "by %s"
 msgstr "por %s"
 
 #. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:301
+#: ../kupfer/plugin/rhythmbox.py:310
 #, python-format
 msgid "Tracks by %s"
 msgstr "Pistas por %s"
 
-#: ../kupfer/plugin/rhythmbox.py:311
+#: ../kupfer/plugin/rhythmbox.py:320
 #: ../kupfer/plugin/google_picasa/__init__.py:444
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../kupfer/plugin/rhythmbox.py:321
+#: ../kupfer/plugin/rhythmbox.py:330
 msgid "Music albums in Rhythmbox Library"
 msgstr "Álbumes en la biblioteca de Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:332
+#: ../kupfer/plugin/rhythmbox.py:341
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../kupfer/plugin/rhythmbox.py:342
+#: ../kupfer/plugin/rhythmbox.py:351
 msgid "Music artists in Rhythmbox Library"
 msgstr "Artistas en la biblioteca de Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:369
+#: ../kupfer/plugin/rhythmbox.py:378
 msgid "Songs"
 msgstr "Canciones"
 
-#: ../kupfer/plugin/rhythmbox.py:379
+#: ../kupfer/plugin/rhythmbox.py:388
 msgid "Songs in Rhythmbox library"
 msgstr "Canciones en la biblioteca de Rhythmbox"
 
@@ -1180,21 +1188,21 @@ msgstr "Gestión de la sesión de XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Elementos y acciones especiales para el entorno XFCE"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
-#: ../kupfer/plugin/show_text.py:22
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
+#: ../kupfer/plugin/show_text.py:21
 msgid "Show Text"
 msgstr "Mostrar texto"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
-#: ../kupfer/plugin/show_text.py:43
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:27
+#: ../kupfer/plugin/show_text.py:45
 msgid "Display text in a window"
 msgstr "Mostrar el texto en una ventana"
 
-#: ../kupfer/plugin/show_text.py:34
+#: ../kupfer/plugin/show_text.py:33
 msgid "Large Type"
 msgstr "Tipo grande"
 
-#: ../kupfer/plugin/show_text.py:51
+#: ../kupfer/plugin/show_text.py:53
 msgid "Show Notification"
 msgstr "Mostrar notificación"
 
@@ -1605,7 +1613,7 @@ msgstr "Buscar en Devhelp"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:118
 msgid "Evolution contacts"
 msgstr "Contactos de Evolution"
 
@@ -1727,7 +1735,7 @@ msgstr "Redactar un correo-e nuevo en GMail"
 msgid "Open web browser and compose new email in GMail"
 msgstr "Abrir el navegador y redactar un correo-e nuevo en GMail"
 
-#: ../kupfer/plugin/gmail/__init__.py:176
+#: ../kupfer/plugin/gmail/__init__.py:177
 msgid "Contacts from Google services (Gmail)"
 msgstr "Contactos de los servicios de Google (GMail)"
 
@@ -1807,7 +1815,7 @@ msgstr "Álbumes de Picasa"
 msgid "User albums in Picasa"
 msgstr "Álbumes de usuario en Picasa"
 
-#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:23
+#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:30
 msgid "Google Search"
 msgstr "Google Search"
 
@@ -1815,19 +1823,19 @@ msgstr "Google Search"
 msgid "Search Google with results shown directly"
 msgstr "Buscar en Google mostrando directamente los resultados"
 
-#: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:47
 #: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
 #: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Resultados para «%s»"
 
-#: ../kupfer/plugin/google_search.py:67
+#: ../kupfer/plugin/google_search.py:91
 #, python-format
 msgid "Show More Results For \"%s\""
 msgstr "Mostrar más resultados para «%s»"
 
-#: ../kupfer/plugin/google_search.py:68
+#: ../kupfer/plugin/google_search.py:92
 #, python-format
 msgid "%s total found"
 msgstr "%s encontradas en total"
@@ -2126,12 +2134,10 @@ msgid "OpenOffice / LibreOffice"
 msgstr "OpenOffice / LibreOffice"
 
 #: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
-#| msgid "Recently used documents in OpenOffice"
 msgid "Recently used documents in OpenOffice/LibreOffice"
 msgstr "Documentos usados recientemente en OpenOffice/LibreOffice"
 
 #: ../kupfer/plugin/openoffice.py:74
-#| msgid "OpenOffice Recent Items"
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "Elementos recientes de OpenOffice/LibreOffice"
 
@@ -2277,15 +2283,15 @@ msgstr "Acortar enlaces"
 msgid "Create short aliases of long URLs"
 msgstr "Crear alias cortos para URL largas"
 
-#: ../kupfer/plugin/shorten_links.py:42
+#: ../kupfer/plugin/shorten_links.py:53
 msgid "Error"
 msgstr "Error"
 
-#: ../kupfer/plugin/shorten_links.py:105
+#: ../kupfer/plugin/shorten_links.py:126
 msgid "Shorten With..."
 msgstr "Acortar con…"
 
-#: ../kupfer/plugin/shorten_links.py:135
+#: ../kupfer/plugin/shorten_links.py:156
 msgid "Services"
 msgstr "Servicios"
 
@@ -2356,7 +2362,8 @@ msgid ""
 "urxvt)."
 msgstr ""
 "La opción que hace que el terminal ejecute todo siguiéndolo dentro de la "
-"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y urxvt)."
+"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y "
+"urxvt)."
 
 #: ../kupfer/plugin/ssh_hosts.py:55
 msgid "SSH host"
