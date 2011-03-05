@@ -11,6 +11,8 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import urllib2
 import time
 
+raise ImportError("This plugin is no longer supported due to Twitter API Changes")
+
 import twitter as twitter
 
 from kupfer import icons, pretty
