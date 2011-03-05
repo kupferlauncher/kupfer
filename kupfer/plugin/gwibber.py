@@ -1,16 +1,16 @@
 # -*- coding: UTF-8 -*-
 from __future__ import absolute_import
-__kupfer_name__ = _("Gwibber (K)")
+__kupfer_name__ = _("Gwibber")
 __kupfer_sources__ = ("HomeMessagesSource", "AccountsSource", "StreamsSource")
 __kupfer_actions__ = ("SendMessage", "SendMessageBy", "SendMessageTo")
-__description__ = _("Microblogging with Gwibber. Allow to send and receiving "
-		"messages from some social networks, like Twitter, Buzz etc. "
-		"Require gwibber-service package.")
+__description__ = _("Microblogging with Gwibber. Allows sending and receiving "
+                    "messages from social networks like Twitter, Identi.ca etc."
+                    "Requires the package 'gwibber-service'.")
 __version__ = "2011-03-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import dbus
 import time
+import locale
 try:
 	import cjson
 	json_decoder = cjson.decode
@@ -20,6 +20,7 @@ except ImportError:
 	json_decoder = json.loads
 	json_encoder = json.dumps
 
+import dbus
 # quick test is gwibber-service installed
 import gwibber.microblog
 
@@ -41,7 +42,7 @@ DBUS_GWIBBER_SEARCH = ('com.Gwibber.Search', '/com/gwibber/Search')
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		'key': 'load_limit',
-		'label': _("Max messages to show"),
+		'label': _("Maximum messages to show"),
 		'type': int,
 		'value': 25,
 	}
@@ -97,8 +98,8 @@ class Account(Leaf):
 				'user': account.get('site_display_name') or account['username'],
 				'service': account['service']}
 
-	def __repr__(self):
-		return 'Message: %r' % repr(self.__dict__)
+	def repr_key(self):
+		return self.object
 
 	def get_icon_name(self):
 		return 'gwibber'
@@ -118,8 +119,8 @@ class Stream(Leaf):
 		Leaf.__init__(self, id_, name)
 		self.account = account
 
-	def __repr__(self):
-		return 'Message: %r' % repr(self.__dict__)
+	def repr_key(self):
+		return self.object
 
 	def get_icon_name(self):
 		return 'gwibber'
@@ -130,6 +131,9 @@ class Stream(Leaf):
 	def content_source(self, alternate=False):
 		return StreamMessagesSource(self)
 
+def unicode_strftime(fmt, time_tuple=None):
+	enc = locale.getpreferredencoding(False)
+	return unicode(time.strftime(fmt, time_tuple), enc, "replace")
 
 class Message(TextLeaf):
 	def __init__(self, text, msg, service):
@@ -140,13 +144,13 @@ class Message(TextLeaf):
 				else msg['sender']['name']
 		self._service_features = list(service['features'])
 		self._is_my_msg = bool(msg['sender']['is_me'])
-		sender = str(msg['sender'].get('name') or msg['sender']['nick'])
-		date = time.strftime('%x %X', time.localtime(msg['time']))
+		sender = unicode(msg['sender'].get('name') or msg['sender']['nick'])
+		date = unicode_strftime('%c', time.localtime(msg['time']))
 		self._description = _("%(user)s %(when)s on %(where)s") % {
 				'user': sender, 'when': date, 'where': service['name']}
 
-	def __repr__(self):
-		return 'Message: %r' % repr(self.__dict__)
+	def repr_key(self):
+		return self.id
 
 	def get_actions(self):
 		service_features = self._service_features
@@ -341,7 +345,7 @@ class SendPrivate(Action):
 class Retweet(Action):
 	def __init__(self, retweet_to_all=False):
 		self._retweet_to_all = retweet_to_all
-		name = _("Retweet") if retweet_to_all else _("Retweet to...")
+		name = _("Retweet") if retweet_to_all else _("Retweet To...")
 		Action.__init__(self, name)
 
 	def activate(self, leaf, iobj=None):
