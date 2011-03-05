@@ -1,14 +1,14 @@
 # Polish translations for the kupfer package
 # Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 # This file is distributed under the same license as the kupfer package. (GPLv3)
-# Maciej Kwiatkowski <kfiadeg@gmail.com>, 2009, 2010.
+# Maciej Kwiatkowski <kfiadeg@gmail.com>, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-24 13:29+0200\n"
-"PO-Revision-Date: 2010-08-27 12:14+0200\n"
+"POT-Creation-Date: 2011-03-05 21:44+0100\n"
+"PO-Revision-Date: 2011-03-05 22:07+0100\n"
 "Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: \n"
@@ -423,6 +423,9 @@ msgstr "Uruchom"
 msgid "Perform command"
 msgstr "Wykonuje polecenie"
 
+msgid "(Empty Text)"
+msgstr "(Brak tekstu)"
+
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
 #, python-format
@@ -595,6 +598,21 @@ msgstr "Uruchom (pobierz wynik)"
 
 msgid "Run program and return its output"
 msgstr "Uruchamia program i zwraca jego wynik"
+
+msgid "Pass to Command..."
+msgstr "Prześlij do polecenia..."
+
+msgid "Run program with object as an additional parameter"
+msgstr "Uruchomienie programu z obiektem jako parametr"
+
+msgid "Send to Command..."
+msgstr "Wyślij do polecenia..."
+
+msgid "Run program and supply text on the standard input"
+msgstr "Uruchamia program i przesyła tekst do standardowego wejścia"
+
+msgid "Filter through Command..."
+msgstr "Filtruj przez polecenie..."
 
 msgid "Dictionary"
 msgstr "Słownik"
@@ -1475,6 +1493,115 @@ msgstr "Utwórz zadanie"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Tworzy nowe zadanie w Getting Things GNOME"
 
+msgid "Gwibber"
+msgstr "Gwibber"
+
+msgid ""
+"Microblogging with Gwibber. Allows sending and receiving messages from "
+"social networks like Twitter, Identi.ca etc.Requires the package 'gwibber-"
+"service'."
+msgstr ""
+"Mikroblogowanie z Gwibberem. Wtyczka pozwala wysyłać i odbierać wiadomości z "
+"sieci społecznych takich jak Twitter, Identi.ca itd. Wymaga pakietu  "
+"'gwibber-service'."
+
+msgid "Maximum messages to show"
+msgstr "Maksymalna ilość wiadomości do wyświetlania"
+
+#, python-format
+msgid "%(user)s on %(service)s"
+msgstr "%(user)s w %(service)s"
+
+#, python-format
+msgid "%(user)s %(when)s on %(where)s"
+msgstr "%(user)s %(when)s w %(where)s"
+
+msgid "Send Message"
+msgstr "Wyślij wiadomość"
+
+msgid "Send message to all Gwibber accounts"
+msgstr "Wysłanie wiadomości do wszystkich kont Gwibbera"
+
+msgid "Send Message To..."
+msgstr "Wyślij wiadomość do..."
+
+msgid "Send message to one Gwibber account"
+msgstr "Wysłanie wiadomości do jednego konta Gwibbera"
+
+msgid "Send Message..."
+msgstr "Wyślij wiadomość..."
+
+msgid "Send message to selected Gwibber account"
+msgstr "Wysłanie wiadomości do wybranego konta Gwibbera"
+
+msgid "Reply"
+msgstr "Odpowiedz"
+
+msgid "Delete Message"
+msgstr "Usuń wiadomość"
+
+msgid "Send Private Message"
+msgstr "Wyślij bezpośrednią wiadomość"
+
+msgid "Send direct message to user"
+msgstr "Wysyła bezpośrednią wiadomość do użytkownika"
+
+msgid "Retweet"
+msgstr "Prześlij dalej"
+
+msgid "Retweet To..."
+msgstr "Prześlij dalej do..."
+
+msgid "Retweet message to all Gwibber accounts"
+msgstr "Przesyła wiadomość do wszystkich kont Gwibbera"
+
+msgid "Retweet message to one Gwibber account"
+msgstr "Przesyła wiadomość do jednego konta Gwibbera"
+
+msgid "Open in Browser"
+msgstr "Otwórz w przeglądarce"
+
+msgid "Open message in default web browser"
+msgstr "Otwiera wiadomość za pomocą domyślnej przeglądarki"
+
+msgid "Gwibber Accounts"
+msgstr "Konta Gwibbera"
+
+msgid "Accounts configured in Gwibber"
+msgstr "Konta skonfigurowane w Gwibberze"
+
+msgid "Gwibber Messages"
+msgstr "Wiadomości Gwibbera"
+
+msgid "Recent messages received by Gwibber"
+msgstr "Ostatnie wiadomości odebrane przez Gwibbera"
+
+#, python-format
+msgid "Gwibber Messages for %s"
+msgstr "Wiadomości Gwibbera dla %s"
+
+msgid "Gwibber Streams"
+msgstr "Strumienie Gwibbera"
+
+msgid "Streams configured in Gwibber"
+msgstr "Strumienie skonfigurowane w Gwibberze"
+
+#, python-format
+msgid "Gwibber Messages in %s"
+msgstr "Wiadomości Gwibbera w %s"
+
+msgid "Gwibber (Simple)"
+msgstr "Gwibber (prosty)"
+
+msgid "Send updates via the microblogging client Gwibber"
+msgstr "Wysyłanie aktualizacji przez klienta mikroblogów - Gwibbera."
+
+msgid "Send Update"
+msgstr "Wyślij aktualizację"
+
+msgid "Unable to activate Gwibber service"
+msgstr "Nie można aktywować serwisu Gwibbera"
+
 msgid "Higher-order Actions"
 msgstr "Wysoko-poziomowe akcje"
 
@@ -1596,14 +1723,14 @@ msgstr[1] "%s (%d znaki)"
 msgstr[2] "%s (%d znaków)"
 
 #. -*- coding: UTF-8 -*-
-msgid "OpenOffice"
-msgstr "OpenOffice"
+msgid "OpenOffice / LibreOffice"
+msgstr "OpenOffice / LibreOffice"
 
-msgid "Recently used documents in OpenOffice"
-msgstr "Ostatnio używane dokumenty OpenOffice"
+msgid "Recently used documents in OpenOffice/LibreOffice"
+msgstr "Ostatnio używane dokumenty OpenOffice/LibreOffice"
 
-msgid "OpenOffice Recent Items"
-msgstr "Ostatnie dokumenty OpenOffice"
+msgid "OpenOffice/LibreOffice Recent Items"
+msgstr "Ostatnie dokumenty OpenOffice/LibreOffice"
 
 msgid "Opera Bookmarks"
 msgstr "Zakładki Opery"
@@ -1635,9 +1762,6 @@ msgstr "Dostęp do kontaktów Pidgina"
 
 msgid "Show offline contacts"
 msgstr "Wyświetlanie kontaktów offline"
-
-msgid "Send Message..."
-msgstr "Wyślij wiadomość..."
 
 msgid "Pidgin Contacts"
 msgstr "Kontakty Pidgina"
@@ -1721,6 +1845,12 @@ msgstr "Skróć używając..."
 
 msgid "Services"
 msgstr "Usługi"
+
+msgid "Show QRCode"
+msgstr "Wyświetl QRCode"
+
+msgid "Display text as QRCode in a window"
+msgstr "Wyświetla tekst jako QRCode w oknie"
 
 #. -*- coding: UTF-8 -*-
 msgid "Skype"
@@ -2089,6 +2219,9 @@ msgstr "Strony Zima"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
 
+#~ msgid "OpenOffice"
+#~ msgstr "OpenOffice"
+
 #~ msgid "<i>Plugins may not be unloaded at runtime</i>"
 #~ msgstr ""
 #~ "<i>Wtyczki mogą pozostać załadowane do czasu ponownego uruchomienia</i>"
@@ -2159,9 +2292,6 @@ msgstr "Strony w notatnikach Zima"
 #~ msgid "All friends timeline"
 #~ msgstr "Ostatnie twitty przyjaciela."
 
-#~ msgid "Post Direct Message"
-#~ msgstr "Wyślij wiadomość bezpośrednią"
-
 #~ msgid "Friend Statuses"
 #~ msgstr "Statusy przyjaciela"
 
@@ -2173,9 +2303,6 @@ msgstr "Strony w notatnikach Zima"
 
 #~ msgid "Open with %s"
 #~ msgstr "Otwórz za pomocą %s"
-
-#~ msgid "Open with default viewer"
-#~ msgstr "Otwórz za pomocą domyślnej przeglądarki"
 
 #~ msgid "Recently used documents and nautilus places"
 #~ msgstr "Ostatnio używane dokumenty i miejsca Nautiliusa"
