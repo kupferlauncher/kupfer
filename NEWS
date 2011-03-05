@@ -9,20 +9,26 @@ Not Released Yet
 
 * Use and require **Waf 1.6**, which supports building using either Python 3
   or Python 2.6+. Kupfer itself still uses Python 2.6+ only.
-* Add *Gwibber* plugin
+* Add *Gwibber* plugin that allows integration with Twitter, Identi.ca, Buzz
+  etc. (Karol Będkowski)
+* Remove the plugin *Twitter* since it is incompatible and has no updated
+  implementation.
 * Add *Show QRCode* plugin by Thomas Renard (:lp:`611162`)
 * Periodically save data from plugins so it's not lost if Kupfer can't exit
   cleanly at logout
 * *Commands*: Add actions *Pass to Command*, *Filter through Command*, *Send
   to Command* which add a lot of shell script-related power to Kupfer
 * *Search the Web*: Fix bug in OpenSearch parser (:lp:`682476`)
+* *VirtualBox*: Support vboxapi4 (Karol Będkowski)
 * *Thunderbird*: Fix problems in the mork parser (Karol Będkowski)
   (:lp:`694314`)
 * *OpenOffice*: Support LibreOffice too (Karol Będkowski)
 * Fix "Y2011 bug" where the time parameter overflowed INT32 in keybinder
 * *Shorten Links*: Use only services with stable API, added and removed
   services, including Bit.ly over HTTPS
-* *Google Search*: Prefer connection over HTTPS
+* *Google Search* and *Google Translate*: Prefer connection over HTTPS.
+  Kupfer does check that the certificate is valid using the Python stdlib's
+  ``ssl`` module (subject to its limitations).
 * Fix bug if evolution address book is missing (Luca Falavigna)
   (:lp:`691305`)
 * Fix bug with integer division (Francesco Marella)
@@ -38,9 +44,10 @@ Not Released Yet
   + (da) Joe Hansen
   + (es) Daniel Mustieles
   + (gl) Marcos Lans
+  + (pl) Karol Będkowski
   + (sl) Andrej Žnidaršič
   + (sv) Ulrik
-  + (zh_CN) Aron Xu
+  + (zh_CN) Aron Xu, Yinghua Wang
 
 kupfer v203
 -----------
