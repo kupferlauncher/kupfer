@@ -17,6 +17,7 @@ import socket
 
 from kupfer.objects import Source, Action, TextLeaf, Leaf, UrlLeaf
 from kupfer import icons, utils, pretty
+from kupfer.plugin import ssl_support
 
 
 try:
@@ -60,9 +61,13 @@ def _translate(text, lang):
 		"adjective": _("adjective"),
 	}
 	try:
-		conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST)
-		conn.connect()
-		conn.sock.settimeout(10) # set timeout to 10 sec
+		if ssl_support.is_supported():
+			conn = ssl_support.VerifiedHTTPSConnection(_GOOGLE_TRANSLATE_HOST,
+			                                           timeout=5)
+			pretty.print_debug(__name__, "Connected to",
+			                   _GOOGLE_TRANSLATE_HOST, "using SSL")
+		else:
+			conn = httplib.HTTPConnection(_GOOGLE_TRANSLATE_HOST, timeout=5)
 		conn.request("POST", _GOOGLE_TRANSLATE_PATH, query_param, _HEADER)
 		resp = conn.getresponse()
 		if resp.status != 200:
