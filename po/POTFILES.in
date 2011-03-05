@@ -52,6 +52,7 @@ kupfer/plugin/rhythmbox.py
 kupfer/plugin/session_gnome.py
 kupfer/plugin/session_support.py
 kupfer/plugin/session_xfce.py
+kupfer/plugin/show_qrcode.py 
 kupfer/plugin/show_text.py
 kupfer/plugin/trash.py
 kupfer/plugin/triggers.py
