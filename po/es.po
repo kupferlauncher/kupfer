@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-02-28 19:01+0000\n"
-"PO-Revision-Date: 2011-03-01 12:08+0100\n"
+"POT-Creation-Date: 2011-03-01 21:49+0000\n"
+"PO-Revision-Date: 2011-03-02 10:43+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -537,9 +537,14 @@ msgstr "Ejecutar"
 msgid "Perform command"
 msgstr "Ejecutar comando"
 
+#: ../kupfer/obj/objects.py:387
+#| msgid "Empty File"
+msgid "(Empty Text)"
+msgstr "(Texto vacío)"
+
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:401
+#: ../kupfer/obj/objects.py:403
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -744,33 +749,31 @@ msgstr "Limpiar"
 msgid "Remove all recent clipboards"
 msgstr "Limpiar todos los elementos recientes en el portapapeles"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:157
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:145
 msgid "Shell Commands"
 msgstr "Comandos de consola"
 
-#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:180
+#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:168
 msgid "Run commandline programs"
 msgstr "Ejecutar programas de consola"
 
-#: ../kupfer/plugin/commands.py:32
+#: ../kupfer/plugin/commands.py:59
 msgid "Run (Get Output)"
 msgstr "Ejecutar (obtener salida)"
 
-#: ../kupfer/plugin/commands.py:54
+#: ../kupfer/plugin/commands.py:73
 msgid "Run program and return its output"
 msgstr "Ejecutar un programa y obtener su salida"
 
-#: ../kupfer/plugin/commands.py:58
-#| msgid "Send To..."
+#: ../kupfer/plugin/commands.py:77
 msgid "Send to Command..."
 msgstr "Enviar a un comando…"
 
-#: ../kupfer/plugin/commands.py:92 ../kupfer/plugin/commands.py:132
-#| msgid "Run program and return its output"
+#: ../kupfer/plugin/commands.py:110 ../kupfer/plugin/commands.py:120
 msgid "Run program and supply text on the standard input"
 msgstr "Ejecutar programa y proporcionar texto en la salida extándar"
 
-#: ../kupfer/plugin/commands.py:96
+#: ../kupfer/plugin/commands.py:114
 msgid "Filter through Command..."
 msgstr "Filtrar a través de un comando…"
 
@@ -2119,16 +2122,18 @@ msgstr[1] "%s (%d carácteres)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
-msgid "OpenOffice"
-msgstr "OpenOffice"
+msgid "OpenOffice / LibreOffice"
+msgstr "OpenOffice / LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:119
-msgid "Recently used documents in OpenOffice"
-msgstr "Documentos recientemente utilizados en OpenOffice"
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
+#| msgid "Recently used documents in OpenOffice"
+msgid "Recently used documents in OpenOffice/LibreOffice"
+msgstr "Documentos usados recientemente en OpenOffice/LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:61
-msgid "OpenOffice Recent Items"
-msgstr "Elementos recientes de OpenOffice"
+#: ../kupfer/plugin/openoffice.py:74
+#| msgid "OpenOffice Recent Items"
+msgid "OpenOffice/LibreOffice Recent Items"
+msgstr "Elementos recientes de OpenOffice/LibreOffice"
 
 #: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:23
 msgid "Opera Bookmarks"
@@ -2272,16 +2277,15 @@ msgstr "Acortar enlaces"
 msgid "Create short aliases of long URLs"
 msgstr "Crear alias cortos para URL largas"
 
-#: ../kupfer/plugin/shorten_links.py:55 ../kupfer/plugin/shorten_links.py:108
-#: ../kupfer/plugin/shorten_links.py:112
+#: ../kupfer/plugin/shorten_links.py:42
 msgid "Error"
 msgstr "Error"
 
-#: ../kupfer/plugin/shorten_links.py:119
+#: ../kupfer/plugin/shorten_links.py:105
 msgid "Shorten With..."
 msgstr "Acortar con…"
 
-#: ../kupfer/plugin/shorten_links.py:146
+#: ../kupfer/plugin/shorten_links.py:135
 msgid "Services"
 msgstr "Servicios"
 
@@ -2764,6 +2768,9 @@ msgstr "Páginas de Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páginas almacenadas en el libro de notas Zim"
+
+#~ msgid "OpenOffice"
+#~ msgstr "OpenOffice"
 
 #~ msgid "<i>Plugins may not be unloaded at runtime</i>"
 #~ msgstr "<i>Los complementos no se pueden descargar durante la ejecución</i>"
