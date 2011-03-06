@@ -1156,7 +1156,7 @@ class Interface (gobject.GObject):
 		"""
 		val = bool(val) and self.get_can_enter_text_mode()
 		self._is_text_mode = val
-		gobject.idle_add(self.update_text_mode)
+		self.update_text_mode()
 		self.reset()
 		return val
 
@@ -1203,6 +1203,10 @@ class Interface (gobject.GObject):
 			self.switch_to_source()
 		# Check that items are still valid when "coming back"
 		self.data_controller.validate()
+
+	def did_launch(self):
+		"called to notify that 'activate' was successful"
+		self._reset_when_back = True
 
 	def put_away(self):
 		"""Called when the interface is hidden"""
@@ -1314,8 +1318,6 @@ class Interface (gobject.GObject):
 		self.data_controller.browse_down(pane, alternate=alternate)
 
 	def _activate(self, widget, current):
-		# reset self through toggle_text_mode
-		self._reset_when_back = True
 		self.data_controller.activate()
 
 	def activate(self):
@@ -1530,6 +1532,7 @@ class WindowController (pretty.OutputMixin):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
+		self.interface.did_launch()
 		self._window_hide_timer.set_ms(100, self.put_away)
 
 	def result_callback(self, sender, result_type):
