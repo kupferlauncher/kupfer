@@ -806,6 +806,7 @@ class Interface (gobject.GObject):
 		self._key_press_interval = 0.8
 		self._key_pressed = None
 		self._reset_to_toplevel = False
+		self._reset_when_back = False
 		self.entry.set_size_request(0, 0)
 		self.entry.connect("realize", self._entry_realized)
 		self.entry.set_property("im-module", "gtk-im-context-simple")
@@ -1194,6 +1195,9 @@ class Interface (gobject.GObject):
 
 	def focus(self):
 		"""called when the interface is focus (after being away)"""
+		if self._reset_when_back:
+			self._reset_when_back = False
+			self.toggle_text_mode(False)
 		# preserve text mode, but switch to source if we are not in it
 		if not self.get_in_text_mode():
 			self.switch_to_source()
@@ -1311,7 +1315,7 @@ class Interface (gobject.GObject):
 
 	def _activate(self, widget, current):
 		# reset self through toggle_text_mode
-		self.toggle_text_mode(False)
+		self._reset_when_back = True
 		self.data_controller.activate()
 
 	def activate(self):
@@ -1526,7 +1530,6 @@ class WindowController (pretty.OutputMixin):
 		# Separate window hide from the action being
 		# done. This is to solve a window focus bug when
 		# we switch windows using an action
-		self.interface.put_away()
 		self._window_hide_timer.set_ms(100, self.put_away)
 
 	def result_callback(self, sender, result_type):
