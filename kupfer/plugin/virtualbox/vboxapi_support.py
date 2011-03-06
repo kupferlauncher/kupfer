@@ -6,13 +6,15 @@ Control VirtualBox via Python interface (vboxapi).
 Only (?) Sun VirtualBox (no OSE).
 '''
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-__version__ = "2011-01-20"
+__version__ = "2011-03-06"
+
+
+import sys
 
 from kupfer import pretty
 
-#raise ImportError()
-
 import vboxapi
+
 
 from kupfer.plugin.virtualbox import constants as vbox_const
 
@@ -77,7 +79,7 @@ def get_machine_state(machine_id):
 			state = vbox_const.VM_STATE_POWEROFF
 		elif machine_state == vbox.constants.MachineState_Saved:
 			state = vbox_const.VM_STATE_SAVED
-	except Exception:  # exception == machine is off (xpcom.Exception)
+	except Exception, err:  # exception == machine is off (xpcom.Exception)
 		# silently set state to off
 		state = vbox_const.VM_STATE_POWEROFF
 		pretty.print_debug(__name__, 'get_machine_state error', err)
@@ -158,3 +160,7 @@ def get_machines():
 		description = machine.description or machine.OSTypeId
 		yield (machine.id, machine.name, description)
 	pretty.print_debug(__name__, 'get_machines finished')
+
+
+def unload():
+	sys.modules.pop('vboxapi')
