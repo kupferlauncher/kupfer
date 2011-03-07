@@ -94,6 +94,7 @@ class Account(Leaf):
 	def __init__(self, account, service_name, show_content=True):
 		Leaf.__init__(self, account['id'], service_name)
 		self._show_content = show_content
+		# TRANS: Account description, similar to "John on Identi.ca"
 		self._description = _("%(user)s on %(service)s") % {
 				'user': account.get('site_display_name') or account['username'],
 				'service': account['service']}
@@ -146,6 +147,9 @@ class Message(TextLeaf):
 		self._is_my_msg = bool(msg['sender']['is_me'])
 		sender = unicode(msg['sender'].get('name') or msg['sender']['nick'])
 		date = unicode_strftime('%c', time.localtime(msg['time']))
+		# TRANS: Gwibber Message description
+		# TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
+		# TRANS: the %(user)s and similar tokens must be unchanged
 		self._description = _("%(user)s %(when)s on %(where)s") % {
 				'user': sender, 'when': date, 'where': service['name']}
 
