@@ -7,8 +7,6 @@ __description__ = _("Control VirtualBox Virtual Machines. "
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import sys
-
 from kupfer.objects import Leaf, Action, Source
 from kupfer import pretty
 from kupfer import plugin_support
@@ -64,12 +62,7 @@ class _VBoxSupportProxy:
 	def unload_module(self):
 		if not self.VBOX:
 			return
-		# remove module
 		self.VBOX.unload()
-		for module_name, module in sys.modules.iteritems():
-			if module == self.VBOX:
-				sys.modules.pop(module_name)
-				break
 		self.VBOX = None
 
 

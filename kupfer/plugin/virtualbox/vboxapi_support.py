@@ -9,8 +9,6 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __version__ = "2011-03-06"
 
 
-import sys
-
 from kupfer import pretty
 
 import vboxapi
@@ -163,4 +161,4 @@ def get_machines():
 
 
 def unload():
-	sys.modules.pop('vboxapi')
+	pass
