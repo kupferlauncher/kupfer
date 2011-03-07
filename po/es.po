@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-05 10:47+0000\n"
-"PO-Revision-Date: 2011-03-05 11:50+0100\n"
+"POT-Creation-Date: 2011-03-05 21:13+0000\n"
+"PO-Revision-Date: 2011-03-07 18:08+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -765,7 +765,6 @@ msgid "Run program and return its output"
 msgstr "Ejecutar un programa y obtener su salida"
 
 #: ../kupfer/plugin/commands.py:89
-#| msgid "Send to Command..."
 msgid "Pass to Command..."
 msgstr "Enviar a un comando…"
 
@@ -1056,7 +1055,7 @@ msgid "Resume playback in Rhythmbox"
 msgstr "Continuar reproducción en Rhythmbox"
 
 #: ../kupfer/plugin/rhythmbox.py:74 ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:45
+#: ../kupfer/plugin/virtualbox/__init__.py:72
 msgid "Pause"
 msgstr "Pausar"
 
@@ -1960,15 +1959,160 @@ msgstr "Crear una tarea nueva en Getting Things GNOME"
 msgid "Gwibber"
 msgstr "Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:7
+#: ../kupfer/plugin/gwibber.py:6
+msgid ""
+"Microblogging with Gwibber. Allows sending and receiving messages from "
+"social networks like Twitter, Identi.ca etc.Requires the package 'gwibber-"
+"service'."
+msgstr ""
+"Microblogging con Gwibber. Permite enviar y recibir mensajes de redes "
+"sociales como Twitter, Identi.ca etc.Requiere el paquete «gwibber-service»."
+
+#: ../kupfer/plugin/gwibber.py:45
+msgid "Maximum messages to show"
+msgstr "Número máximo de mensajes que mostrar"
+
+#: ../kupfer/plugin/gwibber.py:97
+#, python-format
+#| msgid "%(user)s %(when)s"
+msgid "%(user)s on %(service)s"
+msgstr "%(user)s en %(service)s"
+
+#: ../kupfer/plugin/gwibber.py:149
+#, fuzzy, python-format
+#| msgid "%(user)s %(when)s"
+msgid "%(user)s %(when)s on %(where)s"
+msgstr "%(user)s %(when)s en %(where)s"
+
+#: ../kupfer/plugin/gwibber.py:180
+#| msgid "Send Message..."
+msgid "Send Message"
+msgstr "Enviar mensaje"
+
+#: ../kupfer/plugin/gwibber.py:198
+msgid "Send message to all Gwibber accounts"
+msgstr "Enviar mensaje a todas las cuentas de Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:203
+#| msgid "Send Message..."
+msgid "Send Message To..."
+msgstr "Enviar mensaje a…"
+
+#: ../kupfer/plugin/gwibber.py:231
+msgid "Send message to one Gwibber account"
+msgstr "Enviar mensaje a una cuenta de Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:236 ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Enviar mensaje…"
+
+#: ../kupfer/plugin/gwibber.py:259
+msgid "Send message to selected Gwibber account"
+msgstr "Enviar mensaje a la cuenta de Gwibber seleccionada"
+
+#: ../kupfer/plugin/gwibber.py:264
+#| msgid "Reply..."
+msgid "Reply"
+msgstr "Responder"
+
+#: ../kupfer/plugin/gwibber.py:293
+#| msgid "Send Message..."
+msgid "Delete Message"
+msgstr "Eliminar mensaje"
+
+#: ../kupfer/plugin/gwibber.py:316
+#| msgid "Send Direct Message..."
+msgid "Send Private Message"
+msgstr "Enviar mensaje privado"
+
+#: ../kupfer/plugin/gwibber.py:342
+#| msgid "Send Direct Message To..."
+msgid "Send direct message to user"
+msgstr "Enviar mensaje directo al usuario"
+
+#: ../kupfer/plugin/gwibber.py:348
+#, fuzzy
+#| msgid "Reset"
+msgid "Retweet"
+msgstr "Restablecer"
+
+#: ../kupfer/plugin/gwibber.py:348
+#, fuzzy
+#| msgid "Rename To..."
+msgid "Retweet To..."
+msgstr "Renombrar a…"
+
+#: ../kupfer/plugin/gwibber.py:379
+#, fuzzy
+#| msgid "Receive new messages from all accounts in ClawsMail"
+msgid "Retweet message to all Gwibber accounts"
+msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
+
+#: ../kupfer/plugin/gwibber.py:380
+msgid "Retweet message to one Gwibber account"
+msgstr ""
+
+#: ../kupfer/plugin/gwibber.py:385
+#| msgid "Open parent folder"
+msgid "Open in Browser"
+msgstr "Abrir en el navegador"
+
+#: ../kupfer/plugin/gwibber.py:391
+#| msgid "Open with default viewer"
+msgid "Open message in default web browser"
+msgstr "Abrir mensaje en el navegador web predeterminado"
+
+#: ../kupfer/plugin/gwibber.py:397 ../kupfer/plugin/gwibber.py:432
+#| msgid "Gajim Account Status"
+msgid "Gwibber Accounts"
+msgstr "Cuentas de Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:428
+msgid "Accounts configured in Gwibber"
+msgstr "Cuentas configuradas en Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:457
+#| msgid "Gwibber"
+msgid "Gwibber Messages"
+msgstr "Mensajes de Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:480
+msgid "Recent messages received by Gwibber"
+msgstr "Mensajes recientes recibidos por Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:485
+#, python-format
+msgid "Gwibber Messages for %s"
+msgstr "Mensajes de Gwibber para %s"
+
+#: ../kupfer/plugin/gwibber.py:498
+#| msgid "Gwibber"
+msgid "Gwibber Streams"
+msgstr "Flujos de Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:521
+msgid "Streams configured in Gwibber"
+msgstr "Flujos configurados en Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:526
+#, python-format
+msgid "Gwibber Messages in %s"
+msgstr "Mensajes de Gwibber en %s"
+
+#: ../kupfer/plugin/gwibber_simple.py:3
+#| msgid "Gwibber"
+msgid "Gwibber (Simple)"
+msgstr "Gwibber (simple)"
+
+#: ../kupfer/plugin/gwibber_simple.py:7
 msgid "Send updates via the microblogging client Gwibber"
 msgstr "Enviar actualizaciones a través del cliente de microblogging Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:46
+#: ../kupfer/plugin/gwibber_simple.py:46
 msgid "Send Update"
 msgstr "Enviar actualización"
 
-#: ../kupfer/plugin/gwibber.py:65
+#: ../kupfer/plugin/gwibber_simple.py:65
 msgid "Unable to activate Gwibber service"
 msgstr "No se pudo activar el servicio Gwibber"
 
@@ -2075,53 +2219,53 @@ msgstr ""
 "Microblogging con Twitter: enviar actualizaciones y mostrar los «tweets» de "
 "mis amigos"
 
-#: ../kupfer/plugin/twitter/__init__.py:35
+#: ../kupfer/plugin/twitter/__init__.py:37
 msgid "Load friends' pictures"
 msgstr "Cargar las imágenes de mis amigos"
 
-#: ../kupfer/plugin/twitter/__init__.py:41
+#: ../kupfer/plugin/twitter/__init__.py:43
 msgid "Load friends' public tweets"
 msgstr "Cargar los «tweets» públicos de mis amigos"
 
-#: ../kupfer/plugin/twitter/__init__.py:47
+#: ../kupfer/plugin/twitter/__init__.py:49
 msgid "Load timeline"
 msgstr "Cargar cronología"
 
-#: ../kupfer/plugin/twitter/__init__.py:194
+#: ../kupfer/plugin/twitter/__init__.py:196
 msgid "Post Update to Twitter"
 msgstr "Publicar actualización en Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:214
+#: ../kupfer/plugin/twitter/__init__.py:216
 msgid "Send Direct Message..."
 msgstr "Enviar mensaje directo…"
 
-#: ../kupfer/plugin/twitter/__init__.py:243
+#: ../kupfer/plugin/twitter/__init__.py:245
 msgid "Send Direct Message To..."
 msgstr "Enviar mensaje directo a…"
 
-#: ../kupfer/plugin/twitter/__init__.py:271
+#: ../kupfer/plugin/twitter/__init__.py:273
 msgid "Reply..."
 msgstr "Responder…"
 
-#: ../kupfer/plugin/twitter/__init__.py:298
+#: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(when)s %(user)s"
 
-#: ../kupfer/plugin/twitter/__init__.py:319
+#: ../kupfer/plugin/twitter/__init__.py:321
 msgid "Twitter Timeline"
 msgstr "Cronología en Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:347
+#: ../kupfer/plugin/twitter/__init__.py:349
 msgid "Twitter Friends"
 msgstr "Amigos de Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:372
+#: ../kupfer/plugin/twitter/__init__.py:374
 #, python-format
 msgid "Timeline for %s"
 msgstr "Cronología de %s"
 
-#: ../kupfer/plugin/twitter/__init__.py:396 ../kupfer/plugin/pidgin.py:111
+#: ../kupfer/plugin/twitter/__init__.py:398 ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -2181,10 +2325,6 @@ msgstr "Acceder a los contactos de Pidgin"
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Mostrar contactos desconectados"
-
-#: ../kupfer/plugin/pidgin.py:120
-msgid "Send Message..."
-msgstr "Enviar mensaje…"
 
 #: ../kupfer/plugin/pidgin.py:189
 msgid "Pidgin Contacts"
@@ -2295,6 +2435,16 @@ msgstr "Acortar con…"
 msgid "Services"
 msgstr "Servicios"
 
+#: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:25
+#| msgid "Show Source Code"
+msgid "Show QRCode"
+msgstr "Mostrar el código QR"
+
+#: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:57
+#| msgid "Display text in a window"
+msgid "Display text as QRCode in a window"
+msgstr "Mostrar texto como código QR en una ventana"
+
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/skype.py:2
 msgid "Skype"
@@ -2362,8 +2512,7 @@ msgid ""
 "urxvt)."
 msgstr ""
 "La opción que hace que el terminal ejecute todo siguiéndolo dentro de la "
-"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y "
-"urxvt)."
+"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y urxvt)."
 
 #: ../kupfer/plugin/ssh_hosts.py:55
 msgid "SSH host"
@@ -2698,36 +2847,42 @@ msgstr ""
 "Controla máquinas virtuales de VirtualBox. Soporta Sun VirtualBox y la "
 "versión Open Source."
 
-#: ../kupfer/plugin/virtualbox/__init__.py:38
+#: ../kupfer/plugin/virtualbox/__init__.py:33
+msgid "Force use CLI interface"
+msgstr "Forzar el uso de la interfaz CLI"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:65
+#: ../kupfer/plugin/virtualbox/__init__.py:76
 msgid "Power On"
 msgstr "Encender"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:40
+#: ../kupfer/plugin/virtualbox/__init__.py:67
+#: ../kupfer/plugin/virtualbox/__init__.py:78
 msgid "Power On Headless"
 msgstr "Encender «Headless»"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:43
+#: ../kupfer/plugin/virtualbox/__init__.py:70
 msgid "Send Power Off Signal"
 msgstr "Enviar señal de apagado"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:46
+#: ../kupfer/plugin/virtualbox/__init__.py:73
 msgid "Reboot"
 msgstr "Reiniciar"
 
 #. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:49
+#: ../kupfer/plugin/virtualbox/__init__.py:81
 msgid "Resume"
 msgstr "Restaurar"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:52
+#: ../kupfer/plugin/virtualbox/__init__.py:84
 msgid "Save State"
 msgstr "Guardar estado"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:54
+#: ../kupfer/plugin/virtualbox/__init__.py:86
 msgid "Power Off"
 msgstr "Apagar"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:78
+#: ../kupfer/plugin/virtualbox/__init__.py:110
 msgid "VirtualBox Machines"
 msgstr "Máquinas de VirtualBox"
 
@@ -2815,9 +2970,6 @@ msgstr "Páginas almacenadas en el libro de notas Zim"
 
 #~ msgid "Open with %s"
 #~ msgstr "Abrir con %s"
-
-#~ msgid "Open with default viewer"
-#~ msgstr "Abrir con el visor predeterminado"
 
 #~ msgid "Do"
 #~ msgstr "Hacer"
