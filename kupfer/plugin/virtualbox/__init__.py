@@ -7,21 +7,12 @@ __description__ = _("Control VirtualBox Virtual Machines. "
 __version__ = "0.3"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+import sys
+
 from kupfer.objects import Leaf, Action, Source
 from kupfer import pretty
 from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
-
-try:
-	try:
-		from kupfer.plugin.virtualbox import vboxapi4_support as vboxapi_support
-		pretty.print_info(__name__, 'Using vboxapi4...')
-	except ImportError, err:
-		from kupfer.plugin.virtualbox import vboxapi_support
-		pretty.print_info(__name__, 'Using vboxapi...')
-except ImportError, err:
-	pretty.print_info(__name__, 'vboxapi not available...', err)
-	vboxapi_support = None
 
 from kupfer.plugin.virtualbox import ose_support
 from kupfer.plugin.virtualbox import constants as vbox_const
@@ -37,12 +28,49 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 
+def _get_vbox():
+	if __kupfer_settings__['force_cli']:
+		pretty.print_info(__name__, 'Using cli...')
+		return ose_support
+	try:
+		from kupfer.plugin.virtualbox import vboxapi4_support
+		pretty.print_info(__name__, 'Using vboxapi4...')
+		return vboxapi4_support
+	except ImportError:
+		pass
+	try:
+		from kupfer.plugin.virtualbox import vboxapi_support
+		pretty.print_info(__name__, 'Using vboxapi...')
+		return vboxapi_support
+	except ImportError:
+		pass
+	pretty.print_info(__name__, 'Using cli...')
+	return ose_support
+
+
 class _VBoxSupportProxy:
+	VBOX = None
+
 	def __getattr__(self, attr):
-		vbox = ose_support
-		if vboxapi_support and not __kupfer_settings__['force_cli']:
-			vbox = vboxapi_support
-		return getattr(vbox, attr)
+		if not self.VBOX:
+			self.reload_settings()
+		return getattr(self.VBOX, attr)
+
+	def reload_settings(self):
+		pretty.print_debug(__name__, '_VBoxSupportProxy.reloading...')
+		self.unload_module()
+		self.VBOX = _get_vbox()
+
+	def unload_module(self):
+		if not self.VBOX:
+			return
+		# remove module
+		self.VBOX.unload()
+		for module_name, module in sys.modules.iteritems():
+			if module == self.VBOX:
+				sys.modules.pop(module_name)
+				break
+		self.VBOX = None
 
 
 vbox_support = _VBoxSupportProxy()
@@ -105,7 +133,7 @@ class VMAction(Action):
 
 
 class VBoxMachinesSource(ApplicationSource):
-	appleaf_content_id = vbox_support.APP_ID
+	appleaf_content_id = ("virtualbox-ose", "virtualbox")
 
 	def __init__(self, name=_("VirtualBox Machines")):
 		Source.__init__(self, name)
@@ -114,6 +142,11 @@ class VBoxMachinesSource(ApplicationSource):
 		if vbox_support.MONITORED_DIRS:
 			self.monitor_token = self.monitor_directories(
 					*vbox_support.MONITORED_DIRS)
+		__kupfer_settings__.connect("plugin-setting-changed", self._setting_changed)
+
+	def finalize(self):
+		if vbox_support:
+			vbox_support.unload_module()
 
 	def is_dynamic(self):
 		return vbox_support.IS_DYNAMIC
@@ -130,3 +163,7 @@ class VBoxMachinesSource(ApplicationSource):
 
 	def provides(self):
 		yield VirtualMachine
+
+	def _setting_changed(self, _setting, _key, _value):
+		if vbox_support:
+			vbox_support.reload_settings()

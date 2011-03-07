@@ -126,3 +126,7 @@ def get_machines():
 			name, description = _get_machine_info(vm_uuid, config)
 			if name:
 				yield (vm_uuid, name, description)
+
+
+def unload():
+	pass

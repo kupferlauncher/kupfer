@@ -6,13 +6,14 @@ Control VirtualBox via Python interface (vboxapi).
 Only (?) Sun VirtualBox (no OSE).
 '''
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-__version__ = "0.3"
+__version__ = "2011-03-06"
+
+import sys
+
+import vboxapi
 
 from kupfer import pretty
 
-#raise ImportError()
-
-import vboxapi
 
 # check api
 try:
@@ -152,3 +153,7 @@ def get_machines():
 	for machine in machines:
 		description = machine.description or machine.OSTypeId
 		yield (machine.id, machine.name, description)
+
+
+def unload():
+	sys.modules.pop('vboxapi')
