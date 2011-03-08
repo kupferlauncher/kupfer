@@ -16,12 +16,19 @@ DOC_INCLUDES =
 DOC_FIGURES =
 
 DOC_PAGES = \
+	generalusage.page \
 	index.page \
 	introduction.page \
+	keyboard.page \
 	license.page \
-	plugins.page \
-	tips.page 
-
+	managing-plugins.page \
+	moreusage.page \
+	plugin-calculator.page \
+	plugin-favorites.page \
+	plugin-selected-file.page \
+	plugin-triggers.page \
+	plugin-websearch.page \
+#
 
 DOC_LINGUAS = cs de es it pl sl
 

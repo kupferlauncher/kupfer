@@ -1,35 +1,14 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
-      id="plugins">
+      id="moreusage">
 
   <info>
    <link type="guide" xref="index#usage"/>
-   <desc>Using <app>Kupfer</app> plugins.</desc>
+   <desc>More advanced usage information.</desc>
   </info>
 
-  <title>Plugins</title>
+  <title>Using <app>Kupfer</app> in depth.</title>
 
-  <p>
-    You can install custom plugins into ~/.local/share/kupfer/plugins; 
-    adding to <app>Kupfer</app>'s object knowledge can be surprisingly 
-    easy, just look at the default plugins if you want to create new.
-  </p>
-
- <section>
-  <title>Search the Web Search Engines</title>
-  <p>
-   The Search the Web plugin uses <app>Firefox'</app> search engines, 
-   so you can add Search Engines directly in <app>Firefox</app> and 
-   <app>Kupfer</app> will find them later.
-  </p>
-  <p>
-   You can also install custom search plugins directly, only for 
-   <app>Kupfer</app>, in the folder:
-  </p>
-   <code>~/.local/share/kupfer/searchplugins/</code>
-
- </section>
-  
  <section>
   <title>Open Terminal Here</title>
   <p>
@@ -42,31 +21,14 @@
   
  <section>
   <title>Grab current selection</title>
-  <p>
-   To use <app>Kupfer</app> like a pro, you can configure a "Magic Keybinding" 
-   for <app>Kupfer</app>. GUI configuration is not yet supported, but edit the 
-   configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include the 
-   following:
-  </p>
-  <code>
-[Kupfer]
-keybinding = &lt;Control&gt;space
-magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space
-  </code>
-  
-  <p>
-   Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq> 
-   will summon <app>Kupfer</app> with the current selection in focus. Make sure 
-   you have installed <app>Kupfer</app>'s nautilus plugin, then both the currently 
-   selected file in Nautilus, or the currently selected text in the front application 
-   will be selected.
+  <p> To use the current selected text, from any application, with
+    <app>Kupfer</app>, you can configure a global keyboard shortcut for the
+    action Show with Selection in the preferences window.
   </p>
   <p>
-   Now you can select a word in, say, a web browser, use 
-   <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, and select action 
-   <gui>Look Up</gui> to look up the selected word. Or select an image file, use 
-   <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select action 
-   <gui>Scale</gui> with object <gui>1000</gui> to scale the image to 1000 pixels wide!
+   If configured, pressing the global keyboard shortcut
+   will summon <app>Kupfer</app> with the current selection as the focused
+   object.
   </p>
  </section>
   
@@ -91,42 +53,6 @@ magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space
    from 0 to 5 to my catalog to quickly rate tracks. (This is something that might 
    be integrated into <app>Kupfer</app> later)
   </p>
- </section>
-  
- <section>
-  <title>Calculator Plugin</title>
-  <p>
-    The calculator plugin lets you calculate expressions quickly. It can evaluate 
-    expressions entered as text starting with "=". Entering = from command mode will 
-    start text mode directly with = prefixed for quick access.
-  </p>
-  <p>
-    The Calculator uses python's math and complex math modules, 
-    and parses expressions as Python expressions. You may use common 
-    mathematical functions, such as sqrt, sin, exp and log; the command 
-    <cmd>=help</cmd> will show a list of all defined functions and constants. 
-  </p>
-  <list>
-   <item>
-    <p>
-     Notice that the power operator in Python is double stars, for example 
-     =3**3 will evaluate to 27.
-    </p>
-   </item>
-   <item>
-    <p>
-     To calculate trig functions for angles, convert to radians first: 
-    </p>
-    <code>sin(radians(30)) -> 0.5</code>
-   </item>
-   <item>
-    <p>
-     The last result is stored as the name _ (an underscore, just like in 
-     the Python console).
-    </p>
-   </item>
-  </list>
-
  </section>
   
  <section>
@@ -181,5 +107,47 @@ magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space
     around where you were, deep in that folder (press space, then type a query).
   </p>
  </section>
-  
+
+ <section>
+   <title>The "Comma Trick"</title>
+    <p> The "comma trick" allows the user to use actions on many objects at
+       the same time.
+    </p>
+
+    <p>Simply press comma <key>,</key> when an object is selected. The object
+      is put on a "stack", and you can find yet another file or object, press
+      comma to put it on the stack. When you subsequently invoke an action, the
+      action is carried out on all of the objects at the same time.
+    </p>
+
+    <p>Some actions are only "multiplied" when used with many objects, other
+      are smarter than that:</p>
+    <list>
+      <item><p> Selecting many files and using the Create Archive action, all
+          files will be packed into the same archive.</p></item>
+      <item><p>If you select multiple contacts and use a Send Email action, it
+          creates one email directed at all the contacts.</p></item>
+      <item><p>If you select multiple subcatalogs (For example Firefox
+          Bookmarks and Epiphany Bookmarks) and use Search Contents.., you get
+          a subcatalog search restricted to the objects of those two catalogs!
+          You can even bind a trigger to this command(!) 
+      </p></item>
+    </list>
+    <p>The "comma trick" is 
+      <link href="http://www.43folders.com/2005/06/13/quicksilver-the-comma-trick">
+        directly taken from Quicksilver</link>
+      (the example given in the external article should work identically in Kupfer).
+    </p>
+  </section>
+  <section>
+    <title>Save Commands as Files</title>
+    <p>You can use keyboard shortcut for "Compose Command" (by default it is
+      <keyseq><key>Control</key><key>Return</key></keyseq>) to create a
+      command object out of the currently focused command in Kupfer.
+      This object can be saved as a runnable file if you use the "Save As.." action.
+      The resulting file will can be executed when opened from the file manager
+      (to run it requires that Kupfer is already running).
+    </p>
+  </section>
+
 </page>

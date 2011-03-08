@@ -1,0 +1,67 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="plugin-calculator">
+
+  <info>
+   <link type="guide" xref="index#plugins"/>
+   <desc>Using the calculator plugin.</desc>
+  </info>
+
+  <title><app>Calculator</app></title>
+
+ <section>
+  <title>Calculator Plugin</title>
+  <p>
+    The calculator plugin lets you calculate expressions quickly. It can evaluate 
+    expressions entered as text starting with "=". Entering = from command mode will 
+    start text mode directly with = prefixed for quick access.
+  </p>
+  </section>
+  <section>
+  <title>Basic Usage</title>
+  <steps>
+    <item><p>
+        Activate Kupfer and type <key>=</key>
+    </p></item>
+    <item><p>Type in a mathematical expression using
+        <key>+</key>,<key>-</key>,<key>/</key>,<key>*</key> (and
+        <key>**</key> for exponentiation)
+    </p></item>
+    <item><p>
+        Press <key>Return</key> to get the result.
+    </p></item>
+  </steps>
+
+ </section>
+  <section>
+    <title>Notes</title>
+    <p>
+      The Calculator uses python's math and complex math modules, 
+      and parses expressions as Python expressions. You may use common 
+      mathematical functions, such as <cmd>sqrt</cmd>, <cmd>sin</cmd>,
+      <cmd>exp</cmd> and <cmd>log</cmd>; the command <cmd>=help</cmd> will
+      show a list of all defined functions and constants. 
+    </p>
+    <list>
+     <item>
+      <p>
+       Notice that the power operator in Python is double stars, for example 
+       <code>=3**3</code> will evaluate to 27.
+      </p>
+     </item>
+     <item>
+      <p>
+       To calculate trig functions for angles, convert to radians first: 
+      </p>
+      <code>sin(radians(30)) -> 0.5</code>
+     </item>
+     <item>
+      <p>
+       The last result is stored as the name _ (an underscore, just like in 
+       the Python console).
+      </p>
+     </item>
+     </list>
+   </section>
+  
+</page>

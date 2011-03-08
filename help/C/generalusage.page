@@ -1,0 +1,111 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="generalusage">
+
+  <info>
+   <link type="guide" xref="index#usage"/>
+   <desc>How to start using <app>Kupfer</app>.</desc>
+  </info>
+
+  <title>Basic Usage</title>
+  <section>
+    <title>Keyboard Interface</title>
+
+    <p>
+      <app>Kupfer</app> is to the largest part a keyboard-managed
+      interface to applications and documents.
+    </p>
+    <p>
+      Kupfer's default mode is the command mode: If you type a query,
+      kupfer will search for a match in its catalog.
+    </p>
+      
+    <p>
+      The arrow keys allow you to browse query matches quite naturally,
+      going to the previous or next match, and going up and down in the
+      subcatalogs.
+    </p>
+
+  <p>
+    In command mode, some keystrokes have special meanings: 
+  </p>
+  <table>
+    <tr>
+      <td><p><key>↓</key> or <key>Space</key></p></td>
+      <td><p> Go to the next match </p></td>
+    </tr>
+    <tr>
+      <td><p>
+        <key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>
+      </p></td>
+     <td><p> Go to the previous match </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>→</key> or <key>/</key>  </p></td>
+     <td><p> Descend into an object with content </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>Backspace</key></p></td>
+     <td><p> Erase a character from the query. If the
+       query is empty, go up a level 
+   </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>.</key></p></td>
+     <td><p> Activate free-text mode </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>,</key></p></td>
+     <td><p> Put selected object on the stack ("Comma Trick") </p></td>
+    </tr>
+   </table>
+  <p>
+    Additionally:
+  </p>
+  <list>
+    <item><p><key>Return</key> activates the current selection: the command is executed.
+    </p></item>
+    <item><p><key>Escape</key> clears the current selection.</p></item>
+    <item><p><key>Tab</key> switches between the object and the action pane. </p></item>
+  </list>
+  <p> By default you show <app>Kupfer</app> using the global keyboard shortcut
+    <keyseq><key>Ctrl</key><key>Space</key></keyseq>.
+    </p>
+  <p> See <link xref="keyboard" /> for more information. </p>
+  </section>
+
+  <section>
+    <title>Learning Habits</title>
+    <p>
+      <app>Kupfer</app> remembers which objects and actions are used the
+      most. When beginning to use it, you have to use the arrow keys at
+      times to make it precise which object you want to find. After a few
+      uses of that object, Kupfer will rank it higher. Objects marked as
+      <link xref="plugin-favorites">favorites</link> are also ranked higher.
+    </p>
+  </section>
+
+
+  <section>
+    <title>The Catalog</title>
+    <p>
+      The Catalog is the collection of objects you can
+      access in Kupfer, such as documents and programs. 
+    </p>
+
+    <p>
+      Objects in the catalog that have content, like folders, are marked
+      with an arrow. Pressing <key>right-arrow</key> will enter these
+      objects. Much of the catalog is composed of subcatalogs; plugin
+      subcatalogs do in general list objects that are also available
+      directly from the top level.  Subcatalogs can be used for a
+      narrower view or search scope, when using Kupfer.
+    </p>
+
+    <p>
+      Most subcatalogs update their content automatically. For example,
+      the Desktop folder source  is always up-to-date.
+    </p>
+  </section>
+
+</page>

@@ -18,10 +18,13 @@
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude" />
   </info>
 
-  <title>Kupfer manual</title>
+  <title>Kupfer Manual</title>
 
   <section id="usage" style="2column">
     <title>Using Kupfer</title>
+  </section>
+  <section id="plugins" style="2column">
+    <title>About Specific Plugins</title>
   </section>
 
 </page>

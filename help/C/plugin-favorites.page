@@ -1,0 +1,61 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="plugin-favorites">
+
+  <info>
+   <link type="guide" xref="index#plugins"/>
+   <desc>Using the favorites plugin.</desc>
+  </info>
+
+  <title><app>Favorites</app></title>
+
+ <section>
+  <title>Favorites Plugin</title>
+  <p>
+    With <app>Favorites</app> you mark objects, for example files,
+    for quicker access. It is a sort of shelf on which you can store objects
+    in Kupfer. Objects marked as favorites will also be ranked higher and
+    are adorned with a star symbol.
+  </p>
+  </section>
+  <section>
+    <title>Basic Usage</title>
+    <steps>
+     <item>
+      <p>
+        Find an object in <app>Kupfer</app>
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> and select either the action <em>Add to
+          Favorites</em> or <em>Remove from Favorites</em>.
+      </p>
+     </item>
+    </steps>
+ </section>
+ <section>
+   <title>Power user tips</title>
+   <p>
+   If you favorite an object, you can access it in more places. Not only in
+   the "Favorites" subcatalog, but also as the indirect (secondary) object
+   for some actions. For example:
+   </p>
+   <list>
+     <item><p> Command-lines from favorites are quick to access. </p></item>
+     <item><p>When scaling images with the <em>Scale...</em> action from the
+         <app>Image Tools</app> plugin. This action needs a size description
+         as the third object, like "1024" or "1200x800".  If you often scale
+         to the same size, say "1200x800", add this to favorites, and it
+         will always appear as a suggestion for the action.
+       </p>
+     </item>
+     <item>
+       <p>
+         Actions needing an email address as the indirect object will pick
+         up email addresses from favorites as well as well.
+       </p>
+     </item>
+   </list>
+   </section>
+</page>

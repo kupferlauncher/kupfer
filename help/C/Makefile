@@ -1,4 +1,4 @@
-pages=$(wildcard *.page)
+pages=$(wildcard *.page plugin/*.page)
 htmls=$(patsubst %.page,%.html,$(pages))
 
 all: $(htmls) index.cache
@@ -22,4 +22,4 @@ $(htmls) : %.html : %.page
 
 .PHONY: clean
 clean:
-	rm index.cache *.html
+	rm -fv index.cache *.html

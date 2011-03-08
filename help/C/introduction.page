@@ -1,6 +1,6 @@
 <page xmlns="http://projectmallard.org/1.0/"
       type="topic"
-      id="intro">
+      id="introduction">
 
   <info>
    <link type="guide" xref="index"/>
@@ -10,28 +10,21 @@
   <title>Introduction</title>
 
   <p>
-    <app>Kupfer</app> is a program to change, speed up and make everything
-    about files and programs more fun on your computer.
-
-    <app>Kupfer</app> is a launcher; you typically use it to summon an
-    application or a document quickly by typing parts of its name. It can also
-    do more than getting at something quickly: there are different plugins for
-    accessing more objects and running custom commands.
-  </p>
-
-  <p>
-    <app>Kupfer</app> is written using Python and has a flexible architecture;
-    the implementation is simple and makes the easy things work first. One
-    goal is that new plugins can be written quickly without too much
-    programming.
+    <app>Kupfer</app> is an interface for quick and convenient access to
+    applications and their documents.
   </p>
   <p>
-    The program is very inspired by
-    <link href="http://www.blacktree.com/">Quicksilver</link>.
+    The most typical use is to find a specific application and launch it. We have
+    tried to make <app>Kupfer</app> easy to extend with plugins so that
+    this quick-access paradigm can be extended to many more objects than just
+    applications.
   </p>
-
   <p>
-    For more information about <app>Kupfer</app>, visit its 
+    We hope that using <app>Kupfer</app> feels both <em>very fun</em> and
+    <em>different</em>.
+  </p>
+  <p>
+    For up-to-date information about <app>Kupfer</app>, visit its
     <link href="http://kaizer.se/wiki/kupfer/">homepage</link>.
   </p>
 </page>

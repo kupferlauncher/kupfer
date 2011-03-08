@@ -1,0 +1,100 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="managing-plugins">
+
+  <info>
+   <link type="guide" xref="index#usage"/>
+   <desc>Using plugins with <app>Kupfer</app>.</desc>
+  </info>
+
+  <title>How to configure plugins</title>
+
+  <p>
+    Functionality in Kupfer is organized by extentsion modules called
+    "plugins". Each plugin provides additional functionality, for example
+    integration with an external application.
+  </p>
+
+  <section>
+    <title>Configuring Plugins</title>
+    <p>
+      You can enable, disable and configure plugins if you open Kupfer's
+      preferences window using one of these methods:
+    </p>
+    <list>
+      <item><p>Click the Kupfer icon in the notification area and select
+        the item Preferences</p>
+      </item>
+      <item><p>Search for the object <app>Kupfer Preferences</app> in Kupfer itself.
+            Press <key>Return</key> to open it.</p>
+      </item>
+      <item><p>Use the keyboard shortcut
+          <keyseq><key>Control</key><key>;</key></keyseq></p>
+      </item>
+    </list>
+    <p>
+      Select the tab "Plugins" to reach the plugin list in the
+      preferences window.
+    </p>
+
+    <p>
+      Select plugins in the list to read about them, and tick the box
+      next its name to load the plugin.
+    </p>
+
+    <p>
+      If the plugin has any configurable parameters, they will be
+      visible below the plugin information.
+    </p>
+    <p>The plugin <app>Kupfer Plugins</app> allows fast access to each plugin's
+      information page as well as the action "Show Source Code" which
+      reveals the implementation.
+    </p>
+  </section>
+  
+  <section>
+    <title>Installing more Plugins</title>
+    <p>
+      You can install custom plugins into the folder
+      <code>~/.local/share/kupfer/plugins</code>. Each plugin is either a
+      single <code>.py</code> file or a python package (a folder directly
+      containing a file called <code>__init__.py</code>). Plugins
+      in the package format can include icon files. Python packages can even
+      be installed as <code>.zip</code> files.
+    </p>
+  </section>
+
+  <section>
+    <title>Creating Plugins</title>
+    <p>
+      Adding to <app>Kupfer</app>'s object knowledge can be surprisingly
+      easy, just look at the default plugins if you want to create new.
+      Documentation for plugin creators is available in the file
+      Documentation/Manual.rst in the source distribution on the webpage at
+      <link href="http://kaizer.se/wiki/kupfer/Manual/">Kupfer Manual</link>.
+    </p>
+  </section>
+  <section>
+    <title>The <em>Catalog</em> tab in preferences</title>
+    <p>
+      Each plugin can export a number of sources which contain objects.
+      Normally, all their contents are directly accessible from a top-level
+      search.
+      Some plugins export so specialized or so many objects that their
+      catalogs should better not have their objects exported to the top
+      level. To reach those objects, you have to first find the catalog by
+      name, then enter the catalog using the action <em>Search
+        Contents</em>.
+    </p>
+    <p>
+      In the tab <em>Catalog</em> in <app>Kupfer Preferences</app>, 
+      a ticked box next to each source means that its objects are exported.
+      An unticked box means that its contents are hidden from the top level.
+    </p>
+    <p>
+      <em>Note:</em> Kupfer may become slow if large enough subcatalogs are exported
+      to the top level.
+    </p>
+  </section>
+</page>
+

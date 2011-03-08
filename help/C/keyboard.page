@@ -1,0 +1,171 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="keyboard">
+
+  <info>
+   <link type="guide" xref="index#usage"/>
+   <desc>Complete keyboard reference.</desc>
+  </info>
+
+  <title>Command Keys and Accelerator Keys</title>
+
+  <section>
+    <title>Keyboard Interface</title>
+  <p>
+    In command mode, the following keystrokes have special meanings: 
+  </p>
+  <table>
+    <tr>
+      <td><p><key>↓</key> or <key>Space</key></p></td>
+      <td><p> Go to the next match </p></td>
+    </tr>
+    <tr>
+      <td><p>
+        <key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>
+      </p></td>
+     <td><p> Go to the previous match </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>→</key> or <key>/</key>  </p></td>
+     <td><p> Descend into an object with content </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>Backspace</key></p></td>
+     <td><p> Erase a character from the query. If the
+       query is empty, go up a level 
+   </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>.</key></p></td>
+     <td><p> Activate free-text mode </p></td>
+    </tr>
+    <tr>
+      <td><p> <key>,</key></p></td>
+     <td><p> Put selected object on the stack ("Comma Trick") </p></td>
+    </tr>
+   </table>
+  <p>
+    Quick access keys:
+  </p>
+  <table>
+    <tr>
+      <td><p>
+          <key>=</key>
+        </p></td>
+        <td><p> Activate free-text mode with =
+          prefix (for <link xref="plugin-calculator" />)
+      </p></td>
+    </tr>
+    <tr>
+      <td><p>
+          <key>/</key>
+        </p></td>
+        <td><p> Activate free-text mode (when nothing is selected) with
+            <code>/</code> prefix (to input a rooted path) 
+        </p></td>
+    </tr>
+   </table>
+  <p>
+    Additionally:
+  </p>
+  <list>
+    <item><p><key>Return</key> activates the current selection: the command is executed.
+    </p></item>
+    <item><p><key>Escape</key> clears the current selection.</p></item>
+    <item><p><key>Tab</key> switches between the object and the action pane. </p></item>
+  </list>
+  <p>
+    The meaning of the keys <key>Space</key>, <key>.</key>, <key>,</key>,
+    <key>/</key> and <key>=</key> can not be changed, but you can deactivate
+    their special meaning with the checkbox <app>Use single keystroke
+    commands</app> in <app>Kupfer Preferences</app>.
+  </p>
+  </section>
+
+  <section>
+    <title>Additional Keyboard Shortcuts</title>
+    <p>
+      Additional keyboard shortcuts that work with Kupfer when it is in
+      the foreground can be configured in Kupfer's preferences.
+      They have the following meanings and default shortcuts:
+    </p>
+  <table>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>.</key></keyseq></p></td>
+      <td><p> Toggle text mode </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>,</key></keyseq></p></td>
+      <td><p> The comma trick </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>;</key></keyseq></p></td>
+      <td><p> Show preferences window </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>R</key></keyseq></p></td>
+      <td><p> Reset all </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Alt</key><key>A</key></keyseq></p></td>
+      <td><p> Alternate activate </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>Return</key></keyseq></p></td>
+      <td><p> Compose command </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>S</key></keyseq></p></td>
+      <td><p> Switch to first pane </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>Q</key></keyseq></p></td>
+      <td><p> Select 'Quit' </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>G</key></keyseq></p></td>
+      <td><p> Select 'Selected File' </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>T</key></keyseq></p></td>
+      <td><p> Select 'Selected Text' </p></td>
+    </tr>
+    <tr>
+      <td><p><keyseq><key>F1</key></keyseq></p></td>
+      <td><p> Show Help </p></td>
+    </tr>
+
+   </table>
+  </section>
+
+  <section>
+    <title>Global Keyboard Shortcuts</title>
+    <p>
+      <app>Kupfer</app> always listens to global shortcuts, even if it is not
+      currently in the foreground.
+    </p>
+    <p>
+      They have the following meanings and default shortcuts:
+    </p>
+  <table>
+    <tr>
+      <td><p><keyseq><key>Ctrl</key><key>Space</key></keyseq></p></td>
+      <td><p> Show/hide <app>Kupfer</app></p></td>
+    </tr>
+    <tr>
+      <td><p>(not configured by default)</p></td>
+      <td><p> Show <app>Kupfer</app> with 'Selection' object focused</p></td>
+    </tr>
+  </table>
+
+  </section>
+  <section>
+    <title>Triggers</title>
+    <p>
+      The plugin <link xref="plugin-triggers">Triggers</link> allows to
+      configure actions to be activated by global shortcuts, but triggers can
+      only be configured in that plugin.
+    </p>
+  </section>
+
+</page>
