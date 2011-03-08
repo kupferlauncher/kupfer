@@ -480,7 +480,21 @@
                     <child>
                       <object class="GtkVBox" id="vbox6">
                         <property name="visible">True</property>
+                        <property name="border_width">6</property>
                         <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkLabel" id="label10">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Exported Objects from Plugins&lt;/b&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
                         <child>
                           <object class="GtkAlignment" id="alignment3">
                             <property name="visible">True</property>
@@ -489,9 +503,8 @@
                             <child>
                               <object class="GtkLabel" id="labelplugininstructions1">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">Tick the box next to a source to make sure its objects are exported to the top level of the catalog. An unticked source's contents are only available by locating its subcatalog and entering it.
-
-Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed to carry a catalog larger than a couple of thousand objects, and may become slow if overly large subcatalogs are included in the top level.</property>
+                                <property name="label" translatable="yes">Untick the box next to a source to hide its objects in the top level searches.
+An unticked source's contents are only available by locating its subcatalog and entering it.</property>
                                 <property name="use_markup">True</property>
                                 <property name="wrap">True</property>
                                 <property name="width_chars">30</property>
@@ -502,11 +515,8 @@ Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed to 
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">2</property>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                       <packing>
