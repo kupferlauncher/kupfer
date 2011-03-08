@@ -4,12 +4,13 @@ htmls=$(patsubst %.page,%.html,$(pages))
 all: $(htmls) index.cache
 
 index.cache : $(pages)
-	echo '<cache xmlns="http://projectmallard.org/1.0/">' > $@.in
+	echo '<cache:cache xmlns:cache="http://projectmallard.org/cache/1.0/"' >$@.in
+	echo '             xmlns="http://projectmallard.org/1.0/">'           >> $@.in
 	for page in $(pages); do \
-	  echo "<page href='$$page'/>" >> $@.in; \
+		echo "<page cache:href='$$page'/>" >> $@.in; \
 	done
-	echo '</cache>' >> $@.in
-	xsltproc `pkg-config --variable xsltdir gnome-doc-utils`/mallard/utils/mal2cache.xsl $@.in | xmllint --format - > $@
+	echo '</cache:cache>' >> $@.in
+	xsltproc `pkg-config --variable xsltdir gnome-doc-utils`/mallard/cache/mal-cache.xsl $@.in | xmllint --format - > $@
 	rm $@.in
 
 $(htmls) : index.cache
