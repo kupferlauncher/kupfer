@@ -1,0 +1,64 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="plugin-applications">
+
+  <info>
+   <link type="guide" xref="index#plugins"/>
+   <desc>Using the applications plugin.</desc>
+  </info>
+
+  <title><app>Applications</app></title>
+
+  <section>
+    <title>Applications Plugin</title>
+    <p>
+      <app>Applications</app> provides all installed programs.
+    </p>
+  </section>
+  <section>
+    <title>Basic Usage</title>
+    <steps>
+     <title>Launching an application</title>
+     <item>
+      <p>
+        Activate Kupfer and type an abbreviation of the application name
+      </p>
+     </item>
+     <item>
+      <p>
+         Press <key>Return</key> to launch the application.
+      </p>
+     </item>
+    </steps>
+    <steps>
+     <title>Opening a file with a specific application</title>
+     <item>
+      <p>
+        Select a file in <app>Kupfer</app>
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> and select the action <em>Open With...</em>
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> to select the third (indirect object) pane
+        and in it, select the application the file with.
+      </p>
+     </item>
+   </steps>
+ </section>
+  <section>
+  <title>Configuration</title>
+    <p>
+      The configuration option <em>Applications for Desktop Environment</em>
+      in the plugin's information pane in <app>Kupfer Preferences</app>
+      determines how <app>Kupfer</app> should act with regard to the desktop
+      environment configuration -- certain applications request not to be
+      shown depending on which desktop environment is used. By default, it
+      behaves like GNOME.
+    </p>
+  </section>
+</page>

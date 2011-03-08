@@ -1,0 +1,70 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="plugin-notes">
+
+  <info>
+   <link type="guide" xref="index#plugins"/>
+   <desc>Using the notes plugin.</desc>
+  </info>
+
+  <title><app>Notes</app></title>
+
+ <section>
+  <title>Notes Plugin</title>
+  <p>
+    With <app>Notes</app> you can access or create new notes in either the
+    program <app>Gnote</app> or <app>Tomboy</app>. <app>Notes</app> will
+    work identically with either application—you can configure which one
+    to use in the plugin's information pane in <app>Kupfer Preferences</app>.
+  </p>
+  </section>
+  <section>
+    <title>Basic Usage</title>
+    <steps>
+     <title>Creating a new note</title>
+     <item>
+      <p>
+        Activate Kupfer and type <key>.</key> to enter text mode, then 
+        type in a note title
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> and select the action <em>Create
+          Note</em> and press <key>Return</key>.
+      </p>
+     </item>
+    </steps>
+    <steps>
+     <title>Finding a note by title</title>
+     <item>
+       <p>Simply search for the note title in <app>Kupfer</app></p>
+     </item>
+   </steps>
+    <steps>
+     <title>Finding a note by content</title>
+     <item>
+      <p>
+        Activate Kupfer and type <key>.</key> to enter text mode, then 
+        type in a search query
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> and select the action <em>Get Note Search
+          Results...</em> and press <key>Return</key>.  </p>
+     </item>
+   </steps>
+ </section>
+ <section>
+   <title>Power User Tips</title>
+   <list>
+   <item>
+     <p>
+       You can use the <em>Selected Text</em> object and create a new note
+       with the content of the selection.
+     </p>
+   </item>
+   </list>
+   </section>
+</page>
