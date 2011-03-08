@@ -25,7 +25,7 @@ DOC_PAGES = \
 	moreusage.page \
 	plugin-calculator.page \
 	plugin-favorites.page \
-	plugin-selected-file.page \
+	plugin-nautilusselection.page \
 	plugin-triggers.page
 
 
