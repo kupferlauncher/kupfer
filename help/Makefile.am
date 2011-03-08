@@ -26,9 +26,8 @@ DOC_PAGES = \
 	plugin-calculator.page \
 	plugin-favorites.page \
 	plugin-selected-file.page \
-	plugin-triggers.page \
-	plugin-websearch.page \
-#
+	plugin-triggers.page
+
 
 DOC_LINGUAS = cs de es it pl sl
 
