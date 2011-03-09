@@ -7,7 +7,7 @@
    <desc>Using plugins with <app>Kupfer</app>.</desc>
   </info>
 
-  <title>How to configure plugins</title>
+  <title>How to Configure Plugins</title>
 
   <p>
     Functionality in Kupfer is organized by extentsion modules called
@@ -39,9 +39,8 @@
 
     <p>
       Select plugins in the list to read about them, and tick the box
-      next its name to load the plugin.
+      next to its name to load the plugin.
     </p>
-
     <p>
       If the plugin has any configurable parameters, they will be
       visible below the plugin information.
@@ -50,6 +49,25 @@
       information page as well as the action "Show Source Code" which
       reveals the implementation.
     </p>
+  </section>
+  <section>
+    <title>If a Plugin can not be Loaded</title>
+      <p>
+        If the plugin fails to
+        load because it requires a software module that is not available,
+        the plugin information will display a message like this:
+      </p>
+      <p><em>Plugin could not be read due to an error:</em>
+      </p><p><em>Python module 'gdata' is needed</em></p>
+      <p>
+        This means that you need to install the needed python module
+        from your distribution—and possibly the plugin documentation can
+        tell you how. 
+      </p>
+      <p>The plugin may also unexpectedly fail to load, and display a
+        different error message. It may then be a program error in either
+        the plugin or <app>Kupfer</app>.
+      </p>
   </section>
   
   <section>
@@ -61,6 +79,10 @@
       containing a file called <code>__init__.py</code>). Plugins
       in the package format can include icon files. Python packages can even
       be installed as <code>.zip</code> files.
+    </p>
+    <p>
+      <em>Caution:</em> Treat a plugin as a computer program.
+      Do not install untrusted plugins.
     </p>
   </section>
 
@@ -75,10 +97,10 @@
     </p>
   </section>
   <section>
-    <title>The <em>Catalog</em> tab in preferences</title>
+    <title>The <em>Catalog</em> Tab in Preferences</title>
     <p>
       Each plugin can export a number of sources which contain objects.
-      Normally, all their contents are directly accessible from a top-level
+      Normally, all these objects are directly accessible from a top-level
       search.
       Some plugins export so specialized or so many objects that their
       catalogs should better not have their objects exported to the top
@@ -92,8 +114,8 @@
       An unticked box means that its contents are hidden from the top level.
     </p>
     <p>
-      <em>Note:</em> Kupfer may become slow if large enough subcatalogs are exported
-      to the top level.
+      <em>Note:</em> Kupfer may become slow if large enough subcatalogs are
+      exported to the top level.
     </p>
   </section>
 </page>

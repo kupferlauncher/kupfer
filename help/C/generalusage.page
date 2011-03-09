@@ -95,7 +95,7 @@
 
     <p>
       Objects in the catalog that have content, like folders, are marked
-      with an arrow. Pressing <key>right-arrow</key> will enter these
+      with an arrow. Pressing <key>→</key> will enter these
       objects. Much of the catalog is composed of subcatalogs; plugin
       subcatalogs do in general list objects that are also available
       directly from the top level.  Subcatalogs can be used for a

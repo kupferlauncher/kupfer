@@ -4,7 +4,7 @@
 
   <info>
    <link type="guide" xref="index#usage"/>
-   <desc>Complete keyboard reference.</desc>
+   <desc>Complete keyboard shortcuts reference.</desc>
   </info>
 
   <title>Command Keys and Accelerator Keys</title>
@@ -157,7 +157,35 @@
       <td><p> Show <app>Kupfer</app> with 'Selection' object focused</p></td>
     </tr>
   </table>
-
+    <steps>
+     <title>How to configure a global keyboard shortcut</title>
+     <item>
+      <p>
+        Open <app>Kupfer Preferences</app> and go to the
+        <em>Keyboard</em> tab.
+      </p>
+     </item>
+     <item>
+      <p>
+        Double-click the shorcut's row under <em>Global Keyboard
+          Shortcuts</em>.
+      </p>
+     </item>
+     <item>
+      <p>
+        Using the window that appears, press modifier keys and a letter or
+        number key to set a global shortcut. An example is pressing and
+        holding <key>Super</key> and then pressing and releasing
+        <key>Space</key> to bind
+        <keyseq><key>Super</key><key>Space</key></keyseq>.
+      </p>
+     </item>
+    </steps>
+    <p>
+      Since these keyboard shortcuts are global, they can be used from any
+      application. Select shortcuts with care so that they do not
+      conflict with other functions. 
+    </p>
   </section>
   <section>
     <title>Triggers</title>

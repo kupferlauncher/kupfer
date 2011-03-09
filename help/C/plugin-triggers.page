@@ -43,18 +43,19 @@
       <p>
         Using the window that appears, press modifier keys and a letter or
         number key to set a global shortcut. An example is pressing and
-        holding <key>Ctrl</key><key>Alt</key> and then typing <key>R</key>
-        to bind <keyseq><key>Ctrl</key><key>Alt</key><key>R</key></keyseq>.
+        holding <keyseq><key>Ctrl</key><key>Alt</key></keyseq> and then
+        pressing and releasing <key>R</key> to bind
+        <keyseq><key>Ctrl</key><key>Alt</key><key>R</key></keyseq>.
       </p>
      </item>
     </steps>
     <p> Since trigger keyboard shortcuts are global, they can be used from
-      any application. You must select shortcuts with care so that they do
+      any application. Select shortcuts with care so that they do
       not conflict with other functions.
     </p>
  </section>
  <section>
-   <title>Power user tips</title>
+   <title>Power User Tips</title>
    <p> <em>Proxy objects</em> such as <em>Selected Text</em>,  <em>Selected File</em>,
      <em>Frontmost Window</em>, <em>Last Command</em> et cetera allow very
      powerful triggers.
