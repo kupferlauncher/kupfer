@@ -2,15 +2,15 @@
 # Spanish translation for kupfer.
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 # Jorge González <jorgegonz@svn.gnome.org>, 2010, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-02-09 18:22+0000\n"
-"PO-Revision-Date: 2011-02-12 14:20+0100\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"POT-Creation-Date: 2011-03-09 01:12+0000\n"
+"PO-Revision-Date: 2011-03-09 12:28+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,230 +18,49 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: C/tips.page:7(desc)
-msgid "Using <app>Kupfer</app> more conveniently."
-msgstr "Usar <app>Kupfer</app> de una forma más conveniente."
+#: C/plugin-websearch.page:7(desc)
+msgid "Using the search the web plugin."
+msgstr ""
 
-#: C/tips.page:10(title)
+#: C/plugin-websearch.page:10(app)
+#| msgid "Search the Web Search Engines"
+msgid "Search the Web"
+msgstr "Buscar en la web"
+
+#: C/plugin-websearch.page:13(title) C/plugin-triggers.page:22(title)
+#: C/plugin-notes.page:22(title) C/plugin-nautilusselection.page:13(title)
+#: C/plugin-favorites.page:22(title) C/plugin-calculator.page:21(title)
+#: C/plugin-applications.page:19(title) C/generalusage.page:10(title)
 msgid "Basic Usage"
 msgstr "Uso básico"
 
-#: C/tips.page:13(title)
-msgid "The Catalog"
-msgstr "El catálogo"
+#: C/plugin-websearch.page:15(p)
+msgid "Activate Kupfer and make sure it is in free-text mode (press period)"
+msgstr ""
 
-#: C/tips.page:14(p)
+#: C/plugin-websearch.page:17(p)
 msgid ""
-"The Catalog is the collection of objects you can access in Kupfer, such as "
-"documents and programs."
+"Type in a search query and tap <key>Tab</key> to switch to the action pane."
 msgstr ""
-"El catálogo es la colección de objetos a la que puede acceder en Kupfer, "
-"como documentos y programas."
 
-#: C/tips.page:19(p)
+#: C/plugin-websearch.page:19(p)
 msgid ""
-"Objects in the catalog that have content, like folders, are marked with an "
-"arrow. Pressing <key>right-arrow</key> will enter these objects. Much of the "
-"catalog is composed of subcatalogs; plugin subcatalogs do in general list "
-"objects that are also available directly from the top level. Subcatalogs can "
-"be used for a narrower view or search scope, when using Kupfer."
+"Type \"Search With\" to find Search the Web's action and tap <key>Tab</key> "
+"again to switch to the third pane (indirect object)."
 msgstr ""
-"Los objetos del catálogo que tienen contenidos, como las carpetas, se marcan "
-"con una flecha. Pulsando <key>→</key> entrará en estos objetos. La mayoría "
-"de los catálogos se componen de subcatálogos; los subcatálogos de "
-"complementos, en general, listan objetos que también están disponibles "
-"directamente desde el nivel superior. Al usar Kupfer, Se pueden usar los "
-"subcatálogos para una vista estrecha o un rango de búsqueda."
 
-#: C/tips.page:28(p)
+#: C/plugin-websearch.page:22(p)
 msgid ""
-"Most subcatalogs update their content automatically. For example, the "
-"Desktop folder catalog is always uptodate."
+"Select search engine with the arrow keys and type <key>Return</key> to open "
+"the search in a web browser."
 msgstr ""
-"La mayoría de subcatálogos actualizan su contenido automáticamente. Por "
-"ejemplo, el catálogo de la carpeta «Escritorio» siempre está actualizado."
 
-#: C/tips.page:35(title)
-msgid "Keyboard Interface"
-msgstr "Interfaz de teclado"
+#: C/plugin-websearch.page:29(title)
+#| msgid "Search the Web Search Engines"
+msgid "Search Engines"
+msgstr "Motores de búsqueda"
 
-#: C/tips.page:37(p)
-msgid ""
-"<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
-"applications and documents."
-msgstr ""
-"<app>Kupfer</app> es la parte más grande de una interfaz gestionada por "
-"teclado de aplicaciones y documentos."
-
-#: C/tips.page:41(p)
-msgid ""
-"Kupfer's default mode is the command mode: If you type a query, kupfer will "
-"search for a match in its catalog."
-msgstr ""
-"El modo predeterminado de Kupfer es en modo comandos: si escribe una "
-"consulta, Kupfer buscará una coincidencia en su catálogo."
-
-#: C/tips.page:46(p)
-msgid ""
-"The arrow keys allow you to browse query matches quite naturally, going to "
-"the previous or next match, and going up and down in the subcatalogs."
-msgstr ""
-"Las teclas de flechas le permiten examinar las coincidencias de las "
-"consultas de manera más natural, yendo a la coincidencia anterior o a la "
-"siguiente, y yendo arriba y abajo en los subcatálogos."
-
-#: C/tips.page:52(p)
-msgid "In command mode, some keystrokes have special meanings:"
-msgstr ""
-"En modo comando, algunas pulsaciones del teclado tienen un significado "
-"especial:"
-
-#: C/tips.page:57(p)
-msgid "<key>↓</key> or <key>Space</key>"
-msgstr "<key>↓</key> o <key>Espacio</key>"
-
-#: C/tips.page:58(p)
-msgid "Go to the next match"
-msgstr "Ir a la siguiente coincidencia"
-
-#: C/tips.page:61(p)
-msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
-msgstr "<key>↑</key> o <keyseq><key>Mayús</key><key>Espacio</key></keyseq>"
-
-#: C/tips.page:64(p)
-msgid "Go to the previous match"
-msgstr "Ir a la coincidencia anterior"
-
-#: C/tips.page:67(p)
-msgid "<key>→</key> or <key>/</key>"
-msgstr "<key>→</key> o <key>/</key>"
-
-#: C/tips.page:68(p)
-msgid "Descend into an object with content"
-msgstr "Descender a un objeto con contenido"
-
-#: C/tips.page:71(key)
-msgid "Backspace"
-msgstr "Retroceso"
-
-#: C/tips.page:72(p)
-msgid "Erase a character from the query. If the query is empty, go up a level"
-msgstr ""
-"Quitar un carácter de la consulta. Si la consulta está vacía, subir un nivel"
-
-#: C/tips.page:77(key)
-msgid "."
-msgstr "."
-
-#: C/tips.page:78(p)
-msgid "Activate free-text mode"
-msgstr "Activar el modo de texto libre"
-
-#: C/tips.page:81(key)
-msgid ","
-msgstr ","
-
-#: C/tips.page:82(p)
-msgid "Put selected object on the stack (\"Comma Trick\")"
-msgstr "Poner un objeto seleccionado en la pila («truco de la coma»)"
-
-#: C/tips.page:85(p)
-msgid ""
-"Additionally, the key <key>Return</key> activates the current selection: the "
-"command is executed. <key>Escape</key> clears the current selection."
-msgstr ""
-"Adicionalmente, la tecla <key>Intro</key> activa la selección actual: el "
-"comando se ejecuta. <key>Espacio</key> limpia la selección actual."
-
-#: C/tips.page:91(title)
-msgid "Global Keyboard Shortcuts"
-msgstr "Atajos de teclado globales"
-
-#: C/tips.page:92(p)
-msgid ""
-"Kupfer listens to global shortcuts, even if Kupfer is not currently in the "
-"foreground. The most important global shortcut is the shortcut to show and "
-"hide Kupfer's command window which by default is <keyseq><key>Ctrl</"
-"key><key>Space</key></keyseq>."
-msgstr ""
-"Kupfer escucha los atajos globales, aunque no esté actualmente en primer "
-"plano. El atajo global más importante es el que muestra y oculta la ventana "
-"de comandos de Kupfer, que de manera predeterminada es <keyseq><key>Ctrl</"
-"key><key>Espacio</key></keyseq>."
-
-#: C/tips.page:98(p)
-msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
-msgstr ""
-"Los atajos globales de teclado están configurados en las preferencias de "
-"Kupfer."
-
-#: C/tips.page:101(p)
-msgid ""
-"The Triggers plugin allows to configure actions to be activated by global "
-"shortcuts, but triggers can only be configured in that plugin."
-msgstr ""
-"El complemento «Triggers» le permite configurar acciones que se activarán "
-"con atajos globales, pero los disparadores sólo se pueden configurar en ese "
-"complemento."
-
-#: C/tips.page:108(title)
-msgid "Additional Keyboard Shortcuts"
-msgstr "Atajos de teclado adicionales"
-
-#: C/tips.page:109(p)
-msgid ""
-"Additional keyboard shortcuts that work with Kupfer when it is in the "
-"foreground can be configured in Kupfer's preferences."
-msgstr ""
-"Adicionalmente, los atajos de teclado que funcionan en Kupfer en primer "
-"plano se pueden configurar en las preferencias de Kupfer."
-
-#: C/tips.page:119(title)
-msgid "Configuration files and paths"
-msgstr "Archivos de configuración y rutas"
-
-#: C/tips.page:120(p)
-msgid ""
-"Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/</"
-"file>"
-msgstr ""
-"Instale los complementos personalizados en la carpeta <file>~/.local/share/"
-"kupfer/plugins/</file>"
-
-#: C/tips.page:124(p)
-msgid ""
-"Kupfer cache, config and data are located in the directories <file>~/.cache/"
-"kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/share/"
-"kupfer</file>."
-msgstr ""
-"La caché de Kupfer, la configuración y los datos se ubican en las carpetas "
-"<file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> y <file>~/.local/"
-"share/kupfer</file>."
-
-#: C/plugins.page:7(desc)
-msgid "Using <app>Kupfer</app> plugins."
-msgstr "Usar los complementos de <app>Kupfer</app>."
-
-#: C/plugins.page:10(title)
-msgid "Plugins"
-msgstr "Complementos"
-
-#: C/plugins.page:12(p)
-msgid ""
-"You can install custom plugins into ~/.local/share/kupfer/plugins; adding to "
-"<app>Kupfer</app>'s object knowledge can be surprisingly easy, just look at "
-"the default plugins if you want to create new."
-msgstr ""
-"Puede instalar complementos personalizados en ~/.local/share/kupfer/plugins; "
-"añadirlos al conocimiento de objetos de <app>Kupfer</app> puede ser "
-"sorprendentemente fácil, simplemente mire los complementos predeterminados "
-"si quiere crear uno nuevo."
-
-#: C/plugins.page:19(title)
-msgid "Search the Web Search Engines"
-msgstr "Buscar en los motores de búsqueda de la web"
-
-#: C/plugins.page:20(p)
+#: C/plugin-websearch.page:30(p)
 msgid ""
 "The Search the Web plugin uses <app>Firefox'</app> search engines, so you "
 "can add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> "
@@ -251,7 +70,7 @@ msgstr ""
 "<app>Firefox</app> por lo que puede añadir motores de búsqueda directamente "
 "en <app>Firefox</app> y luego <app>Kupfer</app> los encontrará."
 
-#: C/plugins.page:25(p)
+#: C/plugin-websearch.page:35(p)
 msgid ""
 "You can also install custom search plugins directly, only for <app>Kupfer</"
 "app>, in the folder:"
@@ -259,16 +78,453 @@ msgstr ""
 "También puede instalar complementos de búsqueda personalizados directamente, "
 "sólo para <app>Kupfer</app>, en la carpeta:"
 
-#: C/plugins.page:29(code)
+#: C/plugin-websearch.page:39(code)
 #, no-wrap
 msgid "~/.local/share/kupfer/searchplugins/"
 msgstr "~/.local/share/kupfer/searchplugins/"
 
-#: C/plugins.page:34(title)
+#: C/plugin-websearch.page:40(p)
+msgid "The search engine descriptions must written in OpenSearch format."
+msgstr ""
+"Las descripciones del motor de búsqueda deben estar escritas en el formato "
+"OpenSearch."
+
+#: C/plugin-triggers.page:7(desc)
+msgid "Using the triggers plugin."
+msgstr "Usar el complemento «Disparadores»."
+
+#: C/plugin-triggers.page:10(app) C/keyboard.page:191(title)
+msgid "Triggers"
+msgstr "Disparadores"
+
+#: C/plugin-triggers.page:13(title)
+msgid "Triggers Plugin"
+msgstr "Complemento «Disparadores»"
+
+#: C/plugin-triggers.page:14(p)
+msgid ""
+"With <app>Triggers</app> you can take a command you would normally perform "
+"in Kupfer, such as launching an application or opening a document, and bind "
+"a global key combination to run this command. As long as Kupfer is running, "
+"any application can have the current focus."
+msgstr ""
+
+#: C/plugin-triggers.page:25(p)
+msgid "Set up a command in Kupfer that you want to run,"
+msgstr ""
+
+#: C/plugin-triggers.page:30(p)
+msgid ""
+"Press <keyseq><key>Ctrl</key><key>Return</key></keyseq> (or the shortcut you "
+"have configured in preferences) to create a composed command."
+msgstr ""
+
+#: C/plugin-triggers.page:37(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Add Trigger...</em> and press "
+"<key>Return</key>"
+msgstr ""
+
+#: C/plugin-triggers.page:43(p)
+msgid ""
+"Using the window that appears, press modifier keys and a letter or number "
+"key to set a global shortcut. An example is pressing and holding "
+"<keyseq><key>Ctrl</key><key>Alt</key></keyseq> and then pressing and "
+"releasing <key>R</key> to bind <keyseq><key>Ctrl</key><key>Alt</key><key>R</"
+"key></keyseq>."
+msgstr ""
+
+#: C/plugin-triggers.page:52(p)
+msgid ""
+"Since trigger keyboard shortcuts are global, they can be used from any "
+"application. Select shortcuts with care so that they do not conflict with "
+"other functions."
+msgstr ""
+
+#: C/plugin-triggers.page:58(title) C/plugin-notes.page:60(title)
+#: C/plugin-favorites.page:38(title)
+msgid "Power User Tips"
+msgstr ""
+
+#: C/plugin-triggers.page:59(p)
+msgid ""
+"<em>Proxy objects</em> such as <em>Selected Text</em>, <em>Selected File</"
+"em>, <em>Frontmost Window</em>, <em>Last Command</em> et cetera allow very "
+"powerful triggers."
+msgstr ""
+
+#: C/plugin-triggers.page:63(p)
+msgid ""
+"The application action <em>Launch</em> is special; if you bind a trigger "
+"using <em>Launch</em>, it will start the application if it is not running, "
+"but focus the application when it is already running. By contrast, <em>Start "
+"Again</em> will start the application if it is running or not."
+msgstr ""
+
+#: C/plugin-triggers.page:71(title)
+msgid "Example Triggers"
+msgstr "Ejemplo de «Disparadores»"
+
+#: C/plugin-triggers.page:74(em)
+msgid "Firefox → Launch"
+msgstr ""
+
+#: C/plugin-triggers.page:75(p)
+msgid "Start a program if it is already running, else focus its window."
+msgstr ""
+
+#: C/plugin-triggers.page:79(em)
+msgid "Selected Text → Search With → Google"
+msgstr ""
+
+#: C/plugin-triggers.page:80(p)
+msgid "Search the web using the currently selected text."
+msgstr ""
+
+#: C/plugin-triggers.page:82(em)
+msgid "Selected File → Move To → (Downloads Folder)"
+msgstr ""
+
+#: C/plugin-triggers.page:83(p)
+msgid "Move the currently selected file to a specific folder"
+msgstr ""
+
+#: C/plugin-triggers.page:87(em)
+msgid "Songs → Search Contents"
+msgstr ""
+
+#: C/plugin-triggers.page:88(p)
+msgid ""
+"You may even add a trigger to open a specific subcatalog in Kupfer, for "
+"example Rhythmbox's songs."
+msgstr ""
+
+#: C/plugin-notes.page:7(desc)
+msgid "Using the notes plugin."
+msgstr "Usar el complemento «Notas»"
+
+#: C/plugin-notes.page:10(app) C/plugin-calculator.page:37(title)
+msgid "Notes"
+msgstr "Notas"
+
+#: C/plugin-notes.page:13(title)
+#| msgid "Plugins"
+msgid "Notes Plugin"
+msgstr "Complemento «Notas»"
+
+#: C/plugin-notes.page:14(p)
+msgid ""
+"With <app>Notes</app> you can access or create new notes in either the "
+"program <app>Gnote</app> or <app>Tomboy</app>. <app>Notes</app> will work "
+"identically with either application—you can configure which one to use in "
+"the plugin's information pane in <app>Kupfer Preferences</app>."
+msgstr ""
+
+#: C/plugin-notes.page:24(title)
+msgid "Creating a new note"
+msgstr "Crear una nota nueva"
+
+#: C/plugin-notes.page:26(p)
+msgid ""
+"Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
+"note title"
+msgstr ""
+
+#: C/plugin-notes.page:32(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Create Note</em> and press "
+"<key>Return</key>."
+msgstr ""
+
+#: C/plugin-notes.page:39(title)
+msgid "Finding a note by title"
+msgstr "Buscar una nota por título"
+
+#: C/plugin-notes.page:41(p)
+msgid "Simply search for the note title in <app>Kupfer</app>"
+msgstr ""
+
+#: C/plugin-notes.page:45(title)
+#| msgid "Descend into an object with content"
+msgid "Finding a note by content"
+msgstr "Buscar una nota por contenido"
+
+#: C/plugin-notes.page:47(p)
+msgid ""
+"Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
+"search query"
+msgstr ""
+
+#: C/plugin-notes.page:53(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Get Note Search Results...</"
+"em> and press <key>Return</key>."
+msgstr ""
+
+#: C/plugin-notes.page:63(p)
+msgid ""
+"You can use the <em>Selected Text</em> object and create a new note with the "
+"content of the selection."
+msgstr ""
+
+#: C/plugin-nautilusselection.page:7(desc)
+msgid "Using the selected file plugin."
+msgstr "Usar el complemento «Archivo seleccionado»."
+
+#: C/plugin-nautilusselection.page:10(app)
+msgid "Selected File"
+msgstr "Archivo seleccionado"
+
+#: C/plugin-nautilusselection.page:14(p)
+msgid ""
+"Select a file in the file manager. Open <app>Kupfer</app> and search for the "
+"object <app>Selected File</app>, which represents the file or files that are "
+"selected."
+msgstr ""
+
+#: C/plugin-nautilusselection.page:19(p)
+msgid ""
+"Instead of searching, you can press <keyseq><key>Ctrl</key><key>G</key></"
+"keyseq> to directly focus the selected file. See <link xref=\"keyboard\"/> "
+"for more information."
+msgstr ""
+
+#: C/plugin-nautilusselection.page:26(title)
+msgid "<app>Selected File</app> requires <app>Nautilus</app>"
+msgstr ""
+
+#: C/plugin-nautilusselection.page:27(p)
+msgid ""
+"The selected file plugin works with the <app>Nautilus</app> file browser and "
+"requires that the extension <cmd>kupfer_provider.py</cmd> is installed (it "
+"is normally installed together with <app>Kupfer</app>). After installing it "
+"for the first time, <app>Nautilus</app> must start anew before it is active."
+msgstr ""
+
+#: C/plugin-favorites.page:7(desc)
+msgid "Using the favorites plugin."
+msgstr "Usar el complemento «Favoritos»."
+
+#: C/plugin-favorites.page:10(app)
+msgid "Favorites"
+msgstr "Favoritos"
+
+#: C/plugin-favorites.page:13(title)
+#| msgid "Calculator Plugin"
+msgid "Favorites Plugin"
+msgstr "Complemento «Favoritos»"
+
+#: C/plugin-favorites.page:14(p)
+msgid ""
+"With <app>Favorites</app> you mark objects, for example files, for quicker "
+"access. It is a sort of shelf on which you can store objects in Kupfer. "
+"Objects marked as favorites will also be ranked higher and are adorned with "
+"a star symbol."
+msgstr ""
+
+#: C/plugin-favorites.page:25(p)
+#, fuzzy
+#| msgid "Introduction to <app>Kupfer</app>."
+msgid "Find an object in <app>Kupfer</app>"
+msgstr "Introducción a <app>Kupfer</app>"
+
+#: C/plugin-favorites.page:30(p)
+msgid ""
+"Type <key>Tab</key> and select either the action <em>Add to Favorites</em> "
+"or <em>Remove from Favorites</em>."
+msgstr ""
+
+#: C/plugin-favorites.page:39(p)
+msgid ""
+"If you favorite an object, you can access it in more places. Not only in the "
+"\"Favorites\" subcatalog, but also as the indirect (secondary) object for "
+"some actions. For example:"
+msgstr ""
+
+#: C/plugin-favorites.page:45(p)
+msgid "Command-lines from favorites are quick to access."
+msgstr ""
+
+#: C/plugin-favorites.page:46(p)
+msgid ""
+"When scaling images with the <em>Scale...</em> action from the <app>Image "
+"Tools</app> plugin. This action needs a size description as the third "
+"object, like \"1024\" or \"1200x800\". If you often scale to the same size, "
+"say \"1200x800\", add this to favorites, and it will always appear as a "
+"suggestion for the action."
+msgstr ""
+
+#: C/plugin-favorites.page:54(p)
+msgid ""
+"Actions needing an email address as the indirect object will pick up email "
+"addresses from favorites as well as well."
+msgstr ""
+
+#: C/plugin-calculator.page:7(desc)
+#| msgid "Calculator Plugin"
+msgid "Using the calculator plugin."
+msgstr "Usar el complemento «Calculadora»."
+
+#: C/plugin-calculator.page:10(app)
+#| msgid "Calculator Plugin"
+msgid "Calculator"
+msgstr "Calculadora"
+
+#: C/plugin-calculator.page:13(title)
+msgid "Calculator Plugin"
+msgstr "Complemento «Calculadora»"
+
+#: C/plugin-calculator.page:14(p)
+msgid ""
+"The calculator plugin lets you calculate expressions quickly. It can "
+"evaluate expressions entered as text starting with \"=\". Entering = from "
+"command mode will start text mode directly with = prefixed for quick access."
+msgstr ""
+"El complemento «Calculadora» le permite calcular expresiones rápidamente. "
+"Puede evaluar expresiones introducidas como texto que comiencen por «=». Si "
+"introduce «=» en el modo comando se iniciará directamente el modo texto con "
+"el prefijo «=» para un acceso rápido."
+
+#: C/plugin-calculator.page:23(p)
+msgid "Activate Kupfer and type <key>=</key>"
+msgstr ""
+
+#: C/plugin-calculator.page:26(p)
+msgid ""
+"Type in a mathematical expression using <key>+</key>,<key>-</key>,<key>/</"
+"key>,<key>*</key> (and <key>**</key> for exponentiation)"
+msgstr ""
+
+#: C/plugin-calculator.page:30(p)
+msgid "Press <key>Return</key> to get the result."
+msgstr ""
+
+#: C/plugin-calculator.page:38(p)
+#, fuzzy
+#| msgid ""
+#| "The Calculator uses python's math and complex math modules, and parses "
+#| "expressions as Python expressions. You may use common mathematical "
+#| "functions, such as sqrt, sin, exp and log; the command <cmd>=help</cmd> "
+#| "will show a list of all defined functions and constants."
+msgid ""
+"The Calculator uses python's math and complex math modules, and parses "
+"expressions as Python expressions. You may use common mathematical "
+"functions, such as <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> and "
+"<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
+"functions and constants."
+msgstr ""
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, y "
+"analiza expresiones como expresiones de Python. Puede usar funciones "
+"matemáticas comunes, como «sqrt», «sin», «exp» y «log»; el comando <cmd>=help</"
+"cmd> mostrará una lista de todas las funciones y constantes definidas."
+
+#: C/plugin-calculator.page:47(p)
+#, fuzzy
+#| msgid ""
+#| "Notice that the power operator in Python is double stars, for example "
+#| "=3**3 will evaluate to 27."
+msgid ""
+"Notice that the power operator in Python is double stars, for example "
+"<code>=3**3</code> will evaluate to 27."
+msgstr ""
+"Tenga en cuenta que el operador exponencial en Python son dos asteriscos, "
+"por ejemplo =3**3 se evaluará como 27."
+
+#: C/plugin-calculator.page:53(p)
+msgid "To calculate trig functions for angles, convert to radians first:"
+msgstr ""
+"Para calcular funciones trigonométricas para ángulos, convierta primero a "
+"radianes:"
+
+#: C/plugin-calculator.page:56(code)
+#, no-wrap
+msgid "sin(radians(30)) -&gt; 0.5"
+msgstr "sin(radians(30)) -&gt; 0.5"
+
+#: C/plugin-calculator.page:59(p)
+msgid ""
+"The last result is stored as the name _ (an underscore, just like in the "
+"Python console)."
+msgstr ""
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
+"consola de Python)."
+
+#: C/plugin-applications.page:7(desc)
+msgid "Using the applications plugin."
+msgstr "Usar el complemento «Aplicaciones»."
+
+#: C/plugin-applications.page:10(app)
+msgid "Applications"
+msgstr "Aplicaciones"
+
+#: C/plugin-applications.page:13(title)
+#| msgid "Calculator Plugin"
+msgid "Applications Plugin"
+msgstr "Complemento «Aplicaciones»"
+
+#: C/plugin-applications.page:14(p)
+msgid "<app>Applications</app> provides all installed programs."
+msgstr ""
+
+#: C/plugin-applications.page:21(title)
+msgid "Launching an application"
+msgstr "Lanzar una aplicación"
+
+#: C/plugin-applications.page:23(p)
+msgid "Activate Kupfer and type an abbreviation of the application name"
+msgstr ""
+
+#: C/plugin-applications.page:28(p)
+msgid "Press <key>Return</key> to launch the application."
+msgstr ""
+
+#: C/plugin-applications.page:34(title)
+msgid "Opening a file with a specific application"
+msgstr "Abrir un archivo con una aplicación específica"
+
+#: C/plugin-applications.page:36(p)
+#| msgid "Introduction to <app>Kupfer</app>."
+msgid "Select a file in <app>Kupfer</app>"
+msgstr "Seleccione un archivo en <app>Kupfer</app>"
+
+#: C/plugin-applications.page:41(p)
+msgid "Type <key>Tab</key> and select the action <em>Open With...</em>"
+msgstr ""
+
+#: C/plugin-applications.page:46(p)
+msgid ""
+"Type <key>Tab</key> to select the third (indirect object) pane and in it, "
+"select the application the file with."
+msgstr ""
+
+#: C/plugin-applications.page:54(title)
+#| msgid "Configuration files and paths"
+msgid "Configuration"
+msgstr "Configuración"
+
+#: C/plugin-applications.page:55(p)
+msgid ""
+"The configuration option <em>Applications for Desktop Environment</em> in "
+"the plugin's information pane in <app>Kupfer Preferences</app> determines "
+"how <app>Kupfer</app> should act with regard to the desktop environment "
+"configuration -- certain applications request not to be shown depending on "
+"which desktop environment is used. By default, it behaves like GNOME."
+msgstr ""
+
+#: C/moreusage.page:7(desc)
+msgid "More advanced usage information."
+msgstr ""
+
+#: C/moreusage.page:10(title)
+#| msgid "Using <app>Kupfer</app> plugins."
+msgid "Using <app>Kupfer</app> in Depth"
+msgstr "Usar <app>Kupfer</app> en profundidad"
+
+#: C/moreusage.page:13(title)
 msgid "Open Terminal Here"
 msgstr "Abrir terminal aquí"
 
-#: C/plugins.page:35(p)
+#: C/moreusage.page:14(p)
 msgid ""
 "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-terminal</"
 "cmd>. xdg-terminal is a script to find the user's configured terminal "
@@ -281,72 +537,28 @@ msgstr ""
 "escritorio. Instale <cmd>xdg-terminal</cmd> si lo necesita (o cree un enlace "
 "simbólico llamado «xdg-terminal»)."
 
-#: C/plugins.page:44(title)
+#: C/moreusage.page:23(title)
 msgid "Grab current selection"
 msgstr "Capturar la selección actual"
 
-#: C/plugins.page:45(p)
+#: C/moreusage.page:24(p)
 msgid ""
-"To use <app>Kupfer</app> like a pro, you can configure a \"Magic Keybinding"
-"\" for <app>Kupfer</app>. GUI configuration is not yet supported, but edit "
-"the configuration file <file>~/.config/kupfer/kupfer.cfg</file> to include "
-"the following:"
+"To use the current selected text, from any application, with <app>Kupfer</"
+"app>, you can configure a global keyboard shortcut for the action Show with "
+"Selection in the preferences window."
 msgstr ""
-"Para usar <app>Kupfer</app> como un profesional, puede configurar una "
-"«asociación de teclas mágica» para <app>Kupfer</app>. La configuración de la "
-"IGU todavía no está soportada, pero edite el archivo de configuración "
-"<file>~/.config/kupfer/kupfer.cfg</file> para incluir lo siguiente:"
 
-#: C/plugins.page:51(code)
-#, no-wrap
+#: C/moreusage.page:28(p)
 msgid ""
-"\n"
-"[Kupfer]\n"
-"keybinding = &lt;Control&gt;space\n"
-"magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
-"  "
+"If configured, pressing the global keyboard shortcut will summon "
+"<app>Kupfer</app> with the current selection as the focused object."
 msgstr ""
-"\n"
-"[Kupfer]\n"
-"keybinding = &lt;Control&gt;space\n"
-"magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
-"  "
 
-#: C/plugins.page:57(p)
-msgid ""
-"Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq> "
-"will summon <app>Kupfer</app> with the current selection in focus. Make sure "
-"you have installed <app>Kupfer</app>'s nautilus plugin, then both the "
-"currently selected file in Nautilus, or the currently selected text in the "
-"front application will be selected."
-msgstr ""
-"Ahora, pulsando <keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</key></"
-"keyseq> se ejecutará <app>Kupfer</app> con el foco en la selección actual. "
-"Asegúrese de que tiene instalado el complemento de <app>Kupfer</app> para "
-"Nautilus, y entonces se seleccionarán el archivo seleccionado en Nautilus, o "
-"el texto seleccionado en la aplicación."
-
-#: C/plugins.page:64(p)
-msgid ""
-"Now you can select a word in, say, a web browser, use <keyseq><key>Ctrl</"
-"key><key>Alt</key><key>Space</key></keyseq>, and select action <gui>Look Up</"
-"gui> to look up the selected word. Or select an image file, use "
-"<keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select "
-"action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to "
-"1000 pixels wide!"
-msgstr ""
-"Ahora puede seleccionar una palabra en, por ejemplo, un navegador web. Use "
-"<keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</key></keyseq> y elija la "
-"acción <gui>Buscar</gui> para buscar la palabra seleccionada. O seleccione "
-"un archivo de imagen, use <keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</"
-"key></keyseq>, elija la acción <gui>Escalar</gui> con el objeto <gui>1000</"
-"gui> para escalar la imagen a 1000 píxeles de anchura."
-
-#: C/plugins.page:74(title)
+#: C/moreusage.page:36(title)
 msgid "Adding your actions and scripts"
 msgstr "Añadir sus acciones y su scripts"
 
-#: C/plugins.page:75(p)
+#: C/moreusage.page:37(p)
 msgid ""
 "If you want to add a custom application, or an application called with "
 "special options, you can create a new launcher for it and place it in one of "
@@ -358,7 +570,7 @@ msgstr ""
 "los sitios estándar para aplicaciones, por ejemplo <file>~/.local/share/"
 "applications</file>, donde <app>Kupfer</app> lo encontrará."
 
-#: C/plugins.page:81(p)
+#: C/moreusage.page:43(p)
 msgid ""
 "If you have a collection of scripts that you want to call from <app>Kupfer</"
 "app>, you can add the scripts folder as a catalog directory to <app>Kupfer</"
@@ -372,7 +584,7 @@ msgstr ""
 "<app>Kupfer</app> de esta manera se puede ejecutar directamente en la "
 "terminal, siempre y cuando sean ejecutables."
 
-#: C/plugins.page:87(p)
+#: C/moreusage.page:49(p)
 msgid ""
 "An example useful script is <link href=\"http://kaizer.se/wiki/code/rhrating."
 "py/\"> here</link> which changes the rating of <app>Rhythmbox</app>'s "
@@ -387,66 +599,11 @@ msgstr ""
 "para valorar canciones rápidamente. (Esto es algo que se debe integrar en "
 "<app>Kupfer</app> más adelante)"
 
-#: C/plugins.page:97(title)
-msgid "Calculator Plugin"
-msgstr "Complemento «Calculadora»"
-
-#: C/plugins.page:98(p)
-msgid ""
-"The calculator plugin lets you calculate expressions quickly. It can "
-"evaluate expressions entered as text starting with \"=\". Entering = from "
-"command mode will start text mode directly with = prefixed for quick access."
-msgstr ""
-"El complemento «Calculadora» le permite calcular expresiones rápidamente. "
-"Puede evaluar expresiones introducidas como texto que comiencen por «=». Si "
-"introduce «=» en el modo comando se iniciará directamente el modo texto con "
-"el prefijo «=» para un acceso rápido."
-
-#: C/plugins.page:103(p)
-msgid ""
-"The Calculator uses python's math and complex math modules, and parses "
-"expressions as Python expressions. You may use common mathematical "
-"functions, such as sqrt, sin, exp and log; the command <cmd>=help</cmd> will "
-"show a list of all defined functions and constants."
-msgstr ""
-"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
-"y analiza expresiones como expresiones de Python. Puede usar funciones "
-"matemáticas comunes, como «sqrt», «sin», «exp» y «log»; el comando "
-"<cmd>=help</cmd> mostrará una lista de todas las funciones y constantes "
-"definidas."
-
-#: C/plugins.page:111(p)
-msgid ""
-"Notice that the power operator in Python is double stars, for example =3**3 "
-"will evaluate to 27."
-msgstr ""
-"Tenga en cuenta que el operador exponencial en Python son dos asteriscos, "
-"por ejemplo =3**3 se evaluará como 27."
-
-#: C/plugins.page:117(p)
-msgid "To calculate trig functions for angles, convert to radians first:"
-msgstr ""
-"Para calcular funciones trigonométricas para ángulos, convierta primero a "
-"radianes:"
-
-#: C/plugins.page:120(code)
-#, no-wrap
-msgid "sin(radians(30)) -&gt; 0.5"
-msgstr "sin(radians(30)) -&gt; 0.5"
-
-#: C/plugins.page:123(p)
-msgid ""
-"The last result is stored as the name _ (an underscore, just like in the "
-"Python console)."
-msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
-"la consola de Python)."
-
-#: C/plugins.page:133(title)
+#: C/moreusage.page:59(title)
 msgid "Command line connection"
 msgstr "Conexión con la línea de comandos"
 
-#: C/plugins.page:134(p)
+#: C/moreusage.page:60(p)
 msgid ""
 "<app>Kupfer</app> is its own remote control. When <app>Kupfer</app> is "
 "already running, <app>Kupfer</app> on the command-line will focus its "
@@ -464,7 +621,7 @@ msgstr ""
 "elemento. De este modo, puede ejecutar acciones de <app>Kupfer</app> "
 "rápidamente incluso en objetos desde una terminal."
 
-#: C/plugins.page:142(p)
+#: C/moreusage.page:68(p)
 msgid ""
 "For example, if you are using the shell in a directory where you have a file "
 "called \"report.pdf\", you can focus this file in <app>Kupfer</app> by "
@@ -474,7 +631,7 @@ msgstr ""
 "archivo llamado «reporte.pdf», puede enfocar este archivo en <app>Kupfer</"
 "app> ejecutando <cmd>kupfer reporte.pdf</cmd>."
 
-#: C/plugins.page:147(p)
+#: C/moreusage.page:73(p)
 msgid ""
 "You can also pipe the output of a command into <app>Kupfer</app> to send "
 "text to the already running instance of <app>Kupfer</app>."
@@ -482,11 +639,11 @@ msgstr ""
 "También puede redirigir la salida de un comando hacia <app>Kupfer</app> para "
 "enviar texto a la instancia de <app>Kupfer</app> en ejecución."
 
-#: C/plugins.page:154(title)
+#: C/moreusage.page:80(title)
 msgid "Managing Context and Current Selection"
 msgstr "Gestionar el contexto y la selección actual"
 
-#: C/plugins.page:155(p)
+#: C/moreusage.page:81(p)
 msgid ""
 "If you find the object you want to use, then invoke an action, <app>Kupfer</"
 "app> goes away to perform the action (for example start a program or play a "
@@ -502,7 +659,7 @@ msgstr ""
 "(como omitir la siguiente canción) y puede ser útil realizar diferentes "
 "acciones sobre un mismo objeto."
 
-#: C/plugins.page:163(p)
+#: C/moreusage.page:89(p)
 msgid ""
 "However, you always have the top level catalog reachable when you \"come back"
 "\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to "
@@ -517,7 +674,7 @@ msgstr ""
 "volverá a ser sobre el nivel superior del catálogo, no sólo sobre los "
 "álbumes."
 
-#: C/plugins.page:170(p)
+#: C/moreusage.page:96(p)
 msgid ""
 "How to come back into the subcatalog you were in? You do that by simply "
 "browsing, not searching the first thing you do when you focus <app>Kupfer</"
@@ -532,7 +689,7 @@ msgstr ""
 "Mientras se abre la ventana del navegador, su siguiente consulta buscará el "
 "subcatálogo actual."
 
-#: C/plugins.page:177(p)
+#: C/moreusage.page:103(p)
 msgid ""
 "This way you can work both ways -- you can quickly drill down into folders "
 "to find a file, and when you come back for the next action with <app>Kupfer</"
@@ -546,9 +703,241 @@ msgstr ""
 "normal del nivel superior (simplemente empiece a escribir), o mantenerse "
 "donde está, en esa carpeta (pulse espacio y escriba una consulta)."
 
+#: C/moreusage.page:112(title)
+msgid "The \"Comma Trick\""
+msgstr "El «truco de la coma»"
+
+#: C/moreusage.page:113(p)
+msgid ""
+"The \"comma trick\" allows the user to use actions on many objects at the "
+"same time."
+msgstr ""
+"El «truco de la coma» permite al usuario utilizar acciones en varios objetos "
+"a la vez."
+
+#: C/moreusage.page:117(p)
+msgid ""
+"Simply press comma <key>,</key> when an object is selected. The object is "
+"put on a \"stack\", and you can find yet another file or object, press comma "
+"to put it on the stack. When you subsequently invoke an action, the action "
+"is carried out on all of the objects at the same time."
+msgstr ""
+
+#: C/moreusage.page:123(p)
+msgid ""
+"Some actions are only \"multiplied\" when used with many objects, other are "
+"smarter than that:"
+msgstr ""
+
+#: C/moreusage.page:126(p)
+msgid ""
+"Selecting many files and using the Create Archive action, all files will be "
+"packed into the same archive."
+msgstr ""
+
+#: C/moreusage.page:128(p)
+msgid ""
+"If you select multiple contacts and use a Send Email action, it creates one "
+"email directed at all the contacts."
+msgstr ""
+
+#: C/moreusage.page:130(p)
+msgid ""
+"If you select multiple subcatalogs (For example Firefox Bookmarks and "
+"Epiphany Bookmarks) and use Search Contents.., you get a subcatalog search "
+"restricted to the objects of those two catalogs! You can even bind a trigger "
+"to this command(!)"
+msgstr ""
+
+#: C/moreusage.page:136(p)
+msgid ""
+"The \"comma trick\" is <link href=\"http://www.43folders.com/2005/06/13/"
+"quicksilver-the-comma-trick\"> directly taken from Quicksilver</link> (the "
+"example given in the external article should work identically in Kupfer)."
+msgstr ""
+
+#: C/moreusage.page:143(title)
+msgid "Save Commands as Files"
+msgstr "Guardar comandos como archivos"
+
+#: C/moreusage.page:144(p)
+msgid ""
+"You can use keyboard shortcut for \"Compose Command\" (by default it is "
+"<keyseq><key>Control</key><key>Return</key></keyseq>) to create a command "
+"object out of the currently focused command in Kupfer. This object can be "
+"saved as a runnable file if you use the \"Save As..\" action. The resulting "
+"file will can be executed when opened from the file manager (to run it "
+"requires that Kupfer is already running)."
+msgstr ""
+
+#: C/managing-plugins.page:7(desc)
+#| msgid "Introduction to <app>Kupfer</app>."
+msgid "Using plugins with <app>Kupfer</app>."
+msgstr "Usar complementos con <app>Kupfer</app>."
+
+#: C/managing-plugins.page:10(title)
+msgid "How to Configure Plugins"
+msgstr "Cómo configurar los complementos"
+
+#: C/managing-plugins.page:12(p)
+msgid ""
+"Functionality in Kupfer is organized by extentsion modules called \"plugins"
+"\". Each plugin provides additional functionality, for example integration "
+"with an external application."
+msgstr ""
+
+#: C/managing-plugins.page:19(title)
+msgid "Configuring Plugins"
+msgstr "Configurar complementos"
+
+#: C/managing-plugins.page:20(p)
+msgid ""
+"You can enable, disable and configure plugins if you open Kupfer's "
+"preferences window using one of these methods:"
+msgstr ""
+
+#: C/managing-plugins.page:25(p)
+msgid ""
+"Click the Kupfer icon in the notification area and select the item "
+"Preferences"
+msgstr ""
+
+#: C/managing-plugins.page:28(p)
+msgid ""
+"Search for the object <app>Kupfer Preferences</app> in Kupfer itself. Press "
+"<key>Return</key> to open it."
+msgstr ""
+
+#: C/managing-plugins.page:31(p)
+#, fuzzy
+#| msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
+msgid ""
+"Use the keyboard shortcut <keyseq><key>Control</key><key>;</key></keyseq>"
+msgstr "<key>↑</key> o <keyseq><key>Mayús</key><key>Espacio</key></keyseq>"
+
+#: C/managing-plugins.page:35(p)
+msgid ""
+"Select the tab \"Plugins\" to reach the plugin list in the preferences "
+"window."
+msgstr ""
+
+#: C/managing-plugins.page:40(p)
+msgid ""
+"Select plugins in the list to read about them, and tick the box next to its "
+"name to load the plugin."
+msgstr ""
+
+#: C/managing-plugins.page:44(p)
+msgid ""
+"If the plugin has any configurable parameters, they will be visible below "
+"the plugin information."
+msgstr ""
+
+#: C/managing-plugins.page:48(p)
+msgid ""
+"The plugin <app>Kupfer Plugins</app> allows fast access to each plugin's "
+"information page as well as the action \"Show Source Code\" which reveals "
+"the implementation."
+msgstr ""
+
+#: C/managing-plugins.page:54(title)
+msgid "If a Plugin can not be Loaded"
+msgstr "No se pudo cargar el complemento"
+
+#: C/managing-plugins.page:55(p)
+msgid ""
+"If the plugin fails to load because it requires a software module that is "
+"not available, the plugin information will display a message like this:"
+msgstr ""
+
+#: C/managing-plugins.page:60(em)
+msgid "Plugin could not be read due to an error:"
+msgstr "No se pudo leer el complemento debido a un error:"
+
+#: C/managing-plugins.page:61(em)
+msgid "Python module 'gdata' is needed"
+msgstr "Se necesita el módulo de Python «gdata»"
+
+#: C/managing-plugins.page:62(p)
+msgid ""
+"This means that you need to install the needed python module from your "
+"distribution—and possibly the plugin documentation can tell you how."
+msgstr ""
+"Esto significa que debe instalar el módulo de Python requerido para su "
+"distribución; y posiblemente la documentación del complemento le diga cómo "
+"hacerlo."
+
+#: C/managing-plugins.page:67(p)
+msgid ""
+"The plugin may also unexpectedly fail to load, and display a different error "
+"message. It may then be a program error in either the plugin or <app>Kupfer</"
+"app>."
+msgstr ""
+
+#: C/managing-plugins.page:74(title)
+#| msgid "Calculator Plugin"
+msgid "Installing more Plugins"
+msgstr "Instalar más complementos"
+
+#: C/managing-plugins.page:75(p)
+msgid ""
+"You can install custom plugins into the folder <code>~/.local/share/kupfer/"
+"plugins</code>. Each plugin is either a single <code>.py</code> file or a "
+"python package (a folder directly containing a file called <code>__init__."
+"py</code>). Plugins in the package format can include icon files. Python "
+"packages can even be installed as <code>.zip</code> files."
+msgstr ""
+
+#: C/managing-plugins.page:83(p)
+msgid ""
+"<em>Caution:</em> Treat a plugin as a computer program. Do not install "
+"untrusted plugins."
+msgstr ""
+
+#: C/managing-plugins.page:90(title)
+#| msgid "Plugins"
+msgid "Creating Plugins"
+msgstr "Crear complementos"
+
+#: C/managing-plugins.page:91(p)
+msgid ""
+"Adding to <app>Kupfer</app>'s object knowledge can be surprisingly easy, "
+"just look at the default plugins if you want to create new. Documentation "
+"for plugin creators is available in the file Documentation/Manual.rst in the "
+"source distribution on the webpage at <link href=\"http://kaizer.se/wiki/"
+"kupfer/Manual/\">Kupfer Manual</link>."
+msgstr ""
+
+#: C/managing-plugins.page:100(title)
+msgid "The <em>Catalog</em> Tab in Preferences"
+msgstr "La pestaña <em>Catálogo</em> en «Preferencias»"
+
+#: C/managing-plugins.page:101(p)
+msgid ""
+"Each plugin can export a number of sources which contain objects. Normally, "
+"all these objects are directly accessible from a top-level search. Some "
+"plugins export so specialized or so many objects that their catalogs should "
+"better not have their objects exported to the top level. To reach those "
+"objects, you have to first find the catalog by name, then enter the catalog "
+"using the action <em>Search Contents</em>."
+msgstr ""
+
+#: C/managing-plugins.page:111(p)
+msgid ""
+"In the tab <em>Catalog</em> in <app>Kupfer Preferences</app>, a ticked box "
+"next to each source means that its objects are exported. An unticked box "
+"means that its contents are hidden from the top level."
+msgstr ""
+
+#: C/managing-plugins.page:116(p)
+msgid ""
+"<em>Note:</em> Kupfer may become slow if large enough subcatalogs are "
+"exported to the top level."
+msgstr ""
+
 #: C/license.page:7(desc)
-msgid "Legal Information."
-msgstr "Información legal."
+msgid "You can copy, modify and share Kupfer."
+msgstr "Puede copiar, modificar y compartir Kupfer."
 
 #: C/license.page:10(title)
 msgid "License"
@@ -608,53 +997,356 @@ msgstr ""
 "permiso para copiar, modificar y distribuir el ejemplo de código contenido "
 "en este documento bajo los términos que usted elija, sin restricción."
 
+#: C/keyboard.page:7(desc)
+#| msgid "Global Keyboard Shortcuts"
+msgid "Complete keyboard shortcuts reference."
+msgstr "Referencia completa de atajos de teclado."
+
+#: C/keyboard.page:10(title)
+msgid "Command Keys and Accelerator Keys"
+msgstr ""
+
+#: C/keyboard.page:13(title) C/generalusage.page:12(title)
+msgid "Keyboard Interface"
+msgstr "Interfaz de teclado"
+
+#: C/keyboard.page:14(p)
+#| msgid "In command mode, some keystrokes have special meanings:"
+msgid "In command mode, the following keystrokes have special meanings:"
+msgstr ""
+"En modo comando, las siguientes pulsaciones del teclado tienen un "
+"significado especial:"
+
+#: C/keyboard.page:19(p) C/generalusage.page:34(p)
+msgid "<key>↓</key> or <key>Space</key>"
+msgstr "<key>↓</key> o <key>Espacio</key>"
+
+#: C/keyboard.page:20(p) C/generalusage.page:35(p)
+msgid "Go to the next match"
+msgstr "Ir a la siguiente coincidencia"
+
+#: C/keyboard.page:23(p) C/generalusage.page:38(p)
+msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
+msgstr "<key>↑</key> o <keyseq><key>Mayús</key><key>Espacio</key></keyseq>"
+
+#: C/keyboard.page:26(p) C/generalusage.page:41(p)
+msgid "Go to the previous match"
+msgstr "Ir a la coincidencia anterior"
+
+#: C/keyboard.page:29(p) C/generalusage.page:44(p)
+msgid "<key>→</key> or <key>/</key>"
+msgstr "<key>→</key> o <key>/</key>"
+
+#: C/keyboard.page:30(p) C/generalusage.page:45(p)
+msgid "Descend into an object with content"
+msgstr "Descender a un objeto con contenido"
+
+#: C/keyboard.page:33(key) C/generalusage.page:48(key)
+msgid "Backspace"
+msgstr "Retroceso"
+
+#: C/keyboard.page:34(p) C/generalusage.page:49(p)
+msgid "Erase a character from the query. If the query is empty, go up a level"
+msgstr ""
+"Quitar un carácter de la consulta. Si la consulta está vacía, subir un nivel"
+
+#: C/keyboard.page:39(key) C/keyboard.page:94(key) C/generalusage.page:54(key)
+msgid "."
+msgstr "."
+
+#: C/keyboard.page:40(p) C/generalusage.page:55(p)
+msgid "Activate free-text mode"
+msgstr "Activar el modo de texto libre"
+
+#: C/keyboard.page:43(key) C/keyboard.page:98(key) C/generalusage.page:58(key)
+msgid ","
+msgstr ","
+
+#: C/keyboard.page:44(p) C/generalusage.page:59(p)
+msgid "Put selected object on the stack (\"Comma Trick\")"
+msgstr "Poner un objeto seleccionado en la pila («truco de la coma»)"
+
+#: C/keyboard.page:47(p)
+msgid "Quick access keys:"
+msgstr "Teclas de acceso rápido:"
+
+#: C/keyboard.page:53(key)
+msgid "="
+msgstr "="
+
+#: C/keyboard.page:55(p)
+msgid ""
+"Activate free-text mode with = prefix (for <link xref=\"plugin-calculator\"/"
+">)"
+msgstr ""
+
+#: C/keyboard.page:61(key)
+msgid "/"
+msgstr "/"
+
+#: C/keyboard.page:63(p)
+msgid ""
+"Activate free-text mode (when nothing is selected) with <code>/</code> "
+"prefix (to input a rooted path)"
+msgstr ""
+
+#: C/keyboard.page:68(p) C/generalusage.page:62(p)
+msgid "Additionally:"
+msgstr ""
+
+#: C/keyboard.page:72(p) C/generalusage.page:66(p)
+#, fuzzy
+#| msgid ""
+#| "Additionally, the key <key>Return</key> activates the current selection: "
+#| "the command is executed. <key>Escape</key> clears the current selection."
+msgid ""
+"<key>Return</key> activates the current selection: the command is executed."
+msgstr ""
+"Adicionalmente, la tecla <key>Intro</key> activa la selección actual: el "
+"comando se ejecuta. <key>Espacio</key> limpia la selección actual."
+
+#: C/keyboard.page:74(p) C/generalusage.page:68(p)
+msgid "<key>Escape</key> clears the current selection."
+msgstr ""
+
+#: C/keyboard.page:75(p) C/generalusage.page:69(p)
+msgid "<key>Tab</key> switches between the object and the action pane."
+msgstr ""
+
+#: C/keyboard.page:77(p)
+msgid ""
+"The meaning of the keys <key>Space</key>, <key>.</key>, <key>,</key>, <key>/"
+"</key> and <key>=</key> can not be changed, but you can deactivate their "
+"special meaning with the checkbox <app>Use single keystroke commands</app> "
+"in <app>Kupfer Preferences</app>."
+msgstr ""
+
+#: C/keyboard.page:86(title)
+msgid "Additional Keyboard Shortcuts"
+msgstr "Atajos de teclado adicionales"
+
+#: C/keyboard.page:87(p)
+#, fuzzy
+#| msgid ""
+#| "Additional keyboard shortcuts that work with Kupfer when it is in the "
+#| "foreground can be configured in Kupfer's preferences."
+msgid ""
+"Additional keyboard shortcuts that work with Kupfer when it is in the "
+"foreground can be configured in Kupfer's preferences. They have the "
+"following meanings and default shortcuts:"
+msgstr ""
+"Adicionalmente, los atajos de teclado que funcionan en Kupfer en primer "
+"plano se pueden configurar en las preferencias de Kupfer."
+
+#: C/keyboard.page:94(key) C/keyboard.page:98(key) C/keyboard.page:102(key)
+#: C/keyboard.page:106(key) C/keyboard.page:114(key) C/keyboard.page:118(key)
+#: C/keyboard.page:122(key) C/keyboard.page:126(key) C/keyboard.page:130(key)
+#: C/keyboard.page:152(key)
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: C/keyboard.page:95(p)
+msgid "Toggle text mode"
+msgstr ""
+
+#: C/keyboard.page:99(p)
+msgid "The comma trick"
+msgstr "El «truco de la coma»"
+
+#: C/keyboard.page:102(key)
+msgid ";"
+msgstr ";"
+
+#: C/keyboard.page:103(p)
+msgid "Show preferences window"
+msgstr "Mostrar la ventana de preferencias"
+
+#: C/keyboard.page:106(key)
+msgid "R"
+msgstr ""
+
+#: C/keyboard.page:107(p)
+msgid "Reset all"
+msgstr ""
+
+#: C/keyboard.page:110(key)
+msgid "Alt"
+msgstr "Alt"
+
+#: C/keyboard.page:110(key)
+msgid "A"
+msgstr ""
+
+#: C/keyboard.page:111(p)
+msgid "Alternate activate"
+msgstr ""
+
+#: C/keyboard.page:114(key)
+msgid "Return"
+msgstr ""
+
+#: C/keyboard.page:115(p)
+msgid "Compose command"
+msgstr ""
+
+#: C/keyboard.page:118(key)
+msgid "S"
+msgstr ""
+
+#: C/keyboard.page:119(p)
+msgid "Switch to first pane"
+msgstr "Cambiar al primer panel"
+
+#: C/keyboard.page:122(key)
+msgid "Q"
+msgstr ""
+
+#: C/keyboard.page:123(p)
+msgid "Select 'Quit'"
+msgstr ""
+
+#: C/keyboard.page:126(key)
+msgid "G"
+msgstr ""
+
+#: C/keyboard.page:127(p)
+msgid "Select 'Selected File'"
+msgstr ""
+
+#: C/keyboard.page:130(key)
+msgid "T"
+msgstr ""
+
+#: C/keyboard.page:131(p)
+msgid "Select 'Selected Text'"
+msgstr ""
+
+#: C/keyboard.page:134(key)
+msgid "F1"
+msgstr "F1"
+
+#: C/keyboard.page:135(p)
+msgid "Show Help"
+msgstr "Mostrar ayuda"
+
+#: C/keyboard.page:142(title)
+msgid "Global Keyboard Shortcuts"
+msgstr "Atajos de teclado globales"
+
+#: C/keyboard.page:143(p)
+msgid ""
+"<app>Kupfer</app> always listens to global shortcuts, even if it is not "
+"currently in the foreground."
+msgstr ""
+
+#: C/keyboard.page:147(p)
+msgid "They have the following meanings and default shortcuts:"
+msgstr ""
+
+#: C/keyboard.page:152(key)
+msgid "Space"
+msgstr "Espacio"
+
+#: C/keyboard.page:153(p)
+#| msgid "Introduction to <app>Kupfer</app>."
+msgid "Show/hide <app>Kupfer</app>"
+msgstr "Mostrar/ocultar <app>Kupfer</app>"
+
+#: C/keyboard.page:156(p)
+msgid "(not configured by default)"
+msgstr "(no configurado de manera predeterminada)"
+
+#: C/keyboard.page:157(p)
+msgid "Show <app>Kupfer</app> with 'Selection' object focused"
+msgstr ""
+
+#: C/keyboard.page:161(title)
+#| msgid "Global Keyboard Shortcuts"
+msgid "How to configure a global keyboard shortcut"
+msgstr "Cómo configurar un atajo de teclado global"
+
+#: C/keyboard.page:163(p)
+msgid "Open <app>Kupfer Preferences</app> and go to the <em>Keyboard</em> tab."
+msgstr ""
+"Abra las <app>Preferencias de Kupfer</app> y vaya a la pestaña <em>Teclado</"
+"em>."
+
+#: C/keyboard.page:169(p)
+msgid ""
+"Double-click the shorcut's row under <em>Global Keyboard Shortcuts</em>."
+msgstr ""
+
+#: C/keyboard.page:175(p)
+msgid ""
+"Using the window that appears, press modifier keys and a letter or number "
+"key to set a global shortcut. An example is pressing and holding <key>Super</"
+"key> and then pressing and releasing <key>Space</key> to bind "
+"<keyseq><key>Super</key><key>Space</key></keyseq>."
+msgstr ""
+
+#: C/keyboard.page:184(p)
+msgid ""
+"Since these keyboard shortcuts are global, they can be used from any "
+"application. Select shortcuts with care so that they do not conflict with "
+"other functions."
+msgstr ""
+
+#: C/keyboard.page:192(p)
+#, fuzzy
+#| msgid ""
+#| "The Triggers plugin allows to configure actions to be activated by global "
+#| "shortcuts, but triggers can only be configured in that plugin."
+msgid ""
+"The plugin <link xref=\"plugin-triggers\">Triggers</link> allows to "
+"configure actions to be activated by global shortcuts, but triggers can only "
+"be configured in that plugin."
+msgstr ""
+"El complemento «Triggers» le permite configurar acciones que se activarán con "
+"atajos globales, pero los disparadores sólo se pueden configurar en ese "
+"complemento."
+
 #: C/introduction.page:7(desc)
 msgid "Introduction to <app>Kupfer</app>."
-msgstr "Introducción a <app>Kupfer</app>"
+msgstr "Introducción a <app>Kupfer</app>."
 
 #: C/introduction.page:10(title)
 msgid "Introduction"
 msgstr "Introducción"
 
 #: C/introduction.page:12(p)
+#, fuzzy
+#| msgid ""
+#| "<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
+#| "applications and documents."
 msgid ""
-"<app>Kupfer</app> is a program to change, speed up and make everything about "
-"files and programs more fun on your computer. <app>Kupfer</app> is a "
-"launcher; you typically use it to summon an application or a document "
-"quickly by typing parts of its name. It can also do more than getting at "
-"something quickly: there are different plugins for accessing more objects "
-"and running custom commands."
+"<app>Kupfer</app> is an interface for quick and convenient access to "
+"applications and their documents."
 msgstr ""
-"<app>Kupfer</app> es un programa para cambiar, acelerar y hacer todo lo "
-"referente a archivos y programas más ameno en su equioi. <app>Kupfer</app> "
-"es un lanzador; generalmente lo usa para lanzar un aplicación o un documento "
-"rápidamente escribiendo partes de su nombre. También puede hacer algo más "
-"que acelerar las cosas: hay diferentes complementos para acceder a más "
-"objetos y ejecutar comandos personalizados."
+"<app>Kupfer</app> es la parte más grande de una interfaz gestionada por "
+"teclado de aplicaciones y documentos."
+
+#: C/introduction.page:16(p)
+msgid ""
+"The most typical use is to find a specific application and launch it. We "
+"have tried to make <app>Kupfer</app> easy to extend with plugins so that "
+"this quick-access paradigm can be extended to many more objects than just "
+"applications."
+msgstr ""
 
 #: C/introduction.page:22(p)
 msgid ""
-"<app>Kupfer</app> is written using Python and has a flexible architecture; "
-"the implementation is simple and makes the easy things work first. One goal "
-"is that new plugins can be written quickly without too much programming."
+"We hope that using <app>Kupfer</app> feels both <em>very fun</em> and "
+"<em>different</em>."
 msgstr ""
-"<app>Kupfer</app> está escrito en Python y tiene una arquitectura flexible; "
-"la implementación es sencilla y hace que primero funcionen las cosas "
-"fáciles. Un objetivo es que los complementos nuevos se puedan escribir "
-"rápidamente sin demasiada programación."
 
-#: C/introduction.page:28(p)
+#: C/introduction.page:26(p)
+#, fuzzy
+#| msgid ""
+#| "For more information about <app>Kupfer</app>, visit its <link href="
+#| "\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
 msgid ""
-"The program is very inspired by <link href=\"http://www.blacktree.com/"
-"\">Quicksilver</link>."
-msgstr ""
-"El programa está muy inspirado en <link href=\"http://www.blacktree.com/"
-"\">Quicksilver</link>."
-
-#: C/introduction.page:33(p)
-msgid ""
-"For more information about <app>Kupfer</app>, visit its <link href=\"http://"
-"kaizer.se/wiki/kupfer/\">homepage</link>."
+"For up-to-date information about <app>Kupfer</app>, visit its <link href="
+"\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
 msgstr ""
 "Para obtener más información acerca de <app>Kupfer</app> visite su <link "
 "href=\"http://kaizer.se/wiki/kupfer/\">página web</link>."
@@ -680,12 +1372,125 @@ msgid "Creative Commons Share Alike 3.0"
 msgstr "Creative Commons Share Alike 3.0"
 
 #: C/index.page:21(title)
-msgid "Kupfer manual"
+#| msgid "Kupfer manual"
+msgid "Kupfer Manual"
 msgstr "Manual de Kupfer"
 
 #: C/index.page:24(title)
 msgid "Using Kupfer"
 msgstr "Usar Kupfer"
+
+#: C/index.page:27(title)
+msgid "About Specific Plugins"
+msgstr ""
+
+#: C/generalusage.page:7(desc)
+#| msgid "Introduction to <app>Kupfer</app>."
+msgid "How to start using <app>Kupfer</app>."
+msgstr "Cómo empezar a usar <app>Kupfer</app>."
+
+#: C/generalusage.page:14(p)
+msgid ""
+"<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
+"applications and documents."
+msgstr ""
+"<app>Kupfer</app> es la parte más grande de una interfaz gestionada por "
+"teclado de aplicaciones y documentos."
+
+#: C/generalusage.page:18(p)
+msgid ""
+"Kupfer's default mode is the command mode: If you type a query, kupfer will "
+"search for a match in its catalog."
+msgstr ""
+"El modo predeterminado de Kupfer es en modo comandos: si escribe una "
+"consulta, Kupfer buscará una coincidencia en su catálogo."
+
+#: C/generalusage.page:23(p)
+msgid ""
+"The arrow keys allow you to browse query matches quite naturally, going to "
+"the previous or next match, and going up and down in the subcatalogs."
+msgstr ""
+"Las teclas de flechas le permiten examinar las coincidencias de las "
+"consultas de manera más natural, yendo a la coincidencia anterior o a la "
+"siguiente, y yendo arriba y abajo en los subcatálogos."
+
+#: C/generalusage.page:29(p)
+msgid "In command mode, some keystrokes have special meanings:"
+msgstr ""
+"En modo comando, algunas pulsaciones del teclado tienen un significado "
+"especial:"
+
+#: C/generalusage.page:71(p)
+#, fuzzy
+#| msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
+msgid ""
+"By default you show <app>Kupfer</app> using the global keyboard shortcut "
+"<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
+msgstr "<key>↑</key> o <keyseq><key>Mayús</key><key>Espacio</key></keyseq>"
+
+#: C/generalusage.page:74(p)
+msgid "See <link xref=\"keyboard\"/> for more information."
+msgstr "Consulte la <link xref=\"keyboard\"/> para obtener más información."
+
+#: C/generalusage.page:78(title)
+msgid "Learning Habits"
+msgstr "Hábitos de aprendizaje"
+
+#: C/generalusage.page:79(p)
+msgid ""
+"<app>Kupfer</app> remembers which objects and actions are used the most. "
+"When beginning to use it, you have to use the arrow keys at times to make it "
+"precise which object you want to find. After a few uses of that object, "
+"Kupfer will rank it higher. Objects marked as <link xref=\"plugin-favorites"
+"\">favorites</link> are also ranked higher."
+msgstr ""
+
+#: C/generalusage.page:90(title)
+msgid "The Catalog"
+msgstr "El catálogo"
+
+#: C/generalusage.page:91(p)
+msgid ""
+"The Catalog is the collection of objects you can access in Kupfer, such as "
+"documents and programs."
+msgstr ""
+"El catálogo es la colección de objetos a la que puede acceder en Kupfer, "
+"como documentos y programas."
+
+#: C/generalusage.page:96(p)
+#, fuzzy
+#| msgid ""
+#| "Objects in the catalog that have content, like folders, are marked with "
+#| "an arrow. Pressing <key>right-arrow</key> will enter these objects. Much "
+#| "of the catalog is composed of subcatalogs; plugin subcatalogs do in "
+#| "general list objects that are also available directly from the top level. "
+#| "Subcatalogs can be used for a narrower view or search scope, when using "
+#| "Kupfer."
+msgid ""
+"Objects in the catalog that have content, like folders, are marked with an "
+"arrow. Pressing <key>→</key> will enter these objects. Much of the catalog "
+"is composed of subcatalogs; plugin subcatalogs do in general list objects "
+"that are also available directly from the top level. Subcatalogs can be used "
+"for a narrower view or search scope, when using Kupfer."
+msgstr ""
+"Los objetos del catálogo que tienen contenidos, como las carpetas, se marcan "
+"con una flecha. Pulsando <key>→</key> entrará en estos objetos. La mayoría "
+"de los catálogos se componen de subcatálogos; los subcatálogos de "
+"complementos, en general, listan objetos que también están disponibles "
+"directamente desde el nivel superior. Al usar Kupfer, Se pueden usar los "
+"subcatálogos para una vista estrecha o un rango de búsqueda."
+
+#: C/generalusage.page:105(p)
+#, fuzzy
+#| msgid ""
+#| "Most subcatalogs update their content automatically. For example, the "
+#| "Desktop folder catalog is always uptodate."
+msgid ""
+"Most subcatalogs update their content automatically. For example, the "
+"Desktop folder source is always up-to-date."
+msgstr ""
+"La mayoría de subcatálogos actualizan su contenido automáticamente. Por "
+"ejemplo, el catálogo de la carpeta «Escritorio» siempre está actualizado."
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
@@ -693,3 +1498,137 @@ msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2010\n"
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011"
+
+#~ msgid "Using <app>Kupfer</app> more conveniently."
+#~ msgstr "Usar <app>Kupfer</app> de una forma más conveniente."
+
+#~ msgid ""
+#~ "Kupfer listens to global shortcuts, even if Kupfer is not currently in "
+#~ "the foreground. The most important global shortcut is the shortcut to "
+#~ "show and hide Kupfer's command window which by default is "
+#~ "<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
+#~ msgstr ""
+#~ "Kupfer escucha los atajos globales, aunque no esté actualmente en primer "
+#~ "plano. El atajo global más importante es el que muestra y oculta la "
+#~ "ventana de comandos de Kupfer, que de manera predeterminada es "
+#~ "<keyseq><key>Ctrl</key><key>Espacio</key></keyseq>."
+
+#~ msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
+#~ msgstr ""
+#~ "Los atajos globales de teclado están configurados en las preferencias de "
+#~ "Kupfer."
+
+#~ msgid ""
+#~ "Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/"
+#~ "</file>"
+#~ msgstr ""
+#~ "Instale los complementos personalizados en la carpeta <file>~/.local/"
+#~ "share/kupfer/plugins/</file>"
+
+#~ msgid ""
+#~ "Kupfer cache, config and data are located in the directories <file>~/."
+#~ "cache/kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/"
+#~ "share/kupfer</file>."
+#~ msgstr ""
+#~ "La caché de Kupfer, la configuración y los datos se ubican en las "
+#~ "carpetas <file>~/.cache/kupfer</file>, <file>~/.config/kupfer</file> y "
+#~ "<file>~/.local/share/kupfer</file>."
+
+#~ msgid ""
+#~ "You can install custom plugins into ~/.local/share/kupfer/plugins; adding "
+#~ "to <app>Kupfer</app>'s object knowledge can be surprisingly easy, just "
+#~ "look at the default plugins if you want to create new."
+#~ msgstr ""
+#~ "Puede instalar complementos personalizados en ~/.local/share/kupfer/"
+#~ "plugins; añadirlos al conocimiento de objetos de <app>Kupfer</app> puede "
+#~ "ser sorprendentemente fácil, simplemente mire los complementos "
+#~ "predeterminados si quiere crear uno nuevo."
+
+#~ msgid ""
+#~ "To use <app>Kupfer</app> like a pro, you can configure a \"Magic "
+#~ "Keybinding\" for <app>Kupfer</app>. GUI configuration is not yet "
+#~ "supported, but edit the configuration file <file>~/.config/kupfer/kupfer."
+#~ "cfg</file> to include the following:"
+#~ msgstr ""
+#~ "Para usar <app>Kupfer</app> como un profesional, puede configurar una "
+#~ "«asociación de teclas mágica» para <app>Kupfer</app>. La configuración de "
+#~ "la IGU todavía no está soportada, pero edite el archivo de configuración "
+#~ "<file>~/.config/kupfer/kupfer.cfg</file> para incluir lo siguiente:"
+
+#~ msgid ""
+#~ "\n"
+#~ "[Kupfer]\n"
+#~ "keybinding = &lt;Control&gt;space\n"
+#~ "magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
+#~ "  "
+#~ msgstr ""
+#~ "\n"
+#~ "[Kupfer]\n"
+#~ "keybinding = &lt;Control&gt;space\n"
+#~ "magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
+#~ "  "
+
+#~ msgid ""
+#~ "Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></"
+#~ "keyseq> will summon <app>Kupfer</app> with the current selection in "
+#~ "focus. Make sure you have installed <app>Kupfer</app>'s nautilus plugin, "
+#~ "then both the currently selected file in Nautilus, or the currently "
+#~ "selected text in the front application will be selected."
+#~ msgstr ""
+#~ "Ahora, pulsando <keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</key></"
+#~ "keyseq> se ejecutará <app>Kupfer</app> con el foco en la selección "
+#~ "actual. Asegúrese de que tiene instalado el complemento de <app>Kupfer</"
+#~ "app> para Nautilus, y entonces se seleccionarán el archivo seleccionado "
+#~ "en Nautilus, o el texto seleccionado en la aplicación."
+
+#~ msgid ""
+#~ "Now you can select a word in, say, a web browser, use <keyseq><key>Ctrl</"
+#~ "key><key>Alt</key><key>Space</key></keyseq>, and select action <gui>Look "
+#~ "Up</gui> to look up the selected word. Or select an image file, use "
+#~ "<keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select "
+#~ "action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to "
+#~ "1000 pixels wide!"
+#~ msgstr ""
+#~ "Ahora puede seleccionar una palabra en, por ejemplo, un navegador web. "
+#~ "Use <keyseq><key>Ctrl</key><key>Alt</key><key>Espacio</key></keyseq> y "
+#~ "elija la acción <gui>Buscar</gui> para buscar la palabra seleccionada. O "
+#~ "seleccione un archivo de imagen, use <keyseq><key>Ctrl</key><key>Alt</"
+#~ "key><key>Espacio</key></keyseq>, elija la acción <gui>Escalar</gui> con "
+#~ "el objeto <gui>1000</gui> para escalar la imagen a 1000 píxeles de "
+#~ "anchura."
+
+#~ msgid "Legal Information."
+#~ msgstr "Información legal."
+
+#~ msgid ""
+#~ "<app>Kupfer</app> is a program to change, speed up and make everything "
+#~ "about files and programs more fun on your computer. <app>Kupfer</app> is "
+#~ "a launcher; you typically use it to summon an application or a document "
+#~ "quickly by typing parts of its name. It can also do more than getting at "
+#~ "something quickly: there are different plugins for accessing more objects "
+#~ "and running custom commands."
+#~ msgstr ""
+#~ "<app>Kupfer</app> es un programa para cambiar, acelerar y hacer todo lo "
+#~ "referente a archivos y programas más ameno en su equioi. <app>Kupfer</"
+#~ "app> es un lanzador; generalmente lo usa para lanzar un aplicación o un "
+#~ "documento rápidamente escribiendo partes de su nombre. También puede "
+#~ "hacer algo más que acelerar las cosas: hay diferentes complementos para "
+#~ "acceder a más objetos y ejecutar comandos personalizados."
+
+#~ msgid ""
+#~ "<app>Kupfer</app> is written using Python and has a flexible "
+#~ "architecture; the implementation is simple and makes the easy things work "
+#~ "first. One goal is that new plugins can be written quickly without too "
+#~ "much programming."
+#~ msgstr ""
+#~ "<app>Kupfer</app> está escrito en Python y tiene una arquitectura "
+#~ "flexible; la implementación es sencilla y hace que primero funcionen las "
+#~ "cosas fáciles. Un objetivo es que los complementos nuevos se puedan "
+#~ "escribir rápidamente sin demasiada programación."
+
+#~ msgid ""
+#~ "The program is very inspired by <link href=\"http://www.blacktree.com/"
+#~ "\">Quicksilver</link>."
+#~ msgstr ""
+#~ "El programa está muy inspirado en <link href=\"http://www.blacktree.com/"
+#~ "\">Quicksilver</link>."
