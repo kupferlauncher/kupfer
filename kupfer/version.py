@@ -61,6 +61,7 @@ DOCUMENTERS = []
 TRANSLATOR_CREDITS = _("translator-credits")
 
 WEBSITE = u"http://kaizer.se/wiki/kupfer/"
+HELP_WEBSITE = u"http://kaizer.se/wiki/kupfer/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
 COPYRIGHT = u"""Copyright © 2007--2010 Ulrik Sverdrup with others"""
