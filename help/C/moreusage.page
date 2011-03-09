@@ -12,67 +12,70 @@
  <section>
   <title>Open Terminal Here</title>
   <p>
-   Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-terminal</cmd>. 
-   xdg-terminal is a script to find the user's configured terminal program for 
-   his/her Desktop Environment. Install <cmd>xdg-terminal</cmd> if you need this 
-   (or install a symlink <em>called</em> xdg-terminal). 
+   Open terminal first calls <cmd>xdg-terminal</cmd>, then
+   <cmd>gnome-terminal</cmd>.  xdg-terminal is a script to find the user's
+   configured terminal program for their Desktop Environment. Install
+   <cmd>xdg-terminal</cmd> if you need this (or install a symlink
+   <em>called</em> xdg-terminal). 
   </p>
  </section>
   
  <section>
-  <title>Grab current selection</title>
+  <title>Grab Current Selection</title>
   <p> To use the current selected text, from any application, with
     <app>Kupfer</app>, you can configure a global keyboard shortcut for the
-    action Show with Selection in the preferences window.
+    action <em>Show with Selection</em> in <app>Kupfer Preferences</app>.
   </p>
   <p>
    If configured, pressing the global keyboard shortcut
    will summon <app>Kupfer</app> with the current selection as the focused
    object.
   </p>
+  <p>See <link xref="keyboard"/></p>
  </section>
   
  <section>
-  <title>Adding your actions and scripts</title>
+  <title>Adding Applications and Scripts</title>
   <p>
-   If you want to add a custom application, or an application called with 
-   special options, you can create a new launcher for it and place it in 
-   one of the standard places for applications, for example 
-   <file>~/.local/share/applications</file>, where <app>Kupfer</app> will find it. 
+   <app>Kupfer</app> will show all applications that are configured visible
+   in your menu editor.
+ </p>
+ <p>
+   If you want to add an application manually, you can create a new
+   <code>.desktop</code> file and place it in one of the standard directories
+   for applications, for example <file>~/.local/share/applications</file>,
+   where <app>Kupfer</app> will find it. 
   </p>
   <p>
-   If you have a collection of scripts that you want to call from <app>Kupfer</app>, 
-   you can add the scripts folder as a catalog directory to <app>Kupfer</app> in the 
-   preferences. Scripts that you add to <app>Kupfer</app>'s catalog this way can be 
-   run directly or in the terminal as long as they are executable.
+   If you have a collection of scripts that you want to call from
+   <app>Kupfer</app>, you can add the scripts folder as a catalog directory
+   to <app>Kupfer</app> in the preferences. Scripts that you add to
+   <app>Kupfer</app>'s catalog this way can be run directly or in the
+   terminal as long as they are executable.
   </p>
   <p>
-   An example useful script is <link href="http://kaizer.se/wiki/code/rhrating.py/">
-   here</link> which changes the rating of <app>Rhythmbox</app>'s currently playing 
-   song; I have added five scriptlets calling <file>rhrating.py</file> with numbers 
-   from 0 to 5 to my catalog to quickly rate tracks. (This is something that might 
-   be integrated into <app>Kupfer</app> later)
+    You can also save command-lines by using the action <em>Add to
+      Favorites</em>.
   </p>
  </section>
   
  <section>
-  <title>Command line connection</title>
+  <title>Command-line Connection</title>
   <p>
-    <app>Kupfer</app> is its own remote control. When <app>Kupfer</app> is 
-    already running, <app>Kupfer</app> on the command-line will focus its window, 
-    but there is more you can do: If you invoke <cmd><app>kupfer</app> 
-    <var>QUERY</var></cmd> where <var>QUERY</var> is a text string or a filename, 
-    <app>Kupfer</app> will focus, and select this item. This way, you can quickly 
-    invoke <app>Kupfer</app> actions even on objects from a shell-based context.
+    The command <cmd>kupfer</cmd> on the command-line will focus
+    <app>Kupfer</app> if it's already running, otherwise it will start it.
   </p>
   <p>
+    The command <cmd>kupfer</cmd> can be used to send files or text from
+    the command-line to <app>Kupfer</app>.
+
     For example, if you are using the shell in a directory where you have 
     a file called "report.pdf", you can focus this file in <app>Kupfer</app> by 
     running <cmd>kupfer report.pdf</cmd>. 
   </p>
   <p>
-    You can also pipe the output of a command into <app>Kupfer</app> to send text to 
-    the already running instance of <app>Kupfer</app>. 
+    You can also send text if you pipe the output of a command into
+    <cmd>kupfer</cmd>.
   </p>
  </section>
   
@@ -109,8 +112,8 @@
  </section>
 
  <section>
-   <title>The "Comma Trick"</title>
-    <p> The "comma trick" allows the user to use actions on many objects at
+   <title>The <em>Comma Trick</em></title>
+    <p> The comma trick allows the user to use actions on many objects at
        the same time.
     </p>
 
@@ -133,20 +136,22 @@
           You can even bind a trigger to this command(!) 
       </p></item>
     </list>
-    <p>The "comma trick" is 
+    <p>The comma trick is 
       <link href="http://www.43folders.com/2005/06/13/quicksilver-the-comma-trick">
         directly taken from Quicksilver</link>
-      (the example given in the external article should work identically in Kupfer).
+      (the example given in the external article should work identically in
+      Kupfer).
     </p>
   </section>
   <section>
-    <title>Save Commands as Files</title>
-    <p>You can use keyboard shortcut for "Compose Command" (by default it is
-      <keyseq><key>Control</key><key>Return</key></keyseq>) to create a
-      command object out of the currently focused command in Kupfer.
-      This object can be saved as a runnable file if you use the "Save As.." action.
-      The resulting file will can be executed when opened from the file manager
-      (to run it requires that Kupfer is already running).
+    <title>Saving Commands as Files</title>
+    <p>You can use keyboard shortcut for <em>Compose Command</em> (by
+      default it is <keyseq><key>Ctrl</key><key>Return</key></keyseq>) to
+      create a command object out of the currently focused command in
+      Kupfer.  This object can be saved as a runnable file if you use the
+      <em>Save As...</em> action.  The resulting file will can be executed
+      when opened from the file manager (it requires that Kupfer is already
+      running).
     </p>
   </section>
 

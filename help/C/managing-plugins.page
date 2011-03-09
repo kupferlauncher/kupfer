@@ -17,29 +17,34 @@
 
   <section>
     <title>Configuring Plugins</title>
-    <p>
-      You can enable, disable and configure plugins if you open Kupfer's
-      preferences window using one of these methods:
-    </p>
-    <list>
-      <item><p>Click the Kupfer icon in the notification area and select
-        the item Preferences</p>
+    <steps>
+      <title>Open <app>Kupfer Preferences</app> to the Plugins tab</title>
+      <item>
+        <p> Use one of the following methods:</p>
+        <list>
+          <item><p>Click the Kupfer icon in the notification area and select
+              the item <em>Preferences</em></p>
+          </item>
+          <item>
+            <p>Search for the object <app>Kupfer Preferences</app> in Kupfer
+              itself.  Press <key>Return</key> to open it.
+            </p>
+          </item>
+          <item><p>Use the keyboard shortcut
+              <keyseq><key>Ctrl</key><key>;</key></keyseq></p>
+          </item>
+        </list>
       </item>
-      <item><p>Search for the object <app>Kupfer Preferences</app> in Kupfer itself.
-            Press <key>Return</key> to open it.</p>
+      <item>
+        <p>
+          Select the tab <em>Plugins</em>
+        </p>
       </item>
-      <item><p>Use the keyboard shortcut
-          <keyseq><key>Control</key><key>;</key></keyseq></p>
-      </item>
-    </list>
-    <p>
-      Select the tab "Plugins" to reach the plugin list in the
-      preferences window.
-    </p>
+    </steps>
 
     <p>
       Select plugins in the list to read about them, and tick the box
-      next to its name to load the plugin.
+      next to its name to activate the plugin, or untick to deactivate.
     </p>
     <p>
       If the plugin has any configurable parameters, they will be
@@ -51,16 +56,16 @@
     </p>
   </section>
   <section>
-    <title>If a Plugin can not be Loaded</title>
+    <title>If a Plugin can not be Activated</title>
       <p>
-        If the plugin fails to
-        load because it requires a software module that is not available,
-        the plugin information will display a message like this:
+        If a plugin fails to activate because it requires a software
+        module that is not available, its plugin information will display a
+        message like this:
       </p>
       <p><em>Plugin could not be read due to an error:</em>
       </p><p><em>Python module 'gdata' is needed</em></p>
       <p>
-        This means that you need to install the needed python module
+        This means that you need to install a needed python module
         from your distribution—and possibly the plugin documentation can
         tell you how. 
       </p>
@@ -89,11 +94,13 @@
   <section>
     <title>Creating Plugins</title>
     <p>
-      Adding to <app>Kupfer</app>'s object knowledge can be surprisingly
-      easy, just look at the default plugins if you want to create new.
       Documentation for plugin creators is available in the file
-      Documentation/Manual.rst in the source distribution on the webpage at
+      <code>Documentation/Manual.rst</code> in the source distribution on
+      the webpage at
       <link href="http://kaizer.se/wiki/kupfer/Manual/">Kupfer Manual</link>.
+
+      An easy way to start is to copy an existing plugin and experimenting
+      with it.
     </p>
   </section>
   <section>

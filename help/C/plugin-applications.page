@@ -56,7 +56,7 @@
       The configuration option <em>Applications for Desktop Environment</em>
       in the plugin's information pane in <app>Kupfer Preferences</app>
       determines how <app>Kupfer</app> should act with regard to the desktop
-      environment configuration -- certain applications request not to be
+      environment configuration—certain applications request not to be
       shown depending on which desktop environment is used. By default, it
       behaves like GNOME.
     </p>
