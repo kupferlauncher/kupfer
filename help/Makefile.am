@@ -23,10 +23,13 @@ DOC_PAGES = \
 	license.page \
 	managing-plugins.page \
 	moreusage.page \
+	plugin-applications.page \
 	plugin-calculator.page \
 	plugin-favorites.page \
 	plugin-nautilusselection.page \
-	plugin-triggers.page
+	plugin-notes.page \
+	plugin-triggers.page \
+	plugin-websearch.page
 
 
 DOC_LINGUAS = cs de es it pl sl
