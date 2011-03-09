@@ -11,6 +11,7 @@ from xdg import DesktopEntry as desktop
 
 from kupfer import config, pretty, utils, icons, version
 from kupfer import scheduler, kupferstring
+from kupfer import kupferui
 from kupfer.core import settings, plugins, relevance, sources
 from kupfer.ui import keybindings
 from kupfer.ui.credentials_dialog import ask_user_credentials
@@ -308,7 +309,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl.set_keybinding(keystr)
 
 	def on_helpbutton_clicked(self, widget):
-		pass
+		kupferui.show_help()
+
 	def on_closebutton_clicked(self, widget):
 		self.hide()
 

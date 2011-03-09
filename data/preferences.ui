@@ -577,10 +577,10 @@ An unticked source's contents are only available by locating its subcatalog and 
                   <object class="GtkButton" id="helpbutton">
                     <property name="label">gtk-help</property>
                     <property name="visible">True</property>
-                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_stock">True</property>
+                    <accelerator key="F1" signal="clicked"/>
                     <signal name="clicked" handler="on_helpbutton_clicked"/>
                   </object>
                   <packing>
