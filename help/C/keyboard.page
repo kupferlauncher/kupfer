@@ -83,10 +83,9 @@
   </section>
 
   <section>
-    <title>Additional Keyboard Shortcuts</title>
+    <title>Kuper's Keyboard Shortcuts</title>
     <p>
-      Additional keyboard shortcuts that work with Kupfer when it is in
-      the foreground can be configured in Kupfer's preferences.
+      These keyboard shortcuts are used in <app>Kupfer</app>'s interface.
       They have the following meanings and default shortcuts:
     </p>
   <table>
@@ -136,6 +135,30 @@
     </tr>
 
    </table>
+   <steps>
+     <title>How to configure a keyboard shortcut</title>
+     <item>
+      <p>
+        Open <app>Kupfer Preferences</app> and go to the
+        <em>Keyboard</em> tab.
+      </p>
+     </item>
+     <item>
+      <p>
+        Double-click the shorcut's row under <em>Browser Keyboard
+          Shortcuts</em>.
+      </p>
+     </item>
+     <item>
+      <p>
+        Using the window that appears, press modifier keys and a letter or
+        number key to set a global shortcut. An example is pressing and
+        holding <key>Ctrl</key> and then pressing and releasing
+        <key>T</key> to bind
+        <keyseq><key>Ctrl</key><key>T</key></keyseq>.
+      </p>
+     </item>
+    </steps>
   </section>
 
   <section>
@@ -190,9 +213,13 @@
   <section>
     <title>Triggers</title>
     <p>
-      The plugin <link xref="plugin-triggers">Triggers</link> allows to
-      configure actions to be activated by global shortcuts, but triggers can
-      only be configured in that plugin.
+      The plugin <em>Triggers</em> allows to activate actions with
+      global keyboard shortcuts. Trigger shortcuts do not appear in
+      <app>Kupfer Preferences</app>.
+    </p>
+
+    <p>
+      See <link xref="plugin-triggers"/> for more information.
     </p>
   </section>
 
