@@ -13,24 +13,25 @@
   <title>Triggers Plugin</title>
   <p>
     With <app>Triggers</app> you can take a command you would normally
-    perform in Kupfer, such as launching an application or opening a
-    document, and bind a global key combination to run this command. As long
-    as Kupfer is running, any application can have the current focus. 
+    perform in <app>Kupfer</app>, such as launching an application or
+    opening a document, and bind a global key combination to run this
+    command. As long as <app>Kupfer</app> is running, any application can
+    have the current focus. 
   </p>
   </section>
   <section>
     <title>Basic Usage</title>
     <steps>
+     <title>Creating a new trigger</title>
      <item>
       <p>
-        Set up a command in Kupfer that you want to run,
+        Set up a command in <app>Kupfer</app> that you want to run
       </p>
      </item>
      <item>
       <p>
-        Press <keyseq><key>Ctrl</key><key>Return</key></keyseq> (or the
-        shortcut you have configured in preferences) to create a composed
-        command.
+        Press <keyseq><key>Ctrl</key><key>Return</key></keyseq>  to create a
+        <em>composed command</em>.
       </p>
      </item>
      <item>
@@ -46,6 +47,21 @@
         holding <keyseq><key>Ctrl</key><key>Alt</key></keyseq> and then
         pressing and releasing <key>R</key> to bind
         <keyseq><key>Ctrl</key><key>Alt</key><key>R</key></keyseq>.
+      </p>
+     </item>
+    </steps>
+    <steps>
+     <title>Removing a trigger</title>
+     <item>
+      <p>
+        Find the source <em>Triggers</em> in <app>Kupfer</app> and
+        press <key>→</key> to see its contents.
+      </p>
+     </item>
+     <item>
+      <p>
+        Find the active trigger in the list and use the action <em>Remove
+          Trigger</em>.
       </p>
      </item>
     </steps>
@@ -71,10 +87,12 @@
    <title>Example Triggers</title>
    <terms>
      <item>
-       <title><em>Firefox → Launch</em></title>
-       <p> Start a program if it is already running,
-       else focus its window.
-     </p></item>
+       <title><em>Text Editor → Launch</em></title>
+       <p>
+         Start <em>Text Editor</em> or focus its window if it is already
+         running.
+       </p>
+     </item>
      <item>
          <title><em>Selected Text → Search With → Google</em></title>
          <p>Search the web using the currently selected text.  </p></item>
