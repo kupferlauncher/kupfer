@@ -86,6 +86,8 @@ class GetOutput (Action):
 
 class PassToCommand (Action):
 	def __init__(self):
+		# TRANS: The user starts a program (command) and the text
+		# TRANS: is an argument to the command
 		Action.__init__(self, _("Pass to Command..."))
 
 	def activate(self, leaf, iobj):
@@ -132,7 +134,9 @@ class PassToCommand (Action):
 
 class WriteToCommand (Action):
 	def __init__(self):
-		Action.__init__(self, _("Send to Command..."))
+		# TRANS: The user starts a program (command) and
+		# TRANS: the text is written on stdin
+		Action.__init__(self, _("Write to Command..."))
 
 	def activate(self, leaf, iobj):
 		if isinstance(iobj, Command):
@@ -169,6 +173,9 @@ class WriteToCommand (Action):
 
 class FilterThroughCommand (WriteToCommand):
 	def __init__(self):
+		# TRANS: The user starts a program (command) and
+		# TRANS: the text is written on stdin, and we
+		# TRANS: present the output (stdout) to the user.
 		Action.__init__(self, _("Filter through Command..."))
 
 	def finish_callback(self, acommand, stdout, stderr):
