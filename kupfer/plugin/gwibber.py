@@ -27,7 +27,7 @@ import gwibber.microblog
 from kupfer import icons
 from kupfer import pretty
 from kupfer import plugin_support
-from kupfer.objects import Action, TextLeaf, Source, Leaf
+from kupfer.objects import Action, TextLeaf, Source, Leaf, TextSource
 from kupfer.obj.objects import OpenUrl
 from kupfer.weaklib import dbus_signal_connect_weakly
 
@@ -253,6 +253,9 @@ class SendMessageTo(Action):
 	def requires_object(self):
 		return True
 
+	def object_source(self, for_item=None):
+		return StatusTextSource()
+
 	def object_types(self):
 		yield TextLeaf
 
@@ -284,6 +287,9 @@ class Reply(Action):
 
 	def requires_object(self):
 		return True
+
+	def object_source(self, for_item=None):
+		return StatusTextSource()
 
 	def object_types(self):
 		yield TextLeaf
@@ -335,6 +341,9 @@ class SendPrivate(Action):
 
 	def requires_object(self):
 		return True
+
+	def object_source(self, for_item=None):
+		return StatusTextSource()
 
 	def object_types(self):
 		yield TextLeaf
@@ -540,3 +549,17 @@ class StreamMessagesSource(Source):
 
 	def get_icon_name(self):
 		return 'gwibber'
+
+class StatusTextSource (TextSource):
+	def get_rank(self):
+		return 100
+
+	def get_text_items(self, text):
+		n = len(text)
+		summary = _trunc_message(text)
+		desc_template = ngettext("%s (%d character)", "%s (%d characters)", n)
+		yield TextLeaf(text, desc_template % (summary, n))
+
+	def get_items(self, text):
+		return self.get_text_items(text)
+
