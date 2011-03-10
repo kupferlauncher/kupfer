@@ -4,7 +4,7 @@ __kupfer_name__ = _("Gwibber")
 __kupfer_sources__ = ("HomeMessagesSource", "AccountsSource", "StreamsSource")
 __kupfer_actions__ = ("SendMessage", "SendMessageBy", "SendMessageTo")
 __description__ = _("Microblogging with Gwibber. Allows sending and receiving "
-                    "messages from social networks like Twitter, Identi.ca etc."
+                    "messages from social networks like Twitter, Identi.ca etc. "
                     "Requires the package 'gwibber-service'.")
 __version__ = "2011-03-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -42,7 +42,7 @@ DBUS_GWIBBER_SEARCH = ('com.Gwibber.Search', '/com/gwibber/Search')
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		'key': 'load_limit',
-		'label': _("Maximum messages to show"),
+		'label': _("Maximum number of messages to show"),
 		'type': int,
 		'value': 25,
 	}
@@ -232,7 +232,7 @@ class SendMessageBy(Action):
 		return icons.ComposedIcon("gwibber", "mail-message-new")
 
 	def get_description(self):
-		return _("Send message to one Gwibber account")
+		return _("Send message to a Gwibber account")
 
 
 class SendMessageTo(Action):
@@ -265,7 +265,7 @@ class SendMessageTo(Action):
 
 class Reply(Action):
 	def __init__(self):
-		Action.__init__(self, _("Reply"))
+		Action.__init__(self, _("Reply..."))
 
 	def activate(self, leaf, iobj):
 		conn = _get_dbus_iface(DBUS_GWIBBER_MESSAGES, True)
@@ -317,7 +317,7 @@ class DeleteMessage(Action):
 
 class SendPrivate(Action):
 	def __init__(self):
-		Action.__init__(self, _("Send Private Message"))
+		Action.__init__(self, _("Send Private Message..."))
 
 	def activate(self, leaf, iobj):
 		conn = _get_dbus_iface(DBUS_GWIBBER_MESSAGES, True)
@@ -381,7 +381,7 @@ class Retweet(Action):
 	def get_description(self):
 		if self._retweet_to_all:
 			return _("Retweet message to all Gwibber accounts")
-		return _("Retweet message to one Gwibber account")
+		return _("Retweet message to a Gwibber account")
 
 
 class OpenMessageUrl(OpenUrl):
@@ -486,6 +486,7 @@ class HomeMessagesSource(Source):
 
 class MessagesSource(Source):
 	def __init__(self, account, service):
+		# TRANS:  %s is a service name
 		Source.__init__(self, _("Gwibber Messages for %s") % service)
 		self.account = account
 
@@ -527,6 +528,7 @@ class StreamsSource(Source):
 
 class StreamMessagesSource(Source):
 	def __init__(self, stream):
+		# TRANS: Gwibber messages in %s :: %s is a Stream name
 		Source.__init__(self, _("Gwibber Messages in %s") % stream.name)
 		self._account = stream.account
 		self._stream_id = stream.object
