@@ -10,31 +10,6 @@
   <title>Using <app>Kupfer</app> in Depth</title>
 
  <section>
-  <title>Open Terminal Here</title>
-  <p>
-   Open terminal first calls <cmd>xdg-terminal</cmd>, then
-   <cmd>gnome-terminal</cmd>.  xdg-terminal is a script to find the user's
-   configured terminal program for their Desktop Environment. Install
-   <cmd>xdg-terminal</cmd> if you need this (or install a symlink
-   <em>called</em> xdg-terminal). 
-  </p>
- </section>
-  
- <section>
-  <title>Grab Current Selection</title>
-  <p> To use the current selected text, from any application, with
-    <app>Kupfer</app>, you can configure a global keyboard shortcut for the
-    action <em>Show with Selection</em> in <app>Kupfer Preferences</app>.
-  </p>
-  <p>
-   If configured, pressing the global keyboard shortcut
-   will summon <app>Kupfer</app> with the current selection as the focused
-   object.
-  </p>
-  <p>See <link xref="keyboard"/></p>
- </section>
-  
- <section>
   <title>Adding Applications and Scripts</title>
   <p>
    <app>Kupfer</app> will show all applications that are configured visible
@@ -58,7 +33,64 @@
       Favorites</em>.
   </p>
  </section>
+
+ <section>
+   <title>The <em>Comma Trick</em></title>
+    <p> The comma trick allows the user to use actions on many objects at
+       the same time.
+    </p>
+
+    <p>Simply press comma <key>,</key> when an object is selected. The object
+      is put on a "stack", and you can find yet another file or object, press
+      comma to put it on the stack. When you subsequently invoke an action, the
+      action is carried out on all of the objects at the same time.
+    </p>
+
+    <p>Some actions are only "multiplied" when used with many objects, other
+      are smarter than that:</p>
+    <list>
+      <item><p> Selecting many files and using the Create Archive action, all
+          files will be packed into the same archive.</p></item>
+      <item><p>If you select multiple contacts and use a Send Email action, it
+          creates one email directed at all the contacts.</p></item>
+      <item><p>If you select multiple subcatalogs (For example Firefox
+          Bookmarks and Epiphany Bookmarks) and use Search Contents.., you get
+          a subcatalog search restricted to the objects of those two catalogs!
+          You can even bind a trigger to this command(!) 
+      </p></item>
+    </list>
+    <p>The comma trick is 
+      <link href="http://www.43folders.com/2005/06/13/quicksilver-the-comma-trick">
+        directly taken from Quicksilver</link>
+      (the example given in the external article should work identically in
+      Kupfer).
+    </p>
+  </section>
+
+ <section>
+  <title>Grab Current Selection</title>
+  <p> To use the current selected text, from any application, with
+    <app>Kupfer</app>, you can configure a global keyboard shortcut for the
+    action <em>Show with Selection</em> in <app>Kupfer Preferences</app>.
+  </p>
+  <p>
+   If configured, pressing the global keyboard shortcut
+   will summon <app>Kupfer</app> with the current selection as the focused
+   object.
+  </p>
+  <p>See <link xref="keyboard"/></p>
+ </section>
   
+ <section>
+  <title>Open Terminal Here</title>
+  <p>
+   Open terminal first calls <cmd>xdg-terminal</cmd>, then
+   <cmd>gnome-terminal</cmd>.  xdg-terminal is a script to find the user's
+   configured terminal program for their Desktop Environment. Install
+   <cmd>xdg-terminal</cmd> if you need this (or install a symlink
+   <em>called</em> xdg-terminal). 
+  </p>
+ </section>
  <section>
   <title>Command-line Connection</title>
   <p>
@@ -111,38 +143,6 @@
   </p>
  </section>
 
- <section>
-   <title>The <em>Comma Trick</em></title>
-    <p> The comma trick allows the user to use actions on many objects at
-       the same time.
-    </p>
-
-    <p>Simply press comma <key>,</key> when an object is selected. The object
-      is put on a "stack", and you can find yet another file or object, press
-      comma to put it on the stack. When you subsequently invoke an action, the
-      action is carried out on all of the objects at the same time.
-    </p>
-
-    <p>Some actions are only "multiplied" when used with many objects, other
-      are smarter than that:</p>
-    <list>
-      <item><p> Selecting many files and using the Create Archive action, all
-          files will be packed into the same archive.</p></item>
-      <item><p>If you select multiple contacts and use a Send Email action, it
-          creates one email directed at all the contacts.</p></item>
-      <item><p>If you select multiple subcatalogs (For example Firefox
-          Bookmarks and Epiphany Bookmarks) and use Search Contents.., you get
-          a subcatalog search restricted to the objects of those two catalogs!
-          You can even bind a trigger to this command(!) 
-      </p></item>
-    </list>
-    <p>The comma trick is 
-      <link href="http://www.43folders.com/2005/06/13/quicksilver-the-comma-trick">
-        directly taken from Quicksilver</link>
-      (the example given in the external article should work identically in
-      Kupfer).
-    </p>
-  </section>
   <section>
     <title>Saving Commands as Files</title>
     <p>You can use keyboard shortcut for <em>Compose Command</em> (by
