@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-05 17:46+0100\n"
+"POT-Creation-Date: 2011-03-10 02:13+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -41,6 +41,9 @@ msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
 
 msgid "<b>Directories</b>"
 msgstr "<b>Kataloger</b>"
+
+msgid "<b>Exported Objects from Plugins</b>"
+msgstr "<b>Objekt exporterade från insticksmoduler</b>"
 
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globala Tagentbordsgenvägar</b>"
@@ -79,22 +82,15 @@ msgid "Start automatically on login"
 msgstr "Starta automatiskt vid login"
 
 msgid ""
-"Tick the box next to a source to make sure its objects are exported to the "
-"top level of the catalog. An unticked source's contents are only available "
-"by locating its subcatalog and entering it.\n"
-"\n"
-"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
-"to carry a catalog larger than a couple of thousand objects, and may become "
-"slow if overly large subcatalogs are included in the top level."
+"Untick the box next to a source to hide its objects in the top level "
+"searches.\n"
+"An unticked source's contents are only available by locating its subcatalog "
+"and entering it."
 msgstr ""
-"Markera rutan vid en källa för att dess objekt ska exporteras till "
-"katalogens toppnivå. En urkryssad källas innehåll är endast tillgängligt "
-"genom dess underkatalog.\n"
-"\n"
-"Observera: Kupfer är ett integrationsverktyg, och inte i sig ett "
-"indexeringsprogram. Kupfer är inte designat för en katalog på mer än ett par "
-"tusental objekt, och kan bli långsam om för stora underkataloger inkluderas "
-"i toppnivån."
+"Avmarkera rutan vid en källa för att dölja dess objekt vid sökning i "
+"toppnivån.\n"
+"Använd kommandot 'Sök inuti' på en avmarkerad källa för att söka i dess "
+"innehåll."
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
@@ -594,18 +590,25 @@ msgstr "Kör (Hämta utdata)"
 msgid "Run program and return its output"
 msgstr "Kör program och returnera dess utdata"
 
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
 msgid "Pass to Command..."
 msgstr "Skicka till kommando..."
 
 msgid "Run program with object as an additional parameter"
 msgstr "Kör program och skicka objektet som sista parameter"
 
-msgid "Send to Command..."
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+msgid "Write to Command..."
 msgstr "Skriv till kommando..."
 
 msgid "Run program and supply text on the standard input"
 msgstr "Kör program och skriv text på std. in"
 
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
 msgid "Filter through Command..."
 msgstr "Filtrera genom kommando..."
 
@@ -950,10 +953,10 @@ msgstr "Utlösare"
 
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
-"Command' (Ctrl+Return)."
+"Command'."
 msgstr ""
-"Tilldela globala tangentbordsgenvägar till kommandon skapade med Compose-"
-"kommandot (Ctrl+Return)"
+"Tilldela globala tangentbordsgenvägar till kommandon skapade med 'Bygg "
+"kommando'"
 
 msgid "Add Trigger..."
 msgstr "Lägg till utlösare..."
@@ -1486,6 +1489,111 @@ msgstr "Skapa ny uppgift i Getting Things GNOME"
 msgid "Gwibber"
 msgstr "Gwibber"
 
+msgid ""
+"Microblogging with Gwibber. Allows sending and receiving messages from "
+"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
+"service'."
+msgstr ""
+"Mikroblogga med Gwibber. Skicka och ta emot meddeladen från sociala nätverk "
+"som Twitter, Identi.ca etc. Kräver paketet 'gwibber-service'."
+
+msgid "Maximum number of messages to show"
+msgstr "Maximalt antal visade meddelanden"
+
+#. TRANS: Account description, similar to "John on Identi.ca"
+#, python-format
+msgid "%(user)s on %(service)s"
+msgstr "%(user)s på %(service)s"
+
+#. TRANS: Gwibber Message description
+#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
+#. TRANS: the %(user)s and similar tokens must be unchanged
+#, python-format
+msgid "%(user)s %(when)s on %(where)s"
+msgstr "%(user)s %(when)s på %(where)s"
+
+msgid "Send Message"
+msgstr "Skicka meddelande"
+
+msgid "Send message to all Gwibber accounts"
+msgstr "Skicka meddelande till alla Gwibber-konton"
+
+msgid "Send Message To..."
+msgstr "Skicka meddelande till..."
+
+msgid "Send message to a Gwibber account"
+msgstr "Skicka meddelande till ett Gwibber-konton"
+
+msgid "Send Message..."
+msgstr "Skicka meddelande..."
+
+msgid "Send message to selected Gwibber account"
+msgstr "Skicka meddelande till valt Gwibber-konto"
+
+msgid "Reply..."
+msgstr "Svara..."
+
+msgid "Delete Message"
+msgstr "Radera meddelande"
+
+msgid "Send Private Message..."
+msgstr "Skicka direktmeddelande..."
+
+msgid "Send direct message to user"
+msgstr "Skicka direktmeddelande till..."
+
+msgid "Retweet"
+msgstr ""
+
+#, fuzzy
+msgid "Retweet To..."
+msgstr "Byt namn..."
+
+#, fuzzy
+msgid "Retweet message to all Gwibber accounts"
+msgstr "Hämta nya meddelanden från alla konton i Gwibber"
+
+#, fuzzy
+msgid "Retweet message to a Gwibber account"
+msgstr "Hämta nya meddelanden från alla konton i Gwibber"
+
+msgid "Open in Browser"
+msgstr "Öppna i webbläsaren"
+
+msgid "Open message in default web browser"
+msgstr "Öppna meddelandet med webbläsaren"
+
+msgid "Gwibber Accounts"
+msgstr "Gwibber-konton"
+
+msgid "Accounts configured in Gwibber"
+msgstr "Konton konfigurerade i Gwibber"
+
+msgid "Gwibber Messages"
+msgstr "Gwibber-meddelanden"
+
+msgid "Recent messages received by Gwibber"
+msgstr "Nyligen mottagna meddelanden i Gwibber"
+
+#. TRANS:  %s is a service name
+#, python-format
+msgid "Gwibber Messages for %s"
+msgstr "Gwibber-meddelanden för %s"
+
+msgid "Gwibber Streams"
+msgstr "Gwibber-flöden"
+
+msgid "Streams configured in Gwibber"
+msgstr "Flöden konfigurerade i Gwibber"
+
+#. TRANS: Gwibber messages in %s :: %s is a Stream name
+#, python-format
+msgid "Gwibber Messages in %s"
+msgstr "Gwibber-meddelanden i %s"
+
+msgid "Gwibber (Simple)"
+msgstr "Gwibber (enkel)"
+
 msgid "Send updates via the microblogging client Gwibber"
 msgstr "Skicka uppdateringar via mikrobloggklienten Gwibber"
 
@@ -1589,9 +1697,6 @@ msgstr "Skicka direktmeddelande..."
 msgid "Send Direct Message To..."
 msgstr "Skicka direktmeddelande till..."
 
-msgid "Reply..."
-msgstr "Svara..."
-
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
@@ -1652,9 +1757,6 @@ msgstr "Tillgång till Pidgin-kontakter"
 
 msgid "Show offline contacts"
 msgstr "Visa frånkopplade kontakter"
-
-msgid "Send Message..."
-msgstr "Skicka meddelande..."
 
 msgid "Pidgin Contacts"
 msgstr "Pidgin-kontakter"
@@ -2050,6 +2152,9 @@ msgstr ""
 "Kontrollera VirtualBox virtuella maskiner. Stöder både Sun VirtualBox och "
 "Open Source Edition."
 
+msgid "Force use CLI interface"
+msgstr "Tvinga CLI-gränssnitt"
+
 msgid "Power On"
 msgstr "Starta"
 
@@ -2108,3 +2213,6 @@ msgstr "Zim-sidor"
 
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
+
+#~ msgid "Send message to one Gwibber account"
+#~ msgstr "Skicka meddelande till ett Gwibber-konto"
