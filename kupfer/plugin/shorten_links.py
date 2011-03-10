@@ -8,11 +8,6 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import httplib
 import urllib
 
-try:
-	import ssl
-except ImportError:
-	ssl = None
-
 from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
 from kupfer.plugin import ssl_support
 from kupfer import pretty
@@ -160,7 +155,7 @@ class ServicesSource(Source):
 		yield IsGd()
 		yield VGd()
 		yield BitLy()
-		if ssl:
+		if ssl_support.is_supported():
 			yield BitLySSL()
 
 	def should_sort_lexically(self):
