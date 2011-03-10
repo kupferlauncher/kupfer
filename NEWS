@@ -7,6 +7,7 @@ kupfer's next release
 
 Not Released Yet
 
+* Expand and improve upon Kupfer's User Documentation.
 * Use and require **Waf 1.6**, which supports building using either Python 3
   or Python 2.6+. Kupfer itself still uses Python 2.6+ only.
 * Add *Gwibber* plugin that allows integration with Twitter, Identi.ca, Buzz
@@ -25,10 +26,9 @@ Not Released Yet
 * *OpenOffice*: Support LibreOffice too (Karol Będkowski)
 * Fix "Y2011 bug" where the time parameter overflowed INT32 in keybinder
 * *Shorten Links*: Use only services with stable API, added and removed
-  services, including Bit.ly over HTTPS
-* *Google Search* and *Google Translate*: Prefer connection over HTTPS.
-  Kupfer does check that the certificate is valid using the Python stdlib's
-  ``ssl`` module (subject to its limitations).
+  services.
+* *Google Search*, *Google Translate* and ``bit.ly`` in *Shorten Links* can
+  use SSL for transport if a third-party plugin is installed.
 * Fix bug if evolution address book is missing (Luca Falavigna)
   (:lp:`691305`)
 * Fix bug with integer division (Francesco Marella)
@@ -36,6 +36,7 @@ Not Released Yet
 * Use ``readlink`` in ``kupfer-exec`` script too since ``realpath`` is not
   always available.
 * Allow plugins to use update notifications (William Friesen)
+* Bug :lp:`494237` is hopefully fixed once and for all.
 * The *Large Type* action will work with anything that has
   ``TextRepresentation``
 
