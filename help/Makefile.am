@@ -26,6 +26,7 @@ DOC_PAGES = \
 	plugin-applications.page \
 	plugin-calculator.page \
 	plugin-favorites.page \
+	plugin-gwibber.page \
 	plugin-nautilusselection.page \
 	plugin-notes.page \
 	plugin-triggers.page \
