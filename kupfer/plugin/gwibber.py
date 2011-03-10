@@ -136,9 +136,9 @@ def unicode_strftime(fmt, time_tuple=None):
 	enc = locale.getpreferredencoding(False)
 	return unicode(time.strftime(fmt, time_tuple), enc, "replace")
 
-class Message(TextLeaf):
+class Message (Leaf):
 	def __init__(self, text, msg, service):
-		TextLeaf.__init__(self, text)
+		Leaf.__init__(self, text, text)
 		self.id = msg['id']
 		self.msg_url = msg.get('url')
 		self.msg_sender = msg['sender']['nick'] if 'nick' in msg['sender'] \
@@ -174,6 +174,9 @@ class Message(TextLeaf):
 
 	def get_description(self):
 		return self._description
+
+	def get_text_representation(self):
+		return self.object
 
 	def get_gicon(self):
 		return icons.ComposedIcon("gwibber", "stock_mail")
