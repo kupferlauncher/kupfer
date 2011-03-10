@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-10 02:13+0100\n"
+"POT-Creation-Date: 2011-03-10 13:37+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -1543,19 +1543,16 @@ msgid "Send direct message to user"
 msgstr "Skicka direktmeddelande till..."
 
 msgid "Retweet"
-msgstr ""
+msgstr "Upprepa"
 
-#, fuzzy
 msgid "Retweet To..."
-msgstr "Byt namn..."
+msgstr "Upprepa på..."
 
-#, fuzzy
 msgid "Retweet message to all Gwibber accounts"
-msgstr "Hämta nya meddelanden från alla konton i Gwibber"
+msgstr "Upprepa meddelandet på alla konton i Gwibber"
 
-#, fuzzy
 msgid "Retweet message to a Gwibber account"
-msgstr "Hämta nya meddelanden från alla konton i Gwibber"
+msgstr "Upprepa meddelandet på ett konto i Gwibber"
 
 msgid "Open in Browser"
 msgstr "Öppna i webbläsaren"
