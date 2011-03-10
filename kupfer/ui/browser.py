@@ -1306,7 +1306,11 @@ class Interface (gobject.GObject):
 		if (prev_pane.get_match_state() is State.Match and
 				new_focus is not self.current):
 			self.current = new_focus
+			# Use toggle_text_mode to reset
 			self.toggle_text_mode(False)
+			pane = self._pane_for_widget(new_focus)
+			if self.data_controller.get_should_enter_text_mode(pane):
+				self.toggle_text_mode_quick()
 			self._update_active()
 
 	def _browse_up(self):

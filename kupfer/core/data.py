@@ -190,6 +190,8 @@ class Pane (gobject.GObject):
 		return self.latest_key
 	def get_can_enter_text_mode(self):
 		return False
+	def get_should_enter_text_mode(self):
+		return False
 	def emit_search_result(self, match, match_iter, context):
 		self.emit("search-result", match, match_iter, context)
 
@@ -245,6 +247,9 @@ class LeafPane (Pane, pretty.OutputMixin):
 
 	def get_can_enter_text_mode(self):
 		return self.is_at_source_root()
+
+	def get_should_enter_text_mode(self):
+		return False
 
 	def refresh_data(self):
 		self.emit("new-source", self.source)
@@ -379,6 +384,10 @@ class SecondaryObjectPane (LeafPane):
 		textsrcs = sc.get_text_sources()
 		return (atroot and
 			any(sc.good_source_for_types(s, types) for s in textsrcs))
+
+	def get_should_enter_text_mode(self):
+		return (self.is_at_source_root() and
+		        hasattr(self.get_source(), "get_text_items"))
 
 	def search(self, key=u"", context=None, text_mode=False):
 		"""
@@ -717,6 +726,10 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 	def get_can_enter_text_mode(self, pane):
 		panectl = self._panectl_table[pane]
 		return panectl.get_can_enter_text_mode()
+
+	def get_should_enter_text_mode(self, pane):
+		panectl = self._panectl_table[pane]
+		return panectl.get_should_enter_text_mode()
 
 	def validate(self):
 		"""Check if all selected items are still valid
