@@ -544,7 +544,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		from kupfer.core import plugins
 
 		setctl = settings.GetSettingsController()
-		for item in plugins.get_plugin_ids():
+		for item in sorted(plugins.get_plugin_ids()):
 			if not setctl.get_plugin_enabled(item):
 				continue
 			sources = self._load_plugin(item)
