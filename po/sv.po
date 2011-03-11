@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-10 13:37+0100\n"
+"POT-Creation-Date: 2011-03-11 01:25+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -1227,6 +1227,44 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Sök i Devhelp"
 
+#. -*- coding: UTF-8 -*-
+#. vim: set noexpandtab ts=8 sw=8:
+msgid "Empathy"
+msgstr "Empathy"
+
+msgid "Access to Empathy Contacts"
+msgstr "Tillgång till Empathy-kontakter"
+
+msgid "Available"
+msgstr "Tillgänglig"
+
+msgid "Away"
+msgstr "Frånvarande"
+
+msgid "Busy"
+msgstr "Stör inte"
+
+msgid "Not Available"
+msgstr "Frånvarande"
+
+msgid "Invisible"
+msgstr "Osynlig"
+
+msgid "Offline"
+msgstr "Frånkopplad"
+
+msgid "Open Chat"
+msgstr "Öppna chatt"
+
+msgid "Change Global Status To..."
+msgstr "Ändra global status till..."
+
+msgid "Empathy Contacts"
+msgstr "Empathy-kontakter"
+
+msgid "Empathy Account Status"
+msgstr "Empathy-status"
+
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -1265,32 +1303,8 @@ msgstr "Gajim"
 msgid "Access to Gajim Contacts"
 msgstr "Tillgång till Gajim-kontakter"
 
-msgid "Available"
-msgstr "Tillgänglig"
-
 msgid "Free for Chat"
 msgstr "Free for Chat"
-
-msgid "Away"
-msgstr "Frånvarande"
-
-msgid "Not Available"
-msgstr "Frånvarande"
-
-msgid "Busy"
-msgstr "Stör inte"
-
-msgid "Invisible"
-msgstr "Osynlig"
-
-msgid "Offline"
-msgstr "Frånkopplad"
-
-msgid "Open Chat"
-msgstr "Öppna chatt"
-
-msgid "Change Global Status To..."
-msgstr "Ändra global status till..."
 
 msgid "Gajim Contacts"
 msgstr "Gajim-kontakter"
@@ -1588,6 +1602,12 @@ msgstr "Flöden konfigurerade i Gwibber"
 msgid "Gwibber Messages in %s"
 msgstr "Gwibber-meddelanden i %s"
 
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d tecken)"
+msgstr[1] "%s (%d tecken)"
+
 msgid "Gwibber (Simple)"
 msgstr "Gwibber (enkel)"
 
@@ -1707,12 +1727,6 @@ msgstr "Twitter-vänner"
 #, python-format
 msgid "Timeline for %s"
 msgstr "Tidslinje för %s"
-
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d tecken)"
-msgstr[1] "%s (%d tecken)"
 
 #. -*- coding: UTF-8 -*-
 msgid "OpenOffice / LibreOffice"
