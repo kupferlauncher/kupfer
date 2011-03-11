@@ -12,6 +12,7 @@ Not Released Yet
   or Python 2.6+. Kupfer itself still uses Python 2.6+ only.
 * Add *Gwibber* plugin that allows integration with Twitter, Identi.ca, Buzz
   etc. (Karol Będkowski)
+* Add chat client *Empathy* plugin (Jakh Daven)
 * Remove the plugin *Twitter* since it is incompatible and has no updated
   implementation.
 * Add *Show QRCode* plugin by Thomas Renard (:lp:`611162`)
