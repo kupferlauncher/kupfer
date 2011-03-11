@@ -70,6 +70,7 @@ kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
+kupfer/plugin/empathy.py
 kupfer/plugin/evolution.py
 kupfer/plugin/filezilla.py
 kupfer/plugin/gajim.py
