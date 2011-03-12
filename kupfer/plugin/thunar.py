@@ -14,7 +14,7 @@ import os
 import dbus
 import gio
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Leaf, Action, Source, InvalidDataError
 from kupfer.objects import FileLeaf, RunnableLeaf, SourceLeaf, AppLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import config
@@ -160,9 +160,10 @@ class _SendToAppsSource (Source):
 				file_path = os.path.join(data_dir, filename)
 				if not os.path.isfile(file_path):
 					continue
-				item = gio.unix.desktop_app_info_new_from_filename(file_path)
-				if item:
-					yield AppLeaf(item)
+				try:
+					yield AppLeaf(init_path=file_path)
+				except InvalidDataError:
+					pass
 
 	def get_icon_name(self):
 		return "Thunar"
