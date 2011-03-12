@@ -30,7 +30,7 @@
                         <property name="visible">True</property>
                         <property name="border_width">5</property>
                         <property name="orientation">vertical</property>
-                        <property name="spacing">5</property>
+                        <property name="spacing">15</property>
                         <child>
                           <object class="GtkFrame" id="frame1">
                             <property name="visible">True</property>
@@ -476,7 +476,6 @@
                 <child>
                   <object class="GtkHBox" id="hbox3">
                     <property name="visible">True</property>
-                    <property name="spacing">10</property>
                     <child>
                       <object class="GtkVBox" id="vbox6">
                         <property name="visible">True</property>
@@ -489,6 +488,7 @@
                             <property name="yalign">0</property>
                             <property name="label" translatable="yes">&lt;b&gt;Exported Objects from Plugins&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
+                            <property name="wrap">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -507,7 +507,7 @@
 An unticked source's contents are only available by locating its subcatalog and entering it.</property>
                                 <property name="use_markup">True</property>
                                 <property name="wrap">True</property>
-                                <property name="width_chars">30</property>
+                                <property name="width_chars">25</property>
                               </object>
                             </child>
                           </object>
