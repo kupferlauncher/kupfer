@@ -166,7 +166,7 @@ class Rename (Action, pretty.OutputMixin):
 		except gio.Error, exc:
 			raise OperationError(unicode(exc))
 		else:
-			return FileLeaf(dest)
+			return FileLeaf(dfile.get_path())
 
 	def activate_multiple(self, objs, iobjs):
 		raise NotImplementedError
