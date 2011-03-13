@@ -49,7 +49,20 @@ class Service (ExportedGObject):
 
 	@dbus.service.method(interface_name)
 	def Present(self):
-		self.emit("present")
+		self.emit("present", 0)
+
+	@dbus.service.method(interface_name, in_signature="ay",
+	                     byte_arrays=True)
+	def PresentWithStartup(self, startup_notification_id):
+		# Try to parse out the time from the startup id
+		time = 0
+		if "_TIME" in startup_notification_id:
+			_ign, bstime = startup_notification_id.split("_TIME", 1)
+			try:
+				time = int(bstime)
+			except ValueError:
+				pass
+		self.emit("present", time)
 
 	@dbus.service.method(interface_name)
 	def ShowHide(self):
@@ -75,7 +88,8 @@ class Service (ExportedGObject):
 		self.emit("quit")
 
 gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_UINT64, ))
+
 gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 

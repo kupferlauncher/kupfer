@@ -35,7 +35,7 @@ IFACE="se.kaizer.kupfer.Listener"
 # We allow reading directly from stdin if we pipe text into Kupfer
 if ! tty --quiet
 then
-	echo "kupfer: Reading from stdin" > /dev/stderr
+	echo "kupfer: Reading from stdin" >&2
 	TEXT_INPUT=$(cat)
 fi
 
@@ -44,7 +44,8 @@ _hasprefix "$1" "--"
 KUPFER_HAS_OPTIONS=$?
 
 test $KUPFER_HAS_OPTIONS != 0 && dbus-send --type=method_call --print-reply \
-	--dest=$SERVICE $OBJ $IFACE.Present >/dev/null 2>&1
+	--dest=$SERVICE $OBJ $IFACE.PresentWithStartup \
+	"string:$DESKTOP_STARTUP_ID" >/dev/null 2>&1
 KUPFER_RUNNING=$?
 
 if test \( -n "$TEXT_INPUT" -a $KUPFER_HAS_OPTIONS != 0 \)
@@ -59,7 +60,7 @@ _realpaths () {
 	do
 		LINK=$(readlink -e -- "$1")
 		if test $? != 0 ; then
-			echo "Error: $1 does not exist" > /dev/stderr
+			echo "Error: $1 does not exist" >&2
 			shift
 			continue
 		fi
