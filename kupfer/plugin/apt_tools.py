@@ -11,7 +11,7 @@ __version__ = ""
 __author__ = ("Martin Koelewijn <martinkoelewijn@gmail.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
 
-import subprocess
+import os
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
@@ -125,16 +125,21 @@ class PackageSearchSource (Source):
 		return self.query
 
 	def get_items(self):
-		package = self.query
-		P = subprocess.PIPE
-		acp = subprocess.Popen("apt-cache search --names-only '%s'" % package,
-				shell=True, stdout=P, stderr=P)
-		acp_out, acp_err = acp.communicate()
-		for line in kupferstring.fromlocale(acp_out).splitlines():
-			if not line.strip():
-				continue
-			package, desc = line.split(" - ", 1)
-			yield Package(package, desc)
+		package = kupferstring.tolocale(self.query)
+		c_in, c_out_err = os.popen4(['apt-cache', 'search', '--names-only', package])
+		try:
+			c_in.close()
+			acp_out = c_out_err.read()
+			for line in kupferstring.fromlocale(acp_out).splitlines():
+				if not line.strip():
+					continue
+				if not " - " in line:
+					self.output_error("apt-cache: ", line)
+					continue
+				package, desc = line.split(" - ", 1)
+				yield Package(package, desc)
+		finally:
+			c_out_err.close()
 
 	def should_sort_lexically(self):
 		return True
