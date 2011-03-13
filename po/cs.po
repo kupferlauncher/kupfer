@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-01 21:49+0000\n"
-"PO-Revision-Date: 2011-03-02 12:32+0100\n"
+"POT-Creation-Date: 2011-03-11 00:27+0000\n"
+"PO-Revision-Date: 2011-03-13 09:34+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,71 +51,68 @@ msgid "<b>Directories</b>"
 msgstr "<b>Složky</b>"
 
 #: ../data/preferences.ui.h:3
+msgid "<b>Exported Objects from Plugins</b>"
+msgstr "<b>Objekty exportované ze zásuvného modulu</b>"
+
+#: ../data/preferences.ui.h:4
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globální klávesové zkratky</b>"
 
-#: ../data/preferences.ui.h:4
+#: ../data/preferences.ui.h:5
 msgid "<b>Interface</b>"
 msgstr "<b>Rozhraní</b>"
 
-#: ../data/preferences.ui.h:5
+#: ../data/preferences.ui.h:6
 msgid "<b>Start</b>"
 msgstr "<b>Spuštění</b>"
 
-#: ../data/preferences.ui.h:6 ../kupfer/obj/sources.py:144
+#: ../data/preferences.ui.h:7 ../kupfer/obj/sources.py:144
 msgid "Catalog"
 msgstr "Katalog"
 
-#: ../data/preferences.ui.h:7
+#: ../data/preferences.ui.h:8
 msgid "General"
 msgstr "Obecné"
 
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:9
 msgid "Hide Kupfer when focus is lost"
 msgstr "Skrýt Kupfer při ztrátě zaměření"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:10
 msgid "Keyboard"
 msgstr "Klávesnice"
 
-#: ../data/preferences.ui.h:10 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:11 ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Předvolby Kupfer"
 
-#: ../data/preferences.ui.h:11
+#: ../data/preferences.ui.h:12
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:775
+#: ../data/preferences.ui.h:13 ../kupfer/ui/preferences.py:777
 msgid "Reset"
 msgstr "Vrátit původní"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:14
 msgid "Show icon in notification area"
 msgstr "Zobrazovat ikonu v oznamovací oblasti"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:15
 msgid "Start automatically on login"
 msgstr "Spouštět automaticky po přihlášení"
 
-#: ../data/preferences.ui.h:15
+#: ../data/preferences.ui.h:16
 msgid ""
-"Tick the box next to a source to make sure its objects are exported to the "
-"top level of the catalog. An unticked source's contents are only available "
-"by locating its subcatalog and entering it.\n"
-"\n"
-"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
-"to carry a catalog larger than a couple of thousand objects, and may become "
-"slow if overly large subcatalogs are included in the top level."
+"Untick the box next to a source to hide its objects in the top level "
+"searches.\n"
+"An unticked source's contents are only available by locating its subcatalog "
+"and entering it."
 msgstr ""
-"Zaškrtněte políčko vedle zdroje, abyste zajistili, že jeho objekty budou "
-"exportovány do nejvyšší úrovně katalogu. Obsah nezaškrtnutých zdrojů bude "
-"dostupný jen při prohledávání podkatalogu a při vstoupení do něj.\n"
-"\n"
-"Poznámka: Aplikace Kupfer provádí pouze integraci, sama o sobě neprovádí "
-"indexování. Není navržena k tomu, aby spravovala katalogy větší než pár "
-"tisíc objektů a pokud se do nejvyšší úrovně zařadí opravdu rozsáhlý katalog, "
-"může pracovat pomalu."
+"Zrušte zaškrtnutí políčka vedle zdroje, aby skryl své objekty v nejvyšší "
+"úrovni hledání.\n"
+"Obsah nezaškrtnutých zdrojů je dostupný pouze při hledání v jeho podkatalogu "
+"a při vstoupení do něj."
 
 #: ../data/preferences.ui.h:18
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
@@ -216,128 +213,128 @@ msgid "No action"
 msgstr "Žádná akce"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1462 ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/browser.py:1472 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Zobrazovat hlavní rozhraní"
 
-#: ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/preferences.py:58
 msgid "Show with Selection"
 msgstr "Zobrazit s výběrem"
 
 #. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/preferences.py:67
+#: ../kupfer/ui/preferences.py:68
 msgid "Alternate Activate"
 msgstr "Alternativní aktivace"
 
 # Překlad viz dotaz v konferenci kupfer: http://mail.gnome.org/archives/kupfer-list/2010-April/msg00003.html
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/preferences.py:70
+#: ../kupfer/ui/preferences.py:71
 msgid "Comma Trick"
 msgstr "Vložení do zásobníku"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
-#: ../kupfer/ui/preferences.py:73
+#: ../kupfer/ui/preferences.py:74
 msgid "Compose Command"
 msgstr "Napsat příkaz"
 
-#: ../kupfer/ui/preferences.py:74
+#: ../kupfer/ui/preferences.py:75
 msgid "Reset All"
 msgstr "U všech vrátit původní"
 
-#: ../kupfer/ui/preferences.py:75
+#: ../kupfer/ui/preferences.py:76
 msgid "Select Quit"
 msgstr "Zvolit ukončení"
 
-#: ../kupfer/ui/preferences.py:76
+#: ../kupfer/ui/preferences.py:77
 msgid "Select Selected File"
 msgstr "Zvolit vybraný soubor"
 
-#: ../kupfer/ui/preferences.py:77
+#: ../kupfer/ui/preferences.py:78
 msgid "Select Selected Text"
 msgstr "Zvolit vybraný text"
 
-#: ../kupfer/ui/preferences.py:78
+#: ../kupfer/ui/preferences.py:79
 msgid "Show Help"
 msgstr "Zobrazit nápovědu"
 
-#: ../kupfer/ui/preferences.py:79
+#: ../kupfer/ui/preferences.py:80
 msgid "Show Preferences"
 msgstr "Zobrazit předvolby"
 
-#: ../kupfer/ui/preferences.py:80
+#: ../kupfer/ui/preferences.py:81
 msgid "Switch to First Pane"
 msgstr "Přepnout na první panel"
 
-#: ../kupfer/ui/preferences.py:81
+#: ../kupfer/ui/preferences.py:82
 msgid "Toggle Text Mode"
 msgstr "Přepnout textový režim"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:405
+#: ../kupfer/ui/preferences.py:407
 msgid "Description"
 msgstr "Popis"
 
-#: ../kupfer/ui/preferences.py:405
+#: ../kupfer/ui/preferences.py:407
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:421
+#: ../kupfer/ui/preferences.py:423
 msgid "Version"
 msgstr "Verze"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:431
+#: ../kupfer/ui/preferences.py:433
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Je zapotřebí modul Python „%s“"
 
-#: ../kupfer/ui/preferences.py:445
+#: ../kupfer/ui/preferences.py:447
 msgid "Plugin could not be read due to an error:"
 msgstr "Zásuvný modul nemohl být načten kvůli výskytu chyby:"
 
-#: ../kupfer/ui/preferences.py:453 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:455 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "vypnutý"
 
-#: ../kupfer/ui/preferences.py:525
+#: ../kupfer/ui/preferences.py:527
 msgid "Content of"
 msgstr "Obsah"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:534
+#: ../kupfer/ui/preferences.py:536
 msgid "Sources"
 msgstr "Zdroje"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:538
+#: ../kupfer/ui/preferences.py:540
 msgid "Actions"
 msgstr "Akce"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:576
+#: ../kupfer/ui/preferences.py:578
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../kupfer/ui/preferences.py:596
+#: ../kupfer/ui/preferences.py:598
 msgid "Set username and password"
 msgstr "Nastavit jméno a heslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:650
+#: ../kupfer/ui/preferences.py:652
 msgid "Choose a Directory"
 msgstr "Výběr složky"
 
-#: ../kupfer/ui/preferences.py:773
+#: ../kupfer/ui/preferences.py:775
 msgid "Reset all shortcuts to default values?"
 msgstr "Nastavit všechny klávesové zkratky na výchozí hodnoty?"
 
-#: ../kupfer/ui/preferences.py:781
+#: ../kupfer/ui/preferences.py:783
 msgid "Command"
 msgstr "Příkaz"
 
-#: ../kupfer/ui/preferences.py:782
+#: ../kupfer/ui/preferences.py:784
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
@@ -347,11 +344,11 @@ msgstr "Klávesová zkratka"
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../kupfer/version.py:65
+#: ../kupfer/version.py:66
 msgid "A free software (GPLv3+) launcher"
 msgstr "Spouštěč vydaný pod svobodnou licencí (GPLv3+)"
 
-#: ../kupfer/version.py:68
+#: ../kupfer/version.py:69
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -382,7 +379,7 @@ msgstr ""
 ">.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:85
+#: ../kupfer/version.py:86
 msgid "Could not find running Kupfer"
 msgstr "Nelze najít běžící aplikaci Kupfer"
 
@@ -533,7 +530,6 @@ msgid "Perform command"
 msgstr "Provést příkaz"
 
 #: ../kupfer/obj/objects.py:387
-#| msgid "Empty File"
 msgid "(Empty Text)"
 msgstr "(Prázdný text)"
 
@@ -548,7 +544,7 @@ msgstr[1] "(%(num)d řádky) „%(text)s“"
 msgstr[2] "(%(num)d řádků) „%(text)s“"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
+#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:248
 #, python-format
 msgid "%s et. al."
 msgstr "%s a další"
@@ -746,31 +742,48 @@ msgstr "Vyčistit"
 msgid "Remove all recent clipboards"
 msgstr "Odstranit všechny nedávné položky ze schránky"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:145
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:210
 msgid "Shell Commands"
 msgstr "Příkazy shellu"
 
-#: ../kupfer/plugin/commands.py:8 ../kupfer/plugin/commands.py:168
+#: ../kupfer/plugin/commands.py:9 ../kupfer/plugin/commands.py:233
 msgid "Run commandline programs"
 msgstr "Spustit program příkazové řádky"
 
-#: ../kupfer/plugin/commands.py:59
+#: ../kupfer/plugin/commands.py:71
 msgid "Run (Get Output)"
 msgstr "Spustit (získat výstup)"
 
-#: ../kupfer/plugin/commands.py:73
+#: ../kupfer/plugin/commands.py:85
 msgid "Run program and return its output"
 msgstr "Spustit program a vrátit jeho výstup"
 
-#: ../kupfer/plugin/commands.py:77
-msgid "Send to Command..."
-msgstr "Odeslat do příkazu…"
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
+#: ../kupfer/plugin/commands.py:91
+#| msgid "Send to Command..."
+msgid "Pass to Command..."
+msgstr "Předat do příkazu…"
 
-#: ../kupfer/plugin/commands.py:110 ../kupfer/plugin/commands.py:120
+#: ../kupfer/plugin/commands.py:132
+msgid "Run program with object as an additional parameter"
+msgstr "Spustit program s objektem, jako doplňujícím parametrem"
+
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+#: ../kupfer/plugin/commands.py:139
+#| msgid "Send to Command..."
+msgid "Write to Command..."
+msgstr "Zapsat do příkazu…"
+
+#: ../kupfer/plugin/commands.py:172 ../kupfer/plugin/commands.py:185
 msgid "Run program and supply text on the standard input"
 msgstr "Spustit program a poskytnout text na standardní vstup"
 
-#: ../kupfer/plugin/commands.py:114
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
+#: ../kupfer/plugin/commands.py:179
 msgid "Filter through Command..."
 msgstr "Filtrovat přes příkaz…"
 
@@ -1014,124 +1027,124 @@ msgstr "včera, %s"
 msgid "Last updated %s"
 msgstr "Naposledy aktualizováno %s"
 
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:389
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:398
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:423
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:432
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "Přehrávání a přidávání skladeb do fronty a procházení hudební knihovny"
 
-#: ../kupfer/plugin/rhythmbox.py:22
+#: ../kupfer/plugin/rhythmbox.py:23
 msgid "Include artists in top level"
 msgstr "Zahrnout umělce do nejvyšší úrovně"
 
-#: ../kupfer/plugin/rhythmbox.py:28
+#: ../kupfer/plugin/rhythmbox.py:29
 msgid "Include albums in top level"
 msgstr "Zahrnout alba do nejvyšší úrovně"
 
-#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
+#: ../kupfer/plugin/rhythmbox.py:35 ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "Zahrnout skladby do nejvyšší úrovně"
 
-#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
+#: ../kupfer/plugin/rhythmbox.py:64 ../kupfer/plugin/rhythmbox.py:132
 #: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "Přehrát"
 
-#: ../kupfer/plugin/rhythmbox.py:67
+#: ../kupfer/plugin/rhythmbox.py:68
 msgid "Resume playback in Rhythmbox"
 msgstr "Pokračovat v přehrávání v přehrávači Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:45
+#: ../kupfer/plugin/rhythmbox.py:74 ../kupfer/plugin/audacious.py:102
+#: ../kupfer/plugin/virtualbox/__init__.py:93
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../kupfer/plugin/rhythmbox.py:77
+#: ../kupfer/plugin/rhythmbox.py:78
 msgid "Pause playback in Rhythmbox"
 msgstr "Pozastavit přehrávání v přehrávači Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
+#: ../kupfer/plugin/rhythmbox.py:84 ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "Následující"
 
-#: ../kupfer/plugin/rhythmbox.py:87
+#: ../kupfer/plugin/rhythmbox.py:88
 msgid "Jump to next track in Rhythmbox"
 msgstr "Přeskočit na následující stopu v přehrávači Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
+#: ../kupfer/plugin/rhythmbox.py:94 ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../kupfer/plugin/rhythmbox.py:97
+#: ../kupfer/plugin/rhythmbox.py:98
 msgid "Jump to previous track in Rhythmbox"
 msgstr "Přeskočit na předchozí stopu v přehrávači Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:103
+#: ../kupfer/plugin/rhythmbox.py:104
 msgid "Show Playing"
 msgstr "Zobrazit co se přehrává"
 
-#: ../kupfer/plugin/rhythmbox.py:107
+#: ../kupfer/plugin/rhythmbox.py:108
 msgid "Tell which song is currently playing"
 msgstr "Sdělit, která skladba se právě přehrává"
 
-#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
+#: ../kupfer/plugin/rhythmbox.py:116 ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "Vymazat frontu"
 
-#: ../kupfer/plugin/rhythmbox.py:155
+#: ../kupfer/plugin/rhythmbox.py:156
 msgid "Play tracks in Rhythmbox"
 msgstr "Přehrát skladby v přehrávači Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
+#: ../kupfer/plugin/rhythmbox.py:162 ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "Zařadit do fronty"
 
-#: ../kupfer/plugin/rhythmbox.py:172
+#: ../kupfer/plugin/rhythmbox.py:173
 msgid "Add tracks to the play queue"
 msgstr "Přidat skladbu do fronty přehrávaných skladeb"
 
 #. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:195
+#: ../kupfer/plugin/rhythmbox.py:196
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr "od interpreta %(artist)s z alba %(album)s"
 
 #. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:250
+#: ../kupfer/plugin/rhythmbox.py:251
 #, python-format
 msgid "by %s"
 msgstr "od interpreta %s"
 
 #. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:301
+#: ../kupfer/plugin/rhythmbox.py:310
 #, python-format
 msgid "Tracks by %s"
 msgstr "Skladby od interpreta %s"
 
-#: ../kupfer/plugin/rhythmbox.py:311
+#: ../kupfer/plugin/rhythmbox.py:320
 #: ../kupfer/plugin/google_picasa/__init__.py:444
 msgid "Albums"
 msgstr "Alba"
 
-#: ../kupfer/plugin/rhythmbox.py:321
+#: ../kupfer/plugin/rhythmbox.py:330
 msgid "Music albums in Rhythmbox Library"
 msgstr "Hudební album v knihovně Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:332
+#: ../kupfer/plugin/rhythmbox.py:341
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../kupfer/plugin/rhythmbox.py:342
+#: ../kupfer/plugin/rhythmbox.py:351
 msgid "Music artists in Rhythmbox Library"
 msgstr "Hudební umělec v knihovně Rhythmbox"
 
-#: ../kupfer/plugin/rhythmbox.py:369
+#: ../kupfer/plugin/rhythmbox.py:378
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../kupfer/plugin/rhythmbox.py:379
+#: ../kupfer/plugin/rhythmbox.py:388
 msgid "Songs in Rhythmbox library"
 msgstr "Skladba v knihovně Rhythmbox"
 
@@ -1176,21 +1189,21 @@ msgstr "Správa sezení XFCE"
 msgid "Special items and actions for XFCE environment"
 msgstr "Speciální položky a akce pro pracovní prostředí XFCE"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:19
-#: ../kupfer/plugin/show_text.py:22
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
+#: ../kupfer/plugin/show_text.py:21
 msgid "Show Text"
 msgstr "Zobrazit text"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:28
-#: ../kupfer/plugin/show_text.py:43
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:27
+#: ../kupfer/plugin/show_text.py:45
 msgid "Display text in a window"
 msgstr "Zobrazit text v okně"
 
-#: ../kupfer/plugin/show_text.py:34
+#: ../kupfer/plugin/show_text.py:33
 msgid "Large Type"
 msgstr "Rozsáhlý typ"
 
-#: ../kupfer/plugin/show_text.py:51
+#: ../kupfer/plugin/show_text.py:53
 msgid "Show Notification"
 msgstr "Zobrazovat oznámení"
 
@@ -1228,12 +1241,15 @@ msgid "Triggers"
 msgstr "Spouštěče"
 
 #: ../kupfer/plugin/triggers.py:6
+#| msgid ""
+#| "Assign global keybindings (triggers) to objects created with 'Compose "
+#| "Command' (Ctrl+Return)."
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
-"Command' (Ctrl+Return)."
+"Command'."
 msgstr ""
-"Přiřadit globální klávesové zkratky (spouštěče) objektům vytvořeným příkazem "
-"„sestavit“ (Ctrl+Enter)"
+"Přiřadit globální klávesové zkratky (spouštěče) objektům vytvořeným pomocí "
+"„Napsat příkaz“"
 
 #: ../kupfer/plugin/triggers.py:143
 msgid "Add Trigger..."
@@ -1597,11 +1613,72 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Hledat v nápovědě pro vývojáře DevHelp"
 
+#. -*- coding: UTF-8 -*-
+#. vim: set noexpandtab ts=8 sw=8:
+#: ../kupfer/plugin/empathy.py:3
+msgid "Empathy"
+msgstr "Empathy"
+
+#: ../kupfer/plugin/empathy.py:6
+#| msgid "Access to Gajim Contacts"
+msgid "Access to Empathy Contacts"
+msgstr "Přístup ke kontaktům v komunikátoru Empathy"
+
+#: ../kupfer/plugin/empathy.py:26 ../kupfer/plugin/gajim.py:26
+#: ../kupfer/plugin/pidgin.py:155 ../kupfer/plugin/skype.py:30
+msgid "Available"
+msgstr "Dostupný"
+
+#: ../kupfer/plugin/empathy.py:27 ../kupfer/plugin/gajim.py:28
+#: ../kupfer/plugin/pidgin.py:155 ../kupfer/plugin/skype.py:32
+msgid "Away"
+msgstr "Pryč"
+
+#: ../kupfer/plugin/empathy.py:28 ../kupfer/plugin/gajim.py:30
+#: ../kupfer/plugin/skype.py:34
+msgid "Busy"
+msgstr "Nerušit"
+
+#: ../kupfer/plugin/empathy.py:29 ../kupfer/plugin/gajim.py:29
+#: ../kupfer/plugin/skype.py:33
+msgid "Not Available"
+msgstr "Nedostupný"
+
+#: ../kupfer/plugin/empathy.py:30 ../kupfer/plugin/gajim.py:31
+#: ../kupfer/plugin/skype.py:35
+msgid "Invisible"
+msgstr "Neviditelný"
+
+#: ../kupfer/plugin/empathy.py:31 ../kupfer/plugin/gajim.py:32
+#: ../kupfer/plugin/skype.py:36
+msgid "Offline"
+msgstr "Odpojený"
+
+#: ../kupfer/plugin/empathy.py:89 ../kupfer/plugin/gajim.py:90
+#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:204
+msgid "Open Chat"
+msgstr "Otevřít diskuzi"
+
+#: ../kupfer/plugin/empathy.py:122 ../kupfer/plugin/gajim.py:118
+#: ../kupfer/plugin/skype.py:250
+msgid "Change Global Status To..."
+msgstr "Změnit globální stav na…"
+
+#: ../kupfer/plugin/empathy.py:164
+#| msgid "Gajim Contacts"
+msgid "Empathy Contacts"
+msgstr "Kontakty v komunikátoru Empathy"
+
+#: ../kupfer/plugin/empathy.py:226
+#| msgid "Gajim Account Status"
+msgid "Empathy Account Status"
+msgstr "Stav účtu Empathy"
+
 #: ../kupfer/plugin/evolution.py:4
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:116
+#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:118
 msgid "Evolution contacts"
 msgstr "Kontakty aplikace Evolution"
 
@@ -1647,44 +1724,9 @@ msgstr "Gajim"
 msgid "Access to Gajim Contacts"
 msgstr "Přístup ke kontaktům v komunikátoru Gajim"
 
-#: ../kupfer/plugin/gajim.py:26 ../kupfer/plugin/pidgin.py:155
-#: ../kupfer/plugin/skype.py:30
-msgid "Available"
-msgstr "Dostupný"
-
 #: ../kupfer/plugin/gajim.py:27
 msgid "Free for Chat"
 msgstr "Ukecaný"
-
-#: ../kupfer/plugin/gajim.py:28 ../kupfer/plugin/pidgin.py:155
-#: ../kupfer/plugin/skype.py:32
-msgid "Away"
-msgstr "Pryč"
-
-#: ../kupfer/plugin/gajim.py:29 ../kupfer/plugin/skype.py:33
-msgid "Not Available"
-msgstr "Nedostupný"
-
-#: ../kupfer/plugin/gajim.py:30 ../kupfer/plugin/skype.py:34
-msgid "Busy"
-msgstr "Nerušit"
-
-#: ../kupfer/plugin/gajim.py:31 ../kupfer/plugin/skype.py:35
-msgid "Invisible"
-msgstr "Neviditelný"
-
-#: ../kupfer/plugin/gajim.py:32 ../kupfer/plugin/skype.py:36
-msgid "Offline"
-msgstr "Odpojený"
-
-#: ../kupfer/plugin/gajim.py:90 ../kupfer/plugin/pidgin.py:97
-#: ../kupfer/plugin/skype.py:204
-msgid "Open Chat"
-msgstr "Otevřít diskuzi"
-
-#: ../kupfer/plugin/gajim.py:118 ../kupfer/plugin/skype.py:250
-msgid "Change Global Status To..."
-msgstr "Změnit globální stav na…"
 
 #: ../kupfer/plugin/gajim.py:146
 msgid "Gajim Contacts"
@@ -1723,7 +1765,7 @@ msgstr "Napsat e-mail v GMail"
 msgid "Open web browser and compose new email in GMail"
 msgstr "Otevřít webový prohlížeč a napsat nový e-mail v GMail"
 
-#: ../kupfer/plugin/gmail/__init__.py:176
+#: ../kupfer/plugin/gmail/__init__.py:177
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakty ze služeb Google (Gmail)"
 
@@ -1805,7 +1847,7 @@ msgstr "Alba Picasa"
 msgid "User albums in Picasa"
 msgstr "Uživatelská alba ve službě Picasa"
 
-#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:23
+#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:30
 msgid "Google Search"
 msgstr "Vyhledávač Google"
 
@@ -1813,19 +1855,19 @@ msgstr "Vyhledávač Google"
 msgid "Search Google with results shown directly"
 msgstr "Vyhledávání pomocí Google s přímým zobrazením výsledků"
 
-#: ../kupfer/plugin/google_search.py:46 ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:47
 #: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
 #: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Výsledky pro „%s“"
 
-#: ../kupfer/plugin/google_search.py:67
+#: ../kupfer/plugin/google_search.py:91
 #, python-format
 msgid "Show More Results For \"%s\""
 msgstr "Zobrazit více výsledků pro „%s“"
 
-#: ../kupfer/plugin/google_search.py:68
+#: ../kupfer/plugin/google_search.py:92
 #, python-format
 msgid "%s total found"
 msgstr "Celkem nalezeno %s"
@@ -1835,54 +1877,54 @@ msgid "Google Translate"
 msgstr "Překladač Google"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:154
+#: ../kupfer/plugin/google_translate.py:159
 msgid "Translate text with Google Translate"
 msgstr "Přeložit text pomocí překladače Google"
 
 #. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:58
+#: ../kupfer/plugin/google_translate.py:59
 msgid "noun"
 msgstr "podst. jm."
 
-#: ../kupfer/plugin/google_translate.py:59
+#: ../kupfer/plugin/google_translate.py:60
 msgid "verb"
 msgstr "sloveso"
 
-#: ../kupfer/plugin/google_translate.py:60
+#: ../kupfer/plugin/google_translate.py:61
 msgid "adjective"
 msgstr "příd. jm."
 
-#: ../kupfer/plugin/google_translate.py:84
+#: ../kupfer/plugin/google_translate.py:89
 msgid "Google Translate connection timed out"
 msgstr "Vypršel čas pro připojení k Překladači Google"
 
-#: ../kupfer/plugin/google_translate.py:87
+#: ../kupfer/plugin/google_translate.py:92
 msgid "Error connecting to Google Translate"
 msgstr "Chyba při připojování k překladači Google"
 
-#: ../kupfer/plugin/google_translate.py:137
-#: ../kupfer/plugin/google_translate.py:224
+#: ../kupfer/plugin/google_translate.py:142
+#: ../kupfer/plugin/google_translate.py:229
 msgid "Translate To..."
 msgstr "Přeložit do…"
 
-#: ../kupfer/plugin/google_translate.py:180
+#: ../kupfer/plugin/google_translate.py:185
 #, python-format
 msgid "Translate into %s"
 msgstr "Přeložit do jazyka %s"
 
-#: ../kupfer/plugin/google_translate.py:204
+#: ../kupfer/plugin/google_translate.py:209
 msgid "Languages"
 msgstr "Jazyky"
 
-#: ../kupfer/plugin/google_translate.py:239
+#: ../kupfer/plugin/google_translate.py:244
 msgid "Show translated page in browser"
 msgstr "Zobrazit přeloženou stránku v prohlížeči"
 
-#: ../kupfer/plugin/google_translate.py:256
+#: ../kupfer/plugin/google_translate.py:261
 msgid "Show Translation To..."
 msgstr "Zobrazit překlad do…"
 
-#: ../kupfer/plugin/google_translate.py:272
+#: ../kupfer/plugin/google_translate.py:277
 msgid "Show translation in browser"
 msgstr "Zobrazit překlad v prohlížeči"
 
@@ -1950,15 +1992,172 @@ msgstr "Vytvořit nový úkol v aplikaci Getting Things GNOME"
 msgid "Gwibber"
 msgstr "Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:7
+#: ../kupfer/plugin/gwibber.py:6
+msgid ""
+"Microblogging with Gwibber. Allows sending and receiving messages from "
+"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
+"service'."
+msgstr ""
+"Mikroblogování se službou Gwibber. Umožňuje odesílat a přijímat zprávy ze "
+"sociálních sítí jako je Twitter, Identi.ca atd. Vyžaduje balíček „gwibber-"
+"service“."
+
+#: ../kupfer/plugin/gwibber.py:45
+msgid "Maximum number of messages to show"
+msgstr "Maximální počet zobrazovaných zpráv"
+
+#. TRANS: Account description, similar to "John on Identi.ca"
+#: ../kupfer/plugin/gwibber.py:98
+#, python-format
+#| msgid "%(user)s %(when)s"
+msgid "%(user)s on %(service)s"
+msgstr "%(user)s na %(service)s"
+
+#. TRANS: Gwibber Message description
+#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
+#. TRANS: the %(user)s and similar tokens must be unchanged
+#: ../kupfer/plugin/gwibber.py:153
+#, python-format
+#| msgid "%(user)s %(when)s"
+msgid "%(user)s %(when)s on %(where)s"
+msgstr "%(user)s %(when)s na %(where)s"
+
+#: ../kupfer/plugin/gwibber.py:187
+#| msgid "Send Message..."
+msgid "Send Message"
+msgstr "Odeslat zprávu"
+
+#: ../kupfer/plugin/gwibber.py:205
+msgid "Send message to all Gwibber accounts"
+msgstr "Odeslat zprávu na všechny účty Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:210
+#| msgid "Send Message..."
+msgid "Send Message To..."
+msgstr "Odeslat zprávu na…"
+
+#: ../kupfer/plugin/gwibber.py:238
+msgid "Send message to a Gwibber account"
+msgstr "Odeslat zprávu na účet Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:243 ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Odeslat zprávu…"
+
+#: ../kupfer/plugin/gwibber.py:269
+msgid "Send message to selected Gwibber account"
+msgstr "Odeslat zprávu na vybraný účet Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:274 ../kupfer/plugin/twitter/__init__.py:273
+msgid "Reply..."
+msgstr "Odpovědět…"
+
+#: ../kupfer/plugin/gwibber.py:306
+#| msgid "Send Message..."
+msgid "Delete Message"
+msgstr "Smazat zprávu"
+
+#: ../kupfer/plugin/gwibber.py:329
+#| msgid "Send Direct Message..."
+msgid "Send Private Message..."
+msgstr "Odeslat soukromou zprávu…"
+
+#: ../kupfer/plugin/gwibber.py:358
+#| msgid "Send Direct Message To..."
+msgid "Send direct message to user"
+msgstr "Odeslat přímou zprávu uživateli"
+
+#: ../kupfer/plugin/gwibber.py:364
+#| msgid "Reset"
+msgid "Retweet"
+msgstr "Znovu napsat"
+
+#: ../kupfer/plugin/gwibber.py:364
+#| msgid "Rename To..."
+msgid "Retweet To..."
+msgstr "Znovu napsat na…"
+
+#: ../kupfer/plugin/gwibber.py:395
+#| msgid "Receive new messages from all accounts in ClawsMail"
+msgid "Retweet message to all Gwibber accounts"
+msgstr "Znovu napsat zprávu na všechny účty Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:396
+msgid "Retweet message to a Gwibber account"
+msgstr "Znovu napsat zprávu na účet Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:401
+#| msgid "Open parent folder"
+msgid "Open in Browser"
+msgstr "Otevřít v prohlížeči"
+
+#: ../kupfer/plugin/gwibber.py:407
+#| msgid "Open URL with default viewer"
+msgid "Open message in default web browser"
+msgstr "Otevřít zprávu ve výchozím prohlížeči"
+
+#: ../kupfer/plugin/gwibber.py:413 ../kupfer/plugin/gwibber.py:448
+#| msgid "Gajim Account Status"
+msgid "Gwibber Accounts"
+msgstr "Účty Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:444
+msgid "Accounts configured in Gwibber"
+msgstr "Účty nastavené ve službě Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:473
+#| msgid "Gwibber"
+msgid "Gwibber Messages"
+msgstr "Zprávy Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:496
+msgid "Recent messages received by Gwibber"
+msgstr "Poslední zprávy přijaté na Gwibber"
+
+#. TRANS:  %s is a service name
+#: ../kupfer/plugin/gwibber.py:502
+#, python-format
+msgid "Gwibber Messages for %s"
+msgstr "Zprávy Gwibber pro službu %s"
+
+#: ../kupfer/plugin/gwibber.py:515
+#| msgid "Gwibber"
+msgid "Gwibber Streams"
+msgstr "Proudy Gwibber"
+
+#: ../kupfer/plugin/gwibber.py:538
+msgid "Streams configured in Gwibber"
+msgstr "Proudy nastavené ve službě Gwibber"
+
+#. TRANS: Gwibber messages in %s :: %s is a Stream name
+#: ../kupfer/plugin/gwibber.py:544
+#, python-format
+msgid "Gwibber Messages in %s"
+msgstr "Zprávy Gwibber v proudu %s"
+
+#: ../kupfer/plugin/gwibber.py:563 ../kupfer/plugin/twitter/__init__.py:398
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znak)"
+msgstr[1] "%s (%d znaky)"
+msgstr[2] "%s (%d znaků)"
+
+#: ../kupfer/plugin/gwibber_simple.py:3
+#| msgid "Gwibber"
+msgid "Gwibber (Simple)"
+msgstr "Gwibber (jednoduchý)"
+
+#: ../kupfer/plugin/gwibber_simple.py:7
 msgid "Send updates via the microblogging client Gwibber"
 msgstr "Poslat aktualizaci přes mikroblogovacího klienta Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:46
+#: ../kupfer/plugin/gwibber_simple.py:46
 msgid "Send Update"
 msgstr "Poslat aktualizaci"
 
-#: ../kupfer/plugin/gwibber.py:65
+#: ../kupfer/plugin/gwibber_simple.py:65
 msgid "Unable to activate Gwibber service"
 msgstr "Nelze aktivovat službu Gwibber"
 
@@ -2065,59 +2264,47 @@ msgid "Microblogging with Twitter: send updates and show friends' tweets"
 msgstr ""
 "Mikroblogování na Twitteru: zasílat aktualizace a zobrazovat příspěvky přátel"
 
-#: ../kupfer/plugin/twitter/__init__.py:35
+#: ../kupfer/plugin/twitter/__init__.py:37
 msgid "Load friends' pictures"
 msgstr "Načítat obrázky přátel"
 
-#: ../kupfer/plugin/twitter/__init__.py:41
+#: ../kupfer/plugin/twitter/__init__.py:43
 msgid "Load friends' public tweets"
 msgstr "Načítat veřejné příspěvky přátel"
 
-#: ../kupfer/plugin/twitter/__init__.py:47
+#: ../kupfer/plugin/twitter/__init__.py:49
 msgid "Load timeline"
 msgstr "Načítat časovou posloupnost"
 
-#: ../kupfer/plugin/twitter/__init__.py:194
+#: ../kupfer/plugin/twitter/__init__.py:196
 msgid "Post Update to Twitter"
 msgstr "Odeslat aktualizaci na Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:214
+#: ../kupfer/plugin/twitter/__init__.py:216
 msgid "Send Direct Message..."
 msgstr "Odeslat přímou zprávu…"
 
-#: ../kupfer/plugin/twitter/__init__.py:243
+#: ../kupfer/plugin/twitter/__init__.py:245
 msgid "Send Direct Message To..."
 msgstr "Odeslat přímou zprávu pro…"
 
-#: ../kupfer/plugin/twitter/__init__.py:271
-msgid "Reply..."
-msgstr "Odpovědět…"
-
-#: ../kupfer/plugin/twitter/__init__.py:298
+#: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
 
-#: ../kupfer/plugin/twitter/__init__.py:319
+#: ../kupfer/plugin/twitter/__init__.py:321
 msgid "Twitter Timeline"
 msgstr "Časová posloupnost Twitter"
 
-#: ../kupfer/plugin/twitter/__init__.py:347
+#: ../kupfer/plugin/twitter/__init__.py:349
 msgid "Twitter Friends"
 msgstr "Přátelé na Twitteru"
 
-#: ../kupfer/plugin/twitter/__init__.py:372
+#: ../kupfer/plugin/twitter/__init__.py:374
 #, python-format
 msgid "Timeline for %s"
 msgstr "Časová posloupnost pro %s"
-
-#: ../kupfer/plugin/twitter/__init__.py:396 ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d znak)"
-msgstr[1] "%s (%d znaky)"
-msgstr[2] "%s (%d znaků)"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -2125,12 +2312,10 @@ msgid "OpenOffice / LibreOffice"
 msgstr "OpenOffice / LibreOffice"
 
 #: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
-#| msgid "Recently used documents in OpenOffice"
 msgid "Recently used documents in OpenOffice/LibreOffice"
 msgstr "Dokumenty nedávno použité v OpenOffice/LibreOffice"
 
 #: ../kupfer/plugin/openoffice.py:74
-#| msgid "OpenOffice Recent Items"
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "Nedávné položky OpenOffice/LibreOffice"
 
@@ -2174,10 +2359,6 @@ msgstr "Přístup ke kontaktům v komunikátoru Pidgin"
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Zobrazovat odpojené kontakty"
-
-#: ../kupfer/plugin/pidgin.py:120
-msgid "Send Message..."
-msgstr "Odeslat zprávu…"
 
 #: ../kupfer/plugin/pidgin.py:189
 msgid "Pidgin Contacts"
@@ -2277,17 +2458,27 @@ msgstr "Zkrácené odkazy"
 msgid "Create short aliases of long URLs"
 msgstr "Vytvořit zkrácené přezdívky pro dlouhé URL"
 
-#: ../kupfer/plugin/shorten_links.py:42
+#: ../kupfer/plugin/shorten_links.py:48
 msgid "Error"
 msgstr "Chyba"
 
-#: ../kupfer/plugin/shorten_links.py:105
+#: ../kupfer/plugin/shorten_links.py:121
 msgid "Shorten With..."
 msgstr "Zkrátit pomocí…"
 
-#: ../kupfer/plugin/shorten_links.py:135
+#: ../kupfer/plugin/shorten_links.py:151
 msgid "Services"
 msgstr "Služby"
+
+#: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:25
+#| msgid "Show Source Code"
+msgid "Show QRCode"
+msgstr "Zobrazit kód QR"
+
+#: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:57
+#| msgid "Display text in a window"
+msgid "Display text as QRCode in a window"
+msgstr "Zobrazit text jako kód QR v okně"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/skype.py:2
@@ -2693,36 +2884,42 @@ msgstr ""
 "Ovládání virtuálních strojů ve VirtualBoxu. Podporuje jak Sun VirtualBox, "
 "tak Open Source Editon."
 
-#: ../kupfer/plugin/virtualbox/__init__.py:38
+#: ../kupfer/plugin/virtualbox/__init__.py:22
+msgid "Force use CLI interface"
+msgstr "Vynutit použití řádkového rozhraní"
+
+#: ../kupfer/plugin/virtualbox/__init__.py:86
+#: ../kupfer/plugin/virtualbox/__init__.py:97
 msgid "Power On"
 msgstr "Zapnout"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:40
+#: ../kupfer/plugin/virtualbox/__init__.py:88
+#: ../kupfer/plugin/virtualbox/__init__.py:99
 msgid "Power On Headless"
 msgstr "Zapnout bez grafiky"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:43
+#: ../kupfer/plugin/virtualbox/__init__.py:91
 msgid "Send Power Off Signal"
 msgstr "Zaslat signál pro vypnutí"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:46
+#: ../kupfer/plugin/virtualbox/__init__.py:94
 msgid "Reboot"
 msgstr "Restartovat"
 
 #. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:49
+#: ../kupfer/plugin/virtualbox/__init__.py:102
 msgid "Resume"
 msgstr "Obnovit"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:52
+#: ../kupfer/plugin/virtualbox/__init__.py:105
 msgid "Save State"
 msgstr "Uložit stav"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:54
+#: ../kupfer/plugin/virtualbox/__init__.py:107
 msgid "Power Off"
 msgstr "Vypnout"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:78
+#: ../kupfer/plugin/virtualbox/__init__.py:131
 msgid "VirtualBox Machines"
 msgstr "Virtuální stroje ve VirtualBoxu"
 
@@ -2770,6 +2967,24 @@ msgstr "Stránky Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Stránky uchované v zápisnících Zim"
+
+#~ msgid ""
+#~ "Tick the box next to a source to make sure its objects are exported to "
+#~ "the top level of the catalog. An unticked source's contents are only "
+#~ "available by locating its subcatalog and entering it.\n"
+#~ "\n"
+#~ "Note: Kupfer is an integrator, not an indexer itself. Kupfer is not "
+#~ "designed to carry a catalog larger than a couple of thousand objects, and "
+#~ "may become slow if overly large subcatalogs are included in the top level."
+#~ msgstr ""
+#~ "Zaškrtněte políčko vedle zdroje, abyste zajistili, že jeho objekty budou "
+#~ "exportovány do nejvyšší úrovně katalogu. Obsah nezaškrtnutých zdrojů bude "
+#~ "dostupný jen při prohledávání podkatalogu a při vstoupení do něj.\n"
+#~ "\n"
+#~ "Poznámka: Aplikace Kupfer provádí pouze integraci, sama o sobě neprovádí "
+#~ "indexování. Není navržena k tomu, aby spravovala katalogy větší než pár "
+#~ "tisíc objektů a pokud se do nejvyšší úrovně zařadí opravdu rozsáhlý "
+#~ "katalog, může pracovat pomalu."
 
 #~ msgid "OpenOffice"
 #~ msgstr "OpenOffice"
