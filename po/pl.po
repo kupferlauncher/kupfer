@@ -1,15 +1,16 @@
 # Polish translations for the kupfer package
 # Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 # This file is distributed under the same license as the kupfer package. (GPLv3)
-# Maciej Kwiatkowski <kfiadeg@gmail.com>, 2009, 2010, 2011.
+# Maciej Kwiatkowski <kfiadeg@gmail.com>, 2009,
+# Karol Będkowski <karol.bedkowski@gmail.com> 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-05 21:44+0100\n"
-"PO-Revision-Date: 2011-03-05 22:07+0100\n"
-"Last-Translator: Maciej Kwiatkowski <kfiadeg@gmail.com>\n"
+"POT-Creation-Date: 2011-03-13 20:07+0100\n"
+"PO-Revision-Date: 2011-03-12 20:54+0100\n"
+"Last-Translator: Karol Będkowski <karol.bedkowski@gmail.com>\n"
 "Language-Team: Polish\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -38,6 +39,9 @@ msgstr "<b>Skróty klawiszowe listy elementów</b>"
 
 msgid "<b>Directories</b>"
 msgstr "<b>Katalogi</b>"
+
+msgid "<b>Exported Objects from Plugins</b>"
+msgstr "<b>Obiekty udostępnione przez wtyczki</b>"
 
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globalne skróty klawiszowe</b>"
@@ -76,22 +80,15 @@ msgid "Start automatically on login"
 msgstr "Automatycznie uruchamianie po zalogowaniu"
 
 msgid ""
-"Tick the box next to a source to make sure its objects are exported to the "
-"top level of the catalog. An unticked source's contents are only available "
-"by locating its subcatalog and entering it.\n"
-"\n"
-"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
-"to carry a catalog larger than a couple of thousand objects, and may become "
-"slow if overly large subcatalogs are included in the top level."
+"Untick the box next to a source to hide its objects in the top level "
+"searches.\n"
+"An unticked source's contents are only available by locating its subcatalog "
+"and entering it."
 msgstr ""
-"Zaznacz pole przy źródle aby jego obiekty pojawiły się na najwyższym "
-"poziomie katalogu. Zawartość niezaznaczonych źródeł będzie dostępna jedynie "
-"przez odnalezienie podkatalogu i wejście do niego.\n"
-"\n"
-"Uwaga: Kufer jest integratorem, nie indeksuje swojej zawartości. Kufer nie "
-"jest zaprojektowany do obsługi katalogów większych niż kilka tysięcy "
-"obiektów i może zrobić się powolny gdy duże podkatalogi umieszczone zostaną "
-"na najwyższym poziomie."
+"Odznaczenie pola obok źródła ukryje jego obiekty na najwyższym poziomie "
+"listy.\n"
+"Zawartość odznaczonych źródeł jest dostępna jedynie przez wskazanie "
+"odpowiedniego podkatalogi i przejście do niego."
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
@@ -599,18 +596,25 @@ msgstr "Uruchom (pobierz wynik)"
 msgid "Run program and return its output"
 msgstr "Uruchamia program i zwraca jego wynik"
 
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
 msgid "Pass to Command..."
 msgstr "Prześlij do polecenia..."
 
 msgid "Run program with object as an additional parameter"
 msgstr "Uruchomienie programu z obiektem jako parametr"
 
-msgid "Send to Command..."
-msgstr "Wyślij do polecenia..."
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+msgid "Write to Command..."
+msgstr "Pisz do polecenia..."
 
 msgid "Run program and supply text on the standard input"
 msgstr "Uruchamia program i przesyła tekst do standardowego wejścia"
 
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
 msgid "Filter through Command..."
 msgstr "Filtruj przez polecenie..."
 
@@ -958,10 +962,10 @@ msgstr "Wyzwalacze"
 
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
-"Command' (Ctrl+Return)."
+"Command'."
 msgstr ""
 "Przypisanie skrótów klawiszowych (wyzwalaczy) do obiektów utworzonych przez "
-"'Komponuj' (Ctrl+Return)."
+"'Komponuj'."
 
 msgid "Add Trigger..."
 msgstr "Dodaj wyzwalacz..."
@@ -1232,6 +1236,44 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Szukaj w Devhelp"
 
+#. -*- coding: UTF-8 -*-
+#. vim: set noexpandtab ts=8 sw=8:
+msgid "Empathy"
+msgstr "Empathy"
+
+msgid "Access to Empathy Contacts"
+msgstr "Dostęp do kontaktów Empathy"
+
+msgid "Available"
+msgstr "Dostępny"
+
+msgid "Away"
+msgstr "Zaraz wracam"
+
+msgid "Busy"
+msgstr "Zajęty"
+
+msgid "Not Available"
+msgstr "Nieobecny"
+
+msgid "Invisible"
+msgstr "Niewidoczny"
+
+msgid "Offline"
+msgstr "Rozłączony"
+
+msgid "Open Chat"
+msgstr "Rozpocznij rozmowę"
+
+msgid "Change Global Status To..."
+msgstr "Zmień status na..."
+
+msgid "Empathy Contacts"
+msgstr "Kontakty Empathy"
+
+msgid "Empathy Account Status"
+msgstr "Status konta w Empathy"
+
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -1270,32 +1312,8 @@ msgstr "Gajim"
 msgid "Access to Gajim Contacts"
 msgstr "Dostęp do kontaktów Gajima"
 
-msgid "Available"
-msgstr "Dostępny"
-
 msgid "Free for Chat"
 msgstr "Chętny do rozmowy"
-
-msgid "Away"
-msgstr "Zaraz wracam"
-
-msgid "Not Available"
-msgstr "Nieobecny"
-
-msgid "Busy"
-msgstr "Zajęty"
-
-msgid "Invisible"
-msgstr "Niewidoczny"
-
-msgid "Offline"
-msgstr "Rozłączony"
-
-msgid "Open Chat"
-msgstr "Rozpocznij rozmowę"
-
-msgid "Change Global Status To..."
-msgstr "Zmień status na..."
 
 msgid "Gajim Contacts"
 msgstr "Kontakty Gajima"
@@ -1498,20 +1516,24 @@ msgstr "Gwibber"
 
 msgid ""
 "Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc.Requires the package 'gwibber-"
+"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
 "service'."
 msgstr ""
 "Mikroblogowanie z Gwibberem. Wtyczka pozwala wysyłać i odbierać wiadomości z "
 "sieci społecznych takich jak Twitter, Identi.ca itd. Wymaga pakietu  "
 "'gwibber-service'."
 
-msgid "Maximum messages to show"
+msgid "Maximum number of messages to show"
 msgstr "Maksymalna ilość wiadomości do wyświetlania"
 
+#. TRANS: Account description, similar to "John on Identi.ca"
 #, python-format
 msgid "%(user)s on %(service)s"
 msgstr "%(user)s w %(service)s"
 
+#. TRANS: Gwibber Message description
+#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
+#. TRANS: the %(user)s and similar tokens must be unchanged
 #, python-format
 msgid "%(user)s %(when)s on %(where)s"
 msgstr "%(user)s %(when)s w %(where)s"
@@ -1525,8 +1547,8 @@ msgstr "Wysłanie wiadomości do wszystkich kont Gwibbera"
 msgid "Send Message To..."
 msgstr "Wyślij wiadomość do..."
 
-msgid "Send message to one Gwibber account"
-msgstr "Wysłanie wiadomości do jednego konta Gwibbera"
+msgid "Send message to a Gwibber account"
+msgstr "Wysłanie wiadomości do kont Gwibbera"
 
 msgid "Send Message..."
 msgstr "Wyślij wiadomość..."
@@ -1534,14 +1556,14 @@ msgstr "Wyślij wiadomość..."
 msgid "Send message to selected Gwibber account"
 msgstr "Wysłanie wiadomości do wybranego konta Gwibbera"
 
-msgid "Reply"
-msgstr "Odpowiedz"
+msgid "Reply..."
+msgstr "Odpowiedz..."
 
 msgid "Delete Message"
 msgstr "Usuń wiadomość"
 
-msgid "Send Private Message"
-msgstr "Wyślij bezpośrednią wiadomość"
+msgid "Send Private Message..."
+msgstr "Wyślij prywatną wiadomość"
 
 msgid "Send direct message to user"
 msgstr "Wysyła bezpośrednią wiadomość do użytkownika"
@@ -1555,8 +1577,8 @@ msgstr "Prześlij dalej do..."
 msgid "Retweet message to all Gwibber accounts"
 msgstr "Przesyła wiadomość do wszystkich kont Gwibbera"
 
-msgid "Retweet message to one Gwibber account"
-msgstr "Przesyła wiadomość do jednego konta Gwibbera"
+msgid "Retweet message to a Gwibber account"
+msgstr "Przesyła wiadomość do konta Gwibbera"
 
 msgid "Open in Browser"
 msgstr "Otwórz w przeglądarce"
@@ -1576,6 +1598,7 @@ msgstr "Wiadomości Gwibbera"
 msgid "Recent messages received by Gwibber"
 msgstr "Ostatnie wiadomości odebrane przez Gwibbera"
 
+#. TRANS:  %s is a service name
 #, python-format
 msgid "Gwibber Messages for %s"
 msgstr "Wiadomości Gwibbera dla %s"
@@ -1586,9 +1609,17 @@ msgstr "Strumienie Gwibbera"
 msgid "Streams configured in Gwibber"
 msgstr "Strumienie skonfigurowane w Gwibberze"
 
+#. TRANS: Gwibber messages in %s :: %s is a Stream name
 #, python-format
 msgid "Gwibber Messages in %s"
 msgstr "Wiadomości Gwibbera w %s"
+
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znak)"
+msgstr[1] "%s (%d znaki)"
+msgstr[2] "%s (%d znaków)"
 
 msgid "Gwibber (Simple)"
 msgstr "Gwibber (prosty)"
@@ -1698,9 +1729,6 @@ msgstr "Wyślij bezpośrednią wiadomość..."
 msgid "Send Direct Message To..."
 msgstr "Wyślij bezpośrednią wiadomość do..."
 
-msgid "Reply..."
-msgstr "Odpowiedz..."
-
 #, python-format
 msgid "%(user)s %(when)s"
 msgstr "%(user)s %(when)s"
@@ -1714,13 +1742,6 @@ msgstr "Przyjaciele z Twittera"
 #, python-format
 msgid "Timeline for %s"
 msgstr "Linia czasu %s"
-
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d znak)"
-msgstr[1] "%s (%d znaki)"
-msgstr[2] "%s (%d znaków)"
 
 #. -*- coding: UTF-8 -*-
 msgid "OpenOffice / LibreOffice"
@@ -2160,6 +2181,9 @@ msgstr ""
 "Zarządzanie maszynami wirtualnymi VirtualBox. Wtyczka wspiera wersję zarówno "
 "zamkniętą SUN-a jak i otwarto-źródłową."
 
+msgid "Force use CLI interface"
+msgstr "Wymuszenie użycia interfejsu CLI"
+
 msgid "Power On"
 msgstr "Uruchom"
 
@@ -2218,6 +2242,33 @@ msgstr "Strony Zima"
 
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach Zima"
+
+#~ msgid ""
+#~ "Tick the box next to a source to make sure its objects are exported to "
+#~ "the top level of the catalog. An unticked source's contents are only "
+#~ "available by locating its subcatalog and entering it.\n"
+#~ "\n"
+#~ "Note: Kupfer is an integrator, not an indexer itself. Kupfer is not "
+#~ "designed to carry a catalog larger than a couple of thousand objects, and "
+#~ "may become slow if overly large subcatalogs are included in the top level."
+#~ msgstr ""
+#~ "Zaznacz pole przy źródle aby jego obiekty pojawiły się na najwyższym "
+#~ "poziomie katalogu. Zawartość niezaznaczonych źródeł będzie dostępna "
+#~ "jedynie przez odnalezienie podkatalogu i wejście do niego.\n"
+#~ "\n"
+#~ "Uwaga: Kufer jest integratorem, nie indeksuje swojej zawartości. Kufer "
+#~ "nie jest zaprojektowany do obsługi katalogów większych niż kilka tysięcy "
+#~ "obiektów i może zrobić się powolny gdy duże podkatalogi umieszczone "
+#~ "zostaną na najwyższym poziomie."
+
+#~ msgid "Send message to one Gwibber account"
+#~ msgstr "Wysłanie wiadomości do jednego konta Gwibbera"
+
+#~ msgid "Reply"
+#~ msgstr "Odpowiedz"
+
+#~ msgid "Retweet message to one Gwibber account"
+#~ msgstr "Przesyła wiadomość do jednego konta Gwibbera"
 
 #~ msgid "OpenOffice"
 #~ msgstr "OpenOffice"
