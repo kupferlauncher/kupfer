@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-10 01:22+0000\n"
-"PO-Revision-Date: 2011-03-13 10:41+0100\n"
+"POT-Creation-Date: 2011-03-13 10:38+0000\n"
+"PO-Revision-Date: 2011-03-13 11:40+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -211,7 +211,7 @@ msgid "No action"
 msgstr "Sin acción"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1468 ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/browser.py:1472 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Mostrar la interfaz principal"
 
@@ -774,7 +774,6 @@ msgstr "Ejecutar programa con un objeto como un parámetro adicional"
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
 #: ../kupfer/plugin/commands.py:139
-#| msgid "Send to Command..."
 msgid "Write to Command..."
 msgstr "Enviar a un comando…"
 
@@ -1243,9 +1242,6 @@ msgid "Triggers"
 msgstr "Disparadores"
 
 #: ../kupfer/plugin/triggers.py:6
-#| msgid ""
-#| "Assign global keybindings (triggers) to objects created with 'Compose "
-#| "Command' (Ctrl+Return)."
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command'."
@@ -1616,6 +1612,67 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Buscar en Devhelp"
 
+#. -*- coding: UTF-8 -*-
+#. vim: set noexpandtab ts=8 sw=8:
+#: ../kupfer/plugin/empathy.py:3
+msgid "Empathy"
+msgstr "Empathy"
+
+#: ../kupfer/plugin/empathy.py:6
+#| msgid "Access to Gajim Contacts"
+msgid "Access to Empathy Contacts"
+msgstr "Acceder a los contactos de Empathy"
+
+#: ../kupfer/plugin/empathy.py:26 ../kupfer/plugin/gajim.py:26
+#: ../kupfer/plugin/pidgin.py:155 ../kupfer/plugin/skype.py:30
+msgid "Available"
+msgstr "Disponible"
+
+#: ../kupfer/plugin/empathy.py:27 ../kupfer/plugin/gajim.py:28
+#: ../kupfer/plugin/pidgin.py:155 ../kupfer/plugin/skype.py:32
+msgid "Away"
+msgstr "Ausente"
+
+#: ../kupfer/plugin/empathy.py:28 ../kupfer/plugin/gajim.py:30
+#: ../kupfer/plugin/skype.py:34
+msgid "Busy"
+msgstr "Ocupado"
+
+#: ../kupfer/plugin/empathy.py:29 ../kupfer/plugin/gajim.py:29
+#: ../kupfer/plugin/skype.py:33
+msgid "Not Available"
+msgstr "No disponible"
+
+#: ../kupfer/plugin/empathy.py:30 ../kupfer/plugin/gajim.py:31
+#: ../kupfer/plugin/skype.py:35
+msgid "Invisible"
+msgstr "Invisible"
+
+#: ../kupfer/plugin/empathy.py:31 ../kupfer/plugin/gajim.py:32
+#: ../kupfer/plugin/skype.py:36
+msgid "Offline"
+msgstr "Desconectado"
+
+#: ../kupfer/plugin/empathy.py:89 ../kupfer/plugin/gajim.py:90
+#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:204
+msgid "Open Chat"
+msgstr "Abrir chat"
+
+#: ../kupfer/plugin/empathy.py:122 ../kupfer/plugin/gajim.py:118
+#: ../kupfer/plugin/skype.py:250
+msgid "Change Global Status To..."
+msgstr "Cambiar estado general a…"
+
+#: ../kupfer/plugin/empathy.py:164
+#| msgid "Gajim Contacts"
+msgid "Empathy Contacts"
+msgstr "Contactos de Empathy"
+
+#: ../kupfer/plugin/empathy.py:226
+#| msgid "Gajim Account Status"
+msgid "Empathy Account Status"
+msgstr "Estado de las cuentas de Empathy"
+
 #: ../kupfer/plugin/evolution.py:4
 msgid "Evolution"
 msgstr "Evolution"
@@ -1666,44 +1723,9 @@ msgstr "Gajim"
 msgid "Access to Gajim Contacts"
 msgstr "Acceder a los contactos de Gajim"
 
-#: ../kupfer/plugin/gajim.py:26 ../kupfer/plugin/pidgin.py:155
-#: ../kupfer/plugin/skype.py:30
-msgid "Available"
-msgstr "Disponible"
-
 #: ../kupfer/plugin/gajim.py:27
 msgid "Free for Chat"
 msgstr "Disponible para conversar"
-
-#: ../kupfer/plugin/gajim.py:28 ../kupfer/plugin/pidgin.py:155
-#: ../kupfer/plugin/skype.py:32
-msgid "Away"
-msgstr "Ausente"
-
-#: ../kupfer/plugin/gajim.py:29 ../kupfer/plugin/skype.py:33
-msgid "Not Available"
-msgstr "No disponible"
-
-#: ../kupfer/plugin/gajim.py:30 ../kupfer/plugin/skype.py:34
-msgid "Busy"
-msgstr "Ocupado"
-
-#: ../kupfer/plugin/gajim.py:31 ../kupfer/plugin/skype.py:35
-msgid "Invisible"
-msgstr "Invisible"
-
-#: ../kupfer/plugin/gajim.py:32 ../kupfer/plugin/skype.py:36
-msgid "Offline"
-msgstr "Desconectado"
-
-#: ../kupfer/plugin/gajim.py:90 ../kupfer/plugin/pidgin.py:97
-#: ../kupfer/plugin/skype.py:204
-msgid "Open Chat"
-msgstr "Abrir chat"
-
-#: ../kupfer/plugin/gajim.py:118 ../kupfer/plugin/skype.py:250
-msgid "Change Global Status To..."
-msgstr "Cambiar estado general a…"
 
 #: ../kupfer/plugin/gajim.py:146
 msgid "Gajim Contacts"
@@ -1968,10 +1990,6 @@ msgid "Gwibber"
 msgstr "Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:6
-#| msgid ""
-#| "Microblogging with Gwibber. Allows sending and receiving messages from "
-#| "social networks like Twitter, Identi.ca etc.Requires the package 'gwibber-"
-#| "service'."
 msgid ""
 "Microblogging with Gwibber. Allows sending and receiving messages from "
 "social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
@@ -1981,7 +1999,6 @@ msgstr ""
 "sociales como Twitter, Identi.ca etc. Requiere el paquete «gwibber-service»."
 
 #: ../kupfer/plugin/gwibber.py:45
-#| msgid "Maximum messages to show"
 msgid "Maximum number of messages to show"
 msgstr "Número máximo de mensajes que mostrar"
 
@@ -1996,119 +2013,124 @@ msgstr "%(user)s en %(service)s"
 #. TRANS: the %(user)s and similar tokens must be unchanged
 #: ../kupfer/plugin/gwibber.py:153
 #, python-format
-#| msgid "%(user)s %(when)s"
 msgid "%(user)s %(when)s on %(where)s"
 msgstr "%(user)s %(when)s en %(where)s"
 
-#: ../kupfer/plugin/gwibber.py:184
+#: ../kupfer/plugin/gwibber.py:187
 msgid "Send Message"
 msgstr "Enviar mensaje"
 
-#: ../kupfer/plugin/gwibber.py:202
+#: ../kupfer/plugin/gwibber.py:205
 msgid "Send message to all Gwibber accounts"
 msgstr "Enviar mensaje a todas las cuentas de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:207
+#: ../kupfer/plugin/gwibber.py:210
 msgid "Send Message To..."
 msgstr "Enviar mensaje a…"
 
-#: ../kupfer/plugin/gwibber.py:235
-#| msgid "Send message to all Gwibber accounts"
+#: ../kupfer/plugin/gwibber.py:238
 msgid "Send message to a Gwibber account"
 msgstr "Enviar mensaje a una cuenta de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:240 ../kupfer/plugin/pidgin.py:120
+#: ../kupfer/plugin/gwibber.py:243 ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
 msgstr "Enviar mensaje…"
 
-#: ../kupfer/plugin/gwibber.py:263
+#: ../kupfer/plugin/gwibber.py:269
 msgid "Send message to selected Gwibber account"
 msgstr "Enviar mensaje a la cuenta de Gwibber seleccionada"
 
-#: ../kupfer/plugin/gwibber.py:268 ../kupfer/plugin/twitter/__init__.py:273
+#: ../kupfer/plugin/gwibber.py:274 ../kupfer/plugin/twitter/__init__.py:273
 msgid "Reply..."
 msgstr "Responder…"
 
-#: ../kupfer/plugin/gwibber.py:297
+#: ../kupfer/plugin/gwibber.py:306
 msgid "Delete Message"
 msgstr "Eliminar mensaje"
 
-#: ../kupfer/plugin/gwibber.py:320
-#| msgid "Send Private Message"
+#: ../kupfer/plugin/gwibber.py:329
 msgid "Send Private Message..."
 msgstr "Enviar mensaje privado…"
 
-#: ../kupfer/plugin/gwibber.py:346
+#: ../kupfer/plugin/gwibber.py:358
 msgid "Send direct message to user"
 msgstr "Enviar mensaje directo al usuario"
 
-#: ../kupfer/plugin/gwibber.py:352
+#: ../kupfer/plugin/gwibber.py:364
 #, fuzzy
 #| msgid "Reset"
 msgid "Retweet"
 msgstr "Restablecer"
 
-#: ../kupfer/plugin/gwibber.py:352
+#: ../kupfer/plugin/gwibber.py:364
 #, fuzzy
 #| msgid "Rename To..."
 msgid "Retweet To..."
 msgstr "Renombrar a…"
 
-#: ../kupfer/plugin/gwibber.py:383
+#: ../kupfer/plugin/gwibber.py:395
 #, fuzzy
 #| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to all Gwibber accounts"
 msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
-#: ../kupfer/plugin/gwibber.py:384
+#: ../kupfer/plugin/gwibber.py:396
 #, fuzzy
 #| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to a Gwibber account"
 msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
-#: ../kupfer/plugin/gwibber.py:389
+#: ../kupfer/plugin/gwibber.py:401
 msgid "Open in Browser"
 msgstr "Abrir en el navegador"
 
-#: ../kupfer/plugin/gwibber.py:395
+#: ../kupfer/plugin/gwibber.py:407
 msgid "Open message in default web browser"
 msgstr "Abrir mensaje en el navegador web predeterminado"
 
-#: ../kupfer/plugin/gwibber.py:401 ../kupfer/plugin/gwibber.py:436
+#: ../kupfer/plugin/gwibber.py:413 ../kupfer/plugin/gwibber.py:448
 msgid "Gwibber Accounts"
 msgstr "Cuentas de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:432
+#: ../kupfer/plugin/gwibber.py:444
 msgid "Accounts configured in Gwibber"
 msgstr "Cuentas configuradas en Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:461
+#: ../kupfer/plugin/gwibber.py:473
 msgid "Gwibber Messages"
 msgstr "Mensajes de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:484
+#: ../kupfer/plugin/gwibber.py:496
 msgid "Recent messages received by Gwibber"
 msgstr "Mensajes recientes recibidos por Gwibber"
 
 #. TRANS:  %s is a service name
-#: ../kupfer/plugin/gwibber.py:490
+#: ../kupfer/plugin/gwibber.py:502
 #, python-format
 msgid "Gwibber Messages for %s"
 msgstr "Mensajes de Gwibber para %s"
 
-#: ../kupfer/plugin/gwibber.py:503
+#: ../kupfer/plugin/gwibber.py:515
 msgid "Gwibber Streams"
 msgstr "Flujos de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:526
+#: ../kupfer/plugin/gwibber.py:538
 msgid "Streams configured in Gwibber"
 msgstr "Flujos configurados en Gwibber"
 
 #. TRANS: Gwibber messages in %s :: %s is a Stream name
-#: ../kupfer/plugin/gwibber.py:532
+#: ../kupfer/plugin/gwibber.py:544
 #, python-format
 msgid "Gwibber Messages in %s"
 msgstr "Mensajes de Gwibber en %s"
+
+#: ../kupfer/plugin/gwibber.py:563 ../kupfer/plugin/twitter/__init__.py:398
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d carácter)"
+msgstr[1] "%s (%d carácteres)"
 
 #: ../kupfer/plugin/gwibber_simple.py:3
 msgid "Gwibber (Simple)"
@@ -2271,13 +2293,6 @@ msgstr "Amigos de Twitter"
 msgid "Timeline for %s"
 msgstr "Cronología de %s"
 
-#: ../kupfer/plugin/twitter/__init__.py:398 ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d carácter)"
-msgstr[1] "%s (%d carácteres)"
-
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
 msgid "OpenOffice / LibreOffice"
@@ -2429,15 +2444,15 @@ msgstr "Acortar enlaces"
 msgid "Create short aliases of long URLs"
 msgstr "Crear alias cortos para URL largas"
 
-#: ../kupfer/plugin/shorten_links.py:53
+#: ../kupfer/plugin/shorten_links.py:48
 msgid "Error"
 msgstr "Error"
 
-#: ../kupfer/plugin/shorten_links.py:126
+#: ../kupfer/plugin/shorten_links.py:121
 msgid "Shorten With..."
 msgstr "Acortar con…"
 
-#: ../kupfer/plugin/shorten_links.py:156
+#: ../kupfer/plugin/shorten_links.py:151
 msgid "Services"
 msgstr "Servicios"
 
