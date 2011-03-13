@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-05 21:13+0000\n"
-"PO-Revision-Date: 2011-03-07 18:08+0100\n"
+"POT-Creation-Date: 2011-03-10 01:22+0000\n"
+"PO-Revision-Date: 2011-03-13 10:41+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,71 +49,68 @@ msgid "<b>Directories</b>"
 msgstr "<b>Directorios</b>"
 
 #: ../data/preferences.ui.h:3
+msgid "<b>Exported Objects from Plugins</b>"
+msgstr "<b>Objetos exportados desde complementos</b>"
+
+#: ../data/preferences.ui.h:4
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Atajos de teclado globales</b>"
 
-#: ../data/preferences.ui.h:4
+#: ../data/preferences.ui.h:5
 msgid "<b>Interface</b>"
 msgstr "<b>Interfaz</b>"
 
-#: ../data/preferences.ui.h:5
+#: ../data/preferences.ui.h:6
 msgid "<b>Start</b>"
 msgstr "<b>Inicio</b>"
 
-#: ../data/preferences.ui.h:6 ../kupfer/obj/sources.py:144
+#: ../data/preferences.ui.h:7 ../kupfer/obj/sources.py:144
 msgid "Catalog"
 msgstr "Catálogo"
 
-#: ../data/preferences.ui.h:7
+#: ../data/preferences.ui.h:8
 msgid "General"
 msgstr "General"
 
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:9
 msgid "Hide Kupfer when focus is lost"
 msgstr "Ocultar Kupfer cuando pierda el foco"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:10
 msgid "Keyboard"
 msgstr "Teclado"
 
-#: ../data/preferences.ui.h:10 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:11 ../kupfer/plugin/core/contents.py:74
 msgid "Kupfer Preferences"
 msgstr "Preferencias de Kupfer"
 
-#: ../data/preferences.ui.h:11
+#: ../data/preferences.ui.h:12
 msgid "Plugins"
 msgstr "Complementos"
 
-#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:775
+#: ../data/preferences.ui.h:13 ../kupfer/ui/preferences.py:777
 msgid "Reset"
 msgstr "Restablecer"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:14
 msgid "Show icon in notification area"
 msgstr "Mostrar icono en el área de notificación"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:15
 msgid "Start automatically on login"
 msgstr "Iniciar automáticamente al iniciar sesión"
 
-#: ../data/preferences.ui.h:15
+#: ../data/preferences.ui.h:16
 msgid ""
-"Tick the box next to a source to make sure its objects are exported to the "
-"top level of the catalog. An unticked source's contents are only available "
-"by locating its subcatalog and entering it.\n"
-"\n"
-"Note: Kupfer is an integrator, not an indexer itself. Kupfer is not designed "
-"to carry a catalog larger than a couple of thousand objects, and may become "
-"slow if overly large subcatalogs are included in the top level."
+"Untick the box next to a source to hide its objects in the top level "
+"searches.\n"
+"An unticked source's contents are only available by locating its subcatalog "
+"and entering it."
 msgstr ""
-"Seleccionar la casilla junto a una fuente para asegurarse de que sus objetos "
-"se exportan al nivel superior del catálogo. El contenido de una casilla no "
-"seleccionada sólo está disponible ubicando su subcatálogo e "
-"introduciéndolo.\n"
-"\n"
-"Nota: Kupfer es un integrador, no un indexador en si mismo. Kupfer no está "
-"diseñado para catalogar más de un par de miles de objetos y puede acabar "
-"siendo lento si se incluyen grandes subcatálogos en el nivel superior."
+"Desmarque la casilla junto a una fuente para ocultar sus objetos en los "
+"niveles superiores de búsqueda.\n"
+"Los contenidos de una fuente desmarcada sólo están disponibles encontrado su "
+"subcatálogo y entrando en él."
 
 #: ../data/preferences.ui.h:18
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
@@ -214,129 +211,129 @@ msgid "No action"
 msgstr "Sin acción"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1462 ../kupfer/ui/preferences.py:56
+#: ../kupfer/ui/browser.py:1468 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Mostrar la interfaz principal"
 
-#: ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/preferences.py:58
 msgid "Show with Selection"
 msgstr "Mostrar con selección"
 
 #. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/preferences.py:67
+#: ../kupfer/ui/preferences.py:68
 msgid "Alternate Activate"
 msgstr "Activación alternativa"
 
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/preferences.py:70
+#: ../kupfer/ui/preferences.py:71
 msgid "Comma Trick"
 msgstr "Truco de la coma"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
-#: ../kupfer/ui/preferences.py:73
+#: ../kupfer/ui/preferences.py:74
 msgid "Compose Command"
 msgstr "Componer comando"
 
-#: ../kupfer/ui/preferences.py:74
+#: ../kupfer/ui/preferences.py:75
 msgid "Reset All"
 msgstr "Restablecer todo"
 
-#: ../kupfer/ui/preferences.py:75
+#: ../kupfer/ui/preferences.py:76
 msgid "Select Quit"
 msgstr "Seleccionar Salir"
 
-#: ../kupfer/ui/preferences.py:76
+#: ../kupfer/ui/preferences.py:77
 msgid "Select Selected File"
 msgstr "Seleccionar Archivo seleccionado"
 
-#: ../kupfer/ui/preferences.py:77
+#: ../kupfer/ui/preferences.py:78
 msgid "Select Selected Text"
 msgstr "Seleccionar Texto seleccionado"
 
-#: ../kupfer/ui/preferences.py:78
+#: ../kupfer/ui/preferences.py:79
 msgid "Show Help"
 msgstr "Mostrar ayuda"
 
-#: ../kupfer/ui/preferences.py:79
+#: ../kupfer/ui/preferences.py:80
 msgid "Show Preferences"
 msgstr "Mostrar las preferencias"
 
-#: ../kupfer/ui/preferences.py:80
+#: ../kupfer/ui/preferences.py:81
 msgid "Switch to First Pane"
 msgstr "Cambiar al primer panel"
 
-#: ../kupfer/ui/preferences.py:81
+#: ../kupfer/ui/preferences.py:82
 msgid "Toggle Text Mode"
 msgstr "Conmutar el modo texto"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:405
+#: ../kupfer/ui/preferences.py:407
 msgid "Description"
 msgstr "Descripción"
 
-#: ../kupfer/ui/preferences.py:405
+#: ../kupfer/ui/preferences.py:407
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:421
+#: ../kupfer/ui/preferences.py:423
 msgid "Version"
 msgstr "Versión"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:431
+#: ../kupfer/ui/preferences.py:433
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Se necesita el módulo de Python «%s»"
 
-#: ../kupfer/ui/preferences.py:445
+#: ../kupfer/ui/preferences.py:447
 msgid "Plugin could not be read due to an error:"
 msgstr "No se puede leer el complemento debido al error:"
 
-#: ../kupfer/ui/preferences.py:453 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:455 ../kupfer/plugin/kupfer_plugins.py:77
 msgid "disabled"
 msgstr "desactivado"
 
-#: ../kupfer/ui/preferences.py:525
+#: ../kupfer/ui/preferences.py:527
 msgid "Content of"
 msgstr "Contenido de"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:534
+#: ../kupfer/ui/preferences.py:536
 msgid "Sources"
 msgstr "Fuentes"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:538
+#: ../kupfer/ui/preferences.py:540
 msgid "Actions"
 msgstr "Acciones"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:576
+#: ../kupfer/ui/preferences.py:578
 msgid "Configuration"
 msgstr "Configuración"
 
-#: ../kupfer/ui/preferences.py:596
+#: ../kupfer/ui/preferences.py:598
 msgid "Set username and password"
 msgstr "Establecer el nombre de usuario y la contraseña"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:650
+#: ../kupfer/ui/preferences.py:652
 msgid "Choose a Directory"
 msgstr "Elegir un directorio"
 
-#: ../kupfer/ui/preferences.py:773
+#: ../kupfer/ui/preferences.py:775
 msgid "Reset all shortcuts to default values?"
 msgstr ""
 "¿Quiere restablecer todos los atajos de teclado a los valores "
 "predeterminados?"
 
-#: ../kupfer/ui/preferences.py:781
+#: ../kupfer/ui/preferences.py:783
 msgid "Command"
 msgstr "Comando"
 
-#: ../kupfer/ui/preferences.py:782
+#: ../kupfer/ui/preferences.py:784
 msgid "Shortcut"
 msgstr "Atajo"
 
@@ -350,11 +347,11 @@ msgstr ""
 "Leandro Leites <laloleites@gmail.com>\n"
 "Jesús Barbero Rodríguez <chuchiperriman@gmail.com>"
 
-#: ../kupfer/version.py:65
+#: ../kupfer/version.py:66
 msgid "A free software (GPLv3+) launcher"
 msgstr "Un lanzador de aplicaciones libre (GPLv3+)"
 
-#: ../kupfer/version.py:68
+#: ../kupfer/version.py:69
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -388,7 +385,7 @@ msgstr ""
 "En caso contrario, consulte <http://www.gnu.org/licenses/>.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:85
+#: ../kupfer/version.py:86
 msgid "Could not find running Kupfer"
 msgstr "No se pudo encontrar un Kupfer en ejecución"
 
@@ -748,11 +745,11 @@ msgstr "Limpiar"
 msgid "Remove all recent clipboards"
 msgstr "Limpiar todos los elementos recientes en el portapapeles"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:203
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:210
 msgid "Shell Commands"
 msgstr "Comandos de consola"
 
-#: ../kupfer/plugin/commands.py:9 ../kupfer/plugin/commands.py:226
+#: ../kupfer/plugin/commands.py:9 ../kupfer/plugin/commands.py:233
 msgid "Run commandline programs"
 msgstr "Ejecutar programas de consola"
 
@@ -764,23 +761,31 @@ msgstr "Ejecutar (obtener salida)"
 msgid "Run program and return its output"
 msgstr "Ejecutar un programa y obtener su salida"
 
-#: ../kupfer/plugin/commands.py:89
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
+#: ../kupfer/plugin/commands.py:91
 msgid "Pass to Command..."
 msgstr "Enviar a un comando…"
 
-#: ../kupfer/plugin/commands.py:130
+#: ../kupfer/plugin/commands.py:132
 msgid "Run program with object as an additional parameter"
 msgstr "Ejecutar programa con un objeto como un parámetro adicional"
 
-#: ../kupfer/plugin/commands.py:135
-msgid "Send to Command..."
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+#: ../kupfer/plugin/commands.py:139
+#| msgid "Send to Command..."
+msgid "Write to Command..."
 msgstr "Enviar a un comando…"
 
-#: ../kupfer/plugin/commands.py:168 ../kupfer/plugin/commands.py:178
+#: ../kupfer/plugin/commands.py:172 ../kupfer/plugin/commands.py:185
 msgid "Run program and supply text on the standard input"
 msgstr "Ejecutar programa y proporcionar texto en la salida extándar"
 
-#: ../kupfer/plugin/commands.py:172
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
+#: ../kupfer/plugin/commands.py:179
 msgid "Filter through Command..."
 msgstr "Filtrar a través de un comando…"
 
@@ -1055,7 +1060,7 @@ msgid "Resume playback in Rhythmbox"
 msgstr "Continuar reproducción en Rhythmbox"
 
 #: ../kupfer/plugin/rhythmbox.py:74 ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:72
+#: ../kupfer/plugin/virtualbox/__init__.py:93
 msgid "Pause"
 msgstr "Pausar"
 
@@ -1238,12 +1243,15 @@ msgid "Triggers"
 msgstr "Disparadores"
 
 #: ../kupfer/plugin/triggers.py:6
+#| msgid ""
+#| "Assign global keybindings (triggers) to objects created with 'Compose "
+#| "Command' (Ctrl+Return)."
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
-"Command' (Ctrl+Return)."
+"Command'."
 msgstr ""
 "Asignar combinaciones de teclas globales (disparadores) a objetos creados "
-"con «Editar comando» (Ctrl+Intro)."
+"con «Editar comando»."
 
 #: ../kupfer/plugin/triggers.py:143
 msgid "Add Trigger..."
@@ -1844,54 +1852,54 @@ msgid "Google Translate"
 msgstr "Traducir con Google"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:154
+#: ../kupfer/plugin/google_translate.py:159
 msgid "Translate text with Google Translate"
 msgstr "Traducir texto con Google"
 
 #. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:58
+#: ../kupfer/plugin/google_translate.py:59
 msgid "noun"
 msgstr "sustantivo"
 
-#: ../kupfer/plugin/google_translate.py:59
+#: ../kupfer/plugin/google_translate.py:60
 msgid "verb"
 msgstr "verbo"
 
-#: ../kupfer/plugin/google_translate.py:60
+#: ../kupfer/plugin/google_translate.py:61
 msgid "adjective"
 msgstr "adjetivo"
 
-#: ../kupfer/plugin/google_translate.py:84
+#: ../kupfer/plugin/google_translate.py:89
 msgid "Google Translate connection timed out"
 msgstr "Expiró el tiempo de conexión con Google Translate"
 
-#: ../kupfer/plugin/google_translate.py:87
+#: ../kupfer/plugin/google_translate.py:92
 msgid "Error connecting to Google Translate"
 msgstr "Error al contactar con Google"
 
-#: ../kupfer/plugin/google_translate.py:137
-#: ../kupfer/plugin/google_translate.py:224
+#: ../kupfer/plugin/google_translate.py:142
+#: ../kupfer/plugin/google_translate.py:229
 msgid "Translate To..."
 msgstr "Traducir a…"
 
-#: ../kupfer/plugin/google_translate.py:180
+#: ../kupfer/plugin/google_translate.py:185
 #, python-format
 msgid "Translate into %s"
 msgstr "Traducir a %s"
 
-#: ../kupfer/plugin/google_translate.py:204
+#: ../kupfer/plugin/google_translate.py:209
 msgid "Languages"
 msgstr "Idiomas"
 
-#: ../kupfer/plugin/google_translate.py:239
+#: ../kupfer/plugin/google_translate.py:244
 msgid "Show translated page in browser"
 msgstr "Mostrar la página traducida en un navegador"
 
-#: ../kupfer/plugin/google_translate.py:256
+#: ../kupfer/plugin/google_translate.py:261
 msgid "Show Translation To..."
 msgstr "Mostrar la traducción a…"
 
-#: ../kupfer/plugin/google_translate.py:272
+#: ../kupfer/plugin/google_translate.py:277
 msgid "Show translation in browser"
 msgstr "Mostrar la traducción en un navegador"
 
@@ -1960,147 +1968,149 @@ msgid "Gwibber"
 msgstr "Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:6
+#| msgid ""
+#| "Microblogging with Gwibber. Allows sending and receiving messages from "
+#| "social networks like Twitter, Identi.ca etc.Requires the package 'gwibber-"
+#| "service'."
 msgid ""
 "Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc.Requires the package 'gwibber-"
+"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
 "service'."
 msgstr ""
 "Microblogging con Gwibber. Permite enviar y recibir mensajes de redes "
-"sociales como Twitter, Identi.ca etc.Requiere el paquete «gwibber-service»."
+"sociales como Twitter, Identi.ca etc. Requiere el paquete «gwibber-service»."
 
 #: ../kupfer/plugin/gwibber.py:45
-msgid "Maximum messages to show"
+#| msgid "Maximum messages to show"
+msgid "Maximum number of messages to show"
 msgstr "Número máximo de mensajes que mostrar"
 
-#: ../kupfer/plugin/gwibber.py:97
+#. TRANS: Account description, similar to "John on Identi.ca"
+#: ../kupfer/plugin/gwibber.py:98
 #, python-format
-#| msgid "%(user)s %(when)s"
 msgid "%(user)s on %(service)s"
 msgstr "%(user)s en %(service)s"
 
-#: ../kupfer/plugin/gwibber.py:149
-#, fuzzy, python-format
+#. TRANS: Gwibber Message description
+#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
+#. TRANS: the %(user)s and similar tokens must be unchanged
+#: ../kupfer/plugin/gwibber.py:153
+#, python-format
 #| msgid "%(user)s %(when)s"
 msgid "%(user)s %(when)s on %(where)s"
 msgstr "%(user)s %(when)s en %(where)s"
 
-#: ../kupfer/plugin/gwibber.py:180
-#| msgid "Send Message..."
+#: ../kupfer/plugin/gwibber.py:184
 msgid "Send Message"
 msgstr "Enviar mensaje"
 
-#: ../kupfer/plugin/gwibber.py:198
+#: ../kupfer/plugin/gwibber.py:202
 msgid "Send message to all Gwibber accounts"
 msgstr "Enviar mensaje a todas las cuentas de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:203
-#| msgid "Send Message..."
+#: ../kupfer/plugin/gwibber.py:207
 msgid "Send Message To..."
 msgstr "Enviar mensaje a…"
 
-#: ../kupfer/plugin/gwibber.py:231
-msgid "Send message to one Gwibber account"
+#: ../kupfer/plugin/gwibber.py:235
+#| msgid "Send message to all Gwibber accounts"
+msgid "Send message to a Gwibber account"
 msgstr "Enviar mensaje a una cuenta de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:236 ../kupfer/plugin/pidgin.py:120
+#: ../kupfer/plugin/gwibber.py:240 ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
 msgstr "Enviar mensaje…"
 
-#: ../kupfer/plugin/gwibber.py:259
+#: ../kupfer/plugin/gwibber.py:263
 msgid "Send message to selected Gwibber account"
 msgstr "Enviar mensaje a la cuenta de Gwibber seleccionada"
 
-#: ../kupfer/plugin/gwibber.py:264
-#| msgid "Reply..."
-msgid "Reply"
-msgstr "Responder"
+#: ../kupfer/plugin/gwibber.py:268 ../kupfer/plugin/twitter/__init__.py:273
+msgid "Reply..."
+msgstr "Responder…"
 
-#: ../kupfer/plugin/gwibber.py:293
-#| msgid "Send Message..."
+#: ../kupfer/plugin/gwibber.py:297
 msgid "Delete Message"
 msgstr "Eliminar mensaje"
 
-#: ../kupfer/plugin/gwibber.py:316
-#| msgid "Send Direct Message..."
-msgid "Send Private Message"
-msgstr "Enviar mensaje privado"
+#: ../kupfer/plugin/gwibber.py:320
+#| msgid "Send Private Message"
+msgid "Send Private Message..."
+msgstr "Enviar mensaje privado…"
 
-#: ../kupfer/plugin/gwibber.py:342
-#| msgid "Send Direct Message To..."
+#: ../kupfer/plugin/gwibber.py:346
 msgid "Send direct message to user"
 msgstr "Enviar mensaje directo al usuario"
 
-#: ../kupfer/plugin/gwibber.py:348
+#: ../kupfer/plugin/gwibber.py:352
 #, fuzzy
 #| msgid "Reset"
 msgid "Retweet"
 msgstr "Restablecer"
 
-#: ../kupfer/plugin/gwibber.py:348
+#: ../kupfer/plugin/gwibber.py:352
 #, fuzzy
 #| msgid "Rename To..."
 msgid "Retweet To..."
 msgstr "Renombrar a…"
 
-#: ../kupfer/plugin/gwibber.py:379
+#: ../kupfer/plugin/gwibber.py:383
 #, fuzzy
 #| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to all Gwibber accounts"
 msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
-#: ../kupfer/plugin/gwibber.py:380
-msgid "Retweet message to one Gwibber account"
-msgstr ""
+#: ../kupfer/plugin/gwibber.py:384
+#, fuzzy
+#| msgid "Receive new messages from all accounts in ClawsMail"
+msgid "Retweet message to a Gwibber account"
+msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
-#: ../kupfer/plugin/gwibber.py:385
-#| msgid "Open parent folder"
+#: ../kupfer/plugin/gwibber.py:389
 msgid "Open in Browser"
 msgstr "Abrir en el navegador"
 
-#: ../kupfer/plugin/gwibber.py:391
-#| msgid "Open with default viewer"
+#: ../kupfer/plugin/gwibber.py:395
 msgid "Open message in default web browser"
 msgstr "Abrir mensaje en el navegador web predeterminado"
 
-#: ../kupfer/plugin/gwibber.py:397 ../kupfer/plugin/gwibber.py:432
-#| msgid "Gajim Account Status"
+#: ../kupfer/plugin/gwibber.py:401 ../kupfer/plugin/gwibber.py:436
 msgid "Gwibber Accounts"
 msgstr "Cuentas de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:428
+#: ../kupfer/plugin/gwibber.py:432
 msgid "Accounts configured in Gwibber"
 msgstr "Cuentas configuradas en Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:457
-#| msgid "Gwibber"
+#: ../kupfer/plugin/gwibber.py:461
 msgid "Gwibber Messages"
 msgstr "Mensajes de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:480
+#: ../kupfer/plugin/gwibber.py:484
 msgid "Recent messages received by Gwibber"
 msgstr "Mensajes recientes recibidos por Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:485
+#. TRANS:  %s is a service name
+#: ../kupfer/plugin/gwibber.py:490
 #, python-format
 msgid "Gwibber Messages for %s"
 msgstr "Mensajes de Gwibber para %s"
 
-#: ../kupfer/plugin/gwibber.py:498
-#| msgid "Gwibber"
+#: ../kupfer/plugin/gwibber.py:503
 msgid "Gwibber Streams"
 msgstr "Flujos de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:521
+#: ../kupfer/plugin/gwibber.py:526
 msgid "Streams configured in Gwibber"
 msgstr "Flujos configurados en Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:526
+#. TRANS: Gwibber messages in %s :: %s is a Stream name
+#: ../kupfer/plugin/gwibber.py:532
 #, python-format
 msgid "Gwibber Messages in %s"
 msgstr "Mensajes de Gwibber en %s"
 
 #: ../kupfer/plugin/gwibber_simple.py:3
-#| msgid "Gwibber"
 msgid "Gwibber (Simple)"
 msgstr "Gwibber (simple)"
 
@@ -2242,10 +2252,6 @@ msgstr "Enviar mensaje directo…"
 #: ../kupfer/plugin/twitter/__init__.py:245
 msgid "Send Direct Message To..."
 msgstr "Enviar mensaje directo a…"
-
-#: ../kupfer/plugin/twitter/__init__.py:273
-msgid "Reply..."
-msgstr "Responder…"
 
 #: ../kupfer/plugin/twitter/__init__.py:300
 #, python-format
@@ -2436,12 +2442,10 @@ msgid "Services"
 msgstr "Servicios"
 
 #: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:25
-#| msgid "Show Source Code"
 msgid "Show QRCode"
 msgstr "Mostrar el código QR"
 
 #: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:57
-#| msgid "Display text in a window"
 msgid "Display text as QRCode in a window"
 msgstr "Mostrar texto como código QR en una ventana"
 
@@ -2512,7 +2516,8 @@ msgid ""
 "urxvt)."
 msgstr ""
 "La opción que hace que el terminal ejecute todo siguiéndolo dentro de la "
-"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y urxvt)."
+"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y "
+"urxvt)."
 
 #: ../kupfer/plugin/ssh_hosts.py:55
 msgid "SSH host"
@@ -2847,42 +2852,42 @@ msgstr ""
 "Controla máquinas virtuales de VirtualBox. Soporta Sun VirtualBox y la "
 "versión Open Source."
 
-#: ../kupfer/plugin/virtualbox/__init__.py:33
+#: ../kupfer/plugin/virtualbox/__init__.py:22
 msgid "Force use CLI interface"
 msgstr "Forzar el uso de la interfaz CLI"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:65
-#: ../kupfer/plugin/virtualbox/__init__.py:76
+#: ../kupfer/plugin/virtualbox/__init__.py:86
+#: ../kupfer/plugin/virtualbox/__init__.py:97
 msgid "Power On"
 msgstr "Encender"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:67
-#: ../kupfer/plugin/virtualbox/__init__.py:78
+#: ../kupfer/plugin/virtualbox/__init__.py:88
+#: ../kupfer/plugin/virtualbox/__init__.py:99
 msgid "Power On Headless"
 msgstr "Encender «Headless»"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:70
+#: ../kupfer/plugin/virtualbox/__init__.py:91
 msgid "Send Power Off Signal"
 msgstr "Enviar señal de apagado"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:73
+#: ../kupfer/plugin/virtualbox/__init__.py:94
 msgid "Reboot"
 msgstr "Reiniciar"
 
 #. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:81
+#: ../kupfer/plugin/virtualbox/__init__.py:102
 msgid "Resume"
 msgstr "Restaurar"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:84
+#: ../kupfer/plugin/virtualbox/__init__.py:105
 msgid "Save State"
 msgstr "Guardar estado"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:86
+#: ../kupfer/plugin/virtualbox/__init__.py:107
 msgid "Power Off"
 msgstr "Apagar"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:110
+#: ../kupfer/plugin/virtualbox/__init__.py:131
 msgid "VirtualBox Machines"
 msgstr "Máquinas de VirtualBox"
 
@@ -2930,6 +2935,32 @@ msgstr "Páginas de Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páginas almacenadas en el libro de notas Zim"
+
+#~ msgid ""
+#~ "Tick the box next to a source to make sure its objects are exported to "
+#~ "the top level of the catalog. An unticked source's contents are only "
+#~ "available by locating its subcatalog and entering it.\n"
+#~ "\n"
+#~ "Note: Kupfer is an integrator, not an indexer itself. Kupfer is not "
+#~ "designed to carry a catalog larger than a couple of thousand objects, and "
+#~ "may become slow if overly large subcatalogs are included in the top level."
+#~ msgstr ""
+#~ "Seleccionar la casilla junto a una fuente para asegurarse de que sus "
+#~ "objetos se exportan al nivel superior del catálogo. El contenido de una "
+#~ "casilla no seleccionada sólo está disponible ubicando su subcatálogo e "
+#~ "introduciéndolo.\n"
+#~ "\n"
+#~ "Nota: Kupfer es un integrador, no un indexador en si mismo. Kupfer no "
+#~ "está diseñado para catalogar más de un par de miles de objetos y puede "
+#~ "acabar siendo lento si se incluyen grandes subcatálogos en el nivel "
+#~ "superior."
+
+#~ msgid "Send message to one Gwibber account"
+#~ msgstr "Enviar mensaje a una cuenta de Gwibber"
+
+#~| msgid "Reply..."
+#~ msgid "Reply"
+#~ msgstr "Responder"
 
 #~ msgid "OpenOffice"
 #~ msgstr "OpenOffice"
