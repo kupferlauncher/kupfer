@@ -9,6 +9,7 @@ __description__ = _("Search the web with OpenSearch search engines")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import locale
 import os
 import urllib
 import xml.etree.cElementTree as ElementTree
@@ -175,8 +176,15 @@ class OpenSearchSource (Source):
 			package="iceweasel"))
 
 		addon_dir = "/usr/lib/firefox-addons/searchplugins"
-		if os.path.exists(addon_dir):
-			plugin_dirs.append(addon_dir)
+		cur_lang, _ignored = locale.getlocale(locale.LC_MESSAGES)
+		suffixes = ["en-US"]
+		if cur_lang:
+			suffixes = [cur_lang.replace("_", "-"), cur_lang[:2]] + suffixes
+		for suffix in suffixes:
+			addon_lang_dir = os.path.join(addon_dir, suffix)
+			if os.path.exists(addon_lang_dir):
+				plugin_dirs.append(addon_lang_dir)
+				break
 
 		self.output_debug("Found following searchplugins directories",
 				sep="\n", *plugin_dirs)
