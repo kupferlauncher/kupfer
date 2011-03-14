@@ -1309,9 +1309,9 @@ class Interface (gobject.GObject):
 			# Use toggle_text_mode to reset
 			self.toggle_text_mode(False)
 			pane = self._pane_for_widget(new_focus)
+			self._update_active()
 			if self.data_controller.get_should_enter_text_mode(pane):
 				self.toggle_text_mode_quick()
-			self._update_active()
 
 	def _browse_up(self):
 		pane = self._pane_for_widget(self.current)
