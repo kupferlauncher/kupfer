@@ -475,6 +475,7 @@ class SendToAccountSource(Source):
 class HomeMessagesSource(Source):
 	# we don't connect to "gwibber" app as long we only need "gwibber-service".
 	source_user_reloadable = True
+	source_prefer_sublevel = True
 
 	def __init__(self, name=_("Gwibber Messages")):
 		Source.__init__(self, name)
