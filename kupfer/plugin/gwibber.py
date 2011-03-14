@@ -443,6 +443,9 @@ class AccountsSource(Source):
 	def get_description(self):
 		return _("Accounts configured in Gwibber")
 
+	def provides(self):
+		yield Account
+
 
 class SendToAccountSource(Source):
 	def __init__(self, required_feature=None, name=_("Gwibber Accounts")):
@@ -464,6 +467,9 @@ class SendToAccountSource(Source):
 				if not self._required_feature or \
 						self._required_feature in service['features']:
 					yield Account(account, service['name'], False)
+
+	def provides(self):
+		yield Account
 
 
 class HomeMessagesSource(Source):
@@ -495,6 +501,9 @@ class HomeMessagesSource(Source):
 	def get_description(self):
 		return _("Recent messages received by Gwibber")
 
+	def provides(self):
+		yield Message
+
 
 class MessagesSource(Source):
 	def __init__(self, account, service):
@@ -507,6 +516,9 @@ class MessagesSource(Source):
 
 	def get_icon_name(self):
 		return 'gwibber'
+
+	def provides(self):
+		yield Message
 
 
 class StreamsSource(Source):
@@ -537,6 +549,8 @@ class StreamsSource(Source):
 	def get_description(self):
 		return _("Streams configured in Gwibber")
 
+	def provides(self):
+		yield Stream
 
 class StreamMessagesSource(Source):
 	def __init__(self, stream):
@@ -553,6 +567,10 @@ class StreamMessagesSource(Source):
 	def get_icon_name(self):
 		return 'gwibber'
 
+	def provides(self):
+		yield Message
+
+
 class StatusTextSource (TextSource):
 	def get_rank(self):
 		return 100
@@ -565,4 +583,8 @@ class StatusTextSource (TextSource):
 
 	def get_items(self, text):
 		return self.get_text_items(text)
+
+	def provides(self):
+		yield TextLeaf
+
 
