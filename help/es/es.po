@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-03-11 16:00+0000\n"
-"PO-Revision-Date: 2011-03-11 18:08+0100\n"
+"POT-Creation-Date: 2011-03-13 10:38+0000\n"
+"PO-Revision-Date: 2011-03-14 22:05+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: C/plugin-websearch.page:7(desc)
 msgid "Using the search the web plugin."
-msgstr "Usar el complemento «Buscar en la web»"
+msgstr "Usar el complemento «Buscar en la web»."
 
 #: C/plugin-websearch.page:10(app)
 msgid "Search the Web"
@@ -290,6 +290,8 @@ msgid ""
 "You can use the <em>Selected Text</em> object and create a new note with the "
 "content of the selection."
 msgstr ""
+"Puede usar el objeto <em>Texto seleccionado</em> para crear una nota nueva "
+"con el contenido de la selección."
 
 #: C/plugin-nautilusselection.page:7(desc)
 msgid "Using the selected file plugin."
@@ -326,26 +328,26 @@ msgid ""
 msgstr ""
 
 #: C/plugin-gwibber.page:7(desc)
-#, fuzzy
 #| msgid "Using the triggers plugin."
 msgid "Using the Gwibber plugin."
-msgstr "Usar el complemento «Disparadores»."
+msgstr "Usar el complemento «Gwibber»."
 
 #: C/plugin-gwibber.page:10(app)
 msgid "Gwibber"
-msgstr ""
+msgstr "Gwibber"
 
 #: C/plugin-gwibber.page:13(title)
-#, fuzzy
 #| msgid "Triggers Plugin"
 msgid "Gwibber Plugin"
-msgstr "Complemento «Disparadores»"
+msgstr "Complemento «Gwibber»"
 
 #: C/plugin-gwibber.page:14(p)
 msgid ""
 "With the <app>Gwibber</app> plugin you can send messages to social networks "
 "such as Twitter or Identi.ca."
 msgstr ""
+"Con el complemento <app>Gwibber</app> puede enviar mensajes a redes sociales "
+"como Twitter o Identi.ca."
 
 #: C/plugin-gwibber.page:18(p)
 msgid ""
@@ -356,7 +358,7 @@ msgstr ""
 
 #: C/plugin-gwibber.page:27(title)
 msgid "Sending a message to all services"
-msgstr ""
+msgstr "Enviar un mensaje a todos los servicios"
 
 #: C/plugin-gwibber.page:29(p)
 msgid ""
@@ -377,10 +379,9 @@ msgstr ""
 "<key>Intro</key>."
 
 #: C/plugin-gwibber.page:42(title)
-#, fuzzy
 #| msgid "Opening a file with a specific application"
 msgid "Sending a message to a specific service"
-msgstr "Abrir un archivo con una aplicación específica"
+msgstr "Enviar un mensaje un servicio específico"
 
 #: C/plugin-gwibber.page:44(p)
 msgid ""
@@ -444,10 +445,9 @@ msgid ""
 msgstr ""
 
 #: C/plugin-favorites.page:25(p)
-#, fuzzy
 #| msgid "Introduction to <app>Kupfer</app>."
 msgid "Find an object in <app>Kupfer</app>"
-msgstr "Introducción a <app>Kupfer</app>"
+msgstr "Buscar un objeto en <app>Kupfer</app>"
 
 #: C/plugin-favorites.page:30(p)
 msgid ""
@@ -506,7 +506,7 @@ msgstr ""
 
 #: C/plugin-calculator.page:23(p)
 msgid "Activate Kupfer and type <key>=</key>"
-msgstr ""
+msgstr "Active Kupfer y escriba <key>=</key>."
 
 #: C/plugin-calculator.page:26(p)
 msgid ""
@@ -516,10 +516,9 @@ msgstr ""
 
 #: C/plugin-calculator.page:30(p)
 msgid "Press <key>Return</key> to get the result."
-msgstr ""
+msgstr "Pulse <key>Intro</key> para obtener el resultado."
 
 #: C/plugin-calculator.page:38(p)
-#, fuzzy
 #| msgid ""
 #| "The Calculator uses python's math and complex math modules, and parses "
 #| "expressions as Python expressions. You may use common mathematical "
@@ -532,10 +531,11 @@ msgid ""
 "<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
 "functions and constants."
 msgstr ""
-"El complemento «Calculadora» usa módulos matemáticos de python y complejos, y "
-"analiza expresiones como expresiones de Python. Puede usar funciones "
-"matemáticas comunes, como «sqrt», «sin», «exp» y «log»; el comando <cmd>=help</"
-"cmd> mostrará una lista de todas las funciones y constantes definidas."
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
+"y analiza expresiones como expresiones de Python. Puede usar funciones "
+"matemáticas comunes, como <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> y "
+"<cmd>log</cmd>»; el comando <cmd>=help</cmd> mostrará una lista de todas las "
+"funciones y constantes definidas."
 
 #: C/plugin-calculator.page:47(p)
 #, fuzzy
@@ -565,8 +565,8 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
-"consola de Python)."
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
+"la consola de Python)."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -636,10 +636,9 @@ msgid "Using <app>Kupfer</app> in Depth"
 msgstr "Usar <app>Kupfer</app> en profundidad"
 
 #: C/moreusage.page:13(title)
-#, fuzzy
 #| msgid "Adding your actions and scripts"
 msgid "Adding Applications and Scripts"
-msgstr "Añadir sus acciones y su scripts"
+msgstr "Añadir aplicaciones y scripts"
 
 #: C/moreusage.page:14(p)
 msgid ""
@@ -648,7 +647,6 @@ msgid ""
 msgstr ""
 
 #: C/moreusage.page:18(p)
-#, fuzzy
 #| msgid ""
 #| "If you want to add a custom application, or an application called with "
 #| "special options, you can create a new launcher for it and place it in one "
@@ -660,10 +658,10 @@ msgid ""
 "applications, for example <file>~/.local/share/applications</file>, where "
 "<app>Kupfer</app> will find it."
 msgstr ""
-"Si quiere añadir una aplicación personalizada, o una aplicación ejecutada "
-"con opciones especiales, puede crear un lanzador nuevo y colocarlo en uno de "
-"los sitios estándar para aplicaciones, por ejemplo <file>~/.local/share/"
-"applications</file>, donde <app>Kupfer</app> lo encontrará."
+"Si quiere añadir una aplicación manualmente, puede crear un archivo <code>."
+"desktop</code> nuevo y colocarlo en uno de las carpetas estándar para "
+"aplicaciones, por ejemplo <file>~/.local/share/applications</file>, donde "
+"<app>Kupfer</app> lo encontrará."
 
 #: C/moreusage.page:24(p)
 msgid ""
@@ -690,7 +688,6 @@ msgid "The <em>Comma Trick</em>"
 msgstr "El <em>truco de la coma</em>"
 
 #: C/moreusage.page:39(p)
-#, fuzzy
 #| msgid ""
 #| "The \"comma trick\" allows the user to use actions on many objects at the "
 #| "same time."
@@ -762,10 +759,9 @@ msgid ""
 msgstr ""
 
 #: C/moreusage.page:81(p)
-#, fuzzy
 #| msgid "See <link xref=\"keyboard\"/> for more information."
 msgid "See <link xref=\"keyboard\"/>"
-msgstr "Consulte la <link xref=\"keyboard\"/> para obtener más información."
+msgstr "Consulte la <link xref=\"keyboard\"/>"
 
 #: C/moreusage.page:85(title)
 msgid "Open Terminal Here"
@@ -923,17 +919,16 @@ msgid "Configuring Plugins"
 msgstr "Configurar complementos"
 
 #: C/managing-plugins.page:21(title)
-#, fuzzy
 #| msgid ""
 #| "Open <app>Kupfer Preferences</app> and go to the <em>Keyboard</em> tab."
 msgid "Open <app>Kupfer Preferences</app> to the Plugins tab"
 msgstr ""
-"Abra las <app>Preferencias de Kupfer</app> y vaya a la pestaña <em>Teclado</"
-"em>."
+"Abra las <app>Preferencias de Kupfer</app> y vaya a la pestaña "
+"<em>Complementos</em>."
 
 #: C/managing-plugins.page:23(p)
 msgid "Use one of the following methods:"
-msgstr ""
+msgstr "Use uno de los siguientes métodos:"
 
 #: C/managing-plugins.page:25(p)
 msgid ""
@@ -955,7 +950,7 @@ msgstr "<key>↑</key> o <keyseq><key>Mayús</key><key>Espacio</key></keyseq>"
 
 #: C/managing-plugins.page:39(p)
 msgid "Select the tab <em>Plugins</em>"
-msgstr ""
+msgstr "Seleccione la solapa <em>Complementos</em>."
 
 #: C/managing-plugins.page:45(p)
 msgid ""
@@ -977,10 +972,9 @@ msgid ""
 msgstr ""
 
 #: C/managing-plugins.page:59(title)
-#, fuzzy
 #| msgid "If a Plugin can not be Loaded"
 msgid "If a Plugin can not be Activated"
-msgstr "No se pudo cargar el complemento"
+msgstr "Si no se puede activar un complemento"
 
 #: C/managing-plugins.page:60(p)
 msgid ""
@@ -997,7 +991,6 @@ msgid "Python module 'gdata' is needed"
 msgstr "Se necesita el módulo de Python «gdata»"
 
 #: C/managing-plugins.page:67(p)
-#, fuzzy
 #| msgid ""
 #| "This means that you need to install the needed python module from your "
 #| "distribution—and possibly the plugin documentation can tell you how."
@@ -1260,10 +1253,9 @@ msgid ""
 msgstr ""
 
 #: C/keyboard.page:86(title)
-#, fuzzy
 #| msgid "Global Keyboard Shortcuts"
 msgid "Kupfer's Keyboard Shortcuts"
-msgstr "Atajos de teclado globales"
+msgstr "Atajos de teclado de Kupfer"
 
 #: C/keyboard.page:87(p)
 #, fuzzy
@@ -1369,10 +1361,9 @@ msgid "Show Help"
 msgstr "Mostrar ayuda"
 
 #: C/keyboard.page:139(title)
-#, fuzzy
 #| msgid "How to configure a global keyboard shortcut"
 msgid "How to configure a keyboard shortcut"
-msgstr "Cómo configurar un atajo de teclado global"
+msgstr "Cómo configurar un atajo de teclado"
 
 #: C/keyboard.page:141(p) C/keyboard.page:186(p)
 msgid "Open <app>Kupfer Preferences</app> and go to the <em>Keyboard</em> tab."
@@ -1494,7 +1485,6 @@ msgid ""
 msgstr ""
 
 #: C/introduction.page:26(p)
-#, fuzzy
 #| msgid ""
 #| "For more information about <app>Kupfer</app>, visit its <link href="
 #| "\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
@@ -1502,7 +1492,7 @@ msgid ""
 "For up-to-date information about <app>Kupfer</app>, visit its <link href="
 "\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
 msgstr ""
-"Para obtener más información acerca de <app>Kupfer</app> visite su <link "
+"Para obtener información actualizada sobre <app>Kupfer</app> visite su <link "
 "href=\"http://kaizer.se/wiki/kupfer/\">página web</link>."
 
 #: C/index.page:9(name)
