@@ -1,3 +1,4 @@
+import os
 
 _TERMINALS = []
 
@@ -24,12 +25,22 @@ def register_terminal(terminal_description):
 def unregister_terminal(terminal_id):
 	_TERMINALS[:] = [t for t in _TERMINALS if t.app_id != terminal_id]
 
+def get_valid_terminals():
+	for term in _TERMINALS:
+		# iterate over $PATH directories
+		PATH = os.environ.get("PATH") or os.defpath
+		for execdir in PATH.split(os.pathsep):
+			exepath = os.path.join(execdir, term.argv[0])
+			if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
+				yield term
+				break
+
 def get_configured_terminal():
 	"""
 	Return the configured Terminal object
 	"""
 	from kupfer.core import settings
-	setctl = settings.SettingsController()
+	setctl = settings.GetSettingsController()
 	id_ = setctl.get_preferred_tool('terminal')
 	for term in _TERMINALS:
 		if term.app_id == id_:

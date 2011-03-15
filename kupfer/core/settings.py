@@ -383,7 +383,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		return self.get_config("Tools", tool_id)
 
 	def set_preferred_tool(self, tool_id, value):
-		return self._set_config("Tools", tool_id, key)
+		return self._set_config("Tools", tool_id, value)
 
 
 # Section, Key, Value
