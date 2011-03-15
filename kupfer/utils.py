@@ -11,6 +11,7 @@ import glib
 from kupfer import pretty
 from kupfer import kupferstring
 from kupfer import desktop_launch
+from kupfer import desktop_parse
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -216,9 +217,11 @@ def app_info_for_commandline(cli, name=None, in_terminal=False):
 	item = gio.AppInfo(cli, name, flags)
 	return item
 
+def argv_for_commandline(cli):
+	return desktop_parse.parse_argv(cli)
+
 def launch_commandline(cli, name=None, in_terminal=False):
 	from kupfer import launch
-	from kupfer import desktop_parse
 	argv = desktop_parse.parse_argv(cli)
 	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", argv, sep="")
 	if in_terminal:

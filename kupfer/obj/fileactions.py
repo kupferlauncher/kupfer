@@ -102,8 +102,14 @@ class Execute (Action):
 		return (self.in_terminal, self.quoted)
 	
 	def activate(self, leaf):
-		cmd = "'%s'" % leaf.object if self.quoted else leaf.object
-		utils.launch_commandline(cmd, in_terminal=self.in_terminal)
+		if self.quoted:
+			argv = [leaf.object]
+		else:
+			argv = utils.argv_for_commandline(leaf.object)
+		if self.in_terminal:
+			utils.spawn_in_terminal(argv)
+		else:
+			utils.spawn_async(argv)
 
 	def get_description(self):
 		if self.in_terminal:
