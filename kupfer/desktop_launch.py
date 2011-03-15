@@ -31,6 +31,9 @@ def error_log(*args):
 def exc_log():
 	pretty.print_exc(__name__)
 
+class SpawnError (Exception):
+	"Error starting application"
+
 class ResourceLookupError (Exception):
 	"Unable to find resource"
 
@@ -73,6 +76,8 @@ def read_desktop_info(desktop_file):
 		de = xdg.DesktopEntry.DesktopEntry(desktop_file)
 	except xdg.Exceptions.Error:
 		raise ResourceReadError
+	if not de.getExec():
+		raise ResourceReadError("Invalid data: empty Exec key")
 	return {
 		"Terminal": de.getTerminal(),
 		"StartupNotify": de.getStartupNotify(),
@@ -256,6 +261,8 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
 	@desktop_file: specify location of desktop file
 	@launch_cb: Called once per launched process,
 	            like ``spawn_app``
+
+	Will pass on exceptions from spawn_app
 	"""
 	desktop_file = desktop_file or _file_for_app_info(app_info)
 	desktop_info = _info_for_desktop_file(desktop_file)
@@ -338,7 +345,8 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	@launch_cb: Called if successful with
 	            (argv, pid, notify_id, filelist, timestamp)
 
-	return PID on success, else None
+	return pid if successful
+	raise SpawnError on error
 	"""
 	notify_id = None
 	if startup_notify:
@@ -369,7 +377,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 		error_log("Error Launching ", argv, unicode(exc))
 		if notify_id:
 			gtk.gdk.notify_startup_complete_with_id(notify_id)
-		return None
+		raise SpawnError(unicode(exc))
 	if launch_cb:
 		launch_cb(argv, pid, notify_id, filelist, timestamp)
 	return pid

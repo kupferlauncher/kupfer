@@ -15,7 +15,8 @@ import gobject
 
 from kupfer import icons, launch, utils
 from kupfer import pretty
-from kupfer.obj.base import Leaf, Action, Source, InvalidDataError
+from kupfer.obj.base import Leaf, Action, Source
+from kupfer.obj.base import InvalidDataError, OperationError
 from kupfer.obj import fileactions
 from kupfer.interface import TextRepresentation
 from kupfer.kupferstring import tounicode
@@ -226,10 +227,12 @@ class AppLeaf (Leaf):
 		@paths: a seq of bytestring paths
 		@activate: activate instead of start new
 		"""
-		return launch.launch_application(self.object, files=files, paths=paths,
-		                                 activate=activate,
-		                                 desktop_file=self.init_path)
-
+		try:
+			return launch.launch_application(self.object, files=files,
+			                                 paths=paths, activate=activate,
+			                                 desktop_file=self.init_path)
+		except launch.LaunchError as exc:
+			raise OperationError(unicode(exc))
 
 	def get_id(self):
 		"""Return the unique ID for this app.

@@ -17,6 +17,10 @@ except ImportError, e:
 	pretty.print_info(__name__, "Disabling window tracking:", e)
 	wnck = None
 
+class LaunchError (Exception):
+	"Error launching application"
+
+
 default_associations = {
 	"evince" : "Document Viewer",
 	"file-roller" : "File Roller",
@@ -51,6 +55,8 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 	if @activate, activate rather than start a new version
 
 	@app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
+
+	Raises LaunchError on failed program start.
 	"""
 	assert app_info
 
@@ -82,11 +88,12 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 	else:
 		launch_callback = None
 
-	ret = desktop_launch.launch_app_info(app_info, files,
+	try:
+		desktop_launch.launch_app_info(app_info, files,
 			   timestamp=_current_event_time(), desktop_file=desktop_file,
 			   launch_cb=launch_callback)
-	if not ret:
-		pretty.print_info(__name__, "Error launching", app_info)
+	except desktop_launch.SpawnError as exc:
+		raise LaunchError(unicode(exc))
 	return True
 
 def application_is_running(app_id):
