@@ -32,7 +32,10 @@ Not Released Yet
   use SSL for transport if a third-party plugin is installed.
 * Fix bug if evolution address book is missing (Luca Falavigna)
   (:lp:`691305`)
+* Fix *Search the Web* to use localized ``firefox-addons`` subdirectories
+  for search engines (:lp:`735083`)
 * Fix bug with integer division (Francesco Marella)
+* *APT:* Workaround bug with ``subprocess`` (:lp:`711136`)
 * Find cover art files just like Rhythmbox (William Friesen) (:lp:`676433`)
 * Use ``readlink`` in ``kupfer-exec`` script too since ``realpath`` is not
   always available.
