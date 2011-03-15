@@ -199,6 +199,13 @@ def spawn_in_terminal(argv, workdir=None):
 	_argv = _get_term_argv(argv)
 	desktop_launch.spawn_app_id(TERM_ID, _argv , workdir, TERM_STARTUPNOTIFY)
 
+def spawn_async_notify_as(app_id, argv):
+	"""
+	Spawn argument list @argv and startup-notify as
+	if application @app_id is starting (if possible)
+	"""
+	desktop_launch.spawn_app_id(app_id, argv , None, True)
+
 def spawn_async(argv, in_dir="."):
 	"Silently spawn @argv in the background"
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
