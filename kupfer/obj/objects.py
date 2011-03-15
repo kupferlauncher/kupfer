@@ -218,16 +218,29 @@ class AppLeaf (Leaf):
 	def _get_package_name(self):
 		return gobject.filename_display_basename(self.get_id())
 
+	def launch(self, files=(), paths=(), activate=False):
+		"""
+		Launch the represented applications
+
+		@files: a seq of GFiles (gio.File)
+		@paths: a seq of bytestring paths
+		@activate: activate instead of start new
+		"""
+		return launch.launch_application(self.object, files=files, paths=paths,
+		                                 activate=activate,
+		                                 desktop_file=self.init_path)
+
+
 	def get_id(self):
 		"""Return the unique ID for this app.
 
 		This is the GIO id "gedit.desktop" minus the .desktop part for
 		system-installed applications.
 		"""
-		return launch.application_id(self.object)
+		return launch.application_id(self.object, self.init_path)
 
 	def get_actions(self):
-		if launch.application_is_running(self.object):
+		if launch.application_is_running(self.get_id()):
 			yield Launch(_("Go To"), is_running=True)
 			yield CloseAll()
 		else:
@@ -285,8 +298,7 @@ class Launch (Action):
 		self.open_new = open_new
 	
 	def activate(self, leaf):
-		desktop_item = leaf.object
-		launch.launch_application(leaf.object, activate=not self.open_new)
+		leaf.launch(activate=not self.open_new)
 
 	def get_description(self):
 		if self.is_running:
@@ -307,7 +319,7 @@ class LaunchAgain (Launch):
 	def item_types(self):
 		yield AppLeaf
 	def valid_for_item(self, leaf):
-		return launch.application_is_running(leaf.object)
+		return launch.application_is_running(leaf.get_id())
 	def get_description(self):
 		return _("Launch another instance of this application")
 
@@ -317,11 +329,11 @@ class CloseAll (Action):
 	def __init__(self):
 		Action.__init__(self, _("Close"))
 	def activate(self, leaf):
-		return launch.application_close_all(leaf.object)
+		return launch.application_close_all(leaf.get_id())
 	def item_types(self):
 		yield AppLeaf
 	def valid_for_item(self, leaf):
-		return launch.application_is_running(leaf.object)
+		return launch.application_is_running(leaf.get_id())
 	def get_description(self):
 		return _("Attempt to close all application windows")
 	def get_icon_name(self):

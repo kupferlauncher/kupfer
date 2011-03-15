@@ -51,14 +51,11 @@ def _read_environ(pid, envcache=None):
 	if envcache is not None: envcache[pid] = environ
 	return environ
 
-def application_id(app_info):
+def application_id(app_info, desktop_file=None):
 	"""Return an application id (string) for GAppInfo @app_info"""
 	app_id = app_info.get_id()
 	if not app_id:
-		try:
-			app_id = app_info.init_path
-		except AttributeError:
-			app_id = ""
+		app_id = desktop_file or ""
 	if app_id.endswith(".desktop"):
 		app_id = app_id[:-len(".desktop")]
 	return app_id
@@ -66,15 +63,18 @@ def application_id(app_info):
 def _current_event_time():
 	return gtk.get_current_event_time() or keybindings.get_current_event_time()
 
-def launch_application(app_info, files=(), uris=(), paths=(), track=True, activate=True):
+def launch_application(app_info, files=(), uris=(), paths=(), track=True,
+	                   activate=True, desktop_file=None):
 	"""
-	Launch @app_info correctly, using a startup notification
+	Launch @app_rec correctly, using a startup notification
 
 	you may pass in either a list of gio.Files in @files, or 
 	a list of @uris or @paths
 
 	if @track, it is a user-level application
 	if @activate, activate rather than start a new version
+
+	@app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
 	"""
 	assert app_info
 
@@ -88,7 +88,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 		files = [File(p) for p in uris]
 
 	if track:
-		app_id = application_id(app_info)
+		app_id = application_id(app_info, desktop_file)
 		os.putenv(kupfer_env, app_id)
 	else:
 		app_id = ""
@@ -100,7 +100,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 
 		try:
 			ret = desktop_launch.launch_app_info(app_info, files,
-					timestamp=_current_event_time())
+					timestamp=_current_event_time(), desktop_file=desktop_file)
 			if not ret:
 				pretty.print_info(__name__, "Error launching", app_info)
 		except GError, e:
@@ -108,18 +108,19 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 			return False
 		else:
 			if track:
-				svc.launched_application(application_id(app_info))
+				app_id = application_id(app_info, desktop_file)
+				svc.launched_application(app_id)
 	finally:
 		os.unsetenv(kupfer_env)
 	return True
 
-def application_is_running(app_info):
+def application_is_running(app_id):
 	svc = GetApplicationsMatcherService()
-	return svc.application_is_running(application_id(app_info))
+	return svc.application_is_running(app_id)
 
-def application_close_all(app_info):
+def application_close_all(app_id):
 	svc = GetApplicationsMatcherService()
-	return svc.application_close_all(application_id(app_info))
+	return svc.application_close_all(app_id)
 
 class ApplicationsMatcherService (pretty.OutputMixin):
 	"""Handle launching applications and see if they still run.

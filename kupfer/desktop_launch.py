@@ -227,28 +227,36 @@ def replace_format_specs(argv, location, desktop_info, gfilelist):
 
 	return supports_single_file, files_added_at_end, new_argv
 
-def _file_and_info_for_app_info(app_info):
+def _file_for_app_info(app_info):
 	desktop_info = None
 	try:
 		desktop_file = find_desktop_file(app_info.get_id())
 	except ResourceLookupError:
 		exc_log()
 		desktop_file = None
-	else:
-		try:
-			desktop_info = read_desktop_info(desktop_file)
-		except ResourceReadError:
-			exc_log()
-	return desktop_file, desktop_info
+	return desktop_file
 
-def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None):
+def _info_for_desktop_file(desktop_file):
+	if not desktop_file:
+		return None
+	try:
+		desktop_info = read_desktop_info(desktop_file)
+	except ResourceReadError:
+		desktop_info = None
+		exc_log()
+	return desktop_info
+
+def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
+	                desktop_file=None):
 	"""
 	Launch @app_info, opening @gfiles
 
 	@in_terminal: override Terminal flag
 	@timestamp: override timestamp
+	@desktop_file: specify location of desktop file
 	"""
-	desktop_file, desktop_info = _file_and_info_for_app_info(app_info)
+	desktop_file = desktop_file or _file_for_app_info(app_info)
+	desktop_info = _info_for_desktop_file(desktop_file)
 	if not desktop_file or not desktop_info:
 		# Allow in-memory app_info creations (without id or desktop file)
 		desktop_file = ""
