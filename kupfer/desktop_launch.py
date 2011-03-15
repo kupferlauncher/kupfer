@@ -258,7 +258,7 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None):
 
 	else:
 		# Launch one process per file
-		launch_records = [(launch_argv, gfiles[0])]
+		launch_records = [(launch_argv, [gfiles[0]])]
 		for f in gfiles[1:]:
 			_ignore1, _ignore2, launch_argv = \
 				replace_format_specs(argv, desktop_file, desktop_info, [f])
