@@ -82,18 +82,10 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 	from gio import File
 	from glib import GError
 
-	#ctx = AppLaunchContext()
 	if paths:
 		files = [File(p) for p in paths]
 	if uris:
 		files = [File(p) for p in uris]
-
-	if wnck:
-		# launch on current workspace
-		workspace = wnck.screen_get_default().get_active_workspace()
-		nbr = workspace.get_number() if workspace else -1
-		#ctx.set_desktop(nbr)
-	#ctx.set_timestamp(_current_event_time())
 
 	if track:
 		app_id = application_id(app_info)
@@ -107,7 +99,8 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True, activa
 			return True
 
 		try:
-			ret = desktop_launch.launch_app_info(app_info, files)
+			ret = desktop_launch.launch_app_info(app_info, files,
+					timestamp=_current_event_time())
 			if not ret:
 				pretty.print_info(__name__, "Error launching", app_info)
 		except GError, e:

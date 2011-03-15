@@ -224,11 +224,12 @@ def _file_and_info_for_app_info(app_info):
 			error_log("Read error:", exc)
 	return desktop_file, desktop_info
 
-def launch_app_info(app_info, gfiles=[], in_terminal=None):
+def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None):
 	"""
 	Launch @app_info, opening @gfiles
 
 	@in_terminal: override Terminal flag
+	@timestamp: override timestamp
 	"""
 	desktop_file, desktop_info = _file_and_info_for_app_info(app_info)
 	if not desktop_file or not desktop_info:
@@ -279,7 +280,8 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None):
 			if term.exearg:
 				targv.append(term.exearg)
 			argv = targv + argv
-		ret = spawn_app(app_info, argv, gfiles, workdir, notify)
+		ret = spawn_app(app_info, argv, gfiles, workdir, notify,
+		                timestamp=timestamp)
 		if not ret:
 			return False
 	return True
@@ -295,7 +297,8 @@ def spawn_app_id(app_id, argv, workdir=None, startup_notify=True):
 		startup_notify = False
 	return spawn_app(app_info, argv, [], workdir, startup_notify)
 
-def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True):
+def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
+	          timestamp=None):
 	"""
 	Spawn app.
 
@@ -304,11 +307,12 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True):
 	@app_info: Used for startup notification, if @startup_notify is True
 	@filelist: Used for startup notification
 	@startup_notify: Use startup notification
+	@timestamp: Event timestamp
 	"""
 	notify_id = None
 	if startup_notify:
 		ctx = gtk.gdk.AppLaunchContext()
-		ctx.set_timestamp(gtk.get_current_event_time())
+		ctx.set_timestamp(timestamp or gtk.get_current_event_time())
 		# This not only returns the string ID but
 		# it actually starts the startup notification!
 		notify_id = ctx.get_startup_notify_id(app_info, filelist)
