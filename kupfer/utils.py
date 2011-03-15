@@ -10,6 +10,7 @@ import glib
 
 from kupfer import pretty
 from kupfer import kupferstring
+from kupfer import desktop_launch
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -177,6 +178,13 @@ class AsyncCommand (object):
 			self.killed = True
 			os.kill(self.pid, signal.SIGKILL)
 
+
+TERM = "gnome-terminal"
+TERM_STARTUPNOTIFY = True
+TERM_ID = "gnome-terminal.desktop"
+
+def spawn_terminal(workdir=None):
+	desktop_launch.spawn_app_id(TERM_ID, [TERM], workdir, TERM_STARTUPNOTIFY)
 
 def spawn_async(argv, in_dir="."):
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)

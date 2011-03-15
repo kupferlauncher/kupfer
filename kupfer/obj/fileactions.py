@@ -82,9 +82,7 @@ class OpenTerminal (Action):
 		super(OpenTerminal, self).__init__(name)
 	
 	def activate(self, leaf):
-		# any: take first successful command
-		any(utils.spawn_async((term, ), in_dir=leaf.object) for term in
-			("xdg-terminal", "gnome-terminal", "xterm"))
+		utils.spawn_terminal(leaf.object)
 
 	def get_description(self):
 		return _("Open this location in a terminal")
