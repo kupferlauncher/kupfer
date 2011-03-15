@@ -41,6 +41,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 		'Keybindings': {},
+		"Tools": {},
 	}
 	def __init__(self):
 		gobject.GObject.__init__(self)
@@ -373,6 +374,16 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		for key, value in self.get_from_defaults('Keybindings'):
 			self._set_config('Keybindings', key, value)
 
+	def get_preferred_tool(self, tool_id):
+		"""
+		Get preferred ID for a @tool_id
+
+		Supported: 'terminal'
+		"""
+		return self.get_config("Tools", tool_id)
+
+	def set_preferred_tool(self, tool_id, value):
+		return self._set_config("Tools", tool_id, key)
 
 
 # Section, Key, Value

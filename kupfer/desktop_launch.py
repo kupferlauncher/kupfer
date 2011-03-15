@@ -11,11 +11,10 @@ import xdg.DesktopEntry
 import xdg.Exceptions
 
 from kupfer import desktop_parse
+from kupfer import terminal
 
 __all__ = ['launch_app_info']
 
-TERMINAL = ["gnome-terminal", "-x"]
-TERM_STARTUPNOTIFY = True
 STARTUP_ENV = "DESKTOP_STARTUP_ID"
 
 # TODO: Broadcast Gio's launched message on dbus
@@ -270,11 +269,16 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None):
 	if in_terminal is None:
 		in_terminal = desktop_info["Terminal"]
 	if in_terminal:
-		notify = notify or TERM_STARTUPNOTIFY
+		term = terminal.get_configured_terminal()
+		notify = notify or term.startup_notify
 
 	for argv, gfiles in launch_records:
 		if in_terminal:
-			argv = TERMINAL + argv
+			term = terminal.get_configured_terminal()
+			targv = list(term.argv)
+			if term.exearg:
+				targv.append(term.exearg)
+			argv = targv + argv
 		ret = spawn_app(app_info, argv, gfiles, workdir, notify)
 		if not ret:
 			return False

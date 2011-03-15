@@ -12,6 +12,7 @@ from kupfer import pretty
 from kupfer import kupferstring
 from kupfer import desktop_launch
 from kupfer import desktop_parse
+from kupfer import terminal
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -180,24 +181,19 @@ class AsyncCommand (object):
 			os.kill(self.pid, signal.SIGKILL)
 
 
-TERM = "gnome-terminal"
-TERM_STARTUPNOTIFY = True
-TERM_EXECARG = "-x"
-TERM_ID = "gnome-terminal.desktop"
-
-def _get_term_argv(_argv):
-	argv = [TERM]
-	if TERM_EXECARG:
-		argv.append(TERM_EXECARG)
-	argv.extend(_argv)
-	return argv
-
 def spawn_terminal(workdir=None):
-	desktop_launch.spawn_app_id(TERM_ID, [TERM], workdir, TERM_STARTUPNOTIFY)
+	term = terminal.get_configured_terminal()
+	notify = term.startup_notify
+	desktop_launch.spawn_app_id(term.app_id, term.argv, workdir, notify)
 
 def spawn_in_terminal(argv, workdir=None):
-	_argv = _get_term_argv(argv)
-	desktop_launch.spawn_app_id(TERM_ID, _argv , workdir, TERM_STARTUPNOTIFY)
+	term = terminal.get_configured_terminal()
+	notify = term.startup_notify
+	_argv = list(term.argv)
+	if term.exearg:
+		_argv.append(term.exearg)
+	_argv.extend(argv)
+	desktop_launch.spawn_app_id(term.app_id, _argv , workdir, notify)
 
 def spawn_async_notify_as(app_id, argv):
 	"""
