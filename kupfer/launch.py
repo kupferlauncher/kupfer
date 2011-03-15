@@ -31,6 +31,24 @@ default_associations = {
 }
 
 
+_seq = [0]
+_latest_event_time = 0
+
+def make_startup_notification_id():
+	time = _current_event_time()
+	_seq[0] = _seq[0] + 1
+	return "%s-%d-%s_TIME%d" % ("kupfer", os.getpid(), _seq[0], time)
+
+def _current_event_time():
+	_time = gtk.get_current_event_time() or keybindings.get_current_event_time()
+	global _latest_event_time
+	if _time > 0:
+		_latest_event_time = _time
+	else:
+		_time = _latest_event_time
+	return _time
+
+
 def application_id(app_info, desktop_file=None):
 	"""Return an application id (string) for GAppInfo @app_info"""
 	app_id = app_info.get_id()
@@ -39,9 +57,6 @@ def application_id(app_info, desktop_file=None):
 	if app_id.endswith(".desktop"):
 		app_id = app_id[:-len(".desktop")]
 	return app_id
-
-def _current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 	                   activate=True, desktop_file=None):
