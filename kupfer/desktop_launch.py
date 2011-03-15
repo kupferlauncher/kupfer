@@ -225,7 +225,12 @@ def _file_and_info_for_app_info(app_info):
 			error_log("Read error:", exc)
 	return desktop_file, desktop_info
 
-def launch_app_info(app_info, gfiles=[]):
+def launch_app_info(app_info, gfiles=[], in_terminal=None):
+	"""
+	Launch @app_info, opening @gfiles
+
+	@in_terminal: override Terminal flag
+	"""
 	desktop_file, desktop_info = _file_and_info_for_app_info(app_info)
 	if not desktop_file or not desktop_info:
 		# Allow in-memory app_info creations (without id or desktop file)
@@ -262,11 +267,10 @@ def launch_app_info(app_info, gfiles=[]):
 	notify = desktop_info["StartupNotify"]
 	workdir = desktop_info["Path"] or None
 
-	if desktop_info["Terminal"]:
-		in_terminal = True
+	if in_terminal is None:
+		in_terminal = desktop_info["Terminal"]
+	if in_terminal:
 		notify = notify or TERM_STARTUPNOTIFY
-	else:
-		in_terminal = False
 
 	for argv, gfiles in launch_records:
 		if in_terminal:
