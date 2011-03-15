@@ -127,6 +127,7 @@
                         </child>
                       </object>
                       <packing>
+                        <property name="expand">False</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -489,6 +490,7 @@
                             <property name="label" translatable="yes">&lt;b&gt;Exported Objects from Plugins&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
+                            <property name="width_chars">30</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -507,13 +509,12 @@
 An unticked source's contents are only available by locating its subcatalog and entering it.</property>
                                 <property name="use_markup">True</property>
                                 <property name="wrap">True</property>
-                                <property name="width_chars">25</property>
+                                <property name="width_chars">30</property>
                               </object>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="fill">False</property>
                             <property name="padding">2</property>
                             <property name="position">1</property>
                           </packing>
