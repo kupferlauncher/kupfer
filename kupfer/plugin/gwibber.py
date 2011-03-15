@@ -468,6 +468,9 @@ class SendToAccountSource(Source):
 						self._required_feature in service['features']:
 					yield Account(account, service['name'], False)
 
+	def get_icon_name(self):
+		return 'gwibber'
+
 	def provides(self):
 		yield Account
 
