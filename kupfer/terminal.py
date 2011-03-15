@@ -25,6 +25,13 @@ def register_terminal(terminal_description):
 def unregister_terminal(terminal_id):
 	_TERMINALS[:] = [t for t in _TERMINALS if t.app_id != terminal_id]
 
+def is_known_terminal_executable(exearg):
+	"Return True if @exearg is a known terminal"
+	for term in _TERMINALS:
+		if exearg == term.argv[0]:
+			return True
+	return False
+
 def get_valid_terminals():
 	for term in _TERMINALS:
 		# iterate over $PATH directories
