@@ -247,13 +247,15 @@ def _info_for_desktop_file(desktop_file):
 	return desktop_info
 
 def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
-	                desktop_file=None):
+	                desktop_file=None, launch_cb=None):
 	"""
 	Launch @app_info, opening @gfiles
 
 	@in_terminal: override Terminal flag
 	@timestamp: override timestamp
 	@desktop_file: specify location of desktop file
+	@launch_cb: Called once per launched process,
+	            like ``spawn_app``
 	"""
 	desktop_file = desktop_file or _file_for_app_info(app_info)
 	desktop_info = _info_for_desktop_file(desktop_file)
@@ -306,7 +308,7 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
 				targv.append(term.exearg)
 			argv = targv + argv
 		ret = spawn_app(app_info, argv, gfiles, workdir, notify,
-		                timestamp=timestamp)
+		                timestamp=timestamp, launch_cb=launch_cb)
 		if not ret:
 			return False
 	return True
@@ -323,7 +325,7 @@ def spawn_app_id(app_id, argv, workdir=None, startup_notify=True):
 	return spawn_app(app_info, argv, [], workdir, startup_notify)
 
 def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
-	          timestamp=None):
+	          timestamp=None, launch_cb=None):
 	"""
 	Spawn app.
 
@@ -333,6 +335,10 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	@filelist: Used for startup notification
 	@startup_notify: Use startup notification
 	@timestamp: Event timestamp
+	@launch_cb: Called if successful with
+	            (argv, pid, notify_id, filelist, timestamp)
+
+	return PID on success, else None
 	"""
 	notify_id = None
 	if startup_notify:
@@ -353,7 +359,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	try:
 		debug_log("Launching", argv)
 		debug_log("Startup Notify ID:", notify_id)
-		pid = glib.spawn_async(argv,
+		(pid, _ig1, _ig2, _ig3) = glib.spawn_async(argv,
 		                       working_directory=workdir,
 		                       flags=glib.SPAWN_SEARCH_PATH,
 		                       child_setup=child_setup,
@@ -363,8 +369,10 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 		error_log("Error Launching ", argv, unicode(exc))
 		if notify_id:
 			gtk.gdk.notify_startup_complete_with_id(notify_id)
-		return False
-	return True
+		return None
+	if launch_cb:
+		launch_cb(argv, pid, notify_id, filelist, timestamp)
+	return pid
 
 def child_setup(add_environ):
 	"""Called to setup the child process before exec()
