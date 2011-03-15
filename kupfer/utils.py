@@ -230,6 +230,7 @@ def argv_for_commandline(cli):
 def launch_commandline(cli, name=None, in_terminal=False):
 	from kupfer import launch
 	argv = desktop_parse.parse_argv(cli)
+	pretty.print_error(__name__, "Launch commandline is deprecated ")
 	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", argv, sep="")
 	if in_terminal:
 		return spawn_in_terminal(argv)
