@@ -51,7 +51,7 @@ class TsclientOpenSession(Action):
 
 	def activate(self, leaf):
 		session = leaf[TSCLIENT_SESSION_KEY]
-		utils.launch_commandline("tsclient -x '%s'" % session)
+		utils.spawn_async(["tsclient", "-x", session])
 
 	def get_icon_name(self):
 		return 'tsclient'

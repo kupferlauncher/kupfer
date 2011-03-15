@@ -224,7 +224,7 @@ class TrackerAddTag (Action):
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
-		utils.launch_commandline("tracker-tag --add='%s' '%s'" % (obj, lpath))
+		utils.spawn_async(["tracker-tag", "--add=%s" % obj, lpath])
 
 	def requires_object(self):
 		return True
@@ -256,7 +256,7 @@ class TrackerRemoveTag (Action):
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
-		utils.launch_commandline("tracker-tag --remove='%s' '%s'" % (obj, lpath))
+		utils.spawn_async(["tracker-tag", "--remove=%s" % obj, lpath])
 
 	def requires_object(self):
 		return True

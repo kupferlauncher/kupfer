@@ -13,8 +13,8 @@ class LookUp (Action):
 		Action.__init__(self, _("Look Up"))
 	def activate(self, leaf):
 		text = leaf.object
-		utils.launch_commandline("gnome-dictionary --look-up='%s'" % text,
-				_("Look Up"))
+		utils.spawn_async_notify_as("gnome-dictionary.desktop",
+		                           ["gnome-dictionary", "--look-up=%s" % text])
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):

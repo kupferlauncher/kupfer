@@ -29,7 +29,7 @@ def mount_volume_in_truecrypt(filepath):
 	'''
 	# escape ' characters
 	filepath = filepath.replace("'", "'\\''")
-	utils.launch_commandline("truecrypt '%s'" % filepath)
+	utils.spawn_async(["truecrypt", filepath])
 
 
 class Volume(Leaf):
@@ -80,7 +80,7 @@ class DismountAll(Action):
 		Action.__init__(self, _("Dismount All Volumes"))
 
 	def activate(self, leaf, iobj=None):
-		utils.launch_commandline('truecrypt -d')
+		utils.spawn_async(['truecrypt', '-d'])
 
 	def get_icon_name(self):
 		return "hdd_unmount"
