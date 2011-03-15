@@ -86,7 +86,6 @@ kupfer/plugin/higherorder.py
 kupfer/plugin/image.py
 kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/locate.py
-kupfer/plugin/twitter/__init__.py
 kupfer/plugin/openoffice.py
 kupfer/plugin/opera.py
 kupfer/plugin/operamail.py
