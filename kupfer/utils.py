@@ -181,12 +181,25 @@ class AsyncCommand (object):
 
 TERM = "gnome-terminal"
 TERM_STARTUPNOTIFY = True
+TERM_EXECARG = "-x"
 TERM_ID = "gnome-terminal.desktop"
+
+def _get_term_argv(_argv):
+	argv = [TERM]
+	if TERM_EXECARG:
+		argv.append(TERM_EXECARG)
+	argv.extend(_argv)
+	return argv
 
 def spawn_terminal(workdir=None):
 	desktop_launch.spawn_app_id(TERM_ID, [TERM], workdir, TERM_STARTUPNOTIFY)
 
+def spawn_in_terminal(argv, workdir=None):
+	_argv = _get_term_argv(argv)
+	desktop_launch.spawn_app_id(TERM_ID, _argv , workdir, TERM_STARTUPNOTIFY)
+
 def spawn_async(argv, in_dir="."):
+	"Silently spawn @argv in the background"
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
 	argv = _argv_to_locale(argv)
 	try:
@@ -205,9 +218,12 @@ def app_info_for_commandline(cli, name=None, in_terminal=False):
 
 def launch_commandline(cli, name=None, in_terminal=False):
 	from kupfer import launch
-	app_info = app_info_for_commandline(cli, name, in_terminal)
-	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", cli, sep="")
-	return launch.launch_application(app_info, activate=False, track=False)
+	from kupfer import desktop_parse
+	argv = desktop_parse.parse_argv(cli)
+	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", argv, sep="")
+	if in_terminal:
+		return spawn_in_terminal(argv)
+	return spawn_async(argv)
 
 def launch_app(app_info, files=(), uris=(), paths=()):
 	from kupfer import launch
