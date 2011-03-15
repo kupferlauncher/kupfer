@@ -44,13 +44,24 @@ def gtk_to_unicode(gtkstring):
 	return gtkstring.decode("UTF-8", "ignore")
 
 def find_desktop_file(desk_id):
-	"""Find file for @desk_id or raise ResourceLookupError"""
+	"""Find file for @desk_id or raise ResourceLookupError
+
+	Desktop files are found by appending /applications/ to
+	$XDG_DATA_DIRS, but if they are located in subdirs of that,
+	then additional 'subdirectory-' prefixes are used.
+	"""
 	if not desk_id:
 		raise ResourceLookupError("Empty id")
 	try:
 		return next(xdg.BaseDirectory.load_data_paths("applications", desk_id))
 	except StopIteration:
-		raise ResourceLookupError("Cannot locate '%s'" % (desk_id,))
+		if "-" in desk_id:
+			try:
+				return next(xdg.BaseDirectory.load_data_paths(
+					"applications", *desk_id.split("-", 1)))
+			except StopIteration:
+				pass
+	raise ResourceLookupError("Cannot locate '%s'" % (desk_id,))
 
 def read_desktop_info(desktop_file):
 	"""
