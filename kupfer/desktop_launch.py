@@ -6,14 +6,15 @@ import glib
 import gio
 import gtk
 
-import xdg
 import xdg.DesktopEntry
 import xdg.Exceptions
 
 from kupfer import desktop_parse
+from kupfer import kupferstring
+from kupfer import pretty
 from kupfer import terminal
 
-__all__ = ['launch_app_info']
+__all__ = ['launch_app_info', 'spawn_app', 'spawn_app_id']
 
 STARTUP_ENV = "DESKTOP_STARTUP_ID"
 
@@ -22,8 +23,13 @@ STARTUP_ENV = "DESKTOP_STARTUP_ID"
 #       are really only sending xmessages. (roughly).
 
 def debug_log(*args):
-	print " ".join(str(s) for s in args)
-warning_log = error_log = debug_log
+	pretty.print_debug(__name__, *args)
+warning_log = debug_log
+
+def error_log(*args):
+	pretty.print_error(__name__, *args)
+def exc_log():
+	pretty.print_exc(__name__)
 
 class ResourceLookupError (Exception):
 	"Unable to find resource"
@@ -214,14 +220,14 @@ def _file_and_info_for_app_info(app_info):
 	desktop_info = None
 	try:
 		desktop_file = find_desktop_file(app_info.get_id())
-	except ResourceLookupError as exc:
-		error_log("Error:", exc)
+	except ResourceLookupError:
+		exc_log()
 		desktop_file = None
 	else:
 		try:
 			desktop_info = read_desktop_info(desktop_file)
-		except ResourceReadError as exc:
-			error_log("Read error:", exc)
+		except ResourceReadError:
+			exc_log()
 	return desktop_file, desktop_info
 
 def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None):
@@ -323,7 +329,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	if not workdir or not os.path.exists(workdir):
 		workdir = "."
 
-	argv = list(encode_argv(argv, "UTF-8"))
+	argv = list(locale_encode_argv(argv))
 
 	try:
 		debug_log("Launching", argv)
@@ -335,7 +341,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 		                       user_data=child_env_add)
 		debug_log("Launched child with PID", pid)
 	except glib.GError as exc:
-		error_log("Error Launching ", argv, exc)
+		error_log("Error Launching ", argv, unicode(exc))
 		if notify_id:
 			gtk.gdk.notify_startup_complete_with_id(notify_id)
 		return False
@@ -348,10 +354,10 @@ def child_setup(add_environ):
 	for key in add_environ:
 		os.putenv(key, add_environ[key])
 
-def encode_argv(argv, encoding):
+def locale_encode_argv(argv):
 	for x in argv:
 		if isinstance(x, unicode):
-			yield x.encode(encoding, "ignore")
+			yield kupferstring.tolocale(x)
 		else:
 			yield x
 
