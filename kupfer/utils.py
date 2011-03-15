@@ -216,14 +216,6 @@ def spawn_async(argv, in_dir="."):
 	except gobject.GError, exc:
 		pretty.print_debug(__name__, "spawn_async", argv, exc)
 
-def app_info_for_commandline(cli, name=None, in_terminal=False):
-	import gio
-	flags = gio.APP_INFO_CREATE_NEEDS_TERMINAL if in_terminal else gio.APP_INFO_CREATE_NONE
-	if not name:
-		name = cli
-	item = gio.AppInfo(cli, name, flags)
-	return item
-
 def argv_for_commandline(cli):
 	return desktop_parse.parse_argv(cli)
 
