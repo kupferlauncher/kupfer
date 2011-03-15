@@ -69,15 +69,14 @@ class OpenWith (Action):
 	def __init__(self):
 		Action.__init__(self, _("Open With..."))
 
-	def _activate(self, desktop_item, paths):
-		utils.launch_app(desktop_item, paths=paths)
-	def activate(self, leaf, obj):
-		desktop_item = obj.object
-		self._activate(desktop_item, (leaf.object, ))
+	def _activate(self, app_leaf, paths):
+		app_leaf.launch(paths=paths)
+	def activate(self, leaf, iobj):
+		self._activate(iobj, (leaf.object, ))
 	def activate_multiple(self, objects, iobjects):
 		# for each application, launch all the files
 		for iobj_app in iobjects:
-			self._activate(iobj_app.object, [L.object for L in objects])
+			self._activate(iobj_app, [L.object for L in objects])
 
 	def item_types(self):
 		yield FileLeaf

@@ -104,7 +104,7 @@ class SendTo (Action):
 
 	def activate_multiple(self, leaves, iobjs):
 		for app in iobjs:
-			utils.launch_app(app.object, paths=[leaf.object for leaf in leaves])
+			app.launch(paths=[leaf.object for leaf in leaves])
 
 	def activate(self, leaf, iobj):
 		self.activate_multiple((leaf, ), (iobj, ))
