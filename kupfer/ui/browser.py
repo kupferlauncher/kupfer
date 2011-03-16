@@ -1269,6 +1269,19 @@ class Interface (gobject.GObject):
 				self.reset_text()
 			return True
 
+	def get_context_actions(self):
+		"""
+		Get a list of (name, function) currently
+		active context actions
+		"""
+		has_match = self.current.get_match_state() == State.Match
+		if has_match:
+			yield (_("Compose Command"), self.compose_action)
+			#yield (_("Comma Trick"), self.comma_trick)
+		yield (_("Select Selected Text"), self.select_selected_text)
+		if self.get_can_enter_text_mode():
+			yield (_("Toggle Text Mode"), self.toggle_text_mode_quick)
+
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
 		if not item:
@@ -1520,6 +1533,10 @@ class WindowController (pretty.OutputMixin):
 				self.put_away()
 			return True
 
+		def submenu_callback(menuitem, callback):
+			callback()
+			return True
+
 		def add_menu_item(icon, callback, label=None):
 			mitem = None
 			if label and not icon:
@@ -1534,6 +1551,13 @@ class WindowController (pretty.OutputMixin):
 		else:
 			add_menu_item(None, self.activate, _("Show Main Interface"))
 		menu.append(gtk.SeparatorMenuItem())
+		if context_menu:
+			for name, func in self.interface.get_context_actions():
+				mitem = gtk.MenuItem(label=name)
+				mitem.connect("activate", submenu_callback, func)
+				menu.append(mitem)
+			menu.append(gtk.SeparatorMenuItem())
+
 		add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
 		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
 		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
