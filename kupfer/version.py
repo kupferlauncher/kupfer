@@ -19,6 +19,11 @@ Karol Będkowski
 Francesco Marella
 Chmouel Boudjnah
 Horia V. Corcalciuc
+Grigory Javadyan
+Chris Parsons
+Fabian Carlström
+Jakh Daven
+Thomas Renard
 """.splitlines()
 
 PACKAGERS=u"""
@@ -28,15 +33,19 @@ Francesco Marella (Ubuntu PPA)
 
 TRANSLATORS=u"""
 Marek Černocký (cs)
+Petr Kovar (cs)
+Joe Hansen (da)
 Thibaud Roth (de)
 Mario Blättermann (de)
 Leandro Leites (es)
 Jesús Barbero Rodríguez (es)
 Jorge González (es)
+Daniel Mustieles (es)
 Oier Mees (eu)
 Iñaki Larrañaga Murgoitio (eu)
 Christophe Benz (fr)
 Marcos Lans (gl)
+Fran Diéguez (gl)
 Andrea Zagli (it)
 Francesco Marella (it)
 Martin Koelewijn (nl)
@@ -45,8 +54,11 @@ Maciej Kwiatkowski (pl)
 Karol Będkowski (pl)
 Carlos Pais (pt)
 Andrej Žnidaršič (sl)
+Matej Urbančič (sl)
 M. Deran Delice (tr)
 lh (zh_CN)
+Aron Xu (zh_CN)
+Yinghua Wang (zh_CN)
 """.splitlines()
 
 ARTISTS=u"""Nasser Alshammari <designernasser@gmail.com>
@@ -64,7 +76,7 @@ WEBSITE = u"http://kaizer.se/wiki/kupfer/"
 HELP_WEBSITE = u"http://kaizer.se/wiki/kupfer/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = u"""Copyright © 2007--2010 Ulrik Sverdrup with others"""
+COPYRIGHT = u"""Copyright © 2007--2011 Ulrik Sverdrup with others"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify
