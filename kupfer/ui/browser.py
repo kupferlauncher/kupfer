@@ -282,8 +282,11 @@ class MatchView (gtk.Bin):
 		self.icon_view = gtk.Image()
 
 		# infobox: icon and match name
+		icon_align = gtk.Alignment(0.5, 0.5, 0, 0)
+		icon_align.set_property("top-padding", 5)
+		icon_align.add(self.icon_view)
 		infobox = gtk.HBox()
-		infobox.pack_start(self.icon_view, True, True, 0)
+		infobox.pack_start(icon_align, True, True, 0)
 		box = gtk.VBox()
 		box.pack_start(infobox, True, False, 0)
 		self._editbox = gtk.HBox()
