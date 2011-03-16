@@ -132,11 +132,6 @@ def _set_process_title():
 	else:
 		setproctitle.setproctitle("kupfer")
 
-def _block_incompat_modules():
-	""" block modules incompatible with the program license """
-	for mod in ['ssl', '_ssl']:
-		sys.modules[mod] = None
-
 def gtkmain(quiet):
 	import pygtk
 	pygtk.require('2.0')
@@ -166,7 +161,6 @@ def main():
 			pass
 	sys.excepthook = sys.__excepthook__
 	_set_process_title()
-	_block_incompat_modules()
 
 	quiet = ("--no-splash" in cli_opts)
 	gtkmain(quiet)
