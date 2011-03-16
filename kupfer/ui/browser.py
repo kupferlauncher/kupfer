@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import itertools
+import math
 import os
 import signal
 import sys
@@ -14,6 +15,7 @@ except ImportError:
 import gtk
 import gio
 import gobject
+import cairo
 
 from kupfer import kupferui
 from kupfer import version
@@ -1476,6 +1478,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		self._use_window_decorations = True
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1566,6 +1569,7 @@ class WindowController (pretty.OutputMixin):
 
 		self.window.connect("delete-event", self._close_window)
 		self.window.connect("focus-out-event", self._lost_focus)
+		self.window.connect("size-allocate", self._size_allocate)
 		widget = self.interface.get_widget()
 		widget.show()
 
@@ -1575,6 +1579,9 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
+		if not self._use_window_decorations:
+			self.window.set_property("border-width", 8)
+			self.window.set_decorated(False)
 		if not text_direction_is_ltr():
 			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
 		# Setting not resizable changes from utility window
@@ -1596,6 +1603,36 @@ class WindowController (pretty.OutputMixin):
 
 	def result_callback(self, sender, result_type):
 		self.activate()
+
+	def _size_allocate(self, win, allocation):
+		if self._use_window_decorations:
+			return
+		w,h = allocation.width, allocation.height
+		bitmap = gtk.gdk.Pixmap(None, w, h, 1)
+		cr = bitmap.cairo_create()
+
+		cr.set_source_rgb(0.0, 0.0, 0.0)
+		cr.set_operator(cairo.OPERATOR_CLEAR)
+		cr.paint()
+
+		# radius of rounded corner
+		arc_sz = 10
+		cr.set_source_rgb(1.0, 1.0, 1.0)
+		cr.set_operator(cairo.OPERATOR_SOURCE)
+		cr.move_to(arc_sz, 0)
+		cr.line_to(w-arc_sz,0)
+		cr.arc(w-arc_sz, arc_sz, arc_sz, 3/2*math.pi, 2*math.pi)
+		cr.line_to(w, h-arc_sz)
+		cr.arc(w-arc_sz, h-arc_sz, arc_sz, 0, math.pi/2)
+		cr.line_to(arc_sz, h)
+		cr.arc(arc_sz, h-arc_sz, arc_sz, math.pi/2, math.pi)
+		cr.line_to(0, arc_sz)
+		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, math.pi/2)
+		cr.close_path()
+		cr.fill()
+
+		win.shape_combine_mask(bitmap, 0, 0)
+
 
 	def _lost_focus(self, window, event):
 		setctl = settings.GetSettingsController()
