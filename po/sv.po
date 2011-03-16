@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-11 01:25+0100\n"
+"POT-Creation-Date: 2011-03-16 21:02+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -25,7 +25,7 @@ msgid "Application Launcher"
 msgstr "Programstartare"
 
 msgid "Convenient command and access tool for applications and documents"
-msgstr "Flexibelt kommandoprogram för program och dokument"
+msgstr "Praktiskt kommandoprogram för åtkomst av program och dokument"
 
 msgid "Kupfer"
 msgstr "Kupfer"
@@ -46,7 +46,7 @@ msgid "<b>Exported Objects from Plugins</b>"
 msgstr "<b>Objekt exporterade från insticksmoduler</b>"
 
 msgid "<b>Global Keyboard Shortcuts</b>"
-msgstr "<b>Globala Tagentbordsgenvägar</b>"
+msgstr "<b>Globala tangentbordsgenvägar</b>"
 
 msgid "<b>Interface</b>"
 msgstr "<b>Gränssnitt</b>"
@@ -79,7 +79,7 @@ msgid "Show icon in notification area"
 msgstr "Visa ikon i notifieringsytan"
 
 msgid "Start automatically on login"
-msgstr "Starta automatiskt vid login"
+msgstr "Starta automatiskt vid inloggning"
 
 msgid ""
 "Untick the box next to a source to hide its objects in the top level "
@@ -450,7 +450,7 @@ msgid "Root catalog"
 msgstr "Rotkatalog"
 
 msgid "Please Configure Plugin"
-msgstr "V.v konfigurera insticksmodulen"
+msgstr "V.v. konfigurera insticksmodulen"
 
 #, python-format
 msgid "Plugin %s is not configured"
@@ -479,7 +479,7 @@ msgid "Kupfer Help"
 msgstr "Hjälp med Kupfer"
 
 msgid "Get help with Kupfer"
-msgstr "Få hjälp med Kupfer"
+msgstr "Öppna Kupfers användardokumentation"
 
 msgid "Show preferences window for Kupfer"
 msgstr "Visa Kupfers inställningsfönster"
@@ -588,7 +588,7 @@ msgid "Run (Get Output)"
 msgstr "Kör (Hämta utdata)"
 
 msgid "Run program and return its output"
-msgstr "Kör program och returnera dess utdata"
+msgstr "Kör ett program och returnera dess utdata"
 
 #. TRANS: The user starts a program (command) and the text
 #. TRANS: is an argument to the command
@@ -596,7 +596,7 @@ msgid "Pass to Command..."
 msgstr "Skicka till kommando..."
 
 msgid "Run program with object as an additional parameter"
-msgstr "Kör program och skicka objektet som sista parameter"
+msgstr "Kör ett program och skicka objektet som sista parameter"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
@@ -604,7 +604,7 @@ msgid "Write to Command..."
 msgstr "Skriv till kommando..."
 
 msgid "Run program and supply text on the standard input"
-msgstr "Kör program och skriv text på std. in"
+msgstr "Kör ett program och skriv texten på std. in"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
@@ -705,7 +705,7 @@ msgid "Copy To..."
 msgstr "Kopiera till..."
 
 msgid "Copy file to a chosen location"
-msgstr "Kopiera filen till en vald plats"
+msgstr "Kopiera filen till vald plats"
 
 msgid "Extract Here"
 msgstr "Packa upp här"
@@ -1112,7 +1112,7 @@ msgstr "Installera paket m.h.a den konfigurerade metoden"
 
 #, python-format
 msgid "Packages matching \"%s\""
-msgstr "Paket som matchar \"%s\""
+msgstr "Paketträffar för \"%s\""
 
 msgid "Search Package Name..."
 msgstr "Sök paketnamn..."
@@ -1245,7 +1245,7 @@ msgid "Busy"
 msgstr "Stör inte"
 
 msgid "Not Available"
-msgstr "Frånvarande"
+msgstr "Ej tillgänglig"
 
 msgid "Invisible"
 msgstr "Osynlig"
@@ -1396,10 +1396,10 @@ msgid "User albums in Picasa"
 msgstr "Användaralbum i Picasa"
 
 msgid "Google Search"
-msgstr "Sök Google"
+msgstr "Sök med Google"
 
 msgid "Search Google with results shown directly"
-msgstr "Sök Google och visa resultat direkt"
+msgstr "Sök med Google och visa resultat direkt"
 
 #, python-format
 msgid "Results for \"%s\""
@@ -1689,44 +1689,6 @@ msgstr "Sök filsystemet med 'locate'"
 
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorera skillnad i gemener och VERSALER"
-
-msgid "Twitter"
-msgstr "Twitter"
-
-msgid "Microblogging with Twitter: send updates and show friends' tweets"
-msgstr "Mikroblogga med Twitter: Skicka uppdateringar och åtkom vänners tweets"
-
-msgid "Load friends' pictures"
-msgstr "Läs in vänners bilder"
-
-msgid "Load friends' public tweets"
-msgstr "Läs in vänners publika tweets"
-
-msgid "Load timeline"
-msgstr "Läs in tidslinje"
-
-msgid "Post Update to Twitter"
-msgstr "Skicka uppdatering till Twitter"
-
-msgid "Send Direct Message..."
-msgstr "Skicka direktmeddelande..."
-
-msgid "Send Direct Message To..."
-msgstr "Skicka direktmeddelande till..."
-
-#, python-format
-msgid "%(user)s %(when)s"
-msgstr "%(user)s %(when)s"
-
-msgid "Twitter Timeline"
-msgstr "Twitter-tidslinje"
-
-msgid "Twitter Friends"
-msgstr "Twitter-vänner"
-
-#, python-format
-msgid "Timeline for %s"
-msgstr "Tidslinje för %s"
 
 #. -*- coding: UTF-8 -*-
 msgid "OpenOffice / LibreOffice"
@@ -2225,5 +2187,3 @@ msgstr "Zim-sidor"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
 
-#~ msgid "Send message to one Gwibber account"
-#~ msgstr "Skicka meddelande till ett Gwibber-konto"
