@@ -224,6 +224,7 @@ class MatchView (gtk.Bin):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.label_char_width = 25
+		self.preedit_char_width = 5
 		self.match_state = State.Wait
 		self.icon_size = icon_size
 
@@ -253,7 +254,7 @@ class MatchView (gtk.Bin):
 		"""
 		from pango import ELLIPSIZE_MIDDLE
 		self.label = gtk.Label("<match>")
-		self.label.set_justify(gtk.JUSTIFY_CENTER)
+		self.label.set_single_line_mode(True)
 		self.label.set_width_chars(self.label_char_width)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.icon_view = gtk.Image()
@@ -263,7 +264,9 @@ class MatchView (gtk.Bin):
 		infobox.pack_start(self.icon_view, True, True, 0)
 		box = gtk.VBox()
 		box.pack_start(infobox, True, False, 0)
-		box.pack_start(self.label, False, True, 0)
+		self._editbox = gtk.HBox()
+		self._editbox.pack_start(self.label, True, True, 0)
+		box.pack_start(self._editbox, False, True, 0)
 		self.event_box = gtk.EventBox()
 		self.event_box.add(box)
 		self.add(self.event_box)
@@ -392,13 +395,34 @@ class MatchView (gtk.Bin):
 		if update:
 			self.update_match()
 
-	def set_state(self, state):
+	def expand_preedit(self, preedit):
+		new_label_width = self.label_char_width - self.preedit_char_width
+		self.label.set_width_chars(new_label_width)
+		preedit.set_width_chars(self.preedit_char_width)
+		pass
+
+	def shrink_preedit(self, preedit):
+		self.label.set_width_chars(self.label_char_width)
+		preedit.set_width_chars(0)
+		pass
+
+	def inject_preedit(self, preedit):
 		"""
-		Widget state (Active/normal/prelight etc)
+		@preedit: Widget to be injected or None
 		"""
-		super(MatchView, self).set_state(state)
-		#self.label.set_state(gtk.STATE_NORMAL)
-		self.event_box.queue_draw()
+		if preedit:
+			old_parent = preedit.get_parent()
+			if old_parent:
+				old_parent.remove(preedit)
+			self.shrink_preedit(preedit)
+			self._editbox.pack_start(preedit, False, True, 0)
+			selectedc = self.style.dark[gtk.STATE_SELECTED]
+			preedit.modify_bg(gtk.STATE_SELECTED, selectedc)
+			preedit.show()
+			preedit.grab_focus()
+		else:
+			self.label.set_width_chars(self.label_char_width)
+			self.label.set_alignment(.5,.5)
 
 gobject.type_register(MatchView)
 
@@ -710,11 +734,6 @@ class Search (gtk.Bin):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state(name, icon, state=State.NoMatch)
 
-	def set_active(self, act):
-		self.active = act
-		state = (gtk.STATE_NORMAL, gtk.STATE_SELECTED)[act]
-		self.match_view.set_state(state)
-
 # Take care of gobject things to set up the Search class
 gobject.type_register(Search)
 gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
@@ -793,6 +812,7 @@ class Interface (gobject.GObject):
 		self.third = LeafSearch()
 		self.entry = gtk.Entry()
 		self.label = gtk.Label()
+		self.preedit = gtk.Entry()
 
 		self.current = None
 
@@ -807,9 +827,11 @@ class Interface (gobject.GObject):
 		self._key_pressed = None
 		self._reset_to_toplevel = False
 		self._reset_when_back = False
-		self.entry.set_size_request(0, 0)
 		self.entry.connect("realize", self._entry_realized)
-		self.entry.set_property("im-module", "gtk-im-context-simple")
+		self.preedit.set_has_frame(False)
+		self.preedit.set_inner_border(gtk.Border(0, 0, 0, 0))
+		self.preedit.set_width_chars(0)
+		self.preedit.set_alignment(1)
 
 		from pango import ELLIPSIZE_END
 		self.label.set_width_chars(50)
@@ -817,12 +839,15 @@ class Interface (gobject.GObject):
 
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
-		self.entry.connect("activate", self._activate, None)
-		self.entry.connect("key-press-event", self._entry_key_press)
-		self.entry.connect("key-release-event", self._entry_key_release)
-		self.entry.connect("copy-clipboard", self._entry_copy_clipboard)
-		self.entry.connect("cut-clipboard", self._entry_cut_clipboard)
-		self.entry.connect("paste-clipboard", self._entry_paste_clipboard)
+		self.preedit.connect("changed", self._preedit_changed)
+		self.preedit.connect("preedit-changed", self._preedit_im_changed)
+		for widget in (self.entry, self.preedit):
+			widget.connect("activate", self._activate, None)
+			widget.connect("key-press-event", self._entry_key_press)
+			widget.connect("key-release-event", self._entry_key_release)
+			widget.connect("copy-clipboard", self._entry_copy_clipboard)
+			widget.connect("cut-clipboard", self._entry_cut_clipboard)
+			widget.connect("paste-clipboard", self._entry_paste_clipboard)
 
 		# set up panewidget => self signals
 		# as well as window => panewidgets
@@ -918,9 +943,7 @@ class Interface (gobject.GObject):
 		has_input = bool(self.entry.get_text())
 
 		curtime = time.time()
-		# if input is slow/new, we reset
-		self._latest_input_timer.set(self._slow_input_interval,
-				self._relax_search_terms)
+		self._reset_input_timer()
 
 		setctl = settings.GetSettingsController()
 		# process accelerators
@@ -1001,6 +1024,8 @@ class Interface (gobject.GObject):
 		elif keyv == key_book["BackSpace"]:
 			if not has_input:
 				self._backspace_key_press()
+			elif not text_mode:
+				self.entry.delete_text(self.entry.get_text_length() - 1, -1)
 			else:
 				return False
 		elif keyv == key_book["Left"]:
@@ -1171,18 +1196,14 @@ class Interface (gobject.GObject):
 	def update_text_mode(self):
 		"""update appearance to whether text mode enabled or not"""
 		if self._is_text_mode:
-			self.entry.set_size_request(-1,-1)
-			self.entry.set_property("has-frame", True)
-			# Reset text style to normal
-			self.entry.modify_text(gtk.STATE_NORMAL, None)
-			self.current.set_state(gtk.STATE_ACTIVE)
+			self.entry.show()
+			self.entry.grab_focus()
+			self.entry.set_position(-1)
+			self.preedit.hide()
+			self.preedit.set_width_chars(0)
 		else:
-			self.entry.set_size_request(0,0)
-			self.entry.set_property("has-frame", False)
-			# Use text color = background color
-			theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
-			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_bg)
-			self.current.set_state(gtk.STATE_SELECTED)
+			self.entry.hide()
+		self._update_active()
 
 	def switch_to_source(self):
 		if self.current is not self.search:
@@ -1288,9 +1309,15 @@ class Interface (gobject.GObject):
 		self.third.set_property("visible", show)
 
 	def _update_active(self):
-		self.action.set_active(self.action is self.current)
-		self.search.set_active(self.search is self.current)
-		self.third.set_active(self.third is self.current)
+		for panewidget in (self.action, self.search, self.third):
+			if panewidget is not self.current:
+				panewidget.set_state(gtk.STATE_NORMAL)
+			panewidget.match_view.inject_preedit(None)
+		if self._is_text_mode:
+			self.current.set_state(gtk.STATE_ACTIVE)
+		else:
+			self.current.set_state(gtk.STATE_SELECTED)
+			self.current.match_view.inject_preedit(self.preedit)
 		self._description_changed()
 
 	def switch_current(self, reverse=False):
@@ -1379,6 +1406,34 @@ class Interface (gobject.GObject):
 			filter(None, [gio.File(U).get_path() for U in fileuris]))
 		if leaves:
 			self.data_controller.insert_objects(data.SourcePane, leaves)
+
+	def _reset_input_timer(self):
+		# if input is slow/new, we reset
+		self._latest_input_timer.set(self._slow_input_interval,
+				self._relax_search_terms)
+
+	def _preedit_im_changed(self, editable, preedit_string):
+		"""
+		This is called whenever the input method changes its own preedit box.
+		We take this opportunity to expand it.
+		"""
+		if preedit_string:
+			self.current.match_view.expand_preedit(self.preedit)
+			self._reset_input_timer()
+
+	def _preedit_changed(self, editable):
+		"""
+		The preedit has changed. As below, we need to use unicode.
+		"""
+		text = editable.get_text()
+		text = text.decode("UTF-8")
+		if text:
+			self.entry.insert_text(text, -1)
+			self.entry.set_position(-1)
+			editable.delete_text(0, -1)
+			# uncomment this to reset width after every commit.
+			# self.current.match_view.shrink_preedit(self.preedit)
+			self._reset_input_timer()
 
 	def _changed(self, editable):
 		"""
