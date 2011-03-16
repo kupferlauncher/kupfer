@@ -889,9 +889,10 @@ class Interface (gobject.GObject):
 		self.preedit.set_width_chars(0)
 		self.preedit.set_alignment(1)
 
-		from pango import ELLIPSIZE_END
+		from pango import ELLIPSIZE_MIDDLE
 		self.label.set_width_chars(50)
-		self.label.set_ellipsize(ELLIPSIZE_END)
+		self.label.set_single_line_mode(True)
+		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
@@ -957,10 +958,13 @@ class Interface (gobject.GObject):
 		box.pack_start(self.third, True, True, 3)
 		vbox = gtk.VBox()
 		vbox.pack_start(box, True, True, 0)
-		vbox.pack_start(self.label, True, True, 0)
-		vbox.pack_start(self.entry, True, True, 0)
+
+		label_align = gtk.Alignment(0.5, 1, 0, 0)
+		label_align.set_property("top-padding", 3)
+		label_align.add(self.label)
+		vbox.pack_start(label_align, False, False, 0)
+		vbox.pack_start(self.entry, False, False, 0)
 		vbox.show_all()
-		self.label.hide()
 		self.third.hide()
 		self._widget = vbox
 		return vbox
@@ -1458,8 +1462,9 @@ class Interface (gobject.GObject):
 
 	def _description_changed(self):
 		match = self.current.get_current()
-		name = match and match.get_description() or ""
-		self.label.set_text(name)
+		desc = match and match.get_description() or ""
+		markup = "<small>%s</small>" % (escape_markup_str(desc), )
+		self.label.set_markup(markup)
 
 	def put_text(self, text):
 		"""
