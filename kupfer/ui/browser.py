@@ -952,9 +952,9 @@ class Interface (gobject.GObject):
 		if self._widget:
 			return self._widget
 		box = gtk.HBox()
-		box.pack_start(self.search, True, True, 0)
-		box.pack_start(self.action, True, True, 0)
-		box.pack_start(self.third, True, True, 0)
+		box.pack_start(self.search, True, True, 3)
+		box.pack_start(self.action, True, True, 3)
+		box.pack_start(self.third, True, True, 3)
 		vbox = gtk.VBox()
 		vbox.pack_start(box, True, True, 0)
 		vbox.pack_start(self.label, True, True, 0)
