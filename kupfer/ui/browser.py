@@ -1511,11 +1511,13 @@ class WindowController (pretty.OutputMixin):
 			if value: self.show_statusicon()
 			else: self.hide_statusicon()
 
-	def _setup_menu(self):
+	def _setup_menu(self, context_menu=False):
 		menu = gtk.Menu()
 
 		def menu_callback(menuitem, callback):
 			callback()
+			if context_menu:
+				self.put_away()
 			return True
 
 		def add_menu_item(icon, callback, label=None):
@@ -1527,7 +1529,10 @@ class WindowController (pretty.OutputMixin):
 			mitem.connect("activate", menu_callback, callback)
 			menu.append(mitem)
 
-		add_menu_item(None, self.activate, _("Show Main Interface"))
+		if context_menu:
+			add_menu_item(gtk.STOCK_CLOSE, self.put_away)
+		else:
+			add_menu_item(None, self.activate, _("Show Main Interface"))
 		menu.append(gtk.SeparatorMenuItem())
 		add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
 		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
@@ -1573,7 +1578,34 @@ class WindowController (pretty.OutputMixin):
 		widget = self.interface.get_widget()
 		widget.show()
 
-		self.window.add(widget)
+		if self._use_window_decorations:
+			self.window.add(widget)
+		else:
+			# Build the window frame with its top bar
+			topbar = gtk.HBox()
+			vbox = gtk.VBox()
+			vbox.pack_start(topbar, False, False)
+			vbox.pack_start(widget, True, True)
+			vbox.show()
+			self.window.add(vbox)
+			title = gtk.Label(u"")
+			button = gtk.Label(u"")
+			l_programname = version.PROGRAM_NAME.lower()
+			# The text on the general+context menu button
+			btext = u"<b>%s \N{GEAR}</b>" % (l_programname, )
+			button.set_markup(btext)
+			button_box = gtk.EventBox()
+			button_box.set_visible_window(False)
+			button_box.add(button)
+			button_box.connect("button-press-event", self._context_clicked)
+			button_box.connect("enter-notify-event", self._button_enter, btext)
+			button_box.connect("leave-notify-event", self._button_leave, btext)
+			title_align = gtk.Alignment(0, 0.5, 0, 0)
+			title_align.add(title)
+			topbar.pack_start(title_align, True, True)
+			topbar.pack_start(button_box, False, False)
+			topbar.show_all()
+
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
@@ -1589,6 +1621,19 @@ class WindowController (pretty.OutputMixin):
 		# Setting not resizable changes from utility window
 		# on metacity
 		self.window.set_resizable(False)
+
+	def _context_clicked(self, widget, event):
+		"The context menu label was clicked"
+		menu = self._setup_menu(True)
+		menu.popup(None, None, None, event.button, event.time)
+
+	def _button_enter(self, widget, event, udata):
+		"Pointer enters context menu button"
+		widget.child.set_markup("<u>" + udata + "</u>")
+
+	def _button_leave(self, widget, event, udata):
+		"Pointer leaves context menu button"
+		widget.child.set_markup(udata)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
@@ -1630,7 +1675,7 @@ class WindowController (pretty.OutputMixin):
 		cr.line_to(0, arc_sz)
 		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, 3*math.pi/2)
 		cr.close_path()
-		cr.set_line_width(3)
+		cr.set_line_width(2.5)
 		cr.stroke()
 
 	def _size_allocate(self, widget, allocation):
