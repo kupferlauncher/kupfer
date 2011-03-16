@@ -46,6 +46,8 @@ class WindowLeaf (Leaf):
 
 	def get_description(self):
 		workspace = self.object.get_workspace()
+		if not workspace:
+			return u""
 		nr, name = workspace.get_number(), workspace.get_name()
 		# TRANS: Window on (Workspace name), window description
 		return _("Window on %(wkspc)s") % {"wkspc": name}
