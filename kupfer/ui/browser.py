@@ -1478,7 +1478,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-		self._use_window_decorations = True
+		self._use_window_decorations = False
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1580,7 +1580,9 @@ class WindowController (pretty.OutputMixin):
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
 		if not self._use_window_decorations:
+			self.window.set_app_paintable(True)
 			self.window.set_property("border-width", 8)
+			self.window.connect("expose-event", self._paint_frame)
 			self.window.set_decorated(False)
 		if not text_direction_is_ltr():
 			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
@@ -1604,10 +1606,44 @@ class WindowController (pretty.OutputMixin):
 	def result_callback(self, sender, result_type):
 		self.activate()
 
-	def _size_allocate(self, win, allocation):
+	def _paint_frame(self, widget, event):
+		cr = widget.window.cairo_create()
+		w,h = widget.allocation.width, widget.allocation.height
+
+		region = gtk.gdk.region_rectangle(event.area)
+		cr.region(region)
+		cr.clip()
+
+		c = widget.style.dark[gtk.STATE_SELECTED]
+		cr.set_operator(cairo.OPERATOR_SOURCE)
+		cr.set_source_rgba(c.red/65535.0, c.green/65535.0, c.blue/65535.0, 0.7)
+
+		# radius of rounded corner
+		arc_sz = 10
+		cr.move_to(arc_sz, 0)
+		cr.line_to(w-arc_sz,0)
+		cr.arc(w-arc_sz, arc_sz, arc_sz, 3/2.0*math.pi, 2*math.pi)
+		cr.line_to(w, h-arc_sz)
+		cr.arc(w-arc_sz, h-arc_sz, arc_sz, 0, math.pi/2)
+		cr.line_to(arc_sz, h)
+		cr.arc(arc_sz, h-arc_sz, arc_sz, math.pi/2, math.pi)
+		cr.line_to(0, arc_sz)
+		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, 3*math.pi/2)
+		cr.close_path()
+		cr.set_line_width(3)
+		cr.stroke()
+
+	def _size_allocate(self, widget, allocation):
 		if self._use_window_decorations:
 			return
+		if not hasattr(self, "_old_alloc"):
+			self._old_alloc = (0,0)
 		w,h = allocation.width, allocation.height
+
+		if self._old_alloc == (w,h):
+			return
+		self._old_alloc = (w,h)
+
 		bitmap = gtk.gdk.Pixmap(None, w, h, 1)
 		cr = bitmap.cairo_create()
 
@@ -1621,18 +1657,19 @@ class WindowController (pretty.OutputMixin):
 		cr.set_operator(cairo.OPERATOR_SOURCE)
 		cr.move_to(arc_sz, 0)
 		cr.line_to(w-arc_sz,0)
-		cr.arc(w-arc_sz, arc_sz, arc_sz, 3/2*math.pi, 2*math.pi)
+		cr.arc(w-arc_sz, arc_sz, arc_sz, 3/2.0*math.pi, 2*math.pi)
 		cr.line_to(w, h-arc_sz)
 		cr.arc(w-arc_sz, h-arc_sz, arc_sz, 0, math.pi/2)
 		cr.line_to(arc_sz, h)
 		cr.arc(arc_sz, h-arc_sz, arc_sz, math.pi/2, math.pi)
 		cr.line_to(0, arc_sz)
-		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, math.pi/2)
+		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, 3*math.pi/2)
 		cr.close_path()
 		cr.fill()
-
-		win.shape_combine_mask(bitmap, 0, 0)
-
+		widget.shape_combine_mask(bitmap, 0, 0)
+		r = region = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
+		if widget.window:
+			widget.window.invalidate_region(r, False)
 
 	def _lost_focus(self, window, event):
 		setctl = settings.GetSettingsController()
