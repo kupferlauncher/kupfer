@@ -307,17 +307,27 @@ class MatchView (gtk.Bin):
 		# set a clip region for the expose event
 		context.rectangle(event.area.x, event.area.y,
 		                  event.area.width, event.area.height)
-		context.clip()
+		scale = 1.0/2**16
+		# paint over GtkEventBox's default background
+		context.clip_preserve()
+		context.set_operator(cairo.OPERATOR_SOURCE)
+		normc = widget.style.bg[gtk.STATE_NORMAL]
+		if widget.get_toplevel().is_composited():
+			context.set_source_rgba(normc.red*scale,
+					normc.green*scale, normc.blue*scale, 0.8)
+		else:
+			context.set_source_rgba(normc.red*scale,
+					normc.green*scale, normc.blue*scale, 1.0)
+		context.fill()
+
 		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=15)
 		# Get the current selection color
 		newc = widget.style.bg[widget.get_state()]
-		scale = 1.0/2**16
 		context.set_operator(cairo.OPERATOR_OVER)
 		context.set_source_rgba(newc.red*scale,
-				newc.green*scale, newc.blue*scale, 0.7)
-		context.fill_preserve ()
+				newc.green*scale, newc.blue*scale, 0.9)
+		context.fill()
 		return False
-
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
