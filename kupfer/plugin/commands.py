@@ -11,7 +11,6 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
-import shlex
 
 import gobject
 
@@ -22,31 +21,6 @@ from kupfer import utils, icons
 from kupfer import commandexec
 from kupfer import kupferstring
 from kupfer import pretty
-
-def unicode_shlex_split(ustr, **kwargs):
-	"""shlex.split is depressingly broken on unicode input"""
-	s_str = ustr.encode("UTF-8")
-	return [kupferstring.tounicode(t) for t in shlex.split(s_str, **kwargs)]
-
-def rm_quotes(us):
-	"""Remove "quotes" -> quotes if wrapped in " or ' quotes"""
-	if len(us) > 1 and us[0] in ("'", '"') and us[0] == us[-1]:
-		return us[1:-1]
-	return us
-
-def custom_shlex_split(ustr):
-	# Use posix=False so that we don't swallow backslashes "\"
-	# After that we have to remove quotes ourselves
-	return map(rm_quotes, unicode_shlex_split(ustr, posix=False))
-
-def get_commandline_argv(commandline):
-	""" Use shlex to allow simple quoting in the commandline """
-	try:
-		argv = custom_shlex_split(commandline)
-	except ValueError:
-		# Exception raised on unpaired quotation marks
-		argv = commandline.split(None, 1)
-	return argv
 
 def finish_command(token, acommand, stdout, stderr, post_result=True):
 	"""Show async error if @acommand returns error output & error status.
@@ -71,7 +45,10 @@ class GetOutput (Action):
 		Action.__init__(self, _("Run (Get Output)"))
 
 	def activate(self, leaf):
-		argv = get_commandline_argv(leaf.object)
+		if isinstance(leaf, Command):
+			argv = ['sh', '-c', leaf.object, '--']
+		else:
+			argv = [leaf.object]
 		ctx = commandexec.DefaultActionExecutionContext()
 		token = ctx.get_async_token()
 		pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
@@ -82,7 +59,7 @@ class GetOutput (Action):
 		finish_command(acommand.token, acommand, stdout, stderr)
 
 	def get_description(self):
-		return _("Run program and return its output")
+		return _("Run program and return its output") + u" \N{GEAR}"
 
 class PassToCommand (Action):
 	def __init__(self):
@@ -95,7 +72,7 @@ class PassToCommand (Action):
 
 	def _run_command(self, objs, iobj):
 		if isinstance(iobj, Command):
-			argv = get_commandline_argv(iobj.object)
+			argv = ['sh', '-c', iobj.object + ' "$@"', '--']
 		else:
 			argv = [iobj.object]
 		argv.extend([o.object for o in objs])
@@ -129,7 +106,8 @@ class PassToCommand (Action):
 		finish_command(acommand.token, acommand, stdout, stderr, False)
 
 	def get_description(self):
-		return _("Run program with object as an additional parameter")
+		return _("Run program with object as an additional parameter") + \
+		        u" \N{GEAR}"
 
 
 class WriteToCommand (Action):
@@ -140,7 +118,7 @@ class WriteToCommand (Action):
 
 	def activate(self, leaf, iobj):
 		if isinstance(iobj, Command):
-			argv = get_commandline_argv(iobj.object)
+			argv = ['sh', '-c', iobj.object]
 		else:
 			argv = [iobj.object]
 		ctx = commandexec.DefaultActionExecutionContext()
@@ -169,7 +147,8 @@ class WriteToCommand (Action):
 		finish_command(acommand.token, acommand, stdout, stderr, False)
 
 	def get_description(self):
-		return _("Run program and supply text on the standard input")
+		return _("Run program and supply text on the standard input") + \
+		        u" \N{GEAR}"
 
 class FilterThroughCommand (WriteToCommand):
 	def __init__(self):
@@ -182,7 +161,8 @@ class FilterThroughCommand (WriteToCommand):
 		finish_command(acommand.token, acommand, stdout, stderr)
 
 	def get_description(self):
-		return _("Run program and supply text on the standard input")
+		return _("Run program and supply text on the standard input") + \
+		        u" \N{GEAR}"
 
 class Command (TextLeaf):
 	def __init__(self, exepath, name):
