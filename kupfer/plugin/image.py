@@ -35,9 +35,9 @@ class Scale (Action):
 		head, ext = os_path.splitext(os_path.basename(fpath))
 		filename = "%s_%s%s" % (head, size, ext)
 		dpath = utils.get_destpath_in_directory(dirname, filename)
-		cmdline = "convert -scale '%s' '%s' '%s'" % (size, fpath, dpath)
+		argv = ["convert", "-scale", ('%s' % size),  fpath, dpath]
 		runtimehelper.register_async_file_result(dpath)
-		utils.launch_commandline(cmdline)
+		utils.spawn_async(argv)
 		return FileLeaf(dpath)
 
 	def item_types(self):
@@ -88,10 +88,10 @@ class RotateBase (Action):
 		head, ext = os_path.splitext(os_path.basename(fpath))
 		filename = "%s_%s%s" % (head, self.rotation, ext)
 		dpath = utils.get_destpath_in_directory(dirname, filename)
-		cmdline = ("jpegtran -copy all -rotate '%s' -outfile '%s' '%s'" %
-				(self.rotation, dpath, fpath))
+		argv = ["jpegtran", "-copy", "all", "-rotate", self.rotation, "-outfile",
+		        dpath, fpath]
 		runtimehelper.register_async_file_result(dpath)
-		utils.launch_commandline(cmdline)
+		utils.spawn_async(argv)
 		return FileLeaf(dpath)
 
 	def item_types(self):
@@ -126,8 +126,8 @@ class Autorotate (Action):
 	def activate(self, leaf, obj=None):
 		fpath = leaf.object
 		dirname = os_path.dirname(fpath)
-		cmdline = "jhead -autorot '%s'" % fpath
-		utils.launch_commandline(cmdline)
+		argv = ['jhead', '-autorot', fpath]
+		utils.spawn_async(argv)
 
 	def item_types(self):
 		yield FileLeaf

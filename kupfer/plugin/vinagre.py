@@ -35,7 +35,7 @@ class VinagreStartSession(Action):
 
 	def activate(self, leaf):
 		if isinstance(leaf, UrlLeaf):
-			utils.launch_commandline("vinagre %s" % leaf.object)
+			utils.spawn_async(["vinagre", leaf.object])
 		else:
 			service = leaf[HOST_SERVICE_NAME_KEY]
 			host = leaf[HOST_ADDRESS_KEY]
@@ -46,7 +46,7 @@ class VinagreStartSession(Action):
 			if leaf.check_key(HOST_SERVICE_USER_KEY):
 				user = leaf[HOST_SERVICE_USER_KEY] + '@'
 			url = '%s://%s%s%s' % (service, user, host, port)
-			utils.launch_commandline("vinagre %s" % url)
+			utils.spawn_async(["vinagre", url])
 
 	def get_icon_name(self):
 		return 'vinagre'

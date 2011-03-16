@@ -10,6 +10,9 @@ import glib
 
 from kupfer import pretty
 from kupfer import kupferstring
+from kupfer import desktop_launch
+from kupfer import desktop_parse
+from kupfer import terminal
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -178,7 +181,29 @@ class AsyncCommand (object):
 			os.kill(self.pid, signal.SIGKILL)
 
 
+def spawn_terminal(workdir=None):
+	term = terminal.get_configured_terminal()
+	notify = term.startup_notify
+	desktop_launch.spawn_app_id(term.app_id, term.argv, workdir, notify)
+
+def spawn_in_terminal(argv, workdir=None):
+	term = terminal.get_configured_terminal()
+	notify = term.startup_notify
+	_argv = list(term.argv)
+	if term.exearg:
+		_argv.append(term.exearg)
+	_argv.extend(argv)
+	desktop_launch.spawn_app_id(term.app_id, _argv , workdir, notify)
+
+def spawn_async_notify_as(app_id, argv):
+	"""
+	Spawn argument list @argv and startup-notify as
+	if application @app_id is starting (if possible)
+	"""
+	desktop_launch.spawn_app_id(app_id, argv , None, True)
+
 def spawn_async(argv, in_dir="."):
+	"Silently spawn @argv in the background"
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
 	argv = _argv_to_locale(argv)
 	try:
@@ -187,19 +212,17 @@ def spawn_async(argv, in_dir="."):
 	except gobject.GError, exc:
 		pretty.print_debug(__name__, "spawn_async", argv, exc)
 
-def app_info_for_commandline(cli, name=None, in_terminal=False):
-	import gio
-	flags = gio.APP_INFO_CREATE_NEEDS_TERMINAL if in_terminal else gio.APP_INFO_CREATE_NONE
-	if not name:
-		name = cli
-	item = gio.AppInfo(cli, name, flags)
-	return item
+def argv_for_commandline(cli):
+	return desktop_parse.parse_argv(cli)
 
 def launch_commandline(cli, name=None, in_terminal=False):
 	from kupfer import launch
-	app_info = app_info_for_commandline(cli, name, in_terminal)
-	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", cli, sep="")
-	return launch.launch_application(app_info, activate=False, track=False)
+	argv = desktop_parse.parse_argv(cli)
+	pretty.print_error(__name__, "Launch commandline is deprecated ")
+	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", argv, sep="")
+	if in_terminal:
+		return spawn_in_terminal(argv)
+	return spawn_async(argv)
 
 def launch_app(app_info, files=(), uris=(), paths=()):
 	from kupfer import launch

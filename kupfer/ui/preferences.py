@@ -17,6 +17,7 @@ from kupfer.ui import keybindings
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
 from kupfer import plugin_support
+from kupfer import terminal
 
 # index in GtkNotebook
 PLUGIN_LIST_PAGE = 2
@@ -116,6 +117,26 @@ class PreferencesWindowController (pretty.OutputMixin):
 		checkautostart.set_active(self._get_should_autostart())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 		checkusecommandkeys.set_active(setctl.get_use_command_keys())
+
+		# List store with columns (Name, ID) 
+		terminal_combobox = builder.get_object("terminal_combobox")
+		terminal_combobox_store = gtk.ListStore(gobject.TYPE_STRING,
+		                                        gobject.TYPE_STRING)
+		terminal_combobox.set_model(terminal_combobox_store)
+		terminal_combobox_cell = gtk.CellRendererText()
+		terminal_combobox.pack_start(terminal_combobox_cell, True)
+		terminal_combobox.add_attribute(terminal_combobox_cell, 'text', 0)
+
+		term_id = setctl.get_preferred_tool('terminal')
+		# fill in the available terminals
+		terminals = utils.locale_sort(terminal.get_valid_terminals())
+		term_iter = None
+		for term in terminals:
+			_it = terminal_combobox_store.append((unicode(term), term.get_id()))
+			if term.get_id() == term_id:
+				term_iter = _it
+		term_iter = term_iter or terminal_combobox_store.get_iter_first()
+		terminal_combobox.set_active_iter(term_iter)
 
 		# Plugin List
 		columns = [
@@ -740,6 +761,12 @@ class PreferencesWindowController (pretty.OutputMixin):
 			self.buttonremovedirectory.set_sensitive(False)
 			return
 		self.buttonremovedirectory.set_sensitive(True)
+
+	def on_terminal_combobox_changed(self, widget):
+		setctl = settings.GetSettingsController()
+		itr = widget.get_active_iter()
+		term_id = widget.get_model().get_value(itr, 1)
+		setctl.set_preferred_tool('terminal', term_id)
 
 	def show(self):
 		self.window.present()

@@ -13,7 +13,7 @@ class LookUp (Action):
 		Action.__init__(self, _("Search in Devhelp"))
 	def activate(self, leaf):
 		text = leaf.object
-		utils.launch_commandline("devhelp --search='%s'" % text)
+		utils.spawn_async(['devhelp', '--search=%s' % text])
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):

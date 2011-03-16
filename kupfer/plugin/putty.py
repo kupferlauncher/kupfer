@@ -48,16 +48,15 @@ class PuttyOpenSession(Action):
 	def activate(self, leaf):
 		if leaf.check_key(PUTTY_SESSION_KEY):
 			session = leaf[PUTTY_SESSION_KEY]
-			utils.launch_commandline("putty -load '%s'" % session)
+			utils.spawn_async(["putty", "-load", session])
 		else:
 			options = ['putty']
 			if leaf.check_key(HOST_SERVICE_USER_KEY):
-				options.append('-l ' + leaf[HOST_SERVICE_USER_KEY])
+				options.extend(['-l ', leaf[HOST_SERVICE_USER_KEY]])
 			if leaf.check_key(HOST_SERVICE_PORT_KEY):
-				options.append('-P ' + leaf[HOST_SERVICE_PORT_KEY])
+				options.extend(['-P ', leaf[HOST_SERVICE_PORT_KEY]])
 			options.append(leaf[HOST_ADDRESS_KEY])
-			cmd = ' '.join(options)
-			utils.launch_commandline(cmd)
+			utils.spawn_async(options)
 
 	def get_icon_name(self):
 		return 'putty'

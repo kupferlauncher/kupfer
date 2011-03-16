@@ -7,10 +7,13 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from kupfer.plugin import session_support as support
 
 
-LOGOUT_CMD = ("gnome-panel-logout", "gnome-session-save --kill")
-SHUTDOWN_CMD = ("gnome-panel-logout --shutdown", 
-		"gnome-session-save --shutdown-dialog")
-LOCKSCREEN_CMD = ("gnome-screensaver-command --lock", "xdg-screensaver lock")
+# sequences of argument lists
+LOGOUT_CMD = (["gnome-panel-logout"],
+              ["gnome-session-save", "--kill"])
+SHUTDOWN_CMD = (["gnome-panel-logout", "--shutdown"],
+                ["gnome-session-save", "--shutdown-dialog"])
+LOCKSCREEN_CMD = (["gnome-screensaver-command", "--lock"],
+                  ["xdg-screensaver", "lock"])
 
 class GnomeItemsSource (support.CommonSource):
 	def __init__(self):

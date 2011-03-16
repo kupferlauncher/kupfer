@@ -24,7 +24,8 @@ class ComposeMail(RunnableLeaf):
 		RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
 	def run(self):
-		utils.launch_commandline('evolution mailto:')
+		utils.spawn_async_notify_as("evolution.desktop",
+		                           ['evolution', 'mailto:'])
 
 	def get_description(self):
 		return _("Compose a new message in Evolution")

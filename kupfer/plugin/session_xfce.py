@@ -9,9 +9,10 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 from kupfer.plugin import session_support as support
 
 
-LOGOUT_CMD = ("xfce4-session-logout --logout", )
-SHUTDOWN_CMD = ("xfce4-session-logout", )
-LOCKSCREEN_CMD = ("xdg-screensaver lock", )
+# sequences of argument lists
+LOGOUT_CMD = (["xfce4-session-logout', '--logout"],)
+SHUTDOWN_CMD = (["xfce4-session-logout"],)
+LOCKSCREEN_CMD = (["xdg-screensaver", "lock"], )
 
 
 class XfceItemsSource (support.CommonSource):
