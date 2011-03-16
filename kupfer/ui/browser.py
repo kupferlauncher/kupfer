@@ -1670,6 +1670,10 @@ class WindowController (pretty.OutputMixin):
 			topbar.pack_start(title_align, True, True)
 			topbar.pack_start(button_box, False, False)
 			topbar.show_all()
+			screen = gtk.gdk.screen_get_default()
+			rgba = screen.get_rgba_colormap()
+			if rgba:
+				self.window.set_colormap(rgba)
 
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
@@ -1720,17 +1724,32 @@ class WindowController (pretty.OutputMixin):
 		cr = widget.window.cairo_create()
 		w,h = widget.allocation.width, widget.allocation.height
 
+
 		region = gtk.gdk.region_rectangle(event.area)
 		cr.region(region)
 		cr.clip()
 
+		def rgba_from_gdk(c, alpha):
+			return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
+
+		if widget.is_composited():
+			cr.set_operator(cairo.OPERATOR_CLEAR)
+			cr.rectangle(0,0,w,h)
+			cr.fill()
+			cr.rectangle(0,0,w,h)
+			cr.set_operator(cairo.OPERATOR_OVER)
+			c = widget.style.bg[widget.get_state()]
+			cr.set_source_rgba(*rgba_from_gdk(c, 0.8))
+			cr.fill()
+
 		c = widget.style.dark[gtk.STATE_SELECTED]
-		cr.set_operator(cairo.OPERATOR_SOURCE)
-		cr.set_source_rgba(c.red/65535.0, c.green/65535.0, c.blue/65535.0, 0.7)
+		cr.set_operator(cairo.OPERATOR_OVER)
+		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
 
 		make_rounded_rect(cr, 0, 0, w, h, 10)
 		cr.set_line_width(2.5)
 		cr.stroke()
+
 
 	def _size_allocate(self, widget, allocation):
 		if self._use_window_decorations:
