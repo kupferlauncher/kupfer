@@ -95,19 +95,6 @@
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
-                                    <child>
-                                      <object class="GtkCheckButton" id="checkcloseonunfocus">
-                                        <property name="label" translatable="yes">Hide Kupfer when focus is lost</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">False</property>
-                                        <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_checkcloseonunfocus_toggled"/>
-                                      </object>
-                                      <packing>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
                                   </object>
                                 </child>
                               </object>

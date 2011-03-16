@@ -1741,22 +1741,18 @@ class WindowController (pretty.OutputMixin):
 			widget.window.invalidate_region(r, False)
 
 	def _lost_focus(self, window, event):
-		setctl = settings.GetSettingsController()
-		if setctl.get_close_on_unfocus():
-			# Since focus-out-event is triggered even
-			# when we click inside the window, we'll
-			# do some additional math to make sure that
-			# that window won't close if teh mouse pointer
-			# is over it. Looks like a dirty hack, but a
-			# similar solution is used in gnome-do, so probably
-			# there's no better way of handling this.
-			# Any impovements are welcome.
-			x, y, mods = window.get_screen().get_root_window().get_pointer()
-			w_x, w_y = window.get_position()
-			w_w, w_h = window.get_size()
-			if (x not in xrange(w_x, w_x + w_w) or
-			    y not in xrange(w_y, w_y + w_h)):
-				self._window_hide_timer.set_ms(50, self.put_away)
+		# Close at unfocus.
+		# Since focus-out-event is triggered even
+		# when we click inside the window, we'll
+		# do some additional math to make sure that
+		# that window won't close if the mouse pointer
+		# is over it.
+		x, y, mods = window.get_screen().get_root_window().get_pointer()
+		w_x, w_y = window.get_position()
+		w_w, w_h = window.get_size()
+		if (x not in xrange(w_x, w_x + w_w) or
+			y not in xrange(w_y, w_y + w_h)):
+			self._window_hide_timer.set_ms(50, self.put_away)
 
 	def _center_window(self, *ignored):
 		"""Center Window on the monitor the pointer is currently on"""

@@ -105,7 +105,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.buttonremovedirectory = builder.get_object("buttonremovedirectory")
 		checkautostart = builder.get_object("checkautostart")
 		checkstatusicon = builder.get_object("checkstatusicon")
-		checkcloseonunfocus = builder.get_object("checkcloseonunfocus")
 		checkusecommandkeys = builder.get_object("checkusecommandkeys")
 		self.entry_plugins_filter = builder.get_object('entry_plugins_filter')
 		self.keybindings_list_parent = builder.get_object('keybindings_list_parent')
@@ -117,7 +116,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		checkautostart.set_active(self._get_should_autostart())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 		checkusecommandkeys.set_active(setctl.get_use_command_keys())
-		checkcloseonunfocus.set_active(setctl.get_close_on_unfocus())
 
 		# Plugin List
 		columns = [
@@ -735,10 +733,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_checkusecommandkeys_toggled(self, widget):
 		setctl = settings.GetSettingsController()
 		setctl.set_use_command_keys(widget.get_active())
-
-	def on_checkcloseonunfocus_toggled(self, widget):
-		setctl = settings.GetSettingsController()
-		setctl.set_close_on_unfocus(widget.get_active())
 
 	def dir_table_cursor_changed(self, table):
 		curpath, curcol = table.get_cursor()
