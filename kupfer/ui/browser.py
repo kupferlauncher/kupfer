@@ -51,6 +51,26 @@ def escape_markup_str(mstr):
 def text_direction_is_ltr():
 	return gtk.widget_get_default_direction() != gtk.TEXT_DIR_RTL
 
+def make_rounded_rect(cr,x,y,width,height,radius):
+	"""
+	Draws a rounded rectangle with corners of @radius
+	"""
+	cr.save()
+
+	w,h = width, height
+
+	cr.move_to(radius, 0)
+	cr.line_to(w-radius,0)
+	cr.arc(w-radius, radius, radius, 3*math.pi/2, 2*math.pi)
+	cr.line_to(w, h-radius)
+	cr.arc(w-radius, h-radius, radius, 0, math.pi/2)
+	cr.line_to(radius, h)
+	cr.arc(radius, h-radius, radius, math.pi/2, math.pi)
+	cr.line_to(0, radius)
+	cr.arc(radius, radius, radius, math.pi, 3*math.pi/2)
+	cr.close_path()
+	cr.restore()
+
 # State Constants
 class State (object):
 	Wait, Match, NoMatch = (1,2,3)
@@ -271,9 +291,30 @@ class MatchView (gtk.Bin):
 		box.pack_start(self._editbox, False, True, 0)
 		self.event_box = gtk.EventBox()
 		self.event_box.add(box)
+		self.event_box.connect("expose-event", self._box_expose)
+		self.event_box.set_app_paintable(True)
 		self.add(self.event_box)
 		self.event_box.show_all()
 		self.__child = self.event_box
+
+	def _box_expose(self, widget, event):
+		"Draw background on the EventBox"
+		rect = widget.get_allocation()
+		context = widget.window.cairo_create()
+		# set a clip region for the expose event
+		context.rectangle(event.area.x, event.area.y,
+		                  event.area.width, event.area.height)
+		context.clip()
+		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=15)
+		# Get the current selection color
+		newc = widget.style.bg[widget.get_state()]
+		scale = 1.0/2**16
+		context.set_operator(cairo.OPERATOR_OVER)
+		context.set_source_rgba(newc.red*scale,
+				newc.green*scale, newc.blue*scale, 0.7)
+		context.fill_preserve ()
+		return False
+
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -1687,18 +1728,7 @@ class WindowController (pretty.OutputMixin):
 		cr.set_operator(cairo.OPERATOR_SOURCE)
 		cr.set_source_rgba(c.red/65535.0, c.green/65535.0, c.blue/65535.0, 0.7)
 
-		# radius of rounded corner
-		arc_sz = 10
-		cr.move_to(arc_sz, 0)
-		cr.line_to(w-arc_sz,0)
-		cr.arc(w-arc_sz, arc_sz, arc_sz, 3/2.0*math.pi, 2*math.pi)
-		cr.line_to(w, h-arc_sz)
-		cr.arc(w-arc_sz, h-arc_sz, arc_sz, 0, math.pi/2)
-		cr.line_to(arc_sz, h)
-		cr.arc(arc_sz, h-arc_sz, arc_sz, math.pi/2, math.pi)
-		cr.line_to(0, arc_sz)
-		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, 3*math.pi/2)
-		cr.close_path()
+		make_rounded_rect(cr, 0, 0, w, h, 10)
 		cr.set_line_width(2.5)
 		cr.stroke()
 
@@ -1721,19 +1751,9 @@ class WindowController (pretty.OutputMixin):
 		cr.paint()
 
 		# radius of rounded corner
-		arc_sz = 10
 		cr.set_source_rgb(1.0, 1.0, 1.0)
 		cr.set_operator(cairo.OPERATOR_SOURCE)
-		cr.move_to(arc_sz, 0)
-		cr.line_to(w-arc_sz,0)
-		cr.arc(w-arc_sz, arc_sz, arc_sz, 3/2.0*math.pi, 2*math.pi)
-		cr.line_to(w, h-arc_sz)
-		cr.arc(w-arc_sz, h-arc_sz, arc_sz, 0, math.pi/2)
-		cr.line_to(arc_sz, h)
-		cr.arc(arc_sz, h-arc_sz, arc_sz, math.pi/2, math.pi)
-		cr.line_to(0, arc_sz)
-		cr.arc(arc_sz, arc_sz, arc_sz, math.pi, 3*math.pi/2)
-		cr.close_path()
+		make_rounded_rect(cr, 0, 0, w, h, 10)
 		cr.fill()
 		widget.shape_combine_mask(bitmap, 0, 0)
 		r = region = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
