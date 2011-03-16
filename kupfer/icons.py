@@ -44,7 +44,7 @@ scheduler.GetScheduler().connect("load", load_kupfer_icons)
 
 def load_plugin_icon(plugin_name, icon_name, icon_data):
 	"Load icon from @icon_data into the name @icon_name"
-	for size in (24, 96):
+	for size in (24, 128):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,

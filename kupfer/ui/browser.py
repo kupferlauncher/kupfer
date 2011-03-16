@@ -510,7 +510,7 @@ class Search (gtk.Bin):
 		# number rows to skip when press PgUp/PgDown
 		self.page_step = 7
 		self.source = None
-		self.icon_size = 96
+		self.icon_size = 128
 		self._old_win_position=None
 		self._has_search_result = False
 		# finally build widget
