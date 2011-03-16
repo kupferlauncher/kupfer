@@ -1,6 +1,6 @@
 import os
 import urlparse
-import urllib2
+import urllib
 
 import gobject
 
@@ -80,7 +80,7 @@ def try_unquote_url(url):
 	except UnicodeEncodeError:
 		return url
 	try:
-		return urllib2.unquote(burl).decode("UTF-8")
+		return urllib.unquote(burl).decode("UTF-8")
 	except UnicodeDecodeError:
 		return url
 
