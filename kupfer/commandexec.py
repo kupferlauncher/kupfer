@@ -188,7 +188,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		# TRANS: then this is the heading of the error notification
 		return uiutils.show_notification(
 				_("Could not to carry out '%s'") % action,
-				unicode(value))
+				unicode(value), icon_name="kupfer")
 
 	def register_late_error(self, token, exc_info=None):
 		"Register an error in exc_info. The error must be an OperationError"
