@@ -911,7 +911,6 @@ class Interface (gobject.GObject):
 		for widget in (self.search, self.action, self.third):
 			widget.connect("activate", self._activate)
 			widget.connect("cursor-changed", self._selection_changed)
-			widget.connect("button-press-event", self._pane_button_press)
 			# window signals
 			window.connect("configure-event", widget._window_config)
 			window.connect("hide", widget._window_hidden)
@@ -971,11 +970,6 @@ class Interface (gobject.GObject):
 
 	def _entry_realized(self, widget):
 		self.update_text_mode()
-
-	def _pane_button_press(self, widget, event):
-		window = widget.get_toplevel()
-		window.begin_move_drag(event.button,
-				int(event.x_root), int(event.y_root), event.time)
 
 	def _entry_key_release(self, entry, event):
 		self._key_pressed = None
@@ -1658,6 +1652,7 @@ class WindowController (pretty.OutputMixin):
 		self.window.connect("delete-event", self._close_window)
 		self.window.connect("focus-out-event", self._lost_focus)
 		self.window.connect("size-allocate", self._size_allocate)
+		self.window.connect("button-press-event", self._window_frame_clicked)
 		widget = self.interface.get_widget()
 		widget.show()
 
@@ -1709,10 +1704,16 @@ class WindowController (pretty.OutputMixin):
 		# on metacity
 		self.window.set_resizable(False)
 
+	def _window_frame_clicked(self, widget, event):
+		"Start drag when the window is clicked"
+		widget.begin_move_drag(event.button,
+				int(event.x_root), int(event.y_root), event.time)
+
 	def _context_clicked(self, widget, event):
 		"The context menu label was clicked"
 		menu = self._setup_menu(True)
 		menu.popup(None, None, None, event.button, event.time)
+		return True
 
 	def _button_enter(self, widget, event, udata):
 		"Pointer enters context menu button"
