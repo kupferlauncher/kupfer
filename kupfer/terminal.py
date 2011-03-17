@@ -65,6 +65,9 @@ register_terminal(Terminal(_("XFCE Terminal"), ["xfce4-terminal"],
 register_terminal(Terminal(_("Urxvt"), ["urxvt"],
                              "-e", "urxvt.desktop", False))
 
+register_terminal(Terminal(_("LXTerminal"), ["lxterminal"],
+                             "-e", "lxterminal.desktop", False))
+
 register_terminal(Terminal(_("X Terminal"), ["xterm"],
                              "-e", "xterm.desktop", False))
 
