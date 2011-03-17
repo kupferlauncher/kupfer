@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-13 10:38+0000\n"
-"PO-Revision-Date: 2011-03-13 11:40+0100\n"
+"POT-Creation-Date: 2011-03-15 18:12+0000\n"
+"PO-Revision-Date: 2011-03-17 11:09+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1306,20 +1306,20 @@ msgstr "Desmontar y expulsar el medio"
 msgid "Search the Web"
 msgstr "Buscar en la web"
 
-#: ../kupfer/plugin/websearch.py:8 ../kupfer/plugin/websearch.py:62
-#: ../kupfer/plugin/websearch.py:89
+#: ../kupfer/plugin/websearch.py:8 ../kupfer/plugin/websearch.py:63
+#: ../kupfer/plugin/websearch.py:90
 msgid "Search the web with OpenSearch search engines"
 msgstr "Buscar en la web con motores de búsqueda OpenSearch"
 
-#: ../kupfer/plugin/websearch.py:43
+#: ../kupfer/plugin/websearch.py:44
 msgid "Search With..."
 msgstr "Buscar con…"
 
-#: ../kupfer/plugin/websearch.py:72
+#: ../kupfer/plugin/websearch.py:73
 msgid "Search For..."
 msgstr "Buscar…"
 
-#: ../kupfer/plugin/websearch.py:113
+#: ../kupfer/plugin/websearch.py:114
 msgid "Search Engines"
 msgstr "Motores de búsqueda"
 
@@ -1456,7 +1456,7 @@ msgstr "Instalar el paquete usando el método configurado"
 msgid "Packages matching \"%s\""
 msgstr "Paquetes que coinciden con «%s»"
 
-#: ../kupfer/plugin/apt_tools.py:149
+#: ../kupfer/plugin/apt_tools.py:154
 msgid "Search Package Name..."
 msgstr "Buscar paquete por nombre…"
 
@@ -1619,7 +1619,6 @@ msgid "Empathy"
 msgstr "Empathy"
 
 #: ../kupfer/plugin/empathy.py:6
-#| msgid "Access to Gajim Contacts"
 msgid "Access to Empathy Contacts"
 msgstr "Acceder a los contactos de Empathy"
 
@@ -1664,12 +1663,10 @@ msgid "Change Global Status To..."
 msgstr "Cambiar estado general a…"
 
 #: ../kupfer/plugin/empathy.py:164
-#| msgid "Gajim Contacts"
 msgid "Empathy Contacts"
 msgstr "Contactos de Empathy"
 
 #: ../kupfer/plugin/empathy.py:226
-#| msgid "Gajim Account Status"
 msgid "Empathy Account Status"
 msgstr "Estado de las cuentas de Empathy"
 
@@ -2040,7 +2037,7 @@ msgstr "Enviar mensaje…"
 msgid "Send message to selected Gwibber account"
 msgstr "Enviar mensaje a la cuenta de Gwibber seleccionada"
 
-#: ../kupfer/plugin/gwibber.py:274 ../kupfer/plugin/twitter/__init__.py:273
+#: ../kupfer/plugin/gwibber.py:274
 msgid "Reply..."
 msgstr "Responder…"
 
@@ -2057,28 +2054,24 @@ msgid "Send direct message to user"
 msgstr "Enviar mensaje directo al usuario"
 
 #: ../kupfer/plugin/gwibber.py:364
-#, fuzzy
 #| msgid "Reset"
 msgid "Retweet"
-msgstr "Restablecer"
+msgstr "Replicar"
 
 #: ../kupfer/plugin/gwibber.py:364
-#, fuzzy
 #| msgid "Rename To..."
 msgid "Retweet To..."
-msgstr "Renombrar a…"
+msgstr "Replicar a…"
 
 #: ../kupfer/plugin/gwibber.py:395
-#, fuzzy
 #| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to all Gwibber accounts"
-msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
+msgstr "Replicar mensaje a todas las cuentas de Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:396
-#, fuzzy
 #| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to a Gwibber account"
-msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
+msgstr "Replicar mensaje a una cuenta de Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:401
 msgid "Open in Browser"
@@ -2088,7 +2081,7 @@ msgstr "Abrir en el navegador"
 msgid "Open message in default web browser"
 msgstr "Abrir mensaje en el navegador web predeterminado"
 
-#: ../kupfer/plugin/gwibber.py:413 ../kupfer/plugin/gwibber.py:448
+#: ../kupfer/plugin/gwibber.py:413 ../kupfer/plugin/gwibber.py:451
 msgid "Gwibber Accounts"
 msgstr "Cuentas de Gwibber"
 
@@ -2096,36 +2089,35 @@ msgstr "Cuentas de Gwibber"
 msgid "Accounts configured in Gwibber"
 msgstr "Cuentas configuradas en Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:473
+#: ../kupfer/plugin/gwibber.py:483
 msgid "Gwibber Messages"
 msgstr "Mensajes de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:496
+#: ../kupfer/plugin/gwibber.py:506
 msgid "Recent messages received by Gwibber"
 msgstr "Mensajes recientes recibidos por Gwibber"
 
 #. TRANS:  %s is a service name
-#: ../kupfer/plugin/gwibber.py:502
+#: ../kupfer/plugin/gwibber.py:515
 #, python-format
 msgid "Gwibber Messages for %s"
 msgstr "Mensajes de Gwibber para %s"
 
-#: ../kupfer/plugin/gwibber.py:515
+#: ../kupfer/plugin/gwibber.py:531
 msgid "Gwibber Streams"
 msgstr "Flujos de Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:538
+#: ../kupfer/plugin/gwibber.py:554
 msgid "Streams configured in Gwibber"
 msgstr "Flujos configurados en Gwibber"
 
 #. TRANS: Gwibber messages in %s :: %s is a Stream name
-#: ../kupfer/plugin/gwibber.py:544
+#: ../kupfer/plugin/gwibber.py:562
 #, python-format
 msgid "Gwibber Messages in %s"
 msgstr "Mensajes de Gwibber en %s"
 
-#: ../kupfer/plugin/gwibber.py:563 ../kupfer/plugin/twitter/__init__.py:398
-#: ../kupfer/plugin/pidgin.py:111
+#: ../kupfer/plugin/gwibber.py:585 ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -2240,58 +2232,6 @@ msgstr "Buscar en el sistema de archivos usando locate"
 #: ../kupfer/plugin/locate.py:21
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorar capitalización al buscar archivos"
-
-#: ../kupfer/plugin/twitter/__init__.py:3
-msgid "Twitter"
-msgstr "Twitter"
-
-#: ../kupfer/plugin/twitter/__init__.py:7
-msgid "Microblogging with Twitter: send updates and show friends' tweets"
-msgstr ""
-"Microblogging con Twitter: enviar actualizaciones y mostrar los «tweets» de "
-"mis amigos"
-
-#: ../kupfer/plugin/twitter/__init__.py:37
-msgid "Load friends' pictures"
-msgstr "Cargar las imágenes de mis amigos"
-
-#: ../kupfer/plugin/twitter/__init__.py:43
-msgid "Load friends' public tweets"
-msgstr "Cargar los «tweets» públicos de mis amigos"
-
-#: ../kupfer/plugin/twitter/__init__.py:49
-msgid "Load timeline"
-msgstr "Cargar cronología"
-
-#: ../kupfer/plugin/twitter/__init__.py:196
-msgid "Post Update to Twitter"
-msgstr "Publicar actualización en Twitter"
-
-#: ../kupfer/plugin/twitter/__init__.py:216
-msgid "Send Direct Message..."
-msgstr "Enviar mensaje directo…"
-
-#: ../kupfer/plugin/twitter/__init__.py:245
-msgid "Send Direct Message To..."
-msgstr "Enviar mensaje directo a…"
-
-#: ../kupfer/plugin/twitter/__init__.py:300
-#, python-format
-msgid "%(user)s %(when)s"
-msgstr "%(when)s %(user)s"
-
-#: ../kupfer/plugin/twitter/__init__.py:321
-msgid "Twitter Timeline"
-msgstr "Cronología en Twitter"
-
-#: ../kupfer/plugin/twitter/__init__.py:349
-msgid "Twitter Friends"
-msgstr "Amigos de Twitter"
-
-#: ../kupfer/plugin/twitter/__init__.py:374
-#, python-format
-msgid "Timeline for %s"
-msgstr "Cronología de %s"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/openoffice.py:3
@@ -2531,8 +2471,7 @@ msgid ""
 "urxvt)."
 msgstr ""
 "La opción que hace que el terminal ejecute todo siguiéndolo dentro de la "
-"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y "
-"urxvt)."
+"terminal (ej. «-x» para gnome-terminal y terminal, «-e» para konsole y urxvt)."
 
 #: ../kupfer/plugin/ssh_hosts.py:55
 msgid "SSH host"
@@ -2950,6 +2889,44 @@ msgstr "Páginas de Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páginas almacenadas en el libro de notas Zim"
+
+#~ msgid "Twitter"
+#~ msgstr "Twitter"
+
+#~ msgid "Microblogging with Twitter: send updates and show friends' tweets"
+#~ msgstr ""
+#~ "Microblogging con Twitter: enviar actualizaciones y mostrar los «tweets» "
+#~ "de mis amigos"
+
+#~ msgid "Load friends' pictures"
+#~ msgstr "Cargar las imágenes de mis amigos"
+
+#~ msgid "Load friends' public tweets"
+#~ msgstr "Cargar los «tweets» públicos de mis amigos"
+
+#~ msgid "Load timeline"
+#~ msgstr "Cargar cronología"
+
+#~ msgid "Post Update to Twitter"
+#~ msgstr "Publicar actualización en Twitter"
+
+#~ msgid "Send Direct Message..."
+#~ msgstr "Enviar mensaje directo…"
+
+#~ msgid "Send Direct Message To..."
+#~ msgstr "Enviar mensaje directo a…"
+
+#~ msgid "%(user)s %(when)s"
+#~ msgstr "%(when)s %(user)s"
+
+#~ msgid "Twitter Timeline"
+#~ msgstr "Cronología en Twitter"
+
+#~ msgid "Twitter Friends"
+#~ msgstr "Amigos de Twitter"
+
+#~ msgid "Timeline for %s"
+#~ msgstr "Cronología de %s"
 
 #~ msgid ""
 #~ "Tick the box next to a source to make sure its objects are exported to "
