@@ -194,6 +194,8 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		"Register an error in exc_info. The error must be an OperationError"
 		if exc_info is None:
 			exc_info = sys.exc_info()
+		if isinstance(exc_info, Exception):
+			exc_info = (type(exc_info), exc_info, None)
 		command_id, cmdtuple = token
 		self._do_error_conversion(cmdtuple, exc_info)
 

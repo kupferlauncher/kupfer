@@ -9,13 +9,13 @@ __version__ = "2009-12-05"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 
-def launch_commandline_with_fallbacks(commands, print_error=True):
-	"""Try the sequence of @commands with utils.launch_commandline,
+def launch_argv_with_fallbacks(commands, print_error=True):
+	"""Try the sequence of @commands with utils.spawn_async,
 	and return with the first successful command.
 	return False if no command is successful and log an error
 	"""
-	for command in commands:
-		ret = utils.launch_commandline(command)
+	for argv in commands:
+		ret = utils.spawn_async(argv)
 		if ret: return ret
 	pretty.print_error(__name__, "Unable to run command(s)", commands)
 	return False
@@ -23,7 +23,7 @@ def launch_commandline_with_fallbacks(commands, print_error=True):
 class CommandLeaf (RunnableLeaf):
 	"""The represented object of the CommandLeaf is a list of commandlines"""
 	def run(self):
-		launch_commandline_with_fallbacks(self.object)
+		launch_argv_with_fallbacks(self.object)
 
 class Logout (CommandLeaf):
 	"""Log out from desktop"""

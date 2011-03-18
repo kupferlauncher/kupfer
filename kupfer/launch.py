@@ -7,15 +7,19 @@ import gobject
 
 from kupfer import pretty, config
 from kupfer import scheduler
+from kupfer import desktop_launch
 from kupfer.ui import keybindings
+from kupfer import terminal
 
 try:
 	import wnck
 except ImportError, e:
-	pretty.print_info(__name__, "Disabling launch module:", e)
+	pretty.print_info(__name__, "Disabling window tracking:", e)
 	wnck = None
 
-kupfer_env = "KUPFER_APP_ID"
+class LaunchError (Exception):
+	"Error launching application"
+
 
 default_associations = {
 	"evince" : "Document Viewer",
@@ -27,106 +31,93 @@ default_associations = {
 }
 
 
-def _read_environ(pid, envcache=None):
-	"""Read the environment for application with @pid
-	and return as a dictionary. Only works for the user's
-	own processes, of course
-	"""
-	if envcache and pid in envcache:
-		return envcache[pid]
-	try:
-		f = open("/proc/%d/environ" % int(pid), "r")
-	except IOError:
-		return None
-	else:
-		env = f.read()
-	environ = {}
-	for line in env.split("\x00"):
-		vals = line.split("=", 1)
-		if len(vals) == 2:
-			environ[vals[0]] = vals[1]
-		else:
-			continue
-	if envcache is not None: envcache[pid] = environ
-	return environ
+_seq = [0]
+_latest_event_time = 0
 
-def application_id(app_info):
+def make_startup_notification_id():
+	time = _current_event_time()
+	_seq[0] = _seq[0] + 1
+	return "%s-%d-%s_TIME%d" % ("kupfer", os.getpid(), _seq[0], time)
+
+def _current_event_time():
+	_time = gtk.get_current_event_time() or keybindings.get_current_event_time()
+	global _latest_event_time
+	if _time > 0:
+		_latest_event_time = _time
+	else:
+		_time = _latest_event_time
+	return _time
+
+
+def application_id(app_info, desktop_file=None):
 	"""Return an application id (string) for GAppInfo @app_info"""
 	app_id = app_info.get_id()
 	if not app_id:
-		try:
-			app_id = app_info.init_path
-		except AttributeError:
-			app_id = ""
+		app_id = desktop_file or ""
 	if app_id.endswith(".desktop"):
 		app_id = app_id[:-len(".desktop")]
 	return app_id
 
-def _current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
-
-def launch_application(app_info, files=(), uris=(), paths=(), track=True, activate=True):
+def launch_application(app_info, files=(), uris=(), paths=(), track=True,
+	                   activate=True, desktop_file=None):
 	"""
-	Launch @app_info correctly, using a startup notification
+	Launch @app_rec correctly, using a startup notification
 
 	you may pass in either a list of gio.Files in @files, or 
 	a list of @uris or @paths
 
 	if @track, it is a user-level application
 	if @activate, activate rather than start a new version
+
+	@app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
+
+	Raises LaunchError on failed program start.
 	"""
 	assert app_info
 
-	from gtk.gdk import AppLaunchContext
 	from gio import File
 	from glib import GError
 
-	ctx = AppLaunchContext()
 	if paths:
 		files = [File(p) for p in paths]
+	if uris:
+		files = [File(p) for p in uris]
 
-	if wnck:
-		# launch on current workspace
-		workspace = wnck.screen_get_default().get_active_workspace()
-		nbr = workspace.get_number() if workspace else -1
-		ctx.set_desktop(nbr)
-	ctx.set_timestamp(_current_event_time())
+	svc = GetApplicationsMatcherService()
+	app_id = application_id(app_info, desktop_file)
+
+	if activate and svc.application_is_running(app_id):
+		svc.application_to_front(app_id)
+		return True
+
+	# An launch callback closure for the @app_id
+	def application_launch_callback(argv, pid, notify_id, files, timestamp):
+		pretty.print_debug(__name__, "Launched", argv, pid, notify_id, files)
+		is_terminal = terminal.is_known_terminal_executable(argv[0])
+		pretty.print_debug(__name__, argv, "is terminal:", is_terminal)
+		if not is_terminal:
+			svc.launched_application(app_id, pid)
 
 	if track:
-		app_id = application_id(app_info)
-		os.putenv(kupfer_env, app_id)
+		launch_callback = application_launch_callback
 	else:
-		app_id = ""
-	svc = GetApplicationsMatcherService()
-	try:
-		if activate and svc.application_is_running(app_id):
-			svc.application_to_front(app_id)
-			return True
+		launch_callback = None
 
-		try:
-			if uris:
-				ret = app_info.launch_uris(uris, ctx)
-			else:
-				ret = app_info.launch(files, ctx)
-			if not ret:
-				pretty.print_info(__name__, "Error launching", app_info)
-		except GError, e:
-			pretty.print_info(__name__, "Error:", e)
-			return False
-		else:
-			if track:
-				svc.launched_application(application_id(app_info))
-	finally:
-		os.unsetenv(kupfer_env)
+	try:
+		desktop_launch.launch_app_info(app_info, files,
+			   timestamp=_current_event_time(), desktop_file=desktop_file,
+			   launch_cb=launch_callback)
+	except desktop_launch.SpawnError as exc:
+		raise LaunchError(unicode(exc))
 	return True
 
-def application_is_running(app_info):
+def application_is_running(app_id):
 	svc = GetApplicationsMatcherService()
-	return svc.application_is_running(application_id(app_info))
+	return svc.application_is_running(app_id)
 
-def application_close_all(app_info):
+def application_close_all(app_id):
 	svc = GetApplicationsMatcherService()
-	return svc.application_close_all(application_id(app_info))
+	return svc.application_close_all(app_id)
 
 class ApplicationsMatcherService (pretty.OutputMixin):
 	"""Handle launching applications and see if they still run.
@@ -147,7 +138,9 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		return screen.get_windows_stacked()
 
 	def _get_filename(self):
-		version = 1
+		# Version 1: Up to incl v203
+		# Version 2: Do not track terminals
+		version = 2
 		return os.path.join(config.get_cache_home(),
 				"application_identification_v%d.pickle" % version)
 	def _load(self):
@@ -203,27 +196,26 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			return True
 		return False
 
-	def launched_application(self, app_id):
+	def launched_application(self, app_id, pid):
 		if self._has_match(app_id):
 			return
 		timeout = time() + 15
-		envcache = {}
-		gobject.timeout_add_seconds(2, self._find_application, app_id, timeout, envcache)
+		gobject.timeout_add_seconds(2, self._find_application, app_id, pid, timeout)
 		# and once later
-		gobject.timeout_add_seconds(30, self._find_application, app_id, timeout, envcache)
+		gobject.timeout_add_seconds(30, self._find_application, app_id, pid, timeout)
 
-	def _find_application(self, app_id, timeout, envcache=None):
+	def _find_application(self, app_id, pid, timeout):
+		if self._has_match(app_id):
+			return False
 		self.output_debug("Looking for window for application", app_id)
 		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
-			pid = app.get_pid()
-			if not pid:
-				pid = w.get_pid()
-			env = _read_environ(pid, envcache=envcache)
-			if env and kupfer_env in env:
-				if env[kupfer_env] == app_id:
-					self._store(app_id, w)
-					return False
+			app_pid = app.get_pid()
+			if not app_pid:
+				app_pid = w.get_pid()
+			if app_pid == pid:
+				self._store(app_id, w)
+				return False
 		if time() > timeout:
 			return False
 		return True

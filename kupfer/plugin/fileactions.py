@@ -243,7 +243,8 @@ class UnpackHere (Action):
 		self.extensions_set = set((".rar", ".7z", ".zip", ".gz", ".tgz",
 			".tar", ".lzma", ".bz2"))
 	def activate(self, leaf):
-		utils.launch_commandline("file-roller --extract-here %s" % leaf.object)
+		utils.spawn_async_notify_as("file-roller.desktop",
+				["file-roller", "--extract-here", leaf.object])
 
 	def valid_for_item(self, item):
 		tail, ext = os.path.splitext(item.object)
@@ -265,7 +266,7 @@ class CreateArchive (Action):
 	def _make_archive(cls, filepaths):
 		cmd = ["file-roller", "--add"]
 		cmd.extend(filepaths)
-		utils.spawn_async(cmd)
+		utils.spawn_async_notify_as("file-roller.desktop", cmd)
 
 	def activate(self, leaf):
 		self._make_archive((leaf.object, ))
@@ -289,7 +290,7 @@ class CreateArchiveIn (Action):
 		cmd = ["file-roller", "--add-to=%s" % (archive_path, )]
 		cmd.extend(filepaths)
 		runtimehelper.register_async_file_result(archive_path)
-		utils.spawn_async(cmd)
+		utils.spawn_async_notify_as("file-roller.desktop", cmd)
 		return archive_path
 
 	def activate(self, leaf, iobj):

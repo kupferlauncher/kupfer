@@ -66,8 +66,7 @@ class _ServiceAction(Action):
 
 	def activate(self, leaf):
 		sudo_cmd = __kupfer_settings__["sudo_cmd"]
-		utils.launch_commandline(sudo_cmd + " " + leaf.object + " " + self._command, \
-				in_terminal=True)
+		utils.spawn_in_terminal([sudo_cmd, leaf.object, self._command])
 
 	def item_types(self):
 		yield Service

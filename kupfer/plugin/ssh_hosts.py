@@ -10,36 +10,13 @@ __kupfer_actions__ = ("SSHConnect", )
 import codecs
 import os
 
-from kupfer import icons, utils, plugin_support
+from kupfer import icons, utils
 from kupfer.objects import Action
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.hosts import HOST_NAME_KEY, HostLeaf, HOST_SERVICE_NAME_KEY, \
 		HOST_ADDRESS_KEY
 
-__kupfer_settings__  = plugin_support.PluginSettings(
-	{
-		"key": "terminal_emulator",
-		"label": _("Preferred terminal"),
-		"type": str,
-		"value": "terminal",
-		"alternatives": ("terminal", "gnome-terminal", "konsole", "urxvt",
-		                 "urxvtc"),
-		"tooltip": _("The preferred terminal emulator. It's used to "
-		              "launch the SSH sessions.")
-	},
-	{
-		"key": "terminal_emulator_exarg",
-		"label": _("Execute flag"),
-		"type": str,
-		"value": "-x",
-		"alternatives": ("-x", "-e"),
-		"tooltip": _("The flag which makes the terminal execute "
-		             "everything following it inside the terminal "
-		             "(e.g. '-x' for gnome-terminal and terminal, "
-		             "'-e' for konsole and urxvt).")
-	},
-)
 
 
 class SSHLeaf (HostLeaf):
@@ -66,9 +43,7 @@ class SSHConnect (Action):
 		Action.__init__(self, name=_("Connect"))
 
 	def activate(self, leaf):
-		terminal = __kupfer_settings__["terminal_emulator"]
-		exarg = __kupfer_settings__["terminal_emulator_exarg"]
-		utils.spawn_async([terminal, exarg, "ssh", leaf[HOST_ADDRESS_KEY]])
+		utils.spawn_in_terminal(["ssh", leaf[HOST_ADDRESS_KEY]])
 
 	def get_description(self):
 		return _("Connect to SSH host")

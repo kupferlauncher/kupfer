@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import itertools
+import math
 import os
 import signal
 import sys
@@ -14,6 +15,7 @@ except ImportError:
 import gtk
 import gio
 import gobject
+import cairo
 
 from kupfer import kupferui
 from kupfer import version
@@ -48,6 +50,26 @@ def escape_markup_str(mstr):
 
 def text_direction_is_ltr():
 	return gtk.widget_get_default_direction() != gtk.TEXT_DIR_RTL
+
+def make_rounded_rect(cr,x,y,width,height,radius):
+	"""
+	Draws a rounded rectangle with corners of @radius
+	"""
+	cr.save()
+
+	w,h = width, height
+
+	cr.move_to(radius, 0)
+	cr.line_to(w-radius,0)
+	cr.arc(w-radius, radius, radius, 3*math.pi/2, 2*math.pi)
+	cr.line_to(w, h-radius)
+	cr.arc(w-radius, h-radius, radius, 0, math.pi/2)
+	cr.line_to(radius, h)
+	cr.arc(radius, h-radius, radius, math.pi/2, math.pi)
+	cr.line_to(0, radius)
+	cr.arc(radius, radius, radius, math.pi, 3*math.pi/2)
+	cr.close_path()
+	cr.restore()
 
 # State Constants
 class State (object):
@@ -224,6 +246,7 @@ class MatchView (gtk.Bin):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.label_char_width = 25
+		self.preedit_char_width = 5
 		self.match_state = State.Wait
 		self.icon_size = icon_size
 
@@ -253,22 +276,58 @@ class MatchView (gtk.Bin):
 		"""
 		from pango import ELLIPSIZE_MIDDLE
 		self.label = gtk.Label("<match>")
-		self.label.set_justify(gtk.JUSTIFY_CENTER)
+		self.label.set_single_line_mode(True)
 		self.label.set_width_chars(self.label_char_width)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.icon_view = gtk.Image()
 
 		# infobox: icon and match name
+		icon_align = gtk.Alignment(0.5, 0.5, 0, 0)
+		icon_align.set_property("top-padding", 5)
+		icon_align.add(self.icon_view)
 		infobox = gtk.HBox()
-		infobox.pack_start(self.icon_view, True, True, 0)
+		infobox.pack_start(icon_align, True, True, 0)
 		box = gtk.VBox()
 		box.pack_start(infobox, True, False, 0)
-		box.pack_start(self.label, False, True, 0)
+		self._editbox = gtk.HBox()
+		self._editbox.pack_start(self.label, True, True, 0)
+		box.pack_start(self._editbox, False, True, 0)
 		self.event_box = gtk.EventBox()
 		self.event_box.add(box)
+		self.event_box.connect("expose-event", self._box_expose)
+		self.event_box.set_app_paintable(True)
 		self.add(self.event_box)
 		self.event_box.show_all()
 		self.__child = self.event_box
+
+	def _box_expose(self, widget, event):
+		"Draw background on the EventBox"
+		rect = widget.get_allocation()
+		context = widget.window.cairo_create()
+		# set a clip region for the expose event
+		context.rectangle(event.area.x, event.area.y,
+		                  event.area.width, event.area.height)
+		scale = 1.0/2**16
+		# paint over GtkEventBox's default background
+		context.clip_preserve()
+		context.set_operator(cairo.OPERATOR_SOURCE)
+		normc = widget.style.bg[gtk.STATE_NORMAL]
+		if widget.get_toplevel().is_composited():
+			context.set_source_rgba(normc.red*scale,
+					normc.green*scale, normc.blue*scale, 0.8)
+		else:
+			context.set_source_rgba(normc.red*scale,
+					normc.green*scale, normc.blue*scale, 1.0)
+		context.fill()
+
+		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=15)
+		# Get the current selection color
+		newc = widget.style.bg[widget.get_state()]
+		context.set_operator(cairo.OPERATOR_OVER)
+		context.set_source_rgba(newc.red*scale,
+				newc.green*scale, newc.blue*scale, 0.9)
+		context.fill()
+		return False
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -392,13 +451,34 @@ class MatchView (gtk.Bin):
 		if update:
 			self.update_match()
 
-	def set_state(self, state):
+	def expand_preedit(self, preedit):
+		new_label_width = self.label_char_width - self.preedit_char_width
+		self.label.set_width_chars(new_label_width)
+		preedit.set_width_chars(self.preedit_char_width)
+		pass
+
+	def shrink_preedit(self, preedit):
+		self.label.set_width_chars(self.label_char_width)
+		preedit.set_width_chars(0)
+		pass
+
+	def inject_preedit(self, preedit):
 		"""
-		Widget state (Active/normal/prelight etc)
+		@preedit: Widget to be injected or None
 		"""
-		super(MatchView, self).set_state(state)
-		#self.label.set_state(gtk.STATE_NORMAL)
-		self.event_box.queue_draw()
+		if preedit:
+			old_parent = preedit.get_parent()
+			if old_parent:
+				old_parent.remove(preedit)
+			self.shrink_preedit(preedit)
+			self._editbox.pack_start(preedit, False, True, 0)
+			selectedc = self.style.dark[gtk.STATE_SELECTED]
+			preedit.modify_bg(gtk.STATE_SELECTED, selectedc)
+			preedit.show()
+			preedit.grab_focus()
+		else:
+			self.label.set_width_chars(self.label_char_width)
+			self.label.set_alignment(.5,.5)
 
 gobject.type_register(MatchView)
 
@@ -430,7 +510,7 @@ class Search (gtk.Bin):
 		# number rows to skip when press PgUp/PgDown
 		self.page_step = 7
 		self.source = None
-		self.icon_size = 96
+		self.icon_size = 128
 		self._old_win_position=None
 		self._has_search_result = False
 		# finally build widget
@@ -710,11 +790,6 @@ class Search (gtk.Bin):
 		self.match_state = State.NoMatch
 		self.match_view.set_match_state(name, icon, state=State.NoMatch)
 
-	def set_active(self, act):
-		self.active = act
-		state = (gtk.STATE_NORMAL, gtk.STATE_SELECTED)[act]
-		self.match_view.set_state(state)
-
 # Take care of gobject things to set up the Search class
 gobject.type_register(Search)
 gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
@@ -793,6 +868,7 @@ class Interface (gobject.GObject):
 		self.third = LeafSearch()
 		self.entry = gtk.Entry()
 		self.label = gtk.Label()
+		self.preedit = gtk.Entry()
 
 		self.current = None
 
@@ -807,29 +883,34 @@ class Interface (gobject.GObject):
 		self._key_pressed = None
 		self._reset_to_toplevel = False
 		self._reset_when_back = False
-		self.entry.set_size_request(0, 0)
 		self.entry.connect("realize", self._entry_realized)
-		self.entry.set_property("im-module", "gtk-im-context-simple")
+		self.preedit.set_has_frame(False)
+		self.preedit.set_inner_border(gtk.Border(0, 0, 0, 0))
+		self.preedit.set_width_chars(0)
+		self.preedit.set_alignment(1)
 
-		from pango import ELLIPSIZE_END
+		from pango import ELLIPSIZE_MIDDLE
 		self.label.set_width_chars(50)
-		self.label.set_ellipsize(ELLIPSIZE_END)
+		self.label.set_single_line_mode(True)
+		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
-		self.entry.connect("activate", self._activate, None)
-		self.entry.connect("key-press-event", self._entry_key_press)
-		self.entry.connect("key-release-event", self._entry_key_release)
-		self.entry.connect("copy-clipboard", self._entry_copy_clipboard)
-		self.entry.connect("cut-clipboard", self._entry_cut_clipboard)
-		self.entry.connect("paste-clipboard", self._entry_paste_clipboard)
+		self.preedit.connect("changed", self._preedit_changed)
+		self.preedit.connect("preedit-changed", self._preedit_im_changed)
+		for widget in (self.entry, self.preedit):
+			widget.connect("activate", self._activate, None)
+			widget.connect("key-press-event", self._entry_key_press)
+			widget.connect("key-release-event", self._entry_key_release)
+			widget.connect("copy-clipboard", self._entry_copy_clipboard)
+			widget.connect("cut-clipboard", self._entry_cut_clipboard)
+			widget.connect("paste-clipboard", self._entry_paste_clipboard)
 
 		# set up panewidget => self signals
 		# as well as window => panewidgets
 		for widget in (self.search, self.action, self.third):
 			widget.connect("activate", self._activate)
 			widget.connect("cursor-changed", self._selection_changed)
-			widget.connect("button-press-event", self._pane_button_press)
 			# window signals
 			window.connect("configure-event", widget._window_config)
 			window.connect("hide", widget._window_hidden)
@@ -871,26 +952,24 @@ class Interface (gobject.GObject):
 		if self._widget:
 			return self._widget
 		box = gtk.HBox()
-		box.pack_start(self.search, True, True, 0)
-		box.pack_start(self.action, True, True, 0)
-		box.pack_start(self.third, True, True, 0)
+		box.pack_start(self.search, True, True, 3)
+		box.pack_start(self.action, True, True, 3)
+		box.pack_start(self.third, True, True, 3)
 		vbox = gtk.VBox()
 		vbox.pack_start(box, True, True, 0)
-		vbox.pack_start(self.label, True, True, 0)
-		vbox.pack_start(self.entry, True, True, 0)
+
+		label_align = gtk.Alignment(0.5, 1, 0, 0)
+		label_align.set_property("top-padding", 3)
+		label_align.add(self.label)
+		vbox.pack_start(label_align, False, False, 0)
+		vbox.pack_start(self.entry, False, False, 0)
 		vbox.show_all()
-		self.label.hide()
 		self.third.hide()
 		self._widget = vbox
 		return vbox
 
 	def _entry_realized(self, widget):
 		self.update_text_mode()
-
-	def _pane_button_press(self, widget, event):
-		window = widget.get_toplevel()
-		window.begin_move_drag(event.button,
-				int(event.x_root), int(event.y_root), event.time)
 
 	def _entry_key_release(self, entry, event):
 		self._key_pressed = None
@@ -918,9 +997,7 @@ class Interface (gobject.GObject):
 		has_input = bool(self.entry.get_text())
 
 		curtime = time.time()
-		# if input is slow/new, we reset
-		self._latest_input_timer.set(self._slow_input_interval,
-				self._relax_search_terms)
+		self._reset_input_timer()
 
 		setctl = settings.GetSettingsController()
 		# process accelerators
@@ -1001,6 +1078,8 @@ class Interface (gobject.GObject):
 		elif keyv == key_book["BackSpace"]:
 			if not has_input:
 				self._backspace_key_press()
+			elif not text_mode:
+				self.entry.delete_text(self.entry.get_text_length() - 1, -1)
 			else:
 				return False
 		elif keyv == key_book["Left"]:
@@ -1171,18 +1250,14 @@ class Interface (gobject.GObject):
 	def update_text_mode(self):
 		"""update appearance to whether text mode enabled or not"""
 		if self._is_text_mode:
-			self.entry.set_size_request(-1,-1)
-			self.entry.set_property("has-frame", True)
-			# Reset text style to normal
-			self.entry.modify_text(gtk.STATE_NORMAL, None)
-			self.current.set_state(gtk.STATE_ACTIVE)
+			self.entry.show()
+			self.entry.grab_focus()
+			self.entry.set_position(-1)
+			self.preedit.hide()
+			self.preedit.set_width_chars(0)
 		else:
-			self.entry.set_size_request(0,0)
-			self.entry.set_property("has-frame", False)
-			# Use text color = background color
-			theme_entry_bg = self.entry.style.bg[gtk.STATE_NORMAL]
-			self.entry.modify_text(gtk.STATE_NORMAL, theme_entry_bg)
-			self.current.set_state(gtk.STATE_SELECTED)
+			self.entry.hide()
+		self._update_active()
 
 	def switch_to_source(self):
 		if self.current is not self.search:
@@ -1246,6 +1321,19 @@ class Interface (gobject.GObject):
 				self.reset_text()
 			return True
 
+	def get_context_actions(self):
+		"""
+		Get a list of (name, function) currently
+		active context actions
+		"""
+		has_match = self.current.get_match_state() == State.Match
+		if has_match:
+			yield (_("Compose Command"), self.compose_action)
+			#yield (_("Comma Trick"), self.comma_trick)
+		yield (_("Select Selected Text"), self.select_selected_text)
+		if self.get_can_enter_text_mode():
+			yield (_("Toggle Text Mode"), self.toggle_text_mode_quick)
+
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
 		if not item:
@@ -1288,9 +1376,15 @@ class Interface (gobject.GObject):
 		self.third.set_property("visible", show)
 
 	def _update_active(self):
-		self.action.set_active(self.action is self.current)
-		self.search.set_active(self.search is self.current)
-		self.third.set_active(self.third is self.current)
+		for panewidget in (self.action, self.search, self.third):
+			if panewidget is not self.current:
+				panewidget.set_state(gtk.STATE_NORMAL)
+			panewidget.match_view.inject_preedit(None)
+		if self._is_text_mode:
+			self.current.set_state(gtk.STATE_ACTIVE)
+		else:
+			self.current.set_state(gtk.STATE_SELECTED)
+			self.current.match_view.inject_preedit(self.preedit)
 		self._description_changed()
 
 	def switch_current(self, reverse=False):
@@ -1362,8 +1456,9 @@ class Interface (gobject.GObject):
 
 	def _description_changed(self):
 		match = self.current.get_current()
-		name = match and match.get_description() or ""
-		self.label.set_text(name)
+		desc = match and match.get_description() or ""
+		markup = "<small>%s</small>" % (escape_markup_str(desc), )
+		self.label.set_markup(markup)
 
 	def put_text(self, text):
 		"""
@@ -1379,6 +1474,34 @@ class Interface (gobject.GObject):
 			filter(None, [gio.File(U).get_path() for U in fileuris]))
 		if leaves:
 			self.data_controller.insert_objects(data.SourcePane, leaves)
+
+	def _reset_input_timer(self):
+		# if input is slow/new, we reset
+		self._latest_input_timer.set(self._slow_input_interval,
+				self._relax_search_terms)
+
+	def _preedit_im_changed(self, editable, preedit_string):
+		"""
+		This is called whenever the input method changes its own preedit box.
+		We take this opportunity to expand it.
+		"""
+		if preedit_string:
+			self.current.match_view.expand_preedit(self.preedit)
+			self._reset_input_timer()
+
+	def _preedit_changed(self, editable):
+		"""
+		The preedit has changed. As below, we need to use unicode.
+		"""
+		text = editable.get_text()
+		text = text.decode("UTF-8")
+		if text:
+			self.entry.insert_text(text, -1)
+			self.entry.set_position(-1)
+			editable.delete_text(0, -1)
+			# uncomment this to reset width after every commit.
+			# self.current.match_view.shrink_preedit(self.preedit)
+			self._reset_input_timer()
 
 	def _changed(self, editable):
 		"""
@@ -1421,6 +1544,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		self._use_window_decorations = False
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1453,10 +1577,16 @@ class WindowController (pretty.OutputMixin):
 			if value: self.show_statusicon()
 			else: self.hide_statusicon()
 
-	def _setup_menu(self):
+	def _setup_menu(self, context_menu=False):
 		menu = gtk.Menu()
 
 		def menu_callback(menuitem, callback):
+			callback()
+			if context_menu:
+				self.put_away()
+			return True
+
+		def submenu_callback(menuitem, callback):
 			callback()
 			return True
 
@@ -1469,8 +1599,18 @@ class WindowController (pretty.OutputMixin):
 			mitem.connect("activate", menu_callback, callback)
 			menu.append(mitem)
 
-		add_menu_item(None, self.activate, _("Show Main Interface"))
+		if context_menu:
+			add_menu_item(gtk.STOCK_CLOSE, self.put_away)
+		else:
+			add_menu_item(None, self.activate, _("Show Main Interface"))
 		menu.append(gtk.SeparatorMenuItem())
+		if context_menu:
+			for name, func in self.interface.get_context_actions():
+				mitem = gtk.MenuItem(label=name)
+				mitem.connect("activate", submenu_callback, func)
+				menu.append(mitem)
+			menu.append(gtk.SeparatorMenuItem())
+
 		add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
 		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
 		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
@@ -1511,20 +1651,77 @@ class WindowController (pretty.OutputMixin):
 
 		self.window.connect("delete-event", self._close_window)
 		self.window.connect("focus-out-event", self._lost_focus)
+		self.window.connect("size-allocate", self._size_allocate)
+		self.window.connect("button-press-event", self._window_frame_clicked)
 		widget = self.interface.get_widget()
 		widget.show()
 
-		self.window.add(widget)
+		if self._use_window_decorations:
+			self.window.add(widget)
+		else:
+			# Build the window frame with its top bar
+			topbar = gtk.HBox()
+			vbox = gtk.VBox()
+			vbox.pack_start(topbar, False, False)
+			vbox.pack_start(widget, True, True)
+			vbox.show()
+			self.window.add(vbox)
+			title = gtk.Label(u"")
+			button = gtk.Label(u"")
+			l_programname = version.PROGRAM_NAME.lower()
+			# The text on the general+context menu button
+			btext = u"<b>%s \N{GEAR}</b>" % (l_programname, )
+			button.set_markup(btext)
+			button_box = gtk.EventBox()
+			button_box.set_visible_window(False)
+			button_box.add(button)
+			button_box.connect("button-press-event", self._context_clicked)
+			button_box.connect("enter-notify-event", self._button_enter, btext)
+			button_box.connect("leave-notify-event", self._button_leave, btext)
+			title_align = gtk.Alignment(0, 0.5, 0, 0)
+			title_align.add(title)
+			topbar.pack_start(title_align, True, True)
+			topbar.pack_start(button_box, False, False)
+			topbar.show_all()
+			screen = gtk.gdk.screen_get_default()
+			rgba = screen.get_rgba_colormap()
+			if rgba:
+				self.window.set_colormap(rgba)
+
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
+		if not self._use_window_decorations:
+			self.window.set_app_paintable(True)
+			self.window.set_property("border-width", 8)
+			self.window.connect("expose-event", self._paint_frame)
+			self.window.set_decorated(False)
 		if not text_direction_is_ltr():
 			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
 		# Setting not resizable changes from utility window
 		# on metacity
 		self.window.set_resizable(False)
+
+	def _window_frame_clicked(self, widget, event):
+		"Start drag when the window is clicked"
+		widget.begin_move_drag(event.button,
+				int(event.x_root), int(event.y_root), event.time)
+
+	def _context_clicked(self, widget, event):
+		"The context menu label was clicked"
+		menu = self._setup_menu(True)
+		menu.popup(None, None, None, event.button, event.time)
+		return True
+
+	def _button_enter(self, widget, event, udata):
+		"Pointer enters context menu button"
+		widget.child.set_markup("<u>" + udata + "</u>")
+
+	def _button_leave(self, widget, event, udata):
+		"Pointer leaves context menu button"
+		widget.child.set_markup(udata)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
@@ -1542,23 +1739,78 @@ class WindowController (pretty.OutputMixin):
 	def result_callback(self, sender, result_type):
 		self.activate()
 
+	def _paint_frame(self, widget, event):
+		cr = widget.window.cairo_create()
+		w,h = widget.allocation.width, widget.allocation.height
+
+
+		region = gtk.gdk.region_rectangle(event.area)
+		cr.region(region)
+		cr.clip()
+
+		def rgba_from_gdk(c, alpha):
+			return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
+
+		if widget.is_composited():
+			cr.set_operator(cairo.OPERATOR_CLEAR)
+			cr.rectangle(0,0,w,h)
+			cr.fill()
+			cr.rectangle(0,0,w,h)
+			cr.set_operator(cairo.OPERATOR_OVER)
+			c = widget.style.bg[widget.get_state()]
+			cr.set_source_rgba(*rgba_from_gdk(c, 0.8))
+			cr.fill()
+
+		c = widget.style.dark[gtk.STATE_SELECTED]
+		cr.set_operator(cairo.OPERATOR_OVER)
+		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
+
+		make_rounded_rect(cr, 0, 0, w, h, 10)
+		cr.set_line_width(2.5)
+		cr.stroke()
+
+
+	def _size_allocate(self, widget, allocation):
+		if self._use_window_decorations:
+			return
+		if not hasattr(self, "_old_alloc"):
+			self._old_alloc = (0,0)
+		w,h = allocation.width, allocation.height
+
+		if self._old_alloc == (w,h):
+			return
+		self._old_alloc = (w,h)
+
+		bitmap = gtk.gdk.Pixmap(None, w, h, 1)
+		cr = bitmap.cairo_create()
+
+		cr.set_source_rgb(0.0, 0.0, 0.0)
+		cr.set_operator(cairo.OPERATOR_CLEAR)
+		cr.paint()
+
+		# radius of rounded corner
+		cr.set_source_rgb(1.0, 1.0, 1.0)
+		cr.set_operator(cairo.OPERATOR_SOURCE)
+		make_rounded_rect(cr, 0, 0, w, h, 10)
+		cr.fill()
+		widget.shape_combine_mask(bitmap, 0, 0)
+		r = region = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
+		if widget.window:
+			widget.window.invalidate_region(r, False)
+
 	def _lost_focus(self, window, event):
-		setctl = settings.GetSettingsController()
-		if setctl.get_close_on_unfocus():
-			# Since focus-out-event is triggered even
-			# when we click inside the window, we'll
-			# do some additional math to make sure that
-			# that window won't close if teh mouse pointer
-			# is over it. Looks like a dirty hack, but a
-			# similar solution is used in gnome-do, so probably
-			# there's no better way of handling this.
-			# Any impovements are welcome.
-			x, y, mods = window.get_screen().get_root_window().get_pointer()
-			w_x, w_y = window.get_position()
-			w_w, w_h = window.get_size()
-			if (x not in xrange(w_x, w_x + w_w) or
-			    y not in xrange(w_y, w_y + w_h)):
-				self._window_hide_timer.set_ms(50, self.put_away)
+		# Close at unfocus.
+		# Since focus-out-event is triggered even
+		# when we click inside the window, we'll
+		# do some additional math to make sure that
+		# that window won't close if the mouse pointer
+		# is over it.
+		x, y, mods = window.get_screen().get_root_window().get_pointer()
+		w_x, w_y = window.get_position()
+		w_w, w_h = window.get_size()
+		if (x not in xrange(w_x, w_x + w_w) or
+			y not in xrange(w_y, w_y + w_h)):
+			self._window_hide_timer.set_ms(50, self.put_away)
 
 	def _center_window(self, *ignored):
 		"""Center Window on the monitor the pointer is currently on"""

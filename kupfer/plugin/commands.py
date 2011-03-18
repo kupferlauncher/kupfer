@@ -6,7 +6,8 @@ __kupfer_actions__ = (
 		"WriteToCommand",
 	)
 __kupfer_text_sources__ = ("CommandTextSource",)
-__description__ = _("Run commandline programs")
+__description__ = _(u"Run command-line programs. Actions marked with"
+                    u" the symbol %s run in a subshell.") % u"\N{GEAR}"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -210,4 +211,4 @@ class CommandTextSource (TextSource):
 				yield Command(exepath, text)
 				break
 	def get_description(self):
-		return _("Run commandline programs")
+		return _("Run command-line programs")

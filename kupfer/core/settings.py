@@ -36,11 +36,11 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			"magickeybinding": "",
 			"showstatusicon" : True,
 			"usecommandkeys" : True,
-			"closeonunfocus" : True,
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
 		'Keybindings': {},
+		"Tools": {},
 	}
 	def __init__(self):
 		gobject.GObject.__init__(self)
@@ -247,12 +247,6 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		return self.set_plugin_config(plugin_id, key,
 		                              value, value_type=strbool)
 
-	def get_close_on_unfocus(self):
-		return self.get_config("Kupfer", "closeonunfocus")
-
-	def set_close_on_unfocus(self, val):
-		return self._set_config("Kupfer", "closeonunfocus", val)
-
 	def get_keybinding(self):
 		"""Convenience: Kupfer keybinding as string"""
 		return self.get_config("Kupfer", "keybinding")
@@ -373,6 +367,16 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		for key, value in self.get_from_defaults('Keybindings'):
 			self._set_config('Keybindings', key, value)
 
+	def get_preferred_tool(self, tool_id):
+		"""
+		Get preferred ID for a @tool_id
+
+		Supported: 'terminal'
+		"""
+		return self.get_config("Tools", tool_id)
+
+	def set_preferred_tool(self, tool_id, value):
+		return self._set_config("Tools", tool_id, value)
 
 
 # Section, Key, Value

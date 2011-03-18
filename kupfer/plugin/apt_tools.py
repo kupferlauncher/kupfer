@@ -91,9 +91,9 @@ class InstallPackage (Action):
 
 	def activate_multiple(self, objs):
 		program = (__kupfer_settings__["installation_method"])
-		pkgs = " ".join(o.object.strip() for o in objs)
-		utils.launch_commandline("%s %s" % (program, pkgs),
-		                         in_terminal=True)
+		pkgs = [o.object.strip() for o in objs]
+		prog_argv = utils.argv_for_commandline(program)
+		utils.spawn_in_terminal(prog_argv + pkgs)
 
 	def item_types(self):
 		yield Package

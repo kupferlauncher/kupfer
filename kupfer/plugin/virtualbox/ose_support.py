@@ -65,15 +65,13 @@ def vm_action(action, vm_uuid):
 		@param vm_uuid - virtual machine uuid
 	'''
 	if action == vbox_const.VM_START_NORMAL:
-		utils.launch_commandline('VBoxManage startvm ' + vm_uuid + \
-				' --type gui')
+		utils.spawn_async(['VBoxManage', 'startvm', vm_uuid, '--type', 'gui'])
 	elif action == vbox_const.VM_START_HEADLESS:
-		utils.launch_commandline('VBoxManage startvm ' + vm_uuid + \
-				' --type headless')
+		utils.spawn_async(['VBoxManage', 'startvm', vm_uuid, '--type',
+		                   'headless'])
 	else:
 		command = _ACTIONS[action]
-		utils.launch_commandline('VBoxManage controlvm ' + vm_uuid + ' ' + \
-				command)
+		utils.spawn_async(['VBoxManage', 'controlvm', vm_uuid, command])
 
 
 def _get_virtual_machines(config_file):

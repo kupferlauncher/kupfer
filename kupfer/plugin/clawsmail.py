@@ -26,7 +26,7 @@ class ComposeMail(RunnableLeaf):
 		RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
 	def run(self):
-		utils.launch_commandline('claws-mail --compose')
+		utils.spawn_async(['claws-mail','--compose'])
 
 	def get_description(self):
 		return _("Compose a new message in Claws Mail")
@@ -41,7 +41,7 @@ class ReceiveMail(RunnableLeaf):
 		RunnableLeaf.__init__(self, name=_("Receive All Email"))
 
 	def run(self):
-		utils.launch_commandline('claws-mail --receive-all')
+		utils.spawn_async(['claws-mail', '--receive-all'])
 
 	def get_description(self):
 		return _("Receive new messages from all accounts in ClawsMail")

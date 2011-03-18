@@ -25,7 +25,7 @@ class ComposeMail(RunnableLeaf):
 		RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
 	def run(self):
-		utils.launch_commandline('opera -remote "openComposer()"')
+		utils.spawn_async(['opera', '-remote', 'openComposer()'])
 
 	def get_description(self):
 		return _("Compose a new message in Opera Mail")
@@ -44,7 +44,7 @@ class NewMailAction(Action):
 
 	def activate_multiple(self, objects):
 		recipients = ",".join(email_from_leaf(L) for L in objects)
-		utils.launch_commandline('opera -remote openURL(mailto:%s)' % recipients)
+		utils.spawn_async(['opera', '-remote', 'openURL(mailto:%s)' % recipients])
 
 	def get_icon_name(self):
 		return "mail-message-new"

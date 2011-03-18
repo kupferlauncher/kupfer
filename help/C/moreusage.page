@@ -82,16 +82,6 @@
  </section>
   
  <section>
-  <title>Open Terminal Here</title>
-  <p>
-   Open terminal first calls <cmd>xdg-terminal</cmd>, then
-   <cmd>gnome-terminal</cmd>.  xdg-terminal is a script to find the user's
-   configured terminal program for their Desktop Environment. Install
-   <cmd>xdg-terminal</cmd> if you need this (or install a symlink
-   <em>called</em> xdg-terminal). 
-  </p>
- </section>
- <section>
   <title>Command-line Connection</title>
   <p>
     The command <cmd>kupfer</cmd> on the command-line will focus
