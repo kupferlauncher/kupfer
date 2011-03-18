@@ -154,7 +154,6 @@ class AsyncCommand (object):
 			written = os.write(sourcefd, s)
 			if written < len(s):
 				databuf.insert(0, s[written:])
-			pretty.print_debug(__name__, "Wrote", repr(s[:written]))
 			return True
 		return False
 
