@@ -2,12 +2,12 @@
 NEWS for kupfer
 ===============
 
-kupfer's next release
----------------------
+kupfer v204
+-----------
 
-Not Released Yet
+Released Friday, 18 March 2011
 
-* Expand and improve upon Kupfer's User Documentation.
+* Expand and improve upon `Kupfer's User Documentation`__.
 * Use and require **Waf 1.6**, which supports building using either Python 3
   or Python 2.6+. Kupfer itself still uses Python 2.6+ only.
 * Add *Gwibber* plugin that allows integration with Twitter, Identi.ca, Buzz
@@ -19,7 +19,9 @@ Not Released Yet
 * Periodically save data from plugins so it's not lost if Kupfer can't exit
   cleanly at logout
 * *Commands*: Add actions *Pass to Command*, *Filter through Command*, *Send
-  to Command* which add a lot of shell script-related power to Kupfer
+  to Command* which add a lot of shell script-related power to Kupfer.
+  These actions, and *Run (Get Output)* as well, use a shell so
+  that you can run shell pipelines.
 * *Search the Web*: Fix bug in OpenSearch parser (:lp:`682476`)
 * *VirtualBox*: Support vboxapi4 (Karol Będkowski)
 * *Thunderbird*: Fix problems in the mork parser (Karol Będkowski)
@@ -44,9 +46,12 @@ Not Released Yet
 * The *Large Type* action will work with anything that has
   ``TextRepresentation``
 
+__ http://kaizer.se/wiki/kupfer/help/
+
 * Localization updates:
   + (cs) Marek Černocký
   + (da) Joe Hansen
+  + (de) Mario Blättermann
   + (es) Daniel Mustieles
   + (gl) Marcos Lans
   + (pl) Karol Będkowski
