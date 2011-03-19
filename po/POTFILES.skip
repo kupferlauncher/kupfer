@@ -1,2 +1,3 @@
 contrib/icon_names.py
 contrib/runningapplications.py
+contrib/twitter/__init__.py

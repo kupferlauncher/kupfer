@@ -29,6 +29,7 @@ kupfer/obj/sources.py
 kupfer/obj/special.py
 
 # Plugin order: First, all by default enabled plugins, then others. Sorted.
+kupfer/plugin/core/alternatives.py
 kupfer/plugin/core/commands.py
 kupfer/plugin/core/contents.py
 kupfer/plugin/core/debug.py
@@ -65,6 +66,7 @@ kupfer/plugin/windows.py
 kupfer/plugin/abiword.py
 kupfer/plugin/apt_tools.py
 kupfer/plugin/archiveinside.py
+kupfer/plugin/asciiunicodeiconset.py
 kupfer/plugin/audacious.py
 kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
