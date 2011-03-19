@@ -129,11 +129,12 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		term_id = setctl.get_preferred_tool('terminal')
 		# fill in the available terminals
-		terminals = utils.locale_sort(terminal.get_valid_terminals())
+		terminals = utils.locale_sort(terminal.get_valid_terminals(),
+		                              key=lambda t:t[1])
 		term_iter = None
-		for term in terminals:
-			_it = terminal_combobox_store.append((unicode(term), term.get_id()))
-			if term.get_id() == term_id:
+		for (id_, name) in terminals:
+			_it = terminal_combobox_store.append((name, id_))
+			if id_ == term_id:
 				term_iter = _it
 		term_iter = term_iter or terminal_combobox_store.get_iter_first()
 		terminal_combobox.set_active_iter(term_iter)

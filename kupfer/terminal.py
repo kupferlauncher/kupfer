@@ -1,6 +1,6 @@
 import os
 
-_TERMINALS = []
+_TERMINALS = {}
 
 class Terminal (object):
 	"""
@@ -18,28 +18,29 @@ class Terminal (object):
 	def get_id(self):
 		return self.app_id
 
-def register_terminal(terminal_description):
+def register_terminal(id_, terminal_description):
 	"""Register @terminal_description (can be used by plugins)"""
-	_TERMINALS.append(terminal_description)
+	_TERMINALS[id_] = terminal_description
 
 def unregister_terminal(terminal_id):
-	_TERMINALS[:] = [t for t in _TERMINALS if t.app_id != terminal_id]
+	_TERMINALS.pop(terminal_id, None)
 
 def is_known_terminal_executable(exearg):
 	"Return True if @exearg is a known terminal"
-	for term in _TERMINALS:
+	for term in _TERMINALS.itervalues():
 		if exearg == term.argv[0]:
 			return True
 	return False
 
 def get_valid_terminals():
-	for term in _TERMINALS:
+	""" Yield (identifier, unicode name) tuples """
+	for id_, term in _TERMINALS.iteritems():
 		# iterate over $PATH directories
 		PATH = os.environ.get("PATH") or os.defpath
 		for execdir in PATH.split(os.pathsep):
 			exepath = os.path.join(execdir, term.argv[0])
 			if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
-				yield term
+				yield (id_, unicode(term))
 				break
 
 def get_configured_terminal():
@@ -49,25 +50,28 @@ def get_configured_terminal():
 	from kupfer.core import settings
 	setctl = settings.GetSettingsController()
 	id_ = setctl.get_preferred_tool('terminal')
-	for term in _TERMINALS:
-		if term.app_id == id_:
-			return term
-	return _TERMINALS[0]
+	return _TERMINALS.get(id_) or _TERMINALS["default"]
 
 # Insert default terminals
 
-register_terminal(Terminal(_("GNOME Terminal"), ["gnome-terminal"],
-                             "-x", "gnome-terminal.desktop", True))
+register_terminal("gnome-terminal",
+                  Terminal(_("GNOME Terminal"), ["gnome-terminal"],
+                  "-x", "gnome-terminal.desktop", True))
 
-register_terminal(Terminal(_("XFCE Terminal"), ["xfce4-terminal"],
-                             "-x", "xfce4-terminal.desktop", True))
+register_terminal("xfce4-terminal",
+                  Terminal(_("XFCE Terminal"), ["xfce4-terminal"],
+                  "-x", "xfce4-terminal.desktop", True))
 
-register_terminal(Terminal(_("Urxvt"), ["urxvt"],
-                             "-e", "urxvt.desktop", False))
+register_terminal("urxvt",
+                  Terminal(_("Urxvt"), ["urxvt"],
+                  "-e", "urxvt.desktop", False))
 
-register_terminal(Terminal(_("LXTerminal"), ["lxterminal"],
-                             "-e", "lxterminal.desktop", False))
+register_terminal("lxterminal",
+                  Terminal(_("LXTerminal"), ["lxterminal"],
+                  "-e", "lxterminal.desktop", False))
 
-register_terminal(Terminal(_("X Terminal"), ["xterm"],
-                             "-e", "xterm.desktop", False))
+register_terminal("default",
+                  Terminal(_("X Terminal"), ["xterm"],
+                  "-e", "xterm.desktop", False))
+
 

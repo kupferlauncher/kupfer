@@ -9,11 +9,13 @@ except ImportError:
 from kupfer import pretty
 from kupfer import config
 from kupfer.core import settings
+from kupfer import terminal
 
 __all__ = [
 	"UserNamePassword",
 	"PluginSettings",
 	"check_dbus_connection",
+	"check_keyring_support",
 ]
 
 def _is_core_setting(key):
@@ -178,3 +180,73 @@ if not keyring:
 	class UserNamePassword (object):
 		pass
 
+
+def _plugin_configuration_error(plugin, err):
+	pretty.print_error(__name__, err)
+
+_available_alternatives = {
+	"terminal": {
+		"constructor": terminal.Terminal,
+		"registrator": terminal.register_terminal,
+		"unregistrator": terminal.unregister_terminal,
+		"key": "terminal",
+	}
+}
+
+def register_alternative(caller, category_key, id_, *arguments, **kwargs):
+	"""
+	Register a new alternative for the category @category_key
+
+	@caller: Must be the caller's plugin id (Plugin __name__ variable)
+
+	@id_ is a string identifier for the object to register
+	All the @arguments are passed to the alternative constructor
+	All @kwargs are ignored at the moment.
+
+	Returns True with success
+	"""
+	caller = str(caller)
+	category_key = str(category_key)
+	id_ = str(id_)
+
+	if category_key not in _available_alternatives:
+		_plugin_configuration_error(caller,
+				"Category '%s' does not exist" % category_key)
+		return
+	alt = _available_alternatives[category_key]
+	id_ = caller + "." + id_
+	try:
+		alt_obj = alt["constructor"](*arguments)
+		alt["registrator"](id_, alt_obj)
+	except Exception as exc:
+		_plugin_configuration_error(caller,
+			"Configuration error for alternative '%s':" % category_key)
+		_plugin_configuration_error(caller, exc)
+		return
+	pretty.print_debug(__name__,
+		"Registered alternative %s.%s from %s" % (category_key, id_, caller))
+
+	return True
+
+def unregister_alternative(caller, category_key, id_):
+	"""
+	Remove the alternative for category @category_key
+	"""
+	caller = str(caller)
+	category_key = str(category_key)
+	id_ = str(id_)
+	if category_key not in _available_alternatives:
+		_plugin_configuration_error(caller,
+				"Category '%s' does not exist" % category_key)
+		return
+	alt = _available_alternatives[category_key]
+	id_ = caller + "." + id_
+	try:
+		alt["unregistrator"](id_)
+	except KeyError:
+		_plugin_configuration_error(caller,
+				"Alternative '%s' does not exist" % (id_, ))
+		return
+	pretty.print_debug(__name__,
+		"Unregistered alternative %s.%s from %s" % (category_key, id_, caller))
+	return True
