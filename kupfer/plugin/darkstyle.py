@@ -9,6 +9,18 @@ import gtk
 
 from kupfer import config
 
+"""
+Kupfer's UI can be themed by using the normal GtkRc style language
+Theming can change colors and some pre-defined parameters, but
+not the layout.
+
+In what follows, there are a lot of commented properties
+that are not in use. These are included to document all
+properties that can be changed.
+
+See also http://live.gnome.org/GnomeArt/Tutorials/GtkThemes
+"""
+
 DARK_STYLE = """
 style "dark"
 {
@@ -35,6 +47,16 @@ style "dark"
 	base[NORMAL] = "#777"
 	base[SELECTED] = "#100"
 	base[ACTIVE] = "#112"
+
+## These are UI Widget style properties with their approximate
+## default values. These can all be overidden in the theme.
+## MatchView :: corner-radius = 15
+## MatchView :: opacity = 90
+## KupferWindow :: corner-radius = 15
+## KupferWindow :: opacity = 80
+## KupferWindow :: decorated = 0
+## KupferWindow :: border-width = 8
+
 }
 
 ## The main window is kupfer
