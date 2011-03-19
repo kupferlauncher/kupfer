@@ -312,20 +312,24 @@ class MatchView (gtk.Bin):
 		context.clip_preserve()
 		context.set_operator(cairo.OPERATOR_SOURCE)
 		normc = widget.style.bg[gtk.STATE_NORMAL]
-		if widget.get_toplevel().is_composited():
+		toplevel_window = widget.get_toplevel()
+		if toplevel_window.is_composited():
+			opacity = 0.01*toplevel_window.style_get_property('opacity')
 			context.set_source_rgba(normc.red*scale,
-					normc.green*scale, normc.blue*scale, 0.8)
+					normc.green*scale, normc.blue*scale, opacity)
 		else:
 			context.set_source_rgba(normc.red*scale,
 					normc.green*scale, normc.blue*scale, 1.0)
 		context.fill()
 
-		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=15)
+		radius = self.style_get_property('corner-radius')
+		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=radius)
 		# Get the current selection color
 		newc = widget.style.bg[widget.get_state()]
 		context.set_operator(cairo.OPERATOR_OVER)
+		opacity = 0.01*self.style_get_property('opacity')
 		context.set_source_rgba(newc.red*scale,
-				newc.green*scale, newc.blue*scale, 0.9)
+				newc.green*scale, newc.blue*scale, opacity)
 		context.fill()
 		return False
 
@@ -481,6 +485,16 @@ class MatchView (gtk.Bin):
 			self.label.set_alignment(.5,.5)
 
 gobject.type_register(MatchView)
+gtk.widget_class_install_style_property(MatchView,
+		('corner-radius', gobject.TYPE_INT, 'Corner radius',
+		 'Radius of bezel around match',
+		 0, 50, 15,
+		 gobject.PARAM_READABLE))
+gtk.widget_class_install_style_property(MatchView,
+		('opacity', gobject.TYPE_INT, 'Bezel opacity',
+		 'Opacity of bezel around match',
+		 50, 100, 90,
+		 gobject.PARAM_READABLE))
 
 class Search (gtk.Bin):
 	"""
@@ -1548,6 +1562,105 @@ gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("launched-action", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
+class KupferWindow (gtk.Window):
+	__gtype_name__ = "KupferWindow"
+	def __init__(self, *args):
+		super(KupferWindow, self).__init__(*args)
+		self.connect("style-set", self.on_style_set)
+		self.set_name("kupfer")
+		self.connect("expose-event", self.on_expose_event)
+		self.connect("size-allocate", self.on_size_allocate)
+		self.set_app_paintable(True)
+
+	def on_style_set(self, widget, old_style):
+		widget.set_property('decorated',
+				widget.style_get_property('decorated'))
+		widget.set_property('border-width',
+				widget.style_get_property('border-width'))
+
+	def on_expose_event(self, widget, event):
+		cr = widget.window.cairo_create()
+		w,h = widget.allocation.width, widget.allocation.height
+
+		region = gtk.gdk.region_rectangle(event.area)
+		cr.region(region)
+		cr.clip()
+
+		def rgba_from_gdk(c, alpha):
+			return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
+
+		if widget.is_composited():
+			opacity = 0.01*widget.style_get_property('opacity')
+			cr.set_operator(cairo.OPERATOR_CLEAR)
+			cr.rectangle(0,0,w,h)
+			cr.fill()
+			cr.rectangle(0,0,w,h)
+			cr.set_operator(cairo.OPERATOR_OVER)
+			c = widget.style.bg[widget.get_state()]
+			cr.set_source_rgba(*rgba_from_gdk(c, opacity))
+			cr.fill()
+
+		c = widget.style.dark[gtk.STATE_SELECTED]
+		cr.set_operator(cairo.OPERATOR_OVER)
+		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
+
+		radius = widget.style_get_property('corner-radius')
+		make_rounded_rect(cr, 0, 0, w, h, radius)
+		cr.set_line_width(2.5)
+		cr.stroke()
+
+
+	def on_size_allocate(self, widget, allocation):
+		if not hasattr(self, "_old_alloc"):
+			self._old_alloc = (0,0)
+		w,h = allocation.width, allocation.height
+
+		if self._old_alloc == (w,h):
+			return
+		self._old_alloc = (w,h)
+
+		bitmap = gtk.gdk.Pixmap(None, w, h, 1)
+		cr = bitmap.cairo_create()
+
+		cr.set_source_rgb(0.0, 0.0, 0.0)
+		cr.set_operator(cairo.OPERATOR_CLEAR)
+		cr.paint()
+
+		# radius of rounded corner
+		cr.set_source_rgb(1.0, 1.0, 1.0)
+		cr.set_operator(cairo.OPERATOR_SOURCE)
+		radius = widget.style_get_property('corner-radius')
+		make_rounded_rect(cr, 0, 0, w, h, radius)
+		cr.fill()
+		widget.shape_combine_mask(bitmap, 0, 0)
+		r = region = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
+		if widget.window:
+			widget.window.invalidate_region(r, False)
+
+
+gobject.type_register(KupferWindow)
+gtk.widget_class_install_style_property(KupferWindow,
+		('corner-radius', gobject.TYPE_INT, 'Corner radius',
+		 'Radius of bezel around window',
+		 0, 50, 15,
+		 gobject.PARAM_READABLE))
+gtk.widget_class_install_style_property(KupferWindow,
+		('opacity', gobject.TYPE_INT, 'Frame opacity',
+		 'Opacity of window background',
+		 50, 100, 80,
+		 gobject.PARAM_READABLE))
+gtk.widget_class_install_style_property(KupferWindow,
+		('decorated', gobject.TYPE_BOOLEAN, 'Decorated',
+		 'Whether to use window decorations',
+		 False,
+		 gobject.PARAM_READABLE))
+
+gtk.widget_class_install_style_property(KupferWindow,
+		('border-width', gobject.TYPE_INT, 'Border width',
+		 'Width of border around window content',
+		 0, 100, 8,
+		 gobject.PARAM_READABLE))
+
 class WindowController (pretty.OutputMixin):
 	"""
 	This is the fundamental Window (and App) Controller
@@ -1555,10 +1668,8 @@ class WindowController (pretty.OutputMixin):
 	def __init__(self):
 		"""
 		"""
-		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-		self.window.set_name("kupfer")
-		self._use_window_decorations = False
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1668,59 +1779,51 @@ class WindowController (pretty.OutputMixin):
 
 		self.window.connect("delete-event", self._close_window)
 		self.window.connect("focus-out-event", self._lost_focus)
-		self.window.connect("size-allocate", self._size_allocate)
 		self.window.connect("button-press-event", self._window_frame_clicked)
 		widget = self.interface.get_widget()
 		widget.show()
 
-		if self._use_window_decorations:
-			self.window.add(widget)
-		else:
-			# Build the window frame with its top bar
-			topbar = gtk.HBox()
-			vbox = gtk.VBox()
-			vbox.pack_start(topbar, False, False)
-			vbox.pack_start(widget, True, True)
-			vbox.show()
-			self.window.add(vbox)
-			title = gtk.Label(u"")
-			button = gtk.Label(u"")
-			l_programname = version.PROGRAM_NAME.lower()
-			# The text on the general+context menu button
-			btext = u"<b>%s \N{GEAR}</b>" % (l_programname, )
-			button.set_markup(btext)
-			button_box = gtk.EventBox()
-			button_box.set_visible_window(False)
-			button_adj = gtk.Alignment(0.5, 0.5, 0, 0)
-			button_adj.set_padding(0, 2, 0, 3)
-			button_adj.add(button)
-			button_box.add(button_adj)
-			button_box.connect("button-press-event", self._context_clicked)
-			button_box.connect("enter-notify-event", self._button_enter,
-			                   button, btext)
-			button_box.connect("leave-notify-event", self._button_leave,
-			                   button, btext)
-			button.set_name("kupfer-menu-button")
-			title_align = gtk.Alignment(0, 0.5, 0, 0)
-			title_align.add(title)
-			topbar.pack_start(title_align, True, True)
-			topbar.pack_start(button_box, False, False)
-			topbar.show_all()
-			screen = gtk.gdk.screen_get_default()
-			rgba = screen.get_rgba_colormap()
-			if rgba:
-				self.window.set_colormap(rgba)
+		# Build the window frame with its top bar
+		topbar = gtk.HBox()
+		vbox = gtk.VBox()
+		vbox.pack_start(topbar, False, False)
+		vbox.pack_start(widget, True, True)
+		vbox.show()
+		self.window.add(vbox)
+		title = gtk.Label(u"")
+		button = gtk.Label(u"")
+		l_programname = version.PROGRAM_NAME.lower()
+		# The text on the general+context menu button
+		btext = u"<b>%s \N{GEAR}</b>" % (l_programname, )
+		button.set_markup(btext)
+		button_box = gtk.EventBox()
+		button_box.set_visible_window(False)
+		button_adj = gtk.Alignment(0.5, 0.5, 0, 0)
+		button_adj.set_padding(0, 2, 0, 3)
+		button_adj.add(button)
+		button_box.add(button_adj)
+		button_box.connect("button-press-event", self._context_clicked)
+		button_box.connect("enter-notify-event", self._button_enter,
+						   button, btext)
+		button_box.connect("leave-notify-event", self._button_leave,
+						   button, btext)
+		button.set_name("kupfer-menu-button")
+		title_align = gtk.Alignment(0, 0.5, 0, 0)
+		title_align.add(title)
+		topbar.pack_start(title_align, True, True)
+		topbar.pack_start(button_box, False, False)
+		topbar.show_all()
+		screen = gtk.gdk.screen_get_default()
+		rgba = screen.get_rgba_colormap()
+		if rgba:
+			self.window.set_colormap(rgba)
 
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
 		self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
 		self.window.set_property("skip-taskbar-hint", True)
 		self.window.set_keep_above(True)
-		if not self._use_window_decorations:
-			self.window.set_app_paintable(True)
-			self.window.set_property("border-width", 8)
-			self.window.connect("expose-event", self._paint_frame)
-			self.window.set_decorated(False)
+
 		if not text_direction_is_ltr():
 			self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
 		# Setting not resizable changes from utility window
@@ -1761,65 +1864,6 @@ class WindowController (pretty.OutputMixin):
 
 	def result_callback(self, sender, result_type):
 		self.activate()
-
-	def _paint_frame(self, widget, event):
-		cr = widget.window.cairo_create()
-		w,h = widget.allocation.width, widget.allocation.height
-
-
-		region = gtk.gdk.region_rectangle(event.area)
-		cr.region(region)
-		cr.clip()
-
-		def rgba_from_gdk(c, alpha):
-			return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
-
-		if widget.is_composited():
-			cr.set_operator(cairo.OPERATOR_CLEAR)
-			cr.rectangle(0,0,w,h)
-			cr.fill()
-			cr.rectangle(0,0,w,h)
-			cr.set_operator(cairo.OPERATOR_OVER)
-			c = widget.style.bg[widget.get_state()]
-			cr.set_source_rgba(*rgba_from_gdk(c, 0.8))
-			cr.fill()
-
-		c = widget.style.dark[gtk.STATE_SELECTED]
-		cr.set_operator(cairo.OPERATOR_OVER)
-		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
-
-		make_rounded_rect(cr, 0, 0, w, h, 10)
-		cr.set_line_width(2.5)
-		cr.stroke()
-
-
-	def _size_allocate(self, widget, allocation):
-		if self._use_window_decorations:
-			return
-		if not hasattr(self, "_old_alloc"):
-			self._old_alloc = (0,0)
-		w,h = allocation.width, allocation.height
-
-		if self._old_alloc == (w,h):
-			return
-		self._old_alloc = (w,h)
-
-		bitmap = gtk.gdk.Pixmap(None, w, h, 1)
-		cr = bitmap.cairo_create()
-
-		cr.set_source_rgb(0.0, 0.0, 0.0)
-		cr.set_operator(cairo.OPERATOR_CLEAR)
-		cr.paint()
-
-		# radius of rounded corner
-		cr.set_source_rgb(1.0, 1.0, 1.0)
-		cr.set_operator(cairo.OPERATOR_SOURCE)
-		make_rounded_rect(cr, 0, 0, w, h, 10)
-		cr.fill()
-		widget.shape_combine_mask(bitmap, 0, 0)
-		r = region = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
-		if widget.window:
-			widget.window.invalidate_region(r, False)
 
 	def _lost_focus(self, window, event):
 		# Close at unfocus.
