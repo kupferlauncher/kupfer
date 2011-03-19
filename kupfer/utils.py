@@ -182,17 +182,19 @@ class AsyncCommand (object):
 
 def spawn_terminal(workdir=None):
 	term = terminal.get_configured_terminal()
-	notify = term.startup_notify
-	desktop_launch.spawn_app_id(term.app_id, term.argv, workdir, notify)
+	notify = term["startup_notify"]
+	app_id = term["desktopid"]
+	argv = term["argv"]
+	desktop_launch.spawn_app_id(app_id, argv, workdir, notify)
 
 def spawn_in_terminal(argv, workdir=None):
 	term = terminal.get_configured_terminal()
-	notify = term.startup_notify
-	_argv = list(term.argv)
-	if term.exearg:
-		_argv.append(term.exearg)
+	notify = term["startup_notify"]
+	_argv = list(term["argv"])
+	if term["exearg"]:
+		_argv.append(term["exearg"])
 	_argv.extend(argv)
-	desktop_launch.spawn_app_id(term.app_id, _argv , workdir, notify)
+	desktop_launch.spawn_app_id(term["desktopid"], _argv , workdir, notify)
 
 def spawn_async_notify_as(app_id, argv):
 	"""

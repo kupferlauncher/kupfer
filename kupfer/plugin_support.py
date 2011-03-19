@@ -1,3 +1,5 @@
+import os
+
 import gobject
 
 try:
@@ -184,24 +186,44 @@ if not keyring:
 def _plugin_configuration_error(plugin, err):
 	pretty.print_error(__name__, err)
 
+
+def _is_valid_terminal(term_dict):
+	if len(term_dict["argv"]) < 1:
+		return False
+	exe = term_dict["argv"][0]
+	# iterate over $PATH directories
+	PATH = os.environ.get("PATH") or os.defpath
+	for execdir in PATH.split(os.pathsep):
+		exepath = os.path.join(execdir, exe)
+		if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
+			return True
+
 _available_alternatives = {
 	"terminal": {
-		"constructor": terminal.Terminal,
-		"registrator": terminal.register_terminal,
-		"unregistrator": terminal.unregister_terminal,
-		"key": "terminal",
+		"filter": _is_valid_terminal,
+		"required_keys": {
+			'name': unicode,
+			'argv': list,
+			'exearg': str,
+			'desktopid': str,
+			'startup_notify': bool,
+			},
+		},
 	}
+
+_alternatives = {
+	"terminal": {},
 }
 
-def register_alternative(caller, category_key, id_, *arguments, **kwargs):
+
+def register_alternative(caller, category_key, id_, **kwargs):
 	"""
 	Register a new alternative for the category @category_key
 
 	@caller: Must be the caller's plugin id (Plugin __name__ variable)
 
 	@id_ is a string identifier for the object to register
-	All the @arguments are passed to the alternative constructor
-	All @kwargs are ignored at the moment.
+	@kwargs are the keyed arguments for the alternative constructor
 
 	Returns True with success
 	"""
@@ -215,17 +237,20 @@ def register_alternative(caller, category_key, id_, *arguments, **kwargs):
 		return
 	alt = _available_alternatives[category_key]
 	id_ = caller + "." + id_
-	try:
-		alt_obj = alt["constructor"](*arguments)
-		alt["registrator"](id_, alt_obj)
-	except Exception as exc:
+	kw_set = set(kwargs)
+	req_set = set(alt["required_keys"])
+	if not req_set.issubset(kw_set):
 		_plugin_configuration_error(caller,
 			"Configuration error for alternative '%s':" % category_key)
-		_plugin_configuration_error(caller, exc)
+		_plugin_configuration_error(caller, "Missing keys: %s" %
+				(req_set - kw_set))
 		return
+	_alternatives[category_key][id_] = kwargs
 	pretty.print_debug(__name__,
 		"Registered alternative %s.%s from %s" % (category_key, id_, caller))
-
+	setctl = settings.GetSettingsController()
+	setctl._update_alternatives(category_key, _alternatives[category_key],
+	                            alt["filter"])
 	return True
 
 def unregister_alternative(caller, category_key, id_):
@@ -242,11 +267,16 @@ def unregister_alternative(caller, category_key, id_):
 	alt = _available_alternatives[category_key]
 	id_ = caller + "." + id_
 	try:
-		alt["unregistrator"](id_)
+		del _alternatives[category_key][id_]
 	except KeyError:
 		_plugin_configuration_error(caller,
 				"Alternative '%s' does not exist" % (id_, ))
 		return
 	pretty.print_debug(__name__,
 		"Unregistered alternative %s.%s from %s" % (category_key, id_, caller))
+	setctl = settings.GetSettingsController()
+	setctl._update_alternatives(category_key, _alternatives[category_key],
+	                            alt["filter"])
 	return True
+
+

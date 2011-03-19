@@ -47,6 +47,8 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		self._defaults_path = None
 		self._config = self._read_config()
 		self._save_timer = scheduler.Timer(True)
+		self._alternatives = {}
+		self._alternative_validators = {}
 
 	def _update_config_save_timer(self):
 		self._save_timer.set(60, self._save_config)
@@ -378,6 +380,38 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	def set_preferred_tool(self, tool_id, value):
 		return self._set_config("Tools", tool_id, value)
 
+	## Alternatives section
+	## Provide alternatives for each category
+	## for example the category "terminal"
+	def get_valid_alternative_ids(self, category_key):
+		"""
+		Get a list of (id_, name) tuples for the given @category_key
+		"""
+		validator = self._alternative_validators[category_key]
+		for (id_, alternative) in self._alternatives[category_key].iteritems():
+			name = alternative["name"]
+			if not validator or validator(alternative):
+				yield (id_, name)
+
+	def get_all_alternatives(self, category_key):
+		return self._alternatives[category_key]
+
+	def get_preferred_alternative(self, category_key):
+		"""
+		Get preferred alternative dict for @category_key
+		"""
+		tool_id = self.get_preferred_tool(category_key)
+		alternatives = self._alternatives[category_key]
+		alt = alternatives.get(tool_id)
+		if not alt:
+			self.output_debug("Warning, no configuration for", category_key)
+		return alt or next(alternatives.itervalues(), None)
+
+	def _update_alternatives(self, category_key, alternatives, validator):
+		self._alternatives[category_key] = alternatives
+		self._alternative_validators[category_key] = validator
+		self.emit("alternatives-changed", category_key)
+
 
 # Section, Key, Value
 gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,
@@ -393,6 +427,11 @@ gobject.signal_new("plugin-enabled-changed", SettingsController,
 gobject.signal_new("plugin-toplevel-changed", SettingsController,
 		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, gobject.TYPE_INT))
+
+# Arguments: Alternative-category
+gobject.signal_new("alternatives-changed", SettingsController,
+		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, ))
 
 _settings_controller = None
 def GetSettingsController():

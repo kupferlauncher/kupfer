@@ -305,14 +305,14 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
 		in_terminal = desktop_info["Terminal"]
 	if in_terminal:
 		term = terminal.get_configured_terminal()
-		notify = notify or term.startup_notify
+		notify = notify or term["startup_notify"]
 
 	for argv, gfiles in launch_records:
 		if in_terminal:
 			term = terminal.get_configured_terminal()
-			targv = list(term.argv)
-			if term.exearg:
-				targv.append(term.exearg)
+			targv = list(term["argv"])
+			if term["exearg"]:
+				targv.append(term["exearg"])
 			argv = targv + argv
 		ret = spawn_app(app_info, argv, gfiles, workdir, notify,
 		                timestamp=timestamp, launch_cb=launch_cb)

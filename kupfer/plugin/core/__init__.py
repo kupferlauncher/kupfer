@@ -22,6 +22,7 @@ from kupfer import commandexec
 from kupfer import interface
 from kupfer import pretty
 from kupfer import task
+from kupfer import plugin_support
 
 
 def _is_debug():
@@ -40,7 +41,8 @@ def register_subplugin(module):
 		globals()[attr] += object_names
 		globals().update((sym, getattr(module, sym)) for sym in object_names)
 
-from kupfer.plugin.core import contents, selection, text, internal, commands
+from kupfer.plugin.core import (contents, selection, text, internal, commands,
+                                terminals)
 
 register_subplugin(contents)
 register_subplugin(selection)

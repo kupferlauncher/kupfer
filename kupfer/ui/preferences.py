@@ -127,17 +127,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		terminal_combobox.pack_start(terminal_combobox_cell, True)
 		terminal_combobox.add_attribute(terminal_combobox_cell, 'text', 0)
 
-		term_id = setctl.get_preferred_tool('terminal')
-		# fill in the available terminals
-		terminals = utils.locale_sort(terminal.get_valid_terminals(),
-		                              key=lambda t:t[1])
-		term_iter = None
-		for (id_, name) in terminals:
-			_it = terminal_combobox_store.append((name, id_))
-			if id_ == term_id:
-				term_iter = _it
-		term_iter = term_iter or terminal_combobox_store.get_iter_first()
-		terminal_combobox.set_active_iter(term_iter)
+		self._update_terminal_combobox(terminal_combobox,
+		                               terminal_combobox_store)
+		self.terminal_combobox = terminal_combobox
+		self.terminal_combobox_store = terminal_combobox_store
+		setctl.connect("alternatives-changed", self._on_alternatives_changed)
 
 		# Plugin List
 		columns = [
@@ -766,8 +760,36 @@ class PreferencesWindowController (pretty.OutputMixin):
 	def on_terminal_combobox_changed(self, widget):
 		setctl = settings.GetSettingsController()
 		itr = widget.get_active_iter()
-		term_id = widget.get_model().get_value(itr, 1)
-		setctl.set_preferred_tool('terminal', term_id)
+		if itr:
+			term_id = widget.get_model().get_value(itr, 1)
+			setctl.set_preferred_tool('terminal', term_id)
+
+	def _update_terminal_combobox(self, combobox, combobox_store):
+		"""
+		Terminals changed
+		"""
+		print "_update_terminal_combobox"
+		combobox_store.clear()
+		setctl = settings.GetSettingsController()
+		term_id = setctl.get_preferred_tool('terminal')
+		print term_id
+		# fill in the available terminals
+		terminals = utils.locale_sort(
+				setctl.get_valid_alternative_ids('terminal'), key=lambda t:t[1])
+		term_iter = None
+		for (id_, name) in terminals:
+			_it = combobox_store.append((name, id_))
+			if id_ == term_id:
+				term_iter = _it
+		# Update selection
+		term_iter = term_iter or combobox_store.get_iter_first()
+		combobox.set_active_iter(term_iter)
+
+	def _on_alternatives_changed(self, setctl, category_key):
+		if category_key == 'terminal':
+			self._update_terminal_combobox(
+					self.terminal_combobox,
+					self.terminal_combobox_store)
 
 	def show(self):
 		self.window.present()
