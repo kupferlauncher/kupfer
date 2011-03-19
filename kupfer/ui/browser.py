@@ -541,6 +541,7 @@ class Search (gtk.Bin):
 		vscroll.connect("change-value", self._table_scroll_changed)
 
 		self.list_window = gtk.Window(gtk.WINDOW_POPUP)
+		self.list_window.set_name("kupfer-list")
 
 		box = gtk.VBox()
 		box.pack_start(self.match_view, True, True, 0)
@@ -898,6 +899,7 @@ class Interface (gobject.GObject):
 		self.label.set_width_chars(50)
 		self.label.set_single_line_mode(True)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
+		self.label.set_name("kupfer-description")
 
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
@@ -1550,6 +1552,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		self.window.set_name("kupfer")
 		self._use_window_decorations = False
 
 		data_controller = data.DataController()
@@ -1587,6 +1590,7 @@ class WindowController (pretty.OutputMixin):
 
 	def _setup_menu(self, context_menu=False):
 		menu = gtk.Menu()
+		menu.set_name("kupfer-menu")
 
 		def menu_callback(menuitem, callback):
 			callback()
@@ -1686,6 +1690,7 @@ class WindowController (pretty.OutputMixin):
 			button_box.connect("button-press-event", self._context_clicked)
 			button_box.connect("enter-notify-event", self._button_enter, btext)
 			button_box.connect("leave-notify-event", self._button_leave, btext)
+			button.set_name("kupfer-menu-button")
 			title_align = gtk.Alignment(0, 0.5, 0, 0)
 			title_align.add(title)
 			topbar.pack_start(title_align, True, True)
