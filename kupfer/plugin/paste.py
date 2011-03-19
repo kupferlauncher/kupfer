@@ -31,7 +31,7 @@ class CopyAndPaste (Action):
 		xte_paste_argv = ['xte', 'usleep 300000', 'keydown Control_L',
 		                  'key v', 'keyup Control_L']
 		if not utils.spawn_async(xte_paste_argv):
-			raise OperationError(_("Command '%s' not found!") % ("xte", ))
+			raise OperationError(_("Command '%s' not found") % ("xte", ))
 	def item_types(self):
 		yield Leaf
 	def valid_for_item(self, leaf):
@@ -73,7 +73,7 @@ class SendKeys (Action):
 		xte_paste_argv = ['xte', 'usleep 300000'] + \
 				mods_start + [key_arg] + list(reversed(mods_end))
 		if not utils.spawn_async(xte_paste_argv):
-			raise OperationError(_("Command '%s' not found!") % ("xte", ))
+			raise OperationError(_("Command '%s' not found") % ("xte", ))
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
@@ -88,7 +88,7 @@ class TypeText (Action):
 	def __init__(self):
 		Action.__init__(self, _("Type Text"))
 	def activate(self, leaf):
-		text = leaf.object
+		text = interface.get_text_representation(leaf)
 		xte_paste_argv = ['xte', 'usleep 300000']
 		# replace all newlines with 'key Return'
 		for line in text.splitlines(True):
@@ -96,8 +96,13 @@ class TypeText (Action):
 			if line.endswith("\n"):
 				xte_paste_argv.append("key Return")
 		if not utils.spawn_async(xte_paste_argv):
-			raise OperationError(_("Command '%s' not found!") % ("xte", ))
+			raise OperationError(_("Command '%s' not found") % ("xte", ))
 	def item_types(self):
-		yield TextLeaf
+		yield Leaf
+	def valid_for_item(self, leaf):
+		try:
+			return bool(interface.get_text_representation(leaf))
+		except AttributeError:
+			pass
 	def get_description(self):
 		return _("Type the text to foreground window")
