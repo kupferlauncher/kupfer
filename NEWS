@@ -2,6 +2,33 @@
 NEWS for kupfer
 ===============
 
+kupfer's hastening insanity
+---------------------------
+
+* Changes to the interface
+
+  + Use an undecorated window with rounded corners
+  + Increase icon size to 128px
+  + Add a small menu button on the window for explicit access to
+    preferences window and help.
+  + Always show description field
+  + Let the frame be slightly transparent if supported
+
+* Implement a preedit widget for input methods, also resolving
+  the incompatibility with ibus (David Schneider) (:lp:`696727`)
+* Re-implement launching of applications
+* Allow the user to configure which terminal program is used.
+  Applies to all of *Run in Terminal*, *Open Terminal Here*, for .desktop
+  files that specify ``Terminal=true`` etc.
+* Implement an "alternatives" mechanism so that plugins can
+  register mutually exclusive alternatives. Currently implemented
+  are Terminals (see above) and Icon Renderers.
+* Add the function ``initialize_plugin`` to the plugin interface.
+* *Thunar*: Use Thunar 1.2's Copy and Move API and expose it in
+  Kupfer.
+* Add *Ascii & Unicode Icon Set* for fun
+
+
 kupfer v204
 -----------
 
