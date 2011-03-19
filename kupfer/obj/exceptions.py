@@ -14,7 +14,7 @@ class CommandMissingError (OperationError):
 	User-visible error message for missing executable
 	"""
 	def __init__(self, cmd):
-		OperationError.__init__(self, _("Command '%s' not found"))
+		OperationError.__init__(self, _("Command '%s' not found") % (cmd, ))
 
 class NotAvailableError (OperationError):
 	"""
