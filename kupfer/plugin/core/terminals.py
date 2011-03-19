@@ -1,4 +1,11 @@
 from kupfer import plugin_support
+from kupfer import icons
+
+plugin_support.register_alternative(__name__, 'icon_renderer', 'gtk',
+		**{
+			'name': _("GTK+"),
+			'renderer': icons.IconRenderer,
+		})
 
 plugin_support.register_alternative(__name__, 'terminal', 'gnome-terminal',
 		**{

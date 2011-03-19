@@ -232,6 +232,47 @@ def _get_icon_for_standard_gicon(gicon, icon_size):
 	print "get_icon_for_gicon, could not load", gicon
 	return None
 
+
+def _setup_icon_renderer(sched):
+	global _IconRenderer
+	from kupfer.core import settings
+	setctl = settings.GetSettingsController()
+	renderer_dict = setctl.get_preferred_alternative('icon_renderer')
+	renderer = renderer_dict.get("renderer")
+	if not renderer:
+		return
+	pretty.print_debug(__name__, "Using", renderer)
+	_IconRenderer = renderer
+
+
+scheduler.GetScheduler().connect("loaded", _setup_icon_renderer)
+
+
+class IconRenderer (object):
+	"""
+	Default GTK+ implementation
+	"""
+	@classmethod
+	def pixbuf_for_name(cls, icon_name, icon_size):
+		try:
+			return _default_theme.load_icon(icon_name, icon_size,
+			                                ICON_LOOKUP_USE_BUILTIN |
+			                                ICON_LOOKUP_FORCE_SIZE)
+		except GError:
+			pass
+
+	@classmethod
+	def pixbuf_for_file(cls, file_path, icon_size):
+		try:
+			icon = gtk.gdk.pixbuf_new_from_file_at_size(file_path, icon_size,
+			                                            icon_size)
+			return icon
+		except GError:
+			pretty.print_exc(__name__)
+
+_IconRenderer = IconRenderer
+
+
 def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	for i in get_icon(icon_name, icon_size):
 		return i
@@ -240,13 +281,11 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 	# Try the whole list of given names
 	for load_name in icon_names:
 		try:
-			icon = _default_theme.load_icon(load_name, icon_size, ICON_LOOKUP_USE_BUILTIN | ICON_LOOKUP_FORCE_SIZE)
+			icon = _IconRenderer.pixbuf_for_name(load_name, icon_size)
 			if icon:
 				break
-		except GError, e:
-			icon = None
-		except Exception, e:
-			print "get_icon_for_name, error:", e
+		except Exception:
+			pretty.print_exc(__name__)
 			icon = None
 	else:
 		# if we did not reach 'break' in the loop
@@ -260,14 +299,10 @@ def get_icon_from_file(icon_file, icon_size):
 	# try to load from cache
 	for icon in get_icon(icon_file, icon_size):
 		return icon
-
-	try:
-		icon = pixbuf_new_from_file_at_size(icon_file, icon_size, icon_size)
+	icon = _IconRenderer.pixbuf_for_file(icon_file, icon_size)
+	if icon is not None:
 		store_icon(icon_file, icon_size, icon)
 		return icon
-	except GError, e:
-		print "get_icon_from_file, error:", e
-		return None
 
 def is_good(gicon):
 	"""Return True if it is likely that @gicon will load a visible icon

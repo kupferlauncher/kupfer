@@ -199,6 +199,7 @@ def _is_valid_terminal(term_dict):
 		if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
 			return True
 
+
 _available_alternatives = {
 	"terminal": {
 		"filter": _is_valid_terminal,
@@ -208,12 +209,20 @@ _available_alternatives = {
 			'exearg': str,
 			'desktopid': str,
 			'startup_notify': bool,
-			},
 		},
-	}
+	},
+	"icon_renderer": {
+		"filter": None,
+		"required_keys": {
+			'name': unicode,
+			'renderer': object,
+		},
+	},
+}
 
 _alternatives = {
 	"terminal": {},
+	"icon_renderer": {},
 }
 
 
