@@ -2004,6 +2004,7 @@ class WindowController (pretty.OutputMixin):
 		# Load data and present UI
 		sch = scheduler.GetScheduler()
 		sch.load()
+		sch.display()
 
 		if not quiet:
 			self.activate()

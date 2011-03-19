@@ -22,11 +22,16 @@ class Scheduler (gobject.GObject, pretty.OutputMixin):
 		self.emit("load")
 		self.emit("loaded")
 		self.output_debug("Loaded")
+	def display(self):
+		self.output_debug("Display")
+		self.emit("display")
 	def finish(self):
 		self.emit("finish")
 gobject.signal_new("load", Scheduler, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("loaded", Scheduler, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, ())
+gobject.signal_new("display", Scheduler, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 gobject.signal_new("finish", Scheduler, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())

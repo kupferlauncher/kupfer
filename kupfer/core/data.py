@@ -448,6 +448,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		sch = scheduler.GetScheduler()
 		sch.connect("load", self._load)
+		sch.connect("display", self._display)
 		sch.connect("finish", self._finish)
 
 	def register_text_sources(self, plugin_id, srcs):
@@ -509,8 +510,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		sc.add(None, D_s, toplevel=True)
 		sc.add(None, d_s, toplevel=False)
 		sc.initialize()
-		self._reload_source_root()
 		learn.load()
+
+	def _display(self, sched):
+		sc = GetSourceController()
+		self._reload_source_root()
 		self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
 	def _get_directory_sources(self):
