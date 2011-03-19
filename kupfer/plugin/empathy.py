@@ -20,6 +20,15 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY
 
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "show_offline",
+		"label": _("Show offline contacts"),
+		"type": bool,
+		"value": False,
+	},
+)
+
 plugin_support.check_dbus_connection()
 
 _STATUSES = {
@@ -185,6 +194,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		return self._contacts
 
 	def _find_all_contacts(self, interface):
+		show_offline = __kupfer_settings__["show_offline"]
 		bus = dbus.SessionBus()
 		for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
 			account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
@@ -205,10 +215,13 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 						contact_attributes = [str(a) for a in contact_attributes]
 						contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
 						for contact, details in contact_details.iteritems():
+								status_code = details[_ATTRIBUTES.get("presence")][1]
+								if not show_offline and status_code == 'offline':
+									continue
 								yield EmpathyContact(
 										details[_ATTRIBUTES.get("jid")],
 										details[_ATTRIBUTES.get("alias")],
-										_STATUSES.get(details[_ATTRIBUTES.get("presence")][1]),
+										_STATUSES.get(status_code),
 										'', # empathy does not provide resource here AFAIK
 										valid_account,
 										contact)
