@@ -181,10 +181,14 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if section in self.defaults:
 			value_type = type(oldvalue) if oldvalue is not None else str
 			self._config[section][key] = value_type(value)
-			self.emit("value-changed", section, key, value)
+			self._emit_value_changed(section, key, value)
 			self._update_config_save_timer()
 			return True
 		raise KeyError("Invalid settings section: %s" % section)
+
+	def _emit_value_changed(self, section, key, value):
+		suffix = "%s.%s" % (section.lower(), key.lower())
+		self.emit("value-changed::"+suffix, section, key, value)
 
 	def _get_raw_config(self, section, key):
 		"""General interface, but section must exist"""
@@ -343,7 +347,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""Try set @key for plugin names @plugin, coerce to @value_type
 		first.  """
 		plug_section = "plugin_%s" % plugin
-		self.emit("value-changed", plug_section, key, value)
+		self._emit_value_changed(plug_section, key, value)
 
 		if hasattr(value_type, "save"):
 			value_repr = value.save(plugin, key)
@@ -410,27 +414,31 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	def _update_alternatives(self, category_key, alternatives, validator):
 		self._alternatives[category_key] = alternatives
 		self._alternative_validators[category_key] = validator
-		self.emit("alternatives-changed", category_key)
+		self.emit("alternatives-changed::"+category_key, category_key)
 
 
-# Section, Key, Value
-gobject.signal_new("value-changed", SettingsController, gobject.SIGNAL_RUN_LAST,
-	gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING,
+# Arguments: Section, Key, Value
+# Detailed by 'section.key' in lowercase
+gobject.signal_new("value-changed", SettingsController,
+		gobject.SIGNAL_RUN_LAST | gobject.SIGNAL_DETAILED,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING,
 		gobject.TYPE_PYOBJECT))
 
-# Plugin ID, Value
+# Arguments: Plugin ID, Value
 gobject.signal_new("plugin-enabled-changed", SettingsController,
 		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, gobject.TYPE_INT))
 
-# Plugin ID, Value
+# Arguments: Plugin ID, Value
 gobject.signal_new("plugin-toplevel-changed", SettingsController,
 		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, gobject.TYPE_INT))
 
 # Arguments: Alternative-category
+# Detailed by: category key, in lowercase
 gobject.signal_new("alternatives-changed", SettingsController,
-		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
+		gobject.SIGNAL_RUN_LAST | gobject.SIGNAL_DETAILED,
+		gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, ))
 
 _settings_controller = None
