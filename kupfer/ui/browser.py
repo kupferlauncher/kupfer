@@ -889,6 +889,7 @@ class Interface (gobject.GObject):
 		self._slow_input_interval = 2
 		self._key_press_time = None
 		self._key_press_interval = 0.8
+		self._key_press_repeat_threshold = 0.02
 		self._key_pressed = None
 		self._reset_to_toplevel = False
 		self._reset_when_back = False
@@ -1050,7 +1051,8 @@ class Interface (gobject.GObject):
 
 		# activate on repeated key
 		if ((not text_mode) and self._key_pressed == keyv and
-				keyv not in self.keys_sensible):
+				keyv not in self.keys_sensible and
+				curtime - self._key_press_time > self._key_press_repeat_threshold):
 			if curtime - self._key_press_time > self._key_press_interval:
 				self._activate(None, None)
 				self._key_pressed = None
