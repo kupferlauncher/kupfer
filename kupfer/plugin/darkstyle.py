@@ -44,6 +44,10 @@ widget "kupfer.*" style "dark"
 ## The result list is kupfer-list
 widget "kupfer-list.*" style "dark"
 
+## The menu button is *.kupfer-menu-button
+## widget "*.kupfer-menu-button" style "dark"
+## The description text is *.kupfer-description
+## widget "*.kupfer-description" style "dark"
 ## The context menu is GtkWindow.kupfer-menu
 ## widget "*.kupfer-menu" style "dark"
 """
