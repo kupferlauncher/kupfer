@@ -587,21 +587,24 @@ class Search (gtk.Bin):
 		self.list_window.hide()
 
 	def _show_table(self):
-		# self.window is a GdkWindow
+		# self.window is a GdkWindow (of self's parent)
 		win_width, win_height = self.window.get_size()
 		pos_x, pos_y = self.window.get_position()
+		# find origin in parent's coordinates
+		self_x, self_y = self.translate_coordinates(self.get_parent(), 0, 0)
 		sub_x = pos_x
 		sub_y = pos_y + win_height
-		x_coord = pos_x
 		table_w, table_len = self.table.size_request()
 		subwin_height = min(table_len, 200)
 		subwin_width = self.list_window.size_request()[0]
 		if not text_direction_is_ltr():
-			sub_x += win_width - subwin_width
-		self.list_window.move(sub_x, sub_y)
+			sub_x += win_width - subwin_width + self_x
+		else:
+			sub_x -= self_x
 		if not subwin_height:
 			subwin_height = 200
 			subwin_width = win_width
+		self.list_window.move(sub_x, sub_y)
 		self.list_window.resize(subwin_width, subwin_height)
 
 		win = self.get_toplevel()
