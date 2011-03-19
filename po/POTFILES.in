@@ -71,6 +71,7 @@ kupfer/plugin/asciiunicodeiconset.py
 kupfer/plugin/audacious.py
 kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
+kupfer/plugin/darkstyle.py
 kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
 kupfer/plugin/empathy.py
