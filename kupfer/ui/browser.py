@@ -513,6 +513,7 @@ class Search (gtk.Bin):
 		self.icon_size = 128
 		self._old_win_position=None
 		self._has_search_result = False
+		self._initialized = False
 		# finally build widget
 		self.build_widget()
 		self.setup_empty()
@@ -768,6 +769,7 @@ class Search (gtk.Bin):
 
 	def reset(self):
 		self._has_search_result = False
+		self._initialized = True
 		self.model.clear()
 		self.setup_empty()
 
@@ -839,6 +841,9 @@ class ActionSearch (Search):
 	Customization for Actions
 	"""
 	def get_nomatch_name_icon(self, empty=False):
+		# don't look up icons too early
+		if not self._initialized:
+			return ("", None)
 		return _("No action"), icons.get_icon_for_name("gtk-execute",
 				self.icon_size)
 	def setup_empty(self):
@@ -1354,6 +1359,7 @@ class Interface (gobject.GObject):
 		wid.reset()
 		if pane is data.SourcePane:
 			self.switch_to_source()
+			self.action.reset()
 		if wid is self.current:
 			self.toggle_text_mode(False)
 			self._reset_to_toplevel = False
