@@ -54,7 +54,8 @@ if _is_debug():
 	register_subplugin(debug)
 
 def initialize_plugin(x):
-	from kupfer.plugin.core import terminals
+	from kupfer.plugin.core import alternatives
+	alternatives.initialize_alternatives(__name__)
 
 
 class _MultiSource (MultiSource):

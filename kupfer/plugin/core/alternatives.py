@@ -1,13 +1,14 @@
 from kupfer import plugin_support
 from kupfer import icons
 
-plugin_support.register_alternative(__name__, 'icon_renderer', 'gtk',
+def initialize_alternatives(__name__):
+	plugin_support.register_alternative(__name__, 'icon_renderer', 'gtk',
 		**{
 			'name': _("GTK+"),
 			'renderer': icons.IconRenderer,
 		})
 
-plugin_support.register_alternative(__name__, 'terminal', 'gnome-terminal',
+	plugin_support.register_alternative(__name__, 'terminal', 'gnome-terminal',
 		**{
 			'name': _("GNOME Terminal"),
 			'argv': ['gnome-terminal'],
@@ -16,7 +17,7 @@ plugin_support.register_alternative(__name__, 'terminal', 'gnome-terminal',
 			'startup_notify': True,
 		})
 
-plugin_support.register_alternative(__name__, 'terminal', 'xfce4-terminal',
+	plugin_support.register_alternative(__name__, 'terminal', 'xfce4-terminal',
 		**{
 			'name': _("XFCE Terminal"),
 			'argv': ['xfce4-terminal'],
@@ -25,7 +26,7 @@ plugin_support.register_alternative(__name__, 'terminal', 'xfce4-terminal',
 			'startup_notify': True,
 		})
 
-plugin_support.register_alternative(__name__, 'terminal', 'lxterminal',
+	plugin_support.register_alternative(__name__, 'terminal', 'lxterminal',
 		**{
 			'name': _("LXTerminal"),
 			'argv': ['lxterminal'],
@@ -34,7 +35,7 @@ plugin_support.register_alternative(__name__, 'terminal', 'lxterminal',
 			'startup_notify': False,
 		})
 
-plugin_support.register_alternative(__name__, 'terminal', 'xterm',
+	plugin_support.register_alternative(__name__, 'terminal', 'xterm',
 		**{
 			'name': _("X Terminal"),
 			'argv': ['xterm'],
@@ -43,7 +44,7 @@ plugin_support.register_alternative(__name__, 'terminal', 'xterm',
 			'startup_notify': False,
 		})
 
-plugin_support.register_alternative(__name__, 'terminal', 'urxvt',
+	plugin_support.register_alternative(__name__, 'terminal', 'urxvt',
 		**{
 			'name': _("Urxvt"),
 			'argv': ['urxvt'],
