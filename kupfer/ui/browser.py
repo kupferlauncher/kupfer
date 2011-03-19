@@ -1578,10 +1578,12 @@ class WindowController (pretty.OutputMixin):
 			except AttributeError:
 				self._statusicon = None
 
-	def _settings_changed(self, setctl, section, key, value):
-		if section == "Kupfer" and key == "showstatusicon":
-			if value: self.show_statusicon()
-			else: self.hide_statusicon()
+	def _showstatusicon_changed(self, setctl, section, key, value):
+		"callback from SettingsController"
+		if value:
+			self.show_statusicon()
+		else:
+			self.hide_statusicon()
 
 	def _setup_menu(self, context_menu=False):
 		menu = gtk.Menu()
@@ -1952,7 +1954,8 @@ class WindowController (pretty.OutputMixin):
 		setctl = settings.GetSettingsController()
 		if setctl.get_show_status_icon():
 			self.show_statusicon()
-		setctl.connect("value-changed", self._settings_changed)
+		setctl.connect("value-changed::kupfer.showstatusicon",
+		               self._showstatusicon_changed)
 		keystr = setctl.get_keybinding()
 		magickeystr = setctl.get_magic_keybinding()
 
