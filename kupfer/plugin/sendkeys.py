@@ -1,11 +1,12 @@
 
-__kupfer_name__ = _("Paste")
+__kupfer_name__ = _("Send Keys")
 __kupfer_actions__ = (
 	"CopyAndPaste",
 	"SendKeys",
 	"TypeText",
 	)
-__description__ = _("Copy to clipboard and send Ctrl+V to foreground window")
+__description__ = _("Send synthetic keyboard events using "
+                    "xautomation")
 __version__ = ""
 __author__ = ""
 
@@ -13,8 +14,8 @@ import string
 
 import gtk
 
-from kupfer.objects import Leaf, Action, Source, OperationError
-from kupfer.objects import TextLeaf
+from kupfer.objects import Leaf, Action, Source, TextLeaf
+from kupfer.objects import OperationError, CommandMissingError
 from kupfer import pretty
 from kupfer import utils
 from kupfer import interface
@@ -31,7 +32,7 @@ class CopyAndPaste (Action):
 		xte_paste_argv = ['xte', 'usleep 300000', 'keydown Control_L',
 		                  'key v', 'keyup Control_L']
 		if not utils.spawn_async(xte_paste_argv):
-			raise OperationError(_("Command '%s' not found") % ("xte", ))
+			raise CommandMissingError('xte')
 	def item_types(self):
 		yield Leaf
 	def valid_for_item(self, leaf):
@@ -40,7 +41,7 @@ class CopyAndPaste (Action):
 		except AttributeError:
 			pass
 	def get_description(self):
-		return __description__
+		return _("Copy to clipboard and send Ctrl+V to foreground window")
 	def get_icon_name(self):
 		return "edit-paste"
 
@@ -72,7 +73,7 @@ class SendKeys (Action):
 		xte_paste_argv = ['xte', 'usleep 300000'] + \
 				mods_down + [key_arg] + mods_up
 		if not utils.spawn_async(xte_paste_argv):
-			raise OperationError(_("Command '%s' not found") % ("xte", ))
+			raise CommandMissingError('xte')
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
@@ -95,7 +96,7 @@ class TypeText (Action):
 			if line.endswith("\n"):
 				xte_paste_argv.append("key Return")
 		if not utils.spawn_async(xte_paste_argv):
-			raise OperationError(_("Command '%s' not found") % ("xte", ))
+			raise CommandMissingError('xte')
 	def item_types(self):
 		yield Leaf
 	def valid_for_item(self, leaf):
@@ -105,3 +106,4 @@ class TypeText (Action):
 			pass
 	def get_description(self):
 		return _("Type the text to foreground window")
+

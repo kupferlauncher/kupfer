@@ -27,6 +27,9 @@ kupfer's hastening insanity
 * *Thunar*: Use Thunar 1.2's Copy and Move API and expose it in
   Kupfer.
 * Add *Ascii & Unicode Icon Set* for fun
+* Add *Send Keys* plugin that can send synthetic keyboard events,
+  and prominently can be used for the *Paste to Foreground Window*
+  action on text. Requires ``xautomation`` package. (:lp:`621453`)
 
 
 kupfer v204
