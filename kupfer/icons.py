@@ -236,17 +236,15 @@ def _get_icon_for_standard_gicon(gicon, icon_size):
 def _setup_icon_renderer(sched):
 	from kupfer.core import settings
 	setctl = settings.GetSettingsController()
-	setctl.connect("alternatives-changed", _icon_render_change)
-	_icon_render_change(setctl, 'icon_renderer')
+	setctl.connect("alternatives-changed::icon_renderer", _icon_render_change)
+	setctl.connect("value-changed::tools.icon_renderer", _icon_render_change)
+	_icon_render_change(setctl)
 
-def _icon_render_change(setctl, category_key):
+def _icon_render_change(setctl, *arguments):
 	global _IconRenderer
-	print "_icon_render_change"
-	if category_key != 'icon_renderer':
-		return
 	renderer_dict = setctl.get_preferred_alternative('icon_renderer')
 	renderer = renderer_dict.get("renderer")
-	if not renderer:
+	if not renderer or renderer is _IconRenderer:
 		return
 	pretty.print_debug(__name__, "Using", renderer)
 	_icon_theme_changed(None)
