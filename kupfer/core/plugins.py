@@ -12,7 +12,9 @@ content_decorators_attribute = "__kupfer_contents__"
 action_decorators_attribute = "__kupfer_actions__"
 action_generators_attribute = "__kupfer_action_generators__"
 settings_attribute = "__kupfer_settings__"
+
 initialize_attribute = "initialize_plugin"
+finalize_attribute = "finalize_plugin"
 
 info_attributes = [
 		"__kupfer_name__",
@@ -375,6 +377,9 @@ def initialize_plugin(plugin_name):
 	initialize = get_plugin_attribute(plugin_name, initialize_attribute)
 	if initialize:
 		initialize(plugin_name)
+	finalize = get_plugin_attribute(plugin_name, finalize_attribute)
+	if finalize:
+		register_plugin_unimport_hook(plugin_name, finalize, plugin_name)
 
 def unimport_plugin(plugin_name):
 	"""Remove @plugin_name from the plugin list and dereference its
@@ -386,7 +391,8 @@ def unimport_plugin(plugin_name):
 			for callback, args in reversed(_plugin_hooks[plugin_name]):
 				callback(*args)
 		except:
-			prety.print_exc(__name__)
+			pretty.print_error(__name__, "Error finalizing", plugin_name)
+			pretty.print_exc(__name__)
 		del _plugin_hooks[plugin_name]
 	del _imported_plugins[plugin_name]
 	plugin_module_name = ".".join(_plugin_path(plugin_name))
