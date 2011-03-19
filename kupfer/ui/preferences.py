@@ -146,7 +146,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			{"key": "plugin_id", "type": str },
 			{"key": "enabled", "type": bool },
 			{"key": "icon-name", "type": str },
-			{"key": "markup", "type": str },
+			{"key": "text", "type": str },
 		]
 		# setup plugin list table
 		column_types = [c["type"] for c in columns]
@@ -175,7 +175,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
-		col.add_attribute(cell, "markup", self.columns.index("markup"))
+		col.add_attribute(cell, "text", self.columns.index("text"))
 
 		self.table.append_column(checkcol)
 		# hide icon for now
@@ -419,7 +419,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		about.set_property("border-width", 5)
 		info = self._plugin_info_for_id(plugin_id)
 		title_label = gtk.Label()
-		title_label.set_markup(u"<b><big>%s</big></b>" % info["localized_name"])
+		m_localized_name = gobject.markup_escape_text(info["localized_name"])
+		title_label.set_markup(u"<b><big>%s</big></b>" % m_localized_name)
 		version, description, author = plugins.get_plugin_attributes(plugin_id,
 				( "__version__", "__description__", "__author__", ))
 		about.pack_start(title_label, False)
@@ -442,7 +443,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		if version:
 			label = wrapped_label()
 			label.set_alignment(0, 0)
-			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), version))
+			m_version = gobject.markup_escape_text(version)
+			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), m_version))
 			label.set_selectable(True)
 			infobox.pack_start(label, False)
 		about.pack_start(infobox, False)
@@ -505,7 +507,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		def make_objects_frame(objs, title):
 			frame_label = gtk.Label()
-			frame_label.set_markup(u"<b>%s</b>" % title)
+			frame_label.set_markup(u"<b>%s</b>" %
+			                       gobject.markup_escape_text(title))
 			frame_label.set_alignment(0, 0)
 			objvbox = gtk.VBox()
 			objvbox.pack_start(frame_label, False)
@@ -524,9 +527,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 				im.set_property("gicon", gicon)
 				im.set_property("pixel-size", 32)
 				hbox.pack_start(im, False)
+				m_name = gobject.markup_escape_text(name)
+				m_desc = gobject.markup_escape_text(desc)
 				name_label = \
-					u"%s\n<small>%s</small>" % (name, desc) if desc else \
-					u"%s" % (name, )
+					u"%s\n<small>%s</small>" % (m_name, m_desc) if m_desc else \
+					u"%s" % (m_name, )
 				label = wrapped_label()
 				label.set_markup(name_label)
 				hbox.pack_start(label, False)
@@ -875,7 +880,7 @@ class SourceListController (object):
 			{"key": "plugin_id", "type": str },
 			{"key": "toplevel", "type": bool },
 			{"key": "icon", "type": gio.Icon },
-			{"key": "markup", "type": str },
+			{"key": "text", "type": str },
 		]
 		# setup plugin list table
 		column_types = [c["type"] for c in columns]
@@ -904,7 +909,7 @@ class SourceListController (object):
 
 		cell = gtk.CellRendererText()
 		col = gtk.TreeViewColumn("item", cell)
-		col.add_attribute(cell, "markup", self.columns.index("markup"))
+		col.add_attribute(cell, "text", self.columns.index("text"))
 
 		self.table.append_column(checkcol)
 		self.table.append_column(icon_col)
