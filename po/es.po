@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-15 18:12+0000\n"
-"PO-Revision-Date: 2011-03-17 11:09+0100\n"
+"POT-Creation-Date: 2011-03-17 19:21+0000\n"
+"PO-Revision-Date: 2011-03-18 12:41+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -339,7 +339,7 @@ msgstr "Atajo"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:61
+#: ../kupfer/version.py:73
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 20011\n"
@@ -347,11 +347,11 @@ msgstr ""
 "Leandro Leites <laloleites@gmail.com>\n"
 "Jesús Barbero Rodríguez <chuchiperriman@gmail.com>"
 
-#: ../kupfer/version.py:66
+#: ../kupfer/version.py:78
 msgid "A free software (GPLv3+) launcher"
 msgstr "Un lanzador de aplicaciones libre (GPLv3+)"
 
-#: ../kupfer/version.py:69
+#: ../kupfer/version.py:81
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -385,7 +385,7 @@ msgstr ""
 "En caso contrario, consulte <http://www.gnu.org/licenses/>.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:86
+#: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "No se pudo encontrar un Kupfer en ejecución"
 
@@ -869,11 +869,11 @@ msgstr "Añadir elementos al cajón de favoritos"
 
 #: ../kupfer/plugin/favorites.py:153
 msgid "Remove from Favorites"
-msgstr "Eliminar de favoritos"
+msgstr "Quitar de favoritos"
 
 #: ../kupfer/plugin/favorites.py:161
 msgid "Remove item from favorites shelf"
-msgstr "Eliminar elemento del cajón de favoritos"
+msgstr "Quitar elemento del cajón de favoritos"
 
 #: ../kupfer/plugin/fileactions.py:1
 msgid "File Actions"
@@ -1956,7 +1956,7 @@ msgstr "Eliminar"
 
 #: ../kupfer/plugin/gtg.py:135
 msgid "Permanently remove this task"
-msgstr "Eliminar permanentemente esta tarea"
+msgstr "Quitar permanentemente esta tarea"
 
 #: ../kupfer/plugin/gtg.py:140
 msgid "Mark Done"
@@ -2054,22 +2054,18 @@ msgid "Send direct message to user"
 msgstr "Enviar mensaje directo al usuario"
 
 #: ../kupfer/plugin/gwibber.py:364
-#| msgid "Reset"
 msgid "Retweet"
 msgstr "Replicar"
 
 #: ../kupfer/plugin/gwibber.py:364
-#| msgid "Rename To..."
 msgid "Retweet To..."
 msgstr "Replicar a…"
 
 #: ../kupfer/plugin/gwibber.py:395
-#| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to all Gwibber accounts"
 msgstr "Replicar mensaje a todas las cuentas de Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:396
-#| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to a Gwibber account"
 msgstr "Replicar mensaje a una cuenta de Gwibber"
 
