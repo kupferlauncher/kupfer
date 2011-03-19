@@ -21,6 +21,17 @@ def initialize_plugin(name):
 	plugin_support.register_alternative(__name__, 'icon_renderer', 'unicode',
 			name=_("Unicode"), renderer=UnicodeIconRenderer())
 
+def text_color():
+	"color as triple or None"
+	settings = gtk.settings_get_default()
+	s = gtk.rc_get_style_by_paths(settings, "kupfer.*", None, None)
+	if not s:
+		e = gtk.Invisible()
+		e.realize()
+		s = e.style
+	c = s.fg[gtk.STATE_NORMAL]
+	return (1.0*c.red/0xffff, 1.0*c.green/0xffff, 1.0*c.blue/0xffff)
+
 class AsciiIconRenderer (object):
 	glyph_pixbuf_cache = {}
 	@classmethod
@@ -30,9 +41,11 @@ class AsciiIconRenderer (object):
 		if not icon_glyph:
 			return None
 
+
 		pixbuf = cls.glyph_pixbuf_cache.get((icon_glyph, size))
 		if not pixbuf:
-			pixbuf = get_glyph_pixbuf(icon_glyph, size, False)
+			pixbuf = get_glyph_pixbuf(icon_glyph, size, False, text_color())
+
 			cls.glyph_pixbuf_cache[(icon_glyph, size)] = pixbuf
 		return pixbuf
 
@@ -51,7 +64,7 @@ class UnicodeIconRenderer (object):
 
 		pixbuf = cls.glyph_pixbuf_cache.get((icon_glyph, size))
 		if not pixbuf:
-			pixbuf = get_glyph_pixbuf(icon_glyph, size, False)
+			pixbuf = get_glyph_pixbuf(icon_glyph, size, False, text_color())
 			cls.glyph_pixbuf_cache[(icon_glyph, size)] = pixbuf
 		return pixbuf
 
@@ -266,7 +279,7 @@ unicode_icon_map = {
 	"default": u"O",
 }
 
-def get_glyph_pixbuf(text, sz, center_vert=True):
+def get_glyph_pixbuf(text, sz, center_vert=True, color=None):
 	"""Return pixbuf for @text
 
 	if @center_vert, then center completely vertically
@@ -277,7 +290,10 @@ def get_glyph_pixbuf(text, sz, center_vert=True):
 
 	cc.move_to(margin, sz-margin)
 	cc.set_font_size(sz)
-	cc.set_source_rgba(0,0,0,1)
+	if color is None:
+		cc.set_source_rgba(0,0,0,1)
+	else:
+		cc.set_source_rgb(*color)
 
 	cc.text_path(text)
 	x1, y1, x2, y2 =cc.path_extents()
