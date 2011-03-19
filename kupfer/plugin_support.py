@@ -11,6 +11,7 @@ except ImportError:
 from kupfer import pretty
 from kupfer import config
 from kupfer.core import settings
+from kupfer.core import plugins
 from kupfer import terminal
 
 __all__ = [
@@ -247,25 +248,29 @@ def register_alternative(caller, category_key, id_, **kwargs):
 		return
 	_alternatives[category_key][id_] = kwargs
 	pretty.print_debug(__name__,
-		"Registered alternative %s.%s from %s" % (category_key, id_, caller))
+		"Registered alternative %s: %s" % (category_key, id_))
 	setctl = settings.GetSettingsController()
 	setctl._update_alternatives(category_key, _alternatives[category_key],
 	                            alt["filter"])
+
+	# register the alternative to be unloaded
+	plugin_id = ".".join(caller.split(".")[2:])
+	if plugin_id and not plugin_id.startswith("core."):
+		plugins.register_plugin_unimport_hook(plugin_id,
+				_unregister_alternative, caller, category_key, id_)
 	return True
 
-def unregister_alternative(caller, category_key, id_):
+def _unregister_alternative(caller, category_key, full_id_):
 	"""
 	Remove the alternative for category @category_key
+	(this is done automatically at plugin unload)
 	"""
-	caller = str(caller)
-	category_key = str(category_key)
-	id_ = str(id_)
 	if category_key not in _available_alternatives:
 		_plugin_configuration_error(caller,
 				"Category '%s' does not exist" % category_key)
 		return
 	alt = _available_alternatives[category_key]
-	id_ = caller + "." + id_
+	id_ = full_id_
 	try:
 		del _alternatives[category_key][id_]
 	except KeyError:
@@ -273,7 +278,7 @@ def unregister_alternative(caller, category_key, id_):
 				"Alternative '%s' does not exist" % (id_, ))
 		return
 	pretty.print_debug(__name__,
-		"Unregistered alternative %s.%s from %s" % (category_key, id_, caller))
+		"Unregistered alternative %s: %s" % (category_key, id_))
 	setctl = settings.GetSettingsController()
 	setctl._update_alternatives(category_key, _alternatives[category_key],
 	                            alt["filter"])

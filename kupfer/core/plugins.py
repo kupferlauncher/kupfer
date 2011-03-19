@@ -10,8 +10,9 @@ sources_attribute = "__kupfer_sources__"
 text_sources_attribute = "__kupfer_text_sources__"
 content_decorators_attribute = "__kupfer_contents__"
 action_decorators_attribute = "__kupfer_actions__"
-settings_attribute = "__kupfer_settings__"
 action_generators_attribute = "__kupfer_action_generators__"
+settings_attribute = "__kupfer_settings__"
+initialize_attribute = "initialize_plugin"
 
 info_attributes = [
 		"__kupfer_name__",
@@ -103,6 +104,7 @@ def get_plugin_desc():
 	return "\n".join(desc)
 
 _imported_plugins = {}
+_plugin_hooks = {}
 
 def _truncate_code(code, find_attributes):
 	"Truncate @code where all of @find_attributes have been stored."
@@ -368,14 +370,24 @@ def initialize_plugin(plugin_name):
 	"""
 	_load_icons(plugin_name)
 	settings_dict = get_plugin_attribute(plugin_name, settings_attribute)
-	if not settings_dict:
-		return
-	settings_dict.initialize(plugin_name)
+	if settings_dict:
+		settings_dict.initialize(plugin_name)
+	initialize = get_plugin_attribute(plugin_name, initialize_attribute)
+	if initialize:
+		initialize(plugin_name)
 
 def unimport_plugin(plugin_name):
 	"""Remove @plugin_name from the plugin list and dereference its
 	python modules.
 	"""
+	# Run unimport hooks
+	if plugin_name in _plugin_hooks:
+		try:
+			for callback, args in reversed(_plugin_hooks[plugin_name]):
+				callback(*args)
+		except:
+			prety.print_exc(__name__)
+		del _plugin_hooks[plugin_name]
 	del _imported_plugins[plugin_name]
 	plugin_module_name = ".".join(_plugin_path(plugin_name))
 	pretty.print_debug(__name__, "Dereferencing module", plugin_module_name)
@@ -385,6 +397,11 @@ def unimport_plugin(plugin_name):
 		if mod.startswith(plugin_module_name + "."):
 			pretty.print_debug(__name__, "Dereferencing module", mod)
 			sys.modules.pop(mod)
+
+def register_plugin_unimport_hook(plugin_name, callback, *args):
+	if plugin_name not in _imported_plugins:
+		raise ValueError("No such plugin %s" % plugin_name)
+	_plugin_hooks.setdefault(plugin_name, []).append((callback, args))
 
 def get_plugin_error(plugin_name):
 	"""
