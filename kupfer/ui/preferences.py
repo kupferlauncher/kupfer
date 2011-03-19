@@ -119,19 +119,27 @@ class PreferencesWindowController (pretty.OutputMixin):
 		checkusecommandkeys.set_active(setctl.get_use_command_keys())
 
 		# List store with columns (Name, ID) 
+		# Make alternative comboboxes
 		terminal_combobox = builder.get_object("terminal_combobox")
-		terminal_combobox_store = gtk.ListStore(gobject.TYPE_STRING,
-		                                        gobject.TYPE_STRING)
-		terminal_combobox.set_model(terminal_combobox_store)
-		terminal_combobox_cell = gtk.CellRendererText()
-		terminal_combobox.pack_start(terminal_combobox_cell, True)
-		terminal_combobox.add_attribute(terminal_combobox_cell, 'text', 0)
+		icons_combobox = builder.get_object("icons_combobox")
 
-		self._update_terminal_combobox(terminal_combobox,
-		                               terminal_combobox_store)
+		def make_combobox_model(combobox):
+			combobox_store = gtk.ListStore(gobject.TYPE_STRING,
+			                               gobject.TYPE_STRING)
+			combobox.set_model(combobox_store)
+			combobox_cell = gtk.CellRendererText()
+			combobox.pack_start(combobox_cell, True)
+			combobox.add_attribute(combobox_cell, 'text', 0)
+
+		make_combobox_model(terminal_combobox)
+		make_combobox_model(icons_combobox)
+
+		self._update_alternative_combobox('terminal', terminal_combobox)
+		self._update_alternative_combobox('icon_renderer', icons_combobox)
 		self.terminal_combobox = terminal_combobox
-		self.terminal_combobox_store = terminal_combobox_store
+		self.icons_combobox = icons_combobox
 		setctl.connect("alternatives-changed", self._on_alternatives_changed)
+
 
 		# Plugin List
 		columns = [
@@ -764,20 +772,26 @@ class PreferencesWindowController (pretty.OutputMixin):
 			term_id = widget.get_model().get_value(itr, 1)
 			setctl.set_preferred_tool('terminal', term_id)
 
-	def _update_terminal_combobox(self, combobox, combobox_store):
+	def on_icons_combobox_changed(self, widget):
+		setctl = settings.GetSettingsController()
+		itr = widget.get_active_iter()
+		if itr:
+			term_id = widget.get_model().get_value(itr, 1)
+			setctl.set_preferred_tool('icon_renderer', term_id)
+
+	def _update_alternative_combobox(self, category_key, combobox):
 		"""
-		Terminals changed
+		Alternatives changed
 		"""
-		print "_update_terminal_combobox"
+		combobox_store = combobox.get_model()
 		combobox_store.clear()
 		setctl = settings.GetSettingsController()
-		term_id = setctl.get_preferred_tool('terminal')
-		print term_id
-		# fill in the available terminals
-		terminals = utils.locale_sort(
-				setctl.get_valid_alternative_ids('terminal'), key=lambda t:t[1])
+		term_id = setctl.get_preferred_tool(category_key)
+		# fill in the available alternatives
+		alternatives = utils.locale_sort(
+				setctl.get_valid_alternative_ids(category_key), key=lambda t:t[1])
 		term_iter = None
-		for (id_, name) in terminals:
+		for (id_, name) in alternatives:
 			_it = combobox_store.append((name, id_))
 			if id_ == term_id:
 				term_iter = _it
@@ -787,9 +801,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 	def _on_alternatives_changed(self, setctl, category_key):
 		if category_key == 'terminal':
-			self._update_terminal_combobox(
-					self.terminal_combobox,
-					self.terminal_combobox_store)
+			self._update_alternative_combobox(category_key,
+					self.terminal_combobox)
+		elif category_key == 'icon_renderer':
+			self._update_alternative_combobox(category_key,
+					self.icons_combobox)
 
 	def show(self):
 		self.window.present()
