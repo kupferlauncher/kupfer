@@ -23,6 +23,7 @@ kupfer/execfile.py
 kupfer/obj/base.py
 kupfer/obj/compose.py
 kupfer/obj/contacts.py
+kupfer/obj/exceptions.py
 kupfer/obj/fileactions.py
 kupfer/obj/objects.py
 kupfer/obj/sources.py
@@ -95,6 +96,7 @@ kupfer/plugin/pidgin.py
 kupfer/plugin/putty.py
 kupfer/plugin/rst.py
 kupfer/plugin/screen.py
+kupfer/plugin/sendkeys.py
 kupfer/plugin/services.py
 kupfer/plugin/shorten_links.py
 kupfer/plugin/show_qrcode.py
