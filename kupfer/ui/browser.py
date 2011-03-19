@@ -1689,10 +1689,15 @@ class WindowController (pretty.OutputMixin):
 			button.set_markup(btext)
 			button_box = gtk.EventBox()
 			button_box.set_visible_window(False)
-			button_box.add(button)
+			button_adj = gtk.Alignment(0.5, 0.5, 0, 0)
+			button_adj.set_padding(0, 2, 0, 3)
+			button_adj.add(button)
+			button_box.add(button_adj)
 			button_box.connect("button-press-event", self._context_clicked)
-			button_box.connect("enter-notify-event", self._button_enter, btext)
-			button_box.connect("leave-notify-event", self._button_leave, btext)
+			button_box.connect("enter-notify-event", self._button_enter,
+			                   button, btext)
+			button_box.connect("leave-notify-event", self._button_leave,
+			                   button, btext)
 			button.set_name("kupfer-menu-button")
 			title_align = gtk.Alignment(0, 0.5, 0, 0)
 			title_align.add(title)
@@ -1731,13 +1736,13 @@ class WindowController (pretty.OutputMixin):
 		menu.popup(None, None, None, event.button, event.time)
 		return True
 
-	def _button_enter(self, widget, event, udata):
+	def _button_enter(self, widget, event, button, udata):
 		"Pointer enters context menu button"
-		widget.child.set_markup("<u>" + udata + "</u>")
+		button.set_markup("<u>" + udata + "</u>")
 
-	def _button_leave(self, widget, event, udata):
+	def _button_leave(self, widget, event, button, udata):
 		"Pointer leaves context menu button"
-		widget.child.set_markup(udata)
+		button.set_markup(udata)
 
 	def _popup_menu(self, status_icon, button, activate_time, menu):
 		"""
