@@ -134,8 +134,7 @@ The complete plugin python code::
             return fileobj.object.endswith(".jpg")
 
         def activate(self, fileobj):
-            image_widget = gtk.Image()
-            image_widget.set_from_file(fileobj.object)
+            image_widget = gtk.image_new_from_file(fileobj.object)
             image_widget.show()
             window = gtk.Window()
             window.add(image_widget)
