@@ -2,7 +2,6 @@
 Kupfer Plugin API
 =================
 
-:Date: 2011
 :Homepage: http://kaizer.se/wiki/kupfer
 
 .. contents:: :depth: 2
