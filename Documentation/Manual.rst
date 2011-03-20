@@ -23,6 +23,10 @@ Kupfer Technical Documentation
 
     ..
 
+.. topic:: `Copyright <Copyright.html>`_
+
+    ..
+
 
 There is also `User Documentation`__
 
