@@ -5,7 +5,7 @@ Kupfer Plugin API
 :Date: March 2011
 :Homepage: http://kaizer.se/wiki/kupfer
 
-.. contents::
+.. contents:: :depth: 2
 
 
 Introduction
@@ -35,7 +35,7 @@ transparently included into the kupfer package, so the user has multiple
 choices of where to install plugins.
 
 The Plugin File
----------------
+:::::::::::::::
 
 A kupfer plugin is a ``.py`` file with some special attributes.
 
@@ -104,7 +104,7 @@ action that works with all FileLeaf.
 
 
 A Short Working Example
------------------------
+:::::::::::::::::::::::
 
 The very simplest thing we can do is to provide an action on
 objects that already exist in Kupfer. These actions appear in the right
@@ -177,7 +177,7 @@ or equivalently::
     >>> help("kupfer.obj.base")
 
 KupferObject
-------------
+::::::::::::
 
 KupferObject implements the things that are common to all objects:
 *name*, *description*, *icon*, *thumbnail* and *name aliases*.
@@ -238,7 +238,7 @@ following:
 
 
 Leaf
-----
+::::
 
 Leaf inherits KupferObject and it represents an object that the user
 will want to act on. Examples are a file, an application or a Free-text
@@ -284,7 +284,7 @@ This defines, in addition to KupferObject:
 
 
 Action
-------
+::::::
 
 Action inherits KupferObject.
 
@@ -368,43 +368,126 @@ Some auxiliary methods tell Kupfer about how to handle the action:
 
 
 Source
-------
+::::::
 
-A Source understands specific data and delivers Leaves for it. For
-example DirectorySource, that will give FileLeaves for contents of a
-directory.
+A Source understands specific data and delivers Leaves for it.
 
-This defines, in addition to KupferObject:
+A Source subclass must at a minimum implement ``__init__``,
+``get_items`` and ``provides``.
 
-``get_items()``
-    Source subclasses should define ``get_items`` to return its items;
-    the items are cached automatically until ``mark_for_update`` is
-    called.
-``is_dynamic()``
-    Return ``True`` if the Source should not be cached. A source should
-    almost never be dynamic.
-``should_sort_lexically()``
+``Source`` defines, in addition to ``KupferObject``:
+
+``__init__(self, names)``
+    You must call this method with a unicode name in the subclass
+    ``__init__(self)``.
+
+``get_items(self)``
+    Your source should define ``get_items`` to return a sequence
+    of leaves which are its items; the return value is cached and used
+    until ``mark_for_update`` is called.
+
+    Often, implementing ``get_items`` in the style of a generator (using
+    ``yield``) is the most convenient.
+
+    The Leaves shall be returned in natural order (most relevant first),
+    or if sorting is required, return in any order and define
+    ``should_sort_lexically``.
+
+``get_leaves(self)``
+    ``get_leaves`` must not be overridden, define ``get_items``
+    instead.
+
+``provides(self)``
+    Return a sequence of all precise Leaf types the Source may contain.
+
+    Often, the Source contains Leaves of only one type, in that case
+    the implementation is written simply as ``yield ThatLeafType``.
+
+``should_sort_lexically(self)``
     Return ``True`` if the Source's leaves should be sorted
     alphabethically. If not sorted lexically, ``get_items`` should yield
     leaves in order of the most relevant object first (for example the
     most recently used).
-``provides()``
-    Return a sequence of all precise Leaf types the Source may contain
 
-``initialize()``
-    Called when the source should be made ready to use. This is where it
-    should register for external change callbacks, for example.
+``initialize(self)``
+    This method is called when the source should be made ready to use.
+    This is where it should register for external change callbacks, for
+    example.
 
-``get_leaf_repr()``
+``finalize(self)``
+    This method is called before the Source is disabled (shutdown or
+    plugin deactivated).
+
+``get_leaf_repr(self)``
     Return a Leaf that represents the Source, if applicable; for example
     the DirectorySource is represented by a FileLeaf for the directory.
+
 ``__hash__`` and ``__eq__``
     Sources are hashable, and equivalents are recognized just like
     Leaves, and the central SourceController manages them so that there
     are no duplicates in the application.
 
+``get_items_forced(self)``
+    Like ``get_items``, called when a refresh is forced. By default
+    it just calls ``get_items``.
+
+``mark_for_update(self)``
+    Should not be overridden. Call ``mark_for_update`` in the source to
+    mark it so that it is refreshed by calling ``get_items``.
+
+``repr_key(self)``
+    Define to a unique key if you need to differentiate between sources
+    of the same class. Normally only used with Sources from factory
+    actions or from decorator sources.
+
+``toplevel_source(self)``
+    If applicable, the source can return a different source to represent
+    it and its objects in the top level of the catalog. The default
+    implementation returns ``self`` which is normally what you want.
+
+``is_dynamic(self)``
+    Return ``True`` if the Source should not be cached. This is almost
+    never used.
+
+Saving Source configuration data
+................................
+
+These methods are must be implemented if the Source needs to save
+user-produced configuration data.
+
+``config_save_name(self)``
+    Return the name key to save the data under. This should almost
+    always be literally ``return __name__``
+
+``config_save(self)``
+    Implement this to return a datastructure that succintly but
+    perfectly represents the configuration data. The returned
+    value must be a composition of simple types, that is, nested
+    compositions of ``dict``, ``list``, ``str`` etc.
+
+    This is called after ``finalize`` is called on the source.
+
+``config_restore(self, state)``
+    The ``state`` parameter is passed in as the saved return value
+    of ``config_save``. ``config_restore`` is called before
+    ``initialize`` is called on the Source.
+
+
+Source attributes
+.................
+
+``Source.source_user_reloadable = False``
+    Set to ``True`` if the source should have a user-visible
+    *Rescan* action. Normally you much prefer to use change
+    notifications so that this is not necessary.
+
+``Source.source_prefer_sublevel = False``
+    Set to ``True`` to not export its objects to the top level by
+    default. Normally you don't wan't to change this
+
+
 TextSource
-----------
+::::::::::
 
 A text source returns items for a given text string, it is much like a
 simplified version of Source.
@@ -414,5 +497,5 @@ simplified version of Source.
 ``provides()``
     Return a sequence of the Leaf types it may contain
 
-.. vim: ft=rst tw=72 et sts=4
+.. vim: ft=rst tw=72 et sts=4 sw=4
 .. this document best viewed with rst2html
