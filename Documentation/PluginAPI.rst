@@ -2,7 +2,7 @@
 Kupfer Plugin API
 =================
 
-:Date: March 2011
+:Date: 2011
 :Homepage: http://kaizer.se/wiki/kupfer
 
 .. contents:: :depth: 2
@@ -240,9 +240,10 @@ following:
 Leaf
 ::::
 
-Leaf inherits KupferObject and it represents an object that the user
-will want to act on. Examples are a file, an application or a Free-text
-query (TextLeaf).
+Leaf inherits KupferObject.
+
+Leaf it represents an object that the user will want to act on. Examples
+are a file, an application or a Free-text query (TextLeaf).
 
 This defines, in addition to KupferObject:
 
@@ -370,6 +371,8 @@ Some auxiliary methods tell Kupfer about how to handle the action:
 Source
 ::::::
 
+Source inherits KupferObject.
+
 A Source understands specific data and delivers Leaves for it.
 
 A Source subclass must at a minimum implement ``__init__``,
@@ -489,13 +492,148 @@ Source attributes
 TextSource
 ::::::::::
 
-A text source returns items for a given text string, it is much like a
-simplified version of Source.
+TextSource inherits KupferObject
 
-``get_text_items(text)``
-    Return items for the given query.
-``provides()``
+A text source returns items for a given text string, it is much like a
+simplified version of Source. At a minimum, a TextSource subclass must
+implement ``get_text_items`` and ``provides``.
+
+``__init__(self, name)``
+    Override as ``__init__(self)`` to provide a unicode name for the
+    source.
+
+``get_text_items(self, text)``
+    Return a sequence of Leaves for the unicode string ``text``.
+
+``provides(self)``
     Return a sequence of the Leaf types it may contain
+
+``get_rank(self)``
+    Return a static rank score for text output of this source.
+
+
+ActionGenerator
+:::::::::::::::
+
+ActionGenerator inherits object
+
+ActionGenerator is a helper object that can be declared in
+``__kupfer_action_generators__``. It allows generating action objects
+dynamically.
+
+``get_actions_for_leaf(self, leaf)``
+    Return a sequence of Action objects appropriate for this Leaf
+
+.. note::
+
+    The ``ActionGenerator`` should not perform any expensive
+    computation, and not access any slow media (files, network) when
+    returning actions.  Such expensive checks must postponed and be
+    performed in each Action's ``valid_for_item`` method.
+
+
+The Plugin Runtime
+::::::::::::::::::
+
+.. topic:: How a plugin is activated 
+
+    1. The plugin module is imported into Kupfer.
+
+       If an error occurs, the loading fails and the plugin is disabled.
+       If the error raised is an ImportError then Kupfer report it as a
+       dependency problem.
+
+    2. Kupfer will initialize a ``kupfer.plugin_support.PluginSettings``
+       object if it exists (see next section)
+
+    3. Kupfer will call the module-level function
+       ``initialize_plugin(name)`` if it exists.
+
+    4. Kupfer instantiates the declared sources and actions and insert
+       sources, actions, content decorators, action generators and text
+       sources into the catalog.
+
+.. topic:: When a plugin is deactivated
+
+    When the plugin is disabled, the module-level function
+    ``finalize_plugin(name)`` is called if it exists. [It is not yet
+    final whether this function is called at shutdown or only when
+    hot-unplugging plugins.]
+
+kupfer.plugin_support
+:::::::::::::::::::::
+
+This module provides important API for several plugin features.
+
+PluginSettings
+..............
+
+To use user-settable configuration parameters, use::
+
+    __kupfer_settings__ = plugin_support.PluginSettings(
+        {
+            "key" : "maximum",
+            "label": _("Maximum something parameter"),
+            "type": int,
+            "value": 9,
+        },
+    )
+
+Where ``PluginSettings`` takes a variable argument list of config
+parameter descriptions. The configuration values are accessed with
+``__kupfer_settings__[key]`` where ``key`` is from the parameter
+description. Notice that ``__kupfer_settings__`` is not updated with
+the user values until the plugin is properly initialized.
+
+``PluginSettings`` is read-only but supports the GObject signal
+``plugin-setting-changed (key, value)`` when values change.
+
+check_dbus_support and check_keyring_support
+............................................
+
+``plugin_support`` provides the convenience functions
+``check_dbus_support()`` and ``check_keyring_support()`` that raise the
+appropriate error if a dependency is missing.
+
+
+Alternatives
+............
+
+Alternatives are mutually exclusive features where the user must select
+which to use.
+
+As of this writing, there are two categories of alternatives:
+
+:``terminal``:      the terminal used for running programs that require
+                    terminal
+:``icon_renderer``: method used to look up icon names
+
+Each category has a specific format of required data that is defined in
+``kupfer/plugin_support.py``. A plugin should use the function
+``plugin_support.register_alternative(caller, category_key, id_, **kwargs)`` 
+to register their implementations of new alternatives. The arguments are:
+
+:``caller``:       the id of the calling plugin, is always ``__name__``
+:``category_key``: one of the above categories
+:``id_``:          the plugin's identifier for the alternative
+:`kwargs`:         key-value pairs defining the alternative
+
+``register_alternative`` is normally called in the plugin's
+``initialize_plugin(..)`` function.
+
+Plugin Packages, Resources and Distribution
+:::::::::::::::::::::::::::::::::::::::::::
+
+A plugin is a Python module, a module is either a python file or a
+folder with an ``__init__.py`` file (a package module). A package module
+may include custom icons as .svg files. The icon files must be declared
+in a file inside the python package called ``icon-list``. Each line of
+``icon-list`` is <icon name><tab character><filename>.
+
+Plugins may be installed into any of the ``kupfer/plugins`` data
+directories. Package modules can also be installed as ``.zip`` files, so
+they too can be distributed as single files.
+
 
 .. vim: ft=rst tw=72 et sts=4 sw=4
 .. this document best viewed with rst2html
