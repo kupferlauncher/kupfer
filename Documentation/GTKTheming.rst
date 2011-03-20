@@ -65,7 +65,7 @@ The following example style includes inline comments::
         ## The MatchView is the bezel around each pane in the interface
 
         MatchView :: corner-radius = 15
-        MatchView :: opacity = 90
+        MatchView :: opacity = 70
 
         ## The KupferWindow is the whole main window
         KupferWindow :: corner-radius = 15

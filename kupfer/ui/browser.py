@@ -493,7 +493,7 @@ gtk.widget_class_install_style_property(MatchView,
 gtk.widget_class_install_style_property(MatchView,
 		('opacity', gobject.TYPE_INT, 'Bezel opacity',
 		 'Opacity of bezel around match',
-		 50, 100, 90,
+		 50, 100, 70,
 		 gobject.PARAM_READABLE))
 
 class Search (gtk.Bin):
