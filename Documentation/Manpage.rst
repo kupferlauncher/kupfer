@@ -7,7 +7,7 @@ Convenient command and access tool for applications and documents
 -----------------------------------------------------------------
 
 :Author: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
-:Date: 17 September 2009
+:Date: 2011
 :Manual section: 1
 
 SYNOPSIS
@@ -19,14 +19,13 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-Kupfer is a launcher; you typically use it to summon an application or a
-document quickly by typing parts of its name. It can also do more than
-getting at something quickly: there are different plugins for accessing
-more objects and running custom commands.
+Kupfer is an interface for quick and convenient access to applications
+and their documents.
 
-Kupfer is written using Python and has a flexible architecture; the
-implementation is simple and makes the easy things work first. One goal
-is that new plugins can be written quickly without too much programming.
+The most typical use is to find a specific application and launch it. We
+have tried to make Kupfer easy to extend with plugins so that this
+quick-access paradigm can be extended to many more objects than just
+applications.
 
 ``kupfer-exec`` is a helper script that can execute commands saved to
 file, but only by connecting to an already running instance of Kupfer.
@@ -36,9 +35,6 @@ SPAWNING
 
 Running kupfer on the command line (without options) will try to show
 the program it if already running.
-
-If the keybinder module is installed, kupfer will listen to a
-keybinding. By default the keybinding is *Ctrl+Space* to show kupfer.
 
 Kupfer can be invoked with a list of files
 
