@@ -253,9 +253,9 @@ def build(bld):
 
 	# Documentation/
 	if bld.env["RST2MAN"]:
-		# generate man page from Quickstart.rst
+		# generate man page from Manpage.rst
 		bld.new_task_gen(
-			source = "Documentation/Quickstart.rst",
+			source = "Documentation/Manpage.rst",
 			target = "kupfer.1",
 			rule = 'rst2man ${SRC} > ${TGT}',
 		)
