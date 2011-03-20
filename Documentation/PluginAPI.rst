@@ -706,5 +706,141 @@ directories. Package modules can also be installed as ``.zip`` files, so
 they too can be distributed as single files.
 
 
+
+Reference to the ``kupfer`` Package
+===================================
+
+There are several modules inside the ``kupfer`` package that a plugin
+can reuse.
+
+.. topic:: ``kupfer.commandexec``
+
+    ``DefaultActionExecutionContext()``
+        Returns a context object that is used in Action execution.
+        
+        Typical use inside an Action::
+
+            def activate(self, obj):
+                ctx = commandexec.DefaultActionExecutionContext()
+                token = ctx.get_async_token()
+
+                def callback_done(new_obj):
+                    ctx.register_late_result(token, new_obj)
+
+                def callback_error(errmsg):
+                    ctx.register_late_error(token, OperationError(errmsg))
+
+                # here we start an asynchronus call and
+                # provide callbacks
+                produce_something(obj, callback_done, callback_error)
+
+        So the action execution context can be used to tell
+        Kupfer about after-the-fact produced Leaves or after-the-fact
+        errors (to display for the user).
+
+.. topic:: ``kupfer.config``
+
+    ..
+
+.. topic:: ``kupfer.interface``
+
+    This module does not need to be imported just to implement the
+    interface it defines.
+
+    ``TextRepresentation``
+        ``get_text_representation``
+            If a Leaf has a text representation (used for
+            copy-to-clipboard), it should implement this method
+            and return a unicode string.
+
+.. topic:: ``kupfer.kupferstring``
+
+    A **byte string** (Python ``str``) is just a stream of data. When
+    you handle byte strings that is text, you must convert it to unicode
+    as soon as possible. You only know the encoding depending on the
+    source of the byte string.
+
+    ``tounicode``
+        decode UTF-8 or unicode object into unicode.
+
+    ``tolocale(ustr)``
+        coerce unicode ``ustr`` into a locale-encoded bytestring.
+
+    ``fromlocale(lstr)``
+        decode locale-encoded bytestring ``lstr`` to a unicode object.
+
+
+.. topic:: ``kupfer.objects``
+
+    ``kupfer.objects`` includes the basic objects from the package
+    ``kupfer.obj``, such as ``Leaf``, ``Action``, ``Source`` etc.
+
+    ``FileLeaf``, ``AppLeaf``, ``TextLeaf`` etc.
+        The basic re-usable types live here
+
+    ``OperationError``
+        Exception type for user-visible errors in action execution.
+        Raise ``OperationError`` with a unicode localized error message
+        inside ``Action.activate`` to notify the user of a serious
+        error.
+
+        Specialized versions exist: Such as
+        ``CommandMissingError(cmd)``, ``NotAvailableError(toolname)``,
+        ``NoMultiError()``
+
+
+.. topic:: ``kupfer.pretty``
+
+    ..
+
+.. topic:: ``kupfer.runtimehelper``
+
+    ..
+
+.. topic:: ``kupfer.textutils``
+
+    ..
+
+.. topic:: ``kupfer.uiutils``
+
+    ``show_notification(title, text='', icon_name='', nid=0)``
+        Show a notification. If a previous return value is passed as
+        ``nid`` , try to replace that previous notification.
+
+        Returns a notification identifier, or None if notifications
+        are not supported.
+
+.. topic:: ``kupfer.utils``
+
+    ``spawn_async(argv)``
+        Spawn a child process, returning True if successfully started.
+
+    ``spawn_in_terminal(argv)``
+        ..
+
+    ``show_path(path)``
+        ..
+
+    ``show_url(url)``
+        Display with default viewer for ``path`` or ``url``.
+
+    ``get_display_path_for_bytestring(filepath)``
+        File paths are bytestrings (and are not text).
+        ``get_display_path_for_bytestring`` returns a user-displayable
+        text representation as a unicode object.
+
+.. topic:: ``kupfer.task``
+
+    ..
+
+.. topic:: ``kupfer.weaklib``
+
+    ..
+
+.. topic:: ``kupfer.core``
+
+    The module ``kupfer.core`` can not be used by plugins.
+
+
 .. vim: ft=rst tw=72 et sts=4 sw=4
 .. this document best viewed with rst2html
