@@ -244,6 +244,7 @@ unicode_icon_map = {
 	"view-refresh": u"\N{CLOCKWISE OPEN CIRCLE ARROW}",
 	"folder": u"\N{STRICTLY EQUIVALENT TO}",
 	"drive-removable-media": u"\N{TAPE DRIVE}",
+	"media-optical": u"\N{TAPE DRIVE}",
 	# ok these are stretching it..
 	"media-skip-backward": u"\N{LEFT-POINTING DOUBLE ANGLE QUOTATION MARK}",
 	"media-skip-forward": u"\N{RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK}",
