@@ -3,6 +3,7 @@
 Localization
 ============
 
+
 kupfer is translated using gettext and it is managed in the build system
 using ``intltool``. Translation messages are located in the ``po/``
 directory.
@@ -15,6 +16,7 @@ is:
 You can download the latest version of your language's translation file
 there, if Kupfer is already translated to your language.
 
+.. contents::
 
 To create a new translation
 ---------------------------

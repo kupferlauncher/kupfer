@@ -2,8 +2,7 @@
 Kupfer Plugin API
 =================
 
-:Author: Ulrik Sverdrup
-:Date: Sunday, 20 March 2011
+:Date: March 2011
 :Homepage: http://kaizer.se/wiki/kupfer
 
 .. contents::
@@ -166,45 +165,83 @@ That is all. We do the following:
 Reference
 =========
 
-Kupfer's architecture is built around objects that can be acted on by
-actions. Kupfer's basic concept for understanding objects is in
-``kupfer/obj/base.py``. The basic building block is ``KupferObject``.
-
-KupferObject
-------------
-
-base class for basic user-visible constructs, this defines:
-
-* A way to get the object's name
-* A way to get the object's description
-* A way to get the object's icon
-
-This is the base object for the following four very important base
-classes:
-
-* Leaf
-* Action
-* Source
-* TextSource
-* ActionGenerator
-
-Below follows a summary. For complete information, you should read
-kupfer's python interface documentation: go to the directory containing
-the kupfer module and do::
+Below follows a complete summary. But for more information, you should
+can kupfer's python interface documentation: go to the directory
+containing the kupfer module and do::
 
     $ pydoc kupfer.obj.base
 
 or equivalently::
 
     $ python
-    >>> import kupfer.obj.base
-    >>> help(kupfer.obj.base)
+    >>> help("kupfer.obj.base")
+
+KupferObject
+------------
+
+KupferObject implements the things that are common to all objects:
+*name*, *description*, *icon*, *thumbnail* and *name aliases*.
+
+Methods that come from ``KupferObject`` that you can implement are the
+following:
+
+
+``__init__(self, name)``
+    This is called when you call ``Leaf.__init__``, or ``Source.__init__``,
+    and so on in your object's ``__init__`` method.
+
+    The name parameter must be a unicode string. An object can not
+    change name after it has called __init__.
+
+``get_description(self)``
+    Return a longer user-visible unicode string that
+    describes the object.
+
+``get_icon_name(self)``
+    Return a string of one icon name for the object.
+
+    The icon name should preferably be in the `Icon Naming
+    Specification`_
+
+``get_gicon(self)``
+    Return a GIcon (GIO icon) object. This takes precedence
+    over the icon name, if it is defined.
+
+``get_thumbnail(self, width, height)``
+    Implement ``get_thumbnail`` to return a GdkPixbuf object of the
+    requested size that is a thumbnail of the object. If applicable.
+
+``get_pixbuf(self, x)``
+    This should not be redefined. Define ``get_icon_name`` and/or
+    ``get_gicon`` instead.
+
+``get_icon(self)``
+    This should not be redefined. Define ``get_icon_name`` and/or
+    ``get_gicon`` instead.
+
+``repr_key(self)``
+    Return an object whose str() will be used in the __repr__,
+    self is returned by default.
+    This value is used to differentiate and recognize objects.
+    Override this if the objects type and name is not enough
+    to differentiate it from other objects.
+
+``__repr__``
+    This should not be redefined. Define ``repr_key`` instead.
+
+``kupfer_add_alias(self, alias)``
+    This should not be redefined, but can be called by the object
+    to add an alternate name to the object.
+
+
+.. _`Icon Naming Specification`: http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+
 
 Leaf
 ----
 
-A Leaf represents an object that the user will want to summon and
-act on. An example is a file, an application, a window or a Free-text
+Leaf inherits KupferObject and it represents an object that the user
+will want to act on. Examples are a file, an application or a Free-text
 query (TextLeaf).
 
 This defines, in addition to KupferObject:
@@ -222,27 +259,34 @@ This defines, in addition to KupferObject:
     implementation-specific internal data.
 
 ``get_actions()``
-    Returns the *builtin* Actions for a Leaf; builtin Actions are such
-    that do not apply generally, but only to Leaves defined in a
-    particular module or Plugin.
+    Return a sequence of Actions that always apply to the Leaf. These
+    are "built-in" actions.
 
 ``__hash__`` and ``__eq__``
     Leaves are hashable, can be members in a set, and duplicates are
     recognized (and removed); this is essensial so that equivalent
-    Leaves from different sources are recognized. By default duplicates
-    are recognized if both the name and the ``Leaf.object`` property are
-    the same.
+    Leaves from different sources are recognized. 
+
+    These methods need normally not be overridden.
+
+    By default leaves are equal if both the name and the ``Leaf.object``
+    attribute are the same.
 
 ``has_content()`` and ``content_source()``
-    These methods are used to find out if the object contain anything,
-    like a folder contains files or a music album songs.
+    A leaf can contain something, like a folder contains files or a
+    music album songs.
+
     If the Leaf should have content, it should override ``has_content``
     to return ``True`` and define ``content_source()`` to return
     an instance of a Source.
+
     A Leaf may decide dynamically if it has content or not.
+
 
 Action
 ------
+
+Action inherits KupferObject.
 
 An Action represents a command using a direct object and an optional
 indirect object. One example is ``kupfer.obj.fileactions.Open`` that
@@ -253,46 +297,75 @@ Actions are the most versatile parts of Kupfer, since they can define
 ways to use objects together. They also have to decide, which types of
 Leaves they apply to, and if they apply to a given Leaf.
 
+An action is either a `Subject + Verb`:t: action: It needs one object,
+this is the direct object.
+
+Or it is a `Subject + Verb + Object`:t: action: It needs two objects,
+one direct object ("obj") and one indirect object ("iobj").
+
 Action defines, in addition to KupferObject:
 
-``activate(leaf, obj)``
-    Called to perform its effect on a Leaf, where ``obj`` is the
-    (optional) indirect object.
+``activate(self, obj)``
+    Called to perform the action if the action is a normal
+    Subject + Verb action.
 
-``item_types()``
-    This method returns all the types of Leaves that the action
-    applies to (direct object).
-``valid_for_item(item)``
-    Return whether action applies to ``item`` or not, which is of
-    one of the types returned by ``item_type.``
+``activate(self, obj, iobj)``
+    Called to perform the action if the action is a three-way
+    Subject + Verb + Object action. (That is, ``requires_object``
+    returns ``True``)
 
-``requires_object()``
-    Whether this action uses an indirect object or not. If the Action
-    requires an indirect object, it must also define (at least)
-    ``object_types``.
-``object_types()``
-    Return all the types of Leaves that are valid for the action's
+``item_types(self)``
+    This method should return a sequence of all Leaf types
+    that the action can apply to (direct object).
+
+``valid_for_item(self, item)``
+    This method is called for each potential direct object
+    of the correct type.
+    Return True if the object is compatible with the action.
+
+    By default always returns ``True``.
+
+``requires_object(self)``
+    Return ``True`` if the action is a `Subject + Verb + Object`:t:
+    action and requires both a direct and an indirect object.
+
+    If ``requires_object`` returns ``True``,  then you must must also
+    define (at least) ``object_types``.
+
+``object_types(self)``
+    Return a sequence of all Leaf types that are valid for the action's
     indirect object.
-``object_source(for_item)``
+
+``object_source(self, for_item)``
     If the action's indirect objects should not be picked from the full
     catalog, but from a defined source, return an instance of the Source
-    here, else return None.
-``valid_object(obj, for_item)``
+    here, else return None. ``for_item`` is the direct object.
+
+``valid_object(self, iobj, for_item)``
     This method, if defined,  will be called for each indirect object
     (with the direct object as ``for_item``), to decide if it can be
-    used.
+    used. Return ``True`` if it can be used.
 
 Some auxiliary methods tell Kupfer about how to handle the action:
 
-``is_factory()``
-    If the action returns content, return a collection of new items.
-``has_result()``
-    If the action's return value in activate should treated as the new
-    selection.
-``is_async()``
-    If the action returns a ``Task`` object conforming to
-    ``kupfer.task.Task``. The task will be executed asynchronously in
-    Kupfer's task queue.
+``is_factory(self)``
+    Return ``True`` if the return value of ``activate`` is a source
+    that should be displayed immediately.
+
+``has_result(self)``
+    Return ``True`` if the action's return value in ``activate`` should
+    be selected.
+
+``is_async(self)``
+    Return ``True`` if the action returns a ``Task`` object conforming to
+    ``kupfer.task.Task`` from ``activate``. The task will be executed
+    asynchronously in Kupfer's task queue.
+
+``repr_key(self)``
+    Override this to define a unique key for the action,
+    if you need to differentiate between different instances of the
+    same Action class.
+
 
 Source
 ------
