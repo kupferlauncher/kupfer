@@ -62,6 +62,7 @@ For the plugin to do anything, the following attributes may be defined::
     __kupfer_text_sources__ = ()
     __kupfer_actions__ = ()
     __kupfer_action_generators__ = ()
+    __kupfer_contents__ = ()
 
 They should be tuples of *names* of classes in the module:
 
@@ -452,6 +453,7 @@ A Source subclass must at a minimum implement ``__init__``,
     Return ``True`` if the Source should not be cached. This is almost
     never used.
 
+
 Saving Source configuration data
 ................................
 
@@ -476,7 +478,30 @@ user-produced configuration data.
     ``initialize`` is called on the Source.
 
 
-Source attributes
+Content Decorators
+..................
+
+A content-decorating source provides content to a Leaf, where it does
+not control the Leaf. An example is the recent documents content
+decorator, that provides document collections as content to
+applications.
+
+A normal Source listed in ``__kupfer_sources__`` will be eligible for
+content decoration as well if it implements the needed methods.
+Otherwise content-only sources are listed in ``__kupfer_contents__``.
+
+
+``@classmethod decorates_type(cls)``
+    Return the type of Leaf that can be decorated. You must also
+    implement ``decorate_item``.
+
+``@classmethod decorate_item(cls, leaf)``
+    Return an instance of a Source (normally of the same type as the
+    content decorator itself) that is the content for the object
+    ``leaf``.  Return ``None`` if not applicable.
+    
+
+Source Attributes
 .................
 
 ``Source.source_user_reloadable = False``
@@ -487,6 +512,10 @@ Source attributes
 ``Source.source_prefer_sublevel = False``
     Set to ``True`` to not export its objects to the top level by
     default. Normally you don't wan't to change this
+
+``Source._version``
+    Internal number that is ``1`` by default. Update this number in
+    ``__init__`` to invalidate old versions of cache files.
 
 
 TextSource
