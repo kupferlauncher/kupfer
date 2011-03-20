@@ -7,6 +7,10 @@ Kupfer Technical Documentation
 
     ..
 
+.. topic:: `GTK+ Theme Support <GTKTheming.html>`_
+
+    ..
+
 .. topic:: `Contributing <Contributing.html>`_
 
     ..
