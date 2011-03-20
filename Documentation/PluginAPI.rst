@@ -204,6 +204,10 @@ following:
     The icon name should preferably be in the `Icon Naming
     Specification`_
 
+    .. _`Icon Naming Specification`: \
+        http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+
+
 ``get_gicon(self)``
     Return a GIcon (GIO icon) object. This takes precedence
     over the icon name, if it is defined.
@@ -235,13 +239,22 @@ following:
     to add an alternate name to the object.
 
 
-.. _`Icon Naming Specification`: http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
+KupferObject Attributes
+.......................
+
+``KupferObject.rank_adjust``
+    A number to adjust the ranking of a certain object. Should only
+    be used on Actions. Should be set in the range -10 to -1 for actions
+    that apply to many objects but not default for any.
+
+``KupferObject.fallback_icon_name``
+    Used as a the class' fallback for icon name. Do not change this.
 
 
 Leaf
 ::::
 
-Leaf inherits KupferObject.
+Leaf inherits from KupferObject.
 
 Leaf it represents an object that the user will want to act on. Examples
 are a file, an application or a Free-text query (TextLeaf).
@@ -288,7 +301,7 @@ This defines, in addition to KupferObject:
 Action
 ::::::
 
-Action inherits KupferObject.
+Action inherits from KupferObject.
 
 An Action represents a command using a direct object and an optional
 indirect object. One example is ``kupfer.obj.fileactions.Open`` that
@@ -307,14 +320,37 @@ one direct object ("obj") and one indirect object ("iobj").
 
 Action defines, in addition to KupferObject:
 
+
+Activate: Carrying Out the Action
+.................................
+
 ``activate(self, obj)``
     Called to perform the action if the action is a normal
-    Subject + Verb action.
+    `Subject + Verb`:t: action.
 
 ``activate(self, obj, iobj)``
     Called to perform the action if the action is a three-way
-    Subject + Verb + Object action. (That is, ``requires_object``
+    `Subject + Verb + Object`:t: action. (That is, ``requires_object``
     returns ``True``)
+
+``activate_multiple(self, objects)``
+    ..
+
+``activate_multiple(self, objects, iobjects)``
+    If implemented, ``activate_multiple`` is called with preference over
+    ``activate(self, obj, iobj)`` or ``activate(self, obj)`` as
+    appropriate.
+
+    Implement ``activate_multiple`` to handle multiple objects on either
+    side in a smart way.
+
+    You should implement ``activate_multiple`` if it is possible to do
+    something better than the equivalent of repeating ``activate``
+    *n* for *n* objects.
+
+
+Determining Eligible Objects
+............................
 
 ``item_types(self)``
     This method should return a sequence of all Leaf types
@@ -348,6 +384,10 @@ Action defines, in addition to KupferObject:
     (with the direct object as ``for_item``), to decide if it can be
     used. Return ``True`` if it can be used.
 
+
+Auxiliary Action Methods
+........................
+
 Some auxiliary methods tell Kupfer about how to handle the action:
 
 ``is_factory(self)``
@@ -372,7 +412,7 @@ Some auxiliary methods tell Kupfer about how to handle the action:
 Source
 ::::::
 
-Source inherits KupferObject.
+Source inherits from KupferObject.
 
 A Source understands specific data and delivers Leaves for it.
 
@@ -521,7 +561,7 @@ Source Attributes
 TextSource
 ::::::::::
 
-TextSource inherits KupferObject
+TextSource inherits from KupferObject.
 
 A text source returns items for a given text string, it is much like a
 simplified version of Source. At a minimum, a TextSource subclass must
@@ -544,7 +584,7 @@ implement ``get_text_items`` and ``provides``.
 ActionGenerator
 :::::::::::::::
 
-ActionGenerator inherits object
+ActionGenerator inherits from object.
 
 ActionGenerator is a helper object that can be declared in
 ``__kupfer_action_generators__``. It allows generating action objects
@@ -601,8 +641,8 @@ To use user-settable configuration parameters, use::
 
     __kupfer_settings__ = plugin_support.PluginSettings(
         {
-            "key" : "maximum",
-            "label": _("Maximum something parameter"),
+            "key" : "frobbers",
+            "label": _("Number of frobbers"),
             "type": int,
             "value": 9,
         },
@@ -629,26 +669,28 @@ Alternatives
 ............
 
 Alternatives are mutually exclusive features where the user must select
-which to use.
+which to use. Each category permits one choice.
 
-As of this writing, there are two categories of alternatives:
+.. topic:: Categories of Alternatives
 
-:``terminal``:      the terminal used for running programs that require
-                    terminal
-:``icon_renderer``: method used to look up icon names
+    :``terminal``:      the terminal used for running programs that require
+                        terminal
+    :``icon_renderer``: method used to look up icon names
 
 Each category has a specific format of required data that is defined in
 ``kupfer/plugin_support.py``. A plugin should use the function
-``plugin_support.register_alternative(caller, category_key, id_, **kwargs)`` 
+``kupfer.plugin_support.register_alternative(caller, category_key, id_, **kwargs)`` 
 to register their implementations of new alternatives. The arguments are:
 
-:``caller``:       the id of the calling plugin, is always ``__name__``
-:``category_key``: one of the above categories
-:``id_``:          the plugin's identifier for the alternative
-:`kwargs`:         key-value pairs defining the alternative
+.. topic:: ``register_alternative(caller, category_key, id_, **kwargs)``
 
-``register_alternative`` is normally called in the plugin's
-``initialize_plugin(..)`` function.
+    :``caller``:       the name of the calling plugin, is always ``__name__``
+    :``category_key``: one of the above categories
+    :``id_``:          the plugin's identifier for the alternative
+    :`kwargs`:         key-value pairs defining the alternative
+
+    ``register_alternative`` is normally called in the plugin's
+    ``initialize_plugin(..)`` function.
 
 Plugin Packages, Resources and Distribution
 :::::::::::::::::::::::::::::::::::::::::::
