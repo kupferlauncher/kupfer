@@ -13,7 +13,11 @@ kupfer's hastening insanity
     preferences window and help.
   + Always show description field
   + Let the frame be slightly transparent if supported
+  + Themable colors and properties by using GTK+ styling,
+    see ``Documentation/GTKTheming.rst``
 
+* Updated Kupfer's technical documentation (in ``Documentation/``),
+  including the Plugin API reference.
 * Implement a preedit widget for input methods, also resolving
   the incompatibility with ibus (David Schneider) (:lp:`696727`)
 * Re-implement launching of applications
@@ -27,9 +31,11 @@ kupfer's hastening insanity
 * *Thunar*: Use Thunar 1.2's Copy and Move API and expose it in
   Kupfer.
 * Add *Ascii & Unicode Icon Set* for fun
+* Add simple plugin *Quick Image Viewer* to show images in a simple way.
 * Add *Send Keys* plugin that can send synthetic keyboard events,
   and prominently can be used for the *Paste to Foreground Window*
   action on text. Requires ``xautomation`` package. (:lp:`621453`)
+* Activate current selection on pane double-click. (:lp:`700948`)
 
 
 kupfer v204
