@@ -11,8 +11,12 @@ import glib
 from kupfer import pretty
 from kupfer import kupferstring
 from kupfer import desktop_launch
+from kupfer import launch
 from kupfer import desktop_parse
 from kupfer import terminal
+
+from kupfer.desktop_launch import SpawnError
+
 
 def get_dirlist(folder, depth=0, include=None, exclude=None):
 	"""
@@ -181,6 +185,7 @@ class AsyncCommand (object):
 
 
 def spawn_terminal(workdir=None):
+	" Raises SpawnError "
 	term = terminal.get_configured_terminal()
 	notify = term["startup_notify"]
 	app_id = term["desktopid"]
@@ -188,6 +193,7 @@ def spawn_terminal(workdir=None):
 	desktop_launch.spawn_app_id(app_id, argv, workdir, notify)
 
 def spawn_in_terminal(argv, workdir=None):
+	" Raises SpawnError "
 	term = terminal.get_configured_terminal()
 	notify = term["startup_notify"]
 	_argv = list(term["argv"])
@@ -200,11 +206,17 @@ def spawn_async_notify_as(app_id, argv):
 	"""
 	Spawn argument list @argv and startup-notify as
 	if application @app_id is starting (if possible)
+
+	raises SpawnError
 	"""
 	desktop_launch.spawn_app_id(app_id, argv , None, True)
 
 def spawn_async(argv, in_dir="."):
-	"Silently spawn @argv in the background"
+	"""
+	Silently spawn @argv in the background
+
+	Returns False on failure
+	"""
 	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
 	argv = _argv_to_locale(argv)
 	try:
@@ -217,7 +229,7 @@ def argv_for_commandline(cli):
 	return desktop_parse.parse_argv(cli)
 
 def launch_commandline(cli, name=None, in_terminal=False):
-	from kupfer import launch
+	" Raises SpawnError "
 	argv = desktop_parse.parse_argv(cli)
 	pretty.print_error(__name__, "Launch commandline is deprecated ")
 	pretty.print_debug(__name__, "Launch commandline (in_terminal=", in_terminal, "):", argv, sep="")
@@ -226,7 +238,7 @@ def launch_commandline(cli, name=None, in_terminal=False):
 	return spawn_async(argv)
 
 def launch_app(app_info, files=(), uris=(), paths=()):
-	from kupfer import launch
+	" Raises SpawnError "
 
 	# With files we should use activate=False
 	return launch.launch_application(app_info, files, uris, paths,

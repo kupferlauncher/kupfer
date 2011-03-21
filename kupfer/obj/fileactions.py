@@ -82,7 +82,10 @@ class OpenTerminal (Action):
 		super(OpenTerminal, self).__init__(name)
 	
 	def activate(self, leaf):
-		utils.spawn_terminal(leaf.object)
+		try:
+			utils.spawn_terminal(leaf.object)
+		except utils.SpawnError as exc:
+			raise OperationError(exc)
 
 	def get_description(self):
 		return _("Open this location in a terminal")

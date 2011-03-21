@@ -11,14 +11,13 @@ from kupfer import desktop_launch
 from kupfer.ui import keybindings
 from kupfer import terminal
 
+from kupfer.desktop_launch import SpawnError
+
 try:
 	import wnck
 except ImportError, e:
 	pretty.print_info(__name__, "Disabling window tracking:", e)
 	wnck = None
-
-class LaunchError (Exception):
-	"Error launching application"
 
 
 default_associations = {
@@ -71,7 +70,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 
 	@app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
 
-	Raises LaunchError on failed program start.
+	Raises SpawnError on failed program start.
 	"""
 	assert app_info
 
@@ -107,8 +106,8 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 		desktop_launch.launch_app_info(app_info, files,
 			   timestamp=_current_event_time(), desktop_file=desktop_file,
 			   launch_cb=launch_callback)
-	except desktop_launch.SpawnError as exc:
-		raise LaunchError(unicode(exc))
+	except SpawnError:
+		raise
 	return True
 
 def application_is_running(app_id):

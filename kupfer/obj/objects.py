@@ -231,8 +231,8 @@ class AppLeaf (Leaf):
 			return launch.launch_application(self.object, files=files,
 			                                 paths=paths, activate=activate,
 			                                 desktop_file=self.init_path)
-		except launch.LaunchError as exc:
-			raise OperationError(unicode(exc))
+		except launch.SpawnError as exc:
+			raise OperationError(exc)
 
 	def get_id(self):
 		"""Return the unique ID for this app.
