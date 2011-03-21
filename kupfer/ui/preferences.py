@@ -802,7 +802,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 				term_iter = _it
 		# Update selection
 		term_iter = term_iter or combobox_store.get_iter_first()
-		combobox.set_active_iter(term_iter)
+		combobox.set_sensitive(len(combobox_store) > 1)
+		if term_iter:
+			combobox.set_active_iter(term_iter)
+
 
 	def _on_alternatives_changed(self, setctl, category_key):
 		if category_key == 'terminal':
