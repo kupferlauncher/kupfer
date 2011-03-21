@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-03-14 21:08+0000\n"
-"PO-Revision-Date: 2011-03-17 18:18+0100\n"
+"POT-Creation-Date: 2011-03-17 19:21+0000\n"
+"PO-Revision-Date: 2011-03-21 19:35+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,11 +37,14 @@ msgstr "Uso básico"
 #: C/plugin-websearch.page:15(p)
 msgid "Activate Kupfer and make sure it is in free-text mode (press period)"
 msgstr ""
+"Active Kupfer y asegúrese de que está en modo de texto libre (pulse «.»)"
 
 #: C/plugin-websearch.page:17(p)
 msgid ""
 "Type in a search query and tap <key>Tab</key> to switch to the action pane."
 msgstr ""
+"Escriba una consulta de búsqueda y pulse <key>Tab</key> para cambiar al "
+"panel de acciones."
 
 #: C/plugin-websearch.page:19(p)
 msgid ""
@@ -54,6 +57,8 @@ msgid ""
 "Select search engine with the arrow keys and type <key>Return</key> to open "
 "the search in a web browser."
 msgstr ""
+"Seleccione el motor de búsqueda con las flechas y pulse <key>Intro</key> "
+"para abrir la búsqueda en un navegador web."
 
 #: C/plugin-websearch.page:29(title)
 msgid "Search Engines"
@@ -107,6 +112,11 @@ msgid ""
 "document, and bind a global key combination to run this command. As long as "
 "<app>Kupfer</app> is running, any application can have the current focus."
 msgstr ""
+"Con <app>Disparadores</app> puede coger un comando que ejecute habitualmente "
+"en <app>Kupfer</app>, como lanzar una aplicación o abrir un documento, y "
+"asociarle una combinación global de teclas para ejecutarlo. Mientras "
+"<app>Kupfer</app> esté en ejecución, cualquier aplicación puede tener el "
+"foco actual."
 
 #: C/plugin-triggers.page:25(title)
 msgid "Creating a new trigger"
@@ -114,7 +124,7 @@ msgstr "Crear un disparador nuevo"
 
 #: C/plugin-triggers.page:27(p)
 msgid "Set up a command in <app>Kupfer</app> that you want to run"
-msgstr ""
+msgstr "Configure en <app>Kupfer</app> el comando que quiere ejecutar"
 
 #: C/plugin-triggers.page:32(p)
 msgid ""
@@ -196,6 +206,8 @@ msgstr "Editor de texto → Lanzar"
 msgid ""
 "Start <em>Text Editor</em> or focus its window if it is already running."
 msgstr ""
+"Inicie el <em>Editor de texto</em>, o dé el foco a su ventana si ya está en "
+"ejecución."
 
 #: C/plugin-triggers.page:97(em)
 msgid "Selected Text → Search With → Google"
@@ -203,7 +215,7 @@ msgstr "Text seleccionado → Buscar con → Google"
 
 #: C/plugin-triggers.page:98(p)
 msgid "Search the web using the currently selected text."
-msgstr ""
+msgstr "Buscar en la web usando el texto seleccionado actualmente."
 
 #: C/plugin-triggers.page:100(em)
 msgid "Selected File → Move To → (Downloads Folder)"
@@ -211,7 +223,7 @@ msgstr "Archivo seleccionado → Mover a → (Carpeta de descargas)"
 
 #: C/plugin-triggers.page:101(p)
 msgid "Move the currently selected file to a specific folder"
-msgstr ""
+msgstr "Mover el archivo seleccionado actualmente a una carpeta específica"
 
 #: C/plugin-triggers.page:105(em)
 msgid "Songs → Search Contents"
@@ -252,6 +264,8 @@ msgid ""
 "Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
 "note title"
 msgstr ""
+"Active Kupfer y escriba <key>.</key> para entrar en modo texto, y escriba el "
+"título de una nota."
 
 #: C/plugin-notes.page:32(p)
 msgid ""
@@ -365,7 +379,6 @@ msgid ""
 msgstr ""
 
 #: C/plugin-gwibber.page:35(p)
-#, fuzzy
 #| msgid ""
 #| "Type <key>Tab</key> and select the action <em>Create Note</em> and press "
 #| "<key>Return</key>."
@@ -373,7 +386,7 @@ msgid ""
 "Type <key>Tab</key> and select the action <em>Send Message</em> and press "
 "<key>Return</key>."
 msgstr ""
-"Pulse <key>Tab</key> y seleccione la acción <em>Crear nota</em> y pulse "
+"Pulse <key>Tab</key> y seleccione la acción <em>Enviar mensaje</em> y pulse "
 "<key>Intro</key>."
 
 #: C/plugin-gwibber.page:42(title)
@@ -387,17 +400,13 @@ msgid ""
 msgstr ""
 
 #: C/plugin-gwibber.page:50(p)
-#, fuzzy
 #| msgid ""
 #| "Type <key>Tab</key> and select the action <em>Create Note</em> and press "
 #| "<key>Return</key>."
 msgid "Type <key>Tab</key> and select the action <em>Send Message</em>."
-msgstr ""
-"Pulse <key>Tab</key> y seleccione la acción <em>Crear nota</em> y pulse "
-"<key>Intro</key>."
+msgstr "Pulse <key>Tab</key> y seleccione la acción <em>Enviar mensaje</em>."
 
 #: C/plugin-gwibber.page:55(p)
-#, fuzzy
 #| msgid ""
 #| "Type <key>Tab</key> and select the action <em>Create Note</em> and press "
 #| "<key>Return</key>."
@@ -405,8 +414,8 @@ msgid ""
 "Type <key>Tab</key> to select the last pane, and type in a message. Press "
 "<key>Return</key> to send."
 msgstr ""
-"Pulse <key>Tab</key> y seleccione la acción <em>Crear nota</em> y pulse "
-"<key>Intro</key>."
+"Pulse <key>Tab</key> para seleccionar el último panel y escriba un mensaje. "
+"Pulse <key>Intro</key> para enviarlo."
 
 #: C/plugin-gwibber.page:61(p)
 msgid ""
@@ -450,6 +459,8 @@ msgid ""
 "Type <key>Tab</key> and select either the action <em>Add to Favorites</em> "
 "or <em>Remove from Favorites</em>."
 msgstr ""
+"Pulse <key>Tab</key> y elija la acción <em>Añadir a favoritos</em> o "
+"<em>Quitar de favoritos</em>."
 
 #: C/plugin-favorites.page:39(p)
 msgid ""
@@ -522,14 +533,13 @@ msgid ""
 "<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
 "functions and constants."
 msgstr ""
-"El complemento «Calculadora» usa módulos matemáticos de python y complejos, y "
-"analiza expresiones como expresiones de Python. Puede usar funciones "
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
+"y analiza expresiones como expresiones de Python. Puede usar funciones "
 "matemáticas comunes, como <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> y "
 "<cmd>log</cmd>»; el comando <cmd>=help</cmd> mostrará una lista de todas las "
 "funciones y constantes definidas."
 
 #: C/plugin-calculator.page:47(p)
-#, fuzzy
 #| msgid ""
 #| "Notice that the power operator in Python is double stars, for example "
 #| "=3**3 will evaluate to 27."
@@ -538,7 +548,7 @@ msgid ""
 "<code>=3**3</code> will evaluate to 27."
 msgstr ""
 "Tenga en cuenta que el operador exponencial en Python son dos asteriscos, "
-"por ejemplo =3**3 se evaluará como 27."
+"por ejemplo <code>=3**3</code> se evaluará como 27."
 
 #: C/plugin-calculator.page:53(p)
 msgid "To calculate trig functions for angles, convert to radians first:"
@@ -556,8 +566,8 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
-"consola de Python)."
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
+"la consola de Python)."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -585,7 +595,7 @@ msgstr ""
 
 #: C/plugin-applications.page:28(p)
 msgid "Press <key>Return</key> to launch the application."
-msgstr ""
+msgstr "Pulse <key>Intro</key> para lanzar la aplicación."
 
 #: C/plugin-applications.page:34(title)
 msgid "Opening a file with a specific application"
@@ -620,7 +630,7 @@ msgstr ""
 
 #: C/moreusage.page:7(desc)
 msgid "More advanced usage information."
-msgstr ""
+msgstr "Más información de uso avanzado."
 
 #: C/moreusage.page:10(title)
 msgid "Using <app>Kupfer</app> in Depth"
@@ -722,7 +732,6 @@ msgid ""
 msgstr ""
 
 #: C/moreusage.page:71(title)
-#| msgid "Grab current selection"
 msgid "Grab Current Selection"
 msgstr "Capturar la selección actual"
 
@@ -748,7 +757,6 @@ msgid "Open Terminal Here"
 msgstr "Abrir terminal aquí"
 
 #: C/moreusage.page:86(p)
-#, fuzzy
 #| msgid ""
 #| "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-"
 #| "terminal</cmd>. xdg-terminal is a script to find the user's configured "
@@ -762,13 +770,12 @@ msgid ""
 "you need this (or install a symlink <em>called</em> xdg-terminal)."
 msgstr ""
 "Al abrir una terminal se llama a <cmd>xdg-terminal</cmd>, y luego a "
-"<cmd>gnome-terminal</cmd>. «xdg-terminal» es un script para encontrar la el "
+"<cmd>gnome-terminal</cmd>. «xdg-terminal» es un script para encontrar el "
 "programa de terminal configurado por el usuario para su entorno de "
 "escritorio. Instale <cmd>xdg-terminal</cmd> si lo necesita (o cree un enlace "
-"simbólico llamado «xdg-terminal»)."
+"simbólico <em>llamado</em> «xdg-terminal»)."
 
 #: C/moreusage.page:95(title)
-#| msgid "Command line connection"
 msgid "Command-line Connection"
 msgstr "Conexión con la línea de comandos"
 
@@ -779,10 +786,6 @@ msgid ""
 msgstr ""
 
 #: C/moreusage.page:100(p)
-#| msgid ""
-#| "For example, if you are using the shell in a directory where you have a "
-#| "file called \"report.pdf\", you can focus this file in <app>Kupfer</app> "
-#| "by running <cmd>kupfer report.pdf</cmd>."
 msgid ""
 "The command <cmd>kupfer</cmd> can be used to send files or text from the "
 "command-line to <app>Kupfer</app>. For example, if you are using the shell "
@@ -791,8 +794,8 @@ msgid ""
 msgstr ""
 "El comando <cmd>kupfer</cmd> se puede usar para enviar archivos o texto "
 "desde la línea de comandos a <app>Kupfer</app>. Por ejemplo, si está usando "
-"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» puede "
-"dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
+"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» "
+"puede dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
 "report.pdf</cmd>."
 
 #: C/moreusage.page:108(p)
@@ -921,7 +924,6 @@ msgid ""
 msgstr ""
 
 #: C/managing-plugins.page:33(p)
-#| msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
 msgid "Use the keyboard shortcut <keyseq><key>Ctrl</key><key>;</key></keyseq>"
 msgstr "Use el atajo de teclado <keyseq><key>Ctrl</key><key>;</key></keyseq>"
 
@@ -1196,12 +1198,9 @@ msgstr ""
 
 #: C/keyboard.page:68(p) C/generalusage.page:62(p)
 msgid "Additionally:"
-msgstr ""
+msgstr "Además:"
 
 #: C/keyboard.page:72(p) C/generalusage.page:66(p)
-#| msgid ""
-#| "Additionally, the key <key>Return</key> activates the current selection: "
-#| "the command is executed. <key>Escape</key> clears the current selection."
 msgid ""
 "<key>Return</key> activates the current selection: the command is executed."
 msgstr "<key>Intro</key> activa la selección actual: el comando se ejecuta."
@@ -1227,9 +1226,6 @@ msgid "Kupfer's Keyboard Shortcuts"
 msgstr "Atajos de teclado de Kupfer"
 
 #: C/keyboard.page:87(p)
-#| msgid ""
-#| "Additional keyboard shortcuts that work with Kupfer when it is in the "
-#| "foreground can be configured in Kupfer's preferences."
 msgid ""
 "These keyboard shortcuts are used in <app>Kupfer</app>'s interface. They "
 "have the following meanings and default shortcuts:"
@@ -1286,7 +1282,7 @@ msgstr "Devolver"
 
 #: C/keyboard.page:114(p)
 msgid "Compose command"
-msgstr ""
+msgstr "Componer comando"
 
 #: C/keyboard.page:117(key)
 msgid "S"
@@ -1360,10 +1356,13 @@ msgid ""
 "<app>Kupfer</app> always listens to global shortcuts, even if it is not "
 "currently in the foreground."
 msgstr ""
+"<app>Kupfer</app> siempre escucha los atajos globales, aunque actualmente no "
+"esté en primer plano."
 
 #: C/keyboard.page:170(p)
 msgid "They have the following meanings and default shortcuts:"
 msgstr ""
+"Tienen el siguiente significado y los siguientes atajos predeterminados:"
 
 #: C/keyboard.page:175(key)
 msgid "Space"
@@ -1410,9 +1409,11 @@ msgid ""
 "The plugin <em>Triggers</em> allows to activate actions with global keyboard "
 "shortcuts. Trigger shortcuts do not appear in <app>Kupfer Preferences</app>."
 msgstr ""
+"El complemento <em>Disparadores</em> permite activar acciones con atajos de "
+"teclado globales. Los atajos del disparador no aparecen en las "
+"<app>Preferencias de Kupfer</app>."
 
 #: C/keyboard.page:221(p)
-#| msgid "See <link xref=\"keyboard\"/> for more information."
 msgid "See <link xref=\"plugin-triggers\"/> for more information."
 msgstr ""
 "Consulte la <link xref=\"plugin-triggers\"/> para obtener más información."
@@ -1426,9 +1427,6 @@ msgid "Introduction"
 msgstr "Introducción"
 
 #: C/introduction.page:12(p)
-#| msgid ""
-#| "<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
-#| "applications and documents."
 msgid ""
 "<app>Kupfer</app> is an interface for quick and convenient access to "
 "applications and their documents."
@@ -1526,7 +1524,6 @@ msgstr ""
 "especial:"
 
 #: C/generalusage.page:71(p)
-#| msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
 msgid ""
 "By default you show <app>Kupfer</app> using the global keyboard shortcut "
 "<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
@@ -1569,13 +1566,6 @@ msgstr ""
 "como documentos y programas."
 
 #: C/generalusage.page:96(p)
-#| msgid ""
-#| "Objects in the catalog that have content, like folders, are marked with "
-#| "an arrow. Pressing <key>right-arrow</key> will enter these objects. Much "
-#| "of the catalog is composed of subcatalogs; plugin subcatalogs do in "
-#| "general list objects that are also available directly from the top level. "
-#| "Subcatalogs can be used for a narrower view or search scope, when using "
-#| "Kupfer."
 msgid ""
 "Objects in the catalog that have content, like folders, are marked with an "
 "arrow. Pressing <key>→</key> will enter these objects. Much of the catalog "
@@ -1591,9 +1581,6 @@ msgstr ""
 "subcatálogos para una vista estrecha o un rango de búsqueda."
 
 #: C/generalusage.page:105(p)
-#| msgid ""
-#| "Most subcatalogs update their content automatically. For example, the "
-#| "Desktop folder catalog is always uptodate."
 msgid ""
 "Most subcatalogs update their content automatically. For example, the "
 "Desktop folder source is always up-to-date."
