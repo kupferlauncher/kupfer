@@ -493,7 +493,7 @@ gtk.widget_class_install_style_property(MatchView,
 gtk.widget_class_install_style_property(MatchView,
 		('opacity', gobject.TYPE_INT, 'Bezel opacity',
 		 'Opacity of bezel around match',
-		 50, 100, 70,
+		 50, 100, 80,
 		 gobject.PARAM_READABLE))
 
 class Search (gtk.Bin):
@@ -1662,7 +1662,7 @@ gtk.widget_class_install_style_property(KupferWindow,
 gtk.widget_class_install_style_property(KupferWindow,
 		('opacity', gobject.TYPE_INT, 'Frame opacity',
 		 'Opacity of window background',
-		 50, 100, 80,
+		 50, 100, 85,
 		 gobject.PARAM_READABLE))
 gtk.widget_class_install_style_property(KupferWindow,
 		('decorated', gobject.TYPE_BOOLEAN, 'Decorated',

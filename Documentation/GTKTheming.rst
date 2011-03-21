@@ -65,7 +65,7 @@ The following example style includes inline comments::
         ## The MatchView is the bezel around each pane in the interface
 
         MatchView :: corner-radius = 15
-        MatchView :: opacity = 70
+        MatchView :: opacity = 80
 
         ## The Search controls the result list
 
@@ -73,7 +73,7 @@ The following example style includes inline comments::
 
         ## The KupferWindow is the whole main window
         KupferWindow :: corner-radius = 15
-        KupferWindow :: opacity = 80
+        KupferWindow :: opacity = 85
         KupferWindow :: decorated = 0
         KupferWindow :: border-width = 8
 

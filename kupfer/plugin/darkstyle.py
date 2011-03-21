@@ -51,10 +51,10 @@ style "dark"
 ## These are UI Widget style properties with their approximate
 ## default values. These can all be overidden in the theme.
 ## MatchView :: corner-radius = 15
-## MatchView :: opacity = 70
+## MatchView :: opacity = 80
 ## Search :: list-opacity = 93
 ## KupferWindow :: corner-radius = 15
-## KupferWindow :: opacity = 80
+## KupferWindow :: opacity = 85
 ## KupferWindow :: decorated = 0
 ## KupferWindow :: border-width = 8
 
