@@ -52,6 +52,7 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 		gobject.GObject.__init__(self)
 		self.setting_descriptions = {}
 		self.setting_key_order = []
+		self.signal_connection = -1
 		req_keys = set(("key", "value", "type", "label"))
 		for desc in setdescs:
 			if not req_keys.issubset(desc.keys()):
@@ -75,6 +76,10 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 				default = self.setting_descriptions[key]["value"]
 				setctl.set_plugin_config(plugin_name, key, default, value_type)
 		setctl.connect("value-changed", self._value_changed, plugin_name)
+		# register for unload notification
+		if not plugin_name.startswith("core."):
+			plugins.register_plugin_unimport_hook(plugin_name,
+					self._disconnect_all, plugin_name)
 
 	def __getitem__(self, key):
 		return self.setting_descriptions[key]["value"]
@@ -82,7 +87,7 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 		value_type = self.setting_descriptions[key]["type"]
 		self.setting_descriptions[key]["value"] = value_type(value)
 		if not _is_core_setting(key):
-			self.emit("plugin-setting-changed", key, value)
+			self.emit("plugin-setting-changed::"+str(key), key, value)
 
 	def _value_changed(self, setctl, section, key, value, plugin_name):
 		"""Preferences changed, update object"""
@@ -103,12 +108,20 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 		return self.setting_descriptions[key].get("tooltip")
 
 	def connect_settings_changed_cb(self, callback, *args):
-		self.connect("plugin-setting-changed", callback, *args)
+		self.signal_connection = \
+				self.connect("plugin-setting-changed", callback, *args)
+
+	def _disconnect_all(self, plugin_name):
+		print "disconnect all", self.signal_connection
+		if self.signal_connection != -1:
+			self.disconnect(self.signal_connection)
 
 
-# Signature: Key, Value
+# Arguments: Key, Value
+# Detailed by the key
 gobject.signal_new("plugin-setting-changed", PluginSettings,
-		gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
+		gobject.SIGNAL_RUN_LAST | gobject.SIGNAL_DETAILED,
+		gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_STRING, gobject.TYPE_PYOBJECT))
 
 # Plugin convenience functions for dependencies
