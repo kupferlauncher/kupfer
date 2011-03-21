@@ -57,8 +57,10 @@ def window_key_press(window, event, filepath):
 		return True
 
 class View (Action):
+
 	def __init__(self):
 		Action.__init__(self, _("View Image"))
+		self.open_windows = {}
 
 	def item_types(self):
 		yield FileLeaf
@@ -67,6 +69,12 @@ class View (Action):
 		return is_content_type(obj, "image/*")
 
 	def activate(self, obj):
+		## If the same file @obj is already open,
+		## then close its window.
+		if obj.object in self.open_windows:
+			open_window = self.open_windows.pop(obj.object)
+			open_window.destroy()
+			return
 		image_widget = gtk.Image()
 		h = gtk.gdk.screen_height()
 		w = gtk.gdk.screen_width()
@@ -78,6 +86,12 @@ class View (Action):
 		window.add(image_widget)
 		window.present()
 		window.connect("key-press-event", window_key_press, obj.object)
+		window.connect("delete-event", self.window_deleted, obj.object)
+		self.open_windows[obj.object] = window
+
+	def window_deleted(self, window, event, filename):
+		self.open_windows.pop(filename, None)
+		return False
 
 	def get_description(self):
 		return None
