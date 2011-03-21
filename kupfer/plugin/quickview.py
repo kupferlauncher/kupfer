@@ -40,11 +40,12 @@ def load_image_max_size(filename, w, h):
 	pl = gtk.gdk.PixbufLoader()
 	pl.connect("size-prepared", _set_size, w, h)
 	try:
-		with open(filename, "r") as f:
+		with open(filename, "rb") as f:
 			shutil.copyfileobj(f, pl)
-		pl.close()
 	except (glib.GError, EnvironmentError) as exc:
 		raise OperationError(exc)
+	finally:
+		pl.close()
 	return pl.get_pixbuf()
 
 def window_key_press(window, event, filepath):
