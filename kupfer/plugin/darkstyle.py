@@ -52,6 +52,7 @@ style "dark"
 ## default values. These can all be overidden in the theme.
 ## MatchView :: corner-radius = 15
 ## MatchView :: opacity = 70
+## Search :: list-opacity = 93
 ## KupferWindow :: corner-radius = 15
 ## KupferWindow :: opacity = 80
 ## KupferWindow :: decorated = 0

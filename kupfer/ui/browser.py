@@ -624,6 +624,8 @@ class Search (gtk.Bin):
 		win = self.get_toplevel()
 		self.list_window.set_transient_for(win)
 		self.list_window.set_property("focus-on-map", False)
+		opacity = 0.01*self.style_get_property('list-opacity')
+		self.list_window.set_opacity(opacity)
 		self.list_window.show()
 		self._old_win_position = pos_x, pos_y
 
@@ -816,6 +818,11 @@ gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+gtk.widget_class_install_style_property(Search,
+		('list-opacity', gobject.TYPE_INT, 'Result list opacity',
+		 'Opacity of the whole result list',
+		 50, 100, 93,
+		 gobject.PARAM_READABLE))
 
 class LeafSearch (Search):
 	"""
