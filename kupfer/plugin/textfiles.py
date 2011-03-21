@@ -39,6 +39,8 @@ def is_content_type(fileleaf, ctype):
 		return ret
 	content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
 	gfile = gio.File(fileleaf.object)
+	if not gfile.query_exists(None):
+		return
 	info = gfile.query_info(content_attr)
 	content_type = info.get_attribute_string(content_attr)
 	return predicate(content_type, ctype)
