@@ -10,12 +10,18 @@ from kupfer.obj.base import Action, InvalidDataError, OperationError
 class NoDefaultApplicationError (OperationError):
 	pass
 
+def is_good_executable(fileleaf):
+	if not fileleaf._is_executable():
+		return False
+	ctype, uncertain = gio.content_type_guess(fileleaf.object, None, True)
+	return uncertain or gio.content_type_can_be_executable(ctype)
+
 def get_actions_for_file(fileleaf):
 	acts = [RevealFile(), ]
 	if fileleaf.is_dir():
 		acts.append(OpenTerminal())
 	elif fileleaf.is_valid():
-		if fileleaf._is_executable():
+		if is_good_executable(fileleaf):
 			acts.extend((Execute(), Execute(in_terminal=True)))
 	return [Open()] + acts
 
@@ -94,7 +100,7 @@ class OpenTerminal (Action):
 
 class Execute (Action):
 	""" Execute executable file (FileLeaf) """
-	rank_adjust = 5
+	rank_adjust = 10
 	def __init__(self, in_terminal=False, quoted=True):
 		name = _("Run in Terminal") if in_terminal else _("Run (Execute)")
 		super(Execute, self).__init__(name)
