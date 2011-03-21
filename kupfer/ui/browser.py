@@ -935,6 +935,7 @@ class Interface (gobject.GObject):
 		# as well as window => panewidgets
 		for widget in (self.search, self.action, self.third):
 			widget.connect("activate", self._activate)
+			widget.connect("button-press-event", self._panewidget_button_press)
 			widget.connect("cursor-changed", self._selection_changed)
 			# window signals
 			window.connect("configure-event", widget._window_config)
@@ -1473,6 +1474,13 @@ class Interface (gobject.GObject):
 		"""
 		wid = self._widget_for_pane(pane)
 		wid.set_object_stack(controller.get_object_stack(pane))
+
+	def _panewidget_button_press(self, widget, event):
+		" mouse clicked on a pane widget "
+		# activate on double-click
+		if event.type == gtk.gdk._2BUTTON_PRESS:
+			self.activate()
+			return True
 
 	def _selection_changed(self, widget, match):
 		pane = self._pane_for_widget(widget)
