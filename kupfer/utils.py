@@ -265,6 +265,42 @@ def show_url(url):
 	except GError, exc:
 		pretty.print_error(__name__, "gtk.show_uri:", exc)
 
+def show_help_url(url):
+	"""
+	Try at length to display a startup notification for the help browser.
+
+	Return False if there is no handler for the help URL
+	"""
+	import gio
+	## Check that the system help viewer is Yelp,
+	## and if it is, launch its startup notification.
+	scheme = gio.File(url).get_uri_scheme()
+	default = gio.app_info_get_default_for_uri_scheme(scheme)
+	help_viewer_id = "yelp.desktop"
+	if not default:
+		return False
+	try:
+		yelp = gio.unix.DesktopAppInfo(help_viewer_id)
+	except RuntimeError:
+		return show_url(url)
+	cmd_path = lookup_exec_path(default.get_executable())
+	yelp_path = lookup_exec_path(yelp.get_executable())
+	if cmd_path and yelp_path and os.path.samefile(cmd_path, yelp_path):
+		try:
+			spawn_async_notify_as(help_viewer_id, [cmd_path, url])
+			return True
+		except SpawnError:
+			pass
+	return show_url(url)
+
+def lookup_exec_path(exename):
+	"Return path for @exename in $PATH or None"
+	PATH = os.environ.get("PATH") or os.defpath
+	for execdir in PATH.split(os.pathsep):
+		exepath = os.path.join(execdir, exename)
+		if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
+			return exepath
+
 def is_directory_writable(dpath):
 	"""If directory path @dpath is a valid destination to write new files?
 	"""

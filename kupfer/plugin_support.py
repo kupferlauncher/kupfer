@@ -12,7 +12,7 @@ from kupfer import pretty
 from kupfer import config
 from kupfer.core import settings
 from kupfer.core import plugins
-from kupfer import terminal
+from kupfer import utils
 
 __all__ = [
 	"UserNamePassword",
@@ -192,12 +192,7 @@ def _is_valid_terminal(term_dict):
 	if len(term_dict["argv"]) < 1:
 		return False
 	exe = term_dict["argv"][0]
-	# iterate over $PATH directories
-	PATH = os.environ.get("PATH") or os.defpath
-	for execdir in PATH.split(os.pathsep):
-		exepath = os.path.join(execdir, exe)
-		if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
-			return True
+	return bool(utils.lookup_exec_path(exe))
 
 
 _available_alternatives = {
