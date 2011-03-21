@@ -33,8 +33,8 @@ SERIALIZABLE_ATTRIBUTE = "serializable"
 class SerializedObject (object):
 	# treat the serializable attribute as a version number, defined on the class
 	def __init__(self, obj):
-		self.data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
 		self.version = getattr(obj, SERIALIZABLE_ATTRIBUTE)
+		self.data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
 	def __eq__(self, other):
 		return (isinstance(other, type(self)) and self.data == other.data and
 		        self.version == other.version)
@@ -49,7 +49,7 @@ def get_unique_id(obj):
 		return None
 	if hasattr(obj, "qf_id"):
 		return str(qfurl.qfurl(obj))
-	if hasattr(obj, SERIALIZABLE_ATTRIBUTE):
+	if getattr(obj, SERIALIZABLE_ATTRIBUTE, None) is not None:
 		try:
 			return SerializedObject(obj)
 		except pickle.PicklingError, exc:
