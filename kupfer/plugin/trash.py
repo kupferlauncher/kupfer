@@ -177,3 +177,5 @@ class TrashSource (Source):
 		return InvisibleSourceLeaf(self)
 	def provides(self):
 		yield SpecialLocation
+	def get_icon_name(self):
+		return "user-trash"
