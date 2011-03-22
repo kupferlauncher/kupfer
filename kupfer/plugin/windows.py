@@ -240,6 +240,12 @@ class Workspace (Leaf):
 		return self.object.get_number()
 	def get_icon_name(self):
 		return "gnome-window-manager"
+	def get_description(self):
+		screen = wnck.screen_get_default()
+		if screen:
+			wspc = screen.get_active_workspace()
+			if wspc == self.object:
+				return _("Active workspace")
 
 class ActivateWorkspace (Action):
 	rank_adjust = 5
