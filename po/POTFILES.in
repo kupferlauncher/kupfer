@@ -38,6 +38,7 @@ kupfer/plugin/core/__init__.py
 kupfer/plugin/core/selection.py
 kupfer/plugin/core/text.py
 kupfer/plugin/core/internal.py
+kupfer/plugin/archivemanager.py
 kupfer/plugin/applications.py
 kupfer/plugin/calculator.py
 kupfer/plugin/clipboard.py
@@ -71,6 +72,7 @@ kupfer/plugin/asciiunicodeiconset.py
 kupfer/plugin/audacious.py
 kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
+kupfer/plugin/custom_terminal.py
 kupfer/plugin/darkstyle.py
 kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
@@ -95,6 +97,7 @@ kupfer/plugin/opera.py
 kupfer/plugin/operamail.py
 kupfer/plugin/pidgin.py
 kupfer/plugin/putty.py
+kupfer/plugin/quickview.py
 kupfer/plugin/rst.py
 kupfer/plugin/screen.py
 kupfer/plugin/sendkeys.py
