@@ -62,6 +62,8 @@ class UnpackHere (Action):
 		yield FileLeaf
 	def get_description(self):
 		return _("Extract compressed archive")
+	def get_icon_name(self):
+		return "extract-archive"
 
 class CreateArchive (Action):
 	def __init__(self):
@@ -82,6 +84,8 @@ class CreateArchive (Action):
 		yield FileLeaf
 	def get_description(self):
 		return _("Create a compressed archive from folder")
+	def get_icon_name(self):
+		return "add-files-to-archive"
 
 class CreateArchiveIn (Action):
 	def __init__(self):
@@ -121,4 +125,6 @@ class CreateArchiveIn (Action):
 		return utils.is_directory_writable(obj.object)
 	def get_description(self):
 		return _("Create a compressed archive from folder")
+	def get_icon_name(self):
+		return "add-files-to-archive"
 
