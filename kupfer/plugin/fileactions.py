@@ -65,6 +65,8 @@ class MoveTo (Action, pretty.OutputMixin):
 		return _good_destination(obj.object, for_item.object)
 	def get_description(self):
 		return _("Move file to new location")
+	def get_icon_name(self):
+		return "go-next"
 
 class RenameSource (TextSource):
 	"""A source for new names for a file;
