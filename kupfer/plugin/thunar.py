@@ -116,6 +116,9 @@ class GetInfo (Action):
 	def get_description(self):
 		return _("Show information about file in file manager")
 
+	def get_icon_name(self):
+		return "dialog-information"
+
 
 class SendTo (Action):
 	""" Send files to  selected app from "send to" list """
@@ -281,6 +284,9 @@ class ThunarObjects (AppLeafContentMixin, Source):
 
 	def provides(self):
 		yield RunnableLeaf
+
+	def get_icon_name(self):
+		return "Thunar"
 
 
 class _SendToAppsSource (Source):
