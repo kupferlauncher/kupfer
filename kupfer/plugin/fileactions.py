@@ -2,7 +2,6 @@ __kupfer_name__ = _("File Actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = (
-		"Trash",
 		"MoveTo",
 		"Rename",
 		"CopyTo",
@@ -20,7 +19,6 @@ import re
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
-from kupfer.objects import OperationError
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer import utils, pretty
 from kupfer import plugin_support
@@ -43,24 +41,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 			)
 	},
 )
-
-class Trash (Action):
-	# this should never be default
-	rank_adjust = -10
-	def __init__(self):
-		Action.__init__(self, _("Move to Trash"))
-
-	def activate(self, leaf):
-		gfile = gio.File(leaf.object)
-		gfile.trash()
-	def valid_for_item(self, item):
-		return os.access(item.object, os.R_OK | os.W_OK)
-	def get_description(self):
-		return _("Move this file to trash")
-	def get_icon_name(self):
-		return "user-trash-full"
-	def item_types(self):
-		yield FileLeaf
 
 def _good_destination(dpath, spath):
 	"""If directory path @dpath is a valid destination for file @spath

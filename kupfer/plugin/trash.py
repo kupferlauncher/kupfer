@@ -1,4 +1,5 @@
 __kupfer_name__ = _("Trash")
+__kupfer_actions__ = ("MoveToTrash", )
 __kupfer_sources__ = ("TrashSource", )
 __description__ = _("Access trash contents")
 __version__ = "2009-12-06"
@@ -7,12 +8,40 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import gio
 
 from kupfer.objects import Leaf, Action, Source, SourceLeaf, FileLeaf
+from kupfer.objects import OperationError
 from kupfer.obj.fileactions import Open
 from kupfer import utils, icons, pretty
 
 
 
 TRASH_URI = 'trash://'
+
+class MoveToTrash (Action):
+	# this should never be default
+	rank_adjust = -10
+	def __init__(self):
+		Action.__init__(self, _("Move to Trash"))
+
+	def activate(self, leaf):
+		gfile = gio.File(leaf.object)
+		try:
+			gfile.trash()
+		except gio.Error as exc:
+			raise OperationError(exc)
+
+	def valid_for_item(self, item):
+		gfile = gio.File(item.object)
+		if not gfile.query_exists(None):
+			return False
+		info = gfile.query_info(gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH)
+		return info.get_attribute_boolean(gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH)
+	def get_description(self):
+		return _("Move this file to trash")
+	def get_icon_name(self):
+		return "user-trash-full"
+	def item_types(self):
+		yield FileLeaf
+
 
 class RestoreTrashedFile (Action):
 	def __init__(self):
