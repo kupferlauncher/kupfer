@@ -14,6 +14,7 @@ from kupfer.objects import Action, FileLeaf
 from kupfer.objects import OperationError
 from kupfer import utils
 
+
 def is_content_type(fileleaf, ctype):
 	predicate = gio.content_type_is_a
 	ctype_guess, uncertain = gio.content_type_guess(fileleaf.object, None, True)
@@ -48,15 +49,6 @@ def load_image_max_size(filename, w, h):
 		pl.close()
 	return pl.get_pixbuf()
 
-def window_key_press(window, event, filepath):
-	if gtk.gdk.keyval_name(event.keyval) == "Escape":
-		window.destroy()
-		return True
-	if gtk.gdk.keyval_name(event.keyval) == "Return":
-		utils.show_path(filepath)
-		window.destroy()
-		return True
-
 class View (Action):
 
 	def __init__(self):
@@ -86,13 +78,24 @@ class View (Action):
 		window.set_position(gtk.WIN_POS_CENTER)
 		window.add(image_widget)
 		window.present()
-		window.connect("key-press-event", window_key_press, obj.object)
+		window.connect("key-press-event", self.window_key_press, obj.object)
 		window.connect("delete-event", self.window_deleted, obj.object)
 		self.open_windows[obj.object] = window
 
 	def window_deleted(self, window, event, filename):
 		self.open_windows.pop(filename, None)
 		return False
+
+	def window_key_press(self, window, event, filepath):
+		if gtk.gdk.keyval_name(event.keyval) == "Escape":
+			self.window_deleted(window, event, filepath)
+			window.destroy()
+			return True
+		if gtk.gdk.keyval_name(event.keyval) == "Return":
+			self.window_deleted(window, event, filepath)
+			utils.show_path(filepath)
+			window.destroy()
+			return True
 
 	def get_description(self):
 		return None
