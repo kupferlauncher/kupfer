@@ -37,6 +37,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 			".rar",
 			".tar",
 			".tar.gz",
+			".tar.bz2",
+			".tar.xz",
 			".zip",
 			)
 	},
@@ -220,8 +222,11 @@ class CopyTo (Action, pretty.OutputMixin):
 class UnpackHere (Action):
 	def __init__(self):
 		Action.__init__(self, _("Extract Here"))
-		self.extensions_set = set((".rar", ".7z", ".zip", ".gz", ".tgz",
-			".tar", ".lzma", ".bz2"))
+		self.extensions_set = set((
+			".rar", ".7z", ".zip", ".gz", ".tgz", ".tar", ".lzma", ".bz2",
+			".tbz2", ".tzo", ".lzo", ".xz", ".ar", ".cbz", ".Z", ".taz",
+			".lz", ".bz", ".tbz", ".lzh",
+			))
 	def activate(self, leaf):
 		utils.spawn_async_notify_as("file-roller.desktop",
 				["file-roller", "--extract-here", leaf.object])
