@@ -1,4 +1,5 @@
 import cPickle as pickle
+import os
 
 from kupfer import config
 from kupfer import conspickle
@@ -59,9 +60,12 @@ class Learning (object):
 
 	@classmethod
 	def _pickle_register(self, reg, pickle_file):
-		with open(pickle_file, "wb") as output:
-			pretty.print_debug(__name__, "Saving to %s" % (pickle_file, ))
+		## Write to tmp then rename over for atomicity
+		tmp_pickle_file = "%s.%s" % (pickle_file, os.getpid())
+		pretty.print_debug(__name__, "Saving to %s" % (pickle_file, ))
+		with open(tmp_pickle_file, "wb") as output:
 			output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
+		os.rename(tmp_pickle_file, pickle_file)
 		return True
 
 _register = {}

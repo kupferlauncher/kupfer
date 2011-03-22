@@ -239,9 +239,12 @@ class SourceDataPickler (pretty.OutputMixin):
 			data = None
 		if data:
 			self.output_debug("Storing configuration for", source, "as", sname)
-			output = self.open(pickle_file, "wb")
+			## Write to temporary and rename into place
+			tmp_pickle_file = "%s.%s" % (pickle_file, os.getpid())
+			output = self.open(tmp_pickle_file, "wb")
 			output.write(data)
 			output.close()
+			os.rename(tmp_pickle_file, pickle_file)
 		return True
 
 class SourceController (pretty.OutputMixin):

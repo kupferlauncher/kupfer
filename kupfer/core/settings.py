@@ -162,8 +162,11 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 		confmap = confmap_difference(self._config, default_confmap)
 		fill_parser(parser, confmap)
-		with open(config_path, "w") as out:
+		## Write to tmp then rename over for it to be atomic
+		temp_config_path = "%s.%s" % (config_path, os.getpid())
+		with open(temp_config_path, "w") as out:
 			parser.write(out)
+		os.rename(temp_config_path, config_path)
 
 	def get_config(self, section, key):
 		"""General interface, but section must exist"""
