@@ -68,7 +68,13 @@ def _tarfile_append_as(tarname, filename, destname):
 	import tarfile
 	tf = tarfile.TarFile.open(tarname, "a")
 	try:
-		tf.add(filename, destname)
+		tarinfo = tf.gettarinfo(name=filename, arcname=destname)
+		tarinfo.uid = 0
+		tarinfo.gid = 0
+		tarinfo.uname = "root"
+		tarinfo.gname = "root"
+		with open(filename, "rb") as f:
+			tf.addfile(tarinfo, f)
 	finally:
 		tf.close()
 
