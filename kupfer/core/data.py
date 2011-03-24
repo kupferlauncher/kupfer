@@ -145,10 +145,12 @@ class Searcher (object):
 		match, match_iter = peekfirst(decorator(valid_check(unique_matches)))
 		return match, match_iter
 
-	def rank_actions(self, objects, key, item_check=None, decorator=None):
+	def rank_actions(self, objects, key, leaf, item_check=None, decorator=None):
 		"""
 		rank @objects, which should be a sequence of KupferObjects,
 		for @key, with the action ranker algorithm.
+
+		@leaf is the Leaf the action is going to be invoked on
 
 		Filters and return value like .score().
 		"""
@@ -160,7 +162,7 @@ class Searcher (object):
 			rankables = search.score_objects(rankables, key)
 			matches = search.bonus_objects(rankables, key)
 		else:
-			matches = search.score_actions(rankables)
+			matches = search.score_actions(rankables, leaf)
 		matches = sorted(matches, key=operator.attrgetter("rank"), reverse=True)
 
 		match, match_iter = peekfirst(decorator(matches))
@@ -348,7 +350,7 @@ class PrimaryActionPane (Pane):
 				if is_valid_cached(obj.object):
 					yield obj
 
-		match, match_iter = self.searcher.rank_actions(actions, key,
+		match, match_iter = self.searcher.rank_actions(actions, key, leaf,
 				decorator=valid_decorator)
 		self.emit_search_result(match, match_iter, context)
 
@@ -838,6 +840,40 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		found = qf.resolve_in_catalog(sc.sources)
 		if found and not found == self.source_pane.get_selection():
 			self._insert_object(SourcePane, found)
+
+	def mark_as_default(self, pane):
+		"""
+		Make the object selected on @pane as default
+		for the selection in previous pane.
+		"""
+		if pane is SourcePane or pane is ObjectPane:
+			raise RuntimeError("Setting default on pane 1 or 3 not supported")
+		obj = self.source_pane.get_selection()
+		act = self.action_pane.get_selection()
+		assert obj and act
+		learn.set_correlation(act, obj)
+
+	def get_object_has_affinity(self, pane):
+		"""
+		Return ``True`` if we have any recorded affinity
+		for the object selected in @pane
+		"""
+		panectl = self._panectl_table[pane]
+		selection = panectl.get_selection()
+		if not selection:
+			return None
+		return learn.get_object_has_affinity(selection)
+
+	def erase_object_affinity(self, pane):
+		"""
+		Erase all learned and configured affinity for
+		the selection of @pane
+		"""
+		panectl = self._panectl_table[pane]
+		selection = panectl.get_selection()
+		if not selection:
+			return None
+		return learn.erase_object_affinity(selection)
 
 	def compose_selection(self):
 		leaf, action, iobj = self._get_current_command_objects()

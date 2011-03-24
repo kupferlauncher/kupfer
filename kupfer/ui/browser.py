@@ -1344,6 +1344,17 @@ class Interface (gobject.GObject):
 	def compose_action(self):
 		self.data_controller.compose_selection()
 
+	def mark_as_default(self):
+		if self.action.get_match_state() != State.Match:
+			return False
+		self.data_controller.mark_as_default(data.ActionPane)
+		return True
+
+	def erase_affinity_for_first_pane(self):
+		self.data_controller.erase_object_affinity(data.SourcePane)
+		return True
+
+
 	def comma_trick(self):
 		if self.current.get_match_state() != State.Match:
 			return False
@@ -1367,6 +1378,18 @@ class Interface (gobject.GObject):
 		yield (_("Select Selected Text"), self.select_selected_text)
 		if self.get_can_enter_text_mode():
 			yield (_("Toggle Text Mode"), self.toggle_text_mode_quick)
+		if self.action.get_match_state() == State.Match:
+			match = self.action.get_current()
+			# TRANS: Remember = Make the action '%s' default
+			yield (_('Remember "%s" for this Object') % unicode(match),
+			       self.mark_as_default)
+		if self.search.get_match_state() == State.Match:
+			if self.data_controller.get_object_has_affinity(data.SourcePane):
+				match = self.search.get_current()
+				# TRANS: Affinity= learned and/or configured bonus rank
+				# TRANS: when matching it in search
+				yield (_('Forget Affinity for "%s"') % unicode(match),
+				       self.erase_affinity_for_first_pane)
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)

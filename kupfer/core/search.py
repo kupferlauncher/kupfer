@@ -75,13 +75,14 @@ def score_objects(rankables, key):
 			yield rb
 
 
-def score_actions(rankables):
+def score_actions(rankables, for_leaf):
 	"""Alternative (rigid) scoring mechanism for objects,
 	putting much more weight in rank_adjust
 	"""
 	get_record_score = learn.get_record_score
 	for obj in rankables:
 		ra = obj.object.rank_adjust
+		ra += learn.get_correlation_bonus(obj.object, for_leaf)
 		if ra > 0:
 			obj.rank = 50 + ra + get_record_score(obj.object)//2
 		elif ra == 0:

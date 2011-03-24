@@ -6,6 +6,7 @@ from kupfer import conspickle
 from kupfer import pretty
 
 mnemonics_filename = "mnemonics.pickle"
+CORRELATION_KEY = 'kupfer.bonus.correlation'
 
 class Mnemonics (object):
 	"""
@@ -102,6 +103,39 @@ def get_record_score(obj, key=u""):
 	mnscore += 50 * (1 - 1.0/(exact + 1))
 	return fav + mnscore
 
+
+def get_correlation_bonus(obj, for_leaf):
+	"""
+	Get the bonus rank for @obj when used with @for_leaf
+	"""
+	if _register.setdefault(CORRELATION_KEY, {}).get(repr(for_leaf)) == repr(obj):
+		return 50
+	else:
+		return 0
+
+def set_correlation(obj, for_leaf):
+	"""
+	Register @obj to get a bonus when used with @for_leaf
+	"""
+	_register.setdefault(CORRELATION_KEY, {})[repr(for_leaf)] = repr(obj)
+
+def _get_mnemonic_items(in_register):
+	return [(k,v) for k,v in in_register.items() if k != CORRELATION_KEY]
+
+def get_object_has_affinity(obj):
+	"""
+	Return if @obj has any positive score in the register
+	"""
+	return bool(_register.get(repr(obj)) or
+	            _register.get(CORRELATION_KEY, {}).get(repr(obj)))
+
+def erase_object_affinity(obj):
+	"""
+	Remove all track of affinity for @obj
+	"""
+	_register.pop(repr(obj), None)
+	_register.get(CORRELATION_KEY, {}).pop(repr(obj), None)
+
 def _prune_register():
 	"""
 	Remove items with chance (len/25000)
@@ -121,7 +155,7 @@ def _prune_register():
 	alpha = flux/goalitems**2
 
 	chance = min(0.1, len(_register)*alpha)
-	for leaf, mn in _register.items():
+	for leaf, mn in _get_mnemonic_items(_register):
 		if rand() > chance:
 			continue
 		mn.decrement()
