@@ -1381,16 +1381,17 @@ class Interface (gobject.GObject):
 		if self.get_can_enter_text_mode():
 			yield (_("Toggle Text Mode"), self.toggle_text_mode_quick)
 		if self.action.get_match_state() == State.Match:
-			match = self.action.get_current()
-			# TRANS: Remember = Make the action '%s' default
-			yield (_('Remember "%s" for this Object') % unicode(match),
-			       self.mark_as_default)
+			smatch = self.search.get_current()
+			amatch = self.action.get_current()
+			yield (_('Make "%(action)s" Default for "%(object)s"') % {
+			       'action': unicode(amatch),
+			       'object': unicode(smatch),
+			       }, self.mark_as_default)
 		if has_match:
 			if self.data_controller.get_object_has_affinity(data.SourcePane):
 				match = self.search.get_current()
-				# TRANS: Affinity= learned and/or configured bonus rank
-				# TRANS: when matching it in search
-				yield (_('Forget Affinity for "%s"') % unicode(match),
+				# TRANS: Removing learned and/or configured bonus search score
+				yield (_('Forget About "%s"') % unicode(match),
 				       self.erase_affinity_for_first_pane)
 		if has_match:
 			yield (_("Reset All"), self.reset_all)
