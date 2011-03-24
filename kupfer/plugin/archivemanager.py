@@ -92,28 +92,32 @@ class CreateArchiveIn (Action):
 		Action.__init__(self, _("Create Archive In..."))
 
 	@classmethod
-	def _make_archive(cls, basename, dirpath, filepaths):
+	def _make_archive(cls, ctx, basename, dirpath, filepaths):
 		archive_type = __kupfer_settings__["archive_type"]
 		archive_path = \
 			utils.get_destpath_in_directory(dirpath, basename, archive_type)
 		cmd = ["file-roller", "--add-to=%s" % (archive_path, )]
 		cmd.extend(filepaths)
-		runtimehelper.register_async_file_result(archive_path)
+		runtimehelper.register_async_file_result(ctx, archive_path)
 		utils.spawn_async_notify_as("file-roller.desktop", cmd)
 		return archive_path
 
-	def activate(self, leaf, iobj):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, iobj, ctx):
 		archive_type = __kupfer_settings__["archive_type"]
 		dirpath = iobj.object
 		basename = os_path.basename(leaf.object)
-		self._make_archive(basename, dirpath, (leaf.object, ))
+		self._make_archive(ctx, basename, dirpath, (leaf.object, ))
 
-	def activate_multiple(self, objs, iobjs):
+	def activate_multiple(self, objs, iobjs, ctx):
 		archive_type = __kupfer_settings__["archive_type"]
 		# TRANS: Default filename (no extension) for 'Create Archive In...'
 		basename = _("Archive")
 		for iobj in iobjs:
-			self._make_archive(basename, iobj.object, [L.object for L in objs])
+			self._make_archive(ctx, basename, iobj.object,
+			                   [L.object for L in objs])
 
 	def item_types(self):
 		yield FileLeaf
