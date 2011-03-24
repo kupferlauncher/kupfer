@@ -10,11 +10,15 @@ kupfer's hastening insanity
   + Use an undecorated window with rounded corners
   + Increase icon size to 128px
   + Add a small menu button on the window for explicit access to
-    preferences window and help.
+    context actions, preferences window, and help.
   + Always show description field
   + Let the frame be slightly transparent if supported
   + Themable colors and properties by using GTK+ styling,
     see ``Documentation/GTKTheming.rst``
+
+* Add context action "Set X as default action for object Y"
+
+  + For example, you can make Launch Again default for Terminal
 
 * Updated Kupfer's technical documentation (in ``Documentation/``),
   including the Plugin API reference.
@@ -27,15 +31,34 @@ kupfer's hastening insanity
 * Implement an "alternatives" mechanism so that plugins can
   register mutually exclusive alternatives. Currently implemented
   are Terminals (see above) and Icon Renderers.
-* Add the function ``initialize_plugin`` to the plugin interface.
-* *Thunar*: Use Thunar 1.2's Copy and Move API and expose it in
-  Kupfer.
+* *Thunar*: Use Thunar 1.2's Copy and Move API.
+
+    + These allow copying and moving anything through thunar,
+      and it will show progress dialogs for longer transactions.
+
 * Add *Ascii & Unicode Icon Set* for fun
 * Add simple plugin *Quick Image Viewer* to show images in a simple way.
 * Add *Send Keys* plugin that can send synthetic keyboard events,
   and prominently can be used for the *Paste to Foreground Window*
   action on text. Requires ``xautomation`` package. (:lp:`621453`)
-* Activate current selection on pane double-click. (:lp:`700948`)
+* *Volumes:* treat mounts as regular folders, so they can be targets for
+  file operations.
+* *File Actions:* the action *Move to Trash* switches home to the *Trash*
+  plugin, the archive actions go to new *Archive Manager* plugin.
+* Activate current selection on double-click in the interface.
+  (:lp:`700948`)
+* Update the preferences window and move the folder configuration to the
+  Catalog tab.
+* Add ``initialize_plugin`` to the plugin interface.
+* Configure ``kupfer-exec`` activation to send an event timestamp so that
+  focus can be carried along correctly even when running ``.kfcom`` files.
+* Internally, change how actions are carried out by allowing the
+  action execution context object to be passed down the execution chain
+  instead of being a global resource. This also allows plugins to cleanly
+  access current environment (event timestamp, current screen etc).
+* The *Tracker 0.8* plugin supports version 0.8 and 0.10 alike. Because of
+  that and the expected compatibility with one version after this too, it's
+  now called *Tracker*.
 
 
 kupfer v204
