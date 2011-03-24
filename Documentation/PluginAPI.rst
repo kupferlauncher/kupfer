@@ -346,6 +346,10 @@ Activate: Carrying Out the Action
     something better than the equivalent of repeating ``activate``
     *n* for *n* objects.
 
+``activate`` and ``activate_multiple`` also receive a keyword argument
+called ``ctx`` if the action defines ``wants_context(self)`` to return
+``True``. See ``wants_context`` below for more information.
+
 
 Determining Eligible Objects
 ............................
@@ -381,6 +385,48 @@ Determining Eligible Objects
     This method, if defined,  will be called for each indirect object
     (with the direct object as ``for_item``), to decide if it can be
     used. Return ``True`` if it can be used.
+
+Auxiliary Method ``wants_context(self)``
+........................................
+
+``wants_context(self)``
+    Return ``True`` if ``activate`` should receive an ``ExecutionToken``
+    as the keyword argument ``ctx``. This allows posting late
+    (after-the-fact) results and errors, as well as allowing access to
+    the GUI environment.
+
+    ``wants_context`` defaults to ``False`` which corresponds to
+    the old protocol without ``ctx``.
+
+So instead of ``activate(self, obj)``, the method should be implemented
+as ``activate(self, obj, ctx)``.
+
+The object passed as ``ctx`` has the following interface:
+
+``ctx.register_late_result(result_object)``
+    Register the ``result_object`` as a late result. It must be a
+    ``Leaf``.
+
+``ctx.register_late_error(exc_info=None)``
+    Register an asynchronous error. (For synchronous errors, simply raise
+    an ``OperationError`` inside ``activate``.)
+
+    For asynchronous errors, call ``register_late_error``. If
+    ``exc_info`` is ``None``, the current exception is used.
+    If ``exc_info`` is an ``OperationError`` instance, then it is used
+    as error. Otherwise, a tuple like ``sys.exc_info()`` can be passed.
+
+``ctx.environment``
+    The environment object, which has the following methods:
+
+    ``get_timestamp(self)``
+        Return the current event timestamp
+
+    ``get_startup_notification_id(self)``
+        Make and return a startup notification id
+
+    ``get_display(self)``
+        Return the display name (i.e ``:0.0``)
 
 
 Auxiliary Action Methods
@@ -713,28 +759,9 @@ can reuse.
 
 .. topic:: ``kupfer.commandexec``
 
-    ``DefaultActionExecutionContext()``
-        Returns a context object that is used in Action execution.
-        
-        Typical use inside an Action::
-
-            def activate(self, obj):
-                ctx = commandexec.DefaultActionExecutionContext()
-                token = ctx.get_async_token()
-
-                def callback_done(new_obj):
-                    ctx.register_late_result(token, new_obj)
-
-                def callback_error(errmsg):
-                    ctx.register_late_error(token, OperationError(errmsg))
-
-                # here we start an asynchronus call and
-                # provide callbacks
-                produce_something(obj, callback_done, callback_error)
-
-        So the action execution context can be used to tell
-        Kupfer about after-the-fact produced Leaves or after-the-fact
-        errors (to display for the user).
+    ``kupfer.commandexec`` is not used by plugins anymore
+    after version v204. See `Auxiliary Method wants_context(self)`_
+    above instead.
 
 .. topic:: ``kupfer.config``
 
