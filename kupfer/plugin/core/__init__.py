@@ -18,7 +18,6 @@ from kupfer.objects import Leaf, Action, Source
 from kupfer.obj.sources import MultiSource
 from kupfer import objects
 from kupfer.obj.base import InvalidLeafError
-from kupfer import commandexec
 from kupfer import interface
 from kupfer import pretty
 from kupfer import task
@@ -119,9 +118,7 @@ class RescanActionTask(task.ThreadTask):
 		self.source.get_leaves(force_update=True)
 
 	def thread_finish(self):
-		ctx = commandexec.DefaultActionExecutionContext()
-		ctx.register_late_result(self.async_token, self.retval)
-
+		self.async_token.register_late_result(self.retval)
 
 class Rescan (Action):
 	"""A source action: Rescan a source!  """
@@ -129,12 +126,14 @@ class Rescan (Action):
 	def __init__(self):
 		Action.__init__(self, _("Rescan"))
 
-	def activate(self, leaf):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		if not leaf.has_content():
 			raise InvalidLeafError("Must have content")
 		source = leaf.content_source()
-		ctx = commandexec.DefaultActionExecutionContext()
-		return RescanActionTask(source, ctx.get_async_token(), leaf)
+		return RescanActionTask(source, ctx, leaf)
 
 	def is_async(self):
 		return True
