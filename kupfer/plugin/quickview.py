@@ -13,6 +13,7 @@ import gtk
 from kupfer.objects import Action, FileLeaf
 from kupfer.objects import OperationError
 from kupfer import utils
+from kupfer.ui import uievents
 
 
 def is_content_type(fileleaf, ctype):
@@ -50,7 +51,6 @@ def load_image_max_size(filename, w, h):
 	return pl.get_pixbuf()
 
 class View (Action):
-
 	def __init__(self):
 		Action.__init__(self, _("View Image"))
 		self.open_windows = {}
@@ -61,7 +61,10 @@ class View (Action):
 	def valid_for_item(self, obj):
 		return is_content_type(obj, "image/*")
 
-	def activate(self, obj):
+	def wants_context(self):
+		return True
+
+	def activate(self, obj, ctx):
 		## If the same file @obj is already open,
 		## then close its window.
 		if obj.object in self.open_windows:
@@ -77,7 +80,7 @@ class View (Action):
 		window.set_title(utils.get_display_path_for_bytestring(obj.object))
 		window.set_position(gtk.WIN_POS_CENTER)
 		window.add(image_widget)
-		window.present()
+		ctx.environment.present_window(window)
 		window.connect("key-press-event", self.window_key_press, obj.object)
 		window.connect("delete-event", self.window_deleted, obj.object)
 		self.open_windows[obj.object] = window

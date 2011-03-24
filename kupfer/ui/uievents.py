@@ -27,7 +27,14 @@ class GUIEnvironmentContext (object):
 		"""
 		# FIXME: use Kupfer window's display
 		return os.getenv("DISPLAY", ":0")
+	def present_window(self, window):
+		"""
+		Show and present @window on the current
+		workspace, screen & display as appropriate.
 
+		@window: A gtk.Window
+		"""
+		window.present_with_time(self.get_timestamp())
 
 class _internal_data (object):
 	seq = 0

@@ -425,6 +425,10 @@ The object passed as ``ctx`` has the following interface:
     ``get_display(self)``
         Return the display name (i.e ``:0.0``)
 
+    ``present_window(self, window)``
+        Present ``window`` (a ``gtk.Window``) on the current
+        workspace and monitor using the current event time.
+
 
 Auxiliary Action Methods
 ........................

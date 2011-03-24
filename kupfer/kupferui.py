@@ -48,7 +48,10 @@ def show_about_dialog(ctx=None):
 		# do not delete window on close
 		ab.connect("delete-event", lambda *ign: True)
 		_about_dialog = ab
-	ab.present_with_time(_get_time(ctx))
+	if ctx:
+		ctx.environment.present_window(ab)
+	else:
+		ab.present()
 
 def _response_callback(dialog, response_id):
 	dialog.hide()
