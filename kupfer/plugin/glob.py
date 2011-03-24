@@ -9,19 +9,9 @@ __author__ = "Ulrik"
 import fnmatch
 import re
 
-from kupfer.objects import Action, TextLeaf, Source, TextSource, Leaf
+from kupfer.objects import Action, TextLeaf, TextSource, Leaf, OperationError
+from kupfer.obj.compose import MultipleLeaf
 from kupfer import utils, pretty
-
-class ObjSource (Source):
-	def __init__(self, files):
-		Source.__init__(self, _("Glob Result"))
-		self.files = files
-	def get_items(self):
-		return self.files
-	def should_sort_lexically(self):
-		return True
-	def provides(self):
-		yield Leaf
 
 class Glob (Action):
 	def __init__(self):
@@ -32,17 +22,32 @@ class Glob (Action):
 
 	def activate_multiple(self, objects, iobjects):
 		## Do case-insentive matching
+		## As a special case, understand '**/' prefix as recurive
+
+		def get_subcatalog_matches(subcatalog, pat, recursive, paths):
+			if len(paths) > 1000:
+				raise OperationError("Globbing wayy too many objects")
+			for content in subcatalog.content_source().get_leaves():
+				if recursive and content.has_content():
+					get_subcatalog_matches(content, pat, recursive, paths)
+				else:
+					if re.match(pat, unicode(content), flags=re.I):
+						paths.append(content)
 		paths = []
 		for iobj in iobjects:
 			glob = iobj.object
+			if glob.startswith('**/'):
+				glob = glob[3:]
+				recursive = True
+			else:
+				recursive = False
 			pat = fnmatch.translate(glob)
 			for obj in objects:
-				for content in obj.content_source().get_leaves():
-					if re.match(pat, unicode(content), flags=re.I):
-						paths.append(content)
-		return ObjSource(paths)
+				get_subcatalog_matches(obj, pat, recursive, paths)
+		if paths:
+			return MultipleLeaf(paths)
 
-	def is_factory(self):
+	def has_result(self):
 		return True
 	def item_types(self):
 		yield Leaf
