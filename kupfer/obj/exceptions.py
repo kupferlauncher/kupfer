@@ -9,13 +9,6 @@ class LocaleOperationError (OperationError):
 	def __init__(self, s):
 		OperationError.__init__(self, kupferstring.fromlocale(s))
 
-class CommandMissingError (OperationError):
-	"""
-	User-visible error message for missing executable
-	"""
-	def __init__(self, cmd):
-		OperationError.__init__(self, _("Command '%s' not found") % (cmd, ))
-
 class NotAvailableError (OperationError):
 	"""
 	User-visible error message when an external

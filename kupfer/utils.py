@@ -217,13 +217,25 @@ def spawn_async(argv, in_dir="."):
 
 	Returns False on failure
 	"""
-	pretty.print_debug(__name__, "Spawn commandline", argv, in_dir)
+	try:
+		return spawn_async_raise(argv, in_dir)
+	except SpawnError as exc:
+		pretty.print_debug(__name__, "spawn_async", argv, exc)
+		return False
+
+def spawn_async_raise(argv, workdir="."):
+	"""
+	A version of spawn_async that raises on error.
+
+	raises SpawnError
+	"""
+	pretty.print_debug(__name__, "Spawn Async", argv, workdir)
 	argv = _argv_to_locale(argv)
 	try:
-		return gobject.spawn_async (argv, working_directory=in_dir,
+		return gobject.spawn_async (argv, working_directory=workdir,
 				flags=gobject.SPAWN_SEARCH_PATH)
-	except gobject.GError, exc:
-		pretty.print_debug(__name__, "spawn_async", argv, exc)
+	except gobject.GError as exc:
+		raise SpawnError(exc)
 
 def argv_for_commandline(cli):
 	return desktop_parse.parse_argv(cli)
