@@ -5,6 +5,7 @@ import math
 import os
 import signal
 import sys
+import textwrap
 import time
 
 try:
@@ -1380,6 +1381,9 @@ class Interface (gobject.GObject):
 			if key not in accelerators.ACCELERATOR_NAMES:
 				raise RuntimeError("Missing accelerator: %s" % key)
 			return (accelerators.ACCELERATOR_NAMES[key], getattr(self, key))
+		def trunc(ustr):
+			"truncate long object names"
+			return ustr[:25]
 		has_match = self.current.get_match_state() == State.Match
 		if has_match:
 			yield get_accel('compose_action')
@@ -1389,15 +1393,17 @@ class Interface (gobject.GObject):
 		if self.action.get_match_state() == State.Match:
 			smatch = self.search.get_current()
 			amatch = self.action.get_current()
-			yield (_('Make "%(action)s" Default for "%(object)s"') % {
-			       'action': unicode(amatch),
-			       'object': unicode(smatch),
-			       }, self.mark_as_default)
+			label = (_('Make "%(action)s" Default for "%(object)s"') % {
+			         'action': trunc(unicode(amatch)),
+			         'object': trunc(unicode(smatch)),
+			         })
+			w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
+			yield (u"\n".join(w_label), self.mark_as_default)
 		if has_match:
 			if self.data_controller.get_object_has_affinity(data.SourcePane):
 				match = self.search.get_current()
 				# TRANS: Removing learned and/or configured bonus search score
-				yield (_('Forget About "%s"') % unicode(match),
+				yield (_('Forget About "%s"') % trunc(unicode(match)),
 				       self.erase_affinity_for_first_pane)
 		if has_match:
 			yield get_accel('reset_all')
