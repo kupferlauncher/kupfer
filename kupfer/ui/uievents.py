@@ -16,7 +16,18 @@ class GUIEnvironmentContext (object):
 	def get_timestamp(self):
 		return self._timestamp
 	def get_startup_notification_id(self):
+		"""
+		Always returns a byte string
+		"""
 		return _make_startup_notification_id(self.get_timestamp())
+	def get_display(self):
+		"""return the display name to show new windows on
+
+		Always returns a byte string
+		"""
+		# FIXME: use Kupfer window's display
+		return os.getenv("DISPLAY", ":0")
+
 
 class _internal_data (object):
 	seq = 0
