@@ -461,10 +461,12 @@
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Inclusion in Top Level Searches&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Inclusion in Top Level Searches</property>
                             <property name="wrap">True</property>
                             <property name="width_chars">30</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -482,7 +484,7 @@
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">3</property>
-                                <property name="label" translatable="yes">Marked Sources have their objects included in top level searches.
+                                <property name="label" translatable="yes">Marked sources have their objects included in top level searches.
 An unmarked source's contents are only available by locating its subcatalog.</property>
                                 <property name="wrap">True</property>
                                 <property name="width_chars">30</property>
@@ -535,10 +537,12 @@ An unmarked source's contents are only available by locating its subcatalog.</pr
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Indexed Folders&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Indexed Folders</property>
                             <property name="wrap">True</property>
                             <property name="width_chars">30</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -556,8 +560,7 @@ An unmarked source's contents are only available by locating its subcatalog.</pr
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="xpad">3</property>
-                                <property name="label" translatable="yes">Folders whose files are always available in the catalog.
-</property>
+                                <property name="label" translatable="yes">Folders whose files are always available in the catalog.</property>
                                 <property name="wrap">True</property>
                                 <property name="width_chars">30</property>
                               </object>
