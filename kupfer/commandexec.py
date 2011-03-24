@@ -151,7 +151,7 @@ class ExecutionToken (object):
 		self._aectx.register_late_error(self._token, exc_info)
 
 	def delegated_run(self, *objs):
-		return self._aectx.run(*objs, delegate=True)
+		return self._aectx.run(*objs, delegate=True, ui_ctx=self._ui_ctx)
 
 	@property
 	def environment(self):
