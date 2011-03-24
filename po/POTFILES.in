@@ -13,12 +13,13 @@ extras/kupfer_provider.py
 
 
 kupfer/main.py
+kupfer/ui/accelerators.py
 kupfer/ui/browser.py
 kupfer/ui/preferences.py
 kupfer/ui/getkey_dialog.py
 kupfer/version.py
-kupfer/commandexec.py
-kupfer/execfile.py
+kupfer/core/commandexec.py
+kupfer/core/execfile.py
 
 kupfer/obj/base.py
 kupfer/obj/compose.py
