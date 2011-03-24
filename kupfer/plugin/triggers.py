@@ -11,14 +11,17 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import gtk
 import glib
 
-from kupfer.obj.base import Action, Source, TextSource
-from kupfer.obj.objects import TextLeaf, RunnableLeaf
+from kupfer.objects import Action, Source, TextSource
+from kupfer.objects import TextLeaf, RunnableLeaf
+from kupfer.objects import OperationError
 from kupfer.obj.compose import ComposedLeaf
 from kupfer import puid
 from kupfer import kupferstring
 from kupfer import task
 
 from kupfer.ui import keybindings
+from kupfer.ui import uievents
+from kupfer import commandexec
 from kupfer.ui import getkey_dialog
 
 
@@ -31,8 +34,12 @@ class Trigger (RunnableLeaf):
 		for act in RunnableLeaf.get_actions(self):
 			yield act
 		yield RemoveTrigger()
-	def run(self):
-		return Triggers.perform_trigger(self.object)
+	def wants_context(self):
+		return True
+	def is_valid(self):
+		return Triggers.has_trigger(self.object)
+	def run(self, ctx):
+		return Triggers.perform_trigger(ctx, self.object)
 	def repr_key(self):
 		return self.object
 
@@ -55,7 +62,8 @@ class Triggers (Source):
 	
 	def initialize(self):
 		Triggers.instance = self
-		keybindings.GetKeyboundObject().connect("keybinding", self._callback)
+		keybindings.GetKeyboundObject().connect("keybinding",
+		                                        self.keybinding_callback)
 		for target, (keystr, name, id_) in self.trigger_table.iteritems():
 			keybindings.bind_key(keystr, target)
 		self.output_debug("Loaded triggers, count:", len(self.trigger_table))
@@ -64,8 +72,13 @@ class Triggers (Source):
 		for target, (keystr, name, id_) in self.trigger_table.iteritems():
 			keybindings.bind_key(None, target)
 
-	def _callback(self, keyobj, target, event_time):
-		self.perform_trigger(target)
+	def keybinding_callback(self, keyobj, target, event_time):
+		if not self.has_trigger(target):
+			return
+		ui_ctx = uievents.GUIEnvironmentContext(event_time)
+		ctx = commandexec.DefaultActionExecutionContext()
+		exec_token = ctx.make_execution_token(ui_ctx)
+		self.perform_trigger(exec_token, target)
 
 	def get_items(self):
 		for target, (keystr, name, id_) in self.trigger_table.iteritems():
@@ -79,15 +92,19 @@ class Triggers (Source):
 		yield Trigger
 
 	@classmethod
-	def perform_trigger(cls, target):
+	def has_trigger(cls, target):
+		return target in cls.instance.trigger_table
+
+	@classmethod
+	def perform_trigger(cls, ctx, target):
 		try:
 			keystr, name, id_ = cls.instance.trigger_table[target]
 		except KeyError:
-			return
+			raise OperationError("Trigger '%s' does not exist" % (target, ))
 		obj = puid.resolve_unique_id(id_)
 		if obj is None:
 			return
-		return obj.run()
+		return obj.run(ctx)
 
 	@classmethod
 	def add_trigger(cls, leaf, keystr):

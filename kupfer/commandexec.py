@@ -220,6 +220,12 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		"""
 		return (self.last_command_id, self.last_executed_command)
 
+	def make_execution_token(self, ui_ctx):
+		"""
+		Return an ExecutionToken for @self and @ui_ctx
+		"""
+		return ExecutionToken(self, self.get_async_token(), ui_ctx)
+
 	def operation_error(self, exc_info, cmdtuple):
 		"Error when executing action. Return True when error was handled"
 		if self._is_nested():
@@ -289,7 +295,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 			raise ActionExecutionError("%s requires indirect object" % action)
 
 		# The execution token object for the current invocation
-		execution_token = ExecutionToken(self, self.get_async_token(), ui_ctx)
+		execution_token = self.make_execution_token(ui_ctx)
 		with self._error_conversion(obj, action, iobj):
 			with self._nesting():
 				ret = activate_action(execution_token, obj, action, iobj)
