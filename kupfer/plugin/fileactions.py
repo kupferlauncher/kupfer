@@ -17,7 +17,6 @@ from os import path as os_path
 
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer import utils, pretty
-from kupfer import commandexec
 
 
 def _good_destination(dpath, spath):
@@ -149,25 +148,25 @@ class CopyTo (Action, pretty.OutputMixin):
 		return True
 
 	def _finish_callback(self, gfile, result, data):
-		ctx = commandexec.DefaultActionExecutionContext()
 		self.output_debug("Finished copying", gfile)
-		dfile, action_token = data
+		dfile, ctx = data
 		try:
 			gfile.copy_finish(result)
 		except gio.Error:
-			ctx.register_late_error(action_token)
+			ctx.register_late_error()
 		else:
-			ctx.register_late_result(action_token, FileLeaf(dfile.get_path()))
+			ctx.register_late_result(FileLeaf(dfile.get_path()))
 
-	def activate(self, leaf, obj):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, iobj, ctx):
 		sfile = gio.File(leaf.object)
-		dpath = os_path.join(obj.object, os_path.basename(leaf.object))
+		dpath = os_path.join(iobj.object, os_path.basename(leaf.object))
 		dfile = gio.File(dpath)
-		ctx = commandexec.DefaultActionExecutionContext()
-		action_token = ctx.get_async_token()
 		try:
 			ret = sfile.copy_async(dfile, self._finish_callback,
-					user_data=(dfile, action_token),
+					user_data=(dfile, ctx),
 					flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
 		except gio.Error, exc:
