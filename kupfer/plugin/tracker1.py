@@ -83,6 +83,7 @@ def sparql_escape(ustr):
 	sparql_escape_table = {
 		ord(u'\t'): ur'\t',
 		ord(u'\n'): ur'\n',
+		ord(u'\r'): ur'\r',
 		ord(u'\b'): ur'\b',
 		ord(u'\f'): ur'\f',
 		ord(u'"') : ur'\"',
