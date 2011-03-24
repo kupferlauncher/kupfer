@@ -14,13 +14,14 @@ class TimedPerform (Perform):
 	def __init__(self):
 		Action.__init__(self, _("Run after Delay..."))
 
-	def activate(self, leaf, iobj=None):
+	def activate(self, leaf, iobj, ctx):
 		from kupfer import scheduler
 		# make a timer that will fire when Kupfer exits
 		interval = utils.parse_time_interval(iobj.object)
 		pretty.print_debug(__name__, "Run %s in %s seconds" % (leaf, interval))
 		timer = scheduler.Timer(True)
-		timer.set(interval, leaf.run)
+		args = (ctx,) if leaf.wants_context() else ()
+		timer.set(interval, leaf.run, *args)
 
 	def requires_object(self):
 		return True
@@ -65,11 +66,12 @@ class ComposedLeaf (RunnableLeaf):
 	def repr_key(self):
 		return self
 
-	def run(self):
-		from kupfer import commandexec
-		ctx = commandexec.DefaultActionExecutionContext()
+	def wants_context(self):
+		return True
+
+	def run(self, ctx):
 		obj, action, iobj = self.object
-		return ctx.run(obj, action, iobj, delegate=True)
+		return ctx.delegated_run(obj, action, iobj)
 
 	def get_gicon(self):
 		obj, action, iobj = self.object

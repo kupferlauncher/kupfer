@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-16 21:02+0100\n"
+"POT-Creation-Date: 2011-03-24 17:20+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -39,17 +39,8 @@ msgstr "Sparat Kupfer-kommando"
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
 
-msgid "<b>Directories</b>"
-msgstr "<b>Kataloger</b>"
-
-msgid "<b>Exported Objects from Plugins</b>"
-msgstr "<b>Objekt exporterade från insticksmoduler</b>"
-
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globala tangentbordsgenvägar</b>"
-
-msgid "<b>Interface</b>"
-msgstr "<b>Gränssnitt</b>"
 
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
@@ -57,17 +48,37 @@ msgstr "<b>Start</b>"
 msgid "Catalog"
 msgstr "Katalog"
 
+msgid "Desktop Environment"
+msgstr "Skrivbordsmiljö"
+
+msgid "Folders whose files are always available in the catalog."
+msgstr "Mappar vars innehåll alltid finns tillgängligt i katalogen."
+
 msgid "General"
 msgstr "Allmänt"
 
-msgid "Hide Kupfer when focus is lost"
-msgstr "Dölj Kupfer när det tappar fokus"
+msgid "Icon set:"
+msgstr "Ikonuppsättning:"
+
+msgid "Inclusion in Top Level Searches"
+msgstr "Inkluderade i sökningar på toppnivån"
+
+msgid "Indexed Folders"
+msgstr "Indexerade mappar"
 
 msgid "Keyboard"
 msgstr "Tangentbord"
 
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
+
+msgid ""
+"Marked sources have their objects included in top level searches.\n"
+"An unmarked source's contents are only available by locating its subcatalog."
+msgstr ""
+"Objekt från markerade källor är inkluderade i sökningar på toppnivån.\n"
+"Använd kommandot 'Sök inuti' på en avmarkerad källa för att söka i dess "
+"innehåll."
 
 msgid "Plugins"
 msgstr "Insticksmoduler"
@@ -81,16 +92,8 @@ msgstr "Visa ikon i notifieringsytan"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid inloggning"
 
-msgid ""
-"Untick the box next to a source to hide its objects in the top level "
-"searches.\n"
-"An unticked source's contents are only available by locating its subcatalog "
-"and entering it."
-msgstr ""
-"Avmarkera rutan vid en källa för att dölja dess objekt vid sökning i "
-"toppnivån.\n"
-"Använd kommandot 'Sök inuti' på en avmarkerad källa för att söka i dess "
-"innehåll."
+msgid "Terminal emulator:"
+msgstr "Terminalemulator:"
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
@@ -148,34 +151,6 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#, python-format
-msgid "%s is empty"
-msgstr "%s är tom"
-
-#, python-format
-msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Inga träffar i %(src)s för \"%(query)s\""
-
-msgid "No matches"
-msgstr "Inga träffar"
-
-msgid "Type to search"
-msgstr "Skriv för att söka"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Skriv för att söka i %s"
-
-msgid "No action"
-msgstr "Inget kommando"
-
-#. TRANS: Names of global keyboard shortcuts
-msgid "Show Main Interface"
-msgstr "Visa huvudgränssnitt"
-
-msgid "Show with Selection"
-msgstr "Visa med markering"
-
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
@@ -189,6 +164,12 @@ msgstr "Kommatricket"
 #. TRANS: object + action (+iobject)
 msgid "Compose Command"
 msgstr "Bygg kommando"
+
+msgid "Mark Default Action"
+msgstr "Sätt standardkommando"
+
+msgid "Forget Object"
+msgstr "Glöm objekt"
 
 msgid "Reset All"
 msgstr "Återställ alla"
@@ -213,6 +194,43 @@ msgstr "Välj första rutan"
 
 msgid "Toggle Text Mode"
 msgstr "Växla fritextläge"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s är tom"
+
+#, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "Inga träffar i %(src)s för \"%(query)s\""
+
+msgid "No matches"
+msgstr "Inga träffar"
+
+msgid "Type to search"
+msgstr "Skriv för att söka"
+
+#, python-format
+msgid "Type to search %s"
+msgstr "Skriv för att söka i %s"
+
+msgid "No action"
+msgstr "Inget kommando"
+
+#, python-format
+msgid "Make \"%(action)s\" Default for \"%(object)s\""
+msgstr "Gör \"%(action)s\" till standard för \"%(object)s\""
+
+#. TRANS: Removing learned and/or configured bonus search score
+#, python-format
+msgid "Forget About \"%s\""
+msgstr "Glöm bort \"%s\""
+
+#. TRANS: Names of global keyboard shortcuts
+msgid "Show Main Interface"
+msgstr "Visa huvudgränssnitt"
+
+msgid "Show with Selection"
+msgstr "Visa med markering"
 
 #. TRANS: Plugin info fields
 msgid "Description"
@@ -345,12 +363,26 @@ msgstr[1] "%s objekt"
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
+#, python-format
+msgid "%s does not support this operation"
+msgstr "%s stödjer inte operationen"
+
+msgid "Can not be used with multiple objects"
+msgstr "Kan inte användas med flera objekt"
+
 msgid "Open"
 msgstr "Öppna"
 
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Det finns inget förvalt program för \"%(file)s\" (%(type)s)."
+
+#, python-format
+msgid "Please use \"%s\""
+msgstr "V.v. använd \"%s\""
+
+msgid "Set Default Application..."
+msgstr "Välj standardprogram..."
 
 msgid "Open with default application"
 msgstr "Öppna med förvalt program"
@@ -460,6 +492,24 @@ msgstr "%s är inte konfigurerad"
 msgid "Invalid user credentials for %s"
 msgstr "Ogiltiga användaruppgifter för %s"
 
+msgid "GTK+"
+msgstr "GTK+"
+
+msgid "GNOME Terminal"
+msgstr "GNOME-terminal"
+
+msgid "XFCE Terminal"
+msgstr "XFCE-terminal"
+
+msgid "LXTerminal"
+msgstr "LXTerminal"
+
+msgid "X Terminal"
+msgstr "X-terminal"
+
+msgid "Urxvt"
+msgstr "Urxvt"
+
 msgid "Save As..."
 msgstr "Spara som..."
 
@@ -521,6 +571,34 @@ msgstr "Senaste resultat"
 msgid "Command Results"
 msgstr "Kommandoresultat"
 
+msgid "Archive Manager"
+msgstr "Arkivhanterare"
+
+msgid "Use Archive Manager actions"
+msgstr "Använd funktioner i arkivhanteraren"
+
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Arkivtyp för 'Skapa arkiv i'"
+
+msgid "Extract Here"
+msgstr "Packa upp här"
+
+msgid "Extract compressed archive"
+msgstr "Packa upp komprimerad fil"
+
+msgid "Create Archive"
+msgstr "Skapa arkiv"
+
+msgid "Create a compressed archive from folder"
+msgstr "Skapa komprimerat arkiv av mappen"
+
+msgid "Create Archive In..."
+msgstr "Skapa arkiv i..."
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+msgid "Archive"
+msgstr "Arkiv"
+
 msgid "Applications"
 msgstr "Program"
 
@@ -535,9 +613,6 @@ msgstr "Öppna med..."
 
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
-
-msgid "Set Default Application..."
-msgstr "Välj standardprogram..."
 
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
@@ -581,8 +656,12 @@ msgstr "Ta bort senaste urklipp"
 msgid "Shell Commands"
 msgstr "Skalkommandon"
 
-msgid "Run commandline programs"
-msgstr "Kör kommandoradsprogram"
+#, python-format
+msgid ""
+"Run command-line programs. Actions marked with the symbol %s run in a "
+"subshell."
+msgstr ""
+"Kör skalkommandon. Kommandon markerade med symbolen %s kör i ett underskal."
 
 msgid "Run (Get Output)"
 msgstr "Kör (Hämta utdata)"
@@ -611,6 +690,9 @@ msgstr "Kör ett program och skriv texten på std. in"
 #. TRANS: present the output (stdout) to the user.
 msgid "Filter through Command..."
 msgstr "Filtrera genom kommando..."
+
+msgid "Run command-line programs"
+msgstr "Kör kommandoradsprogram"
 
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -683,15 +765,6 @@ msgstr "Filkommandon"
 msgid "More file actions"
 msgstr "Fler filkommandon"
 
-msgid "Compressed archive type for 'Create Archive In'"
-msgstr "Arkivtyp för 'Skapa arkiv i'"
-
-msgid "Move to Trash"
-msgstr "Flytta till papperskorgen"
-
-msgid "Move this file to trash"
-msgstr "Flytta filen till papperskorgen"
-
 msgid "Move To..."
 msgstr "Flytta till..."
 
@@ -706,25 +779,6 @@ msgstr "Kopiera till..."
 
 msgid "Copy file to a chosen location"
 msgstr "Kopiera filen till vald plats"
-
-msgid "Extract Here"
-msgstr "Packa upp här"
-
-msgid "Extract compressed archive"
-msgstr "Packa upp komprimerad fil"
-
-msgid "Create Archive"
-msgstr "Skapa arkiv"
-
-msgid "Create a compressed archive from folder"
-msgstr "Skapa komprimerat arkiv av mappen"
-
-msgid "Create Archive In..."
-msgstr "Skapa arkiv i..."
-
-#. TRANS: Default filename (no extension) for 'Create Archive In...'
-msgid "Archive"
-msgstr "Arkiv"
 
 msgid "Firefox Bookmarks"
 msgstr "Firefox-bokmärken"
@@ -932,6 +986,12 @@ msgstr "Papperskorg"
 msgid "Access trash contents"
 msgstr "Tillgång till papperskorgens innehåll"
 
+msgid "Move to Trash"
+msgstr "Flytta till papperskorgen"
+
+msgid "Move this file to trash"
+msgstr "Flytta filen till papperskorgen"
+
 msgid "Restore"
 msgstr "Återskapa"
 
@@ -1077,6 +1137,15 @@ msgstr "Nästa fönster"
 msgid "Jump to this window's workspace and focus"
 msgstr "Gå till fönstrets arbetsyta och aktivera"
 
+#, python-format
+msgid "%d window"
+msgid_plural "%d windows"
+msgstr[0] "%d fönster"
+msgstr[1] "%d fönster"
+
+msgid "Active workspace"
+msgstr "Aktiv arbetsyta"
+
 msgid "Jump to this workspace"
 msgstr "Hoppa till arbetsytan"
 
@@ -1126,6 +1195,24 @@ msgstr "Tillåt att titta inuti komprimerade filer"
 #, python-format
 msgid "Content of %s"
 msgstr "Innehåll för %s"
+
+#. encoding: utf-8
+#. don't panic! This is just because it's crazy and fun! ツ
+msgid "Ascii & Unicode Icon Set"
+msgstr "Ascii & Unicode ikonuppsättningar"
+
+msgid ""
+"Provides the Ascii and Unicode icon sets that use letters and symbols to "
+"produce icons for the objects found in Kupfer."
+msgstr ""
+"Ikonuppsättningarna Ascii respektive Unicode använder bokstäver och symboler "
+"som ikoner för objekt i Kupfer."
+
+msgid "Ascii"
+msgstr "Ascii"
+
+msgid "Unicode"
+msgstr "Unicode"
 
 msgid "Audacious"
 msgstr "Audacious"
@@ -1215,6 +1302,21 @@ msgstr "Claws Mail-adressbok"
 msgid "Contacts from Claws Mail Address Book"
 msgstr "Kontakter från Claws Mail"
 
+msgid "Custom Terminal"
+msgstr "Valfri terminal"
+
+msgid "Configure a custom terminal emulator"
+msgstr "Konfigurera en valfri terminal"
+
+msgid "Execute flag"
+msgstr "Kör-flagga"
+
+msgid "Dark Theme"
+msgstr "Mörkt tema"
+
+msgid "Use a dark color theme"
+msgstr "Använd ett mörkt färgtema"
+
 msgid "Default Email Client"
 msgstr "Förvald e-postläsare"
 
@@ -1234,6 +1336,9 @@ msgstr "Empathy"
 
 msgid "Access to Empathy Contacts"
 msgstr "Tillgång till Empathy-kontakter"
+
+msgid "Show offline contacts"
+msgstr "Visa frånkopplade kontakter"
 
 msgid "Available"
 msgstr "Tillgänglig"
@@ -1311,6 +1416,10 @@ msgstr "Gajim-kontakter"
 
 msgid "Gajim Account Status"
 msgstr "Gajim status"
+
+#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
+msgid "Glob"
+msgstr "Glob"
 
 msgid "GNOME Terminal Profiles"
 msgstr "GNOME-terminal-profiler"
@@ -1728,9 +1837,6 @@ msgstr "Pidgin"
 msgid "Access to Pidgin Contacts"
 msgstr "Tillgång till Pidgin-kontakter"
 
-msgid "Show offline contacts"
-msgstr "Visa frånkopplade kontakter"
-
 msgid "Pidgin Contacts"
 msgstr "Pidgin-kontakter"
 
@@ -1742,6 +1848,12 @@ msgstr "Snabb access till PuTTY-sessioner"
 
 msgid "Start Session"
 msgstr "Starta Session"
+
+msgid "Quick Image Viewer"
+msgstr "Snabb bildvisare"
+
+msgid "View Image"
+msgstr "Visa bild"
 
 msgid "reStructuredText"
 msgstr "reStructuredText"
@@ -1773,6 +1885,27 @@ msgstr "Screen-sessioner"
 
 msgid "Attach"
 msgstr "Anslut till"
+
+msgid "Send Keys"
+msgstr "Skicka tangenter"
+
+msgid "Send synthetic keyboard events using xautomation"
+msgstr "Skicka syntetiska tangentbordshändelser m.h.a. xautomation"
+
+msgid "Paste to Foreground Window"
+msgstr "Klistra in i främsta fönstret"
+
+msgid "Copy to clipboard and send Ctrl+V to foreground window"
+msgstr "Kopiera till urklippet och skicka Ctrl+V till främsta fönstret"
+
+msgid "Send keys to foreground window"
+msgstr "Skicka tangenter till främsta fönstret"
+
+msgid "Type Text"
+msgstr "Skriv text"
+
+msgid "Type the text to foreground window"
+msgstr "Skriv texten till främsta fönstret"
 
 #. -*- coding: UTF-8 -*-
 msgid "System Services"
@@ -1854,23 +1987,6 @@ msgstr "SSH-värdar"
 
 msgid "Adds the SSH hosts found in ~/.ssh/config."
 msgstr "Tillhandahåller SSH-värdar från ~/.ssh/config"
-
-msgid "Preferred terminal"
-msgstr "Förvald terminal"
-
-msgid "The preferred terminal emulator. It's used to launch the SSH sessions."
-msgstr "Förvald terminal för att starta SSH-sessioner"
-
-msgid "Execute flag"
-msgstr "Kör-flagga"
-
-msgid ""
-"The flag which makes the terminal execute everything following it inside the "
-"terminal (e.g. '-x' for gnome-terminal and terminal, '-e' for konsole and "
-"urxvt)."
-msgstr ""
-"Flagga som gör att terminalen kör alla följande kommandoradsargument "
-"(exempelvis -x för gnome-terminal)"
 
 msgid "SSH host"
 msgstr "SSH-värd"
@@ -2049,8 +2165,8 @@ msgstr "Ta bort tagg..."
 msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
-msgid "Tracker 0.8"
-msgstr "Tracker 0.8"
+msgid "Tracker"
+msgstr "Tracker"
 
 #. FIXME: Port tracker tag sources and actions
 #. to the new, much more powerful sparql + dbus API
@@ -2186,4 +2302,3 @@ msgstr "Zim-sidor"
 
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sidor i Zim-anteckningsblock"
-

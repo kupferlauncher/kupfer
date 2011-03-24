@@ -14,14 +14,16 @@ KUPFER_COMMAND_SHEBANG="#!/usr/bin/env kupfer-exec\n"
 class ExecutionError (Exception):
 	pass
 
-def execute_file(filepath):
-	"""Execute serialized command inside @filepath
+def parse_kfcom_file(filepath):
+	"""Extract the serialized command inside @filepath
 
 	The file must be executable (comparable to a shell script)
 	>>> execute_file(__file__)  # doctest: +ELLIPSIS
 	Traceback (most recent call last):
 	    ...
 	ExecutionError: ... (not executable)
+
+	Return commands triple
 	"""
 	fobj = open(filepath, "rb")
 	if not os.access(filepath, os.X_OK):
@@ -45,8 +47,13 @@ def execute_file(filepath):
 		raise ExecutionError(_('Command in "%s" is not available') %
 				glib.filename_display_basename(filepath))
 
-	command_object.run()
-	glib.idle_add(update_icon, command_object, filepath)
+	try:
+		return tuple(command_object.object)
+	except (AttributeError, TypeError):
+		raise ExecutionError('"%s" is not a saved command' %
+				os.path.basename(filepath))
+	finally:
+		glib.idle_add(update_icon, command_object, filepath)
 
 def save_to_file(command_leaf, filename):
 	fd = os.open(filename, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o777)

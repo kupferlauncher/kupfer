@@ -15,7 +15,7 @@ import string
 import gtk
 
 from kupfer.objects import Leaf, Action, Source, TextLeaf
-from kupfer.objects import OperationError, CommandMissingError
+from kupfer.objects import OperationError
 from kupfer import pretty
 from kupfer import utils
 from kupfer import interface
@@ -31,8 +31,10 @@ class CopyAndPaste (Action):
 		interface.copy_to_clipboard(leaf, clip)
 		xte_paste_argv = ['xte', 'usleep 300000', 'keydown Control_L',
 		                  'key v', 'keyup Control_L']
-		if not utils.spawn_async(xte_paste_argv):
-			raise CommandMissingError('xte')
+		try:
+			utils.spawn_async_raise(xte_paste_argv)
+		except utils.SpawnError as exc:
+			raise OperationError(exc)
 	def item_types(self):
 		yield Leaf
 	def valid_for_item(self, leaf):
@@ -64,7 +66,7 @@ class SendKeys (Action):
 				mod_names.append(m[mod])
 				mods &= ~mod
 		if mods != 0:
-			raise OperationError(_("Keys not yet implemented: %s") %
+			raise OperationError("Keys not yet implemented: %s" %
 					gtk.accelerator_get_label(keys, orig_mods))
 		key_arg = 'key %s' % (gtk.gdk.keyval_name(keys), )
 		mods_down = ['keydown ' + n for n in mod_names]
@@ -72,8 +74,10 @@ class SendKeys (Action):
 
 		xte_paste_argv = ['xte', 'usleep 300000'] + \
 				mods_down + [key_arg] + mods_up
-		if not utils.spawn_async(xte_paste_argv):
-			raise CommandMissingError('xte')
+		try:
+			utils.spawn_async_raise(xte_paste_argv)
+		except utils.SpawnError as exc:
+			raise OperationError(exc)
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
@@ -95,8 +99,10 @@ class TypeText (Action):
 			xte_paste_argv.append("str " + line.rstrip("\r\n"))
 			if line.endswith("\n"):
 				xte_paste_argv.append("key Return")
-		if not utils.spawn_async(xte_paste_argv):
-			raise CommandMissingError('xte')
+		try:
+			utils.spawn_async_raise(xte_paste_argv)
+		except utils.SpawnError as exc:
+			raise OperationError(exc)
 	def item_types(self):
 		yield Leaf
 	def valid_for_item(self, leaf):

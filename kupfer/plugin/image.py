@@ -28,7 +28,10 @@ class Scale (Action):
 	def has_result(self):
 		return True
 
-	def activate(self, leaf, obj):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, obj, ctx):
 		size = self._make_size(obj.object)
 		fpath = leaf.object
 		dirname = os_path.dirname(fpath)
@@ -36,7 +39,7 @@ class Scale (Action):
 		filename = "%s_%s%s" % (head, size, ext)
 		dpath = utils.get_destpath_in_directory(dirname, filename)
 		argv = ["convert", "-scale", ('%s' % size),  fpath, dpath]
-		runtimehelper.register_async_file_result(dpath)
+		runtimehelper.register_async_file_result(ctx, dpath)
 		utils.spawn_async(argv)
 		return FileLeaf(dpath)
 
@@ -82,7 +85,10 @@ class RotateBase (Action):
 	def has_result(self):
 		return True
 
-	def activate(self, leaf, obj=None):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		fpath = leaf.object
 		dirname = os_path.dirname(fpath)
 		head, ext = os_path.splitext(os_path.basename(fpath))
@@ -90,7 +96,7 @@ class RotateBase (Action):
 		dpath = utils.get_destpath_in_directory(dirname, filename)
 		argv = ["jpegtran", "-copy", "all", "-rotate", self.rotation, "-outfile",
 		        dpath, fpath]
-		runtimehelper.register_async_file_result(dpath)
+		runtimehelper.register_async_file_result(ctx, dpath)
 		utils.spawn_async(argv)
 		return FileLeaf(dpath)
 

@@ -11,8 +11,8 @@ Introduction
 ============
 
 Kupfer is a Python program that allows loading extension modules
-at runtime. One plugin is equivalent to one Python module implemented
-as one .py file or a Python package.
+at runtime. A plugin is equivalent to one Python module implemented
+as one ``.py`` file or as a Python package.
 
 The ``kupfer`` package is organized as follows::
 
@@ -26,9 +26,9 @@ The ``kupfer`` package is organized as follows::
             ...
         ...
 
-Plug-ins live in the package ``kupfer.plugin``. Kupfer also includes
-directories called ``kupfer/plugins`` from XDG_DATA_DIRS which typically
-means ``/usr/share/kupfer/plugins`` and
+Plugins live in the package ``kupfer.plugin``. Kupfer also includes
+directories called ``kupfer/plugins`` from ``$XDG_DATA_DIRS``, which
+typically means ``/usr/share/kupfer/plugins`` and
 ``$HOME/.local/share/kupfer/plugins``. These directories are
 transparently included into the kupfer package, so the user has multiple
 choices of where to install plugins.
@@ -69,11 +69,11 @@ They should be tuples of *names* of classes in the module:
 * all text sources have to be subclasses of ``kupfer.objects.TextSource``
 * all actions have to be subclasses of ``kupfer.objects.Action``
 
-So your example plugin declaring::
+If an example plugin declares::
 
     __kupfer_sources__ = ("DocumentSource", )
 
-will later in the file define this class::
+it will later in the file define the class ``DocumentSource``::
 
     from kupfer.objects import Source
 
@@ -100,18 +100,18 @@ particular folder.
 
 An **Action** is the part where something happens, an action is applied
 to a Leaf, and something happens. For example, *Open* can be an
-action that works with all FileLeaf.
+action that works with all ``FileLeaf``.
 
 
 A Short Working Example
 :::::::::::::::::::::::
 
 The very simplest thing we can do is to provide an action on
-objects that already exist in Kupfer. These actions appear in the right
-hand actions pane in kupfer, when an object of the right type is
+objects that already exist in Kupfer. These actions appear in the
+right-hand actions pane in kupfer, when an object of the right type is
 selected.
 
-The complete plugin python code::
+The complete python code for the plugin::
 
     __kupfer_name__ = _("Image Viewer")
     __kupfer_actions__ = ("View", )
@@ -140,7 +140,7 @@ The complete plugin python code::
             window.add(image_widget)
             window.present()
 
-That is all. We do the following:
+That is all. What we did was the following:
 
 * Declare a plugin called "Image Viewer" with an action class ``View``.
 * ``View`` declares that it works with ``FileLeaf``
@@ -150,7 +150,7 @@ That is all. We do the following:
 
 .. note::
 
-    Kupfer uses a very simplified programming style of composition and
+    Kupfer uses a simplified programming style of composition and
     cooperative superclasses.
 
     You normally never call a superclass implementation inside a method
@@ -164,9 +164,9 @@ That is all. We do the following:
 Reference
 =========
 
-Below follows a complete summary. But for more information, you should
-can kupfer's python interface documentation: go to the directory
-containing the kupfer module and do::
+Below follows a complete summary. To accompany this reference, you can
+read kupfer's inline module documentation with pydoc, by doing the
+following in the source directory::
 
     $ pydoc kupfer.obj.base
 
@@ -180,9 +180,6 @@ KupferObject
 
 KupferObject implements the things that are common to all objects:
 *name*, *description*, *icon*, *thumbnail* and *name aliases*.
-
-Methods that come from ``KupferObject`` that you can implement are the
-following:
 
 
 ``__init__(self, name)``
@@ -254,8 +251,8 @@ Leaf
 
 Leaf inherits from KupferObject.
 
-Leaf it represents an object that the user will want to act on. Examples
-are a file, an application or a Free-text query (TextLeaf).
+A Leaf represents an object that the user will want to act on. Examples
+are a file, an application or a free-text query (TextLeaf).
 
 This defines, in addition to KupferObject:
 
@@ -346,6 +343,10 @@ Activate: Carrying Out the Action
     something better than the equivalent of repeating ``activate``
     *n* for *n* objects.
 
+``activate`` and ``activate_multiple`` also receive a keyword argument
+called ``ctx`` if the action defines ``wants_context(self)`` to return
+``True``. See ``wants_context`` below for more information.
+
 
 Determining Eligible Objects
 ............................
@@ -381,6 +382,52 @@ Determining Eligible Objects
     This method, if defined,  will be called for each indirect object
     (with the direct object as ``for_item``), to decide if it can be
     used. Return ``True`` if it can be used.
+
+Auxiliary Method ``wants_context(self)``
+........................................
+
+``wants_context(self)``
+    Return ``True`` if ``activate`` should receive an ``ExecutionToken``
+    as the keyword argument ``ctx``. This allows posting late
+    (after-the-fact) results and errors, as well as allowing access to
+    the GUI environment.
+
+    ``wants_context`` defaults to ``False`` which corresponds to
+    the old protocol without ``ctx``.
+
+So instead of ``activate(self, obj)``, the method should be implemented
+as ``activate(self, obj, ctx)``.
+
+The object passed as ``ctx`` has the following interface:
+
+``ctx.register_late_result(result_object)``
+    Register the ``result_object`` as a late result. It must be a
+    ``Leaf``.
+
+``ctx.register_late_error(exc_info=None)``
+    Register an asynchronous error. (For synchronous errors, simply raise
+    an ``OperationError`` inside ``activate``.)
+
+    For asynchronous errors, call ``register_late_error``. If
+    ``exc_info`` is ``None``, the current exception is used.
+    If ``exc_info`` is an ``OperationError`` instance, then it is used
+    as error. Otherwise, a tuple like ``sys.exc_info()`` can be passed.
+
+``ctx.environment``
+    The environment object, which has the following methods:
+
+    ``get_timestamp(self)``
+        Return the current event timestamp
+
+    ``get_startup_notification_id(self)``
+        Make and return a startup notification id
+
+    ``get_display(self)``
+        Return the display name (i.e ``:0.0``)
+
+    ``present_window(self, window)``
+        Present ``window`` (a ``gtk.Window``) on the current
+        workspace and monitor using the current event time.
 
 
 Auxiliary Action Methods
@@ -537,6 +584,11 @@ Otherwise content-only sources are listed in ``__kupfer_contents__``.
     Return an instance of a Source (normally of the same type as the
     content decorator itself) that is the content for the object
     ``leaf``.  Return ``None`` if not applicable.
+
+    Sources returned from ``decorate_item`` go into the common Source
+    pool. The new source instance will not be used if the returned
+    instance is equivalent (as defined by class and ``reepr_key``
+    above).
     
 
 Source Attributes
@@ -713,28 +765,9 @@ can reuse.
 
 .. topic:: ``kupfer.commandexec``
 
-    ``DefaultActionExecutionContext()``
-        Returns a context object that is used in Action execution.
-        
-        Typical use inside an Action::
-
-            def activate(self, obj):
-                ctx = commandexec.DefaultActionExecutionContext()
-                token = ctx.get_async_token()
-
-                def callback_done(new_obj):
-                    ctx.register_late_result(token, new_obj)
-
-                def callback_error(errmsg):
-                    ctx.register_late_error(token, OperationError(errmsg))
-
-                # here we start an asynchronus call and
-                # provide callbacks
-                produce_something(obj, callback_done, callback_error)
-
-        So the action execution context can be used to tell
-        Kupfer about after-the-fact produced Leaves or after-the-fact
-        errors (to display for the user).
+    ``kupfer.commandexec`` is not used by plugins anymore
+    after version v204. See `Auxiliary Method wants_context(self)`_
+    above instead.
 
 .. topic:: ``kupfer.config``
 

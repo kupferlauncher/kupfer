@@ -19,45 +19,41 @@ from kupfer.objects import TextSource, Leaf, TextLeaf, Action, FileLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
-from kupfer import commandexec
 from kupfer import kupferstring
 from kupfer import pretty
 
-def finish_command(token, acommand, stdout, stderr, post_result=True):
+def finish_command(ctx, acommand, stdout, stderr, post_result=True):
 	"""Show async error if @acommand returns error output & error status.
 	Else post async result if @post_result.
 	"""
 	max_error_msg=512
 	pretty.print_debug(__name__, "Exited:", acommand)
-	ctx = commandexec.DefaultActionExecutionContext()
 	if acommand.exit_status != 0 and not stdout and stderr:
-		try:
-			errstr = kupferstring.fromlocale(stderr)[:max_error_msg]
-			raise OperationError(errstr)
-		except OperationError:
-			ctx.register_late_error(token)
+		errstr = kupferstring.fromlocale(stderr)[:max_error_msg]
+		ctx.register_late_error(OperationError(errstr))
 	elif post_result:
 		leaf = TextLeaf(kupferstring.fromlocale(stdout))
-		ctx.register_late_result(token, leaf)
+		ctx.register_late_result(leaf)
 
 
 class GetOutput (Action):
 	def __init__(self):
 		Action.__init__(self, _("Run (Get Output)"))
 
-	def activate(self, leaf):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		if isinstance(leaf, Command):
 			argv = ['sh', '-c', leaf.object, '--']
 		else:
 			argv = [leaf.object]
-		ctx = commandexec.DefaultActionExecutionContext()
-		token = ctx.get_async_token()
-		pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
-		acom = utils.AsyncCommand(argv, self.finish_callback, 15)
-		acom.token = token
 
-	def finish_callback(self, acommand, stdout, stderr):
-		finish_command(acommand.token, acommand, stdout, stderr)
+		def finish_callback(acommand, stdout, stderr):
+			finish_command(ctx, acommand, stdout, stderr)
+
+		pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
+		acom = utils.AsyncCommand(argv, finish_callback, 15)
 
 	def get_description(self):
 		return _("Run program and return its output") + u" \N{GEAR}"
@@ -68,24 +64,28 @@ class PassToCommand (Action):
 		# TRANS: is an argument to the command
 		Action.__init__(self, _("Pass to Command..."))
 
-	def activate(self, leaf, iobj):
-		self.activate_multiple((leaf,),(iobj, ))
+	def wants_context(self):
+		return True
 
-	def _run_command(self, objs, iobj):
+	def activate(self, leaf, iobj, ctx):
+		self.activate_multiple((leaf,),(iobj, ), ctx)
+
+	def _run_command(self, objs, iobj, ctx):
 		if isinstance(iobj, Command):
 			argv = ['sh', '-c', iobj.object + ' "$@"', '--']
 		else:
 			argv = [iobj.object]
-		argv.extend([o.object for o in objs])
-		ctx = commandexec.DefaultActionExecutionContext()
-		token = ctx.get_async_token()
-		pretty.print_debug(__name__, "Spawning without timeout")
-		acom = utils.AsyncCommand(argv, self.finish_callback, None)
-		acom.token = token
 
-	def activate_multiple(self, objs, iobjs):
+		def finish_callback(acommand, stdout, stderr):
+			finish_command(ctx, acommand, stdout, stderr, False)
+
+		argv.extend([o.object for o in objs])
+		pretty.print_debug(__name__, "Spawning without timeout")
+		acom = utils.AsyncCommand(argv, finish_callback, None)
+
+	def activate_multiple(self, objs, iobjs, ctx):
 		for iobj in iobjs:
-			self._run_command(objs, iobj)
+			self._run_command(objs, iobj, ctx)
 
 	def item_types(self):
 		yield TextLeaf
@@ -102,9 +102,6 @@ class PassToCommand (Action):
 		if isinstance(iobj, Command):
 			return True
 		return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
-
-	def finish_callback(self, acommand, stdout, stderr):
-		finish_command(acommand.token, acommand, stdout, stderr, False)
 
 	def get_description(self):
 		return _("Run program with object as an additional parameter") + \
@@ -116,18 +113,23 @@ class WriteToCommand (Action):
 		# TRANS: The user starts a program (command) and
 		# TRANS: the text is written on stdin
 		Action.__init__(self, _("Write to Command..."))
+		self.post_result = False
 
-	def activate(self, leaf, iobj):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, iobj, ctx):
 		if isinstance(iobj, Command):
 			argv = ['sh', '-c', iobj.object]
 		else:
 			argv = [iobj.object]
-		ctx = commandexec.DefaultActionExecutionContext()
-		token = ctx.get_async_token()
+
+		def finish_callback(acommand, stdout, stderr):
+			finish_command(ctx, acommand, stdout, stderr, self.post_result)
+
 		pretty.print_debug(__name__, "Spawning without timeout")
-		acom = utils.AsyncCommand(argv, self.finish_callback, None,
+		acom = utils.AsyncCommand(argv, finish_callback, None,
 		                          stdin=leaf.object)
-		acom.token = token
 
 	def item_types(self):
 		yield TextLeaf
@@ -144,9 +146,6 @@ class WriteToCommand (Action):
 			return True
 		return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
 
-	def finish_callback(self, acommand, stdout, stderr):
-		finish_command(acommand.token, acommand, stdout, stderr, False)
-
 	def get_description(self):
 		return _("Run program and supply text on the standard input") + \
 		        u" \N{GEAR}"
@@ -157,9 +156,7 @@ class FilterThroughCommand (WriteToCommand):
 		# TRANS: the text is written on stdin, and we
 		# TRANS: present the output (stdout) to the user.
 		Action.__init__(self, _("Filter through Command..."))
-
-	def finish_callback(self, acommand, stdout, stderr):
-		finish_command(acommand.token, acommand, stdout, stderr)
+		self.post_result = True
 
 	def get_description(self):
 		return _("Run program and supply text on the standard input") + \

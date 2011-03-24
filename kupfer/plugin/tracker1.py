@@ -1,8 +1,13 @@
 """
 Tracker plugins are versioned by the D-Bus API version
-This is version works with tracker 0.8.x, where the API is called Tracker1
+This is version works with tracker 0.8.x and 0.10.x, where the API is called
+Tracker1
+
+Tracker 0.10 has exactly the same Resources.SparqlQuery API, but according to
+its developers it does not have the same class signal api but that does not
+impact this plugin.
 """
-__kupfer_name__ = _("Tracker 0.8")
+__kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_contents__ = ("TrackerQuerySource", )
@@ -78,6 +83,7 @@ def sparql_escape(ustr):
 	sparql_escape_table = {
 		ord(u'\t'): ur'\t',
 		ord(u'\n'): ur'\n',
+		ord(u'\r'): ur'\r',
 		ord(u'\b'): ur'\b',
 		ord(u'\f'): ur'\f',
 		ord(u'"') : ur'\"',

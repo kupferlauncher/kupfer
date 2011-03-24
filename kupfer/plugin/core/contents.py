@@ -51,8 +51,10 @@ class About (RunnableLeaf):
 	def __init__(self, name=None):
 		if not name: name = _("About Kupfer")
 		super(About, self).__init__(name=name)
-	def run(self):
-		kupferui.show_about_dialog()
+	def wants_context(self):
+		return True
+	def run(self, ctx):
+		kupferui.show_about_dialog(ctx)
 	def get_description(self):
 		return _("Show information about Kupfer authors and license")
 	def get_icon_name(self):
@@ -62,8 +64,10 @@ class Help (RunnableLeaf):
 	def __init__(self, name=None):
 		if not name: name = _("Kupfer Help")
 		super(Help, self).__init__(name=name)
-	def run(self):
-		kupferui.show_help()
+	def wants_context(self):
+		return True
+	def run(self, ctx):
+		kupferui.show_help(ctx)
 	def get_description(self):
 		return _("Get help with Kupfer")
 	def get_icon_name(self):
@@ -73,8 +77,10 @@ class Preferences (RunnableLeaf):
 	def __init__(self, name=None):
 		if not name: name = _("Kupfer Preferences")
 		super(Preferences, self).__init__(name=name)
-	def run(self):
-		kupferui.show_preferences()
+	def wants_context(self):
+		return True
+	def run(self, ctx):
+		kupferui.show_preferences(ctx)
 	def get_description(self):
 		return _("Show preferences window for Kupfer")
 	def get_icon_name(self):

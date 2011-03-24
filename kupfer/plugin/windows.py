@@ -8,13 +8,9 @@ import gtk
 import wnck
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer.ui import keybindings
 from kupfer.weaklib import gobject_connect_weakly
 from kupfer.obj.helplib import PicklingHelperMixin
 
-
-def _get_current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
 
 class WindowLeaf (Leaf):
 	def get_actions(self):
@@ -109,10 +105,12 @@ class NextWindow (WindowLeaf):
 class WindowActivateWorkspace (Action):
 	def __init__(self, name=_("Go To")):
 		super(WindowActivateWorkspace, self).__init__(name)
-	def activate (self, leaf):
+	def wants_context(self):
+		return True
+	def activate (self, leaf, ctx):
 		window = leaf.object
 		workspace = window.get_workspace()
-		time = _get_current_event_time()
+		time = ctx.environment.get_timestamp()
 		workspace.activate(time)
 		window.activate(time)
 	def get_description(self):
@@ -124,11 +122,14 @@ class WindowMoveToWorkspace (Action):
 	def __init__(self):
 		Action.__init__(self, _("Move To..."))
 
-	def activate(self, leaf, iobj):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, iobj, ctx):
 		window = leaf.object
 		workspace = iobj.object
 		window.move_to_workspace(workspace)
-		time = _get_current_event_time()
+		time = ctx.environment.get_timestamp()
 		workspace.activate(time)
 		window.activate(time)
 
@@ -157,8 +158,11 @@ class WindowAction (Action):
 	def repr_key(self):
 		return self.action
 
-	def activate(self, leaf):
-		time = self._get_time() if self.time else None
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
+		time = self._get_time(ctx) if self.time else None
 		self._perform_action(self.action, leaf, time)
 
 	@classmethod
@@ -171,10 +175,10 @@ class WindowAction (Action):
 			action_method()
 
 	@classmethod
-	def _get_time(cls):
+	def _get_time(cls, ctx):
 		# @time will be != 0 if we are "inside"
 		# a current gtk event
-		return _get_current_event_time()
+		return ctx.environment.get_timestamp()
 
 	def get_icon_name(self):
 		if not self.icon_name:
@@ -195,10 +199,10 @@ class ToggleAction (WindowAction):
 		self.predicate = predicate
 		self.uaction = uaction
 
-	def activate(self, leaf):
+	def activate(self, leaf, ctx):
 		if self.predicate(leaf.object):
 			# only use time on the disable action
-			time = self._get_time() if self.time else None
+			time = self._get_time(ctx) if self.time else None
 			self._perform_action(self.uaction, leaf, time)
 		else:
 			self._perform_action(self.action, leaf)
@@ -243,18 +247,28 @@ class Workspace (Leaf):
 	def get_description(self):
 		screen = wnck.screen_get_default()
 		if screen:
-			wspc = screen.get_active_workspace()
-			if wspc == self.object:
-				return _("Active workspace")
+			n_windows = sum([1 for w in screen.get_windows()
+			                if w.get_workspace() == self.object])
+
+			w_msg = (ngettext("%d window", "%d windows", n_windows) % n_windows)
+
+			active_wspc = screen.get_active_workspace()
+			if active_wspc == self.object:
+				return _("Active workspace") + " (%s)" % w_msg
+			if n_windows:
+				return u"(%s)" % w_msg
+		return None
 
 class ActivateWorkspace (Action):
 	rank_adjust = 5
 	def __init__(self):
 		Action.__init__(self, _("Go To"))
 
-	def activate (self, leaf):
+	def wants_context(self):
+		return True
+	def activate (self, leaf, ctx):
 		workspace = leaf.object
-		time = _get_current_event_time()
+		time = ctx.environment.get_timestamp()
 		workspace.activate(time)
 
 	def get_description(self):

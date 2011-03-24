@@ -16,6 +16,8 @@ except (ImportError, dbus.exceptions.DBusException), exc:
 	session_bus = None
 	print exc
 
+from kupfer.ui import uievents
+
 class AlreadyRunningError (Exception):
 	"""Service already available on the bus Exception"""
 	pass
@@ -47,22 +49,16 @@ class Service (ExportedGObject):
 		if session_bus:
 			session_bus.release_name(server_name)
 
+	@classmethod
 	@dbus.service.method(interface_name)
 	def Present(self):
-		self.emit("present", 0)
+		self.emit("present")
 
 	@dbus.service.method(interface_name, in_signature="ay",
 	                     byte_arrays=True)
-	def PresentWithStartup(self, startup_notification_id):
-		# Try to parse out the time from the startup id
-		time = 0
-		if "_TIME" in startup_notification_id:
-			_ign, bstime = startup_notification_id.split("_TIME", 1)
-			try:
-				time = int(bstime)
-			except ValueError:
-				pass
-		self.emit("present", time)
+	def PresentWithStartup(self, notify_id):
+		with uievents.using_startup_notify_id(notify_id):
+			self.emit("present")
 
 	@dbus.service.method(interface_name)
 	def ShowHide(self):
@@ -83,12 +79,18 @@ class Service (ExportedGObject):
 	def ExecuteFile(self, filepath):
 		self.emit("execute-file", filepath)
 
+	@dbus.service.method(interface_name, in_signature="say",
+	                     byte_arrays=True)
+	def ExecuteFileWithStartup(self, filepath, notify_id):
+		with uievents.using_startup_notify_id(notify_id):
+			self.emit("execute-file", filepath)
+
 	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
 
 gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_UINT64, ))
+		gobject.TYPE_BOOLEAN, ())
 
 gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())

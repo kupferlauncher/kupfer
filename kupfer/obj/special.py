@@ -15,8 +15,11 @@ class PleaseConfigureLeaf(RunnableLeaf):
 		RunnableLeaf.__init__(self, plugin_id, self.message)
 		self.plugin_name = plugin_name
 
-	def run(self):
-		kupferui.show_plugin_info(self.object)
+	def wants_context(self):
+		return True
+
+	def run(self, ctx):
+		kupferui.show_plugin_info(self.object, ctx)
 
 	def get_icon_name(self):
 		return "preferences-desktop"

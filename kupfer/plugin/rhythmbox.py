@@ -281,8 +281,9 @@ class AlbumLeaf (TrackCollection):
 	def _get_thumb_rhythmbox(self):
 		artist = self.object[0]["artist"]
 		album = unicode(self)
-		return config.get_cache_file(("rhythmbox", "covers",
-		                              "%s - %s.jpg" % (artist, album)))
+		bs_artist_album = \
+			" - ".join([us.encode("ascii", "ignore") for us in (artist, album)])
+		return config.get_cache_file(("rhythmbox", "covers", bs_artist_album))
 
 	def get_thumbnail(self, width, height):
 		if not hasattr(self, "cover_file"):

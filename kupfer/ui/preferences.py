@@ -14,8 +14,10 @@ from kupfer import scheduler, kupferstring
 from kupfer import kupferui
 from kupfer.core import settings, plugins, relevance, sources
 from kupfer.ui import keybindings
+from kupfer.ui import uievents
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
+from kupfer.ui import accelerators
 from kupfer import plugin_support
 from kupfer import terminal
 
@@ -64,24 +66,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		"magickeybinding": keybindings.KEYBINDING_MAGIC,
 	}
 
-	ACCELERATOR_NAMES = {
-		# TRANS: Names of accelerators in the interface
-		'activate': _('Alternate Activate'),
-		# TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
-		# TRANS: user to select many objects to be used for one action
-		'comma_trick': _('Comma Trick'),
-		# TRANS: "Compose Command" makes one object out of the selected
-		# TRANS: object + action (+iobject)
-		'compose_action': _('Compose Command'),
-		'reset_all': _('Reset All'),
-		'select_quit': _('Select Quit'),
-		'select_selected_file': _('Select Selected File'),
-		'select_selected_text': _('Select Selected Text'),
-		'show_help': _('Show Help'),
-		'show_preferences': _('Show Preferences'),
-		'switch_to_source': _('Switch to First Pane'),
-		"toggle_text_mode_quick": _('Toggle Text Mode'),
-	}
 
 	def __init__(self):
 		"""Load ui from data file"""
@@ -230,15 +214,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 		names = self.KEYBINDING_NAMES
 		self.keybind_store.clear()
 		for binding in sorted(names, key=lambda k: names[k]):
-			accel = setctl.get_global_keybinding(binding)
+			accel = setctl.get_global_keybinding(binding) or ""
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(accel))
 			self.keybind_store.append((names[binding], label, binding))
 
 	def _show_gkeybindings(self, setctl):
-		names = self.ACCELERATOR_NAMES
+		names = accelerators.ACCELERATOR_NAMES
 		self.gkeybind_store.clear()
 		for binding in sorted(names, key=lambda k: names[k]):
-			accel = setctl.get_accelerator(binding)
+			accel = setctl.get_accelerator(binding) or ""
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(accel))
 			self.gkeybind_store.append((names[binding], label, binding))
 
@@ -680,9 +664,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 				action=gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
 					gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+		chooser_dialog.set_select_multiple(True)
 		if chooser_dialog.run() == gtk.RESPONSE_ACCEPT:
-			selected_dir = chooser_dialog.get_filename()
-			self.add_directory_model(selected_dir, store=True)
+			for selected_dir in chooser_dialog.get_filenames():
+				self.add_directory_model(selected_dir, store=True)
 		chooser_dialog.hide()
 
 	def on_buttonremovedirectory_clicked(self, widget):
@@ -815,9 +800,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 			self._update_alternative_combobox(category_key,
 					self.icons_combobox)
 
-	def show(self):
-		self.window.present()
-	def show_focus_plugin(self, plugin_id):
+	def show(self, timestamp):
+		self.window.present_with_time(timestamp)
+
+	def show_focus_plugin(self, plugin_id, timestamp):
 		"""
 		Open and show information about plugin @plugin_id
 		"""
@@ -830,7 +816,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table.set_cursor(table_path)
 		self.table.scroll_to_cell(table_path)
 		self.preferences_notebook.set_current_page(PLUGIN_LIST_PAGE)
-		self.window.present()
+		self.window.present_with_time(timestamp)
 
 	def hide(self):
 		self.window.hide()

@@ -10,7 +10,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from kupfer.objects import Action, Leaf
 from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
-from kupfer import commandexec
+from kupfer.core import commandexec
 from kupfer import pretty
 
 
@@ -29,7 +29,7 @@ class Select (Action):
 def _exec_no_show_result(composedleaf):
 	pretty.print_debug(__name__, "Evaluating command", composedleaf)
 	obj, action, iobj = composedleaf.object
-	ret = commandexec.activate_action(*composedleaf.object)
+	ret = commandexec.activate_action(None, *composedleaf.object)
 	result_type = commandexec.parse_action_result(action, ret)
 	if result_type == commandexec.RESULT_OBJECT:
 		return ret
@@ -83,7 +83,9 @@ class TakeResult (Action):
 		yield ComposedLeaf
 	def valid_for_item(self, leaf):
 		action = leaf.object[1]
-		return action.has_result() or action.is_factory()
+		return ((action.has_result() or
+		         action.is_factory()) and
+		         not action.wants_context())
 	def get_description(self):
 		return _("Take the command result as a proxy object")
 
@@ -92,8 +94,11 @@ class DiscardResult (Action):
 	def __init__(self):
 		Action.__init__(self, _("Run (Discard Result)"))
 
-	def activate(self, leaf):
-		commandexec.activate_action(*leaf.object)
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
+		commandexec.activate_action(ctx, *leaf.object)
 	def item_types(self):
 		yield ComposedLeaf
 	def valid_for_item(self, leaf):

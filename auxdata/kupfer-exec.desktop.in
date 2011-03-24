@@ -6,4 +6,5 @@ Exec=kupfer-exec %F
 _Name=Execute in Kupfer
 Icon=kupfer
 NoDisplay=true
+StartupNotify=true
 MimeType=text/x-kfcom;

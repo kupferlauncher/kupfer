@@ -41,8 +41,9 @@ class Open (Action):
 		if not def_app:
 			apps_for_type = gio.app_info_get_all_for_type(content_type)
 			raise NoDefaultApplicationError(
-					_("No default application for %(file)s (%(type)s)") % 
-					{"file": unicode(leaf), "type": content_type}
+					(_("No default application for %(file)s (%(type)s)") % 
+					 {"file": unicode(leaf), "type": content_type}) + "\n" +
+					_('Please use "%s"') % _("Set Default Application...")
 				)
 		return def_app
 

@@ -5,6 +5,7 @@ import math
 import os
 import signal
 import sys
+import textwrap
 import time
 
 try:
@@ -21,8 +22,10 @@ from kupfer import kupferui
 from kupfer import version
 
 from kupfer import scheduler
-from kupfer.ui  import listen
+from kupfer.ui import accelerators
 from kupfer.ui import keybindings
+from kupfer.ui import listen
+from kupfer.ui import uievents
 from kupfer.core import data, relevance, learn
 from kupfer.core import settings
 from kupfer import icons
@@ -1176,6 +1179,7 @@ class Interface (gobject.GObject):
 		self.switch_to_source()
 		while self._browse_up():
 			pass
+		self.toggle_text_mode(False)
 		self.data_controller.object_stack_clear_all()
 		self.reset_current()
 		self.reset()
@@ -1344,6 +1348,18 @@ class Interface (gobject.GObject):
 	def compose_action(self):
 		self.data_controller.compose_selection()
 
+	def mark_as_default(self):
+		if self.action.get_match_state() != State.Match:
+			return False
+		self.data_controller.mark_as_default(data.ActionPane)
+		return True
+
+	def erase_affinity_for_first_pane(self):
+		if self.search.get_match_state() != State.Match:
+			return False
+		self.data_controller.erase_object_affinity(data.SourcePane)
+		return True
+
 	def comma_trick(self):
 		if self.current.get_match_state() != State.Match:
 			return False
@@ -1360,13 +1376,37 @@ class Interface (gobject.GObject):
 		Get a list of (name, function) currently
 		active context actions
 		"""
+		def get_accel(key):
+			""" Return name, method pair for @key"""
+			if key not in accelerators.ACCELERATOR_NAMES:
+				raise RuntimeError("Missing accelerator: %s" % key)
+			return (accelerators.ACCELERATOR_NAMES[key], getattr(self, key))
+		def trunc(ustr):
+			"truncate long object names"
+			return ustr[:25]
 		has_match = self.current.get_match_state() == State.Match
 		if has_match:
-			yield (_("Compose Command"), self.compose_action)
-			#yield (_("Comma Trick"), self.comma_trick)
-		yield (_("Select Selected Text"), self.select_selected_text)
+			yield get_accel('compose_action')
+		yield get_accel('select_selected_text')
 		if self.get_can_enter_text_mode():
-			yield (_("Toggle Text Mode"), self.toggle_text_mode_quick)
+			yield get_accel('toggle_text_mode_quick')
+		if self.action.get_match_state() == State.Match:
+			smatch = self.search.get_current()
+			amatch = self.action.get_current()
+			label = (_('Make "%(action)s" Default for "%(object)s"') % {
+			         'action': trunc(unicode(amatch)),
+			         'object': trunc(unicode(smatch)),
+			         })
+			w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
+			yield (u"\n".join(w_label), self.mark_as_default)
+		if has_match:
+			if self.data_controller.get_object_has_affinity(data.SourcePane):
+				match = self.search.get_current()
+				# TRANS: Removing learned and/or configured bonus search score
+				yield (_('Forget About "%s"') % trunc(unicode(match)),
+				       self.erase_affinity_for_first_pane)
+		if has_match:
+			yield get_accel('reset_all')
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
@@ -1450,12 +1490,27 @@ class Interface (gobject.GObject):
 		pane = self._pane_for_widget(self.current)
 		self.data_controller.browse_down(pane, alternate=alternate)
 
+	def _make_gui_ctx(self):
+		timestamp = uievents.current_event_time()
+		return uievents.GUIEnvironmentContext(timestamp)
+
 	def _activate(self, widget, current):
-		self.data_controller.activate()
+		self.data_controller.activate(ui_ctx=self._make_gui_ctx())
 
 	def activate(self):
 		"""Activate current selection (Run action)"""
 		self._activate(None, None)
+
+	def execute_file(self, filepath):
+		"""Execute a .kfcom file"""
+		def _handle_error(exc_info):
+			from kupfer import uiutils
+			etype, exc, tb = exc_info
+			if not uiutils.show_notification(unicode(exc), icon_name="kupfer"):
+				raise
+		self.data_controller.execute_file(filepath, self._make_gui_ctx(),
+		                                  on_error=_handle_error)
+
 
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		# NOTE: "Always-matching" search.
@@ -1921,8 +1976,7 @@ class WindowController (pretty.OutputMixin):
 	def activate(self, sender=None, time=0):
 		self._window_hide_timer.invalidate()
 		if not time:
-			time = (gtk.get_current_event_time() or
-			        keybindings.get_current_event_time())
+			time = uievents.current_event_time()
 		if self._should_recenter_window():
 			self._center_window()
 		self.window.stick()
@@ -1966,13 +2020,7 @@ class WindowController (pretty.OutputMixin):
 		self.interface.put_files(fileuris)
 
 	def _execute_file_received(self, sender, filepath):
-		from kupfer import execfile
-		from kupfer import uiutils
-		try:
-			execfile.execute_file(filepath)
-		except execfile.ExecutionError, exc:
-			if not uiutils.show_notification(unicode(exc)):
-				raise
+		self.interface.execute_file(filepath)
 
 	def _close_window(self, window, event):
 		self.put_away()

@@ -32,6 +32,10 @@ def setup_locale_and_gettext():
 
 setup_locale_and_gettext()
 
+def prt(*args):
+	enc = locale.getpreferredencoding(do_setlocale=False)
+	print (u" ".join(args)).encode(enc, "replace")
+
 def get_options():
 	"""Return a list of other application flags with --* prefix included."""
 
@@ -46,6 +50,7 @@ def get_options():
 	]
 
 	import getopt
+
 	def make_help_text():
 		usage_string = _("Usage: kupfer [ OPTIONS | FILE ... ]")
 		def format_options(opts):
@@ -71,20 +76,20 @@ def get_options():
 				[o for o,h in program_options] +
 				[o for o,h in misc_options])
 	except getopt.GetoptError, info:
-		print info
-		print make_help_text()
+		prt(info)
+		prt(make_help_text())
 		raise SystemExit
 
 	for k, v in opts:
 		if k == "--list-plugins":
-			print make_plugin_list()
+			prt(make_plugin_list())
 			raise SystemExit
 		if k == "--help":
-			print make_help_text()
+			prt(make_help_text())
 			raise SystemExit
 		if k == "--version":
 			print_version()
-			print
+			prt()
 			print_banner()
 			raise SystemExit
 		if k == "--debug":
@@ -96,7 +101,7 @@ def get_options():
 
 def print_version():
 	from kupfer import version
-	print version.PACKAGE_NAME, version.VERSION
+	prt(version.PACKAGE_NAME, version.VERSION)
 
 def print_banner():
 	from kupfer import version
@@ -105,12 +110,7 @@ def print_banner():
 		"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
 		"	%(COPYRIGHT)s\n"
 		"	%(WEBSITE)s\n") % vars(version)
-
-	# Be careful about unicode here, since it might stop the whole program
-	try:
-		print banner
-	except UnicodeEncodeError, e:
-		print banner.encode("ascii", "replace")
+	prt(banner)
 
 def _set_process_title_linux():
 	try:

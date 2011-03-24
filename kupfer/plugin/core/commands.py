@@ -4,7 +4,8 @@ import os
 
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer.obj.compose import ComposedLeaf
-from kupfer import execfile
+from kupfer import kupferstring
+from kupfer.core import execfile
 
 
 class SaveToFile (Action):
@@ -15,9 +16,10 @@ class SaveToFile (Action):
 		return True
 
 	def activate(self, obj, iobj):
-		execfile.save_to_file(obj, iobj.object)
+		filepath = kupferstring.tolocale(iobj.object)
+		execfile.save_to_file(obj, filepath)
 		execfile.update_icon(obj, iobj.object)
-		return FileLeaf(os.path.abspath(iobj.object))
+		return FileLeaf(os.path.abspath(filepath))
 
 	def item_types(self):
 		yield ComposedLeaf
