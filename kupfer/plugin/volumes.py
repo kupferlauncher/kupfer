@@ -9,7 +9,6 @@ import gio
 from kupfer.objects import Leaf, Action, Source, FileLeaf
 from kupfer.obj.fileactions import Open, OpenTerminal
 from kupfer.objects import OperationError
-from kupfer import commandexec
 from kupfer import utils
 
 
@@ -51,30 +50,29 @@ class Unmount (Action):
 	def __init__(self, name=None):
 		super(Unmount, self).__init__(name or _("Unmount"))
 
-	def eject_callback(self, mount, async_result, token):
-		ctx = commandexec.DefaultActionExecutionContext()
+	def eject_callback(self, mount, async_result, ctx):
 		try:
 			mount.eject_finish(async_result)
 		except gio.Error:
-			ctx.register_late_error(token)
+			ctx.register_late_error()
 
-	def unmount_callback(self, mount, async_result, token):
-		ctx = commandexec.DefaultActionExecutionContext()
+	def unmount_callback(self, mount, async_result, ctx):
 		try:
 			mount.unmount_finish(async_result)
 		except gio.Error:
-			ctx.register_late_error(token)
+			ctx.register_late_error()
 
-	def activate(self, leaf):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		if not leaf.is_valid():
 			return
-		ctx = commandexec.DefaultActionExecutionContext()
-		token = ctx.get_async_token()
 		vol = leaf.volume
 		if vol.can_eject():
-			vol.eject(self.eject_callback, user_data=token)
+			vol.eject(self.eject_callback, user_data=ctx)
 		elif vol.can_unmount():
-			vol.unmount(self.unmount_callback, user_data=token)
+			vol.unmount(self.unmount_callback, user_data=ctx)
 
 	def get_description(self):
 		return _("Unmount this volume")
