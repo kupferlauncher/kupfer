@@ -1477,14 +1477,27 @@ class Interface (gobject.GObject):
 		pane = self._pane_for_widget(self.current)
 		self.data_controller.browse_down(pane, alternate=alternate)
 
-	def _activate(self, widget, current):
+	def _make_gui_ctx(self):
 		timestamp = uievents.current_event_time()
-		ctx = uievents.GUIEnvironmentContext(timestamp)
-		self.data_controller.activate(ui_ctx=ctx)
+		return uievents.GUIEnvironmentContext(timestamp)
+
+	def _activate(self, widget, current):
+		self.data_controller.activate(ui_ctx=self._make_gui_ctx())
 
 	def activate(self):
 		"""Activate current selection (Run action)"""
 		self._activate(None, None)
+
+	def execute_file(self, filepath):
+		"""Execute a .kfcom file"""
+		def _handle_error(exc_info):
+			from kupfer import uiutils
+			etype, exc, tb = exc_info
+			if not uiutils.show_notification(unicode(exc), icon_name="kupfer"):
+				raise
+		self.data_controller.execute_file(filepath, self._make_gui_ctx(),
+		                                  on_error=_handle_error)
+
 
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		# NOTE: "Always-matching" search.
@@ -1994,13 +2007,7 @@ class WindowController (pretty.OutputMixin):
 		self.interface.put_files(fileuris)
 
 	def _execute_file_received(self, sender, filepath):
-		from kupfer import execfile
-		from kupfer import uiutils
-		try:
-			execfile.execute_file(filepath)
-		except execfile.ExecutionError, exc:
-			if not uiutils.show_notification(unicode(exc)):
-				raise
+		self.interface.execute_file(filepath)
 
 	def _close_window(self, window, event):
 		self.put_away()

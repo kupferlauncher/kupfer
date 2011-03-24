@@ -3,6 +3,7 @@ from __future__ import with_statement
 import itertools
 import operator
 import os
+import sys
 
 import gobject
 gobject.threads_init()
@@ -16,6 +17,7 @@ from kupfer.core import search, learn
 from kupfer.core import settings
 from kupfer.core import qfurl
 from kupfer.core import pluginload
+from kupfer.core import execfile
 
 from kupfer.core.sources import GetSourceController
 
@@ -800,6 +802,19 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 		if res not in commandexec.RESULTS_SYNC:
 			self.emit("launched-action")
+
+	def execute_file(self, filepath, ui_ctx, on_error):
+		try:
+			cmd_objs = execfile.parse_kfcom_file(filepath)
+			ctx = self._execution_context
+			ctx.run(*cmd_objs, ui_ctx=ui_ctx)
+			return True
+		except commandexec.ActionExecutionError:
+			self.output_exc()
+			return
+		except execfile.ExecutionError:
+			on_error(sys.exc_info())
+			return False
 
 	def _insert_object(self, pane, obj):
 		"Insert @obj in @pane: prepare the object, then emit pane-reset"
