@@ -237,11 +237,19 @@ class Action (KupferObject):
 		"""by default, actions of one type are all the same"""
 		return ""
 
-	def activate(self, leaf, obj=None):
-		"""Use this action with @leaf and @obj
+	def activate(self, obj, iobj=None, ctx=None):
+		"""Use this action with @obj and @iobj
 
-		@leaf: the object (Leaf)
-		@obj: an indirect object (Leaf), if self.requires_object
+		@obj:  the direct object (Leaf)
+		@iobj: the indirect object (Leaf), if ``self.requires_object``
+			   returns ``False``
+
+		if ``self.wants_context`` returns ``True``, then the action
+		also receives an execution context object as ``ctx``.
+
+		Also, ``activate_multiple(self, objects, iobjects=None, ctx=None)``
+		is called if it is defined and the action gets either
+		multiple objects or iobjects.
 		"""
 		pass
 
