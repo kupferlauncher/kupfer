@@ -1478,7 +1478,9 @@ class Interface (gobject.GObject):
 		self.data_controller.browse_down(pane, alternate=alternate)
 
 	def _activate(self, widget, current):
-		self.data_controller.activate()
+		timestamp = uievents.current_event_time()
+		ctx = uievents.GUIEnvironmentContext(timestamp)
+		self.data_controller.activate(ui_ctx=ctx)
 
 	def activate(self):
 		"""Activate current selection (Run action)"""

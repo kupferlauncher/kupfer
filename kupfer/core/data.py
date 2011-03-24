@@ -778,15 +778,17 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if panectl.browse_down(alternate=alternate):
 			learn.record_search_hit(sel, key)
 
-	def activate(self):
+	def activate(self, ui_ctx=None):
 		"""
 		Activate current selection
+
+		@ui_ctx: GUI environment context object
 		"""
 		leaf, action, sobject = self._get_current_command_objects()
 		mode = self.mode
 		try:
 			ctx = self._execution_context
-			res, ret = ctx.run(leaf, action, sobject)
+			res, ret = ctx.run(leaf, action, sobject, ui_ctx=ui_ctx)
 		except commandexec.ActionExecutionError:
 			self.output_exc()
 			return

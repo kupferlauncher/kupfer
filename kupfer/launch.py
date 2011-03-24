@@ -11,11 +11,9 @@ from kupfer import desktop_launch
 from kupfer.ui import uievents
 from kupfer import terminal
 
-from kupfer.ui.uievents import make_startup_notification_id
 from kupfer.desktop_launch import SpawnError
 
-## NOTE: SpawnError and make_startup_notification_id
-## they *should* be imported from this module
+## NOTE: SpawnError  *should* be imported from this module
 
 try:
 	import wnck

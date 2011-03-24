@@ -153,15 +153,19 @@ class ExecutionToken (object):
 	def delegated_run(self, *objs):
 		return self._aectx.run(*objs, delegate=True)
 
-	def get_environment_timestamp(self):
-		raise NotImplementedError
+	@property
+	def environment(self):
+		"""This is a property for the current environment,
+		acess env variables like this::
 
-	def get_environment_startup_notification_id(self):
-		raise NotImplementedError
+			ctx.environment.get_timestamp()
 
-	def get_environment_screen(self):
-		raise NotImplementedError
-
+		Raises RuntimeError when not available.
+		"""
+		if self._ui_ctx is not None:
+			return self._ui_ctx
+		else:
+			raise RuntimeError("Environment Context not available")
 
 class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 	"""
@@ -267,7 +271,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		if res_type == RESULT_OBJECT:
 			self.last_results.append(result)
 
-	def run(self, obj, action, iobj, delegate=False):
+	def run(self, obj, action, iobj, delegate=False, ui_ctx=None):
 		"""
 		Activate the command (obj, action, iobj), where @iobj may be None
 
@@ -285,7 +289,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 			raise ActionExecutionError("%s requires indirect object" % action)
 
 		# The execution token object for the current invocation
-		execution_token = ExecutionToken(self, self.get_async_token(), None)
+		execution_token = ExecutionToken(self, self.get_async_token(), ui_ctx)
 		with self._error_conversion(obj, action, iobj):
 			with self._nesting():
 				ret = activate_action(execution_token, obj, action, iobj)

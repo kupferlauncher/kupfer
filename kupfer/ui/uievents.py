@@ -6,6 +6,18 @@ import gtk
 from kupfer import pretty
 from kupfer.ui import keybindings
 
+class GUIEnvironmentContext (object):
+	"""
+	Context object for action execution
+	in the current GUI context
+	"""
+	def __init__(self, timestamp):
+		self._timestamp = timestamp
+	def get_timestamp(self):
+		return self._timestamp
+	def get_startup_notification_id(self):
+		return _make_startup_notification_id(self.get_timestamp())
+
 class _internal_data (object):
 	seq = 0
 	current_event_time = 0
@@ -14,9 +26,7 @@ class _internal_data (object):
 	def inc_seq(cls):
 		cls.seq = cls.seq + 1
 
-
-def make_startup_notification_id():
-	time = current_event_time()
+def _make_startup_notification_id(time):
 	_internal_data.inc_seq()
 	return "%s-%d-%s_TIME%d" % ("kupfer", os.getpid(), _internal_data.seq, time)
 
