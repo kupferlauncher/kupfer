@@ -1176,6 +1176,7 @@ class Interface (gobject.GObject):
 		self.switch_to_source()
 		while self._browse_up():
 			pass
+		self.toggle_text_mode(False)
 		self.data_controller.object_stack_clear_all()
 		self.reset_current()
 		self.reset()
@@ -1383,13 +1384,15 @@ class Interface (gobject.GObject):
 			# TRANS: Remember = Make the action '%s' default
 			yield (_('Remember "%s" for this Object') % unicode(match),
 			       self.mark_as_default)
-		if self.search.get_match_state() == State.Match:
+		if has_match:
 			if self.data_controller.get_object_has_affinity(data.SourcePane):
 				match = self.search.get_current()
 				# TRANS: Affinity= learned and/or configured bonus rank
 				# TRANS: when matching it in search
 				yield (_('Forget Affinity for "%s"') % unicode(match),
 				       self.erase_affinity_for_first_pane)
+		if has_match:
+			yield (_("Reset All"), self.reset_all)
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)
