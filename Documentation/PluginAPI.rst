@@ -11,8 +11,8 @@ Introduction
 ============
 
 Kupfer is a Python program that allows loading extension modules
-at runtime. One plugin is equivalent to one Python module implemented
-as one .py file or a Python package.
+at runtime. A plugin is equivalent to one Python module implemented
+as one ``.py`` file or as a Python package.
 
 The ``kupfer`` package is organized as follows::
 
@@ -26,9 +26,9 @@ The ``kupfer`` package is organized as follows::
             ...
         ...
 
-Plug-ins live in the package ``kupfer.plugin``. Kupfer also includes
-directories called ``kupfer/plugins`` from XDG_DATA_DIRS which typically
-means ``/usr/share/kupfer/plugins`` and
+Plugins live in the package ``kupfer.plugin``. Kupfer also includes
+directories called ``kupfer/plugins`` from ``$XDG_DATA_DIRS``, which
+typically means ``/usr/share/kupfer/plugins`` and
 ``$HOME/.local/share/kupfer/plugins``. These directories are
 transparently included into the kupfer package, so the user has multiple
 choices of where to install plugins.
@@ -69,11 +69,11 @@ They should be tuples of *names* of classes in the module:
 * all text sources have to be subclasses of ``kupfer.objects.TextSource``
 * all actions have to be subclasses of ``kupfer.objects.Action``
 
-So your example plugin declaring::
+If an example plugin declares::
 
     __kupfer_sources__ = ("DocumentSource", )
 
-will later in the file define this class::
+it will later in the file define the class ``DocumentSource``::
 
     from kupfer.objects import Source
 
@@ -100,18 +100,18 @@ particular folder.
 
 An **Action** is the part where something happens, an action is applied
 to a Leaf, and something happens. For example, *Open* can be an
-action that works with all FileLeaf.
+action that works with all ``FileLeaf``.
 
 
 A Short Working Example
 :::::::::::::::::::::::
 
 The very simplest thing we can do is to provide an action on
-objects that already exist in Kupfer. These actions appear in the right
-hand actions pane in kupfer, when an object of the right type is
+objects that already exist in Kupfer. These actions appear in the
+right-hand actions pane in kupfer, when an object of the right type is
 selected.
 
-The complete plugin python code::
+The complete python code for the plugin::
 
     __kupfer_name__ = _("Image Viewer")
     __kupfer_actions__ = ("View", )
@@ -140,7 +140,7 @@ The complete plugin python code::
             window.add(image_widget)
             window.present()
 
-That is all. We do the following:
+That is all. What we did was the following:
 
 * Declare a plugin called "Image Viewer" with an action class ``View``.
 * ``View`` declares that it works with ``FileLeaf``
@@ -150,7 +150,7 @@ That is all. We do the following:
 
 .. note::
 
-    Kupfer uses a very simplified programming style of composition and
+    Kupfer uses a simplified programming style of composition and
     cooperative superclasses.
 
     You normally never call a superclass implementation inside a method
@@ -164,9 +164,9 @@ That is all. We do the following:
 Reference
 =========
 
-Below follows a complete summary. But for more information, you should
-can kupfer's python interface documentation: go to the directory
-containing the kupfer module and do::
+Below follows a complete summary. To accompany this reference, you can
+read kupfer's inline module documentation with pydoc, by doing the
+following in the source directory::
 
     $ pydoc kupfer.obj.base
 
@@ -180,9 +180,6 @@ KupferObject
 
 KupferObject implements the things that are common to all objects:
 *name*, *description*, *icon*, *thumbnail* and *name aliases*.
-
-Methods that come from ``KupferObject`` that you can implement are the
-following:
 
 
 ``__init__(self, name)``
@@ -254,8 +251,8 @@ Leaf
 
 Leaf inherits from KupferObject.
 
-Leaf it represents an object that the user will want to act on. Examples
-are a file, an application or a Free-text query (TextLeaf).
+A Leaf represents an object that the user will want to act on. Examples
+are a file, an application or a free-text query (TextLeaf).
 
 This defines, in addition to KupferObject:
 
