@@ -21,8 +21,9 @@ from kupfer import kupferui
 from kupfer import version
 
 from kupfer import scheduler
-from kupfer.ui import listen
+from kupfer.ui import accelerators
 from kupfer.ui import keybindings
+from kupfer.ui import listen
 from kupfer.ui import uievents
 from kupfer.core import data, relevance, learn
 from kupfer.core import settings
@@ -1353,9 +1354,10 @@ class Interface (gobject.GObject):
 		return True
 
 	def erase_affinity_for_first_pane(self):
+		if self.search.get_match_state() != State.Match:
+			return False
 		self.data_controller.erase_object_affinity(data.SourcePane)
 		return True
-
 
 	def comma_trick(self):
 		if self.current.get_match_state() != State.Match:
@@ -1373,13 +1375,17 @@ class Interface (gobject.GObject):
 		Get a list of (name, function) currently
 		active context actions
 		"""
+		def get_accel(key):
+			""" Return name, method pair for @key"""
+			if key not in accelerators.ACCELERATOR_NAMES:
+				raise RuntimeError("Missing accelerator: %s" % key)
+			return (accelerators.ACCELERATOR_NAMES[key], getattr(self, key))
 		has_match = self.current.get_match_state() == State.Match
 		if has_match:
-			yield (_("Compose Command"), self.compose_action)
-			#yield (_("Comma Trick"), self.comma_trick)
-		yield (_("Select Selected Text"), self.select_selected_text)
+			yield get_accel('compose_action')
+		yield get_accel('select_selected_text')
 		if self.get_can_enter_text_mode():
-			yield (_("Toggle Text Mode"), self.toggle_text_mode_quick)
+			yield get_accel('toggle_text_mode_quick')
 		if self.action.get_match_state() == State.Match:
 			smatch = self.search.get_current()
 			amatch = self.action.get_current()
@@ -1394,7 +1400,7 @@ class Interface (gobject.GObject):
 				yield (_('Forget About "%s"') % unicode(match),
 				       self.erase_affinity_for_first_pane)
 		if has_match:
-			yield (_("Reset All"), self.reset_all)
+			yield get_accel('reset_all')
 
 	def _pane_reset(self, controller, pane, item):
 		wid = self._widget_for_pane(pane)

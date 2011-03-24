@@ -17,6 +17,7 @@ from kupfer.ui import keybindings
 from kupfer.ui import uievents
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
+from kupfer.ui import accelerators
 from kupfer import plugin_support
 from kupfer import terminal
 
@@ -65,24 +66,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		"magickeybinding": keybindings.KEYBINDING_MAGIC,
 	}
 
-	ACCELERATOR_NAMES = {
-		# TRANS: Names of accelerators in the interface
-		'activate': _('Alternate Activate'),
-		# TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
-		# TRANS: user to select many objects to be used for one action
-		'comma_trick': _('Comma Trick'),
-		# TRANS: "Compose Command" makes one object out of the selected
-		# TRANS: object + action (+iobject)
-		'compose_action': _('Compose Command'),
-		'reset_all': _('Reset All'),
-		'select_quit': _('Select Quit'),
-		'select_selected_file': _('Select Selected File'),
-		'select_selected_text': _('Select Selected Text'),
-		'show_help': _('Show Help'),
-		'show_preferences': _('Show Preferences'),
-		'switch_to_source': _('Switch to First Pane'),
-		"toggle_text_mode_quick": _('Toggle Text Mode'),
-	}
 
 	def __init__(self):
 		"""Load ui from data file"""
@@ -231,15 +214,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 		names = self.KEYBINDING_NAMES
 		self.keybind_store.clear()
 		for binding in sorted(names, key=lambda k: names[k]):
-			accel = setctl.get_global_keybinding(binding)
+			accel = setctl.get_global_keybinding(binding) or ""
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(accel))
 			self.keybind_store.append((names[binding], label, binding))
 
 	def _show_gkeybindings(self, setctl):
-		names = self.ACCELERATOR_NAMES
+		names = accelerators.ACCELERATOR_NAMES
 		self.gkeybind_store.clear()
 		for binding in sorted(names, key=lambda k: names[k]):
-			accel = setctl.get_accelerator(binding)
+			accel = setctl.get_accelerator(binding) or ""
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(accel))
 			self.gkeybind_store.append((names[binding], label, binding))
 
