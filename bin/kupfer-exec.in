@@ -12,11 +12,16 @@ then
 	exit 1
 fi
 
+SERVICE="se.kaizer.kupfer"
+OBJ="/interface"
+IFACE="se.kaizer.kupfer.Listener"
+
 while test $# != 0
 do
 	FILE=$(readlink -f "$1")
-	dbus-send --print-reply --dest=se.kaizer.kupfer /interface \
-		se.kaizer.kupfer.Listener.ExecuteFile string:"$FILE" \
+	dbus-send --print-reply --dest=$SERVICE $OBJ \
+		$IFACE.ExecuteFileWithStartup string:"$FILE" \
+		string:"$DESKTOP_STARTUP_ID" \
 		> /dev/null 2>&1
 	KUPFER_RUNNING=$?
 

@@ -21,8 +21,9 @@ from kupfer import kupferui
 from kupfer import version
 
 from kupfer import scheduler
-from kupfer.ui  import listen
+from kupfer.ui import listen
 from kupfer.ui import keybindings
+from kupfer.ui import uievents
 from kupfer.core import data, relevance, learn
 from kupfer.core import settings
 from kupfer import icons
@@ -1947,8 +1948,7 @@ class WindowController (pretty.OutputMixin):
 	def activate(self, sender=None, time=0):
 		self._window_hide_timer.invalidate()
 		if not time:
-			time = (gtk.get_current_event_time() or
-			        keybindings.get_current_event_time())
+			time = uievents.current_event_time()
 		if self._should_recenter_window():
 			self._center_window()
 		self.window.stick()

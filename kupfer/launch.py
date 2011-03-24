@@ -8,10 +8,14 @@ import gobject
 from kupfer import pretty, config
 from kupfer import scheduler
 from kupfer import desktop_launch
-from kupfer.ui import keybindings
+from kupfer.ui import uievents
 from kupfer import terminal
 
+from kupfer.ui.uievents import make_startup_notification_id
 from kupfer.desktop_launch import SpawnError
+
+## NOTE: SpawnError and make_startup_notification_id
+## they *should* be imported from this module
 
 try:
 	import wnck
@@ -28,24 +32,6 @@ default_associations = {
 	"nautilus-browser" : "File Manager",
 	"rhythmbox" : "Rhythmbox Music Player",
 }
-
-
-_seq = [0]
-_latest_event_time = 0
-
-def make_startup_notification_id():
-	time = _current_event_time()
-	_seq[0] = _seq[0] + 1
-	return "%s-%d-%s_TIME%d" % ("kupfer", os.getpid(), _seq[0], time)
-
-def _current_event_time():
-	_time = gtk.get_current_event_time() or keybindings.get_current_event_time()
-	global _latest_event_time
-	if _time > 0:
-		_latest_event_time = _time
-	else:
-		_time = _latest_event_time
-	return _time
 
 
 def application_id(app_info, desktop_file=None):
@@ -104,7 +90,8 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 
 	try:
 		desktop_launch.launch_app_info(app_info, files,
-			   timestamp=_current_event_time(), desktop_file=desktop_file,
+			   timestamp=uievents.current_event_time(),
+			   desktop_file=desktop_file,
 			   launch_cb=launch_callback)
 	except SpawnError:
 		raise
@@ -243,7 +230,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			return False
 
 		# for now, just take any window
-		evttime = _current_event_time()
+		evttime = uievents.current_event_time()
 		for w in application_windows:
 			# we special-case the desktop
 			# only show desktop if it's the only window of this app
@@ -261,7 +248,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	def application_close_all(self, app_id):
 		application_windows = self.get_application_windows(app_id)
-		evttime = _current_event_time()
+		evttime = uievents.current_event_time()
 		for w in application_windows:
 			if not w.is_skip_tasklist():
 				w.close(evttime)

@@ -14,6 +14,7 @@ from kupfer import scheduler, kupferstring
 from kupfer import kupferui
 from kupfer.core import settings, plugins, relevance, sources
 from kupfer.ui import keybindings
+from kupfer.ui import uievents
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
 from kupfer import plugin_support
@@ -816,7 +817,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 					self.icons_combobox)
 
 	def show(self):
-		self.window.present()
+		self.window.present_with_time(uievents.current_event_time())
+
 	def show_focus_plugin(self, plugin_id):
 		"""
 		Open and show information about plugin @plugin_id

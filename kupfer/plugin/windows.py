@@ -8,13 +8,13 @@ import gtk
 import wnck
 
 from kupfer.objects import Leaf, Action, Source
-from kupfer.ui import keybindings
+from kupfer.ui import uievents
 from kupfer.weaklib import gobject_connect_weakly
 from kupfer.obj.helplib import PicklingHelperMixin
 
 
 def _get_current_event_time():
-	return gtk.get_current_event_time() or keybindings.get_current_event_time()
+	return uievents.current_event_time()
 
 class WindowLeaf (Leaf):
 	def get_actions(self):
