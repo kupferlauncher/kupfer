@@ -11,7 +11,7 @@ from kupfer import icons
 from kupfer import kupferui
 
 # Since this is a core plugin we break some rules
-# This module is normally out of bounds for plugins
+# These modules are normally out of bounds for plugins
 from kupfer.core import plugins, settings
 
 
@@ -100,5 +100,25 @@ class KupferPlugins (Source):
 	def provides(self):
 		yield Plugin
 
-	def get_gicon(self):
-		return icons.ComposedIcon("package-x-generic", "package-x-generic")
+	def get_icon_name(self):
+		return "package-x-generic"
+
+	@classmethod
+	def decorates_type(cls):
+		return Plugin
+
+	@classmethod
+	def decorate_item(cls, obj):
+		if cls.is_self_plugin(obj):
+			return cls()
+
+	@classmethod
+	def is_self_plugin(cls, obj):
+		self_plug_id = __name__.split(".")[-1]
+		return obj.object['name'] == self_plug_id
+
+	def get_leaf_repr(self):
+		for obj in self.get_leaves():
+			if self.is_self_plugin(obj):
+				return obj
+
