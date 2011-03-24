@@ -68,33 +68,40 @@ def _get_leaf_members(leaf):
 def _is_multiple(leaf):
 	return hasattr(leaf, "get_multiple_leaf_representation")
 
-def activate_action(obj, action, iobj):
-	""" Activate @action in simplest manner """
-	if not _is_multiple(obj) and not _is_multiple(iobj):
-		return _activate_action_single(obj, action, iobj)
-	else:
-		return _activate_action_multiple(obj, action, iobj)
+def _wants_context(action):
+	return action.wants_context()
 
-def _activate_action_single(obj, action, iobj):
-	if action.requires_object():
-		ret = action.activate(obj, iobj)
+def activate_action(context, obj, action, iobj):
+	""" Activate @action in simplest manner """
+	kwargs = {}
+	if _wants_context(action):
+		kwargs['ctx'] = context
+	if not _is_multiple(obj) and not _is_multiple(iobj):
+		return _activate_action_single(obj, action, iobj, kwargs)
 	else:
-		ret = action.activate(obj)
+		return _activate_action_multiple(obj, action, iobj, kwargs)
+
+def _activate_action_single(obj, action, iobj, kwargs):
+	if action.requires_object():
+		ret = action.activate(obj, iobj, **kwargs)
+	else:
+		ret = action.activate(obj, **kwargs)
 	return ret
 
-def _activate_action_multiple(obj, action, iobj):
+def _activate_action_multiple(obj, action, iobj, kwargs):
 	if not hasattr(action, "activate_multiple"):
 		iobjs = (None, ) if iobj is None else _get_leaf_members(iobj)
 		return _activate_action_multiple_multiplied(_get_leaf_members(obj),
-				action, iobjs)
+				action, iobjs, kwargs)
 
 	if action.requires_object():
-		ret = action.activate_multiple(_get_leaf_members(obj), _get_leaf_members(iobj))
+		ret = action.activate_multiple(_get_leaf_members(obj),
+				_get_leaf_members(iobj), kwargs)
 	else:
-		ret = action.activate_multiple(_get_leaf_members(obj))
+		ret = action.activate_multiple(_get_leaf_members(obj), **kwargs)
 	return ret
 
-def _activate_action_multiple_multiplied(objs, action, iobjs):
+def _activate_action_multiple_multiplied(objs, action, iobjs, kwargs):
 	"""
 	Multiple dispatch by "mulitplied" invocation of the simple activation
 
@@ -103,7 +110,7 @@ def _activate_action_multiple_multiplied(objs, action, iobjs):
 	rets = []
 	for L in objs:
 		for I in iobjs:
-			ret = _activate_action_single(L, action, I)
+			ret = _activate_action_single(L, action, I, kwargs)
 			rets.append(ret)
 	ctx = DefaultActionExecutionContext()
 	ret = ctx._combine_action_result_multiple(action, rets)
@@ -123,6 +130,37 @@ def parse_action_result(action, ret):
 	elif action.is_async() and valid_result(ret):
 		res = RESULT_ASYNC
 	return res
+
+class ExecutionToken (object):
+	"""
+	A token object that an ``Action`` carries with it
+	from ``activate``.
+
+	Must be used for access to current execution context,
+	and to access the environment.
+	"""
+	def __init__(self, aectx, async_token, ui_ctx):
+		self._aectx = aectx
+		self._token = async_token
+		self._ui_ctx = ui_ctx
+
+	def register_late_result(self, result_object, show=True):
+		self._aectx.register_late_result(self._token, result_object, show=show)
+
+	def register_late_error(self, exc_info=None):
+		self._aectx.register_late_error(self._token, exc_info)
+
+	def delegated_run(self, *objs):
+		return self._aectx.run(*objs, delegate=True)
+
+	def get_environment_timestamp(self):
+		raise NotImplementedError
+
+	def get_environment_startup_notification_id(self):
+		raise NotImplementedError
+
+	def get_environment_screen(self):
+		raise NotImplementedError
 
 
 class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
@@ -246,9 +284,11 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		if iobj is None and action.requires_object():
 			raise ActionExecutionError("%s requires indirect object" % action)
 
+		# The execution token object for the current invocation
+		execution_token = ExecutionToken(self, self.get_async_token(), None)
 		with self._error_conversion(obj, action, iobj):
 			with self._nesting():
-				ret = activate_action(obj, action, iobj)
+				ret = activate_action(execution_token, obj, action, iobj)
 
 		# remember last command, but not delegated commands.
 		if not delegate:

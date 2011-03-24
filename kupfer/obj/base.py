@@ -245,6 +245,14 @@ class Action (KupferObject):
 		"""
 		pass
 
+	def wants_context(self):
+		"""Return ``True`` if ``activate`` should receive the
+		ActionExecutionContext as the keyword argument context
+
+		Defaults to ``False`` in accordance with the old protocol
+		"""
+		return False
+
 	def is_factory(self):
 		"""Return whether action may return a result collection as a Source"""
 		return False
