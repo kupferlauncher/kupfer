@@ -363,8 +363,13 @@ class RunnableLeaf (Leaf):
 		Leaf.__init__(self, obj, name)
 	def get_actions(self):
 		yield Perform()
-	def run(self):
+	def run(self, ctx=None):
 		raise NotImplementedError
+	def wants_context(self):
+		""" Return ``True`` if you want the actions' execution
+		context passed as ctx= in RunnableLeaf.run
+		"""
+		return False
 	def repr_key(self):
 		return ""
 	def get_gicon(self):
@@ -382,8 +387,13 @@ class Perform (Action):
 		# TRANS: 'Run' as in Perform a (saved) command
 		if not name: name = _("Run")
 		super(Perform, self).__init__(name=name)
-	def activate(self, leaf):
-		return leaf.run()
+	def wants_context(self):
+		return True
+	def activate(self, leaf, ctx):
+		if leaf.wants_context():
+			return leaf.run(ctx)
+		else:
+			return leaf.run()
 	def get_description(self):
 		return _("Perform command")
 
