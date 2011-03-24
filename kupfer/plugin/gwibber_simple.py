@@ -11,7 +11,6 @@ __author__ = ""
 import dbus
 
 from kupfer.objects import Action, TextLeaf, OperationError
-from kupfer import commandexec
 from kupfer import plugin_support
 from kupfer import pretty
 
@@ -44,16 +43,17 @@ def _get_interface(activate=False):
 class SendUpdate (Action):
 	def __init__(self):
 		Action.__init__(self, _("Send Update"))
-	def activate(self, leaf):
-		ctx = commandexec.DefaultActionExecutionContext()
-		token = ctx.get_async_token()
 
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		def success_cb():
 			pretty.print_debug(__name__, "Successful D-Bus method call")
 
 		def err_cb(exc):
 			exc_info = (type(exc), exc, None)
-			ctx.register_late_error(token, exc_info)
+			ctx.register_late_error(exc_info)
 
 		gwibber = _get_interface(True)
 		if gwibber:
