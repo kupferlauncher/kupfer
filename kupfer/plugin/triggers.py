@@ -21,8 +21,8 @@ from kupfer import task
 
 from kupfer.ui import keybindings
 from kupfer.ui import uievents
-from kupfer import commandexec
 from kupfer.ui import getkey_dialog
+from kupfer.core import commandexec
 
 
 # we import the keybinder module for its side-effects --

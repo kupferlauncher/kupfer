@@ -10,14 +10,14 @@ gobject.threads_init()
 
 from kupfer.obj import base, sources, compose
 from kupfer import pretty, scheduler
-from kupfer import commandexec
-from kupfer.core import actioncompat
 from kupfer import datatools
+from kupfer.core import actioncompat
+from kupfer.core import commandexec
+from kupfer.core import execfile
+from kupfer.core import pluginload
+from kupfer.core import qfurl
 from kupfer.core import search, learn
 from kupfer.core import settings
-from kupfer.core import qfurl
-from kupfer.core import pluginload
-from kupfer.core import execfile
 
 from kupfer.core.sources import GetSourceController
 

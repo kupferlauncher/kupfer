@@ -1,7 +1,7 @@
 
 from kupfer.objects import Source, Leaf
 from kupfer.objects import RunnableLeaf
-from kupfer import commandexec
+from kupfer.core import commandexec
 
 __kupfer_sources__ = ("KupferInterals", "CommandResults", )
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

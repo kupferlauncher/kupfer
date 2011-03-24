@@ -10,7 +10,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from kupfer.objects import Action, Leaf
 from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
-from kupfer import commandexec
+from kupfer.core import commandexec
 from kupfer import pretty
 
 
