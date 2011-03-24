@@ -243,9 +243,17 @@ class Workspace (Leaf):
 	def get_description(self):
 		screen = wnck.screen_get_default()
 		if screen:
-			wspc = screen.get_active_workspace()
-			if wspc == self.object:
-				return _("Active workspace")
+			n_windows = sum([1 for w in screen.get_windows()
+			                if w.get_workspace() == self.object])
+
+			w_msg = (ngettext("%d window", "%d windows", n_windows) % n_windows)
+
+			active_wspc = screen.get_active_workspace()
+			if active_wspc == self.object:
+				return _("Active workspace") + " (%s)" % w_msg
+			if n_windows:
+				return u"(%s)" % w_msg
+		return None
 
 class ActivateWorkspace (Action):
 	rank_adjust = 5
