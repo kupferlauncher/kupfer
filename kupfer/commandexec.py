@@ -96,7 +96,7 @@ def _activate_action_multiple(obj, action, iobj, kwargs):
 
 	if action.requires_object():
 		ret = action.activate_multiple(_get_leaf_members(obj),
-				_get_leaf_members(iobj), kwargs)
+				_get_leaf_members(iobj), **kwargs)
 	else:
 		ret = action.activate_multiple(_get_leaf_members(obj), **kwargs)
 	return ret
