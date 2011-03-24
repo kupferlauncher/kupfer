@@ -584,6 +584,11 @@ Otherwise content-only sources are listed in ``__kupfer_contents__``.
     Return an instance of a Source (normally of the same type as the
     content decorator itself) that is the content for the object
     ``leaf``.  Return ``None`` if not applicable.
+
+    Sources returned from ``decorate_item`` go into the common Source
+    pool. The new source instance will not be used if the returned
+    instance is equivalent (as defined by class and ``reepr_key``
+    above).
     
 
 Source Attributes
