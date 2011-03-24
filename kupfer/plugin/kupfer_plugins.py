@@ -18,9 +18,13 @@ from kupfer.core import plugins, settings
 class ShowInfo (Action):
 	def __init__(self):
 		Action.__init__(self, _("Show Information"))
-	def activate(self, leaf):
+
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		plugin_id = leaf.object["name"]
-		kupferui.show_plugin_info(plugin_id)
+		kupferui.show_plugin_info(plugin_id, ctx)
 
 	def get_description(self):
 		pass

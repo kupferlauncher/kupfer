@@ -816,10 +816,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 			self._update_alternative_combobox(category_key,
 					self.icons_combobox)
 
-	def show(self):
-		self.window.present_with_time(uievents.current_event_time())
+	def show(self, timestamp):
+		self.window.present_with_time(timestamp)
 
-	def show_focus_plugin(self, plugin_id):
+	def show_focus_plugin(self, plugin_id, timestamp):
 		"""
 		Open and show information about plugin @plugin_id
 		"""
@@ -832,7 +832,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.table.set_cursor(table_path)
 		self.table.scroll_to_cell(table_path)
 		self.preferences_notebook.set_current_page(PLUGIN_LIST_PAGE)
-		self.window.present()
+		self.window.present_with_time(timestamp)
 
 	def hide(self):
 		self.window.hide()

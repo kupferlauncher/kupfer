@@ -5,7 +5,11 @@ import gtk
 
 from kupfer import utils, version
 
-def show_help():
+def _get_time(ctx):
+	return ctx.environment.get_timestamp() if ctx else \
+			gtk.get_current_event_time()
+
+def show_help(ctx=None):
 	"""
 	Show Kupfer help pages, if possible
 	"""
@@ -14,7 +18,7 @@ def show_help():
 
 _about_dialog = None
 
-def show_about_dialog(*ignored, **kwds):
+def show_about_dialog(ctx=None):
 	"""
 	create an about dialog and show it
 	"""
@@ -44,18 +48,18 @@ def show_about_dialog(*ignored, **kwds):
 		# do not delete window on close
 		ab.connect("delete-event", lambda *ign: True)
 		_about_dialog = ab
-	ab.present()
+	ab.present_with_time(_get_time(ctx))
 
 def _response_callback(dialog, response_id):
 	dialog.hide()
 
 
-def show_preferences():
+def show_preferences(ctx=None):
 	from kupfer.ui import preferences
 	win = preferences.GetPreferencesWindowController()
-	win.show()
+	win.show(_get_time(ctx))
 
-def show_plugin_info(plugin_id):
+def show_plugin_info(plugin_id, ctx=None):
 	from kupfer.ui import preferences
 	prefs = preferences.GetPreferencesWindowController()
-	prefs.show_focus_plugin(plugin_id)
+	prefs.show_focus_plugin(plugin_id, _get_time(ctx))
