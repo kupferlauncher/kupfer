@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 01:31+0100\n"
+"POT-Creation-Date: 2011-03-24 17:20+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -377,6 +377,13 @@ msgstr "Öppna"
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Det finns inget förvalt program för \"%(file)s\" (%(type)s)."
 
+#, python-format
+msgid "Please use \"%s\""
+msgstr "V.v. använd \"%s\""
+
+msgid "Set Default Application..."
+msgstr "Välj standardprogram..."
+
 msgid "Open with default application"
 msgstr "Öppna med förvalt program"
 
@@ -606,9 +613,6 @@ msgstr "Öppna med..."
 
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
-
-msgid "Set Default Application..."
-msgstr "Välj standardprogram..."
 
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
@@ -1413,6 +1417,10 @@ msgstr "Gajim-kontakter"
 msgid "Gajim Account Status"
 msgstr "Gajim status"
 
+#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
+msgid "Glob"
+msgstr "Glob"
+
 msgid "GNOME Terminal Profiles"
 msgstr "GNOME-terminal-profiler"
 
@@ -2157,8 +2165,8 @@ msgstr "Ta bort tagg..."
 msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
-msgid "Tracker 0.8"
-msgstr "Tracker 0.8"
+msgid "Tracker"
+msgstr "Tracker"
 
 #. FIXME: Port tracker tag sources and actions
 #. to the new, much more powerful sparql + dbus API

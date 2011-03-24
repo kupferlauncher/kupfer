@@ -81,6 +81,7 @@ kupfer/plugin/empathy.py
 kupfer/plugin/evolution.py
 kupfer/plugin/filezilla.py
 kupfer/plugin/gajim.py
+kupfer/plugin/glob.py
 kupfer/plugin/gnome_terminal.py
 kupfer/plugin/gmail/__init__.py
 kupfer/plugin/google_picasa/__init__.py
