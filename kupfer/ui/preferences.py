@@ -681,9 +681,10 @@ class PreferencesWindowController (pretty.OutputMixin):
 				action=gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
 					gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+		chooser_dialog.set_select_multiple(True)
 		if chooser_dialog.run() == gtk.RESPONSE_ACCEPT:
-			selected_dir = chooser_dialog.get_filename()
-			self.add_directory_model(selected_dir, store=True)
+			for selected_dir in chooser_dialog.get_filenames():
+				self.add_directory_model(selected_dir, store=True)
 		chooser_dialog.hide()
 
 	def on_buttonremovedirectory_clicked(self, widget):
