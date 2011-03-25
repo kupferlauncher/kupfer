@@ -329,7 +329,7 @@ class MatchView (gtk.Bin):
 		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=radius)
 		# Get the current selection color
 		newc = widget.style.bg[widget.get_state()]
-		context.set_operator(cairo.OPERATOR_OVER)
+		context.set_operator(cairo.OPERATOR_SOURCE)
 		opacity = 0.01*self.style_get_property('opacity')
 		context.set_source_rgba(newc.red*scale,
 				newc.green*scale, newc.blue*scale, opacity)
@@ -496,7 +496,7 @@ gtk.widget_class_install_style_property(MatchView,
 gtk.widget_class_install_style_property(MatchView,
 		('opacity', gobject.TYPE_INT, 'Bezel opacity',
 		 'Opacity of bezel around match',
-		 50, 100, 80,
+		 50, 100, 95,
 		 gobject.PARAM_READABLE))
 
 class Search (gtk.Bin):
