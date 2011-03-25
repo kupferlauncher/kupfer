@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-03-17 19:21+0000\n"
-"PO-Revision-Date: 2011-03-21 19:35+0100\n"
+"POT-Creation-Date: 2011-03-21 18:43+0000\n"
+"PO-Revision-Date: 2011-03-25 10:25+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,6 +51,8 @@ msgid ""
 "Type \"Search With\" to find Search the Web's action and tap <key>Tab</key> "
 "again to switch to the third pane (indirect object)."
 msgstr ""
+"Escriba «Buscar con» para buscar la acción «Buscar en la web» y pulse "
+"<key>Tab</key> otra vez para cambiar al tercer panel (objeto indirecto)."
 
 #: C/plugin-websearch.page:22(p)
 msgid ""
@@ -150,6 +152,11 @@ msgid ""
 "releasing <key>R</key> to bind <keyseq><key>Ctrl</key><key>Alt</key><key>R</"
 "key></keyseq>."
 msgstr ""
+"Usando la ventana que aparece, pulse las teclas modificadores y un número o "
+"una letra para establecer un atajo globa. Un ejemplo es pulsar y mantener "
+"<keyseq><key>Ctrl</key><key>Alt</key></keyseq> y entonces pulsar y soltar "
+"<key>R</key> para asociar <keyseq><key>Ctrl</key><key>Alt</key><key>R</key></"
+"keyseq>."
 
 #: C/plugin-triggers.page:54(title)
 msgid "Removing a trigger"
@@ -160,12 +167,16 @@ msgid ""
 "Find the source <em>Triggers</em> in <app>Kupfer</app> and press <key>→</"
 "key> to see its contents."
 msgstr ""
+"Encuentre la fuente de <em>Disparadores</em> en <app>Kupfer</app> y pulse "
+"<key>→</key> para ver su contenido."
 
 #: C/plugin-triggers.page:62(p)
 msgid ""
 "Find the active trigger in the list and use the action <em>Remove Trigger</"
 "em>."
 msgstr ""
+"Busque el disparador activo en la lista y use la acción <em>Quitar "
+"disparador</em>."
 
 #: C/plugin-triggers.page:68(p)
 msgid ""
@@ -173,6 +184,9 @@ msgid ""
 "application. Select shortcuts with care so that they do not conflict with "
 "other functions."
 msgstr ""
+"Ya que los disparadores de atajos de teclado son globales, se puede usar "
+"desde cualquier aplicación. Seleccione los atajos con cuidado para que no "
+"entren en conflicto con otras funciones."
 
 #: C/plugin-triggers.page:74(title) C/plugin-notes.page:60(title)
 #: C/plugin-gwibber.page:68(title) C/plugin-favorites.page:38(title)
@@ -234,6 +248,8 @@ msgid ""
 "You may even add a trigger to open a specific subcatalog in Kupfer, for "
 "example Rhythmbox's songs."
 msgstr ""
+"Incluso puede añadir un disparador para abrir un subcatálogo específico en "
+"Kupfer, por ejemplo, canciones de Rhythmbox."
 
 #: C/plugin-notes.page:7(desc)
 msgid "Using the notes plugin."
@@ -281,7 +297,7 @@ msgstr "Buscar una nota por título"
 
 #: C/plugin-notes.page:41(p)
 msgid "Simply search for the note title in <app>Kupfer</app>"
-msgstr ""
+msgstr "Simplemente busque el título de la nota en <app>Kupfer</app>."
 
 #: C/plugin-notes.page:45(title)
 msgid "Finding a note by content"
@@ -292,12 +308,16 @@ msgid ""
 "Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
 "search query"
 msgstr ""
+"Active Kupfer y escriba <key>.</key> para entrar en modo texto, y escriba "
+"una consulta de búsqueda."
 
 #: C/plugin-notes.page:53(p)
 msgid ""
 "Type <key>Tab</key> and select the action <em>Get Note Search Results...</"
 "em> and press <key>Return</key>."
 msgstr ""
+"Pulse <key>Tab</key> y seleccione la acción <em>Obtener los resultados de "
+"búsqueda de notas...</em> y pulse <key>Intro</key>."
 
 #: C/plugin-notes.page:63(p)
 msgid ""
@@ -321,6 +341,9 @@ msgid ""
 "object <app>Selected File</app>, which represents the file or files that are "
 "selected."
 msgstr ""
+"Seleccione un archivo en el gestor de archivos. Abra <app>Kupfer</app> y "
+"busque el objeto <app>Archivo seleccionado</app>, que representa el archivo "
+"o los archivos que están seleccionados."
 
 #: C/plugin-nautilusselection.page:19(p)
 msgid ""
@@ -331,7 +354,7 @@ msgstr ""
 
 #: C/plugin-nautilusselection.page:26(title)
 msgid "<app>Selected File</app> requires <app>Nautilus</app>"
-msgstr ""
+msgstr "<app>Archivo seleccionado</app> requiere <app>Nautilus</app>"
 
 #: C/plugin-nautilusselection.page:27(p)
 msgid ""
@@ -367,6 +390,9 @@ msgid ""
 "configured for your user. <app>Kupfer</app> will start and use Gwibber's "
 "service in the background."
 msgstr ""
+"El complemento requiere que <app>Gwibber</app> esté instalado y configurado "
+"para su usuario. <app>Kupfer</app> iniciará y usará el servicio Gwibber en "
+"segundo plano."
 
 #: C/plugin-gwibber.page:27(title)
 msgid "Sending a message to all services"
@@ -377,11 +403,10 @@ msgid ""
 "Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
 "message."
 msgstr ""
+"Active Kupfer y escriba <key>.</key> para entrar en modo texto, y escriba un "
+"mensaje."
 
 #: C/plugin-gwibber.page:35(p)
-#| msgid ""
-#| "Type <key>Tab</key> and select the action <em>Create Note</em> and press "
-#| "<key>Return</key>."
 msgid ""
 "Type <key>Tab</key> and select the action <em>Send Message</em> and press "
 "<key>Return</key>."
@@ -398,18 +423,13 @@ msgid ""
 "Activate Kupfer and search for the service object, for example <em>Identi."
 "ca</em>"
 msgstr ""
+"Active Kupfer y busque un objeto del servicio, por ejemplo <em>Identi.ca</em>"
 
 #: C/plugin-gwibber.page:50(p)
-#| msgid ""
-#| "Type <key>Tab</key> and select the action <em>Create Note</em> and press "
-#| "<key>Return</key>."
 msgid "Type <key>Tab</key> and select the action <em>Send Message</em>."
 msgstr "Pulse <key>Tab</key> y seleccione la acción <em>Enviar mensaje</em>."
 
 #: C/plugin-gwibber.page:55(p)
-#| msgid ""
-#| "Type <key>Tab</key> and select the action <em>Create Note</em> and press "
-#| "<key>Return</key>."
 msgid ""
 "Type <key>Tab</key> to select the last pane, and type in a message. Press "
 "<key>Return</key> to send."
@@ -429,6 +449,8 @@ msgid ""
 "You can use the <em>comma trick</em> if you want to send a message to more "
 "than one service, but not all, at the same time."
 msgstr ""
+"Puede usar el <em>truco de la coma</em> si quiere enviar un mensaje a más de "
+"un servicio, pero no a todos, al mismo tiempo."
 
 #: C/plugin-favorites.page:7(desc)
 msgid "Using the favorites plugin."
@@ -520,6 +542,8 @@ msgid ""
 "Type in a mathematical expression using <key>+</key>,<key>-</key>,<key>/</"
 "key>,<key>*</key> (and <key>**</key> for exponentiation)"
 msgstr ""
+"Escriba una operación matemática usando <key>+</key>,<key>-</key>,<key>/</"
+"key>,<key>*</key> (y <key>**</key> para potencias)."
 
 #: C/plugin-calculator.page:30(p)
 msgid "Press <key>Return</key> to get the result."
@@ -533,16 +557,13 @@ msgid ""
 "<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
 "functions and constants."
 msgstr ""
-"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
-"y analiza expresiones como expresiones de Python. Puede usar funciones "
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, y "
+"analiza expresiones como expresiones de Python. Puede usar funciones "
 "matemáticas comunes, como <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> y "
 "<cmd>log</cmd>»; el comando <cmd>=help</cmd> mostrará una lista de todas las "
 "funciones y constantes definidas."
 
 #: C/plugin-calculator.page:47(p)
-#| msgid ""
-#| "Notice that the power operator in Python is double stars, for example "
-#| "=3**3 will evaluate to 27."
 msgid ""
 "Notice that the power operator in Python is double stars, for example "
 "<code>=3**3</code> will evaluate to 27."
@@ -566,8 +587,8 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
-"la consola de Python)."
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
+"consola de Python)."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -583,7 +604,7 @@ msgstr "Complemento «Aplicaciones»"
 
 #: C/plugin-applications.page:14(p)
 msgid "<app>Applications</app> provides all installed programs."
-msgstr ""
+msgstr "<app>Aplicaciones</app> proporciona todos los programas instalados."
 
 #: C/plugin-applications.page:21(title)
 msgid "Launching an application"
@@ -591,7 +612,7 @@ msgstr "Lanzar una aplicación"
 
 #: C/plugin-applications.page:23(p)
 msgid "Activate Kupfer and type an abbreviation of the application name"
-msgstr ""
+msgstr "Active Kupfer y escriba la abreviatura del nombre de una aplicación."
 
 #: C/plugin-applications.page:28(p)
 msgid "Press <key>Return</key> to launch the application."
@@ -607,7 +628,7 @@ msgstr "Seleccione un archivo en <app>Kupfer</app>"
 
 #: C/plugin-applications.page:41(p)
 msgid "Type <key>Tab</key> and select the action <em>Open With...</em>"
-msgstr ""
+msgstr "Pulse <key>Tab</key> y seleccione la acción <em>Abrir con...</em>"
 
 #: C/plugin-applications.page:46(p)
 msgid ""
@@ -715,6 +736,8 @@ msgid ""
 "If you select multiple contacts and use a Send Email action, it creates one "
 "email directed at all the contacts."
 msgstr ""
+"Si selecciona varios contactos y usa la acción «Enviar correo-e», se crea un "
+"único correo-e dirigido a todos los contactos."
 
 #: C/moreusage.page:56(p)
 msgid ""
@@ -753,39 +776,16 @@ msgid "See <link xref=\"keyboard\"/>"
 msgstr "Consulte la <link xref=\"keyboard\"/>"
 
 #: C/moreusage.page:85(title)
-msgid "Open Terminal Here"
-msgstr "Abrir terminal aquí"
-
-#: C/moreusage.page:86(p)
-#| msgid ""
-#| "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-"
-#| "terminal</cmd>. xdg-terminal is a script to find the user's configured "
-#| "terminal program for his/her Desktop Environment. Install <cmd>xdg-"
-#| "terminal</cmd> if you need this (or install a symlink <em>called</em> xdg-"
-#| "terminal)."
-msgid ""
-"Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-terminal</"
-"cmd>. xdg-terminal is a script to find the user's configured terminal "
-"program for their Desktop Environment. Install <cmd>xdg-terminal</cmd> if "
-"you need this (or install a symlink <em>called</em> xdg-terminal)."
-msgstr ""
-"Al abrir una terminal se llama a <cmd>xdg-terminal</cmd>, y luego a "
-"<cmd>gnome-terminal</cmd>. «xdg-terminal» es un script para encontrar el "
-"programa de terminal configurado por el usuario para su entorno de "
-"escritorio. Instale <cmd>xdg-terminal</cmd> si lo necesita (o cree un enlace "
-"simbólico <em>llamado</em> «xdg-terminal»)."
-
-#: C/moreusage.page:95(title)
 msgid "Command-line Connection"
 msgstr "Conexión con la línea de comandos"
 
-#: C/moreusage.page:96(p)
+#: C/moreusage.page:86(p)
 msgid ""
 "The command <cmd>kupfer</cmd> on the command-line will focus <app>Kupfer</"
 "app> if it's already running, otherwise it will start it."
 msgstr ""
 
-#: C/moreusage.page:100(p)
+#: C/moreusage.page:90(p)
 msgid ""
 "The command <cmd>kupfer</cmd> can be used to send files or text from the "
 "command-line to <app>Kupfer</app>. For example, if you are using the shell "
@@ -794,21 +794,21 @@ msgid ""
 msgstr ""
 "El comando <cmd>kupfer</cmd> se puede usar para enviar archivos o texto "
 "desde la línea de comandos a <app>Kupfer</app>. Por ejemplo, si está usando "
-"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» "
-"puede dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
+"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» puede "
+"dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
 "report.pdf</cmd>."
 
-#: C/moreusage.page:108(p)
+#: C/moreusage.page:98(p)
 msgid ""
 "You can also send text if you pipe the output of a command into <cmd>kupfer</"
 "cmd>."
 msgstr ""
 
-#: C/moreusage.page:115(title)
+#: C/moreusage.page:105(title)
 msgid "Managing Context and Current Selection"
 msgstr "Gestionar el contexto y la selección actual"
 
-#: C/moreusage.page:116(p)
+#: C/moreusage.page:106(p)
 msgid ""
 "If you find the object you want to use, then invoke an action, <app>Kupfer</"
 "app> goes away to perform the action (for example start a program or play a "
@@ -824,7 +824,7 @@ msgstr ""
 "(como omitir la siguiente canción) y puede ser útil realizar diferentes "
 "acciones sobre un mismo objeto."
 
-#: C/moreusage.page:124(p)
+#: C/moreusage.page:114(p)
 msgid ""
 "However, you always have the top level catalog reachable when you \"come back"
 "\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to "
@@ -839,7 +839,7 @@ msgstr ""
 "volverá a ser sobre el nivel superior del catálogo, no sólo sobre los "
 "álbumes."
 
-#: C/moreusage.page:131(p)
+#: C/moreusage.page:121(p)
 msgid ""
 "How to come back into the subcatalog you were in? You do that by simply "
 "browsing, not searching the first thing you do when you focus <app>Kupfer</"
@@ -854,7 +854,7 @@ msgstr ""
 "Mientras se abre la ventana del navegador, su siguiente consulta buscará el "
 "subcatálogo actual."
 
-#: C/moreusage.page:138(p)
+#: C/moreusage.page:128(p)
 msgid ""
 "This way you can work both ways -- you can quickly drill down into folders "
 "to find a file, and when you come back for the next action with <app>Kupfer</"
@@ -868,11 +868,11 @@ msgstr ""
 "normal del nivel superior (simplemente empiece a escribir), o mantenerse "
 "donde está, en esa carpeta (pulse espacio y escriba una consulta)."
 
-#: C/moreusage.page:147(title)
+#: C/moreusage.page:137(title)
 msgid "Saving Commands as Files"
 msgstr "Guardar comandos como archivos"
 
-#: C/moreusage.page:148(p)
+#: C/moreusage.page:138(p)
 msgid ""
 "You can use keyboard shortcut for <em>Compose Command</em> (by default it is "
 "<keyseq><key>Ctrl</key><key>Return</key></keyseq>) to create a command "
@@ -1594,6 +1594,28 @@ msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2010\n"
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011"
+
+#~ msgid "Open Terminal Here"
+#~ msgstr "Abrir terminal aquí"
+
+#~| msgid ""
+#~| "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-"
+#~| "terminal</cmd>. xdg-terminal is a script to find the user's configured "
+#~| "terminal program for his/her Desktop Environment. Install <cmd>xdg-"
+#~| "terminal</cmd> if you need this (or install a symlink <em>called</em> "
+#~| "xdg-terminal)."
+#~ msgid ""
+#~ "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-"
+#~ "terminal</cmd>. xdg-terminal is a script to find the user's configured "
+#~ "terminal program for their Desktop Environment. Install <cmd>xdg-"
+#~ "terminal</cmd> if you need this (or install a symlink <em>called</em> xdg-"
+#~ "terminal)."
+#~ msgstr ""
+#~ "Al abrir una terminal se llama a <cmd>xdg-terminal</cmd>, y luego a "
+#~ "<cmd>gnome-terminal</cmd>. «xdg-terminal» es un script para encontrar el "
+#~ "programa de terminal configurado por el usuario para su entorno de "
+#~ "escritorio. Instale <cmd>xdg-terminal</cmd> si lo necesita (o cree un "
+#~ "enlace simbólico <em>llamado</em> «xdg-terminal»)."
 
 #~ msgid ""
 #~ "An example useful script is <link href=\"http://kaizer.se/wiki/code/"
