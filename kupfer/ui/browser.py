@@ -1636,6 +1636,7 @@ class KupferWindow (gtk.Window):
 	__gtype_name__ = "KupferWindow"
 	def __init__(self, *args):
 		super(KupferWindow, self).__init__(*args)
+		self._only_round_when_composite = True
 		self.connect("style-set", self.on_style_set)
 		self.set_name("kupfer")
 		self.connect("expose-event", self.on_expose_event)
@@ -1659,24 +1660,29 @@ class KupferWindow (gtk.Window):
 		def rgba_from_gdk(c, alpha):
 			return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
 
+		radius = widget.style_get_property('corner-radius')
 		if widget.is_composited():
 			opacity = 0.01*widget.style_get_property('opacity')
-			cr.set_operator(cairo.OPERATOR_CLEAR)
+			#cr.set_operator(cairo.OPERATOR_CLEAR)
+			cr.set_operator(cairo.OPERATOR_SOURCE)
+			cr.set_source_rgba(0,0,0,0)
 			cr.rectangle(0,0,w,h)
 			cr.fill()
-			cr.rectangle(0,0,w,h)
-			cr.set_operator(cairo.OPERATOR_OVER)
+			#cr.rectangle(0,0,w,h)
+			make_rounded_rect(cr, 0, 0, w, h, radius)
+			cr.set_operator(cairo.OPERATOR_SOURCE)
 			c = widget.style.bg[widget.get_state()]
 			cr.set_source_rgba(*rgba_from_gdk(c, opacity))
 			cr.fill()
+		elif self._only_round_when_composite:
+			radius = 0
 
 		c = widget.style.dark[gtk.STATE_SELECTED]
 		cr.set_operator(cairo.OPERATOR_OVER)
 		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
 
-		radius = widget.style_get_property('corner-radius')
 		make_rounded_rect(cr, 0, 0, w, h, radius)
-		cr.set_line_width(2.5)
+		cr.set_line_width(1)
 		cr.stroke()
 
 
@@ -1688,22 +1694,22 @@ class KupferWindow (gtk.Window):
 		if self._old_alloc == (w,h):
 			return
 		self._old_alloc = (w,h)
+		if not self._only_round_when_composite:
+			bitmap = gtk.gdk.Pixmap(None, w, h, 1)
+			cr = bitmap.cairo_create()
 
-		bitmap = gtk.gdk.Pixmap(None, w, h, 1)
-		cr = bitmap.cairo_create()
+			cr.set_source_rgb(0.0, 0.0, 0.0)
+			cr.set_operator(cairo.OPERATOR_CLEAR)
+			cr.paint()
 
-		cr.set_source_rgb(0.0, 0.0, 0.0)
-		cr.set_operator(cairo.OPERATOR_CLEAR)
-		cr.paint()
-
-		# radius of rounded corner
-		cr.set_source_rgb(1.0, 1.0, 1.0)
-		cr.set_operator(cairo.OPERATOR_SOURCE)
-		radius = widget.style_get_property('corner-radius')
-		make_rounded_rect(cr, 0, 0, w, h, radius)
-		cr.fill()
-		widget.shape_combine_mask(bitmap, 0, 0)
-		r = region = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
+			# radius of rounded corner
+			cr.set_source_rgb(1.0, 1.0, 1.0)
+			cr.set_operator(cairo.OPERATOR_SOURCE)
+			radius = widget.style_get_property('corner-radius')
+			make_rounded_rect(cr, 0, 0, w, h, radius)
+			cr.fill()
+			widget.shape_combine_mask(bitmap, 0, 0)
+		r = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
 		if widget.window:
 			widget.window.invalidate_region(r, False)
 
