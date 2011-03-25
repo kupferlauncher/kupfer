@@ -8,6 +8,15 @@ from kupfer import pretty
 mnemonics_filename = "mnemonics.pickle"
 CORRELATION_KEY = 'kupfer.bonus.correlation'
 
+## this is a harmless default
+_default_actions = {
+	'<builtin.AppLeaf gnome-terminal>': '<builtin.LaunchAgain>',
+	'<builtin.AppLeaf xfce4-terminal>': '<builtin.LaunchAgain>',
+}
+_register = {}
+_favorites = set()
+
+
 class Mnemonics (object):
 	"""
 	Class to describe a collection of mnemonics
@@ -68,9 +77,6 @@ class Learning (object):
 			output.write(pickle.dumps(reg, pickle.HIGHEST_PROTOCOL))
 		os.rename(tmp_pickle_file, pickle_file)
 		return True
-
-_register = {}
-_favorites = set()
 
 def record_search_hit(obj, key=u""):
 	"""
@@ -176,6 +182,8 @@ def load():
 		_register = Learning._unpickle_register(filepath)
 	if not _register:
 		_register = {}
+	if CORRELATION_KEY not in _register:
+		_register[CORRELATION_KEY] = _default_actions
 
 def save():
 	"""
