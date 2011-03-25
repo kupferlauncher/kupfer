@@ -49,7 +49,6 @@ class Service (ExportedGObject):
 		if session_bus:
 			session_bus.release_name(server_name)
 
-	@classmethod
 	@dbus.service.method(interface_name)
 	def Present(self):
 		self.emit("present")
