@@ -1636,11 +1636,11 @@ class KupferWindow (gtk.Window):
 	__gtype_name__ = "KupferWindow"
 	def __init__(self, *args):
 		super(KupferWindow, self).__init__(*args)
-		self._only_round_when_composite = True
 		self.connect("style-set", self.on_style_set)
 		self.set_name("kupfer")
 		self.connect("expose-event", self.on_expose_event)
 		self.connect("size-allocate", self.on_size_allocate)
+		self.connect("composited-changed", self.on_composited_changed)
 		self.set_app_paintable(True)
 
 	def on_style_set(self, widget, old_style):
@@ -1674,8 +1674,6 @@ class KupferWindow (gtk.Window):
 			c = widget.style.bg[widget.get_state()]
 			cr.set_source_rgba(*rgba_from_gdk(c, opacity))
 			cr.fill()
-		elif self._only_round_when_composite:
-			radius = 0
 
 		c = widget.style.dark[gtk.STATE_SELECTED]
 		cr.set_operator(cairo.OPERATOR_OVER)
@@ -1685,6 +1683,8 @@ class KupferWindow (gtk.Window):
 		cr.set_line_width(1)
 		cr.stroke()
 
+	def on_composited_changed(self, widget):
+		self.reshape(widget, widget.get_allocation())
 
 	def on_size_allocate(self, widget, allocation):
 		if not hasattr(self, "_old_alloc"):
@@ -1694,7 +1694,12 @@ class KupferWindow (gtk.Window):
 		if self._old_alloc == (w,h):
 			return
 		self._old_alloc = (w,h)
-		if not self._only_round_when_composite:
+		self.reshape(widget, allocation)
+
+	def reshape(self, widget, allocation):
+		## if not composited, use rounded window shape
+		w,h = allocation.width, allocation.height
+		if not widget.is_composited():
 			bitmap = gtk.gdk.Pixmap(None, w, h, 1)
 			cr = bitmap.cairo_create()
 
@@ -1709,9 +1714,11 @@ class KupferWindow (gtk.Window):
 			make_rounded_rect(cr, 0, 0, w, h, radius)
 			cr.fill()
 			widget.shape_combine_mask(bitmap, 0, 0)
-		r = gtk.gdk.region_rectangle(gtk.gdk.Rectangle(0, 0, w,h))
+		else:
+			if widget.window:
+				widget.window.shape_combine_mask(None, 0, 0)
 		if widget.window:
-			widget.window.invalidate_region(r, False)
+			widget.window.invalidate_rect(gtk.gdk.Rectangle(0, 0, w, h), False)
 
 
 gobject.type_register(KupferWindow)
