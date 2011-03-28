@@ -42,7 +42,7 @@ def application_id(app_info, desktop_file=None):
 	return app_id
 
 def launch_application(app_info, files=(), uris=(), paths=(), track=True,
-	                   activate=True, desktop_file=None):
+	                   activate=True, desktop_file=None, screen=None):
 	"""
 	Launch @app_rec correctly, using a startup notification
 
@@ -90,7 +90,8 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 		desktop_launch.launch_app_info(app_info, files,
 			   timestamp=uievents.current_event_time(),
 			   desktop_file=desktop_file,
-			   launch_cb=launch_callback)
+			   launch_cb=launch_callback,
+			   screen=screen)
 	except SpawnError:
 		raise
 	return True

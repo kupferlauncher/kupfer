@@ -252,7 +252,7 @@ def _info_for_desktop_file(desktop_file):
 	return desktop_info
 
 def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
-	                desktop_file=None, launch_cb=None):
+	                desktop_file=None, launch_cb=None, screen=None):
 	"""
 	Launch @app_info, opening @gfiles
 
@@ -315,7 +315,8 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
 				targv.append(term["exearg"])
 			argv = targv + argv
 		ret = spawn_app(app_info, argv, gfiles, workdir, notify,
-		                timestamp=timestamp, launch_cb=launch_cb)
+		                timestamp=timestamp, launch_cb=launch_cb,
+		                screen=screen)
 		if not ret:
 			return False
 	return True
@@ -332,7 +333,7 @@ def spawn_app_id(app_id, argv, workdir=None, startup_notify=True):
 	return spawn_app(app_info, argv, [], workdir, startup_notify)
 
 def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
-	          timestamp=None, launch_cb=None):
+	          timestamp=None, launch_cb=None, screen=None):
 	"""
 	Spawn app.
 
@@ -344,6 +345,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	@timestamp: Event timestamp
 	@launch_cb: Called if successful with
 	            (argv, pid, notify_id, filelist, timestamp)
+	@screen: GdkScreen on which to put the application
 
 	return pid if successful
 	raise SpawnError on error
@@ -352,12 +354,17 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	if startup_notify:
 		ctx = gtk.gdk.AppLaunchContext()
 		ctx.set_timestamp(timestamp or gtk.get_current_event_time())
+		if screen:
+			ctx.set_screen(screen)
 		# This not only returns the string ID but
 		# it actually starts the startup notification!
 		notify_id = ctx.get_startup_notify_id(app_info, filelist)
 		child_env_add = {STARTUP_ENV: notify_id}
 	else:
 		child_env_add = {}
+	if screen:
+		child_env_add["DISPLAY"]=screen.get_display().get_name()
+	debug_log(child_env_add)
 
 	if not workdir or not os.path.exists(workdir):
 		workdir = "."

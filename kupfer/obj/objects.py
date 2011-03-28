@@ -219,7 +219,7 @@ class AppLeaf (Leaf):
 	def _get_package_name(self):
 		return gobject.filename_display_basename(self.get_id())
 
-	def launch(self, files=(), paths=(), activate=False):
+	def launch(self, files=(), paths=(), activate=False, ctx=None):
 		"""
 		Launch the represented applications
 
@@ -230,7 +230,8 @@ class AppLeaf (Leaf):
 		try:
 			return launch.launch_application(self.object, files=files,
 			                                 paths=paths, activate=activate,
-			                                 desktop_file=self.init_path)
+			                                 desktop_file=self.init_path,
+			                                 screen=ctx and ctx.environment.get_screen())
 		except launch.SpawnError as exc:
 			raise OperationError(exc)
 
@@ -300,8 +301,11 @@ class Launch (Action):
 		self.is_running = is_running
 		self.open_new = open_new
 	
-	def activate(self, leaf):
-		leaf.launch(activate=not self.open_new)
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
+		leaf.launch(activate=not self.open_new, ctx=ctx)
 
 	def get_description(self):
 		if self.is_running:
