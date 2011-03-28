@@ -1894,12 +1894,6 @@ class WindowController (pretty.OutputMixin):
 		topbar.pack_start(title_align, True, True)
 		topbar.pack_start(button_box, False, False)
 		topbar.show_all()
-		screen = gtk.gdk.screen_get_default()
-		"""
-		rgba = screen.get_rgba_colormap()
-		if rgba:
-			self.window.set_colormap(rgba)
-		"""
 
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
@@ -1977,6 +1971,16 @@ class WindowController (pretty.OutputMixin):
 		cur_disp = self.window.get_screen().get_display().get_name()
 		return norm_name(cur_disp) == norm_name(displayname)
 
+	def _window_put_on_screen(self, screen):
+		rgba = screen.get_rgba_colormap()
+		if rgba:
+			self.window.unrealize()
+			self.window.set_screen(screen)
+			self.window.set_colormap(rgba)
+			self.window.realize()
+		else:
+			self.window.set_screen(screen)
+
 	def _center_window(self, displayname=None):
 		"""Center Window on the monitor the pointer is currently on"""
 		def norm_name(name):
@@ -2004,7 +2008,7 @@ class WindowController (pretty.OutputMixin):
 			else:
 				display = gtk.gdk.display_get_default()
 		screen, x, y, modifiers = display.get_pointer()
-		self.window.set_screen(screen)
+		self._window_put_on_screen(screen)
 		self.screens.add(screen)
 		monitor_nr = screen.get_monitor_at_point(x, y)
 		geo = screen.get_monitor_geometry(monitor_nr)
