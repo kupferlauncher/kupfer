@@ -24,7 +24,10 @@ class ShowQRCode (Action):
 		"""initialize action"""
 		Action.__init__(self, _("Show QRCode"))
 
-	def activate(self, leaf):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		"""Create the image from leaf text and display it on window"""
 
 		image_file = StringIO.StringIO()
@@ -44,7 +47,7 @@ class ShowQRCode (Action):
 		image.set_from_pixbuf(pixbuf)
 		image.show()
 		window.add(image)
-		window.show()
+		ctx.environment.present_window(window)
 
 	def item_types(self):
 		yield Leaf
