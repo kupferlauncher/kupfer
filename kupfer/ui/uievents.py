@@ -41,6 +41,7 @@ class GUIEnvironmentContext (object):
 	def __init__(self, timestamp, screen=None):
 		self._timestamp = timestamp
 		self._screen = screen or gtk.gdk.screen_get_default()
+
 	def get_timestamp(self):
 		return self._timestamp
 	def get_startup_notification_id(self):
@@ -53,7 +54,8 @@ class GUIEnvironmentContext (object):
 
 		Always returns a byte string
 		"""
-		return self._screen.get_display().get_name()
+		return self._screen.make_display_name()
+
 	def get_screen(self):
 		return self._screen
 	def present_window(self, window):
