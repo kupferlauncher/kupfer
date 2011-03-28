@@ -10,18 +10,21 @@ Not Released Yet
 
 * Changes to the interface
 
-  + Use an undecorated window with rounded corners
-  + Increase icon size to 128px
   + Add a small menu button on the window for explicit access to
     context actions, preferences window, and help.
+  + Increase icon size to 128px
   + Always show description field
+  + Use an undecorated window with rounded corners
   + Let the frame be slightly transparent if supported
-  + Themable colors and properties by using GTK+ styling,
-    see ``Documentation/GTKTheming.rst``
+  + Themable colors and properties by using GTK+ styling, see
+    ``Documentation/GTKTheming.rst``, and the plugin *Custom Theme* that
+    shows how to use custom styles.
 
 * Add context action "Set X as default action for object Y"
 
-  + For example, you can make Launch Again default for Terminal
+  + For example, you can make *Launch Again* default for Terminal, and our
+    default configuration uses this setting for two common terminals (GNOME
+    and XFCE).
 
 * Updated Kupfer's technical documentation (in ``Documentation/``),
   including the Plugin API reference.
@@ -56,7 +59,9 @@ Not Released Yet
   file operations.
 
 * *File Actions:* the action *Move to Trash* switches home to the *Trash*
-  plugin, the archive actions go to new *Archive Manager* plugin.
+  plugin, the archive actions go to new *Archive Manager* plugin. *Archive
+  Manager* also updated to recognize more archive file types, including
+  ``.xz``.
 
 * Activate current selection on double-click in the interface.
   (:lp:`700948`)
@@ -66,17 +71,35 @@ Not Released Yet
 
 * Add ``initialize_plugin`` to the plugin interface.
 
-* Configure ``kupfer-exec`` activation to send an event timestamp so that
-  focus can be carried along correctly even when running ``.kfcom`` files.
+* The D-Bus interface has been extended with X screen and timestamp-aware
+  versions of all methods:
+
+  + ``PresentOnDisplay``, ``PutFilesOnDisplay``, ``PutTextOnDisplay``,
+    ``ExecuteFileOnDisplay``  all act like their similarly-named
+    predecessors, but take ``$DISPLAY`` and ``$DESKTOP_STARTUP_ID`` as their
+    last two arguments.
+
+  + ``kupfer-exec`` activation sends the event timestamp so that focus can
+    be carried along correctly even when running ``.kfcom`` files (if
+    activated as an application by startup-notification-aware launchers,
+    this works with most standard desktop components).
 
 * Internally, change how actions are carried out by allowing the
   action execution context object to be passed down the execution chain
   instead of being a global resource. This also allows plugins to cleanly
   access current environment (event timestamp, current screen etc).
 
+  + Support running kupfer on multiple X screens (:lp:`614796`), use
+    the command ``kupfer --relay`` on each additional screen for global
+    keyboard shortcut support.
+
 * The *Tracker 0.8* plugin supports version 0.8 and 0.10 alike. Because of
   that and the expected compatibility with one version after this too, it's
   now called *Tracker*.
+
+* The *Favorites* plugin lists *Kupfer Help* and *Kupfer Preferences* by
+  default (for new users), so that it's not empty and those items are ranked
+  higher.
  
 * Localization updates:
 
