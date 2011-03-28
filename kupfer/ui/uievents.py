@@ -48,13 +48,47 @@ class GUIEnvironmentContext (object):
 					new_display = disp
 					break
 			if new_display is None:
-				print "Opening display in ensure_display_open", display
+				pretty.print_debug(__name__,
+						"Opening display in ensure_display_open", display)
 				new_display = gtk.gdk.Display(display)
 		else:
 			new_display = gtk.gdk.display_get_default()
 		## Hold references to all open displays
 		cls._open_displays = set(dm.list_displays())
 		return new_display
+
+	@classmethod
+	def _try_close_unused_displays(cls, screen):
+		"""@screen is current GdkScreen
+
+		Try to close inactive displays...
+		Take all GtkWindow that are hidden, and move to the
+		current screen. If no windows remain then we close
+		the display, but we never close the default display.
+		"""
+		def debug(*x):
+			pretty.print_debug(__name__, *x)
+		display = screen.get_display()
+		dm = gtk.gdk.display_manager_get()
+		for disp in list(dm.list_displays()):
+			if disp != display and disp != gtk.gdk.display_get_default():
+				debug("Trying to close", disp.get_name())
+				open_windows = 0
+				for window in gtk.window_list_toplevels():
+					# find windows on @disp
+					if window.get_screen().get_display() != disp:
+						continue
+					if not window.get_property("visible"):
+						debug("Moving window", window.get_name())
+						debug("Moving", window.get_title())
+						window.set_screen(screen)
+					else:
+						debug("Open window blocks close")
+						open_windows += 1
+				if not open_windows:
+					debug("Closing display", disp.get_name())
+					disp.close()
+
 
 	def get_timestamp(self):
 		return self._timestamp
