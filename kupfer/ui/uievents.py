@@ -13,42 +13,58 @@ def gui_context_from_timestamp(timestamp):
 	return GUIEnvironmentContext(timestamp, None)
 
 def gui_context_from_keyevent(timestamp, display):
-	def norm_name(name):
-		if name[-2] == ":":
-			return name+".0"
-		return name
-	dm = gtk.gdk.display_manager_get()
-	if display:
-		new_display = None
-		for disp in dm.list_displays():
-			if norm_name(disp.get_name()) == norm_name(display):
-				new_display = disp
-				break
-		if new_display is None:
-			new_display = gtk.gdk.Display(display)
-	else:
-		new_display = gtk.gdk.display_get_default()
+	new_display = GUIEnvironmentContext.ensure_display_open(display)
 	screen, x, y, modifiers = new_display.get_pointer()
-	gctx = GUIEnvironmentContext(timestamp, screen)
-	gctx.display = new_display
-	return gctx
+	return GUIEnvironmentContext(timestamp, screen)
 
 class GUIEnvironmentContext (object):
 	"""
 	Context object for action execution
 	in the current GUI context
 	"""
+	_open_displays = set()
+
 	def __init__(self, timestamp, screen=None):
 		self._timestamp = timestamp
 		self._screen = screen or gtk.gdk.screen_get_default()
 
+	@classmethod
+	def ensure_display_open(cls, display):
+		"""
+		Return GdkDisplay for name @display.
+
+		Return default if @display is None.
+		"""
+		def norm_name(name):
+			"normalize display name"
+			if name[-2] == ":":
+				return name+".0"
+			return name
+		dm = gtk.gdk.display_manager_get()
+		if display:
+			new_display = None
+			for disp in dm.list_displays():
+				if norm_name(disp.get_name()) == norm_name(display):
+					new_display = disp
+					break
+			if new_display is None:
+				print "Opening display in ensure_display_open", display
+				new_display = gtk.gdk.Display(display)
+		else:
+			new_display = gtk.gdk.display_get_default()
+		## Hold references to all open displays
+		cls._open_displays = set(dm.list_displays())
+		return new_display
+
 	def get_timestamp(self):
 		return self._timestamp
+
 	def get_startup_notification_id(self):
 		"""
 		Always returns a byte string
 		"""
 		return _make_startup_notification_id(self.get_timestamp())
+
 	def get_display(self):
 		"""return the display name to show new windows on
 
@@ -58,6 +74,7 @@ class GUIEnvironmentContext (object):
 
 	def get_screen(self):
 		return self._screen
+
 	def present_window(self, window):
 		"""
 		Show and present @window on the current
