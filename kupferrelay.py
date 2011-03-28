@@ -35,7 +35,7 @@ def relay_key(key):
 	time = keybinder.get_current_event_time()
 	s_id = "kupfer-%d_TIME%s" % (os.getpid(), time)
 	bus = dbus.Bus()
-	obj = bus.get_object(SERV, OBJ)
+	obj = bus.get_object(SERV, OBJ, introspect=False)
 	iface = dbus.Interface(obj, IFACE)
 	iface.RelayKeysFromDisplay(key, os.getenv("DISPLAY"), s_id)
 
