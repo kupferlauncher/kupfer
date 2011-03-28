@@ -1987,6 +1987,35 @@ class WindowController (pretty.OutputMixin):
 		self.current_screen_handler = \
 			screen.connect("monitors-changed", self._monitors_changed)
 
+	def _try_close_unused_displays(self, screen):
+		"""@screen is current GdkScreen
+
+		Try to close inactive displays...
+		Take all GtkWindow that are hidden, and move to the
+		current screen. If no windows remain then we close
+		the display, but we never close the default display.
+		"""
+		display = screen.get_display()
+		dm = gtk.gdk.display_manager_get()
+		for disp in list(dm.list_displays()):
+			if disp != display and disp != gtk.gdk.display_get_default():
+				self.output_debug("Trying to close", disp.get_name())
+				open_windows = 0
+				for window in gtk.window_list_toplevels():
+					# find windows on @disp
+					if window.get_screen().get_display() != disp:
+						continue
+					if not window.get_property("visible"):
+						self.output_debug("Moving window", window.get_name())
+						self.output_debug("Moving", window.get_title())
+						window.set_screen(screen)
+					else:
+						self.output_debug("Open window blocks close")
+						open_windows += 1
+				if not open_windows:
+					self.output_debug("Closing display", disp.get_name())
+					disp.close()
+
 	def _center_window(self, displayname=None):
 		"""Center Window on the monitor the pointer is currently on"""
 		def norm_name(name):
@@ -2022,6 +2051,7 @@ class WindowController (pretty.OutputMixin):
 		midx = geo.x + geo.width / 2 - wid / 2
 		midy = geo.y + geo.height / 2 - hei / 2
 		self.window.move(midx, midy)
+		self._try_close_unused_displays(screen)
 
 	def _should_recenter_window(self):
 		"""Return True if the mouse pointer and the window
