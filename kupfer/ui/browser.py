@@ -1338,11 +1338,11 @@ class Interface (gobject.GObject):
 		self.data_controller.find_object("qpfer:quit")
 
 	def show_help(self):
-		kupferui.show_help()
+		kupferui.show_help(self._make_gui_ctx())
 		self.emit("launched-action")
 
 	def show_preferences(self):
-		kupferui.show_preferences()
+		kupferui.show_preferences(self._make_gui_ctx())
 		self.emit("launched-action")
 
 	def compose_action(self):
@@ -1491,7 +1491,7 @@ class Interface (gobject.GObject):
 		self.data_controller.browse_down(pane, alternate=alternate)
 
 	def _make_gui_ctx(self):
-		timestamp = uievents.current_event_time()
+		timestamp = gtk.get_current_event_time()
 		return uievents.gui_context_from_widget(timestamp, self._widget)
 
 	def _activate(self, widget, current):
@@ -1784,27 +1784,32 @@ class WindowController (pretty.OutputMixin):
 		menu = gtk.Menu()
 		menu.set_name("kupfer-menu")
 
-		def menu_callback(menuitem, callback):
-			callback()
-			if context_menu:
-				self.put_away()
-			return True
-
 		def submenu_callback(menuitem, callback):
 			callback()
 			return True
 
-		def add_menu_item(icon, callback, label=None):
+		def add_menu_item(icon, callback, label=None, with_ctx=True):
+			def mitem_handler(menuitem, callback):
+				if with_ctx:
+					time = gtk.get_current_event_time()
+					ui_ctx = uievents.gui_context_from_widget(time, menuitem)
+					callback(ui_ctx)
+				else:
+					callback()
+				if context_menu:
+					self.put_away()
+				return True
+
 			mitem = None
 			if label and not icon:
 				mitem = gtk.MenuItem(label=label)
 			else:
 				mitem = gtk.ImageMenuItem(icon)
-			mitem.connect("activate", menu_callback, callback)
+			mitem.connect("activate", mitem_handler, callback)
 			menu.append(mitem)
 
 		if context_menu:
-			add_menu_item(gtk.STOCK_CLOSE, self.put_away)
+			add_menu_item(gtk.STOCK_CLOSE, self.put_away, with_ctx=False)
 		else:
 			add_menu_item(None, self.activate, _("Show Main Interface"))
 		menu.append(gtk.SeparatorMenuItem())
@@ -1819,7 +1824,7 @@ class WindowController (pretty.OutputMixin):
 		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
 		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
 		menu.append(gtk.SeparatorMenuItem())
-		add_menu_item(gtk.STOCK_QUIT, self.quit)
+		add_menu_item(gtk.STOCK_QUIT, self.quit, with_ctx=False)
 		menu.show_all()
 
 		return menu

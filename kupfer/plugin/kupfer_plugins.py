@@ -24,7 +24,7 @@ class ShowInfo (Action):
 
 	def activate(self, leaf, ctx):
 		plugin_id = leaf.object["name"]
-		kupferui.show_plugin_info(plugin_id, ctx)
+		kupferui.show_plugin_info(plugin_id, ctx.environment)
 
 	def get_description(self):
 		pass

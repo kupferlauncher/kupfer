@@ -54,7 +54,7 @@ class About (RunnableLeaf):
 	def wants_context(self):
 		return True
 	def run(self, ctx):
-		kupferui.show_about_dialog(ctx)
+		kupferui.show_about_dialog(ctx.environment)
 	def get_description(self):
 		return _("Show information about Kupfer authors and license")
 	def get_icon_name(self):
@@ -67,7 +67,7 @@ class Help (RunnableLeaf):
 	def wants_context(self):
 		return True
 	def run(self, ctx):
-		kupferui.show_help(ctx)
+		kupferui.show_help(ctx.environment)
 	def get_description(self):
 		return _("Get help with Kupfer")
 	def get_icon_name(self):
@@ -80,7 +80,7 @@ class Preferences (RunnableLeaf):
 	def wants_context(self):
 		return True
 	def run(self, ctx):
-		kupferui.show_preferences(ctx)
+		kupferui.show_preferences(ctx.environment)
 	def get_description(self):
 		return _("Show preferences window for Kupfer")
 	def get_icon_name(self):
