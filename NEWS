@@ -1,9 +1,12 @@
+.. role:: lp(strong)
 
 NEWS for kupfer
 ===============
 
 kupfer's hastening insanity
 ---------------------------
+
+Not Released Yet
 
 * Changes to the interface
 
@@ -22,43 +25,62 @@ kupfer's hastening insanity
 
 * Updated Kupfer's technical documentation (in ``Documentation/``),
   including the Plugin API reference.
+
 * Implement a preedit widget for input methods, also resolving
   the incompatibility with ibus (David Schneider) (:lp:`696727`)
+
 * Re-implement launching of applications
+
 * Allow the user to configure which terminal program is used.
   Applies to all of *Run in Terminal*, *Open Terminal Here*, for .desktop
   files that specify ``Terminal=true`` etc.
+
 * Implement an "alternatives" mechanism so that plugins can
   register mutually exclusive alternatives. Currently implemented
   are Terminals (see above) and Icon Renderers.
+
 * *Thunar*: Use Thunar 1.2's Copy and Move API.
 
     + These allow copying and moving anything through thunar,
       and it will show progress dialogs for longer transactions.
 
 * Add *Ascii & Unicode Icon Set* for fun
+
 * Add simple plugin *Quick Image Viewer* to show images in a simple way.
+
 * Add *Send Keys* plugin that can send synthetic keyboard events,
   and prominently can be used for the *Paste to Foreground Window*
   action on text. Requires ``xautomation`` package. (:lp:`621453`)
+
 * *Volumes:* treat mounts as regular folders, so they can be targets for
   file operations.
+
 * *File Actions:* the action *Move to Trash* switches home to the *Trash*
   plugin, the archive actions go to new *Archive Manager* plugin.
+
 * Activate current selection on double-click in the interface.
   (:lp:`700948`)
+
 * Update the preferences window and move the folder configuration to the
   Catalog tab.
+
 * Add ``initialize_plugin`` to the plugin interface.
+
 * Configure ``kupfer-exec`` activation to send an event timestamp so that
   focus can be carried along correctly even when running ``.kfcom`` files.
+
 * Internally, change how actions are carried out by allowing the
   action execution context object to be passed down the execution chain
   instead of being a global resource. This also allows plugins to cleanly
   access current environment (event timestamp, current screen etc).
+
 * The *Tracker 0.8* plugin supports version 0.8 and 0.10 alike. Because of
   that and the expected compatibility with one version after this too, it's
   now called *Tracker*.
+ 
+* Localization updates:
+
+  + ..
 
 
 kupfer v204
@@ -108,6 +130,7 @@ Released Friday, 18 March 2011
 __ http://kaizer.se/wiki/kupfer/help/
 
 * Localization updates:
+
   + (cs) Marek Černocký
   + (da) Joe Hansen
   + (de) Mario Blättermann
@@ -120,6 +143,8 @@ __ http://kaizer.se/wiki/kupfer/help/
 
 kupfer v203
 -----------
+
+.. role:: git(emphasis)
 
 Released Saturday,  6 November 2010
 
@@ -523,12 +548,12 @@ kupfer version c15
 * Translation to Polish by Maciej Kwiatkowski
 * Speed up the string ranker tremendously; 3x faster in common cases.
 * All objects now have an alias in the basic latin alphabet (if possible) so
-  that, for example, query `wylacz` matches item _Wyłącz_.
+  that, for example, query `wylacz` matches item *Wyłącz*.
 * Show notification icon by default
 * Read XML with cElementTree (Faster.)
 * Read Firefox 3's bookmarks (Python2.5 requires `cjson` module)
-* New Plugin: Image Tools, with action _Scale..._ and JPEG rotation actions
-  (_Scale_ requires ImageMagick (`convert`), JPEG actions `jpegtran` and
+* New Plugin: Image Tools, with action *Scale...* and JPEG rotation actions
+  (*Scale* requires ImageMagick (`convert`), JPEG actions `jpegtran` and
   `jhead`)
 * Basic support for a Magic Keybinding: summon kupfer with current selection
 
@@ -542,6 +567,7 @@ kupfer version c14
 ------------------
 
 * Rewrite and improve browsing mode:
+
   * Browsing the catalog or folders is much improved; it is easier to keep the
     overview and be oriented.
   * Returning to kupfer after having performed an action, the old object is
@@ -550,21 +576,22 @@ kupfer version c14
     immediately browse; if you search, you search the whole catalog.
   * The search times out after 2 seconds if no key is typed. Now the highlight
     text will fade to show this.
+
 * Add accelerators `Ctrl+G` and `Ctrl+T` to get current selection in nautilus
   and currently selected text (if available).
 
 kupfer version c13.1
-------------------
+--------------------
 
-* Fix two bugs with _Rename To..._ 
+* Fix two bugs with *Rename To...* 
 
 kupfer version c13
 ------------------
 
 * New Plugin: Calculator
-* New Action: _Rename To..._ in File Actions Plugin
+* New Action: *Rename To...* in File Actions Plugin
 * Smaller changes (Stop learned mnemonics database from growing indefinitely,
-  Catch SIGINT without python's handler, _Copy To..._ requires pygobject 2.18
+  Catch SIGINT without python's handler, *Copy To...* requires pygobject 2.18
   now)
 
 kupfer version c12
@@ -574,7 +601,7 @@ kupfer version c12
 * Preferences. Display plugin settings and options beside the plugin list,
   and allow configuring included (and watched) directories.
 * Support the new Gnome session protocol to save state on log out.
-* Improve embarassingly bad shell command quoting for _Execute_ and Tracker tag
+* Improve embarassingly bad shell command quoting for *Execute* and Tracker tag
   actions.
 * Specify user data locations with `X-UserData`
 * Fix an AttributeError in Notes plugin reported by Francesco Marella
@@ -582,16 +609,19 @@ kupfer version c12
   sources better)
 
 kupfer version c11
------------------
+------------------
 
 The "this one goes to 11" release
 
 * New plugin: Notes (Gnote and Tomboy support)
-  * Access notes, Actions: _Create Note_ and _Append to Note..._
+
+  * Access notes, Actions: *Create Note* and *Append to Note...*
+
 * New plugin: Selected File
+
   * Kupfer ships with a Nautilus python extension that once installed,
     you can access the currently selected file in Nautilus from Kupfer,
-    as the _Selected File_ object
+    as the *Selected File* object
 
 This release is localized in: Swedish (100%), Italian (90%)
 
@@ -601,13 +631,13 @@ kupfer version c10.1
 * Spanish Translation by Leandro Leites
 
 kupfer version c10
------------------
+------------------
 
 * Updated italian localization
 * New plugins: Url Actions, Web Search (rewritten to use all Firefox' search
   engines)
-* New actions: _Set Default Application_, _Create Archive In..._,
-  _Restore_ (Restore trashed file)
+* New actions: *Set Default Application*, *Create Archive In...*,
+  *Restore* (Restore trashed file)
 * Add accelerators `Control+R` for reset, `Control+S` for select first
   (source) pane and `Control+.` for untoggle text mode.
 * Only the bookmarks plugins can toggle "include in toplevel" now.
@@ -617,7 +647,7 @@ kupfer version c10
 This release is localized in: Swedish (100%), Italian (93%)
 
 kupfer version c9.1
------------------
+-------------------
 
 * User interface consistency and behaviour improvements. UI is simpler and
   better.
@@ -645,7 +675,7 @@ kupfer version c8
 * Apply interface polish (proper english capitalization of actions and
   other objects, other changes)
 * Add `Copy To...` action
-* Try `xdg-terminal` first in _Open Terminal Here_ (non-Gnome users can
+* Try `xdg-terminal` first in *Open Terminal Here* (non-Gnome users can
   either install `xdg-terminal` or symlink it to their terminal program)
 * Allow unbinding the keybinding
 * Fix a bug with tracker tags
@@ -690,20 +720,25 @@ kupfer version c6
 The "Sisyphus incremental improvements" release
 
 * Preferences window
+  
   * Allows setting keybinding on the fly
   * List and enable/disable plugins and set plugin options
+
 * Everything was improved slightly, but steadily
 * Understands more applications, provides more files and objects,
   and actions with **new plugins:** *Rhythmbox, Abiword, Clipboards, Dictionary,
   Favorites, Selected Text, Wikipedia*
 * Connect applications with their related object sources and make it their
   content, such as Rhythmbox music for the Rhythmbox application.
+
   * Applications contain their recently used documents, if
     available.
   * Firefox and Epiphany bookmarks are identified with each application
+
 * Miscellaneous improvements:
+
   * Kupfer object icon ("blue box")
-  * _Some_ default application associations are installed (others
+  * *Some* default application associations are installed (others
     are learned by launching applications).
   * Experimental UI with two-line title+description in browse mode
   * Thumbnails for files and albums in browse mode
@@ -731,10 +766,12 @@ kupfer version c5
 The "Beauty from the inside, part 1" release
 
 * Big refactorings of the whole data model
+
   * Move all of the data model to kupfer.data
   * Allow actions with indirect objects "threepane kupfer" (with
     means to configure which objects to use for an action etc)
   * Uses unicode internally, instead of UTF-8-encoded strings
+
 * Some new actions using new possibilities (Open with any, Move file
   to new location, Add/Remove tracker tags) but more is possible.
 * Basic manual page included
@@ -744,7 +781,7 @@ The "Beauty from the inside, part 1" release
 * Change learning algorithm to recognize an item's type as well
   (so that two objects named "project" can be ranked differently)
 * Small fixes (alphabethic sorting for applications, sources, check
-  if objects still exist after an action, rank_adjust default actions
+  if objects still exist after an action, ``rank_adjust`` default actions
   slightly)
 
 This release deserves lots of testing. File bug reports and feature
