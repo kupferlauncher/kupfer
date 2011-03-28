@@ -97,11 +97,22 @@ class Service (ExportedGObject):
 		with uievents.using_startup_notify_id(notify_id):
 			self.emit("execute-file", filepath)
 
-	@dbus.service.method(interface_name, in_signature="ayayay",
+	@dbus.service.method(interface_name, in_signature="sayay",
 	                     byte_arrays=True)
 	def RelayKeysFromDisplay(self, keystring, display, notify_id):
 		with uievents.using_startup_notify_id(notify_id):
 			self.emit("relay-keys", keystring, display)
+
+	@dbus.service.method(interface_name, in_signature=None,
+	                     out_signature="as",
+	                     byte_arrays=True)
+	def GetBoundKeys(self):
+		from kupfer.ui import keybindings
+		return keybindings.get_all_bound_keys()
+
+	@dbus.service.signal(interface_name, signature="ay")
+	def KeyWasBound(self, keystr):
+		pass
 
 	@dbus.service.method(interface_name)
 	def Quit(self):

@@ -44,6 +44,9 @@ gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
 
 _currently_bound = {}
 
+def get_all_bound_keys():
+	return list(_currently_bound.values())
+
 def get_current_event_time():
 	"Return current event time as given by keybinder"
 	try:
