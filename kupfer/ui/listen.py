@@ -95,11 +95,6 @@ class Service (ExportedGObject):
 	def ExecuteFile(self, filepath):
 		self.ExecuteFileOnDisplay(filepath, "", "")
 
-	@dbus.service.method(interface_name, in_signature="say",
-	                     byte_arrays=True)
-	def ExecuteFileWithStartup(self, filepath, notify_id):
-		self.ExecuteFileOnDisplay(filepath, "", notify_id)
-
 	@dbus.service.method(interface_name, in_signature="sayay",
 	                     byte_arrays=True)
 	def ExecuteFileOnDisplay(self, filepath, display, notify_id):
