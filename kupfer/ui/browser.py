@@ -1747,6 +1747,7 @@ class WindowController (pretty.OutputMixin):
 		self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
 		self.current_screen_handler = 0
+		self.current_screen = None
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1986,6 +1987,7 @@ class WindowController (pretty.OutputMixin):
 			self.window.set_screen(screen)
 		self.current_screen_handler = \
 			screen.connect("monitors-changed", self._monitors_changed)
+		self.current_screen = screen
 
 	def _center_window(self, displayname=None):
 		"""Center Window on the monitor the pointer is currently on"""
@@ -1995,7 +1997,7 @@ class WindowController (pretty.OutputMixin):
 				return name + ".0"
 			return name
 		if not displayname and self.window.has_screen():
-			display = self.window.get_screen().get_display()
+			display = self.window.get_display()
 		else:
 			display = uievents.GUIEnvironmentContext.ensure_display_open(displayname)
 		screen, x, y, modifiers = display.get_pointer()
