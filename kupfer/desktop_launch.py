@@ -321,7 +321,7 @@ def launch_app_info(app_info, gfiles=[], in_terminal=None, timestamp=None,
 			return False
 	return True
 
-def spawn_app_id(app_id, argv, workdir=None, startup_notify=True):
+def spawn_app_id(app_id, argv, workdir=None, startup_notify=True, screen=None):
 	"""
 	Spawn @argv trying to notify it as if it is app_id
 	"""
@@ -330,7 +330,7 @@ def spawn_app_id(app_id, argv, workdir=None, startup_notify=True):
 	except RuntimeError:
 		app_info = None
 		startup_notify = False
-	return spawn_app(app_info, argv, [], workdir, startup_notify)
+	return spawn_app(app_info, argv, [], workdir, startup_notify, screen=screen)
 
 def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	          timestamp=None, launch_cb=None, screen=None):
@@ -363,7 +363,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	else:
 		child_env_add = {}
 	if screen:
-		child_env_add["DISPLAY"]=screen.get_display().get_name()
+		child_env_add["DISPLAY"]=screen.make_display_name()
 	debug_log(child_env_add)
 
 	if not workdir or not os.path.exists(workdir):

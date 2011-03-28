@@ -93,10 +93,13 @@ class RevealFile (Action):
 class OpenTerminal (Action):
 	def __init__(self, name=_("Open Terminal Here")):
 		super(OpenTerminal, self).__init__(name)
-	
-	def activate(self, leaf):
+
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		try:
-			utils.spawn_terminal(leaf.object)
+			utils.spawn_terminal(leaf.object, ctx.environment.get_screen())
 		except utils.SpawnError as exc:
 			raise OperationError(exc)
 
