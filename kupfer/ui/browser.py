@@ -1940,8 +1940,8 @@ class WindowController (pretty.OutputMixin):
 		self.interface.did_launch()
 		self._window_hide_timer.set_ms(100, self.put_away)
 
-	def result_callback(self, sender, result_type):
-		self.activate()
+	def result_callback(self, sender, result_type, ui_ctx):
+		self.on_present(sender, ui_ctx.get_display(), ui_ctx.get_timestamp())
 
 	def _lost_focus(self, window, event):
 		# Close at unfocus.
