@@ -2,6 +2,7 @@
 This is a program of its own, that does not integrate with the
 Kupfer process.
 """
+import __builtin__
 import os
 
 import gtk
@@ -14,6 +15,9 @@ SERV = "se.kaizer.kupfer"
 OBJ = "/interface"
 IFACE = "se.kaizer.kupfer.Listener"
 
+if not hasattr(__builtin__, '_'):
+	def _(x):
+		return x
 
 def get_all_keys():
 	try:
