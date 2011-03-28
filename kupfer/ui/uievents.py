@@ -12,6 +12,27 @@ def gui_context_from_toplevel(timestamp, toplevel):
 def gui_context_from_timestamp(timestamp):
 	return GUIEnvironmentContext(timestamp, None)
 
+def gui_context_from_keyevent(timestamp, display):
+	def norm_name(name):
+		if name[-2] == ":":
+			return name+".0"
+		return name
+	dm = gtk.gdk.display_manager_get()
+	if display:
+		new_display = None
+		for disp in dm.list_displays():
+			if norm_name(disp.get_name()) == norm_name(display):
+				new_display = disp
+				break
+		if new_display is None:
+			new_display = gtk.gdk.Display(display)
+	else:
+		new_display = gtk.gdk.display_get_default()
+	screen, x, y, modifiers = new_display.get_pointer()
+	gctx = GUIEnvironmentContext(timestamp, screen)
+	gctx.display = new_display
+	return gctx
+
 class GUIEnvironmentContext (object):
 	"""
 	Context object for action execution

@@ -97,6 +97,12 @@ class Service (ExportedGObject):
 		with uievents.using_startup_notify_id(notify_id):
 			self.emit("execute-file", filepath)
 
+	@dbus.service.method(interface_name, in_signature="ayayay",
+	                     byte_arrays=True)
+	def RelayKeysFromDisplay(self, keystring, display, notify_id):
+		with uievents.using_startup_notify_id(notify_id):
+			self.emit("relay-keys", keystring, display)
+
 	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
@@ -118,4 +124,7 @@ gobject.signal_new("execute-file", Service, gobject.SIGNAL_RUN_LAST,
 
 gobject.signal_new("quit", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
+
+gobject.signal_new("relay-keys", Service, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING, ))
 

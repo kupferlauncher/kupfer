@@ -2013,10 +2013,10 @@ class WindowController (pretty.OutputMixin):
 	def activate(self, sender=None, time=0):
 		self.present_on_display(None, "")
 
-	def present_on_display(self, sender, displayname):
+	def present_on_display(self, sender, display):
 		time = uievents.current_event_time()
 		self._window_hide_timer.invalidate()
-		self._center_window(displayname)
+		self._center_window(display)
 		self.window.stick()
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
@@ -2029,21 +2029,21 @@ class WindowController (pretty.OutputMixin):
 	def _cancelled(self, widget):
 		self.put_away()
 
-	def show_hide(self, sender=None, time=0):
+	def show_hide(self, sender=None, time=0, display=None):
 		"""
 		Toggle activate/put-away
 		"""
 		if self.window.get_property("visible"):
 			self.put_away()
 		else:
-			self.activate(time=time)
+			self.present_on_display(None, display)
 
-	def _key_binding(self, keyobj, keybinding_number, event_time):
+	def _key_binding(self, keyobj, keybinding_number, event_time, display):
 		"""Keybinding activation callback"""
 		if keybinding_number == keybindings.KEYBINDING_DEFAULT:
-			self.show_hide(time=event_time)
+			self.show_hide(time=event_time, display=display)
 		elif keybinding_number == keybindings.KEYBINDING_MAGIC:
-			self.activate(time=event_time)
+			self.present_on_display(keyobj, display=display)
 			self.interface.select_selected_text()
 			self.interface.select_selected_file()
 
@@ -2165,6 +2165,8 @@ class WindowController (pretty.OutputMixin):
 			kserv.connect("put-files", self._put_files_received)
 			kserv.connect("execute-file", self._execute_file_received)
 			kserv.connect("quit", self.quit)
+			keyobj = keybindings.GetKeyboundObject()
+			kserv.connect("relay-keys", keyobj.relayed_keys)
 
 		# Load data and present UI
 		sch = scheduler.GetScheduler()

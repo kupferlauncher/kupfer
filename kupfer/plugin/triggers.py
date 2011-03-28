@@ -72,10 +72,10 @@ class Triggers (Source):
 		for target, (keystr, name, id_) in self.trigger_table.iteritems():
 			keybindings.bind_key(None, target)
 
-	def keybinding_callback(self, keyobj, target, event_time):
+	def keybinding_callback(self, keyobj, target, event_time, display):
 		if not self.has_trigger(target):
 			return
-		ui_ctx = uievents.gui_context_from_timestamp(event_time)
+		ui_ctx = uievents.gui_context_from_keyevent(event_time, display)
 		ctx = commandexec.DefaultActionExecutionContext()
 		exec_token = ctx.make_execution_token(ui_ctx)
 		self.perform_trigger(exec_token, target)
