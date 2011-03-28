@@ -1492,7 +1492,8 @@ class Interface (gobject.GObject):
 
 	def _make_gui_ctx(self):
 		timestamp = uievents.current_event_time()
-		return uievents.GUIEnvironmentContext(timestamp)
+		return uievents.gui_context_from_toplevel(timestamp,
+				self._widget.get_toplevel())
 
 	def _activate(self, widget, current):
 		self.data_controller.activate(ui_ctx=self._make_gui_ctx())

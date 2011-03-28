@@ -6,13 +6,20 @@ import gtk
 from kupfer import pretty
 from kupfer.ui import keybindings
 
+def gui_context_from_toplevel(timestamp, toplevel):
+	return GUIEnvironmentContext(timestamp, toplevel.get_screen())
+
+def gui_context_from_timestamp(timestamp):
+	return GUIEnvironmentContext(timestamp, None)
+
 class GUIEnvironmentContext (object):
 	"""
 	Context object for action execution
 	in the current GUI context
 	"""
-	def __init__(self, timestamp):
+	def __init__(self, timestamp, screen=None):
 		self._timestamp = timestamp
+		self._screen = screen or gtk.gdk.screen_get_default()
 	def get_timestamp(self):
 		return self._timestamp
 	def get_startup_notification_id(self):
@@ -27,6 +34,8 @@ class GUIEnvironmentContext (object):
 		"""
 		# FIXME: use Kupfer window's display
 		return os.getenv("DISPLAY", ":0")
+	def get_screen(self):
+		return self._screen
 	def present_window(self, window):
 		"""
 		Show and present @window on the current
@@ -34,6 +43,7 @@ class GUIEnvironmentContext (object):
 
 		@window: A gtk.Window
 		"""
+		window.set_screen(self.get_screen())
 		window.present_with_time(self.get_timestamp())
 
 class _internal_data (object):
