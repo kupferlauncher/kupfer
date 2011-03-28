@@ -31,18 +31,18 @@ class KeyboundObject (gobject.GObject):
 	def _keybinding(self, target):
 		import keybinder
 		time = keybinder.get_current_event_time()
-		self.emit("keybinding", target, time, "")
+		self.emit("keybinding", target, "", time)
 	def emit_bound_key_changed(self, keystring, is_bound):
 		self.emit("bound-key-changed", keystring, is_bound)
-	def relayed_keys(self, sender, keystring, display):
+	def relayed_keys(self, sender, keystring, display, timestamp):
 		for target, key in _currently_bound.iteritems():
 			if keystring == key:
-				self.emit("keybinding", target, 0, display)
+				self.emit("keybinding", target, display, timestamp)
 
-# Arguments: Target, Timestamp, Display
+# Arguments: Target, Display, Timestamp
 gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN,
-		(gobject.TYPE_INT, gobject.TYPE_INT64, gobject.TYPE_STRING))
+		(gobject.TYPE_INT, gobject.TYPE_STRING, gobject.TYPE_UINT))
 # Arguments: Keystring, Boolean
 gobject.signal_new("bound-key-changed", KeyboundObject, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN,

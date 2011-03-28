@@ -110,7 +110,7 @@ def _parse_notify_id(startup_notification_id):
 	if "_TIME" in startup_notification_id:
 		_ign, bstime = startup_notification_id.split("_TIME", 1)
 		try:
-			time = int(bstime)
+			time = abs(int(bstime))
 		except ValueError:
 			pass
 	return time
@@ -120,8 +120,10 @@ def using_startup_notify_id(notify_id):
 	"""
 	Pass in a DESKTOP_STARTUP_ID
 
-	with using_startup_notify_id(...):
+	with using_startup_notify_id(...) as time:
 		pass
+	
+	The yelt object is the parsed timestamp
 	"""
 	timestamp = _parse_notify_id(notify_id)
 	if timestamp:
@@ -129,7 +131,7 @@ def using_startup_notify_id(notify_id):
 	try:
 		pretty.print_debug(__name__, "Using startup id", repr(notify_id))
 		_internal_data.current_event_time = timestamp
-		yield
+		yield timestamp
 	finally:
 		_internal_data.current_event_time = gtk.gdk.CURRENT_TIME
 

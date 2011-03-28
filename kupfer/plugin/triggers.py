@@ -72,7 +72,7 @@ class Triggers (Source):
 		for target, (keystr, name, id_) in self.trigger_table.iteritems():
 			keybindings.bind_key(None, target)
 
-	def keybinding_callback(self, keyobj, target, event_time, display):
+	def keybinding_callback(self, keyobj, target, display, event_time):
 		if not self.has_trigger(target):
 			return
 		ui_ctx = uievents.gui_context_from_keyevent(event_time, display)

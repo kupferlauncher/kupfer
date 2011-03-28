@@ -51,57 +51,66 @@ class Service (ExportedGObject):
 
 	@dbus.service.method(interface_name)
 	def Present(self):
-		self.emit("present", "")
+		self.PresentOnDisplay("", "")
 
 	@dbus.service.method(interface_name, in_signature="ay",
 	                     byte_arrays=True)
 	def PresentWithStartup(self, notify_id):
-		with uievents.using_startup_notify_id(notify_id):
-			self.emit("present", "")
+		self.PresentOnDisplay("", notify_id)
 
 	@dbus.service.method(interface_name, in_signature="ayay",
 	                     byte_arrays=True)
 	def PresentOnDisplay(self, display, notify_id):
-		with uievents.using_startup_notify_id(notify_id):
-			self.emit("present", display)
+		with uievents.using_startup_notify_id(notify_id) as time:
+			self.emit("present", display, time)
 
 	@dbus.service.method(interface_name)
 	def ShowHide(self):
-		self.emit("show-hide")
+		self.emit("show-hide", "", 0)
 
 	@dbus.service.method(interface_name, in_signature="s")
 	def PutText(self, text):
-		self.emit("put-text", text)
+		self.PutTextOnDisplay(text, "", "")
+
+	@dbus.service.method(interface_name, in_signature="sayay",
+	                     byte_arrays=True)
+	def PutTextOnDisplay(self, text, display, notify_id):
+		with uievents.using_startup_notify_id(notify_id) as time:
+			self.emit("put-text", text, display, time)
 
 	@dbus.service.method(interface_name, in_signature="as")
 	def PutFiles(self, fileuris):
+		self.PutFilesOnDisplay(fileuris, "", "")
+
+	@dbus.service.method(interface_name, in_signature="asayay",
+	                     byte_arrays=True)
+	def PutFilesOnDisplay(self, fileuris, display, notify_id):
 		# files sent with dbus-send from kupfer have a custom comma
 		# escape that we have to unescape here
 		fileuris[:] = [f.replace("%%kupfercomma%%", ",") for f in fileuris]
-		self.emit("put-files", fileuris)
+		with uievents.using_startup_notify_id(notify_id) as time:
+			self.emit("put-files", fileuris, display, time)
 
 	@dbus.service.method(interface_name, in_signature="s")
 	def ExecuteFile(self, filepath):
-		self.emit("execute-file", filepath)
+		self.ExecuteFileOnDisplay(filepath, "", "")
 
 	@dbus.service.method(interface_name, in_signature="say",
 	                     byte_arrays=True)
 	def ExecuteFileWithStartup(self, filepath, notify_id):
-		with uievents.using_startup_notify_id(notify_id):
-			self.emit("execute-file", filepath)
+		self.ExecuteFileOnDisplay(filepath, "", notify_id)
 
 	@dbus.service.method(interface_name, in_signature="sayay",
 	                     byte_arrays=True)
 	def ExecuteFileOnDisplay(self, filepath, display, notify_id):
-		raise NotImplementedError
-		with uievents.using_startup_notify_id(notify_id):
-			self.emit("execute-file", filepath)
+		with uievents.using_startup_notify_id(notify_id) as time:
+			self.emit("execute-file", filepath, display, time)
 
 	@dbus.service.method(interface_name, in_signature="sayay",
 	                     byte_arrays=True)
 	def RelayKeysFromDisplay(self, keystring, display, notify_id):
-		with uievents.using_startup_notify_id(notify_id):
-			self.emit("relay-keys", keystring, display)
+		with uievents.using_startup_notify_id(notify_id) as time:
+			self.emit("relay-keys", keystring, display, time)
 
 	@dbus.service.method(interface_name, in_signature=None,
 	                     out_signature="as",
@@ -118,24 +127,36 @@ class Service (ExportedGObject):
 	def Quit(self):
 		self.emit("quit")
 
+# Signature: displayname, timestamp
 gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, ))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_UINT))
 
+# Signature: displayname, timestamp
 gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_UINT))
 
+# Signature: text, displayname, timestamp
 gobject.signal_new("put-text", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, ))
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT))
 
+# Signature: filearray, displayname, timestamp
 gobject.signal_new("put-files", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_PYOBJECT, gobject.TYPE_STRING, gobject.TYPE_UINT))
 
+# Signature: fileuri, displayname, timestamp
 gobject.signal_new("execute-file", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING,))
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT))
 
+# Signature: ()
 gobject.signal_new("quit", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
+# Signature: keystring, displayname, timestamp
 gobject.signal_new("relay-keys", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING, ))
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT))
+
 

@@ -2065,13 +2065,12 @@ class WindowController (pretty.OutputMixin):
 		return (screen.get_monitor_at_point(x,y) !=
 		        screen.get_monitor_at_window(self.window.window))
 
-	def activate(self, sender=None, time=0):
-		dispname = self.window.get_screen().get_display().get_name()
-		self.present_on_display(sender, dispname)
+	def activate(self, sender=None):
+		dispname = self.window.get_screen().make_display_name()
+		self.on_present(sender, dispname, gtk.get_current_event_time())
 
-	def present_on_display(self, sender, display=None):
+	def on_present(self, sender, display, timestamp):
 		"""Present on @display, where None means default display"""
-		time = uievents.current_event_time()
 		self._window_hide_timer.invalidate()
 		if not display:
 			display = gtk.gdk.display_get_default().get_name()
@@ -2079,9 +2078,10 @@ class WindowController (pretty.OutputMixin):
 		    not self.is_current_display(display)):
 			self._center_window(display)
 		self.window.stick()
-		self.window.present_with_time(time)
-		self.window.window.focus(timestamp=time)
+		self.window.present_with_time(timestamp)
+		self.window.window.focus(timestamp=timestamp)
 		self.interface.focus()
+
 
 	def put_away(self):
 		self.interface.put_away()
@@ -2090,35 +2090,39 @@ class WindowController (pretty.OutputMixin):
 	def _cancelled(self, widget):
 		self.put_away()
 
-	def show_hide(self, sender=None, time=0, display=None):
+	def on_show_hide(self, sender, display, timestamp):
 		"""
 		Toggle activate/put-away
 		"""
 		if self.window.get_property("visible"):
 			self.put_away()
 		else:
-			self.present_on_display(sender, display)
+			self.on_present(sender, display, timestamp)
 
-	def _key_binding(self, keyobj, keybinding_number, event_time, display):
+	def show_hide(self, sender):
+		"GtkStatusIcon callback"
+		self.on_show_hide(sender, "", gtk.get_current_event_time())
+
+	def _key_binding(self, keyobj, keybinding_number, display, timestamp):
 		"""Keybinding activation callback"""
 		if keybinding_number == keybindings.KEYBINDING_DEFAULT:
-			self.show_hide(time=event_time, display=display)
+			self.on_show_hide(keyobj, display, timestamp)
 		elif keybinding_number == keybindings.KEYBINDING_MAGIC:
-			self.present_on_display(keyobj, display=display)
+			self.on_present(keyobj, display, timestamp)
 			self.interface.select_selected_text()
 			self.interface.select_selected_file()
 
-	def _put_text_received(self, sender, text):
-		"""We got a search query from dbus"""
-		self.activate()
+	def on_put_text(self, sender, text, display, timestamp):
+		"""We got a search text from dbus"""
+		self.on_present(sender, display, timestamp)
 		self.interface.put_text(text)
 
-	def _put_files_received(self, sender, fileuris):
-		"""We got a search query from dbus"""
-		self.activate()
+	def on_put_files(self, sender, fileuris, display, timestamp):
+		self.on_present(sender, display, timestamp)
 		self.interface.put_files(fileuris)
 
-	def _execute_file_received(self, sender, filepath):
+	def on_execute_file(self, sender, filepath, display, timestamp):
+		# FIXME
 		self.interface.execute_file(filepath)
 
 	def _close_window(self, window, event):
@@ -2216,11 +2220,11 @@ class WindowController (pretty.OutputMixin):
 		except listen.NoConnectionError:
 			kserv = None
 		else:
-			kserv.connect("present", self.present_on_display)
-			kserv.connect("show-hide", self.show_hide)
-			kserv.connect("put-text", self._put_text_received)
-			kserv.connect("put-files", self._put_files_received)
-			kserv.connect("execute-file", self._execute_file_received)
+			kserv.connect("present", self.on_present)
+			kserv.connect("show-hide", self.on_show_hide)
+			kserv.connect("put-text", self.on_put_text)
+			kserv.connect("put-files", self.on_put_files)
+			kserv.connect("execute-file", self.on_execute_file)
 			kserv.connect("quit", self.quit)
 			keyobj = keybindings.GetKeyboundObject()
 			keyobj.connect("bound-key-changed",

@@ -51,7 +51,8 @@ KUPFER_RUNNING=$?
 if test \( -n "$TEXT_INPUT" -a $KUPFER_HAS_OPTIONS != 0 \)
 then
 	dbus-send --type=method_call --dest=$SERVICE $OBJ \
-		$IFACE.PutText string:"$TEXT_INPUT"
+		$IFACE.PutTextOnDisplay string:"$TEXT_INPUT" \
+		string:"$DISPLAY" string:"$DESKTOP_STARTUP_ID"
 fi
 
 _realpaths () {
@@ -75,7 +76,8 @@ then
 	# array item separator. This is then unescaped by kupfer
 	ARRAY=$(_realpaths "$@" | sed -e 's/,/%%kupfercomma%%/g' | tr \\0 ,)
 	dbus-send --type=method_call --dest=$SERVICE $OBJ \
-		$IFACE.PutFiles array:string:"$ARRAY"
+		$IFACE.PutFilesOnDisplay array:string:"$ARRAY" \
+		string:"$DISPLAY" string:"$DESKTOP_STARTUP_ID"
 fi
 
 
