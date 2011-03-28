@@ -18,6 +18,7 @@ kupfer/ui/browser.py
 kupfer/ui/preferences.py
 kupfer/ui/getkey_dialog.py
 kupfer/version.py
+kupfer/keyrelay.py
 kupfer/core/commandexec.py
 kupfer/core/execfile.py
 
@@ -74,7 +75,7 @@ kupfer/plugin/audacious.py
 kupfer/plugin/chromium.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/custom_terminal.py
-kupfer/plugin/darkstyle.py
+kupfer/plugin/customtheme.py
 kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
 kupfer/plugin/empathy.py

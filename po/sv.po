@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 17:20+0100\n"
+"POT-Creation-Date: 2011-03-28 16:59+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -128,6 +128,9 @@ msgstr "lista tillgängliga insticksmoduler"
 
 msgid "enable debug info"
 msgstr "felsökningsläge"
+
+msgid "run keyboard shortcut relay service on this display"
+msgstr "starta vidaresändning av snabbtangenter på den här skärmen"
 
 msgid "show usage help"
 msgstr "visa hjälpmeddelande"
@@ -324,6 +327,10 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
+
+#, python-format
+msgid "Keyboard relay is active for display %s"
+msgstr "Vidaresänding av snabbtangenter är aktivt på display %s"
 
 #, python-format
 msgid "Could not to carry out '%s'"
@@ -1311,11 +1318,14 @@ msgstr "Konfigurera en valfri terminal"
 msgid "Execute flag"
 msgstr "Kör-flagga"
 
-msgid "Dark Theme"
-msgstr "Mörkt tema"
+msgid "Custom Theme"
+msgstr "Valfritt tema"
 
-msgid "Use a dark color theme"
-msgstr "Använd ett mörkt färgtema"
+msgid "Use a custom color theme"
+msgstr "Använd ett valfritt färgtema"
+
+msgid "Theme:"
+msgstr "Tema:"
 
 msgid "Default Email Client"
 msgstr "Förvald e-postläsare"
