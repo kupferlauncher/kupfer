@@ -12,10 +12,15 @@ IFACE = "se.kaizer.kupfer.Listener"
 
 
 def get_all_keys():
-	bus = dbus.Bus()
-	obj = bus.get_object(SERV, OBJ)
-	iface = dbus.Interface(obj, IFACE)
-	return iface.GetBoundKeys(byte_arrays=True)
+	try:
+		bus = dbus.Bus()
+		obj = bus.get_object(SERV, OBJ)
+		iface = dbus.Interface(obj, IFACE)
+		return iface.GetBoundKeys(byte_arrays=True)
+	except dbus.DBusException as exc:
+		print exc
+		print "Waiting for Kupfer to start.."
+		return []
 
 def rebind_key(keystring, is_bound):
 	if is_bound:
@@ -37,11 +42,11 @@ def relay_key(key):
 def main():
 	DBusGMainLoop(set_as_default=True)
 
-	bus = dbus.Bus()
 	relayed_keys = list(get_all_keys())
 
 	for key in relayed_keys:
 		keybinder.bind(key, relay_key, key)
+	bus = dbus.Bus()
 	bus.add_signal_receiver(rebind_key, 'BoundKeyChanged',
 			dbus_interface=IFACE)
 	gtk.main()
