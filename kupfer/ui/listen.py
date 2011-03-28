@@ -51,13 +51,19 @@ class Service (ExportedGObject):
 
 	@dbus.service.method(interface_name)
 	def Present(self):
-		self.emit("present")
+		self.emit("present", "")
 
 	@dbus.service.method(interface_name, in_signature="ay",
 	                     byte_arrays=True)
 	def PresentWithStartup(self, notify_id):
 		with uievents.using_startup_notify_id(notify_id):
-			self.emit("present")
+			self.emit("present", "")
+
+	@dbus.service.method(interface_name, in_signature="ayay",
+	                     byte_arrays=True)
+	def PresentOnDisplay(self, display, notify_id):
+		with uievents.using_startup_notify_id(notify_id):
+			self.emit("present", display)
 
 	@dbus.service.method(interface_name)
 	def ShowHide(self):
@@ -84,12 +90,19 @@ class Service (ExportedGObject):
 		with uievents.using_startup_notify_id(notify_id):
 			self.emit("execute-file", filepath)
 
+	@dbus.service.method(interface_name, in_signature="sayay",
+	                     byte_arrays=True)
+	def ExecuteFileOnDisplay(self, filepath, display, notify_id):
+		raise NotImplementedError
+		with uievents.using_startup_notify_id(notify_id):
+			self.emit("execute-file", filepath)
+
 	@dbus.service.method(interface_name)
 	def Quit(self):
 		self.emit("quit")
 
 gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, ())
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, ))
 
 gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
