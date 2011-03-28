@@ -1751,6 +1751,7 @@ class WindowController (pretty.OutputMixin):
 		# GdkDisplay and GdkScreen
 		self.screens = set()
 		self.displays = set()
+		self.current_screen_handler = 0
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1972,6 +1973,9 @@ class WindowController (pretty.OutputMixin):
 		return norm_name(cur_disp) == norm_name(displayname)
 
 	def _window_put_on_screen(self, screen):
+		if self.current_screen_handler:
+			scr = self.window.get_screen()
+			scr.disconnect(self.current_screen_handler)
 		rgba = screen.get_rgba_colormap()
 		if rgba:
 			self.window.unrealize()
@@ -1980,6 +1984,8 @@ class WindowController (pretty.OutputMixin):
 			self.window.realize()
 		else:
 			self.window.set_screen(screen)
+		self.current_screen_handler = \
+			screen.connect("monitors-changed", self._monitors_changed)
 
 	def _center_window(self, displayname=None):
 		"""Center Window on the monitor the pointer is currently on"""
@@ -2165,10 +2171,6 @@ class WindowController (pretty.OutputMixin):
 		client = session.SessionClient()
 		client.connect("save-yourself", self._session_save)
 		client.connect("die", self._session_die)
-
-		# GTK Screen callbacks
-		scr = gtk.gdk.screen_get_default()
-		scr.connect("monitors-changed", self._monitors_changed)
 
 		self.output_debug("finished lazy_setup")
 
