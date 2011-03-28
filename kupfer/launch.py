@@ -192,7 +192,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def _find_application(self, app_id, pid, timeout):
 		if self._has_match(app_id):
 			return False
-		self.output_debug("Looking for window for application", app_id)
+		#self.output_debug("Looking for window for application", app_id)
 		for w in self._get_wnck_screen_windows_stacked():
 			app = w.get_application()
 			app_pid = app.get_pid()
