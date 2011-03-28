@@ -306,7 +306,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		pass
 
 	def on_buttonkeybinding_clicked(self, widget):
-		keystr = getkey_dialog.ask_for_key(keybindings.bind_key)
+		keystr = getkey_dialog.ask_for_key(keybindings.bind_key,
+					screen=widget.get_screen())
 		if keystr:
 			self.entrykeybinding.set_text(keystr)
 			self.output_debug("Try set keybinding with", keystr)
@@ -696,7 +697,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		setctl = settings.GetSettingsController()
 		curr_key = setctl.get_global_keybinding(keybind_id)
 		bind_func = bind_key_func(self.KEYBINDING_TARGETS[keybind_id])
-		keystr = getkey_dialog.ask_for_key(bind_func, curr_key)
+		keystr = getkey_dialog.ask_for_key(bind_func, curr_key,
+								screen=treeview.get_screen())
 		if keystr == '':
 			keybindings.bind_key(None, self.KEYBINDING_TARGETS[keybind_id])
 			setctl.set_global_keybinding(keybind_id, keystr)
@@ -720,7 +722,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		setctl = settings.GetSettingsController()
 		curr_key = setctl.get_accelerator(keybind_id)
 		keystr = getkey_dialog.ask_for_key(self._is_good_keystr,
-				previous_key=curr_key)
+				previous_key=curr_key, screen=treeview.get_screen())
 		if keystr is not None:
 			setctl.set_accelerator(keybind_id, keystr)
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))

@@ -143,14 +143,15 @@ def try_bind_key(keystr):
 	return succ
 
 class BindTask (task.Task):
-	def __init__(self, leaf):
+	def __init__(self, leaf, screen):
 		self.leaf = leaf
+		self.screen = screen
 
 	def start(self, finish_callback):
 		glib.idle_add(self.ask_key, finish_callback)
 
 	def ask_key(self, finish_callback):
-		keystr = getkey_dialog.ask_for_key(try_bind_key)
+		keystr = getkey_dialog.ask_for_key(try_bind_key, screen=self.screen)
 		if keystr:
 			Triggers.add_trigger(self.leaf, keystr)
 		finish_callback(self)
@@ -162,8 +163,11 @@ class AddTrigger (Action):
 	def is_async(self):
 		return True
 
-	def activate(self, leaf):
-		return BindTask(leaf)
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
+		return BindTask(leaf, ctx.environment.get_screen())
 
 	def item_types(self):
 		yield ComposedLeaf
