@@ -110,8 +110,8 @@ class Service (ExportedGObject):
 		from kupfer.ui import keybindings
 		return keybindings.get_all_bound_keys()
 
-	@dbus.service.signal(interface_name, signature="ay")
-	def KeyWasBound(self, keystr):
+	@dbus.service.signal(interface_name, signature="sb")
+	def BoundKeyChanged(self, keystr, is_bound):
 		pass
 
 	@dbus.service.method(interface_name)

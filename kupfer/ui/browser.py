@@ -2167,6 +2167,8 @@ class WindowController (pretty.OutputMixin):
 			kserv.connect("execute-file", self._execute_file_received)
 			kserv.connect("quit", self.quit)
 			keyobj = keybindings.GetKeyboundObject()
+			keyobj.connect("bound-key-changed",
+			               lambda x,y,z: kserv.BoundKeyChanged(y,z))
 			kserv.connect("relay-keys", keyobj.relayed_keys)
 
 		# Load data and present UI

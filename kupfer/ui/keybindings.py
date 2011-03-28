@@ -32,6 +32,8 @@ class KeyboundObject (gobject.GObject):
 		import keybinder
 		time = keybinder.get_current_event_time()
 		self.emit("keybinding", target, time, "")
+	def emit_bound_key_changed(self, keystring, is_bound):
+		self.emit("bound-key-changed", keystring, is_bound)
 	def relayed_keys(self, sender, keystring, display):
 		for target, key in _currently_bound.iteritems():
 			if keystring == key:
@@ -41,6 +43,10 @@ class KeyboundObject (gobject.GObject):
 gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN,
 		(gobject.TYPE_INT, gobject.TYPE_INT64, gobject.TYPE_STRING))
+# Arguments: Keystring, Boolean
+gobject.signal_new("bound-key-changed", KeyboundObject, gobject.SIGNAL_RUN_LAST,
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_STRING, gobject.TYPE_BOOLEAN,))
 
 _currently_bound = {}
 
@@ -84,6 +90,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 		try:
 			succ = keybinder.bind(keystr, callback)
 			pretty.print_debug(__name__, "binding", repr(keystr))
+			GetKeyboundObject().emit_bound_key_changed(keystr, True)
 		except KeyError, exc:
 			pretty.print_error(__name__, exc)
 			succ = False
@@ -92,6 +99,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 		if old_keystr and old_keystr != keystr:
 			keybinder.unbind(old_keystr)
 			pretty.print_debug(__name__, "unbinding", repr(old_keystr))
+			GetKeyboundObject().emit_bound_key_changed(old_keystr, False)
 		_register_bound_key(keystr, keybinding_target)
 	return succ
 
