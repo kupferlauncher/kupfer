@@ -41,7 +41,7 @@ def relay_key(key):
 	bus = dbus.Bus()
 	obj = bus.get_object(SERV, OBJ, introspect=False)
 	iface = dbus.Interface(obj, IFACE)
-	iface.RelayKeysFromDisplay(key, os.getenv("DISPLAY"), s_id)
+	iface.RelayKeysFromDisplay(key, os.getenv("DISPLAY", ":0"), s_id)
 
 def main():
 	DBusGMainLoop(set_as_default=True)
@@ -53,6 +53,10 @@ def main():
 	bus = dbus.Bus()
 	bus.add_signal_receiver(rebind_key, 'BoundKeyChanged',
 			dbus_interface=IFACE)
+	sicon = gtk.status_icon_new_from_icon_name("kupfer")
+	display = os.getenv("DISPLAY", ":0")
+	sicon.set_tooltip(_("Keyboard relay is active for display %s") % display)
+	sicon.set_visible(True)
 	try:
 		gtk.main()
 	except KeyboardInterrupt:
