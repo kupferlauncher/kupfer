@@ -145,7 +145,8 @@ class ExecutionToken (object):
 		self._ui_ctx = ui_ctx
 
 	def register_late_result(self, result_object, show=True):
-		self._aectx.register_late_result(self._token, result_object, show=show)
+		self._aectx.register_late_result(self._token, result_object, show=show,
+		                                 ctxenv=self._ui_ctx)
 
 	def register_late_error(self, exc_info=None):
 		self._aectx.register_late_error(self._token, exc_info)
@@ -247,7 +248,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		command_id, cmdtuple = token
 		self._do_error_conversion(cmdtuple, exc_info)
 
-	def register_late_result(self, token, result, show=True):
+	def register_late_result(self, token, result, show=True, ctxenv=None):
 		"""Register a late result
 
 		Result must be a Leaf (as in result object, not factory or async)
@@ -271,7 +272,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		if not show:
 			command_id = -1
 		self.emit("late-command-result", command_id, RESULT_OBJECT, result,
-		                                 token.environment)
+		                                 ctxenv)
 		self._append_result(RESULT_OBJECT, result)
 
 	def _append_result(self, res_type, result):
