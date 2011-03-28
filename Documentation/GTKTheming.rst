@@ -100,7 +100,7 @@ Injecting a Custom Style
 
 Any user can override the GTK+ style used for their applications. But
 more conventient is injecting the gtkrc at runtime by means of a Kupfer
-plugin. See ``kupfer/plugin/darkstyle.py`` for an example.
+plugin. See ``kupfer/plugin/customtheme.py`` for an example.
 
 .. vim: ft=rst tw=72 et sts=4 sw=4
 .. this document best viewed with rst2html
