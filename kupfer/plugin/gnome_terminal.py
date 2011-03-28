@@ -35,9 +35,13 @@ class OpenSession(Action):
 	def __init__(self):
 		Action.__init__(self, _("Open"))
 
-	def activate(self, leaf):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		utils.spawn_async(["gnome-terminal",
-				   "--profile=%s" % leaf.object],
+				   "--profile=%s" % leaf.object,
+				   "--display=%s" % ctx.environment.get_display()],
 				  in_dir=os.path.expanduser("~"))
 
 	def get_gicon(self):
