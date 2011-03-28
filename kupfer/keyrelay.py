@@ -1,3 +1,7 @@
+"""
+This is a program of its own, that does not integrate with the
+Kupfer process.
+"""
 import os
 
 import gtk
@@ -45,11 +49,14 @@ def main():
 	relayed_keys = list(get_all_keys())
 
 	for key in relayed_keys:
-		keybinder.bind(key, relay_key, key)
+		rebind_key(key, True)
 	bus = dbus.Bus()
 	bus.add_signal_receiver(rebind_key, 'BoundKeyChanged',
 			dbus_interface=IFACE)
-	gtk.main()
+	try:
+		gtk.main()
+	except KeyboardInterrupt:
+		raise SystemExit(0)
 
 if __name__ == '__main__':
 	main()

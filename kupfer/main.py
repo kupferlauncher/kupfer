@@ -43,6 +43,7 @@ def get_options():
 		("no-splash", _("do not present main interface on launch")),
 		("list-plugins", _("list available plugins")),
 		("debug", _("enable debug info")),
+		("relay", _("run keyboard shortcut relay service on this display")),
 	]
 	misc_options = [
 		("help", _("show usage help")),
@@ -95,6 +96,9 @@ def get_options():
 		if k == "--debug":
 			global _debug
 			_debug = True
+		if k == "--relay":
+			keyrelay_main()
+			raise SystemExit
 
 	# return list first of tuple pair
 	return [tupl[0] for tupl in opts]
@@ -131,6 +135,10 @@ def _set_process_title():
 			_set_process_title_linux()
 	else:
 		setproctitle.setproctitle("kupfer")
+
+def keyrelay_main():
+	import kupfer.keyrelay
+	kupfer.keyrelay.main()
 
 def gtkmain(quiet):
 	import pygtk
