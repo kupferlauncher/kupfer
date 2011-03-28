@@ -53,8 +53,7 @@ class GUIEnvironmentContext (object):
 
 		Always returns a byte string
 		"""
-		# FIXME: use Kupfer window's display
-		return os.getenv("DISPLAY", ":0")
+		return self._screen.get_display().get_name()
 	def get_screen(self):
 		return self._screen
 	def present_window(self, window):
