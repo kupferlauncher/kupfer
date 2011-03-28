@@ -802,6 +802,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 	def show(self, timestamp):
 		self.window.present_with_time(timestamp)
+	def show_on_screen(self, timestamp, screen):
+		self.window.set_screen(screen)
+		self.show(timestamp)
 
 	def show_focus_plugin(self, plugin_id, timestamp):
 		"""

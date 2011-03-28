@@ -60,7 +60,11 @@ def _response_callback(dialog, response_id):
 def show_preferences(ctx=None):
 	from kupfer.ui import preferences
 	win = preferences.GetPreferencesWindowController()
-	win.show(_get_time(ctx))
+	if ctx:
+		win.show_on_screen(ctx.environment.get_timestamp(),
+		                   ctx.environment.get_screen())
+	else:
+		win.show(_get_time(ctx))
 
 def show_plugin_info(plugin_id, ctx=None):
 	from kupfer.ui import preferences
