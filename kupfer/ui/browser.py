@@ -2026,7 +2026,8 @@ class WindowController (pretty.OutputMixin):
 		        screen.get_monitor_at_window(self.window.window))
 
 	def activate(self, sender=None, time=0):
-		self.present_on_display(sender, None)
+		dispname = self.window.get_screen().get_display().get_name()
+		self.present_on_display(sender, dispname)
 
 	def present_on_display(self, sender, display=None):
 		"""Present on @display, where None means default display"""
