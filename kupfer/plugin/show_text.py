@@ -17,8 +17,12 @@ class ShowText (Action):
 	def __init__(self):
 		Action.__init__(self, _("Show Text"))
 
-	def activate(self, leaf):
-		uiutils.show_text_result(leaf.get_text_representation(), title=_("Show Text"))
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
+		uiutils.show_text_result(leaf.get_text_representation(),
+			title=_("Show Text"), ctx=ctx)
 
 	def item_types(self):
 		yield TextLeaf
@@ -32,8 +36,11 @@ class LargeType (Action):
 	def __init__(self):
 		Action.__init__(self, _("Large Type"))
 
-	def activate(self, leaf):
-		uiutils.show_large_type(leaf.get_text_representation())
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
+		uiutils.show_large_type(leaf.get_text_representation(), ctx)
 
 	def item_types(self):
 		yield Leaf

@@ -145,7 +145,8 @@ class ExecutionToken (object):
 		self._ui_ctx = ui_ctx
 
 	def register_late_result(self, result_object, show=True):
-		self._aectx.register_late_result(self._token, result_object, show=show)
+		self._aectx.register_late_result(self._token, result_object, show=show,
+		                                 ctxenv=self._ui_ctx)
 
 	def register_late_error(self, exc_info=None):
 		self._aectx.register_late_error(self._token, exc_info)
@@ -247,7 +248,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		command_id, cmdtuple = token
 		self._do_error_conversion(cmdtuple, exc_info)
 
-	def register_late_result(self, token, result, show=True):
+	def register_late_result(self, token, result, show=True, ctxenv=None):
 		"""Register a late result
 
 		Result must be a Leaf (as in result object, not factory or async)
@@ -270,7 +271,8 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		# If only registration was requsted, remove the command id info
 		if not show:
 			command_id = -1
-		self.emit("late-command-result", command_id, RESULT_OBJECT, result)
+		self.emit("late-command-result", command_id, RESULT_OBJECT, result,
+		                                 ctxenv)
 		self._append_result(RESULT_OBJECT, result)
 
 	def _append_result(self, res_type, result):
@@ -308,7 +310,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		# the result of the nested execution context
 		if self._delegate:
 			res, ret = ret
-			return self._return_result(res, ret)
+			return self._return_result(res, ret, ui_ctx)
 
 		res = parse_action_result(action, ret)
 		if res == RESULT_ASYNC:
@@ -322,12 +324,12 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		if delegate and self._is_nested():
 			self._delegate = True
 
-		return self._return_result(res, ret)
+		return self._return_result(res, ret, ui_ctx)
 
-	def _return_result(self, res, ret):
+	def _return_result(self, res, ret, ui_ctx):
 		if not self._is_nested():
 			self._append_result(res, ret)
-			self.emit("command-result", res, ret)
+			self.emit("command-result", res, ret, ui_ctx)
 		return res, ret
 
 
@@ -386,13 +388,15 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 			return RESULT_NONE, None
 
 
-# Action result type, action result
+# Signature: Action result type, action result, gui_context
 gobject.signal_new("command-result", ActionExecutionContext,
 		gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
 
-# Command ID, Action result type, action result
+# Signature: Command ID, Action result type, action result, gui_context
 gobject.signal_new("late-command-result", ActionExecutionContext,
 		gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.gobject.TYPE_INT,
-			gobject.TYPE_PYOBJECT))
+		gobject.TYPE_BOOLEAN,
+		(gobject.TYPE_INT, gobject.gobject.TYPE_INT,
+			gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))

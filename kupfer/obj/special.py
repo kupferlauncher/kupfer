@@ -19,7 +19,7 @@ class PleaseConfigureLeaf(RunnableLeaf):
 		return True
 
 	def run(self, ctx):
-		kupferui.show_plugin_info(self.object, ctx)
+		kupferui.show_plugin_info(self.object, ctx.environment)
 
 	def get_icon_name(self):
 		return "preferences-desktop"

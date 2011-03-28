@@ -6,6 +6,8 @@
 export TEXTDOMAIN='@PACKAGE@'
 export TEXTDOMAINDIR='@LOCALEDIR@'
 
+PYTHON='@PYTHON@'
+
 if test ! -f "$1"
 then
 	echo "A file argument required"
@@ -20,8 +22,8 @@ while test $# != 0
 do
 	FILE=$(readlink -f "$1")
 	dbus-send --print-reply --dest=$SERVICE $OBJ \
-		$IFACE.ExecuteFileWithStartup string:"$FILE" \
-		string:"$DESKTOP_STARTUP_ID" \
+		$IFACE.ExecuteFileOnDisplay string:"$FILE" \
+		string:"$DISPLAY" string:"$DESKTOP_STARTUP_ID" \
 		> /dev/null 2>&1
 	KUPFER_RUNNING=$?
 
@@ -34,3 +36,8 @@ do
 	fi
 	shift
 done
+
+if test -n "$DESKTOP_STARTUP_ID" -a -n "${PYTHON##@*}"
+then
+	${PYTHON} -c "import gtk.gdk; gtk.gdk.notify_startup_complete()"
+fi

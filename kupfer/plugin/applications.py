@@ -69,14 +69,18 @@ class OpenWith (Action):
 	def __init__(self):
 		Action.__init__(self, _("Open With..."))
 
-	def _activate(self, app_leaf, paths):
-		app_leaf.launch(paths=paths)
-	def activate(self, leaf, iobj):
-		self._activate(iobj, (leaf.object, ))
-	def activate_multiple(self, objects, iobjects):
+	def _activate(self, app_leaf, paths, ctx):
+		app_leaf.launch(paths=paths, ctx=ctx)
+
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, iobj, ctx):
+		self._activate(iobj, (leaf.object, ), ctx)
+	def activate_multiple(self, objects, iobjects, ctx):
 		# for each application, launch all the files
 		for iobj_app in iobjects:
-			self._activate(iobj_app, [L.object for L in objects])
+			self._activate(iobj_app, [L.object for L in objects], ctx)
 
 	def item_types(self):
 		yield FileLeaf

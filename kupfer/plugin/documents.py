@@ -44,7 +44,7 @@ class RecentsSource (Source):
 	
 	def get_items(self):
 		max_days = __kupfer_settings__["max_days"]
-		self.output_info("Items younger than", max_days, "days")
+		#self.output_info("Items younger than", max_days, "days")
 		items = self._get_items(max_days)
 		return items
 

@@ -5,8 +5,7 @@ from kupfer import version, config
 
 
 class GetKeyDialogController(object):
-
-	def __init__(self, check_callback=None, previous_key=None):
+	def __init__(self, check_callback=None, previous_key=None, screen=None):
 		'''@check_callback - optional function to check is entered key is valid.
 		@previous_key - optional previous keybinding, press equal act like cancel'''
 		builder = gtk.Builder()
@@ -29,6 +28,8 @@ class GetKeyDialogController(object):
 		self._previous_key = previous_key
 		self._press_time = None
 
+		if screen:
+			self.window.set_screen(screen)
 		self.window.connect("focus-in-event", self.on_window_focus_in)
 		self.window.connect("focus-out-event", self.on_window_focus_out)
 
@@ -47,8 +48,8 @@ class GetKeyDialogController(object):
 	def on_buttoncancel_activate(self, _widget):
 		self._return(None)
 
-	def translate_keyboard_event(self, event):
-		keymap = gtk.gdk.keymap_get_default()
+	def translate_keyboard_event(self, widget, event):
+		keymap = gtk.gdk.keymap_get_for_display(widget.get_display())
 		# translate keys properly
 		keyval, egroup, level, consumed = keymap.translate_keyboard_state(
 					event.hardware_keycode, event.state, event.group)
@@ -62,12 +63,12 @@ class GetKeyDialogController(object):
 		accel_label = gtk.accelerator_get_label(keyval, state)
 		self.labelaccelerator.set_text(accel_label)
 
-	def on_dialoggetkey_key_press_event(self, _widget, event):
+	def on_dialoggetkey_key_press_event(self, widget, event):
 		self.imagekeybindingaux.hide()
 		self.labelkeybindingaux.hide()
 		self._press_time = event.time
 
-		keyval, state = self.translate_keyboard_event(event)
+		keyval, state = self.translate_keyboard_event(widget, event)
 		keyname = gtk.accelerator_name(keyval, state)
 		if keyname == 'Escape':
 			self._return(None)
@@ -78,7 +79,7 @@ class GetKeyDialogController(object):
 	def on_dialoggetkey_key_release_event(self, widget, event):
 		if not self._press_time:
 			return
-		keyval, state = self.translate_keyboard_event(event)
+		keyval, state = self.translate_keyboard_event(widget, event)
 		self.update_accelerator_label(0, 0)
 
 		if gtk.accelerator_valid(keyval, state):
@@ -101,7 +102,7 @@ class GetKeyDialogController(object):
 		pass
 
 
-def ask_for_key(check_callback=None, previous_key=None):
-	dlg = GetKeyDialogController(check_callback, previous_key)
+def ask_for_key(check_callback=None, previous_key=None, screen=None):
+	dlg = GetKeyDialogController(check_callback, previous_key, screen)
 	result = dlg.run()
 	return result

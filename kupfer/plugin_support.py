@@ -112,7 +112,6 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 				self.connect("plugin-setting-changed", callback, *args)
 
 	def _disconnect_all(self, plugin_name):
-		print "disconnect all", self.signal_connection
 		if self.signal_connection != -1:
 			self.disconnect(self.signal_connection)
 

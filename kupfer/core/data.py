@@ -780,7 +780,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if panectl.browse_down(alternate=alternate):
 			learn.record_search_hit(sel, key)
 
-	def activate(self, ui_ctx=None):
+	def activate(self, ui_ctx):
 		"""
 		Activate current selection
 
@@ -834,7 +834,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self._set_object_stack(pane, objects[:-1])
 		self._insert_object(pane, objects[-1])
 
-	def _command_execution_result(self, ctx, result_type, ret):
+	def _command_execution_result(self, ctx, result_type, ret, uictx):
 		if result_type == commandexec.RESULT_SOURCE:
 			self.object_stack_clear_all()
 			self.source_pane.push_source(ret)
@@ -843,12 +843,12 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self._insert_object(SourcePane, ret)
 		else:
 			return
-		self.emit("command-result", result_type)
+		self.emit("command-result", result_type, uictx)
 
-	def _late_command_execution_result(self, ctx, id_, result_type, ret):
+	def _late_command_execution_result(self, ctx, id_, result_type, ret, uictx):
 		"Receive late command result"
 		if self._latest_interaction < id_:
-			self._command_execution_result(ctx, result_type, ret)
+			self._command_execution_result(ctx, result_type, ret, uictx)
 
 	def find_object(self, url):
 		"""Find object with URI @url and select it in the first pane"""
@@ -998,9 +998,9 @@ gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("object-stack-changed", DataController, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, ))
 # when an command returned a result
-# arguments: result type
+# arguments: result type, gui_context
 gobject.signal_new("command-result", DataController, gobject.SIGNAL_RUN_LAST,
-		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, ))
+		gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
 
 # when an action was launched
 # arguments: none

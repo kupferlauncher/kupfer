@@ -253,7 +253,7 @@ def build(bld):
 	bld(features="subst",
 		source = "bin/kupfer-exec.in",
 		target = "bin/kupfer-exec",
-		dict = _dict_slice(bld.env, "PACKAGE LOCALEDIR".split())
+		dict = _dict_slice(bld.env, "PYTHON PACKAGE LOCALEDIR".split())
 		)
 	bld.install_files("${BINDIR}", "bin/kupfer-exec", chmod=0o755)
 

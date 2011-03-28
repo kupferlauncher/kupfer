@@ -46,7 +46,7 @@ def builder_get_objects_from_file(fname, attrs, autoconnect_to=None):
 	if autoconnect_to:
 		builder.connect_signals(autoconnect_to, user_data=names)
 
-def show_text_result(text, title=None):
+def show_text_result(text, title=None, ctx=None):
 	"""
 	Show @text in a result window.
 
@@ -88,6 +88,9 @@ def show_text_result(text, title=None):
 	if title:
 		window.set_title(title)
 
+	if ctx:
+		ctx.environment.present_window(window)
+
 	window.show_all()
 
 	# Fix Sizing:
@@ -105,7 +108,10 @@ def show_text_result(text, title=None):
 	hsize = int(min(wid + (winwid - oldwid) + 5, max_hsize))
 
 	window.resize(hsize, vsize)
-	window.present_with_time(uievents.current_event_time())
+	if ctx:
+		ctx.environment.present_window(window)
+	else:
+		window.present_with_time(uievents.current_event_time())
 
 def _wrap_paragraphs(text):
 	"""
@@ -114,7 +120,7 @@ def _wrap_paragraphs(text):
 	import textwrap
 	return u"\n\n".join(textwrap.fill(par) for par in text.split("\n\n"))
 
-def show_large_type(text):
+def show_large_type(text, ctx=None):
 	"""
 	Show @text, large, in a result window.
 	"""
@@ -136,8 +142,14 @@ def show_large_type(text):
 	size = 72.0
 	set_font_size(label, size)
 
-	maxwid = gtk.gdk.screen_width() - 50
-	maxhei = gtk.gdk.screen_height() - 100
+	if ctx:
+		screen = ctx.environment.get_screen()
+		window.set_screen(screen)
+	else:
+		screen = gtk.gdk.screen_get_default()
+
+	maxwid = screen.get_width() - 50
+	maxhei = screen.get_height() - 100
 	wid, hei = label.size_request()
 
 	# If the text contains long lines, we try to
@@ -167,7 +179,10 @@ def show_large_type(text):
 		return True
 	window.connect("key-press-event", _window_destroy)
 	window.show_all()
-	window.present_with_time(uievents.current_event_time())
+	if ctx:
+		ctx.environment.present_window(window)
+	else:
+		window.present_with_time(uievents.current_event_time())
 
 SERVICE_NAME = "org.freedesktop.Notifications"
 OBJECT_PATH = "/org/freedesktop/Notifications"

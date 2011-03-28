@@ -1140,7 +1140,8 @@ class Interface (gobject.GObject):
 		selection = self.current.get_current()
 		if selection is None:
 			return False
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+		clip = gtk.Clipboard(selection=gtk.gdk.SELECTION_CLIPBOARD,
+		                     display=entry.get_display())
 		return interface.copy_to_clipboard(selection, clip)
 
 	def _entry_cut_clipboard(self, entry):
@@ -1338,11 +1339,11 @@ class Interface (gobject.GObject):
 		self.data_controller.find_object("qpfer:quit")
 
 	def show_help(self):
-		kupferui.show_help()
+		kupferui.show_help(self._make_gui_ctx())
 		self.emit("launched-action")
 
 	def show_preferences(self):
-		kupferui.show_preferences()
+		kupferui.show_preferences(self._make_gui_ctx())
 		self.emit("launched-action")
 
 	def compose_action(self):
@@ -1491,8 +1492,8 @@ class Interface (gobject.GObject):
 		self.data_controller.browse_down(pane, alternate=alternate)
 
 	def _make_gui_ctx(self):
-		timestamp = uievents.current_event_time()
-		return uievents.GUIEnvironmentContext(timestamp)
+		timestamp = gtk.get_current_event_time()
+		return uievents.gui_context_from_widget(timestamp, self._widget)
 
 	def _activate(self, widget, current):
 		self.data_controller.activate(ui_ctx=self._make_gui_ctx())
@@ -1501,16 +1502,15 @@ class Interface (gobject.GObject):
 		"""Activate current selection (Run action)"""
 		self._activate(None, None)
 
-	def execute_file(self, filepath):
+	def execute_file(self, filepath, display, timestamp):
 		"""Execute a .kfcom file"""
 		def _handle_error(exc_info):
 			from kupfer import uiutils
 			etype, exc, tb = exc_info
 			if not uiutils.show_notification(unicode(exc), icon_name="kupfer"):
 				raise
-		self.data_controller.execute_file(filepath, self._make_gui_ctx(),
-		                                  on_error=_handle_error)
-
+		ctxenv = uievents.gui_context_from_keyevent(timestamp, display)
+		self.data_controller.execute_file(filepath, ctxenv, _handle_error)
 
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		# NOTE: "Always-matching" search.
@@ -1753,6 +1753,8 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		self.current_screen_handler = 0
+		self.current_screen = None
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1791,27 +1793,32 @@ class WindowController (pretty.OutputMixin):
 		menu = gtk.Menu()
 		menu.set_name("kupfer-menu")
 
-		def menu_callback(menuitem, callback):
-			callback()
-			if context_menu:
-				self.put_away()
-			return True
-
 		def submenu_callback(menuitem, callback):
 			callback()
 			return True
 
-		def add_menu_item(icon, callback, label=None):
+		def add_menu_item(icon, callback, label=None, with_ctx=True):
+			def mitem_handler(menuitem, callback):
+				if with_ctx:
+					time = gtk.get_current_event_time()
+					ui_ctx = uievents.gui_context_from_widget(time, menuitem)
+					callback(ui_ctx)
+				else:
+					callback()
+				if context_menu:
+					self.put_away()
+				return True
+
 			mitem = None
 			if label and not icon:
 				mitem = gtk.MenuItem(label=label)
 			else:
 				mitem = gtk.ImageMenuItem(icon)
-			mitem.connect("activate", menu_callback, callback)
+			mitem.connect("activate", mitem_handler, callback)
 			menu.append(mitem)
 
 		if context_menu:
-			add_menu_item(gtk.STOCK_CLOSE, self.put_away)
+			add_menu_item(gtk.STOCK_CLOSE, self.put_away, with_ctx=False)
 		else:
 			add_menu_item(None, self.activate, _("Show Main Interface"))
 		menu.append(gtk.SeparatorMenuItem())
@@ -1826,7 +1833,7 @@ class WindowController (pretty.OutputMixin):
 		add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
 		add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
 		menu.append(gtk.SeparatorMenuItem())
-		add_menu_item(gtk.STOCK_QUIT, self.quit)
+		add_menu_item(gtk.STOCK_QUIT, self.quit, with_ctx=False)
 		menu.show_all()
 
 		return menu
@@ -1896,10 +1903,6 @@ class WindowController (pretty.OutputMixin):
 		topbar.pack_start(title_align, True, True)
 		topbar.pack_start(button_box, False, False)
 		topbar.show_all()
-		screen = gtk.gdk.screen_get_default()
-		rgba = screen.get_rgba_colormap()
-		if rgba:
-			self.window.set_colormap(rgba)
 
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
@@ -1921,6 +1924,7 @@ class WindowController (pretty.OutputMixin):
 	def _context_clicked(self, widget, event):
 		"The context menu label was clicked"
 		menu = self._setup_menu(True)
+		menu.set_screen(self.window.get_screen())
 		menu.popup(None, None, None, event.button, event.time)
 		return True
 
@@ -1945,8 +1949,8 @@ class WindowController (pretty.OutputMixin):
 		self.interface.did_launch()
 		self._window_hide_timer.set_ms(100, self.put_away)
 
-	def result_callback(self, sender, result_type):
-		self.activate()
+	def result_callback(self, sender, result_type, ui_ctx):
+		self.on_present(sender, ui_ctx.get_display(), ui_ctx.get_timestamp())
 
 	def _lost_focus(self, window, event):
 		# Close at unfocus.
@@ -1962,17 +1966,56 @@ class WindowController (pretty.OutputMixin):
 			y not in xrange(w_y, w_y + w_h)):
 			self._window_hide_timer.set_ms(50, self.put_away)
 
-	def _center_window(self, *ignored):
+	def _monitors_changed(self, *ignored):
+		self._center_window()
+
+	def is_current_display(self, displayname):
+		def norm_name(name):
+			"Make :0.0 out of :0"
+			if name[-2] == ":":
+				return name + ".0"
+			return name
+		if not self.window.has_screen():
+			return False
+		cur_disp = self.window.get_screen().get_display().get_name()
+		return norm_name(cur_disp) == norm_name(displayname)
+
+	def _window_put_on_screen(self, screen):
+		if self.current_screen_handler:
+			scr = self.window.get_screen()
+			scr.disconnect(self.current_screen_handler)
+		rgba = screen.get_rgba_colormap()
+		if rgba:
+			self.window.unrealize()
+			self.window.set_screen(screen)
+			self.window.set_colormap(rgba)
+			self.window.realize()
+		else:
+			self.window.set_screen(screen)
+		self.current_screen_handler = \
+			screen.connect("monitors-changed", self._monitors_changed)
+		self.current_screen = screen
+
+	def _center_window(self, displayname=None):
 		"""Center Window on the monitor the pointer is currently on"""
-		display = gtk.gdk.display_get_default()
+		def norm_name(name):
+			"Make :0.0 out of :0"
+			if name[-2] == ":":
+				return name + ".0"
+			return name
+		if not displayname and self.window.has_screen():
+			display = self.window.get_display()
+		else:
+			display = uievents.GUIEnvironmentContext.ensure_display_open(displayname)
 		screen, x, y, modifiers = display.get_pointer()
-		self.window.set_screen(screen)
+		self._window_put_on_screen(screen)
 		monitor_nr = screen.get_monitor_at_point(x, y)
 		geo = screen.get_monitor_geometry(monitor_nr)
 		wid, hei = self.window.get_size()
 		midx = geo.x + geo.width / 2 - wid / 2
 		midy = geo.y + geo.height / 2 - hei / 2
 		self.window.move(midx, midy)
+		uievents.GUIEnvironmentContext._try_close_unused_displays(screen)
 
 	def _should_recenter_window(self):
 		"""Return True if the mouse pointer and the window
@@ -1981,20 +2024,26 @@ class WindowController (pretty.OutputMixin):
 		# Check if the GtkWindow was realized yet
 		if not self.window.window:
 			return True
-		display = gtk.gdk.display_get_default()
+		display = self.window.get_screen().get_display()
 		screen, x, y, modifiers = display.get_pointer()
 		return (screen.get_monitor_at_point(x,y) !=
 		        screen.get_monitor_at_window(self.window.window))
 
-	def activate(self, sender=None, time=0):
+	def activate(self, sender=None):
+		dispname = self.window.get_screen().make_display_name()
+		self.on_present(sender, dispname, gtk.get_current_event_time())
+
+	def on_present(self, sender, display, timestamp):
+		"""Present on @display, where None means default display"""
 		self._window_hide_timer.invalidate()
-		if not time:
-			time = uievents.current_event_time()
-		if self._should_recenter_window():
-			self._center_window()
+		if not display:
+			display = gtk.gdk.display_get_default().get_name()
+		if (self._should_recenter_window() or
+		    not self.is_current_display(display)):
+			self._center_window(display)
 		self.window.stick()
-		self.window.present_with_time(time)
-		self.window.window.focus(timestamp=time)
+		self.window.present_with_time(timestamp)
+		self.window.window.focus(timestamp=timestamp)
 		self.interface.focus()
 
 	def put_away(self):
@@ -2004,36 +2053,39 @@ class WindowController (pretty.OutputMixin):
 	def _cancelled(self, widget):
 		self.put_away()
 
-	def show_hide(self, sender=None, time=0):
+	def on_show_hide(self, sender, display, timestamp):
 		"""
 		Toggle activate/put-away
 		"""
 		if self.window.get_property("visible"):
 			self.put_away()
 		else:
-			self.activate(time=time)
+			self.on_present(sender, display, timestamp)
 
-	def _key_binding(self, keyobj, keybinding_number, event_time):
+	def show_hide(self, sender):
+		"GtkStatusIcon callback"
+		self.on_show_hide(sender, "", gtk.get_current_event_time())
+
+	def _key_binding(self, keyobj, keybinding_number, display, timestamp):
 		"""Keybinding activation callback"""
 		if keybinding_number == keybindings.KEYBINDING_DEFAULT:
-			self.show_hide(time=event_time)
+			self.on_show_hide(keyobj, display, timestamp)
 		elif keybinding_number == keybindings.KEYBINDING_MAGIC:
-			self.activate(time=event_time)
+			self.on_present(keyobj, display, timestamp)
 			self.interface.select_selected_text()
 			self.interface.select_selected_file()
 
-	def _put_text_received(self, sender, text):
-		"""We got a search query from dbus"""
-		self.activate()
+	def on_put_text(self, sender, text, display, timestamp):
+		"""We got a search text from dbus"""
+		self.on_present(sender, display, timestamp)
 		self.interface.put_text(text)
 
-	def _put_files_received(self, sender, fileuris):
-		"""We got a search query from dbus"""
-		self.activate()
+	def on_put_files(self, sender, fileuris, display, timestamp):
+		self.on_present(sender, display, timestamp)
 		self.interface.put_files(fileuris)
 
-	def _execute_file_received(self, sender, filepath):
-		self.interface.execute_file(filepath)
+	def on_execute_file(self, sender, filepath, display, timestamp):
+		self.interface.execute_file(filepath, display, timestamp)
 
 	def _close_window(self, window, event):
 		self.put_away()
@@ -2098,6 +2150,8 @@ class WindowController (pretty.OutputMixin):
 			succ = keybindings.bind_key(keystr)
 			self.output_info("Trying to register %s to spawn kupfer.. %s"
 					% (keystr, "success" if succ else "failed"))
+
+
 		if magickeystr:
 			succ = keybindings.bind_key(magickeystr,
 					keybindings.KEYBINDING_MAGIC)
@@ -2114,10 +2168,6 @@ class WindowController (pretty.OutputMixin):
 		client.connect("save-yourself", self._session_save)
 		client.connect("die", self._session_die)
 
-		# GTK Screen callbacks
-		scr = gtk.gdk.screen_get_default()
-		scr.connect("monitors-changed", self._center_window)
-
 		self.output_debug("finished lazy_setup")
 
 	def main(self, quiet=False):
@@ -2132,12 +2182,16 @@ class WindowController (pretty.OutputMixin):
 		except listen.NoConnectionError:
 			kserv = None
 		else:
-			kserv.connect("present", self.activate)
-			kserv.connect("show-hide", self.show_hide)
-			kserv.connect("put-text", self._put_text_received)
-			kserv.connect("put-files", self._put_files_received)
-			kserv.connect("execute-file", self._execute_file_received)
+			kserv.connect("present", self.on_present)
+			kserv.connect("show-hide", self.on_show_hide)
+			kserv.connect("put-text", self.on_put_text)
+			kserv.connect("put-files", self.on_put_files)
+			kserv.connect("execute-file", self.on_execute_file)
 			kserv.connect("quit", self.quit)
+			keyobj = keybindings.GetKeyboundObject()
+			keyobj.connect("bound-key-changed",
+			               lambda x,y,z: kserv.BoundKeyChanged(y,z))
+			kserv.connect("relay-keys", keyobj.relayed_keys)
 
 		# Load data and present UI
 		sch = scheduler.GetScheduler()

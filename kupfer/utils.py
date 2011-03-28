@@ -184,13 +184,13 @@ class AsyncCommand (object):
 			os.kill(self.pid, signal.SIGKILL)
 
 
-def spawn_terminal(workdir=None):
+def spawn_terminal(workdir=None, screen=None):
 	" Raises SpawnError "
 	term = terminal.get_configured_terminal()
 	notify = term["startup_notify"]
 	app_id = term["desktopid"]
 	argv = term["argv"]
-	desktop_launch.spawn_app_id(app_id, argv, workdir, notify)
+	desktop_launch.spawn_app_id(app_id, argv, workdir, notify, screen)
 
 def spawn_in_terminal(argv, workdir=None):
 	" Raises SpawnError "

@@ -91,8 +91,11 @@ class CopyToClipboard (Action):
 	rank_adjust = -2
 	def __init__(self):
 		Action.__init__(self, _("Copy"))
-	def activate(self, leaf):
-		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+	def wants_context(self):
+		return True
+	def activate(self, leaf, ctx):
+		clip = gtk.Clipboard(selection=gtk.gdk.SELECTION_CLIPBOARD,
+		                     display=ctx.environment.get_screen().get_display())
 		interface.copy_to_clipboard(leaf, clip)
 	def item_types(self):
 		yield Leaf
