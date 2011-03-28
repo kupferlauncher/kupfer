@@ -1921,6 +1921,7 @@ class WindowController (pretty.OutputMixin):
 	def _context_clicked(self, widget, event):
 		"The context menu label was clicked"
 		menu = self._setup_menu(True)
+		menu.set_screen(self.window.get_screen())
 		menu.popup(None, None, None, event.button, event.time)
 		return True
 
