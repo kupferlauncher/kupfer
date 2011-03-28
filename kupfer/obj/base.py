@@ -423,7 +423,7 @@ class Source (KupferObject, pretty.OutputMixin):
 		if self.cached_items is None or force_update:
 			if force_update:
 				self.cached_items = aslist(sort_func(self.get_items_forced()))
-				self.output_info("Loaded %d items" % len(self.cached_items))
+				self.output_debug("Loaded %d items" % len(self.cached_items))
 			else:
 				self.cached_items = \
 						datatools.SavedIterable(sort_func(self.get_items()))
