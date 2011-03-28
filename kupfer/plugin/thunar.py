@@ -85,7 +85,7 @@ class Reveal (Action):
 				id_, reply_handler=_dummy, error_handler=_dummy)
 		except TypeError:
 			# Thunar 1.0 Uses $DISPLAY
-			_get_thunar().DisplayFolderAndSelect(uri, bname, display(),
+			_get_thunar().DisplayFolderAndSelect(uri, bname, display,
 				reply_handler=_dummy, error_handler=_dummy)
 
 	def item_types(self):
