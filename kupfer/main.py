@@ -75,8 +75,8 @@ def get_options():
 		opts, args = getopt.getopt(sys.argv[1:], "",
 				[o for o,h in program_options] +
 				[o for o,h in misc_options])
-	except getopt.GetoptError, info:
-		prt(info)
+	except getopt.GetoptError as exc:
+		prt(unicode(exc))
 		prt(make_help_text())
 		raise SystemExit
 
