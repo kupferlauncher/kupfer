@@ -1964,9 +1964,20 @@ class WindowController (pretty.OutputMixin):
 			self._window_hide_timer.set_ms(50, self.put_away)
 
 	def _monitors_changed(self, *ignored):
-		self._center_window("")
+		self._center_window()
 
-	def _center_window(self, displayname):
+	def is_current_display(self, displayname):
+		def norm_name(name):
+			"Make :0.0 out of :0"
+			if name[-2] == ":":
+				return name + ".0"
+			return name
+		if not self.window.has_screen():
+			return False
+		cur_disp = self.window.get_screen().get_display().get_name()
+		return norm_name(cur_disp) == norm_name(displayname)
+
+	def _center_window(self, displayname=None):
 		"""Center Window on the monitor the pointer is currently on"""
 		def norm_name(name):
 			"Make :0.0 out of :0"
@@ -1988,7 +1999,10 @@ class WindowController (pretty.OutputMixin):
 				self.displays.add(display)
 			#dm.set_default_display(display)
 		else:
-			display = gtk.gdk.display_get_default()
+			if self.window.has_screen():
+				display = self.window.get_screen().get_display()
+			else:
+				display = gtk.gdk.display_get_default()
 		screen, x, y, modifiers = display.get_pointer()
 		self.window.set_screen(screen)
 		self.screens.add(screen)
@@ -2006,18 +2020,23 @@ class WindowController (pretty.OutputMixin):
 		# Check if the GtkWindow was realized yet
 		if not self.window.window:
 			return True
-		display = gtk.gdk.display_get_default()
+		display = self.window.get_screen().get_display()
 		screen, x, y, modifiers = display.get_pointer()
 		return (screen.get_monitor_at_point(x,y) !=
 		        screen.get_monitor_at_window(self.window.window))
 
 	def activate(self, sender=None, time=0):
-		self.present_on_display(None, "")
+		self.present_on_display(sender, None)
 
-	def present_on_display(self, sender, display):
+	def present_on_display(self, sender, display=None):
+		"""Present on @display, where None means default display"""
 		time = uievents.current_event_time()
 		self._window_hide_timer.invalidate()
-		self._center_window(display)
+		if not display:
+			display = gtk.gdk.display_get_default().get_name()
+		if (self._should_recenter_window() or
+		    not self.is_current_display(display)):
+			self._center_window(display)
 		self.window.stick()
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
@@ -2037,7 +2056,7 @@ class WindowController (pretty.OutputMixin):
 		if self.window.get_property("visible"):
 			self.put_away()
 		else:
-			self.present_on_display(None, display)
+			self.present_on_display(sender, display)
 
 	def _key_binding(self, keyobj, keybinding_number, event_time, display):
 		"""Keybinding activation callback"""
