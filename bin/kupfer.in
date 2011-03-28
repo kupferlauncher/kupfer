@@ -44,7 +44,7 @@ _hasprefix "$1" "--"
 KUPFER_HAS_OPTIONS=$?
 
 test $KUPFER_HAS_OPTIONS != 0 && dbus-send --type=method_call --print-reply \
-	--dest=$SERVICE $OBJ $IFACE.PresentWithStartup \
+	--dest=$SERVICE $OBJ $IFACE.PresentOnDisplay string:"$DISPLAY" \
 	"string:$DESKTOP_STARTUP_ID" >/dev/null 2>&1
 KUPFER_RUNNING=$?
 

@@ -1747,6 +1747,10 @@ class WindowController (pretty.OutputMixin):
 		"""
 		self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
 		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		# this should not really be necessary but we reference all open
+		# GdkDisplay and GdkScreen
+		self.screens = set()
+		self.displays = set()
 
 		data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
@@ -1891,9 +1895,11 @@ class WindowController (pretty.OutputMixin):
 		topbar.pack_start(button_box, False, False)
 		topbar.show_all()
 		screen = gtk.gdk.screen_get_default()
+		"""
 		rgba = screen.get_rgba_colormap()
 		if rgba:
 			self.window.set_colormap(rgba)
+		"""
 
 		self.window.set_title(version.PROGRAM_NAME)
 		self.window.set_icon_name(version.ICON_NAME)
@@ -1956,11 +1962,35 @@ class WindowController (pretty.OutputMixin):
 			y not in xrange(w_y, w_y + w_h)):
 			self._window_hide_timer.set_ms(50, self.put_away)
 
-	def _center_window(self, *ignored):
+	def _monitors_changed(self, *ignored):
+		self._center_window("")
+
+	def _center_window(self, displayname):
 		"""Center Window on the monitor the pointer is currently on"""
-		display = gtk.gdk.display_get_default()
+		def norm_name(name):
+			"Make :0.0 out of :0"
+			if name[-2] == ":":
+				return name + ".0"
+			return name
+		if displayname:
+			dm = gtk.gdk.display_manager_get()
+			displayname = norm_name(displayname)
+			for disp in dm.list_displays():
+				if norm_name(disp.get_name()) == displayname:
+					pretty.print_debug(__name__, "Using display", disp.get_name())
+					display = disp
+					break
+			else:
+				# we did not reach break in for
+				pretty.print_debug(__name__, "Opening display", displayname)
+				display = gtk.gdk.Display(displayname)
+				self.displays.add(display)
+			#dm.set_default_display(display)
+		else:
+			display = gtk.gdk.display_get_default()
 		screen, x, y, modifiers = display.get_pointer()
 		self.window.set_screen(screen)
+		self.screens.add(screen)
 		monitor_nr = screen.get_monitor_at_point(x, y)
 		geo = screen.get_monitor_geometry(monitor_nr)
 		wid, hei = self.window.get_size()
@@ -1981,11 +2011,12 @@ class WindowController (pretty.OutputMixin):
 		        screen.get_monitor_at_window(self.window.window))
 
 	def activate(self, sender=None, time=0):
+		self.present_on_display(None, "")
+
+	def present_on_display(self, sender, displayname):
+		time = uievents.current_event_time()
 		self._window_hide_timer.invalidate()
-		if not time:
-			time = uievents.current_event_time()
-		if self._should_recenter_window():
-			self._center_window()
+		self._center_window(displayname)
 		self.window.stick()
 		self.window.present_with_time(time)
 		self.window.window.focus(timestamp=time)
@@ -2092,6 +2123,8 @@ class WindowController (pretty.OutputMixin):
 			succ = keybindings.bind_key(keystr)
 			self.output_info("Trying to register %s to spawn kupfer.. %s"
 					% (keystr, "success" if succ else "failed"))
+
+
 		if magickeystr:
 			succ = keybindings.bind_key(magickeystr,
 					keybindings.KEYBINDING_MAGIC)
@@ -2110,7 +2143,7 @@ class WindowController (pretty.OutputMixin):
 
 		# GTK Screen callbacks
 		scr = gtk.gdk.screen_get_default()
-		scr.connect("monitors-changed", self._center_window)
+		scr.connect("monitors-changed", self._monitors_changed)
 
 		self.output_debug("finished lazy_setup")
 
@@ -2126,7 +2159,7 @@ class WindowController (pretty.OutputMixin):
 		except listen.NoConnectionError:
 			kserv = None
 		else:
-			kserv.connect("present", self.activate)
+			kserv.connect("present", self.present_on_display)
 			kserv.connect("show-hide", self.show_hide)
 			kserv.connect("put-text", self._put_text_received)
 			kserv.connect("put-files", self._put_files_received)
