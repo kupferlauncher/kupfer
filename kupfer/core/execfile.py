@@ -18,7 +18,7 @@ def parse_kfcom_file(filepath):
 	"""Extract the serialized command inside @filepath
 
 	The file must be executable (comparable to a shell script)
-	>>> execute_file(__file__)  # doctest: +ELLIPSIS
+	>>> parse_kfcom_file(__file__)  # doctest: +ELLIPSIS
 	Traceback (most recent call last):
 	    ...
 	ExecutionError: ... (not executable)
