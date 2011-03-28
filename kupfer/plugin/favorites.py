@@ -21,7 +21,11 @@ class FavoritesSource (Source):
 	instance = None
 	def __init__(self):
 		Source.__init__(self, _("Favorites"))
-		self.references = []
+		## these are default favorites for new users
+		self.references = [
+				'<kupfer.plugin.core.contents.Help>',
+				'<kupfer.plugin.core.contents.Preferences>',
+			]
 
 	def config_save(self):
 		references = [puid.get_unique_id(F) for F in self.favorites]
