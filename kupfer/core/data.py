@@ -780,7 +780,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		if panectl.browse_down(alternate=alternate):
 			learn.record_search_hit(sel, key)
 
-	def activate(self, ui_ctx=None):
+	def activate(self, ui_ctx):
 		"""
 		Activate current selection
 

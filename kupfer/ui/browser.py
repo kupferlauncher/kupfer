@@ -1492,8 +1492,7 @@ class Interface (gobject.GObject):
 
 	def _make_gui_ctx(self):
 		timestamp = uievents.current_event_time()
-		return uievents.gui_context_from_toplevel(timestamp,
-				self._widget.get_toplevel())
+		return uievents.gui_context_from_widget(timestamp, self._widget)
 
 	def _activate(self, widget, current):
 		self.data_controller.activate(ui_ctx=self._make_gui_ctx())
@@ -1502,16 +1501,15 @@ class Interface (gobject.GObject):
 		"""Activate current selection (Run action)"""
 		self._activate(None, None)
 
-	def execute_file(self, filepath):
+	def execute_file(self, filepath, display, timestamp):
 		"""Execute a .kfcom file"""
 		def _handle_error(exc_info):
 			from kupfer import uiutils
 			etype, exc, tb = exc_info
 			if not uiutils.show_notification(unicode(exc), icon_name="kupfer"):
 				raise
-		self.data_controller.execute_file(filepath, self._make_gui_ctx(),
-		                                  on_error=_handle_error)
-
+		ctxenv = uievents.gui_context_from_keyevent(timestamp, display)
+		self.data_controller.execute_file(filepath, ctxenv, _handle_error)
 
 	def _search_result(self, sender, pane, matchrankable, matches, context):
 		# NOTE: "Always-matching" search.
@@ -2082,7 +2080,6 @@ class WindowController (pretty.OutputMixin):
 		self.window.window.focus(timestamp=timestamp)
 		self.interface.focus()
 
-
 	def put_away(self):
 		self.interface.put_away()
 		self.window.hide()
@@ -2122,8 +2119,7 @@ class WindowController (pretty.OutputMixin):
 		self.interface.put_files(fileuris)
 
 	def on_execute_file(self, sender, filepath, display, timestamp):
-		# FIXME
-		self.interface.execute_file(filepath)
+		self.interface.execute_file(filepath, display, timestamp)
 
 	def _close_window(self, window, event):
 		self.put_away()

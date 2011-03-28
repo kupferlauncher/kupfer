@@ -6,8 +6,8 @@ import gtk
 from kupfer import pretty
 from kupfer.ui import keybindings
 
-def gui_context_from_toplevel(timestamp, toplevel):
-	return GUIEnvironmentContext(timestamp, toplevel.get_screen())
+def gui_context_from_widget(timestamp, widget):
+	return GUIEnvironmentContext(timestamp, widget.get_screen())
 
 def gui_context_from_timestamp(timestamp):
 	return GUIEnvironmentContext(timestamp, None)
