@@ -4,6 +4,7 @@ import gio
 from kupfer import icons
 from kupfer import pretty
 from kupfer import utils
+from kupfer import launch
 
 from kupfer.obj.base import Action, InvalidDataError, OperationError
 
@@ -47,10 +48,13 @@ class Open (Action):
 				)
 		return def_app
 
-	def activate(self, leaf):
-		self.activate_multiple((leaf, ))
+	def wants_context(self):
+		return True
 
-	def activate_multiple(self, objects):
+	def activate(self, leaf, ctx):
+		self.activate_multiple((leaf, ), ctx)
+
+	def activate_multiple(self, objects, ctx):
 		appmap = {}
 		leafmap = {}
 		for obj in objects:
@@ -61,7 +65,9 @@ class Open (Action):
 
 		for id_, leaves in leafmap.iteritems():
 			app = appmap[id_]
-			utils.launch_app(app, paths=[L.object for L in leaves])
+			launch.launch_application(app, paths=[L.object for L in leaves],
+			                          activate=False,
+			                          screen=ctx and ctx.environment.get_screen())
 
 	def get_description(self):
 		return _("Open with default application")
