@@ -23,6 +23,10 @@ Kupfer Technical Documentation
 
     ..
 
+.. topic:: `Version History <VersionHistory.html>`_
+
+    ..
+
 .. topic:: `Copyright <Copyright.html>`_
 
     ..
