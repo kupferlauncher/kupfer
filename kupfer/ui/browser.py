@@ -6,11 +6,6 @@ import sys
 import textwrap
 import time
 
-try:
-	import appindicator
-except ImportError:
-	appindicator = None
-
 import gtk
 import gio
 import gobject
@@ -1839,9 +1834,10 @@ class WindowController (pretty.OutputMixin):
 
 	def _setup_status_icon(self):
 		menu = self._setup_menu()
-		if appindicator:
+		try:
+			import appindicator
 			return self._setup_appindicator(menu)
-		else:
+		except ImportError:
 			return self._setup_gtk_status_icon(menu)
 
 	def _setup_gtk_status_icon(self, menu):
@@ -1853,6 +1849,7 @@ class WindowController (pretty.OutputMixin):
 		return status
 
 	def _setup_appindicator(self, menu):
+		import appindicator
 		indicator = appindicator.Indicator(version.PROGRAM_NAME,
 			version.ICON_NAME,
 			appindicator.CATEGORY_APPLICATION_STATUS)
