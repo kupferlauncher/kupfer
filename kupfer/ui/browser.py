@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 
 import itertools
-import math
 import signal
 import sys
 import textwrap
@@ -57,19 +56,20 @@ def make_rounded_rect(cr,x,y,width,height,radius):
 	"""
 	Draws a rounded rectangle with corners of @radius
 	"""
+	MPI = 3.1415926535897931
 	cr.save()
 
 	w,h = width, height
 
 	cr.move_to(radius, 0)
 	cr.line_to(w-radius,0)
-	cr.arc(w-radius, radius, radius, 3*math.pi/2, 2*math.pi)
+	cr.arc(w-radius, radius, radius, 3*MPI/2, 2*MPI)
 	cr.line_to(w, h-radius)
-	cr.arc(w-radius, h-radius, radius, 0, math.pi/2)
+	cr.arc(w-radius, h-radius, radius, 0, MPI/2)
 	cr.line_to(radius, h)
-	cr.arc(radius, h-radius, radius, math.pi/2, math.pi)
+	cr.arc(radius, h-radius, radius, MPI/2, MPI)
 	cr.line_to(0, radius)
-	cr.arc(radius, radius, radius, math.pi, 3*math.pi/2)
+	cr.arc(radius, radius, radius, MPI, 3*MPI/2)
 	cr.close_path()
 	cr.restore()
 
