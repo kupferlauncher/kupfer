@@ -19,7 +19,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 class BasicTextSource (TextSource):
 	"""The most basic TextSource yields one TextLeaf"""
 	def __init__(self):
-		TextSource.__init__(self, name=_("Text Matches"))
+		TextSource.__init__(self, name=_("Text"))
 
 	def get_text_items(self, text):
 		if not text:
