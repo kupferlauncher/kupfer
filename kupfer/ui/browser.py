@@ -1836,8 +1836,18 @@ class WindowController (pretty.OutputMixin):
 		menu = self._setup_menu()
 		try:
 			import appindicator
-			return self._setup_appindicator(menu)
 		except ImportError:
+			appindicator = None
+		else:
+			## make sure dbus is available, else appindicator crashes
+			import dbus
+			try:
+				dbus.Bus()
+			except dbus.DBusException:
+				appindicator = None
+		if appindicator:
+			return self._setup_appindicator(menu)
+		else:
 			return self._setup_gtk_status_icon(menu)
 
 	def _setup_gtk_status_icon(self, menu):
