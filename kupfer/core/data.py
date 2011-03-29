@@ -540,8 +540,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			abs = os.path.abspath(os.path.expanduser(opt))
 			return sources.FileSource((abs,), depth)
 
-		for coll, level in zip((s_sources, S_sources), ("Catalog", "Direct")):
-			for item in setctl.get_directories(level):
+		for coll, direct in zip((s_sources, S_sources), (False, True)):
+			for item in setctl.get_directories(direct):
 				coll.append(dir_source(item))
 
 		dir_depth = source_config("DeepDirectories", "Depth")
