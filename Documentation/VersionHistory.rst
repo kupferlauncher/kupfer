@@ -44,8 +44,8 @@ Not Released Yet
 
 * *Thunar*: Use Thunar 1.2's Copy and Move API.
 
-    + These allow copying and moving anything through thunar,
-      and it will show progress dialogs for longer transactions.
+  + These allow copying and moving anything through thunar, and it will
+    show progress dialogs for longer transactions.
 
 * Add *Ascii & Unicode Icon Set* for fun
 
