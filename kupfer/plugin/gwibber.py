@@ -257,10 +257,14 @@ class SendMessageTo(Action):
 		return True
 
 	def object_source(self, for_item=None):
-		return StatusTextSource()
+		return TextSource()
 
 	def object_types(self):
 		yield TextLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		# ugly, but we don't want derived text
+		return type(iobj) is TextLeaf
 
 	def get_gicon(self):
 		return icons.ComposedIcon("gwibber", "mail-message-new")
@@ -292,10 +296,14 @@ class Reply(Action):
 		return True
 
 	def object_source(self, for_item=None):
-		return StatusTextSource()
+		return TextSource()
 
 	def object_types(self):
 		yield TextLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		# ugly, but we don't want derived text
+		return type(iobj) is TextLeaf
 
 	def get_gicon(self):
 		return icons.ComposedIcon("gwibber", "mail-reply-all")
@@ -346,10 +354,14 @@ class SendPrivate(Action):
 		return True
 
 	def object_source(self, for_item=None):
-		return StatusTextSource()
+		return TextSource()
 
 	def object_types(self):
 		yield TextLeaf
+
+	def valid_object(self, iobj, for_item=None):
+		# ugly, but we don't want derived text
+		return type(iobj) is TextLeaf
 
 	def get_gicon(self):
 		return icons.ComposedIcon("gwibber", "mail-reply-sender")
@@ -573,22 +585,5 @@ class StreamMessagesSource(Source):
 
 	def provides(self):
 		yield Message
-
-
-class StatusTextSource (TextSource):
-	def get_rank(self):
-		return 100
-
-	def get_text_items(self, text):
-		n = len(text)
-		summary = _trunc_message(text)
-		desc_template = ngettext("%s (%d character)", "%s (%d characters)", n)
-		yield TextLeaf(text, desc_template % (summary, n))
-
-	def get_items(self, text):
-		return self.get_text_items(text)
-
-	def provides(self):
-		yield TextLeaf
 
 

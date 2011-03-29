@@ -130,7 +130,10 @@ class SendMessage (ContactAction):
 	def object_types(self):
 		yield TextLeaf
 	def object_source(self, for_item=None):
-		return ChatTextSource()
+		return TextSource()
+	def valid_object(self, iobj, for_item=None):
+		# ugly, but we don't want derived text
+		return type(iobj) is TextLeaf
 
 class PidginContact(ContactLeaf):
 	""" Leaf represent single contact from Pidgin """
