@@ -152,9 +152,8 @@
      <item>
       <p>
         Using the window that appears, press modifier keys and a letter or
-        number key to set a global shortcut. An example is pressing and
-        holding <key>Ctrl</key> and then pressing and releasing
-        <key>T</key> to bind
+        number key to set a shortcut. An example is pressing and holding
+        <key>Ctrl</key> and then pressing and releasing <key>T</key> to bind
         <keyseq><key>Ctrl</key><key>T</key></keyseq>.
       </p>
      </item>
