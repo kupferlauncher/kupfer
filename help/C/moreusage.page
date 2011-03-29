@@ -34,6 +34,15 @@
   </p>
  </section>
 
+  <section>
+    <title>Opening Files and Folders</title>
+    <p>
+      Using the action <em>Open</em>, files and folders are opened in their
+      preferred application. The application associations can be changed,
+      see <link xref="plugin-applications"/>.
+    </p>
+  </section>
+
  <section>
    <title>The <em>Comma Trick</em></title>
     <p> The comma trick allows the user to use actions on many objects at

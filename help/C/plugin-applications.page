@@ -45,7 +45,38 @@
      <item>
       <p>
         Type <key>Tab</key> to select the third (indirect object) pane
-        and in it, select the application the file with.
+        and in it, select the application to open the file with.
+      </p>
+     </item>
+   </steps>
+
+   <p>
+     The action <em>Open</em> opens files and folders with the registered
+     default application for that specific file type. This can be
+     configured using the action <em>Set Default Application...</em>.
+   </p>
+   <p>
+     The file type associations are provided by the desktop environment, and
+     modifying them here will modify them on the desktop as well. This may
+     not be true when not using GNOME or XFCE.
+   </p>
+   <steps>
+     <title>Selecting default application for a file type or folders</title>
+     <item>
+      <p>
+        Select a file or folder in <app>Kupfer</app>
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> and select the action <em>Set Default
+          Application...</em>
+      </p>
+     </item>
+     <item>
+      <p>
+        Type <key>Tab</key> to select the third (indirect object) pane
+        and in it, select the application to always open the file type with.
       </p>
      </item>
    </steps>
