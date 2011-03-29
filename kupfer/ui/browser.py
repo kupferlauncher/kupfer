@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+import io
 import itertools
 import signal
 import sys
@@ -67,6 +68,44 @@ def make_rounded_rect(cr,x,y,width,height,radius):
 	cr.arc(radius, radius, radius, MPI, 3*MPI/2)
 	cr.close_path()
 	cr.restore()
+
+def get_glyph_pixbuf(text, sz, center_vert=True, color=None):
+	"""Return pixbuf for @text
+
+	if @center_vert, then center completely vertically
+	"""
+	margin = sz * 0.1
+	ims = cairo.ImageSurface(cairo.FORMAT_ARGB32, sz, sz)
+	cc = cairo.Context(ims)
+
+	cc.move_to(margin, sz-margin)
+	cc.set_font_size(sz/2)
+	if color is None:
+		cc.set_source_rgba(0,0,0,1)
+	else:
+		cc.set_source_rgb(*color)
+
+	cc.text_path(text)
+	x1, y1, x2, y2 =cc.path_extents()
+	skew_horiz = ((sz-x2) - (x1))/2.0
+	skew_vert = ((sz-y2) - (y1))/2.0
+	if not center_vert:
+		skew_vert = skew_vert*0.2 - margin*0.5
+	cc.new_path()
+	cc.move_to(margin+skew_horiz, sz-margin+skew_vert)
+	cc.text_path(text)
+	cc.fill()
+
+	ims.flush()
+	f = io.BytesIO()
+	ims.write_to_png(f)
+
+	loader = gtk.gdk.PixbufLoader()
+	loader.write(f.getvalue())
+	loader.close()
+
+	return loader.get_pixbuf()
+
 
 # State Constants
 class State (object):
@@ -1600,6 +1639,19 @@ class Interface (gobject.GObject):
 		# @text is UTF-8
 		text = editable.get_text()
 		text = text.decode("UTF-8")
+
+		# draw character count as icon
+		if self.get_in_text_mode() and text:
+			w, h = editable.size_request()
+			sz = h - 3
+			c = editable.style.text[gtk.STATE_NORMAL]
+			textc = (c.red/65535.0, c.green/65535.0, c.blue/65535.0)
+			pb = get_glyph_pixbuf(str(len(text)), sz, color=textc)
+			editable.set_icon_from_pixbuf(gtk.ENTRY_ICON_SECONDARY, pb)
+		else:
+			editable.set_icon_from_pixbuf(gtk.ENTRY_ICON_SECONDARY, None)
+
+		# cancel search and return if empty
 		if not text:
 			self.data_controller.cancel_search()
 			# See if it was a deleting key press
@@ -1610,6 +1662,7 @@ class Interface (gobject.GObject):
 				self._backspace_key_press()
 			return
 
+		# start search for updated query
 		pane = self._pane_for_widget(self.current)
 		if not self.get_in_text_mode() and self._reset_to_toplevel:
 			self.soft_reset(pane)
