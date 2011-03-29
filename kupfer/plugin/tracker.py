@@ -22,7 +22,7 @@ from xml.etree.cElementTree import ElementTree
 import gobject
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
+from kupfer.objects import TextLeaf, SourceLeaf, FileLeaf
 from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
 from kupfer import kupferstring
@@ -224,7 +224,7 @@ class TrackerAddTag (Action):
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
-		utils.spawn_async(["tracker-tag", "--add=%s" % obj, lpath])
+		utils.spawn_async(["tracker-tag", "--add=%s" % tag, lpath])
 
 	def requires_object(self):
 		return True
@@ -256,7 +256,7 @@ class TrackerRemoveTag (Action):
 	def activate(self, leaf, obj):
 		lpath = leaf.object
 		tag = obj.object
-		utils.spawn_async(["tracker-tag", "--remove=%s" % obj, lpath])
+		utils.spawn_async(["tracker-tag", "--remove=%s" % tag, lpath])
 
 	def requires_object(self):
 		return True
