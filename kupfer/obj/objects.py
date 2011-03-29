@@ -148,15 +148,17 @@ class SourceLeaf (Leaf):
 		return self.object.get_icon_name()
 
 class AppLeaf (Leaf):
-	def __init__(self, item=None, init_path=None, app_id=None):
+	def __init__(self, item=None, init_path=None, app_id=None, require_x=True):
 		"""Try constructing an Application for GAppInfo @item,
 		for file @path or for package name @app_id.
+
+		@require_x: require executable file
 		"""
 		self.init_item = item
 		self.init_path = init_path
 		self.init_item_id = app_id and app_id + ".desktop"
 		# finish will raise InvalidDataError on invalid item
-		self.finish()
+		self.finish(require_x)
 		Leaf.__init__(self, self.object, self.object.get_name())
 		self._add_aliases()
 
@@ -186,7 +188,7 @@ class AppLeaf (Leaf):
 		vars(self).update(state)
 		self.finish()
 
-	def finish(self):
+	def finish(self, require_x=False):
 		"""Try to set self.object from init's parameters"""
 		item = None
 		if self.init_item:
@@ -194,15 +196,11 @@ class AppLeaf (Leaf):
 		else:
 			# Construct an AppInfo item from either path or item_id
 			from gio.unix import DesktopAppInfo, desktop_app_info_new_from_filename
-			if self.init_path and os.access(self.init_path, os.X_OK):
+			if self.init_path and (
+			   not require_x or os.access(self.init_path, os.X_OK)):
 				# serilizable if created from a "loose file"
 				self.serializable = 1
 				item = desktop_app_info_new_from_filename(self.init_path)
-				try:
-					# try to annotate the GAppInfo object
-					item.init_path = self.init_path
-				except AttributeError, exc:
-					pretty.print_debug(__name__, exc)
 			elif self.init_item_id:
 				try:
 					item = DesktopAppInfo(self.init_item_id)

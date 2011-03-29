@@ -308,7 +308,7 @@ class _SendToAppsSource (Source):
 				if not os.path.isfile(file_path):
 					continue
 				try:
-					yield AppLeaf(init_path=file_path)
+					yield AppLeaf(init_path=file_path, require_x=False)
 				except InvalidDataError:
 					pass
 
