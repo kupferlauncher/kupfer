@@ -4,13 +4,11 @@ __description__ = _("Provides current nautilus selection, using Kupfer's Nautilu
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import os
-
 import dbus
 import gobject
 import gio
 
-from kupfer.objects import Source, Leaf
+from kupfer.objects import Source
 from kupfer.objects import FileLeaf, SourceLeaf
 from kupfer.obj.compose import MultipleLeaf
 from kupfer.obj.helplib import PicklingHelperMixin

@@ -10,10 +10,10 @@ from os import path
 import gio
 from gtk import recent_manager_get_default
 
-from kupfer.objects import (Leaf, Action, Source,
-		AppLeaf, FileLeaf, UrlLeaf, )
-from kupfer import objects, plugin_support
-from kupfer import launch, icons
+from kupfer.objects import Source, AppLeaf, FileLeaf, UrlLeaf
+from kupfer import icons
+from kupfer import launch
+from kupfer import plugin_support
 from kupfer.weaklib import gobject_connect_weakly
 
 __kupfer_settings__ = plugin_support.PluginSettings(

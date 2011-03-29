@@ -10,9 +10,8 @@ from hashlib import md5
 import gio
 import os
 
-from kupfer.objects import (Leaf, Source, AppLeaf, Action, RunnableLeaf,
-		SourceLeaf )
-from kupfer import objects, icons, utils, config
+from kupfer.objects import Leaf, Source, Action, RunnableLeaf, SourceLeaf
+from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import plugin_support
 from kupfer.plugin import rhythmbox_support

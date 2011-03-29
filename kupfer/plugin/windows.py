@@ -4,7 +4,6 @@ __description__ = _("All windows on all workspaces")
 __version__ = "2010-01-08"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gtk
 import wnck
 
 from kupfer.objects import Leaf, Action, Source

@@ -13,7 +13,6 @@ import gtk
 from kupfer.objects import Action, FileLeaf
 from kupfer.objects import OperationError
 from kupfer import utils
-from kupfer.ui import uievents
 
 
 def is_content_type(fileleaf, ctype):

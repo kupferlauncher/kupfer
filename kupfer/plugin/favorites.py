@@ -5,11 +5,9 @@ __description__ = _("Mark commonly used items and store objects for later use")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import collections
 import weakref
 
 from kupfer.objects import Leaf, Source, Action
-from kupfer import utils, objects, pretty
 from kupfer import puid
 
 # NOTE: core import

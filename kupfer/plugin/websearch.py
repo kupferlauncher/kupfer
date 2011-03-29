@@ -118,8 +118,8 @@ class OpenSearchSource (Source):
 		"""This is a coroutine to parse OpenSearch files"""
 		vital_keys = set(["Url", "ShortName"])
 		keys =  set(["Description", "Url", "ShortName", "InputEncoding"])
-		mozns = '{http://www.mozilla.org/2006/browser/search/}'
-		osns = '{http://a9.com/-/spec/opensearch/1.1/}'
+		#mozns = '{http://www.mozilla.org/2006/browser/search/}'
+		#osns = '{http://a9.com/-/spec/opensearch/1.1/}'
 		roots = ('OpenSearchDescription', 'SearchPlugin')
 		gettagname = lambda tag: tag.rsplit("}", 1)[-1]
 

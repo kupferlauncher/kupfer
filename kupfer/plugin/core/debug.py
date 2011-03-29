@@ -5,9 +5,8 @@ These are not meant to be useful to "normal" users of Kupfer -- if they are,
 they can be tested here before they migrate to a fitting plugin.
 """
 
-from kupfer.obj.base import Action, Leaf, Source, InvalidLeafError
+from kupfer.obj.base import Action, Leaf, Source
 from kupfer.obj.compose import ComposedLeaf
-from kupfer.obj import objects
 from kupfer import pretty
 
 __kupfer_sources__ = ()
@@ -29,7 +28,6 @@ class DebugInfo (Action):
 		Action.__init__(self, u"Debug Info")
 
 	def activate(self, leaf):
-		import itertools
 		import StringIO
 		# NOTE: Core imports
 		from kupfer.core import qfurl

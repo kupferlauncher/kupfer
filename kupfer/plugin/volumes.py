@@ -6,9 +6,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gio
 
-from kupfer.objects import Leaf, Action, Source, FileLeaf
+from kupfer.objects import Action, Source, FileLeaf
 from kupfer.obj.fileactions import Open, OpenTerminal
-from kupfer.objects import OperationError
 from kupfer import utils
 
 

@@ -2,7 +2,6 @@ from __future__ import print_function
 
 debug = False
 
-import functools
 import sys
 import traceback
 
@@ -25,7 +24,6 @@ class OutputMixin (object):
 		"""
 		sep = kwargs.get("sep", " ")
 		end = kwargs.get("end", "\n")
-		stritems = (str(it) for it in items)
 		self._output_core("", sep, end, sys.stdout, *items)
 
 	def output_exc(self, exc_info=None):

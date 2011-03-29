@@ -7,7 +7,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import httplib
 import urllib
 
-from kupfer.objects import Action, Source, Leaf, OperationError
+from kupfer.objects import Action, Source, OperationError
 from kupfer.objects import TextLeaf, UrlLeaf
 from kupfer.plugin import ssl_support
 

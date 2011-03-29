@@ -1,5 +1,3 @@
-import os
-
 import gobject
 
 try:
@@ -142,7 +140,7 @@ def check_dbus_connection():
 		try:
 			dbus.Bus()
 			_has_dbus_connection = True
-		except dbus.DBusException, err:
+		except dbus.DBusException:
 			_has_dbus_connection = False
 	if not _has_dbus_connection:
 		raise ImportError(_("No D-Bus connection to desktop session"))

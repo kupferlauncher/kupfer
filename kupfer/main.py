@@ -27,7 +27,7 @@ def setup_locale_and_gettext():
 	# to load in current locale properly for sorting etc
 	try:
 		locale.setlocale(locale.LC_ALL, "")
-	except locale.Error, e:
+	except locale.Error:
 		pass
 
 setup_locale_and_gettext()
@@ -165,7 +165,7 @@ def main():
 		try:
 			import debug
 			debug.install()
-		except ImportError, e:
+		except ImportError:
 			pass
 	sys.excepthook = sys.__excepthook__
 	_set_process_title()

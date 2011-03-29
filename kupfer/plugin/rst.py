@@ -6,7 +6,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 
-from kupfer.objects import Source, Action, TextLeaf, FileLeaf
+from kupfer.objects import Action, FileLeaf
 from kupfer import utils, icons
 
 
@@ -21,7 +21,7 @@ class RenderView (Action):
 		finput = open(leaf.object, "rb")
 		(foutput, fpath) = utils.get_safe_tempfile()
 		try:
-			parsed_content = docutils.core.publish_file(finput,
+			docutils.core.publish_file(finput,
 					destination=foutput,
 					writer_name="html")
 		finally:

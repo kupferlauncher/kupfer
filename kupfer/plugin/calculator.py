@@ -9,7 +9,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import cmath
 import math
 
-from kupfer.objects import Source, Action, TextLeaf
+from kupfer.objects import Action, TextLeaf
 from kupfer import pretty
 
 

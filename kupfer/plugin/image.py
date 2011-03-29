@@ -11,12 +11,11 @@ __description__ = _("Image transformation tools")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import os
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 import subprocess
 
-from kupfer.objects import Leaf, Action, FileLeaf, TextLeaf
+from kupfer.objects import Action, FileLeaf, TextLeaf
 from kupfer import utils, pretty
 from kupfer import runtimehelper
 
@@ -131,7 +130,6 @@ class Autorotate (Action):
 
 	def activate(self, leaf, obj=None):
 		fpath = leaf.object
-		dirname = os_path.dirname(fpath)
 		argv = ['jhead', '-autorot', fpath]
 		utils.spawn_async(argv)
 

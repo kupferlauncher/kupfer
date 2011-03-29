@@ -11,7 +11,6 @@ import codecs
 import os
 
 from kupfer.objects import Source, UrlLeaf
-from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
 
 

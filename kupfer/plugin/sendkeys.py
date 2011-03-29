@@ -10,13 +10,10 @@ __description__ = _("Send synthetic keyboard events using "
 __version__ = ""
 __author__ = ""
 
-import string
-
 import gtk
 
-from kupfer.objects import Leaf, Action, Source, TextLeaf
+from kupfer.objects import Leaf, Action, TextLeaf
 from kupfer.objects import OperationError
-from kupfer import pretty
 from kupfer import utils
 from kupfer import interface
 

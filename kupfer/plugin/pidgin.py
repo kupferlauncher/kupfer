@@ -13,12 +13,12 @@ __author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
 
 import dbus
 
-from kupfer.objects import Leaf, Action, Source, TextLeaf, TextSource
+from kupfer.objects import Action, TextLeaf, TextSource
 from kupfer import pretty, scheduler
 from kupfer import icons
 from kupfer import plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import PicklingHelperMixin, FilesystemWatchMixin
+from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf, is_valid_email

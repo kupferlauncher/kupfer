@@ -19,15 +19,14 @@ __description__ = _("Tracker desktop search integration")
 __version__ = "2010-04-01"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import os
 from xml.etree.cElementTree import ElementTree
 
 import dbus
 import gio
 import gobject
 
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf, SourceLeaf, TextSource, FileLeaf
+from kupfer.objects import Action, Source
+from kupfer.objects import TextLeaf, FileLeaf
 from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
 from kupfer import kupferstring

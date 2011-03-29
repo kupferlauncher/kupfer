@@ -2,7 +2,6 @@
 
 import itertools
 import math
-import os
 import signal
 import sys
 import textwrap

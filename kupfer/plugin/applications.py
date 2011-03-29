@@ -15,7 +15,7 @@ from gio.unix import desktop_app_info_set_desktop_env
 
 from kupfer.objects import Action, Source, AppLeaf, FileLeaf
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer import config, utils, plugin_support
+from kupfer import config, plugin_support
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{

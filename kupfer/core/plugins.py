@@ -1,8 +1,7 @@
-import os
 import pkgutil
 import sys
 
-from kupfer import pretty, config
+from kupfer import pretty
 from kupfer.core import settings
 # import kupfer.icons on demand later
 
@@ -238,7 +237,7 @@ def _import_plugin_true(name):
 		raise
 	except NotEnabledError:
 		raise
-	except Exception, e:
+	except Exception:
 		# catch any other error for plugins and write traceback
 		import traceback
 		traceback.print_exc()

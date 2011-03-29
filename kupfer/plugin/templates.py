@@ -14,8 +14,6 @@ from kupfer.objects import Leaf, Action, Source, FileLeaf
 from kupfer import icons, utils
 from kupfer.obj import helplib
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer import plugin_support
-
 
 DEFAULT_TMPL_DIR = "~/Templates"
 

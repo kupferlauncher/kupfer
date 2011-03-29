@@ -54,12 +54,6 @@ def _translate(text, lang):
 	''' Translate @text to @lang. '''
 	query_param = urllib.urlencode(dict(v="1.0",langpair="|"+lang,
 		                                q=text.encode('utf-8')))
-	word_classes = {
-		# TRANS: Dictionary lookup word classes
-		"noun": _("noun"),
-		"verb": _("verb"),
-		"adjective": _("adjective"),
-	}
 	try:
 		if ssl_support.is_supported():
 			conn = ssl_support.VerifiedHTTPSConnection(_GOOGLE_TRANSLATE_HOST,

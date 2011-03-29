@@ -517,7 +517,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		learn.load()
 
 	def _display(self, sched):
-		sc = GetSourceController()
 		self._reload_source_root()
 		self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 

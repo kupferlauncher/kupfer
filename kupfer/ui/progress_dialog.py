@@ -3,7 +3,7 @@ import functools
 import glib
 import gtk
 
-from kupfer import version, config, kupferstring
+from kupfer import version, config
 
 def idle_call(func):
 	@functools.wraps(func)

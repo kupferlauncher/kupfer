@@ -13,8 +13,8 @@ import os
 import shutil
 import urllib
 
-from kupfer.objects import Action, Source, UrlLeaf, FileLeaf, OperationError
-from kupfer import utils, pretty, task
+from kupfer.objects import Action, UrlLeaf, FileLeaf
+from kupfer import utils, task
 
 class DownloadTask (task.ThreadTask):
 	def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):

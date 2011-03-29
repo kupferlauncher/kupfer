@@ -14,15 +14,13 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gtk
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Leaf, Action
 from kupfer.obj.sources import MultiSource
 from kupfer import objects
 from kupfer.obj.base import InvalidLeafError
 from kupfer import interface
 from kupfer import pretty
 from kupfer import task
-from kupfer import plugin_support
-
 
 def _is_debug():
 	# Return True if Kupfer is in debug mode

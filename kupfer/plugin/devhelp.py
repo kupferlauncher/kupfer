@@ -4,7 +4,7 @@ __description__ = _("Search in Devhelp")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from kupfer.objects import Source, Action, TextLeaf
+from kupfer.objects import Action, TextLeaf
 from kupfer import utils
 
 

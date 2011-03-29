@@ -1,6 +1,6 @@
 import gtk
 
-from kupfer.objects import Source, Leaf
+from kupfer.objects import Source
 from kupfer.objects import TextLeaf, SourceLeaf
 from kupfer.weaklib import gobject_connect_weakly
 from kupfer import kupferstring

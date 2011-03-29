@@ -225,7 +225,6 @@ def _get_zim_notebooks():
 		pretty.print_error(__name__, "Zim notebooks.list not found")
 		return []
 	try:
-		default_url = None
 		with open(zim_notebooks_file, 'r') as notebooks_file:
 			for line in notebooks_file.readlines():
 				if line.strip() == "[NotebookList]":

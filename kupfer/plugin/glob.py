@@ -11,7 +11,6 @@ import re
 
 from kupfer.objects import Action, TextLeaf, TextSource, Leaf, OperationError
 from kupfer.obj.compose import MultipleLeaf
-from kupfer import utils, pretty
 
 class Glob (Action):
 	def __init__(self):

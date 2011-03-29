@@ -1,7 +1,6 @@
 import gobject
 
 from kupfer import pretty
-from kupfer import kupferstring
 
 KEYBINDING_DEFAULT = 1
 KEYBINDING_MAGIC = 2

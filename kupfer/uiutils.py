@@ -6,7 +6,6 @@ purpose), but care should be taken to only call UI functions from the main
 (default) thread.
 """
 
-import glib
 import gtk
 import pango
 

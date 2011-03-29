@@ -10,13 +10,13 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Action
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
+from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 
 from kupfer.plugin import thunderbird_support as support
 

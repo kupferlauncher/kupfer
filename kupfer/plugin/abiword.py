@@ -9,7 +9,7 @@ import xml.etree.cElementTree as ElementTree
 
 import gio
 
-from kupfer.objects import Leaf, Action, Source, AppLeaf, FileLeaf, UrlLeaf
+from kupfer.objects import Source, FileLeaf, UrlLeaf
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 

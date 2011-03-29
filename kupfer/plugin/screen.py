@@ -92,7 +92,6 @@ class AttachScreen (Action):
 		super(AttachScreen, self).__init__(name)
 	def activate(self, leaf):
 		pid = leaf.object
-		action = "screen -x -R %s" % pid
 		action_argv = ['screen', '-x', '-R', ('%s' % pid)]
 		utils.spawn_in_terminal(action_argv)
 

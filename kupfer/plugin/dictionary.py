@@ -4,7 +4,7 @@ __description__ = _("Look up word in dictionary")
 __version__ = ""
 __author__ = "Ulrik"
 
-from kupfer.objects import Source, Action, TextLeaf, OperationError
+from kupfer.objects import Action, TextLeaf, OperationError
 from kupfer import utils
 from kupfer import plugin_support
 from kupfer import kupferstring

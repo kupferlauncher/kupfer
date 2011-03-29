@@ -5,13 +5,7 @@ This module is a part of the program Kupfer, see the main program file for
 more information.
 """
 
-import functools
-import traceback
-
 import gio
-
-from kupfer import task
-from kupfer import pretty
 
 class PicklingHelperMixin (object):
 	""" This pickling helper will define __getstate__/__setstate__

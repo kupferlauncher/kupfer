@@ -16,15 +16,13 @@ import os
 import dbus
 import gio
 
-from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import (InvalidDataError, OperationError, NotAvailableError,
-                            NoMultiError)
-from kupfer.objects import FileLeaf, RunnableLeaf, SourceLeaf, AppLeaf
+from kupfer.objects import Action, Source
+from kupfer.objects import InvalidDataError, NotAvailableError, NoMultiError
+from kupfer.objects import FileLeaf, RunnableLeaf, AppLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import config
 from kupfer import plugin_support
 from kupfer import pretty
-from kupfer import utils
 
 plugin_support.check_dbus_connection()
 

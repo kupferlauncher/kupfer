@@ -15,7 +15,7 @@ import os
 
 import gobject
 
-from kupfer.objects import TextSource, Leaf, TextLeaf, Action, FileLeaf
+from kupfer.objects import TextSource, TextLeaf, Action, FileLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
@@ -53,7 +53,7 @@ class GetOutput (Action):
 			finish_command(ctx, acommand, stdout, stderr)
 
 		pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
-		acom = utils.AsyncCommand(argv, finish_callback, 15)
+		utils.AsyncCommand(argv, finish_callback, 15)
 
 	def get_description(self):
 		return _("Run program and return its output") + u" \N{GEAR}"
@@ -81,7 +81,7 @@ class PassToCommand (Action):
 
 		argv.extend([o.object for o in objs])
 		pretty.print_debug(__name__, "Spawning without timeout")
-		acom = utils.AsyncCommand(argv, finish_callback, None)
+		utils.AsyncCommand(argv, finish_callback, None)
 
 	def activate_multiple(self, objs, iobjs, ctx):
 		for iobj in iobjs:
@@ -128,8 +128,7 @@ class WriteToCommand (Action):
 			finish_command(ctx, acommand, stdout, stderr, self.post_result)
 
 		pretty.print_debug(__name__, "Spawning without timeout")
-		acom = utils.AsyncCommand(argv, finish_callback, None,
-		                          stdin=leaf.object)
+		utils.AsyncCommand(argv, finish_callback, None, stdin=leaf.object)
 
 	def item_types(self):
 		yield TextLeaf

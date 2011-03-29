@@ -7,7 +7,6 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 
 from kupfer.objects import Action, Source, Leaf, FileLeaf, TextLeaf
-from kupfer import icons
 from kupfer import kupferui
 
 # Since this is a core plugin we break some rules

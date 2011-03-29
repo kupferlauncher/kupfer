@@ -149,7 +149,6 @@ def replace_format_specs(argv, location, desktop_info, gfilelist):
 
 	def replace_single_code(key):
 		"Handle all embedded format codes, including those to be removed"
-		keys = set(["%%", "%f", "%u", "%c", "%k"])
 		deprecated = set(['%d', '%D', '%n', '%N', '%v', '%m'])
 		if key in deprecated:
 			return ""
@@ -233,7 +232,6 @@ def replace_format_specs(argv, location, desktop_info, gfilelist):
 	return supports_single_file, files_added_at_end, new_argv
 
 def _file_for_app_info(app_info):
-	desktop_info = None
 	try:
 		desktop_file = find_desktop_file(app_info.get_id())
 	except ResourceLookupError:

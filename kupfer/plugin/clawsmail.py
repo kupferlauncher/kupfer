@@ -10,13 +10,13 @@ import os
 from xml.dom import minidom
 import xml
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Action
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf
 from kupfer import utils
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import EMAIL_KEY, ContactLeaf, EmailContact, email_from_leaf
+from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 
 
 

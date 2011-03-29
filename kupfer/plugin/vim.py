@@ -9,7 +9,7 @@ import os
 import gio
 import glib
 
-from kupfer.objects import Leaf, Action, Source, AppLeaf, FileLeaf, UrlLeaf
+from kupfer.objects import Source, FileLeaf
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import datatools

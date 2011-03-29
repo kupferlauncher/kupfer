@@ -106,13 +106,11 @@ class CreateArchiveIn (Action):
 		return True
 
 	def activate(self, leaf, iobj, ctx):
-		archive_type = __kupfer_settings__["archive_type"]
 		dirpath = iobj.object
 		basename = os_path.basename(leaf.object)
 		self._make_archive(ctx, basename, dirpath, (leaf.object, ))
 
 	def activate_multiple(self, objs, iobjs, ctx):
-		archive_type = __kupfer_settings__["archive_type"]
 		# TRANS: Default filename (no extension) for 'Create Archive In...'
 		basename = _("Archive")
 		for iobj in iobjs:

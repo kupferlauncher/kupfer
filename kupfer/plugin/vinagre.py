@@ -14,7 +14,7 @@ import gio
 from xml.etree import cElementTree as ElementTree
 
 from kupfer.objects import Action, UrlLeaf
-from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import utils, icons
 from kupfer.obj.grouping import ToplevelGroupingSource 

@@ -8,7 +8,8 @@ __author__ = "Chris Parsons <cjparsons1@yahoo.co.uk>"
 
 import codecs
 import os
-from kupfer.objects import Leaf, Action, Source
+
+from kupfer.objects import Action
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf
 from kupfer import utils
 from kupfer.obj.helplib import FilesystemWatchMixin

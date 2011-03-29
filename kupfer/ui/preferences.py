@@ -14,12 +14,10 @@ from kupfer import scheduler, kupferstring
 from kupfer import kupferui
 from kupfer.core import settings, plugins, relevance, sources
 from kupfer.ui import keybindings
-from kupfer.ui import uievents
 from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui import getkey_dialog
 from kupfer.ui import accelerators
 from kupfer import plugin_support
-from kupfer import terminal
 
 # index in GtkNotebook
 PLUGIN_LIST_PAGE = 2
@@ -250,7 +248,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl.set_directories(have)
 
 	def remove_directory_model(self, rowiter, store=True):
-		dirpath = self.dir_store.get_value(rowiter, 0)
 		self.dir_store.remove(rowiter)
 		if store:
 			have = list(os.path.normpath(row[0]) for row in self.dir_store)
@@ -311,7 +308,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		if keystr:
 			self.entrykeybinding.set_text(keystr)
 			self.output_debug("Try set keybinding with", keystr)
-			succ = keybindings.bind_key(keystr)
+			keybindings.bind_key(keystr)
 			setctl = settings.GetSettingsController()
 			setctl.set_keybinding(keystr)
 
@@ -486,7 +483,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 				plugins.action_decorators_attribute,
 				plugins.text_sources_attribute)
 				)
-		all_items = list()
 		vbox = gtk.VBox()
 		vbox.set_property("spacing", 5)
 
@@ -584,7 +580,6 @@ class PreferencesWindowController (pretty.OutputMixin):
 		if not plugin_settings:
 			return None
 
-		info = self._plugin_info_for_id(plugin_id)
 		title_label = gtk.Label()
 		# TRANS: Plugin-specific configuration (header)
 		title_label.set_markup(u"<b>%s</b>" % _("Configuration"))

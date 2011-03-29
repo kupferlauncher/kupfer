@@ -2,7 +2,7 @@ from time import time
 import os
 import cPickle as pickle
 
-import gtk
+import gio
 import gobject
 
 from kupfer import pretty, config
@@ -58,13 +58,10 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 	"""
 	assert app_info
 
-	from gio import File
-	from glib import GError
-
 	if paths:
-		files = [File(p) for p in paths]
+		files = [gio.File(p) for p in paths]
 	if uris:
-		files = [File(p) for p in uris]
+		files = [gio.File(p) for p in uris]
 
 	svc = GetApplicationsMatcherService()
 	app_id = application_id(app_info, desktop_file)

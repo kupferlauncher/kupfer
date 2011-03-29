@@ -51,7 +51,7 @@ class qfurl (object):
 			typname = "%s.%s" % (type(obj).__module__, type(obj).__name__)
 			try:
 				qfid = obj.qf_id
-			except AttributeError, err:
+			except AttributeError:
 				raise QfurlError("%s has no qfurl" % obj)
 			self.url = _urlunparse((QFURL_SCHEME, "", qfid, "", "", typname))
 		else:

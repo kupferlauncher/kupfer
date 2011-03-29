@@ -1,9 +1,8 @@
 from __future__ import with_statement
 
-import ast
-import os, sys
 import ConfigParser
 import copy
+import os
 
 import glib
 import gobject
@@ -80,7 +79,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		config_files = []
 		try:
 			defaults_path = config.get_data_file(self.defaults_filename)
-		except config.ResourceLookupError, exc:
+		except config.ResourceLookupError:
 			print "Error: no default config file %s found!" % self.defaults_filename
 		else:
 			self._defaults_path = defaults_path

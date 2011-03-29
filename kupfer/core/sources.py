@@ -1,6 +1,5 @@
 from __future__ import with_statement
 
-import contextlib
 import gzip
 import hashlib
 import itertools
@@ -230,7 +229,7 @@ class SourceDataPickler (pretty.OutputMixin):
 		obj = source.config_save()
 		try:
 			data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
-		except pickle.PickleError, exc:
+		except pickle.PickleError:
 			import traceback
 			self.output_error("Unable to save configuration for", source)
 			self.output_error("Saving configuration raised an exception:")

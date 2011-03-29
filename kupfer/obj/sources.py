@@ -8,9 +8,9 @@ from kupfer import datatools
 from kupfer import icons
 from kupfer import utils
 
-from kupfer.obj.base import Leaf, Action, Source
+from kupfer.obj.base import Source
 from kupfer.obj.helplib import PicklingHelperMixin, FilesystemWatchMixin
-from kupfer.obj.objects import FileLeaf, AppLeaf, SourceLeaf
+from kupfer.obj.objects import FileLeaf, SourceLeaf
 from kupfer.obj.objects import ConstructFileLeaf, ConstructFileLeafTypes
 
 

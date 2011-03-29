@@ -1,12 +1,10 @@
 import os
 import gio
 
-from kupfer import icons
-from kupfer import pretty
 from kupfer import utils
 from kupfer import launch
 
-from kupfer.obj.base import Action, InvalidDataError, OperationError
+from kupfer.obj.base import Action, OperationError
 
 class NoDefaultApplicationError (OperationError):
 	pass

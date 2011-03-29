@@ -6,11 +6,10 @@ __description__ = _("Search filesystem using locate")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import os
 import subprocess
 
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf, FileLeaf
+from kupfer.objects import Action, Source
+from kupfer.objects import TextLeaf
 from kupfer import icons, plugin_support
 from kupfer.obj.objects import ConstructFileLeaf
 

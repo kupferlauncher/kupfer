@@ -4,9 +4,7 @@ __description__ = _("Index of Chromium bookmarks")
 __version__ = ""
 __author__ = "Francesco Marella <francesco.marella@gmail.com>"
 
-import os
-
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Source
 from kupfer.objects import UrlLeaf
 from kupfer import config
 from kupfer.obj.apps import AppLeafContentMixin
