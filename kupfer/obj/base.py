@@ -454,7 +454,7 @@ class TextSource (KupferObject):
 	this is a psedo Source"""
 	def __init__(self, name=None):
 		if not name:
-			name = _("Text Matches")
+			name = _("Text")
 		KupferObject.__init__(self, name)
 
 	def __eq__(self, other):
@@ -483,6 +483,9 @@ class TextSource (KupferObject):
 	def provides(self):
 		"""A seq of the types of items it provides"""
 		yield Leaf
+
+	def get_icon_name(self):
+		return "edit-select-all"
 
 
 class ActionGenerator (object):
