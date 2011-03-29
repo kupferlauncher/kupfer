@@ -16,7 +16,8 @@ import os
 from os import path as os_path
 
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
-from kupfer import utils, pretty
+from kupfer.objects import OperationError
+from kupfer import pretty
 
 
 def _good_destination(dpath, spath):
@@ -105,7 +106,6 @@ class Rename (Action, pretty.OutputMixin):
 		return True
 	def activate(self, leaf, obj):
 		sfile = gio.File(leaf.object)
-		bname = sfile.get_basename()
 		dest = os_path.join(os_path.dirname(leaf.object), obj.object)
 		dfile = gio.File(dest)
 		try:
