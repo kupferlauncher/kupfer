@@ -19,7 +19,7 @@ def _icon_theme_changed(theme):
 _default_theme = gtk.icon_theme_get_default()
 _default_theme.connect("changed", _icon_theme_changed)
 
-def load_kupfer_icons(sched=None):
+def load_kupfer_icons(scheduler):
 	"""Load in kupfer icons from installed files"""
 	ilist = "art/icon-list"
 	ilist_file_path = config.get_data_file(ilist)
@@ -40,7 +40,7 @@ def load_kupfer_icons(sched=None):
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"from", icon_path)
 
-scheduler.GetScheduler().connect("load", load_kupfer_icons)
+scheduler.GetScheduler().connect("after-display", load_kupfer_icons)
 
 def load_plugin_icon(plugin_name, icon_name, icon_data):
 	"Load icon from @icon_data into the name @icon_name"
