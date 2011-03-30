@@ -290,7 +290,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			wspc = window.get_workspace()
 			if wspc:
 				wspc.activate(evttime)
-			window.activate(evttime)
+			window.activate_transient(evttime)
 
 	def application_close_all(self, app_id):
 		application_windows = self.get_application_windows(app_id)
