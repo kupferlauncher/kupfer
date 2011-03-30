@@ -17,6 +17,7 @@ from kupfer.desktop_launch import SpawnError
 
 try:
 	import wnck
+	wnck.set_client_type(wnck.CLIENT_TYPE_PAGER)
 except ImportError, e:
 	pretty.print_info(__name__, "Disabling window tracking:", e)
 	wnck = None
