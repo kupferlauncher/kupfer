@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-03-21 18:43+0000\n"
-"PO-Revision-Date: 2011-03-25 10:25+0100\n"
+"POT-Creation-Date: 2011-03-25 18:30+0000\n"
+"PO-Revision-Date: 2011-03-29 16:04+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -270,6 +270,10 @@ msgid ""
 "identically with either application—you can configure which one to use in "
 "the plugin's information pane in <app>Kupfer Preferences</app>."
 msgstr ""
+"Con <app>Notas</app> puede crear notas o acceder a ellas en <app>Gnote</app> "
+"o en <app>Tomboy</app>. <app>Notas</app> trabajará de manera idéntica con "
+"cada aplicación; puede configurar cuál de ellas usar en el panel de "
+"información del complemento en las <app>Preferencias de Kupfer</app>."
 
 #: C/plugin-notes.page:24(title)
 msgid "Creating a new note"
@@ -351,6 +355,9 @@ msgid ""
 "keyseq> to directly focus the selected file. See <link xref=\"keyboard\"/> "
 "for more information."
 msgstr ""
+"En vez de buscar, puede pulsar <keyseq><key>Ctrl</key><key>G</key></keyseq> "
+"para dar el foco directamente al archivo seleccionado. Consulte la <link "
+"xref=\"keyboard\"/> para obtener más información."
 
 #: C/plugin-nautilusselection.page:26(title)
 msgid "<app>Selected File</app> requires <app>Nautilus</app>"
@@ -363,6 +370,11 @@ msgid ""
 "is normally installed together with <app>Kupfer</app>). After installing it "
 "for the first time, <app>Nautilus</app> must start anew before it is active."
 msgstr ""
+"El complemento «Archivo seleccionado» funciona con el explorador de archivos "
+"<app>Nautilus</app> y requiere que la extensión <cmd>kupfer_provider.py</"
+"cmd> esté instalada (normalmente se instala junto con <app>Kupfer</app>). "
+"Después de instalarla por primera vez, <app>Nautilus</app> debe iniciarse de "
+"nuevo antes de que esté activa."
 
 #: C/plugin-gwibber.page:7(desc)
 msgid "Using the Gwibber plugin."
@@ -443,6 +455,9 @@ msgid ""
 "Messages</em> and more actions on messages such as <em>Reply</em>, <em>Send "
 "Private Message</em> etc."
 msgstr ""
+"El complemento también proporciona una fuente para mensajes entrantes, "
+"<em>Mensajes de Gwibber</em> y más acciones sobre mensajes, tales como "
+"<em>Responder</em>, <em>Enviar mensaje privado</em> etc."
 
 #: C/plugin-gwibber.page:71(p)
 msgid ""
@@ -666,6 +681,8 @@ msgid ""
 "<app>Kupfer</app> will show all applications that are configured visible in "
 "your menu editor."
 msgstr ""
+"<app>Kupfer</app> mostrará todas las aplicaciones que están configuradas "
+"como visibles en su editor del menú."
 
 #: C/moreusage.page:18(p)
 msgid ""
@@ -730,6 +747,8 @@ msgid ""
 "Selecting many files and using the Create Archive action, all files will be "
 "packed into the same archive."
 msgstr ""
+"Al seleccionar varios archivos usando la acción «Crear archivador», todos los "
+"archivos se empaquetarán en el mismo archivo."
 
 #: C/moreusage.page:54(p)
 msgid ""
@@ -784,6 +803,8 @@ msgid ""
 "The command <cmd>kupfer</cmd> on the command-line will focus <app>Kupfer</"
 "app> if it's already running, otherwise it will start it."
 msgstr ""
+"El comando <cmd>kupfer</cmd> en la línea de comandos dará el foco a "
+"<app>Kupfer</app> si ya está en ejecución, y si no lo está lo iniciará."
 
 #: C/moreusage.page:90(p)
 msgid ""
@@ -803,6 +824,8 @@ msgid ""
 "You can also send text if you pipe the output of a command into <cmd>kupfer</"
 "cmd>."
 msgstr ""
+"También puede enviar texto si redirige la salida de un comando hacia "
+"<cmd>kupfer</cmd>."
 
 #: C/moreusage.page:105(title)
 msgid "Managing Context and Current Selection"
@@ -896,6 +919,9 @@ msgid ""
 "\". Each plugin provides additional functionality, for example integration "
 "with an external application."
 msgstr ""
+"La funcionalidad en Kupfer está organizada por módulos de extensiones "
+"llamados «complementos». Cada complemento proporciona funcionalidad "
+"adicional, por ejemplo, integración con una aplicación externa."
 
 #: C/managing-plugins.page:19(title)
 msgid "Configuring Plugins"
@@ -916,12 +942,16 @@ msgid ""
 "Click the Kupfer icon in the notification area and select the item "
 "<em>Preferences</em>"
 msgstr ""
+"Pulse en el icono de Kupfer en el área de notificación y seleccione el "
+"elemento <em>Preferencias</em>."
 
 #: C/managing-plugins.page:29(p)
 msgid ""
 "Search for the object <app>Kupfer Preferences</app> in Kupfer itself. Press "
 "<key>Return</key> to open it."
 msgstr ""
+"Busque el objeto<app>Preferencias de Kupfer</app> en el propio Kupfer. Pulse "
+"<key>Intro</key> para abrirlo."
 
 #: C/managing-plugins.page:33(p)
 msgid "Use the keyboard shortcut <keyseq><key>Ctrl</key><key>;</key></keyseq>"
@@ -936,12 +966,17 @@ msgid ""
 "Select plugins in the list to read about them, and tick the box next to its "
 "name to activate the plugin, or untick to deactivate."
 msgstr ""
+"Seleccione complementos en la lista para leer sobre ellos, y marque la "
+"casilla junto al nombre para activar el complemento, o desmárquela para "
+"desactivarlo."
 
 #: C/managing-plugins.page:49(p)
 msgid ""
 "If the plugin has any configurable parameters, they will be visible below "
 "the plugin information."
 msgstr ""
+"Si el complemento tiene parámetros configurables, estarán visibles debajo de "
+"la información del complemento."
 
 #: C/managing-plugins.page:53(p)
 msgid ""
@@ -949,6 +984,9 @@ msgid ""
 "information page as well as the action \"Show Source Code\" which reveals "
 "the implementation."
 msgstr ""
+"El complemento <app>Complementos de Kupfer</app> permite un acceso rápido a "
+"la información de cada complemento así como la opción «Mostrar código "
+"fuente», que muestra su implementación."
 
 #: C/managing-plugins.page:59(title)
 msgid "If a Plugin can not be Activated"
@@ -959,6 +997,9 @@ msgid ""
 "If a plugin fails to activate because it requires a software module that is "
 "not available, its plugin information will display a message like this:"
 msgstr ""
+"Si un complemento falla al activarlo porque requiere un módulo de software "
+"que no está disponible, la información del complemento mostrará un mensaje "
+"como este:"
 
 #: C/managing-plugins.page:65(em)
 msgid "Plugin could not be read due to an error:"
@@ -983,6 +1024,9 @@ msgid ""
 "message. It may then be a program error in either the plugin or <app>Kupfer</"
 "app>."
 msgstr ""
+"El complemento también puede fallar inesperadamente al cargarse, y mostrar "
+"un mensaje de error diferente. Puede ser un error de programación, tanto en "
+"el complemento como en <app>Kupfer</app>."
 
 #: C/managing-plugins.page:79(title)
 msgid "Installing more Plugins"
@@ -996,12 +1040,20 @@ msgid ""
 "py</code>). Plugins in the package format can include icon files. Python "
 "packages can even be installed as <code>.zip</code> files."
 msgstr ""
+"Puede instalar complementos personalizados en la carpeta <code>~/.local/"
+"share/kupfer/plugins</code>. Cada complemento puede ser un único archivo "
+"<code>.py</code> o un paquete de Python (una carpeta que directamente "
+"contiene un archivo llamado <code>__init__.py</code>). Los complementos en "
+"forma de paquete pueden incluir archivos de iconos. Los paquetes de Python "
+"también se pueden instalar como archivos <code>.zip</code>."
 
 #: C/managing-plugins.page:88(p)
 msgid ""
 "<em>Caution:</em> Treat a plugin as a computer program. Do not install "
 "untrusted plugins."
 msgstr ""
+"<em>Precaución:</em> considere los complementos como programas. No instale "
+"complementos que no sean de confianza."
 
 #: C/managing-plugins.page:95(title)
 msgid "Creating Plugins"
@@ -1015,6 +1067,11 @@ msgid ""
 "Manual</link>. An easy way to start is to copy an existing plugin and "
 "experimenting with it."
 msgstr ""
+"La documentación para creadores de complementos está disponible en el "
+"archivo <code>Documentation/Manual.rst</code> en la distribución fuente o en "
+"la página web <link href=\"http://kaizer.se/wiki/kupfer/Manual/\">Manual de "
+"Kupfer</link>. Una manera sencilla de empezar es copiar un complemento "
+"existente y experimentar con él."
 
 #: C/managing-plugins.page:107(title)
 msgid "The <em>Catalog</em> Tab in Preferences"
@@ -1036,12 +1093,18 @@ msgid ""
 "next to each source means that its objects are exported. An unticked box "
 "means that its contents are hidden from the top level."
 msgstr ""
+"En la pestaña <em>Catálogo</em> en las <app>Preferencias de Kupfer</app>, "
+"una casilla marcada junto a cada fuente indica que ese objeto está "
+"exportado. Una casilla desmarcada indica que su contenido está oculto desde "
+"el nivel superior."
 
 #: C/managing-plugins.page:123(p)
 msgid ""
 "<em>Note:</em> Kupfer may become slow if large enough subcatalogs are "
 "exported to the top level."
 msgstr ""
+"<em>Nota:</em> Kupfer puede ralentizarse si se exportar muchos catálogos "
+"grandes al nivel superior."
 
 #: C/license.page:7(desc)
 msgid "You can copy, modify and share Kupfer."
@@ -1111,7 +1174,7 @@ msgstr "Referencia completa de atajos de teclado."
 
 #: C/keyboard.page:10(title)
 msgid "Command Keys and Accelerator Keys"
-msgstr ""
+msgstr "Teclas de comandos y teclas aceleradoras"
 
 #: C/keyboard.page:13(title) C/generalusage.page:12(title)
 msgid "Keyboard Interface"
@@ -1185,6 +1248,8 @@ msgid ""
 "Activate free-text mode with = prefix (for <link xref=\"plugin-calculator\"/"
 ">)"
 msgstr ""
+"Activar el modo de texto libre con el prefijo «=» (para la <link xref="
+"\"plugin-calculator\"/>)"
 
 #: C/keyboard.page:61(key)
 msgid "/"
@@ -1207,11 +1272,11 @@ msgstr "<key>Intro</key> activa la selección actual: el comando se ejecuta."
 
 #: C/keyboard.page:74(p) C/generalusage.page:68(p)
 msgid "<key>Escape</key> clears the current selection."
-msgstr ""
+msgstr "<key>Esc</key> limpia la selección actual."
 
 #: C/keyboard.page:75(p) C/generalusage.page:69(p)
 msgid "<key>Tab</key> switches between the object and the action pane."
-msgstr ""
+msgstr "<key>Tab</key> cambia entre el objeto y el panel de acciones."
 
 #: C/keyboard.page:77(p)
 msgid ""
@@ -1220,6 +1285,10 @@ msgid ""
 "special meaning with the checkbox <app>Use single keystroke commands</app> "
 "in <app>Kupfer Preferences</app>."
 msgstr ""
+"El significado de las teclas <key>Espacio</key>, <key>.</key>, <key>,</key>, "
+"<key>/</key> y <key>=</key> no se puede cambiar, pero puede desactivar su "
+"significado especial con la casilla <app>Usar comandos de una sola tecla</"
+"app> en las <app>Preferencias de Kupfer</app>."
 
 #: C/keyboard.page:86(title)
 msgid "Kupfer's Keyboard Shortcuts"
@@ -1447,6 +1516,8 @@ msgid ""
 "We hope that using <app>Kupfer</app> feels both <em>very fun</em> and "
 "<em>different</em>."
 msgstr ""
+"Se espera que usar <app>Kupfer</app> sea<em>muy divertido</em> y "
+"<em>diferente</em>."
 
 #: C/introduction.page:26(p)
 msgid ""
@@ -1486,7 +1557,7 @@ msgstr "Usar Kupfer"
 
 #: C/index.page:27(title)
 msgid "About Specific Plugins"
-msgstr ""
+msgstr "Acerca de los complementos específicos"
 
 #: C/generalusage.page:7(desc)
 msgid "How to start using <app>Kupfer</app>."
