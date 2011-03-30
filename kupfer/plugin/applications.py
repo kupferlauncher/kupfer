@@ -48,8 +48,17 @@ class AppSource (Source, FilesystemWatchMixin):
 		desktop_type = __kupfer_settings__["desktop_type"]
 		desktop_app_info_set_desktop_env(desktop_type)
 		# Add this to the default
-		# if you set/reset default handler for folders it is useful
-		whitelist = set(["nautilus-folder-handler.desktop"])
+		whitelist = set([
+			# if you set/reset default handler for folders it is useful
+			"nautilus-folder-handler.desktop",
+			# we think that these are useful to show
+			"eog.desktop",
+			"evince.desktop",
+			"gnome-about.desktop",
+			"gstreamer-properties.desktop",
+			"notification-properties.desktop",
+			])
+
 		for item in app_info_get_all():
 			if item.should_show() or item.get_id() in whitelist:
 				yield AppLeaf(item)
