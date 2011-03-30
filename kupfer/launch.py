@@ -209,14 +209,16 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 
 	def application_is_running(self, app_id):
 		for w in self._get_wnck_screen_windows_stacked():
-			if w.get_application() and self._is_match(app_id, w):
+			if (w.get_application() and self._is_match(app_id, w) and 
+			    w.get_window_type() == wnck.WINDOW_NORMAL):
 				return True
 		return False
 
 	def get_application_windows(self, app_id):
 		application_windows = []
 		for w in self._get_wnck_screen_windows_stacked():
-			if w.get_application() and self._is_match(app_id, w):
+			if (w.get_application() and self._is_match(app_id, w) and 
+			    w.get_window_type() == wnck.WINDOW_NORMAL):
 				application_windows.append(w)
 		return application_windows
 
