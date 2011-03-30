@@ -224,23 +224,71 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		application_windows = self.get_application_windows(app_id)
 		if not application_windows:
 			return False
+		etime = uievents.current_event_time()
+		# if True, focus app's all windows on the same workspace
+		# if False, focus only one window (in cyclical manner)
+		focus_all = True
+		if focus_all:
+			return self._to_front_application_style(application_windows, etime)
+		else:
+			return self._to_front_single(application_windows, etime)
 
-		# for now, just take any window
-		evttime = uievents.current_event_time()
-		for w in application_windows:
+	def _to_front_application_style(self, application_windows, evttime):
+		workspaces = {}
+		cur_screen = application_windows[0].get_screen()
+		cur_workspace = cur_screen.get_active_workspace()
+
+		def _include_window(window):
+			return window.get_window_type() == wnck.WINDOW_NORMAL
+
+		all_windows = [w for w in self._get_wnck_screen_windows_stacked()
+		               if _include_window(w)]
+
+		## sort windows into "bins" by workspace
+		for w in filter(_include_window, application_windows):
+			wspc = w.get_workspace() or cur_workspace
+			workspaces.setdefault(wspc, []).append(w)
+
+		cur_wspc_windows = workspaces.get(cur_workspace, [])
+		# make a rotated workspace list, with current workspace first
+		idx = cur_workspace.get_number()
+		all_workspaces = cur_screen.get_workspaces()
+		all_workspaces[:] = all_workspaces[idx:] + all_workspaces[:idx]
+		# check if the application's window on current workspace
+		# are the topmost
+		focus_windows = []
+		if (cur_wspc_windows and 
+		    set(all_windows[-len(cur_wspc_windows):]) != set(cur_wspc_windows)):
+			focus_windows = cur_wspc_windows
+		else:
+			# all windows are focused, find on next workspace
+			for wspc in all_workspaces[1:]:
+				focus_windows = workspaces.get(wspc, [])
+				if focus_windows:
+					break
+			pass
+		self._focus_windows(focus_windows, evttime)
+
+	def _to_front_single(self, application_windows, evttime):
+		# bring the first window to front
+		for window in application_windows:
+			self._focus_windows([window], evttime)
+			return
+
+	def _focus_windows(self, windows, evttime):
+		for window in windows:
 			# we special-case the desktop
-			# only show desktop if it's the only window of this app
-			if w.get_name() == "x-nautilus-desktop":
-				if len(application_windows) == 1:
+			# only show desktop if it's the only window
+			if window.get_name() == "x-nautilus-desktop":
+				if len(windows) == 1:
 					screen = wnck.screen_get_default()
 					screen.toggle_showing_desktop(True)
 				else:
 					continue
-			wspc = w.get_workspace()
+			wspc = window.get_workspace()
 			if wspc:
 				wspc.activate(evttime)
-			w.activate(evttime)
-			break
+			window.activate(evttime)
 
 	def application_close_all(self, app_id):
 		application_windows = self.get_application_windows(app_id)
