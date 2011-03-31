@@ -1794,14 +1794,18 @@ class WindowController (pretty.OutputMixin):
 	This is the fundamental Window (and App) Controller
 	"""
 	def __init__(self):
-		"""
-		"""
-		self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
-		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+		self.window = None
 		self.current_screen_handler = 0
 		self.current_screen = None
+		self.interface = None
+		self._statusicon = None
+		self._window_hide_timer = scheduler.Timer()
 
-		data_controller = data.DataController()
+	def initialize(self, data_controller):
+		self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
+		self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+
+		#data_controller = data.DataController()
 		data_controller.connect("launched-action", self.launch_callback)
 		data_controller.connect("command-result", self.result_callback)
 
@@ -1809,8 +1813,6 @@ class WindowController (pretty.OutputMixin):
 		self.interface.connect("launched-action", self.launch_callback)
 		self.interface.connect("cancelled", self._cancelled)
 		self._setup_window()
-		self._statusicon = None
-		self._window_hide_timer = scheduler.Timer()
 
 	def show_statusicon(self):
 		if not self._statusicon:
@@ -2250,9 +2252,12 @@ class WindowController (pretty.OutputMixin):
 			               lambda x,y,z: kserv.BoundKeyChanged(y,z))
 			kserv.connect("relay-keys", keyobj.relayed_keys)
 
-		# Load data and present UI
+		# Load data
+		data_controller = data.DataController()
 		sch = scheduler.GetScheduler()
 		sch.load()
+		# Now create UI and display
+		self.initialize(data_controller)
 		sch.display()
 
 		if not quiet:
