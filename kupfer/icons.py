@@ -11,6 +11,12 @@ from kupfer import config, pretty, scheduler
 
 icon_cache = {}
 
+LARGE_SZ = 128
+SMALL_SZ = 24
+
+gtk.icon_size_register("kupfer-large", LARGE_SZ, LARGE_SZ)
+gtk.icon_size_register("kupfer-small", SMALL_SZ, SMALL_SZ)
+
 def _icon_theme_changed(theme):
 	pretty.print_info(__name__, "Icon theme changed, clearing cache")
 	global icon_cache
@@ -44,7 +50,7 @@ scheduler.GetScheduler().connect("after-display", load_kupfer_icons)
 
 def load_plugin_icon(plugin_name, icon_name, icon_data):
 	"Load icon from @icon_data into the name @icon_name"
-	for size in (24, 128):
+	for size in (SMALL_SZ, LARGE_SZ):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
@@ -128,7 +134,7 @@ class ComposedIcon (Icon):
 def ComposedIconSmall(baseicon, emblem, **kwargs):
 	"""Create composed icon for leaves with emblem visible on browser list"""
 	ci = ComposedIcon(baseicon, emblem, **kwargs)
-	ci.minimum_icon_size = 24
+	ci.minimum_icon_size = SMALL_SZ
 	return ci
 
 

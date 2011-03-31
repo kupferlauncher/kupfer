@@ -233,10 +233,12 @@ class LeafModel (object):
 		self.store.prepend(self._get_row(rankable))
 
 	def get_icon_size(self):
-		return 24
+		return gtk.icon_size_lookup(gtk.icon_size_from_name("kupfer-small"))[0]
+
 	def get_icon(self, leaf):
 		sz = self.get_icon_size()
-		return leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
+		if sz >= 8:
+			return leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
 
 	def get_label_markup(self, rankable):
 		leaf = rankable.object
@@ -278,13 +280,12 @@ class MatchView (gtk.Bin):
 	"""
 	__gtype_name__ = "MatchView"
 
-	def __init__(self, icon_size):
+	def __init__(self):
 		gobject.GObject.__init__(self)
 		# object attributes
 		self.label_char_width = 25
 		self.preedit_char_width = 5
 		self.match_state = State.Wait
-		self.icon_size = icon_size
 
 		self.object_stack = []
 
@@ -295,6 +296,10 @@ class MatchView (gtk.Bin):
 		self.cur_icon = None
 		self.cur_text = None
 		self.cur_match = None
+
+	@property
+	def icon_size(self):
+		return gtk.icon_size_lookup(gtk.icon_size_from_name("kupfer-large"))[0]
 
 	def _update_theme(self, *args):
 		# Style subtables to choose from
@@ -560,19 +565,25 @@ class Search (gtk.Bin):
 		# number rows to skip when press PgUp/PgDown
 		self.page_step = 7
 		self.source = None
-		self.icon_size = 128
 		self._old_win_position=None
 		self._has_search_result = False
 		self._initialized = False
 		# finally build widget
 		self.build_widget()
+		self.icon_size = None
+		self.on_style_set()
 		self.setup_empty()
+		self.connect("style-set", self.on_style_set)
+
+	def on_style_set(self, *args):
+		self.icon_size = \
+			gtk.icon_size_lookup(gtk.icon_size_from_name("kupfer-large"))[0]
 
 	def build_widget(self):
 		"""
 		Core initalization method that builds the widget
 		"""
-		self.match_view = MatchView(self.icon_size)
+		self.match_view = MatchView()
 
 		self.table = gtk.TreeView(self.model.get_store())
 		self.table.set_headers_visible(False)
