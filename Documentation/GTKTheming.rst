@@ -70,6 +70,7 @@ The following example style includes inline comments::
         ## The Search controls the result list
 
         Search :: list-opacity = 93
+        Search :: list-length = 200
 
         ## The KupferWindow is the whole main window
         KupferWindow :: corner-radius = 15
