@@ -34,6 +34,14 @@ def text_color():
 
 class AsciiIconRenderer (object):
 	glyph_pixbuf_cache = {}
+	def __init__(self):
+		settings = gtk.settings_get_default()
+		settings.connect("notify::gtk-color-scheme", self._theme_change)
+
+	@classmethod
+	def _theme_change(cls, *ignored):
+		cls.glyph_pixbuf_cache.clear()
+
 	@classmethod
 	def pixbuf_for_name(cls, icon_name, size):
 		"""Return pixbuf at @size or None"""
