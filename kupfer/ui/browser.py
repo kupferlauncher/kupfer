@@ -637,6 +637,8 @@ class Search (gtk.Bin):
 		self.list_window.hide()
 
 	def _show_table(self):
+		table_maxlen = self.style_get_property('list-length')
+		opacity = 0.01*self.style_get_property('list-opacity')
 		# self.window is a GdkWindow (of self's parent)
 		win_width, win_height = self.window.get_size()
 		pos_x, pos_y = self.window.get_position()
@@ -646,7 +648,7 @@ class Search (gtk.Bin):
 		sub_x = pos_x
 		sub_y = pos_y + win_height
 		table_w, table_len = self.table.size_request()
-		subwin_height = min(table_len, 200) or 100
+		subwin_height = min(table_len, table_maxlen) or 100
 		subwin_width = self_width*2 - self_x
 		if not text_direction_is_ltr():
 			sub_x += win_width - subwin_width + self_x
@@ -658,7 +660,6 @@ class Search (gtk.Bin):
 		win = self.get_toplevel()
 		self.list_window.set_transient_for(win)
 		self.list_window.set_property("focus-on-map", False)
-		opacity = 0.01*self.style_get_property('list-opacity')
 		self.list_window.set_opacity(opacity)
 		self.list_window.show()
 		self._old_win_position = pos_x, pos_y
@@ -856,6 +857,12 @@ gtk.widget_class_install_style_property(Search,
 		('list-opacity', gobject.TYPE_INT, 'Result list opacity',
 		 'Opacity of the whole result list',
 		 50, 100, 93,
+		 gobject.PARAM_READABLE))
+
+gtk.widget_class_install_style_property(Search,
+		('list-length', gobject.TYPE_INT, 'Result list length',
+		 'Maximum length of the result list',
+		 50, 1024, 200,
 		 gobject.PARAM_READABLE))
 
 class LeafSearch (Search):
