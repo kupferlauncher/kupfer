@@ -2241,12 +2241,6 @@ class WindowController (pretty.OutputMixin):
 		except listen.NoConnectionError:
 			kserv = None
 		else:
-			kserv.connect("present", self.on_present)
-			kserv.connect("show-hide", self.on_show_hide)
-			kserv.connect("put-text", self.on_put_text)
-			kserv.connect("put-files", self.on_put_files)
-			kserv.connect("execute-file", self.on_execute_file)
-			kserv.connect("quit", self.quit)
 			keyobj = keybindings.GetKeyboundObject()
 			keyobj.connect("bound-key-changed",
 			               lambda x,y,z: kserv.BoundKeyChanged(y,z))
@@ -2259,6 +2253,14 @@ class WindowController (pretty.OutputMixin):
 		# Now create UI and display
 		self.initialize(data_controller)
 		sch.display()
+
+		if kserv:
+			kserv.connect("present", self.on_present)
+			kserv.connect("show-hide", self.on_show_hide)
+			kserv.connect("put-text", self.on_put_text)
+			kserv.connect("put-files", self.on_put_files)
+			kserv.connect("execute-file", self.on_execute_file)
+			kserv.connect("quit", self.quit)
 
 		if not quiet:
 			self.activate()
