@@ -1744,7 +1744,8 @@ class KupferWindow (gtk.Window):
 	def reshape(self, widget, allocation):
 		## if not composited, use rounded window shape
 		w,h = allocation.width, allocation.height
-		if not widget.is_composited():
+		radius = widget.style_get_property('corner-radius')
+		if not widget.is_composited() and radius:
 			bitmap = gtk.gdk.Pixmap(None, w, h, 1)
 			cr = bitmap.cairo_create()
 
@@ -1755,7 +1756,6 @@ class KupferWindow (gtk.Window):
 			# radius of rounded corner
 			cr.set_source_rgb(1.0, 1.0, 1.0)
 			cr.set_operator(cairo.OPERATOR_SOURCE)
-			radius = widget.style_get_property('corner-radius')
 			make_rounded_rect(cr, 0, 0, w, h, radius)
 			cr.fill()
 			widget.shape_combine_mask(bitmap, 0, 0)
