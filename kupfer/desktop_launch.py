@@ -362,7 +362,6 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 		child_env_add = {}
 	if screen:
 		child_env_add["DISPLAY"]=screen.make_display_name()
-	debug_log(child_env_add)
 
 	if not workdir or not os.path.exists(workdir):
 		workdir = "."
@@ -370,14 +369,12 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	argv = list(locale_encode_argv(argv))
 
 	try:
-		debug_log("Launching", argv)
-		debug_log("Startup Notify ID:", notify_id)
 		(pid, _ig1, _ig2, _ig3) = glib.spawn_async(argv,
 		                       working_directory=workdir,
 		                       flags=glib.SPAWN_SEARCH_PATH,
 		                       child_setup=child_setup,
 		                       user_data=child_env_add)
-		debug_log("Launched child with PID", pid)
+		debug_log("Launched", argv,  notify_id, "pid:", pid)
 	except glib.GError as exc:
 		error_log("Error Launching ", argv, unicode(exc))
 		if notify_id:

@@ -73,9 +73,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 
 	# An launch callback closure for the @app_id
 	def application_launch_callback(argv, pid, notify_id, files, timestamp):
-		pretty.print_debug(__name__, "Launched", argv, pid, notify_id, files)
 		is_terminal = terminal.is_known_terminal_executable(argv[0])
-		pretty.print_debug(__name__, argv, "is terminal:", is_terminal)
 		if not is_terminal:
 			svc.launched_application(app_id, pid)
 

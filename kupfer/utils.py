@@ -229,8 +229,8 @@ def spawn_async_raise(argv, workdir="."):
 
 	raises SpawnError
 	"""
-	pretty.print_debug(__name__, "Spawn Async", argv, workdir)
 	argv = _argv_to_locale(argv)
+	pretty.print_debug(__name__, "spawn_async", argv, workdir)
 	try:
 		return gobject.spawn_async (argv, working_directory=workdir,
 				flags=gobject.SPAWN_SEARCH_PATH)
