@@ -2,14 +2,23 @@ kupfer is a simple, flexible, launcher for Gnome
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
 :Homepage:  http://kaizer.se/wiki/kupfer/
-:Credits:   Copyright 2007--2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+:Credits:   Copyright 2007–2011 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 :Licence:   GNU General Public License v3 (or any later version)
+
+Kupfer is an interface for quick and convenient access to applications
+and their documents.
+
+The most typical use is to find a specific application and launch it. We
+have tried to make Kupfer easy to extend with plugins so that this
+quick-access paradigm can be extended to many more objects than just
+applications.
 
 Installing
 ==========
 
-This project is configured for waf; waf is shipped in the distributable
-tarball but not in the repository.  If you need to get waf, run::
+This project is configured for the waf build system; waf is shipped in
+the distributable tarball but not in the repository.  If you need to get
+waf, run::
 
     wget -O waf http://waf.googlecode.com/files/waf-1.6.3
     chmod +x waf
@@ -30,28 +39,33 @@ or ::
 You can use ``--prefix=$PREFIX`` when configuring to assign an
 installation spot. By default, Kupfer is installed for all users.
 Installing only for your user, the prefix ``~/.local`` is often used;
-you just have to check that: ``~/.local/bin`` is in your ``$PATH``.
+you just have to make sure that ``~/.local/bin`` is in your ``$PATH``.
 
-Requirements
-------------
+Build Requirements
+------------------
+
+* Python 2.6 or Python 3
+* waf (see above)
+* intltool
+* optionally: rst2man (python-docutils)  to install the manpage
+* optionally: xml2po (gnome-doc-utils)  to install mallard help pages
+
+Runtime Requirements
+--------------------
 
 Kupfer requires Python 2.6 or later, and the following important libraries:
 
 * gtk python bindings, GTK+ version 2.16
 * glib python bindings (pygobject) 2.18
 * dbus python bindings
+* python-xdg
 
-Optional, but very recommended dependencies:
+Optional, but very recommended runtime dependencies:
 
 * python-keybinder (see below)
 * wnck python bindings
 * gvfs
-* xdg-terminal (to find which terminal application you use, if it's not
-  Gnome Terminal)
-* rst2man / python docutils  to build manpages
-* xml2po / gnome docutils  to install mallard help pages
-* `keyring` python module, and optionally its extensions
-  python-keyring-gnome or python-keyring-kwallet
+* `keyring` python module
 
 Opportunistic dependencies
 
@@ -60,29 +74,36 @@ Opportunistic dependencies
 * If available, 'setproctitle' is used to set the process name
 * python-appindicator for ubuntu-style notification icon
 
+* nautilus-python for nautilus selected file
+* python-gdata for Google plugins
 
-Some plugins might require additional python modules!
+Some plugins will require additional python modules!
 
 Spawning
 ========
 
-Kupfer is installed as ``kupfer`` into ``$PREFIX/bin``.
+The program is installed as ``kupfer`` into ``$PREFIX/bin``. Only one
+instance can be active for one user at a given time. Normal use of
+kupfer requires an active dbus session bus.
 
 Keybinder Module
 ----------------
 
-Kupfer uses tomboy's keybinder code, just like many other applications
-do for global keybindings.  I had to break out the python wrapping of
-the code into a standalone python module `keybinder`_ that you need to
-install first.
+Keybinder_ is a module for global keyboard shortcuts that originates
+from tomboy.
 
-.. _`keybinder`: http://kaizer.se/wiki/python-keybinder
-
-Now you can set kupfer's keybinding by editing kupfer's config.  See
-``kupfer --help`` for how to do that.
+.. _`Keybinder`: http://kaizer.se/wiki/keybinder
 
 You can use kupfer without the keybinder module, for example by
 assigning a global keybinding to the ``kupfer`` binary, but it not the
 recommended way.
+
+Documentation
+=============
+
+Please read ``Documentation/`` and ``Documentation/Manpage.rst`` for
+technical documentation. User documentation is installed as GNOME
+(Mallard) help pages, available under the "Kupfer Help" object in the
+program itself.
 
 .. vim: ft=rst tw=72
