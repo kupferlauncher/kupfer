@@ -207,7 +207,7 @@
                           <object class="GtkLabel" id="label11">
                             <property name="visible">True</property>
                             <property name="ypad">10</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Thank you for using Kupfer!&lt;/b&gt;
+                            <property name="label" translatable="no">&lt;b&gt;Thank you for using Kupfer!&lt;/b&gt;
 
 Visit us at &lt;a href="http://kaizer.se/wiki/kupfer/"&gt;http://kaizer.se/wiki/kupfer/&lt;/a&gt;</property>
                             <property name="use_markup">True</property>
