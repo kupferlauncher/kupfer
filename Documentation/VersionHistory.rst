@@ -3,6 +3,39 @@
 NEWS for kupfer
 ===============
 
+kupfer v205
+-----------
+
+Congratulating ourselves
+
+Released Friday, 1 April 2011
+
+* Changes to the interface
+
+  + NOw we have a teh awsum interface
+
+* Add context action "Set X as default action for object Y"
+
+  + You can finally make Kupfer do what you want.
+
+* Implement a preedit widget for input methods, also resolving
+  the incompatibility with ibus (David Schneider) (:lp:`696727`)
+
+  + Ok, so that foreign people can enter text too.
+
+* Updated Kupfer's technical documentation (in ``Documentation/``),
+  including the Plugin API reference.
+
+  + Someone finally bothered
+
+* The action *Go To* on applications has changed implementation. It will
+  first bring to front all yada yada, etc...
+
+  + Whatever, it finally works in a sensible way
+
+* And tons of other stuff, enjoy!
+
+
 kupfer's hastening insanity
 ---------------------------
 
