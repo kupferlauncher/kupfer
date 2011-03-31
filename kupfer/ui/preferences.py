@@ -99,6 +99,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 		checkautostart.set_active(self._get_should_autostart())
 		checkstatusicon.set_active(setctl.get_show_status_icon())
 		checkusecommandkeys.set_active(setctl.get_use_command_keys())
+		hello_image = builder.get_object("hello-image")
+		hello_image.set_from_file(config.get_data_file("art/hello-kupfer.jpg"))
 
 		# List store with columns (Name, ID) 
 		# Make alternative comboboxes

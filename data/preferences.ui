@@ -189,7 +189,37 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkVBox" id="vbox11">
+                        <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkImage" id="hello-image">
+                            <property name="visible">True</property>
+                            <property name="xpad">5</property>
+                            <property name="ypad">5</property>
+                            <property name="icon_name">kupfer</property>
+                          </object>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label11">
+                            <property name="visible">True</property>
+                            <property name="ypad">10</property>
+                            <property name="label" translatable="yes">&lt;b&gt;Thank you for using Kupfer!&lt;/b&gt;
+
+Visit us at &lt;a href="http://kaizer.se/wiki/kupfer/"&gt;http://kaizer.se/wiki/kupfer/&lt;/a&gt;</property>
+                            <property name="use_markup">True</property>
+                          </object>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                   </object>
                 </child>
