@@ -2027,7 +2027,10 @@ class WindowController (pretty.OutputMixin):
 		self._window_hide_timer.set_ms(100, self.put_away)
 
 	def result_callback(self, sender, result_type, ui_ctx):
-		self.on_present(sender, ui_ctx.get_display(), ui_ctx.get_timestamp())
+		if ui_ctx:
+			self.on_present(sender, ui_ctx.get_display(), ui_ctx.get_timestamp())
+		else:
+			self.on_present(sender, "", gtk.get_current_event_time())
 
 	def _lost_focus(self, window, event):
 		# Close at unfocus.
