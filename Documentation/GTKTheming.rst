@@ -80,6 +80,9 @@ The following example style includes inline comments::
 
     }
 
+    ## These are the two defined icon sizes
+    gtk-icon-sizes="kupfer-small=24,24:kupfer-large=128,128"
+
 To apply this style, it must be matched against the widgets in the UI
 using their names, as follows::
 
