@@ -207,6 +207,34 @@ if not OrderedDict:
 		def __ne__(self, other):
 			return not self == other
 
+class LruCache (object):
+	"""
+	Least-recently-used cache mapping of
+	size @maxsiz
+	"""
+	def __init__(self, maxsiz):
+		self.d = OrderedDict()
+		self.maxsiz = maxsiz
+
+	def __contains__(self, key):
+		return key in self.d
+
+	def __setitem__(self, key, value):
+		self.d.pop(key, None)
+		self.d[key] = value
+		if len(self.d) > self.maxsiz:
+			# remove the first item (was inserted longest time ago)
+			lastkey = next(iter(self.d))
+			self.d.pop(lastkey)
+
+	def __getitem__(self, key):
+		try:
+			value = self.d.pop(key)
+		except KeyError:
+			raise
+		# reinsert the value, puts it "last" in the order
+		self.d[key] = value
+		return value
 
 if __name__ == '__main__':
 	import doctest

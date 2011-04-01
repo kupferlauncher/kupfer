@@ -7,9 +7,15 @@ from gio import Icon, ThemedIcon, FileIcon, File
 from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
 from gobject import GError
 
-from kupfer import config, pretty, scheduler
+from kupfer import config
+from kupfer import datatools
+from kupfer import pretty
+from kupfer import scheduler
 
 icon_cache = {}
+
+# number of elements in icon lru cache (per icon size)
+ICON_CACHE_SIZE = 15
 
 LARGE_SZ = 128
 SMALL_SZ = 24
@@ -65,18 +71,17 @@ def get_icon(key, icon_size):
 		rec = icon_cache[icon_size][key]
 	except KeyError:
 		return
-	rec["accesses"] += 1
-	yield rec["icon"]
+	yield rec
 
 def store_icon(key, icon_size, icon):
 	"""
 	Store an icon in cache. It must not have been stored before
 	"""
-	assert key not in icon_cache.get(icon_size, ()), \
-		"icon %s already in cache" % key
 	assert icon, "icon %s may not be %s" % (key, icon)
-	icon_rec = {"icon":icon, "accesses":0}
-	icon_cache.setdefault(icon_size, {})[key] = icon_rec
+	icon_rec = icon
+	if icon_size not in icon_cache:
+		icon_cache[icon_size] = datatools.LruCache(ICON_CACHE_SIZE)
+	icon_cache[icon_size][key] = icon_rec
 
 def _get_icon_dwim(icon, icon_size):
 	"""Make an icon at @icon_size where
