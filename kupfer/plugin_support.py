@@ -1,9 +1,22 @@
+import sys
+
 import gobject
 
+## begin load python-keyring
+# if gnomekeyring exists, block kde libraries
+try:
+	import gnomekeyring
+except ImportError:
+	pass
+else:
+	sys.modules['PyKDE4'] = None
 try:
 	import keyring
 except ImportError:
 	keyring = None
+# now unblock kde libraries again
+sys.modules.pop('PyKDE4', None)
+## end load python-keyring
 
 
 from kupfer import pretty
