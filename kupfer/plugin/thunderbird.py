@@ -29,10 +29,8 @@ class ComposeMail(RunnableLeaf):
 		RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
 	def run(self):
-		if (not utils.spawn_async_notify_as(
-		        'thunderbird.desktop', ['thunderbird', '--compose'])):
-			utils.spawn_async_notify_as(
-					'icedove.desktop', ['icedove', '--compose'])
+		if not utils.spawn_async(['thunderbird', '--compose']):
+			utils.spawn_async(['icedove', '--compose'])
 
 	def get_description(self):
 		return _("Compose a new message in Thunderbird")
@@ -51,10 +49,6 @@ class NewMailAction(Action):
 
 		if not utils.spawn_async(['thunderbird', 'mailto:%s' % email]):
 			utils.spawn_async(['icedove', 'mailto:%s' % email])
-		if (not utils.spawn_async_notify_as(
-		        'thunderbird.desktop', ['thunderbird', 'mailto:%s' % email])):
-			utils.spawn_async_notify_as(
-					'icedove.desktop', ['icedove', 'mailto:%s' % email])
 
 	def get_icon_name(self):
 		return "mail-message-new"
