@@ -24,6 +24,7 @@ class Volume (FileLeaf):
 		fil = self.volume.get_root()
 		path = fil.get_path()
 		super(Volume, self).__init__(obj=path, name=volume.get_name())
+		self.kupfer_add_alias(fil.get_basename())
 
 	def get_actions(self):
 		yield Open()
