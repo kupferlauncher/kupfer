@@ -263,7 +263,7 @@ def build(bld):
 		bld.new_task_gen(
 			source = "Documentation/Manpage.rst",
 			target = "kupfer.1",
-			rule = 'rst2man ${SRC} > ${TGT}',
+			rule = '%s ${SRC} > ${TGT}' % bld.env["RST2MAN"],
 		)
 		bld.add_group()
 		# compress and install man page
