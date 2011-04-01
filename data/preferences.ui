@@ -261,11 +261,8 @@ Visit us at &lt;a href="http://kaizer.se/wiki/kupfer/"&gt;http://kaizer.se/wiki/
                             <property name="orientation">vertical</property>
                             <property name="spacing">2</property>
                             <child>
-                              <object class="GtkScrolledWindow" id="keybindings_list_parent">
+                              <object class="GtkAlignment" id="keybindings_list_parent">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="hscrollbar_policy">automatic</property>
-                                <property name="vscrollbar_policy">automatic</property>
                                 <child>
                                   <placeholder/>
                                 </child>
