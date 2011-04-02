@@ -10,7 +10,6 @@ import gio
 import glib
 
 from kupfer.objects import Source, FileLeaf
-from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import datatools
 
@@ -39,14 +38,13 @@ def get_vim_files(filepath):
 					recents.append(recentfile)
 	return datatools.UniqueIterator(recents)
 
-class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
+class RecentsSource (AppLeafContentMixin, Source):
 	appleaf_content_id = ("vim", "gvim")
 
 	vim_viminfo_file = "~/.viminfo"
 	def __init__(self, name=None):
 		name = name or _("Vim Recent Documents")
 		super(RecentsSource, self).__init__(name)
-		self.unpickle_finish()
 
 	def initialize(self):
 		"""Set up change monitor"""
@@ -56,8 +54,9 @@ class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 		if self.monitor:
 			self.monitor.connect("changed", self._changed)
 
-	def pickle_prepare(self):
-		# monitor is not pickleable
+	def finalize(self):
+		if self.monitor:
+			self.monitor.cancel()
 		self.monitor = None
 
 	def _changed(self, monitor, file1, file2, evt_type):
