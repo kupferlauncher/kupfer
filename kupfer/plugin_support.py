@@ -2,22 +2,7 @@ import sys
 
 import gobject
 
-## begin load python-keyring
-# if gnomekeyring exists, block kde libraries
-try:
-	import gnomekeyring
-except ImportError:
-	pass
-else:
-	sys.modules['PyKDE4'] = None
-try:
-	import keyring
-except ImportError:
-	keyring = None
-# now unblock kde libraries again
-sys.modules.pop('PyKDE4', None)
-## end load python-keyring
-
+keyring = None
 
 from kupfer import pretty
 from kupfer import config
@@ -158,13 +143,6 @@ def check_dbus_connection():
 	if not _has_dbus_connection:
 		raise ImportError(_("No D-Bus connection to desktop session"))
 
-def check_keyring_support():
-	"""
-	Check if the UserNamePassword class can be used,
-	else raise ImportError with an explanatory error message.
-	"""
-	import keyring
-
 class UserNamePassword (settings.ExtendedSetting):
 	''' Configuration type for storing username/password values.
 	Username is stored in Kupfer config, password in keyring '''
@@ -202,9 +180,31 @@ class UserNamePassword (settings.ExtendedSetting):
 		keyring.set_password(plugin_id, self.username, self.password)
 		return self.username
 
-if not keyring:
-	class UserNamePassword (object):
+def check_keyring_support():
+	"""
+	Check if the UserNamePassword class can be used,
+	else raise ImportError with an explanatory error message.
+	"""
+	global keyring
+	# if gnomekeyring exists, block kde libraries
+	old_pykde4 = sys.modules.get('PyKDE4')
+	try:
+		import gnomekeyring
+	except ImportError:
 		pass
+	else:
+		sys.modules['PyKDE4'] = None
+	try:
+		import keyring
+	except ImportError:
+		global UserNamePassword
+		class UserNamePassword (object):
+			pass
+		raise
+	finally:
+		# now unblock kde libraries again
+		if old_pykde4:
+			sys.modules['PyKDE4'] = old_pykde4
 
 
 def _plugin_configuration_error(plugin, err):
