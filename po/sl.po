@@ -613,7 +613,11 @@ msgstr "Rekurziven vir %(dir)s, (%(levels)d ravni)"
 msgid "Directory source %s"
 msgstr "Vir slovarja %s"
 
-#: ../kupfer/obj/sources.py:118
+#: ../kupfer/obj/sources.py:113
+msgid "Home Folder"
+msgstr "Domača mapa"
+
+#: ../kupfer/obj/sources.py:124
 msgid "Catalog Index"
 msgstr "Kazalo kataloga"
 

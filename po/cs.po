@@ -610,7 +610,11 @@ msgstr "Rekurzivní zdroj ze složky %(dir)s, (%(levels)d úrovní)"
 msgid "Directory source %s"
 msgstr "Zdroj složka %s"
 
-#: ../kupfer/obj/sources.py:118
+#: ../kupfer/obj/sources.py:113
+msgid "Home Folder"
+msgstr "Domovská složka"
+
+#: ../kupfer/obj/sources.py:124
 msgid "Catalog Index"
 msgstr "Katalogový rejstřík"
 

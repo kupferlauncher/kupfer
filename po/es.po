@@ -617,7 +617,11 @@ msgstr "Fuente recursiva de %(dir)s, (%(levels)d niveles)"
 msgid "Directory source %s"
 msgstr "Directorio inicial %s"
 
-#: ../kupfer/obj/sources.py:118
+#: ../kupfer/obj/sources.py:113
+msgid "Home Folder"
+msgstr "Carpeta personal"
+
+#: ../kupfer/obj/sources.py:124
 msgid "Catalog Index"
 msgstr "Índice del Catálogo"
 

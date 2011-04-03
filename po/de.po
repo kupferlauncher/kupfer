@@ -616,7 +616,11 @@ msgstr "Rekursive Quelle von %(dir)s, (%(levels)d Ebenen)"
 msgid "Directory source %s"
 msgstr "Quellordner %s"
 
-#: ../kupfer/obj/sources.py:118
+#: ../kupfer/obj/sources.py:113
+msgid "Home Folder"
+msgstr "Persönlicher Ordner"
+
+#: ../kupfer/obj/sources.py:124
 msgid "Catalog Index"
 msgstr "Katalogindex"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-31 08:34+0200\n"
+"POT-Creation-Date: 2011-04-03 15:50+0200\n"
 "PO-Revision-Date: 2011-03-31 17:14+0200\n"
 "Last-Translator: Karol Będkowski <karol.bedkowski@gmail.com>\n"
 "Language-Team: Polish <>\n"
@@ -483,6 +483,9 @@ msgstr "Rekurencyjne źródło %(dir)s, (%(levels)d poziomów)"
 #, python-format
 msgid "Directory source %s"
 msgstr "Źródło katalogu %s"
+
+msgid "Home Folder"
+msgstr "Katalog domowy"
 
 msgid "Catalog Index"
 msgstr "Indeks katalogu"
