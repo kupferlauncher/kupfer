@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-28 16:59+0200\n"
+"POT-Creation-Date: 2011-04-03 15:47+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -348,8 +348,8 @@ msgstr "Utan rättighet att utföra \"%s\" (ej körbar)"
 msgid "Command in \"%s\" is not available"
 msgstr "Kommando i \"%s\" är ej tillgängligt"
 
-msgid "Text Matches"
-msgstr "Fritextträffar"
+msgid "Text"
+msgstr "Text"
 
 msgid "Run after Delay..."
 msgstr "Utför med fördröjning..."
@@ -478,6 +478,9 @@ msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
+
+msgid "Home Folder"
+msgstr "Hemmapp"
 
 msgid "Catalog Index"
 msgstr "Katalogindex"
@@ -1538,16 +1541,6 @@ msgstr "Google Översätt"
 msgid "Translate text with Google Translate"
 msgstr "Översätt text med Google Översätt"
 
-#. TRANS: Dictionary lookup word classes
-msgid "noun"
-msgstr "subst."
-
-msgid "verb"
-msgstr "verb"
-
-msgid "adjective"
-msgstr "adj."
-
 msgid "Google Translate connection timed out"
 msgstr "Google Översätt: anslutningen tog för lång tid"
 
@@ -1721,12 +1714,6 @@ msgstr "Flöden konfigurerade i Gwibber"
 msgid "Gwibber Messages in %s"
 msgstr "Gwibber-meddelanden i %s"
 
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d tecken)"
-msgstr[1] "%s (%d tecken)"
-
 msgid "Gwibber (Simple)"
 msgstr "Gwibber (enkel)"
 
@@ -1846,6 +1833,12 @@ msgstr "Pidgin"
 
 msgid "Access to Pidgin Contacts"
 msgstr "Tillgång till Pidgin-kontakter"
+
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d tecken)"
+msgstr[1] "%s (%d tecken)"
 
 msgid "Pidgin Contacts"
 msgstr "Pidgin-kontakter"
