@@ -56,6 +56,7 @@ class FileSource (Source):
 
 	def get_icon_name(self):
 		return "folder-saved-search"
+
 	def provides(self):
 		return ConstructFileLeafTypes()
 
@@ -108,7 +109,12 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		return "folder"
 
 	def get_leaf_repr(self):
-		return FileLeaf(self.directory)
+		if os.path.samefile(self.directory, os.path.expanduser("~")):
+			alias = _("Home Folder")
+		else:
+			alias = None
+		return FileLeaf(self.directory, alias=alias)
+
 	def provides(self):
 		return ConstructFileLeafTypes()
 

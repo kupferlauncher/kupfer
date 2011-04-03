@@ -49,7 +49,7 @@ class FileLeaf (Leaf, TextRepresentation):
 	"""
 	serializable = 1
 
-	def __init__(self, obj, name=None):
+	def __init__(self, obj, name=None, alias=None):
 		"""Construct a FileLeaf
 
 		The display name of the file is normally derived from the full path,
@@ -65,6 +65,8 @@ class FileLeaf (Leaf, TextRepresentation):
 		if not name:
 			name = gobject.filename_display_basename(obj)
 		super(FileLeaf, self).__init__(obj, name)
+		if alias:
+			self.kupfer_add_alias(alias)
 
 	def __eq__(self, other):
 		try:

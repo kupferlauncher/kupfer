@@ -58,9 +58,13 @@ class AppSource (Source, FilesystemWatchMixin):
 			"gstreamer-properties.desktop",
 			"notification-properties.desktop",
 			])
+		blacklist = set([
+			"nautilus-home.desktop",
+		])
 
 		for item in app_info_get_all():
-			if item.should_show() or item.get_id() in whitelist:
+			id_ = item.get_id()
+			if id_ in whitelist or (item.should_show() and not id_ in blacklist):
 				yield AppLeaf(item)
 
 	def should_sort_lexically(self):
