@@ -2732,6 +2732,9 @@ msgstr "Pagine Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Pagine memorizzate nei blocchi note Zim"
 
+msgid "Home Folder"
+msgstr "Cartella home"
+
 #~ msgid "<i>Plugins may not be unloaded at runtime</i>"
 #~ msgstr "<i>Attivazione dei plugin dopo il riavvio</i>"
 

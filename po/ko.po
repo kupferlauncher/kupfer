@@ -3011,6 +3011,9 @@ msgstr "Zim 페이지"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Zim Notebooks에 보관된 페이지"
 
+msgid "Home Folder"
+msgstr "내 폴더"
+
 #~ msgid ""
 #~ "Tick the box next to a source to make sure its objects are exported to "
 #~ "the top level of the catalog. An unticked source's contents are only "

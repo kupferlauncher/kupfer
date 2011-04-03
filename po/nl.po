@@ -2064,6 +2064,9 @@ msgstr "Zim-pagina's"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Pagina's opgeslagen in Zim Notitieboeken"
 
+msgid "Home Folder"
+msgstr "Persoonlijke map"
+
 #~ msgid "Do"
 #~ msgstr "Doen"
 

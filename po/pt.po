@@ -2429,6 +2429,9 @@ msgstr "Páginas Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páginas guardadas no Bloco de Notas Zim"
 
+msgid "Home Folder"
+msgstr "Pasta Pessoal"
+
 #~ msgid "To configure kupfer, edit:"
 #~ msgstr "Para configurar kupfer, editar:"
 

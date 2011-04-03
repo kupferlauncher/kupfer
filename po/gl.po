@@ -2725,3 +2725,6 @@ msgstr "Páxinas Zim"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páxinas gardadas no caderno de notas de Zim"
+
+msgid "Home Folder"
+msgstr "Cartafol persoal"

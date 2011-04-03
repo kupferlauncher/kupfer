@@ -2752,3 +2752,7 @@ msgstr "Zimsider"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr "Sider gemt i Zimnotebøger"
+
+
+msgid "Home Folder"
+msgstr "Hjemmemappe"

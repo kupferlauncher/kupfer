@@ -3043,3 +3043,7 @@ msgstr "Zim-sider"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr ""
+
+
+msgid "Home Folder"
+msgstr "Hjemmemappe"

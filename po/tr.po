@@ -2701,3 +2701,7 @@ msgstr "Zim Sayfaları"
 #: ../kupfer/plugin/zim.py:288
 msgid "Pages stored in Zim Notebooks"
 msgstr ""
+
+
+msgid "Home Folder"
+msgstr "Ev Klasörü"

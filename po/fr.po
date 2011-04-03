@@ -2407,6 +2407,10 @@ msgstr "Pages Zim"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Pages stockées dans les bloc-notes de Zim"
 
+
+msgid "Home Folder"
+msgstr "Dossier personnel"
+
 #~ msgid "label"
 #~ msgstr "étiquette"
 

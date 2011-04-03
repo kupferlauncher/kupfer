@@ -2722,3 +2722,5 @@ msgstr "Zim orriak"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Zim koadernoetan gordetako orriak"
 
+msgid "Home Folder"
+msgstr "Karpeta nagusia"

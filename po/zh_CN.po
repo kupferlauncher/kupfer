@@ -2749,5 +2749,8 @@ msgstr "Zim 页面"
 msgid "Pages stored in Zim Notebooks"
 msgstr "Zim 笔记本中保存的页面"
 
+msgid "Home Folder"
+msgstr "主文件夹"
+
 #~ msgid "OpenOffice"
 #~ msgstr "OpenOffice"
