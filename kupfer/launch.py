@@ -239,14 +239,19 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		cur_screen = application_windows[0].get_screen()
 		cur_workspace = cur_screen.get_active_workspace()
 
-		def _include_window(window):
+		def visible_window(window):
+			return (window.get_window_type() == wnck.WINDOW_NORMAL and
+			        window.is_visible_on_workspace(cur_workspace))
+
+		def normal_window(window):
 			return window.get_window_type() == wnck.WINDOW_NORMAL
 
-		all_windows = [w for w in self._get_wnck_screen_windows_stacked()
-		               if _include_window(w)]
+		## get all visible windows in stacking order
+		vis_windows = filter(visible_window,
+		                     self._get_wnck_screen_windows_stacked())
 
 		## sort windows into "bins" by workspace
-		for w in filter(_include_window, application_windows):
+		for w in filter(normal_window, application_windows):
 			wspc = w.get_workspace() or cur_workspace
 			workspaces.setdefault(wspc, []).append(w)
 
@@ -259,7 +264,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		# are the topmost
 		focus_windows = []
 		if (cur_wspc_windows and 
-		    set(all_windows[-len(cur_wspc_windows):]) != set(cur_wspc_windows)):
+		    set(vis_windows[-len(cur_wspc_windows):]) != set(cur_wspc_windows)):
 			focus_windows = cur_wspc_windows
 		else:
 			# all windows are focused, find on next workspace
