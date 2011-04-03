@@ -214,6 +214,10 @@ def get_gicon_for_file(uri):
 
 	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
 	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
+	# very manually override generic folder icon name
+	if isinstance(gicon, ThemedIcon):
+		if gicon.get_names()[0] == "inode-directory":
+			return ThemedIcon("folder")
 	return gicon
 
 def get_icon_for_gicon(gicon, icon_size):
