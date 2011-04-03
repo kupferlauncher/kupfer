@@ -9,6 +9,7 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup"
 
 import io
+import weakref
 
 import cairo
 import gtk
@@ -33,7 +34,7 @@ def text_color():
 	return (1.0*c.red/0xffff, 1.0*c.green/0xffff, 1.0*c.blue/0xffff)
 
 class AsciiIconRenderer (object):
-	glyph_pixbuf_cache = {}
+	glyph_pixbuf_cache = weakref.WeakValueDictionary()
 	def __init__(self):
 		settings = gtk.settings_get_default()
 		settings.connect("notify::gtk-color-scheme", self._theme_change)
@@ -62,7 +63,7 @@ class AsciiIconRenderer (object):
 		return None
 
 class UnicodeIconRenderer (object):
-	glyph_pixbuf_cache = {}
+	glyph_pixbuf_cache = weakref.WeakValueDictionary()
 	@classmethod
 	def pixbuf_for_name(cls, icon_name, size):
 		"""Return pixbuf at @size or None"""
