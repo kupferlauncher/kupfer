@@ -83,9 +83,16 @@ def quote_scanner(s, reptable):
 		if is_quoted:
 			parts.append(two_part_unescaper(rmquotes(_ps), reptable))
 		elif '\\' in _ps:
+			## Here we handle out-of-spec things
 			warnings.warn(RuntimeWarning("Broken unquoted Exec= %s" % repr(s)))
+			## try to split by whitespace, ignore backslash-escaped spaces
+			## insert NUL instead of '\ ' and then split, then reverse
+			space_escaped = two_part_unescaper(_ps, {r'\ ': '\x00'})
+			space_esc_split = space_escaped.split()
+			ps_split = [x.replace('\x00', ' ') for x in space_esc_split]
 			parts.extend([two_part_unescaper(_ps_part, reptable) for _ps_part
-			              in _ps.split()])
+			              in ps_split])
+			## end out-of spec
 		else:
 			parts.extend(_ps.split())
 
@@ -175,6 +182,14 @@ def parse_argv(instr):
 	The following style is common but unspecified
 	>>> parse_argv('env VAR="is broken" ./program')
 	['env', 'VAR=is broken', './program']
+
+	The following is just completely broken
+	>>> parse_argv('./program unquoted\\\\argument')
+	['./program', 'unquoted\\argument']
+
+	The following is just completely broken
+	>>> parse_argv('./program No\\ Space')
+	['./program', 'No Space']
 	"""
 	return quote_scanner(instr, quoted_table)
 
