@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-03-30 17:30+0000\n"
-"PO-Revision-Date: 2011-03-30 19:43+0200\n"
+"POT-Creation-Date: 2011-03-30 17:45+0000\n"
+"PO-Revision-Date: 2011-04-04 16:53+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -199,6 +199,9 @@ msgid ""
 "em>, <em>Frontmost Window</em>, <em>Last Command</em> et cetera allow very "
 "powerful triggers."
 msgstr ""
+"Los <em>Objetos del proxy</em> como <em>Texto seleccionado</em>, <em>Archivo "
+"seleccionado</em>, <em>Ventana de primer plano</em>, <em>Último comando</em> "
+"etc. admiten disparadores muy potentes."
 
 #: C/plugin-triggers.page:79(p)
 msgid ""
@@ -486,6 +489,10 @@ msgid ""
 "Objects marked as favorites will also be ranked higher and are adorned with "
 "a star symbol."
 msgstr ""
+"Con <app>Favoritos</app> marca objetos, por ejemplo archivos, para un acceso "
+"más rápido. Es una especie de estantería en la que puede almacenar objetos "
+"en Kupfer. Los objetos marcados como favoritos se puntuarán más alto y se "
+"adornarán con una estrella."
 
 #: C/plugin-favorites.page:25(p)
 msgid "Find an object in <app>Kupfer</app>"
@@ -518,6 +525,11 @@ msgid ""
 "say \"1200x800\", add this to favorites, and it will always appear as a "
 "suggestion for the action."
 msgstr ""
+"Cuando escala imágenes con la acción <em>Escalar...</em> del complemento "
+"<app>Herramientas de imagen</app>. Esta acción necesita una descripción como "
+"tercer objeto, similar a «1024» o «1200x800». Si habitualmente escala al mismo "
+"tamaño, indique «1200x800», añádalo a favoritos, y aparecerá siempre como una "
+"sugerencia para la acción."
 
 #: C/plugin-favorites.page:54(p)
 msgid ""
@@ -572,8 +584,8 @@ msgid ""
 "<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
 "functions and constants."
 msgstr ""
-"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
-"y analiza expresiones como expresiones de Python. Puede usar funciones "
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, y "
+"analiza expresiones como expresiones de Python. Puede usar funciones "
 "matemáticas comunes, como <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> y "
 "<cmd>log</cmd>»; el comando <cmd>=help</cmd> mostrará una lista de todas las "
 "funciones y constantes definidas."
@@ -602,8 +614,8 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
-"la consola de Python)."
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
+"consola de Python)."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -650,6 +662,8 @@ msgid ""
 "Type <key>Tab</key> to select the third (indirect object) pane and in it, "
 "select the application to open the file with."
 msgstr ""
+"Pulse <key>Tab</key> para seleccionar el tercer panel (objeto indirecto) y, "
+"en él, seleccione la aplicación con la que abrir el archivo."
 
 #: C/plugin-applications.page:53(p)
 msgid ""
@@ -657,6 +671,10 @@ msgid ""
 "application for that specific file type. This can be configured using the "
 "action <em>Set Default Application...</em>."
 msgstr ""
+"La acción <em>Abrir</em> abre archivos y carpetas con la aplicación "
+"predeterminada que esté registrada para ese tipo de archivo concreto. Esto "
+"se puede configurar usando la acción <em>Establecer aplicación "
+"predeterminada...</em>."
 
 #: C/plugin-applications.page:58(p)
 msgid ""
@@ -668,14 +686,13 @@ msgstr ""
 #: C/plugin-applications.page:64(title)
 msgid "Selecting default application for a file type or folders"
 msgstr ""
+"Seleccionar la aplicación predeterminada para un tipo de archivo o carpetas"
 
 #: C/plugin-applications.page:66(p)
-#| msgid "Select a file in <app>Kupfer</app>"
 msgid "Select a file or folder in <app>Kupfer</app>"
 msgstr "Seleccione un archivo o una carpeta en <app>Kupfer</app>"
 
 #: C/plugin-applications.page:71(p)
-#| msgid "Type <key>Tab</key> and select the action <em>Open With...</em>"
 msgid ""
 "Type <key>Tab</key> and select the action <em>Set Default Application...</em>"
 msgstr ""
@@ -687,6 +704,8 @@ msgid ""
 "Type <key>Tab</key> to select the third (indirect object) pane and in it, "
 "select the application to always open the file type with."
 msgstr ""
+"Pulse <key>Tab</key> para seleccionar el tercer panel (objeto indirecto) y, "
+"en él, seleccione la aplicación con la que abrir siempre el tipo de archivo."
 
 #: C/plugin-applications.page:85(title)
 msgid "Configuration"
@@ -788,20 +807,26 @@ msgid ""
 "to put it on the stack. When you subsequently invoke an action, the action "
 "is carried out on all of the objects at the same time."
 msgstr ""
+"Simplemente pulse <key>,</key> (coma) cuando un objeto esté seleccionado. El "
+"objeto se pone en una «pila», y puede encontrar otro archivo u objeto y "
+"pulsar la coma para añadirlo a la pila. Cuando posteriormente invoca una "
+"acción, la acción se realiza en todos los objetos al mismo tiempo."
 
 #: C/moreusage.page:58(p)
 msgid ""
 "Some actions are only \"multiplied\" when used with many objects, other are "
 "smarter than that:"
 msgstr ""
+"Algunas acciones sólo se «multiplican» cuando se utilizan con muchos objetos, "
+"otras son más inteligentes que eso:"
 
 #: C/moreusage.page:61(p)
 msgid ""
 "Selecting many files and using the Create Archive action, all files will be "
 "packed into the same archive."
 msgstr ""
-"Al seleccionar varios archivos usando la acción «Crear archivador», todos "
-"los archivos se empaquetarán en el mismo archivo."
+"Al seleccionar varios archivos usando la acción «Crear archivador», todos los "
+"archivos se empaquetarán en el mismo archivo."
 
 #: C/moreusage.page:63(p)
 msgid ""
@@ -825,6 +850,10 @@ msgid ""
 "quicksilver-the-comma-trick\"> directly taken from Quicksilver</link> (the "
 "example given in the external article should work identically in Kupfer)."
 msgstr ""
+"El «truco de la coma» se ha <link href=\"http://www.43folders.com/2005/06/13/"
+"quicksilver-the-comma-trick\">tomado directamente de Quicksilver</link> (el "
+"ejemplo dado en el artículo interno debería funcionar idénticamente en "
+"Kupfer)."
 
 #: C/moreusage.page:80(title)
 msgid "Grab Current Selection"
@@ -836,12 +865,18 @@ msgid ""
 "app>, you can configure a global keyboard shortcut for the action <em>Show "
 "with Selection</em> in <app>Kupfer Preferences</app>."
 msgstr ""
+"Para usar el texto seleccionado actualmente desde cualquier aplicación con "
+"<app>Kupfer</app>, puede configurar un atajo de teclado global para la "
+"acción <em>Mostrar con selección</em> en las <app>Preferencias de Kupfer</"
+"app>."
 
 #: C/moreusage.page:85(p)
 msgid ""
 "If configured, pressing the global keyboard shortcut will summon "
 "<app>Kupfer</app> with the current selection as the focused object."
 msgstr ""
+"Si está configurado, al pulsar el atajo de teclado global invocará a "
+"<app>Kupfer</app> con la selección actual como el objeto con el foco."
 
 #: C/moreusage.page:90(p)
 msgid "See <link xref=\"keyboard\"/>"
@@ -868,8 +903,8 @@ msgid ""
 msgstr ""
 "El comando <cmd>kupfer</cmd> se puede usar para enviar archivos o texto "
 "desde la línea de comandos a <app>Kupfer</app>. Por ejemplo, si está usando "
-"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» "
-"puede dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
+"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» puede "
+"dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
 "report.pdf</cmd>."
 
 #: C/moreusage.page:107(p)
@@ -1388,7 +1423,7 @@ msgstr "R"
 
 #: C/keyboard.page:106(p)
 msgid "Reset all"
-msgstr ""
+msgstr "Restablecer todo"
 
 #: C/keyboard.page:109(key)
 msgid "Alt"
@@ -1400,7 +1435,7 @@ msgstr "A"
 
 #: C/keyboard.page:110(p)
 msgid "Alternate activate"
-msgstr ""
+msgstr "Activación alternativa"
 
 #: C/keyboard.page:113(key)
 msgid "Return"
@@ -1464,14 +1499,10 @@ msgstr ""
 msgid ""
 "Double-click the shorcut's row under <em>Browser Keyboard Shortcuts</em>."
 msgstr ""
+"Doble pulsación en la fila del atajo, en <em>Atajos de teclado del "
+"examinador</em>."
 
 #: C/keyboard.page:153(p)
-#| msgid ""
-#| "Using the window that appears, press modifier keys and a letter or number "
-#| "key to set a global shortcut. An example is pressing and holding "
-#| "<keyseq><key>Ctrl</key><key>Alt</key></keyseq> and then pressing and "
-#| "releasing <key>R</key> to bind <keyseq><key>Ctrl</key><key>Alt</"
-#| "key><key>R</key></keyseq>."
 msgid ""
 "Using the window that appears, press modifier keys and a letter or number "
 "key to set a shortcut. An example is pressing and holding <key>Ctrl</key> "
@@ -1524,6 +1555,7 @@ msgstr "Cómo configurar un atajo de teclado global"
 msgid ""
 "Double-click the shorcut's row under <em>Global Keyboard Shortcuts</em>."
 msgstr ""
+"Doble pulsación en la fila del atajo, en <em>Atajos de teclado globales</em>."
 
 #: C/keyboard.page:197(p)
 msgid ""
@@ -1532,6 +1564,10 @@ msgid ""
 "key> and then pressing and releasing <key>Space</key> to bind "
 "<keyseq><key>Super</key><key>Space</key></keyseq>."
 msgstr ""
+"Usando la ventana que aparece, pulse las teclas modificadoras y un número o "
+"una letra para establecer un atajo global. Un ejemplo es pulsar y mantener "
+"<key>Super</key> y entonces pulsar y soltar <key>Espacio</key> para asociar "
+"<keyseq><key>Super</key><key>Espacio</key></keyseq>."
 
 #: C/keyboard.page:206(p)
 msgid ""
@@ -1539,6 +1575,9 @@ msgid ""
 "application. Select shortcuts with care so that they do not conflict with "
 "other functions."
 msgstr ""
+"Ya que estos atajos de teclado son globales, se puede usar desde cualquier "
+"aplicación. Seleccione los atajos con cuidado para que no entren en "
+"conflicto con otras funciones."
 
 #: C/keyboard.page:214(p)
 msgid ""
@@ -1577,6 +1616,10 @@ msgid ""
 "this quick-access paradigm can be extended to many more objects than just "
 "applications."
 msgstr ""
+"El uso más común es para encontrar un aplicación específica y lanzarla. Se "
+"ha intentado que <app>Kupfer</app> sea fácil de extender con complementos, "
+"por lo que este paradigma de acceso rápido se puede extender a muchos más "
+"objetos que sólo aplicaciones."
 
 #: C/introduction.page:22(p)
 msgid ""
