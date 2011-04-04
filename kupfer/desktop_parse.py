@@ -9,6 +9,7 @@ The unescaping we are doing is only one way.. so we unescape according to the
 rules, but we accept everything, if validly quoted or not.
 """
 
+import warnings
 
 # This is the "string" type encoding escapes
 # this is unescaped before we process anything..
@@ -81,6 +82,10 @@ def quote_scanner(s, reptable):
 		_ps = "".join(part)
 		if is_quoted:
 			parts.append(two_part_unescaper(rmquotes(_ps), reptable))
+		elif '\\' in _ps:
+			warnings.warn(RuntimeWarning("Broken unquoted Exec= %s" % repr(s)))
+			parts.extend([two_part_unescaper(_ps_part, reptable) for _ps_part
+			              in _ps.split()])
 		else:
 			parts.extend(_ps.split())
 
