@@ -1025,7 +1025,7 @@ class Interface (gobject.GObject):
 		keys = (
 			"Up", "Down", "Right", "Left",
 			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
-			"space", 'Page_Up', 'Page_Down', 'Home'
+			"space", 'Page_Up', 'Page_Down', 'Home', 'End'
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		if not text_direction_is_ltr():
@@ -1124,7 +1124,8 @@ class Interface (gobject.GObject):
 					# swallow if it is the direct key
 					swallow = (keyv == direct_text_key)
 					return swallow
-		if text_mode and keyv in (key_book["Left"], key_book["Right"]):
+		if text_mode and keyv in (key_book["Left"], key_book["Right"],
+		                          key_book["Home"], key_book["End"]):
 			# pass these through in text mode
 			return False
 
