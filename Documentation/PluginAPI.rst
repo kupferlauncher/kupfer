@@ -732,7 +732,7 @@ Each category has a specific format of required data that is defined in
 ``kupfer.plugin_support.register_alternative(caller, category_key, id_, **kwargs)`` 
 to register their implementations of new alternatives. The arguments are:
 
-.. topic:: ``register_alternative(caller, category_key, id_, **kwargs)``
+.. topic:: ``register_alternative(caller, category_key, id_, ** kwargs)``
 
     :``caller``:       the name of the calling plugin, is always ``__name__``
     :``category_key``: one of the above categories
@@ -754,6 +754,21 @@ in a file inside the python package called ``icon-list``. Each line of
 Plugins may be installed into any of the ``kupfer/plugins`` data
 directories. Package modules can also be installed as ``.zip`` files, so
 they too can be distributed as single files.
+
+
+Example Plugins
+===============
+
+I want to specifically highlight certain files in Kupfer that are good
+to read as examples.
+
++ Custom Leaf and Action: the common case of creating a custom
+  ``Leaf`` type and defining its default ``Open`` action, see
+  ``kupfer/plugin/notes.py``
++ Content decoration: making content for objects, see
+  ``kupfer/plugin/archiveinside.py`` (*Deep Archives* plugin)
++ Asynchronous error reporting: see ``kupfer/plugin/volumes.py``, action
+  *Unmount*
 
 
 
