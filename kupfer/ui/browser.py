@@ -981,7 +981,12 @@ class Interface (gobject.GObject):
 		self.switch_to_source()
 		self.entry.connect("changed", self._changed)
 		self.preedit.connect("changed", self._preedit_changed)
-		self.preedit.connect("preedit-changed", self._preedit_im_changed)
+		## preedit-changed is GTK+ 2.20
+		## if not available, silently skip it
+		try:
+			self.preedit.connect("preedit-changed", self._preedit_im_changed)
+		except TypeError:
+			pass
 		for widget in (self.entry, self.preedit):
 			widget.connect("activate", self._activate, None)
 			widget.connect("key-press-event", self._entry_key_press)
