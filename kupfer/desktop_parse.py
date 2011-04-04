@@ -70,6 +70,9 @@ def quote_scanner(s, reptable):
 	eqstr = '\\' + qstr
 
 	parts = []  # A list of arguments
+	preceding_space = False
+	# true if quoted arg is sticky on previous arg
+	should_join_arg = False
 
 	if not s:
 		return parts
@@ -81,6 +84,9 @@ def quote_scanner(s, reptable):
 		else:
 			parts.extend(_ps.split())
 
+	def merge_last_parts():
+		"merge last two argv parts into one"
+		parts[:] = parts[:-2] + ["".join(parts[-2:])]
 
 	is_quoted = False
 	it = iter(zip(s, s[1:]))
@@ -97,6 +103,8 @@ def quote_scanner(s, reptable):
 		elif cur == qstr:
 			if is_quoted:
 				add_part(is_quoted, part)
+				if should_join_arg:
+					merge_last_parts()
 				part = []
 				is_quoted = not is_quoted
 			else:
@@ -105,8 +113,12 @@ def quote_scanner(s, reptable):
 					add_part(is_quoted, head)
 					part = [part[-1]]
 				is_quoted = not is_quoted
+				## if a quoted string begins without preceding whitespace
+				## we must sticky it on the preceding arg
+				should_join_arg = not preceding_space
 		else:
 			pass
+		preceding_space = cur.isspace()
 	else:
 		# This is a for-else: we did not 'break'
 		# Emit the last if it wasn't already
@@ -147,7 +159,18 @@ def test_unquote_inside():
 	pass
 
 def parse_argv(instr):
-	"Parse quoted @instr into an argv"
+	r"""
+	Parse quoted @instr into an argv
+
+	>>> parse_argv('env "VAR=is good" ./program')
+	['env', 'VAR=is good', './program']
+	>>> parse_argv('env "VAR=\\\\ \\$ @ x" ./program')
+	['env', 'VAR=\\ $ @ x', './program']
+
+	The following style is common but unspecified
+	>>> parse_argv('env VAR="is broken" ./program')
+	['env', 'VAR=is broken', './program']
+	"""
 	return quote_scanner(instr, quoted_table)
 
 def parse_unesc_argv(instr):
