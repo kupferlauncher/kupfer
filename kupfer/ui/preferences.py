@@ -355,7 +355,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		except StopIteration:
 			return
 		plugin_id = first_row[0]
-		self.show_focus_plugin(plugin_id)
+		self.show_focus_plugin(plugin_id, 0)
 
 	def on_checkplugin_toggled(self, cell, path):
 		checkcol = self.columns.index("enabled")
