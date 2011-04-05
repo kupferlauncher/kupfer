@@ -31,6 +31,8 @@ all the features introduced in v205.
 * Support xfce4-dict in *Dictionary* plugin (David Schneider)
 * Make sure ``kupfer.svg`` can be mimetype-detected (NAKAMURA Yoshitaka)
   (:lp:`750488`)
+* Fix regression that prevented mimetypes and icon cache from being updated
+  properly when installing from source.
 
 These are the full change explanations of the v205 release
 
