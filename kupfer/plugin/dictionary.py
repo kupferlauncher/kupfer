@@ -11,7 +11,8 @@ from kupfer import kupferstring
 
 dictionaries = {
 	'gnome-dictionary': ['gnome-dictionary', '--look-up='],
-	'purple': ['purple', '--define=']
+	'purple': ['purple', '--define='],
+	'xfce4-dict': ['xfce4-dict', '--dict', ''],
 }
 
 __kupfer_settings__ = plugin_support.PluginSettings(
