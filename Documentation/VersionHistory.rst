@@ -3,43 +3,34 @@
 NEWS for kupfer
 ===============
 
-kupfer v205
------------
-
-Congratulating ourselves
-
-Released Friday, 1 April 2011
-
-* Changes to the interface
-
-  + NOw we have a teh awsum interface
-
-* Add context action "Set X as default action for object Y"
-
-  + You can finally make Kupfer do what you want.
-
-* Implement a preedit widget for input methods, also resolving
-  the incompatibility with ibus (David Schneider) (:lp:`696727`)
-
-  + Ok, so that foreign people can enter text too.
-
-* Updated Kupfer's technical documentation (in ``Documentation/``),
-  including the Plugin API reference.
-
-  + Someone finally bothered
-
-* The action *Go To* on applications has changed implementation. It will
-  first bring to front all yada yada, etc...
-
-  + Whatever, it finally works in a sensible way
-
-* And tons of other stuff, enjoy!
-
-
-kupfer's hastening insanity
----------------------------
+kupfer v205 and v206
+--------------------
 
 Not Released Yet
+
+These are changes since the v205 release. See also the changelog below for
+all the features introduced in v205.
+
+* *Thunderbird* fix double create email windows (:lp:`747198`)
+* Use ``rst2man`` as it was configured (:lp:`747500`)
+* Reduce long-term memory use for icons substantially
+* Prefer gnomekeyring over kwallet, and don't load keyring support if it is
+  not requested by a plugin (:lp:`747864`)
+* Make the "folder" icon take precedence over "inode/directory"
+* Fix a regression in *Go To* that would not focus minimized windows.
+* Fix :lp:`671105`: the user's home is aliased as Home Folder and the
+  lookalike application is hidden.
+* Use GTK+ as default icon set, the ASCII icon set remains as a plugin
+* Fix regression :lp:`749824`, kupfer used a GTK+ 2.20 feature. It should
+  now run under GTK+ 2.18 (2.16?). GTK+ 2.20 is recommended and needed for
+  full input method support.
+* Add quirks for ``.desktop`` files written by wine as reported by a user.
+* Make sure the ``Home`` key works in text mode (:lp:`750240`)
+* *Rhythmbox* Fix omission of ``.jpg`` extension when searching cover art
+  (William Friesen)
+* Support xfce4-dict in *Dictionary* plugin (David Schneider)
+
+These are the full change explanations of the v205 release
 
 * Changes to the interface
 
@@ -152,6 +143,40 @@ Not Released Yet
   + (pl) Karol Będkowski
   + (sl) Andrej Žnidaršič
   + (sv) Ulrik
+
+
+kupfer v205
+-----------
+
+Congratulating ourselves
+
+Released Friday, 1 April 2011
+
+* Changes to the interface
+
+  + NOw we have a teh awsum interface
+
+* Add context action "Set X as default action for object Y"
+
+  + You can finally make Kupfer do what you want.
+
+* Implement a preedit widget for input methods, also resolving
+  the incompatibility with ibus (David Schneider) (:lp:`696727`)
+
+  + Ok, so that foreign people can enter text too.
+
+* Updated Kupfer's technical documentation (in ``Documentation/``),
+  including the Plugin API reference.
+
+  + Someone finally bothered
+
+* The action *Go To* on applications has changed implementation. It will
+  first bring to front all yada yada, etc...
+
+  + Whatever, it finally works in a sensible way
+
+* And tons of other stuff, enjoy!
+
 
 kupfer v204
 -----------
