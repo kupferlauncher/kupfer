@@ -29,6 +29,8 @@ all the features introduced in v205.
 * *Rhythmbox* Fix omission of ``.jpg`` extension when searching cover art
   (William Friesen)
 * Support xfce4-dict in *Dictionary* plugin (David Schneider)
+* Make sure ``kupfer.svg`` can be mimetype-detected (NAKAMURA Yoshitaka)
+  (:lp:`750488`)
 
 These are the full change explanations of the v205 release
 

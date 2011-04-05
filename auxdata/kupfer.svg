@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   width="350"
+   height="350"
+   id="svg2">
+
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <!-- Copyright 2010 Nasser Alshammari <designernasser@gmail.com>
@@ -17,15 +26,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-
-<svg
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   version="1.1"
-   width="350"
-   height="350"
-   id="svg2">
   <defs
      id="defs4">
     <linearGradient
