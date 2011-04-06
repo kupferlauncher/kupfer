@@ -9,7 +9,7 @@ The unescaping we are doing is only one way.. so we unescape according to the
 rules, but we accept everything, if validly quoted or not.
 """
 
-import warnings
+import shlex
 
 # This is the "string" type encoding escapes
 # this is unescaped before we process anything..
@@ -40,12 +40,6 @@ reserved = r""" " ' \ > < ~ | & ; $ * ? # ( ) ` """.split()
 reserved.extend([' ', '\t', '\n'])
 '''
 
-def rmquotes(s):
-	"remove first and last char if we can"
-	if len(s) > 1 and s[0] == s[-1] and s[0] in '"\'':
-		return s[1:-1]
-	return s
-
 def two_part_unescaper(s, reptable):
 	"Scan @s two characters at a time and replace using @reptable"
 	if not s:
@@ -65,91 +59,35 @@ def two_part_unescaper(s, reptable):
 		yield s[-1]
 	return ''.join(_inner())
 
-def quote_scanner(s, reptable):
-	"Scan @s two characters at a time and replace using @reptable"
-	qstr = r'"'
-	eqstr = '\\' + qstr
-
-	parts = []  # A list of arguments
-	preceding_space = False
-	# true if quoted arg is sticky on previous arg
-	should_join_arg = False
-
-	if not s:
-		return parts
-
-	def add_part(is_quoted, part):
-		_ps = "".join(part)
-		if is_quoted:
-			parts.append(two_part_unescaper(rmquotes(_ps), reptable))
-		elif '\\' in _ps:
-			## Here we handle out-of-spec things
-			warnings.warn(RuntimeWarning("Broken unquoted Exec= %s" % repr(s)))
-			## try to split by whitespace, ignore backslash-escaped spaces
-			## insert NUL instead of '\ ' and then split, then reverse
-			space_escaped = two_part_unescaper(_ps, {r'\ ': '\x00'})
-			space_esc_split = space_escaped.split()
-			ps_split = [x.replace('\x00', ' ') for x in space_esc_split]
-			parts.extend([two_part_unescaper(_ps_part, reptable) for _ps_part
-			              in ps_split])
-			## end out-of spec
-		else:
-			parts.extend(_ps.split())
-
-	def merge_last_parts():
-		"merge last two argv parts into one"
-		parts[:] = parts[:-2] + ["".join(parts[-2:])]
-
-	is_quoted = False
-	it = iter(zip(s, s[1:]))
-	part = []
-	for cur, nex in it:
-		part.append(cur)
-		if cur+nex == eqstr:
-			# Skip along if we see an escaped quote (\")
-			part.append(nex)
-			try:
-				it.next()
-			except StopIteration:
-				break
-		elif cur == qstr:
-			if is_quoted:
-				add_part(is_quoted, part)
-				if should_join_arg:
-					merge_last_parts()
-				part = []
-				is_quoted = not is_quoted
-			else:
-				head = part[:-1]
-				if head:
-					add_part(is_quoted, head)
-					part = [part[-1]]
-				is_quoted = not is_quoted
-				## if a quoted string begins without preceding whitespace
-				## we must sticky it on the preceding arg
-				should_join_arg = not preceding_space
-		else:
-			pass
-		preceding_space = cur.isspace()
+def custom_shlex_split(s, comments=False, posix=True):
+	"""
+	Wrapping shlex.split
+	"""
+	if isinstance(s, unicode):
+		is_unicode = True
+		s = s.encode("UTF-8")
 	else:
-		# This is a for-else: we did not 'break'
-		# Emit the last if it wasn't already
-		part.append(s[-1])
-	add_part(is_quoted, part)
-	return parts
+		is_unicode = False
+	lex = shlex.shlex(s, posix=posix)
+	lex.whitespace_split = True
+	if not comments:
+		lex.commenters = ''
+	try:
+		lex_output = list(lex)
+	except ValueError:
+		lex_output = [s]
 
+	## extra-unescape  ` and $ that are not handled by shlex
+	quoted_shlex = {r'\`': '`', r'\$':'$'}
+	lex_output[:] = [two_part_unescaper(x, quoted_shlex) for x in lex_output]
+	if is_unicode:
+		return [x.decode("UTF-8") for x in lex_output]
+	else:
+		return lex_output
 
 def unescape(s):
 	"Primary unescape of control sequences"
 	return two_part_unescaper(s, escape_table)
-
-def unquote_inside(s):
-	"unquote reserved chars inside a quoted string"
-	t = {}
-	slash = '\\'
-	for rep in quoted:
-		t[slash+rep] = rep
-	return two_part_unescaper(s, t)
 
 def test_unescape():
 	r"""
@@ -161,25 +99,25 @@ def test_unescape():
 	"""
 	pass
 
-def test_unquote_inside():
-	r"""
-	>>> unquote_inside(r'\$ \\ \" \`')
-	'$ \\ " `'
-	>>> unquote_inside(r'abc \q')
-	'abc \\q'
-	"""
-	pass
-
 def parse_argv(instr):
 	r"""
 	Parse quoted @instr into an argv
 
+	This is according to the spec
 	>>> parse_argv('env "VAR=is good" ./program')
 	['env', 'VAR=is good', './program']
 	>>> parse_argv('env "VAR=\\\\ \\$ @ x" ./program')
 	['env', 'VAR=\\ $ @ x', './program']
+	>>> parse_argv('"\\$" "\\`"  "\\""')
+	['$', '`', '"']
+	>>> parse_argv('/usr/bin/x-prog -q %F')
+	['/usr/bin/x-prog', '-q', '%F']
+	>>> parse_argv('env LANG=en_US.UTF-8 freeciv-gtk2')
+	['env', 'LANG=en_US.UTF-8', 'freeciv-gtk2']
 
-	The following style is common but unspecified
+	== Below this we need quirks mode ==
+
+	The following style is common but not supported in spec
 	>>> parse_argv('env VAR="is broken" ./program')
 	['env', 'VAR=is broken', './program']
 
@@ -190,30 +128,45 @@ def parse_argv(instr):
 	The following is just completely broken
 	>>> parse_argv('./program No\\ Space')
 	['./program', 'No Space']
+
+	The following is just insanely broken
+	>>> parse_argv("'/opt'/now/'This is broken/'")
+	['/opt/now/This is broken/']
+
+	This is broken
+	#>>> parse_argv('\\$')
+	#['$']
+	#>>> parse_argv('\\$ \\`  \\"')
+	#['$', '`', '"']
+
+	Unmatched quote, normal mode (just testing that it does not raise)
+	>>> parse_argv('"hi there')
+	['"hi there']
+
+	Unmatched quote, quirks mode (just testing that it does not raise)
+	>>> parse_argv('A\\\\BC "hi there')
+	['A\\\\BC "hi there']
+
 	"""
-	return quote_scanner(instr, quoted_table)
+	return custom_shlex_split(instr)
 
 def parse_unesc_argv(instr):
-	"Parse quoted @instr into an argv after unescaping it"
-	return quote_scanner(unescape(instr), quoted_table)
+	r"""
+	Parse quoted @instr into an argv after unescaping it
 
-'''
-print escaped
-print reserved
+	>>> parse_unesc_argv(r'stuff "C:\\\\suck\\\\start.exe"')
+	['stuff', 'C:\\suck\\start.exe']
 
-t = r'"This \\$ \\\\ \s\\\\"'
-print repr(t)
-print t
-print unescape(t)
-print unquote_inside(rmquotes(unescape(t)))
+	== Below this we need quirks mode ==
 
-print two_part_unescaper(t, escape_table)
+	>>> parse_unesc_argv(r'stuff C:\\\\suck\\\\start.exe')
+	['stuff', 'C:\\suck\\start.exe']
 
-print quote_scanner(r'"hi \"there" I am you\"', inside_table)
-print quote_scanner(r'Now "\"this\" will be interesting"""', inside_table)
-print quote_scanner(unescape(r'"\\$"'), inside_table)
+	>>> parse_unesc_argv("'/usr'/bin/gnome-terminal -x gvim 'Insanely Broken'Yes")
+	['/usr/bin/gnome-terminal', '-x', 'gvim', 'Insanely BrokenYes']
+	"""
+	return custom_shlex_split(unescape(instr))
 
-'''
 
 if __name__ == "__main__":
 	import doctest
