@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-03-30 17:45+0000\n"
-"PO-Revision-Date: 2011-04-04 16:53+0200\n"
+"POT-Creation-Date: 2011-04-04 17:52+0000\n"
+"PO-Revision-Date: 2011-04-06 10:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -191,7 +191,7 @@ msgstr ""
 #: C/plugin-triggers.page:74(title) C/plugin-notes.page:60(title)
 #: C/plugin-gwibber.page:68(title) C/plugin-favorites.page:38(title)
 msgid "Power User Tips"
-msgstr ""
+msgstr "Consejos para usuarios avanzados"
 
 #: C/plugin-triggers.page:75(p)
 msgid ""
@@ -210,6 +210,11 @@ msgid ""
 "but focus the application when it is already running. By contrast, <em>Start "
 "Again</em> will start the application if it is running or not."
 msgstr ""
+"La acción de aplicación <em>Lanzar</em> es especial; si asocia un disparador "
+"usando <em>Lanzar</em>, iniciará la aplicación si no está en ejecución, pero "
+"dará el foco a la aplicación cuando esté en ejecución. Por el contrario, "
+"<em>Iniciar de nuevo</em> iniciará la aplicación tanto si está ejecución "
+"como si no."
 
 #: C/plugin-triggers.page:87(title)
 msgid "Example Triggers"
@@ -512,10 +517,13 @@ msgid ""
 "\"Favorites\" subcatalog, but also as the indirect (secondary) object for "
 "some actions. For example:"
 msgstr ""
+"Si convierte un objeto en favorito, puede acceder a él en más lugares. No "
+"sólo en el subcatálogo «Favoritos», también como objeto indirecto "
+"(secundario) para algunas acciones. Por ejemplo:"
 
 #: C/plugin-favorites.page:45(p)
 msgid "Command-lines from favorites are quick to access."
-msgstr ""
+msgstr "Las líneas de comandos de los favoritos permiten un acceso rápido."
 
 #: C/plugin-favorites.page:46(p)
 msgid ""
@@ -536,6 +544,8 @@ msgid ""
 "Actions needing an email address as the indirect object will pick up email "
 "addresses from favorites as well as well."
 msgstr ""
+"Las acciones que necesiten una dirección de correo-e como objeto indirecto, "
+"cogerán las direcciones de correo-e de los favoritos."
 
 #: C/plugin-calculator.page:7(desc)
 msgid "Using the calculator plugin."
@@ -682,6 +692,9 @@ msgid ""
 "modifying them here will modify them on the desktop as well. This may not be "
 "true when not using GNOME or XFCE."
 msgstr ""
+"Las asociaciones de tipos de archivos las proporciona el entorno de "
+"escritorio, y si las modifica aquí también se modificarán en el escritorio. "
+"Esto puede no ser cierto cuando no se usa GNOME o XFCE."
 
 #: C/plugin-applications.page:64(title)
 msgid "Selecting default application for a file type or folders"
@@ -719,6 +732,12 @@ msgid ""
 "configuration—certain applications request not to be shown depending on "
 "which desktop environment is used. By default, it behaves like GNOME."
 msgstr ""
+"La opción de configuración <em>Aplicaciones para el entorno de escritorio</"
+"em> en el panel de información del complemento en las <app>Preferencias de "
+"Kupfer</app> determina cómo debería actuar <app>Kupfer</app> respecto a la "
+"configuración del entorno de escritorio; algunas solicitudes de aplicaciones "
+"pueden no mostrarse, dependiendo de qué entorno de escritorio se use. De "
+"manera predeterminada, se comporta como GNOME."
 
 #: C/moreusage.page:7(desc)
 msgid "More advanced usage information."
@@ -843,6 +862,10 @@ msgid ""
 "restricted to the objects of those two catalogs! You can even bind a trigger "
 "to this command(!)"
 msgstr ""
+"Si selecciona varios catálogos (por ejemplo, «Marcadores de Firefox» y "
+"«Marcadores de Epiphany») y usa «Buscar contenido...», obtiene una búsqueda de "
+"subcatálogo restringida a los objetos de estos dos catálogos. También puede "
+"asociar un disparador a este comando."
 
 #: C/moreusage.page:71(p)
 msgid ""
@@ -992,6 +1015,13 @@ msgid ""
 "resulting file will can be executed when opened from the file manager (it "
 "requires that Kupfer is already running)."
 msgstr ""
+"Puede usar un atajo de teclado para <em>Editar comando</em> (el "
+"predeterminado es <keyseq><key>Ctrl</key><key>Intro</key></keyseq>) para "
+"crear un objeto de comando fuera del comando que actualmente tiene el foco "
+"en Kupfer. Este objeto se puede guardar como un archivo ejecutable si usa la "
+"acción <em>Guardar como...</em>. El archivo resultante se puede ejecutar "
+"cuando se abra con el gestor de archivos (necesita que Kupfer esté en "
+"ejecución)."
 
 #: C/managing-plugins.page:7(desc)
 msgid "Using plugins with <app>Kupfer</app>."
@@ -1178,6 +1208,12 @@ msgid ""
 "objects, you have to first find the catalog by name, then enter the catalog "
 "using the action <em>Search Contents</em>."
 msgstr ""
+"Cada complemento puede exportar un número de fuentes que contienen objetos. "
+"Normalmente, todos estos objetos son accesibles directamente desde un nivel "
+"de búsqueda superior. Algunos complementos exportan muchos objetos o muy "
+"especializados que sus catálogos no debería exportar al nivel superior. Para "
+"alcanzar esos objetos, primero debe encontrar el catálogo por nombre, y "
+"entrar en el catálogo usando la acción <em>Buscar contenido</em>."
 
 #: C/managing-plugins.page:118(p)
 msgid ""
@@ -1352,6 +1388,8 @@ msgid ""
 "Activate free-text mode (when nothing is selected) with <code>/</code> "
 "prefix (to input a rooted path)"
 msgstr ""
+"Activar el modo de texto libre (cuando no hay nada seleccionado) con el "
+"prefijo <code>/</code> (para indicar una ruta desde la raíz)"
 
 #: C/keyboard.page:68(p) C/generalusage.page:62(p)
 msgid "Additionally:"
