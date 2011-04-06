@@ -58,12 +58,34 @@ def find_desktop_file(desk_id):
 	try:
 		return next(xdg.BaseDirectory.load_data_paths("applications", desk_id))
 	except StopIteration:
-		if "-" in desk_id:
-			try:
-				return next(xdg.BaseDirectory.load_data_paths(
-					"applications", *desk_id.split("-", 1)))
-			except StopIteration:
-				pass
+		## it was not found as an immediate child of the data paths,
+		## so we split by the hyphens and search deeper
+		file_id = desk_id
+		directories = ['applications']
+
+		def lookup(path):
+			"""Return location for @path if exists, else none"""
+			return next(xdg.BaseDirectory.load_data_paths(*path), None)
+
+		def get_dir_id_depth(desk_id, depth):
+			"split 'hyph-example-id' at the nth hyphen"
+			parts = desk_id.split('-', depth)
+			return '-'.join(parts[:depth]), '-'.join(parts[depth:])
+
+		while 1:
+			## try the first parts of the id to see if it matches a directory
+			for x in xrange(1,4):
+				dirname, rest_id = get_dir_id_depth(file_id, x)
+				if rest_id and lookup(directories + [dirname]):
+					file_id = rest_id
+					directories.append(dirname)
+					break
+			else:
+				## we did not reach break
+				break
+			desktop_file_path = lookup(directories + [file_id])
+			if desktop_file_path:
+				return desktop_file_path
 	raise ResourceLookupError("Cannot locate '%s'" % (desk_id,))
 
 def read_desktop_info(desktop_file):
