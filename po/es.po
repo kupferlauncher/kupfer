@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-02 11:13+0000\n"
-"PO-Revision-Date: 2011-04-02 13:13+0200\n"
+"POT-Creation-Date: 2011-04-03 15:07+0000\n"
+"PO-Revision-Date: 2011-04-06 10:01+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "<b>Atajos de teclado globales</b>"
 msgid "<b>Start</b>"
 msgstr "<b>Inicio</b>"
 
-#: ../data/preferences.ui.h:4 ../kupfer/obj/sources.py:144
+#: ../data/preferences.ui.h:4 ../kupfer/obj/sources.py:150
 msgid "Catalog"
 msgstr "Catálogo"
 
@@ -445,7 +445,6 @@ msgid "Command in \"%s\" is not available"
 msgstr "El comando «%s» no está disponible"
 
 #: ../kupfer/obj/base.py:457 ../kupfer/plugin/core/text.py:22
-#| msgid "Next"
 msgid "Text"
 msgstr "Texto"
 
@@ -498,7 +497,7 @@ msgstr "No existe una aplicación predeterminada para %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "Use «%s»"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:105
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:109
 msgid "Set Default Application..."
 msgstr "Establecer aplicación predeterminada…"
 
@@ -538,63 +537,63 @@ msgstr "Ejecutar este programa en una terminal"
 msgid "Run this program"
 msgstr "Ejecutar este programa"
 
-#: ../kupfer/obj/objects.py:246 ../kupfer/plugin/windows.py:105
+#: ../kupfer/obj/objects.py:248 ../kupfer/plugin/windows.py:105
 #: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Ir a"
 
-#: ../kupfer/obj/objects.py:272
+#: ../kupfer/obj/objects.py:274
 msgid "Open URL"
 msgstr "Abrir URL"
 
-#: ../kupfer/obj/objects.py:283
+#: ../kupfer/obj/objects.py:285
 msgid "Open URL with default viewer"
 msgstr "Abrir URL con el visor predeterminado"
 
-#: ../kupfer/obj/objects.py:297
+#: ../kupfer/obj/objects.py:299
 msgid "Launch"
 msgstr "Lanzar"
 
-#: ../kupfer/obj/objects.py:310
+#: ../kupfer/obj/objects.py:312
 msgid "Show application window"
 msgstr "Mostrar la ventana de la aplicación"
 
-#: ../kupfer/obj/objects.py:311
+#: ../kupfer/obj/objects.py:313
 msgid "Launch application"
 msgstr "Iniciar aplicación"
 
-#: ../kupfer/obj/objects.py:322
+#: ../kupfer/obj/objects.py:324
 msgid "Launch Again"
 msgstr "Iniciar de nuevo"
 
-#: ../kupfer/obj/objects.py:329
+#: ../kupfer/obj/objects.py:331
 msgid "Launch another instance of this application"
 msgstr "Iniciar otra instancia de esta aplicación"
 
-#: ../kupfer/obj/objects.py:335 ../kupfer/plugin/windows.py:37
+#: ../kupfer/obj/objects.py:337 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../kupfer/obj/objects.py:343
+#: ../kupfer/obj/objects.py:345
 msgid "Attempt to close all application windows"
 msgstr "Intentar cerrar todas las ventanas de la aplicación"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:390
+#: ../kupfer/obj/objects.py:392
 msgid "Run"
 msgstr "Ejecutar"
 
-#: ../kupfer/obj/objects.py:400
+#: ../kupfer/obj/objects.py:402
 msgid "Perform command"
 msgstr "Ejecutar comando"
 
-#: ../kupfer/obj/objects.py:414
+#: ../kupfer/obj/objects.py:416
 msgid "(Empty Text)"
 msgstr "(Texto vacío)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:430
+#: ../kupfer/obj/objects.py:432
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -612,7 +611,7 @@ msgstr "%s et. al."
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Fuente recursiva de %(dir)s, (%(levels)d niveles)"
 
-#: ../kupfer/obj/sources.py:102
+#: ../kupfer/obj/sources.py:103
 #, python-format
 msgid "Directory source %s"
 msgstr "Directorio inicial %s"
@@ -625,11 +624,11 @@ msgstr "Carpeta personal"
 msgid "Catalog Index"
 msgstr "Índice del Catálogo"
 
-#: ../kupfer/obj/sources.py:133
+#: ../kupfer/obj/sources.py:139
 msgid "An index of all available sources"
 msgstr "Un índice de todas las fuentes disponibles"
 
-#: ../kupfer/obj/sources.py:164
+#: ../kupfer/obj/sources.py:170
 msgid "Root catalog"
 msgstr "Catálogo Raíz"
 
@@ -794,23 +793,23 @@ msgstr "Archivador"
 msgid "Applications"
 msgstr "Aplicaciones"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:70
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:74
 msgid "All applications and preferences"
 msgstr "Todas las aplicaciones y preferencias"
 
 #: ../kupfer/plugin/applications.py:23
 msgid "Applications for Desktop Environment"
-msgstr "Aplicaciones para Entorno de Escritorio"
+msgstr "Aplicaciones para el entorno de escritorio"
 
-#: ../kupfer/plugin/applications.py:79
+#: ../kupfer/plugin/applications.py:83
 msgid "Open With..."
 msgstr "Abrir con…"
 
-#: ../kupfer/plugin/applications.py:101
+#: ../kupfer/plugin/applications.py:105
 msgid "Open with any application"
 msgstr "Abrir con una aplicación"
 
-#: ../kupfer/plugin/applications.py:120
+#: ../kupfer/plugin/applications.py:124
 msgid "Set default application to open this file type"
 msgstr ""
 "Establecer la aplicación predeterminada para abrir este tipo de archivo"
@@ -1596,11 +1595,11 @@ msgstr ""
 "Proporcionar el conjunto de iconos ASCII y Unicode que usan letras y "
 "símbolos para producir iconos para los objetos encontrados en Kupfer."
 
-#: ../kupfer/plugin/asciiunicodeiconset.py:20
+#: ../kupfer/plugin/asciiunicodeiconset.py:21
 msgid "Ascii"
 msgstr "ASCII"
 
-#: ../kupfer/plugin/asciiunicodeiconset.py:22
+#: ../kupfer/plugin/asciiunicodeiconset.py:23
 msgid "Unicode"
 msgstr "Unicode"
 
