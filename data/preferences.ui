@@ -397,8 +397,6 @@
                           <object class="GtkEntry" id="entry_plugins_filter">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="has_focus">True</property>
-                            <property name="is_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
                             <property name="secondary_icon_stock">gtk-clear</property>
                             <signal name="changed" handler="on_entry_plugins_filter_changed"/>
