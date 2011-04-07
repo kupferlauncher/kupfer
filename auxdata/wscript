@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+import os
 
 from waflib import Options, Utils, Logs
 
@@ -23,7 +24,7 @@ def build(bld):
 	# merge translations into the .desktop file
 	# and set it up to be installed
 	def install_desktop_file(desktop_subst_file):
-		bld(
+		return bld(
 			features="intltool_in",
 			podir="../po",
 			flags = ("-d", "-q", "-u", "-c"),
@@ -33,8 +34,17 @@ def build(bld):
 			chmod = 0o755,
 		)
 
-	install_desktop_file("kupfer.desktop")
-	install_desktop_file("kupfer-exec.desktop")
+	k_desktop = install_desktop_file("kupfer.desktop")
+	x_desktop = install_desktop_file("kupfer-exec.desktop")
+
+	## install kupfer.desktop as a Thunar sendto object
+	kd_install = os.path.join(
+		Utils.subst_vars(k_desktop.install_path, bld.env), "kupfer.desktop")
+	symlink_location = \
+		Utils.subst_vars("${DATADIR}/Thunar/sendto/kupfer.desktop", bld.env)
+	symlink_target = \
+		os.path.relpath(kd_install, os.path.dirname(symlink_location))
+	bld.symlink_as(symlink_location, symlink_target)
 
 	## install mimetype descriptions
 
