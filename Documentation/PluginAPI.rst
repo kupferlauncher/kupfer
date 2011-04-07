@@ -742,6 +742,21 @@ to register their implementations of new alternatives. The arguments are:
     ``register_alternative`` is normally called in the plugin's
     ``initialize_plugin(..)`` function.
 
+.. topic:: Fields requried for the category ``terminal``
+
+    :``name``:              unicode visible name
+    :``argv``:              argument list: list of byte strings
+    :``exearg``:            the execute-flag as a byte string (``""`` when N/A)
+    :``desktopid``:         the likely application id as a byte string
+    :``startup_notify``:    whether to use startup notification as boolean
+
+.. topic:: Fields required for the category ``icon_renderer``
+
+    :``name``:              unicode visible name
+    :``renderer``:          an object with an interface just like
+                            ``kupfer.icons.IconRenderer``
+
+
 Plugin Packages, Resources and Distribution
 :::::::::::::::::::::::::::::::::::::::::::
 
