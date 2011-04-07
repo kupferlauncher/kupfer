@@ -10,7 +10,7 @@ from kupfer.plugin import session_support as support
 
 
 # sequences of argument lists
-LOGOUT_CMD = (["xfce4-session-logout', '--logout"],)
+LOGOUT_CMD = (["xfce4-session-logout", "--logout"],)
 SHUTDOWN_CMD = (["xfce4-session-logout"],)
 LOCKSCREEN_CMD = (["xdg-screensaver", "lock"], )
 
