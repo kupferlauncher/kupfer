@@ -69,6 +69,9 @@ class SessionsSource(ApplicationSource):
 	def should_sort_lexically(self):
 		return True
 
+	def get_icon_name(self):
+		return "terminal"
+
 	def provides(self):
 		yield Terminal
 
