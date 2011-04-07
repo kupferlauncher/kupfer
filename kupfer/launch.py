@@ -266,6 +266,9 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		if (cur_wspc_windows and 
 		    set(vis_windows[-len(cur_wspc_windows):]) != set(cur_wspc_windows)):
 			focus_windows = cur_wspc_windows
+			## if the topmost window is already active, take another
+			if focus_windows[-1:] == vis_windows[-1:]:
+				focus_windows[:] = focus_windows[:-1]
 		else:
 			# all windows are focused, find on next workspace
 			for wspc in all_workspaces[1:]:
