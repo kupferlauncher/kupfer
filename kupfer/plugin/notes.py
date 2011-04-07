@@ -117,10 +117,13 @@ class AppendToNote (Action):
 		return "list-add"
 
 def _prepare_note_text(text):
+	## split the text into a title + newline + rest of the text
+	## if we only get the title, put in two helpful newlines
 	title, body = textutils.extract_title_body(text)
 	if body.lstrip():
 		return u"%s\n%s" % (title, body)
-	return title
+	else:
+		return u"%s\n\n" % (title,)
 
 class CreateNote (Action):
 	def __init__(self):
