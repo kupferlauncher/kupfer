@@ -797,11 +797,20 @@ class PreferencesWindowController (pretty.OutputMixin):
 			self._update_alternative_combobox(category_key,
 					self.icons_combobox)
 
+	def on_preferences_notebook_switch_page(self, notebook, page, page_num):
+		## focus the search box on the plugin tab
+		if page_num == PLUGIN_LIST_PAGE:
+			gobject.idle_add(self.entry_plugins_filter.grab_focus)
+
 	def show(self, timestamp):
 		self.window.present_with_time(timestamp)
+
 	def show_on_screen(self, timestamp, screen):
 		self.window.set_screen(screen)
 		self.show(timestamp)
+		## focus the search box on the plugin tab
+		if self.preferences_notebook.get_current_page() == PLUGIN_LIST_PAGE:
+			self.entry_plugins_filter.grab_focus()
 
 	def show_focus_plugin(self, plugin_id, timestamp):
 		"""
