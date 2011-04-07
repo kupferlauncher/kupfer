@@ -951,6 +951,15 @@ class Interface (gobject.GObject):
 		self.entry = gtk.Entry()
 		self.label = gtk.Label()
 		self.preedit = gtk.Entry()
+		## make sure we lose the preedit focus ring
+		self.preedit.set_name("kupfer-preedit")
+		gtk.rc_parse_string("""
+		style "kupferpreedit"
+		{
+			GtkEntry :: focus-line-width = 0
+		}
+		widget "*.%s" style "kupferpreedit"
+		""" % (self.preedit.path(), ))
 
 		self.current = None
 
