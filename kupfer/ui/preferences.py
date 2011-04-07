@@ -289,14 +289,18 @@ class PreferencesWindowController (pretty.OutputMixin):
 			# Read installed file and modify it
 			dfile = desktop.DesktopEntry(desktop_file_path)
 			executable = dfile.getExec()
+			## append no-splash
 			if "--no-splash" not in executable:
 				executable += " --no-splash"
-				dfile.set("Exec", executable)
+			dfile.set("Exec", executable)
 		else:
 			dfile = desktop.DesktopEntry(autostart_file)
 		activestr = str(bool(widget.get_active())).lower()
 		self.output_debug("Setting autostart to", activestr)
 		dfile.set(AUTOSTART_KEY, activestr)
+		## remove the format specifiers
+		executable = dfile.getExec().replace("%F", "")
+		dfile.set("Exec", executable)
 		dfile.write(filename=autostart_file)
 
 	def on_entrykeybinding_changed(self, widget):
