@@ -33,6 +33,14 @@ all the features introduced in v205.
   (:lp:`750488`)
 * Fix regression that prevented mimetypes and icon cache from being updated
   properly when installing from source.
+* In *Go To* action, cycle application windows (if they are all on the same
+  workspace).
+* Focus the plugin list search box by default in the preferences window.
+* Fix regression in *XFCE Session Management* that had a broken logout
+  command.
+* Install kupfer as a Thunar 'sendto' object.
+* Fix a bug in the autostart file we installed, it was including a '%F'
+  which broke ``--no-splash`` when autostarted on XFCE.
 
 These are the full change explanations of the v205 release
 
