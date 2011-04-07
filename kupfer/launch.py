@@ -272,7 +272,10 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 				focus_windows = workspaces.get(wspc, [])
 				if focus_windows:
 					break
-			pass
+			else:
+				# no windows on other workspaces, so we rotate among
+				# the local ones
+				focus_windows = cur_wspc_windows[:1]
 		self._focus_windows(focus_windows, evttime)
 
 	def _to_front_single(self, application_windows, evttime):
