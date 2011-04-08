@@ -194,11 +194,16 @@ class CommandTextSource (TextSource):
 			return
 		if len(text.splitlines()) > 1:
 			return
-		firstword = text.split()[0]
-		if firstword.startswith("/"):
+		## check for absolute path with arguments
+		firstwords = text.split()
+		## files are handled elsewhere
+		if firstwords[0].startswith("/") and len(firstwords) == 1:
 			return
+		## absolute paths come out here since
+		## os.path.join with two abspaths returns the latter
+		firstword = firstwords[0]
 		# iterate over $PATH directories
-		PATH = os.environ.get("PATH") or os.defpath
+		PATH = os.environ.get("PATH", os.defpath)
 		for execdir in PATH.split(os.pathsep):
 			exepath = os.path.join(execdir, firstword)
 			# use filesystem encoding here
