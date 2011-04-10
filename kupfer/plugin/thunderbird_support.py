@@ -8,7 +8,7 @@ from ConfigParser import RawConfigParser
 
 from kupfer import pretty
 
-__version__ = "2011-01-20"
+__version__ = "2011-04-10"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 '''
@@ -22,8 +22,7 @@ Concept for mork parser from:
 THUNDERBIRD_HOME = map(os.path.expanduser,
 		('~/.mozilla-thunderbird/', '~/.thunderbird', '~/.icedove/'))
 
-THUNDERBIRD_PROFILES = [
-		(thome, os.path.join(thome, 'profiles.ini'))
+THUNDERBIRD_PROFILES = [(thome, os.path.join(thome, 'profiles.ini'))
 		for thome in THUNDERBIRD_HOME]
 
 
@@ -168,17 +167,19 @@ def _read_mork(filename):
 				if not active_trans or tran != '-':
 					rowdata = row[2:]
 					for rowcell in rowdata:
+						if not rowcell:
+							continue
 						for cell in RE_CELL.findall(rowcell):
 							atom, col = None, None
-							match = RE_CELL_TEXT.match(cell)
-							if match:
-								col = cells.get(match.group(1))
-								atom = match.group(2)
+							cmatch = RE_CELL_TEXT.match(cell)
+							if cmatch:
+								col = cells.get(cmatch.group(1))
+								atom = cmatch.group(2)
 							else:
-								match = RE_CELL_OID.match(cell)
-								if match:
-									col = cells.get(match.group(1))
-									atom = atoms.get(match.group(2))
+								cmatch = RE_CELL_OID.match(cell)
+								if cmatch:
+									col = cells.get(cmatch.group(1))
+									atom = atoms.get(cmatch.group(2))
 							if col and atom:
 								table.add_cell(rowid, col, atom)
 			pos = match.span()[1]
@@ -207,22 +208,25 @@ def _read_mork(filename):
 					table.del_row(rowid)
 			if tran != '-':
 				rowdata = row[2:]
-				if not table:
-					table = tables['1:80'] = _Table('1:80')
-				for rowcell in rowdata:
-					for cell in RE_CELL.findall(rowcell):
-						atom, col = None, None
-						match = RE_CELL_TEXT.match(cell)
-						if match:
-							col = cells.get(match.group(1))
-							atom = match.group(2)
-						else:
-							match = RE_CELL_OID.match(cell)
-							if match:
-								col = cells.get(match.group(1))
-								atom = atoms.get(match.group(2))
-						if col and atom:
-							table.add_cell(rowid, col, atom)
+				if rowdata:
+					if not table:
+						table = tables['1:80'] = _Table('1:80')
+					for rowcell in rowdata:
+						if not rowcell:
+							continue
+						for cell in RE_CELL.findall(str(rowcell)):
+							atom, col = None, None
+							cmatch = RE_CELL_TEXT.match(cell)
+							if cmatch:
+								col = cells.get(cmatch.group(1))
+								atom = cmatch.group(2)
+							else:
+								cmatch = RE_CELL_OID.match(cell)
+								if cmatch:
+									col = cells.get(cmatch.group(1))
+									atom = atoms.get(cmatch.group(2))
+							if col and atom:
+								table.add_cell(rowid, col, atom)
 			pos = match.span()[1]
 			continue
 
@@ -234,67 +238,55 @@ def _mork2contacts(tables):
 	''' Get contacts from mork table prepared by _read_mork '''
 	if not tables:
 		return
-
-	for table in tables.itervalues():
+	# get only default table
+	table = tables.get('1:80')
+	if table:
 		for row in table.rows.itervalues():
 			display_name = row.get('DisplayName')
 			if not display_name:
 				first_name = row.get('FirstName', '')
 				last_name = row.get('LastName', '')
 				display_name = ' '.join((first_name, last_name))
-
-			display_name = display_name.strip()
-			if not display_name:
-				continue
+			if display_name:
+				display_name = display_name.strip()
 			for key in ('PrimaryEmail', 'SecondEmail'):
 				email = row.get(key)
 				if email:
-					yield (display_name, email)
+					yield (display_name or email[:email.find('@')], email)
 
 
-def get_addressbook_dir():
+def get_addressbook_dirs():
 	''' Get path to addressbook file from default profile. '''
-	thunderbird_home = None
 	for thome, tprofile in THUNDERBIRD_PROFILES:
 		if os.path.isfile(tprofile):
-			thunderbird_home = thome
-			break
-	if not thunderbird_home:
-		return None
-	config = RawConfigParser()
-	config.read(tprofile)
-	path = None
-	for section in config.sections():
-		if config.has_option(section, "Default") and \
-				config.get(section, "Default") == "1" and \
-				config.has_option(section, "Path"):
-			path = config.get(section, "Path")
-			break
-		elif config.has_option(section, "Path"):
-			path = config.get(section, "Path")
-	if path:
-		path = os.path.join(thunderbird_home, path)
-	# I thought it was strange to return something that is constant here
-	return path
+			config = RawConfigParser()
+			config.read(tprofile)
+			for section in config.sections():
+				if config.has_option(section, "Path"):
+					path = config.get(section, "Path")
+					if not os.path.isabs(path):
+						path = os.path.join(thome, path)
+					if os.path.isdir(path):
+						yield path
 
 
 def get_addressbook_files():
 	''' Get full path to all Thunderbird address book files. '''
-	path = get_addressbook_dir()
-	if not path:
-		return
-	files = os.listdir(path)
-	for filename in files:
-		if filename.endswith('.mab'):
-			fullpath = os.path.join(path, filename)
-			if os.path.isfile(fullpath):
-				yield fullpath
+	for path in get_addressbook_dirs():
+		pretty.print_debug(__name__, 'get_addressbook_files dir:', path)
+		files = os.listdir(path)
+		for filename in files:
+			if filename.endswith('.mab'):
+				fullpath = os.path.join(path, filename)
+				if os.path.isfile(fullpath):
+					yield fullpath
 
 
 def get_contacts():
 	''' Get all contacts from all Thunderbird address books as
 		((contact name, contact email)) '''
 	for abook in get_addressbook_files():
+		pretty.print_debug(__name__, 'get_contacts:', abook)
 		try:
 			tables = _read_mork(abook)
 		except IOError, err:
