@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-27 16:57+0000\n"
-"PO-Revision-Date: 2011-03-28 08:48+0100\n"
+"POT-Creation-Date: 2011-04-09 21:16+0000\n"
+"PO-Revision-Date: 2011-04-10 08:47+0100\n"
 "Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -53,7 +53,7 @@ msgid "<b>Start</b>"
 msgstr "<b>Zaženi</b>"
 
 #: ../data/preferences.ui.h:4
-#: ../kupfer/obj/sources.py:144
+#: ../kupfer/obj/sources.py:150
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -103,7 +103,7 @@ msgid "Plugins"
 msgstr "Vstavki"
 
 #: ../data/preferences.ui.h:16
-#: ../kupfer/ui/preferences.py:831
+#: ../kupfer/ui/preferences.py:844
 msgid "Reset"
 msgstr "Ponastavi"
 
@@ -163,23 +163,27 @@ msgstr "razvrsti dostopne vstavke"
 msgid "enable debug info"
 msgstr "omogoči podatke razhroščevanja"
 
-#: ../kupfer/main.py:48
+#: ../kupfer/main.py:46
+msgid "run keyboard shortcut relay service on this display"
+msgstr "Poženite rele tipkovne bližnjice na tem zaslonu"
+
+#: ../kupfer/main.py:49
 msgid "show usage help"
 msgstr "pokaži uporabo pomoči"
 
-#: ../kupfer/main.py:49
+#: ../kupfer/main.py:50
 msgid "show version information"
 msgstr "pokaži podrobnosti različice"
 
-#: ../kupfer/main.py:55
+#: ../kupfer/main.py:56
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Uporaba: kupfer [MOŽNOSTI | DATOTEKA ...]"
 
-#: ../kupfer/main.py:66
+#: ../kupfer/main.py:67
 msgid "Available plugins:"
 msgstr "Razpoložljivi vstavki:"
 
-#: ../kupfer/main.py:110
+#: ../kupfer/main.py:114
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -247,93 +251,93 @@ msgstr "Preklopi na prvi pladenj"
 msgid "Toggle Text Mode"
 msgstr "Preklopi besedilni način"
 
-#: ../kupfer/ui/browser.py:839
+#: ../kupfer/ui/browser.py:888
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prazen"
 
-#: ../kupfer/ui/browser.py:843
+#: ../kupfer/ui/browser.py:892
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "V %(src)s ni zadetkov za \"%(query)s\""
 
-#: ../kupfer/ui/browser.py:849
+#: ../kupfer/ui/browser.py:898
 msgid "No matches"
 msgstr "Ni zadetkov"
 
-#: ../kupfer/ui/browser.py:854
+#: ../kupfer/ui/browser.py:903
 msgid "Type to search"
 msgstr "Vtipkajte za iskanje"
 
-#: ../kupfer/ui/browser.py:860
+#: ../kupfer/ui/browser.py:909
 #, python-format
 msgid "Type to search %s"
 msgstr "Vtipkajte za iskanje %s"
 
-#: ../kupfer/ui/browser.py:875
+#: ../kupfer/ui/browser.py:924
 msgid "No action"
 msgstr "Ni dejanja"
 
-#: ../kupfer/ui/browser.py:1396
+#: ../kupfer/ui/browser.py:1461
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Naredi \"%(action)s\" privzeto za \"%(object)s\""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1406
+#: ../kupfer/ui/browser.py:1471
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Pozabi \"%s\""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1816
-#: ../kupfer/ui/preferences.py:60
+#: ../kupfer/ui/browser.py:1903
+#: ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr "Pokaži glavni vmesnik"
 
-#: ../kupfer/ui/preferences.py:61
+#: ../kupfer/ui/preferences.py:59
 msgid "Show with Selection"
 msgstr "Pokaži z izbiro"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:414
+#: ../kupfer/ui/preferences.py:416
 msgid "Description"
 msgstr "Opis"
 
-#: ../kupfer/ui/preferences.py:414
+#: ../kupfer/ui/preferences.py:416
 msgid "Author"
 msgstr "Avtor"
 
-#: ../kupfer/ui/preferences.py:431
+#: ../kupfer/ui/preferences.py:433
 msgid "Version"
 msgstr "Različica"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:441
+#: ../kupfer/ui/preferences.py:443
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Zahtevan je Python modul '%s'"
 
-#: ../kupfer/ui/preferences.py:455
+#: ../kupfer/ui/preferences.py:457
 msgid "Plugin could not be read due to an error:"
 msgstr "Vstavka ni mogoče prebrati zaradi napake:"
 
-#: ../kupfer/ui/preferences.py:463
-#: ../kupfer/plugin/kupfer_plugins.py:81
+#: ../kupfer/ui/preferences.py:465
+#: ../kupfer/plugin/kupfer_plugins.py:80
 msgid "disabled"
 msgstr "onemogočeno"
 
-#: ../kupfer/ui/preferences.py:538
+#: ../kupfer/ui/preferences.py:539
 msgid "Content of"
 msgstr "Vsebina"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:547
+#: ../kupfer/ui/preferences.py:548
 msgid "Sources"
 msgstr "Viri"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:551
+#: ../kupfer/ui/preferences.py:552
 msgid "Actions"
 msgstr "Dejanja"
 
@@ -351,16 +355,16 @@ msgstr "Nastavi uporabniško ime in geslo"
 msgid "Choose a Directory"
 msgstr "Izbor mape"
 
-#: ../kupfer/ui/preferences.py:829
+#: ../kupfer/ui/preferences.py:842
 msgid "Reset all shortcuts to default values?"
 msgstr "Ali naj bodo vse bližnjice ponastavljene na privzete vrednosti?"
 
-#: ../kupfer/ui/preferences.py:837
+#: ../kupfer/ui/preferences.py:850
 #: ../kupfer/plugin/custom_terminal.py:12
 msgid "Command"
 msgstr "Ukaz"
 
-#: ../kupfer/ui/preferences.py:838
+#: ../kupfer/ui/preferences.py:851
 msgid "Shortcut"
 msgstr "Bližnjica"
 
@@ -409,12 +413,17 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Ni mogoče najti Kupferja v teku"
 
-#: ../kupfer/core/commandexec.py:238
+#: ../kupfer/keyrelay.py:62
+#, python-format
+msgid "Keyboard relay is active for display %s"
+msgstr "Rele tipkovnice je dejaven za zaslon %s"
+
+#: ../kupfer/core/commandexec.py:239
 #, python-format
 msgid "Could not to carry out '%s'"
 msgstr "Ni mogoče izvesti '%s'"
 
-#: ../kupfer/core/commandexec.py:267
+#: ../kupfer/core/commandexec.py:268
 #, python-format
 msgid "\"%s\" produced a result"
 msgstr "\"%s\" je proizvedel rezultat"
@@ -431,8 +440,8 @@ msgstr "Ukaz v \"%s\" ni na voljo"
 
 #: ../kupfer/obj/base.py:457
 #: ../kupfer/plugin/core/text.py:22
-msgid "Text Matches"
-msgstr "Zadetki besedila"
+msgid "Text"
+msgstr "Besedilo"
 
 #: ../kupfer/obj/compose.py:15
 msgid "Run after Delay..."
@@ -456,7 +465,7 @@ msgstr[2] "%s predmeta"
 msgstr[3] "%s predmeti"
 
 #: ../kupfer/obj/contacts.py:87
-#: ../kupfer/plugin/pidgin.py:153
+#: ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -470,7 +479,7 @@ msgstr "%s ne podpira tega opravila"
 msgid "Can not be used with multiple objects"
 msgstr "Ni mogoče uporabiti z več predmeti"
 
-#: ../kupfer/obj/fileactions.py:31
+#: ../kupfer/obj/fileactions.py:30
 #: ../kupfer/plugin/notes.py:79
 #: ../kupfer/plugin/gnome_terminal.py:36
 #: ../kupfer/plugin/gtg.py:108
@@ -478,116 +487,116 @@ msgstr "Ni mogoče uporabiti z več predmeti"
 msgid "Open"
 msgstr "Odpri"
 
-#: ../kupfer/obj/fileactions.py:44
+#: ../kupfer/obj/fileactions.py:43
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Ni privzetega programa za %(file)s (%(type)s)"
 
-#: ../kupfer/obj/fileactions.py:46
+#: ../kupfer/obj/fileactions.py:45
 #, python-format
 msgid "Please use \"%s\""
 msgstr "Uporabite \"%s\""
 
-#: ../kupfer/obj/fileactions.py:46
-#: ../kupfer/plugin/applications.py:92
+#: ../kupfer/obj/fileactions.py:45
+#: ../kupfer/plugin/applications.py:109
 msgid "Set Default Application..."
 msgstr "Nastavi privzeti program ..."
 
-#: ../kupfer/obj/fileactions.py:67
+#: ../kupfer/obj/fileactions.py:71
 msgid "Open with default application"
 msgstr "Odpri s privzetim programom"
 
-#: ../kupfer/obj/fileactions.py:73
+#: ../kupfer/obj/fileactions.py:77
 msgid "Reveal"
 msgstr "Razkrij"
 
-#: ../kupfer/obj/fileactions.py:82
+#: ../kupfer/obj/fileactions.py:86
 msgid "Open parent folder"
 msgstr "Odpri nadrejeno mapo"
 
-#: ../kupfer/obj/fileactions.py:88
+#: ../kupfer/obj/fileactions.py:92
 msgid "Open Terminal Here"
 msgstr "Odpri terminal tukaj"
 
-#: ../kupfer/obj/fileactions.py:98
+#: ../kupfer/obj/fileactions.py:105
 msgid "Open this location in a terminal"
 msgstr "Odpri to mesto v terminalu"
 
-#: ../kupfer/obj/fileactions.py:106
+#: ../kupfer/obj/fileactions.py:113
 msgid "Run in Terminal"
 msgstr "Zaženi v terminalu"
 
-#: ../kupfer/obj/fileactions.py:106
+#: ../kupfer/obj/fileactions.py:113
 msgid "Run (Execute)"
 msgstr "Zaženi (izvedi)"
 
-#: ../kupfer/obj/fileactions.py:126
+#: ../kupfer/obj/fileactions.py:133
 msgid "Run this program in a Terminal"
 msgstr "Zaženi ta program v teminalu"
 
-#: ../kupfer/obj/fileactions.py:128
+#: ../kupfer/obj/fileactions.py:135
 msgid "Run this program"
 msgstr "Zaženi ta program"
 
-#: ../kupfer/obj/objects.py:247
-#: ../kupfer/plugin/windows.py:106
-#: ../kupfer/plugin/windows.py:265
+#: ../kupfer/obj/objects.py:248
+#: ../kupfer/plugin/windows.py:105
+#: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Pojdi na"
 
-#: ../kupfer/obj/objects.py:273
+#: ../kupfer/obj/objects.py:274
 msgid "Open URL"
 msgstr "Odpri URL"
 
-#: ../kupfer/obj/objects.py:284
+#: ../kupfer/obj/objects.py:285
 msgid "Open URL with default viewer"
 msgstr "Odpri URL s privzetim pregledovalnikom"
 
-#: ../kupfer/obj/objects.py:298
+#: ../kupfer/obj/objects.py:299
 msgid "Launch"
 msgstr "Zaženi"
 
-#: ../kupfer/obj/objects.py:308
+#: ../kupfer/obj/objects.py:312
 msgid "Show application window"
 msgstr "Pokaže okno programa"
 
-#: ../kupfer/obj/objects.py:309
+#: ../kupfer/obj/objects.py:313
 msgid "Launch application"
 msgstr "Zaženi program"
 
-#: ../kupfer/obj/objects.py:320
+#: ../kupfer/obj/objects.py:324
 msgid "Launch Again"
 msgstr "Zaženi še enkrat"
 
-#: ../kupfer/obj/objects.py:327
+#: ../kupfer/obj/objects.py:331
 msgid "Launch another instance of this application"
 msgstr "Zažene še en primerek tega programa"
 
-#: ../kupfer/obj/objects.py:333
-#: ../kupfer/plugin/windows.py:38
+#: ../kupfer/obj/objects.py:337
+#: ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Zapri"
 
-#: ../kupfer/obj/objects.py:341
+#: ../kupfer/obj/objects.py:345
 msgid "Attempt to close all application windows"
 msgstr "Poskusi zapreti vsa okna programa"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:388
+#: ../kupfer/obj/objects.py:392
 msgid "Run"
 msgstr "Zaženi"
 
-#: ../kupfer/obj/objects.py:398
+#: ../kupfer/obj/objects.py:402
 msgid "Perform command"
 msgstr "Izvede ukaz"
 
-#: ../kupfer/obj/objects.py:412
+#: ../kupfer/obj/objects.py:416
 msgid "(Empty Text)"
 msgstr "(Prazno besedilo)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:428
+#: ../kupfer/obj/objects.py:432
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -598,7 +607,7 @@ msgstr[3] "(%(num)d vrstice) \"%(text)s\""
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
 #: ../kupfer/obj/sources.py:24
-#: ../kupfer/plugin/rhythmbox.py:248
+#: ../kupfer/plugin/rhythmbox.py:247
 #, python-format
 msgid "%s et. al."
 msgstr "%s in ostali"
@@ -608,7 +617,7 @@ msgstr "%s in ostali"
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekurziven vir %(dir)s, (%(levels)d ravni)"
 
-#: ../kupfer/obj/sources.py:102
+#: ../kupfer/obj/sources.py:103
 #, python-format
 msgid "Directory source %s"
 msgstr "Vir slovarja %s"
@@ -621,11 +630,11 @@ msgstr "Domača mapa"
 msgid "Catalog Index"
 msgstr "Kazalo kataloga"
 
-#: ../kupfer/obj/sources.py:133
+#: ../kupfer/obj/sources.py:139
 msgid "An index of all available sources"
 msgstr "Kazalo vseh razpoložljivih virov"
 
-#: ../kupfer/obj/sources.py:164
+#: ../kupfer/obj/sources.py:170
 msgid "Root catalog"
 msgstr "Korenski katalog"
 
@@ -700,27 +709,27 @@ msgstr "Dobi pomoč s Kupferjem"
 msgid "Show preferences window for Kupfer"
 msgstr "Prikaz okna možnosti za Kupfer"
 
-#: ../kupfer/plugin/core/__init__.py:67
+#: ../kupfer/plugin/core/__init__.py:65
 msgid "Search Contents"
 msgstr "Vsebina iskanja"
 
-#: ../kupfer/plugin/core/__init__.py:85
+#: ../kupfer/plugin/core/__init__.py:83
 msgid "Search inside this catalog"
 msgstr "Poišči znotraj kataloga"
 
-#: ../kupfer/plugin/core/__init__.py:93
+#: ../kupfer/plugin/core/__init__.py:91
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: ../kupfer/plugin/core/__init__.py:105
+#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Kopiraj v odložišče"
 
-#: ../kupfer/plugin/core/__init__.py:127
+#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Ponovno preišči"
 
-#: ../kupfer/plugin/core/__init__.py:142
+#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Vsili ponovno preiskovanje tega vira"
 
@@ -776,7 +785,7 @@ msgid "Create Archive"
 msgstr "Ustvari arhiv"
 
 #: ../kupfer/plugin/archivemanager.py:86
-#: ../kupfer/plugin/archivemanager.py:131
+#: ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Ustvari stisnjen arhiv iz mape"
 
@@ -785,7 +794,7 @@ msgid "Create Archive In..."
 msgstr "Ustvari arhiv v ..."
 
 #. TRANS: Default filename (no extension) for 'Create Archive In...'
-#: ../kupfer/plugin/archivemanager.py:117
+#: ../kupfer/plugin/archivemanager.py:115
 msgid "Archive"
 msgstr "Arhiv"
 
@@ -795,7 +804,7 @@ msgid "Applications"
 msgstr "Programi"
 
 #: ../kupfer/plugin/applications.py:8
-#: ../kupfer/plugin/applications.py:61
+#: ../kupfer/plugin/applications.py:74
 msgid "All applications and preferences"
 msgstr "Vsi programi in možnosti"
 
@@ -803,15 +812,15 @@ msgstr "Vsi programi in možnosti"
 msgid "Applications for Desktop Environment"
 msgstr "Programi za namizno okolje"
 
-#: ../kupfer/plugin/applications.py:70
+#: ../kupfer/plugin/applications.py:83
 msgid "Open With..."
 msgstr "Odpri z ..."
 
-#: ../kupfer/plugin/applications.py:88
+#: ../kupfer/plugin/applications.py:105
 msgid "Open with any application"
 msgstr "Odpri s katerimkoli programom"
 
-#: ../kupfer/plugin/applications.py:107
+#: ../kupfer/plugin/applications.py:124
 msgid "Set default application to open this file type"
 msgstr "Nastavi privzet program za odpiranje te vrste datotek"
 
@@ -868,7 +877,7 @@ msgid "Remove all recent clipboards"
 msgstr "Odstrani vsa nedavna odložišča"
 
 #: ../kupfer/plugin/commands.py:1
-#: ../kupfer/plugin/commands.py:188
+#: ../kupfer/plugin/commands.py:187
 msgid "Shell Commands"
 msgstr "Ukazi lupine"
 
@@ -901,33 +910,33 @@ msgstr "Zažene program s predmetom kot dodanim parametrom"
 msgid "Write to Command..."
 msgstr "Zapiši v ukaz ..."
 
-#: ../kupfer/plugin/commands.py:150
-#: ../kupfer/plugin/commands.py:162
+#: ../kupfer/plugin/commands.py:149
+#: ../kupfer/plugin/commands.py:161
 msgid "Run program and supply text on the standard input"
 msgstr "Poženi program in dovedi besedilo na standardnem vhodu"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:158
+#: ../kupfer/plugin/commands.py:157
 msgid "Filter through Command..."
 msgstr "Filtriraj skozi ukaz ..."
 
-#: ../kupfer/plugin/commands.py:211
+#: ../kupfer/plugin/commands.py:215
 msgid "Run command-line programs"
 msgstr "Poženi programe ukaze vrstice"
 
 #: ../kupfer/plugin/dictionary.py:1
-#: ../kupfer/plugin/dictionary.py:20
+#: ../kupfer/plugin/dictionary.py:21
 msgid "Dictionary"
 msgstr "Slovar"
 
 #: ../kupfer/plugin/dictionary.py:3
-#: ../kupfer/plugin/dictionary.py:46
+#: ../kupfer/plugin/dictionary.py:47
 msgid "Look up word in dictionary"
 msgstr "Poišči besedo v slovarju"
 
-#: ../kupfer/plugin/dictionary.py:29
+#: ../kupfer/plugin/dictionary.py:30
 msgid "Look Up"
 msgstr "Poišči"
 
@@ -981,7 +990,7 @@ msgid "Index of Epiphany bookmarks"
 msgstr "Kazalo zaznamkov Epiphany"
 
 #: ../kupfer/plugin/favorites.py:1
-#: ../kupfer/plugin/favorites.py:23
+#: ../kupfer/plugin/favorites.py:21
 msgid "Favorites"
 msgstr "Priljubljene"
 
@@ -989,23 +998,23 @@ msgstr "Priljubljene"
 msgid "Mark commonly used items and store objects for later use"
 msgstr "Označi pogosto uporabljene predmete in shrani predmete za kasnejšo uporabo"
 
-#: ../kupfer/plugin/favorites.py:125
+#: ../kupfer/plugin/favorites.py:127
 msgid "Shelf of \"Favorite\" items"
 msgstr "Polica \"Priljubljenih\" predmetov"
 
-#: ../kupfer/plugin/favorites.py:138
+#: ../kupfer/plugin/favorites.py:140
 msgid "Add to Favorites"
 msgstr "Dodaj med priljubljene"
 
-#: ../kupfer/plugin/favorites.py:146
+#: ../kupfer/plugin/favorites.py:148
 msgid "Add item to favorites shelf"
 msgstr "Doda predmet na polico priljubljenih"
 
-#: ../kupfer/plugin/favorites.py:153
+#: ../kupfer/plugin/favorites.py:155
 msgid "Remove from Favorites"
 msgstr "Odstrani iz priljubljenih"
 
-#: ../kupfer/plugin/favorites.py:161
+#: ../kupfer/plugin/favorites.py:163
 msgid "Remove item from favorites shelf"
 msgstr "Odstrani predmete iz police priljubljenih"
 
@@ -1017,29 +1026,29 @@ msgstr "Dejanja datotek"
 msgid "More file actions"
 msgstr "Več dejanj datotek"
 
-#: ../kupfer/plugin/fileactions.py:39
-#: ../kupfer/plugin/windows.py:123
-#: ../kupfer/plugin/thunar.py:212
+#: ../kupfer/plugin/fileactions.py:40
+#: ../kupfer/plugin/windows.py:122
+#: ../kupfer/plugin/thunar.py:210
 msgid "Move To..."
 msgstr "Premakni v ..."
 
-#: ../kupfer/plugin/fileactions.py:66
-#: ../kupfer/plugin/thunar.py:254
+#: ../kupfer/plugin/fileactions.py:67
+#: ../kupfer/plugin/thunar.py:252
 msgid "Move file to new location"
 msgstr "Premakne datoteko na novo mesto"
 
-#: ../kupfer/plugin/fileactions.py:79
-#: ../kupfer/plugin/fileactions.py:102
+#: ../kupfer/plugin/fileactions.py:80
+#: ../kupfer/plugin/fileactions.py:103
 msgid "Rename To..."
 msgstr "Preimenuj v ..."
 
 #: ../kupfer/plugin/fileactions.py:145
-#: ../kupfer/plugin/thunar.py:167
+#: ../kupfer/plugin/thunar.py:165
 msgid "Copy To..."
 msgstr "Kopiraj v ..."
 
 #: ../kupfer/plugin/fileactions.py:186
-#: ../kupfer/plugin/thunar.py:208
+#: ../kupfer/plugin/thunar.py:206
 msgid "Copy file to a chosen location"
 msgstr "Kopiraj datoteko na izbrano mesto"
 
@@ -1058,7 +1067,7 @@ msgid "Include visited sites"
 msgstr "Vključi obiskane strani"
 
 #: ../kupfer/plugin/nautilusselection.py:1
-#: ../kupfer/plugin/nautilusselection.py:48
+#: ../kupfer/plugin/nautilusselection.py:46
 msgid "Selected File"
 msgstr "Izbrana datoteka"
 
@@ -1066,18 +1075,18 @@ msgstr "Izbrana datoteka"
 msgid "Provides current nautilus selection, using Kupfer's Nautilus Extension"
 msgstr "Zagotavlja trenuten izbor Nautilusa z uporabo Kupferjeve razširitve Nautilus"
 
-#: ../kupfer/plugin/nautilusselection.py:27
+#: ../kupfer/plugin/nautilusselection.py:25
 #, python-format
 msgid "Selected File \"%s\""
 msgstr "Izbrana datoteka \"%s\""
 
-#: ../kupfer/plugin/nautilusselection.py:36
+#: ../kupfer/plugin/nautilusselection.py:34
 msgid "Selected Files"
 msgstr "Izbrane datoteke"
 
 #: ../kupfer/plugin/notes.py:6
-#: ../kupfer/plugin/notes.py:165
-#: ../kupfer/plugin/notes.py:217
+#: ../kupfer/plugin/notes.py:168
+#: ../kupfer/plugin/notes.py:220
 msgid "Notes"
 msgstr "Sporočilca"
 
@@ -1101,34 +1110,34 @@ msgstr "Pripni sporočilcu ..."
 msgid "Add text to existing note"
 msgstr "Doda besedilo obstoječemu sporočilcu"
 
-#: ../kupfer/plugin/notes.py:127
+#: ../kupfer/plugin/notes.py:130
 msgid "Create Note"
 msgstr "Ustvari sporočilce"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:144
 msgid "Create a new note from this text"
 msgstr "Ustvari novo sporočilce iz tega besedila"
 
-#: ../kupfer/plugin/notes.py:147
+#: ../kupfer/plugin/notes.py:150
 msgid "Get Note Search Results..."
 msgstr "Dobi rezultate iskanja sporočilc ..."
 
-#: ../kupfer/plugin/notes.py:160
+#: ../kupfer/plugin/notes.py:163
 msgid "Show search results for this query"
 msgstr "Pokaži rezultate iskanja za to poizvedbo"
 
-#: ../kupfer/plugin/notes.py:200
+#: ../kupfer/plugin/notes.py:203
 #, python-format
 msgid "today, %s"
 msgstr "danes, %s"
 
-#: ../kupfer/plugin/notes.py:202
+#: ../kupfer/plugin/notes.py:205
 #, python-format
 msgid "yesterday, %s"
 msgstr "včeraj, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:206
+#: ../kupfer/plugin/notes.py:209
 #, python-format
 msgid "Last updated %s"
 msgstr "Zadnjič posodobljeno %s"
@@ -1143,92 +1152,92 @@ msgstr "Rhythmbox"
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "Predvaja in uvršča skladbe in brska po glasbeni knjižnici"
 
-#: ../kupfer/plugin/rhythmbox.py:23
+#: ../kupfer/plugin/rhythmbox.py:22
 msgid "Include artists in top level"
 msgstr "Vključi izvajalce v zgornji ravni"
 
-#: ../kupfer/plugin/rhythmbox.py:29
+#: ../kupfer/plugin/rhythmbox.py:28
 msgid "Include albums in top level"
 msgstr "Vključi albume v zgornji ravni"
 
-#: ../kupfer/plugin/rhythmbox.py:35
+#: ../kupfer/plugin/rhythmbox.py:34
 #: ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "Vključi skladbe v zgornji ravni"
 
-#: ../kupfer/plugin/rhythmbox.py:64
-#: ../kupfer/plugin/rhythmbox.py:132
+#: ../kupfer/plugin/rhythmbox.py:63
+#: ../kupfer/plugin/rhythmbox.py:131
 #: ../kupfer/plugin/audacious.py:82
 #: ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "Predvajaj"
 
-#: ../kupfer/plugin/rhythmbox.py:68
+#: ../kupfer/plugin/rhythmbox.py:67
 msgid "Resume playback in Rhythmbox"
 msgstr "Nadaljevanje predvajanja v Rhythmboxu"
 
-#: ../kupfer/plugin/rhythmbox.py:74
+#: ../kupfer/plugin/rhythmbox.py:73
 #: ../kupfer/plugin/audacious.py:102
 #: ../kupfer/plugin/virtualbox/__init__.py:93
 msgid "Pause"
 msgstr "Premor"
 
-#: ../kupfer/plugin/rhythmbox.py:78
+#: ../kupfer/plugin/rhythmbox.py:77
 msgid "Pause playback in Rhythmbox"
 msgstr "Premor predvajanja v Rhyhtmboxu"
 
-#: ../kupfer/plugin/rhythmbox.py:84
+#: ../kupfer/plugin/rhythmbox.py:83
 #: ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "Naslednja"
 
-#: ../kupfer/plugin/rhythmbox.py:88
+#: ../kupfer/plugin/rhythmbox.py:87
 msgid "Jump to next track in Rhythmbox"
 msgstr "Skoči na naslednjo skladbo v Rhyhtmboxu"
 
-#: ../kupfer/plugin/rhythmbox.py:94
+#: ../kupfer/plugin/rhythmbox.py:93
 #: ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "Predhodna"
 
-#: ../kupfer/plugin/rhythmbox.py:98
+#: ../kupfer/plugin/rhythmbox.py:97
 msgid "Jump to previous track in Rhythmbox"
 msgstr "Skoči na predhodno skladbo v Rhythmboxu"
 
-#: ../kupfer/plugin/rhythmbox.py:104
+#: ../kupfer/plugin/rhythmbox.py:103
 msgid "Show Playing"
 msgstr "Pokaži predvajajočo"
 
-#: ../kupfer/plugin/rhythmbox.py:108
+#: ../kupfer/plugin/rhythmbox.py:107
 msgid "Tell which song is currently playing"
 msgstr "Pove katera skladba se trenutno predvaja"
 
-#: ../kupfer/plugin/rhythmbox.py:116
+#: ../kupfer/plugin/rhythmbox.py:115
 #: ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "Počisti vrsto"
 
-#: ../kupfer/plugin/rhythmbox.py:156
+#: ../kupfer/plugin/rhythmbox.py:155
 msgid "Play tracks in Rhythmbox"
 msgstr "Predvajanje skladb v Rhythmboxu"
 
-#: ../kupfer/plugin/rhythmbox.py:162
+#: ../kupfer/plugin/rhythmbox.py:161
 #: ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "Uvrsti"
 
-#: ../kupfer/plugin/rhythmbox.py:173
+#: ../kupfer/plugin/rhythmbox.py:172
 msgid "Add tracks to the play queue"
 msgstr "Doda skladbe v predvajalno vrsto"
 
 #. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:196
+#: ../kupfer/plugin/rhythmbox.py:195
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr "od %(artist)s iz %(album)s"
 
 #. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:251
+#: ../kupfer/plugin/rhythmbox.py:250
 #, python-format
 msgid "by %s"
 msgstr "od %s"
@@ -1309,21 +1318,21 @@ msgstr "Posebni predmeti in dejanja za okolje XFCE"
 
 #: ../kupfer/plugin/show_text.py:1
 #: ../kupfer/plugin/show_text.py:18
-#: ../kupfer/plugin/show_text.py:21
+#: ../kupfer/plugin/show_text.py:25
 msgid "Show Text"
 msgstr "Pokaži besedilo"
 
 #: ../kupfer/plugin/show_text.py:7
-#: ../kupfer/plugin/show_text.py:27
-#: ../kupfer/plugin/show_text.py:45
+#: ../kupfer/plugin/show_text.py:31
+#: ../kupfer/plugin/show_text.py:52
 msgid "Display text in a window"
 msgstr "Pokaže besedilo v oknu"
 
-#: ../kupfer/plugin/show_text.py:33
+#: ../kupfer/plugin/show_text.py:37
 msgid "Large Type"
 msgstr "Velika vrsta"
 
-#: ../kupfer/plugin/show_text.py:53
+#: ../kupfer/plugin/show_text.py:60
 msgid "Show Notification"
 msgstr "Pokaži obvestilo"
 
@@ -1375,11 +1384,11 @@ msgstr "Sprožilci"
 msgid "Assign global keybindings (triggers) to objects created with 'Compose Command'."
 msgstr "Določanje splošnih tipkovnih bližnjic (sprožilcev) do predmetov ustvarjenih z 'Ukazom Ustvari'"
 
-#: ../kupfer/plugin/triggers.py:160
+#: ../kupfer/plugin/triggers.py:161
 msgid "Add Trigger..."
 msgstr "Dodaj sprožilec ..."
 
-#: ../kupfer/plugin/triggers.py:176
+#: ../kupfer/plugin/triggers.py:180
 msgid "Remove Trigger"
 msgstr "Odstrani sprožilec"
 
@@ -1477,70 +1486,70 @@ msgid "Search for this term in %s.wikipedia.org"
 msgstr "Išče ta izraz v %s.wikipedia.org"
 
 #: ../kupfer/plugin/windows.py:1
-#: ../kupfer/plugin/windows.py:211
+#: ../kupfer/plugin/windows.py:210
 msgid "Window List"
 msgstr "Seznam oken"
 
 #: ../kupfer/plugin/windows.py:3
-#: ../kupfer/plugin/windows.py:234
+#: ../kupfer/plugin/windows.py:233
 msgid "All windows on all workspaces"
 msgstr "Vsa okna na vseh delovnih površinah"
 
-#: ../kupfer/plugin/windows.py:19
+#: ../kupfer/plugin/windows.py:18
 msgid "Activate"
 msgstr "Zaženi"
 
-#: ../kupfer/plugin/windows.py:23
+#: ../kupfer/plugin/windows.py:22
 msgid "Shade"
 msgstr "Zasenči"
 
-#: ../kupfer/plugin/windows.py:23
+#: ../kupfer/plugin/windows.py:22
 msgid "Unshade"
 msgstr "Brez senčenja"
 
-#: ../kupfer/plugin/windows.py:26
+#: ../kupfer/plugin/windows.py:25
 msgid "Minimize"
 msgstr "Skrči"
 
-#: ../kupfer/plugin/windows.py:26
+#: ../kupfer/plugin/windows.py:25
 msgid "Unminimize"
 msgstr "Povečaj"
 
-#: ../kupfer/plugin/windows.py:30
+#: ../kupfer/plugin/windows.py:29
 msgid "Maximize"
 msgstr "Razpni"
 
-#: ../kupfer/plugin/windows.py:30
+#: ../kupfer/plugin/windows.py:29
 msgid "Unmaximize"
 msgstr "Pomanjšaj razpeto"
 
-#: ../kupfer/plugin/windows.py:34
+#: ../kupfer/plugin/windows.py:33
 msgid "Maximize Vertically"
 msgstr "Razpni navpično"
 
-#: ../kupfer/plugin/windows.py:34
+#: ../kupfer/plugin/windows.py:33
 msgid "Unmaximize Vertically"
 msgstr "Pomanjšaj razpeto navpično"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:49
+#: ../kupfer/plugin/windows.py:48
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "Okno na %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:57
+#: ../kupfer/plugin/windows.py:56
 msgid "Frontmost Window"
 msgstr "Sprednje okno"
 
-#: ../kupfer/plugin/windows.py:86
+#: ../kupfer/plugin/windows.py:85
 msgid "Next Window"
 msgstr "Naslednje okno"
 
-#: ../kupfer/plugin/windows.py:117
+#: ../kupfer/plugin/windows.py:116
 msgid "Jump to this window's workspace and focus"
 msgstr "Skoči na delovno površino tega okna in izbere okno"
 
-#: ../kupfer/plugin/windows.py:253
+#: ../kupfer/plugin/windows.py:252
 #, python-format
 msgid "%d window"
 msgid_plural "%d windows"
@@ -1549,15 +1558,15 @@ msgstr[1] "%d okno"
 msgstr[2] "%d okni"
 msgstr[3] "%d okna"
 
-#: ../kupfer/plugin/windows.py:257
+#: ../kupfer/plugin/windows.py:256
 msgid "Active workspace"
 msgstr "Dejavna delovna površina"
 
-#: ../kupfer/plugin/windows.py:275
+#: ../kupfer/plugin/windows.py:274
 msgid "Jump to this workspace"
 msgstr "Skoči na to delovno površino"
 
-#: ../kupfer/plugin/windows.py:282
+#: ../kupfer/plugin/windows.py:281
 msgid "Workspaces"
 msgstr "Delovne površine"
 
@@ -1616,7 +1625,7 @@ msgstr "Globoki arhivi"
 msgid "Allow browsing inside compressed archive files"
 msgstr "Dovoli brskanje v stisnjenih arhivskih datotekah"
 
-#: ../kupfer/plugin/archiveinside.py:50
+#: ../kupfer/plugin/archiveinside.py:49
 #, python-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
@@ -1631,11 +1640,11 @@ msgstr "Ascii in Unicode zbirka ikon"
 msgid "Provides the Ascii and Unicode icon sets that use letters and symbols to produce icons for the objects found in Kupfer."
 msgstr "Zagotavlja znakovna niza Ascii in Unicode, ki uporabljata črke in simbole za proizvajanje ikon za predmete, ki jih je mogoče najti v Kupfer."
 
-#: ../kupfer/plugin/asciiunicodeiconset.py:20
+#: ../kupfer/plugin/asciiunicodeiconset.py:21
 msgid "Ascii"
 msgstr "Ascii"
 
-#: ../kupfer/plugin/asciiunicodeiconset.py:22
+#: ../kupfer/plugin/asciiunicodeiconset.py:23
 msgid "Unicode"
 msgstr "Unicode"
 
@@ -1705,12 +1714,12 @@ msgid "Playlist"
 msgstr "Seznam predvajanja"
 
 #: ../kupfer/plugin/chromium.py:1
-#: ../kupfer/plugin/chromium.py:18
+#: ../kupfer/plugin/chromium.py:16
 msgid "Chromium Bookmarks"
 msgstr "Zaznamki Chromium"
 
 #: ../kupfer/plugin/chromium.py:3
-#: ../kupfer/plugin/chromium.py:45
+#: ../kupfer/plugin/chromium.py:43
 msgid "Index of Chromium bookmarks"
 msgstr "Kazalo zaznamkov Chromium"
 
@@ -1725,7 +1734,7 @@ msgstr "Stiki in dejanja Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:26
 #: ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/operamail.py:25
+#: ../kupfer/plugin/operamail.py:26
 #: ../kupfer/plugin/thunderbird.py:29
 msgid "Compose New Email"
 msgstr "Sestavi novo pošto"
@@ -1745,8 +1754,8 @@ msgstr "oPrejme novo pošte za vse račune v ClawsMail"
 #: ../kupfer/plugin/clawsmail.py:56
 #: ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:40
-#: ../kupfer/plugin/operamail.py:40
-#: ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/operamail.py:41
+#: ../kupfer/plugin/thunderbird.py:45
 msgid "Compose Email"
 msgstr "Sestavi e-pošto"
 
@@ -1781,13 +1790,17 @@ msgstr "Nastavi posnemovalnik terminala po meri"
 msgid "Execute flag"
 msgstr "Izvedi zastavico"
 
-#: ../kupfer/plugin/darkstyle.py:1
-msgid "Dark Theme"
-msgstr "Temna tema"
+#: ../kupfer/plugin/customtheme.py:1
+msgid "Custom Theme"
+msgstr "Tema po meri"
 
-#: ../kupfer/plugin/darkstyle.py:3
-msgid "Use a dark color theme"
-msgstr "Uporabi temo temnih barv"
+#: ../kupfer/plugin/customtheme.py:3
+msgid "Use a custom color theme"
+msgstr "Uporabi barvo teme po meri"
+
+#: ../kupfer/plugin/customtheme.py:110
+msgid "Theme:"
+msgstr "Tema:"
 
 #: ../kupfer/plugin/defaultmail.py:1
 msgid "Default Email Client"
@@ -1816,67 +1829,67 @@ msgstr "Empathy"
 msgid "Access to Empathy Contacts"
 msgstr "Dostop do stikov Empathy"
 
-#: ../kupfer/plugin/empathy.py:26
+#: ../kupfer/plugin/empathy.py:25
 #: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Pokaži nepovezane stike"
 
-#: ../kupfer/plugin/empathy.py:35
+#: ../kupfer/plugin/empathy.py:34
 #: ../kupfer/plugin/gajim.py:26
-#: ../kupfer/plugin/pidgin.py:155
+#: ../kupfer/plugin/pidgin.py:158
 #: ../kupfer/plugin/skype.py:30
 msgid "Available"
 msgstr "Na voljo"
 
-#: ../kupfer/plugin/empathy.py:36
+#: ../kupfer/plugin/empathy.py:35
 #: ../kupfer/plugin/gajim.py:28
-#: ../kupfer/plugin/pidgin.py:155
+#: ../kupfer/plugin/pidgin.py:158
 #: ../kupfer/plugin/skype.py:32
 msgid "Away"
 msgstr "Odsoten"
 
-#: ../kupfer/plugin/empathy.py:37
+#: ../kupfer/plugin/empathy.py:36
 #: ../kupfer/plugin/gajim.py:30
 #: ../kupfer/plugin/skype.py:34
 msgid "Busy"
 msgstr "Zaposlen"
 
-#: ../kupfer/plugin/empathy.py:38
+#: ../kupfer/plugin/empathy.py:37
 #: ../kupfer/plugin/gajim.py:29
 #: ../kupfer/plugin/skype.py:33
 msgid "Not Available"
 msgstr "Ni na voljo"
 
-#: ../kupfer/plugin/empathy.py:39
+#: ../kupfer/plugin/empathy.py:38
 #: ../kupfer/plugin/gajim.py:31
 #: ../kupfer/plugin/skype.py:35
 msgid "Invisible"
 msgstr "Neviden"
 
-#: ../kupfer/plugin/empathy.py:40
+#: ../kupfer/plugin/empathy.py:39
 #: ../kupfer/plugin/gajim.py:32
 #: ../kupfer/plugin/skype.py:36
 msgid "Offline"
 msgstr "Nepovezan"
 
-#: ../kupfer/plugin/empathy.py:98
+#: ../kupfer/plugin/empathy.py:96
 #: ../kupfer/plugin/gajim.py:90
 #: ../kupfer/plugin/pidgin.py:97
 #: ../kupfer/plugin/skype.py:204
 msgid "Open Chat"
 msgstr "Odpri klepet"
 
-#: ../kupfer/plugin/empathy.py:131
+#: ../kupfer/plugin/empathy.py:129
 #: ../kupfer/plugin/gajim.py:118
 #: ../kupfer/plugin/skype.py:250
 msgid "Change Global Status To..."
 msgstr "Spremeni splošno stanje v ..."
 
-#: ../kupfer/plugin/empathy.py:173
+#: ../kupfer/plugin/empathy.py:171
 msgid "Empathy Contacts"
 msgstr "Stiki Empathy"
 
-#: ../kupfer/plugin/empathy.py:239
+#: ../kupfer/plugin/empathy.py:237
 msgid "Empathy Account Status"
 msgstr "Stanje računa Empathy"
 
@@ -1945,12 +1958,12 @@ msgstr "Stanje računa Gajim"
 
 #. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
 #: ../kupfer/plugin/glob.py:3
-#: ../kupfer/plugin/glob.py:18
+#: ../kupfer/plugin/glob.py:17
 msgid "Glob"
 msgstr "Glob"
 
 #: ../kupfer/plugin/gnome_terminal.py:1
-#: ../kupfer/plugin/gnome_terminal.py:52
+#: ../kupfer/plugin/gnome_terminal.py:56
 msgid "GNOME Terminal Profiles"
 msgstr "Profili Gnome Terminala"
 
@@ -2074,11 +2087,11 @@ msgid "Search Google with results shown directly"
 msgstr "Išči v Google z neposredno prikazanimi rezultati"
 
 #: ../kupfer/plugin/google_search.py:58
-#: ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/locate.py:46
 #: ../kupfer/plugin/tracker.py:72
 #: ../kupfer/plugin/tracker.py:113
-#: ../kupfer/plugin/tracker1.py:169
-#: ../kupfer/plugin/tracker1.py:180
+#: ../kupfer/plugin/tracker1.py:168
+#: ../kupfer/plugin/tracker1.py:179
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultati za \"%s\""
@@ -2098,54 +2111,41 @@ msgid "Google Translate"
 msgstr "Google prevajalnik"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:159
+#: ../kupfer/plugin/google_translate.py:153
 msgid "Translate text with Google Translate"
 msgstr "Prevede besedilo z Google prevajalnikom"
 
-#. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:59
-msgid "noun"
-msgstr "samostalnik"
-
-#: ../kupfer/plugin/google_translate.py:60
-msgid "verb"
-msgstr "glagol"
-
-#: ../kupfer/plugin/google_translate.py:61
-msgid "adjective"
-msgstr "pridevnik"
-
-#: ../kupfer/plugin/google_translate.py:89
+#: ../kupfer/plugin/google_translate.py:83
 msgid "Google Translate connection timed out"
 msgstr "Povezava z Google prevajalnikom je zakasnela"
 
-#: ../kupfer/plugin/google_translate.py:92
+#: ../kupfer/plugin/google_translate.py:86
 msgid "Error connecting to Google Translate"
 msgstr "Napaka med povezovanjem z Google prevajalnikom"
 
-#: ../kupfer/plugin/google_translate.py:142
-#: ../kupfer/plugin/google_translate.py:229
+#: ../kupfer/plugin/google_translate.py:136
+#: ../kupfer/plugin/google_translate.py:223
 msgid "Translate To..."
 msgstr "Prevedi v ..."
 
-#: ../kupfer/plugin/google_translate.py:185
+#: ../kupfer/plugin/google_translate.py:179
 #, python-format
 msgid "Translate into %s"
 msgstr "Prevedi v %s"
 
-#: ../kupfer/plugin/google_translate.py:209
+#: ../kupfer/plugin/google_translate.py:203
 msgid "Languages"
 msgstr "Jeziki"
 
-#: ../kupfer/plugin/google_translate.py:244
+#: ../kupfer/plugin/google_translate.py:238
 msgid "Show translated page in browser"
 msgstr "Pokaži prevedeno stran v brskalniku"
 
-#: ../kupfer/plugin/google_translate.py:261
+#: ../kupfer/plugin/google_translate.py:255
 msgid "Show Translation To..."
 msgstr "Pokaži prevod v ..."
 
-#: ../kupfer/plugin/google_translate.py:277
+#: ../kupfer/plugin/google_translate.py:271
 msgid "Show translation in browser"
 msgstr "Pokaži prevod v brskalniku"
 
@@ -2256,96 +2256,86 @@ msgstr "Pošlji  sporočilo za račun Gwibber"
 msgid "Send Message..."
 msgstr "Pošlji sporočilo ..."
 
-#: ../kupfer/plugin/gwibber.py:269
+#: ../kupfer/plugin/gwibber.py:273
 msgid "Send message to selected Gwibber account"
 msgstr "Pošlji sporočilo na izbran račun Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:274
+#: ../kupfer/plugin/gwibber.py:278
 msgid "Reply..."
 msgstr "Odgovori ..."
 
-#: ../kupfer/plugin/gwibber.py:306
+#: ../kupfer/plugin/gwibber.py:314
 msgid "Delete Message"
 msgstr "Izbriši sporočilo"
 
-#: ../kupfer/plugin/gwibber.py:329
+#: ../kupfer/plugin/gwibber.py:337
 msgid "Send Private Message..."
 msgstr "Pošlji zasebno sporočilo ..."
 
-#: ../kupfer/plugin/gwibber.py:358
+#: ../kupfer/plugin/gwibber.py:370
 msgid "Send direct message to user"
 msgstr "Pošlji neposredno sporočilo uporabniku"
 
-#: ../kupfer/plugin/gwibber.py:364
+#: ../kupfer/plugin/gwibber.py:376
 msgid "Retweet"
 msgstr "Ponovno objavi"
 
-#: ../kupfer/plugin/gwibber.py:364
+#: ../kupfer/plugin/gwibber.py:376
 msgid "Retweet To..."
 msgstr "Ponovno objavi na ..."
 
-#: ../kupfer/plugin/gwibber.py:395
+#: ../kupfer/plugin/gwibber.py:407
 msgid "Retweet message to all Gwibber accounts"
 msgstr "Ponovno objavi sporočilo na vse račune Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:396
+#: ../kupfer/plugin/gwibber.py:408
 msgid "Retweet message to a Gwibber account"
 msgstr "Ponovno objavi sporočilo na račun Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:401
+#: ../kupfer/plugin/gwibber.py:413
 msgid "Open in Browser"
 msgstr "Odpri v brskalniku"
 
-#: ../kupfer/plugin/gwibber.py:407
+#: ../kupfer/plugin/gwibber.py:419
 msgid "Open message in default web browser"
 msgstr "Odpri sporočilo v privzetem spletnem brkslaniku"
 
-#: ../kupfer/plugin/gwibber.py:413
-#: ../kupfer/plugin/gwibber.py:451
+#: ../kupfer/plugin/gwibber.py:425
+#: ../kupfer/plugin/gwibber.py:463
 msgid "Gwibber Accounts"
 msgstr "Računi Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:444
+#: ../kupfer/plugin/gwibber.py:456
 msgid "Accounts configured in Gwibber"
 msgstr "Računi nastavljeni v Gwibberju"
 
-#: ../kupfer/plugin/gwibber.py:483
+#: ../kupfer/plugin/gwibber.py:495
 msgid "Gwibber Messages"
 msgstr "Sporočila Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:506
+#: ../kupfer/plugin/gwibber.py:518
 msgid "Recent messages received by Gwibber"
 msgstr "Nedavna sporočila, ki jih je prejel Gwibber"
 
 #. TRANS:  %s is a service name
-#: ../kupfer/plugin/gwibber.py:515
+#: ../kupfer/plugin/gwibber.py:527
 #, python-format
 msgid "Gwibber Messages for %s"
 msgstr "Sporočila Gwibber za %s"
 
-#: ../kupfer/plugin/gwibber.py:531
+#: ../kupfer/plugin/gwibber.py:543
 msgid "Gwibber Streams"
 msgstr "Pretoki Gwibber"
 
-#: ../kupfer/plugin/gwibber.py:554
+#: ../kupfer/plugin/gwibber.py:566
 msgid "Streams configured in Gwibber"
 msgstr "Pretoki nastavljeni v programu Gwibber"
 
 #. TRANS: Gwibber messages in %s :: %s is a Stream name
-#: ../kupfer/plugin/gwibber.py:562
+#: ../kupfer/plugin/gwibber.py:574
 #, python-format
 msgid "Gwibber Messages in %s"
 msgstr "Sporočila Gwibber v %s"
-
-#: ../kupfer/plugin/gwibber.py:585
-#: ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d znakov)"
-msgstr[1] "%s (%d znak)"
-msgstr[2] "%s (%d znaka)"
-msgstr[3] "%s (%d znaki)"
 
 #: ../kupfer/plugin/gwibber_simple.py:3
 msgid "Gwibber (Simple)"
@@ -2400,32 +2390,32 @@ msgstr "Orodja slike"
 msgid "Image transformation tools"
 msgstr "Orodja preoblikovanja slike"
 
-#: ../kupfer/plugin/image.py:26
+#: ../kupfer/plugin/image.py:25
 msgid "Scale..."
 msgstr "Prilagodi velikost ..."
 
-#: ../kupfer/plugin/image.py:78
+#: ../kupfer/plugin/image.py:77
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Prilagodi velikost znotraj danih meritev točk "
 
-#: ../kupfer/plugin/image.py:113
+#: ../kupfer/plugin/image.py:112
 msgid "Rotate Clockwise"
 msgstr "Zavrti desno"
 
-#: ../kupfer/plugin/image.py:120
+#: ../kupfer/plugin/image.py:119
 msgid "Rotate Counter-Clockwise"
 msgstr "Zavrti levo"
 
-#: ../kupfer/plugin/image.py:127
+#: ../kupfer/plugin/image.py:126
 msgid "Autorotate"
 msgstr "Samodejno vrtenje"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:155
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Vrtenje JPEG (na mestu) glede na metapodatke EXIF"
 
 #: ../kupfer/plugin/kupfer_plugins.py:1
-#: ../kupfer/plugin/kupfer_plugins.py:87
+#: ../kupfer/plugin/kupfer_plugins.py:86
 msgid "Kupfer Plugins"
 msgstr "Vstavki Kupfer"
 
@@ -2433,29 +2423,29 @@ msgstr "Vstavki Kupfer"
 msgid "Access Kupfer's plugin list in Kupfer"
 msgstr "Dostop do Kupferjevega seznama vstavkov v Kupferju"
 
-#: ../kupfer/plugin/kupfer_plugins.py:20
+#: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
 msgstr "Pokaži podrobnosti"
 
-#: ../kupfer/plugin/kupfer_plugins.py:36
+#: ../kupfer/plugin/kupfer_plugins.py:35
 msgid "Show Source Code"
 msgstr "Prikaži izvorno kodo"
 
-#: ../kupfer/plugin/kupfer_plugins.py:81
+#: ../kupfer/plugin/kupfer_plugins.py:80
 msgid "enabled"
 msgstr "omogočeno"
 
 #: ../kupfer/plugin/locate.py:1
-#: ../kupfer/plugin/locate.py:29
+#: ../kupfer/plugin/locate.py:28
 msgid "Locate Files"
 msgstr "Najdi datoteke"
 
 #: ../kupfer/plugin/locate.py:5
-#: ../kupfer/plugin/locate.py:39
+#: ../kupfer/plugin/locate.py:38
 msgid "Search filesystem using locate"
 msgstr "Iskanje po datotečnemu sistemu z locate"
 
-#: ../kupfer/plugin/locate.py:21
+#: ../kupfer/plugin/locate.py:20
 msgid "Ignore case distinctions when searching files"
 msgstr "Prezri različne velikosti črk pri iskanju datotek"
 
@@ -2474,12 +2464,12 @@ msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "Nedavni predmeti OpenOffice/LibreOffice"
 
 #: ../kupfer/plugin/opera.py:4
-#: ../kupfer/plugin/opera.py:23
+#: ../kupfer/plugin/opera.py:22
 msgid "Opera Bookmarks"
 msgstr "Zaznamki Opera"
 
 #: ../kupfer/plugin/opera.py:6
-#: ../kupfer/plugin/opera.py:55
+#: ../kupfer/plugin/opera.py:54
 msgid "Index of Opera bookmarks"
 msgstr "Kazalo zaznamkov Opera"
 
@@ -2492,15 +2482,15 @@ msgstr "Opera pošta"
 msgid "Opera Mail contacts and actions"
 msgstr "Stiki in dejanja Opera pošte"
 
-#: ../kupfer/plugin/operamail.py:31
+#: ../kupfer/plugin/operamail.py:32
 msgid "Compose a new message in Opera Mail"
 msgstr "Sestavi novo pošto v Opera pošti"
 
-#: ../kupfer/plugin/operamail.py:63
+#: ../kupfer/plugin/operamail.py:64
 msgid "Opera Mail Contacts"
 msgstr "Usklajevanje stikov Opera pošte"
 
-#: ../kupfer/plugin/operamail.py:119
+#: ../kupfer/plugin/operamail.py:120
 msgid "Contacts from Opera Mail"
 msgstr "Stiki iz Opera pošte"
 
@@ -2512,7 +2502,16 @@ msgstr "Pidgin"
 msgid "Access to Pidgin Contacts"
 msgstr "Dostop do stikov Pidgin"
 
-#: ../kupfer/plugin/pidgin.py:189
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znakov)"
+msgstr[1] "%s (%d znak)"
+msgstr[2] "%s (%d znaka)"
+msgstr[3] "%s (%d znaki)"
+
+#: ../kupfer/plugin/pidgin.py:192
 msgid "Pidgin Contacts"
 msgstr "Stiki Pidgin"
 
@@ -2534,7 +2533,7 @@ msgstr "Zaženi sejo"
 msgid "Quick Image Viewer"
 msgstr "Pregledovalnik slik Qucik"
 
-#: ../kupfer/plugin/quickview.py:54
+#: ../kupfer/plugin/quickview.py:53
 msgid "View Image"
 msgstr "Ogled slike"
 
@@ -2582,7 +2581,7 @@ msgid "Attach"
 msgstr "Priloži"
 
 #: ../kupfer/plugin/sendkeys.py:2
-#: ../kupfer/plugin/sendkeys.py:52
+#: ../kupfer/plugin/sendkeys.py:49
 msgid "Send Keys"
 msgstr "Pošlji ključe"
 
@@ -2590,23 +2589,23 @@ msgstr "Pošlji ključe"
 msgid "Send synthetic keyboard events using xautomation"
 msgstr "Pošlji sintetične dogodke tipkovne z xautomation"
 
-#: ../kupfer/plugin/sendkeys.py:28
+#: ../kupfer/plugin/sendkeys.py:25
 msgid "Paste to Foreground Window"
 msgstr "Prilepi v okno v ospredju"
 
-#: ../kupfer/plugin/sendkeys.py:46
+#: ../kupfer/plugin/sendkeys.py:43
 msgid "Copy to clipboard and send Ctrl+V to foreground window"
 msgstr "Kopiraj na odložišče in pošlji Ctrl+V na okno v ospredju"
 
-#: ../kupfer/plugin/sendkeys.py:88
+#: ../kupfer/plugin/sendkeys.py:85
 msgid "Send keys to foreground window"
 msgstr "Pošljite tipke na okno v ospredju"
 
-#: ../kupfer/plugin/sendkeys.py:93
+#: ../kupfer/plugin/sendkeys.py:90
 msgid "Type Text"
 msgstr "Vpišite besedilo"
 
-#: ../kupfer/plugin/sendkeys.py:114
+#: ../kupfer/plugin/sendkeys.py:111
 msgid "Type the text to foreground window"
 msgstr "Vpišite besedilo v okno v ospredju"
 
@@ -2668,7 +2667,7 @@ msgid "Show QRCode"
 msgstr "Pokaži QRKodo"
 
 #: ../kupfer/plugin/show_qrcode.py:9
-#: ../kupfer/plugin/show_qrcode.py:57
+#: ../kupfer/plugin/show_qrcode.py:60
 msgid "Display text as QRCode in a window"
 msgstr "Pokaže besedilo kot QRKodo v oknu"
 
@@ -2736,12 +2735,12 @@ msgstr "Poveži se z gostiteljem SSH"
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "Gostitelji SSH kot so navedeni v ~/.ssh/config"
 
-#: ../kupfer/plugin_support.py:149
+#: ../kupfer/plugin_support.py:144
 msgid "No D-Bus connection to desktop session"
 msgstr "Ni povezave D-Bus s sejo namizja"
 
 #: ../kupfer/plugin/templates.py:1
-#: ../kupfer/plugin/templates.py:109
+#: ../kupfer/plugin/templates.py:107
 msgid "Document Templates"
 msgstr "Predloge dokumenta"
 
@@ -2749,29 +2748,29 @@ msgstr "Predloge dokumenta"
 msgid "Create new documents from your templates"
 msgstr "Ustvari nove dokumente iz vaših predlog"
 
-#: ../kupfer/plugin/templates.py:26
+#: ../kupfer/plugin/templates.py:24
 #, python-format
 msgid "%s template"
 msgstr "predloga %s"
 
-#: ../kupfer/plugin/templates.py:39
+#: ../kupfer/plugin/templates.py:37
 #: ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Prazna datoteka"
 
-#: ../kupfer/plugin/templates.py:49
+#: ../kupfer/plugin/templates.py:47
 msgid "New Folder"
 msgstr "Nova mapa"
 
-#: ../kupfer/plugin/templates.py:59
+#: ../kupfer/plugin/templates.py:57
 msgid "Create New Document..."
 msgstr "Ustvari nov dokument ..."
 
-#: ../kupfer/plugin/templates.py:98
+#: ../kupfer/plugin/templates.py:96
 msgid "Create a new document from template"
 msgstr "Ustvari nov dokument iz predloge"
 
-#: ../kupfer/plugin/templates.py:105
+#: ../kupfer/plugin/templates.py:103
 msgid "Create Document In..."
 msgstr "Ustvari dokument v ..."
 
@@ -2796,9 +2795,9 @@ msgid "Get Text Contents"
 msgstr "Dobi vsebino besedila"
 
 #: ../kupfer/plugin/thunar.py:1
-#: ../kupfer/plugin/thunar.py:186
-#: ../kupfer/plugin/thunar.py:226
-#: ../kupfer/plugin/thunar.py:285
+#: ../kupfer/plugin/thunar.py:184
+#: ../kupfer/plugin/thunar.py:224
+#: ../kupfer/plugin/thunar.py:283
 msgid "Thunar"
 msgstr "Thunar"
 
@@ -2806,27 +2805,27 @@ msgstr "Thunar"
 msgid "File manager Thunar actions"
 msgstr "Dejanja upravljalnika datotek Thunar"
 
-#: ../kupfer/plugin/thunar.py:68
+#: ../kupfer/plugin/thunar.py:66
 msgid "Select in File Manager"
 msgstr "Izberi v upravljalniku datotek"
 
-#: ../kupfer/plugin/thunar.py:96
+#: ../kupfer/plugin/thunar.py:94
 msgid "Show Properties"
 msgstr "Pokaži lastnosti"
 
-#: ../kupfer/plugin/thunar.py:119
+#: ../kupfer/plugin/thunar.py:117
 msgid "Show information about file in file manager"
 msgstr "Pokaže podrobnosti o datoteki v upravljalniku datotek"
 
-#: ../kupfer/plugin/thunar.py:128
+#: ../kupfer/plugin/thunar.py:126
 msgid "Send To..."
 msgstr "Pošlji ..."
 
-#: ../kupfer/plugin/thunar.py:260
+#: ../kupfer/plugin/thunar.py:258
 msgid "Empty Trash"
 msgstr "Izprazni smeti"
 
-#: ../kupfer/plugin/thunar.py:300
+#: ../kupfer/plugin/thunar.py:298
 msgid "Thunar Send To Objects"
 msgstr "Thunar pošlji predmetom"
 
@@ -2838,15 +2837,15 @@ msgstr "Thunderbird"
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Stiki in dejanja Thunderbird/Icedove"
 
-#: ../kupfer/plugin/thunderbird.py:38
+#: ../kupfer/plugin/thunderbird.py:36
 msgid "Compose a new message in Thunderbird"
 msgstr "Sestavi novo sporočilo v Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:75
+#: ../kupfer/plugin/thunderbird.py:69
 msgid "Thunderbird Address Book"
 msgstr "Imenik Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:93
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Stiki iz imenika Thunderbird"
 
@@ -2911,22 +2910,22 @@ msgid "Tracker desktop search integration"
 msgstr "Povezava s Tracker namiznim iskanjem"
 
 #: ../kupfer/plugin/tracker.py:41
-#: ../kupfer/plugin/tracker1.py:50
+#: ../kupfer/plugin/tracker1.py:49
 msgid "Search in Tracker"
 msgstr "Išči v Trackerju"
 
 #: ../kupfer/plugin/tracker.py:46
-#: ../kupfer/plugin/tracker1.py:55
+#: ../kupfer/plugin/tracker1.py:54
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Odpre iskalno orodje Tracker in išče ta izraz"
 
 #: ../kupfer/plugin/tracker.py:55
-#: ../kupfer/plugin/tracker1.py:63
+#: ../kupfer/plugin/tracker1.py:62
 msgid "Get Tracker Results..."
 msgstr "Dobi rezultate Trackerja ..."
 
 #: ../kupfer/plugin/tracker.py:64
-#: ../kupfer/plugin/tracker1.py:72
+#: ../kupfer/plugin/tracker1.py:71
 msgid "Show Tracker results for query"
 msgstr "Pokaži rezultate Trackerja za poizvedbo"
 
@@ -3054,7 +3053,7 @@ msgstr "Vim"
 msgid "Recently used documents in Vim"
 msgstr "Nedavno uporabljeni dokumenti v Vim"
 
-#: ../kupfer/plugin/vim.py:47
+#: ../kupfer/plugin/vim.py:46
 msgid "Vim Recent Documents"
 msgstr "Nedavni dokumenti Vim"
 
@@ -3139,18 +3138,26 @@ msgstr "Ustvari stran Zim v ..."
 msgid "Create Subpage..."
 msgstr "Ustvari podstran ..."
 
-#: ../kupfer/plugin/zim.py:244
+#: ../kupfer/plugin/zim.py:243
 msgid "Zim Notebooks"
 msgstr "Beležke Zim"
 
-#: ../kupfer/plugin/zim.py:260
+#: ../kupfer/plugin/zim.py:259
 msgid "Zim Pages"
 msgstr "Strani Zim"
 
-#: ../kupfer/plugin/zim.py:288
+#: ../kupfer/plugin/zim.py:287
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležkah Zim"
 
+#~ msgid "Text Matches"
+#~ msgstr "Zadetki besedila"
+#~ msgid "noun"
+#~ msgstr "samostalnik"
+#~ msgid "verb"
+#~ msgstr "glagol"
+#~ msgid "adjective"
+#~ msgstr "pridevnik"
 #~ msgid "<b>Directories</b>"
 #~ msgstr "<b>Mape</b>"
 #~ msgid "<b>Exported Objects from Plugins</b>"
