@@ -39,6 +39,13 @@ class ScreenSession (Leaf):
 	def get_actions(self):
 		return (AttachScreen(),)
 
+	def is_valid(self):
+		for pid, name, time, status in screen_sessions_infos():
+			if self.object == pid:
+				return True
+		else:
+			return False
+
 	def get_description(self):
 		for pid, name, time, status in screen_sessions_infos():
 			if self.object == pid:
