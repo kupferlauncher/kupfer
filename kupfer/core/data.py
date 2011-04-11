@@ -786,7 +786,13 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		@ui_ctx: GUI environment context object
 		"""
 		leaf, action, sobject = self._get_current_command_objects()
-		mode = self.mode
+
+		# register search to learning database
+		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
+		learn.record_search_hit(action, self.action_pane.get_latest_key())
+		if sobject and self.mode is SourceActionObjectMode:
+			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
+
 		try:
 			ctx = self._execution_context
 			res, ret = ctx.run(leaf, action, sobject, ui_ctx=ui_ctx)
@@ -794,11 +800,6 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			self.output_exc()
 			return
 
-		# register search to learning database
-		learn.record_search_hit(leaf, self.source_pane.get_latest_key())
-		learn.record_search_hit(action, self.action_pane.get_latest_key())
-		if sobject and mode is SourceActionObjectMode:
-			learn.record_search_hit(sobject, self.object_pane.get_latest_key())
 		if res not in commandexec.RESULTS_SYNC:
 			self.emit("launched-action")
 
