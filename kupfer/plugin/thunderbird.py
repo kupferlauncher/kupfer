@@ -5,10 +5,8 @@ __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
 __description__ = _("Thunderbird/Icedove Contacts and Actions")
-__version__ = "2009-12-13"
+__version__ = "2011-04-10"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
-import os
 
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf
@@ -19,8 +17,6 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 
 from kupfer.plugin import thunderbird_support as support
-
-
 
 
 class ComposeMail(RunnableLeaf):
@@ -62,6 +58,7 @@ class NewMailAction(Action):
 	def valid_for_item(self, item):
 		return bool(email_from_leaf(item))
 
+
 class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		FilesystemWatchMixin):
 	appleaf_content_id = ('thunderbird', 'icedove')
@@ -72,13 +69,14 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 
 	def initialize(self):
 		ToplevelGroupingSource.initialize(self)
-		abook_dir = support.get_addressbook_dir()
-		if not abook_dir or not os.path.isdir(abook_dir):
-			return
-		self.monitor_token = self.monitor_directories(abook_dir)
+		abook_dirs = list(support.get_addressbook_dirs())
+		if abook_dirs:
+			self.monitor_token = self.monitor_directories(*abook_dirs)
 
 	def monitor_include_file(self, gfile):
-		return gfile and gfile.get_basename().endswith('.mab')
+		print gfile.get_basename()
+		return gfile and (gfile.get_basename().endswith('.mab') \
+				or gfile.get_basename() == 'localstore.rdf')
 
 	def get_items(self):
 		for name, email in support.get_contacts():
@@ -98,6 +96,3 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 	def provides(self):
 		yield ContactLeaf
 		yield RunnableLeaf
-
-
-
