@@ -3,15 +3,20 @@
 NEWS for kupfer
 ===============
 
-kupfer v205 and v206
---------------------
+kupfer v206
+-----------
 
 Not Released Yet
 
-These are changes since the v205 release. See also the changelog below for
-all the features introduced in v205.
+The longest changelog ever—the best Kupfer ever?
+
+These are changes since the v205 release. Below this, the full changelog
+for all the features introduced in v205 since it was not published together
+with the v205 release.
 
 * *Thunderbird* fix double create email windows (:lp:`747198`)
+* *Thunderbird* fix problem with loading contacts (Karol Będkowski)
+  (:lp:`747438`)
 * Use ``rst2man`` as it was configured (:lp:`747500`)
 * Reduce long-term memory use for icons substantially
 * Prefer gnomekeyring over kwallet, and don't load keyring support if it is
@@ -24,7 +29,9 @@ all the features introduced in v205.
 * Fix regression :lp:`749824`, kupfer used a GTK+ 2.20 feature. It should
   now run under GTK+ 2.18 (2.16?). GTK+ 2.20 is recommended and needed for
   full input method support.
-* Add quirks for ``.desktop`` files written by wine as reported by a user.
+* Remake ``.desktop`` file parsing to be much more lenient, so that we
+  can launch all applications again. Affected were especially launcher files
+  written by wine.
 * Make sure the ``Home`` key works in text mode (:lp:`750240`)
 * *Rhythmbox* Fix omission of ``.jpg`` extension when searching cover art
   (William Friesen)
@@ -41,6 +48,24 @@ all the features introduced in v205.
 * Install kupfer as a Thunar 'sendto' object.
 * Fix a bug in the autostart file we installed, it was including a '%F'
   which broke ``--no-splash`` when autostarted on XFCE.
+* *LibreOffice:* support their newer recent documents file (Karol Będkowski)
+* *Notes:* Insert newlines after the new note title (:lp:`748991`)
+* *Commands:* Recognize absolute paths with arguments as shell commands (for
+  example ``/bin/grep --help``. (:lp:`152093`)
+* *GNU Screen:* check if sessions are still active (:lp:`756449`), don't
+  give up even if ``$SCREENDIR`` is missing when we are started
+  (:lp:`753376`)
+* *Notes:* support the app kzrnote as well
+* I would like to thank all contributors for patches, bug reports, comments
+  and translations. A special thanks to Karol and Daniel who have translated
+  the user documentation completely to Polish and Spanish respectively.
+
+* Localization updates:
+
+  + sl Andrej Žnidaršič
+  + es Daniel Mustieles
+  + de Mario Blättermann
+
 
 These are the full change explanations of the v205 release
 
@@ -150,7 +175,7 @@ These are the full change explanations of the v205 release
   + (cs) Marek Černocký
   + (de) Mario Blättermann
   + (es) Daniel Mustieles
-  + (ko) Kim Boram 김보람
+  + (ko) Kim Boram
   + (nb) Kjartan Maraas
   + (pl) Karol Będkowski
   + (sl) Andrej Žnidaršič
