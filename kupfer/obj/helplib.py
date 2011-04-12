@@ -48,7 +48,7 @@ class NonpersistentToken (PicklingHelperMixin):
 class FilesystemWatchMixin (object):
 	"""A mixin for Sources watching directories"""
 
-	def monitor_directories(self, *directories):
+	def monitor_directories(self, *directories, **kwargs):
 		"""Register @directories for monitoring;
 
 		On changes, the Source will be marked for update.
@@ -57,12 +57,14 @@ class FilesystemWatchMixin (object):
 
 		The token will be a false value if nothing could be monitored.
 
-		Nonexisting directories are skipped.
+		Nonexisting directories are skipped, if not passing
+		the kwarg @force
 		"""
 		tokens = []
+		force = kwargs.get('force', False)
 		for directory in directories:
 			gfile = gio.File(directory)
-			if not gfile.query_exists():
+			if not force and not gfile.query_exists():
 				continue
 			monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
 			if monitor:

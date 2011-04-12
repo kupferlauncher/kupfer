@@ -70,16 +70,17 @@ class ScreenSessionsSource (Source, FilesystemWatchMixin):
 		super(ScreenSessionsSource, self).__init__(_("Screen Sessions"))
 
 	def initialize(self):
+		## the screen dir might not exist when we start
+		## luckily, gio can monitor directories before they exist
 		self.screen_dir = (os.getenv("SCREENDIR") or
 				"/var/run/screen/S-%s" % get_username())
 		if not os.path.exists(self.screen_dir):
-			self.screen_dir = None
 			self.output_debug("Screen socket dir or SCREENDIR not found")
-			return
-		self.monitor_token = self.monitor_directories(self.screen_dir)
+		self.monitor_token = self.monitor_directories(self.screen_dir,
+		                                              force=True)
 
 	def get_items(self):
-		if not self.screen_dir:
+		if not os.path.exists(self.screen_dir):
 			return
 		for pid, name, time, status in screen_sessions_infos():
 			yield ScreenSession(pid, name)
