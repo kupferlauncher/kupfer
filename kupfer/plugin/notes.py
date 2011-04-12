@@ -28,7 +28,7 @@ from kupfer import icons, plugin_support
 from kupfer import pretty, textutils
 
 
-PROGRAM_IDS = ["gnote", "tomboy"]
+PROGRAM_IDS = ["gnote", "tomboy", "kzrnote"]
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "notes_application",
@@ -45,6 +45,18 @@ def unicode_strftime(fmt, time_tuple=None):
 	enc = locale.getpreferredencoding(False)
 	return unicode(time.strftime(fmt, time_tuple), enc, "replace")
 
+## Tuples of  service name, object name, interface name
+PROGRAM_SERIVCES = {
+	"gnote": ("org.gnome.Gnote",
+	          "/org/gnome/Gnote/RemoteControl",
+	          "org.gnome.Gnote.RemoteControl"),
+	"tomboy": ("org.gnome.Tomboy",
+	           "/org/gnome/Tomboy/RemoteControl",
+	           "org.gnome.Tomboy.RemoteControl"),
+	"kzrnote": ("se.kaizer.kzrnote",
+	            "/se/kaizer/kzrnote",
+	            "se.kaizer.kzrnote"),
+}
 
 def _get_notes_interface(activate=False):
 	"""Return the dbus proxy object for our Note Application.
@@ -59,9 +71,7 @@ def _get_notes_interface(activate=False):
 	programs = (set_prog, ) if set_prog else PROGRAM_IDS
 
 	for program in programs:
-		service_name = "org.gnome.%s" % program.title()
-		obj_name = "/org/gnome/%s/RemoteControl" % program.title()
-		iface_name = "org.gnome.%s.RemoteControl" % program.title()
+		service_name, obj_name, iface_name = PROGRAM_SERIVCES[program]
 
 		if not activate and not dbus_iface.NameHasOwner(service_name):
 			continue
