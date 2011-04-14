@@ -55,10 +55,13 @@ Runtime Requirements
 
 Kupfer requires Python 2.6 or later, and the following important libraries:
 
-* gtk python bindings, GTK+ version 2.16
+* gtk python bindings, GTK+ version 2.20 [#]_
 * glib python bindings (pygobject) 2.18
 * dbus python bindings
 * python-xdg
+
+.. [#] GTK+ 2.20 required for using full support. Kupfer is known to run with
+       version 2.18 as well.
 
 Optional, but very recommended runtime dependencies:
 
