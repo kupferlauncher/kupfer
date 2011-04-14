@@ -2,10 +2,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-03-19 19:39+0000\n"
+"POT-Creation-Date: 2011-04-14 21:40+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kim Boram <Boramism@gmail.com>\n"
 "Language-Team: Kim Boram <boramism@gmail.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,7 +24,7 @@ msgid "Convenient command and access tool for applications and documents"
 msgstr "편리하게 응용프로그램이나 문서에 접근하고 명령을 내릴 수 있는 도구"
 
 #: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
-#: ../kupfer/plugin/core/contents.py:85
+#: ../kupfer/plugin/core/contents.py:91
 msgid "Kupfer"
 msgstr "쿠퍼"
 
@@ -40,78 +41,78 @@ msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>브라우저 키보드 바로 가기</b>"
 
 #: ../data/preferences.ui.h:2
-msgid "<b>Directories</b>"
-msgstr "<b>디렉터리</b>"
-
-#: ../data/preferences.ui.h:3
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>전역 키보드 바로 가기</b>"
 
-#: ../data/preferences.ui.h:4
-#, fuzzy
-#| msgid "<b>Directories</b>"
-msgid "<b>Icons</b>"
-msgstr "<b>디렉터리</b>"
-
-#: ../data/preferences.ui.h:5
-msgid "<b>Interface</b>"
-msgstr "<b>인터페이스</b>"
-
-#: ../data/preferences.ui.h:6
-msgid ""
-"<b>Objects Exported\n"
-"from Plugins</b>"
-msgstr ""
-
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
 msgstr "<b>시작</b>"
 
-#: ../data/preferences.ui.h:9
-#, fuzzy
-#| msgid "<b>Interface</b>"
-msgid "<b>Terminal</b>"
-msgstr "<b>인터페이스</b>"
-
-#: ../data/preferences.ui.h:10 ../kupfer/obj/sources.py:144
+#: ../data/preferences.ui.h:4 ../kupfer/obj/sources.py:150
 msgid "Catalog"
 msgstr "카탈로그"
 
-#: ../data/preferences.ui.h:11
+#: ../data/preferences.ui.h:5
+#, fuzzy
+msgid "Desktop Environment"
+msgstr "데스크톱 환경 응용 프로그램"
+
+#: ../data/preferences.ui.h:6
+msgid "Folders whose files are always available in the catalog."
+msgstr ""
+
+#: ../data/preferences.ui.h:7
 msgid "General"
 msgstr "일반"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:8
+msgid "Icon set:"
+msgstr ""
+
+#: ../data/preferences.ui.h:9
+#, fuzzy
+msgid "Inclusion in Top Level Searches"
+msgstr "최 상위에 노래 포함"
+
+#: ../data/preferences.ui.h:10
+#, fuzzy
+msgid "Indexed Folders"
+msgstr "새 폴더"
+
+#: ../data/preferences.ui.h:11
 msgid "Keyboard"
 msgstr "키보드"
 
-#: ../data/preferences.ui.h:13 ../kupfer/plugin/core/contents.py:74
+#: ../data/preferences.ui.h:12 ../kupfer/plugin/core/contents.py:78
 msgid "Kupfer Preferences"
 msgstr "쿠퍼 기본 설정"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:13
+msgid ""
+"Marked sources have their objects included in top level searches.\n"
+"An unmarked source's contents are only available by locating its subcatalog."
+msgstr ""
+
+#: ../data/preferences.ui.h:15
 msgid "Plugins"
 msgstr "플러그인"
 
-#: ../data/preferences.ui.h:15 ../kupfer/ui/preferences.py:842
+#: ../data/preferences.ui.h:16 ../kupfer/ui/preferences.py:844
 msgid "Reset"
 msgstr "초기화"
 
-#: ../data/preferences.ui.h:16
+#: ../data/preferences.ui.h:17
 msgid "Show icon in notification area"
 msgstr "알림 영역에 아이콘 보이기"
 
-#: ../data/preferences.ui.h:17
+#: ../data/preferences.ui.h:18
 msgid "Start automatically on login"
 msgstr "로그인할 때 자동으로 시작"
 
-#: ../data/preferences.ui.h:18
-msgid ""
-"Untick the box next to a source to hide its objects in the top level "
-"searches.\n"
-"An unticked source's contents are only available by locating its subcatalog "
-"and entering it."
-msgstr ""
+#: ../data/preferences.ui.h:19
+#, fuzzy
+msgid "Terminal emulator:"
+msgstr "여기에서 터미널 열기"
 
 #: ../data/preferences.ui.h:20
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
@@ -145,35 +146,39 @@ msgstr "원하시는 키 조합을 눌러주십시오"
 msgid "Set Keyboard Shortcut"
 msgstr "키보드 바로 가기 설정"
 
-#: ../kupfer/main.py:39
+#: ../kupfer/main.py:43
 msgid "do not present main interface on launch"
 msgstr "실행할 때 주 인터페이스를 보이지 않기"
 
-#: ../kupfer/main.py:40
+#: ../kupfer/main.py:44
 msgid "list available plugins"
 msgstr "사용 가능한 플러그인 목록 보기"
 
-#: ../kupfer/main.py:41
+#: ../kupfer/main.py:45
 msgid "enable debug info"
 msgstr "디버그 정보 활성화"
 
-#: ../kupfer/main.py:44
+#: ../kupfer/main.py:46
+msgid "run keyboard shortcut relay service on this display"
+msgstr ""
+
+#: ../kupfer/main.py:49
 msgid "show usage help"
 msgstr "사용법 도움말 보이기"
 
-#: ../kupfer/main.py:45
+#: ../kupfer/main.py:50
 msgid "show version information"
 msgstr "버전 정보 보이기"
 
-#: ../kupfer/main.py:50
+#: ../kupfer/main.py:56
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "사용법: kupfer [ 옵션 | 파일 ... ]"
 
-#: ../kupfer/main.py:61
+#: ../kupfer/main.py:67
 msgid "Available plugins:"
 msgstr "사용 가능 플러그인:"
 
-#: ../kupfer/main.py:105
+#: ../kupfer/main.py:114
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -184,50 +189,104 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/ui/browser.py:829
+#. TRANS: Names of accelerators in the interface
+#: ../kupfer/ui/accelerators.py:4
+msgid "Alternate Activate"
+msgstr "대안 활성화"
+
+#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+#. TRANS: user to select many objects to be used for one action
+#: ../kupfer/ui/accelerators.py:7
+msgid "Comma Trick"
+msgstr "구점 트릭"
+
+#. TRANS: "Compose Command" makes one object out of the selected
+#. TRANS: object + action (+iobject)
+#: ../kupfer/ui/accelerators.py:10
+msgid "Compose Command"
+msgstr "명령어 구성"
+
+#: ../kupfer/ui/accelerators.py:11
+#, fuzzy
+msgid "Mark Default Action"
+msgstr "기본 응용 프로그램 설정..."
+
+#: ../kupfer/ui/accelerators.py:12
+msgid "Forget Object"
+msgstr ""
+
+#: ../kupfer/ui/accelerators.py:13
+msgid "Reset All"
+msgstr "모두 초기화"
+
+#: ../kupfer/ui/accelerators.py:14
+msgid "Select Quit"
+msgstr "선택 끝내기"
+
+#: ../kupfer/ui/accelerators.py:15
+msgid "Select Selected File"
+msgstr "선택한 파일 선택"
+
+#: ../kupfer/ui/accelerators.py:16
+msgid "Select Selected Text"
+msgstr "선택한 텍스트 선택"
+
+#: ../kupfer/ui/accelerators.py:17
+msgid "Show Help"
+msgstr "도움말 보이기"
+
+#: ../kupfer/ui/accelerators.py:18
+msgid "Show Preferences"
+msgstr "기본 설정 보이기"
+
+#: ../kupfer/ui/accelerators.py:19
+msgid "Switch to First Pane"
+msgstr "첫 패널로 전환"
+
+#: ../kupfer/ui/accelerators.py:20
+msgid "Toggle Text Mode"
+msgstr "토글 텍스트 모드"
+
+#: ../kupfer/ui/browser.py:888
 #, python-format
 msgid "%s is empty"
 msgstr "%s이(가) 비어있음"
 
-#: ../kupfer/ui/browser.py:833
+#: ../kupfer/ui/browser.py:892
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "%(src)s에서 \"%(query)s\"와 일치하는 항목 없음"
 
-#: ../kupfer/ui/browser.py:839
+#: ../kupfer/ui/browser.py:898
 msgid "No matches"
 msgstr "일치하는 항목 없음"
 
-#: ../kupfer/ui/browser.py:844
+#: ../kupfer/ui/browser.py:903
 msgid "Type to search"
 msgstr "찾으려면 입력하세요"
 
-#: ../kupfer/ui/browser.py:850
+#: ../kupfer/ui/browser.py:909
 #, python-format
 msgid "Type to search %s"
 msgstr "%s을(를) 검색하려면 입력하세요"
 
-#: ../kupfer/ui/browser.py:865
+#: ../kupfer/ui/browser.py:924
 msgid "No action"
 msgstr "동작 없음"
 
-#. TRANS: "Compose Command" makes one object out of the selected
-#. TRANS: object + action (+iobject)
-#: ../kupfer/ui/browser.py:1357 ../kupfer/ui/preferences.py:75
-msgid "Compose Command"
-msgstr "명령어 구성"
+#: ../kupfer/ui/browser.py:1461
+#, python-format
+msgid "Make \"%(action)s\" Default for \"%(object)s\""
+msgstr ""
 
-#. yield (_("Comma Trick"), self.comma_trick)
-#: ../kupfer/ui/browser.py:1359 ../kupfer/ui/preferences.py:79
-msgid "Select Selected Text"
-msgstr "선택한 텍스트 선택"
-
-#: ../kupfer/ui/browser.py:1361 ../kupfer/ui/preferences.py:83
-msgid "Toggle Text Mode"
-msgstr "토글 텍스트 모드"
+#. TRANS: Removing learned and/or configured bonus search score
+#: ../kupfer/ui/browser.py:1471
+#, python-format
+msgid "Forget About \"%s\""
+msgstr ""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1733 ../kupfer/ui/preferences.py:58
+#: ../kupfer/ui/browser.py:1903 ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr "주 인터페이스 보이기"
 
@@ -235,105 +294,70 @@ msgstr "주 인터페이스 보이기"
 msgid "Show with Selection"
 msgstr "선택 보이기"
 
-#. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/preferences.py:69
-msgid "Alternate Activate"
-msgstr "대안 활성화"
-
-#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
-#. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/preferences.py:72
-msgid "Comma Trick"
-msgstr "구점 트릭"
-
-#: ../kupfer/ui/preferences.py:76
-msgid "Reset All"
-msgstr "모두 초기화"
-
-#: ../kupfer/ui/preferences.py:77
-msgid "Select Quit"
-msgstr "선택 끝내기"
-
-#: ../kupfer/ui/preferences.py:78
-msgid "Select Selected File"
-msgstr "선택한 파일 선택"
-
-#: ../kupfer/ui/preferences.py:80
-msgid "Show Help"
-msgstr "도움말 보이기"
-
-#: ../kupfer/ui/preferences.py:81
-msgid "Show Preferences"
-msgstr "기본 설정 보이기"
-
-#: ../kupfer/ui/preferences.py:82
-msgid "Switch to First Pane"
-msgstr "첫 패널로 전환"
-
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:430
+#: ../kupfer/ui/preferences.py:416
 msgid "Description"
 msgstr "설명"
 
-#: ../kupfer/ui/preferences.py:430
+#: ../kupfer/ui/preferences.py:416
 msgid "Author"
 msgstr "저자"
 
-#: ../kupfer/ui/preferences.py:447
+#: ../kupfer/ui/preferences.py:433
 msgid "Version"
 msgstr "버전"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:457
+#: ../kupfer/ui/preferences.py:443
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "파이선 모듈 '%s'이(가) 필요합니다"
 
-#: ../kupfer/ui/preferences.py:471
+#: ../kupfer/ui/preferences.py:457
 msgid "Plugin could not be read due to an error:"
 msgstr "오류로 인해 플러그인을 읽을 수 없습니다:"
 
-#: ../kupfer/ui/preferences.py:479 ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/ui/preferences.py:465 ../kupfer/plugin/kupfer_plugins.py:80
 msgid "disabled"
 msgstr "비 활성화 됨"
 
-#: ../kupfer/ui/preferences.py:554
+#: ../kupfer/ui/preferences.py:539
 msgid "Content of"
 msgstr "내용"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:563
+#: ../kupfer/ui/preferences.py:548
 msgid "Sources"
 msgstr "소스"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:567
+#: ../kupfer/ui/preferences.py:552
 msgid "Actions"
 msgstr "동작"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:605
+#: ../kupfer/ui/preferences.py:589
 msgid "Configuration"
 msgstr "설정"
 
-#: ../kupfer/ui/preferences.py:625
+#: ../kupfer/ui/preferences.py:609
 msgid "Set username and password"
 msgstr "사용자 이름과 암호 설정"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:679
+#: ../kupfer/ui/preferences.py:663
 msgid "Choose a Directory"
 msgstr "디렉터리 선택"
 
-#: ../kupfer/ui/preferences.py:840
+#: ../kupfer/ui/preferences.py:842
 msgid "Reset all shortcuts to default values?"
 msgstr "모든 바로 가기를 기본 값으로 초기화하시겠습니까?"
 
-#: ../kupfer/ui/preferences.py:848
+#: ../kupfer/ui/preferences.py:850 ../kupfer/plugin/custom_terminal.py:12
 msgid "Command"
 msgstr "명령어"
 
-#: ../kupfer/ui/preferences.py:849
+#: ../kupfer/ui/preferences.py:851
 msgid "Shortcut"
 msgstr "바로 가기"
 
@@ -382,181 +406,189 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 
-#: ../kupfer/commandexec.py:190
+#: ../kupfer/keyrelay.py:62
+#, python-format
+msgid "Keyboard relay is active for display %s"
+msgstr ""
+
+#: ../kupfer/core/commandexec.py:239
 #, python-format
 msgid "Could not to carry out '%s'"
 msgstr "'%s'을(를) 실행할 수 없습니다"
 
-#: ../kupfer/commandexec.py:219
+#: ../kupfer/core/commandexec.py:268
 #, python-format
 msgid "\"%s\" produced a result"
 msgstr "\"%s\"이(가) 결과를 만들었습니다"
 
-#: ../kupfer/execfile.py:28
+#: ../kupfer/core/execfile.py:30
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "\"%s\"을(를) 실행할 권한이 없습니다 (실행 권한 없음)"
 
-#: ../kupfer/execfile.py:45
+#: ../kupfer/core/execfile.py:47
 #, python-format
 msgid "Command in \"%s\" is not available"
 msgstr "\"%s\" 안의 명령을 실행할 수 없습니다"
 
-#: ../kupfer/obj/base.py:441 ../kupfer/plugin/core/text.py:22
-msgid "Text Matches"
-msgstr "텍스트 일치"
+#: ../kupfer/obj/base.py:457 ../kupfer/plugin/core/text.py:22
+#, fuzzy
+msgid "Text"
+msgstr "텍스트 보이기"
 
 #: ../kupfer/obj/compose.py:15
 msgid "Run after Delay..."
 msgstr "대기 후 실행..."
 
-#: ../kupfer/obj/compose.py:35
+#: ../kupfer/obj/compose.py:36
 msgid "Perform command after a specified time interval"
 msgstr "특정한 시간 동안 대기한 후 명령어를 실행합니다"
 
-#: ../kupfer/obj/compose.py:93
+#: ../kupfer/obj/compose.py:95
 msgid "Multiple Objects"
 msgstr "다수의 개체"
 
-#: ../kupfer/obj/compose.py:124
+#: ../kupfer/obj/compose.py:126
 #, python-format
 msgid "%s object"
 msgid_plural "%s objects"
 msgstr[0] "%s 개체"
 
-#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:153
+#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/obj/exceptions.py:17
-#, fuzzy, python-format
-#| msgid "%s total found"
-msgid "Command '%s' not found"
-msgstr "%s 전체 검색"
-
-#: ../kupfer/obj/exceptions.py:26
+#: ../kupfer/obj/exceptions.py:19
 #, python-format
 msgid "%s does not support this operation"
 msgstr ""
 
-#: ../kupfer/obj/exceptions.py:31
+#: ../kupfer/obj/exceptions.py:24
 msgid "Can not be used with multiple objects"
 msgstr ""
 
-#: ../kupfer/obj/fileactions.py:25 ../kupfer/plugin/notes.py:79
+#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
 #: ../kupfer/plugin/zim.py:107
 msgid "Open"
 msgstr "열기"
 
-#: ../kupfer/obj/fileactions.py:38
+#: ../kupfer/obj/fileactions.py:43
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "%(file)s (%(type)s)을(를) 실행할 기본 응용 프로그램 없음"
 
-#: ../kupfer/obj/fileactions.py:60
+#: ../kupfer/obj/fileactions.py:45
+#, fuzzy, python-format
+msgid "Please use \"%s\""
+msgstr "선택한 파일 \"%s\""
+
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:109
+msgid "Set Default Application..."
+msgstr "기본 응용 프로그램 설정..."
+
+#: ../kupfer/obj/fileactions.py:71
 msgid "Open with default application"
 msgstr "기본 응용 프로그램으로 열기"
 
-#: ../kupfer/obj/fileactions.py:66
+#: ../kupfer/obj/fileactions.py:77
 msgid "Reveal"
 msgstr "나타나기"
 
-#: ../kupfer/obj/fileactions.py:75
+#: ../kupfer/obj/fileactions.py:86
 msgid "Open parent folder"
 msgstr "상위 폴더를 엽니다"
 
-#: ../kupfer/obj/fileactions.py:81
+#: ../kupfer/obj/fileactions.py:92
 msgid "Open Terminal Here"
 msgstr "여기에서 터미널 열기"
 
-#: ../kupfer/obj/fileactions.py:88
+#: ../kupfer/obj/fileactions.py:105
 msgid "Open this location in a terminal"
 msgstr "이 위치를 터미널로 엽니다"
 
-#: ../kupfer/obj/fileactions.py:96
+#: ../kupfer/obj/fileactions.py:113
 msgid "Run in Terminal"
 msgstr "터미널에서 실행"
 
-#: ../kupfer/obj/fileactions.py:96
+#: ../kupfer/obj/fileactions.py:113
 msgid "Run (Execute)"
 msgstr "실행"
 
-#: ../kupfer/obj/fileactions.py:116
+#: ../kupfer/obj/fileactions.py:133
 msgid "Run this program in a Terminal"
 msgstr "이 프로그램을 터미널에서 실행합니다"
 
-#: ../kupfer/obj/fileactions.py:118
+#: ../kupfer/obj/fileactions.py:135
 msgid "Run this program"
 msgstr "이 프로그램 실행"
 
-#: ../kupfer/obj/objects.py:247 ../kupfer/plugin/windows.py:110
-#: ../kupfer/plugin/windows.py:247
+#: ../kupfer/obj/objects.py:248 ../kupfer/plugin/windows.py:105
+#: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "이동"
 
-#: ../kupfer/obj/objects.py:273
+#: ../kupfer/obj/objects.py:274
 msgid "Open URL"
 msgstr "URL 열기"
 
-#: ../kupfer/obj/objects.py:284
+#: ../kupfer/obj/objects.py:285
 msgid "Open URL with default viewer"
 msgstr "기본 프로그램으로 이 주소 열기"
 
-#: ../kupfer/obj/objects.py:298
+#: ../kupfer/obj/objects.py:299
 msgid "Launch"
 msgstr "실행"
 
-#: ../kupfer/obj/objects.py:308
+#: ../kupfer/obj/objects.py:312
 msgid "Show application window"
 msgstr "응용 프로그램 창 열기"
 
-#: ../kupfer/obj/objects.py:309
+#: ../kupfer/obj/objects.py:313
 msgid "Launch application"
 msgstr "응용 프로그램 실행"
 
-#: ../kupfer/obj/objects.py:320
+#: ../kupfer/obj/objects.py:324
 msgid "Launch Again"
 msgstr "다시 실행"
 
-#: ../kupfer/obj/objects.py:327
+#: ../kupfer/obj/objects.py:331
 msgid "Launch another instance of this application"
 msgstr "또 다른 이 응용 프로그램 인스턴스를 실행합니다"
 
-#: ../kupfer/obj/objects.py:333 ../kupfer/plugin/windows.py:42
+#: ../kupfer/obj/objects.py:337 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "닫기"
 
-#: ../kupfer/obj/objects.py:341
+#: ../kupfer/obj/objects.py:345
 msgid "Attempt to close all application windows"
 msgstr "모든 응용 프로그램 창을 닫기를 실행합니다"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:383
+#: ../kupfer/obj/objects.py:392
 msgid "Run"
 msgstr "실행"
 
-#: ../kupfer/obj/objects.py:388
+#: ../kupfer/obj/objects.py:402
 msgid "Perform command"
 msgstr "명령어 실행"
 
-#: ../kupfer/obj/objects.py:402
+#: ../kupfer/obj/objects.py:416
 #, fuzzy
-#| msgid "Empty File"
 msgid "(Empty Text)"
 msgstr "빈 파일"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:418
+#: ../kupfer/obj/objects.py:432
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "(%(num)d 줄) \"%(text)s\""
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:248
+#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
 #, python-format
 msgid "%s et. al."
 msgstr "%s 등."
@@ -566,20 +598,24 @@ msgstr "%s 등."
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "귀납적 소스 %(dir)s, (%(levels)d 레벨)"
 
-#: ../kupfer/obj/sources.py:102
+#: ../kupfer/obj/sources.py:103
 #, python-format
 msgid "Directory source %s"
 msgstr "디렉터리 소스 %s"
 
-#: ../kupfer/obj/sources.py:118
+#: ../kupfer/obj/sources.py:113
+msgid "Home Folder"
+msgstr "내 폴더"
+
+#: ../kupfer/obj/sources.py:124
 msgid "Catalog Index"
 msgstr "카탈로그 인덱스"
 
-#: ../kupfer/obj/sources.py:133
+#: ../kupfer/obj/sources.py:139
 msgid "An index of all available sources"
 msgstr "사용 가능한 모든 소스의 인덱스"
 
-#: ../kupfer/obj/sources.py:164
+#: ../kupfer/obj/sources.py:170
 msgid "Root catalog"
 msgstr "루트 카탈로그"
 
@@ -592,7 +628,7 @@ msgstr "플러그인을 설정해 주십시오"
 msgid "Plugin %s is not configured"
 msgstr "플러그인 %s이(가) 설정되지 않았습니다"
 
-#: ../kupfer/obj/special.py:29
+#: ../kupfer/obj/special.py:32
 #, python-format
 msgid "Invalid user credentials for %s"
 msgstr "유효하지 않은 사용자 인증서 %s"
@@ -603,25 +639,21 @@ msgstr ""
 
 #: ../kupfer/plugin/core/alternatives.py:13
 #, fuzzy
-#| msgid "GNOME Terminal Profiles"
 msgid "GNOME Terminal"
 msgstr "그놈 터미널 프로필"
 
 #: ../kupfer/plugin/core/alternatives.py:22
 #, fuzzy
-#| msgid "Run in Terminal"
 msgid "XFCE Terminal"
 msgstr "터미널에서 실행"
 
 #: ../kupfer/plugin/core/alternatives.py:31
 #, fuzzy
-#| msgid "Run in Terminal"
 msgid "LXTerminal"
 msgstr "터미널에서 실행"
 
 #: ../kupfer/plugin/core/alternatives.py:40
 #, fuzzy
-#| msgid "Run in Terminal"
 msgid "X Terminal"
 msgstr "터미널에서 실행"
 
@@ -629,7 +661,7 @@ msgstr "터미널에서 실행"
 msgid "Urxvt"
 msgstr ""
 
-#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:30
+#: ../kupfer/plugin/core/commands.py:13 ../kupfer/plugin/core/commands.py:32
 msgid "Save As..."
 msgstr "다른 이름으로 저장..."
 
@@ -645,31 +677,31 @@ msgstr "쿠퍼 끝내기"
 msgid "About Kupfer"
 msgstr "쿠퍼 정보"
 
-#: ../kupfer/plugin/core/contents.py:57
+#: ../kupfer/plugin/core/contents.py:59
 msgid "Show information about Kupfer authors and license"
 msgstr "쿠퍼 제작자와 라이선스에 대한 정보를 보여줍니다"
 
-#: ../kupfer/plugin/core/contents.py:63
+#: ../kupfer/plugin/core/contents.py:65
 msgid "Kupfer Help"
 msgstr "쿠퍼 도움말"
 
-#: ../kupfer/plugin/core/contents.py:68
+#: ../kupfer/plugin/core/contents.py:72
 msgid "Get help with Kupfer"
 msgstr "쿠퍼에 대한 도움을 받습니다"
 
-#: ../kupfer/plugin/core/contents.py:79
+#: ../kupfer/plugin/core/contents.py:85
 msgid "Show preferences window for Kupfer"
 msgstr "쿠퍼 기본 설정 창 보이기"
 
-#: ../kupfer/plugin/core/__init__.py:68
+#: ../kupfer/plugin/core/__init__.py:65
 msgid "Search Contents"
 msgstr "내용 검색"
 
-#: ../kupfer/plugin/core/__init__.py:86
+#: ../kupfer/plugin/core/__init__.py:83
 msgid "Search inside this catalog"
 msgstr "이 카탈로그 안을 찾아봅니다"
 
-#: ../kupfer/plugin/core/__init__.py:94
+#: ../kupfer/plugin/core/__init__.py:91
 msgid "Copy"
 msgstr "복사"
 
@@ -677,7 +709,7 @@ msgstr "복사"
 msgid "Copy to clipboard"
 msgstr "클립보드로 복사"
 
-#: ../kupfer/plugin/core/__init__.py:130
+#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "다시 읽기"
 
@@ -698,23 +730,63 @@ msgstr "선택한 텍스트 \"%s\""
 msgid "Last Command"
 msgstr "마지막 명령어"
 
-#: ../kupfer/plugin/core/internal.py:22
+#: ../kupfer/plugin/core/internal.py:24
 msgid "Internal Kupfer Objects"
 msgstr "내부 쿠퍼 개체"
 
-#: ../kupfer/plugin/core/internal.py:41 ../kupfer/plugin/core/internal.py:43
+#: ../kupfer/plugin/core/internal.py:46 ../kupfer/plugin/core/internal.py:48
 msgid "Last Result"
 msgstr "마지막 결과"
 
-#: ../kupfer/plugin/core/internal.py:61
+#: ../kupfer/plugin/core/internal.py:66
 msgid "Command Results"
 msgstr "명령어 결과"
+
+#: ../kupfer/plugin/archivemanager.py:1
+#, fuzzy
+msgid "Archive Manager"
+msgstr "압축 파일"
+
+#: ../kupfer/plugin/archivemanager.py:9
+#, fuzzy
+msgid "Use Archive Manager actions"
+msgstr "파일 관리자 Thunar 동작"
+
+#: ../kupfer/plugin/archivemanager.py:27
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "'다음에서 압축 파일 만들기'를 위한 압축 파일 형식"
+
+#: ../kupfer/plugin/archivemanager.py:44
+msgid "Extract Here"
+msgstr "여기에 풀기"
+
+#: ../kupfer/plugin/archivemanager.py:64
+msgid "Extract compressed archive"
+msgstr "압축 파일 여기에 풀기"
+
+#: ../kupfer/plugin/archivemanager.py:70
+msgid "Create Archive"
+msgstr "압축 파일 만들기"
+
+#: ../kupfer/plugin/archivemanager.py:86
+#: ../kupfer/plugin/archivemanager.py:129
+msgid "Create a compressed archive from folder"
+msgstr "폴더에서 압축 파일 만들기"
+
+#: ../kupfer/plugin/archivemanager.py:92
+msgid "Create Archive In..."
+msgstr "다음에서 압축 파일 만들기..."
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+#: ../kupfer/plugin/archivemanager.py:115
+msgid "Archive"
+msgstr "압축 파일"
 
 #: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
 msgid "Applications"
 msgstr "응용 프로그램"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:61
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:74
 msgid "All applications and preferences"
 msgstr "모든 응용 프로그램과 기본 설정"
 
@@ -722,19 +794,15 @@ msgstr "모든 응용 프로그램과 기본 설정"
 msgid "Applications for Desktop Environment"
 msgstr "데스크톱 환경 응용 프로그램"
 
-#: ../kupfer/plugin/applications.py:70
+#: ../kupfer/plugin/applications.py:83
 msgid "Open With..."
 msgstr "다른 프로그램으로 열기..."
 
-#: ../kupfer/plugin/applications.py:88
+#: ../kupfer/plugin/applications.py:105
 msgid "Open with any application"
 msgstr "다른 프로그램으로 열기..."
 
-#: ../kupfer/plugin/applications.py:92
-msgid "Set Default Application..."
-msgstr "기본 응용 프로그램 설정..."
-
-#: ../kupfer/plugin/applications.py:107
+#: ../kupfer/plugin/applications.py:124
 msgid "Set default application to open this file type"
 msgstr "이 파일 형식을 열 기본 응용 프로그램을 설정합니다"
 
@@ -784,7 +852,7 @@ msgstr "지우기"
 msgid "Remove all recent clipboards"
 msgstr "모든 최근 클립보드 제거"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:191
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:187
 msgid "Shell Commands"
 msgstr "쉘 명령어"
 
@@ -795,62 +863,58 @@ msgid ""
 "subshell."
 msgstr ""
 
-#: ../kupfer/plugin/commands.py:46
+#: ../kupfer/plugin/commands.py:41
 msgid "Run (Get Output)"
 msgstr "실행 (출력 받기)"
 
-#: ../kupfer/plugin/commands.py:63
+#: ../kupfer/plugin/commands.py:59
 msgid "Run program and return its output"
 msgstr "프로그램을 실행하고 출력 결과를 되돌려 받습니다"
 
 #. TRANS: The user starts a program (command) and the text
 #. TRANS: is an argument to the command
-#: ../kupfer/plugin/commands.py:69
+#: ../kupfer/plugin/commands.py:65
 #, fuzzy
-#| msgid "Last Command"
 msgid "Pass to Command..."
 msgstr "마지막 명령어"
 
-#: ../kupfer/plugin/commands.py:110
+#: ../kupfer/plugin/commands.py:107
 msgid "Run program with object as an additional parameter"
 msgstr ""
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
-#: ../kupfer/plugin/commands.py:118
+#: ../kupfer/plugin/commands.py:115
 #, fuzzy
-#| msgid "Write To..."
 msgid "Write to Command..."
 msgstr "다음에 쓰기..."
 
-#: ../kupfer/plugin/commands.py:151 ../kupfer/plugin/commands.py:165
+#: ../kupfer/plugin/commands.py:149 ../kupfer/plugin/commands.py:161
 #, fuzzy
-#| msgid "Run program and return its output"
 msgid "Run program and supply text on the standard input"
 msgstr "프로그램을 실행하고 출력 결과를 되돌려 받습니다"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:159
+#: ../kupfer/plugin/commands.py:157
 msgid "Filter through Command..."
 msgstr ""
 
-#: ../kupfer/plugin/commands.py:214
+#: ../kupfer/plugin/commands.py:215
 #, fuzzy
-#| msgid "Run commandline programs"
 msgid "Run command-line programs"
 msgstr "명령줄 프로그램 실행"
 
-#: ../kupfer/plugin/dictionary.py:1
+#: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:21
 msgid "Dictionary"
 msgstr "사전"
 
-#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:24
+#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:47
 msgid "Look up word in dictionary"
 msgstr "사전에서 단어를 찾아봅니다"
 
-#: ../kupfer/plugin/dictionary.py:13
+#: ../kupfer/plugin/dictionary.py:30
 msgid "Look Up"
 msgstr "찾기"
 
@@ -900,7 +964,7 @@ msgstr "에피파니 책갈피"
 msgid "Index of Epiphany bookmarks"
 msgstr "에피파니 책갈피 인덱스"
 
-#: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:23
+#: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:21
 msgid "Favorites"
 msgstr "즐겨찾기"
 
@@ -908,23 +972,23 @@ msgstr "즐겨찾기"
 msgid "Mark commonly used items and store objects for later use"
 msgstr "다음에 사용하기 위해 자주 사용하는 항목과 보관된 개체 표시"
 
-#: ../kupfer/plugin/favorites.py:125
+#: ../kupfer/plugin/favorites.py:127
 msgid "Shelf of \"Favorite\" items"
 msgstr "\"Favorite\" 항목 칸"
 
-#: ../kupfer/plugin/favorites.py:138
+#: ../kupfer/plugin/favorites.py:140
 msgid "Add to Favorites"
 msgstr "즐겨찾기에 추가"
 
-#: ../kupfer/plugin/favorites.py:146
+#: ../kupfer/plugin/favorites.py:148
 msgid "Add item to favorites shelf"
 msgstr "즐겨찾기 칸에 항목 추가"
 
-#: ../kupfer/plugin/favorites.py:153
+#: ../kupfer/plugin/favorites.py:155
 msgid "Remove from Favorites"
 msgstr "즐겨찾기에서 제거"
 
-#: ../kupfer/plugin/favorites.py:161
+#: ../kupfer/plugin/favorites.py:163
 msgid "Remove item from favorites shelf"
 msgstr "항목을 즐겨찾기 칸에서 제거합니다"
 
@@ -932,67 +996,30 @@ msgstr "항목을 즐겨찾기 칸에서 제거합니다"
 msgid "File Actions"
 msgstr "파일 동작"
 
-#: ../kupfer/plugin/fileactions.py:13
+#: ../kupfer/plugin/fileactions.py:9
 msgid "More file actions"
 msgstr "더 많은 파일 동작"
 
-#: ../kupfer/plugin/fileactions.py:34
-msgid "Compressed archive type for 'Create Archive In'"
-msgstr "'다음에서 압축 파일 만들기'를 위한 압축 파일 형식"
-
-#: ../kupfer/plugin/fileactions.py:51
-msgid "Move to Trash"
-msgstr "휴지통에 버리기"
-
-#: ../kupfer/plugin/fileactions.py:59
-msgid "Move this file to trash"
-msgstr "이 파일을 휴지통에 버리기"
-
-#: ../kupfer/plugin/fileactions.py:93 ../kupfer/plugin/windows.py:125
-#: ../kupfer/plugin/thunar.py:207
+#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/windows.py:122
+#: ../kupfer/plugin/thunar.py:210
 msgid "Move To..."
 msgstr "다음으로 이동..."
 
-#: ../kupfer/plugin/fileactions.py:120 ../kupfer/plugin/thunar.py:249
+#: ../kupfer/plugin/fileactions.py:67 ../kupfer/plugin/thunar.py:252
 msgid "Move file to new location"
 msgstr "파일을 새 위치로 옮깁니다"
 
-#: ../kupfer/plugin/fileactions.py:131 ../kupfer/plugin/fileactions.py:154
+#: ../kupfer/plugin/fileactions.py:80 ../kupfer/plugin/fileactions.py:103
 msgid "Rename To..."
 msgstr "다음으로 이름 바꾸기..."
 
-#: ../kupfer/plugin/fileactions.py:197 ../kupfer/plugin/thunar.py:162
+#: ../kupfer/plugin/fileactions.py:145 ../kupfer/plugin/thunar.py:165
 msgid "Copy To..."
 msgstr "다음으로 복사..."
 
-#: ../kupfer/plugin/fileactions.py:238 ../kupfer/plugin/thunar.py:203
+#: ../kupfer/plugin/fileactions.py:186 ../kupfer/plugin/thunar.py:206
 msgid "Copy file to a chosen location"
 msgstr "선택한 위치로 파일을 복사합니다"
-
-#: ../kupfer/plugin/fileactions.py:242
-msgid "Extract Here"
-msgstr "여기에 풀기"
-
-#: ../kupfer/plugin/fileactions.py:259
-msgid "Extract compressed archive"
-msgstr "압축 파일 여기에 풀기"
-
-#: ../kupfer/plugin/fileactions.py:263
-msgid "Create Archive"
-msgstr "압축 파일 만들기"
-
-#: ../kupfer/plugin/fileactions.py:279 ../kupfer/plugin/fileactions.py:318
-msgid "Create a compressed archive from folder"
-msgstr "폴더에서 압축 파일 만들기"
-
-#: ../kupfer/plugin/fileactions.py:283
-msgid "Create Archive In..."
-msgstr "다음에서 압축 파일 만들기..."
-
-#. TRANS: Default filename (no extension) for 'Create Archive In...'
-#: ../kupfer/plugin/fileactions.py:305
-msgid "Archive"
-msgstr "압축 파일"
 
 #: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:36
 msgid "Firefox Bookmarks"
@@ -1007,7 +1034,7 @@ msgid "Include visited sites"
 msgstr "방문한 사이트 포함"
 
 #: ../kupfer/plugin/nautilusselection.py:1
-#: ../kupfer/plugin/nautilusselection.py:48
+#: ../kupfer/plugin/nautilusselection.py:46
 msgid "Selected File"
 msgstr "선택한 파일"
 
@@ -1015,17 +1042,17 @@ msgstr "선택한 파일"
 msgid "Provides current nautilus selection, using Kupfer's Nautilus Extension"
 msgstr "쿠퍼 노틸러스 확장 기능을 이용해 현재 노틸러스 선택을 제공합니다"
 
-#: ../kupfer/plugin/nautilusselection.py:27
+#: ../kupfer/plugin/nautilusselection.py:25
 #, python-format
 msgid "Selected File \"%s\""
 msgstr "선택한 파일 \"%s\""
 
-#: ../kupfer/plugin/nautilusselection.py:36
+#: ../kupfer/plugin/nautilusselection.py:34
 msgid "Selected Files"
 msgstr "선택한 파일"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:165
-#: ../kupfer/plugin/notes.py:217
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:178
+#: ../kupfer/plugin/notes.py:230
 msgid "Notes"
 msgstr "쪽지"
 
@@ -1037,168 +1064,168 @@ msgstr "G노트 또는 톰보이 쪽지"
 msgid "Work with application"
 msgstr "응용 프로그램으로 작업"
 
-#: ../kupfer/plugin/notes.py:85
+#: ../kupfer/plugin/notes.py:95
 msgid "Open with notes application"
 msgstr "쪽지 응용 프로그램으로 열기"
 
-#: ../kupfer/plugin/notes.py:92
+#: ../kupfer/plugin/notes.py:102
 msgid "Append to Note..."
 msgstr "쪽지에 추가..."
 
-#: ../kupfer/plugin/notes.py:115
+#: ../kupfer/plugin/notes.py:125
 msgid "Add text to existing note"
 msgstr "존재하는 쪽지에 텍스트를 추가합니다"
 
-#: ../kupfer/plugin/notes.py:127
+#: ../kupfer/plugin/notes.py:140
 msgid "Create Note"
 msgstr "쪽지 만들기"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:154
 msgid "Create a new note from this text"
 msgstr "이 텍스트로 새 쪽지를 만듭니다"
 
-#: ../kupfer/plugin/notes.py:147
+#: ../kupfer/plugin/notes.py:160
 msgid "Get Note Search Results..."
 msgstr "쪽지 검색 결과 가져오기..."
 
-#: ../kupfer/plugin/notes.py:160
+#: ../kupfer/plugin/notes.py:173
 msgid "Show search results for this query"
 msgstr "이 쿼리 검색 결과 보이기"
 
-#: ../kupfer/plugin/notes.py:200
+#: ../kupfer/plugin/notes.py:213
 #, python-format
 msgid "today, %s"
 msgstr "오늘, %s"
 
-#: ../kupfer/plugin/notes.py:202
+#: ../kupfer/plugin/notes.py:215
 #, python-format
 msgid "yesterday, %s"
 msgstr "어제, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:206
+#: ../kupfer/plugin/notes.py:219
 #, python-format
 msgid "Last updated %s"
 msgstr "마지막 업데이트 %s"
 
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:398
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:399
 msgid "Rhythmbox"
 msgstr "리듬박스"
 
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:432
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:433
 msgid "Play and enqueue tracks and browse the music library"
 msgstr "트랙을 연주하거나 재생 대기열에 추가하고 음악 라이브러리를 검색합니다"
 
-#: ../kupfer/plugin/rhythmbox.py:23
+#: ../kupfer/plugin/rhythmbox.py:22
 msgid "Include artists in top level"
 msgstr "최 상위에 음악가 포함"
 
-#: ../kupfer/plugin/rhythmbox.py:29
+#: ../kupfer/plugin/rhythmbox.py:28
 msgid "Include albums in top level"
 msgstr "최 상위에 앨범 포함"
 
-#: ../kupfer/plugin/rhythmbox.py:35 ../kupfer/plugin/audacious.py:20
+#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "최 상위에 노래 포함"
 
-#: ../kupfer/plugin/rhythmbox.py:64 ../kupfer/plugin/rhythmbox.py:132
+#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
 #: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "재생"
 
-#: ../kupfer/plugin/rhythmbox.py:68
+#: ../kupfer/plugin/rhythmbox.py:67
 msgid "Resume playback in Rhythmbox"
 msgstr "리듬박스 재생을 계속합니다"
 
-#: ../kupfer/plugin/rhythmbox.py:74 ../kupfer/plugin/audacious.py:102
+#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
 #: ../kupfer/plugin/virtualbox/__init__.py:93
 msgid "Pause"
 msgstr "일시 정지"
 
-#: ../kupfer/plugin/rhythmbox.py:78
+#: ../kupfer/plugin/rhythmbox.py:77
 msgid "Pause playback in Rhythmbox"
 msgstr "리듬박스 재생을 잠시 정지합니다"
 
-#: ../kupfer/plugin/rhythmbox.py:84 ../kupfer/plugin/audacious.py:112
+#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "다음"
 
-#: ../kupfer/plugin/rhythmbox.py:88
+#: ../kupfer/plugin/rhythmbox.py:87
 msgid "Jump to next track in Rhythmbox"
 msgstr "리듬박스를 다음 트랙으로 넘깁니다"
 
-#: ../kupfer/plugin/rhythmbox.py:94 ../kupfer/plugin/audacious.py:122
+#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "이전"
 
-#: ../kupfer/plugin/rhythmbox.py:98
+#: ../kupfer/plugin/rhythmbox.py:97
 msgid "Jump to previous track in Rhythmbox"
 msgstr "리듬박스를 이전 트랙으로 넘깁니다"
 
-#: ../kupfer/plugin/rhythmbox.py:104
+#: ../kupfer/plugin/rhythmbox.py:103
 msgid "Show Playing"
 msgstr "재생 중인 노래 보이기"
 
-#: ../kupfer/plugin/rhythmbox.py:108
+#: ../kupfer/plugin/rhythmbox.py:107
 msgid "Tell which song is currently playing"
 msgstr "어떤 노래를 지금 재생하고 있는지 알려줍니다"
 
-#: ../kupfer/plugin/rhythmbox.py:116 ../kupfer/plugin/audacious.py:132
+#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "대기열 지우기"
 
-#: ../kupfer/plugin/rhythmbox.py:156
+#: ../kupfer/plugin/rhythmbox.py:155
 msgid "Play tracks in Rhythmbox"
 msgstr "리듬박스로 트랙을 연주합니다"
 
-#: ../kupfer/plugin/rhythmbox.py:162 ../kupfer/plugin/audacious.py:58
+#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "대기열에 추가"
 
-#: ../kupfer/plugin/rhythmbox.py:173
+#: ../kupfer/plugin/rhythmbox.py:172
 msgid "Add tracks to the play queue"
 msgstr "재생 대기열에 트랙을 추가합니다"
 
 #. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:196
+#: ../kupfer/plugin/rhythmbox.py:195
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr "음악가 %(artist)s 앨범 %(album)s"
 
 #. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:251
+#: ../kupfer/plugin/rhythmbox.py:250
 #, python-format
 msgid "by %s"
 msgstr "음악가 %s"
 
 #. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:310
+#: ../kupfer/plugin/rhythmbox.py:311
 #, python-format
 msgid "Tracks by %s"
 msgstr "트랙 음악가 %s"
 
-#: ../kupfer/plugin/rhythmbox.py:320
+#: ../kupfer/plugin/rhythmbox.py:321
 #: ../kupfer/plugin/google_picasa/__init__.py:444
 msgid "Albums"
 msgstr "앨범"
 
-#: ../kupfer/plugin/rhythmbox.py:330
+#: ../kupfer/plugin/rhythmbox.py:331
 msgid "Music albums in Rhythmbox Library"
 msgstr "리듬박스 라이브러리 안의 음악 앨범"
 
-#: ../kupfer/plugin/rhythmbox.py:341
+#: ../kupfer/plugin/rhythmbox.py:342
 msgid "Artists"
 msgstr "음악가"
 
-#: ../kupfer/plugin/rhythmbox.py:351
+#: ../kupfer/plugin/rhythmbox.py:352
 msgid "Music artists in Rhythmbox Library"
 msgstr "리듬박스 라이브러리 안의 음악가"
 
-#: ../kupfer/plugin/rhythmbox.py:378
+#: ../kupfer/plugin/rhythmbox.py:379
 msgid "Songs"
 msgstr "노래"
 
-#: ../kupfer/plugin/rhythmbox.py:388
+#: ../kupfer/plugin/rhythmbox.py:389
 msgid "Songs in Rhythmbox library"
 msgstr "리듬박스 라이브러리 안의 노래"
 
@@ -1244,59 +1271,64 @@ msgid "Special items and actions for XFCE environment"
 msgstr "XFCE 환경의 특별한 동작이나 항목"
 
 #: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
-#: ../kupfer/plugin/show_text.py:21
+#: ../kupfer/plugin/show_text.py:25
 msgid "Show Text"
 msgstr "텍스트 보이기"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:27
-#: ../kupfer/plugin/show_text.py:45
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
+#: ../kupfer/plugin/show_text.py:52
 msgid "Display text in a window"
 msgstr "창에 텍스트 표시"
 
-#: ../kupfer/plugin/show_text.py:33
+#: ../kupfer/plugin/show_text.py:37
 msgid "Large Type"
 msgstr "큰 형식"
 
-#: ../kupfer/plugin/show_text.py:53
+#: ../kupfer/plugin/show_text.py:60
 msgid "Show Notification"
 msgstr "알림 보이기"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:144
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:173
 msgid "Trash"
 msgstr "휴지통"
 
-#: ../kupfer/plugin/trash.py:3
+#: ../kupfer/plugin/trash.py:4
 msgid "Access trash contents"
 msgstr "휴지통 항목에 접근합니다"
 
-#: ../kupfer/plugin/trash.py:19
+#: ../kupfer/plugin/trash.py:23
+msgid "Move to Trash"
+msgstr "휴지통에 버리기"
+
+#: ../kupfer/plugin/trash.py:39
+msgid "Move this file to trash"
+msgstr "이 파일을 휴지통에 버리기"
+
+#: ../kupfer/plugin/trash.py:48
 msgid "Restore"
 msgstr "되살리기"
 
-#: ../kupfer/plugin/trash.py:38
+#: ../kupfer/plugin/trash.py:67
 msgid "Move file back to original location"
 msgstr "파일을 원래 위치로 되돌립니다"
 
-#: ../kupfer/plugin/trash.py:132
+#: ../kupfer/plugin/trash.py:161
 msgid "Trash is empty"
 msgstr "휴지통이 비어있습니다"
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:134
+#: ../kupfer/plugin/trash.py:163
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
 msgstr[0] "휴지통에 %(num)s 개의 파일이 있습니다"
 
-#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:43
+#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:50
 msgid "Triggers"
 msgstr "트리거"
 
 #: ../kupfer/plugin/triggers.py:6
 #, fuzzy
-#| msgid ""
-#| "Assign global keybindings (triggers) to objects created with 'Compose "
-#| "Command' (Ctrl+Return)."
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command'."
@@ -1304,11 +1336,11 @@ msgstr ""
 "'명령 구성(컨트롤+리턴)'으로 만들어진 개체에 전역 키 조합(트리거)을 배정합니"
 "다."
 
-#: ../kupfer/plugin/triggers.py:143
+#: ../kupfer/plugin/triggers.py:161
 msgid "Add Trigger..."
 msgstr "트리거 추가..."
 
-#: ../kupfer/plugin/triggers.py:159
+#: ../kupfer/plugin/triggers.py:180
 msgid "Remove Trigger"
 msgstr "트리거 제거"
 
@@ -1316,44 +1348,44 @@ msgstr "트리거 제거"
 msgid "URL Actions"
 msgstr "URL 동작"
 
-#: ../kupfer/plugin/urlactions.py:65
+#: ../kupfer/plugin/urlactions.py:63
 msgid "Download and Open"
 msgstr "다운로드한 후 열기"
 
-#: ../kupfer/plugin/urlactions.py:88
+#: ../kupfer/plugin/urlactions.py:83
 msgid "Download To..."
 msgstr "다음에 다운로드..."
 
-#: ../kupfer/plugin/urlactions.py:111
+#: ../kupfer/plugin/urlactions.py:104
 msgid "Download URL to a chosen location"
 msgstr "선택한 위치에 URL을 다운로드합니다"
 
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:74
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
 msgid "Volumes and Disks"
 msgstr "볼륨과 디스크"
 
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:84
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
 msgid "Mounted volumes and disks"
 msgstr "마운트 된 볼륨과 디스크"
 
-#: ../kupfer/plugin/volumes.py:38
+#: ../kupfer/plugin/volumes.py:42
 #, python-format
 msgid "Volume mounted at %s"
 msgstr "%s에 마운트 된 볼륨"
 
-#: ../kupfer/plugin/volumes.py:46
+#: ../kupfer/plugin/volumes.py:51
 msgid "Unmount"
 msgstr "마운트 해제"
 
-#: ../kupfer/plugin/volumes.py:61
+#: ../kupfer/plugin/volumes.py:78
 msgid "Unmount this volume"
 msgstr "이 볼륨 마운트 해제"
 
-#: ../kupfer/plugin/volumes.py:68
+#: ../kupfer/plugin/volumes.py:85
 msgid "Eject"
 msgstr "꺼내기"
 
-#: ../kupfer/plugin/volumes.py:71
+#: ../kupfer/plugin/volumes.py:88
 msgid "Unmount and eject this media"
 msgstr "마운트를 해제한 후 이 미디어를 꺼냅니다"
 
@@ -1400,73 +1432,84 @@ msgstr "영어"
 msgid "Search for this term in %s.wikipedia.org"
 msgstr "이 용어를 %s.wikipedia.org에서 검색합니다"
 
-#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:207
+#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:210
 msgid "Window List"
 msgstr "창 목록"
 
-#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:230
+#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:233
 msgid "All windows on all workspaces"
 msgstr "모든 작업 공간의 모든 창"
 
-#: ../kupfer/plugin/windows.py:23
+#: ../kupfer/plugin/windows.py:18
 msgid "Activate"
 msgstr "활성화"
 
-#: ../kupfer/plugin/windows.py:27
+#: ../kupfer/plugin/windows.py:22
 msgid "Shade"
 msgstr "말아올리기"
 
-#: ../kupfer/plugin/windows.py:27
+#: ../kupfer/plugin/windows.py:22
 msgid "Unshade"
 msgstr "말아올리기 해제"
 
-#: ../kupfer/plugin/windows.py:30
+#: ../kupfer/plugin/windows.py:25
 msgid "Minimize"
 msgstr "최소화"
 
-#: ../kupfer/plugin/windows.py:30
+#: ../kupfer/plugin/windows.py:25
 msgid "Unminimize"
 msgstr "최소화 취소"
 
-#: ../kupfer/plugin/windows.py:34
+#: ../kupfer/plugin/windows.py:29
 msgid "Maximize"
 msgstr "최대화"
 
-#: ../kupfer/plugin/windows.py:34
+#: ../kupfer/plugin/windows.py:29
 msgid "Unmaximize"
 msgstr "최대화 취소"
 
-#: ../kupfer/plugin/windows.py:38
+#: ../kupfer/plugin/windows.py:33
 msgid "Maximize Vertically"
 msgstr "세로로 최대화"
 
-#: ../kupfer/plugin/windows.py:38
+#: ../kupfer/plugin/windows.py:33
 msgid "Unmaximize Vertically"
 msgstr "세로 최대화 취소"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:53
+#: ../kupfer/plugin/windows.py:48
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "%(wkspc)s 위의 창"
 
-#: ../kupfer/plugin/windows.py:61
+#: ../kupfer/plugin/windows.py:56
 msgid "Frontmost Window"
 msgstr "가장 앞의 창"
 
-#: ../kupfer/plugin/windows.py:90
+#: ../kupfer/plugin/windows.py:85
 msgid "Next Window"
 msgstr "다음 창"
 
-#: ../kupfer/plugin/windows.py:119
+#: ../kupfer/plugin/windows.py:116
 msgid "Jump to this window's workspace and focus"
 msgstr "이 창이 있는 작업 공간으로 이동한 후 포커스 맞추기"
 
-#: ../kupfer/plugin/windows.py:255
+#: ../kupfer/plugin/windows.py:252
+#, fuzzy, python-format
+msgid "%d window"
+msgid_plural "%d windows"
+msgstr[0] "다음 창"
+
+#: ../kupfer/plugin/windows.py:256
+#, fuzzy
+msgid "Active workspace"
+msgstr "이 작업 공간으로 이동"
+
+#: ../kupfer/plugin/windows.py:274
 msgid "Jump to this workspace"
 msgstr "이 작업 공간으로 이동"
 
-#: ../kupfer/plugin/windows.py:262
+#: ../kupfer/plugin/windows.py:281
 msgid "Workspaces"
 msgstr "작업 공간"
 
@@ -1523,7 +1566,7 @@ msgstr "압축 파일 내부 검색"
 msgid "Allow browsing inside compressed archive files"
 msgstr "압축 파일 내부를 찾아볼 수 있게 합니다"
 
-#: ../kupfer/plugin/archiveinside.py:50
+#: ../kupfer/plugin/archiveinside.py:49
 #, python-format
 msgid "Content of %s"
 msgstr "%s 항목"
@@ -1540,11 +1583,11 @@ msgid ""
 "produce icons for the objects found in Kupfer."
 msgstr ""
 
-#: ../kupfer/plugin/asciiunicodeiconset.py:20
+#: ../kupfer/plugin/asciiunicodeiconset.py:21
 msgid "Ascii"
 msgstr ""
 
-#: ../kupfer/plugin/asciiunicodeiconset.py:22
+#: ../kupfer/plugin/asciiunicodeiconset.py:23
 msgid "Unicode"
 msgstr ""
 
@@ -1612,11 +1655,11 @@ msgstr "Audacious 반복 연주 켜고 끄기"
 msgid "Playlist"
 msgstr "재생 목록"
 
-#: ../kupfer/plugin/chromium.py:1 ../kupfer/plugin/chromium.py:18
+#: ../kupfer/plugin/chromium.py:1 ../kupfer/plugin/chromium.py:16
 msgid "Chromium Bookmarks"
 msgstr "크로미움 책갈피"
 
-#: ../kupfer/plugin/chromium.py:3 ../kupfer/plugin/chromium.py:45
+#: ../kupfer/plugin/chromium.py:3 ../kupfer/plugin/chromium.py:43
 msgid "Index of Chromium bookmarks"
 msgstr "크로미움 책갈피 인덱스"
 
@@ -1630,7 +1673,7 @@ msgid "Claws Mail Contacts and Actions"
 msgstr "클러 메일 연락처와 동작"
 
 #: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/operamail.py:25 ../kupfer/plugin/thunderbird.py:29
+#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:25
 msgid "Compose New Email"
 msgstr "새 메일 작성"
 
@@ -1647,8 +1690,8 @@ msgid "Receive new messages from all accounts in ClawsMail"
 msgstr "클러 메일에 설정된 모든 계정에서 새 메시지를 받습니다"
 
 #: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:40 ../kupfer/plugin/operamail.py:40
-#: ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/evolution.py:40 ../kupfer/plugin/operamail.py:41
+#: ../kupfer/plugin/thunderbird.py:41
 msgid "Compose Email"
 msgstr "전자 메일 작성"
 
@@ -1669,12 +1712,30 @@ msgstr "클러 메일 주소록"
 msgid "Contacts from Claws Mail Address Book"
 msgstr "클러 메일 주소록 안의 연락처"
 
-#: ../kupfer/plugin/darkstyle.py:1
-msgid "Dark Theme"
+#: ../kupfer/plugin/custom_terminal.py:1
+#: ../kupfer/plugin/custom_terminal.py:39
+#, fuzzy
+msgid "Custom Terminal"
+msgstr "터미널에서 실행"
+
+#: ../kupfer/plugin/custom_terminal.py:2
+msgid "Configure a custom terminal emulator"
 msgstr ""
 
-#: ../kupfer/plugin/darkstyle.py:3
-msgid "Use a dark color theme"
+#: ../kupfer/plugin/custom_terminal.py:18
+msgid "Execute flag"
+msgstr "실행 플래그"
+
+#: ../kupfer/plugin/customtheme.py:1
+msgid "Custom Theme"
+msgstr ""
+
+#: ../kupfer/plugin/customtheme.py:3
+msgid "Use a custom color theme"
+msgstr ""
+
+#: ../kupfer/plugin/customtheme.py:110
+msgid "Theme:"
 msgstr ""
 
 #: ../kupfer/plugin/defaultmail.py:1
@@ -1701,63 +1762,60 @@ msgstr ""
 
 #: ../kupfer/plugin/empathy.py:6
 #, fuzzy
-#| msgid "Access to Gajim Contacts"
 msgid "Access to Empathy Contacts"
 msgstr "Gajim 연락처에 접근"
 
-#: ../kupfer/plugin/empathy.py:26 ../kupfer/plugin/pidgin.py:29
+#: ../kupfer/plugin/empathy.py:25 ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "오프라인 연락처 보이기"
 
-#: ../kupfer/plugin/empathy.py:35 ../kupfer/plugin/gajim.py:26
-#: ../kupfer/plugin/pidgin.py:155 ../kupfer/plugin/skype.py:30
+#: ../kupfer/plugin/empathy.py:34 ../kupfer/plugin/gajim.py:26
+#: ../kupfer/plugin/pidgin.py:158 ../kupfer/plugin/skype.py:30
 msgid "Available"
 msgstr "사용 가능"
 
-#: ../kupfer/plugin/empathy.py:36 ../kupfer/plugin/gajim.py:28
-#: ../kupfer/plugin/pidgin.py:155 ../kupfer/plugin/skype.py:32
+#: ../kupfer/plugin/empathy.py:35 ../kupfer/plugin/gajim.py:28
+#: ../kupfer/plugin/pidgin.py:158 ../kupfer/plugin/skype.py:32
 msgid "Away"
 msgstr "자리 비움"
 
-#: ../kupfer/plugin/empathy.py:37 ../kupfer/plugin/gajim.py:30
+#: ../kupfer/plugin/empathy.py:36 ../kupfer/plugin/gajim.py:30
 #: ../kupfer/plugin/skype.py:34
 msgid "Busy"
 msgstr "다른 용무 중"
 
-#: ../kupfer/plugin/empathy.py:38 ../kupfer/plugin/gajim.py:29
+#: ../kupfer/plugin/empathy.py:37 ../kupfer/plugin/gajim.py:29
 #: ../kupfer/plugin/skype.py:33
 msgid "Not Available"
 msgstr "사용 불가"
 
-#: ../kupfer/plugin/empathy.py:39 ../kupfer/plugin/gajim.py:31
+#: ../kupfer/plugin/empathy.py:38 ../kupfer/plugin/gajim.py:31
 #: ../kupfer/plugin/skype.py:35
 msgid "Invisible"
 msgstr "보이지 않음"
 
-#: ../kupfer/plugin/empathy.py:40 ../kupfer/plugin/gajim.py:32
+#: ../kupfer/plugin/empathy.py:39 ../kupfer/plugin/gajim.py:32
 #: ../kupfer/plugin/skype.py:36
 msgid "Offline"
 msgstr "연결안됨"
 
-#: ../kupfer/plugin/empathy.py:98 ../kupfer/plugin/gajim.py:90
+#: ../kupfer/plugin/empathy.py:96 ../kupfer/plugin/gajim.py:90
 #: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:204
 msgid "Open Chat"
 msgstr "대화 열기"
 
-#: ../kupfer/plugin/empathy.py:131 ../kupfer/plugin/gajim.py:118
+#: ../kupfer/plugin/empathy.py:129 ../kupfer/plugin/gajim.py:118
 #: ../kupfer/plugin/skype.py:250
 msgid "Change Global Status To..."
 msgstr "전역 상태를 다음으로 바꾸기..."
 
-#: ../kupfer/plugin/empathy.py:173
+#: ../kupfer/plugin/empathy.py:171
 #, fuzzy
-#| msgid "Gajim Contacts"
 msgid "Empathy Contacts"
 msgstr "Gajim 연락처"
 
-#: ../kupfer/plugin/empathy.py:239
+#: ../kupfer/plugin/empathy.py:237
 #, fuzzy
-#| msgid "Gajim Account Status"
 msgid "Empathy Account Status"
 msgstr "Gajim 계정 상태"
 
@@ -1823,7 +1881,12 @@ msgstr "Gajim 연락처"
 msgid "Gajim Account Status"
 msgstr "Gajim 계정 상태"
 
-#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:52
+#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
+#: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
+msgid "Glob"
+msgstr ""
+
+#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
 msgid "GNOME Terminal Profiles"
 msgstr "그놈 터미널 프로필"
 
@@ -1938,9 +2001,9 @@ msgstr "구글 검색"
 msgid "Search Google with results shown directly"
 msgstr "결과가 직접 표시되는 구글로 검색합니다"
 
-#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:46
 #: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
-#: ../kupfer/plugin/tracker1.py:163 ../kupfer/plugin/tracker1.py:174
+#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/tracker1.py:179
 #, python-format
 msgid "Results for \"%s\""
 msgstr "\"%s\" 결과"
@@ -1960,54 +2023,41 @@ msgid "Google Translate"
 msgstr "구글 번역"
 
 #: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:159
+#: ../kupfer/plugin/google_translate.py:153
 msgid "Translate text with Google Translate"
 msgstr "텍스트를 구글 번역으로 번역합니다"
 
-#. TRANS: Dictionary lookup word classes
-#: ../kupfer/plugin/google_translate.py:59
-msgid "noun"
-msgstr "명사"
-
-#: ../kupfer/plugin/google_translate.py:60
-msgid "verb"
-msgstr "동사"
-
-#: ../kupfer/plugin/google_translate.py:61
-msgid "adjective"
-msgstr "형용사"
-
-#: ../kupfer/plugin/google_translate.py:89
+#: ../kupfer/plugin/google_translate.py:83
 msgid "Google Translate connection timed out"
 msgstr "구글 번역 접속 시간 초과"
 
-#: ../kupfer/plugin/google_translate.py:92
+#: ../kupfer/plugin/google_translate.py:86
 msgid "Error connecting to Google Translate"
 msgstr "구글 번역에 연결하는 중 오류가 발생했습니다"
 
-#: ../kupfer/plugin/google_translate.py:142
-#: ../kupfer/plugin/google_translate.py:229
+#: ../kupfer/plugin/google_translate.py:136
+#: ../kupfer/plugin/google_translate.py:223
 msgid "Translate To..."
 msgstr "다음으로 번역..."
 
-#: ../kupfer/plugin/google_translate.py:185
+#: ../kupfer/plugin/google_translate.py:179
 #, python-format
 msgid "Translate into %s"
 msgstr "%s(으)로 번역"
 
-#: ../kupfer/plugin/google_translate.py:209
+#: ../kupfer/plugin/google_translate.py:203
 msgid "Languages"
 msgstr "언어"
 
-#: ../kupfer/plugin/google_translate.py:244
+#: ../kupfer/plugin/google_translate.py:238
 msgid "Show translated page in browser"
 msgstr "번역된 페이지 브라우저로 보이기"
 
-#: ../kupfer/plugin/google_translate.py:261
+#: ../kupfer/plugin/google_translate.py:255
 msgid "Show Translation To..."
 msgstr "다음으로 번역 보이기..."
 
-#: ../kupfer/plugin/google_translate.py:277
+#: ../kupfer/plugin/google_translate.py:271
 msgid "Show translation in browser"
 msgstr "브라우저로 변역 보이기"
 
@@ -2089,7 +2139,6 @@ msgstr ""
 #. TRANS: Account description, similar to "John on Identi.ca"
 #: ../kupfer/plugin/gwibber.py:98
 #, fuzzy, python-format
-#| msgid "%(user)s %(when)s"
 msgid "%(user)s on %(service)s"
 msgstr "%(user)s %(when)s"
 
@@ -2098,13 +2147,11 @@ msgstr "%(user)s %(when)s"
 #. TRANS: the %(user)s and similar tokens must be unchanged
 #: ../kupfer/plugin/gwibber.py:153
 #, fuzzy, python-format
-#| msgid "%(user)s %(when)s"
 msgid "%(user)s %(when)s on %(where)s"
 msgstr "%(user)s %(when)s"
 
 #: ../kupfer/plugin/gwibber.py:187
 #, fuzzy
-#| msgid "Send Message..."
 msgid "Send Message"
 msgstr "메시지 보내기..."
 
@@ -2114,7 +2161,6 @@ msgstr ""
 
 #: ../kupfer/plugin/gwibber.py:210
 #, fuzzy
-#| msgid "Send Message..."
 msgid "Send Message To..."
 msgstr "메시지 보내기..."
 
@@ -2126,109 +2172,94 @@ msgstr ""
 msgid "Send Message..."
 msgstr "메시지 보내기..."
 
-#: ../kupfer/plugin/gwibber.py:269
+#: ../kupfer/plugin/gwibber.py:273
 msgid "Send message to selected Gwibber account"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber.py:274
+#: ../kupfer/plugin/gwibber.py:278
 msgid "Reply..."
 msgstr "회신..."
 
-#: ../kupfer/plugin/gwibber.py:306
+#: ../kupfer/plugin/gwibber.py:314
 #, fuzzy
-#| msgid "Send Message..."
 msgid "Delete Message"
 msgstr "메시지 보내기..."
 
-#: ../kupfer/plugin/gwibber.py:329
+#: ../kupfer/plugin/gwibber.py:337
 #, fuzzy
-#| msgid "Send Direct Message..."
 msgid "Send Private Message..."
 msgstr "직통 메시지 보내기..."
 
-#: ../kupfer/plugin/gwibber.py:358
+#: ../kupfer/plugin/gwibber.py:370
 #, fuzzy
-#| msgid "Send Direct Message To..."
 msgid "Send direct message to user"
 msgstr "다음 사람에게 직통 메시지 보내기..."
 
-#: ../kupfer/plugin/gwibber.py:364
+#: ../kupfer/plugin/gwibber.py:376
 #, fuzzy
-#| msgid "Reset"
 msgid "Retweet"
 msgstr "초기화"
 
-#: ../kupfer/plugin/gwibber.py:364
+#: ../kupfer/plugin/gwibber.py:376
 #, fuzzy
-#| msgid "Rename To..."
 msgid "Retweet To..."
 msgstr "다음으로 이름 바꾸기..."
 
-#: ../kupfer/plugin/gwibber.py:395
+#: ../kupfer/plugin/gwibber.py:407
 #, fuzzy
-#| msgid "Receive new messages from all accounts in ClawsMail"
 msgid "Retweet message to all Gwibber accounts"
 msgstr "클러 메일에 설정된 모든 계정에서 새 메시지를 받습니다"
 
-#: ../kupfer/plugin/gwibber.py:396
+#: ../kupfer/plugin/gwibber.py:408
 msgid "Retweet message to a Gwibber account"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber.py:401
+#: ../kupfer/plugin/gwibber.py:413
 #, fuzzy
-#| msgid "Open parent folder"
 msgid "Open in Browser"
 msgstr "상위 폴더를 엽니다"
 
-#: ../kupfer/plugin/gwibber.py:407
+#: ../kupfer/plugin/gwibber.py:419
 #, fuzzy
-#| msgid "Open URL with default viewer"
 msgid "Open message in default web browser"
 msgstr "기본 프로그램으로 이 주소 열기"
 
-#: ../kupfer/plugin/gwibber.py:413 ../kupfer/plugin/gwibber.py:451
+#: ../kupfer/plugin/gwibber.py:425 ../kupfer/plugin/gwibber.py:463
 #, fuzzy
-#| msgid "Gajim Account Status"
 msgid "Gwibber Accounts"
 msgstr "Gajim 계정 상태"
 
-#: ../kupfer/plugin/gwibber.py:444
+#: ../kupfer/plugin/gwibber.py:456
 msgid "Accounts configured in Gwibber"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber.py:483
+#: ../kupfer/plugin/gwibber.py:495
 msgid "Gwibber Messages"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber.py:506
+#: ../kupfer/plugin/gwibber.py:518
 msgid "Recent messages received by Gwibber"
 msgstr ""
 
 #. TRANS:  %s is a service name
-#: ../kupfer/plugin/gwibber.py:515
+#: ../kupfer/plugin/gwibber.py:527
 #, python-format
 msgid "Gwibber Messages for %s"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber.py:531
+#: ../kupfer/plugin/gwibber.py:543
 msgid "Gwibber Streams"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber.py:554
+#: ../kupfer/plugin/gwibber.py:566
 msgid "Streams configured in Gwibber"
 msgstr ""
 
 #. TRANS: Gwibber messages in %s :: %s is a Stream name
-#: ../kupfer/plugin/gwibber.py:562
+#: ../kupfer/plugin/gwibber.py:574
 #, python-format
 msgid "Gwibber Messages in %s"
 msgstr ""
-
-#: ../kupfer/plugin/gwibber.py:585 ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d 개의 문자)"
 
 #: ../kupfer/plugin/gwibber_simple.py:3
 msgid "Gwibber (Simple)"
@@ -2238,7 +2269,7 @@ msgstr ""
 msgid "Send updates via the microblogging client Gwibber"
 msgstr ""
 
-#: ../kupfer/plugin/gwibber_simple.py:46
+#: ../kupfer/plugin/gwibber_simple.py:45
 msgid "Send Update"
 msgstr ""
 
@@ -2267,11 +2298,11 @@ msgstr "%s (%s) 결과"
 msgid "Run (Take Result)"
 msgstr "실행 (결과 받기)"
 
-#: ../kupfer/plugin/higherorder.py:88
+#: ../kupfer/plugin/higherorder.py:90
 msgid "Take the command result as a proxy object"
 msgstr "프록시 개체로 명령 결과를 받습니다"
 
-#: ../kupfer/plugin/higherorder.py:93
+#: ../kupfer/plugin/higherorder.py:95
 msgid "Run (Discard Result)"
 msgstr "실행 (결과 버리기)"
 
@@ -2283,31 +2314,31 @@ msgstr "그림 도구"
 msgid "Image transformation tools"
 msgstr "그림 변형 도구"
 
-#: ../kupfer/plugin/image.py:26
+#: ../kupfer/plugin/image.py:25
 msgid "Scale..."
 msgstr "크기 조정..."
 
-#: ../kupfer/plugin/image.py:75
+#: ../kupfer/plugin/image.py:77
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "주어진 픽셀 치수에 맞게 그림의 크기를 조정합니다 "
 
-#: ../kupfer/plugin/image.py:107
+#: ../kupfer/plugin/image.py:112
 msgid "Rotate Clockwise"
 msgstr "시계 방향으로 회전"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:119
 msgid "Rotate Counter-Clockwise"
 msgstr "시계 반대 방향으로 회전"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:126
 msgid "Autorotate"
 msgstr "자동 회전"
 
-#: ../kupfer/plugin/image.py:151
+#: ../kupfer/plugin/image.py:155
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "사진의 EXIF 메타 정보에 따라 사진을 회전합니다"
 
-#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:83
+#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:86
 msgid "Kupfer Plugins"
 msgstr "쿠퍼 플러그인"
 
@@ -2315,27 +2346,27 @@ msgstr "쿠퍼 플러그인"
 msgid "Access Kupfer's plugin list in Kupfer"
 msgstr "쿠퍼 플러그인 목록에 접근합니다"
 
-#: ../kupfer/plugin/kupfer_plugins.py:20
+#: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
 msgstr "정보 보이기"
 
-#: ../kupfer/plugin/kupfer_plugins.py:32
+#: ../kupfer/plugin/kupfer_plugins.py:35
 msgid "Show Source Code"
 msgstr "소스 코드 보이기"
 
-#: ../kupfer/plugin/kupfer_plugins.py:77
+#: ../kupfer/plugin/kupfer_plugins.py:80
 msgid "enabled"
 msgstr "활성화"
 
-#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
+#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:28
 msgid "Locate Files"
 msgstr "파일 위치 찾기"
 
-#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
+#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:38
 msgid "Search filesystem using locate"
 msgstr "locate를 이용해 파일 시스템을 검색합니다"
 
-#: ../kupfer/plugin/locate.py:21
+#: ../kupfer/plugin/locate.py:20
 msgid "Ignore case distinctions when searching files"
 msgstr "파일을 찾을 때 대소문자를 무시합니다"
 
@@ -2344,23 +2375,21 @@ msgstr "파일을 찾을 때 대소문자를 무시합니다"
 msgid "OpenOffice / LibreOffice"
 msgstr ""
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:135
 #, fuzzy
-#| msgid "Recently used documents in OpenOffice"
 msgid "Recently used documents in OpenOffice/LibreOffice"
 msgstr "오픈오피스가 사용한 최근 문서"
 
-#: ../kupfer/plugin/openoffice.py:74
+#: ../kupfer/plugin/openoffice.py:83
 #, fuzzy
-#| msgid "OpenOffice Recent Items"
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "오픈 오피스 최근 항목"
 
-#: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:23
+#: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:22
 msgid "Opera Bookmarks"
 msgstr "오페라 책갈피"
 
-#: ../kupfer/plugin/opera.py:6 ../kupfer/plugin/opera.py:55
+#: ../kupfer/plugin/opera.py:6 ../kupfer/plugin/opera.py:54
 msgid "Index of Opera bookmarks"
 msgstr "오페라 책갈피 인덱스"
 
@@ -2373,15 +2402,15 @@ msgstr "오페라 메일"
 msgid "Opera Mail contacts and actions"
 msgstr "오페라 메일 연락처와 동작"
 
-#: ../kupfer/plugin/operamail.py:31
+#: ../kupfer/plugin/operamail.py:32
 msgid "Compose a new message in Opera Mail"
 msgstr "오페라 메일로 새 메시지를 작성합니다"
 
-#: ../kupfer/plugin/operamail.py:63
+#: ../kupfer/plugin/operamail.py:64
 msgid "Opera Mail Contacts"
 msgstr "오페라 메일 연락처"
 
-#: ../kupfer/plugin/operamail.py:119
+#: ../kupfer/plugin/operamail.py:120
 msgid "Contacts from Opera Mail"
 msgstr "오페라 메일 연락처"
 
@@ -2393,7 +2422,13 @@ msgstr "피진"
 msgid "Access to Pidgin Contacts"
 msgstr "피진 연락처에 접근"
 
-#: ../kupfer/plugin/pidgin.py:189
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d 개의 문자)"
+
+#: ../kupfer/plugin/pidgin.py:192
 msgid "Pidgin Contacts"
 msgstr "피진 연락처"
 
@@ -2408,6 +2443,14 @@ msgstr "PuTTY 세션으로 빠르게 접속"
 #: ../kupfer/plugin/putty.py:46 ../kupfer/plugin/tsclient.py:50
 msgid "Start Session"
 msgstr "세션 시작"
+
+#: ../kupfer/plugin/quickview.py:1
+msgid "Quick Image Viewer"
+msgstr ""
+
+#: ../kupfer/plugin/quickview.py:53
+msgid "View Image"
+msgstr ""
 
 #: ../kupfer/plugin/rst.py:1
 msgid "reStructuredText"
@@ -2425,32 +2468,32 @@ msgstr "HTML 문서로 보기"
 msgid "GNU Screen"
 msgstr "GNU 스크린"
 
-#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:81
+#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
 msgid "Active GNU Screen sessions"
 msgstr "GNU 스크린 세션 활성화"
 
-#: ../kupfer/plugin/screen.py:50
+#: ../kupfer/plugin/screen.py:57
 msgid "Attached"
 msgstr "결합됨"
 
-#: ../kupfer/plugin/screen.py:51
+#: ../kupfer/plugin/screen.py:58
 msgid "Detached"
 msgstr "분리됨"
 
-#: ../kupfer/plugin/screen.py:54
+#: ../kupfer/plugin/screen.py:61
 #, python-format
 msgid "%(status)s session (%(pid)s) created %(time)s"
 msgstr "%(status)s 세션 (%(pid)s) 만들어짐 %(time)s"
 
-#: ../kupfer/plugin/screen.py:63
+#: ../kupfer/plugin/screen.py:70
 msgid "Screen Sessions"
 msgstr "스크린 세션"
 
-#: ../kupfer/plugin/screen.py:91
+#: ../kupfer/plugin/screen.py:99
 msgid "Attach"
 msgstr "결합"
 
-#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:50
+#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:49
 msgid "Send Keys"
 msgstr ""
 
@@ -2458,28 +2501,23 @@ msgstr ""
 msgid "Send synthetic keyboard events using xautomation"
 msgstr ""
 
-#: ../kupfer/plugin/sendkeys.py:28
+#: ../kupfer/plugin/sendkeys.py:25
 msgid "Paste to Foreground Window"
 msgstr ""
 
-#: ../kupfer/plugin/sendkeys.py:44
+#: ../kupfer/plugin/sendkeys.py:43
 msgid "Copy to clipboard and send Ctrl+V to foreground window"
 msgstr ""
 
-#: ../kupfer/plugin/sendkeys.py:67
-#, python-format
-msgid "Keys not yet implemented: %s"
-msgstr ""
-
-#: ../kupfer/plugin/sendkeys.py:84
+#: ../kupfer/plugin/sendkeys.py:85
 msgid "Send keys to foreground window"
 msgstr ""
 
-#: ../kupfer/plugin/sendkeys.py:89
+#: ../kupfer/plugin/sendkeys.py:90
 msgid "Type Text"
 msgstr ""
 
-#: ../kupfer/plugin/sendkeys.py:108
+#: ../kupfer/plugin/sendkeys.py:111
 msgid "Type the text to foreground window"
 msgstr ""
 
@@ -2536,13 +2574,11 @@ msgstr "서비스"
 
 #: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:25
 #, fuzzy
-#| msgid "Show Source Code"
 msgid "Show QRCode"
 msgstr "소스 코드 보이기"
 
-#: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:57
+#: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:60
 #, fuzzy
-#| msgid "Display text in a window"
 msgid "Display text as QRCode in a window"
 msgstr "창에 텍스트 표시"
 
@@ -2609,11 +2645,11 @@ msgstr "SSH 호스트에 연결"
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "~/.ssh/config에 지정된 SSH 호스트"
 
-#: ../kupfer/plugin_support.py:136
+#: ../kupfer/plugin_support.py:144
 msgid "No D-Bus connection to desktop session"
 msgstr "데스크톱 세션에 D-Bus 연결 없음"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:109
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
 msgid "Document Templates"
 msgstr "문서 서식"
 
@@ -2621,28 +2657,28 @@ msgstr "문서 서식"
 msgid "Create new documents from your templates"
 msgstr "서식을 이용해 새 문서를 만듭니다"
 
-#: ../kupfer/plugin/templates.py:26
+#: ../kupfer/plugin/templates.py:24
 #, python-format
 msgid "%s template"
 msgstr "%s 서식"
 
-#: ../kupfer/plugin/templates.py:39 ../kupfer/plugin/textfiles.py:84
+#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "빈 파일"
 
-#: ../kupfer/plugin/templates.py:49
+#: ../kupfer/plugin/templates.py:47
 msgid "New Folder"
 msgstr "새 폴더"
 
-#: ../kupfer/plugin/templates.py:59
+#: ../kupfer/plugin/templates.py:57
 msgid "Create New Document..."
 msgstr "새 문서 만들기..."
 
-#: ../kupfer/plugin/templates.py:98
+#: ../kupfer/plugin/templates.py:96
 msgid "Create a new document from template"
 msgstr "서식을 이용해 새 문서 만들기"
 
-#: ../kupfer/plugin/templates.py:105
+#: ../kupfer/plugin/templates.py:103
 msgid "Create Document In..."
 msgstr "다음에 문서 만들기..."
 
@@ -2650,24 +2686,24 @@ msgstr "다음에 문서 만들기..."
 msgid "Textfiles"
 msgstr "텍스트 파일"
 
-#: ../kupfer/plugin/textfiles.py:49
+#: ../kupfer/plugin/textfiles.py:51
 msgid "Append To..."
 msgstr "다음에 첨가..."
 
-#: ../kupfer/plugin/textfiles.py:73
+#: ../kupfer/plugin/textfiles.py:75
 msgid "Append..."
 msgstr "첨가..."
 
-#: ../kupfer/plugin/textfiles.py:77
+#: ../kupfer/plugin/textfiles.py:79
 msgid "Write To..."
 msgstr "다음에 쓰기..."
 
-#: ../kupfer/plugin/textfiles.py:109
+#: ../kupfer/plugin/textfiles.py:111
 msgid "Get Text Contents"
 msgstr "텍스트 항목 가져오기"
 
-#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:181
-#: ../kupfer/plugin/thunar.py:221 ../kupfer/plugin/thunar.py:275
+#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:184
+#: ../kupfer/plugin/thunar.py:224 ../kupfer/plugin/thunar.py:283
 msgid "Thunar"
 msgstr "Thunar"
 
@@ -2675,11 +2711,11 @@ msgstr "Thunar"
 msgid "File manager Thunar actions"
 msgstr "파일 관리자 Thunar 동작"
 
-#: ../kupfer/plugin/thunar.py:74
+#: ../kupfer/plugin/thunar.py:66
 msgid "Select in File Manager"
 msgstr "파일 관리자로 선택"
 
-#: ../kupfer/plugin/thunar.py:98
+#: ../kupfer/plugin/thunar.py:94
 msgid "Show Properties"
 msgstr "속성 보이기"
 
@@ -2687,15 +2723,15 @@ msgstr "속성 보이기"
 msgid "Show information about file in file manager"
 msgstr "파일 관리자로 파일 정보를 봅니다"
 
-#: ../kupfer/plugin/thunar.py:123
+#: ../kupfer/plugin/thunar.py:126
 msgid "Send To..."
 msgstr "보내기..."
 
-#: ../kupfer/plugin/thunar.py:253
+#: ../kupfer/plugin/thunar.py:258
 msgid "Empty Trash"
 msgstr "휴지통 비우기"
 
-#: ../kupfer/plugin/thunar.py:287
+#: ../kupfer/plugin/thunar.py:298
 msgid "Thunar Send To Objects"
 msgstr "Thunar 개체로 보내기"
 
@@ -2707,15 +2743,15 @@ msgstr "썬더버드"
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "썬더버드/아이스도브 연락처와 동작"
 
-#: ../kupfer/plugin/thunderbird.py:38
+#: ../kupfer/plugin/thunderbird.py:32
 msgid "Compose a new message in Thunderbird"
 msgstr "썬더버드로 새 메시지 작성"
 
-#: ../kupfer/plugin/thunderbird.py:75
+#: ../kupfer/plugin/thunderbird.py:66
 msgid "Thunderbird Address Book"
 msgstr "썬더버드 주소록"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:91
 msgid "Contacts from Thunderbird Address Book"
 msgstr "썬더버드 주소록 상의 연락처"
 
@@ -2771,23 +2807,23 @@ msgstr "현재 사용자가 실행 중인 작업"
 msgid "Tracker 0.6"
 msgstr "트래커 0.6"
 
-#: ../kupfer/plugin/tracker.py:15 ../kupfer/plugin/tracker1.py:13
+#: ../kupfer/plugin/tracker.py:15 ../kupfer/plugin/tracker1.py:18
 msgid "Tracker desktop search integration"
 msgstr "트래커 데스크톱 검색 통합"
 
-#: ../kupfer/plugin/tracker.py:41 ../kupfer/plugin/tracker1.py:45
+#: ../kupfer/plugin/tracker.py:41 ../kupfer/plugin/tracker1.py:49
 msgid "Search in Tracker"
 msgstr "트래커로 검색"
 
-#: ../kupfer/plugin/tracker.py:46 ../kupfer/plugin/tracker1.py:50
+#: ../kupfer/plugin/tracker.py:46 ../kupfer/plugin/tracker1.py:54
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "트래커 검색 도구를 연 후 이 용어를 검색합니다"
 
-#: ../kupfer/plugin/tracker.py:55 ../kupfer/plugin/tracker1.py:58
+#: ../kupfer/plugin/tracker.py:55 ../kupfer/plugin/tracker1.py:62
 msgid "Get Tracker Results..."
 msgstr "트래커 결과 가져오기..."
 
-#: ../kupfer/plugin/tracker.py:64 ../kupfer/plugin/tracker1.py:67
+#: ../kupfer/plugin/tracker.py:64 ../kupfer/plugin/tracker1.py:71
 msgid "Show Tracker results for query"
 msgstr "쿼리의 트래커 결과 보이기"
 
@@ -2829,9 +2865,10 @@ msgstr "태그 제거..."
 msgid "Remove tracker tag from file"
 msgstr "파일에서 트래커 태그를 제거합니다"
 
-#: ../kupfer/plugin/tracker1.py:5
-msgid "Tracker 0.8"
-msgstr "트래커 0.8"
+#: ../kupfer/plugin/tracker1.py:10
+#, fuzzy
+msgid "Tracker"
+msgstr "트래커 0.6"
 
 #. FIXME: Port tracker tag sources and actions
 #. to the new, much more powerful sparql + dbus API
@@ -2910,7 +2947,7 @@ msgstr "Vim"
 msgid "Recently used documents in Vim"
 msgstr "Vim 최근 사용한 문서"
 
-#: ../kupfer/plugin/vim.py:47
+#: ../kupfer/plugin/vim.py:46
 msgid "Vim Recent Documents"
 msgstr "Vim 최근 문서"
 
@@ -2999,20 +3036,53 @@ msgstr "다음에 Zim Page 만들기..."
 msgid "Create Subpage..."
 msgstr "하위 페이지 만들기..."
 
-#: ../kupfer/plugin/zim.py:244
+#: ../kupfer/plugin/zim.py:243
 msgid "Zim Notebooks"
 msgstr "Zim Notebooks"
 
-#: ../kupfer/plugin/zim.py:260
+#: ../kupfer/plugin/zim.py:259
 msgid "Zim Pages"
 msgstr "Zim 페이지"
 
-#: ../kupfer/plugin/zim.py:288
+#: ../kupfer/plugin/zim.py:287
 msgid "Pages stored in Zim Notebooks"
 msgstr "Zim Notebooks에 보관된 페이지"
 
-msgid "Home Folder"
-msgstr "내 폴더"
+#~ msgid "<b>Directories</b>"
+#~ msgstr "<b>디렉터리</b>"
+
+#, fuzzy
+#~| msgid "<b>Directories</b>"
+#~ msgid "<b>Icons</b>"
+#~ msgstr "<b>디렉터리</b>"
+
+#~ msgid "<b>Interface</b>"
+#~ msgstr "<b>인터페이스</b>"
+
+#, fuzzy
+#~| msgid "<b>Interface</b>"
+#~ msgid "<b>Terminal</b>"
+#~ msgstr "<b>인터페이스</b>"
+
+#~ msgid "Text Matches"
+#~ msgstr "텍스트 일치"
+
+#, fuzzy
+#~| msgid "%s total found"
+#~ msgid "Command '%s' not found"
+#~ msgstr "%s 전체 검색"
+
+#~ msgid "noun"
+#~ msgstr "명사"
+
+#~ msgid "verb"
+#~ msgstr "동사"
+
+#~ msgid "adjective"
+#~ msgstr "형용사"
+
+#~ msgid "Tracker 0.8"
+#~ msgstr "트래커 0.8"
 
 #~ msgid ""
 #~ "Tick the box next to a source to make sure its objects are exported to "
@@ -3069,9 +3139,6 @@ msgstr "내 폴더"
 #~ msgid ""
 #~ "The preferred terminal emulator. It's used to launch the SSH sessions."
 #~ msgstr "선호하는 터미널 에뮬레이터. SSH 세션을 실행하는데 사용됩니다."
-
-#~ msgid "Execute flag"
-#~ msgstr "실행 플래그"
 
 #~ msgid ""
 #~ "The flag which makes the terminal execute everything following it inside "

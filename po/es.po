@@ -10,10 +10,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-06 17:45+0000\n"
+"POT-Creation-Date: 2011-04-14 21:40+0200\n"
 "PO-Revision-Date: 2011-04-13 09:48+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -102,7 +103,7 @@ msgstr ""
 msgid "Plugins"
 msgstr "Complementos"
 
-#: ../data/preferences.ui.h:16 ../kupfer/ui/preferences.py:831
+#: ../data/preferences.ui.h:16 ../kupfer/ui/preferences.py:844
 msgid "Reset"
 msgstr "Restablecer"
 
@@ -278,19 +279,19 @@ msgstr "Teclear para buscar %s"
 msgid "No action"
 msgstr "Sin acción"
 
-#: ../kupfer/ui/browser.py:1452
+#: ../kupfer/ui/browser.py:1461
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Hacer «%(action)s» predeterminada para «%(object)s»"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1462
+#: ../kupfer/ui/browser.py:1471
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Olvidarse de «%s»"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1894 ../kupfer/ui/preferences.py:58
+#: ../kupfer/ui/browser.py:1903 ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr "Mostrar la interfaz principal"
 
@@ -299,71 +300,71 @@ msgid "Show with Selection"
 msgstr "Mostrar con selección"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:412
+#: ../kupfer/ui/preferences.py:416
 msgid "Description"
 msgstr "Descripción"
 
-#: ../kupfer/ui/preferences.py:412
+#: ../kupfer/ui/preferences.py:416
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:429
+#: ../kupfer/ui/preferences.py:433
 msgid "Version"
 msgstr "Versión"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:439
+#: ../kupfer/ui/preferences.py:443
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Se necesita el módulo de Python «%s»"
 
-#: ../kupfer/ui/preferences.py:453
+#: ../kupfer/ui/preferences.py:457
 msgid "Plugin could not be read due to an error:"
 msgstr "No se puede leer el complemento debido al error:"
 
-#: ../kupfer/ui/preferences.py:461 ../kupfer/plugin/kupfer_plugins.py:80
+#: ../kupfer/ui/preferences.py:465 ../kupfer/plugin/kupfer_plugins.py:80
 msgid "disabled"
 msgstr "desactivado"
 
-#: ../kupfer/ui/preferences.py:535
+#: ../kupfer/ui/preferences.py:539
 msgid "Content of"
 msgstr "Contenido de"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:544
+#: ../kupfer/ui/preferences.py:548
 msgid "Sources"
 msgstr "Fuentes"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:548
+#: ../kupfer/ui/preferences.py:552
 msgid "Actions"
 msgstr "Acciones"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:585
+#: ../kupfer/ui/preferences.py:589
 msgid "Configuration"
 msgstr "Configuración"
 
-#: ../kupfer/ui/preferences.py:605
+#: ../kupfer/ui/preferences.py:609
 msgid "Set username and password"
 msgstr "Establecer el nombre de usuario y la contraseña"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:659
+#: ../kupfer/ui/preferences.py:663
 msgid "Choose a Directory"
 msgstr "Elegir un directorio"
 
-#: ../kupfer/ui/preferences.py:829
+#: ../kupfer/ui/preferences.py:842
 msgid "Reset all shortcuts to default values?"
 msgstr ""
 "¿Quiere restablecer todos los atajos de teclado a los valores "
 "predeterminados?"
 
-#: ../kupfer/ui/preferences.py:837 ../kupfer/plugin/custom_terminal.py:12
+#: ../kupfer/ui/preferences.py:850 ../kupfer/plugin/custom_terminal.py:12
 msgid "Command"
 msgstr "Comando"
 
-#: ../kupfer/ui/preferences.py:838
+#: ../kupfer/ui/preferences.py:851
 msgid "Shortcut"
 msgstr "Atajo"
 
@@ -481,7 +482,7 @@ msgstr "%s no soporta esta operación"
 msgid "Can not be used with multiple objects"
 msgstr "No se puede usar con varios objetos"
 
-#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:79
+#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
 #: ../kupfer/plugin/zim.py:107
 msgid "Open"
@@ -909,7 +910,7 @@ msgstr "Ejecutar programa y proporcionar texto en la salida extándar"
 msgid "Filter through Command..."
 msgstr "Filtrar a través de un comando…"
 
-#: ../kupfer/plugin/commands.py:210
+#: ../kupfer/plugin/commands.py:215
 msgid "Run command-line programs"
 msgstr "Ejecutar programas de línea de comandos"
 
@@ -1061,8 +1062,8 @@ msgstr "Archivo seleccionado «%s»"
 msgid "Selected Files"
 msgstr "Archivos seleccionados"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:165
-#: ../kupfer/plugin/notes.py:217
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:178
+#: ../kupfer/plugin/notes.py:230
 msgid "Notes"
 msgstr "Notas"
 
@@ -1074,46 +1075,46 @@ msgstr "Notas de GNote o Tomboy"
 msgid "Work with application"
 msgstr "Trabajar con aplicación"
 
-#: ../kupfer/plugin/notes.py:85
+#: ../kupfer/plugin/notes.py:95
 msgid "Open with notes application"
 msgstr "Abrir con la aplicación de notas"
 
-#: ../kupfer/plugin/notes.py:92
+#: ../kupfer/plugin/notes.py:102
 msgid "Append to Note..."
 msgstr "Añadir a nota…"
 
-#: ../kupfer/plugin/notes.py:115
+#: ../kupfer/plugin/notes.py:125
 msgid "Add text to existing note"
 msgstr "Añadir texto a una nota existente"
 
-#: ../kupfer/plugin/notes.py:127
+#: ../kupfer/plugin/notes.py:140
 msgid "Create Note"
 msgstr "Crear nota"
 
-#: ../kupfer/plugin/notes.py:141
+#: ../kupfer/plugin/notes.py:154
 msgid "Create a new note from this text"
 msgstr "Crear una nota nueva desde este texto"
 
-#: ../kupfer/plugin/notes.py:147
+#: ../kupfer/plugin/notes.py:160
 msgid "Get Note Search Results..."
 msgstr "Obtener los resultados de búsqueda de notas…"
 
-#: ../kupfer/plugin/notes.py:160
+#: ../kupfer/plugin/notes.py:173
 msgid "Show search results for this query"
 msgstr "Mostrar los resultados de búsqueda para esta consulta"
 
-#: ../kupfer/plugin/notes.py:200
+#: ../kupfer/plugin/notes.py:213
 #, python-format
 msgid "today, %s"
 msgstr "hoy, %s"
 
-#: ../kupfer/plugin/notes.py:202
+#: ../kupfer/plugin/notes.py:215
 #, python-format
 msgid "yesterday, %s"
 msgstr "ayer, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:206
+#: ../kupfer/plugin/notes.py:219
 #, python-format
 msgid "Last updated %s"
 msgstr "Última actualización %s"
@@ -1685,7 +1686,7 @@ msgid "Claws Mail Contacts and Actions"
 msgstr "Contactos y acciones de Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:29
+#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:25
 msgid "Compose New Email"
 msgstr "Redactar un correo electrónico nuevo"
 
@@ -1703,7 +1704,7 @@ msgstr "Recibir correo nuevo para todas las cuentas de Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:40 ../kupfer/plugin/operamail.py:41
-#: ../kupfer/plugin/thunderbird.py:45
+#: ../kupfer/plugin/thunderbird.py:41
 msgid "Compose Email"
 msgstr "Redactar un correo nuevo"
 
@@ -2378,11 +2379,11 @@ msgstr "Ignorar capitalización al buscar archivos"
 msgid "OpenOffice / LibreOffice"
 msgstr "OpenOffice / LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:128
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:135
 msgid "Recently used documents in OpenOffice/LibreOffice"
 msgstr "Documentos usados recientemente en OpenOffice/LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:74
+#: ../kupfer/plugin/openoffice.py:83
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "Elementos recientes de OpenOffice/LibreOffice"
 
@@ -2470,28 +2471,28 @@ msgstr "Ver como documento HTML"
 msgid "GNU Screen"
 msgstr "GNU Screen"
 
-#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:81
+#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
 msgid "Active GNU Screen sessions"
 msgstr "Sesiones activas de GNU Screen"
 
-#: ../kupfer/plugin/screen.py:50
+#: ../kupfer/plugin/screen.py:57
 msgid "Attached"
 msgstr "Adjunto"
 
-#: ../kupfer/plugin/screen.py:51
+#: ../kupfer/plugin/screen.py:58
 msgid "Detached"
 msgstr "No adjunto"
 
-#: ../kupfer/plugin/screen.py:54
+#: ../kupfer/plugin/screen.py:61
 #, python-format
 msgid "%(status)s session (%(pid)s) created %(time)s"
 msgstr "sesión %(status)s %(pid)s) creada %(time)s"
 
-#: ../kupfer/plugin/screen.py:63
+#: ../kupfer/plugin/screen.py:70
 msgid "Screen Sessions"
 msgstr "Sesiones de Screen"
 
-#: ../kupfer/plugin/screen.py:91
+#: ../kupfer/plugin/screen.py:99
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -2744,15 +2745,15 @@ msgstr "Thunderbird"
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Contactos y acciones de Thunderbird/Icedove"
 
-#: ../kupfer/plugin/thunderbird.py:36
+#: ../kupfer/plugin/thunderbird.py:32
 msgid "Compose a new message in Thunderbird"
 msgstr "Escribir un mensaje nuevo en Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:69
+#: ../kupfer/plugin/thunderbird.py:66
 msgid "Thunderbird Address Book"
 msgstr "Libreta de direcciones de Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:93
+#: ../kupfer/plugin/thunderbird.py:91
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Contactos de la libreta de direcciones de Thunderbird"
 
