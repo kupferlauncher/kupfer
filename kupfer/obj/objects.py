@@ -410,9 +410,8 @@ class TextLeaf (Leaf, TextRepresentation):
 		"""@text *must* be unicode or UTF-8 str"""
 		text = tounicode(text)
 		if not name:
-			lines = [l for l in text.splitlines() if l.strip()]
-			name = lines[0] if lines else text
-		if len(text) == 0:
+			name = self.get_first_text_line(text)
+		if len(text) == 0 or not name:
 			name = _("(Empty Text)")
 		Leaf.__init__(self, text, name)
 
@@ -422,10 +421,24 @@ class TextLeaf (Leaf, TextRepresentation):
 	def repr_key(self):
 		return hash(self.object)
 
+	@classmethod
+	def get_first_text_line(cls, text):
+		firstline = None
+		firstnl = text.find("\n")
+		if firstnl != -1:
+			firstline = text[:firstnl].strip()
+			if not firstline:
+				splut = text.split(None, 1)
+				firstline = splut[0] if splut else text
+		else:
+			firstline = text
+		if not firstline:
+			firstline = text.strip("\n")
+		return firstline
+
 	def get_description(self):
-		lines = [l for l in self.object.splitlines() if l.strip()]
-		desc = lines[0] if lines else self.object
-		numlines = len(lines) or 1
+		numlines = self.object.count("\n") + 1
+		desc = self.get_first_text_line(self.object)
 
 		# TRANS: This is description for a TextLeaf, a free-text search
 		# TRANS: The plural parameter is the number of lines %(num)d

@@ -37,9 +37,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 class ClipboardText (TextLeaf):
 	def get_description(self):
-		lines = self.object.splitlines()
+		numlines = max(self.object.count("\n"), 1)
 		desc = unicode(self)
-		numlines = len(lines) or 1
 
 		return ngettext('Clipboard "%(desc)s"',
 			'Clipboard with %(num)d lines "%(desc)s"',

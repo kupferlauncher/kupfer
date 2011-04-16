@@ -15,8 +15,7 @@ class SelectedText (TextLeaf):
 	qf_id = "selectedtext"
 	def __init__(self, text):
 		text = kupferstring.tounicode(text)
-		lines = filter(None, text.splitlines())
-		summary = lines[0] if lines else text
+		summary = self.get_first_text_line(text)
 		maxlen = 10
 		if len(summary) > maxlen:
 			summary = summary[:maxlen] + u".."

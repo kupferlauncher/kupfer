@@ -18,7 +18,7 @@ class LookUp (Action):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
 		text = leaf.object
-		return len(text.splitlines()) <= 1
+		return '\n' not in text
 	def get_description(self):
 		return None
 	def get_icon_name(self):

@@ -192,7 +192,7 @@ class CommandTextSource (TextSource):
 	def get_text_items(self, text):
 		if not text.strip():
 			return
-		if len(text.splitlines()) > 1:
+		if '\n' in text:
 			return
 		## check for absolute path with arguments
 		firstwords = text.split()
