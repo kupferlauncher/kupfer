@@ -48,7 +48,7 @@ def is_plugin_configured():
 class NewMailAction(Action):
 	''' Create new mail to selected leaf'''
 	def __init__(self):
-		Action.__init__(self, _('Compose Email in GMail'))
+		Action.__init__(self, _('Compose Email in Gmail'))
 
 	def activate(self, obj):
 		self.activate_multiple((obj, ))
@@ -71,7 +71,7 @@ class NewMailAction(Action):
 		return bool(email_from_leaf(item))
 
 	def get_description(self):
-		return _("Open web browser and compose new email in GMail")
+		return _("Open web browser and compose new email in Gmail")
 
 
 def get_gclient():
