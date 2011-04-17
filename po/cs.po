@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-14 21:40+0200\n"
-"PO-Revision-Date: 2011-03-31 09:38+0200\n"
+"POT-Creation-Date: 2011-04-16 12:43+0000\n"
+"PO-Revision-Date: 2011-04-17 11:05+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
-"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1
@@ -579,13 +579,13 @@ msgstr "Spustit"
 msgid "Perform command"
 msgstr "Provést příkaz"
 
-#: ../kupfer/obj/objects.py:416
+#: ../kupfer/obj/objects.py:415
 msgid "(Empty Text)"
 msgstr "(Prázdný text)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:432
+#: ../kupfer/obj/objects.py:445
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -719,11 +719,11 @@ msgstr "Přeindexovat"
 msgid "Force reindex of this source"
 msgstr "Vynutit přeindexování tohoto zdroje"
 
-#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:36
+#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:35
 msgid "Selected Text"
 msgstr "Vybraný text"
 
-#: ../kupfer/plugin/core/selection.py:23
+#: ../kupfer/plugin/core/selection.py:22
 #, python-format
 msgid "Selected Text \"%s\""
 msgstr "Vybraný text „%s“"
@@ -818,11 +818,11 @@ msgstr "Vypočítat výraz začínajících „=“"
 msgid "Calculate"
 msgstr "Vypočítat"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:71
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:70
 msgid "Clipboards"
 msgstr "Schránky"
 
-#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:111
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:110
 msgid "Recent clipboards"
 msgstr "Nedávný obsah schránek"
 
@@ -838,7 +838,7 @@ msgstr "Zahrnout nedávno vybrané"
 msgid "Copy selection to primary clipboard"
 msgstr "Kopírovat výběr do hlavní schránky"
 
-#: ../kupfer/plugin/clipboard.py:44
+#: ../kupfer/plugin/clipboard.py:43
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -846,11 +846,11 @@ msgstr[0] "Schránka „%(desc)s“"
 msgstr[1] "Schránka s %(num)d řádky „%(desc)s“"
 msgstr[2] "Schránka s %(num)d řádky „%(desc)s“"
 
-#: ../kupfer/plugin/clipboard.py:51
+#: ../kupfer/plugin/clipboard.py:50
 msgid "Clear"
 msgstr "Vyčistit"
 
-#: ../kupfer/plugin/clipboard.py:63
+#: ../kupfer/plugin/clipboard.py:62
 msgid "Remove all recent clipboards"
 msgstr "Odstranit všechny nedávné položky ze schránky"
 
@@ -1911,12 +1911,14 @@ msgid "Load contacts' pictures"
 msgstr "Načítat obrázky kontaktů"
 
 #: ../kupfer/plugin/gmail/__init__.py:51
-msgid "Compose Email in GMail"
-msgstr "Napsat e-mail v GMail"
+#| msgid "Compose Email in GMail"
+msgid "Compose Email in Gmail"
+msgstr "Napsat e-mail v pošťáku GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:74
-msgid "Open web browser and compose new email in GMail"
-msgstr "Otevřít webový prohlížeč a napsat nový e-mail v GMail"
+#| msgid "Open web browser and compose new email in GMail"
+msgid "Open web browser and compose new email in Gmail"
+msgstr "Otevřít webový prohlížeč a napsat nový e-mail v pošťáku GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:177
 msgid "Contacts from Google services (Gmail)"
