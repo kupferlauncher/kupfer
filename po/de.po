@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the kupfer package. (GPLv3)
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
 # Thibaud Roth <thibaud.roth@betriebsdirektor.de>, 2009.
-# Mario Blättermann <mariobl@gnome.org>, 2009-2011.
+# Mario Blättermann <mariobl@freenet.de>, 2009-2011.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-14 21:40+0200\n"
-"PO-Revision-Date: 2011-03-28 21:18+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
+"POT-Creation-Date: 2011-04-16 12:43+0000\n"
+"PO-Revision-Date: 2011-04-17 11:52+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1
@@ -26,8 +26,7 @@ msgstr "Anwendungsstarter"
 
 #: ../auxdata/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr ""
-"Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
+msgstr "Praktisches Befehls- und Zugriffswerkzeug für Anwendungen und Dokumente"
 
 #: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:91
@@ -168,7 +167,7 @@ msgstr "Informationen zur Fehlerdiagnose aktivieren"
 
 #: ../kupfer/main.py:46
 msgid "run keyboard shortcut relay service on this display"
-msgstr ""
+msgstr "Weiterleitungsdienst für Tastenkombinationen in dieser Anzeige starten"
 
 #: ../kupfer/main.py:49
 msgid "show usage help"
@@ -220,7 +219,7 @@ msgstr "Als Standardanwendung markieren"
 
 #: ../kupfer/ui/accelerators.py:12
 msgid "Forget Object"
-msgstr ""
+msgstr "Objekt vergessen"
 
 #: ../kupfer/ui/accelerators.py:13
 msgid "Reset All"
@@ -290,7 +289,7 @@ msgstr "»%(action)s« als Vorgabe für »%(object)s« festlegen"
 #: ../kupfer/ui/browser.py:1471
 #, python-format
 msgid "Forget About \"%s\""
-msgstr ""
+msgstr "»%s« vergessen"
 
 #. TRANS: Names of global keyboard shortcuts
 #: ../kupfer/ui/browser.py:1903 ../kupfer/ui/preferences.py:58
@@ -358,8 +357,7 @@ msgstr "Einen Ordner auswählen"
 
 #: ../kupfer/ui/preferences.py:842
 msgid "Reset all shortcuts to default values?"
-msgstr ""
-"Sollen alle Tastenkombinationen auf Standardwerte zurückgesetzt werden?"
+msgstr "Sollen alle Tastenkombinationen auf Standardwerte zurückgesetzt werden?"
 
 #: ../kupfer/ui/preferences.py:850 ../kupfer/plugin/custom_terminal.py:12
 msgid "Command"
@@ -375,7 +373,8 @@ msgstr "Kürzel"
 msgid "translator-credits"
 msgstr ""
 "Thibaud Roth <thibaud.roth@betriebsdirektor.de>\n"
-"Mario Blättermann <mariobl@gnome.org>"
+"Mario Blättermann <mariobl@freenet.de>\n"
+"Christian Kirbach <Christian.Kirbach@googlemail.com>"
 
 #: ../kupfer/version.py:78
 msgid "A free software (GPLv3+) launcher"
@@ -408,8 +407,8 @@ msgstr ""
 "finden,\n"
 "jedoch OHNE JEDWEDE GARANTIE, sogar ohne eine implizite Garantie\n"
 "der VERKAUFBARKEIT oder der NUTZBARKEIT FÜR EINEN SPEZIELLEN ZWECK.\n"
-"Schauen Sie für weitere Informationen bitte in der GNU General Public "
-"License (GNU GPL) nach.\n"
+"Schauen Sie für weitere Informationen bitte in der GNU General Public License "
+"(GNU GPL) nach.\n"
 "\n"
 "Mit diesem Programm sollten Sie außerdem eine Kopie der GNU General Public "
 "License erhalten\n"
@@ -425,7 +424,7 @@ msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 #: ../kupfer/keyrelay.py:62
 #, python-format
 msgid "Keyboard relay is active for display %s"
-msgstr ""
+msgstr "Tastatur-Weiterleitungsdienst ist aktiv für Anzeige %s"
 
 #: ../kupfer/core/commandexec.py:239
 #, python-format
@@ -448,9 +447,8 @@ msgid "Command in \"%s\" is not available"
 msgstr "Befehl in »%s« ist nicht verfügbar"
 
 #: ../kupfer/obj/base.py:457 ../kupfer/plugin/core/text.py:22
-#, fuzzy
 msgid "Text"
-msgstr "Text anzeigen"
+msgstr "Text"
 
 #: ../kupfer/obj/compose.py:15
 msgid "Run after Delay..."
@@ -591,13 +589,13 @@ msgstr "Ausführen"
 msgid "Perform command"
 msgstr "Befehl ausführen"
 
-#: ../kupfer/obj/objects.py:416
+#: ../kupfer/obj/objects.py:415
 msgid "(Empty Text)"
 msgstr "(Leerer Text)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:432
+#: ../kupfer/obj/objects.py:445
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -730,11 +728,11 @@ msgstr "Neu einlesen"
 msgid "Force reindex of this source"
 msgstr "Neuindizierung dieser Quelle erzwingen"
 
-#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:36
+#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:35
 msgid "Selected Text"
 msgstr "Markierter Text"
 
-#: ../kupfer/plugin/core/selection.py:23
+#: ../kupfer/plugin/core/selection.py:22
 #, python-format
 msgid "Selected Text \"%s\""
 msgstr "Markierter Text »%s«"
@@ -779,8 +777,7 @@ msgstr "Komprimiertes Archiv entpacken"
 msgid "Create Archive"
 msgstr "Archiv erstellen"
 
-#: ../kupfer/plugin/archivemanager.py:86
-#: ../kupfer/plugin/archivemanager.py:129
+#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Ein komprimiertes Archiv aus einem Ordner erstellen"
 
@@ -829,11 +826,11 @@ msgstr "Ausdrücke beginnend mit »=« berechnen"
 msgid "Calculate"
 msgstr "Berechnen"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:71
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:70
 msgid "Clipboards"
 msgstr "Zwischenablagen"
 
-#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:111
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:110
 msgid "Recent clipboards"
 msgstr "Aktuelle Zwischenablagen"
 
@@ -849,18 +846,18 @@ msgstr "Kürzlich getroffene Auswahlen einschließen"
 msgid "Copy selection to primary clipboard"
 msgstr "Auswahl in die primäre Zwischenablage kopieren"
 
-#: ../kupfer/plugin/clipboard.py:44
+#: ../kupfer/plugin/clipboard.py:43
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Zwischenablage »%(desc)s«"
 msgstr[1] "Zwischenablage mit %(num)d Zeilen »%(desc)s«"
 
-#: ../kupfer/plugin/clipboard.py:51
+#: ../kupfer/plugin/clipboard.py:50
 msgid "Clear"
 msgstr "Leeren"
 
-#: ../kupfer/plugin/clipboard.py:63
+#: ../kupfer/plugin/clipboard.py:62
 msgid "Remove all recent clipboards"
 msgstr "Alle aktuellen Zwischenablagen entfernen"
 
@@ -874,8 +871,8 @@ msgid ""
 "Run command-line programs. Actions marked with the symbol %s run in a "
 "subshell."
 msgstr ""
-"Befehlszeilenprogramme ausführen. Mit dem Symbol %s markierte Aktionen "
-"werden in einer Subshell ausgeführt."
+"Befehlszeilenprogramme ausführen. Mit dem Symbol %s markierte Aktionen werden "
+"in einer Subshell ausgeführt."
 
 #: ../kupfer/plugin/commands.py:41
 msgid "Run (Get Output)"
@@ -1729,8 +1726,7 @@ msgstr "Adressbuch von Claws Mail"
 msgid "Contacts from Claws Mail Address Book"
 msgstr "Kontakte aus dem Adressbuch von Claws Mail"
 
-#: ../kupfer/plugin/custom_terminal.py:1
-#: ../kupfer/plugin/custom_terminal.py:39
+#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:39
 msgid "Custom Terminal"
 msgstr "Benutzerdefiniertes Terminal"
 
@@ -1921,11 +1917,11 @@ msgid "Load contacts' pictures"
 msgstr "Bilder für Kontakte laden"
 
 #: ../kupfer/plugin/gmail/__init__.py:51
-msgid "Compose Email in GMail"
+msgid "Compose Email in Gmail"
 msgstr "Neue E-Mail in GMail verfassen"
 
 #: ../kupfer/plugin/gmail/__init__.py:74
-msgid "Open web browser and compose new email in GMail"
+msgid "Open web browser and compose new email in Gmail"
 msgstr "Webbrowser öffnen und eine neue Nachricht in GMail erstellen"
 
 #: ../kupfer/plugin/gmail/__init__.py:177
@@ -2142,9 +2138,8 @@ msgstr "Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:6
 msgid ""
-"Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
-"service'."
+"Microblogging with Gwibber. Allows sending and receiving messages from social "
+"networks like Twitter, Identi.ca etc. Requires the package 'gwibber-service'."
 msgstr ""
 "Microblogging mit Gwibber. Erlaubt das Senden und Empfangen von Nachrichten "
 "in sozialen Netzwerken wie Twitter, Identi.ca usw. Dafür wird das Paket "
@@ -2964,8 +2959,8 @@ msgid ""
 "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
 "Source Edition."
 msgstr ""
-"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun "
-"als auch die Open Source Edition."
+"Steuerung von VirtualBox-Maschinen. Unterstützt sowohl VirtualBox von Sun als "
+"auch die Open Source Edition."
 
 #: ../kupfer/plugin/virtualbox/__init__.py:22
 msgid "Force use CLI interface"
@@ -3090,9 +3085,9 @@ msgstr "In Zim-Notizbüchern gespeicherte Seiten"
 #~ "the terminal (e.g. '-x' for gnome-terminal and terminal, '-e' for konsole "
 #~ "and urxvt)."
 #~ msgstr ""
-#~ "Das Argument, welches das Terminal anweist, alles Nachfolgende im "
-#~ "Terminal auszuführen (z.B. »-x« für gnome-terminal und terminal, »-e« für "
-#~ "konsole und urxvt)."
+#~ "Das Argument, welches das Terminal anweist, alles Nachfolgende im Terminal "
+#~ "auszuführen (z.B. »-x« für gnome-terminal und terminal, »-e« für konsole "
+#~ "und urxvt)."
 
 #~ msgid "Tracker 0.8"
 #~ msgstr "Tracker 0.8"
