@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-17 14:46+0200\n"
+"POT-Creation-Date: 2011-04-18 12:13+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: SanskritFritz (gmail)\n"
 "Language-Team: \n"
@@ -23,7 +23,7 @@ msgstr "Alkalmazásindító"
 
 #: ../auxdata/kupfer.desktop.in.h:2
 msgid "Convenient command and access tool for applications and documents"
-msgstr "Ügyes kis kütyü alkalmazások indításához és dokumentumok eléréséhez"
+msgstr "Ügyes kis kütyü alkalmazások indítására és dokumentumok elérésére"
 
 #: ../auxdata/kupfer.desktop.in.h:3 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:91
@@ -32,7 +32,7 @@ msgstr "Kupfer"
 
 #: ../auxdata/kupfer-exec.desktop.in.h:1
 msgid "Execute in Kupfer"
-msgstr "Végrehajtás Kupfer-ban"
+msgstr "Végrehajtás Kupfer-ben"
 
 #: ../auxdata/kupfer-mimetypes.xml.in.h:1
 msgid "Saved Kupfer Command"
@@ -40,11 +40,11 @@ msgstr "Elmentett Kupfer parancs"
 
 #: ../data/preferences.ui.h:1
 msgid "<b>Browser Keyboard Shortcuts</b>"
-msgstr "<b>Böngésző Gyorsbillentyű</b>"
+msgstr "<b>Böngésző gyorsbillentyűk</b>"
 
 #: ../data/preferences.ui.h:2
 msgid "<b>Global Keyboard Shortcuts</b>"
-msgstr "<b>Globális Gyorsbillentyű</b>"
+msgstr "<b>Globális gyorsbillentyűk</b>"
 
 #: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
@@ -91,9 +91,9 @@ msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
 msgstr ""
-"A megjelölt források elemei mindig láthatók leszenk a kereső legfelsőbb "
+"A kijelölt források elemei mindig láthatók lesznek a kereső legfelső "
 "szintjén.\n"
-"A többi forrás tartalma a megfelelő al-katalógus kiválasztása után látható."
+"A többi forrás tartalma a megfelelő alkatalógus kiválasztása után látható."
 
 #: ../data/preferences.ui.h:15
 msgid "Plugins"
@@ -101,11 +101,11 @@ msgstr "Beépülők"
 
 #: ../data/preferences.ui.h:16 ../kupfer/ui/preferences.py:833
 msgid "Reset"
-msgstr "Alapállapotba"
+msgstr "Alapállapot"
 
 #: ../data/preferences.ui.h:17
 msgid "Show icon in notification area"
-msgstr "Ikon az értesítési területen"
+msgstr "Ikon megjelenítése az értesítési területen"
 
 #: ../data/preferences.ui.h:18
 msgid "Start automatically on login"
@@ -117,7 +117,8 @@ msgstr "Terminálemulátor"
 
 #: ../data/preferences.ui.h:20
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
-msgstr "Egyszerű billentyűparancsok használata (Szóköz, / pont, / vessző stb.)"
+msgstr ""
+"Egyszerű billentyűparancsok használata (Szóköz, /, pont, / vessző stb.)"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
@@ -241,7 +242,7 @@ msgstr "Beállítások"
 
 #: ../kupfer/ui/accelerators.py:19
 msgid "Switch to First Pane"
-msgstr "Kapcsolj az első panelre"
+msgstr "Váltás az első panelre"
 
 #: ../kupfer/ui/accelerators.py:20
 msgid "Toggle Text Mode"
@@ -259,7 +260,7 @@ msgstr "%(src)s-ben nincs illeszkedés erre: \"%(query)s\""
 
 #: ../kupfer/ui/browser.py:898
 msgid "No matches"
-msgstr "Minta nem illeszkedik"
+msgstr "A minta nem illeszkedik"
 
 #: ../kupfer/ui/browser.py:903
 msgid "Type to search"
@@ -268,7 +269,7 @@ msgstr "Kereséshez gépelj"
 #: ../kupfer/ui/browser.py:909
 #, python-format
 msgid "Type to search %s"
-msgstr "%s kereséshez gépelj"
+msgstr "%s kereséséhez gépelj"
 
 #: ../kupfer/ui/browser.py:924
 msgid "No action"
@@ -784,7 +785,7 @@ msgstr "Alkalmazások"
 
 #: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:74
 msgid "All applications and preferences"
-msgstr "Minden alkalmazás és beállítás"
+msgstr "Alkalmazások és beállításaik"
 
 #: ../kupfer/plugin/applications.py:23
 msgid "Applications for Desktop Environment"
@@ -993,7 +994,7 @@ msgstr "Fájl akciók"
 
 #: ../kupfer/plugin/fileactions.py:9
 msgid "More file actions"
-msgstr "Még több fálj akció"
+msgstr "Még több fáljparancs"
 
 #: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/windows.py:122
 #: ../kupfer/plugin/thunar.py:210
@@ -1187,7 +1188,7 @@ msgstr "Számok hozzáadása a lejátszási sorhoz"
 #: ../kupfer/plugin/rhythmbox.py:195
 #, python-format
 msgid "by %(artist)s from %(album)s"
-msgstr "%(artist)s : %(album)s"
+msgstr "%(artist)s - %(album)s"
 
 #. TRANS: Album description "by Artist"
 #: ../kupfer/plugin/rhythmbox.py:250
@@ -1232,7 +1233,7 @@ msgstr "GNOME munkafolyamat-menedzsment"
 
 #: ../kupfer/plugin/session_gnome.py:3
 msgid "Special items and actions for GNOME environment"
-msgstr "Speciális elemek és akciók a GNOME környezethez"
+msgstr "Speciális elemek és parancsok a GNOME környezethez"
 
 #: ../kupfer/plugin/session_support.py:31
 msgid "Log Out..."
@@ -1248,7 +1249,7 @@ msgstr "Kikapcsolás..."
 
 #: ../kupfer/plugin/session_support.py:44
 msgid "Shut down, restart or suspend computer"
-msgstr "A számítógép kikapcsolása, újraindítása, vagy fagyasztása"
+msgstr "Kikapcsolás, újraindítás, vagy felfüggesztés"
 
 #: ../kupfer/plugin/session_support.py:51
 msgid "Lock Screen"
@@ -1265,7 +1266,7 @@ msgstr "XFCE munkafolyamat-menedzsment"
 
 #: ../kupfer/plugin/session_xfce.py:5
 msgid "Special items and actions for XFCE environment"
-msgstr "Speciális elemek és akciók az XFCE környezethez"
+msgstr "Speciális elemek és parancsok az XFCE környezethez"
 
 #: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
 #: ../kupfer/plugin/show_text.py:25
@@ -1323,7 +1324,7 @@ msgstr[1] "A szemétkosárban %(num)s fájl van"
 
 #: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:50
 msgid "Triggers"
-msgstr "Programindítók"
+msgstr "Gyorsindítók"
 
 #: ../kupfer/plugin/triggers.py:6
 msgid ""
@@ -1331,15 +1332,15 @@ msgid ""
 "Command'."
 msgstr ""
 "Globális billenyűparancs hozzárendelése a 'Parancsösszeállító'-val "
-"létrehozott elemkhez."
+"létrehozott elemekhez."
 
 #: ../kupfer/plugin/triggers.py:161
 msgid "Add Trigger..."
-msgstr "Programindító hozzáadása"
+msgstr "Hozzáadás a gyorsindítókhoz..."
 
 #: ../kupfer/plugin/triggers.py:180
 msgid "Remove Trigger"
-msgstr "Programindító törlése"
+msgstr "Gyorsindító törlése"
 
 #: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
 msgid "URL Actions"
@@ -1422,7 +1423,7 @@ msgstr "Wikipedia nyelv"
 #. TRANS: Default wikipedia language code
 #: ../kupfer/plugin/wikipedia.py:24
 msgid "en"
-msgstr "en"
+msgstr "hu"
 
 #: ../kupfer/plugin/wikipedia.py:44
 #, python-format
@@ -1459,7 +1460,7 @@ msgstr "Visszaállítás"
 
 #: ../kupfer/plugin/windows.py:29
 msgid "Maximize"
-msgstr "Teljes méret"
+msgstr "Teljes méretre"
 
 #: ../kupfer/plugin/windows.py:29
 msgid "Unmaximize"
@@ -1467,7 +1468,7 @@ msgstr "Visszaállítás"
 
 #: ../kupfer/plugin/windows.py:33
 msgid "Maximize Vertically"
-msgstr "Teljes méret magasságban"
+msgstr "Teljes magasságra méretez"
 
 #: ../kupfer/plugin/windows.py:33
 msgid "Unmaximize Vertically"
@@ -1477,7 +1478,7 @@ msgstr "Visszaállítás"
 #: ../kupfer/plugin/windows.py:48
 #, python-format
 msgid "Window on %(wkspc)s"
-msgstr "Ablakok itt: %(wkspc)s"
+msgstr "Ablak itt: %(wkspc)s"
 
 #: ../kupfer/plugin/windows.py:56
 msgid "Frontmost Window"
@@ -1553,7 +1554,7 @@ msgstr "\"%s\" mintájú csomagok"
 
 #: ../kupfer/plugin/apt_tools.py:154
 msgid "Search Package Name..."
-msgstr "Keresés csomagnévre"
+msgstr "Keresés csomagnévre..."
 
 #: ../kupfer/plugin/archiveinside.py:8
 msgid "Deep Archives"
@@ -2040,7 +2041,7 @@ msgstr "Fordítás..."
 #: ../kupfer/plugin/google_translate.py:179
 #, python-format
 msgid "Translate into %s"
-msgstr "Fordítás másra..."
+msgstr "Fordítás %s-ra"
 
 #: ../kupfer/plugin/google_translate.py:203
 msgid "Languages"
@@ -2276,7 +2277,7 @@ msgstr "Eszközök, amik paracsokat objektumként használnak"
 
 #: ../kupfer/plugin/higherorder.py:20
 msgid "Select in Kupfer"
-msgstr "Kijelölés Kupfer-ban"
+msgstr "Kijelölés Kupfer-ben"
 
 #: ../kupfer/plugin/higherorder.py:59
 #, python-format
@@ -2333,7 +2334,7 @@ msgstr "Kupfer beépülők"
 
 #: ../kupfer/plugin/kupfer_plugins.py:3
 msgid "Access Kupfer's plugin list in Kupfer"
-msgstr "Beépülők listájának elérése Kupfer-ban"
+msgstr "Beépülők listájának elérése Kupfer-ben"
 
 #: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
@@ -2387,7 +2388,7 @@ msgstr "Opera Mail"
 
 #: ../kupfer/plugin/operamail.py:5
 msgid "Opera Mail contacts and actions"
-msgstr "Opera Mail címtár és akciók"
+msgstr "Opera Mail címtár és parancsok"
 
 #: ../kupfer/plugin/operamail.py:32
 msgid "Compose a new message in Opera Mail"
@@ -2662,7 +2663,7 @@ msgstr "Új dokumentum létrehozása..."
 
 #: ../kupfer/plugin/templates.py:96
 msgid "Create a new document from template"
-msgstr "Új dokumentum létrehozása sablonból..."
+msgstr "Új dokumentum létrehozása sablonból"
 
 #: ../kupfer/plugin/templates.py:103
 msgid "Create Document In..."
@@ -2695,7 +2696,7 @@ msgstr "Thunar"
 
 #: ../kupfer/plugin/thunar.py:10
 msgid "File manager Thunar actions"
-msgstr "Thunar fáljkezelő akciók"
+msgstr "Thunar fáljkezelő parancsok"
 
 #: ../kupfer/plugin/thunar.py:66
 msgid "Select in File Manager"
@@ -2769,7 +2770,7 @@ msgstr "Memóriahasználat (csökkenő)"
 
 #: ../kupfer/plugin/top.py:49
 msgid "Send Signal..."
-msgstr "Szignál küldése"
+msgstr "Szignál küldése..."
 
 #: ../kupfer/plugin/top.py:79
 msgid "Signals"
@@ -2837,7 +2838,7 @@ msgstr "Elemek, Tracker-ben %s cimkével"
 
 #: ../kupfer/plugin/tracker.py:223
 msgid "Add Tag..."
-msgstr "Cimke hozzáadása"
+msgstr "Cimke hozzáadása..."
 
 #: ../kupfer/plugin/tracker.py:249
 msgid "Add tracker tag to file"
@@ -2878,11 +2879,11 @@ msgstr "Köteg csatolása"
 
 #: ../kupfer/plugin/truecrypt.py:63
 msgid "Mount in Truecrypt"
-msgstr "Csatoás TrueCrypt-ben"
+msgstr "Felcsatolás TrueCrypt-ben"
 
 #: ../kupfer/plugin/truecrypt.py:72
 msgid "Try to mount file as Truecrypt volume"
-msgstr "Fájl csatolása mint TrueCrypt köteg"
+msgstr "Fájl felcsatolása TrueCrypt kötegként"
 
 #: ../kupfer/plugin/truecrypt.py:80
 msgid "Dismount All Volumes"
@@ -2914,7 +2915,7 @@ msgstr "Vinagre"
 
 #: ../kupfer/plugin/vinagre.py:7
 msgid "Vinagre bookmarks and actions"
-msgstr "Vinagre könyvjelzők és akciók"
+msgstr "Vinagre könyvjelzők és parancsok"
 
 #: ../kupfer/plugin/vinagre.py:34
 msgid "Start Vinagre Session"
@@ -2961,7 +2962,7 @@ msgstr "Bekapcsolás"
 #: ../kupfer/plugin/virtualbox/__init__.py:88
 #: ../kupfer/plugin/virtualbox/__init__.py:99
 msgid "Power On Headless"
-msgstr "Headless üzem bekapcsolása"
+msgstr "Bekapcsolás felület nélküli üzemben"
 
 #: ../kupfer/plugin/virtualbox/__init__.py:91
 msgid "Send Power Off Signal"
@@ -3019,7 +3020,7 @@ msgstr "Zim oldal létrehozása máshol..."
 
 #: ../kupfer/plugin/zim.py:122
 msgid "Create Subpage..."
-msgstr "Aloldal létrehozása"
+msgstr "Aloldal létrehozása..."
 
 #: ../kupfer/plugin/zim.py:243
 msgid "Zim Notebooks"
