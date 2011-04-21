@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-14 21:40+0200\n"
-"PO-Revision-Date: 2011-04-13 09:48+0200\n"
+"POT-Creation-Date: 2011-04-16 12:43+0000\n"
+"PO-Revision-Date: 2011-04-21 19:21+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1
@@ -588,13 +588,13 @@ msgstr "Ejecutar"
 msgid "Perform command"
 msgstr "Ejecutar comando"
 
-#: ../kupfer/obj/objects.py:416
+#: ../kupfer/obj/objects.py:415
 msgid "(Empty Text)"
 msgstr "(Texto vacío)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:432
+#: ../kupfer/obj/objects.py:445
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -727,11 +727,11 @@ msgstr "Rescanear"
 msgid "Force reindex of this source"
 msgstr "Forzar reindexación de esta fuente"
 
-#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:36
+#: ../kupfer/plugin/core/selection.py:8 ../kupfer/plugin/core/selection.py:35
 msgid "Selected Text"
 msgstr "Texto seleccionado"
 
-#: ../kupfer/plugin/core/selection.py:23
+#: ../kupfer/plugin/core/selection.py:22
 #, python-format
 msgid "Selected Text \"%s\""
 msgstr "Texto seleccionado «%s»"
@@ -827,11 +827,11 @@ msgstr "Calcular expresión empezando por «=»"
 msgid "Calculate"
 msgstr "Calcular"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:71
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:70
 msgid "Clipboards"
 msgstr "Portapapeles"
 
-#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:111
+#: ../kupfer/plugin/clipboard.py:4 ../kupfer/plugin/clipboard.py:110
 msgid "Recent clipboards"
 msgstr "Portapapeles recientes"
 
@@ -847,18 +847,18 @@ msgstr "Incluir selecciones recientes"
 msgid "Copy selection to primary clipboard"
 msgstr "Copiar la selección al portapapeles primario"
 
-#: ../kupfer/plugin/clipboard.py:44
+#: ../kupfer/plugin/clipboard.py:43
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Portapapeles \"%(desc)s\""
 msgstr[1] "Portapapeles con %(num)d líneas «%(desc)s»"
 
-#: ../kupfer/plugin/clipboard.py:51
+#: ../kupfer/plugin/clipboard.py:50
 msgid "Clear"
 msgstr "Limpiar"
 
-#: ../kupfer/plugin/clipboard.py:63
+#: ../kupfer/plugin/clipboard.py:62
 msgid "Remove all recent clipboards"
 msgstr "Limpiar todos los elementos recientes en el portapapeles"
 
@@ -1919,12 +1919,14 @@ msgid "Load contacts' pictures"
 msgstr "Cargar las imágenes de los contactos"
 
 #: ../kupfer/plugin/gmail/__init__.py:51
-msgid "Compose Email in GMail"
-msgstr "Redactar un correo-e nuevo en GMail"
+#| msgid "Compose Email in GMail"
+msgid "Compose Email in Gmail"
+msgstr "Redactar un correo-e en GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:74
-msgid "Open web browser and compose new email in GMail"
-msgstr "Abrir el navegador y redactar un correo-e nuevo en GMail"
+#| msgid "Open web browser and compose new email in GMail"
+msgid "Open web browser and compose new email in Gmail"
+msgstr "Abrir el navegador web y redactar un correo-e nuevo en GMail"
 
 #: ../kupfer/plugin/gmail/__init__.py:177
 msgid "Contacts from Google services (Gmail)"
