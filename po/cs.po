@@ -272,7 +272,7 @@ msgstr "Pište co se má vyhledat"
 #: ../kupfer/ui/browser.py:909
 #, python-format
 msgid "Type to search %s"
-msgstr "Pište a prohledá se %s"
+msgstr "Pište, prohledá se %s"
 
 #: ../kupfer/ui/browser.py:924
 msgid "No action"
