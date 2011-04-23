@@ -1088,7 +1088,7 @@ msgstr "Vytvořit novou poznámku z tohoto textu"
 
 #: ../kupfer/plugin/notes.py:160
 msgid "Get Note Search Results..."
-msgstr "Získat výsledky vyhledávání poznámek…"
+msgstr "Získat výsledky hledávání poznámek…"
 
 #: ../kupfer/plugin/notes.py:173
 msgid "Show search results for this query"
