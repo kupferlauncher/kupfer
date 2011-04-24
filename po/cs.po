@@ -209,7 +209,7 @@ msgstr "Vložení do zásobníku"
 #. TRANS: object + action (+iobject)
 #: ../kupfer/ui/accelerators.py:10
 msgid "Compose Command"
-msgstr "Napsat příkaz"
+msgstr "Sestavit příkaz"
 
 #: ../kupfer/ui/accelerators.py:11
 msgid "Mark Default Action"
