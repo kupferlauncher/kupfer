@@ -311,6 +311,13 @@ class MatchView (gtk.Bin):
 		selectedc = self.style.dark[gtk.STATE_SELECTED]
 		self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
 
+	def _key_held_feedback(self, held):
+		if held:
+			selectedc = self.style.dark[gtk.STATE_ACTIVE]
+			self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
+		else:
+			self._update_theme()
+
 	def build_widget(self):
 		"""
 		Core initalization method that builds the widget
@@ -973,6 +980,7 @@ class Interface (gobject.GObject):
 		self._key_press_interval = 0.8
 		self._key_press_repeat_threshold = 0.02
 		self._key_pressed = None
+		self._key_held = False
 		self._reset_to_toplevel = False
 		self._reset_when_back = False
 		self.entry.connect("realize", self._entry_realized)
@@ -1070,8 +1078,15 @@ class Interface (gobject.GObject):
 	def _entry_realized(self, widget):
 		self.update_text_mode()
 
+	def _key_held_feedback(self, held):
+		self.current.match_view._key_held_feedback(held)
+
 	def _entry_key_release(self, entry, event):
 		self._key_pressed = None
+		if self._key_held:
+			self._key_held = False
+			self._key_held_feedback(False)
+			self._activate(None, None)
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -1143,8 +1158,9 @@ class Interface (gobject.GObject):
 				keyv not in self.keys_sensible and
 				curtime - self._key_press_time > self._key_press_repeat_threshold):
 			if curtime - self._key_press_time > self._key_press_interval:
-				self._activate(None, None)
-				self._key_pressed = None
+				if not self._key_held:
+					self._key_held_feedback(True)
+					self._key_held = True
 			return True
 		else:
 			self._key_press_time = curtime
