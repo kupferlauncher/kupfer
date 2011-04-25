@@ -1083,7 +1083,8 @@ class Interface (gobject.GObject):
 		self.current.match_view._key_held_feedback(held)
 
 	def _entry_key_release(self, entry, event):
-		self._key_pressed = None
+		if self._key_pressed == event.keyval:
+			self._key_pressed = None
 		if self._key_held:
 			self._key_held = False
 			self._key_held_feedback(False)
