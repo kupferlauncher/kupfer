@@ -972,7 +972,7 @@ class Interface (gobject.GObject):
 		self._key_press_time = None
 		self._key_press_interval = 0.3
 		self._key_press_repeat_threshold = 0.02
-		self._key_pressed = None
+		self._key_repeat_key = None
 		self._key_repeat_active = False
 		self._reset_to_toplevel = False
 		self._reset_when_back = False
@@ -1073,13 +1073,13 @@ class Interface (gobject.GObject):
 		self.update_text_mode()
 
 	def _entry_key_release(self, entry, event):
-		if self._key_repeat_active:
+		# check for key repeat activation
+		if self._key_repeat_key == event.keyval:
+			if self._key_repeat_active:
+				self.activate()
+			self._key_repeat_key = None
 			self._key_repeat_active = False
-			self.activate()
-		if self._key_pressed == event.keyval:
-			self._key_pressed = None
-			self._key_repeat_active = False
-		self._update_active()
+			self._update_active()
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -1146,8 +1146,8 @@ class Interface (gobject.GObject):
 			# pass these through in text mode
 			return False
 
-		# activate on repeated key
-		if ((not text_mode) and self._key_pressed == keyv and
+		# check for repeated key activation
+		if ((not text_mode) and self._key_repeat_key == keyv and
 				keyv not in self.keys_sensible and
 				curtime - self._key_press_time > self._key_press_repeat_threshold):
 			if curtime - self._key_press_time > self._key_press_interval:
@@ -1155,8 +1155,9 @@ class Interface (gobject.GObject):
 				self._update_active()
 			return True
 		else:
+			# cancel repeat key activation if a new key is pressed
 			self._key_press_time = curtime
-			self._key_pressed = keyv
+			self._key_repeat_key = keyv
 			if self._key_repeat_active:
 				self._key_repeat_active = False
 				self._update_active()
