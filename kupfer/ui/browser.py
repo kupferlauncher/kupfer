@@ -1154,10 +1154,12 @@ class Interface (gobject.GObject):
 		# exit here if it's not a special key
 		if keyv not in self.keys_sensible:
 			## if typing with shift key, switch to action pane
-			if (not text_mode and use_command_keys and shift_mask and
-					self.current == self.search):
-				self.current.hide_table()
-				self.switch_current()
+			if not text_mode and use_command_keys:
+				uchar = gtk.gdk.keyval_to_unicode(keyv)
+				if (uchar and unichr(uchar).isupper() and
+				    self.current == self.search):
+					self.current.hide_table()
+					self.switch_current()
 			return False
 		self._reset_to_toplevel = False
 
