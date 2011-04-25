@@ -1165,6 +1165,9 @@ class Interface (gobject.GObject):
 		else:
 			self._key_press_time = curtime
 			self._key_pressed = keyv
+			if self._key_held:
+				self._key_held_feedback(False)
+				self._key_held = False
 
 
 		# exit here if it's not a special key
