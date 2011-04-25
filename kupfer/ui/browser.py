@@ -977,7 +977,7 @@ class Interface (gobject.GObject):
 		self._latest_input_timer = scheduler.Timer()
 		self._slow_input_interval = 2
 		self._key_press_time = None
-		self._key_press_interval = 0.8
+		self._key_press_interval = 0.3
 		self._key_press_repeat_threshold = 0.02
 		self._key_pressed = None
 		self._key_held = False
