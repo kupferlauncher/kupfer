@@ -1042,7 +1042,8 @@ class Interface (gobject.GObject):
 		keys = (
 			"Up", "Down", "Right", "Left",
 			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
-			"space", 'Page_Up', 'Page_Down', 'Home', 'End'
+			"space", 'Page_Up', 'Page_Down', 'Home', 'End',
+			"Return",
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		if not text_direction_is_ltr():
