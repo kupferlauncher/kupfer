@@ -1151,8 +1151,13 @@ class Interface (gobject.GObject):
 			self._key_pressed = keyv
 
 
+		# exit here if it's not a special key
 		if keyv not in self.keys_sensible:
-			# exit if not handled
+			## if typing with shift key, switch to action pane
+			if (not text_mode and use_command_keys and shift_mask and
+					self.current == self.search):
+				self.current.hide_table()
+				self.switch_current()
 			return False
 		self._reset_to_toplevel = False
 
@@ -1160,11 +1165,16 @@ class Interface (gobject.GObject):
 			self._escape_key_press()
 			return True
 
+
 		if keyv == key_book["Up"]:
 			self.current.go_up()
 		elif keyv == key_book["Page_Up"]:
 			self.current.go_page_up()
 		elif keyv == key_book["Down"]:
+			## if typing with shift key, switch to action pane
+			if shift_mask and self.current == self.search:
+				self.current.hide_table()
+				self.switch_current()
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
 				self._populate_search()
