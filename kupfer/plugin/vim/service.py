@@ -41,7 +41,7 @@ class Service (dbus.service.Object):
 
 	def initialize(self):
 		self.vimcom = vimcom.VimCom(self)
-		self.vimcom.vim_hidden = vimcom.poller()
+		self.vimcom.vim_hidden = vimcom.poller(name_token="KUPFER")
 		self.vimcom.stop_fetching_serverlist()
 		self.serverids = []
 		glib.timeout_add_seconds(1, self.update_serverlist)
