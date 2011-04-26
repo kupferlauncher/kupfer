@@ -352,18 +352,13 @@ def _load_icons(plugin_name):
 
 	try:
 		icon_file = pkgutil.get_data(modname, PLUGIN_ICON_FILE)
-	except IOError, exc:
-		pretty.print_debug(__name__, type(exc).__name__, exc)
+	except IOError as exc:
+		# icon-list file just missing, let is pass silently
 		return
 
-	for line in icon_file.splitlines():
-		# ignore '#'-comments
-		if line.startswith("#") or not line.strip():
-			continue
-		icon_name, basename = (i.strip() for i in line.split("\t", 1))
-		icon_data = pkgutil.get_data(modname, basename)
-		icons.load_plugin_icon(plugin_name, icon_name, icon_data)
-
+	def get_icon_data(basename):
+		return pkgutil.get_data(modname, basename)
+	icons.parse_load_icon_list(icon_file, get_icon_data, plugin_name)
 
 def initialize_plugin(plugin_name):
 	"""Initialize plugin.

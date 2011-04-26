@@ -23,6 +23,16 @@ SMALL_SZ = 24
 gtk.icon_size_register("kupfer-large", LARGE_SZ, LARGE_SZ)
 gtk.icon_size_register("kupfer-small", SMALL_SZ, SMALL_SZ)
 
+## default fallbacks for our themable icons
+kupfer_icon_fallbacks = {
+	'kupfer-execute': 'gtk-execute',
+	'kupfer-object': 'gtk-file',
+	'kupfer-object-multiple': 'gtk-file',
+	'kupfer-catalog': 'folder-saved-search',
+}
+
+kupfer_locally_installed_names = set()
+
 def _icon_theme_changed(theme):
 	pretty.print_info(__name__, "Icon theme changed, clearing cache")
 	global icon_cache
@@ -30,37 +40,56 @@ def _icon_theme_changed(theme):
 
 _default_theme = gtk.icon_theme_get_default()
 _default_theme.connect("changed", _icon_theme_changed)
+_local_theme = gtk.IconTheme()
+_local_theme.set_search_path([])
 
-def load_kupfer_icons(scheduler):
-	"""Load in kupfer icons from installed files"""
-	ilist = "art/icon-list"
-	ilist_file_path = config.get_data_file(ilist)
-	# parse icon list file
-	ifile = open(ilist_file_path, "r")
-	for line in ifile:
+def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
+	"""
+	@icon_list_data: A bytestring whose lines identify icons
+	@get_data_func: A function to return the data for a relative filename
+	@plugin_name: plugin id, if applicable
+	"""
+	for line in icon_list_data.splitlines():
 		# ignore '#'-comments
-		if line.startswith("#"):
+		if line.startswith("#") or not line.strip():
 			continue
-		icon_name, basename, size = (i.strip() for i in line.split("\t", 2))
-		size = int(size)
-		icon_path = config.get_data_file(os.path.join("art", basename))
-		if not icon_path:
-			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
+		fields = map(str.strip, line.split('\t'))
+		if len(fields) < 2:
+			pretty.print_error(__name__, "Malformed icon-list line %r from %r" %
+			                   (line, plugin_name))
 			continue
-		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
-		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
-		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
-				"from", icon_path)
+		icon_name, basename = fields[:2]
+		override = ('!override' in fields)
+		def wrap_get_data():
+			return get_data_func(basename)
+		load_icon_from_func(plugin_name, icon_name, wrap_get_data, override)
 
-scheduler.GetScheduler().connect("after-display", load_kupfer_icons)
+def load_icon_from_func(plugin_name, icon_name, get_data_func, override=False):
+	"""
+	Load icon from @icon_data into the name @icon_name
 
-def load_plugin_icon(plugin_name, icon_name, icon_data):
-	"Load icon from @icon_data into the name @icon_name"
+	@get_data_func: function to retrieve the data if needed
+	@override: override the icon theme
+	"""
+	if not override and icon_name in kupfer_locally_installed_names:
+		pretty.print_debug(__name__, "Skipping existing", icon_name)
+		return
+	if not override and _default_theme.has_icon(icon_name):
+		pretty.print_debug(__name__, "Skipping themed icon", icon_name)
+		return
+	try:
+		icon_data = get_data_func()
+	except:
+		pretty.print_error(__name__, "Error loading icon %r for %r" %
+		                   (icon_name, plugin_name))
+		pretty.print_exc(__name__)
+		return
 	for size in (SMALL_SZ, LARGE_SZ):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"for", plugin_name)
+	kupfer_locally_installed_names.add(icon_name)
 
 def get_icon(key, icon_size):
 	"""
@@ -274,6 +303,13 @@ class IconRenderer (object):
 	"""
 	@classmethod
 	def pixbuf_for_name(cls, icon_name, icon_size):
+		if icon_name in kupfer_locally_installed_names:
+			try:
+				return _local_theme.load_icon(icon_name, icon_size,
+				                              ICON_LOOKUP_USE_BUILTIN |
+				                              ICON_LOOKUP_FORCE_SIZE)
+			except GError:
+				pass
 		try:
 			return _default_theme.load_icon(icon_name, icon_size,
 			                                ICON_LOOKUP_USE_BUILTIN |
@@ -304,6 +340,11 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 			icon = _IconRenderer.pixbuf_for_name(load_name, icon_size)
 			if icon:
 				break
+			elif icon_name in kupfer_icon_fallbacks:
+				fallback_name = kupfer_icon_fallbacks[icon_name]
+				icon = _IconRenderer.pixbuf_for_name(fallback_name, icon_size)
+				if icon:
+					break
 		except Exception:
 			pretty.print_exc(__name__)
 			icon = None

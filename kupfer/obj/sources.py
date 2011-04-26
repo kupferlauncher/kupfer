@@ -146,6 +146,7 @@ class MultiSource (Source):
 	A source whose items are the combined items
 	of all @sources
 	"""
+	fallback_icon_name = "kupfer-catalog"
 	def __init__(self, sources):
 		super(MultiSource, self).__init__(_("Catalog"))
 		self.sources = sources
@@ -168,7 +169,4 @@ class MultiSource (Source):
 
 	def get_description(self):
 		return _("Root catalog")
-
-	def get_icon_name(self):
-		return "folder-saved-search"
 

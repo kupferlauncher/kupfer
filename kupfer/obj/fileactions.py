@@ -70,9 +70,6 @@ class Open (Action):
 	def get_description(self):
 		return _("Open with default application")
 
-	def get_icon_name(self):
-		return "gtk-execute"
-
 class RevealFile (Action):
 	def __init__(self, name=_("Reveal")):
 		super(RevealFile, self).__init__(name)

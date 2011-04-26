@@ -315,7 +315,7 @@ class Launch (Action):
 	def get_icon_name(self):
 		if self.is_running:
 			return "go-jump"
-		return Action.get_icon_name(self)
+		return "kupfer-launch"
 
 class LaunchAgain (Launch):
 	rank_adjust = 0
@@ -380,7 +380,7 @@ class RunnableLeaf (Leaf):
 		iname = self.get_icon_name()
 		if iname:
 			return icons.get_gicon_with_fallbacks(None, (iname, ))
-		return icons.ComposedIcon("kupfer-object", "gtk-execute")
+		return icons.ComposedIcon("kupfer-object", "kupfer-execute")
 	def get_icon_name(self):
 		return ""
 
