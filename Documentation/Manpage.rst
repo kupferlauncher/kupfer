@@ -57,19 +57,11 @@ OPTIONS
 --debug         Enable more verbose output that can help understanding
                 the program's operation.
 
---relay         Run libkeybinder relay service on the current
-                ``$DISPLAY``. kupfer is supported in a multihead
-                configuration with multiple X screens, if it all exists
-                inside one single desktop (and D-Bus) session.
+--relay         Is deprecated and will be started by the Multihead
+                Support plugin when needed
 
-                On the first X screen, kupfer should be started
-                normally. For each additional screen with unique
-                ``$DISPLAY`` name, the relay service must be started. It
-                will pass on the summoning and trigger global keyboard
-                shortcuts.
-
-                ``kupfer --relay`` will wait if no running kupfer can be
-                contacted. It never exits until interrupted.
+--exec-helper=HELPER    Run plugin helper program, which should be the
+                        name of a module inside kupfer.
 
 The following are generic options
 

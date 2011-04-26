@@ -43,7 +43,7 @@ def get_options():
 		("no-splash", _("do not present main interface on launch")),
 		("list-plugins", _("list available plugins")),
 		("debug", _("enable debug info")),
-		("relay", _("run keyboard shortcut relay service on this display")),
+		("relay", ""),
 		("exec-helper=", _("run plugin helper")),
 	]
 	misc_options = [
@@ -98,7 +98,8 @@ def get_options():
 			global _debug
 			_debug = True
 		if k == "--relay":
-			keyrelay_main()
+			prt("WARNING: --relay is deprecated!")
+			exec_helper('kupfer.keyrelay')
 			raise SystemExit
 		if k == "--exec-helper":
 			exec_helper(v)
@@ -144,9 +145,6 @@ def exec_helper(helpername):
 	import runpy
 	runpy.run_module(helpername, run_name='__main__', alter_sys=True)
 	raise SystemExit
-
-def keyrelay_main():
-	return exec_helper('kupfer.keyrelay')
 
 def gtkmain(quiet):
 	import pygtk
