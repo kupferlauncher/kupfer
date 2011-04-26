@@ -343,17 +343,25 @@ class ActiveVim (Source):
 
 	def initialize(self):
 		self.serverids = []
+		self.signal_match = None
 		glib.timeout_add_seconds(1, self.start_helper)
 
 	def start_helper(self):
 		bus = dbus.Bus()
-		bus.add_signal_receiver(self.on_new_serverlist,
+		self.signal_match = bus.add_signal_receiver(self.on_new_serverlist,
 		                        signal_name="NewServerlist",
 		                        dbus_interface=get_plugin_iface_name(PLUGID),
 		                        byte_arrays=True)
 		get_plugin_service_obj(PLUGID, activate=True)
 
 	def finalize(self):
+		if self.signal_match is not None:
+			bus = dbus.Bus()
+			bus.remove_signal_receiver(self.signal_match,
+		                        signal_name="NewServerlist",
+		                        dbus_interface=get_plugin_iface_name(PLUGID))
+			self.signal_match = None
+		self.mark_for_update()
 		stop_plugin_service(PLUGID)
 
 	def get_items(self):
