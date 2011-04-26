@@ -3,6 +3,7 @@ import os
 from os import path as os_path
 import locale
 import signal
+import sys
 
 import gobject
 import glib
@@ -276,6 +277,79 @@ def show_url(url):
 		return show_uri(screen_get_default(), url, get_current_event_time())
 	except GError, exc:
 		pretty.print_error(__name__, "gtk.show_uri:", exc)
+
+def _on_child_exit(pid, condition, user_data):
+	# @condition is the &status field of waitpid(2) (C library)
+	argv, respawn = user_data
+	if respawn:
+		is_signal = os.WIFSIGNALED(condition)
+		if is_signal and respawn:
+			def callback(*args):
+				spawn_child(*args)
+				return False
+			glib.timeout_add_seconds(10, callback, argv, respawn)
+
+def _try_register_pr_pdeathsig():
+    """
+    Register PR_SET_PDEATHSIG (linux-only) for the calling process
+    which is a signal delivered when its parent dies.
+
+    This should ensure child processes die with the parent.
+    """
+    PR_SET_PDEATHSIG=1
+    SIGHUP=1
+    if sys.platform != 'linux2':
+        return
+    try:
+        import ctypes
+    except ImportError:
+        return
+    try:
+        libc = ctypes.CDLL("libc.so.6")
+        libc.prctl(PR_SET_PDEATHSIG, SIGHUP)
+    except (AttributeError, OSError):
+        pass
+
+def spawn_child(argv, respawn=True, display=None):
+	"""
+	Spawn argv in the mainloop and keeping it as a child process
+	(it will be made sure to exit with the parent).
+
+	@respawn: If True, respawn if child dies abnormally
+
+	raises utils.SpawnError
+	returns pid
+	"""
+	flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
+	kwargs = {}
+	if display:
+		# environment is passed as a sequence of strings
+		envd = os.environ.copy()
+		envd['DISPLAY'] = display
+		kwargs['envp'] = ['='.join((k,v)) for k,v in envd.items()]
+
+	try:
+		pid, stdin_fd, stdout_fd, stderr_fd = \
+			glib.spawn_async(argv, flags=flags,
+			                 child_setup=_try_register_pr_pdeathsig,
+			                 **kwargs)
+	except glib.GError as exc:
+		raise utils.SpawnError(unicode(exc))
+	if pid:
+		glib.child_watch_add(pid, _on_child_exit, (argv, respawn))
+	return pid
+
+def start_plugin_helper(name, respawn, display=None):
+	"""
+	@respawn: If True, respawn if child dies abnormally
+
+	raises SpawnError
+	"""
+	argv = [sys.executable]
+	argv.extend(sys.argv)
+	argv.append('--exec-helper=%s' % name)
+	pretty.print_debug(__name__, "Spawning", argv)
+	return spawn_child(argv, respawn, display=display)
 
 def show_help_url(url):
 	"""

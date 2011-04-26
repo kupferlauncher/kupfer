@@ -15,6 +15,7 @@ from kupfer import utils
 from kupfer import kupferstring
 from kupfer import pretty
 from kupfer import plugin_support
+from kupfer import utils
 
 plugin_support.check_dbus_connection()
 
@@ -123,7 +124,7 @@ def get_plugin_service_obj(plugin_id, activate=True):
 	except dbus.DBusException as exc:
 		if activate:
 			service_id = "kupfer.plugin.%s.service" % plugin_id
-			return start_plugin_helper(service_id, True)
+			return utils.start_plugin_helper(service_id, True)
 		return None
 	proxy_iface = dbus.Interface(proxy_obj, interface_name)
 	return proxy_iface
@@ -137,42 +138,6 @@ def stop_plugin_service(plugin_id):
 		plug_iface.Exit(reply_handler=_dummy_handler,
 		                error_handler=_dummy_handler)
 
-def on_child_exit(pid, condition, user_data):
-	# @condition is the &status field of waitpid(2) (C library)
-	import os
-	argv, respawn = user_data
-	if respawn:
-		is_signal = os.WIFSIGNALED(condition)
-		if is_signal and respawn:
-			glib.timeout_add_seconds(10, spawn_child, argv, respawn)
-
-def spawn_child(argv, respawn=True):
-	"""
-	Spawn argv in the mainloop and keeping it as a child process
-	(so that it exits with the parent).
-
-	@respawn: If True, respawn if child dies abnormally
-
-	raises utils.SpawnError
-	"""
-	flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
-	try:
-		pid, stdin_fd, stdout_fd, stderr_fd = \
-			glib.spawn_async(argv, flags=flags)
-	except glib.GError as exc:
-		raise utils.SpawnError(unicode(exc))
-	if pid:
-		glib.child_watch_add(pid, on_child_exit, (argv, respawn))
-
-def start_plugin_helper(name, respawn):
-	"""
-	@respawn: If True, respawn if child dies abnormally
-	"""
-	argv = [sys.executable]
-	argv.extend(sys.argv)
-	argv.append('--exec-helper=%s' % name)
-	pretty.print_debug(__name__, "Spawning", argv)
-	spawn_child(argv, respawn)
 
 def _dummy_handler(*args):
 	pass
