@@ -15,6 +15,7 @@ from kupfer.objects import FileLeaf
 from kupfer.obj.compose import MultipleLeaf
 from kupfer import plugin_support
 from kupfer.weaklib import gobject_connect_weakly
+from kupfer import kupferstring
 
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -40,9 +41,17 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 URI_TARGET="text/uri-list"
 
+class SelectedText (TextLeaf):
+	qf_id = "selectedtext"
+	def __init__(self, text):
+		TextLeaf.__init__(self, text, _('Selected Text'))
+
+	def __repr__(self):
+		return "<%s %s>" % (__name__, self.qf_id)
+
 class ClipboardText (TextLeaf):
 	def get_description(self):
-		numlines = max(self.object.count("\n"), 1)
+		numlines = self.object.count("\n") + 1
 		desc = self.get_first_text_line(self.object)
 
 		return ngettext('Clipboard "%(desc)s"',
@@ -53,6 +62,9 @@ class CurrentClipboardText (ClipboardText):
 	qf_id = "clipboardtext"
 	def __init__(self, text):
 		ClipboardText.__init__(self, text, _('Clipboard Text'))
+
+	def __repr__(self):
+		return "<%s %s>" % (__name__, self.qf_id)
 
 class CurrentClipboardFile (FileLeaf):
 	"represents the *unique* current clipboard file"
@@ -107,45 +119,63 @@ class ClipboardSource (Source):
 		gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
 		self.clipboard_uris = []
 		self.clipboard_text = None
+		self.selected_text = None
 
 	def finalize(self):
 		self.clipboard_uris = []
 		self.clipboard_text = None
+		self.selected_text = None
 		self.mark_for_update()
 
 	def _clipboard_changed(self, clip, event, *args):
 		is_selection = (event.selection == gtk.gdk.SELECTION_PRIMARY)
-		if is_selection and not __kupfer_settings__["use_selection"]:
-			return
 
 		max_len = __kupfer_settings__["max"]
-		newtext = clip.wait_for_text()
-		self.clipboard_text = newtext
-		if clip.wait_is_target_available(URI_TARGET):
-			sdata = clip.wait_for_contents(URI_TARGET)
-			self.clipboard_uris = list(sdata.get_uris())
-		else:
-			self.clipboard_uris = []
-		if not (newtext and newtext.strip()):
-			return
+		# receive clipboard as gtk text
+		newtext = kupferstring.tounicode(clip.wait_for_text())
 
-		if newtext in self.clipboards:
-			self.clipboards.remove(newtext)
-		# if the previous text is a prefix of the new selection, supercede it
-		if (is_selection and self.clipboards
-				and (newtext.startswith(self.clipboards[-1])
-				or newtext.endswith(self.clipboards[-1]))):
-			self.clipboards.pop()
-		self.clipboards.append(newtext)
+		is_valid = bool(newtext and newtext.strip())
+		is_sync_selection = (is_selection and
+		                     __kupfer_settings__["sync_selection"])
 
-		if is_selection and __kupfer_settings__["sync_selection"]:
+		if not is_selection or __kupfer_settings__["use_selection"]:
+			if is_valid:
+				self._add_to_history(newtext, is_selection)
+
+		if is_sync_selection and is_valid:
 			gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD).set_text(newtext)
 
-		while len(self.clipboards) > max_len:
-			self.clipboards.popleft()
+		if is_selection:
+			self.selected_text = newtext
+		if not is_selection or is_sync_selection:
+			self.clipboard_text = newtext
+			if clip.wait_is_target_available(URI_TARGET):
+				sdata = clip.wait_for_contents(URI_TARGET)
+				self.clipboard_uris = list(sdata.get_uris())
+			else:
+				self.clipboard_uris = []
+		self._prune_to_length(max_len)
 		self.mark_for_update()
 
+	def _add_to_history(self, cliptext, is_selection):
+		if cliptext in self.clipboards:
+			self.clipboards.remove(cliptext)
+		# if the previous text is a prefix of the new selection, supercede it
+		if (is_selection and self.clipboards
+				and (cliptext.startswith(self.clipboards[-1])
+				or cliptext.endswith(self.clipboards[-1]))):
+			self.clipboards.pop()
+		self.clipboards.append(cliptext)
+
+	def _prune_to_length(self, max_len):
+		while len(self.clipboards) > max_len:
+			self.clipboards.popleft()
+
 	def get_items(self):
+		# selected text
+		if self.selected_text:
+			yield SelectedText(self.selected_text)
+
 		# produce the current clipboard files if any
 		paths = filter(None, 
 		        [gio.File(uri=uri).get_path() for uri in self.clipboard_uris])
