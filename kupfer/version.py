@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-VERSION = "version undefined"
+VERSION = "development version"
 PACKAGE_NAME = "kupfer"
 
 try:
