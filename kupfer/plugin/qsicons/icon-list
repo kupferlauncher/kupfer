@@ -1,6 +1,6 @@
 # ID	File
-kupfer-launch	Rocket.png
-kupfer-object	Object.png
-kupfer-object-multiple	Object.png
-kupfer-execute	Action.png
-kupfer-catalog	Find.png
+kupfer-launch	Rocket.png	!override
+kupfer-object	Object.png	!override
+kupfer-object-multiple	Object.png	!override
+kupfer-execute	Action.png	!override
+kupfer-catalog	Find.png	!override

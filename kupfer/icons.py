@@ -43,39 +43,39 @@ _default_theme.connect("changed", _icon_theme_changed)
 _local_theme = gtk.IconTheme()
 _local_theme.set_search_path([])
 
-def load_kupfer_icons(scheduler):
-	"""Load in kupfer icons from installed files"""
-	ilist = "art/icon-list"
-	ilist_file_path = config.get_data_file(ilist)
-	# parse icon list file
-	ifile = open(ilist_file_path, "r")
-	for line in ifile:
+def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
+	"""
+	@icon_list_data: A bytestring whose lines identify icons
+	@get_data_func: A function to return the data for a relative filename
+	@plugin_name: plugin id, if applicable
+	"""
+	for line in icon_list_data.splitlines():
 		# ignore '#'-comments
-		if line.startswith("#"):
+		if line.startswith("#") or not line.strip():
 			continue
-		icon_name, basename, size = (i.strip() for i in line.split("\t", 2))
-		size = int(size)
-		icon_path = config.get_data_file(os.path.join("art", basename))
-		if not icon_path:
-			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
+		fields = map(str.strip, line.split('\t'))
+		if len(fields) < 2:
 			continue
-		if (icon_name in kupfer_locally_installed_names or
-		    _default_theme.has_icon(icon_name)):
-			pretty.print_debug(__name__, "Skipping existing", icon_name)
-			continue
-		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
-		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
-		kupfer_locally_installed_names.add(icon_name)
-		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
-				"from", icon_path)
+		icon_name, basename = fields[:2]
+		override = ('!override' in fields)
+		def wrap_get_data():
+			return get_data_func(basename)
+		load_icon_from_func(plugin_name, icon_name, wrap_get_data, override)
 
-scheduler.GetScheduler().connect("after-display", load_kupfer_icons)
+def load_icon_from_func(plugin_name, icon_name, get_data_func, override=False):
+	"""
+	Load icon from @icon_data into the name @icon_name
 
-def load_plugin_icon(plugin_name, icon_name, icon_data):
-	"Load icon from @icon_data into the name @icon_name"
-	if icon_name in kupfer_locally_installed_names:
+	@get_data_func: function to retrieve the data if needed
+	@override: override the icon theme
+	"""
+	if not override and icon_name in kupfer_locally_installed_names:
 		pretty.print_debug(__name__, "Skipping existing", icon_name)
 		return
+	if not override and _default_theme.has_icon(icon_name):
+		pretty.print_debug(__name__, "Skipping themed icon", icon_name)
+		return
+	icon_data = get_data_func()
 	for size in (SMALL_SZ, LARGE_SZ):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
