@@ -170,6 +170,24 @@ class UserNamePassword (settings.ExtendedSetting):
 		if hasattr(kr, "file_path"):
 			kr.file_path = config.save_config_file("keyring.cfg")
 
+	@classmethod
+	def is_backend_encrypted(cls):
+		import keyring.core
+		return keyring.core.get_keyring().supported() == 1
+
+	@classmethod
+	def get_backend_name(cls):
+		import keyring.core
+		import keyring.backend
+		keyring_map = {
+				keyring.backend.GnomeKeyring : _("GNOME Keyring"),
+				keyring.backend.KDEKWallet : _("KWallet"),
+				keyring.backend.UncryptedFileKeyring: _("Unencrypted File"),
+			}
+		kr = keyring.get_keyring()
+		keyring_name = keyring_map.get(type(kr), type(kr).__name__)
+		return keyring_name
+
 	def load(self, plugin_id, key, username):
 		self.password = keyring.get_password(plugin_id, username)
 		self.username = username

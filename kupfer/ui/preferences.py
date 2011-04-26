@@ -570,9 +570,14 @@ class PreferencesWindowController (pretty.OutputMixin):
 		def callback(widget):
 			setctl = settings.GetSettingsController()
 			val_type = plugin_support.UserNamePassword
+			backend_name = plugin_support.UserNamePassword.get_backend_name()
+			if plugin_support.UserNamePassword.is_backend_encrypted():
+				information = _("Using encrypted password storage: %s") % backend_name
+			else:
+				information = _("Using password storage: %s") % backend_name
 			upass = setctl.get_plugin_config(plugin_id, key, val_type) \
 					or plugin_support.UserNamePassword()
-			user_password = ask_user_credentials(upass.username, upass.password)
+			user_password = ask_user_credentials(upass.username, upass.password, information)
 			if user_password:
 				upass.username, upass.password = user_password
 				setctl.set_plugin_config(plugin_id, key, upass, val_type)
