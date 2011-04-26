@@ -760,15 +760,30 @@ to register their implementations of new alternatives. The arguments are:
 Plugin Packages, Resources and Distribution
 :::::::::::::::::::::::::::::::::::::::::::
 
-A plugin is a Python module, a module is either a python file or a
-folder with an ``__init__.py`` file (a package module). A package module
-may include custom icons as .svg files. The icon files must be declared
-in a file inside the python package called ``icon-list``. Each line of
-``icon-list`` is <icon name><tab character><filename>.
+A plugin is a Python module–either a single python file or a folder with
+an ``__init__.py`` file (a package module). In the latter case, the
+whole of the plugin can be defined inside ``__init__.py``, or it can be
+split into several modules. Kupfer will look for all the description
+variables (like ``__kupfer_name__``) in ``__init__.py``.
+
+.. topic:: Plugin-installed custom icons
+
+    A package module may include custom icons as .svg files. The icon files
+    must be declared in a file inside the python package called
+    ``icon-list``. 
+
+    * Each line is a tab-separated field list, with the icon name in
+      the first column and the filename (relative to the plugin package)
+      in the second column.
+    * Lines can be commented with a leading ``#``
+    * If a literal ``!override`` appears in the third column, the icon
+      is installed even if it overrides the currently used GTK icon
+      theme.
+
 
 Plugins may be installed into any of the ``kupfer/plugins`` data
-directories. Package modules can also be installed as ``.zip`` files, so
-they too can be distributed as single files.
+directories. Package modules can also be installed and used as ``.zip``
+files, so they too can be distributed as single files.
 
 
 Example Plugins
