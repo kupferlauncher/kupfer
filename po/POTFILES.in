@@ -120,6 +120,7 @@ kupfer/plugin/tracker1.py
 kupfer/plugin/truecrypt.py
 kupfer/plugin/tsclient.py
 kupfer/plugin/vinagre.py
-kupfer/plugin/vim.py
+kupfer/plugin/vim/__init__.py
+kupfer/plugin/vim/plugin.py
 kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/zim.py
