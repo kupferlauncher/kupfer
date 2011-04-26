@@ -353,11 +353,8 @@ def _load_icons(plugin_name):
 	try:
 		icon_file = pkgutil.get_data(modname, PLUGIN_ICON_FILE)
 	except IOError as exc:
-		if exc.errno != 2:
-			pretty.print_exc(__name__)
-		else:
-			# no icon-list exists, let is pass silently
-			return
+		# icon-list file just missing, let is pass silently
+		return
 
 	def get_icon_data(basename):
 		return pkgutil.get_data(modname, basename)
