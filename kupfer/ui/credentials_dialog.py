@@ -3,7 +3,7 @@ import gtk
 from kupfer import version, config, kupferstring
 
 class CredentialsDialogController():
-	def __init__(self, username, password):
+	def __init__(self, username, password, infotext=None):
 		"""Load ui from data file"""
 		builder = gtk.Builder()
 		builder.set_translation_domain(version.PACKAGE_NAME)
@@ -14,6 +14,11 @@ class CredentialsDialogController():
 		self.window = builder.get_object("credentials_dialog")
 		self.entry_user = builder.get_object('entry_username')
 		self.entry_pass = builder.get_object('entry_password')
+		if infotext:
+			hbox_information = builder.get_object('hbox_information')
+			label_information = builder.get_object('label_information')
+			hbox_information.show()
+			label_information.set_text(infotext)
 
 		self.entry_user.set_text(username or '')
 		self.entry_pass.set_text(password or '')
@@ -38,14 +43,14 @@ class CredentialsDialogController():
 		return kupferstring.tounicode(self.entry_pass.get_text())
 
 
-def ask_user_credentials(user=None, password=None):
+def ask_user_credentials(user=None, password=None, infotext=None):
 	''' Ask user for username and password.
 	
 	@user, @password - initial values
 	@return:
 	(user, password) when user press "change"
 	None when user press "cancel" button '''
-	dialog = CredentialsDialogController(user, password)
+	dialog = CredentialsDialogController(user, password, infotext)
 	result = None
 	if dialog.show() == gtk.RESPONSE_ACCEPT:
 		result = dialog.username, dialog.password

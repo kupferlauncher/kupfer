@@ -148,7 +148,6 @@ class UserNamePassword (settings.ExtendedSetting):
 	Username is stored in Kupfer config, password in keyring '''
 	def __init__(self, obj=None):
 		settings.ExtendedSetting.__init__(self)
-		self._configure_keyring()
 		self.username = None
 		self.password = None
 		if obj:
@@ -160,15 +159,22 @@ class UserNamePassword (settings.ExtendedSetting):
 		                                        bool(self.password))
 
 	@classmethod
-	def _configure_keyring(cls):
-		# Configure the fallback keyring's configuration file if used
+	def is_backend_encrypted(cls):
+		import keyring.core
+		return keyring.core.get_keyring().supported() == 1
+
+	@classmethod
+	def get_backend_name(cls):
+		import keyring.core
 		import keyring.backend
+		keyring_map = {
+				keyring.backend.GnomeKeyring : _("GNOME Keyring"),
+				keyring.backend.KDEKWallet : _("KWallet"),
+				keyring.backend.UncryptedFileKeyring: _("Unencrypted File"),
+			}
 		kr = keyring.get_keyring()
-		if hasattr(kr, "crypted_password"):
-			keyring.set_keyring(keyring.backend.UncryptedFileKeyring())
-			kr = keyring.get_keyring()
-		if hasattr(kr, "file_path"):
-			kr.file_path = config.save_config_file("keyring.cfg")
+		keyring_name = keyring_map.get(type(kr), type(kr).__name__)
+		return keyring_name
 
 	def load(self, plugin_id, key, username):
 		self.password = keyring.get_password(plugin_id, username)
@@ -201,6 +207,15 @@ def check_keyring_support():
 		class UserNamePassword (object):
 			pass
 		raise
+	else:
+		# Configure the fallback keyring's configuration file if used
+		import keyring.backend
+		kr = keyring.get_keyring()
+		if hasattr(kr, "crypted_password"):
+			keyring.set_keyring(keyring.backend.UncryptedFileKeyring())
+			kr = keyring.get_keyring()
+		if hasattr(kr, "file_path"):
+			kr.file_path = config.save_config_file("keyring.cfg")
 	finally:
 		# now unblock kde libraries again
 		if old_pykde4:
