@@ -224,7 +224,7 @@ class Action (KupferObject):
 		"""
 		return True
 	'''
-	fallback_icon_name = "gtk-execute"
+	fallback_icon_name = "kupfer-execute"
 
 	def __hash__(self):
 		return hash(repr(self))

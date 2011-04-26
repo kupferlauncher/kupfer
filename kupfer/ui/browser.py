@@ -921,7 +921,7 @@ class ActionSearch (Search):
 		# don't look up icons too early
 		if not self._initialized:
 			return ("", None)
-		return _("No action"), icons.get_icon_for_name("gtk-execute",
+		return _("No action"), icons.get_icon_for_name("kupfer-execute",
 				self.icon_size)
 	def setup_empty(self):
 		self.handle_no_matches()

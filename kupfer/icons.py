@@ -23,6 +23,14 @@ SMALL_SZ = 24
 gtk.icon_size_register("kupfer-large", LARGE_SZ, LARGE_SZ)
 gtk.icon_size_register("kupfer-small", SMALL_SZ, SMALL_SZ)
 
+## default fallbacks for our themable icons
+kupfer_icon_fallbacks = {
+	'kupfer-execute': 'gtk-execute',
+	'kupfer-object': 'gtk-file',
+	'kupfer-object-multiple': 'gtk-file',
+	'kupfer-catalog': 'folder-saved-search',
+}
+
 def _icon_theme_changed(theme):
 	pretty.print_info(__name__, "Icon theme changed, clearing cache")
 	global icon_cache
@@ -46,6 +54,9 @@ def load_kupfer_icons(scheduler):
 		icon_path = config.get_data_file(os.path.join("art", basename))
 		if not icon_path:
 			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
+			continue
+		if _default_theme.has_icon(icon_name):
+			pretty.print_debug(__name__, "Skipping already existing", icon_name)
 			continue
 		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
@@ -304,6 +315,11 @@ def get_icon_for_name(icon_name, icon_size, icon_names=[]):
 			icon = _IconRenderer.pixbuf_for_name(load_name, icon_size)
 			if icon:
 				break
+			elif icon_name in kupfer_icon_fallbacks:
+				fallback_name = kupfer_icon_fallbacks[icon_name]
+				icon = _IconRenderer.pixbuf_for_name(fallback_name, icon_size)
+				if icon:
+					break
 		except Exception:
 			pretty.print_exc(__name__)
 			icon = None
