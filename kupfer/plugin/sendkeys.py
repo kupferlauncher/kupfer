@@ -17,6 +17,9 @@ from kupfer.objects import OperationError
 from kupfer import utils
 from kupfer import interface
 
+# delay for first keypress and all following
+INIT_DELAY = 'usleep 300000'
+INTER_DELAY = 'usleep 50000'
 
 class CopyAndPaste (Action):
 	# rank down since it applies everywhere
@@ -26,7 +29,7 @@ class CopyAndPaste (Action):
 	def activate(self, leaf):
 		clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 		interface.copy_to_clipboard(leaf, clip)
-		xte_paste_argv = ['xte', 'usleep 300000', 'keydown Control_L',
+		xte_paste_argv = ['xte', INIT_DELAY, 'keydown Control_L',
 		                  'key v', 'keyup Control_L']
 		try:
 			utils.spawn_async_raise(xte_paste_argv)
@@ -47,9 +50,27 @@ class CopyAndPaste (Action):
 class SendKeys (Action):
 	def __init__(self):
 		Action.__init__(self, _("Send Keys"))
+
 	def activate(self, leaf):
-		text = leaf.object
-		keys, orig_mods = gtk.accelerator_parse(text)
+		return self.activate_multiple((leaf, ))
+
+	def activate_multiple(self, objects):
+		xte_sendkey_argv = ['xte', INIT_DELAY]
+		iterobjects = iter(objects)
+		for obj in iterobjects:
+			xte_sendkey_argv.extend(self.make_keystr_arguments(obj.object))
+			break
+		for obj in iterobjects:
+			xte_sendkey_argv.append(INTER_DELAY)
+			xte_sendkey_argv.extend(self.make_keystr_arguments(obj.object))
+
+		try:
+			utils.spawn_async_raise(xte_sendkey_argv)
+		except utils.SpawnError as exc:
+			raise OperationError(exc)
+
+	def make_keystr_arguments(self, keystr):
+		keys, orig_mods = gtk.accelerator_parse(keystr)
 		m = {
 			gtk.gdk.SHIFT_MASK: "Shift_L",
 			gtk.gdk.CONTROL_MASK: "Control_L",
@@ -68,13 +89,8 @@ class SendKeys (Action):
 		key_arg = 'key %s' % (gtk.gdk.keyval_name(keys), )
 		mods_down = ['keydown ' + n for n in mod_names]
 		mods_up = ['keyup ' + n for n in reversed(mod_names)]
+		return mods_down + [key_arg] + mods_up
 
-		xte_paste_argv = ['xte', 'usleep 300000'] + \
-				mods_down + [key_arg] + mods_up
-		try:
-			utils.spawn_async_raise(xte_paste_argv)
-		except utils.SpawnError as exc:
-			raise OperationError(exc)
 	def item_types(self):
 		yield TextLeaf
 	def valid_for_item(self, leaf):
