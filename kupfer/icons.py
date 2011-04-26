@@ -55,6 +55,8 @@ def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
 			continue
 		fields = map(str.strip, line.split('\t'))
 		if len(fields) < 2:
+			pretty.print_error(__name__, "Malformed icon-list line %r from %r" %
+			                   (line, plugin_name))
 			continue
 		icon_name, basename = fields[:2]
 		override = ('!override' in fields)
@@ -75,7 +77,13 @@ def load_icon_from_func(plugin_name, icon_name, get_data_func, override=False):
 	if not override and _default_theme.has_icon(icon_name):
 		pretty.print_debug(__name__, "Skipping themed icon", icon_name)
 		return
-	icon_data = get_data_func()
+	try:
+		icon_data = get_data_func()
+	except:
+		pretty.print_error(__name__, "Error loading icon %r for %r" %
+		                   (icon_name, plugin_name))
+		pretty.print_exc(__name__)
+		return
 	for size in (SMALL_SZ, LARGE_SZ):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
