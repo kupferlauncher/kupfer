@@ -5,6 +5,7 @@ __kupfer_actions__ = (
 	"GetInfo",
 	"SendTo",
 	"CopyTo",
+	"LinkTo",
 	"MoveTo",
 )
 __description__ = _("File manager Thunar actions")
@@ -252,6 +253,51 @@ class MoveTo (Action, pretty.OutputMixin):
 		return _("Move file to new location")
 	def get_icon_name(self):
 		return "go-next"
+
+class LinkTo (Action, pretty.OutputMixin):
+	def __init__(self):
+		Action.__init__(self, _("Symlink In..."))
+
+	def wants_context(self):
+		return True
+
+	def activate_multiple(self, leaves, iobjects, ctx):
+		# Unroll by looping over the destinations,
+		# copying everything into each destination
+		thunar = _get_thunar()
+		work_dir = os.path.expanduser("~/")
+		display = ctx.environment.get_display()
+		notify_id = ctx.environment.get_startup_notification_id()
+		sourcefiles = [path_to_uri(L.object) for L in leaves]
+
+		def _reply(*args):
+			self.output_debug("reply got for copying", *args)
+
+		def _reply_error(exc):
+			self.output_debug(exc)
+			ctx.register_late_error(NotAvailableError(_("Thunar")))
+
+		for dest_iobj in iobjects:
+			desturi = path_to_uri(dest_iobj.object)
+			thunar.LinkInto(work_dir, sourcefiles, desturi, display, notify_id,
+			                reply_handler=_reply,
+			                error_handler=_reply_error)
+
+	def activate(self, leaf, iobj, ctx):
+		return self.activate_multiple([leaf], [iobj], ctx)
+
+	def item_types(self):
+		yield FileLeaf
+	def valid_for_item(self, item):
+		return True
+	def requires_object(self):
+		return True
+	def object_types(self):
+		yield FileLeaf
+	def valid_object(self, obj, for_item):
+		return _good_destination(obj.object, for_item.object)
+	def get_description(self):
+		return _("Create a symlink to file in a chosen location")
 
 class EmptyTrash (RunnableLeaf):
 	def __init__(self):
