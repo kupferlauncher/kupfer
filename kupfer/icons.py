@@ -31,6 +31,8 @@ kupfer_icon_fallbacks = {
 	'kupfer-catalog': 'folder-saved-search',
 }
 
+kupfer_locally_installed_names = set()
+
 def _icon_theme_changed(theme):
 	pretty.print_info(__name__, "Icon theme changed, clearing cache")
 	global icon_cache
@@ -38,6 +40,8 @@ def _icon_theme_changed(theme):
 
 _default_theme = gtk.icon_theme_get_default()
 _default_theme.connect("changed", _icon_theme_changed)
+_local_theme = gtk.IconTheme()
+_local_theme.set_search_path([])
 
 def load_kupfer_icons(scheduler):
 	"""Load in kupfer icons from installed files"""
@@ -55,11 +59,13 @@ def load_kupfer_icons(scheduler):
 		if not icon_path:
 			pretty.print_info(__name__, "Icon", basename,icon_path,"not found")
 			continue
-		if _default_theme.has_icon(icon_name):
-			pretty.print_debug(__name__, "Skipping already existing", icon_name)
+		if (icon_name in kupfer_locally_installed_names or
+		    _default_theme.has_icon(icon_name)):
+			pretty.print_debug(__name__, "Skipping existing", icon_name)
 			continue
 		pixbuf = pixbuf_new_from_file_at_size(icon_path, size,size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		kupfer_locally_installed_names.add(icon_name)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"from", icon_path)
 
@@ -67,11 +73,15 @@ scheduler.GetScheduler().connect("after-display", load_kupfer_icons)
 
 def load_plugin_icon(plugin_name, icon_name, icon_data):
 	"Load icon from @icon_data into the name @icon_name"
+	if icon_name in kupfer_locally_installed_names:
+		pretty.print_debug(__name__, "Skipping existing", icon_name)
+		return
 	for size in (SMALL_SZ, LARGE_SZ):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
 		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"for", plugin_name)
+	kupfer_locally_installed_names.add(icon_name)
 
 def get_icon(key, icon_size):
 	"""
@@ -285,6 +295,13 @@ class IconRenderer (object):
 	"""
 	@classmethod
 	def pixbuf_for_name(cls, icon_name, icon_size):
+		if icon_name in kupfer_locally_installed_names:
+			try:
+				return _local_theme.load_icon(icon_name, icon_size,
+				                              ICON_LOOKUP_USE_BUILTIN |
+				                              ICON_LOOKUP_FORCE_SIZE)
+			except GError:
+				pass
 		try:
 			return _default_theme.load_icon(icon_name, icon_size,
 			                                ICON_LOOKUP_USE_BUILTIN |
