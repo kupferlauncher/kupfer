@@ -970,9 +970,10 @@ class Interface (gobject.GObject):
 		self._latest_input_timer = scheduler.Timer()
 		self._slow_input_interval = 2
 		self._key_press_time = None
-		self._key_press_interval = 0.8
+		self._key_press_interval = 0.3
 		self._key_press_repeat_threshold = 0.02
-		self._key_pressed = None
+		self._key_repeat_key = None
+		self._key_repeat_active = False
 		self._reset_to_toplevel = False
 		self._reset_when_back = False
 		self.entry.connect("realize", self._entry_realized)
@@ -1034,7 +1035,8 @@ class Interface (gobject.GObject):
 		keys = (
 			"Up", "Down", "Right", "Left",
 			"Tab", "ISO_Left_Tab", "BackSpace", "Escape", "Delete",
-			"space", 'Page_Up', 'Page_Down', 'Home', 'End'
+			"space", 'Page_Up', 'Page_Down', 'Home', 'End',
+			"Return",
 			)
 		self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
 		if not text_direction_is_ltr():
@@ -1071,7 +1073,13 @@ class Interface (gobject.GObject):
 		self.update_text_mode()
 
 	def _entry_key_release(self, entry, event):
-		self._key_pressed = None
+		# check for key repeat activation
+		if self._key_repeat_key == event.keyval:
+			if self._key_repeat_active:
+				self.activate()
+			self._key_repeat_key = None
+			self._key_repeat_active = False
+			self._update_active()
 
 	def _entry_key_press(self, entry, event):
 		"""
@@ -1138,21 +1146,31 @@ class Interface (gobject.GObject):
 			# pass these through in text mode
 			return False
 
-		# activate on repeated key
-		if ((not text_mode) and self._key_pressed == keyv and
+		# check for repeated key activation
+		if ((not text_mode) and self._key_repeat_key == keyv and
 				keyv not in self.keys_sensible and
 				curtime - self._key_press_time > self._key_press_repeat_threshold):
 			if curtime - self._key_press_time > self._key_press_interval:
-				self._activate(None, None)
-				self._key_pressed = None
+				self._key_repeat_active = True
+				self._update_active()
 			return True
 		else:
+			# cancel repeat key activation if a new key is pressed
 			self._key_press_time = curtime
-			self._key_pressed = keyv
+			self._key_repeat_key = keyv
+			if self._key_repeat_active:
+				self._key_repeat_active = False
+				self._update_active()
 
-
+		# exit here if it's not a special key
 		if keyv not in self.keys_sensible:
-			# exit if not handled
+			## if typing with shift key, switch to action pane
+			if not text_mode and use_command_keys:
+				uchar = gtk.gdk.keyval_to_unicode(keyv)
+				if (uchar and unichr(uchar).isupper() and
+				    self.current == self.search):
+					self.current.hide_table()
+					self.switch_current()
 			return False
 		self._reset_to_toplevel = False
 
@@ -1160,11 +1178,16 @@ class Interface (gobject.GObject):
 			self._escape_key_press()
 			return True
 
+
 		if keyv == key_book["Up"]:
 			self.current.go_up()
 		elif keyv == key_book["Page_Up"]:
 			self.current.go_page_up()
 		elif keyv == key_book["Down"]:
+			## if typing with shift key, switch to action pane
+			if shift_mask and self.current == self.search:
+				self.current.hide_table()
+				self.switch_current()
 			if (not self.current.get_current() and
 					self.current.get_match_state() is State.Wait):
 				self._populate_search()
@@ -1542,7 +1565,7 @@ class Interface (gobject.GObject):
 			if panewidget is not self.current:
 				panewidget.set_state(gtk.STATE_NORMAL)
 			panewidget.match_view.inject_preedit(None)
-		if self._is_text_mode:
+		if self._is_text_mode or self._key_repeat_active:
 			self.current.set_state(gtk.STATE_ACTIVE)
 		else:
 			self.current.set_state(gtk.STATE_SELECTED)
