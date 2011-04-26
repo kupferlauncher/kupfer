@@ -337,11 +337,14 @@ class InsertInVim (Action):
 		return "insert-text"
 
 
-class ActiveVim (Source):
+class ActiveVim (AppLeafContentMixin, Source):
+	appleaf_content_id = ("vim", "gvim")
+
 	def __init__(self):
 		Source.__init__(self, _("Active Vim Sessions"))
 
 	def initialize(self):
+		ActiveVim.instance = self
 		self.serverids = []
 		self.signal_match = None
 		glib.timeout_add_seconds(1, self.start_helper)
@@ -355,6 +358,7 @@ class ActiveVim (Source):
 		get_plugin_service_obj(PLUGID, activate=True)
 
 	def finalize(self):
+		ActiveVim.instance = None
 		if self.signal_match is not None:
 			bus = dbus.Bus()
 			bus.remove_signal_receiver(self.signal_match,
@@ -376,3 +380,9 @@ class ActiveVim (Source):
 
 	def provides(self):
 		yield VimApp
+
+	@classmethod
+	def decorate_item(cls, leaf):
+		if cls.instance and not cls.instance.serverids:
+			return None
+		return super(ActiveVim, cls).decorate_item(leaf)
