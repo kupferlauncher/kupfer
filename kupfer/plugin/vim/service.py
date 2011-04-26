@@ -1,6 +1,7 @@
 
 import os
 import sys
+import traceback
 
 import pygtk
 pygtk.require('2.0')
@@ -100,15 +101,11 @@ class Service (dbus.service.Object):
 		self.mainloop.quit()
 
 def start(ml):
-	#ml_wrap = DBusGMainLoop(set_as_default=True)
-	#dbus.set_default_main_loop(ml_wrap)
 	try:
 		bus = dbus.Bus()
-	except dbus.DBusException:
-		raise SystemExit(1)
-	try:
 		service = Service(ml, bus)
-	except dbus.DBusException:
+	except:
+		traceback.print_exc()
 		raise SystemExit(1)
 
 def main():
