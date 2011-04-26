@@ -366,7 +366,7 @@ class ActiveVim (Source):
 
 	def get_items(self):
 		for x in self.serverids:
-			yield VimApp(x, _("Vim Session %s") % x)
+			yield VimApp(x, _("Vim Session %s") % kupferstring.fromlocale(x))
 
 	def on_new_serverlist(self, new_list):
 		self.output_debug("New list:", list(new_list))
