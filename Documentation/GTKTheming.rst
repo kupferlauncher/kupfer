@@ -106,5 +106,18 @@ Any user can override the GTK+ style used for their applications. But
 more conventient is injecting the gtkrc at runtime by means of a Kupfer
 plugin. See ``kupfer/plugin/customtheme.py`` for an example.
 
+
+Icons
+=====
+
+The kupfer-specific icon names we use are:
+
++ ``kupfer``  (application)
++ ``kupfer-catalog``  (root catalog)
++ ``kupfer-execute`` (default action icon)
++ ``kupfer-launch``  (default launch icon)
++ ``kupfer-object``  (blue box generic object icon)
++ ``kupfer-object-multiple`` (multiple generic objects)
+
 .. vim: ft=rst tw=72 et sts=4 sw=4
 .. this document best viewed with rst2html
