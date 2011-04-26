@@ -37,7 +37,6 @@ kupfer/plugin/core/commands.py
 kupfer/plugin/core/contents.py
 kupfer/plugin/core/debug.py
 kupfer/plugin/core/__init__.py
-kupfer/plugin/core/selection.py
 kupfer/plugin/core/text.py
 kupfer/plugin/core/internal.py
 kupfer/plugin/archivemanager.py
@@ -51,6 +50,7 @@ kupfer/plugin/epiphany.py
 kupfer/plugin/favorites.py
 kupfer/plugin/fileactions.py
 kupfer/plugin/firefox.py
+kupfer/plugin/multihead.py
 kupfer/plugin/nautilusselection.py
 kupfer/plugin/notes.py
 kupfer/plugin/rhythmbox.py
