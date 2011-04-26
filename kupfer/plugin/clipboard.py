@@ -1,7 +1,7 @@
 __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource", )
 __kupfer_actions__ = ("ClearClipboards", )
-__description__ = _("Recent clipboards")
+__description__ = _("Recent clipboards and clipboard proxy objects")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -20,19 +20,19 @@ from kupfer.weaklib import gobject_connect_weakly
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
 		"key" : "max",
-		"label": _("Number of recent clipboards"),
+		"label": _("Number of recent clipboards to remember"),
 		"type": int,
 		"value": 10,
 	},
 	{
 		"key" : "use_selection",
-		"label": _("Include recent selections"),
+		"label": _("Include selected text in clipboard history"),
 		"type": bool,
 		"value": False,
 	},
 	{
 		"key" : "sync_selection",
-		"label": _("Copy selection to primary clipboard"),
+		"label": _("Copy selected text to primary clipboard"),
 		"type": bool,
 		"value": False,
 	},
@@ -162,7 +162,7 @@ class ClipboardSource (Source):
 			yield ClipboardText(t)
 
 	def get_description(self):
-		return _("Recent clipboards")
+		return __description__
 
 	def get_icon_name(self):
 		return "edit-paste"
