@@ -40,7 +40,13 @@ class LargeType (Action):
 		return True
 
 	def activate(self, leaf, ctx):
-		uiutils.show_large_type(leaf.get_text_representation(), ctx)
+		return self.activate_multiple((leaf, ), ctx)
+
+	def activate_multiple(self, objects, ctx):
+		all_texts = []
+		for obj in objects:
+			all_texts.append(obj.get_text_representation())
+		uiutils.show_large_type("\n".join(all_texts), ctx)
 
 	def item_types(self):
 		yield Leaf
