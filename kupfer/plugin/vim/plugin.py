@@ -134,7 +134,8 @@ def stop_plugin_service(plugin_id):
 	"""
 	plug_iface = get_plugin_service_obj(plugin_id, activate=False)
 	if plug_iface:
-		plug_iface.Exit(reply_handler=_dummy_handler)
+		plug_iface.Exit(reply_handler=_dummy_handler,
+		                error_handler=_dummy_handler)
 
 def start_plugin_helper(name):
 	argv = [sys.executable]
@@ -221,8 +222,16 @@ class CloseSaveAll (Action):
 	def __init__(self):
 		Action.__init__(self, _("Close (Save All)"))
 
-	def activate(self, obj):
-		ActiveVim.vimcom.send_ex(obj.serverid, 'wqa')
+	def wants_context(self):
+		return True
+	def activate(self, obj, ctx):
+		def error_handler(exc):
+			ctx.register_late_error(OperationError(exc))
+		proxy_obj = get_plugin_service_obj(PLUGID)
+		if proxy_obj:
+			proxy_obj.SendEx(obj.serverid, 'wqa',
+					reply_handler=_dummy_handler,
+					error_handler=error_handler)
 
 	def get_icon_name(self):
 		return "window-close"
@@ -231,12 +240,22 @@ class SendCommand (Action):
 	def __init__(self):
 		Action.__init__(self, _("Send..."))
 
-	def activate(self, obj, iobj):
+	def wants_context(self):
+		return True
+	def activate(self, obj, iobj, ctx):
 		## accept with or without starting :
 		lcmd = kupferstring.tolocale(iobj.object)
 		if lcmd.startswith(":"):
 			lcmd = lcmd[1:]
-		ActiveVim.vimcom.send_ex(obj.serverid, lcmd)
+
+		def error_handler(exc):
+			ctx.register_late_error(OperationError(exc))
+		proxy_obj = get_plugin_service_obj(PLUGID)
+		if proxy_obj:
+			proxy_obj.SendEx(obj.serverid, lcmd,
+					reply_handler=_dummy_handler,
+					error_handler=error_handler)
+
 
 	def requires_object(self):
 		return True
@@ -256,13 +275,23 @@ class InsertInVim (Action):
 	def __init__(self):
 		Action.__init__(self, _("Insert in Vim..."))
 
-	def activate(self, obj, iobj):
+	def wants_context(self):
+		return True
+	def activate(self, obj, iobj, ctx):
 		tmpf, tmpname = utils.get_safe_tempfile()
 		tmpf.write(kupferstring.tolocale(obj.object))
 		tmpf.close()
 		vim_cmd = "r %s" % tmpname
-		ActiveVim.vimcom.send_ex(iobj.serverid, vim_cmd)
 		glib.timeout_add_seconds(10, os.unlink, tmpname)
+
+		def error_handler(exc):
+			ctx.register_late_error(OperationError(exc))
+
+		proxy_obj = get_plugin_service_obj(PLUGID)
+		if proxy_obj:
+			proxy_obj.SendEx(iobj.serverid, vim_cmd,
+					reply_handler=_dummy_handler,
+					error_handler=error_handler)
 
 	def item_types(self):
 		yield TextLeaf
