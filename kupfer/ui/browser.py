@@ -1214,10 +1214,32 @@ class Interface (gobject.GObject):
 		self.reset_current()
 		self.reset()
 
+	def _entry_paste_data_received(self, clipboard, targets, entry):
+		uri_target = "text/uri-list"
+		## check if we can insert files
+		if uri_target in targets:
+			# paste as files
+			sdata = clipboard.wait_for_contents(uri_target)
+			self.reset_current()
+			self.reset()
+			self.put_files(sdata.get_uris())
+			## done
+		else:
+			# enable text mode and reemit to paste text
+			self.try_enable_text_mode()
+			if self.get_in_text_mode():
+				entry.emit("paste-clipboard")
+
 	def _entry_paste_clipboard(self, entry):
 		if not self.get_in_text_mode():
 			self.reset()
-			self.try_enable_text_mode()
+			## when not in text mode,
+			## stop signal emission so we can handle it
+			clipboard = gtk.Clipboard(selection=gtk.gdk.SELECTION_CLIPBOARD,
+			                          display=entry.get_display())
+			clipboard.request_targets(self._entry_paste_data_received, entry)
+			entry.emit_stop_by_name("paste-clipboard")
+
 
 	def reset_text(self):
 		self.entry.set_text("")

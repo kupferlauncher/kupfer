@@ -38,10 +38,9 @@ def register_subplugin(module):
 		globals()[attr] += object_names
 		globals().update((sym, getattr(module, sym)) for sym in object_names)
 
-from kupfer.plugin.core import contents, selection, text, internal, commands
+from kupfer.plugin.core import contents, text, internal, commands
 
 register_subplugin(contents)
-register_subplugin(selection)
 register_subplugin(text)
 register_subplugin(internal)
 register_subplugin(commands)

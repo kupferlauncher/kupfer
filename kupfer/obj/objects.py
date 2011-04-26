@@ -11,6 +11,7 @@ see the main program file, and COPYING for details.
 import os
 from os import path
 
+import gio
 import gobject
 
 from kupfer import icons, launch, utils
@@ -95,6 +96,9 @@ class FileLeaf (Leaf, TextRepresentation):
 
 	def get_text_representation(self):
 		return gobject.filename_display_name(self.object)
+
+	def get_urilist_representation(self):
+		return [gio.File(path=self.object).get_uri()]
 
 	def get_description(self):
 		return utils.get_display_path_for_bytestring(self.canonical_path())
