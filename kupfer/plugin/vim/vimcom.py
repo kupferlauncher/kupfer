@@ -118,7 +118,7 @@ class poller(object):
     whether a window is alive.
     """
 
-    def __init__(self):
+    def __init__(self, name_token="PIDA_HIDDEN", extra_args=[]):
         """
         Constructor.
         
@@ -130,9 +130,10 @@ class poller(object):
         """
         # Prefacing with '__' means it will be ignored in the internal server
         # list.
-        self.name = '__%s_PIDA_HIDDEN' % time.time()
+        self.name = '__%s_%s' % (time.time(), name_token)
         # Checked to evaluate False on starting.
         self.pid = None
+        self.extra_args = extra_args
 
     def start(self):
         """
@@ -154,9 +155,10 @@ class poller(object):
             pid, fd = pty.fork()
             if pid == 0:
                 # Child, execute Vim with the correct servername argument
-                os.execvp(command, ['gvim', '-f', '--servername', self.name,
-                    '--socketid', '%s' % xid])
-                    #'-v'])
+                argv = ['gvim', '-f', '--servername', self.name,
+                    '--socketid', '%s' % xid]
+                argv.extend(self.extra_args)
+                os.execvp(command, argv)
                 # os.system('%s -v --servername %s' % (command, self.name))
             else:
                 # Parent, store the pid, and file descriptor for later.
