@@ -1,3 +1,5 @@
 # IconName	File
+# the fields must be tab-separated
+# icons are used if not existing in the icon theme
 kupfer-object	object.svg
 kupfer-object-multiple	objects.svg

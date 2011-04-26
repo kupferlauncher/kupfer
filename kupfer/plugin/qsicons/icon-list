@@ -1,4 +1,6 @@
-# ID	File
+# ID	File	flags
+# !override means that it overrides the current icon theme
+# (the default is to not override it)
 kupfer-launch	Rocket.png	!override
 kupfer-object	Object.png	!override
 kupfer-object-multiple	Object.png	!override
