@@ -48,8 +48,9 @@ class Service (dbus.service.Object):
 	def finalize(self):
 		pid = self.vimcom.vim_hidden.pid
 		if pid:
+			self.vimcom.send_ex(self.vimcom.vim_hidden.name, 'qa!')
 			os.close(self.vimcom.vim_hidden.childfd)
-			os.kill(pid, 15)
+			#os.kill(pid, 15)
 			os.waitpid(pid, 0)
 		self.vimcom.destroy()
 		self.vimcom = None
