@@ -44,6 +44,7 @@ def get_options():
 		("list-plugins", _("list available plugins")),
 		("debug", _("enable debug info")),
 		("relay", _("run keyboard shortcut relay service on this display")),
+		("exec-helper=", _("run plugin helper")),
 	]
 	misc_options = [
 		("help", _("show usage help")),
@@ -99,6 +100,9 @@ def get_options():
 		if k == "--relay":
 			keyrelay_main()
 			raise SystemExit
+		if k == "--exec-helper":
+			exec_helper(v)
+			raise SystemExit(1)
 
 	# return list first of tuple pair
 	return [tupl[0] for tupl in opts]
@@ -136,9 +140,13 @@ def _set_process_title():
 	else:
 		setproctitle.setproctitle("kupfer")
 
+def exec_helper(helpername):
+	import runpy
+	runpy.run_module(helpername, run_name='__main__', alter_sys=True)
+	raise SystemExit
+
 def keyrelay_main():
-	import kupfer.keyrelay
-	kupfer.keyrelay.main()
+	return exec_helper('kupfer.keyrelay')
 
 def gtkmain(quiet):
 	import pygtk
