@@ -71,6 +71,8 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 			elif _is_core_setting(key):
 				default = self.setting_descriptions[key]["value"]
 				setctl.set_plugin_config(plugin_name, key, default, value_type)
+			elif hasattr(value_type, 'create_default'):
+				self[key] = value_type.create_default()
 		setctl.connect("value-changed", self._value_changed, plugin_name)
 		# register for unload notification
 		if not plugin_name.startswith("core."):

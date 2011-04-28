@@ -583,6 +583,16 @@ class PreferencesWindowController (pretty.OutputMixin):
 				setctl.set_plugin_config(plugin_id, key, upass, val_type)
 		return callback
 
+	def _get_plugin_configure_callback(self, plugin_id, key, val_type):
+		def callback(widget):
+			setctl = settings.GetSettingsController()
+			conf = setctl.get_plugin_config(plugin_id, key, val_type)
+			if not conf and hasattr(val_type, 'create_default'):
+				conf = val_type.create_default()
+			if conf and conf.dialog(self.window):
+				setctl.set_plugin_config(plugin_id, key, conf, val_type)
+		return callback
+
 	def _make_plugin_settings_widget(self, plugin_id):
 		plugin_settings = plugins.get_plugin_attribute(plugin_id,
 				plugins.settings_attribute)
@@ -614,7 +624,15 @@ class PreferencesWindowController (pretty.OutputMixin):
 				wid = gtk.Button(label or _("Set username and password"))
 				wid.connect("clicked", self._get_plugin_credentials_callback(
 						plugin_id, setting))
-				hbox.pack_start(wid, False)
+				hbox.pack_start(wid, True)
+				vbox.pack_start(hbox, False)
+				continue
+
+			if hasattr(typ, 'dialog'):
+				wid = gtk.Button(label or _("Configure"))
+				wid.connect("clicked", self._get_plugin_configure_callback(plugin_id,
+						setting, typ))
+				hbox.pack_start(wid, True)
 				vbox.pack_start(hbox, False)
 				continue
 
