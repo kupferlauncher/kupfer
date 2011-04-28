@@ -3,6 +3,48 @@
 NEWS for kupfer
 ===============
 
+the upcoming incarnation of kupfer, summoner of stuff
+-----------------------------------------------------
+
+Not Yet Released
+
+* Pressing and holding a letter key will highlight the current command
+  and activate it when the key is released (David Schneider and Ulrik)
+* Holding shift and typing will search in the action pane. (David Schneider
+  and Ulrik)
+* Handle large text objects a bit better
+* Introduce proxy objects *Clipboard File* and *Clipboard Text*. These
+  objects are implemented in the *Clipboard* plugin, just like the *Selected
+  Text* object which has changed home to this plugin. Accordingly,
+  deactivating the clipboard plugin will deactivate these proxies.
+* Support copying and pasting files from/to the clipboard, which allows much
+  easier integration with file managers.
+* Add an information text detailing which keyring backend is used to store
+  passwords, visible in the user credentials dialog.
+* *Vim:* Expand the vim plugin to use a helper process to track running
+  server instances of (G)Vim. Each running session is exported as an object,
+  and most importantly, files can be opened in a session using the action
+  *Open With*.
+* *Multihead Support:* This new plugin will start the "keyboard shortcut
+  relay" service on additional screens, if it is needed. It is active by
+  default, and does not do anything on configurations with a single
+  X screen.
+* *Send Keys:* Allow sending key sequences using comma trick.
+* *Thunar:* Add action *Symlink In...*
+* *Quicksilver Icons:* New plugin with a few icons from Quicksilver
+* Use themable custom icon names ``kupfer-execute``, ``kupfer-catalog``,
+  ``kupfer-launch``. Also allow plugins to choose to supply icons when the
+  icon theme lacks them, or always override the icon theme.
+
+* Localization updates:
+
+  + (cs) Marek Černocký
+  + (de) Mario Blättermann
+  + (es) Daniel Mustieles
+  + (hu) SanskritFritz
+  + (sl) Andrej Žnidaršič
+
+
 kupfer v206
 -----------
 
