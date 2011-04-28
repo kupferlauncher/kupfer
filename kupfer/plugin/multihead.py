@@ -1,3 +1,6 @@
+# TRANS: Multihead refers to support for multiple computer displays
+# TRANS: In this case, it only concerns the special configuration
+# TRANS: with multiple X "screens"
 __kupfer_name__ = _("Multihead Support")
 __kupfer_sources__ = ()
 __description__ = ("Will run the keyboard shortcut relay service on additional"

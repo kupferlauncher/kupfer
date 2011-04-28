@@ -44,6 +44,8 @@ def get_options():
 		("list-plugins", _("list available plugins")),
 		("debug", _("enable debug info")),
 		("relay", ""),
+		# TRANS: --exec-helper=HELPER is an internal command
+		# TRANS: that executes a helper program that is part of kupfer
 		("exec-helper=", _("run plugin helper")),
 	]
 	misc_options = [
