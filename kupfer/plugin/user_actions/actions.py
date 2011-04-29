@@ -27,15 +27,16 @@ class UserAction(Action):
 		self.gather_result = None
 		self.filters = []
 
-	def activate(self, leaf):
+	def wants_context(self):
+		return True
+
+	def activate(self, leaf, ctx):
 		argv = utils.argv_for_commandline(self.command)
 		if '$s' in argv:
 			argv[argv.index('$s')] = leaf.object
 		if self.gather_result:
-			ctx = commandexec.DefaultActionExecutionContext()
-			token = ctx.get_async_token()
 			acom = utils.AsyncCommand(argv, self.finish_callback, 15)
-			acom.token = token
+			acom.token = ctx
 		else:
 			try:
 				if self.launch_in_terminal:
@@ -46,7 +47,7 @@ class UserAction(Action):
 				raise OperationError(exc)
 
 	def finish_callback(self, acommand, output, stderr):
-		ctx = commandexec.DefaultActionExecutionContext()
+		ctx = acommand.token
 		out = kupferstring.fromlocale(output)
 		if self.gather_result == 'url':
 			objs = [objects.UrlLeaf(iout) for iout in out.split()]
@@ -58,12 +59,12 @@ class UserAction(Action):
 			objs = [objects.TextLeaf(iout) for iout in out.split()]
 		if objs:
 			if len(objs) == 1:
-				ctx.register_late_result(acommand.token, objs[0])
+				ctx.register_late_result(objs[0])
 			else:
 				result = UserActionResultSource(objs)
 				leaf = objects.SourceLeaf(result,
 						_("%s Action Result") % self.name)
-				ctx.register_late_result(acommand.token, leaf)
+				ctx.register_late_result(leaf)
 
 	def get_description(self):
 		return self.description
