@@ -5,7 +5,6 @@ __version__ = "2010-05-22"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import re
-import shlex
 import ConfigParser
 
 from kupfer import pretty
@@ -14,7 +13,7 @@ from kupfer import utils
 from kupfer import kupferstring
 from kupfer import commandexec
 from kupfer.obj import objects
-from kupfer.obj.base import Action, Source
+from kupfer.objects import OperationError, Action, Source
 
 
 class UserAction(Action):
@@ -29,24 +28,22 @@ class UserAction(Action):
 		self.filters = []
 
 	def activate(self, leaf):
-		cmd = self.command
-		if '$s' in cmd:
-			try:
-				cmd = self.command.replace('$s', leaf.object)
-			except TypeError:
-				return
+		argv = utils.argv_for_commandline(self.command)
+		if '$s' in argv:
+			argv[argv.index('$s')] = leaf.object
 		if self.gather_result:
-			try:
-				s_str = cmd.encode("UTF-8")
-				argv = [kupferstring.tounicode(t) for t in shlex.split(s_str)]
-			except ValueError:
-				argv = cmd.split(None, 1) if " " in cmd else [cmd]
 			ctx = commandexec.DefaultActionExecutionContext()
 			token = ctx.get_async_token()
 			acom = utils.AsyncCommand(argv, self.finish_callback, 15)
 			acom.token = token
 		else:
-			utils.launch_commandline(cmd, self.name, self.launch_in_terminal)
+			try:
+				if self.launch_in_terminal:
+					utils.spawn_in_terminal(argv)
+				else:
+					utils.spawn_async_raise(argv)
+			except utils.SpawnError as exc:
+				raise OperationError(exc)
 
 	def finish_callback(self, acommand, output, stderr):
 		ctx = commandexec.DefaultActionExecutionContext()
