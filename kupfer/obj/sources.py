@@ -68,14 +68,19 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		super(DirectorySource, self).__init__(name)
 		self.directory = dir
 		self.show_hidden = show_hidden
-		self.unpickle_finish()
 
 	def __repr__(self):
 		return "%s.%s(\"%s\", show_hidden=%s)" % (self.__class__.__module__,
 				self.__class__.__name__, str(self.directory), self.show_hidden)
 
-	def unpickle_finish(self):
+	def initialize(self):
 		self.monitor = self.monitor_directories(self.directory)
+
+	def finalize(self):
+		self.monitor = None
+
+	def monitor_include_file(self, gfile):
+		return self.show_hidden or not gfile.get_basename().startswith('.')
 
 	def get_items(self):
 		try:
