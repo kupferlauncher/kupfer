@@ -3,7 +3,7 @@ __kupfer_name__ = _("Gajim")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'OpenChat')
 __description__ = _("Access to Gajim Contacts")
-__version__ = "2010-01-06"
+__version__ = "2011-05-12"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import dbus
@@ -66,6 +66,9 @@ def _check_gajim_version(conn):
 	tversion = map(int, version.split('.'))
 	if len(tversion) == 2:
 		tversion += [0]
+	elif len(tversion) > 3:
+		# i.e. daily builds
+		tversion = tversion[:3]
 	return tversion
 
 
