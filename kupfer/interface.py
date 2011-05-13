@@ -74,8 +74,7 @@ def copy_to_clipboard(obj, clipboard):
 	if data:
 		clipboard.set_with_data(targets, store, clear, data)
 		# store all targets
-		clipboard.set_can_store(None)
-		clipboard.store()
+		clipboard.set_can_store(targets)
 		return True
 	return False
 
