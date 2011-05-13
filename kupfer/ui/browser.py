@@ -1764,6 +1764,7 @@ class KupferWindow (gtk.Window):
 		self.connect("expose-event", self.on_expose_event)
 		self.connect("size-allocate", self.on_size_allocate)
 		self.connect("composited-changed", self.on_composited_changed)
+		self.connect("realize", self.on_realize)
 		self.set_app_paintable(True)
 
 	def on_style_set(self, widget, old_style):
@@ -1807,6 +1808,9 @@ class KupferWindow (gtk.Window):
 		cr.stroke()
 
 	def on_composited_changed(self, widget):
+		self.reshape(widget, widget.get_allocation())
+
+	def on_realize(self, widget):
 		self.reshape(widget, widget.get_allocation())
 
 	def on_size_allocate(self, widget, allocation):
