@@ -6,7 +6,7 @@ __kupfer_name__ = _("DuckDuckGo HTTPS Search")
 __kupfer_sources__ = ()
 __kupfer_actions__ = ("DuckDuckGoSearch",)
 __description__ = _("Search the Web securely with DuckDuckGo")
-__version__ = "0.1"
+__version__ = "1.0"
 __author__ = "Isaac Aggrey <isaac.aggrey@gmail.com>"
 
 import urllib
@@ -20,7 +20,7 @@ class DuckDuckGoSearch (Action):
 
 	def activate(self, leaf):
 		search_url="https://duckduckgo.com/" 
-		query_url = search_url + "&" + urllib.urlencode({"q" : leaf.object})
+		query_url = search_url + "?" + urllib.urlencode({"q" : leaf.object})
 		utils.show_url(query_url)
 
 	def item_types(self):
