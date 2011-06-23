@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer manual\n"
-"POT-Creation-Date: 2011-03-29 19:29+0000\n"
-"PO-Revision-Date: 2011-04-09 23:11+0100\n"
+"POT-Creation-Date: 2011-04-09 21:16+0000\n"
+"PO-Revision-Date: 2011-06-23 12:04+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,23 +33,32 @@ msgstr "Grundlagen der Bedienung"
 #: C/plugin-websearch.page:15(p)
 msgid "Activate Kupfer and make sure it is in free-text mode (press period)"
 msgstr ""
+"Aktivieren Sie Kupfer und stellen Sich sicher, dass es sich im freien "
+"Textmodus befindet (drücken Sie ».«)"
 
 #: C/plugin-websearch.page:17(p)
 msgid ""
 "Type in a search query and tap <key>Tab</key> to switch to the action pane."
 msgstr ""
+"Geben Sie eine Suchanfrage ein und drücken Sie die <key>Tabulatortaste</key>, "
+"um zum Aktionsfenster zu wechseln."
 
 #: C/plugin-websearch.page:19(p)
 msgid ""
 "Type \"Search With\" to find Search the Web's action and tap <key>Tab</key> "
 "again to switch to the third pane (indirect object)."
 msgstr ""
+"Geben Sie »Suchen mit« ein, um zur Websuche-Aktion zu gelangen und drücken "
+"Sie erneut die <key>Tabulatortatse</key>, um zur dritten Ansicht zu wechseln "
+"(indirektes Objekt)."
 
 #: C/plugin-websearch.page:22(p)
 msgid ""
 "Select search engine with the arrow keys and type <key>Return</key> to open "
 "the search in a web browser."
 msgstr ""
+"Wählen Sie die Suchmaschine mit den Pfeiltasten aus und drücken Sie die "
+"<key>Eingabetaste</key>, um die Suche in einem Webbrowser zu öffnen."
 
 #: C/plugin-websearch.page:29(title)
 msgid "Search Engines"
@@ -81,6 +90,8 @@ msgstr "~/.local/share/kupfer/searchplugins/"
 #: C/plugin-websearch.page:40(p)
 msgid "The search engine descriptions must written in OpenSearch format."
 msgstr ""
+"Die Beschreibungen für die Suchmaschine müssen im OpenSearch-Format angegeben "
+"werden."
 
 #: C/plugin-triggers.page:7(desc)
 msgid "Using the triggers plugin."
@@ -101,6 +112,11 @@ msgid ""
 "and bind a global key combination to run this command. As long as "
 "<app>Kupfer</app> is running, any application can have the current focus."
 msgstr ""
+"Mit <app>Auslösern</app> können Sie einen Befehl angeben, den Sie "
+"normalerweise in <app>Kupfer</app> ausführen, und diesen Befehl einer "
+"globalen Tastenkombination zuordnen. Beispiele dafür sind das Starten einer "
+"Anwendung oder das Öffnen eines Dokuments. Während <app>Kupfer</app> läuft, "
+"kann jede Anwendung aktuell fokussiert sein."
 
 #: C/plugin-triggers.page:25(title)
 msgid "Creating a new trigger"
@@ -109,18 +125,23 @@ msgstr "Anlegen eines neuen Auslösers"
 #: C/plugin-triggers.page:27(p)
 msgid "Set up a command in <app>Kupfer</app> that you want to run"
 msgstr ""
+"Geben Sie in <app>Kupfer</app> einen Befehl an, den Sie ausführen wollen."
 
 #: C/plugin-triggers.page:32(p)
 msgid ""
 "Press <keyseq><key>Ctrl</key><key>Return</key></keyseq> to create a "
 "<em>composed command</em>."
 msgstr ""
+"Drücken Sie <keyseq><key>Strg</key><key>Eingabetaste</key></keyseq>, um "
+"einen  <em>zusammengesetzten Befehl</em> zu erstellen."
 
 #: C/plugin-triggers.page:38(p)
 msgid ""
 "Type <key>Tab</key> and select the action <em>Add Trigger...</em> and press "
 "<key>Return</key>"
 msgstr ""
+"Drücken Sie die <key>Tabulatortaste</key>, wählen Sie die Aktion <em>Auslöser "
+"hinzufügen …</em> und drücken Sie die <key>Eingabetaste</key>."
 
 #: C/plugin-triggers.page:44(p)
 msgid ""
@@ -130,6 +151,12 @@ msgid ""
 "releasing <key>R</key> to bind <keyseq><key>Ctrl</key><key>Alt</key><key>R</"
 "key></keyseq>."
 msgstr ""
+"Drücken Sie nun Modifikationstasten und eine Buchstaben- oder Zifferntaste, "
+"um ein globales Tastenkürzel festzulegen. Beispiel: Drücken Sie "
+"<keyseq><key>Strg</key><key>Alt</key></keyseq> und halten Sie diese Tasten "
+"gedrückt. Dann drücken Sie <key>R</key> und lassen die Taste wieder los, um "
+"die Tastenkombination <keyseq><key>Strg</key><key>Alt</key><key>R</key></"
+"keyseq> zu verwenden."
 
 #: C/plugin-triggers.page:54(title)
 msgid "Removing a trigger"
@@ -140,12 +167,16 @@ msgid ""
 "Find the source <em>Triggers</em> in <app>Kupfer</app> and press <key>→</key> "
 "to see its contents."
 msgstr ""
+"Schauen Sie in <app>Kupfer</app> nach den festgelegten <em>Auslösern</em> und "
+"drücken Sie <key>→</key>, um deren Inhalt anzusehen."
 
 #: C/plugin-triggers.page:62(p)
 msgid ""
 "Find the active trigger in the list and use the action <em>Remove Trigger</"
 "em>."
 msgstr ""
+"Suchen Sie nach dem aktiven Auslöser in der Liste und wählen Sie <em>Auslöser "
+"entfernen</em>."
 
 #: C/plugin-triggers.page:68(p)
 msgid ""
@@ -153,11 +184,14 @@ msgid ""
 "application. Select shortcuts with care so that they do not conflict with "
 "other functions."
 msgstr ""
+"Da die Auslöser-Tastenkombinationen globaler Natur sind, können sie aus jeder "
+"Anwendung heraus aufgerufen werden. Wählen Sie die Tastenkombinationen mit "
+"Vorsicht, damit sie nicht mit anderen Funktionen in Konflikt geraten."
 
 #: C/plugin-triggers.page:74(title) C/plugin-notes.page:60(title)
 #: C/plugin-gwibber.page:68(title) C/plugin-favorites.page:38(title)
 msgid "Power User Tips"
-msgstr ""
+msgstr "Profitipps"
 
 #: C/plugin-triggers.page:75(p)
 msgid ""
@@ -165,6 +199,9 @@ msgid ""
 "em>, <em>Frontmost Window</em>, <em>Last Command</em> et cetera allow very "
 "powerful triggers."
 msgstr ""
+"<em>Proxy-Objekte</em> wie <em>Ausgewählter Text</em>, <em>Ausgewählte Datei</"
+"em>, <em>Vorderstes Fenster</em>, <em>Letzter Befehl</em> usw. ermöglichen "
+"sehr mächtige Auslöser."
 
 #: C/plugin-triggers.page:79(p)
 msgid ""
@@ -173,6 +210,11 @@ msgid ""
 "but focus the application when it is already running. By contrast, <em>Start "
 "Again</em> will start the application if it is running or not."
 msgstr ""
+"Die Anwendungsaktion <em>Starten</em> ist fallabhängig. Wenn Sie einen "
+"Auslöser an <em>Starten</em> binden, dann wird die Anwendung gestartet, "
+"sofern sie noch nicht läuft. Sollte sie jedoch schon laufen, erhält sie den "
+"Fokus. Im Gegensatz dazu startet die Aktion <em>Erneut starten</em> die "
+"Anwendung, ganz gleich, ob sie schon läuft oder nicht."
 
 #: C/plugin-triggers.page:87(title)
 msgid "Example Triggers"
@@ -180,37 +222,41 @@ msgstr "Beispiele für Auslöser"
 
 #: C/plugin-triggers.page:90(em)
 msgid "Text Editor → Launch"
-msgstr ""
+msgstr "Texteditor → starten"
 
 #: C/plugin-triggers.page:91(p)
 msgid "Start <em>Text Editor</em> or focus its window if it is already running."
 msgstr ""
+"Starten den <em>Texteditor</em> oder fokussiert dessen Fenster, falls er "
+"schon läuft."
 
 #: C/plugin-triggers.page:97(em)
 msgid "Selected Text → Search With → Google"
-msgstr ""
+msgstr "Ausgewählter Text → Suchen mit → Google"
 
 #: C/plugin-triggers.page:98(p)
 msgid "Search the web using the currently selected text."
-msgstr ""
+msgstr "Sucht im Web nach dem aktuell ausgewählten Text."
 
 #: C/plugin-triggers.page:100(em)
 msgid "Selected File → Move To → (Downloads Folder)"
-msgstr ""
+msgstr "Ausgewählte Datei → Verschieben nach → (Download-Ordner)"
 
 #: C/plugin-triggers.page:101(p)
 msgid "Move the currently selected file to a specific folder"
-msgstr ""
+msgstr "Verschiebt die aktuell ausgewählte Datei in einem bestimmten Ordner"
 
 #: C/plugin-triggers.page:105(em)
 msgid "Songs → Search Contents"
-msgstr ""
+msgstr "Musiktitel → Inhalte durchsuchen"
 
 #: C/plugin-triggers.page:106(p)
 msgid ""
 "You may even add a trigger to open a specific subcatalog in Kupfer, for "
 "example Rhythmbox's songs."
 msgstr ""
+"Sie können einen Auslöser festlegen, um in Kupfer einen bestimmten "
+"unterkatalog zu öffnen, zum Beispiel die Titel in Rhythmbox."
 
 #: C/plugin-notes.page:7(desc)
 msgid "Using the notes plugin."
@@ -241,6 +287,8 @@ msgid ""
 "Activate Kupfer and type <key>.</key> to enter text mode, then type in a note "
 "title"
 msgstr ""
+"Aktivieren Sie Kupfer und geben Sie <key>.</key> ein, um in den Textmodus zu "
+"gelangen. Geben Sie dann den Titel der Notiz ein"
 
 #: C/plugin-notes.page:32(p)
 msgid ""
@@ -254,7 +302,7 @@ msgstr "Suchen nach einer Notiz anhand des Titels"
 
 #: C/plugin-notes.page:41(p)
 msgid "Simply search for the note title in <app>Kupfer</app>"
-msgstr ""
+msgstr "Suchen Sie einfach nach dem Titel der Notiz in <app>Kupfer</app>."
 
 #: C/plugin-notes.page:45(title)
 msgid "Finding a note by content"
@@ -265,6 +313,8 @@ msgid ""
 "Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
 "search query"
 msgstr ""
+"Aktivieren Sie Kupfer und geben Sie <key>.</key> ein, um in den Textmodus zu "
+"gelangen. Geben Sie dann Ihre Suchanfrage ein"
 
 #: C/plugin-notes.page:53(p)
 msgid ""
@@ -280,11 +330,11 @@ msgstr ""
 
 #: C/plugin-nautilusselection.page:7(desc)
 msgid "Using the selected file plugin."
-msgstr ""
+msgstr "Verwendung des »Ausgewählte Datei«-Plugins"
 
 #: C/plugin-nautilusselection.page:10(app)
 msgid "Selected File"
-msgstr ""
+msgstr "Ausgewählte Datei"
 
 #: C/plugin-nautilusselection.page:14(p)
 msgid ""
@@ -292,6 +342,9 @@ msgid ""
 "object <app>Selected File</app>, which represents the file or files that are "
 "selected."
 msgstr ""
+"Wählen Sie eine Datei in der Dateiverwaltung aus. Öffnen Sie <app>Kupfer</"
+"app> und suchen Sie nach dem Objekt <app>Ausgewählte Datei</app>, welches die "
+"ausgewählte(n) Datei(en) repräsentiert."
 
 #: C/plugin-nautilusselection.page:19(p)
 msgid ""
@@ -299,6 +352,9 @@ msgid ""
 "keyseq> to directly focus the selected file. See <link xref=\"keyboard\"/> "
 "for more information."
 msgstr ""
+"Anstelle der Suche können Sie <keyseq><key>Strg</key><key>G</key></keyseq> "
+"drücken, um die ausgewählte Datei direkt zu fokussieren. Weitere "
+"Informationen hierzu finden Sie in <link xref=\"keyboard\"/>."
 
 #: C/plugin-nautilusselection.page:26(title)
 msgid "<app>Selected File</app> requires <app>Nautilus</app>"
@@ -311,6 +367,11 @@ msgid ""
 "normally installed together with <app>Kupfer</app>). After installing it for "
 "the first time, <app>Nautilus</app> must start anew before it is active."
 msgstr ""
+"Dieses Plugin funktioniert mit der Dateiverwaltung <app>Nautilus</app> und "
+"benötigt die installierte Erweiterung <cmd>kupfer_provider.py</cmd>. Diese "
+"gehört normalerweise zu einer <app>Kupfer</app>-Installation. Nach der "
+"Erstinstallation müssen Sie <app>Nautilus</app> neu starten, bevor die "
+"Erweiterung aktiv wird."
 
 #: C/plugin-gwibber.page:7(desc)
 msgid "Using the Gwibber plugin."
@@ -385,6 +446,9 @@ msgid ""
 "Type <key>Tab</key> to select the last pane, and type in a message. Press "
 "<key>Return</key> to send."
 msgstr ""
+"Drücken Sie die <key>Tabulatortaste</key>, um die letzte Leiste auszuwählen "
+"und geben Sie Ihre Nachricht ein. Drücken Sie anschließend die "
+"<key>Eingabetaste</key>, um sie zu versenden.."
 
 #: C/plugin-gwibber.page:61(p)
 msgid ""
@@ -634,9 +698,8 @@ msgid "More advanced usage information."
 msgstr "Erweiterte Informationen zur Benutzung."
 
 #: C/moreusage.page:10(title)
-#, fuzzy
 msgid "Using <app>Kupfer</app> in Depth"
-msgstr "Verwendung der <app>Kupfer</app>-Plugins."
+msgstr "Fortgeschrittene Verwendung von <app>Kupfer</app>"
 
 #: C/moreusage.page:13(title)
 msgid "Adding Applications and Scripts"
@@ -649,16 +712,14 @@ msgid ""
 msgstr ""
 
 #: C/moreusage.page:18(p)
-#, fuzzy
 msgid ""
 "If you want to add an application manually, you can create a new <code>."
 "desktop</code> file and place it in one of the standard directories for "
 "applications, for example <file>~/.local/share/applications</file>, where "
 "<app>Kupfer</app> will find it."
 msgstr ""
-"Wenn Sie eine benutzerdefinierte Anwendung hinzufügen wollen oder eine "
-"Anwendung, die mit speziellen Parametern aufgerufen werden soll, dann können "
-"Sie einen neuen Anwendungsstarter dafür erstellen und die Datei an einem der "
+"Wenn Sie eine benutzerdefinierte Anwendung hinzufügen wollen, dann können Sie "
+"eine neue *.desktop-Datei dafür erstellen und die Datei an einem der "
 "Standardorte für Anwendungen ablegen, beispielsweise <file>~/.local/share/"
 "applications</file>, wo <app>Kupfer</app> ihn finden kann."
 
@@ -765,7 +826,6 @@ msgid "See <link xref=\"keyboard\"/>"
 msgstr "Siehe <link xref=\"keyboard\"/>"
 
 #: C/moreusage.page:94(title)
-#, fuzzy
 msgid "Command-line Connection"
 msgstr "Verbindung zur Befehlszeile"
 
@@ -882,7 +942,7 @@ msgstr "Verwendung von Plugins in <app>Kupfer</app>."
 
 #: C/managing-plugins.page:10(title)
 msgid "How to Configure Plugins"
-msgstr ""
+msgstr "Konfigurieren der Plugins"
 
 #: C/managing-plugins.page:12(p)
 msgid ""
@@ -893,12 +953,13 @@ msgstr ""
 
 #: C/managing-plugins.page:19(title)
 msgid "Configuring Plugins"
-msgstr ""
+msgstr "Einrichten von Plugins"
 
 #: C/managing-plugins.page:21(title)
-#, fuzzy
 msgid "Open <app>Kupfer Preferences</app> to the Plugins tab"
-msgstr "Verwendung der <app>Kupfer</app>-Plugins."
+msgstr ""
+"Öffnen Sie die <app>Kupfer-Einstellungen</app> und wechseln Sie zum Plugins-"
+"Reiter"
 
 #: C/managing-plugins.page:23(p)
 msgid "Use one of the following methods:"
@@ -921,13 +982,13 @@ msgid ""
 "Search for the object <app>Kupfer Preferences</app> in Kupfer itself. Press "
 "<key>Return</key> to open it."
 msgstr ""
+"Suchen Sie nach dem Objekt <app>Kupfer-Einstellungen</app> in Kupfer selbst. "
+"Drücken Sie die <key>Eingabetaste</key> zum Öffnen."
 
 #: C/managing-plugins.page:33(p)
-#, fuzzy
 msgid "Use the keyboard shortcut <keyseq><key>Ctrl</key><key>;</key></keyseq>"
 msgstr ""
-"<key>↑</key> oder <keyseq><key>Umschalttaste</key><key>Leertaste</key></"
-"keyseq>"
+"Verwenden Sie das Tastenkürzel <keyseq><key>Strg</key><key>;</key></keyseq>"
 
 #: C/managing-plugins.page:39(p)
 msgid "Select the tab <em>Plugins</em>"
@@ -1063,7 +1124,7 @@ msgstr ""
 
 #: C/license.page:7(desc)
 msgid "You can copy, modify and share Kupfer."
-msgstr ""
+msgstr "Sie können Kupfer kopieren, Änderungen vornehmen und weitergeben."
 
 #: C/license.page:10(title)
 msgid "License"
@@ -1252,6 +1313,8 @@ msgid ""
 "These keyboard shortcuts are used in <app>Kupfer</app>'s interface. They have "
 "the following meanings and default shortcuts:"
 msgstr ""
+"Diese Tastenkürzel werden in der Benutzeroberfläche von <app>Kupfer</app> "
+"verwendet. Sie haben folgende Bedeutungen und Vorgabeeinstellungen:"
 
 #: C/keyboard.page:93(key) C/keyboard.page:97(key) C/keyboard.page:101(key)
 #: C/keyboard.page:105(key) C/keyboard.page:113(key) C/keyboard.page:117(key)
@@ -1310,7 +1373,7 @@ msgstr "S"
 
 #: C/keyboard.page:118(p)
 msgid "Switch to first pane"
-msgstr ""
+msgstr "Zur ersten Leiste wechseln"
 
 #: C/keyboard.page:121(key)
 msgid "Q"
@@ -1351,6 +1414,8 @@ msgstr "Einrichtung einer Tastenkombination"
 #: C/keyboard.page:141(p) C/keyboard.page:185(p)
 msgid "Open <app>Kupfer Preferences</app> and go to the <em>Keyboard</em> tab."
 msgstr ""
+"Öffnen Sie die <app>Kupfer-Einstellungen</app> und wechseln Sie zum Reiter "
+"<em>Tastatur</em>."
 
 #: C/keyboard.page:147(p)
 msgid ""
@@ -1391,7 +1456,7 @@ msgstr "<app>Kupfer</app> anzeigen oder verbergen"
 
 #: C/keyboard.page:178(p)
 msgid "(not configured by default)"
-msgstr ""
+msgstr "(keine Voreinstellung)"
 
 #: C/keyboard.page:179(p)
 msgid "Show <app>Kupfer</app> with 'Selection' object focused"
@@ -1504,10 +1569,9 @@ msgstr "Kuper verwenden"
 
 #: C/index.page:27(title)
 msgid "About Specific Plugins"
-msgstr ""
+msgstr "Infos zu bestimmten Plugins"
 
 #: C/generalusage.page:7(desc)
-#, fuzzy
 msgid "How to start using <app>Kupfer</app>."
 msgstr "Einführung in <app>Kupfer</app>."
 
@@ -1541,13 +1605,12 @@ msgid "In command mode, some keystrokes have special meanings:"
 msgstr "Im Befehlsmodus haben einige Tastenkürzel besondere Bedeutungen:"
 
 #: C/generalusage.page:71(p)
-#, fuzzy
 msgid ""
 "By default you show <app>Kupfer</app> using the global keyboard shortcut "
 "<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
 msgstr ""
-"<key>↑</key> oder <keyseq><key>Umschalttaste</key><key>Leertaste</key></"
-"keyseq>"
+"In der Standardeinstellung rufen Sie <app>Kupfer</app> mit der globalen "
+"Tastenkombination <keyseq><key>Strg</key><key>Leertaste</key></keyseq> auf."
 
 #: C/generalusage.page:74(p)
 msgid "See <link xref=\"keyboard\"/> for more information."
@@ -1555,7 +1618,7 @@ msgstr "Siehe <link xref=\"keyboard\"/> für weitere Informationen."
 
 #: C/generalusage.page:78(title)
 msgid "Learning Habits"
-msgstr ""
+msgstr "Grundlegendes Verhalten"
 
 #: C/generalusage.page:79(p)
 msgid ""
@@ -1579,7 +1642,6 @@ msgstr ""
 "wie Dokumente und Programme."
 
 #: C/generalusage.page:96(p)
-#, fuzzy
 msgid ""
 "Objects in the catalog that have content, like folders, are marked with an "
 "arrow. Pressing <key>→</key> will enter these objects. Much of the catalog is "
@@ -1606,4 +1668,4 @@ msgstr ""
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
 #: C/index.page:0(None)
 msgid "translator-credits"
-msgstr "Mario Blättermann <mariobl@freenet.de>, 2009, 2010, 2011"
+msgstr "Mario Blättermann <mariobl@freenet.de>, 2009-2011"
