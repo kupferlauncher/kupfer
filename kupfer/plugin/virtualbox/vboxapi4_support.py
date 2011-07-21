@@ -149,6 +149,8 @@ def get_machines():
 
 	machines = vbox.getArray(vbox.vbox, 'machines')
 	for machine in machines:
+		if not machine.accessible:
+			continue
 		description = machine.description or machine.OSTypeId
 		yield (machine.id, machine.name, description)
 
