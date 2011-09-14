@@ -6,7 +6,7 @@ Translate TextLeaf by Google Translate.
 __kupfer_name__ = _("Google Translate")
 __kupfer_actions__ = ("Translate", "TranslateUrl", 'OpenTranslatePage')
 __description__ = _("Translate text with Google Translate")
-__version__ = "2010-09-06"
+__version__ = "2011-09-14"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import httplib
@@ -92,7 +92,7 @@ def _translate(text, lang):
 _RE_GET_LANG_SELECT = re.compile(
 		r'\<select[\w\d\s="\'-]*name=tl[\w\d\s="\']*\>(.*)\<\/select\>',
 		re.UNICODE|re.MULTILINE|re.IGNORECASE)
-_RE_GET_LANG = re.compile(r"""\<option[ \w]+ value="([\w\-]+)"\> # code 'zh-TW'
+_RE_GET_LANG = re.compile(r"""\<option[ \w]+ value="?([\w\-]+)"?\> # code 'zh-TW'
                               ([^<]+?)             # match localized lang name
                               \</option\>
                            """, re.UNICODE|re.IGNORECASE|re.VERBOSE)
