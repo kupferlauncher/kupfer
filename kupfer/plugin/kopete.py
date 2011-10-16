@@ -37,6 +37,12 @@ _STATUSES = {
 	'offline':	_('Offline')
 	}
 
+_ICONS_BY_STATUSES = {
+	'Offline': 'user-offline',
+	'Away': 'user-away',
+	'Online': 'user-available'
+	}
+
 ACCOUNTMANAGER_PATH = "/Kopete"
 ACCOUNTMANAGER_IFACE = "org.kde.kopete"
 DBUS_PROPS_IFACE = "org.kde.Kopete"
@@ -55,12 +61,16 @@ class KopeteContact(JabberContact):
 		kopete_slots = { KOPETE_CONTACT_ID: contact_id }
 		JabberContact.__init__(self, jid, name, status, resources, kopete_slots)
 		self._description = _("[%(status)s] %(name)s") % { "status": status,  "name": name }
+		self._status = status
+
+	def get_thumbnail(self, width, height):
+		if self._kopete_icon_path:
+			return icons.get_pixbuf_from_file(self._kopete_icon_path, width, height)
+		else:
+			return None
 
 	def get_icon_name(self):
-		return 'stock_person'
-
-	# def get_gicon(self):
-	#	return icons.get_icon_from_file(self._kopete_icon_path)
+		return _ICONS_BY_STATUSES[self._status] or 'user-available'
 
 #
 # class AccountStatus(Leaf):
@@ -76,14 +86,8 @@ class OpenChat(Action):
 		contact_id = leaf[KOPETE_CONTACT_ID]
 		_create_dbus_connection().openChat(contact_id)
 
-	# def get_icon_name(self):
-	#	return 'stock_person'
-
 	def item_types(self):
-		yield ContactLeaf
-
-	def valid_for_item(self, item):
-		return KOPETE_CONTACT_ID in item and item[KOPETE_CONTACT_ID]
+		yield KopeteContact
 
 
 # class ChangeStatus(Action):
@@ -170,10 +174,10 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 					    contact_id)
 
 	def get_icon_name(self):
-		return 'stock_person'
+		return 'kopete'
 
 	def provides(self):
-		yield ContactLeaf
+		yield KopeteContact
 
 
 # class StatusSource(Source):
