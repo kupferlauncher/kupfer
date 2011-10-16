@@ -1,0 +1,191 @@
+__kupfer_name__ = _("Kopete")
+__kupfer_sources__ = ("ContactsSource", )
+__kupfer_actions__ = ("ChangeStatus", 'OpenChat')
+__description__ = _("Access to Kopete Contacts")
+__version__ = "2011-10-15"
+__author__ = "Aleksei Gusev <aleksei.gusev@gmail.com>"
+
+import dbus
+import time
+
+from kupfer import icons
+from kupfer import plugin_support
+from kupfer.objects import Leaf, Action, Source, AppLeaf
+from kupfer.weaklib import dbus_signal_connect_weakly
+from kupfer.obj.helplib import PicklingHelperMixin
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.contacts import ContactLeaf, JabberContact, JABBER_JID_KEY
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "show_offline",
+		"label": _("Show offline contacts"),
+		"type": bool,
+		"value": False,
+		},
+	)
+
+plugin_support.check_dbus_connection()
+
+_STATUSES = {
+	'available':	_('Available'),
+	'away':		_('Away'),
+	'dnd':		_('Busy'),
+	'xa':		_('Not Available'),
+	'hidden':	_('Invisible'),
+	'offline':	_('Offline')
+	}
+
+ACCOUNTMANAGER_PATH = "/Kopete"
+ACCOUNTMANAGER_IFACE = "org.kde.kopete"
+DBUS_PROPS_IFACE = "org.kde.Kopete"
+KOPETE_CONTACT_ID = "KOPETE_CONTACT_ID"
+
+def _create_dbus_connection():
+	sbus = dbus.SessionBus()
+	proxy_obj = sbus.get_object(ACCOUNTMANAGER_IFACE, ACCOUNTMANAGER_PATH)
+	dbus_iface = dbus.Interface(proxy_obj, DBUS_PROPS_IFACE)
+	return dbus_iface
+
+
+class KopeteContact(JabberContact):
+	def __init__(self, jid, name, status, resources, icon_path, contact_id):
+		self._kopete_icon_path = icon_path
+		kopete_slots = { KOPETE_CONTACT_ID: contact_id }
+		JabberContact.__init__(self, jid, name, status, resources, kopete_slots)
+		self._description = _("[%(status)s] %(name)s") % { "status": status,  "name": name }
+
+	def get_icon_name(self):
+		return 'stock_person'
+
+	# def get_gicon(self):
+	#	return icons.get_icon_from_file(self._kopete_icon_path)
+
+#
+# class AccountStatus(Leaf):
+#	pass
+#
+
+class OpenChat(Action):
+
+	def __init__(self):
+		Action.__init__(self, _('Open Chat'))
+
+	def activate(self, leaf):
+		contact_id = leaf[KOPETE_CONTACT_ID]
+		_create_dbus_connection().openChat(contact_id)
+
+	# def get_icon_name(self):
+	#	return 'stock_person'
+
+	def item_types(self):
+		yield ContactLeaf
+
+	def valid_for_item(self, item):
+		return KOPETE_CONTACT_ID in item and item[KOPETE_CONTACT_ID]
+
+
+# class ChangeStatus(Action):
+#	''' Change global status '''
+#
+#	def __init__(self):
+#		Action.__init__(self, _('Change Global Status To...'))
+#
+#	def activate(self, leaf, iobj):
+#		bus = dbus.SessionBus()
+#		interface = _create_dbus_connection()
+#		for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
+#			account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
+#			connection_status = account.Get(ACCOUNT_IFACE, "ConnectionStatus")
+#			if connection_status != 0:
+#				continue
+#
+#			if iobj.object == "offline":
+#				false = dbus.Boolean(0, variant_level=1)
+#				account.Set(ACCOUNT_IFACE, "Enabled", false)
+#			else:
+#				connection_path = account.Get(ACCOUNT_IFACE, "Connection")
+#				connection_iface = connection_path.replace("/", ".")[1:]
+#				connection = bus.get_object(connection_iface, connection_path)
+#				simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
+#				simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
+#
+#	def item_types(self):
+#		yield AppLeaf
+#
+#	def valid_for_item(self, leaf):
+#		return leaf.get_id() == 'stock_person'
+#
+#	def requires_object(self):
+#		return True
+#
+#	def object_types(self):
+#		yield AccountStatus
+#
+#	def object_source(self, for_item=None):
+#		return StatusSource()
+#
+
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
+		     PicklingHelperMixin):
+	''' Get contacts from all on-line accounts in Kopete via DBus '''
+	appleaf_content_id = 'kopete'
+
+	def __init__(self, name=_('Kopete Contacts')):
+		super(ContactsSource, self).__init__(name, "Contacts")
+		self._version = 2
+		self.unpickle_finish()
+
+	def pickle_prepare(self):
+		self._contacts = []
+
+	def unpickle_finish(self):
+		self.mark_for_update()
+		self._contacts = []
+
+	def initialize(self):
+		ToplevelGroupingSource.initialize(self)
+
+	def get_items(self):
+		interface = _create_dbus_connection()
+		if interface is not None:
+			self._contacts = list(self._find_all_contacts(interface))
+		else:
+			self._contacts = []
+		return self._contacts
+
+	def _find_all_contacts(self, interface):
+		show_offline = __kupfer_settings__["show_offline"]
+		bus = dbus.SessionBus()
+		for contact_id in interface.contacts():
+			contact = interface.contactProperties(contact_id)
+			isContactOnline = interface.isContactOnline(contact_id)
+
+			yield KopeteContact(contact['display_name'],
+					    contact['display_name'],
+					    contact['status'],
+					    '',
+					    contact['picture'],
+					    contact_id)
+
+	def get_icon_name(self):
+		return 'stock_person'
+
+	def provides(self):
+		yield ContactLeaf
+
+
+# class StatusSource(Source):
+#
+#	def __init__(self):
+#		Source.__init__(self, _("Empathy Account Status"))
+#
+#	def get_items(self):
+#		for status, name in _STATUSES.iteritems():
+#			yield AccountStatus(status, name)
+#
+#	def provides(self):
+#		yield AccountStatus
+#
+#
