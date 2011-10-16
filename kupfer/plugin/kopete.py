@@ -32,7 +32,6 @@ _STATUSES = {
 	'available':	_('Available'),
 	'away':		_('Away'),
 	'dnd':		_('Busy'),
-	'xa':		_('Not Available'),
 	'hidden':	_('Invisible'),
 	'offline':	_('Offline')
 	}
@@ -72,10 +71,6 @@ class KopeteContact(JabberContact):
 	def get_icon_name(self):
 		return _ICONS_BY_STATUSES[self._status] or 'user-available'
 
-#
-# class AccountStatus(Leaf):
-#	pass
-#
 
 class OpenChat(Action):
 
@@ -90,46 +85,34 @@ class OpenChat(Action):
 		yield KopeteContact
 
 
-# class ChangeStatus(Action):
-#	''' Change global status '''
-#
-#	def __init__(self):
-#		Action.__init__(self, _('Change Global Status To...'))
-#
-#	def activate(self, leaf, iobj):
-#		bus = dbus.SessionBus()
-#		interface = _create_dbus_connection()
-#		for valid_account in interface.Get(ACCOUNTMANAGER_IFACE, "ValidAccounts"):
-#			account = bus.get_object(ACCOUNTMANAGER_IFACE, valid_account)
-#			connection_status = account.Get(ACCOUNT_IFACE, "ConnectionStatus")
-#			if connection_status != 0:
-#				continue
-#
-#			if iobj.object == "offline":
-#				false = dbus.Boolean(0, variant_level=1)
-#				account.Set(ACCOUNT_IFACE, "Enabled", false)
-#			else:
-#				connection_path = account.Get(ACCOUNT_IFACE, "Connection")
-#				connection_iface = connection_path.replace("/", ".")[1:]
-#				connection = bus.get_object(connection_iface, connection_path)
-#				simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
-#				simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
-#
-#	def item_types(self):
-#		yield AppLeaf
-#
-#	def valid_for_item(self, leaf):
-#		return leaf.get_id() == 'stock_person'
-#
-#	def requires_object(self):
-#		return True
-#
-#	def object_types(self):
-#		yield AccountStatus
-#
-#	def object_source(self, for_item=None):
-#		return StatusSource()
-#
+class AccountStatus(Leaf):
+	pass
+
+class ChangeStatus(Action):
+	''' Change global status '''
+
+	def __init__(self):
+		Action.__init__(self, _('Change Global Status To...'))
+
+	def activate(self, leaf, iobj):
+		interface = _create_dbus_connection()
+		interface.setOnlineStatus(_STATUSES.get(iobj.object))
+
+	def item_types(self):
+		yield AppLeaf
+
+	def valid_for_item(self, leaf):
+		print leaf.get_id()
+		return leaf.get_id() == 'kopete'
+
+	def requires_object(self):
+		return True
+
+	def object_types(self):
+		yield AccountStatus
+
+	def object_source(self, for_item=None):
+		return StatusSource()
 
 class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		     PicklingHelperMixin):
@@ -180,16 +163,13 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		yield KopeteContact
 
 
-# class StatusSource(Source):
-#
-#	def __init__(self):
-#		Source.__init__(self, _("Empathy Account Status"))
-#
-#	def get_items(self):
-#		for status, name in _STATUSES.iteritems():
-#			yield AccountStatus(status, name)
-#
-#	def provides(self):
-#		yield AccountStatus
-#
-#
+class StatusSource(Source):
+	def __init__(self):
+		Source.__init__(self, _("Kopete Account Status"))
+
+	def get_items(self):
+		for status, name in _STATUSES.iteritems():
+			yield AccountStatus(status, name)
+
+	def provides(self):
+		yield AccountStatus
