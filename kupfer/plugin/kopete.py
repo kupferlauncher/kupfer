@@ -53,7 +53,6 @@ def _create_dbus_connection():
 	dbus_iface = dbus.Interface(proxy_obj, DBUS_PROPS_IFACE)
 	return dbus_iface
 
-
 class KopeteContact(JabberContact):
 	def __init__(self, jid, name, status, resources, icon_path, contact_id):
 		self._kopete_icon_path = icon_path
@@ -71,7 +70,6 @@ class KopeteContact(JabberContact):
 	def get_icon_name(self):
 		return _ICONS_BY_STATUSES[self._status] or 'user-available'
 
-
 class OpenChat(Action):
 
 	def __init__(self):
@@ -83,7 +81,6 @@ class OpenChat(Action):
 
 	def item_types(self):
 		yield KopeteContact
-
 
 class AccountStatus(Leaf):
 	pass
@@ -147,21 +144,23 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 		bus = dbus.SessionBus()
 		for contact_id in interface.contacts():
 			contact = interface.contactProperties(contact_id)
-			isContactOnline = interface.isContactOnline(contact_id)
 
-			yield KopeteContact(contact['display_name'],
-					    contact['display_name'],
-					    contact['status'],
-					    '',
-					    contact['picture'],
-					    contact_id)
+			show_offline = __kupfer_settings__["show_offline"]
+			if not (show_offline or interface.isContactOnline(contact_id)):
+				continue
+			else:
+				yield KopeteContact(contact['display_name'],
+						    contact['display_name'],
+						    contact['status'],
+						    '',
+						    contact['picture'],
+						    contact_id)
 
 	def get_icon_name(self):
 		return 'kopete'
 
 	def provides(self):
 		yield KopeteContact
-
 
 class StatusSource(Source):
 	def __init__(self):
