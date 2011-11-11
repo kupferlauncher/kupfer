@@ -114,6 +114,8 @@ def parse_argv(instr):
 	['/usr/bin/x-prog', '-q', '%F']
 	>>> parse_argv('env LANG=en_US.UTF-8 freeciv-gtk2')
 	['env', 'LANG=en_US.UTF-8', 'freeciv-gtk2']
+	>>> parse_argv('emacsclient -a "" -c %f')
+	['emacsclient', '-a', '', '-c', '%f']
 
 	== Below this we need quirks mode ==
 
