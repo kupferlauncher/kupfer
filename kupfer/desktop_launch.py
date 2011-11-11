@@ -237,6 +237,10 @@ def replace_format_specs(argv, location, desktop_info, gfilelist):
 
 	new_argv = []
 	for x in argv:
+		if not x:
+			# the arg is an empty string, we don't need extra processing
+			new_argv.append(x)
+			continue
 		succ, newargs = replace_array_format(x)
 		if succ:
 			new_argv.extend(newargs)
