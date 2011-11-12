@@ -38,6 +38,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 GMAIL_NEW_MAIL_URL = \
 	"https://mail.google.com/mail/?view=cm&ui=2&tf=0&to=%(emails)s&fs=1"
 
+GMAIL_EDIT_CONTACT_URL = "https://mail.google.com/mail/#contact/%(contact)s"
+
 
 def is_plugin_configured():
 	''' Check if plugin is configured (user name and password is configured) '''
@@ -74,6 +76,23 @@ class NewMailAction(Action):
 		return _("Open web browser and compose new email in Gmail")
 
 
+class EditContactAction(Action):
+	''' Edit contact in Gmail'''
+	def __init__(self):
+		Action.__init__(self, _('Edit Contact in Gmail'))
+
+	def activate(self, obj):
+		url = GMAIL_EDIT_CONTACT_URL % dict(contact=obj.google_contact_id)
+		utils.show_url(url)
+
+	def get_icon_name(self):
+		return 'document-properties'
+
+	def get_description(self):
+		return _("Open web browser and edit contact in Gmail")
+
+
+
 def get_gclient():
 	''' create gdata client object and login do google service '''
 	if not is_plugin_configured():
@@ -102,6 +121,11 @@ def get_contacts():
 		query.max_results = 9999 # load all contacts
 		for entry in gd_client.GetContactsFeed(query.ToUri()).entry:
 			common_name = kupferstring.tounicode(entry.title.text)
+			contact_id = None
+			try:
+				contact_id = entry.id.text.split('/')[-1]
+			except:
+				pass
 			for email in entry.email:
 				if email.address:
 					image = None
@@ -113,7 +137,7 @@ def get_contacts():
 							pass
 					email = email.address
 					contacts.append(GoogleContact(email, common_name or email,
-							image))
+							image, contact_id))
 
 	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired), err:
 		pretty.print_error(__name__, 'get_contacts error',
@@ -132,14 +156,19 @@ def get_contacts():
 
 
 class GoogleContact(EmailContact):
-	def __init__(self, email, name, image):
+	def __init__(self, email, name, image, contact_id):
 		EmailContact.__init__(self, email, name)
 		self.image = image
+		self.google_contact_id = contact_id
 
 	def get_thumbnail(self, width, height):
 		if self.image:
 			return icons.get_pixbuf_from_data(self.image, width, height)
 		return EmailContact.get_thumbnail(self, width, height)
+
+	def get_actions(self):
+		if self.google_contact_id:
+			yield EditContactAction()
 
 
 class GoogleContactsSource(ToplevelGroupingSource):
