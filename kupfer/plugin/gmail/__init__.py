@@ -106,7 +106,11 @@ def get_contacts():
 				if email.address:
 					image = None
 					if __kupfer_settings__['loadicons']:
-						image = gd_client.GetPhoto(entry)
+						# Sometimes GetPhoto can't find appropriate image (404)
+						try:
+							image = gd_client.GetPhoto(entry)
+						except:
+							pass
 					email = email.address
 					contacts.append(GoogleContact(email, common_name or email,
 							image))
