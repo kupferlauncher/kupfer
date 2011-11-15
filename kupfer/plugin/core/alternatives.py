@@ -52,3 +52,13 @@ def initialize_alternatives(__name__):
 			'desktopid': "urxvt.desktop",
 			'startup_notify': False,
 		})
+
+	plugin_support.register_alternative(__name__, 'terminal', 'konsole',
+		**{
+			'name': _("Konsole"),
+			'argv': ['konsole'],
+			'exearg': '-e',
+			'desktopid': "konsole.desktop",
+			# Not sure here, so setting to false
+			'startup_notify': False,
+		})
