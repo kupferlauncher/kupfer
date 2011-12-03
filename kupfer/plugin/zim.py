@@ -6,13 +6,15 @@ __kupfer_sources__ = ("ZimPagesSource", )
 __kupfer_actions__ = (
 		"CreateZimPage",
 		"CreateZimPageInNotebook",
+		"CreateZimQuickNote",
 	)
 __description__ = _("Access to Pages stored in Zim - "
                     "A Desktop Wiki and Outliner")
-__version__ = "2011-12-02"
+__version__ = "2011-12-03"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
+import time
 
 import gio
 import glib
@@ -29,16 +31,32 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"type": bool,
 		"value": False,
 	},
+	{
+		"key": "quicknote_basename",
+		"label": _("Default page name for quick notes"),
+		"type": str,
+		"value": _("Note %x %X"),
+		"tooltip": _("Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+				"Please check python documentation for details.\n"
+				"NOTE: comma will be replaced by _"),
+	},
+	{
+		"key": "quicknote_namespace",
+		"label": _("Default namespace for quick notes"),
+		"type": str,
+		"value": "",
+	},
 )
 
 '''
 Changes:
 	2011-12-02 Karol Będkowski
 		fix loading notebook list from zim 0.53
+	2011-12-03 Karol Będkowski
+		add CreateZimQuickNote action
 TODO:
 	use FilesystemWatchMixin (?)
 '''
-
 
 
 def _start_zim(notebook, page):
@@ -106,6 +124,48 @@ class CreateZimPageInNotebook(Action):
 
 	def object_source(self, for_item=None):
 		return ZimNotebooksSource()
+
+
+class CreateZimQuickNote(Action):
+	""" Create new page using quicknote plugin """
+	def __init__(self):
+		Action.__init__(self, _('Insert QuickNote into Zim'))
+
+	def activate(self, leaf):
+		self._create_note(leaf.object)
+
+	def activate_multiple(self, objects):
+		text = '\n'.join(str(leaf.object) for leaf in objects)
+		self._create_note(text)
+
+	def get_description(self):
+		return _("Quick note selected text into Zim notebook")
+
+	def get_icon_name(self):
+		return 'document-new'
+
+	def item_types(self):
+		yield TextLeaf
+
+	def _create_note(self, text):
+		argv = ['zim', '--plugin', 'quicknote', 'input=stdin']
+		basename = __kupfer_settings__['quicknote_basename']
+		if basename:
+			try:
+				basename = time.strftime(basename, time.localtime())
+				basename = basename.replace(':', '_')
+			except:
+				pass
+			argv.append("basename=" + basename)
+		namespace = __kupfer_settings__['quicknote_namespace']
+		if namespace:
+			argv.append("namespace=" + namespace)
+
+		def finish_callback(acommand, stdout, stderr):
+			pretty.print_debug(__name__, "CreateZimQuickNote.finish_callback", acommand,
+					stdout, stderr)
+
+		utils.AsyncCommand(argv, finish_callback, None, stdin=text)
 
 
 class OpenZimPage(Action):
