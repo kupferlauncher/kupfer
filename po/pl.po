@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 20:20+0100\n"
-"PO-Revision-Date: 2011-11-27 20:21+0100\n"
+"POT-Creation-Date: 2011-12-13 19:53+0100\n"
+"PO-Revision-Date: 2011-12-13 19:54+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -494,7 +494,7 @@ msgstr "Nie może być użyte z wieloma obiektami"
 
 #: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
-#: ../kupfer/plugin/zim.py:107
+#: ../kupfer/plugin/zim.py:176
 msgid "Open"
 msgstr "Otwórz"
 
@@ -1933,7 +1933,7 @@ msgid "Launch GNOME Terminal profiles"
 msgstr "Uruchomianie profili Terminala GNOME"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:144
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:177
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -1947,16 +1947,24 @@ msgstr ""
 msgid "Load contacts' pictures"
 msgstr "Pobieranie obrazów kontaktów"
 
-#: ../kupfer/plugin/gmail/__init__.py:51
+#: ../kupfer/plugin/gmail/__init__.py:53
 msgid "Compose Email in Gmail"
 msgstr "Utwórz wiadomość e-mail w serwisie Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:74
+#: ../kupfer/plugin/gmail/__init__.py:76
 msgid "Open web browser and compose new email in Gmail"
 msgstr ""
 "Otwiera przeglądarkę WWW i tworzy nową wiadomość e-mail w serwisie Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:177
+#: ../kupfer/plugin/gmail/__init__.py:82
+msgid "Edit Contact in Gmail"
+msgstr "Modyfikuj kontakt w serwisie Gmail"
+
+#: ../kupfer/plugin/gmail/__init__.py:92
+msgid "Open web browser and edit contact in Gmail"
+msgstr "Otwiera przeglądarkę WWW i modyfikuje kontakt w serwisie Gmail"
+
+#: ../kupfer/plugin/gmail/__init__.py:210
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakty z usług firmy Google (Gmail)"
 
@@ -3089,43 +3097,74 @@ msgstr "Maszyny wirtualne programu VirtualBox"
 msgid "Zim"
 msgstr "Zim"
 
-#: ../kupfer/plugin/zim.py:10
+#: ../kupfer/plugin/zim.py:11
 msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
 msgstr "Dostęp do stron zapisanych w programie Zim"
 
-#: ../kupfer/plugin/zim.py:28
+#: ../kupfer/plugin/zim.py:30
 msgid "Page names start with :colon"
 msgstr "Nazwy stron rozpoczynają się od dwukropka"
 
-#: ../kupfer/plugin/zim.py:58
+#: ../kupfer/plugin/zim.py:36
+msgid "Default page name for quick notes"
+msgstr "Domyślna nazwa strony dla szybkich notatek"
+
+#: ../kupfer/plugin/zim.py:38
+#, python-format
+msgid "Note %x %X"
+msgstr "Notatka %x %X"
+
+#: ../kupfer/plugin/zim.py:39
+msgid ""
+"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+"Please check python documentation for details.\n"
+"NOTE: comma will be replaced by _"
+msgstr ""
+"Można używać znaczników strftime: %H - godzina, %M - minuta itp.\n"
+"Więcej informacji można znaleźć w dokumentacji języka Python.\n"
+"Uwaga: przecinki zostaną zastąpione znakiem _"
+
+#: ../kupfer/plugin/zim.py:45
+msgid "Default namespace for quick notes"
+msgstr "Domyślna przestrzeń nazw dla szybkich notatek"
+
+#: ../kupfer/plugin/zim.py:80
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
 msgstr "Strona programu Zim w notatniku \"%s\""
 
-#: ../kupfer/plugin/zim.py:67
+#: ../kupfer/plugin/zim.py:89
 msgid "Create Zim Page"
 msgstr "Utwórz stronę programu Zim"
 
-#: ../kupfer/plugin/zim.py:74
+#: ../kupfer/plugin/zim.py:96
 msgid "Create page in default notebook"
 msgstr "Tworzy stronę w domyślnym notatniku"
 
-#: ../kupfer/plugin/zim.py:84
+#: ../kupfer/plugin/zim.py:108
 msgid "Create Zim Page In..."
 msgstr "Utwórz stronę programu Zim w..."
 
-#: ../kupfer/plugin/zim.py:122
+#: ../kupfer/plugin/zim.py:132
+msgid "Insert QuickNote into Zim"
+msgstr "Wstaw szybką notatkę do programu Zim"
+
+#: ../kupfer/plugin/zim.py:142
+msgid "Quick note selected text into Zim notebook"
+msgstr "Tworzy notatkę z zaznaczonego tekstu w notatniku programu Zim"
+
+#: ../kupfer/plugin/zim.py:191
 msgid "Create Subpage..."
 msgstr "Utwórz podstronę..."
 
-#: ../kupfer/plugin/zim.py:243
+#: ../kupfer/plugin/zim.py:370
 msgid "Zim Notebooks"
 msgstr "Notatniki programu Zim"
 
-#: ../kupfer/plugin/zim.py:259
+#: ../kupfer/plugin/zim.py:387
 msgid "Zim Pages"
 msgstr "Strony programu Zim"
 
-#: ../kupfer/plugin/zim.py:287
+#: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strony w notatnikach programu Zim"
