@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the kupfer package. (GPLv3)
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
 # Thibaud Roth <thibaud.roth@betriebsdirektor.de>, 2009.
-# Mario Blättermann <mariobl@freenet.de>, 2009-2011.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2011.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-26 17:12+0000\n"
-"PO-Revision-Date: 2011-04-27 09:07+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@freenet.de>\n"
+"POT-Creation-Date: 2011-12-13 17:56+0000\n"
+"PO-Revision-Date: 2011-12-16 19:18+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,7 @@ msgstr "<b>Globale Tastenkombinationen</b>"
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
-#: ../data/preferences.ui.h:4 ../kupfer/obj/sources.py:151
+#: ../data/preferences.ui.h:4 ../kupfer/obj/sources.py:156
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -165,27 +165,29 @@ msgstr "Verfügbare Plugins auflisten"
 msgid "enable debug info"
 msgstr "Informationen zur Fehlerdiagnose aktivieren"
 
-#: ../kupfer/main.py:47
+#. TRANS: --exec-helper=HELPER is an internal command
+#. TRANS: that executes a helper program that is part of kupfer
+#: ../kupfer/main.py:49
 msgid "run plugin helper"
 msgstr "Plugin-Helfer ausführen"
 
-#: ../kupfer/main.py:50
+#: ../kupfer/main.py:52
 msgid "show usage help"
 msgstr "Hilfe anzeigen"
 
-#: ../kupfer/main.py:51
+#: ../kupfer/main.py:53
 msgid "show version information"
 msgstr "Versionsinformationen anzeigen"
 
-#: ../kupfer/main.py:57
+#: ../kupfer/main.py:59
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Aufruf: kupfer [OPTIONEN | DATEI …]"
 
-#: ../kupfer/main.py:68
+#: ../kupfer/main.py:70
 msgid "Available plugins:"
 msgstr "Verfügbare Erweiterungen:"
 
-#: ../kupfer/main.py:119
+#: ../kupfer/main.py:121
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -280,19 +282,19 @@ msgstr "Eingeben, um »%s« zu durchsuchen"
 msgid "No action"
 msgstr "Keine Aktion"
 
-#: ../kupfer/ui/browser.py:1483
+#: ../kupfer/ui/browser.py:1506
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "»%(action)s« als Vorgabe für »%(object)s« festlegen"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1493
+#: ../kupfer/ui/browser.py:1516
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "»%s« vergessen"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1925 ../kupfer/ui/preferences.py:58
+#: ../kupfer/ui/browser.py:1952 ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr "Haupt-Bedienoberfläche anzeigen"
 
@@ -383,7 +385,7 @@ msgstr "Kürzel"
 msgid "translator-credits"
 msgstr ""
 "Thibaud Roth <thibaud.roth@betriebsdirektor.de>\n"
-"Mario Blättermann <mariobl@freenet.de>\n"
+"Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Christian Kirbach <Christian.Kirbach@googlemail.com>"
 
 #: ../kupfer/version.py:78
@@ -495,7 +497,7 @@ msgstr "Kann nicht mit mehreren Objekten verwendet werden"
 
 #: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
 #: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:108
-#: ../kupfer/plugin/zim.py:107
+#: ../kupfer/plugin/zim.py:176
 msgid "Open"
 msgstr "Öffnen"
 
@@ -623,24 +625,24 @@ msgstr "%s et. al."
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursive Quelle von %(dir)s, (%(levels)d Ebenen)"
 
-#: ../kupfer/obj/sources.py:103
+#: ../kupfer/obj/sources.py:108
 #, python-format
 msgid "Directory source %s"
 msgstr "Quellordner %s"
 
-#: ../kupfer/obj/sources.py:113
+#: ../kupfer/obj/sources.py:118
 msgid "Home Folder"
 msgstr "Persönlicher Ordner"
 
-#: ../kupfer/obj/sources.py:124
+#: ../kupfer/obj/sources.py:129
 msgid "Catalog Index"
 msgstr "Katalogindex"
 
-#: ../kupfer/obj/sources.py:139
+#: ../kupfer/obj/sources.py:144
 msgid "An index of all available sources"
 msgstr "Ein Index aller verfügbaren Quellen"
 
-#: ../kupfer/obj/sources.py:171
+#: ../kupfer/obj/sources.py:176
 msgid "Root catalog"
 msgstr "Standardkatalog"
 
@@ -1057,7 +1059,10 @@ msgstr "Index der Lesezeichen in Firefox"
 msgid "Include visited sites"
 msgstr "Besuchte Seiten einbeziehen"
 
-#: ../kupfer/plugin/multihead.py:1
+#. TRANS: Multihead refers to support for multiple computer displays
+#. TRANS: In this case, it only concerns the special configuration
+#. TRANS: with multiple X "screens"
+#: ../kupfer/plugin/multihead.py:4
 msgid "Multihead Support"
 msgstr "Multihead-Unterstützung"
 
@@ -1831,12 +1836,12 @@ msgstr "Verborgen"
 msgid "Offline"
 msgstr "Abgemeldet"
 
-#: ../kupfer/plugin/empathy.py:96 ../kupfer/plugin/gajim.py:90
+#: ../kupfer/plugin/empathy.py:96 ../kupfer/plugin/gajim.py:93
 #: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:204
 msgid "Open Chat"
 msgstr "Unterhaltung öffnen"
 
-#: ../kupfer/plugin/empathy.py:129 ../kupfer/plugin/gajim.py:118
+#: ../kupfer/plugin/empathy.py:129 ../kupfer/plugin/gajim.py:121
 #: ../kupfer/plugin/skype.py:250
 msgid "Change Global Status To..."
 msgstr "Globalen Status ändern in …"
@@ -1903,11 +1908,11 @@ msgstr "Zugriff auf Gajim-Kontakte"
 msgid "Free for Chat"
 msgstr "Verfügbar für Unterhaltungen"
 
-#: ../kupfer/plugin/gajim.py:146
+#: ../kupfer/plugin/gajim.py:149
 msgid "Gajim Contacts"
 msgstr "Gajim-Kontakte"
 
-#: ../kupfer/plugin/gajim.py:210
+#: ../kupfer/plugin/gajim.py:213
 msgid "Gajim Account Status"
 msgstr "Kontenstatus von Gajim"
 
@@ -1925,7 +1930,7 @@ msgid "Launch GNOME Terminal profiles"
 msgstr "GNOME-Terminal-Profile starten"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:144
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:177
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -1937,15 +1942,23 @@ msgstr "Kontakte laden und eine neue Nachricht in Google Mail erstellen"
 msgid "Load contacts' pictures"
 msgstr "Bilder für Kontakte laden"
 
-#: ../kupfer/plugin/gmail/__init__.py:51
+#: ../kupfer/plugin/gmail/__init__.py:53
 msgid "Compose Email in Gmail"
 msgstr "Neue E-Mail in GMail verfassen"
 
-#: ../kupfer/plugin/gmail/__init__.py:74
+#: ../kupfer/plugin/gmail/__init__.py:76
 msgid "Open web browser and compose new email in Gmail"
 msgstr "Webbrowser öffnen und eine neue Nachricht in GMail erstellen"
 
-#: ../kupfer/plugin/gmail/__init__.py:177
+#: ../kupfer/plugin/gmail/__init__.py:82
+msgid "Edit Contact in Gmail"
+msgstr "Kontakt in Gmail bearbeiten"
+
+#: ../kupfer/plugin/gmail/__init__.py:92
+msgid "Open web browser and edit contact in Gmail"
+msgstr "Webbrowser öffnen und den Kontakt in GMail bearbeiten"
+
+#: ../kupfer/plugin/gmail/__init__.py:210
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakte aus Google-Diensten (Google Mail)"
 
@@ -3073,44 +3086,75 @@ msgstr "VirtualBox-Maschinen"
 msgid "Zim"
 msgstr "Zim"
 
-#: ../kupfer/plugin/zim.py:10
+#: ../kupfer/plugin/zim.py:11
 msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
 msgstr "Zugriff auf in Zim gespeicherte Seiten - ein Desktop-Wiki"
 
-#: ../kupfer/plugin/zim.py:28
+#: ../kupfer/plugin/zim.py:30
 msgid "Page names start with :colon"
 msgstr "Seitennamen beginnen mit :colon"
 
-#: ../kupfer/plugin/zim.py:58
+#: ../kupfer/plugin/zim.py:36
+msgid "Default page name for quick notes"
+msgstr "Vorgegebener Seitenname für Quicknotes"
+
+#: ../kupfer/plugin/zim.py:38
+#, python-format
+msgid "Note %x %X"
+msgstr "Notiz %x %X"
+
+#: ../kupfer/plugin/zim.py:39
+msgid ""
+"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+"Please check python documentation for details.\n"
+"NOTE: comma will be replaced by _"
+msgstr ""
+"Strftime-Tags sind verwendbar: %H - Stunde, %M - Minuten usw.\n"
+"Details hierzu finden Sie in der Python-Dokumentation.\n"
+"Achtung: Das Komma wird durch einen Unterstrich ersetzt."
+
+#: ../kupfer/plugin/zim.py:45
+msgid "Default namespace for quick notes"
+msgstr "Vorgegebener Namensraum für Quicknotes"
+
+#: ../kupfer/plugin/zim.py:80
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
 msgstr "Zim-Seite aus Notizbuch »%s«"
 
-#: ../kupfer/plugin/zim.py:67
+#: ../kupfer/plugin/zim.py:89
 msgid "Create Zim Page"
 msgstr "Zim-Seite erstellen"
 
-#: ../kupfer/plugin/zim.py:74
+#: ../kupfer/plugin/zim.py:96
 msgid "Create page in default notebook"
 msgstr "Zim-Seite im vorgegebenen Notizbuch erstellen"
 
-#: ../kupfer/plugin/zim.py:84
+#: ../kupfer/plugin/zim.py:108
 msgid "Create Zim Page In..."
 msgstr "Zim-Seite erstellen in …"
 
-#: ../kupfer/plugin/zim.py:122
+#: ../kupfer/plugin/zim.py:132
+msgid "Insert QuickNote into Zim"
+msgstr "Quicknote in Zim einfügen"
+
+#: ../kupfer/plugin/zim.py:142
+msgid "Quick note selected text into Zim notebook"
+msgstr "Ausgewählten Text der Quicknote in das Zim-Notizbuch einfügen"
+
+#: ../kupfer/plugin/zim.py:191
 msgid "Create Subpage..."
 msgstr "Unterseite erstellen …"
 
-#: ../kupfer/plugin/zim.py:243
+#: ../kupfer/plugin/zim.py:370
 msgid "Zim Notebooks"
 msgstr "Zim-Notizbücher"
 
-#: ../kupfer/plugin/zim.py:259
+#: ../kupfer/plugin/zim.py:387
 msgid "Zim Pages"
 msgstr "Zim-Seiten"
 
-#: ../kupfer/plugin/zim.py:287
+#: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr "In Zim-Notizbüchern gespeicherte Seiten"
 
