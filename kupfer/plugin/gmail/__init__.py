@@ -170,15 +170,15 @@ def get_contacts():
 				contact_id = entry.id.text.split('/')[-1]
 			except:
 				pass
+			image = None
+			if __kupfer_settings__['loadicons']:
+				# Sometimes GetPhoto can't find appropriate image (404)
+				try:
+					image = gd_client.GetPhoto(entry)
+				except:
+					pass
 			for email in entry.email:
 				if email.address:
-					image = None
-					if __kupfer_settings__['loadicons']:
-						# Sometimes GetPhoto can't find appropriate image (404)
-						try:
-							image = gd_client.GetPhoto(entry)
-						except:
-							pass
 					email_str = email.address
 					yield GoogleContact(email_str, common_name or email_str,
 							image, contact_id, REL_LIST_EMAIL.get(email.rel))
@@ -187,16 +187,19 @@ def get_contacts():
 			for phone in entry.phone_number:
 				if phone.text:
 					yield contacts.PhoneContact(phone.text, common_name,
-							REL_LIST_PHONE.get(phone.rel), slots=primary_mail_key)
+							REL_LIST_PHONE.get(phone.rel), slots=primary_mail_key,
+							image=image)
 			for address in entry.postal_address:
 				if address.text:
 					yield contacts.AddressContact(address.text, common_name,
-							REL_LIST_PHONE.get(address.rel), slots=primary_mail_key)
+							REL_LIST_PHONE.get(address.rel), slots=primary_mail_key,
+							image=image)
 			for im in entry.im:
 				im_id = im.text or im.address
 				protocol = im.protocol or im.rel
 				if im_id and protocol in REL_LIST_IM:
-					yield REL_LIST_IM[protocol](im_id, common_name, slots=primary_mail_key)
+					yield REL_LIST_IM[protocol](im_id, common_name,
+							slots=primary_mail_key, image=image)
 	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired), err:
 		pretty.print_error(__name__, 'get_contacts error',
 				'authentication error', err)
@@ -211,15 +214,9 @@ def get_contacts():
 
 class GoogleContact(contacts.EmailContact):
 	def __init__(self, email, name, image, contact_id, email_type):
-		contacts.EmailContact.__init__(self, email, name)
-		self.image = image
+		contacts.EmailContact.__init__(self, email, name, image)
 		self.email_type = email_type
 		self.google_contact_id = contact_id
-
-	def get_thumbnail(self, width, height):
-		if self.image:
-			return icons.get_pixbuf_from_data(self.image, width, height)
-		return contacts.EmailContact.get_thumbnail(self, width, height)
 
 	def get_description(self):
 		if self.email_type:
