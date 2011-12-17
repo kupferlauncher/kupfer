@@ -38,11 +38,20 @@ YAHOO_KEY = "YAHOO"
 class ContactLeaf(GroupingLeaf):
 	grouping_slots = (NAME_KEY, )
 
+	def __init__(self, obj, name, image=None):
+		self.image = image
+		GroupingLeaf.__init__(self, obj, name)
+
 	def get_icon_name(self):
 		return "stock_person"
 
 	def get_text_representation(self):
 		return self.get_description()
+
+	def get_thumbnail(self, width, height):
+		if self.image:
+			return icons.get_pixbuf_from_data(self.image, width, height)
+		return GroupingLeaf.get_thumbnail(self, width, height)
 
 ## E-mail convenience and constructors
 
@@ -76,9 +85,9 @@ def email_from_leaf(leaf):
 class EmailContact (ContactLeaf):
 	grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY, )
 
-	def __init__(self, email, name):
+	def __init__(self, email, name, image=None):
 		slots = {EMAIL_KEY: email, NAME_KEY: name}
-		ContactLeaf.__init__(self, slots, name)
+		ContactLeaf.__init__(self, slots, name, image)
 
 	def repr_key(self):
 		return self.object[EMAIL_KEY]
@@ -93,12 +102,13 @@ class EmailContact (ContactLeaf):
 class IMContact (ContactLeaf):
 	grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY, )
 
-	def __init__(self, im_id_kind, im_id, name, label=None, other_slots=None):
+	def __init__(self, im_id_kind, im_id, name, label=None, other_slots=None,
+			image=None):
 		self.im_id_kind = im_id_kind
 		slots = {im_id_kind: im_id, NAME_KEY: name, LABEL_KEY: label}
 		if other_slots:
 			slots.update(other_slots)
-		ContactLeaf.__init__(self, slots, name)
+		ContactLeaf.__init__(self, slots, name, image)
 		self.kupfer_add_alias(im_id)
 
 	def repr_key(self):
@@ -112,9 +122,10 @@ class JabberContact (IMContact):
 	''' Minimal class for all Jabber contacts. '''
 	grouping_slots = IMContact.grouping_slots + (JABBER_JID_KEY, )
 
-	def __init__(self, jid, name, status=None, resource=None, slots=None):
+	def __init__(self, jid, name, status=None, resource=None, slots=None,
+			image=None):
 		IMContact.__init__(self, JABBER_JID_KEY, jid, name or jid,
-				other_slots=slots)
+				other_slots=slots, image=image)
 		self._description = _("[%(status)s] %(userid)s/%(service)s") % \
 				{
 					"status": status or _("unknown"),
@@ -129,61 +140,61 @@ class JabberContact (IMContact):
 class AIMContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (AIM_KEY, )
 
-	def __init__(self, id_, name, slots=None):
-		IMContact.__init__(self, AIM_KEY, id_, name, _("Aim"), slots)
+	def __init__(self, id_, name, slots=None, image=None):
+		IMContact.__init__(self, AIM_KEY, id_, name, _("Aim"), slots, image)
 
 
 class GoogleTalkContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (GOOGLE_TALK_KEY, )
 
-	def __init__(self, id_, name, slots=None):
+	def __init__(self, id_, name, slots=None, image=None):
 		IMContact.__init__(self, GOOGLE_TALK_KEY, id_, name, _("Google Talk"),
-				slots)
+				slots, image)
 
 
 class ICQContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (ICQ_KEY, )
 
-	def __init__(self, id_, name, slots=None):
-		IMContact.__init__(self, ICQ_KEY, id_, name, _("ICQ"), slots)
+	def __init__(self, id_, name, slots=None, image=None):
+		IMContact.__init__(self, ICQ_KEY, id_, name, _("ICQ"), slots, image)
 
 
 class MSNContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (MSN_KEY, )
 
-	def __init__(self, id_, name, slots=None):
-		IMContact.__init__(self, MSN_KEY, id_, name, _("MSN"), slots)
+	def __init__(self, id_, name, slots=None, image=None):
+		IMContact.__init__(self, MSN_KEY, id_, name, _("MSN"), slots, image)
 
 
 class QQContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (QQ_KEY, )
 
-	def __init__(self, id_, name, slots=None):
-		IMContact.__init__(self, QQ_KEY, id_, name, _("QQ"), slots)
+	def __init__(self, id_, name, slots=None, image=None):
+		IMContact.__init__(self, QQ_KEY, id_, name, _("QQ"), slots, image)
 
 
 class YahooContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (YAHOO_KEY, )
 
-	def __init__(self, id_, name, slots=None):
-		IMContact.__init__(self, YAHOO_KEY, id_, name, _("Yahoo"), slots)
+	def __init__(self, id_, name, slots=None, image=None):
+		IMContact.__init__(self, YAHOO_KEY, id_, name, _("Yahoo"), slots, image)
 
 
 class SkypeContact(IMContact):
 	grouping_slots = IMContact.grouping_slots + (SKYPE_KEY, )
 
-	def __init__(self, id_, name, slots=None):
-		IMContact.__init__(self, SKYPE_KEY, id_, name, _("Skype"), slots)
+	def __init__(self, id_, name, slots=None, image=None):
+		IMContact.__init__(self, SKYPE_KEY, id_, name, _("Skype"), slots, image)
 
 
 class PhoneContact(ContactLeaf):
 	grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY, )
 
-	def __init__(self, number, name, label, slots=None):
+	def __init__(self, number, name, label, slots=None, image=None):
 		pslots = {PHONE_KEY: number, NAME_KEY: name, LABEL_KEY: label}
 		if slots:
 			pslots.update(slots)
-		ContactLeaf.__init__(self, pslots, name)
+		ContactLeaf.__init__(self, pslots, name, image)
 
 	def repr_key(self):
 		return self.object[PHONE_KEY]
@@ -195,11 +206,11 @@ class PhoneContact(ContactLeaf):
 class AddressContact(ContactLeaf):
 	grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY, )
 
-	def __init__(self, address, name, label, slots=None):
+	def __init__(self, address, name, label, slots=None, image=None):
 		aslots = {ADDRESS_KEY: address, NAME_KEY: name, LABEL_KEY: label}
 		if slots:
 			aslots.update(slots)
-		ContactLeaf.__init__(self, aslots, name)
+		ContactLeaf.__init__(self, aslots, name, image)
 
 	def repr_key(self):
 		return self.object[ADDRESS_KEY]
