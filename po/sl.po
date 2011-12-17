@@ -5,9 +5,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-05-06 15:11+0000\n"
-"PO-Revision-Date: 2011-05-07 17:50+0100\n"
-"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
+"POT-Creation-Date: 2011-12-16 18:22+0000\n"
+"PO-Revision-Date: 2011-12-17 18:34+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -292,7 +292,7 @@ msgid "Forget About \"%s\""
 msgstr "Pozabi \"%s\""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1948
+#: ../kupfer/ui/browser.py:1952
 #: ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr "Pokaži glavni vmesnik"
@@ -495,7 +495,7 @@ msgstr "Ni mogoče uporabiti z več predmeti"
 #: ../kupfer/plugin/notes.py:89
 #: ../kupfer/plugin/gnome_terminal.py:36
 #: ../kupfer/plugin/gtg.py:108
-#: ../kupfer/plugin/zim.py:107
+#: ../kupfer/plugin/zim.py:176
 msgid "Open"
 msgstr "Odpri"
 
@@ -1898,14 +1898,14 @@ msgid "Offline"
 msgstr "Nepovezan"
 
 #: ../kupfer/plugin/empathy.py:96
-#: ../kupfer/plugin/gajim.py:90
+#: ../kupfer/plugin/gajim.py:93
 #: ../kupfer/plugin/pidgin.py:97
 #: ../kupfer/plugin/skype.py:204
 msgid "Open Chat"
 msgstr "Odpri klepet"
 
 #: ../kupfer/plugin/empathy.py:129
-#: ../kupfer/plugin/gajim.py:118
+#: ../kupfer/plugin/gajim.py:121
 #: ../kupfer/plugin/skype.py:250
 msgid "Change Global Status To..."
 msgstr "Spremeni splošno stanje v ..."
@@ -1973,11 +1973,11 @@ msgstr "Dostop do stikov Gajim"
 msgid "Free for Chat"
 msgstr "Dostopen za pogovor"
 
-#: ../kupfer/plugin/gajim.py:146
+#: ../kupfer/plugin/gajim.py:149
 msgid "Gajim Contacts"
 msgstr "Stiki Gajim"
 
-#: ../kupfer/plugin/gajim.py:210
+#: ../kupfer/plugin/gajim.py:213
 msgid "Gajim Account Status"
 msgstr "Stanje računa Gajim"
 
@@ -1998,7 +1998,7 @@ msgstr "Zažene profile Gnome Terminala"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2
-#: ../kupfer/plugin/gmail/__init__.py:144
+#: ../kupfer/plugin/gmail/__init__.py:177
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -2010,15 +2010,23 @@ msgstr "Nalaganje stikov in sestavljanje nove elektronske pošte v Gmailu"
 msgid "Load contacts' pictures"
 msgstr "Naloži slike stikov"
 
-#: ../kupfer/plugin/gmail/__init__.py:51
+#: ../kupfer/plugin/gmail/__init__.py:53
 msgid "Compose Email in Gmail"
 msgstr "Sestavi elektronsko pošto v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:74
+#: ../kupfer/plugin/gmail/__init__.py:76
 msgid "Open web browser and compose new email in Gmail"
-msgstr "Odpre spletni brskalnik in sestavi novo elektronsko pošto v Gmailu"
+msgstr "Odpre spletno stran sestavljanja novega elektronskega sporočila v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:177
+#: ../kupfer/plugin/gmail/__init__.py:82
+msgid "Edit Contact in Gmail"
+msgstr "Uredi stik v Gmailu"
+
+#: ../kupfer/plugin/gmail/__init__.py:92
+msgid "Open web browser and edit contact in Gmail"
+msgstr "Odpre spletno stran urejanja stikov v Gmailu"
+
+#: ../kupfer/plugin/gmail/__init__.py:210
 msgid "Contacts from Google services (Gmail)"
 msgstr "Stiki iz storitev Google (Google pošta)"
 
@@ -3180,44 +3188,75 @@ msgstr "Naprave VirtualBox"
 msgid "Zim"
 msgstr "Zim"
 
-#: ../kupfer/plugin/zim.py:10
+#: ../kupfer/plugin/zim.py:11
 msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
 msgstr "Dostop do strani shranjenih v Zim - namiznemu Wikiju in načrtovalniku"
 
-#: ../kupfer/plugin/zim.py:28
+#: ../kupfer/plugin/zim.py:30
 msgid "Page names start with :colon"
 msgstr "Imena strani se začnejo s :stolpec"
 
-#: ../kupfer/plugin/zim.py:58
+#: ../kupfer/plugin/zim.py:36
+msgid "Default page name for quick notes"
+msgstr "Privzeto ime strani hitrih opomb"
+
+#: ../kupfer/plugin/zim.py:38
+#, python-format
+msgid "Note %x %X"
+msgstr "Opomba %x %X"
+
+#: ../kupfer/plugin/zim.py:39
+msgid ""
+"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+"Please check python documentation for details.\n"
+"NOTE: comma will be replaced by _"
+msgstr ""
+"Oznake strftime, ki jih je mogoče uporabiti: %H - ure, %M - minute, idr.\n"
+"Preverite dokumentacijo python za več podrobnosti.\n"
+"OPOMBA: vejica bo zamenjana z vezajem (_)"
+
+#: ../kupfer/plugin/zim.py:45
+msgid "Default namespace for quick notes"
+msgstr "Privzeti imenski prostor hitrih opomb"
+
+#: ../kupfer/plugin/zim.py:80
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
 msgstr "Stran Zim iz beležke \"%s\""
 
-#: ../kupfer/plugin/zim.py:67
+#: ../kupfer/plugin/zim.py:89
 msgid "Create Zim Page"
 msgstr "Ustvari stran Zim"
 
-#: ../kupfer/plugin/zim.py:74
+#: ../kupfer/plugin/zim.py:96
 msgid "Create page in default notebook"
 msgstr "Ustvari stran v privzeti beležki"
 
-#: ../kupfer/plugin/zim.py:84
+#: ../kupfer/plugin/zim.py:108
 msgid "Create Zim Page In..."
 msgstr "Ustvari stran Zim v ..."
 
-#: ../kupfer/plugin/zim.py:122
+#: ../kupfer/plugin/zim.py:132
+msgid "Insert QuickNote into Zim"
+msgstr "Vstavi hitro opombo v Zim"
+
+#: ../kupfer/plugin/zim.py:142
+msgid "Quick note selected text into Zim notebook"
+msgstr "Izbrano besedilo hitre opombe v beležnici Zim"
+
+#: ../kupfer/plugin/zim.py:191
 msgid "Create Subpage..."
 msgstr "Ustvari podstran ..."
 
-#: ../kupfer/plugin/zim.py:243
+#: ../kupfer/plugin/zim.py:370
 msgid "Zim Notebooks"
 msgstr "Beležke Zim"
 
-#: ../kupfer/plugin/zim.py:259
+#: ../kupfer/plugin/zim.py:387
 msgid "Zim Pages"
 msgstr "Strani Zim"
 
-#: ../kupfer/plugin/zim.py:287
+#: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležkah Zim"
 
