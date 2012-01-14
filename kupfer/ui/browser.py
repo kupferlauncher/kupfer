@@ -1073,7 +1073,8 @@ class Interface (gobject.GObject):
 		self.update_text_mode()
 
 	def _entry_key_release(self, entry, event):
-		# check for key repeat activation
+		return
+		# check for key repeat activation (disabled)
 		if self._key_repeat_key == event.keyval:
 			if self._key_repeat_active:
 				self.activate()
@@ -1146,7 +1147,9 @@ class Interface (gobject.GObject):
 			# pass these through in text mode
 			return False
 
+		# disabled  repeat-key activation and shift-to-action selection
 		# check for repeated key activation
+		"""
 		if ((not text_mode) and self._key_repeat_key == keyv and
 				keyv not in self.keys_sensible and
 				curtime - self._key_press_time > self._key_press_repeat_threshold):
@@ -1161,8 +1164,10 @@ class Interface (gobject.GObject):
 			if self._key_repeat_active:
 				self._key_repeat_active = False
 				self._update_active()
+		"""
 
 		# exit here if it's not a special key
+		"""
 		if keyv not in self.keys_sensible:
 			## if typing with shift key, switch to action pane
 			if not text_mode and use_command_keys and shift_mask:
@@ -1172,6 +1177,7 @@ class Interface (gobject.GObject):
 					self.current.hide_table()
 					self.switch_current()
 			return False
+		"""
 		self._reset_to_toplevel = False
 
 		if keyv == key_book["Escape"]:
@@ -1708,6 +1714,7 @@ class Interface (gobject.GObject):
 			# uncomment this to reset width after every commit.
 			# self.current.match_view.shrink_preedit(self.preedit)
 			self._reset_input_timer()
+			self._update_active()
 
 	def _changed(self, editable):
 		"""
