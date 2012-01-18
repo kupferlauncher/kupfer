@@ -1166,9 +1166,7 @@ class Interface (gobject.GObject):
 				self._update_active()
 		"""
 
-		# exit here if it's not a special key
 		"""
-		if keyv not in self.keys_sensible:
 			## if typing with shift key, switch to action pane
 			if not text_mode and use_command_keys and shift_mask:
 				uchar = gtk.gdk.keyval_to_unicode(keyv)
@@ -1178,6 +1176,9 @@ class Interface (gobject.GObject):
 					self.switch_current()
 			return False
 		"""
+		# exit here if it's not a special key
+		if keyv not in self.keys_sensible:
+			return False
 		self._reset_to_toplevel = False
 
 		if keyv == key_book["Escape"]:
