@@ -4,6 +4,7 @@
 auxdata/kupfer.desktop.in
 auxdata/kupfer-exec.desktop.in
 auxdata/kupfer-mimetypes.xml.in
+contrib/google_translate.py
 [type: gettext/glade] data/preferences.ui
 [type: gettext/glade] data/result.ui
 [type: gettext/glade] data/credentials_dialog.ui
@@ -87,7 +88,6 @@ kupfer/plugin/gnome_terminal.py
 kupfer/plugin/gmail/__init__.py
 kupfer/plugin/google_picasa/__init__.py
 kupfer/plugin/google_search.py
-kupfer/plugin/google_translate.py
 kupfer/plugin/gtg.py
 kupfer/plugin/gwibber.py
 kupfer/plugin/gwibber_simple.py
