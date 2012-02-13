@@ -4,10 +4,12 @@ and ensures there is only one unique service in the Session
 """
 
 import gobject
+
 try:
 	import dbus
 	import dbus.glib
-	from dbus.gobject_service import ExportedGObject
+	import dbus.service
+	from kupfer.dbuscompat import ExportedGObject
 
 # if dbus unavailable print the exception here
 # but further actions (register) will fail without warning
