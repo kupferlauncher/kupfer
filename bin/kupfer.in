@@ -25,7 +25,7 @@ _hasprefix () {
 
 PYTHON="@PYTHON@"
 PYTHONDIR="@PYTHONDIR@"
-_hasprefix "$PYTHON" "@"  && PYTHON=python2.6
+_hasprefix "$PYTHON" "@"  && PYTHON=python
 _hasprefix "$PYTHONDIR" "@" && PYTHONDIR=$(dirname $(readlink -f -- $0))/..
 
 SERVICE="se.kaizer.kupfer"
