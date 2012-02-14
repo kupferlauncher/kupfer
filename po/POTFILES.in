@@ -4,24 +4,22 @@
 auxdata/kupfer.desktop.in
 auxdata/kupfer-exec.desktop.in
 auxdata/kupfer-mimetypes.xml.in
-contrib/google_translate.py
-[type: gettext/glade] data/preferences.ui
-[type: gettext/glade] data/result.ui
-[type: gettext/glade] data/credentials_dialog.ui
-[type: gettext/glade] data/progress_dialog.ui
-[type: gettext/glade] data/getkey_dialog.ui
+[type: gettext/glade]data/credentials_dialog.ui
+[type: gettext/glade]data/getkey_dialog.ui
+[type: gettext/glade]data/preferences.ui
+[type: gettext/glade]data/progress_dialog.ui
+[type: gettext/glade]data/result.ui
 extras/kupfer_provider.py
 
-
+kupfer/core/commandexec.py
+kupfer/core/execfile.py
+kupfer/keyrelay.py
 kupfer/main.py
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
-kupfer/ui/preferences.py
 kupfer/ui/getkey_dialog.py
+kupfer/ui/preferences.py
 kupfer/version.py
-kupfer/keyrelay.py
-kupfer/core/commandexec.py
-kupfer/core/execfile.py
 
 kupfer/obj/base.py
 kupfer/obj/compose.py
@@ -33,18 +31,18 @@ kupfer/obj/sources.py
 kupfer/obj/special.py
 
 # Plugin order: First, all by default enabled plugins, then others. Sorted.
+kupfer/plugin/applications.py
+kupfer/plugin/archivemanager.py
+kupfer/plugin/calculator.py
+kupfer/plugin/clipboard.py
+kupfer/plugin/commands.py
 kupfer/plugin/core/alternatives.py
 kupfer/plugin/core/commands.py
 kupfer/plugin/core/contents.py
 kupfer/plugin/core/debug.py
 kupfer/plugin/core/__init__.py
-kupfer/plugin/core/text.py
 kupfer/plugin/core/internal.py
-kupfer/plugin/archivemanager.py
-kupfer/plugin/applications.py
-kupfer/plugin/calculator.py
-kupfer/plugin/clipboard.py
-kupfer/plugin/commands.py
+kupfer/plugin/core/text.py
 kupfer/plugin/dictionary.py
 kupfer/plugin/documents.py
 kupfer/plugin/epiphany.py
@@ -79,13 +77,14 @@ kupfer/plugin/custom_terminal.py
 kupfer/plugin/customtheme.py
 kupfer/plugin/defaultmail.py
 kupfer/plugin/devhelp.py
+kupfer/plugin/duckduckgo.py
 kupfer/plugin/empathy.py
 kupfer/plugin/evolution.py
 kupfer/plugin/filezilla.py
 kupfer/plugin/gajim.py
 kupfer/plugin/glob.py
-kupfer/plugin/gnome_terminal.py
 kupfer/plugin/gmail/__init__.py
+kupfer/plugin/gnome_terminal.py
 kupfer/plugin/google_picasa/__init__.py
 kupfer/plugin/google_search.py
 kupfer/plugin/gtg.py
@@ -96,10 +95,11 @@ kupfer/plugin/image.py
 kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/locate.py
 kupfer/plugin/openoffice.py
-kupfer/plugin/opera.py
 kupfer/plugin/operamail.py
+kupfer/plugin/opera.py
 kupfer/plugin/pidgin.py
 kupfer/plugin/putty.py
+kupfer/plugin/qsicons/__init__.py
 kupfer/plugin/quickview.py
 kupfer/plugin/rst.py
 kupfer/plugin/screen.py
@@ -115,12 +115,12 @@ kupfer/plugin/textfiles.py
 kupfer/plugin/thunar.py
 kupfer/plugin/thunderbird.py
 kupfer/plugin/top.py
-kupfer/plugin/tracker.py
 kupfer/plugin/tracker1.py
+kupfer/plugin/tracker.py
 kupfer/plugin/truecrypt.py
 kupfer/plugin/tsclient.py
-kupfer/plugin/vinagre.py
 kupfer/plugin/vim/__init__.py
 kupfer/plugin/vim/plugin.py
+kupfer/plugin/vinagre.py
 kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/zim.py

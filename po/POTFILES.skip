@@ -1,3 +1,5 @@
+contrib/google_translate.py
 contrib/icon_names.py
 contrib/runningapplications.py
+contrib/_ssl.py
 contrib/twitter/__init__.py
