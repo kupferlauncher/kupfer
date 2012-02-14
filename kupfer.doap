@@ -5,7 +5,7 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
   <name xml:lang="en">kupfer</name>
-  <shortdesc xml:lang="en">convenient command and access tool</shortdesc>
+  <shortdesc xml:lang="en">Convenient command and access tool</shortdesc>
   <homepage rdf:resource="http://kaizer.se/wiki/kupfer/"/>
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/kupfer-list"/>
   <maintainer>
