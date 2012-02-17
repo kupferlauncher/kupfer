@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kupfer\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-12-16 18:22+0000\n"
-"PO-Revision-Date: 2011-12-17 18:34+0100\n"
+"POT-Creation-Date: 2012-02-16 11:17+0000\n"
+"PO-Revision-Date: 2012-02-17 21:25+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -19,18 +19,18 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1
-msgid "Application Launcher"
-msgstr "Zaganjalnik programov"
-
-#: ../auxdata/kupfer.desktop.in.h:2
-msgid "Convenient command and access tool for applications and documents"
-msgstr "Prikladno orodje za izvajanje ukazov in dostopa do programov in dokumentov"
-
-#: ../auxdata/kupfer.desktop.in.h:3
 #: ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:91
 msgid "Kupfer"
 msgstr "Kupfer"
+
+#: ../auxdata/kupfer.desktop.in.h:2
+msgid "Application Launcher"
+msgstr "Zaganjalnik programov"
+
+#: ../auxdata/kupfer.desktop.in.h:3
+msgid "Convenient command and access tool for applications and documents"
+msgstr "Prikladno orodje za izvajanje ukazov in dostopa do programov in dokumentov"
 
 #: ../auxdata/kupfer-exec.desktop.in.h:1
 msgid "Execute in Kupfer"
@@ -40,57 +40,97 @@ msgstr "Izvedi v Kupferju"
 msgid "Saved Kupfer Command"
 msgstr "Shranjen ukaz Kupfer"
 
+#: ../data/credentials_dialog.ui.h:1
+msgid "User credentials"
+msgstr "Uporabniška poverila"
+
+#: ../data/credentials_dialog.ui.h:2
+msgid "_User:"
+msgstr "_Uporabnik:"
+
+#: ../data/credentials_dialog.ui.h:3
+msgid "_Password:"
+msgstr "_Geslo:"
+
+#: ../data/credentials_dialog.ui.h:4
+msgid "_Change"
+msgstr "_Spremeni"
+
+#: ../data/getkey_dialog.ui.h:1
+msgid "Set Keyboard Shortcut"
+msgstr "Nastavi tipkovno bližnjico"
+
+#: ../data/getkey_dialog.ui.h:2
+msgid "Please press desired key combination"
+msgstr "Pritisnite želeno kombinacijo tipk"
+
+#: ../data/getkey_dialog.ui.h:3
+msgid "Keybinding could not be bound"
+msgstr "Tipkovna bližnjica ne more biti vezana"
+
 #: ../data/preferences.ui.h:1
-msgid "<b>Browser Keyboard Shortcuts</b>"
-msgstr "<b>Tipkovne bližnjice brskalnika</b>"
+#: ../kupfer/plugin/core/contents.py:78
+msgid "Kupfer Preferences"
+msgstr "Možnosti Kupfer"
 
 #: ../data/preferences.ui.h:2
-msgid "<b>Global Keyboard Shortcuts</b>"
-msgstr "<b>Splošne tipkovne bližnjice</b>"
+msgid "Start automatically on login"
+msgstr "Samodejno zaženi ob prijavi"
 
 #: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
 msgstr "<b>Zaženi</b>"
 
 #: ../data/preferences.ui.h:4
-#: ../kupfer/obj/sources.py:156
-msgid "Catalog"
-msgstr "Katalog"
+msgid "Show icon in notification area"
+msgstr "Pokaži ikono v obvestilnem področju"
 
 #: ../data/preferences.ui.h:5
-msgid "Desktop Environment"
-msgstr "Namizno okolje"
-
-#: ../data/preferences.ui.h:6
-msgid "Folders whose files are always available in the catalog."
-msgstr "Mape katerih datoteke so vedno vidne v katalogu."
-
-#: ../data/preferences.ui.h:7
-msgid "General"
-msgstr "Splošno"
-
-#: ../data/preferences.ui.h:8
 msgid "Icon set:"
 msgstr "Zbirka ikon:"
 
+#: ../data/preferences.ui.h:6
+msgid "Terminal emulator:"
+msgstr "Posnemovalnik terminala:"
+
+#: ../data/preferences.ui.h:7
+msgid "Desktop Environment"
+msgstr "Namizno okolje"
+
+#: ../data/preferences.ui.h:8
+msgid "General"
+msgstr "Splošno"
+
 #: ../data/preferences.ui.h:9
-msgid "Inclusion in Top Level Searches"
-msgstr "Vključitev v iskanja vrhnje ravni"
+msgid "<b>Global Keyboard Shortcuts</b>"
+msgstr "<b>Splošne tipkovne bližnjice</b>"
 
 #: ../data/preferences.ui.h:10
-msgid "Indexed Folders"
-msgstr "Mape, uporabljene za pripravo kazala"
+#: ../kupfer/ui/preferences.py:849
+msgid "Reset"
+msgstr "Ponastavi"
 
 #: ../data/preferences.ui.h:11
+msgid "<b>Browser Keyboard Shortcuts</b>"
+msgstr "<b>Tipkovne bližnjice brskalnika</b>"
+
+#: ../data/preferences.ui.h:12
+msgid "Use single keystroke commands (Space, /, period, comma etc.)"
+msgstr "Uporabi ukaze enega udarca tipk (presledek, /, pika, vejica, itn.)"
+
+#: ../data/preferences.ui.h:13
 msgid "Keyboard"
 msgstr "Tipkovnica"
 
-#: ../data/preferences.ui.h:12
-#: ../kupfer/plugin/core/contents.py:78
-msgid "Kupfer Preferences"
-msgstr "Možnosti Kupfer"
+#: ../data/preferences.ui.h:14
+msgid "Plugins"
+msgstr "Vstavki"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:15
+msgid "Inclusion in Top Level Searches"
+msgstr "Vključitev v iskanja vrhnje ravni"
+
+#: ../data/preferences.ui.h:16
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
@@ -98,58 +138,43 @@ msgstr ""
 "Označeni viri imajo svoje predmete vključene v iskanjih vrhnje ravni.\n"
 "Neoznačena vsebina vira je na voljo le z iskanjem njenega podkataloga."
 
-#: ../data/preferences.ui.h:15
-msgid "Plugins"
-msgstr "Vstavki"
-
-#: ../data/preferences.ui.h:16
-#: ../kupfer/ui/preferences.py:849
-msgid "Reset"
-msgstr "Ponastavi"
-
-#: ../data/preferences.ui.h:17
-msgid "Show icon in notification area"
-msgstr "Pokaži ikono v obvestilnem področju"
-
 #: ../data/preferences.ui.h:18
-msgid "Start automatically on login"
-msgstr "Samodejno zaženi ob prijavi"
+msgid "Indexed Folders"
+msgstr "Mape, uporabljene za pripravo kazala"
 
 #: ../data/preferences.ui.h:19
-msgid "Terminal emulator:"
-msgstr "Posnemovalnik terminala:"
+msgid "Folders whose files are always available in the catalog."
+msgstr "Mape katerih datoteke so vedno vidne v katalogu."
 
 #: ../data/preferences.ui.h:20
-msgid "Use single keystroke commands (Space, /, period, comma etc.)"
-msgstr "Uporabi ukaze enega udarca tipk (presledek, /, pika, vejica, itn.)"
+#: ../kupfer/obj/sources.py:156
+msgid "Catalog"
+msgstr "Katalog"
 
-#: ../data/credentials_dialog.ui.h:1
-msgid "User credentials"
-msgstr "Uporabniška poverila"
+#: ../kupfer/core/commandexec.py:239
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Ni mogoče izvesti '%s'"
 
-#: ../data/credentials_dialog.ui.h:2
-msgid "_Change"
-msgstr "_Spremeni"
+#: ../kupfer/core/commandexec.py:268
+#, python-format
+msgid "\"%s\" produced a result"
+msgstr "\"%s\" je proizvedel rezultat"
 
-#: ../data/credentials_dialog.ui.h:3
-msgid "_Password:"
-msgstr "_Geslo:"
+#: ../kupfer/core/execfile.py:30
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "Ni dovoljenja za zagon \"%s\" (ni izvedljivo)"
 
-#: ../data/credentials_dialog.ui.h:4
-msgid "_User:"
-msgstr "_Uporabnik:"
+#: ../kupfer/core/execfile.py:47
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Ukaz v \"%s\" ni na voljo"
 
-#: ../data/getkey_dialog.ui.h:1
-msgid "Keybinding could not be bound"
-msgstr "Tipkovna bližnjica ne more biti vezana"
-
-#: ../data/getkey_dialog.ui.h:2
-msgid "Please press desired key combination"
-msgstr "Pritisnite želeno kombinacijo tipk"
-
-#: ../data/getkey_dialog.ui.h:3
-msgid "Set Keyboard Shortcut"
-msgstr "Nastavi tipkovno bližnjico"
+#: ../kupfer/keyrelay.py:62
+#, python-format
+msgid "Keyboard relay is active for display %s"
+msgstr "Rele tipkovnice je dejaven za zaslon %s"
 
 #: ../kupfer/main.py:43
 msgid "do not present main interface on launch"
@@ -280,19 +305,19 @@ msgstr "Vtipkajte za iskanje %s"
 msgid "No action"
 msgstr "Ni dejanja"
 
-#: ../kupfer/ui/browser.py:1506
+#: ../kupfer/ui/browser.py:1513
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Naredi \"%(action)s\" privzeto za \"%(object)s\""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1516
+#: ../kupfer/ui/browser.py:1523
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Pozabi \"%s\""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1952
+#: ../kupfer/ui/browser.py:1960
 #: ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr "Pokaži glavni vmesnik"
@@ -424,31 +449,6 @@ msgstr ""
 #: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Ni mogoče najti Kupferja v teku"
-
-#: ../kupfer/keyrelay.py:62
-#, python-format
-msgid "Keyboard relay is active for display %s"
-msgstr "Rele tipkovnice je dejaven za zaslon %s"
-
-#: ../kupfer/core/commandexec.py:239
-#, python-format
-msgid "Could not to carry out '%s'"
-msgstr "Ni mogoče izvesti '%s'"
-
-#: ../kupfer/core/commandexec.py:268
-#, python-format
-msgid "\"%s\" produced a result"
-msgstr "\"%s\" je proizvedel rezultat"
-
-#: ../kupfer/core/execfile.py:30
-#, python-format
-msgid "No permission to run \"%s\" (not executable)"
-msgstr "Ni dovoljenja za zagon \"%s\" (ni izvedljivo)"
-
-#: ../kupfer/core/execfile.py:47
-#, python-format
-msgid "Command in \"%s\" is not available"
-msgstr "Ukaz v \"%s\" ni na voljo"
 
 #: ../kupfer/obj/base.py:457
 #: ../kupfer/plugin/core/text.py:22
@@ -665,103 +665,31 @@ msgstr "Vstavek %s ni nastavljen"
 msgid "Invalid user credentials for %s"
 msgstr "Neveljavna uporabniška poverila za %s"
 
-#: ../kupfer/plugin/core/alternatives.py:7
-msgid "GTK+"
-msgstr "GTK+"
+#: ../kupfer/plugin/applications.py:2
+#: ../kupfer/plugin/applications.py:38
+msgid "Applications"
+msgstr "Programi"
 
-#: ../kupfer/plugin/core/alternatives.py:13
-msgid "GNOME Terminal"
-msgstr "GNOME Terminal"
+#: ../kupfer/plugin/applications.py:8
+#: ../kupfer/plugin/applications.py:74
+msgid "All applications and preferences"
+msgstr "Vsi programi in možnosti"
 
-#: ../kupfer/plugin/core/alternatives.py:22
-msgid "XFCE Terminal"
-msgstr "XFCE Terminal"
+#: ../kupfer/plugin/applications.py:23
+msgid "Applications for Desktop Environment"
+msgstr "Programi za namizno okolje"
 
-#: ../kupfer/plugin/core/alternatives.py:31
-msgid "LXTerminal"
-msgstr "LXTerminal"
+#: ../kupfer/plugin/applications.py:83
+msgid "Open With..."
+msgstr "Odpri z ..."
 
-#: ../kupfer/plugin/core/alternatives.py:40
-msgid "X Terminal"
-msgstr "X Terminal"
+#: ../kupfer/plugin/applications.py:105
+msgid "Open with any application"
+msgstr "Odpri s katerimkoli programom"
 
-#: ../kupfer/plugin/core/alternatives.py:49
-msgid "Urxvt"
-msgstr "Urxvt"
-
-#: ../kupfer/plugin/core/commands.py:13
-#: ../kupfer/plugin/core/commands.py:32
-msgid "Save As..."
-msgstr "Shrani kot ..."
-
-#: ../kupfer/plugin/core/contents.py:41
-msgid "Quit"
-msgstr "Končaj"
-
-#: ../kupfer/plugin/core/contents.py:46
-msgid "Quit Kupfer"
-msgstr "Konča program Kupfer"
-
-#: ../kupfer/plugin/core/contents.py:52
-msgid "About Kupfer"
-msgstr "O programu"
-
-#: ../kupfer/plugin/core/contents.py:59
-msgid "Show information about Kupfer authors and license"
-msgstr "Pokaže podrobnosti o avtorjih in dovoljenju programa Kupfer"
-
-#: ../kupfer/plugin/core/contents.py:65
-msgid "Kupfer Help"
-msgstr "Pomoč Kupfer"
-
-#: ../kupfer/plugin/core/contents.py:72
-msgid "Get help with Kupfer"
-msgstr "Dobi pomoč s Kupferjem"
-
-#: ../kupfer/plugin/core/contents.py:85
-msgid "Show preferences window for Kupfer"
-msgstr "Prikaz okna možnosti za Kupfer"
-
-#: ../kupfer/plugin/core/__init__.py:64
-msgid "Search Contents"
-msgstr "Vsebina iskanja"
-
-#: ../kupfer/plugin/core/__init__.py:82
-msgid "Search inside this catalog"
-msgstr "Poišči znotraj kataloga"
-
-#: ../kupfer/plugin/core/__init__.py:90
-msgid "Copy"
-msgstr "Kopiraj"
-
-#: ../kupfer/plugin/core/__init__.py:105
-msgid "Copy to clipboard"
-msgstr "Kopiraj v odložišče"
-
-#: ../kupfer/plugin/core/__init__.py:127
-msgid "Rescan"
-msgstr "Ponovno preišči"
-
-#: ../kupfer/plugin/core/__init__.py:142
-msgid "Force reindex of this source"
-msgstr "Vsili ponovno preiskovanje tega vira"
-
-#: ../kupfer/plugin/core/internal.py:13
-msgid "Last Command"
-msgstr "Zadnji ukaz"
-
-#: ../kupfer/plugin/core/internal.py:24
-msgid "Internal Kupfer Objects"
-msgstr "Notranji predmeti Kupfer"
-
-#: ../kupfer/plugin/core/internal.py:46
-#: ../kupfer/plugin/core/internal.py:48
-msgid "Last Result"
-msgstr "Zadnji rezultat"
-
-#: ../kupfer/plugin/core/internal.py:66
-msgid "Command Results"
-msgstr "Rezultati ukaza"
+#: ../kupfer/plugin/applications.py:124
+msgid "Set default application to open this file type"
+msgstr "Nastavi privzet program za odpiranje te vrste datotek"
 
 #: ../kupfer/plugin/archivemanager.py:1
 msgid "Archive Manager"
@@ -800,32 +728,6 @@ msgstr "Ustvari arhiv v ..."
 #: ../kupfer/plugin/archivemanager.py:115
 msgid "Archive"
 msgstr "Arhiv"
-
-#: ../kupfer/plugin/applications.py:2
-#: ../kupfer/plugin/applications.py:38
-msgid "Applications"
-msgstr "Programi"
-
-#: ../kupfer/plugin/applications.py:8
-#: ../kupfer/plugin/applications.py:74
-msgid "All applications and preferences"
-msgstr "Vsi programi in možnosti"
-
-#: ../kupfer/plugin/applications.py:23
-msgid "Applications for Desktop Environment"
-msgstr "Programi za namizno okolje"
-
-#: ../kupfer/plugin/applications.py:83
-msgid "Open With..."
-msgstr "Odpri z ..."
-
-#: ../kupfer/plugin/applications.py:105
-msgid "Open with any application"
-msgstr "Odpri s katerimkoli programom"
-
-#: ../kupfer/plugin/applications.py:124
-msgid "Set default application to open this file type"
-msgstr "Nastavi privzet program za odpiranje te vrste datotek"
 
 #: ../kupfer/plugin/calculator.py:2
 #: ../kupfer/plugin/calculator.py:69
@@ -943,6 +845,104 @@ msgstr "Filtriraj skozi ukaz ..."
 #: ../kupfer/plugin/commands.py:215
 msgid "Run command-line programs"
 msgstr "Poženi programe ukaze vrstice"
+
+#: ../kupfer/plugin/core/alternatives.py:7
+msgid "GTK+"
+msgstr "GTK+"
+
+#: ../kupfer/plugin/core/alternatives.py:13
+msgid "GNOME Terminal"
+msgstr "GNOME Terminal"
+
+#: ../kupfer/plugin/core/alternatives.py:22
+msgid "XFCE Terminal"
+msgstr "XFCE Terminal"
+
+#: ../kupfer/plugin/core/alternatives.py:31
+msgid "LXTerminal"
+msgstr "LXTerminal"
+
+#: ../kupfer/plugin/core/alternatives.py:40
+msgid "X Terminal"
+msgstr "X Terminal"
+
+#: ../kupfer/plugin/core/alternatives.py:49
+msgid "Urxvt"
+msgstr "Urxvt"
+
+#: ../kupfer/plugin/core/commands.py:13
+#: ../kupfer/plugin/core/commands.py:32
+msgid "Save As..."
+msgstr "Shrani kot ..."
+
+#: ../kupfer/plugin/core/contents.py:41
+msgid "Quit"
+msgstr "Končaj"
+
+#: ../kupfer/plugin/core/contents.py:46
+msgid "Quit Kupfer"
+msgstr "Konča program Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:52
+msgid "About Kupfer"
+msgstr "O programu"
+
+#: ../kupfer/plugin/core/contents.py:59
+msgid "Show information about Kupfer authors and license"
+msgstr "Pokaže podrobnosti o avtorjih in dovoljenju programa Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:65
+msgid "Kupfer Help"
+msgstr "Pomoč Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:72
+msgid "Get help with Kupfer"
+msgstr "Dobi pomoč s Kupferjem"
+
+#: ../kupfer/plugin/core/contents.py:85
+msgid "Show preferences window for Kupfer"
+msgstr "Prikaz okna možnosti za Kupfer"
+
+#: ../kupfer/plugin/core/__init__.py:64
+msgid "Search Contents"
+msgstr "Vsebina iskanja"
+
+#: ../kupfer/plugin/core/__init__.py:82
+msgid "Search inside this catalog"
+msgstr "Poišči znotraj kataloga"
+
+#: ../kupfer/plugin/core/__init__.py:90
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: ../kupfer/plugin/core/__init__.py:105
+msgid "Copy to clipboard"
+msgstr "Kopiraj v odložišče"
+
+#: ../kupfer/plugin/core/__init__.py:127
+msgid "Rescan"
+msgstr "Ponovno preišči"
+
+#: ../kupfer/plugin/core/__init__.py:142
+msgid "Force reindex of this source"
+msgstr "Vsili ponovno preiskovanje tega vira"
+
+#: ../kupfer/plugin/core/internal.py:13
+msgid "Last Command"
+msgstr "Zadnji ukaz"
+
+#: ../kupfer/plugin/core/internal.py:24
+msgid "Internal Kupfer Objects"
+msgstr "Notranji predmeti Kupfer"
+
+#: ../kupfer/plugin/core/internal.py:46
+#: ../kupfer/plugin/core/internal.py:48
+msgid "Last Result"
+msgstr "Zadnji rezultat"
+
+#: ../kupfer/plugin/core/internal.py:66
+msgid "Command Results"
+msgstr "Rezultati ukaza"
 
 #: ../kupfer/plugin/dictionary.py:1
 #: ../kupfer/plugin/dictionary.py:21
@@ -1844,6 +1844,16 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Iskanje v Devhelp"
 
+#: ../kupfer/plugin/duckduckgo.py:5
+#: ../kupfer/plugin/duckduckgo.py:19
+msgid "DuckDuckGo Search"
+msgstr "Iskanje DuckDuckGo"
+
+#: ../kupfer/plugin/duckduckgo.py:8
+#: ../kupfer/plugin/duckduckgo.py:30
+msgid "Search the web securely with DuckDuckGo"
+msgstr "Varno Iskanje po spletu z iskalnikom DuckDuckGo"
+
 #. -*- coding: UTF-8 -*-
 #. vim: set noexpandtab ts=8 sw=8:
 #: ../kupfer/plugin/empathy.py:3
@@ -1987,15 +1997,6 @@ msgstr "Stanje računa Gajim"
 msgid "Glob"
 msgstr "Glob"
 
-#: ../kupfer/plugin/gnome_terminal.py:1
-#: ../kupfer/plugin/gnome_terminal.py:56
-msgid "GNOME Terminal Profiles"
-msgstr "Profili Gnome Terminala"
-
-#: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch GNOME Terminal profiles"
-msgstr "Zažene profile Gnome Terminala"
-
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2
 #: ../kupfer/plugin/gmail/__init__.py:177
@@ -2029,6 +2030,15 @@ msgstr "Odpre spletno stran urejanja stikov v Gmailu"
 #: ../kupfer/plugin/gmail/__init__.py:210
 msgid "Contacts from Google services (Gmail)"
 msgstr "Stiki iz storitev Google (Google pošta)"
+
+#: ../kupfer/plugin/gnome_terminal.py:1
+#: ../kupfer/plugin/gnome_terminal.py:56
+msgid "GNOME Terminal Profiles"
+msgstr "Profili Gnome Terminala"
+
+#: ../kupfer/plugin/gnome_terminal.py:3
+msgid "Launch GNOME Terminal profiles"
+msgstr "Zažene profile Gnome Terminala"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/google_picasa/__init__.py:2
@@ -2121,10 +2131,10 @@ msgstr "Išči v Google z neposredno prikazanimi rezultati"
 
 #: ../kupfer/plugin/google_search.py:58
 #: ../kupfer/plugin/locate.py:46
-#: ../kupfer/plugin/tracker.py:72
-#: ../kupfer/plugin/tracker.py:113
 #: ../kupfer/plugin/tracker1.py:168
 #: ../kupfer/plugin/tracker1.py:179
+#: ../kupfer/plugin/tracker.py:72
+#: ../kupfer/plugin/tracker.py:113
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultati za \"%s\""
@@ -2138,49 +2148,6 @@ msgstr "Pokaži več rezultatov za \"%s\""
 #, python-format
 msgid "%s total found"
 msgstr "%s skupaj najdenih"
-
-#: ../kupfer/plugin/google_translate.py:6
-msgid "Google Translate"
-msgstr "Google prevajalnik"
-
-#: ../kupfer/plugin/google_translate.py:8
-#: ../kupfer/plugin/google_translate.py:153
-msgid "Translate text with Google Translate"
-msgstr "Prevede besedilo z Google prevajalnikom"
-
-#: ../kupfer/plugin/google_translate.py:83
-msgid "Google Translate connection timed out"
-msgstr "Povezava z Google prevajalnikom je zakasnela"
-
-#: ../kupfer/plugin/google_translate.py:86
-msgid "Error connecting to Google Translate"
-msgstr "Napaka med povezovanjem z Google prevajalnikom"
-
-#: ../kupfer/plugin/google_translate.py:136
-#: ../kupfer/plugin/google_translate.py:223
-msgid "Translate To..."
-msgstr "Prevedi v ..."
-
-#: ../kupfer/plugin/google_translate.py:179
-#, python-format
-msgid "Translate into %s"
-msgstr "Prevedi v %s"
-
-#: ../kupfer/plugin/google_translate.py:203
-msgid "Languages"
-msgstr "Jeziki"
-
-#: ../kupfer/plugin/google_translate.py:238
-msgid "Show translated page in browser"
-msgstr "Pokaži prevedeno stran v brskalniku"
-
-#: ../kupfer/plugin/google_translate.py:255
-msgid "Show Translation To..."
-msgstr "Pokaži prevod v ..."
-
-#: ../kupfer/plugin/google_translate.py:271
-msgid "Show translation in browser"
-msgstr "Pokaži prevod v brskalniku"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gtg.py:2
@@ -2496,16 +2463,6 @@ msgstr "Nedavno uporabljeni dokumenti v OpenOffice/LIbreOffice"
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "Nedavni predmeti OpenOffice/LibreOffice"
 
-#: ../kupfer/plugin/opera.py:4
-#: ../kupfer/plugin/opera.py:22
-msgid "Opera Bookmarks"
-msgstr "Zaznamki Opera"
-
-#: ../kupfer/plugin/opera.py:6
-#: ../kupfer/plugin/opera.py:54
-msgid "Index of Opera bookmarks"
-msgstr "Kazalo zaznamkov Opera"
-
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/operamail.py:2
 msgid "Opera Mail"
@@ -2526,6 +2483,16 @@ msgstr "Usklajevanje stikov Opera pošte"
 #: ../kupfer/plugin/operamail.py:120
 msgid "Contacts from Opera Mail"
 msgstr "Stiki iz Opera pošte"
+
+#: ../kupfer/plugin/opera.py:4
+#: ../kupfer/plugin/opera.py:22
+msgid "Opera Bookmarks"
+msgstr "Zaznamki Opera"
+
+#: ../kupfer/plugin/opera.py:6
+#: ../kupfer/plugin/opera.py:54
+msgid "Index of Opera bookmarks"
+msgstr "Kazalo zaznamkov Opera"
 
 #: ../kupfer/plugin/pidgin.py:3
 msgid "Pidgin"
@@ -2561,6 +2528,10 @@ msgstr "Hiter dostop do sej PuTTY"
 #: ../kupfer/plugin/tsclient.py:50
 msgid "Start Session"
 msgstr "Zaženi sejo"
+
+#: ../kupfer/plugin/qsicons/__init__.py:24
+msgid "Quicksilver Icons"
+msgstr "Ikone Quicksilver"
 
 #: ../kupfer/plugin/quickview.py:1
 msgid "Quick Image Viewer"
@@ -2954,34 +2925,39 @@ msgid "Running tasks for current user"
 msgstr "Opravila v teku za trenutnega uporabnika"
 
 # Tukaj je tracker ime programa
-#: ../kupfer/plugin/tracker.py:5
-msgid "Tracker 0.6"
-msgstr "Tracker 0.6"
+#: ../kupfer/plugin/tracker1.py:10
+msgid "Tracker"
+msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker.py:15
 #: ../kupfer/plugin/tracker1.py:18
+#: ../kupfer/plugin/tracker.py:15
 msgid "Tracker desktop search integration"
 msgstr "Povezava s Tracker namiznim iskanjem"
 
-#: ../kupfer/plugin/tracker.py:41
 #: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker.py:41
 msgid "Search in Tracker"
 msgstr "Išči v Trackerju"
 
-#: ../kupfer/plugin/tracker.py:46
 #: ../kupfer/plugin/tracker1.py:54
+#: ../kupfer/plugin/tracker.py:46
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Odpre iskalno orodje Tracker in išče ta izraz"
 
-#: ../kupfer/plugin/tracker.py:55
 #: ../kupfer/plugin/tracker1.py:62
+#: ../kupfer/plugin/tracker.py:55
 msgid "Get Tracker Results..."
 msgstr "Dobi rezultate Trackerja ..."
 
-#: ../kupfer/plugin/tracker.py:64
 #: ../kupfer/plugin/tracker1.py:71
+#: ../kupfer/plugin/tracker.py:64
 msgid "Show Tracker results for query"
 msgstr "Pokaži rezultate Trackerja za poizvedbo"
+
+# Tukaj je tracker ime programa
+#: ../kupfer/plugin/tracker.py:5
+msgid "Tracker 0.6"
+msgstr "Tracker 0.6"
 
 #: ../kupfer/plugin/tracker.py:165
 #: ../kupfer/plugin/tracker.py:171
@@ -3024,14 +3000,6 @@ msgstr "Odstrani oznako ..."
 msgid "Remove tracker tag from file"
 msgstr "Odstrani oznako sledilnika iz datoteke"
 
-# Tukaj je tracker ime programa
-#: ../kupfer/plugin/tracker1.py:10
-msgid "Tracker"
-msgstr "Tracker"
-
-#. FIXME: Port tracker tag sources and actions
-#. to the new, much more powerful sparql + dbus API
-#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/truecrypt.py:3
 msgid "TrueCrypt"
@@ -3083,22 +3051,6 @@ msgstr "Seje TSOdjemalca"
 msgid "Saved sessions in Terminal Server Client"
 msgstr "Shranjene seje v Terminalnem strežniškem odjemalcu"
 
-#: ../kupfer/plugin/vinagre.py:4
-msgid "Vinagre"
-msgstr "Vinagre"
-
-#: ../kupfer/plugin/vinagre.py:7
-msgid "Vinagre bookmarks and actions"
-msgstr "Zaznamki in dejanja Vinarge"
-
-#: ../kupfer/plugin/vinagre.py:34
-msgid "Start Vinagre Session"
-msgstr "Zaženi sejo Vinagre"
-
-#: ../kupfer/plugin/vinagre.py:72
-msgid "Vinagre Bookmarks"
-msgstr "Zaznamki Vinagre"
-
 #: ../kupfer/plugin/vim/__init__.py:1
 msgid "Vim"
 msgstr "Vim"
@@ -3135,6 +3087,22 @@ msgstr "Dejavne seje Vim"
 #, python-format
 msgid "Vim Session %s"
 msgstr "Seja Vim %s"
+
+#: ../kupfer/plugin/vinagre.py:4
+msgid "Vinagre"
+msgstr "Vinagre"
+
+#: ../kupfer/plugin/vinagre.py:7
+msgid "Vinagre bookmarks and actions"
+msgstr "Zaznamki in dejanja Vinarge"
+
+#: ../kupfer/plugin/vinagre.py:34
+msgid "Start Vinagre Session"
+msgstr "Zaženi sejo Vinagre"
+
+#: ../kupfer/plugin/vinagre.py:72
+msgid "Vinagre Bookmarks"
+msgstr "Zaznamki Vinagre"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/virtualbox/__init__.py:3
@@ -3259,6 +3227,36 @@ msgstr "Strani Zim"
 #: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležkah Zim"
+
+#~ msgid "Google Translate"
+#~ msgstr "Google prevajalnik"
+
+#~ msgid "Translate text with Google Translate"
+#~ msgstr "Prevede besedilo z Google prevajalnikom"
+
+#~ msgid "Google Translate connection timed out"
+#~ msgstr "Povezava z Google prevajalnikom je zakasnela"
+
+#~ msgid "Error connecting to Google Translate"
+#~ msgstr "Napaka med povezovanjem z Google prevajalnikom"
+
+#~ msgid "Translate To..."
+#~ msgstr "Prevedi v ..."
+
+#~ msgid "Translate into %s"
+#~ msgstr "Prevedi v %s"
+
+#~ msgid "Languages"
+#~ msgstr "Jeziki"
+
+#~ msgid "Show translated page in browser"
+#~ msgstr "Pokaži prevedeno stran v brskalniku"
+
+#~ msgid "Show Translation To..."
+#~ msgstr "Pokaži prevod v ..."
+
+#~ msgid "Show translation in browser"
+#~ msgstr "Pokaži prevod v brskalniku"
 
 #~ msgid "run keyboard shortcut relay service on this display"
 #~ msgstr "Poženite rele tipkovne bližnjice na tem zaslonu"
