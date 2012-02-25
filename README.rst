@@ -16,13 +16,7 @@ applications.
 Installing
 ==========
 
-This project is configured for the waf build system; waf is shipped in
-the distributable tarball but not in the repository.  If you need to get
-waf, run::
-
-    wget -O waf http://waf.googlecode.com/files/waf-1.6.3
-    chmod +x waf
-
+This project is configured for the Waf build system;
 Installation follows the steps::
 
     ./waf configure
@@ -41,11 +35,30 @@ installation spot. By default, Kupfer is installed for all users.
 Installing only for your user, the prefix ``~/.local`` is often used;
 you just have to make sure that ``~/.local/bin`` is in your ``$PATH``.
 
+
+About Waf
+---------
+
+Waf is included in both the distributable tarball and the repository (so
+that full source code is incuded. See the file `waf` for author and
+licensing information).
+
+Waf was acquired through http://waf.googlecode.com/files/waf-1.6.11.tar.bz2
+on Saturday, 25 February 2012. The following files extracted::
+
+    ./waf-light -> ./waf
+    ./waflib    -> ./waflib
+    ./ChangeLog -> ./Waf.ChangeLog
+
+    ./waflib/Tools/*  some files excluded
+    ./waflib/extras/* some files excluded
+
+    No file contents touched.
+
 Build Requirements
 ------------------
 
 * Python 2.6 or Python 3
-* waf (see above)
 * intltool
 * optionally: rst2man (python-docutils)  to install the manpage
 * optionally: xml2po (gnome-doc-utils)  to install mallard help pages
