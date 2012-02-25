@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-25 17:16+0100\n"
+"POT-Creation-Date: 2012-02-25 17:28+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -98,7 +98,7 @@ msgid ""
 "An unmarked source's contents are only available by locating its subcatalog."
 msgstr ""
 "Objekt från markerade källor är inkluderade i sökningar på toppnivån.\n"
-"Använd kommandot 'Sök inuti' på en avmarkerad källa för att söka i dess "
+"Använd kommandot ‘Sök inuti’ på en avmarkerad källa för att söka i dess "
 "innehåll."
 
 msgid "Plugins"
@@ -122,19 +122,19 @@ msgstr ""
 
 #, python-format
 msgid "Could not to carry out '%s'"
-msgstr "Kunde inte utföra \"%s\""
+msgstr "Kunde inte utföra “%s”"
 
 #, python-format
 msgid "\"%s\" produced a result"
-msgstr "\"%s\" lämnade ett resultat"
+msgstr "“%s” lämnade ett resultat"
 
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
-msgstr "Utan rättighet att utföra \"%s\" (ej körbar)"
+msgstr "Utan rättighet att utföra “%s” (ej körbar)"
 
 #, python-format
 msgid "Command in \"%s\" is not available"
-msgstr "Kommando i \"%s\" är ej tillgängligt"
+msgstr "Kommando i “%s” är ej tillgängligt"
 
 #, python-format
 msgid "Keyboard relay is active for display %s"
@@ -226,7 +226,7 @@ msgstr "%s är tom"
 
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Inga träffar i %(src)s för \"%(query)s\""
+msgstr "Inga träffar i %(src)s för “%(query)s”"
 
 msgid "No matches"
 msgstr "Inga träffar"
@@ -243,12 +243,12 @@ msgstr "Inget kommando"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
-msgstr "Gör \"%(action)s\" till standard för \"%(object)s\""
+msgstr "Gör “%(action)s” till standard för “%(object)s”"
 
 #. TRANS: Removing learned and/or configured bonus search score
 #, python-format
 msgid "Forget About \"%s\""
-msgstr "Glöm bort \"%s\""
+msgstr "Glöm bort “%s”"
 
 #. TRANS: Names of global keyboard shortcuts
 msgid "Show Main Interface"
@@ -270,7 +270,7 @@ msgstr "Version"
 #. TRANS: Error message when Plugin needs a Python module to load
 #, python-format
 msgid "Python module '%s' is needed"
-msgstr "Behöver Python-modulen '%s'"
+msgstr "Behöver Python-modulen ‘%s’"
 
 msgid "Plugin could not be read due to an error:"
 msgstr "Insticksmodulen kunde inte läsas in på grund av ett fel:"
@@ -417,11 +417,11 @@ msgstr "Öppna"
 
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
-msgstr "Det finns inget förvalt program för \"%(file)s\" (%(type)s)."
+msgstr "Det finns inget förvalt program för “%(file)s” (%(type)s)."
 
 #, python-format
 msgid "Please use \"%s\""
-msgstr "V.v. använd \"%s\""
+msgstr "V.v. använd “%s”"
 
 msgid "Set Default Application..."
 msgstr "Välj standardprogram..."
@@ -498,8 +498,8 @@ msgstr "(Tom text)"
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
-msgstr[0] "\"%(text)s\""
-msgstr[1] "(%(num)d lines) \"%(text)s\""
+msgstr[0] "“%(text)s”"
+msgstr[1] "(%(num)d lines) “%(text)s”"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
@@ -562,7 +562,7 @@ msgid "Use Archive Manager actions"
 msgstr "Använd funktioner i arkivhanteraren"
 
 msgid "Compressed archive type for 'Create Archive In'"
-msgstr "Arkivtyp för 'Skapa arkiv i'"
+msgstr "Arkivtyp för ‘Skapa arkiv i’"
 
 msgid "Extract Here"
 msgstr "Packa upp här"
@@ -587,7 +587,7 @@ msgid "Calculator"
 msgstr "Miniräknare"
 
 msgid "Calculate expressions starting with '='"
-msgstr "Beräkna uttryck som börjar med \"=\""
+msgstr "Beräkna uttryck som börjar med “=”"
 
 msgid "Calculate"
 msgstr "Beräkna"
@@ -613,8 +613,8 @@ msgstr "Markering"
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
-msgstr[0] "Urklipp \"%(desc)s\""
-msgstr[1] "Urklipp med %(num)d rader \"%(desc)s\""
+msgstr[0] "Urklipp “%(desc)s”"
+msgstr[1] "Urklipp med %(num)d rader “%(desc)s”"
 
 msgid "Clipboard Text"
 msgstr "Urklippt text"
@@ -855,7 +855,7 @@ msgstr ""
 
 #, python-format
 msgid "Selected File \"%s\""
-msgstr "Markerad fil \"%s\""
+msgstr "Markerad fil “%s”"
 
 msgid "Selected Files"
 msgstr "Markerade filer"
@@ -1071,8 +1071,8 @@ msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command'."
 msgstr ""
-"Tilldela globala tangentbordsgenvägar till kommandon skapade med 'Bygg "
-"kommando'"
+"Tilldela globala tangentbordsgenvägar till kommandon skapade med ‘Bygg "
+"kommando’"
 
 msgid "Add Trigger..."
 msgstr "Lägg till utlösare..."
@@ -1237,7 +1237,7 @@ msgstr "Installera paket m.h.a den konfigurerade metoden"
 
 #, python-format
 msgid "Packages matching \"%s\""
-msgstr "Paketträffar för \"%s\""
+msgstr "Paketträffar för “%s”"
 
 msgid "Search Package Name..."
 msgstr "Sök paketnamn..."
@@ -1634,11 +1634,11 @@ msgstr "Sök med Google och visa resultat direkt"
 
 #, python-format
 msgid "Results for \"%s\""
-msgstr "Resultat för \"%s\""
+msgstr "Resultat för “%s”"
 
 #, python-format
 msgid "Show More Results For \"%s\""
-msgstr "Visa fler resultat för \"%s\""
+msgstr "Visa fler resultat för “%s”"
 
 #, python-format
 msgid "%s total found"
@@ -1699,7 +1699,7 @@ msgid ""
 "service'."
 msgstr ""
 "Mikroblogga med Gwibber. Skicka och ta emot meddeladen från sociala nätverk "
-"som Twitter, Identi.ca etc. Kräver paketet 'gwibber-service'."
+"som Twitter, Identi.ca etc. Kräver paketet ‘gwibber-service’."
 
 msgid "Maximum number of messages to show"
 msgstr "Maximalt antal visade meddelanden"
@@ -1869,7 +1869,7 @@ msgid "Locate Files"
 msgstr "Locate"
 
 msgid "Search filesystem using locate"
-msgstr "Sök filsystemet med 'locate'"
+msgstr "Sök filsystemet med ‘locate’"
 
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorera skillnad i gemener och VERSALER"
@@ -2410,7 +2410,7 @@ msgstr "Namnrymd för snabbanteckningar"
 
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
-msgstr "Zim-sida från anteckningsblock \"%s\""
+msgstr "Zim-sida från anteckningsblock “%s”"
 
 msgid "Create Zim Page"
 msgstr "Skapa Zim-sida"
