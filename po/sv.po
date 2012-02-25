@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
-"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2011-04-14 21:40+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-25 17:16+0100\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -35,6 +35,27 @@ msgstr "Kör i Kupfer"
 
 msgid "Saved Kupfer Command"
 msgstr "Sparat Kupfer-kommando"
+
+msgid "User credentials"
+msgstr "Användaruppgifter"
+
+msgid "_Change"
+msgstr "_Ändra"
+
+msgid "_Password:"
+msgstr "_Lösenord:"
+
+msgid "_User:"
+msgstr "_Användare:"
+
+msgid "Keybinding could not be bound"
+msgstr "Snabbtangenten kunde inte bindas"
+
+msgid "Please press desired key combination"
+msgstr "Tryck önskad tangentkombination"
+
+msgid "Set Keyboard Shortcut"
+msgstr "Ställ in tangentgenväg"
 
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
@@ -99,26 +120,25 @@ msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Använd enstaka tangenter som kommandon (Blanksteg, /, punkt, komma etc.)"
 
-msgid "User credentials"
-msgstr "Användaruppgifter"
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Kunde inte utföra \"%s\""
 
-msgid "_Change"
-msgstr "_Ändra"
+#, python-format
+msgid "\"%s\" produced a result"
+msgstr "\"%s\" lämnade ett resultat"
 
-msgid "_Password:"
-msgstr "_Lösenord:"
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "Utan rättighet att utföra \"%s\" (ej körbar)"
 
-msgid "_User:"
-msgstr "_Användare:"
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Kommando i \"%s\" är ej tillgängligt"
 
-msgid "Keybinding could not be bound"
-msgstr "Snabbtangenten kunde inte bindas"
-
-msgid "Please press desired key combination"
-msgstr "Tryck önskad tangentkombination"
-
-msgid "Set Keyboard Shortcut"
-msgstr "Ställ in tangentgenväg"
+#, python-format
+msgid "Keyboard relay is active for display %s"
+msgstr "Vidaresänding av snabbtangenter är aktivt på display %s"
 
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
@@ -129,8 +149,10 @@ msgstr "lista tillgängliga insticksmoduler"
 msgid "enable debug info"
 msgstr "felsökningsläge"
 
-msgid "run keyboard shortcut relay service on this display"
-msgstr "starta vidaresändning av snabbtangenter på den här skärmen"
+#. TRANS: --exec-helper=HELPER is an internal command
+#. TRANS: that executes a helper program that is part of kupfer
+msgid "run plugin helper"
+msgstr "kör hjälpprogram för insticksmodul"
 
 msgid "show usage help"
 msgstr "visa hjälpmeddelande"
@@ -267,6 +289,14 @@ msgstr "Källor"
 msgid "Actions"
 msgstr "Kommandon"
 
+#, python-format
+msgid "Using encrypted password storage: %s"
+msgstr "Använder krypterad lösenordslagring: %s"
+
+#, python-format
+msgid "Using password storage: %s"
+msgstr "Använder lösenordslagring: %s"
+
 #. TRANS: Plugin-specific configuration (header)
 msgid "Configuration"
 msgstr "Inställningar"
@@ -328,26 +358,6 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
 
-#, python-format
-msgid "Keyboard relay is active for display %s"
-msgstr "Vidaresänding av snabbtangenter är aktivt på display %s"
-
-#, python-format
-msgid "Could not to carry out '%s'"
-msgstr "Kunde inte utföra \"%s\""
-
-#, python-format
-msgid "\"%s\" produced a result"
-msgstr "\"%s\" lämnade ett resultat"
-
-#, python-format
-msgid "No permission to run \"%s\" (not executable)"
-msgstr "Utan rättighet att utföra \"%s\" (ej körbar)"
-
-#, python-format
-msgid "Command in \"%s\" is not available"
-msgstr "Kommando i \"%s\" är ej tillgängligt"
-
 msgid "Text"
 msgstr "Text"
 
@@ -369,6 +379,31 @@ msgstr[1] "%s objekt"
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
+
+msgid "unknown"
+msgstr "okänd"
+
+msgid "Aim"
+msgstr "Aim"
+
+msgid "Google Talk"
+msgstr "Google Talk"
+
+msgid "ICQ"
+msgstr "ICQ"
+
+msgid "MSN"
+msgstr "MSN"
+
+msgid "QQ"
+msgstr "QQ"
+
+msgid "Yahoo"
+msgstr "Yahoo"
+
+#. -*- coding: UTF-8 -*-
+msgid "Skype"
+msgstr "Skype"
 
 #, python-format
 msgid "%s does not support this operation"
@@ -502,6 +537,141 @@ msgstr "%s är inte konfigurerad"
 msgid "Invalid user credentials for %s"
 msgstr "Ogiltiga användaruppgifter för %s"
 
+msgid "Applications"
+msgstr "Program"
+
+msgid "All applications and preferences"
+msgstr "Alla program och inställningspaneler"
+
+msgid "Applications for Desktop Environment"
+msgstr "Program för skrivbordsmiljö"
+
+msgid "Open With..."
+msgstr "Öppna med..."
+
+msgid "Open with any application"
+msgstr "Öppna med godtyckligt program"
+
+msgid "Set default application to open this file type"
+msgstr "Välj förvalsprogram att öppna filer av den här typen med."
+
+msgid "Archive Manager"
+msgstr "Arkivhanterare"
+
+msgid "Use Archive Manager actions"
+msgstr "Använd funktioner i arkivhanteraren"
+
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Arkivtyp för 'Skapa arkiv i'"
+
+msgid "Extract Here"
+msgstr "Packa upp här"
+
+msgid "Extract compressed archive"
+msgstr "Packa upp komprimerad fil"
+
+msgid "Create Archive"
+msgstr "Skapa arkiv"
+
+msgid "Create a compressed archive from folder"
+msgstr "Skapa komprimerat arkiv av mappen"
+
+msgid "Create Archive In..."
+msgstr "Skapa arkiv i..."
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+msgid "Archive"
+msgstr "Arkiv"
+
+msgid "Calculator"
+msgstr "Miniräknare"
+
+msgid "Calculate expressions starting with '='"
+msgstr "Beräkna uttryck som börjar med \"=\""
+
+msgid "Calculate"
+msgstr "Beräkna"
+
+msgid "Clipboards"
+msgstr "Urklipp"
+
+msgid "Recent clipboards and clipboard proxy objects"
+msgstr "Senaste urklipp och proxyobjekt till urklipp"
+
+msgid "Number of recent clipboards to remember"
+msgstr "Antal senaste urklipp som sparas"
+
+msgid "Include selected text in clipboard history"
+msgstr "Inkludera markerad text i historiken"
+
+msgid "Copy selected text to primary clipboard"
+msgstr "Kopiera markerad text till urklippet"
+
+msgid "Selected Text"
+msgstr "Markering"
+
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Urklipp \"%(desc)s\""
+msgstr[1] "Urklipp med %(num)d rader \"%(desc)s\""
+
+msgid "Clipboard Text"
+msgstr "Urklippt text"
+
+msgid "Clipboard File"
+msgstr "Urklippt fil"
+
+msgid "Clipboard Files"
+msgstr "Urklippta filer"
+
+msgid "Clear"
+msgstr "Rensa"
+
+msgid "Remove all recent clipboards"
+msgstr "Ta bort senaste urklipp"
+
+msgid "Shell Commands"
+msgstr "Skalkommandon"
+
+#, python-format
+msgid ""
+"Run command-line programs. Actions marked with the symbol %s run in a "
+"subshell."
+msgstr ""
+"Kör skalkommandon. Kommandon markerade med symbolen %s kör i ett underskal."
+
+msgid "Run (Get Output)"
+msgstr "Kör (Hämta utdata)"
+
+msgid "Run program and return its output"
+msgstr "Kör ett program och returnera dess utdata"
+
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
+msgid "Pass to Command..."
+msgstr "Skicka till kommando..."
+
+msgid "Run program with object as an additional parameter"
+msgstr "Kör ett program och skicka objektet som sista parameter"
+
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+msgid "Write to Command..."
+msgstr "Skriv till kommando..."
+
+msgid "Run program and supply text on the standard input"
+msgstr "Kör ett program och skriv texten på std. in"
+
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
+msgid "Filter through Command..."
+msgstr "Filtrera genom kommando..."
+
+msgid "Run command-line programs"
+msgstr "Kör kommandoradsprogram"
+
 msgid "GTK+"
 msgstr "GTK+"
 
@@ -562,13 +732,6 @@ msgstr "Uppdatera"
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
-msgid "Selected Text"
-msgstr "Markering"
-
-#, python-format
-msgid "Selected Text \"%s\""
-msgstr "Markering \"%s\""
-
 msgid "Last Command"
 msgstr "Senaste kommando"
 
@@ -580,129 +743,6 @@ msgstr "Senaste resultat"
 
 msgid "Command Results"
 msgstr "Kommandoresultat"
-
-msgid "Archive Manager"
-msgstr "Arkivhanterare"
-
-msgid "Use Archive Manager actions"
-msgstr "Använd funktioner i arkivhanteraren"
-
-msgid "Compressed archive type for 'Create Archive In'"
-msgstr "Arkivtyp för 'Skapa arkiv i'"
-
-msgid "Extract Here"
-msgstr "Packa upp här"
-
-msgid "Extract compressed archive"
-msgstr "Packa upp komprimerad fil"
-
-msgid "Create Archive"
-msgstr "Skapa arkiv"
-
-msgid "Create a compressed archive from folder"
-msgstr "Skapa komprimerat arkiv av mappen"
-
-msgid "Create Archive In..."
-msgstr "Skapa arkiv i..."
-
-#. TRANS: Default filename (no extension) for 'Create Archive In...'
-msgid "Archive"
-msgstr "Arkiv"
-
-msgid "Applications"
-msgstr "Program"
-
-msgid "All applications and preferences"
-msgstr "Alla program och inställningspaneler"
-
-msgid "Applications for Desktop Environment"
-msgstr "Program för skrivbordsmiljö"
-
-msgid "Open With..."
-msgstr "Öppna med..."
-
-msgid "Open with any application"
-msgstr "Öppna med godtyckligt program"
-
-msgid "Set default application to open this file type"
-msgstr "Välj förvalsprogram att öppna filer av den här typen med."
-
-msgid "Calculator"
-msgstr "Miniräknare"
-
-msgid "Calculate expressions starting with '='"
-msgstr "Beräkna uttryck som börjar med \"=\""
-
-msgid "Calculate"
-msgstr "Beräkna"
-
-msgid "Clipboards"
-msgstr "Urklipp"
-
-msgid "Recent clipboards"
-msgstr "Senaste urklipp"
-
-msgid "Number of recent clipboards"
-msgstr "Antal senaste urklipp"
-
-msgid "Include recent selections"
-msgstr "Inkludera markerad text"
-
-msgid "Copy selection to primary clipboard"
-msgstr "Kopiera markering till urklipp"
-
-#, python-format
-msgid "Clipboard \"%(desc)s\""
-msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
-msgstr[0] "Urklipp \"%(desc)s\""
-msgstr[1] "Urklipp med %(num)d rader \"%(desc)s\""
-
-msgid "Clear"
-msgstr "Rensa"
-
-msgid "Remove all recent clipboards"
-msgstr "Ta bort senaste urklipp"
-
-msgid "Shell Commands"
-msgstr "Skalkommandon"
-
-#, python-format
-msgid ""
-"Run command-line programs. Actions marked with the symbol %s run in a "
-"subshell."
-msgstr ""
-"Kör skalkommandon. Kommandon markerade med symbolen %s kör i ett underskal."
-
-msgid "Run (Get Output)"
-msgstr "Kör (Hämta utdata)"
-
-msgid "Run program and return its output"
-msgstr "Kör ett program och returnera dess utdata"
-
-#. TRANS: The user starts a program (command) and the text
-#. TRANS: is an argument to the command
-msgid "Pass to Command..."
-msgstr "Skicka till kommando..."
-
-msgid "Run program with object as an additional parameter"
-msgstr "Kör ett program och skicka objektet som sista parameter"
-
-#. TRANS: The user starts a program (command) and
-#. TRANS: the text is written on stdin
-msgid "Write to Command..."
-msgstr "Skriv till kommando..."
-
-msgid "Run program and supply text on the standard input"
-msgstr "Kör ett program och skriv texten på std. in"
-
-#. TRANS: The user starts a program (command) and
-#. TRANS: the text is written on stdin, and we
-#. TRANS: present the output (stdout) to the user.
-msgid "Filter through Command..."
-msgstr "Filtrera genom kommando..."
-
-msgid "Run command-line programs"
-msgstr "Kör kommandoradsprogram"
 
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -798,6 +838,12 @@ msgstr "Index över Firefox-bokmärken"
 
 msgid "Include visited sites"
 msgstr "Inkludera besökta sidor"
+
+#. TRANS: Multihead refers to support for multiple computer displays
+#. TRANS: In this case, it only concerns the special configuration
+#. TRANS: with multiple X "screens"
+msgid "Multihead Support"
+msgstr "Stöd för flera skärmar (“multihead”)"
 
 msgid "Selected File"
 msgstr "Markerad fil"
@@ -1342,6 +1388,12 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Sök i Devhelp"
 
+msgid "DuckDuckGo Search"
+msgstr "Sök med DuckDuckGo"
+
+msgid "Search the web securely with DuckDuckGo"
+msgstr "Sök webben med https med DuckDuckGo"
+
 #. -*- coding: UTF-8 -*-
 #. vim: set noexpandtab ts=8 sw=8:
 msgid "Empathy"
@@ -1434,12 +1486,6 @@ msgstr "Gajim status"
 msgid "Glob"
 msgstr "Glob"
 
-msgid "GNOME Terminal Profiles"
-msgstr "GNOME-terminal-profiler"
-
-msgid "Launch GNOME Terminal profiles"
-msgstr "Starta GNOME-terminal-profiler"
-
 #. -*- coding: UTF-8 -*-
 msgid "Gmail"
 msgstr "Gmail"
@@ -1450,14 +1496,77 @@ msgstr "Lista kontakter och skriv nya meddelanden i Gmail"
 msgid "Load contacts' pictures"
 msgstr "Läs in kontaktikoner"
 
-msgid "Compose Email in GMail"
+msgid "Load additional information"
+msgstr "Visa ytterligare information"
+
+msgid "Work email"
+msgstr "E-post (arbete)"
+
+msgid "Home email"
+msgstr "E-post (hem)"
+
+msgid "Other email"
+msgstr "Annan e-post"
+
+msgid "Work address"
+msgstr "Adress (arbete)"
+
+msgid "Home address"
+msgstr "Adress (hem)"
+
+msgid "Other address"
+msgstr "Annan adress"
+
+msgid "Car phone"
+msgstr "Biltelefon"
+
+msgid "Fax"
+msgstr "Fax"
+
+msgid "Home phone"
+msgstr "Telefon (hem)"
+
+msgid "Home fax"
+msgstr "Fax (hem)"
+
+msgid "Internal phone"
+msgstr "Intern telefon"
+
+msgid "Mobile"
+msgstr "Mobiltelefon"
+
+msgid "Other"
+msgstr "Annan"
+
+msgid "VOIP"
+msgstr "VOIP"
+
+msgid "Work phone"
+msgstr "Telefon (Arbete)"
+
+msgid "Work fax"
+msgstr "Fax (arbete)"
+
+msgid "Compose Email in Gmail"
 msgstr "Skriv e-postmeddelande i Gmail"
 
-msgid "Open web browser and compose new email in GMail"
+msgid "Open web browser and compose new email in Gmail"
+msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
+
+msgid "Edit Contact in Gmail"
+msgstr "Redigera kontakt i Gmail"
+
+msgid "Open web browser and edit contact in Gmail"
 msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
 
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakter från Google-tjänster (Gmail)"
+
+msgid "GNOME Terminal Profiles"
+msgstr "GNOME-terminal-profiler"
+
+msgid "Launch GNOME Terminal profiles"
+msgstr "Starta GNOME-terminal-profiler"
 
 #. -*- coding: UTF-8 -*-
 msgid "Google Picasa"
@@ -1534,37 +1643,6 @@ msgstr "Visa fler resultat för \"%s\""
 #, python-format
 msgid "%s total found"
 msgstr "%s funna totalt"
-
-msgid "Google Translate"
-msgstr "Google Översätt"
-
-msgid "Translate text with Google Translate"
-msgstr "Översätt text med Google Översätt"
-
-msgid "Google Translate connection timed out"
-msgstr "Google Översätt: anslutningen tog för lång tid"
-
-msgid "Error connecting to Google Translate"
-msgstr "Fel vid anslutning till Google Översätt"
-
-msgid "Translate To..."
-msgstr "Översätt till..."
-
-#, python-format
-msgid "Translate into %s"
-msgstr "Översätt till %s"
-
-msgid "Languages"
-msgstr "Språk"
-
-msgid "Show translated page in browser"
-msgstr "Visa översatt sida i webbläsare"
-
-msgid "Show Translation To..."
-msgstr "Visa översättning till..."
-
-msgid "Show translation in browser"
-msgstr "Visa översättning i webbläsare"
 
 #. -*- coding: UTF-8 -*-
 msgid "Getting Things GNOME"
@@ -1806,12 +1884,6 @@ msgstr "Senaste dokument i OpenOffice/LibreOffice"
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "OpenOffice/LibreOffice senaste dokument"
 
-msgid "Opera Bookmarks"
-msgstr "Opera-bokmärken"
-
-msgid "Index of Opera bookmarks"
-msgstr "Index över Opera-bokmärken"
-
 #. -*- coding: UTF-8 -*-
 msgid "Opera Mail"
 msgstr "Opera Mail"
@@ -1827,6 +1899,12 @@ msgstr "Opera Mail-kontakter"
 
 msgid "Contacts from Opera Mail"
 msgstr "Kontakter från Opera Mail"
+
+msgid "Opera Bookmarks"
+msgstr "Opera-bokmärken"
+
+msgid "Index of Opera bookmarks"
+msgstr "Index över Opera-bokmärken"
 
 msgid "Pidgin"
 msgstr "Pidgin"
@@ -1851,6 +1929,9 @@ msgstr "Snabb access till PuTTY-sessioner"
 
 msgid "Start Session"
 msgstr "Starta Session"
+
+msgid "Quicksilver Icons"
+msgstr "Quicksilver-ikoner"
 
 msgid "Quick Image Viewer"
 msgstr "Snabb bildvisare"
@@ -1955,10 +2036,6 @@ msgstr "Visa QRCode"
 msgid "Display text as QRCode in a window"
 msgstr "Visa text som QRCode i ett fönster"
 
-#. -*- coding: UTF-8 -*-
-msgid "Skype"
-msgstr "Skype"
-
 msgid "Access to Skype contacts"
 msgstr "Tillgång till Skype-kontakter"
 
@@ -2005,6 +2082,15 @@ msgstr "SSH-värdar konfigurerade i ~/.ssh/config"
 
 msgid "No D-Bus connection to desktop session"
 msgstr "Ingen D-Bus-anslutning till sessionen"
+
+msgid "GNOME Keyring"
+msgstr "GNOME-nyckelring"
+
+msgid "KWallet"
+msgstr "KWallet"
+
+msgid "Unencrypted File"
+msgstr "Ej krypterad fil"
 
 msgid "Document Templates"
 msgstr "Dokumentmallar"
@@ -2064,6 +2150,12 @@ msgstr "Visa information om filen i filhanteraren"
 msgid "Send To..."
 msgstr "Skicka till..."
 
+msgid "Symlink In..."
+msgstr "Mjuk länk (symlink) i..."
+
+msgid "Create a symlink to file in a chosen location"
+msgstr "Skapa mjuk länk till filen vid vald plats"
+
 msgid "Empty Trash"
 msgstr "Töm papperskorgen"
 
@@ -2121,8 +2213,8 @@ msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Aktuella processer för nuvarande användare"
 
-msgid "Tracker 0.6"
-msgstr "Tracker 0.6"
+msgid "Tracker"
+msgstr "Tracker"
 
 msgid "Tracker desktop search integration"
 msgstr "Integration med sökprogrammet Tracker"
@@ -2138,6 +2230,9 @@ msgstr "Hämta träffar från Tracker..."
 
 msgid "Show Tracker results for query"
 msgstr "Visa träffar för sökning med Tracker"
+
+msgid "Tracker 0.6"
+msgstr "Tracker 0.6"
 
 msgid "Tracker tags"
 msgstr "Tracker-taggar"
@@ -2168,12 +2263,6 @@ msgstr "Ta bort tagg..."
 msgid "Remove tracker tag from file"
 msgstr "Ta bort tracker-tagg från filen"
 
-msgid "Tracker"
-msgstr "Tracker"
-
-#. FIXME: Port tracker tag sources and actions
-#. to the new, much more powerful sparql + dbus API
-#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
 #. -*- coding: UTF-8 -*-
 msgid "TrueCrypt"
 msgstr "TrueCrypt"
@@ -2212,6 +2301,34 @@ msgstr "TSClient-sessioner"
 msgid "Saved sessions in Terminal Server Client"
 msgstr "Sparade sessioner in Terminal Server Client"
 
+msgid "Vim"
+msgstr "Vim"
+
+msgid "Recently used documents in Vim"
+msgstr "Senaste dokument i Vim"
+
+msgid "Vim Recent Documents"
+msgstr "Senast använda dokument i Vim"
+
+msgid "Close (Save All)"
+msgstr "Stäng (Spara alla)"
+
+msgid "Send..."
+msgstr "Skicka till..."
+
+msgid "Send ex command"
+msgstr "Sparat Kupfer-kommando"
+
+msgid "Insert in Vim..."
+msgstr "Infoga i Vim..."
+
+msgid "Active Vim Sessions"
+msgstr "Aktiva Vim-sessioner"
+
+#, python-format
+msgid "Vim Session %s"
+msgstr "Vim-session %s"
+
 msgid "Vinagre"
 msgstr "Vinagre"
 
@@ -2223,15 +2340,6 @@ msgstr "Starta Vinagre-session"
 
 msgid "Vinagre Bookmarks"
 msgstr "Vinagre-bokmärken"
-
-msgid "Vim"
-msgstr "Vim"
-
-msgid "Recently used documents in Vim"
-msgstr "Senaste dokument i Vim"
-
-msgid "Vim Recent Documents"
-msgstr "Senast använda dokument i Vim"
 
 #. -*- coding: UTF-8 -*-
 msgid "VirtualBox"
@@ -2281,6 +2389,25 @@ msgstr "Tillgång till sidor i Zim"
 msgid "Page names start with :colon"
 msgstr "Sidnamn börjar med :kolon"
 
+msgid "Default page name for quick notes"
+msgstr "Namn för snabbanteckningar"
+
+#, python-format
+msgid "Note %x %X"
+msgstr "Anteckning %x %X"
+
+msgid ""
+"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+"Please check python documentation for details.\n"
+"NOTE: comma will be replaced by _"
+msgstr ""
+"Du kan använda ’strftime’-format: %H - timme, %M - minut, etc\n"
+"Se pythons dokumentation för detaljer\n"
+"Notera att kommatecken ersätts med _"
+
+msgid "Default namespace for quick notes"
+msgstr "Namnrymd för snabbanteckningar"
+
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
 msgstr "Zim-sida från anteckningsblock \"%s\""
@@ -2293,6 +2420,12 @@ msgstr "Skapa sida i förvalt anteckningsblock"
 
 msgid "Create Zim Page In..."
 msgstr "Skapa Zim-sida i..."
+
+msgid "Insert QuickNote into Zim"
+msgstr "Infoga snabbanteckning i Zim"
+
+msgid "Quick note selected text into Zim notebook"
+msgstr "Markerad text som snabbanteckning i Zim"
 
 msgid "Create Subpage..."
 msgstr "Skapa undersida..."
