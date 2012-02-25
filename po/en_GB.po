@@ -15,6 +15,87 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Could not carry out ‘%s’"
+
+#, python-format
+msgid "\"%s\" produced a result"
+msgstr "“%s” produced a result"
+
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "No permission to run “%s” (not executable)"
+
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Command in “%s” is not available"
+
+#, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "No matches in %(src)s for “%(query)s”"
+
+#, python-format
+msgid "Make \"%(action)s\" Default for \"%(object)s\""
+msgstr "Make “%(action)s” Default for “%(object)s”"
+
+#. TRANS: Removing learned and/or configured bonus search score
+#, python-format
+msgid "Forget About \"%s\""
+msgstr "Forget About “%s”"
+
+#. TRANS: Error message when Plugin needs a Python module to load
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr "Python module ‘%s’ is needed"
+
+#, python-format
+msgid "Please use \"%s\""
+msgstr "Please use “%s”"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "“%(text)s”"
+msgstr[1] "(%(num)d lines) “%(text)s”"
+
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Compressed archive type for ‘Create Archive In’"
+
+msgid "Calculate expressions starting with '='"
+msgstr "Calculate expressions starting with ‘=’"
+
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Clipboard “%(desc)s”"
+msgstr[1] "Clipboard with %(num)d lines “%(desc)s”"
+
+#, python-format
+msgid "Selected File \"%s\""
+msgstr "Selected File “%s”"
+
+msgid ""
+"Assign global keybindings (triggers) to objects created with 'Compose "
+"Command'."
+msgstr ""
+"Assign global keybindings (triggers) to objects created with ‘Compose "
+"Command’."
+
+#, python-format
+msgid "Packages matching \"%s\""
+msgstr "Packages matching “%s”"
+
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Results for “%s”"
+
+#, python-format
+msgid "Show More Results For \"%s\""
+msgstr "Show More Results For “%s”"
+
 msgid "Favorites"
 msgstr "Favourites"
 
@@ -22,7 +103,7 @@ msgid "Mark commonly used items and store objects for later use"
 msgstr ""
 
 msgid "Shelf of \"Favorite\" items"
-msgstr "Shelf of \"Favourite\" items"
+msgstr "Shelf of “Favourite” items"
 
 msgid "Add to Favorites"
 msgstr "Add to Favourites"
