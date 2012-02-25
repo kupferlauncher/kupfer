@@ -1,0 +1,129 @@
+# English translations for the kupfer package -- just for curly quotes
+# Copyright (C) 2012 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# This file is distributed under the same license as the kupfer package. (GPLv3)
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-25 17:33+0100\n"
+"PO-Revision-Date: 2009-06-23 20:19+0200\n"
+"Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
+"Language-Team: (US) English\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+
+#: ../kupfer/core/commandexec.py:239
+#, python-format
+msgid "Could not to carry out '%s'"
+msgstr "Could not carry out ‘%s’"
+
+#: ../kupfer/core/commandexec.py:268
+#, python-format
+msgid "\"%s\" produced a result"
+msgstr "“%s” produced a result"
+
+#: ../kupfer/core/execfile.py:30
+#, python-format
+msgid "No permission to run \"%s\" (not executable)"
+msgstr "No permission to run “%s” (not executable)"
+
+#: ../kupfer/core/execfile.py:47
+#, python-format
+msgid "Command in \"%s\" is not available"
+msgstr "Command in “%s” is not available"
+
+#: ../kupfer/ui/browser.py:892
+#, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "No matches in %(src)s for “%(query)s”"
+
+#: ../kupfer/ui/browser.py:1513
+#, python-format
+msgid "Make \"%(action)s\" Default for \"%(object)s\""
+msgstr "Make “%(action)s” Default for “%(object)s”"
+
+#. TRANS: Removing learned and/or configured bonus search score
+#: ../kupfer/ui/browser.py:1523
+#, python-format
+msgid "Forget About \"%s\""
+msgstr "Forget About “%s”"
+
+#. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/ui/preferences.py:443
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr "Python module ‘%s’ is needed"
+
+#. TRANS: Don't translate literally!
+#. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:73
+msgid "translator-credits"
+msgstr "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+#: ../kupfer/obj/fileactions.py:45
+#, python-format
+msgid "Please use \"%s\""
+msgstr "Please use “%s”"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#: ../kupfer/obj/objects.py:449
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "“%(text)s”"
+msgstr[1] "(%(num)d lines) “%(text)s”"
+
+#: ../kupfer/plugin/archivemanager.py:27
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Compressed archive type for ‘Create Archive In’"
+
+#: ../kupfer/plugin/calculator.py:4
+msgid "Calculate expressions starting with '='"
+msgstr "Calculate expressions starting with ‘=’"
+
+#: ../kupfer/plugin/clipboard.py:57
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Clipboard “%(desc)s”"
+msgstr[1] "Clipboard with %(num)d lines “%(desc)s”"
+
+#: ../kupfer/plugin/favorites.py:127
+msgid "Shelf of \"Favorite\" items"
+msgstr "Shelf of “Favorite” items"
+
+#: ../kupfer/plugin/nautilusselection.py:25
+#, python-format
+msgid "Selected File \"%s\""
+msgstr "Selected File “%s”"
+
+#: ../kupfer/plugin/triggers.py:6
+msgid ""
+"Assign global keybindings (triggers) to objects created with 'Compose "
+"Command'."
+msgstr ""
+"Assign global keybindings (triggers) to objects created with ‘Compose "
+"Command’."
+
+#: ../kupfer/plugin/apt_tools.py:122
+#, python-format
+msgid "Packages matching \"%s\""
+msgstr "Packages matching “%s”"
+
+#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:46
+#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/tracker1.py:179
+#: ../kupfer/plugin/tracker.py:72 ../kupfer/plugin/tracker.py:113
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Results for “%s”"
+
+#: ../kupfer/plugin/google_search.py:91
+#, python-format
+msgid "Show More Results For \"%s\""
+msgstr "Show More Results For “%s”"
