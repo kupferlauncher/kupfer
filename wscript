@@ -60,7 +60,7 @@ config_subdirs = "auxdata extras help"
 build_subdirs = "auxdata data po extras help"
 
 EXTRA_DIST = [
-	"waf",
+	#"waf",
 	"GIT_VERSION",
 ]
 
