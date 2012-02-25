@@ -3,7 +3,7 @@ __kupfer_name__ = _("Skype")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'Chat', 'Call')
 __description__ = _("Access to Skype contacts")
-__version__ = "2010-01-07"
+__version__ = "2011-02-05"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import dbus
@@ -14,7 +14,7 @@ from kupfer import pretty, icons
 from kupfer import plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import ContactLeaf, NAME_KEY
+from kupfer.obj.contacts import ContactLeaf, SkypeContact
 
 
 
@@ -45,7 +45,7 @@ def _parse_response(response, prefix):
 
 
 class _SkypeNotify(dbus.service.Object):
-	def __init__(self, bus, callback): 
+	def __init__(self, bus, callback):
 		dbus.service.Object.__init__(self, bus, SKYPE_PATH_CLIENT)
 		self._callback = callback
 
@@ -73,7 +73,7 @@ class Skype(object):
 		except dbus.DBusException, err:
 			pretty.print_error(__name__, 'Skype', '__init__', err)
 			return
-		
+
 		self._dbus_name_owner_watch = bus.add_signal_receiver(
 				self._signal_dbus_name_owner_changed,
 				'NameOwnerChanged',
@@ -133,7 +133,7 @@ class Skype(object):
 			return
 		users =  skype.Invoke("SEARCH FRIENDS")
 		if not users.startswith('USERS '):
-			return 
+			return
 		users = users[6:].split(',')
 		for user in users:
 			user = user.strip()
@@ -172,19 +172,12 @@ class Skype(object):
 			skype.Invoke("SET USERSTATUS %s" % status)
 
 
-class Contact(ContactLeaf):
-	grouping_slots = ContactLeaf.grouping_slots + (SKYPE_KEY, )
-
+class Contact(SkypeContact):
 	def __init__(self, name, handle, status):
-		slots = {SKYPE_KEY: handle, NAME_KEY: name}
-		ContactLeaf.__init__(self, slots, name)
+		SkypeContact.__init__(self, handle, name)
 		self.kupfer_add_alias(handle)
-
 		self._description = _("[%(status)s] %(userid)s") % \
 			dict(status=status, userid=handle)
-
-	def repr_key(self):
-		return self.object[SKYPE_KEY]
 
 	def get_description(self):
 		return self._description
@@ -273,7 +266,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource):
 
 	def __init__(self, name=_('Skype Contacts')):
 		super(ContactsSource, self).__init__(name, "Contacts")
-		self._version = 2
+		self._version = 3
 
 	def get_items(self):
 		pretty.print_debug(__name__, 'ContactsSource', 'get_items')
