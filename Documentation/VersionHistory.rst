@@ -36,6 +36,7 @@ Not Yet Released
   icon theme lacks them, or always override the icon theme.
 * Fix passing zero-length arguments to programs (Fabián Ezequiel Gallina)
   (:lp:`863349`)
+* *Gmail:* Expose more contact info fields (Adi Sieker, Karol Będkowski)
 * Add plugin *DuckDuckGo* (Isaac Aggrey)
 * Add quick note action to *Zim* (Karol Będkowski)
 * Add *Edit Contact in Gmail* to *Gmail* (Karol)
@@ -55,6 +56,7 @@ Not Yet Released
   + (pl) Piotr Drąg
   + (pt_BR) Djavan Fagundes
   + (sl) Andrej Žnidaršič
+  + (sv) Ulrik
 
 
 kupfer v206
