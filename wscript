@@ -281,6 +281,9 @@ def build(bld):
 	# Separate subdirectories
 	bld.add_subdirs(build_subdirs)
 
+def distclean(bld):
+	bld.exec_command("find ./ -name '*.pyc' -delete")
+
 def intlupdate(util):
 	print("You should use intltool-update directly.")
 	print("You can read about this in Documentation/Manual.rst")
