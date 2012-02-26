@@ -93,8 +93,8 @@ def gitdist(ctx):
 	os.close(fd)
 	for distfile in EXTRA_DIST:
 		_tarfile_append_as(outname, distfile, os.path.join(basename, distfile))
-	subprocess.call(["gzip", outname])
-	subprocess.call(["sha1sum", outname + ".gz"])
+	subprocess.call(["xz", "-6e", outname])
+	subprocess.call(["sha1sum", outname + ".xz"])
 
 def dist(ctx):
 	"The standard waf dist process"
