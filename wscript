@@ -60,7 +60,7 @@ config_subdirs = "auxdata extras help"
 build_subdirs = "auxdata data po extras help"
 
 EXTRA_DIST = [
-	"waf",
+	#"waf",
 	"GIT_VERSION",
 ]
 
@@ -93,8 +93,8 @@ def gitdist(ctx):
 	os.close(fd)
 	for distfile in EXTRA_DIST:
 		_tarfile_append_as(outname, distfile, os.path.join(basename, distfile))
-	subprocess.call(["gzip", outname])
-	subprocess.call(["sha1sum", outname + ".gz"])
+	subprocess.call(["xz", "-6e", outname])
+	subprocess.call(["sha1sum", outname + ".xz"])
 
 def dist(ctx):
 	"The standard waf dist process"
@@ -280,6 +280,9 @@ def build(bld):
 
 	# Separate subdirectories
 	bld.add_subdirs(build_subdirs)
+
+def distclean(bld):
+	bld.exec_command("find ./ -name '*.pyc' -delete")
 
 def intlupdate(util):
 	print("You should use intltool-update directly.")

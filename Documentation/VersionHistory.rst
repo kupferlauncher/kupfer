@@ -45,6 +45,9 @@ Not Yet Released
   this plugin is no longer included in Kupfer.
 * Fix compatibility with dbus-python version 1.0 (:lp:`921829`)
 * Fix loss of window shape when centering (David Schneider) (:lp:`779845`)
+* We are now using the format .tar.xz for the distribution tarball.
+* The git repository and tarball now includes a local copy of waf (1.6.11),
+  unmodified but with unused in Tools/ and extras/ removed.
 
 * Localization updates:
 
