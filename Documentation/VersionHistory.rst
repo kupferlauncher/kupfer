@@ -3,10 +3,10 @@
 NEWS for kupfer
 ===============
 
-the upcoming incarnation of kupfer, summoner of stuff
------------------------------------------------------
+kupfer v207
+-----------
 
-Not Yet Released
+Released Sunday, 26 February 2012
 
 * Documentation translated to French by Bruno Brouard
 * New translation to Brazilian Portuguese by Djavan Fagundes
