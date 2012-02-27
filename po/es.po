@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2012-02-14 18:52+0000\n"
-"PO-Revision-Date: 2012-02-15 11:07+0100\n"
+"POT-Creation-Date: 2012-02-25 19:02+0000\n"
+"PO-Revision-Date: 2012-02-27 14:52+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr "Emulador de la terminal:"
 msgid "Desktop Environment"
 msgstr "Entorno de Escritorio"
 
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:8 ../kupfer/plugin/gmail/__init__.py:60
 msgid "General"
 msgstr "General"
 
@@ -479,10 +479,45 @@ msgid_plural "%s objects"
 msgstr[0] "%s objeto"
 msgstr[1] "%s objetos"
 
-#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:156
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
+
+#: ../kupfer/obj/contacts.py:131
+msgid "unknown"
+msgstr "desconocido"
+
+#: ../kupfer/obj/contacts.py:144
+#| msgid "Vim"
+msgid "Aim"
+msgstr "Aim"
+
+#: ../kupfer/obj/contacts.py:151
+#| msgid "Google Translate"
+msgid "Google Talk"
+msgstr "Google Talk"
+
+#: ../kupfer/obj/contacts.py:159
+msgid "ICQ"
+msgstr "ICQ"
+
+#: ../kupfer/obj/contacts.py:166
+msgid "MSN"
+msgstr "MSN"
+
+#: ../kupfer/obj/contacts.py:173
+msgid "QQ"
+msgstr "QQ"
+
+#: ../kupfer/obj/contacts.py:180
+msgid "Yahoo"
+msgstr "Yahoo"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/obj/contacts.py:187 ../kupfer/plugin/skype.py:2
+msgid "Skype"
+msgstr "Skype"
 
 #: ../kupfer/obj/exceptions.py:19
 #, python-format
@@ -1794,7 +1829,6 @@ msgid "Search in Devhelp"
 msgstr "Buscar en Devhelp"
 
 #: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
-#| msgid "Google Search"
 msgid "DuckDuckGo Search"
 msgstr "Busqueda DuckDuckGo"
 
@@ -1847,12 +1881,12 @@ msgid "Offline"
 msgstr "Desconectado"
 
 #: ../kupfer/plugin/empathy.py:96 ../kupfer/plugin/gajim.py:93
-#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:204
+#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:197
 msgid "Open Chat"
 msgstr "Abrir chat"
 
 #: ../kupfer/plugin/empathy.py:129 ../kupfer/plugin/gajim.py:121
-#: ../kupfer/plugin/skype.py:250
+#: ../kupfer/plugin/skype.py:243
 msgid "Change Global Status To..."
 msgstr "Cambiar estado general a…"
 
@@ -1932,7 +1966,7 @@ msgid "Glob"
 msgstr "Glob"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:177
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:234
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -1940,27 +1974,103 @@ msgstr "Gmail"
 msgid "Load contacts and compose new email in Gmail"
 msgstr "Cargar contactos y redactar un correo-e nuevo en GMail"
 
-#: ../kupfer/plugin/gmail/__init__.py:32
+#: ../kupfer/plugin/gmail/__init__.py:33
 msgid "Load contacts' pictures"
 msgstr "Cargar las imágenes de los contactos"
 
-#: ../kupfer/plugin/gmail/__init__.py:53
+#: ../kupfer/plugin/gmail/__init__.py:39
+#| msgid "show version information"
+msgid "Load additional information"
+msgstr "Cargar información adicional"
+
+#: ../kupfer/plugin/gmail/__init__.py:50
+msgid "Work email"
+msgstr "Correo-e del trabajo"
+
+#: ../kupfer/plugin/gmail/__init__.py:51
+#| msgid "Compose Email"
+msgid "Home email"
+msgstr "Correo-e personal"
+
+#: ../kupfer/plugin/gmail/__init__.py:52
+#| msgid "Opera Mail"
+msgid "Other email"
+msgstr "Otro correo-e"
+
+#: ../kupfer/plugin/gmail/__init__.py:54
+#| msgid "Workspaces"
+msgid "Work address"
+msgstr "Dirección del trabajo"
+
+#: ../kupfer/plugin/gmail/__init__.py:55
+#| msgid "Home Folder"
+msgid "Home address"
+msgstr "Dirección personal"
+
+#: ../kupfer/plugin/gmail/__init__.py:56
+msgid "Other address"
+msgstr "Otra dirección"
+
+#: ../kupfer/plugin/gmail/__init__.py:58
+#| msgid "Mark Done"
+msgid "Car phone"
+msgstr "Teléfono del coche"
+
+#: ../kupfer/plugin/gmail/__init__.py:59
+msgid "Fax"
+msgstr "Fax"
+
+#: ../kupfer/plugin/gmail/__init__.py:61
+#| msgid "Home Folder"
+msgid "Home phone"
+msgstr "Teléfono personal"
+
+#: ../kupfer/plugin/gmail/__init__.py:62
+msgid "Home fax"
+msgstr "Fax personal"
+
+#: ../kupfer/plugin/gmail/__init__.py:63
+msgid "Internal phone"
+msgstr "Teléfono interno"
+
+#: ../kupfer/plugin/gmail/__init__.py:64
+msgid "Mobile"
+msgstr "Móvil"
+
+#: ../kupfer/plugin/gmail/__init__.py:65
+msgid "Other"
+msgstr "Otro"
+
+#: ../kupfer/plugin/gmail/__init__.py:66
+msgid "VOIP"
+msgstr "VOIP"
+
+#: ../kupfer/plugin/gmail/__init__.py:67
+#| msgid "Mark Done"
+msgid "Work phone"
+msgstr "Teléfono del trabajo"
+
+#: ../kupfer/plugin/gmail/__init__.py:68
+msgid "Work fax"
+msgstr "Fax del trabajo"
+
+#: ../kupfer/plugin/gmail/__init__.py:93
 msgid "Compose Email in Gmail"
 msgstr "Redactar un correo-e en GMail"
 
-#: ../kupfer/plugin/gmail/__init__.py:76
+#: ../kupfer/plugin/gmail/__init__.py:117
 msgid "Open web browser and compose new email in Gmail"
 msgstr "Abrir el navegador web y redactar un correo-e nuevo en GMail"
 
-#: ../kupfer/plugin/gmail/__init__.py:82
+#: ../kupfer/plugin/gmail/__init__.py:123
 msgid "Edit Contact in Gmail"
 msgstr "Editar contacto en Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:92
+#: ../kupfer/plugin/gmail/__init__.py:133
 msgid "Open web browser and edit contact in Gmail"
 msgstr "Abrir el navegador web y editar contacto en GMail"
 
-#: ../kupfer/plugin/gmail/__init__.py:210
+#: ../kupfer/plugin/gmail/__init__.py:263
 msgid "Contacts from Google services (Gmail)"
 msgstr "Contactos de los servicios de Google (GMail)"
 
@@ -2587,11 +2697,6 @@ msgstr "Mostrar el código QR"
 msgid "Display text as QRCode in a window"
 msgstr "Mostrar texto como código QR en una ventana"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/skype.py:2
-msgid "Skype"
-msgstr "Skype"
-
 #: ../kupfer/plugin/skype.py:5
 msgid "Access to Skype contacts"
 msgstr "Acceder a los contactos de Skype"
@@ -2604,24 +2709,24 @@ msgstr "Eskypéame"
 msgid "Logged Out"
 msgstr "Cerró la sesión"
 
-#: ../kupfer/plugin/skype.py:183
+#: ../kupfer/plugin/skype.py:179
 #, python-format
 msgid "[%(status)s] %(userid)s"
 msgstr "[%(status)s] %(userid)s"
 
-#: ../kupfer/plugin/skype.py:225
+#: ../kupfer/plugin/skype.py:218
 msgid "Call"
 msgstr "Llamar"
 
-#: ../kupfer/plugin/skype.py:239
+#: ../kupfer/plugin/skype.py:232
 msgid "Place a call to contact"
 msgstr "Llamar al contacto"
 
-#: ../kupfer/plugin/skype.py:274
+#: ../kupfer/plugin/skype.py:267
 msgid "Skype Contacts"
 msgstr "Contactos de Skype"
 
-#: ../kupfer/plugin/skype.py:294
+#: ../kupfer/plugin/skype.py:287
 msgid "Skype Statuses"
 msgstr "Estados de Skype"
 
@@ -3125,9 +3230,6 @@ msgstr "Páginas de Zim"
 #: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr "Páginas almacenadas en el libro de notas Zim"
-
-#~ msgid "Google Translate"
-#~ msgstr "Traducir con Google"
 
 #~ msgid "Translate text with Google Translate"
 #~ msgstr "Traducir texto con Google"
