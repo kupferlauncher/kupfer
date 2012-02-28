@@ -1,12 +1,15 @@
+# Slovenian translations for kupfer.
+# Copyright (C) 2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the kupfer package.
+#
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Kupfer\n"
+"Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2012-02-16 11:17+0000\n"
-"PO-Revision-Date: 2012-02-17 21:25+0100\n"
+"POT-Creation-Date: 2012-02-27 13:52+0000\n"
+"PO-Revision-Date: 2012-02-28 20:21+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -98,6 +101,7 @@ msgid "Desktop Environment"
 msgstr "Namizno okolje"
 
 #: ../data/preferences.ui.h:8
+#: ../kupfer/plugin/gmail/__init__.py:60
 msgid "General"
 msgstr "Splošno"
 
@@ -476,11 +480,45 @@ msgstr[1] "%s predmet"
 msgstr[2] "%s predmeta"
 msgstr[3] "%s predmeti"
 
-#: ../kupfer/obj/contacts.py:87
+#: ../kupfer/obj/contacts.py:129
 #: ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
+
+#: ../kupfer/obj/contacts.py:131
+msgid "unknown"
+msgstr "neznano"
+
+#: ../kupfer/obj/contacts.py:144
+msgid "Aim"
+msgstr "AIM"
+
+#: ../kupfer/obj/contacts.py:151
+msgid "Google Talk"
+msgstr "Google Talk"
+
+#: ../kupfer/obj/contacts.py:159
+msgid "ICQ"
+msgstr "ICQ"
+
+#: ../kupfer/obj/contacts.py:166
+msgid "MSN"
+msgstr "MSN"
+
+#: ../kupfer/obj/contacts.py:173
+msgid "QQ"
+msgstr "QQ"
+
+#: ../kupfer/obj/contacts.py:180
+msgid "Yahoo"
+msgstr "Yahoo"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/obj/contacts.py:187
+#: ../kupfer/plugin/skype.py:2
+msgid "Skype"
+msgstr "Skype"
 
 #: ../kupfer/obj/exceptions.py:19
 #, python-format
@@ -1910,13 +1948,13 @@ msgstr "Nepovezan"
 #: ../kupfer/plugin/empathy.py:96
 #: ../kupfer/plugin/gajim.py:93
 #: ../kupfer/plugin/pidgin.py:97
-#: ../kupfer/plugin/skype.py:204
+#: ../kupfer/plugin/skype.py:197
 msgid "Open Chat"
 msgstr "Odpri klepet"
 
 #: ../kupfer/plugin/empathy.py:129
 #: ../kupfer/plugin/gajim.py:121
-#: ../kupfer/plugin/skype.py:250
+#: ../kupfer/plugin/skype.py:243
 msgid "Change Global Status To..."
 msgstr "Spremeni splošno stanje v ..."
 
@@ -1999,7 +2037,7 @@ msgstr "Glob"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/gmail/__init__.py:2
-#: ../kupfer/plugin/gmail/__init__.py:177
+#: ../kupfer/plugin/gmail/__init__.py:234
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -2007,27 +2045,95 @@ msgstr "Gmail"
 msgid "Load contacts and compose new email in Gmail"
 msgstr "Nalaganje stikov in sestavljanje nove elektronske pošte v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:32
+#: ../kupfer/plugin/gmail/__init__.py:33
 msgid "Load contacts' pictures"
 msgstr "Naloži slike stikov"
 
-#: ../kupfer/plugin/gmail/__init__.py:53
+#: ../kupfer/plugin/gmail/__init__.py:39
+msgid "Load additional information"
+msgstr "Naloži dodatne podrobnosti"
+
+#: ../kupfer/plugin/gmail/__init__.py:50
+msgid "Work email"
+msgstr "Službena elektronska pošta"
+
+#: ../kupfer/plugin/gmail/__init__.py:51
+msgid "Home email"
+msgstr "Domača elektronska pošta"
+
+#: ../kupfer/plugin/gmail/__init__.py:52
+msgid "Other email"
+msgstr "Druga elektronska pošta"
+
+#: ../kupfer/plugin/gmail/__init__.py:54
+msgid "Work address"
+msgstr "Službeni naslov"
+
+#: ../kupfer/plugin/gmail/__init__.py:55
+msgid "Home address"
+msgstr "Domači naslov"
+
+#: ../kupfer/plugin/gmail/__init__.py:56
+msgid "Other address"
+msgstr "Drug naslov"
+
+#: ../kupfer/plugin/gmail/__init__.py:58
+msgid "Car phone"
+msgstr "Telefon v avtu"
+
+#: ../kupfer/plugin/gmail/__init__.py:59
+msgid "Fax"
+msgstr "Faks"
+
+#: ../kupfer/plugin/gmail/__init__.py:61
+msgid "Home phone"
+msgstr "Domači telefon"
+
+#: ../kupfer/plugin/gmail/__init__.py:62
+msgid "Home fax"
+msgstr "Domači faks"
+
+#: ../kupfer/plugin/gmail/__init__.py:63
+msgid "Internal phone"
+msgstr "Interni telefon"
+
+#: ../kupfer/plugin/gmail/__init__.py:64
+msgid "Mobile"
+msgstr "Mobilni telefon"
+
+#: ../kupfer/plugin/gmail/__init__.py:65
+msgid "Other"
+msgstr "Ostalo"
+
+#: ../kupfer/plugin/gmail/__init__.py:66
+msgid "VOIP"
+msgstr "VOIP"
+
+#: ../kupfer/plugin/gmail/__init__.py:67
+msgid "Work phone"
+msgstr "Službeni telefon"
+
+#: ../kupfer/plugin/gmail/__init__.py:68
+msgid "Work fax"
+msgstr "Službeni faks"
+
+#: ../kupfer/plugin/gmail/__init__.py:93
 msgid "Compose Email in Gmail"
 msgstr "Sestavi elektronsko pošto v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:76
+#: ../kupfer/plugin/gmail/__init__.py:117
 msgid "Open web browser and compose new email in Gmail"
 msgstr "Odpre spletno stran sestavljanja novega elektronskega sporočila v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:82
+#: ../kupfer/plugin/gmail/__init__.py:123
 msgid "Edit Contact in Gmail"
 msgstr "Uredi stik v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:92
+#: ../kupfer/plugin/gmail/__init__.py:133
 msgid "Open web browser and edit contact in Gmail"
 msgstr "Odpre spletno stran urejanja stikov v Gmailu"
 
-#: ../kupfer/plugin/gmail/__init__.py:210
+#: ../kupfer/plugin/gmail/__init__.py:263
 msgid "Contacts from Google services (Gmail)"
 msgstr "Stiki iz storitev Google (Google pošta)"
 
@@ -2675,11 +2781,6 @@ msgstr "Pokaži QRKodo"
 msgid "Display text as QRCode in a window"
 msgstr "Pokaže besedilo kot QRKodo v oknu"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/skype.py:2
-msgid "Skype"
-msgstr "Skype"
-
 #: ../kupfer/plugin/skype.py:5
 msgid "Access to Skype contacts"
 msgstr "Dostop do stikov Skype"
@@ -2692,24 +2793,24 @@ msgstr "Skype-aj me"
 msgid "Logged Out"
 msgstr "Odjavljen"
 
-#: ../kupfer/plugin/skype.py:183
+#: ../kupfer/plugin/skype.py:179
 #, python-format
 msgid "[%(status)s] %(userid)s"
 msgstr "[%(status)s] %(userid)s"
 
-#: ../kupfer/plugin/skype.py:225
+#: ../kupfer/plugin/skype.py:218
 msgid "Call"
 msgstr "Pokliči"
 
-#: ../kupfer/plugin/skype.py:239
+#: ../kupfer/plugin/skype.py:232
 msgid "Place a call to contact"
 msgstr "Klic stika"
 
-#: ../kupfer/plugin/skype.py:274
+#: ../kupfer/plugin/skype.py:267
 msgid "Skype Contacts"
 msgstr "Stiki Skype"
 
-#: ../kupfer/plugin/skype.py:294
+#: ../kupfer/plugin/skype.py:287
 msgid "Skype Statuses"
 msgstr "Stanja Skype"
 
@@ -3227,9 +3328,6 @@ msgstr "Strani Zim"
 #: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr "Strani shranjene v beležkah Zim"
-
-#~ msgid "Google Translate"
-#~ msgstr "Google prevajalnik"
 
 #~ msgid "Translate text with Google Translate"
 #~ msgstr "Prevede besedilo z Google prevajalnikom"
