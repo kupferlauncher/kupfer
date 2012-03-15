@@ -23,8 +23,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 )
 
-AUDTOOL = "audtool2"
-AUDACIOUS = "audacious2"
+AUDTOOL = "audtool"
+AUDACIOUS = "audacious"
 
 def enqueue_song(info):
 	utils.spawn_async((AUDTOOL, "playqueue-add", "%d" % info))
