@@ -5,7 +5,7 @@ __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
 __description__ = _("Thunderbird/Icedove Contacts and Actions")
-__version__ = "2011-04-10"
+__version__ = "2012-03-15"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 from kupfer.objects import Action
@@ -17,6 +17,12 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 
 from kupfer.plugin import thunderbird_support as support
+
+"""
+Changes:
+	2012-03-15: Karol Będkowski
+		+ activate_multiple for new mail action
+"""
 
 
 class ComposeMail(RunnableLeaf):
@@ -41,10 +47,12 @@ class NewMailAction(Action):
 		Action.__init__(self, _('Compose Email'))
 
 	def activate(self, leaf):
-		email = email_from_leaf(leaf)
+		self.activate_multiple((leaf, ))
 
-		if not utils.spawn_async(['thunderbird', 'mailto:%s' % email]):
-			utils.spawn_async(['icedove', 'mailto:%s' % email])
+	def activate_multiple(self, objects):
+		recipients = ",".join(email_from_leaf(L) for L in objects)
+		if not utils.spawn_async(['thunderbird', 'mailto:%s' % recipients]):
+			utils.spawn_async(['icedove', 'mailto:%s' % recipients])
 
 	def get_icon_name(self):
 		return "mail-message-new"
