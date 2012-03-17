@@ -277,11 +277,11 @@ class OpenUrl (Action):
 		if not name:
 			name = _("Open URL")
 		super(OpenUrl, self).__init__(name)
-	
+
 	def activate(self, leaf):
 		url = leaf.object
 		self.open_url(url)
-	
+
 	def open_url(self, url):
 		utils.show_url(url)
 
@@ -304,7 +304,7 @@ class Launch (Action):
 		Action.__init__(self, name)
 		self.is_running = is_running
 		self.open_new = open_new
-	
+
 	def wants_context(self):
 		return True
 
@@ -352,7 +352,9 @@ class CloseAll (Action):
 
 class UrlLeaf (Leaf, TextRepresentation):
 	def __init__(self, obj, name):
-		super(UrlLeaf, self).__init__(obj, name)
+		super(UrlLeaf, self).__init__(obj, name or obj)
+		if obj != name:
+			self.kupfer_add_alias(obj)
 
 	def get_actions(self):
 		return (OpenUrl(), )
