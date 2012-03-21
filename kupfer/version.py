@@ -76,7 +76,7 @@ WEBSITE = u"http://kaizer.se/wiki/kupfer/"
 HELP_WEBSITE = u"http://kaizer.se/wiki/kupfer/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = u"""Copyright © 2007--2011 Ulrik Sverdrup with others"""
+COPYRIGHT = u"""Copyright © 2007--2012 Ulrik Sverdrup with others"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify
