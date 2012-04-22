@@ -20,6 +20,7 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 
 
 _HISTORY_FILE = [
+		"~/.config/libreoffice/3/user/registrymodifications.xcu",
 		"~/.libreoffice/3/user/registrymodifications.xcu",
 		"~/.openoffice.org/3/user/registrymodifications.xcu",
 		"~/.openoffice.org/3/user/registry/data/org/openoffice/Office/Histories.xcu",
