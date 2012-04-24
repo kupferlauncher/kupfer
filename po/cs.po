@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2012-02-14 18:52+0000\n"
-"PO-Revision-Date: 2012-02-16 12:13+0100\n"
+"POT-Creation-Date: 2012-02-25 19:02+0000\n"
+"PO-Revision-Date: 2012-04-24 18:58+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "Emulátor terminálu:"
 msgid "Desktop Environment"
 msgstr "Pracovní prostředí"
 
-#: ../data/preferences.ui.h:8
+#: ../data/preferences.ui.h:8 ../kupfer/plugin/gmail/__init__.py:60
 msgid "General"
 msgstr "Obecné"
 
@@ -471,10 +471,43 @@ msgstr[0] "%s objekt"
 msgstr[1] "%s objekty"
 msgstr[2] "%s objektů"
 
-#: ../kupfer/obj/contacts.py:87 ../kupfer/plugin/pidgin.py:156
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
+
+#: ../kupfer/obj/contacts.py:131
+msgid "unknown"
+msgstr "neznámý"
+
+#: ../kupfer/obj/contacts.py:144
+msgid "Aim"
+msgstr "Aim"
+
+#: ../kupfer/obj/contacts.py:151
+msgid "Google Talk"
+msgstr "Google Talk"
+
+#: ../kupfer/obj/contacts.py:159
+msgid "ICQ"
+msgstr "ICQ"
+
+#: ../kupfer/obj/contacts.py:166
+msgid "MSN"
+msgstr "MSN"
+
+#: ../kupfer/obj/contacts.py:173
+msgid "QQ"
+msgstr "QQ"
+
+#: ../kupfer/obj/contacts.py:180
+msgid "Yahoo"
+msgstr "Yahoo"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/obj/contacts.py:187 ../kupfer/plugin/skype.py:2
+msgid "Skype"
+msgstr "Skype"
 
 #: ../kupfer/obj/exceptions.py:19
 #, python-format
@@ -1839,12 +1872,12 @@ msgid "Offline"
 msgstr "Odpojený"
 
 #: ../kupfer/plugin/empathy.py:96 ../kupfer/plugin/gajim.py:93
-#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:204
+#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:197
 msgid "Open Chat"
 msgstr "Otevřít diskuzi"
 
 #: ../kupfer/plugin/empathy.py:129 ../kupfer/plugin/gajim.py:121
-#: ../kupfer/plugin/skype.py:250
+#: ../kupfer/plugin/skype.py:243
 msgid "Change Global Status To..."
 msgstr "Změnit globální stav na…"
 
@@ -1924,7 +1957,7 @@ msgid "Glob"
 msgstr "Glob"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:177
+#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:234
 msgid "Gmail"
 msgstr "Gmail"
 
@@ -1932,27 +1965,95 @@ msgstr "Gmail"
 msgid "Load contacts and compose new email in Gmail"
 msgstr "Načítání kontaktů a psaní nových e-mailů v Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:32
+#: ../kupfer/plugin/gmail/__init__.py:33
 msgid "Load contacts' pictures"
 msgstr "Načítat obrázky kontaktů"
 
-#: ../kupfer/plugin/gmail/__init__.py:53
+#: ../kupfer/plugin/gmail/__init__.py:39
+msgid "Load additional information"
+msgstr "Načíst doplňující informace"
+
+#: ../kupfer/plugin/gmail/__init__.py:50
+msgid "Work email"
+msgstr "E-mail do práce"
+
+#: ../kupfer/plugin/gmail/__init__.py:51
+msgid "Home email"
+msgstr "E-mail domů"
+
+#: ../kupfer/plugin/gmail/__init__.py:52
+msgid "Other email"
+msgstr "Jiný e-mail"
+
+#: ../kupfer/plugin/gmail/__init__.py:54
+msgid "Work address"
+msgstr "Adresa do práce"
+
+#: ../kupfer/plugin/gmail/__init__.py:55
+msgid "Home address"
+msgstr "Adresa domů"
+
+#: ../kupfer/plugin/gmail/__init__.py:56
+msgid "Other address"
+msgstr "Jiná adresa"
+
+#: ../kupfer/plugin/gmail/__init__.py:58
+msgid "Car phone"
+msgstr "Telefon do auta"
+
+#: ../kupfer/plugin/gmail/__init__.py:59
+msgid "Fax"
+msgstr "Fax"
+
+#: ../kupfer/plugin/gmail/__init__.py:61
+msgid "Home phone"
+msgstr "Telefon domů"
+
+#: ../kupfer/plugin/gmail/__init__.py:62
+msgid "Home fax"
+msgstr "Fax domů"
+
+#: ../kupfer/plugin/gmail/__init__.py:63
+msgid "Internal phone"
+msgstr "Interní telefon"
+
+#: ../kupfer/plugin/gmail/__init__.py:64
+msgid "Mobile"
+msgstr "Mobilní telefon"
+
+#: ../kupfer/plugin/gmail/__init__.py:65
+msgid "Other"
+msgstr "Jiný"
+
+#: ../kupfer/plugin/gmail/__init__.py:66
+msgid "VOIP"
+msgstr "VOIP"
+
+#: ../kupfer/plugin/gmail/__init__.py:67
+msgid "Work phone"
+msgstr "Telefon do práce"
+
+#: ../kupfer/plugin/gmail/__init__.py:68
+msgid "Work fax"
+msgstr "Fax do práce"
+
+#: ../kupfer/plugin/gmail/__init__.py:93
 msgid "Compose Email in Gmail"
 msgstr "Napsat e-mail v pošťáku Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:76
+#: ../kupfer/plugin/gmail/__init__.py:117
 msgid "Open web browser and compose new email in Gmail"
 msgstr "Otevřít webový prohlížeč a napsat nový e-mail v pošťáku Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:82
+#: ../kupfer/plugin/gmail/__init__.py:123
 msgid "Edit Contact in Gmail"
 msgstr "Upravit kontakt na službě Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:92
+#: ../kupfer/plugin/gmail/__init__.py:133
 msgid "Open web browser and edit contact in Gmail"
 msgstr "Otevřít webový prohlížeč a upravit kontakt na službě Gmail"
 
-#: ../kupfer/plugin/gmail/__init__.py:210
+#: ../kupfer/plugin/gmail/__init__.py:263
 msgid "Contacts from Google services (Gmail)"
 msgstr "Kontakty ze služeb Google (Gmail)"
 
@@ -2585,11 +2686,6 @@ msgstr "Zobrazit kód QR"
 msgid "Display text as QRCode in a window"
 msgstr "Zobrazit text jako kód QR v okně"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/skype.py:2
-msgid "Skype"
-msgstr "Skype"
-
 #: ../kupfer/plugin/skype.py:5
 msgid "Access to Skype contacts"
 msgstr "Přístup ke kontaktům komunikátoru Skype"
@@ -2602,24 +2698,24 @@ msgstr "Zavolat mi"
 msgid "Logged Out"
 msgstr "Odhlášeno"
 
-#: ../kupfer/plugin/skype.py:183
+#: ../kupfer/plugin/skype.py:179
 #, python-format
 msgid "[%(status)s] %(userid)s"
 msgstr "[%(status)s] %(userid)s"
 
-#: ../kupfer/plugin/skype.py:225
+#: ../kupfer/plugin/skype.py:218
 msgid "Call"
 msgstr "Volat"
 
-#: ../kupfer/plugin/skype.py:239
+#: ../kupfer/plugin/skype.py:232
 msgid "Place a call to contact"
 msgstr "Umístit volání do kontaktu"
 
-#: ../kupfer/plugin/skype.py:274
+#: ../kupfer/plugin/skype.py:267
 msgid "Skype Contacts"
 msgstr "Kontakty v komunikátoru Skype"
 
-#: ../kupfer/plugin/skype.py:294
+#: ../kupfer/plugin/skype.py:287
 msgid "Skype Statuses"
 msgstr "Stav komunikátoru Skype"
 
