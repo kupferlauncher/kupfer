@@ -2923,7 +2923,7 @@ msgstr "Tâches en cours d'exécution"
 #: ../kupfer/plugin/top.py:119
 #, python-format
 msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
-msgstr "pid : %(pid)s  cpu : %(cpu)g%%  mem : %(mem)g%%  heure : %(time)s"
+msgstr "pid : %(pid)s  cpu : %(cpu)g%%  mem : %(mem)g%%  durée : %(time)s"
 
 #: ../kupfer/plugin/top.py:139
 msgid "Running tasks for current user"
