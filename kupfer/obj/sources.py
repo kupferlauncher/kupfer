@@ -114,7 +114,8 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 		return "folder"
 
 	def get_leaf_repr(self):
-		if os.path.samefile(self.directory, os.path.expanduser("~")):
+		if os.path.isdir(self.directory) and \
+			 os.path.samefile(self.directory, os.path.expanduser("~")):
 			alias = _("Home Folder")
 		else:
 			alias = None
