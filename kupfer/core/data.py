@@ -542,6 +542,8 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 		for coll, direct in zip((s_sources, S_sources), (False, True)):
 			for item in setctl.get_directories(direct):
+				if not os.path.isdir(item):
+					continue
 				coll.append(dir_source(item))
 
 		dir_depth = source_config("DeepDirectories", "Depth")
