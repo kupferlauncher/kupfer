@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2012-05-02 19:50+0000\n"
-"PO-Revision-Date: 2012-05-16 15:57+0100\n"
+"POT-Creation-Date: 2012-05-22 15:22+0000\n"
+"PO-Revision-Date: 2012-05-17 03:49+0100\n"
 "Last-Translator: Barbariyskiy Nikolay <barbanik@fel.cvut.cz>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgstr "Индексированные папки"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Папки, файлы которых всегда доступны в каталоге."
 
-#: ../data/preferences.ui.h:20 ../kupfer/obj/sources.py:156
+#: ../data/preferences.ui.h:20 ../kupfer/obj/sources.py:157
 msgid "Catalog"
 msgstr "Каталог"
 
@@ -225,7 +225,7 @@ msgstr "Alternate Activate"
 #. TRANS: user to select many objects to be used for one action
 #: ../kupfer/ui/accelerators.py:7
 msgid "Comma Trick"
-msgstr "Определиние однго действие для многих объектов"
+msgstr "Назначить одно действие для многих объектов"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
@@ -650,19 +650,19 @@ msgstr "Рекурсивные источники %(dir)s, (%(levels)d levels)"
 msgid "Directory source %s"
 msgstr "Источник каталога %s"
 
-#: ../kupfer/obj/sources.py:118
+#: ../kupfer/obj/sources.py:119
 msgid "Home Folder"
 msgstr "Домашняя папка"
 
-#: ../kupfer/obj/sources.py:129
+#: ../kupfer/obj/sources.py:130
 msgid "Catalog Index"
 msgstr "Индекс каталога"
 
-#: ../kupfer/obj/sources.py:144
+#: ../kupfer/obj/sources.py:145
 msgid "An index of all available sources"
 msgstr "Индекс всех доступных источников"
 
-#: ../kupfer/obj/sources.py:176
+#: ../kupfer/obj/sources.py:177
 msgid "Root catalog"
 msgstr "Корневой каталок"
 
@@ -1737,7 +1737,7 @@ msgid "Claws Mail Contacts and Actions"
 msgstr "Контакты и действия Claws Mail"
 
 #: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:25
+#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:31
 msgid "Compose New Email"
 msgstr "Создать новое электронное письмо"
 
@@ -1755,7 +1755,7 @@ msgstr "Получать новые сообщения из всех учетн�
 
 #: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
 #: ../kupfer/plugin/evolution.py:40 ../kupfer/plugin/operamail.py:41
-#: ../kupfer/plugin/thunderbird.py:41
+#: ../kupfer/plugin/thunderbird.py:47
 msgid "Compose Email"
 msgstr "Создать электронное письмо"
 
@@ -2473,11 +2473,11 @@ msgstr "Не учитывать регистр при поиске файлов"
 msgid "OpenOffice / LibreOffice"
 msgstr "OpenOffice / LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:135
+#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:136
 msgid "Recently used documents in OpenOffice/LibreOffice"
 msgstr "Документы, недавно используемые  в OpenOffice/LibreOffice"
 
-#: ../kupfer/plugin/openoffice.py:83
+#: ../kupfer/plugin/openoffice.py:84
 msgid "OpenOffice/LibreOffice Recent Items"
 msgstr "Последние элементы OpenOffice/LibreOffice"
 
@@ -2860,15 +2860,15 @@ msgstr "Thunderbird"
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Контакты и действия Thunderbird/Icedove"
 
-#: ../kupfer/plugin/thunderbird.py:32
+#: ../kupfer/plugin/thunderbird.py:38
 msgid "Compose a new message in Thunderbird"
 msgstr "Создать новое сообщение в Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:66
+#: ../kupfer/plugin/thunderbird.py:74
 msgid "Thunderbird Address Book"
 msgstr "Адресная книга Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:91
+#: ../kupfer/plugin/thunderbird.py:99
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Контакты из адресной книги Thunderbird"
 
