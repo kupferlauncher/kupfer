@@ -3,6 +3,25 @@
 NEWS for kupfer
 ===============
 
+kupfer v208
+-----------
+
+Released Friday,  1 June 2012
+
+* Fix bug with nonexisting catalog directories (Karol) (:lp:`1000980`)
+* Fix sending to many with Thunderbird (Karol) (:lp:`955100`)
+* Fix history file for OpenOffice/LibreOffice (Karol)
+* *Audacious* plugin: Work with Audacious 3 (Ulrik)
+
+* Localization updates:
+
+  + cs, Marek Černocký
+  + es, Daniel Mustieles
+  + fr, Alexandre Franke, Bruno Brouard
+  + ru, Nikolay Barbariyskiy
+  + sl, Matej Urbančič
+
+
 kupfer v207
 -----------
 
