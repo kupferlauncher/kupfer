@@ -14,7 +14,7 @@ import sqlite3
 
 from kupfer import plugin_support
 from kupfer.objects import Source
-from kupfer.objects import UrlLeaf
+from kupfer.objects import UrlLeaf, Leaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.plugin import firefox_support
@@ -28,6 +28,31 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"value": True,
 	},
 )
+
+
+class Tag(Leaf):
+	def __init__(self, name, bookmarks):
+		Leaf.__init__(self, bookmarks, name)
+
+	def has_content(self):
+		return bool(self.object)
+
+	def content_source(self, alternate=False):
+		return TaggedBookmarksSource(self)
+
+	def get_description(self):
+		return _("Firefox tag")
+
+
+class TaggedBookmarksSource(Source):
+	"""docstring for TaggedBookmarksSource"""
+	def __init__(self, tag):
+		Source.__init__(self, tag.name)
+		self.tag = tag
+
+	def get_items(self):
+		for book in self.tag.object:
+			yield UrlLeaf(book["uri"], book["title"] or book["uri"])
 
 
 class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
@@ -68,9 +93,11 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 		"""Parse Firefox' .json bookmarks backups"""
 		from kupfer.plugin import firefox3_support
 		self.output_debug("Parsing", fpath)
-		bookmarks = firefox3_support.get_bookmarks(fpath)
+		bookmarks, tags = firefox3_support.get_bookmarks(fpath)
 		for book in bookmarks:
 			yield UrlLeaf(book["uri"], book["title"] or book["uri"])
+		for tag, items in tags.iteritems():
+			yield Tag(tag, items)
 
 	def _get_ffx2_bookmarks(self, fpath):
 		"""Parse Firefox' bookmarks.html"""
