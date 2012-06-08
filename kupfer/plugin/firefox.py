@@ -70,7 +70,7 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 		self.output_debug("Parsing", fpath)
 		bookmarks = firefox3_support.get_bookmarks(fpath)
 		for book in bookmarks:
-			yield UrlLeaf(book["uri"], book["title"])
+			yield UrlLeaf(book["uri"], book["title"] or book["uri"])
 
 	def _get_ffx2_bookmarks(self, fpath):
 		"""Parse Firefox' bookmarks.html"""
