@@ -1,9 +1,8 @@
 from __future__ import division
 __kupfer_name__ = _("Calculator")
 __kupfer_actions__ = ("Calculate", )
-__description__ = _("Calculate expressions starting with '=', or " \
-"containing mathematical operators")
-__version__ = ""
+__description__ = _("Calculate mathematical expressions")
+__version__ = "2012-06-09"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 
@@ -17,6 +16,7 @@ from kupfer import pretty
 class IgnoreResultException (Exception):
 	pass
 
+
 class KupferSurprise (float):
 	"""kupfer
 
@@ -27,9 +27,11 @@ class KupferSurprise (float):
 		utils.show_url(version.WEBSITE)
 		raise IgnoreResultException
 
+
 class DummyResult (object):
 	def __unicode__(self):
 		return u"<Result of last expression>"
+
 
 class Help (object):
 	"""help()
@@ -73,6 +75,7 @@ class Help (object):
 	def __complex__(self):
 		return self()
 
+
 def make_environment(last_result=None):
 	"Return a namespace for the calculator's expressions to be executed in."
 	environment = dict(vars(math))
@@ -86,6 +89,7 @@ def make_environment(last_result=None):
 	environment["__builtins__"] = {}
 	return environment
 
+
 def format_result(res):
 	cres = complex(res)
 	parts = []
@@ -94,6 +98,7 @@ def format_result(res):
 	if cres.imag:
 		parts.append(u"%s" % complex(0, cres.imag))
 	return u"+".join(parts) or u"%s" % res
+
 
 class Calculate (Action):
 	# since it applies only to special queries, we can up the rank
@@ -134,7 +139,10 @@ class Calculate (Action):
 				"-" in text or
 				"*" in text or
 				"/" in text or
-				"^" in text)
+				"^" in text or
+				"&" in text or
+				"|" in text or
+				"~" in text)
 
 	def get_description(self):
 		return None
