@@ -11,8 +11,10 @@ Changes:
 		+ calculate action for expression w/o =
 	2012-06-10:
 		+ separate Calculate action
+		+ change localized decimal point symbol to .
 """
 
+import locale
 import cmath
 import math
 
@@ -126,8 +128,9 @@ class Calculate (Action):
 		brackets_missing = expr.count("(") - expr.count(")")
 		if brackets_missing > 0:
 			expr += ")" * brackets_missing
+		# hack: change all decimal points (according to current locale) to '.'
+		expr = expr.replace(locale.localeconv()['decimal_point'], '.')
 		environment = make_environment(self.last_result['last'])
-
 		pretty.print_debug(__name__, "Evaluating", repr(expr))
 		try:
 			result = eval(expr, environment)
