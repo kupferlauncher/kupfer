@@ -8,7 +8,11 @@ QFURL_SCHEME = "qpfer"
 
 # One would hope that there was a better way to do this
 urlparse.uses_netloc.append(QFURL_SCHEME)
-urlparse.uses_fragment.append(QFURL_SCHEME)
+try:
+	urlparse.uses_fragment.append(QFURL_SCHEME)
+except AttributeError:
+	# Python 2.7.3 drops `uses_fragment` global
+	pass
 
 class QfurlError (Exception):
 	pass
