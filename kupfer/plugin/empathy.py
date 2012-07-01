@@ -206,7 +206,11 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 			channels = connection.ListChannels()
 			for channel in channels:
 				contact_group = bus.get_object(connection_iface, channel[0])
-				contacts = contact_group.Get(CHANNEL_GROUP_IFACE, "Members")
+				try:
+					contacts = contact_group.Get(CHANNEL_GROUP_IFACE, "Members")
+				except dbus.exceptions.DBusException, ex:
+					self.output_info(ex)
+					contacts = None
 				if contacts:
 						contacts = [c for c in contacts]
 						contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
