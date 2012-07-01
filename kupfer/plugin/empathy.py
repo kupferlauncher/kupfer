@@ -217,7 +217,11 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 						contact_attributes = [str(a) for a in contact_attributes]
 						contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
 						for contact, details in contact_details.iteritems():
-								status_code = details[_ATTRIBUTES.get("presence")][1]
+								try:
+									status_code = details[_ATTRIBUTES.get("presence")][1]
+								except KeyError, ex:
+									self.output_info('Presence could not be established with %s. Leaving unknown.' % ex)
+									status_code = u'unknown'
 								if not show_offline and status_code == 'offline':
 									continue
 								yield EmpathyContact(
