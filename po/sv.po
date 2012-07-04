@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-25 17:28+0100\n"
+"POT-Creation-Date: 2012-07-04 19:36+0200\n"
 "PO-Revision-Date: 2009-06-23 20:19+0200\n"
 "Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -21,14 +21,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "Kupfer"
+msgstr "Kupfer"
+
 msgid "Application Launcher"
 msgstr "Programstartare"
 
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Praktiskt kommandoprogram för åtkomst av program och dokument"
-
-msgid "Kupfer"
-msgstr "Kupfer"
 
 msgid "Execute in Kupfer"
 msgstr "Kör i Kupfer"
@@ -39,59 +39,69 @@ msgstr "Sparat Kupfer-kommando"
 msgid "User credentials"
 msgstr "Användaruppgifter"
 
-msgid "_Change"
-msgstr "_Ändra"
+msgid "_User:"
+msgstr "_Användare:"
 
 msgid "_Password:"
 msgstr "_Lösenord:"
 
-msgid "_User:"
-msgstr "_Användare:"
-
-msgid "Keybinding could not be bound"
-msgstr "Snabbtangenten kunde inte bindas"
-
-msgid "Please press desired key combination"
-msgstr "Tryck önskad tangentkombination"
+msgid "_Change"
+msgstr "_Ändra"
 
 msgid "Set Keyboard Shortcut"
 msgstr "Ställ in tangentgenväg"
 
-msgid "<b>Browser Keyboard Shortcuts</b>"
-msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
+msgid "Please press desired key combination"
+msgstr "Tryck önskad tangentkombination"
 
-msgid "<b>Global Keyboard Shortcuts</b>"
-msgstr "<b>Globala tangentbordsgenvägar</b>"
+msgid "Keybinding could not be bound"
+msgstr "Snabbtangenten kunde inte bindas"
+
+msgid "Kupfer Preferences"
+msgstr "Inställningar för Kupfer"
+
+msgid "Start automatically on login"
+msgstr "Starta automatiskt vid inloggning"
 
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
-msgid "Catalog"
-msgstr "Katalog"
-
-msgid "Desktop Environment"
-msgstr "Skrivbordsmiljö"
-
-msgid "Folders whose files are always available in the catalog."
-msgstr "Mappar vars innehåll alltid finns tillgängligt i katalogen."
-
-msgid "General"
-msgstr "Allmänt"
+msgid "Show icon in notification area"
+msgstr "Visa ikon i notifieringsytan"
 
 msgid "Icon set:"
 msgstr "Ikonuppsättning:"
 
-msgid "Inclusion in Top Level Searches"
-msgstr "Inkluderade i sökningar på toppnivån"
+msgid "Terminal emulator:"
+msgstr "Terminalemulator:"
 
-msgid "Indexed Folders"
-msgstr "Indexerade mappar"
+msgid "Desktop Environment"
+msgstr "Skrivbordsmiljö"
+
+msgid "General"
+msgstr "Allmänt"
+
+msgid "<b>Global Keyboard Shortcuts</b>"
+msgstr "<b>Globala tangentbordsgenvägar</b>"
+
+msgid "Reset"
+msgstr "Återställ"
+
+msgid "<b>Browser Keyboard Shortcuts</b>"
+msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
+
+msgid "Use single keystroke commands (Space, /, period, comma etc.)"
+msgstr ""
+"Använd enstaka tangenter som kommandon (Blanksteg, /, punkt, komma etc.)"
 
 msgid "Keyboard"
 msgstr "Tangentbord"
 
-msgid "Kupfer Preferences"
-msgstr "Inställningar för Kupfer"
+msgid "Plugins"
+msgstr "Insticksmoduler"
+
+msgid "Inclusion in Top Level Searches"
+msgstr "Inkluderade i sökningar på toppnivån"
 
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
@@ -101,24 +111,14 @@ msgstr ""
 "Använd kommandot ‘Sök inuti’ på en avmarkerad källa för att söka i dess "
 "innehåll."
 
-msgid "Plugins"
-msgstr "Insticksmoduler"
+msgid "Indexed Folders"
+msgstr "Indexerade mappar"
 
-msgid "Reset"
-msgstr "Återställ"
+msgid "Folders whose files are always available in the catalog."
+msgstr "Mappar vars innehåll alltid finns tillgängligt i katalogen."
 
-msgid "Show icon in notification area"
-msgstr "Visa ikon i notifieringsytan"
-
-msgid "Start automatically on login"
-msgstr "Starta automatiskt vid inloggning"
-
-msgid "Terminal emulator:"
-msgstr "Terminalemulator:"
-
-msgid "Use single keystroke commands (Space, /, period, comma etc.)"
-msgstr ""
-"Använd enstaka tangenter som kommandon (Blanksteg, /, punkt, komma etc.)"
+msgid "Catalog"
+msgstr "Katalog"
 
 #, python-format
 msgid "Could not to carry out '%s'"
@@ -844,21 +844,6 @@ msgstr "Inkludera besökta sidor"
 #. TRANS: with multiple X "screens"
 msgid "Multihead Support"
 msgstr "Stöd för flera skärmar (“multihead”)"
-
-msgid "Selected File"
-msgstr "Markerad fil"
-
-msgid "Provides current nautilus selection, using Kupfer's Nautilus Extension"
-msgstr ""
-"Tillhandahåller aktuell markering i Nautilus, med Kupfers insticksmodul för "
-"Nautilus"
-
-#, python-format
-msgid "Selected File \"%s\""
-msgstr "Markerad fil “%s”"
-
-msgid "Selected Files"
-msgstr "Markerade filer"
 
 msgid "Notes"
 msgstr "Anteckningar"
@@ -2231,38 +2216,9 @@ msgstr "Hämta träffar från Tracker..."
 msgid "Show Tracker results for query"
 msgstr "Visa träffar för sökning med Tracker"
 
-msgid "Tracker 0.6"
-msgstr "Tracker 0.6"
-
-msgid "Tracker tags"
-msgstr "Tracker-taggar"
-
-msgid "Tracker Tags"
-msgstr "Tracker-taggar"
-
-msgid "Browse Tracker's tags"
-msgstr "Bläddra i Trackers taggar"
-
-#, python-format
-msgid "Tag %s"
-msgstr "Taggen %s"
-
-#, python-format
-msgid "Objects tagged %s with Tracker"
-msgstr "Objekt taggade %s med Tracker"
-
-msgid "Add Tag..."
-msgstr "Lägg till tagg..."
-
-msgid "Add tracker tag to file"
-msgstr "Lägg till tracker-tagg till filen"
-
-msgid "Remove Tag..."
-msgstr "Ta bort tagg..."
-
-msgid "Remove tracker tag from file"
-msgstr "Ta bort tracker-tagg från filen"
-
+#. FIXME: Port tracker tag sources and actions
+#. to the new, much more powerful sparql + dbus API
+#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
 #. -*- coding: UTF-8 -*-
 msgid "TrueCrypt"
 msgstr "TrueCrypt"

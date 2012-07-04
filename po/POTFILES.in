@@ -9,7 +9,6 @@ auxdata/kupfer-mimetypes.xml.in
 [type: gettext/glade]data/preferences.ui
 [type: gettext/glade]data/progress_dialog.ui
 [type: gettext/glade]data/result.ui
-extras/kupfer_provider.py
 
 kupfer/core/commandexec.py
 kupfer/core/execfile.py
@@ -50,7 +49,6 @@ kupfer/plugin/favorites.py
 kupfer/plugin/fileactions.py
 kupfer/plugin/firefox.py
 kupfer/plugin/multihead.py
-kupfer/plugin/nautilusselection.py
 kupfer/plugin/notes.py
 kupfer/plugin/rhythmbox.py
 kupfer/plugin/session_gnome.py
@@ -116,7 +114,6 @@ kupfer/plugin/thunar.py
 kupfer/plugin/thunderbird.py
 kupfer/plugin/top.py
 kupfer/plugin/tracker1.py
-kupfer/plugin/tracker.py
 kupfer/plugin/truecrypt.py
 kupfer/plugin/tsclient.py
 kupfer/plugin/vim/__init__.py
