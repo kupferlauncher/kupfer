@@ -167,8 +167,6 @@ def configure(conf):
 		}
 	opt_pymodules = {
 			"wnck": "Identify and focus running applications",
-			"gnome": ("Log out cleanly with session managers *OTHER* than "
-				"gnome-session >= 2.24"),
 			"keyring": "Required by plugins that save passwords",
 		}
 
