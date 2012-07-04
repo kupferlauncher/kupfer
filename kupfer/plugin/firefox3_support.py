@@ -69,13 +69,18 @@ def get_bookmarks(bookmarks_file):
 		visited.add(next["id"])
 
 	# visit all tag folders
+	tags_catalogs = {}
 	for tag in tagcatalogs:
+		items = []
 		for bmark in tag["children"]:
 			if is_bookmark(bmark) and is_good(bmark):
 				bmap_add(bmark, bmap)
 				bmap_add_tag(bmark["id"], tag["title"], bmap)
+				items.append(bmark)
+		if items:
+			tags_catalogs[tag['title']] = items
 
-	return bmap.values()
+	return bmap.values(), tags_catalogs
 
 if __name__ == '__main__':
 	import os
@@ -90,4 +95,6 @@ if __name__ == '__main__':
 			fpath = os.path.join(dirloc, latest_file)
 
 	if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
-		print "Parsed # bookmarks:", len(list(get_bookmarks(fpath)))
+		bookmarks, tags = get_bookmarks(fpath)
+		print "Parsed # bookmarks:", len(bookmarks)
+		print "Parsed # tags:", len(tags)
