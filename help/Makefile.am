@@ -33,7 +33,7 @@ DOC_PAGES = \
 	plugin-websearch.page
 
 
-DOC_LINGUAS = cs de es fr it pl sl
+DOC_LINGUAS = cs de es fr it pl ro sl
 
 
 # dist-hook: doc-dist-hook
