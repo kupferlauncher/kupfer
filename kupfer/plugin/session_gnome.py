@@ -9,9 +9,11 @@ from kupfer.plugin import session_support as support
 
 # sequences of argument lists
 LOGOUT_CMD = (["gnome-panel-logout"],
-              ["gnome-session-save", "--kill"])
+              ["gnome-session-save", "--kill"],
+              ["gnome-session-quit", "--logout"])
 SHUTDOWN_CMD = (["gnome-panel-logout", "--shutdown"],
-                ["gnome-session-save", "--shutdown-dialog"])
+                ["gnome-session-save", "--shutdown-dialog"],
+                ["gnome-session-quit", "--power-off"])
 LOCKSCREEN_CMD = (["gnome-screensaver-command", "--lock"],
                   ["xdg-screensaver", "lock"])
 
