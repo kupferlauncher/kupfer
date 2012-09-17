@@ -3,7 +3,7 @@
 __kupfer_name__ = _("XFCE Session Management")
 __kupfer_sources__ = ("XfceItemsSource", )
 __description__ = _("Special items and actions for XFCE environment")
-__version__ = "2009-12-05"
+__version__ = "2012-09-17"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 from kupfer.plugin import session_support as support
@@ -20,7 +20,7 @@ class XfceItemsSource (support.CommonSource):
 		support.CommonSource.__init__(self, _("XFCE Session Management"))
 	def get_items(self):
 		return (
-			support.Logout(LOGOUT_CMD),
+			support.LogoutBrowse(LOGOUT_CMD),
 			support.LockScreen(LOCKSCREEN_CMD),
-			support.Shutdown(SHUTDOWN_CMD),
+			support.ShutdownBrowse(SHUTDOWN_CMD),
 		)

@@ -1,7 +1,7 @@
 __kupfer_name__ = _("GNOME Session Management")
 __kupfer_sources__ = ("GnomeItemsSource", )
 __description__ = _("Special items and actions for GNOME environment")
-__version__ = "2009-12-05"
+__version__ = "2012-09-17"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from kupfer.plugin import session_support as support
@@ -20,8 +20,8 @@ class GnomeItemsSource (support.CommonSource):
 		support.CommonSource.__init__(self, _("GNOME Session Management"))
 	def get_items(self):
 		return (
-			support.Logout(LOGOUT_CMD),
+			support.LogoutBrowse(LOGOUT_CMD),
 			support.LockScreen(LOCKSCREEN_CMD),
-			support.Shutdown(SHUTDOWN_CMD),
+			support.ShutdownBrowse(SHUTDOWN_CMD),
 		)
 
