@@ -185,6 +185,8 @@ class OpenSearchSource (Source):
 			if os.path.exists(addon_lang_dir):
 				plugin_dirs.append(addon_lang_dir)
 				break
+		if os.path.exists("/usr/lib/firefox/searchplugins"):
+			plugin_dirs.append("/usr/lib/firefox/searchplugins")
 
 		self.output_debug("Found following searchplugins directories",
 				sep="\n", *plugin_dirs)
