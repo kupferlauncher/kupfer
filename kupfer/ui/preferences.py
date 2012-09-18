@@ -367,6 +367,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.store.set_value(it, checkcol, plugin_is_enabled)
 		setctl = settings.GetSettingsController()
 		setctl.set_plugin_enabled(plugin_id, plugin_is_enabled)
+		self.plugin_sidebar_update(plugin_id)
 
 	def _id_for_table_path(self, path):
 		it = self.store.get_iter(path)
