@@ -183,7 +183,7 @@ class UserNamePassword (settings.ExtendedSetting):
 	def save(self, plugin_id, key):
 		''' save @user_password - store password in keyring and return username
 		to save in standard configuration file '''
-		keyring.set_password(plugin_id, self.username, self.password)
+		keyring.set_password(plugin_id, str(self.username), self.password)
 		return self.username
 
 def check_keyring_support():
