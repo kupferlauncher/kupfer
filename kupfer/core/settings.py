@@ -393,6 +393,8 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""
 		Get a list of (id_, name) tuples for the given @category_key
 		"""
+		if not category_key in self._alternative_validators:
+			return
 		validator = self._alternative_validators[category_key]
 		for (id_, alternative) in self._alternatives[category_key].iteritems():
 			name = alternative["name"]
