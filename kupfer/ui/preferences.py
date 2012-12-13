@@ -7,6 +7,7 @@ import gobject
 import pango
 from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
+from xdg import Exceptions as xdg_e
 
 
 from kupfer import config, pretty, utils, icons, version
@@ -270,7 +271,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
 		if not os.path.exists(autostart_file):
 			return False
-		dfile = desktop.DesktopEntry(autostart_file)
+		try:
+			dfile = desktop.DesktopEntry(autostart_file)
+		except xdg_e.ParsingError, exception:
+			pretty.print_error(__name__, exception)
+			return False
 		return (dfile.hasKey(AUTOSTART_KEY) and
 				dfile.get(AUTOSTART_KEY, type="boolean"))
 
