@@ -292,14 +292,22 @@ class PreferencesWindowController (pretty.OutputMixin):
 				return
 			desktop_file_path = desktop_files[0]
 			# Read installed file and modify it
-			dfile = desktop.DesktopEntry(desktop_file_path)
+			try:
+				dfile = desktop.DesktopEntry(desktop_file_path)
+			except xdg_e.ParsingError, exception:
+				pretty.print_error(__name__, exception)
+				return
 			executable = dfile.getExec()
 			## append no-splash
 			if "--no-splash" not in executable:
 				executable += " --no-splash"
 			dfile.set("Exec", executable)
 		else:
-			dfile = desktop.DesktopEntry(autostart_file)
+			try:
+				dfile = desktop.DesktopEntry(autostart_file)
+			except xdg_e.ParsingError, exception:
+				pretty.print_error(__name__, exception)
+				return
 		activestr = str(bool(widget.get_active())).lower()
 		self.output_debug("Setting autostart to", activestr)
 		dfile.set(AUTOSTART_KEY, activestr)
