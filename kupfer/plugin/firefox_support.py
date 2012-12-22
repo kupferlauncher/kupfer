@@ -152,6 +152,8 @@ def get_bookmarks(bookmarks_file):
 	# construct and configure the parser
 	if not bookmarks_file:
 		return []
+	if not os.path.isfile(bookmarks_file):
+		return []
 	parser = BookmarksParser()
 
 	# initiate the parse; this will submit requests to delicious
