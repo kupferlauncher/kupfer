@@ -10,15 +10,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.master\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2012-07-05 12:49+0000\n"
-"PO-Revision-Date: 2012-07-06 12:15+0200\n"
+"POT-Creation-Date: 2012-07-06 10:25+0000\n"
+"PO-Revision-Date: 2012-12-31 11:35+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:91
@@ -388,7 +389,7 @@ msgstr "Establecer el nombre de usuario y la contraseña"
 #. TRANS: File Chooser Title
 #: ../kupfer/ui/preferences.py:668
 msgid "Choose a Directory"
-msgstr "Elegir un directorio"
+msgstr "Elegir una carpeta"
 
 #: ../kupfer/ui/preferences.py:847
 msgid "Reset all shortcuts to default values?"
@@ -659,7 +660,7 @@ msgstr "Fuente recursiva de %(dir)s, (%(levels)d niveles)"
 #: ../kupfer/obj/sources.py:108
 #, python-format
 msgid "Directory source %s"
-msgstr "Directorio inicial %s"
+msgstr "Carpeta inicial %s"
 
 #: ../kupfer/obj/sources.py:119
 msgid "Home Folder"
@@ -1098,7 +1099,6 @@ msgid "Include visited sites"
 msgstr "Incluir sitios visitados"
 
 #: ../kupfer/plugin/firefox.py:44
-#| msgid "Firefox Bookmarks"
 msgid "Firefox tag"
 msgstr "Etiqueta de Firefox"
 
