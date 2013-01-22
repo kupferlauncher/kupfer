@@ -7,6 +7,7 @@ import gobject
 import pango
 from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
+from xdg import Exceptions as xdg_e
 
 
 from kupfer import config, pretty, utils, icons, version
@@ -270,7 +271,11 @@ class PreferencesWindowController (pretty.OutputMixin):
 		autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
 		if not os.path.exists(autostart_file):
 			return False
-		dfile = desktop.DesktopEntry(autostart_file)
+		try:
+			dfile = desktop.DesktopEntry(autostart_file)
+		except xdg_e.ParsingError, exception:
+			pretty.print_error(__name__, exception)
+			return False
 		return (dfile.hasKey(AUTOSTART_KEY) and
 				dfile.get(AUTOSTART_KEY, type="boolean"))
 
@@ -287,14 +292,22 @@ class PreferencesWindowController (pretty.OutputMixin):
 				return
 			desktop_file_path = desktop_files[0]
 			# Read installed file and modify it
-			dfile = desktop.DesktopEntry(desktop_file_path)
+			try:
+				dfile = desktop.DesktopEntry(desktop_file_path)
+			except xdg_e.ParsingError, exception:
+				pretty.print_error(__name__, exception)
+				return
 			executable = dfile.getExec()
 			## append no-splash
 			if "--no-splash" not in executable:
 				executable += " --no-splash"
 			dfile.set("Exec", executable)
 		else:
-			dfile = desktop.DesktopEntry(autostart_file)
+			try:
+				dfile = desktop.DesktopEntry(autostart_file)
+			except xdg_e.ParsingError, exception:
+				pretty.print_error(__name__, exception)
+				return
 		activestr = str(bool(widget.get_active())).lower()
 		self.output_debug("Setting autostart to", activestr)
 		dfile.set(AUTOSTART_KEY, activestr)
@@ -367,6 +380,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		self.store.set_value(it, checkcol, plugin_is_enabled)
 		setctl = settings.GetSettingsController()
 		setctl.set_plugin_enabled(plugin_id, plugin_is_enabled)
+		self.plugin_sidebar_update(plugin_id)
 
 	def _id_for_table_path(self, path):
 		it = self.store.get_iter(path)

@@ -1,8 +1,17 @@
+# -*- coding: UTF8 -*-
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue tracks and browse the music library")
-__version__ = ""
+__version__ = "2012-10-17"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
+'''
+Changes:
+	2012-10-17 Karol Będkowski:
+		+ control rhythmbox via dbus interface
+		+ load songs via dbus interface
+'''
+
 
 import itertools
 from hashlib import md5
@@ -10,11 +19,16 @@ from hashlib import md5
 import gio
 import os
 
+import dbus
+
+from kupfer import pretty
 from kupfer.objects import Leaf, Source, Action, RunnableLeaf, SourceLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import plugin_support
 from kupfer.plugin import rhythmbox_support
+
+plugin_support.check_dbus_connection()
 
 __kupfer_settings__ = plugin_support.PluginSettings(
 	{
@@ -37,12 +51,56 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 	},
 )
 
+_BUS_NAME = 'org.gnome.Rhythmbox3'
+_OBJ_PATH_MPRIS = '/org/mpris/MediaPlayer2'
+_OBJ_NAME_MPRIS_PLAYER = 'org.mpris.MediaPlayer2.Player'
+_OBJ_PATH_MEDIASERVC_ALL = '/org/gnome/UPnP/MediaServer2/Library/all'
+_OBJ_NAME_MEDIA_CONT = 'org.gnome.UPnP.MediaContainer2'
+
+
 def _tostr(ustr):
 	return ustr.encode("UTF-8")
 
+def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
+	''' Create dbus connection to Rhytmbox
+		@activate: if True, start program if not running
+	'''
+	interface = None
+	sbus = dbus.SessionBus()
+	try:
+		proxy_obj = sbus.get_object('org.freedesktop.DBus',
+				'/org/freedesktop/DBus')
+		dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
+		if activate or dbus_iface.NameHasOwner(_BUS_NAME):
+			obj = sbus.get_object(_BUS_NAME, obj_path)
+			if obj:
+				interface = dbus.Interface(obj, obj_name)
+	except dbus.exceptions.DBusException, err:
+		pretty.print_debug(err)
+	return interface
+
+
+def _get_all_songs_via_dbus():
+	iface = _create_dbus_connection_mpris(_OBJ_NAME_MEDIA_CONT,
+			_OBJ_PATH_MEDIASERVC_ALL)
+	if iface:
+		for item in iface.ListItems(0, 9999, ['*']):
+			yield {'album': unicode(item['Album']),
+					'artist': unicode(item['Artist']),
+					'title': unicode(item['DisplayName']),
+					'track-number': unicode(item['TrackNumber']),
+					'title': unicode(item['DisplayName']),
+					'location': unicode(item['URLs'][0])}
+
 def play_song(info):
 	uri = _tostr(info["location"])
-	utils.spawn_async(("rhythmbox-client", "--play-uri=%s" % uri))
+	iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
+				_OBJ_PATH_MPRIS, True)
+	if iface:
+		iface.OpenUri(uri)
+	else:
+		utils.spawn_async(("rhythmbox-client", "--play-uri=%s" % uri))
+
 def enqueue_songs(info, clear_queue=False):
 	songs = list(info)
 	if not songs:
@@ -62,7 +120,12 @@ class Play (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Play"))
 	def run(self):
-		utils.spawn_async(("rhythmbox-client", "--play"))
+		iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
+				_OBJ_PATH_MPRIS, True)
+		if iface:
+			iface.Play()
+		else:
+			utils.spawn_async(("rhythmbox-client", "--play"))
 	def get_description(self):
 		return _("Resume playback in Rhythmbox")
 	def get_icon_name(self):
@@ -72,7 +135,12 @@ class Pause (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Pause"))
 	def run(self):
-		utils.spawn_async(("rhythmbox-client", "--no-start", "--pause"))
+		iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
+				_OBJ_PATH_MPRIS, True)
+		if iface:
+			iface.Pause()
+		else:
+			utils.spawn_async(("rhythmbox-client", "--no-start", "--pause"))
 	def get_description(self):
 		return _("Pause playback in Rhythmbox")
 	def get_icon_name(self):
@@ -82,7 +150,12 @@ class Next (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Next"))
 	def run(self):
-		utils.spawn_async(("rhythmbox-client", "--no-start", "--next"))
+		iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
+				_OBJ_PATH_MPRIS, True)
+		if iface:
+			iface.Next()
+		else:
+			utils.spawn_async(("rhythmbox-client", "--no-start", "--next"))
 	def get_description(self):
 		return _("Jump to next track in Rhythmbox")
 	def get_icon_name(self):
@@ -92,7 +165,12 @@ class Previous (RunnableLeaf):
 	def __init__(self):
 		RunnableLeaf.__init__(self, name=_("Previous"))
 	def run(self):
-		utils.spawn_async(("rhythmbox-client", "--no-start", "--previous"))
+		iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
+				_OBJ_PATH_MPRIS, True)
+		if iface:
+			iface.Previous()
+		else:
+			utils.spawn_async(("rhythmbox-client", "--no-start", "--previous"))
 	def get_description(self):
 		return _("Jump to previous track in Rhythmbox")
 	def get_icon_name(self):
@@ -320,7 +398,7 @@ class RhythmboxAlbumsSource (Source):
 	def __init__(self, library):
 		Source.__init__(self, _("Albums"))
 		self.library = library
-	
+
 	def get_items(self):
 		for album in self.library:
 			yield AlbumLeaf(self.library[album], album)
@@ -398,12 +476,15 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 	def __init__(self):
 		Source.__init__(self, _("Rhythmbox"))
 	def get_items(self):
-		try:
-			dbfile = config.get_data_file("rhythmdb.xml", "rhythmbox")
-			songs = rhythmbox_support.get_rhythmbox_songs(dbfile=dbfile)
-		except StandardError, e:
-			self.output_error(e)
-			songs = []
+		# first try to load songs via dbus
+		songs = list(_get_all_songs_via_dbus())
+		if not songs:
+			try:
+				dbfile = config.get_data_file("rhythmdb.xml", "rhythmbox")
+				songs = rhythmbox_support.get_rhythmbox_songs(dbfile=dbfile)
+			except StandardError, e:
+				self.output_error(e)
+				songs = []
 		albums = rhythmbox_support.parse_rhythmbox_albums(songs)
 		artists = rhythmbox_support.parse_rhythmbox_artists(songs)
 		yield Play()

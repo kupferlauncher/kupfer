@@ -1,5 +1,5 @@
 __kupfer_name__ = _("Trash")
-__kupfer_actions__ = ("MoveToTrash", )
+__kupfer_actions__ = ("MoveToTrash", "EmptyTrash")
 __kupfer_sources__ = ("TrashSource", )
 __description__ = _("Access trash contents")
 __version__ = "2009-12-06"
@@ -10,6 +10,7 @@ import gio
 from kupfer.objects import Leaf, Action, Source, SourceLeaf, FileLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.fileactions import Open
+from kupfer.obj.base import OperationError
 from kupfer import utils, icons, pretty
 
 
@@ -67,6 +68,23 @@ class RestoreTrashedFile (Action):
 		return _("Move file back to original location")
 	def get_icon_name(self):
 		return "edit-undo"
+
+class EmptyTrash (Action):
+	rank_adjust = -1
+	def __init__(self):
+		Action.__init__(self, _("Empty Trash"))
+	def activate(self, trash):
+		gfile = gio.File(TRASH_URI)
+		failed = []
+		for info in gfile.enumerate_children("standard::*,trash::*"):
+			name = info.get_name()
+			if not gfile.get_child(name).delete():
+				failed.append(name)
+		if failed:
+			err = _("Could not delete files:\n    ")
+			raise OperationError(err + '\n    '.join(failed))
+	def get_icon_name(self):
+		return "user-trash-full"
 
 class TrashFile (Leaf):
 	"""A file in the trash. Represented object is a file info object"""
@@ -149,6 +167,12 @@ class Trash (SpecialLocation):
 		return self.get_item_count()
 	def content_source(self, alternate=False):
 		return TrashContentSource(self.object, name=unicode(self))
+
+	def get_actions(self):
+		for action in SpecialLocation.get_actions(self):
+			yield action
+		if self.get_item_count():
+			yield EmptyTrash()
 
 	def get_item_count(self):
 		gfile = gio.File(self.object)

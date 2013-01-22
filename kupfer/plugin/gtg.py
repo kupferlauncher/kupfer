@@ -78,6 +78,8 @@ def _load_tasks(interface, apiver):
 		tasks = interface.get_tasks()
 	else:
 		tasks = interface.GetTasks()
+		if not tasks:
+			tasks = interface.GetTasksFiltered("")
 	for task in tasks:
 		title = task['title'].strip()
 		if not title:

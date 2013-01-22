@@ -96,6 +96,8 @@ class AsyncCommand (object):
 
 	If stdin is a byte string, it is supplied on the command's stdin.
 
+	If env is None, command will inherit the parent's environment.
+
 	finish_callback -> (AsyncCommand, stdout_output, stderr_output)
 
 	Attributes:
@@ -106,7 +108,7 @@ class AsyncCommand (object):
 	# the maximum input (bytes) we'll read in one shot (one io_callback)
 	max_input_buf = 512 * 1024
 
-	def __init__(self, argv, finish_callback, timeout_s, stdin=None):
+	def __init__(self, argv, finish_callback, timeout_s, stdin=None, env=None):
 		self.stdout = []
 		self.stderr = []
 		self.stdin = []
@@ -121,7 +123,7 @@ class AsyncCommand (object):
 		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
 		pid, stdin_fd, stdout_fd, stderr_fd = \
 		     glib.spawn_async(argv, standard_output=True, standard_input=True,
-		                      standard_error=True, flags=flags)
+		                      standard_error=True, flags=flags, envp=env)
 
 		if stdin:
 			self.stdin[:] = self._split_string(stdin, self.max_input_buf)

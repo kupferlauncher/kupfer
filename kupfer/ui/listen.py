@@ -11,6 +11,8 @@ try:
 	import dbus.service
 	from kupfer.dbuscompat import ExportedGObject
 
+	dbus.glib.threads_init()
+
 # if dbus unavailable print the exception here
 # but further actions (register) will fail without warning
 	session_bus = dbus.Bus()

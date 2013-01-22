@@ -126,7 +126,7 @@ class TaskSource(Source, PicklingHelperMixin):
 	def _async_top_start(self):
 		uid = os.getuid()
 		utils.AsyncCommand(["top", "-b", "-n", "1", "-u", "%d" % uid],
-		                   self._async_top_finished, 60)
+		                   self._async_top_finished, 60, env=["LC_NUMERIC=C"])
 
 	def get_items(self):
 		for task in self._cache:

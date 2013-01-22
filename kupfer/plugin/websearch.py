@@ -167,7 +167,7 @@ class OpenSearchSource (Source):
 
 		# firefox in home directory
 		ffx_home = firefox_support.get_firefox_home_file("searchplugins")
-		if ffx_home:
+		if ffx_home and os.path.isdir(ffx_home):
 			plugin_dirs.append(ffx_home)
 
 		plugin_dirs.extend(config.get_data_dirs("searchplugins",
@@ -185,6 +185,22 @@ class OpenSearchSource (Source):
 			if os.path.exists(addon_lang_dir):
 				plugin_dirs.append(addon_lang_dir)
 				break
+
+		# debian iceweasel
+		if os.path.isdir("/etc/iceweasel/searchplugins/common"):
+			plugin_dirs.append("/etc/iceweasel/searchplugins/common")
+		for suffix in suffixes:
+			addon_dir = os.path.join("/etc/iceweasel/searchplugins/locale",
+					suffix)
+			if os.path.isdir(addon_dir):
+				plugin_dirs.append(addon_dir)
+
+		# try to find all versions of firefox
+		for dirname in os.listdir("/usr/lib/"):
+			if dirname.startswith("firefox") or dirname.startswith("iceweasel"):
+				addon_dir = os.path.join("/usr/lib", dirname, "searchplugins")
+				if os.path.isdir(addon_dir):
+					plugin_dirs.append(addon_dir)
 
 		self.output_debug("Found following searchplugins directories",
 				sep="\n", *plugin_dirs)

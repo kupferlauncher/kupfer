@@ -1,11 +1,20 @@
 from __future__ import division
 __kupfer_name__ = _("Calculator")
-__kupfer_actions__ = ("Calculate", )
-__description__ = _("Calculate expressions starting with '='")
-__version__ = ""
+__kupfer_actions__ = ("Calculate", "CalculateOtherExpressions")
+__description__ = _("Calculate mathematical expressions")
+__version__ = "2012-06-10"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+"""
+Changes:
+	2012-06-09:
+		+ calculate action for expression w/o =
+	2012-06-10:
+		+ separate Calculate action
+		+ change localized decimal point symbol to .
+"""
 
+import locale
 import cmath
 import math
 
@@ -15,6 +24,7 @@ from kupfer import pretty
 
 class IgnoreResultException (Exception):
 	pass
+
 
 class KupferSurprise (float):
 	"""kupfer
@@ -26,9 +36,11 @@ class KupferSurprise (float):
 		utils.show_url(version.WEBSITE)
 		raise IgnoreResultException
 
+
 class DummyResult (object):
 	def __unicode__(self):
 		return u"<Result of last expression>"
+
 
 class Help (object):
 	"""help()
@@ -64,13 +76,14 @@ class Help (object):
 				continue
 			wrapped_lines = textwrap.wrap(docsplit[1].strip(),
 					maxlen - left_margin)
-			wrapped = (u"\n" + u" "*left_margin).join(wrapped_lines)
+			wrapped = (u"\n" + u" " * left_margin).join(wrapped_lines)
 			formatted.append("%s\n    %s" % (docsplit[0], wrapped))
 		uiutils.show_text_result("\n\n".join(formatted), _("Calculator"))
 		raise IgnoreResultException
 
 	def __complex__(self):
 		return self()
+
 
 def make_environment(last_result=None):
 	"Return a namespace for the calculator's expressions to be executed in."
@@ -85,6 +98,7 @@ def make_environment(last_result=None):
 	environment["__builtins__"] = {}
 	return environment
 
+
 def format_result(res):
 	cres = complex(res)
 	parts = []
@@ -94,29 +108,34 @@ def format_result(res):
 		parts.append(u"%s" % complex(0, cres.imag))
 	return u"+".join(parts) or u"%s" % res
 
+
 class Calculate (Action):
 	# since it applies only to special queries, we can up the rank
 	rank_adjust = 10
+	# global last_result
+	last_result = {'last': None}
+
 	def __init__(self):
 		Action.__init__(self, _("Calculate"))
-		self.last_result = None
 
 	def has_result(self):
 		return True
+
 	def activate(self, leaf):
 		expr = leaf.object.lstrip("= ")
 
 		# try to add missing parantheses
 		brackets_missing = expr.count("(") - expr.count(")")
 		if brackets_missing > 0:
-			expr += ")"*brackets_missing
-		environment = make_environment(self.last_result)
-
+			expr += ")" * brackets_missing
+		# hack: change all decimal points (according to current locale) to '.'
+		expr = expr.replace(locale.localeconv()['decimal_point'], '.')
+		environment = make_environment(self.last_result['last'])
 		pretty.print_debug(__name__, "Evaluating", repr(expr))
 		try:
 			result = eval(expr, environment)
 			resultstr = format_result(result)
-			self.last_result = result
+			self.last_result['last'] = result
 		except IgnoreResultException:
 			return
 		except Exception, exc:
@@ -126,9 +145,27 @@ class Calculate (Action):
 
 	def item_types(self):
 		yield TextLeaf
+
 	def valid_for_item(self, leaf):
 		text = leaf.object
 		return text and text.startswith("=")
 
 	def get_description(self):
 		return None
+
+
+class CalculateOtherExpressions(Calculate):
+	""" Calcualte expressions that not starts with "=" """
+	rank_adjust = 0
+
+	def valid_for_item(self, leaf):
+		text = leaf.object
+		return text and not text.startswith("=") and (
+				"+" in text or
+				"-" in text or
+				"*" in text or
+				"/" in text or
+				"^" in text or
+				"&" in text or
+				"|" in text or
+				"~" in text)
