@@ -2,27 +2,27 @@
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer help.
 #
-# Marek Černocký <marek@manet.cz>, 2010, 2011.
+# Marek Černocký <marek@manet.cz>, 2010, 2011, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
-"POT-Creation-Date: 2011-03-29 19:29+0000\n"
-"PO-Revision-Date: 2011-04-24 10:58+0200\n"
+"POT-Creation-Date: 2013-01-22 20:43+0000\n"
+"PO-Revision-Date: 2013-02-14 18:55+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: C/plugin-websearch.page:7(desc)
 msgid "Using the search the web plugin."
 msgstr "Používání zásuvného modulu Prohledat web."
 
 #: C/plugin-websearch.page:10(app)
-#| msgid "Search the Web Search Engines"
 msgid "Search the Web"
 msgstr "Prohledat web"
 
@@ -64,7 +64,6 @@ msgstr ""
 "hledání ve webovém prohlížeči."
 
 #: C/plugin-websearch.page:29(title)
-#| msgid "Search the Web Search Engines"
 msgid "Search Engines"
 msgstr "Vyhledávací stroje"
 
@@ -266,7 +265,6 @@ msgid "Notes"
 msgstr "Poznámky"
 
 #: C/plugin-notes.page:13(title)
-#| msgid "Plugins"
 msgid "Notes Plugin"
 msgstr "Zásuvný modul Poznámky"
 
@@ -311,7 +309,6 @@ msgid "Simply search for the note title in <app>Kupfer</app>"
 msgstr "Prostě nadpis poznámky v aplikaci <app>Kupfer</app> hledejte"
 
 #: C/plugin-notes.page:45(title)
-#| msgid "Descend into an object with content"
 msgid "Finding a note by content"
 msgstr "Hledání poznámky podle obsahu"
 
@@ -485,7 +482,6 @@ msgid "Favorites"
 msgstr "Oblíbené"
 
 #: C/plugin-favorites.page:13(title)
-#| msgid "Calculator Plugin"
 msgid "Favorites Plugin"
 msgstr "Zásuvný modul Oblíbené"
 
@@ -502,7 +498,6 @@ msgstr ""
 "ozdobeny symbolem hvězdičky."
 
 #: C/plugin-favorites.page:25(p)
-#| msgid "Introduction to <app>Kupfer</app>."
 msgid "Find an object in <app>Kupfer</app>"
 msgstr "Najděte v aplikaci <app>Kupfer</app> nějaký objekt"
 
@@ -551,12 +546,10 @@ msgstr ""
 "získají e-mailové adresy z oblíbených."
 
 #: C/plugin-calculator.page:7(desc)
-#| msgid "Calculator Plugin"
 msgid "Using the calculator plugin."
 msgstr "Používání zásuvného modulu Kalkulačka."
 
 #: C/plugin-calculator.page:10(app)
-#| msgid "Calculator Plugin"
 msgid "Calculator"
 msgstr "Kalkulačka"
 
@@ -591,11 +584,6 @@ msgid "Press <key>Return</key> to get the result."
 msgstr "Zmáčkněte <key>Enter</key> a obdržíte výsledek"
 
 #: C/plugin-calculator.page:38(p)
-#| msgid ""
-#| "The Calculator uses python's math and complex math modules, and parses "
-#| "expressions as Python expressions. You may use common mathematical "
-#| "functions, such as sqrt, sin, exp and log; the command <cmd>=help</cmd> "
-#| "will show a list of all defined functions and constants."
 msgid ""
 "The Calculator uses python's math and complex math modules, and parses "
 "expressions as Python expressions. You may use common mathematical "
@@ -610,9 +598,6 @@ msgstr ""
 "funkcí a konstant."
 
 #: C/plugin-calculator.page:47(p)
-#| msgid ""
-#| "Notice that the power operator in Python is double stars, for example "
-#| "=3**3 will evaluate to 27."
 msgid ""
 "Notice that the power operator in Python is double stars, for example "
 "<code>=3**3</code> will evaluate to 27."
@@ -639,6 +624,14 @@ msgstr ""
 "Poslední výsledek je uchován pod názvem _ (podtržítko, stejně jako v konzole "
 "Python)."
 
+#: C/plugin-calculator.page:65(p)
+msgid ""
+"The Calculator lets you also calculate expression without \"=\" on the "
+"beginning as long it have inside one of operators: +, -, *, /, ^, |, , ~."
+msgstr ""
+"Kalkulačka umožňuje vypočítat výraz i bez znaku „=“ na začátku, stačí když "
+"obsahuje jeden z operátorů: +, -, *, /, ^, |, , ~."
+
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
 msgstr "Používání zásuvného modulu Aplikace."
@@ -648,7 +641,6 @@ msgid "Applications"
 msgstr "Aplikace"
 
 #: C/plugin-applications.page:13(title)
-#| msgid "Calculator Plugin"
 msgid "Applications Plugin"
 msgstr "Zásuvný modul Aplikace"
 
@@ -674,7 +666,6 @@ msgid "Opening a file with a specific application"
 msgstr "Otevření souboru pomocí zadané aplikace"
 
 #: C/plugin-applications.page:36(p)
-#| msgid "Introduction to <app>Kupfer</app>."
 msgid "Select a file in <app>Kupfer</app>"
 msgstr "V aplikaci <app>Kupfer</app> vyberte soubor"
 
@@ -715,7 +706,6 @@ msgid "Selecting default application for a file type or folders"
 msgstr "Výběr výchozí aplikace pro typ souboru a složky"
 
 #: C/plugin-applications.page:66(p)
-#| msgid "Introduction to <app>Kupfer</app>."
 msgid "Select a file or folder in <app>Kupfer</app>"
 msgstr "V aplikaci <app>Kupfer</app> vyberte soubor nebo složku"
 
@@ -734,7 +724,6 @@ msgstr ""
 "něm vyberte aplikaci, pomocí níž se má soubor vždy otevírat."
 
 #: C/plugin-applications.page:85(title)
-#| msgid "Configuration files and paths"
 msgid "Configuration"
 msgstr "Nastavení"
 
@@ -757,12 +746,10 @@ msgid "More advanced usage information."
 msgstr "Další pokročilé informace o používání."
 
 #: C/moreusage.page:10(title)
-#| msgid "Using <app>Kupfer</app> plugins."
 msgid "Using <app>Kupfer</app> in Depth"
 msgstr "Použití aplikace <app>Kupfer</app> do hloubky"
 
 #: C/moreusage.page:13(title)
-#| msgid "Adding your actions and scripts"
 msgid "Adding Applications and Scripts"
 msgstr "Přidávání aplikací a skriptů"
 
@@ -775,11 +762,6 @@ msgstr ""
 "nastavené jako viditelné ve vašem editoru nabídky."
 
 #: C/moreusage.page:18(p)
-#| msgid ""
-#| "If you want to add a custom application, or an application called with "
-#| "special options, you can create a new launcher for it and place it in one "
-#| "of the standard places for applications, for example <file>~/.local/share/"
-#| "applications</file>, where <app>Kupfer</app> will find it."
 msgid ""
 "If you want to add an application manually, you can create a new <code>."
 "desktop</code> file and place it in one of the standard directories for "
@@ -897,7 +879,6 @@ msgstr ""
 "aplikaci Kupfer; článek je v angličtině)."
 
 #: C/moreusage.page:80(title)
-#| msgid "Grab current selection"
 msgid "Grab Current Selection"
 msgstr "Zachytávání aktuálního výběru"
 
@@ -924,7 +905,6 @@ msgid "See <link xref=\"keyboard\"/>"
 msgstr "Viz <link xref=\"keyboard\"/>"
 
 #: C/moreusage.page:94(title)
-#| msgid "Command line connection"
 msgid "Command-line Connection"
 msgstr "Napojení na příkazový řádek"
 
@@ -937,10 +917,6 @@ msgstr ""
 "app>, pokud již běží, pokud neběží, tak ji spustí."
 
 #: C/moreusage.page:99(p)
-#| msgid ""
-#| "For example, if you are using the shell in a directory where you have a "
-#| "file called \"report.pdf\", you can focus this file in <app>Kupfer</app> "
-#| "by running <cmd>kupfer report.pdf</cmd>."
 msgid ""
 "The command <cmd>kupfer</cmd> can be used to send files or text from the "
 "command-line to <app>Kupfer</app>. For example, if you are using the shell "
@@ -1045,7 +1021,6 @@ msgstr ""
 "již běžela aplikace Kupfer)."
 
 #: C/managing-plugins.page:7(desc)
-#| msgid "Introduction to <app>Kupfer</app>."
 msgid "Using plugins with <app>Kupfer</app>."
 msgstr "Používání zásuvných modulů v aplikaci <app>Kupfer</app>."
 
@@ -1068,7 +1043,6 @@ msgid "Configuring Plugins"
 msgstr "Nastavování zásuvných modulů"
 
 #: C/managing-plugins.page:21(title)
-#| msgid "Using <app>Kupfer</app> plugins."
 msgid "Open <app>Kupfer Preferences</app> to the Plugins tab"
 msgstr "Otevřete <app>Předvolby Kupfer</app> na kartě Zásuvné moduly"
 
@@ -1097,7 +1071,6 @@ msgstr ""
 "Zmáčknutím <key>Enter</key> jej pak otevřete."
 
 #: C/managing-plugins.page:33(p)
-#| msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
 msgid "Use the keyboard shortcut <keyseq><key>Ctrl</key><key>;</key></keyseq>"
 msgstr ""
 "Použijte klávesovou zkratku <keyseq><key>Ctrl</key><key>;</key></keyseq>"
@@ -1172,7 +1145,6 @@ msgstr ""
 "nebo aplikaci <app>Kupfer</app>."
 
 #: C/managing-plugins.page:79(title)
-#| msgid "Calculator Plugin"
 msgid "Installing more Plugins"
 msgstr "Instalace dalších zásuvných modulů"
 
@@ -1200,7 +1172,6 @@ msgstr ""
 "programům. Neinstalujte neověřené zásuvné moduly."
 
 #: C/managing-plugins.page:95(title)
-#| msgid "Plugins"
 msgid "Creating Plugins"
 msgstr "Vytváření zásuvných modulů"
 
@@ -1320,7 +1291,6 @@ msgstr ""
 "podmínek, které si zvolíte, bez dalších omezení."
 
 #: C/keyboard.page:7(desc)
-#| msgid "Global Keyboard Shortcuts"
 msgid "Complete keyboard shortcuts reference."
 msgstr "Úplný přehled klávesových zkratek."
 
@@ -1333,7 +1303,6 @@ msgid "Keyboard Interface"
 msgstr "Obsluha z klávesnice"
 
 #: C/keyboard.page:14(p)
-#| msgid "In command mode, some keystrokes have special meanings:"
 msgid "In command mode, the following keystrokes have special meanings:"
 msgstr "V příkazovém režimu mají následující klávesy speciální význam:"
 
@@ -1419,9 +1388,6 @@ msgid "Additionally:"
 msgstr "Navíc:"
 
 #: C/keyboard.page:72(p) C/generalusage.page:66(p)
-#| msgid ""
-#| "Additionally, the key <key>Return</key> activates the current selection: "
-#| "the command is executed. <key>Escape</key> clears the current selection."
 msgid ""
 "<key>Return</key> activates the current selection: the command is executed."
 msgstr "<key>Enter</key> aktivuje aktuální výběr: příkaz je proveden."
@@ -1447,7 +1413,6 @@ msgstr ""
 "<app>Předvolbách Kupfer</app>."
 
 #: C/keyboard.page:86(title)
-#| msgid "Global Keyboard Shortcuts"
 msgid "Kupfer's Keyboard Shortcuts"
 msgstr "Klávesové zkratky aplikace Kupfer"
 
@@ -1551,7 +1516,6 @@ msgid "Show Help"
 msgstr "Zobrazit nápovědu"
 
 #: C/keyboard.page:139(title)
-#| msgid "Additional Keyboard Shortcuts"
 msgid "How to configure a keyboard shortcut"
 msgstr "Jak nastavit klávesové zkratky"
 
@@ -1600,7 +1564,6 @@ msgid "Space"
 msgstr "Mezerník"
 
 #: C/keyboard.page:175(p)
-#| msgid "Introduction to <app>Kupfer</app>."
 msgid "Show/hide <app>Kupfer</app>"
 msgstr "Zobrazit/skrýt aplikaci <app>Kupfer</app>"
 
@@ -1613,7 +1576,6 @@ msgid "Show <app>Kupfer</app> with 'Selection' object focused"
 msgstr "Zobrazit aplikaci <app>Kupfer</app> se zaměřeným objektem „Výběr“"
 
 #: C/keyboard.page:183(title)
-#| msgid "Global Keyboard Shortcuts"
 msgid "How to configure a global keyboard shortcut"
 msgstr "Jak nastavit globální klávesové zkratky"
 
@@ -1669,9 +1631,6 @@ msgid "Introduction"
 msgstr "Úvod"
 
 #: C/introduction.page:12(p)
-#| msgid ""
-#| "<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
-#| "applications and documents."
 msgid ""
 "<app>Kupfer</app> is an interface for quick and convenient access to "
 "applications and their documents."
@@ -1700,9 +1659,6 @@ msgstr ""
 "<em>jako při zábavě</em> a zároveň <em>odlišně</em>."
 
 #: C/introduction.page:26(p)
-#| msgid ""
-#| "For more information about <app>Kupfer</app>, visit its <link href="
-#| "\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
 msgid ""
 "For up-to-date information about <app>Kupfer</app>, visit its <link href="
 "\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
@@ -1731,7 +1687,6 @@ msgid "Creative Commons Share Alike 3.0"
 msgstr "Creative Commons Share Alike 3.0"
 
 #: C/index.page:21(title)
-#| msgid "Kupfer manual"
 msgid "Kupfer Manual"
 msgstr "Příručka aplikace Kupfer"
 
@@ -1744,7 +1699,6 @@ msgid "About Specific Plugins"
 msgstr "O konkrétních zásuvných modulech"
 
 #: C/generalusage.page:7(desc)
-#| msgid "Introduction to <app>Kupfer</app>."
 msgid "How to start using <app>Kupfer</app>."
 msgstr "Jak začít používat aplikaci <app>Kupfer</app>."
 
@@ -1778,7 +1732,6 @@ msgid "In command mode, some keystrokes have special meanings:"
 msgstr "V příkazovém režimu mají některé klávesy speciální význam:"
 
 #: C/generalusage.page:71(p)
-#| msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
 msgid ""
 "By default you show <app>Kupfer</app> using the global keyboard shortcut "
 "<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
@@ -1821,13 +1774,6 @@ msgstr ""
 "Jedná se například o dokumenty nebo programy."
 
 #: C/generalusage.page:96(p)
-#| msgid ""
-#| "Objects in the catalog that have content, like folders, are marked with "
-#| "an arrow. Pressing <key>right-arrow</key> will enter these objects. Much "
-#| "of the catalog is composed of subcatalogs; plugin subcatalogs do in "
-#| "general list objects that are also available directly from the top level. "
-#| "Subcatalogs can be used for a narrower view or search scope, when using "
-#| "Kupfer."
 msgid ""
 "Objects in the catalog that have content, like folders, are marked with an "
 "arrow. Pressing <key>→</key> will enter these objects. Much of the catalog "
@@ -1843,9 +1789,6 @@ msgstr ""
 "rozsahu v aplikaci Kupfer."
 
 #: C/generalusage.page:105(p)
-#| msgid ""
-#| "Most subcatalogs update their content automatically. For example, the "
-#| "Desktop folder catalog is always uptodate."
 msgid ""
 "Most subcatalogs update their content automatically. For example, the "
 "Desktop folder source is always up-to-date."
@@ -1857,210 +1800,3 @@ msgstr ""
 #: C/index.page:0(None)
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
-
-#~ msgid "Using <app>Kupfer</app> more conveniently."
-#~ msgstr "Jak používat aplikaci <app>Kupfer</app> pohodlněji."
-
-#~ msgid ""
-#~ "Kupfer listens to global shortcuts, even if Kupfer is not currently in "
-#~ "the foreground. The most important global shortcut is the shortcut to "
-#~ "show and hide Kupfer's command window which by default is "
-#~ "<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
-#~ msgstr ""
-#~ "Aplikace Kupfer naslouchá globálním klávesovým zkratkám, i když není "
-#~ "zrovna v popředí. Nejdůležitější globální klávesová zkratka je ta, která "
-#~ "zobrazuje a skrývá příkazové okno aplikace kupfer a ve výchozím nastavení "
-#~ "je to <keyseq><key>Ctrl</key><key>Mezerník</key></keyseq>."
-
-#~ msgid "Global Keyboard Shortcuts are configured in Kupfer's preferences."
-#~ msgstr ""
-#~ "Globální klávesové zkratky se nastavují v předvolbách aplikace Kupfer."
-
-#~ msgid ""
-#~ "The Triggers plugin allows to configure actions to be activated by global "
-#~ "shortcuts, but triggers can only be configured in that plugin."
-#~ msgstr ""
-#~ "Zásuvný modul Spouštěče umožňuje nastavit akce, které se mají aktivovat "
-#~ "globálními klávesovými zkratkami, ale spouštěče lze v tomto zásuvném "
-#~ "modulu pouze nastavovat."
-
-#~ msgid ""
-#~ "Additional keyboard shortcuts that work with Kupfer when it is in the "
-#~ "foreground can be configured in Kupfer's preferences."
-#~ msgstr ""
-#~ "Doplňující klávesové zkratky, které fungují v aplikaci Kupfer, pokud je "
-#~ "na popředí, je možné nastavit v předvolbách aplikace Kupfer."
-
-#~ msgid ""
-#~ "Install custom plugins in the folder <file>~/.local/share/kupfer/plugins/"
-#~ "</file>"
-#~ msgstr ""
-#~ "Vlastní zásuvné moduly instalujte do <file>~/.local/share/kupfer/plugins/"
-#~ "</file>"
-
-#~ msgid ""
-#~ "Kupfer cache, config and data are located in the directories <file>~/."
-#~ "cache/kupfer</file>, <file>~/.config/kupfer</file> and <file>~/.local/"
-#~ "share/kupfer</file>."
-#~ msgstr ""
-#~ "Mezipaměť, nastavení a data aplikace Kupfer jsou uložené v <file>~/.cache/"
-#~ "kupfer</file>, <file>~/.config/kupfer</file> a <file>~/.local/share/"
-#~ "kupfer</file>."
-
-#~ msgid ""
-#~ "You can install custom plugins into ~/.local/share/kupfer/plugins; adding "
-#~ "to <app>Kupfer</app>'s object knowledge can be surprisingly easy, just "
-#~ "look at the default plugins if you want to create new."
-#~ msgstr ""
-#~ "Vlastní zásuvné moduly si můžete nainstalovat do ~/.local/share/kupfer/"
-#~ "plugins. Pokud chcete vytvořit nový zásuvný modul, stačí se podívat jak "
-#~ "vypadá výchozí a zjistíte, že postup přidávání do objektu aplikace "
-#~ "<app>Kupfer</app> je nečekaně jednoduchý."
-
-#~ msgid "Open Terminal Here"
-#~ msgstr "Otevřít terminál zde"
-
-#~ msgid ""
-#~ "Open terminal first calls <cmd>xdg-terminal</cmd>, then <cmd>gnome-"
-#~ "terminal</cmd>. xdg-terminal is a script to find the user's configured "
-#~ "terminal program for his/her Desktop Environment. Install <cmd>xdg-"
-#~ "terminal</cmd> if you need this (or install a symlink <em>called</em> xdg-"
-#~ "terminal)."
-#~ msgstr ""
-#~ "Otevře terminál nejdříve voláním <cmd>xdg-terminal</cmd> a potom "
-#~ "<cmd>gnome-terminal</cmd>. xdg-terminal je skript, který najde "
-#~ "uživatelovo nastavení programu terminálu pro jeho pracovní prostředí. "
-#~ "Pokud to tak potřebujete, nainstalujte <cmd>xdg-terminal</cmd> (nebo "
-#~ "vytvořte symbolický odkaz <em>nazvaný</em> xdg-terminal)."
-
-#~ msgid ""
-#~ "To use <app>Kupfer</app> like a pro, you can configure a \"Magic "
-#~ "Keybinding\" for <app>Kupfer</app>. GUI configuration is not yet "
-#~ "supported, but edit the configuration file <file>~/.config/kupfer/kupfer."
-#~ "cfg</file> to include the following:"
-#~ msgstr ""
-#~ "Abyste používali aplikaci <app>Kupfer</app> jako profesionál, můžete si "
-#~ "pro ni nastavit „magické klávesové zkratky“. Nastavení v grafickém "
-#~ "prostředí zatím není podporováno, ale můžete upravit soubor nastavení "
-#~ "<file>~/.config/kupfer/kupfer.cfg</file>, tak že do něj vložíte "
-#~ "následující:"
-
-#~ msgid ""
-#~ "\n"
-#~ "[Kupfer]\n"
-#~ "keybinding = &lt;Control&gt;space\n"
-#~ "magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
-#~ "  "
-#~ msgstr ""
-#~ "\n"
-#~ "[Kupfer]\n"
-#~ "keybinding = &lt;Control&gt;space\n"
-#~ "magickeybinding = &lt;Ctrl&gt;&lt;Alt&gt;space\n"
-#~ "  "
-
-#~ msgid ""
-#~ "Now, pressing <keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></"
-#~ "keyseq> will summon <app>Kupfer</app> with the current selection in "
-#~ "focus. Make sure you have installed <app>Kupfer</app>'s nautilus plugin, "
-#~ "then both the currently selected file in Nautilus, or the currently "
-#~ "selected text in the front application will be selected."
-#~ msgstr ""
-#~ "Nyní stisknutí <keyseq><key>Ctrl</key><key>Alt</key><key>Mezerník</key></"
-#~ "keyseq> bude aplikace <app>Kupfer</app> zavolána s aktuálním výběrem v "
-#~ "zaměření. Ujistěte se, že máte nainstalovaný zásuvný modul <app>Kupfer</"
-#~ "app> pro Nautilus, takže potom může být vybrán jak právě vybraný soubor "
-#~ "ve správci souborů Nautilus, tak právě vybraný text v aktivní aplikaci."
-
-#~ msgid ""
-#~ "Now you can select a word in, say, a web browser, use <keyseq><key>Ctrl</"
-#~ "key><key>Alt</key><key>Space</key></keyseq>, and select action <gui>Look "
-#~ "Up</gui> to look up the selected word. Or select an image file, use "
-#~ "<keyseq><key>Ctrl</key><key>Alt</key><key>Space</key></keyseq>, select "
-#~ "action <gui>Scale</gui> with object <gui>1000</gui> to scale the image to "
-#~ "1000 pixels wide!"
-#~ msgstr ""
-#~ "Nyní můžete vybrat nějaké slovo, řekněme ve webovém prohlížeči, použít "
-#~ "<keyseq><key>Ctrl</key><key>Alt</key><key>Mezerník</key></keyseq> a "
-#~ "vybrat akci <gui>Vyhledat</gui> k vyhledání vybraného slova. Nebo vybrat "
-#~ "nějaký soubor s obrázkem, použít <keyseq><key>Ctrl</key><key>Alt</"
-#~ "key><key>Mezerník</key></keyseq> a vybrat akci <gui>Změnit měřítko</gui> "
-#~ "s objektem <gui>1000</gui> ke změně velikosti obrázku na 1000 pixelů na "
-#~ "šířku."
-
-#~ msgid ""
-#~ "An example useful script is <link href=\"http://kaizer.se/wiki/code/"
-#~ "rhrating.py/\"> here</link> which changes the rating of <app>Rhythmbox</"
-#~ "app>'s currently playing song; I have added five scriptlets calling "
-#~ "<file>rhrating.py</file> with numbers from 0 to 5 to my catalog to "
-#~ "quickly rate tracks. (This is something that might be integrated into "
-#~ "<app>Kupfer</app> later)"
-#~ msgstr ""
-#~ "<link href=\"http://kaizer.se/wiki/code/rhrating.py/\">Zde</link> je "
-#~ "ukázkový příklad skriptu, který mění hodnocení skladby právě přehrávané v "
-#~ "aplikaci <app>Rhythmbox</app>. Když si přidáte pět skriptů nazvaných "
-#~ "<file>rhrating.py</file> s čísly od 0 do 5 do svého katalogu, můžete "
-#~ "rychle hodnotit skladby. (Jedná se o něco, co může být do aplikace "
-#~ "<app>Kupfer</app> později zaintegrováno.)"
-
-#~ msgid ""
-#~ "<app>Kupfer</app> is its own remote control. When <app>Kupfer</app> is "
-#~ "already running, <app>Kupfer</app> on the command-line will focus its "
-#~ "window, but there is more you can do: If you invoke <cmd><app>kupfer</"
-#~ "app><var>QUERY</var></cmd> where <var>QUERY</var> is a text string or a "
-#~ "filename, <app>Kupfer</app> will focus, and select this item. This way, "
-#~ "you can quickly invoke <app>Kupfer</app> actions even on objects from a "
-#~ "shell-based context."
-#~ msgstr ""
-#~ "Aplikace <app>Kupfer</app> dělá dálkové ovládání sama sobě. Když aplikace "
-#~ "<app>Kupfer</app> již běží, předá při spuštění programu <app>Kupfer</app> "
-#~ "na příkazovém řádku zaměření svému oknu, ale umí i další věci: Když "
-#~ "vyvoláte <cmd><app>kupfer</app> <var>DOTAZ</var></cmd>, kde <var>DOTAZ</"
-#~ "var> je textový řetězec nebo název souboru, aplikace <app>Kupfer</app> "
-#~ "získá zaměření a vybere tuto položku. Tímto způsobem můžete rychle "
-#~ "vyvolat akce aplikace <app>Kupfer</app> i pro objekty z kontextu "
-#~ "vycházejícího z shellu."
-
-#~ msgid ""
-#~ "You can also pipe the output of a command into <app>Kupfer</app> to send "
-#~ "text to the already running instance of <app>Kupfer</app>."
-#~ msgstr ""
-#~ "Můžete také použít na výstupu příkazu rouru napojenou na program "
-#~ "<app>Kupfer</app> a tak poslat text do již běžící instance aplikace "
-#~ "<app>Kupfer</app>."
-
-#~ msgid "Legal Information."
-#~ msgstr "právní informace"
-
-#~ msgid ""
-#~ "<app>Kupfer</app> is a program to change, speed up and make everything "
-#~ "about files and programs more fun on your computer. <app>Kupfer</app> is "
-#~ "a launcher; you typically use it to summon an application or a document "
-#~ "quickly by typing parts of its name. It can also do more than getting at "
-#~ "something quickly: there are different plugins for accessing more objects "
-#~ "and running custom commands."
-#~ msgstr ""
-#~ "<app>Kupfer</app> je program sloužící ke změnám, zrychlení práce a "
-#~ "provádění všeho možného se soubory a programy na vašem počítači a to vše "
-#~ "zábavnějším způsobem. <app>Kupfer</app> je spouštěč, který typicky "
-#~ "použijete k rychlému vyvolání aplikace nebo dokumentu tak, že začnete "
-#~ "psát jeho název. Umí toho ale víc, než jen rychlý přístup k souboru. Jsou "
-#~ "zde různé zásuvné moduly pro přístup k dalším objektům a spouštění "
-#~ "vlastních příkazů."
-
-#~ msgid ""
-#~ "<app>Kupfer</app> is written using Python and has a flexible "
-#~ "architecture; the implementation is simple and makes the easy things work "
-#~ "first. One goal is that new plugins can be written quickly without too "
-#~ "much programming."
-#~ msgstr ""
-#~ "Aplikace <app>Kupfer</app> je napsána v jazyce Python a má flexibilní "
-#~ "architekturu. Provedení je jednoduché a věci prostě pracují na poprvé. "
-#~ "Jedním z cílů je, aby šli rychle, bez zdlouhavého programování, psát nové "
-#~ "zásuvné moduly."
-
-#~ msgid ""
-#~ "The program is very inspired by <link href=\"http://www.blacktree.com/"
-#~ "\">Quicksilver</link>."
-#~ msgstr ""
-#~ "Program je silně inspirován aplikací <link href=\"http://www.blacktree."
-#~ "com/\">Quicksilver</link>."
