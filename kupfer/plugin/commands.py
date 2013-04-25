@@ -12,6 +12,9 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
+import shlex
+from pipes import quote
+from subprocess import check_output
 
 import gobject
 
@@ -21,6 +24,22 @@ from kupfer.obj.fileactions import Execute
 from kupfer import utils, icons
 from kupfer import kupferstring
 from kupfer import pretty
+from kupfer import plugin_support
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+	{
+		"key" : "aliases",
+		"label": _("Include Bash aliases"),
+		"type": bool,
+		"value": False
+	}, {
+		"key" : "functions",
+		"label": _("Include Bash functions"),
+		"type": bool,
+		"value": False
+	}
+)
+
 
 def finish_command(ctx, acommand, stdout, stderr, post_result=True):
 	"""Show async error if @acommand returns error output & error status.
@@ -181,10 +200,60 @@ class Command (TextLeaf):
 	def get_icon_name(self):
 		return "exec"
 
+class BashCommand (Command):
+	def __init__ (self, exepath, name):
+		TextLeaf.__init__(self, exepath, name)
+
+	def get_description (self):
+		return unicode(self)
+
+	def get_gicon (self):
+		# not a file, so move on to get_icon_name
+		pass
+
 class CommandTextSource (TextSource):
 	"""Yield path and command text items """
 	def __init__(self):
 		TextSource.__init__(self, name=_("Shell Commands"))
+
+		# get bash aliases and functions
+		bash_cmds = [u'shopt -s expand_aliases', u'source /etc/bash.bashrc']
+		bashrc_path = u'%s/.bashrc' % (format(os.path.expanduser(u'~')),)
+		bash_cmds.append(u' '.join((u'source', quote(bashrc_path))))
+		self._bash_cmds = bash_cmds = u';'.join(bash_cmds) + '\n'
+
+		# get alias names
+		try:
+			lines = check_output(('bash', '-c', bash_cmds + u'alias'))
+		except OSError:
+			# no bash
+			pass
+		else:
+			# split into words
+			self._aliases = aliases = []
+			for word in shlex.split(lines):
+				# ignore empty and 'alias'
+				word = word.strip()
+				if word and '=' in word:
+					# reduce to name
+					aliases.append(word[:word.find('=')])
+
+		# get function names
+		try:
+			lines = check_output(('bash', '-c', bash_cmds + u'declare -F'))
+		except OSError:
+			# no bash
+			pass
+		else:
+			self._fns = fns = []
+			for line in lines.splitlines():
+				words = shlex.split(line.strip())
+				if words:
+					# name is the last word in each line
+					fn = words[-1]
+					# probably don't want '_'-prefixed functions
+					if not fn.startswith('_'):
+						fns.append(fn)
 
 	def get_rank(self):
 		return 80
@@ -202,6 +271,12 @@ class CommandTextSource (TextSource):
 		## absolute paths come out here since
 		## os.path.join with two abspaths returns the latter
 		firstword = firstwords[0]
+		# bash aliases/functions: should supercede real commands (you might
+		# have, say, alias ls='ls --color=auto')
+		if (__kupfer_settings__["aliases"] and firstword in self._aliases) or \
+		   (__kupfer_settings__["functions"] and firstword in self._fns):
+			cmds = self._bash_cmds + u" ".join(firstwords)
+			yield BashCommand(u'bash -c %s' % quote(cmds), text)
 		# iterate over $PATH directories
 		PATH = os.environ.get("PATH", os.defpath)
 		for execdir in PATH.split(os.pathsep):
@@ -211,5 +286,6 @@ class CommandTextSource (TextSource):
 			if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
 				yield Command(exepath, text)
 				break
+
 	def get_description(self):
 		return _("Run command-line programs")
