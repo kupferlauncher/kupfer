@@ -3,12 +3,14 @@
 __kupfer_name__ = _("OpenOffice / LibreOffice")
 __kupfer_sources__ = ("RecentsSource", )
 __description__ = _("Recently used documents in OpenOffice/LibreOffice")
-__version__ = "2011-04-07"
+__version__ = "2013-03-16"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 '''
 Changes:
 	2011-04-02: Support new cofiguration file format in LibreOffice.
+	2013-03-16: Supoort all leaves like "libreoffice*", "openoffice.org*"
+				This provide support for leaves like libreoffice4.0-writer
 '''
 
 import os
@@ -59,26 +61,15 @@ class MultiAppContentMixin (object):
 
 	@classmethod
 	def decorate_item(cls, leaf):
-		if leaf.get_id() in cls.__get_appleaf_id_iter():
+		if any(leaf.get_id().startswith(content_id) for content_id
+				in cls.__get_appleaf_id_iter()):
 			return cls()
 
 
 class RecentsSource (MultiAppContentMixin, Source, FilesystemWatchMixin):
 	appleaf_content_id = [
-			"openoffice.org-writer",
-			"openoffice.org-base",
-			"openoffice.org-calc",
-			"openoffice.org-draw",
-			"openoffice.org-impress",
-			"openoffice.org-math",
-			"openoffice.org-startcenter",
-			"libreoffice-writer",
-			"libreoffice-base",
-			"libreoffice-calc",
-			"libreoffice-draw",
-			"libreoffice-impress",
-			"libreoffice-math",
-			"libreoffice-startcenter",
+			"libreoffice",
+			"openoffice.org",
 	]
 
 	def __init__(self, name=_("OpenOffice/LibreOffice Recent Items")):
