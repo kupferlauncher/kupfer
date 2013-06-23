@@ -1808,7 +1808,7 @@ class KupferWindow (gtk.Window):
 			cr.fill()
 
 		c = widget.style.dark[gtk.STATE_SELECTED]
-		cr.set_operator(cairo.OPERATOR_OVER)
+		cr.set_operator(cairo.OPERATOR_ATOP)
 		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
 
 		make_rounded_rect(cr, 0, 0, w, h, radius)
