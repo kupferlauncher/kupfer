@@ -284,7 +284,7 @@ msgstr "Pošiljanje sporočila vsem storitvam"
 
 #: C/plugin-gwibber.page:29(p)
 msgid "Activate Kupfer and type <key>.</key> to enter text mode, then type in a message."
-msgstr "Omogočite Kupfer in vpišite <key>.</Key> za vstop v besedilni način in nato vpišite sporočilo."
+msgstr "Omogočite Kupfer in vpišite <key>.</key> za vstop v besedilni način in nato vpišite sporočilo."
 
 #: C/plugin-gwibber.page:35(p)
 msgid "Type <key>Tab</key> and select the action <em>Send Message</em> and press <key>Return</key>."
@@ -429,7 +429,7 @@ msgstr "Omogočite Kupfer in vtipkajte okrajšavo imena programa"
 
 #: C/plugin-applications.page:28(p)
 msgid "Press <key>Return</key> to launch the application."
-msgstr "Za zagon programa pritisnite <key>Enter</key."
+msgstr "Za zagon programa pritisnite <key>Enter</key>."
 
 #: C/plugin-applications.page:34(title)
 msgid "Opening a file with a specific application"
@@ -840,7 +840,7 @@ msgstr "="
 
 #: C/keyboard.page:55(p)
 msgid "Activate free-text mode with = prefix (for <link xref=\"plugin-calculator\"/>)"
-msgstr "Omogoči način prostega besedila s predpono <code>=<code> (za <link xref=\"plugin-calculator\"/>)"
+msgstr "Omogoči način prostega besedila s predpono <code>=</code> (za <link xref=\"plugin-calculator\"/>)"
 
 #: C/keyboard.page:61(key)
 msgid "/"
@@ -848,7 +848,7 @@ msgstr "/"
 
 #: C/keyboard.page:63(p)
 msgid "Activate free-text mode (when nothing is selected) with <code>/</code> prefix (to input a rooted path)"
-msgstr "Omogoči način prostega besedila (ko ni nič izbrano) s predpono <code>/<code> (za vnos korenske poti)"
+msgstr "Omogoči način prostega besedila (ko ni nič izbrano) s predpono <code>/</code> (za vnos korenske poti)"
 
 #: C/keyboard.page:68(p)
 #: C/generalusage.page:62(p)
