@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
-"POT-Creation-Date: 2013-01-22 20:43+0000\n"
-"PO-Revision-Date: 2013-02-14 18:55+0100\n"
+"POT-Creation-Date: 2014-03-23 21:59+0000\n"
+"PO-Revision-Date: 2013-03-24 06:06+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -627,10 +627,11 @@ msgstr ""
 #: C/plugin-calculator.page:65(p)
 msgid ""
 "The Calculator lets you also calculate expression without \"=\" on the "
-"beginning as long it have inside one of operators: +, -, *, /, ^, |, , ~."
+"beginning as long it have inside one of operators: +, -, *, /, ^, |, &amp;, "
+"~."
 msgstr ""
 "Kalkulačka umožňuje vypočítat výraz i bez znaku „=“ na začátku, stačí když "
-"obsahuje jeden z operátorů: +, -, *, /, ^, |, , ~."
+"obsahuje jeden z operátorů: +, -, *, /, ^, |, &amp;, ~."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -1797,6 +1798,6 @@ msgstr ""
 "katalogu složky pracovní plochy je vždy aktuální."
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
-#: C/index.page:0(None)
+#: C/generalusage.page:0(None)
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
