@@ -3,13 +3,13 @@
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
 # Jorge González <jorgegonz@svn.gnome.org>, 2010, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2013.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2013-01-22 20:43+0000\n"
-"PO-Revision-Date: 2013-02-05 17:12+0100\n"
+"POT-Creation-Date: 2014-03-23 21:59+0000\n"
+"PO-Revision-Date: 2014-03-26 17:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #: C/plugin-websearch.page:7(desc)
 msgid "Using the search the web plugin."
@@ -536,9 +536,9 @@ msgid ""
 msgstr ""
 "Cuando escala imágenes con la acción <em>Escalar...</em> del complemento "
 "<app>Herramientas de imagen</app>. Esta acción necesita una descripción como "
-"tercer objeto, similar a «1024» o «1200x800». Si habitualmente escala al mismo "
-"tamaño, indique «1200x800», añádalo a favoritos, y aparecerá siempre como una "
-"sugerencia para la acción."
+"tercer objeto, similar a «1024» o «1200x800». Si habitualmente escala al "
+"mismo tamaño, indique «1200x800», añádalo a favoritos, y aparecerá siempre "
+"como una sugerencia para la acción."
 
 #: C/plugin-favorites.page:54(p)
 msgid ""
@@ -595,8 +595,8 @@ msgid ""
 "<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
 "functions and constants."
 msgstr ""
-"El complemento «Calculadora» usa módulos matemáticos de python y complejos, y "
-"analiza expresiones como expresiones de Python. Puede usar funciones "
+"El complemento «Calculadora» usa módulos matemáticos de python y complejos, "
+"y analiza expresiones como expresiones de Python. Puede usar funciones "
 "matemáticas comunes, como <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> y "
 "<cmd>log</cmd>»; el comando <cmd>=help</cmd> mostrará una lista de todas las "
 "funciones y constantes definidas."
@@ -625,17 +625,21 @@ msgid ""
 "The last result is stored as the name _ (an underscore, just like in the "
 "Python console)."
 msgstr ""
-"El último resultado se guarda como el nombre «_» (guión bajo, igual que en la "
-"consola de Python)."
+"El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
+"la consola de Python)."
 
 #: C/plugin-calculator.page:65(p)
+#| msgid ""
+#| "The Calculator lets you also calculate expression without \"=\" on the "
+#| "beginning as long it have inside one of operators: +, -, *, /, ^, |, , ~."
 msgid ""
 "The Calculator lets you also calculate expression without \"=\" on the "
-"beginning as long it have inside one of operators: +, -, *, /, ^, |, , ~."
+"beginning as long it have inside one of operators: +, -, *, /, ^, |, &amp;, "
+"~."
 msgstr ""
-"La calculadora también le permite calcular expresiones sin «=» al principio "
+"La Calculadora también le permite calcular expresiones sin «=» al principio "
 "siempre y cuando tengan dentro uno de los siguientes operadores: +, -, *, /, "
-"^, |, , ~."
+"^, |, &amp;, ~."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -846,16 +850,16 @@ msgid ""
 "Some actions are only \"multiplied\" when used with many objects, other are "
 "smarter than that:"
 msgstr ""
-"Algunas acciones sólo se «multiplican» cuando se utilizan con muchos objetos, "
-"otras son más inteligentes que eso:"
+"Algunas acciones sólo se «multiplican» cuando se utilizan con muchos "
+"objetos, otras son más inteligentes que eso:"
 
 #: C/moreusage.page:61(p)
 msgid ""
 "Selecting many files and using the Create Archive action, all files will be "
 "packed into the same archive."
 msgstr ""
-"Al seleccionar varios archivos usando la acción «Crear archivador», todos los "
-"archivos se empaquetarán en el mismo archivo."
+"Al seleccionar varios archivos usando la acción «Crear archivador», todos "
+"los archivos se empaquetarán en el mismo archivo."
 
 #: C/moreusage.page:63(p)
 msgid ""
@@ -873,9 +877,9 @@ msgid ""
 "to this command(!)"
 msgstr ""
 "Si selecciona varios catálogos (por ejemplo, «Marcadores de Firefox» y "
-"«Marcadores de Epiphany») y usa «Buscar contenido...», obtiene una búsqueda de "
-"subcatálogo restringida a los objetos de estos dos catálogos. También puede "
-"asociar un disparador a este comando."
+"«Marcadores de Epiphany») y usa «Buscar contenido...», obtiene una búsqueda "
+"de subcatálogo restringida a los objetos de estos dos catálogos. También "
+"puede asociar un disparador a este comando."
 
 #: C/moreusage.page:71(p)
 msgid ""
@@ -936,8 +940,8 @@ msgid ""
 msgstr ""
 "El comando <cmd>kupfer</cmd> se puede usar para enviar archivos o texto "
 "desde la línea de comandos a <app>Kupfer</app>. Por ejemplo, si está usando "
-"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» puede "
-"dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
+"la terminal en una carpeta donde tiene un archivo llamado «informe.pdf» "
+"puede dar el foco a este archivo en <app>Kupfer</app> ejecutando <cmd>kupfer "
 "report.pdf</cmd>."
 
 #: C/moreusage.page:107(p)
@@ -1818,7 +1822,7 @@ msgstr ""
 "ejemplo, el catálogo de la carpeta «Escritorio» siempre está actualizado."
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
-#: C/index.page:0(None)
+#: C/generalusage.page:0(None)
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
