@@ -1,7 +1,7 @@
-kupfer is a simple, flexible, launcher for Gnome
+kupfer is a simple, flexible launcher for GNOME
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
-:Homepage:  http://kaizer.se/wiki/kupfer/
+:Homepage:  https://wiki.gnome.org/Apps/Kupfer
 :Credits:   Copyright 2007–2011 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 :Licence:   GNU General Public License v3 (or any later version)
 
