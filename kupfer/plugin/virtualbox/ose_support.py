@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8  -*-
 '''
 virtualbox_ose_support.py
 
@@ -74,19 +74,22 @@ def vm_action(action, vm_uuid):
 		utils.spawn_async(['VBoxManage', 'controlvm', vm_uuid, command])
 
 
-def _get_virtual_machines(config_file):
-	''' load (virtual machine uuid, path to vm config) from virtualbox
-		configuration.
-		@param config_file - path to VirtualBox.xml file
-	'''
+def _get_virtual_machines():
 	try:
-		dtree = minidom.parse(config_file)
-		machine_registry = dtree.getElementsByTagName('MachineRegistry')[0]
-		for machine in machine_registry.getElementsByTagName('MachineEntry'):
-			yield (machine.getAttribute('uuid')[1:-1],
-					machine.getAttribute('src'))
+		with os.popen('VBoxManage list vms -l') as pinfo:
+			str_uuid = None
+			str_config = None
+			for line in pinfo:
+				if line.upper().startswith('UUID:'):
+					str_uuid = line.strip()[len('UUID:'):].strip()
+				elif line.upper().startswith('CONFIG FILE:'):
+					str_config = line.strip()[len('config file:'):].strip()
+				elif str_uuid and str_config:
+					yield (str_uuid, str_config)
+					str_uuid = None
+					str_config = None
 	except StandardError, err:
-		pretty.print_error(__name__, '_get_virtual_machines', config_file,
+		pretty.print_error(__name__, '_get_virtual_machines',
 				'error', err)
 
 
@@ -117,14 +120,12 @@ def _get_machine_info(vm_uuid, config_file):
 
 
 def get_machines():
-	if os.path.isfile(_VBOX_CONFIG_FILE):
-		for vm_uuid, config in _get_virtual_machines(_VBOX_CONFIG_FILE):
-			if not os.path.isabs(config):
-				config = os.path.join(os.path.dirname(_VBOX_CONFIG_FILE), config)
-			name, description = _get_machine_info(vm_uuid, config)
-			if name:
-				yield (vm_uuid, name, description)
-
+	for vm_uuid, config in _get_virtual_machines():
+		if not os.path.isabs(config):
+			config = os.path.join(os.path.dirname(_VBOX_CONFIG_FILE), config)
+		name, description = _get_machine_info(vm_uuid, config)
+		if name:
+			yield (vm_uuid, name, description)
 
 def unload():
 	pass
