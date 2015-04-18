@@ -7,8 +7,8 @@
 #
 msgid ""
 msgstr ""
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-03 21:42+0200\n"
+"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
+"POT-Creation-Date: 2013-01-15 15:13+0000\n"
 "PO-Revision-Date: 2013-09-02 23:20+0200\n"
 "Last-Translator: Jordi Mas i Hernandez <jmas@softcatala.org>\n"
 "Language-Team: Softcatalà\n"
@@ -104,7 +104,7 @@ msgstr "General"
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Dreceres de teclat globals</b>"
 
-#: ../data/preferences.ui.h:10 ../kupfer/ui/preferences.py:863
+#: ../data/preferences.ui.h:10 ../kupfer/ui/preferences.py:849
 msgid "Reset"
 msgstr "Reinicia"
 
@@ -309,88 +309,88 @@ msgid "Forget About \"%s\""
 msgstr ""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1960 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1960 ../kupfer/ui/preferences.py:58
 msgid "Show Main Interface"
 msgstr ""
 
-#: ../kupfer/ui/preferences.py:60
+#: ../kupfer/ui/preferences.py:59
 msgid "Show with Selection"
 msgstr ""
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:430
+#: ../kupfer/ui/preferences.py:416
 msgid "Description"
 msgstr "Descripció"
 
-#: ../kupfer/ui/preferences.py:430
+#: ../kupfer/ui/preferences.py:416
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:447
+#: ../kupfer/ui/preferences.py:433
 msgid "Version"
 msgstr "Versió"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:457
+#: ../kupfer/ui/preferences.py:443
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr ""
 
-#: ../kupfer/ui/preferences.py:471
+#: ../kupfer/ui/preferences.py:457
 msgid "Plugin could not be read due to an error:"
 msgstr ""
 
-#: ../kupfer/ui/preferences.py:479 ../kupfer/plugin/kupfer_plugins.py:80
+#: ../kupfer/ui/preferences.py:465 ../kupfer/plugin/kupfer_plugins.py:80
 msgid "disabled"
 msgstr "inhabilitat"
 
-#: ../kupfer/ui/preferences.py:553
+#: ../kupfer/ui/preferences.py:539
 msgid "Content of"
 msgstr ""
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:562
+#: ../kupfer/ui/preferences.py:548
 msgid "Sources"
 msgstr "Fonts"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:566
+#: ../kupfer/ui/preferences.py:552
 msgid "Actions"
 msgstr "Accions"
 
-#: ../kupfer/ui/preferences.py:589
+#: ../kupfer/ui/preferences.py:575
 #, python-format
 msgid "Using encrypted password storage: %s"
 msgstr ""
 
-#: ../kupfer/ui/preferences.py:591
+#: ../kupfer/ui/preferences.py:577
 #, python-format
 msgid "Using password storage: %s"
 msgstr ""
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:608
+#: ../kupfer/ui/preferences.py:594
 msgid "Configuration"
 msgstr "Configuració"
 
-#: ../kupfer/ui/preferences.py:628
+#: ../kupfer/ui/preferences.py:614
 msgid "Set username and password"
 msgstr "Defineix el nom d'usuari i contrasenya"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:682
+#: ../kupfer/ui/preferences.py:668
 msgid "Choose a Directory"
 msgstr "Escolliu un directori"
 
-#: ../kupfer/ui/preferences.py:861
+#: ../kupfer/ui/preferences.py:847
 msgid "Reset all shortcuts to default values?"
 msgstr ""
 
-#: ../kupfer/ui/preferences.py:869 ../kupfer/plugin/custom_terminal.py:12
+#: ../kupfer/ui/preferences.py:855 ../kupfer/plugin/custom_terminal.py:12
 msgid "Command"
 msgstr "Ordre"
 
-#: ../kupfer/ui/preferences.py:870
+#: ../kupfer/ui/preferences.py:856
 msgid "Shortcut"
 msgstr "Drecera"
 
@@ -497,7 +497,7 @@ msgid "Can not be used with multiple objects"
 msgstr ""
 
 #: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
-#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:137
+#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:135
 #: ../kupfer/plugin/zim.py:176
 msgid "Open"
 msgstr "Obre"
@@ -615,7 +615,8 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../kupfer/obj/sources.py:24
+#. TRANS: Multiple artist description "Artist1 et. al. "
+#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
 #, python-format
 msgid "%s et. al."
 msgstr ""
@@ -722,15 +723,15 @@ msgstr "Crea arxiu..."
 msgid "Archive"
 msgstr "Arxiu"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:81
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:69
 msgid "Calculator"
 msgstr "Calculadora"
 
 #: ../kupfer/plugin/calculator.py:4
-msgid "Calculate mathematical expressions"
+msgid "Calculate expressions starting with '='"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:119
+#: ../kupfer/plugin/calculator.py:101
 msgid "Calculate"
 msgstr "Calcula"
 
@@ -1141,6 +1142,136 @@ msgstr ""
 msgid "Last updated %s"
 msgstr ""
 
+#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:399
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:433
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:22
+msgid "Include artists in top level"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:28
+msgid "Include albums in top level"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
+msgid "Include songs in top level"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
+#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
+msgid "Play"
+msgstr "Reprodueix"
+
+#: ../kupfer/plugin/rhythmbox.py:67
+msgid "Resume playback in Rhythmbox"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
+#: ../kupfer/plugin/virtualbox/__init__.py:93
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../kupfer/plugin/rhythmbox.py:77
+msgid "Pause playback in Rhythmbox"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
+msgid "Next"
+msgstr "Següent"
+
+#: ../kupfer/plugin/rhythmbox.py:87
+msgid "Jump to next track in Rhythmbox"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
+msgid "Previous"
+msgstr "Anterior"
+
+#: ../kupfer/plugin/rhythmbox.py:97
+msgid "Jump to previous track in Rhythmbox"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:103
+msgid "Show Playing"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:107
+msgid "Tell which song is currently playing"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
+#, fuzzy
+msgid "Clear Queue"
+msgstr "Esborra"
+
+#: ../kupfer/plugin/rhythmbox.py:155
+msgid "Play tracks in Rhythmbox"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
+msgid "Enqueue"
+msgstr "Afegeix a la cua"
+
+#: ../kupfer/plugin/rhythmbox.py:172
+msgid "Add tracks to the play queue"
+msgstr ""
+
+#. TRANS: Song description
+#: ../kupfer/plugin/rhythmbox.py:195
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr ""
+
+#. TRANS: Album description "by Artist"
+#: ../kupfer/plugin/rhythmbox.py:250
+#, python-format
+msgid "by %s"
+msgstr "per %s"
+
+#. TRANS: Artist songs collection description
+#: ../kupfer/plugin/rhythmbox.py:311
+#, python-format
+msgid "Tracks by %s"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:321
+#: ../kupfer/plugin/google_picasa/__init__.py:444
+msgid "Albums"
+msgstr "Àlbums"
+
+#: ../kupfer/plugin/rhythmbox.py:331
+msgid "Music albums in Rhythmbox Library"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:342
+msgid "Artists"
+msgstr "Artistes"
+
+#: ../kupfer/plugin/rhythmbox.py:352
+msgid "Music artists in Rhythmbox Library"
+msgstr ""
+
+#: ../kupfer/plugin/rhythmbox.py:379
+msgid "Songs"
+msgstr "Cançons"
+
+#: ../kupfer/plugin/rhythmbox.py:389
+msgid "Songs in Rhythmbox library"
+msgstr ""
+
+#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:20
+msgid "GNOME Session Management"
+msgstr ""
+
+#: ../kupfer/plugin/session_gnome.py:3
+msgid "Special items and actions for GNOME environment"
+msgstr ""
+
 #: ../kupfer/plugin/session_support.py:31
 msgid "Log Out..."
 msgstr ""
@@ -1193,7 +1324,7 @@ msgstr ""
 msgid "Show Notification"
 msgstr "Mostra la icona a l'àrea de notificació"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:197
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:173
 msgid "Trash"
 msgstr "Paperera"
 
@@ -1201,39 +1332,29 @@ msgstr "Paperera"
 msgid "Access trash contents"
 msgstr ""
 
-#: ../kupfer/plugin/trash.py:24
+#: ../kupfer/plugin/trash.py:23
 msgid "Move to Trash"
 msgstr "Mou a la paperera"
 
-#: ../kupfer/plugin/trash.py:40
+#: ../kupfer/plugin/trash.py:39
 #, fuzzy
 msgid "Move this file to trash"
 msgstr "Mou a la paperera"
 
-#: ../kupfer/plugin/trash.py:49
+#: ../kupfer/plugin/trash.py:48
 msgid "Restore"
 msgstr "Restaura"
 
-#: ../kupfer/plugin/trash.py:68
+#: ../kupfer/plugin/trash.py:67
 msgid "Move file back to original location"
 msgstr ""
 
-#: ../kupfer/plugin/trash.py:75 ../kupfer/plugin/thunar.py:304
-msgid "Empty Trash"
-msgstr "Buida la paperera"
-
-#: ../kupfer/plugin/trash.py:84
-msgid ""
-"Could not delete files:\n"
-"    "
-msgstr ""
-
-#: ../kupfer/plugin/trash.py:185
+#: ../kupfer/plugin/trash.py:161
 msgid "Trash is empty"
 msgstr ""
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:187
+#: ../kupfer/plugin/trash.py:163
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
@@ -1521,14 +1642,6 @@ msgstr ""
 msgid "Control Audacious playback and playlist"
 msgstr ""
 
-#: ../kupfer/plugin/audacious.py:20
-msgid "Include songs in top level"
-msgstr ""
-
-#: ../kupfer/plugin/audacious.py:58
-msgid "Enqueue"
-msgstr "Encuar"
-
 #: ../kupfer/plugin/audacious.py:62
 msgid "Add track to the Audacious play queue"
 msgstr ""
@@ -1541,10 +1654,6 @@ msgstr ""
 msgid "Remove track from the Audacious play queue"
 msgstr ""
 
-#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
-msgid "Play"
-msgstr "Reprodueix"
-
 #: ../kupfer/plugin/audacious.py:86
 msgid "Jump to track in Audacious"
 msgstr ""
@@ -1553,35 +1662,17 @@ msgstr ""
 msgid "Resume playback in Audacious"
 msgstr ""
 
-#: ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:93
-msgid "Pause"
-msgstr "Pausa"
-
 #: ../kupfer/plugin/audacious.py:106
 msgid "Pause playback in Audacious"
 msgstr ""
-
-#: ../kupfer/plugin/audacious.py:112
-msgid "Next"
-msgstr "Següent"
 
 #: ../kupfer/plugin/audacious.py:116
 msgid "Jump to next track in Audacious"
 msgstr ""
 
-#: ../kupfer/plugin/audacious.py:122
-msgid "Previous"
-msgstr "Anterior"
-
 #: ../kupfer/plugin/audacious.py:126
 msgid "Jump to previous track in Audacious"
 msgstr ""
-
-#: ../kupfer/plugin/audacious.py:132
-#, fuzzy
-msgid "Clear Queue"
-msgstr "Esborra"
 
 #: ../kupfer/plugin/audacious.py:136
 msgid "Clear the Audacious play queue"
@@ -2031,10 +2122,6 @@ msgstr ""
 msgid "User albums in Picasa"
 msgstr ""
 
-#: ../kupfer/plugin/google_picasa/__init__.py:444
-msgid "Albums"
-msgstr "Àlbums"
-
 #: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:30
 msgid "Google Search"
 msgstr ""
@@ -2068,54 +2155,54 @@ msgstr ""
 msgid "Browse and create new tasks in GTG"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:116
+#: ../kupfer/plugin/gtg.py:114
 #, python-format
 msgid "due: %s"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:118
+#: ../kupfer/plugin/gtg.py:116
 #, python-format
 msgid "start: %s"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:120
+#: ../kupfer/plugin/gtg.py:118
 #, python-format
 msgid "tags: %s"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:150
+#: ../kupfer/plugin/gtg.py:148
 msgid "Open task in Getting Things GNOME!"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:157
+#: ../kupfer/plugin/gtg.py:155
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: ../kupfer/plugin/gtg.py:170
+#: ../kupfer/plugin/gtg.py:168
 msgid "Permanently remove this task"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:175
+#: ../kupfer/plugin/gtg.py:173
 msgid "Mark Done"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:184
+#: ../kupfer/plugin/gtg.py:182
 msgid "Mark this task as done"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:189
+#: ../kupfer/plugin/gtg.py:187
 msgid "Dismiss"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:198
+#: ../kupfer/plugin/gtg.py:196
 msgid "Mark this task as not to be done anymore"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:203
+#: ../kupfer/plugin/gtg.py:201
 msgid "Create Task"
 msgstr ""
 
-#: ../kupfer/plugin/gtg.py:220
+#: ../kupfer/plugin/gtg.py:218
 msgid "Create new task in Getting Things GNOME"
 msgstr ""
 
@@ -2745,6 +2832,10 @@ msgstr ""
 msgid "Create a symlink to file in a chosen location"
 msgstr ""
 
+#: ../kupfer/plugin/thunar.py:304
+msgid "Empty Trash"
+msgstr "Buida la paperera"
+
 #: ../kupfer/plugin/thunar.py:344
 msgid "Thunar Send To Objects"
 msgstr ""
@@ -3073,15 +3164,3 @@ msgstr ""
 #: ../kupfer/plugin/zim.py:415
 msgid "Pages stored in Zim Notebooks"
 msgstr ""
-
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "by %s"
-#~ msgstr "per %s"
-
-#~ msgid "Artists"
-#~ msgstr "Artistes"
-
-#~ msgid "Songs"
-#~ msgstr "Cançons"
