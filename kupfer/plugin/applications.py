@@ -23,7 +23,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 		"label": _("Applications for Desktop Environment"),
 		"type": str,
 		"value": "GNOME",
-		"alternatives": ("GNOME", "KDE", "LXDE", "ROX", "XFCE")
+		"alternatives": ("GNOME", "MATE", "KDE", "LXDE", "ROX", "XFCE")
 	},
 )
 
