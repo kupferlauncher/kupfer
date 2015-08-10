@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
 "POT-Creation-Date: 2013-01-15 15:13+0000\n"
-"PO-Revision-Date: 2015-03-16 23:38+0100\n"
+"PO-Revision-Date: 2015-08-10 18:48+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.7.3\n"
+"X-Generator: Poedit 1.8.3\n"
 
 #: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/version.py:15
 #: ../kupfer/plugin/core/contents.py:91
@@ -154,22 +154,22 @@ msgstr "Katalog"
 #: ../kupfer/core/commandexec.py:239
 #, python-format
 msgid "Could not to carry out '%s'"
-msgstr "Kunde inte utföra “%s”"
+msgstr "Kunde inte utföra ”%s”"
 
 #: ../kupfer/core/commandexec.py:268
 #, python-format
 msgid "\"%s\" produced a result"
-msgstr "“%s” lämnade ett resultat"
+msgstr "”%s” lämnade ett resultat"
 
 #: ../kupfer/core/execfile.py:30
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
-msgstr "Utan rättighet att utföra “%s” (ej körbar)"
+msgstr "Utan rättighet att utföra ”%s” (ej körbar)"
 
 #: ../kupfer/core/execfile.py:47
 #, python-format
 msgid "Command in \"%s\" is not available"
-msgstr "Kommando i “%s” är ej tillgängligt"
+msgstr "Kommando i ”%s” är ej tillgängligt"
 
 #: ../kupfer/keyrelay.py:62
 #, python-format
@@ -286,7 +286,7 @@ msgstr "%s är tom"
 #: ../kupfer/ui/browser.py:892
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Inga träffar i %(src)s för “%(query)s”"
+msgstr "Inga träffar i %(src)s för ”%(query)s”"
 
 #: ../kupfer/ui/browser.py:898
 msgid "No matches"
@@ -308,13 +308,13 @@ msgstr "Inget kommando"
 #: ../kupfer/ui/browser.py:1513
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
-msgstr "Gör “%(action)s” till standard för “%(object)s”"
+msgstr "Gör ”%(action)s” till standard för ”%(object)s”"
 
 #. TRANS: Removing learned and/or configured bonus search score
 #: ../kupfer/ui/browser.py:1523
 #, python-format
 msgid "Forget About \"%s\""
-msgstr "Glöm bort “%s”"
+msgstr "Glöm bort ”%s”"
 
 #. TRANS: Names of global keyboard shortcuts
 #: ../kupfer/ui/browser.py:1960 ../kupfer/ui/preferences.py:58
@@ -526,12 +526,12 @@ msgstr "Öppna"
 #: ../kupfer/obj/fileactions.py:43
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
-msgstr "Det finns inget förvalt program för “%(file)s” (%(type)s)."
+msgstr "Det finns inget förvalt program för ”%(file)s” (%(type)s)."
 
 #: ../kupfer/obj/fileactions.py:45
 #, python-format
 msgid "Please use \"%s\""
-msgstr "V.v. använd “%s”"
+msgstr "V.v. använd ”%s”"
 
 #: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:109
 msgid "Set Default Application..."
@@ -633,8 +633,8 @@ msgstr "(Tom text)"
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
-msgstr[0] "“%(text)s”"
-msgstr[1] "(%(num)d lines) “%(text)s”"
+msgstr[0] "”%(text)s”"
+msgstr[1] "(%(num)d lines) ”%(text)s”"
 
 #. TRANS: Multiple artist description "Artist1 et. al. "
 #: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
@@ -730,8 +730,7 @@ msgstr "Packa upp komprimerad fil"
 msgid "Create Archive"
 msgstr "Skapa arkiv"
 
-#: ../kupfer/plugin/archivemanager.py:86
-#: ../kupfer/plugin/archivemanager.py:129
+#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Skapa komprimerat arkiv av mappen"
 
@@ -750,7 +749,7 @@ msgstr "Miniräknare"
 
 #: ../kupfer/plugin/calculator.py:4
 msgid "Calculate expressions starting with '='"
-msgstr "Beräkna uttryck som börjar med “=”"
+msgstr "Beräkna uttryck som börjar med ”=”"
 
 #: ../kupfer/plugin/calculator.py:101
 msgid "Calculate"
@@ -784,8 +783,8 @@ msgstr "Markering"
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
-msgstr[0] "Urklipp “%(desc)s”"
-msgstr[1] "Urklipp med %(num)d rader “%(desc)s”"
+msgstr[0] "Urklipp ”%(desc)s”"
+msgstr[1] "Urklipp med %(num)d rader ”%(desc)s”"
 
 #: ../kupfer/plugin/clipboard.py:64
 msgid "Clipboard Text"
@@ -1094,7 +1093,7 @@ msgstr "Firefox-tagg"
 #. TRANS: with multiple X "screens"
 #: ../kupfer/plugin/multihead.py:4
 msgid "Multihead Support"
-msgstr "Stöd för flera skärmar (“multihead”)"
+msgstr "Stöd för flera skärmar (”multihead”)"
 
 #: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:178
 #: ../kupfer/plugin/notes.py:230
@@ -1597,7 +1596,7 @@ msgstr "Installera paket m.h.a den konfigurerade metoden"
 #: ../kupfer/plugin/apt_tools.py:122
 #, python-format
 msgid "Packages matching \"%s\""
-msgstr "Paketträffar för “%s”"
+msgstr "Paketträffar för ”%s”"
 
 #: ../kupfer/plugin/apt_tools.py:154
 msgid "Search Package Name..."
@@ -1759,8 +1758,7 @@ msgstr "Claws Mail-adressbok"
 msgid "Contacts from Claws Mail Address Book"
 msgstr "Kontakter från Claws Mail"
 
-#: ../kupfer/plugin/custom_terminal.py:1
-#: ../kupfer/plugin/custom_terminal.py:39
+#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:39
 msgid "Custom Terminal"
 msgstr "Valfri terminal"
 
@@ -2134,12 +2132,12 @@ msgstr "Sök med Google och visa resultat direkt"
 #: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/tracker1.py:179
 #, python-format
 msgid "Results for \"%s\""
-msgstr "Resultat för “%s”"
+msgstr "Resultat för ”%s”"
 
 #: ../kupfer/plugin/google_search.py:91
 #, python-format
 msgid "Show More Results For \"%s\""
-msgstr "Visa fler resultat för “%s”"
+msgstr "Visa fler resultat för ”%s”"
 
 #: ../kupfer/plugin/google_search.py:92
 #, python-format
@@ -2212,9 +2210,8 @@ msgstr "Gwibber"
 
 #: ../kupfer/plugin/gwibber.py:6
 msgid ""
-"Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
-"service'."
+"Microblogging with Gwibber. Allows sending and receiving messages from social "
+"networks like Twitter, Identi.ca etc. Requires the package 'gwibber-service'."
 msgstr ""
 "Mikroblogga med Gwibber. Skicka och ta emot meddeladen från sociala nätverk "
 "som Twitter, Identi.ca etc. Kräver paketet ‘gwibber-service’."
@@ -3116,7 +3113,7 @@ msgstr "Namnrymd för snabbanteckningar"
 #: ../kupfer/plugin/zim.py:80
 #, python-format
 msgid "Zim Page from Notebook \"%s\""
-msgstr "Zim-sida från anteckningsblock “%s”"
+msgstr "Zim-sida från anteckningsblock ”%s”"
 
 #: ../kupfer/plugin/zim.py:89
 msgid "Create Zim Page"
