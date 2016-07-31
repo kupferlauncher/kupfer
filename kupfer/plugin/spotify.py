@@ -1,7 +1,7 @@
 __kupfer_name__ = _("Spotify")
 __kupfer_sources__ = ("SpotifySource", )
 __description__ = _("Control spofity media player.")
-__version__ = "0.1"
+__version__ = "0.2"
 __author__ = "Stephen Johnson <steve@thatbytes.co.uk>; Emanuel Regnath <emanuel.regnath@tum.de>"
 
 import dbus
