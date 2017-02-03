@@ -11,7 +11,7 @@ def _folditems():
 		u"œ" : u"oe",
 		u"ð" : u"d",
 		u"þ" : u"th",
-		u"ß" : u"ss",
+		#u"ß" : u"ss",
 		# germano-scandinavic canonical transliterations
 		u"ü" : u"ue",
 		u"å" : u"aa",
@@ -21,7 +21,7 @@ def _folditems():
 		u"ø" : u"oe",
 	}
 
-	for c, rep in _folding_table.iteritems():
+	for c, rep in _folding_table.items():
 		yield (ord(c.upper()), rep.title())
 		yield (ord(c), rep)
 

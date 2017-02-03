@@ -1,7 +1,7 @@
 import os
 
-import pygtk
-pygtk.require('2.0')
+#import pygtk
+#pygtk.require('2.0')
 import glib
 import gio
 import gtk

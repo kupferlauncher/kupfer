@@ -21,6 +21,13 @@ def strbool(value, default=False):
 		return True
 	return default
 
+def strint(value, default=0):
+	"""Coerce bool from string value or bool"""
+	try:
+		return int(value)
+	except ValueError:
+		return default
+
 class SettingsController (gobject.GObject, pretty.OutputMixin):
 	__gtype_name__ = "SettingsController"
 	config_filename = "kupfer.cfg"
@@ -35,6 +42,10 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			"magickeybinding": "",
 			"showstatusicon" : True,
 			"usecommandkeys" : True,
+		},
+		"Appearance": {
+			"icon_large_size": 128,
+			"icon_small_size": 24,
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
@@ -80,7 +91,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		try:
 			defaults_path = config.get_data_file(self.defaults_filename)
 		except config.ResourceLookupError:
-			print "Error: no default config file %s found!" % self.defaults_filename
+			print("Error: no default config file %s found!" % self.defaults_filename)
 		else:
 			self._defaults_path = defaults_path
 			config_files += (defaults_path, )
@@ -95,7 +106,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 				with open(config_file, "r") as fil:
 					parser.readfp(fil)
 			except IOError, e:
-				print "Error reading configuration file %s: %s", (config_file, e)
+				print("Error reading configuration file %s: %s", (config_file, e))
 
 		# Read parsed file into the dictionary again
 		for secname in parser.sections():
@@ -212,7 +223,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"""Load values from default configuration file.
 		If @option is None, return all section items as (key, value) """
 		if self._defaults_path is None:
-			print 'Defaults not found'
+			print('Defaults not found')
 			return
 		parser = ConfigParser.SafeConfigParser()
 		parser.read(self._defaults_path)
@@ -220,6 +231,15 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			return parser.items(section)
 		else:
 			return parser.get(section, option.lower())
+
+	def get_config_int(self, section, key):
+		"""section must exist"""
+		key = key.lower()
+		value = self._config[section].get(key)
+		if section in self.defaults:
+			return strint(value)
+		raise KeyError("Invalid settings section: %s" % section)
+
 
 	def get_plugin_enabled(self, plugin_id):
 		"""Convenience: if @plugin_id is enabled"""

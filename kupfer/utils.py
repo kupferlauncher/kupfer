@@ -277,7 +277,7 @@ def show_url(url):
 	try:
 		pretty.print_debug(__name__, "show_url", url)
 		return show_uri(screen_get_default(), url, get_current_event_time())
-	except GError, exc:
+	except GError as exc:
 		pretty.print_error(__name__, "gtk.show_uri:", exc)
 
 def _on_child_exit(pid, condition, user_data):
@@ -431,8 +431,8 @@ def get_destfile_in_directory(directory, filename, extension=None):
 	for retry in xrange(3):
 		destpath = get_destpath_in_directory(directory, filename, extension)
 		try:
-			fd = os.open(destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0666)
-		except OSError, exc:
+			fd = os.open(destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o666)
+		except OSError as exc:
 			pretty.print_error(__name__, exc)
 		else:
 			return (os.fdopen(fd, "wb"), destpath)

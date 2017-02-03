@@ -273,7 +273,7 @@ class LeafModel (object):
 		# Display rank empty instead of 0 since it looks better
 		return str(int(rank)) if rank else ""
 
-class MatchView (gtk.Bin):
+class MatchView (gtk.Bin, pretty.OutputMixin):
 	"""
 	A Widget for displaying name, icon and underlining properly if
 	it matches
@@ -290,17 +290,29 @@ class MatchView (gtk.Bin):
 		self.object_stack = []
 
 		self.connect("realize", self._update_theme)
+		self.connect("realize", self._read_icon_size)
 		self.connect("style-set", self._update_theme)
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
 		self.cur_text = None
 		self.cur_match = None
+		self._icon_size = 32
 
 	@property
 	def icon_size(self):
-		return gtk.icon_size_lookup(gtk.icon_size_from_name("kupfer-large"))[0]
+		return self._icon_size
 
+	def _icon_large_size_changed(self, setctl, section, key, value):
+		self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+		self.output_info("Large size changed to", repr(self._icon_size))
+
+	def _read_icon_size(self, *args):
+		setctl = settings.GetSettingsController()
+		setctl.connect("value-changed::appearance.icon_large_size",
+		               self._icon_large_size_changed)
+		self._icon_large_size_changed(setctl, None, None, None)
+		
 	def _update_theme(self, *args):
 		# Style subtables to choose from
 		# fg, bg, text, base
@@ -537,7 +549,7 @@ gtk.widget_class_install_style_property(MatchView,
 		 50, 100, 95,
 		 gobject.PARAM_READABLE))
 
-class Search (gtk.Bin):
+class Search (gtk.Bin, pretty.OutputMixin):
 	"""
 	A Widget for displaying search results
 	icon + aux table etc
@@ -570,14 +582,23 @@ class Search (gtk.Bin):
 		self._initialized = False
 		# finally build widget
 		self.build_widget()
-		self.icon_size = None
-		self.on_style_set()
+		self._icon_size = 64
 		self.setup_empty()
-		self.connect("style-set", self.on_style_set)
+		self.connect("realize", self._read_icon_size)
 
-	def on_style_set(self, *args):
-		self.icon_size = \
-			gtk.icon_size_lookup(gtk.icon_size_from_name("kupfer-large"))[0]
+	@property
+	def icon_size(self):
+		return self._icon_size
+
+	def _icon_large_size_changed(self, setctl, section, key, value):
+		self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+		self.output_info("Large size changed to", repr(self._icon_size))
+
+	def _read_icon_size(self, *args):
+		setctl = settings.GetSettingsController()
+		setctl.connect("value-changed::appearance.icon_large_size",
+				self._icon_large_size_changed)
+		self._icon_large_size_changed(setctl, None, None, None)
 
 	def build_widget(self):
 		"""
