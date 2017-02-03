@@ -1,4 +1,4 @@
-from __future__ import division
+
 __kupfer_name__ = _("Calculator")
 __kupfer_actions__ = ("Calculate", "CalculateOtherExpressions")
 __description__ = _("Calculate mathematical expressions")
@@ -20,6 +20,7 @@ import math
 
 from kupfer.objects import Action, TextLeaf
 from kupfer import pretty
+import collections
 
 
 class IgnoreResultException (Exception):
@@ -39,7 +40,7 @@ class KupferSurprise (float):
 
 class DummyResult (object):
 	def __unicode__(self):
-		return u"<Result of last expression>"
+		return "<Result of last expression>"
 
 
 class Help (object):
@@ -58,8 +59,8 @@ class Help (object):
 			if attr != "_" and attr.startswith("_"):
 				continue
 			val = environment[attr]
-			if not callable(val):
-				docstrings.append(u"%s = %s" % (attr, val))
+			if not isinstance(val, collections.Callable):
+				docstrings.append("%s = %s" % (attr, val))
 				continue
 			try:
 				docstrings.append(val.__doc__)
@@ -76,7 +77,7 @@ class Help (object):
 				continue
 			wrapped_lines = textwrap.wrap(docsplit[1].strip(),
 					maxlen - left_margin)
-			wrapped = (u"\n" + u" " * left_margin).join(wrapped_lines)
+			wrapped = ("\n" + " " * left_margin).join(wrapped_lines)
 			formatted.append("%s\n    %s" % (docsplit[0], wrapped))
 		uiutils.show_text_result("\n\n".join(formatted), _("Calculator"))
 		raise IgnoreResultException
@@ -103,10 +104,10 @@ def format_result(res):
 	cres = complex(res)
 	parts = []
 	if cres.real:
-		parts.append(u"%s" % cres.real)
+		parts.append("%s" % cres.real)
 	if cres.imag:
-		parts.append(u"%s" % complex(0, cres.imag))
-	return u"+".join(parts) or u"%s" % res
+		parts.append("%s" % complex(0, cres.imag))
+	return "+".join(parts) or "%s" % res
 
 
 class Calculate (Action):
@@ -138,9 +139,9 @@ class Calculate (Action):
 			self.last_result['last'] = result
 		except IgnoreResultException:
 			return
-		except Exception, exc:
+		except Exception as exc:
 			pretty.print_error(__name__, type(exc).__name__, exc)
-			resultstr = unicode(exc)
+			resultstr = str(exc)
 		return TextLeaf(resultstr)
 
 	def item_types(self):

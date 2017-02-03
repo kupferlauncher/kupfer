@@ -4,8 +4,8 @@ __description__ = _("Search Google with results shown directly")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import httplib
-import urllib
+import http.client
+import urllib.request, urllib.parse, urllib.error
 
 from kupfer.objects import Action, Source, OperationError
 from kupfer.objects import TextLeaf, UrlLeaf
@@ -63,13 +63,13 @@ class SearchResults (Source):
 
 	def get_items(self):
 		try:
-			query = urllib.urlencode({'q': self.query})
+			query = urllib.parse.urlencode({'q': self.query})
 			if ssl_support.is_supported():
 				conn = ssl_support.VerifiedHTTPSConnection(SEARCH_HOST,
 				                                           timeout=5)
 				self.output_debug("Connected to", SEARCH_HOST, "using SSL")
 			else:
-				conn = httplib.HTTPConnection(SEARCH_HOST, timeout=5)
+				conn = http.client.HTTPConnection(SEARCH_HOST, timeout=5)
 			conn.request("GET", SEARCH_PATH + query)
 			response = conn.getresponse()
 			ctype = response.getheader("content-type", default="")
@@ -77,14 +77,14 @@ class SearchResults (Source):
 			encoding = parts[-1] if len(parts) > 1 else "UTF-8"
 			search_results = response.read().decode(encoding)
 			response.close()
-		except (IOError, httplib.HTTPException) as exc:
-			raise OperationError(unicode(exc))
+		except (IOError, http.client.HTTPException) as exc:
+			raise OperationError(str(exc))
 		results = json_decoder(search_results)
 		data = results['responseData']
 		more_results_url = data['cursor']['moreResultsUrl']
 		total_results = data['cursor'].get('estimatedResultCount', 0)
 		for h in data['results']:
-			uq_url = urllib.unquote(h['url'])
+			uq_url = urllib.parse.unquote(h['url'])
 			uq_title = _xml_unescape(h['titleNoFormatting'])
 			yield UrlLeaf(uq_url, uq_title)
 		yield CustomDescriptionUrl(more_results_url,

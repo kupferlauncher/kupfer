@@ -10,7 +10,7 @@ __description__ = _("Display text as QRCode in a window")
 __version__ = "0.0.2"
 __author__ = "Thomas Renard <cybaer42@web.de>"
 
-import StringIO
+import io
 
 import gtk
 import qrencode
@@ -30,7 +30,7 @@ class ShowQRCode (Action):
 	def activate(self, leaf, ctx):
 		"""Create the image from leaf text and display it on window"""
 
-		image_file = StringIO.StringIO()
+		image_file = io.StringIO()
 		text = leaf.get_text_representation()
 		version, size, image = qrencode.encode_scaled(text, size=300)
 		image.save(image_file, "ppm")

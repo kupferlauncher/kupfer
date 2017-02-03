@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 # TRANS: "Glob" is the matching files like a shell with "*.py" etc.
 __kupfer_name__ = _("Glob")
 __kupfer_actions__ = ("Glob",)
@@ -30,7 +30,7 @@ class Glob (Action):
 				if recursive and content.has_content():
 					get_subcatalog_matches(content, pat, recursive, paths)
 				else:
-					if re.match(pat, unicode(content), flags=re.I):
+					if re.match(pat, str(content), flags=re.I):
 						paths.append(content)
 		paths = []
 		for iobj in iobjects:
@@ -59,5 +59,5 @@ class Glob (Action):
 	def object_source(self, for_item=None):
 		return TextSource()
 	def valid_object(self, iobj, for_item):
-		return (u'*' in iobj.object) or (u'?' in iobj.object)
+		return ('*' in iobj.object) or ('?' in iobj.object)
 

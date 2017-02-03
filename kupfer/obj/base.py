@@ -11,10 +11,10 @@ __all__ = [
 
 # If no gettext function is loaded at this point, we load a substitute,
 # so that testing code can still work
-import __builtin__
+import builtins
 if not hasattr(__builtin__, "_"):
 	def identity(x): return x
-	__builtin__._ = identity
+	builtins._ = identity
 
 class Error (Exception):
 	pass
@@ -41,7 +41,7 @@ class _BuiltinObject (type):
 		return type.__new__(mcls, name, bases, dict)
 
 
-class KupferObject (object):
+class KupferObject (object, metaclass=_BuiltinObject):
 	"""
 	Base class for kupfer data model
 
@@ -58,7 +58,6 @@ class KupferObject (object):
 	@fallback_icon_name is a class attribute for the last fallback
 	icon; it must always be accessible.
 	"""
-	__metaclass__ = _BuiltinObject
 	rank_adjust = 0
 	fallback_icon_name = "kupfer-object"
 	def __init__(self, name=None):
@@ -73,7 +72,7 @@ class KupferObject (object):
 		self.kupfer_add_alias(folded_name)
 
 	def kupfer_add_alias(self, alias):
-		if alias != unicode(self):
+		if alias != str(self):
 			if not hasattr(self, "name_aliases"):
 				self.name_aliases = set()
 			self.name_aliases.add(alias)
@@ -168,7 +167,7 @@ class _NonpersistentToken (object):
 	__slots__ = "object"
 	def __init__(self, object_):
 		self.object = object_
-	def __nonzero__(self):
+	def __bool__(self):
 		return bool(self.object)
 	def __reduce__(self):
 		return (sum, ((), None))
@@ -187,7 +186,7 @@ class Leaf (KupferObject):
 		self._content_source = None
 
 	def __hash__(self):
-		return hash(unicode(self))
+		return hash(str(self))
 
 	def __eq__(self, other):
 		return (type(self) == type(other) and self.object == other.object)
@@ -231,7 +230,7 @@ class Action (KupferObject):
 
 	def __eq__(self, other):
 		return (type(self) == type(other) and repr(self) == repr(other) and
-				unicode(self) == unicode(other))
+				str(self) == str(other))
 
 	def repr_key(self):
 		"""by default, actions of one type are all the same"""

@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import absolute_import
+
 __kupfer_name__ = _("Gwibber")
 __kupfer_sources__ = ("HomeMessagesSource", "AccountsSource", "StreamsSource")
 __kupfer_actions__ = ("SendMessage", "SendMessageBy", "SendMessageTo")
@@ -61,7 +61,7 @@ def _get_dbus_iface(service_objname, activate=False):
 			obj = sbus.get_object(service, objname)
 			if obj:
 				interface = dbus.Interface(obj, service)
-	except dbus.exceptions.DBusException, err:
+	except dbus.exceptions.DBusException as err:
 		pretty.print_debug(err)
 	return interface
 
@@ -134,7 +134,7 @@ class Stream(Leaf):
 
 def unicode_strftime(fmt, time_tuple=None):
 	enc = locale.getpreferredencoding(False)
-	return unicode(time.strftime(fmt, time_tuple), enc, "replace")
+	return str(time.strftime(fmt, time_tuple), enc, "replace")
 
 class Message (Leaf):
 	def __init__(self, text, msg, service):
@@ -145,7 +145,7 @@ class Message (Leaf):
 				else msg['sender']['name']
 		self._service_features = list(service['features'])
 		self._is_my_msg = bool(msg['sender']['is_me'])
-		sender = unicode(msg['sender'].get('name') or msg['sender']['nick'])
+		sender = str(msg['sender'].get('name') or msg['sender']['nick'])
 		date = unicode_strftime('%c', time.localtime(msg['time']))
 		# TRANS: Gwibber Message description
 		# TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"

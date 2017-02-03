@@ -42,7 +42,7 @@ class ResourceReadError (Exception):
 
 def gtk_to_unicode(gtkstring):
 	"""Return unicode for a GTK/GLib string (bytestring or unicode)"""
-	if isinstance(gtkstring, unicode):
+	if isinstance(gtkstring, str):
 		return gtkstring
 	return gtkstring.decode("UTF-8", "ignore")
 
@@ -74,7 +74,7 @@ def find_desktop_file(desk_id):
 
 		while 1:
 			## try the first parts of the id to see if it matches a directory
-			for x in xrange(1,4):
+			for x in range(1,4):
 				dirname, rest_id = get_dir_id_depth(file_id, x)
 				if rest_id and lookup(directories + [dirname]):
 					file_id = rest_id
@@ -202,7 +202,7 @@ def replace_format_specs(argv, location, desktop_info, gfilelist):
 				warning_log("Warning, multiple file format specs!")
 				return True, []
 			Flags.did_see_large_f = True
-			return True, filter(bool,[get_file_path(f) for f in gfilelist])
+			return True, list(filter(bool,[get_file_path(f) for f in gfilelist]))
 		if elem == "%i":
 			if desktop_info["Icon"]:
 				return True, ["--icon", desktop_info["Icon"]]
@@ -227,7 +227,7 @@ def replace_format_specs(argv, location, desktop_info, gfilelist):
 					yield rep
 					# skip a step in the iter
 					try:
-						it.next()
+						next(it)
 					except StopIteration:
 						return
 				else:
@@ -402,10 +402,10 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 		                       user_data=child_env_add)
 		debug_log("Launched", argv,  notify_id, "pid:", pid)
 	except glib.GError as exc:
-		error_log("Error Launching ", argv, unicode(exc))
+		error_log("Error Launching ", argv, str(exc))
 		if notify_id:
 			gtk.gdk.notify_startup_complete_with_id(notify_id)
-		raise SpawnError(unicode(exc))
+		raise SpawnError(str(exc))
 	if launch_cb:
 		launch_cb(argv, pid, notify_id, filelist, timestamp)
 	return pid
@@ -419,7 +419,7 @@ def child_setup(add_environ):
 
 def locale_encode_argv(argv):
 	for x in argv:
-		if isinstance(x, unicode):
+		if isinstance(x, str):
 			yield kupferstring.tolocale(x)
 		else:
 			yield x
@@ -430,7 +430,7 @@ def get_info_for_id(id_):
 if __name__ == '__main__':
 
 	while True:
-		id_ = raw_input("Give me an App ID > ")
+		id_ = input("Give me an App ID > ")
 		launch_app_info(get_info_for_id(id_ + ".desktop"), [])
 		#launch_app_info(gio.AppInfo("gvim"), [gio.File(".")])
 

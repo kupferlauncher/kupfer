@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 
 __kupfer_name__ = _("Gwibber (Simple)")
 __kupfer_actions__ = (
@@ -35,7 +35,7 @@ def _get_interface(activate=False):
 
 	try:
 		proxyobj = bus.get_object(SERVICE_NAME, OBJ_NAME)
-	except dbus.DBusException, e:
+	except dbus.DBusException as e:
 		pretty.print_error(__name__, e)
 		return
 	return dbus.Interface(proxyobj, IFACE_NAME)

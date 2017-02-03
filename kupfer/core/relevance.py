@@ -31,7 +31,7 @@ based on the relevance.  It originates in Gnome-Do.
 Compatibility: Python 2.4 and later, including Python 3
 """
 
-from __future__ import division
+
 
 # This module is compatible with both Python 2 and Python 3;
 # we need the iterator form of range for either version, stored in range()

@@ -52,7 +52,7 @@ def get_unique_id(obj):
 	if getattr(obj, SERIALIZABLE_ATTRIBUTE, None) is not None:
 		try:
 			return SerializedObject(obj)
-		except pickle.PicklingError, exc:
+		except pickle.PicklingError as exc:
 			pretty.print_error(__name__, type(exc).__name__, exc)
 			return None
 	return repr(obj)
@@ -107,7 +107,7 @@ def resolve_unique_id(puid, excluding=None):
 	if isinstance(puid, SerializedObject):
 		try:
 			return puid.reconstruct()
-		except Exception, exc:
+		except Exception as exc:
 			pretty.print_debug(__name__, type(exc).__name__, exc)
 			return None
 	sc = GetSourceController()
@@ -129,7 +129,7 @@ def resolve_action_id(puid, for_item=None):
 		for action in actioncompat.actions_for_item(for_item, sc):
 			if get_unique_id(action) == puid:
 				return action
-	for item_type, actions in sc.action_decorators.iteritems():
+	for item_type, actions in sc.action_decorators.items():
 		for action in actions:
 			if get_action_id(action) == puid:
 				return action

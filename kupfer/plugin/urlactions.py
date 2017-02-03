@@ -11,7 +11,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 import shutil
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from kupfer.objects import Action, UrlLeaf, FileLeaf
 from kupfer import utils, task
@@ -25,7 +25,7 @@ class DownloadTask (task.ThreadTask):
 		self.use_tempfile = tempfile
 
 	def thread_do(self):
-		self.response = urllib.urlopen(self.uri)
+		self.response = urllib.request.urlopen(self.uri)
 
 		def url_name(url):
 			return os.path.basename(url.rstrip("/"))

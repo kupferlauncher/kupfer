@@ -9,8 +9,8 @@ Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 """
 import os
 
-from ConfigParser import RawConfigParser
-from HTMLParser import HTMLParser
+from configparser import RawConfigParser
+from html.parser import HTMLParser
  
 def get_firefox_home_file(needed_file):
     for firefox_dir in (os.path.expanduser(p) for p in
@@ -100,10 +100,10 @@ class BookmarksParser(HTMLParser):
 
 		if tag == "a":
 			if self.debug == True:
-				print
-				print "href =", self.href
-				print "description =", self.description
-				print "tags =", self.tags
+				print()
+				print("href =", self.href)
+				print("description =", self.description)
+				print("tags =", self.tags)
 				
 			# validate href
 			validHref = True
@@ -167,8 +167,8 @@ def get_bookmarks(bookmarks_file):
 def main():
 	# go forth
 	fileloc = get_firefox_home_file("bookmarks.html")
-	print fileloc
-	print get_bookmarks(fileloc)
+	print(fileloc)
+	print(get_bookmarks(fileloc))
 
 if __name__ == "__main__":
 	main()

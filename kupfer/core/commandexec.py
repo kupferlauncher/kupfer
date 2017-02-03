@@ -23,7 +23,7 @@ of object and indirect object.
 With multiple command execution (and delegation), we must then process and
 merge multiple return values.
 """
-from __future__ import with_statement
+
 
 import collections
 import contextlib
@@ -211,7 +211,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		if not self.operation_error(exc_info, cmdtuple):
 			raise
 		etype, value, tb = exc_info
-		raise ActionExecutionError, value, tb
+		raise ActionExecutionError(value).with_traceback(tb)
 
 	def get_async_token(self):
 		"""Get an action execution for current execution
@@ -237,7 +237,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		# TRANS: then this is the heading of the error notification
 		return uiutils.show_notification(
 				_("Could not to carry out '%s'") % action,
-				unicode(value), icon_name="kupfer")
+				str(value), icon_name="kupfer")
 
 	def register_late_error(self, token, exc_info=None):
 		"Register an error in exc_info. The error must be an OperationError"
@@ -259,7 +259,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		command_id, (_ign1, action, _ign2) = token
 		if result is None:
 			raise ActionExecutionError("Late result from %s was None" % action)
-		res_name = unicode(result)
+		res_name = str(result)
 		res_desc = result.get_description()
 		if res_desc:
 			description = "%s (%s)" % (res_name, res_desc)
@@ -288,7 +288,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 		If a command carries out another command as part of its execution,
 		and wishes to delegate to it, pass True for @delegate.
 		"""
-		self.last_command_id = self._command_counter.next()
+		self.last_command_id = next(self._command_counter)
 		self.last_executed_command = (obj, action, iobj)
 
 		if not action or not obj:
@@ -377,7 +377,7 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 
 			if len(resmap) == 1:
 				# Return the only of the Source or Object case
-				key, values = resmap.items()[0]
+				key, values = list(resmap.items())[0]
 				return key, _make_retvalue(key, values)
 			elif len(resmap) > 1:
 				# Put the source in a leaf and return a multiple leaf

@@ -60,7 +60,7 @@ def get_dirlist(folder, depth=0, include=None, exclude=None):
 
 	return paths
 
-def locale_sort(seq, key=unicode):
+def locale_sort(seq, key=str):
 	"""Return @seq of objects with @key function as a list sorted
 	in locale lexical order
 
@@ -81,7 +81,7 @@ def locale_sort(seq, key=unicode):
 
 def _argv_to_locale(argv):
 	"encode unicode strings in @argv according to the locale encoding"
-	return [kupferstring.tolocale(A) if isinstance(A, unicode) else A
+	return [kupferstring.tolocale(A) if isinstance(A, str) else A
 			for A in argv]
 
 class AsyncCommand (object):
@@ -144,7 +144,7 @@ class AsyncCommand (object):
 	def _split_string(self, s, length):
 		"""Split @s in pieces of @length"""
 		L = []
-		for i in xrange(0, len(s)//length + 1):
+		for i in range(0, len(s)//length + 1):
 			L.append(s[i*length:(i+1)*length])
 		return L
 
@@ -328,7 +328,7 @@ def spawn_child(argv, respawn=True, display=None):
 		# environment is passed as a sequence of strings
 		envd = os.environ.copy()
 		envd['DISPLAY'] = display
-		kwargs['envp'] = ['='.join((k,v)) for k,v in envd.items()]
+		kwargs['envp'] = ['='.join((k,v)) for k,v in list(envd.items())]
 
 	try:
 		pid, stdin_fd, stdout_fd, stderr_fd = \
@@ -336,7 +336,7 @@ def spawn_child(argv, respawn=True, display=None):
 			                 child_setup=_try_register_pr_pdeathsig,
 			                 **kwargs)
 	except glib.GError as exc:
-		raise utils.SpawnError(unicode(exc))
+		raise utils.SpawnError(str(exc))
 	if pid:
 		glib.child_watch_add(pid, _on_child_exit, (argv, respawn))
 	return pid
@@ -415,7 +415,7 @@ def get_destpath_in_directory(directory, filename, extension=None):
 			root, ext = filename, extension
 		else:
 			root, ext = os_path.splitext(filename)
-		basename = "%s-%s%s" % (root, ctr.next(), ext)
+		basename = "%s-%s%s" % (root, next(ctr), ext)
 		destpath = os_path.join(directory, basename)
 	return destpath
 
@@ -428,7 +428,7 @@ def get_destfile_in_directory(directory, filename, extension=None):
 	Return (fileobj, filepath)
 	"""
 	# retry if it fails
-	for retry in xrange(3):
+	for retry in range(3):
 		destpath = get_destpath_in_directory(directory, filename, extension)
 		try:
 			fd = os.open(destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o666)

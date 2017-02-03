@@ -1,4 +1,4 @@
-import cPickle as pickle
+import pickle as pickle
 import os
 
 from kupfer import config
@@ -26,7 +26,7 @@ class Mnemonics (object):
 		self.mnemonics = dict()
 		self.count = 0
 	def __repr__(self):
-		return "<%s %d %s>" % (self.__class__.__name__, self.count, "".join(["%s: %d, " % (m,c) for m,c in self.mnemonics.iteritems()]))
+		return "<%s %d %s>" % (self.__class__.__name__, self.count, "".join(["%s: %d, " % (m,c) for m,c in self.mnemonics.items()]))
 	def increment(self, mnemonic=None):
 		if mnemonic:
 			mcount = self.mnemonics.get(mnemonic, 0)
@@ -43,7 +43,7 @@ class Mnemonics (object):
 				self.mnemonics[key] -= 1
 		self.count = max(self.count -1, 0)
 
-	def __nonzero__(self):
+	def __bool__(self):
 		return self.count
 	def get_count(self):
 		return self.count
@@ -55,13 +55,13 @@ class Learning (object):
 	def _unpickle_register(cls, pickle_file):
 		try:
 			pfile = open(pickle_file, "rb")
-		except IOError, e:
+		except IOError as e:
 			return None
 		try:
 			data = conspickle.ConservativeUnpickler.loads(pfile.read())
 			assert isinstance(data, dict), "Stored object not a dict"
 			pretty.print_debug(__name__, "Reading from %s" % (pickle_file, ))
-		except (pickle.PickleError, Exception), e:
+		except (pickle.PickleError, Exception) as e:
 			data = None
 			pretty.print_error(__name__, "Error loading %s: %s" % (pickle_file, e))
 		finally:
@@ -78,7 +78,7 @@ class Learning (object):
 		os.rename(tmp_pickle_file, pickle_file)
 		return True
 
-def record_search_hit(obj, key=u""):
+def record_search_hit(obj, key=""):
 	"""
 	Record that KupferObject @obj was used, with the optional
 	search term @key recording
@@ -88,7 +88,7 @@ def record_search_hit(obj, key=u""):
 		_register[name] = Mnemonics()
 	_register[name].increment(key)
 
-def get_record_score(obj, key=u""):
+def get_record_score(obj, key=""):
 	"""
 	Get total score for KupferObject @obj,
 	bonus score is given for @key matches
@@ -126,7 +126,7 @@ def set_correlation(obj, for_leaf):
 	_register.setdefault(CORRELATION_KEY, {})[repr(for_leaf)] = repr(obj)
 
 def _get_mnemonic_items(in_register):
-	return [(k,v) for k,v in in_register.items() if k != CORRELATION_KEY]
+	return [(k,v) for k,v in list(in_register.items()) if k != CORRELATION_KEY]
 
 def get_object_has_affinity(obj):
 	"""

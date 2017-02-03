@@ -110,7 +110,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 			"label": _("Theme:"),
 			"type": str,
 			"value": 'default',
-			"alternatives": all_styles.keys(),
+			"alternatives": list(all_styles.keys()),
 		},
 	)
 

@@ -33,7 +33,7 @@ class BookmarksSource (AppLeafContentMixin, Source):
 		if fpath:
 			try:
 				return self._get_chromium_items(fpath)
-			except Exception, exc:
+			except Exception as exc:
 				self.output_error(exc)
 
 		self.output_error("No Chromium bookmarks file found")

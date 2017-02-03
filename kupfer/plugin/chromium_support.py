@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from __future__ import with_statement
+
 
 import os
 
@@ -49,8 +49,8 @@ def get_bookmarks(bookmarks_file):
 		if is_container(item):
 			folders.extend(item["children"])
 
-	return bmap.values()
+	return list(bmap.values())
 
 if __name__ == "__main__":
 	fpath = os.path.expanduser("~/.config/chromium/Default/")
-	print "Parsed # bookmarks:", len(list(get_bookmarks(fpath)))
+	print("Parsed # bookmarks:", len(list(get_bookmarks(fpath))))

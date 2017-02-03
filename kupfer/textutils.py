@@ -1,3 +1,4 @@
+import imp
 # encoding: utf-8
 
 def _unicode_truncate(ustr, length, encoding="UTF-8"):
@@ -6,7 +7,7 @@ def _unicode_truncate(ustr, length, encoding="UTF-8"):
 	return bstr.decode(encoding, 'ignore')
 
 def extract_title_body(text, maxtitlelen=60):
-	u"""Prepare @text: Return a (title, body) tuple
+	"""Prepare @text: Return a (title, body) tuple
 
 	@text: A user-submitted paragraph or otherwise snippet of text. We
 	try to detect an obvious title and then return the title and the
@@ -30,7 +31,7 @@ def extract_title_body(text, maxtitlelen=60):
 	# if you don't make real tests, it's not not worth doing it at all.
 
 	if not text.strip():
-		return text, u""
+		return text, ""
 
 	def split_first_line(text):
 		"""Take first non-empty line of text"""
@@ -39,7 +40,7 @@ def extract_title_body(text, maxtitlelen=60):
 			l = l.strip()
 			if not l:
 				continue
-			rest = u"\n".join(lines)
+			rest = "\n".join(lines)
 			return l, rest
 
 	# We use the UTF-8 encoding and truncate due to it:
@@ -52,7 +53,7 @@ def extract_title_body(text, maxtitlelen=60):
 		words = first_text.split()
 		if len(words) > 3:
 			words = words[:-1]
-			first_words = u" ".join(words[:-1])
+			first_words = " ".join(words[:-1])
 			if text.startswith(first_words):
 				first_text = first_words
 		rest_text = text[len(first_text):]
@@ -66,12 +67,12 @@ def extract_title_body(text, maxtitlelen=60):
 	if rest.strip():
 		return firstline, text
 	else:
-		return text, u""
+		return text, ""
 
 if __name__ == '__main__':
 	# unicode doctest hack
 	import sys
-	reload(sys)
+	imp.reload(sys)
 	sys.setdefaultencoding("UTF-8")
 
 	import doctest

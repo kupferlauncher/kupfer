@@ -50,7 +50,7 @@ def _create_dbus_connection_gtg(iface, obj, service, activate=False):
 			obj = sbus.get_object(service, obj)
 			if obj:
 				interface = dbus.Interface(obj, iface)
-	except dbus.exceptions.DBusException, err:
+	except dbus.exceptions.DBusException as err:
 		pretty.print_debug(err)
 	return interface
 
@@ -68,7 +68,7 @@ def _create_dbus_connection(activate=False):
 
 def _truncate_long_text(text, maxlen=80):
 	if len(text) > maxlen:
-		return text[:maxlen - 1] + u'…'
+		return text[:maxlen - 1] + '…'
 	return text
 
 

@@ -212,7 +212,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 				contact_group = bus.get_object(connection_iface, channel[0])
 				try:
 					contacts = contact_group.Get(CHANNEL_GROUP_IFACE, "Members")
-				except dbus.exceptions.DBusException, ex:
+				except dbus.exceptions.DBusException as ex:
 					self.output_info(ex)
 					contacts = None
 				if contacts:
@@ -220,12 +220,12 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 						contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
 						contact_attributes = [str(a) for a in contact_attributes]
 						contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
-						for contact, details in contact_details.iteritems():
+						for contact, details in contact_details.items():
 								try:
 									status_code = details[_ATTRIBUTES.get("presence")][1]
-								except KeyError, ex:
+								except KeyError as ex:
 									self.output_info('Presence could not be established with %s. Leaving unknown.' % ex)
-									status_code = u'unknown'
+									status_code = 'unknown'
 								if not show_offline and status_code == 'offline':
 									continue
 								yield EmpathyContact(
@@ -249,7 +249,7 @@ class StatusSource(Source):
 		Source.__init__(self, _("Empathy Account Status"))
 
 	def get_items(self):
-		for status, name in _STATUSES.iteritems():
+		for status, name in _STATUSES.items():
 			yield AccountStatus(status, name)
 
 	def provides(self):

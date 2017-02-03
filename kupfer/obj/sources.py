@@ -87,7 +87,7 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
 			for fname in os.listdir(self.directory):
 				if self.show_hidden or not fname.startswith("."):
 					yield ConstructFileLeaf(path.join(self.directory, fname))
-		except OSError, exc:
+		except OSError as exc:
 			self.output_error(exc)
 
 	def should_sort_lexically(self):

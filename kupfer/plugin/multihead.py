@@ -24,7 +24,7 @@ def initialize_plugin(name):
 	screen = display.get_default_screen()
 	if display.get_n_screens() > 1:
 		pretty.print_info(__name__, "Starting Multi X screen support")
-		for idx in xrange(display.get_n_screens()):
+		for idx in range(display.get_n_screens()):
 			if idx != screen.get_number():
 				pretty.print_info(__name__, "Launching keyrelay for screen", idx)
 				screen_x = display.get_screen(idx)

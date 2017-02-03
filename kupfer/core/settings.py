@@ -1,6 +1,6 @@
-from __future__ import with_statement
 
-import ConfigParser
+
+import configparser
 import copy
 import os
 
@@ -69,13 +69,13 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		default -> then config
 		(in all XDG_CONFIG_DIRS)
 		"""
-		parser = ConfigParser.SafeConfigParser()
+		parser = configparser.SafeConfigParser()
 
 		def fill_parser(parser, defaults):
-			for secname, section in defaults.iteritems():
+			for secname, section in defaults.items():
 				if not parser.has_section(secname):
 					parser.add_section(secname)
-				for key, default in section.iteritems():
+				for key, default in section.items():
 					if isinstance(default, (tuple, list)):
 						default = self.sep.join(default)
 					elif isinstance(default, int):
@@ -91,7 +91,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		try:
 			defaults_path = config.get_data_file(self.defaults_filename)
 		except config.ResourceLookupError:
-			print("Error: no default config file %s found!" % self.defaults_filename)
+			print(("Error: no default config file %s found!" % self.defaults_filename))
 		else:
 			self._defaults_path = defaults_path
 			config_files += (defaults_path, )
@@ -105,8 +105,8 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 			try:
 				with open(config_file, "r") as fil:
 					parser.readfp(fil)
-			except IOError, e:
-				print("Error reading configuration file %s: %s", (config_file, e))
+			except IOError as e:
+				print(("Error reading configuration file %s: %s", (config_file, e)))
 
 		# Read parsed file into the dictionary again
 		for secname in parser.sections():
@@ -143,12 +143,12 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		def confmap_difference(config, defaults):
 			"""Extract the non-default keys to write out"""
 			difference = dict()
-			for secname, section in config.items():
+			for secname, section in list(config.items()):
 				if secname not in defaults:
 					difference[secname] = dict(section)
 					continue
 				difference[secname] = {}
-				for key, config_val in section.items():
+				for key, config_val in list(section.items()):
 					if (secname in defaults and
 							key in defaults[secname]):
 						if defaults[secname][key] == config_val:
@@ -158,12 +158,12 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 					del difference[secname]
 			return difference
 
-		parser = ConfigParser.SafeConfigParser()
+		parser = configparser.SafeConfigParser()
 		def fill_parser(parser, defaults):
-			for secname, section in defaults.iteritems():
+			for secname, section in defaults.items():
 				if not parser.has_section(secname):
 					parser.add_section(secname)
-				for key, default in section.iteritems():
+				for key, default in section.items():
 					if isinstance(default, (tuple, list)):
 						default = self.sep.join(default)
 					elif isinstance(default, int):
@@ -225,7 +225,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if self._defaults_path is None:
 			print('Defaults not found')
 			return
-		parser = ConfigParser.SafeConfigParser()
+		parser = configparser.SafeConfigParser()
 		parser.read(self._defaults_path)
 		if option is None:
 			return parser.items(section)
@@ -359,7 +359,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 			try:
 				val = value_type(val)
-			except ValueError, err:
+			except ValueError as err:
 				self.output_info("Error for stored value %s.%s" %
 						(plug_section, key), err)
 				return default
@@ -416,7 +416,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		if not category_key in self._alternative_validators:
 			return
 		validator = self._alternative_validators[category_key]
-		for (id_, alternative) in self._alternatives[category_key].iteritems():
+		for (id_, alternative) in self._alternatives[category_key].items():
 			name = alternative["name"]
 			if not validator or validator(alternative):
 				yield (id_, name)
@@ -433,7 +433,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		alt = alternatives.get(tool_id)
 		if not alt:
 			self.output_debug("Warning, no configuration for", category_key)
-		return alt or next(alternatives.itervalues(), None)
+		return alt or next(iter(alternatives.values()), None)
 
 	def _update_alternatives(self, category_key, alternatives, validator):
 		self._alternatives[category_key] = alternatives

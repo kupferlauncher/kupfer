@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import with_statement
+
 
 import os
 import re
-from ConfigParser import RawConfigParser
+from configparser import RawConfigParser
 
 from kupfer import pretty
 
@@ -19,8 +19,8 @@ Concept for mork parser from:
 	- mork.cs from GnomeDo by Pierre Östlund
 '''
 
-THUNDERBIRD_HOME = map(os.path.expanduser,
-		('~/.mozilla-thunderbird/', '~/.thunderbird', '~/.icedove/'))
+THUNDERBIRD_HOME = list(map(os.path.expanduser,
+		('~/.mozilla-thunderbird/', '~/.thunderbird', '~/.icedove/')))
 
 THUNDERBIRD_PROFILES = [(thome, os.path.join(thome, 'profiles.ini'))
 		for thome in THUNDERBIRD_HOME]
@@ -241,7 +241,7 @@ def _mork2contacts(tables):
 	# get only default table
 	table = tables.get('1:80')
 	if table:
-		for row in table.rows.itervalues():
+		for row in table.rows.values():
 			display_name = row.get('DisplayName')
 			if not display_name:
 				first_name = row.get('FirstName', '')
@@ -289,7 +289,7 @@ def get_contacts():
 		pretty.print_debug(__name__, 'get_contacts:', abook)
 		try:
 			tables = _read_mork(abook)
-		except IOError, err:
+		except IOError as err:
 			pretty.print_error(__name__, 'get_contacts error', abook, err)
 		else:
 			for item in _mork2contacts(tables):
@@ -297,4 +297,4 @@ def get_contacts():
 
 
 if __name__ == '__main__':
-	print '\n'.join(map(str, sorted(get_contacts())))
+	print('\n'.join(map(str, sorted(get_contacts()))))

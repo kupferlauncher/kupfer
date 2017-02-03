@@ -16,7 +16,7 @@ def parse_epiphany_bookmarks(filename):
 	"""
 	UNWANTED_SCHEME = set(("data", "javascript"))
 
-	ns = u"{http://purl.org/rss/1.0/}"
+	ns = "{http://purl.org/rss/1.0/}"
 	ITEM_NAME = ns + "item"
 	HREF_NAME = ns + "link"
 	TITLE_NAME = ns + "title"
@@ -43,4 +43,4 @@ def parse_epiphany_bookmarks(filename):
 if __name__ == '__main__':
 	import os
 	f = os.path.expanduser(EPHY_BOOKMARKS_FILE)
-	print "Got ET # bookmarks:", len(list(parse_epiphany_bookmarks(f)))
+	print("Got ET # bookmarks:", len(list(parse_epiphany_bookmarks(f))))

@@ -34,7 +34,7 @@ setup_locale_and_gettext()
 
 def prt(*args):
 	enc = locale.getpreferredencoding(do_setlocale=False)
-	print((u" ".join(args)).encode(enc, "replace"))
+	print(((" ".join(args)).encode(enc, "replace")))
 
 def get_options():
 	"""Return a list of other application flags with --* prefix included."""
@@ -60,7 +60,7 @@ def get_options():
 		def format_options(opts):
 			return "\n".join("  --%-15s  %s" % (o,h) for o,h in opts)
 
-		options_string = u"%s\n\n%s\n\n%s\n" % (usage_string,
+		options_string = "%s\n\n%s\n\n%s\n" % (usage_string,
 				format_options(program_options), format_options(misc_options))
 
 		return options_string
@@ -80,7 +80,7 @@ def get_options():
 				[o for o,h in program_options] +
 				[o for o,h in misc_options])
 	except getopt.GetoptError as exc:
-		prt(unicode(exc))
+		prt(str(exc))
 		prt(make_help_text())
 		raise SystemExit
 
@@ -158,7 +158,7 @@ def gtkmain(quiet):
 	import gtk
 
 	if not gtk.gdk.screen_get_default():
-		print >>sys.stderr, "No Screen Found, Exiting..."
+		print("No Screen Found, Exiting...", file=sys.stderr)
 		sys.exit(1)
 
 	from kupfer.ui import browser

@@ -75,7 +75,7 @@ def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
 			obj = sbus.get_object(_BUS_NAME, obj_path)
 			if obj:
 				interface = dbus.Interface(obj, obj_name)
-	except dbus.exceptions.DBusException, err:
+	except dbus.exceptions.DBusException as err:
 		pretty.print_debug(err)
 	return interface
 
@@ -85,12 +85,12 @@ def _get_all_songs_via_dbus():
 			_OBJ_PATH_MEDIASERVC_ALL)
 	if iface:
 		for item in iface.ListItems(0, 9999, ['*']):
-			yield {'album': unicode(item['Album']),
-					'artist': unicode(item['Artist']),
-					'title': unicode(item['DisplayName']),
-					'track-number': unicode(item['TrackNumber']),
-					'title': unicode(item['DisplayName']),
-					'location': unicode(item['URLs'][0])}
+			yield {'album': str(item['Album']),
+					'artist': str(item['Artist']),
+					'title': str(item['DisplayName']),
+					'track-number': str(item['TrackNumber']),
+					'title': str(item['DisplayName']),
+					'location': str(item['URLs'][0])}
 
 def play_song(info):
 	uri = _tostr(info["location"])
@@ -279,7 +279,7 @@ class SongLeaf (Leaf):
 
 class CollectionSource (Source):
 	def __init__(self, leaf):
-		Source.__init__(self, unicode(leaf))
+		Source.__init__(self, str(leaf))
 		self.leaf = leaf
 	def get_items(self):
 		for song in self.leaf.object:
@@ -346,7 +346,7 @@ class AlbumLeaf (TrackCollection):
 
 	def _get_thumb_mediaart(self):
 		"""old thumb location"""
-		ltitle = unicode(self).lower()
+		ltitle = str(self).lower()
 		# ignore the track artist -- use the space fallback
 		# hash of ' ' as fallback
 		hspace = "7215ee9c7d9dc229d2921a40e899ec5f"
@@ -357,7 +357,7 @@ class AlbumLeaf (TrackCollection):
 
 	def _get_thumb_rhythmbox(self):
 		artist = self.object[0]["artist"]
-		album = unicode(self)
+		album = str(self)
 		bs_artist_album = \
 			" - ".join([us.encode("ascii", "ignore") for us in (artist, album)]) \
 			+ ".jpg"
@@ -386,7 +386,7 @@ class ArtistAlbumsSource (CollectionSource):
 class ArtistLeaf (TrackCollection):
 	def get_description(self):
 		# TRANS: Artist songs collection description
-		return _("Tracks by %s") % (unicode(self), )
+		return _("Tracks by %s") % (str(self), )
 	def get_gicon(self):
 		return icons.ComposedIcon("media-optical", "system-users")
 	def content_source(self, alternate=False):
@@ -482,7 +482,7 @@ class RhythmboxSource (AppLeafContentMixin, Source):
 			try:
 				dbfile = config.get_data_file("rhythmdb.xml", "rhythmbox")
 				songs = rhythmbox_support.get_rhythmbox_songs(dbfile=dbfile)
-			except StandardError, e:
+			except Exception as e:
 				self.output_error(e)
 				songs = []
 		albums = rhythmbox_support.parse_rhythmbox_albums(songs)

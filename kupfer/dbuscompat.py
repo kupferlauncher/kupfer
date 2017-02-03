@@ -33,7 +33,7 @@ class ExportedGObjectType(gobject.GObjectMeta, dbus.service.InterfaceType):
         gobject.GObjectMeta.__init__(cls, name, bases, dct)
         dbus.service.InterfaceType.__init__(cls, name, bases, dct)
 
-class ExportedGObject(gobject.GObject, dbus.service.Object):
+class ExportedGObject(gobject.GObject, dbus.service.Object, metaclass=ExportedGObjectType):
     """A GObject which is exported on the D-Bus.
 
     Because GObject and `dbus.service.Object` both have custom metaclasses,
@@ -41,7 +41,6 @@ class ExportedGObject(gobject.GObject, dbus.service.Object):
     class has `ExportedGObjectType` as its metaclass, which is sufficient
     to make it work correctly.
     """
-    __metaclass__ = ExportedGObjectType
 
     def __init__(self, conn=None, object_path=None, **kwargs):
         """Initialize an exported GObject.

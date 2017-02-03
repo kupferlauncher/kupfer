@@ -9,7 +9,7 @@ __description__ = _("Search in Wikipedia")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from kupfer.objects import Action, TextLeaf
 from kupfer import utils, plugin_support
@@ -35,7 +35,7 @@ class WikipediaSearch (Action):
 		lang_code = __kupfer_settings__["lang"]
 		search_url="http://%s.wikipedia.org/w/index.php?title=Special:Search&go=Go" % lang_code
 		# will encode search=text, where `text` is escaped
-		query_url = search_url + "&" + urllib.urlencode({"search": leaf.object})
+		query_url = search_url + "&" + urllib.parse.urlencode({"search": leaf.object})
 		utils.show_url(query_url)
 	def item_types(self):
 		yield TextLeaf

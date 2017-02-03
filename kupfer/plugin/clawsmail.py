@@ -149,7 +149,7 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 						for address in addresses:
 							email = address.getAttribute('email')
 							yield EmailContact(email, cn)
-				except (StandardError, xml.parsers.expat.ExpatError), err:
+				except (Exception, xml.parsers.expat.ExpatError) as err:
 					self.output_error(err)
 
 		yield ComposeMail()
@@ -176,7 +176,7 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 			dtree = minidom.parse(self._claws_addrbook_index)
 			for book in dtree.getElementsByTagName('book'):
 				yield book.getAttribute('file')
-		except (StandardError, xml.parsers.expat.ExpatError), err:
+		except (Exception, xml.parsers.expat.ExpatError) as err:
 			self.output_error(err)
 
 

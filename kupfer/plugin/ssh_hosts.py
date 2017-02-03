@@ -91,9 +91,9 @@ class SSHSource (ToplevelGroupingSource, FilesystemWatchMixin):
 						if "*" in word:
 							continue
 						yield SSHLeaf(word)
-		except EnvironmentError, exc:
+		except EnvironmentError as exc:
 			self.output_error(exc)
-		except UnicodeError, exc:
+		except UnicodeError as exc:
 			self.output_error("File %s not in expected encoding (UTF-8)" %
 					self._config_path)
 			self.output_error(exc)

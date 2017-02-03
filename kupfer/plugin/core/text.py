@@ -1,6 +1,6 @@
 import os
-import urlparse
-import urllib
+import urllib.parse
+import urllib.request, urllib.parse, urllib.error
 
 import gobject
 
@@ -8,11 +8,11 @@ from kupfer.objects import TextSource, TextLeaf, FileLeaf, UrlLeaf
 from kupfer.obj.objects import OpenUrl
 from kupfer import utils
 
-__kupfer_name__ = u"Free-text Queries"
+__kupfer_name__ = "Free-text Queries"
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource",)
 __kupfer_actions__ = ("OpenTextUrl", )
-__description__ = u"Basic support for free-text queries"
+__description__ = "Basic support for free-text queries"
 __version__ = "2009-12-16"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -32,13 +32,13 @@ class BasicTextSource (TextSource):
 class PathTextSource (TextSource):
 	"""Return existing full paths if typed"""
 	def __init__(self):
-		TextSource.__init__(self, name=u"Filesystem Text Matches")
+		TextSource.__init__(self, name="Filesystem Text Matches")
 
 	def get_rank(self):
 		return 80
 	def get_text_items(self, text):
 		# Find directories or files
-		prefix = os.path.expanduser(u"~/")
+		prefix = os.path.expanduser("~/")
 		ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
 		# use filesystem encoding here
 		filepath = gobject.filename_from_utf8(os.path.normpath(ufilepath))
@@ -50,7 +50,7 @@ class PathTextSource (TextSource):
 def is_url(text):
 	"""If @text is an URL, return a cleaned-up URL, else return None"""
 	text = text.strip()
-	components = list(urlparse.urlparse(text))
+	components = list(urllib.parse.urlparse(text))
 	domain = "".join(components[1:])
 	dotparts = domain.rsplit(".")
 
@@ -80,7 +80,7 @@ def try_unquote_url(url):
 	except UnicodeEncodeError:
 		return url
 	try:
-		return urllib.unquote(burl).decode("UTF-8")
+		return urllib.parse.unquote(burl).decode("UTF-8")
 	except UnicodeDecodeError:
 		return url
 
@@ -99,14 +99,14 @@ class OpenTextUrl (OpenUrl):
 class URLTextSource (TextSource):
 	"""detect URLs and webpages"""
 	def __init__(self):
-		TextSource.__init__(self, name=u"URL Text Matches")
+		TextSource.__init__(self, name="URL Text Matches")
 
 	def get_rank(self):
 		return 75
 	def get_text_items(self, text):
 		# Only detect "perfect" URLs
 		text = text.strip()
-		components = list(urlparse.urlparse(text))
+		components = list(urllib.parse.urlparse(text))
 		domain = "".join(components[1:])
 
 		# If urlparse parses a scheme (http://), it's an URL

@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import with_statement
+
 
 
 __kupfer_name__ = _("PuTTY Sessions")
@@ -11,7 +11,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from kupfer.objects import Action
 from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
@@ -96,7 +96,7 @@ class PuttySessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 
 			obj_path = os.path.join(self._putty_sessions_dir, filename)
 			if os.path.isfile(obj_path):
-				name = urllib.unquote(filename)
+				name = urllib.parse.unquote(filename)
 				description, host = self._load_host_from_session_file(obj_path)
 				yield PuttySession(name, host, description)
 
@@ -121,15 +121,15 @@ class PuttySessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 					elif line.startswith('UserName='):
 						user = line.split('=', 2)[1].strip()
 
-		except IOError, err:
+		except IOError as err:
 			self.output_error(err)
 
 		else:
 			if host:
-				return unicode(user + '@' + host if user else host, "UTF-8",
-						"replace"), unicode(host, 'UTF-8', 'replace')
+				return str(user + '@' + host if user else host, "UTF-8",
+						"replace"), str(host, 'UTF-8', 'replace')
 
-		return u'PuTTY Session', None
+		return 'PuTTY Session', None
 
 
 

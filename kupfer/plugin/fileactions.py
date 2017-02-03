@@ -47,8 +47,8 @@ class MoveTo (Action, pretty.OutputMixin):
 		try:
 			ret = sfile.move(dfile, flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
-		except gio.Error, exc:
-			raise OperationError(unicode(exc))
+		except gio.Error as exc:
+			raise OperationError(str(exc))
 		else:
 			return FileLeaf(dfile.get_path())
 
@@ -90,7 +90,7 @@ class RenameSource (TextSource):
 		basename = os_path.basename(self.sourcefile.object)
 		root, ext = os_path.splitext(basename)
 		t_root, t_ext = os_path.splitext(text)
-		if text.endswith(u" "):
+		if text.endswith(" "):
 			yield TextLeaf(text.rstrip())
 		else:
 			yield TextLeaf(text) if t_ext else TextLeaf(t_root + ext)
@@ -111,8 +111,8 @@ class Rename (Action, pretty.OutputMixin):
 		try:
 			ret = sfile.move(dfile)
 			self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
-		except gio.Error, exc:
-			raise OperationError(unicode(exc))
+		except gio.Error as exc:
+			raise OperationError(str(exc))
 		else:
 			return FileLeaf(dfile.get_path())
 
@@ -169,8 +169,8 @@ class CopyTo (Action, pretty.OutputMixin):
 					user_data=(dfile, ctx),
 					flags=gio.FILE_COPY_ALL_METADATA)
 			self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
-		except gio.Error, exc:
-			raise OperationError(unicode(exc))
+		except gio.Error as exc:
+			raise OperationError(str(exc))
 
 	def item_types(self):
 		yield FileLeaf

@@ -43,7 +43,7 @@ plugin_support.check_dbus_connection()
 
 def unicode_strftime(fmt, time_tuple=None):
 	enc = locale.getpreferredencoding(False)
-	return unicode(time.strftime(fmt, time_tuple), enc, "replace")
+	return str(time.strftime(fmt, time_tuple), enc, "replace")
 
 ## Tuples of  service name, object name, interface name
 PROGRAM_SERIVCES = {
@@ -78,7 +78,7 @@ def _get_notes_interface(activate=False):
 
 		try:
 			searchobj = bus.get_object(service_name, obj_name)
-		except dbus.DBusException, e:
+		except dbus.DBusException as e:
 			pretty.print_error(__name__, e)
 			return
 		notes = dbus.Interface(searchobj, iface_name)
@@ -108,9 +108,9 @@ class AppendToNote (Action):
 
 		# NOTE: We search and replace in the XML here
 		xmlcontents = notes.GetNoteCompleteXml(noteuri)
-		endtag = u"</note-content>"
+		endtag = "</note-content>"
 		xmltext = xml.sax.saxutils.escape(text)
-		xmlcontents = xmlcontents.replace(endtag, u"\n%s%s" % (xmltext, endtag))
+		xmlcontents = xmlcontents.replace(endtag, "\n%s%s" % (xmltext, endtag))
 		notes.SetNoteCompleteXml(noteuri, xmlcontents)
 
 	def item_types(self):
@@ -131,9 +131,9 @@ def _prepare_note_text(text):
 	## if we only get the title, put in two helpful newlines
 	title, body = textutils.extract_title_body(text)
 	if body.lstrip():
-		return u"%s\n%s" % (title, body)
+		return "%s\n%s" % (title, body)
 	else:
-		return u"%s\n\n" % (title,)
+		return "%s\n\n" % (title,)
 
 class CreateNote (Action):
 	def __init__(self):
@@ -243,7 +243,7 @@ class NotesSource (ApplicationSource):
 	def _update_cache(self, notes):
 		try:
 			noteuris = notes.ListAllNotes()
-		except dbus.DBusException, e:
+		except dbus.DBusException as e:
 			self.output_error("%s: %s" % (type(e).__name__, e))
 			return
 

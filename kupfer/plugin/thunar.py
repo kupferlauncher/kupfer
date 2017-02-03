@@ -40,7 +40,7 @@ def _get_thunar():
 	bus = dbus.SessionBus()
 	try:
 		proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
-	except dbus.DBusException, e:
+	except dbus.DBusException as e:
 		pretty.print_error(__name__, e)
 		return
 	iface_obj = dbus.Interface(proxy_obj, IFACE_NAME)
@@ -53,7 +53,7 @@ def _get_thunar_trash():
 	bus = dbus.SessionBus()
 	try:
 		proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
-	except dbus.DBusException, e:
+	except dbus.DBusException as e:
 		pretty.print_error(__name__, e)
 		return
 	iface_obj = dbus.Interface(proxy_obj, TRASH_IFACE_NAME)

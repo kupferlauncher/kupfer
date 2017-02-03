@@ -84,28 +84,28 @@ class OperaContactsSource(ToplevelGroupingSource, FilesystemWatchMixin):
 			with codecs.open(self._contacts_path, "r", "UTF-8") as bfile:
 				for line in bfile:
 					line = line.strip()
-					if line.startswith(u'-'):
+					if line.startswith('-'):
 						folderList.pop()
-					elif line.startswith(u'#FOLDER'):
+					elif line.startswith('#FOLDER'):
 						entryType = 'Folder'
-					elif line.startswith(u'#CONTACT'):
+					elif line.startswith('#CONTACT'):
 						entryType = 'Contact'
-					elif line.startswith(u'TRASH FOLDER=YES'):
+					elif line.startswith('TRASH FOLDER=YES'):
 						folderList[-1] = TRASH
-					elif line.startswith(u'NAME='):
+					elif line.startswith('NAME='):
 						name = line[5:]
 						if entryType == 'Folder':
 							folderList.append(name)
-					elif line.startswith(u'MAIL=') and name and \
+					elif line.startswith('MAIL=') and name and \
 							entryType == 'Contact' and not TRASH in folderList:
 						# multiple addresses separated with
 						# two Ctrl-B (\x02) characters
 						emails = line[5:].split('\x02\x02')
 						for e in emails:
 							yield EmailContact(e, name)
-		except EnvironmentError, exc:
+		except EnvironmentError as exc:
 			self.output_error(exc)
-		except UnicodeError, exc:
+		except UnicodeError as exc:
 			self.output_error("File %s not in expected encoding (UTF-8)" %
 					self._bookmarks_path)
 			self.output_error(exc)

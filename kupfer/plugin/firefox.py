@@ -1,5 +1,5 @@
 # encoding: utf-8
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
@@ -96,7 +96,7 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 		bookmarks, tags = firefox3_support.get_bookmarks(fpath)
 		for book in bookmarks:
 			yield UrlLeaf(book["uri"], book["title"] or book["uri"])
-		for tag, items in tags.iteritems():
+		for tag, items in tags.items():
 			yield Tag(tag, items)
 
 	def _get_ffx2_bookmarks(self, fpath):

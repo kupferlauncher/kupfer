@@ -51,7 +51,7 @@ def two_part_unescaper(s, reptable):
 			if key in reptable:
 				yield reptable[key]
 				try:
-					it.next()
+					next(it)
 				except StopIteration:
 					return
 			else:
@@ -63,7 +63,7 @@ def custom_shlex_split(s, comments=False, posix=True):
 	"""
 	Wrapping shlex.split
 	"""
-	if isinstance(s, unicode):
+	if isinstance(s, str):
 		is_unicode = True
 		s = s.encode("UTF-8")
 	else:

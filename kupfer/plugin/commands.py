@@ -6,8 +6,8 @@ __kupfer_actions__ = (
 		"WriteToCommand",
 	)
 __kupfer_text_sources__ = ("CommandTextSource",)
-__description__ = _(u"Run command-line programs. Actions marked with"
-                    u" the symbol %s run in a subshell.") % u"\N{GEAR}"
+__description__ = _("Run command-line programs. Actions marked with"
+                    " the symbol %s run in a subshell.") % "\N{GEAR}"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -56,7 +56,7 @@ class GetOutput (Action):
 		utils.AsyncCommand(argv, finish_callback, 15)
 
 	def get_description(self):
-		return _("Run program and return its output") + u" \N{GEAR}"
+		return _("Run program and return its output") + " \N{GEAR}"
 
 class PassToCommand (Action):
 	def __init__(self):
@@ -105,7 +105,7 @@ class PassToCommand (Action):
 
 	def get_description(self):
 		return _("Run program with object as an additional parameter") + \
-		        u" \N{GEAR}"
+		        " \N{GEAR}"
 
 
 class WriteToCommand (Action):
@@ -147,7 +147,7 @@ class WriteToCommand (Action):
 
 	def get_description(self):
 		return _("Run program and supply text on the standard input") + \
-		        u" \N{GEAR}"
+		        " \N{GEAR}"
 
 class FilterThroughCommand (WriteToCommand):
 	def __init__(self):
@@ -159,7 +159,7 @@ class FilterThroughCommand (WriteToCommand):
 
 	def get_description(self):
 		return _("Run program and supply text on the standard input") + \
-		        u" \N{GEAR}"
+		        " \N{GEAR}"
 
 class Command (TextLeaf):
 	def __init__(self, exepath, name):
@@ -172,8 +172,8 @@ class Command (TextLeaf):
 		yield GetOutput()
 
 	def get_description(self):
-		args = u" ".join(unicode(self).split(None, 1)[1:])
-		return u"%s %s" % (self.exepath, args)
+		args = " ".join(str(self).split(None, 1)[1:])
+		return "%s %s" % (self.exepath, args)
 
 	def get_gicon(self):
 		return icons.get_gicon_for_file(self.exepath)

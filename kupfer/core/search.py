@@ -3,10 +3,10 @@
 from kupfer.core import learn, relevance
 
 def make_rankables(itr, rank=0):
-	return (Rankable(unicode(obj), obj, rank) for obj in itr)
+	return (Rankable(str(obj), obj, rank) for obj in itr)
 
 def wrap_rankable(obj, rank=0):
-	return Rankable(unicode(obj), obj, rank)
+	return Rankable(str(obj), obj, rank)
 
 class Rankable (object):
 	"""

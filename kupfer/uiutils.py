@@ -117,7 +117,7 @@ def _wrap_paragraphs(text):
 	Return @text with linewrapped paragraphs
 	"""
 	import textwrap
-	return u"\n\n".join(textwrap.fill(par) for par in text.split("\n\n"))
+	return "\n\n".join(textwrap.fill(par) for par in text.split("\n\n"))
 
 def show_large_type(text, ctx=None):
 	"""
@@ -192,7 +192,7 @@ def _get_notification_iface():
 	try:
 		bus = dbus.SessionBus()
 		proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
-	except dbus.DBusException, e:
+	except dbus.DBusException as e:
 		pretty.print_debug(__name__, e)
 		return
 	iface_obj = dbus.Interface(proxy_obj, IFACE_NAME)

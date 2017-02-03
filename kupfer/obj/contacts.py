@@ -130,7 +130,7 @@ class JabberContact (IMContact):
 				{
 					"status": status or _("unknown"),
 					"userid": jid,
-					"service": resource or u"",
+					"service": resource or "",
 				}
 
 	def get_description(self):

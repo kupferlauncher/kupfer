@@ -70,7 +70,7 @@ class Skype(object):
 		self._authenticated = False
 		try:
 			self.bus = bus = dbus.Bus()
-		except dbus.DBusException, err:
+		except dbus.DBusException as err:
 			pretty.print_error(__name__, 'Skype', '__init__', err)
 			return
 
@@ -111,7 +111,7 @@ class Skype(object):
 						return None
 					self._authenticated = True
 				return skype
-		except dbus.exceptions.DBusException, err:
+		except dbus.exceptions.DBusException as err:
 			pretty.print_debug(__name__, 'Skype', '_get_skype', err)
 		return None
 
@@ -287,7 +287,7 @@ class StatusSource(Source):
 		Source.__init__(self, _("Skype Statuses"))
 
 	def get_items(self):
-		for status, name in _STATUSES.iteritems():
+		for status, name in _STATUSES.items():
 			yield AccountStatus(status, name)
 
 	def provides(self):

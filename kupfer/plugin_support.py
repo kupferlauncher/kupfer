@@ -51,8 +51,8 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 		self.signal_connection = -1
 		req_keys = set(("key", "value", "type", "label"))
 		for desc in setdescs:
-			if not req_keys.issubset(desc.keys()):
-				missing = req_keys.difference(desc.keys())
+			if not req_keys.issubset(list(desc.keys())):
+				missing = req_keys.difference(list(desc.keys()))
 				raise KeyError("Plugin setting missing keys: %s" % missing)
 			self.setting_descriptions[desc["key"]] = dict(desc)
 			self.setting_key_order.append(desc["key"])
@@ -237,7 +237,7 @@ _available_alternatives = {
 	"terminal": {
 		"filter": _is_valid_terminal,
 		"required_keys": {
-			'name': unicode,
+			'name': str,
 			'argv': list,
 			'exearg': str,
 			'desktopid': str,
@@ -247,7 +247,7 @@ _available_alternatives = {
 	"icon_renderer": {
 		"filter": None,
 		"required_keys": {
-			'name': unicode,
+			'name': str,
 			'renderer': object,
 		},
 	},

@@ -177,8 +177,7 @@ class ClipboardSource (Source):
 			yield SelectedText(self.selected_text)
 
 		# produce the current clipboard files if any
-		paths = filter(None, 
-		        [gio.File(uri=uri).get_path() for uri in self.clipboard_uris])
+		paths = [_f for _f in [gio.File(uri=uri).get_path() for uri in self.clipboard_uris] if _f]
 		if len(paths) == 1:
 			yield CurrentClipboardFile(paths[0])
 		if len(paths) > 1:

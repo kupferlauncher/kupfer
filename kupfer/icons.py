@@ -53,7 +53,7 @@ def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
 		# ignore '#'-comments
 		if line.startswith("#") or not line.strip():
 			continue
-		fields = map(str.strip, line.split('\t'))
+		fields = list(map(str.strip, line.split('\t')))
 		if len(fields) < 2:
 			pretty.print_error(__name__, "Malformed icon-list line %r from %r" %
 			                   (line, plugin_name))
@@ -142,7 +142,7 @@ class ComposedIcon (Icon):
 	class _ThemedIcon (Implementation, ThemedIcon):
 		def __init__(self, fallback, baseicon, emblem):
 			ComposedIcon.Implementation.__init__(self, baseicon, emblem)
-			if isinstance(fallback, basestring):
+			if isinstance(fallback, str):
 				names = (fallback, )
 			else:
 				names = fallback.get_names()
@@ -158,7 +158,7 @@ class ComposedIcon (Icon):
 		which may be GIcons or icon names (strings)
 		"""
 		fallback = emblem if emblem_is_fallback else baseicon
-		if isinstance(fallback, (basestring, ThemedIcon)):
+		if isinstance(fallback, (str, ThemedIcon)):
 			return cls._ThemedIcon(fallback, baseicon, emblem)
 		if isinstance(fallback, FileIcon):
 			return cls._FileIcon(fallback, baseicon, emblem)
@@ -223,7 +223,7 @@ def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
 	try:
 		icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
 		return icon
-	except GError, e:
+	except GError as e:
 		# this error is not important, the program continues on fine,
 		# so we put it in debug output.
 		pretty.print_debug(__name__, "get_pixbuf_from_file file:", thumb_path,
@@ -273,7 +273,7 @@ def _get_icon_for_standard_gicon(gicon, icon_size):
 	if isinstance(gicon, ThemedIcon):
 		names = gicon.get_names()
 		return get_icon_for_name(names[0], icon_size, names)
-	print "get_icon_for_gicon, could not load", gicon
+	print("get_icon_for_gicon, could not load", gicon)
 	return None
 
 

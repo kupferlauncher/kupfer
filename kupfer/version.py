@@ -14,7 +14,7 @@ else:
 ICON_NAME = "kupfer"
 PROGRAM_NAME = _("Kupfer")
 
-AUTHORS = u"""Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 Karol Będkowski
 Francesco Marella
 Chmouel Boudjnah
@@ -26,12 +26,12 @@ Jakh Daven
 Thomas Renard
 """.splitlines()
 
-PACKAGERS=u"""
+PACKAGERS="""
 Luca Falavigna (Debian, Ubuntu)
 Francesco Marella (Ubuntu PPA)
 """.splitlines()
 
-TRANSLATORS=u"""
+TRANSLATORS="""
 Marek Černocký (cs)
 Petr Kovar (cs)
 Joe Hansen (da)
@@ -61,7 +61,7 @@ Aron Xu (zh_CN)
 Yinghua Wang (zh_CN)
 """.splitlines()
 
-ARTISTS=u"""Nasser Alshammari <designernasser@gmail.com>
+ARTISTS="""Nasser Alshammari <designernasser@gmail.com>
 """.splitlines()
 
 AUTHORS += ARTISTS + PACKAGERS + TRANSLATORS
@@ -72,11 +72,11 @@ DOCUMENTERS = []
 # TRANS: This should be a list of all translators of this language
 TRANSLATOR_CREDITS = _("translator-credits")
 
-WEBSITE = u"http://kaizer.se/wiki/kupfer/"
-HELP_WEBSITE = u"http://kaizer.se/wiki/kupfer/help/"
+WEBSITE = "http://kaizer.se/wiki/kupfer/"
+HELP_WEBSITE = "http://kaizer.se/wiki/kupfer/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = u"""Copyright © 2007--2011 Ulrik Sverdrup with others"""
+COPYRIGHT = """Copyright © 2007--2011 Ulrik Sverdrup with others"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify

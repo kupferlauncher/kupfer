@@ -63,7 +63,7 @@ class SessionsSource(ApplicationSource):
 
 			for entry in gc.all_dirs(GCONF_KEY):
 				yield Terminal(gc.get_string("%s/visible_name" % entry))
-		except glib.GError, err:
+		except glib.GError as err:
 			self.output_error(err)
 
 	def should_sort_lexically(self):

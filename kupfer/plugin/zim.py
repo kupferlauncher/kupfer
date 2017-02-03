@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Zim")
 __kupfer_sources__ = ("ZimPagesSource", )
@@ -356,7 +356,7 @@ def _get_zim_notebooks():
 			return _read_zim_notebooks_new(zim_notebooks_file)
 		else:
 			return _read_zim_notebooks_old(zim_notebooks_file)
-	except IOError, err:
+	except IOError as err:
 		pretty.print_error(__name__, err)
 
 
@@ -406,8 +406,8 @@ class ZimPagesSource(AppLeafContentMixin, Source):
 					if strip_name_first_colon:
 						page_name = page_name.lstrip(os.path.sep)
 					page_name = (page_name
-							.replace(os.path.sep, u":")
-							.replace(u"_", u" "))
+							.replace(os.path.sep, ":")
+							.replace("_", " "))
 					yield ZimPage(file_path, page_name, notebook_path,
 							notebook_name)
 

@@ -340,7 +340,7 @@ class ActiveVim (AppLeafContentMixin, Source):
 	def on_new_serverlist(self, new_list):
 		self.output_debug("New list:", list(new_list))
 		if set(new_list) != set(self.serverids):
-			self.serverids = map(str, new_list)
+			self.serverids = list(map(str, new_list))
 			self.mark_for_update()
 
 	def provides(self):

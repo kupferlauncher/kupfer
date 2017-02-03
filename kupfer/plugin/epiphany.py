@@ -25,7 +25,7 @@ class EpiphanySource (AppLeafContentMixin, Source):
 
 		try:
 			bookmarks = list(epiphany_support.parse_epiphany_bookmarks(fpath))
-		except EnvironmentError, exc:
+		except EnvironmentError as exc:
 			self.output_error(exc)
 			return ()
 

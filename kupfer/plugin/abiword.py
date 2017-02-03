@@ -69,7 +69,7 @@ class RecentsSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 
 		try:
 			uris = list(get_abiword_files(abifile))
-		except EnvironmentError, exc:
+		except EnvironmentError as exc:
 			self.output_error(exc)
 			return
 

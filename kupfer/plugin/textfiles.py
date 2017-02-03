@@ -8,7 +8,7 @@ to textfiles, we always work in the locale-defined encoding.
 FIXME: Be less strict (use UTF-8 if locale says Ascii)
 """
 
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Textfiles")
 __kupfer_actions__ = (

@@ -17,7 +17,7 @@ def _is_debug():
 
 class DebugRestart (RunnableLeaf):
 	def __init__(self):
-		RunnableLeaf.__init__(self, None, u"Restart Kupfer")
+		RunnableLeaf.__init__(self, None, "Restart Kupfer")
 
 	@classmethod
 	def _exec_new_kupfer(cls, executable, argv):
@@ -31,7 +31,7 @@ class DebugRestart (RunnableLeaf):
 		atexit.register(self._exec_new_kupfer, sys.executable, sys.argv)
 
 	def get_description(self):
-		return u"Restart Kupfer quickly (for internal kupfer use)"
+		return "Restart Kupfer quickly (for internal kupfer use)"
 	def get_icon_name(self):
 		return "view-refresh"
 

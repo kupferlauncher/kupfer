@@ -133,7 +133,7 @@ class VolumeSource (AppLeafContentMixin, Source, PicklingHelperMixin):
 					
 					yield Volume(gfile.get_path(), gfile.get_basename())
 
-		except StandardError, err:
+		except Exception as err:
 			self.output_error(err)
 
 	def get_description(self):

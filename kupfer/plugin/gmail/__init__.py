@@ -7,7 +7,7 @@ __version__ = "2011-03-06"
 __author__ = ("Karol Będkowski <karol.bedkowski@gmail.com>, "
               "Adi Sieker <adi@sieker.info>")
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import time
 
 import gdata.service
@@ -96,7 +96,7 @@ class NewMailAction(Action):
 		self.activate_multiple((obj, ))
 
 	def activate_multiple(self, objects):
-		recipients = ",".join(urllib.quote(contacts.email_from_leaf(L))
+		recipients = ",".join(urllib.parse.quote(contacts.email_from_leaf(L))
 				for L in objects)
 		url = GMAIL_NEW_MAIL_URL % dict(emails=recipients)
 		utils.show_url(url)
@@ -200,11 +200,11 @@ def get_contacts():
 				if im_id and protocol in REL_LIST_IM:
 					yield REL_LIST_IM[protocol](im_id, common_name,
 							slots=primary_mail_key, image=image)
-	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired), err:
+	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired) as err:
 		pretty.print_error(__name__, 'get_contacts error',
 				'authentication error', err)
 		yield InvalidCredentialsLeaf(__name__, __kupfer_name__)
-	except gdata.service.Error, err:
+	except gdata.service.Error as err:
 		pretty.print_error(__name__, 'get_contacts error', err)
 	else:
 		pretty.print_debug(__name__, 'get_contacts finished; load contacts:',

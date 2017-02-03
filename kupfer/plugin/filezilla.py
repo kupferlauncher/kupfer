@@ -115,7 +115,7 @@ class SitesSource (AppLeafContentMixin, ToplevelGroupingSource,
 					descr = '%s@%s' % (user, host) if user else host
 
 				yield Site(name, host, descr, port, user, passwd, remote, etype)
-		except StandardError, err:
+		except Exception as err:
 			self.output_error(err)
 
 	def get_description(self):

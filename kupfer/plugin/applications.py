@@ -111,7 +111,7 @@ class SetDefaultApplication (Action):
 		gfile = gio.File(leaf.object)
 		info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
 		content_type = info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
-		print content_type, gfile
+		print(content_type, gfile)
 		desktop_item = obj.object
 		desktop_item.set_as_default_for_type(content_type)
 	def item_types(self):

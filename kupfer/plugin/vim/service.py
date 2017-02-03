@@ -18,7 +18,7 @@ try:
 	from dbus.mainloop.glib import DBusGMainLoop
 
 except (ImportError, dbus.exceptions.DBusException) as exc:
-	print exc
+	print(exc)
 	raise SystemExit(1)
 
 PLUGID='vim'

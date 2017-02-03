@@ -110,7 +110,7 @@ class FavoritesSource (Source):
 		if id_ in self.references:
 			self.references.remove(id_)
 		else:
-			for key, val in self.persist_table.iteritems():
+			for key, val in self.persist_table.items():
 				if val == itm:
 					self.references.remove(key)
 					self.persist_table.pop(key)

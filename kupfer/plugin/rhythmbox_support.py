@@ -8,7 +8,7 @@ UNICODE_KEYS = set(("title", "artist", "album"))
 def _tounicode(bstr):
 	# the XML parser returns `str' only when it's ascii, but we want
 	# unicode objects all the time
-	if isinstance(bstr, unicode):
+	if isinstance(bstr, str):
 		return bstr
 	return bstr.decode("ascii")
 

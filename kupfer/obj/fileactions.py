@@ -41,7 +41,7 @@ class Open (Action):
 			apps_for_type = gio.app_info_get_all_for_type(content_type)
 			raise NoDefaultApplicationError(
 					(_("No default application for %(file)s (%(type)s)") % 
-					 {"file": unicode(leaf), "type": content_type}) + "\n" +
+					 {"file": str(leaf), "type": content_type}) + "\n" +
 					_('Please use "%s"') % _("Set Default Application...")
 				)
 		return def_app
@@ -61,7 +61,7 @@ class Open (Action):
 			appmap[id_] = app
 			leafmap.setdefault(id_, []).append(obj)
 
-		for id_, leaves in leafmap.iteritems():
+		for id_, leaves in leafmap.items():
 			app = appmap[id_]
 			launch.launch_application(app, paths=[L.object for L in leaves],
 			                          activate=False,

@@ -34,7 +34,7 @@ class KeyboundObject (gobject.GObject):
 	def emit_bound_key_changed(self, keystring, is_bound):
 		self.emit("bound-key-changed", keystring, is_bound)
 	def relayed_keys(self, sender, keystring, display, timestamp):
-		for target, key in _currently_bound.iteritems():
+		for target, key in _currently_bound.items():
 			if keystring == key:
 				self.emit("keybinding", target, display, timestamp)
 
@@ -50,7 +50,7 @@ gobject.signal_new("bound-key-changed", KeyboundObject, gobject.SIGNAL_RUN_LAST,
 _currently_bound = {}
 
 def get_all_bound_keys():
-	return filter(bool, _currently_bound.values())
+	return list(filter(bool, list(_currently_bound.values())))
 
 def get_current_event_time():
 	"Return current event time as given by keybinder"
@@ -90,7 +90,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 			succ = keybinder.bind(keystr, callback)
 			pretty.print_debug(__name__, "binding", repr(keystr))
 			GetKeyboundObject().emit_bound_key_changed(keystr, True)
-		except KeyError, exc:
+		except KeyError as exc:
 			pretty.print_error(__name__, exc)
 			succ = False
 	if succ:

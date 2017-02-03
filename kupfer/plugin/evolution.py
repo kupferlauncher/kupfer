@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import absolute_import
+
 
 __kupfer_name__ = _("Evolution")
 __kupfer_sources__ = ("ContactsSource", )

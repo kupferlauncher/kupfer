@@ -87,7 +87,7 @@ class RecentsSource (MultiAppContentMixin, Source, FilesystemWatchMixin):
 	def initialize(self):
 		hist_file_path = _get_history_files()
 		if hist_file_path:
-			dirs = map(os.path.dirname, hist_file_path)
+			dirs = list(map(os.path.dirname, hist_file_path))
 			self.monitor_token = self.monitor_directories(*dirs)
 
 	def monitor_include_file(self, gfile):
@@ -129,7 +129,7 @@ class RecentsSource (MultiAppContentMixin, Source, FilesystemWatchMixin):
 						leaf = _create_history_leaf(value.text)
 						if leaf:
 							yield leaf
-			except StandardError, err:
+			except Exception as err:
 				self.output_error(err)
 
 	def get_description(self):

@@ -25,18 +25,18 @@ class DebugInfo (Action):
 	""" Print debug info to terminal """
 	rank_adjust = -50
 	def __init__(self):
-		Action.__init__(self, u"Debug Info")
+		Action.__init__(self, "Debug Info")
 
 	def activate(self, leaf):
-		import StringIO
+		import io
 		# NOTE: Core imports
 		from kupfer.core import qfurl
 		from kupfer import uiutils
 		from kupfer import puid
 
-		output = StringIO.StringIO()
+		output = io.StringIO()
 		def print_func(*args):
-			print >>output, " ".join(unicode(a) for a in args)
+			print(" ".join(str(a) for a in args), file=output)
 			pretty.print_debug("debug", *args)
 
 		print_func("Debug info about", leaf)
@@ -101,7 +101,7 @@ class DebugInfo (Action):
 		uiutils.show_text_result(output.getvalue())
 
 	def get_description(self):
-		return u"Print debug output (for interal kupfer use)"
+		return "Print debug output (for interal kupfer use)"
 	def get_icon_name(self):
 		return "emblem-system"
 	def item_types(self):
@@ -110,7 +110,7 @@ class DebugInfo (Action):
 class Forget (Action):
 	rank_adjust = -10
 	def __init__(self):
-		Action.__init__(self, u"Forget")
+		Action.__init__(self, "Forget")
 
 	def activate(self, leaf):
 		# NOTE: Core imports
@@ -129,11 +129,11 @@ class Forget (Action):
 		yield Leaf
 
 	def get_description(self):
-		return u"Let Kupfer forget about this object"
+		return "Let Kupfer forget about this object"
 
 class ActionLeaf (Leaf):
 	def __init__(self, action):
-		Leaf.__init__(self, action, unicode(action))
+		Leaf.__init__(self, action, str(action))
 
 	def get_actions(self):
 		act = self.object
@@ -148,7 +148,7 @@ class ActionLeaf (Leaf):
 class Apply (Action):
 	rank_adjust = 5
 	def __init__(self, action):
-		Action.__init__(self, u"Apply To...")
+		Action.__init__(self, "Apply To...")
 		self.action = action
 
 	def is_factory(self):
@@ -172,7 +172,7 @@ class ComposedSource (Source):
 	Composed Commands
 	"""
 	def __init__(self, leaf):
-		Source.__init__(self, u"Composed Command")
+		Source.__init__(self, "Composed Command")
 		self.leaf = leaf
 
 	def get_items(self):

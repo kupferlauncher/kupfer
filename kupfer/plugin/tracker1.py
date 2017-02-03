@@ -80,19 +80,19 @@ def sparql_escape(ustr):
 	Implemented to behave like tracker_sparql_escape in libtracker-client
 	"""
 	sparql_escape_table = {
-		ord(u'\t'): ur'\t',
-		ord(u'\n'): ur'\n',
-		ord(u'\r'): ur'\r',
-		ord(u'\b'): ur'\b',
-		ord(u'\f'): ur'\f',
-		ord(u'"') : ur'\"',
-		ord(u'\\'): u'\\\\',
+		ord('\t'): r'\t',
+		ord('\n'): r'\n',
+		ord('\r'): r'\r',
+		ord('\b'): r'\b',
+		ord('\f'): r'\f',
+		ord('"') : r'\"',
+		ord('\\'): '\\\\',
 	}
 	return ustr.translate(sparql_escape_table)
 
 def get_file_results_sparql(searchobj, query, max_items):
 	clean_query = sparql_escape(query)
-	sql = u"""SELECT tracker:coalesce (nie:url (?s), ?s)
+	sql = """SELECT tracker:coalesce (nie:url (?s), ?s)
 	          WHERE {  ?s fts:match "%s*" .  ?s tracker:available true . }
 			  ORDER BY tracker:weight(?s)
 			  OFFSET 0 LIMIT %d""" % (clean_query, int(max_items))
@@ -109,7 +109,7 @@ def get_file_results_sparql(searchobj, query, max_items):
 def get_file_results_old(searchobj, query, max_items):
 	try:
 		file_hits = searchobj.Text(1, "Files", query, 0, max_items)
-	except dbus.DBusException, exc:
+	except dbus.DBusException as exc:
 		pretty.print_error(__name__, exc)
 		return
 
@@ -139,7 +139,7 @@ def get_searchobject(sname, opath, sinface):
 	try:
 		tobj = bus.get_object(sname, opath)
 		searchobj = dbus.Interface(tobj, sinface)
-	except dbus.DBusException, exc:
+	except dbus.DBusException as exc:
 		pretty.print_debug(__name__, exc)
 	return searchobj
 
@@ -147,7 +147,7 @@ def get_tracker_filequery(query, max_items):
 	searchobj = None
 	global use_version
 	if use_version is None:
-		for version, (sname, opath, sinface) in versions.items():
+		for version, (sname, opath, sinface) in list(versions.items()):
 			pretty.print_debug(__name__, "Trying", sname, version)
 			searchobj = get_searchobject(sname, opath, sinface)
 			if searchobj is not None:

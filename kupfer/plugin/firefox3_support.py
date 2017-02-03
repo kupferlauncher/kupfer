@@ -1,4 +1,4 @@
-from __future__ import with_statement
+
 
 try:
 	import cjson
@@ -16,8 +16,8 @@ def get_bookmarks(bookmarks_file):
 		content = f.read().decode("UTF-8")
 		# HACK: Firefox' JSON writer leaves a trailing comma
 		# HACK: at the end of the array, which no parser accepts
-		if content.endswith(u"}]},]}"):
-			content = content[:-6] + u"}]}]}"
+		if content.endswith("}]},]}"):
+			content = content[:-6] + "}]}]}"
 		root = json_decoder(content)
 
 	# make a dictionary of unique bookmarks
@@ -31,7 +31,7 @@ def get_bookmarks(bookmarks_file):
 		if not "tags" in bmap[id_]:
 			bmap[id_]["tags"] = []
 		else:
-			print "Already in, gets tag:", tag
+			print("Already in, gets tag:", tag)
 		bmap[id_]["tags"].append(tag)
 
 	MOZ_CONTAINER = "text/x-moz-place-container"
@@ -80,11 +80,11 @@ def get_bookmarks(bookmarks_file):
 		if items:
 			tags_catalogs[tag['title']] = items
 
-	return bmap.values(), tags_catalogs
+	return list(bmap.values()), tags_catalogs
 
 if __name__ == '__main__':
 	import os
-	import firefox_support
+	from . import firefox_support
 
 	dirloc = firefox_support.get_firefox_home_file("bookmarkbackups")
 	fpath = None
@@ -96,5 +96,5 @@ if __name__ == '__main__':
 
 	if fpath and os.path.splitext(fpath)[-1].lower() == ".json":
 		bookmarks, tags = get_bookmarks(fpath)
-		print "Parsed # bookmarks:", len(bookmarks)
-		print "Parsed # tags:", len(tags)
+		print("Parsed # bookmarks:", len(bookmarks))
+		print("Parsed # tags:", len(tags))

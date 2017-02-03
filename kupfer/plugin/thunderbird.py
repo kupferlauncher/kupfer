@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import with_statement
+
 __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", )
@@ -82,7 +82,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 			self.monitor_token = self.monitor_directories(*abook_dirs)
 
 	def monitor_include_file(self, gfile):
-		print gfile.get_basename()
+		print(gfile.get_basename())
 		return gfile and (gfile.get_basename().endswith('.mab') \
 				or gfile.get_basename() == 'localstore.rdf')
 

@@ -49,7 +49,7 @@ class GroupingLeaf (Leaf):
 	def __getitem__(self, key):
 		"Get first (canonical) value for key"
 		try:
-			return iter(self.all(key)).next()
+			return next(iter(self.all(key)))
 		except StopIteration:
 			raise KeyError("%s has no slot %s" % (self, key))
 
@@ -102,7 +102,7 @@ class GroupingSource (Source):
 
 		# Find all (slot, value) combinations that have more than one leaf
 		# and merge those groups
-		for (slot, value), leaves in groups.iteritems():
+		for (slot, value), leaves in groups.items():
 			if len(leaves) <= 1:
 				continue
 			for leaf in list(leaves):
@@ -127,7 +127,7 @@ class GroupingSource (Source):
 	def repr_key(self):
 		# Distinguish when used as GroupingSource
 		if type(self) is GroupingSource:
-			return unicode(self)
+			return str(self)
 		return Source.repr_key(self)
 
 	@classmethod
@@ -135,10 +135,10 @@ class GroupingSource (Source):
 		if len(leaves) == 1:
 			(leaf, ) = leaves
 			return leaf
-		obj = copy.copy(iter(leaves).next())
+		obj = copy.copy(next(iter(leaves)))
 		obj.links = list(leaves)
 		for other in leaves:
-			obj.kupfer_add_alias(unicode(other))
+			obj.kupfer_add_alias(str(other))
 			# adding the other's aliases can be misleading
 			# since the matched email address might not be
 			# what we are e-mailing
@@ -159,7 +159,7 @@ class ToplevelGroupingSource (GroupingSource):
 	def toplevel_source(self):
 		if self.category not in self._sources:
 			return self
-		sources = self._sources[self.category].keys()
+		sources = list(self._sources[self.category].keys())
 		return GroupingSource(self.category, sources)
 
 	def initialize(self):
@@ -174,7 +174,7 @@ class ToplevelGroupingSource (GroupingSource):
 
 class _GroupedItemsSource(Source):
 	def __init__(self, leaf):
-		Source.__init__(self, unicode(leaf))
+		Source.__init__(self, str(leaf))
 		self._leaf = leaf
 
 	def get_items(self):

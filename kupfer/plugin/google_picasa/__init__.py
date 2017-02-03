@@ -120,7 +120,7 @@ class UploadTask(task.ThreadTask):
 					pretty.print_debug(__name__, 'upload: file sended', filename)
 					progress += 1
 
-		except (gdata.service.Error, gdata.photos.service.GooglePhotosException), \
+		except (gdata.service.Error, gdata.photos.service.GooglePhotosException) as \
 				err:
 			pretty.print_error(__name__, 'upload error', err)
 
@@ -142,7 +142,7 @@ def picasa_login():
 		gd_client.password = upass.password
 		gd_client.source = 'kupfer-google_picasa'
 		gd_client.ProgrammaticLogin()
-	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired), err:
+	except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired) as err:
 		pretty.print_error(__name__, 'picasa_login', 'authentication error',
 				err)
 		gd_client = None
@@ -164,7 +164,7 @@ def get_user_leaf(gd_client, user_name):
 	leaf = None
 	try:
 		user_info = gd_client.GetContacts(user_name)
-	except gdata.photos.service.GooglePhotosException, err:
+	except gdata.photos.service.GooglePhotosException as err:
 		pretty.print_info(__name__, 'get_uers_leaf', err)
 	else:
 		thumb = None
@@ -221,7 +221,7 @@ class PicasaDataCache():
 					user_albums.append(album)
 				picasa_user_leaf.update_albums(user_albums)
 				pusers.append(picasa_user_leaf)
-		except gdata.service.Error, err:
+		except gdata.service.Error as err:
 			pretty.print_error(__name__, 'get_albums', err)
 		pretty.print_debug(__name__, 'get_albums finished', 'loaded: ', len(pusers),
 				str(time.time()-start_time))

@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Opera Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
@@ -39,13 +39,13 @@ class BookmarksSource(ApplicationSource):
 			with codecs.open(self._bookmarks_path, "r", "UTF-8") as bfile:
 				for line in bfile:
 					line = line.strip()
-					if line.startswith(u'NAME='):
+					if line.startswith('NAME='):
 						name = line[5:]
-					elif line.startswith(u'URL=') and name:
+					elif line.startswith('URL=') and name:
 						yield UrlLeaf(line[4:], name)
-		except EnvironmentError, exc:
+		except EnvironmentError as exc:
 			self.output_error(exc)
-		except UnicodeError, exc:
+		except UnicodeError as exc:
 			self.output_error("File %s not in expected encoding (UTF-8)" %
 					self._bookmarks_path)
 			self.output_error(exc)

@@ -42,7 +42,7 @@ class WindowLeaf (Leaf):
 	def get_description(self):
 		workspace = self.object.get_workspace()
 		if not workspace:
-			return u""
+			return ""
 		nr, name = workspace.get_number(), workspace.get_name()
 		# TRANS: Window on (Workspace name), window description
 		return _("Window on %(wkspc)s") % {"wkspc": name}
@@ -255,7 +255,7 @@ class Workspace (Leaf):
 			if active_wspc == self.object:
 				return _("Active workspace") + " (%s)" % w_msg
 			if n_windows:
-				return u"(%s)" % w_msg
+				return "(%s)" % w_msg
 		return None
 
 class ActivateWorkspace (Action):

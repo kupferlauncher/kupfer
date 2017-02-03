@@ -38,8 +38,8 @@ def parse_kfcom_file(filepath):
 	try:
 		id_ = conspickle.BasicUnpickler.loads(data)
 		command_object = puid.resolve_unique_id(id_)
-	except pickle.UnpicklingError, err:
-		raise ExecutionError("Could not parse: %s" % unicode(err))
+	except pickle.UnpicklingError as err:
+		raise ExecutionError("Could not parse: %s" % str(err))
 	except Exception:
 		raise ExecutionError('"%s" is not a saved command' %
 				os.path.basename(filepath))
@@ -69,7 +69,7 @@ def _write_thumbnail(gfile, pixbuf):
 	hashname = hashlib.md5(uri).hexdigest()
 	thumb_dir = os.path.expanduser("~/.thumbnails/normal")
 	if not os.path.exists(thumb_dir):
-		os.makedirs(thumb_dir, 0700)
+		os.makedirs(thumb_dir, 0o700)
 	thumb_filename = os.path.join(thumb_dir, hashname + ".png")
 	pixbuf.save(thumb_filename, "png")
 	return thumb_filename

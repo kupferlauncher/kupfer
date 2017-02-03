@@ -72,9 +72,9 @@ class FileLeaf (Leaf, TextRepresentation):
 	def __eq__(self, other):
 		try:
 			return (type(self) == type(other) and
-					unicode(self) == unicode(other) and
+					str(self) == str(other) and
 					path.samefile(self.object, other.object))
-		except OSError, exc:
+		except OSError as exc:
 			pretty.print_debug(__name__, exc)
 			return False
 
@@ -129,7 +129,7 @@ class SourceLeaf (Leaf):
 	def __init__(self, obj, name=None):
 		"""Create SourceLeaf for source @obj"""
 		if not name:
-			name = unicode(obj)
+			name = str(obj)
 		Leaf.__init__(self, obj, name)
 	def has_content(self):
 		return True
@@ -171,13 +171,13 @@ class AppLeaf (Leaf):
 	def _add_aliases(self):
 		# find suitable alias
 		# use package name: non-extension part of ID
-		lowername = unicode(self).lower()
+		lowername = str(self).lower()
 		package_name = self._get_package_name()
 		if package_name and package_name not in lowername:
 			self.kupfer_add_alias(package_name)
 
 	def __hash__(self):
-		return hash(unicode(self))
+		return hash(str(self))
 
 	def __eq__(self, other):
 		return (isinstance(other, type(self)) and
@@ -262,7 +262,7 @@ class AppLeaf (Leaf):
 		ret = tounicode(app_desc if app_desc else self.object.get_executable())
 		if self.init_path:
 			app_path = utils.get_display_path_for_bytestring(self.init_path)
-			return u"(%s) %s" % (app_path, ret)
+			return "(%s) %s" % (app_path, ret)
 		return ret
 
 	def get_gicon(self):

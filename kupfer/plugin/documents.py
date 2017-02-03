@@ -85,7 +85,7 @@ class RecentsSource (Source):
 
 class ApplicationRecentsSource (RecentsSource):
 	def __init__(self, application):
-		name = _("%s Documents") % unicode(application)
+		name = _("%s Documents") % str(application)
 		super(ApplicationRecentsSource, self).__init__(name)
 		self.application = application
 
@@ -110,7 +110,7 @@ class ApplicationRecentsSource (RecentsSource):
 		return icons.ComposedIcon(self.get_icon_name(),
 				self.application.get_icon())
 	def get_description(self):
-		return _("Recently used documents for %s") % unicode(self.application)
+		return _("Recently used documents for %s") % str(self.application)
 
 	@classmethod
 	def decorates_type(cls):

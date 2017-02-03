@@ -5,8 +5,8 @@ __description__ = _("Create short aliases of long URLs")
 __version__ = "2011-03-01"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import httplib
-import urllib
+import http.client
+import urllib.request, urllib.parse, urllib.error
 
 from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
 from kupfer.plugin import ssl_support
@@ -27,13 +27,13 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
 
 	def process(self, url):
 		"""Shorten @url or raise ValueError"""
-		query_string = urllib.urlencode({self.url_key : url})
+		query_string = urllib.parse.urlencode({self.url_key : url})
 		try:
 			if self.use_https and ssl_support.is_supported():
 				conn = ssl_support.VerifiedHTTPSConnection(self.host, timeout=5)
 				pretty.print_debug(__name__, "Connected SSL to", self.host)
 			else:
-				conn = httplib.HTTPConnection(self.host, timeout=5)
+				conn = http.client.HTTPConnection(self.host, timeout=5)
 			conn.request("GET", self.path+query_string)
 			resp = conn.getresponse()
 			if resp.status != 200:
@@ -43,7 +43,7 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
 			result = resp.read()
 			return result.strip()
 
-		except (httplib.HTTPException, IOError, ValueError) as exc:
+		except (http.client.HTTPException, IOError, ValueError) as exc:
 			raise ValueError(exc)
 		return _('Error')
 
@@ -58,7 +58,7 @@ class TinyUrl(_GETService):
 	path = "/api-create.php?"
 
 	def __init__(self):
-		_ShortLinksService.__init__(self, u'TinyUrl.com')
+		_ShortLinksService.__init__(self, 'TinyUrl.com')
 
 class IsGd(_GETService):
 	"""
@@ -69,7 +69,7 @@ class IsGd(_GETService):
 	path = '/create.php?format=simple&'
 
 	def __init__(self):
-		_ShortLinksService.__init__(self, u'Is.gd')
+		_ShortLinksService.__init__(self, 'Is.gd')
 
 class VGd(_GETService):
 	"""
@@ -82,7 +82,7 @@ class VGd(_GETService):
 	path = '/create.php?format=simple&'
 
 	def __init__(self):
-		_ShortLinksService.__init__(self, u'V.gd')
+		_ShortLinksService.__init__(self, 'V.gd')
 
 class BitLy(_GETService):
 	"""
@@ -101,14 +101,14 @@ class BitLy(_GETService):
 	url_key = "longUrl"
 
 	def __init__(self):
-		_ShortLinksService.__init__(self, u'Bit.ly')
+		_ShortLinksService.__init__(self, 'Bit.ly')
 
 class BitLySSL(BitLy):
 	host = 'api-ssl.bitly.com'
 	use_https = True
 
 	def __init__(self):
-		_ShortLinksService.__init__(self, u'Bit.ly (HTTPS)')
+		_ShortLinksService.__init__(self, 'Bit.ly (HTTPS)')
 	def process(self, url):
 		resp = BitLy.process(self, url)
 		return resp.replace("http://bit.ly", "https://bit.ly")
@@ -127,7 +127,7 @@ class ShortenLinks(Action):
 		try:
 			result = iobj.process(leaf.object)
 		except ValueError as exc:
-			raise OperationError(unicode(exc))
+			raise OperationError(str(exc))
 		return UrlLeaf(result, result)
 
 	def item_types(self):

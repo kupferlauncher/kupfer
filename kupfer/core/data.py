@@ -1,4 +1,4 @@
-from __future__ import with_statement
+
 
 import itertools
 import operator
@@ -293,7 +293,7 @@ class LeafPane (Pane, pretty.OutputMixin):
 			pass
 		return self.source
 
-	def search(self, key=u"", context=None, text_mode=False):
+	def search(self, key="", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
@@ -323,7 +323,7 @@ class PrimaryActionPane (Pane):
 		self.current_item = item
 		self._action_valid_cache = {}
 
-	def search(self, key=u"", context=None, text_mode=False):
+	def search(self, key="", context=None, text_mode=False):
 		"""Search: Register the search method in the event loop
 
 		using @key, promising to return
@@ -393,7 +393,7 @@ class SecondaryObjectPane (LeafPane):
 		return (self.is_at_source_root() and
 		        hasattr(self.get_source(), "get_text_items"))
 
-	def search(self, key=u"", context=None, text_mode=False):
+	def search(self, key="", context=None, text_mode=False):
 		"""
 		filter for action @item
 		"""
@@ -437,7 +437,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			ActionPane : self.action_pane,
 			ObjectPane : self.object_pane,
 			}
-		for pane, ctl in self._panectl_table.items():
+		for pane, ctl in list(self._panectl_table.items()):
 			ctl.connect("search-result", self._pane_search_result, pane)
 		self.mode = None
 		self._search_ids = itertools.count(1)
@@ -660,7 +660,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 				gobject.source_remove(ctl.outstanding_search)
 				ctl.outstanding_search = -1
 
-	def search(self, pane, key=u"", context=None, interactive=False, lazy=False,
+	def search(self, pane, key="", context=None, interactive=False, lazy=False,
 			text_mode=False):
 		"""Search: Register the search method in the event loop
 
@@ -674,7 +674,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		self.cancel_search(pane)
 		self._latest_interaction = self._execution_context.last_command_id
 		ctl = self._panectl_table[pane]
-		ctl.outstanding_search_id = self._search_ids.next()
+		ctl.outstanding_search_id = next(self._search_ids)
 		wrapcontext = (ctl.outstanding_search_id, context)
 		if interactive:
 			ctl.search(key, wrapcontext, text_mode)
@@ -751,7 +751,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 		def valid_check(obj):
 			return not (hasattr(obj, "is_valid") and not obj.is_valid())
 
-		for pane, panectl in self._panectl_table.items():
+		for pane, panectl in list(self._panectl_table.items()):
 			sel = panectl.get_selection()
 			if not valid_check(sel):
 				self.emit("pane-reset", pane, None)

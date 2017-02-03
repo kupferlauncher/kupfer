@@ -46,7 +46,7 @@ class ThreadTask (Task):
 		"""Always run at thread finish"""
 		if exc_info is not None:
 			etype, value, tb = exc_info
-			raise etype, value, tb
+			raise etype(value).with_traceback(tb)
 
 	def _thread_finally(self, exc_info):
 		try:

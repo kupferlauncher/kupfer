@@ -166,7 +166,7 @@ class Trash (SpecialLocation):
 	def has_content(self):
 		return self.get_item_count()
 	def content_source(self, alternate=False):
-		return TrashContentSource(self.object, name=unicode(self))
+		return TrashContentSource(self.object, name=str(self))
 
 	def get_actions(self):
 		for action in SpecialLocation.get_actions(self):

@@ -1,4 +1,4 @@
-__kupfer_name__ = u"Core"
+__kupfer_name__ = "Core"
 # The following attributes are updated later
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -8,7 +8,7 @@ __kupfer_actions__ = (
 	"CopyToClipboard",
 	"Rescan",
 	)
-__description__ = u"Core actions and items"
+__description__ = "Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 

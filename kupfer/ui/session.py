@@ -30,13 +30,13 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 		succ = False
 		try:
 			succ = self._connect_session_manager()
-		except dbus.DBusException, exc:
+		except dbus.DBusException as exc:
 			self.output_error(exc)
 		if not succ:
 			# try to bind to xfce session manager
 			try:
 				succ = self._connect_xfce_session_manager()
-			except dbus.DBusException, exc:
+			except dbus.DBusException as exc:
 				self.output_error(exc)
 		if not succ:
 			succ = self._connect_gnomeui()
@@ -53,7 +53,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 		try:
 			import gnome
 			import gnome.ui
-		except ImportError, exc:
+		except ImportError as exc:
 			self.output_debug(exc)
 			return False
 
@@ -79,7 +79,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 
 		try:
 			obj = bus.get_object(service_name, obj_name)
-		except dbus.DBusException, e:
+		except dbus.DBusException as e:
 			pretty.print_error(__name__, e)
 			return False
 		smanager = dbus.Interface(obj, iface_name)
@@ -114,7 +114,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 
 		try:
 			bus.get_object(service_name, obj_name)
-		except dbus.DBusException, e:
+		except dbus.DBusException as e:
 			pretty.print_error(__name__, e)
 			return False
 
@@ -132,7 +132,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 		try:
 			bus = dbus.Bus()
 			obj = bus.get_object(service_name, obj_name)
-		except dbus.DBusException, e:
+		except dbus.DBusException as e:
 			pretty.print_error(__name__, e)
 			return None
 		smanager = dbus.Interface(obj, iface_name)

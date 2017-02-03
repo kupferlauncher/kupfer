@@ -2,7 +2,7 @@
 This is a program of its own, that does not integrate with the
 Kupfer process.
 """
-import __builtin__
+import builtins
 import os
 
 import gtk
@@ -26,20 +26,20 @@ def get_all_keys():
 		iface = dbus.Interface(obj, IFACE)
 		return iface.GetBoundKeys(byte_arrays=True)
 	except dbus.DBusException as exc:
-		print exc
-		print "Waiting for Kupfer to start.."
+		print(exc)
+		print("Waiting for Kupfer to start..")
 		return []
 
 def rebind_key(keystring, is_bound):
 	if is_bound:
-		print "binding", keystring
+		print("binding", keystring)
 		keybinder.bind(keystring, relay_key, keystring)
 	else:
-		print "unbinding", keystring
+		print("unbinding", keystring)
 		keybinder.unbind(keystring)
 
 def relay_key(key):
-	print "Relaying", key
+	print("Relaying", key)
 	time = keybinder.get_current_event_time()
 	s_id = "kupfer-%d_TIME%s" % (os.getpid(), time)
 	bus = dbus.Bus()

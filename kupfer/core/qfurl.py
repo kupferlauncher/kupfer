@@ -1,15 +1,15 @@
-import urlparse
-from urlparse import urlparse as _urlparse
-from urlparse import urlunparse as _urlunparse
+import urllib.parse
+from urllib.parse import urlparse as _urlparse
+from urllib.parse import urlunparse as _urlunparse
 
 from kupfer import pretty
 
 QFURL_SCHEME = "qpfer"
 
 # One would hope that there was a better way to do this
-urlparse.uses_netloc.append(QFURL_SCHEME)
+urllib.parse.uses_netloc.append(QFURL_SCHEME)
 try:
-	urlparse.uses_fragment.append(QFURL_SCHEME)
+	urllib.parse.uses_fragment.append(QFURL_SCHEME)
 except AttributeError:
 	# Python 2.7.3 drops `uses_fragment` global
 	pass
@@ -77,7 +77,7 @@ class qfurl (object):
 		>>> qfurl.reduce_url(url)
 		'qpfer://mother/qfid'
 		"""
-		return urlparse.urldefrag(url)[0].replace("///", "", 1)
+		return urllib.parse.urldefrag(url)[0].replace("///", "", 1)
 
 	@classmethod
 	def _parts_mother_id_typename(cls, url):

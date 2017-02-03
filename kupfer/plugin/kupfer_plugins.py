@@ -76,7 +76,7 @@ class Plugin (Leaf):
 	def get_description(self):
 		setctl = settings.GetSettingsController()
 		enabled = setctl.get_plugin_enabled(self.object["name"])
-		return u"%s (%s)" % (self.object["description"],
+		return "%s (%s)" % (self.object["description"],
 				_("enabled") if enabled else _("disabled"))
 	def get_icon_name(self):
 		return "package-x-generic"

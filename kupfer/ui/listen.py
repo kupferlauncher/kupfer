@@ -16,9 +16,9 @@ try:
 # if dbus unavailable print the exception here
 # but further actions (register) will fail without warning
 	session_bus = dbus.Bus()
-except (ImportError, dbus.exceptions.DBusException), exc:
+except (ImportError, dbus.exceptions.DBusException) as exc:
 	session_bus = None
-	print exc
+	print(exc)
 
 from kupfer.ui import uievents
 

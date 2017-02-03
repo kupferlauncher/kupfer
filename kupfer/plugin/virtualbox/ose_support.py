@@ -5,7 +5,7 @@ virtualbox_ose_support.py
 Control VirtualBox via command-line interface.
 Support both Sun VirtualBox and VirtualBox OpenSource Edition.
 '''
-from __future__ import with_statement
+
 
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __version__ = '0.3'
@@ -52,7 +52,7 @@ def get_machine_state(vm_uuid):
 			state = vbox_const.VM_STATE_POWERON
 		elif str_state == 'saved':
 			state = vbox_const.VM_STATE_SAVED
-	except IOError, err:
+	except IOError as err:
 		pretty.print_error(__name__, 'get_machine_state', vm_uuid, 'error', err)
 		state = vbox_const.VM_STATE_POWEROFF
 
@@ -85,7 +85,7 @@ def _get_virtual_machines(config_file):
 		for machine in machine_registry.getElementsByTagName('MachineEntry'):
 			yield (machine.getAttribute('uuid')[1:-1],
 					machine.getAttribute('src'))
-	except StandardError, err:
+	except Exception as err:
 		pretty.print_error(__name__, '_get_virtual_machines', config_file,
 				'error', err)
 
@@ -110,7 +110,7 @@ def _get_machine_info(vm_uuid, config_file):
 					description = machine_registry_child.firstChild.nodeValue
 				break
 		return (name, description or os_type)
-	except StandardError, err:
+	except Exception as err:
 		pretty.print_error(__name__, '_get_machine_info', vm_uuid, 'error' + \
 				config_file, err)
 	return None, None

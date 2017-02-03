@@ -11,7 +11,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import locale
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import xml.etree.cElementTree as ElementTree
 
 from kupfer.objects import Action, Source, Leaf
@@ -29,7 +29,7 @@ def _noescape_urlencode(items):
 
 def _urlencode(word):
 	"""Urlencode a single string of bytes @word"""
-	return urllib.urlencode({"q": word})[2:]
+	return urllib.parse.urlencode({"q": word})[2:]
 
 def _do_search_engine(terms, search_url, encoding="UTF-8"):
 	"""Show an url searching for @search_url with @terms"""
@@ -94,7 +94,7 @@ class SearchFor (Action):
 class SearchEngine (Leaf):
 	def get_description(self):
 		desc = self.object.get("Description")
-		return desc if desc != unicode(self) else None
+		return desc if desc != str(self) else None
 	def get_icon_name(self):
 		return "text-html"
 
@@ -102,11 +102,11 @@ def coroutine(func):
 	"""Coroutine decorator: Start the coroutine"""
 	def startcr(*ar, **kw):
 		cr = func(*ar, **kw)
-		cr.next()
+		next(cr)
 		return cr
 	return startcr
 
-class OpenSearchParseError (StandardError):
+class OpenSearchParseError (Exception):
 	pass
 
 class OpenSearchSource (Source):
@@ -141,13 +141,13 @@ class OpenSearchSource (Source):
 							if gettagname(ch.tag) == "Param":
 								params[ch.get("name")] = ch.get("value")
 						if params:
-							text += _noescape_urlencode(params.items())
+							text += _noescape_urlencode(list(params.items()))
 					else:
 						continue
 				else:
 					text = (child.text or "").strip()
 				search[tagname] = text
-			if not vital_keys.issubset(search.keys()):
+			if not vital_keys.issubset(list(search.keys())):
 				raise OpenSearchParseError("Search %s missing keys" % name)
 			return search
 
@@ -156,7 +156,7 @@ class OpenSearchSource (Source):
 				path = (yield)
 				etree = ElementTree.parse(path)
 				target.send(parse_etree(etree, name=path))
-			except StandardError, exc:
+			except Exception as exc:
 				self.output_debug("%s: %s" % (type(exc).__name__, exc))
 
 	def get_items(self):
@@ -223,7 +223,7 @@ class OpenSearchSource (Source):
 						continue
 					parser.send(os.path.join(pdir, f))
 					visited_files.add(f)
-			except EnvironmentError, exc:
+			except EnvironmentError as exc:
 				self.output_error(exc)
 
 		for s in searches:

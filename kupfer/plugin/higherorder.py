@@ -54,7 +54,7 @@ def _save_result(cleaf):
 	class ResultObject (Leaf):
 		serializable = 1
 		def __init__(self, leaf, cleaf):
-			Leaf.__init__(self, leaf.object, unicode(leaf))
+			Leaf.__init__(self, leaf.object, str(leaf))
 			vars(self).update(vars(leaf))
 			self.name = _("Result of %s (%s)") % (cleaf, self)
 			self.__composed_leaf = cleaf

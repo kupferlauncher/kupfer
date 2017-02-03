@@ -1,9 +1,9 @@
-from __future__ import with_statement
+
 
 import gzip
 import hashlib
 import itertools
-import cPickle as pickle
+import pickle as pickle
 import os
 import threading
 import time
@@ -139,14 +139,14 @@ class SourcePickler (pretty.OutputMixin):
 	def _unpickle_source(self, pickle_file):
 		try:
 			pfile = self.open(pickle_file, "rb")
-		except IOError, e:
+		except IOError as e:
 			return None
 		try:
 			source = pickle.loads(pfile.read())
 			assert isinstance(source, base.Source), "Stored object not a Source"
 			sname = os.path.basename
 			self.output_debug("Loading", source, "from", sname(pickle_file))
-		except (pickle.PickleError, Exception), e:
+		except (pickle.PickleError, Exception) as e:
 			source = None
 			self.output_info("Error loading %s: %s" % (pickle_file, e))
 		return source
@@ -210,14 +210,14 @@ class SourceDataPickler (pretty.OutputMixin):
 	def _load_data(self, pickle_file):
 		try:
 			pfile = self.open(pickle_file, "rb")
-		except IOError, e:
+		except IOError as e:
 			return None
 		try:
 			data = conspickle.BasicUnpickler.loads(pfile.read())
 			sname = os.path.basename(pickle_file)
 			self.output_debug("Loaded configuration from", sname)
 			# self.output_debug(data)
-		except (pickle.PickleError, Exception), e:
+		except (pickle.PickleError, Exception) as e:
 			data = None
 			self.output_error("Loading %s: %s" % (pickle_file, e))
 		return data
@@ -372,7 +372,7 @@ class SourceController (pretty.OutputMixin):
 		names = {}
 		renames = set()
 		for action in actions:
-			name = unicode(action)
+			name = str(action)
 			if name in names:
 				renames.add(names[name])
 				renames.add(action)
@@ -488,7 +488,7 @@ class SourceController (pretty.OutputMixin):
 			contents = list(self.get_contents_for_leaf(obj, types))
 			content = contents[0] if contents else None
 			if len(contents) > 1:
-				content = sources.SourcesSource(contents, name=unicode(obj),
+				content = sources.SourcesSource(contents, name=str(obj),
 						use_reprs=False)
 			obj.add_content(content)
 

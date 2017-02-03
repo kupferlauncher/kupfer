@@ -63,7 +63,7 @@ def get_plugin_info():
 			if not plugin:
 				continue
 			plugin = vars(plugin)
-		except ImportError, e:
+		except ImportError as e:
 			pretty.print_error(__name__, "import plugin '%s':" % plugin_name, e)
 			continue
 		localized_name = plugin.get("__kupfer_name__", None)
@@ -78,7 +78,7 @@ def get_plugin_info():
 			"name": plugin_name,
 			"localized_name": localized_name,
 			"version": vers,
-			"description": desc or u"",
+			"description": desc or "",
 			"author": author,
 			"provides": (),
 		}
@@ -95,7 +95,7 @@ def get_plugin_desc():
 	for rec in infos:
 		# Wrap the description and align continued lines
 		wrapped = textwrap.wrap(rec["description"], maxlen - left_margin)
-		description = (u"\n" + u" "*left_margin).join(wrapped)
+		description = ("\n" + " "*left_margin).join(wrapped)
 		desc.append("  %s %s %s" %
 			(
 				rec["name"].ljust(idlen),
@@ -142,7 +142,7 @@ def _truncate_code(code, find_attributes):
 				dis.opmap["RETURN_VALUE"],
 			]
 			c = list(code.co_code)
-			c[i:] = map(chr, endinstr)
+			c[i:] = list(map(chr, endinstr))
 			ncode = _new_code(code, ''.join(c))
 			return ncode
 
@@ -194,7 +194,7 @@ def _import_plugin_fake(modpath, error=None):
 	code = _truncate_code(code, info_attributes)
 	try:
 		eval(code, env)
-	except Exception, exc:
+	except Exception as exc:
 		pretty.print_debug(__name__, "Loading", modpath, exc)
 	attributes = dict((k, env.get(k)) for k in info_attributes)
 	attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
@@ -213,7 +213,7 @@ def _import_hook_true(pathcomps):
 		if not setctl.get_plugin_enabled(pathcomps[-1]):
 			raise NotEnabledError("%s is not enabled" % pathcomps[-1])
 		plugin = __import__(path, fromlist=fromlist)
-	except ImportError, exc:
+	except ImportError as exc:
 		# Try to find a fake plugin if it exists
 		plugin = _import_plugin_fake(path, error=sys.exc_info())
 		if not plugin:
@@ -249,7 +249,7 @@ def _staged_import(name, import_hook):
 	plugin = None
 	try:
 		plugin = import_hook(_plugin_path(name))
-	except ImportError, e:
+	except ImportError as e:
 		if name not in e.args[0]:
 			raise
 	return plugin
@@ -289,13 +289,13 @@ def get_plugin_attributes(plugin_name, attrs, warn=False):
 	"""
 	try:
 		plugin = import_plugin(plugin_name)
-	except ImportError, e:
+	except ImportError as e:
 		pretty.print_info(__name__, "Skipping plugin %s: %s" % (plugin_name, e))
 		return
 	for attr in attrs:
 		try:
 			obj = getattr(plugin, attr)
-		except AttributeError, e:
+		except AttributeError as e:
 			if warn:
 				pretty.print_info(__name__, "Plugin %s: %s" % (plugin_name, e))
 			yield None
@@ -346,7 +346,7 @@ def _load_icons(plugin_name):
 
 	try:
 		loader = _staged_import(plugin_name, _loader_hook)
-	except ImportError, exc:
+	except ImportError as exc:
 		return
 	modname = ".".join(_plugin_path(plugin_name))
 

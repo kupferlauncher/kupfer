@@ -67,12 +67,12 @@ class CreateNewDocument (Action):
 			destfile = gio.File(destpath)
 			tmpl_gfile.copy(destfile, flags=gio.FILE_COPY_ALL_METADATA)
 		elif isinstance(iobj, NewFolder):
-			filename = unicode(iobj)
+			filename = str(iobj)
 			destpath = utils.get_destpath_in_directory(leaf.object, filename)
 			os.makedirs(destpath)
 		else:
 			# create new empty file
-			filename = unicode(iobj)
+			filename = str(iobj)
 			f, destpath = utils.get_destfile_in_directory(leaf.object, filename)
 			f.close()
 		return FileLeaf(destpath)
@@ -123,7 +123,7 @@ class TemplatesSource (Source, FilesystemWatchMixin):
 		try:
 			for fname in os.listdir(tmpl_dir):
 				yield Template(os.path.join(tmpl_dir, fname))
-		except EnvironmentError, exc:
+		except EnvironmentError as exc:
 			self.output_error(exc)
 
 	def should_sort_lexically(self):

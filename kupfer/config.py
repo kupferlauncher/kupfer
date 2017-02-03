@@ -7,7 +7,7 @@ import os
 
 PACKAGE_NAME="kupfer"
 
-class ResourceLookupError (StandardError):
+class ResourceLookupError (Exception):
 	pass
 
 def has_capability(cap):
@@ -22,9 +22,9 @@ def get_cache_home():
 	cache_dir = os.path.join(cache_home, PACKAGE_NAME)
 	if not os.path.exists(cache_dir):
 		try:
-			os.makedirs(cache_dir, mode=0700)
-		except OSError, e:
-			print e
+			os.makedirs(cache_dir, mode=0o700)
+		except OSError as e:
+			print(e)
 			return None
 	return cache_dir
 

@@ -28,13 +28,13 @@ from kupfer import pretty
 
 
 _escape_table = {
-		ord(u"&"): u"&amp;",
-		ord(u"<"): u"&lt;",
-		ord(u">"): u"&gt;",
+		ord("&"): "&amp;",
+		ord("<"): "&lt;",
+		ord(">"): "&gt;",
 	}
 
 def tounicode(ustr):
-	if isinstance(ustr, unicode):
+	if isinstance(ustr, str):
 		return ustr
 	return ustr.decode("UTF-8", "replace")
 
@@ -245,25 +245,25 @@ class LeafModel (object):
 		# Here we use the items real name
 		# Previously we used the alias that was matched,
 		# but it can be too confusing or ugly
-		name = escape_markup_str(unicode(leaf))
+		name = escape_markup_str(str(leaf))
 		desc = escape_markup_str(leaf.get_description() or "")
 		if desc:
-			text = u'%s\n<small>%s</small>' % (name, desc, )
+			text = '%s\n<small>%s</small>' % (name, desc, )
 		else:
-			text = u'%s' % (name, )
+			text = '%s' % (name, )
 		return text
 
 	def get_aux_info(self, leaf):
 		# info: display arrow if leaf has content
-		fill_space = u"\N{EM SPACE}"
+		fill_space = "\N{EM SPACE}"
 		if text_direction_is_ltr():
-			content_mark = u"\N{BLACK RIGHT-POINTING SMALL TRIANGLE}"
+			content_mark = "\N{BLACK RIGHT-POINTING SMALL TRIANGLE}"
 		else:
-			content_mark = u"\N{BLACK LEFT-POINTING SMALL TRIANGLE}"
+			content_mark = "\N{BLACK LEFT-POINTING SMALL TRIANGLE}"
 
-		info = u""
+		info = ""
 		if learn.is_favorite(leaf):
-			info += u"\N{BLACK STAR}"
+			info += "\N{BLACK STAR}"
 		else:
 			info += fill_space
 		if hasattr(leaf, "has_content") and leaf.has_content():
@@ -463,10 +463,10 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 			return
 
 		# update the text label
-		text = unicode(self.cur_text)
-		key = unicode(self.cur_match).lower()
+		text = str(self.cur_text)
+		key = str(self.cur_match).lower()
 
-		format_match=(lambda m: u"<u><b>%s</b></u>" % escape_markup_str(m))
+		format_match=(lambda m: "<u><b>%s</b></u>" % escape_markup_str(m))
 		markup = relevance.formatCommonSubstrings(text, key,
 				format_clean=escape_markup_str,
 				format_match=format_match)
@@ -570,7 +570,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		self.model = LeafModel()
 		self.match = None
 		self.match_state = State.Wait
-		self.text = u""
+		self.text = ""
 		# internal constants
 		self.show_initial = 10
 		self.show_more = 10
@@ -862,7 +862,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
 
 	def setup_empty(self):
 		self.match_state = State.NoMatch
-		self.match_view.set_match_state(u"No match", None, state=State.NoMatch)
+		self.match_view.set_match_state("No match", None, state=State.NoMatch)
 		self.relax_match()
 
 	def get_is_browsing(self):
@@ -907,11 +907,11 @@ class LeafSearch (Search):
 					m.get_pixbuf(self.icon_size))
 		if empty and self.source:
 			return (_("%s is empty") %
-					escape_markup_str(unicode(self.source)),
+					escape_markup_str(str(self.source)),
 					get_pbuf(self.source))
 		elif self.source:
 			return (_('No matches in %(src)s for "%(query)s"') % {
-				"src": u"<i>%s</i>" % escape_markup_str(unicode(self.source)),
+				"src": "<i>%s</i>" % escape_markup_str(str(self.source)),
 				"query": escape_markup_str(self.text),
 				},
 				get_pbuf(self.source))
@@ -928,7 +928,7 @@ class LeafSearch (Search):
 		if self.source:
 			icon = get_pbuf(self.source)
 			title = (_("Type to search %s") %
-					u"<i>%s</i>" % escape_markup_str(unicode(self.source)))
+					"<i>%s</i>" % escape_markup_str(str(self.source)))
 
 		self._set_match(None)
 		self.match_state = State.Wait
@@ -1066,7 +1066,7 @@ class Interface (gobject.GObject):
 			D = self.key_book
 			D["Left"], D["Right"] = D["Right"], D["Left"]
 
-		self.keys_sensible = set(self.key_book.itervalues())
+		self.keys_sensible = set(self.key_book.values())
 		self.search.reset()
 
 	def get_widget(self):
@@ -1110,7 +1110,7 @@ class Interface (gobject.GObject):
 		"""
 
 		direct_text_key = gtk.gdk.keyval_from_name("period")
-		init_text_keys = map(gtk.gdk.keyval_from_name, ("slash", "equal"))
+		init_text_keys = list(map(gtk.gdk.keyval_from_name, ("slash", "equal")))
 		init_text_keys.append(direct_text_key)
 		keymap = gtk.gdk.keymap_get_default()
 		# translate keys properly
@@ -1130,7 +1130,7 @@ class Interface (gobject.GObject):
 
 		setctl = settings.GetSettingsController()
 		# process accelerators
-		for action, accel in setctl.get_accelerators().iteritems():
+		for action, accel in setctl.get_accelerators().items():
 			akeyv, amodf = gtk.accelerator_parse(accel)
 			if not akeyv:
 				continue
@@ -1532,16 +1532,16 @@ class Interface (gobject.GObject):
 			smatch = self.search.get_current()
 			amatch = self.action.get_current()
 			label = (_('Make "%(action)s" Default for "%(object)s"') % {
-			         'action': trunc(unicode(amatch)),
-			         'object': trunc(unicode(smatch)),
+			         'action': trunc(str(amatch)),
+			         'object': trunc(str(smatch)),
 			         })
 			w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
-			yield (u"\n".join(w_label), self.mark_as_default)
+			yield ("\n".join(w_label), self.mark_as_default)
 		if has_match:
 			if self.data_controller.get_object_has_affinity(data.SourcePane):
 				match = self.search.get_current()
 				# TRANS: Removing learned and/or configured bonus search score
-				yield (_('Forget About "%s"') % trunc(unicode(match)),
+				yield (_('Forget About "%s"') % trunc(str(match)),
 				       self.erase_affinity_for_first_pane)
 		if has_match:
 			yield get_accel('reset_all')
@@ -1644,7 +1644,7 @@ class Interface (gobject.GObject):
 		def _handle_error(exc_info):
 			from kupfer import uiutils
 			etype, exc, tb = exc_info
-			if not uiutils.show_notification(unicode(exc), icon_name="kupfer"):
+			if not uiutils.show_notification(str(exc), icon_name="kupfer"):
 				raise
 		ctxenv = uievents.gui_context_from_keyevent(timestamp, display)
 		self.data_controller.execute_file(filepath, ctxenv, _handle_error)
@@ -1704,8 +1704,8 @@ class Interface (gobject.GObject):
 		self.entry.set_position(-1)
 
 	def put_files(self, fileuris):
-		leaves = map(interface.get_fileleaf_for_path,
-			filter(None, [gio.File(U).get_path() for U in fileuris]))
+		leaves = list(map(interface.get_fileleaf_for_path,
+			[_f for _f in [gio.File(U).get_path() for U in fileuris] if _f]))
 		if leaves:
 			self.data_controller.insert_objects(data.SourcePane, leaves)
 
@@ -2050,11 +2050,11 @@ class WindowController (pretty.OutputMixin):
 		vbox.pack_start(widget, True, True)
 		vbox.show()
 		self.window.add(vbox)
-		title = gtk.Label(u"")
-		button = gtk.Label(u"")
+		title = gtk.Label("")
+		button = gtk.Label("")
 		l_programname = version.PROGRAM_NAME.lower()
 		# The text on the general+context menu button
-		btext = u"<b>%s \N{GEAR}</b>" % (l_programname, )
+		btext = "<b>%s \N{GEAR}</b>" % (l_programname, )
 		button.set_markup(btext)
 		button_box = gtk.EventBox()
 		button_box.set_visible_window(False)
@@ -2135,8 +2135,8 @@ class WindowController (pretty.OutputMixin):
 		x, y, mods = window.get_screen().get_root_window().get_pointer()
 		w_x, w_y = window.get_position()
 		w_w, w_h = window.get_size()
-		if (x not in xrange(w_x, w_x + w_w) or
-			y not in xrange(w_y, w_y + w_h)):
+		if (x not in range(w_x, w_x + w_w) or
+			y not in range(w_y, w_y + w_h)):
 			self._window_hide_timer.set_ms(50, self.put_away)
 
 	def _monitors_changed(self, *ignored):

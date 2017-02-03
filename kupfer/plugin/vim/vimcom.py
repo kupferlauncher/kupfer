@@ -308,7 +308,7 @@ class communication_window(gtk.Window):
                     name_id = rawserver.split()
                     # Set the value in the results dict, remembering to convert
                     # the window id to a long int.
-                    servers[name_id[1]] = long(int(name_id[0], 16))
+                    servers[name_id[1]] = int(int(name_id[0], 16))
         # return the list of resuts
         return servers
 
@@ -384,7 +384,7 @@ class communication_window(gtk.Window):
             # The server is not registered in the root window so return None
             wid = None
         # Return wid if it is not none, or None
-        return wid and long(wid) or None
+        return wid and int(wid) or None
 
     def get_server_window(self, wid):
         """
@@ -592,7 +592,7 @@ class communication_window(gtk.Window):
         self.send_ex(server, 'w')
 
     def save_as(self, server, filename):
-        print filename
+        print(filename)
         self.send_ex(server, 'saveas %s' % filename)
 
     def undo(self, server):
@@ -667,14 +667,14 @@ class communication_window(gtk.Window):
             evt, d = data.split(',', 1)
             self.vim_event(server, evt, d)
         else:
-            print 'bad async reply', data
+            print('bad async reply', data)
 
     def vim_event(self, server, evt, d):
         funcname = 'vim_%s' % evt
         if hasattr(self.cb, funcname):
             getattr(self.cb, funcname)(server, *d.split(','))
         else:
-            print 'unhandled event', evt
+            print('unhandled event', evt)
 
 VimCom = communication_window
 

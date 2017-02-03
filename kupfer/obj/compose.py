@@ -40,8 +40,8 @@ class ComposedLeaf (RunnableLeaf):
 	def __init__(self, obj, action, iobj=None):
 		object_ = (obj, action, iobj)
 		# A slight hack: We remove trailing ellipsis and whitespace
-		format = lambda o: unicode(o).strip(".… ")
-		name = u" → ".join([format(o) for o in object_ if o is not None])
+		format = lambda o: str(o).strip(".… ")
+		name = " → ".join([format(o) for o in object_ if o is not None])
 		RunnableLeaf.__init__(self, object_, name)
 
 	def __getstate__(self):
@@ -56,7 +56,7 @@ class ComposedLeaf (RunnableLeaf):
 		act = puid.resolve_action_id(actid, obj)
 		iobj = puid.resolve_unique_id(iobjid)
 		if (not obj or not act) or (iobj is None) != (iobjid is None):
-			raise InvalidDataError("Parts of %s not restored" % unicode(self))
+			raise InvalidDataError("Parts of %s not restored" % str(self))
 		self.object[:] = [obj, act, iobj]
 
 	def get_actions(self):
@@ -79,7 +79,7 @@ class ComposedLeaf (RunnableLeaf):
 
 class _MultipleLeafContentSource (Source):
 	def __init__(self, leaf):
-		Source.__init__(self, unicode(leaf))
+		Source.__init__(self, str(leaf))
 		self.leaf = leaf
 	def get_items(self):
 		return self.leaf.object

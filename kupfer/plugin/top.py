@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource", )

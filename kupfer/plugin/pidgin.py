@@ -60,7 +60,7 @@ def _create_dbus_connection(activate=False):
 			obj = sbus.get_object(SERVICE_NAME, OBJECT_NAME)
 		if obj:
 			interface = dbus.Interface(obj, IFACE_NAME)
-	except dbus.exceptions.DBusException, err:
+	except dbus.exceptions.DBusException as err:
 		pretty.print_debug(err)
 	return interface
 
@@ -97,7 +97,7 @@ class OpenChat(ContactAction):
 		Action.__init__(self, _('Open Chat'))
 
 	def activate(self, leaf):
-		_send_message_to_contact(leaf, u"", present=True)
+		_send_message_to_contact(leaf, "", present=True)
 
 	def get_required_slots(self):
 		return [PIDGIN_ACCOUNT, PIDGIN_JID]
@@ -161,7 +161,7 @@ class PidginContact(ContactLeaf):
 				}
 
 		if status_message:
-			self._description += u"\n%s" % status_message
+			self._description += "\n%s" % status_message
 
 		self.account = account
 		self.jid = jid
@@ -265,7 +265,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelper
 			return
 		is_disconnected = interface.PurpleAccountIsDisconnected
 		conn_accounts = set(a for a in accounts if not is_disconnected(a))
-		for buddy, pcontact in self.all_buddies.items():
+		for buddy, pcontact in list(self.all_buddies.items()):
 			if pcontact.account not in conn_accounts:
 				del self.all_buddies[buddy]
 
@@ -334,7 +334,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelper
 	def get_items(self):
 		if not self.all_buddies:
 			self._get_all_buddies()
-		return self.all_buddies.values()
+		return list(self.all_buddies.values())
 
 	def should_sort_lexically(self):
 		return True

@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Vinagre")
 __kupfer_sources__ = ("SessionSource", )
@@ -107,7 +107,7 @@ class SessionSource(AppLeafContentMixin, ToplevelGroupingSource,
 				if host.find('@') > 0:
 					user, host = host.split('@', 1)
 				yield Bookmark(name, host, protocol, url, port, user)
-		except StandardError, err:
+		except Exception as err:
 			self.output_error(err)
 
 	def get_description(self):

@@ -64,12 +64,12 @@ class Triggers (Source):
 		Triggers.instance = self
 		keybindings.GetKeyboundObject().connect("keybinding",
 		                                        self.keybinding_callback)
-		for target, (keystr, name, id_) in self.trigger_table.iteritems():
+		for target, (keystr, name, id_) in self.trigger_table.items():
 			keybindings.bind_key(keystr, target)
 		self.output_debug("Loaded triggers, count:", len(self.trigger_table))
 
 	def finalize(self):
-		for target, (keystr, name, id_) in self.trigger_table.iteritems():
+		for target, (keystr, name, id_) in self.trigger_table.items():
 			keybindings.bind_key(None, target)
 
 	def keybinding_callback(self, keyobj, target, display, event_time):
@@ -81,9 +81,9 @@ class Triggers (Source):
 		self.perform_trigger(exec_token, target)
 
 	def get_items(self):
-		for target, (keystr, name, id_) in self.trigger_table.iteritems():
+		for target, (keystr, name, id_) in self.trigger_table.items():
 			label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
-			yield Trigger(target, u"%s (%s)" % (label or keystr, name))
+			yield Trigger(target, "%s (%s)" % (label or keystr, name))
 
 	def should_sort_lexically(self):
 		return True
@@ -115,11 +115,11 @@ class Triggers (Source):
 		Triggers.instance._remove_trigger(target)
 	
 	def _add_trigger(self, leaf, keystr):
-		for target in xrange(*keybindings.KEYRANGE_TRIGGERS):
+		for target in range(*keybindings.KEYRANGE_TRIGGERS):
 			if target not in self.trigger_table:
 				break
 		keybindings.bind_key(keystr, target)
-		name = unicode(leaf)
+		name = str(leaf)
 		self.trigger_table[target] = (keystr, name, puid.get_unique_id(leaf))
 		self.mark_for_update()
 

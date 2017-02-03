@@ -13,8 +13,8 @@ class WeakCallback (object):
 	"""
 	def __init__(self, mcallback):
 		"""Create a new Weak Callback calling the method @mcallback"""
-		obj = mcallback.im_self
-		attr = mcallback.im_func.__name__
+		obj = mcallback.__self__
+		attr = mcallback.__func__.__name__
 		self.wref = weakref.ref(obj, self.object_deleted)
 		self.callback_attr = attr
 		self.token = None

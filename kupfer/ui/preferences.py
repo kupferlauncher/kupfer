@@ -273,7 +273,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			return False
 		try:
 			dfile = desktop.DesktopEntry(autostart_file)
-		except xdg_e.ParsingError, exception:
+		except xdg_e.ParsingError as exception:
 			pretty.print_error(__name__, exception)
 			return False
 		return (dfile.hasKey(AUTOSTART_KEY) and
@@ -294,7 +294,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			# Read installed file and modify it
 			try:
 				dfile = desktop.DesktopEntry(desktop_file_path)
-			except xdg_e.ParsingError, exception:
+			except xdg_e.ParsingError as exception:
 				pretty.print_error(__name__, exception)
 				return
 			executable = dfile.getExec()
@@ -305,7 +305,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		else:
 			try:
 				dfile = desktop.DesktopEntry(autostart_file)
-			except xdg_e.ParsingError, exception:
+			except xdg_e.ParsingError as exception:
 				pretty.print_error(__name__, exception)
 				return
 		activestr = str(bool(widget.get_active())).lower()
@@ -353,7 +353,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 			name = info["localized_name"]
 			folded_name = kupferstring.tofolded(name)
 			desc = info["description"]
-			text = u"%s" % name
+			text = "%s" % name
 
 			if us_filter:
 				name_score = relevance.score(name, us_filter)
@@ -366,7 +366,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 	def _show_focus_topmost_plugin(self):
 		try:
-			first_row = iter(self.store).next()
+			first_row = next(iter(self.store))
 		except StopIteration:
 			return
 		plugin_id = first_row[0]
@@ -420,7 +420,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		info = self._plugin_info_for_id(plugin_id)
 		title_label = gtk.Label()
 		m_localized_name = gobject.markup_escape_text(info["localized_name"])
-		title_label.set_markup(u"<b><big>%s</big></b>" % m_localized_name)
+		title_label.set_markup("<b><big>%s</big></b>" % m_localized_name)
 		version, description, author = plugins.get_plugin_attributes(plugin_id,
 				( "__version__", "__description__", "__author__", ))
 		about.pack_start(title_label, False)
@@ -433,18 +433,18 @@ class PreferencesWindowController (pretty.OutputMixin):
 				continue
 			label = gtk.Label()
 			label.set_alignment(0, 0)
-			label.set_markup(u"<b>%s</b>" % field)
+			label.set_markup("<b>%s</b>" % field)
 			infobox.pack_start(label, False)
 			label = wrapped_label()
 			label.set_alignment(0, 0)
-			label.set_markup(u"%s" % gobject.markup_escape_text(val))
+			label.set_markup("%s" % gobject.markup_escape_text(val))
 			label.set_selectable(True)
 			infobox.pack_start(label, False)
 		if version:
 			label = wrapped_label()
 			label.set_alignment(0, 0)
 			m_version = gobject.markup_escape_text(version)
-			label.set_markup(u"<b>%s:</b> %s" % (_("Version"), m_version))
+			label.set_markup("<b>%s:</b> %s" % (_("Version"), m_version))
 			label.set_selectable(True)
 			infobox.pack_start(label, False)
 		about.pack_start(infobox, False)
@@ -454,9 +454,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 		if exc_info is not None:
 			etype, error, tb = exc_info
 			# TRANS: Error message when Plugin needs a Python module to load
-			import_error_localized = _("Python module '%s' is needed") % u"\\1"
-			import_error_pat = u"No module named ([^\s]+)"
-			errmsg = unicode(error)
+			import_error_localized = _("Python module '%s' is needed") % "\\1"
+			import_error_pat = "No module named ([^\s]+)"
+			errmsg = str(error)
 			if re.match(import_error_pat, errmsg):
 				errstr = re.sub(import_error_pat,
 						import_error_localized,
@@ -467,7 +467,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 			label = wrapped_label()
 			label.set_alignment(0, 0)
-			label.set_markup(u"<b>%s</b>\n\n%s" % (
+			label.set_markup("<b>%s</b>\n\n%s" % (
 				_("Plugin could not be read due to an error:"),
 				gobject.markup_escape_text(errstr),
 				))
@@ -476,7 +476,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		elif not plugins.is_plugin_loaded(plugin_id):
 			label = gtk.Label()
 			label.set_alignment(0, 0)
-			label.set_text(u"(%s)" % _("disabled"))
+			label.set_text("(%s)" % _("disabled"))
 			about.pack_start(label, False)
 
 		wid = self._make_plugin_info_widget(plugin_id)
@@ -506,7 +506,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		def make_objects_frame(objs, title):
 			frame_label = gtk.Label()
-			frame_label.set_markup(u"<b>%s</b>" %
+			frame_label.set_markup("<b>%s</b>" %
 			                       gobject.markup_escape_text(title))
 			frame_label.set_alignment(0, 0)
 			objvbox = gtk.VBox()
@@ -519,8 +519,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 				hbox = gtk.HBox()
 				hbox.set_property("spacing", 3)
 				obj = plugin_type()
-				name = unicode(obj)
-				desc = obj.get_description() or u""
+				name = str(obj)
+				desc = obj.get_description() or ""
 				gicon = obj.get_icon()
 				im = gtk.Image()
 				im.set_property("gicon", gicon)
@@ -529,8 +529,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 				m_name = gobject.markup_escape_text(name)
 				m_desc = gobject.markup_escape_text(desc)
 				name_label = \
-					u"%s\n<small>%s</small>" % (m_name, m_desc) if m_desc else \
-					u"%s" % (m_name, )
+					"%s\n<small>%s</small>" % (m_name, m_desc) if m_desc else \
+					"%s" % (m_name, )
 				label = wrapped_label()
 				label.set_markup(name_label)
 				hbox.pack_start(label, False)
@@ -552,7 +552,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				im.set_property("pixel-size", 16)
 				hbox.pack_start(gtk.Label(_("Content of")), False)
 				hbox.pack_start(im, False)
-				hbox.pack_start(gtk.Label(unicode(leaf_repr)), False)
+				hbox.pack_start(gtk.Label(str(leaf_repr)), False)
 				objvbox.pack_start(hbox)
 			return objvbox
 
@@ -605,7 +605,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 		title_label = gtk.Label()
 		# TRANS: Plugin-specific configuration (header)
-		title_label.set_markup(u"<b>%s</b>" % _("Configuration"))
+		title_label.set_markup("<b>%s</b>" % _("Configuration"))
 		title_label.set_alignment(0, 0)
 
 		vbox = gtk.VBox()
@@ -633,7 +633,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 				continue
 
 			label_wid = wrapped_label(label, maxwid=200)
-			if issubclass(typ, basestring):
+			if issubclass(typ, str):
 				if alternatives:
 					wid = gtk.combo_box_new_text()
 					val = plugin_settings[setting]
@@ -752,9 +752,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 			setctl.reset_keybindings()
 			self._show_keybindings(setctl)
 			# Unbind all before re-binding
-			for keybind_id, target in self.KEYBINDING_TARGETS.iteritems():
+			for keybind_id, target in self.KEYBINDING_TARGETS.items():
 				keybindings.bind_key(None, target)
-			for keybind_id, target in self.KEYBINDING_TARGETS.iteritems():
+			for keybind_id, target in self.KEYBINDING_TARGETS.items():
 				keystr = setctl.get_global_keybinding(keybind_id)
 				keybindings.bind_key(keystr, target)
 
@@ -842,7 +842,7 @@ class PreferencesWindowController (pretty.OutputMixin):
 		try:
 			table_path = self._table_path_for_id(plugin_id)
 		except ValueError:
-			self.entry_plugins_filter.set_text(u"")
+			self.entry_plugins_filter.set_text("")
 			self._refresh_plugin_list()
 			table_path = self._table_path_for_id(plugin_id)
 		self.table.set_cursor(table_path)
@@ -947,10 +947,10 @@ class SourceListController (object):
 		self.store.clear()
 		setctl = settings.GetSettingsController()
 		sc = sources.GetSourceController()
-		srcs = sorted(sc.get_sources(), key=unicode)
+		srcs = sorted(sc.get_sources(), key=str)
 
 		for src in srcs:
-			name = unicode(src)
+			name = str(src)
 			plugin_id = sc.get_plugin_id_for_object(src)
 			if not plugin_id or setctl.get_plugin_is_hidden(plugin_id):
 				continue

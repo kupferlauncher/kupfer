@@ -72,7 +72,7 @@ class ProgressDialogController (object):
 		@text: current information (normal style)
 		"""
 		self.progressbar.set_fraction(min(value/self.max_value, 1.0))
-		self.label_info.set_markup(u"<b>%s</b> %s" %
+		self.label_info.set_markup("<b>%s</b> %s" %
 			(
 				glib.markup_escape_text(label),
 				glib.markup_escape_text(text),

@@ -53,7 +53,7 @@ def _create_dbus_connection(activate=False):
 			if obj:
 				interface = dbus.Interface(obj, 'org.gajim.dbus.RemoteInterface')
 
-	except dbus.exceptions.DBusException, err:
+	except dbus.exceptions.DBusException as err:
 		pretty.print_debug(err)
 
 	return interface
@@ -63,7 +63,7 @@ def _check_gajim_version(conn):
 	''' get gajim version. return list lika [0.12.5] '''
 	prefs = conn.prefs_list()
 	version = prefs['version']
-	tversion = map(int, version.split('.'))
+	tversion = list(map(int, version.split('.')))
 	if len(tversion) == 2:
 		tversion += [0]
 	elif len(tversion) > 3:
@@ -195,7 +195,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
 
 			for contact in interface.list_contacts(account):
 				name = contact['name'] or contact['jid']
-				resources = contact['resources'][0][0] if contact['resources'] else u''
+				resources = contact['resources'][0][0] if contact['resources'] else ''
 				jc = GajimContact(contact['jid'], name, \
 						_STATUSES.get(contact['show'], contact['show']), \
 						resources, account)
@@ -213,7 +213,7 @@ class StatusSource(Source):
 		Source.__init__(self, _("Gajim Account Status"))
 
 	def get_items(self):
-		for status, name in _STATUSES.iteritems():
+		for status, name in _STATUSES.items():
 			yield AccountStatus(status, name)
 
 	def provides(self):

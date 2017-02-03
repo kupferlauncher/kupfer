@@ -15,7 +15,7 @@ def _extend_path():
 	for directory in list(__path__):
 		try:
 			filenames = os.listdir(directory)
-		except OSError, error:
+		except OSError as error:
 			pretty.print_error(__name__, error)
 			continue
 		zipnames = [f for f in filenames if f.endswith(".zip")]

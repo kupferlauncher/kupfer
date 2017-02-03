@@ -40,7 +40,7 @@ class NonpersistentToken (PicklingHelperMixin):
 	"""A token will keep a reference until pickling, when it is deleted"""
 	def __init__(self, data):
 		self.data = data
-	def __nonzero__(self):
+	def __bool__(self):
 		return self.data
 	def pickle_prepare(self):
 		self.data = None

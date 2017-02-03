@@ -54,7 +54,7 @@ class InfoTask(task.Task):
 
 	def _check_end(self):
 		if self.aptitude is not None and self.apt_cache is not None:
-			self.finish(u"".join(kupferstring.fromlocale(s)
+			self.finish("".join(kupferstring.fromlocale(s)
 			            for s in (self.aptitude, self.apt_cache)))
 
 	def finish(self, text):

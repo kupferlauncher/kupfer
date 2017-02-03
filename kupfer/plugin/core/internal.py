@@ -56,7 +56,7 @@ def _make_first_result_object(leaf):
 		def get_thumbnail(self, w, h):
 			return None
 		def get_description(self):
-			return unicode(self.__orignal_leaf)
+			return str(self.__orignal_leaf)
 
 	return LastResultObject(leaf)
 

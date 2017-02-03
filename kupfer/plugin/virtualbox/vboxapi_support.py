@@ -38,7 +38,7 @@ def _get_object_session():
 	try:
 		vbox = vboxapi.VirtualBoxManager(None, None)
 		session = vbox.mgr.getSessionObject(vbox.vbox)
-	except Exception, err:
+	except Exception as err:
 		pretty.print_error(__name__, 'virtualbox: get session error ', err)
 	pretty.print_debug(__name__, '_get_object_session finished', vbox, session)
 	return vbox, session
@@ -52,7 +52,7 @@ def _get_existing_session(vm_uuid):
 		vbox = vboxapi.VirtualBoxManager(None, None)
 		session = vbox.mgr.getSessionObject(vbox.vbox)
 		vbox.vbox.openExistingSession(session, vm_uuid)
-	except Exception, err:
+	except Exception as err:
 		pretty.print_error(__name__, 'virtualbox: get session error', vm_uuid,
 				err)
 	pretty.print_debug(__name__, '_get_existing_session finished', vbox, session)
@@ -77,7 +77,7 @@ def get_machine_state(machine_id):
 			state = vbox_const.VM_STATE_POWEROFF
 		elif machine_state == vbox.constants.MachineState_Saved:
 			state = vbox_const.VM_STATE_SAVED
-	except Exception, err:  # exception == machine is off (xpcom.Exception)
+	except Exception as err:  # exception == machine is off (xpcom.Exception)
 		# silently set state to off
 		state = vbox_const.VM_STATE_POWEROFF
 		pretty.print_debug(__name__, 'get_machine_state error', err)
@@ -101,7 +101,7 @@ def _machine_start(vm_uuid, mode):
 			remote_sess = vbox.vbox.openRemoteSession(session, vm_uuid, mode,
 					'')
 			remote_sess.waitForCompletion(-1)
-		except Exception, err:
+		except Exception as err:
 			pretty.print_error(__name__, "StartVM:", vm_uuid, "Mode ", mode,
 					"error", err)
 		try:
@@ -119,7 +119,7 @@ def _execute_machine_action(vm_uuid, action):
 	vbox, session = _get_existing_session(vm_uuid)
 	try:
 		action(session.console)
-	except Exception, err:
+	except Exception as err:
 		pretty.print_error(__name__, "_execute_machine_action:", repr(action),
 				" vm:", vm_uuid, "error", err)
 	try:

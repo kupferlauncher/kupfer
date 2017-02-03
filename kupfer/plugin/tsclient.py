@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from __future__ import with_statement
+
 
 __kupfer_name__ = _("Terminal Server Client")
 __kupfer_sources__ = ("TsclientSessionSource", )
@@ -109,10 +109,10 @@ class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource):
 						host = line.split(':s:', 2)[1].strip()
 					elif line.startswith('username:s:'):
 						user = line.split(':s:', 2)[1].strip()
-		except IOError, err:
+		except IOError as err:
 			self.output_error(err)
 		else:
 			if host:
-				return unicode(user + '@' + host if user else host, "UTF-8",
+				return str(user + '@' + host if user else host, "UTF-8",
 						"replace")
-		return u'Terminal Server Client Session'
+		return 'Terminal Server Client Session'

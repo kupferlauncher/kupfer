@@ -1,6 +1,6 @@
 from time import time
 import os
-import cPickle as pickle
+import pickle as pickle
 
 import gio
 import gobject
@@ -18,7 +18,7 @@ from kupfer.desktop_launch import SpawnError
 try:
 	import wnck
 	wnck.set_client_type(wnck.CLIENT_TYPE_PAGER)
-except ImportError, e:
+except ImportError as e:
 	pretty.print_info(__name__, "Disabling window tracking:", e)
 	wnck = None
 
@@ -132,20 +132,20 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			self.output_debug("Learned the following applications")
 			self.output_debug("\n{\n%s\n}" % "\n".join(
 				("  %-30s : %s" % (k,v)
-					for k,v in self.register.iteritems())
+					for k,v in self.register.items())
 				))
 	def _finish(self, sched):
 		self._pickle_register(self.register, self._get_filename())
 	def _unpickle_register(self, pickle_file):
 		try:
 			pfile = open(pickle_file, "rb")
-		except IOError, e:
+		except IOError as e:
 			return None
 		try:
 			source = pickle.loads(pfile.read())
 			assert isinstance(source, dict), "Stored object not a dict"
 			self.output_debug("Reading from %s" % (pickle_file, ))
-		except (pickle.PickleError, Exception), e:
+		except (pickle.PickleError, Exception) as e:
 			source = None
 			self.output_info("Error loading %s: %s" % (pickle_file, e))
 		return source
@@ -247,8 +247,8 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 			return window.get_window_type() == wnck.WINDOW_NORMAL
 
 		## get all visible windows in stacking order
-		vis_windows = filter(visible_window,
-		                     self._get_wnck_screen_windows_stacked())
+		vis_windows = list(filter(visible_window,
+		                     self._get_wnck_screen_windows_stacked()))
 
 		## sort windows into "bins" by workspace
 		for w in filter(normal_window, application_windows):

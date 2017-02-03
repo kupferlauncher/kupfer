@@ -56,7 +56,7 @@ class SavedIterable (object):
 	def _incremental_caching_iter(self):
 		indices = itertools.count()
 		while True:
-			idx = indices.next()
+			idx = next(indices)
 			try:
 				yield self.data[idx]
 			except IndexError:
@@ -66,7 +66,7 @@ class SavedIterable (object):
 			if self.iterator is None:
 				return
 			try:
-				x = self.iterator.next()
+				x = next(self.iterator)
 				self.data.append(x)
 				yield x
 			except StopIteration:
@@ -156,9 +156,9 @@ if not OrderedDict:
 			if not self:
 				raise KeyError('dictionary is empty')
 			if last:
-				key = reversed(self).next()
+				key = next(reversed(self))
 			else:
-				key = iter(self).next()
+				key = next(iter(self))
 			value = self.pop(key)
 			return key, value
 
@@ -187,7 +187,7 @@ if not OrderedDict:
 		def __repr__(self):
 			if not self:
 				return '%s()' % (self.__class__.__name__,)
-			return '%s(%r)' % (self.__class__.__name__, self.items())
+			return '%s(%r)' % (self.__class__.__name__, list(self.items()))
 
 		def copy(self):
 			return self.__class__(self)
@@ -201,7 +201,7 @@ if not OrderedDict:
 
 		def __eq__(self, other):
 			if isinstance(other, OrderedDict):
-				return len(self)==len(other) and self.items() == other.items()
+				return len(self)==len(other) and list(self.items()) == list(other.items())
 			return dict.__eq__(self, other)
 
 		def __ne__(self, other):
