@@ -7,8 +7,8 @@ __kupfer_actions__ = (
         "Rotate270",
         "Autorotate",
     )
-__description__ = _("Image transformation tools")
-__version__ = ""
+__description__ = _("Image transformation tools using 'convert' from ImageMagick")
+__version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 # since "path" is a very generic name, you often forget..
@@ -59,6 +59,8 @@ class Scale (Action):
     @classmethod
     def _make_size(self, text):
         size = None
+        # Allow leading =
+        text = text.strip("= ")
         try:
             size = "%g" % float(text.strip())
         except ValueError:
