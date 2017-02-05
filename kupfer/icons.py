@@ -7,6 +7,8 @@ from gio import Icon, ThemedIcon, FileIcon, File
 from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
 from gobject import GError
 
+from gi.repository import GdkPixbuf
+
 from kupfer import config
 from kupfer import datatools
 from kupfer import pretty
@@ -50,11 +52,17 @@ def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
 	@get_data_func: A function to return the data for a relative filename
 	@plugin_name: plugin id, if applicable
 	"""
-	for line in icon_list_data.splitlines():
+	try:
+		icon_list_string = icon_list_data.decode("utf-8")
+	except UnicodeDecodeError as exc:
+		pretty.print_error(__name__, "Malformed icon-list in plugin %r: %r"
+						  % (plugin_name, exc))
+		raise
+	for line in icon_list_string.splitlines():
 		# ignore '#'-comments
-		if line.startswith(b"#") or not line.strip():
+		if line.startswith("#") or not line.strip():
 			continue
-		fields = list(map(bytes.strip, line.split(b'\t')))
+		fields = list(map(str.strip, line.split('\t')))
 		if len(fields) < 2:
 			pretty.print_error(__name__, "Malformed icon-list line %r from %r" %
 			                   (line, plugin_name))
@@ -88,7 +96,7 @@ def load_icon_from_func(plugin_name, icon_name, get_data_func, override=False):
 		return
 	for size in (SMALL_SZ, LARGE_SZ):
 		pixbuf = get_pixbuf_from_data(icon_data, size, size)
-		gtk.icon_theme_add_builtin_icon(icon_name, size, pixbuf)
+		gtk.IconTheme.add_builtin_icon(icon_name, size, pixbuf)
 		pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
 				"for", plugin_name)
 	kupfer_locally_installed_names.add(icon_name)
@@ -390,7 +398,7 @@ def get_pixbuf_from_data(data, width=None, height=None):
 		new_width, new_height = int(img_width*scale), int(img_height*scale)
 		img.set_size(new_width, new_height)
 
-	ploader = gtk.gdk.PixbufLoader()
+	ploader = GdkPixbuf.PixbufLoader.new()
 	if width and height:
 		ploader.connect("size-prepared", set_size)
 	ploader.write(data)
