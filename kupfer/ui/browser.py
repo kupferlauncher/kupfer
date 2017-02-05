@@ -657,7 +657,6 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		else:
 			sub_x -= self_x
 		self.list_window.move(sub_x, sub_y)
-		self.output_debug("list window resize", subwin_width, subwin_height)
 		self.list_window.resize(subwin_width, subwin_height)
 
 		win = self.get_toplevel()
