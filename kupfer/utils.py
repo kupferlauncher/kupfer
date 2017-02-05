@@ -234,7 +234,9 @@ def spawn_async_raise(argv, workdir="."):
 
 	raises SpawnError
 	"""
-	argv = _argv_to_locale(argv)
+	# FIXME: How to support locale strings?
+	argv
+	#argv = _argv_to_locale(argv)
 	pretty.print_debug(__name__, "spawn_async", argv, workdir)
 	try:
 		return gobject.spawn_async (argv, working_directory=workdir,
