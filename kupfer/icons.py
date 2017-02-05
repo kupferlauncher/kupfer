@@ -226,16 +226,14 @@ def get_gicon_for_file(uri):
 	return None if not found
 	"""
 
-	gfile = File.new_for_uri(uri)
+	gfile = File.new_for_path(uri)
 	if not gfile.query_exists():
-		return None
+		gfile = File.new_for_uri(uri)
+		if not gfile.query_exists():
+			return None
 
-	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON)
+	finfo = gfile.query_info(FILE_ATTRIBUTE_STANDARD_ICON, Gio.FileQueryInfoFlags.NONE, None)
 	gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
-	# very manually override generic folder icon name
-	if isinstance(gicon, ThemedIcon):
-		if gicon.get_names()[0] == "inode-directory":
-			return ThemedIcon.new("folder")
 	return gicon
 
 def get_icon_for_gicon(gicon, icon_size):
