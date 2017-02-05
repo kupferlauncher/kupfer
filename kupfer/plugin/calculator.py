@@ -1,6 +1,6 @@
 
 __kupfer_name__ = _("Calculator")
-__kupfer_actions__ = ("Calculate")
+__kupfer_actions__ = ("Calculate", )
 __description__ = _("Calculate mathematical expressions")
 __version__ = "2012-06-10"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
