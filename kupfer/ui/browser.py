@@ -335,6 +335,7 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 		self.label = gtk.Label("<match>")
 		self.label.set_single_line_mode(True)
 		self.label.set_width_chars(self.label_char_width)
+		self.label.set_max_width_chars(self.label_char_width)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.icon_view = gtk.Image()
 
@@ -969,6 +970,7 @@ class Interface (gobject.GObject):
 
 		from pango import ELLIPSIZE_MIDDLE
 		self.label.set_width_chars(50)
+		self.label.set_max_width_chars(50)
 		self.label.set_single_line_mode(True)
 		self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
 		self.label.set_name("kupfer-description")
