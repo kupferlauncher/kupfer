@@ -265,7 +265,7 @@ def show_path(path):
 	"""Open local @path with default viewer"""
 	from gio import File
 	# Implemented using gtk.show_uri
-	gfile = File(path)
+	gfile = File.new_for_path(path)
 	if not gfile:
 		return
 	url = gfile.get_uri()

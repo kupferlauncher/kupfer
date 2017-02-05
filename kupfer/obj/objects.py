@@ -64,7 +64,8 @@ class FileLeaf (Leaf, TextRepresentation):
 		# Use glib filename reading to make display name out of filenames
 		# this function returns a `unicode` object
 		if not name:
-			name = gobject.filename_display_basename(obj)
+			unicode_path = tounicode(obj)
+			name = gobject.filename_display_basename(unicode_path)
 		super(FileLeaf, self).__init__(obj, name)
 		if alias:
 			self.kupfer_add_alias(alias)
