@@ -376,12 +376,12 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 					normc.green*scale, normc.blue*scale, 1.0)
 		context.fill()
 
-		radius = self.style_get_property('corner-radius')
+		radius = CORNER_RADIUS
 		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=radius)
 		# Get the current selection color
 		newc = widget.style.bg[widget.get_state()]
 		context.set_operator(cairo.OPERATOR_SOURCE)
-		opacity = 0.01*self.style_get_property('opacity')
+		opacity = 0.01 * OPACITY
 		context.set_source_rgba(newc.red*scale,
 				newc.green*scale, newc.blue*scale, opacity)
 		context.fill()
@@ -393,8 +393,8 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 	def do_size_allocate (self, allocation):
 		self.__child.size_allocate (allocation)
 
-	def do_forall (self, include_internals, callback, user_data):
-		callback (self.__child, user_data)
+	def do_forall (self, include_internals, callback, *user_data):
+		callback (self.__child, *user_data)
 
 	def _render_composed_icon(self, base, pixbufs, small_size):
 		"""
@@ -539,7 +539,9 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 			self.label.set_alignment(.5,.5)
 
 gobject.type_register(MatchView)
+CORNER_RADIUS = 15
 #gtk.widget_class_install_style_property(MatchView, ('corner-radius', gobject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, gobject.PARAM_READABLE))
+OPACITY = 95
 #gtk.widget_class_install_style_property(MatchView, ('opacity', gobject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, gobject.PARAM_READABLE))
 
 class Search (gtk.Bin, pretty.OutputMixin):
@@ -652,8 +654,8 @@ class Search (gtk.Bin, pretty.OutputMixin):
 	def do_size_allocate (self, allocation):
 		self.__child.size_allocate (allocation)
 
-	def do_forall (self, include_internals, callback, user_data):
-		callback (self.__child, user_data)
+	def do_forall (self, include_internals, callback, *user_data):
+		callback (self.__child, *user_data)
 
 	def get_table_visible(self):
 		return self.list_window.get_property("visible")
@@ -662,8 +664,8 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		self.list_window.hide()
 
 	def _show_table(self):
-		table_maxlen = self.style_get_property('list-length')
-		opacity = 0.01*self.style_get_property('list-opacity')
+		table_maxlen = LIST_LENGTH
+		opacity = 0.01 * LIST_OPACITY
 		# self.window is a GdkWindow (of self's parent)
 		win_width, win_height = self.window.get_size()
 		pos_x, pos_y = self.window.get_position()
@@ -878,8 +880,10 @@ gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+LIST_OPACITY = 93
 #gtk.widget_class_install_style_property(Search, ('list-opacity', gobject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, gobject.PARAM_READABLE))
 
+LIST_LENGTH = 250
 #gtk.widget_class_install_style_property(Search, ('list-length', gobject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, gobject.PARAM_READABLE))
 
 class LeafSearch (Search):
@@ -1097,7 +1101,7 @@ class Interface (gobject.GObject):
 		direct_text_key = gtk.gdk.keyval_from_name("period")
 		init_text_keys = list(map(gtk.gdk.keyval_from_name, ("slash", "equal")))
 		init_text_keys.append(direct_text_key)
-		keymap = gtk.gdk.keymap_get_default()
+		keymap = gtk.gdk.Keymap.get_default()
 		# translate keys properly
 		keyv, egroup, level, consumed = keymap.translate_keyboard_state(
 					event.hardware_keycode, event.state, event.group)
@@ -1713,7 +1717,7 @@ class Interface (gobject.GObject):
 		The preedit has changed. As below, we need to use unicode.
 		"""
 		text = editable.get_text()
-		text = text.decode("UTF-8")
+		#text = text.decode("UTF-8")
 		if text:
 			self.entry.insert_text(text, -1)
 			self.entry.set_position(-1)
@@ -1730,7 +1734,7 @@ class Interface (gobject.GObject):
 		"""
 		# @text is UTF-8
 		text = editable.get_text()
-		text = text.decode("UTF-8")
+		#text = text.decode("UTF-8")
 
 		# draw character count as icon
 		if self.get_in_text_mode() and text:
@@ -1775,13 +1779,14 @@ class KupferWindow (gtk.Window):
 		super(KupferWindow, self).__init__(*args)
 		self.connect("style-set", self.on_style_set)
 		self.set_name("kupfer")
-		self.connect("map-event", self.on_expose_event)
+		#self.connect("map-event", self.on_expose_event)
 		self.connect("size-allocate", self.on_size_allocate)
 		self.connect("composited-changed", self.on_composited_changed)
 		self.connect("realize", self.on_realize)
 		self.set_app_paintable(True)
 
 	def on_style_set(self, widget, old_style):
+		return
 		widget.set_property('decorated',
 				widget.style_get_property('decorated'))
 		widget.set_property('border-width',
@@ -1798,7 +1803,7 @@ class KupferWindow (gtk.Window):
 		def rgba_from_gdk(c, alpha):
 			return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
 
-		radius = widget.style_get_property('corner-radius')
+		radius = CORNER_RADIUS
 		if widget.is_composited():
 			opacity = 0.01*widget.style_get_property('opacity')
 			#cr.set_operator(cairo.OPERATOR_CLEAR)
@@ -1838,9 +1843,10 @@ class KupferWindow (gtk.Window):
 		self.reshape(widget, allocation)
 
 	def reshape(self, widget, allocation):
+		return
 		## if not composited, use rounded window shape
 		w,h = allocation.width, allocation.height
-		radius = widget.style_get_property('corner-radius')
+		radius = CORNER_RADIUS
 		if not widget.is_composited() and radius:
 			bitmap = gtk.gdk.Pixmap(None, w, h, 1)
 			cr = bitmap.cairo_create()
@@ -1863,6 +1869,9 @@ class KupferWindow (gtk.Window):
 
 
 gobject.type_register(KupferWindow)
+WINDOW_CORNER_RAIDUS = 15
+WINDOW_OPACITY = 85
+WINDOW_DECORATED = False
 #gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', gobject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, gobject.PARAM_READABLE))
 #gtk.widget_class_install_style_property(KupferWindow, ('opacity', gobject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, gobject.PARAM_READABLE))
 #gtk.widget_class_install_style_property(KupferWindow, ('decorated', gobject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, gobject.PARAM_READABLE))
@@ -2064,7 +2073,7 @@ class WindowController (pretty.OutputMixin):
 		"The context menu label was clicked"
 		menu = self._setup_menu(True)
 		menu.set_screen(self.window.get_screen())
-		menu.popup(None, None, None, event.button, event.time)
+		menu.popup(None, None, None, None, event.button, event.time)
 		return True
 
 	def _button_enter(self, widget, event, button, udata):
@@ -2079,7 +2088,7 @@ class WindowController (pretty.OutputMixin):
 		"""
 		When the StatusIcon is right-clicked
 		"""
-		menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, status_icon)
+		menu.popup(None, None, gtk.status_icon_position_menu, status_icon, button, activate_time)
 
 	def launch_callback(self, sender):
 		# Separate window hide from the action being
@@ -2101,7 +2110,7 @@ class WindowController (pretty.OutputMixin):
 		# do some additional math to make sure that
 		# that window won't close if the mouse pointer
 		# is over it.
-		x, y, mods = window.get_screen().get_root_window().get_pointer()
+		_gdkwindow, x, y, mods = window.get_screen().get_root_window().get_pointer()
 		w_x, w_y = window.get_position()
 		w_w, w_h = window.get_size()
 		if (x not in range(w_x, w_x + w_w) or

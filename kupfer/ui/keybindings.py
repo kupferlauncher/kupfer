@@ -8,6 +8,12 @@ KEYBINDING_MAGIC = 2
 KEYRANGE_RESERVED = (3, 0x1000)
 KEYRANGE_TRIGGERS = (0x1000, 0x2000)
 
+import gi
+gi.require_version("Keybinder", "3.0")
+from gi.repository import Keybinder as keybinder
+
+keybinder.init()
+
 _keybound_object = None
 def GetKeyboundObject():
 	"""Get the shared instance"""
@@ -28,7 +34,6 @@ class KeyboundObject (gobject.GObject):
 	def __init__(self):
 		super(KeyboundObject, self).__init__()
 	def _keybinding(self, target):
-		import keybinder
 		time = keybinder.get_current_event_time()
 		self.emit("keybinding", target, "", time)
 	def emit_bound_key_changed(self, keystring, is_bound):
@@ -54,10 +59,6 @@ def get_all_bound_keys():
 
 def get_current_event_time():
 	"Return current event time as given by keybinder"
-	try:
-		import keybinder
-	except ImportError:
-		return 0
 	return keybinder.get_current_event_time()
 
 def _register_bound_key(keystr, target):
@@ -71,13 +72,6 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 	Bind @keystr, unbinding any previous key for @keybinding_target.
 	If @keystr is a false value, any previous key will be unbound.
 	"""
-	try:
-		import keybinder
-	except ImportError:
-		pretty.print_error(__name__, "Could not import keybinder, "
-				"keybindings disabled!")
-		return False
-
 	keybinding_target = int(keybinding_target)
 	callback = lambda : GetKeyboundObject()._keybinding(keybinding_target)
 	if not _is_sane_keybinding(keystr):

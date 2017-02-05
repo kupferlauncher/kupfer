@@ -79,8 +79,8 @@ class FilesystemWatchMixin (object):
 		return not (gfile and gfile.get_basename().startswith("."))
 
 	def __directory_changed(self, monitor, file1, file2, evt_type):
-		if (evt_type in (gio.FILE_MONITOR_EVENT_CREATED,
-				gio.FILE_MONITOR_EVENT_DELETED) and
+		if (evt_type in (gio.FileMonitorEvent.CREATED,
+				gio.FileMonitorEvent.DELETED) and
 				self.monitor_include_file(file1)):
 			self.mark_for_update()
 
