@@ -636,7 +636,7 @@ class PreferencesWindowController (pretty.OutputMixin):
             label_wid = wrapped_label(label, maxwid=200)
             if issubclass(typ, str):
                 if alternatives:
-                    wid = gtk.combo_box_new_text()
+                    wid = gtk.ComboBoxText.new()
                     val = plugin_settings[setting]
                     active_index = -1
                     for idx, text in enumerate(alternatives):
