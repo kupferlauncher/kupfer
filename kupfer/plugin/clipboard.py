@@ -7,6 +7,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from collections import deque
 
+from gi.repository import Gdk
 import gio
 import gtk
 
@@ -148,9 +149,10 @@ class ClipboardSource (Source):
 		if is_selection:
 			self.selected_text = newtext
 		if not is_selection or is_sync_selection:
+			uri_target = Gdk.Atom.intern(URI_TARGET, False)
 			self.clipboard_text = newtext
-			if clip.wait_is_target_available(URI_TARGET):
-				sdata = clip.wait_for_contents(URI_TARGET)
+			if clip.wait_is_target_available(uri_target):
+				sdata = clip.wait_for_contents(uri_target)
 				self.clipboard_uris = list(sdata.get_uris())
 			else:
 				self.clipboard_uris = []
