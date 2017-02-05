@@ -73,7 +73,6 @@ class GetKeyDialogController(object):
         keyval, state = self.translate_keyboard_event(widget, event)
         state = gtk.gdk.ModifierType(state)
         keyname = gtk.accelerator_name(keyval, state)
-        print("on_dialoggetkey_key_press_event", keyval, state)
         if keyname == 'Escape':
             self._return(None)
         elif keyname == 'BackSpace':
@@ -84,7 +83,6 @@ class GetKeyDialogController(object):
         if not self._press_time:
             return
         keyval, state = self.translate_keyboard_event(widget, event)
-        print("on_dialoggetkey_key_release_event", keyval, state)
         self.update_accelerator_label(0, 0)
 
         state = gtk.gdk.ModifierType(state)
