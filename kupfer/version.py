@@ -76,7 +76,7 @@ WEBSITE = "https://engla.github.io/kupfer/"
 HELP_WEBSITE = "https://engla.github.io/kupfer/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = """Copyright © 2007--2011 Ulrik Sverdrup with others"""
+COPYRIGHT = """Copyright © 2007–2017 Ulrik Sverdrup with others"""
 
 LICENSE = _("""
 This program is free software: you can redistribute it and/or modify
