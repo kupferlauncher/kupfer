@@ -73,18 +73,9 @@ def show_text_result(text, title=None, ctx=None):
             ("text_result_window", "result_textview"),
             autoconnect_to=ResultWindowBehavior())
 
-
     # Set up text buffer
     buf = gtk.TextBuffer()
     buf.set_text(text)
-    monospace = gtk.TextTag.new("fixed")
-    monospace.set_property("family", "Monospace")
-    monospace.set_property("scale", pango.SCALE)
-    beg, end = buf.get_bounds()
-    tag_table = buf.get_tag_table()
-    tag_table.add(monospace)
-    buf.apply_tag(monospace, beg, end)
-
     textview.set_buffer(buf)
     textview.set_wrap_mode(gtk.WRAP_NONE)
 
@@ -96,16 +87,24 @@ def show_text_result(text, title=None, ctx=None):
 
     window.show_all()
 
+    # Find the size of one (monospace) letter
+    playout = textview.create_pango_layout("X")
+    ink_r, logical_r = playout.get_pixel_extents()
+
     # Fix Sizing:
     # We want to size the window so that the
     # TextView is displayed without scrollbars
     # initially, if it fits on screen.
-    oldwid, oldhei = textview.window.get_size()
+    oldwid, oldhei = textview.get_size_request()
     winwid, winhei = window.get_size()
 
-    max_hsize, max_vsize = window.get_default_size()
+    #max_hsize, max_vsize = window.get_default_size()
     wid, hei = textview.size_request()
     textview.set_wrap_mode(gtk.WRAP_WORD)
+
+    # Set max window size to 100 colums x 60 lines
+    max_hsize = ink_r.height * 60
+    max_vsize = ink_r.width * 100
 
     vsize = int(min(hei + (winhei - oldhei) + 5, max_vsize))
     hsize = int(min(wid + (winwid - oldwid) + 5, max_hsize))
