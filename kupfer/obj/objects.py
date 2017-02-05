@@ -205,18 +205,18 @@ class AppLeaf (Leaf):
             item = self.init_item
         else:
             # Construct an AppInfo item from either path or item_id
-            from gio import DesktopAppInfo
-            if self.init_path and (
-               not require_x or os.access(self.init_path, os.X_OK)):
-                # serilizable if created from a "loose file"
-                self.serializable = 1
-                item = DesktopAppInfo.new_from_filename(self.init_path)
-            elif self.init_item_id:
-                try:
-                    item = DesktopAppInfo.new(self.init_item_id)
-                except TypeError:
-                    pretty.print_debug(__name__, "Application not found:",
-                            self.init_item_id)
+            try:
+                if self.init_path and (
+                   not require_x or os.access(self.init_path, os.X_OK)):
+                    # serilizable if created from a "loose file"
+                    self.serializable = 1
+                    item = gio.DesktopAppInfo.new_from_filename(self.init_path)
+                elif self.init_item_id:
+                        item = gio.DesktopAppInfo.new(self.init_item_id)
+            except TypeError:
+                pretty.print_debug(__name__, "Application not found:",
+                        self.init_item_id, self.init_path)
+                raise InvalidDataError
         self.object = item
         if not self.object:
             raise InvalidDataError
