@@ -2008,21 +2008,10 @@ class WindowController (pretty.OutputMixin):
 
     def _setup_status_icon(self):
         menu = self._setup_menu()
-        try:
-            import appindicator
-        except ImportError:
-            appindicator = None
-        else:
-            ## make sure dbus is available, else appindicator crashes
-            import dbus
-            try:
-                dbus.Bus()
-            except dbus.DBusException:
-                appindicator = None
-        if appindicator:
-            return self._setup_appindicator(menu)
-        else:
-            return self._setup_gtk_status_icon(menu)
+        # FIXME: Port to gi AppIndicator3,
+        # but also find out how to automatically pick what to use
+        #return self._setup_appindicator(menu)
+        return self._setup_gtk_status_icon(menu)
 
     def _setup_gtk_status_icon(self, menu):
         status = gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
@@ -2033,11 +2022,11 @@ class WindowController (pretty.OutputMixin):
         return status
 
     def _setup_appindicator(self, menu):
-        import appindicator
-        indicator = appindicator.Indicator(version.PROGRAM_NAME,
+        from gi.repository import AppIndicator3
+        indicator = AppIndicator3.Indicator.new(version.PROGRAM_NAME,
             version.ICON_NAME,
-            appindicator.CATEGORY_APPLICATION_STATUS)
-        indicator.set_status(appindicator.STATUS_ACTIVE)
+            AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
+        indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
         indicator.set_menu(menu)
         return indicator

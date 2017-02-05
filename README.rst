@@ -84,7 +84,6 @@ known to work.
 Opportunistic dependencies
 
 * If available, 'setproctitle' is used to set the process name
-* python-appindicator for ubuntu-style notification icon
 
 Some plugins will require additional python modules!
 
