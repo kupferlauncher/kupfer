@@ -50,19 +50,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 				"kupfer's data.")
 
 	def _connect_gnomeui(self):
-		try:
-			import gnome
-			import gnome.ui
-		except ImportError as exc:
-			self.output_debug(exc)
-			return False
-
-		gnome.program_init(version.PACKAGE_NAME, version.VERSION)
-		client = gnome.ui.master_client()
-		client.connect("save-yourself", self._session_save)
-		client.connect("die", self._session_die)
-		self.output_debug("Setting up session connection using GnomeClient")
-		return True
+		return False
 
 	def _connect_session_manager(self):
 		bus = dbus.SessionBus()
