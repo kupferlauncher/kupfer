@@ -646,13 +646,15 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		sub_x = pos_x
 		sub_y = pos_y + win_height
 		table_w, table_len = self.table.size_request()
-		subwin_height = min(table_len, table_maxlen) or 100
+		# FIXME: Adapt list length
+		subwin_height = table_maxlen
 		subwin_width = self_width*2 - self_x
 		if not text_direction_is_ltr():
 			sub_x += win_width - subwin_width + self_x
 		else:
 			sub_x -= self_x
 		self.list_window.move(sub_x, sub_y)
+		self.output_debug("list window resize", subwin_width, subwin_height)
 		self.list_window.resize(subwin_width, subwin_height)
 
 		win = self.get_toplevel()
