@@ -351,7 +351,7 @@ def spawn_app_id(app_id, argv, workdir=None, startup_notify=True, screen=None):
 	"""
 	try:
 		app_info = get_info_for_id(app_id)
-	except RuntimeError:
+	except (TypeError, RuntimeError):
 		app_info = None
 		startup_notify = False
 	return spawn_app(app_info, argv, [], workdir, startup_notify, screen=screen)

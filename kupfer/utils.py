@@ -364,14 +364,14 @@ def show_help_url(url):
 	import gio
 	## Check that the system help viewer is Yelp,
 	## and if it is, launch its startup notification.
-	scheme = gio.File(url).get_uri_scheme()
+	scheme = gio.File.new_for_uri(url).get_uri_scheme()
 	default = gio.app_info_get_default_for_uri_scheme(scheme)
 	help_viewer_id = "yelp.desktop"
 	if not default:
 		return False
 	try:
-		yelp = gio.unix.DesktopAppInfo(help_viewer_id)
-	except RuntimeError:
+		yelp = gio.DesktopAppInfo.new(help_viewer_id)
+	except (TypeError, RuntimeError):
 		return show_url(url)
 	cmd_path = lookup_exec_path(default.get_executable())
 	yelp_path = lookup_exec_path(yelp.get_executable())
