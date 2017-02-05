@@ -119,7 +119,8 @@ class AsyncCommand (object):
 		self.finished = False
 		self.finish_callback = finish_callback
 
-		argv = _argv_to_locale(argv)
+		# FIXME: No byte string support
+		argv
 		pretty.print_debug(__name__, "AsyncCommand:", argv)
 
 		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
@@ -173,7 +174,7 @@ class AsyncCommand (object):
 		# @condition is the &status field of waitpid(2) (C library)
 		self.exit_status = os.WEXITSTATUS(condition)
 		self.finished = True
-		self.finish_callback(self, "".join(self.stdout), "".join(self.stderr))
+		self.finish_callback(self, b"".join(self.stdout), b"".join(self.stderr))
 
 	def _timeout_callback(self):
 		"send term signal on timeout"

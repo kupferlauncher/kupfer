@@ -149,11 +149,12 @@ def parse_top_output(out):
 	"""
 	Yield tuples of (pid, cpu, mem, ptime, cmd)
 	"""
+	# Assuming UTF-8 output
 	fields_map = None
 	fields_count = 0
 	header_read = False
-	for line in out.split('\n'):
-		line = line.strip()
+	for line in out.split(b'\n'):
+		line = line.decode("utf-8", "replace").strip()
 		if line == '':
 			header_read = True
 			continue
