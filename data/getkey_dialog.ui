@@ -9,7 +9,6 @@
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <signal name="key_press_event" handler="on_dialoggetkey_key_press_event"/>
     <signal name="key_release_event" handler="on_dialoggetkey_key_release_event"/>
     <child internal-child="vbox">

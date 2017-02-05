@@ -49,9 +49,9 @@ class GetKeyDialogController(object):
 		self._return(None)
 
 	def translate_keyboard_event(self, widget, event):
-		keymap = gtk.gdk.keymap_get_for_display(widget.get_display())
+		keymap = gtk.gdk.Keymap.get_for_display(widget.get_display())
 		# translate keys properly
-		keyval, egroup, level, consumed = keymap.translate_keyboard_state(
+		_wasmapped, keyval, egroup, level, consumed = keymap.translate_keyboard_state(
 					event.hardware_keycode, event.state, event.group)
 		modifiers = gtk.accelerator_get_default_mod_mask() & ~consumed
 
@@ -69,7 +69,9 @@ class GetKeyDialogController(object):
 		self._press_time = event.time
 
 		keyval, state = self.translate_keyboard_event(widget, event)
+		state = gtk.gdk.ModifierType(state)
 		keyname = gtk.accelerator_name(keyval, state)
+		print("on_dialoggetkey_key_press_event", keyval, state)
 		if keyname == 'Escape':
 			self._return(None)
 		elif keyname == 'BackSpace':
@@ -80,8 +82,10 @@ class GetKeyDialogController(object):
 		if not self._press_time:
 			return
 		keyval, state = self.translate_keyboard_event(widget, event)
+		print("on_dialoggetkey_key_release_event", keyval, state)
 		self.update_accelerator_label(0, 0)
 
+		state = gtk.gdk.ModifierType(state)
 		if gtk.accelerator_valid(keyval, state):
 			key = gtk.accelerator_name(keyval, state)
 			if (self._previous_key is not None and

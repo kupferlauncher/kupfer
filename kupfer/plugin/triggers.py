@@ -25,10 +25,6 @@ from kupfer.ui import getkey_dialog
 from kupfer.core import commandexec
 
 
-# we import the keybinder module for its side-effects --
-# this plugin needs this module, lest it shall not function.
-import keybinder
-
 class Trigger (RunnableLeaf):
 	def get_actions(self):
 		for act in RunnableLeaf.get_actions(self):
