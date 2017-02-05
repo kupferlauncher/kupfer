@@ -1,5 +1,5 @@
-kupfer is a simple, flexible launcher for GNOME
-++++++++++++++++++++++++++++++++++++++++++++++++
+kupfer is a simple, flexible launcher
++++++++++++++++++++++++++++++++++++++
 
 :Homepage:  https://wiki.gnome.org/Apps/Kupfer
 :Credits:   Copyright 2007–2017 Ulrik Sverdrup and other Kupfer authors
@@ -111,8 +111,8 @@ Documentation
 =============
 
 Please read ``Documentation/`` and ``Documentation/Manpage.rst`` for
-technical documentation. User documentation is installed as GNOME
-(Mallard) help pages, available under the "Kupfer Help" object in the
+technical documentation. User documentation is installed as
+Mallard help pages, available under the "Kupfer Help" object in the
 program itself.
 
 .. vim: ft=rst tw=72
