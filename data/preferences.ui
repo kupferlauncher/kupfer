@@ -153,9 +153,13 @@
                                             <items>
                                               <item>256</item>
                                               <item>192</item>
+                                              <item>160</item>
+                                              <item>144</item>
                                               <item>128</item>
                                               <item>96</item>
+                                              <item>80</item>
                                               <item>64</item>
+                                              <item>32</item>
                                             </items>
                                           </object>
                                           <packing>
@@ -192,14 +196,14 @@
                                             <property name="visible">True</property>
                                             <signal name="changed" handler="on_icons_small_size_changed"/>
                                             <items>
-                                              <item>256</item>
-                                              <item>192</item>
                                               <item>128</item>
                                               <item>96</item>
                                               <item>64</item>
                                               <item>48</item>
+                                              <item>40</item>
                                               <item>32</item>
                                               <item>24</item>
+                                              <item>16</item>
                                             </items>
                                           </object>
                                           <packing>
