@@ -58,7 +58,7 @@ class ArchiveContent (Source):
         basename = os.path.basename(os.path.normpath(self.path))
         root, ext = os.path.splitext(basename)
         mtime = os.stat(self.path).st_mtime
-        fileid = hashlib.sha1("%s%s" % (self.path, mtime)).hexdigest()
+        fileid = hashlib.sha1(("%s%s" % (self.path, mtime)).encode("utf-8")).hexdigest()
         pth = os.path.join("/tmp", "kupfer-%s-%s" % (root, fileid, ))
         if not os.path.exists(pth):
             self.output_debug("Extracting with %s" % (self.unarchiver, ))
