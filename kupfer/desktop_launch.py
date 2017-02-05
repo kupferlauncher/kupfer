@@ -416,8 +416,10 @@ def child_setup(add_environ):
 	"""Called to setup the child process before exec()
 	@add_environ is a dict for extra env variables
 	"""
-	for key in add_environ:
-		os.putenv(key, add_environ[key])
+	for key, v in add_environ.items():
+		if v is None:
+			v = ""
+		os.putenv(key, v)
 
 def locale_encode_argv(argv):
 	for x in argv:
