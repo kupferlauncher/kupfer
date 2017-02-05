@@ -7,8 +7,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from os import path
 
-import gio
-from gtk import recent_manager_get_default
+from gi.repository import Gio, Gtk
 
 from kupfer.objects import Source, AppLeaf, FileLeaf, UrlLeaf
 from kupfer import icons
@@ -34,7 +33,7 @@ class RecentsSource (Source):
 
     def initialize(self):
         """Set up change callback"""
-        manager = recent_manager_get_default()
+        manager = Gtk.RecentManager.get_default()
         gobject_connect_weakly(manager, "changed", self._recent_changed)
 
     def _recent_changed(self, *args):
@@ -50,7 +49,7 @@ class RecentsSource (Source):
 
     @classmethod
     def _get_items(cls, max_days, for_application_named=None):
-        manager = recent_manager_get_default()
+        manager = Gtk.RecentManager.get_default()
         items = manager.get_items()
         item_leaves = []
         for item in items:
@@ -67,7 +66,7 @@ class RecentsSource (Source):
             uri = item.get_uri()
             name = item.get_short_name()
             if item.is_local():
-                leaf = FileLeaf(gio.File(uri).get_path())
+                leaf = FileLeaf(Gio.File.new_for_uri(uri).get_path())
             else:
                 leaf = UrlLeaf(uri, name)
             item_leaves.append((leaf, item.get_modified()))
@@ -146,11 +145,11 @@ class PlacesSource (Source):
         for line in open(fileloc):
             if not line.strip():
                 continue
-            items = line.split()
+            items = line.split(None, 1)
             uri = items[0]
-            gfile = gio.File(uri)
+            gfile = Gio.File.new_for_uri(uri)
             if len(items) > 1:
-                title = items[1]
+                title = items[1].strip()
             else:
                 disp = gfile.get_parse_name()
                 title = path.basename(disp)
