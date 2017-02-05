@@ -308,7 +308,6 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 
 	def _icon_size_changed(self, setctl, section, key, value):
 		self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
-		print(self._icon_size)
 
 	def _read_icon_size(self, *args):
 		setctl = settings.GetSettingsController()
@@ -1229,7 +1228,6 @@ class Interface (gobject.GObject):
 		self.reset()
 
 	def _entry_paste_data_received(self, clipboard, targets, _extra, entry):
-		print(clipboard, targets, entry, _extra)
 		uri_target = Gdk.Atom.intern("text/uri-list", False)
 		### check if we can insert files
 		if uri_target in targets:
