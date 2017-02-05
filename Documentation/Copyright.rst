@@ -11,7 +11,7 @@ This documentation is released under the same terms as the main
 program. The documentation sources are available inside the Kupfer
 source distribution.
 
-Copyright 2009–2011 Ulrik Sverdrup
+Copyright 2009–2017 Ulrik Sverdrup and all Kupfer authors
 
 
 .. vim: ft=rst tw=72 et sts=4

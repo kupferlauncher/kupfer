@@ -34,7 +34,7 @@ Kupfer Technical Documentation
 
 There is also `User Documentation`__
 
-__ http://kaizer.se/wiki/kupfer/help/
+__ https://kupferlauncher.github.io/help/
 
 
 ..  How to Generate HTML or PDF from this documentation.

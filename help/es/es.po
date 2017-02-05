@@ -3,20 +3,21 @@
 # Copyright (C) 2010 kupfer's COPYRIGHT HOLDER
 # This file is distributed under the same license as the kupfer package.
 # Jorge González <jorgegonz@svn.gnome.org>, 2010, 2011.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer.help.master\n"
-"POT-Creation-Date: 2011-04-04 17:52+0000\n"
-"PO-Revision-Date: 2011-04-06 19:44+0200\n"
+"POT-Creation-Date: 2014-03-23 21:59+0000\n"
+"PO-Revision-Date: 2014-03-26 17:46+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Gtranslator 2.91.5\n"
 
 #: C/plugin-websearch.page:7(desc)
 msgid "Using the search the web plugin."
@@ -626,6 +627,19 @@ msgid ""
 msgstr ""
 "El último resultado se guarda como el nombre «_» (guión bajo, igual que en "
 "la consola de Python)."
+
+#: C/plugin-calculator.page:65(p)
+#| msgid ""
+#| "The Calculator lets you also calculate expression without \"=\" on the "
+#| "beginning as long it have inside one of operators: +, -, *, /, ^, |, , ~."
+msgid ""
+"The Calculator lets you also calculate expression without \"=\" on the "
+"beginning as long it have inside one of operators: +, -, *, /, ^, |, &amp;, "
+"~."
+msgstr ""
+"La Calculadora también le permite calcular expresiones sin «=» al principio "
+"siempre y cuando tengan dentro uno de los siguientes operadores: +, -, *, /, "
+"^, |, &amp;, ~."
 
 #: C/plugin-applications.page:7(desc)
 msgid "Using the applications plugin."
@@ -1808,7 +1822,7 @@ msgstr ""
 "ejemplo, el catálogo de la carpeta «Escritorio» siempre está actualizado."
 
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
-#: C/index.page:0(None)
+#: C/generalusage.page:0(None)
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"

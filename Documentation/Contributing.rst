@@ -17,13 +17,6 @@ why the change is implemented as it is, if there are multiple
 alternatives. Also, if you forsee any future possibilites or problems,
 please describe them in the commit log.
 
-It is not easy to write good commit messgages, because writing is an
-art. It is however essensial, and only by trying it, can you improve.
-
-You may publish your changes by sending an email to the mailing list,
-<kupfer-list@gnome.org>. You can attach your changes as patches, or you
-may also just attach a link to your published git repository.
-
 You can find kupfer's `git repository at github`__ and fork it there,
 for easy publication of your changes.
 
@@ -32,7 +25,7 @@ have read the whole *Guidelines and Policy* chapter of this manual. And
 take care to structure your changes, do not fear asking for advice. Good
 Luck!
 
-__ http://github.com/engla/kupfer
+__ https://github.com/kupferlauncher/kupfer
 
 
 Icon Guidelines
@@ -58,27 +51,17 @@ Consider the following:
 Coding style
 ------------
 
-Kupfer python code is indented with tabs, which is a bit uncommon. (My
-editor is set to tabs of size four.) Otherwise, if you want to
-contribute to kupfer keep in mind that
+Kupfer python code is indented with four spaces.  If you contribute to
+kupfer keep in mind that
 
 * Python code should be clear
-* Kupfer is a simple project. Do simple first. [#simple]_
+* Kupfer is a simple project. Do simple first.
 
 Python's general style guideline is called `PEP 8`_, and you should
 programmers should read it. The advice given there is very useful when
 coding for Kupfer.
 
 .. _`PEP 8`: http://www.python.org/dev/peps/pep-0008/
-
-.. [#simple] Writing simple code is more important than you think.
-             Read your diff (changes) when you are finished writing a
-             feature. Can you make it more simple to read? If you can
-             make it simpler, often a more effective algorithm comes out
-             of it at the same time. All optimizations have a price,
-             and unless you measure the difference, abstain from
-             optimizations.
-
 
 Specific Points
 ---------------

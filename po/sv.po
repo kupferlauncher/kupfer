@@ -1,108 +1,123 @@
 # Swedish translations for the kupfer package
 # Svenska översättningar för paketet kupfer.
-# Copyright (C) 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+# Copyright © 2009 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 # This file is distributed under the same license as the kupfer package. (GPLv3)
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
-#
-# PLEASE ask Ulrik before you change or add anything to the Swedish localization
-# PLEASE ask Ulrik before you change or add anything to the Swedish localization
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-04 19:36+0200\n"
-"PO-Revision-Date: 2009-06-23 20:19+0200\n"
-"Last-Translator: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>\n"
-"Language-Team: Swedish\n"
-"Language: \n"
+"POT-Creation-Date: 2017-02-05 04:50+0100\n"
+"PO-Revision-Date: 2015-08-10 18:48+0200\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.3\n"
 
-msgid "Kupfer"
-msgstr "Kupfer"
-
-msgid "Application Launcher"
-msgstr "Programstartare"
-
-msgid "Convenient command and access tool for applications and documents"
-msgstr "Praktiskt kommandoprogram för åtkomst av program och dokument"
-
-msgid "Execute in Kupfer"
-msgstr "Kör i Kupfer"
-
-msgid "Saved Kupfer Command"
-msgstr "Sparat Kupfer-kommando"
-
+#: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
 msgstr "Användaruppgifter"
 
+#: ../data/credentials_dialog.ui.h:2
 msgid "_User:"
 msgstr "_Användare:"
 
+#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Lösenord:"
 
+#: ../data/credentials_dialog.ui.h:4
 msgid "_Change"
 msgstr "_Ändra"
 
+#: ../data/getkey_dialog.ui.h:1
 msgid "Set Keyboard Shortcut"
 msgstr "Ställ in tangentgenväg"
 
+#: ../data/getkey_dialog.ui.h:2
 msgid "Please press desired key combination"
 msgstr "Tryck önskad tangentkombination"
 
+#: ../data/getkey_dialog.ui.h:3
 msgid "Keybinding could not be bound"
 msgstr "Snabbtangenten kunde inte bindas"
 
+#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:79
 msgid "Kupfer Preferences"
 msgstr "Inställningar för Kupfer"
 
+#: ../data/preferences.ui.h:2
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid inloggning"
 
+#: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
 msgstr "<b>Start</b>"
 
+#: ../data/preferences.ui.h:4
 msgid "Show icon in notification area"
-msgstr "Visa ikon i notifieringsytan"
+msgstr "Visa ikon i aviseringsytan"
 
+#: ../data/preferences.ui.h:5
 msgid "Icon set:"
 msgstr "Ikonuppsättning:"
 
+#: ../data/preferences.ui.h:6
+msgid "Large Icon Size:"
+msgstr "Stor ikonstorlek"
+
+#: ../data/preferences.ui.h:7
+msgid "Small Icon Size:"
+msgstr "Liten ikonstorlek"
+
+#: ../data/preferences.ui.h:8
 msgid "Terminal emulator:"
 msgstr "Terminalemulator:"
 
+#: ../data/preferences.ui.h:9
 msgid "Desktop Environment"
 msgstr "Skrivbordsmiljö"
 
+#: ../data/preferences.ui.h:10
 msgid "General"
 msgstr "Allmänt"
 
+#: ../data/preferences.ui.h:11
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globala tangentbordsgenvägar</b>"
 
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:880
 msgid "Reset"
 msgstr "Återställ"
 
+#: ../data/preferences.ui.h:13
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Tangentbordsgenvägar i bläddrare</b>"
 
+#: ../data/preferences.ui.h:14
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Använd enstaka tangenter som kommandon (Blanksteg, /, punkt, komma etc.)"
 
+#: ../data/preferences.ui.h:15
 msgid "Keyboard"
 msgstr "Tangentbord"
 
+#: ../data/preferences.ui.h:16
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
+#: ../data/preferences.ui.h:17
 msgid "Inclusion in Top Level Searches"
 msgstr "Inkluderade i sökningar på toppnivån"
 
+#: ../data/preferences.ui.h:18
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
@@ -111,220 +126,1756 @@ msgstr ""
 "Använd kommandot ‘Sök inuti’ på en avmarkerad källa för att söka i dess "
 "innehåll."
 
+#: ../data/preferences.ui.h:20
 msgid "Indexed Folders"
 msgstr "Indexerade mappar"
 
+#: ../data/preferences.ui.h:21
 msgid "Folders whose files are always available in the catalog."
 msgstr "Mappar vars innehåll alltid finns tillgängligt i katalogen."
 
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
 msgid "Catalog"
 msgstr "Katalog"
 
+#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/plugin/core/contents.py:92
+#: ../kupfer/version.py:15
+msgid "Kupfer"
+msgstr "Kupfer"
+
+#: ../auxdata/kupfer.desktop.in.h:2
+msgid "Application Launcher"
+msgstr "Programstartare"
+
+#: ../auxdata/kupfer.desktop.in.h:3
+msgid "Convenient command and access tool for applications and documents"
+msgstr "Praktiskt kommandoprogram för åtkomst av program och dokument"
+
+#: ../auxdata/kupfer-exec.desktop.in.h:1
+msgid "Execute in Kupfer"
+msgstr "Kör i Kupfer"
+
+#: ../auxdata/kupfer-mimetypes.xml.in.h:1
+msgid "Saved Kupfer Command"
+msgstr "Sparat Kupfer-kommando"
+
+#: ../kupfer/core/commandexec.py:239
 #, python-format
 msgid "Could not to carry out '%s'"
-msgstr "Kunde inte utföra “%s”"
+msgstr "Kunde inte utföra ”%s”"
 
+#: ../kupfer/core/commandexec.py:268
 #, python-format
 msgid "\"%s\" produced a result"
-msgstr "“%s” lämnade ett resultat"
+msgstr "”%s” lämnade ett resultat"
 
+#: ../kupfer/core/execfile.py:30
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
-msgstr "Utan rättighet att utföra “%s” (ej körbar)"
+msgstr "Utan rättighet att utföra ”%s” (ej körbar)"
 
+#: ../kupfer/core/execfile.py:47
 #, python-format
 msgid "Command in \"%s\" is not available"
-msgstr "Kommando i “%s” är ej tillgängligt"
+msgstr "Kommando i ”%s” är ej tillgängligt"
 
+#: ../kupfer/keyrelay.py:65
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Vidaresänding av snabbtangenter är aktivt på display %s"
 
+#: ../kupfer/main.py:45
 msgid "do not present main interface on launch"
 msgstr "visa ej fönster vid start"
 
+#: ../kupfer/main.py:46
 msgid "list available plugins"
 msgstr "lista tillgängliga insticksmoduler"
 
+#: ../kupfer/main.py:47
 msgid "enable debug info"
 msgstr "felsökningsläge"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
+#: ../kupfer/main.py:51
 msgid "run plugin helper"
 msgstr "kör hjälpprogram för insticksmodul"
 
+#: ../kupfer/main.py:54
 msgid "show usage help"
 msgstr "visa hjälpmeddelande"
 
+#: ../kupfer/main.py:55
 msgid "show version information"
 msgstr "visa programversion"
 
+#: ../kupfer/main.py:61
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Användning: kupfer [ FLAGGOR | FIL ... ]"
 
+#: ../kupfer/main.py:72
 msgid "Available plugins:"
 msgstr "Tillgängliga insticksmoduler:"
 
+#: ../kupfer/main.py:121
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
-"\t%(COPYRIGHT)s\n"
-"\t%(WEBSITE)s\n"
+"   %(COPYRIGHT)s\n"
+"   %(WEBSITE)s\n"
 msgstr ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
-"\t%(COPYRIGHT)s\n"
-"\t%(WEBSITE)s\n"
+"    %(COPYRIGHT)s\n"
+"    %(WEBSITE)s\n"
+
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
+msgid "Text"
+msgstr "Text"
+
+#: ../kupfer/obj/compose.py:15
+msgid "Run after Delay..."
+msgstr "Utför med fördröjning..."
+
+#: ../kupfer/obj/compose.py:36
+msgid "Perform command after a specified time interval"
+msgstr "Utför kommando efter angivet tidsintervall"
+
+#: ../kupfer/obj/compose.py:95
+msgid "Multiple Objects"
+msgstr "Flera objekt"
+
+#: ../kupfer/obj/compose.py:126
+#, python-format
+msgid "%s object"
+msgid_plural "%s objects"
+msgstr[0] "%s objekt"
+msgstr[1] "%s objekt"
+
+#: ../kupfer/obj/contacts.py:129
+#, python-format
+msgid "[%(status)s] %(userid)s/%(service)s"
+msgstr "[%(status)s] %(userid)s/%(service)s"
+
+#: ../kupfer/obj/contacts.py:131
+msgid "unknown"
+msgstr "okänd"
+
+#: ../kupfer/obj/contacts.py:144
+msgid "Aim"
+msgstr "Aim"
+
+#: ../kupfer/obj/contacts.py:151
+msgid "Google Talk"
+msgstr "Google Talk"
+
+#: ../kupfer/obj/contacts.py:159
+msgid "ICQ"
+msgstr "ICQ"
+
+#: ../kupfer/obj/contacts.py:166
+msgid "MSN"
+msgstr "MSN"
+
+#: ../kupfer/obj/contacts.py:173
+msgid "QQ"
+msgstr "QQ"
+
+#: ../kupfer/obj/contacts.py:180
+msgid "Yahoo"
+msgstr "Yahoo"
+
+#: ../kupfer/obj/contacts.py:187
+msgid "Skype"
+msgstr "Skype"
+
+#: ../kupfer/obj/exceptions.py:19
+#, python-format
+msgid "%s does not support this operation"
+msgstr "%s stödjer inte operationen"
+
+#: ../kupfer/obj/exceptions.py:24
+msgid "Can not be used with multiple objects"
+msgstr "Kan inte användas med flera objekt"
+
+#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/gnome_terminal.py:36
+#: ../kupfer/plugin/notes.py:88
+msgid "Open"
+msgstr "Öppna"
+
+#: ../kupfer/obj/fileactions.py:43
+#, python-format
+msgid "No default application for %(file)s (%(type)s)"
+msgstr "Det finns inget förvalt program för ”%(file)s” (%(type)s)."
+
+#: ../kupfer/obj/fileactions.py:45
+#, python-format
+msgid "Please use \"%s\""
+msgstr "V.v. använd ”%s”"
+
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:110
+msgid "Set Default Application..."
+msgstr "Välj standardprogram..."
+
+#: ../kupfer/obj/fileactions.py:71
+msgid "Open with default application"
+msgstr "Öppna med förvalt program"
+
+#: ../kupfer/obj/fileactions.py:74
+msgid "Reveal"
+msgstr "Visa"
+
+#: ../kupfer/obj/fileactions.py:83
+msgid "Open parent folder"
+msgstr "Öppna föräldermapp i filhanteraren"
+
+#: ../kupfer/obj/fileactions.py:89
+msgid "Open Terminal Here"
+msgstr "Öppna i terminalfönster"
+
+#: ../kupfer/obj/fileactions.py:102
+msgid "Open this location in a terminal"
+msgstr "Öppna platsen i terminalfönster"
+
+#: ../kupfer/obj/fileactions.py:110
+msgid "Run in Terminal"
+msgstr "Kör i terminalfönster"
+
+#: ../kupfer/obj/fileactions.py:110
+msgid "Run (Execute)"
+msgstr "Kör"
+
+#: ../kupfer/obj/fileactions.py:130
+msgid "Run this program in a Terminal"
+msgstr "Kör programmet i terminalfönster"
+
+#: ../kupfer/obj/fileactions.py:132
+msgid "Run this program"
+msgstr "Kör programmet"
+
+#: ../kupfer/obj/objects.py:256 ../kupfer/plugin/windows.py:105
+#: ../kupfer/plugin/windows.py:264
+msgid "Go To"
+msgstr "Gå till"
+
+#: ../kupfer/obj/objects.py:282
+msgid "Open URL"
+msgstr "Öppna URL"
+
+#: ../kupfer/obj/objects.py:293
+msgid "Open URL with default viewer"
+msgstr "Öppna URL med standardprogram"
+
+#: ../kupfer/obj/objects.py:307
+msgid "Launch"
+msgstr "Starta"
+
+#: ../kupfer/obj/objects.py:320
+msgid "Show application window"
+msgstr "Visa programfönster"
+
+#: ../kupfer/obj/objects.py:321
+msgid "Launch application"
+msgstr "Starta program"
+
+#: ../kupfer/obj/objects.py:332
+msgid "Launch Again"
+msgstr "Starta igen"
+
+#: ../kupfer/obj/objects.py:339
+msgid "Launch another instance of this application"
+msgstr "Starta programmet igen"
+
+#: ../kupfer/obj/objects.py:345 ../kupfer/plugin/windows.py:37
+msgid "Close"
+msgstr "Stäng"
+
+#: ../kupfer/obj/objects.py:353
+msgid "Attempt to close all application windows"
+msgstr "Försök att stänga alla programmets fönster"
+
+#. TRANS: 'Run' as in Perform a (saved) command
+#: ../kupfer/obj/objects.py:402
+msgid "Run"
+msgstr "Utför"
+
+#: ../kupfer/obj/objects.py:412
+msgid "Perform command"
+msgstr "Utför kommando"
+
+#: ../kupfer/obj/objects.py:425
+msgid "(Empty Text)"
+msgstr "(Tom text)"
+
+#. TRANS: This is description for a TextLeaf, a free-text search
+#. TRANS: The plural parameter is the number of lines %(num)d
+#: ../kupfer/obj/objects.py:455
+#, python-format
+msgid "\"%(text)s\""
+msgid_plural "(%(num)d lines) \"%(text)s\""
+msgstr[0] "”%(text)s”"
+msgstr[1] "(%(num)d lines) ”%(text)s”"
+
+#: ../kupfer/obj/sources.py:24
+#, python-format
+msgid "%s et. al."
+msgstr "%s et. al."
+
+#: ../kupfer/obj/sources.py:54
+#, python-format
+msgid "Recursive source of %(dir)s, (%(levels)d levels)"
+msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
+
+#: ../kupfer/obj/sources.py:108
+#, python-format
+msgid "Directory source %s"
+msgstr "Katalogkälla %s"
+
+#: ../kupfer/obj/sources.py:119
+msgid "Home Folder"
+msgstr "Hemmapp"
+
+#: ../kupfer/obj/sources.py:130
+msgid "Catalog Index"
+msgstr "Katalogindex"
+
+#: ../kupfer/obj/sources.py:145
+msgid "An index of all available sources"
+msgstr "Index över alla tilgängliga kataloger"
+
+#: ../kupfer/obj/sources.py:177
+msgid "Root catalog"
+msgstr "Rotkatalog"
+
+#: ../kupfer/obj/special.py:10
+msgid "Please Configure Plugin"
+msgstr "V.v. konfigurera insticksmodulen"
+
+#: ../kupfer/obj/special.py:11
+#, python-format
+msgid "Plugin %s is not configured"
+msgstr "%s är inte konfigurerad"
+
+#: ../kupfer/obj/special.py:32
+#, python-format
+msgid "Invalid user credentials for %s"
+msgstr "Ogiltiga användaruppgifter för %s"
+
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
+msgid "Applications"
+msgstr "Program"
+
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:75
+msgid "All applications and preferences"
+msgstr "Alla program och inställningspaneler"
+
+#: ../kupfer/plugin/applications.py:23
+msgid "Applications for Desktop Environment"
+msgstr "Program för skrivbordsmiljö"
+
+#: ../kupfer/plugin/applications.py:84
+msgid "Open With..."
+msgstr "Öppna med..."
+
+#: ../kupfer/plugin/applications.py:106
+msgid "Open with any application"
+msgstr "Öppna med godtyckligt program"
+
+#: ../kupfer/plugin/applications.py:125
+msgid "Set default application to open this file type"
+msgstr "Välj förvalsprogram att öppna filer av den här typen med."
+
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr "Djupa arkiv"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Tillåt att titta inuti komprimerade filer"
+
+#: ../kupfer/plugin/archiveinside.py:49
+#, python-format
+msgid "Content of %s"
+msgstr "Innehåll för %s"
+
+#: ../kupfer/plugin/archivemanager.py:1
+msgid "Archive Manager"
+msgstr "Arkivhanterare"
+
+#: ../kupfer/plugin/archivemanager.py:9
+msgid "Use Archive Manager actions"
+msgstr "Använd funktioner i arkivhanteraren"
+
+#: ../kupfer/plugin/archivemanager.py:27
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Arkivtyp för ‘Skapa arkiv i’"
+
+#: ../kupfer/plugin/archivemanager.py:44
+msgid "Extract Here"
+msgstr "Packa upp här"
+
+#: ../kupfer/plugin/archivemanager.py:64
+msgid "Extract compressed archive"
+msgstr "Packa upp komprimerad fil"
+
+#: ../kupfer/plugin/archivemanager.py:70
+msgid "Create Archive"
+msgstr "Skapa arkiv"
+
+#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
+msgid "Create a compressed archive from folder"
+msgstr "Skapa komprimerat arkiv av mappen"
+
+#: ../kupfer/plugin/archivemanager.py:92
+msgid "Create Archive In..."
+msgstr "Skapa arkiv i..."
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+#: ../kupfer/plugin/archivemanager.py:115
+msgid "Archive"
+msgstr "Arkiv"
+
+#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
+msgid "Audacious"
+msgstr "Audacious"
+
+#: ../kupfer/plugin/audacious.py:3
+msgid "Control Audacious playback and playlist"
+msgstr "Kontrollera Audacious uppspelning och spellista"
+
+#: ../kupfer/plugin/audacious.py:20
+msgid "Include songs in top level"
+msgstr "Inkludera låtar i toppnivån"
+
+#: ../kupfer/plugin/audacious.py:58
+msgid "Enqueue"
+msgstr "Köa"
+
+#: ../kupfer/plugin/audacious.py:62
+msgid "Add track to the Audacious play queue"
+msgstr "Lägg till spår i spelkön"
+
+#: ../kupfer/plugin/audacious.py:70
+msgid "Dequeue"
+msgstr "Ta ur kön"
+
+#: ../kupfer/plugin/audacious.py:74
+msgid "Remove track from the Audacious play queue"
+msgstr "Ta bort spår från spelkön"
+
+#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
+msgid "Play"
+msgstr "Spela upp"
+
+#: ../kupfer/plugin/audacious.py:86
+msgid "Jump to track in Audacious"
+msgstr "Hoppa till nästa spår i Audacious"
+
+#: ../kupfer/plugin/audacious.py:96
+msgid "Resume playback in Audacious"
+msgstr "Starta uppspelning i Audacious"
+
+#: ../kupfer/plugin/audacious.py:102
+msgid "Pause"
+msgstr "Paus"
+
+#: ../kupfer/plugin/audacious.py:106
+msgid "Pause playback in Audacious"
+msgstr "Pausa uppspelning i Audacious"
+
+#: ../kupfer/plugin/audacious.py:112
+msgid "Next"
+msgstr "Nästa"
+
+#: ../kupfer/plugin/audacious.py:116
+msgid "Jump to next track in Audacious"
+msgstr "Hoppa till nästa spår i Audacious"
+
+#: ../kupfer/plugin/audacious.py:122
+msgid "Previous"
+msgstr "Föregående"
+
+#: ../kupfer/plugin/audacious.py:126
+msgid "Jump to previous track in Audacious"
+msgstr "Hoppa till föregående spår i Audacious"
+
+#: ../kupfer/plugin/audacious.py:132
+msgid "Clear Queue"
+msgstr "Rensa kön"
+
+#: ../kupfer/plugin/audacious.py:136
+msgid "Clear the Audacious play queue"
+msgstr "Rensa Audacious spelkö"
+
+#: ../kupfer/plugin/audacious.py:142
+msgid "Shuffle"
+msgstr "Blanda"
+
+#: ../kupfer/plugin/audacious.py:146
+msgid "Toggle shuffle in Audacious"
+msgstr "Växla blandad uppspelning i Audacious"
+
+#: ../kupfer/plugin/audacious.py:152
+msgid "Repeat"
+msgstr "Upprepa"
+
+#: ../kupfer/plugin/audacious.py:156
+msgid "Toggle repeat in Audacious"
+msgstr "Växla repetera i Audacious"
+
+#: ../kupfer/plugin/audacious.py:171
+msgid "Playlist"
+msgstr "Spellista"
+
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+msgid "Calculator"
+msgstr "Miniräknare"
+
+#: ../kupfer/plugin/calculator.py:4
+msgid "Calculate mathematical expressions"
+msgstr "Beräka matematiska uttryck"
+
+#: ../kupfer/plugin/calculator.py:120
+msgid "Calculate"
+msgstr "Beräkna"
+
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:113
+msgid "Clipboards"
+msgstr "Urklipp"
+
+#: ../kupfer/plugin/clipboard.py:4
+msgid "Recent clipboards and clipboard proxy objects"
+msgstr "Senaste urklipp och proxyobjekt till urklipp"
+
+#: ../kupfer/plugin/clipboard.py:25
+msgid "Number of recent clipboards to remember"
+msgstr "Antal senaste urklipp som sparas"
+
+#: ../kupfer/plugin/clipboard.py:31
+msgid "Include selected text in clipboard history"
+msgstr "Inkludera markerad text i historiken"
+
+#: ../kupfer/plugin/clipboard.py:37
+msgid "Copy selected text to primary clipboard"
+msgstr "Kopiera markerad text till urklippet"
+
+#: ../kupfer/plugin/clipboard.py:48
+msgid "Selected Text"
+msgstr "Markering"
+
+#: ../kupfer/plugin/clipboard.py:58
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Urklipp ”%(desc)s”"
+msgstr[1] "Urklipp med %(num)d rader ”%(desc)s”"
+
+#: ../kupfer/plugin/clipboard.py:65
+msgid "Clipboard Text"
+msgstr "Urklippt text"
+
+#: ../kupfer/plugin/clipboard.py:75
+msgid "Clipboard File"
+msgstr "Urklippt fil"
+
+#: ../kupfer/plugin/clipboard.py:85
+msgid "Clipboard Files"
+msgstr "Urklippta filer"
+
+#: ../kupfer/plugin/clipboard.py:93
+msgid "Clear"
+msgstr "Rensa"
+
+#: ../kupfer/plugin/clipboard.py:105
+msgid "Remove all recent clipboards"
+msgstr "Ta bort senaste urklipp"
+
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:188
+msgid "Shell Commands"
+msgstr "Skalkommandon"
+
+#: ../kupfer/plugin/commands.py:9
+#, python-format
+msgid ""
+"Run command-line programs. Actions marked with the symbol %s run in a "
+"subshell."
+msgstr ""
+"Kör skalkommandon. Kommandon markerade med symbolen %s kör i ett underskal."
+
+#: ../kupfer/plugin/commands.py:41
+msgid "Run (Get Output)"
+msgstr "Kör (Hämta utdata)"
+
+#: ../kupfer/plugin/commands.py:59
+msgid "Run program and return its output"
+msgstr "Kör ett program och returnera dess utdata"
+
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
+#: ../kupfer/plugin/commands.py:65
+msgid "Pass to Command..."
+msgstr "Skicka till kommando..."
+
+#: ../kupfer/plugin/commands.py:107
+msgid "Run program with object as an additional parameter"
+msgstr "Kör ett program och skicka objektet som sista parameter"
+
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+#: ../kupfer/plugin/commands.py:115
+msgid "Write to Command..."
+msgstr "Skriv till kommando..."
+
+#: ../kupfer/plugin/commands.py:150 ../kupfer/plugin/commands.py:162
+msgid "Run program and supply text on the standard input"
+msgstr "Kör ett program och skriv texten på std. in"
+
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
+#: ../kupfer/plugin/commands.py:158
+msgid "Filter through Command..."
+msgstr "Filtrera genom kommando..."
+
+#: ../kupfer/plugin/commands.py:214
+msgid "Run command-line programs"
+msgstr "Kör kommandoradsprogram"
+
+#: ../kupfer/plugin/core/alternatives.py:7
+msgid "GTK+"
+msgstr "GTK+"
+
+#: ../kupfer/plugin/core/alternatives.py:13
+msgid "GNOME Terminal"
+msgstr "GNOME-terminal"
+
+#: ../kupfer/plugin/core/alternatives.py:22
+msgid "XFCE Terminal"
+msgstr "XFCE-terminal"
+
+#: ../kupfer/plugin/core/alternatives.py:31
+msgid "LXTerminal"
+msgstr "LXTerminal"
+
+#: ../kupfer/plugin/core/alternatives.py:40
+msgid "X Terminal"
+msgstr "X-terminal"
+
+#: ../kupfer/plugin/core/alternatives.py:49
+msgid "Urxvt"
+msgstr "Urxvt"
+
+#: ../kupfer/plugin/core/alternatives.py:58
+msgid "Konsole"
+msgstr "Konsole"
+
+#: ../kupfer/plugin/core/commands.py:13 ../kupfer/plugin/core/commands.py:32
+msgid "Save As..."
+msgstr "Spara som..."
+
+#: ../kupfer/plugin/core/contents.py:20
+msgid "Restart Kupfer"
+msgstr "Starta om Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:42
+msgid "Quit"
+msgstr "Avsluta"
+
+#: ../kupfer/plugin/core/contents.py:47
+msgid "Quit Kupfer"
+msgstr "Avsluta Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:53
+msgid "About Kupfer"
+msgstr "Om Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:60
+msgid "Show information about Kupfer authors and license"
+msgstr "Visa information om Kupfers upphovsmän och licens"
+
+#: ../kupfer/plugin/core/contents.py:66
+msgid "Kupfer Help"
+msgstr "Hjälp med Kupfer"
+
+#: ../kupfer/plugin/core/contents.py:73
+msgid "Get help with Kupfer"
+msgstr "Öppna Kupfers användardokumentation"
+
+#: ../kupfer/plugin/core/contents.py:86
+msgid "Show preferences window for Kupfer"
+msgstr "Visa Kupfers inställningsfönster"
+
+#: ../kupfer/plugin/core/__init__.py:64
+msgid "Search Contents"
+msgstr "Sök inuti"
+
+#: ../kupfer/plugin/core/__init__.py:82
+msgid "Search inside this catalog"
+msgstr "Sök bland objekt i katalogen"
+
+#: ../kupfer/plugin/core/__init__.py:90
+msgid "Copy"
+msgstr "Kopiera"
+
+#: ../kupfer/plugin/core/__init__.py:105
+msgid "Copy to clipboard"
+msgstr "Kopiera till urklipp"
+
+#: ../kupfer/plugin/core/__init__.py:127
+msgid "Rescan"
+msgstr "Uppdatera"
+
+#: ../kupfer/plugin/core/__init__.py:142
+msgid "Force reindex of this source"
+msgstr "Tvinga omläsning av källan"
+
+#: ../kupfer/plugin/core/internal.py:13
+msgid "Last Command"
+msgstr "Senaste kommando"
+
+#: ../kupfer/plugin/core/internal.py:24
+msgid "Internal Kupfer Objects"
+msgstr "Interna Kupfer-objekt"
+
+#: ../kupfer/plugin/core/internal.py:46 ../kupfer/plugin/core/internal.py:48
+msgid "Last Result"
+msgstr "Senaste resultat"
+
+#: ../kupfer/plugin/core/internal.py:66
+msgid "Command Results"
+msgstr "Kommandoresultat"
+
+#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:41
+msgid "Custom Terminal"
+msgstr "Valfri terminal"
+
+#: ../kupfer/plugin/custom_terminal.py:2
+msgid ""
+"Configure a custom terminal emulator.\n"
+"\n"
+"The plugin adds another terminal alternative (select it on the main page)."
+msgstr ""
+"Konfigurera valfri terminal.\n"
+"\n"
+"Ett till terminalalternativ läggs till (välj på första sidan)."
+
+#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:886
+msgid "Command"
+msgstr "Kommando"
+
+#: ../kupfer/plugin/custom_terminal.py:20
+msgid "Execute flag"
+msgstr "Kör-flagga"
+
+#: ../kupfer/plugin/defaultmail.py:1
+msgid "Default Email Client"
+msgstr "Förvald e-postläsare"
+
+#: ../kupfer/plugin/defaultmail.py:6
+msgid "Compose email using the system's default mailto: handler"
+msgstr "Skriv nytt e-postmeddelande m.h.a systemets mailto:-hanterare"
+
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+msgid "Compose Email"
+msgstr "Skriv e-postmeddelande"
+
+#: ../kupfer/plugin/defaultmail.py:43
+msgid "Send in Email To..."
+msgstr "Skicka med e-post till..."
+
+#: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:21
+msgid "Dictionary"
+msgstr "Ordbok"
+
+#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:47
+msgid "Look up word in dictionary"
+msgstr "Slå upp ord i ordboken"
+
+#: ../kupfer/plugin/dictionary.py:30
+msgid "Look Up"
+msgstr "Slå upp"
+
+#: ../kupfer/plugin/documents.py:1
+msgid "Documents"
+msgstr "Dokument"
+
+#: ../kupfer/plugin/documents.py:4
+msgid "Recently used documents and bookmarked folders"
+msgstr "Senaste dokument och bokmärkta platser"
+
+#: ../kupfer/plugin/documents.py:21
+msgid "Max recent document days"
+msgstr "Maximal ålder för senaste dokument (dagar)"
+
+#: ../kupfer/plugin/documents.py:31
+msgid "Recent Items"
+msgstr "Senaste dokument"
+
+#: ../kupfer/plugin/documents.py:77
+msgid "Recently used documents"
+msgstr "Senast använda dokument"
+
+#: ../kupfer/plugin/documents.py:87
+#, python-format
+msgid "%s Documents"
+msgstr "%s-dokument"
+
+#: ../kupfer/plugin/documents.py:112
+#, python-format
+msgid "Recently used documents for %s"
+msgstr "Senaste dokument för %s"
+
+#: ../kupfer/plugin/documents.py:131
+msgid "Places"
+msgstr "Platser"
+
+#: ../kupfer/plugin/documents.py:163
+msgid "Bookmarked folders"
+msgstr "Bokmärkta mappar"
+
+#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
+msgid "DuckDuckGo Search"
+msgstr "Sök med DuckDuckGo"
+
+#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
+msgid "Search the web securely with DuckDuckGo"
+msgstr "Sök webben med https med DuckDuckGo"
+
+#: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:21
+msgid "Favorites"
+msgstr "Favoriter"
+
+#: ../kupfer/plugin/favorites.py:4
+msgid "Mark commonly used items and store objects for later use"
+msgstr "Märk ofta använda objekt eller lagra objekt för senare användning"
+
+#: ../kupfer/plugin/favorites.py:127
+msgid "Shelf of \"Favorite\" items"
+msgstr "Plats för favoritobjekt"
+
+#: ../kupfer/plugin/favorites.py:140
+msgid "Add to Favorites"
+msgstr "Lägg till favorit"
+
+#: ../kupfer/plugin/favorites.py:148
+msgid "Add item to favorites shelf"
+msgstr "Lägg till objekt till favorithyllan"
+
+#: ../kupfer/plugin/favorites.py:155
+msgid "Remove from Favorites"
+msgstr "Ta bort favorit"
+
+#: ../kupfer/plugin/favorites.py:163
+msgid "Remove item from favorites shelf"
+msgstr "Ta bort objekt från favorithyllan"
+
+#: ../kupfer/plugin/fileactions.py:1
+msgid "File Actions"
+msgstr "Filkommandon"
+
+#: ../kupfer/plugin/fileactions.py:9
+msgid "More file actions"
+msgstr "Fler filkommandon"
+
+#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/thunar.py:211
+#: ../kupfer/plugin/windows.py:122
+msgid "Move To..."
+msgstr "Flytta till..."
+
+#: ../kupfer/plugin/fileactions.py:67 ../kupfer/plugin/thunar.py:253
+msgid "Move file to new location"
+msgstr "Flytta till ny plats"
+
+#: ../kupfer/plugin/fileactions.py:80 ../kupfer/plugin/fileactions.py:103
+msgid "Rename To..."
+msgstr "Byt namn..."
+
+#: ../kupfer/plugin/fileactions.py:145 ../kupfer/plugin/thunar.py:166
+msgid "Copy To..."
+msgstr "Kopiera till..."
+
+#: ../kupfer/plugin/fileactions.py:186 ../kupfer/plugin/thunar.py:207
+msgid "Copy file to a chosen location"
+msgstr "Kopiera filen till vald plats"
+
+#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
+#: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
+msgid "Glob"
+msgstr "Glob"
+
+#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
+msgid "GNOME Terminal Profiles"
+msgstr "GNOME-terminal-profiler"
+
+#: ../kupfer/plugin/gnome_terminal.py:3
+msgid "Launch GNOME Terminal profiles"
+msgstr "Starta GNOME-terminal-profiler"
+
+#: ../kupfer/plugin/higherorder.py:1
+msgid "Higher-order Actions"
+msgstr "Högre ordningens kommandon"
+
+#: ../kupfer/plugin/higherorder.py:7
+msgid "Tools to work with commands as objects"
+msgstr "Verktyg för att jobba med kommandon som objekt"
+
+#: ../kupfer/plugin/higherorder.py:20
+msgid "Select in Kupfer"
+msgstr "Välj i Kupfer"
+
+#: ../kupfer/plugin/higherorder.py:59
+#, python-format
+msgid "Result of %s (%s)"
+msgstr "Resultat av %s (%s)"
+
+#: ../kupfer/plugin/higherorder.py:75
+msgid "Run (Take Result)"
+msgstr "Utför (Ta resultat)"
+
+#: ../kupfer/plugin/higherorder.py:90
+msgid "Take the command result as a proxy object"
+msgstr "Ta kommandoresultat som proxyobjekt"
+
+#: ../kupfer/plugin/higherorder.py:95
+msgid "Run (Discard Result)"
+msgstr "Utför (Kasta bort resultat)"
+
+#: ../kupfer/plugin/image.py:1
+msgid "Image Tools"
+msgstr "Bildverktyg"
+
+#: ../kupfer/plugin/image.py:10
+msgid "Image transformation tools"
+msgstr "Bildtranformeringskommandon"
+
+#: ../kupfer/plugin/image.py:25
+msgid "Scale..."
+msgstr "Skala..."
+
+#: ../kupfer/plugin/image.py:77
+msgid "Scale image to fit inside given pixel measure(s)"
+msgstr "Skala bilden för att passa inom given storlek"
+
+#: ../kupfer/plugin/image.py:112
+msgid "Rotate Clockwise"
+msgstr "Rotera medurs"
+
+#: ../kupfer/plugin/image.py:119
+msgid "Rotate Counter-Clockwise"
+msgstr "Rotera moturs"
+
+#: ../kupfer/plugin/image.py:126
+msgid "Autorotate"
+msgstr "Autorotera"
+
+#: ../kupfer/plugin/image.py:155
+msgid "Rotate JPEG (in-place) according to its EXIF metadata"
+msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
+
+#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:86
+msgid "Kupfer Plugins"
+msgstr "Kupfers insticksmoduler"
+
+#: ../kupfer/plugin/kupfer_plugins.py:3
+msgid "Access Kupfer's plugin list in Kupfer"
+msgstr "Lista Kupfers insticksmoduler i Kupfer"
+
+#: ../kupfer/plugin/kupfer_plugins.py:19
+msgid "Show Information"
+msgstr "Visa information"
+
+#: ../kupfer/plugin/kupfer_plugins.py:35
+msgid "Show Source Code"
+msgstr "Visa källkod"
+
+#: ../kupfer/plugin/kupfer_plugins.py:80
+msgid "enabled"
+msgstr "aktiverad"
+
+#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:480
+msgid "disabled"
+msgstr "ej aktiverad"
+
+#. TRANS: Multihead refers to support for multiple computer displays
+#. TRANS: In this case, it only concerns the special configuration
+#. TRANS: with multiple X "screens"
+#: ../kupfer/plugin/multihead.py:4
+msgid "Multihead Support"
+msgstr "Stöd för flera skärmar (”multihead”)"
+
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
+#: ../kupfer/plugin/notes.py:229
+msgid "Notes"
+msgstr "Anteckningar"
+
+#: ../kupfer/plugin/notes.py:13
+msgid "Gnote or Tomboy notes"
+msgstr "Gnote- eller Tomboy-anteckningar"
+
+#: ../kupfer/plugin/notes.py:35
+msgid "Work with application"
+msgstr "Använd program"
+
+#: ../kupfer/plugin/notes.py:94
+msgid "Open with notes application"
+msgstr "Öppna med anteckningsprogarm"
+
+#: ../kupfer/plugin/notes.py:101
+msgid "Append to Note..."
+msgstr "Lägg till anteckning..."
+
+#: ../kupfer/plugin/notes.py:124
+msgid "Add text to existing note"
+msgstr "Tillfoga texten till existerande anteckning"
+
+#: ../kupfer/plugin/notes.py:139
+msgid "Create Note"
+msgstr "Skapa anteckning"
+
+#: ../kupfer/plugin/notes.py:153
+msgid "Create a new note from this text"
+msgstr "Skapa en ny anteckning från texten"
+
+#: ../kupfer/plugin/notes.py:159
+msgid "Get Note Search Results..."
+msgstr "Hämta träffar i anteckningar..."
+
+#: ../kupfer/plugin/notes.py:172
+msgid "Show search results for this query"
+msgstr "Visa träffar för denna sökning"
+
+#: ../kupfer/plugin/notes.py:212
+#, python-format
+msgid "today, %s"
+msgstr "idag, %s"
+
+#: ../kupfer/plugin/notes.py:214
+#, python-format
+msgid "yesterday, %s"
+msgstr "igår, %s"
+
+#. TRANS: Note description, %s is last changed time in locale format
+#: ../kupfer/plugin/notes.py:218
+#, python-format
+msgid "Last updated %s"
+msgstr "Senast ändrad %s"
+
+#: ../kupfer/plugin/qsicons/__init__.py:24
+msgid "Quicksilver Icons"
+msgstr "Quicksilver-ikoner"
+
+#: ../kupfer/plugin/quickview.py:1
+msgid "Quick Image Viewer"
+msgstr "Snabb bildvisare"
+
+#: ../kupfer/plugin/quickview.py:55
+msgid "View Image"
+msgstr "Visa bild"
+
+#: ../kupfer/plugin/screen.py:1
+msgid "GNU Screen"
+msgstr "GNU Screen"
+
+#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
+msgid "Active GNU Screen sessions"
+msgstr "Aktiva GNU Screen-sessioner"
+
+#: ../kupfer/plugin/screen.py:57
+msgid "Attached"
+msgstr "Ansluten"
+
+#: ../kupfer/plugin/screen.py:58
+msgid "Detached"
+msgstr "Frånkopplad"
+
+#: ../kupfer/plugin/screen.py:61
+#, python-format
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "%(status)s session (%(pid)s) skapad %(time)s"
+
+#: ../kupfer/plugin/screen.py:70
+msgid "Screen Sessions"
+msgstr "Screen-sessioner"
+
+#: ../kupfer/plugin/screen.py:99
+msgid "Attach"
+msgstr "Anslut till"
+
+#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:52
+msgid "Send Keys"
+msgstr "Skicka tangenter"
+
+#: ../kupfer/plugin/sendkeys.py:8
+msgid "Send synthetic keyboard events using xautomation"
+msgstr "Skicka syntetiska tangentbordshändelser m.h.a. xautomation"
+
+#: ../kupfer/plugin/sendkeys.py:28
+msgid "Paste to Foreground Window"
+msgstr "Klistra in i främsta fönstret"
+
+#: ../kupfer/plugin/sendkeys.py:46
+msgid "Copy to clipboard and send Ctrl+V to foreground window"
+msgstr "Kopiera till urklippet och skicka Ctrl+V till främsta fönstret"
+
+#: ../kupfer/plugin/sendkeys.py:101
+msgid "Send keys to foreground window"
+msgstr "Skicka tangenter till främsta fönstret"
+
+#: ../kupfer/plugin/sendkeys.py:106
+msgid "Type Text"
+msgstr "Skriv text"
+
+#: ../kupfer/plugin/sendkeys.py:127
+msgid "Type the text to foreground window"
+msgstr "Skriv texten till främsta fönstret"
+
+#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:29
+msgid "GNOME Session Management"
+msgstr "Sessionshantering i GNOME"
+
+#: ../kupfer/plugin/session_gnome.py:3
+msgid "Special items and actions for GNOME environment"
+msgstr "Speicella objekt och kommandon för GNOME"
+
+#: ../kupfer/plugin/session_support.py:31
+msgid "Log Out..."
+msgstr "Logga ut..."
+
+#: ../kupfer/plugin/session_support.py:34
+msgid "Log out or change user"
+msgstr "Logga ut eller byt användare"
+
+#: ../kupfer/plugin/session_support.py:41
+msgid "Shut Down..."
+msgstr "Stäng av..."
+
+#: ../kupfer/plugin/session_support.py:44
+msgid "Shut down, restart or suspend computer"
+msgstr "Stäng av, starta om eller sätt datorn i vänteläge"
+
+#: ../kupfer/plugin/session_support.py:51
+msgid "Lock Screen"
+msgstr "Lås skärmen"
+
+#: ../kupfer/plugin/session_support.py:54
+msgid "Enable screensaver and lock"
+msgstr "Aktivera skärmsläckaren och lås skärmen"
+
+#. -*- coding: utf-8 -*
+#: ../kupfer/plugin/session_xfce.py:3 ../kupfer/plugin/session_xfce.py:20
+msgid "XFCE Session Management"
+msgstr "Sessionshantering i XFCE"
+
+#: ../kupfer/plugin/session_xfce.py:5
+msgid "Special items and actions for XFCE environment"
+msgstr "Speicella objekt och kommandon för XFCE"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:70
+msgid "SSH Hosts"
+msgstr "SSH-värdar"
+
+#: ../kupfer/plugin/ssh_hosts.py:3
+msgid "Adds the SSH hosts found in ~/.ssh/config."
+msgstr "Tillhandahåller SSH-värdar från ~/.ssh/config"
+
+#: ../kupfer/plugin/ssh_hosts.py:32
+msgid "SSH host"
+msgstr "SSH-värd"
+
+#: ../kupfer/plugin/ssh_hosts.py:43
+msgid "Connect"
+msgstr "Anslut"
+
+#: ../kupfer/plugin/ssh_hosts.py:49
+msgid "Connect to SSH host"
+msgstr "Anslut till SSH-värd"
+
+#: ../kupfer/plugin/ssh_hosts.py:102
+msgid "SSH hosts as specified in ~/.ssh/config"
+msgstr "SSH-värdar konfigurerade i ~/.ssh/config"
+
+#: ../kupfer/plugin_support.py:144
+msgid "No D-Bus connection to desktop session"
+msgstr "Ingen D-Bus-anslutning till sessionen"
+
+#: ../kupfer/plugin_support.py:171
+msgid "GNOME Keyring"
+msgstr "GNOME-nyckelring"
+
+#: ../kupfer/plugin_support.py:172
+msgid "KWallet"
+msgstr "KWallet"
+
+#: ../kupfer/plugin_support.py:173
+msgid "Unencrypted File"
+msgstr "Ej krypterad fil"
+
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
+msgid "Document Templates"
+msgstr "Dokumentmallar"
+
+#: ../kupfer/plugin/templates.py:4
+msgid "Create new documents from your templates"
+msgstr "Skapa dokument från mallar"
+
+#: ../kupfer/plugin/templates.py:24
+#, python-format
+msgid "%s template"
+msgstr "%s-mall"
+
+#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
+msgid "Empty File"
+msgstr "Tom fil"
+
+#: ../kupfer/plugin/templates.py:47
+msgid "New Folder"
+msgstr "Ny mapp"
+
+#: ../kupfer/plugin/templates.py:57
+msgid "Create New Document..."
+msgstr "Skapa nytt dokument..."
+
+#: ../kupfer/plugin/templates.py:96
+msgid "Create a new document from template"
+msgstr "Skapa nytt dokument från mall"
+
+#: ../kupfer/plugin/templates.py:103
+msgid "Create Document In..."
+msgstr "Skapa dokument i..."
+
+#: ../kupfer/plugin/textfiles.py:13
+msgid "Textfiles"
+msgstr "Textfiler"
+
+#: ../kupfer/plugin/textfiles.py:51
+msgid "Append To..."
+msgstr "Lägg till..."
+
+#: ../kupfer/plugin/textfiles.py:75
+msgid "Append..."
+msgstr "Lägg till..."
+
+#: ../kupfer/plugin/textfiles.py:79
+msgid "Write To..."
+msgstr "Skriv till..."
+
+#: ../kupfer/plugin/textfiles.py:111
+msgid "Get Text Contents"
+msgstr "Hämta textinnehåll"
+
+#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:185
+#: ../kupfer/plugin/thunar.py:225 ../kupfer/plugin/thunar.py:278
+#: ../kupfer/plugin/thunar.py:329
+msgid "Thunar"
+msgstr "Thunar"
+
+#: ../kupfer/plugin/thunar.py:11
+msgid "File manager Thunar actions"
+msgstr "Kommandon i filhanteraren Thunar"
+
+#: ../kupfer/plugin/thunar.py:67
+msgid "Select in File Manager"
+msgstr "Välj i filhanteraren"
+
+#: ../kupfer/plugin/thunar.py:95
+msgid "Show Properties"
+msgstr "Visa egenskaper"
+
+#: ../kupfer/plugin/thunar.py:118
+msgid "Show information about file in file manager"
+msgstr "Visa information om filen i filhanteraren"
+
+#: ../kupfer/plugin/thunar.py:127
+msgid "Send To..."
+msgstr "Skicka till..."
+
+#: ../kupfer/plugin/thunar.py:259
+msgid "Symlink In..."
+msgstr "Mjuk länk (symlink) i..."
+
+#: ../kupfer/plugin/thunar.py:300
+msgid "Create a symlink to file in a chosen location"
+msgstr "Skapa mjuk länk till filen vid vald plats"
+
+#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:75
+msgid "Empty Trash"
+msgstr "Töm papperskorgen"
+
+#: ../kupfer/plugin/thunar.py:344
+msgid "Thunar Send To Objects"
+msgstr "Thunar Skicka till-objekt"
+
+#. -*- coding: utf-8 -*-
+#: ../kupfer/plugin/thunderbird.py:4
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:7
+msgid "Thunderbird/Icedove Contacts and Actions"
+msgstr "Thunderbird eller Icedove-kontakter och kommandon"
+
+#: ../kupfer/plugin/thunderbird.py:31
+msgid "Compose New Email"
+msgstr "Skriv nytt e-postmeddelande"
+
+#: ../kupfer/plugin/thunderbird.py:38
+msgid "Compose a new message in Thunderbird"
+msgstr "Skriv nytt mail i Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:74
+msgid "Thunderbird Address Book"
+msgstr "Thunderbird adressbok"
+
+#: ../kupfer/plugin/thunderbird.py:99
+msgid "Contacts from Thunderbird Address Book"
+msgstr "Kontakter från Thunderbird"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/top.py:4
+msgid "Top"
+msgstr "Aktiviteter"
+
+#: ../kupfer/plugin/top.py:6
+msgid "Show running tasks and allow sending signals to them"
+msgstr "Visa aktuella processer och skicka signaler till dem"
+
+#: ../kupfer/plugin/top.py:23
+msgid "Sort Order"
+msgstr "Sortering"
+
+#: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
+#: ../kupfer/plugin/top.py:115
+msgid "Commandline"
+msgstr "Kommandorad"
+
+#: ../kupfer/plugin/top.py:26
+msgid "CPU usage (descending)"
+msgstr "Processoranvändning"
+
+#. sort processes (top don't allow to sort via cmd line)
+#: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:112
+msgid "Memory usage (descending)"
+msgstr "Minnesanvändning"
+
+#: ../kupfer/plugin/top.py:49
+msgid "Send Signal..."
+msgstr "Skicka signal..."
+
+#: ../kupfer/plugin/top.py:79
+msgid "Signals"
+msgstr "Signaler"
+
+#: ../kupfer/plugin/top.py:91
+msgid "Running Tasks"
+msgstr "Aktuella processer"
+
+#. default: by cpu
+#: ../kupfer/plugin/top.py:119
+#, python-format
+msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
+msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
+
+#: ../kupfer/plugin/top.py:139
+msgid "Running tasks for current user"
+msgstr "Aktuella processer för nuvarande användare"
+
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:197
+msgid "Trash"
+msgstr "Papperskorg"
+
+#: ../kupfer/plugin/trash.py:4
+msgid "Access trash contents"
+msgstr "Tillgång till papperskorgens innehåll"
+
+#: ../kupfer/plugin/trash.py:24
+msgid "Move to Trash"
+msgstr "Flytta till papperskorgen"
+
+#: ../kupfer/plugin/trash.py:40
+msgid "Move this file to trash"
+msgstr "Flytta filen till papperskorgen"
+
+#: ../kupfer/plugin/trash.py:49
+msgid "Restore"
+msgstr "Återskapa"
+
+#: ../kupfer/plugin/trash.py:68
+msgid "Move file back to original location"
+msgstr "Flytta tillbaka till ursprunglig plats"
+
+#: ../kupfer/plugin/trash.py:84
+msgid ""
+"Could not delete files:\n"
+"    "
+msgstr ""
+"Kunde ej radera filer:\n"
+"    "
+
+#: ../kupfer/plugin/trash.py:185
+msgid "Trash is empty"
+msgstr "Papperskorgen är tom"
+
+#. proper translation of plural
+#: ../kupfer/plugin/trash.py:187
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "Papperskorgen innehåller ett objekt"
+msgstr[1] "Papperskorgen innehåller %(num)s objekt"
+
+#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:46
+msgid "Triggers"
+msgstr "Utlösare"
+
+#: ../kupfer/plugin/triggers.py:6
+msgid ""
+"Assign global keybindings (triggers) to objects created with 'Compose "
+"Command'."
+msgstr ""
+"Tilldela globala tangentbordsgenvägar till kommandon skapade med ‘Bygg "
+"kommando’"
+
+#: ../kupfer/plugin/triggers.py:157
+msgid "Add Trigger..."
+msgstr "Lägg till utlösare..."
+
+#: ../kupfer/plugin/triggers.py:176
+msgid "Remove Trigger"
+msgstr "Ta bort utlösare"
+
+#: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
+msgid "URL Actions"
+msgstr "URL-kommandon"
+
+#: ../kupfer/plugin/urlactions.py:63
+msgid "Download and Open"
+msgstr "Hämta och öppna"
+
+#: ../kupfer/plugin/urlactions.py:83
+msgid "Download To..."
+msgstr "Hämta till..."
+
+#: ../kupfer/plugin/urlactions.py:104
+msgid "Download URL to a chosen location"
+msgstr "Hämta till en vald plats"
+
+#: ../kupfer/plugin/wikipedia.py:5
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+#: ../kupfer/plugin/wikipedia.py:8 ../kupfer/plugin/wikipedia.py:31
+msgid "Search in Wikipedia"
+msgstr "Sök i Wikipedia"
+
+#: ../kupfer/plugin/wikipedia.py:21
+msgid "Wikipedia language"
+msgstr "Wikipedia-språk"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:24
+msgid "en"
+msgstr "sv"
+
+#: ../kupfer/plugin/wikipedia.py:44
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Sök efter denna termen i %s.wikipedia.org"
+
+#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:210
+msgid "Window List"
+msgstr "Fönsterlista"
+
+#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:233
+msgid "All windows on all workspaces"
+msgstr "Alla fönster på alla arbetsytor"
+
+#: ../kupfer/plugin/windows.py:18
+msgid "Activate"
+msgstr "Aktivera"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Shade"
+msgstr "Rulla upp"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Unshade"
+msgstr "Rulla ner"
+
+#: ../kupfer/plugin/windows.py:25
+msgid "Minimize"
+msgstr "Minimera"
+
+#: ../kupfer/plugin/windows.py:25
+msgid "Unminimize"
+msgstr "Avminimera"
+
+#: ../kupfer/plugin/windows.py:29
+msgid "Maximize"
+msgstr "Maximera"
+
+#: ../kupfer/plugin/windows.py:29
+msgid "Unmaximize"
+msgstr "Avmaximera"
+
+#: ../kupfer/plugin/windows.py:33
+msgid "Maximize Vertically"
+msgstr "Maximera vertikalt"
+
+#: ../kupfer/plugin/windows.py:33
+msgid "Unmaximize Vertically"
+msgstr "Avmaximera vertikalt"
+
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:48
+#, python-format
+msgid "Window on %(wkspc)s"
+msgstr "Fönster på %(wkspc)s"
+
+#: ../kupfer/plugin/windows.py:56
+msgid "Frontmost Window"
+msgstr "Främsta fönster"
+
+#: ../kupfer/plugin/windows.py:85
+msgid "Next Window"
+msgstr "Nästa fönster"
+
+#: ../kupfer/plugin/windows.py:116
+msgid "Jump to this window's workspace and focus"
+msgstr "Gå till fönstrets arbetsyta och aktivera"
+
+#: ../kupfer/plugin/windows.py:252
+#, python-format
+msgid "%d window"
+msgid_plural "%d windows"
+msgstr[0] "%d fönster"
+msgstr[1] "%d fönster"
+
+#: ../kupfer/plugin/windows.py:256
+msgid "Active workspace"
+msgstr "Aktiv arbetsyta"
+
+#: ../kupfer/plugin/windows.py:274
+msgid "Jump to this workspace"
+msgstr "Hoppa till arbetsytan"
+
+#: ../kupfer/plugin/windows.py:281
+msgid "Workspaces"
+msgstr "Arbetsytor"
+
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
+msgid "Volumes and Disks"
+msgstr "Volymer"
+
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
+msgid "Mounted volumes and disks"
+msgstr "Monterade volymer och löstagbara enheter"
+
+#: ../kupfer/plugin/volumes.py:42
+#, python-format
+msgid "Volume mounted at %s"
+msgstr "Volym monterad vid %s"
+
+#: ../kupfer/plugin/volumes.py:51
+msgid "Unmount"
+msgstr "Avmontera"
+
+#: ../kupfer/plugin/volumes.py:78
+msgid "Unmount this volume"
+msgstr "Avmontera volym"
+
+#: ../kupfer/plugin/volumes.py:85
+msgid "Eject"
+msgstr "Mata ut"
+
+#: ../kupfer/plugin/volumes.py:88
+msgid "Unmount and eject this media"
+msgstr "Avmontera och mata ut media"
 
 #. TRANS: Names of accelerators in the interface
+#: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
 
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
+#: ../kupfer/ui/accelerators.py:7
 msgid "Comma Trick"
 msgstr "Kommatricket"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
+#: ../kupfer/ui/accelerators.py:10
 msgid "Compose Command"
 msgstr "Bygg kommando"
 
+#: ../kupfer/ui/accelerators.py:11
 msgid "Mark Default Action"
 msgstr "Sätt standardkommando"
 
+#: ../kupfer/ui/accelerators.py:12
 msgid "Forget Object"
 msgstr "Glöm objekt"
 
+#: ../kupfer/ui/accelerators.py:13
 msgid "Reset All"
 msgstr "Återställ alla"
 
+#: ../kupfer/ui/accelerators.py:14
 msgid "Select Quit"
 msgstr "Välj Avsluta"
 
+#: ../kupfer/ui/accelerators.py:15
 msgid "Select Selected File"
 msgstr "Välj markerad fil"
 
+#: ../kupfer/ui/accelerators.py:16
 msgid "Select Selected Text"
 msgstr "Välj markering"
 
+#: ../kupfer/ui/accelerators.py:17
 msgid "Show Help"
 msgstr "Visa hjälp"
 
+#: ../kupfer/ui/accelerators.py:18
 msgid "Show Preferences"
 msgstr "Visa inställningar"
 
+#: ../kupfer/ui/accelerators.py:19
 msgid "Switch to First Pane"
 msgstr "Välj första rutan"
 
+#: ../kupfer/ui/accelerators.py:20
 msgid "Toggle Text Mode"
 msgstr "Växla fritextläge"
 
+#: ../kupfer/ui/browser.py:873
 #, python-format
 msgid "%s is empty"
 msgstr "%s är tom"
 
+#: ../kupfer/ui/browser.py:877
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Inga träffar i %(src)s för “%(query)s”"
+msgstr "Inga träffar i %(src)s för ”%(query)s”"
 
+#: ../kupfer/ui/browser.py:883
 msgid "No matches"
 msgstr "Inga träffar"
 
+#: ../kupfer/ui/browser.py:888
 msgid "Type to search"
 msgstr "Skriv för att söka"
 
+#: ../kupfer/ui/browser.py:894
 #, python-format
 msgid "Type to search %s"
 msgstr "Skriv för att söka i %s"
 
+#: ../kupfer/ui/browser.py:909
 msgid "No action"
 msgstr "Inget kommando"
 
+#: ../kupfer/ui/browser.py:1497
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
-msgstr "Gör “%(action)s” till standard för “%(object)s”"
+msgstr "Gör ”%(action)s” till standard för ”%(object)s”"
 
 #. TRANS: Removing learned and/or configured bonus search score
+#: ../kupfer/ui/browser.py:1507
 #, python-format
 msgid "Forget About \"%s\""
-msgstr "Glöm bort “%s”"
+msgstr "Glöm bort ”%s”"
 
 #. TRANS: Names of global keyboard shortcuts
+#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Visa huvudgränssnitt"
 
+#: ../kupfer/ui/preferences.py:60
 msgid "Show with Selection"
 msgstr "Visa med markering"
 
 #. TRANS: Plugin info fields
+#: ../kupfer/ui/preferences.py:431
 msgid "Description"
 msgstr "Beskrivning"
 
+#: ../kupfer/ui/preferences.py:431
 msgid "Author"
 msgstr "Upphovsman"
 
+#: ../kupfer/ui/preferences.py:448
 msgid "Version"
 msgstr "Version"
 
 #. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/ui/preferences.py:458
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Behöver Python-modulen ‘%s’"
 
+#: ../kupfer/ui/preferences.py:472
 msgid "Plugin could not be read due to an error:"
 msgstr "Insticksmodulen kunde inte läsas in på grund av ett fel:"
 
-msgid "disabled"
-msgstr "ej aktiverad"
-
+#: ../kupfer/ui/preferences.py:554
 msgid "Content of"
 msgstr "Innehålls i"
 
 #. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:563
 msgid "Sources"
 msgstr "Källor"
 
 #. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:567
 msgid "Actions"
 msgstr "Kommandon"
 
+#: ../kupfer/ui/preferences.py:590
 #, python-format
 msgid "Using encrypted password storage: %s"
 msgstr "Använder krypterad lösenordslagring: %s"
 
+#: ../kupfer/ui/preferences.py:592
 #, python-format
 msgid "Using password storage: %s"
 msgstr "Använder lösenordslagring: %s"
 
 #. TRANS: Plugin-specific configuration (header)
+#: ../kupfer/ui/preferences.py:609
 msgid "Configuration"
 msgstr "Inställningar"
 
+#: ../kupfer/ui/preferences.py:629
 msgid "Set username and password"
 msgstr "Ställ in användaruppgifter"
 
 #. TRANS: File Chooser Title
+#: ../kupfer/ui/preferences.py:683
 msgid "Choose a Directory"
 msgstr "Välj mapp"
 
+#: ../kupfer/ui/preferences.py:878
 msgid "Reset all shortcuts to default values?"
 msgstr "Återställ alla genvägar till standardinställningen?"
 
-msgid "Command"
-msgstr "Kommando"
-
+#: ../kupfer/ui/preferences.py:887
 msgid "Shortcut"
 msgstr "Genväg"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:73
 msgid "translator-credits"
 msgstr "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+#: ../kupfer/version.py:78
 msgid "A free software (GPLv3+) launcher"
 msgstr "En startare och ett stycke fri programvara (GPLv3+)"
 
+#: ../kupfer/version.py:81
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -355,2042 +1906,910 @@ msgstr ""
 "detta program. Om inte, <http://www.gnu.org/licenses/>.\n"
 
 #. follows strings used elsewhere
+#: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
 
-msgid "Text"
-msgstr "Text"
+#~ msgid "Calculate expressions starting with '='"
+#~ msgstr "Beräkna uttryck som börjar med ”=”"
 
-msgid "Run after Delay..."
-msgstr "Utför med fördröjning..."
+#~ msgid "Epiphany Bookmarks"
+#~ msgstr "Epiphany-bokmärken"
 
-msgid "Perform command after a specified time interval"
-msgstr "Utför kommando efter angivet tidsintervall"
+#~ msgid "Index of Epiphany bookmarks"
+#~ msgstr "Index över Epiphany-bokmärken"
 
-msgid "Multiple Objects"
-msgstr "Flera objekt"
+#~ msgid "Firefox Bookmarks"
+#~ msgstr "Firefox-bokmärken"
 
-#, python-format
-msgid "%s object"
-msgid_plural "%s objects"
-msgstr[0] "%s objekt"
-msgstr[1] "%s objekt"
+#~ msgid "Index of Firefox bookmarks"
+#~ msgstr "Index över Firefox-bokmärken"
 
-#, python-format
-msgid "[%(status)s] %(userid)s/%(service)s"
-msgstr "[%(status)s] %(userid)s/%(service)s"
+#~ msgid "Include visited sites"
+#~ msgstr "Inkludera besökta sidor"
 
-msgid "unknown"
-msgstr "okänd"
+#~ msgid "Firefox tag"
+#~ msgstr "Firefox-tagg"
 
-msgid "Aim"
-msgstr "Aim"
+#~ msgid "Rhythmbox"
+#~ msgstr "Rhythmbox"
 
-msgid "Google Talk"
-msgstr "Google Talk"
+#~ msgid "Play and enqueue tracks and browse the music library"
+#~ msgstr "Spela spår och sök i musikbiblioteket"
 
-msgid "ICQ"
-msgstr "ICQ"
+#~ msgid "Include artists in top level"
+#~ msgstr "Inkludera artister i toppnivån"
 
-msgid "MSN"
-msgstr "MSN"
+#~ msgid "Include albums in top level"
+#~ msgstr "Inkludera album i toppnivån"
 
-msgid "QQ"
-msgstr "QQ"
+#~ msgid "Resume playback in Rhythmbox"
+#~ msgstr "Starta uppspelning i Rhythmbox"
 
-msgid "Yahoo"
-msgstr "Yahoo"
+#~ msgid "Pause playback in Rhythmbox"
+#~ msgstr "Pausa uppspelning i Rhythmbox"
 
-#. -*- coding: UTF-8 -*-
-msgid "Skype"
-msgstr "Skype"
+#~ msgid "Jump to next track in Rhythmbox"
+#~ msgstr "Hoppa till nästa spår i Rhythmbox"
 
-#, python-format
-msgid "%s does not support this operation"
-msgstr "%s stödjer inte operationen"
+#~ msgid "Jump to previous track in Rhythmbox"
+#~ msgstr "Hoppa till föregående spår i Rhythmbox"
 
-msgid "Can not be used with multiple objects"
-msgstr "Kan inte användas med flera objekt"
+#~ msgid "Show Playing"
+#~ msgstr "Vilken låt?"
 
-msgid "Open"
-msgstr "Öppna"
+#~ msgid "Tell which song is currently playing"
+#~ msgstr "Visa vilken låt som spelas just nu"
 
-#, python-format
-msgid "No default application for %(file)s (%(type)s)"
-msgstr "Det finns inget förvalt program för “%(file)s” (%(type)s)."
+#~ msgid "Play tracks in Rhythmbox"
+#~ msgstr "Spela upp spår i Rhythmbox"
 
-#, python-format
-msgid "Please use \"%s\""
-msgstr "V.v. använd “%s”"
+#~ msgid "Add tracks to the play queue"
+#~ msgstr "Lägg till spår i spelkön"
 
-msgid "Set Default Application..."
-msgstr "Välj standardprogram..."
+#~ msgid "by %(artist)s from %(album)s"
+#~ msgstr "av %(artist)s från %(album)s"
 
-msgid "Open with default application"
-msgstr "Öppna med förvalt program"
+#~ msgid "by %s"
+#~ msgstr "av %s"
 
-msgid "Reveal"
-msgstr "Visa"
+#~ msgid "Tracks by %s"
+#~ msgstr "Spår av %s"
 
-msgid "Open parent folder"
-msgstr "Öppna föräldermapp i filhanteraren"
+#~ msgid "Albums"
+#~ msgstr "Album"
 
-msgid "Open Terminal Here"
-msgstr "Öppna i terminalfönster"
+#~ msgid "Music albums in Rhythmbox Library"
+#~ msgstr "Album i Rhythmboxs bibliotek"
 
-msgid "Open this location in a terminal"
-msgstr "Öppna platsen i terminalfönster"
+#~ msgid "Artists"
+#~ msgstr "Artister"
 
-msgid "Run in Terminal"
-msgstr "Kör i terminalfönster"
+#~ msgid "Music artists in Rhythmbox Library"
+#~ msgstr "Artister i Rhythmboxs bibliotek"
 
-msgid "Run (Execute)"
-msgstr "Kör"
+#~ msgid "Songs"
+#~ msgstr "Låtar"
 
-msgid "Run this program in a Terminal"
-msgstr "Kör programmet i terminalfönster"
+#~ msgid "Songs in Rhythmbox library"
+#~ msgstr "Låtar i Rhythmboxs bibliotek"
 
-msgid "Run this program"
-msgstr "Kör programmet"
+#~ msgid "Show Text"
+#~ msgstr "Visa text"
 
-msgid "Go To"
-msgstr "Gå till"
+#~ msgid "Display text in a window"
+#~ msgstr "Visa text i ett fönster"
 
-msgid "Open URL"
-msgstr "Öppna URL"
+#~ msgid "Large Type"
+#~ msgstr "Visa med stor text"
 
-msgid "Open URL with default viewer"
-msgstr "Öppna URL med standardprogram"
+#~ msgid "Show Notification"
+#~ msgstr "Visa avisering"
 
-msgid "Launch"
-msgstr "Starta"
+#~ msgid "Search the Web"
+#~ msgstr "Webbsökning"
 
-msgid "Show application window"
-msgstr "Visa programfönster"
+#~ msgid "Search the web with OpenSearch search engines"
+#~ msgstr "Sök webben med OpenSearch-sökmotorer"
 
-msgid "Launch application"
-msgstr "Starta program"
+#~ msgid "Search With..."
+#~ msgstr "Sök med..."
 
-msgid "Launch Again"
-msgstr "Starta igen"
+#~ msgid "Search For..."
+#~ msgstr "Sök efter..."
 
-msgid "Launch another instance of this application"
-msgstr "Starta programmet igen"
+#~ msgid "Search Engines"
+#~ msgstr "Sökmotorer"
 
-msgid "Close"
-msgstr "Stäng"
+#~ msgid "Abiword"
+#~ msgstr "Abiword"
 
-msgid "Attempt to close all application windows"
-msgstr "Försök att stänga alla programmets fönster"
+#~ msgid "Recently used documents in Abiword"
+#~ msgstr "Senaste dokument i Abiword"
 
-#. TRANS: 'Run' as in Perform a (saved) command
-msgid "Run"
-msgstr "Utför"
+#~ msgid "Abiword Recent Items"
+#~ msgstr "Abiwords senaste dokument"
 
-msgid "Perform command"
-msgstr "Utför kommando"
+#~ msgid "APT"
+#~ msgstr "APT"
 
-msgid "(Empty Text)"
-msgstr "(Tom text)"
+#~ msgid "Interface with the package manager APT"
+#~ msgstr "Arbeta med pakethanteraren APT"
 
-#. TRANS: This is description for a TextLeaf, a free-text search
-#. TRANS: The plural parameter is the number of lines %(num)d
-#, python-format
-msgid "\"%(text)s\""
-msgid_plural "(%(num)d lines) \"%(text)s\""
-msgstr[0] "“%(text)s”"
-msgstr[1] "(%(num)d lines) “%(text)s”"
+#~ msgid "Installation method"
+#~ msgstr "Installationsmetod"
 
-#. TRANS: Multiple artist description "Artist1 et. al. "
-#, python-format
-msgid "%s et. al."
-msgstr "%s et. al."
+#~ msgid "Show Package Information"
+#~ msgstr "Visa paketinformation"
 
-#, python-format
-msgid "Recursive source of %(dir)s, (%(levels)d levels)"
-msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
+#~ msgid "Install"
+#~ msgstr "Installera"
 
-#, python-format
-msgid "Directory source %s"
-msgstr "Katalogkälla %s"
+#~ msgid "Install package using the configured method"
+#~ msgstr "Installera paket m.h.a den konfigurerade metoden"
 
-msgid "Home Folder"
-msgstr "Hemmapp"
+#~ msgid "Packages matching \"%s\""
+#~ msgstr "Paketträffar för ”%s”"
 
-msgid "Catalog Index"
-msgstr "Katalogindex"
+#~ msgid "Search Package Name..."
+#~ msgstr "Sök paketnamn..."
 
-msgid "An index of all available sources"
-msgstr "Index över alla tilgängliga kataloger"
+#~ msgid "Ascii & Unicode Icon Set"
+#~ msgstr "Ascii & Unicode ikonuppsättningar"
 
-msgid "Root catalog"
-msgstr "Rotkatalog"
+#~ msgid ""
+#~ "Provides the Ascii and Unicode icon sets that use letters and symbols to "
+#~ "produce icons for the objects found in Kupfer."
+#~ msgstr ""
+#~ "Ikonuppsättningarna Ascii respektive Unicode använder bokstäver och "
+#~ "symboler som ikoner för objekt i Kupfer."
 
-msgid "Please Configure Plugin"
-msgstr "V.v. konfigurera insticksmodulen"
+#~ msgid "Ascii"
+#~ msgstr "Ascii"
 
-#, python-format
-msgid "Plugin %s is not configured"
-msgstr "%s är inte konfigurerad"
+#~ msgid "Unicode"
+#~ msgstr "Unicode"
 
-#, python-format
-msgid "Invalid user credentials for %s"
-msgstr "Ogiltiga användaruppgifter för %s"
+#~ msgid "Chromium Bookmarks"
+#~ msgstr "Chromium-bokmärken"
 
-msgid "Applications"
-msgstr "Program"
+#~ msgid "Index of Chromium bookmarks"
+#~ msgstr "Index över Chromium-bokmärken"
 
-msgid "All applications and preferences"
-msgstr "Alla program och inställningspaneler"
+#~ msgid "Claws Mail"
+#~ msgstr "Claws Mail"
 
-msgid "Applications for Desktop Environment"
-msgstr "Program för skrivbordsmiljö"
+#~ msgid "Claws Mail Contacts and Actions"
+#~ msgstr "Claws Mail-kontakter och kommandon"
 
-msgid "Open With..."
-msgstr "Öppna med..."
+#~ msgid "Compose a new message in Claws Mail"
+#~ msgstr "Skriv nytt meddelande med Claws Mail"
 
-msgid "Open with any application"
-msgstr "Öppna med godtyckligt program"
+#~ msgid "Receive All Email"
+#~ msgstr "Hämta all e-post"
 
-msgid "Set default application to open this file type"
-msgstr "Välj förvalsprogram att öppna filer av den här typen med."
+#~ msgid "Receive new messages from all accounts in ClawsMail"
+#~ msgstr "Hämta nya meddelanden från alla konton i Claws Mail"
 
-msgid "Archive Manager"
-msgstr "Arkivhanterare"
+#~ msgid "Compose new message in Claws Mail and attach file"
+#~ msgstr "Skapa nytt meddelande i ClawsMail och bifoga filen"
 
-msgid "Use Archive Manager actions"
-msgstr "Använd funktioner i arkivhanteraren"
+#~ msgid "Claws Mail Address Book"
+#~ msgstr "Claws Mail-adressbok"
 
-msgid "Compressed archive type for 'Create Archive In'"
-msgstr "Arkivtyp för ‘Skapa arkiv i’"
+#~ msgid "Contacts from Claws Mail Address Book"
+#~ msgstr "Kontakter från Claws Mail"
 
-msgid "Extract Here"
-msgstr "Packa upp här"
+#~ msgid "Configure a custom terminal emulator"
+#~ msgstr "Konfigurera en valfri terminal"
 
-msgid "Extract compressed archive"
-msgstr "Packa upp komprimerad fil"
+#~ msgid "Custom Theme"
+#~ msgstr "Valfritt tema"
 
-msgid "Create Archive"
-msgstr "Skapa arkiv"
+#~ msgid "Use a custom color theme"
+#~ msgstr "Använd ett valfritt färgtema"
 
-msgid "Create a compressed archive from folder"
-msgstr "Skapa komprimerat arkiv av mappen"
+#~ msgid "Theme:"
+#~ msgstr "Tema:"
 
-msgid "Create Archive In..."
-msgstr "Skapa arkiv i..."
+#~ msgid "Devhelp"
+#~ msgstr "Devhelp"
 
-#. TRANS: Default filename (no extension) for 'Create Archive In...'
-msgid "Archive"
-msgstr "Arkiv"
+#~ msgid "Search in Devhelp"
+#~ msgstr "Sök i Devhelp"
 
-msgid "Calculator"
-msgstr "Miniräknare"
+#~ msgid "Empathy"
+#~ msgstr "Empathy"
 
-msgid "Calculate expressions starting with '='"
-msgstr "Beräkna uttryck som börjar med “=”"
+#~ msgid "Access to Empathy Contacts"
+#~ msgstr "Tillgång till Empathy-kontakter"
 
-msgid "Calculate"
-msgstr "Beräkna"
+#~ msgid "Show offline contacts"
+#~ msgstr "Visa frånkopplade kontakter"
 
-msgid "Clipboards"
-msgstr "Urklipp"
+#~ msgid "Available"
+#~ msgstr "Tillgänglig"
 
-msgid "Recent clipboards and clipboard proxy objects"
-msgstr "Senaste urklipp och proxyobjekt till urklipp"
+#~ msgid "Away"
+#~ msgstr "Frånvarande"
 
-msgid "Number of recent clipboards to remember"
-msgstr "Antal senaste urklipp som sparas"
+#~ msgid "Busy"
+#~ msgstr "Stör inte"
 
-msgid "Include selected text in clipboard history"
-msgstr "Inkludera markerad text i historiken"
+#~ msgid "Not Available"
+#~ msgstr "Ej tillgänglig"
 
-msgid "Copy selected text to primary clipboard"
-msgstr "Kopiera markerad text till urklippet"
+#~ msgid "Invisible"
+#~ msgstr "Osynlig"
 
-msgid "Selected Text"
-msgstr "Markering"
+#~ msgid "Offline"
+#~ msgstr "Frånkopplad"
 
-#, python-format
-msgid "Clipboard \"%(desc)s\""
-msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
-msgstr[0] "Urklipp “%(desc)s”"
-msgstr[1] "Urklipp med %(num)d rader “%(desc)s”"
+#~ msgid "Open Chat"
+#~ msgstr "Öppna chatt"
 
-msgid "Clipboard Text"
-msgstr "Urklippt text"
+#~ msgid "Change Global Status To..."
+#~ msgstr "Ändra global status till..."
 
-msgid "Clipboard File"
-msgstr "Urklippt fil"
+#~ msgid "Empathy Contacts"
+#~ msgstr "Empathy-kontakter"
 
-msgid "Clipboard Files"
-msgstr "Urklippta filer"
+#~ msgid "Empathy Account Status"
+#~ msgstr "Empathy-status"
 
-msgid "Clear"
-msgstr "Rensa"
+#~ msgid "Evolution"
+#~ msgstr "Evolution"
 
-msgid "Remove all recent clipboards"
-msgstr "Ta bort senaste urklipp"
+#~ msgid "Evolution contacts"
+#~ msgstr "Evolution-kontakter"
 
-msgid "Shell Commands"
-msgstr "Skalkommandon"
+#~ msgid "Compose a new message in Evolution"
+#~ msgstr "Skriv nytt meddelande med Evolution"
 
-#, python-format
-msgid ""
-"Run command-line programs. Actions marked with the symbol %s run in a "
-"subshell."
-msgstr ""
-"Kör skalkommandon. Kommandon markerade med symbolen %s kör i ett underskal."
+#~ msgid "Compose new message in Evolution and attach file"
+#~ msgstr "Skapa nytt meddelande i Evolution och bifoga filen"
 
-msgid "Run (Get Output)"
-msgstr "Kör (Hämta utdata)"
+#~ msgid "Evolution Address Book"
+#~ msgstr "Evolution-adressbok"
 
-msgid "Run program and return its output"
-msgstr "Kör ett program och returnera dess utdata"
+#~ msgid "Filezilla"
+#~ msgstr "Filezilla"
 
-#. TRANS: The user starts a program (command) and the text
-#. TRANS: is an argument to the command
-msgid "Pass to Command..."
-msgstr "Skicka till kommando..."
+#~ msgid "Show sites and handle ftp addresses by Filezilla"
+#~ msgstr "Visa platser och hantera ftp-adresser från Filezilla"
 
-msgid "Run program with object as an additional parameter"
-msgstr "Kör ett program och skicka objektet som sista parameter"
+#~ msgid "Open Site with Filezilla"
+#~ msgstr "Öppna plats med Filezilla"
 
-#. TRANS: The user starts a program (command) and
-#. TRANS: the text is written on stdin
-msgid "Write to Command..."
-msgstr "Skriv till kommando..."
+#~ msgid "Filezilla Sites"
+#~ msgstr "Filezilla-platser"
 
-msgid "Run program and supply text on the standard input"
-msgstr "Kör ett program och skriv texten på std. in"
+#~ msgid "Sites from Filezilla"
+#~ msgstr "Platser från Filezilla"
 
-#. TRANS: The user starts a program (command) and
-#. TRANS: the text is written on stdin, and we
-#. TRANS: present the output (stdout) to the user.
-msgid "Filter through Command..."
-msgstr "Filtrera genom kommando..."
+#~ msgid "Gajim"
+#~ msgstr "Gajim"
 
-msgid "Run command-line programs"
-msgstr "Kör kommandoradsprogram"
+#~ msgid "Access to Gajim Contacts"
+#~ msgstr "Tillgång till Gajim-kontakter"
 
-msgid "GTK+"
-msgstr "GTK+"
+#~ msgid "Free for Chat"
+#~ msgstr "Free for Chat"
 
-msgid "GNOME Terminal"
-msgstr "GNOME-terminal"
+#~ msgid "Gajim Contacts"
+#~ msgstr "Gajim-kontakter"
 
-msgid "XFCE Terminal"
-msgstr "XFCE-terminal"
+#~ msgid "Gajim Account Status"
+#~ msgstr "Gajim status"
 
-msgid "LXTerminal"
-msgstr "LXTerminal"
+#~ msgid "Gmail"
+#~ msgstr "Gmail"
 
-msgid "X Terminal"
-msgstr "X-terminal"
+#~ msgid "Load contacts and compose new email in Gmail"
+#~ msgstr "Lista kontakter och skriv nya meddelanden i Gmail"
 
-msgid "Urxvt"
-msgstr "Urxvt"
+#~ msgid "Load contacts' pictures"
+#~ msgstr "Läs in kontaktikoner"
 
-msgid "Save As..."
-msgstr "Spara som..."
+#~ msgid "Load additional information"
+#~ msgstr "Visa ytterligare information"
 
-msgid "Quit"
-msgstr "Avsluta"
+#~ msgid "Work email"
+#~ msgstr "E-post (arbete)"
 
-msgid "Quit Kupfer"
-msgstr "Avsluta Kupfer"
+#~ msgid "Home email"
+#~ msgstr "E-post (hem)"
 
-msgid "About Kupfer"
-msgstr "Om Kupfer"
+#~ msgid "Other email"
+#~ msgstr "Annan e-post"
 
-msgid "Show information about Kupfer authors and license"
-msgstr "Visa information om Kupfers upphovsmän och licens"
+#~ msgid "Work address"
+#~ msgstr "Adress (arbete)"
 
-msgid "Kupfer Help"
-msgstr "Hjälp med Kupfer"
+#~ msgid "Home address"
+#~ msgstr "Adress (hem)"
 
-msgid "Get help with Kupfer"
-msgstr "Öppna Kupfers användardokumentation"
+#~ msgid "Other address"
+#~ msgstr "Annan adress"
 
-msgid "Show preferences window for Kupfer"
-msgstr "Visa Kupfers inställningsfönster"
+#~ msgid "Car phone"
+#~ msgstr "Biltelefon"
 
-msgid "Search Contents"
-msgstr "Sök inuti"
+#~ msgid "Fax"
+#~ msgstr "Fax"
 
-msgid "Search inside this catalog"
-msgstr "Sök bland objekt i katalogen"
+#~ msgid "Home phone"
+#~ msgstr "Telefon (hem)"
 
-msgid "Copy"
-msgstr "Kopiera"
+#~ msgid "Home fax"
+#~ msgstr "Fax (hem)"
 
-msgid "Copy to clipboard"
-msgstr "Kopiera till urklipp"
+#~ msgid "Internal phone"
+#~ msgstr "Intern telefon"
 
-msgid "Rescan"
-msgstr "Uppdatera"
+#~ msgid "Mobile"
+#~ msgstr "Mobiltelefon"
 
-msgid "Force reindex of this source"
-msgstr "Tvinga omläsning av källan"
+#~ msgid "Other"
+#~ msgstr "Annan"
 
-msgid "Last Command"
-msgstr "Senaste kommando"
+#~ msgid "VOIP"
+#~ msgstr "VOIP"
 
-msgid "Internal Kupfer Objects"
-msgstr "Interna Kupfer-objekt"
+#~ msgid "Work phone"
+#~ msgstr "Telefon (Arbete)"
 
-msgid "Last Result"
-msgstr "Senaste resultat"
+#~ msgid "Work fax"
+#~ msgstr "Fax (arbete)"
 
-msgid "Command Results"
-msgstr "Kommandoresultat"
+#~ msgid "Compose Email in Gmail"
+#~ msgstr "Skriv e-postmeddelande i Gmail"
 
-msgid "Dictionary"
-msgstr "Ordbok"
+#~ msgid "Open web browser and compose new email in Gmail"
+#~ msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
 
-msgid "Look up word in dictionary"
-msgstr "Slå upp ord i ordboken"
+#~ msgid "Edit Contact in Gmail"
+#~ msgstr "Redigera kontakt i Gmail"
 
-msgid "Look Up"
-msgstr "Slå upp"
+#~ msgid "Open web browser and edit contact in Gmail"
+#~ msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
 
-msgid "Documents"
-msgstr "Dokument"
+#~ msgid "Contacts from Google services (Gmail)"
+#~ msgstr "Kontakter från Google-tjänster (Gmail)"
 
-msgid "Recently used documents and bookmarked folders"
-msgstr "Senaste dokument och bokmärkta platser"
+#~ msgid "Google Picasa"
+#~ msgstr "Google Picasa"
 
-msgid "Max recent document days"
-msgstr "Maximal ålder för senaste dokument (dagar)"
+#~ msgid "Show albums and upload files to Picasa"
+#~ msgstr "Visa album och ladda upp bilder till Picasa"
 
-msgid "Recent Items"
-msgstr "Senaste dokument"
+#~ msgid "Users to show: (,-separated)"
+#~ msgstr "Användare att visa: (,-separerade)"
 
-msgid "Recently used documents"
-msgstr "Senast använda dokument"
+#~ msgid "Load user and album icons"
+#~ msgstr "Läs in användar- och albumikoner"
 
-#, python-format
-msgid "%s Documents"
-msgstr "%s-dokument"
+#~ msgid "Uploading Pictures"
+#~ msgstr "Skickar foton"
 
-#, python-format
-msgid "Recently used documents for %s"
-msgstr "Senaste dokument för %s"
+#~ msgid "Uploading pictures to Picasa Web Album"
+#~ msgstr "Skickar foton till Picasa Webbalbum"
 
-msgid "Places"
-msgstr "Platser"
+#~ msgid "Creating album:"
+#~ msgstr "Skapar album:"
 
-msgid "Bookmarked folders"
-msgstr "Bokmärkta mappar"
+#~ msgid "Album created by Kupfer"
+#~ msgstr "Album skapat av Kupfer"
 
-msgid "Epiphany Bookmarks"
-msgstr "Epiphany-bokmärken"
+#~ msgid "File:"
+#~ msgstr "Fil:"
 
-msgid "Index of Epiphany bookmarks"
-msgstr "Index över Epiphany-bokmärken"
+#~ msgid "One album"
+#~ msgid_plural "%(num)d albums"
+#~ msgstr[0] "Ett album"
+#~ msgstr[1] "%(num)d album"
 
-msgid "Favorites"
-msgstr "Favoriter"
+#~ msgid "one photo"
+#~ msgid_plural "%(num)s photos"
+#~ msgstr[0] "ett foto"
+#~ msgstr[1] "%(num)s foton"
 
-msgid "Mark commonly used items and store objects for later use"
-msgstr "Märk ofta använda objekt eller lagra objekt för senare användning"
+#~ msgid "Upload to Picasa Album..."
+#~ msgstr "Skicka till Picasa-album..."
 
-msgid "Shelf of \"Favorite\" items"
-msgstr "Plats för favoritobjekt"
+#~ msgid "Upload files to Picasa album"
+#~ msgstr "Skicka foton till ett album"
 
-msgid "Add to Favorites"
-msgstr "Lägg till favorit"
+#~ msgid "Upload to Picasa as New Album"
+#~ msgstr "Skicka till Picasa som nytt album"
 
-msgid "Add item to favorites shelf"
-msgstr "Lägg till objekt till favorithyllan"
+#~ msgid "Create album from selected local directory"
+#~ msgstr "Skapa album från markerad mapp"
 
-msgid "Remove from Favorites"
-msgstr "Ta bort favorit"
+#~ msgid "Picasa Albums"
+#~ msgstr "Picasa-album"
 
-msgid "Remove item from favorites shelf"
-msgstr "Ta bort objekt från favorithyllan"
+#~ msgid "User albums in Picasa"
+#~ msgstr "Användaralbum i Picasa"
 
-msgid "File Actions"
-msgstr "Filkommandon"
+#~ msgid "Google Search"
+#~ msgstr "Sök med Google"
 
-msgid "More file actions"
-msgstr "Fler filkommandon"
+#~ msgid "Search Google with results shown directly"
+#~ msgstr "Sök med Google och visa resultat direkt"
 
-msgid "Move To..."
-msgstr "Flytta till..."
+#~ msgid "Results for \"%s\""
+#~ msgstr "Resultat för ”%s”"
 
-msgid "Move file to new location"
-msgstr "Flytta till ny plats"
+#~ msgid "Show More Results For \"%s\""
+#~ msgstr "Visa fler resultat för ”%s”"
 
-msgid "Rename To..."
-msgstr "Byt namn..."
+#~ msgid "%s total found"
+#~ msgstr "%s funna totalt"
 
-msgid "Copy To..."
-msgstr "Kopiera till..."
+#~ msgid "Getting Things GNOME"
+#~ msgstr "Getting Things GNOME!"
 
-msgid "Copy file to a chosen location"
-msgstr "Kopiera filen till vald plats"
+#~ msgid "Browse and create new tasks in GTG"
+#~ msgstr "Bläddra i och skapa nya uppgifter i GTG"
 
-msgid "Firefox Bookmarks"
-msgstr "Firefox-bokmärken"
+#~ msgid "due: %s"
+#~ msgstr "förfaller: %s"
 
-msgid "Index of Firefox bookmarks"
-msgstr "Index över Firefox-bokmärken"
+#~ msgid "start: %s"
+#~ msgstr "start: %s"
 
-msgid "Include visited sites"
-msgstr "Inkludera besökta sidor"
+#~ msgid "tags: %s"
+#~ msgstr "taggar: %s"
 
-#. TRANS: Multihead refers to support for multiple computer displays
-#. TRANS: In this case, it only concerns the special configuration
-#. TRANS: with multiple X "screens"
-msgid "Multihead Support"
-msgstr "Stöd för flera skärmar (“multihead”)"
+#~ msgid "Open task in Getting Things GNOME!"
+#~ msgstr "Öppna uppgift i Getting Things GNOME"
 
-msgid "Notes"
-msgstr "Anteckningar"
+#~ msgid "Delete"
+#~ msgstr "Radera"
 
-msgid "Gnote or Tomboy notes"
-msgstr "Gnote- eller Tomboy-anteckningar"
+#~ msgid "Permanently remove this task"
+#~ msgstr "Ta bort uppgift permanent"
 
-msgid "Work with application"
-msgstr "Använd program"
+#~ msgid "Mark Done"
+#~ msgstr "Markera som slutförd"
 
-msgid "Open with notes application"
-msgstr "Öppna med anteckningsprogarm"
+#~ msgid "Mark this task as done"
+#~ msgstr "Markera uppgift som slutförd"
 
-msgid "Append to Note..."
-msgstr "Lägg till anteckning..."
+#~ msgid "Dismiss"
+#~ msgstr "Avfärda"
 
-msgid "Add text to existing note"
-msgstr "Tillfoga texten till existerande anteckning"
+#~ msgid "Mark this task as not to be done anymore"
+#~ msgstr "Markera att uppgiften inte ska göras längre"
 
-msgid "Create Note"
-msgstr "Skapa anteckning"
+#~ msgid "Create Task"
+#~ msgstr "Skapa uppgift"
 
-msgid "Create a new note from this text"
-msgstr "Skapa en ny anteckning från texten"
+#~ msgid "Create new task in Getting Things GNOME"
+#~ msgstr "Skapa ny uppgift i Getting Things GNOME"
 
-msgid "Get Note Search Results..."
-msgstr "Hämta träffar i anteckningar..."
+#~ msgid "Gwibber"
+#~ msgstr "Gwibber"
 
-msgid "Show search results for this query"
-msgstr "Visa träffar för denna sökning"
+#~ msgid ""
+#~ "Microblogging with Gwibber. Allows sending and receiving messages from "
+#~ "social networks like Twitter, Identi.ca etc. Requires the package "
+#~ "'gwibber-service'."
+#~ msgstr ""
+#~ "Mikroblogga med Gwibber. Skicka och ta emot meddeladen från sociala "
+#~ "nätverk som Twitter, Identi.ca etc. Kräver paketet ‘gwibber-service’."
 
-#, python-format
-msgid "today, %s"
-msgstr "idag, %s"
+#~ msgid "Maximum number of messages to show"
+#~ msgstr "Maximalt antal visade meddelanden"
 
-#, python-format
-msgid "yesterday, %s"
-msgstr "igår, %s"
+#~ msgid "%(user)s on %(service)s"
+#~ msgstr "%(user)s på %(service)s"
 
-#. TRANS: Note description, %s is last changed time in locale format
-#, python-format
-msgid "Last updated %s"
-msgstr "Senast ändrad %s"
+#~ msgid "%(user)s %(when)s on %(where)s"
+#~ msgstr "%(user)s %(when)s på %(where)s"
 
-msgid "Rhythmbox"
-msgstr "Rhythmbox"
+#~ msgid "Send Message"
+#~ msgstr "Skicka meddelande"
 
-msgid "Play and enqueue tracks and browse the music library"
-msgstr "Spela spår och sök i musikbiblioteket"
+#~ msgid "Send message to all Gwibber accounts"
+#~ msgstr "Skicka meddelande till alla Gwibber-konton"
 
-msgid "Include artists in top level"
-msgstr "Inkludera artister i toppnivån"
+#~ msgid "Send Message To..."
+#~ msgstr "Skicka meddelande till..."
 
-msgid "Include albums in top level"
-msgstr "Inkludera album i toppnivån"
+#~ msgid "Send message to a Gwibber account"
+#~ msgstr "Skicka meddelande till ett Gwibber-konton"
 
-msgid "Include songs in top level"
-msgstr "Inkludera låtar i toppnivån"
+#~ msgid "Send Message..."
+#~ msgstr "Skicka meddelande..."
 
-msgid "Play"
-msgstr "Spela upp"
+#~ msgid "Send message to selected Gwibber account"
+#~ msgstr "Skicka meddelande till valt Gwibber-konto"
 
-msgid "Resume playback in Rhythmbox"
-msgstr "Starta uppspelning i Rhythmbox"
+#~ msgid "Reply..."
+#~ msgstr "Svara..."
 
-msgid "Pause"
-msgstr "Paus"
+#~ msgid "Delete Message"
+#~ msgstr "Radera meddelande"
 
-msgid "Pause playback in Rhythmbox"
-msgstr "Pausa uppspelning i Rhythmbox"
+#~ msgid "Send Private Message..."
+#~ msgstr "Skicka direktmeddelande..."
 
-msgid "Next"
-msgstr "Nästa"
+#~ msgid "Send direct message to user"
+#~ msgstr "Skicka direktmeddelande till..."
 
-msgid "Jump to next track in Rhythmbox"
-msgstr "Hoppa till nästa spår i Rhythmbox"
+#~ msgid "Retweet"
+#~ msgstr "Upprepa"
 
-msgid "Previous"
-msgstr "Föregående"
+#~ msgid "Retweet To..."
+#~ msgstr "Upprepa på..."
 
-msgid "Jump to previous track in Rhythmbox"
-msgstr "Hoppa till föregående spår i Rhythmbox"
+#~ msgid "Retweet message to all Gwibber accounts"
+#~ msgstr "Upprepa meddelandet på alla konton i Gwibber"
 
-msgid "Show Playing"
-msgstr "Vilken låt?"
+#~ msgid "Retweet message to a Gwibber account"
+#~ msgstr "Upprepa meddelandet på ett konto i Gwibber"
 
-msgid "Tell which song is currently playing"
-msgstr "Visa vilken låt som spelas just nu"
+#~ msgid "Open in Browser"
+#~ msgstr "Öppna i webbläsaren"
 
-msgid "Clear Queue"
-msgstr "Rensa kön"
+#~ msgid "Open message in default web browser"
+#~ msgstr "Öppna meddelandet med webbläsaren"
 
-msgid "Play tracks in Rhythmbox"
-msgstr "Spela upp spår i Rhythmbox"
+#~ msgid "Gwibber Accounts"
+#~ msgstr "Gwibber-konton"
 
-msgid "Enqueue"
-msgstr "Köa"
+#~ msgid "Accounts configured in Gwibber"
+#~ msgstr "Konton konfigurerade i Gwibber"
 
-msgid "Add tracks to the play queue"
-msgstr "Lägg till spår i spelkön"
+#~ msgid "Gwibber Messages"
+#~ msgstr "Gwibber-meddelanden"
 
-#. TRANS: Song description
-#, python-format
-msgid "by %(artist)s from %(album)s"
-msgstr "av %(artist)s från %(album)s"
+#~ msgid "Recent messages received by Gwibber"
+#~ msgstr "Nyligen mottagna meddelanden i Gwibber"
 
-#. TRANS: Album description "by Artist"
-#, python-format
-msgid "by %s"
-msgstr "av %s"
+#~ msgid "Gwibber Messages for %s"
+#~ msgstr "Gwibber-meddelanden för %s"
 
-#. TRANS: Artist songs collection description
-#, python-format
-msgid "Tracks by %s"
-msgstr "Spår av %s"
+#~ msgid "Gwibber Streams"
+#~ msgstr "Gwibber-flöden"
 
-msgid "Albums"
-msgstr "Album"
+#~ msgid "Streams configured in Gwibber"
+#~ msgstr "Flöden konfigurerade i Gwibber"
 
-msgid "Music albums in Rhythmbox Library"
-msgstr "Album i Rhythmboxs bibliotek"
+#~ msgid "Gwibber Messages in %s"
+#~ msgstr "Gwibber-meddelanden i %s"
 
-msgid "Artists"
-msgstr "Artister"
+#~ msgid "Gwibber (Simple)"
+#~ msgstr "Gwibber (enkel)"
 
-msgid "Music artists in Rhythmbox Library"
-msgstr "Artister i Rhythmboxs bibliotek"
+#~ msgid "Send updates via the microblogging client Gwibber"
+#~ msgstr "Skicka uppdateringar via mikrobloggklienten Gwibber"
 
-msgid "Songs"
-msgstr "Låtar"
+#~ msgid "Send Update"
+#~ msgstr "Skicka uppdatering"
 
-msgid "Songs in Rhythmbox library"
-msgstr "Låtar i Rhythmboxs bibliotek"
+#~ msgid "Unable to activate Gwibber service"
+#~ msgstr "Kunde inte aktivera Gwibber-tjänsten"
 
-msgid "GNOME Session Management"
-msgstr "Sessionshantering i GNOME"
+#~ msgid "Locate Files"
+#~ msgstr "Locate"
 
-msgid "Special items and actions for GNOME environment"
-msgstr "Speicella objekt och kommandon för GNOME"
+#~ msgid "Search filesystem using locate"
+#~ msgstr "Sök filsystemet med ‘locate’"
 
-msgid "Log Out..."
-msgstr "Logga ut..."
+#~ msgid "Ignore case distinctions when searching files"
+#~ msgstr "Ignorera skillnad i gemener och VERSALER"
 
-msgid "Log out or change user"
-msgstr "Logga ut eller byt användare"
+#~ msgid "OpenOffice / LibreOffice"
+#~ msgstr "OpenOffice / LibreOffice"
 
-msgid "Shut Down..."
-msgstr "Stäng av..."
+#~ msgid "Recently used documents in OpenOffice/LibreOffice"
+#~ msgstr "Senaste dokument i OpenOffice/LibreOffice"
 
-msgid "Shut down, restart or suspend computer"
-msgstr "Stäng av, starta om eller sätt datorn i vänteläge"
+#~ msgid "OpenOffice/LibreOffice Recent Items"
+#~ msgstr "OpenOffice/LibreOffice senaste dokument"
 
-msgid "Lock Screen"
-msgstr "Lås skärmen"
+#~ msgid "Opera Mail"
+#~ msgstr "Opera Mail"
 
-msgid "Enable screensaver and lock"
-msgstr "Aktivera skärmsläckaren och lås skärmen"
+#~ msgid "Opera Mail contacts and actions"
+#~ msgstr "Opera Mail-kontakter och kommandon"
 
-#. -*- coding: utf-8 -*
-msgid "XFCE Session Management"
-msgstr "Sessionshantering i XFCE"
+#~ msgid "Compose a new message in Opera Mail"
+#~ msgstr "Skriv nytt meddelande med Opera Mail"
 
-msgid "Special items and actions for XFCE environment"
-msgstr "Speicella objekt och kommandon för XFCE"
+#~ msgid "Opera Mail Contacts"
+#~ msgstr "Opera Mail-kontakter"
 
-msgid "Show Text"
-msgstr "Visa text"
+#~ msgid "Contacts from Opera Mail"
+#~ msgstr "Kontakter från Opera Mail"
 
-msgid "Display text in a window"
-msgstr "Visa text i ett fönster"
+#~ msgid "Opera Bookmarks"
+#~ msgstr "Opera-bokmärken"
 
-msgid "Large Type"
-msgstr "Visa med stor text"
+#~ msgid "Index of Opera bookmarks"
+#~ msgstr "Index över Opera-bokmärken"
 
-msgid "Show Notification"
-msgstr "Visa notifiering"
+#~ msgid "Pidgin"
+#~ msgstr "Pidgin"
 
-msgid "Trash"
-msgstr "Papperskorg"
+#~ msgid "Access to Pidgin Contacts"
+#~ msgstr "Tillgång till Pidgin-kontakter"
 
-msgid "Access trash contents"
-msgstr "Tillgång till papperskorgens innehåll"
+#~ msgid "%s (%d character)"
+#~ msgid_plural "%s (%d characters)"
+#~ msgstr[0] "%s (%d tecken)"
+#~ msgstr[1] "%s (%d tecken)"
 
-msgid "Move to Trash"
-msgstr "Flytta till papperskorgen"
+#~ msgid "Pidgin Contacts"
+#~ msgstr "Pidgin-kontakter"
 
-msgid "Move this file to trash"
-msgstr "Flytta filen till papperskorgen"
+#~ msgid "PuTTY Sessions"
+#~ msgstr "PuTTY-sessioner"
 
-msgid "Restore"
-msgstr "Återskapa"
+#~ msgid "Quick access to PuTTY Sessions"
+#~ msgstr "Snabb access till PuTTY-sessioner"
 
-msgid "Move file back to original location"
-msgstr "Flytta tillbaka till ursprunglig plats"
+#~ msgid "Start Session"
+#~ msgstr "Starta Session"
 
-msgid "Trash is empty"
-msgstr "Papperskorgen är tom"
+#~ msgid "reStructuredText"
+#~ msgstr "reStructuredText"
 
-#. proper translation of plural
-#, python-format
-msgid "Trash contains one file"
-msgid_plural "Trash contains %(num)s files"
-msgstr[0] "Papperskorgen innehåller ett objekt"
-msgstr[1] "Papperskorgen innehåller %(num)s objekt"
+#~ msgid "Render reStructuredText and show the result"
+#~ msgstr "Rendera reStructuredText-dokument och visa resultatet"
 
-msgid "Triggers"
-msgstr "Utlösare"
+#~ msgid "View as HTML Document"
+#~ msgstr "Visa som HTML-dokument"
 
-msgid ""
-"Assign global keybindings (triggers) to objects created with 'Compose "
-"Command'."
-msgstr ""
-"Tilldela globala tangentbordsgenvägar till kommandon skapade med ‘Bygg "
-"kommando’"
+#~ msgid "System Services"
+#~ msgstr "Systemtjänster"
 
-msgid "Add Trigger..."
-msgstr "Lägg till utlösare..."
+#~ msgid "Start, stop or restart system services via init scripts"
+#~ msgstr "Starta, stoppa eller starta om systemtjänster m.h.a initskript"
 
-msgid "Remove Trigger"
-msgstr "Ta bort utlösare"
+#~ msgid "Sudo-like Command"
+#~ msgstr "Sudo-likt kommando"
 
-msgid "URL Actions"
-msgstr "URL-kommandon"
+#~ msgid "Start Service"
+#~ msgstr "Starta tjänst"
 
-msgid "Download and Open"
-msgstr "Hämta och öppna"
+#~ msgid "Stop Service"
+#~ msgstr "Stoppa tjänst"
 
-msgid "Download To..."
-msgstr "Hämta till..."
+#~ msgid "%s Service"
+#~ msgstr "%s"
 
-msgid "Download URL to a chosen location"
-msgstr "Hämta till en vald plats"
+#~ msgid "Shorten Links"
+#~ msgstr "Förkorta länkar"
 
-msgid "Volumes and Disks"
-msgstr "Volymer"
+#~ msgid "Create short aliases of long URLs"
+#~ msgstr "Skapa korta alias för långa webbadresser"
 
-msgid "Mounted volumes and disks"
-msgstr "Monterade volymer och löstagbara enheter"
+#~ msgid "Error"
+#~ msgstr "Fel"
 
-#, python-format
-msgid "Volume mounted at %s"
-msgstr "Volym monterad vid %s"
+#~ msgid "Shorten With..."
+#~ msgstr "Förkorta med..."
 
-msgid "Unmount"
-msgstr "Avmontera"
+#~ msgid "Services"
+#~ msgstr "Service"
 
-msgid "Unmount this volume"
-msgstr "Avmontera volym"
+#~ msgid "Show QRCode"
+#~ msgstr "Visa QRCode"
 
-msgid "Eject"
-msgstr "Mata ut"
+#~ msgid "Display text as QRCode in a window"
+#~ msgstr "Visa text som QRCode i ett fönster"
 
-msgid "Unmount and eject this media"
-msgstr "Avmontera och mata ut media"
+#~ msgid "Access to Skype contacts"
+#~ msgstr "Tillgång till Skype-kontakter"
 
-msgid "Search the Web"
-msgstr "Webbsökning"
+#~ msgid "Skype Me"
+#~ msgstr "Skype Me"
 
-msgid "Search the web with OpenSearch search engines"
-msgstr "Sök webben med OpenSearch-sökmotorer"
+#~ msgid "Logged Out"
+#~ msgstr "Frånkopplad"
 
-msgid "Search With..."
-msgstr "Sök med..."
+#~ msgid "[%(status)s] %(userid)s"
+#~ msgstr "[%(status)s] %(userid)s"
 
-msgid "Search For..."
-msgstr "Sök efter..."
+#~ msgid "Call"
+#~ msgstr "Ring"
 
-msgid "Search Engines"
-msgstr "Sökmotorer"
+#~ msgid "Place a call to contact"
+#~ msgstr "Påbörja samtal med kontakten"
 
-msgid "Wikipedia"
-msgstr "Wikipedia"
+#~ msgid "Skype Contacts"
+#~ msgstr "Skype-kontakter"
 
-msgid "Search in Wikipedia"
-msgstr "Sök i Wikipedia"
+#~ msgid "Skype Statuses"
+#~ msgstr "Skype-status"
 
-msgid "Wikipedia language"
-msgstr "Wikipedia-språk"
+#~ msgid "Tracker"
+#~ msgstr "Tracker"
 
-#. TRANS: Default wikipedia language code
-msgid "en"
-msgstr "sv"
+#~ msgid "Tracker desktop search integration"
+#~ msgstr "Integration med sökprogrammet Tracker"
 
-#, python-format
-msgid "Search for this term in %s.wikipedia.org"
-msgstr "Sök efter denna termen i %s.wikipedia.org"
+#~ msgid "Search in Tracker"
+#~ msgstr "Sök i Tracker"
 
-msgid "Window List"
-msgstr "Fönsterlista"
+#~ msgid "Open Tracker Search Tool and search for this term"
+#~ msgstr "Sök efter denna term i Sökverktyget Tracker"
 
-msgid "All windows on all workspaces"
-msgstr "Alla fönster på alla arbetsytor"
+#~ msgid "Get Tracker Results..."
+#~ msgstr "Hämta träffar från Tracker..."
 
-msgid "Activate"
-msgstr "Aktivera"
+#~ msgid "Show Tracker results for query"
+#~ msgstr "Visa träffar för sökning med Tracker"
 
-msgid "Shade"
-msgstr "Rulla upp"
+#~ msgid "TrueCrypt"
+#~ msgstr "TrueCrypt"
 
-msgid "Unshade"
-msgstr "Rulla ner"
+#~ msgid "Volumes from TrueCrypt history"
+#~ msgstr "Volymer från TrueCrypt-historien"
 
-msgid "Minimize"
-msgstr "Minimera"
+#~ msgid "TrueCrypt volume: %(file)s"
+#~ msgstr "TrueCrypt-volym %(file)s"
 
-msgid "Unminimize"
-msgstr "Avminimera"
+#~ msgid "Mount Volume"
+#~ msgstr "Montera volym"
 
-msgid "Maximize"
-msgstr "Maximera"
+#~ msgid "Mount in Truecrypt"
+#~ msgstr "Montera i Truecrypt"
 
-msgid "Unmaximize"
-msgstr "Avmaximera"
+#~ msgid "Try to mount file as Truecrypt volume"
+#~ msgstr "Försök montera filen som Truecrypt-volym"
 
-msgid "Maximize Vertically"
-msgstr "Maximera vertikalt"
+#~ msgid "Dismount All Volumes"
+#~ msgstr "Avmontera alla volymer"
 
-msgid "Unmaximize Vertically"
-msgstr "Avmaximera vertikalt"
+#~ msgid "TrueCrypt Volumes"
+#~ msgstr "TrueCrypt-volymer"
 
-#. TRANS: Window on (Workspace name), window description
-#, python-format
-msgid "Window on %(wkspc)s"
-msgstr "Fönster på %(wkspc)s"
+#~ msgid "Terminal Server Client"
+#~ msgstr "Terminal Server Client"
 
-msgid "Frontmost Window"
-msgstr "Främsta fönster"
+#~ msgid "Session saved in Terminal Server Client"
+#~ msgstr "Sparad session in Terminal Server Client"
 
-msgid "Next Window"
-msgstr "Nästa fönster"
+#~ msgid "TSClient sessions"
+#~ msgstr "TSClient-sessioner"
 
-msgid "Jump to this window's workspace and focus"
-msgstr "Gå till fönstrets arbetsyta och aktivera"
+#~ msgid "Saved sessions in Terminal Server Client"
+#~ msgstr "Sparade sessioner in Terminal Server Client"
 
-#, python-format
-msgid "%d window"
-msgid_plural "%d windows"
-msgstr[0] "%d fönster"
-msgstr[1] "%d fönster"
+#~ msgid "Vim"
+#~ msgstr "Vim"
 
-msgid "Active workspace"
-msgstr "Aktiv arbetsyta"
+#~ msgid "Recently used documents in Vim"
+#~ msgstr "Senaste dokument i Vim"
 
-msgid "Jump to this workspace"
-msgstr "Hoppa till arbetsytan"
+#~ msgid "Vim Recent Documents"
+#~ msgstr "Senast använda dokument i Vim"
 
-msgid "Workspaces"
-msgstr "Arbetsytor"
+#~ msgid "Close (Save All)"
+#~ msgstr "Stäng (Spara alla)"
 
-msgid "Abiword"
-msgstr "Abiword"
+#~ msgid "Send..."
+#~ msgstr "Skicka till..."
 
-msgid "Recently used documents in Abiword"
-msgstr "Senaste dokument i Abiword"
+#~ msgid "Send ex command"
+#~ msgstr "Sparat Kupfer-kommando"
 
-msgid "Abiword Recent Items"
-msgstr "Abiwords senaste dokument"
+#~ msgid "Insert in Vim..."
+#~ msgstr "Infoga i Vim..."
 
-msgid "APT"
-msgstr "APT"
+#~ msgid "Active Vim Sessions"
+#~ msgstr "Aktiva Vim-sessioner"
 
-msgid "Interface with the package manager APT"
-msgstr "Arbeta med pakethanteraren APT"
+#~ msgid "Vim Session %s"
+#~ msgstr "Vim-session %s"
 
-msgid "Installation method"
-msgstr "Installationsmetod"
+#~ msgid "Vinagre"
+#~ msgstr "Vinagre"
 
-msgid "Show Package Information"
-msgstr "Visa paketinformation"
+#~ msgid "Vinagre bookmarks and actions"
+#~ msgstr "Vinagre-kommandon och bokmärken"
 
-msgid "Install"
-msgstr "Installera"
+#~ msgid "Start Vinagre Session"
+#~ msgstr "Starta Vinagre-session"
 
-msgid "Install package using the configured method"
-msgstr "Installera paket m.h.a den konfigurerade metoden"
+#~ msgid "Vinagre Bookmarks"
+#~ msgstr "Vinagre-bokmärken"
 
-#, python-format
-msgid "Packages matching \"%s\""
-msgstr "Paketträffar för “%s”"
+#~ msgid "VirtualBox"
+#~ msgstr "VirtualBox"
 
-msgid "Search Package Name..."
-msgstr "Sök paketnamn..."
+#~ msgid ""
+#~ "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and "
+#~ "Open Source Edition."
+#~ msgstr ""
+#~ "Kontrollera VirtualBox virtuella maskiner. Stöder både Sun VirtualBox och "
+#~ "Open Source Edition."
 
-msgid "Deep Archives"
-msgstr "Djupa arkiv"
+#~ msgid "Force use CLI interface"
+#~ msgstr "Tvinga CLI-gränssnitt"
 
-msgid "Allow browsing inside compressed archive files"
-msgstr "Tillåt att titta inuti komprimerade filer"
+#~ msgid "Power On"
+#~ msgstr "Starta"
 
-#, python-format
-msgid "Content of %s"
-msgstr "Innehåll för %s"
+#~ msgid "Power On Headless"
+#~ msgstr "Starta headless"
 
-#. encoding: utf-8
-#. don't panic! This is just because it's crazy and fun! ツ
-msgid "Ascii & Unicode Icon Set"
-msgstr "Ascii & Unicode ikonuppsättningar"
+#~ msgid "Send Power Off Signal"
+#~ msgstr "Skicka avstängningssignal"
 
-msgid ""
-"Provides the Ascii and Unicode icon sets that use letters and symbols to "
-"produce icons for the objects found in Kupfer."
-msgstr ""
-"Ikonuppsättningarna Ascii respektive Unicode använder bokstäver och symboler "
-"som ikoner för objekt i Kupfer."
+#~ msgid "Reboot"
+#~ msgstr "Starta om"
 
-msgid "Ascii"
-msgstr "Ascii"
+#~ msgid "Resume"
+#~ msgstr "Återuppta"
 
-msgid "Unicode"
-msgstr "Unicode"
+#~ msgid "Save State"
+#~ msgstr "Spara tillstånd"
 
-msgid "Audacious"
-msgstr "Audacious"
+#~ msgid "Power Off"
+#~ msgstr "Stäng av"
 
-msgid "Control Audacious playback and playlist"
-msgstr "Kontrollera Audacious uppspelning och spellista"
+#~ msgid "VirtualBox Machines"
+#~ msgstr "VirtualBox virtuella maskiner"
 
-msgid "Add track to the Audacious play queue"
-msgstr "Lägg till spår i spelkön"
+#~ msgid "Zim"
+#~ msgstr "Zim"
 
-msgid "Dequeue"
-msgstr "Ta ur kön"
+#~ msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
+#~ msgstr "Tillgång till sidor i Zim"
 
-msgid "Remove track from the Audacious play queue"
-msgstr "Ta bort spår från spelkön"
+#~ msgid "Page names start with :colon"
+#~ msgstr "Sidnamn börjar med :kolon"
 
-msgid "Jump to track in Audacious"
-msgstr "Hoppa till nästa spår i Audacious"
+#~ msgid "Default page name for quick notes"
+#~ msgstr "Namn för snabbanteckningar"
 
-msgid "Resume playback in Audacious"
-msgstr "Starta uppspelning i Audacious"
+#~ msgid "Note %x %X"
+#~ msgstr "Anteckning %x %X"
 
-msgid "Pause playback in Audacious"
-msgstr "Pausa uppspelning i Audacious"
+#~ msgid ""
+#~ "Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+#~ "Please check python documentation for details.\n"
+#~ "NOTE: comma will be replaced by _"
+#~ msgstr ""
+#~ "Du kan använda ’strftime’-format: %H - timme, %M - minut, etc\n"
+#~ "Se pythons dokumentation för detaljer\n"
+#~ "Notera att kommatecken ersätts med _"
 
-msgid "Jump to next track in Audacious"
-msgstr "Hoppa till nästa spår i Audacious"
+#~ msgid "Default namespace for quick notes"
+#~ msgstr "Namnrymd för snabbanteckningar"
 
-msgid "Jump to previous track in Audacious"
-msgstr "Hoppa till föregående spår i Audacious"
+#~ msgid "Zim Page from Notebook \"%s\""
+#~ msgstr "Zim-sida från anteckningsblock ”%s”"
 
-msgid "Clear the Audacious play queue"
-msgstr "Rensa Audacious spelkö"
+#~ msgid "Create Zim Page"
+#~ msgstr "Skapa Zim-sida"
 
-msgid "Shuffle"
-msgstr "Blanda"
+#~ msgid "Create page in default notebook"
+#~ msgstr "Skapa sida i förvalt anteckningsblock"
 
-msgid "Toggle shuffle in Audacious"
-msgstr "Växla blandad uppspelning i Audacious"
+#~ msgid "Create Zim Page In..."
+#~ msgstr "Skapa Zim-sida i..."
 
-msgid "Repeat"
-msgstr "Upprepa"
+#~ msgid "Insert QuickNote into Zim"
+#~ msgstr "Infoga snabbanteckning i Zim"
 
-msgid "Toggle repeat in Audacious"
-msgstr "Växla repetera i Audacious"
+#~ msgid "Quick note selected text into Zim notebook"
+#~ msgstr "Markerad text som snabbanteckning i Zim"
 
-msgid "Playlist"
-msgstr "Spellista"
+#~ msgid "Create Subpage..."
+#~ msgstr "Skapa undersida..."
 
-msgid "Chromium Bookmarks"
-msgstr "Chromium-bokmärken"
+#~ msgid "Zim Notebooks"
+#~ msgstr "Zim-anteckingsblock"
 
-msgid "Index of Chromium bookmarks"
-msgstr "Index över Chromium-bokmärken"
+#~ msgid "Zim Pages"
+#~ msgstr "Zim-sidor"
 
-#. -*- coding: UTF-8 -*-
-msgid "Claws Mail"
-msgstr "Claws Mail"
-
-msgid "Claws Mail Contacts and Actions"
-msgstr "Claws Mail-kontakter och kommandon"
-
-msgid "Compose New Email"
-msgstr "Skriv nytt e-postmeddelande"
-
-msgid "Compose a new message in Claws Mail"
-msgstr "Skriv nytt meddelande med Claws Mail"
-
-msgid "Receive All Email"
-msgstr "Hämta all e-post"
-
-msgid "Receive new messages from all accounts in ClawsMail"
-msgstr "Hämta nya meddelanden från alla konton i Claws Mail"
-
-msgid "Compose Email"
-msgstr "Skriv e-postmeddelande"
-
-msgid "Send in Email To..."
-msgstr "Skicka med e-post till..."
-
-msgid "Compose new message in Claws Mail and attach file"
-msgstr "Skapa nytt meddelande i ClawsMail och bifoga filen"
-
-msgid "Claws Mail Address Book"
-msgstr "Claws Mail-adressbok"
-
-msgid "Contacts from Claws Mail Address Book"
-msgstr "Kontakter från Claws Mail"
-
-msgid "Custom Terminal"
-msgstr "Valfri terminal"
-
-msgid "Configure a custom terminal emulator"
-msgstr "Konfigurera en valfri terminal"
-
-msgid "Execute flag"
-msgstr "Kör-flagga"
-
-msgid "Custom Theme"
-msgstr "Valfritt tema"
-
-msgid "Use a custom color theme"
-msgstr "Använd ett valfritt färgtema"
-
-msgid "Theme:"
-msgstr "Tema:"
-
-msgid "Default Email Client"
-msgstr "Förvald e-postläsare"
-
-msgid "Compose email using the system's default mailto: handler"
-msgstr "Skriv nytt e-postmeddelande m.h.a systemets mailto:-hanterare"
-
-msgid "Devhelp"
-msgstr "Devhelp"
-
-msgid "Search in Devhelp"
-msgstr "Sök i Devhelp"
-
-msgid "DuckDuckGo Search"
-msgstr "Sök med DuckDuckGo"
-
-msgid "Search the web securely with DuckDuckGo"
-msgstr "Sök webben med https med DuckDuckGo"
-
-#. -*- coding: UTF-8 -*-
-#. vim: set noexpandtab ts=8 sw=8:
-msgid "Empathy"
-msgstr "Empathy"
-
-msgid "Access to Empathy Contacts"
-msgstr "Tillgång till Empathy-kontakter"
-
-msgid "Show offline contacts"
-msgstr "Visa frånkopplade kontakter"
-
-msgid "Available"
-msgstr "Tillgänglig"
-
-msgid "Away"
-msgstr "Frånvarande"
-
-msgid "Busy"
-msgstr "Stör inte"
-
-msgid "Not Available"
-msgstr "Ej tillgänglig"
-
-msgid "Invisible"
-msgstr "Osynlig"
-
-msgid "Offline"
-msgstr "Frånkopplad"
-
-msgid "Open Chat"
-msgstr "Öppna chatt"
-
-msgid "Change Global Status To..."
-msgstr "Ändra global status till..."
-
-msgid "Empathy Contacts"
-msgstr "Empathy-kontakter"
-
-msgid "Empathy Account Status"
-msgstr "Empathy-status"
-
-msgid "Evolution"
-msgstr "Evolution"
-
-msgid "Evolution contacts"
-msgstr "Evolution-kontakter"
-
-msgid "Compose a new message in Evolution"
-msgstr "Skriv nytt meddelande med Evolution"
-
-msgid "Compose new message in Evolution and attach file"
-msgstr "Skapa nytt meddelande i Evolution och bifoga filen"
-
-msgid "Evolution Address Book"
-msgstr "Evolution-adressbok"
-
-#. -*- coding: UTF-8 -*-
-msgid "Filezilla"
-msgstr "Filezilla"
-
-msgid "Show sites and handle ftp addresses by Filezilla"
-msgstr "Visa platser och hantera ftp-adresser från Filezilla"
-
-msgid "Open Site with Filezilla"
-msgstr "Öppna plats med Filezilla"
-
-msgid "Filezilla Sites"
-msgstr "Filezilla-platser"
-
-msgid "Sites from Filezilla"
-msgstr "Platser från Filezilla"
-
-#. -*- coding: UTF-8 -*-
-msgid "Gajim"
-msgstr "Gajim"
-
-msgid "Access to Gajim Contacts"
-msgstr "Tillgång till Gajim-kontakter"
-
-msgid "Free for Chat"
-msgstr "Free for Chat"
-
-msgid "Gajim Contacts"
-msgstr "Gajim-kontakter"
-
-msgid "Gajim Account Status"
-msgstr "Gajim status"
-
-#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
-msgid "Glob"
-msgstr "Glob"
-
-#. -*- coding: UTF-8 -*-
-msgid "Gmail"
-msgstr "Gmail"
-
-msgid "Load contacts and compose new email in Gmail"
-msgstr "Lista kontakter och skriv nya meddelanden i Gmail"
-
-msgid "Load contacts' pictures"
-msgstr "Läs in kontaktikoner"
-
-msgid "Load additional information"
-msgstr "Visa ytterligare information"
-
-msgid "Work email"
-msgstr "E-post (arbete)"
-
-msgid "Home email"
-msgstr "E-post (hem)"
-
-msgid "Other email"
-msgstr "Annan e-post"
-
-msgid "Work address"
-msgstr "Adress (arbete)"
-
-msgid "Home address"
-msgstr "Adress (hem)"
-
-msgid "Other address"
-msgstr "Annan adress"
-
-msgid "Car phone"
-msgstr "Biltelefon"
-
-msgid "Fax"
-msgstr "Fax"
-
-msgid "Home phone"
-msgstr "Telefon (hem)"
-
-msgid "Home fax"
-msgstr "Fax (hem)"
-
-msgid "Internal phone"
-msgstr "Intern telefon"
-
-msgid "Mobile"
-msgstr "Mobiltelefon"
-
-msgid "Other"
-msgstr "Annan"
-
-msgid "VOIP"
-msgstr "VOIP"
-
-msgid "Work phone"
-msgstr "Telefon (Arbete)"
-
-msgid "Work fax"
-msgstr "Fax (arbete)"
-
-msgid "Compose Email in Gmail"
-msgstr "Skriv e-postmeddelande i Gmail"
-
-msgid "Open web browser and compose new email in Gmail"
-msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
-
-msgid "Edit Contact in Gmail"
-msgstr "Redigera kontakt i Gmail"
-
-msgid "Open web browser and edit contact in Gmail"
-msgstr "Skriv nytt meddelande i Gmail (i webbläsare)"
-
-msgid "Contacts from Google services (Gmail)"
-msgstr "Kontakter från Google-tjänster (Gmail)"
-
-msgid "GNOME Terminal Profiles"
-msgstr "GNOME-terminal-profiler"
-
-msgid "Launch GNOME Terminal profiles"
-msgstr "Starta GNOME-terminal-profiler"
-
-#. -*- coding: UTF-8 -*-
-msgid "Google Picasa"
-msgstr "Google Picasa"
-
-msgid "Show albums and upload files to Picasa"
-msgstr "Visa album och ladda upp bilder till Picasa"
-
-msgid "Users to show: (,-separated)"
-msgstr "Användare att visa: (,-separerade)"
-
-msgid "Load user and album icons"
-msgstr "Läs in användar- och albumikoner"
-
-msgid "Uploading Pictures"
-msgstr "Skickar foton"
-
-msgid "Uploading pictures to Picasa Web Album"
-msgstr "Skickar foton till Picasa Webbalbum"
-
-msgid "Creating album:"
-msgstr "Skapar album:"
-
-msgid "Album created by Kupfer"
-msgstr "Album skapat av Kupfer"
-
-msgid "File:"
-msgstr "Fil:"
-
-#, python-format
-msgid "One album"
-msgid_plural "%(num)d albums"
-msgstr[0] "Ett album"
-msgstr[1] "%(num)d album"
-
-#, python-format
-msgid "one photo"
-msgid_plural "%(num)s photos"
-msgstr[0] "ett foto"
-msgstr[1] "%(num)s foton"
-
-msgid "Upload to Picasa Album..."
-msgstr "Skicka till Picasa-album..."
-
-msgid "Upload files to Picasa album"
-msgstr "Skicka foton till ett album"
-
-msgid "Upload to Picasa as New Album"
-msgstr "Skicka till Picasa som nytt album"
-
-msgid "Create album from selected local directory"
-msgstr "Skapa album från markerad mapp"
-
-msgid "Picasa Albums"
-msgstr "Picasa-album"
-
-msgid "User albums in Picasa"
-msgstr "Användaralbum i Picasa"
-
-msgid "Google Search"
-msgstr "Sök med Google"
-
-msgid "Search Google with results shown directly"
-msgstr "Sök med Google och visa resultat direkt"
-
-#, python-format
-msgid "Results for \"%s\""
-msgstr "Resultat för “%s”"
-
-#, python-format
-msgid "Show More Results For \"%s\""
-msgstr "Visa fler resultat för “%s”"
-
-#, python-format
-msgid "%s total found"
-msgstr "%s funna totalt"
-
-#. -*- coding: UTF-8 -*-
-msgid "Getting Things GNOME"
-msgstr "Getting Things GNOME!"
-
-msgid "Browse and create new tasks in GTG"
-msgstr "Bläddra i och skapa nya uppgifter i GTG"
-
-#, python-format
-msgid "due: %s"
-msgstr "förfaller: %s"
-
-#, python-format
-msgid "start: %s"
-msgstr "start: %s"
-
-#, python-format
-msgid "tags: %s"
-msgstr "taggar: %s"
-
-msgid "Open task in Getting Things GNOME!"
-msgstr "Öppna uppgift i Getting Things GNOME"
-
-msgid "Delete"
-msgstr "Radera"
-
-msgid "Permanently remove this task"
-msgstr "Ta bort uppgift permanent"
-
-msgid "Mark Done"
-msgstr "Markera som slutförd"
-
-msgid "Mark this task as done"
-msgstr "Markera uppgift som slutförd"
-
-msgid "Dismiss"
-msgstr "Avfärda"
-
-msgid "Mark this task as not to be done anymore"
-msgstr "Markera att uppgiften inte ska göras längre"
-
-msgid "Create Task"
-msgstr "Skapa uppgift"
-
-msgid "Create new task in Getting Things GNOME"
-msgstr "Skapa ny uppgift i Getting Things GNOME"
-
-msgid "Gwibber"
-msgstr "Gwibber"
-
-msgid ""
-"Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
-"service'."
-msgstr ""
-"Mikroblogga med Gwibber. Skicka och ta emot meddeladen från sociala nätverk "
-"som Twitter, Identi.ca etc. Kräver paketet ‘gwibber-service’."
-
-msgid "Maximum number of messages to show"
-msgstr "Maximalt antal visade meddelanden"
-
-#. TRANS: Account description, similar to "John on Identi.ca"
-#, python-format
-msgid "%(user)s on %(service)s"
-msgstr "%(user)s på %(service)s"
-
-#. TRANS: Gwibber Message description
-#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
-#. TRANS: the %(user)s and similar tokens must be unchanged
-#, python-format
-msgid "%(user)s %(when)s on %(where)s"
-msgstr "%(user)s %(when)s på %(where)s"
-
-msgid "Send Message"
-msgstr "Skicka meddelande"
-
-msgid "Send message to all Gwibber accounts"
-msgstr "Skicka meddelande till alla Gwibber-konton"
-
-msgid "Send Message To..."
-msgstr "Skicka meddelande till..."
-
-msgid "Send message to a Gwibber account"
-msgstr "Skicka meddelande till ett Gwibber-konton"
-
-msgid "Send Message..."
-msgstr "Skicka meddelande..."
-
-msgid "Send message to selected Gwibber account"
-msgstr "Skicka meddelande till valt Gwibber-konto"
-
-msgid "Reply..."
-msgstr "Svara..."
-
-msgid "Delete Message"
-msgstr "Radera meddelande"
-
-msgid "Send Private Message..."
-msgstr "Skicka direktmeddelande..."
-
-msgid "Send direct message to user"
-msgstr "Skicka direktmeddelande till..."
-
-msgid "Retweet"
-msgstr "Upprepa"
-
-msgid "Retweet To..."
-msgstr "Upprepa på..."
-
-msgid "Retweet message to all Gwibber accounts"
-msgstr "Upprepa meddelandet på alla konton i Gwibber"
-
-msgid "Retweet message to a Gwibber account"
-msgstr "Upprepa meddelandet på ett konto i Gwibber"
-
-msgid "Open in Browser"
-msgstr "Öppna i webbläsaren"
-
-msgid "Open message in default web browser"
-msgstr "Öppna meddelandet med webbläsaren"
-
-msgid "Gwibber Accounts"
-msgstr "Gwibber-konton"
-
-msgid "Accounts configured in Gwibber"
-msgstr "Konton konfigurerade i Gwibber"
-
-msgid "Gwibber Messages"
-msgstr "Gwibber-meddelanden"
-
-msgid "Recent messages received by Gwibber"
-msgstr "Nyligen mottagna meddelanden i Gwibber"
-
-#. TRANS:  %s is a service name
-#, python-format
-msgid "Gwibber Messages for %s"
-msgstr "Gwibber-meddelanden för %s"
-
-msgid "Gwibber Streams"
-msgstr "Gwibber-flöden"
-
-msgid "Streams configured in Gwibber"
-msgstr "Flöden konfigurerade i Gwibber"
-
-#. TRANS: Gwibber messages in %s :: %s is a Stream name
-#, python-format
-msgid "Gwibber Messages in %s"
-msgstr "Gwibber-meddelanden i %s"
-
-msgid "Gwibber (Simple)"
-msgstr "Gwibber (enkel)"
-
-msgid "Send updates via the microblogging client Gwibber"
-msgstr "Skicka uppdateringar via mikrobloggklienten Gwibber"
-
-msgid "Send Update"
-msgstr "Skicka uppdatering"
-
-msgid "Unable to activate Gwibber service"
-msgstr "Kunde inte aktivera Gwibber-tjänsten"
-
-msgid "Higher-order Actions"
-msgstr "Högre ordningens kommandon"
-
-msgid "Tools to work with commands as objects"
-msgstr "Verktyg för att jobba med kommandon som objekt"
-
-msgid "Select in Kupfer"
-msgstr "Välj i Kupfer"
-
-#, python-format
-msgid "Result of %s (%s)"
-msgstr "Resultat av %s (%s)"
-
-msgid "Run (Take Result)"
-msgstr "Utför (Ta resultat)"
-
-msgid "Take the command result as a proxy object"
-msgstr "Ta kommandoresultat som proxyobjekt"
-
-msgid "Run (Discard Result)"
-msgstr "Utför (Kasta bort resultat)"
-
-msgid "Image Tools"
-msgstr "Bildverktyg"
-
-msgid "Image transformation tools"
-msgstr "Bildtranformeringskommandon"
-
-msgid "Scale..."
-msgstr "Skala..."
-
-msgid "Scale image to fit inside given pixel measure(s)"
-msgstr "Skala bilden för att passa inom given storlek"
-
-msgid "Rotate Clockwise"
-msgstr "Rotera medurs"
-
-msgid "Rotate Counter-Clockwise"
-msgstr "Rotera moturs"
-
-msgid "Autorotate"
-msgstr "Autorotera"
-
-msgid "Rotate JPEG (in-place) according to its EXIF metadata"
-msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
-
-msgid "Kupfer Plugins"
-msgstr "Kupfers insticksmoduler"
-
-msgid "Access Kupfer's plugin list in Kupfer"
-msgstr "Lista Kupfers insticksmoduler i Kupfer"
-
-msgid "Show Information"
-msgstr "Visa information"
-
-msgid "Show Source Code"
-msgstr "Visa källkod"
-
-msgid "enabled"
-msgstr "aktiverad"
-
-msgid "Locate Files"
-msgstr "Locate"
-
-msgid "Search filesystem using locate"
-msgstr "Sök filsystemet med ‘locate’"
-
-msgid "Ignore case distinctions when searching files"
-msgstr "Ignorera skillnad i gemener och VERSALER"
-
-#. -*- coding: UTF-8 -*-
-msgid "OpenOffice / LibreOffice"
-msgstr "OpenOffice / LibreOffice"
-
-msgid "Recently used documents in OpenOffice/LibreOffice"
-msgstr "Senaste dokument i OpenOffice/LibreOffice"
-
-msgid "OpenOffice/LibreOffice Recent Items"
-msgstr "OpenOffice/LibreOffice senaste dokument"
-
-#. -*- coding: UTF-8 -*-
-msgid "Opera Mail"
-msgstr "Opera Mail"
-
-msgid "Opera Mail contacts and actions"
-msgstr "Opera Mail-kontakter och kommandon"
-
-msgid "Compose a new message in Opera Mail"
-msgstr "Skriv nytt meddelande med Opera Mail"
-
-msgid "Opera Mail Contacts"
-msgstr "Opera Mail-kontakter"
-
-msgid "Contacts from Opera Mail"
-msgstr "Kontakter från Opera Mail"
-
-msgid "Opera Bookmarks"
-msgstr "Opera-bokmärken"
-
-msgid "Index of Opera bookmarks"
-msgstr "Index över Opera-bokmärken"
-
-msgid "Pidgin"
-msgstr "Pidgin"
-
-msgid "Access to Pidgin Contacts"
-msgstr "Tillgång till Pidgin-kontakter"
-
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d tecken)"
-msgstr[1] "%s (%d tecken)"
-
-msgid "Pidgin Contacts"
-msgstr "Pidgin-kontakter"
-
-msgid "PuTTY Sessions"
-msgstr "PuTTY-sessioner"
-
-msgid "Quick access to PuTTY Sessions"
-msgstr "Snabb access till PuTTY-sessioner"
-
-msgid "Start Session"
-msgstr "Starta Session"
-
-msgid "Quicksilver Icons"
-msgstr "Quicksilver-ikoner"
-
-msgid "Quick Image Viewer"
-msgstr "Snabb bildvisare"
-
-msgid "View Image"
-msgstr "Visa bild"
-
-msgid "reStructuredText"
-msgstr "reStructuredText"
-
-msgid "Render reStructuredText and show the result"
-msgstr "Rendera reStructuredText-dokument och visa resultatet"
-
-msgid "View as HTML Document"
-msgstr "Visa som HTML-dokument"
-
-msgid "GNU Screen"
-msgstr "GNU Screen"
-
-msgid "Active GNU Screen sessions"
-msgstr "Aktiva GNU Screen-sessioner"
-
-msgid "Attached"
-msgstr "Ansluten"
-
-msgid "Detached"
-msgstr "Frånkopplad"
-
-#, python-format
-msgid "%(status)s session (%(pid)s) created %(time)s"
-msgstr "%(status)s session (%(pid)s) skapad %(time)s"
-
-msgid "Screen Sessions"
-msgstr "Screen-sessioner"
-
-msgid "Attach"
-msgstr "Anslut till"
-
-msgid "Send Keys"
-msgstr "Skicka tangenter"
-
-msgid "Send synthetic keyboard events using xautomation"
-msgstr "Skicka syntetiska tangentbordshändelser m.h.a. xautomation"
-
-msgid "Paste to Foreground Window"
-msgstr "Klistra in i främsta fönstret"
-
-msgid "Copy to clipboard and send Ctrl+V to foreground window"
-msgstr "Kopiera till urklippet och skicka Ctrl+V till främsta fönstret"
-
-msgid "Send keys to foreground window"
-msgstr "Skicka tangenter till främsta fönstret"
-
-msgid "Type Text"
-msgstr "Skriv text"
-
-msgid "Type the text to foreground window"
-msgstr "Skriv texten till främsta fönstret"
-
-#. -*- coding: UTF-8 -*-
-msgid "System Services"
-msgstr "Systemtjänster"
-
-msgid "Start, stop or restart system services via init scripts"
-msgstr "Starta, stoppa eller starta om systemtjänster m.h.a initskript"
-
-msgid "Sudo-like Command"
-msgstr "Sudo-likt kommando"
-
-msgid "Start Service"
-msgstr "Starta tjänst"
-
-msgid "Restart Service"
-msgstr "Starta om tjänst"
-
-msgid "Stop Service"
-msgstr "Stoppa tjänst"
-
-#, python-format
-msgid "%s Service"
-msgstr "%s"
-
-#. -*- coding: UTF-8 -*-
-msgid "Shorten Links"
-msgstr "Förkorta länkar"
-
-msgid "Create short aliases of long URLs"
-msgstr "Skapa korta alias för långa webbadresser"
-
-msgid "Error"
-msgstr "Fel"
-
-msgid "Shorten With..."
-msgstr "Förkorta med..."
-
-msgid "Services"
-msgstr "Service"
-
-msgid "Show QRCode"
-msgstr "Visa QRCode"
-
-msgid "Display text as QRCode in a window"
-msgstr "Visa text som QRCode i ett fönster"
-
-msgid "Access to Skype contacts"
-msgstr "Tillgång till Skype-kontakter"
-
-msgid "Skype Me"
-msgstr "Skype Me"
-
-msgid "Logged Out"
-msgstr "Frånkopplad"
-
-#, python-format
-msgid "[%(status)s] %(userid)s"
-msgstr "[%(status)s] %(userid)s"
-
-msgid "Call"
-msgstr "Ring"
-
-msgid "Place a call to contact"
-msgstr "Påbörja samtal med kontakten"
-
-msgid "Skype Contacts"
-msgstr "Skype-kontakter"
-
-msgid "Skype Statuses"
-msgstr "Skype-status"
-
-#. -*- coding: UTF-8 -*-
-msgid "SSH Hosts"
-msgstr "SSH-värdar"
-
-msgid "Adds the SSH hosts found in ~/.ssh/config."
-msgstr "Tillhandahåller SSH-värdar från ~/.ssh/config"
-
-msgid "SSH host"
-msgstr "SSH-värd"
-
-msgid "Connect"
-msgstr "Anslut"
-
-msgid "Connect to SSH host"
-msgstr "Anslut till SSH-värd"
-
-msgid "SSH hosts as specified in ~/.ssh/config"
-msgstr "SSH-värdar konfigurerade i ~/.ssh/config"
-
-msgid "No D-Bus connection to desktop session"
-msgstr "Ingen D-Bus-anslutning till sessionen"
-
-msgid "GNOME Keyring"
-msgstr "GNOME-nyckelring"
-
-msgid "KWallet"
-msgstr "KWallet"
-
-msgid "Unencrypted File"
-msgstr "Ej krypterad fil"
-
-msgid "Document Templates"
-msgstr "Dokumentmallar"
-
-msgid "Create new documents from your templates"
-msgstr "Skapa dokument från mallar"
-
-#, python-format
-msgid "%s template"
-msgstr "%s-mall"
-
-msgid "Empty File"
-msgstr "Tom fil"
-
-msgid "New Folder"
-msgstr "Ny mapp"
-
-msgid "Create New Document..."
-msgstr "Skapa nytt dokument..."
-
-msgid "Create a new document from template"
-msgstr "Skapa nytt dokument från mall"
-
-msgid "Create Document In..."
-msgstr "Skapa dokument i..."
-
-msgid "Textfiles"
-msgstr "Textfiler"
-
-msgid "Append To..."
-msgstr "Lägg till..."
-
-msgid "Append..."
-msgstr "Lägg till..."
-
-msgid "Write To..."
-msgstr "Skriv till..."
-
-msgid "Get Text Contents"
-msgstr "Hämta textinnehåll"
-
-msgid "Thunar"
-msgstr "Thunar"
-
-msgid "File manager Thunar actions"
-msgstr "Kommandon i filhanteraren Thunar"
-
-msgid "Select in File Manager"
-msgstr "Välj i filhanteraren"
-
-msgid "Show Properties"
-msgstr "Visa egenskaper"
-
-msgid "Show information about file in file manager"
-msgstr "Visa information om filen i filhanteraren"
-
-msgid "Send To..."
-msgstr "Skicka till..."
-
-msgid "Symlink In..."
-msgstr "Mjuk länk (symlink) i..."
-
-msgid "Create a symlink to file in a chosen location"
-msgstr "Skapa mjuk länk till filen vid vald plats"
-
-msgid "Empty Trash"
-msgstr "Töm papperskorgen"
-
-msgid "Thunar Send To Objects"
-msgstr "Thunar Skicka till-objekt"
-
-msgid "Thunderbird"
-msgstr "Thunderbird"
-
-msgid "Thunderbird/Icedove Contacts and Actions"
-msgstr "Thunderbird eller Icedove-kontakter och kommandon"
-
-msgid "Compose a new message in Thunderbird"
-msgstr "Skriv nytt mail i Thunderbird"
-
-msgid "Thunderbird Address Book"
-msgstr "Thunderbird adressbok"
-
-msgid "Contacts from Thunderbird Address Book"
-msgstr "Kontakter från Thunderbird"
-
-msgid "Top"
-msgstr "Aktiviteter"
-
-msgid "Show running tasks and allow sending signals to them"
-msgstr "Visa aktuella processer och skicka signaler till dem"
-
-msgid "Sort Order"
-msgstr "Sortering"
-
-msgid "Commandline"
-msgstr "Kommandorad"
-
-msgid "CPU usage (descending)"
-msgstr "Processoranvändning"
-
-#. sort processes (top don't allow to sort via cmd line)
-msgid "Memory usage (descending)"
-msgstr "Minnesanvändning"
-
-msgid "Send Signal..."
-msgstr "Skicka signal..."
-
-msgid "Signals"
-msgstr "Signaler"
-
-msgid "Running Tasks"
-msgstr "Aktuella processer"
-
-#. default: by cpu
-#, python-format
-msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
-msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
-
-msgid "Running tasks for current user"
-msgstr "Aktuella processer för nuvarande användare"
-
-msgid "Tracker"
-msgstr "Tracker"
-
-msgid "Tracker desktop search integration"
-msgstr "Integration med sökprogrammet Tracker"
-
-msgid "Search in Tracker"
-msgstr "Sök i Tracker"
-
-msgid "Open Tracker Search Tool and search for this term"
-msgstr "Sök efter denna term i Sökverktyget Tracker"
-
-msgid "Get Tracker Results..."
-msgstr "Hämta träffar från Tracker..."
-
-msgid "Show Tracker results for query"
-msgstr "Visa träffar för sökning med Tracker"
-
-#. FIXME: Port tracker tag sources and actions
-#. to the new, much more powerful sparql + dbus API
-#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
-#. -*- coding: UTF-8 -*-
-msgid "TrueCrypt"
-msgstr "TrueCrypt"
-
-msgid "Volumes from TrueCrypt history"
-msgstr "Volymer från TrueCrypt-historien"
-
-#, python-format
-msgid "TrueCrypt volume: %(file)s"
-msgstr "TrueCrypt-volym %(file)s"
-
-msgid "Mount Volume"
-msgstr "Montera volym"
-
-msgid "Mount in Truecrypt"
-msgstr "Montera i Truecrypt"
-
-msgid "Try to mount file as Truecrypt volume"
-msgstr "Försök montera filen som Truecrypt-volym"
-
-msgid "Dismount All Volumes"
-msgstr "Avmontera alla volymer"
-
-msgid "TrueCrypt Volumes"
-msgstr "TrueCrypt-volymer"
-
-msgid "Terminal Server Client"
-msgstr "Terminal Server Client"
-
-msgid "Session saved in Terminal Server Client"
-msgstr "Sparad session in Terminal Server Client"
-
-msgid "TSClient sessions"
-msgstr "TSClient-sessioner"
-
-msgid "Saved sessions in Terminal Server Client"
-msgstr "Sparade sessioner in Terminal Server Client"
-
-msgid "Vim"
-msgstr "Vim"
-
-msgid "Recently used documents in Vim"
-msgstr "Senaste dokument i Vim"
-
-msgid "Vim Recent Documents"
-msgstr "Senast använda dokument i Vim"
-
-msgid "Close (Save All)"
-msgstr "Stäng (Spara alla)"
-
-msgid "Send..."
-msgstr "Skicka till..."
-
-msgid "Send ex command"
-msgstr "Sparat Kupfer-kommando"
-
-msgid "Insert in Vim..."
-msgstr "Infoga i Vim..."
-
-msgid "Active Vim Sessions"
-msgstr "Aktiva Vim-sessioner"
-
-#, python-format
-msgid "Vim Session %s"
-msgstr "Vim-session %s"
-
-msgid "Vinagre"
-msgstr "Vinagre"
-
-msgid "Vinagre bookmarks and actions"
-msgstr "Vinagre-kommandon och bokmärken"
-
-msgid "Start Vinagre Session"
-msgstr "Starta Vinagre-session"
-
-msgid "Vinagre Bookmarks"
-msgstr "Vinagre-bokmärken"
-
-#. -*- coding: UTF-8 -*-
-msgid "VirtualBox"
-msgstr "VirtualBox"
-
-msgid ""
-"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
-"Source Edition."
-msgstr ""
-"Kontrollera VirtualBox virtuella maskiner. Stöder både Sun VirtualBox och "
-"Open Source Edition."
-
-msgid "Force use CLI interface"
-msgstr "Tvinga CLI-gränssnitt"
-
-msgid "Power On"
-msgstr "Starta"
-
-msgid "Power On Headless"
-msgstr "Starta headless"
-
-msgid "Send Power Off Signal"
-msgstr "Skicka avstängningssignal"
-
-msgid "Reboot"
-msgstr "Starta om"
-
-#. VM_STATE_PAUSED
-msgid "Resume"
-msgstr "Återuppta"
-
-msgid "Save State"
-msgstr "Spara tillstånd"
-
-msgid "Power Off"
-msgstr "Stäng av"
-
-msgid "VirtualBox Machines"
-msgstr "VirtualBox virtuella maskiner"
-
-msgid "Zim"
-msgstr "Zim"
-
-msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
-msgstr "Tillgång till sidor i Zim"
-
-msgid "Page names start with :colon"
-msgstr "Sidnamn börjar med :kolon"
-
-msgid "Default page name for quick notes"
-msgstr "Namn för snabbanteckningar"
-
-#, python-format
-msgid "Note %x %X"
-msgstr "Anteckning %x %X"
-
-msgid ""
-"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
-"Please check python documentation for details.\n"
-"NOTE: comma will be replaced by _"
-msgstr ""
-"Du kan använda ’strftime’-format: %H - timme, %M - minut, etc\n"
-"Se pythons dokumentation för detaljer\n"
-"Notera att kommatecken ersätts med _"
-
-msgid "Default namespace for quick notes"
-msgstr "Namnrymd för snabbanteckningar"
-
-#, python-format
-msgid "Zim Page from Notebook \"%s\""
-msgstr "Zim-sida från anteckningsblock “%s”"
-
-msgid "Create Zim Page"
-msgstr "Skapa Zim-sida"
-
-msgid "Create page in default notebook"
-msgstr "Skapa sida i förvalt anteckningsblock"
-
-msgid "Create Zim Page In..."
-msgstr "Skapa Zim-sida i..."
-
-msgid "Insert QuickNote into Zim"
-msgstr "Infoga snabbanteckning i Zim"
-
-msgid "Quick note selected text into Zim notebook"
-msgstr "Markerad text som snabbanteckning i Zim"
-
-msgid "Create Subpage..."
-msgstr "Skapa undersida..."
-
-msgid "Zim Notebooks"
-msgstr "Zim-anteckingsblock"
-
-msgid "Zim Pages"
-msgstr "Zim-sidor"
-
-msgid "Pages stored in Zim Notebooks"
-msgstr "Sidor i Zim-anteckningsblock"
+#~ msgid "Pages stored in Zim Notebooks"
+#~ msgstr "Sidor i Zim-anteckningsblock"

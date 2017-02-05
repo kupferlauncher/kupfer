@@ -1,0 +1,1859 @@
+# Greek translation for kupfer.
+# Copyright (C) 2014 kupfer's COPYRIGHT HOLDER
+# This file is distributed under the same license as the kupfer package.
+# MarMav <mavridou@gmail.com>, 2014.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kupfer master\n"
+"POT-Creation-Date: 2014-04-07 21:56+0000\n"
+"PO-Revision-Date: 2014-04-08 11:03+0300\n"
+"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"Language-Team: team@lists.gnome.gr\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.0\n"
+
+#: C/plugin-websearch.page:7(desc)
+msgid "Using the search the web plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο αναζήτησης στον ιστό."
+
+#: C/plugin-websearch.page:10(app)
+msgid "Search the Web"
+msgstr "Αναζήτηση στον ιστό"
+
+#: C/plugin-websearch.page:13(title) C/plugin-triggers.page:23(title)
+#: C/plugin-notes.page:22(title) C/plugin-nautilusselection.page:13(title)
+#: C/plugin-gwibber.page:25(title) C/plugin-favorites.page:22(title)
+#: C/plugin-calculator.page:21(title) C/plugin-applications.page:19(title)
+#: C/generalusage.page:10(title)
+msgid "Basic Usage"
+msgstr "Βασική χρήση"
+
+#: C/plugin-websearch.page:15(p)
+msgid "Activate Kupfer and make sure it is in free-text mode (press period)"
+msgstr ""
+"Ενεργοποιήστε το Kupfer και βεβαιωθείτε ότι βρίσκεται σε λειτουργία "
+"ελεύθερου κειμένου (πατήστε το πλήκτρο της τελείας)"
+
+#: C/plugin-websearch.page:17(p)
+msgid ""
+"Type in a search query and tap <key>Tab</key> to switch to the action pane."
+msgstr ""
+"Πληκτρολογήστε ένα ερώτημα αναζήτησης και πατήστε <key>Tab</key> για να "
+"μεταβείτε στο ενεργό παράθυρο."
+
+#: C/plugin-websearch.page:19(p)
+msgid ""
+"Type \"Search With\" to find Search the Web's action and tap <key>Tab</key> "
+"again to switch to the third pane (indirect object)."
+msgstr ""
+"Πληκτρολογήστε \"Αναζήτηση με\" για να βρείτε τη καρτέλα αναζήτηση στον ιστό "
+"και επιλέξτε <key>Tab</key> ξανά για να μεταβείτε στο τρίτο παράθυρο (έμμεσο "
+"αντικείμενο)."
+
+#: C/plugin-websearch.page:22(p)
+msgid ""
+"Select search engine with the arrow keys and type <key>Return</key> to open "
+"the search in a web browser."
+msgstr ""
+"Επιλέξτε τη μηχανή αναζήτησης με τα βελάκια και πληκτρολογήστε "
+"<key>Επιστροφή</key> για να ανοίξετε την αναζήτηση σε έναv περιηγητή ιστού."
+
+#: C/plugin-websearch.page:29(title)
+msgid "Search Engines"
+msgstr "Μηχανές Αναζήτησης"
+
+#: C/plugin-websearch.page:30(p)
+msgid ""
+"The Search the Web plugin uses <app>Firefox'</app> search engines, so you "
+"can add Search Engines directly in <app>Firefox</app> and <app>Kupfer</app> "
+"will find them later."
+msgstr ""
+"Το πρόσθετο αναζήτηση στον ιστό χρησιμοποιεί μηχανές αναζήτησης του "
+"<app>Firefox'</app>, έτσι ώστε να μπορείτε να προσθέσετε μηχανές αναζήτησης "
+"άμεσα και να τις βρείτε αργότερα στο <app>Firefox</app> και το <app>Kupfer</"
+"app>."
+
+#: C/plugin-websearch.page:35(p)
+msgid ""
+"You can also install custom search plugins directly, only for <app>Kupfer</"
+"app>, in the folder:"
+msgstr ""
+"Μπορείτε επίσης να εγκαταστήσετε προσαρμοσμένα πρόσθετα αναζήτησης άμεσα, "
+"μόνο για το <app>Kupfer</app>, στο φάκελο:"
+
+#: C/plugin-websearch.page:39(code)
+#, no-wrap
+msgid "~/.local/share/kupfer/searchplugins/"
+msgstr "~/.local/share/kupfer/searchplugins/"
+
+#: C/plugin-websearch.page:40(p)
+msgid "The search engine descriptions must written in OpenSearch format."
+msgstr ""
+"Οι περιγραφές των μηχανών αναζήτησης πρέπει να έχουν γραφτεί σε μορφή "
+"OpenSearch."
+
+#: C/plugin-triggers.page:7(desc)
+msgid "Using the triggers plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο εναύσματα."
+
+#: C/plugin-triggers.page:10(app) C/keyboard.page:213(title)
+msgid "Triggers"
+msgstr "Εναύσματα"
+
+#: C/plugin-triggers.page:13(title)
+msgid "Triggers Plugin"
+msgstr "Προσθετο Εναύσματα"
+
+#: C/plugin-triggers.page:14(p)
+msgid ""
+"With <app>Triggers</app> you can take a command you would normally perform "
+"in <app>Kupfer</app>, such as launching an application or opening a "
+"document, and bind a global key combination to run this command. As long as "
+"<app>Kupfer</app> is running, any application can have the current focus."
+msgstr ""
+"Με τα <app>Εναύσματα</app> μπορείτε να πάρετε μια εντολή που θα εκτελούσατε "
+"κανονικά στο <app>Kupfer</app>, όπως την εκκίνηση μιας εφαρμογής ή το "
+"άνοιγμα ενός εγγράφου, και να δεσμεύσετε ένα γενικό συνδυασμό πλήκτρων για "
+"να εκτελέσετε αυτήν την εντολή. Για όσο το <app>Kupfer</app> εκτελείται, "
+"οποιαδήποτε εφαρμογή μπορεί να έχει την τρέχουσα εστίαση."
+
+#: C/plugin-triggers.page:25(title)
+msgid "Creating a new trigger"
+msgstr "Δημιουργία ενός νέου εναύσματος"
+
+#: C/plugin-triggers.page:27(p)
+msgid "Set up a command in <app>Kupfer</app> that you want to run"
+msgstr "Ρύθμιση μιας εντολής στο <app>Kupfer</app> που θέλετε να εκτελέσετε"
+
+#: C/plugin-triggers.page:32(p)
+msgid ""
+"Press <keyseq><key>Ctrl</key><key>Return</key></keyseq> to create a "
+"<em>composed command</em>."
+msgstr ""
+"Πατήστε <keyseq><key>Ctrl</key><key>Επιστροφή</key></keyseq> για να "
+"δημιουργήσετε μια <em>Εντολή σύνθεσης</em>."
+
+#: C/plugin-triggers.page:38(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Add Trigger...</em> and press "
+"<key>Return</key>"
+msgstr ""
+"Πατήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Προσθήκη εναύσματος...</"
+"em> και πιέστε <key>Επιστροφή</key>"
+
+#: C/plugin-triggers.page:44(p)
+msgid ""
+"Using the window that appears, press modifier keys and a letter or number "
+"key to set a global shortcut. An example is pressing and holding "
+"<keyseq><key>Ctrl</key><key>Alt</key></keyseq> and then pressing and "
+"releasing <key>R</key> to bind <keyseq><key>Ctrl</key><key>Alt</key><key>R</"
+"key></keyseq>."
+msgstr ""
+"Χρησιμοποιώντας το παράθυρο που εμφανίζεται, πατήστε τα πλήκτρα τροποποίησης "
+"και ένα γράμμα ή αριθμό για να ορίσετε μια γενική συντόμευση. Για παράδειγμα "
+"πατώντας και κρατώντας πατημένα τα <keyseq><key>Ctrl</key><key>Alt</key></"
+"keyseq> και, στη συνέχεια, πιέζοντας και αφήνοντας το <key>R</key> "
+"δεσμεύονται τα <keyseq><key>Ctrl</key><key>Alt</key><key>R</key></keyseq>."
+
+#: C/plugin-triggers.page:54(title)
+msgid "Removing a trigger"
+msgstr "Αφαίρεση εναύσματος"
+
+#: C/plugin-triggers.page:56(p)
+msgid ""
+"Find the source <em>Triggers</em> in <app>Kupfer</app> and press <key>→</"
+"key> to see its contents."
+msgstr ""
+"Βρείτε τα πηγαία <em>Εναύσματα</em> στο <app>Kupfer</app> και πιέστε <key>→</"
+"key> για να δείτε τα περιεχόμενά του."
+
+#: C/plugin-triggers.page:62(p)
+msgid ""
+"Find the active trigger in the list and use the action <em>Remove Trigger</"
+"em>."
+msgstr ""
+"Βρείτε το ενεργό έναυσμα στον κατάλογο και χρησιμοποιήσετε την ενέργεια "
+"<em>Αφαίρεση εναύσματος</em>."
+
+#: C/plugin-triggers.page:68(p)
+msgid ""
+"Since trigger keyboard shortcuts are global, they can be used from any "
+"application. Select shortcuts with care so that they do not conflict with "
+"other functions."
+msgstr ""
+"Δεδομένου ότι οι συντομεύσεις πληκτρολογίου των εναυσμάτων είναι γενικές, "
+"μπορούν να χρησιμοποιηθούν από οποιαδήποτε εφαρμογή. Επιλέξτε συντομεύσεις "
+"με προσοχή έτσι ώστε να μην έρχονται σε διένεξη με άλλες λειτουργίες."
+
+#: C/plugin-triggers.page:74(title) C/plugin-notes.page:60(title)
+#: C/plugin-gwibber.page:68(title) C/plugin-favorites.page:38(title)
+msgid "Power User Tips"
+msgstr "Συμβουλές για έμπειρους χρήστες"
+
+#: C/plugin-triggers.page:75(p)
+msgid ""
+"<em>Proxy objects</em> such as <em>Selected Text</em>, <em>Selected File</"
+"em>, <em>Frontmost Window</em>, <em>Last Command</em> et cetera allow very "
+"powerful triggers."
+msgstr ""
+"<em>Αντικείμενα μεσολάβησης</em> όπως <em>Eπιλεγμένο κείμενο</em>, "
+"<em>Επιλεγμένο αρχείο</em>, <em>Το πιο μπροστινό παράθυρο</em>, "
+"<em>Τελευταία εντολή</em> κ.λπ. επιτρέπουν τη χρήση πολύ ισχυρών εναυσμάτων."
+
+#: C/plugin-triggers.page:79(p)
+msgid ""
+"The application action <em>Launch</em> is special; if you bind a trigger "
+"using <em>Launch</em>, it will start the application if it is not running, "
+"but focus the application when it is already running. By contrast, <em>Start "
+"Again</em> will start the application if it is running or not."
+msgstr ""
+"Η χρήση της εφαρμογής <em>Εκκίνηση</em> είναι ειδική: εαν δευσμεύσετε ένα "
+"έναυσμα με την <em>Εκκίνηση</em>, θα ξεκινήσει η εφαρμογή, εάν δεν "
+"εκτελείται, αλλά θα εστιάσει στην εφαρμογή όταν εκτελείται ήδη. Αντίθετα, η "
+"<em>Έναρξη εκ νέου</em> θα ξεκινήσει την εφαρμογή είτε βρίσκεται σε "
+"λειτουργία είτε όχι."
+
+#: C/plugin-triggers.page:87(title)
+msgid "Example Triggers"
+msgstr "Παράδειγμα εναυσμάτων"
+
+#: C/plugin-triggers.page:90(em)
+msgid "Text Editor → Launch"
+msgstr "Επεξεργαστής κειμένου → Εκκίνηση"
+
+#: C/plugin-triggers.page:91(p)
+msgid ""
+"Start <em>Text Editor</em> or focus its window if it is already running."
+msgstr ""
+"Ξεκινήστε τον <em>Επεξεργαστή κειμένου</em> ή εστιάστε στο παράθυρό του, εάν "
+"είναι ήδη σε λειτουργία."
+
+#: C/plugin-triggers.page:97(em)
+msgid "Selected Text → Search With → Google"
+msgstr "Επιλεγμένο Κείμενο → Αναζήτηση με → Google"
+
+#: C/plugin-triggers.page:98(p)
+msgid "Search the web using the currently selected text."
+msgstr "Αναζήτηση στο διαδίκτυο χρησιμοποιώντας το επιλεγμένο κείμενο."
+
+#: C/plugin-triggers.page:100(em)
+msgid "Selected File → Move To → (Downloads Folder)"
+msgstr "Επιλεγμένο αρχείο → Μετακίνηση σε → (Φάκελος λήψεων)"
+
+#: C/plugin-triggers.page:101(p)
+msgid "Move the currently selected file to a specific folder"
+msgstr "Μετακινήστε το επιλεγμένο αρχείο σε ένα συγκεκριμένο φάκελο"
+
+#: C/plugin-triggers.page:105(em)
+msgid "Songs → Search Contents"
+msgstr "Τραγούδια → Αναζήτηση περιεχομένων"
+
+#: C/plugin-triggers.page:106(p)
+msgid ""
+"You may even add a trigger to open a specific subcatalog in Kupfer, for "
+"example Rhythmbox's songs."
+msgstr ""
+"Μπορείτε να προσθέσετε ακόμη και ένα έναυσμα για να ανοίξει ένα συγκεκριμένο "
+"υποκατάλογο στο Kupfer, για παράδειγμα, τα τραγούδια του Rhythmbox."
+
+#: C/plugin-notes.page:7(desc)
+msgid "Using the notes plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο σημειώσεις."
+
+#: C/plugin-notes.page:10(app) C/plugin-calculator.page:37(title)
+msgid "Notes"
+msgstr "Σημειώσεις"
+
+#: C/plugin-notes.page:13(title)
+msgid "Notes Plugin"
+msgstr "Πρόσθετο Σημειώσεις"
+
+#: C/plugin-notes.page:14(p)
+msgid ""
+"With <app>Notes</app> you can access or create new notes in either the "
+"program <app>Gnote</app> or <app>Tomboy</app>. <app>Notes</app> will work "
+"identically with either application—you can configure which one to use in "
+"the plugin's information pane in <app>Kupfer Preferences</app>."
+msgstr ""
+"Με το πρόσθετο <app>Σημειώσεις</app> μπορείτε να έχετε πρόσβαση ή να "
+"δημιουργήσετε νέες σημειώσεις είτε στο πρόγραμμα <app>Gnote</app> ή στο "
+"<app>Tomboy</app>. Το <app>Σημειώσεις</app> θα λειτουργήσει με τον ίδιο "
+"τρόπο και με τις δύο εφαρμογές: μπορείτε να ρυθμίσετε ποια να χρησιμοποιηθεί "
+"στο τμήμα πληροφοριών των πρόσθετων στο <app>Προτιμήσεις Kupfer</app>."
+
+#: C/plugin-notes.page:24(title)
+msgid "Creating a new note"
+msgstr "Δημιουργία νέας σημείωσης"
+
+#: C/plugin-notes.page:26(p)
+msgid ""
+"Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
+"note title"
+msgstr ""
+"Ενεργοποιήστε το Kupfer και πληκτρολογήστε <key>.</key> για να εισέλθετε σε "
+"λειτουργία κειμένου, στη συνέχεια, πληκτρολογήστε έναν τίτλο σημείωσης"
+
+#: C/plugin-notes.page:32(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Create Note</em> and press "
+"<key>Return</key>."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Δημιουργία "
+"Σημείωσης</em> και πιέστε <key>Επιστροφή</key>."
+
+#: C/plugin-notes.page:39(title)
+msgid "Finding a note by title"
+msgstr "Βρίσκοντας μια σημείωση από τον τίτλο"
+
+#: C/plugin-notes.page:41(p)
+msgid "Simply search for the note title in <app>Kupfer</app>"
+msgstr "Απλά κάνετε αναζήτηση στο <app>Kupfer</app> για τον τίτλο σημείωσης"
+
+#: C/plugin-notes.page:45(title)
+msgid "Finding a note by content"
+msgstr "Βρίσκοντας μια σημείωση από τον το περιεχόμενο"
+
+#: C/plugin-notes.page:47(p)
+msgid ""
+"Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
+"search query"
+msgstr ""
+"Ενεργοποιήστε το Kupfer και πληκτρολογήστε <key>.</key> για να εισέλθετε στη "
+"λειτουργία κειμένου, στη συνέχεια, πληκτρολογήστε ένα ερώτημα αναζήτησης"
+
+#: C/plugin-notes.page:53(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Get Note Search Results...</"
+"em> and press <key>Return</key>."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Λήψη "
+"αποτελεσμάτων αναζήτησης σημείωσης...</em> και πιέστε <key>Επιστροφή</key>."
+
+#: C/plugin-notes.page:63(p)
+msgid ""
+"You can use the <em>Selected Text</em> object and create a new note with the "
+"content of the selection."
+msgstr ""
+"Μπορείτε να χρησιμοποιήσετε το αντικείμενο <em>Επιλεγμένο κείμενο</em> και "
+"να δημιουργήσετε μια νέα σημείωση με το περιεχόμενο της επιλογής."
+
+#: C/plugin-nautilusselection.page:7(desc)
+msgid "Using the selected file plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο επιλεγμένου αρχείου."
+
+#: C/plugin-nautilusselection.page:10(app)
+msgid "Selected File"
+msgstr "Επιλεγμένο αρχείο"
+
+#: C/plugin-nautilusselection.page:14(p)
+msgid ""
+"Select a file in the file manager. Open <app>Kupfer</app> and search for the "
+"object <app>Selected File</app>, which represents the file or files that are "
+"selected."
+msgstr ""
+"Επιλέξτε ένα αρχείο στο διαχειριστή αρχείων. Ανοίξτε το <app>Kupfer</app> "
+"και αναζητήστε το αντικείμενο <app>Επιλεγμένο αρχείο</app>, το οποίο "
+"αντιπροσωπεύει το αρχείο ή τα αρχεία που έχουν επιλεγεί."
+
+#: C/plugin-nautilusselection.page:19(p)
+msgid ""
+"Instead of searching, you can press <keyseq><key>Ctrl</key><key>G</key></"
+"keyseq> to directly focus the selected file. See <link xref=\"keyboard\"/> "
+"for more information."
+msgstr ""
+"Αντί της αναζήτησης, μπορείτε να πατήσετε <keyseq><key>Ctrl</key><key>G</"
+"key></keyseq> για να εστιάσει άμεσα στο επιλεγμένο αρχείο. Δείτε στο <link "
+"xref=\"keyboard\"/> για περισσότερες πληροφορίες."
+
+#: C/plugin-nautilusselection.page:26(title)
+msgid "<app>Selected File</app> requires <app>Nautilus</app>"
+msgstr ""
+"Το πρόσθετο <app>Επιλεγμένο αρχείο</app> προϋποθέτει τον <app>Nautilus</app>"
+
+#: C/plugin-nautilusselection.page:27(p)
+msgid ""
+"The selected file plugin works with the <app>Nautilus</app> file browser and "
+"requires that the extension <cmd>kupfer_provider.py</cmd> is installed (it "
+"is normally installed together with <app>Kupfer</app>). After installing it "
+"for the first time, <app>Nautilus</app> must start anew before it is active."
+msgstr ""
+"Το πρόσθετο επιλεγμένο αρχείο λειτουργεί με τον περιηγητή αρχείων "
+"<app>Nautilus</app> και απαιτεί να είναι εγκατεστημένη η επέκταση "
+"<cmd>kupfer_provider.py</cmd> (εγκαθίσταται συνήθως μαζί με το <app>Kupfer</"
+"app>) . Μετά την εγκατάστασή του, για πρώτη φορά, ο <app>Nautilus</app> "
+"πρέπει να ξεκινήσει εκ νέου πριν να ενεργοποιηθεί."
+
+#: C/plugin-gwibber.page:7(desc)
+msgid "Using the Gwibber plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο Gwibber."
+
+#: C/plugin-gwibber.page:10(app)
+msgid "Gwibber"
+msgstr "Gwibber"
+
+#: C/plugin-gwibber.page:13(title)
+msgid "Gwibber Plugin"
+msgstr "Πρόσθετο Gwibber"
+
+#: C/plugin-gwibber.page:14(p)
+msgid ""
+"With the <app>Gwibber</app> plugin you can send messages to social networks "
+"such as Twitter or Identi.ca."
+msgstr ""
+"Με το πρόσθετο <app>Gwibber</app> μπορείτε να στείλετε μηνύματα σε κοινωνικά "
+"δίκτυα όπως το Twitter ή το Identi.ca."
+
+#: C/plugin-gwibber.page:18(p)
+msgid ""
+"The plugin requires that the application <app>Gwibber</app> is installed and "
+"configured for your user. <app>Kupfer</app> will start and use Gwibber's "
+"service in the background."
+msgstr ""
+"Το πρόσθετο προϋποθέτει ότι η εφαρμογή <app>Gwibber</app> έχει εγκατασταθεί "
+"και ρυθμιστεί για το δικό σας χρήστη. Το <app>Kupfer</app> θα ξεκινήσει και "
+"θα χρησιμοποιήσει την υπηρεσία Gwibber στο παρασκήνιο."
+
+#: C/plugin-gwibber.page:27(title)
+msgid "Sending a message to all services"
+msgstr "Αποστολή ενός μηνύματος σε όλες τις υπηρεσίες"
+
+#: C/plugin-gwibber.page:29(p)
+msgid ""
+"Activate Kupfer and type <key>.</key> to enter text mode, then type in a "
+"message."
+msgstr ""
+"Ενεργοποιήστε το Kupfer και πληκτρολογήστε <key>.</key> για να εισέλθετε στη "
+"λειτουργία κειμένου, στη συνέχεια, πληκτρολογήστε ένα μήνυμα."
+
+#: C/plugin-gwibber.page:35(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Send Message</em> and press "
+"<key>Return</key>."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Αποστολή "
+"μηνύματος</em> και πιέστε <key>Επιστροφή</key>."
+
+#: C/plugin-gwibber.page:42(title)
+msgid "Sending a message to a specific service"
+msgstr "Αποστολή ενός μηνύματος σε μια συγκεκριμένη υπηρεσία"
+
+#: C/plugin-gwibber.page:44(p)
+msgid ""
+"Activate Kupfer and search for the service object, for example <em>Identi."
+"ca</em>"
+msgstr ""
+"Ενεργοποιήστε το Kupfer και αναζητήστε το αντικείμενο υπηρεσίας, για "
+"παράδειγμα, <em>Identi.ca</em>"
+
+#: C/plugin-gwibber.page:50(p)
+msgid "Type <key>Tab</key> and select the action <em>Send Message</em>."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Αποστολή "
+"μηνύματος</em>."
+
+#: C/plugin-gwibber.page:55(p)
+msgid ""
+"Type <key>Tab</key> to select the last pane, and type in a message. Press "
+"<key>Return</key> to send."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> για να επιλέξετε το τελευταίο παράθυρο και "
+"πληκτρολογήστε ένα μήνυμα. Πατήστε <key>Επιστροφή</key> για να το στείλετε."
+
+#: C/plugin-gwibber.page:61(p)
+msgid ""
+"The plugin also provides a source for incoming messages, <em>Gwibber "
+"Messages</em> and more actions on messages such as <em>Reply</em>, <em>Send "
+"Private Message</em> etc."
+msgstr ""
+"Το πρόσθετο παρέχει επίσης μια πηγή για τα εισερχόμενα μηνύματα, "
+"<em>Μηνύματα Gwibber</em> και περισσότερες ενέργειες για μηνύματα όπως "
+"<em>Απάντηση</em>, <em>Αποστολή προσωπικού μηνύματος</em> κλπ."
+
+#: C/plugin-gwibber.page:71(p)
+msgid ""
+"You can use the <em>comma trick</em> if you want to send a message to more "
+"than one service, but not all, at the same time."
+msgstr ""
+"Μπορείτε να χρησιμοποιήσετε το <em>Τέχνασμα κόμμα</em> αν θέλετε να στείλετε "
+"ένα μήνυμα σε περισσότερες από μία υπηρεσίες, αλλά όχι σε όλες, την ίδια "
+"στιγμή."
+
+#: C/plugin-favorites.page:7(desc)
+msgid "Using the favorites plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο αγαπημένα."
+
+#: C/plugin-favorites.page:10(app)
+msgid "Favorites"
+msgstr "Αγαπημένα"
+
+#: C/plugin-favorites.page:13(title)
+msgid "Favorites Plugin"
+msgstr "Πρόσθετο αγαπημένων"
+
+#: C/plugin-favorites.page:14(p)
+msgid ""
+"With <app>Favorites</app> you mark objects, for example files, for quicker "
+"access. It is a sort of shelf on which you can store objects in Kupfer. "
+"Objects marked as favorites will also be ranked higher and are adorned with "
+"a star symbol."
+msgstr ""
+"Με το <app>Αγαπημένα</app> μαρκάρετε τα αντικείμενα, για παράδειγμα, τα "
+"αρχεία, για ταχύτερη πρόσβαση. Είναι ένα είδος ραφιού στο οποίο μπορείτε να "
+"αποθηκεύσετε αντικείμενα στο Kupfer. Αντικείμενα που χαρακτηρίζονται ως "
+"αγαπημένα θα κατατάσσονται επίσης σε υψηλότερη θέση και είναι διακοσμημένα "
+"με το σύμβολο αστέρι."
+
+#: C/plugin-favorites.page:25(p)
+msgid "Find an object in <app>Kupfer</app>"
+msgstr "Εύρεση αντικειμένου στο <app>Kupfer</app>"
+
+#: C/plugin-favorites.page:30(p)
+msgid ""
+"Type <key>Tab</key> and select either the action <em>Add to Favorites</em> "
+"or <em>Remove from Favorites</em>."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Προσθήκη στα "
+"αγαπημένα</em> ή <em>Αφαίρεση από τα αγαπημένα</em>."
+
+#: C/plugin-favorites.page:39(p)
+msgid ""
+"If you favorite an object, you can access it in more places. Not only in the "
+"\"Favorites\" subcatalog, but also as the indirect (secondary) object for "
+"some actions. For example:"
+msgstr ""
+"Αν προσθέσετε στα αγαπημένα ένα αντικείμενο, μπορείτε να έχετε πρόσβαση σε "
+"αυτό σε περισσότερα σημεία. Όχι μόνο στον υποκατάλογο \"Αγαπημένα\" , αλλά "
+"και ως έμμεσο (δευτερεύον) αντικείμενο για ορισμένες ενέργειες. Για "
+"παράδειγμα:"
+
+#: C/plugin-favorites.page:45(p)
+msgid "Command-lines from favorites are quick to access."
+msgstr "Γραμμές εντολών από τα αγαπημένα είναι άμεσα προσβάσιμα."
+
+#: C/plugin-favorites.page:46(p)
+msgid ""
+"When scaling images with the <em>Scale...</em> action from the <app>Image "
+"Tools</app> plugin. This action needs a size description as the third "
+"object, like \"1024\" or \"1200x800\". If you often scale to the same size, "
+"say \"1200x800\", add this to favorites, and it will always appear as a "
+"suggestion for the action."
+msgstr ""
+"Κλιμάκωση εικόνων με την ενέργεια <em>Κλιμάκωση...</em> από το πρόσθετο "
+"<app>Εργαλεία εικόνας</app>. Η ενέργεια αυτή χρειάζεται μια περιγραφή με το "
+"τρίτο αντικείμενο, όπως \"1024\" ή \"1200x800\". Αν έχετε συχνά κλιμάκωση "
+"στο ίδιο μέγεθος, για παράδειγμα \"1200x800\", προσθέστε την στα αγαπημένα, "
+"και θα εμφανίζεται πάντα ως προτεινόμενη για την ενέργεια."
+
+#: C/plugin-favorites.page:54(p)
+msgid ""
+"Actions needing an email address as the indirect object will pick up email "
+"addresses from favorites as well as well."
+msgstr ""
+"Ενέργειες που χρειάζονται μια διεύθυνση ηλεκτρονικού ταχυδρομείου ως έμμεσο "
+"αντικείμενο θα πάρουν επίσης τις διευθύνσεις ηλεκτρονικού ταχυδρομείου από "
+"τα αγαπημένα."
+
+#: C/plugin-calculator.page:7(desc)
+msgid "Using the calculator plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο αριθμομηχανής."
+
+#: C/plugin-calculator.page:10(app)
+msgid "Calculator"
+msgstr "Αριθμομηχανή"
+
+#: C/plugin-calculator.page:13(title)
+msgid "Calculator Plugin"
+msgstr "Πρόσθετο αριθμομηχανής"
+
+#: C/plugin-calculator.page:14(p)
+msgid ""
+"The calculator plugin lets you calculate expressions quickly. It can "
+"evaluate expressions entered as text starting with \"=\". Entering = from "
+"command mode will start text mode directly with = prefixed for quick access."
+msgstr ""
+"Το πρόσθετο αριθμομηχανής σας επιτρέπει να υπολογίσετε γρήγορα παραστάσεις. "
+"Μπορεί να αξιολογεί παραστάσεις που καταχωρούνται ως κείμενο αρχίζοντας με "
+"\"=\". Εισάγοντας = από την κατάσταση εντολών θα ξεκινήσει η λειτουργία "
+"κειμένου απευθείας με πρόθεμα = για γρήγορη πρόσβαση."
+
+#: C/plugin-calculator.page:23(p)
+msgid "Activate Kupfer and type <key>=</key>"
+msgstr "Ενεργοποιήστε το Kupfer και πληκτρολογήστε <key>=</key>"
+
+#: C/plugin-calculator.page:26(p)
+msgid ""
+"Type in a mathematical expression using <key>+</key>,<key>-</key>,<key>/</"
+"key>,<key>*</key> (and <key>**</key> for exponentiation)"
+msgstr ""
+"Πληκτρολογήστε μια μαθηματική παράσταση χρησιμοποιώντας τα <key>+</key>,"
+"<key>-</key>,<key>/</key>,<key>*</key> (και <key>**</key> για εκθέτη)"
+
+#: C/plugin-calculator.page:30(p)
+msgid "Press <key>Return</key> to get the result."
+msgstr "Πατήστε το <key>Επιστροφή</key> για να λάβετε το αποτέλεσμα."
+
+#: C/plugin-calculator.page:38(p)
+msgid ""
+"The Calculator uses python's math and complex math modules, and parses "
+"expressions as Python expressions. You may use common mathematical "
+"functions, such as <cmd>sqrt</cmd>, <cmd>sin</cmd>, <cmd>exp</cmd> and "
+"<cmd>log</cmd>; the command <cmd>=help</cmd> will show a list of all defined "
+"functions and constants."
+msgstr ""
+"Η Αριθμομηχανή χρησιμοποιεί τις ενότητες μιγαδικών μαθηματικών και python "
+"και αναλύει τις παραστάσεις ως παραστάσεις Python. Μπορείτε να "
+"χρησιμοποιήσετε κοινές μαθηματικές συναρτήσεις, όπως <cmd>sqrt</cmd>, "
+"<cmd>sin</cmd>, <cmd>exp</cmd> και <cmd>log</cmd>· η εντολή <cmd>=help</cmd> "
+"θα εμφανίσει μια λίστα με όλες τις προσδιορισμένες συναρτήσεις και σταθερές."
+
+#: C/plugin-calculator.page:47(p)
+msgid ""
+"Notice that the power operator in Python is double stars, for example "
+"<code>=3**3</code> will evaluate to 27."
+msgstr ""
+"Σημειώστε ότι ο τελεστής δύναμης στο Python είναι διπλά αστέρια, για "
+"παράδειγμα <code>=3**3</code> θα αξιολογηθεί σε 27."
+
+#: C/plugin-calculator.page:53(p)
+msgid "To calculate trig functions for angles, convert to radians first:"
+msgstr ""
+"Για να υπολογίσετε τριγωνομετρικές συναρτήσεις για τις γωνίες, μετατρέψετε "
+"πρώτα σε ακτίνια:"
+
+#: C/plugin-calculator.page:56(code)
+#, no-wrap
+msgid "sin(radians(30)) -&gt; 0.5"
+msgstr "sin(radians(30)) -&gt; 0.5"
+
+#: C/plugin-calculator.page:59(p)
+msgid ""
+"The last result is stored as the name _ (an underscore, just like in the "
+"Python console)."
+msgstr ""
+"Το τελευταίο αποτέλεσμα αποθηκεύεται ως όνομα _ (ένα χαρακτήρα υπογράμμισης, "
+"όπως ακριβώς και στην κονσόλα Python)."
+
+#: C/plugin-calculator.page:65(p)
+msgid ""
+"The Calculator lets you also calculate expression without \"=\" on the "
+"beginning as long it have inside one of operators: +, -, *, /, ^, |, &amp;, "
+"~."
+msgstr ""
+"Η Αριθμομηχανή σας επιτρέπει επίσης να υπολογίσετε μια παράσταση χωρίς \"=\" "
+"στην αρχή, εφόσον έχετε μέσα έναν από τους τελεστές: +, -, *, /, ^, |, , ~."
+
+#: C/plugin-applications.page:7(desc)
+msgid "Using the applications plugin."
+msgstr "Χρησιμοποιώντας το πρόσθετο εφαρμογές."
+
+#: C/plugin-applications.page:10(app)
+msgid "Applications"
+msgstr "Εφαρμογές"
+
+#: C/plugin-applications.page:13(title)
+msgid "Applications Plugin"
+msgstr "Πρόσθετο εφαρμογών"
+
+#: C/plugin-applications.page:14(p)
+msgid "<app>Applications</app> provides all installed programs."
+msgstr "Το <app>Εφαρμογές</app> παρέχει όλα τα εγκατεστημένα προγράμματα."
+
+#: C/plugin-applications.page:21(title)
+msgid "Launching an application"
+msgstr "Εκκίνηση μιας εφαρμογής"
+
+#: C/plugin-applications.page:23(p)
+msgid "Activate Kupfer and type an abbreviation of the application name"
+msgstr ""
+"Ενεργοποιήστε το Kupfer και πληκτρολογήστε μια συντομογραφία του ονόματος "
+"εφαρμογής"
+
+#: C/plugin-applications.page:28(p)
+msgid "Press <key>Return</key> to launch the application."
+msgstr "Πατήστε <key>Επιστροφή</key> για να ξεκινήσει η εφαρμογή."
+
+#: C/plugin-applications.page:34(title)
+msgid "Opening a file with a specific application"
+msgstr "Άνοιγμα ενός αρχείου με μια συγκεκριμένη εφαρμογή"
+
+#: C/plugin-applications.page:36(p)
+msgid "Select a file in <app>Kupfer</app>"
+msgstr "Επιλέξτε ένα αρχείο στο <app>Kupfer</app>"
+
+#: C/plugin-applications.page:41(p)
+msgid "Type <key>Tab</key> and select the action <em>Open With...</em>"
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Άνοιγμα με ...</"
+"em>"
+
+#: C/plugin-applications.page:46(p)
+msgid ""
+"Type <key>Tab</key> to select the third (indirect object) pane and in it, "
+"select the application to open the file with."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> για να επιλέξετε το τρίτο παράθυρο (έμμεσο "
+"αντικείμενο) και σε αυτό, επιλέξτε την εφαρμογή με την οποία να ανοίξει το "
+"αρχείο."
+
+#: C/plugin-applications.page:53(p)
+msgid ""
+"The action <em>Open</em> opens files and folders with the registered default "
+"application for that specific file type. This can be configured using the "
+"action <em>Set Default Application...</em>."
+msgstr ""
+"Η ενέργεια <em>Άνοιγμα</em> ανοίγει τα αρχεία και τους φακέλους με την "
+"εγγεγραμμένη προεπιλεγμένη εφαρμογή για το συγκεκριμένο τύπο αρχείου. Αυτό "
+"μπορεί να ρυθμιστεί χρησιμοποιώντας την ενέργεια <em>Ορισμός προεπιλεγμένης "
+"εφαρμογής...</em>."
+
+#: C/plugin-applications.page:58(p)
+msgid ""
+"The file type associations are provided by the desktop environment, and "
+"modifying them here will modify them on the desktop as well. This may not be "
+"true when not using GNOME or XFCE."
+msgstr ""
+"Οι συσχετισμοί του τύπου αρχείου παρέχονται από το περιβάλλον εργασίας, και "
+"η τροποποίηση τους εδώ θα τους τροποποιήσει επίσης και στην επιφάνεια "
+"εργασίας. Αυτό δεν μπορεί να είναι εφικτό όταν δεν χρησιμοποιείτε το GNOME ή "
+"το XFCE."
+
+#: C/plugin-applications.page:64(title)
+msgid "Selecting default application for a file type or folders"
+msgstr "Επιλέγοντας την προεπιλεγμένη εφαρμογή για έναν τύπο αρχείου ή φακέλων"
+
+#: C/plugin-applications.page:66(p)
+msgid "Select a file or folder in <app>Kupfer</app>"
+msgstr "Επιλέξτε ένα αρχείο ή φάκελο στο <app>Kupfer</app>"
+
+#: C/plugin-applications.page:71(p)
+msgid ""
+"Type <key>Tab</key> and select the action <em>Set Default Application...</em>"
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> και επιλέξτε την ενέργεια <em>Ορισμός "
+"προεπιλεγμένης εφαρμογής...</em>"
+
+#: C/plugin-applications.page:77(p)
+msgid ""
+"Type <key>Tab</key> to select the third (indirect object) pane and in it, "
+"select the application to always open the file type with."
+msgstr ""
+"Πληκτρολογήστε <key>Tab</key> για να επιλέξετε το τρίτο παράθυρο (έμμεσο "
+"αντικείμενο) και σε αυτό, επιλέξτε την εφαρμογή με την οποία θα ανοίγει "
+"πάντα ο τύπος του αρχείου."
+
+#: C/plugin-applications.page:85(title)
+msgid "Configuration"
+msgstr "Διαμόρφωση"
+
+#: C/plugin-applications.page:86(p)
+msgid ""
+"The configuration option <em>Applications for Desktop Environment</em> in "
+"the plugin's information pane in <app>Kupfer Preferences</app> determines "
+"how <app>Kupfer</app> should act with regard to the desktop environment "
+"configuration—certain applications request not to be shown depending on "
+"which desktop environment is used. By default, it behaves like GNOME."
+msgstr ""
+"Η επιλογή διαμόρφωσης <em>Εφαρμογές για το περιβάλλον επιφάνειας εργασίας</"
+"em> στο τμήμα πληροφοριών του πρόσθετου <app>Προτιμήσεις Kupfer</app> "
+"καθορίζει το πώς το <app>Kupfer</app> θα πρέπει να ενεργεί σε σχέση με τη "
+"διαμόρφωση του περιβάλλοντος εργασίας - ορισμένες εφαρμογές ζητείται να μην "
+"εμφανίζονται, ανάλογα με το περιβάλλον επιφάνειας εργασίας που "
+"χρησιμοποιείται. Από προεπιλογή, συμπεριφέρεται όπως το GNOME."
+
+#: C/moreusage.page:7(desc)
+msgid "More advanced usage information."
+msgstr "Περισσότερες προηγμένες πληροφορίες χρήσης."
+
+#: C/moreusage.page:10(title)
+msgid "Using <app>Kupfer</app> in Depth"
+msgstr "Χρησιμοποιώντας το <app>Kupfer</app> εις βάθος"
+
+#: C/moreusage.page:13(title)
+msgid "Adding Applications and Scripts"
+msgstr "Προσθέτοντας εφαρμογές και σενάρια"
+
+#: C/moreusage.page:14(p)
+msgid ""
+"<app>Kupfer</app> will show all applications that are configured visible in "
+"your menu editor."
+msgstr ""
+"Το <app>Kupfer</app> θα εμφανίσει όλες τις εφαρμογές που έχουν ρυθμιστεί ως "
+"ορατές στο μενού του επεξεργαστή σας."
+
+#: C/moreusage.page:18(p)
+msgid ""
+"If you want to add an application manually, you can create a new <code>."
+"desktop</code> file and place it in one of the standard directories for "
+"applications, for example <file>~/.local/share/applications</file>, where "
+"<app>Kupfer</app> will find it."
+msgstr ""
+"Αν θέλετε να προσθέσετε μια εφαρμογή χειροκίνητα, μπορείτε να δημιουργήσετε "
+"ένα νέο αρχείο <code>.desktop</code> και να το τοποθετήστε σε έναν από τους "
+"πρότυπους καταλόγους για εφαρμογές, για παράδειγμα στον <file>~/.local/share/"
+"applications</file>, όπου το <app>Kupfer</app> θα το βρεί."
+
+#: C/moreusage.page:24(p)
+msgid ""
+"If you have a collection of scripts that you want to call from <app>Kupfer</"
+"app>, you can add the scripts folder as a catalog directory to <app>Kupfer</"
+"app> in the preferences. Scripts that you add to <app>Kupfer</app>'s catalog "
+"this way can be run directly or in the terminal as long as they are "
+"executable."
+msgstr ""
+"Εάν έχετε μια συλλογή από σενάρια που θέλετε να καλέσετε από το <app>Kupfer</"
+"app>, μπορείτε να προσθέσετε το φάκελο σεναρίων ως μια λίστα καταλόγου στις "
+"προτιμήσεις του <app>Kupfer</app>. Σενάρια που θα προσθέσετε στον κατάλογο "
+"<app>Kupfer</app> με αυτόν τον τρόπο μπορούν να εκτελεσθούν απευθείας ή στο "
+"τερματικό για όσο διάστημα είναι εκτελέσιμα."
+
+#: C/moreusage.page:31(p)
+msgid ""
+"You can also save command-lines by using the action <em>Add to Favorites</"
+"em>."
+msgstr ""
+"Μπορείτε επίσης να αποθηκεύσετε γραμμές εντολών χρησιμοποιώντας την ενέργεια "
+"<em>Προσθήκη στα αγαπημένα</em>."
+
+#: C/moreusage.page:38(title)
+msgid "Opening Files and Folders"
+msgstr "Άνοιγμα αρχείων και φακέλων"
+
+#: C/moreusage.page:39(p)
+msgid ""
+"Using the action <em>Open</em>, files and folders are opened in their "
+"preferred application. The application associations can be changed, see "
+"<link xref=\"plugin-applications\"/>."
+msgstr ""
+"Χρησιμοποιώντας την ενέργεια <em>Άνοιγμα</em>, τα αρχεία και οι φάκελοι "
+"ανοίγουν με την προτιμώμενη εφαρμογή τους. Οι συσχετισμοί εφαρμογής μπορεί "
+"να αλλάξουν, δείτε στο <link xref=\"plugin-applications\"/>."
+
+#: C/moreusage.page:47(title)
+msgid "The <em>Comma Trick</em>"
+msgstr "Το <em>Τέχνασμα κόμμα</em>"
+
+#: C/moreusage.page:48(p)
+msgid ""
+"The comma trick allows the user to use actions on many objects at the same "
+"time."
+msgstr ""
+"Το τέχνασμα κόμμα επιτρέπει στο χρήστη να χρησιμοποιήσει ενέργειες σε πολλά "
+"αντικείμενα ταυτόχρονα."
+
+#: C/moreusage.page:52(p)
+msgid ""
+"Simply press comma <key>,</key> when an object is selected. The object is "
+"put on a \"stack\", and you can find yet another file or object, press comma "
+"to put it on the stack. When you subsequently invoke an action, the action "
+"is carried out on all of the objects at the same time."
+msgstr ""
+"Απλά πατήστε το κόμμα <key>,</key> όταν ένα αντικείμενο είναι επιλεγμένο . "
+"Το αντικείμενο τοποθετείται σε μια \"στοίβα\", και για να μπορείτε να βρείτε "
+"ακόμη ένα άλλο αρχείο ή ένα αντικείμενο, πατήστε το κόμμα για να το "
+"προσθέσετε στη στοίβα. Όταν, στη συνέχεια επικαλεσθείτε μια ενέργεια, αυτή "
+"διεξάγεται σε όλα τα αντικείμενα ταυτόχρονα."
+
+#: C/moreusage.page:58(p)
+msgid ""
+"Some actions are only \"multiplied\" when used with many objects, other are "
+"smarter than that:"
+msgstr ""
+"Ορισμένες ενέργειες είναι μόνο \"πολλαπλασιαζόμενες\" όταν χρησιμοποιούνται "
+"με πολλά αντικείμενα, ενώ άλλες είναι πιο εξελιγμένες:"
+
+#: C/moreusage.page:61(p)
+msgid ""
+"Selecting many files and using the Create Archive action, all files will be "
+"packed into the same archive."
+msgstr ""
+"Επιλέγοντας πολλά αρχεία και χρησιμοποιώντας τη Δημιουργία ενέργειας "
+"αρχείου, όλα τα αρχεία θα πρέπει περιέχονται πλέον στο ίδιο αρχείο."
+
+#: C/moreusage.page:63(p)
+msgid ""
+"If you select multiple contacts and use a Send Email action, it creates one "
+"email directed at all the contacts."
+msgstr ""
+"Εάν επιλέξετε πολλαπλές επαφές και χρησιμοποιήσετε μια ενέργεια Αποστολής "
+"μηνύματος, θα δημιουργεί ένα μήνυμα που θα απευθύνεται σε όλες τις επαφές."
+
+#: C/moreusage.page:65(p)
+msgid ""
+"If you select multiple subcatalogs (For example Firefox Bookmarks and "
+"Epiphany Bookmarks) and use Search Contents.., you get a subcatalog search "
+"restricted to the objects of those two catalogs! You can even bind a trigger "
+"to this command(!)"
+msgstr ""
+"Αν επιλέξετε πολλαπλούς υποκαταλόγους (Για παράδειγμα, σελιδοδείκτες Firefox "
+"και σελιδοδείκτες Epiphany) και χρησιμοποιήσετε την Αναζήτηση "
+"Περιεχομένων..., μπορείτε να πάρετε μια αναζήτηση υποκαταλόγων που "
+"περιορίζεται στα αντικείμενα των δύο αυτών καταλόγων! Μπορείτε ακόμα και να "
+"συνδέσετε ένα έναυσμα για αυτήν την εντολή(!)"
+
+#: C/moreusage.page:71(p)
+msgid ""
+"The comma trick is <link href=\"http://www.43folders.com/2005/06/13/"
+"quicksilver-the-comma-trick\"> directly taken from Quicksilver</link> (the "
+"example given in the external article should work identically in Kupfer)."
+msgstr ""
+"Το τέχνασμα κόμμα <link href=\"http://www.43folders.com/2005/06/13/"
+"quicksilver-the-comma-trick\"> λαμβάνεται απευθείας από το Quicksilver </"
+"link> (το παράδειγμα που δίνεται στο εξωτερικό άρθρο θα πρέπει να δουλεύει "
+"με τον ίδιο τρόπο στο Kupfer)."
+
+#: C/moreusage.page:80(title)
+msgid "Grab Current Selection"
+msgstr "Πιάσιμο τρέχουσας επιλογής"
+
+#: C/moreusage.page:81(p)
+msgid ""
+"To use the current selected text, from any application, with <app>Kupfer</"
+"app>, you can configure a global keyboard shortcut for the action <em>Show "
+"with Selection</em> in <app>Kupfer Preferences</app>."
+msgstr ""
+"Για να χρησιμοποιήσετε το τρέχον επιλεγμένο κείμενο, από οποιαδήποτε "
+"εφαρμογή, με το <app>Kupfer</app>, μπορείτε να διαμορφώσετε μια γενική "
+"συντόμευση πληκτρολογίου για την ενέργεια <em>Εμφάνιση με επιλογή</em> στις "
+"<app>Προτιμήσεις Kupfer</app>."
+
+#: C/moreusage.page:85(p)
+msgid ""
+"If configured, pressing the global keyboard shortcut will summon "
+"<app>Kupfer</app> with the current selection as the focused object."
+msgstr ""
+"Εάν έχει ρυθμιστεί, πιέζοντας την γενική συντόμευση πληκτρολογίου θα καλέσει "
+"το <app>Kupfer</app> με την τρέχουσα επιλογή ως εστιασμένο αντικείμενο."
+
+#: C/moreusage.page:90(p)
+msgid "See <link xref=\"keyboard\"/>"
+msgstr "Βλέπε <link xref=\"keyboard\"/>"
+
+#: C/moreusage.page:94(title)
+msgid "Command-line Connection"
+msgstr "Σύνδεση γραμμής εντολών"
+
+#: C/moreusage.page:95(p)
+msgid ""
+"The command <cmd>kupfer</cmd> on the command-line will focus <app>Kupfer</"
+"app> if it's already running, otherwise it will start it."
+msgstr ""
+"Η εντολή <cmd>kupfer</cmd> στην γραμμή εντολών θα εστιάσει στο <app>Kupfer</"
+"app> αν είναι ήδη σε λειτουργία, διαφορετικά θα το ξεκινήσει."
+
+#: C/moreusage.page:99(p)
+msgid ""
+"The command <cmd>kupfer</cmd> can be used to send files or text from the "
+"command-line to <app>Kupfer</app>. For example, if you are using the shell "
+"in a directory where you have a file called \"report.pdf\", you can focus "
+"this file in <app>Kupfer</app> by running <cmd>kupfer report.pdf</cmd>."
+msgstr ""
+"Η εντολή <cmd>kupfer</cmd> μπορεί να χρησιμοποιηθεί για την αποστολή αρχείων "
+"ή κειμένου από τη γραμμή εντολών στο <app>Kupfer</app>. Για παράδειγμα, εάν "
+"χρησιμοποιείτε το κέλυφος σε έναν κατάλογο όπου έχετε ένα αρχείο που "
+"ονομάζεται \"αναφορά.pdf\", μπορείτε να εστιάσετε σε αυτό το αρχείο στο "
+"<app>Kupfer</app> εκτελώντας την εντολή <cmd>kupfer αναφορά.pdf</cmd>."
+
+#: C/moreusage.page:107(p)
+msgid ""
+"You can also send text if you pipe the output of a command into <cmd>kupfer</"
+"cmd>."
+msgstr ""
+"Μπορείτε επίσης να στείλετε το κείμενο, αν διοχετεύσετε την έξοδο μιας "
+"εντολής στο <cmd>kupfer</cmd>."
+
+#: C/moreusage.page:114(title)
+msgid "Managing Context and Current Selection"
+msgstr "Διαχείριση πλαισίου και τρέχουσας επιλογής"
+
+#: C/moreusage.page:115(p)
+msgid ""
+"If you find the object you want to use, then invoke an action, <app>Kupfer</"
+"app> goes away to perform the action (for example start a program or play a "
+"song). When you come back to <app>Kupfer</app>, it will still keep the same "
+"object and action selected. Some actions make sense to be repeated (like "
+"skipping to the next song) and it can be useful to perform different actions "
+"on the same object."
+msgstr ""
+"Εάν βρείτε το αντικείμενο που θέλετε να χρησιμοποιήσετε και στη συνέχεια να "
+"επικαλεστείτε μια ενέργεια, το <app>Kupfer</app> υποχωρεί για να εκτελέσει "
+"την ενέργεια (για παράδειγμα ξεκινάτε ένα πρόγραμμα ή μια αναπαραγωγή "
+"τραγουδιού). Όταν επιστρέψετε στο <app>Kupfer</app>, αυτό θα εξακολουθεί να "
+"διατηρεί το ίδιο αντικείμενο και την επιλεγμένη ενέργεια. Ορισμένες "
+"ενέργειες έχουν νόημα να επαναλαμβάνονται (όπως πηδώντας στο επόμενο "
+"τραγούδι), και μπορεί να είναι χρήσιμο να εκτελούνται διαφορετικές ενέργειες "
+"για το ίδιο αντικείμενο."
+
+#: C/moreusage.page:123(p)
+msgid ""
+"However, you always have the top level catalog reachable when you \"come back"
+"\" to <app>Kupfer</app> -- say you went into the subcatalog \"Albums\" to "
+"browse your albums only; you select an album to play, and play it. You come "
+"back with the album selected -- but your next search will still go over the "
+"top level catalog, not just albums."
+msgstr ""
+"Ωστόσο, έχετε πάντα τον κατάλογο του κορυφαίου επιπέδου προσβάσιμο όταν "
+"κάνετε \"επιστροφή\" στο <app>Kupfer</app> -- ας υποθέσουμε ότι πάτε στον "
+"υποκατάλογο \"Άλμπουμ\" για να περιηγηθείτε μόνο στα άλμπουμ σας: μπορείτε "
+"να επιλέξετε ένα άλμπουμ για να παίξει, και να το παίξετε. Επιστρέφετε με το "
+"άλμπουμ που επιλέξατε -- αλλά η επόμενη αναζήτηση σας θα εξακολουθήσει να "
+"γίνεται στον κατάλογο κορυφαίου επιπέδου και όχι μόνο στα άλμπουμ."
+
+#: C/moreusage.page:130(p)
+msgid ""
+"How to come back into the subcatalog you were in? You do that by simply "
+"browsing, not searching the first thing you do when you focus <app>Kupfer</"
+"app> again. A quick way is to press down-arrow or space to open the browse "
+"window; think of it as saying \"I want to stay in this subfolder\". With the "
+"browse window open, your next query will search the current subcatalog."
+msgstr ""
+"Πώς να επιστρέψετε στον υποκατάλογο που ήσασταν; Θα το κάνετε αυτό απλά "
+"κάνοντας περιήγηση και όχι αναζήτηση της πρώτης ενέργειας που κάνετε όταν "
+"εστιάσετε και πάλι στο <app>Kupfer</app>. Ένας γρήγορος τρόπος είναι να "
+"πατήσετε το κάτω βέλος ή το διάστημα για να ανοίξετε το παράθυρο αναζήτησης: "
+"είναι σαν λέμε \"Θέλω να μείνω σε αυτόν τον υποφάκελο\". Με ανοιχτό το "
+"παράθυρο αναζήτησης, το επόμενο ερώτημα σας θα ψάξει τον τρέχοντα "
+"υποκατάλογο."
+
+#: C/moreusage.page:137(p)
+msgid ""
+"This way you can work both ways -- you can quickly drill down into folders "
+"to find a file, and when you come back for the next action with <app>Kupfer</"
+"app> you can either summon any normal toplevel object (just start typing), "
+"or stay around where you were, deep in that folder (press space, then type a "
+"query)."
+msgstr ""
+"Απο εδώ μπορείτε να εργαστείτε με δύο τρόπους -- μπορείτε γρήγορα να "
+"εστιάσετε σε φακέλους για να βρείτε ένα αρχείο, και όταν επιστρέψετε για την "
+"επόμενη ενέργεια με το <app>Kupfer</app> μπορείτε είτε να καλέσετε "
+"οποιοδήποτε κανονικό αντικείμενο κορυφαίου επιπέδου (απλά πληκτρολογήστε), ή "
+"να μείνετε γύρω απο το σημείο που ήσασταν, βαθιά σε αυτόν το φάκελο (πιέστε "
+"διάστημα, στη συνέχεια, πληκτρολογήστε ένα ερώτημα)."
+
+#: C/moreusage.page:146(title)
+msgid "Saving Commands as Files"
+msgstr "Αποθήκευση εντολών ως αρχεία"
+
+#: C/moreusage.page:147(p)
+msgid ""
+"You can use keyboard shortcut for <em>Compose Command</em> (by default it is "
+"<keyseq><key>Ctrl</key><key>Return</key></keyseq>) to create a command "
+"object out of the currently focused command in Kupfer. This object can be "
+"saved as a runnable file if you use the <em>Save As...</em> action. The "
+"resulting file will can be executed when opened from the file manager (it "
+"requires that Kupfer is already running)."
+msgstr ""
+"Μπορείτε να χρησιμοποιήσετε την συντόμευση πληκτρολογίου για την <em>Εντολή "
+"σύνθεσης</em> (εξ ορισμού είναι <keyseq><key>Ctrl</key><key>Επιστροφή</key></"
+"keyseq>) για να δημιουργήσετε ένα αντικείμενο εντολής από την τρέχουσα "
+"εστιασμένη εντολή στο Kupfer. Αυτό το αντικείμενο μπορεί να αποθηκευτεί ως "
+"εκτελέσιμο αρχείο αν χρησιμοποιείσετε την ενέργεια <em>Αποθήκευση ως ...</"
+"em>. Το αρχείο που προκύπτει θα μπορεί να εκτελεστεί όταν ανοίξει από τον "
+"διαχειριστή αρχείων (αυτό προϋποθέτει ότι το Kupfer εκτελείται ήδη)."
+
+#: C/managing-plugins.page:7(desc)
+msgid "Using plugins with <app>Kupfer</app>."
+msgstr "Χρησιμοποιώντας πρόσθετα με το <app>Kupfer</app>."
+
+#: C/managing-plugins.page:10(title)
+msgid "How to Configure Plugins"
+msgstr "Πως να ρυθμίσετε τα πρόσθετα"
+
+#: C/managing-plugins.page:12(p)
+msgid ""
+"Functionality in Kupfer is organized by extentsion modules called \"plugins"
+"\". Each plugin provides additional functionality, for example integration "
+"with an external application."
+msgstr ""
+"Η λειτουργικότητα στο Kupfer είναι οργανωμένη με ενότητες επεκτάσεων που "
+"ονομάζονται \"πρόσθετα\". Κάθε πρόσθετο παρέχει επιπλέον λειτουργίες, όπως "
+"για παράδειγμα την ενσωμάτωση με μια εξωτερική εφαρμογή."
+
+#: C/managing-plugins.page:19(title)
+msgid "Configuring Plugins"
+msgstr "Διαμόρφωση προσθέτων"
+
+#: C/managing-plugins.page:21(title)
+msgid "Open <app>Kupfer Preferences</app> to the Plugins tab"
+msgstr "Άνοιγμα του <app>Προτιμήσεις Kupfer</app> στην καρτέλα Πρόσθετα"
+
+#: C/managing-plugins.page:23(p)
+msgid "Use one of the following methods:"
+msgstr "Χρησιμοποιήστε μία από τις ακόλουθες μεθόδους:"
+
+#: C/managing-plugins.page:25(p)
+msgid ""
+"Click the Kupfer icon in the notification area and select the item "
+"<em>Preferences</em>"
+msgstr ""
+"Κάντε κλικ στο εικονίδιο Kupfer στην περιοχή ειδοποιήσεων και επιλέξτε το "
+"στοιχείο <em>Προτιμήσεις</em>"
+
+#: C/managing-plugins.page:25(item)
+msgid "<placeholder-1/>."
+msgstr "<placeholder-1/>."
+
+#: C/managing-plugins.page:29(p)
+msgid ""
+"Search for the object <app>Kupfer Preferences</app> in Kupfer itself. Press "
+"<key>Return</key> to open it."
+msgstr ""
+"Αναζητήστε το αντικείμενο <app>Προτιμήσεις Kupfer</app> στο ίδιο το Kupfer. "
+"Πατήστε <key>Επιστροφή</key> για να το ανοίξετε."
+
+#: C/managing-plugins.page:33(p)
+msgid "Use the keyboard shortcut <keyseq><key>Ctrl</key><key>;</key></keyseq>"
+msgstr ""
+"Χρησιμοποιήστε τη συντόμευση πληκτρολογίου <keyseq><key>Ctrl</key><key>;</"
+"key></keyseq>"
+
+#: C/managing-plugins.page:39(p)
+msgid "Select the tab <em>Plugins</em>"
+msgstr "Επιλέξτε την καρτέλα <em>Πρόσθετα</em>"
+
+#: C/managing-plugins.page:45(p)
+msgid ""
+"Select plugins in the list to read about them, and tick the box next to its "
+"name to activate the plugin, or untick to deactivate."
+msgstr ""
+"Επιλέξτε πρόσθετα στη λίστα για να διαβάσετε για αυτά, και τσεκάρετε το "
+"κουτάκι δίπλα στο όνομά του για να ενεργοποιήσετε το πρόσθετο, ή ξετσεκάρετε "
+"για την απενεργοποίησή του."
+
+#: C/managing-plugins.page:49(p)
+msgid ""
+"If the plugin has any configurable parameters, they will be visible below "
+"the plugin information."
+msgstr ""
+"Αν το πρόσθετο έχει κάποιες δυνατότητες ρύθμισης παραμέτρων, θα είναι ορατές "
+"κάτω από τις πληροφορίες του."
+
+#: C/managing-plugins.page:53(p)
+msgid ""
+"The plugin <app>Kupfer Plugins</app> allows fast access to each plugin's "
+"information page as well as the action \"Show Source Code\" which reveals "
+"the implementation."
+msgstr ""
+"Το πρόσθετο <app>Πρόσθετα Kupfer</app> επιτρέπει τη γρήγορη πρόσβαση στην "
+"σελίδα πληροφοριών κάθε πρόσθετου, καθώς και η ενέργεια \"Προβολή πηγαίου "
+"κώδικα\", η οποία αποκαλύπτει την εφαρμογή."
+
+#: C/managing-plugins.page:59(title)
+msgid "If a Plugin can not be Activated"
+msgstr "Εάν ένα Πρόσθετο δεν μπορεί να ενεργοποιηθεί"
+
+#: C/managing-plugins.page:60(p)
+msgid ""
+"If a plugin fails to activate because it requires a software module that is "
+"not available, its plugin information will display a message like this:"
+msgstr ""
+"Εάν ένα πρόσθετο αποτυγχάνει να ενεργοποιηθεί επειδή απαιτεί μια μονάδα "
+"λογισμικού που δεν είναι διαθέσιμη, οι πληροφορίες του θα εμφανίσουν ένα "
+"μήνυμα σαν αυτό:"
+
+#: C/managing-plugins.page:65(em)
+msgid "Plugin could not be read due to an error:"
+msgstr "Δεν ειναι δυνατή η ανάγνωση του πρόσθετου εξαιτίας κάποιου σφάλματος:"
+
+#: C/managing-plugins.page:66(em)
+msgid "Python module 'gdata' is needed"
+msgstr "Χρειάζεται η ενότητα Python 'gdata'"
+
+#: C/managing-plugins.page:67(p)
+msgid ""
+"This means that you need to install a needed python module from your "
+"distribution—and possibly the plugin documentation can tell you how."
+msgstr ""
+"Αυτό σημαίνει ότι θα πρέπει να εγκαταστήσετε μια αναγκαία ενότητα python από "
+"τη διανομή σας, και, ενδεχομένως, τα έγγραφα του πρόσθετου μπορούν να σας "
+"πουν πώς."
+
+#: C/managing-plugins.page:72(p)
+msgid ""
+"The plugin may also unexpectedly fail to load, and display a different error "
+"message. It may then be a program error in either the plugin or <app>Kupfer</"
+"app>."
+msgstr ""
+"Το πρόσθετο μπορεί επίσης απροσδόκητα να αποτύχει να φορτώσει, και να "
+"εμφανίσει ένα διαφορετικό μήνυμα λάθους. Τότε μπορεί να είναι ένα σφάλμα "
+"προγράμματος είτε του πρόσθετου ή του <app>Kupfer</app>."
+
+#: C/managing-plugins.page:79(title)
+msgid "Installing more Plugins"
+msgstr "Εγκατάσταση περισσότερων Πρόσθετων"
+
+#: C/managing-plugins.page:80(p)
+msgid ""
+"You can install custom plugins into the folder <code>~/.local/share/kupfer/"
+"plugins</code>. Each plugin is either a single <code>.py</code> file or a "
+"python package (a folder directly containing a file called <code>__init__."
+"py</code>). Plugins in the package format can include icon files. Python "
+"packages can even be installed as <code>.zip</code> files."
+msgstr ""
+"Μπορείτε να εγκαταστήσετε προσαρμοσμένα πρόσθετα στο φάκελο <code>~/.local/"
+"share/kupfer/plugins</code>. Κάθε πρόσθετο είναι είτε ένα μεμονωμένο αρχείο "
+"<code>.py</code> ή ένα πακέτο python (ένας φάκελος που περιέχει άμεσα ένα "
+"αρχείο που ονομάζεται <code>__init__.py</code>). Πρόσθετα σε μορφή πακέτου "
+"μπορεί να περιλαμβάνουν αρχεία εικονιδίων. Πακέτα Python μπορεί ακόμη να "
+"εγκατασταθούν και ως το αρχεία <code>.zip</code>."
+
+#: C/managing-plugins.page:88(p)
+msgid ""
+"<em>Caution:</em> Treat a plugin as a computer program. Do not install "
+"untrusted plugins."
+msgstr ""
+"<em>Προσοχή:</em> Αντιμετωπίστε ένα πρόσθετο όπως ένα πρόγραμμα υπολογιστή. "
+"Μην τοποθετείτε μη αξιόπιστα πρόσθετα."
+
+#: C/managing-plugins.page:95(title)
+msgid "Creating Plugins"
+msgstr "Δημιουργία Πρόσθετων"
+
+#: C/managing-plugins.page:96(p)
+msgid ""
+"Documentation for plugin creators is available in the file "
+"<code>Documentation/Manual.rst</code> in the source distribution on the "
+"webpage at <link href=\"http://kaizer.se/wiki/kupfer/Manual/\">Kupfer "
+"Manual</link>. An easy way to start is to copy an existing plugin and "
+"experimenting with it."
+msgstr ""
+"Τεκμηρίωση για τους δημιουργούς των πρόσθετων είναι διαθέσιμη στο αρχείο "
+"<code>Documentation/Manual.rst</code> στη πηγαία διανομή της ιστοσελίδας στο "
+"<link href=\"http://kaizer.se/wiki/kupfer/Manual/\">Εγχειρίδιο Kupfer</"
+"link>. Ένας εύκολος τρόπος για να ξεκινήσετε είναι να αντιγράψετε ένα "
+"υπάρχον πρόσθετο και να πειραματιστείτε με αυτό."
+
+#: C/managing-plugins.page:107(title)
+msgid "The <em>Catalog</em> Tab in Preferences"
+msgstr "Η καρτέλα <em>Κατάλογος</em> στις Προτιμήσεις"
+
+#: C/managing-plugins.page:108(p)
+msgid ""
+"Each plugin can export a number of sources which contain objects. Normally, "
+"all these objects are directly accessible from a top-level search. Some "
+"plugins export so specialized or so many objects that their catalogs should "
+"better not have their objects exported to the top level. To reach those "
+"objects, you have to first find the catalog by name, then enter the catalog "
+"using the action <em>Search Contents</em>."
+msgstr ""
+"Κάθε πρόσθετο μπορεί να εξάγει μια σειρά από πηγές που περιέχουν "
+"αντικείμενα. Κανονικά, όλα αυτά τα αντικείμενα είναι άμεσα προσβάσιμα από "
+"μια αναζήτηση κορυφαίου επιπέδου. Μερικά πρόσθετα εξάγουν τόσο εξειδικευμένα "
+"ή τόσα πολλά αντικείμενα που οι κατάλογοί τους θα πρέπει καλύτερα να μην "
+"έχουν τα αντικείμενα τους να εξάγονται στο κορυφαίο επίπεδο. Για να φτάσετε "
+"σε αυτά τα αντικείμενα, θα πρέπει να βρειτε πρώτα τον κατάλογο με βάση το "
+"όνομα, στη συνέχεια, πληκτρολογήστε τον κατάλογο με τη χρήση της ενέργειας "
+"<em>Αναζήτηση περιεχομένων</em>."
+
+#: C/managing-plugins.page:118(p)
+msgid ""
+"In the tab <em>Catalog</em> in <app>Kupfer Preferences</app>, a ticked box "
+"next to each source means that its objects are exported. An unticked box "
+"means that its contents are hidden from the top level."
+msgstr ""
+"Στην καρτέλα <em>Κατάλογος</em> στις <app>Προτιμήσεις Kupfer</app>, ένα "
+"τσεκαρισμένο πλαίσιο δίπλα σε κάθε πηγή σημαίνει ότι τα αντικείμενα της "
+"εξάγονται. Ένα ατσεκάριστο κουτί σημαίνει ότι το περιεχόμενό της είναι κρυφό "
+"από το κορυφαίο επίπεδο."
+
+#: C/managing-plugins.page:123(p)
+msgid ""
+"<em>Note:</em> Kupfer may become slow if large enough subcatalogs are "
+"exported to the top level."
+msgstr ""
+"<em>Σημείωση:</em> το Kupfer μπορεί να γίνει αργό, εάν αρκετά μεγάλοι "
+"υποκατάλογοι εξάγονται στο κορυφαίο επίπεδο."
+
+#: C/license.page:7(desc)
+msgid "You can copy, modify and share Kupfer."
+msgstr ""
+"Μπορείτε να αντιγράψετε, να τροποποιήσετε και να μοιραστείτε το Kupfer."
+
+#: C/license.page:10(title)
+msgid "License"
+msgstr "Άδεια"
+
+#: C/license.page:12(p)
+msgid ""
+"This program is free software: you can redistribute it and/or modify it "
+"under the terms of the <em>GNU General Public License</em> as published by "
+"the Free Software Foundation, either version 3 of the License, or (at your "
+"option) any later version."
+msgstr ""
+"Αυτό το πρόγραμμα είναι ελεύθερο λογισμικό: επιτρέπεται η αναδιανομή ή/και "
+"τροποποίησή του υπό τους όρους της <em>Γενικής Άδειας Δημόσιας Χρήσης GNU "
+"(GPL)</em>, όπως αυτή έχει δημοσιευτεί από το Ίδρυμα Ελεύθερου Λογισμικού "
+"(FSF), είτε της έκδοσης 3 της Άδειας, είτε (κατ' επιλογήν σας) οποιασδήποτε "
+"μεταγενέστερης έκδοσης."
+
+#: C/license.page:18(p)
+msgid ""
+"This program is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE. See the <em>GNU General Public License</"
+"em> for more details."
+msgstr ""
+"Το πρόγραμμα αυτό διανέμεται με την ελπίδα ότι θα αποδειχθεί χρήσιμο, παρόλα "
+"αυτά ΧΩΡΙΣ ΚΑΜΙΑ ΕΓΓΥΗΣΗ — χωρίς ούτε και την σιωπηρή εγγύηση "
+"ΕΜΠΟΡΕΥΣΙΜΟΤΗΤΑΣ ή ΚΑΤΑΛΛΗΛΟΤΗΤΑΣ ΓΙΑ ΕΙΔΙΚΟ ΣΚΟΠΟ. Για περισσότερες "
+"λεπτομέρειες ανατρέξτε στη <em>Γενική Άδεια Δημόσιας Χρήσης GNU (GPL)</em>."
+
+#: C/license.page:24(p)
+msgid ""
+"You should have received a copy of the GNU General Public License along with "
+"this program. If not, see <link href=\"http://www.gnu.org/licenses/\">gnu."
+"org/licenses</link>."
+msgstr ""
+"Θα πρέπει να έχετε λάβει ένα αντίγραφο της Γενικής Άδειας Δημόσιας Χρήσης "
+"GNU μαζί με αυτό το πρόγραμμα. Αν όχι, δείτε στο <link href=\"http://www.gnu."
+"org/licenses/\">gnu.org/licenses</link>."
+
+#: C/license.page:30(p)
+msgid ""
+"This documentation is licensed under a <link href=\"http://creativecommons."
+"org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share Alike 3.0 "
+"Unported License</link>."
+msgstr ""
+"Αυτή η τεκμηρίωση είναι υπό την άδεια της <link href=\"http://"
+"creativecommons.org/licenses/by-sa/3.0/\">Creative Commons Attribution-Share "
+"Alike 3.0 Unported License</link>."
+
+#: C/license.page:36(p)
+msgid ""
+"As a special exception, the copyright holders give you permission to copy, "
+"modify, and distribute the example code contained in this document under the "
+"terms of your choosing, without restriction."
+msgstr ""
+"Ως ειδική εξαίρεση, οι κάτοχοι πνευματικών δικαιωμάτων σας δίνουν την άδεια "
+"να αντιγράψετε, να τροποποιήσετε και να διανείμετε το παράδειγμα του κώδικα "
+"που περιέχεται σε αυτό το έγγραφο σύμφωνα με τους όρους της επιλογής σας, "
+"χωρίς κανένα περιορισμό."
+
+#: C/keyboard.page:7(desc)
+msgid "Complete keyboard shortcuts reference."
+msgstr "Πλήρης αναφορά συντομεύσεων πληκτρολογίου."
+
+#: C/keyboard.page:10(title)
+msgid "Command Keys and Accelerator Keys"
+msgstr "Πλήκτρα εντολών και πλήκτρα επιτάχυνσης"
+
+#: C/keyboard.page:13(title) C/generalusage.page:12(title)
+msgid "Keyboard Interface"
+msgstr "Διεπαφή πληκτρολογίου"
+
+#: C/keyboard.page:14(p)
+msgid "In command mode, the following keystrokes have special meanings:"
+msgstr ""
+"Σε κατάσταση εντολών, οι ακόλουθες πληκτρολογήσεις έχουν ιδιαίτερη σημασία:"
+
+#: C/keyboard.page:19(p) C/generalusage.page:34(p)
+msgid "<key>↓</key> or <key>Space</key>"
+msgstr "<key>↓</key> ή <key>Διάστημα</key>"
+
+#: C/keyboard.page:20(p) C/generalusage.page:35(p)
+msgid "Go to the next match"
+msgstr "Μετάβαση στο επόμενο ταίριασμα"
+
+#: C/keyboard.page:23(p) C/generalusage.page:38(p)
+msgid "<key>↑</key> or <keyseq><key>Shift</key><key>Space</key></keyseq>"
+msgstr "<key>↑</key> ή <keyseq><key>Shift</key><key>Διάστημα</key></keyseq>"
+
+#: C/keyboard.page:26(p) C/generalusage.page:41(p)
+msgid "Go to the previous match"
+msgstr "Μετάβαση στο προηγούμενο ταίριασμα"
+
+#: C/keyboard.page:29(p) C/generalusage.page:44(p)
+msgid "<key>→</key> or <key>/</key>"
+msgstr "<key>→</key> ή <key>/</key>"
+
+#: C/keyboard.page:30(p) C/generalusage.page:45(p)
+msgid "Descend into an object with content"
+msgstr "Κατεβαίνει σε ένα αντικείμενο με περιεχόμενο"
+
+#: C/keyboard.page:33(key) C/generalusage.page:48(key)
+msgid "Backspace"
+msgstr "Πλήκτρο backspace"
+
+#: C/keyboard.page:34(p) C/generalusage.page:49(p)
+msgid "Erase a character from the query. If the query is empty, go up a level"
+msgstr ""
+"Διαγραφή ενός χαρακτήρα από το ερώτημα. Εάν το ερώτημα είναι άδειο, "
+"ανεβαίνει ένα επίπεδο προς τα πάνω"
+
+#: C/keyboard.page:39(key) C/keyboard.page:93(key) C/generalusage.page:54(key)
+msgid "."
+msgstr "."
+
+#: C/keyboard.page:40(p) C/generalusage.page:55(p)
+msgid "Activate free-text mode"
+msgstr "Ενεργοποίηση λειτουργίας ελεύθερου κειμένου"
+
+#: C/keyboard.page:43(key) C/keyboard.page:97(key) C/generalusage.page:58(key)
+msgid ","
+msgstr ","
+
+#: C/keyboard.page:44(p) C/generalusage.page:59(p)
+msgid "Put selected object on the stack (\"Comma Trick\")"
+msgstr "Τοποθετεί το επιλεγμένο αντικείμενο στη στοίβα (\"Τέχνασμα κόμμα\")"
+
+#: C/keyboard.page:47(p)
+msgid "Quick access keys:"
+msgstr "Πλήκτρα γρήγορης πρόσβασης:"
+
+#: C/keyboard.page:53(key)
+msgid "="
+msgstr "="
+
+#: C/keyboard.page:55(p)
+msgid ""
+"Activate free-text mode with = prefix (for <link xref=\"plugin-calculator\"/"
+">)"
+msgstr ""
+"Ενεργοποίηση λειτουργίας ελεύθερου κειμένου με πρόθεμα = (για το <link xref="
+"\"plugin-calculator\"/>)"
+
+#: C/keyboard.page:61(key)
+msgid "/"
+msgstr "/"
+
+#: C/keyboard.page:63(p)
+msgid ""
+"Activate free-text mode (when nothing is selected) with <code>/</code> "
+"prefix (to input a rooted path)"
+msgstr ""
+"Ενεργοποίηση λειτουργίας ελεύθερου κειμένου (όταν δεν έχει επιλεγεί τίποτα) "
+"με πρόθεμα <code>/</code> (για την είσοδο μιας ριζωμένης διαδρομής)"
+
+#: C/keyboard.page:68(p) C/generalusage.page:62(p)
+msgid "Additionally:"
+msgstr "Επιπλέον:"
+
+#: C/keyboard.page:72(p) C/generalusage.page:66(p)
+msgid ""
+"<key>Return</key> activates the current selection: the command is executed."
+msgstr ""
+"Το πλήκτρο <key>Επιστροφή</key> ενεργοποιεί την τρέχουσα επιλογή: η εντολή "
+"εκτελείται."
+
+#: C/keyboard.page:74(p) C/generalusage.page:68(p)
+msgid "<key>Escape</key> clears the current selection."
+msgstr "Το πλήκτρο <key>Escape</key> καθαρίζει την τρέχουσα επιλογή."
+
+#: C/keyboard.page:75(p) C/generalusage.page:69(p)
+msgid "<key>Tab</key> switches between the object and the action pane."
+msgstr ""
+"Το πλήκτρο <key>Tab</key> πραγματοποιεί εναλλαγή μεταξύ του αντικειμένου και "
+"του παραθύρου ενεργειών."
+
+#: C/keyboard.page:77(p)
+msgid ""
+"The meaning of the keys <key>Space</key>, <key>.</key>, <key>,</key>, <key>/"
+"</key> and <key>=</key> can not be changed, but you can deactivate their "
+"special meaning with the checkbox <app>Use single keystroke commands</app> "
+"in <app>Kupfer Preferences</app>."
+msgstr ""
+"Η έννοια των πλήκτρων <key>Space</key>, <key>.</key>, <key>,</key>, <key>/</"
+"key> και <key>=</key> δεν μπορεί να αλλάξει, αλλά μπορείτε να "
+"απενεργοποιήσετε την ειδική σημασία τους με το πλαίσιο ελέγχου <app>Χρήση "
+"μονών εντολών πληκτρολόγησης</app> στις <app>Προτιμήσεις Kupfer</app>."
+
+#: C/keyboard.page:86(title)
+msgid "Kupfer's Keyboard Shortcuts"
+msgstr "Συντομεύσεις πληκτρολογίου του Kupfer"
+
+#: C/keyboard.page:87(p)
+msgid ""
+"These keyboard shortcuts are used in <app>Kupfer</app>'s interface. They "
+"have the following meanings and default shortcuts:"
+msgstr ""
+"Αυτές οι συντομεύσεις πληκτρολογίου χρησιμοποιούνται στη διεπαφή του "
+"<app>Kupfer</app>. Έχουν τις ακόλουθες σημασίες και προκαθορισμένες "
+"συντομεύσεις:"
+
+#: C/keyboard.page:93(key) C/keyboard.page:97(key) C/keyboard.page:101(key)
+#: C/keyboard.page:105(key) C/keyboard.page:113(key) C/keyboard.page:117(key)
+#: C/keyboard.page:121(key) C/keyboard.page:125(key) C/keyboard.page:129(key)
+#: C/keyboard.page:174(key)
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: C/keyboard.page:94(p)
+msgid "Toggle text mode"
+msgstr "Εναλλαγή μορφής κειμένου"
+
+#: C/keyboard.page:98(p)
+msgid "The comma trick"
+msgstr "Το τέχνασμα κόμμα"
+
+#: C/keyboard.page:101(key)
+msgid ";"
+msgstr ";"
+
+#: C/keyboard.page:102(p)
+msgid "Show preferences window"
+msgstr "Εμφάνιση παραθύρου προτιμήσεων"
+
+#: C/keyboard.page:105(key)
+msgid "R"
+msgstr "R"
+
+#: C/keyboard.page:106(p)
+msgid "Reset all"
+msgstr "Επαναφορά όλων"
+
+#: C/keyboard.page:109(key)
+msgid "Alt"
+msgstr "Alt"
+
+#: C/keyboard.page:109(key)
+msgid "A"
+msgstr "A"
+
+#: C/keyboard.page:110(p)
+msgid "Alternate activate"
+msgstr "Εναλλακτική ενεργοποίηση"
+
+#: C/keyboard.page:113(key)
+msgid "Return"
+msgstr "Επιστροφή"
+
+#: C/keyboard.page:114(p)
+msgid "Compose command"
+msgstr "Εντολή σύνθεσης"
+
+#: C/keyboard.page:117(key)
+msgid "S"
+msgstr "S"
+
+#: C/keyboard.page:118(p)
+msgid "Switch to first pane"
+msgstr "Μετάβαση σε πρώτο παράθυρο"
+
+#: C/keyboard.page:121(key)
+msgid "Q"
+msgstr "Q"
+
+#: C/keyboard.page:122(p)
+msgid "Select 'Quit'"
+msgstr "Επιλογή 'Κείσιμο'"
+
+#: C/keyboard.page:125(key)
+msgid "G"
+msgstr "G"
+
+#: C/keyboard.page:126(p)
+msgid "Select 'Selected File'"
+msgstr "Επιλογή 'επιλεγμένο αρχείο'"
+
+#: C/keyboard.page:129(key)
+msgid "T"
+msgstr "T"
+
+#: C/keyboard.page:130(p)
+msgid "Select 'Selected Text'"
+msgstr "Επιλογή 'επιλεγμένο κείμενο'"
+
+#: C/keyboard.page:133(key)
+msgid "F1"
+msgstr "F1"
+
+#: C/keyboard.page:134(p)
+msgid "Show Help"
+msgstr "Εμφάνιση βοήθειας"
+
+#: C/keyboard.page:139(title)
+msgid "How to configure a keyboard shortcut"
+msgstr "Πως να ρυθμίσετε μια συντόμευση πληκτρολογίου"
+
+#: C/keyboard.page:141(p) C/keyboard.page:185(p)
+msgid "Open <app>Kupfer Preferences</app> and go to the <em>Keyboard</em> tab."
+msgstr ""
+"Ανοίξτε τις <app>Προτιμήσεις Kupfer</app> και πηγαίνετε στην καρτέλα "
+"<em>Πληκτρολόγιο</em>."
+
+#: C/keyboard.page:147(p)
+msgid ""
+"Double-click the shorcut's row under <em>Browser Keyboard Shortcuts</em>."
+msgstr ""
+"Κάντε διπλό κλικ στη γραμμή της συντόμευσης <em>Συντομεύσεις πληκτρολογίου "
+"περιηγητή</em>."
+
+#: C/keyboard.page:153(p)
+msgid ""
+"Using the window that appears, press modifier keys and a letter or number "
+"key to set a shortcut. An example is pressing and holding <key>Ctrl</key> "
+"and then pressing and releasing <key>T</key> to bind <keyseq><key>Ctrl</"
+"key><key>T</key></keyseq>."
+msgstr ""
+"Χρησιμοποιώντας το παράθυρο που εμφανίζεται, πατήστε τα πλήκτρα τροποποίησης "
+"και ένα γράμμα ή αριθμό για να ορίσετε μια συντόμευση. Ένα παράδειγμα είναι "
+"πατώντας και κρατώντας πατημένο το <key>Ctrl</key> και, στη συνέχεια, "
+"πιέζοντας και αφήνοντας το <key>T</key> για να δεσμεύσετε τα "
+"<keyseq><key>Ctrl</key><key>T</key></keyseq>."
+
+#: C/keyboard.page:164(title)
+msgid "Global Keyboard Shortcuts"
+msgstr "Γενικές συντομεύσεις πληκτρολογίου"
+
+#: C/keyboard.page:165(p)
+msgid ""
+"<app>Kupfer</app> always listens to global shortcuts, even if it is not "
+"currently in the foreground."
+msgstr ""
+"Το <app>Kupfer</app> ακούει πάντα στις γενικές συντομεύσεις, ακόμη και αν "
+"δεν είναι στο προσκήνιο."
+
+#: C/keyboard.page:169(p)
+msgid "They have the following meanings and default shortcuts:"
+msgstr "Έχουν τις ακόλουθες σημασίες και προεπιλεγμένες συντομεύσεις:"
+
+#: C/keyboard.page:174(key)
+msgid "Space"
+msgstr "Διάστημα"
+
+#: C/keyboard.page:175(p)
+msgid "Show/hide <app>Kupfer</app>"
+msgstr "Εμφάνιση/απόκρυψη του <app>Kupfer</app>"
+
+#: C/keyboard.page:178(p)
+msgid "(not configured by default)"
+msgstr "(δεν έχει ρυθμιστεί από προεπιλογή)"
+
+#: C/keyboard.page:179(p)
+msgid "Show <app>Kupfer</app> with 'Selection' object focused"
+msgstr "Εμφάνιση του <app>Kupfer</app> με 'Επιλογή' εστιασμένο αντικείμενο"
+
+#: C/keyboard.page:183(title)
+msgid "How to configure a global keyboard shortcut"
+msgstr "Πως να ρυθμίσετε μια γενική συντόμευση πληκτρολογίου"
+
+#: C/keyboard.page:191(p)
+msgid ""
+"Double-click the shorcut's row under <em>Global Keyboard Shortcuts</em>."
+msgstr ""
+"Κάντε διπλό κλικ στη γραμμή της συντόμευσης <em>Γενικές συντομεύσεις "
+"πληκτρολογίου</em>."
+
+#: C/keyboard.page:197(p)
+msgid ""
+"Using the window that appears, press modifier keys and a letter or number "
+"key to set a global shortcut. An example is pressing and holding <key>Super</"
+"key> and then pressing and releasing <key>Space</key> to bind "
+"<keyseq><key>Super</key><key>Space</key></keyseq>."
+msgstr ""
+"Χρησιμοποιώντας το παράθυρο που εμφανίζεται, πατήστε τα πλήκτρα τροποποίησης "
+"και ένα γράμμα ή αριθμό για να ορίσετε μια γενική συντόμευση. Ένα παράδειγμα "
+"είναι πατώντας και κρατώντας πατημένο το <key>Super</key> και, στη συνέχεια, "
+"πιέζοντας και αφήνοντας το <key>Space</key> για να δεσμεύσετε τα "
+"<keyseq><key>Super</key><key>Space</key></keyseq>."
+
+#: C/keyboard.page:206(p)
+msgid ""
+"Since these keyboard shortcuts are global, they can be used from any "
+"application. Select shortcuts with care so that they do not conflict with "
+"other functions."
+msgstr ""
+"Δεδομένου ότι αυτές οι συντομεύσεις πληκτρολογίου είναι γενικές, μπορούν να "
+"χρησιμοποιηθούν από οποιαδήποτε εφαρμογή. Επιλέξτε συντομεύσεις με προσοχή "
+"έτσι ώστε να μην έρχονται σε αντίθεση με άλλες λειτουργίες."
+
+#: C/keyboard.page:214(p)
+msgid ""
+"The plugin <em>Triggers</em> allows to activate actions with global keyboard "
+"shortcuts. Trigger shortcuts do not appear in <app>Kupfer Preferences</app>."
+msgstr ""
+"Το πρόσθετο <em>Εναύσματα</em> σας επιτρέπει να ενεργοποιήσετε τις ενέργειες "
+"με τις γενικές συντομεύσεις πληκτρολογίου. Συντομεύσεις του Εναύσματα δεν "
+"εμφανίζονται στις <app>Προτιμήσεις Kupfer</app>."
+
+#: C/keyboard.page:220(p)
+msgid "See <link xref=\"plugin-triggers\"/> for more information."
+msgstr ""
+"Δείτε στο <link xref=\"plugin-triggers\"/> για περισσότερες πληροφορίες."
+
+#: C/introduction.page:7(desc)
+msgid "Introduction to <app>Kupfer</app>."
+msgstr "Εισαγωγή στο <app>Kupfer</app>."
+
+#: C/introduction.page:10(title)
+msgid "Introduction"
+msgstr "Εισαγωγή"
+
+#: C/introduction.page:12(p)
+msgid ""
+"<app>Kupfer</app> is an interface for quick and convenient access to "
+"applications and their documents."
+msgstr ""
+"Το <app>Kupfer</app> είναι μια διεπαφή για γρήγορη και εύκολη πρόσβαση σε "
+"εφαρμογές και τα έγγραφά τους."
+
+#: C/introduction.page:16(p)
+msgid ""
+"The most typical use is to find a specific application and launch it. We "
+"have tried to make <app>Kupfer</app> easy to extend with plugins so that "
+"this quick-access paradigm can be extended to many more objects than just "
+"applications."
+msgstr ""
+"Η πιο τυπική χρήση είναι να βρείτε μια συγκεκριμένη εφαρμογή και να την "
+"τρέξετε. Έχουμε προσπαθήσει να κάνουμε το <app>Kupfer</app> εύκολο να "
+"επεκταθεί με πρόσθετα, έτσι ώστε αυτό το παράδειγμα γρήγορης πρόσβασης να "
+"μπορεί να επεκταθεί και σε πολλά άλλα αντικείμενα εκτός των εφαρμογών."
+
+#: C/introduction.page:22(p)
+msgid ""
+"We hope that using <app>Kupfer</app> feels both <em>very fun</em> and "
+"<em>different</em>."
+msgstr ""
+"Ελπίζουμε ότι η χρήση του <app>Kupfer</app> σας δίνει την αίσθηση ότι είναι "
+"τόσο <em>πολύ διασκεδαστική</em> όσο και <em>διαφορετική</em>."
+
+#: C/introduction.page:26(p)
+msgid ""
+"For up-to-date information about <app>Kupfer</app>, visit its <link href="
+"\"http://kaizer.se/wiki/kupfer/\">homepage</link>."
+msgstr ""
+"Για ενημερωμένες πληροφορίες σχετικά με το <app>Kupfer</app>, επισκεφθείτε "
+"την <link href=\"http://kaizer.se/wiki/kupfer/\">αρχική σελίδα</link> του."
+
+#: C/index.page:9(name)
+msgid "Ulrik Sverdrup"
+msgstr "Ulrik Sverdrup"
+
+#: C/index.page:10(email)
+msgid "ulrik.sverdrup@gmail.com"
+msgstr "ulrik.sverdrup@gmail.com"
+
+#: C/index.page:13(year)
+msgid "2009"
+msgstr "2009"
+
+#: C/index.page:14(name)
+msgid "Kupfer Development Team"
+msgstr "Ομάδα Ανάπτυξης Kupfer"
+
+#: C/index.page:17(license)
+msgid "Creative Commons Share Alike 3.0"
+msgstr "Creative Commons Share Alike 3.0"
+
+#: C/index.page:21(title)
+msgid "Kupfer Manual"
+msgstr "Εγχειρίδιο Kupfer"
+
+#: C/index.page:24(title)
+msgid "Using Kupfer"
+msgstr "Χρήση του Kupfer"
+
+#: C/index.page:27(title)
+msgid "About Specific Plugins"
+msgstr "Σχετικά με Ειδικά Πρόσθετα"
+
+#: C/generalusage.page:7(desc)
+msgid "How to start using <app>Kupfer</app>."
+msgstr "Πώς να αρχίσετε να χρησιμοποιείτε το <app>Kupfer</app>."
+
+#: C/generalusage.page:14(p)
+msgid ""
+"<app>Kupfer</app> is to the largest part a keyboard-managed interface to "
+"applications and documents."
+msgstr ""
+"Το <app>Kupfer</app> είναι στο μεγαλύτερο μέρος του μια διεπαφή "
+"διαχειριζόμενη απο το πληκτρολόγιο σε εφαρμογές και έγγραφα."
+
+#: C/generalusage.page:18(p)
+msgid ""
+"Kupfer's default mode is the command mode: If you type a query, kupfer will "
+"search for a match in its catalog."
+msgstr ""
+"Προεπιλεγμένη λειτουργία του Kupfer είναι η κατάσταση εντολών: Εάν "
+"πληκτρολογήσετε ένα ερώτημα, το kupfer θα ψάξει για ένα ταίριασμα στον "
+"κατάλογό του."
+
+#: C/generalusage.page:23(p)
+msgid ""
+"The arrow keys allow you to browse query matches quite naturally, going to "
+"the previous or next match, and going up and down in the subcatalogs."
+msgstr ""
+"Τα πλήκτρα βέλους σας επιτρέπουν να περιηγηθείτε σε συμφωνίες ερωτημάτων "
+"αρκετά φυσικά, πηγαίνοντας στο προηγούμενο ή το επόμενο ταίριασμα, και "
+"πηγαίνοντας πάνω-κάτω στους υποκαταλόγους."
+
+#: C/generalusage.page:29(p)
+msgid "In command mode, some keystrokes have special meanings:"
+msgstr "Σε κατάσταση εντολών, μερικές πληκτρολογήσεις έχουν ιδιαίτερη σημασία:"
+
+#: C/generalusage.page:71(p)
+msgid ""
+"By default you show <app>Kupfer</app> using the global keyboard shortcut "
+"<keyseq><key>Ctrl</key><key>Space</key></keyseq>."
+msgstr ""
+"Από προεπιλογή θα επιδείξετε το <app>Kupfer</app>, χρησιμοποιώντας την "
+"γενική συντόμευση πληκτρολογίου <keyseq><key>Ctrl</key><key>Space</key></"
+"keyseq>."
+
+#: C/generalusage.page:74(p)
+msgid "See <link xref=\"keyboard\"/> for more information."
+msgstr "Δείτε στο <link xref=\"keyboard\"/> για περισσότερες πληροφορίες."
+
+#: C/generalusage.page:78(title)
+msgid "Learning Habits"
+msgstr "Μαθαίνοντας συνήθειες"
+
+#: C/generalusage.page:79(p)
+msgid ""
+"<app>Kupfer</app> remembers which objects and actions are used the most. "
+"When beginning to use it, you have to use the arrow keys at times to make it "
+"precise which object you want to find. After a few uses of that object, "
+"Kupfer will rank it higher. Objects marked as <link xref=\"plugin-favorites"
+"\">favorites</link> are also ranked higher."
+msgstr ""
+"Το <app>Kupfer</app> θυμάται ποια αντικείμενα και ενέργειες χρησιμοποίηθηκαν "
+"πιο πολύ. Όταν ξεκινήσετε τη χρήση του, θα πρέπει να χρησιμοποιείτε τα "
+"πλήκτρα βέλους κατά καιρούς για να καταστεί σαφές, ποιό αντικείμενο θέλετε "
+"να βρείτε. Μετά από μερικές χρήσεις ενός αντικειμένου, το Kupfer θα το "
+"κατατάξει σε υψηλότερη θέση. Αντικείμενα που χαρακτηρίζονται ως <link xref="
+"\"plugin-favorites\">αγαπημένα</link>, επίσης, κατατάσσεται ψηλότερα."
+
+#: C/generalusage.page:90(title)
+msgid "The Catalog"
+msgstr "Ο Κατάλογος"
+
+#: C/generalusage.page:91(p)
+msgid ""
+"The Catalog is the collection of objects you can access in Kupfer, such as "
+"documents and programs."
+msgstr ""
+"Ο Κατάλογος είναι η συλλογή των αντικειμένων στα οποία μπορείτε να έχετε "
+"πρόσβαση στο Kupfer, όπως έγγραφα και προγράμματα."
+
+#: C/generalusage.page:96(p)
+msgid ""
+"Objects in the catalog that have content, like folders, are marked with an "
+"arrow. Pressing <key>→</key> will enter these objects. Much of the catalog "
+"is composed of subcatalogs; plugin subcatalogs do in general list objects "
+"that are also available directly from the top level. Subcatalogs can be used "
+"for a narrower view or search scope, when using Kupfer."
+msgstr ""
+"Αντικείμενα στον κατάλογο που έχουν περιεχόμενο, όπως φάκελοι, "
+"επισημαίνονται με ένα βέλος. Πατώντας το <key>→</key> θα μπείτε σε αυτά τα "
+"αντικείμενα. Μεγάλο μέρος του καταλόγου αποτελείται από υποκαταλόγους: "
+"υποκατάλογοι πρόσθετων κάνουν γενικά οι λίστες αντικειμένων που είναι επίσης "
+"διαθέσιμες απευθείας από το κορυφαίο επίπεδο. Οι υποκατάλογοι μπορεί να "
+"χρησιμοποιηθούν για μια περιορισμένη προβολή ή μια ευρεία αναζήτηση, κατά τη "
+"χρήση του Kupfer."
+
+#: C/generalusage.page:105(p)
+msgid ""
+"Most subcatalogs update their content automatically. For example, the "
+"Desktop folder source is always up-to-date."
+msgstr ""
+"Οι περισσότεροι υποκατάλογοι ενημερώνουν το περιεχόμενό τους αυτόματα. Για "
+"παράδειγμα, η πηγή του φακέλου Επιφάνεια εργασίας είναι πάντα ενημερωμένη."
+
+#. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2
+#: C/generalusage.page:0(None)
+msgid "translator-credits"
+msgstr "Maria Mavridou <mavridou@gmail.com>, 2014"

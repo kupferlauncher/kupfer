@@ -31,7 +31,7 @@ based on the relevance.  It originates in Gnome-Do.
 Compatibility: Python 2.4 and later, including Python 3
 """
 
-from __future__ import division
+
 
 # This module is compatible with both Python 2 and Python 3;
 # we need the iterator form of range for either version, stored in range()
@@ -100,10 +100,10 @@ def score(s, query):
 
     Returns: a float between 0 and 1
 
-    >>> print(score('terminal', 'trml'))
-    0.735098684211
-    >>> print(score('terminal', 'term'))
-    0.992302631579
+    >>> round(score('terminal', 'trml'), 6)
+    0.735099
+    >>> round(score('terminal', 'term'), 6)
+    0.992303
     >>> print(score('terminal', 'try'))
     0.0
     >>> print(score('terminal', ''))

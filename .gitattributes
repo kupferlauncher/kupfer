@@ -14,6 +14,3 @@
 #
 # This filter must be configured for all editors and committers
 # of the language. The .po file must be explicitly listed below.
-/po/en_GB.po		filter=cleanpo
-/po/sv.po		filter=cleanpo
-#/po/pl.po		filter=cleanpo
