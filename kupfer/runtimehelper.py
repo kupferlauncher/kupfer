@@ -15,12 +15,12 @@ class AsyncFileResult (object):
     """
     def __init__(self, ctx, filepath):
         self.ctx = ctx
-        gfile = gio.File(filepath)
-        self.monitor = gfile.monitor_file(gio.FILE_MONITOR_NONE)
+        gfile = gio.File.new_for_path(filepath)
+        self.monitor = gfile.monitor_file(gio.FileMonitorFlags.NONE)
         self.callback_id = self.monitor.connect("changed", self.changed)
 
     def changed(self, monitor, gfile1, gfile2, event):
-        if event == gio.FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
+        if event == gio.FileMonitorEvent.CHANGES_DONE_HINT:
             self.ctx.register_late_result(FileLeaf(gfile1.get_path()))
             self.monitor.disconnect(self.callback_id)
             self.monitor = None
