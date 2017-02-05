@@ -70,21 +70,21 @@ Runtime Requirements
 
 Kupfer requires Python 3 or later, and the following important libraries:
 
-* Gtk 3
-* Wnck 3
+Because the port to Python 3 and Gtk 3 is new, I don't know what the lower
+boundaries of dependencies are. I've given the versions where it is
+known to work.
+
+* Gtk-3.0 version 3.22
+* Wnck-3.0 version 3.20
 * libkeybinder-3.0 version 0.3.1
+* python gir1.2
 * dbus python bindings
 * python-xdg
 
 Opportunistic dependencies
 
-* The deprecated 'gnome' module is used for session connection as
-  fallback
 * If available, 'setproctitle' is used to set the process name
 * python-appindicator for ubuntu-style notification icon
-
-* nautilus-python for nautilus selected file
-* python-gdata for Google plugins
 
 Some plugins will require additional python modules!
 
