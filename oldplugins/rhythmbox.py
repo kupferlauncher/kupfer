@@ -16,7 +16,7 @@ Changes:
 import itertools
 from hashlib import md5
 
-import gio
+from gi.repository import Gio
 import os
 
 import dbus
@@ -59,7 +59,10 @@ _OBJ_NAME_MEDIA_CONT = 'org.gnome.UPnP.MediaContainer2'
 
 
 def _tostr(ustr):
-    return ustr.encode("UTF-8")
+    return ustr
+
+def _toutf8_lossy(ustr):
+    return ustr.encode("UTF-8", "replace")
 
 def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
     ''' Create dbus connection to Rhytmbox
@@ -110,7 +113,7 @@ def enqueue_songs(info, clear_queue=False):
         qargv.append("--clear-queue")
     for song in songs:
         uri = _tostr(song["location"])
-        gfile = gio.File(uri)
+        gfile = Gio.File.new_for_uri(uri)
         path = gfile.get_path()
         qargv.append("--enqueue")
         qargv.append(path)
@@ -332,11 +335,12 @@ class AlbumLeaf (TrackCollection):
         uri = self.object[0]["location"]
         artist = self.object[0]["artist"].lower()
         album = self.object[0]["album"].lower()
-        gfile = gio.File(uri)
+        gfile = Gio.File.new_for_uri(uri)
         cdir = gfile.resolve_relative_path("../").get_path()
         # We don't support unicode ATM
         bs_artist_album = \
-            " - ".join([us.encode("ascii", "ignore") for us in (artist, album)])
+            " - ".join([artist, album])
+            #" - ".join([us.encode("ascii", "ignore") for us in (artist, album)])
         cover_names = ("cover.jpg", "album.jpg", "albumart.jpg",
                 ".folder.jpg", "folder.jpg", bs_artist_album + ".jpg")
         for cover_name in os.listdir(cdir):
@@ -350,7 +354,7 @@ class AlbumLeaf (TrackCollection):
         # ignore the track artist -- use the space fallback
         # hash of ' ' as fallback
         hspace = "7215ee9c7d9dc229d2921a40e899ec5f"
-        htitle = md5(_tostr(ltitle)).hexdigest()
+        htitle = md5(_toutf8_lossy(ltitle)).hexdigest()
         hartist = hspace
         cache_name = "album-%s-%s.jpeg" % (hartist, htitle)
         return config.get_cache_file(("media-art", cache_name))
@@ -358,9 +362,10 @@ class AlbumLeaf (TrackCollection):
     def _get_thumb_rhythmbox(self):
         artist = self.object[0]["artist"]
         album = str(self)
-        bs_artist_album = \
-            " - ".join([us.encode("ascii", "ignore") for us in (artist, album)]) \
-            + ".jpg"
+        bs_artist_album = (
+            " - ".join([artist, album])
+            #" - ".join([us.encode("ascii", "ignore") for us in (artist, album)]) \
+            + ".jpg")
         return config.get_cache_file(("rhythmbox", "covers", bs_artist_album))
 
     def get_thumbnail(self, width, height):
