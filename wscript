@@ -117,14 +117,9 @@ def options(opt):
 def configure(conf):
 	conf.check_tool("python")
 	try:
-		conf.check_python_version((2,6,0))
+		conf.check_python_version((3, 5, 0))
 	except Configure.ConfigurationError:
-		# with explicitly set python that is not found, we
-		# must show an error
-		if os.getenv("PYTHON"):
-			raise
-		conf.env["PYTHON"] = "python2.6"
-		conf.check_python_version((2,6,0))
+		raise
 	conf.check_tool("gnu_dirs")
 
 	conf.check_tool("intltool")
@@ -152,8 +147,9 @@ def configure(conf):
 		return
 
 	python_modules = """
-		gio
-		gtk
+		gi.repository.Gtk
+		gi.repository.Wnck
+		gi.repository.Keybinder
 		xdg
 		dbus
 		"""
@@ -166,8 +162,6 @@ def configure(conf):
 			"dbus-send": "Focus kupfer from the command line",
 		}
 	opt_pymodules = {
-			"wnck": "Identify and focus running applications",
-			"keyring": "Required by plugins that save passwords",
 		}
 
 	for prog in opt_programs:
@@ -176,12 +170,6 @@ def configure(conf):
 		except conf.errors.ConfigurationError:
 			Logs.pprint("YELLOW", "Optional, allows: %s" % opt_programs[prog])
 
-	try:
-		conf.check_python_module("keybinder")
-	except Configure.ConfigurationError:
-		Logs.pprint("RED", "Python module keybinder is recommended")
-		Logs.pprint("RED", "Please see README")
-		
 	for mod in opt_pymodules:
 		try:
 			conf.check_python_module(mod)
