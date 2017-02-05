@@ -398,5 +398,5 @@ gobject.signal_new("command-result", ActionExecutionContext,
 gobject.signal_new("late-command-result", ActionExecutionContext,
 		gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN,
-		(gobject.TYPE_INT, gobject.gobject.TYPE_INT,
+		(gobject.TYPE_INT, gobject.TYPE_INT,
 			gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))

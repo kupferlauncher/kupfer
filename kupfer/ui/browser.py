@@ -320,8 +320,9 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 
 		# Use a darker color for selected state
 		# leave active state as preset
-		selectedc = self.style.dark[gtk.STATE_SELECTED]
-		self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
+		#selectedc = self.style.dark[gtk.STATE_SELECTED]
+		#self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
+                pass
 
 	def build_widget(self):
 		"""
@@ -347,7 +348,7 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 		box.pack_start(self._editbox, False, True, 0)
 		self.event_box = gtk.EventBox()
 		self.event_box.add(box)
-		self.event_box.connect("expose-event", self._box_expose)
+		self.event_box.connect("map-event", self._box_expose)
 		self.event_box.set_app_paintable(True)
 		self.add(self.event_box)
 		self.event_box.show_all()
@@ -529,8 +530,8 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 				old_parent.remove(preedit)
 			self.shrink_preedit(preedit)
 			self._editbox.pack_start(preedit, False, True, 0)
-			selectedc = self.style.dark[gtk.STATE_SELECTED]
-			preedit.modify_bg(gtk.STATE_SELECTED, selectedc)
+			#selectedc = self.style.dark[gtk.STATE_SELECTED]
+			#preedit.modify_bg(gtk.STATE_SELECTED, selectedc)
 			preedit.show()
 			preedit.grab_focus()
 		else:
@@ -538,16 +539,8 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 			self.label.set_alignment(.5,.5)
 
 gobject.type_register(MatchView)
-gtk.widget_class_install_style_property(MatchView,
-		('corner-radius', gobject.TYPE_INT, 'Corner radius',
-		 'Radius of bezel around match',
-		 0, 50, 15,
-		 gobject.PARAM_READABLE))
-gtk.widget_class_install_style_property(MatchView,
-		('opacity', gobject.TYPE_INT, 'Bezel opacity',
-		 'Opacity of bezel around match',
-		 50, 100, 95,
-		 gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(MatchView, ('corner-radius', gobject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(MatchView, ('opacity', gobject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, gobject.PARAM_READABLE))
 
 class Search (gtk.Bin, pretty.OutputMixin):
 	"""
@@ -885,17 +878,9 @@ gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
 gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gtk.widget_class_install_style_property(Search,
-		('list-opacity', gobject.TYPE_INT, 'Result list opacity',
-		 'Opacity of the whole result list',
-		 50, 100, 93,
-		 gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(Search, ('list-opacity', gobject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, gobject.PARAM_READABLE))
 
-gtk.widget_class_install_style_property(Search,
-		('list-length', gobject.TYPE_INT, 'Result list length',
-		 'Maximum length of the result list',
-		 50, 1024, 200,
-		 gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(Search, ('list-length', gobject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, gobject.PARAM_READABLE))
 
 class LeafSearch (Search):
 	"""
@@ -999,7 +984,7 @@ class Interface (gobject.GObject):
 		self._reset_when_back = False
 		self.entry.connect("realize", self._entry_realized)
 		self.preedit.set_has_frame(False)
-		self.preedit.set_inner_border(gtk.Border(0, 0, 0, 0))
+		self.preedit.set_inner_border(gtk.Border())
 		self.preedit.set_width_chars(0)
 		self.preedit.set_alignment(1)
 
@@ -1790,7 +1775,7 @@ class KupferWindow (gtk.Window):
 		super(KupferWindow, self).__init__(*args)
 		self.connect("style-set", self.on_style_set)
 		self.set_name("kupfer")
-		self.connect("expose-event", self.on_expose_event)
+		self.connect("map-event", self.on_expose_event)
 		self.connect("size-allocate", self.on_size_allocate)
 		self.connect("composited-changed", self.on_composited_changed)
 		self.connect("realize", self.on_realize)
@@ -1828,9 +1813,9 @@ class KupferWindow (gtk.Window):
 			cr.set_source_rgba(*rgba_from_gdk(c, opacity))
 			cr.fill()
 
-		c = widget.style.dark[gtk.STATE_SELECTED]
-		cr.set_operator(cairo.OPERATOR_OVER)
-		cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
+		#c = widget.style.dark[gtk.STATE_SELECTED]
+		#cr.set_operator(cairo.OPERATOR_OVER)
+		#cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
 
 		make_rounded_rect(cr, 0, 0, w, h, radius)
 		cr.set_line_width(1)
@@ -1878,27 +1863,11 @@ class KupferWindow (gtk.Window):
 
 
 gobject.type_register(KupferWindow)
-gtk.widget_class_install_style_property(KupferWindow,
-		('corner-radius', gobject.TYPE_INT, 'Corner radius',
-		 'Radius of bezel around window',
-		 0, 50, 15,
-		 gobject.PARAM_READABLE))
-gtk.widget_class_install_style_property(KupferWindow,
-		('opacity', gobject.TYPE_INT, 'Frame opacity',
-		 'Opacity of window background',
-		 50, 100, 85,
-		 gobject.PARAM_READABLE))
-gtk.widget_class_install_style_property(KupferWindow,
-		('decorated', gobject.TYPE_BOOLEAN, 'Decorated',
-		 'Whether to use window decorations',
-		 False,
-		 gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', gobject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('opacity', gobject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('decorated', gobject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, gobject.PARAM_READABLE))
 
-gtk.widget_class_install_style_property(KupferWindow,
-		('border-width', gobject.TYPE_INT, 'Border width',
-		 'Width of border around window content',
-		 0, 100, 8,
-		 gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('border-width', gobject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, gobject.PARAM_READABLE))
 
 class WindowController (pretty.OutputMixin):
 	"""
@@ -2157,12 +2126,13 @@ class WindowController (pretty.OutputMixin):
 		if self.current_screen_handler:
 			scr = self.window.get_screen()
 			scr.disconnect(self.current_screen_handler)
-		rgba = screen.get_rgba_colormap()
-		if rgba:
-			self.window.unrealize()
-			self.window.set_screen(screen)
-			self.window.set_colormap(rgba)
-			self.window.realize()
+		if False:
+			rgba = screen.get_rgba_colormap()
+			if rgba:
+				self.window.unrealize()
+				self.window.set_screen(screen)
+				self.window.set_colormap(rgba)
+				self.window.realize()
 		else:
 			self.window.set_screen(screen)
 		self.current_screen_handler = \

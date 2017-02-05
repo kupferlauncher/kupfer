@@ -12,7 +12,7 @@ __all__ = [
 # If no gettext function is loaded at this point, we load a substitute,
 # so that testing code can still work
 import builtins
-if not hasattr(__builtin__, "_"):
+if not hasattr(builtins, "_"):
 	def identity(x): return x
 	builtins._ = identity
 

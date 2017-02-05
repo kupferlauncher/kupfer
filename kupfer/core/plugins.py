@@ -191,7 +191,7 @@ def _import_plugin_fake(modpath, error=None):
 		"__name__": modpath,
 		"__file__": filename,
 	}
-	code = _truncate_code(code, info_attributes)
+	#code = _truncate_code(code, info_attributes)
 	try:
 		eval(code, env)
 	except Exception as exc:

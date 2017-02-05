@@ -24,14 +24,14 @@ class MoveToTrash (Action):
 		Action.__init__(self, _("Move to Trash"))
 
 	def activate(self, leaf):
-		gfile = gio.File(leaf.object)
+		gfile = gio.File.new_for_path(leaf.object)
 		try:
 			gfile.trash()
 		except gio.Error as exc:
 			raise OperationError(exc)
 
 	def valid_for_item(self, item):
-		gfile = gio.File(item.object)
+		gfile = gio.File.new_for_path(item.object)
 		if not gfile.query_exists(None):
 			return False
 		info = gfile.query_info(gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH)
@@ -55,7 +55,7 @@ class RestoreTrashedFile (Action):
 		orig_path = leaf.get_orig_path()
 		if not orig_path:
 			return
-		orig_gfile = gio.File(orig_path)
+		orig_gfile = gio.File.new_for_path(orig_path)
 		cur_gfile = leaf.get_gfile()
 		if orig_gfile.query_exists():
 			raise IOError("Target file exists at %s" % orig_gfile.get_path())
@@ -74,7 +74,7 @@ class EmptyTrash (Action):
 	def __init__(self):
 		Action.__init__(self, _("Empty Trash"))
 	def activate(self, trash):
-		gfile = gio.File(TRASH_URI)
+		gfile = gio.File.new_for_uri(TRASH_URI)
 		failed = []
 		for info in gfile.enumerate_children("standard::*,trash::*"):
 			name = info.get_name()
@@ -96,7 +96,7 @@ class TrashFile (Leaf):
 		if self.get_orig_path():
 			yield RestoreTrashedFile()
 	def get_gfile(self):
-		cur_gfile = gio.File(self._trash_uri).get_child(self.object.get_name())
+		cur_gfile = gio.File.new_for_uri(self._trash_uri).get_child(self.object.get_name())
 		return cur_gfile
 	def get_orig_path(self):
 		try:
@@ -126,7 +126,7 @@ class TrashContentSource (Source):
 	def is_dynamic(self):
 		return True
 	def get_items(self):
-		gfile = gio.File(self._trash_uri)
+		gfile = gio.File.new_for_uri(self._trash_uri)
 		enumerator = gfile.enumerate_children("standard::*,trash::*")
 		for info in enumerator:
 			yield TrashFile(self._trash_uri, info)
@@ -143,7 +143,7 @@ class SpecialLocation (Leaf):
 		"""Special location with @location and
 		@name. If unset, we find @name from filesystem
 		@description is Leaf description"""
-		gfile = gio.File(location)
+		gfile = gio.File.new_for_uri(location)
 		info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)
 		name = (info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME) or location)
 		Leaf.__init__(self, location, name)
@@ -175,7 +175,7 @@ class Trash (SpecialLocation):
 			yield EmptyTrash()
 
 	def get_item_count(self):
-		gfile = gio.File(self.object)
+		gfile = gio.File.new_for_uri(self.object)
 		info = gfile.query_info(gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
 		return info.get_attribute_uint32(gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
 

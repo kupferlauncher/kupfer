@@ -11,7 +11,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gio
 from gio import app_info_get_all
-from gio.unix import desktop_app_info_set_desktop_env
+#from gio.unix import desktop_app_info_set_desktop_env
 
 from kupfer.objects import Action, Source, AppLeaf, FileLeaf
 from kupfer.obj.helplib import FilesystemWatchMixin
@@ -46,7 +46,8 @@ class AppSource (Source, FilesystemWatchMixin):
 		# We get exactly the apps shown in the menu,
 		# as well as the preference panes
 		desktop_type = __kupfer_settings__["desktop_type"]
-		desktop_app_info_set_desktop_env(desktop_type)
+		gio.DesktopAppInfo.set_desktop_env(desktop_type)
+		#desktop_app_info_set_desktop_env(desktop_type)
 		# Add this to the default
 		whitelist = set([
 			# if you set/reset default handler for folders it is useful

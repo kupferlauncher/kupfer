@@ -63,10 +63,10 @@ class FilesystemWatchMixin (object):
 		tokens = []
 		force = kwargs.get('force', False)
 		for directory in directories:
-			gfile = gio.File(directory)
+			gfile = gio.File.new_for_path(directory)
 			if not force and not gfile.query_exists():
 				continue
-			monitor = gfile.monitor_directory(gio.FILE_MONITOR_NONE, None)
+			monitor = gfile.monitor_directory(gio.FileMonitorFlags.NONE, None)
 			if monitor:
 				monitor.connect("changed", self.__directory_changed)
 				tokens.append(monitor)

@@ -90,7 +90,8 @@ def gobject_connect_weakly(sender, signal, mcallback, *user_args):
 	deleted
 	>>>
 	"""
-	GobjectWeakCallback._connect(sender, signal, mcallback, *user_args)
+	sender.connect(signal, mcallback, *user_args)
+	#GobjectWeakCallback._connect(sender, signal, mcallback, *user_args)
 
 if __name__ == '__main__':
 	import doctest

@@ -8,6 +8,8 @@ import sys
 import gobject
 import glib
 
+import functools
+
 
 from kupfer import pretty
 from kupfer import kupferstring
@@ -76,7 +78,7 @@ def locale_sort(seq, key=str):
 	"""
 	locale_cmp = lambda s, o: locale.strcoll(key(s), key(o))
 	seq = seq if isinstance(seq, list) else list(seq)
-	seq.sort(cmp=locale_cmp)
+	seq.sort(key=functools.cmp_to_key(locale_cmp))
 	return seq
 
 def _argv_to_locale(argv):

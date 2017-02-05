@@ -35,6 +35,7 @@ class GUIEnvironmentContext (object):
 
 		Return default if @display is None.
 		"""
+		return gtk.gdk.DisplayManager.get().get_default_display()
 		def norm_name(name):
 			"normalize display name"
 			if name[-2] == ":":
@@ -69,7 +70,7 @@ class GUIEnvironmentContext (object):
 		def debug(*x):
 			pretty.print_debug(__name__, *x)
 		display = screen.get_display()
-		dm = gtk.gdk.display_manager_get()
+		dm = gtk.gdk.DisplayManager.get()
 		for disp in list(dm.list_displays()):
 			if disp != display and disp != gtk.gdk.display_get_default():
 				debug("Trying to close", disp.get_name())

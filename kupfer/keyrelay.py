@@ -6,8 +6,11 @@ import builtins
 import os
 
 import gtk
-import keybinder
+#import keybinder
 import dbus
+import gi
+gi.require_version("Keybinder", "3.0")
+from gi.repository import Keybinder as keybinder
 
 from dbus.mainloop.glib import DBusGMainLoop
 

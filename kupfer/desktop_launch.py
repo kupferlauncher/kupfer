@@ -425,7 +425,7 @@ def locale_encode_argv(argv):
 			yield x
 
 def get_info_for_id(id_):
-	return gio.unix.DesktopAppInfo(id_)
+	return gio.DesktopAppInfo.new(id_)
 
 if __name__ == '__main__':
 

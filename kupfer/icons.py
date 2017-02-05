@@ -11,6 +11,7 @@ from kupfer import config
 from kupfer import datatools
 from kupfer import pretty
 from kupfer import scheduler
+from kupfer.kupferstring import tounicode
 
 icon_cache = {}
 
@@ -51,9 +52,9 @@ def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
 	"""
 	for line in icon_list_data.splitlines():
 		# ignore '#'-comments
-		if line.startswith("#") or not line.strip():
+		if line.startswith(b"#") or not line.strip():
 			continue
-		fields = list(map(str.strip, line.split('\t')))
+		fields = list(map(bytes.strip, line.split(b'\t')))
 		if len(fields) < 2:
 			pretty.print_error(__name__, "Malformed icon-list line %r from %r" %
 			                   (line, plugin_name))
@@ -71,6 +72,7 @@ def load_icon_from_func(plugin_name, icon_name, get_data_func, override=False):
 	@get_data_func: function to retrieve the data if needed
 	@override: override the icon theme
 	"""
+	icon_name = tounicode(icon_name)
 	if not override and icon_name in kupfer_locally_installed_names:
 		pretty.print_debug(__name__, "Skipping existing", icon_name)
 		return
@@ -122,7 +124,7 @@ def _get_icon_dwim(icon, icon_size):
 		return get_icon_for_name(icon, icon_size)
 	return None
 
-class ComposedIcon (Icon):
+class ComposedIcon (object):
 	"""
 	A composed icon, which kupfer will render to pixbuf as
 	background icon with the decorating icon as emblem
@@ -153,7 +155,8 @@ class ComposedIcon (Icon):
 			ComposedIcon.Implementation.__init__(self, baseicon, emblem)
 			FileIcon.__init__(self, fallback.get_file())
 
-	def __new__(cls, baseicon, emblem, emblem_is_fallback=False):
+	@classmethod
+	def new(cls, baseicon, emblem, emblem_is_fallback=False):
 		"""Contstuct a composed icon from @baseicon and @emblem,
 		which may be GIcons or icon names (strings)
 		"""
@@ -167,7 +170,7 @@ class ComposedIcon (Icon):
 
 def ComposedIconSmall(baseicon, emblem, **kwargs):
 	"""Create composed icon for leaves with emblem visible on browser list"""
-	ci = ComposedIcon(baseicon, emblem, **kwargs)
+	ci = ComposedIcon.new(baseicon, emblem, **kwargs)
 	ci.minimum_icon_size = SMALL_SZ
 	return ci
 
