@@ -16,8 +16,10 @@ from kupfer.desktop_launch import SpawnError
 ## NOTE: SpawnError  *should* be imported from this module
 
 try:
-	import wnck
-	wnck.set_client_type(wnck.CLIENT_TYPE_PAGER)
+	import gi
+	gi.require_version("Wnck", "3.0")
+	from gi.repository import Wnck as wnck
+	wnck.set_client_type(wnck.ClientType.PAGER)
 except ImportError as e:
 	pretty.print_info(__name__, "Disabling window tracking:", e)
 	wnck = None
@@ -115,7 +117,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def _get_wnck_screen_windows_stacked(cls):
 		if not wnck:
 			return ()
-		screen = wnck.screen_get_default()
+		screen = wnck.Screen.get_default()
 		return screen.get_windows_stacked()
 
 	def _get_filename(self):
@@ -209,7 +211,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 	def application_is_running(self, app_id):
 		for w in self._get_wnck_screen_windows_stacked():
 			if (w.get_application() and self._is_match(app_id, w) and 
-			    w.get_window_type() == wnck.WINDOW_NORMAL):
+			    w.get_window_type() == wnck.WindowType.NORMAL):
 				return True
 		return False
 
@@ -217,7 +219,7 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		application_windows = []
 		for w in self._get_wnck_screen_windows_stacked():
 			if (w.get_application() and self._is_match(app_id, w) and 
-			    w.get_window_type() == wnck.WINDOW_NORMAL):
+			    w.get_window_type() == wnck.WindowType.NORMAL):
 				application_windows.append(w)
 		return application_windows
 
@@ -240,11 +242,11 @@ class ApplicationsMatcherService (pretty.OutputMixin):
 		cur_workspace = cur_screen.get_active_workspace()
 
 		def visible_window(window):
-			return (window.get_window_type() == wnck.WINDOW_NORMAL and
+			return (window.get_window_type() == wnck.WindowType.NORMAL and
 			        window.is_visible_on_workspace(cur_workspace))
 
 		def normal_window(window):
-			return window.get_window_type() == wnck.WINDOW_NORMAL
+			return window.get_window_type() == wnck.WindowType.NORMAL
 
 		## get all visible windows in stacking order
 		vis_windows = list(filter(visible_window,
