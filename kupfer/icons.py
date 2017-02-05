@@ -1,5 +1,6 @@
 import os
 
+from gi.repository import Gio
 import gtk
 from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
 from gtk.gdk import pixbuf_new_from_file_at_size
@@ -188,10 +189,12 @@ def get_thumbnail_for_file(uri, width=-1, height=-1):
 	return None if not found
 	"""
 
-	gfile = File.new_for_uri(uri)
+	gfile = Gio.File.new_for_path(uri)
 	if not gfile.query_exists():
-		return None
-	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH)
+		gfile = File.new_for_uri(uri)
+		if not gfile.query_exists():
+			return None
+	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH, Gio.FileQueryInfoFlags.NONE, None)
 	thumb_path = finfo.get_attribute_byte_string(FILE_ATTRIBUTE_THUMBNAIL_PATH)
 
 	return get_pixbuf_from_file(thumb_path, width, height)
