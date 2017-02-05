@@ -1,5 +1,6 @@
 import os
-import gio
+
+from gi.repository import Gio, GLib
 
 from kupfer import utils
 from kupfer import launch
@@ -12,8 +13,8 @@ class NoDefaultApplicationError (OperationError):
 def is_good_executable(fileleaf):
     if not fileleaf._is_executable():
         return False
-    ctype, uncertain = gio.content_type_guess(fileleaf.object, None)
-    return uncertain or gio.content_type_can_be_executable(ctype)
+    ctype, uncertain = Gio.content_type_guess(fileleaf.object, None)
+    return uncertain or Gio.content_type_can_be_executable(ctype)
 
 def get_actions_for_file(fileleaf):
     acts = [RevealFile(), ]
@@ -32,13 +33,13 @@ class Open (Action):
 
     @classmethod
     def default_application_for_leaf(cls, leaf):
-        content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-        gfile = gio.File.new_for_path(leaf.object)
-        info = gfile.query_info(content_attr, gio.FileQueryInfoFlags.NONE, None)
+        content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+        gfile = Gio.File.new_for_path(leaf.object)
+        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
         content_type = info.get_attribute_string(content_attr)
-        def_app = gio.app_info_get_default_for_type(content_type, False)
+        def_app = Gio.app_info_get_default_for_type(content_type, False)
         if not def_app:
-            apps_for_type = gio.app_info_get_all_for_type(content_type)
+            apps_for_type = Gio.app_info_get_all_for_type(content_type)
             raise NoDefaultApplicationError(
                     (_("No default application for %(file)s (%(type)s)") % 
                      {"file": str(leaf), "type": content_type}) + "\n" +

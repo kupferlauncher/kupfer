@@ -5,14 +5,13 @@ __description__ = _("Access trash contents")
 __version__ = "2009-12-06"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gio
+from gi.repository import Gio
 
 from kupfer.objects import Leaf, Action, Source, SourceLeaf, FileLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.fileactions import Open
 from kupfer.obj.base import OperationError
 from kupfer import utils, icons, pretty
-
 
 
 TRASH_URI = 'trash://'
@@ -24,18 +23,19 @@ class MoveToTrash (Action):
         Action.__init__(self, _("Move to Trash"))
 
     def activate(self, leaf):
-        gfile = gio.File.new_for_path(leaf.object)
+        gfile = Gio.File.new_for_path(leaf.object)
         try:
             gfile.trash()
-        except gio.Error as exc:
+        except Gio.Error as exc:
             raise OperationError(exc)
 
     def valid_for_item(self, item):
-        gfile = gio.File.new_for_path(item.object)
+        gfile = Gio.File.new_for_path(item.object)
         if not gfile.query_exists(None):
             return False
-        info = gfile.query_info(gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH)
-        return info.get_attribute_boolean(gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH)
+        info = gfile.query_info(Gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH,
+                Gio.FileQueryInfoFlags.NONE, None)
+        return info.get_attribute_boolean(Gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH)
     def get_description(self):
         return _("Move this file to trash")
     def get_icon_name(self):
@@ -55,12 +55,12 @@ class RestoreTrashedFile (Action):
         orig_path = leaf.get_orig_path()
         if not orig_path:
             return
-        orig_gfile = gio.File.new_for_path(orig_path)
+        orig_gfile = Gio.File.new_for_path(orig_path)
         cur_gfile = leaf.get_gfile()
         if orig_gfile.query_exists():
-            raise IOError("Target file exists at %s" % orig_gfile.get_path())
+            raise OperationError("Target file exists at %s" % orig_gfile.get_path())
         pretty.print_debug(__name__, "Move %s to %s" % (cur_gfile, orig_gfile))
-        ret = cur_gfile.move(orig_gfile)
+        ret = cur_gfile.move(orig_gfile, Gio.FileCopyFlags.ALL_METADATA, None, None, None)
         pretty.print_debug(__name__, "Move ret=%s" % (ret, ))
         return FileLeaf(orig_gfile.get_path())
 
@@ -74,9 +74,10 @@ class EmptyTrash (Action):
     def __init__(self):
         Action.__init__(self, _("Empty Trash"))
     def activate(self, trash):
-        gfile = gio.File.new_for_uri(TRASH_URI)
+        gfile = Gio.File.new_for_uri(TRASH_URI)
         failed = []
-        for info in gfile.enumerate_children("standard::*,trash::*"):
+        for info in gfile.enumerate_children("standard::*,trash::*",
+                Gio.FileQueryInfoFlags.NONE, None):
             name = info.get_name()
             if not gfile.get_child(name).delete():
                 failed.append(name)
@@ -96,7 +97,7 @@ class TrashFile (Leaf):
         if self.get_orig_path():
             yield RestoreTrashedFile()
     def get_gfile(self):
-        cur_gfile = gio.File.new_for_uri(self._trash_uri).get_child(self.object.get_name())
+        cur_gfile = Gio.File.new_for_uri(self._trash_uri).get_child(self.object.get_name())
         return cur_gfile
     def get_orig_path(self):
         try:
@@ -126,9 +127,9 @@ class TrashContentSource (Source):
     def is_dynamic(self):
         return True
     def get_items(self):
-        gfile = gio.File.new_for_uri(self._trash_uri)
-        enumerator = gfile.enumerate_children("standard::*,trash::*")
-        for info in enumerator:
+        gfile = Gio.File.new_for_uri(self._trash_uri)
+        for info in gfile.enumerate_children("standard::*,trash::*",
+                Gio.FileQueryInfoFlags.NONE, None):
             yield TrashFile(self._trash_uri, info)
     def should_sort_lexically(self):
         return True
@@ -143,14 +144,15 @@ class SpecialLocation (Leaf):
         """Special location with @location and
         @name. If unset, we find @name from filesystem
         @description is Leaf description"""
-        gfile = gio.File.new_for_uri(location)
-        info = gfile.query_info(gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)
-        name = (info.get_attribute_string(gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME) or location)
+        gfile = Gio.File.new_for_uri(location)
+        info = gfile.query_info(Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+                Gio.FileQueryInfoFlags.NONE, None)
+        name = (info.get_attribute_string(Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME) or location)
         Leaf.__init__(self, location, name)
         self.description = description
         self.icon_name = icon_name
     def get_actions(self):
-        yield Open()
+        yield OpenTrash()
     def get_description(self):
         return self.description or self.object
     def get_gicon(self):
@@ -175,9 +177,10 @@ class Trash (SpecialLocation):
             yield EmptyTrash()
 
     def get_item_count(self):
-        gfile = gio.File.new_for_uri(self.object)
-        info = gfile.query_info(gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
-        return info.get_attribute_uint32(gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
+        gfile = Gio.File.new_for_uri(self.object)
+        info = gfile.query_info(Gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT,
+                Gio.FileQueryInfoFlags.NONE, None)
+        return info.get_attribute_uint32(Gio.FILE_ATTRIBUTE_TRASH_ITEM_COUNT)
 
     def get_description(self):
         item_count = self.get_item_count()
@@ -203,3 +206,8 @@ class TrashSource (Source):
         yield SpecialLocation
     def get_icon_name(self):
         return "user-trash"
+
+class OpenTrash(Open):
+    def activate(self, obj, ctx=None):
+        utils.show_url(obj.object)
+
