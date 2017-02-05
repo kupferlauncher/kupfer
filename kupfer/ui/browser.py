@@ -236,7 +236,8 @@ class LeafModel (object):
 		self.store.prepend(self._get_row(rankable))
 
 	def get_icon_size(self):
-		return gtk.icon_size_lookup(gtk.icon_size_from_name("kupfer-small"))[0]
+		# FIXME: Config kupfer-list icon size
+		return 32
 
 	def get_icon(self, leaf):
 		sz = self.get_icon_size()
