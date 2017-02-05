@@ -631,7 +631,8 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		self.list_window.hide()
 
 	def _show_table(self):
-		table_maxlen = LIST_LENGTH
+		setctl = settings.GetSettingsController()
+		list_maxheight = setctl.get_config_int("Appearance", "list_height")
 		opacity = 0.01 * LIST_OPACITY
 		# self.window is a GdkWindow (of self's parent)
 		win_width = self.window.get_width()
@@ -644,7 +645,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		sub_y = pos_y + win_height
 		table_w, table_len = self.table.size_request()
 		# FIXME: Adapt list length
-		subwin_height = table_maxlen
+		subwin_height = list_maxheight
 		subwin_width = self_width*2 - self_x
 		if not text_direction_is_ltr():
 			sub_x += win_width - subwin_width + self_x

@@ -46,6 +46,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 		"Appearance": {
 			"icon_large_size": 128,
 			"icon_small_size": 24,
+			"list_height": 200,
 		},
 		"Directories" : { "direct" : default_directories, "catalog" : (), },
 		"DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
