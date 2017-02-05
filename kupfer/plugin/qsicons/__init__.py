@@ -28,4 +28,4 @@ __author__ = "Quicksilver Authors. License: Apache 2.0"
 
 
 def initialize_plugin(name):
-	pass
+    pass

@@ -4,12 +4,12 @@ VERSION = "development version"
 PACKAGE_NAME = "kupfer"
 
 try:
-	from kupfer import version_subst
+    from kupfer import version_subst
 except ImportError:
-	pass
+    pass
 else:
-	VERSION = version_subst.VERSION
-	PACKAGE_NAME = version_subst.PACKAGE_NAME
+    VERSION = version_subst.VERSION
+    PACKAGE_NAME = version_subst.PACKAGE_NAME
 
 ICON_NAME = "kupfer"
 PROGRAM_NAME = _("Kupfer")

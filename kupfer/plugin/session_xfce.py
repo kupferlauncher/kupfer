@@ -16,11 +16,11 @@ LOCKSCREEN_CMD = (["xdg-screensaver", "lock"], )
 
 
 class XfceItemsSource (support.CommonSource):
-	def __init__(self):
-		support.CommonSource.__init__(self, _("XFCE Session Management"))
-	def get_items(self):
-		return (
-			support.Logout(LOGOUT_CMD),
-			support.LockScreen(LOCKSCREEN_CMD),
-			support.Shutdown(SHUTDOWN_CMD),
-		)
+    def __init__(self):
+        support.CommonSource.__init__(self, _("XFCE Session Management"))
+    def get_items(self):
+        return (
+            support.Logout(LOGOUT_CMD),
+            support.LockScreen(LOCKSCREEN_CMD),
+            support.Shutdown(SHUTDOWN_CMD),
+        )

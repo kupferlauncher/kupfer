@@ -5,95 +5,95 @@ from unicodedata import normalize, category
 import imp
 
 def _folditems():
-	_folding_table = {
-		# general non-decomposing characters
-		# FIXME: This is not complete
-		"ł" : "l",
-		"œ" : "oe",
-		"ð" : "d",
-		"þ" : "th",
-		#u"ß" : u"ss",
-		# germano-scandinavic canonical transliterations
-		"ü" : "ue",
-		"å" : "aa",
-		"ä" : "ae",
-		"æ" : "ae",
-		"ö" : "oe",
-		"ø" : "oe",
-	}
+    _folding_table = {
+        # general non-decomposing characters
+        # FIXME: This is not complete
+        "ł" : "l",
+        "œ" : "oe",
+        "ð" : "d",
+        "þ" : "th",
+        #u"ß" : u"ss",
+        # germano-scandinavic canonical transliterations
+        "ü" : "ue",
+        "å" : "aa",
+        "ä" : "ae",
+        "æ" : "ae",
+        "ö" : "oe",
+        "ø" : "oe",
+    }
 
-	for c, rep in list(_folding_table.items()):
-		yield (ord(c.upper()), rep.title())
-		yield (ord(c), rep)
+    for c, rep in list(_folding_table.items()):
+        yield (ord(c.upper()), rep.title())
+        yield (ord(c), rep)
 
 folding_table = dict(_folditems())
 
 def to_g_filename(file_path):
-	"""
-	file_path: bytes or str
+    """
+    file_path: bytes or str
 
-	Convert file path
+    Convert file path
 
-	Return str
-	"""
-	if isinstance(file_path, bytes):
-		return fromlocale_w_fallback(file_path)
-	return file_path
+    Return str
+    """
+    if isinstance(file_path, bytes):
+        return fromlocale_w_fallback(file_path)
+    return file_path
 
 def tounicode(utf8str):
-	"""Return `unicode` from UTF-8 encoded @utf8str
-	This is to use the same error handling etc everywhere
-	"""
-	if isinstance(utf8str, str):
-		return utf8str
-	return utf8str.decode("UTF-8", "replace") if utf8str is not None else ""
+    """Return `unicode` from UTF-8 encoded @utf8str
+    This is to use the same error handling etc everywhere
+    """
+    if isinstance(utf8str, str):
+        return utf8str
+    return utf8str.decode("UTF-8", "replace") if utf8str is not None else ""
 
 def toutf8(ustr):
-	"""Return UTF-8 `str` from unicode @ustr
-	This is to use the same error handling etc everywhere
-	if ustr is `str`, just return it
-	"""
-	if isinstance(ustr, bytes):
-		return ustr
-	return ustr.encode("UTF-8")
+    """Return UTF-8 `str` from unicode @ustr
+    This is to use the same error handling etc everywhere
+    if ustr is `str`, just return it
+    """
+    if isinstance(ustr, bytes):
+        return ustr
+    return ustr.encode("UTF-8")
 
 def fromlocale(lstr):
-	"""Return a unicode string from locale bytestring @lstr"""
-	assert isinstance(lstr, bytes)
-	enc = locale.getpreferredencoding(do_setlocale=False)
-	return lstr.decode(enc, "replace")
+    """Return a unicode string from locale bytestring @lstr"""
+    assert isinstance(lstr, bytes)
+    enc = locale.getpreferredencoding(do_setlocale=False)
+    return lstr.decode(enc, "replace")
 
 def tolocale(ustr):
-	"""Return a locale-encoded bytestring from unicode @ustr"""
-	assert isinstance(ustr, str)
-	enc = locale.getpreferredencoding(do_setlocale=False)
-	return ustr.encode(enc)
+    """Return a locale-encoded bytestring from unicode @ustr"""
+    assert isinstance(ustr, str)
+    enc = locale.getpreferredencoding(do_setlocale=False)
+    return ustr.encode(enc)
 
 
 def tofolded(ustr):
-	"""Fold @ustr
+    """Fold @ustr
 
-	Return a unicode string where composed characters are replaced by
-	their base, and extended latin characters are replaced by
-	similar basic latin characters.
+    Return a unicode string where composed characters are replaced by
+    their base, and extended latin characters are replaced by
+    similar basic latin characters.
 
-	>>> tofolded(u"Wyłącz")
-	u'Wylacz'
-	>>> tofolded(u"naïveté")
-	u'naivete'
+    >>> tofolded(u"Wyłącz")
+    u'Wylacz'
+    >>> tofolded(u"naïveté")
+    u'naivete'
 
-	Characters from other scripts are not transliterated.
+    Characters from other scripts are not transliterated.
 
-	>>> print tofolded(u"Ἑλλάς")
-	Ελλας
-	"""
-	srcstr = normalize("NFKD", ustr.translate(folding_table))
-	return "".join([c for c in srcstr if category(c) != 'Mn'])
+    >>> print tofolded(u"Ἑλλάς")
+    Ελλας
+    """
+    srcstr = normalize("NFKD", ustr.translate(folding_table))
+    return "".join([c for c in srcstr if category(c) != 'Mn'])
 
 if __name__ == '__main__':
-	import sys
-	imp.reload(sys)
-	sys.setdefaultencoding("UTF-8")
+    import sys
+    imp.reload(sys)
+    sys.setdefaultencoding("UTF-8")
 
-	import doctest
-	doctest.testmod()
+    import doctest
+    doctest.testmod()
