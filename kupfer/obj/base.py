@@ -86,7 +86,7 @@ class KupferObject (object, metaclass=_BuiltinObject):
 
     def __repr__(self):
         key = self.repr_key()
-        keys = " %s" % (key, ) if key else ""
+        keys = " %s" % (key, ) if (key is not None and key != "") else ""
         if self._is_builtin:
             return "<builtin.%s%s>" % (self.__class__.__name__, keys)
         return "<%s.%s%s>" % (self.__module__, self.__class__.__name__, keys)
