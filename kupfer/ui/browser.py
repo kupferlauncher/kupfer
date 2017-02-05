@@ -579,7 +579,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		self.build_widget()
 		self._icon_size = 64
 		self.setup_empty()
-		self.connect("realize", self._read_icon_size)
+		#self.connect("realize", self._read_icon_size)
 
 	@property
 	def icon_size(self):
