@@ -44,7 +44,7 @@ class Mnemonics (object):
         self.count = max(self.count -1, 0)
 
     def __bool__(self):
-        return self.count
+        return self.count > 0
     def get_count(self):
         return self.count
     def get_mnemonics(self):
