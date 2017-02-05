@@ -42,8 +42,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 plugin_support.check_dbus_connection()
 
 def unicode_strftime(fmt, time_tuple=None):
-	enc = locale.getpreferredencoding(False)
-	return str(time.strftime(fmt, time_tuple), enc, "replace")
+	return time.strftime(fmt, time_tuple)
 
 ## Tuples of  service name, object name, interface name
 PROGRAM_SERIVCES = {
