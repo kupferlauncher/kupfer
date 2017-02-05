@@ -78,7 +78,7 @@ class KupferObject (object, metaclass=_BuiltinObject):
 			self.name_aliases.add(alias)
 
 	def __str__(self):
-		return toutf8(self.name)
+		return self.name
 
 	def __unicode__(self):
 		"""Return a `unicode` representation of @self """

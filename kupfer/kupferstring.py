@@ -41,7 +41,7 @@ def toutf8(ustr):
 	This is to use the same error handling etc everywhere
 	if ustr is `str`, just return it
 	"""
-	if isinstance(ustr, str):
+	if isinstance(ustr, bytes):
 		return ustr
 	return ustr.encode("UTF-8")
 
