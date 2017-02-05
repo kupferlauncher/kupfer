@@ -4,7 +4,7 @@ __description__ = _("Mounted volumes and disks")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gio
+from gi.repository import Gio
 
 from kupfer.objects import Action, Source, FileLeaf
 from kupfer.obj.fileactions import Open, OpenTerminal
@@ -35,7 +35,7 @@ class Volume (FileLeaf):
             yield Unmount()
 
     def is_valid(self):
-        vm = gio.volume_monitor_get()
+        vm = Gio.VolumeMonitor.get()
         return any(self.volume == v for v in vm.get_mounts())
 
     def get_description(self):
@@ -53,13 +53,13 @@ class Unmount (Action):
     def eject_callback(self, mount, async_result, ctx):
         try:
             mount.eject_finish(async_result)
-        except gio.Error:
+        except Gio.Error:
             ctx.register_late_error()
 
     def unmount_callback(self, mount, async_result, ctx):
         try:
             mount.unmount_finish(async_result)
-        except gio.Error:
+        except Gio.Error:
             ctx.register_late_error()
 
     def wants_context(self):
@@ -93,7 +93,7 @@ class VolumesSource (Source):
     def is_dynamic(self):
         return True
     def get_items(self):
-        vm = gio.volume_monitor_get()
+        vm = Gio.VolumeMonitor.get()
         # get_mounts gets all mounted removable media
         return (Volume(v) for v in vm.get_mounts())
 
