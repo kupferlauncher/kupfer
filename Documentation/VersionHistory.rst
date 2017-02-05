@@ -3,6 +3,41 @@
 NEWS for kupfer
 ===============
 
+kupfer v300
+-----------
+
+Released Sunday, 5 feb 2017
+
+A new decade of Kupfer dawns!
+
++ Port Kupfer to Python 3
++ Port Kupfer to Gtk 3 and GObject Introspection
++ Reindent the codebase to 4 spaces
+
++ Regard this release as a preview, it may have bugs
++ We have a github organization, new webpage, and will need maintainers to
+  hold the wheel into the next decade
+
++ Breaking changes:
+
+  + Plugin configs are reset
+  + Old `kfcom` can no longer be parsed
+  + Some changes in the Plugin API
+  + Many plugins are obsolete and have been dropped. Some old plugins can be
+    updated, but I in general Kupfer wants to explore new kinds of
+    interaction, and not necessarily collect all possible plugins in-tree
+  + Gtk theming has changed
+
++ New features:
+
+  + Use CSS for Gtk 3 themes
+  + Implemented using 2010s technology
+
++ Dependencies:
+
+  + This release requires ``Keybinder-3.0`` (using G-I), that will be
+    relaxed later
+
 kupfer v208
 -----------
 
