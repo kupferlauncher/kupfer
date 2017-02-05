@@ -294,28 +294,27 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 		self.object_stack = []
 
 		self.connect("realize", self._update_theme)
-		self.connect("realize", self._read_icon_size)
 		self.connect("style-set", self._update_theme)
 		# finally build widget
 		self.build_widget()
 		self.cur_icon = None
 		self.cur_text = None
 		self.cur_match = None
-		self._icon_size = 32
+		self._icon_size = 64
 
 	@property
 	def icon_size(self):
 		return self._icon_size
 
-	def _icon_large_size_changed(self, setctl, section, key, value):
+	def _icon_size_changed(self, setctl, section, key, value):
 		self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
-		self.output_info("Large size changed to", repr(self._icon_size))
+		print(self._icon_size)
 
 	def _read_icon_size(self, *args):
 		setctl = settings.GetSettingsController()
 		setctl.connect("value-changed::appearance.icon_large_size",
-		               self._icon_large_size_changed)
-		self._icon_large_size_changed(setctl, None, None, None)
+		               self._icon_size_changed)
+		self._icon_size_changed(setctl, None, None, None)
 		
 	def _update_theme(self, *args):
 		# Style subtables to choose from
@@ -548,22 +547,20 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		# finally build widget
 		self.build_widget()
 		self._icon_size = 64
+		self._read_icon_size()
 		self.setup_empty()
-		#self.connect("realize", self._read_icon_size)
 
 	@property
 	def icon_size(self):
 		return self._icon_size
 
-	def _icon_large_size_changed(self, setctl, section, key, value):
+	def _icon_size_changed(self, setctl, section, key, value):
 		self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
-		self.output_info("Large size changed to", repr(self._icon_size))
 
 	def _read_icon_size(self, *args):
 		setctl = settings.GetSettingsController()
-		setctl.connect("value-changed::appearance.icon_large_size",
-				self._icon_large_size_changed)
-		self._icon_large_size_changed(setctl, None, None, None)
+		setctl.connect("value-changed::appearance.icon_large_size", self._icon_size_changed)
+		self._icon_size_changed(setctl, None, None, None)
 
 	def build_widget(self):
 		"""
@@ -1773,6 +1770,7 @@ class KupferWindow (gtk.Window):
 		#self.set_app_paintable(True)
 
 	def on_style_set(self, widget, old_style):
+		pretty.print_debug(__name__, "Scale factor", self.get_scale_factor())
 		widget.set_property('decorated', WINDOW_DECORATED)
 				#widget.style_get_property('decorated'))
 		widget.set_property('border-width', WINDOW_BORDER_WIDTH)

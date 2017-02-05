@@ -789,6 +789,20 @@ class PreferencesWindowController (pretty.OutputMixin):
 			term_id = widget.get_model().get_value(itr, 1)
 			setctl.set_preferred_tool('icon_renderer', term_id)
 
+	def on_icons_large_size_changed(self, widget):
+		setctl = settings.GetSettingsController()
+		itr = widget.get_active_iter()
+		if itr:
+			val = widget.get_active_text()
+			setctl.set_large_icon_size(val)
+
+	def on_icons_small_size_changed(self, widget):
+		setctl = settings.GetSettingsController()
+		itr = widget.get_active_iter()
+		if itr:
+			val = widget.get_active_text()
+			setctl.set_small_icon_size(val)
+
 	def _update_alternative_combobox(self, category_key, combobox):
 		"""
 		Alternatives changed

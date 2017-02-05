@@ -311,6 +311,12 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 	def set_use_command_keys(self, enabled):
 		return self._set_config("Kupfer", "usecommandkeys", enabled)
 
+	def set_large_icon_size(self, size):
+		return self._set_config("Appearance", "icon_large_size", size)
+
+	def set_small_icon_size(self, size):
+		return self._set_config("Appearance", "icon_small_size", size)
+
 	def get_show_status_icon(self):
 		"""Convenience: Show icon in notification area as bool"""
 		return strbool(self.get_config("Kupfer", "showstatusicon"))
