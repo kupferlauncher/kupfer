@@ -1995,7 +1995,7 @@ class WindowController (pretty.OutputMixin):
 			return self._setup_gtk_status_icon(menu)
 
 	def _setup_gtk_status_icon(self, menu):
-		status = gtk.status_icon_new_from_icon_name(version.ICON_NAME)
+		status = gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
 		status.set_tooltip(version.PROGRAM_NAME)
 
 		status.connect("popup-menu", self._popup_menu, menu)
