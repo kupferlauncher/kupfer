@@ -119,6 +119,9 @@ class LeafModel (object):
 	self.set_base will set its base iterator
 	and self.populate(num) will load @num items into
 	the model
+
+	Attributes:
+	icon_size
 	"""
 	def __init__(self):
 		"""
@@ -130,6 +133,7 @@ class LeafModel (object):
 		self.object_column = 0
 		self.base = None
 		self._setup_columns()
+		self.icon_size = 32
 
 	def __len__(self):
 		return len(self.store)
@@ -235,12 +239,8 @@ class LeafModel (object):
 	def add_first(self, rankable):
 		self.store.prepend(self._get_row(rankable))
 
-	def get_icon_size(self):
-		# FIXME: Config kupfer-list icon size
-		return 32
-
 	def get_icon(self, leaf):
-		sz = self.get_icon_size()
+		sz = self.icon_size
 		if sz >= 8:
 			return leaf.get_thumbnail(sz, sz) or leaf.get_pixbuf(sz)
 
@@ -546,7 +546,8 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		self._initialized = False
 		# finally build widget
 		self.build_widget()
-		self._icon_size = 64
+		self._icon_size = None
+		self._icon_size_small = None
 		self._read_icon_size()
 		self.setup_empty()
 
@@ -556,10 +557,13 @@ class Search (gtk.Bin, pretty.OutputMixin):
 
 	def _icon_size_changed(self, setctl, section, key, value):
 		self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+		self._icon_size_small = setctl.get_config_int("Appearance", "icon_small_size")
+		self.model.icon_size = self._icon_size_small
 
 	def _read_icon_size(self, *args):
 		setctl = settings.GetSettingsController()
 		setctl.connect("value-changed::appearance.icon_large_size", self._icon_size_changed)
+		setctl.connect("value-changed::appearance.icon_small_size", self._icon_size_changed)
 		self._icon_size_changed(setctl, None, None, None)
 
 	def build_widget(self):
