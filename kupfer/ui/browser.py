@@ -1781,11 +1781,11 @@ class KupferWindow (gtk.Window):
 		super(KupferWindow, self).__init__(*args)
 		self.connect("style-set", self.on_style_set)
 		self.set_name("kupfer")
-		#self.connect("map-event", self.on_expose_event)
+		self.connect("map-event", self.on_expose_event)
 		self.connect("size-allocate", self.on_size_allocate)
 		self.connect("composited-changed", self.on_composited_changed)
 		self.connect("realize", self.on_realize)
-		self.set_app_paintable(True)
+		#self.set_app_paintable(True)
 
 	def on_style_set(self, widget, old_style):
 		return
