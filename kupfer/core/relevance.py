@@ -100,10 +100,10 @@ def score(s, query):
 
     Returns: a float between 0 and 1
 
-    >>> print(score('terminal', 'trml'))
-    0.735098684211
-    >>> print(score('terminal', 'term'))
-    0.992302631579
+    >>> round(score('terminal', 'trml'), 6)
+    0.735099
+    >>> round(score('terminal', 'term'), 6)
+    0.992303
     >>> print(score('terminal', 'try'))
     0.0
     >>> print(score('terminal', ''))

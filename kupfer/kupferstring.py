@@ -78,22 +78,18 @@ def tofolded(ustr):
     similar basic latin characters.
 
     >>> tofolded(u"Wyłącz")
-    u'Wylacz'
+    'Wylacz'
     >>> tofolded(u"naïveté")
-    u'naivete'
+    'naivete'
 
     Characters from other scripts are not transliterated.
 
-    >>> print tofolded(u"Ἑλλάς")
+    >>> print(tofolded(u"Ἑλλάς"))
     Ελλας
     """
     srcstr = normalize("NFKD", ustr.translate(folding_table))
     return "".join([c for c in srcstr if category(c) != 'Mn'])
 
 if __name__ == '__main__':
-    import sys
-    imp.reload(sys)
-    sys.setdefaultencoding("UTF-8")
-
     import doctest
     doctest.testmod()

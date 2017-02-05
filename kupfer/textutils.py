@@ -18,14 +18,14 @@ def extract_title_body(text, maxtitlelen=60):
     The default value yields a resulting title of approximately 60 ascii
     characters, or 20 asian characters.
 
-    >>> extract_title_body(u"Short Text")
-    (u'Short Text', u'')
+    >>> extract_title_body("Short Text")
+    ('Short Text', '')
 
     >>> title, body = extract_title_body(u"執筆方針については、項目名の付け方、"
     ...     "フォーマットや表記上の諸問題に関して多くの方針が存在している。")
-    >>> print title
+    >>> print(title)
     執筆方針については、項目名の付け方、フォ
-    >>> print body          # doctest: +ELLIPSIS
+    >>> print(body)         # doctest: +ELLIPSIS
     執筆方針については、項目名の付け方、フォ...して多くの方針が存在している。
     """
     # if you don't make real tests, it's not not worth doing it at all.
@@ -70,10 +70,5 @@ def extract_title_body(text, maxtitlelen=60):
         return text, ""
 
 if __name__ == '__main__':
-    # unicode doctest hack
-    import sys
-    imp.reload(sys)
-    sys.setdefaultencoding("UTF-8")
-
     import doctest
     doctest.testmod()
