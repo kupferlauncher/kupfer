@@ -1,25 +1,19 @@
 # encoding: UTF-8
 
-# Order: Data files, Regular modules, Object modules, Plugins
-auxdata/kupfer.desktop.in
-auxdata/kupfer-exec.desktop.in
-auxdata/kupfer-mimetypes.xml.in
 [type: gettext/glade]data/credentials_dialog.ui
 [type: gettext/glade]data/getkey_dialog.ui
 [type: gettext/glade]data/preferences.ui
 [type: gettext/glade]data/progress_dialog.ui
 [type: gettext/glade]data/result.ui
 
+auxdata/kupfer.desktop.in
+auxdata/kupfer-exec.desktop.in
+auxdata/kupfer-mimetypes.xml.in
+
 kupfer/core/commandexec.py
 kupfer/core/execfile.py
 kupfer/keyrelay.py
 kupfer/main.py
-kupfer/ui/accelerators.py
-kupfer/ui/browser.py
-kupfer/ui/getkey_dialog.py
-kupfer/ui/preferences.py
-kupfer/version.py
-
 kupfer/obj/base.py
 kupfer/obj/compose.py
 kupfer/obj/contacts.py
@@ -28,10 +22,10 @@ kupfer/obj/fileactions.py
 kupfer/obj/objects.py
 kupfer/obj/sources.py
 kupfer/obj/special.py
-
-# Plugin order: First, all by default enabled plugins, then others. Sorted.
 kupfer/plugin/applications.py
+kupfer/plugin/archiveinside.py
 kupfer/plugin/archivemanager.py
+kupfer/plugin/audacious.py
 kupfer/plugin/calculator.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/commands.py
@@ -42,70 +36,27 @@ kupfer/plugin/core/debug.py
 kupfer/plugin/core/__init__.py
 kupfer/plugin/core/internal.py
 kupfer/plugin/core/text.py
+kupfer/plugin/custom_terminal.py
+kupfer/plugin/defaultmail.py
 kupfer/plugin/dictionary.py
 kupfer/plugin/documents.py
-kupfer/plugin/epiphany.py
+kupfer/plugin/duckduckgo.py
 kupfer/plugin/favorites.py
 kupfer/plugin/fileactions.py
-kupfer/plugin/firefox.py
-kupfer/plugin/multihead.py
-kupfer/plugin/notes.py
-kupfer/plugin/rhythmbox.py
-kupfer/plugin/session_gnome.py
-kupfer/plugin/session_support.py
-kupfer/plugin/session_xfce.py
-kupfer/plugin/show_text.py
-kupfer/plugin/trash.py
-kupfer/plugin/triggers.py
-kupfer/plugin/urlactions.py
-kupfer/plugin/volumes.py
-kupfer/plugin/websearch.py
-kupfer/plugin/wikipedia.py
-kupfer/plugin/windows.py
-
-# Optional plugins follow
-kupfer/plugin/abiword.py
-kupfer/plugin/apt_tools.py
-kupfer/plugin/archiveinside.py
-kupfer/plugin/asciiunicodeiconset.py
-kupfer/plugin/audacious.py
-kupfer/plugin/chromium.py
-kupfer/plugin/clawsmail.py
-kupfer/plugin/custom_terminal.py
-kupfer/plugin/customtheme.py
-kupfer/plugin/defaultmail.py
-kupfer/plugin/devhelp.py
-kupfer/plugin/duckduckgo.py
-kupfer/plugin/empathy.py
-kupfer/plugin/evolution.py
-kupfer/plugin/filezilla.py
-kupfer/plugin/gajim.py
 kupfer/plugin/glob.py
-kupfer/plugin/gmail/__init__.py
 kupfer/plugin/gnome_terminal.py
-kupfer/plugin/google_picasa/__init__.py
-kupfer/plugin/google_search.py
-kupfer/plugin/gtg.py
-kupfer/plugin/gwibber.py
-kupfer/plugin/gwibber_simple.py
 kupfer/plugin/higherorder.py
 kupfer/plugin/image.py
 kupfer/plugin/kupfer_plugins.py
-kupfer/plugin/locate.py
-kupfer/plugin/openoffice.py
-kupfer/plugin/operamail.py
-kupfer/plugin/opera.py
-kupfer/plugin/pidgin.py
-kupfer/plugin/putty.py
+kupfer/plugin/multihead.py
+kupfer/plugin/notes.py
 kupfer/plugin/qsicons/__init__.py
 kupfer/plugin/quickview.py
-kupfer/plugin/rst.py
 kupfer/plugin/screen.py
 kupfer/plugin/sendkeys.py
-kupfer/plugin/services.py
-kupfer/plugin/shorten_links.py
-kupfer/plugin/show_qrcode.py
-kupfer/plugin/skype.py
+kupfer/plugin/session_gnome.py
+kupfer/plugin/session_support.py
+kupfer/plugin/session_xfce.py
 kupfer/plugin/ssh_hosts.py
 kupfer/plugin_support.py
 kupfer/plugin/templates.py
@@ -113,11 +64,15 @@ kupfer/plugin/textfiles.py
 kupfer/plugin/thunar.py
 kupfer/plugin/thunderbird.py
 kupfer/plugin/top.py
-kupfer/plugin/tracker1.py
-kupfer/plugin/truecrypt.py
-kupfer/plugin/tsclient.py
-kupfer/plugin/vim/__init__.py
-kupfer/plugin/vim/plugin.py
-kupfer/plugin/vinagre.py
-kupfer/plugin/virtualbox/__init__.py
-kupfer/plugin/zim.py
+kupfer/plugin/trash.py
+kupfer/plugin/triggers.py
+kupfer/plugin/urlactions.py
+kupfer/plugin/wikipedia.py
+kupfer/plugin/windows.py
+kupfer/plugin/volumes.py
+kupfer/ui/accelerators.py
+kupfer/ui/browser.py
+kupfer/ui/getkey_dialog.py
+kupfer/ui/preferences.py
+kupfer/version.py
+
