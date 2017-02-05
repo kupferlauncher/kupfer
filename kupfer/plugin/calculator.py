@@ -1,6 +1,6 @@
 
 __kupfer_name__ = _("Calculator")
-__kupfer_actions__ = ("Calculate", "CalculateOtherExpressions")
+__kupfer_actions__ = ("Calculate")
 __description__ = _("Calculate mathematical expressions")
 __version__ = "2012-06-10"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -155,18 +155,3 @@ class Calculate (Action):
 		return None
 
 
-class CalculateOtherExpressions(Calculate):
-	""" Calcualte expressions that not starts with "=" """
-	rank_adjust = 0
-
-	def valid_for_item(self, leaf):
-		text = leaf.object
-		return text and not text.startswith("=") and (
-				"+" in text or
-				"-" in text or
-				"*" in text or
-				"/" in text or
-				"^" in text or
-				"&" in text or
-				"|" in text or
-				"~" in text)
