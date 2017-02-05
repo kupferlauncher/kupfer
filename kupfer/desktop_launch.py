@@ -6,6 +6,8 @@ import glib
 import gio
 import gtk
 
+from gi.repository import Gdk
+
 import xdg.DesktopEntry
 import xdg.Exceptions
 
@@ -376,7 +378,8 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	"""
 	notify_id = None
 	if startup_notify:
-		ctx = gtk.gdk.AppLaunchContext()
+		display = Gdk.Display.get_default()
+		ctx = display.get_app_launch_context()
 		ctx.set_timestamp(timestamp or gtk.get_current_event_time())
 		if screen:
 			ctx.set_screen(screen)
