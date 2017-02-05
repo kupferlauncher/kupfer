@@ -32,8 +32,8 @@ or ::
 
 You can use ``--prefix=$PREFIX`` when configuring to assign an
 installation spot. By default, Kupfer is installed for all users.
-Installing only for your user, the prefix ``~/.local`` is often used;
-you just have to make sure that ``~/.local/bin`` is in your ``$PATH``.
+Installing only for your user is possible, but the binary directory must
+be in your ``$PATH``.
 
 Note: The included waf script *must* be run with Python 2, unfortunately.
 
@@ -102,6 +102,7 @@ from tomboy.
 
 .. _`Keybinder`: https://github.com/engla/keybinder
 
+(Temporarily: Keybinder is required. We want to fix that).
 You can use kupfer without the keybinder module, for example by
 assigning a global keybinding to the ``kupfer`` binary, but it not the
 recommended way.
