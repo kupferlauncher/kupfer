@@ -160,6 +160,9 @@ class ComposedIcon (object):
 		"""Contstuct a composed icon from @baseicon and @emblem,
 		which may be GIcons or icon names (strings)
 		"""
+		# FIXME: Disabled composed icons
+		return ThemedIcon.new(baseicon)
+	
 		fallback = emblem if emblem_is_fallback else baseicon
 		if isinstance(fallback, (str, ThemedIcon)):
 			return cls._ThemedIcon(fallback, baseicon, emblem)

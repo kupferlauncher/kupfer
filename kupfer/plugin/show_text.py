@@ -57,7 +57,7 @@ class LargeType (Action):
 	def get_description(self):
 		return _("Display text in a window")
 	def get_gicon(self):
-		return icons.ComposedIcon("format-text-bold", "zoom-in")
+		return icons.ComposedIcon.new("format-text-bold", "zoom-in")
 	def get_icon_name(self):
 		return "format-text-bold"
 
