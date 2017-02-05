@@ -35,6 +35,7 @@ setup_locale_and_gettext()
 def prt(*args):
 	enc = locale.getpreferredencoding(do_setlocale=False)
 	sys.stdout.buffer.write(" ".join(args).encode(enc, "replace"))
+	sys.stdout.buffer.write(b"\n")
 	#print(((" ".join(args)).encode(enc, "replace")))
 
 def get_options():
@@ -94,8 +95,6 @@ def get_options():
 			raise SystemExit
 		if k == "--version":
 			print_version()
-			prt()
-			print_banner()
 			raise SystemExit
 		if k == "--debug":
 			global _debug
