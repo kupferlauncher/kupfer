@@ -17,29 +17,29 @@ class SavedIterable (object):
 	thin wrapper of a sequence iterator. The SavedIterable will pickle
 	into a list.
 
-	>>> s = SavedIterable(xrange(5))
-	>>> iter(s).next()
+	>>> s = SavedIterable(range(5))
+	>>> next(iter(s))
 	0
 	>>> list(s)
 	[0, 1, 2, 3, 4]
 
 	>>> iter(s)   # doctest: +ELLIPSIS
-	<listiterator object at 0x...>
+	<list_iterator object at 0x...>
 
 	>>> import pickle
 	>>> pickle.loads(pickle.dumps(s))
 	[0, 1, 2, 3, 4]
 
-	>>> u = SavedIterable(xrange(5))
+	>>> u = SavedIterable(list(range(5)))
 	>>> one, two = iter(u), iter(u)
-	>>> one.next(), two.next()
+	>>> next(one), next(two)
 	(0, 0)
 	>>> list(two)
 	[1, 2, 3, 4]
 	>>> list(one)
 	[1, 2, 3, 4]
 
-	>>> SavedIterable(range(3))
+	>>> SavedIterable(list(range(3)))
 	[0, 1, 2]
 	"""
 	def __new__(cls, iterable):
