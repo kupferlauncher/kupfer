@@ -73,15 +73,7 @@ def try_unquote_url(url):
 	Where we assume UTF-8 encoding; and return the original url if
 	any step fails.
 	"""
-	# check that it is ascii only
-	try:
-		burl = url.encode("ascii")
-	except UnicodeEncodeError:
-		return url
-	try:
-		return urllib.parse.unquote(burl).decode("UTF-8")
-	except UnicodeDecodeError:
-		return url
+	return urllib.parse.unquote(url)
 
 class OpenTextUrl (OpenUrl):
 	rank_adjust = 1
