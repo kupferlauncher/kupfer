@@ -1783,18 +1783,17 @@ class KupferWindow (gtk.Window):
 		super(KupferWindow, self).__init__(*args)
 		self.connect("style-set", self.on_style_set)
 		self.set_name("kupfer")
-		self.connect("map-event", self.on_expose_event)
+		#self.connect("map-event", self.on_expose_event)
 		self.connect("size-allocate", self.on_size_allocate)
 		self.connect("composited-changed", self.on_composited_changed)
 		self.connect("realize", self.on_realize)
 		#self.set_app_paintable(True)
 
 	def on_style_set(self, widget, old_style):
-		return
-		widget.set_property('decorated',
-				widget.style_get_property('decorated'))
-		widget.set_property('border-width',
-				widget.style_get_property('border-width'))
+		widget.set_property('decorated', WINDOW_DECORATED)
+				#widget.style_get_property('decorated'))
+		widget.set_property('border-width', WINDOW_BORDER_WIDTH)
+				#widget.style_get_property('border-width'))
 
 	def on_expose_event(self, widget, event):
 		cr = widget.window.cairo_create()
@@ -1880,6 +1879,7 @@ WINDOW_DECORATED = False
 #gtk.widget_class_install_style_property(KupferWindow, ('opacity', gobject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, gobject.PARAM_READABLE))
 #gtk.widget_class_install_style_property(KupferWindow, ('decorated', gobject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, gobject.PARAM_READABLE))
 
+WINDOW_BORDER_WIDTH = 8
 #gtk.widget_class_install_style_property(KupferWindow, ('border-width', gobject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, gobject.PARAM_READABLE))
 
 class WindowController (pretty.OutputMixin):
