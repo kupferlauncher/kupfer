@@ -206,8 +206,6 @@ class CommandTextSource (TextSource):
 		PATH = os.environ.get("PATH", os.defpath)
 		for execdir in PATH.split(os.pathsep):
 			exepath = os.path.join(execdir, firstword)
-			# use filesystem encoding here
-			exepath = gobject.filename_from_utf8(exepath)
 			if os.access(exepath, os.R_OK|os.X_OK) and os.path.isfile(exepath):
 				yield Command(exepath, text)
 				break
