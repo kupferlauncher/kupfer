@@ -1,5 +1,6 @@
 
 
+import base64
 import gzip
 import hashlib
 import itertools
@@ -117,9 +118,8 @@ class SourcePickler (pretty.OutputMixin):
 		# make sure we take the source name into account
 		# so that we get a "break" when locale changes
 		source_id = "%s%s%s" % (repr(source), str(source), source.version)
-		bytes = hashlib.md5(source_id).digest()
-		hashstr = bytes.encode("base64").rstrip("\n=").replace("/", "-")
-		filename = self.name_template % (hashstr, self.pickle_version)
+		hash_str = hashlib.md5(source_id.encode("utf-8")).hexdigest()
+		filename = self.name_template % (hash_str, self.pickle_version)
 		return os.path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
