@@ -680,7 +680,11 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 			ctl.search(key, wrapcontext, text_mode)
 		else:
 			timeout = 300 if lazy else 0 if not key else 50//len(key)
-			ctl.outstanding_search = gobject.timeout_add(timeout, ctl.search, 
+
+			def ctl_search(*args):
+				ctl.outstanding_search = -1
+				return ctl.search(*args)
+			ctl.outstanding_search = gobject.timeout_add(timeout, ctl_search,
 					key, wrapcontext, text_mode)
 
 	def _pane_search_result(self, panectl, match,match_iter, wrapcontext, pane):
