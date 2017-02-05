@@ -1,5 +1,5 @@
 __kupfer_name__ = _("Documents")
-__kupfer_sources__ = ("RecentsSource", "PlacesSource", )
+__kupfer_sources__ = ("RecentsSource", ) #"PlacesSource", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
 __description__ = _("Recently used documents and bookmarked folders")
 __version__ = ""
