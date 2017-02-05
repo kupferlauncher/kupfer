@@ -4,7 +4,7 @@ import base64
 import gzip
 import hashlib
 import itertools
-import pickle as pickle
+import pickle
 import os
 import threading
 import time
@@ -81,7 +81,7 @@ class SourcePickler (pretty.OutputMixin):
 	"""
 	Takes care of pickling and unpickling Kupfer Sources.
 	"""
-	pickle_version = 4
+	format_version = 5
 	name_template = "k%s-v%d.pickle.gz"
 
 	def __init__(self):
@@ -98,7 +98,7 @@ class SourcePickler (pretty.OutputMixin):
 			# Look for files matching beginning and end of
 			# name_template, with the previous file version
 			chead, ctail = self.name_template.split("%s")
-			ctail = ctail % ((self.pickle_version -1),)
+			ctail = ctail % ((self.format_version -1),)
 			obsolete_files = []
 			for cfile in files:
 				if cfile.startswith(chead) and cfile.endswith(ctail):
@@ -119,7 +119,7 @@ class SourcePickler (pretty.OutputMixin):
 		# so that we get a "break" when locale changes
 		source_id = "%s%s%s" % (repr(source), str(source), source.version)
 		hash_str = hashlib.md5(source_id.encode("utf-8")).hexdigest()
-		filename = self.name_template % (hash_str, self.pickle_version)
+		filename = self.name_template % (hash_str, self.format_version)
 		return os.path.join(config.get_cache_home(), filename)
 
 	def unpickle_source(self, source):
@@ -184,7 +184,7 @@ class SourceDataPickler (pretty.OutputMixin):
 	config_restore(obj)
 	  Receive the configuration object `obj' to load
 	"""
-	pickle_version = 1
+	format_version = 2
 	name_template = "config-%s-v%d.pickle"
 
 	def __init__(self):
@@ -194,7 +194,7 @@ class SourceDataPickler (pretty.OutputMixin):
 	def get_filename(cls, source):
 		"""Return filename for @source"""
 		name = source.config_save_name()
-		filename = cls.name_template % (name, cls.pickle_version)
+		filename = cls.name_template % (name, cls.format_version)
 		return config.save_config_file(filename)
 
 	@classmethod
