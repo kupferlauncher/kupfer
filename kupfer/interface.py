@@ -1,4 +1,4 @@
-import gtk
+from gi.repository import Gtk, Gdk
 
 class TextRepresentation (object):
 	"""
@@ -37,7 +37,7 @@ def copy_to_clipboard(obj, clipboard):
 	## as well as files in both the general uri-list representation
 	## and in nautilus' file copy clipboard type
 	target_ids = (uri_id, text_id, nautilus_id) = (80, 81, 82)
-	nautilus_target = 'x-special/gnome-copied-files'
+	nautilus_target = Gdk.Atom.intern('x-special/gnome-copied-files', False)
 
 	# udata is the data dict
 	def store(clipboard, sdata, info, udata):
@@ -59,8 +59,10 @@ def copy_to_clipboard(obj, clipboard):
 		pass
 	else:
 		if urilist:
-			targets = gtk.target_list_add_uri_targets(targets, uri_id)
-			targets.append((nautilus_target, 0, nautilus_id))
+			targets = Gtk.TargetList.new(None)
+			targets.add_uri_targets(uri_id)
+			#targets = gtk.target_list_add_uri_targets(targets, uri_id)
+			targets.add(nautilus_target, 0, nautilus_id)
 			data[uri_id] = urilist
 			data[nautilus_id] = 'copy\n' + '\n'.join(urilist)
 
@@ -69,12 +71,15 @@ def copy_to_clipboard(obj, clipboard):
 	except AttributeError:
 		pass
 	else:
-		targets = gtk.target_list_add_text_targets(targets, text_id)
+		targets = Gtk.TargetList.new(None)
+		targets.add_text_targets(text_id)
+		clipboard.set_text(text, -1) # -1 for computed string length
 		data[text_id] = text
 	if data:
-		clipboard.set_with_data(targets, store, clear, data)
+		# FIXME: How to set URIs on clipboard?
+		#clipboard.set_with_data(targets, store, clear, data)
 		# store all targets
-		clipboard.set_can_store(targets)
+		#clipboard.set_can_store(targets)
 		return True
 	return False
 

@@ -102,7 +102,7 @@ class FileLeaf (Leaf, TextRepresentation):
 		return gobject.filename_display_name(self.object)
 
 	def get_urilist_representation(self):
-		return [gio.File(path=self.object).get_uri()]
+		return [gio.File.new_for_path(self.object).get_uri()]
 
 	def get_description(self):
 		return utils.get_display_path_for_bytestring(self.canonical_path())
