@@ -7,6 +7,7 @@ import sys
 import textwrap
 import time
 
+from gi.repository import Gtk, Gdk
 import gtk
 import gio
 import gobject
@@ -350,44 +351,10 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 		box.pack_start(self._editbox, False, True, 0)
 		self.event_box = gtk.EventBox()
 		self.event_box.add(box)
-		self.event_box.connect("map-event", self._box_expose)
-		self.event_box.set_app_paintable(True)
+		self.event_box.get_style_context().add_class("matchview")
 		self.add(self.event_box)
 		self.event_box.show_all()
 		self.__child = self.event_box
-
-	def _box_expose(self, widget, event):
-		"Draw background on the EventBox"
-		rect = widget.get_allocation()
-		context = widget.window.cairo_create()
-		# set a clip region for the expose event
-		context.rectangle(event.area.x, event.area.y,
-		                  event.area.width, event.area.height)
-		scale = 1.0/2**16
-		# paint over GtkEventBox's default background
-		context.clip_preserve()
-		context.set_operator(cairo.OPERATOR_SOURCE)
-		normc = widget.style.bg[gtk.STATE_NORMAL]
-		toplevel_window = widget.get_toplevel()
-		if toplevel_window.is_composited():
-			opacity = 0.01*toplevel_window.style_get_property('opacity')
-			context.set_source_rgba(normc.red*scale,
-					normc.green*scale, normc.blue*scale, opacity)
-		else:
-			context.set_source_rgba(normc.red*scale,
-					normc.green*scale, normc.blue*scale, 1.0)
-		context.fill()
-
-		radius = CORNER_RADIUS
-		make_rounded_rect(context, 0, 0, rect.width, rect.height, radius=radius)
-		# Get the current selection color
-		newc = widget.style.bg[widget.get_state()]
-		context.set_operator(cairo.OPERATOR_SOURCE)
-		opacity = 0.01 * OPACITY
-		context.set_source_rgba(newc.red*scale,
-				newc.green*scale, newc.blue*scale, opacity)
-		context.fill()
-		return False
 
 	def do_size_request (self, requisition):
 		requisition.width, requisition.height = self.__child.size_request ()
@@ -1777,6 +1744,19 @@ gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
 gobject.signal_new("launched-action", Interface, gobject.SIGNAL_RUN_LAST,
 		gobject.TYPE_BOOLEAN, ())
 
+
+KUPFER_CSS = b"""
+#kupfer GtkWindow {
+}
+
+.matchview {
+	border-radius: 10px;
+}
+*:selected .matchview {
+	background: @theme_selected_bg_color
+}
+"""
+
 class KupferWindow (gtk.Window):
 	__gtype_name__ = "KupferWindow"
 	def __init__(self, *args):
@@ -1794,6 +1774,19 @@ class KupferWindow (gtk.Window):
 				#widget.style_get_property('decorated'))
 		widget.set_property('border-width', WINDOW_BORDER_WIDTH)
 				#widget.style_get_property('border-width'))
+		self._load_css()
+		return False
+
+	def _load_css(self):
+		style_provider = Gtk.CssProvider()
+
+		style_provider.load_from_data(KUPFER_CSS)
+
+		Gtk.StyleContext.add_provider_for_screen(
+			Gdk.Screen.get_default(),
+			style_provider,
+			Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+		)
 
 	def on_expose_event(self, widget, event):
 		cr = widget.window.cairo_create()
