@@ -1951,7 +1951,7 @@ class WindowController (pretty.OutputMixin):
 			if label and not icon:
 				mitem = gtk.MenuItem(label=label)
 			else:
-				mitem = gtk.ImageMenuItem(icon)
+				mitem = gtk.ImageMenuItem.new_from_stock(icon)
 			mitem.connect("activate", mitem_handler, callback)
 			menu.append(mitem)
 
