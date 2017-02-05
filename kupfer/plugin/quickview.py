@@ -9,6 +9,7 @@ import shutil
 import gio
 import glib
 import gtk
+from gi.repository import GdkPixbuf
 
 from kupfer.objects import Action, FileLeaf
 from kupfer.objects import OperationError
@@ -17,7 +18,7 @@ from kupfer import utils
 
 def is_content_type(fileleaf, ctype):
 	predicate = gio.content_type_is_a
-	ctype_guess, uncertain = gio.content_type_guess(fileleaf.object, None, True)
+	ctype_guess, uncertain = gio.content_type_guess(fileleaf.object, None)
 	ret = predicate(ctype_guess, ctype)
 	if ret or not uncertain:
 		return ret
@@ -38,7 +39,7 @@ def _set_size(loader, width, height, max_w, max_h):
 	loader.set_size(int(width*scale), int(height*scale))
 
 def load_image_max_size(filename, w, h):
-	pl = gtk.gdk.PixbufLoader()
+	pl = GdkPixbuf.PixbufLoader()
 	pl.connect("size-prepared", _set_size, w, h)
 	try:
 		with open(filename, "rb") as f:
@@ -75,7 +76,7 @@ class View (Action):
 		image_widget.set_from_pixbuf(load_image_max_size(obj.object, w, h))
 		image_widget.show()
 		window = gtk.Window() 
-		window.set_title(utils.get_display_path_for_bytestring(obj.object))
+		window.set_title(str(obj))
 		window.set_position(gtk.WIN_POS_CENTER)
 		window.add(image_widget)
 		ctx.environment.present_window(window)
