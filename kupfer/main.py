@@ -84,7 +84,7 @@ def get_options():
 	except getopt.GetoptError as exc:
 		prt(str(exc))
 		prt(make_help_text())
-		raise SystemExit
+		raise SystemExit(1)
 
 	for k, v in opts:
 		if k == "--list-plugins":
