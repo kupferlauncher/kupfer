@@ -25,7 +25,7 @@ have read the whole *Guidelines and Policy* chapter of this manual. And
 take care to structure your changes, do not fear asking for advice. Good
 Luck!
 
-__ http://github.com/engla/kupfer
+__ https://github.com/kupferlauncher/kupfer
 
 
 Icon Guidelines

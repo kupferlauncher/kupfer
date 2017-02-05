@@ -72,8 +72,8 @@ DOCUMENTERS = []
 # TRANS: This should be a list of all translators of this language
 TRANSLATOR_CREDITS = _("translator-credits")
 
-WEBSITE = "https://engla.github.io/kupfer/"
-HELP_WEBSITE = "https://engla.github.io/kupfer/help/"
+WEBSITE = "https://kupferlauncher.github.io/"
+HELP_WEBSITE = "https://kupferlauncher.github.io/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
 COPYRIGHT = """Copyright © 2007–2017 Ulrik Sverdrup with others"""
