@@ -16,7 +16,7 @@ class SaveToFile (Action):
         return True
 
     def activate(self, obj, iobj):
-        filepath = kupferstring.tolocale(iobj.object)
+        filepath = iobj.object
         execfile.save_to_file(obj, filepath)
         execfile.update_icon(obj, iobj.object)
         return FileLeaf(os.path.abspath(filepath))
