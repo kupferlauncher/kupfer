@@ -123,23 +123,11 @@ def print_banner():
         "   %(WEBSITE)s\n") % vars(version)
     prt(banner)
 
-def _set_process_title_linux():
-    try:
-        import ctypes
-    except ImportError:
-        return
-    try:
-        libc = ctypes.CDLL("libc.so.6")
-        libc.prctl(15, "kupfer")
-    except (AttributeError, OSError):
-        pass
-
 def _set_process_title():
     try:
         import setproctitle
     except ImportError:
-        if sys.platform == "linux2":
-            _set_process_title_linux()
+        pass
     else:
         setproctitle.setproctitle("kupfer")
 
