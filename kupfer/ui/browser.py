@@ -185,6 +185,8 @@ class LeafModel (object):
 		return val
 
 	def get_object(self, path):
+		if path is None:
+			return
 		return self._get_column(path, self.object_column)
 
 	def get_store(self):
