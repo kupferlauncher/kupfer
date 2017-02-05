@@ -107,7 +107,9 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
                 with open(config_file, "r") as fil:
                     parser.readfp(fil)
             except IOError as e:
-                print(("Error reading configuration file %s: %s", (config_file, e)))
+                print(("Error reading configuration file %s: %s" % (config_file, e)))
+            except UnicodeDecodeError as e:
+                print(("Error reading configuration file %s: %s" % (config_file, e)))
 
         # Read parsed file into the dictionary again
         for secname in parser.sections():
