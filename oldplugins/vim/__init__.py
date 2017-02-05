@@ -7,7 +7,7 @@ __author__ = "Plugin: Ulrik Sverdrup, VimCom: Ali Afshar"
 
 
 def initialize_plugin(name):
-	global RecentsSource
-	global ActiveVim
-	global InsertInVim
-	from kupfer.plugin.vim.plugin import RecentsSource, ActiveVim, InsertInVim
+    global RecentsSource
+    global ActiveVim
+    global InsertInVim
+    from kupfer.plugin.vim.plugin import RecentsSource, ActiveVim, InsertInVim

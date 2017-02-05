@@ -13,153 +13,153 @@ from kupfer.plugin import ssl_support
 from kupfer import pretty
 
 class _ShortLinksService(Leaf):
-	def __init__(self, name):
-		Leaf.__init__(self, name, name)
-	def get_icon_name(self):
-		return "text-html"
+    def __init__(self, name):
+        Leaf.__init__(self, name, name)
+    def get_icon_name(self):
+        return "text-html"
 
 class _GETService(_ShortLinksService, pretty.OutputMixin):
-	""" A unified shortener service working with GET requests """
-	host = None
-	path = None
-	url_key = "url"
-	use_https = False
+    """ A unified shortener service working with GET requests """
+    host = None
+    path = None
+    url_key = "url"
+    use_https = False
 
-	def process(self, url):
-		"""Shorten @url or raise ValueError"""
-		query_string = urllib.parse.urlencode({self.url_key : url})
-		try:
-			if self.use_https and ssl_support.is_supported():
-				conn = ssl_support.VerifiedHTTPSConnection(self.host, timeout=5)
-				pretty.print_debug(__name__, "Connected SSL to", self.host)
-			else:
-				conn = http.client.HTTPConnection(self.host, timeout=5)
-			conn.request("GET", self.path+query_string)
-			resp = conn.getresponse()
-			if resp.status != 200:
-				raise ValueError('Invalid response %d, %s' % (resp.status,
-					resp.reason))
-			
-			result = resp.read()
-			return result.strip()
+    def process(self, url):
+        """Shorten @url or raise ValueError"""
+        query_string = urllib.parse.urlencode({self.url_key : url})
+        try:
+            if self.use_https and ssl_support.is_supported():
+                conn = ssl_support.VerifiedHTTPSConnection(self.host, timeout=5)
+                pretty.print_debug(__name__, "Connected SSL to", self.host)
+            else:
+                conn = http.client.HTTPConnection(self.host, timeout=5)
+            conn.request("GET", self.path+query_string)
+            resp = conn.getresponse()
+            if resp.status != 200:
+                raise ValueError('Invalid response %d, %s' % (resp.status,
+                    resp.reason))
+            
+            result = resp.read()
+            return result.strip()
 
-		except (http.client.HTTPException, IOError, ValueError) as exc:
-			raise ValueError(exc)
-		return _('Error')
+        except (http.client.HTTPException, IOError, ValueError) as exc:
+            raise ValueError(exc)
+        return _('Error')
 
 
 # NOTE: It's important that we use only sites that provide a stable API
 
 class TinyUrl(_GETService):
-	"""
-	Website: http://tinyurl.com
-	"""
-	host = "tinyurl.com"
-	path = "/api-create.php?"
+    """
+    Website: http://tinyurl.com
+    """
+    host = "tinyurl.com"
+    path = "/api-create.php?"
 
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'TinyUrl.com')
+    def __init__(self):
+        _ShortLinksService.__init__(self, 'TinyUrl.com')
 
 class IsGd(_GETService):
-	"""
-	Website: http://is.gd
-	Reference: http://is.gd/apishorteningreference.php
-	"""
-	host = 'is.gd'
-	path = '/create.php?format=simple&'
+    """
+    Website: http://is.gd
+    Reference: http://is.gd/apishorteningreference.php
+    """
+    host = 'is.gd'
+    path = '/create.php?format=simple&'
 
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'Is.gd')
+    def __init__(self):
+        _ShortLinksService.__init__(self, 'Is.gd')
 
 class VGd(_GETService):
-	"""
-	Website: http://v.gd
-	Reference: http://v.gd/apishorteningreference.php
+    """
+    Website: http://v.gd
+    Reference: http://v.gd/apishorteningreference.php
 
-	Like is.gd, but v.gd always shows a preview page.
-	"""
-	host = 'v.gd'
-	path = '/create.php?format=simple&'
+    Like is.gd, but v.gd always shows a preview page.
+    """
+    host = 'v.gd'
+    path = '/create.php?format=simple&'
 
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'V.gd')
+    def __init__(self):
+        _ShortLinksService.__init__(self, 'V.gd')
 
 class BitLy(_GETService):
-	"""
-	Website: http://bit.ly
-	Reference: http://code.google.com/p/bitly-api/wiki/ApiDocumentation
-	"""
-	# No password is available for this login name,
-	# yet there is a possibility that you could track
-	# all URLs shortened using this API key
-	BITLY_LOGIN = "kupferkupfer"
-	BITLY_API_KEY = "R_a617770f00b647d6c22ce162105125c2"
+    """
+    Website: http://bit.ly
+    Reference: http://code.google.com/p/bitly-api/wiki/ApiDocumentation
+    """
+    # No password is available for this login name,
+    # yet there is a possibility that you could track
+    # all URLs shortened using this API key
+    BITLY_LOGIN = "kupferkupfer"
+    BITLY_API_KEY = "R_a617770f00b647d6c22ce162105125c2"
 
-	host = 'api.bitly.com'
-	path = ('/v3/shorten?login=%s&apiKey=%s&format=txt&' %
-	        (BITLY_LOGIN, BITLY_API_KEY))
-	url_key = "longUrl"
+    host = 'api.bitly.com'
+    path = ('/v3/shorten?login=%s&apiKey=%s&format=txt&' %
+            (BITLY_LOGIN, BITLY_API_KEY))
+    url_key = "longUrl"
 
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'Bit.ly')
+    def __init__(self):
+        _ShortLinksService.__init__(self, 'Bit.ly')
 
 class BitLySSL(BitLy):
-	host = 'api-ssl.bitly.com'
-	use_https = True
+    host = 'api-ssl.bitly.com'
+    use_https = True
 
-	def __init__(self):
-		_ShortLinksService.__init__(self, 'Bit.ly (HTTPS)')
-	def process(self, url):
-		resp = BitLy.process(self, url)
-		return resp.replace("http://bit.ly", "https://bit.ly")
+    def __init__(self):
+        _ShortLinksService.__init__(self, 'Bit.ly (HTTPS)')
+    def process(self, url):
+        resp = BitLy.process(self, url)
+        return resp.replace("http://bit.ly", "https://bit.ly")
 
 
 class ShortenLinks(Action):
-	''' Shorten links with selected engine '''
+    ''' Shorten links with selected engine '''
 
-	def __init__(self):
-		Action.__init__(self, _('Shorten With...'))
+    def __init__(self):
+        Action.__init__(self, _('Shorten With...'))
 
-	def has_result(self):
-		return True
+    def has_result(self):
+        return True
 
-	def activate(self, leaf, iobj):
-		try:
-			result = iobj.process(leaf.object)
-		except ValueError as exc:
-			raise OperationError(str(exc))
-		return UrlLeaf(result, result)
+    def activate(self, leaf, iobj):
+        try:
+            result = iobj.process(leaf.object)
+        except ValueError as exc:
+            raise OperationError(str(exc))
+        return UrlLeaf(result, result)
 
-	def item_types(self):
-		yield UrlLeaf
+    def item_types(self):
+        yield UrlLeaf
 
-	def requires_object(self):
-		return True
+    def requires_object(self):
+        return True
 
-	def object_types(self):
-		yield _ShortLinksService
+    def object_types(self):
+        yield _ShortLinksService
 
-	def object_source(self, for_item=None):
-		return ServicesSource()
+    def object_source(self, for_item=None):
+        return ServicesSource()
 
-	def get_description(self):
-		return __description__
+    def get_description(self):
+        return __description__
 
 
 class ServicesSource(Source):
-	def __init__(self):
-		Source.__init__(self, _("Services"))
+    def __init__(self):
+        Source.__init__(self, _("Services"))
 
-	def get_items(self):
-		yield TinyUrl()
-		yield IsGd()
-		yield VGd()
-		yield BitLy()
-		if ssl_support.is_supported():
-			yield BitLySSL()
+    def get_items(self):
+        yield TinyUrl()
+        yield IsGd()
+        yield VGd()
+        yield BitLy()
+        if ssl_support.is_supported():
+            yield BitLySSL()
 
-	def should_sort_lexically(self):
-		return True
+    def should_sort_lexically(self):
+        return True
 
-	def get_icon_name(self):
-		return "applications-internet"
+    def get_icon_name(self):
+        return "applications-internet"

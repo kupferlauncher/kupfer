@@ -11,10 +11,10 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 '''
 Changes:
 2010-10-01
-	Freddie Brandt
-	- read files in subdirs ~/.tsclient
-	Karol:
-	- drop FilesystemWatchMixin, add source_user_reloadable
+    Freddie Brandt
+    - read files in subdirs ~/.tsclient
+    Karol:
+    - drop FilesystemWatchMixin, add source_user_reloadable
 '''
 
 import os
@@ -30,89 +30,89 @@ TSCLIENT_SESSION_KEY = "TSCLIENT_SESSION"
 
 
 class TsclientSession(HostLeaf):
-	""" Leaf represent session saved in Tsclient"""
+    """ Leaf represent session saved in Tsclient"""
 
-	def __init__(self, obj_path, name, description):
-		slots = {HOST_NAME_KEY: name, TSCLIENT_SESSION_KEY: obj_path}
-		HostLeaf.__init__(self, slots, name)
-		self._description = description
+    def __init__(self, obj_path, name, description):
+        slots = {HOST_NAME_KEY: name, TSCLIENT_SESSION_KEY: obj_path}
+        HostLeaf.__init__(self, slots, name)
+        self._description = description
 
-	def get_description(self):
-		return self._description
+    def get_description(self):
+        return self._description
 
-	def get_gicon(self):
-		return icons.ComposedIconSmall(self.get_icon_name(), "tsclient")
+    def get_gicon(self):
+        return icons.ComposedIconSmall(self.get_icon_name(), "tsclient")
 
 
 class TsclientOpenSession(Action):
-	''' opens tsclient session '''
-	def __init__(self):
-		Action.__init__(self, _('Start Session'))
+    ''' opens tsclient session '''
+    def __init__(self):
+        Action.__init__(self, _('Start Session'))
 
-	def activate(self, leaf):
-		session = leaf[TSCLIENT_SESSION_KEY]
-		utils.spawn_async(["tsclient", "-x", session])
+    def activate(self, leaf):
+        session = leaf[TSCLIENT_SESSION_KEY]
+        utils.spawn_async(["tsclient", "-x", session])
 
-	def get_icon_name(self):
-		return 'tsclient'
+    def get_icon_name(self):
+        return 'tsclient'
 
-	def item_types(self):
-		yield HostLeaf
+    def item_types(self):
+        yield HostLeaf
 
-	def valid_for_item(self, item):
-		return item.check_key(TSCLIENT_SESSION_KEY)
+    def valid_for_item(self, item):
+        return item.check_key(TSCLIENT_SESSION_KEY)
 
 
 class TsclientSessionSource(AppLeafContentMixin, ToplevelGroupingSource):
-	''' indexes session saved in tsclient '''
+    ''' indexes session saved in tsclient '''
 
-	appleaf_content_id = 'tsclient'
-	source_user_reloadable = True
+    appleaf_content_id = 'tsclient'
+    source_user_reloadable = True
 
-	def __init__(self, name=_("TSClient sessions")):
-		ToplevelGroupingSource.__init__(self, name, "hosts")
-		self._sessions_dir = os.path.expanduser('~/.tsclient')
-		self._version = 2
+    def __init__(self, name=_("TSClient sessions")):
+        ToplevelGroupingSource.__init__(self, name, "hosts")
+        self._sessions_dir = os.path.expanduser('~/.tsclient')
+        self._version = 2
 
-	def initialize(self):
-		ToplevelGroupingSource.initialize(self)
+    def initialize(self):
+        ToplevelGroupingSource.initialize(self)
 
-	def get_items(self):
-		if not os.path.isdir(self._sessions_dir):
-			return
-		for root, sub_folders_, files in os.walk(self._sessions_dir):
-			for filename in files:
-				if not filename.endswith('.rdp'):
-					continue
-				obj_path = os.path.join(root, filename)
-				if os.path.isfile(obj_path):
-					name = filename[:-4]
-					description = self._load_descr_from_session_file(obj_path)
-					yield TsclientSession(obj_path, name, description)
+    def get_items(self):
+        if not os.path.isdir(self._sessions_dir):
+            return
+        for root, sub_folders_, files in os.walk(self._sessions_dir):
+            for filename in files:
+                if not filename.endswith('.rdp'):
+                    continue
+                obj_path = os.path.join(root, filename)
+                if os.path.isfile(obj_path):
+                    name = filename[:-4]
+                    description = self._load_descr_from_session_file(obj_path)
+                    yield TsclientSession(obj_path, name, description)
 
-	def get_description(self):
-		return _("Saved sessions in Terminal Server Client")
+    def get_description(self):
+        return _("Saved sessions in Terminal Server Client")
 
-	def get_icon_name(self):
-		return "tsclient"
+    def get_icon_name(self):
+        return "tsclient"
 
-	def provides(self):
-		yield TsclientSession
+    def provides(self):
+        yield TsclientSession
 
-	def _load_descr_from_session_file(self, filepath):
-		user = None
-		host = None
-		try:
-			with open(filepath, 'r') as session_file:
-				for line in session_file:
-					if line.startswith('full address:s:'):
-						host = line.split(':s:', 2)[1].strip()
-					elif line.startswith('username:s:'):
-						user = line.split(':s:', 2)[1].strip()
-		except IOError as err:
-			self.output_error(err)
-		else:
-			if host:
-				return str(user + '@' + host if user else host, "UTF-8",
-						"replace")
-		return 'Terminal Server Client Session'
+    def _load_descr_from_session_file(self, filepath):
+        user = None
+        host = None
+        try:
+            with open(filepath, 'r') as session_file:
+                for line in session_file:
+                    if line.startswith('full address:s:'):
+                        host = line.split(':s:', 2)[1].strip()
+                    elif line.startswith('username:s:'):
+                        user = line.split(':s:', 2)[1].strip()
+        except IOError as err:
+            self.output_error(err)
+        else:
+            if host:
+                return str(user + '@' + host if user else host, "UTF-8",
+                        "replace")
+        return 'Terminal Server Client Session'

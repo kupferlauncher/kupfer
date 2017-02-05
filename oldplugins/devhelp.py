@@ -9,17 +9,17 @@ from kupfer import utils
 
 
 class LookUp (Action):
-	def __init__(self):
-		Action.__init__(self, _("Search in Devhelp"))
-	def activate(self, leaf):
-		text = leaf.object
-		utils.spawn_async(['devhelp', '--search=%s' % text])
-	def item_types(self):
-		yield TextLeaf
-	def valid_for_item(self, leaf):
-		text = leaf.object
-		return '\n' not in text
-	def get_description(self):
-		return None
-	def get_icon_name(self):
-		return "devhelp"
+    def __init__(self):
+        Action.__init__(self, _("Search in Devhelp"))
+    def activate(self, leaf):
+        text = leaf.object
+        utils.spawn_async(['devhelp', '--search=%s' % text])
+    def item_types(self):
+        yield TextLeaf
+    def valid_for_item(self, leaf):
+        text = leaf.object
+        return '\n' not in text
+    def get_description(self):
+        return None
+    def get_icon_name(self):
+        return "devhelp"

@@ -539,7 +539,7 @@ class communication_window(gtk.Window):
         self.send_ex('mks %s' % name)
 
     def escape_filename(self, name):
-        for s in ['\\', '?', '*', ' ', "'", '"', '[', '	', '$', '{', '}']:
+        for s in ['\\', '?', '*', ' ', "'", '"', '[', ' ', '$', '{', '}']:
             name = name.replace (s, '\\%s' % s)
         return name
 
