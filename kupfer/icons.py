@@ -130,50 +130,22 @@ class ComposedIcon (object):
 	background icon with the decorating icon as emblem
 	"""
 
-	class Implementation (object):
-		"""Base class for the internal implementation
-
-		@minimum_icon_size is the minimum size for
-		the composition to be drawn"""
-		minimum_icon_size = 48
-
-		def __init__(self, baseicon, emblem):
-			self.baseicon = baseicon
-			self.emblemicon = emblem
-
-	class _ThemedIcon (Implementation, ThemedIcon):
-		def __init__(self, fallback, baseicon, emblem):
-			ComposedIcon.Implementation.__init__(self, baseicon, emblem)
-			if isinstance(fallback, str):
-				names = (fallback, )
-			else:
-				names = fallback.get_names()
-			ThemedIcon.__init__(self, names)
-
-	class _FileIcon (Implementation, FileIcon):
-		def __init__(self, fallback, baseicon, emblem):
-			ComposedIcon.Implementation.__init__(self, baseicon, emblem)
-			FileIcon.__init__(self, fallback.get_file())
+	def __init__(self, baseicon, emblem, emblem_is_fallback=False):
+		self.minimum_icon_size = 48
+		self.baseicon = baseicon
+		self.emblemicon = emblem
 
 	@classmethod
-	def new(cls, baseicon, emblem, emblem_is_fallback=False):
+	def new(cls, *args, **kwargs):
 		"""Contstuct a composed icon from @baseicon and @emblem,
 		which may be GIcons or icon names (strings)
 		"""
-		# FIXME: Disabled composed icons
-		return ThemedIcon.new(baseicon)
-	
-		fallback = emblem if emblem_is_fallback else baseicon
-		if isinstance(fallback, (str, ThemedIcon)):
-			return cls._ThemedIcon(fallback, baseicon, emblem)
-		if isinstance(fallback, FileIcon):
-			return cls._FileIcon(fallback, baseicon, emblem)
-		return None
+		return cls(*args, **kwargs)
 
 
 def ComposedIconSmall(baseicon, emblem, **kwargs):
 	"""Create composed icon for leaves with emblem visible on browser list"""
-	ci = ComposedIcon.new(baseicon, emblem, **kwargs)
+	ci = ComposedIcon(baseicon, emblem, **kwargs)
 	ci.minimum_icon_size = SMALL_SZ
 	return ci
 
@@ -181,13 +153,13 @@ def ComposedIconSmall(baseicon, emblem, **kwargs):
 def _render_composed_icon(composed_icon, icon_size):
 	# If it's too small, render as fallback icon
 	if icon_size < composed_icon.minimum_icon_size:
-		return _get_icon_for_standard_gicon(composed_icon, icon_size)
+		return _get_icon_for_standard_gicon(composed_icon.baseicon, icon_size)
 	emblemicon = composed_icon.emblemicon
 	baseicon = composed_icon.baseicon
 	toppbuf = _get_icon_dwim(emblemicon, icon_size)
 	bottompbuf = _get_icon_dwim(baseicon, icon_size)
 	if not toppbuf or not bottompbuf:
-		return _get_icon_for_standard_gicon(composed_icon, icon_size)
+		return None
 
 	dest = bottompbuf.copy()
 	# @fr is the scale
@@ -267,7 +239,7 @@ def get_icon_for_gicon(gicon, icon_size):
 	# FIXME: We can't load any general GIcon
 	if not gicon:
 		return None
-	if isinstance(gicon, ComposedIcon.Implementation):
+	if isinstance(gicon, ComposedIcon):
 		return _render_composed_icon(gicon, icon_size)
 	return _get_icon_for_standard_gicon(gicon, icon_size)
 
