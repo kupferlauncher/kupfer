@@ -34,7 +34,8 @@ setup_locale_and_gettext()
 
 def prt(*args):
 	enc = locale.getpreferredencoding(do_setlocale=False)
-	print(((" ".join(args)).encode(enc, "replace")))
+	sys.stdout.buffer.write(" ".join(args).encode(enc, "replace"))
+	#print(((" ".join(args)).encode(enc, "replace")))
 
 def get_options():
 	"""Return a list of other application flags with --* prefix included."""
