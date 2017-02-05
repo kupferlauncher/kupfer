@@ -1,5 +1,7 @@
 __kupfer_name__ = _("Custom Terminal")
-__description__ = _("Configure a custom terminal emulator")
+__description__ = _("""Configure a custom terminal emulator.
+
+The plugin adds another terminal alternative (select it on the main page).""")
 __version__ = ""
 __author__ = "Ulrik Sverdrup"
 
