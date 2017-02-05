@@ -69,6 +69,9 @@ class FileLeaf (Leaf, TextRepresentation):
 		if alias:
 			self.kupfer_add_alias(alias)
 
+	def __hash__(self):
+		return hash(str(self))
+
 	def __eq__(self, other):
 		try:
 			return (type(self) == type(other) and
@@ -210,7 +213,7 @@ class AppLeaf (Leaf):
 			elif self.init_item_id:
 				try:
 					item = DesktopAppInfo.new(self.init_item_id)
-				except RuntimeError:
+				except TypeError:
 					pretty.print_debug(__name__, "Application not found:",
 							self.init_item_id)
 		self.object = item

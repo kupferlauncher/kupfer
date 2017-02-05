@@ -205,7 +205,7 @@ def get_thumbnail_for_file(uri, width=-1, height=-1):
 	return None if not found
 	"""
 
-	gfile = File(uri)
+	gfile = File.new_for_uri(uri)
 	if not gfile.query_exists():
 		return None
 	finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH)
@@ -240,7 +240,7 @@ def get_gicon_for_file(uri):
 	return None if not found
 	"""
 
-	gfile = File(uri)
+	gfile = File.new_for_uri(uri)
 	if not gfile.query_exists():
 		return None
 
@@ -249,7 +249,7 @@ def get_gicon_for_file(uri):
 	# very manually override generic folder icon name
 	if isinstance(gicon, ThemedIcon):
 		if gicon.get_names()[0] == "inode-directory":
-			return ThemedIcon("folder")
+			return ThemedIcon.new("folder")
 	return gicon
 
 def get_icon_for_gicon(gicon, icon_size):
@@ -385,10 +385,10 @@ def is_good(gicon):
 def get_gicon_with_fallbacks(gicon, names):
 	if not is_good(gicon):
 		for name in names:
-			gicon = ThemedIcon(name)
+			gicon = ThemedIcon.new(name)
 			if is_good(gicon):
 				return gicon
-		return ThemedIcon(name)
+		return ThemedIcon.new(name)
 	return gicon
 
 def get_good_name_for_icon_names(names):
@@ -401,7 +401,7 @@ def get_good_name_for_icon_names(names):
 	return None
 
 def get_gicon_for_names(*names):
-	return ThemedIcon(names)
+	return ThemedIcon.new_from_names(names)
 
 
 def get_pixbuf_from_data(data, width=None, height=None):

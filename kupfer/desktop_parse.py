@@ -65,8 +65,9 @@ def custom_shlex_split(s, comments=False, posix=True):
 	"""
 	if isinstance(s, str):
 		is_unicode = True
-		s = s.encode("UTF-8")
+		#s = s.encode("UTF-8")
 	else:
+		s = s.decode("UTF-8", "replace")
 		is_unicode = False
 	lex = shlex.shlex(s, posix=posix)
 	lex.whitespace_split = True
@@ -81,9 +82,9 @@ def custom_shlex_split(s, comments=False, posix=True):
 	quoted_shlex = {r'\`': '`', r'\$':'$'}
 	lex_output[:] = [two_part_unescaper(x, quoted_shlex) for x in lex_output]
 	if is_unicode:
-		return [x.decode("UTF-8") for x in lex_output]
-	else:
 		return lex_output
+	else:
+		return [x.encode("UTF-8") for x in lex_output]
 
 def unescape(s):
 	"Primary unescape of control sequences"

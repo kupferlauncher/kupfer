@@ -12,7 +12,7 @@ class NoDefaultApplicationError (OperationError):
 def is_good_executable(fileleaf):
 	if not fileleaf._is_executable():
 		return False
-	ctype, uncertain = gio.content_type_guess(fileleaf.object, None, True)
+	ctype, uncertain = gio.content_type_guess(fileleaf.object, None)
 	return uncertain or gio.content_type_can_be_executable(ctype)
 
 def get_actions_for_file(fileleaf):
@@ -33,8 +33,8 @@ class Open (Action):
 	@classmethod
 	def default_application_for_leaf(cls, leaf):
 		content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-		gfile = gio.File(leaf.object)
-		info = gfile.query_info(content_attr)
+		gfile = gio.File.new_for_path(leaf.object)
+		info = gfile.query_info(content_attr, gio.FileQueryInfoFlags.NONE, None)
 		content_type = info.get_attribute_string(content_attr)
 		def_app = gio.app_info_get_default_for_type(content_type, False)
 		if not def_app:

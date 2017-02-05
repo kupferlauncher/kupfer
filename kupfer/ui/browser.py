@@ -180,8 +180,8 @@ class LeafModel (object):
 			self.columns += (nbr_col, )
 
 	def _get_column(self, treepath, col):
-		iter = self.store.get_iter(treepath)
-		val = self.store.get_value(iter, col)
+		it = self.store.get_iter(treepath)
+		val = self.store.get_value(it, col)
 		return val
 
 	def get_object(self, path):
@@ -667,7 +667,8 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		table_maxlen = LIST_LENGTH
 		opacity = 0.01 * LIST_OPACITY
 		# self.window is a GdkWindow (of self's parent)
-		win_width, win_height = self.window.get_size()
+		win_width = self.window.get_width()
+		win_height = self.window.get_height()
 		pos_x, pos_y = self.window.get_position()
 		# find origin in parent's coordinates
 		self_x, self_y = self.translate_coordinates(self.get_parent(), 0, 0)
@@ -1103,7 +1104,7 @@ class Interface (gobject.GObject):
 		init_text_keys.append(direct_text_key)
 		keymap = gtk.gdk.Keymap.get_default()
 		# translate keys properly
-		keyv, egroup, level, consumed = keymap.translate_keyboard_state(
+		_was_bound, keyv, egroup, level, consumed = keymap.translate_keyboard_state(
 					event.hardware_keycode, event.state, event.group)
 		all_modifiers = gtk.accelerator_get_default_mod_mask()
 		modifiers = all_modifiers & ~consumed
@@ -1737,12 +1738,13 @@ class Interface (gobject.GObject):
 		#text = text.decode("UTF-8")
 
 		# draw character count as icon
-		if self.get_in_text_mode() and text:
+		if False and self.get_in_text_mode() and text:
 			w, h = editable.size_request()
 			sz = h - 3
 			c = editable.style.text[gtk.STATE_NORMAL]
 			textc = (c.red/65535.0, c.green/65535.0, c.blue/65535.0)
 			pb = get_glyph_pixbuf(str(len(text)), sz, color=textc)
+			pb = get_glyph_pixbuf(str(len(text)), sz, color="black")
 			editable.set_icon_from_pixbuf(gtk.ENTRY_ICON_SECONDARY, pb)
 		else:
 			editable.set_icon_from_pixbuf(gtk.ENTRY_ICON_SECONDARY, None)
@@ -2189,7 +2191,7 @@ class WindowController (pretty.OutputMixin):
 		"""Present on @display, where None means default display"""
 		self._window_hide_timer.invalidate()
 		if not display:
-			display = gtk.gdk.display_get_default().get_name()
+			display = gtk.gdk.Display.get_default().get_name()
 		if (self._should_recenter_window() or
 		    not self.is_current_display(display)):
 			self._center_window(display)

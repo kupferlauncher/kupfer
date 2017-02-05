@@ -73,7 +73,10 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
 	If @keystr is a false value, any previous key will be unbound.
 	"""
 	keybinding_target = int(keybinding_target)
-	callback = lambda : GetKeyboundObject()._keybinding(keybinding_target)
+
+	def callback(keystr):
+		return GetKeyboundObject()._keybinding(keybinding_target)
+
 	if not _is_sane_keybinding(keystr):
 		pretty.print_error(__name__, "Refusing to bind key", repr(keystr))
 		return False

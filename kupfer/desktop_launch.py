@@ -395,7 +395,9 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
 	argv = list(locale_encode_argv(argv))
 
 	try:
-		(pid, _ig1, _ig2, _ig3) = glib.spawn_async(argv,
+		# FIXME: Support paths as bytes
+		argv_ = list(map(kupferstring.tounicode, argv))
+		(pid, _ig1, _ig2, _ig3) = glib.spawn_async(argv_,
 		                       working_directory=workdir,
 		                       flags=glib.SPAWN_SEARCH_PATH,
 		                       child_setup=child_setup,

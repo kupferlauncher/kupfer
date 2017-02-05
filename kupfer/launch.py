@@ -60,9 +60,9 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
 	assert app_info
 
 	if paths:
-		files = [gio.File(p) for p in paths]
+		files = [gio.File.new_for_path(p) for p in paths]
 	if uris:
-		files = [gio.File(p) for p in uris]
+		files = [gio.File.new_for_uri(p) for p in uris]
 
 	svc = GetApplicationsMatcherService()
 	app_id = application_id(app_info, desktop_file)
