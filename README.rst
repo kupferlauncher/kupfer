@@ -2,7 +2,7 @@ kupfer is a simple, flexible launcher for GNOME
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
 :Homepage:  https://wiki.gnome.org/Apps/Kupfer
-:Credits:   Copyright 2007–2017 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+:Credits:   Copyright 2007–2017 Ulrik Sverdrup and other Kupfer authors
 :Licence:   GNU General Public License v3 (or any later version)
 
 Kupfer is an interface for quick and convenient access to applications
@@ -35,7 +35,7 @@ installation spot. By default, Kupfer is installed for all users.
 Installing only for your user, the prefix ``~/.local`` is often used;
 you just have to make sure that ``~/.local/bin`` is in your ``$PATH``.
 
-Note: The included waf script /must/ be run with Python 2, unfortunately.
+Note: The included waf script *must* be run with Python 2, unfortunately.
 
 
 About Waf
@@ -101,7 +101,7 @@ Keybinder Module
 Keybinder_ is a module for global keyboard shortcuts that originates
 from tomboy.
 
-.. _`Keybinder`: http://kaizer.se/wiki/keybinder
+.. _`Keybinder`: https://github.com/engla/keybinder
 
 You can use kupfer without the keybinder module, for example by
 assigning a global keybinding to the ``kupfer`` binary, but it not the

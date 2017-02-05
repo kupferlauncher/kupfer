@@ -2,8 +2,6 @@
 Kupfer Plugin API
 =================
 
-:Homepage: http://kaizer.se/wiki/kupfer
-
 .. contents:: :depth: 2
 
 
