@@ -17,19 +17,29 @@ class Scheduler (gobject.GObject, pretty.OutputMixin):
     __gtype_name__ = "Scheduler"
     def __init__(self):
         super(Scheduler, self).__init__()
+        self._finished = False
+
     def load(self):
         self.output_debug("Loading")
         self.emit("load")
         self.emit("loaded")
         self.output_debug("Loaded")
+
     def display(self):
         self.output_debug("Display")
         self.emit("display")
         gobject.idle_add(self._after_display)
+
     def _after_display(self):
         self.output_debug("After Display")
         self.emit("after-display")
+
+    @property
+    def finished(self):
+        return self._finished
+
     def finish(self):
+        self._finished = True
         self.emit("finish")
 gobject.signal_new("load", Scheduler, gobject.SIGNAL_RUN_LAST,
         gobject.TYPE_BOOLEAN, ())

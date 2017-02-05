@@ -3,6 +3,7 @@ This module is a part of the program Kupfer, see the main program file for
 more information.
 """
 import weakref
+from kupfer import scheduler
 
 class WeakCallback (object):
     """A Weak Callback object that will keep a reference to
@@ -62,8 +63,9 @@ class GobjectWeakCallback (WeakCallback):
     __senders = {}
 
     def object_deleted(self, wref):
+        sched = scheduler.GetScheduler()
         sender = self.__senders.pop(self.token, None)
-        if sender:
+        if not sched.finished and sender is not None:
             sender.disconnect(self.token)
 
     @classmethod
