@@ -25,6 +25,12 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": "GNOME",
         "alternatives": ("GNOME", "KDE", "LXDE", "ROX", "XFCE")
     },
+    {
+        "key" : "desktop_filter",
+        "label": _("Use Desktop Filter (requires restart)"),
+        "type": bool,
+        "value": True,
+    },
 )
 
 class AppSource (Source, FilesystemWatchMixin):
@@ -45,8 +51,10 @@ class AppSource (Source, FilesystemWatchMixin):
         # If we set proper desktop environment
         # We get exactly the apps shown in the menu,
         # as well as the preference panes
+        use_filter = __kupfer_settings__["desktop_filter"]
         desktop_type = __kupfer_settings__["desktop_type"]
-        gio.DesktopAppInfo.set_desktop_env(desktop_type)
+        if use_filter:
+            gio.DesktopAppInfo.set_desktop_env(desktop_type)
         #desktop_app_info_set_desktop_env(desktop_type)
         # Add this to the default
         whitelist = set([
@@ -65,7 +73,7 @@ class AppSource (Source, FilesystemWatchMixin):
 
         for item in app_info_get_all():
             id_ = item.get_id()
-            if id_ in whitelist or (item.should_show() and not id_ in blacklist):
+            if use_filter or id_ in whitelist or (item.should_show() and not id_ in blacklist):
                 yield AppLeaf(item)
 
     def should_sort_lexically(self):
