@@ -1229,9 +1229,10 @@ class Interface (gobject.GObject):
 		self.reset_current()
 		self.reset()
 
-	def _entry_paste_data_received(self, clipboard, targets, entry):
-		uri_target = "text/uri-list"
-		## check if we can insert files
+	def _entry_paste_data_received(self, clipboard, targets, _extra, entry):
+		print(clipboard, targets, entry, _extra)
+		uri_target = Gdk.Atom.intern("text/uri-list", False)
+		### check if we can insert files
 		if uri_target in targets:
 			# paste as files
 			sdata = clipboard.wait_for_contents(uri_target)
@@ -1250,8 +1251,9 @@ class Interface (gobject.GObject):
 			self.reset()
 			## when not in text mode,
 			## stop signal emission so we can handle it
-			clipboard = gtk.Clipboard(selection=gtk.gdk.SELECTION_CLIPBOARD,
-			                          display=entry.get_display())
+			clipboard = gtk.Clipboard.get_for_display(
+					entry.get_display(),
+					gtk.gdk.SELECTION_CLIPBOARD)
 			clipboard.request_targets(self._entry_paste_data_received, entry)
 			entry.emit_stop_by_name("paste-clipboard")
 
@@ -1669,7 +1671,7 @@ class Interface (gobject.GObject):
 
 	def put_files(self, fileuris):
 		leaves = list(map(interface.get_fileleaf_for_path,
-			[_f for _f in [gio.File(U).get_path() for U in fileuris] if _f]))
+			[_f for _f in [gio.File.new_for_uri(U).get_path() for U in fileuris] if _f]))
 		if leaves:
 			self.data_controller.insert_objects(data.SourcePane, leaves)
 
