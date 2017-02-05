@@ -43,7 +43,8 @@ def builder_get_objects_from_file(fname, attrs, autoconnect_to=None):
 		setattr(names, attr, obj)
 		yield obj
 	if autoconnect_to:
-		builder.connect_signals(autoconnect_to, user_data=names)
+		autoconnect_to.names = names
+		builder.connect_signals(autoconnect_to)
 
 def show_text_result(text, title=None, ctx=None):
 	"""
@@ -52,15 +53,18 @@ def show_text_result(text, title=None, ctx=None):
 	Use @title to set a window title
 	"""
 	class ResultWindowBehavior (object):
-		def on_text_result_window_key_press_event(self, widget, event, names):
+		def __init__(self):
+			self.names = None
+
+		def on_text_result_window_key_press_event(self, widget, event):
 			return _window_destroy_on_escape(widget, event)
 
-		def on_close_button_clicked(self, widget, names):
-			names.text_result_window.window.destroy()
+		def on_close_button_clicked(self, widget):
+			self.names.text_result_window.window.destroy()
 			return True
-		def on_copy_button_clicked(self, widget, names):
+		def on_copy_button_clicked(self, widget):
 			clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-			textview = names.result_textview
+			textview = self.names.result_textview
 			buf = textview.get_buffer()
 			buf.select_range(*buf.get_bounds())
 			buf.copy_clipboard(clip)
@@ -73,9 +77,9 @@ def show_text_result(text, title=None, ctx=None):
 	# Set up text buffer
 	buf = gtk.TextBuffer()
 	buf.set_text(text)
-	monospace = gtk.TextTag("fixed")
+	monospace = gtk.TextTag.new("fixed")
 	monospace.set_property("family", "Monospace")
-	monospace.set_property("scale", pango.SCALE_LARGE)
+	monospace.set_property("scale", pango.SCALE)
 	beg, end = buf.get_bounds()
 	tag_table = buf.get_tag_table()
 	tag_table.add(monospace)
@@ -132,14 +136,14 @@ def show_large_type(text, ctx=None):
 
 	def set_font_size(label, fontsize=48.0):
 		siz_attr = pango.AttrFontDesc(
-				pango.FontDescription (str(fontsize)), 0, -1)
+				pango.FontDescription.from_string(str(fontsize)), 0, -1)
 		attrs = pango.AttrList()
 		attrs.insert(siz_attr)
 		label.set_attributes(attrs)
 	label.show()
 
 	size = 72.0
-	set_font_size(label, size)
+	#set_font_size(label, size)
 
 	if ctx:
 		screen = ctx.environment.get_screen()
