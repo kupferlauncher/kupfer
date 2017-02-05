@@ -35,6 +35,9 @@ class SerializedObject (object):
 	def __init__(self, obj):
 		self.version = getattr(obj, SERIALIZABLE_ATTRIBUTE)
 		self.data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+	def __hash__(self):
+		return hash(self.data)
+
 	def __eq__(self, other):
 		return (isinstance(other, type(self)) and self.data == other.data and
 		        self.version == other.version)
