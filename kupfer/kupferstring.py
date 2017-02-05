@@ -59,7 +59,7 @@ def toutf8(ustr):
 
 def fromlocale(lstr):
 	"""Return a unicode string from locale bytestring @lstr"""
-	assert isinstance(lstr, str)
+	assert isinstance(lstr, bytes)
 	enc = locale.getpreferredencoding(do_setlocale=False)
 	return lstr.decode(enc, "replace")
 

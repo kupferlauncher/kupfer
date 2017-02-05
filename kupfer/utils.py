@@ -5,8 +5,7 @@ import locale
 import signal
 import sys
 
-import gobject
-import glib
+from gi.repository import GLib, Gtk, Gio, Gdk
 
 import functools
 
@@ -86,7 +85,7 @@ def _argv_to_locale(argv):
 	return [kupferstring.tolocale(A) if isinstance(A, str) else A
 			for A in argv]
 
-class AsyncCommand (object):
+class AsyncCommand (pretty.OutputMixin):
 	"""
 	Run a command asynchronously (using the GLib mainloop)
 
@@ -120,29 +119,28 @@ class AsyncCommand (object):
 		self.finish_callback = finish_callback
 
 		# FIXME: No byte string support
-		argv
 		pretty.print_debug(__name__, "AsyncCommand:", argv)
 
-		flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
+		flags = (GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD)
 		pid, stdin_fd, stdout_fd, stderr_fd = \
-		     glib.spawn_async(argv, standard_output=True, standard_input=True,
-		                      standard_error=True, flags=flags, envp=env)
+		     GLib.spawn_async(argv, env or [], standard_output=True, standard_input=True,
+		                      standard_error=True, flags=flags)
 
 		if stdin:
 			self.stdin[:] = self._split_string(stdin, self.max_input_buf)
-			in_io_flags = glib.IO_OUT | glib.IO_ERR | glib.IO_HUP | glib.IO_NVAL
-			glib.io_add_watch(stdin_fd, in_io_flags, self._in_io_callback,
+			in_io_flags = GLib.IO_OUT | GLib.IO_ERR | GLib.IO_HUP | GLib.IO_NVAL
+			GLib.io_add_watch(stdin_fd, in_io_flags, self._in_io_callback,
 			                  self.stdin)
 		else:
 			os.close(stdin_fd)
 
-		io_flags = glib.IO_IN | glib.IO_ERR | glib.IO_HUP | glib.IO_NVAL
-		glib.io_add_watch(stdout_fd, io_flags, self._io_callback, self.stdout)
-		glib.io_add_watch(stderr_fd, io_flags, self._io_callback, self.stderr)
+		io_flags = GLib.IO_IN | GLib.IO_ERR | GLib.IO_HUP | GLib.IO_NVAL
+		GLib.io_add_watch(stdout_fd, io_flags, self._io_callback, self.stdout)
+		GLib.io_add_watch(stderr_fd, io_flags, self._io_callback, self.stderr)
 		self.pid = pid
-		glib.child_watch_add(pid, self._child_callback)
+		GLib.child_watch_add(pid, self._child_callback)
 		if timeout_s is not None:
-			glib.timeout_add_seconds(timeout_s, self._timeout_callback)
+			GLib.timeout_add_seconds(timeout_s, self._timeout_callback)
 
 	def _split_string(self, s, length):
 		"""Split @s in pieces of @length"""
@@ -152,14 +150,14 @@ class AsyncCommand (object):
 		return L
 
 	def _io_callback(self, sourcefd, condition, databuf):
-		if condition & glib.IO_IN:
+		if condition & GLib.IO_IN:
 			databuf.append(os.read(sourcefd, self.max_input_buf))
 			return True
 		return False
 
 	def _in_io_callback(self, sourcefd, condition, databuf):
 		"""write to child's stdin"""
-		if condition & glib.IO_OUT:
+		if condition & GLib.IO_OUT:
 			if not databuf:
 				os.close(sourcefd)
 				return False
@@ -174,6 +172,7 @@ class AsyncCommand (object):
 		# @condition is the &status field of waitpid(2) (C library)
 		self.exit_status = os.WEXITSTATUS(condition)
 		self.finished = True
+		self.output_debug(self.stdout)
 		self.finish_callback(self, b"".join(self.stdout), b"".join(self.stderr))
 
 	def _timeout_callback(self):
@@ -181,7 +180,7 @@ class AsyncCommand (object):
 		if not self.finished:
 			self.timeout = True
 			os.kill(self.pid, signal.SIGTERM)
-			glib.timeout_add_seconds(2, self._kill_callback)
+			GLib.timeout_add_seconds(2, self._kill_callback)
 
 	def _kill_callback(self):
 		"Last resort, send kill signal"
@@ -240,9 +239,9 @@ def spawn_async_raise(argv, workdir="."):
 	#argv = _argv_to_locale(argv)
 	pretty.print_debug(__name__, "spawn_async", argv, workdir)
 	try:
-		return gobject.spawn_async (argv, working_directory=workdir,
-				flags=gobject.SPAWN_SEARCH_PATH)
-	except gobject.GError as exc:
+		return GLib.spawn_async (argv, working_directory=workdir,
+				flags=GLib.SPAWN_SEARCH_PATH)
+	except GLib.GError as exc:
 		raise SpawnError(exc)
 
 def argv_for_commandline(cli):
@@ -266,9 +265,8 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 
 def show_path(path):
 	"""Open local @path with default viewer"""
-	from gio import File
 	# Implemented using gtk.show_uri
-	gfile = File.new_for_path(path)
+	gfile = Gio.File.new_for_path(path)
 	if not gfile:
 		return
 	url = gfile.get_uri()
@@ -276,13 +274,10 @@ def show_path(path):
 
 def show_url(url):
 	"""Open any @url with default viewer"""
-	from gtk import show_uri, get_current_event_time
-	from gtk.gdk import screen_get_default
-	from glib import GError
 	try:
 		pretty.print_debug(__name__, "show_url", url)
-		return show_uri(screen_get_default(), url, get_current_event_time())
-	except GError as exc:
+		return Gtk.show_uri(Gdk.Screen.get_default(), url, Gtk.get_current_event_time())
+	except GLib.GError as exc:
 		pretty.print_error(__name__, "gtk.show_uri:", exc)
 
 def _on_child_exit(pid, condition, user_data):
@@ -294,7 +289,7 @@ def _on_child_exit(pid, condition, user_data):
 			def callback(*args):
 				spawn_child(*args)
 				return False
-			glib.timeout_add_seconds(10, callback, argv, respawn)
+			GLib.timeout_add_seconds(10, callback, argv, respawn)
 
 def _try_register_pr_pdeathsig():
     """
@@ -327,23 +322,23 @@ def spawn_child(argv, respawn=True, display=None):
 	raises utils.SpawnError
 	returns pid
 	"""
-	flags = (glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD)
-	kwargs = {}
+	flags = (GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD)
+	envp = []
 	if display:
 		# environment is passed as a sequence of strings
 		envd = os.environ.copy()
 		envd['DISPLAY'] = display
-		kwargs['envp'] = ['='.join((k,v)) for k,v in list(envd.items())]
+		envp[:] = ['='.join((k,v)) for k,v in list(envd.items())]
 
 	try:
 		pid, stdin_fd, stdout_fd, stderr_fd = \
-			glib.spawn_async(argv, flags=flags,
+			GLib.spawn_async(argv, envp,flags=flags,
 			                 child_setup=_try_register_pr_pdeathsig,
-			                 **kwargs)
-	except glib.GError as exc:
+			                 )
+	except GLib.GError as exc:
 		raise utils.SpawnError(str(exc))
 	if pid:
-		glib.child_watch_add(pid, _on_child_exit, (argv, respawn))
+		GLib.child_watch_add(pid, _on_child_exit, (argv, respawn))
 	return pid
 
 def start_plugin_helper(name, respawn, display=None):
@@ -364,16 +359,15 @@ def show_help_url(url):
 
 	Return False if there is no handler for the help URL
 	"""
-	import gio
 	## Check that the system help viewer is Yelp,
 	## and if it is, launch its startup notification.
-	scheme = gio.File.new_for_uri(url).get_uri_scheme()
-	default = gio.app_info_get_default_for_uri_scheme(scheme)
+	scheme = Gio.File.new_for_uri(url).get_uri_scheme()
+	default = Gio.app_info_get_default_for_uri_scheme(scheme)
 	help_viewer_id = "yelp.desktop"
 	if not default:
 		return False
 	try:
-		yelp = gio.DesktopAppInfo.new(help_viewer_id)
+		yelp = Gio.DesktopAppInfo.new(help_viewer_id)
 	except (TypeError, RuntimeError):
 		return show_url(url)
 	cmd_path = lookup_exec_path(default.get_executable())
@@ -455,7 +449,7 @@ def get_display_path_for_bytestring(filepath):
 	Will use glib's filename decoding functions, and will
 	format nicely (denote home by ~/ etc)
 	"""
-	desc = gobject.filename_display_name(filepath)
+	desc = GLib.filename_display_name(filepath)
 	homedir = os.path.expanduser("~/")
 	if desc.startswith(homedir) and homedir != desc:
 		desc = desc.replace(homedir, "~/", 1)
