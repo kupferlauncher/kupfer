@@ -31,7 +31,7 @@ class ConservativeUnpickler (pickle.Unpickler):
 	UnpicklingError: Refusing to load module kupfer.obj.base
 	"""
 	safe_modules = {
-		"__builtin__" : set(["set", "sum", "object"]),
+		"builtins" : set(["set", "sum", "object"]),
 		"copy_reg" : set(["_reconstructor"]),
 		"kupfer.*" : universalset(),
 	}
