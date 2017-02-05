@@ -128,7 +128,8 @@ class WriteToCommand (Action):
 			finish_command(ctx, acommand, stdout, stderr, self.post_result)
 
 		pretty.print_debug(__name__, "Spawning without timeout")
-		utils.AsyncCommand(argv, finish_callback, None, stdin=leaf.object)
+		output = leaf.object.encode("utf-8")
+		utils.AsyncCommand(argv, finish_callback, None, stdin=output)
 
 	def item_types(self):
 		yield TextLeaf

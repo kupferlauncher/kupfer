@@ -21,7 +21,7 @@ __description__ = None
 __version__ = "0.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gio
+from gi.repository import Gio
 
 from kupfer.objects import Action
 from kupfer.objects import TextLeaf, FileLeaf
@@ -32,16 +32,16 @@ from kupfer import utils
 # FIXME: Sometimes require that the type is *exactly* text/plain?
 
 def is_content_type(fileleaf, ctype):
-	predicate = gio.content_type_is_a
-	ctype_guess, uncertain = gio.content_type_guess(fileleaf.object, None, True)
+	predicate = Gio.content_type_is_a
+	ctype_guess, uncertain = Gio.content_type_guess(fileleaf.object, None)
 	ret = predicate(ctype_guess, ctype)
 	if ret or not uncertain:
 		return ret
-	content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-	gfile = gio.File(fileleaf.object)
+	content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+	gfile = Gio.File.new_for_path(fileleaf.object)
 	if not gfile.query_exists(None):
 		return
-	info = gfile.query_info(content_attr)
+	info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
 	content_type = info.get_attribute_string(content_attr)
 	return predicate(content_type, ctype)
 

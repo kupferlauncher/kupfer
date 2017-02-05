@@ -6,6 +6,7 @@ __author__ = ""
 
 import shutil
 
+from gi.repository import Gio
 import gio
 import glib
 import gtk
@@ -17,16 +18,16 @@ from kupfer import utils
 
 
 def is_content_type(fileleaf, ctype):
-	predicate = gio.content_type_is_a
-	ctype_guess, uncertain = gio.content_type_guess(fileleaf.object, None)
+	predicate = Gio.content_type_is_a
+	ctype_guess, uncertain = Gio.content_type_guess(fileleaf.object, None)
 	ret = predicate(ctype_guess, ctype)
 	if ret or not uncertain:
 		return ret
-	content_attr = gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-	gfile = gio.File(fileleaf.object)
+	content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+	gfile = Gio.File.new_for_path(fileleaf.object)
 	if not gfile.query_exists(None):
 		return
-	info = gfile.query_info(content_attr)
+	info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
 	content_type = info.get_attribute_string(content_attr)
 	return predicate(content_type, ctype)
 
