@@ -574,6 +574,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
 		self.match_view = MatchView()
 
 		self.table = gtk.TreeView(self.model.get_store())
+		self.table.set_name("kupfer-list-view")
 		self.table.set_headers_visible(False)
 		self.table.set_property("enable-search", False)
 
@@ -937,15 +938,11 @@ class Interface (gobject.GObject):
 		self.entry = gtk.Entry()
 		self.label = gtk.Label()
 		self.preedit = gtk.Entry()
+		self.search.set_name("kupfer-object-pane")
+		self.action.set_name("kupfer-action-pane")
+		self.third.set_name("kupfer-indirect-object-pane")
 		## make sure we lose the preedit focus ring
 		self.preedit.set_name("kupfer-preedit")
-		gtk.rc_parse_string("""
-		style "kupferpreedit"
-		{
-			GtkEntry :: focus-line-width = 0
-		}
-		widget "*.%s" style "kupferpreedit"
-		""" % (self.preedit.path(), ))
 
 		self.current = None
 
@@ -1052,7 +1049,7 @@ class Interface (gobject.GObject):
 		vbox.pack_start(label_align, False, False, 0)
 		vbox.pack_start(self.entry, False, False, 0)
 		vbox.show_all()
-		self.third.hide()
+		#self.third.hide()
 		self._widget = vbox
 		return vbox
 
@@ -1542,6 +1539,12 @@ class Interface (gobject.GObject):
 				self.reset_current(populate=True)
 				wid.show_table()
 
+	def update_third(self):
+		if self._pane_three_is_visible:
+			self._ui_transition_timer.set_ms(200, self._show_third_pane, True)
+		else:
+			self._show_third_pane(False)
+
 	def _show_hide_third(self, ctr, mode, ignored):
 		if mode is data.SourceActionObjectMode:
 			# use a delay before showing the third pane,
@@ -1755,12 +1758,33 @@ gobject.signal_new("launched-action", Interface, gobject.SIGNAL_RUN_LAST,
 
 
 KUPFER_CSS = b"""
-#kupfer GtkWindow {
+#kupfer {
+	border-radius: 10px;
 }
 
 .matchview {
 	border-radius: 10px;
 }
+
+#kupfer-preedit {
+	outline-width: 0;
+}
+
+#kupfer-object-pane {
+}
+
+#kupfer-action-pane {
+}
+
+#kupfer-indirect-object-pane {
+}
+
+#kupfer-list {
+}
+
+#kupfer-list-view {
+}
+
 *:selected .matchview {
 	background: @theme_selected_bg_color
 }
@@ -1908,6 +1932,7 @@ class WindowController (pretty.OutputMixin):
 		self.interface = Interface(data_controller, self.window)
 		self.interface.connect("launched-action", self.launch_callback)
 		self.interface.connect("cancelled", self._cancelled)
+		self.window.connect("map-event", self._on_window_map_event)
 		self._setup_window()
 
 	def show_statusicon(self):
@@ -1924,6 +1949,9 @@ class WindowController (pretty.OutputMixin):
 				self._statusicon.set_visible(False)
 			except AttributeError:
 				self._statusicon = None
+
+	def _on_window_map_event(self, *args):
+		self.interface.update_third()
 
 	def _showstatusicon_changed(self, setctl, section, key, value):
 		"callback from SettingsController"
