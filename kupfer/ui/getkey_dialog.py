@@ -5,7 +5,7 @@ from kupfer import version, config
 
 
 class GetKeyDialogController(object):
-	def __init__(self, check_callback=None, previous_key=None, screen=None):
+	def __init__(self, check_callback=None, previous_key=None, screen=None, parent=None):
 		'''@check_callback - optional function to check is entered key is valid.
 		@previous_key - optional previous keybinding, press equal act like cancel'''
 		builder = gtk.Builder()
@@ -30,6 +30,8 @@ class GetKeyDialogController(object):
 
 		if screen:
 			self.window.set_screen(screen)
+		if parent:
+			self.window.set_transient_for(parent)
 		self.window.connect("focus-in-event", self.on_window_focus_in)
 		self.window.connect("focus-out-event", self.on_window_focus_out)
 
@@ -106,7 +108,7 @@ class GetKeyDialogController(object):
 		pass
 
 
-def ask_for_key(check_callback=None, previous_key=None, screen=None):
-	dlg = GetKeyDialogController(check_callback, previous_key, screen)
+def ask_for_key(check_callback=None, previous_key=None, screen=None, parent=None):
+	dlg = GetKeyDialogController(check_callback, previous_key, screen, parent)
 	result = dlg.run()
 	return result
