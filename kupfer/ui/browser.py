@@ -1758,7 +1758,6 @@ gobject.signal_new("launched-action", Interface, gobject.SIGNAL_RUN_LAST,
 
 KUPFER_CSS = b"""
 #kupfer {
-	border-radius: 10px;
 }
 
 .matchview {
