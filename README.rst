@@ -2,7 +2,7 @@ kupfer is a simple, flexible launcher for GNOME
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
 :Homepage:  https://wiki.gnome.org/Apps/Kupfer
-:Credits:   Copyright 2007–2011 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+:Credits:   Copyright 2007–2017 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
 :Licence:   GNU General Public License v3 (or any later version)
 
 Kupfer is an interface for quick and convenient access to applications
@@ -35,6 +35,8 @@ installation spot. By default, Kupfer is installed for all users.
 Installing only for your user, the prefix ``~/.local`` is often used;
 you just have to make sure that ``~/.local/bin`` is in your ``$PATH``.
 
+Note: The included waf script /must/ be run with Python 2, unfortunately.
+
 
 About Waf
 ---------
@@ -58,7 +60,7 @@ on Saturday, 25 February 2012. The following files extracted::
 Build Requirements
 ------------------
 
-* Python 2.6 or Python 3
+* Python 2.7
 * intltool
 * optionally: rst2man (python-docutils)  to install the manpage
 * optionally: xml2po (gnome-doc-utils)  to install mallard help pages
@@ -66,22 +68,13 @@ Build Requirements
 Runtime Requirements
 --------------------
 
-Kupfer requires Python 2.6 or later, and the following important libraries:
+Kupfer requires Python 3 or later, and the following important libraries:
 
-* gtk python bindings, GTK+ version 2.20 [#]_
-* glib python bindings (pygobject) 2.18
+* Gtk 3
+* Wnck 3
+* libkeybinder-3.0 version 0.3.1
 * dbus python bindings
 * python-xdg
-
-.. [#] GTK+ 2.20 required for using full support. Kupfer is known to run with
-       version 2.18 as well.
-
-Optional, but very recommended runtime dependencies:
-
-* python-keybinder (see below)
-* wnck python bindings
-* gvfs
-* `keyring` python module
 
 Opportunistic dependencies
 
