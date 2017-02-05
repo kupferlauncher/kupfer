@@ -115,6 +115,7 @@ def _truncate_code(code, find_attributes):
 	found_info_attributes = set(find_attributes)
 	def _new_code(c, codestring):
 		newcode = types.CodeType(c.co_argcount,
+		                         c.co_kwonlyargcount,
 		                         c.co_nlocals,
 		                         c.co_stacksize,
 		                         c.co_flags,
@@ -141,17 +142,17 @@ def _truncate_code(code, find_attributes):
 				none_index >> 8,
 				dis.opmap["RETURN_VALUE"],
 			]
-			c = list(code.co_code)
-			c[i:] = list(map(chr, endinstr))
-			ncode = _new_code(code, ''.join(c))
+			c = bytearray(code.co_code)
+			c[i:] = endinstr
+			ncode = _new_code(code, bytes(c))
 			return ncode
 
-		op = ord(code.co_code[i])
+		op = code.co_code[i]
 		name = dis.opname[op]
 
 		if op >= dis.HAVE_ARGUMENT:
-			b1 = ord(code.co_code[i+1])
-			b2 = ord(code.co_code[i+2])
+			b1 = code.co_code[i+1]
+			b2 = code.co_code[i+2]
 			num = b2 * 256 + b1
 
 			if name == 'STORE_NAME':
@@ -191,7 +192,7 @@ def _import_plugin_fake(modpath, error=None):
 		"__name__": modpath,
 		"__file__": filename,
 	}
-	#code = _truncate_code(code, info_attributes)
+	code = _truncate_code(code, info_attributes)
 	try:
 		eval(code, env)
 	except Exception as exc:
