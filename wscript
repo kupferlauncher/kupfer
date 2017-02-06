@@ -106,27 +106,27 @@ def dist(ctx):
 
 def options(opt):
     # options for disabling pyc or pyo compilation
-    opt.tool_options("python")
-    opt.tool_options("gnu_dirs")
+    opt.load("python")
+    opt.load("gnu_dirs")
     opt.add_option('--nopyo',action='store_false',default=False,help='Do not install optimised compiled .pyo files [This is the default for Kupfer]',dest='pyo')
     opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
     opt.add_option('--no-runtime-deps',action='store_false',default=True,
             help='Do not check for any runtime dependencies',dest='check_deps')
-    opt.sub_options(config_subdirs)
+    opt.recurse(config_subdirs)
 
 def configure(conf):
-    conf.check_tool("python")
+    conf.load("python")
     try:
         conf.check_python_version((3, 5, 0))
     except Configure.ConfigurationError:
         raise
-    conf.check_tool("gnu_dirs")
+    conf.load("gnu_dirs")
 
-    conf.check_tool("intltool")
+    conf.load("intltool")
 
     conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
     conf.env["VERSION"] = VERSION
-    conf.sub_config(config_subdirs)
+    conf.recurse(config_subdirs)
 
     # Setup PYTHONDIR so we install into $DATADIR
     conf.env["PYTHONDIR"] = Utils.subst_vars("${DATADIR}/kupfer", conf.env)
@@ -265,7 +265,7 @@ def build(bld):
         bld.symlink_as("${MANDIR}/man1/kupfer-exec.1.gz", man_path)
 
     # Separate subdirectories
-    bld.add_subdirs(build_subdirs)
+    bld.recurse(build_subdirs)
 
 def distclean(bld):
     bld.exec_command("find ./ -name '*.pyc' -delete")

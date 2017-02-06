@@ -63,7 +63,7 @@ def apply_mallard(self):
         bld.install_files(c_install_path, page)
     bld.install_files(c_install_path, legal_xml)
 
-Task.simple_task_type('xml2po', '${XML2PO} ${XML2POFLAGS} ${SRC} > ${TGT}',
+Task.task_factory('xml2po', '${XML2PO} ${XML2POFLAGS} ${SRC} > ${TGT}',
         color='BLUE')
 
 TaskGen.feature("mallard")(init_mallard)
