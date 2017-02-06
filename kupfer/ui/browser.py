@@ -1071,7 +1071,8 @@ class Interface (gobject.GObject):
         """
 
         direct_text_key = gtk.gdk.keyval_from_name("period")
-        init_text_keys = list(map(gtk.gdk.keyval_from_name, ("slash", "equal")))
+        init_text_keys = list(map(gtk.gdk.keyval_from_name,
+            ("slash", "equal", "question")))
         init_text_keys.append(direct_text_key)
         keymap = gtk.gdk.Keymap.get_default()
         # translate keys properly
