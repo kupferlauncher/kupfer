@@ -36,6 +36,8 @@ def apply_mallard(self):
     cnode = self.path.find_dir("C")
 
     pages = cnode.ant_glob("*.page")
+    legal_xml = cnode.ant_glob("legal.xml")
+    print(legal_xml)
     self.install_path = Utils.subst_vars(self.default_install_path, self.env)
 
     # Check if the declared page list is consistent
@@ -55,9 +57,13 @@ def apply_mallard(self):
             tsk.set_outputs(out)
             bld.install_files(os.path.join(self.install_path, lang),
                               tsk.outputs)
+        bld.install_files(os.path.join(self.install_path, lang), legal_xml)
+
     for page in pages:
         instdir = os.path.join(self.install_path, "C")
         bld.install_files(instdir, page)
+        print(page)
+    bld.install_files(instdir, legal_xml)
 
 Task.simple_task_type('xml2po', '${XML2PO} ${XML2POFLAGS} ${SRC} > ${TGT}',
         color='BLUE')
