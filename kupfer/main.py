@@ -45,7 +45,6 @@ def get_options():
         ("no-splash", _("do not present main interface on launch")),
         ("list-plugins", _("list available plugins")),
         ("debug", _("enable debug info")),
-        ("relay", ""),
         # TRANS: --exec-helper=HELPER is an internal command
         # TRANS: that executes a helper program that is part of kupfer
         ("exec-helper=", _("run plugin helper")),
@@ -88,7 +87,7 @@ def get_options():
 
     for k, v in opts:
         if k == "--list-plugins":
-            prt(make_plugin_list())
+            prt(gtkmain(make_plugin_list))
             raise SystemExit
         if k == "--help":
             prt(make_help_text())
@@ -136,15 +135,15 @@ def exec_helper(helpername):
     runpy.run_module(helpername, run_name='__main__', alter_sys=True)
     raise SystemExit
 
-def gtkmain(quiet):
+def gtkmain(run_function, *args, **kwargs):
     from gi import pygtkcompat
 
     pygtkcompat.enable() 
     pygtkcompat.enable_gtk(version='3.0')
-    #import pygtk
-    #pygtk.require('2.0')
-    import gtk
+    return run_function(*args, **kwargs)
 
+def browser_start(quiet):
+    import gtk
     if not gtk.gdk.screen_get_default():
         print("No Screen Found, Exiting...", file=sys.stderr)
         sys.exit(1)
@@ -171,5 +170,5 @@ def main():
     _set_process_title()
 
     quiet = ("--no-splash" in cli_opts)
-    gtkmain(quiet)
+    gtkmain(browser_start, quiet)
 

@@ -52,8 +52,6 @@ OPTIONS
 
 --no-splash     Launch without presenting main interface
 
---list-plugins  Display a list of all installed plugins
-
 --debug         Enable more verbose output that can help understanding
                 the program's operation.
 
