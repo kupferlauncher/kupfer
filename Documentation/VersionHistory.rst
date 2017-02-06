@@ -3,6 +3,20 @@
 NEWS for kupfer
 ===============
 
+kupfer v302
+-----------
+
+Released Monday, 6 feb 2017
+
++ Fix sending files from the command line
++ Fix installation of help pages, new standard location ``/usr/share/help``
+  and including a file that was missing.
++ Fix --list-plugins and update man page.
++ Patch the included waf so that it now builds using Python 3
++ Plugin *Applications*: Add MATE as alternative
++ Fix interface to not draw preedit field at all
++ Fix *Copy to Clipboard* action.
+
 kupfer v301
 -----------
 
