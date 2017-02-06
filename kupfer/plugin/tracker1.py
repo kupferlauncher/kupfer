@@ -99,12 +99,14 @@ def get_file_results_sparql(searchobj, query, max_items):
               ORDER BY tracker:weight(?s)
               OFFSET 0 LIMIT %d""" % (clean_query, int(max_items))
 
-    pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql)
 
     new_file = Gio.File.new_for_uri
     for result in results:
-        yield FileLeaf(new_file(result[0]).get_path())
+        try:
+            yield FileLeaf(new_file(result[0]).get_path())
+        except Exception: # This very vague exception is from getpath
+            continue
 
 use_version = "0.8"
 versions = {
