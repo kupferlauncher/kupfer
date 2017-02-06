@@ -87,34 +87,24 @@ def sparql_escape(ustr):
         ord('\f'): r'\f',
         ord('"') : r'\"',
         ord('\\'): '\\\\',
+        # Extra rule: Can't have ?
+        ord("?") : "",
     }
     return ustr.translate(sparql_escape_table)
 
 def get_file_results_sparql(searchobj, query, max_items):
     clean_query = sparql_escape(query)
     sql = """SELECT tracker:coalesce (nie:url (?s), ?s)
-              WHERE {  ?s fts:match "%s*" .  ?s tracker:available true . }
+              WHERE {  ?s fts:match "%s" .  ?s tracker:available true . }
               ORDER BY tracker:weight(?s)
               OFFSET 0 LIMIT %d""" % (clean_query, int(max_items))
 
-    pretty.print_debug(__name__, "Searching for %s (%s)",
-            repr(clean_query), repr(query))
     pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql)
 
     new_file = Gio.File.new_for_uri
     for result in results:
         yield FileLeaf(new_file(result[0]).get_path())
-
-def get_file_results_old(searchobj, query, max_items):
-    try:
-        file_hits = searchobj.Text(1, "Files", query, 0, max_items)
-    except dbus.DBusException as exc:
-        pretty.print_error(__name__, exc)
-        return
-
-    for filestr in file_hits:
-        yield ConstructFileLeaf(filestr)
 
 use_version = "0.8"
 versions = {
