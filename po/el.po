@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
-"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2013-01-15 15:13+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-05 21:36+0100\n"
 "PO-Revision-Date: 2013-07-05 09:52+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
@@ -18,27 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Virtaal 0.7.1\n"
-
-#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/version.py:15
-#: ../kupfer/plugin/core/contents.py:91
-msgid "Kupfer"
-msgstr "Kupfer"
-
-#: ../auxdata/kupfer.desktop.in.h:2
-msgid "Application Launcher"
-msgstr "Εκκινητής εφαρμογής"
-
-#: ../auxdata/kupfer.desktop.in.h:3
-msgid "Convenient command and access tool for applications and documents"
-msgstr "Βολικό εργαλείο εντολών και πρόσβασης για εφαρμογές και έγγραφα"
-
-#: ../auxdata/kupfer-exec.desktop.in.h:1
-msgid "Execute in Kupfer"
-msgstr "Εκτέλεση στο Kupfer"
-
-#: ../auxdata/kupfer-mimetypes.xml.in.h:1
-msgid "Saved Kupfer Command"
-msgstr "Αποθηκευμένη εντολή Kupfer"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
@@ -68,7 +47,7 @@ msgstr "Παρακαλούμε, πατήστε τον επιθυμητό συν�
 msgid "Keybinding could not be bound"
 msgstr "Ο συνδυασμός πλήκτρων δεν μπόρεσε να προσαρτηθεί"
 
-#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:78
+#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:79
 msgid "Kupfer Preferences"
 msgstr "Προτιμήσεις Kupfer"
 
@@ -89,46 +68,54 @@ msgid "Icon set:"
 msgstr "Ομάδα εικονιδίων:"
 
 #: ../data/preferences.ui.h:6
+msgid "Large Icon Size:"
+msgstr ""
+
+#: ../data/preferences.ui.h:7
+msgid "Small Icon Size:"
+msgstr ""
+
+#: ../data/preferences.ui.h:8
 msgid "Terminal emulator:"
 msgstr "Προσομοιωτής τερματικού:"
 
-#: ../data/preferences.ui.h:7
+#: ../data/preferences.ui.h:9
 msgid "Desktop Environment"
 msgstr "Περιβάλλον επιφάνειας εργασίας"
 
-#: ../data/preferences.ui.h:8 ../kupfer/plugin/gmail/__init__.py:60
+#: ../data/preferences.ui.h:10
 msgid "General"
 msgstr "Γενικά"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:11
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Γενικές συντομεύσεις πληκτρολογίου</b>"
 
-#: ../data/preferences.ui.h:10 ../kupfer/ui/preferences.py:849
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:886
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: ../data/preferences.ui.h:11
+#: ../data/preferences.ui.h:13
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Συντομεύσεις πληκτρολογίου περιηγητή</b>"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:14
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Χρήση μονών εντολών πληκτρολόγησης (διάστημα, /, περίοδος, κόμμα κλπ.)"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:15
 msgid "Keyboard"
 msgstr "Πληκτρολόγιο"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:16
 msgid "Plugins"
 msgstr "Πρόσθετα"
 
-#: ../data/preferences.ui.h:15
+#: ../data/preferences.ui.h:17
 msgid "Inclusion in Top Level Searches"
 msgstr "Συμπερίληψη στις αναζητήσεις κορυφαίου επιπέδου"
 
-#: ../data/preferences.ui.h:16
+#: ../data/preferences.ui.h:18
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
@@ -138,17 +125,38 @@ msgstr ""
 "Τα περιεχόμενα μιας ασημείωτης πηγής είναι διαθέσιμα μόνο με εντοπισμό του "
 "υποκαταλόγου της."
 
-#: ../data/preferences.ui.h:18
+#: ../data/preferences.ui.h:20
 msgid "Indexed Folders"
 msgstr "Φάκελοι από ευρετήριο"
 
-#: ../data/preferences.ui.h:19
+#: ../data/preferences.ui.h:21
 msgid "Folders whose files are always available in the catalog."
 msgstr "Φάκελοι των οποίων τα αρχεία είναι πάντα διαθέσιμα στον κατάλογο."
 
-#: ../data/preferences.ui.h:20 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
 msgid "Catalog"
 msgstr "Κατάλογος"
+
+#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/plugin/core/contents.py:92
+#: ../kupfer/version.py:15
+msgid "Kupfer"
+msgstr "Kupfer"
+
+#: ../auxdata/kupfer.desktop.in.h:2
+msgid "Application Launcher"
+msgstr "Εκκινητής εφαρμογής"
+
+#: ../auxdata/kupfer.desktop.in.h:3
+msgid "Convenient command and access tool for applications and documents"
+msgstr "Βολικό εργαλείο εντολών και πρόσβασης για εφαρμογές και έγγραφα"
+
+#: ../auxdata/kupfer-exec.desktop.in.h:1
+msgid "Execute in Kupfer"
+msgstr "Εκτέλεση στο Kupfer"
+
+#: ../auxdata/kupfer-mimetypes.xml.in.h:1
+msgid "Saved Kupfer Command"
+msgstr "Αποθηκευμένη εντολή Kupfer"
 
 #: ../kupfer/core/commandexec.py:239
 #, python-format
@@ -160,299 +168,67 @@ msgstr "Αδύνατη η εκτέλεση του '%s'"
 msgid "\"%s\" produced a result"
 msgstr "το \"%s\" παρήγαγε ένα αποτέλεσμα"
 
-#: ../kupfer/core/execfile.py:30
+#: ../kupfer/core/execfile.py:29
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "Χωρίς δικαίωμα εκτέλεσης του \"%s\" (μη εκτελέσιμο)"
 
-#: ../kupfer/core/execfile.py:47
+#: ../kupfer/core/execfile.py:46
 #, python-format
 msgid "Command in \"%s\" is not available"
 msgstr "Η εντολή στο \"%s\" δεν είναι διαθέσιμη"
 
-#: ../kupfer/keyrelay.py:62
+#: ../kupfer/keyrelay.py:65
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Η μεταγωγή πληκτρολογίου είναι ενεργή για εμφάνιση του %s"
 
-#: ../kupfer/main.py:43
+#: ../kupfer/main.py:45
 msgid "do not present main interface on launch"
 msgstr "να μην εμφανίζεται η κύρια διεπαφή στην έναρξη"
 
-#: ../kupfer/main.py:44
+#: ../kupfer/main.py:46
 msgid "list available plugins"
 msgstr "λίστα διαθέσιμων προσθέτων"
 
-#: ../kupfer/main.py:45
+#: ../kupfer/main.py:47
 msgid "enable debug info"
 msgstr "ενεργοποίηση πληροφοριών αποσφαλμάτωσης"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:49
+#: ../kupfer/main.py:51
 msgid "run plugin helper"
 msgstr "εκτέλεση βοηθού προσθέτου"
 
-#: ../kupfer/main.py:52
+#: ../kupfer/main.py:54
 msgid "show usage help"
 msgstr "εμφάνιση βοήθειας χρήσης"
 
-#: ../kupfer/main.py:53
+#: ../kupfer/main.py:55
 msgid "show version information"
 msgstr "εμφάνιση πληροφοριών έκδοσης"
 
-#: ../kupfer/main.py:59
+#: ../kupfer/main.py:61
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Χρήση: kupfer [ ΕΠΙΛΟΓΕΣ | ΑΡΧΕΙΟ ... ]"
 
-#: ../kupfer/main.py:70
+#: ../kupfer/main.py:72
 msgid "Available plugins:"
 msgstr "Διαθέσιμα πρόσθετα:"
 
 #: ../kupfer/main.py:121
-#, python-format
+#, fuzzy, python-format
 msgid ""
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"   %(COPYRIGHT)s\n"
+"   %(WEBSITE)s\n"
+msgstr ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
-msgstr ""
-"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
-"\t%(COPYRIGHT)s\n"
-"\t%(WEBSITE)s\n"
 
-#. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/accelerators.py:4
-msgid "Alternate Activate"
-msgstr "Εναλλακτική ενεργοποίηση"
-
-#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
-#. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/accelerators.py:7
-msgid "Comma Trick"
-msgstr "Τέχνασμα κόμμα (πολλά αντικείμενα)"
-
-#. TRANS: "Compose Command" makes one object out of the selected
-#. TRANS: object + action (+iobject)
-#: ../kupfer/ui/accelerators.py:10
-msgid "Compose Command"
-msgstr "Εντολή σύνθεσης"
-
-#: ../kupfer/ui/accelerators.py:11
-msgid "Mark Default Action"
-msgstr "Σημείωση προεπιλεγμένης ενέργειας"
-
-#: ../kupfer/ui/accelerators.py:12
-msgid "Forget Object"
-msgstr "Παράλειψη αντικειμένου"
-
-#: ../kupfer/ui/accelerators.py:13
-msgid "Reset All"
-msgstr "Επαναφορά όλων"
-
-#: ../kupfer/ui/accelerators.py:14
-msgid "Select Quit"
-msgstr "Επιλογή εξόδου"
-
-#: ../kupfer/ui/accelerators.py:15
-msgid "Select Selected File"
-msgstr "Επιλογή του επιλεγμένου αρχείου"
-
-#: ../kupfer/ui/accelerators.py:16
-msgid "Select Selected Text"
-msgstr "Επιλογή του επιλεγμένου κειμένου"
-
-#: ../kupfer/ui/accelerators.py:17
-msgid "Show Help"
-msgstr "Εμφάνιση βοήθειας"
-
-#: ../kupfer/ui/accelerators.py:18
-msgid "Show Preferences"
-msgstr "Εμφάνιση προτιμήσεων"
-
-#: ../kupfer/ui/accelerators.py:19
-msgid "Switch to First Pane"
-msgstr "Εναλλαγή σε πρώτο παράθυρο"
-
-#: ../kupfer/ui/accelerators.py:20
-msgid "Toggle Text Mode"
-msgstr "Εναλλαγή σε κατάσταση κειμένου"
-
-#: ../kupfer/ui/browser.py:888
-#, python-format
-msgid "%s is empty"
-msgstr "το %s είναι κενό"
-
-#: ../kupfer/ui/browser.py:892
-#, python-format
-msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Δεν υπάρχει συμφωνία στο %(src)s για το \"%(query)s\""
-
-#: ../kupfer/ui/browser.py:898
-msgid "No matches"
-msgstr "Καμία συμφωνία"
-
-#: ../kupfer/ui/browser.py:903
-msgid "Type to search"
-msgstr "Πληκτρολογήστε για αναζήτηση"
-
-#: ../kupfer/ui/browser.py:909
-#, python-format
-msgid "Type to search %s"
-msgstr "Πληκτρολογήστε για αναζήτηση του %s"
-
-#: ../kupfer/ui/browser.py:924
-msgid "No action"
-msgstr "Καμία ενέργεια"
-
-#: ../kupfer/ui/browser.py:1513
-#, python-format
-msgid "Make \"%(action)s\" Default for \"%(object)s\""
-msgstr "Κάντε το \"%(action)s\" προεπιλογή για \"%(object)s\""
-
-#. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1523
-#, python-format
-msgid "Forget About \"%s\""
-msgstr "Παράλειψη σχετικά με το \"%s\""
-
-#. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1960 ../kupfer/ui/preferences.py:58
-msgid "Show Main Interface"
-msgstr "Εμφάνιση κύριας διεπαφής"
-
-#: ../kupfer/ui/preferences.py:59
-msgid "Show with Selection"
-msgstr "Εμφάνιση με επιλογή"
-
-#. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:416
-msgid "Description"
-msgstr "Περιγραφή"
-
-#: ../kupfer/ui/preferences.py:416
-msgid "Author"
-msgstr "Δημιουργός"
-
-#: ../kupfer/ui/preferences.py:433
-msgid "Version"
-msgstr "Έκδοση"
-
-#. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:443
-#, python-format
-msgid "Python module '%s' is needed"
-msgstr "Χρειάζεται η ενότητα Python '%s'"
-
-#: ../kupfer/ui/preferences.py:457
-msgid "Plugin could not be read due to an error:"
-msgstr "Το πρόσθετο δεν μπόρεσε να διαβαστεί λόγω ενός σφάλματος:"
-
-#: ../kupfer/ui/preferences.py:465 ../kupfer/plugin/kupfer_plugins.py:80
-msgid "disabled"
-msgstr "ανενεργό"
-
-#: ../kupfer/ui/preferences.py:539
-msgid "Content of"
-msgstr "Περιεχόμενο του"
-
-#. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:548
-msgid "Sources"
-msgstr "Πηγές"
-
-#. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:552
-msgid "Actions"
-msgstr "Ενέργειες"
-
-#: ../kupfer/ui/preferences.py:575
-#, python-format
-msgid "Using encrypted password storage: %s"
-msgstr "Χρήση κρυπτογραφημένης αποθήκευσης κωδικού πρόσβασης: %s"
-
-#: ../kupfer/ui/preferences.py:577
-#, python-format
-msgid "Using password storage: %s"
-msgstr "Χρήση αποθήκευσης κωδικού πρόσβασης: %s"
-
-#. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:594
-msgid "Configuration"
-msgstr "Διαμόρφωση"
-
-#: ../kupfer/ui/preferences.py:614
-msgid "Set username and password"
-msgstr "Εισάγετε το όνομα χρήστη και κωδικό πρόσβασης."
-
-#. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:668
-msgid "Choose a Directory"
-msgstr "Επιλέξτε έναν κατάλογο"
-
-#: ../kupfer/ui/preferences.py:847
-msgid "Reset all shortcuts to default values?"
-msgstr "Επαναφορά όλων των συντομεύσεων στις προεπιλεγμένες τιμές;"
-
-#: ../kupfer/ui/preferences.py:855 ../kupfer/plugin/custom_terminal.py:12
-msgid "Command"
-msgstr "Εντολή"
-
-#: ../kupfer/ui/preferences.py:856
-msgid "Shortcut"
-msgstr "Συντόμευση"
-
-#. TRANS: Don't translate literally!
-#. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:73
-msgid "translator-credits"
-msgstr ""
-"Ελληνική μεταφραστική ομάδα του GNOME\n"
-" Δημήτρης Σπίγγος <dmtrs32@gmail.com>\n"
-"Για περισσότερα δείτε: http://gnome.gr"
-
-#: ../kupfer/version.py:78
-msgid "A free software (GPLv3+) launcher"
-msgstr "Ένας εκκινητής ελεύθερου λογισμικού (GPLv3+)"
-
-#: ../kupfer/version.py:81
-msgid ""
-"\n"
-"This program is free software: you can redistribute it and/or modify\n"
-"it under the terms of the GNU General Public License as published by\n"
-"the Free Software Foundation, either version 3 of the License, or\n"
-"(at your option) any later version.\n"
-"\n"
-"This program is distributed in the hope that it will be useful,\n"
-"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-"GNU General Public License for more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License\n"
-"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
-msgstr ""
-"\n"
-"Αυτό το πρόγραμμα είναι ελεύθερο λογισμικό: Επιτρέπεται η αναδιανομή ή/και "
-"τροποποίησή του υπό τους όρους της Γενικής Άδειας Δημόσιας Χρήσης\n"
-"GNU, όπως αυτή έχει δημοσιευτεί από το Ίδρυμα Ελεύθερου Λογισμικού,\n"
-"είτε της έκδοσης 3 της Άδειας, είτε (κατ' επιλογήν) οποιασδήποτε\n"
-"μεταγενέστερης έκδοσης.\n"
-"\n"
-"Το πρόγραμμα αυτό διανέμεται με την ελπίδα ότι θα αποδειχθεί χρήσιμο,\n"
-"παρόλα αυτά ΧΩΡΙΣ ΚΑΜΙΑ ΕΓΓΥΗΣΗ – χωρίς ούτε και την σιωπηρή εγγύηση\n"
-"ΕΜΠΟΡΕΥΣΙΜΟΤΗΤΑΣ ή ΚΑΤΑΛΛΗΛΟΤΗΤΑΣ ΓΙΑ ΣΥΓΚΕΚΡΙΜΕΝΗ ΧΡΗΣΗ. Για\n"
-"περισσότερες λεπτομέρειες ανατρέξτε στη Γενική Άδεια Δημόσιας Χρήσης\n"
-"GNU.\n"
-"\n"
-"Θα πρέπει να έχετε λάβει ένα αντίγραφο της Γενικής Άδειας Δημόσιας\n"
-"Χρήσης GNU μαζί με αυτό το πρόγραμμα. Εάν όχι, δείτε εδώ: "
-"<http://www.gnu.org/licenses/>.\n"
-
-#. follows strings used elsewhere
-#: ../kupfer/version.py:98
-msgid "Could not find running Kupfer"
-msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
-
-#: ../kupfer/obj/base.py:457 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -475,7 +251,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s αντικείμενο"
 msgstr[1] "%s αντικείμενα"
 
-#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
+#: ../kupfer/obj/contacts.py:129
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -508,8 +284,7 @@ msgstr "QQ"
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/obj/contacts.py:187 ../kupfer/plugin/skype.py:2
+#: ../kupfer/obj/contacts.py:187
 msgid "Skype"
 msgstr "Skype"
 
@@ -522,127 +297,125 @@ msgstr "το %s δεν υποστηρίζει αυτή τη λειτουργία
 msgid "Can not be used with multiple objects"
 msgstr "Αδύνατη η χρήση του με πολλαπλά αντικείμενα"
 
-#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
-#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:135
-#: ../kupfer/plugin/zim.py:176
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
+#: ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: ../kupfer/obj/fileactions.py:43
+#: ../kupfer/obj/fileactions.py:44
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Χωρίς προεπιλεγμένη εφαρμογή για %(file)s (%(type)s)"
 
-#: ../kupfer/obj/fileactions.py:45
+#: ../kupfer/obj/fileactions.py:46
 #, python-format
 msgid "Please use \"%s\""
 msgstr "Παρακαλούμε χρησιμοποιήστε το \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:109
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
 msgid "Set Default Application..."
 msgstr "Ορισμός προεπιλεγμένης εφαρμογής..."
 
-#: ../kupfer/obj/fileactions.py:71
+#: ../kupfer/obj/fileactions.py:72
 msgid "Open with default application"
 msgstr "Άνοιγμα με την προεπιλεγμένη εφαρμογή"
 
-#: ../kupfer/obj/fileactions.py:74
+#: ../kupfer/obj/fileactions.py:75
 msgid "Reveal"
 msgstr "Αποκάλυψη"
 
-#: ../kupfer/obj/fileactions.py:83
+#: ../kupfer/obj/fileactions.py:84
 msgid "Open parent folder"
 msgstr "Άνοιγμα γονικού φακέλου"
 
-#: ../kupfer/obj/fileactions.py:89
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open Terminal Here"
 msgstr "Άνοιγμα τερματικού εδώ"
 
-#: ../kupfer/obj/fileactions.py:102
+#: ../kupfer/obj/fileactions.py:103
 msgid "Open this location in a terminal"
 msgstr "Άνοιγμα αυτής της τοποθεσίας σε τερματικό"
 
-#: ../kupfer/obj/fileactions.py:110
+#: ../kupfer/obj/fileactions.py:111
 msgid "Run in Terminal"
 msgstr "Εκτέλεση σε τερματικό"
 
-#: ../kupfer/obj/fileactions.py:110
+#: ../kupfer/obj/fileactions.py:111
 msgid "Run (Execute)"
 msgstr "Τρέξιμο (εκτέλεση)"
 
-#: ../kupfer/obj/fileactions.py:130
+#: ../kupfer/obj/fileactions.py:131
 msgid "Run this program in a Terminal"
 msgstr "Εκτέλεση αυτού του προγράμματος σε τερματικό"
 
-#: ../kupfer/obj/fileactions.py:132
+#: ../kupfer/obj/fileactions.py:133
 msgid "Run this program"
 msgstr "Εκτέλεση αυτού του προγράμματος"
 
-#: ../kupfer/obj/objects.py:252 ../kupfer/plugin/windows.py:105
-#: ../kupfer/plugin/windows.py:264 ../kupfer/plugin/vim/plugin.py:172
+#: ../kupfer/obj/objects.py:256 ../kupfer/plugin/windows.py:105
+#: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Μετάβαση σε"
 
-#: ../kupfer/obj/objects.py:278
+#: ../kupfer/obj/objects.py:282
 msgid "Open URL"
 msgstr "Άνοιγμα URL"
 
-#: ../kupfer/obj/objects.py:289
+#: ../kupfer/obj/objects.py:293
 msgid "Open URL with default viewer"
 msgstr "Άνοιγμα URL με προεπιλεγμένη προβολή"
 
-#: ../kupfer/obj/objects.py:303
+#: ../kupfer/obj/objects.py:307
 msgid "Launch"
 msgstr "Έναρξη"
 
-#: ../kupfer/obj/objects.py:316
+#: ../kupfer/obj/objects.py:320
 msgid "Show application window"
 msgstr "Εμφάνιση παραθύρου εφαρμογής"
 
-#: ../kupfer/obj/objects.py:317
+#: ../kupfer/obj/objects.py:321
 msgid "Launch application"
 msgstr "Έναρξη εφαρμογής"
 
-#: ../kupfer/obj/objects.py:328
+#: ../kupfer/obj/objects.py:332
 msgid "Launch Again"
 msgstr "Έναρξη πάλι"
 
-#: ../kupfer/obj/objects.py:335
+#: ../kupfer/obj/objects.py:339
 msgid "Launch another instance of this application"
 msgstr "Έναρξη ενός άλλου στιγμιότυπου αυτής της εφαρμογής"
 
-#: ../kupfer/obj/objects.py:341 ../kupfer/plugin/windows.py:37
+#: ../kupfer/obj/objects.py:345 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: ../kupfer/obj/objects.py:349
+#: ../kupfer/obj/objects.py:353
 msgid "Attempt to close all application windows"
 msgstr "Προσπάθεια για κλείσιμο όλων των παραθύρων εφαρμογής"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:398
+#: ../kupfer/obj/objects.py:402
 msgid "Run"
 msgstr "Εκτέλεση"
 
-#: ../kupfer/obj/objects.py:408
+#: ../kupfer/obj/objects.py:412
 msgid "Perform command"
 msgstr "Εντολή εκτέλεσης"
 
-#: ../kupfer/obj/objects.py:421
+#: ../kupfer/obj/objects.py:425
 msgid "(Empty Text)"
 msgstr "(κενό κείμενο)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:451
+#: ../kupfer/obj/objects.py:455
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d γραμμές) \"%(text)s\""
 
-#. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
+#: ../kupfer/obj/sources.py:24
 #, python-format
 msgid "%s et. al."
 msgstr "%s κ.α."
@@ -687,11 +460,11 @@ msgstr "Το πρόσθετο %s δεν ρυθμίστηκε"
 msgid "Invalid user credentials for %s"
 msgstr "Άκυρα διαπιστευτήρια χρήστη για το %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
 msgid "Applications"
 msgstr "Εφαρμογές"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:74
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
 msgid "All applications and preferences"
 msgstr "Όλες οι εφαρμογές και προτιμήσεις"
 
@@ -699,17 +472,34 @@ msgstr "Όλες οι εφαρμογές και προτιμήσεις"
 msgid "Applications for Desktop Environment"
 msgstr "Εφαρμογές για το περιβάλλον επιφάνειας εργασίας"
 
-#: ../kupfer/plugin/applications.py:83
+#: ../kupfer/plugin/applications.py:30
+msgid "Use Desktop Filter (requires restart)"
+msgstr ""
+
+#: ../kupfer/plugin/applications.py:92
 msgid "Open With..."
 msgstr "Άνοιγμα με..."
 
-#: ../kupfer/plugin/applications.py:105
+#: ../kupfer/plugin/applications.py:114
 msgid "Open with any application"
 msgstr "Άνοιγμα με οποιαδήποτε εφαρμογή"
 
-#: ../kupfer/plugin/applications.py:124
+#: ../kupfer/plugin/applications.py:133
 msgid "Set default application to open this file type"
 msgstr "Ορισμός προεπιλεγμένης εφαρμογής για άνοιγμα με αυτόν τον τύπο αρχείου"
+
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr "Βαθιές αρχειοθήκες"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Να επιτρέπεται η περιήγηση μέσα σε συμπιεσμένα αρχεία αρχειοθήκης"
+
+#: ../kupfer/plugin/archiveinside.py:49
+#, python-format
+msgid "Content of %s"
+msgstr "Περιεχόμενα του %s"
 
 #: ../kupfer/plugin/archivemanager.py:1
 msgid "Archive Manager"
@@ -735,8 +525,7 @@ msgstr "Εξαγωγή συμπιεσμένης αρχειοθήκης"
 msgid "Create Archive"
 msgstr "Δημιουργία αρχειοθήκης"
 
-#: ../kupfer/plugin/archivemanager.py:86
-#: ../kupfer/plugin/archivemanager.py:129
+#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Δημιουργία συμπιεσμένης αρχειοθήκης από φάκελο"
 
@@ -749,19 +538,111 @@ msgstr "Δημιουργία αρχειοθήκης σε..."
 msgid "Archive"
 msgstr "Αρχειοθήκη"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:69
+#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
+msgid "Audacious"
+msgstr "Audacious"
+
+#: ../kupfer/plugin/audacious.py:3
+msgid "Control Audacious playback and playlist"
+msgstr "Έλεγχος αναπαραγωγής Audacious και λίστας αναπαραγωγής"
+
+#: ../kupfer/plugin/audacious.py:20
+msgid "Include songs in top level"
+msgstr "Να συμπεριλαμβάνονται τα τραγούδια στο κορυφαίο επίπεδο"
+
+#: ../kupfer/plugin/audacious.py:58
+msgid "Enqueue"
+msgstr "Σε αναμονή"
+
+#: ../kupfer/plugin/audacious.py:62
+msgid "Add track to the Audacious play queue"
+msgstr "Προσθήκη κομματιού στην σειρά αναπαραγωγής του Audacious"
+
+#: ../kupfer/plugin/audacious.py:70
+msgid "Dequeue"
+msgstr "Αφαίρεση από την αναμονή"
+
+#: ../kupfer/plugin/audacious.py:74
+msgid "Remove track from the Audacious play queue"
+msgstr "Αφαίρεση κομματιού από τη σειρά αναπαραγωγής του Audacious"
+
+#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
+msgid "Play"
+msgstr "Αναπαραγωγή"
+
+#: ../kupfer/plugin/audacious.py:86
+msgid "Jump to track in Audacious"
+msgstr "Μετάβαση σε κομμάτι στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:96
+msgid "Resume playback in Audacious"
+msgstr "Συνέχιση αναπαραγωγής στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:102
+msgid "Pause"
+msgstr "Παύση"
+
+#: ../kupfer/plugin/audacious.py:106
+msgid "Pause playback in Audacious"
+msgstr "Παύση αναπαραγωγής στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:112
+msgid "Next"
+msgstr "Επόμενο"
+
+#: ../kupfer/plugin/audacious.py:116
+msgid "Jump to next track in Audacious"
+msgstr "Μετάβαση στο επόμενο κομμάτι στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:122
+msgid "Previous"
+msgstr "Προηγούμενο"
+
+#: ../kupfer/plugin/audacious.py:126
+msgid "Jump to previous track in Audacious"
+msgstr "Μετάβαση στο προηγούμενο κομμάτι στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:132
+msgid "Clear Queue"
+msgstr "Καθαρισμός αναμονής"
+
+#: ../kupfer/plugin/audacious.py:136
+msgid "Clear the Audacious play queue"
+msgstr "Καθαρισμός της σειρά αναπαραγωγής του Audacious"
+
+#: ../kupfer/plugin/audacious.py:142
+msgid "Shuffle"
+msgstr "Ανακάτεμα"
+
+#: ../kupfer/plugin/audacious.py:146
+msgid "Toggle shuffle in Audacious"
+msgstr "Εναλλαγή ανακατέματος στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:152
+msgid "Repeat"
+msgstr "Επανάληψη"
+
+#: ../kupfer/plugin/audacious.py:156
+msgid "Toggle repeat in Audacious"
+msgstr "Εναλλαγή επανάληψης στο Audacious"
+
+#: ../kupfer/plugin/audacious.py:171
+msgid "Playlist"
+msgstr "Λίστα αναπαραγωγής"
+
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
 msgid "Calculator"
 msgstr "Αριθμομηχανή"
 
 #: ../kupfer/plugin/calculator.py:4
-msgid "Calculate expressions starting with '='"
-msgstr "Υπολογισμός εκφράσεων που ξεκινούν με '='"
+msgid "Calculate mathematical expressions"
+msgstr ""
 
-#: ../kupfer/plugin/calculator.py:101
+#: ../kupfer/plugin/calculator.py:120
 msgid "Calculate"
 msgstr "Υπολογισμός"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:112
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:113
 msgid "Clipboards"
 msgstr "Πρόχειρα"
 
@@ -769,50 +650,50 @@ msgstr "Πρόχειρα"
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr "Πρόσφατα πρόχειρα και αντικείμενα μεσολαβητή προχείρων"
 
-#: ../kupfer/plugin/clipboard.py:24
+#: ../kupfer/plugin/clipboard.py:25
 msgid "Number of recent clipboards to remember"
 msgstr "Αριθμός πρόσφατων προχείρων για απομνημόνευση"
 
-#: ../kupfer/plugin/clipboard.py:30
+#: ../kupfer/plugin/clipboard.py:31
 msgid "Include selected text in clipboard history"
 msgstr "Να συμπεριλαμβάνεται το επιλεγμένο κείμενο στο ιστορικό προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:36
+#: ../kupfer/plugin/clipboard.py:37
 msgid "Copy selected text to primary clipboard"
 msgstr "Αντιγραφή επιλεγμένου κειμένου στο κύριο πρόχειρο"
 
-#: ../kupfer/plugin/clipboard.py:47
+#: ../kupfer/plugin/clipboard.py:48
 msgid "Selected Text"
 msgstr "Επιλεγμένο κείμενο"
 
-#: ../kupfer/plugin/clipboard.py:57
+#: ../kupfer/plugin/clipboard.py:58
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Πρόχειρο \"%(desc)s\""
 msgstr[1] "Πρόχειρο με %(num)d γραμμές \"%(desc)s\""
 
-#: ../kupfer/plugin/clipboard.py:64
+#: ../kupfer/plugin/clipboard.py:65
 msgid "Clipboard Text"
 msgstr "Κείμενο προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:74
+#: ../kupfer/plugin/clipboard.py:75
 msgid "Clipboard File"
 msgstr "Αρχείο προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:84
+#: ../kupfer/plugin/clipboard.py:85
 msgid "Clipboard Files"
 msgstr "Αρχεία προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:92
+#: ../kupfer/plugin/clipboard.py:93
 msgid "Clear"
 msgstr "Καθαρισμός"
 
-#: ../kupfer/plugin/clipboard.py:104
+#: ../kupfer/plugin/clipboard.py:105
 msgid "Remove all recent clipboards"
 msgstr "Αφαίρεση όλων των πρόσφατων προχείρων"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:187
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:188
 msgid "Shell Commands"
 msgstr "Εντολές φλοιού"
 
@@ -849,18 +730,18 @@ msgstr "Εκτέλεση προγράμματος με αντικείμενο ω
 msgid "Write to Command..."
 msgstr "Εγγραφή στην εντολή..."
 
-#: ../kupfer/plugin/commands.py:149 ../kupfer/plugin/commands.py:161
+#: ../kupfer/plugin/commands.py:150 ../kupfer/plugin/commands.py:162
 msgid "Run program and supply text on the standard input"
 msgstr "Εκτέλεση προγράμματος και τροφοδοσία κειμένου στην τυπική είσοδο"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:157
+#: ../kupfer/plugin/commands.py:158
 msgid "Filter through Command..."
 msgstr "Φιλτράρισμα μέσα από την εντολή..."
 
-#: ../kupfer/plugin/commands.py:215
+#: ../kupfer/plugin/commands.py:214
 msgid "Run command-line programs"
 msgstr "Εκτέλεση προγραμμάτων γραμμής εντολών"
 
@@ -896,31 +777,36 @@ msgstr "Κονσόλα"
 msgid "Save As..."
 msgstr "Αποθήκευση ως..."
 
-#: ../kupfer/plugin/core/contents.py:41
+#: ../kupfer/plugin/core/contents.py:20
+#, fuzzy
+msgid "Restart Kupfer"
+msgstr "Επανεκκίνηση υπηρεσίας"
+
+#: ../kupfer/plugin/core/contents.py:42
 msgid "Quit"
 msgstr "Έξοδος"
 
-#: ../kupfer/plugin/core/contents.py:46
+#: ../kupfer/plugin/core/contents.py:47
 msgid "Quit Kupfer"
 msgstr "Έξοδος από το Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:52
+#: ../kupfer/plugin/core/contents.py:53
 msgid "About Kupfer"
 msgstr "Σχετικά με το Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:59
+#: ../kupfer/plugin/core/contents.py:60
 msgid "Show information about Kupfer authors and license"
 msgstr "Εμφάνιση πληροφοριών για τους συγγραφείς του Kupfer και την άδεια"
 
-#: ../kupfer/plugin/core/contents.py:65
+#: ../kupfer/plugin/core/contents.py:66
 msgid "Kupfer Help"
 msgstr "Βοήθεια Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:72
+#: ../kupfer/plugin/core/contents.py:73
 msgid "Get help with Kupfer"
 msgstr "Λήψη βοήθειας με το Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:85
+#: ../kupfer/plugin/core/contents.py:86
 msgid "Show preferences window for Kupfer"
 msgstr "Εμφάνιση παραθύρου προτιμήσεων για το Kupfer"
 
@@ -964,6 +850,43 @@ msgstr "Τελευταίο αποτέλεσμα"
 msgid "Command Results"
 msgstr "Αποτελέσματα εντολής"
 
+#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:41
+msgid "Custom Terminal"
+msgstr "Προσαρμοσμένο τερματικό"
+
+#: ../kupfer/plugin/custom_terminal.py:2
+msgid ""
+"Configure a custom terminal emulator.\n"
+"\n"
+"The plugin adds another terminal alternative (select it on the main page)."
+msgstr ""
+
+#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:892
+msgid "Command"
+msgstr "Εντολή"
+
+#: ../kupfer/plugin/custom_terminal.py:20
+msgid "Execute flag"
+msgstr "Εκτέλεση σημαίας"
+
+#: ../kupfer/plugin/defaultmail.py:1
+msgid "Default Email Client"
+msgstr "Προεπιλεγμένος πελάτης αλληλογραφίας"
+
+#: ../kupfer/plugin/defaultmail.py:6
+msgid "Compose email using the system's default mailto: handler"
+msgstr ""
+"Σύνταξη αλληλογραφίας χρησιμοποιώντας τον προεπιλεγμένο χειριστή mailto: του "
+"συστήματος"
+
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+msgid "Compose Email"
+msgstr "Σύνταξη αλληλογραφίας"
+
+#: ../kupfer/plugin/defaultmail.py:43
+msgid "Send in Email To..."
+msgstr "Αποστολή με αλληλογραφία σε..."
+
 #: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:21
 msgid "Dictionary"
 msgstr "Λεξικό"
@@ -984,43 +907,43 @@ msgstr "Έγγραφα"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα και φάκελοι με σελιδοδείκτες"
 
-#: ../kupfer/plugin/documents.py:22
+#: ../kupfer/plugin/documents.py:21
 msgid "Max recent document days"
 msgstr "Μέγιστος αριθμός ημερών για πρόσφατα έγγραφα"
 
-#: ../kupfer/plugin/documents.py:32
+#: ../kupfer/plugin/documents.py:31
 msgid "Recent Items"
 msgstr "Πρόσφατα στοιχεία"
 
-#: ../kupfer/plugin/documents.py:78
+#: ../kupfer/plugin/documents.py:77
 msgid "Recently used documents"
 msgstr "Πρόσφατα χρησιμοποιημένα αρχεία"
 
-#: ../kupfer/plugin/documents.py:88
+#: ../kupfer/plugin/documents.py:87
 #, python-format
 msgid "%s Documents"
 msgstr "%s Έγγραφα"
 
-#: ../kupfer/plugin/documents.py:113
+#: ../kupfer/plugin/documents.py:112
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα για %s"
 
-#: ../kupfer/plugin/documents.py:132
+#: ../kupfer/plugin/documents.py:131
 msgid "Places"
 msgstr "Τοποθεσίες"
 
-#: ../kupfer/plugin/documents.py:164
+#: ../kupfer/plugin/documents.py:163
 msgid "Bookmarked folders"
 msgstr "Φάκελοι με σελιδοδείκτες"
 
-#: ../kupfer/plugin/epiphany.py:1 ../kupfer/plugin/epiphany.py:18
-msgid "Epiphany Bookmarks"
-msgstr "Σελιδοδείκτες Epiphany"
+#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
+msgid "DuckDuckGo Search"
+msgstr "Αναζήτηση DuckDuckGo"
 
-#: ../kupfer/plugin/epiphany.py:3 ../kupfer/plugin/epiphany.py:35
-msgid "Index of Epiphany bookmarks"
-msgstr "Ευρετήριο σελιδοδεικτών του Epiphany"
+#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
+msgid "Search the web securely with DuckDuckGo"
+msgstr "Αναζήτηση του ιστού με ασφάλεια με το DuckDuckGo"
 
 #: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:21
 msgid "Favorites"
@@ -1060,8 +983,8 @@ msgstr "Ενέργειες αρχείου"
 msgid "More file actions"
 msgstr "Περισσότερες ενέργειες αρχείου"
 
-#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/windows.py:122
-#: ../kupfer/plugin/thunar.py:211
+#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/thunar.py:211
+#: ../kupfer/plugin/windows.py:122
 msgid "Move To..."
 msgstr "Μετακίνηση σε..."
 
@@ -1081,975 +1004,10 @@ msgstr "Αντιγραφή σε..."
 msgid "Copy file to a chosen location"
 msgstr "Αντιγραφή αρχείου σε επιλεγμένη θέση"
 
-#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:61
-msgid "Firefox Bookmarks"
-msgstr "Σελιδοδείκτες Firefox"
-
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:147
-msgid "Index of Firefox bookmarks"
-msgstr "Ευρετήριο σελιδοδεικτών του Firefox"
-
-#: ../kupfer/plugin/firefox.py:26
-msgid "Include visited sites"
-msgstr "Να συμπεριλαμβάνονται οι τόποι που επισκέφτηκαν"
-
-#: ../kupfer/plugin/firefox.py:44
-msgid "Firefox tag"
-msgstr "Ετικέτα Firefox"
-
-#. TRANS: Multihead refers to support for multiple computer displays
-#. TRANS: In this case, it only concerns the special configuration
-#. TRANS: with multiple X "screens"
-#: ../kupfer/plugin/multihead.py:4
-msgid "Multihead Support"
-msgstr "Υποστήριξη πολλαπλής κεφαλής"
-
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:178
-#: ../kupfer/plugin/notes.py:230
-msgid "Notes"
-msgstr "Σημειώσεις"
-
-#: ../kupfer/plugin/notes.py:13
-msgid "Gnote or Tomboy notes"
-msgstr "Σημειώσεις Gnote ή Tomboy"
-
-#: ../kupfer/plugin/notes.py:35
-msgid "Work with application"
-msgstr "Εργασία με την εφαρμογή"
-
-#: ../kupfer/plugin/notes.py:95
-msgid "Open with notes application"
-msgstr "Άνοιγμα με εφαρμογή σημειώσεων"
-
-#: ../kupfer/plugin/notes.py:102
-msgid "Append to Note..."
-msgstr "Προσάρτηση στη σημείωση..."
-
-#: ../kupfer/plugin/notes.py:125
-msgid "Add text to existing note"
-msgstr "Προσθήκη κειμένου στην υπάρχουσα σημείωση"
-
-#: ../kupfer/plugin/notes.py:140
-msgid "Create Note"
-msgstr "Δημιουργία σημείωσης"
-
-#: ../kupfer/plugin/notes.py:154
-msgid "Create a new note from this text"
-msgstr "Δημιουργία νέας σημείωσης από αυτό το κείμενο"
-
-#: ../kupfer/plugin/notes.py:160
-msgid "Get Note Search Results..."
-msgstr "Λήψη αποτελεσμάτων αναζήτησης σημείωσης..."
-
-#: ../kupfer/plugin/notes.py:173
-msgid "Show search results for this query"
-msgstr "Εμφάνιση αποτελεσμάτων αναζήτησης για αυτό το ερώτημα"
-
-#: ../kupfer/plugin/notes.py:213
-#, python-format
-msgid "today, %s"
-msgstr "σήμερα, %s"
-
-#: ../kupfer/plugin/notes.py:215
-#, python-format
-msgid "yesterday, %s"
-msgstr "χτες, %s"
-
-#. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:219
-#, python-format
-msgid "Last updated %s"
-msgstr "Τελευταία ενημέρωση του %s"
-
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:399
-msgid "Rhythmbox"
-msgstr "Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:433
-msgid "Play and enqueue tracks and browse the music library"
-msgstr ""
-"Αναπαραγωγή, τοποθέτηση κομματιών σε αναμονή και περιήγηση της μουσικής "
-"βιβλιοθήκης"
-
-#: ../kupfer/plugin/rhythmbox.py:22
-msgid "Include artists in top level"
-msgstr "Να συμπεριλαμβάνονται οι καλλιτέχνες στο κορυφαίο επίπεδο"
-
-#: ../kupfer/plugin/rhythmbox.py:28
-msgid "Include albums in top level"
-msgstr "Να συμπεριλαμβάνονται οι δίσκοι στο κορυφαίο επίπεδο"
-
-#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
-msgid "Include songs in top level"
-msgstr "Να συμπεριλαμβάνονται τα τραγούδια στο κορυφαίο επίπεδο"
-
-#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
-#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
-msgid "Play"
-msgstr "Αναπαραγωγή"
-
-#: ../kupfer/plugin/rhythmbox.py:67
-msgid "Resume playback in Rhythmbox"
-msgstr "Συνέχιση αναπαραγωγής στο Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:93
-msgid "Pause"
-msgstr "Παύση"
-
-#: ../kupfer/plugin/rhythmbox.py:77
-msgid "Pause playback in Rhythmbox"
-msgstr "Παύση αναπαραγωγής στο Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
-msgid "Next"
-msgstr "Επόμενο"
-
-#: ../kupfer/plugin/rhythmbox.py:87
-msgid "Jump to next track in Rhythmbox"
-msgstr "Μετάβαση στο επόμενο κομμάτι στο Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
-msgid "Previous"
-msgstr "Προηγούμενο"
-
-#: ../kupfer/plugin/rhythmbox.py:97
-msgid "Jump to previous track in Rhythmbox"
-msgstr "Μετάβαση στο προηγούμενο κομμάτι στο Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:103
-msgid "Show Playing"
-msgstr "Εμφάνιση αναπαραγωγής"
-
-#: ../kupfer/plugin/rhythmbox.py:107
-msgid "Tell which song is currently playing"
-msgstr "Να λέει ποιο τραγούδι αναπαράγεται τώρα"
-
-#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
-msgid "Clear Queue"
-msgstr "Καθαρισμός αναμονής"
-
-#: ../kupfer/plugin/rhythmbox.py:155
-msgid "Play tracks in Rhythmbox"
-msgstr "Αναπαραγωγή κομματιών στο Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
-msgid "Enqueue"
-msgstr "Σε αναμονή"
-
-#: ../kupfer/plugin/rhythmbox.py:172
-msgid "Add tracks to the play queue"
-msgstr "Προσθήκη κομματιών στη σειρά αναπαραγωγής"
-
-#. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:195
-#, python-format
-msgid "by %(artist)s from %(album)s"
-msgstr "κατά %(artist)s από %(album)s"
-
-#. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:250
-#, python-format
-msgid "by %s"
-msgstr "κατά %s"
-
-#. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:311
-#, python-format
-msgid "Tracks by %s"
-msgstr "Κομμάτια κατά %s"
-
-#: ../kupfer/plugin/rhythmbox.py:321
-#: ../kupfer/plugin/google_picasa/__init__.py:444
-msgid "Albums"
-msgstr "Δίσκοι"
-
-#: ../kupfer/plugin/rhythmbox.py:331
-msgid "Music albums in Rhythmbox Library"
-msgstr "Μουσικοί δίσκοι στη βιβλιοθήκη Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:342
-msgid "Artists"
-msgstr "Καλλιτέχνες"
-
-#: ../kupfer/plugin/rhythmbox.py:352
-msgid "Music artists in Rhythmbox Library"
-msgstr "Μουσικοί καλλιτέχνες στη βιβλιοθήκη Rhythmbox"
-
-#: ../kupfer/plugin/rhythmbox.py:379
-msgid "Songs"
-msgstr "Τραγούδια"
-
-#: ../kupfer/plugin/rhythmbox.py:389
-msgid "Songs in Rhythmbox library"
-msgstr "Τραγούδια στη βιβλιοθήκη Rhythmbox"
-
-#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:20
-msgid "GNOME Session Management"
-msgstr "Διαχείριση συνεδρίας GNOME"
-
-#: ../kupfer/plugin/session_gnome.py:3
-msgid "Special items and actions for GNOME environment"
-msgstr "Ειδικά στοιχεία και ενέργειες για περιβάλλον GNOME"
-
-#: ../kupfer/plugin/session_support.py:31
-msgid "Log Out..."
-msgstr "Αποσύνδεση..."
-
-#: ../kupfer/plugin/session_support.py:34
-msgid "Log out or change user"
-msgstr "Αποσύνδεση ή αλλαγή χρήστη"
-
-#: ../kupfer/plugin/session_support.py:41
-msgid "Shut Down..."
-msgstr "Τερματισμός..."
-
-#: ../kupfer/plugin/session_support.py:44
-msgid "Shut down, restart or suspend computer"
-msgstr "Τερματισμός, επανεκκίνηση ή αναστολή υπολογιστή"
-
-#: ../kupfer/plugin/session_support.py:51
-msgid "Lock Screen"
-msgstr "Κλείδωμα οθόνης"
-
-#: ../kupfer/plugin/session_support.py:54
-msgid "Enable screensaver and lock"
-msgstr "Ενεργοποίηση προφύλαξης οθόνης και κλείδωμα"
-
-#. -*- coding: utf-8 -*
-#: ../kupfer/plugin/session_xfce.py:3 ../kupfer/plugin/session_xfce.py:20
-msgid "XFCE Session Management"
-msgstr "Διαχείριση συνεδρίας XFCE"
-
-#: ../kupfer/plugin/session_xfce.py:5
-msgid "Special items and actions for XFCE environment"
-msgstr "Ειδικά στοιχεία και ενέργειες για περιβάλλον XFCE"
-
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
-#: ../kupfer/plugin/show_text.py:25
-msgid "Show Text"
-msgstr "Εμφάνιση κειμένου"
-
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
-#: ../kupfer/plugin/show_text.py:58
-msgid "Display text in a window"
-msgstr "Εμφάνιση κειμένου σε παράθυρο"
-
-#: ../kupfer/plugin/show_text.py:37
-msgid "Large Type"
-msgstr "Μεγάλος τύπος"
-
-#: ../kupfer/plugin/show_text.py:66
-msgid "Show Notification"
-msgstr "Εμφάνιση ειδοποίησης"
-
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:173
-msgid "Trash"
-msgstr "Απορρίμματα"
-
-#: ../kupfer/plugin/trash.py:4
-msgid "Access trash contents"
-msgstr "Πρόσβαση στα περιεχόμενα απορριμμάτων"
-
-#: ../kupfer/plugin/trash.py:23
-msgid "Move to Trash"
-msgstr "Μετακίνηση στα απορρίμματα"
-
-#: ../kupfer/plugin/trash.py:39
-msgid "Move this file to trash"
-msgstr "Μεταφορά αυτού του αρχείου στα απορρίμματα"
-
-#: ../kupfer/plugin/trash.py:48
-msgid "Restore"
-msgstr "Επαναφορά"
-
-#: ../kupfer/plugin/trash.py:67
-msgid "Move file back to original location"
-msgstr "Μετακίνηση αρχείου πίσω στην αρχική θέση"
-
-#: ../kupfer/plugin/trash.py:161
-msgid "Trash is empty"
-msgstr "Τα απορρίμματα είναι άδεια"
-
-#. proper translation of plural
-#: ../kupfer/plugin/trash.py:163
-#, python-format
-msgid "Trash contains one file"
-msgid_plural "Trash contains %(num)s files"
-msgstr[0] "Τα απορρίμματα περιέχουν ένα αρχείο"
-msgstr[1] "Τα απορρίμματα περιέχουν %(num)s αρχεία"
-
-#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:50
-msgid "Triggers"
-msgstr "Εναύσματα"
-
-#: ../kupfer/plugin/triggers.py:6
-msgid ""
-"Assign global keybindings (triggers) to objects created with 'Compose "
-"Command'."
-msgstr ""
-"Απόδοση γενικών συνδυασμών πλήκτρων (εναύσματα) σε αντικείμενα που "
-"δημιουργήθηκαν με την 'εντολή σύνθεση'."
-
-#: ../kupfer/plugin/triggers.py:161
-msgid "Add Trigger..."
-msgstr "Προσθήκη εναύσματος..."
-
-#: ../kupfer/plugin/triggers.py:180
-msgid "Remove Trigger"
-msgstr "Αφαίρεση εναύσματος"
-
-#: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
-msgid "URL Actions"
-msgstr "Ενέργειες URL"
-
-#: ../kupfer/plugin/urlactions.py:63
-msgid "Download and Open"
-msgstr "Μεταφόρτωση και άνοιγμα"
-
-#: ../kupfer/plugin/urlactions.py:83
-msgid "Download To..."
-msgstr "Μεταφόρτωση σε..."
-
-#: ../kupfer/plugin/urlactions.py:104
-msgid "Download URL to a chosen location"
-msgstr "Μεταφόρτωση URL σε μια επιλεγμένη θέση"
-
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
-msgid "Volumes and Disks"
-msgstr "Τόμοι και δίσκοι"
-
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
-msgid "Mounted volumes and disks"
-msgstr "Προσαρτημένοι τόμοι και δίσκοι"
-
-#: ../kupfer/plugin/volumes.py:42
-#, python-format
-msgid "Volume mounted at %s"
-msgstr "Τόμος προσαρτημένος στο %s"
-
-#: ../kupfer/plugin/volumes.py:51
-msgid "Unmount"
-msgstr "Αποπροσάρτηση"
-
-#: ../kupfer/plugin/volumes.py:78
-msgid "Unmount this volume"
-msgstr "Προσάρτηση αυτού του τόμου"
-
-#: ../kupfer/plugin/volumes.py:85
-msgid "Eject"
-msgstr "Εξαγωγή"
-
-#: ../kupfer/plugin/volumes.py:88
-msgid "Unmount and eject this media"
-msgstr "Αποπροσάρτηση και εξαγωγή αυτού του μέσου"
-
-#: ../kupfer/plugin/websearch.py:1
-msgid "Search the Web"
-msgstr "Αναζήτηση στον ιστό"
-
-#: ../kupfer/plugin/websearch.py:8 ../kupfer/plugin/websearch.py:63
-#: ../kupfer/plugin/websearch.py:90
-msgid "Search the web with OpenSearch search engines"
-msgstr "Αναζήτηση στον ιστό με μηχανές αναζήτησης OpenSearch"
-
-#: ../kupfer/plugin/websearch.py:44
-msgid "Search With..."
-msgstr "Αναζήτηση με..."
-
-#: ../kupfer/plugin/websearch.py:73
-msgid "Search For..."
-msgstr "Αναζήτηση για..."
-
-#: ../kupfer/plugin/websearch.py:114
-msgid "Search Engines"
-msgstr "Μηχανές αναζήτησης"
-
-#: ../kupfer/plugin/wikipedia.py:5
-msgid "Wikipedia"
-msgstr "Βικιπαίδεια"
-
-#: ../kupfer/plugin/wikipedia.py:8 ../kupfer/plugin/wikipedia.py:31
-msgid "Search in Wikipedia"
-msgstr "Αναζήτηση στη βικιπαίδεια"
-
-#: ../kupfer/plugin/wikipedia.py:21
-msgid "Wikipedia language"
-msgstr "Γλώσσα βικιπαίδειας"
-
-#. TRANS: Default wikipedia language code
-#: ../kupfer/plugin/wikipedia.py:24
-msgid "en"
-msgstr "el"
-
-#: ../kupfer/plugin/wikipedia.py:44
-#, python-format
-msgid "Search for this term in %s.wikipedia.org"
-msgstr "Αναζήτηση για αυτόν τον όρο στο %s.wikipedia.org"
-
-#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:210
-msgid "Window List"
-msgstr "Λίστα παραθύρων"
-
-#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:233
-msgid "All windows on all workspaces"
-msgstr "Όλα τα παράθυρα σε όλους τους χώρους εργασίας"
-
-#: ../kupfer/plugin/windows.py:18
-msgid "Activate"
-msgstr "Ενεργοποίηση"
-
-#: ../kupfer/plugin/windows.py:22
-msgid "Shade"
-msgstr "Σκίαση"
-
-#: ../kupfer/plugin/windows.py:22
-msgid "Unshade"
-msgstr "Αποσκίαση"
-
-#: ../kupfer/plugin/windows.py:25
-msgid "Minimize"
-msgstr "Ελαχιστοποίηση"
-
-#: ../kupfer/plugin/windows.py:25
-msgid "Unminimize"
-msgstr "Απελαχιστοποίηση"
-
-#: ../kupfer/plugin/windows.py:29
-msgid "Maximize"
-msgstr "Μεγιστοποίηση"
-
-#: ../kupfer/plugin/windows.py:29
-msgid "Unmaximize"
-msgstr "Aπομεγιστοποίηση"
-
-#: ../kupfer/plugin/windows.py:33
-msgid "Maximize Vertically"
-msgstr "Κάθετη μεγιστοποίηση"
-
-#: ../kupfer/plugin/windows.py:33
-msgid "Unmaximize Vertically"
-msgstr "Κάθετη απομεγιστοποίηση"
-
-#. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:48
-#, python-format
-msgid "Window on %(wkspc)s"
-msgstr "Παράθυρο στο %(wkspc)s"
-
-#: ../kupfer/plugin/windows.py:56
-msgid "Frontmost Window"
-msgstr "Το πιο μπροστινό παράθυρο"
-
-#: ../kupfer/plugin/windows.py:85
-msgid "Next Window"
-msgstr "Επόμενο παράθυρο"
-
-#: ../kupfer/plugin/windows.py:116
-msgid "Jump to this window's workspace and focus"
-msgstr "Μετάβαση σε αυτό τον χώρο εργασίας του παραθύρου και εστίαση"
-
-#: ../kupfer/plugin/windows.py:252
-#, python-format
-msgid "%d window"
-msgid_plural "%d windows"
-msgstr[0] "%d παράθυρο"
-msgstr[1] "%d παράθυρα"
-
-#: ../kupfer/plugin/windows.py:256
-msgid "Active workspace"
-msgstr "Ενεργός χώρος εργασίας"
-
-#: ../kupfer/plugin/windows.py:274
-msgid "Jump to this workspace"
-msgstr "Μετάβαση σε αυτόν τον χώρο εργασίας"
-
-#: ../kupfer/plugin/windows.py:281
-msgid "Workspaces"
-msgstr "Χώροι εργασίας"
-
-#: ../kupfer/plugin/abiword.py:1
-msgid "Abiword"
-msgstr "Abiword"
-
-#: ../kupfer/plugin/abiword.py:3 ../kupfer/plugin/abiword.py:88
-msgid "Recently used documents in Abiword"
-msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα στο Abiword"
-
-#: ../kupfer/plugin/abiword.py:34
-msgid "Abiword Recent Items"
-msgstr "Πρόσφατα στοιχεία Abiword"
-
-#: ../kupfer/plugin/apt_tools.py:1
-msgid "APT"
-msgstr "APT"
-
-#: ../kupfer/plugin/apt_tools.py:9
-msgid "Interface with the package manager APT"
-msgstr "Διεπαφή με τον διαχειριστή πακέτου APT"
-
-#: ../kupfer/plugin/apt_tools.py:25
-msgid "Installation method"
-msgstr "Μέθοδος εγκατάστασης"
-
-#: ../kupfer/plugin/apt_tools.py:61 ../kupfer/plugin/apt_tools.py:66
-msgid "Show Package Information"
-msgstr "Εμφάνιση πληροφοριών πακέτου"
-
-#: ../kupfer/plugin/apt_tools.py:87
-msgid "Install"
-msgstr "Εγκατάσταση"
-
-#: ../kupfer/plugin/apt_tools.py:103
-msgid "Install package using the configured method"
-msgstr "Εγκατάσταση πακέτου χρησιμοποιώντας τη ρυθμισμένη μέθοδο"
-
-#: ../kupfer/plugin/apt_tools.py:122
-#, python-format
-msgid "Packages matching \"%s\""
-msgstr "Πακέτα που ταιριάζουν στο \"%s\""
-
-#: ../kupfer/plugin/apt_tools.py:154
-msgid "Search Package Name..."
-msgstr "Όνομα πακέτου αναζήτησης..."
-
-#: ../kupfer/plugin/archiveinside.py:8
-msgid "Deep Archives"
-msgstr "Βαθιές αρχειοθήκες"
-
-#: ../kupfer/plugin/archiveinside.py:10
-msgid "Allow browsing inside compressed archive files"
-msgstr "Να επιτρέπεται η περιήγηση μέσα σε συμπιεσμένα αρχεία αρχειοθήκης"
-
-#: ../kupfer/plugin/archiveinside.py:49
-#, python-format
-msgid "Content of %s"
-msgstr "Περιεχόμενα του %s"
-
-#. encoding: utf-8
-#. don't panic! This is just because it's crazy and fun! ツ
-#: ../kupfer/plugin/asciiunicodeiconset.py:3
-msgid "Ascii & Unicode Icon Set"
-msgstr "Ομάδα εικονιδίων Ascii & Unicode"
-
-#: ../kupfer/plugin/asciiunicodeiconset.py:5
-msgid ""
-"Provides the Ascii and Unicode icon sets that use letters and symbols to "
-"produce icons for the objects found in Kupfer."
-msgstr ""
-"Παρέχει τις ομάδες εικονιδίων Ascii και Unicode που χρησιμοποιούν γράμματα "
-"και σύμβολα για να παράξουν εικονίδια για αντικείμενα που βρέθηκαν στο "
-"Kupfer."
-
-#: ../kupfer/plugin/asciiunicodeiconset.py:21
-msgid "Ascii"
-msgstr "Ascii"
-
-#: ../kupfer/plugin/asciiunicodeiconset.py:23
-msgid "Unicode"
-msgstr "Unicode"
-
-#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
-msgid "Audacious"
-msgstr "Audacious"
-
-#: ../kupfer/plugin/audacious.py:3
-msgid "Control Audacious playback and playlist"
-msgstr "Έλεγχος αναπαραγωγής Audacious και λίστας αναπαραγωγής"
-
-#: ../kupfer/plugin/audacious.py:62
-msgid "Add track to the Audacious play queue"
-msgstr "Προσθήκη κομματιού στην σειρά αναπαραγωγής του Audacious"
-
-#: ../kupfer/plugin/audacious.py:70
-msgid "Dequeue"
-msgstr "Αφαίρεση από την αναμονή"
-
-#: ../kupfer/plugin/audacious.py:74
-msgid "Remove track from the Audacious play queue"
-msgstr "Αφαίρεση κομματιού από τη σειρά αναπαραγωγής του Audacious"
-
-#: ../kupfer/plugin/audacious.py:86
-msgid "Jump to track in Audacious"
-msgstr "Μετάβαση σε κομμάτι στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:96
-msgid "Resume playback in Audacious"
-msgstr "Συνέχιση αναπαραγωγής στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:106
-msgid "Pause playback in Audacious"
-msgstr "Παύση αναπαραγωγής στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:116
-msgid "Jump to next track in Audacious"
-msgstr "Μετάβαση στο επόμενο κομμάτι στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:126
-msgid "Jump to previous track in Audacious"
-msgstr "Μετάβαση στο προηγούμενο κομμάτι στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:136
-msgid "Clear the Audacious play queue"
-msgstr "Καθαρισμός της σειρά αναπαραγωγής του Audacious"
-
-#: ../kupfer/plugin/audacious.py:142
-msgid "Shuffle"
-msgstr "Ανακάτεμα"
-
-#: ../kupfer/plugin/audacious.py:146
-msgid "Toggle shuffle in Audacious"
-msgstr "Εναλλαγή ανακατέματος στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:152
-msgid "Repeat"
-msgstr "Επανάληψη"
-
-#: ../kupfer/plugin/audacious.py:156
-msgid "Toggle repeat in Audacious"
-msgstr "Εναλλαγή επανάληψης στο Audacious"
-
-#: ../kupfer/plugin/audacious.py:171
-msgid "Playlist"
-msgstr "Λίστα αναπαραγωγής"
-
-#: ../kupfer/plugin/chromium.py:1 ../kupfer/plugin/chromium.py:16
-msgid "Chromium Bookmarks"
-msgstr "Σελιδοδείκτες Chromium"
-
-#: ../kupfer/plugin/chromium.py:3 ../kupfer/plugin/chromium.py:43
-msgid "Index of Chromium bookmarks"
-msgstr "Ευρετήριο σελιδοδεικτών του Chromium"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/clawsmail.py:2
-msgid "Claws Mail"
-msgstr "Claws Mail"
-
-#: ../kupfer/plugin/clawsmail.py:5
-msgid "Claws Mail Contacts and Actions"
-msgstr "Επαφές και ενέργειες Claws Mail"
-
-#: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:31
-msgid "Compose New Email"
-msgstr "Σύνταξη νέας αλληλογραφίας"
-
-#: ../kupfer/plugin/clawsmail.py:32
-msgid "Compose a new message in Claws Mail"
-msgstr "Σύνταξη νέου μηνύματος στο Claws Mail"
-
-#: ../kupfer/plugin/clawsmail.py:41
-msgid "Receive All Email"
-msgstr "Λήψη όλων των μηνυμάτων"
-
-#: ../kupfer/plugin/clawsmail.py:47
-msgid "Receive new messages from all accounts in ClawsMail"
-msgstr "Λήψη νέων μηνυμάτων από όλους τους λογαριασμούς στο ClawsMail"
-
-#: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:40 ../kupfer/plugin/operamail.py:41
-#: ../kupfer/plugin/thunderbird.py:47
-msgid "Compose Email"
-msgstr "Σύνταξη αλληλογραφίας"
-
-#: ../kupfer/plugin/clawsmail.py:81 ../kupfer/plugin/defaultmail.py:43
-#: ../kupfer/plugin/evolution.py:65
-msgid "Send in Email To..."
-msgstr "Αποστολή με αλληλογραφία σε..."
-
-#: ../kupfer/plugin/clawsmail.py:107
-msgid "Compose new message in Claws Mail and attach file"
-msgstr "Σύνταξη νέου μηνύματος στο Claws Mail και επισύναψη αρχείου"
-
-#: ../kupfer/plugin/clawsmail.py:116
-msgid "Claws Mail Address Book"
-msgstr "Το βιβλίο διευθύνσεων του Claws Mail"
-
-#: ../kupfer/plugin/clawsmail.py:164
-msgid "Contacts from Claws Mail Address Book"
-msgstr "Επαφές από το βιβλίο διευθύνσεων του Claws Mail"
-
-#: ../kupfer/plugin/custom_terminal.py:1
-#: ../kupfer/plugin/custom_terminal.py:39
-msgid "Custom Terminal"
-msgstr "Προσαρμοσμένο τερματικό"
-
-#: ../kupfer/plugin/custom_terminal.py:2
-msgid "Configure a custom terminal emulator"
-msgstr "Ρύθμιση προσαρμοσμένου εξομοιωτή τερματικού"
-
-#: ../kupfer/plugin/custom_terminal.py:18
-msgid "Execute flag"
-msgstr "Εκτέλεση σημαίας"
-
-#: ../kupfer/plugin/customtheme.py:1
-msgid "Custom Theme"
-msgstr "Προσαρμοσμένο θέμα"
-
-#: ../kupfer/plugin/customtheme.py:3
-msgid "Use a custom color theme"
-msgstr "Χρήση προσαρμοσμένου χρωματικού θέματος"
-
-#: ../kupfer/plugin/customtheme.py:110
-msgid "Theme:"
-msgstr "Θέμα:"
-
-#: ../kupfer/plugin/defaultmail.py:1
-msgid "Default Email Client"
-msgstr "Προεπιλεγμένος πελάτης αλληλογραφίας"
-
-#: ../kupfer/plugin/defaultmail.py:6
-msgid "Compose email using the system's default mailto: handler"
-msgstr ""
-"Σύνταξη αλληλογραφίας χρησιμοποιώντας τον προεπιλεγμένο χειριστή mailto: του "
-"συστήματος"
-
-#: ../kupfer/plugin/devhelp.py:1
-msgid "Devhelp"
-msgstr "Βοήθεια ανάπτυξης"
-
-#: ../kupfer/plugin/devhelp.py:3 ../kupfer/plugin/devhelp.py:13
-msgid "Search in Devhelp"
-msgstr "Αναζήτηση στη βοήθεια ανάπτυξης"
-
-#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
-msgid "DuckDuckGo Search"
-msgstr "Αναζήτηση DuckDuckGo"
-
-#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
-msgid "Search the web securely with DuckDuckGo"
-msgstr "Αναζήτηση του ιστού με ασφάλεια με το DuckDuckGo"
-
-#. -*- coding: UTF-8 -*-
-#. vim: set noexpandtab ts=8 sw=8:
-#: ../kupfer/plugin/empathy.py:3
-msgid "Empathy"
-msgstr "Empathy"
-
-#: ../kupfer/plugin/empathy.py:6
-msgid "Access to Empathy Contacts"
-msgstr "Πρόσβαση στις επαφές του Empathy"
-
-#: ../kupfer/plugin/empathy.py:26 ../kupfer/plugin/pidgin.py:29
-msgid "Show offline contacts"
-msgstr "Εμφάνιση επαφών εκτός σύνδεσης"
-
-#: ../kupfer/plugin/empathy.py:35 ../kupfer/plugin/gajim.py:26
-#: ../kupfer/plugin/pidgin.py:158 ../kupfer/plugin/skype.py:30
-msgid "Available"
-msgstr "Διαθέσιμες"
-
-#: ../kupfer/plugin/empathy.py:36 ../kupfer/plugin/gajim.py:28
-#: ../kupfer/plugin/pidgin.py:158 ../kupfer/plugin/skype.py:32
-msgid "Away"
-msgstr "Απουσιάζει"
-
-#: ../kupfer/plugin/empathy.py:37 ../kupfer/plugin/gajim.py:30
-#: ../kupfer/plugin/skype.py:34
-msgid "Busy"
-msgstr "Απασχολημένος"
-
-#: ../kupfer/plugin/empathy.py:38 ../kupfer/plugin/gajim.py:29
-#: ../kupfer/plugin/skype.py:33
-msgid "Not Available"
-msgstr "Μη διαθέσιμος"
-
-#: ../kupfer/plugin/empathy.py:39 ../kupfer/plugin/gajim.py:31
-#: ../kupfer/plugin/skype.py:35
-msgid "Invisible"
-msgstr "Αόρατος"
-
-#: ../kupfer/plugin/empathy.py:40 ../kupfer/plugin/gajim.py:32
-#: ../kupfer/plugin/skype.py:36
-msgid "Offline"
-msgstr "Αποσυνδεδεμένος"
-
-#: ../kupfer/plugin/empathy.py:100 ../kupfer/plugin/gajim.py:93
-#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:197
-msgid "Open Chat"
-msgstr "Ανοικτή συνομιλία"
-
-#: ../kupfer/plugin/empathy.py:133 ../kupfer/plugin/gajim.py:121
-#: ../kupfer/plugin/skype.py:243
-msgid "Change Global Status To..."
-msgstr "Αλλαγή της γενικής κατάστασης σε..."
-
-#: ../kupfer/plugin/empathy.py:175
-msgid "Empathy Contacts"
-msgstr "Επαφές του Empathy"
-
-#: ../kupfer/plugin/empathy.py:249
-msgid "Empathy Account Status"
-msgstr "Κατάσταση λογαριασμού του Empathy"
-
-#: ../kupfer/plugin/evolution.py:4
-msgid "Evolution"
-msgstr "Evolution"
-
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:119
-msgid "Evolution contacts"
-msgstr "Επαφές Evolution"
-
-#: ../kupfer/plugin/evolution.py:31
-msgid "Compose a new message in Evolution"
-msgstr "Σύνταξη νέου μηνύματος στο Evolution"
-
-#: ../kupfer/plugin/evolution.py:92
-msgid "Compose new message in Evolution and attach file"
-msgstr "Σύνταξη νέου μηνύματος στο Evolution και επισύναψη αρχείου"
-
-#: ../kupfer/plugin/evolution.py:100
-msgid "Evolution Address Book"
-msgstr "Βιβλίο διευθύνσεων Evolution"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/filezilla.py:3
-msgid "Filezilla"
-msgstr "FileZilla"
-
-#: ../kupfer/plugin/filezilla.py:6
-msgid "Show sites and handle ftp addresses by Filezilla"
-msgstr "Εμφάνιση τόπων και χειρισμός διευθύνσεων ftp από το Filezilla"
-
-#: ../kupfer/plugin/filezilla.py:42
-msgid "Open Site with Filezilla"
-msgstr "Άνοιγμα τόπου με Filezilla"
-
-#: ../kupfer/plugin/filezilla.py:87
-msgid "Filezilla Sites"
-msgstr "Τόποι Filezilla"
-
-#: ../kupfer/plugin/filezilla.py:122
-msgid "Sites from Filezilla"
-msgstr "Τόποι από Filezilla"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gajim.py:2
-msgid "Gajim"
-msgstr "Gajim"
-
-#: ../kupfer/plugin/gajim.py:5
-msgid "Access to Gajim Contacts"
-msgstr "Πρόσβαση στις επαφές του Gajim"
-
-#: ../kupfer/plugin/gajim.py:27
-msgid "Free for Chat"
-msgstr "Ελεύθερος για συνομιλία"
-
-#: ../kupfer/plugin/gajim.py:149
-msgid "Gajim Contacts"
-msgstr "Επαφές του Gajim"
-
-#: ../kupfer/plugin/gajim.py:213
-msgid "Gajim Account Status"
-msgstr "Κατάσταση λογαριασμού Gajim"
-
 #. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
 #: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
 msgid "Glob"
 msgstr "Glob"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:234
-msgid "Gmail"
-msgstr "Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:5
-msgid "Load contacts and compose new email in Gmail"
-msgstr "Φόρτωση επαφών και σύνταξη νέου μηνύματος σε Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:33
-msgid "Load contacts' pictures"
-msgstr "Φόρτωση εικόνων επαφών"
-
-#: ../kupfer/plugin/gmail/__init__.py:39
-msgid "Load additional information"
-msgstr "Φόρτωση πρόσθετων πληροφοριών"
-
-#: ../kupfer/plugin/gmail/__init__.py:50
-msgid "Work email"
-msgstr "Ηλεκτρονικό ταχυδρομείο εργασίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:51
-msgid "Home email"
-msgstr "Ηλεκτρονικό ταχυδρομείο οικίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:52
-msgid "Other email"
-msgstr "Άλλα ηλεκτρονικά ταχυδρομεία"
-
-#: ../kupfer/plugin/gmail/__init__.py:54
-msgid "Work address"
-msgstr "Διεύθυνση εργασίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:55
-msgid "Home address"
-msgstr "Διεύθυνση οικίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:56
-msgid "Other address"
-msgstr "Άλλες διευθύνσεις"
-
-#: ../kupfer/plugin/gmail/__init__.py:58
-msgid "Car phone"
-msgstr "Τηλέφωνο αυτοκινήτου"
-
-#: ../kupfer/plugin/gmail/__init__.py:59
-msgid "Fax"
-msgstr "Φαξ"
-
-#: ../kupfer/plugin/gmail/__init__.py:61
-msgid "Home phone"
-msgstr "Τηλέφωνο οικίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:62
-msgid "Home fax"
-msgstr "Φαξ οικίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:63
-msgid "Internal phone"
-msgstr "Εσωτερικό τηλέφωνο"
-
-#: ../kupfer/plugin/gmail/__init__.py:64
-msgid "Mobile"
-msgstr "Κινητό τηλέφωνο"
-
-#: ../kupfer/plugin/gmail/__init__.py:65
-msgid "Other"
-msgstr "Άλλο"
-
-#: ../kupfer/plugin/gmail/__init__.py:66
-msgid "VOIP"
-msgstr "VOIP"
-
-#: ../kupfer/plugin/gmail/__init__.py:67
-msgid "Work phone"
-msgstr "Τηλέφωνο εργασίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:68
-msgid "Work fax"
-msgstr "Φαξ εργασίας"
-
-#: ../kupfer/plugin/gmail/__init__.py:93
-msgid "Compose Email in Gmail"
-msgstr "Σύνταξη μηνύματος σε Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:117
-msgid "Open web browser and compose new email in Gmail"
-msgstr "Άνοιγμα περιηγητή ιστού και σύνταξη νέου μηνύματος σε Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:123
-msgid "Edit Contact in Gmail"
-msgstr "Επεξεργασία επαφής σε Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:133
-msgid "Open web browser and edit contact in Gmail"
-msgstr "Άνοιγμα περιηγητή ιστού και επεξεργασία επαφής σε Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:263
-msgid "Contacts from Google services (Gmail)"
-msgstr "Επαφές από υπηρεσίες Google (Gmail)"
 
 #: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
 msgid "GNOME Terminal Profiles"
@@ -2058,314 +1016,6 @@ msgstr "Κατατομές τερματικού GNOME"
 #: ../kupfer/plugin/gnome_terminal.py:3
 msgid "Launch GNOME Terminal profiles"
 msgstr "Έναρξη κατατομών τερματικού GNOME"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/google_picasa/__init__.py:2
-msgid "Google Picasa"
-msgstr "Google Picasa"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:5
-msgid "Show albums and upload files to Picasa"
-msgstr "Εμφάνιση συλλογών και ανέβασμα αρχείων στο Picasa"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:35
-msgid "Users to show: (,-separated)"
-msgstr "Εμφανιζόμενοι χρήστες: (διαχωρισμός με ,)"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:41
-msgid "Load user and album icons"
-msgstr "Φόρτωση εικονιδίων χρήστη και δίσκου"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:92
-msgid "Uploading Pictures"
-msgstr "Ανέβασμα εικόνων"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:93
-msgid "Uploading pictures to Picasa Web Album"
-msgstr "Ανέβασμα εικόνων στη συλλογή ιστού Picasa"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:102
-msgid "Creating album:"
-msgstr "Δημιουργία συλλογής:"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:105
-msgid "Album created by Kupfer"
-msgstr "Η συλλογή δημιουργήθηκε από το Kupfer"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:112
-msgid "File:"
-msgstr "Αρχείο:"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:252
-#, python-format
-msgid "One album"
-msgid_plural "%(num)d albums"
-msgstr[0] "Μία συλλογή"
-msgstr[1] "%(num)d συλλογές"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:279
-#, python-format
-msgid "one photo"
-msgid_plural "%(num)s photos"
-msgstr[0] "μία φωτογραφία"
-msgstr[1] "%(num)s φωτογραφίες"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:299
-msgid "Upload to Picasa Album..."
-msgstr "Ανέβασμα στη συλλογή του Picasa..."
-
-#: ../kupfer/plugin/google_picasa/__init__.py:343
-msgid "Upload files to Picasa album"
-msgstr "Ανέβασμα αρχείων στη συλλογή του Picasa"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:349
-msgid "Upload to Picasa as New Album"
-msgstr "Ανέβασμα στο Picasa ως νέα συλλογή"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:377
-msgid "Create album from selected local directory"
-msgstr "Δημιουργία συλλογής από επιλεγμένο τοπικό κατάλογο"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:381
-#: ../kupfer/plugin/google_picasa/__init__.py:404
-msgid "Picasa Albums"
-msgstr "Συλλογές Picasa"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:436
-msgid "User albums in Picasa"
-msgstr "Συλλογές χρήστη στο Picasa"
-
-#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:30
-msgid "Google Search"
-msgstr "Αναζήτηση Google"
-
-#: ../kupfer/plugin/google_search.py:3
-msgid "Search Google with results shown directly"
-msgstr "Αναζήτηση Google με άμεσα εμφανιζόμενα αποτελέσματα"
-
-#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:46
-#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/tracker1.py:179
-#, python-format
-msgid "Results for \"%s\""
-msgstr "Αποτελέσματα για \"%s\""
-
-#: ../kupfer/plugin/google_search.py:91
-#, python-format
-msgid "Show More Results For \"%s\""
-msgstr "Εμφάνιση περισσότερων αποτελεσμάτων για \"%s\""
-
-#: ../kupfer/plugin/google_search.py:92
-#, python-format
-msgid "%s total found"
-msgstr "βρέθηκαν συνολικά %s"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gtg.py:2
-msgid "Getting Things GNOME"
-msgstr "Getting Things GNOME"
-
-#: ../kupfer/plugin/gtg.py:5
-msgid "Browse and create new tasks in GTG"
-msgstr "Περιήγηση και δημιουργία νέων εργασιών στο GTG"
-
-#: ../kupfer/plugin/gtg.py:114
-#, python-format
-msgid "due: %s"
-msgstr "λήξη: %s"
-
-#: ../kupfer/plugin/gtg.py:116
-#, python-format
-msgid "start: %s"
-msgstr "έναρξη: %s"
-
-#: ../kupfer/plugin/gtg.py:118
-#, python-format
-msgid "tags: %s"
-msgstr "ετικέτες: %s"
-
-#: ../kupfer/plugin/gtg.py:148
-msgid "Open task in Getting Things GNOME!"
-msgstr "Άνοιγμα εργασίας στο Getting Things GNOME!"
-
-#: ../kupfer/plugin/gtg.py:155
-msgid "Delete"
-msgstr "Διαγραφή"
-
-#: ../kupfer/plugin/gtg.py:168
-msgid "Permanently remove this task"
-msgstr "Μόνιμη απομάκρυνση αυτής της εργασίας"
-
-#: ../kupfer/plugin/gtg.py:173
-msgid "Mark Done"
-msgstr "Έτοιμο"
-
-#: ../kupfer/plugin/gtg.py:182
-msgid "Mark this task as done"
-msgstr "Σημείωση αυτής της εργασίας ως έτοιμης"
-
-#: ../kupfer/plugin/gtg.py:187
-msgid "Dismiss"
-msgstr "Αποδέσμευση"
-
-#: ../kupfer/plugin/gtg.py:196
-msgid "Mark this task as not to be done anymore"
-msgstr "Σημείωση αυτής της εργασίας να μην γίνει πια"
-
-#: ../kupfer/plugin/gtg.py:201
-msgid "Create Task"
-msgstr "Δημιουργία εργασίας"
-
-#: ../kupfer/plugin/gtg.py:218
-msgid "Create new task in Getting Things GNOME"
-msgstr "Δημιουργία νέας εργασίας στο Getting Things GNOME"
-
-#: ../kupfer/plugin/gwibber.py:3
-msgid "Gwibber"
-msgstr "Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:6
-msgid ""
-"Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
-"service'."
-msgstr ""
-"Μικροϊστολόγιο με το Gwibber. Επιτρέπει την αποστολή και λήψη μηνυμάτων από "
-"τα κοινωνικά δίκτυα όπως Twitter, Identi.ca κλπ. Απαιτεί το πακέτο 'gwibber-"
-"service'."
-
-#: ../kupfer/plugin/gwibber.py:45
-msgid "Maximum number of messages to show"
-msgstr "Μέγιστος αριθμός εμφανιζόμενων μηνυμάτων"
-
-#. TRANS: Account description, similar to "John on Identi.ca"
-#: ../kupfer/plugin/gwibber.py:98
-#, python-format
-msgid "%(user)s on %(service)s"
-msgstr "%(user)s στο %(service)s"
-
-#. TRANS: Gwibber Message description
-#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
-#. TRANS: the %(user)s and similar tokens must be unchanged
-#: ../kupfer/plugin/gwibber.py:153
-#, python-format
-msgid "%(user)s %(when)s on %(where)s"
-msgstr "%(user)s %(when)s στο %(where)s"
-
-#: ../kupfer/plugin/gwibber.py:187
-msgid "Send Message"
-msgstr "Αποστολή μηνύματος"
-
-#: ../kupfer/plugin/gwibber.py:205
-msgid "Send message to all Gwibber accounts"
-msgstr "Αποστολή μηνύματος σε όλους τους λογαριασμούς Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:210
-msgid "Send Message To..."
-msgstr "Αποστολή μηνύματος προς..."
-
-#: ../kupfer/plugin/gwibber.py:238
-msgid "Send message to a Gwibber account"
-msgstr "Αποστολή μηνύματος σε έναν λογαριασμό Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:243 ../kupfer/plugin/pidgin.py:120
-msgid "Send Message..."
-msgstr "Αποστολή μηνύματος..."
-
-#: ../kupfer/plugin/gwibber.py:273
-msgid "Send message to selected Gwibber account"
-msgstr "Αποστολή μηνύματος σε επιλεγμένο λογαριασμό Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:278
-msgid "Reply..."
-msgstr "Απάντηση..."
-
-#: ../kupfer/plugin/gwibber.py:314
-msgid "Delete Message"
-msgstr "Διαγραφή μηνύματος"
-
-#: ../kupfer/plugin/gwibber.py:337
-msgid "Send Private Message..."
-msgstr "Αποστολή ιδιωτικού μηνύματος..."
-
-#: ../kupfer/plugin/gwibber.py:370
-msgid "Send direct message to user"
-msgstr "Αποστολή άμεσου μηνύματος στον χρήστη"
-
-#: ../kupfer/plugin/gwibber.py:376
-msgid "Retweet"
-msgstr "Απάντηση"
-
-#: ../kupfer/plugin/gwibber.py:376
-msgid "Retweet To..."
-msgstr "Απάντηση προς..."
-
-#: ../kupfer/plugin/gwibber.py:407
-msgid "Retweet message to all Gwibber accounts"
-msgstr "Απάντηση μηνύματος σε όλους τους λογαριασμούς Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:408
-msgid "Retweet message to a Gwibber account"
-msgstr "Απάντηση μηνύματος σε λογαριασμό Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:413
-msgid "Open in Browser"
-msgstr "Άνοιγμα στον περιηγητή"
-
-#: ../kupfer/plugin/gwibber.py:419
-msgid "Open message in default web browser"
-msgstr "Άνοιγμα μηνύματος σε προεπιλεγμένο περιηγητή ιστού"
-
-#: ../kupfer/plugin/gwibber.py:425 ../kupfer/plugin/gwibber.py:463
-msgid "Gwibber Accounts"
-msgstr "Λογαριασμοί Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:456
-msgid "Accounts configured in Gwibber"
-msgstr "Ρυθμισμένοι λογαριασμοί στο Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:495
-msgid "Gwibber Messages"
-msgstr "Μηνύματα Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:518
-msgid "Recent messages received by Gwibber"
-msgstr "Τα πρόσφατα μηνύματα ελήφθησαν από το Gwibber"
-
-#. TRANS:  %s is a service name
-#: ../kupfer/plugin/gwibber.py:527
-#, python-format
-msgid "Gwibber Messages for %s"
-msgstr "Μηνύματα Gwibber για %s"
-
-#: ../kupfer/plugin/gwibber.py:543
-msgid "Gwibber Streams"
-msgstr "Ροές Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:566
-msgid "Streams configured in Gwibber"
-msgstr "Ρυθμισμένες ροές στο Gwibber"
-
-#. TRANS: Gwibber messages in %s :: %s is a Stream name
-#: ../kupfer/plugin/gwibber.py:574
-#, python-format
-msgid "Gwibber Messages in %s"
-msgstr "Μηνύματα Gwibber στο %s"
-
-#: ../kupfer/plugin/gwibber_simple.py:3
-msgid "Gwibber (Simple)"
-msgstr "Gwibber (Απλό)"
-
-#: ../kupfer/plugin/gwibber_simple.py:7
-msgid "Send updates via the microblogging client Gwibber"
-msgstr "Αποστολή ενημερώσεων μέσα από πελάτη μικροϊστολογίου Gwibber"
-
-#: ../kupfer/plugin/gwibber_simple.py:45
-msgid "Send Update"
-msgstr "Αποστολή ενημέρωσης"
-
-#: ../kupfer/plugin/gwibber_simple.py:65
-msgid "Unable to activate Gwibber service"
-msgstr "Αδύνατη η ενεργοποίηση υπηρεσίας Gwibber"
 
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
@@ -2401,32 +1051,32 @@ msgid "Image Tools"
 msgstr "Εργαλεία εικόνας"
 
 #: ../kupfer/plugin/image.py:10
-msgid "Image transformation tools"
+#, fuzzy
+msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Εργαλεία μετασχηματισμού εικόνας"
 
 #: ../kupfer/plugin/image.py:25
 msgid "Scale..."
 msgstr "Κλιμάκωση..."
 
-#: ../kupfer/plugin/image.py:77
+#: ../kupfer/plugin/image.py:79
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr ""
-"Κλιμάκωση εικόνας για προσαρμογή μέσα στις δοσμένες μετρήσεις "
-"εικονοστοιχείου"
+"Κλιμάκωση εικόνας για προσαρμογή μέσα στις δοσμένες μετρήσεις εικονοστοιχείου"
 
-#: ../kupfer/plugin/image.py:112
+#: ../kupfer/plugin/image.py:114
 msgid "Rotate Clockwise"
 msgstr "Δεξιόστροφη περιστροφή"
 
-#: ../kupfer/plugin/image.py:119
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Counter-Clockwise"
 msgstr "Αριστερόστροφη περιστροφή"
 
-#: ../kupfer/plugin/image.py:126
+#: ../kupfer/plugin/image.py:128
 msgid "Autorotate"
 msgstr "Αυτόματη περιστροφή"
 
-#: ../kupfer/plugin/image.py:155
+#: ../kupfer/plugin/image.py:157
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Περιστροφή JPEG (επί τόπου) σύμφωνα με τα μεταδεδομένα του EXIF"
 
@@ -2450,90 +1100,73 @@ msgstr "Εμφάνιση πηγαίου κώδικα"
 msgid "enabled"
 msgstr "ενεργό"
 
-#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:28
-msgid "Locate Files"
-msgstr "Εντοπισμός αρχείων"
+#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
+msgid "disabled"
+msgstr "ανενεργό"
 
-#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:38
-msgid "Search filesystem using locate"
-msgstr "Αναζήτηση συστήματος αρχείων χρησιμοποιώντας εντοπισμό"
+#. TRANS: Multihead refers to support for multiple computer displays
+#. TRANS: In this case, it only concerns the special configuration
+#. TRANS: with multiple X "screens"
+#: ../kupfer/plugin/multihead.py:4
+msgid "Multihead Support"
+msgstr "Υποστήριξη πολλαπλής κεφαλής"
 
-#: ../kupfer/plugin/locate.py:20
-msgid "Ignore case distinctions when searching files"
-msgstr "Παράβλεψη διακρίσεων πεζών-κεφαλαίων κατά την αναζήτηση αρχείων"
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
+#: ../kupfer/plugin/notes.py:229
+msgid "Notes"
+msgstr "Σημειώσεις"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/openoffice.py:3
-msgid "OpenOffice / LibreOffice"
-msgstr "OpenOffice / LibreOffice"
+#: ../kupfer/plugin/notes.py:13
+msgid "Gnote or Tomboy notes"
+msgstr "Σημειώσεις Gnote ή Tomboy"
 
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:136
-msgid "Recently used documents in OpenOffice/LibreOffice"
-msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα στο OpenOffice/LibreOffice"
+#: ../kupfer/plugin/notes.py:35
+msgid "Work with application"
+msgstr "Εργασία με την εφαρμογή"
 
-#: ../kupfer/plugin/openoffice.py:84
-msgid "OpenOffice/LibreOffice Recent Items"
-msgstr "Πρόσφατα στοιχεία OpenOffice/LibreOffice"
+#: ../kupfer/plugin/notes.py:94
+msgid "Open with notes application"
+msgstr "Άνοιγμα με εφαρμογή σημειώσεων"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/operamail.py:2
-msgid "Opera Mail"
-msgstr "Opera Mail"
+#: ../kupfer/plugin/notes.py:101
+msgid "Append to Note..."
+msgstr "Προσάρτηση στη σημείωση..."
 
-#: ../kupfer/plugin/operamail.py:5
-msgid "Opera Mail contacts and actions"
-msgstr "Επαφές και ενέργειες Opera Mail"
+#: ../kupfer/plugin/notes.py:124
+msgid "Add text to existing note"
+msgstr "Προσθήκη κειμένου στην υπάρχουσα σημείωση"
 
-#: ../kupfer/plugin/operamail.py:32
-msgid "Compose a new message in Opera Mail"
-msgstr "Σύνταξη νέου μηνύματος στο Opera Mail"
+#: ../kupfer/plugin/notes.py:139
+msgid "Create Note"
+msgstr "Δημιουργία σημείωσης"
 
-#: ../kupfer/plugin/operamail.py:64
-msgid "Opera Mail Contacts"
-msgstr "Επαφές Opera Mail"
+#: ../kupfer/plugin/notes.py:153
+msgid "Create a new note from this text"
+msgstr "Δημιουργία νέας σημείωσης από αυτό το κείμενο"
 
-#: ../kupfer/plugin/operamail.py:120
-msgid "Contacts from Opera Mail"
-msgstr "Επαφές από Opera Mail"
+#: ../kupfer/plugin/notes.py:159
+msgid "Get Note Search Results..."
+msgstr "Λήψη αποτελεσμάτων αναζήτησης σημείωσης..."
 
-#: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:22
-msgid "Opera Bookmarks"
-msgstr "Σελιδοδείκτες Opera"
+#: ../kupfer/plugin/notes.py:172
+msgid "Show search results for this query"
+msgstr "Εμφάνιση αποτελεσμάτων αναζήτησης για αυτό το ερώτημα"
 
-#: ../kupfer/plugin/opera.py:6 ../kupfer/plugin/opera.py:54
-msgid "Index of Opera bookmarks"
-msgstr "Ευρετήριο σελιδοδεικτών του Opera"
-
-#: ../kupfer/plugin/pidgin.py:3
-msgid "Pidgin"
-msgstr "Pidgin"
-
-#: ../kupfer/plugin/pidgin.py:9
-msgid "Access to Pidgin Contacts"
-msgstr "Πρόσβαση στις επαφές του Pidgin"
-
-#: ../kupfer/plugin/pidgin.py:111
+#: ../kupfer/plugin/notes.py:212
 #, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d χαρακτήρας)"
-msgstr[1] "%s (%d χαρακτήρες)"
+msgid "today, %s"
+msgstr "σήμερα, %s"
 
-#: ../kupfer/plugin/pidgin.py:192
-msgid "Pidgin Contacts"
-msgstr "Επαφές Pidgin"
+#: ../kupfer/plugin/notes.py:214
+#, python-format
+msgid "yesterday, %s"
+msgstr "χτες, %s"
 
-#: ../kupfer/plugin/putty.py:5 ../kupfer/plugin/putty.py:80
-msgid "PuTTY Sessions"
-msgstr "Συνεδρίες PuTTY"
-
-#: ../kupfer/plugin/putty.py:8
-msgid "Quick access to PuTTY Sessions"
-msgstr "Γρήγορη πρόσβαση σε συνεδρίες PuTTY"
-
-#: ../kupfer/plugin/putty.py:46 ../kupfer/plugin/tsclient.py:50
-msgid "Start Session"
-msgstr "Έναρξη συνεδρίας"
+#. TRANS: Note description, %s is last changed time in locale format
+#: ../kupfer/plugin/notes.py:218
+#, python-format
+msgid "Last updated %s"
+msgstr "Τελευταία ενημέρωση του %s"
 
 #: ../kupfer/plugin/qsicons/__init__.py:24
 msgid "Quicksilver Icons"
@@ -2543,21 +1176,9 @@ msgstr "Εικονίδια Quicksilver"
 msgid "Quick Image Viewer"
 msgstr "Γρήγορη προβολή εικόνων"
 
-#: ../kupfer/plugin/quickview.py:53
+#: ../kupfer/plugin/quickview.py:55
 msgid "View Image"
 msgstr "Προβολή εικόνας"
-
-#: ../kupfer/plugin/rst.py:1
-msgid "reStructuredText"
-msgstr "reStructuredText"
-
-#: ../kupfer/plugin/rst.py:3
-msgid "Render reStructuredText and show the result"
-msgstr "Απόδοση reStructuredText και εμφάνιση του αποτελέσματος"
-
-#: ../kupfer/plugin/rst.py:18
-msgid "View as HTML Document"
-msgstr "Προβολή ως εγγράφου HTML"
 
 #: ../kupfer/plugin/screen.py:1
 msgid "GNU Screen"
@@ -2616,98 +1237,46 @@ msgstr "Πληκτρολόγηση κειμένου"
 msgid "Type the text to foreground window"
 msgstr "Πληκτρολογήστε το κείμενο στο παράθυρο προσκηνίου"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/services.py:2 ../kupfer/plugin/services.py:96
-msgid "System Services"
-msgstr "Υπηρεσίες συστήματος"
+#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:29
+msgid "GNOME Session Management"
+msgstr "Διαχείριση συνεδρίας GNOME"
 
-#: ../kupfer/plugin/services.py:4
-msgid "Start, stop or restart system services via init scripts"
-msgstr ""
-"Έναρξη, διακοπή ή επανεκκίνηση υπηρεσιών συστήματος μέσα από σενάρια init"
+#: ../kupfer/plugin/session_gnome.py:3
+msgid "Special items and actions for GNOME environment"
+msgstr "Ειδικά στοιχεία και ενέργειες για περιβάλλον GNOME"
 
-#: ../kupfer/plugin/services.py:18
-msgid "Sudo-like Command"
-msgstr "Εντολή μορφής Sudo"
+#: ../kupfer/plugin/session_support.py:31
+msgid "Log Out..."
+msgstr "Αποσύνδεση..."
 
-#: ../kupfer/plugin/services.py:78
-msgid "Start Service"
-msgstr "Έναρξη υπηρεσίας"
+#: ../kupfer/plugin/session_support.py:34
+msgid "Log out or change user"
+msgstr "Αποσύνδεση ή αλλαγή χρήστη"
 
-#: ../kupfer/plugin/services.py:84
-msgid "Restart Service"
-msgstr "Επανεκκίνηση υπηρεσίας"
+#: ../kupfer/plugin/session_support.py:41
+msgid "Shut Down..."
+msgstr "Τερματισμός..."
 
-#: ../kupfer/plugin/services.py:90
-msgid "Stop Service"
-msgstr "Διακοπή υπηρεσίας"
+#: ../kupfer/plugin/session_support.py:44
+msgid "Shut down, restart or suspend computer"
+msgstr "Τερματισμός, επανεκκίνηση ή αναστολή υπολογιστή"
 
-#: ../kupfer/plugin/services.py:126
-#, python-format
-msgid "%s Service"
-msgstr "%s υπηρεσία"
+#: ../kupfer/plugin/session_support.py:51
+msgid "Lock Screen"
+msgstr "Κλείδωμα οθόνης"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/shorten_links.py:2
-msgid "Shorten Links"
-msgstr "Συντόμευση συνδέσμων"
+#: ../kupfer/plugin/session_support.py:54
+msgid "Enable screensaver and lock"
+msgstr "Ενεργοποίηση προφύλαξης οθόνης και κλείδωμα"
 
-#: ../kupfer/plugin/shorten_links.py:4
-msgid "Create short aliases of long URLs"
-msgstr "Δημιουργία σύντομων ψευδωνύμων μεγάλων URLs"
+#. -*- coding: utf-8 -*
+#: ../kupfer/plugin/session_xfce.py:3 ../kupfer/plugin/session_xfce.py:20
+msgid "XFCE Session Management"
+msgstr "Διαχείριση συνεδρίας XFCE"
 
-#: ../kupfer/plugin/shorten_links.py:48
-msgid "Error"
-msgstr "Σφάλμα"
-
-#: ../kupfer/plugin/shorten_links.py:121
-msgid "Shorten With..."
-msgstr "Συντόμευση με..."
-
-#: ../kupfer/plugin/shorten_links.py:151
-msgid "Services"
-msgstr "Υπηρεσίες"
-
-#: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:25
-msgid "Show QRCode"
-msgstr "Εμφάνιση QRCode"
-
-#: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:60
-msgid "Display text as QRCode in a window"
-msgstr "Εμφάνιση κειμένου σε παράθυρο ως QRCode"
-
-#: ../kupfer/plugin/skype.py:5
-msgid "Access to Skype contacts"
-msgstr "Πρόσβαση σε επαφές του Skype"
-
-#: ../kupfer/plugin/skype.py:31
-msgid "Skype Me"
-msgstr "Καλέστε με"
-
-#: ../kupfer/plugin/skype.py:37
-msgid "Logged Out"
-msgstr "Αποσύνδεση"
-
-#: ../kupfer/plugin/skype.py:179
-#, python-format
-msgid "[%(status)s] %(userid)s"
-msgstr "[%(status)s] %(userid)s"
-
-#: ../kupfer/plugin/skype.py:218
-msgid "Call"
-msgstr "Κλήση"
-
-#: ../kupfer/plugin/skype.py:232
-msgid "Place a call to contact"
-msgstr "Κλήση στην επαφή"
-
-#: ../kupfer/plugin/skype.py:267
-msgid "Skype Contacts"
-msgstr "Επαφές Skype"
-
-#: ../kupfer/plugin/skype.py:287
-msgid "Skype Statuses"
-msgstr "Καταστάσεις Skype"
+#: ../kupfer/plugin/session_xfce.py:5
+msgid "Special items and actions for XFCE environment"
+msgstr "Ειδικά στοιχεία και ενέργειες για περιβάλλον XFCE"
 
 #. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:70
@@ -2837,7 +1406,7 @@ msgstr "Συμβολικός δεσμός σε..."
 msgid "Create a symlink to file in a chosen location"
 msgstr "Δημιουργία συμβολικού δεσμού σε αρχείο σε επιλεγμένη θέση"
 
-#: ../kupfer/plugin/thunar.py:304
+#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:75
 msgid "Empty Trash"
 msgstr "Άδειασμα απορριμμάτων"
 
@@ -2845,6 +1414,7 @@ msgstr "Άδειασμα απορριμμάτων"
 msgid "Thunar Send To Objects"
 msgstr "Αποστολή αντικειμένων από το Thunar"
 
+#. -*- coding: utf-8 -*-
 #: ../kupfer/plugin/thunderbird.py:4
 msgid "Thunderbird"
 msgstr "Thunderbird"
@@ -2852,6 +1422,10 @@ msgstr "Thunderbird"
 #: ../kupfer/plugin/thunderbird.py:7
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Επαφές και ενέργειες Thunderbird/Icedove"
+
+#: ../kupfer/plugin/thunderbird.py:31
+msgid "Compose New Email"
+msgstr "Σύνταξη νέας αλληλογραφίας"
 
 #: ../kupfer/plugin/thunderbird.py:38
 msgid "Compose a new message in Thunderbird"
@@ -2865,6 +1439,7 @@ msgstr "Βιβλίο διευθύνσεων Thunderbird"
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Επαφές από το βιβλίο διευθύνσεων από το Thunderbird"
 
+#. -*- coding: UTF-8 -*-
 #: ../kupfer/plugin/top.py:4
 msgid "Top"
 msgstr "Κορυφή"
@@ -2914,6 +1489,234 @@ msgstr "pid: %(pid)s  ΚΜΕ: %(cpu)g%%  μνήμη: %(mem)g%%  διάρκεια
 msgid "Running tasks for current user"
 msgstr "Εκτελούμενες εργασίες για τον τρέχοντα χρήστη"
 
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:200
+msgid "Trash"
+msgstr "Απορρίμματα"
+
+#: ../kupfer/plugin/trash.py:4
+msgid "Access trash contents"
+msgstr "Πρόσβαση στα περιεχόμενα απορριμμάτων"
+
+#: ../kupfer/plugin/trash.py:23
+msgid "Move to Trash"
+msgstr "Μετακίνηση στα απορρίμματα"
+
+#: ../kupfer/plugin/trash.py:40
+msgid "Move this file to trash"
+msgstr "Μεταφορά αυτού του αρχείου στα απορρίμματα"
+
+#: ../kupfer/plugin/trash.py:49
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: ../kupfer/plugin/trash.py:68
+msgid "Move file back to original location"
+msgstr "Μετακίνηση αρχείου πίσω στην αρχική θέση"
+
+#: ../kupfer/plugin/trash.py:85
+msgid ""
+"Could not delete files:\n"
+"    "
+msgstr ""
+
+#: ../kupfer/plugin/trash.py:188
+msgid "Trash is empty"
+msgstr "Τα απορρίμματα είναι άδεια"
+
+#. proper translation of plural
+#: ../kupfer/plugin/trash.py:190
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "Τα απορρίμματα περιέχουν ένα αρχείο"
+msgstr[1] "Τα απορρίμματα περιέχουν %(num)s αρχεία"
+
+#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:46
+msgid "Triggers"
+msgstr "Εναύσματα"
+
+#: ../kupfer/plugin/triggers.py:6
+msgid ""
+"Assign global keybindings (triggers) to objects created with 'Compose "
+"Command'."
+msgstr ""
+"Απόδοση γενικών συνδυασμών πλήκτρων (εναύσματα) σε αντικείμενα που "
+"δημιουργήθηκαν με την 'εντολή σύνθεση'."
+
+#: ../kupfer/plugin/triggers.py:157
+msgid "Add Trigger..."
+msgstr "Προσθήκη εναύσματος..."
+
+#: ../kupfer/plugin/triggers.py:176
+msgid "Remove Trigger"
+msgstr "Αφαίρεση εναύσματος"
+
+#: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
+msgid "URL Actions"
+msgstr "Ενέργειες URL"
+
+#: ../kupfer/plugin/urlactions.py:63
+msgid "Download and Open"
+msgstr "Μεταφόρτωση και άνοιγμα"
+
+#: ../kupfer/plugin/urlactions.py:83
+msgid "Download To..."
+msgstr "Μεταφόρτωση σε..."
+
+#: ../kupfer/plugin/urlactions.py:104
+msgid "Download URL to a chosen location"
+msgstr "Μεταφόρτωση URL σε μια επιλεγμένη θέση"
+
+#: ../kupfer/plugin/wikipedia.py:5
+msgid "Wikipedia"
+msgstr "Βικιπαίδεια"
+
+#: ../kupfer/plugin/wikipedia.py:8 ../kupfer/plugin/wikipedia.py:31
+msgid "Search in Wikipedia"
+msgstr "Αναζήτηση στη βικιπαίδεια"
+
+#: ../kupfer/plugin/wikipedia.py:21
+msgid "Wikipedia language"
+msgstr "Γλώσσα βικιπαίδειας"
+
+#. TRANS: Default wikipedia language code
+#: ../kupfer/plugin/wikipedia.py:24
+msgid "en"
+msgstr "el"
+
+#: ../kupfer/plugin/wikipedia.py:44
+#, python-format
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Αναζήτηση για αυτόν τον όρο στο %s.wikipedia.org"
+
+#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:210
+msgid "Window List"
+msgstr "Λίστα παραθύρων"
+
+#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:233
+msgid "All windows on all workspaces"
+msgstr "Όλα τα παράθυρα σε όλους τους χώρους εργασίας"
+
+#: ../kupfer/plugin/windows.py:18
+msgid "Activate"
+msgstr "Ενεργοποίηση"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Shade"
+msgstr "Σκίαση"
+
+#: ../kupfer/plugin/windows.py:22
+msgid "Unshade"
+msgstr "Αποσκίαση"
+
+#: ../kupfer/plugin/windows.py:25
+msgid "Minimize"
+msgstr "Ελαχιστοποίηση"
+
+#: ../kupfer/plugin/windows.py:25
+msgid "Unminimize"
+msgstr "Απελαχιστοποίηση"
+
+#: ../kupfer/plugin/windows.py:29
+msgid "Maximize"
+msgstr "Μεγιστοποίηση"
+
+#: ../kupfer/plugin/windows.py:29
+msgid "Unmaximize"
+msgstr "Aπομεγιστοποίηση"
+
+#: ../kupfer/plugin/windows.py:33
+msgid "Maximize Vertically"
+msgstr "Κάθετη μεγιστοποίηση"
+
+#: ../kupfer/plugin/windows.py:33
+msgid "Unmaximize Vertically"
+msgstr "Κάθετη απομεγιστοποίηση"
+
+#. TRANS: Window on (Workspace name), window description
+#: ../kupfer/plugin/windows.py:48
+#, python-format
+msgid "Window on %(wkspc)s"
+msgstr "Παράθυρο στο %(wkspc)s"
+
+#: ../kupfer/plugin/windows.py:56
+msgid "Frontmost Window"
+msgstr "Το πιο μπροστινό παράθυρο"
+
+#: ../kupfer/plugin/windows.py:85
+msgid "Next Window"
+msgstr "Επόμενο παράθυρο"
+
+#: ../kupfer/plugin/windows.py:116
+msgid "Jump to this window's workspace and focus"
+msgstr "Μετάβαση σε αυτό τον χώρο εργασίας του παραθύρου και εστίαση"
+
+#: ../kupfer/plugin/windows.py:252
+#, python-format
+msgid "%d window"
+msgid_plural "%d windows"
+msgstr[0] "%d παράθυρο"
+msgstr[1] "%d παράθυρα"
+
+#: ../kupfer/plugin/windows.py:256
+msgid "Active workspace"
+msgstr "Ενεργός χώρος εργασίας"
+
+#: ../kupfer/plugin/windows.py:274
+msgid "Jump to this workspace"
+msgstr "Μετάβαση σε αυτόν τον χώρο εργασίας"
+
+#: ../kupfer/plugin/windows.py:281
+msgid "Workspaces"
+msgstr "Χώροι εργασίας"
+
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
+msgid "Volumes and Disks"
+msgstr "Τόμοι και δίσκοι"
+
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
+msgid "Mounted volumes and disks"
+msgstr "Προσαρτημένοι τόμοι και δίσκοι"
+
+#: ../kupfer/plugin/volumes.py:42
+#, python-format
+msgid "Volume mounted at %s"
+msgstr "Τόμος προσαρτημένος στο %s"
+
+#: ../kupfer/plugin/volumes.py:51
+msgid "Unmount"
+msgstr "Αποπροσάρτηση"
+
+#: ../kupfer/plugin/volumes.py:78
+msgid "Unmount this volume"
+msgstr "Προσάρτηση αυτού του τόμου"
+
+#: ../kupfer/plugin/volumes.py:85
+msgid "Eject"
+msgstr "Εξαγωγή"
+
+#: ../kupfer/plugin/volumes.py:88
+msgid "Unmount and eject this media"
+msgstr "Αποπροσάρτηση και εξαγωγή αυτού του μέσου"
+
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
+#: ../kupfer/plugin/show_text.py:25
+msgid "Show Text"
+msgstr "Εμφάνιση κειμένου"
+
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
+#: ../kupfer/plugin/show_text.py:58
+msgid "Display text in a window"
+msgstr "Εμφάνιση κειμένου σε παράθυρο"
+
+#: ../kupfer/plugin/show_text.py:37
+msgid "Large Type"
+msgstr "Μεγάλος τύπος"
+
+#: ../kupfer/plugin/show_text.py:66
+msgid "Show Notification"
+msgstr "Εμφάνιση ειδοποίησης"
+
 #: ../kupfer/plugin/tracker1.py:10
 msgid "Tracker"
 msgstr "Tracker"
@@ -2938,238 +1741,1109 @@ msgstr "Λήψη αποτελεσμάτων του Tracker..."
 msgid "Show Tracker results for query"
 msgstr "Εμφάνιση αποτελεσμάτων του Tracker για ερώτημα"
 
-#. FIXME: Port tracker tag sources and actions
-#. to the new, much more powerful sparql + dbus API
-#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/truecrypt.py:3
-msgid "TrueCrypt"
-msgstr "TrueCrypt"
-
-#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:140
-msgid "Volumes from TrueCrypt history"
-msgstr "Τόμοι από το ιστορικό TrueCrypt"
-
-#: ../kupfer/plugin/truecrypt.py:44
+#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
 #, python-format
-msgid "TrueCrypt volume: %(file)s"
-msgstr "Τόμος TrueCrypt: %(file)s"
+msgid "Results for \"%s\""
+msgstr "Αποτελέσματα για \"%s\""
 
-#: ../kupfer/plugin/truecrypt.py:52
-msgid "Mount Volume"
-msgstr "Προσάρτηση τόμου"
+#. TRANS: Names of accelerators in the interface
+#: ../kupfer/ui/accelerators.py:4
+msgid "Alternate Activate"
+msgstr "Εναλλακτική ενεργοποίηση"
 
-#: ../kupfer/plugin/truecrypt.py:63
-msgid "Mount in Truecrypt"
-msgstr "Προσάρτηση στο Truecrypt"
+#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+#. TRANS: user to select many objects to be used for one action
+#: ../kupfer/ui/accelerators.py:7
+msgid "Comma Trick"
+msgstr "Τέχνασμα κόμμα (πολλά αντικείμενα)"
 
-#: ../kupfer/plugin/truecrypt.py:72
-msgid "Try to mount file as Truecrypt volume"
-msgstr "Προσπάθεια προσάρτησης αρχείου ως τόμο Truecrypt"
+#. TRANS: "Compose Command" makes one object out of the selected
+#. TRANS: object + action (+iobject)
+#: ../kupfer/ui/accelerators.py:10
+msgid "Compose Command"
+msgstr "Εντολή σύνθεσης"
 
-#: ../kupfer/plugin/truecrypt.py:80
-msgid "Dismount All Volumes"
-msgstr "Αποπροσάρτηση όλων των τόμων"
+#: ../kupfer/ui/accelerators.py:11
+msgid "Mark Default Action"
+msgstr "Σημείωση προεπιλεγμένης ενέργειας"
 
-#: ../kupfer/plugin/truecrypt.py:98
-msgid "TrueCrypt Volumes"
-msgstr "Τόμοι TrueCrypt"
+#: ../kupfer/ui/accelerators.py:12
+msgid "Forget Object"
+msgstr "Παράλειψη αντικειμένου"
 
-#: ../kupfer/plugin/tsclient.py:4
-msgid "Terminal Server Client"
-msgstr "Πελάτης διακομιστή τερματικού"
+#: ../kupfer/ui/accelerators.py:13
+msgid "Reset All"
+msgstr "Επαναφορά όλων"
 
-#: ../kupfer/plugin/tsclient.py:7
-msgid "Session saved in Terminal Server Client"
-msgstr "Αποθηκευμένη συνεδρία στον πελάτη διακομιστή τερματικού"
+#: ../kupfer/ui/accelerators.py:14
+msgid "Select Quit"
+msgstr "Επιλογή εξόδου"
 
-#: ../kupfer/plugin/tsclient.py:72
-msgid "TSClient sessions"
-msgstr "Συνεδρίες TSClient"
+#: ../kupfer/ui/accelerators.py:15
+msgid "Select Selected File"
+msgstr "Επιλογή του επιλεγμένου αρχείου"
 
-#: ../kupfer/plugin/tsclient.py:94
-msgid "Saved sessions in Terminal Server Client"
-msgstr "Αποθηκευμένες συνεδρίες στον πελάτη διακομιστή τερματικού"
+#: ../kupfer/ui/accelerators.py:16
+msgid "Select Selected Text"
+msgstr "Επιλογή του επιλεγμένου κειμένου"
 
-#: ../kupfer/plugin/vim/__init__.py:1
-msgid "Vim"
-msgstr "Vim"
+#: ../kupfer/ui/accelerators.py:17
+msgid "Show Help"
+msgstr "Εμφάνιση βοήθειας"
 
-#: ../kupfer/plugin/vim/__init__.py:4
-msgid "Recently used documents in Vim"
-msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα στο Vim"
+#: ../kupfer/ui/accelerators.py:18
+msgid "Show Preferences"
+msgstr "Εμφάνιση προτιμήσεων"
 
-#: ../kupfer/plugin/vim/plugin.py:56
-msgid "Vim Recent Documents"
-msgstr "Πρόσφατα έγγραφα Vim"
+#: ../kupfer/ui/accelerators.py:19
+msgid "Switch to First Pane"
+msgstr "Εναλλαγή σε πρώτο παράθυρο"
 
-#: ../kupfer/plugin/vim/plugin.py:219
-msgid "Close (Save All)"
-msgstr "Κλείσιμο (Αποθήκευση όλων)"
+#: ../kupfer/ui/accelerators.py:20
+msgid "Toggle Text Mode"
+msgstr "Εναλλαγή σε κατάσταση κειμένου"
 
-#: ../kupfer/plugin/vim/plugin.py:237
-msgid "Send..."
-msgstr "Αποστολή..."
-
-#: ../kupfer/plugin/vim/plugin.py:264
-msgid "Send ex command"
-msgstr "Αποστολή εντολής ex"
-
-#: ../kupfer/plugin/vim/plugin.py:272
-msgid "Insert in Vim..."
-msgstr "Εισαγωγή στο Vim..."
-
-#: ../kupfer/plugin/vim/plugin.py:309
-msgid "Active Vim Sessions"
-msgstr "Ενεργές συνεδρίες Vim"
-
-#: ../kupfer/plugin/vim/plugin.py:338
+#: ../kupfer/ui/browser.py:873
 #, python-format
-msgid "Vim Session %s"
-msgstr "Συνεδρία %s του Vim"
+msgid "%s is empty"
+msgstr "το %s είναι κενό"
 
-#: ../kupfer/plugin/vinagre.py:4
-msgid "Vinagre"
-msgstr "Vinagre"
+#: ../kupfer/ui/browser.py:877
+#, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "Δεν υπάρχει συμφωνία στο %(src)s για το \"%(query)s\""
 
-#: ../kupfer/plugin/vinagre.py:7
-msgid "Vinagre bookmarks and actions"
-msgstr "Σελιδοδείκτες και ενέργειες Vinagre"
+#: ../kupfer/ui/browser.py:883
+msgid "No matches"
+msgstr "Καμία συμφωνία"
 
-#: ../kupfer/plugin/vinagre.py:34
-msgid "Start Vinagre Session"
-msgstr "Έναρξη συνεδρίας Vinagre"
+#: ../kupfer/ui/browser.py:888
+msgid "Type to search"
+msgstr "Πληκτρολογήστε για αναζήτηση"
 
-#: ../kupfer/plugin/vinagre.py:72
-msgid "Vinagre Bookmarks"
-msgstr "Σελιδοδείκτες Vinagre"
+#: ../kupfer/ui/browser.py:894
+#, python-format
+msgid "Type to search %s"
+msgstr "Πληκτρολογήστε για αναζήτηση του %s"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/virtualbox/__init__.py:3
-msgid "VirtualBox"
-msgstr "VirtualBox"
+#: ../kupfer/ui/browser.py:909
+msgid "No action"
+msgstr "Καμία ενέργεια"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:5
+#: ../kupfer/ui/browser.py:1497
+#, python-format
+msgid "Make \"%(action)s\" Default for \"%(object)s\""
+msgstr "Κάντε το \"%(action)s\" προεπιλογή για \"%(object)s\""
+
+#. TRANS: Removing learned and/or configured bonus search score
+#: ../kupfer/ui/browser.py:1507
+#, python-format
+msgid "Forget About \"%s\""
+msgstr "Παράλειψη σχετικά με το \"%s\""
+
+#. TRANS: Names of global keyboard shortcuts
+#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
+msgid "Show Main Interface"
+msgstr "Εμφάνιση κύριας διεπαφής"
+
+#: ../kupfer/ui/preferences.py:60
+msgid "Show with Selection"
+msgstr "Εμφάνιση με επιλογή"
+
+#. TRANS: Plugin info fields
+#: ../kupfer/ui/preferences.py:437
+msgid "Description"
+msgstr "Περιγραφή"
+
+#: ../kupfer/ui/preferences.py:437
+msgid "Author"
+msgstr "Δημιουργός"
+
+#: ../kupfer/ui/preferences.py:454
+msgid "Version"
+msgstr "Έκδοση"
+
+#. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/ui/preferences.py:464
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr "Χρειάζεται η ενότητα Python '%s'"
+
+#: ../kupfer/ui/preferences.py:478
+msgid "Plugin could not be read due to an error:"
+msgstr "Το πρόσθετο δεν μπόρεσε να διαβαστεί λόγω ενός σφάλματος:"
+
+#: ../kupfer/ui/preferences.py:560
+msgid "Content of"
+msgstr "Περιεχόμενο του"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:569
+msgid "Sources"
+msgstr "Πηγές"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:573
+msgid "Actions"
+msgstr "Ενέργειες"
+
+#: ../kupfer/ui/preferences.py:596
+#, python-format
+msgid "Using encrypted password storage: %s"
+msgstr "Χρήση κρυπτογραφημένης αποθήκευσης κωδικού πρόσβασης: %s"
+
+#: ../kupfer/ui/preferences.py:598
+#, python-format
+msgid "Using password storage: %s"
+msgstr "Χρήση αποθήκευσης κωδικού πρόσβασης: %s"
+
+#. TRANS: Plugin-specific configuration (header)
+#: ../kupfer/ui/preferences.py:615
+msgid "Configuration"
+msgstr "Διαμόρφωση"
+
+#: ../kupfer/ui/preferences.py:635
+msgid "Set username and password"
+msgstr "Εισάγετε το όνομα χρήστη και κωδικό πρόσβασης."
+
+#. TRANS: File Chooser Title
+#: ../kupfer/ui/preferences.py:689
+msgid "Choose a Directory"
+msgstr "Επιλέξτε έναν κατάλογο"
+
+#: ../kupfer/ui/preferences.py:884
+msgid "Reset all shortcuts to default values?"
+msgstr "Επαναφορά όλων των συντομεύσεων στις προεπιλεγμένες τιμές;"
+
+#: ../kupfer/ui/preferences.py:893
+msgid "Shortcut"
+msgstr "Συντόμευση"
+
+#. TRANS: Don't translate literally!
+#. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:73
+msgid "translator-credits"
+msgstr ""
+"Ελληνική μεταφραστική ομάδα του GNOME\n"
+" Δημήτρης Σπίγγος <dmtrs32@gmail.com>\n"
+"Για περισσότερα δείτε: http://gnome.gr"
+
+#: ../kupfer/version.py:78
+msgid "A free software (GPLv3+) launcher"
+msgstr "Ένας εκκινητής ελεύθερου λογισμικού (GPLv3+)"
+
+#: ../kupfer/version.py:81
 msgid ""
-"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
-"Source Edition."
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
 msgstr ""
-"Έλεγχος εικονικών μηχανημάτων VirtualBox. Υποστηρίζει και το Sun VirtualBox "
-"και την έκδοση ανοικτού λογισμικού."
+"\n"
+"Αυτό το πρόγραμμα είναι ελεύθερο λογισμικό: Επιτρέπεται η αναδιανομή ή/και "
+"τροποποίησή του υπό τους όρους της Γενικής Άδειας Δημόσιας Χρήσης\n"
+"GNU, όπως αυτή έχει δημοσιευτεί από το Ίδρυμα Ελεύθερου Λογισμικού,\n"
+"είτε της έκδοσης 3 της Άδειας, είτε (κατ' επιλογήν) οποιασδήποτε\n"
+"μεταγενέστερης έκδοσης.\n"
+"\n"
+"Το πρόγραμμα αυτό διανέμεται με την ελπίδα ότι θα αποδειχθεί χρήσιμο,\n"
+"παρόλα αυτά ΧΩΡΙΣ ΚΑΜΙΑ ΕΓΓΥΗΣΗ – χωρίς ούτε και την σιωπηρή εγγύηση\n"
+"ΕΜΠΟΡΕΥΣΙΜΟΤΗΤΑΣ ή ΚΑΤΑΛΛΗΛΟΤΗΤΑΣ ΓΙΑ ΣΥΓΚΕΚΡΙΜΕΝΗ ΧΡΗΣΗ. Για\n"
+"περισσότερες λεπτομέρειες ανατρέξτε στη Γενική Άδεια Δημόσιας Χρήσης\n"
+"GNU.\n"
+"\n"
+"Θα πρέπει να έχετε λάβει ένα αντίγραφο της Γενικής Άδειας Δημόσιας\n"
+"Χρήσης GNU μαζί με αυτό το πρόγραμμα. Εάν όχι, δείτε εδώ: <http://www.gnu."
+"org/licenses/>.\n"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:22
-msgid "Force use CLI interface"
-msgstr "Αναγκαστική χρήση διεπαφής CLI"
+#. follows strings used elsewhere
+#: ../kupfer/version.py:98
+msgid "Could not find running Kupfer"
+msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:86
-#: ../kupfer/plugin/virtualbox/__init__.py:97
-msgid "Power On"
-msgstr "Ενεργοποίηση"
+#~ msgid "Calculate expressions starting with '='"
+#~ msgstr "Υπολογισμός εκφράσεων που ξεκινούν με '='"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:88
-#: ../kupfer/plugin/virtualbox/__init__.py:99
-msgid "Power On Headless"
-msgstr "Ακέφαλη ενεργοποίηση"
+#~ msgid "Epiphany Bookmarks"
+#~ msgstr "Σελιδοδείκτες Epiphany"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:91
-msgid "Send Power Off Signal"
-msgstr "Αποστολή σήματος τερματισμού"
+#~ msgid "Index of Epiphany bookmarks"
+#~ msgstr "Ευρετήριο σελιδοδεικτών του Epiphany"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:94
-msgid "Reboot"
-msgstr "Επανεκκίνηση"
+#~ msgid "Firefox Bookmarks"
+#~ msgstr "Σελιδοδείκτες Firefox"
 
-#. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:102
-msgid "Resume"
-msgstr "Συνέχεια"
+#~ msgid "Index of Firefox bookmarks"
+#~ msgstr "Ευρετήριο σελιδοδεικτών του Firefox"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:105
-msgid "Save State"
-msgstr "Αποθήκευση κατάστασης"
+#~ msgid "Include visited sites"
+#~ msgstr "Να συμπεριλαμβάνονται οι τόποι που επισκέφτηκαν"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:107
-msgid "Power Off"
-msgstr "Απενεργοποίηση"
+#~ msgid "Firefox tag"
+#~ msgstr "Ετικέτα Firefox"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:131
-msgid "VirtualBox Machines"
-msgstr "Μηανήματα VirtualBox"
+#~ msgid "Rhythmbox"
+#~ msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:4
-msgid "Zim"
-msgstr "Zim"
+#~ msgid "Play and enqueue tracks and browse the music library"
+#~ msgstr ""
+#~ "Αναπαραγωγή, τοποθέτηση κομματιών σε αναμονή και περιήγηση της μουσικής "
+#~ "βιβλιοθήκης"
 
-#: ../kupfer/plugin/zim.py:11
-msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
-msgstr ""
-"Πρόσβαση σε σελίδες αποθηκευμένες στο Zim - Μια επιφάνεια εργασίας βίκι και "
-"περίγραμμα"
+#~ msgid "Include artists in top level"
+#~ msgstr "Να συμπεριλαμβάνονται οι καλλιτέχνες στο κορυφαίο επίπεδο"
 
-#: ../kupfer/plugin/zim.py:30
-msgid "Page names start with :colon"
-msgstr "Τα ονόματα σελίδων ξεκινούν με: διπλή τελεία"
+#~ msgid "Include albums in top level"
+#~ msgstr "Να συμπεριλαμβάνονται οι δίσκοι στο κορυφαίο επίπεδο"
 
-#: ../kupfer/plugin/zim.py:36
-msgid "Default page name for quick notes"
-msgstr "Προεπιλεγμένο όνομα σελίδας για γρήγορες σημειώσεις"
+#~ msgid "Resume playback in Rhythmbox"
+#~ msgstr "Συνέχιση αναπαραγωγής στο Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:38
-#, python-format
-msgid "Note %x %X"
-msgstr "Σημείωση %x %X"
+#~ msgid "Pause playback in Rhythmbox"
+#~ msgstr "Παύση αναπαραγωγής στο Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:39
-msgid ""
-"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
-"Please check python documentation for details.\n"
-"NOTE: comma will be replaced by _"
-msgstr ""
-"Ετικέτες Strftime μπορούν να χρησιμοποιηθούν: %H - ώρες, %M - λεπτά, κλπ\n"
-"Παρακαλούμε, δείτε την τεκμηρίωση python για λεπτομέρειες.\n"
-"ΣΗΜΕΙΩΣΗ: το κόμμα θα αντικατασταθεί από _"
+#~ msgid "Jump to next track in Rhythmbox"
+#~ msgstr "Μετάβαση στο επόμενο κομμάτι στο Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:45
-msgid "Default namespace for quick notes"
-msgstr "Προεπιλεγμένος χώρος ονόματος για γρήγορες σημειώσεις"
+#~ msgid "Jump to previous track in Rhythmbox"
+#~ msgstr "Μετάβαση στο προηγούμενο κομμάτι στο Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:80
-#, python-format
-msgid "Zim Page from Notebook \"%s\""
-msgstr "Σελίδα Zim από σημειωματάριο \"%s\""
+#~ msgid "Show Playing"
+#~ msgstr "Εμφάνιση αναπαραγωγής"
 
-#: ../kupfer/plugin/zim.py:89
-msgid "Create Zim Page"
-msgstr "Δημιουργία σελίδας Zim"
+#~ msgid "Tell which song is currently playing"
+#~ msgstr "Να λέει ποιο τραγούδι αναπαράγεται τώρα"
 
-#: ../kupfer/plugin/zim.py:96
-msgid "Create page in default notebook"
-msgstr "Δημιουργία σελίδας σε προεπιλεγμένο σημειωματάριο"
+#~ msgid "Play tracks in Rhythmbox"
+#~ msgstr "Αναπαραγωγή κομματιών στο Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:108
-msgid "Create Zim Page In..."
-msgstr "Δημιουργία σελίδας Zim σε..."
+#~ msgid "Add tracks to the play queue"
+#~ msgstr "Προσθήκη κομματιών στη σειρά αναπαραγωγής"
 
-#: ../kupfer/plugin/zim.py:132
-msgid "Insert QuickNote into Zim"
-msgstr "Εισαγωγή γρήγορης σημείωσης στο Zim"
+#~ msgid "by %(artist)s from %(album)s"
+#~ msgstr "κατά %(artist)s από %(album)s"
 
-#: ../kupfer/plugin/zim.py:142
-msgid "Quick note selected text into Zim notebook"
-msgstr "Γρήγορη σημείωση επιλεγμένου κειμένου στο σημειωματάριο Zim"
+#~ msgid "by %s"
+#~ msgstr "κατά %s"
 
-#: ../kupfer/plugin/zim.py:191
-msgid "Create Subpage..."
-msgstr "Δημιουργία υποσελίδας..."
+#~ msgid "Tracks by %s"
+#~ msgstr "Κομμάτια κατά %s"
 
-#: ../kupfer/plugin/zim.py:370
-msgid "Zim Notebooks"
-msgstr "Σημειωματάρια Zim"
+#~ msgid "Albums"
+#~ msgstr "Δίσκοι"
 
-#: ../kupfer/plugin/zim.py:387
-msgid "Zim Pages"
-msgstr "Σελίδες Zim"
+#~ msgid "Music albums in Rhythmbox Library"
+#~ msgstr "Μουσικοί δίσκοι στη βιβλιοθήκη Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:415
-msgid "Pages stored in Zim Notebooks"
-msgstr "Αποθηκευμένες σελίδες σε σημειωματάρια Zim"
+#~ msgid "Artists"
+#~ msgstr "Καλλιτέχνες"
+
+#~ msgid "Music artists in Rhythmbox Library"
+#~ msgstr "Μουσικοί καλλιτέχνες στη βιβλιοθήκη Rhythmbox"
+
+#~ msgid "Songs"
+#~ msgstr "Τραγούδια"
+
+#~ msgid "Songs in Rhythmbox library"
+#~ msgstr "Τραγούδια στη βιβλιοθήκη Rhythmbox"
+
+#~ msgid "Search the Web"
+#~ msgstr "Αναζήτηση στον ιστό"
+
+#~ msgid "Search the web with OpenSearch search engines"
+#~ msgstr "Αναζήτηση στον ιστό με μηχανές αναζήτησης OpenSearch"
+
+#~ msgid "Search With..."
+#~ msgstr "Αναζήτηση με..."
+
+#~ msgid "Search For..."
+#~ msgstr "Αναζήτηση για..."
+
+#~ msgid "Search Engines"
+#~ msgstr "Μηχανές αναζήτησης"
+
+#~ msgid "Abiword"
+#~ msgstr "Abiword"
+
+#~ msgid "Recently used documents in Abiword"
+#~ msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα στο Abiword"
+
+#~ msgid "Abiword Recent Items"
+#~ msgstr "Πρόσφατα στοιχεία Abiword"
+
+#~ msgid "APT"
+#~ msgstr "APT"
+
+#~ msgid "Interface with the package manager APT"
+#~ msgstr "Διεπαφή με τον διαχειριστή πακέτου APT"
+
+#~ msgid "Installation method"
+#~ msgstr "Μέθοδος εγκατάστασης"
+
+#~ msgid "Show Package Information"
+#~ msgstr "Εμφάνιση πληροφοριών πακέτου"
+
+#~ msgid "Install"
+#~ msgstr "Εγκατάσταση"
+
+#~ msgid "Install package using the configured method"
+#~ msgstr "Εγκατάσταση πακέτου χρησιμοποιώντας τη ρυθμισμένη μέθοδο"
+
+#~ msgid "Packages matching \"%s\""
+#~ msgstr "Πακέτα που ταιριάζουν στο \"%s\""
+
+#~ msgid "Search Package Name..."
+#~ msgstr "Όνομα πακέτου αναζήτησης..."
+
+#~ msgid "Ascii & Unicode Icon Set"
+#~ msgstr "Ομάδα εικονιδίων Ascii & Unicode"
+
+#~ msgid ""
+#~ "Provides the Ascii and Unicode icon sets that use letters and symbols to "
+#~ "produce icons for the objects found in Kupfer."
+#~ msgstr ""
+#~ "Παρέχει τις ομάδες εικονιδίων Ascii και Unicode που χρησιμοποιούν "
+#~ "γράμματα και σύμβολα για να παράξουν εικονίδια για αντικείμενα που "
+#~ "βρέθηκαν στο Kupfer."
+
+#~ msgid "Ascii"
+#~ msgstr "Ascii"
+
+#~ msgid "Unicode"
+#~ msgstr "Unicode"
+
+#~ msgid "Chromium Bookmarks"
+#~ msgstr "Σελιδοδείκτες Chromium"
+
+#~ msgid "Index of Chromium bookmarks"
+#~ msgstr "Ευρετήριο σελιδοδεικτών του Chromium"
+
+#~ msgid "Claws Mail"
+#~ msgstr "Claws Mail"
+
+#~ msgid "Claws Mail Contacts and Actions"
+#~ msgstr "Επαφές και ενέργειες Claws Mail"
+
+#~ msgid "Compose a new message in Claws Mail"
+#~ msgstr "Σύνταξη νέου μηνύματος στο Claws Mail"
+
+#~ msgid "Receive All Email"
+#~ msgstr "Λήψη όλων των μηνυμάτων"
+
+#~ msgid "Receive new messages from all accounts in ClawsMail"
+#~ msgstr "Λήψη νέων μηνυμάτων από όλους τους λογαριασμούς στο ClawsMail"
+
+#~ msgid "Compose new message in Claws Mail and attach file"
+#~ msgstr "Σύνταξη νέου μηνύματος στο Claws Mail και επισύναψη αρχείου"
+
+#~ msgid "Claws Mail Address Book"
+#~ msgstr "Το βιβλίο διευθύνσεων του Claws Mail"
+
+#~ msgid "Contacts from Claws Mail Address Book"
+#~ msgstr "Επαφές από το βιβλίο διευθύνσεων του Claws Mail"
+
+#~ msgid "Configure a custom terminal emulator"
+#~ msgstr "Ρύθμιση προσαρμοσμένου εξομοιωτή τερματικού"
+
+#~ msgid "Custom Theme"
+#~ msgstr "Προσαρμοσμένο θέμα"
+
+#~ msgid "Use a custom color theme"
+#~ msgstr "Χρήση προσαρμοσμένου χρωματικού θέματος"
+
+#~ msgid "Theme:"
+#~ msgstr "Θέμα:"
+
+#~ msgid "Devhelp"
+#~ msgstr "Βοήθεια ανάπτυξης"
+
+#~ msgid "Search in Devhelp"
+#~ msgstr "Αναζήτηση στη βοήθεια ανάπτυξης"
+
+#~ msgid "Empathy"
+#~ msgstr "Empathy"
+
+#~ msgid "Access to Empathy Contacts"
+#~ msgstr "Πρόσβαση στις επαφές του Empathy"
+
+#~ msgid "Show offline contacts"
+#~ msgstr "Εμφάνιση επαφών εκτός σύνδεσης"
+
+#~ msgid "Available"
+#~ msgstr "Διαθέσιμες"
+
+#~ msgid "Away"
+#~ msgstr "Απουσιάζει"
+
+#~ msgid "Busy"
+#~ msgstr "Απασχολημένος"
+
+#~ msgid "Not Available"
+#~ msgstr "Μη διαθέσιμος"
+
+#~ msgid "Invisible"
+#~ msgstr "Αόρατος"
+
+#~ msgid "Offline"
+#~ msgstr "Αποσυνδεδεμένος"
+
+#~ msgid "Open Chat"
+#~ msgstr "Ανοικτή συνομιλία"
+
+#~ msgid "Change Global Status To..."
+#~ msgstr "Αλλαγή της γενικής κατάστασης σε..."
+
+#~ msgid "Empathy Contacts"
+#~ msgstr "Επαφές του Empathy"
+
+#~ msgid "Empathy Account Status"
+#~ msgstr "Κατάσταση λογαριασμού του Empathy"
+
+#~ msgid "Evolution"
+#~ msgstr "Evolution"
+
+#~ msgid "Evolution contacts"
+#~ msgstr "Επαφές Evolution"
+
+#~ msgid "Compose a new message in Evolution"
+#~ msgstr "Σύνταξη νέου μηνύματος στο Evolution"
+
+#~ msgid "Compose new message in Evolution and attach file"
+#~ msgstr "Σύνταξη νέου μηνύματος στο Evolution και επισύναψη αρχείου"
+
+#~ msgid "Evolution Address Book"
+#~ msgstr "Βιβλίο διευθύνσεων Evolution"
+
+#~ msgid "Filezilla"
+#~ msgstr "FileZilla"
+
+#~ msgid "Show sites and handle ftp addresses by Filezilla"
+#~ msgstr "Εμφάνιση τόπων και χειρισμός διευθύνσεων ftp από το Filezilla"
+
+#~ msgid "Open Site with Filezilla"
+#~ msgstr "Άνοιγμα τόπου με Filezilla"
+
+#~ msgid "Filezilla Sites"
+#~ msgstr "Τόποι Filezilla"
+
+#~ msgid "Sites from Filezilla"
+#~ msgstr "Τόποι από Filezilla"
+
+#~ msgid "Gajim"
+#~ msgstr "Gajim"
+
+#~ msgid "Access to Gajim Contacts"
+#~ msgstr "Πρόσβαση στις επαφές του Gajim"
+
+#~ msgid "Free for Chat"
+#~ msgstr "Ελεύθερος για συνομιλία"
+
+#~ msgid "Gajim Contacts"
+#~ msgstr "Επαφές του Gajim"
+
+#~ msgid "Gajim Account Status"
+#~ msgstr "Κατάσταση λογαριασμού Gajim"
+
+#~ msgid "Gmail"
+#~ msgstr "Gmail"
+
+#~ msgid "Load contacts and compose new email in Gmail"
+#~ msgstr "Φόρτωση επαφών και σύνταξη νέου μηνύματος σε Gmail"
+
+#~ msgid "Load contacts' pictures"
+#~ msgstr "Φόρτωση εικόνων επαφών"
+
+#~ msgid "Load additional information"
+#~ msgstr "Φόρτωση πρόσθετων πληροφοριών"
+
+#~ msgid "Work email"
+#~ msgstr "Ηλεκτρονικό ταχυδρομείο εργασίας"
+
+#~ msgid "Home email"
+#~ msgstr "Ηλεκτρονικό ταχυδρομείο οικίας"
+
+#~ msgid "Other email"
+#~ msgstr "Άλλα ηλεκτρονικά ταχυδρομεία"
+
+#~ msgid "Work address"
+#~ msgstr "Διεύθυνση εργασίας"
+
+#~ msgid "Home address"
+#~ msgstr "Διεύθυνση οικίας"
+
+#~ msgid "Other address"
+#~ msgstr "Άλλες διευθύνσεις"
+
+#~ msgid "Car phone"
+#~ msgstr "Τηλέφωνο αυτοκινήτου"
+
+#~ msgid "Fax"
+#~ msgstr "Φαξ"
+
+#~ msgid "Home phone"
+#~ msgstr "Τηλέφωνο οικίας"
+
+#~ msgid "Home fax"
+#~ msgstr "Φαξ οικίας"
+
+#~ msgid "Internal phone"
+#~ msgstr "Εσωτερικό τηλέφωνο"
+
+#~ msgid "Mobile"
+#~ msgstr "Κινητό τηλέφωνο"
+
+#~ msgid "Other"
+#~ msgstr "Άλλο"
+
+#~ msgid "VOIP"
+#~ msgstr "VOIP"
+
+#~ msgid "Work phone"
+#~ msgstr "Τηλέφωνο εργασίας"
+
+#~ msgid "Work fax"
+#~ msgstr "Φαξ εργασίας"
+
+#~ msgid "Compose Email in Gmail"
+#~ msgstr "Σύνταξη μηνύματος σε Gmail"
+
+#~ msgid "Open web browser and compose new email in Gmail"
+#~ msgstr "Άνοιγμα περιηγητή ιστού και σύνταξη νέου μηνύματος σε Gmail"
+
+#~ msgid "Edit Contact in Gmail"
+#~ msgstr "Επεξεργασία επαφής σε Gmail"
+
+#~ msgid "Open web browser and edit contact in Gmail"
+#~ msgstr "Άνοιγμα περιηγητή ιστού και επεξεργασία επαφής σε Gmail"
+
+#~ msgid "Contacts from Google services (Gmail)"
+#~ msgstr "Επαφές από υπηρεσίες Google (Gmail)"
+
+#~ msgid "Google Picasa"
+#~ msgstr "Google Picasa"
+
+#~ msgid "Show albums and upload files to Picasa"
+#~ msgstr "Εμφάνιση συλλογών και ανέβασμα αρχείων στο Picasa"
+
+#~ msgid "Users to show: (,-separated)"
+#~ msgstr "Εμφανιζόμενοι χρήστες: (διαχωρισμός με ,)"
+
+#~ msgid "Load user and album icons"
+#~ msgstr "Φόρτωση εικονιδίων χρήστη και δίσκου"
+
+#~ msgid "Uploading Pictures"
+#~ msgstr "Ανέβασμα εικόνων"
+
+#~ msgid "Uploading pictures to Picasa Web Album"
+#~ msgstr "Ανέβασμα εικόνων στη συλλογή ιστού Picasa"
+
+#~ msgid "Creating album:"
+#~ msgstr "Δημιουργία συλλογής:"
+
+#~ msgid "Album created by Kupfer"
+#~ msgstr "Η συλλογή δημιουργήθηκε από το Kupfer"
+
+#~ msgid "File:"
+#~ msgstr "Αρχείο:"
+
+#~ msgid "One album"
+#~ msgid_plural "%(num)d albums"
+#~ msgstr[0] "Μία συλλογή"
+#~ msgstr[1] "%(num)d συλλογές"
+
+#~ msgid "one photo"
+#~ msgid_plural "%(num)s photos"
+#~ msgstr[0] "μία φωτογραφία"
+#~ msgstr[1] "%(num)s φωτογραφίες"
+
+#~ msgid "Upload to Picasa Album..."
+#~ msgstr "Ανέβασμα στη συλλογή του Picasa..."
+
+#~ msgid "Upload files to Picasa album"
+#~ msgstr "Ανέβασμα αρχείων στη συλλογή του Picasa"
+
+#~ msgid "Upload to Picasa as New Album"
+#~ msgstr "Ανέβασμα στο Picasa ως νέα συλλογή"
+
+#~ msgid "Create album from selected local directory"
+#~ msgstr "Δημιουργία συλλογής από επιλεγμένο τοπικό κατάλογο"
+
+#~ msgid "Picasa Albums"
+#~ msgstr "Συλλογές Picasa"
+
+#~ msgid "User albums in Picasa"
+#~ msgstr "Συλλογές χρήστη στο Picasa"
+
+#~ msgid "Google Search"
+#~ msgstr "Αναζήτηση Google"
+
+#~ msgid "Search Google with results shown directly"
+#~ msgstr "Αναζήτηση Google με άμεσα εμφανιζόμενα αποτελέσματα"
+
+#~ msgid "Show More Results For \"%s\""
+#~ msgstr "Εμφάνιση περισσότερων αποτελεσμάτων για \"%s\""
+
+#~ msgid "%s total found"
+#~ msgstr "βρέθηκαν συνολικά %s"
+
+#~ msgid "Getting Things GNOME"
+#~ msgstr "Getting Things GNOME"
+
+#~ msgid "Browse and create new tasks in GTG"
+#~ msgstr "Περιήγηση και δημιουργία νέων εργασιών στο GTG"
+
+#~ msgid "due: %s"
+#~ msgstr "λήξη: %s"
+
+#~ msgid "start: %s"
+#~ msgstr "έναρξη: %s"
+
+#~ msgid "tags: %s"
+#~ msgstr "ετικέτες: %s"
+
+#~ msgid "Open task in Getting Things GNOME!"
+#~ msgstr "Άνοιγμα εργασίας στο Getting Things GNOME!"
+
+#~ msgid "Delete"
+#~ msgstr "Διαγραφή"
+
+#~ msgid "Permanently remove this task"
+#~ msgstr "Μόνιμη απομάκρυνση αυτής της εργασίας"
+
+#~ msgid "Mark Done"
+#~ msgstr "Έτοιμο"
+
+#~ msgid "Mark this task as done"
+#~ msgstr "Σημείωση αυτής της εργασίας ως έτοιμης"
+
+#~ msgid "Dismiss"
+#~ msgstr "Αποδέσμευση"
+
+#~ msgid "Mark this task as not to be done anymore"
+#~ msgstr "Σημείωση αυτής της εργασίας να μην γίνει πια"
+
+#~ msgid "Create Task"
+#~ msgstr "Δημιουργία εργασίας"
+
+#~ msgid "Create new task in Getting Things GNOME"
+#~ msgstr "Δημιουργία νέας εργασίας στο Getting Things GNOME"
+
+#~ msgid "Gwibber"
+#~ msgstr "Gwibber"
+
+#~ msgid ""
+#~ "Microblogging with Gwibber. Allows sending and receiving messages from "
+#~ "social networks like Twitter, Identi.ca etc. Requires the package "
+#~ "'gwibber-service'."
+#~ msgstr ""
+#~ "Μικροϊστολόγιο με το Gwibber. Επιτρέπει την αποστολή και λήψη μηνυμάτων "
+#~ "από τα κοινωνικά δίκτυα όπως Twitter, Identi.ca κλπ. Απαιτεί το πακέτο "
+#~ "'gwibber-service'."
+
+#~ msgid "Maximum number of messages to show"
+#~ msgstr "Μέγιστος αριθμός εμφανιζόμενων μηνυμάτων"
+
+#~ msgid "%(user)s on %(service)s"
+#~ msgstr "%(user)s στο %(service)s"
+
+#~ msgid "%(user)s %(when)s on %(where)s"
+#~ msgstr "%(user)s %(when)s στο %(where)s"
+
+#~ msgid "Send Message"
+#~ msgstr "Αποστολή μηνύματος"
+
+#~ msgid "Send message to all Gwibber accounts"
+#~ msgstr "Αποστολή μηνύματος σε όλους τους λογαριασμούς Gwibber"
+
+#~ msgid "Send Message To..."
+#~ msgstr "Αποστολή μηνύματος προς..."
+
+#~ msgid "Send message to a Gwibber account"
+#~ msgstr "Αποστολή μηνύματος σε έναν λογαριασμό Gwibber"
+
+#~ msgid "Send Message..."
+#~ msgstr "Αποστολή μηνύματος..."
+
+#~ msgid "Send message to selected Gwibber account"
+#~ msgstr "Αποστολή μηνύματος σε επιλεγμένο λογαριασμό Gwibber"
+
+#~ msgid "Reply..."
+#~ msgstr "Απάντηση..."
+
+#~ msgid "Delete Message"
+#~ msgstr "Διαγραφή μηνύματος"
+
+#~ msgid "Send Private Message..."
+#~ msgstr "Αποστολή ιδιωτικού μηνύματος..."
+
+#~ msgid "Send direct message to user"
+#~ msgstr "Αποστολή άμεσου μηνύματος στον χρήστη"
+
+#~ msgid "Retweet"
+#~ msgstr "Απάντηση"
+
+#~ msgid "Retweet To..."
+#~ msgstr "Απάντηση προς..."
+
+#~ msgid "Retweet message to all Gwibber accounts"
+#~ msgstr "Απάντηση μηνύματος σε όλους τους λογαριασμούς Gwibber"
+
+#~ msgid "Retweet message to a Gwibber account"
+#~ msgstr "Απάντηση μηνύματος σε λογαριασμό Gwibber"
+
+#~ msgid "Open in Browser"
+#~ msgstr "Άνοιγμα στον περιηγητή"
+
+#~ msgid "Open message in default web browser"
+#~ msgstr "Άνοιγμα μηνύματος σε προεπιλεγμένο περιηγητή ιστού"
+
+#~ msgid "Gwibber Accounts"
+#~ msgstr "Λογαριασμοί Gwibber"
+
+#~ msgid "Accounts configured in Gwibber"
+#~ msgstr "Ρυθμισμένοι λογαριασμοί στο Gwibber"
+
+#~ msgid "Gwibber Messages"
+#~ msgstr "Μηνύματα Gwibber"
+
+#~ msgid "Recent messages received by Gwibber"
+#~ msgstr "Τα πρόσφατα μηνύματα ελήφθησαν από το Gwibber"
+
+#~ msgid "Gwibber Messages for %s"
+#~ msgstr "Μηνύματα Gwibber για %s"
+
+#~ msgid "Gwibber Streams"
+#~ msgstr "Ροές Gwibber"
+
+#~ msgid "Streams configured in Gwibber"
+#~ msgstr "Ρυθμισμένες ροές στο Gwibber"
+
+#~ msgid "Gwibber Messages in %s"
+#~ msgstr "Μηνύματα Gwibber στο %s"
+
+#~ msgid "Gwibber (Simple)"
+#~ msgstr "Gwibber (Απλό)"
+
+#~ msgid "Send updates via the microblogging client Gwibber"
+#~ msgstr "Αποστολή ενημερώσεων μέσα από πελάτη μικροϊστολογίου Gwibber"
+
+#~ msgid "Send Update"
+#~ msgstr "Αποστολή ενημέρωσης"
+
+#~ msgid "Unable to activate Gwibber service"
+#~ msgstr "Αδύνατη η ενεργοποίηση υπηρεσίας Gwibber"
+
+#~ msgid "Locate Files"
+#~ msgstr "Εντοπισμός αρχείων"
+
+#~ msgid "Search filesystem using locate"
+#~ msgstr "Αναζήτηση συστήματος αρχείων χρησιμοποιώντας εντοπισμό"
+
+#~ msgid "Ignore case distinctions when searching files"
+#~ msgstr "Παράβλεψη διακρίσεων πεζών-κεφαλαίων κατά την αναζήτηση αρχείων"
+
+#~ msgid "OpenOffice / LibreOffice"
+#~ msgstr "OpenOffice / LibreOffice"
+
+#~ msgid "Recently used documents in OpenOffice/LibreOffice"
+#~ msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα στο OpenOffice/LibreOffice"
+
+#~ msgid "OpenOffice/LibreOffice Recent Items"
+#~ msgstr "Πρόσφατα στοιχεία OpenOffice/LibreOffice"
+
+#~ msgid "Opera Mail"
+#~ msgstr "Opera Mail"
+
+#~ msgid "Opera Mail contacts and actions"
+#~ msgstr "Επαφές και ενέργειες Opera Mail"
+
+#~ msgid "Compose a new message in Opera Mail"
+#~ msgstr "Σύνταξη νέου μηνύματος στο Opera Mail"
+
+#~ msgid "Opera Mail Contacts"
+#~ msgstr "Επαφές Opera Mail"
+
+#~ msgid "Contacts from Opera Mail"
+#~ msgstr "Επαφές από Opera Mail"
+
+#~ msgid "Opera Bookmarks"
+#~ msgstr "Σελιδοδείκτες Opera"
+
+#~ msgid "Index of Opera bookmarks"
+#~ msgstr "Ευρετήριο σελιδοδεικτών του Opera"
+
+#~ msgid "Pidgin"
+#~ msgstr "Pidgin"
+
+#~ msgid "Access to Pidgin Contacts"
+#~ msgstr "Πρόσβαση στις επαφές του Pidgin"
+
+#~ msgid "%s (%d character)"
+#~ msgid_plural "%s (%d characters)"
+#~ msgstr[0] "%s (%d χαρακτήρας)"
+#~ msgstr[1] "%s (%d χαρακτήρες)"
+
+#~ msgid "Pidgin Contacts"
+#~ msgstr "Επαφές Pidgin"
+
+#~ msgid "PuTTY Sessions"
+#~ msgstr "Συνεδρίες PuTTY"
+
+#~ msgid "Quick access to PuTTY Sessions"
+#~ msgstr "Γρήγορη πρόσβαση σε συνεδρίες PuTTY"
+
+#~ msgid "Start Session"
+#~ msgstr "Έναρξη συνεδρίας"
+
+#~ msgid "reStructuredText"
+#~ msgstr "reStructuredText"
+
+#~ msgid "Render reStructuredText and show the result"
+#~ msgstr "Απόδοση reStructuredText και εμφάνιση του αποτελέσματος"
+
+#~ msgid "View as HTML Document"
+#~ msgstr "Προβολή ως εγγράφου HTML"
+
+#~ msgid "System Services"
+#~ msgstr "Υπηρεσίες συστήματος"
+
+#~ msgid "Start, stop or restart system services via init scripts"
+#~ msgstr ""
+#~ "Έναρξη, διακοπή ή επανεκκίνηση υπηρεσιών συστήματος μέσα από σενάρια init"
+
+#~ msgid "Sudo-like Command"
+#~ msgstr "Εντολή μορφής Sudo"
+
+#~ msgid "Start Service"
+#~ msgstr "Έναρξη υπηρεσίας"
+
+#~ msgid "Stop Service"
+#~ msgstr "Διακοπή υπηρεσίας"
+
+#~ msgid "%s Service"
+#~ msgstr "%s υπηρεσία"
+
+#~ msgid "Shorten Links"
+#~ msgstr "Συντόμευση συνδέσμων"
+
+#~ msgid "Create short aliases of long URLs"
+#~ msgstr "Δημιουργία σύντομων ψευδωνύμων μεγάλων URLs"
+
+#~ msgid "Error"
+#~ msgstr "Σφάλμα"
+
+#~ msgid "Shorten With..."
+#~ msgstr "Συντόμευση με..."
+
+#~ msgid "Services"
+#~ msgstr "Υπηρεσίες"
+
+#~ msgid "Show QRCode"
+#~ msgstr "Εμφάνιση QRCode"
+
+#~ msgid "Display text as QRCode in a window"
+#~ msgstr "Εμφάνιση κειμένου σε παράθυρο ως QRCode"
+
+#~ msgid "Access to Skype contacts"
+#~ msgstr "Πρόσβαση σε επαφές του Skype"
+
+#~ msgid "Skype Me"
+#~ msgstr "Καλέστε με"
+
+#~ msgid "Logged Out"
+#~ msgstr "Αποσύνδεση"
+
+#~ msgid "[%(status)s] %(userid)s"
+#~ msgstr "[%(status)s] %(userid)s"
+
+#~ msgid "Call"
+#~ msgstr "Κλήση"
+
+#~ msgid "Place a call to contact"
+#~ msgstr "Κλήση στην επαφή"
+
+#~ msgid "Skype Contacts"
+#~ msgstr "Επαφές Skype"
+
+#~ msgid "Skype Statuses"
+#~ msgstr "Καταστάσεις Skype"
+
+#~ msgid "TrueCrypt"
+#~ msgstr "TrueCrypt"
+
+#~ msgid "Volumes from TrueCrypt history"
+#~ msgstr "Τόμοι από το ιστορικό TrueCrypt"
+
+#~ msgid "TrueCrypt volume: %(file)s"
+#~ msgstr "Τόμος TrueCrypt: %(file)s"
+
+#~ msgid "Mount Volume"
+#~ msgstr "Προσάρτηση τόμου"
+
+#~ msgid "Mount in Truecrypt"
+#~ msgstr "Προσάρτηση στο Truecrypt"
+
+#~ msgid "Try to mount file as Truecrypt volume"
+#~ msgstr "Προσπάθεια προσάρτησης αρχείου ως τόμο Truecrypt"
+
+#~ msgid "Dismount All Volumes"
+#~ msgstr "Αποπροσάρτηση όλων των τόμων"
+
+#~ msgid "TrueCrypt Volumes"
+#~ msgstr "Τόμοι TrueCrypt"
+
+#~ msgid "Terminal Server Client"
+#~ msgstr "Πελάτης διακομιστή τερματικού"
+
+#~ msgid "Session saved in Terminal Server Client"
+#~ msgstr "Αποθηκευμένη συνεδρία στον πελάτη διακομιστή τερματικού"
+
+#~ msgid "TSClient sessions"
+#~ msgstr "Συνεδρίες TSClient"
+
+#~ msgid "Saved sessions in Terminal Server Client"
+#~ msgstr "Αποθηκευμένες συνεδρίες στον πελάτη διακομιστή τερματικού"
+
+#~ msgid "Vim"
+#~ msgstr "Vim"
+
+#~ msgid "Recently used documents in Vim"
+#~ msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα στο Vim"
+
+#~ msgid "Vim Recent Documents"
+#~ msgstr "Πρόσφατα έγγραφα Vim"
+
+#~ msgid "Close (Save All)"
+#~ msgstr "Κλείσιμο (Αποθήκευση όλων)"
+
+#~ msgid "Send..."
+#~ msgstr "Αποστολή..."
+
+#~ msgid "Send ex command"
+#~ msgstr "Αποστολή εντολής ex"
+
+#~ msgid "Insert in Vim..."
+#~ msgstr "Εισαγωγή στο Vim..."
+
+#~ msgid "Active Vim Sessions"
+#~ msgstr "Ενεργές συνεδρίες Vim"
+
+#~ msgid "Vim Session %s"
+#~ msgstr "Συνεδρία %s του Vim"
+
+#~ msgid "Vinagre"
+#~ msgstr "Vinagre"
+
+#~ msgid "Vinagre bookmarks and actions"
+#~ msgstr "Σελιδοδείκτες και ενέργειες Vinagre"
+
+#~ msgid "Start Vinagre Session"
+#~ msgstr "Έναρξη συνεδρίας Vinagre"
+
+#~ msgid "Vinagre Bookmarks"
+#~ msgstr "Σελιδοδείκτες Vinagre"
+
+#~ msgid "VirtualBox"
+#~ msgstr "VirtualBox"
+
+#~ msgid ""
+#~ "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and "
+#~ "Open Source Edition."
+#~ msgstr ""
+#~ "Έλεγχος εικονικών μηχανημάτων VirtualBox. Υποστηρίζει και το Sun "
+#~ "VirtualBox και την έκδοση ανοικτού λογισμικού."
+
+#~ msgid "Force use CLI interface"
+#~ msgstr "Αναγκαστική χρήση διεπαφής CLI"
+
+#~ msgid "Power On"
+#~ msgstr "Ενεργοποίηση"
+
+#~ msgid "Power On Headless"
+#~ msgstr "Ακέφαλη ενεργοποίηση"
+
+#~ msgid "Send Power Off Signal"
+#~ msgstr "Αποστολή σήματος τερματισμού"
+
+#~ msgid "Reboot"
+#~ msgstr "Επανεκκίνηση"
+
+#~ msgid "Resume"
+#~ msgstr "Συνέχεια"
+
+#~ msgid "Save State"
+#~ msgstr "Αποθήκευση κατάστασης"
+
+#~ msgid "Power Off"
+#~ msgstr "Απενεργοποίηση"
+
+#~ msgid "VirtualBox Machines"
+#~ msgstr "Μηανήματα VirtualBox"
+
+#~ msgid "Zim"
+#~ msgstr "Zim"
+
+#~ msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
+#~ msgstr ""
+#~ "Πρόσβαση σε σελίδες αποθηκευμένες στο Zim - Μια επιφάνεια εργασίας βίκι "
+#~ "και περίγραμμα"
+
+#~ msgid "Page names start with :colon"
+#~ msgstr "Τα ονόματα σελίδων ξεκινούν με: διπλή τελεία"
+
+#~ msgid "Default page name for quick notes"
+#~ msgstr "Προεπιλεγμένο όνομα σελίδας για γρήγορες σημειώσεις"
+
+#~ msgid "Note %x %X"
+#~ msgstr "Σημείωση %x %X"
+
+#~ msgid ""
+#~ "Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+#~ "Please check python documentation for details.\n"
+#~ "NOTE: comma will be replaced by _"
+#~ msgstr ""
+#~ "Ετικέτες Strftime μπορούν να χρησιμοποιηθούν: %H - ώρες, %M - λεπτά, κλπ\n"
+#~ "Παρακαλούμε, δείτε την τεκμηρίωση python για λεπτομέρειες.\n"
+#~ "ΣΗΜΕΙΩΣΗ: το κόμμα θα αντικατασταθεί από _"
+
+#~ msgid "Default namespace for quick notes"
+#~ msgstr "Προεπιλεγμένος χώρος ονόματος για γρήγορες σημειώσεις"
+
+#~ msgid "Zim Page from Notebook \"%s\""
+#~ msgstr "Σελίδα Zim από σημειωματάριο \"%s\""
+
+#~ msgid "Create Zim Page"
+#~ msgstr "Δημιουργία σελίδας Zim"
+
+#~ msgid "Create page in default notebook"
+#~ msgstr "Δημιουργία σελίδας σε προεπιλεγμένο σημειωματάριο"
+
+#~ msgid "Create Zim Page In..."
+#~ msgstr "Δημιουργία σελίδας Zim σε..."
+
+#~ msgid "Insert QuickNote into Zim"
+#~ msgstr "Εισαγωγή γρήγορης σημείωσης στο Zim"
+
+#~ msgid "Quick note selected text into Zim notebook"
+#~ msgstr "Γρήγορη σημείωση επιλεγμένου κειμένου στο σημειωματάριο Zim"
+
+#~ msgid "Create Subpage..."
+#~ msgstr "Δημιουργία υποσελίδας..."
+
+#~ msgid "Zim Notebooks"
+#~ msgstr "Σημειωματάρια Zim"
+
+#~ msgid "Zim Pages"
+#~ msgstr "Σελίδες Zim"
+
+#~ msgid "Pages stored in Zim Notebooks"
+#~ msgstr "Αποθηκευμένες σελίδες σε σημειωματάρια Zim"

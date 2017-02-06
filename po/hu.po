@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
-"Report-Msgid-Bugs-To: http://bugs.launchpad.net/kupfer\n"
-"POT-Creation-Date: 2012-07-05 12:49+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-05 21:36+0100\n"
 "PO-Revision-Date: 2013-04-01 22:49+0200\n"
 "Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -20,28 +20,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.2\n"
-
-#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/version.py:15
-#: ../kupfer/plugin/core/contents.py:91
-msgid "Kupfer"
-msgstr "Kupfer"
-
-#: ../auxdata/kupfer.desktop.in.h:2
-msgid "Application Launcher"
-msgstr "Alkalmazásindító"
-
-#: ../auxdata/kupfer.desktop.in.h:3
-msgid "Convenient command and access tool for applications and documents"
-msgstr ""
-"Kényelmes parancs és hozzáférési eszköz az alkalmazásokhoz és dokumentumokhoz"
-
-#: ../auxdata/kupfer-exec.desktop.in.h:1
-msgid "Execute in Kupfer"
-msgstr "Végrehajtás a Kupferben"
-
-#: ../auxdata/kupfer-mimetypes.xml.in.h:1
-msgid "Saved Kupfer Command"
-msgstr "Mentett Kupfer parancs"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
@@ -71,7 +49,7 @@ msgstr "Nyomja le a kívánt billentyűkombinációt"
 msgid "Keybinding could not be bound"
 msgstr "A billentyűparancs nem köthető"
 
-#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:78
+#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:79
 msgid "Kupfer Preferences"
 msgstr "Kupfer beállítások"
 
@@ -92,64 +70,95 @@ msgid "Icon set:"
 msgstr "Ikonkészlet:"
 
 #: ../data/preferences.ui.h:6
+msgid "Large Icon Size:"
+msgstr ""
+
+#: ../data/preferences.ui.h:7
+msgid "Small Icon Size:"
+msgstr ""
+
+#: ../data/preferences.ui.h:8
 msgid "Terminal emulator:"
 msgstr "Terminál emulátor:"
 
-#: ../data/preferences.ui.h:7
+#: ../data/preferences.ui.h:9
 msgid "Desktop Environment"
 msgstr "Asztali környezet"
 
-#: ../data/preferences.ui.h:8 ../kupfer/plugin/gmail/__init__.py:60
+#: ../data/preferences.ui.h:10
 msgid "General"
 msgstr "Általános"
 
-#: ../data/preferences.ui.h:9
+#: ../data/preferences.ui.h:11
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globális gyorsbillentyűk</b>"
 
-#: ../data/preferences.ui.h:10 ../kupfer/ui/preferences.py:849
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:886
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: ../data/preferences.ui.h:11
+#: ../data/preferences.ui.h:13
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Böngésző gyorsbillentyűk</b>"
 
-#: ../data/preferences.ui.h:12
+#: ../data/preferences.ui.h:14
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Egyszerű billentyűparancsok használata (Szóköz, /, pont, vessző stb.)"
 
-#: ../data/preferences.ui.h:13
+#: ../data/preferences.ui.h:15
 msgid "Keyboard"
 msgstr "Billentyűzet"
 
-#: ../data/preferences.ui.h:14
+#: ../data/preferences.ui.h:16
 msgid "Plugins"
 msgstr "Bővítmények"
 
-#: ../data/preferences.ui.h:15
+#: ../data/preferences.ui.h:17
 msgid "Inclusion in Top Level Searches"
 msgstr "Tartalmazza a legfelső szintű kereséseket"
 
-#: ../data/preferences.ui.h:16
+#: ../data/preferences.ui.h:18
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
 msgstr ""
-"A kijelölt források objektumai benne lesznek a legfelső szintű keresésekben.\n"
+"A kijelölt források objektumai benne lesznek a legfelső szintű "
+"keresésekben.\n"
 "A többi forrás tartalma csak az alkatalógus kiválasztásakor lesz elérhető."
 
-#: ../data/preferences.ui.h:18
+#: ../data/preferences.ui.h:20
 msgid "Indexed Folders"
 msgstr "Indexelt mappák"
 
-#: ../data/preferences.ui.h:19
+#: ../data/preferences.ui.h:21
 msgid "Folders whose files are always available in the catalog."
 msgstr "Mappák, amelyek fájljai mindig elérhetők lesznek a katalógusban."
 
-#: ../data/preferences.ui.h:20 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
 msgid "Catalog"
 msgstr "Katalógus"
+
+#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/plugin/core/contents.py:92
+#: ../kupfer/version.py:15
+msgid "Kupfer"
+msgstr "Kupfer"
+
+#: ../auxdata/kupfer.desktop.in.h:2
+msgid "Application Launcher"
+msgstr "Alkalmazásindító"
+
+#: ../auxdata/kupfer.desktop.in.h:3
+msgid "Convenient command and access tool for applications and documents"
+msgstr ""
+"Kényelmes parancs és hozzáférési eszköz az alkalmazásokhoz és dokumentumokhoz"
+
+#: ../auxdata/kupfer-exec.desktop.in.h:1
+msgid "Execute in Kupfer"
+msgstr "Végrehajtás a Kupferben"
+
+#: ../auxdata/kupfer-mimetypes.xml.in.h:1
+msgid "Saved Kupfer Command"
+msgstr "Mentett Kupfer parancs"
 
 #: ../kupfer/core/commandexec.py:239
 #, python-format
@@ -161,297 +170,67 @@ msgstr "Nem hajtható végre: „%s”"
 msgid "\"%s\" produced a result"
 msgstr "„%s” eredményt adott"
 
-#: ../kupfer/core/execfile.py:30
+#: ../kupfer/core/execfile.py:29
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "Nincs jogosultság „%s” futtatására (nem végrehajtható)"
 
-#: ../kupfer/core/execfile.py:47
+#: ../kupfer/core/execfile.py:46
 #, python-format
 msgid "Command in \"%s\" is not available"
 msgstr "A parancs nem érhető el ebben: „%s”"
 
-#: ../kupfer/keyrelay.py:62
+#: ../kupfer/keyrelay.py:65
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "A billentyű-továbbítás aktív a(z) %s képernyőnek"
 
-#: ../kupfer/main.py:43
+#: ../kupfer/main.py:45
 msgid "do not present main interface on launch"
 msgstr "ne jelenjen meg a fő felület induláskor"
 
-#: ../kupfer/main.py:44
+#: ../kupfer/main.py:46
 msgid "list available plugins"
 msgstr "elérhető bővítmények listázása"
 
-#: ../kupfer/main.py:45
+#: ../kupfer/main.py:47
 msgid "enable debug info"
 msgstr "hibakeresési információk engedélyezése"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:49
+#: ../kupfer/main.py:51
 msgid "run plugin helper"
 msgstr "bővítménysegéd futtatása"
 
-#: ../kupfer/main.py:52
+#: ../kupfer/main.py:54
 msgid "show usage help"
 msgstr "használatai súgó megjelenítése"
 
-#: ../kupfer/main.py:53
+#: ../kupfer/main.py:55
 msgid "show version information"
 msgstr "verzióinformációk megjelenítése"
 
-#: ../kupfer/main.py:59
+#: ../kupfer/main.py:61
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Használat: kupfer [ KAPCSOLÓK | FÁJL … ]"
 
-#: ../kupfer/main.py:70
+#: ../kupfer/main.py:72
 msgid "Available plugins:"
 msgstr "Elérhető bővítmények:"
 
 #: ../kupfer/main.py:121
-#, python-format
+#, fuzzy, python-format
 msgid ""
+"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
+"   %(COPYRIGHT)s\n"
+"   %(WEBSITE)s\n"
+msgstr ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
-msgstr ""
-"%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
-"\t%(COPYRIGHT)s\n"
-"\t%(WEBSITE)s\n"
 
-#. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/accelerators.py:4
-msgid "Alternate Activate"
-msgstr "Alternatív aktiválása"
-
-#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
-#. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/accelerators.py:7
-msgid "Comma Trick"
-msgstr "Vesszőtrükk"
-
-#. TRANS: "Compose Command" makes one object out of the selected
-#. TRANS: object + action (+iobject)
-#: ../kupfer/ui/accelerators.py:10
-msgid "Compose Command"
-msgstr "Parancs összeállítása"
-
-#: ../kupfer/ui/accelerators.py:11
-msgid "Mark Default Action"
-msgstr "Alapértelmezett művelet jelölése"
-
-#: ../kupfer/ui/accelerators.py:12
-msgid "Forget Object"
-msgstr "Objektum elfelejtése"
-
-#: ../kupfer/ui/accelerators.py:13
-msgid "Reset All"
-msgstr "Összes visszaállítása"
-
-#: ../kupfer/ui/accelerators.py:14
-msgid "Select Quit"
-msgstr "Kilépés kiválasztása"
-
-#: ../kupfer/ui/accelerators.py:15
-msgid "Select Selected File"
-msgstr "Kijelölt fájl kiválasztása"
-
-#: ../kupfer/ui/accelerators.py:16
-msgid "Select Selected Text"
-msgstr "Kijelölt szöveg kiválasztása"
-
-#: ../kupfer/ui/accelerators.py:17
-msgid "Show Help"
-msgstr "Súgó megjelenítése"
-
-#: ../kupfer/ui/accelerators.py:18
-msgid "Show Preferences"
-msgstr "Beállítások megjelenítése"
-
-#: ../kupfer/ui/accelerators.py:19
-msgid "Switch to First Pane"
-msgstr "Váltás az első ablaktáblára"
-
-#: ../kupfer/ui/accelerators.py:20
-msgid "Toggle Text Mode"
-msgstr "Szöveges mód váltása"
-
-#: ../kupfer/ui/browser.py:888
-#, python-format
-msgid "%s is empty"
-msgstr "%s üres"
-
-#: ../kupfer/ui/browser.py:892
-#, python-format
-msgid "No matches in %(src)s for \"%(query)s\""
-msgstr "Nincs találat ebben: %(src)s erre: „%(query)s”"
-
-#: ../kupfer/ui/browser.py:898
-msgid "No matches"
-msgstr "Nincs találat"
-
-#: ../kupfer/ui/browser.py:903
-msgid "Type to search"
-msgstr "Gépeljen a kereséshez"
-
-#: ../kupfer/ui/browser.py:909
-#, python-format
-msgid "Type to search %s"
-msgstr "Gépeljen %s kereséséhez"
-
-#: ../kupfer/ui/browser.py:924
-msgid "No action"
-msgstr "Nincs művelet"
-
-#: ../kupfer/ui/browser.py:1513
-#, python-format
-msgid "Make \"%(action)s\" Default for \"%(object)s\""
-msgstr "Legyen „%(action)s” az alapértelmezett ehhez: „%(object)s”"
-
-#. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1523
-#, python-format
-msgid "Forget About \"%s\""
-msgstr "Felejtse el ezt: „%s”"
-
-#. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1960 ../kupfer/ui/preferences.py:58
-msgid "Show Main Interface"
-msgstr "Fő felület megjelenítése"
-
-#: ../kupfer/ui/preferences.py:59
-msgid "Show with Selection"
-msgstr "Megjelenítés a kijelöléssel"
-
-#. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:416
-msgid "Description"
-msgstr "Leírás"
-
-#: ../kupfer/ui/preferences.py:416
-msgid "Author"
-msgstr "Szerző"
-
-#: ../kupfer/ui/preferences.py:433
-msgid "Version"
-msgstr "Verzió"
-
-#. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:443
-#, python-format
-msgid "Python module '%s' is needed"
-msgstr "A(z) „%s” Python modul szükséges"
-
-#: ../kupfer/ui/preferences.py:457
-msgid "Plugin could not be read due to an error:"
-msgstr "A bővítmény nem olvasható valamilyen hiba miatt:"
-
-#: ../kupfer/ui/preferences.py:465 ../kupfer/plugin/kupfer_plugins.py:80
-msgid "disabled"
-msgstr "letiltva"
-
-#: ../kupfer/ui/preferences.py:539
-msgid "Content of"
-msgstr "Tartalom"
-
-#. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:548
-msgid "Sources"
-msgstr "Források"
-
-#. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:552
-msgid "Actions"
-msgstr "Műveletek"
-
-#: ../kupfer/ui/preferences.py:575
-#, python-format
-msgid "Using encrypted password storage: %s"
-msgstr "Titkosított jelszótároló használata: %s"
-
-#: ../kupfer/ui/preferences.py:577
-#, python-format
-msgid "Using password storage: %s"
-msgstr "Jelszótároló használata: %s"
-
-#. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:594
-msgid "Configuration"
-msgstr "Beállítások"
-
-#: ../kupfer/ui/preferences.py:614
-msgid "Set username and password"
-msgstr "Felhasználónév és jelszó beállítása"
-
-#. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:668
-msgid "Choose a Directory"
-msgstr "Válasszon könyvtárat"
-
-#: ../kupfer/ui/preferences.py:847
-msgid "Reset all shortcuts to default values?"
-msgstr "Visszaállít minden gyorsbillentyűt az alapértelmezett értékre?"
-
-#: ../kupfer/ui/preferences.py:855 ../kupfer/plugin/custom_terminal.py:12
-msgid "Command"
-msgstr "Parancs"
-
-#: ../kupfer/ui/preferences.py:856
-msgid "Shortcut"
-msgstr "Gyorsbillentyű"
-
-#. TRANS: Don't translate literally!
-#. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:73
-msgid "translator-credits"
-msgstr ""
-"SanskritFritz <sanskritfritz@gmail.com>\n"
-"Úr Balázs <urbalazs@gmail.com>"
-
-#: ../kupfer/version.py:78
-msgid "A free software (GPLv3+) launcher"
-msgstr "Szabad szoftver (GPLv3+) indító"
-
-#: ../kupfer/version.py:81
-msgid ""
-"\n"
-"This program is free software: you can redistribute it and/or modify\n"
-"it under the terms of the GNU General Public License as published by\n"
-"the Free Software Foundation, either version 3 of the License, or\n"
-"(at your option) any later version.\n"
-"\n"
-"This program is distributed in the hope that it will be useful,\n"
-"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-"GNU General Public License for more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License\n"
-"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
-msgstr ""
-"\n"
-"Ez a program szabad szoftver; terjeszthető illetve módosítható a\n"
-"Free Software Foundation által kiadott GNU General Public License\n"
-"dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi\n"
-"változata szerint.\n"
-"\n"
-"Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz,\n"
-"de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA\n"
-"VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve.\n"
-"További részleteket a GNU General Public License tartalmaz.\n"
-"\n"
-"A felhasználónak a programmal együtt meg kell kapnia a GNU General\n"
-"Public License egy példányát; ha mégsem kapta meg, akkor\n"
-"tekintse meg a <http://www.gnu.org/licenses/> oldalon.\n"
-"\n"
-
-#. follows strings used elsewhere
-#: ../kupfer/version.py:98
-msgid "Could not find running Kupfer"
-msgstr "Nem található futó Kupfer"
-
-#: ../kupfer/obj/base.py:457 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
 msgid "Text"
 msgstr "Szöveg"
 
@@ -474,7 +253,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s objektum"
 msgstr[1] "%s objektum"
 
-#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
+#: ../kupfer/obj/contacts.py:129
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -484,12 +263,10 @@ msgid "unknown"
 msgstr "ismeretlen"
 
 #: ../kupfer/obj/contacts.py:144
-#| msgid "Vim"
 msgid "Aim"
 msgstr "Aim"
 
 #: ../kupfer/obj/contacts.py:151
-#| msgid "Google Translate"
 msgid "Google Talk"
 msgstr "Google Talk"
 
@@ -509,8 +286,7 @@ msgstr "QQ"
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/obj/contacts.py:187 ../kupfer/plugin/skype.py:2
+#: ../kupfer/obj/contacts.py:187
 msgid "Skype"
 msgstr "Skype"
 
@@ -523,127 +299,125 @@ msgstr "%s nem támogatja ezt a műveletet"
 msgid "Can not be used with multiple objects"
 msgstr "Nem használható több objektummal"
 
-#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/notes.py:89
-#: ../kupfer/plugin/gnome_terminal.py:36 ../kupfer/plugin/gtg.py:135
-#: ../kupfer/plugin/zim.py:176
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
+#: ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Megnyitás"
 
-#: ../kupfer/obj/fileactions.py:43
+#: ../kupfer/obj/fileactions.py:44
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Nincs alapértelmezett alkalmazás ehhez: %(file)s (%(type)s)"
 
-#: ../kupfer/obj/fileactions.py:45
+#: ../kupfer/obj/fileactions.py:46
 #, python-format
 msgid "Please use \"%s\""
 msgstr "Kérem használja ezt: „%s”"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:109
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
 msgid "Set Default Application..."
 msgstr "Alapértelmezett alkalmazás beállítása…"
 
-#: ../kupfer/obj/fileactions.py:71
+#: ../kupfer/obj/fileactions.py:72
 msgid "Open with default application"
 msgstr "Megnyitás az alapértelmezett alkalmazással"
 
-#: ../kupfer/obj/fileactions.py:74
+#: ../kupfer/obj/fileactions.py:75
 msgid "Reveal"
 msgstr "Felfedés"
 
-#: ../kupfer/obj/fileactions.py:83
+#: ../kupfer/obj/fileactions.py:84
 msgid "Open parent folder"
 msgstr "Szülőmappa megnyitása"
 
-#: ../kupfer/obj/fileactions.py:89
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open Terminal Here"
 msgstr "Terminál megnyitása itt"
 
-#: ../kupfer/obj/fileactions.py:102
+#: ../kupfer/obj/fileactions.py:103
 msgid "Open this location in a terminal"
 msgstr "A hely megnyitása a terminálban"
 
-#: ../kupfer/obj/fileactions.py:110
+#: ../kupfer/obj/fileactions.py:111
 msgid "Run in Terminal"
 msgstr "Futtatás terminálban"
 
-#: ../kupfer/obj/fileactions.py:110
+#: ../kupfer/obj/fileactions.py:111
 msgid "Run (Execute)"
 msgstr "Futtatás (végrehajtás)"
 
-#: ../kupfer/obj/fileactions.py:130
+#: ../kupfer/obj/fileactions.py:131
 msgid "Run this program in a Terminal"
 msgstr "A program futtatása terminálban"
 
-#: ../kupfer/obj/fileactions.py:132
+#: ../kupfer/obj/fileactions.py:133
 msgid "Run this program"
 msgstr "A program futtatása"
 
-#: ../kupfer/obj/objects.py:252 ../kupfer/plugin/windows.py:105
-#: ../kupfer/plugin/windows.py:264 ../kupfer/plugin/vim/plugin.py:172
+#: ../kupfer/obj/objects.py:256 ../kupfer/plugin/windows.py:105
+#: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Ugrás"
 
-#: ../kupfer/obj/objects.py:278
+#: ../kupfer/obj/objects.py:282
 msgid "Open URL"
 msgstr "URL megnyitása"
 
-#: ../kupfer/obj/objects.py:289
+#: ../kupfer/obj/objects.py:293
 msgid "Open URL with default viewer"
 msgstr "URL megnyitása az alapértelmezett megjelenítővel"
 
-#: ../kupfer/obj/objects.py:303
+#: ../kupfer/obj/objects.py:307
 msgid "Launch"
 msgstr "Indítás"
 
-#: ../kupfer/obj/objects.py:316
+#: ../kupfer/obj/objects.py:320
 msgid "Show application window"
 msgstr "Alkalmazásablak megjelenítése"
 
-#: ../kupfer/obj/objects.py:317
+#: ../kupfer/obj/objects.py:321
 msgid "Launch application"
 msgstr "Alkalmazás indítása"
 
-#: ../kupfer/obj/objects.py:328
+#: ../kupfer/obj/objects.py:332
 msgid "Launch Again"
 msgstr "Indítás újra"
 
-#: ../kupfer/obj/objects.py:335
+#: ../kupfer/obj/objects.py:339
 msgid "Launch another instance of this application"
 msgstr "Az alkalmazás még egy példányának indítása"
 
-#: ../kupfer/obj/objects.py:341 ../kupfer/plugin/windows.py:37
+#: ../kupfer/obj/objects.py:345 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Bezárás"
 
-#: ../kupfer/obj/objects.py:349
+#: ../kupfer/obj/objects.py:353
 msgid "Attempt to close all application windows"
 msgstr "Kísérlet minden alkalmazásablak bezárására"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:398
+#: ../kupfer/obj/objects.py:402
 msgid "Run"
 msgstr "Futtatás"
 
-#: ../kupfer/obj/objects.py:408
+#: ../kupfer/obj/objects.py:412
 msgid "Perform command"
 msgstr "Parancs végrehajtása"
 
-#: ../kupfer/obj/objects.py:421
+#: ../kupfer/obj/objects.py:425
 msgid "(Empty Text)"
 msgstr "(Üres szöveg)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:451
+#: ../kupfer/obj/objects.py:455
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "„%(text)s”"
 msgstr[1] "(%(num)d sor) „%(text)s”"
 
-#. TRANS: Multiple artist description "Artist1 et. al. "
-#: ../kupfer/obj/sources.py:24 ../kupfer/plugin/rhythmbox.py:247
+#: ../kupfer/obj/sources.py:24
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -688,11 +462,11 @@ msgstr "A(z) %s bővítmény nincs beállítva"
 msgid "Invalid user credentials for %s"
 msgstr "Érvénytelen felhasználói hitelesítési adatok ehhez: %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
 msgid "Applications"
 msgstr "Alkalmazások"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:74
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
 msgid "All applications and preferences"
 msgstr "Minden alkalmazás és beállítás"
 
@@ -700,17 +474,34 @@ msgstr "Minden alkalmazás és beállítás"
 msgid "Applications for Desktop Environment"
 msgstr "Alkalmazások az asztali környezethez"
 
-#: ../kupfer/plugin/applications.py:83
+#: ../kupfer/plugin/applications.py:30
+msgid "Use Desktop Filter (requires restart)"
+msgstr ""
+
+#: ../kupfer/plugin/applications.py:92
 msgid "Open With..."
 msgstr "Megnyitás ezzel…"
 
-#: ../kupfer/plugin/applications.py:105
+#: ../kupfer/plugin/applications.py:114
 msgid "Open with any application"
 msgstr "Megnyitás bármely alkalmazással"
 
-#: ../kupfer/plugin/applications.py:124
+#: ../kupfer/plugin/applications.py:133
 msgid "Set default application to open this file type"
 msgstr "Alapértelmezett alkalmazás beállítása ezen fájltípus megnyitásához"
+
+#: ../kupfer/plugin/archiveinside.py:8
+msgid "Deep Archives"
+msgstr "Mély archívumok"
+
+#: ../kupfer/plugin/archiveinside.py:10
+msgid "Allow browsing inside compressed archive files"
+msgstr "Lehetővé teszi a tömörített archívumfájlokon belüli böngészést"
+
+#: ../kupfer/plugin/archiveinside.py:49
+#, python-format
+msgid "Content of %s"
+msgstr "%s tartalma"
 
 #: ../kupfer/plugin/archivemanager.py:1
 msgid "Archive Manager"
@@ -736,8 +527,7 @@ msgstr "Tömörített archívum kibontása"
 msgid "Create Archive"
 msgstr "Archívum létrehozása"
 
-#: ../kupfer/plugin/archivemanager.py:86
-#: ../kupfer/plugin/archivemanager.py:129
+#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Tömörített archívum létrehozása a mappából"
 
@@ -750,19 +540,111 @@ msgstr "Archívum létrehozása ebben…"
 msgid "Archive"
 msgstr "Archívum"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:69
+#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
+msgid "Audacious"
+msgstr "Audacious"
+
+#: ../kupfer/plugin/audacious.py:3
+msgid "Control Audacious playback and playlist"
+msgstr "Audacious lejátszás és lejátszólista vezérlése"
+
+#: ../kupfer/plugin/audacious.py:20
+msgid "Include songs in top level"
+msgstr "Dalok láthatók a felső szinten is"
+
+#: ../kupfer/plugin/audacious.py:58
+msgid "Enqueue"
+msgstr "Sorba állítás"
+
+#: ../kupfer/plugin/audacious.py:62
+msgid "Add track to the Audacious play queue"
+msgstr "Szám hozzáadása az Audacious lejátszási sorához"
+
+#: ../kupfer/plugin/audacious.py:70
+msgid "Dequeue"
+msgstr "Kivétel a sorból"
+
+#: ../kupfer/plugin/audacious.py:74
+msgid "Remove track from the Audacious play queue"
+msgstr "Szám eltávolítása az Audacious lejátszási sorából"
+
+#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
+msgid "Play"
+msgstr "Lejátszás"
+
+#: ../kupfer/plugin/audacious.py:86
+msgid "Jump to track in Audacious"
+msgstr "Számhoz ugrás az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:96
+msgid "Resume playback in Audacious"
+msgstr "Lejátszás folytatása az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:102
+msgid "Pause"
+msgstr "Szünet"
+
+#: ../kupfer/plugin/audacious.py:106
+msgid "Pause playback in Audacious"
+msgstr "Lejátszás szüneteltetése az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:112
+msgid "Next"
+msgstr "Következő"
+
+#: ../kupfer/plugin/audacious.py:116
+msgid "Jump to next track in Audacious"
+msgstr "Ugrás a következő számhoz az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:122
+msgid "Previous"
+msgstr "Előző"
+
+#: ../kupfer/plugin/audacious.py:126
+msgid "Jump to previous track in Audacious"
+msgstr "Ugrás az előző számhoz az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:132
+msgid "Clear Queue"
+msgstr "Sor törlése"
+
+#: ../kupfer/plugin/audacious.py:136
+msgid "Clear the Audacious play queue"
+msgstr "Az Audacious lejátszási sorának törlése"
+
+#: ../kupfer/plugin/audacious.py:142
+msgid "Shuffle"
+msgstr "Keverés"
+
+#: ../kupfer/plugin/audacious.py:146
+msgid "Toggle shuffle in Audacious"
+msgstr "Keverés váltása az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:152
+msgid "Repeat"
+msgstr "Ismétlés"
+
+#: ../kupfer/plugin/audacious.py:156
+msgid "Toggle repeat in Audacious"
+msgstr "Ismétlés váltása az Audaciousban"
+
+#: ../kupfer/plugin/audacious.py:171
+msgid "Playlist"
+msgstr "Lejátszólista"
+
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
 msgid "Calculator"
 msgstr "Számológép"
 
 #: ../kupfer/plugin/calculator.py:4
-msgid "Calculate expressions starting with '='"
-msgstr "Az „=” jellel kezdődő kifejezések számítása"
+msgid "Calculate mathematical expressions"
+msgstr ""
 
-#: ../kupfer/plugin/calculator.py:101
+#: ../kupfer/plugin/calculator.py:120
 msgid "Calculate"
 msgstr "Számítás"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:112
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:113
 msgid "Clipboards"
 msgstr "Vágólapok"
 
@@ -770,55 +652,50 @@ msgstr "Vágólapok"
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr "Legutóbbi vágólapok és vágólap proxy objektumok"
 
-#: ../kupfer/plugin/clipboard.py:24
-#| msgid "Number of recent clipboards"
+#: ../kupfer/plugin/clipboard.py:25
 msgid "Number of recent clipboards to remember"
 msgstr "A megjegyzendő legutóbbi vágólapok száma"
 
-#: ../kupfer/plugin/clipboard.py:30
+#: ../kupfer/plugin/clipboard.py:31
 msgid "Include selected text in clipboard history"
 msgstr "A kijelölt szöveg felvétele a vágólap előzménybe"
 
-#: ../kupfer/plugin/clipboard.py:36
-#| msgid "Copy selection to primary clipboard"
+#: ../kupfer/plugin/clipboard.py:37
 msgid "Copy selected text to primary clipboard"
 msgstr "A kijelölt szöveg másolása az elsődleges vágólapra"
 
-#: ../kupfer/plugin/clipboard.py:47
+#: ../kupfer/plugin/clipboard.py:48
 msgid "Selected Text"
 msgstr "Kijelölt szöveg"
 
-#: ../kupfer/plugin/clipboard.py:57
+#: ../kupfer/plugin/clipboard.py:58
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "„%(desc)s” vágólap"
 msgstr[1] "„%(desc)s” vágólap %(num)d sorral"
 
-#: ../kupfer/plugin/clipboard.py:64
-#| msgid "Clipboards"
+#: ../kupfer/plugin/clipboard.py:65
 msgid "Clipboard Text"
 msgstr "Vágólap szöveg"
 
-#: ../kupfer/plugin/clipboard.py:74
-#| msgid "Clipboards"
+#: ../kupfer/plugin/clipboard.py:75
 msgid "Clipboard File"
 msgstr "Vágólap fájl"
 
-#: ../kupfer/plugin/clipboard.py:84
-#| msgid "Clipboards"
+#: ../kupfer/plugin/clipboard.py:85
 msgid "Clipboard Files"
 msgstr "Vágólap fájlok"
 
-#: ../kupfer/plugin/clipboard.py:92
+#: ../kupfer/plugin/clipboard.py:93
 msgid "Clear"
 msgstr "Törlés"
 
-#: ../kupfer/plugin/clipboard.py:104
+#: ../kupfer/plugin/clipboard.py:105
 msgid "Remove all recent clipboards"
 msgstr "Minden legutóbbi vágólap eltávolítása"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:187
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:188
 msgid "Shell Commands"
 msgstr "Héjparancsok"
 
@@ -855,18 +732,18 @@ msgstr "Program futtatása objektummal mint további paraméterrel"
 msgid "Write to Command..."
 msgstr "Írás a parancsnak…"
 
-#: ../kupfer/plugin/commands.py:149 ../kupfer/plugin/commands.py:161
+#: ../kupfer/plugin/commands.py:150 ../kupfer/plugin/commands.py:162
 msgid "Run program and supply text on the standard input"
 msgstr "Program futtatása és szöveg megadása az alapértelmezett bemeneten"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:157
+#: ../kupfer/plugin/commands.py:158
 msgid "Filter through Command..."
 msgstr "Szűrés parancson keresztül…"
 
-#: ../kupfer/plugin/commands.py:215
+#: ../kupfer/plugin/commands.py:214
 msgid "Run command-line programs"
 msgstr "Parancssoros programok futtatása"
 
@@ -902,31 +779,36 @@ msgstr "Konsole"
 msgid "Save As..."
 msgstr "Mentés másként…"
 
-#: ../kupfer/plugin/core/contents.py:41
+#: ../kupfer/plugin/core/contents.py:20
+#, fuzzy
+msgid "Restart Kupfer"
+msgstr "Szolgáltatás újraindítása"
+
+#: ../kupfer/plugin/core/contents.py:42
 msgid "Quit"
 msgstr "Kilépés"
 
-#: ../kupfer/plugin/core/contents.py:46
+#: ../kupfer/plugin/core/contents.py:47
 msgid "Quit Kupfer"
 msgstr "Kilépés a Kupferből"
 
-#: ../kupfer/plugin/core/contents.py:52
+#: ../kupfer/plugin/core/contents.py:53
 msgid "About Kupfer"
 msgstr "A Kupfer névjegye"
 
-#: ../kupfer/plugin/core/contents.py:59
+#: ../kupfer/plugin/core/contents.py:60
 msgid "Show information about Kupfer authors and license"
 msgstr "Információk megjelenítése a Kupfer szerzőiről és a licencről"
 
-#: ../kupfer/plugin/core/contents.py:65
+#: ../kupfer/plugin/core/contents.py:66
 msgid "Kupfer Help"
 msgstr "Kupfer súgó"
 
-#: ../kupfer/plugin/core/contents.py:72
+#: ../kupfer/plugin/core/contents.py:73
 msgid "Get help with Kupfer"
 msgstr "Segítség a Kupfer használatához"
 
-#: ../kupfer/plugin/core/contents.py:85
+#: ../kupfer/plugin/core/contents.py:86
 msgid "Show preferences window for Kupfer"
 msgstr "A Kupfer beállítások ablakának megjelenítése"
 
@@ -970,6 +852,42 @@ msgstr "Utolsó eredmény"
 msgid "Command Results"
 msgstr "Parancs eredményei"
 
+#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:41
+msgid "Custom Terminal"
+msgstr "Egyéni terminál"
+
+#: ../kupfer/plugin/custom_terminal.py:2
+msgid ""
+"Configure a custom terminal emulator.\n"
+"\n"
+"The plugin adds another terminal alternative (select it on the main page)."
+msgstr ""
+
+#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:892
+msgid "Command"
+msgstr "Parancs"
+
+#: ../kupfer/plugin/custom_terminal.py:20
+msgid "Execute flag"
+msgstr "Végrehajtás zászló"
+
+#: ../kupfer/plugin/defaultmail.py:1
+msgid "Default Email Client"
+msgstr "Alapértelmezett e-mail kliens"
+
+#: ../kupfer/plugin/defaultmail.py:6
+msgid "Compose email using the system's default mailto: handler"
+msgstr ""
+"Levél írása a rendszer alapértelmezett „mailto:” kezelőjének használatával"
+
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+msgid "Compose Email"
+msgstr "Levél írása"
+
+#: ../kupfer/plugin/defaultmail.py:43
+msgid "Send in Email To..."
+msgstr "Küldés levélben…"
+
 #: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:21
 msgid "Dictionary"
 msgstr "Szótár"
@@ -990,43 +908,43 @@ msgstr "Dokumentumok"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Nemrég használt dokumentumok és könyvjelzővel jelölt mappák"
 
-#: ../kupfer/plugin/documents.py:22
+#: ../kupfer/plugin/documents.py:21
 msgid "Max recent document days"
 msgstr "Nemrég használt dokumentum maximális napjai"
 
-#: ../kupfer/plugin/documents.py:32
+#: ../kupfer/plugin/documents.py:31
 msgid "Recent Items"
 msgstr "Legutóbbi elemek"
 
-#: ../kupfer/plugin/documents.py:78
+#: ../kupfer/plugin/documents.py:77
 msgid "Recently used documents"
 msgstr "Nemrég használt dokumentumok"
 
-#: ../kupfer/plugin/documents.py:88
+#: ../kupfer/plugin/documents.py:87
 #, python-format
 msgid "%s Documents"
 msgstr "%s dokumentum"
 
-#: ../kupfer/plugin/documents.py:113
+#: ../kupfer/plugin/documents.py:112
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Nemrég használt dokumentumok ehhez: %s"
 
-#: ../kupfer/plugin/documents.py:132
+#: ../kupfer/plugin/documents.py:131
 msgid "Places"
 msgstr "Helyek"
 
-#: ../kupfer/plugin/documents.py:164
+#: ../kupfer/plugin/documents.py:163
 msgid "Bookmarked folders"
 msgstr "Könyvjelzővel jelölt mappák"
 
-#: ../kupfer/plugin/epiphany.py:1 ../kupfer/plugin/epiphany.py:18
-msgid "Epiphany Bookmarks"
-msgstr "Epiphany könyvjelzők"
+#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
+msgid "DuckDuckGo Search"
+msgstr "DuckDuckGo keresés"
 
-#: ../kupfer/plugin/epiphany.py:3 ../kupfer/plugin/epiphany.py:35
-msgid "Index of Epiphany bookmarks"
-msgstr "Epiphany könyvjelzők indexe"
+#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
+msgid "Search the web securely with DuckDuckGo"
+msgstr "Keresés a világhálón biztonságosan a DuckDuckGo szolgáltatással"
 
 #: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:21
 msgid "Favorites"
@@ -1066,8 +984,8 @@ msgstr "Fájlműveletek"
 msgid "More file actions"
 msgstr "További fájlműveletek"
 
-#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/windows.py:122
-#: ../kupfer/plugin/thunar.py:211
+#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/thunar.py:211
+#: ../kupfer/plugin/windows.py:122
 msgid "Move To..."
 msgstr "Áthelyezés ide…"
 
@@ -1087,22 +1005,104 @@ msgstr "Másolás ide…"
 msgid "Copy file to a chosen location"
 msgstr "Fájl másolása a kiválasztott helyre"
 
-#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:61
-msgid "Firefox Bookmarks"
-msgstr "Firefox könyvjelzők"
+#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
+#: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
+msgid "Glob"
+msgstr "Minta"
 
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:147
-msgid "Index of Firefox bookmarks"
-msgstr "Firefox könyvjelzők indexe"
+#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
+msgid "GNOME Terminal Profiles"
+msgstr "GNOME terminál profilok"
 
-#: ../kupfer/plugin/firefox.py:26
-msgid "Include visited sites"
-msgstr "A látogatott oldalak is"
+#: ../kupfer/plugin/gnome_terminal.py:3
+msgid "Launch GNOME Terminal profiles"
+msgstr "GNOME terminálprofilok indítása"
 
-#: ../kupfer/plugin/firefox.py:44
-#| msgid "Firefox Bookmarks"
-msgid "Firefox tag"
-msgstr "Firefox címke"
+#: ../kupfer/plugin/higherorder.py:1
+msgid "Higher-order Actions"
+msgstr "Magasabb rendű műveletek"
+
+#: ../kupfer/plugin/higherorder.py:7
+msgid "Tools to work with commands as objects"
+msgstr "Eszközök, amelyek parancsokat objektumokként használnak"
+
+#: ../kupfer/plugin/higherorder.py:20
+msgid "Select in Kupfer"
+msgstr "Kijelölés a Kupferben"
+
+#: ../kupfer/plugin/higherorder.py:59
+#, python-format
+msgid "Result of %s (%s)"
+msgstr "%s eredménye (%s)"
+
+#: ../kupfer/plugin/higherorder.py:75
+msgid "Run (Take Result)"
+msgstr "Futtatás (eredmény átvétele)"
+
+#: ../kupfer/plugin/higherorder.py:90
+msgid "Take the command result as a proxy object"
+msgstr "A parancs eredményének átvétele proxy objektumként"
+
+#: ../kupfer/plugin/higherorder.py:95
+msgid "Run (Discard Result)"
+msgstr "Futtatás (eredmény eldobása)"
+
+#: ../kupfer/plugin/image.py:1
+msgid "Image Tools"
+msgstr "Képeszközök"
+
+#: ../kupfer/plugin/image.py:10
+#, fuzzy
+msgid "Image transformation tools using 'convert' from ImageMagick"
+msgstr "Képátalakítási eszközök"
+
+#: ../kupfer/plugin/image.py:25
+msgid "Scale..."
+msgstr "Méretezés…"
+
+#: ../kupfer/plugin/image.py:79
+msgid "Scale image to fit inside given pixel measure(s)"
+msgstr "Kép méretezése a belül megadott képpontméretekre való illesztésre"
+
+#: ../kupfer/plugin/image.py:114
+msgid "Rotate Clockwise"
+msgstr "Forgatás az óra járásával egyező irányba"
+
+#: ../kupfer/plugin/image.py:121
+msgid "Rotate Counter-Clockwise"
+msgstr "Forgatás az óra járásával ellentétes irányba"
+
+#: ../kupfer/plugin/image.py:128
+msgid "Autorotate"
+msgstr "Automatikus forgatás"
+
+#: ../kupfer/plugin/image.py:157
+msgid "Rotate JPEG (in-place) according to its EXIF metadata"
+msgstr "JPEG képek forgatása (helyben) az EXIF metaadatok alapján"
+
+#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:86
+msgid "Kupfer Plugins"
+msgstr "Kupfer bővítmények"
+
+#: ../kupfer/plugin/kupfer_plugins.py:3
+msgid "Access Kupfer's plugin list in Kupfer"
+msgstr "Hozzáférés a Kupfer bővítménylistájához a Kupferben"
+
+#: ../kupfer/plugin/kupfer_plugins.py:19
+msgid "Show Information"
+msgstr "Információk megjelenítése"
+
+#: ../kupfer/plugin/kupfer_plugins.py:35
+msgid "Show Source Code"
+msgstr "Forráskód megjelenítése"
+
+#: ../kupfer/plugin/kupfer_plugins.py:80
+msgid "enabled"
+msgstr "engedélyezve"
+
+#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
+msgid "disabled"
+msgstr "letiltva"
 
 #. TRANS: Multihead refers to support for multiple computer displays
 #. TRANS: In this case, it only concerns the special configuration
@@ -1111,8 +1111,8 @@ msgstr "Firefox címke"
 msgid "Multihead Support"
 msgstr "Több kijelző támogatása"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:178
-#: ../kupfer/plugin/notes.py:230
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
+#: ../kupfer/plugin/notes.py:229
 msgid "Notes"
 msgstr "Jegyzetek"
 
@@ -1124,172 +1124,121 @@ msgstr "Gnote vagy Tomboy jegyzetek"
 msgid "Work with application"
 msgstr "Munka az alkalmazással"
 
-#: ../kupfer/plugin/notes.py:95
+#: ../kupfer/plugin/notes.py:94
 msgid "Open with notes application"
 msgstr "Megnyitás jegyzetelő alkalmazással"
 
-#: ../kupfer/plugin/notes.py:102
+#: ../kupfer/plugin/notes.py:101
 msgid "Append to Note..."
 msgstr "Hozzáfűzés a jegyzethez…"
 
-#: ../kupfer/plugin/notes.py:125
+#: ../kupfer/plugin/notes.py:124
 msgid "Add text to existing note"
 msgstr "Szöveg hozzáadása meglévő jegyzethez"
 
-#: ../kupfer/plugin/notes.py:140
+#: ../kupfer/plugin/notes.py:139
 msgid "Create Note"
 msgstr "Jegyzet létrehozása"
 
-#: ../kupfer/plugin/notes.py:154
+#: ../kupfer/plugin/notes.py:153
 msgid "Create a new note from this text"
 msgstr "Új jegyzet létrehozása ebből a szövegből"
 
-#: ../kupfer/plugin/notes.py:160
+#: ../kupfer/plugin/notes.py:159
 msgid "Get Note Search Results..."
 msgstr "Jegyzetkeresési eredmények megszerzése…"
 
-#: ../kupfer/plugin/notes.py:173
+#: ../kupfer/plugin/notes.py:172
 msgid "Show search results for this query"
 msgstr "A lekérdezés keresési eredményeinek megjelenítése"
 
-#: ../kupfer/plugin/notes.py:213
+#: ../kupfer/plugin/notes.py:212
 #, python-format
 msgid "today, %s"
 msgstr "ma, %s"
 
-#: ../kupfer/plugin/notes.py:215
+#: ../kupfer/plugin/notes.py:214
 #, python-format
 msgid "yesterday, %s"
 msgstr "tegnap, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:219
+#: ../kupfer/plugin/notes.py:218
 #, python-format
 msgid "Last updated %s"
 msgstr "Utoljára frissítve %s"
 
-#: ../kupfer/plugin/rhythmbox.py:1 ../kupfer/plugin/rhythmbox.py:399
-msgid "Rhythmbox"
-msgstr "Rhythmbox"
+#: ../kupfer/plugin/qsicons/__init__.py:24
+msgid "Quicksilver Icons"
+msgstr "Quicksilver ikonok"
 
-#: ../kupfer/plugin/rhythmbox.py:3 ../kupfer/plugin/rhythmbox.py:433
-msgid "Play and enqueue tracks and browse the music library"
-msgstr "Számok lejátszása és sorba állítása és a zenekönyvtár böngészése"
+#: ../kupfer/plugin/quickview.py:1
+msgid "Quick Image Viewer"
+msgstr "Gyors képnézegető"
 
-#: ../kupfer/plugin/rhythmbox.py:22
-msgid "Include artists in top level"
-msgstr "Előadók láthatók a felső szinten is"
+#: ../kupfer/plugin/quickview.py:55
+msgid "View Image"
+msgstr "Kép megtekintése"
 
-#: ../kupfer/plugin/rhythmbox.py:28
-msgid "Include albums in top level"
-msgstr "Albumok láthatók a felső szinten is"
+#: ../kupfer/plugin/screen.py:1
+msgid "GNU Screen"
+msgstr "GNU Screen"
 
-#: ../kupfer/plugin/rhythmbox.py:34 ../kupfer/plugin/audacious.py:20
-msgid "Include songs in top level"
-msgstr "Dalok láthatók a felső szinten is"
+#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
+msgid "Active GNU Screen sessions"
+msgstr "Aktív GNU Screen munkamenetek"
 
-#: ../kupfer/plugin/rhythmbox.py:63 ../kupfer/plugin/rhythmbox.py:131
-#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
-msgid "Play"
-msgstr "Lejátszás"
+#: ../kupfer/plugin/screen.py:57
+msgid "Attached"
+msgstr "Csatolva"
 
-#: ../kupfer/plugin/rhythmbox.py:67
-msgid "Resume playback in Rhythmbox"
-msgstr "Lejátszás folytatása a Rhythmboxban"
+#: ../kupfer/plugin/screen.py:58
+msgid "Detached"
+msgstr "Leválasztva"
 
-#: ../kupfer/plugin/rhythmbox.py:73 ../kupfer/plugin/audacious.py:102
-#: ../kupfer/plugin/virtualbox/__init__.py:93
-msgid "Pause"
-msgstr "Szünet"
-
-#: ../kupfer/plugin/rhythmbox.py:77
-msgid "Pause playback in Rhythmbox"
-msgstr "Lejátszás szüneteltetése a Rhythmboxban"
-
-#: ../kupfer/plugin/rhythmbox.py:83 ../kupfer/plugin/audacious.py:112
-msgid "Next"
-msgstr "Következő"
-
-#: ../kupfer/plugin/rhythmbox.py:87
-msgid "Jump to next track in Rhythmbox"
-msgstr "Ugrás a következő számra a Rhythmboxban"
-
-#: ../kupfer/plugin/rhythmbox.py:93 ../kupfer/plugin/audacious.py:122
-msgid "Previous"
-msgstr "Előző"
-
-#: ../kupfer/plugin/rhythmbox.py:97
-msgid "Jump to previous track in Rhythmbox"
-msgstr "Ugrás az előző számra a Rhythmboxban"
-
-#: ../kupfer/plugin/rhythmbox.py:103
-msgid "Show Playing"
-msgstr "Lejátszás megjelenítése"
-
-#: ../kupfer/plugin/rhythmbox.py:107
-msgid "Tell which song is currently playing"
-msgstr "Megmondja, hogy jelenleg melyik szám szól"
-
-#: ../kupfer/plugin/rhythmbox.py:115 ../kupfer/plugin/audacious.py:132
-msgid "Clear Queue"
-msgstr "Sor törlése"
-
-#: ../kupfer/plugin/rhythmbox.py:155
-msgid "Play tracks in Rhythmbox"
-msgstr "Számok lejátszása a Rhythmboxban"
-
-#: ../kupfer/plugin/rhythmbox.py:161 ../kupfer/plugin/audacious.py:58
-msgid "Enqueue"
-msgstr "Sorba állítás"
-
-#: ../kupfer/plugin/rhythmbox.py:172
-msgid "Add tracks to the play queue"
-msgstr "Számok hozzáadása a lejátszási sorhoz"
-
-#. TRANS: Song description
-#: ../kupfer/plugin/rhythmbox.py:195
+#: ../kupfer/plugin/screen.py:61
 #, python-format
-msgid "by %(artist)s from %(album)s"
-msgstr "%(artist)s - %(album)s"
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "%(status)s munkamenet (%(pid)s) létrehozva: %(time)s"
 
-#. TRANS: Album description "by Artist"
-#: ../kupfer/plugin/rhythmbox.py:250
-#, python-format
-msgid "by %s"
-msgstr "%s"
+#: ../kupfer/plugin/screen.py:70
+msgid "Screen Sessions"
+msgstr "Screen munkamenetek"
 
-#. TRANS: Artist songs collection description
-#: ../kupfer/plugin/rhythmbox.py:311
-#, python-format
-msgid "Tracks by %s"
-msgstr "%s számai"
+#: ../kupfer/plugin/screen.py:99
+msgid "Attach"
+msgstr "Csatolás"
 
-#: ../kupfer/plugin/rhythmbox.py:321
-#: ../kupfer/plugin/google_picasa/__init__.py:444
-msgid "Albums"
-msgstr "Albumok"
+#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:52
+msgid "Send Keys"
+msgstr "Billentyűk küldése"
 
-#: ../kupfer/plugin/rhythmbox.py:331
-msgid "Music albums in Rhythmbox Library"
-msgstr "Zene albumok a Rhythmbox könyvtárban"
+#: ../kupfer/plugin/sendkeys.py:8
+msgid "Send synthetic keyboard events using xautomation"
+msgstr ""
+"Szintetikus billentyűzet események küldése az xautomation használatával"
 
-#: ../kupfer/plugin/rhythmbox.py:342
-msgid "Artists"
-msgstr "Előadók"
+#: ../kupfer/plugin/sendkeys.py:28
+msgid "Paste to Foreground Window"
+msgstr "Beillesztés a legelső ablakba"
 
-#: ../kupfer/plugin/rhythmbox.py:352
-msgid "Music artists in Rhythmbox Library"
-msgstr "Zene előadók a Rhythmbox könyvtárban"
+#: ../kupfer/plugin/sendkeys.py:46
+msgid "Copy to clipboard and send Ctrl+V to foreground window"
+msgstr "Másolás a vágólapra és Ctrl+V küldése a legelső ablaknak"
 
-#: ../kupfer/plugin/rhythmbox.py:379
-msgid "Songs"
-msgstr "Dalok"
+#: ../kupfer/plugin/sendkeys.py:101
+msgid "Send keys to foreground window"
+msgstr "Billentyűk küldése a legelső ablaknak"
 
-#: ../kupfer/plugin/rhythmbox.py:389
-msgid "Songs in Rhythmbox library"
-msgstr "Dalok a Rhythmbox könyvtárban"
+#: ../kupfer/plugin/sendkeys.py:106
+msgid "Type Text"
+msgstr "Szöveg begépelése"
 
-#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:20
+#: ../kupfer/plugin/sendkeys.py:127
+msgid "Type the text to foreground window"
+msgstr "Szöveg begépelése a legelső ablakba"
+
+#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:29
 msgid "GNOME Session Management"
 msgstr "GNOME munkamenet-kezelés"
 
@@ -1330,25 +1279,217 @@ msgstr "XFCE munkamenet-kezelés"
 msgid "Special items and actions for XFCE environment"
 msgstr "Speciális elemek és műveletek az XFCE környezethez"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
-#: ../kupfer/plugin/show_text.py:25
-msgid "Show Text"
-msgstr "Szöveg megjelenítése"
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:70
+msgid "SSH Hosts"
+msgstr "SSH gépek"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
-#: ../kupfer/plugin/show_text.py:58
-msgid "Display text in a window"
-msgstr "Szöveg megjelenítése egy ablakban"
+#: ../kupfer/plugin/ssh_hosts.py:3
+msgid "Adds the SSH hosts found in ~/.ssh/config."
+msgstr "Hozzáadja a ~/.ssh/config helyen található SSH gépeket."
 
-#: ../kupfer/plugin/show_text.py:37
-msgid "Large Type"
-msgstr "Nagy típus"
+#: ../kupfer/plugin/ssh_hosts.py:32
+msgid "SSH host"
+msgstr "SSH gép"
 
-#: ../kupfer/plugin/show_text.py:66
-msgid "Show Notification"
-msgstr "Értesítés megjelenítése"
+#: ../kupfer/plugin/ssh_hosts.py:43
+msgid "Connect"
+msgstr "Kapcsolódás"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:173
+#: ../kupfer/plugin/ssh_hosts.py:49
+msgid "Connect to SSH host"
+msgstr "Kapcsolódás SSH géphez"
+
+#: ../kupfer/plugin/ssh_hosts.py:102
+msgid "SSH hosts as specified in ~/.ssh/config"
+msgstr "SSH gépek a ~/.ssh/config helyen megadottak szerint"
+
+#: ../kupfer/plugin_support.py:144
+msgid "No D-Bus connection to desktop session"
+msgstr "Nincs D-Bus kapcsolat az asztali munkamenettel"
+
+#: ../kupfer/plugin_support.py:171
+msgid "GNOME Keyring"
+msgstr "GNOME kulcstartó"
+
+#: ../kupfer/plugin_support.py:172
+msgid "KWallet"
+msgstr "KWallet"
+
+#: ../kupfer/plugin_support.py:173
+msgid "Unencrypted File"
+msgstr "Titkosítatlan fájl"
+
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
+msgid "Document Templates"
+msgstr "Dokumentumsablonok"
+
+#: ../kupfer/plugin/templates.py:4
+msgid "Create new documents from your templates"
+msgstr "Új dokumentumok létrehozása sablonokból"
+
+#: ../kupfer/plugin/templates.py:24
+#, python-format
+msgid "%s template"
+msgstr "%s sablon"
+
+#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
+msgid "Empty File"
+msgstr "Üres fájl"
+
+#: ../kupfer/plugin/templates.py:47
+msgid "New Folder"
+msgstr "Új mappa"
+
+#: ../kupfer/plugin/templates.py:57
+msgid "Create New Document..."
+msgstr "Új dokumentum létrehozása…"
+
+#: ../kupfer/plugin/templates.py:96
+msgid "Create a new document from template"
+msgstr "Új dokumentum létrehozása sablonból"
+
+#: ../kupfer/plugin/templates.py:103
+msgid "Create Document In..."
+msgstr "Dokumentum létrehozása itt…"
+
+#: ../kupfer/plugin/textfiles.py:13
+msgid "Textfiles"
+msgstr "Szövegfájlok"
+
+#: ../kupfer/plugin/textfiles.py:51
+msgid "Append To..."
+msgstr "Hozzáfűzés ehhez…"
+
+#: ../kupfer/plugin/textfiles.py:75
+msgid "Append..."
+msgstr "Hozzáfűzés…"
+
+#: ../kupfer/plugin/textfiles.py:79
+msgid "Write To..."
+msgstr "Írás ide…"
+
+#: ../kupfer/plugin/textfiles.py:111
+msgid "Get Text Contents"
+msgstr "Szöveg tartalmának megszerzése"
+
+#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:185
+#: ../kupfer/plugin/thunar.py:225 ../kupfer/plugin/thunar.py:278
+#: ../kupfer/plugin/thunar.py:329
+msgid "Thunar"
+msgstr "Thunar"
+
+#: ../kupfer/plugin/thunar.py:11
+msgid "File manager Thunar actions"
+msgstr "Thunar fájlkezelő műveletek"
+
+#: ../kupfer/plugin/thunar.py:67
+msgid "Select in File Manager"
+msgstr "Kijelölés a fájlkezelőben"
+
+#: ../kupfer/plugin/thunar.py:95
+msgid "Show Properties"
+msgstr "Tulajdonságok megjelenítése"
+
+#: ../kupfer/plugin/thunar.py:118
+msgid "Show information about file in file manager"
+msgstr "A fájl információinak megjelenítése a fájlkezelőben"
+
+#: ../kupfer/plugin/thunar.py:127
+msgid "Send To..."
+msgstr "Küldés ide…"
+
+#: ../kupfer/plugin/thunar.py:259
+msgid "Symlink In..."
+msgstr "Szimbolikus link ebben…"
+
+#: ../kupfer/plugin/thunar.py:300
+msgid "Create a symlink to file in a chosen location"
+msgstr "Szimbolikus link létrehozása a fájlra a kiválasztott helyen"
+
+#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:75
+msgid "Empty Trash"
+msgstr "Kuka ürítése"
+
+#: ../kupfer/plugin/thunar.py:344
+msgid "Thunar Send To Objects"
+msgstr "Thunar „küldés ide” objektumok"
+
+#. -*- coding: utf-8 -*-
+#: ../kupfer/plugin/thunderbird.py:4
+msgid "Thunderbird"
+msgstr "Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:7
+msgid "Thunderbird/Icedove Contacts and Actions"
+msgstr "Thunderbird/Icedove partnerek és műveletek"
+
+#: ../kupfer/plugin/thunderbird.py:31
+msgid "Compose New Email"
+msgstr "Új levél írása"
+
+#: ../kupfer/plugin/thunderbird.py:38
+msgid "Compose a new message in Thunderbird"
+msgstr "Új üzenet írása a Thunderbirdben"
+
+#: ../kupfer/plugin/thunderbird.py:74
+msgid "Thunderbird Address Book"
+msgstr "Thunderbird címjegyzék"
+
+#: ../kupfer/plugin/thunderbird.py:99
+msgid "Contacts from Thunderbird Address Book"
+msgstr "Partnerek a Thunderbird címjegyzékből"
+
+#. -*- coding: UTF-8 -*-
+#: ../kupfer/plugin/top.py:4
+msgid "Top"
+msgstr "Top"
+
+#: ../kupfer/plugin/top.py:6
+msgid "Show running tasks and allow sending signals to them"
+msgstr "Futó feladatok megjelenítése és szignálok küldésének lehetővé tétele"
+
+#: ../kupfer/plugin/top.py:23
+msgid "Sort Order"
+msgstr "Rendezési sorrend"
+
+#: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
+#: ../kupfer/plugin/top.py:115
+msgid "Commandline"
+msgstr "Parancssor"
+
+#: ../kupfer/plugin/top.py:26
+msgid "CPU usage (descending)"
+msgstr "CPU használat (csökkenő)"
+
+#. sort processes (top don't allow to sort via cmd line)
+#: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:112
+msgid "Memory usage (descending)"
+msgstr "Memóriahasználat (csökkenő)"
+
+#: ../kupfer/plugin/top.py:49
+msgid "Send Signal..."
+msgstr "Szignál küldése…"
+
+#: ../kupfer/plugin/top.py:79
+msgid "Signals"
+msgstr "Szignálok"
+
+#: ../kupfer/plugin/top.py:91
+msgid "Running Tasks"
+msgstr "Futó feladatok"
+
+#. default: by cpu
+#: ../kupfer/plugin/top.py:119
+#, python-format
+msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
+msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  idő: %(time)s"
+
+#: ../kupfer/plugin/top.py:139
+msgid "Running tasks for current user"
+msgstr "A jelenlegi felhasználó futó feladatai"
+
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:200
 msgid "Trash"
 msgstr "Kuka"
 
@@ -1360,31 +1501,37 @@ msgstr "Hozzáférés a kuka tartalmához"
 msgid "Move to Trash"
 msgstr "Áthelyezés a Kukába"
 
-#: ../kupfer/plugin/trash.py:39
+#: ../kupfer/plugin/trash.py:40
 msgid "Move this file to trash"
 msgstr "A fájl áthelyezése a Kukába"
 
-#: ../kupfer/plugin/trash.py:48
+#: ../kupfer/plugin/trash.py:49
 msgid "Restore"
 msgstr "Visszaállítás"
 
-#: ../kupfer/plugin/trash.py:67
+#: ../kupfer/plugin/trash.py:68
 msgid "Move file back to original location"
 msgstr "A fájl visszaállítása az eredeti helyére"
 
-#: ../kupfer/plugin/trash.py:161
+#: ../kupfer/plugin/trash.py:85
+msgid ""
+"Could not delete files:\n"
+"    "
+msgstr ""
+
+#: ../kupfer/plugin/trash.py:188
 msgid "Trash is empty"
 msgstr "A kuka üres"
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:163
+#: ../kupfer/plugin/trash.py:190
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
 msgstr[0] "A kukában egy fájl van"
 msgstr[1] "A kukában %(num)s fájl van"
 
-#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:50
+#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:46
 msgid "Triggers"
 msgstr "Aktiválók"
 
@@ -1393,14 +1540,14 @@ msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command'."
 msgstr ""
-"Globális gyorsbillentyűk (aktiválók) hozzárendelése a „Parancs összeállítása” "
-"művelettel létrehozott objektumokhoz."
+"Globális gyorsbillentyűk (aktiválók) hozzárendelése a „Parancs "
+"összeállítása” művelettel létrehozott objektumokhoz."
 
-#: ../kupfer/plugin/triggers.py:161
+#: ../kupfer/plugin/triggers.py:157
 msgid "Add Trigger..."
 msgstr "Aktiváló hozzáadása…"
 
-#: ../kupfer/plugin/triggers.py:180
+#: ../kupfer/plugin/triggers.py:176
 msgid "Remove Trigger"
 msgstr "Aktiváló eltávolítása"
 
@@ -1419,56 +1566,6 @@ msgstr "Letöltés ide…"
 #: ../kupfer/plugin/urlactions.py:104
 msgid "Download URL to a chosen location"
 msgstr "URL letöltése egy kiválasztott helyre"
-
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
-msgid "Volumes and Disks"
-msgstr "Kötetek és lemezek"
-
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
-msgid "Mounted volumes and disks"
-msgstr "Csatolt kötetek és lemezek"
-
-#: ../kupfer/plugin/volumes.py:42
-#, python-format
-msgid "Volume mounted at %s"
-msgstr "A kötet ide van csatolva: %s"
-
-#: ../kupfer/plugin/volumes.py:51
-msgid "Unmount"
-msgstr "Leválasztás"
-
-#: ../kupfer/plugin/volumes.py:78
-msgid "Unmount this volume"
-msgstr "A kötet leválasztása"
-
-#: ../kupfer/plugin/volumes.py:85
-msgid "Eject"
-msgstr "Kiadás"
-
-#: ../kupfer/plugin/volumes.py:88
-msgid "Unmount and eject this media"
-msgstr "Az adathordozó leválasztása és kiadása"
-
-#: ../kupfer/plugin/websearch.py:1
-msgid "Search the Web"
-msgstr "Keresés a világhálón"
-
-#: ../kupfer/plugin/websearch.py:8 ../kupfer/plugin/websearch.py:63
-#: ../kupfer/plugin/websearch.py:90
-msgid "Search the web with OpenSearch search engines"
-msgstr "Keresés a világhálón az OpenSearch keresőmotorokkal"
-
-#: ../kupfer/plugin/websearch.py:44
-msgid "Search With..."
-msgstr "Keresés ezzel…"
-
-#: ../kupfer/plugin/websearch.py:73
-msgid "Search For..."
-msgstr "Keresés erre…"
-
-#: ../kupfer/plugin/websearch.py:114
-msgid "Search Engines"
-msgstr "Keresőmotorok"
 
 #: ../kupfer/plugin/wikipedia.py:5
 msgid "Wikipedia"
@@ -1573,1360 +1670,52 @@ msgstr "Ugrás erre a munkaterületre"
 msgid "Workspaces"
 msgstr "Munkaterületek"
 
-#: ../kupfer/plugin/abiword.py:1
-msgid "Abiword"
-msgstr "Abiword"
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
+msgid "Volumes and Disks"
+msgstr "Kötetek és lemezek"
 
-#: ../kupfer/plugin/abiword.py:3 ../kupfer/plugin/abiword.py:88
-msgid "Recently used documents in Abiword"
-msgstr "Nemrég használt dokumentumok az Abiwordben"
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
+msgid "Mounted volumes and disks"
+msgstr "Csatolt kötetek és lemezek"
 
-#: ../kupfer/plugin/abiword.py:34
-msgid "Abiword Recent Items"
-msgstr "Legutóbbi elemek az Abiwordben"
-
-#: ../kupfer/plugin/apt_tools.py:1
-msgid "APT"
-msgstr "APT"
-
-#: ../kupfer/plugin/apt_tools.py:9
-msgid "Interface with the package manager APT"
-msgstr "Felület az APT csomagkezelővel"
-
-#: ../kupfer/plugin/apt_tools.py:25
-msgid "Installation method"
-msgstr "Telepítési mód"
-
-#: ../kupfer/plugin/apt_tools.py:61 ../kupfer/plugin/apt_tools.py:66
-msgid "Show Package Information"
-msgstr "Csomaginformációk megjelenítése"
-
-#: ../kupfer/plugin/apt_tools.py:87
-msgid "Install"
-msgstr "Telepítés"
-
-#: ../kupfer/plugin/apt_tools.py:103
-msgid "Install package using the configured method"
-msgstr "Csomag telepítése a beállított módon"
-
-#: ../kupfer/plugin/apt_tools.py:122
+#: ../kupfer/plugin/volumes.py:42
 #, python-format
-msgid "Packages matching \"%s\""
-msgstr "Erre illeszkedő csomagok: „%s”"
-
-#: ../kupfer/plugin/apt_tools.py:154
-msgid "Search Package Name..."
-msgstr "Csomagnév keresése…"
-
-#: ../kupfer/plugin/archiveinside.py:8
-msgid "Deep Archives"
-msgstr "Mély archívumok"
-
-#: ../kupfer/plugin/archiveinside.py:10
-msgid "Allow browsing inside compressed archive files"
-msgstr "Lehetővé teszi a tömörített archívumfájlokon belüli böngészést"
-
-#: ../kupfer/plugin/archiveinside.py:49
-#, python-format
-msgid "Content of %s"
-msgstr "%s tartalma"
-
-#. encoding: utf-8
-#. don't panic! This is just because it's crazy and fun! ツ
-#: ../kupfer/plugin/asciiunicodeiconset.py:3
-msgid "Ascii & Unicode Icon Set"
-msgstr "Ascii és Unicode ikonkészlet"
-
-#: ../kupfer/plugin/asciiunicodeiconset.py:5
-msgid ""
-"Provides the Ascii and Unicode icon sets that use letters and symbols to "
-"produce icons for the objects found in Kupfer."
-msgstr ""
-"Az Ascii és Unicode ikonkészlet biztosítja, amelyek betűket és szimbólumokat "
-"használnak ikonok készítéséhez a Kupferben található objektumokhoz."
-
-#: ../kupfer/plugin/asciiunicodeiconset.py:21
-msgid "Ascii"
-msgstr "Ascii"
-
-#: ../kupfer/plugin/asciiunicodeiconset.py:23
-msgid "Unicode"
-msgstr "Unicode"
-
-#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
-msgid "Audacious"
-msgstr "Audacious"
-
-#: ../kupfer/plugin/audacious.py:3
-msgid "Control Audacious playback and playlist"
-msgstr "Audacious lejátszás és lejátszólista vezérlése"
-
-#: ../kupfer/plugin/audacious.py:62
-msgid "Add track to the Audacious play queue"
-msgstr "Szám hozzáadása az Audacious lejátszási sorához"
-
-#: ../kupfer/plugin/audacious.py:70
-msgid "Dequeue"
-msgstr "Kivétel a sorból"
-
-#: ../kupfer/plugin/audacious.py:74
-msgid "Remove track from the Audacious play queue"
-msgstr "Szám eltávolítása az Audacious lejátszási sorából"
-
-#: ../kupfer/plugin/audacious.py:86
-msgid "Jump to track in Audacious"
-msgstr "Számhoz ugrás az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:96
-msgid "Resume playback in Audacious"
-msgstr "Lejátszás folytatása az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:106
-msgid "Pause playback in Audacious"
-msgstr "Lejátszás szüneteltetése az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:116
-msgid "Jump to next track in Audacious"
-msgstr "Ugrás a következő számhoz az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:126
-msgid "Jump to previous track in Audacious"
-msgstr "Ugrás az előző számhoz az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:136
-msgid "Clear the Audacious play queue"
-msgstr "Az Audacious lejátszási sorának törlése"
-
-#: ../kupfer/plugin/audacious.py:142
-msgid "Shuffle"
-msgstr "Keverés"
-
-#: ../kupfer/plugin/audacious.py:146
-msgid "Toggle shuffle in Audacious"
-msgstr "Keverés váltása az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:152
-msgid "Repeat"
-msgstr "Ismétlés"
-
-#: ../kupfer/plugin/audacious.py:156
-msgid "Toggle repeat in Audacious"
-msgstr "Ismétlés váltása az Audaciousban"
-
-#: ../kupfer/plugin/audacious.py:171
-msgid "Playlist"
-msgstr "Lejátszólista"
-
-#: ../kupfer/plugin/chromium.py:1 ../kupfer/plugin/chromium.py:16
-msgid "Chromium Bookmarks"
-msgstr "Chromium könyvjelzők"
-
-#: ../kupfer/plugin/chromium.py:3 ../kupfer/plugin/chromium.py:43
-msgid "Index of Chromium bookmarks"
-msgstr "Chromium könyvjelzők indexe"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/clawsmail.py:2
-msgid "Claws Mail"
-msgstr "Claws Mail"
-
-#: ../kupfer/plugin/clawsmail.py:5
-msgid "Claws Mail Contacts and Actions"
-msgstr "Claws Mail címtár és műveletek"
-
-#: ../kupfer/plugin/clawsmail.py:26 ../kupfer/plugin/evolution.py:24
-#: ../kupfer/plugin/operamail.py:26 ../kupfer/plugin/thunderbird.py:31
-msgid "Compose New Email"
-msgstr "Új levél írása"
-
-#: ../kupfer/plugin/clawsmail.py:32
-msgid "Compose a new message in Claws Mail"
-msgstr "Új levél írása a Claws Mailben"
-
-#: ../kupfer/plugin/clawsmail.py:41
-msgid "Receive All Email"
-msgstr "Minden levél fogadása"
-
-#: ../kupfer/plugin/clawsmail.py:47
-msgid "Receive new messages from all accounts in ClawsMail"
-msgstr "Új üzenetek fogadása a Claws Mail minden fiókjába"
-
-#: ../kupfer/plugin/clawsmail.py:56 ../kupfer/plugin/defaultmail.py:18
-#: ../kupfer/plugin/evolution.py:40 ../kupfer/plugin/operamail.py:41
-#: ../kupfer/plugin/thunderbird.py:47
-msgid "Compose Email"
-msgstr "Levél írása"
-
-#: ../kupfer/plugin/clawsmail.py:81 ../kupfer/plugin/defaultmail.py:43
-#: ../kupfer/plugin/evolution.py:65
-msgid "Send in Email To..."
-msgstr "Küldés levélben…"
-
-#: ../kupfer/plugin/clawsmail.py:107
-msgid "Compose new message in Claws Mail and attach file"
-msgstr "Új üzenet írása és fájl csatolása a Claws Mailben"
-
-#: ../kupfer/plugin/clawsmail.py:116
-msgid "Claws Mail Address Book"
-msgstr "Claws Mail címjegyzék"
-
-#: ../kupfer/plugin/clawsmail.py:164
-msgid "Contacts from Claws Mail Address Book"
-msgstr "Partnerek a Claws Mail címjegyzékéből"
-
-#: ../kupfer/plugin/custom_terminal.py:1
-#: ../kupfer/plugin/custom_terminal.py:39
-msgid "Custom Terminal"
-msgstr "Egyéni terminál"
-
-#: ../kupfer/plugin/custom_terminal.py:2
-msgid "Configure a custom terminal emulator"
-msgstr "Egyéni terminálemulátor beállítása"
-
-#: ../kupfer/plugin/custom_terminal.py:18
-msgid "Execute flag"
-msgstr "Végrehajtás zászló"
-
-#: ../kupfer/plugin/customtheme.py:1
-msgid "Custom Theme"
-msgstr "Egyéni téma"
-
-#: ../kupfer/plugin/customtheme.py:3
-msgid "Use a custom color theme"
-msgstr "Egyéni színtéma használata"
-
-#: ../kupfer/plugin/customtheme.py:110
-msgid "Theme:"
-msgstr "Téma:"
-
-#: ../kupfer/plugin/defaultmail.py:1
-msgid "Default Email Client"
-msgstr "Alapértelmezett e-mail kliens"
-
-#: ../kupfer/plugin/defaultmail.py:6
-msgid "Compose email using the system's default mailto: handler"
-msgstr ""
-"Levél írása a rendszer alapértelmezett „mailto:” kezelőjének használatával"
-
-#: ../kupfer/plugin/devhelp.py:1
-msgid "Devhelp"
-msgstr "Devhelp"
-
-#: ../kupfer/plugin/devhelp.py:3 ../kupfer/plugin/devhelp.py:13
-msgid "Search in Devhelp"
-msgstr "Keresés a Devhelpben"
-
-#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
-#| msgid "Google Search"
-msgid "DuckDuckGo Search"
-msgstr "DuckDuckGo keresés"
-
-#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
-msgid "Search the web securely with DuckDuckGo"
-msgstr "Keresés a világhálón biztonságosan a DuckDuckGo szolgáltatással"
-
-#. -*- coding: UTF-8 -*-
-#. vim: set noexpandtab ts=8 sw=8:
-#: ../kupfer/plugin/empathy.py:3
-msgid "Empathy"
-msgstr "Empathy"
-
-#: ../kupfer/plugin/empathy.py:6
-msgid "Access to Empathy Contacts"
-msgstr "Hozzáférés az Empathy partnerekhez"
-
-#: ../kupfer/plugin/empathy.py:26 ../kupfer/plugin/pidgin.py:29
-msgid "Show offline contacts"
-msgstr "Kilépett partnerek megjelenítése"
-
-#: ../kupfer/plugin/empathy.py:35 ../kupfer/plugin/gajim.py:26
-#: ../kupfer/plugin/pidgin.py:158 ../kupfer/plugin/skype.py:30
-msgid "Available"
-msgstr "Elérhető"
-
-#: ../kupfer/plugin/empathy.py:36 ../kupfer/plugin/gajim.py:28
-#: ../kupfer/plugin/pidgin.py:158 ../kupfer/plugin/skype.py:32
-msgid "Away"
-msgstr "Távol"
-
-#: ../kupfer/plugin/empathy.py:37 ../kupfer/plugin/gajim.py:30
-#: ../kupfer/plugin/skype.py:34
-msgid "Busy"
-msgstr "Elfoglalt"
-
-#: ../kupfer/plugin/empathy.py:38 ../kupfer/plugin/gajim.py:29
-#: ../kupfer/plugin/skype.py:33
-msgid "Not Available"
-msgstr "Nem érhető el"
-
-#: ../kupfer/plugin/empathy.py:39 ../kupfer/plugin/gajim.py:31
-#: ../kupfer/plugin/skype.py:35
-msgid "Invisible"
-msgstr "Láthatatlan"
-
-#: ../kupfer/plugin/empathy.py:40 ../kupfer/plugin/gajim.py:32
-#: ../kupfer/plugin/skype.py:36
-msgid "Offline"
-msgstr "Kilépett"
-
-#: ../kupfer/plugin/empathy.py:100 ../kupfer/plugin/gajim.py:93
-#: ../kupfer/plugin/pidgin.py:97 ../kupfer/plugin/skype.py:197
-msgid "Open Chat"
-msgstr "Csevegés megnyitása"
-
-#: ../kupfer/plugin/empathy.py:133 ../kupfer/plugin/gajim.py:121
-#: ../kupfer/plugin/skype.py:243
-msgid "Change Global Status To..."
-msgstr "Globális állapot megváltoztatása…"
-
-#: ../kupfer/plugin/empathy.py:175
-msgid "Empathy Contacts"
-msgstr "Empathy partnerek"
-
-#: ../kupfer/plugin/empathy.py:249
-msgid "Empathy Account Status"
-msgstr "Empathy fiók állapot"
-
-#: ../kupfer/plugin/evolution.py:4
-msgid "Evolution"
-msgstr "Evolution"
-
-#: ../kupfer/plugin/evolution.py:7 ../kupfer/plugin/evolution.py:119
-msgid "Evolution contacts"
-msgstr "Evolution partnerek"
-
-#: ../kupfer/plugin/evolution.py:31
-msgid "Compose a new message in Evolution"
-msgstr "Új üzenet írása az Evolutionben"
-
-#: ../kupfer/plugin/evolution.py:92
-msgid "Compose new message in Evolution and attach file"
-msgstr "Új üzenet írása és fájl csatolása az Evolutionben"
-
-#: ../kupfer/plugin/evolution.py:100
-msgid "Evolution Address Book"
-msgstr "Evolution címjegyzék"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/filezilla.py:3
-msgid "Filezilla"
-msgstr "Filezilla"
-
-#: ../kupfer/plugin/filezilla.py:6
-msgid "Show sites and handle ftp addresses by Filezilla"
-msgstr "Oldalak megjelenítése és FTP-címek kezelése a Filezillával"
-
-#: ../kupfer/plugin/filezilla.py:42
-msgid "Open Site with Filezilla"
-msgstr "Oldal megnyitása a Filezillával"
-
-#: ../kupfer/plugin/filezilla.py:87
-msgid "Filezilla Sites"
-msgstr "Filezilla oldalak"
-
-#: ../kupfer/plugin/filezilla.py:122
-msgid "Sites from Filezilla"
-msgstr "Oldalak a Filezillából"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gajim.py:2
-msgid "Gajim"
-msgstr "Gajim"
-
-#: ../kupfer/plugin/gajim.py:5
-msgid "Access to Gajim Contacts"
-msgstr "Hozzáférés a Gajim partnerekhez"
-
-#: ../kupfer/plugin/gajim.py:27
-msgid "Free for Chat"
-msgstr "Csevegésre kész"
-
-#: ../kupfer/plugin/gajim.py:149
-msgid "Gajim Contacts"
-msgstr "Gajim partnerek"
-
-#: ../kupfer/plugin/gajim.py:213
-msgid "Gajim Account Status"
-msgstr "Gajim fiók állapot"
-
-#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
-#: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
-msgid "Glob"
-msgstr "Minta"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gmail/__init__.py:2 ../kupfer/plugin/gmail/__init__.py:234
-msgid "Gmail"
-msgstr "Gmail"
-
-#: ../kupfer/plugin/gmail/__init__.py:5
-msgid "Load contacts and compose new email in Gmail"
-msgstr "Partnerek betöltése és új levél írása Gmailben"
-
-#: ../kupfer/plugin/gmail/__init__.py:33
-msgid "Load contacts' pictures"
-msgstr "Partnerek képeinek betöltése"
-
-#: ../kupfer/plugin/gmail/__init__.py:39
-#| msgid "show version information"
-msgid "Load additional information"
-msgstr "További információk betöltése"
-
-#: ../kupfer/plugin/gmail/__init__.py:50
-msgid "Work email"
-msgstr "Munkahelyi e-mail"
-
-#: ../kupfer/plugin/gmail/__init__.py:51
-#| msgid "Compose Email"
-msgid "Home email"
-msgstr "Otthoni e-mail"
-
-#: ../kupfer/plugin/gmail/__init__.py:52
-msgid "Other email"
-msgstr "Egyéb e-mail"
-
-#: ../kupfer/plugin/gmail/__init__.py:54
-#| msgid "Workspaces"
-msgid "Work address"
-msgstr "Munkahelyi cím"
-
-#: ../kupfer/plugin/gmail/__init__.py:55
-#| msgid "Home Folder"
-msgid "Home address"
-msgstr "Otthoni cím"
-
-#: ../kupfer/plugin/gmail/__init__.py:56
-msgid "Other address"
-msgstr "Egyéb cím"
-
-#: ../kupfer/plugin/gmail/__init__.py:58
-msgid "Car phone"
-msgstr "Autótelefon"
-
-#: ../kupfer/plugin/gmail/__init__.py:59
-msgid "Fax"
-msgstr "Fax"
-
-#: ../kupfer/plugin/gmail/__init__.py:61
-#| msgid "Home Folder"
-msgid "Home phone"
-msgstr "Otthoni telefon"
-
-#: ../kupfer/plugin/gmail/__init__.py:62
-msgid "Home fax"
-msgstr "Otthoni fax"
-
-#: ../kupfer/plugin/gmail/__init__.py:63
-msgid "Internal phone"
-msgstr "Belső telefon"
-
-#: ../kupfer/plugin/gmail/__init__.py:64
-msgid "Mobile"
-msgstr "Mobiltelefon"
-
-#: ../kupfer/plugin/gmail/__init__.py:65
-msgid "Other"
-msgstr "Egyéb"
-
-#: ../kupfer/plugin/gmail/__init__.py:66
-msgid "VOIP"
-msgstr "VOIP"
-
-#: ../kupfer/plugin/gmail/__init__.py:67
-#| msgid "Workspaces"
-msgid "Work phone"
-msgstr "Munkahelyi telefon"
-
-#: ../kupfer/plugin/gmail/__init__.py:68
-msgid "Work fax"
-msgstr "Munkahelyi fax"
-
-#: ../kupfer/plugin/gmail/__init__.py:93
-msgid "Compose Email in Gmail"
-msgstr "Levél írása a Gmailben"
-
-#: ../kupfer/plugin/gmail/__init__.py:117
-msgid "Open web browser and compose new email in Gmail"
-msgstr "Webböngésző megnyitása és új levél írása a Gmailben"
-
-#: ../kupfer/plugin/gmail/__init__.py:123
-msgid "Edit Contact in Gmail"
-msgstr "Partner szerkesztése a Gmailben"
-
-#: ../kupfer/plugin/gmail/__init__.py:133
-#| msgid "Open web browser and compose new email in Gmail"
-msgid "Open web browser and edit contact in Gmail"
-msgstr "Webböngésző megnyitása és partner szerkesztése a Gmailben"
-
-#: ../kupfer/plugin/gmail/__init__.py:263
-msgid "Contacts from Google services (Gmail)"
-msgstr "Partnerek a Google szolgáltatásokból (Gmail)"
-
-#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
-msgid "GNOME Terminal Profiles"
-msgstr "GNOME terminál profilok"
-
-#: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch GNOME Terminal profiles"
-msgstr "GNOME terminálprofilok indítása"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/google_picasa/__init__.py:2
-msgid "Google Picasa"
-msgstr "Google Picasa"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:5
-msgid "Show albums and upload files to Picasa"
-msgstr "Albumok megjelenítése és fájlok feltöltése a Picasára"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:35
-msgid "Users to show: (,-separated)"
-msgstr "Megjelenítendő felhasználók: (vesszővel elválasztva)"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:41
-msgid "Load user and album icons"
-msgstr "Felhasználó és album ikonok betöltése"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:92
-msgid "Uploading Pictures"
-msgstr "Képek feltöltése"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:93
-msgid "Uploading pictures to Picasa Web Album"
-msgstr "Képek feltöltése a Picasa webalbumba"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:102
-msgid "Creating album:"
-msgstr "Album létrehozása:"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:105
-msgid "Album created by Kupfer"
-msgstr "Kupfer által létrehozott album"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:112
-msgid "File:"
-msgstr "Fájl:"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:252
-#, python-format
-msgid "One album"
-msgid_plural "%(num)d albums"
-msgstr[0] "Egy album"
-msgstr[1] "%(num)d album"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:279
-#, python-format
-msgid "one photo"
-msgid_plural "%(num)s photos"
-msgstr[0] "egy fénykép"
-msgstr[1] "%(num)s fénykép"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:299
-msgid "Upload to Picasa Album..."
-msgstr "Feltöltés a Picasa albumba…"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:343
-msgid "Upload files to Picasa album"
-msgstr "Fájlok feltöltése a Picasa albumba"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:349
-msgid "Upload to Picasa as New Album"
-msgstr "Feltöltés a Picasára új albumként"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:377
-msgid "Create album from selected local directory"
-msgstr "Album létrehozása a kijelölt helyi könyvtárból"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:381
-#: ../kupfer/plugin/google_picasa/__init__.py:404
-msgid "Picasa Albums"
-msgstr "Picasa albumok"
-
-#: ../kupfer/plugin/google_picasa/__init__.py:436
-msgid "User albums in Picasa"
-msgstr "Felhasználói albumok a Picasában"
-
-#: ../kupfer/plugin/google_search.py:1 ../kupfer/plugin/google_search.py:30
-msgid "Google Search"
-msgstr "Google keresés"
-
-#: ../kupfer/plugin/google_search.py:3
-msgid "Search Google with results shown directly"
-msgstr "Google keresés a közvetlenül megjelenített eredményekkel"
-
-#: ../kupfer/plugin/google_search.py:58 ../kupfer/plugin/locate.py:46
-#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/tracker1.py:179
-#, python-format
-msgid "Results for \"%s\""
-msgstr "„%s” keresési eredményei"
-
-#: ../kupfer/plugin/google_search.py:91
-#, python-format
-msgid "Show More Results For \"%s\""
-msgstr "További eredmények megjelenítése ehhez: „%s”"
-
-#: ../kupfer/plugin/google_search.py:92
-#, python-format
-msgid "%s total found"
-msgstr "%s találat összesen"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/gtg.py:2
-msgid "Getting Things GNOME"
-msgstr "Getting Things GNOME"
-
-#: ../kupfer/plugin/gtg.py:5
-msgid "Browse and create new tasks in GTG"
-msgstr "Böngészés és új feladatok létrehozása a GTG-ben"
-
-#: ../kupfer/plugin/gtg.py:114
-#, python-format
-msgid "due: %s"
-msgstr "határidő: %s"
-
-#: ../kupfer/plugin/gtg.py:116
-#, python-format
-msgid "start: %s"
-msgstr "kezdés: %s"
-
-#: ../kupfer/plugin/gtg.py:118
-#, python-format
-msgid "tags: %s"
-msgstr "címkék: %s"
-
-#: ../kupfer/plugin/gtg.py:148
-msgid "Open task in Getting Things GNOME!"
-msgstr "Feladat megnyitása a „Getting Things GNOME!”-ban"
-
-#: ../kupfer/plugin/gtg.py:155
-msgid "Delete"
-msgstr "Törlés"
-
-#: ../kupfer/plugin/gtg.py:168
-msgid "Permanently remove this task"
-msgstr "Feladat végleges eltávolítása"
-
-#: ../kupfer/plugin/gtg.py:173
-msgid "Mark Done"
-msgstr "Készre jelölés"
-
-#: ../kupfer/plugin/gtg.py:182
-msgid "Mark this task as done"
-msgstr "A feladat készre jelölése"
-
-#: ../kupfer/plugin/gtg.py:187
-msgid "Dismiss"
-msgstr "Eltüntetés"
-
-#: ../kupfer/plugin/gtg.py:196
-msgid "Mark this task as not to be done anymore"
-msgstr "Feladat megjelölése „többé nem kell elvégezni”-ként"
-
-#: ../kupfer/plugin/gtg.py:201
-msgid "Create Task"
-msgstr "Feladat létrehozása"
-
-#: ../kupfer/plugin/gtg.py:218
-msgid "Create new task in Getting Things GNOME"
-msgstr "Feladat létrehozása a „Getting Things GNOME”-ban"
-
-#: ../kupfer/plugin/gwibber.py:3
-msgid "Gwibber"
-msgstr "Gwibber"
-
-#: ../kupfer/plugin/gwibber.py:6
-msgid ""
-"Microblogging with Gwibber. Allows sending and receiving messages from "
-"social networks like Twitter, Identi.ca etc. Requires the package 'gwibber-"
-"service'."
-msgstr ""
-"Mikroblogolás a Gwibberrel. Lehetővé teszi üzenetek küldését és fogadását a "
-"közösségi hálózatokról mint a Twitter, Identi.ca, stb. A „gwibber-service” "
-"csomag "
-"szükséges hozzá."
-
-#: ../kupfer/plugin/gwibber.py:45
-msgid "Maximum number of messages to show"
-msgstr "Megjelenítendő üzenetek maximális száma"
-
-#. TRANS: Account description, similar to "John on Identi.ca"
-#: ../kupfer/plugin/gwibber.py:98
-#, python-format
-msgid "%(user)s on %(service)s"
-msgstr "%(user)s - %(service)s"
-
-#. TRANS: Gwibber Message description
-#. TRANS: Similar to "John  May 5 2011 11:40 on Identi.ca"
-#. TRANS: the %(user)s and similar tokens must be unchanged
-#: ../kupfer/plugin/gwibber.py:153
-#, python-format
-msgid "%(user)s %(when)s on %(where)s"
-msgstr "%(user)s %(when)s - %(where)s"
-
-#: ../kupfer/plugin/gwibber.py:187
-msgid "Send Message"
-msgstr "Üzenet küldése"
-
-#: ../kupfer/plugin/gwibber.py:205
-msgid "Send message to all Gwibber accounts"
-msgstr "Üzenet küldése minden Gwibber fiókra"
-
-#: ../kupfer/plugin/gwibber.py:210
-msgid "Send Message To..."
-msgstr "Üzenet küldése…"
-
-#: ../kupfer/plugin/gwibber.py:238
-msgid "Send message to a Gwibber account"
-msgstr "Üzenet küldése egy Gwibber fiókra"
-
-#: ../kupfer/plugin/gwibber.py:243 ../kupfer/plugin/pidgin.py:120
-msgid "Send Message..."
-msgstr "Üzenet küldése…"
-
-#: ../kupfer/plugin/gwibber.py:273
-msgid "Send message to selected Gwibber account"
-msgstr "Üzenet küldése a kijelölt Gwibber fiókra"
-
-#: ../kupfer/plugin/gwibber.py:278
-msgid "Reply..."
-msgstr "Válasz…"
-
-#: ../kupfer/plugin/gwibber.py:314
-msgid "Delete Message"
-msgstr "Üzenet törlése"
-
-#: ../kupfer/plugin/gwibber.py:337
-msgid "Send Private Message..."
-msgstr "Magánüzenet küldése…"
-
-#: ../kupfer/plugin/gwibber.py:370
-msgid "Send direct message to user"
-msgstr "Közvetlen üzenet küldése a felhasználónak"
-
-#: ../kupfer/plugin/gwibber.py:376
-msgid "Retweet"
-msgstr "Újratweetelés"
-
-#: ../kupfer/plugin/gwibber.py:376
-msgid "Retweet To..."
-msgstr "Újratweetelés…"
-
-#: ../kupfer/plugin/gwibber.py:407
-msgid "Retweet message to all Gwibber accounts"
-msgstr "Üzenet újratweetelése minden Gwibber fiókra"
-
-#: ../kupfer/plugin/gwibber.py:408
-msgid "Retweet message to a Gwibber account"
-msgstr "Üzenet újratweetelése egy Gwibber fiókra"
-
-#: ../kupfer/plugin/gwibber.py:413
-msgid "Open in Browser"
-msgstr "Megnyitás böngészőben"
-
-#: ../kupfer/plugin/gwibber.py:419
-msgid "Open message in default web browser"
-msgstr "Üzenet megnyitása az alapértelmezett webböngészőben"
-
-#: ../kupfer/plugin/gwibber.py:425 ../kupfer/plugin/gwibber.py:463
-msgid "Gwibber Accounts"
-msgstr "Gwibber fiókok"
-
-#: ../kupfer/plugin/gwibber.py:456
-msgid "Accounts configured in Gwibber"
-msgstr "A Gwibberben beállított fiókok"
-
-#: ../kupfer/plugin/gwibber.py:495
-msgid "Gwibber Messages"
-msgstr "Gwibber üzenetek"
-
-#: ../kupfer/plugin/gwibber.py:518
-msgid "Recent messages received by Gwibber"
-msgstr "A Gwibberrel legutóbb fogadott üzenetek"
-
-#. TRANS:  %s is a service name
-#: ../kupfer/plugin/gwibber.py:527
-#, python-format
-msgid "Gwibber Messages for %s"
-msgstr "Gwibber üzenetek ehhez: %s"
-
-#: ../kupfer/plugin/gwibber.py:543
-msgid "Gwibber Streams"
-msgstr "Gwibber folyamok"
-
-#: ../kupfer/plugin/gwibber.py:566
-msgid "Streams configured in Gwibber"
-msgstr "A Gwibberben beállított folyamok"
-
-#. TRANS: Gwibber messages in %s :: %s is a Stream name
-#: ../kupfer/plugin/gwibber.py:574
-#, python-format
-msgid "Gwibber Messages in %s"
-msgstr "Gwibber üzenetek ebben: %s"
-
-#: ../kupfer/plugin/gwibber_simple.py:3
-msgid "Gwibber (Simple)"
-msgstr "Gwibber (egyszerű)"
-
-#: ../kupfer/plugin/gwibber_simple.py:7
-msgid "Send updates via the microblogging client Gwibber"
-msgstr "Frissítések küldése a Gwibber mikroblogoló kliensen keresztül"
-
-#: ../kupfer/plugin/gwibber_simple.py:45
-msgid "Send Update"
-msgstr "Frissítés küldése"
-
-#: ../kupfer/plugin/gwibber_simple.py:65
-msgid "Unable to activate Gwibber service"
-msgstr "Nem aktiválható a Gwibber szolgáltatás"
-
-#: ../kupfer/plugin/higherorder.py:1
-msgid "Higher-order Actions"
-msgstr "Magasabb rendű műveletek"
-
-#: ../kupfer/plugin/higherorder.py:7
-msgid "Tools to work with commands as objects"
-msgstr "Eszközök, amelyek parancsokat objektumokként használnak"
-
-#: ../kupfer/plugin/higherorder.py:20
-msgid "Select in Kupfer"
-msgstr "Kijelölés a Kupferben"
-
-#: ../kupfer/plugin/higherorder.py:59
-#, python-format
-msgid "Result of %s (%s)"
-msgstr "%s eredménye (%s)"
-
-#: ../kupfer/plugin/higherorder.py:75
-msgid "Run (Take Result)"
-msgstr "Futtatás (eredmény átvétele)"
-
-#: ../kupfer/plugin/higherorder.py:90
-msgid "Take the command result as a proxy object"
-msgstr "A parancs eredményének átvétele proxy objektumként"
-
-#: ../kupfer/plugin/higherorder.py:95
-msgid "Run (Discard Result)"
-msgstr "Futtatás (eredmény eldobása)"
-
-#: ../kupfer/plugin/image.py:1
-msgid "Image Tools"
-msgstr "Képeszközök"
-
-#: ../kupfer/plugin/image.py:10
-msgid "Image transformation tools"
-msgstr "Képátalakítási eszközök"
-
-#: ../kupfer/plugin/image.py:25
-msgid "Scale..."
-msgstr "Méretezés…"
-
-#: ../kupfer/plugin/image.py:77
-msgid "Scale image to fit inside given pixel measure(s)"
-msgstr "Kép méretezése a belül megadott képpontméretekre való illesztésre"
-
-#: ../kupfer/plugin/image.py:112
-msgid "Rotate Clockwise"
-msgstr "Forgatás az óra járásával egyező irányba"
-
-#: ../kupfer/plugin/image.py:119
-msgid "Rotate Counter-Clockwise"
-msgstr "Forgatás az óra járásával ellentétes irányba"
-
-#: ../kupfer/plugin/image.py:126
-msgid "Autorotate"
-msgstr "Automatikus forgatás"
-
-#: ../kupfer/plugin/image.py:155
-msgid "Rotate JPEG (in-place) according to its EXIF metadata"
-msgstr "JPEG képek forgatása (helyben) az EXIF metaadatok alapján"
-
-#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:86
-msgid "Kupfer Plugins"
-msgstr "Kupfer bővítmények"
-
-#: ../kupfer/plugin/kupfer_plugins.py:3
-msgid "Access Kupfer's plugin list in Kupfer"
-msgstr "Hozzáférés a Kupfer bővítménylistájához a Kupferben"
-
-#: ../kupfer/plugin/kupfer_plugins.py:19
-msgid "Show Information"
-msgstr "Információk megjelenítése"
-
-#: ../kupfer/plugin/kupfer_plugins.py:35
-msgid "Show Source Code"
-msgstr "Forráskód megjelenítése"
-
-#: ../kupfer/plugin/kupfer_plugins.py:80
-msgid "enabled"
-msgstr "engedélyezve"
-
-#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:28
-msgid "Locate Files"
-msgstr "Fájlok keresése"
-
-#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:38
-msgid "Search filesystem using locate"
-msgstr "Keresés a fájlrendszerben a locate használatával"
-
-#: ../kupfer/plugin/locate.py:20
-msgid "Ignore case distinctions when searching files"
-msgstr "Kis- és nagybetűk megkülönböztetésének mellőzése fájlok keresésekor"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/openoffice.py:3
-msgid "OpenOffice / LibreOffice"
-msgstr "OpenOffice / LibreOffice"
-
-#: ../kupfer/plugin/openoffice.py:5 ../kupfer/plugin/openoffice.py:136
-msgid "Recently used documents in OpenOffice/LibreOffice"
-msgstr "Legutóbb használt dokumentumok az OpenOffice-ban/LibreOffice-ban"
-
-#: ../kupfer/plugin/openoffice.py:84
-msgid "OpenOffice/LibreOffice Recent Items"
-msgstr "OpenOffice/LibreOffice legutóbbi elemek"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/operamail.py:2
-msgid "Opera Mail"
-msgstr "Opera Mail"
-
-#: ../kupfer/plugin/operamail.py:5
-msgid "Opera Mail contacts and actions"
-msgstr "Opera Mail partnerek és műveletek"
-
-#: ../kupfer/plugin/operamail.py:32
-msgid "Compose a new message in Opera Mail"
-msgstr "Új üzenet írása az Opera Mailben"
-
-#: ../kupfer/plugin/operamail.py:64
-msgid "Opera Mail Contacts"
-msgstr "Opera Mail partnerek"
-
-#: ../kupfer/plugin/operamail.py:120
-msgid "Contacts from Opera Mail"
-msgstr "Partnerek az Opera Mailből"
-
-#: ../kupfer/plugin/opera.py:4 ../kupfer/plugin/opera.py:22
-msgid "Opera Bookmarks"
-msgstr "Opera könyvjelzők"
-
-#: ../kupfer/plugin/opera.py:6 ../kupfer/plugin/opera.py:54
-msgid "Index of Opera bookmarks"
-msgstr "Opera könyvjelzők indexe"
-
-#: ../kupfer/plugin/pidgin.py:3
-msgid "Pidgin"
-msgstr "Pidgin"
-
-#: ../kupfer/plugin/pidgin.py:9
-msgid "Access to Pidgin Contacts"
-msgstr "Hozzáférés a Pidgin partnerekhez"
-
-#: ../kupfer/plugin/pidgin.py:111
-#, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d karakter)"
-msgstr[1] "%s (%d karakter)"
-
-#: ../kupfer/plugin/pidgin.py:192
-msgid "Pidgin Contacts"
-msgstr "Pidgin partnerek"
-
-#: ../kupfer/plugin/putty.py:5 ../kupfer/plugin/putty.py:80
-msgid "PuTTY Sessions"
-msgstr "PuTTY munkamenetek"
-
-#: ../kupfer/plugin/putty.py:8
-msgid "Quick access to PuTTY Sessions"
-msgstr "Gyors hozzáférés a PuTTY munkamenetekhez"
-
-#: ../kupfer/plugin/putty.py:46 ../kupfer/plugin/tsclient.py:50
-msgid "Start Session"
-msgstr "Munkamenet indítása"
-
-#: ../kupfer/plugin/qsicons/__init__.py:24
-msgid "Quicksilver Icons"
-msgstr "Quicksilver ikonok"
-
-#: ../kupfer/plugin/quickview.py:1
-msgid "Quick Image Viewer"
-msgstr "Gyors képnézegető"
-
-#: ../kupfer/plugin/quickview.py:53
-msgid "View Image"
-msgstr "Kép megtekintése"
-
-#: ../kupfer/plugin/rst.py:1
-msgid "reStructuredText"
-msgstr "reStructuredText"
-
-#: ../kupfer/plugin/rst.py:3
-msgid "Render reStructuredText and show the result"
-msgstr "reStructuredText renderelése és az eredmény megjelenítése"
-
-#: ../kupfer/plugin/rst.py:18
-msgid "View as HTML Document"
-msgstr "Megtekintés HTML dokumentumként"
-
-#: ../kupfer/plugin/screen.py:1
-msgid "GNU Screen"
-msgstr "GNU Screen"
-
-#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
-msgid "Active GNU Screen sessions"
-msgstr "Aktív GNU Screen munkamenetek"
-
-#: ../kupfer/plugin/screen.py:57
-msgid "Attached"
-msgstr "Csatolva"
-
-#: ../kupfer/plugin/screen.py:58
-msgid "Detached"
-msgstr "Leválasztva"
-
-#: ../kupfer/plugin/screen.py:61
-#, python-format
-msgid "%(status)s session (%(pid)s) created %(time)s"
-msgstr "%(status)s munkamenet (%(pid)s) létrehozva: %(time)s"
-
-#: ../kupfer/plugin/screen.py:70
-msgid "Screen Sessions"
-msgstr "Screen munkamenetek"
-
-#: ../kupfer/plugin/screen.py:99
-msgid "Attach"
-msgstr "Csatolás"
-
-#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:52
-msgid "Send Keys"
-msgstr "Billentyűk küldése"
-
-#: ../kupfer/plugin/sendkeys.py:8
-msgid "Send synthetic keyboard events using xautomation"
-msgstr ""
-"Szintetikus billentyűzet események küldése az xautomation használatával"
-
-#: ../kupfer/plugin/sendkeys.py:28
-msgid "Paste to Foreground Window"
-msgstr "Beillesztés a legelső ablakba"
-
-#: ../kupfer/plugin/sendkeys.py:46
-msgid "Copy to clipboard and send Ctrl+V to foreground window"
-msgstr "Másolás a vágólapra és Ctrl+V küldése a legelső ablaknak"
-
-#: ../kupfer/plugin/sendkeys.py:101
-msgid "Send keys to foreground window"
-msgstr "Billentyűk küldése a legelső ablaknak"
-
-#: ../kupfer/plugin/sendkeys.py:106
-msgid "Type Text"
-msgstr "Szöveg begépelése"
-
-#: ../kupfer/plugin/sendkeys.py:127
-msgid "Type the text to foreground window"
-msgstr "Szöveg begépelése a legelső ablakba"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/services.py:2 ../kupfer/plugin/services.py:96
-msgid "System Services"
-msgstr "Rendszerszolgáltatások"
-
-#: ../kupfer/plugin/services.py:4
-msgid "Start, stop or restart system services via init scripts"
-msgstr ""
-"Rendszerszolgáltatások indítása, leállítása vagy újraindítása az init "
-"parancsfájlokkal"
-
-#: ../kupfer/plugin/services.py:18
-msgid "Sudo-like Command"
-msgstr "Sudo-szerű parancs"
-
-#: ../kupfer/plugin/services.py:78
-msgid "Start Service"
-msgstr "Szolgáltatás indítása"
-
-#: ../kupfer/plugin/services.py:84
-msgid "Restart Service"
-msgstr "Szolgáltatás újraindítása"
-
-#: ../kupfer/plugin/services.py:90
-msgid "Stop Service"
-msgstr "Szolgáltatás leállítása"
-
-#: ../kupfer/plugin/services.py:126
-#, python-format
-msgid "%s Service"
-msgstr "%s szolgáltatás"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/shorten_links.py:2
-msgid "Shorten Links"
-msgstr "Linkek rövidítése"
-
-#: ../kupfer/plugin/shorten_links.py:4
-msgid "Create short aliases of long URLs"
-msgstr "Hosszú URL-ek rövid álnevének létrehozása"
-
-#: ../kupfer/plugin/shorten_links.py:48
-msgid "Error"
-msgstr "Hiba"
-
-#: ../kupfer/plugin/shorten_links.py:121
-msgid "Shorten With..."
-msgstr "Rövidítés ezzel…"
-
-#: ../kupfer/plugin/shorten_links.py:151
-msgid "Services"
-msgstr "Szolgáltatások"
-
-#: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:25
-msgid "Show QRCode"
-msgstr "QRCode megjelenítése"
-
-#: ../kupfer/plugin/show_qrcode.py:9 ../kupfer/plugin/show_qrcode.py:60
-msgid "Display text as QRCode in a window"
-msgstr "Szöveg megjelenítése QRCode-ként egy ablakban"
-
-#: ../kupfer/plugin/skype.py:5
-msgid "Access to Skype contacts"
-msgstr "Hozzáférés a Skype partnerekhez"
-
-#: ../kupfer/plugin/skype.py:31
-msgid "Skype Me"
-msgstr "Skype Me"
-
-#: ../kupfer/plugin/skype.py:37
-msgid "Logged Out"
-msgstr "Kijelentkezve"
-
-#: ../kupfer/plugin/skype.py:179
-#, python-format
-msgid "[%(status)s] %(userid)s"
-msgstr "[%(status)s] %(userid)s"
-
-#: ../kupfer/plugin/skype.py:218
-msgid "Call"
-msgstr "Hívás"
-
-#: ../kupfer/plugin/skype.py:232
-msgid "Place a call to contact"
-msgstr "Partner hívása"
-
-#: ../kupfer/plugin/skype.py:267
-msgid "Skype Contacts"
-msgstr "Skype partnerek"
-
-#: ../kupfer/plugin/skype.py:287
-msgid "Skype Statuses"
-msgstr "Skype állapotok"
-
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:70
-msgid "SSH Hosts"
-msgstr "SSH gépek"
-
-#: ../kupfer/plugin/ssh_hosts.py:3
-msgid "Adds the SSH hosts found in ~/.ssh/config."
-msgstr "Hozzáadja a ~/.ssh/config helyen található SSH gépeket."
-
-#: ../kupfer/plugin/ssh_hosts.py:32
-msgid "SSH host"
-msgstr "SSH gép"
-
-#: ../kupfer/plugin/ssh_hosts.py:43
-msgid "Connect"
-msgstr "Kapcsolódás"
-
-#: ../kupfer/plugin/ssh_hosts.py:49
-msgid "Connect to SSH host"
-msgstr "Kapcsolódás SSH géphez"
-
-#: ../kupfer/plugin/ssh_hosts.py:102
-msgid "SSH hosts as specified in ~/.ssh/config"
-msgstr "SSH gépek a ~/.ssh/config helyen megadottak szerint"
-
-#: ../kupfer/plugin_support.py:144
-msgid "No D-Bus connection to desktop session"
-msgstr "Nincs D-Bus kapcsolat az asztali munkamenettel"
-
-#: ../kupfer/plugin_support.py:171
-#| msgid "GNOME Terminal"
-msgid "GNOME Keyring"
-msgstr "GNOME kulcstartó"
-
-#: ../kupfer/plugin_support.py:172
-msgid "KWallet"
-msgstr "KWallet"
-
-#: ../kupfer/plugin_support.py:173
-#| msgid "Selected File"
-msgid "Unencrypted File"
-msgstr "Titkosítatlan fájl"
-
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
-msgid "Document Templates"
-msgstr "Dokumentumsablonok"
-
-#: ../kupfer/plugin/templates.py:4
-msgid "Create new documents from your templates"
-msgstr "Új dokumentumok létrehozása sablonokból"
-
-#: ../kupfer/plugin/templates.py:24
-#, python-format
-msgid "%s template"
-msgstr "%s sablon"
-
-#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
-msgid "Empty File"
-msgstr "Üres fájl"
-
-#: ../kupfer/plugin/templates.py:47
-msgid "New Folder"
-msgstr "Új mappa"
-
-#: ../kupfer/plugin/templates.py:57
-msgid "Create New Document..."
-msgstr "Új dokumentum létrehozása…"
-
-#: ../kupfer/plugin/templates.py:96
-msgid "Create a new document from template"
-msgstr "Új dokumentum létrehozása sablonból"
-
-#: ../kupfer/plugin/templates.py:103
-msgid "Create Document In..."
-msgstr "Dokumentum létrehozása itt…"
-
-#: ../kupfer/plugin/textfiles.py:13
-msgid "Textfiles"
-msgstr "Szövegfájlok"
-
-#: ../kupfer/plugin/textfiles.py:51
-msgid "Append To..."
-msgstr "Hozzáfűzés ehhez…"
-
-#: ../kupfer/plugin/textfiles.py:75
-msgid "Append..."
-msgstr "Hozzáfűzés…"
-
-#: ../kupfer/plugin/textfiles.py:79
-msgid "Write To..."
-msgstr "Írás ide…"
-
-#: ../kupfer/plugin/textfiles.py:111
-msgid "Get Text Contents"
-msgstr "Szöveg tartalmának megszerzése"
-
-#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:185
-#: ../kupfer/plugin/thunar.py:225 ../kupfer/plugin/thunar.py:278
-#: ../kupfer/plugin/thunar.py:329
-msgid "Thunar"
-msgstr "Thunar"
-
-#: ../kupfer/plugin/thunar.py:11
-msgid "File manager Thunar actions"
-msgstr "Thunar fájlkezelő műveletek"
-
-#: ../kupfer/plugin/thunar.py:67
-msgid "Select in File Manager"
-msgstr "Kijelölés a fájlkezelőben"
-
-#: ../kupfer/plugin/thunar.py:95
-msgid "Show Properties"
-msgstr "Tulajdonságok megjelenítése"
-
-#: ../kupfer/plugin/thunar.py:118
-msgid "Show information about file in file manager"
-msgstr "A fájl információinak megjelenítése a fájlkezelőben"
-
-#: ../kupfer/plugin/thunar.py:127
-msgid "Send To..."
-msgstr "Küldés ide…"
-
-#: ../kupfer/plugin/thunar.py:259
-msgid "Symlink In..."
-msgstr "Szimbolikus link ebben…"
-
-#: ../kupfer/plugin/thunar.py:300
-#| msgid "Copy file to a chosen location"
-msgid "Create a symlink to file in a chosen location"
-msgstr "Szimbolikus link létrehozása a fájlra a kiválasztott helyen"
-
-#: ../kupfer/plugin/thunar.py:304
-msgid "Empty Trash"
-msgstr "Kuka ürítése"
-
-#: ../kupfer/plugin/thunar.py:344
-msgid "Thunar Send To Objects"
-msgstr "Thunar „küldés ide” objektumok"
-
-#: ../kupfer/plugin/thunderbird.py:4
-msgid "Thunderbird"
-msgstr "Thunderbird"
-
-#: ../kupfer/plugin/thunderbird.py:7
-msgid "Thunderbird/Icedove Contacts and Actions"
-msgstr "Thunderbird/Icedove partnerek és műveletek"
-
-#: ../kupfer/plugin/thunderbird.py:38
-msgid "Compose a new message in Thunderbird"
-msgstr "Új üzenet írása a Thunderbirdben"
-
-#: ../kupfer/plugin/thunderbird.py:74
-msgid "Thunderbird Address Book"
-msgstr "Thunderbird címjegyzék"
-
-#: ../kupfer/plugin/thunderbird.py:99
-msgid "Contacts from Thunderbird Address Book"
-msgstr "Partnerek a Thunderbird címjegyzékből"
-
-#: ../kupfer/plugin/top.py:4
-msgid "Top"
-msgstr "Top"
-
-#: ../kupfer/plugin/top.py:6
-msgid "Show running tasks and allow sending signals to them"
-msgstr "Futó feladatok megjelenítése és szignálok küldésének lehetővé tétele"
-
-#: ../kupfer/plugin/top.py:23
-msgid "Sort Order"
-msgstr "Rendezési sorrend"
-
-#: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
-#: ../kupfer/plugin/top.py:115
-msgid "Commandline"
-msgstr "Parancssor"
-
-#: ../kupfer/plugin/top.py:26
-msgid "CPU usage (descending)"
-msgstr "CPU használat (csökkenő)"
-
-#. sort processes (top don't allow to sort via cmd line)
-#: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:112
-msgid "Memory usage (descending)"
-msgstr "Memóriahasználat (csökkenő)"
-
-#: ../kupfer/plugin/top.py:49
-msgid "Send Signal..."
-msgstr "Szignál küldése…"
-
-#: ../kupfer/plugin/top.py:79
-msgid "Signals"
-msgstr "Szignálok"
-
-#: ../kupfer/plugin/top.py:91
-msgid "Running Tasks"
-msgstr "Futó feladatok"
-
-#. default: by cpu
-#: ../kupfer/plugin/top.py:119
-#, python-format
-msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
-msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  idő: %(time)s"
-
-#: ../kupfer/plugin/top.py:139
-msgid "Running tasks for current user"
-msgstr "A jelenlegi felhasználó futó feladatai"
+msgid "Volume mounted at %s"
+msgstr "A kötet ide van csatolva: %s"
+
+#: ../kupfer/plugin/volumes.py:51
+msgid "Unmount"
+msgstr "Leválasztás"
+
+#: ../kupfer/plugin/volumes.py:78
+msgid "Unmount this volume"
+msgstr "A kötet leválasztása"
+
+#: ../kupfer/plugin/volumes.py:85
+msgid "Eject"
+msgstr "Kiadás"
+
+#: ../kupfer/plugin/volumes.py:88
+msgid "Unmount and eject this media"
+msgstr "Az adathordozó leválasztása és kiadása"
+
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
+#: ../kupfer/plugin/show_text.py:25
+msgid "Show Text"
+msgstr "Szöveg megjelenítése"
+
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
+#: ../kupfer/plugin/show_text.py:58
+msgid "Display text in a window"
+msgstr "Szöveg megjelenítése egy ablakban"
+
+#: ../kupfer/plugin/show_text.py:37
+msgid "Large Type"
+msgstr "Nagy típus"
+
+#: ../kupfer/plugin/show_text.py:66
+msgid "Show Notification"
+msgstr "Értesítés megjelenítése"
 
 #: ../kupfer/plugin/tracker1.py:10
 msgid "Tracker"
@@ -2952,244 +1741,1121 @@ msgstr "Tracker eredményeinek megszerzése…"
 msgid "Show Tracker results for query"
 msgstr "A Tracker eredményeinek megjelenítése a lekérdezéshez"
 
-#. FIXME: Port tracker tag sources and actions
-#. to the new, much more powerful sparql + dbus API
-#. (using tracker-tag as in 0.6 is a plain hack and a dead end)
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/truecrypt.py:3
-msgid "TrueCrypt"
-msgstr "TrueCrypt"
-
-#: ../kupfer/plugin/truecrypt.py:6 ../kupfer/plugin/truecrypt.py:140
-msgid "Volumes from TrueCrypt history"
-msgstr "Kötetek a TrueCrypt előzményeiből"
-
-#: ../kupfer/plugin/truecrypt.py:44
+#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
 #, python-format
-msgid "TrueCrypt volume: %(file)s"
-msgstr "TrueCrypt kötet: %(file)s"
+msgid "Results for \"%s\""
+msgstr "„%s” keresési eredményei"
 
-#: ../kupfer/plugin/truecrypt.py:52
-msgid "Mount Volume"
-msgstr "Kötet csatolása"
+#. TRANS: Names of accelerators in the interface
+#: ../kupfer/ui/accelerators.py:4
+msgid "Alternate Activate"
+msgstr "Alternatív aktiválása"
 
-#: ../kupfer/plugin/truecrypt.py:63
-msgid "Mount in Truecrypt"
-msgstr "Csatolás a TrueCryptben"
+#. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
+#. TRANS: user to select many objects to be used for one action
+#: ../kupfer/ui/accelerators.py:7
+msgid "Comma Trick"
+msgstr "Vesszőtrükk"
 
-#: ../kupfer/plugin/truecrypt.py:72
-msgid "Try to mount file as Truecrypt volume"
-msgstr "Fájl csatolásának próbája TrueCrypt kötetként"
+#. TRANS: "Compose Command" makes one object out of the selected
+#. TRANS: object + action (+iobject)
+#: ../kupfer/ui/accelerators.py:10
+msgid "Compose Command"
+msgstr "Parancs összeállítása"
 
-#: ../kupfer/plugin/truecrypt.py:80
-msgid "Dismount All Volumes"
-msgstr "Minden kötet leválasztása"
+#: ../kupfer/ui/accelerators.py:11
+msgid "Mark Default Action"
+msgstr "Alapértelmezett művelet jelölése"
 
-#: ../kupfer/plugin/truecrypt.py:98
-msgid "TrueCrypt Volumes"
-msgstr "TrueCrypt kötetek"
+#: ../kupfer/ui/accelerators.py:12
+msgid "Forget Object"
+msgstr "Objektum elfelejtése"
 
-#: ../kupfer/plugin/tsclient.py:4
-msgid "Terminal Server Client"
-msgstr "Terminálkiszolgáló kliens"
+#: ../kupfer/ui/accelerators.py:13
+msgid "Reset All"
+msgstr "Összes visszaállítása"
 
-#: ../kupfer/plugin/tsclient.py:7
-msgid "Session saved in Terminal Server Client"
-msgstr "A terminálkiszolgáló kliensben elmentett munkamenet"
+#: ../kupfer/ui/accelerators.py:14
+msgid "Select Quit"
+msgstr "Kilépés kiválasztása"
 
-#: ../kupfer/plugin/tsclient.py:72
-msgid "TSClient sessions"
-msgstr "TSClient munkamenetek"
+#: ../kupfer/ui/accelerators.py:15
+msgid "Select Selected File"
+msgstr "Kijelölt fájl kiválasztása"
 
-#: ../kupfer/plugin/tsclient.py:94
-msgid "Saved sessions in Terminal Server Client"
-msgstr "A terminálkiszolgáló kliensben elmentett munkamenetek"
+#: ../kupfer/ui/accelerators.py:16
+msgid "Select Selected Text"
+msgstr "Kijelölt szöveg kiválasztása"
 
-#: ../kupfer/plugin/vim/__init__.py:1
-msgid "Vim"
-msgstr "Vim"
+#: ../kupfer/ui/accelerators.py:17
+msgid "Show Help"
+msgstr "Súgó megjelenítése"
 
-#: ../kupfer/plugin/vim/__init__.py:4
-msgid "Recently used documents in Vim"
-msgstr "Nemrég használt dokumentumok a Vim-ben"
+#: ../kupfer/ui/accelerators.py:18
+msgid "Show Preferences"
+msgstr "Beállítások megjelenítése"
 
-#: ../kupfer/plugin/vim/plugin.py:56
-msgid "Vim Recent Documents"
-msgstr "Vim legutóbbi dokumentumok"
+#: ../kupfer/ui/accelerators.py:19
+msgid "Switch to First Pane"
+msgstr "Váltás az első ablaktáblára"
 
-#: ../kupfer/plugin/vim/plugin.py:219
-msgid "Close (Save All)"
-msgstr "Bezárás (Összes mentése)"
+#: ../kupfer/ui/accelerators.py:20
+msgid "Toggle Text Mode"
+msgstr "Szöveges mód váltása"
 
-#: ../kupfer/plugin/vim/plugin.py:237
-#| msgid "Send To..."
-msgid "Send..."
-msgstr "Küldés…"
-
-#: ../kupfer/plugin/vim/plugin.py:264
-#| msgid "Saved Kupfer Command"
-msgid "Send ex command"
-msgstr "Ex parancs küldése"
-
-#: ../kupfer/plugin/vim/plugin.py:272
-msgid "Insert in Vim..."
-msgstr "Beszúrás a Vim-be…"
-
-#: ../kupfer/plugin/vim/plugin.py:309
-#| msgid "Active GNU Screen sessions"
-msgid "Active Vim Sessions"
-msgstr "Aktív Vim munkamenetek"
-
-#: ../kupfer/plugin/vim/plugin.py:338
+#: ../kupfer/ui/browser.py:873
 #, python-format
-#| msgid "PuTTY Sessions"
-msgid "Vim Session %s"
-msgstr "Vim munkamenet %s"
+msgid "%s is empty"
+msgstr "%s üres"
 
-#: ../kupfer/plugin/vinagre.py:4
-msgid "Vinagre"
-msgstr "Vinagre"
+#: ../kupfer/ui/browser.py:877
+#, python-format
+msgid "No matches in %(src)s for \"%(query)s\""
+msgstr "Nincs találat ebben: %(src)s erre: „%(query)s”"
 
-#: ../kupfer/plugin/vinagre.py:7
-msgid "Vinagre bookmarks and actions"
-msgstr "Vinagre könyvjelzők és műveletek"
+#: ../kupfer/ui/browser.py:883
+msgid "No matches"
+msgstr "Nincs találat"
 
-#: ../kupfer/plugin/vinagre.py:34
-msgid "Start Vinagre Session"
-msgstr "Vinagre munkamenet indítása"
+#: ../kupfer/ui/browser.py:888
+msgid "Type to search"
+msgstr "Gépeljen a kereséshez"
 
-#: ../kupfer/plugin/vinagre.py:72
-msgid "Vinagre Bookmarks"
-msgstr "Vinagre könyvjelzők"
+#: ../kupfer/ui/browser.py:894
+#, python-format
+msgid "Type to search %s"
+msgstr "Gépeljen %s kereséséhez"
 
-#. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/virtualbox/__init__.py:3
-msgid "VirtualBox"
-msgstr "VirtualBox"
+#: ../kupfer/ui/browser.py:909
+msgid "No action"
+msgstr "Nincs művelet"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:5
+#: ../kupfer/ui/browser.py:1497
+#, python-format
+msgid "Make \"%(action)s\" Default for \"%(object)s\""
+msgstr "Legyen „%(action)s” az alapértelmezett ehhez: „%(object)s”"
+
+#. TRANS: Removing learned and/or configured bonus search score
+#: ../kupfer/ui/browser.py:1507
+#, python-format
+msgid "Forget About \"%s\""
+msgstr "Felejtse el ezt: „%s”"
+
+#. TRANS: Names of global keyboard shortcuts
+#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
+msgid "Show Main Interface"
+msgstr "Fő felület megjelenítése"
+
+#: ../kupfer/ui/preferences.py:60
+msgid "Show with Selection"
+msgstr "Megjelenítés a kijelöléssel"
+
+#. TRANS: Plugin info fields
+#: ../kupfer/ui/preferences.py:437
+msgid "Description"
+msgstr "Leírás"
+
+#: ../kupfer/ui/preferences.py:437
+msgid "Author"
+msgstr "Szerző"
+
+#: ../kupfer/ui/preferences.py:454
+msgid "Version"
+msgstr "Verzió"
+
+#. TRANS: Error message when Plugin needs a Python module to load
+#: ../kupfer/ui/preferences.py:464
+#, python-format
+msgid "Python module '%s' is needed"
+msgstr "A(z) „%s” Python modul szükséges"
+
+#: ../kupfer/ui/preferences.py:478
+msgid "Plugin could not be read due to an error:"
+msgstr "A bővítmény nem olvasható valamilyen hiba miatt:"
+
+#: ../kupfer/ui/preferences.py:560
+msgid "Content of"
+msgstr "Tartalom"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:569
+msgid "Sources"
+msgstr "Források"
+
+#. TRANS: Plugin contents header
+#: ../kupfer/ui/preferences.py:573
+msgid "Actions"
+msgstr "Műveletek"
+
+#: ../kupfer/ui/preferences.py:596
+#, python-format
+msgid "Using encrypted password storage: %s"
+msgstr "Titkosított jelszótároló használata: %s"
+
+#: ../kupfer/ui/preferences.py:598
+#, python-format
+msgid "Using password storage: %s"
+msgstr "Jelszótároló használata: %s"
+
+#. TRANS: Plugin-specific configuration (header)
+#: ../kupfer/ui/preferences.py:615
+msgid "Configuration"
+msgstr "Beállítások"
+
+#: ../kupfer/ui/preferences.py:635
+msgid "Set username and password"
+msgstr "Felhasználónév és jelszó beállítása"
+
+#. TRANS: File Chooser Title
+#: ../kupfer/ui/preferences.py:689
+msgid "Choose a Directory"
+msgstr "Válasszon könyvtárat"
+
+#: ../kupfer/ui/preferences.py:884
+msgid "Reset all shortcuts to default values?"
+msgstr "Visszaállít minden gyorsbillentyűt az alapértelmezett értékre?"
+
+#: ../kupfer/ui/preferences.py:893
+msgid "Shortcut"
+msgstr "Gyorsbillentyű"
+
+#. TRANS: Don't translate literally!
+#. TRANS: This should be a list of all translators of this language
+#: ../kupfer/version.py:73
+msgid "translator-credits"
+msgstr ""
+"SanskritFritz <sanskritfritz@gmail.com>\n"
+"Úr Balázs <urbalazs@gmail.com>"
+
+#: ../kupfer/version.py:78
+msgid "A free software (GPLv3+) launcher"
+msgstr "Szabad szoftver (GPLv3+) indító"
+
+#: ../kupfer/version.py:81
 msgid ""
-"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
-"Source Edition."
+"\n"
+"This program is free software: you can redistribute it and/or modify\n"
+"it under the terms of the GNU General Public License as published by\n"
+"the Free Software Foundation, either version 3 of the License, or\n"
+"(at your option) any later version.\n"
+"\n"
+"This program is distributed in the hope that it will be useful,\n"
+"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+"GNU General Public License for more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License\n"
+"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n"
 msgstr ""
-"VirtualBox virtuális gépek vezérlése. Támogatja a Sun Virtualboxot és a nyílt "
-"forrású változatot is."
+"\n"
+"Ez a program szabad szoftver; terjeszthető illetve módosítható a\n"
+"Free Software Foundation által kiadott GNU General Public License\n"
+"dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi\n"
+"változata szerint.\n"
+"\n"
+"Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz,\n"
+"de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA\n"
+"VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve.\n"
+"További részleteket a GNU General Public License tartalmaz.\n"
+"\n"
+"A felhasználónak a programmal együtt meg kell kapnia a GNU General\n"
+"Public License egy példányát; ha mégsem kapta meg, akkor\n"
+"tekintse meg a <http://www.gnu.org/licenses/> oldalon.\n"
+"\n"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:22
-msgid "Force use CLI interface"
-msgstr "Parancssori felület használatának erőltetése"
+#. follows strings used elsewhere
+#: ../kupfer/version.py:98
+msgid "Could not find running Kupfer"
+msgstr "Nem található futó Kupfer"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:86
-#: ../kupfer/plugin/virtualbox/__init__.py:97
-msgid "Power On"
-msgstr "Bekapcsolás"
+#~ msgid "Calculate expressions starting with '='"
+#~ msgstr "Az „=” jellel kezdődő kifejezések számítása"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:88
-#: ../kupfer/plugin/virtualbox/__init__.py:99
-msgid "Power On Headless"
-msgstr "Bekapcsolás felület nélkül"
+#~ msgid "Epiphany Bookmarks"
+#~ msgstr "Epiphany könyvjelzők"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:91
-msgid "Send Power Off Signal"
-msgstr "Kikapcsolás szignál küldése"
+#~ msgid "Index of Epiphany bookmarks"
+#~ msgstr "Epiphany könyvjelzők indexe"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:94
-msgid "Reboot"
-msgstr "Újraindítás"
+#~ msgid "Firefox Bookmarks"
+#~ msgstr "Firefox könyvjelzők"
 
-#. VM_STATE_PAUSED
-#: ../kupfer/plugin/virtualbox/__init__.py:102
-msgid "Resume"
-msgstr "Folytatás"
+#~ msgid "Index of Firefox bookmarks"
+#~ msgstr "Firefox könyvjelzők indexe"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:105
-msgid "Save State"
-msgstr "Állapot mentése"
+#~ msgid "Include visited sites"
+#~ msgstr "A látogatott oldalak is"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:107
-msgid "Power Off"
-msgstr "Kikapcsolás"
+#~| msgid "Firefox Bookmarks"
+#~ msgid "Firefox tag"
+#~ msgstr "Firefox címke"
 
-#: ../kupfer/plugin/virtualbox/__init__.py:131
-msgid "VirtualBox Machines"
-msgstr "VirtualBox gépek"
+#~ msgid "Rhythmbox"
+#~ msgstr "Rhythmbox"
 
-#: ../kupfer/plugin/zim.py:4
-msgid "Zim"
-msgstr "Zim"
+#~ msgid "Play and enqueue tracks and browse the music library"
+#~ msgstr "Számok lejátszása és sorba állítása és a zenekönyvtár böngészése"
 
-#: ../kupfer/plugin/zim.py:11
-msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
-msgstr ""
-"Hozzáférés a „Zim - egy asztali Wiki és vázlatkészítőben” tárolt oldalakhoz"
+#~ msgid "Include artists in top level"
+#~ msgstr "Előadók láthatók a felső szinten is"
 
-#: ../kupfer/plugin/zim.py:30
-msgid "Page names start with :colon"
-msgstr "Az oldalak neve :colon-nal kezdődik"
+#~ msgid "Include albums in top level"
+#~ msgstr "Albumok láthatók a felső szinten is"
 
-#: ../kupfer/plugin/zim.py:36
-msgid "Default page name for quick notes"
-msgstr "Alapértelmezett oldalnév a gyors jegyzetekhez"
+#~ msgid "Resume playback in Rhythmbox"
+#~ msgstr "Lejátszás folytatása a Rhythmboxban"
 
-#: ../kupfer/plugin/zim.py:38
-#, python-format
-msgid "Note %x %X"
-msgstr "Jegyzet %x %X"
+#~ msgid "Pause playback in Rhythmbox"
+#~ msgstr "Lejátszás szüneteltetése a Rhythmboxban"
 
-#: ../kupfer/plugin/zim.py:39
-msgid ""
-"Strftime tags can be used: %H - hour, %M - minutes, etc\n"
-"Please check python documentation for details.\n"
-"NOTE: comma will be replaced by _"
-msgstr ""
-"Az strftime címkék használhatók: %H - óra, %M - perc, stb.\n"
-"Nézze meg a python dokumentációját a részletekért.\n"
-"MEGJEGYZÉS: a vessző _ jellel lesz helyettesítve"
+#~ msgid "Jump to next track in Rhythmbox"
+#~ msgstr "Ugrás a következő számra a Rhythmboxban"
 
-#: ../kupfer/plugin/zim.py:45
-msgid "Default namespace for quick notes"
-msgstr "Alapértelmezett névtér a gyors jegyzetekhez"
+#~ msgid "Jump to previous track in Rhythmbox"
+#~ msgstr "Ugrás az előző számra a Rhythmboxban"
 
-#: ../kupfer/plugin/zim.py:80
-#, python-format
-msgid "Zim Page from Notebook \"%s\""
-msgstr "Zim oldal a(z) „%s” jegyzettömbből"
+#~ msgid "Show Playing"
+#~ msgstr "Lejátszás megjelenítése"
 
-#: ../kupfer/plugin/zim.py:89
-msgid "Create Zim Page"
-msgstr "Zim oldal létrehozása"
+#~ msgid "Tell which song is currently playing"
+#~ msgstr "Megmondja, hogy jelenleg melyik szám szól"
 
-#: ../kupfer/plugin/zim.py:96
-msgid "Create page in default notebook"
-msgstr "Oldal létrehozása az alapértelmezett jegyzettömbben"
+#~ msgid "Play tracks in Rhythmbox"
+#~ msgstr "Számok lejátszása a Rhythmboxban"
 
-#: ../kupfer/plugin/zim.py:108
-msgid "Create Zim Page In..."
-msgstr "Zim oldal létrehozása itt…"
+#~ msgid "Add tracks to the play queue"
+#~ msgstr "Számok hozzáadása a lejátszási sorhoz"
 
-#: ../kupfer/plugin/zim.py:132
-msgid "Insert QuickNote into Zim"
-msgstr "QuickNote beszúrása a Zimbe"
+#~ msgid "by %(artist)s from %(album)s"
+#~ msgstr "%(artist)s - %(album)s"
 
-#: ../kupfer/plugin/zim.py:142
-msgid "Quick note selected text into Zim notebook"
-msgstr "Gyors jegyzet a kijelölt szövegből a Zim jegyzettömbbe"
+#~ msgid "by %s"
+#~ msgstr "%s"
 
-#: ../kupfer/plugin/zim.py:191
-msgid "Create Subpage..."
-msgstr "Aloldal létrehozása…"
+#~ msgid "Tracks by %s"
+#~ msgstr "%s számai"
 
-#: ../kupfer/plugin/zim.py:370
-msgid "Zim Notebooks"
-msgstr "Zim jegyzettömbök"
+#~ msgid "Albums"
+#~ msgstr "Albumok"
 
-#: ../kupfer/plugin/zim.py:387
-msgid "Zim Pages"
-msgstr "Zim oldalak"
+#~ msgid "Music albums in Rhythmbox Library"
+#~ msgstr "Zene albumok a Rhythmbox könyvtárban"
 
-#: ../kupfer/plugin/zim.py:415
-msgid "Pages stored in Zim Notebooks"
-msgstr "Zim jegyzettömbben tárolt oldalak"
+#~ msgid "Artists"
+#~ msgstr "Előadók"
+
+#~ msgid "Music artists in Rhythmbox Library"
+#~ msgstr "Zene előadók a Rhythmbox könyvtárban"
+
+#~ msgid "Songs"
+#~ msgstr "Dalok"
+
+#~ msgid "Songs in Rhythmbox library"
+#~ msgstr "Dalok a Rhythmbox könyvtárban"
+
+#~ msgid "Search the Web"
+#~ msgstr "Keresés a világhálón"
+
+#~ msgid "Search the web with OpenSearch search engines"
+#~ msgstr "Keresés a világhálón az OpenSearch keresőmotorokkal"
+
+#~ msgid "Search With..."
+#~ msgstr "Keresés ezzel…"
+
+#~ msgid "Search For..."
+#~ msgstr "Keresés erre…"
+
+#~ msgid "Search Engines"
+#~ msgstr "Keresőmotorok"
+
+#~ msgid "Abiword"
+#~ msgstr "Abiword"
+
+#~ msgid "Recently used documents in Abiword"
+#~ msgstr "Nemrég használt dokumentumok az Abiwordben"
+
+#~ msgid "Abiword Recent Items"
+#~ msgstr "Legutóbbi elemek az Abiwordben"
+
+#~ msgid "APT"
+#~ msgstr "APT"
+
+#~ msgid "Interface with the package manager APT"
+#~ msgstr "Felület az APT csomagkezelővel"
+
+#~ msgid "Installation method"
+#~ msgstr "Telepítési mód"
+
+#~ msgid "Show Package Information"
+#~ msgstr "Csomaginformációk megjelenítése"
+
+#~ msgid "Install"
+#~ msgstr "Telepítés"
+
+#~ msgid "Install package using the configured method"
+#~ msgstr "Csomag telepítése a beállított módon"
+
+#~ msgid "Packages matching \"%s\""
+#~ msgstr "Erre illeszkedő csomagok: „%s”"
+
+#~ msgid "Search Package Name..."
+#~ msgstr "Csomagnév keresése…"
+
+#~ msgid "Ascii & Unicode Icon Set"
+#~ msgstr "Ascii és Unicode ikonkészlet"
+
+#~ msgid ""
+#~ "Provides the Ascii and Unicode icon sets that use letters and symbols to "
+#~ "produce icons for the objects found in Kupfer."
+#~ msgstr ""
+#~ "Az Ascii és Unicode ikonkészlet biztosítja, amelyek betűket és "
+#~ "szimbólumokat használnak ikonok készítéséhez a Kupferben található "
+#~ "objektumokhoz."
+
+#~ msgid "Ascii"
+#~ msgstr "Ascii"
+
+#~ msgid "Unicode"
+#~ msgstr "Unicode"
+
+#~ msgid "Chromium Bookmarks"
+#~ msgstr "Chromium könyvjelzők"
+
+#~ msgid "Index of Chromium bookmarks"
+#~ msgstr "Chromium könyvjelzők indexe"
+
+#~ msgid "Claws Mail"
+#~ msgstr "Claws Mail"
+
+#~ msgid "Claws Mail Contacts and Actions"
+#~ msgstr "Claws Mail címtár és műveletek"
+
+#~ msgid "Compose a new message in Claws Mail"
+#~ msgstr "Új levél írása a Claws Mailben"
+
+#~ msgid "Receive All Email"
+#~ msgstr "Minden levél fogadása"
+
+#~ msgid "Receive new messages from all accounts in ClawsMail"
+#~ msgstr "Új üzenetek fogadása a Claws Mail minden fiókjába"
+
+#~ msgid "Compose new message in Claws Mail and attach file"
+#~ msgstr "Új üzenet írása és fájl csatolása a Claws Mailben"
+
+#~ msgid "Claws Mail Address Book"
+#~ msgstr "Claws Mail címjegyzék"
+
+#~ msgid "Contacts from Claws Mail Address Book"
+#~ msgstr "Partnerek a Claws Mail címjegyzékéből"
+
+#~ msgid "Configure a custom terminal emulator"
+#~ msgstr "Egyéni terminálemulátor beállítása"
+
+#~ msgid "Custom Theme"
+#~ msgstr "Egyéni téma"
+
+#~ msgid "Use a custom color theme"
+#~ msgstr "Egyéni színtéma használata"
+
+#~ msgid "Theme:"
+#~ msgstr "Téma:"
+
+#~ msgid "Devhelp"
+#~ msgstr "Devhelp"
+
+#~ msgid "Search in Devhelp"
+#~ msgstr "Keresés a Devhelpben"
+
+#~ msgid "Empathy"
+#~ msgstr "Empathy"
+
+#~ msgid "Access to Empathy Contacts"
+#~ msgstr "Hozzáférés az Empathy partnerekhez"
+
+#~ msgid "Show offline contacts"
+#~ msgstr "Kilépett partnerek megjelenítése"
+
+#~ msgid "Available"
+#~ msgstr "Elérhető"
+
+#~ msgid "Away"
+#~ msgstr "Távol"
+
+#~ msgid "Busy"
+#~ msgstr "Elfoglalt"
+
+#~ msgid "Not Available"
+#~ msgstr "Nem érhető el"
+
+#~ msgid "Invisible"
+#~ msgstr "Láthatatlan"
+
+#~ msgid "Offline"
+#~ msgstr "Kilépett"
+
+#~ msgid "Open Chat"
+#~ msgstr "Csevegés megnyitása"
+
+#~ msgid "Change Global Status To..."
+#~ msgstr "Globális állapot megváltoztatása…"
+
+#~ msgid "Empathy Contacts"
+#~ msgstr "Empathy partnerek"
+
+#~ msgid "Empathy Account Status"
+#~ msgstr "Empathy fiók állapot"
+
+#~ msgid "Evolution"
+#~ msgstr "Evolution"
+
+#~ msgid "Evolution contacts"
+#~ msgstr "Evolution partnerek"
+
+#~ msgid "Compose a new message in Evolution"
+#~ msgstr "Új üzenet írása az Evolutionben"
+
+#~ msgid "Compose new message in Evolution and attach file"
+#~ msgstr "Új üzenet írása és fájl csatolása az Evolutionben"
+
+#~ msgid "Evolution Address Book"
+#~ msgstr "Evolution címjegyzék"
+
+#~ msgid "Filezilla"
+#~ msgstr "Filezilla"
+
+#~ msgid "Show sites and handle ftp addresses by Filezilla"
+#~ msgstr "Oldalak megjelenítése és FTP-címek kezelése a Filezillával"
+
+#~ msgid "Open Site with Filezilla"
+#~ msgstr "Oldal megnyitása a Filezillával"
+
+#~ msgid "Filezilla Sites"
+#~ msgstr "Filezilla oldalak"
+
+#~ msgid "Sites from Filezilla"
+#~ msgstr "Oldalak a Filezillából"
+
+#~ msgid "Gajim"
+#~ msgstr "Gajim"
+
+#~ msgid "Access to Gajim Contacts"
+#~ msgstr "Hozzáférés a Gajim partnerekhez"
+
+#~ msgid "Free for Chat"
+#~ msgstr "Csevegésre kész"
+
+#~ msgid "Gajim Contacts"
+#~ msgstr "Gajim partnerek"
+
+#~ msgid "Gajim Account Status"
+#~ msgstr "Gajim fiók állapot"
+
+#~ msgid "Gmail"
+#~ msgstr "Gmail"
+
+#~ msgid "Load contacts and compose new email in Gmail"
+#~ msgstr "Partnerek betöltése és új levél írása Gmailben"
+
+#~ msgid "Load contacts' pictures"
+#~ msgstr "Partnerek képeinek betöltése"
+
+#~| msgid "show version information"
+#~ msgid "Load additional information"
+#~ msgstr "További információk betöltése"
+
+#~ msgid "Work email"
+#~ msgstr "Munkahelyi e-mail"
+
+#~| msgid "Compose Email"
+#~ msgid "Home email"
+#~ msgstr "Otthoni e-mail"
+
+#~ msgid "Other email"
+#~ msgstr "Egyéb e-mail"
+
+#~| msgid "Workspaces"
+#~ msgid "Work address"
+#~ msgstr "Munkahelyi cím"
+
+#~| msgid "Home Folder"
+#~ msgid "Home address"
+#~ msgstr "Otthoni cím"
+
+#~ msgid "Other address"
+#~ msgstr "Egyéb cím"
+
+#~ msgid "Car phone"
+#~ msgstr "Autótelefon"
+
+#~ msgid "Fax"
+#~ msgstr "Fax"
+
+#~| msgid "Home Folder"
+#~ msgid "Home phone"
+#~ msgstr "Otthoni telefon"
+
+#~ msgid "Home fax"
+#~ msgstr "Otthoni fax"
+
+#~ msgid "Internal phone"
+#~ msgstr "Belső telefon"
+
+#~ msgid "Mobile"
+#~ msgstr "Mobiltelefon"
+
+#~ msgid "Other"
+#~ msgstr "Egyéb"
+
+#~ msgid "VOIP"
+#~ msgstr "VOIP"
+
+#~| msgid "Workspaces"
+#~ msgid "Work phone"
+#~ msgstr "Munkahelyi telefon"
+
+#~ msgid "Work fax"
+#~ msgstr "Munkahelyi fax"
+
+#~ msgid "Compose Email in Gmail"
+#~ msgstr "Levél írása a Gmailben"
+
+#~ msgid "Open web browser and compose new email in Gmail"
+#~ msgstr "Webböngésző megnyitása és új levél írása a Gmailben"
+
+#~ msgid "Edit Contact in Gmail"
+#~ msgstr "Partner szerkesztése a Gmailben"
+
+#~| msgid "Open web browser and compose new email in Gmail"
+#~ msgid "Open web browser and edit contact in Gmail"
+#~ msgstr "Webböngésző megnyitása és partner szerkesztése a Gmailben"
+
+#~ msgid "Contacts from Google services (Gmail)"
+#~ msgstr "Partnerek a Google szolgáltatásokból (Gmail)"
+
+#~ msgid "Google Picasa"
+#~ msgstr "Google Picasa"
+
+#~ msgid "Show albums and upload files to Picasa"
+#~ msgstr "Albumok megjelenítése és fájlok feltöltése a Picasára"
+
+#~ msgid "Users to show: (,-separated)"
+#~ msgstr "Megjelenítendő felhasználók: (vesszővel elválasztva)"
+
+#~ msgid "Load user and album icons"
+#~ msgstr "Felhasználó és album ikonok betöltése"
+
+#~ msgid "Uploading Pictures"
+#~ msgstr "Képek feltöltése"
+
+#~ msgid "Uploading pictures to Picasa Web Album"
+#~ msgstr "Képek feltöltése a Picasa webalbumba"
+
+#~ msgid "Creating album:"
+#~ msgstr "Album létrehozása:"
+
+#~ msgid "Album created by Kupfer"
+#~ msgstr "Kupfer által létrehozott album"
+
+#~ msgid "File:"
+#~ msgstr "Fájl:"
+
+#~ msgid "One album"
+#~ msgid_plural "%(num)d albums"
+#~ msgstr[0] "Egy album"
+#~ msgstr[1] "%(num)d album"
+
+#~ msgid "one photo"
+#~ msgid_plural "%(num)s photos"
+#~ msgstr[0] "egy fénykép"
+#~ msgstr[1] "%(num)s fénykép"
+
+#~ msgid "Upload to Picasa Album..."
+#~ msgstr "Feltöltés a Picasa albumba…"
+
+#~ msgid "Upload files to Picasa album"
+#~ msgstr "Fájlok feltöltése a Picasa albumba"
+
+#~ msgid "Upload to Picasa as New Album"
+#~ msgstr "Feltöltés a Picasára új albumként"
+
+#~ msgid "Create album from selected local directory"
+#~ msgstr "Album létrehozása a kijelölt helyi könyvtárból"
+
+#~ msgid "Picasa Albums"
+#~ msgstr "Picasa albumok"
+
+#~ msgid "User albums in Picasa"
+#~ msgstr "Felhasználói albumok a Picasában"
+
+#~ msgid "Google Search"
+#~ msgstr "Google keresés"
+
+#~ msgid "Search Google with results shown directly"
+#~ msgstr "Google keresés a közvetlenül megjelenített eredményekkel"
+
+#~ msgid "Show More Results For \"%s\""
+#~ msgstr "További eredmények megjelenítése ehhez: „%s”"
+
+#~ msgid "%s total found"
+#~ msgstr "%s találat összesen"
+
+#~ msgid "Getting Things GNOME"
+#~ msgstr "Getting Things GNOME"
+
+#~ msgid "Browse and create new tasks in GTG"
+#~ msgstr "Böngészés és új feladatok létrehozása a GTG-ben"
+
+#~ msgid "due: %s"
+#~ msgstr "határidő: %s"
+
+#~ msgid "start: %s"
+#~ msgstr "kezdés: %s"
+
+#~ msgid "tags: %s"
+#~ msgstr "címkék: %s"
+
+#~ msgid "Open task in Getting Things GNOME!"
+#~ msgstr "Feladat megnyitása a „Getting Things GNOME!”-ban"
+
+#~ msgid "Delete"
+#~ msgstr "Törlés"
+
+#~ msgid "Permanently remove this task"
+#~ msgstr "Feladat végleges eltávolítása"
+
+#~ msgid "Mark Done"
+#~ msgstr "Készre jelölés"
+
+#~ msgid "Mark this task as done"
+#~ msgstr "A feladat készre jelölése"
+
+#~ msgid "Dismiss"
+#~ msgstr "Eltüntetés"
+
+#~ msgid "Mark this task as not to be done anymore"
+#~ msgstr "Feladat megjelölése „többé nem kell elvégezni”-ként"
+
+#~ msgid "Create Task"
+#~ msgstr "Feladat létrehozása"
+
+#~ msgid "Create new task in Getting Things GNOME"
+#~ msgstr "Feladat létrehozása a „Getting Things GNOME”-ban"
+
+#~ msgid "Gwibber"
+#~ msgstr "Gwibber"
+
+#~ msgid ""
+#~ "Microblogging with Gwibber. Allows sending and receiving messages from "
+#~ "social networks like Twitter, Identi.ca etc. Requires the package "
+#~ "'gwibber-service'."
+#~ msgstr ""
+#~ "Mikroblogolás a Gwibberrel. Lehetővé teszi üzenetek küldését és fogadását "
+#~ "a közösségi hálózatokról mint a Twitter, Identi.ca, stb. A „gwibber-"
+#~ "service” csomag szükséges hozzá."
+
+#~ msgid "Maximum number of messages to show"
+#~ msgstr "Megjelenítendő üzenetek maximális száma"
+
+#~ msgid "%(user)s on %(service)s"
+#~ msgstr "%(user)s - %(service)s"
+
+#~ msgid "%(user)s %(when)s on %(where)s"
+#~ msgstr "%(user)s %(when)s - %(where)s"
+
+#~ msgid "Send Message"
+#~ msgstr "Üzenet küldése"
+
+#~ msgid "Send message to all Gwibber accounts"
+#~ msgstr "Üzenet küldése minden Gwibber fiókra"
+
+#~ msgid "Send Message To..."
+#~ msgstr "Üzenet küldése…"
+
+#~ msgid "Send message to a Gwibber account"
+#~ msgstr "Üzenet küldése egy Gwibber fiókra"
+
+#~ msgid "Send Message..."
+#~ msgstr "Üzenet küldése…"
+
+#~ msgid "Send message to selected Gwibber account"
+#~ msgstr "Üzenet küldése a kijelölt Gwibber fiókra"
+
+#~ msgid "Reply..."
+#~ msgstr "Válasz…"
+
+#~ msgid "Delete Message"
+#~ msgstr "Üzenet törlése"
+
+#~ msgid "Send Private Message..."
+#~ msgstr "Magánüzenet küldése…"
+
+#~ msgid "Send direct message to user"
+#~ msgstr "Közvetlen üzenet küldése a felhasználónak"
+
+#~ msgid "Retweet"
+#~ msgstr "Újratweetelés"
+
+#~ msgid "Retweet To..."
+#~ msgstr "Újratweetelés…"
+
+#~ msgid "Retweet message to all Gwibber accounts"
+#~ msgstr "Üzenet újratweetelése minden Gwibber fiókra"
+
+#~ msgid "Retweet message to a Gwibber account"
+#~ msgstr "Üzenet újratweetelése egy Gwibber fiókra"
+
+#~ msgid "Open in Browser"
+#~ msgstr "Megnyitás böngészőben"
+
+#~ msgid "Open message in default web browser"
+#~ msgstr "Üzenet megnyitása az alapértelmezett webböngészőben"
+
+#~ msgid "Gwibber Accounts"
+#~ msgstr "Gwibber fiókok"
+
+#~ msgid "Accounts configured in Gwibber"
+#~ msgstr "A Gwibberben beállított fiókok"
+
+#~ msgid "Gwibber Messages"
+#~ msgstr "Gwibber üzenetek"
+
+#~ msgid "Recent messages received by Gwibber"
+#~ msgstr "A Gwibberrel legutóbb fogadott üzenetek"
+
+#~ msgid "Gwibber Messages for %s"
+#~ msgstr "Gwibber üzenetek ehhez: %s"
+
+#~ msgid "Gwibber Streams"
+#~ msgstr "Gwibber folyamok"
+
+#~ msgid "Streams configured in Gwibber"
+#~ msgstr "A Gwibberben beállított folyamok"
+
+#~ msgid "Gwibber Messages in %s"
+#~ msgstr "Gwibber üzenetek ebben: %s"
+
+#~ msgid "Gwibber (Simple)"
+#~ msgstr "Gwibber (egyszerű)"
+
+#~ msgid "Send updates via the microblogging client Gwibber"
+#~ msgstr "Frissítések küldése a Gwibber mikroblogoló kliensen keresztül"
+
+#~ msgid "Send Update"
+#~ msgstr "Frissítés küldése"
+
+#~ msgid "Unable to activate Gwibber service"
+#~ msgstr "Nem aktiválható a Gwibber szolgáltatás"
+
+#~ msgid "Locate Files"
+#~ msgstr "Fájlok keresése"
+
+#~ msgid "Search filesystem using locate"
+#~ msgstr "Keresés a fájlrendszerben a locate használatával"
+
+#~ msgid "Ignore case distinctions when searching files"
+#~ msgstr "Kis- és nagybetűk megkülönböztetésének mellőzése fájlok keresésekor"
+
+#~ msgid "OpenOffice / LibreOffice"
+#~ msgstr "OpenOffice / LibreOffice"
+
+#~ msgid "Recently used documents in OpenOffice/LibreOffice"
+#~ msgstr "Legutóbb használt dokumentumok az OpenOffice-ban/LibreOffice-ban"
+
+#~ msgid "OpenOffice/LibreOffice Recent Items"
+#~ msgstr "OpenOffice/LibreOffice legutóbbi elemek"
+
+#~ msgid "Opera Mail"
+#~ msgstr "Opera Mail"
+
+#~ msgid "Opera Mail contacts and actions"
+#~ msgstr "Opera Mail partnerek és műveletek"
+
+#~ msgid "Compose a new message in Opera Mail"
+#~ msgstr "Új üzenet írása az Opera Mailben"
+
+#~ msgid "Opera Mail Contacts"
+#~ msgstr "Opera Mail partnerek"
+
+#~ msgid "Contacts from Opera Mail"
+#~ msgstr "Partnerek az Opera Mailből"
+
+#~ msgid "Opera Bookmarks"
+#~ msgstr "Opera könyvjelzők"
+
+#~ msgid "Index of Opera bookmarks"
+#~ msgstr "Opera könyvjelzők indexe"
+
+#~ msgid "Pidgin"
+#~ msgstr "Pidgin"
+
+#~ msgid "Access to Pidgin Contacts"
+#~ msgstr "Hozzáférés a Pidgin partnerekhez"
+
+#~ msgid "%s (%d character)"
+#~ msgid_plural "%s (%d characters)"
+#~ msgstr[0] "%s (%d karakter)"
+#~ msgstr[1] "%s (%d karakter)"
+
+#~ msgid "Pidgin Contacts"
+#~ msgstr "Pidgin partnerek"
+
+#~ msgid "PuTTY Sessions"
+#~ msgstr "PuTTY munkamenetek"
+
+#~ msgid "Quick access to PuTTY Sessions"
+#~ msgstr "Gyors hozzáférés a PuTTY munkamenetekhez"
+
+#~ msgid "Start Session"
+#~ msgstr "Munkamenet indítása"
+
+#~ msgid "reStructuredText"
+#~ msgstr "reStructuredText"
+
+#~ msgid "Render reStructuredText and show the result"
+#~ msgstr "reStructuredText renderelése és az eredmény megjelenítése"
+
+#~ msgid "View as HTML Document"
+#~ msgstr "Megtekintés HTML dokumentumként"
+
+#~ msgid "System Services"
+#~ msgstr "Rendszerszolgáltatások"
+
+#~ msgid "Start, stop or restart system services via init scripts"
+#~ msgstr ""
+#~ "Rendszerszolgáltatások indítása, leállítása vagy újraindítása az init "
+#~ "parancsfájlokkal"
+
+#~ msgid "Sudo-like Command"
+#~ msgstr "Sudo-szerű parancs"
+
+#~ msgid "Start Service"
+#~ msgstr "Szolgáltatás indítása"
+
+#~ msgid "Stop Service"
+#~ msgstr "Szolgáltatás leállítása"
+
+#~ msgid "%s Service"
+#~ msgstr "%s szolgáltatás"
+
+#~ msgid "Shorten Links"
+#~ msgstr "Linkek rövidítése"
+
+#~ msgid "Create short aliases of long URLs"
+#~ msgstr "Hosszú URL-ek rövid álnevének létrehozása"
+
+#~ msgid "Error"
+#~ msgstr "Hiba"
+
+#~ msgid "Shorten With..."
+#~ msgstr "Rövidítés ezzel…"
+
+#~ msgid "Services"
+#~ msgstr "Szolgáltatások"
+
+#~ msgid "Show QRCode"
+#~ msgstr "QRCode megjelenítése"
+
+#~ msgid "Display text as QRCode in a window"
+#~ msgstr "Szöveg megjelenítése QRCode-ként egy ablakban"
+
+#~ msgid "Access to Skype contacts"
+#~ msgstr "Hozzáférés a Skype partnerekhez"
+
+#~ msgid "Skype Me"
+#~ msgstr "Skype Me"
+
+#~ msgid "Logged Out"
+#~ msgstr "Kijelentkezve"
+
+#~ msgid "[%(status)s] %(userid)s"
+#~ msgstr "[%(status)s] %(userid)s"
+
+#~ msgid "Call"
+#~ msgstr "Hívás"
+
+#~ msgid "Place a call to contact"
+#~ msgstr "Partner hívása"
+
+#~ msgid "Skype Contacts"
+#~ msgstr "Skype partnerek"
+
+#~ msgid "Skype Statuses"
+#~ msgstr "Skype állapotok"
+
+#~ msgid "TrueCrypt"
+#~ msgstr "TrueCrypt"
+
+#~ msgid "Volumes from TrueCrypt history"
+#~ msgstr "Kötetek a TrueCrypt előzményeiből"
+
+#~ msgid "TrueCrypt volume: %(file)s"
+#~ msgstr "TrueCrypt kötet: %(file)s"
+
+#~ msgid "Mount Volume"
+#~ msgstr "Kötet csatolása"
+
+#~ msgid "Mount in Truecrypt"
+#~ msgstr "Csatolás a TrueCryptben"
+
+#~ msgid "Try to mount file as Truecrypt volume"
+#~ msgstr "Fájl csatolásának próbája TrueCrypt kötetként"
+
+#~ msgid "Dismount All Volumes"
+#~ msgstr "Minden kötet leválasztása"
+
+#~ msgid "TrueCrypt Volumes"
+#~ msgstr "TrueCrypt kötetek"
+
+#~ msgid "Terminal Server Client"
+#~ msgstr "Terminálkiszolgáló kliens"
+
+#~ msgid "Session saved in Terminal Server Client"
+#~ msgstr "A terminálkiszolgáló kliensben elmentett munkamenet"
+
+#~ msgid "TSClient sessions"
+#~ msgstr "TSClient munkamenetek"
+
+#~ msgid "Saved sessions in Terminal Server Client"
+#~ msgstr "A terminálkiszolgáló kliensben elmentett munkamenetek"
+
+#~ msgid "Vim"
+#~ msgstr "Vim"
+
+#~ msgid "Recently used documents in Vim"
+#~ msgstr "Nemrég használt dokumentumok a Vim-ben"
+
+#~ msgid "Vim Recent Documents"
+#~ msgstr "Vim legutóbbi dokumentumok"
+
+#~ msgid "Close (Save All)"
+#~ msgstr "Bezárás (Összes mentése)"
+
+#~| msgid "Send To..."
+#~ msgid "Send..."
+#~ msgstr "Küldés…"
+
+#~| msgid "Saved Kupfer Command"
+#~ msgid "Send ex command"
+#~ msgstr "Ex parancs küldése"
+
+#~ msgid "Insert in Vim..."
+#~ msgstr "Beszúrás a Vim-be…"
+
+#~| msgid "Active GNU Screen sessions"
+#~ msgid "Active Vim Sessions"
+#~ msgstr "Aktív Vim munkamenetek"
+
+#~| msgid "PuTTY Sessions"
+#~ msgid "Vim Session %s"
+#~ msgstr "Vim munkamenet %s"
+
+#~ msgid "Vinagre"
+#~ msgstr "Vinagre"
+
+#~ msgid "Vinagre bookmarks and actions"
+#~ msgstr "Vinagre könyvjelzők és műveletek"
+
+#~ msgid "Start Vinagre Session"
+#~ msgstr "Vinagre munkamenet indítása"
+
+#~ msgid "Vinagre Bookmarks"
+#~ msgstr "Vinagre könyvjelzők"
+
+#~ msgid "VirtualBox"
+#~ msgstr "VirtualBox"
+
+#~ msgid ""
+#~ "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and "
+#~ "Open Source Edition."
+#~ msgstr ""
+#~ "VirtualBox virtuális gépek vezérlése. Támogatja a Sun Virtualboxot és a "
+#~ "nyílt forrású változatot is."
+
+#~ msgid "Force use CLI interface"
+#~ msgstr "Parancssori felület használatának erőltetése"
+
+#~ msgid "Power On"
+#~ msgstr "Bekapcsolás"
+
+#~ msgid "Power On Headless"
+#~ msgstr "Bekapcsolás felület nélkül"
+
+#~ msgid "Send Power Off Signal"
+#~ msgstr "Kikapcsolás szignál küldése"
+
+#~ msgid "Reboot"
+#~ msgstr "Újraindítás"
+
+#~ msgid "Resume"
+#~ msgstr "Folytatás"
+
+#~ msgid "Save State"
+#~ msgstr "Állapot mentése"
+
+#~ msgid "Power Off"
+#~ msgstr "Kikapcsolás"
+
+#~ msgid "VirtualBox Machines"
+#~ msgstr "VirtualBox gépek"
+
+#~ msgid "Zim"
+#~ msgstr "Zim"
+
+#~ msgid "Access to Pages stored in Zim - A Desktop Wiki and Outliner"
+#~ msgstr ""
+#~ "Hozzáférés a „Zim - egy asztali Wiki és vázlatkészítőben” tárolt "
+#~ "oldalakhoz"
+
+#~ msgid "Page names start with :colon"
+#~ msgstr "Az oldalak neve :colon-nal kezdődik"
+
+#~ msgid "Default page name for quick notes"
+#~ msgstr "Alapértelmezett oldalnév a gyors jegyzetekhez"
+
+#~ msgid "Note %x %X"
+#~ msgstr "Jegyzet %x %X"
+
+#~ msgid ""
+#~ "Strftime tags can be used: %H - hour, %M - minutes, etc\n"
+#~ "Please check python documentation for details.\n"
+#~ "NOTE: comma will be replaced by _"
+#~ msgstr ""
+#~ "Az strftime címkék használhatók: %H - óra, %M - perc, stb.\n"
+#~ "Nézze meg a python dokumentációját a részletekért.\n"
+#~ "MEGJEGYZÉS: a vessző _ jellel lesz helyettesítve"
+
+#~ msgid "Default namespace for quick notes"
+#~ msgstr "Alapértelmezett névtér a gyors jegyzetekhez"
+
+#~ msgid "Zim Page from Notebook \"%s\""
+#~ msgstr "Zim oldal a(z) „%s” jegyzettömbből"
+
+#~ msgid "Create Zim Page"
+#~ msgstr "Zim oldal létrehozása"
+
+#~ msgid "Create page in default notebook"
+#~ msgstr "Oldal létrehozása az alapértelmezett jegyzettömbben"
+
+#~ msgid "Create Zim Page In..."
+#~ msgstr "Zim oldal létrehozása itt…"
+
+#~ msgid "Insert QuickNote into Zim"
+#~ msgstr "QuickNote beszúrása a Zimbe"
+
+#~ msgid "Quick note selected text into Zim notebook"
+#~ msgstr "Gyors jegyzet a kijelölt szövegből a Zim jegyzettömbbe"
+
+#~ msgid "Create Subpage..."
+#~ msgstr "Aloldal létrehozása…"
+
+#~ msgid "Zim Notebooks"
+#~ msgstr "Zim jegyzettömbök"
+
+#~ msgid "Zim Pages"
+#~ msgstr "Zim oldalak"
+
+#~ msgid "Pages stored in Zim Notebooks"
+#~ msgstr "Zim jegyzettömbben tárolt oldalak"
 
 #~ msgid "run keyboard shortcut relay service on this display"
 #~ msgstr "Billentyűtovábbító szolgáltatás engedélyezése ezen a képernyőn"
