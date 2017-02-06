@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 21:36+0100\n"
+"POT-Creation-Date: 2017-02-06 12:24+0100\n"
 "PO-Revision-Date: 2012-08-23 09:52+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Command in \"%s\" is not available"
 msgstr ""
 
-#: ../kupfer/keyrelay.py:65
+#: ../kupfer/keyrelay.py:67
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr ""
@@ -288,8 +288,7 @@ msgstr ""
 msgid "Can not be used with multiple objects"
 msgstr ""
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
-#: ../kupfer/plugin/notes.py:88
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Åpne"
 
@@ -1000,15 +999,6 @@ msgstr ""
 msgid "Glob"
 msgstr ""
 
-#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
-#, fuzzy
-msgid "GNOME Terminal Profiles"
-msgstr "Åpne terminal her"
-
-#: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch GNOME Terminal profiles"
-msgstr ""
-
 #: ../kupfer/plugin/higherorder.py:1
 #, fuzzy
 msgid "Higher-order Actions"
@@ -1094,13 +1084,6 @@ msgstr "aktivert"
 #: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
 msgid "disabled"
 msgstr "deaktivert"
-
-#. TRANS: Multihead refers to support for multiple computer displays
-#. TRANS: In this case, it only concerns the special configuration
-#. TRANS: with multiple X "screens"
-#: ../kupfer/plugin/multihead.py:4
-msgid "Multihead Support"
-msgstr ""
 
 #: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
 #: ../kupfer/plugin/notes.py:229
@@ -1310,7 +1293,7 @@ msgstr ""
 msgid "Unencrypted File"
 msgstr "Ukryptert fil"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:106
 msgid "Document Templates"
 msgstr "Dokumentmaler"
 
@@ -1318,28 +1301,28 @@ msgstr "Dokumentmaler"
 msgid "Create new documents from your templates"
 msgstr "Lag nye dokumenter fra dine maler"
 
-#: ../kupfer/plugin/templates.py:24
+#: ../kupfer/plugin/templates.py:23
 #, python-format
 msgid "%s template"
 msgstr "%s mal"
 
-#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
+#: ../kupfer/plugin/templates.py:36 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Tom fil"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:46
 msgid "New Folder"
 msgstr "Ny mappe"
 
-#: ../kupfer/plugin/templates.py:57
+#: ../kupfer/plugin/templates.py:56
 msgid "Create New Document..."
 msgstr "Lag nytt dokument …"
 
-#: ../kupfer/plugin/templates.py:96
+#: ../kupfer/plugin/templates.py:95
 msgid "Create a new document from template"
 msgstr "Lag ett nytt dokument fra mal"
 
-#: ../kupfer/plugin/templates.py:103
+#: ../kupfer/plugin/templates.py:102
 msgid "Create Document In..."
 msgstr "Lag dokument i …"
 
@@ -1705,33 +1688,46 @@ msgstr "Vis med stor tekst"
 msgid "Show Notification"
 msgstr "Vis varsling"
 
-#: ../kupfer/plugin/tracker1.py:10
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:18
+#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:44
 msgid "Search in Tracker"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:54
+#: ../kupfer/plugin/tracker1.py:49
 msgid "Open Tracker Search Tool and search for this term"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:62
+#: ../kupfer/plugin/tracker1.py:57
 msgid "Get Tracker Results..."
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:71
+#: ../kupfer/plugin/tracker1.py:66
 msgid "Show Tracker results for query"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
+#: ../kupfer/plugin/tracker1.py:159
+#, python-format
+msgid "Tracker Search for \"%s\""
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:171
 #, python-format
 msgid "Results for \"%s\""
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:204
+msgid "Tracker Full Text Search"
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:208
+msgid "Use '?' prefix to get full text results"
 msgstr ""
 
 #. TRANS: Names of accelerators in the interface
@@ -1818,19 +1814,19 @@ msgstr "Skriv for å søke i %s"
 msgid "No action"
 msgstr "Ingen handling"
 
-#: ../kupfer/ui/browser.py:1497
+#: ../kupfer/ui/browser.py:1498
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr ""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1507
+#: ../kupfer/ui/browser.py:1508
 #, python-format
 msgid "Forget About \"%s\""
 msgstr ""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr ""
 
@@ -1938,6 +1934,10 @@ msgstr ""
 #: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr ""
+
+#, fuzzy
+#~ msgid "GNOME Terminal Profiles"
+#~ msgstr "Åpne terminal her"
 
 #, fuzzy
 #~ msgid "Epiphany Bookmarks"

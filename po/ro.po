@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 21:36+0100\n"
+"POT-Creation-Date: 2017-02-06 12:24+0100\n"
 "PO-Revision-Date: 2015-10-25 11:37+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -181,7 +181,7 @@ msgstr "Nu există permisiune de a rula „%s” (nu este executabil)"
 msgid "Command in \"%s\" is not available"
 msgstr "Comanda în „%s” nu este disponibilă"
 
-#: ../kupfer/keyrelay.py:65
+#: ../kupfer/keyrelay.py:67
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Releul tastaurii este activ pentru afișajul %s"
@@ -301,8 +301,7 @@ msgstr "%s nu suportă această operație"
 msgid "Can not be used with multiple objects"
 msgstr "Nu poate fi folosit cu obiecte multiple"
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
-#: ../kupfer/plugin/notes.py:88
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Deschide"
 
@@ -1014,14 +1013,6 @@ msgstr "Copiază fișierul la o locație selectată"
 msgid "Glob"
 msgstr "Glob"
 
-#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
-msgid "GNOME Terminal Profiles"
-msgstr "Profiluri de terminal GNOME"
-
-#: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch GNOME Terminal profiles"
-msgstr "Lansează profilurile de terminal GNOME"
-
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
 msgstr "Acțiuni de ordin superior"
@@ -1108,13 +1099,6 @@ msgstr "activat"
 #: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
 msgid "disabled"
 msgstr "dezactivat"
-
-#. TRANS: Multihead refers to support for multiple computer displays
-#. TRANS: In this case, it only concerns the special configuration
-#. TRANS: with multiple X "screens"
-#: ../kupfer/plugin/multihead.py:4
-msgid "Multihead Support"
-msgstr "Suport pentru afișaje multiple"
 
 #: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
 #: ../kupfer/plugin/notes.py:229
@@ -1324,7 +1308,7 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Fișier necriptat"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:106
 msgid "Document Templates"
 msgstr "Șabloane de documente"
 
@@ -1332,28 +1316,28 @@ msgstr "Șabloane de documente"
 msgid "Create new documents from your templates"
 msgstr "Creează documente noi de la șabloane"
 
-#: ../kupfer/plugin/templates.py:24
+#: ../kupfer/plugin/templates.py:23
 #, python-format
 msgid "%s template"
 msgstr "%s șablon"
 
-#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
+#: ../kupfer/plugin/templates.py:36 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Fișier gol"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:46
 msgid "New Folder"
 msgstr "Dosar nou"
 
-#: ../kupfer/plugin/templates.py:57
+#: ../kupfer/plugin/templates.py:56
 msgid "Create New Document..."
 msgstr "Creează document nou..."
 
-#: ../kupfer/plugin/templates.py:96
+#: ../kupfer/plugin/templates.py:95
 msgid "Create a new document from template"
 msgstr "Creează un document nou de la șablon"
 
-#: ../kupfer/plugin/templates.py:103
+#: ../kupfer/plugin/templates.py:102
 msgid "Create Document In..."
 msgstr "Creează document în..."
 
@@ -1724,34 +1708,47 @@ msgstr "Tip mare"
 msgid "Show Notification"
 msgstr "Afișează notificări"
 
-#: ../kupfer/plugin/tracker1.py:10
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker1.py:18
+#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Integrarea căutării de desktop a Trackerului"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:44
 msgid "Search in Tracker"
 msgstr "Caută în Tracker"
 
-#: ../kupfer/plugin/tracker1.py:54
+#: ../kupfer/plugin/tracker1.py:49
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Deschide unealta de căutare Tracker și caută acest element"
 
-#: ../kupfer/plugin/tracker1.py:62
+#: ../kupfer/plugin/tracker1.py:57
 msgid "Get Tracker Results..."
 msgstr "Obține rezultatele Trackerului..."
 
-#: ../kupfer/plugin/tracker1.py:71
+#: ../kupfer/plugin/tracker1.py:66
 msgid "Show Tracker results for query"
 msgstr "Afișează rezultatele Trackerului pentru interogare"
 
-#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
+#: ../kupfer/plugin/tracker1.py:159
+#, python-format
+msgid "Tracker Search for \"%s\""
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:171
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultate pentru „%s”"
+
+#: ../kupfer/plugin/tracker1.py:204
+msgid "Tracker Full Text Search"
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:208
+msgid "Use '?' prefix to get full text results"
+msgstr ""
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1837,19 +1834,19 @@ msgstr "Tastați pentru a căuta %s"
 msgid "No action"
 msgstr "Nicio acțiune"
 
-#: ../kupfer/ui/browser.py:1497
+#: ../kupfer/ui/browser.py:1498
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Fă „%(action)s” implicit pentru „%(object)s”"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1507
+#: ../kupfer/ui/browser.py:1508
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Uită de „%s”"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Afișează interfața principală"
 
@@ -1971,6 +1968,15 @@ msgstr ""
 #: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Nu s-a putut găsi Kupfer care rulează"
+
+#~ msgid "GNOME Terminal Profiles"
+#~ msgstr "Profiluri de terminal GNOME"
+
+#~ msgid "Launch GNOME Terminal profiles"
+#~ msgstr "Lansează profilurile de terminal GNOME"
+
+#~ msgid "Multihead Support"
+#~ msgstr "Suport pentru afișaje multiple"
 
 #~ msgid "Calculate expressions starting with '='"
 #~ msgstr "Calculează expresiile care încep cu „=”"

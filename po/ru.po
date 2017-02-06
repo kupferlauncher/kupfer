@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 21:36+0100\n"
+"POT-Creation-Date: 2017-02-06 12:24+0100\n"
 "PO-Revision-Date: 2012-05-17 03:49+0100\n"
 "Last-Translator: Barbariyskiy Nikolay <barbanik@fel.cvut.cz>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -175,7 +175,7 @@ msgstr "Нет разрешения на запуск \"%s\" (не исполн�
 msgid "Command in \"%s\" is not available"
 msgstr "Команда в \"%s\" не доступна"
 
-#: ../kupfer/keyrelay.py:65
+#: ../kupfer/keyrelay.py:67
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Клавиатура активна для дисплея %s"
@@ -295,8 +295,7 @@ msgstr "%s не поддерживает данную операцию"
 msgid "Can not be used with multiple objects"
 msgstr "Не может быть использовано с несколькими объектами"
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
-#: ../kupfer/plugin/notes.py:88
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Открыть"
 
@@ -1007,14 +1006,6 @@ msgstr "Копировать файл в выбранное место"
 msgid "Glob"
 msgstr "Glob"
 
-#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
-msgid "GNOME Terminal Profiles"
-msgstr "Профили терминала GNOME"
-
-#: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch GNOME Terminal profiles"
-msgstr "Запустить профили терминала GNOME"
-
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
 msgstr "Действия с высоким приоритетом"
@@ -1100,13 +1091,6 @@ msgstr "включен"
 #: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
 msgid "disabled"
 msgstr "отключен"
-
-#. TRANS: Multihead refers to support for multiple computer displays
-#. TRANS: In this case, it only concerns the special configuration
-#. TRANS: with multiple X "screens"
-#: ../kupfer/plugin/multihead.py:4
-msgid "Multihead Support"
-msgstr "Поддержка нескольких мониторов"
 
 #: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
 #: ../kupfer/plugin/notes.py:229
@@ -1317,7 +1301,7 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Незашифрованный файл"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:106
 msgid "Document Templates"
 msgstr "Шаблоны документов"
 
@@ -1325,28 +1309,28 @@ msgstr "Шаблоны документов"
 msgid "Create new documents from your templates"
 msgstr "Создать новый документ из шаблона"
 
-#: ../kupfer/plugin/templates.py:24
+#: ../kupfer/plugin/templates.py:23
 #, python-format
 msgid "%s template"
 msgstr "%s шаблон"
 
-#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
+#: ../kupfer/plugin/templates.py:36 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Пустой файл"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:46
 msgid "New Folder"
 msgstr "Новая папка"
 
-#: ../kupfer/plugin/templates.py:57
+#: ../kupfer/plugin/templates.py:56
 msgid "Create New Document..."
 msgstr "Создать новый документ..."
 
-#: ../kupfer/plugin/templates.py:96
+#: ../kupfer/plugin/templates.py:95
 msgid "Create a new document from template"
 msgstr "Создать новый документ из шаблона"
 
-#: ../kupfer/plugin/templates.py:103
+#: ../kupfer/plugin/templates.py:102
 msgid "Create Document In..."
 msgstr "Создать документ из..."
 
@@ -1718,34 +1702,47 @@ msgstr "Большой тип"
 msgid "Show Notification"
 msgstr "Отобразить уведомление"
 
-#: ../kupfer/plugin/tracker1.py:10
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker1.py:18
+#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Интегрированная поисковая система Track"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:44
 msgid "Search in Tracker"
 msgstr "Поиск в Tracker"
 
-#: ../kupfer/plugin/tracker1.py:54
+#: ../kupfer/plugin/tracker1.py:49
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Открыть Поиск Tracker  и начать поиск этого выражения "
 
-#: ../kupfer/plugin/tracker1.py:62
+#: ../kupfer/plugin/tracker1.py:57
 msgid "Get Tracker Results..."
 msgstr "Получить результаты Tracker..."
 
-#: ../kupfer/plugin/tracker1.py:71
+#: ../kupfer/plugin/tracker1.py:66
 msgid "Show Tracker results for query"
 msgstr "Отобразить результаты запроса Tracker "
 
-#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
+#: ../kupfer/plugin/tracker1.py:159
+#, python-format
+msgid "Tracker Search for \"%s\""
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:171
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Результаты для \"%s\""
+
+#: ../kupfer/plugin/tracker1.py:204
+msgid "Tracker Full Text Search"
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:208
+msgid "Use '?' prefix to get full text results"
+msgstr ""
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1831,19 +1828,19 @@ msgstr "Введите поисковый запрос %s"
 msgid "No action"
 msgstr "Действие не назначено"
 
-#: ../kupfer/ui/browser.py:1497
+#: ../kupfer/ui/browser.py:1498
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Сделать  \"%(action)s\" действием по умолчанию для \"%(object)s\""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1507
+#: ../kupfer/ui/browser.py:1508
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Забыть о \"%s\""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Показать основной интерфейс"
 
@@ -1965,6 +1962,15 @@ msgstr ""
 #: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Не удалось найти запущенный Kupfer"
+
+#~ msgid "GNOME Terminal Profiles"
+#~ msgstr "Профили терминала GNOME"
+
+#~ msgid "Launch GNOME Terminal profiles"
+#~ msgstr "Запустить профили терминала GNOME"
+
+#~ msgid "Multihead Support"
+#~ msgstr "Поддержка нескольких мониторов"
 
 #~ msgid "Calculate expressions starting with '='"
 #~ msgstr "Вычисление значения выражения, начинающегося с '='"

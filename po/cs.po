@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 21:36+0100\n"
+"POT-Creation-Date: 2017-02-06 12:24+0100\n"
 "PO-Revision-Date: 2012-08-31 23:53+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -178,7 +178,7 @@ msgstr "Nedostatečné oprávnění ke spuštění „%s“ (není spustitelný)
 msgid "Command in \"%s\" is not available"
 msgstr "Příkaz v „%s“ není dostupný"
 
-#: ../kupfer/keyrelay.py:65
+#: ../kupfer/keyrelay.py:67
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Zachytávání klávesnice je aktivní pro displej %s"
@@ -298,8 +298,7 @@ msgstr "%s nepodporuje tuto operaci"
 msgid "Can not be used with multiple objects"
 msgstr "Nelze použít s více objekty naráz"
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
-#: ../kupfer/plugin/notes.py:88
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Otevřít"
 
@@ -1008,14 +1007,6 @@ msgstr "Kopírovat soubor na vybrané místo"
 msgid "Glob"
 msgstr "Glob"
 
-#: ../kupfer/plugin/gnome_terminal.py:1 ../kupfer/plugin/gnome_terminal.py:56
-msgid "GNOME Terminal Profiles"
-msgstr "Profily terminálu GNOME"
-
-#: ../kupfer/plugin/gnome_terminal.py:3
-msgid "Launch GNOME Terminal profiles"
-msgstr "Profily pro spouštění terminálu GNOME"
-
 #: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
 msgstr "Akce nejvyšší úrovně"
@@ -1102,13 +1093,6 @@ msgstr "zapnutý"
 #: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
 msgid "disabled"
 msgstr "vypnutý"
-
-#. TRANS: Multihead refers to support for multiple computer displays
-#. TRANS: In this case, it only concerns the special configuration
-#. TRANS: with multiple X "screens"
-#: ../kupfer/plugin/multihead.py:4
-msgid "Multihead Support"
-msgstr "Podpora více monitorů"
 
 #: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
 #: ../kupfer/plugin/notes.py:229
@@ -1319,7 +1303,7 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Rozšifrovat soubor"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:107
+#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:106
 msgid "Document Templates"
 msgstr "Šablony dokumentů"
 
@@ -1327,28 +1311,28 @@ msgstr "Šablony dokumentů"
 msgid "Create new documents from your templates"
 msgstr "Vytvořit nový dokumentu ze své šablony"
 
-#: ../kupfer/plugin/templates.py:24
+#: ../kupfer/plugin/templates.py:23
 #, python-format
 msgid "%s template"
 msgstr "Šablona %s"
 
-#: ../kupfer/plugin/templates.py:37 ../kupfer/plugin/textfiles.py:86
+#: ../kupfer/plugin/templates.py:36 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Prázdný soubor"
 
-#: ../kupfer/plugin/templates.py:47
+#: ../kupfer/plugin/templates.py:46
 msgid "New Folder"
 msgstr "Nová složka"
 
-#: ../kupfer/plugin/templates.py:57
+#: ../kupfer/plugin/templates.py:56
 msgid "Create New Document..."
 msgstr "Vytvořit nový dokument…"
 
-#: ../kupfer/plugin/templates.py:96
+#: ../kupfer/plugin/templates.py:95
 msgid "Create a new document from template"
 msgstr "Vytvořit nový dokument ze šablony"
 
-#: ../kupfer/plugin/templates.py:103
+#: ../kupfer/plugin/templates.py:102
 msgid "Create Document In..."
 msgstr "Vytvořit dokument v…"
 
@@ -1718,34 +1702,47 @@ msgstr "Rozsáhlý typ"
 msgid "Show Notification"
 msgstr "Zobrazovat oznámení"
 
-#: ../kupfer/plugin/tracker1.py:10
+#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker1.py:18
+#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Vyhledávač Tracker integrovaný v pracovním prostředí"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:44
 msgid "Search in Tracker"
 msgstr "Vyhledat prohledávačem Tracker"
 
-#: ../kupfer/plugin/tracker1.py:54
+#: ../kupfer/plugin/tracker1.py:49
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Otevřít vyhledávací nástroj Tracker a vyhledat tento výraz"
 
-#: ../kupfer/plugin/tracker1.py:62
+#: ../kupfer/plugin/tracker1.py:57
 msgid "Get Tracker Results..."
 msgstr "Získat výsledky prohledávače Tracker…"
 
-#: ../kupfer/plugin/tracker1.py:71
+#: ../kupfer/plugin/tracker1.py:66
 msgid "Show Tracker results for query"
 msgstr "Zobrazit výsledky dotazu z prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
+#: ../kupfer/plugin/tracker1.py:159
+#, python-format
+msgid "Tracker Search for \"%s\""
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:171
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Výsledky pro „%s“"
+
+#: ../kupfer/plugin/tracker1.py:204
+msgid "Tracker Full Text Search"
+msgstr ""
+
+#: ../kupfer/plugin/tracker1.py:208
+msgid "Use '?' prefix to get full text results"
+msgstr ""
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1832,19 +1829,19 @@ msgstr "Pište, prohledá se %s"
 msgid "No action"
 msgstr "Žádná akce"
 
-#: ../kupfer/ui/browser.py:1497
+#: ../kupfer/ui/browser.py:1498
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Nastavit akci „%(action)s“ jako výchozí pro objekt „%(object)s“"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1507
+#: ../kupfer/ui/browser.py:1508
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Zapomenout informace o „%s“"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1991 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Zobrazit hlavní rozhraní"
 
@@ -1965,6 +1962,15 @@ msgstr ""
 #: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Nelze najít běžící aplikaci Kupfer"
+
+#~ msgid "GNOME Terminal Profiles"
+#~ msgstr "Profily terminálu GNOME"
+
+#~ msgid "Launch GNOME Terminal profiles"
+#~ msgstr "Profily pro spouštění terminálu GNOME"
+
+#~ msgid "Multihead Support"
+#~ msgstr "Podpora více monitorů"
 
 #~ msgid "Calculate expressions starting with '='"
 #~ msgstr "Vypočítat výraz začínajících „=“"
