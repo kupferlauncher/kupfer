@@ -1,4 +1,4 @@
-import gtk
+from gi.repository import Gtk
 
 from kupfer.objects import Source, RunnableLeaf
 from kupfer.obj.apps import AppLeafContentMixin
@@ -27,7 +27,7 @@ class DebugRestart (RunnableLeaf):
     def run(self):
         import atexit
         import sys
-        gtk.main_quit()
+        Gtk.main_quit()
         atexit.register(self._exec_new_kupfer, sys.executable, sys.argv)
 
     def get_description(self):
@@ -42,7 +42,7 @@ class Quit (RunnableLeaf):
         if not name: name = _("Quit")
         super(Quit, self).__init__(name=name)
     def run(self):
-        gtk.main_quit()
+        Gtk.main_quit()
     def get_description(self):
         return _("Quit Kupfer")
     def get_icon_name(self):

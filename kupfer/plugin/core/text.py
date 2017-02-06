@@ -2,8 +2,6 @@ import os
 import urllib.parse
 import urllib.request, urllib.parse, urllib.error
 
-import gobject
-
 from kupfer.objects import TextSource, TextLeaf, FileLeaf, UrlLeaf
 from kupfer.obj.objects import OpenUrl
 from kupfer import utils

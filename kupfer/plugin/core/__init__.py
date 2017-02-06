@@ -12,7 +12,7 @@ __description__ = "Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gtk
+from gi.repository import Gtk, Gdk
 
 from kupfer.objects import Leaf, Action
 from kupfer.obj.sources import MultiSource
@@ -91,8 +91,9 @@ class CopyToClipboard (Action):
     def wants_context(self):
         return True
     def activate(self, leaf, ctx):
-        clip = gtk.Clipboard(selection=gtk.gdk.SELECTION_CLIPBOARD,
-                             display=ctx.environment.get_screen().get_display())
+        clip = Gtk.Clipboard.get_for_display(
+                ctx.environment.get_screen().get_display(),
+                Gdk.SELECTION_CLIPBOARD)
         interface.copy_to_clipboard(leaf, clip)
     def item_types(self):
         yield Leaf
