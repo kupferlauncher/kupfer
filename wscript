@@ -182,7 +182,7 @@ def _new_package(bld, name):
     """Add module @name to sources to be installed,
     where the name is the full (relative) path to the package
     """
-    obj = bld.new_task_gen("py")
+    obj = bld("py")
     node = bld.path.find_dir(name)
     obj.source = node.ant_glob("*.py")
     obj.install_path = "${PYTHONDIR}/%s" % name
@@ -219,7 +219,7 @@ def build(bld):
         )
     bld.install_files("${PYTHONDIR}/kupfer", "kupfer/version_subst.py")
 
-    bld.new_task_gen(
+    bld(
         source="kupfer.py",
         install_path="${PYTHONDIR}"
         )
@@ -246,14 +246,14 @@ def build(bld):
     # Documentation/
     if bld.env["RST2MAN"]:
         # generate man page from Manpage.rst
-        bld.new_task_gen(
+        bld(
             source = "Documentation/Manpage.rst",
             target = "kupfer.1",
             rule = '%s ${SRC} > ${TGT}' % bld.env["RST2MAN"],
         )
         bld.add_group()
         # compress and install man page
-        manpage = bld.new_task_gen(
+        manpage = bld(
             source = "kupfer.1",
             target = "kupfer.1.gz",
             rule = 'gzip -9 -c ${SRC} > ${TGT}',

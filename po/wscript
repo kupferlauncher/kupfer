@@ -1,4 +1,4 @@
 def build(bld):
-    bld.new_task_gen(
+    bld(
         features = 'intltool_po',
         appname = bld.env["PACKAGE"])
