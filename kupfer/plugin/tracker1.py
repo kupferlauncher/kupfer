@@ -163,6 +163,9 @@ class TrackerQuerySource (Source):
     def get_items(self):
         return get_tracker_filequery(self.query, **self.search_args)
 
+    def provides(self):
+        yield FileLeaf
+
     def get_description(self):
         return _('Results for "%s"') % self.query
     def get_icon_name(self):
@@ -171,6 +174,7 @@ class TrackerQuerySource (Source):
     @classmethod
     def decorates_type(cls):
         return FileLeaf
+
     @classmethod
     def decorate_item(cls, leaf):
         # FIXME: Very simplified .savedSearch parsing, so far we only support
@@ -210,6 +214,9 @@ class TrackerFulltext (TextSource):
             query = text.lstrip("? ~")
             if len(query) > 2 and not has_parsing_error(query):
                 yield from TrackerQuerySource(query, order_by=rank, max_items=50).get_items()
+
+    def provides(self):
+        yield FileLeaf
 
     def get_rank(self):
         return 80
