@@ -23,7 +23,6 @@ from kupfer.objects import Action, Source
 from kupfer.objects import TextLeaf, FileLeaf, TextSource, SourceLeaf
 from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
-from kupfer import kupferstring
 from kupfer import plugin_support
 
 
@@ -189,8 +188,7 @@ class TrackerQuerySource (Source):
         try:
             et = ElementTree(file=leaf.object)
             query = et.getroot().find("text").text
-            us_query = kupferstring.tounicode(query)
-            return cls(us_query)
+            return cls(query)
         except Exception:
             return None
 
