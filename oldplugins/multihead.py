@@ -10,7 +10,7 @@ __author__ = ""
 
 import os
 
-import gtk
+from gi.repository import Gdk
 
 from kupfer import pretty
 from kupfer import utils
@@ -20,7 +20,7 @@ child_pids = []
 def initialize_plugin(name):
     global pid
     ## check for multihead
-    display = gtk.gdk.display_get_default()
+    display = Gdk.Display.get_default()
     screen = display.get_default_screen()
     if display.get_n_screens() > 1:
         pretty.print_info(__name__, "Starting Multi X screen support")

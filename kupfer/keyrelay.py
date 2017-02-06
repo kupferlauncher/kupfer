@@ -5,12 +5,14 @@ Kupfer process.
 import builtins
 import os
 
-import gtk
-#import keybinder
-import dbus
 import gi
+
+gi.require_version("Gtk", "3.0")
 gi.require_version("Keybinder", "3.0")
-from gi.repository import Keybinder as keybinder
+
+from gi.repository import Gtk, Keybinder as keybinder
+
+import dbus
 
 from dbus.mainloop.glib import DBusGMainLoop
 
@@ -18,7 +20,7 @@ SERV = "se.kaizer.kupfer"
 OBJ = "/interface"
 IFACE = "se.kaizer.kupfer.Listener"
 
-if not hasattr(__builtin__, '_'):
+if not hasattr(builtins, '_'):
     def _(x):
         return x
 
@@ -60,12 +62,12 @@ def main():
     bus = dbus.Bus()
     bus.add_signal_receiver(rebind_key, 'BoundKeyChanged',
             dbus_interface=IFACE)
-    sicon = gtk.status_icon_new_from_icon_name("kupfer")
+    sicon = Gtk.StatusIcon.new_from_icon_name("kupfer")
     display = os.getenv("DISPLAY", ":0")
-    sicon.set_tooltip(_("Keyboard relay is active for display %s") % display)
+    sicon.set_tooltip_text(_("Keyboard relay is active for display %s") % display)
     sicon.set_visible(True)
     try:
-        gtk.main()
+        Gtk.main()
     except KeyboardInterrupt:
         raise SystemExit(0)
 

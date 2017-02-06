@@ -66,6 +66,9 @@ def get_plugin_info():
         except ImportError as e:
             pretty.print_error(__name__, "import plugin '%s':" % plugin_name, e)
             continue
+        except Exception as e:
+            pretty.print_error(__name__, "Could not load '%s'" % plugin_name)
+            pretty.print_exc(e)
         localized_name = plugin.get("__kupfer_name__", None)
         desc = plugin.get("__description__", "")
         vers = plugin.get("__version__", "")

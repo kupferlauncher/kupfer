@@ -32,7 +32,7 @@ class LookUp (Action):
         text = leaf.object
         dict_id = __kupfer_settings__["dictionary"]
         dict_argv = list(dictionaries[dict_id])
-        dict_argv[-1] = dict_argv[-1] + kupferstring.tolocale(text)
+        dict_argv[-1] = dict_argv[-1] + text
         try:
             utils.spawn_async_notify_as(dict_id + ".desktop", dict_argv)
         except utils.SpawnError as exc:

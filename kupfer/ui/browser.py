@@ -7,7 +7,7 @@ import sys
 import textwrap
 import time
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GObject
 import gtk
 import gio
 import gobject
@@ -912,7 +912,7 @@ class ActionSearch (Search):
         self.handle_no_matches()
         self.hide_table()
 
-class Interface (gobject.GObject):
+class Interface (gobject.GObject, pretty.OutputMixin):
     """
     Controller object that controls the input and
     the state (current active) search object/widget
@@ -959,7 +959,7 @@ class Interface (gobject.GObject):
         self._reset_when_back = False
         self.entry.connect("realize", self._entry_realized)
         self.preedit.set_has_frame(False)
-        self.preedit.set_inner_border(gtk.Border())
+        self.preedit.set_inner_border(None)
         self.preedit.set_width_chars(0)
         self.preedit.set_alignment(1)
 
@@ -972,7 +972,7 @@ class Interface (gobject.GObject):
 
         self.switch_to_source()
         self.entry.connect("changed", self._changed)
-        self.preedit.connect("changed", self._preedit_changed)
+        self.preedit.connect("insert-text", self._preedit_insert_text)
         ## preedit-changed is GTK+ 2.20
         ## if not available, silently skip it
         try:
@@ -1071,7 +1071,8 @@ class Interface (gobject.GObject):
         """
 
         direct_text_key = gtk.gdk.keyval_from_name("period")
-        init_text_keys = list(map(gtk.gdk.keyval_from_name, ("slash", "equal")))
+        init_text_keys = list(map(gtk.gdk.keyval_from_name,
+            ("slash", "equal", "question")))
         init_text_keys.append(direct_text_key)
         keymap = gtk.gdk.Keymap.get_default()
         # translate keys properly
@@ -1692,20 +1693,15 @@ class Interface (gobject.GObject):
             self.current.match_view.expand_preedit(self.preedit)
             self._reset_input_timer()
 
-    def _preedit_changed(self, editable):
-        """
-        The preedit has changed. As below, we need to use unicode.
-        """
-        text = editable.get_text()
-        #text = text.decode("UTF-8")
+    def _preedit_insert_text(self, editable, text, byte_length, position):
+        # New text about to be inserted in preedit
         if text:
             self.entry.insert_text(text, -1)
             self.entry.set_position(-1)
-            editable.delete_text(0, -1)
-            # uncomment this to reset width after every commit.
-            # self.current.match_view.shrink_preedit(self.preedit)
             self._reset_input_timer()
             self._update_active()
+        GObject.signal_stop_emission_by_name(editable, "insert-text")
+        return False
 
     def _changed(self, editable):
         """
@@ -1764,7 +1760,7 @@ KUPFER_CSS = b"""
 }
 
 #kupfer-preedit {
-    outline-width: 0;
+    border-width: 0px;
 }
 
 #kupfer-object-pane {

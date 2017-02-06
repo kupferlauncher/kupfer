@@ -7,8 +7,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 
-import gio
-import glib
+from gi.repository import Gio, GLib
 
 from kupfer.objects import Leaf, Action, Source, FileLeaf
 from kupfer import icons, utils
@@ -19,7 +18,7 @@ DEFAULT_TMPL_DIR = "~/Templates"
 
 class Template (FileLeaf):
     def __init__(self, path):
-        basename = glib.filename_display_basename(path)
+        basename = GLib.filename_display_basename(path)
         nameroot, ext = os.path.splitext(basename)
         FileLeaf.__init__(self, path, _("%s template") % nameroot)
 
@@ -62,10 +61,10 @@ class CreateNewDocument (Action):
         if iobj.object is not None:
             # Copy the template to destination directory
             basename = os.path.basename(iobj.object)
-            tmpl_gfile = gio.File(iobj.object)
+            tmpl_gfile = Gio.File.new_for_path(iobj.object)
             destpath = utils.get_destpath_in_directory(leaf.object, basename)
-            destfile = gio.File(destpath)
-            tmpl_gfile.copy(destfile, flags=gio.FILE_COPY_ALL_METADATA)
+            destfile = Gio.File.new_for_path(destpath)
+            tmpl_gfile.copy(destfile, Gio.FileCopyFlags.ALL_METADATA, None, None, None)
         elif isinstance(iobj, NewFolder):
             filename = str(iobj)
             destpath = utils.get_destpath_in_directory(leaf.object, filename)
@@ -108,7 +107,7 @@ class TemplatesSource (Source, FilesystemWatchMixin):
 
     @classmethod
     def _get_tmpl_dir(self):
-        tmpl_dir = glib.get_user_special_dir(glib.USER_DIRECTORY_TEMPLATES)
+        tmpl_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_TEMPLATES)
         if not tmpl_dir:
             tmpl_dir = os.path.expanduser(DEFAULT_TMPL_DIR)
         return tmpl_dir
