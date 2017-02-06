@@ -9,7 +9,7 @@ impact this plugin.
 """
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ()
-__kupfer_text_sources__ = ()
+__kupfer_text_sources__ = ("TrackerFulltext", )
 __kupfer_contents__ = ("TrackerQuerySource", )
 __kupfer_actions__ = (
         "TrackerSearch",
@@ -25,7 +25,7 @@ from gi.repository import Gio, GLib
 import dbus
 
 from kupfer.objects import Action, Source
-from kupfer.objects import TextLeaf, FileLeaf
+from kupfer.objects import TextLeaf, FileLeaf, TextSource, SourceLeaf
 from kupfer.obj.objects import ConstructFileLeaf
 from kupfer import utils, pretty
 from kupfer import kupferstring
@@ -157,10 +157,10 @@ def get_tracker_filequery(query, max_items):
     return queryfunc(searchobj, query, max_items)
 
 class TrackerQuerySource (Source):
-    def __init__(self, query):
-        Source.__init__(self, name=_('Results for "%s"') % query)
+    def __init__(self, query, max_items=50):
+        Source.__init__(self, name=_('Tracker Search for "%s"') % query)
         self.query = query
-        self.max_items = 50
+        self.max_items = max_items
 
     def repr_key(self):
         return self.query
@@ -199,4 +199,21 @@ class TrackerQuerySource (Source):
 # FIXME: Port tracker tag sources and actions
 # to the new, much more powerful sparql + dbus API
 # (using tracker-tag as in 0.6 is a plain hack and a dead end)
+
+class TrackerFulltext (TextSource):
+    def __init__(self):
+        TextSource.__init__(self, name=_('Tracker Full Text Search'))
+        self.max_items = 150
+
+    def get_description(self):
+        return _("Use '?' prefix to get full text results")
+
+    def get_text_items(self, text):
+        if text.startswith("?"):
+            query = text.lstrip("? ")
+            if len(query) > 2:
+                yield from TrackerQuerySource(query, self.max_items).get_items()
+
+    def get_rank(self):
+        return 80
 
