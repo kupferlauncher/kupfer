@@ -28,7 +28,7 @@ def init_mallard(self):
         print("\n".join(missing_vars))
 
     self.bld.env.update(DOC_VAR)
-    self.default_install_path='${PREFIX}/share/gnome/help/${DOC_ID}'
+    self.help_install_prefix='${PREFIX}/share/help/'
 
 def apply_mallard(self):
     bld = self.bld
@@ -37,8 +37,7 @@ def apply_mallard(self):
 
     pages = cnode.ant_glob("*.page")
     legal_xml = cnode.ant_glob("legal.xml")
-    print(legal_xml)
-    self.install_path = Utils.subst_vars(self.default_install_path, self.env)
+    self.install_path = Utils.subst_vars(self.help_install_prefix, self.env)
 
     # Check if the declared page list is consistent
     declared_pages = self.to_list(bld.env["DOC_PAGES"])
@@ -48,6 +47,7 @@ def apply_mallard(self):
         print("\n".join([str(p) for p in missing_pages]))
 
     for lang in lst:
+        lang_install_path = os.path.join(self.install_path, lang, bld.env["DOC_ID"])
         node = self.path.find_resource("%s/%s.po" % (lang, lang))
         for page in pages:
             tsk = self.create_task('xml2po')
@@ -55,15 +55,13 @@ def apply_mallard(self):
             src = self.path.find_resource('C/%s' % page)
             tsk.set_inputs([node,src])
             tsk.set_outputs(out)
-            bld.install_files(os.path.join(self.install_path, lang),
-                              tsk.outputs)
-        bld.install_files(os.path.join(self.install_path, lang), legal_xml)
+            bld.install_files(lang_install_path, tsk.outputs)
+        bld.install_files(lang_install_path, legal_xml)
 
+    c_install_path = os.path.join(self.install_path, "C", bld.env["DOC_ID"])
     for page in pages:
-        instdir = os.path.join(self.install_path, "C")
-        bld.install_files(instdir, page)
-        print(page)
-    bld.install_files(instdir, legal_xml)
+        bld.install_files(c_install_path, page)
+    bld.install_files(c_install_path, legal_xml)
 
 Task.simple_task_type('xml2po', '${XML2PO} ${XML2POFLAGS} ${SRC} > ${TGT}',
         color='BLUE')
