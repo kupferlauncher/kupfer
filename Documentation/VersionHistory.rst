@@ -3,6 +3,24 @@
 NEWS for kupfer
 ===============
 
+kupfer v301
+-----------
+
+Released Monday, 6 feb 2017
+
+A new decade of Kupfer
+
++ Fix loading plugin list for Python 3.6
++ New: ? starts free text input
++ New: ? text prefix gets live full text search results (plugin Tracker)
++ Plugins
+
+  + reintroduce tracker
+  + fix audacious
+  + fix dictionary
+  + drop multihead (updated, but needs testing)
+  + drop gnome-terminal (obsolete)
+
 kupfer v300
 -----------
 
@@ -21,7 +39,7 @@ A new decade of Kupfer dawns!
 + Breaking changes:
 
   + Plugin configs are reset
-  + Old `kfcom` can no longer be parsed
+  + Old ``kfcom`` can no longer be parsed
   + Some changes in the Plugin API
   + Many plugins are obsolete and have been dropped. Some old plugins can be
     updated, but I in general Kupfer wants to explore new kinds of
