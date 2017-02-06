@@ -13,7 +13,7 @@ def show_help(ctxenv=None):
     """
     Show Kupfer help pages, if possible
     """
-    if not utils.show_help_url("ghelp:%s" % version.PACKAGE_NAME):
+    if not utils.show_help_url("help:%s" % version.PACKAGE_NAME):
         utils.show_url(version.HELP_WEBSITE)
 
 _about_dialog = None
