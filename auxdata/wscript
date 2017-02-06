@@ -4,6 +4,10 @@ import os
 from waflib import Options, Utils, Logs
 
 def options(opt):
+    opt.add_option('--no-hooks',
+            action='store_true',
+            default=False,
+            help='Don’t run any mime, icon cache or similar update hooks [Default:False]')
     opt.add_option('--no-update-mime',
             action='store_true',
             default=False,
@@ -14,9 +18,9 @@ def options(opt):
             help='Do not update icon cache [Default:Update]')
 
 def configure(conf):
-    if not Options.options.no_update_mime:
+    if not Options.options.no_update_mime and not Options.options.no_hooks:
         conf.env["AUXDATA_MIME"] = 1
-    if not Options.options.no_update_icon_cache:
+    if not Options.options.no_update_icon_cache and not Options.options.no_hooks:
         conf.env["UPDATE_ICON_CACHE"] = 1
 
 
