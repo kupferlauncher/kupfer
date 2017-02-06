@@ -973,6 +973,7 @@ class Interface (gobject.GObject, pretty.OutputMixin):
         self.switch_to_source()
         self.entry.connect("changed", self._changed)
         self.preedit.connect("insert-text", self._preedit_insert_text)
+        self.preedit.connect("draw", self._preedit_draw)
         ## preedit-changed is GTK+ 2.20
         ## if not available, silently skip it
         try:
@@ -1703,6 +1704,10 @@ class Interface (gobject.GObject, pretty.OutputMixin):
             self._update_active()
         GObject.signal_stop_emission_by_name(editable, "insert-text")
         return False
+
+    def _preedit_draw(self, widget, cr):
+        # draw nothing if hidden
+        return widget.get_width_chars() == 0
 
     def _changed(self, editable):
         """
