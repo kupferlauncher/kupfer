@@ -1237,7 +1237,7 @@ class Interface (gobject.GObject, pretty.OutputMixin):
             sdata = clipboard.wait_for_contents(uri_target)
             self.reset_current()
             self.reset()
-            self.put_files(sdata.get_uris())
+            self.put_files(sdata.get_uris(), paths=False)
             ## done
         else:
             # enable text mode and reemit to paste text
@@ -1674,10 +1674,14 @@ class Interface (gobject.GObject, pretty.OutputMixin):
         self.entry.set_text(text)
         self.entry.set_position(-1)
 
-    def put_files(self, fileuris):
+    def put_files(self, fileuris, paths):
         self.output_debug("put-files:", list(fileuris))
-        leaves = list(map(interface.get_fileleaf_for_path,
-            [_f for _f in [gio.File.new_for_path(U).get_path() for U in fileuris] if _f]))
+        if paths:
+            leaves = list(map(interface.get_fileleaf_for_path,
+                [_f for _f in [gio.File.new_for_path(U).get_path() for U in fileuris] if _f]))
+        else:
+            leaves = list(map(interface.get_fileleaf_for_path,
+                [_f for _f in [gio.File.new_for_uri(U).get_path() for U in fileuris] if _f]))
         if leaves:
             self.data_controller.insert_objects(data.SourcePane, leaves)
 
@@ -2257,7 +2261,7 @@ class WindowController (pretty.OutputMixin):
 
     def on_put_files(self, sender, fileuris, display, timestamp):
         self.on_present(sender, display, timestamp)
-        self.interface.put_files(fileuris)
+        self.interface.put_files(fileuris, paths=True)
 
     def on_execute_file(self, sender, filepath, display, timestamp):
         self.interface.execute_file(filepath, display, timestamp)
