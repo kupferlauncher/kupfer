@@ -203,9 +203,19 @@ class TrackerFulltext (TextSource):
     def get_text_items(self, text):
         if text.startswith("?"):
             query = text.lstrip("? ")
-            if len(query) > 2:
+            if len(query) > 2 and not has_parsing_error(query):
                 yield from TrackerQuerySource(query, self.max_items).get_items()
 
     def get_rank(self):
         return 80
 
+
+def has_parsing_error(query):
+    "Check common parsing errors"
+    words = query.split()
+    # Unfinshed "" and OR, AND without following won't parse
+    if words and words[-1] in ("OR", "AND"):
+        return True
+    if query.count('"') % 2 != 0:
+        return True
+    return False
