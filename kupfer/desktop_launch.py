@@ -1,12 +1,6 @@
 import os
 
-#import pygtk
-#pygtk.require('2.0')
-import glib
-import gio
-import gtk
-
-from gi.repository import Gdk
+from gi.repository import Gtk, Gdk, Gio, GLib
 
 import xdg.DesktopEntry
 import xdg.Exceptions
@@ -380,7 +374,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
     if startup_notify:
         display = Gdk.Display.get_default()
         ctx = display.get_app_launch_context()
-        ctx.set_timestamp(timestamp or gtk.get_current_event_time())
+        ctx.set_timestamp(timestamp or Gtk.get_current_event_time())
         if screen:
             ctx.set_screen(screen)
         # This not only returns the string ID but
@@ -400,16 +394,17 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
     try:
         # FIXME: Support paths as bytes
         argv_ = list(map(kupferstring.tounicode, argv))
-        (pid, _ig1, _ig2, _ig3) = glib.spawn_async(argv_,
-                               working_directory=workdir,
-                               flags=glib.SPAWN_SEARCH_PATH,
-                               child_setup=child_setup,
-                               user_data=child_env_add)
+        (pid, _ig1, _ig2, _ig3) = GLib.spawn_async(
+                argv_,
+                flags=GLib.SpawnFlags.SEARCH_PATH,
+                working_directory=workdir,
+                child_setup=child_setup,
+                user_data=child_env_add)
         debug_log("Launched", argv,  notify_id, "pid:", pid)
-    except glib.GError as exc:
+    except GLib.GError as exc:
         error_log("Error Launching ", argv, str(exc))
         if notify_id:
-            gtk.gdk.notify_startup_complete_with_id(notify_id)
+            Gdk.notify_startup_complete_with_id(notify_id)
         raise SpawnError(str(exc))
     if launch_cb:
         launch_cb(argv, pid, notify_id, filelist, timestamp)
@@ -432,7 +427,7 @@ def locale_encode_argv(argv):
             yield x
 
 def get_info_for_id(id_):
-    return gio.DesktopAppInfo.new(id_)
+    return Gio.DesktopAppInfo.new(id_)
 
 if __name__ == '__main__':
 
