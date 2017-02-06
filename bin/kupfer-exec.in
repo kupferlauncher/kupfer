@@ -36,8 +36,3 @@ do
 	fi
 	shift
 done
-
-if test -n "$DESKTOP_STARTUP_ID" -a -n "${PYTHON##@*}"
-then
-	${PYTHON} -c "import gtk.gdk; gtk.gdk.notify_startup_complete()"
-fi
