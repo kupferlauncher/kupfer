@@ -110,63 +110,26 @@ def get_plugin_desc():
 _imported_plugins = {}
 _plugin_hooks = {}
 
-def _truncate_code(code, find_attributes):
-    "Truncate @code where all of @find_attributes have been stored."
-    import dis
-    import types
+class LoadingError(ImportError):
+    pass
 
+def _truncate_source(text, find_attributes):
     found_info_attributes = set(find_attributes)
-    def _new_code(c, codestring):
-        newcode = types.CodeType(c.co_argcount,
-                                 c.co_kwonlyargcount,
-                                 c.co_nlocals,
-                                 c.co_stacksize,
-                                 c.co_flags,
-                                 codestring,
-                                 c.co_consts,
-                                 c.co_names,
-                                 c.co_varnames,
-                                 c.co_filename,
-                                 c.co_name,
-                                 c.co_firstlineno,
-                                 c.co_lnotab)
-        return newcode
-
-    none_index = list(code.co_consts).index(None)
-    i = 0
-    end = len(code.co_code)
-    while i < end:
+    lines = []
+    for line in text.splitlines():
+        lines.append(line)
+        if not line.strip():
+            continue
+        first_word, *_rest = line.split(None, 1)
+        if first_word in found_info_attributes:
+            found_info_attributes.discard(first_word)
+        if first_word in ("from", "import", "class", "def", "if"):
+            raise LoadingError(("Could not pre-load plugin: Fields missing: %r. "
+                "These fields need to be defined before any other code, including imports.")
+                    % (list(found_info_attributes), ))
         if not found_info_attributes:
-            # Insert an instruction to return [None] right here
-            # then truncate the code at this point
-            endinstr = [
-                dis.opmap["LOAD_CONST"],
-                none_index & 255,
-                none_index >> 8,
-                dis.opmap["RETURN_VALUE"],
-            ]
-            c = bytearray(code.co_code)
-            c[i:] = endinstr
-            ncode = _new_code(code, bytes(c))
-            return ncode
-
-        op = code.co_code[i]
-        name = dis.opname[op]
-
-        if op >= dis.HAVE_ARGUMENT:
-            b1 = code.co_code[i+1]
-            b2 = code.co_code[i+2]
-            num = b2 * 256 + b1
-
-            if name == 'STORE_NAME':
-                global_name = code.co_names[num]
-                found_info_attributes.discard(global_name)
-
-            i += 3
-        else:
-            i += 1
-    pretty.print_debug(__name__, "Code used until end:", code)
-    return code
+            break
+    return "\n".join(lines)
 
 def _import_plugin_fake(modpath, error=None):
     """
@@ -179,7 +142,7 @@ def _import_plugin_fake(modpath, error=None):
     if not loader:
         return None
 
-    code = loader.get_code(modpath)
+    code = loader.get_source(modpath)
     if not code:
         return None
 
@@ -195,11 +158,12 @@ def _import_plugin_fake(modpath, error=None):
         "__name__": modpath,
         "__file__": filename,
     }
-    code = _truncate_code(code, info_attributes)
+    code = _truncate_source(code, info_attributes)
     try:
-        eval(code, env)
+        eval(compile(code, filename, "exec"), env)
     except Exception as exc:
         pretty.print_debug(__name__, "Loading", modpath, exc)
+        pretty.print_exc(exc)
     attributes = dict((k, env.get(k)) for k in info_attributes)
     attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
     return FakePlugin(modpath, attributes, error)
