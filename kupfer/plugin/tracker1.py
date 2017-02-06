@@ -1,11 +1,6 @@
 """
 Tracker plugins are versioned by the D-Bus API version
-This is version works with tracker 0.8.x and 0.10.x, where the API is called
-Tracker1
-
-Tracker 0.10 has exactly the same Resources.SparqlQuery API, but according to
-its developers it does not have the same class signal api but that does not
-impact this plugin.
+This is version works with Tracker1.
 """
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ()
