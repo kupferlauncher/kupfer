@@ -1674,8 +1674,9 @@ class Interface (gobject.GObject, pretty.OutputMixin):
         self.entry.set_position(-1)
 
     def put_files(self, fileuris):
+        self.output_debug("put-files:", list(fileuris))
         leaves = list(map(interface.get_fileleaf_for_path,
-            [_f for _f in [gio.File.new_for_uri(U).get_path() for U in fileuris] if _f]))
+            [_f for _f in [gio.File.new_for_path(U).get_path() for U in fileuris] if _f]))
         if leaves:
             self.data_controller.insert_objects(data.SourcePane, leaves)
 
