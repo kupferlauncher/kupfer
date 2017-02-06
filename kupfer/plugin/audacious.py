@@ -42,10 +42,10 @@ def get_playlist_songs():
             stdout=subprocess.PIPE)
     stdout, stderr = toolProc.communicate()
     for line in stdout.splitlines():
-        if not line.count('|') >= 2:
+        if not line.count(b'|') >= 2:
             continue
-        position, rest = line.split('|', 1)
-        songname, rest = rest.rsplit('|', 1)
+        position, rest = line.split(b'|', 1)
+        songname, rest = rest.rsplit(b'|', 1)
         pos = int(position.strip())
         nam = kupferstring.fromlocale(songname.strip())
         yield (pos, nam)
