@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-05 04:50+0100\n"
+"POT-Creation-Date: 2017-02-05 21:22+0100\n"
 "PO-Revision-Date: 2015-08-10 18:48+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -92,7 +92,7 @@ msgstr "Allmänt"
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globala tangentbordsgenvägar</b>"
 
-#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:880
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:886
 msgid "Reset"
 msgstr "Återställ"
 
@@ -169,12 +169,12 @@ msgstr "Kunde inte utföra ”%s”"
 msgid "\"%s\" produced a result"
 msgstr "”%s” lämnade ett resultat"
 
-#: ../kupfer/core/execfile.py:30
+#: ../kupfer/core/execfile.py:29
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "Utan rättighet att utföra ”%s” (ej körbar)"
 
-#: ../kupfer/core/execfile.py:47
+#: ../kupfer/core/execfile.py:46
 #, python-format
 msgid "Command in \"%s\" is not available"
 msgstr "Kommando i ”%s” är ej tillgängligt"
@@ -298,58 +298,58 @@ msgstr "%s stödjer inte operationen"
 msgid "Can not be used with multiple objects"
 msgstr "Kan inte användas med flera objekt"
 
-#: ../kupfer/obj/fileactions.py:30 ../kupfer/plugin/gnome_terminal.py:36
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/gnome_terminal.py:36
 #: ../kupfer/plugin/notes.py:88
 msgid "Open"
 msgstr "Öppna"
 
-#: ../kupfer/obj/fileactions.py:43
+#: ../kupfer/obj/fileactions.py:44
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Det finns inget förvalt program för ”%(file)s” (%(type)s)."
 
-#: ../kupfer/obj/fileactions.py:45
+#: ../kupfer/obj/fileactions.py:46
 #, python-format
 msgid "Please use \"%s\""
 msgstr "V.v. använd ”%s”"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:110
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
 msgid "Set Default Application..."
 msgstr "Välj standardprogram..."
 
-#: ../kupfer/obj/fileactions.py:71
+#: ../kupfer/obj/fileactions.py:72
 msgid "Open with default application"
 msgstr "Öppna med förvalt program"
 
-#: ../kupfer/obj/fileactions.py:74
+#: ../kupfer/obj/fileactions.py:75
 msgid "Reveal"
 msgstr "Visa"
 
-#: ../kupfer/obj/fileactions.py:83
+#: ../kupfer/obj/fileactions.py:84
 msgid "Open parent folder"
 msgstr "Öppna föräldermapp i filhanteraren"
 
-#: ../kupfer/obj/fileactions.py:89
+#: ../kupfer/obj/fileactions.py:90
 msgid "Open Terminal Here"
 msgstr "Öppna i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:102
+#: ../kupfer/obj/fileactions.py:103
 msgid "Open this location in a terminal"
 msgstr "Öppna platsen i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:110
+#: ../kupfer/obj/fileactions.py:111
 msgid "Run in Terminal"
 msgstr "Kör i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:110
+#: ../kupfer/obj/fileactions.py:111
 msgid "Run (Execute)"
 msgstr "Kör"
 
-#: ../kupfer/obj/fileactions.py:130
+#: ../kupfer/obj/fileactions.py:131
 msgid "Run this program in a Terminal"
 msgstr "Kör programmet i terminalfönster"
 
-#: ../kupfer/obj/fileactions.py:132
+#: ../kupfer/obj/fileactions.py:133
 msgid "Run this program"
 msgstr "Kör programmet"
 
@@ -461,11 +461,11 @@ msgstr "%s är inte konfigurerad"
 msgid "Invalid user credentials for %s"
 msgstr "Ogiltiga användaruppgifter för %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:38
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
 msgid "Applications"
 msgstr "Program"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:75
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
 msgid "All applications and preferences"
 msgstr "Alla program och inställningspaneler"
 
@@ -473,15 +473,19 @@ msgstr "Alla program och inställningspaneler"
 msgid "Applications for Desktop Environment"
 msgstr "Program för skrivbordsmiljö"
 
-#: ../kupfer/plugin/applications.py:84
+#: ../kupfer/plugin/applications.py:30
+msgid "Use Desktop Filter (requires restart)"
+msgstr "Använd skrivbords-filter (kräver omstart)"
+
+#: ../kupfer/plugin/applications.py:92
 msgid "Open With..."
 msgstr "Öppna med..."
 
-#: ../kupfer/plugin/applications.py:106
+#: ../kupfer/plugin/applications.py:114
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
 
-#: ../kupfer/plugin/applications.py:125
+#: ../kupfer/plugin/applications.py:133
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
@@ -859,7 +863,7 @@ msgstr ""
 "\n"
 "Ett till terminalalternativ läggs till (välj på första sidan)."
 
-#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:886
+#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:892
 msgid "Command"
 msgstr "Kommando"
 
@@ -1045,30 +1049,30 @@ msgid "Image Tools"
 msgstr "Bildverktyg"
 
 #: ../kupfer/plugin/image.py:10
-msgid "Image transformation tools"
-msgstr "Bildtranformeringskommandon"
+msgid "Image transformation tools using 'convert' from ImageMagick"
+msgstr "Bildtranformeringskommandon (använder 'convert' från ImageMagick)"
 
 #: ../kupfer/plugin/image.py:25
 msgid "Scale..."
 msgstr "Skala..."
 
-#: ../kupfer/plugin/image.py:77
+#: ../kupfer/plugin/image.py:79
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Skala bilden för att passa inom given storlek"
 
-#: ../kupfer/plugin/image.py:112
+#: ../kupfer/plugin/image.py:114
 msgid "Rotate Clockwise"
 msgstr "Rotera medurs"
 
-#: ../kupfer/plugin/image.py:119
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Counter-Clockwise"
 msgstr "Rotera moturs"
 
-#: ../kupfer/plugin/image.py:126
+#: ../kupfer/plugin/image.py:128
 msgid "Autorotate"
 msgstr "Autorotera"
 
-#: ../kupfer/plugin/image.py:155
+#: ../kupfer/plugin/image.py:157
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
 
@@ -1092,7 +1096,7 @@ msgstr "Visa källkod"
 msgid "enabled"
 msgstr "aktiverad"
 
-#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:480
+#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
 msgid "disabled"
 msgstr "ej aktiverad"
 
@@ -1480,7 +1484,7 @@ msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Aktuella processer för nuvarande användare"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:197
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:200
 msgid "Trash"
 msgstr "Papperskorg"
 
@@ -1488,7 +1492,7 @@ msgstr "Papperskorg"
 msgid "Access trash contents"
 msgstr "Tillgång till papperskorgens innehåll"
 
-#: ../kupfer/plugin/trash.py:24
+#: ../kupfer/plugin/trash.py:23
 msgid "Move to Trash"
 msgstr "Flytta till papperskorgen"
 
@@ -1504,7 +1508,7 @@ msgstr "Återskapa"
 msgid "Move file back to original location"
 msgstr "Flytta tillbaka till ursprunglig plats"
 
-#: ../kupfer/plugin/trash.py:84
+#: ../kupfer/plugin/trash.py:85
 msgid ""
 "Could not delete files:\n"
 "    "
@@ -1512,12 +1516,12 @@ msgstr ""
 "Kunde ej radera filer:\n"
 "    "
 
-#: ../kupfer/plugin/trash.py:185
+#: ../kupfer/plugin/trash.py:188
 msgid "Trash is empty"
 msgstr "Papperskorgen är tom"
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:187
+#: ../kupfer/plugin/trash.py:190
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
@@ -1692,6 +1696,53 @@ msgstr "Mata ut"
 msgid "Unmount and eject this media"
 msgstr "Avmontera och mata ut media"
 
+#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
+#: ../kupfer/plugin/show_text.py:25
+msgid "Show Text"
+msgstr "Visa text"
+
+#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
+#: ../kupfer/plugin/show_text.py:58
+msgid "Display text in a window"
+msgstr "Visa text i ett fönster"
+
+#: ../kupfer/plugin/show_text.py:37
+msgid "Large Type"
+msgstr "Visa med stor text"
+
+#: ../kupfer/plugin/show_text.py:66
+msgid "Show Notification"
+msgstr "Visa avisering"
+
+#: ../kupfer/plugin/tracker1.py:10
+msgid "Tracker"
+msgstr "Tracker"
+
+#: ../kupfer/plugin/tracker1.py:18
+msgid "Tracker desktop search integration"
+msgstr "Integration med sökprogrammet Tracker"
+
+#: ../kupfer/plugin/tracker1.py:49
+msgid "Search in Tracker"
+msgstr "Sök i Tracker"
+
+#: ../kupfer/plugin/tracker1.py:54
+msgid "Open Tracker Search Tool and search for this term"
+msgstr "Sök efter denna term i Sökverktyget Tracker"
+
+#: ../kupfer/plugin/tracker1.py:62
+msgid "Get Tracker Results..."
+msgstr "Hämta träffar från Tracker..."
+
+#: ../kupfer/plugin/tracker1.py:71
+msgid "Show Tracker results for query"
+msgstr "Visa träffar för sökning med Tracker"
+
+#: ../kupfer/plugin/tracker1.py:161 ../kupfer/plugin/tracker1.py:172
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Resultat för ”%s”"
+
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
@@ -1797,71 +1848,71 @@ msgid "Show with Selection"
 msgstr "Visa med markering"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:431
+#: ../kupfer/ui/preferences.py:437
 msgid "Description"
 msgstr "Beskrivning"
 
-#: ../kupfer/ui/preferences.py:431
+#: ../kupfer/ui/preferences.py:437
 msgid "Author"
 msgstr "Upphovsman"
 
-#: ../kupfer/ui/preferences.py:448
+#: ../kupfer/ui/preferences.py:454
 msgid "Version"
 msgstr "Version"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:458
+#: ../kupfer/ui/preferences.py:464
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Behöver Python-modulen ‘%s’"
 
-#: ../kupfer/ui/preferences.py:472
+#: ../kupfer/ui/preferences.py:478
 msgid "Plugin could not be read due to an error:"
 msgstr "Insticksmodulen kunde inte läsas in på grund av ett fel:"
 
-#: ../kupfer/ui/preferences.py:554
+#: ../kupfer/ui/preferences.py:560
 msgid "Content of"
 msgstr "Innehålls i"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:563
+#: ../kupfer/ui/preferences.py:569
 msgid "Sources"
 msgstr "Källor"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:567
+#: ../kupfer/ui/preferences.py:573
 msgid "Actions"
 msgstr "Kommandon"
 
-#: ../kupfer/ui/preferences.py:590
+#: ../kupfer/ui/preferences.py:596
 #, python-format
 msgid "Using encrypted password storage: %s"
 msgstr "Använder krypterad lösenordslagring: %s"
 
-#: ../kupfer/ui/preferences.py:592
+#: ../kupfer/ui/preferences.py:598
 #, python-format
 msgid "Using password storage: %s"
 msgstr "Använder lösenordslagring: %s"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:609
+#: ../kupfer/ui/preferences.py:615
 msgid "Configuration"
 msgstr "Inställningar"
 
-#: ../kupfer/ui/preferences.py:629
+#: ../kupfer/ui/preferences.py:635
 msgid "Set username and password"
 msgstr "Ställ in användaruppgifter"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:683
+#: ../kupfer/ui/preferences.py:689
 msgid "Choose a Directory"
 msgstr "Välj mapp"
 
-#: ../kupfer/ui/preferences.py:878
+#: ../kupfer/ui/preferences.py:884
 msgid "Reset all shortcuts to default values?"
 msgstr "Återställ alla genvägar till standardinställningen?"
 
-#: ../kupfer/ui/preferences.py:887
+#: ../kupfer/ui/preferences.py:893
 msgid "Shortcut"
 msgstr "Genväg"
 
@@ -1993,18 +2044,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Songs in Rhythmbox library"
 #~ msgstr "Låtar i Rhythmboxs bibliotek"
-
-#~ msgid "Show Text"
-#~ msgstr "Visa text"
-
-#~ msgid "Display text in a window"
-#~ msgstr "Visa text i ett fönster"
-
-#~ msgid "Large Type"
-#~ msgstr "Visa med stor text"
-
-#~ msgid "Show Notification"
-#~ msgstr "Visa avisering"
 
 #~ msgid "Search the Web"
 #~ msgstr "Webbsökning"
@@ -2338,9 +2377,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 #~ msgid "Search Google with results shown directly"
 #~ msgstr "Sök med Google och visa resultat direkt"
 
-#~ msgid "Results for \"%s\""
-#~ msgstr "Resultat för ”%s”"
-
 #~ msgid "Show More Results For \"%s\""
 #~ msgstr "Visa fler resultat för ”%s”"
 
@@ -2626,24 +2662,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Skype Statuses"
 #~ msgstr "Skype-status"
-
-#~ msgid "Tracker"
-#~ msgstr "Tracker"
-
-#~ msgid "Tracker desktop search integration"
-#~ msgstr "Integration med sökprogrammet Tracker"
-
-#~ msgid "Search in Tracker"
-#~ msgstr "Sök i Tracker"
-
-#~ msgid "Open Tracker Search Tool and search for this term"
-#~ msgstr "Sök efter denna term i Sökverktyget Tracker"
-
-#~ msgid "Get Tracker Results..."
-#~ msgstr "Hämta träffar från Tracker..."
-
-#~ msgid "Show Tracker results for query"
-#~ msgstr "Visa träffar för sökning med Tracker"
 
 #~ msgid "TrueCrypt"
 #~ msgstr "TrueCrypt"

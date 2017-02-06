@@ -75,6 +75,9 @@ kupfer/plugin/wikipedia.py
 kupfer/plugin/windows.py
 kupfer/plugin/volumes.py
 
+kupfer/plugin/show_text.py
+kupfer/plugin/tracker1.py
+
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
 kupfer/ui/getkey_dialog.py
