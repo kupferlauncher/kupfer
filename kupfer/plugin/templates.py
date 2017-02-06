@@ -10,7 +10,7 @@ import os
 from gi.repository import Gio, GLib
 
 from kupfer.objects import Leaf, Action, Source, FileLeaf
-from kupfer import icons, utils
+from kupfer import icons, utils, pretty
 from kupfer.obj import helplib
 from kupfer.obj.helplib import FilesystemWatchMixin
 
@@ -108,8 +108,11 @@ class TemplatesSource (Source, FilesystemWatchMixin):
     @classmethod
     def _get_tmpl_dir(self):
         tmpl_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_TEMPLATES)
+        if tmpl_dir == os.path.expanduser("~"):
+            tmpl_dir = None
         if not tmpl_dir:
             tmpl_dir = os.path.expanduser(DEFAULT_TMPL_DIR)
+        pretty.print_debug(__name__, tmpl_dir)
         return tmpl_dir
 
     def initialize(self):
