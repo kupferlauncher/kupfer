@@ -267,6 +267,7 @@ class PreferencesWindowController (pretty.OutputMixin):
     def _get_should_autostart(self):
         KUPFER_DESKTOP = "kupfer.desktop"
         AUTOSTART_KEY = "X-GNOME-Autostart-enabled"
+        HIDDEN_KEY = "Hidden"
         autostart_dir = base.save_config_path("autostart")
         autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
         if not os.path.exists(autostart_file):
@@ -276,12 +277,15 @@ class PreferencesWindowController (pretty.OutputMixin):
         except xdg_e.ParsingError as exception:
             pretty.print_error(__name__, exception)
             return False
-        return (dfile.hasKey(AUTOSTART_KEY) and
-                dfile.get(AUTOSTART_KEY, type="boolean"))
+        return ((dfile.hasKey(AUTOSTART_KEY) and
+                 dfile.get(AUTOSTART_KEY, type="boolean"))
+                and (not dfile.hasKey(HIDDEN_KEY) or
+                     not dfile.get(HIDDEN_KEY, type="boolean")))
 
     def on_checkautostart_toggled(self, widget):
         KUPFER_DESKTOP = "kupfer.desktop"
         AUTOSTART_KEY = "X-GNOME-Autostart-enabled"
+        HIDDEN_KEY = "Hidden"
         autostart_dir = base.save_config_path("autostart")
         autostart_file = os.path.join(autostart_dir, KUPFER_DESKTOP)
         if not os.path.exists(autostart_file):
@@ -309,8 +313,10 @@ class PreferencesWindowController (pretty.OutputMixin):
                 pretty.print_error(__name__, exception)
                 return
         activestr = str(bool(widget.get_active())).lower()
+        not_activestr = str(not bool(widget.get_active())).lower()
         self.output_debug("Setting autostart to", activestr)
         dfile.set(AUTOSTART_KEY, activestr)
+        dfile.set(HIDDEN_KEY, not_activestr)
         ## remove the format specifiers
         executable = dfile.getExec().replace("%F", "")
         dfile.set("Exec", executable)
