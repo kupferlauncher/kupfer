@@ -1,7 +1,3 @@
 # configuration defaults and ui files
 bld.install_files("${DATADIR}/kupfer", "defaults.cfg")
 bld.install_files("${DATADIR}/kupfer", bld.path.ant_glob("*.ui"))
-
-# install all pure data files
-bld.install_files("${DATADIR}/kupfer/searchplugins",
-                  bld.path.ant_glob("searchplugins/*"))
