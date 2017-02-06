@@ -35,9 +35,6 @@ installation spot. By default, Kupfer is installed for all users.
 Installing only for your user is possible, but the binary directory must
 be in your ``$PATH``.
 
-Note: The included waf script *must* be run with Python 2, unfortunately.
-
-
 About Waf
 ---------
 
@@ -60,7 +57,7 @@ on Saturday, 25 February 2012. The following files extracted::
 Build Requirements
 ------------------
 
-* Python 2.7
+* Python 3
 * intltool
 * optionally: rst2man (python-docutils)  to install the manpage
 * optionally: xml2po (gnome-doc-utils)  to install mallard help pages
