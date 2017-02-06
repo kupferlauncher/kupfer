@@ -16,14 +16,13 @@ __kupfer_actions__ = (
         "TrackerSearchHere",
     )
 __description__ = _("Tracker desktop search integration")
-__version__ = "2010-04-01"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.1"
+__author__ = "US"
 
 from xml.etree.cElementTree import ElementTree
 
+from gi.repository import Gio, GLib
 import dbus
-import gio
-import gobject
 
 from kupfer.objects import Action, Source
 from kupfer.objects import TextLeaf, FileLeaf
@@ -43,13 +42,14 @@ SERVICE1_NAME = "org.freedesktop.Tracker1"
 SEARCH_OBJECT1_PATH = "/org/freedesktop/Tracker1/Resources"
 SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
 
+TRACKER_GUI_SEARCH = "tracker-needle"
 
 class TrackerSearch (Action):
     def __init__(self):
         Action.__init__(self, _("Search in Tracker"))
 
     def activate(self, leaf):
-        utils.spawn_async(["tracker-search-tool", leaf.object])
+        utils.spawn_async([TRACKER_GUI_SEARCH, leaf.object])
     def get_description(self):
         return _("Open Tracker Search Tool and search for this term")
     def get_icon_name(self):
@@ -102,9 +102,9 @@ def get_file_results_sparql(searchobj, query, max_items):
     pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql)
 
-    gio_File = gio.File
+    new_file = Gio.File.new_for_uri
     for result in results:
-        yield FileLeaf(gio_File(result[0]).get_path())
+        yield FileLeaf(new_file(result[0]).get_path())
 
 def get_file_results_old(searchobj, query, max_items):
     try:
@@ -114,22 +114,15 @@ def get_file_results_old(searchobj, query, max_items):
         return
 
     for filestr in file_hits:
-        # A bit of encoding carousel
-        # dbus strings are subclasses of unicode
-        # but FileLeaf expects a filesystem encoded object
-        bytes = filestr.decode("UTF-8", "replace")
-        filename = gobject.filename_from_utf8(bytes)
-        yield ConstructFileLeaf(filename)
+        yield ConstructFileLeaf(filestr)
 
-use_version = None
+use_version = "0.8"
 versions = {
     "0.8": (SERVICE1_NAME, SEARCH_OBJECT1_PATH, SEARCH1_INTERFACE),
-    "0.6": (SERVICE_NAME, SEARCH_OBJECT_PATH, SEARCH_INTERFACE),
 }
 
 version_query = {
     "0.8": get_file_results_sparql,
-    "0.6": get_file_results_old,
 }
 
 
