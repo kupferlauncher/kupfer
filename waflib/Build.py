@@ -296,7 +296,36 @@ class BuildContext(Context.Context):
 		Store the data for next runs, sets the attributes listed in :py:const:`waflib.Build.SAVED_ATTRS`. Uses a temporary
 		file to avoid problems on ctrl+c.
 		"""
-		pass # Kupfer: Removed, not py 3 compat
+
+		data = {}
+		for x in SAVED_ATTRS:
+			data[x] = getattr(self, x)
+		db = os.path.join(self.variant_dir, Context.DBFILE)
+
+		try:
+			waflib.Node.pickle_lock.acquire()
+			waflib.Node.Nod3 = self.node_class
+
+			f = None
+			try:
+				f = open(db + '.tmp', 'wb')
+				cPickle.dump(data, f)
+			finally:
+				if f:
+					f.close()
+		finally:
+			waflib.Node.pickle_lock.release()
+
+		try:
+			st = os.stat(db)
+			os.unlink(db)
+			if not Utils.is_win32: # win32 has no chown but we're paranoid
+				os.chown(db + '.tmp', st.st_uid, st.st_gid)
+		except (AttributeError, OSError):
+			pass
+
+		# do not use shutil.move (copy is not thread-safe)
+		os.rename(db + '.tmp', db)
 
 	def compile(self):
 		"""
