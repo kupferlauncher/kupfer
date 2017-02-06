@@ -96,7 +96,7 @@ def get_file_results_sparql(searchobj, query, max_items):
     clean_query = sparql_escape(query)
     sql = """SELECT tracker:coalesce (nie:url (?s), ?s)
               WHERE {  ?s fts:match "%s" .  ?s tracker:available true . }
-              ORDER BY tracker:weight(?s)
+              ORDER BY DESC (fts:rank(?s))
               OFFSET 0 LIMIT %d""" % (clean_query, int(max_items))
 
     results = searchobj.SparqlQuery(sql)
