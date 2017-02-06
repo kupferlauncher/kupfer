@@ -87,13 +87,24 @@ def sparql_escape(ustr):
     }
     return ustr.translate(sparql_escape_table)
 
-def get_file_results_sparql(searchobj, query, max_items):
+ORDER_BY = {
+    "rank": "ORDER BY DESC (fts:rank(?s))",
+    "recent": "ORDER BY DESC (nfo:fileLastModified(?s))",
+}
+def get_file_results_sparql(searchobj, query, max_items, order_by="rank"):
     clean_query = sparql_escape(query)
-    sql = """SELECT tracker:coalesce (nie:url (?s), ?s)
+    pretty.print_debug(__name__, order_by)
+    sql = ("""SELECT tracker:coalesce (nie:url (?s), ?s)
               WHERE {  ?s fts:match "%s" .  ?s tracker:available true . }
-              ORDER BY DESC (fts:rank(?s))
-              OFFSET 0 LIMIT %d""" % (clean_query, int(max_items))
+              %s
+              OFFSET 0 LIMIT %d""" % (
+              clean_query,
+              ORDER_BY[order_by],
+              int(max_items)))
 
+              # ORDER BY DESC(nfo:fileLastModified(?urn))
+
+    pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql)
 
     new_file = Gio.File.new_for_uri
@@ -123,7 +134,7 @@ def get_searchobject(sname, opath, sinface):
         pretty.print_debug(__name__, exc)
     return searchobj
 
-def get_tracker_filequery(query, max_items):
+def get_tracker_filequery(query, max_items, **kwargs):
     searchobj = None
     global use_version
     if use_version is None:
@@ -141,19 +152,20 @@ def get_tracker_filequery(query, max_items):
         return ()
 
     queryfunc = version_query[use_version]
-    return queryfunc(searchobj, query, max_items)
+    return queryfunc(searchobj, query, max_items, **kwargs)
 
 class TrackerQuerySource (Source):
-    def __init__(self, query, max_items=50):
+    def __init__(self, query, max_items=50, **search_args):
         Source.__init__(self, name=_('Tracker Search for "%s"') % query)
         self.query = query
         self.max_items = max_items
+        self.search_args = search_args
 
     def repr_key(self):
         return self.query
 
     def get_items(self):
-        return get_tracker_filequery(self.query, self.max_items)
+        return get_tracker_filequery(self.query, self.max_items, **self.search_args)
 
     def get_description(self):
         return _('Results for "%s"') % self.query
@@ -197,9 +209,12 @@ class TrackerFulltext (TextSource):
 
     def get_text_items(self, text):
         if text.startswith("?"):
-            query = text.lstrip("? ")
+            rank = "rank"
+            if text.startswith("?~"):
+                rank = "recent"
+            query = text.lstrip("? ~")
             if len(query) > 2 and not has_parsing_error(query):
-                yield from TrackerQuerySource(query, self.max_items).get_items()
+                yield from TrackerQuerySource(query, self.max_items, order_by=rank).get_items()
 
     def get_rank(self):
         return 80
