@@ -144,7 +144,7 @@ class ClipboardSource (Source):
                 self._add_to_history(newtext, is_selection)
 
         if is_sync_selection and is_valid:
-            Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD).set_text(newtext)
+            Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(newtext, -1)
 
         if is_selection:
             self.selected_text = newtext
