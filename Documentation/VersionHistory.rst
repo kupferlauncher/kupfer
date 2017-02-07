@@ -3,6 +3,21 @@
 NEWS for kupfer
 ===============
 
+kupfer v303
+-----------
+
+Released Tuesday, 7 feb 2017
+
+GNOME's hosting of the project is now officially at an end; mailing list and
+repo there are gone, we are on github now. Thank you GNOME and see you next
+time!
+
++ Completed port to pygi by removing ``pygtkcompat``
++ Build config will now look for ``python3`` if ``python`` is too old.
++ Plugins:
+
+  + Re-add *Locate*
+
 kupfer v302
 -----------
 
