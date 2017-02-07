@@ -8,9 +8,9 @@ import textwrap
 import time
 
 from gi.repository import Gtk, Gdk, GObject
+from gi.repository import GLib, Gio
 import gtk
 import gio
-import gobject
 import cairo
 
 from kupfer import kupferui
@@ -128,8 +128,8 @@ class LeafModel (object):
         First column is always the object -- returned by get_object
         it needs not be specified in columns
         """
-        columns = (gobject.TYPE_OBJECT, str, str, str)
-        self.store = gtk.ListStore(gobject.TYPE_PYOBJECT, *columns)
+        columns = (GObject.TYPE_OBJECT, str, str, str)
+        self.store = gtk.ListStore(GObject.TYPE_PYOBJECT, *columns)
         self.object_column = 0
         self.base = None
         self._setup_columns()
@@ -285,7 +285,7 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
     __gtype_name__ = "MatchView"
 
     def __init__(self):
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
         # object attributes
         self.label_char_width = 25
         self.preedit_char_width = 5
@@ -507,11 +507,11 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
             self.label.set_width_chars(self.label_char_width)
             self.label.set_alignment(.5,.5)
 
-gobject.type_register(MatchView)
+GObject.type_register(MatchView)
 CORNER_RADIUS = 15
-#gtk.widget_class_install_style_property(MatchView, ('corner-radius', gobject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(MatchView, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, GObject.PARAM_READABLE))
 OPACITY = 95
-#gtk.widget_class_install_style_property(MatchView, ('opacity', gobject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(MatchView, ('opacity', GObject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, GObject.PARAM_READABLE))
 
 class Search (gtk.Bin, pretty.OutputMixin):
     """
@@ -529,7 +529,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
     """
     __gtype_name__ = 'Search'
     def __init__(self):
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
         # object attributes
         self.model = LeafModel()
         self.match = None
@@ -749,7 +749,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
         # set old win position in _show_table
         if self.get_table_visible() and winpos != self._old_win_position:
             self.hide_table()
-            gobject.timeout_add(300, self._show_table)
+            GLib.timeout_add(300, self._show_table)
 
     def _window_hidden(self, window):
         """
@@ -849,17 +849,17 @@ class Search (gtk.Bin, pretty.OutputMixin):
         self.match_state = State.NoMatch
         self.match_view.set_match_state(name, icon, state=State.NoMatch)
 
-# Take care of gobject things to set up the Search class
-gobject.type_register(Search)
-gobject.signal_new("activate", Search, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
-gobject.signal_new("cursor-changed", Search, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, ))
+# Take care of GObject things to set up the Search class
+GObject.type_register(Search)
+GObject.signal_new("activate", Search, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
+GObject.signal_new("cursor-changed", Search, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
 LIST_OPACITY = 93
-#gtk.widget_class_install_style_property(Search, ('list-opacity', gobject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(Search, ('list-opacity', GObject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, GObject.PARAM_READABLE))
 
 LIST_LENGTH = 250
-#gtk.widget_class_install_style_property(Search, ('list-length', gobject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(Search, ('list-length', GObject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, GObject.PARAM_READABLE))
 
 class LeafSearch (Search):
     """
@@ -912,7 +912,7 @@ class ActionSearch (Search):
         self.handle_no_matches()
         self.hide_table()
 
-class Interface (gobject.GObject, pretty.OutputMixin):
+class Interface (GObject.GObject, pretty.OutputMixin):
     """
     Controller object that controls the input and
     the state (current active) search object/widget
@@ -928,7 +928,7 @@ class Interface (gobject.GObject, pretty.OutputMixin):
         @controller: DataController
         @window: toplevel window
         """
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
 
         self.search = LeafSearch()
         self.action = ActionSearch()
@@ -1753,12 +1753,12 @@ class Interface (gobject.GObject, pretty.OutputMixin):
         self.data_controller.search(pane, key=text, context=text,
                 text_mode=self.get_in_text_mode())
 
-gobject.type_register(Interface)
-gobject.signal_new("cancelled", Interface, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
+GObject.type_register(Interface)
+GObject.signal_new("cancelled", Interface, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
 # Send only when the interface itself launched an action directly
-gobject.signal_new("launched-action", Interface, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
+GObject.signal_new("launched-action", Interface, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
 
 
 KUPFER_CSS = b"""
@@ -1901,16 +1901,16 @@ class KupferWindow (gtk.Window):
             widget.window.invalidate_rect(gtk.gdk.Rectangle(0, 0, w, h), False)
 
 
-gobject.type_register(KupferWindow)
+GObject.type_register(KupferWindow)
 WINDOW_CORNER_RAIDUS = 15
 WINDOW_OPACITY = 85
 WINDOW_DECORATED = False
-#gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', gobject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, gobject.PARAM_READABLE))
-#gtk.widget_class_install_style_property(KupferWindow, ('opacity', gobject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, gobject.PARAM_READABLE))
-#gtk.widget_class_install_style_property(KupferWindow, ('decorated', gobject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, GObject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('opacity', GObject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, GObject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('decorated', GObject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, GObject.PARAM_READABLE))
 
 WINDOW_BORDER_WIDTH = 8
-#gtk.widget_class_install_style_property(KupferWindow, ('border-width', gobject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, gobject.PARAM_READABLE))
+#gtk.widget_class_install_style_property(KupferWindow, ('border-width', GObject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, GObject.PARAM_READABLE))
 
 class WindowController (pretty.OutputMixin):
     """
@@ -2384,7 +2384,7 @@ class WindowController (pretty.OutputMixin):
 
         if not quiet:
             self.activate()
-        gobject.idle_add(self.lazy_setup)
+        GLib.idle_add(self.lazy_setup)
 
         def do_main_iterations(max_events=0):
             # use sentinel form of iter

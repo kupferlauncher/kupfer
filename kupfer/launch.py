@@ -2,8 +2,7 @@ from time import time
 import os
 import pickle as pickle
 
-import gio
-import gobject
+from gi.repository import GLib, Gio
 
 from kupfer import pretty, config
 from kupfer import scheduler
@@ -49,7 +48,7 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
     """
     Launch @app_rec correctly, using a startup notification
 
-    you may pass in either a list of gio.Files in @files, or 
+    you may pass in either a list of Gio.Files in @files, or 
     a list of @uris or @paths
 
     if @track, it is a user-level application
@@ -62,9 +61,9 @@ def launch_application(app_info, files=(), uris=(), paths=(), track=True,
     assert app_info
 
     if paths:
-        files = [gio.File.new_for_path(p) for p in paths]
+        files = [Gio.File.new_for_path(p) for p in paths]
     if uris:
-        files = [gio.File.new_for_uri(p) for p in uris]
+        files = [Gio.File.new_for_uri(p) for p in uris]
 
     svc = GetApplicationsMatcherService()
     app_id = application_id(app_info, desktop_file)
@@ -183,9 +182,9 @@ class ApplicationsMatcherService (pretty.OutputMixin):
         if self._has_match(app_id):
             return
         timeout = time() + 15
-        gobject.timeout_add_seconds(2, self._find_application, app_id, pid, timeout)
+        GLib.timeout_add_seconds(2, self._find_application, app_id, pid, timeout)
         # and once later
-        gobject.timeout_add_seconds(30, self._find_application, app_id, pid, timeout)
+        GLib.timeout_add_seconds(30, self._find_application, app_id, pid, timeout)
 
     def _find_application(self, app_id, pid, timeout):
         if self._has_match(app_id):

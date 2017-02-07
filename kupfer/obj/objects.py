@@ -11,8 +11,7 @@ see the main program file, and COPYING for details.
 import os
 from os import path
 
-import gio
-import gobject
+from gi.repository import GLib, GObject, Gio
 
 from kupfer import icons, launch, utils
 from kupfer import pretty
@@ -65,7 +64,7 @@ class FileLeaf (Leaf, TextRepresentation):
         # this function returns a `unicode` object
         if not name:
             unicode_path = tounicode(obj)
-            name = gobject.filename_display_basename(unicode_path)
+            name = GLib.filename_display_basename(unicode_path)
         super(FileLeaf, self).__init__(obj, name)
         if alias:
             self.kupfer_add_alias(alias)
@@ -99,10 +98,10 @@ class FileLeaf (Leaf, TextRepresentation):
         return path.isdir(self.object)
 
     def get_text_representation(self):
-        return gobject.filename_display_name(self.object)
+        return GLib.filename_display_name(self.object)
 
     def get_urilist_representation(self):
-        return [gio.File.new_for_path(self.object).get_uri()]
+        return [Gio.File.new_for_path(self.object).get_uri()]
 
     def get_description(self):
         return utils.get_display_path_for_bytestring(self.canonical_path())
@@ -210,9 +209,9 @@ class AppLeaf (Leaf):
                    not require_x or os.access(self.init_path, os.X_OK)):
                     # serilizable if created from a "loose file"
                     self.serializable = 1
-                    item = gio.DesktopAppInfo.new_from_filename(self.init_path)
+                    item = Gio.DesktopAppInfo.new_from_filename(self.init_path)
                 elif self.init_item_id:
-                        item = gio.DesktopAppInfo.new(self.init_item_id)
+                        item = Gio.DesktopAppInfo.new(self.init_item_id)
             except TypeError:
                 pretty.print_debug(__name__, "Application not found:",
                         self.init_item_id, self.init_path)
@@ -225,13 +224,13 @@ class AppLeaf (Leaf):
         return self.get_id()
 
     def _get_package_name(self):
-        return gobject.filename_display_basename(self.get_id())
+        return GLib.filename_display_basename(self.get_id())
 
     def launch(self, files=(), paths=(), activate=False, ctx=None):
         """
         Launch the represented applications
 
-        @files: a seq of GFiles (gio.File)
+        @files: a seq of GFiles (Gio.File)
         @paths: a seq of bytestring paths
         @activate: activate instead of start new
         """

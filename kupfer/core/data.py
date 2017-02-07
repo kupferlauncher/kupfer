@@ -5,8 +5,8 @@ import operator
 import os
 import sys
 
-import gobject
-gobject.threads_init()
+from gi.repository import GLib, GObject
+GLib.threads_init()
 
 from kupfer.obj import base, sources, compose
 from kupfer import pretty, scheduler
@@ -170,7 +170,7 @@ class Searcher (object):
         match, match_iter = peekfirst(decorator(matches))
         return match, match_iter
 
-class Pane (gobject.GObject):
+class Pane (GObject.GObject):
     """
     signals:
         search-result (match, match_iter, context)
@@ -199,9 +199,9 @@ class Pane (gobject.GObject):
     def emit_search_result(self, match, match_iter, context):
         self.emit("search-result", match, match_iter, context)
 
-gobject.signal_new("search-result", Pane, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, 
-        gobject.TYPE_PYOBJECT))
+GObject.signal_new("search-result", Pane, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, 
+        GObject.TYPE_PYOBJECT))
 
 class LeafPane (Pane, pretty.OutputMixin):
     __gtype_name__ = "LeafPane"
@@ -310,8 +310,8 @@ class LeafPane (Pane, pretty.OutputMixin):
                 decorator=decorator)
         self.emit_search_result(match, match_iter, context)
 
-gobject.signal_new("new-source", LeafPane, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_PYOBJECT,))
+GObject.signal_new("new-source", LeafPane, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT,))
 
 class PrimaryActionPane (Pane):
     def __init__(self):
@@ -415,7 +415,7 @@ class SecondaryObjectPane (LeafPane):
                 item_check=item_check, decorator=decorator)
         self.emit_search_result(match, match_iter, context)
 
-class DataController (gobject.GObject, pretty.OutputMixin):
+class DataController (GObject.GObject, pretty.OutputMixin):
     """
     Sources <-> Actions controller
 
@@ -657,7 +657,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
         for pane in panes:
             ctl = self._panectl_table[pane]
             if ctl.outstanding_search > 0:
-                gobject.source_remove(ctl.outstanding_search)
+                GLib.source_remove(ctl.outstanding_search)
                 ctl.outstanding_search = -1
 
     def search(self, pane, key="", context=None, interactive=False, lazy=False,
@@ -684,7 +684,7 @@ class DataController (gobject.GObject, pretty.OutputMixin):
             def ctl_search(*args):
                 ctl.outstanding_search = -1
                 return ctl.search(*args)
-            ctl.outstanding_search = gobject.timeout_add(timeout, ctl_search,
+            ctl.outstanding_search = GLib.timeout_add(timeout, ctl_search,
                     key, wrapcontext, text_mode)
 
     def _pane_search_result(self, panectl, match,match_iter, wrapcontext, pane):
@@ -985,32 +985,32 @@ class DataController (gobject.GObject, pretty.OutputMixin):
 
 # pane cleared or set with new item
 # pane, item
-gobject.signal_new("pane-reset", DataController, gobject.SIGNAL_RUN_LAST,
-    gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+GObject.signal_new("pane-reset", DataController, GObject.SIGNAL_RUN_LAST,
+    GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT,))
 
 # pane, match, iter to matches, context
-gobject.signal_new("search-result", DataController, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+GObject.signal_new("search-result", DataController, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT))
 
-gobject.signal_new("source-changed", DataController, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (int, object, bool))
+GObject.signal_new("source-changed", DataController, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (int, object, bool))
 
 # mode, None(?)
-gobject.signal_new("mode-changed", DataController, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT,))
+GObject.signal_new("mode-changed", DataController, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT,))
 
 # object stack update signal
 # arguments: pane
-gobject.signal_new("object-stack-changed", DataController, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, ))
+GObject.signal_new("object-stack-changed", DataController, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, ))
 # when an command returned a result
 # arguments: result type, gui_context
-gobject.signal_new("command-result", DataController, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_INT, gobject.TYPE_PYOBJECT))
+GObject.signal_new("command-result", DataController, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT))
 
 # when an action was launched
 # arguments: none
-gobject.signal_new("launched-action", DataController, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
+GObject.signal_new("launched-action", DataController, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
 
 

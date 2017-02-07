@@ -2,7 +2,7 @@ import itertools
 import os
 from os import path
 
-import gobject
+from gi.repository import GLib
 
 from kupfer import datatools
 from kupfer import icons
@@ -19,7 +19,7 @@ class FileSource (Source):
         """
         @dirlist: Directories as byte strings
         """
-        name = gobject.filename_display_basename(dirlist[0])
+        name = GLib.filename_display_basename(dirlist[0])
         if len(dirlist) > 1:
             name = _("%s et. al.") % name
         super(FileSource, self).__init__(name)
@@ -64,7 +64,7 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
     def __init__(self, dir, show_hidden=False):
         # Use glib filename reading to make display name out of filenames
         # this function returns a `unicode` object
-        name = gobject.filename_display_basename(dir)
+        name = GLib.filename_display_basename(dir)
         super(DirectorySource, self).__init__(name)
         self.directory = dir
         self.show_hidden = show_hidden

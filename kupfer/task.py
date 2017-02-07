@@ -57,13 +57,13 @@ class ThreadTask (Task):
     def _run_thread(self):
         try:
             self.thread_do()
-            gobject.idle_add(self.thread_finish)
+            GLib.idle_add(self.thread_finish)
         except:
             exc_info = sys.exc_info()
         else:
             exc_info = None
         finally:
-            gobject.idle_add(self._thread_finally, exc_info)
+            GLib.idle_add(self._thread_finally, exc_info)
 
     def start(self, finish_callback):
         self._finish_callback = finish_callback

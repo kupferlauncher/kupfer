@@ -1,5 +1,6 @@
 
-import gobject
+from gi.repository import GLib, GObject
+
 
 from kupfer import pretty
 from kupfer.weaklib import gobject_connect_weakly
@@ -13,7 +14,7 @@ def GetScheduler():
         _scheduler = Scheduler()
     return _scheduler
 
-class Scheduler (gobject.GObject, pretty.OutputMixin):
+class Scheduler (GObject.GObject, pretty.OutputMixin):
     __gtype_name__ = "Scheduler"
     def __init__(self):
         super(Scheduler, self).__init__()
@@ -28,7 +29,7 @@ class Scheduler (gobject.GObject, pretty.OutputMixin):
     def display(self):
         self.output_debug("Display")
         self.emit("display")
-        gobject.idle_add(self._after_display)
+        GLib.idle_add(self._after_display)
 
     def _after_display(self):
         self.output_debug("After Display")
@@ -41,16 +42,16 @@ class Scheduler (gobject.GObject, pretty.OutputMixin):
     def finish(self):
         self._finished = True
         self.emit("finish")
-gobject.signal_new("load", Scheduler, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("loaded", Scheduler, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("display", Scheduler, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("after-display", Scheduler, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("finish", Scheduler, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
+GObject.signal_new("load", Scheduler, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
+GObject.signal_new("loaded", Scheduler, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
+GObject.signal_new("display", Scheduler, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
+GObject.signal_new("after-display", Scheduler, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
+GObject.signal_new("finish", Scheduler, GObject.SIGNAL_RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
 
 class Timer (object):
     def __init__(self, call_at_finish=False):
@@ -65,7 +66,7 @@ class Timer (object):
         """
         self.invalidate()
         self._current_callback = lambda : callback(*arguments)
-        self._current_timer = gobject.timeout_add_seconds(timeout_seconds,
+        self._current_timer = GLib.timeout_add_seconds(timeout_seconds,
                 self._call)
 
     def set_ms(self, timeout_milliseconds, callback, *arguments):
@@ -74,13 +75,13 @@ class Timer (object):
         """
         self.invalidate()
         self._current_callback = lambda : callback(*arguments)
-        self._current_timer = gobject.timeout_add(int(timeout_milliseconds),
+        self._current_timer = GLib.timeout_add(int(timeout_milliseconds),
                 self._call)
 
     def set_idle(self, callback, *arguments):
         self.invalidate()
         self._current_callback = lambda : callback(*arguments)
-        self._current_timer = gobject.idle_add(self._call)
+        self._current_timer = GLib.idle_add(self._call)
 
     def _call(self, timer=None):
         self._current_timer = -1
@@ -88,7 +89,7 @@ class Timer (object):
     
     def invalidate(self):
         if self._current_timer > 0:
-            gobject.source_remove(self._current_timer)
+            GLib.source_remove(self._current_timer)
         self._current_timer = -1
 
     def is_valid(self):
