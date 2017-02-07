@@ -6,9 +6,7 @@ __author__ = ""
 
 import shutil
 
-from gi.repository import Gio
-from gi.repository import Gio
-import glib
+from gi.repository import Gio, Gdk, GLib
 from gi.repository import Gtk
 from gi.repository import GdkPixbuf
 
@@ -46,7 +44,7 @@ def load_image_max_size(filename, w, h):
         with open(filename, "rb") as f:
             shutil.copyfileobj(f, pl)
         pl.close()
-    except (glib.GError, EnvironmentError) as exc:
+    except (GLib.GError, EnvironmentError) as exc:
         raise OperationError(exc)
     return pl.get_pixbuf()
 
