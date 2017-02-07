@@ -7,7 +7,6 @@ __author__ = "Ulrik"
 from kupfer.objects import Action, TextLeaf, OperationError
 from kupfer import utils
 from kupfer import plugin_support
-from kupfer import kupferstring
 
 dictionaries = {
     'gnome-dictionary': ['gnome-dictionary', '--look-up='],

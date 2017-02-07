@@ -43,7 +43,7 @@ class WindowLeaf (Leaf):
         workspace = self.object.get_workspace()
         if not workspace:
             return ""
-        nr, name = workspace.get_number(), workspace.get_name()
+        _nr, name = workspace.get_number(), workspace.get_name()
         # TRANS: Window on (Workspace name), window description
         return _("Window on %(wkspc)s") % {"wkspc": name}
 

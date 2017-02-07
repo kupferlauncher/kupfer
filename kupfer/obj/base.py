@@ -2,7 +2,7 @@ from kupfer import datatools
 from kupfer import icons
 from kupfer import pretty
 from kupfer.utils import locale_sort
-from kupfer.kupferstring import tounicode, toutf8, tofolded
+from kupfer.kupferstring import tounicode, tofolded
 
 __all__ = [
     "Error", "InvalidDataError", "OperationError", "InvalidLeafError",

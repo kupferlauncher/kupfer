@@ -4,7 +4,6 @@ import os
 
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer.obj.compose import ComposedLeaf
-from kupfer import kupferstring
 from kupfer.core import execfile
 
 

@@ -315,7 +315,7 @@ def _load_icons(plugin_name):
         from kupfer import icons
 
     try:
-        loader = _staged_import(plugin_name, _loader_hook)
+        _loader = _staged_import(plugin_name, _loader_hook)
     except ImportError as exc:
         return
     modname = ".".join(_plugin_path(plugin_name))

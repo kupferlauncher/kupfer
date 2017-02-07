@@ -36,7 +36,7 @@ def copy_to_clipboard(obj, clipboard):
     ## support copying text to clipboard
     ## as well as files in both the general uri-list representation
     ## and in nautilus' file copy clipboard type
-    target_ids = (uri_id, text_id, nautilus_id) = (80, 81, 82)
+    (uri_id, text_id, nautilus_id) = (80, 81, 82)
     nautilus_target = Gdk.Atom.intern('x-special/gnome-copied-files', False)
 
     # udata is the data dict

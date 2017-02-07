@@ -336,7 +336,7 @@ def spawn_child(argv, respawn=True, display=None):
                              child_setup=_try_register_pr_pdeathsig,
                              )
     except GLib.GError as exc:
-        raise utils.SpawnError(str(exc))
+        raise SpawnError(str(exc))
     if pid:
         GLib.child_watch_add(pid, _on_child_exit, (argv, respawn))
     return pid

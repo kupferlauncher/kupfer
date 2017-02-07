@@ -1,6 +1,6 @@
 import os
 
-from gi.repository import Gio, GLib
+from gi.repository import Gio 
 
 from kupfer import utils
 from kupfer import launch
@@ -39,7 +39,6 @@ class Open (Action):
         content_type = info.get_attribute_string(content_attr)
         def_app = Gio.app_info_get_default_for_type(content_type, False)
         if not def_app:
-            apps_for_type = Gio.app_info_get_all_for_type(content_type)
             raise NoDefaultApplicationError(
                     (_("No default application for %(file)s (%(type)s)") % 
                      {"file": str(leaf), "type": content_type}) + "\n" +

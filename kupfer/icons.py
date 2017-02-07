@@ -1,12 +1,7 @@
-import os
-
-from gi.repository import Gio, GLib, Gdk, GdkPixbuf, Gtk
-from gi.repository import Gtk
+from gi.repository import Gio, GdkPixbuf, Gtk
 from gi.repository.GLib import GError
 from gi.repository.Gio import Icon, ThemedIcon, FileIcon, File
 from gi.repository.Gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
-
-from gi.repository import GdkPixbuf
 
 from kupfer import config
 from kupfer import datatools

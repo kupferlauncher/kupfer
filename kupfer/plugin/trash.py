@@ -10,7 +10,6 @@ from gi.repository import Gio
 from kupfer.objects import Leaf, Action, Source, SourceLeaf, FileLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.fileactions import Open
-from kupfer.obj.base import OperationError
 from kupfer import utils, icons, pretty
 
 

@@ -14,7 +14,6 @@ __description__ = _("Gnote or Tomboy notes")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import locale
 import os
 import time
 import xml.sax.saxutils

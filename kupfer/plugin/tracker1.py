@@ -16,12 +16,11 @@ __author__ = "US"
 
 from xml.etree.cElementTree import ElementTree
 
-from gi.repository import Gio, GLib
+from gi.repository import Gio 
 import dbus
 
 from kupfer.objects import Action, Source
-from kupfer.objects import TextLeaf, FileLeaf, TextSource, SourceLeaf
-from kupfer.obj.objects import ConstructFileLeaf
+from kupfer.objects import TextLeaf, FileLeaf, TextSource 
 from kupfer import utils, pretty
 from kupfer import plugin_support
 

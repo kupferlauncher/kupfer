@@ -76,7 +76,6 @@ def _write_thumbnail(gfile, pixbuf):
 def update_icon(kobj, filepath):
     "Give @filepath a custom icon taken from @kobj"
     icon_key = "metadata::custom-icon"
-    icon_namespace = icon_key.split(":")[0]
 
     gfile = Gio.File.new_for_path(filepath)
     finfo = gfile.query_info(icon_key, Gio.FileQueryInfoFlags.NONE, None)
@@ -87,11 +86,13 @@ def update_icon(kobj, filepath):
     if namespace.n_infos > 0:
         pretty.print_debug(__name__, "Updating icon for", filepath)
         thumb_filename = _write_thumbnail(gfile, kobj.get_pixbuf(128))
-        gfile.set_attribute_string(icon_key,
-                Gio.File.new_for_path(thumb_filename).get_uri(),
-                Gio.FileQueryInfoFlags.NONE,
-                None)
-
+        try:
+            gfile.set_attribute_string(icon_key,
+                    Gio.File.new_for_path(thumb_filename).get_uri(),
+                    Gio.FileQueryInfoFlags.NONE,
+                    None)
+        except GLib.GError:
+            pretty.print_exc(__name__)
 
 if __name__ == '__main__':
     import doctest

@@ -10,7 +10,7 @@ try:
     from dbus.mainloop.glib import DBusGMainLoop
     DBusGMainLoop(set_as_default=True)
     import dbus.service
-    from kupfer.dbuscompat import ExportedGObject
+    from dbus.gi_service import ExportedGObject
 
     dbus.mainloop.glib.threads_init()
 

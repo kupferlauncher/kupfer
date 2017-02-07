@@ -5,7 +5,6 @@ import itertools
 import signal
 import sys
 import textwrap
-import time
 
 from gi.repository import Gtk, Gdk, GObject
 from gi.repository import GLib, Gio, Pango
@@ -649,8 +648,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self_width = self.size_request().width
         sub_x = pos_x
         sub_y = pos_y + win_height
-        table_sr = self.table.size_request()
-        table_w, table_len = table_sr.width, table_sr.height
         # FIXME: Adapt list length
         subwin_height = list_maxheight
         subwin_width = self_width*2 - self_x
@@ -1088,7 +1085,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         text_mode = self.get_in_text_mode()
         has_input = bool(self.entry.get_text())
 
-        curtime = time.time()
+        # curtime = time.time()
         self._reset_input_timer()
 
         setctl = settings.GetSettingsController()
@@ -1600,8 +1597,8 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.data_controller.browse_down(pane, alternate=alternate)
 
     def _make_gui_ctx(self):
-        timestamp = Gtk.get_current_event_time()
-        return uievents.gui_context_from_widget(timestamp, self._widget)
+        event_time = Gtk.get_current_event_time()
+        return uievents.gui_context_from_widget(event_time, self._widget)
 
     def _activate(self, widget, current):
         self.data_controller.activate(ui_ctx=self._make_gui_ctx())
@@ -1610,14 +1607,14 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         """Activate current selection (Run action)"""
         self._activate(None, None)
 
-    def execute_file(self, filepath, display, timestamp):
+    def execute_file(self, filepath, display, event_time):
         """Execute a .kfcom file"""
         def _handle_error(exc_info):
             from kupfer import uiutils
             etype, exc, tb = exc_info
             if not uiutils.show_notification(str(exc), icon_name="kupfer"):
                 raise
-        ctxenv = uievents.gui_context_from_keyevent(timestamp, display)
+        ctxenv = uievents.gui_context_from_keyevent(event_time, display)
         self.data_controller.execute_file(filepath, ctxenv, _handle_error)
 
     def _search_result(self, sender, pane, matchrankable, matches, context):
@@ -1974,8 +1971,8 @@ class WindowController (pretty.OutputMixin):
         def add_menu_item(icon, callback, label=None, with_ctx=True):
             def mitem_handler(menuitem, callback):
                 if with_ctx:
-                    time = Gtk.get_current_event_time()
-                    ui_ctx = uievents.gui_context_from_widget(time, menuitem)
+                    event_time = Gtk.get_current_event_time()
+                    ui_ctx = uievents.gui_context_from_widget(event_time, menuitem)
                     callback(ui_ctx)
                 else:
                     callback()

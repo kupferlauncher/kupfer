@@ -72,7 +72,7 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
     for slc in range(len(query), 0, -1):
         if query[:slc] == ls[first:first+slc]:
             break
-    key, nextkey = query[:slc], query[slc:]
+    nextkey = query[slc:]
 
     head = s[:first]
     match = s[first: first+slc]

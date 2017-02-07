@@ -11,7 +11,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from gi.repository import Gtk, GLib
 
 from kupfer.objects import Action, Source
-from kupfer.objects import TextLeaf, RunnableLeaf
+from kupfer.objects import RunnableLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.compose import ComposedLeaf
 from kupfer import puid

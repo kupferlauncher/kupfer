@@ -345,9 +345,9 @@ class ActionExecutionContext (GObject.GObject, pretty.OutputMixin):
                 return values[0] if len(values) == 1 else MultipleLeaf(values)
             if res == RESULT_ASYNC:
                 # Register all tasks now, and return None upwards
-                for task in values:
-                    self.output_debug("Registering async task", task)
-                    self.task_runner.add_task(task)
+                for task_ in values:
+                    self.output_debug("Registering async task", task_)
+                    self.task_runner.add_task(task_)
             return None
 
         if not self._delegate:

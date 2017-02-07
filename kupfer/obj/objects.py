@@ -11,7 +11,7 @@ see the main program file, and COPYING for details.
 import os
 from os import path
 
-from gi.repository import GLib, GObject, Gio
+from gi.repository import GLib, Gio
 
 from kupfer import icons, launch, utils
 from kupfer import pretty

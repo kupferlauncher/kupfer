@@ -10,7 +10,7 @@ __description__ = _("Send synthetic keyboard events using "
 __version__ = ""
 __author__ = ""
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from kupfer.objects import Leaf, Action, TextLeaf
 from kupfer.objects import OperationError
@@ -27,7 +27,7 @@ class CopyAndPaste (Action):
     def __init__(self):
         Action.__init__(self, _("Paste to Foreground Window"))
     def activate(self, leaf):
-        clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         interface.copy_to_clipboard(leaf, clip)
         xte_paste_argv = ['xte', INIT_DELAY, 'keydown Control_L',
                           'key v', 'keyup Control_L']

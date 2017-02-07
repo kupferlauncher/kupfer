@@ -27,18 +27,6 @@ def _folditems():
 
 folding_table = dict(_folditems())
 
-def to_g_filename(file_path):
-    """
-    file_path: bytes or str
-
-    Convert file path
-
-    Return str
-    """
-    if isinstance(file_path, bytes):
-        return fromlocale_w_fallback(file_path)
-    return file_path
-
 def tounicode(utf8str):
     """Return `unicode` from UTF-8 encoded @utf8str
     This is to use the same error handling etc everywhere
