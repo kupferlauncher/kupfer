@@ -959,7 +959,6 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self._reset_when_back = False
         self.entry.connect("realize", self._entry_realized)
         self.preedit.set_has_frame(False)
-        self.preedit.set_inner_border(None)
         self.preedit.set_width_chars(0)
         self.preedit.set_alignment(1)
 
@@ -1795,8 +1794,8 @@ KUPFER_CSS = b"""
 
 class KupferWindow (gtk.Window):
     __gtype_name__ = "KupferWindow"
-    def __init__(self, *args):
-        super(KupferWindow, self).__init__(*args)
+    def __init__(self, type_):
+        super(KupferWindow, self).__init__(type=type_)
         self.connect("style-set", self.on_style_set)
         self.set_name("kupfer")
         #self.connect("map-event", self.on_expose_event)
@@ -2055,8 +2054,8 @@ class WindowController (pretty.OutputMixin):
         vbox.pack_start(widget, True, True)
         vbox.show()
         self.window.add(vbox)
-        title = gtk.Label("")
-        button = gtk.Label("")
+        title = gtk.Label.new("")
+        button = gtk.Label.new("")
         l_programname = version.PROGRAM_NAME.lower()
         # The text on the general+context menu button
         btext = "<b>%s \N{GEAR}</b>" % (l_programname, )

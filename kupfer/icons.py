@@ -1,12 +1,11 @@
 import os
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 import gtk
 from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
 from gtk.gdk import pixbuf_new_from_file_at_size
 from gio import Icon, ThemedIcon, FileIcon, File
 from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
-from gobject import GError
 
 from gi.repository import GdkPixbuf
 
@@ -23,9 +22,6 @@ ICON_CACHE_SIZE = 15
 
 LARGE_SZ = 128
 SMALL_SZ = 24
-
-gtk.icon_size_register("kupfer-large", LARGE_SZ, LARGE_SZ)
-gtk.icon_size_register("kupfer-small", SMALL_SZ, SMALL_SZ)
 
 ## default fallbacks for our themable icons
 kupfer_icon_fallbacks = {
@@ -212,7 +208,7 @@ def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
     try:
         icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
         return icon
-    except GError as e:
+    except GLib.GError as e:
         # this error is not important, the program continues on fine,
         # so we put it in debug output.
         pretty.print_debug(__name__, "get_pixbuf_from_file file:", thumb_path,
