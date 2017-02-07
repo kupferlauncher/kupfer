@@ -2021,7 +2021,7 @@ class WindowController (pretty.OutputMixin):
 
     def _setup_gtk_status_icon(self, menu):
         status = Gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
-        status.set_tooltip(version.PROGRAM_NAME)
+        status.set_tooltip_text(version.PROGRAM_NAME)
 
         status.connect("popup-menu", self._popup_menu, menu)
         status.connect("activate", self.show_hide)
@@ -2115,7 +2115,7 @@ class WindowController (pretty.OutputMixin):
         """
         When the StatusIcon is right-clicked
         """
-        menu.popup(None, None, Gtk.status_icon_position_menu, status_icon, button, activate_time)
+        menu.popup(None, None, Gtk.StatusIcon.position_menu, status_icon, button, activate_time)
 
     def launch_callback(self, sender):
         # Separate window hide from the action being
