@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 12:24+0100\n"
+"POT-Creation-Date: 2017-02-07 01:54+0100\n"
 "PO-Revision-Date: 2015-08-10 18:48+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -198,27 +198,27 @@ msgstr "felsökningsläge"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:51
+#: ../kupfer/main.py:50
 msgid "run plugin helper"
 msgstr "kör hjälpprogram för insticksmodul"
 
-#: ../kupfer/main.py:54
+#: ../kupfer/main.py:53
 msgid "show usage help"
 msgstr "visa hjälpmeddelande"
 
-#: ../kupfer/main.py:55
+#: ../kupfer/main.py:54
 msgid "show version information"
 msgstr "visa programversion"
 
-#: ../kupfer/main.py:61
+#: ../kupfer/main.py:60
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Användning: kupfer [ FLAGGOR | FIL ... ]"
 
-#: ../kupfer/main.py:72
+#: ../kupfer/main.py:71
 msgid "Available plugins:"
 msgstr "Tillgängliga insticksmoduler:"
 
-#: ../kupfer/main.py:121
+#: ../kupfer/main.py:120
 #, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -229,7 +229,7 @@ msgstr ""
 "    %(COPYRIGHT)s\n"
 "    %(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Text"
 
@@ -312,7 +312,7 @@ msgstr "Det finns inget förvalt program för ”%(file)s” (%(type)s)."
 msgid "Please use \"%s\""
 msgstr "V.v. använd ”%s”"
 
-#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:116
 msgid "Set Default Application..."
 msgstr "Välj standardprogram..."
 
@@ -460,31 +460,31 @@ msgstr "%s är inte konfigurerad"
 msgid "Invalid user credentials for %s"
 msgstr "Ogiltiga användaruppgifter för %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:42
 msgid "Applications"
 msgstr "Program"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:81
 msgid "All applications and preferences"
 msgstr "Alla program och inställningspaneler"
 
-#: ../kupfer/plugin/applications.py:23
+#: ../kupfer/plugin/applications.py:21
 msgid "Applications for Desktop Environment"
 msgstr "Program för skrivbordsmiljö"
 
-#: ../kupfer/plugin/applications.py:30
+#: ../kupfer/plugin/applications.py:28
 msgid "Use Desktop Filter (requires restart)"
 msgstr "Använd skrivbords-filter (kräver omstart)"
 
-#: ../kupfer/plugin/applications.py:92
+#: ../kupfer/plugin/applications.py:90
 msgid "Open With..."
 msgstr "Öppna med..."
 
-#: ../kupfer/plugin/applications.py:114
+#: ../kupfer/plugin/applications.py:112
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
 
-#: ../kupfer/plugin/applications.py:133
+#: ../kupfer/plugin/applications.py:132
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
@@ -820,15 +820,15 @@ msgstr "Sök bland objekt i katalogen"
 msgid "Copy"
 msgstr "Kopiera"
 
-#: ../kupfer/plugin/core/__init__.py:105
+#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Kopiera till urklipp"
 
-#: ../kupfer/plugin/core/__init__.py:127
+#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Uppdatera"
 
-#: ../kupfer/plugin/core/__init__.py:142
+#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Tvinga omläsning av källan"
 
@@ -1706,39 +1706,51 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Integration med sökprogrammet Tracker"
 
-#: ../kupfer/plugin/tracker1.py:44
+#: ../kupfer/plugin/tracker1.py:43
 msgid "Search in Tracker"
 msgstr "Sök i Tracker"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:48
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Sök efter denna term i Sökverktyget Tracker"
 
-#: ../kupfer/plugin/tracker1.py:57
+#: ../kupfer/plugin/tracker1.py:56
 msgid "Get Tracker Results..."
 msgstr "Hämta träffar från Tracker..."
 
-#: ../kupfer/plugin/tracker1.py:66
+#: ../kupfer/plugin/tracker1.py:65
 msgid "Show Tracker results for query"
 msgstr "Visa träffar för sökning med Tracker"
 
-#: ../kupfer/plugin/tracker1.py:159
+#: ../kupfer/plugin/tracker1.py:155
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr "Tracker-sökning efter \"%s\""
 
-#: ../kupfer/plugin/tracker1.py:171
+#: ../kupfer/plugin/tracker1.py:169 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Resultat för ”%s”"
 
-#: ../kupfer/plugin/tracker1.py:204
+#: ../kupfer/plugin/tracker1.py:202
 msgid "Tracker Full Text Search"
 msgstr "Fulltextsökning i Tracker"
 
-#: ../kupfer/plugin/tracker1.py:208
+#: ../kupfer/plugin/tracker1.py:205
 msgid "Use '?' prefix to get full text results"
 msgstr "Använd ?-prefix för att få fulltextresultat"
+
+#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
+msgid "Locate Files"
+msgstr "Locate"
+
+#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
+msgid "Search filesystem using locate"
+msgstr "Sök filsystemet med ‘locate’"
+
+#: ../kupfer/plugin/locate.py:21
+msgid "Ignore case distinctions when searching files"
+msgstr "Ignorera skillnad i gemener och VERSALER"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1824,19 +1836,19 @@ msgstr "Skriv för att söka i %s"
 msgid "No action"
 msgstr "Inget kommando"
 
-#: ../kupfer/ui/browser.py:1498
+#: ../kupfer/ui/browser.py:1499
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Gör ”%(action)s” till standard för ”%(object)s”"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1508
+#: ../kupfer/ui/browser.py:1509
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Glöm bort ”%s”"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1997 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Visa huvudgränssnitt"
 
@@ -2534,15 +2546,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Unable to activate Gwibber service"
 #~ msgstr "Kunde inte aktivera Gwibber-tjänsten"
-
-#~ msgid "Locate Files"
-#~ msgstr "Locate"
-
-#~ msgid "Search filesystem using locate"
-#~ msgstr "Sök filsystemet med ‘locate’"
-
-#~ msgid "Ignore case distinctions when searching files"
-#~ msgstr "Ignorera skillnad i gemener och VERSALER"
 
 #~ msgid "OpenOffice / LibreOffice"
 #~ msgstr "OpenOffice / LibreOffice"
