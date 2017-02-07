@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 12:24+0100\n"
+"POT-Creation-Date: 2017-02-07 14:06+0100\n"
 "PO-Revision-Date: 2015-05-30 11:28+0000\n"
 "Last-Translator: Simge Sezgin <simgesezgin88@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -194,27 +194,27 @@ msgstr "hata ayıklama bilgisini etkinleştir"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:51
+#: ../kupfer/main.py:50
 msgid "run plugin helper"
 msgstr "helper eklentisini çalıştır"
 
-#: ../kupfer/main.py:54
+#: ../kupfer/main.py:53
 msgid "show usage help"
 msgstr "kullanım yardımını göster"
 
-#: ../kupfer/main.py:55
+#: ../kupfer/main.py:54
 msgid "show version information"
 msgstr "sürüm bilgisini göster"
 
-#: ../kupfer/main.py:61
+#: ../kupfer/main.py:60
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Kullanımı: kupfer [ OPTIONS | FILE ... ]"
 
-#: ../kupfer/main.py:72
+#: ../kupfer/main.py:71
 msgid "Available plugins:"
 msgstr "Uygun eklentiler:"
 
-#: ../kupfer/main.py:121
+#: ../kupfer/main.py:120
 #, fuzzy, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -225,7 +225,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Metin"
 
@@ -308,7 +308,7 @@ msgstr "%(file)s (%(type)s) dosya türü için öntenımlı uygulama yok"
 msgid "Please use \"%s\""
 msgstr "Lütfen \"%s\" kullanın"
 
-#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:116
 msgid "Set Default Application..."
 msgstr "Öntanımlı Uygulama Olarak Ayarla...."
 
@@ -456,31 +456,31 @@ msgstr "%s eklentisi yapılandırılmamış"
 msgid "Invalid user credentials for %s"
 msgstr "%s için geçersiz kullanıcı bilgisi"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:42
 msgid "Applications"
 msgstr "Uygulamalar"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:81
 msgid "All applications and preferences"
 msgstr "Tüm uygulamalar ve ayarları"
 
-#: ../kupfer/plugin/applications.py:23
+#: ../kupfer/plugin/applications.py:21
 msgid "Applications for Desktop Environment"
 msgstr "Masaüstü Ortamı İçin Uygulamalar"
 
-#: ../kupfer/plugin/applications.py:30
+#: ../kupfer/plugin/applications.py:28
 msgid "Use Desktop Filter (requires restart)"
 msgstr ""
 
-#: ../kupfer/plugin/applications.py:92
+#: ../kupfer/plugin/applications.py:90
 msgid "Open With..."
 msgstr "Birlikte Aç..."
 
-#: ../kupfer/plugin/applications.py:114
+#: ../kupfer/plugin/applications.py:112
 msgid "Open with any application"
 msgstr "Herhangi bir uygulama ile aç"
 
-#: ../kupfer/plugin/applications.py:133
+#: ../kupfer/plugin/applications.py:132
 msgid "Set default application to open this file type"
 msgstr "Bu dosya türü için öntanımlı uygulama olarak ayarla"
 
@@ -818,15 +818,15 @@ msgstr "Bu katalog içinde ara"
 msgid "Copy"
 msgstr "Kopyala"
 
-#: ../kupfer/plugin/core/__init__.py:105
+#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Panoya kopyala"
 
-#: ../kupfer/plugin/core/__init__.py:127
+#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Yeniden Tara"
 
-#: ../kupfer/plugin/core/__init__.py:142
+#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Bu kaynağı yeniden taramak için zorla"
 
@@ -1700,39 +1700,51 @@ msgstr "İzleyici"
 msgid "Tracker desktop search integration"
 msgstr "Tracker masaüstü arama bütünleşmesi"
 
-#: ../kupfer/plugin/tracker1.py:44
+#: ../kupfer/plugin/tracker1.py:43
 msgid "Search in Tracker"
 msgstr "Tracker'da ara"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:48
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Tracker arama aracını aç ve bu terim için ara"
 
-#: ../kupfer/plugin/tracker1.py:57
+#: ../kupfer/plugin/tracker1.py:56
 msgid "Get Tracker Results..."
 msgstr "Tracker sonuçlarını getir"
 
-#: ../kupfer/plugin/tracker1.py:66
+#: ../kupfer/plugin/tracker1.py:65
 msgid "Show Tracker results for query"
 msgstr "Bu sorgu için Tracker sonuçlarını göster"
 
-#: ../kupfer/plugin/tracker1.py:159
+#: ../kupfer/plugin/tracker1.py:155
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:171
+#: ../kupfer/plugin/tracker1.py:169 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "\"%s\" için sonuçlar"
 
-#: ../kupfer/plugin/tracker1.py:204
+#: ../kupfer/plugin/tracker1.py:202
 msgid "Tracker Full Text Search"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:208
+#: ../kupfer/plugin/tracker1.py:205
 msgid "Use '?' prefix to get full text results"
 msgstr ""
+
+#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
+msgid "Locate Files"
+msgstr "Dosyaların Yerini Belirle"
+
+#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
+msgid "Search filesystem using locate"
+msgstr "Yer belirleme kullanarak dosya sistemi ara"
+
+#: ../kupfer/plugin/locate.py:21
+msgid "Ignore case distinctions when searching files"
+msgstr "Dosyaları ararken karakter boyutunu önemseme"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1818,19 +1830,19 @@ msgstr "%s aramak için girin"
 msgid "No action"
 msgstr "Eylem yok"
 
-#: ../kupfer/ui/browser.py:1498
+#: ../kupfer/ui/browser.py:1499
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Öntanımlı \"%(object)s\" için \"%(action)s\" oluştur"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1508
+#: ../kupfer/ui/browser.py:1509
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "\"%s\" Unut"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1997 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Uygulama Penceresini Göster"
 
@@ -2537,15 +2549,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "Unable to activate Gwibber service"
 #~ msgstr "Gwibber hizmeti etkinleştirilemedi"
-
-#~ msgid "Locate Files"
-#~ msgstr "Dosyaların Yerini Belirle"
-
-#~ msgid "Search filesystem using locate"
-#~ msgstr "Yer belirleme kullanarak dosya sistemi ara"
-
-#~ msgid "Ignore case distinctions when searching files"
-#~ msgstr "Dosyaları ararken karakter boyutunu önemseme"
 
 #~ msgid "OpenOffice / LibreOffice"
 #~ msgstr "OpenOffice / LibreOffice"

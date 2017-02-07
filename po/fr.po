@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 12:24+0100\n"
+"POT-Creation-Date: 2017-02-07 14:06+0100\n"
 "PO-Revision-Date: 2012-02-19 12:50+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -201,27 +201,27 @@ msgstr "activer les informations de débogage"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:51
+#: ../kupfer/main.py:50
 msgid "run plugin helper"
 msgstr "lancer l'assistant greffon"
 
-#: ../kupfer/main.py:54
+#: ../kupfer/main.py:53
 msgid "show usage help"
 msgstr "afficher l'aide"
 
-#: ../kupfer/main.py:55
+#: ../kupfer/main.py:54
 msgid "show version information"
 msgstr "afficher les informations de version"
 
-#: ../kupfer/main.py:61
+#: ../kupfer/main.py:60
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Utilisation : kupfer [ OPTIONS | FICHIER ... ]"
 
-#: ../kupfer/main.py:72
+#: ../kupfer/main.py:71
 msgid "Available plugins:"
 msgstr "Greffons disponibles :"
 
-#: ../kupfer/main.py:121
+#: ../kupfer/main.py:120
 #, fuzzy, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -232,7 +232,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Texte"
 
@@ -315,7 +315,7 @@ msgstr "Aucune application par défaut pour %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "Veuillez utiliser « %s »"
 
-#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:116
 msgid "Set Default Application..."
 msgstr "Définir l'application par défaut..."
 
@@ -463,31 +463,31 @@ msgstr "Le greffon %s n'est pas configuré"
 msgid "Invalid user credentials for %s"
 msgstr "Erreur d'authentification pour %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:42
 msgid "Applications"
 msgstr "Applications"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:81
 msgid "All applications and preferences"
 msgstr "Toutes les applications et préférences"
 
-#: ../kupfer/plugin/applications.py:23
+#: ../kupfer/plugin/applications.py:21
 msgid "Applications for Desktop Environment"
 msgstr "Applications pour le bureau"
 
-#: ../kupfer/plugin/applications.py:30
+#: ../kupfer/plugin/applications.py:28
 msgid "Use Desktop Filter (requires restart)"
 msgstr ""
 
-#: ../kupfer/plugin/applications.py:92
+#: ../kupfer/plugin/applications.py:90
 msgid "Open With..."
 msgstr "Ouvrir avec..."
 
-#: ../kupfer/plugin/applications.py:114
+#: ../kupfer/plugin/applications.py:112
 msgid "Open with any application"
 msgstr "Ouvrir avec n'importe quelle application"
 
-#: ../kupfer/plugin/applications.py:133
+#: ../kupfer/plugin/applications.py:132
 msgid "Set default application to open this file type"
 msgstr "Sauvegarder l'application par défaut pour ouvrir ce type de fichier"
 
@@ -827,15 +827,15 @@ msgstr "Rechercher à l'intérieur de ce catalogue"
 msgid "Copy"
 msgstr "Copier"
 
-#: ../kupfer/plugin/core/__init__.py:105
+#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papiers"
 
-#: ../kupfer/plugin/core/__init__.py:127
+#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Parcourir à nouveau"
 
-#: ../kupfer/plugin/core/__init__.py:142
+#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Forcer la ré-indexation de cette source"
 
@@ -1716,39 +1716,51 @@ msgstr "Tracker"
 msgid "Tracker desktop search integration"
 msgstr "Intégration avec le moteur de recherche Tracker pour le bureau"
 
-#: ../kupfer/plugin/tracker1.py:44
+#: ../kupfer/plugin/tracker1.py:43
 msgid "Search in Tracker"
 msgstr "Rechercher dans Tracker"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:48
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Ouvrir le moteur de recherche Tracker et rechercher ce terme"
 
-#: ../kupfer/plugin/tracker1.py:57
+#: ../kupfer/plugin/tracker1.py:56
 msgid "Get Tracker Results..."
 msgstr "Obtenir les résultats de Tracker..."
 
-#: ../kupfer/plugin/tracker1.py:66
+#: ../kupfer/plugin/tracker1.py:65
 msgid "Show Tracker results for query"
 msgstr "Affiche les résultats de la requête de Tracker"
 
-#: ../kupfer/plugin/tracker1.py:159
+#: ../kupfer/plugin/tracker1.py:155
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:171
+#: ../kupfer/plugin/tracker1.py:169 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Résultats pour « %s »"
 
-#: ../kupfer/plugin/tracker1.py:204
+#: ../kupfer/plugin/tracker1.py:202
 msgid "Tracker Full Text Search"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:208
+#: ../kupfer/plugin/tracker1.py:205
 msgid "Use '?' prefix to get full text results"
 msgstr ""
+
+#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
+msgid "Locate Files"
+msgstr "Localiser des fichiers"
+
+#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
+msgid "Search filesystem using locate"
+msgstr "Rechercher dans le système de fichiers en utilisant locate"
+
+#: ../kupfer/plugin/locate.py:21
+msgid "Ignore case distinctions when searching files"
+msgstr "Ignorer la casse lors des recherches de fichiers"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1834,19 +1846,19 @@ msgstr "Saisir pour rechercher dans %s"
 msgid "No action"
 msgstr "Aucune action"
 
-#: ../kupfer/ui/browser.py:1498
+#: ../kupfer/ui/browser.py:1499
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Rendre « %(action)s » par défaut pour « %(object)s »"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1508
+#: ../kupfer/ui/browser.py:1509
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Oublier « %s »"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1997 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Afficher l'interface principale"
 
@@ -2566,15 +2578,6 @@ msgstr "Impossible de trouver une instance de Kupfer"
 
 #~ msgid "Unable to activate Gwibber service"
 #~ msgstr "Impossible d'activer le service Gwibber"
-
-#~ msgid "Locate Files"
-#~ msgstr "Localiser des fichiers"
-
-#~ msgid "Search filesystem using locate"
-#~ msgstr "Rechercher dans le système de fichiers en utilisant locate"
-
-#~ msgid "Ignore case distinctions when searching files"
-#~ msgstr "Ignorer la casse lors des recherches de fichiers"
 
 #~ msgid "OpenOffice / LibreOffice"
 #~ msgstr "OpenOffice / LibreOffice"

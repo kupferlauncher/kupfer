@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-06 12:24+0100\n"
+"POT-Creation-Date: 2017-02-07 14:06+0100\n"
 "PO-Revision-Date: 2014-10-29 21:23+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
@@ -196,27 +196,27 @@ msgstr "омогућава податке за уклањање грешака"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:51
+#: ../kupfer/main.py:50
 msgid "run plugin helper"
 msgstr "покреће помоћника прикључака"
 
-#: ../kupfer/main.py:54
+#: ../kupfer/main.py:53
 msgid "show usage help"
 msgstr "приказује упутство за употребу"
 
-#: ../kupfer/main.py:55
+#: ../kupfer/main.py:54
 msgid "show version information"
 msgstr "приказује податке о издању"
 
-#: ../kupfer/main.py:61
+#: ../kupfer/main.py:60
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Употреба: kupfer [ МОГУЋНОСТИ | ДАТОТЕКА ... ]"
 
-#: ../kupfer/main.py:72
+#: ../kupfer/main.py:71
 msgid "Available plugins:"
 msgstr "Доступни прикључци:"
 
-#: ../kupfer/main.py:121
+#: ../kupfer/main.py:120
 #, fuzzy, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -227,7 +227,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:22
+#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Текст"
 
@@ -312,7 +312,7 @@ msgstr "Није одређена подразумевана радња за %(f
 msgid "Please use \"%s\""
 msgstr "Употребите „%s“"
 
-#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:118
+#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:116
 msgid "Set Default Application..."
 msgstr "Подеси основни програм..."
 
@@ -463,31 +463,31 @@ msgstr "Прикључак „%s“ није подешен"
 msgid "Invalid user credentials for %s"
 msgstr "Неисправно корисничко пуномоћје за %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:44
+#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:42
 msgid "Applications"
 msgstr "Програми"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:83
+#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:81
 msgid "All applications and preferences"
 msgstr "Сви програми и поставке"
 
-#: ../kupfer/plugin/applications.py:23
+#: ../kupfer/plugin/applications.py:21
 msgid "Applications for Desktop Environment"
 msgstr "Програми радног окружења"
 
-#: ../kupfer/plugin/applications.py:30
+#: ../kupfer/plugin/applications.py:28
 msgid "Use Desktop Filter (requires restart)"
 msgstr ""
 
-#: ../kupfer/plugin/applications.py:92
+#: ../kupfer/plugin/applications.py:90
 msgid "Open With..."
 msgstr "Отвори програмом..."
 
-#: ../kupfer/plugin/applications.py:114
+#: ../kupfer/plugin/applications.py:112
 msgid "Open with any application"
 msgstr "Отвори неким другим програмом"
 
-#: ../kupfer/plugin/applications.py:133
+#: ../kupfer/plugin/applications.py:132
 msgid "Set default application to open this file type"
 msgstr "Поставите подразумевани програм за отварање датотеке ове врсте"
 
@@ -832,15 +832,15 @@ msgstr "Претражи у збирци"
 msgid "Copy"
 msgstr "Умножи"
 
-#: ../kupfer/plugin/core/__init__.py:105
+#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Умножи у оставу"
 
-#: ../kupfer/plugin/core/__init__.py:127
+#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Поново провери"
 
-#: ../kupfer/plugin/core/__init__.py:142
+#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Силом провери садржај овог извора"
 
@@ -1723,39 +1723,51 @@ msgstr "Трагач (Tracker)"
 msgid "Tracker desktop search integration"
 msgstr "Уграђени Трагач у окружењу"
 
-#: ../kupfer/plugin/tracker1.py:44
+#: ../kupfer/plugin/tracker1.py:43
 msgid "Search in Tracker"
 msgstr "Претражи у Трагачу"
 
-#: ../kupfer/plugin/tracker1.py:49
+#: ../kupfer/plugin/tracker1.py:48
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Отвори алат претраге Трагача и тражи следећи израз"
 
-#: ../kupfer/plugin/tracker1.py:57
+#: ../kupfer/plugin/tracker1.py:56
 msgid "Get Tracker Results..."
 msgstr "Добави излазе Трагача..."
 
-#: ../kupfer/plugin/tracker1.py:66
+#: ../kupfer/plugin/tracker1.py:65
 msgid "Show Tracker results for query"
 msgstr "Прикажи излазе из Трагача за упит"
 
-#: ../kupfer/plugin/tracker1.py:159
+#: ../kupfer/plugin/tracker1.py:155
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:171
+#: ../kupfer/plugin/tracker1.py:169 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Излази претраге за „%s“"
 
-#: ../kupfer/plugin/tracker1.py:204
+#: ../kupfer/plugin/tracker1.py:202
 msgid "Tracker Full Text Search"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:208
+#: ../kupfer/plugin/tracker1.py:205
 msgid "Use '?' prefix to get full text results"
 msgstr ""
+
+#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
+msgid "Locate Files"
+msgstr "Нађи датотеке"
+
+#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
+msgid "Search filesystem using locate"
+msgstr "Претражите систем датотека употребом „locate“"
+
+#: ../kupfer/plugin/locate.py:21
+msgid "Ignore case distinctions when searching files"
+msgstr "Занемари величину слова при претрази датотека"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1841,19 +1853,19 @@ msgstr "Упишите да потражите %s"
 msgid "No action"
 msgstr "Нема радње"
 
-#: ../kupfer/ui/browser.py:1498
+#: ../kupfer/ui/browser.py:1499
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Учини „%(action)s“ задатим за „%(object)s“"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1508
+#: ../kupfer/ui/browser.py:1509
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Заборави „%s“"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1987 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1997 ../kupfer/ui/preferences.py:59
 msgid "Show Main Interface"
 msgstr "Прикажи главно сучеље"
 
@@ -2558,15 +2570,6 @@ msgstr "Не могу да пронађем покренутог Бакарни�
 
 #~ msgid "Unable to activate Gwibber service"
 #~ msgstr "Не могу да покренем услугу Гвибера"
-
-#~ msgid "Locate Files"
-#~ msgstr "Нађи датотеке"
-
-#~ msgid "Search filesystem using locate"
-#~ msgstr "Претражите систем датотека употребом „locate“"
-
-#~ msgid "Ignore case distinctions when searching files"
-#~ msgstr "Занемари величину слова при претрази датотека"
 
 #~ msgid "OpenOffice / LibreOffice"
 #~ msgstr "Опен офис / Либре офис"
