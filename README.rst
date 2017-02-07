@@ -82,6 +82,10 @@ Opportunistic dependencies
 
 * If available, 'setproctitle' is used to set the process name
 
+Recommended dependencies
+
+* Yelp, the help browser
+
 Some plugins will require additional python modules!
 
 Spawning
@@ -107,9 +111,12 @@ recommended way.
 Documentation
 =============
 
-Please read ``Documentation/`` and ``Documentation/Manpage.rst`` for
-technical documentation. User documentation is installed as
-Mallard help pages, available under the "Kupfer Help" object in the
-program itself; it is also on the web page.
+The user’s guide is installed as Mallard help pages, available under the
+“Kupfer Help” object in the program itself; it is also on the web page.
+Kupfer will use the help browser if there is a handler for the ``help:`` URI
+scheme. The user’s guide’s source is under ``help/``, and it is translatable.
 
-.. vim: ft=rst tw=72
+Please read ``Documentation/`` and ``Documentation/Manpage.rst`` for
+technical and contributor documentation.
+
+.. vim: ft=rst tw=78
