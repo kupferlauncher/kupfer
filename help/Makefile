@@ -7,10 +7,17 @@
 
 include Makefile.am
 
-
-all:
+C:
 	make -C C
+
 
 $(DOC_LINGUAS): C/*.page
 	xml2po -mmallard -u "$@/$@.po" C/*.page
 
+
+html:
+	for lang in C $(DOC_LINGUAS) ; do \
+		rm -r $$lang ; \
+		mkdir $$lang ; \
+		yelp-build html -o $$lang /usr/share/help/$$lang/kupfer ; \
+	done

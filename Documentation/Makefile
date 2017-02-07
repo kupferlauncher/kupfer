@@ -3,10 +3,18 @@
 
 all: Contributing.html Copyright.html Localization.html Manpage.html \
 	Manual.html PluginAPI.html \
-	GTKTheming.html VersionHistory.html
+	GTKTheming.html VersionHistory.html index.html
 
 %.html: %.rst
 	rst2html $^ > $@
 
 %.pdf: %.rst
 	rst2pdf -o $@ $^
+
+index.html: Manual.html
+	cp $^ $@
+
+clean:
+	rm -fv *.html
+
+.PHONY: clean all
