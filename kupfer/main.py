@@ -136,7 +136,7 @@ def exec_helper(helpername):
     raise SystemExit
 
 def gtkmain(run_function, *args, **kwargs):
-    from gi import pygtkcompat
+    import pygtkcompat
 
     pygtkcompat.enable() 
     pygtkcompat.enable_gtk(version='3.0')
