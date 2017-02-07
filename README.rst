@@ -52,7 +52,7 @@ on Saturday, 25 February 2012. The following files extracted::
     ./waflib/Tools/*  some files excluded
     ./waflib/extras/* some files excluded
 
-    No file contents touched.
+1 patch as been applied to waf.
 
 Build Requirements
 ------------------
