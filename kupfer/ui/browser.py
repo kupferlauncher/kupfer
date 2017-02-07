@@ -300,7 +300,8 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         self.cur_icon = None
         self.cur_text = None
         self.cur_match = None
-        self._icon_size = 64
+        self._icon_size = None
+        self._read_icon_size()
 
     @property
     def icon_size(self):
@@ -394,7 +395,8 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         # @fr is the scale compared to the destination pixbuf
         fr = small_size*1.0/sz
         dest_y = offset_y = int((1-fr)*sz)
-        for idx, pbuf in enumerate(pixbufs):
+        n_small = sz // small_size
+        for idx, pbuf in enumerate(list(pixbufs[-n_small:])):
             dest_x = offset_x = int(fr*sz)*idx
             pbuf.copy_area(0,0, small_size,small_size, destbuf, dest_x,dest_y)
         return destbuf
@@ -409,7 +411,7 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
             if self.match_state is State.NoMatch:
                 icon = self._dim_icon(icon)
             if icon and self.object_stack:
-                small_max = 6
+                small_max = 16
                 small_size = 16
                 pixbufs = [o.get_pixbuf(small_size) for o in
                         self.object_stack[-small_max:]]
