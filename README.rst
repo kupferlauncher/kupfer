@@ -1,7 +1,7 @@
 kupfer is a simple, flexible launcher
 +++++++++++++++++++++++++++++++++++++
 
-:Homepage:  https://wiki.gnome.org/Apps/Kupfer
+:Homepage:  https://kupferlauncher.github.io/
 :Credits:   Copyright 2007–2017 Ulrik Sverdrup and other Kupfer authors
 :Licence:   GNU General Public License v3 (or any later version)
 
@@ -110,6 +110,6 @@ Documentation
 Please read ``Documentation/`` and ``Documentation/Manpage.rst`` for
 technical documentation. User documentation is installed as
 Mallard help pages, available under the "Kupfer Help" object in the
-program itself.
+program itself; it is also on the web page.
 
 .. vim: ft=rst tw=72
