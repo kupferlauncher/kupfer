@@ -19,7 +19,7 @@ def setup_locale_and_gettext():
     # also install ngettext()
     gettext.install(package_name, localedir=localedir, #unicode=True,
             names=("ngettext",))
-    # For gtk.Builder, we need to call the C library gettext functions
+    # For Gtk.Builder, we need to call the C library gettext functions
     # As well as set the codeset to avoid locale-dependent translation
     # of the message catalog
     locale.bindtextdomain(package_name, localedir)
@@ -143,8 +143,8 @@ def gtkmain(run_function, *args, **kwargs):
     return run_function(*args, **kwargs)
 
 def browser_start(quiet):
-    import gtk
-    if not gtk.gdk.screen_get_default():
+    from gi.repository import Gdk
+    if not Gdk.Screen.get_default():
         print("No Screen Found, Exiting...", file=sys.stderr)
         sys.exit(1)
 

@@ -1,5 +1,5 @@
 
-import gtk
+from gi.repository import Gtk, Gdk
 
 from kupfer import version, config
 
@@ -8,7 +8,7 @@ class GetKeyDialogController(object):
     def __init__(self, check_callback=None, previous_key=None, screen=None, parent=None):
         '''@check_callback - optional function to check is entered key is valid.
         @previous_key - optional previous keybinding, press equal act like cancel'''
-        builder = gtk.Builder()
+        builder = Gtk.Builder()
         builder.set_translation_domain(version.PACKAGE_NAME)
 
         ui_file = config.get_data_file("getkey_dialog.ui")
@@ -51,18 +51,18 @@ class GetKeyDialogController(object):
         self._return(None)
 
     def translate_keyboard_event(self, widget, event):
-        keymap = gtk.gdk.Keymap.get_for_display(widget.get_display())
+        keymap = Gdk.Keymap.get_for_display(widget.get_display())
         # translate keys properly
         _wasmapped, keyval, egroup, level, consumed = keymap.translate_keyboard_state(
-                    event.hardware_keycode, event.state, event.group)
-        modifiers = gtk.accelerator_get_default_mod_mask() & ~consumed
+                    event.hardware_keycode, event.get_state(), event.group)
+        modifiers = Gtk.accelerator_get_default_mod_mask() & ~consumed
 
-        state = event.state & modifiers
+        state = event.get_state() & modifiers
 
         return keyval, state
 
     def update_accelerator_label(self, keyval, state):
-        accel_label = gtk.accelerator_get_label(keyval, state)
+        accel_label = Gtk.accelerator_get_label(keyval, state)
         self.labelaccelerator.set_text(accel_label)
 
     def on_dialoggetkey_key_press_event(self, widget, event):
@@ -71,8 +71,8 @@ class GetKeyDialogController(object):
         self._press_time = event.time
 
         keyval, state = self.translate_keyboard_event(widget, event)
-        state = gtk.gdk.ModifierType(state)
-        keyname = gtk.accelerator_name(keyval, state)
+        state = Gdk.ModifierType(state)
+        keyname = Gtk.accelerator_name(keyval, state)
         if keyname == 'Escape':
             self._return(None)
         elif keyname == 'BackSpace':
@@ -85,9 +85,9 @@ class GetKeyDialogController(object):
         keyval, state = self.translate_keyboard_event(widget, event)
         self.update_accelerator_label(0, 0)
 
-        state = gtk.gdk.ModifierType(state)
-        if gtk.accelerator_valid(keyval, state):
-            key = gtk.accelerator_name(keyval, state)
+        state = Gdk.ModifierType(state)
+        if Gtk.accelerator_valid(keyval, state):
+            key = Gtk.accelerator_name(keyval, state)
             if (self._previous_key is not None and
                     key == self._previous_key):
                 self._return(None)

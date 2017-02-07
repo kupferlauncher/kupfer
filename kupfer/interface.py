@@ -29,7 +29,7 @@ def get_text_representation(obj):
 
 def copy_to_clipboard(obj, clipboard):
     """
-    Copy @obj to @clipboard, a gtk.Clipboard
+    Copy @obj to @clipboard, a Gtk.Clipboard
 
     Return True if successful
     """
@@ -61,7 +61,7 @@ def copy_to_clipboard(obj, clipboard):
         if urilist:
             targets = Gtk.TargetList.new(None)
             targets.add_uri_targets(uri_id)
-            #targets = gtk.target_list_add_uri_targets(targets, uri_id)
+            #targets = Gtk.target_list_add_uri_targets(targets, uri_id)
             targets.add(nautilus_target, 0, nautilus_id)
             data[uri_id] = urilist
             data[nautilus_id] = 'copy\n' + '\n'.join(urilist)

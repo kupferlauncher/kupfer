@@ -5,7 +5,7 @@ This module is a part of the program Kupfer, see the main program file for
 more information.
 """
 
-import gio
+from gi.repository import Gio
 
 class PicklingHelperMixin (object):
     """ This pickling helper will define __getstate__/__setstate__
@@ -63,10 +63,10 @@ class FilesystemWatchMixin (object):
         tokens = []
         force = kwargs.get('force', False)
         for directory in directories:
-            gfile = gio.File.new_for_path(directory)
+            gfile = Gio.File.new_for_path(directory)
             if not force and not gfile.query_exists():
                 continue
-            monitor = gfile.monitor_directory(gio.FileMonitorFlags.NONE, None)
+            monitor = gfile.monitor_directory(Gio.FileMonitorFlags.NONE, None)
             if monitor:
                 monitor.connect("changed", self.__directory_changed)
                 tokens.append(monitor)
@@ -79,8 +79,8 @@ class FilesystemWatchMixin (object):
         return not (gfile and gfile.get_basename().startswith("."))
 
     def __directory_changed(self, monitor, file1, file2, evt_type):
-        if (evt_type in (gio.FileMonitorEvent.CREATED,
-                gio.FileMonitorEvent.DELETED) and
+        if (evt_type in (Gio.FileMonitorEvent.CREATED,
+                Gio.FileMonitorEvent.DELETED) and
                 self.monitor_include_file(file1)):
             self.mark_for_update()
 

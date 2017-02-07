@@ -1,7 +1,7 @@
 import contextlib
 import os
 
-import gtk
+from gi.repository import Gtk, Gdk
 
 from kupfer import pretty
 from kupfer.ui import keybindings
@@ -26,7 +26,7 @@ class GUIEnvironmentContext (object):
 
     def __init__(self, timestamp, screen=None):
         self._timestamp = timestamp
-        self._screen = screen or gtk.gdk.screen_get_default()
+        self._screen = screen or Gdk.Screen.get_default()
 
     @classmethod
     def ensure_display_open(cls, display):
@@ -35,13 +35,13 @@ class GUIEnvironmentContext (object):
 
         Return default if @display is None.
         """
-        return gtk.gdk.DisplayManager.get().get_default_display()
+        return Gdk.DisplayManager.get().get_default_display()
         def norm_name(name):
             "normalize display name"
             if name[-2] == ":":
                 return name+".0"
             return name
-        dm = gtk.gdk.display_manager_get()
+        dm = Gdk.display_manager_get()
         if display:
             new_display = None
             for disp in dm.list_displays():
@@ -51,9 +51,9 @@ class GUIEnvironmentContext (object):
             if new_display is None:
                 pretty.print_debug(__name__,
                         "Opening display in ensure_display_open", display)
-                new_display = gtk.gdk.Display(display)
+                new_display = Gdk.Display(display)
         else:
-            new_display = gtk.gdk.display_get_default()
+            new_display = Gdk.Display.get_default()
         ## Hold references to all open displays
         cls._open_displays = set(dm.list_displays())
         return new_display
@@ -70,12 +70,12 @@ class GUIEnvironmentContext (object):
         def debug(*x):
             pretty.print_debug(__name__, *x)
         display = screen.get_display()
-        dm = gtk.gdk.DisplayManager.get()
+        dm = Gdk.DisplayManager.get()
         for disp in list(dm.list_displays()):
-            if disp != display and disp != gtk.gdk.display_get_default():
+            if disp != display and disp != Gdk.Display.get_default():
                 debug("Trying to close", disp.get_name())
                 open_windows = 0
-                for window in gtk.window_list_toplevels():
+                for window in Gtk.window_list_toplevels():
                     # find windows on @disp
                     if window.get_screen().get_display() != disp:
                         continue
@@ -115,7 +115,7 @@ class GUIEnvironmentContext (object):
         Show and present @window on the current
         workspace, screen & display as appropriate.
 
-        @window: A gtk.Window
+        @window: A Gtk.Window
         """
         window.set_screen(self.get_screen())
         window.present_with_time(self.get_timestamp())
@@ -133,7 +133,7 @@ def _make_startup_notification_id(time):
     return "%s-%d-%s_TIME%d" % ("kupfer", os.getpid(), _internal_data.seq, time)
 
 def current_event_time():
-    return (gtk.get_current_event_time() or
+    return (Gtk.get_current_event_time() or
             keybindings.get_current_event_time() or
             _internal_data.current_event_time)
 
@@ -162,11 +162,11 @@ def using_startup_notify_id(notify_id):
     """
     timestamp = _parse_notify_id(notify_id)
     if timestamp:
-        gtk.gdk.notify_startup_complete_with_id(notify_id)
+        Gdk.notify_startup_complete_with_id(notify_id)
     try:
         pretty.print_debug(__name__, "Using startup id", repr(notify_id))
         _internal_data.current_event_time = timestamp
         yield timestamp
     finally:
-        _internal_data.current_event_time = gtk.gdk.CURRENT_TIME
+        _internal_data.current_event_time = Gdk.CURRENT_TIME
 

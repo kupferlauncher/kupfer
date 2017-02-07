@@ -434,5 +434,5 @@ if __name__ == '__main__':
     while True:
         id_ = input("Give me an App ID > ")
         launch_app_info(get_info_for_id(id_ + ".desktop"), [])
-        #launch_app_info(gio.AppInfo("gvim"), [gio.File(".")])
+        #launch_app_info(Gio.AppInfo("gvim"), [Gio.File(".")])
 

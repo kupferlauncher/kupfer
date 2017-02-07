@@ -10,7 +10,7 @@ __description__ = _("Send synthetic keyboard events using "
 __version__ = ""
 __author__ = ""
 
-import gtk
+from gi.repository import Gtk
 
 from kupfer.objects import Leaf, Action, TextLeaf
 from kupfer.objects import OperationError
@@ -27,7 +27,7 @@ class CopyAndPaste (Action):
     def __init__(self):
         Action.__init__(self, _("Paste to Foreground Window"))
     def activate(self, leaf):
-        clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+        clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
         interface.copy_to_clipboard(leaf, clip)
         xte_paste_argv = ['xte', INIT_DELAY, 'keydown Control_L',
                           'key v', 'keyup Control_L']
@@ -70,12 +70,12 @@ class SendKeys (Action):
             raise OperationError(exc)
 
     def make_keystr_arguments(self, keystr):
-        keys, orig_mods = gtk.accelerator_parse(keystr)
+        keys, orig_mods = Gtk.accelerator_parse(keystr)
         m = {
-            gtk.gdk.SHIFT_MASK: "Shift_L",
-            gtk.gdk.CONTROL_MASK: "Control_L",
-            gtk.gdk.SUPER_MASK: "Super_L",
-            gtk.gdk.MOD1_MASK: "Alt_L",
+            Gdk.ModifierType.SHIFT_MASK: "Shift_L",
+            Gdk.ModifierType.CONTROL_MASK: "Control_L",
+            Gdk.EventMask.SUPER_MASK: "Super_L",
+            Gdk.ModifierType.MOD1_MASK: "Alt_L",
         }
         mod_names = []
         mods = orig_mods
@@ -85,8 +85,8 @@ class SendKeys (Action):
                 mods &= ~mod
         if mods != 0:
             raise OperationError("Keys not yet implemented: %s" %
-                    gtk.accelerator_get_label(keys, orig_mods))
-        key_arg = 'key %s' % (gtk.gdk.keyval_name(keys), )
+                    Gtk.accelerator_get_label(keys, orig_mods))
+        key_arg = 'key %s' % (Gdk.keyval_name(keys), )
         mods_down = ['keydown ' + n for n in mod_names]
         mods_up = ['keyup ' + n for n in reversed(mod_names)]
         return mods_down + [key_arg] + mods_up
@@ -95,7 +95,7 @@ class SendKeys (Action):
         yield TextLeaf
     def valid_for_item(self, leaf):
         text = leaf.object
-        keys, mods = gtk.accelerator_parse(text)
+        keys, mods = Gtk.accelerator_parse(text)
         return keys
     def get_description(self):
         return _("Send keys to foreground window")

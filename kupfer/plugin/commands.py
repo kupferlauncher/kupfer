@@ -13,7 +13,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 
-import gobject
+from gi.repository import GObject
 
 from kupfer.objects import TextSource, TextLeaf, Action, FileLeaf
 from kupfer.objects import OperationError

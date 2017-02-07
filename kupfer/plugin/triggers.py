@@ -8,7 +8,7 @@ __description__ = _("Assign global keybindings (triggers) to objects created "
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import gtk
+from gi.repository import Gtk
 import glib
 
 from kupfer.objects import Action, Source
@@ -78,7 +78,7 @@ class Triggers (Source):
 
     def get_items(self):
         for target, (keystr, name, id_) in self.trigger_table.items():
-            label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+            label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
             yield Trigger(target, "%s (%s)" % (label or keystr, name))
 
     def should_sort_lexically(self):
@@ -128,7 +128,7 @@ class Triggers (Source):
         return "key_bindings"
 
 def try_bind_key(keystr):
-    label = gtk.accelerator_get_label(*gtk.accelerator_parse(keystr))
+    label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
     ulabel = kupferstring.tounicode(label)
     if len(ulabel) == 1 and ulabel.isalnum():
         return False

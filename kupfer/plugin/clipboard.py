@@ -8,8 +8,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from collections import deque
 
 from gi.repository import Gdk
-import gio
-import gtk
+from gi.repository import Gio
+from gi.repository import Gtk
 
 from kupfer.objects import Source, TextLeaf, Action, SourceLeaf
 from kupfer.objects import FileLeaf
@@ -114,9 +114,9 @@ class ClipboardSource (Source):
         self.clipboards = deque()
 
     def initialize(self):
-        clip = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+        clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
         gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
-        clip = gtk.clipboard_get(gtk.gdk.SELECTION_PRIMARY)
+        clip = Gtk.clipboard_get(Gdk.SELECTION_PRIMARY)
         gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
         self.clipboard_uris = []
         self.clipboard_text = None
@@ -129,7 +129,7 @@ class ClipboardSource (Source):
         self.mark_for_update()
 
     def _clipboard_changed(self, clip, event, *args):
-        is_selection = (event.selection == gtk.gdk.SELECTION_PRIMARY)
+        is_selection = (event.selection == Gdk.SELECTION_PRIMARY)
 
         max_len = __kupfer_settings__["max"]
         # receive clipboard as gtk text
@@ -144,7 +144,7 @@ class ClipboardSource (Source):
                 self._add_to_history(newtext, is_selection)
 
         if is_sync_selection and is_valid:
-            gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD).set_text(newtext)
+            Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD).set_text(newtext)
 
         if is_selection:
             self.selected_text = newtext
@@ -179,7 +179,7 @@ class ClipboardSource (Source):
             yield SelectedText(self.selected_text)
 
         # produce the current clipboard files if any
-        paths = [_f for _f in [gio.File.new_for_uri(uri).get_path() for uri in self.clipboard_uris] if _f]
+        paths = [_f for _f in [Gio.File.new_for_uri(uri).get_path() for uri in self.clipboard_uris] if _f]
         if len(paths) == 1:
             yield CurrentClipboardFile(paths[0])
         if len(paths) > 1:

@@ -10,7 +10,7 @@ __description__ = _("More file actions")
 __version__ = ""
 __author__ = "Ulrik"
 
-import gio
+from gi.repository import Gio
 import os
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
@@ -41,13 +41,13 @@ class MoveTo (Action, pretty.OutputMixin):
     def has_result(self):
         return True
     def activate(self, leaf, obj):
-        sfile = gio.File(leaf.object)
+        sfile = Gio.File(leaf.object)
         bname = sfile.get_basename()
-        dfile = gio.File(os_path.join(obj.object, bname))
+        dfile = Gio.File(os_path.join(obj.object, bname))
         try:
-            ret = sfile.move(dfile, flags=gio.FILE_COPY_ALL_METADATA)
+            ret = sfile.move(dfile, flags=Gio.FileCopyFlags.ALL_METADATA)
             self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
-        except gio.Error as exc:
+        except Gio.Error as exc:
             raise OperationError(str(exc))
         else:
             return FileLeaf(dfile.get_path())
@@ -105,13 +105,13 @@ class Rename (Action, pretty.OutputMixin):
     def has_result(self):
         return True
     def activate(self, leaf, obj):
-        sfile = gio.File(leaf.object)
+        sfile = Gio.File(leaf.object)
         dest = os_path.join(os_path.dirname(leaf.object), obj.object)
-        dfile = gio.File(dest)
+        dfile = Gio.File(dest)
         try:
             ret = sfile.move(dfile)
             self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
-        except gio.Error as exc:
+        except Gio.Error as exc:
             raise OperationError(str(exc))
         else:
             return FileLeaf(dfile.get_path())
@@ -152,7 +152,7 @@ class CopyTo (Action, pretty.OutputMixin):
         dfile, ctx = data
         try:
             gfile.copy_finish(result)
-        except gio.Error:
+        except Gio.Error:
             ctx.register_late_error()
         else:
             ctx.register_late_result(FileLeaf(dfile.get_path()))
@@ -161,15 +161,15 @@ class CopyTo (Action, pretty.OutputMixin):
         return True
 
     def activate(self, leaf, iobj, ctx):
-        sfile = gio.File(leaf.object)
+        sfile = Gio.File(leaf.object)
         dpath = os_path.join(iobj.object, os_path.basename(leaf.object))
-        dfile = gio.File(dpath)
+        dfile = Gio.File(dpath)
         try:
             ret = sfile.copy_async(dfile, self._finish_callback,
                     user_data=(dfile, ctx),
-                    flags=gio.FILE_COPY_ALL_METADATA)
+                    flags=Gio.FileCopyFlags.ALL_METADATA)
             self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
-        except gio.Error as exc:
+        except Gio.Error as exc:
             raise OperationError(str(exc))
 
     def item_types(self):

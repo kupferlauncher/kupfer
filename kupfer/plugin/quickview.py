@@ -7,9 +7,9 @@ __author__ = ""
 import shutil
 
 from gi.repository import Gio
-import gio
+from gi.repository import Gio
 import glib
-import gtk
+from gi.repository import Gtk
 from gi.repository import GdkPixbuf
 
 from kupfer.objects import Action, FileLeaf
@@ -71,14 +71,14 @@ class View (Action):
             open_window = self.open_windows.pop(obj.object)
             open_window.destroy()
             return
-        image_widget = gtk.Image()
-        h = gtk.gdk.screen_height()
-        w = gtk.gdk.screen_width()
+        image_widget = Gtk.Image()
+        h = Gdk.Screen.height()
+        w = Gdk.Screen.width()
         image_widget.set_from_pixbuf(load_image_max_size(obj.object, w, h))
         image_widget.show()
-        window = gtk.Window() 
+        window = Gtk.Window() 
         window.set_title(str(obj))
-        window.set_position(gtk.WIN_POS_CENTER)
+        window.set_position(Gtk.WindowPosition.CENTER)
         window.add(image_widget)
         ctx.environment.present_window(window)
         window.connect("key-press-event", self.window_key_press, obj.object)
@@ -90,11 +90,11 @@ class View (Action):
         return False
 
     def window_key_press(self, window, event, filepath):
-        if gtk.gdk.keyval_name(event.keyval) == "Escape":
+        if Gdk.keyval_name(event.keyval) == "Escape":
             self.window_deleted(window, event, filepath)
             window.destroy()
             return True
-        if gtk.gdk.keyval_name(event.keyval) == "Return":
+        if Gdk.keyval_name(event.keyval) == "Return":
             self.window_deleted(window, event, filepath)
             utils.show_path(filepath)
             window.destroy()

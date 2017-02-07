@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-import gobject
+from gi.repository import GObject
 import dbus.service
 from dbus.gi_service import ExportedGObject
 

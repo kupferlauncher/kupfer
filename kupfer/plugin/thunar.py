@@ -15,7 +15,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 
 import dbus
-import gio
+from gi.repository import Gio
 
 from kupfer.objects import Action, Source
 from kupfer.objects import InvalidDataError, NotAvailableError, NoMultiError
@@ -70,7 +70,7 @@ class Reveal (Action):
         return True
 
     def activate(self, leaf, ctx):
-        gfile = gio.File.new_for_path(leaf.object)
+        gfile = Gio.File.new_for_path(leaf.object)
         parent = gfile.get_parent()
         if not parent:
             return
@@ -98,7 +98,7 @@ class GetInfo (Action):
         return True
 
     def activate(self, leaf, ctx):
-        gfile = gio.File.new_for_path(leaf.object)
+        gfile = Gio.File.new_for_path(leaf.object)
         uri = gfile.get_uri()
         id_ = ctx.environment.get_startup_notification_id()
         display = ctx.environment.get_display()
@@ -159,7 +159,7 @@ def _good_destination(dpath, spath):
     return True
 
 def path_to_uri(filepath):
-    return gio.File.new_for_path(filepath).get_uri()
+    return Gio.File.new_for_path(filepath).get_uri()
 
 class CopyTo (Action, pretty.OutputMixin):
     def __init__(self):

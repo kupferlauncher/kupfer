@@ -9,8 +9,6 @@ import time
 
 from gi.repository import Gtk, Gdk, GObject
 from gi.repository import GLib, Gio
-import gtk
-import gio
 import cairo
 
 from kupfer import kupferui
@@ -47,7 +45,7 @@ def escape_markup_str(mstr):
     return tounicode(mstr).translate(_escape_table)
 
 def text_direction_is_ltr():
-    return gtk.widget_get_default_direction() != gtk.TEXT_DIR_RTL
+    return Gtk.widget_get_default_direction() != Gtk.TextDirection.RTL
 
 def make_rounded_rect(cr,x,y,width,height,radius):
     """
@@ -101,7 +99,7 @@ def get_glyph_pixbuf(text, sz, center_vert=True, color=None):
     f = io.BytesIO()
     ims.write_to_png(f)
 
-    loader = gtk.gdk.PixbufLoader()
+    loader = GdkPixbuf.PixbufLoader()
     loader.write(f.getvalue())
     loader.close()
 
@@ -129,7 +127,7 @@ class LeafModel (object):
         it needs not be specified in columns
         """
         columns = (GObject.TYPE_OBJECT, str, str, str)
-        self.store = gtk.ListStore(GObject.TYPE_PYOBJECT, *columns)
+        self.store = Gtk.ListStore(GObject.TYPE_PYOBJECT, *columns)
         self.object_column = 0
         self.base = None
         self._setup_columns()
@@ -148,36 +146,36 @@ class LeafModel (object):
         show_rank_col = pretty.debug
 
         from pango import ELLIPSIZE_MIDDLE
-        cell = gtk.CellRendererText()
+        cell = Gtk.CellRendererText()
         cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
         cell.set_property("width-chars", 45)
-        col = gtk.TreeViewColumn("item", cell)
+        col = Gtk.TreeViewColumn("item", cell)
 
         """
-        info_cell = gtk.CellRendererPixbuf()
+        info_cell = Gtk.CellRendererPixbuf()
         info_cell.set_property("height", 16)
         info_cell.set_property("width", 16)
-        info_col = gtk.TreeViewColumn("info", info_cell)
+        info_col = Gtk.TreeViewColumn("info", info_cell)
         info_col.add_attribute(info_cell, "icon-name", self.info_col)
         """
-        info_cell = gtk.CellRendererText()
+        info_cell = Gtk.CellRendererText()
         info_cell.set_property("width-chars", 1)
-        info_col = gtk.TreeViewColumn("info", info_cell)
+        info_col = Gtk.TreeViewColumn("info", info_cell)
         info_col.add_attribute(info_cell, "text", self.info_col)
 
         col.add_attribute(cell, "markup", self.val_col)
 
-        nbr_cell = gtk.CellRendererText()
-        nbr_col = gtk.TreeViewColumn("rank", nbr_cell)
+        nbr_cell = Gtk.CellRendererText()
+        nbr_col = Gtk.TreeViewColumn("rank", nbr_cell)
         nbr_cell.set_property("width-chars", 3)
         nbr_col.add_attribute(nbr_cell, "text", self.rank_col)
 
-        icon_cell = gtk.CellRendererPixbuf()
+        icon_cell = Gtk.CellRendererPixbuf()
         #icon_cell.set_property("height", 32)
         #icon_cell.set_property("width", 32)
-        #icon_cell.set_property("stock-size", gtk.ICON_SIZE_LARGE_TOOLBAR)
+        #icon_cell.set_property("stock-size", Gtk.IconSize.LARGE_TOOLBAR)
 
-        icon_col = gtk.TreeViewColumn("icon", icon_cell)
+        icon_col = Gtk.TreeViewColumn("icon", icon_cell)
         icon_col.add_attribute(icon_cell, "pixbuf", self.icon_col)
 
         self.columns = [icon_col, col, info_col,]
@@ -277,7 +275,7 @@ class LeafModel (object):
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
 
-class MatchView (gtk.Bin, pretty.OutputMixin):
+class MatchView (Gtk.Bin, pretty.OutputMixin):
     """
     A Widget for displaying name, icon and underlining properly if
     it matches
@@ -322,8 +320,8 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 
         # Use a darker color for selected state
         # leave active state as preset
-        #selectedc = self.style.dark[gtk.STATE_SELECTED]
-        #self.event_box.modify_bg(gtk.STATE_SELECTED, selectedc)
+        #selectedc = self.style.dark[Gtk.StateType.SELECTED]
+        #self.event_box.modify_bg(Gtk.StateType.SELECTED, selectedc)
                 pass
 
     def build_widget(self):
@@ -331,25 +329,25 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
         Core initalization method that builds the widget
         """
         from pango import ELLIPSIZE_MIDDLE
-        self.label = gtk.Label.new("<match>")
+        self.label = Gtk.Label.new("<match>")
         self.label.set_single_line_mode(True)
         self.label.set_width_chars(self.label_char_width)
         self.label.set_max_width_chars(self.label_char_width)
         self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
-        self.icon_view = gtk.Image()
+        self.icon_view = Gtk.Image()
 
         # infobox: icon and match name
-        icon_align = gtk.Alignment(0.5, 0.5, 0, 0)
+        icon_align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
         icon_align.set_property("top-padding", 5)
         icon_align.add(self.icon_view)
-        infobox = gtk.HBox()
+        infobox = Gtk.HBox()
         infobox.pack_start(icon_align, True, True, 0)
-        box = gtk.VBox()
+        box = Gtk.VBox()
         box.pack_start(infobox, True, False, 0)
-        self._editbox = gtk.HBox()
+        self._editbox = Gtk.HBox()
         self._editbox.pack_start(self.label, True, True, 0)
         box.pack_start(self._editbox, False, True, 0)
-        self.event_box = gtk.EventBox()
+        self.event_box = Gtk.EventBox()
         self.event_box.add(box)
         self.event_box.get_style_context().add_class("matchview")
         self.add(self.event_box)
@@ -383,14 +381,14 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
         new_sz_y = int(base_scale*base.get_height())
         if not base.get_has_alpha():
             base = base.add_alpha(False, 0, 0, 0)
-        destbuf = base.scale_simple(sz, sz, gtk.gdk.INTERP_NEAREST)
+        destbuf = base.scale_simple(sz, sz, GdkPixbuf.InterpType.NEAREST)
         destbuf.fill(0x00000000)
         # Align in the middle of the area
         offset_x = (sz - new_sz_x)/2
         offset_y = ((sz - small_size) - new_sz_y)/2
         base.composite(destbuf, offset_x, offset_y, new_sz_x, new_sz_y,
                 offset_x, offset_y,
-                base_scale, base_scale, gtk.gdk.INTERP_BILINEAR, 255)
+                base_scale, base_scale, GdkPixbuf.InterpType.BILINEAR, 255)
 
         # @fr is the scale compared to the destination pixbuf
         fr = small_size*1.0/sz
@@ -499,8 +497,8 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
                 old_parent.remove(preedit)
             self.shrink_preedit(preedit)
             self._editbox.pack_start(preedit, False, True, 0)
-            #selectedc = self.style.dark[gtk.STATE_SELECTED]
-            #preedit.modify_bg(gtk.STATE_SELECTED, selectedc)
+            #selectedc = self.style.dark[Gtk.StateType.SELECTED]
+            #preedit.modify_bg(Gtk.StateType.SELECTED, selectedc)
             preedit.show()
             preedit.grab_focus()
         else:
@@ -509,11 +507,11 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
 
 GObject.type_register(MatchView)
 CORNER_RADIUS = 15
-#gtk.widget_class_install_style_property(MatchView, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(MatchView, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, GObject.PARAM_READABLE))
 OPACITY = 95
-#gtk.widget_class_install_style_property(MatchView, ('opacity', GObject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(MatchView, ('opacity', GObject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, GObject.PARAM_READABLE))
 
-class Search (gtk.Bin, pretty.OutputMixin):
+class Search (Gtk.Bin, pretty.OutputMixin):
     """
     A Widget for displaying search results
     icon + aux table etc
@@ -572,7 +570,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
         """
         self.match_view = MatchView()
 
-        self.table = gtk.TreeView.new_with_model(self.model.get_store())
+        self.table = Gtk.TreeView.new_with_model(self.model.get_store())
         self.table.set_name("kupfer-list-view")
         self.table.set_headers_visible(False)
         self.table.set_property("enable-search", False)
@@ -583,16 +581,16 @@ class Search (gtk.Bin, pretty.OutputMixin):
         self.table.connect("row-activated", self._row_activated)
         self.table.connect("cursor-changed", self._cursor_changed)
 
-        self.scroller = gtk.ScrolledWindow()
-        self.scroller.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+        self.scroller = Gtk.ScrolledWindow()
+        self.scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
         self.scroller.add(self.table)
         vscroll = self.scroller.get_vscrollbar()
         vscroll.connect("change-value", self._table_scroll_changed)
 
-        self.list_window = gtk.Window.new(gtk.WINDOW_POPUP)
+        self.list_window = Gtk.Window.new(Gtk.WindowType.POPUP)
         self.list_window.set_name("kupfer-list")
 
-        box = gtk.VBox()
+        box = Gtk.VBox()
         box.pack_start(self.match_view, True, True, 0)
         self.add(box)
         box.show_all()
@@ -856,10 +854,10 @@ GObject.signal_new("activate", Search, GObject.SignalFlags.RUN_LAST,
 GObject.signal_new("cursor-changed", Search, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
 LIST_OPACITY = 93
-#gtk.widget_class_install_style_property(Search, ('list-opacity', GObject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(Search, ('list-opacity', GObject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, GObject.PARAM_READABLE))
 
 LIST_LENGTH = 250
-#gtk.widget_class_install_style_property(Search, ('list-length', GObject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(Search, ('list-length', GObject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, GObject.PARAM_READABLE))
 
 class LeafSearch (Search):
     """
@@ -933,9 +931,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.search = LeafSearch()
         self.action = ActionSearch()
         self.third = LeafSearch()
-        self.entry = gtk.Entry()
-        self.label = gtk.Label()
-        self.preedit = gtk.Entry()
+        self.entry = Gtk.Entry()
+        self.label = Gtk.Label()
+        self.preedit = Gtk.Entry()
         self.search.set_name("kupfer-object-pane")
         self.action.set_name("kupfer-action-pane")
         self.third.set_name("kupfer-indirect-object-pane")
@@ -1020,7 +1018,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             "space", 'Page_Up', 'Page_Down', 'Home', 'End',
             "Return",
             )
-        self.key_book = dict((k, gtk.gdk.keyval_from_name(k)) for k in keys)
+        self.key_book = dict((k, Gdk.keyval_from_name(k)) for k in keys)
         if not text_direction_is_ltr():
             # for RTL languages, simply swap the meaning of Left and Right
             # (for keybindings!)
@@ -1034,14 +1032,14 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         """Return a Widget containing the whole Interface"""
         if self._widget:
             return self._widget
-        box = gtk.HBox()
+        box = Gtk.HBox()
         box.pack_start(self.search, True, True, 3)
         box.pack_start(self.action, True, True, 3)
         box.pack_start(self.third, True, True, 3)
-        vbox = gtk.VBox()
+        vbox = Gtk.VBox()
         vbox.pack_start(box, True, True, 0)
 
-        label_align = gtk.Alignment(0.5, 1, 0, 0)
+        label_align = Gtk.Alignment.new(0.5, 1, 0, 0)
         label_align.set_property("top-padding", 3)
         label_align.add(self.label)
         vbox.pack_start(label_align, False, False, 0)
@@ -1070,19 +1068,19 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         without losing focus from entry field
         """
 
-        direct_text_key = gtk.gdk.keyval_from_name("period")
-        init_text_keys = list(map(gtk.gdk.keyval_from_name,
+        direct_text_key = Gdk.keyval_from_name("period")
+        init_text_keys = list(map(Gdk.keyval_from_name,
             ("slash", "equal", "question")))
         init_text_keys.append(direct_text_key)
-        keymap = gtk.gdk.Keymap.get_default()
+        keymap = Gdk.Keymap.get_default()
         # translate keys properly
         _was_bound, keyv, egroup, level, consumed = keymap.translate_keyboard_state(
-                    event.hardware_keycode, event.state, event.group)
-        all_modifiers = gtk.accelerator_get_default_mod_mask()
+                    event.hardware_keycode, event.get_state(), event.group)
+        all_modifiers = Gtk.accelerator_get_default_mod_mask()
         modifiers = all_modifiers & ~consumed
         # MOD1_MASK is alt/option
-        mod1_mask = ((event.state & modifiers) == gtk.gdk.MOD1_MASK)
-        shift_mask = ((event.state & all_modifiers) == gtk.gdk.SHIFT_MASK)
+        mod1_mask = ((event.get_state() & modifiers) == Gdk.ModifierType.MOD1_MASK)
+        shift_mask = ((event.get_state() & all_modifiers) == Gdk.ModifierType.SHIFT_MASK)
 
         text_mode = self.get_in_text_mode()
         has_input = bool(self.entry.get_text())
@@ -1093,10 +1091,10 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         setctl = settings.GetSettingsController()
         # process accelerators
         for action, accel in setctl.get_accelerators().items():
-            akeyv, amodf = gtk.accelerator_parse(accel)
+            akeyv, amodf = Gtk.accelerator_parse(accel)
             if not akeyv:
                 continue
-            if akeyv == keyv and (amodf == (event.state & modifiers)):
+            if akeyv == keyv and (amodf == (event.get_state() & modifiers)):
                 action_method = getattr(self, action, None)
                 if not action_method:
                     pretty.print_error(__name__, "Action invalid '%s'" % action)
@@ -1152,7 +1150,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         """
             ## if typing with shift key, switch to action pane
             if not text_mode and use_command_keys and shift_mask:
-                uchar = gtk.gdk.keyval_to_unicode(keyv)
+                uchar = Gdk.keyval_to_unicode(keyv)
                 if (uchar and unichr(uchar).isupper() and
                     self.current == self.search):
                     self.current.hide_table()
@@ -1217,9 +1215,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         selection = self.current.get_current()
         if selection is None:
             return False
-        clip = gtk.Clipboard.get_for_display(
+        clip = Gtk.Clipboard.get_for_display(
                 entry.get_display(),
-                gtk.gdk.SELECTION_CLIPBOARD)
+                Gdk.SELECTION_CLIPBOARD)
         return interface.copy_to_clipboard(selection, clip)
 
     def _entry_cut_clipboard(self, entry):
@@ -1249,9 +1247,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self.reset()
             ## when not in text mode,
             ## stop signal emission so we can handle it
-            clipboard = gtk.Clipboard.get_for_display(
+            clipboard = Gtk.Clipboard.get_for_display(
                     entry.get_display(),
-                    gtk.gdk.SELECTION_CLIPBOARD)
+                    Gdk.SELECTION_CLIPBOARD)
             clipboard.request_targets(self._entry_paste_data_received, entry)
             entry.emit_stop_by_name("paste-clipboard")
 
@@ -1561,12 +1559,12 @@ class Interface (GObject.GObject, pretty.OutputMixin):
     def _update_active(self):
         for panewidget in (self.action, self.search, self.third):
             if panewidget is not self.current:
-                panewidget.set_state(gtk.STATE_NORMAL)
+                panewidget.set_state(Gtk.StateType.NORMAL)
             panewidget.match_view.inject_preedit(None)
         if self._is_text_mode or self._key_repeat_active:
-            self.current.set_state(gtk.STATE_ACTIVE)
+            self.current.set_state(Gtk.StateType.ACTIVE)
         else:
-            self.current.set_state(gtk.STATE_SELECTED)
+            self.current.set_state(Gtk.StateType.SELECTED)
             self.current.match_view.inject_preedit(self.preedit)
         self._description_changed()
 
@@ -1599,7 +1597,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.data_controller.browse_down(pane, alternate=alternate)
 
     def _make_gui_ctx(self):
-        timestamp = gtk.get_current_event_time()
+        timestamp = Gtk.get_current_event_time()
         return uievents.gui_context_from_widget(timestamp, self._widget)
 
     def _activate(self, widget, current):
@@ -1647,7 +1645,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
     def _panewidget_button_press(self, widget, event):
         " mouse clicked on a pane widget "
         # activate on double-click
-        if event.type == gtk.gdk._2BUTTON_PRESS:
+        if event.type == Gdk._2BUTTON_PRESS:
             self.activate()
             return True
 
@@ -1677,10 +1675,10 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.output_debug("put-files:", list(fileuris))
         if paths:
             leaves = list(map(interface.get_fileleaf_for_path,
-                [_f for _f in [gio.File.new_for_path(U).get_path() for U in fileuris] if _f]))
+                [_f for _f in [Gio.File.new_for_path(U).get_path() for U in fileuris] if _f]))
         else:
             leaves = list(map(interface.get_fileleaf_for_path,
-                [_f for _f in [gio.File.new_for_uri(U).get_path() for U in fileuris] if _f]))
+                [_f for _f in [Gio.File.new_for_uri(U).get_path() for U in fileuris] if _f]))
         if leaves:
             self.data_controller.insert_objects(data.SourcePane, leaves)
 
@@ -1725,20 +1723,20 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if False and self.get_in_text_mode() and text:
             w, h = editable.size_request()
             sz = h - 3
-            c = editable.style.text[gtk.STATE_NORMAL]
+            c = editable.style.text[Gtk.StateType.NORMAL]
             textc = (c.red/65535.0, c.green/65535.0, c.blue/65535.0)
             pb = get_glyph_pixbuf(str(len(text)), sz, color=textc)
             pb = get_glyph_pixbuf(str(len(text)), sz, color="black")
-            editable.set_icon_from_pixbuf(gtk.ENTRY_ICON_SECONDARY, pb)
+            editable.set_icon_from_pixbuf(Gtk.EntryIconPosition.SECONDARY, pb)
         else:
-            editable.set_icon_from_pixbuf(gtk.ENTRY_ICON_SECONDARY, None)
+            editable.set_icon_from_pixbuf(Gtk.EntryIconPosition.SECONDARY, None)
 
         # cancel search and return if empty
         if not text:
             self.data_controller.cancel_search()
             # See if it was a deleting key press
-            curev = gtk.get_current_event()
-            if (curev and curev.type == gtk.gdk.KEY_PRESS and
+            curev = Gtk.get_current_event()
+            if (curev and curev.type == Gdk.KEY_PRESS and
                 curev.keyval in (self.key_book["Delete"],
                     self.key_book["BackSpace"])):
                 self._backspace_key_press()
@@ -1792,7 +1790,7 @@ KUPFER_CSS = b"""
 }
 """
 
-class KupferWindow (gtk.Window):
+class KupferWindow (Gtk.Window):
     __gtype_name__ = "KupferWindow"
     def __init__(self, type_):
         super(KupferWindow, self).__init__(type=type_)
@@ -1828,7 +1826,7 @@ class KupferWindow (gtk.Window):
         cr = widget.window.cairo_create()
         w,h = widget.allocation.width, widget.allocation.height
 
-        region = gtk.gdk.region_rectangle(event.area)
+        region = Gdk.region_rectangle(event.area)
         cr.region(region)
         cr.clip()
 
@@ -1850,7 +1848,7 @@ class KupferWindow (gtk.Window):
             cr.set_source_rgba(*rgba_from_gdk(c, opacity))
             cr.fill()
 
-        #c = widget.style.dark[gtk.STATE_SELECTED]
+        #c = widget.style.dark[Gtk.StateType.SELECTED]
         #cr.set_operator(cairo.OPERATOR_OVER)
         #cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
 
@@ -1880,7 +1878,7 @@ class KupferWindow (gtk.Window):
         w,h = allocation.width, allocation.height
         radius = CORNER_RADIUS
         if not widget.is_composited() and radius:
-            bitmap = gtk.gdk.Pixmap(None, w, h, 1)
+            bitmap = Gdk.Pixmap(None, w, h, 1)
             cr = bitmap.cairo_create()
 
             cr.set_source_rgb(0.0, 0.0, 0.0)
@@ -1897,19 +1895,19 @@ class KupferWindow (gtk.Window):
             if widget.window:
                 widget.window.shape_combine_mask(None, 0, 0)
         if widget.window:
-            widget.window.invalidate_rect(gtk.gdk.Rectangle(0, 0, w, h), False)
+            widget.window.invalidate_rect((0, 0, w, h), False)
 
 
 GObject.type_register(KupferWindow)
 WINDOW_CORNER_RAIDUS = 15
 WINDOW_OPACITY = 85
 WINDOW_DECORATED = False
-#gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, GObject.PARAM_READABLE))
-#gtk.widget_class_install_style_property(KupferWindow, ('opacity', GObject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, GObject.PARAM_READABLE))
-#gtk.widget_class_install_style_property(KupferWindow, ('decorated', GObject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(KupferWindow, ('opacity', GObject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(KupferWindow, ('decorated', GObject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, GObject.PARAM_READABLE))
 
 WINDOW_BORDER_WIDTH = 8
-#gtk.widget_class_install_style_property(KupferWindow, ('border-width', GObject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, GObject.PARAM_READABLE))
+#Gtk.widget_class_install_style_property(KupferWindow, ('border-width', GObject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, GObject.PARAM_READABLE))
 
 class WindowController (pretty.OutputMixin):
     """
@@ -1924,8 +1922,8 @@ class WindowController (pretty.OutputMixin):
         self._window_hide_timer = scheduler.Timer()
 
     def initialize(self, data_controller):
-        self.window = KupferWindow(gtk.WINDOW_TOPLEVEL)
-        self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+        self.window = KupferWindow(Gtk.WindowType.TOPLEVEL)
+        self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
 
         #data_controller = data.DataController()
         data_controller.connect("launched-action", self.launch_callback)
@@ -1963,7 +1961,7 @@ class WindowController (pretty.OutputMixin):
             self.hide_statusicon()
 
     def _setup_menu(self, context_menu=False):
-        menu = gtk.Menu()
+        menu = Gtk.Menu()
         menu.set_name("kupfer-menu")
 
         def submenu_callback(menuitem, callback):
@@ -1973,7 +1971,7 @@ class WindowController (pretty.OutputMixin):
         def add_menu_item(icon, callback, label=None, with_ctx=True):
             def mitem_handler(menuitem, callback):
                 if with_ctx:
-                    time = gtk.get_current_event_time()
+                    time = Gtk.get_current_event_time()
                     ui_ctx = uievents.gui_context_from_widget(time, menuitem)
                     callback(ui_ctx)
                 else:
@@ -1984,29 +1982,29 @@ class WindowController (pretty.OutputMixin):
 
             mitem = None
             if label and not icon:
-                mitem = gtk.MenuItem(label=label)
+                mitem = Gtk.MenuItem(label=label)
             else:
-                mitem = gtk.ImageMenuItem.new_from_stock(icon)
+                mitem = Gtk.ImageMenuItem.new_from_stock(icon)
             mitem.connect("activate", mitem_handler, callback)
             menu.append(mitem)
 
         if context_menu:
-            add_menu_item(gtk.STOCK_CLOSE, self.put_away, with_ctx=False)
+            add_menu_item(Gtk.STOCK_CLOSE, self.put_away, with_ctx=False)
         else:
             add_menu_item(None, self.activate, _("Show Main Interface"))
-        menu.append(gtk.SeparatorMenuItem())
+        menu.append(Gtk.SeparatorMenuItem())
         if context_menu:
             for name, func in self.interface.get_context_actions():
-                mitem = gtk.MenuItem(label=name)
+                mitem = Gtk.MenuItem(label=name)
                 mitem.connect("activate", submenu_callback, func)
                 menu.append(mitem)
-            menu.append(gtk.SeparatorMenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
-        add_menu_item(gtk.STOCK_PREFERENCES, kupferui.show_preferences)
-        add_menu_item(gtk.STOCK_HELP, kupferui.show_help)
-        add_menu_item(gtk.STOCK_ABOUT, kupferui.show_about_dialog)
-        menu.append(gtk.SeparatorMenuItem())
-        add_menu_item(gtk.STOCK_QUIT, self.quit, with_ctx=False)
+        add_menu_item(Gtk.STOCK_PREFERENCES, kupferui.show_preferences)
+        add_menu_item(Gtk.STOCK_HELP, kupferui.show_help)
+        add_menu_item(Gtk.STOCK_ABOUT, kupferui.show_about_dialog)
+        menu.append(Gtk.SeparatorMenuItem())
+        add_menu_item(Gtk.STOCK_QUIT, self.quit, with_ctx=False)
         menu.show_all()
 
         return menu
@@ -2019,7 +2017,7 @@ class WindowController (pretty.OutputMixin):
         return self._setup_gtk_status_icon(menu)
 
     def _setup_gtk_status_icon(self, menu):
-        status = gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
+        status = Gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
         status.set_tooltip(version.PROGRAM_NAME)
 
         status.connect("popup-menu", self._popup_menu, menu)
@@ -2048,21 +2046,21 @@ class WindowController (pretty.OutputMixin):
         widget.show()
 
         # Build the window frame with its top bar
-        topbar = gtk.HBox()
-        vbox = gtk.VBox()
+        topbar = Gtk.HBox()
+        vbox = Gtk.VBox()
         vbox.pack_start(topbar, False, False)
         vbox.pack_start(widget, True, True)
         vbox.show()
         self.window.add(vbox)
-        title = gtk.Label.new("")
-        button = gtk.Label.new("")
+        title = Gtk.Label.new("")
+        button = Gtk.Label.new("")
         l_programname = version.PROGRAM_NAME.lower()
         # The text on the general+context menu button
         btext = "<b>%s \N{GEAR}</b>" % (l_programname, )
         button.set_markup(btext)
-        button_box = gtk.EventBox()
+        button_box = Gtk.EventBox()
         button_box.set_visible_window(False)
-        button_adj = gtk.Alignment(0.5, 0.5, 0, 0)
+        button_adj = Gtk.Alignment.new(0.5, 0.5, 0, 0)
         button_adj.set_padding(0, 2, 0, 3)
         button_adj.add(button)
         button_box.add(button_adj)
@@ -2072,7 +2070,7 @@ class WindowController (pretty.OutputMixin):
         button_box.connect("leave-notify-event", self._button_leave,
                            button, btext)
         button.set_name("kupfer-menu-button")
-        title_align = gtk.Alignment(0, 0.5, 0, 0)
+        title_align = Gtk.Alignment.new(0, 0.5, 0, 0)
         title_align.add(title)
         topbar.pack_start(title_align, True, True)
         topbar.pack_start(button_box, False, False)
@@ -2080,12 +2078,12 @@ class WindowController (pretty.OutputMixin):
 
         self.window.set_title(version.PROGRAM_NAME)
         self.window.set_icon_name(version.ICON_NAME)
-        self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+        self.window.set_type_hint(Gdk.WindowTypeHint.UTILITY)
         self.window.set_property("skip-taskbar-hint", True)
         self.window.set_keep_above(True)
 
         if not text_direction_is_ltr():
-            self.window.set_gravity(gtk.gdk.GRAVITY_NORTH_EAST)
+            self.window.set_gravity(Gdk.GRAVITY_NORTH_EAST)
         # Setting not resizable changes from utility window
         # on metacity
         self.window.set_resizable(False)
@@ -2114,7 +2112,7 @@ class WindowController (pretty.OutputMixin):
         """
         When the StatusIcon is right-clicked
         """
-        menu.popup(None, None, gtk.status_icon_position_menu, status_icon, button, activate_time)
+        menu.popup(None, None, Gtk.status_icon_position_menu, status_icon, button, activate_time)
 
     def launch_callback(self, sender):
         # Separate window hide from the action being
@@ -2127,7 +2125,7 @@ class WindowController (pretty.OutputMixin):
         if ui_ctx:
             self.on_present(sender, ui_ctx.get_display(), ui_ctx.get_timestamp())
         else:
-            self.on_present(sender, "", gtk.get_current_event_time())
+            self.on_present(sender, "", Gtk.get_current_event_time())
 
     def _lost_focus(self, window, event):
         # Close at unfocus.
@@ -2209,13 +2207,13 @@ class WindowController (pretty.OutputMixin):
 
     def activate(self, sender=None):
         dispname = self.window.get_screen().make_display_name()
-        self.on_present(sender, dispname, gtk.get_current_event_time())
+        self.on_present(sender, dispname, Gtk.get_current_event_time())
 
     def on_present(self, sender, display, timestamp):
         """Present on @display, where None means default display"""
         self._window_hide_timer.invalidate()
         if not display:
-            display = gtk.gdk.Display.get_default().get_name()
+            display = Gdk.Display.get_default().get_name()
         if (self._should_recenter_window() or
             not self.is_current_display(display)):
             self._center_window(display)
@@ -2242,7 +2240,7 @@ class WindowController (pretty.OutputMixin):
 
     def show_hide(self, sender):
         "GtkStatusIcon callback"
-        self.on_show_hide(sender, "", gtk.get_current_event_time())
+        self.on_show_hide(sender, "", Gtk.get_current_event_time())
 
     def _key_binding(self, keyobj, keybinding_number, display, timestamp):
         """Keybinding activation callback"""
@@ -2285,7 +2283,7 @@ class WindowController (pretty.OutputMixin):
         sch.finish()
 
     def quit(self, sender=None):
-        gtk.main_quit()
+        Gtk.main_quit()
 
     def quit_now(self):
         """Quit immediately (state save should already be done)"""
@@ -2387,13 +2385,13 @@ class WindowController (pretty.OutputMixin):
 
         def do_main_iterations(max_events=0):
             # use sentinel form of iter
-            for idx, pending in enumerate(iter(gtk.events_pending, False)):
+            for idx, pending in enumerate(iter(Gtk.events_pending, False)):
                 if max_events and idx > max_events:
                     break
-                gtk.main_iteration()
+                Gtk.main_iteration()
 
         try:
-            gtk.main()
+            Gtk.main()
             # put away window *before exiting further*
             self.put_away()
             do_main_iterations(10)
@@ -2408,6 +2406,6 @@ class WindowController (pretty.OutputMixin):
 
         do_main_iterations(100)
         # if we are still waiting, print a message
-        if gtk.events_pending():
+        if Gtk.events_pending():
             self.output_info("Waiting for tasks to finish...")
             do_main_iterations()

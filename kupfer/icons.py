@@ -1,9 +1,10 @@
 import os
 
 from gi.repository import Gio, GLib, Gdk, GdkPixbuf, Gtk
-import gtk
-from gio import Icon, ThemedIcon, FileIcon, File
-from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
+from gi.repository import Gtk
+from gi.repository.GLib import GError
+from gi.repository.Gio import Icon, ThemedIcon, FileIcon, File
+from gi.repository.Gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
 
 from gi.repository import GdkPixbuf
 
@@ -91,7 +92,7 @@ def load_icon_from_func(plugin_name, icon_name, get_data_func, override=False):
         return
     for size in (SMALL_SZ, LARGE_SZ):
         pixbuf = get_pixbuf_from_data(icon_data, size, size)
-        gtk.IconTheme.add_builtin_icon(icon_name, size, pixbuf)
+        Gtk.IconTheme.add_builtin_icon(icon_name, size, pixbuf)
         pretty.print_debug(__name__, "Loading icon", icon_name, "at", size,
                 "for", plugin_name)
     kupfer_locally_installed_names.add(icon_name)
@@ -171,7 +172,7 @@ def _render_composed_icon(composed_icon, icon_size):
     dsize = int(fr*icon_size)
     # http://library.gnome.org/devel/gdk-pixbuf/unstable//gdk-pixbuf-scaling.html
     toppbuf.composite(dest, dcoord, dcoord, dsize, dsize,
-            dcoord, dcoord, fr, fr, gtk.gdk.INTERP_BILINEAR, 255)
+            dcoord, dcoord, fr, fr, GdkPixbuf.InterpType.BILINEAR, 255)
     return dest
 
 def get_thumbnail_for_file(uri, width=-1, height=-1):
@@ -206,7 +207,7 @@ def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
     try:
         icon = GdkPixbuf.Pixbuf.new_from_file_at_size(thumb_path, width, height)
         return icon
-    except GLib.GError as e:
+    except GError as e:
         # this error is not important, the program continues on fine,
         # so we put it in debug output.
         pretty.print_debug(__name__, "get_pixbuf_from_file file:", thumb_path,
@@ -235,8 +236,8 @@ def get_icon_for_gicon(gicon, icon_size):
     Return a pixbuf of @icon_size for the @gicon
 
     NOTE: Currently only the following can be rendered:
-        gio.ThemedIcon
-        gio.FileIcon
+        Gio.ThemedIcon
+        Gio.FileIcon
         kupfer.icons.ComposedIcon
     """
     # FIXME: We can't load any general GIcon
@@ -287,14 +288,14 @@ class IconRenderer (object):
         if icon_name in kupfer_locally_installed_names:
             try:
                 return _local_theme.load_icon(icon_name, icon_size,
-                                              gtk.ICON_LOOKUP_USE_BUILTIN |
-                                              gtk.ICON_LOOKUP_FORCE_SIZE)
+                                              Gtk.IconLookupFlags.USE_BUILTIN |
+                                              Gtk.IconLookupFlags.FORCE_SIZE)
             except GError:
                 pass
         try:
             return _default_theme.load_icon(icon_name, icon_size,
-                                            gtk.ICON_LOOKUP_USE_BUILTIN |
-                                            gtk.ICON_LOOKUP_FORCE_SIZE)
+                                            Gtk.IconLookupFlags.USE_BUILTIN |
+                                            Gtk.IconLookupFlags.FORCE_SIZE)
         except GError:
             pass
 

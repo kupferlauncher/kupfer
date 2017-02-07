@@ -1,13 +1,13 @@
 """
 Access functions of Kupfer's Interface
 """
-import gtk
+from gi.repository import Gtk
 
 from kupfer import utils, version
 
 def _get_time(ctxenv):
     return ctxenv.get_timestamp() if ctxenv else \
-            gtk.get_current_event_time()
+            Gtk.get_current_event_time()
 
 def show_help(ctxenv=None):
     """
@@ -27,7 +27,7 @@ def show_about_dialog(ctxenv=None):
     if _about_dialog:
         ab = _about_dialog
     else:
-        ab = gtk.AboutDialog()
+        ab = Gtk.AboutDialog()
         ab.set_program_name(version.PROGRAM_NAME)
         ab.set_icon_name(version.ICON_NAME)
         ab.set_logo_icon_name(version.ICON_NAME)

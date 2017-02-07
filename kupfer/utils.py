@@ -265,7 +265,7 @@ def launch_app(app_info, files=(), uris=(), paths=()):
 
 def show_path(path):
     """Open local @path with default viewer"""
-    # Implemented using gtk.show_uri
+    # Implemented using Gtk.show_uri
     gfile = Gio.File.new_for_path(path)
     if not gfile:
         return
@@ -278,7 +278,7 @@ def show_url(url):
         pretty.print_debug(__name__, "show_url", url)
         return Gtk.show_uri(Gdk.Screen.get_default(), url, Gtk.get_current_event_time())
     except GLib.GError as exc:
-        pretty.print_error(__name__, "gtk.show_uri:", exc)
+        pretty.print_error(__name__, "Gtk.show_uri:", exc)
 
 def _on_child_exit(pid, condition, user_data):
     # @condition is the &status field of waitpid(2) (C library)

@@ -1,7 +1,7 @@
 import sys
 import threading
 
-import gobject
+from gi.repository import GObject
 
 from kupfer import scheduler, pretty
 

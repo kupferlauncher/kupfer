@@ -1,8 +1,8 @@
 import os
 import re
 
-from gi.repository import GLib, GObject, Gtk, Gio
-import pango
+from gi.repository import GLib, GObject, Gtk, Gio, Gdk
+from gi.repository import Pango
 from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
 from xdg import Exceptions as xdg_e
@@ -77,7 +77,7 @@ class PreferencesWindowController (pretty.OutputMixin):
             return
         builder.connect_signals(self)
         self.window = builder.get_object("preferenceswindow")
-        self.window.set_position(Gtk.WIN_POS_CENTER)
+        self.window.set_position(Gtk.WindowPosition.CENTER)
         self.window.connect("delete-event", self._close_window)
         self.pluglist_parent = builder.get_object("plugin_list_parent")
         self.dirlist_parent = builder.get_object("directory_list_parent")
@@ -137,7 +137,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.table.set_headers_visible(False)
         self.table.set_property("enable-search", False)
         self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
-        self.table.get_selection().set_mode(Gtk.SELECTION_BROWSE)
+        self.table.get_selection().set_mode(Gtk.SelectionMode.BROWSE)
 
         checkcell = Gtk.CellRendererToggle()
         checkcol = Gtk.TreeViewColumn("item", checkcell)
@@ -176,7 +176,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.dir_table.set_headers_visible(False)
         self.dir_table.set_property("enable-search", False)
         self.dir_table.connect("cursor-changed", self.dir_table_cursor_changed)
-        self.dir_table.get_selection().set_mode(Gtk.SELECTION_BROWSE)
+        self.dir_table.get_selection().set_mode(Gtk.SelectionMode.BROWSE)
 
         icon_cell = Gtk.CellRendererPixbuf()
 
@@ -186,7 +186,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn("name", cell)
         col.add_attribute(cell, "text", 2)
-        cell.set_property("ellipsize", pango.ELLIPSIZE_END)
+        cell.set_property("ellipsize", Pango.EllipsizeMode.END)
         self.dir_table.append_column(icon_col)
         self.dir_table.append_column(col)
         self.dir_table.show()
@@ -253,7 +253,7 @@ class PreferencesWindowController (pretty.OutputMixin):
             setctl.set_directories(have)
 
     def on_preferenceswindow_key_press_event(self, widget, event):
-        if event.keyval == Gtk.gdk.keyval_from_name("Escape"):
+        if event.keyval == Gdk.keyval_from_name("Escape"):
             self.hide()
             return True
 
@@ -493,7 +493,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         if oldch:
             self.plugin_about_parent.remove(oldch)
         vp = Gtk.Viewport()
-        vp.set_shadow_type(Gtk.SHADOW_NONE)
+        vp.set_shadow_type(Gtk.ShadowType.NONE)
         vp.add(about)
         self.plugin_about_parent.add(vp)
         self.plugin_about_parent.show_all()
@@ -538,7 +538,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 label = wrapped_label()
                 label.set_markup(name_label)
                 hbox.pack_start(label, False)
-                objvbox.pack_start(hbox)
+                objvbox.pack_start(hbox, True, True, 0)
                 # Display information for application content-sources.
                 if not kobject_should_show(obj):
                     continue
@@ -554,21 +554,21 @@ class PreferencesWindowController (pretty.OutputMixin):
                 im = Gtk.Image()
                 im.set_property("gicon", gicon)
                 im.set_property("pixel-size", 16)
-                hbox.pack_start(Gtk.Label.new(_("Content of")), False)
+                hbox.pack_start(Gtk.Label.new(_("Content of", True, True, 0)), False)
                 hbox.pack_start(im, False)
-                hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False)
-                objvbox.pack_start(hbox)
+                hbox.pack_start(Gtk.Label.new(str(leaf_repr, True, True, 0)), False)
+                objvbox.pack_start(hbox, True, True, 0)
             return objvbox
 
         sources = list(sources or ()) + list(text_sources or ())
         if sources:
             # TRANS: Plugin contents header
             swid = make_objects_frame(sources, _("Sources"))
-            vbox.pack_start(swid)
+            vbox.pack_start(swid, True, True, 0)
         if actions:
             # TRANS: Plugin contents header
             awid = make_objects_frame(actions, _("Actions"))
-            vbox.pack_start(awid)
+            vbox.pack_start(awid, True, True, 0)
 
         vbox.show_all()
         return vbox
@@ -684,11 +684,11 @@ class PreferencesWindowController (pretty.OutputMixin):
     def on_buttonadddirectory_clicked(self, widget):
         # TRANS: File Chooser Title
         chooser_dialog = Gtk.FileChooserDialog(title=_("Choose a Directory"),
-                action=Gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                buttons=(Gtk.STOCK_CANCEL, Gtk.RESPONSE_REJECT,
-                    Gtk.STOCK_OK, Gtk.RESPONSE_ACCEPT))
+                action=Gtk.FileChooserAction.SELECT_FOLDER,
+                buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
+                    Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT))
         chooser_dialog.set_select_multiple(True)
-        if chooser_dialog.run() == Gtk.RESPONSE_ACCEPT:
+        if chooser_dialog.run() == Gtk.ResponseType.ACCEPT:
             for selected_dir in chooser_dialog.get_filenames():
                 self.add_directory_model(selected_dir, store=True)
         chooser_dialog.hide()
@@ -877,11 +877,11 @@ class PreferencesWindowController (pretty.OutputMixin):
         return True
 
     def ask_user_for_reset_keybinding(self):
-        dlg = Gtk.MessageDialog(self.window, Gtk.DIALOG_MODAL, Gtk.MESSAGE_QUESTION)
+        dlg = Gtk.MessageDialog(self.window, Gtk.DialogFlags.MODAL, Gtk.MessageType.QUESTION)
         dlg.set_markup(_("Reset all shortcuts to default values?"))
-        dlg.add_buttons(Gtk.STOCK_CANCEL, Gtk.RESPONSE_CLOSE,
-                _('Reset'), Gtk.RESPONSE_ACCEPT)
-        result = dlg.run() == Gtk.RESPONSE_ACCEPT
+        dlg.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CLOSE,
+                _('Reset'), Gtk.ResponseType.ACCEPT)
+        result = dlg.run() == Gtk.ResponseType.ACCEPT
         dlg.destroy()
         return result
 
@@ -930,7 +930,7 @@ class SourceListController (object):
         self.table.set_headers_visible(False)
         self.table.set_property("enable-search", False)
         #self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
-        self.table.get_selection().set_mode(Gtk.SELECTION_NONE)
+        self.table.get_selection().set_mode(Gtk.SelectionMode.NONE)
 
         checkcell = Gtk.CellRendererToggle()
         checkcol = Gtk.TreeViewColumn("item", checkcell)
