@@ -1,9 +1,7 @@
 import os
 
-from gi.repository import Gio, GLib
+from gi.repository import Gio, GLib, Gdk, GdkPixbuf, Gtk
 import gtk
-from gtk import ICON_LOOKUP_USE_BUILTIN, ICON_LOOKUP_FORCE_SIZE
-from gtk.gdk import pixbuf_new_from_file_at_size
 from gio import Icon, ThemedIcon, FileIcon, File
 from gio import FILE_ATTRIBUTE_STANDARD_ICON, FILE_ATTRIBUTE_THUMBNAIL_PATH
 
@@ -38,9 +36,9 @@ def _icon_theme_changed(theme):
     global icon_cache
     icon_cache = {}
 
-_default_theme = gtk.icon_theme_get_default()
+_default_theme = Gtk.IconTheme.get_default()
 _default_theme.connect("changed", _icon_theme_changed)
-_local_theme = gtk.IconTheme()
+_local_theme = Gtk.IconTheme.new()
 _local_theme.set_search_path([])
 
 def parse_load_icon_list(icon_list_data, get_data_func, plugin_name=None):
@@ -206,7 +204,7 @@ def get_pixbuf_from_file(thumb_path, width=-1, height=-1):
     if not thumb_path:
         return None
     try:
-        icon = pixbuf_new_from_file_at_size(thumb_path, width, height)
+        icon = GdkPixbuf.Pixbuf.new_from_file_at_size(thumb_path, width, height)
         return icon
     except GLib.GError as e:
         # this error is not important, the program continues on fine,
@@ -289,21 +287,21 @@ class IconRenderer (object):
         if icon_name in kupfer_locally_installed_names:
             try:
                 return _local_theme.load_icon(icon_name, icon_size,
-                                              ICON_LOOKUP_USE_BUILTIN |
-                                              ICON_LOOKUP_FORCE_SIZE)
+                                              gtk.ICON_LOOKUP_USE_BUILTIN |
+                                              gtk.ICON_LOOKUP_FORCE_SIZE)
             except GError:
                 pass
         try:
             return _default_theme.load_icon(icon_name, icon_size,
-                                            ICON_LOOKUP_USE_BUILTIN |
-                                            ICON_LOOKUP_FORCE_SIZE)
+                                            gtk.ICON_LOOKUP_USE_BUILTIN |
+                                            gtk.ICON_LOOKUP_FORCE_SIZE)
         except GError:
             pass
 
     @classmethod
     def pixbuf_for_file(cls, file_path, icon_size):
         try:
-            icon = gtk.gdk.pixbuf_new_from_file_at_size(file_path, icon_size,
+            icon = GdkPixbuf.Pixbuf.new_from_file_at_size(file_path, icon_size,
                                                         icon_size)
             return icon
         except GError:
