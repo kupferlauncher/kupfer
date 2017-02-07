@@ -22,6 +22,9 @@ Installation follows the steps::
     ./waf configure
     ./waf
 
+If configure does not find the right Python 3 executable, set ``PYTHON``
+explicitly first.
+
 then::
 
     ./waf install

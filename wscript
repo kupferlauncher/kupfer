@@ -119,7 +119,11 @@ def configure(conf):
     try:
         conf.check_python_version((3, 5, 0))
     except Configure.ConfigurationError:
-        raise
+        if os.getenv("PYTHON"):
+            raise
+        Logs.pprint("NORMAL", "Looking for Python 3 instead")
+        conf.env["PYTHON"] = ["python3"]
+        conf.check_python_version((3, 5, 0))
     conf.load("gnu_dirs")
 
     conf.load("intltool")
