@@ -11,6 +11,7 @@ import subprocess
 from kupfer.objects import Action, Source
 from kupfer.objects import TextLeaf
 from kupfer import icons, plugin_support
+from kupfer import kupferstring
 from kupfer.obj.objects import ConstructFileLeaf
 
 
@@ -66,7 +67,8 @@ class LocateQuerySource (Source):
 
         def get_locate_output(proc, offset=0):
             out, ignored_err = proc.communicate()
-            return (ConstructFileLeaf(f) for f in out.split("\x00")[offset:-1])
+            return (ConstructFileLeaf(kupferstring.fromlocale(f))
+                    for f in out.split(b'\x00')[offset:-1])
 
         for F in get_locate_output(p1, 0):
             yield F
