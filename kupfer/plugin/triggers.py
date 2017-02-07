@@ -8,8 +8,7 @@ __description__ = _("Assign global keybindings (triggers) to objects created "
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from gi.repository import Gtk
-import glib
+from gi.repository import Gtk, GLib
 
 from kupfer.objects import Action, Source
 from kupfer.objects import TextLeaf, RunnableLeaf
@@ -144,7 +143,7 @@ class BindTask (task.Task):
         self.screen = screen
 
     def start(self, finish_callback):
-        glib.idle_add(self.ask_key, finish_callback)
+        GLib.idle_add(self.ask_key, finish_callback)
 
     def ask_key(self, finish_callback):
         keystr = getkey_dialog.ask_for_key(try_bind_key, screen=self.screen)

@@ -6,7 +6,7 @@ purpose), but care should be taken to only call UI functions from the main
 (default) thread.
 """
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from gi.repository import Pango
 
 from kupfer import pretty
@@ -60,7 +60,7 @@ def show_text_result(text, title=None, ctx=None):
             return _window_destroy_on_escape(widget, event)
 
         def on_close_button_clicked(self, widget):
-            self.names.text_result_window.window.destroy()
+            self.names.text_result_window.get_window().destroy()
             return True
         def on_copy_button_clicked(self, widget):
             clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
@@ -95,11 +95,13 @@ def show_text_result(text, title=None, ctx=None):
     # We want to size the window so that the
     # TextView is displayed without scrollbars
     # initially, if it fits on screen.
-    oldwid, oldhei = textview.get_size_request()
+    tw_sr = textview.get_size_request()
+    oldwid, oldhei = tw_sr.width, tw_sr.height
     winwid, winhei = window.get_size()
 
     #max_hsize, max_vsize = window.get_default_size()
-    wid, hei = textview.size_request()
+    tw_sr = textview.size_request()
+    wid, hei = tw_sr.width, tw_sr.height
     textview.set_wrap_mode(Gtk.WrapMode.WORD)
 
     # Set max window size to 100 colums x 60 lines
