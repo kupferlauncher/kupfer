@@ -8,7 +8,8 @@ import textwrap
 import time
 
 from gi.repository import Gtk, Gdk, GObject
-from gi.repository import GLib, Gio
+from gi.repository import GLib, Gio, Pango
+from gi.repository import GdkPixbuf
 import cairo
 
 from kupfer import kupferui
@@ -24,6 +25,8 @@ from kupfer.core import settings
 from kupfer import icons
 from kupfer import interface
 from kupfer import pretty
+
+ELLIPSIZE_MIDDLE = Pango.EllipsizeMode.MIDDLE
 
 
 _escape_table = {
@@ -45,7 +48,7 @@ def escape_markup_str(mstr):
     return tounicode(mstr).translate(_escape_table)
 
 def text_direction_is_ltr():
-    return Gtk.widget_get_default_direction() != Gtk.TextDirection.RTL
+    return Gtk.Widget.get_default_direction() != Gtk.TextDirection.RTL
 
 def make_rounded_rect(cr,x,y,width,height,radius):
     """
@@ -145,7 +148,6 @@ class LeafModel (object):
         # only show in debug mode
         show_rank_col = pretty.debug
 
-        from pango import ELLIPSIZE_MIDDLE
         cell = Gtk.CellRendererText()
         cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
         cell.set_property("width-chars", 45)
@@ -328,7 +330,6 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         """
         Core initalization method that builds the widget
         """
-        from pango import ELLIPSIZE_MIDDLE
         self.label = Gtk.Label.new("<match>")
         self.label.set_single_line_mode(True)
         self.label.set_width_chars(self.label_char_width)
@@ -637,16 +638,17 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         setctl = settings.GetSettingsController()
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
         opacity = 0.01 * LIST_OPACITY
-        # self.window is a GdkWindow (of self's parent)
-        win_width = self.window.get_width()
-        win_height = self.window.get_height()
-        pos_x, pos_y = self.window.get_position()
+        # self.get_window() is a GdkWindow (of self's parent)
+        win_width = self.get_window().get_width()
+        win_height = self.get_window().get_height()
+        pos_x, pos_y = self.get_window().get_position()
         # find origin in parent's coordinates
         self_x, self_y = self.translate_coordinates(self.get_parent(), 0, 0)
-        self_width = self.size_request()[0]
+        self_width = self.size_request().width
         sub_x = pos_x
         sub_y = pos_y + win_height
-        table_w, table_len = self.table.size_request()
+        table_sr = self.table.size_request()
+        table_w, table_len = table_sr.width, table_sr.height
         # FIXME: Adapt list length
         subwin_height = list_maxheight
         subwin_width = self_width*2 - self_x
@@ -960,7 +962,6 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.preedit.set_width_chars(0)
         self.preedit.set_alignment(1)
 
-        from pango import ELLIPSIZE_MIDDLE
         self.label.set_width_chars(50)
         self.label.set_max_width_chars(50)
         self.label.set_single_line_mode(True)
@@ -1736,7 +1737,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self.data_controller.cancel_search()
             # See if it was a deleting key press
             curev = Gtk.get_current_event()
-            if (curev and curev.type == Gdk.KEY_PRESS and
+            if (curev and curev.type == Gdk.EventType.KEY_PRESS and
                 curev.keyval in (self.key_book["Delete"],
                     self.key_book["BackSpace"])):
                 self._backspace_key_press()
@@ -2048,8 +2049,8 @@ class WindowController (pretty.OutputMixin):
         # Build the window frame with its top bar
         topbar = Gtk.HBox()
         vbox = Gtk.VBox()
-        vbox.pack_start(topbar, False, False)
-        vbox.pack_start(widget, True, True)
+        vbox.pack_start(topbar, False, False, 0)
+        vbox.pack_start(widget, True, True, 0)
         vbox.show()
         self.window.add(vbox)
         title = Gtk.Label.new("")
@@ -2072,8 +2073,8 @@ class WindowController (pretty.OutputMixin):
         button.set_name("kupfer-menu-button")
         title_align = Gtk.Alignment.new(0, 0.5, 0, 0)
         title_align.add(title)
-        topbar.pack_start(title_align, True, True)
-        topbar.pack_start(button_box, False, False)
+        topbar.pack_start(title_align, True, True, 0)
+        topbar.pack_start(button_box, False, False, 0)
         topbar.show_all()
 
         self.window.set_title(version.PROGRAM_NAME)
@@ -2198,12 +2199,12 @@ class WindowController (pretty.OutputMixin):
         are on different monitors.
         """
         # Check if the GtkWindow was realized yet
-        if not self.window.window:
+        if not self.window.get_realized():
             return True
         display = self.window.get_screen().get_display()
         screen, x, y, modifiers = display.get_pointer()
         return (screen.get_monitor_at_point(x,y) !=
-                screen.get_monitor_at_window(self.window.window))
+                screen.get_monitor_at_window(self.window.get_window()))
 
     def activate(self, sender=None):
         dispname = self.window.get_screen().make_display_name()
@@ -2219,7 +2220,7 @@ class WindowController (pretty.OutputMixin):
             self._center_window(display)
         self.window.stick()
         self.window.present_with_time(timestamp)
-        self.window.window.focus(timestamp=timestamp)
+        self.window.get_window().focus(timestamp=timestamp)
         self.interface.focus()
 
     def put_away(self):
