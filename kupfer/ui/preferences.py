@@ -427,7 +427,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         title_label.set_markup("<b><big>%s</big></b>" % m_localized_name)
         version, description, author = plugins.get_plugin_attributes(plugin_id,
                 ( "__version__", "__description__", "__author__", ))
-        about.pack_start(title_label, False)
+        about.pack_start(title_label, False, True, 0)
         infobox = Gtk.VBox()
         infobox.set_property("spacing", 3)
         # TRANS: Plugin info fields
@@ -438,20 +438,20 @@ class PreferencesWindowController (pretty.OutputMixin):
             label = Gtk.Label()
             label.set_alignment(0, 0)
             label.set_markup("<b>%s</b>" % field)
-            infobox.pack_start(label, False)
+            infobox.pack_start(label, False, True, 0)
             label = wrapped_label()
             label.set_alignment(0, 0)
             label.set_markup("%s" % GLib.markup_escape_text(val))
             label.set_selectable(True)
-            infobox.pack_start(label, False)
+            infobox.pack_start(label, False, True, 0)
         if version:
             label = wrapped_label()
             label.set_alignment(0, 0)
             m_version = GLib.markup_escape_text(version)
             label.set_markup("<b>%s:</b> %s" % (_("Version"), m_version))
             label.set_selectable(True)
-            infobox.pack_start(label, False)
-        about.pack_start(infobox, False)
+            infobox.pack_start(label, False, True, 0)
+        about.pack_start(infobox, False, True, 0)
 
         # Check for plugin load exception
         exc_info = plugins.get_plugin_error(plugin_id)
@@ -476,18 +476,18 @@ class PreferencesWindowController (pretty.OutputMixin):
                 GLib.markup_escape_text(errstr),
                 ))
             label.set_selectable(True)
-            about.pack_start(label, False)
+            about.pack_start(label, False, True, 0)
         elif not plugins.is_plugin_loaded(plugin_id):
             label = Gtk.Label()
             label.set_alignment(0, 0)
             label.set_text("(%s)" % _("disabled"))
-            about.pack_start(label, False)
+            about.pack_start(label, False, True, 0)
 
         wid = self._make_plugin_info_widget(plugin_id)
-        about.pack_start(wid, False)
+        about.pack_start(wid, False, True, 0)
         psettings_wid = self._make_plugin_settings_widget(plugin_id)
         if psettings_wid:
-            about.pack_start(psettings_wid, False)
+            about.pack_start(psettings_wid, False, True, 0)
 
         oldch = self.plugin_about_parent.get_child()
         if oldch:
@@ -514,7 +514,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                                    GLib.markup_escape_text(title))
             frame_label.set_alignment(0, 0)
             objvbox = Gtk.VBox()
-            objvbox.pack_start(frame_label, False)
+            objvbox.pack_start(frame_label, False, True, 0)
             objvbox.set_property("spacing", 3)
             for item in objs:
                 plugin_type = plugins.get_plugin_attribute(plugin_id, item)
@@ -529,7 +529,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 im = Gtk.Image()
                 im.set_property("gicon", gicon)
                 im.set_property("pixel-size", 32)
-                hbox.pack_start(im, False)
+                hbox.pack_start(im, False, True, 0)
                 m_name = GLib.markup_escape_text(name)
                 m_desc = GLib.markup_escape_text(desc)
                 name_label = \
@@ -537,7 +537,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                     "%s" % (m_name, )
                 label = wrapped_label()
                 label.set_markup(name_label)
-                hbox.pack_start(label, False)
+                hbox.pack_start(label, False, True, 0)
                 objvbox.pack_start(hbox, True, True, 0)
                 # Display information for application content-sources.
                 if not kobject_should_show(obj):
@@ -554,9 +554,9 @@ class PreferencesWindowController (pretty.OutputMixin):
                 im = Gtk.Image()
                 im.set_property("gicon", gicon)
                 im.set_property("pixel-size", 16)
-                hbox.pack_start(Gtk.Label.new(_("Content of", True, True, 0)), False)
-                hbox.pack_start(im, False)
-                hbox.pack_start(Gtk.Label.new(str(leaf_repr, True, True, 0)), False)
+                hbox.pack_start(Gtk.Label.new(_("Content of")), False, True, 0)
+                hbox.pack_start(im, False, True, 0)
+                hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False, True, 0)
                 objvbox.pack_start(hbox, True, True, 0)
             return objvbox
 
@@ -613,7 +613,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         title_label.set_alignment(0, 0)
 
         vbox = Gtk.VBox()
-        vbox.pack_start(title_label, False)
+        vbox.pack_start(title_label, False, True, 0)
         #vbox.set_property("spacing", 5)
 
         plugin_settings_keys = iter(plugin_settings) if plugin_settings else ()
@@ -632,8 +632,8 @@ class PreferencesWindowController (pretty.OutputMixin):
                 wid = Gtk.Button(label or _("Set username and password"))
                 wid.connect("clicked", self._get_plugin_credentials_callback(
                         plugin_id, setting))
-                hbox.pack_start(wid, False)
-                vbox.pack_start(hbox, False)
+                hbox.pack_start(wid, False, True, 0)
+                vbox.pack_start(hbox, False, True, 0)
                 continue
 
             label_wid = wrapped_label(label, maxwid=200)
@@ -658,13 +658,13 @@ class PreferencesWindowController (pretty.OutputMixin):
                     wid.connect("changed", self._get_plugin_change_callback(
                         plugin_id, setting, typ, "get_text",
                         no_false_values=True))
-                hbox.pack_start(label_wid, False)
-                hbox.pack_start(wid, True)
+                hbox.pack_start(label_wid, False, True, 0)
+                hbox.pack_start(wid, True, True, 0)
 
             elif issubclass(typ, bool):
                 wid = Gtk.CheckButton.new_with_label(label)
                 wid.set_active(plugin_settings[setting])
-                hbox.pack_start(wid, False)
+                hbox.pack_start(wid, False, True, 0)
                 wid.connect("toggled", self._get_plugin_change_callback(
                     plugin_id, setting, typ, "get_active"))
             elif issubclass(typ, int):
@@ -672,11 +672,11 @@ class PreferencesWindowController (pretty.OutputMixin):
                 wid.set_increments(1, 1)
                 wid.set_range(0, 1000)
                 wid.set_value(plugin_settings[setting])
-                hbox.pack_start(label_wid, False)
-                hbox.pack_start(wid, False)
+                hbox.pack_start(label_wid, False, True, 0)
+                hbox.pack_start(wid, False, True, 0)
                 wid.connect("changed", self._get_plugin_change_callback(
                     plugin_id, setting, typ, "get_text", no_false_values=True))
-            vbox.pack_start(hbox, False)
+            vbox.pack_start(hbox, False, True, 0)
 
         vbox.show_all()
         return vbox
