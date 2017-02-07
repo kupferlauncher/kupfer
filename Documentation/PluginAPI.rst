@@ -46,7 +46,9 @@ It starts like this (an imagined example)::
     __version__ = "1"
     __author__ = "Tom Author"
 
-For a plugin, the following attributes are required::
+All these special variables must be defined before any other code in the
+module (even imports). For a plugin, the following attributes are
+required::
 
     __kupfer_name__ (Localized name of plugin)
     __description__ (Localized description of plugin)
