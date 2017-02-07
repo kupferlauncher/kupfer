@@ -851,9 +851,9 @@ class Search (gtk.Bin, pretty.OutputMixin):
 
 # Take care of GObject things to set up the Search class
 GObject.type_register(Search)
-GObject.signal_new("activate", Search, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("activate", Search, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
-GObject.signal_new("cursor-changed", Search, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("cursor-changed", Search, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
 LIST_OPACITY = 93
 #gtk.widget_class_install_style_property(Search, ('list-opacity', GObject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, GObject.PARAM_READABLE))
@@ -1754,10 +1754,10 @@ class Interface (GObject.GObject, pretty.OutputMixin):
                 text_mode=self.get_in_text_mode())
 
 GObject.type_register(Interface)
-GObject.signal_new("cancelled", Interface, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("cancelled", Interface, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 # Send only when the interface itself launched an action directly
-GObject.signal_new("launched-action", Interface, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("launched-action", Interface, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
 

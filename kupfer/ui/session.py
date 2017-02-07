@@ -9,12 +9,12 @@ the module API does not depend on the session API used
 import os
 import time
 
+from gi.repository import GObject
 import dbus
-import gobject
 
 from kupfer import pretty, version
 
-class SessionClient (gobject.GObject, pretty.OutputMixin):
+class SessionClient (GObject.GObject, pretty.OutputMixin):
     """Session handling controller
 
     signals:
@@ -25,7 +25,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
 
     def __init__(self):
         """Set up program as client to current Session"""
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
 
         succ = False
         try:
@@ -158,7 +158,7 @@ class SessionClient (gobject.GObject, pretty.OutputMixin):
         """If a session connection is available"""
         return self._enabled
 
-gobject.signal_new("save-yourself", SessionClient, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
-gobject.signal_new("die", SessionClient, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
+GObject.signal_new("save-yourself", SessionClient, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
+GObject.signal_new("die", SessionClient, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())

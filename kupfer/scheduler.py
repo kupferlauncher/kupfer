@@ -42,15 +42,15 @@ class Scheduler (GObject.GObject, pretty.OutputMixin):
     def finish(self):
         self._finished = True
         self.emit("finish")
-GObject.signal_new("load", Scheduler, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("load", Scheduler, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
-GObject.signal_new("loaded", Scheduler, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("loaded", Scheduler, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
-GObject.signal_new("display", Scheduler, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("display", Scheduler, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
-GObject.signal_new("after-display", Scheduler, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("after-display", Scheduler, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
-GObject.signal_new("finish", Scheduler, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("finish", Scheduler, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
 class Timer (object):

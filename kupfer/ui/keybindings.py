@@ -1,4 +1,4 @@
-import gobject
+from gi.repository import GObject
 
 from kupfer import pretty
 
@@ -22,7 +22,7 @@ def GetKeyboundObject():
         _keybound_object = KeyboundObject()
     return _keybound_object
 
-class KeyboundObject (gobject.GObject):
+class KeyboundObject (GObject.GObject):
     """Keybinder object
 
     signals:
@@ -44,13 +44,13 @@ class KeyboundObject (gobject.GObject):
                 self.emit("keybinding", target, display, timestamp)
 
 # Arguments: Target, Display, Timestamp
-gobject.signal_new("keybinding", KeyboundObject, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_INT, gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("keybinding", KeyboundObject, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_INT, GObject.TYPE_STRING, GObject.TYPE_UINT))
 # Arguments: Keystring, Boolean
-gobject.signal_new("bound-key-changed", KeyboundObject, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_BOOLEAN,))
+GObject.signal_new("bound-key-changed", KeyboundObject, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_BOOLEAN,))
 
 _currently_bound = {}
 

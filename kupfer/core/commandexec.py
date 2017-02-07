@@ -30,7 +30,7 @@ import contextlib
 import itertools
 import sys
 
-import gobject
+from gi.repository import GObject
 
 from kupfer import pretty
 from kupfer import task
@@ -168,14 +168,14 @@ class ExecutionToken (object):
         else:
             raise RuntimeError("Environment Context not available")
 
-class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
+class ActionExecutionContext (GObject.GObject, pretty.OutputMixin):
     """
     command-result (result_type, result)
         Emitted when a command is carried out, with its resulting value
     """
     __gtype_name__ = "ActionExecutionContext"
     def __init__(self):
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
         self.task_runner = task.TaskRunner(end_on_finish=False)
         self._nest_level = 0
         self._delegate = False
@@ -389,14 +389,14 @@ class ActionExecutionContext (gobject.GObject, pretty.OutputMixin):
 
 
 # Signature: Action result type, action result, gui_context
-gobject.signal_new("command-result", ActionExecutionContext,
-        gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_INT, gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+GObject.signal_new("command-result", ActionExecutionContext,
+        GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_INT, GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT))
 
 # Signature: Command ID, Action result type, action result, gui_context
-gobject.signal_new("late-command-result", ActionExecutionContext,
-        gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_INT, gobject.TYPE_INT,
-            gobject.TYPE_PYOBJECT, gobject.TYPE_PYOBJECT))
+GObject.signal_new("late-command-result", ActionExecutionContext,
+        GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_INT, GObject.TYPE_INT,
+            GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT))

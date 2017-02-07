@@ -424,7 +424,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         about.set_property("border-width", 5)
         info = self._plugin_info_for_id(plugin_id)
         title_label = Gtk.Label()
-        m_localized_name = GObject.markup_escape_text(info["localized_name"])
+        m_localized_name = GLib.markup_escape_text(info["localized_name"])
         title_label.set_markup("<b><big>%s</big></b>" % m_localized_name)
         version, description, author = plugins.get_plugin_attributes(plugin_id,
                 ( "__version__", "__description__", "__author__", ))
@@ -442,13 +442,13 @@ class PreferencesWindowController (pretty.OutputMixin):
             infobox.pack_start(label, False)
             label = wrapped_label()
             label.set_alignment(0, 0)
-            label.set_markup("%s" % GObject.markup_escape_text(val))
+            label.set_markup("%s" % GLib.markup_escape_text(val))
             label.set_selectable(True)
             infobox.pack_start(label, False)
         if version:
             label = wrapped_label()
             label.set_alignment(0, 0)
-            m_version = GObject.markup_escape_text(version)
+            m_version = GLib.markup_escape_text(version)
             label.set_markup("<b>%s:</b> %s" % (_("Version"), m_version))
             label.set_selectable(True)
             infobox.pack_start(label, False)
@@ -474,7 +474,7 @@ class PreferencesWindowController (pretty.OutputMixin):
             label.set_alignment(0, 0)
             label.set_markup("<b>%s</b>\n\n%s" % (
                 _("Plugin could not be read due to an error:"),
-                GObject.markup_escape_text(errstr),
+                GLib.markup_escape_text(errstr),
                 ))
             label.set_selectable(True)
             about.pack_start(label, False)
@@ -512,7 +512,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         def make_objects_frame(objs, title):
             frame_label = Gtk.Label()
             frame_label.set_markup("<b>%s</b>" %
-                                   GObject.markup_escape_text(title))
+                                   GLib.markup_escape_text(title))
             frame_label.set_alignment(0, 0)
             objvbox = Gtk.VBox()
             objvbox.pack_start(frame_label, False)
@@ -531,8 +531,8 @@ class PreferencesWindowController (pretty.OutputMixin):
                 im.set_property("gicon", gicon)
                 im.set_property("pixel-size", 32)
                 hbox.pack_start(im, False)
-                m_name = GObject.markup_escape_text(name)
-                m_desc = GObject.markup_escape_text(desc)
+                m_name = GLib.markup_escape_text(name)
+                m_desc = GLib.markup_escape_text(desc)
                 name_label = \
                     "%s\n<small>%s</small>" % (m_name, m_desc) if m_desc else \
                     "%s" % (m_name, )

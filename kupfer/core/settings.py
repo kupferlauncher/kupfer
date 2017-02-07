@@ -4,8 +4,7 @@ import configparser
 import copy
 import os
 
-import glib
-import gobject
+from gi.repository import GLib, GObject
 
 from kupfer import config, pretty, scheduler
 
@@ -28,7 +27,7 @@ def strint(value, default=0):
     except ValueError:
         return default
 
-class SettingsController (gobject.GObject, pretty.OutputMixin):
+class SettingsController (GObject.GObject, pretty.OutputMixin):
     __gtype_name__ = "SettingsController"
     config_filename = "kupfer.cfg"
     defaults_filename = "defaults.cfg"
@@ -54,7 +53,7 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
         "Tools": {},
     }
     def __init__(self):
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
         self._defaults_path = None
         self._config = self._read_config()
         self._save_timer = scheduler.Timer(True)
@@ -330,12 +329,14 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
     def get_directories(self, direct=True):
         """Yield directories to use as directory sources"""
 
-        specialdirs = dict((k, getattr(glib, k))
-                for k in dir(glib) if k.startswith("USER_DIRECTORY_"))
+        specialdirs = dict((k, getattr(GLib.UserDirectory, k))
+                for k in dir(GLib.UserDirectory) if k.startswith("DIRECTORY_"))
 
         def get_special_dir(opt):
-            if opt in specialdirs:
-                return glib.get_user_special_dir(specialdirs[opt])
+            if opt.startswith("USER_"):
+                _, opt = opt.split("USER_", 1)
+                if opt in specialdirs:
+                    return GLib.get_user_special_dir(specialdirs[opt])
 
         level = "Direct" if direct else "Catalog"
         for direc in self.get_config("Directories", level):
@@ -452,27 +453,27 @@ class SettingsController (gobject.GObject, pretty.OutputMixin):
 
 # Arguments: Section, Key, Value
 # Detailed by 'section.key' in lowercase
-gobject.signal_new("value-changed", SettingsController,
-        gobject.SIGNAL_RUN_LAST | gobject.SIGNAL_DETAILED,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_STRING,
-        gobject.TYPE_PYOBJECT))
+GObject.signal_new("value-changed", SettingsController,
+        GObject.SignalFlags.RUN_LAST | GObject.SignalFlags.DETAILED,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_STRING, GObject.TYPE_STRING,
+        GObject.TYPE_PYOBJECT))
 
 # Arguments: Plugin ID, Value
-gobject.signal_new("plugin-enabled-changed", SettingsController,
-        gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_INT))
+GObject.signal_new("plugin-enabled-changed", SettingsController,
+        GObject.SignalFlags.RUN_LAST, GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_INT))
 
 # Arguments: Plugin ID, Value
-gobject.signal_new("plugin-toplevel-changed", SettingsController,
-        gobject.SIGNAL_RUN_LAST, gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_INT))
+GObject.signal_new("plugin-toplevel-changed", SettingsController,
+        GObject.SignalFlags.RUN_LAST, GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_INT))
 
 # Arguments: Alternative-category
 # Detailed by: category key, in lowercase
-gobject.signal_new("alternatives-changed", SettingsController,
-        gobject.SIGNAL_RUN_LAST | gobject.SIGNAL_DETAILED,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, ))
+GObject.signal_new("alternatives-changed", SettingsController,
+        GObject.SignalFlags.RUN_LAST | GObject.SignalFlags.DETAILED,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, ))
 
 _settings_controller = None
 def GetSettingsController():

@@ -199,7 +199,7 @@ class Pane (GObject.GObject):
     def emit_search_result(self, match, match_iter, context):
         self.emit("search-result", match, match_iter, context)
 
-GObject.signal_new("search-result", Pane, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("search-result", Pane, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, 
         GObject.TYPE_PYOBJECT))
 
@@ -310,7 +310,7 @@ class LeafPane (Pane, pretty.OutputMixin):
                 decorator=decorator)
         self.emit_search_result(match, match_iter, context)
 
-GObject.signal_new("new-source", LeafPane, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("new-source", LeafPane, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT,))
 
 class PrimaryActionPane (Pane):
@@ -985,32 +985,32 @@ class DataController (GObject.GObject, pretty.OutputMixin):
 
 # pane cleared or set with new item
 # pane, item
-GObject.signal_new("pane-reset", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("pane-reset", DataController, GObject.SignalFlags.RUN_LAST,
     GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT,))
 
 # pane, match, iter to matches, context
-GObject.signal_new("search-result", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("search-result", DataController, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT))
 
-GObject.signal_new("source-changed", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("source-changed", DataController, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (int, object, bool))
 
 # mode, None(?)
-GObject.signal_new("mode-changed", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("mode-changed", DataController, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT,))
 
 # object stack update signal
 # arguments: pane
-GObject.signal_new("object-stack-changed", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("object-stack-changed", DataController, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, ))
 # when an command returned a result
 # arguments: result type, gui_context
-GObject.signal_new("command-result", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("command-result", DataController, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_INT, GObject.TYPE_PYOBJECT))
 
 # when an action was launched
 # arguments: none
-GObject.signal_new("launched-action", DataController, GObject.SIGNAL_RUN_LAST,
+GObject.signal_new("launched-action", DataController, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
 

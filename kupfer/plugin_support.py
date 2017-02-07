@@ -1,6 +1,6 @@
 import sys
 
-import gobject
+from gi.repository import GObject
 
 keyring = None
 
@@ -20,7 +20,7 @@ __all__ = [
 def _is_core_setting(key):
     return key.startswith("kupfer_")
 
-class PluginSettings (gobject.GObject, pretty.OutputMixin):
+class PluginSettings (GObject.GObject, pretty.OutputMixin):
     """Allows plugins to have preferences by assigning an instance
     of this class to the plugin's __kupfer_settings__ attribute.
 
@@ -45,7 +45,7 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
         the @key may be any string except strings starting with
         'kupfer_', which are reserved
         """
-        gobject.GObject.__init__(self)
+        GObject.GObject.__init__(self)
         self.setting_descriptions = {}
         self.setting_key_order = []
         self.signal_connection = -1
@@ -114,10 +114,10 @@ class PluginSettings (gobject.GObject, pretty.OutputMixin):
 
 # Arguments: Key, Value
 # Detailed by the key
-gobject.signal_new("plugin-setting-changed", PluginSettings,
-        gobject.SIGNAL_RUN_LAST | gobject.SIGNAL_DETAILED,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_PYOBJECT))
+GObject.signal_new("plugin-setting-changed", PluginSettings,
+        GObject.SignalFlags.RUN_LAST | GObject.SignalFlags.DETAILED,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_PYOBJECT))
 
 # Plugin convenience functions for dependencies
 

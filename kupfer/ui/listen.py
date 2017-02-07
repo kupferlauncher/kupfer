@@ -3,7 +3,7 @@ This module has a singleton Service for dbus callbacks,
 and ensures there is only one unique service in the Session
 """
 
-import gobject
+from gi.repository import GObject
 
 try:
     import dbus
@@ -127,35 +127,35 @@ class Service (ExportedGObject):
         self.emit("quit")
 
 # Signature: displayname, timestamp
-gobject.signal_new("present", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("present", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_STRING, GObject.TYPE_UINT))
 
 # Signature: displayname, timestamp
-gobject.signal_new("show-hide", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, (gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("show-hide", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN, (GObject.TYPE_STRING, GObject.TYPE_UINT))
 
 # Signature: text, displayname, timestamp
-gobject.signal_new("put-text", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("put-text", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_UINT))
 
 # Signature: filearray, displayname, timestamp
-gobject.signal_new("put-files", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_PYOBJECT, gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("put-files", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_PYOBJECT, GObject.TYPE_STRING, GObject.TYPE_UINT))
 
 # Signature: fileuri, displayname, timestamp
-gobject.signal_new("execute-file", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("execute-file", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_UINT))
 
 # Signature: ()
-gobject.signal_new("quit", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN, ())
+GObject.signal_new("quit", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN, ())
 
 # Signature: keystring, displayname, timestamp
-gobject.signal_new("relay-keys", Service, gobject.SIGNAL_RUN_LAST,
-        gobject.TYPE_BOOLEAN,
-        (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT))
+GObject.signal_new("relay-keys", Service, GObject.SignalFlags.RUN_LAST,
+        GObject.TYPE_BOOLEAN,
+        (GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_UINT))
 
 
