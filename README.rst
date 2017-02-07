@@ -16,7 +16,9 @@ applications.
 Installing
 ==========
 
-This project is configured for the Waf build system;
+This project is configured for the Waf build system, which is included.
+Run it using either ``./waf`` or ``python3 waf`` (using your python.)
+
 Installation follows the steps::
 
     ./waf configure
