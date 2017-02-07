@@ -331,7 +331,7 @@ class MatchView (gtk.Bin, pretty.OutputMixin):
         Core initalization method that builds the widget
         """
         from pango import ELLIPSIZE_MIDDLE
-        self.label = gtk.Label("<match>")
+        self.label = gtk.Label.new("<match>")
         self.label.set_single_line_mode(True)
         self.label.set_width_chars(self.label_char_width)
         self.label.set_max_width_chars(self.label_char_width)
@@ -572,7 +572,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
         """
         self.match_view = MatchView()
 
-        self.table = gtk.TreeView(self.model.get_store())
+        self.table = gtk.TreeView.new_with_model(self.model.get_store())
         self.table.set_name("kupfer-list-view")
         self.table.set_headers_visible(False)
         self.table.set_property("enable-search", False)
@@ -589,7 +589,7 @@ class Search (gtk.Bin, pretty.OutputMixin):
         vscroll = self.scroller.get_vscrollbar()
         vscroll.connect("change-value", self._table_scroll_changed)
 
-        self.list_window = gtk.Window(gtk.WINDOW_POPUP)
+        self.list_window = gtk.Window.new(gtk.WINDOW_POPUP)
         self.list_window.set_name("kupfer-list")
 
         box = gtk.VBox()

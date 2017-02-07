@@ -33,7 +33,7 @@ def _cb_allocate(label, allocation, maxwid):
     pass
 
 def wrapped_label(text=None, maxwid=-1):
-    label = Gtk.Label(text)
+    label = Gtk.Label.new(text)
     label.set_line_wrap(True)
     label.connect("size-allocate", _cb_allocate, maxwid)
     return label
@@ -132,11 +132,10 @@ class PreferencesWindowController (pretty.OutputMixin):
         # setup plugin list table
         column_types = [c["type"] for c in columns]
         self.columns = [c["key"] for c in columns]
-        self.store = Gtk.ListStore(*column_types)
-        self.table = Gtk.TreeView(self.store)
+        self.store = Gtk.ListStore.new(column_types)
+        self.table = Gtk.TreeView.new_with_model(self.store)
         self.table.set_headers_visible(False)
         self.table.set_property("enable-search", False)
-        self.table.set_rules_hint(True)
         self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
         self.table.get_selection().set_mode(Gtk.SELECTION_BROWSE)
 
@@ -172,8 +171,8 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.pluglist_parent.add(self.table)
 
         # Directory List
-        self.dir_store = Gtk.ListStore(str, Gio.Icon, str)
-        self.dir_table = Gtk.TreeView(self.dir_store)
+        self.dir_store = Gtk.ListStore.new([str, Gio.Icon, str])
+        self.dir_table = Gtk.TreeView.new_with_model(self.dir_store)
         self.dir_table.set_headers_visible(False)
         self.dir_table.set_property("enable-search", False)
         self.dir_table.connect("cursor-changed", self.dir_table_cursor_changed)
@@ -555,9 +554,9 @@ class PreferencesWindowController (pretty.OutputMixin):
                 im = Gtk.Image()
                 im.set_property("gicon", gicon)
                 im.set_property("pixel-size", 16)
-                hbox.pack_start(Gtk.Label(_("Content of")), False)
+                hbox.pack_start(Gtk.Label.new(_("Content of")), False)
                 hbox.pack_start(im, False)
-                hbox.pack_start(Gtk.Label(str(leaf_repr)), False)
+                hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False)
                 objvbox.pack_start(hbox)
             return objvbox
 
@@ -663,7 +662,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 hbox.pack_start(wid, True)
 
             elif issubclass(typ, bool):
-                wid = Gtk.CheckButton(label)
+                wid = Gtk.CheckButton.new_with_label(label)
                 wid.set_active(plugin_settings[setting])
                 hbox.pack_start(wid, False)
                 wid.connect("toggled", self._get_plugin_change_callback(
@@ -893,15 +892,14 @@ _conf_keys_list_columns = [{"key": "name", "type":str, 'header': _('Command')},
 _conf_keys_list_column_types = [c["type"] for c in _conf_keys_list_columns]
 
 def _create_conf_keys_list():
-    keybind_store = Gtk.ListStore(*_conf_keys_list_column_types)
-    keybind_table = Gtk.TreeView(keybind_store)
+    keybind_store = Gtk.ListStore.new(_conf_keys_list_column_types)
+    keybind_table = Gtk.TreeView.new_with_model(keybind_store)
     for idx, col in enumerate(_conf_keys_list_columns):
         renderer = Gtk.CellRendererText()
         column = Gtk.TreeViewColumn(col['header'], renderer, text=idx)
         column.set_visible(col['header'] is not None)
         keybind_table.append_column(column)
     keybind_table.set_property("enable-search", False)
-    keybind_table.set_rules_hint(True)
     keybind_table.set_headers_visible(True)
     keybind_table.show()
     return keybind_table, keybind_store
@@ -928,10 +926,9 @@ class SourceListController (object):
         column_types = [c["type"] for c in columns]
         self.columns = [c["key"] for c in columns]
         self.store = Gtk.ListStore(*column_types)
-        self.table = Gtk.TreeView(self.store)
+        self.table = Gtk.TreeView.new_with_model(self.store)
         self.table.set_headers_visible(False)
         self.table.set_property("enable-search", False)
-        self.table.set_rules_hint(True)
         #self.table.connect("cursor-changed", self.plugin_table_cursor_changed)
         self.table.get_selection().set_mode(Gtk.SELECTION_NONE)
 
