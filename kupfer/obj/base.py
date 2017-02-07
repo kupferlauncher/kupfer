@@ -465,6 +465,9 @@ class TextSource (KupferObject):
     def initialize(self):
         pass
 
+    def repr_key(self):
+        return ""
+
     def get_rank(self):
         """All items are given this rank"""
         return 20
