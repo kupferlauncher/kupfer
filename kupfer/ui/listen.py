@@ -7,11 +7,12 @@ from gi.repository import GObject
 
 try:
     import dbus
-    import dbus.glib
+    from dbus.mainloop.glib import DBusGMainLoop
+    DBusGMainLoop(set_as_default=True)
     import dbus.service
     from kupfer.dbuscompat import ExportedGObject
 
-    dbus.glib.threads_init()
+    dbus.mainloop.glib.threads_init()
 
 # if dbus unavailable print the exception here
 # but further actions (register) will fail without warning

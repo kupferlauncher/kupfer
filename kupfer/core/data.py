@@ -6,7 +6,6 @@ import os
 import sys
 
 from gi.repository import GLib, GObject
-GLib.threads_init()
 
 from kupfer.obj import base, sources, compose
 from kupfer import pretty, scheduler
