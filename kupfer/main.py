@@ -157,10 +157,11 @@ def main():
     cli_opts = get_options()
     print_banner()
 
-    from kupfer import pretty
+    from kupfer import pretty, version
 
     if _debug:
         pretty.debug = _debug
+        pretty.print_debug(__name__, "Version:", version.PACKAGE_NAME, version.VERSION)
         try:
             import debug
             debug.install()
