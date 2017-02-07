@@ -136,10 +136,10 @@ def exec_helper(helpername):
     raise SystemExit
 
 def gtkmain(run_function, *args, **kwargs):
-    import pygtkcompat
+    import gi
+    gi.require_version("Gtk", "3.0")
+    gi.require_version("Gdk", "3.0")
 
-    pygtkcompat.enable() 
-    pygtkcompat.enable_gtk(version='3.0')
     return run_function(*args, **kwargs)
 
 def browser_start(quiet):
