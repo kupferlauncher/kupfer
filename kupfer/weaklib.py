@@ -2,8 +2,8 @@
 This module is a part of the program Kupfer, see the main program file for
 more information.
 """
+import sys
 import weakref
-from kupfer import scheduler
 
 class WeakCallback (object):
     """A Weak Callback object that will keep a reference to
@@ -42,6 +42,9 @@ class DbusWeakCallback (WeakCallback):
         token.remove()
     """
     def object_deleted(self, wref):
+        # App is shutting down
+        if sys.is_finalizing():
+            return
         if self.token:
             self.token.remove()
             self.token = None
@@ -63,9 +66,12 @@ class GobjectWeakCallback (WeakCallback):
     __senders = {}
 
     def object_deleted(self, wref):
-        sched = scheduler.GetScheduler()
+        # App is shutting down
+        if sys.is_finalizing():
+            return
+
         sender = self.__senders.pop(self.token, None)
-        if not sched.finished and sender is not None:
+        if sender is not None:
             sender.disconnect(self.token)
 
     @classmethod
