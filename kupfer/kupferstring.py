@@ -2,7 +2,6 @@
 
 import locale
 from unicodedata import normalize, category
-import imp
 
 def _folditems():
     _folding_table = {

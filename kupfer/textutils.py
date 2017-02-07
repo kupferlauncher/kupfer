@@ -1,4 +1,3 @@
-import imp
 # encoding: utf-8
 
 def _unicode_truncate(ustr, length, encoding="UTF-8"):
