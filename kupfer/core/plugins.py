@@ -68,7 +68,8 @@ def get_plugin_info():
             continue
         except Exception as e:
             pretty.print_error(__name__, "Could not load '%s'" % plugin_name)
-            pretty.print_exc(e)
+            pretty.print_exc(__name__)
+            continue
         localized_name = plugin.get("__kupfer_name__", None)
         desc = plugin.get("__description__", "")
         vers = plugin.get("__version__", "")
@@ -162,8 +163,8 @@ def _import_plugin_fake(modpath, error=None):
     try:
         eval(compile(code, filename, "exec"), env)
     except Exception as exc:
-        pretty.print_debug(__name__, "Loading", modpath, exc)
-        pretty.print_exc(exc)
+        pretty.print_error(__name__, "When loading", modpath)
+        pretty.print_exc(__name__)
     attributes = dict((k, env.get(k)) for k in info_attributes)
     attributes.update((k, env.get(k)) for k in ["__name__", "__file__"])
     return FakePlugin(modpath, attributes, error)
