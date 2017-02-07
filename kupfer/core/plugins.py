@@ -158,6 +158,7 @@ def _import_plugin_fake(modpath, error=None):
     env = {
         "__name__": modpath,
         "__file__": filename,
+        "__builtins__": {"_": _}
     }
     code = _truncate_source(code, info_attributes)
     try:
