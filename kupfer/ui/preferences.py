@@ -507,6 +507,8 @@ class PreferencesWindowController (pretty.OutputMixin):
                 )
         vbox = Gtk.VBox()
         vbox.set_property("spacing", 5)
+        setctl = settings.GetSettingsController()
+        small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
 
         def make_objects_frame(objs, title):
             frame_label = Gtk.Label()
@@ -528,7 +530,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 gicon = obj.get_icon()
                 im = Gtk.Image()
                 im.set_property("gicon", gicon)
-                im.set_property("pixel-size", 32)
+                im.set_property("pixel-size", small_icon_size)
                 hbox.pack_start(im, False, True, 0)
                 m_name = GLib.markup_escape_text(name)
                 m_desc = GLib.markup_escape_text(desc)
@@ -553,7 +555,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 gicon = leaf_repr.get_icon()
                 im = Gtk.Image()
                 im.set_property("gicon", gicon)
-                im.set_property("pixel-size", 16)
+                im.set_property("pixel-size", small_icon_size // 2)
                 hbox.pack_start(Gtk.Label.new(_("Content of")), False, True, 0)
                 hbox.pack_start(im, False, True, 0)
                 hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False, True, 0)
