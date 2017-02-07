@@ -149,6 +149,8 @@ class SourcePickler (pretty.OutputMixin):
         except (pickle.PickleError, Exception) as e:
             source = None
             self.output_info("Error loading %s: %s" % (pickle_file, e))
+        finally:
+            pfile.close()
         return source
 
     def pickle_source(self, source):
@@ -220,6 +222,8 @@ class SourceDataPickler (pretty.OutputMixin):
         except (pickle.PickleError, Exception) as e:
             data = None
             self.output_error("Loading %s: %s" % (pickle_file, e))
+        finally:
+            pfile.close()
         return data
 
     def save_source(self, source):
