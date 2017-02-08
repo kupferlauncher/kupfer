@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-07 14:06+0100\n"
+"POT-Creation-Date: 2017-02-08 23:05+0100\n"
 "PO-Revision-Date: 2010-08-27 17:12+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -91,7 +91,7 @@ msgstr "Orokorra"
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Laster-tekla orokorrak</b>"
 
-#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:886
+#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:885
 msgid "Reset"
 msgstr "Berrezarri"
 
@@ -298,118 +298,118 @@ msgstr ""
 msgid "Can not be used with multiple objects"
 msgstr ""
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:88
+#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:87
 msgid "Open"
 msgstr "Ireki"
 
-#: ../kupfer/obj/fileactions.py:44
+#: ../kupfer/obj/fileactions.py:43
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Ez dago %(file)s (%(type)s)(r)en lehenetsitako aplikaziorik"
 
-#: ../kupfer/obj/fileactions.py:46
+#: ../kupfer/obj/fileactions.py:45
 #, fuzzy, python-format
 msgid "Please use \"%s\""
 msgstr "\"%s\" fitxategi hautatuta"
 
-#: ../kupfer/obj/fileactions.py:46 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
 msgid "Set Default Application..."
 msgstr "Ezarri lehenetsitako aplikazioa..."
 
-#: ../kupfer/obj/fileactions.py:72
+#: ../kupfer/obj/fileactions.py:71
 msgid "Open with default application"
 msgstr "Ireki lehenetsitako aplikazioarekin"
 
-#: ../kupfer/obj/fileactions.py:75
+#: ../kupfer/obj/fileactions.py:74
 msgid "Reveal"
 msgstr "Erakutsi"
 
-#: ../kupfer/obj/fileactions.py:84
+#: ../kupfer/obj/fileactions.py:83
 msgid "Open parent folder"
 msgstr "Ireki karpeta gurasoa"
 
-#: ../kupfer/obj/fileactions.py:90
+#: ../kupfer/obj/fileactions.py:89
 msgid "Open Terminal Here"
 msgstr "Ireki terminala hemen"
 
-#: ../kupfer/obj/fileactions.py:103
+#: ../kupfer/obj/fileactions.py:102
 msgid "Open this location in a terminal"
 msgstr "Ireki kokalekua terminalean"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:110
 msgid "Run in Terminal"
 msgstr "Exekutatu terminalean"
 
-#: ../kupfer/obj/fileactions.py:111
+#: ../kupfer/obj/fileactions.py:110
 msgid "Run (Execute)"
 msgstr "Exekutatu"
 
-#: ../kupfer/obj/fileactions.py:131
+#: ../kupfer/obj/fileactions.py:130
 msgid "Run this program in a Terminal"
 msgstr "Exekutatu programa terminalean"
 
-#: ../kupfer/obj/fileactions.py:133
+#: ../kupfer/obj/fileactions.py:132
 msgid "Run this program"
 msgstr "Exekutatu programa hau"
 
-#: ../kupfer/obj/objects.py:256 ../kupfer/plugin/windows.py:105
+#: ../kupfer/obj/objects.py:255 ../kupfer/plugin/windows.py:105
 #: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Joan"
 
-#: ../kupfer/obj/objects.py:282
+#: ../kupfer/obj/objects.py:281
 msgid "Open URL"
 msgstr "Ireki URLa"
 
-#: ../kupfer/obj/objects.py:293
+#: ../kupfer/obj/objects.py:292
 msgid "Open URL with default viewer"
 msgstr "Ireki URLa lehenetsitako ikustailearekin"
 
-#: ../kupfer/obj/objects.py:307
+#: ../kupfer/obj/objects.py:306
 msgid "Launch"
 msgstr "Abiarazi"
 
-#: ../kupfer/obj/objects.py:320
+#: ../kupfer/obj/objects.py:319
 msgid "Show application window"
 msgstr "Erakutsi aplikazioaren leihoa"
 
-#: ../kupfer/obj/objects.py:321
+#: ../kupfer/obj/objects.py:320
 msgid "Launch application"
 msgstr "Abiarazi aplikazioa"
 
-#: ../kupfer/obj/objects.py:332
+#: ../kupfer/obj/objects.py:331
 msgid "Launch Again"
 msgstr "Abiarazi berriro"
 
-#: ../kupfer/obj/objects.py:339
+#: ../kupfer/obj/objects.py:338
 msgid "Launch another instance of this application"
 msgstr "Abiarazi aplikazio honen beste instantzia bat"
 
-#: ../kupfer/obj/objects.py:345 ../kupfer/plugin/windows.py:37
+#: ../kupfer/obj/objects.py:344 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Itxi"
 
-#: ../kupfer/obj/objects.py:353
+#: ../kupfer/obj/objects.py:352
 msgid "Attempt to close all application windows"
 msgstr "Aplikazio guztien leihoak ixteko saiakera"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:402
+#: ../kupfer/obj/objects.py:401
 msgid "Run"
 msgstr "Exekutatu"
 
-#: ../kupfer/obj/objects.py:412
+#: ../kupfer/obj/objects.py:411
 msgid "Perform command"
 msgstr "Egikaritu komandoa"
 
-#: ../kupfer/obj/objects.py:425
+#: ../kupfer/obj/objects.py:424
 #, fuzzy
 msgid "(Empty Text)"
 msgstr "Hustu fitxategia"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:455
+#: ../kupfer/obj/objects.py:454
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -701,7 +701,7 @@ msgstr "Garbitu"
 msgid "Remove all recent clipboards"
 msgstr "Ezabatu azken arbel guztiak"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:188
+#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:186
 msgid "Shell Commands"
 msgstr "Shell-eko komandoak"
 
@@ -712,33 +712,33 @@ msgid ""
 "subshell."
 msgstr ""
 
-#: ../kupfer/plugin/commands.py:41
+#: ../kupfer/plugin/commands.py:39
 msgid "Run (Get Output)"
 msgstr "Exekutatu (eskuratu irteera)"
 
-#: ../kupfer/plugin/commands.py:59
+#: ../kupfer/plugin/commands.py:57
 msgid "Run program and return its output"
 msgstr "Exekutatu programa eta itzuli honen emaitza"
 
 #. TRANS: The user starts a program (command) and the text
 #. TRANS: is an argument to the command
-#: ../kupfer/plugin/commands.py:65
+#: ../kupfer/plugin/commands.py:63
 #, fuzzy
 msgid "Pass to Command..."
 msgstr "Azken komandoa"
 
-#: ../kupfer/plugin/commands.py:107
+#: ../kupfer/plugin/commands.py:105
 msgid "Run program with object as an additional parameter"
 msgstr ""
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
-#: ../kupfer/plugin/commands.py:115
+#: ../kupfer/plugin/commands.py:113
 #, fuzzy
 msgid "Write to Command..."
 msgstr "Idatzi hemen..."
 
-#: ../kupfer/plugin/commands.py:150 ../kupfer/plugin/commands.py:162
+#: ../kupfer/plugin/commands.py:148 ../kupfer/plugin/commands.py:160
 #, fuzzy
 msgid "Run program and supply text on the standard input"
 msgstr "Exekutatu programa eta itzuli honen emaitza"
@@ -746,11 +746,11 @@ msgstr "Exekutatu programa eta itzuli honen emaitza"
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:158
+#: ../kupfer/plugin/commands.py:156
 msgid "Filter through Command..."
 msgstr ""
 
-#: ../kupfer/plugin/commands.py:214
+#: ../kupfer/plugin/commands.py:212
 #, fuzzy
 msgid "Run command-line programs"
 msgstr "Exekutatu komando-lerroko programak"
@@ -787,7 +787,7 @@ msgstr ""
 msgid "Konsole"
 msgstr ""
 
-#: ../kupfer/plugin/core/commands.py:13 ../kupfer/plugin/core/commands.py:32
+#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:31
 msgid "Save As..."
 msgstr "Gorde honela..."
 
@@ -876,7 +876,7 @@ msgid ""
 "The plugin adds another terminal alternative (select it on the main page)."
 msgstr ""
 
-#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:892
+#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:891
 msgid "Command"
 msgstr "Komandoa"
 
@@ -900,15 +900,15 @@ msgstr "Prestatu mezua"
 msgid "Send in Email To..."
 msgstr "Bidali mezua honi..."
 
-#: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:21
+#: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:20
 msgid "Dictionary"
 msgstr "Hiztegia"
 
-#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:47
+#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:46
 msgid "Look up word in dictionary"
 msgstr "Bilatu hitza hiztegian"
 
-#: ../kupfer/plugin/dictionary.py:30
+#: ../kupfer/plugin/dictionary.py:29
 msgid "Look Up"
 msgstr "Bilatu"
 
@@ -1014,7 +1014,7 @@ msgstr "Aldatu izena..."
 msgid "Copy To..."
 msgstr "Kopiatu hona..."
 
-#: ../kupfer/plugin/fileactions.py:186 ../kupfer/plugin/thunar.py:207
+#: ../kupfer/plugin/fileactions.py:189 ../kupfer/plugin/thunar.py:207
 msgid "Copy file to a chosen location"
 msgstr "Kopiatu fitxategia aukeratutako kokapenera"
 
@@ -1105,12 +1105,12 @@ msgstr "Erakutsi iturburuaren kodea"
 msgid "enabled"
 msgstr "gaituta"
 
-#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:486
+#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:483
 msgid "disabled"
 msgstr "desgaituta"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:177
-#: ../kupfer/plugin/notes.py:229
+#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:176
+#: ../kupfer/plugin/notes.py:228
 msgid "Notes"
 msgstr "Oharrak"
 
@@ -1118,50 +1118,50 @@ msgstr "Oharrak"
 msgid "Gnote or Tomboy notes"
 msgstr "Gnote edo Tomboy oharrak"
 
-#: ../kupfer/plugin/notes.py:35
+#: ../kupfer/plugin/notes.py:34
 msgid "Work with application"
 msgstr "Lan egin aplikazioarekin"
 
-#: ../kupfer/plugin/notes.py:94
+#: ../kupfer/plugin/notes.py:93
 msgid "Open with notes application"
 msgstr "Ireki oharrentzako aplikazioarekin"
 
-#: ../kupfer/plugin/notes.py:101
+#: ../kupfer/plugin/notes.py:100
 msgid "Append to Note..."
 msgstr "Erantsi oharrari..."
 
-#: ../kupfer/plugin/notes.py:124
+#: ../kupfer/plugin/notes.py:123
 msgid "Add text to existing note"
 msgstr "Gehitu testua oharrari"
 
-#: ../kupfer/plugin/notes.py:139
+#: ../kupfer/plugin/notes.py:138
 msgid "Create Note"
 msgstr "Sortu oharra"
 
-#: ../kupfer/plugin/notes.py:153
+#: ../kupfer/plugin/notes.py:152
 msgid "Create a new note from this text"
 msgstr "Sortu ohar berria testu honetatik"
 
-#: ../kupfer/plugin/notes.py:159
+#: ../kupfer/plugin/notes.py:158
 msgid "Get Note Search Results..."
 msgstr "Lortu oharreko bilaketaren emaitzak..."
 
-#: ../kupfer/plugin/notes.py:172
+#: ../kupfer/plugin/notes.py:171
 msgid "Show search results for this query"
 msgstr "Erakutsi kontsulta honen bilaketaren emaitzak"
 
-#: ../kupfer/plugin/notes.py:212
+#: ../kupfer/plugin/notes.py:211
 #, python-format
 msgid "today, %s"
 msgstr "gaur, %s"
 
-#: ../kupfer/plugin/notes.py:214
+#: ../kupfer/plugin/notes.py:213
 #, python-format
 msgid "yesterday, %s"
 msgstr "atzo, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:218
+#: ../kupfer/plugin/notes.py:217
 #, python-format
 msgid "Last updated %s"
 msgstr "Azken eguneraketa: %s"
@@ -1174,7 +1174,7 @@ msgstr ""
 msgid "Quick Image Viewer"
 msgstr ""
 
-#: ../kupfer/plugin/quickview.py:55
+#: ../kupfer/plugin/quickview.py:53
 msgid "View Image"
 msgstr ""
 
@@ -1407,7 +1407,7 @@ msgstr ""
 msgid "Create a symlink to file in a chosen location"
 msgstr "Kopiatu fitxategia aukeratutako kokapenera"
 
-#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:75
+#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:74
 msgid "Empty Trash"
 msgstr "Hustu zakarrontzia"
 
@@ -1490,7 +1490,7 @@ msgstr "pid: %(pid)s  puz: %(cpu)g%%  memoria: %(mem)g%%  denbora: %(time)s"
 msgid "Running tasks for current user"
 msgstr "Exekutatzen ari diren uneko erabiltzailearen atazak"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:200
+#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:199
 msgid "Trash"
 msgstr "Zakarrontzia"
 
@@ -1498,41 +1498,41 @@ msgstr "Zakarrontzia"
 msgid "Access trash contents"
 msgstr "Atzitu zakarrontziko edukia"
 
-#: ../kupfer/plugin/trash.py:23
+#: ../kupfer/plugin/trash.py:22
 msgid "Move to Trash"
 msgstr "Bota zakarrontzira"
 
-#: ../kupfer/plugin/trash.py:40
+#: ../kupfer/plugin/trash.py:39
 msgid "Move this file to trash"
 msgstr "Bota fitxategi hau zakarrontzira"
 
-#: ../kupfer/plugin/trash.py:49
+#: ../kupfer/plugin/trash.py:48
 msgid "Restore"
 msgstr "Leheneratu"
 
-#: ../kupfer/plugin/trash.py:68
+#: ../kupfer/plugin/trash.py:67
 msgid "Move file back to original location"
 msgstr "Eraman fitxategia hasierako kokalekura"
 
-#: ../kupfer/plugin/trash.py:85
+#: ../kupfer/plugin/trash.py:84
 msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
 
-#: ../kupfer/plugin/trash.py:188
+#: ../kupfer/plugin/trash.py:187
 msgid "Trash is empty"
 msgstr "Zakarrontzia hutsa dago"
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:190
+#: ../kupfer/plugin/trash.py:189
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
 msgstr[0] "Zakarrontzian fitxategi bakarra dago"
 msgstr[1] "Zakarrontzian %(num)s fitxategi daude"
 
-#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:46
+#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:45
 msgid "Triggers"
 msgstr "Abiarazleak"
 
@@ -1545,11 +1545,11 @@ msgstr ""
 "Esleitu laster-tekla orokorrak (abiarazleak) 'Prestatu komandoa'-rekin (Ktrl"
 "+Sartu) sortutako objektuei"
 
-#: ../kupfer/plugin/triggers.py:157
+#: ../kupfer/plugin/triggers.py:156
 msgid "Add Trigger..."
 msgstr "Gehitu abiarazlea..."
 
-#: ../kupfer/plugin/triggers.py:176
+#: ../kupfer/plugin/triggers.py:175
 msgid "Remove Trigger"
 msgstr "Ezabatu abiarazlea"
 
@@ -1729,37 +1729,37 @@ msgstr "Tracker 0.6"
 msgid "Tracker desktop search integration"
 msgstr "Tracker mahaigaineko bilaketaren bateragarritasuna"
 
-#: ../kupfer/plugin/tracker1.py:43
+#: ../kupfer/plugin/tracker1.py:42
 msgid "Search in Tracker"
 msgstr "Bilatu Tracker-en"
 
-#: ../kupfer/plugin/tracker1.py:48
+#: ../kupfer/plugin/tracker1.py:47
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Ireki Tracker bilaketa tresna eta termino hau bilatu"
 
-#: ../kupfer/plugin/tracker1.py:56
+#: ../kupfer/plugin/tracker1.py:55
 msgid "Get Tracker Results..."
 msgstr "Lortu Tracker emaitzak..."
 
-#: ../kupfer/plugin/tracker1.py:65
+#: ../kupfer/plugin/tracker1.py:64
 msgid "Show Tracker results for query"
 msgstr "Erakutsi Tracker-eko kontsultaren emaitzak"
 
-#: ../kupfer/plugin/tracker1.py:155
+#: ../kupfer/plugin/tracker1.py:154
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:169 ../kupfer/plugin/locate.py:47
+#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "\"%s\"(r)en emaitzak"
 
-#: ../kupfer/plugin/tracker1.py:202
+#: ../kupfer/plugin/tracker1.py:201
 msgid "Tracker Full Text Search"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:205
+#: ../kupfer/plugin/tracker1.py:204
 msgid "Use '?' prefix to get full text results"
 msgstr ""
 
@@ -1774,6 +1774,15 @@ msgstr "Bilatu fitxategi-sisteman 'locate' erabiliz"
 #: ../kupfer/plugin/locate.py:21
 msgid "Ignore case distinctions when searching files"
 msgstr "Ezikusi egin maiuskulei/minuskulei fitxategiak bilatzean"
+
+#. encoding: utf-8
+#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:26
+msgid "Firefox Bookmarks"
+msgstr "Firefox-en laster-markak"
+
+#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:61
+msgid "Index of Firefox bookmarks"
+msgstr "Firefox-en laster-marken indizea"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -1833,119 +1842,119 @@ msgstr "Aldatu lehen panelera"
 msgid "Toggle Text Mode"
 msgstr "Aldatu testu modura"
 
-#: ../kupfer/ui/browser.py:873
+#: ../kupfer/ui/browser.py:872
 #, python-format
 msgid "%s is empty"
 msgstr "%s hutsa dago"
 
-#: ../kupfer/ui/browser.py:877
+#: ../kupfer/ui/browser.py:876
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ez dago \"%(query)s\"(r)ekin bat datorrenik %(src)s-en"
 
-#: ../kupfer/ui/browser.py:883
+#: ../kupfer/ui/browser.py:882
 msgid "No matches"
 msgstr "Ez dago bat datorrenik"
 
-#: ../kupfer/ui/browser.py:888
+#: ../kupfer/ui/browser.py:887
 msgid "Type to search"
 msgstr "Idatzi bilatzeko"
 
-#: ../kupfer/ui/browser.py:894
+#: ../kupfer/ui/browser.py:893
 #, python-format
 msgid "Type to search %s"
 msgstr "Idatzi %s bilatzeko"
 
-#: ../kupfer/ui/browser.py:909
+#: ../kupfer/ui/browser.py:908
 msgid "No action"
 msgstr "Ekintzarik ez"
 
-#: ../kupfer/ui/browser.py:1499
+#: ../kupfer/ui/browser.py:1496
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr ""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1509
+#: ../kupfer/ui/browser.py:1506
 #, python-format
 msgid "Forget About \"%s\""
 msgstr ""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1997 ../kupfer/ui/preferences.py:59
+#: ../kupfer/ui/browser.py:1994 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Erakutsi interfaze nagusia"
 
-#: ../kupfer/ui/preferences.py:60
+#: ../kupfer/ui/preferences.py:58
 msgid "Show with Selection"
 msgstr "Erakutsi hautapenarekin"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:437
+#: ../kupfer/ui/preferences.py:434
 msgid "Description"
 msgstr "Deskribapena"
 
-#: ../kupfer/ui/preferences.py:437
+#: ../kupfer/ui/preferences.py:434
 msgid "Author"
 msgstr "Egilea"
 
-#: ../kupfer/ui/preferences.py:454
+#: ../kupfer/ui/preferences.py:451
 msgid "Version"
 msgstr "Bertsioa"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:464
+#: ../kupfer/ui/preferences.py:461
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Beharrezkoa da Python-eko '%s' modulua"
 
-#: ../kupfer/ui/preferences.py:478
+#: ../kupfer/ui/preferences.py:475
 msgid "Plugin could not be read due to an error:"
 msgstr "Ezin izan da plugina irakurri errore bat dela eta:"
 
-#: ../kupfer/ui/preferences.py:560
+#: ../kupfer/ui/preferences.py:559
 msgid "Content of"
 msgstr "Edukia"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:569
+#: ../kupfer/ui/preferences.py:568
 msgid "Sources"
 msgstr "Iturburuak"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:573
+#: ../kupfer/ui/preferences.py:572
 msgid "Actions"
 msgstr "Ekintzak"
 
-#: ../kupfer/ui/preferences.py:596
+#: ../kupfer/ui/preferences.py:595
 #, python-format
 msgid "Using encrypted password storage: %s"
 msgstr ""
 
-#: ../kupfer/ui/preferences.py:598
+#: ../kupfer/ui/preferences.py:597
 #, python-format
 msgid "Using password storage: %s"
 msgstr ""
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:615
+#: ../kupfer/ui/preferences.py:614
 msgid "Configuration"
 msgstr "Konfigurazioa"
 
-#: ../kupfer/ui/preferences.py:635
+#: ../kupfer/ui/preferences.py:634
 msgid "Set username and password"
 msgstr "Ezarri erabiltzaile-izena eta pasahitza"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:689
+#: ../kupfer/ui/preferences.py:688
 msgid "Choose a Directory"
 msgstr "Aukeratu direktorioa"
 
-#: ../kupfer/ui/preferences.py:884
+#: ../kupfer/ui/preferences.py:883
 msgid "Reset all shortcuts to default values?"
 msgstr "Berrezarri laster-tekla guztiak lehenetsitako balioetara?"
 
-#: ../kupfer/ui/preferences.py:893
+#: ../kupfer/ui/preferences.py:892
 msgid "Shortcut"
 msgstr "Laster-tekla"
 
@@ -2019,12 +2028,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Index of Epiphany bookmarks"
 #~ msgstr "Epiphany-ren laster-marken indizea"
-
-#~ msgid "Firefox Bookmarks"
-#~ msgstr "Firefox-en laster-markak"
-
-#~ msgid "Index of Firefox bookmarks"
-#~ msgstr "Firefox-en laster-marken indizea"
 
 #~ msgid "Include visited sites"
 #~ msgstr "Sartu bisitatutako guneak"
