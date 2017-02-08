@@ -3,6 +3,22 @@
 NEWS for kupfer
 ===============
 
+kupfer v304
+-----------
+
+Released Friday, 8 feb 2017
+
++ Clean up the distributable tarball; extra content like oldplugins is now
+  only in the repository and not in the tarball.
++ Fix double-clicking on the Kupfer window
++ Increase default result list length slightly
++ Plugins:
+
+  + Reintroduce *Firefox Bookmarks*
+  + *Clipboard:* attempted fix for a reported stack overflow
+  + *Clipboard:* reintroduce *Clipboard File(s)* proxy object
+  + Fix *File Actions* so that it works (for Gtk 3)
+
 kupfer v303
 -----------
 
