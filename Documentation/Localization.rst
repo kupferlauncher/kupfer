@@ -6,15 +6,8 @@ Localization
 
 kupfer is translated using gettext and it is managed in the build system
 using ``intltool``. Translation messages are located in the ``po/``
-directory.
-
-Kupfer's localizations are listed among GNOME's modules. Its homepage
-is:
-
-    http://l10n.gnome.org/module/kupfer/
-
-You can download the latest version of your language's translation file
-there, if Kupfer is already translated to your language.
+directory. The user’s guide is located in the ``help/`` directory and it
+can also be translated, see its section.
 
 .. contents::
 
@@ -92,6 +85,16 @@ can run kupfer as normal.
     ``~/.local/share/locale`` if install prefix was ``~/.local``)::
 
         $ ln -s ~/.local/share/locale
+
+
+User’s Guide
+------------
+
+Go to ``help/``. The english-language original of the user’s guide is
+defined in the ``C/`` directory. Use ``make $LANG`` inside ``help`` to
+update a language’s ``.po`` file. Currently, the best way to view the
+translated help page during development is to run the regular build and
+install, which puts the help pages under ``$PREFIX/help/$LANG/kupfer``.
 
 .. vim: ft=rst tw=72 et sts=4
 .. this document best viewed with rst2html
