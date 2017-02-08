@@ -1,7 +1,8 @@
 /Documentation/Manual.rst	ident
 /.gitattributes		export-ignore
 /debug.py		export-ignore
-/contrib/_ssl.py	export-ignore
+/oldplugins		export-ignore
+/contrib		export-ignore
 
 # Filter .po files before committing
 # The filter will remove all filename:line comments when
