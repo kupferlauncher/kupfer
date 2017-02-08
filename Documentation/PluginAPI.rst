@@ -119,13 +119,14 @@ The complete python code for the plugin::
     __version__ = ""
     __author__ = "Tom Author"
 
-    import gtk
+
+    from gi.repository import Gtk
 
     from kupfer.objects import Action, FileLeaf
 
     class View (Action):
         def __init__(self):
-            Action.__init__(self, _("View"))
+            super().__init__(_("View"))
 
         def item_types(self):
             yield FileLeaf
@@ -134,15 +135,17 @@ The complete python code for the plugin::
             return fileobj.object.endswith(".jpg")
 
         def activate(self, fileobj):
-            image_widget = gtk.image_new_from_file(fileobj.object)
+            image_widget = Gtk.Image.new_from_file(fileobj.object)
             image_widget.show()
-            window = gtk.Window()
+            window = Gtk.Window()
             window.add(image_widget)
             window.present()
+
 
 That is all. What we did was the following:
 
 * Declare a plugin called "Image Viewer" with an action class ``View``.
+* Every string inside ``_("")`` is translatable
 * ``View`` declares that it works with ``FileLeaf``
 * ``View`` only accepts ``FileLeaf`` that end with '.jpg'
 * ``View`` defines a method ``activate`` that when called, will use gtk
