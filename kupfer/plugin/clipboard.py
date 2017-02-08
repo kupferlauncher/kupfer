@@ -38,8 +38,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-URI_TARGET="text/uri-list"
-
 class SelectedText (TextLeaf):
     qf_id = "selectedtext"
     def __init__(self, text):
@@ -135,6 +133,8 @@ class ClipboardSource (Source):
     def _clipboard_changed(self, clip, event, *args):
         is_selection = (event.selection == Gdk.SELECTION_PRIMARY)
         clip.request_text(self._on_text_for_change, is_selection)
+        if not is_selection:
+            clip.request_uris(self._on_uris_for_change)
 
     def _on_text_for_change(self, clip, text, is_selection):
         if text is None:
@@ -154,15 +154,11 @@ class ClipboardSource (Source):
 
         if is_selection:
             self.selected_text = text
-        if not is_selection or is_sync_selection:
-            uri_target = Gdk.Atom.intern(URI_TARGET, False)
-            self.clipboard_text = text
-            if clip.wait_is_target_available(uri_target):
-                sdata = clip.wait_for_contents(uri_target)
-                self.clipboard_uris = list(sdata.get_uris())
-            else:
-                self.clipboard_uris = []
         self._prune_to_length(max_len)
+        self.mark_for_update()
+
+    def _on_uris_for_change(self, clip, uris):
+        self.clipboard_uris = uris if uris is not None else []
         self.mark_for_update()
 
     def _add_to_history(self, cliptext, is_selection):
