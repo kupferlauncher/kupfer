@@ -10,7 +10,7 @@ __description__ = _("More file actions")
 __version__ = ""
 __author__ = "Ulrik"
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 import os
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
@@ -41,13 +41,13 @@ class MoveTo (Action, pretty.OutputMixin):
     def has_result(self):
         return True
     def activate(self, leaf, obj):
-        sfile = Gio.File(leaf.object)
+        sfile = Gio.File.new_for_path(leaf.object)
         bname = sfile.get_basename()
-        dfile = Gio.File(os_path.join(obj.object, bname))
+        dfile = Gio.File.new_for_path(os_path.join(obj.object, bname))
         try:
-            ret = sfile.move(dfile, flags=Gio.FileCopyFlags.ALL_METADATA)
+            ret = sfile.move(dfile, Gio.FileCopyFlags.ALL_METADATA, None, None, None)
             self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
-        except Gio.Error as exc:
+        except GLib.Error as exc:
             raise OperationError(str(exc))
         else:
             return FileLeaf(dfile.get_path())
@@ -105,13 +105,13 @@ class Rename (Action, pretty.OutputMixin):
     def has_result(self):
         return True
     def activate(self, leaf, obj):
-        sfile = Gio.File(leaf.object)
+        sfile = Gio.File.new_for_path(leaf.object)
         dest = os_path.join(os_path.dirname(leaf.object), obj.object)
-        dfile = Gio.File(dest)
+        dfile = Gio.File.new_for_path(dest)
         try:
-            ret = sfile.move(dfile)
+            ret = sfile.move(dfile, Gio.FileCopyFlags.ALL_METADATA, None, None, None)
             self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
-        except Gio.Error as exc:
+        except GLib.Error as exc:
             raise OperationError(str(exc))
         else:
             return FileLeaf(dfile.get_path())
@@ -147,12 +147,13 @@ class CopyTo (Action, pretty.OutputMixin):
     def has_result(self):
         return True
 
+    # Unused
     def _finish_callback(self, gfile, result, data):
         self.output_debug("Finished copying", gfile)
         dfile, ctx = data
         try:
             gfile.copy_finish(result)
-        except Gio.Error:
+        except GLib.Error:
             ctx.register_late_error()
         else:
             ctx.register_late_result(FileLeaf(dfile.get_path()))
@@ -161,16 +162,18 @@ class CopyTo (Action, pretty.OutputMixin):
         return True
 
     def activate(self, leaf, iobj, ctx):
-        sfile = Gio.File(leaf.object)
+        sfile = Gio.File.new_for_path(leaf.object)
         dpath = os_path.join(iobj.object, os_path.basename(leaf.object))
-        dfile = Gio.File(dpath)
+        dfile = Gio.File.new_for_path(dpath)
         try:
-            ret = sfile.copy_async(dfile, self._finish_callback,
-                    user_data=(dfile, ctx),
-                    flags=Gio.FileCopyFlags.ALL_METADATA)
-            self.output_debug("Copy %s to %s (ret: %s)" % (sfile, dfile, ret))
-        except Gio.Error as exc:
+            # FIXME: This should be async
+            self.output_debug("Copy %s to %s" % (sfile, dfile))
+            ret = sfile.copy(dfile, Gio.FileCopyFlags.ALL_METADATA,
+                             None, None, None)
+            self.output_debug("Copy ret %r" % (ret, ))
+        except GLib.Error as exc:
             raise OperationError(str(exc))
+        return FileLeaf(dfile.get_path())
 
     def item_types(self):
         yield FileLeaf
