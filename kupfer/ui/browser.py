@@ -1645,7 +1645,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
     def _panewidget_button_press(self, widget, event):
         " mouse clicked on a pane widget "
         # activate on double-click
-        if event.type == Gdk._2BUTTON_PRESS:
+        if event.type == Gdk.EventType._2BUTTON_PRESS:
             self.activate()
             return True
 
