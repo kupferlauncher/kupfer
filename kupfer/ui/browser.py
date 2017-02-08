@@ -638,7 +638,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     def _show_table(self):
         setctl = settings.GetSettingsController()
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
-        opacity = 0.01 * LIST_OPACITY
         # self.get_window() is a GdkWindow (of self's parent)
         win_width = self.get_window().get_width()
         win_height = self.get_window().get_height()
@@ -648,6 +647,8 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self_width = self.size_request().width
         sub_x = pos_x
         sub_y = pos_y + win_height
+        # to stop a warning
+        _dummy_sr = self.table.size_request()
         # FIXME: Adapt list length
         subwin_height = list_maxheight
         subwin_width = self_width*2 - self_x
@@ -661,7 +662,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         win = self.get_toplevel()
         self.list_window.set_transient_for(win)
         self.list_window.set_property("focus-on-map", False)
-        self.list_window.set_opacity(opacity)
         self.list_window.show()
         self._old_win_position = pos_x, pos_y
 
@@ -854,11 +854,6 @@ GObject.signal_new("activate", Search, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
 GObject.signal_new("cursor-changed", Search, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, (GObject.TYPE_PYOBJECT, ))
-LIST_OPACITY = 93
-#Gtk.widget_class_install_style_property(Search, ('list-opacity', GObject.TYPE_INT, 'Result list opacity', 'Opacity of the whole result list', 50, 100, 93, GObject.PARAM_READABLE))
-
-LIST_LENGTH = 250
-#Gtk.widget_class_install_style_property(Search, ('list-length', GObject.TYPE_INT, 'Result list length', 'Maximum length of the result list', 50, 1024, 200, GObject.PARAM_READABLE))
 
 class LeafSearch (Search):
     """
