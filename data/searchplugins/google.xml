@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/"
-              xmlns:os="http://a9.com/-/spec/opensearch/1.1/">
-<os:ShortName>Google</os:ShortName>
-<os:Description></os:Description>
-<os:InputEncoding>UTF-8</os:InputEncoding>
-<os:Url type="text/html" method="GET" template="http://www.google.com/search?q={searchTerms}"></os:Url>
-</SearchPlugin>
