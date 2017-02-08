@@ -6,10 +6,6 @@ Guidelines and Policy
 Contributing
 ------------
 
-You can clone git from its official repository at git.gnome.org, see:
-
-    http://git.gnome.org/browse/kupfer/
-
 You can structure your changes into a series of commits in git. A series
 of well disposed changes is easy to review. Write a sufficient commit
 log message for each change. Do not fear writing down details about
@@ -90,25 +86,18 @@ A declaration like this can modify the ranking of an object::
 Using ``super(..)``
 ...................
 
-Many of kupfer plugin code uses super statements such as::
+You should use the Python 3 ``super()`` without arguments.
 
-    super(RecentsSource, self).__init__(_("Recent items"))
-
-We have learnt that it is not so practical. Therefore, when writing new
-code, you should however use the following style::
+Old code was using the following style which worked best in older
+Python, but the style is obsolete::
 
     Source.__init__(self, _("Recent items"))
-
-Why? Because the second version is easier to copy! If you copy the whole
-class and rename it, which you often do to create new plugins, the
-second version does not need to be updated -- you are probably using the
-same superclass.
 
 Text and Encodings
 ..................
 
 Care must be taken with all input and output text and its encoding!
-Internally, kupfer must use ``unicode`` for all internal text.
+Internally, kupfer must use ``str`` for all internal text.
 The module ``kupfer.kupferstring`` has functions for the most important
 text conversions.
 
