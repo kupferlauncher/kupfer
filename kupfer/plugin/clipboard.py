@@ -15,9 +15,7 @@ from kupfer.objects import Source, TextLeaf, Action, SourceLeaf
 from kupfer.objects import FileLeaf
 from kupfer.obj.compose import MultipleLeaf
 from kupfer import plugin_support
-from kupfer.weaklib import gobject_connect_weakly
-from kupfer import kupferstring
-
+from kupfer import kupferstring, pretty
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -115,14 +113,20 @@ class ClipboardSource (Source):
 
     def initialize(self):
         clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
+        self._sig_id1 = clip.connect("owner-change", self._clipboard_changed)
         clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
-        gobject_connect_weakly(clip, "owner-change", self._clipboard_changed)
+        self._sig_id2 = clip.connect("owner-change", self._clipboard_changed)
         self.clipboard_uris = []
         self.clipboard_text = None
         self.selected_text = None
 
     def finalize(self):
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clip.disconnect(self._sig_id1)
+        clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
+        clip.disconnect(self._sig_id2)
+        self._sig_id1 = None
+        self._sig_id2 = None
         self.clipboard_uris = []
         self.clipboard_text = None
         self.selected_text = None
