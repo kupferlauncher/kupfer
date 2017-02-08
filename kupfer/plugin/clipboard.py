@@ -134,27 +134,29 @@ class ClipboardSource (Source):
 
     def _clipboard_changed(self, clip, event, *args):
         is_selection = (event.selection == Gdk.SELECTION_PRIMARY)
+        clip.request_text(self._on_text_for_change, is_selection)
+
+    def _on_text_for_change(self, clip, text, is_selection):
+        if text is None:
+            return
 
         max_len = __kupfer_settings__["max"]
-        # receive clipboard as gtk text
-        newtext = kupferstring.tounicode(clip.wait_for_text())
-
-        is_valid = bool(newtext and newtext.strip())
+        is_valid = bool(text and text.strip())
         is_sync_selection = (is_selection and
                              __kupfer_settings__["sync_selection"])
 
         if not is_selection or __kupfer_settings__["use_selection"]:
             if is_valid:
-                self._add_to_history(newtext, is_selection)
+                self._add_to_history(text, is_selection)
 
         if is_sync_selection and is_valid:
-            Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(newtext, -1)
+            Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(text, -1)
 
         if is_selection:
-            self.selected_text = newtext
+            self.selected_text = text
         if not is_selection or is_sync_selection:
             uri_target = Gdk.Atom.intern(URI_TARGET, False)
-            self.clipboard_text = newtext
+            self.clipboard_text = text
             if clip.wait_is_target_available(uri_target):
                 sdata = clip.wait_for_contents(uri_target)
                 self.clipboard_uris = list(sdata.get_uris())
