@@ -103,12 +103,9 @@ kupfer requires an active dbus session bus.
 Keybinder Module
 ----------------
 
-Keybinder_ is a module for global keyboard shortcuts that originates
-from tomboy.
+Keybinder is a library for global keyboard shortcuts.
 
-.. _`Keybinder`: https://github.com/engla/keybinder
-
-(Temporarily: Keybinder is required. We want to fix that).
+(Temporarily: Keybinder is required to be present. We want to fix that).
 You can use kupfer without the keybinder module, for example by
 assigning a global keybinding to the ``kupfer`` binary, but it not the
 recommended way.
