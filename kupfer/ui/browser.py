@@ -355,12 +355,8 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         self.event_box.show_all()
         self.__child = self.event_box
 
-    def do_size_request (self, requisition):
-        requisition.width, requisition.height = self.__child.size_request ()
 
-    def do_size_allocate (self, allocation):
-        self.__child.size_allocate (allocation)
-
+    # No do_size_allocate here, we just use the default
     def do_forall (self, include_internals, callback, *user_data):
         callback (self.__child, *user_data)
 
