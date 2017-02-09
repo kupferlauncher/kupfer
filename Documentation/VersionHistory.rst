@@ -3,10 +3,20 @@
 NEWS for kupfer
 ===============
 
+kupfer v304.1
+-------------
+
+Released Friday, 9 feb 2017
+
++ Plugins:
+
+  + *Clipboard:* add back *Clipboard Text* that was removed in v304 by
+    mistake
+
 kupfer v304
 -----------
 
-Released Friday, 8 feb 2017
+Released Wednesday, 8 feb 2017
 
 + Clean up the distributable tarball; extra content like oldplugins is now
   only in the repository and not in the tarball.
