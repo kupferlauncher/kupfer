@@ -1777,7 +1777,8 @@ KUPFER_CSS = b"""
 }
 
 *:selected .matchview {
-    background: @theme_selected_bg_color
+    background: alpha(@theme_selected_bg_color, 0.5);
+    border: 2px solid alpha(black, 0.3)
 }
 """
 
