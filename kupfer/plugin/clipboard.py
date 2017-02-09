@@ -154,6 +154,8 @@ class ClipboardSource (Source):
 
         if is_selection:
             self.selected_text = text
+        if not is_selection or is_sync_selection:
+            self.clipboard_text = text
         self._prune_to_length(max_len)
         self.mark_for_update()
 
