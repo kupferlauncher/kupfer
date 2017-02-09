@@ -1036,7 +1036,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         vbox.pack_start(label_align, False, False, 0)
         vbox.pack_start(self.entry, False, False, 0)
         vbox.show_all()
-        #self.third.hide()
+        self.third.hide()
         self._widget = vbox
         return vbox
 
