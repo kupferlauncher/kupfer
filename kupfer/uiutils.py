@@ -63,7 +63,7 @@ def show_text_result(text, title=None, ctx=None):
             self.names.text_result_window.get_window().destroy()
             return True
         def on_copy_button_clicked(self, widget):
-            clip = Gtk.clipboard_get(Gdk.SELECTION_CLIPBOARD)
+            clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
             textview = self.names.result_textview
             buf = textview.get_buffer()
             buf.select_range(*buf.get_bounds())
