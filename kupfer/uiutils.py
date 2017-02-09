@@ -78,6 +78,7 @@ def show_text_result(text, title=None, ctx=None):
     buf.set_text(text)
     textview.set_buffer(buf)
     textview.set_wrap_mode(Gtk.WrapMode.NONE)
+    textview.set_editable(True)
 
     if title:
         window.set_title(title)
