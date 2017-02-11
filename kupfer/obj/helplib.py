@@ -5,7 +5,9 @@ This module is a part of the program Kupfer, see the main program file for
 more information.
 """
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
+
+from kupfer import pretty
 
 class PicklingHelperMixin (object):
     """ This pickling helper will define __getstate__/__setstate__
@@ -66,7 +68,11 @@ class FilesystemWatchMixin (object):
             gfile = Gio.File.new_for_path(directory)
             if not force and not gfile.query_exists():
                 continue
-            monitor = gfile.monitor_directory(Gio.FileMonitorFlags.NONE, None)
+            try:
+                monitor = gfile.monitor_directory(Gio.FileMonitorFlags.NONE, None)
+            except GLib.GError as exc:
+                pretty.print_debug(__name__, "FilesystemWatchMixin", exc)
+                continue
             if monitor:
                 monitor.connect("changed", self.__directory_changed)
                 tokens.append(monitor)
