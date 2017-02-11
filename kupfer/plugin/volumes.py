@@ -1,10 +1,10 @@
 __kupfer_name__ = _("Volumes and Disks")
 __kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.1"
+__author__ = "US"
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 
 from kupfer.objects import Action, Source, FileLeaf
 from kupfer.obj.fileactions import Open, OpenTerminal
@@ -70,9 +70,11 @@ class Unmount (Action):
             return
         vol = leaf.volume
         if vol.can_eject():
-            vol.eject(self.eject_callback, user_data=ctx)
+            vol.eject(Gio.MountUnmountFlags.NONE, None,
+                      self.eject_callback, ctx)
         elif vol.can_unmount():
-            vol.unmount(self.unmount_callback, user_data=ctx)
+            vol.unmount(Gio.MountUnmountFlags.NONE, None,
+                        self.unmount_callback, ctx)
 
     def get_description(self):
         return _("Unmount this volume")
@@ -88,14 +90,26 @@ class Eject (Unmount):
         return _("Unmount and eject this media")
 
 class VolumesSource (Source):
+    source_use_cache = False
     def __init__(self, name=_("Volumes and Disks")):
-        super(VolumesSource, self).__init__(name)
-    def is_dynamic(self):
-        return True
+        super().__init__(name)
+
+    def initialize(self):
+        self.vm = Gio.VolumeMonitor.get()
+        self.vm.connect("mount-added", self._update)
+        self.vm.connect("mount-changed", self._update)
+        self.vm.connect("mount-removed", self._update)
+
+    def _update(self, *args):
+        self.mark_for_update()
+        GLib.timeout_add_seconds(1, lambda: self.mark_for_update())
+
+    def finalize(self):
+        del self.vm
+
     def get_items(self):
-        vm = Gio.VolumeMonitor.get()
         # get_mounts gets all mounted removable media
-        return (Volume(v) for v in vm.get_mounts())
+        return (Volume(v) for v in self.vm.get_mounts())
 
     def get_description(self):
         return _("Mounted volumes and disks")
