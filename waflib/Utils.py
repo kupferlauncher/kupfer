@@ -136,8 +136,13 @@ def readf(fname, m='r'):
 	f = open(fname, m)
 	try:
 		txt = f.read()
-	finally:
+	except:
 		f.close()
+		try:
+			f = open(fname, m, encoding='utf-8')
+			txt = f.read()
+		finally:
+			f.close()
 	return txt
 
 def h_file(filename):
