@@ -77,6 +77,7 @@ kupfer/plugin/show_text.py
 kupfer/plugin/tracker1.py
 kupfer/plugin/locate.py
 kupfer/plugin/firefox.py
+kupfer/plugin/mediaplayers.py
 
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
