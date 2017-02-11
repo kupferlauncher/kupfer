@@ -106,8 +106,13 @@ class OpenWith (Action):
         yield FileLeaf
     def requires_object(self):
         return True
+
     def object_types(self):
         yield AppLeaf
+
+    def valid_object(self, iobj, for_item):
+        return iobj.object.supports_files() or iobj.object.supports_uris()
+
     def get_description(self):
         return _("Open with any application")
 
