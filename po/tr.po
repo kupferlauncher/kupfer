@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-08 23:05+0100\n"
+"POT-Creation-Date: 2017-02-11 21:40+0100\n"
 "PO-Revision-Date: 2015-05-30 11:28+0000\n"
 "Last-Translator: Simge Sezgin <simgesezgin88@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -225,7 +225,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
+#: ../kupfer/obj/base.py:459 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Metin"
 
@@ -638,7 +638,7 @@ msgstr ""
 msgid "Calculate"
 msgstr "Hesapla"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:113
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:109
 msgid "Clipboards"
 msgstr "Panolar"
 
@@ -646,46 +646,46 @@ msgstr "Panolar"
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr "Son panolar ve pano vekil nesneleri"
 
-#: ../kupfer/plugin/clipboard.py:25
+#: ../kupfer/plugin/clipboard.py:23
 msgid "Number of recent clipboards to remember"
 msgstr "Hatırlanacak son panoların sayısı"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:29
 msgid "Include selected text in clipboard history"
 msgstr "Pano geçmişinde seçilen metni dahil et"
 
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:35
 msgid "Copy selected text to primary clipboard"
 msgstr "Seçilen metni birincil panoya kopyala"
 
-#: ../kupfer/plugin/clipboard.py:48
+#: ../kupfer/plugin/clipboard.py:44
 msgid "Selected Text"
 msgstr "Seçili Yazı"
 
-#: ../kupfer/plugin/clipboard.py:58
+#: ../kupfer/plugin/clipboard.py:54
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "\"%(desc)s\" Pano"
 msgstr[1] "%(num)d satır \"%(desc)s\" ile Pano"
 
-#: ../kupfer/plugin/clipboard.py:65
+#: ../kupfer/plugin/clipboard.py:61
 msgid "Clipboard Text"
 msgstr "Pano Metni"
 
-#: ../kupfer/plugin/clipboard.py:75
+#: ../kupfer/plugin/clipboard.py:71
 msgid "Clipboard File"
 msgstr "Pano Dosyası"
 
-#: ../kupfer/plugin/clipboard.py:85
+#: ../kupfer/plugin/clipboard.py:81
 msgid "Clipboard Files"
 msgstr "Pano Dosyaları"
 
-#: ../kupfer/plugin/clipboard.py:93
+#: ../kupfer/plugin/clipboard.py:89
 msgid "Clear"
 msgstr "Temizle"
 
-#: ../kupfer/plugin/clipboard.py:105
+#: ../kupfer/plugin/clipboard.py:101
 msgid "Remove all recent clipboards"
 msgstr "Son kullanılan panoları sil"
 
@@ -1645,11 +1645,11 @@ msgstr "Bu çalışma alanına geç"
 msgid "Workspaces"
 msgstr "Çalışma Alanları"
 
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:94
 msgid "Volumes and Disks"
 msgstr "Diskler ve Bölümler"
 
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:115
 msgid "Mounted volumes and disks"
 msgstr "Bağlı birim ve diskler"
 
@@ -1662,15 +1662,15 @@ msgstr "%s bölüm bağlı"
 msgid "Unmount"
 msgstr "Ayır"
 
-#: ../kupfer/plugin/volumes.py:78
+#: ../kupfer/plugin/volumes.py:80
 msgid "Unmount this volume"
 msgstr "Bölümü ayır"
 
-#: ../kupfer/plugin/volumes.py:85
+#: ../kupfer/plugin/volumes.py:87
 msgid "Eject"
 msgstr "Çıkar"
 
-#: ../kupfer/plugin/volumes.py:88
+#: ../kupfer/plugin/volumes.py:90
 msgid "Unmount and eject this media"
 msgstr "Ayır ve ortam aygıtını çıkar"
 
@@ -1755,6 +1755,57 @@ msgstr "Firefox Yerimleri"
 msgid "Index of Firefox bookmarks"
 msgstr "Firefox yerimleri içeriği"
 
+#: ../kupfer/plugin/mediaplayers.py:1 ../kupfer/plugin/mediaplayers.py:22
+msgid "Media Player Control"
+msgstr ""
+
+#: ../kupfer/plugin/mediaplayers.py:3
+msgid "Playback control for media players"
+msgstr ""
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:75
+#, fuzzy, python-format
+msgid "Play/Pause (%s)"
+msgstr "Lütfen \"%s\" kullanın"
+
+#: ../kupfer/plugin/mediaplayers.py:81
+#, fuzzy
+msgid "Resume playback"
+msgstr "Audacious'ta oynatımı sürdür"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:88
+#, fuzzy, python-format
+msgid "Next (%s)"
+msgstr "Sonraki"
+
+#: ../kupfer/plugin/mediaplayers.py:94
+#, fuzzy
+msgid "Skip to next track"
+msgstr "Audacious'ta sonraki şarkıya geç"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:102
+#, fuzzy, python-format
+msgid "Previous (%s)"
+msgstr "Önceki"
+
+#: ../kupfer/plugin/mediaplayers.py:108
+#, fuzzy
+msgid "Skip to previous track"
+msgstr "Audacious'ta önceki şarkıya dön"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:116
+#, python-format
+msgid "Stop (%s)"
+msgstr ""
+
+#: ../kupfer/plugin/mediaplayers.py:122
+msgid "Stop playback"
+msgstr ""
+
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
@@ -1812,46 +1863,46 @@ msgstr "Birinci Bölmeye Geç"
 msgid "Toggle Text Mode"
 msgstr "Metin Kipine Geç"
 
-#: ../kupfer/ui/browser.py:872
+#: ../kupfer/ui/browser.py:863
 #, python-format
 msgid "%s is empty"
 msgstr "%s boş"
 
-#: ../kupfer/ui/browser.py:876
+#: ../kupfer/ui/browser.py:867
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "\"%(query)s\" için eşleşen %(src)s yok"
 
-#: ../kupfer/ui/browser.py:882
+#: ../kupfer/ui/browser.py:873
 msgid "No matches"
 msgstr "Eşleşme bulunamadı"
 
-#: ../kupfer/ui/browser.py:887
+#: ../kupfer/ui/browser.py:878
 msgid "Type to search"
 msgstr "Aramak için yazın"
 
-#: ../kupfer/ui/browser.py:893
+#: ../kupfer/ui/browser.py:884
 #, python-format
 msgid "Type to search %s"
 msgstr "%s aramak için girin"
 
-#: ../kupfer/ui/browser.py:908
+#: ../kupfer/ui/browser.py:899
 msgid "No action"
 msgstr "Eylem yok"
 
-#: ../kupfer/ui/browser.py:1496
+#: ../kupfer/ui/browser.py:1487
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Öntanımlı \"%(object)s\" için \"%(action)s\" oluştur"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1506
+#: ../kupfer/ui/browser.py:1497
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "\"%s\" Unut"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1994 ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/browser.py:1986 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Uygulama Penceresini Göster"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-08 23:05+0100\n"
+"POT-Creation-Date: 2017-02-11 21:40+0100\n"
 "PO-Revision-Date: 2009-10-12 01:54+0200\n"
 "Last-Translator: Martin Koelewijn <martinkoelewijn@gmail.com>\n"
 "Language-Team: Dutch\n"
@@ -229,7 +229,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
+#: ../kupfer/obj/base.py:459 ../kupfer/plugin/core/text.py:20
 #, fuzzy
 msgid "Text"
 msgstr "Tekst tonen"
@@ -650,7 +650,7 @@ msgstr ""
 msgid "Calculate"
 msgstr "Berekenen"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:113
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:109
 msgid "Clipboards"
 msgstr "Klemborden"
 
@@ -658,52 +658,52 @@ msgstr "Klemborden"
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr ""
 
-#: ../kupfer/plugin/clipboard.py:25
+#: ../kupfer/plugin/clipboard.py:23
 #, fuzzy
 msgid "Number of recent clipboards to remember"
 msgstr "Aantal recente klemborden"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:29
 msgid "Include selected text in clipboard history"
 msgstr ""
 
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:35
 #, fuzzy
 msgid "Copy selected text to primary clipboard"
 msgstr "Kopieer naar klembord"
 
-#: ../kupfer/plugin/clipboard.py:48
+#: ../kupfer/plugin/clipboard.py:44
 msgid "Selected Text"
 msgstr "Geselecteerde tekst"
 
-#: ../kupfer/plugin/clipboard.py:58
+#: ../kupfer/plugin/clipboard.py:54
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Klembord \"%(desc)s\""
 msgstr[1] "Klembord met %(num)d regels \"%(desc)s\""
 
-#: ../kupfer/plugin/clipboard.py:65
+#: ../kupfer/plugin/clipboard.py:61
 #, fuzzy
 msgid "Clipboard Text"
 msgstr "Klemborden"
 
-#: ../kupfer/plugin/clipboard.py:75
+#: ../kupfer/plugin/clipboard.py:71
 #, fuzzy
 msgid "Clipboard File"
 msgstr "Klemborden"
 
-#: ../kupfer/plugin/clipboard.py:85
+#: ../kupfer/plugin/clipboard.py:81
 #, fuzzy
 msgid "Clipboard Files"
 msgstr "Klemborden"
 
-#: ../kupfer/plugin/clipboard.py:93
+#: ../kupfer/plugin/clipboard.py:89
 #, fuzzy
 msgid "Clear"
 msgstr "Lijst legen"
 
-#: ../kupfer/plugin/clipboard.py:105
+#: ../kupfer/plugin/clipboard.py:101
 #, fuzzy
 msgid "Remove all recent clipboards"
 msgstr "Aantal recente klemborden"
@@ -1692,11 +1692,11 @@ msgstr "Naar werkplaats springen"
 msgid "Workspaces"
 msgstr "Werkplaatsen"
 
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:94
 msgid "Volumes and Disks"
 msgstr "Volumes en schijven"
 
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:115
 msgid "Mounted volumes and disks"
 msgstr "Aangekoppelde volumes en schijven"
 
@@ -1709,15 +1709,15 @@ msgstr "Volume aankoppelen naar %s"
 msgid "Unmount"
 msgstr "Ontkoppelen"
 
-#: ../kupfer/plugin/volumes.py:78
+#: ../kupfer/plugin/volumes.py:80
 msgid "Unmount this volume"
 msgstr "Dit volume ontkoppelen"
 
-#: ../kupfer/plugin/volumes.py:85
+#: ../kupfer/plugin/volumes.py:87
 msgid "Eject"
 msgstr "Uitspugen"
 
-#: ../kupfer/plugin/volumes.py:88
+#: ../kupfer/plugin/volumes.py:90
 msgid "Unmount and eject this media"
 msgstr "Ontkoppelen en medium uitspugen"
 
@@ -1802,6 +1802,57 @@ msgstr "Firefox Favorieten"
 msgid "Index of Firefox bookmarks"
 msgstr "Index van Firefox favorieten"
 
+#: ../kupfer/plugin/mediaplayers.py:1 ../kupfer/plugin/mediaplayers.py:22
+msgid "Media Player Control"
+msgstr ""
+
+#: ../kupfer/plugin/mediaplayers.py:3
+msgid "Playback control for media players"
+msgstr ""
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:75
+#, fuzzy, python-format
+msgid "Play/Pause (%s)"
+msgstr "Geselecteerd bestand \"%s\""
+
+#: ../kupfer/plugin/mediaplayers.py:81
+#, fuzzy
+msgid "Resume playback"
+msgstr "Afspelen hervatten in Audacious"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:88
+#, fuzzy, python-format
+msgid "Next (%s)"
+msgstr "Volgende"
+
+#: ../kupfer/plugin/mediaplayers.py:94
+#, fuzzy
+msgid "Skip to next track"
+msgstr "Spring naar volgende nummer in Audacious"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:102
+#, fuzzy, python-format
+msgid "Previous (%s)"
+msgstr "Vorige"
+
+#: ../kupfer/plugin/mediaplayers.py:108
+#, fuzzy
+msgid "Skip to previous track"
+msgstr "Spring naar vorige nummer in Audacious"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:116
+#, python-format
+msgid "Stop (%s)"
+msgstr ""
+
+#: ../kupfer/plugin/mediaplayers.py:122
+msgid "Stop playback"
+msgstr ""
+
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
 #, fuzzy
@@ -1867,46 +1918,46 @@ msgstr ""
 msgid "Toggle Text Mode"
 msgstr ""
 
-#: ../kupfer/ui/browser.py:872
+#: ../kupfer/ui/browser.py:863
 #, python-format
 msgid "%s is empty"
 msgstr "%s is leeg"
 
-#: ../kupfer/ui/browser.py:876
+#: ../kupfer/ui/browser.py:867
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Geen treffers in %(src)s voor \"%(query)s\""
 
-#: ../kupfer/ui/browser.py:882
+#: ../kupfer/ui/browser.py:873
 msgid "No matches"
 msgstr "Geen treffers"
 
-#: ../kupfer/ui/browser.py:887
+#: ../kupfer/ui/browser.py:878
 msgid "Type to search"
 msgstr "Typ om te zoeken"
 
-#: ../kupfer/ui/browser.py:893
+#: ../kupfer/ui/browser.py:884
 #, python-format
 msgid "Type to search %s"
 msgstr "Typ om %s te doorzoeken"
 
-#: ../kupfer/ui/browser.py:908
+#: ../kupfer/ui/browser.py:899
 msgid "No action"
 msgstr "Geen actie"
 
-#: ../kupfer/ui/browser.py:1496
+#: ../kupfer/ui/browser.py:1487
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr ""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1506
+#: ../kupfer/ui/browser.py:1497
 #, python-format
 msgid "Forget About \"%s\""
 msgstr ""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1994 ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/browser.py:1986 ../kupfer/ui/preferences.py:57
 #, fuzzy
 msgid "Show Main Interface"
 msgstr "Toon offline kennissen"

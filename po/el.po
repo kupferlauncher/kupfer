@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-08 23:05+0100\n"
+"POT-Creation-Date: 2017-02-11 21:40+0100\n"
 "PO-Revision-Date: 2013-07-05 09:52+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
@@ -228,7 +228,7 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:456 ../kupfer/plugin/core/text.py:20
+#: ../kupfer/obj/base.py:459 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -641,7 +641,7 @@ msgstr ""
 msgid "Calculate"
 msgstr "Υπολογισμός"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:113
+#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:109
 msgid "Clipboards"
 msgstr "Πρόχειρα"
 
@@ -649,46 +649,46 @@ msgstr "Πρόχειρα"
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr "Πρόσφατα πρόχειρα και αντικείμενα μεσολαβητή προχείρων"
 
-#: ../kupfer/plugin/clipboard.py:25
+#: ../kupfer/plugin/clipboard.py:23
 msgid "Number of recent clipboards to remember"
 msgstr "Αριθμός πρόσφατων προχείρων για απομνημόνευση"
 
-#: ../kupfer/plugin/clipboard.py:31
+#: ../kupfer/plugin/clipboard.py:29
 msgid "Include selected text in clipboard history"
 msgstr "Να συμπεριλαμβάνεται το επιλεγμένο κείμενο στο ιστορικό προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:37
+#: ../kupfer/plugin/clipboard.py:35
 msgid "Copy selected text to primary clipboard"
 msgstr "Αντιγραφή επιλεγμένου κειμένου στο κύριο πρόχειρο"
 
-#: ../kupfer/plugin/clipboard.py:48
+#: ../kupfer/plugin/clipboard.py:44
 msgid "Selected Text"
 msgstr "Επιλεγμένο κείμενο"
 
-#: ../kupfer/plugin/clipboard.py:58
+#: ../kupfer/plugin/clipboard.py:54
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Πρόχειρο \"%(desc)s\""
 msgstr[1] "Πρόχειρο με %(num)d γραμμές \"%(desc)s\""
 
-#: ../kupfer/plugin/clipboard.py:65
+#: ../kupfer/plugin/clipboard.py:61
 msgid "Clipboard Text"
 msgstr "Κείμενο προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:75
+#: ../kupfer/plugin/clipboard.py:71
 msgid "Clipboard File"
 msgstr "Αρχείο προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:85
+#: ../kupfer/plugin/clipboard.py:81
 msgid "Clipboard Files"
 msgstr "Αρχεία προχείρου"
 
-#: ../kupfer/plugin/clipboard.py:93
+#: ../kupfer/plugin/clipboard.py:89
 msgid "Clear"
 msgstr "Καθαρισμός"
 
-#: ../kupfer/plugin/clipboard.py:105
+#: ../kupfer/plugin/clipboard.py:101
 msgid "Remove all recent clipboards"
 msgstr "Αφαίρεση όλων των πρόσφατων προχείρων"
 
@@ -1654,11 +1654,11 @@ msgstr "Μετάβαση σε αυτόν τον χώρο εργασίας"
 msgid "Workspaces"
 msgstr "Χώροι εργασίας"
 
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:91
+#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:94
 msgid "Volumes and Disks"
 msgstr "Τόμοι και δίσκοι"
 
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:101
+#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:115
 msgid "Mounted volumes and disks"
 msgstr "Προσαρτημένοι τόμοι και δίσκοι"
 
@@ -1671,15 +1671,15 @@ msgstr "Τόμος προσαρτημένος στο %s"
 msgid "Unmount"
 msgstr "Αποπροσάρτηση"
 
-#: ../kupfer/plugin/volumes.py:78
+#: ../kupfer/plugin/volumes.py:80
 msgid "Unmount this volume"
 msgstr "Προσάρτηση αυτού του τόμου"
 
-#: ../kupfer/plugin/volumes.py:85
+#: ../kupfer/plugin/volumes.py:87
 msgid "Eject"
 msgstr "Εξαγωγή"
 
-#: ../kupfer/plugin/volumes.py:88
+#: ../kupfer/plugin/volumes.py:90
 msgid "Unmount and eject this media"
 msgstr "Αποπροσάρτηση και εξαγωγή αυτού του μέσου"
 
@@ -1764,6 +1764,57 @@ msgstr "Σελιδοδείκτες Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Ευρετήριο σελιδοδεικτών του Firefox"
 
+#: ../kupfer/plugin/mediaplayers.py:1 ../kupfer/plugin/mediaplayers.py:22
+msgid "Media Player Control"
+msgstr ""
+
+#: ../kupfer/plugin/mediaplayers.py:3
+msgid "Playback control for media players"
+msgstr ""
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:75
+#, fuzzy, python-format
+msgid "Play/Pause (%s)"
+msgstr "Παρακαλούμε χρησιμοποιήστε το \"%s\""
+
+#: ../kupfer/plugin/mediaplayers.py:81
+#, fuzzy
+msgid "Resume playback"
+msgstr "Συνέχιση αναπαραγωγής στο Audacious"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:88
+#, fuzzy, python-format
+msgid "Next (%s)"
+msgstr "Επόμενο"
+
+#: ../kupfer/plugin/mediaplayers.py:94
+#, fuzzy
+msgid "Skip to next track"
+msgstr "Μετάβαση στο επόμενο κομμάτι στο Audacious"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:102
+#, fuzzy, python-format
+msgid "Previous (%s)"
+msgstr "Προηγούμενο"
+
+#: ../kupfer/plugin/mediaplayers.py:108
+#, fuzzy
+msgid "Skip to previous track"
+msgstr "Μετάβαση στο προηγούμενο κομμάτι στο Audacious"
+
+#. TRANS: %s is a media player name
+#: ../kupfer/plugin/mediaplayers.py:116
+#, python-format
+msgid "Stop (%s)"
+msgstr ""
+
+#: ../kupfer/plugin/mediaplayers.py:122
+msgid "Stop playback"
+msgstr ""
+
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
@@ -1821,46 +1872,46 @@ msgstr "Εναλλαγή σε πρώτο παράθυρο"
 msgid "Toggle Text Mode"
 msgstr "Εναλλαγή σε κατάσταση κειμένου"
 
-#: ../kupfer/ui/browser.py:872
+#: ../kupfer/ui/browser.py:863
 #, python-format
 msgid "%s is empty"
 msgstr "το %s είναι κενό"
 
-#: ../kupfer/ui/browser.py:876
+#: ../kupfer/ui/browser.py:867
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Δεν υπάρχει συμφωνία στο %(src)s για το \"%(query)s\""
 
-#: ../kupfer/ui/browser.py:882
+#: ../kupfer/ui/browser.py:873
 msgid "No matches"
 msgstr "Καμία συμφωνία"
 
-#: ../kupfer/ui/browser.py:887
+#: ../kupfer/ui/browser.py:878
 msgid "Type to search"
 msgstr "Πληκτρολογήστε για αναζήτηση"
 
-#: ../kupfer/ui/browser.py:893
+#: ../kupfer/ui/browser.py:884
 #, python-format
 msgid "Type to search %s"
 msgstr "Πληκτρολογήστε για αναζήτηση του %s"
 
-#: ../kupfer/ui/browser.py:908
+#: ../kupfer/ui/browser.py:899
 msgid "No action"
 msgstr "Καμία ενέργεια"
 
-#: ../kupfer/ui/browser.py:1496
+#: ../kupfer/ui/browser.py:1487
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Κάντε το \"%(action)s\" προεπιλογή για \"%(object)s\""
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1506
+#: ../kupfer/ui/browser.py:1497
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Παράλειψη σχετικά με το \"%s\""
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1994 ../kupfer/ui/preferences.py:57
+#: ../kupfer/ui/browser.py:1986 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Εμφάνιση κύριας διεπαφής"
 
