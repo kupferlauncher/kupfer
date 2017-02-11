@@ -316,10 +316,13 @@ class Source (KupferObject, pretty.OutputMixin):
     @source_prefer_sublevel if True, the source by default exports
         its contents in a subcatalog, not to the toplevel.
         NOTE: *Almost never* use this: let the user decide, default to toplevel.
+    @source_use_cache if True, the source can be pickled to disk to save its
+        cached items until the next time the launcher is started.
     """
     fallback_icon_name = "kupfer-object-multiple"
     source_user_reloadable = False
     source_prefer_sublevel = False
+    source_use_cache = True
 
     def __init__(self, name):
         KupferObject.__init__(self, name)

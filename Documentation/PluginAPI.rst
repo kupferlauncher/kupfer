@@ -606,6 +606,10 @@ Source Attributes
     Set to ``True`` to not export its objects to the top level by
     default. Normally you don't wan't to change this
 
+``Source.source_use_cache =  True```
+    If ``True``, the source can be pickled to disk to save its
+    cached items until the next time the launcher is started.
+
 ``Source._version``
     Internal number that is ``1`` by default. Update this number in
     ``__init__`` to invalidate old versions of cache files.
