@@ -181,7 +181,7 @@ or equivalently::
 KupferObject
 ::::::::::::
 
-KupferObject implements the things that are common to all objects:
+``class KupferObject`` implements the things that are common to all objects:
 *name*, *description*, *icon*, *thumbnail* and *name aliases*.
 
 
@@ -252,7 +252,7 @@ KupferObject Attributes
 Leaf
 ::::
 
-Leaf inherits from KupferObject.
+``class Leaf`` inherits from KupferObject.
 
 A Leaf represents an object that the user will want to act on. Examples
 are a file, an application or a free-text query (TextLeaf).
@@ -299,7 +299,7 @@ This defines, in addition to KupferObject:
 Action
 ::::::
 
-Action inherits from KupferObject.
+``class Action`` inherits from KupferObject.
 
 An Action represents a command using a direct object and an optional
 indirect object. One example is ``kupfer.obj.fileactions.Open`` that
@@ -460,7 +460,7 @@ Some auxiliary methods tell Kupfer about how to handle the action:
 Source
 ::::::
 
-Source inherits from KupferObject.
+``class Source`` inherits from KupferObject.
 
 A Source understands specific data and delivers Leaves for it.
 
