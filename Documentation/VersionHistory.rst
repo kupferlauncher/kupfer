@@ -3,10 +3,34 @@
 NEWS for kupfer
 ===============
 
+kupfer v305
+-----------
+
+Released Saturday, 11 feb 2017
+
++ Tweak how the selected pane is drawn. We still haven't arrived at a theme
+  and color-independent way to do this; Gtk 3 drawing and styling knowledge
+  is welcome in github.
++ Fix some drawing bugs in the main kupfer window by removing some old
+  erronous overrides of the widget size calculation.
++ Add attribute ``source_use_cache`` to the API for sources
++ Plugins:
+
+  + Add new plugin *Media Player Control* for basic control of any
+    mpris-capable player. This plugin is experimental.
+  + Fix bugs in *Volumes* so that it works well under Gtk 3
+  + Fix the Copy button in the *Show Text* result. The text is also now
+    editable.
+  + *Applications* now only proposes apps in *Open With...* that support
+    opening files. (Add ``%U`` or similar to your application’s command line
+    in the .desktop file, if it's missing.)
+  + Stop enabling *File Actions* by default (copy is not async with Gtk 3
+    so it is now defective). Please use the Thunar file actions instead.
+
 kupfer v304.1
 -------------
 
-Released Friday, 9 feb 2017
+Released Thursday, 9 feb 2017
 
 + Plugins:
 
