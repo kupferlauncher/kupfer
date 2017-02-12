@@ -148,7 +148,7 @@ def _import_plugin_fake(modpath, error=None):
         return None
 
     try:
-        filename = loader.get_filename()
+        filename = loader.get_filename(modpath)
     except AttributeError:
         try:
             filename = loader.archive + loader.prefix
