@@ -82,7 +82,7 @@ class ArchiveContent (Source):
         basename = os.path.basename(leaf.object).lower()
         for extractor in cls.extractors:
             if any(basename.endswith(ext) for ext in extractor.extensions):
-                if extractor.predicate(leaf.object):
+                if os.path.isfile(leaf.object) and extractor.predicate(leaf.object):
                     return cls._source_for_path(leaf, extractor)
 
 
