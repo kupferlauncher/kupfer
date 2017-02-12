@@ -6,7 +6,7 @@ all: Contributing.html Copyright.html Localization.html Manpage.html \
 	GTKTheming.html VersionHistory.html index.html
 
 %.html: %.rst
-	rst2html $^ > $@
+	rst2html5 $^ > $@
 
 %.pdf: %.rst
 	rst2pdf -o $@ $^
