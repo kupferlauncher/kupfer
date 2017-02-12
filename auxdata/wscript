@@ -7,7 +7,7 @@ def options(opt):
     opt.add_option('--no-hooks',
             action='store_true',
             default=False,
-            help='Don’t run any mime, icon cache or similar update hooks [Default:False]')
+            help="Don't run any mime, icon cache or similar update hooks [Default:False]")
     opt.add_option('--no-update-mime',
             action='store_true',
             default=False,
