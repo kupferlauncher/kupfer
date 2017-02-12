@@ -111,7 +111,9 @@ objects that already exist in Kupfer. These actions appear in the
 right-hand actions pane in kupfer, when an object of the right type is
 selected.
 
-The complete python code for the plugin::
+The complete python code for the plugin:
+
+.. code:: python
 
     __kupfer_name__ = _("Image Viewer")
     __kupfer_actions__ = ("View", )
@@ -694,7 +696,9 @@ This module provides important API for several plugin features.
 PluginSettings
 ..............
 
-To use user-settable configuration parameters, use::
+To use user-settable configuration parameters, use:
+
+.. code:: python
 
     __kupfer_settings__ = plugin_support.PluginSettings(
         {
