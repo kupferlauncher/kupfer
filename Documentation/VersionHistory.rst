@@ -3,6 +3,26 @@
 NEWS for kupfer
 ===============
 
+kupfer v306
+-----------
+
+Released Monday, 13 feb 2017
+
++ Fix a compatibility issue with waf wscripts for non UTF-8 locales
++ Fix plugin info loading from .zip files.
++ Fix exception on filenames that could not be represented in unicode. They
+  are silently skipped in directory listings for now.
++ Plugins:
+
+  + Fix *Deep Archives* to skip directories named with archive extensions
+  + Fix ``=help`` in *Calculator*
+  + Revert the hack that replaced ``,`` with ``.`` in numbers in
+    *Calculator*
+  + Add file action *Attach in Email To...* in *Thunderbird*
+  + Add text action *Compose Email* in *Thunderbird*
+  + Fix *Thunderbird* to read unicode correctly from the address book.
+  + Reintroduce places (GTK bookmarks) in *Documents*
+
 kupfer v305
 -----------
 
