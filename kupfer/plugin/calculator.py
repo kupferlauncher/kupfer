@@ -39,7 +39,7 @@ class KupferSurprise (float):
 
 
 class DummyResult (object):
-    def __unicode__(self):
+    def __str__(self):
         return "<Result of last expression>"
 
 
@@ -50,6 +50,7 @@ class Help (object):
     """
     def __call__(self):
         import textwrap
+        import inspect
 
         from kupfer import uiutils
 
@@ -59,11 +60,17 @@ class Help (object):
             if attr != "_" and attr.startswith("_"):
                 continue
             val = environment[attr]
-            if not isinstance(val, collections.Callable):
+            if not callable(val):
                 docstrings.append("%s = %s" % (attr, val))
                 continue
             try:
-                docstrings.append(val.__doc__)
+                try:
+                    # use .replace() to remove unimportant '/' marker in signature
+                    sig = str(inspect.signature(val)).replace(", /)", ")")
+                    doc = "%s%s\n%s" % (attr, sig, val.__doc__)
+                except ValueError:
+                    doc = val.__doc__
+                docstrings.append(doc)
             except AttributeError:
                 pass
         formatted = []
