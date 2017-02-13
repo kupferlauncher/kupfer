@@ -2,17 +2,8 @@
 __kupfer_name__ = _("Calculator")
 __kupfer_actions__ = ("Calculate", )
 __description__ = _("Calculate mathematical expressions")
-__version__ = "2012-06-10"
+__version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
-"""
-Changes:
-    2012-06-09:
-        + calculate action for expression w/o =
-    2012-06-10:
-        + separate Calculate action
-        + change localized decimal point symbol to .
-"""
 
 import locale
 import cmath
@@ -137,7 +128,7 @@ class Calculate (Action):
         if brackets_missing > 0:
             expr += ")" * brackets_missing
         # hack: change all decimal points (according to current locale) to '.'
-        expr = expr.replace(locale.localeconv()['decimal_point'], '.')
+        #expr = expr.replace(locale.localeconv()['decimal_point'], '.')
         environment = make_environment(self.last_result['last'])
         pretty.print_debug(__name__, "Evaluating", repr(expr))
         try:
