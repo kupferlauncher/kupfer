@@ -69,7 +69,7 @@ class NewMailAction(Action):
 
 class AttachToNewMail(Action):
     def __init__(self):
-        super().__init__("Attach in Email To...")
+        super().__init__(_("Attach in Email To..."))
 
     def activate(self, leaf, iobj,):
         self.activate_multiple((leaf, ), (iobj, ))
