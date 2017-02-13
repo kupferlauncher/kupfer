@@ -13,6 +13,13 @@ from kupfer.obj.helplib import PicklingHelperMixin, FilesystemWatchMixin
 from kupfer.obj.objects import FileLeaf, SourceLeaf
 from kupfer.obj.objects import ConstructFileLeaf, ConstructFileLeafTypes
 
+def _representable_fname(fname):
+    "Return False if fname contains surrogate escapes"
+    try:
+        fname.encode("utf-8")
+        return True
+    except UnicodeEncodeError:
+        return False
 
 class FileSource (Source):
     def __init__(self, dirlist, depth=0):
@@ -85,6 +92,8 @@ class DirectorySource (Source, PicklingHelperMixin, FilesystemWatchMixin):
     def get_items(self):
         try:
             for fname in os.listdir(self.directory):
+                if not _representable_fname(fname):
+                    continue
                 if self.show_hidden or not fname.startswith("."):
                     yield ConstructFileLeaf(path.join(self.directory, fname))
         except OSError as exc:
