@@ -1,11 +1,12 @@
 __kupfer_name__ = _("Documents")
-__kupfer_sources__ = ("RecentsSource", ) #"PlacesSource", )
+__kupfer_sources__ = ("RecentsSource", "PlacesSource", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
 __description__ = _("Recently used documents and bookmarked folders")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from os import path
+import xdg.BaseDirectory as base
 
 from gi.repository import Gio, Gtk
 
@@ -125,21 +126,24 @@ class ApplicationRecentsSource (RecentsSource):
 
 class PlacesSource (Source):
     """
-    Source for items from nautilus bookmarks 
+    Source for items from gtk bookmarks 
     """
     def __init__(self):
         super(PlacesSource, self).__init__(_("Places"))
-        self.places_file = "~/.gtk-bookmarks"
+        self.places_file = None
+        self._version = 2
+
+    def initialize(self):
+        self.places_file = path.join(base.xdg_config_home, "gtk-3.0", "bookmarks")
     
     def get_items(self):
         """
         gtk-bookmarks: each line has url and optional title
         file:///path/to/that.end [title]
         """
-        fileloc = path.expanduser(self.places_file)
-        if not path.exists(fileloc):
+        if not path.exists(self.places_file):
             return ()
-        return self._get_places(fileloc)
+        return self._get_places(self.places_file)
 
     def _get_places(self, fileloc):
         for line in open(fileloc):
