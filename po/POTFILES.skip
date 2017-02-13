@@ -1,6 +1,4 @@
-contrib/google_translate.py
 contrib/icon_names.py
 contrib/nautilusselection.py
 contrib/runningapplications.py
 contrib/_ssl.py
-contrib/tracker.py
