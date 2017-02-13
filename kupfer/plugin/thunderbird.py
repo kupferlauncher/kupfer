@@ -3,13 +3,13 @@
 
 __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = ("NewMailAction", )
+__kupfer_actions__ = ("NewMailAction", "AttachToNewMail", )
 __description__ = _("Thunderbird/Icedove Contacts and Actions")
-__version__ = "2012-03-15"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+__version__ = "2017.1"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
 from kupfer.objects import Action
-from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf
+from kupfer.objects import TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils, icons
@@ -67,6 +67,38 @@ class NewMailAction(Action):
         return bool(email_from_leaf(item))
 
 
+class AttachToNewMail(Action):
+    def __init__(self):
+        super().__init__("Attach in Email To...")
+
+    def activate(self, leaf, iobj,):
+        self.activate_multiple((leaf, ), (iobj, ))
+
+    def activate_multiple(self, objects, iobjects):
+        attachments = ",".join(L.object for L in objects)
+        recipients = ",".join(email_from_leaf(L) for L in iobjects)
+        args = ["-compose", "to='%s',attachment='%s'" % (recipients, attachments)]
+        if not utils.spawn_async(['thunderbird'] + args):
+            utils.spawn_async(['icedove'] + args)
+
+    def get_icon_name(self):
+        return "mail-message-new"
+
+    def item_types(self):
+        yield FileLeaf
+
+    def requires_object(self):
+        return True
+
+    def object_types(self):
+        yield ContactLeaf
+        # we can enter email
+        yield TextLeaf
+        yield UrlLeaf
+
+    def valid_object(self, iobj, for_item=None):
+        return bool(email_from_leaf(iobj))
+
 class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
         FilesystemWatchMixin):
     appleaf_content_id = ('thunderbird', 'icedove')
@@ -82,7 +114,6 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
             self.monitor_token = self.monitor_directories(*abook_dirs)
 
     def monitor_include_file(self, gfile):
-        print(gfile.get_basename())
         return gfile and (gfile.get_basename().endswith('.mab') \
                 or gfile.get_basename() == 'localstore.rdf')
 
