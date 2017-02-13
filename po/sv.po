@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-13 23:00+0100\n"
 "PO-Revision-Date: 2015-08-10 18:48+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -1411,11 +1411,19 @@ msgstr "Skriv nytt e-postmeddelande"
 msgid "Compose a new message in Thunderbird"
 msgstr "Skriv nytt mail i Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:72
+msgid "Attach in Email To..."
+msgstr "Bifoga i e-post till..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+msgid "Compose a new message using the text as body"
+msgstr "Skriv nytt mail med texten"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird adressbok"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Kontakter från Thunderbird"
 
