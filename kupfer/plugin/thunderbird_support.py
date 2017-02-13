@@ -54,6 +54,7 @@ SPECIAL_CHARS = (
 )
 
 RE_ESCAPED = re.compile(r'(\$[a-f0-9]{2})', re.IGNORECASE)
+RE_ESCAPEDB = re.compile(rb'(\$[a-f0-9]{2})', re.IGNORECASE)
 RE_HEADER = re.compile(r'// <!-- <mdb:mork:z v="(.*)"/> -->')
 
 
@@ -87,11 +88,17 @@ def _unescape_character(match):
     except ValueError:
         return value
 
+def _unescape_byte(match):
+    value = match.group()
+    return bytes([int(value[1:], 16)])
 
 def _unescape_data(instr):
     for src, dst in SPECIAL_CHARS:
         instr = instr.replace(src, dst)
-    return RE_ESCAPED.sub(_unescape_character, instr)
+    if RE_ESCAPED.search(instr) is not None:
+        inbytes = instr.encode("utf-8")
+        instr = RE_ESCAPEDB.sub(_unescape_byte, inbytes).decode("utf-8", "replace")
+    return instr
 
 
 def _read_mork(filename):
