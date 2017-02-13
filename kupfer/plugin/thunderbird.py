@@ -3,7 +3,7 @@
 
 __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
-__kupfer_actions__ = ("NewMailAction", "AttachToNewMail", )
+__kupfer_actions__ = ("NewMailAction", "AttachToNewMail", "NewMailWithBody", )
 __description__ = _("Thunderbird/Icedove Contacts and Actions")
 __version__ = "2017.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
@@ -98,6 +98,24 @@ class AttachToNewMail(Action):
 
     def valid_object(self, iobj, for_item=None):
         return bool(email_from_leaf(iobj))
+
+class NewMailWithBody(Action):
+    def __init__(self):
+        super().__init__(_("Compose Email"))
+
+    def activate(self, leaf):
+        args = ["-compose", "body='%s'" % leaf.object]
+        if not utils.spawn_async(['thunderbird'] + args):
+            utils.spawn_async(['icedove'] + args)
+
+    def get_icon_name(self):
+        return "mail-message-new"
+
+    def item_types(self):
+        yield TextLeaf
+
+    def get_description(self):
+        return _("Compose a new message using the text as body")
 
 class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
         FilesystemWatchMixin):
