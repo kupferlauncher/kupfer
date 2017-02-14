@@ -388,7 +388,9 @@ class SourceController (pretty.OutputMixin):
                 names[name] = action
         for action in renames:
             self.output_debug("Disambiguate Action %s" % (action, ))
-            action.name += " (%s)" % (type(action).__module__.split(".")[-1],)
+            plugin_suffix = " (%s)" % (type(action).__module__.split(".")[-1], )
+            if not action.name.endswith(plugin_suffix):
+                action.name += plugin_suffix
 
     def __contains__(self, src):
         return src in self.sources
