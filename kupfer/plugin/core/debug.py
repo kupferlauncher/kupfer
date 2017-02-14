@@ -163,8 +163,12 @@ class Apply (Action):
         return self.action.item_types()
     def valid_object(self, obj, for_item=None):
         return self.action.valid_for_item(obj)
-    def activate(self, leaf, iobj):
-        return self.action.activate(iobj)
+
+    def wants_context(self):
+        return self.action.wants_context()
+
+    def activate(self, leaf, iobj, **kwargs):
+        return self.action.activate(iobj, **kwargs)
 
 class ComposedSource (Source):
     """
