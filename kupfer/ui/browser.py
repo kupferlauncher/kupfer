@@ -959,12 +959,6 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
         self.label.set_name("kupfer-description")
         
-        self.blank_label.set_width_chars(50)
-        self.blank_label.set_max_width_chars(50)
-        self.blank_label.set_single_line_mode(True)
-        self.blank_label.set_ellipsize(ELLIPSIZE_MIDDLE)
-        self.blank_label.set_name("kupfer-description2")
-
         self.switch_to_source()
         self.entry.connect("changed", self._changed)
         self.preedit.connect("insert-text", self._preedit_insert_text)

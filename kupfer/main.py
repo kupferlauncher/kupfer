@@ -44,6 +44,7 @@ def get_options():
     program_options = [
         ("no-splash", _("do not present main interface on launch")),
         ("list-plugins", _("list available plugins")),
+        ("prefrences",_("show prefrences dialog")),
         ("debug", _("enable debug info")),
         # TRANS: --exec-helper=HELPER is an internal command
         # TRANS: that executes a helper program that is part of kupfer
@@ -86,6 +87,12 @@ def get_options():
         raise SystemExit(1)
 
     for k, v in opts:
+        if k == "--prefrences":
+            from kupfer import kupferui
+            kupferui.show_preferences(None)
+            #opts.extend([('--no-splash','')])
+            opts.append(('--no-splash',''))
+            #raise SystemExit
         if k == "--list-plugins":
             prt(gtkmain(make_plugin_list))
             raise SystemExit
@@ -155,6 +162,7 @@ def browser_start(quiet):
 def main():
     # parse commandline before importing UI
     cli_opts = get_options()
+    print(cli_opts)
     print_banner()
 
     from kupfer import pretty, version
