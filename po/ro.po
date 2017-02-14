@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2015-10-25 11:37+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -136,7 +136,7 @@ msgstr "Dosare indexate"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Dosare ale căror fișiere sunt întotdeauna disponibile în catalog."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Catalog"
 
@@ -255,7 +255,7 @@ msgstr[0] "%s obiect"
 msgstr[1] "%s obiecte"
 msgstr[2] "%s de obiecte"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -315,7 +315,7 @@ msgstr "Nu există o aplicație implicită pentru %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "Folosiți „%s”"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Stabilește aplicația implicită..."
 
@@ -419,34 +419,34 @@ msgstr[0] "„%(text)s”"
 msgstr[1] "(%(num)d linii) „%(text)s”"
 msgstr[2] "(%(num)d de linii) „%(text)s”"
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s și alții"
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Sursă recursivă a %(dir)s, (%(levels)d nivele)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Sursa %s a dosarului"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Dosarul Acasă"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Indexul catalogului"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Un index cu toate sursele disponibile"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Catalog rădăcină"
 
@@ -484,11 +484,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Deschide cu..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Deschide cu orice aplicație"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Stabilește aplicația implicită pentru a deschide acest tip de fișier"
 
@@ -634,7 +634,7 @@ msgstr "Comută repetarea în Audacious"
 msgid "Playlist"
 msgstr "Listă de redare"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Calculator"
 
@@ -642,7 +642,7 @@ msgstr "Calculator"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Calculează"
 
@@ -883,7 +883,7 @@ msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 "Compune un email utilizând adiministratorul „mailto:” implicit al sistemului"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Compune email"
 
@@ -911,33 +911,33 @@ msgstr "Documente"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Documentele utilizate recent și dosarele favorite"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Numărul maxim de zile pentru documentele recente"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Elemente recente"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Documente utilizate recent"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s documente"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Documentele utilizate recent pentru %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Locuri"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Dosare favorite"
 
@@ -1051,27 +1051,27 @@ msgstr "Unelte pentru imagine"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Unelte pentru tansformarea imaginilor"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Scalează..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Scalează imaginea pentru a se potrivi la măsura(ile) de pixel dată(e)"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Rotește în sens orar"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Rotește în sens anti-orar"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Rotește automat"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr ""
 "Rotește JPEG (într-un singur loc) potrivit datelor meta EXIF ale acesteia"
@@ -1420,11 +1420,26 @@ msgstr "Redactează email nou"
 msgid "Compose a new message in Thunderbird"
 msgstr "Redactează un mesaj nou în Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Compune email"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Trimite email la..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Redactează un mesaj nou în Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Agenda Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Contactele din agenda Thunderbird"
 
@@ -1821,6 +1836,46 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Acces la contactele Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Afișează contactele deconectate"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Deschide discuție"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d caracter)"
+msgstr[1] "%s (%d caractere)"
+msgstr[2] "%s (%d de caractere)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Trimite mesaj..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Disponibil"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Plecat"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Contacte Pidgin"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2248,15 +2303,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Acces la contacte Empathy"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Afișează contactele deconectate"
-
-#~ msgid "Available"
-#~ msgstr "Disponibil"
-
-#~ msgid "Away"
-#~ msgstr "Plecat"
-
 #~ msgid "Busy"
 #~ msgstr "Ocupat"
 
@@ -2268,9 +2314,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Offline"
 #~ msgstr "Deconectat"
-
-#~ msgid "Open Chat"
-#~ msgstr "Deschide discuție"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Modifică starea globală la..."
@@ -2560,9 +2603,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 #~ msgid "Send message to a Gwibber account"
 #~ msgstr "Trimite mesaj către un cont Gwibber"
 
-#~ msgid "Send Message..."
-#~ msgstr "Trimite mesaj..."
-
 #~ msgid "Send message to selected Gwibber account"
 #~ msgstr "Trimite mesaj către contul Gwibber selectat"
 
@@ -2671,21 +2711,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Index of Opera bookmarks"
 #~ msgstr "Indexul marcajelor Opera"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Acces la contactele Pidgin"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d caracter)"
-#~ msgstr[1] "%s (%d caractere)"
-#~ msgstr[2] "%s (%d de caractere)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Contacte Pidgin"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "Sesiuni PuTTY"

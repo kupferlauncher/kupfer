@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Kim Boram <Boramism@gmail.com>\n"
 "Language-Team: Kim Boram <boramism@gmail.com>\n"
@@ -129,7 +129,7 @@ msgstr "새 폴더"
 msgid "Folders whose files are always available in the catalog."
 msgstr ""
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "카탈로그"
 
@@ -247,7 +247,7 @@ msgid "%s object"
 msgid_plural "%s objects"
 msgstr[0] "%s 개체"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -309,7 +309,7 @@ msgstr "%(file)s (%(type)s)을(를) 실행할 기본 응용 프로그램 없음"
 msgid "Please use \"%s\""
 msgstr "선택한 파일 \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "기본 응용 프로그램 설정..."
 
@@ -412,34 +412,34 @@ msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "(%(num)d 줄) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s 등."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "귀납적 소스 %(dir)s, (%(levels)d 레벨)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "디렉터리 소스 %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "내 폴더"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "카탈로그 인덱스"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "사용 가능한 모든 소스의 인덱스"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "루트 카탈로그"
 
@@ -477,11 +477,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "다른 프로그램으로 열기..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "다른 프로그램으로 열기..."
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "이 파일 형식을 열 기본 응용 프로그램을 설정합니다"
 
@@ -629,7 +629,7 @@ msgstr "Audacious 반복 연주 켜고 끄기"
 msgid "Playlist"
 msgstr "재생 목록"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "계산기"
 
@@ -637,7 +637,7 @@ msgstr "계산기"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "계산"
 
@@ -887,7 +887,7 @@ msgstr "기본 전자 메일 클라이언트"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "시스템 기본값으로 설정된 전자 메일 클라이언트로 전자 메일을 작성합니다"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "전자 메일 작성"
 
@@ -915,33 +915,33 @@ msgstr "문서"
 msgid "Recently used documents and bookmarked folders"
 msgstr "최근 사용한 문서와 책갈피 폴더"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "최근 문서에 표시할 최대 일 수"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "최근 항목"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "최근 사용한 문서"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "문서 %s"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "최근 사용한 문서 %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "위치"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "책갈피에 추가된 폴더"
 
@@ -1054,27 +1054,27 @@ msgstr "그림 도구"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "그림 변형 도구"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "크기 조정..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "주어진 픽셀 치수에 맞게 그림의 크기를 조정합니다 "
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "시계 방향으로 회전"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "시계 반대 방향으로 회전"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "자동 회전"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "사진의 EXIF 메타 정보에 따라 사진을 회전합니다"
 
@@ -1425,11 +1425,26 @@ msgstr "새 메일 작성"
 msgid "Compose a new message in Thunderbird"
 msgstr "썬더버드로 새 메시지 작성"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "전자 메일 작성"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "전자 메일 보내기...."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "썬더버드로 새 메시지 작성"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "썬더버드 주소록"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "썬더버드 주소록 상의 연락처"
 
@@ -1824,6 +1839,44 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "피진"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "피진 연락처에 접근"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "오프라인 연락처 보이기"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "대화 열기"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d 개의 문자)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "메시지 보내기..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "사용 가능"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "자리 비움"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "피진 연락처"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2233,15 +2286,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Gajim 연락처에 접근"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "오프라인 연락처 보이기"
-
-#~ msgid "Available"
-#~ msgstr "사용 가능"
-
-#~ msgid "Away"
-#~ msgstr "자리 비움"
-
 #~ msgid "Busy"
 #~ msgstr "다른 용무 중"
 
@@ -2253,9 +2297,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 
 #~ msgid "Offline"
 #~ msgstr "연결안됨"
-
-#~ msgid "Open Chat"
-#~ msgstr "대화 열기"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "전역 상태를 다음으로 바꾸기..."
@@ -2478,9 +2519,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 #~ msgid "Send Message To..."
 #~ msgstr "메시지 보내기..."
 
-#~ msgid "Send Message..."
-#~ msgstr "메시지 보내기..."
-
 #~ msgid "Reply..."
 #~ msgstr "회신..."
 
@@ -2548,19 +2586,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 
 #~ msgid "Contacts from Opera Mail"
 #~ msgstr "오페라 메일 연락처"
-
-#~ msgid "Pidgin"
-#~ msgstr "피진"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "피진 연락처에 접근"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d 개의 문자)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "피진 연락처"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY 세션"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2009-10-12 01:54+0200\n"
 "Last-Translator: Martin Koelewijn <martinkoelewijn@gmail.com>\n"
 "Language-Team: Dutch\n"
@@ -132,7 +132,7 @@ msgstr "Persoonlijke map"
 msgid "Folders whose files are always available in the catalog."
 msgstr ""
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Catalogus"
 
@@ -253,7 +253,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s object"
 msgstr[1] "%s object"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -315,7 +315,7 @@ msgstr "Stel standaardprogramma in om dit bestandstype te openen"
 msgid "Please use \"%s\""
 msgstr "Geselecteerd bestand \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Standaardprogramma instellen..."
 
@@ -421,34 +421,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d lines) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s e.a."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Recursieve bron van %(dir)s, (%(levels)d levels)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr ""
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Persoonlijke map"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Catalogusindex"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Een index van alle beschikbare bronnen"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Systeemcatalogus"
 
@@ -486,11 +486,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Openen met..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Open met een programma"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Stel standaardprogramma in om dit bestandstype te openen"
 
@@ -638,7 +638,7 @@ msgstr "Herhalen in Audacious aan-uit"
 msgid "Playlist"
 msgstr "Afspeellijst"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Rekenmachine"
 
@@ -646,7 +646,7 @@ msgstr "Rekenmachine"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Berekenen"
 
@@ -899,7 +899,7 @@ msgstr "Standaard E-mailprogramma"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "E-mail opstellen met standaard mailto: programma"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Opstellen e-mail"
 
@@ -928,33 +928,33 @@ msgstr "Documenten"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Pas gebruikte documenten in Abiword"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Max dagen recente documenten"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Recente items"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Pas gebruikte documenten"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s Documenten"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Pas gebruikte documenten voor %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Locaties"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 #, fuzzy
 msgid "Bookmarked folders"
 msgstr "Persoonlijke map"
@@ -1067,27 +1067,27 @@ msgstr "Tools voor afbeeldingen"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Bewerkingstools voor Afbeeldingen"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Schalen..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Afbeelding schalen om in opgegeven pixelgrootte te passen"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Draaien met klok mee"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Draaien tegen klok in"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Automatisch draaien"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Draai JPEG (in-place) volgens zijn EXIF metadata"
 
@@ -1452,11 +1452,26 @@ msgstr "Nieuwe e-mail opstellen"
 msgid "Compose a new message in Thunderbird"
 msgstr "Opstellen nieuw bericht in Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Opstellen e-mail"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "In e-mail sturen naar..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Opstellen nieuw bericht in Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird adresboek"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Adressen uit Thunderbird Adresboek"
 
@@ -1852,6 +1867,45 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Toegang tot Pidgin Contacten"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Toon offline kennissen"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Chat openen"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Stuur bericht..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Beschikbaar"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Afwezig"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidgin Contacten"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2274,15 +2328,6 @@ msgstr ""
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Toegang tot Gajim Contacten"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Toon offline kennissen"
-
-#~ msgid "Available"
-#~ msgstr "Beschikbaar"
-
-#~ msgid "Away"
-#~ msgstr "Afwezig"
-
 #~ msgid "Busy"
 #~ msgstr "Bezig"
 
@@ -2294,9 +2339,6 @@ msgstr ""
 
 #~ msgid "Offline"
 #~ msgstr "Offline"
-
-#~ msgid "Open Chat"
-#~ msgstr "Chat openen"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Algemene status veranderen naar..."
@@ -2400,9 +2442,6 @@ msgstr ""
 #~ msgid "Send Message To..."
 #~ msgstr "Stuur bericht..."
 
-#~ msgid "Send Message..."
-#~ msgstr "Stuur bericht..."
-
 #, fuzzy
 #~ msgid "Delete Message"
 #~ msgstr "Stuur bericht..."
@@ -2464,15 +2503,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Contacts from Opera Mail"
 #~ msgstr "Adressen uit Claws Mail Adresboek"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Toegang tot Pidgin Contacten"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidgin Contacten"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY sessies"

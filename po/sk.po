@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2012-10-31 19:55+0200\n"
 "Last-Translator: Pavol Babinčák <scroolik@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
@@ -169,7 +169,7 @@ msgid "Folders whose files are always available in the catalog."
 msgstr "Priečinky, ktorých súbory sú vždy k dispozícii v katalógu."
 
 # tab GtkLabel label
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalóg"
 
@@ -320,7 +320,7 @@ msgstr[1] "%s objekt"
 msgstr[2] "%s objekty"
 
 #  PM: prosím uveď príklad ako sa to bude zobrazovať
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, fuzzy, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -385,7 +385,7 @@ msgid "Please use \"%s\""
 msgstr "Použite prosím „%s“"
 
 #  PB: Chybové hlásenie - odkaz na akciu
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Nastaviť predvolenú aplikáciu…"
 
@@ -509,40 +509,40 @@ msgstr[0] "(%(num)d riadkov) „%(text)s“"
 msgstr[1] "„%(text)s“"
 msgstr[2] "(%(num)d riadky) „%(text)s“"
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s a ďalší"
 
 #  PB: Popis akcie
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, fuzzy, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekurzívny zdroj priečinka %(dir)s, (%(levels)d úrovní)"
 
 # PM: adresár
 #  PB: Popis akcie
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Zdrojový priečinok %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Domovský priečinok"
 
 #  PB: Názov akcie
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr ""
 
 #  PB: Popis akcie
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr ""
 
 #  PB: Popis akcie
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Koreňový katalóg"
 
@@ -585,12 +585,12 @@ msgid "Open With..."
 msgstr "Otvoriť pomocou…"
 
 #  PB: Popis akcie
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Otvorí pomocou ľubovoľnej aplikácie"
 
 #  PB: Popis akcie
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Nastaví predvolenú aplikáciu pre otvorenie tohto typu súboru"
 
@@ -745,7 +745,7 @@ msgid "Playlist"
 msgstr ""
 
 #  PB: Názov zásuvného modulu
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Kalkulačka"
 
@@ -754,7 +754,7 @@ msgid "Calculate mathematical expressions"
 msgstr ""
 
 #  PB: Názov akcie
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Vypočítať"
 
@@ -1034,7 +1034,7 @@ msgstr ""
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr ""
 
@@ -1067,39 +1067,39 @@ msgid "Recently used documents and bookmarked folders"
 msgstr ""
 
 #  PB: Popis nastavení zásuvného modulu
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr ""
 
 #  PB: Názov zdroja
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr ""
 
 #  PB: Popis zdroja
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr ""
 
 #  PB: Názov zdroja
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr ""
 
 #  PB: Popis zdroja
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr ""
 
 #  PB: Názov zdroja
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr ""
 
 #  PB: Popis zdroja
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr ""
 
@@ -1224,27 +1224,27 @@ msgstr ""
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr ""
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr ""
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr ""
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr ""
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr ""
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr ""
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr ""
 
@@ -1592,11 +1592,25 @@ msgstr ""
 msgid "Compose a new message in Thunderbird"
 msgstr ""
 
-#: ../kupfer/plugin/thunderbird.py:74
+#  pb: Akcelerátor
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Zostaviť príkaz"
+
+#: ../kupfer/plugin/thunderbird.py:72
+msgid "Attach in Email To..."
+msgstr ""
+
+#: ../kupfer/plugin/thunderbird.py:118
+msgid "Compose a new message using the text as body"
+msgstr ""
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr ""
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr ""
 
@@ -1985,6 +1999,49 @@ msgstr ""
 
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
+msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:29
+#, fuzzy
+msgid "Show offline contacts"
+msgstr "Zobraziť hlavné rozhranie"
+
+#: ../kupfer/plugin/pidgin.py:97
+#, fuzzy
+msgid "Open Chat"
+msgstr "Otvoriť"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:158
+#, fuzzy
+msgid "Available"
+msgstr "Dostupné zásuvné moduly:"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
 msgstr ""
 
 #. TRANS: Names of accelerators in the interface

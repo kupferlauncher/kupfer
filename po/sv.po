@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-13 23:00+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2015-08-10 18:48+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -134,7 +134,7 @@ msgstr "Indexerade mappar"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Mappar vars innehåll alltid finns tillgängligt i katalogen."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -252,7 +252,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s objekt"
 msgstr[1] "%s objekt"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -312,7 +312,7 @@ msgstr "Det finns inget förvalt program för ”%(file)s” (%(type)s)."
 msgid "Please use \"%s\""
 msgstr "V.v. använd ”%s”"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Välj standardprogram..."
 
@@ -415,34 +415,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "”%(text)s”"
 msgstr[1] "(%(num)d lines) ”%(text)s”"
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv källa %(dir)s, (%(levels)d nivåer)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Katalogkälla %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Hemmapp"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Katalogindex"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Index över alla tilgängliga kataloger"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Rotkatalog"
 
@@ -480,11 +480,11 @@ msgstr "Använd skrivbords-filter (kräver omstart)"
 msgid "Open With..."
 msgstr "Öppna med..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Öppna med godtyckligt program"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
@@ -630,7 +630,7 @@ msgstr "Växla repetera i Audacious"
 msgid "Playlist"
 msgstr "Spellista"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Miniräknare"
 
@@ -638,7 +638,7 @@ msgstr "Miniräknare"
 msgid "Calculate mathematical expressions"
 msgstr "Beräka matematiska uttryck"
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Beräkna"
 
@@ -878,7 +878,7 @@ msgstr "Förvald e-postläsare"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Skriv nytt e-postmeddelande m.h.a systemets mailto:-hanterare"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Skriv e-postmeddelande"
 
@@ -906,33 +906,33 @@ msgstr "Dokument"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Senaste dokument och bokmärkta platser"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Maximal ålder för senaste dokument (dagar)"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Senaste dokument"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Senast använda dokument"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s-dokument"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Senaste dokument för %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Platser"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Bokmärkta mappar"
 
@@ -1043,27 +1043,27 @@ msgstr "Bildverktyg"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Bildtranformeringskommandon (använder 'convert' från ImageMagick)"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Skala..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Skala bilden för att passa inom given storlek"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Rotera medurs"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Rotera moturs"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Autorotera"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Rotera JPEG (på plats) enligt EXIF-metadata"
 
@@ -1821,6 +1821,45 @@ msgstr "Stoppa (%s)"
 msgid "Stop playback"
 msgstr "Stoppa uppspelning"
 
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Tillgång till Pidgin-kontakter"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Visa frånkopplade kontakter"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Öppna chatt"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d tecken)"
+msgstr[1] "%s (%d tecken)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Skicka meddelande..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Tillgänglig"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Frånvarande"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidgin-kontakter"
+
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
@@ -2244,15 +2283,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Tillgång till Empathy-kontakter"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Visa frånkopplade kontakter"
-
-#~ msgid "Available"
-#~ msgstr "Tillgänglig"
-
-#~ msgid "Away"
-#~ msgstr "Frånvarande"
-
 #~ msgid "Busy"
 #~ msgstr "Stör inte"
 
@@ -2264,9 +2294,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Offline"
 #~ msgstr "Frånkopplad"
-
-#~ msgid "Open Chat"
-#~ msgstr "Öppna chatt"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Ändra global status till..."
@@ -2538,9 +2565,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 #~ msgid "Send message to a Gwibber account"
 #~ msgstr "Skicka meddelande till ett Gwibber-konton"
 
-#~ msgid "Send Message..."
-#~ msgstr "Skicka meddelande..."
-
 #~ msgid "Send message to selected Gwibber account"
 #~ msgstr "Skicka meddelande till valt Gwibber-konto"
 
@@ -2639,20 +2663,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Index of Opera bookmarks"
 #~ msgstr "Index över Opera-bokmärken"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Tillgång till Pidgin-kontakter"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d tecken)"
-#~ msgstr[1] "%s (%d tecken)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidgin-kontakter"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY-sessioner"

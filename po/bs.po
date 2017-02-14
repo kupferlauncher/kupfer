@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2015-01-09 14:13+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -132,7 +132,7 @@ msgstr "Indeksirani folderi"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Folderi čiji fajlovi su uvijek dostupni u katalogu."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -252,7 +252,7 @@ msgstr[0] "%s objekat"
 msgstr[1] "%s objekta"
 msgstr[2] "%s objekata"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -312,7 +312,7 @@ msgstr "Nema predodređene aplikacije za %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "Molimo koristite \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Postavite predodređenu aplikaciju..."
 
@@ -416,34 +416,34 @@ msgstr[0] "(%(num)d linija) \"%(text)s\""
 msgstr[1] "(%(num)d linije) \"%(text)s\""
 msgstr[2] "(%(num)d linija) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s i dr.."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekurzivni izvor %(dir)s, (%(levels)d levels)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Direktorij izvora %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Lični direktorij"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Index kataloga"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Svi indexi svih dostupnih izvora"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Korijenski katalog"
 
@@ -481,11 +481,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Otvori pomoću..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Otvori pomoću bilo koje aplikacije"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Postavi predodređenu aplikaciju za otvaranje ovog tipa fajla"
 
@@ -631,7 +631,7 @@ msgstr "Ponavljanje žabice u Audaciousu"
 msgid "Playlist"
 msgstr "Lista pjesama"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Kalkulator"
 
@@ -639,7 +639,7 @@ msgstr "Kalkulator"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Izračunaj"
 
@@ -879,7 +879,7 @@ msgstr "Predodređeni e-mail klijent"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Sastavi e-mail koristeći predodređeni sistemski mailto: rukovatelj"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Sastavi e-poštu"
 
@@ -907,33 +907,33 @@ msgstr "Dokumenti"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Skoro korišteni dokumenti i spašeni folderi"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Najskoriji dani dokumenta"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Skorašnje stavke"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Skoro korišteni dokumenti"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s Dokumenti"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Skoro korišteni dokumenti za %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Mjesta"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Zapamćeni folder"
 
@@ -1045,27 +1045,27 @@ msgstr "Slikovni alati"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Alati za transformaciju slike"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Povećaj/smanji ..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Skaliraj sliku da stane u zadanu mjeru tečaka"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Rotiraj u smjeru kazaljke na satu"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Rotiraj suprotno od smjera kazaljke na satu"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Sam rotiraj"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Rotiraj JPEG (na mjestu) prema njegovim EXIF metapodacima"
 
@@ -1413,11 +1413,26 @@ msgstr "Sastavi novi e-mail"
 msgid "Compose a new message in Thunderbird"
 msgstr "Sastavi novu poruku u Thunderbird-u"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Sastavi e-poštu"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Pošalje e-mail..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Sastavi novu poruku u Thunderbird-u"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird adresar"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Kontakti iz adresara Thunderbird-a"
 
@@ -1814,6 +1829,47 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Pristupi Pidgin Kontaktima"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Prikaži odjavljene kontakte"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Otvoreno ćaskanje"
+
+#         translations.
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znak)"
+msgstr[1] "%s (%d znaka)"
+msgstr[2] "%s (%d znakova)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Pošalji poruku..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Dostupno"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Odsutnost"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidgin kontakti"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2240,15 +2296,6 @@ msgstr "Ne mogu naći pokrenuti Kupfer"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Pristupi Empathy kontaktima"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Prikaži odjavljene kontakte"
-
-#~ msgid "Available"
-#~ msgstr "Dostupno"
-
-#~ msgid "Away"
-#~ msgstr "Odsutnost"
-
 #~ msgid "Busy"
 #~ msgstr "Zauzeto"
 
@@ -2260,9 +2307,6 @@ msgstr "Ne mogu naći pokrenuti Kupfer"
 
 #~ msgid "Offline"
 #~ msgstr "Izvan mreže"
-
-#~ msgid "Open Chat"
-#~ msgstr "Otvoreno ćaskanje"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Promijeni Globalni status u..."
@@ -2537,9 +2581,6 @@ msgstr "Ne mogu naći pokrenuti Kupfer"
 #~ msgid "Send message to a Gwibber account"
 #~ msgstr "Pošalji poruku Gwibber nalogu"
 
-#~ msgid "Send Message..."
-#~ msgstr "Pošalji poruku..."
-
 #~ msgid "Send message to selected Gwibber account"
 #~ msgstr "Pošalji poruku odabranom Gwibber nalogu"
 
@@ -2638,22 +2679,6 @@ msgstr "Ne mogu naći pokrenuti Kupfer"
 
 #~ msgid "Index of Opera bookmarks"
 #~ msgstr "Indey Opera oznaka"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Pristupi Pidgin Kontaktima"
-
-#         translations.
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d znak)"
-#~ msgstr[1] "%s (%d znaka)"
-#~ msgstr[2] "%s (%d znakova)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidgin kontakti"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY sesije"

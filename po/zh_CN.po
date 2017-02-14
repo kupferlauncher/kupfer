@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2011-03-05 15:03+0800\n"
 "Last-Translator: Yinghua Wang <wantinghard@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
@@ -134,7 +134,7 @@ msgstr "新文件夹"
 msgid "Folders whose files are always available in the catalog."
 msgstr ""
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "类别"
 
@@ -253,7 +253,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s 个对象"
 msgstr[1] "%s 个对象"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -315,7 +315,7 @@ msgstr "没有打开 %(file)s (%(type)s) 文件的默认程序"
 msgid "Please use \"%s\""
 msgstr "选择文件“%s”"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "设置默认程序..."
 
@@ -418,34 +418,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d 行) ”%(text)s“"
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s 等"
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "%(dir)s 有 %(levels)d 层"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "目录资源 %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "主文件夹"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "类别索引"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "一个所有可用资源的索引"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "主类别"
 
@@ -483,11 +483,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "打开方式..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "使用任意可用程序打开"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "设置打开此类文件的默认程序"
 
@@ -635,7 +635,7 @@ msgstr "切换 Audacious 中的重复"
 msgid "Playlist"
 msgstr "播放列表"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "计算器"
 
@@ -643,7 +643,7 @@ msgstr "计算器"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "计算"
 
@@ -892,7 +892,7 @@ msgstr "默认电子邮件客户端"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "使用系统默认的 mailto: 处理器编辑邮件"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "编写新邮件"
 
@@ -920,33 +920,33 @@ msgstr "文档"
 msgid "Recently used documents and bookmarked folders"
 msgstr "最近使用的文档和保存为书签的文件夹"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "最大最近文档天数"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "最近的项目"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "最近打开文档"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s 个文档"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "%s 最近使用的文档"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "位置"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "加入书签的文件夹"
 
@@ -1059,27 +1059,27 @@ msgstr "图像工具"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "图像转换工具"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "缩放..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "缩放图像来适合内部指定的像素单位"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "顺时针旋转"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "逆时针旋转"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "自动旋转"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "根据自身 EXIF 数据旋转 JPEG 文件"
 
@@ -1431,11 +1431,26 @@ msgstr "编写新邮件"
 msgid "Compose a new message in Thunderbird"
 msgstr "在 Thunderbird 中编辑新消息"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "编写新邮件"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "发送邮件到..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "在 Thunderbird 中编辑新消息"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird 地址薄"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Thunderbird 地址簿中的联系人"
 
@@ -1830,6 +1845,45 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "访问 Pidgin 联系人"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "显示离线联系人"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "开始聊天"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d 个字符)"
+msgstr[1] "%s (%d 个字符)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "发送消息..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "在线"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "离开"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidgin 联系人"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2237,15 +2291,6 @@ msgstr "找不到运行中的 Kupfer"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "访问 Gajim 联系人"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "显示离线联系人"
-
-#~ msgid "Available"
-#~ msgstr "在线"
-
-#~ msgid "Away"
-#~ msgstr "离开"
-
 #~ msgid "Busy"
 #~ msgstr "忙碌"
 
@@ -2257,9 +2302,6 @@ msgstr "找不到运行中的 Kupfer"
 
 #~ msgid "Offline"
 #~ msgstr "离线"
-
-#~ msgid "Open Chat"
-#~ msgstr "开始聊天"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "更改全局状态为..."
@@ -2487,9 +2529,6 @@ msgstr "找不到运行中的 Kupfer"
 #~ msgid "Send Message To..."
 #~ msgstr "发送消息..."
 
-#~ msgid "Send Message..."
-#~ msgstr "发送消息..."
-
 #~ msgid "Reply..."
 #~ msgstr "回复..."
 
@@ -2575,20 +2614,6 @@ msgstr "找不到运行中的 Kupfer"
 
 #~ msgid "Contacts from Opera Mail"
 #~ msgstr "Opera Mail 地址簿中的联系人"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "访问 Pidgin 联系人"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d 个字符)"
-#~ msgstr[1] "%s (%d 个字符)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidgin 联系人"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY 会话"

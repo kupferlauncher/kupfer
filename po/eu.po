@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2010-08-27 17:12+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -131,7 +131,7 @@ msgstr "Sortu karpeta"
 msgid "Folders whose files are always available in the catalog."
 msgstr ""
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalogoa"
 
@@ -250,7 +250,7 @@ msgid_plural "%s objects"
 msgstr[0] "objektu %s"
 msgstr[1] "%s objektu"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -312,7 +312,7 @@ msgstr "Ez dago %(file)s (%(type)s)(r)en lehenetsitako aplikaziorik"
 msgid "Please use \"%s\""
 msgstr "\"%s\" fitxategi hautatuta"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Ezarri lehenetsitako aplikazioa..."
 
@@ -416,34 +416,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d lerro) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "%(dir)s(r)en iturburu errekurtsiboa, (%(levels)d maila)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Direktorioaren iturburua: %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Karpeta nagusia"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Katalogoaren aurkibidea"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Baliabide erabilgarri guztien aurkibidea"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Erroko katalogoa"
 
@@ -481,11 +481,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Ireki honekin..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Ireki edozein aplikaziorekin"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Ezarri aplikazio lehenetsia fitxategi mota hau irekitzeko"
 
@@ -633,7 +633,7 @@ msgstr "Txandakatu erreprodukzioa errepikatzea Audacious-en"
 msgid "Playlist"
 msgstr "Erreprodukzio-zerrenda"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Kalkulagailua"
 
@@ -641,7 +641,7 @@ msgstr "Kalkulagailua"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Kalkulatu"
 
@@ -892,7 +892,7 @@ msgstr "Posta-bezero lehenetsia"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Prestatu mezua sistemako posta-bezero lehenetsia erabiliz"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Prestatu mezua"
 
@@ -920,33 +920,33 @@ msgstr "Dokumentuak"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Azken aldian erabilitako dokumentu eta laster-markatutako karpetak"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Gehienezko azken dokumentuen egunak"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Azken elementuak"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Azken aldian erabilitako dokumentuak"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s dokumentu"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "%s(r)en erabilitako azken dokumentuak"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Lekuak"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Laster-markatutako karpetak"
 
@@ -1061,27 +1061,27 @@ msgstr "Irudien tresnak"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Irudiak eraldatzeko tresnak"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Eskalatu..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Eskalatu irudia emandako pixel neurrietan doitzeko"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Biratu erlojuaren norantzan"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Biratu erlojuaren aurkako norantzan"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Biratu automatikoki"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Biratu JPEG bere EXIF metadatuen arabera"
 
@@ -1432,11 +1432,26 @@ msgstr "Prestatu mezu berria"
 msgid "Compose a new message in Thunderbird"
 msgstr "Prestatu mezu berria Thunderbird-en"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Prestatu mezua"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Bidali mezua honi..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Prestatu mezu berria Thunderbird-en"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird-eko helbide-liburua"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Thunderbird-eko helbide-liburuko kontaktuak"
 
@@ -1834,6 +1849,45 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Atzitu Pidgin-eko kontaktuak"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Erakutsi deskonektatutako kontaktuak"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Ireki berriketa"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (karaktere %d)"
+msgstr[1] "%s (%d karaktere)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Bidali mezua..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Erabilgarri"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Kanpoan"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidgin-eko kontaktuak"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2246,15 +2300,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Atzitu Gajim-eko kontaktuak"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Erakutsi deskonektatutako kontaktuak"
-
-#~ msgid "Available"
-#~ msgstr "Erabilgarri"
-
-#~ msgid "Away"
-#~ msgstr "Kanpoan"
-
 #~ msgid "Busy"
 #~ msgstr "Lanpetuta"
 
@@ -2266,9 +2311,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Offline"
 #~ msgstr "Deskonektatuta"
-
-#~ msgid "Open Chat"
-#~ msgstr "Ireki berriketa"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Aldatu egoera orokorra hona..."
@@ -2493,9 +2535,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 #~ msgid "Send Message To..."
 #~ msgstr "Bidali mezua..."
 
-#~ msgid "Send Message..."
-#~ msgstr "Bidali mezua..."
-
 #~ msgid "Reply..."
 #~ msgstr "Erantzun..."
 
@@ -2559,20 +2598,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Contacts from Opera Mail"
 #~ msgstr "Opera posta-bezeroko kontaktuak"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Atzitu Pidgin-eko kontaktuak"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (karaktere %d)"
-#~ msgstr[1] "%s (%d karaktere)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidgin-eko kontaktuak"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY saioak"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2015-05-30 11:28+0000\n"
 "Last-Translator: Simge Sezgin <simgesezgin88@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -128,7 +128,7 @@ msgstr "Dizinlenmiş Klasörler"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Katalogdaki her zaman kullanılabilir dosyaların klasörleri."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -248,7 +248,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s nesne"
 msgstr[1] "%s nesne"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -308,7 +308,7 @@ msgstr "%(file)s (%(type)s) dosya türü için öntenımlı uygulama yok"
 msgid "Please use \"%s\""
 msgstr "Lütfen \"%s\" kullanın"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Öntanımlı Uygulama Olarak Ayarla...."
 
@@ -411,34 +411,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d satır) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s ve diğerleri"
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "%(dir)s yinelemeli kaynağı, (%(levels)d seviye)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "%s Sözlük Kaynağı"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Ev Klasörü"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Katalog İçeriği"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Uygun tüm kaynakların listesi"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Yönetici katalogu"
 
@@ -476,11 +476,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Birlikte Aç..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Herhangi bir uygulama ile aç"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Bu dosya türü için öntanımlı uygulama olarak ayarla"
 
@@ -626,7 +626,7 @@ msgstr "Audacious içinde tekrarlamayı değiştir"
 msgid "Playlist"
 msgstr "Oynatma Listesi"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Hesap Makinesi"
 
@@ -634,7 +634,7 @@ msgstr "Hesap Makinesi"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Hesapla"
 
@@ -873,7 +873,7 @@ msgstr "Öntanımlı E-posta İstemcisi"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Öntanımlı sistem eposta adresi kullanan eposta oluştur: işleyici"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "E-Posta yaz"
 
@@ -901,33 +901,33 @@ msgstr "Belgeler"
 msgid "Recently used documents and bookmarked folders"
 msgstr "En son kullanılan belgeler ve yerimlenmiş dizinler"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "En son kullanılan belgelere eklenmesi için en geç süre"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Son Kullanılan Öğeler"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Son kullanılan belgeler"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s Belgeleri"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "%s için son kullanılan belgeler"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Yerler"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Yerimi dizinleri"
 
@@ -1039,27 +1039,27 @@ msgstr "Resim Araçları"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Resim dönüştürme araçları"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Boyutlandır..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Resimi verilen piksel uzunluğuna göre boyutlandır"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Saat Yönünde Döndür"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Saat Yönünün Tersine Döndür"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Otomatik Döndür"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "JPEG(yerinde) dosyasını EXIF üstverisine göre döndür"
 
@@ -1407,11 +1407,26 @@ msgstr "Yeni E-posta yaz"
 msgid "Compose a new message in Thunderbird"
 msgstr "Thunderbird'de yeni ileti yaz"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "E-Posta yaz"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "E-posta gönder..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Thunderbird'de yeni ileti yaz"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird Adres Defteri"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Thunderbird Adres defteri kişileri"
 
@@ -1805,6 +1820,45 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Pidgin Kişilerine Eriş"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Çevrimdışı kişileri göster"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Sohbet Başlat"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d karakter)"
+msgstr[1] "%s (%d karakter)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Mesaj Gönder..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Uygun"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Uzakta"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidgin Kişileri"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2228,15 +2282,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Empathy Kişilerine Erişim"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Çevrimdışı kişileri göster"
-
-#~ msgid "Available"
-#~ msgstr "Uygun"
-
-#~ msgid "Away"
-#~ msgstr "Uzakta"
-
 #~ msgid "Busy"
 #~ msgstr "Meşgul"
 
@@ -2248,9 +2293,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "Offline"
 #~ msgstr "Çevrimdışı"
-
-#~ msgid "Open Chat"
-#~ msgstr "Sohbet Başlat"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Genel durumu değiştir..."
@@ -2532,9 +2574,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 #~ msgid "Send message to a Gwibber account"
 #~ msgstr "Bir Gwibber hesabına ileti gönder"
 
-#~ msgid "Send Message..."
-#~ msgstr "Mesaj Gönder..."
-
 #~ msgid "Send message to selected Gwibber account"
 #~ msgstr "Seçilen Gwibber hesabına ileti gönder"
 
@@ -2633,20 +2672,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "Index of Opera bookmarks"
 #~ msgstr "Opera Yerimleri İçeriği"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Pidgin Kişilerine Eriş"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d karakter)"
-#~ msgstr[1] "%s (%d karakter)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidgin Kişileri"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY Oturumları"

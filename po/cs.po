@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2012-08-31 23:53+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -132,7 +132,7 @@ msgstr "Indexované složky"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Složky, jejichž soubory jsou již dostupné v katalogu."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -252,7 +252,7 @@ msgstr[0] "%s objekt"
 msgstr[1] "%s objekty"
 msgstr[2] "%s objektů"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -312,7 +312,7 @@ msgstr "Není nastavená výchozí aplikace pro  %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "Použijte prosím „%s“"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Nastavit výchozí aplikaci…"
 
@@ -416,34 +416,34 @@ msgstr[0] "„%(text)s“"
 msgstr[1] "(%(num)d řádky) „%(text)s“"
 msgstr[2] "(%(num)d řádků) „%(text)s“"
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s a další"
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekurzivní zdroj ze složky %(dir)s, (%(levels)d úrovní)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Zdroj složka %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Domovská složka"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Katalogový rejstřík"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Rejstřík ze všech dostupných zdrojů"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Kořenový katalog"
 
@@ -481,11 +481,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Otevřít s…"
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Otevřít pomocí nějaké aplikace"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Nastavit výchozí aplikaci na otevírání tohoto typu souboru"
 
@@ -631,7 +631,7 @@ msgstr "Zapnout/vypnout opakování v přehrávači Audacious"
 msgid "Playlist"
 msgstr "Seznam skladeb"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Kalkulačka"
 
@@ -639,7 +639,7 @@ msgstr "Kalkulačka"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Vypočítat"
 
@@ -879,7 +879,7 @@ msgstr "Výchozí poštovní klient"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Napsat e-mail ve výchozím programu systému pro zpracován mailto:"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Napsat e-mail"
 
@@ -907,33 +907,33 @@ msgstr "Dokumenty"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Nedávno použité dokumenty a označené složky"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Max. stáří nedávných dokumentů ve dnech"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Nedávné položky"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Nedávno použité dokumenty"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "Dokumenty %s"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Nedávno použité dokumenty pro %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Místa"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Označené složky"
 
@@ -1045,28 +1045,28 @@ msgstr "Nástroje na obrázky"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Nástroje pro transformaci obrázků"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Změnit velikost…"
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr ""
 "Změnit velikost obrázku, aby odpovídal vnitřně daným rozměrům v pixelech"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Otočit ve směru hodinových ručiček"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Otočit proti směru hodinových ručiček"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Automaticky otočit"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Otočit JPEG v souladu s jeho metadaty EXIF"
 
@@ -1415,11 +1415,26 @@ msgstr "Napsat nový e-mail"
 msgid "Compose a new message in Thunderbird"
 msgstr "Napsat novou zprávu v aplikaci Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Napsat e-mail"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Odeslat e-mailem…"
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Napsat novou zprávu v aplikaci Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Adresář aplikace Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Kontakty z adresáře poštovního klienta Thunderbird"
 
@@ -1815,6 +1830,46 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Přístup ke kontaktům v komunikátoru Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Zobrazovat odpojené kontakty"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Otevřít diskuzi"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znak)"
+msgstr[1] "%s (%d znaky)"
+msgstr[2] "%s (%d znaků)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Odeslat zprávu…"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Dostupný"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Pryč"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Kontakty Pidgin"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2243,15 +2298,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Přístup ke kontaktům v komunikátoru Empathy"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Zobrazovat odpojené kontakty"
-
-#~ msgid "Available"
-#~ msgstr "Dostupný"
-
-#~ msgid "Away"
-#~ msgstr "Pryč"
-
 #~ msgid "Busy"
 #~ msgstr "Nerušit"
 
@@ -2263,9 +2309,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "Offline"
 #~ msgstr "Odpojený"
-
-#~ msgid "Open Chat"
-#~ msgstr "Otevřít diskuzi"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Změnit globální stav na…"
@@ -2541,9 +2584,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 #~ msgid "Send message to a Gwibber account"
 #~ msgstr "Odeslat zprávu na účet Gwibber"
 
-#~ msgid "Send Message..."
-#~ msgstr "Odeslat zprávu…"
-
 #~ msgid "Send message to selected Gwibber account"
 #~ msgstr "Odeslat zprávu na vybraný účet Gwibber"
 
@@ -2642,21 +2682,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "Index of Opera bookmarks"
 #~ msgstr "Seznam záložek v prohlížeči Opera"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Přístup ke kontaktům v komunikátoru Pidgin"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d znak)"
-#~ msgstr[1] "%s (%d znaky)"
-#~ msgstr[2] "%s (%d znaků)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Kontakty Pidgin"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "Sezení PuTTY"

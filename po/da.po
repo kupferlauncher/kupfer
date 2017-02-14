@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2010-09-28 17:30+01:00\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -136,7 +136,7 @@ msgstr "Ny mappe"
 msgid "Folders whose files are always available in the catalog."
 msgstr ""
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalog"
 
@@ -259,7 +259,7 @@ msgstr[0] "%s objekt"
 msgstr[1] "%s objekter"
 
 # oversættes?
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -321,7 +321,7 @@ msgstr "Intet standardprogram til %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "Markeret fil \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Angiv standardprogram..."
 
@@ -429,34 +429,34 @@ msgstr[1] "(%(num)d linjer) \"%(text)s\""
 # forkortelse for 'et alia', som betyder 'og andre'.  Det er forkert at
 # have punktum efter 'et'.  Den rigtige måde at skrive det på er 'et
 # al.'  Kunne evt. være m.fl. på dansk
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, fuzzy, python-format
 msgid "%s et. al."
 msgstr "%s m.fl."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekursiv kilde for %(dir)s, (%(levels)d niveauer)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Mappekilde %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Hjemmemappe"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Katalogindeks"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Et indeks af alle tilgængelige kilder"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Rodkatalog"
 
@@ -494,11 +494,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Åbn med..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Åbn med vilkårligt program"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Angiv standardprogram til at åbne denne filtype med"
 
@@ -648,7 +648,7 @@ msgstr "Slå gentag i Audacious til/fra"
 msgid "Playlist"
 msgstr "Afspilningsliste"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Lommeregner"
 
@@ -656,7 +656,7 @@ msgstr "Lommeregner"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Beregn"
 
@@ -907,7 +907,7 @@ msgstr "Standard for e-post-klient"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Opret e-post med brug af systemets standard mailto:-håndtering"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Opret e-post"
 
@@ -935,33 +935,33 @@ msgstr "Dokumenter"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Seneste brugte dokumenter og bogmærkede mapper"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Maks. dage for seneste dokument"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Seneste punkter"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Seneste brugte dokumenter"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s dokumenter"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Seneste brugte dokumenter for %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Steder"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Bogmærkede mapper"
 
@@ -1077,27 +1077,27 @@ msgstr "Billedværktøjer"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Billedtransformeringsværktøjer"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Skaler..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Skaler billede så det passer inden for angivet størrelsesforhold"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Roter med uret"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Roter mod uret"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Automatisk rotering"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Roter JPEG (internt) ifølge egne EXIF-metadata"
 
@@ -1453,11 +1453,26 @@ msgstr "Skriv ny e-post"
 msgid "Compose a new message in Thunderbird"
 msgstr "Opret en ny besked i Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Opret e-post"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Send i en e-post til..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Opret en ny besked i Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Thunderbirds adressebog"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Kontakter fra Thunderbirds adressebog"
 
@@ -1854,6 +1869,46 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Adgang til Pidginkontakter"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Vis frakoblede kontakter"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Åbn snak"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d tegn)"
+msgstr[1] "%s (%d tegn)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Send besked..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Tilgængelig"
+
+# fraværende eller ude
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Fraværende"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Pidginkontakter"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2268,16 +2323,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Adgang til Gajimkontakter"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Vis frakoblede kontakter"
-
-#~ msgid "Available"
-#~ msgstr "Tilgængelig"
-
-# fraværende eller ude
-#~ msgid "Away"
-#~ msgstr "Fraværende"
-
 #~ msgid "Busy"
 #~ msgstr "Optaget"
 
@@ -2289,9 +2334,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 
 #~ msgid "Offline"
 #~ msgstr "Afkoblet"
-
-#~ msgid "Open Chat"
-#~ msgstr "Åbn snak"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Ændr global status til..."
@@ -2516,9 +2558,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 #~ msgid "Send Message To..."
 #~ msgstr "Send besked..."
 
-#~ msgid "Send Message..."
-#~ msgstr "Send besked..."
-
 #~ msgid "Reply..."
 #~ msgstr "Svar..."
 
@@ -2582,20 +2621,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 
 #~ msgid "Contacts from Opera Mail"
 #~ msgstr "Kontakter fra Opera Mail"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Adgang til Pidginkontakter"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d tegn)"
-#~ msgstr[1] "%s (%d tegn)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Pidginkontakter"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "PuTTY-sessioner"

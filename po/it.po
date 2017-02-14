@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2010-08-24 20:06+0200\n"
 "Last-Translator: Francesco Marella <francesco.marella@gmail.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -134,7 +134,7 @@ msgstr "Nuova cartella"
 msgid "Folders whose files are always available in the catalog."
 msgstr ""
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Catalogo"
 
@@ -253,7 +253,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s oggetto"
 msgstr[1] "%s oggetti"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -315,7 +315,7 @@ msgstr "Nessuna applicazione predefinita per %(file)s (%(type)s)"
 msgid "Please use \"%s\""
 msgstr "File selezionato \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Imposta applicazione predefinita..."
 
@@ -419,34 +419,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d righe) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Sorgente ricorsiva di %(dir)s, (%(levels)d livelli)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Directory sorgente «%s»"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Cartella home"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Indice del catalogo"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Un indice di tutte le sorgenti disponibili"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Catalogo radice"
 
@@ -484,11 +484,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Apri con..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Apre con qualsiasi applicazione"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Imposta l'applicazione predefinita per questo tipo di file"
 
@@ -636,7 +636,7 @@ msgstr "Attiva/Disattiva ripeti in Audacious"
 msgid "Playlist"
 msgstr "Scaletta"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Calcolatrice"
 
@@ -644,7 +644,7 @@ msgstr "Calcolatrice"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Calcola"
 
@@ -896,7 +896,7 @@ msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 "Compone nuovo messaggio di posta usando il gestore di posta predefinito"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Componi nuovo messaggio di posta"
 
@@ -924,33 +924,33 @@ msgstr "Documenti"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Documenti utilizzati recentemente e cartelle aggiunte ai preferiti"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Giorni massimi dei documenti recenti"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Voci recenti"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Documenti utilizzati recentemente"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "Documenti %s"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Documenti utilizzati recentemente per %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Risorse"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Cartelle aggiunte ai segnalibri"
 
@@ -1064,27 +1064,27 @@ msgstr "Strumenti per immagini"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Strumenti per la trasformazione delle immagini"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Scala..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Scala immagine per adattarla alle dimensioni fornite in pixel"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Rotazione oraria"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Rotazione anti-oraria"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Rotazione automatica"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Ruota immagine JPEG in base ai metadati EXIF associati"
 
@@ -1435,11 +1435,26 @@ msgstr "Componi nuovo messaggio di posta"
 msgid "Compose a new message in Thunderbird"
 msgstr "Compone un nuovo messaggio di posta in Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Componi nuovo messaggio di posta"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Invia con messaggio di posta a..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Compone un nuovo messaggio di posta in Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Rubrica indirizzi di Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Contatti dalla rubrica indirizzi di Thunderbird"
 
@@ -1837,6 +1852,45 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Accedi ai contatti di Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Mostrare i contatti non in linea"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Apri chat"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d carattere)"
+msgstr[1] "%s (%d caratteri)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Invia messaggio..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Disponibile"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Assente"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Contatti Pidgin"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2252,15 +2306,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Accede ai contatti Gajim"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Mostrare i contatti non in linea"
-
-#~ msgid "Available"
-#~ msgstr "Disponibile"
-
-#~ msgid "Away"
-#~ msgstr "Assente"
-
 #~ msgid "Busy"
 #~ msgstr "Occupato"
 
@@ -2272,9 +2317,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 
 #~ msgid "Offline"
 #~ msgstr "Fuori rete"
-
-#~ msgid "Open Chat"
-#~ msgstr "Apri chat"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Cambia stato globale in..."
@@ -2500,9 +2542,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 #~ msgid "Send Message To..."
 #~ msgstr "Invia messaggio..."
 
-#~ msgid "Send Message..."
-#~ msgstr "Invia messaggio..."
-
 #~ msgid "Reply..."
 #~ msgstr "Rispondi..."
 
@@ -2566,20 +2605,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 
 #~ msgid "Contacts from Opera Mail"
 #~ msgstr "Contatti dalla rubrica indirizzi di Opera Mail"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Accedi ai contatti di Pidgin"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d carattere)"
-#~ msgstr[1] "%s (%d caratteri)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Contatti Pidgin"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "Sessioni di PuTTY"

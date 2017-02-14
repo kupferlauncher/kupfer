@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-11 21:40+0100\n"
+"POT-Creation-Date: 2017-02-14 12:54+0100\n"
 "PO-Revision-Date: 2013-07-05 09:52+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
@@ -133,7 +133,7 @@ msgstr "Φάκελοι από ευρετήριο"
 msgid "Folders whose files are always available in the catalog."
 msgstr "Φάκελοι των οποίων τα αρχεία είναι πάντα διαθέσιμα στον κατάλογο."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:157
+#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Κατάλογος"
 
@@ -251,7 +251,7 @@ msgid_plural "%s objects"
 msgstr[0] "%s αντικείμενο"
 msgstr[1] "%s αντικείμενα"
 
-#: ../kupfer/obj/contacts.py:129
+#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
@@ -311,7 +311,7 @@ msgstr "Χωρίς προεπιλεγμένη εφαρμογή για %(file)s (
 msgid "Please use \"%s\""
 msgstr "Παρακαλούμε χρησιμοποιήστε το \"%s\""
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:116
+#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Ορισμός προεπιλεγμένης εφαρμογής..."
 
@@ -414,34 +414,34 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d γραμμές) \"%(text)s\""
 
-#: ../kupfer/obj/sources.py:24
+#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s κ.α."
 
-#: ../kupfer/obj/sources.py:54
+#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Αναδρομική πηγή των %(dir)s, (%(levels)d επιπέδων)"
 
-#: ../kupfer/obj/sources.py:108
+#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Προέλευση καταλόγου %s"
 
-#: ../kupfer/obj/sources.py:119
+#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Προσωπικός φάκελος"
 
-#: ../kupfer/obj/sources.py:130
+#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Ευρετήριο καταλόγου"
 
-#: ../kupfer/obj/sources.py:145
+#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Ένα ευρετήριο όλων των διαθέσιμων πηγών"
 
-#: ../kupfer/obj/sources.py:177
+#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Πηγαίος κατάλογος"
 
@@ -479,11 +479,11 @@ msgstr ""
 msgid "Open With..."
 msgstr "Άνοιγμα με..."
 
-#: ../kupfer/plugin/applications.py:112
+#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Άνοιγμα με οποιαδήποτε εφαρμογή"
 
-#: ../kupfer/plugin/applications.py:132
+#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Ορισμός προεπιλεγμένης εφαρμογής για άνοιγμα με αυτόν τον τύπο αρχείου"
 
@@ -629,7 +629,7 @@ msgstr "Εναλλαγή επανάληψης στο Audacious"
 msgid "Playlist"
 msgstr "Λίστα αναπαραγωγής"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:82
+#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Αριθμομηχανή"
 
@@ -637,7 +637,7 @@ msgstr "Αριθμομηχανή"
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:120
+#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Υπολογισμός"
 
@@ -878,7 +878,7 @@ msgstr ""
 "Σύνταξη αλληλογραφίας χρησιμοποιώντας τον προεπιλεγμένο χειριστή mailto: του "
 "συστήματος"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:47
+#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Σύνταξη αλληλογραφίας"
 
@@ -906,33 +906,33 @@ msgstr "Έγγραφα"
 msgid "Recently used documents and bookmarked folders"
 msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα και φάκελοι με σελιδοδείκτες"
 
-#: ../kupfer/plugin/documents.py:21
+#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Μέγιστος αριθμός ημερών για πρόσφατα έγγραφα"
 
-#: ../kupfer/plugin/documents.py:31
+#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Πρόσφατα στοιχεία"
 
-#: ../kupfer/plugin/documents.py:77
+#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Πρόσφατα χρησιμοποιημένα αρχεία"
 
-#: ../kupfer/plugin/documents.py:87
+#: ../kupfer/plugin/documents.py:88
 #, python-format
 msgid "%s Documents"
 msgstr "%s Έγγραφα"
 
-#: ../kupfer/plugin/documents.py:112
+#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Πρόσφατα χρησιμοποιημένα έγγραφα για %s"
 
-#: ../kupfer/plugin/documents.py:131
+#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Τοποθεσίες"
 
-#: ../kupfer/plugin/documents.py:163
+#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Φάκελοι με σελιδοδείκτες"
 
@@ -1046,28 +1046,28 @@ msgstr "Εργαλεία εικόνας"
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Εργαλεία μετασχηματισμού εικόνας"
 
-#: ../kupfer/plugin/image.py:25
+#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Κλιμάκωση..."
 
-#: ../kupfer/plugin/image.py:79
+#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr ""
 "Κλιμάκωση εικόνας για προσαρμογή μέσα στις δοσμένες μετρήσεις εικονοστοιχείου"
 
-#: ../kupfer/plugin/image.py:114
+#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Δεξιόστροφη περιστροφή"
 
-#: ../kupfer/plugin/image.py:121
+#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Αριστερόστροφη περιστροφή"
 
-#: ../kupfer/plugin/image.py:128
+#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Αυτόματη περιστροφή"
 
-#: ../kupfer/plugin/image.py:157
+#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Περιστροφή JPEG (επί τόπου) σύμφωνα με τα μεταδεδομένα του EXIF"
 
@@ -1415,11 +1415,26 @@ msgstr "Σύνταξη νέας αλληλογραφίας"
 msgid "Compose a new message in Thunderbird"
 msgstr "Σύνταξη νέου μηνύματος στο Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:74
+#: ../kupfer/plugin/thunderbird.py:47
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Σύνταξη αλληλογραφίας"
+
+#: ../kupfer/plugin/thunderbird.py:72
+#, fuzzy
+msgid "Attach in Email To..."
+msgstr "Αποστολή με αλληλογραφία σε..."
+
+#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose a new message using the text as body"
+msgstr "Σύνταξη νέου μηνύματος στο Thunderbird"
+
+#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Βιβλίο διευθύνσεων Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:99
+#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Επαφές από το βιβλίο διευθύνσεων από το Thunderbird"
 
@@ -1814,6 +1829,45 @@ msgstr ""
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
+
+#: ../kupfer/plugin/pidgin.py:3
+msgid "Pidgin"
+msgstr "Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:9
+msgid "Access to Pidgin Contacts"
+msgstr "Πρόσβαση στις επαφές του Pidgin"
+
+#: ../kupfer/plugin/pidgin.py:29
+msgid "Show offline contacts"
+msgstr "Εμφάνιση επαφών εκτός σύνδεσης"
+
+#: ../kupfer/plugin/pidgin.py:97
+msgid "Open Chat"
+msgstr "Ανοικτή συνομιλία"
+
+#: ../kupfer/plugin/pidgin.py:111
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d χαρακτήρας)"
+msgstr[1] "%s (%d χαρακτήρες)"
+
+#: ../kupfer/plugin/pidgin.py:120
+msgid "Send Message..."
+msgstr "Αποστολή μηνύματος..."
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Available"
+msgstr "Διαθέσιμες"
+
+#: ../kupfer/plugin/pidgin.py:158
+msgid "Away"
+msgstr "Απουσιάζει"
+
+#: ../kupfer/plugin/pidgin.py:192
+msgid "Pidgin Contacts"
+msgstr "Επαφές Pidgin"
 
 #. TRANS: Names of accelerators in the interface
 #: ../kupfer/ui/accelerators.py:4
@@ -2247,15 +2301,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 #~ msgid "Access to Empathy Contacts"
 #~ msgstr "Πρόσβαση στις επαφές του Empathy"
 
-#~ msgid "Show offline contacts"
-#~ msgstr "Εμφάνιση επαφών εκτός σύνδεσης"
-
-#~ msgid "Available"
-#~ msgstr "Διαθέσιμες"
-
-#~ msgid "Away"
-#~ msgstr "Απουσιάζει"
-
 #~ msgid "Busy"
 #~ msgstr "Απασχολημένος"
 
@@ -2267,9 +2312,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
 #~ msgid "Offline"
 #~ msgstr "Αποσυνδεδεμένος"
-
-#~ msgid "Open Chat"
-#~ msgstr "Ανοικτή συνομιλία"
 
 #~ msgid "Change Global Status To..."
 #~ msgstr "Αλλαγή της γενικής κατάστασης σε..."
@@ -2542,9 +2584,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 #~ msgid "Send message to a Gwibber account"
 #~ msgstr "Αποστολή μηνύματος σε έναν λογαριασμό Gwibber"
 
-#~ msgid "Send Message..."
-#~ msgstr "Αποστολή μηνύματος..."
-
 #~ msgid "Send message to selected Gwibber account"
 #~ msgstr "Αποστολή μηνύματος σε επιλεγμένο λογαριασμό Gwibber"
 
@@ -2643,20 +2682,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
 #~ msgid "Index of Opera bookmarks"
 #~ msgstr "Ευρετήριο σελιδοδεικτών του Opera"
-
-#~ msgid "Pidgin"
-#~ msgstr "Pidgin"
-
-#~ msgid "Access to Pidgin Contacts"
-#~ msgstr "Πρόσβαση στις επαφές του Pidgin"
-
-#~ msgid "%s (%d character)"
-#~ msgid_plural "%s (%d characters)"
-#~ msgstr[0] "%s (%d χαρακτήρας)"
-#~ msgstr[1] "%s (%d χαρακτήρες)"
-
-#~ msgid "Pidgin Contacts"
-#~ msgstr "Επαφές Pidgin"
 
 #~ msgid "PuTTY Sessions"
 #~ msgstr "Συνεδρίες PuTTY"
