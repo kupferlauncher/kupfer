@@ -15,10 +15,17 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from os import path as os_path
 import subprocess
 
-from kupfer.objects import Action, FileLeaf, TextLeaf
+from kupfer.objects import Action, FileLeaf, TextLeaf, OperationError
 from kupfer import utils, pretty
 from kupfer import runtimehelper
 
+from kupfer.utils import SpawnError
+
+def spawn_operation_err(argv):
+    try:
+        utils.spawn_async_raise(argv)
+    except SpawnError as exc:
+        raise OperationError(exc.args[0].message)
 
 class Scale (Action):
     def __init__(self):
@@ -39,7 +46,7 @@ class Scale (Action):
         dpath = utils.get_destpath_in_directory(dirname, filename)
         argv = ["convert", "-scale", ('%s' % size),  fpath, dpath]
         runtimehelper.register_async_file_result(ctx, dpath)
-        utils.spawn_async(argv)
+        spawn_operation_err(argv)
         return FileLeaf(dpath)
 
     def item_types(self):
@@ -98,7 +105,7 @@ class RotateBase (Action):
         argv = ["jpegtran", "-copy", "all", "-rotate", self.rotation, "-outfile",
                 dpath, fpath]
         runtimehelper.register_async_file_result(ctx, dpath)
-        utils.spawn_async(argv)
+        spawn_operation_err(argv)
         return FileLeaf(dpath)
 
     def item_types(self):
