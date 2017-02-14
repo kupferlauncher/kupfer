@@ -1411,6 +1411,10 @@ msgstr "Skriv nytt e-postmeddelande"
 msgid "Compose a new message in Thunderbird"
 msgstr "Skriv nytt mail i Thunderbird"
 
+#: ../kupfer/plugin/thunderbird.py:47
+msgid "Compose Email To"
+msgstr "Skriv e-postmeddelande till"
+
 #: ../kupfer/plugin/thunderbird.py:72
 msgid "Attach in Email To..."
 msgstr "Bifoga i e-post till..."
