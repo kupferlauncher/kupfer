@@ -44,7 +44,7 @@ class ComposeMail(RunnableLeaf):
 class NewMailAction(Action):
     ''' Createn new mail to selected leaf (Contact or TextLeaf)'''
     def __init__(self):
-        Action.__init__(self, _('Compose Email'))
+        Action.__init__(self, _('Compose Email To'))
 
     def activate(self, leaf):
         self.activate_multiple((leaf, ))
