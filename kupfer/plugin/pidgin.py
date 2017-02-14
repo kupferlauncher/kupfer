@@ -7,9 +7,9 @@ __kupfer_actions__ = (
     "SendMessage",
 )
 __description__ = _("Access to Pidgin Contacts")
-__version__ = "0.1"
 __author__ = ("Chmouel Boudjnah <chmouel@chmouel.com>, "
               "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>")
+__version__ = "2017.1"
 
 import dbus
 
