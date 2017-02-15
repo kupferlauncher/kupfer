@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 kupfer      A convenient access and command tool
 

@@ -924,8 +924,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.action = ActionSearch()
         self.third = LeafSearch()
         self.entry = Gtk.Entry()
-        self.label = Gtk.Label()
-        self.blank_label = Gtk.Label()
+        self.label = Gtk.Label()        
         self.preedit = Gtk.Entry()
         self.search.set_name("kupfer-object-pane")
         self.action.set_name("kupfer-action-pane")
@@ -1039,7 +1038,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         #label_align = Gtk.Alignment.new(0.5, 1, 0, 0)
         #label_align.set_property("top-padding", 3)
         #label_align.add(self.label)
-        #label_align.add(self.blank_label)
+        
         #vbox.pack_start(label_align, False, False, 0)
         #vbox.pack_start(self.entry, False, False, 0)
         vbox.show_all()
@@ -1756,39 +1755,15 @@ GObject.signal_new("cancelled", Interface, GObject.SignalFlags.RUN_LAST,
 GObject.signal_new("launched-action", Interface, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
-#    background: alpha(@theme_selected_bg_color, 0.5);      
-KUPFER_CSS = b"""
-#kupfer {
-    background: rgba(255, 255, 255, 0.5);
-}
+#    background: alpha(@theme_selected_bg_color, 0.5);  
+#   kupfer rgba(255, 255, 255, 0.5);  
+#   *:selected background: rgba(0, 0, 0, 0.4);  
 
-.matchview {
-    border-radius: 25px;
-}
+css_file = open('kupfer/ui/style.css','rb')
+KUPFER_CSS = css_file.read()
+#print(KUPFER_CSS)
+css_file.close()
 
-#kupfer-preedit {
-}
-
-#kupfer-object-pane {
-}
-
-#kupfer-action-pane {
-}
-
-#kupfer-indirect-object-pane {
-}
-
-#kupfer-list {
-}
-
-#kupfer-list-view {
-}
-
-*:selected .matchview {
-    font-size: 25px;
-    background: rgba(0, 0, 0, 0.4);
-}
-"""
 class KupferWindow (Gtk.Window):
     __gtype_name__ = "KupferWindow"
     def __init__(self, type_):

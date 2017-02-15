@@ -17,6 +17,7 @@ def getColor():
 	response = csd.run()
 	if response == gtk.ResponseType.CANCEL:
 		print("Cancel hit")
+		csd.destroy()
 		return None
 	else:
 		print("Selected new color")
@@ -25,4 +26,4 @@ def getColor():
 	c = cs.get_current_color()
 	csd.destroy()		
 	hexColor = tohex((c.red/65536.0, c.green/65536.0, c.blue/65536.0))
-	return hexColor
+	return (round(c.red/65536*255), round(c.green/65536*255), round(c.blue/65536*255))

@@ -45,6 +45,7 @@ def get_options():
         ("no-splash", _("do not present main interface on launch")),
         ("list-plugins", _("list available plugins")),
         ("prefrences",_("show prefrences dialog")),
+        ("colorize",_("change the color of kupfer")),
         ("debug", _("enable debug info")),
         # TRANS: --exec-helper=HELPER is an internal command
         # TRANS: that executes a helper program that is part of kupfer
@@ -88,11 +89,13 @@ def get_options():
 
     for k, v in opts:
         if k == "--prefrences":
-            from kupfer import kupferui
-            kupferui.show_preferences(None)
-            #opts.extend([('--no-splash','')])
+            from kupfer.kupferui import show_preferences
+            show_preferences(None)
+            #Append --no-splash so that the kupfer browser doesn't popup
             opts.append(('--no-splash',''))
             #raise SystemExit
+        if k == "--colorize":
+            change_color()            
         if k == "--list-plugins":
             prt(gtkmain(make_plugin_list))
             raise SystemExit
@@ -159,10 +162,26 @@ def browser_start(quiet):
     w = browser.WindowController()
     w.main(quiet=quiet)
 
+def change_color():
+
+    from kupfer.ui import colorpicker
+    color = colorpicker.getColor()
+    if color:
+        COMMA = ','
+        css_file = open('kupfer/ui/style.css.template','r')
+        new_css = open('kupfer/ui/style.css','wb')
+
+        KUPFER_CSS = css_file.read()
+        KUPFER_CSS = KUPFER_CSS.replace("@kupfer_main","rgba("+str(color[0])+COMMA+str(color[1])+COMMA+str(color[2])+COMMA+'0.4);')    
+        #KUPFER_CSS = KUPFER_CSS.replace("@matchview","rgba("+str(color[0])+COMMA+str(color[1])+COMMA+str(color[2])+COMMA+'0.5);')
+        new_css.write(bytes(KUPFER_CSS,"UTF-8"))
+
+        new_css.close()
+        css_file.close()
+
 def main():
     # parse commandline before importing UI
     cli_opts = get_options()
-    print(cli_opts)
     print_banner()
 
     from kupfer import pretty, version
@@ -180,4 +199,3 @@ def main():
 
     quiet = ("--no-splash" in cli_opts)
     gtkmain(browser_start, quiet)
-

@@ -1,0 +1,30 @@
+#kupfer {
+    background: rgba(164,183,237,0.4);
+}
+
+.matchview {
+    border-radius: 25px;
+}
+
+#kupfer-preedit {
+}
+
+#kupfer-object-pane {
+}
+
+#kupfer-action-pane {
+}
+
+#kupfer-indirect-object-pane {
+}
+
+#kupfer-list {
+}
+
+#kupfer-list-view {
+}
+
+*:selected .matchview {
+    font-size: 25px;
+    background: rgba(0,0,0,0.5);
+}
