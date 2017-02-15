@@ -1,15 +1,15 @@
 __kupfer_name__ = _("Audacious")
 __kupfer_sources__ = ("AudaciousSource", )
 __description__ = _("Control Audacious playback and playlist")
-__version__ = "2009-12-15"
-__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>"
+__version__ = "2017.1"
+__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>, US"
 
 import subprocess
 
 from kupfer.objects import Leaf, Source, Action
 from kupfer.objects import RunnableLeaf, SourceLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer import icons, utils
+from kupfer import icons, utils, uiutils
 from kupfer import plugin_support
 from kupfer import kupferstring
 
@@ -49,6 +49,14 @@ def get_playlist_songs():
         pos = int(position.strip())
         nam = kupferstring.fromlocale(songname.strip())
         yield (pos, nam)
+
+def get_current_song():
+    toolProc = subprocess.Popen([AUDTOOL, "current-song"],
+            stdout=subprocess.PIPE)
+    stdout, stderr = toolProc.communicate()
+    for line in stdout.splitlines():
+        return kupferstring.fromlocale(line)
+    return None
 
 def clear_queue():
     utils.spawn_async((AUDTOOL, "playqueue-clear"))
@@ -157,6 +165,20 @@ class Repeat (RunnableLeaf):
     def get_icon_name(self):
         return "media-playlist-repeat"
 
+class ShowPlaying (RunnableLeaf):
+    def __init__(self):
+        RunnableLeaf.__init__(self, name=_("Show Playing"))
+    def run(self):
+        song = get_current_song()
+        if song is not None:
+            uiutils.show_notification(song, icon_name="audio-x-generic")
+    def get_description(self):
+        return _("Tell which song is currently playing")
+    def get_gicon(self):
+        return icons.ComposedIcon("dialog-information", "audio-x-generic")
+    def get_icon_name(self):
+        return "dialog-information"
+
 class SongLeaf (Leaf):
     """The SongLeaf's represented object is the Playlist index"""
     def get_actions(self):
@@ -191,6 +213,7 @@ class AudaciousSource (AppLeafContentMixin, Source):
         yield Next()
         yield Previous() 
         yield ClearQueue()
+        yield ShowPlaying()
         # Commented as these seem to have no effect
         #yield Shuffle()
         #yield Repeat()
