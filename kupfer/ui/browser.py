@@ -962,12 +962,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.entry.connect("changed", self._changed)
         self.preedit.connect("insert-text", self._preedit_insert_text)
         self.preedit.connect("draw", self._preedit_draw)
-        ## preedit-changed is GTK+ 2.20
-        ## if not available, silently skip it
-        try:
-            self.preedit.connect("preedit-changed", self._preedit_im_changed)
-        except TypeError:
-            pass
+        self.preedit.connect("preedit-changed", self._preedit_im_changed)
         for widget in (self.entry, self.preedit):
             widget.connect("activate", self._activate, None)
             widget.connect("key-press-event", self._entry_key_press)
