@@ -18,6 +18,7 @@ from os import path as os_path
 from kupfer.objects import Action, FileLeaf, TextLeaf, TextSource
 from kupfer.objects import OperationError
 from kupfer import pretty
+from kupfer import task
 
 
 def _good_destination(dpath, spath):
@@ -144,20 +145,6 @@ class CopyTo (Action, pretty.OutputMixin):
     def __init__(self):
         Action.__init__(self, _("Copy To..."))
 
-    def has_result(self):
-        return True
-
-    # Unused
-    def _finish_callback(self, gfile, result, data):
-        self.output_debug("Finished copying", gfile)
-        dfile, ctx = data
-        try:
-            gfile.copy_finish(result)
-        except GLib.Error:
-            ctx.register_late_error()
-        else:
-            ctx.register_late_result(FileLeaf(dfile.get_path()))
-
     def wants_context(self):
         return True
 
@@ -165,15 +152,10 @@ class CopyTo (Action, pretty.OutputMixin):
         sfile = Gio.File.new_for_path(leaf.object)
         dpath = os_path.join(iobj.object, os_path.basename(leaf.object))
         dfile = Gio.File.new_for_path(dpath)
-        try:
-            # FIXME: This should be async
-            self.output_debug("Copy %s to %s" % (sfile, dfile))
-            ret = sfile.copy(dfile, Gio.FileCopyFlags.ALL_METADATA,
-                             None, None, None)
-            self.output_debug("Copy ret %r" % (ret, ))
-        except GLib.Error as exc:
-            raise OperationError(str(exc))
-        return FileLeaf(dfile.get_path())
+        return CopyTask(str(leaf), sfile, dfile, ctx)
+
+    def is_async(self):
+        return True
 
     def item_types(self):
         yield FileLeaf
@@ -187,3 +169,27 @@ class CopyTo (Action, pretty.OutputMixin):
         return _good_destination(obj.object, for_item.object)
     def get_description(self):
         return _("Copy file to a chosen location")
+
+class CopyTask(task.ThreadTask, pretty.OutputMixin):
+    def __init__(self, name, gsource, gdest, ctx):
+        super().__init__(name)
+        self.gsource = gsource
+        self.gdest = gdest
+        self.ctx = ctx
+
+    def thread_do(self):
+        try:
+            # FIXME: This should be async
+            self.output_debug("Copy %s to %s" % (self.gsource, self.gdest))
+            ret = self.gsource.copy(self.gdest, Gio.FileCopyFlags.ALL_METADATA,
+                             None, None, None)
+            self.output_debug("Copy ret %r" % (ret, ))
+        except GLib.Error as exc:
+            raise OperationError(exc.message)
+
+    def thread_finish(self):
+        self.ctx.register_late_result(FileLeaf(self.gdest.get_path()))
+
+    def thread_finally(self, exc_info):
+        if exc_info is not None:
+            self.ctx.register_late_error(exc_info)
