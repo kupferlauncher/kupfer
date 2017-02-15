@@ -1,0 +1,36 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      type="topic"
+      id="plugin-thunar">
+
+  <info>
+   <link type="guide" xref="index#plugins"/>
+   <desc>Using the Thunar plugin.</desc>
+  </info>
+
+  <title><app>Thunar</app></title>
+
+ <section>
+  <title>Thunar Plugin</title>
+  <p>
+    <app>Thunar</app> is a file manager, and with its plugin in <app>Kupfer</app>
+    you can initiate a number of actions: empty trash, select file in thunar,
+    show file properties, copy file to (...), move file to (...) and make
+    symlink to file in (...).
+  </p>
+  </section>
+ <section>
+   <title>Power User Tips</title>
+   <p>
+     In <app>Thunar</app> itself configure a custom action for selecting
+     files in <app>Kupfer</app>: Create a new custom action called <em>Send
+     to Kupfer</em> with the command <code>kupfer %F</code> and enable it
+     for all files.
+   </p>
+   <p>
+     If you can, temporarily enable editable menu accelerators to assign
+     a shortcut key to the new custom action. If you now select files in
+     <app>Thunar</app> and press the shortcut key, <app>Kupfer</app> will
+     be summoned with the files selected.
+   </p>
+  </section>
+</page>

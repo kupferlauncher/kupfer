@@ -29,6 +29,7 @@ DOC_PAGES = \
 	plugin-gwibber.page \
 	plugin-nautilusselection.page \
 	plugin-notes.page \
+	plugin-thunar.page \
 	plugin-triggers.page \
 	plugin-websearch.page
 
