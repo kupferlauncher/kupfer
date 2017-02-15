@@ -57,18 +57,6 @@ fuzzy and 0 untranslated, then you're finished.
 This will also check consistency of the file, so that you know that all
 your syntax is correct.
 
-If you want to send in the translation to a repository, or as a patch,
-you can use git if you have a checked-out copy of kupfer::
-
-    git add po/$LANG.po
-    git commit -m "$LANG: Updated translation"
-
-    # now we create a patch out of the latest change
-    git format-patch HEAD^
-
-You can send the patch, or the whole file, to the mailing list
-kupfer-list@gnome.org.
-
 To try the new translation
 --------------------------
 
