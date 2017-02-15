@@ -9,7 +9,7 @@ __description__ = _("Search the web securely with DuckDuckGo")
 __version__ = "1.0"
 __author__ = "Isaac Aggrey <isaac.aggrey@gmail.com>"
 
-import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 from kupfer.objects import Action, TextLeaf
 from kupfer import utils
