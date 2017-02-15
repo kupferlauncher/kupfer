@@ -30,6 +30,22 @@ ALIASES = {
     'libreoffice': 'soffice',
 }
 
+# Libreoffice doesn't separate them out, so we'll hack that in manually
+SEPARATE_APPS = {
+    'libreoffice': {
+        '.doc': 'libreoffice-writer',
+        '.docx': 'libreoffice-writer',
+        '.odt': 'libreoffice-writer',
+        '.ods': 'libreoffice-calc',
+        '.xlsx': 'libreoffice-calc',
+        '.csv': 'libreoffice-calc',
+        '.odp': 'libreoffice-impress',
+        '.odg': 'libreoffice-draw',
+        '.odf': 'libreoffice-math',
+        '.mml': 'libreoffice-math',
+    }
+}
+
 class RecentsSource (Source):
     def __init__(self, name=None):
         if not name:
@@ -82,6 +98,17 @@ class RecentsSource (Source):
             uri = item.get_uri()
             name = item.get_short_name()
             leaf = FileLeaf(Gio.File.new_for_uri(uri).get_path())
+            if for_app_names:
+                accept_item = True
+                for app_id, sort_table in SEPARATE_APPS.items():
+                    if app_id in for_app_names:
+                        _, ext = path.splitext(uri)
+                        ext = ext.lower()
+                        if ext in sort_table and sort_table[ext] not in for_app_names:
+                            accept_item = False
+                            break
+                if not accept_item:
+                    continue
             item_leaves.append((leaf, item.get_modified()))
         # Sort with most recently used first
         for lf, date in sorted(item_leaves, key=lambda t: t[1], reverse=True):
