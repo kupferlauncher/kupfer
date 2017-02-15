@@ -539,6 +539,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                     "%s" % (m_name, )
                 label = wrapped_label()
                 label.set_markup(name_label)
+                label.set_xalign(0.)
                 hbox.pack_start(label, False, True, 0)
                 objvbox.pack_start(hbox, True, True, 0)
                 # Display information for application content-sources.
