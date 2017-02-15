@@ -493,7 +493,7 @@ class SourceController (pretty.OutputMixin):
                 yield action
 
     def decorate_object(self, obj, action=None):
-        if hasattr(obj, "has_content"):
+        if hasattr(obj, "has_content") and not obj.has_content():
             types = tuple(action.object_types()) if action else ()
             contents = list(self.get_contents_for_leaf(obj, types))
             content = contents[0] if contents else None
