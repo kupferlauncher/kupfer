@@ -3,6 +3,29 @@
 NEWS for kupfer
 ===============
 
+kupfer v307
+-----------
+
+Released Wednesday, 15 feb 2017
+
++ Fix a bug with disambiguation of action names
++ Stop merging contacts by full name equality
++ Accept dropped text and files on Kupfer’s window
++ Fix API to not ask for content-decoration of a leaf with existing content
++ Plugins
+
+  + Reintroduce *Pidgin*
+  + Reintroduce *Shorten Links*
+  + In *Thunderbird*, rename compose email actions to differentiate them,
+    *Compose Email To*, *Compose Email With*.
+  + In *Image Tools*, show an error if ``jpegtran`` is not found
+  + In *Audacious* add runnable item *Show Playing*
+  + Fix *Wikipedia* to use https
+  + In *Documents*, match more applications to their own recent documents,
+    notably LibreOffice
+  + Run copy from *File Actions* asynchronously
+  + Add a new help page, for plugin *Thunar*
+
 kupfer v306
 -----------
 
@@ -86,7 +109,7 @@ time!
 + Build config will now look for ``python3`` if ``python`` is too old.
 + Plugins:
 
-  + Re-add *Locate*
+  + Reintroduce *Locate*
 
 kupfer v302
 -----------
