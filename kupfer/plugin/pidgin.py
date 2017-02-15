@@ -18,7 +18,6 @@ from kupfer import pretty, scheduler
 from kupfer import icons
 from kupfer import plugin_support
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer.obj.contacts import NAME_KEY, EMAIL_KEY, ContactLeaf, is_valid_email
@@ -184,30 +183,21 @@ class PidginContact(ContactLeaf):
         return "stock_person"
 
 
-class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelperMixin):
+class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource):
     ''' Get contacts from all on-line accounts in Pidgin via DBus '''
     appleaf_content_id = 'pidgin'
+    source_use_cache = False
 
     def __init__(self):
         ToplevelGroupingSource.__init__(self, _('Pidgin Contacts'), "Contacts")
         self._version = 5
-        self.unpickle_finish()
-
-    def unpickle_finish(self):
-        self.mark_for_update()
-        self.pickle_prepare()
+        self.all_buddies = {}
 
     def initialize(self):
         ToplevelGroupingSource.initialize(self)
         self._install_dbus_signal()
         self._buddy_update_timer = scheduler.Timer()
         self._buddy_update_queue = set()
-
-    def pickle_prepare(self):
-        # delete data that we do not want to save to next session
-        self.all_buddies = {}
-        self._buddy_update_timer = None
-        self._buddy_update_queue = None
 
     def _get_pidgin_contact(self, interface, buddy, account=None, protocol=None):
         if not account:
