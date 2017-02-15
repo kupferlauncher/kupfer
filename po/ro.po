@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 12:54+0100\n"
+"POT-Creation-Date: 2017-02-15 20:22+0100\n"
 "PO-Revision-Date: 2015-10-25 11:37+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -21,105 +21,80 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Virtaal 0.7.1\n"
 
-#: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
 msgstr "Credențialele utilizatorului"
 
-#: ../data/credentials_dialog.ui.h:2
 msgid "_User:"
 msgstr "_Utilizator:"
 
-#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Parolă:"
 
-#: ../data/credentials_dialog.ui.h:4
 msgid "_Change"
 msgstr "S_chimbă"
 
-#: ../data/getkey_dialog.ui.h:1
 msgid "Set Keyboard Shortcut"
 msgstr "Configurează scurtătura de tastatură"
 
-#: ../data/getkey_dialog.ui.h:2
 msgid "Please press desired key combination"
 msgstr "Apăsați combinația de taste dorită"
 
-#: ../data/getkey_dialog.ui.h:3
 msgid "Keybinding could not be bound"
 msgstr "Combinația de taste nu a putut fi legată"
 
-#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:79
 msgid "Kupfer Preferences"
 msgstr "Preferințe Kupfer"
 
-#: ../data/preferences.ui.h:2
 msgid "Start automatically on login"
 msgstr "Pornește automat la autentificare"
 
-#: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
 msgstr "<b>Pornire</b>"
 
-#: ../data/preferences.ui.h:4
 msgid "Show icon in notification area"
 msgstr "Afișează pictograma în zona de notificare"
 
-#: ../data/preferences.ui.h:5
 msgid "Icon set:"
 msgstr "Set de iconițe:"
 
-#: ../data/preferences.ui.h:6
 msgid "Large Icon Size:"
 msgstr ""
 
-#: ../data/preferences.ui.h:7
 msgid "Small Icon Size:"
 msgstr ""
 
-#: ../data/preferences.ui.h:8
 msgid "Terminal emulator:"
 msgstr "Emulator de terminal:"
 
-#: ../data/preferences.ui.h:9
 msgid "Desktop Environment"
 msgstr "Mediu desktop"
 
-#: ../data/preferences.ui.h:10
 msgid "General"
 msgstr "Generale"
 
-#: ../data/preferences.ui.h:11
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Scurtături de tastatură globale</b>"
 
-#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:885
 msgid "Reset"
 msgstr "Restabilește"
 
-#: ../data/preferences.ui.h:13
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Scurtături de tastatură ale navigatorului</b>"
 
-#: ../data/preferences.ui.h:14
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Utilizează comenzi cu o singură combinație de taste (Spațiu, /, punct, "
 "virgulă, etc.)"
 
-#: ../data/preferences.ui.h:15
 msgid "Keyboard"
 msgstr "Tastatură"
 
-#: ../data/preferences.ui.h:16
 msgid "Plugins"
 msgstr "Module"
 
-#: ../data/preferences.ui.h:17
 msgid "Inclusion in Top Level Searches"
 msgstr "Includerea în căutările de nivel înalt"
 
-#: ../data/preferences.ui.h:18
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
@@ -128,99 +103,76 @@ msgstr ""
 "Conținutul unei surse nemarcate este disponibil numai localizându-i "
 "subcatalogul."
 
-#: ../data/preferences.ui.h:20
 msgid "Indexed Folders"
 msgstr "Dosare indexate"
 
-#: ../data/preferences.ui.h:21
 msgid "Folders whose files are always available in the catalog."
 msgstr "Dosare ale căror fișiere sunt întotdeauna disponibile în catalog."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Catalog"
 
-#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/plugin/core/contents.py:92
-#: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
-#: ../auxdata/kupfer.desktop.in.h:2
 msgid "Application Launcher"
 msgstr "Lansator de aplicații"
 
-#: ../auxdata/kupfer.desktop.in.h:3
 msgid "Convenient command and access tool for applications and documents"
 msgstr "Unealtă convenabilă de acces și comandă pentru aplicații și documente"
 
-#: ../auxdata/kupfer-exec.desktop.in.h:1
 msgid "Execute in Kupfer"
 msgstr "Execută în Kupfer"
 
-#: ../auxdata/kupfer-mimetypes.xml.in.h:1
 msgid "Saved Kupfer Command"
 msgstr "Comandă Kupfer salvată"
 
-#: ../kupfer/core/commandexec.py:239
 #, python-format
 msgid "Could not to carry out '%s'"
 msgstr "Nu se poate executa „%s”"
 
-#: ../kupfer/core/commandexec.py:268
 #, python-format
 msgid "\"%s\" produced a result"
 msgstr "„%s” a produs un rezultat"
 
-#: ../kupfer/core/execfile.py:29
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "Nu există permisiune de a rula „%s” (nu este executabil)"
 
-#: ../kupfer/core/execfile.py:46
 #, python-format
 msgid "Command in \"%s\" is not available"
 msgstr "Comanda în „%s” nu este disponibilă"
 
-#: ../kupfer/keyrelay.py:67
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Releul tastaurii este activ pentru afișajul %s"
 
-#: ../kupfer/main.py:45
 msgid "do not present main interface on launch"
 msgstr "nu prezenta interfața principală la lansare"
 
-#: ../kupfer/main.py:46
 msgid "list available plugins"
 msgstr "enumeră modulele disponibile"
 
-#: ../kupfer/main.py:47
 msgid "enable debug info"
 msgstr "activează informațiile de depanare"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:50
 msgid "run plugin helper"
 msgstr "rulează ajutorul pentru module"
 
-#: ../kupfer/main.py:53
 msgid "show usage help"
 msgstr "afișează ajutorul de utilizare"
 
-#: ../kupfer/main.py:54
 msgid "show version information"
 msgstr "afișează informațiile versiunii"
 
-#: ../kupfer/main.py:60
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Utilizare: kupfer [ OPȚIUNI | FIȘIER ... ]"
 
-#: ../kupfer/main.py:71
 msgid "Available plugins:"
 msgstr "Module disponibile:"
 
-#: ../kupfer/main.py:120
 #, fuzzy, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -231,23 +183,18 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:459 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Text"
 
-#: ../kupfer/obj/compose.py:15
 msgid "Run after Delay..."
 msgstr "Rulează după întârziere..."
 
-#: ../kupfer/obj/compose.py:36
 msgid "Perform command after a specified time interval"
 msgstr "Execută comanda după un interval de timp specificat"
 
-#: ../kupfer/obj/compose.py:95
 msgid "Multiple Objects"
 msgstr "Obiecte multiple"
 
-#: ../kupfer/obj/compose.py:126
 #, python-format
 msgid "%s object"
 msgid_plural "%s objects"
@@ -255,163 +202,124 @@ msgstr[0] "%s obiect"
 msgstr[1] "%s obiecte"
 msgstr[2] "%s de obiecte"
 
-#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/obj/contacts.py:131
 msgid "unknown"
 msgstr "necunoscut"
 
-#: ../kupfer/obj/contacts.py:144
 msgid "Aim"
 msgstr "Aim"
 
-#: ../kupfer/obj/contacts.py:151
 msgid "Google Talk"
 msgstr "Google Talk"
 
-#: ../kupfer/obj/contacts.py:159
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../kupfer/obj/contacts.py:166
 msgid "MSN"
 msgstr "MSN"
 
-#: ../kupfer/obj/contacts.py:173
 msgid "QQ"
 msgstr "QQ"
 
-#: ../kupfer/obj/contacts.py:180
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../kupfer/obj/contacts.py:187
 msgid "Skype"
 msgstr "Skype"
 
-#: ../kupfer/obj/exceptions.py:19
 #, python-format
 msgid "%s does not support this operation"
 msgstr "%s nu suportă această operație"
 
-#: ../kupfer/obj/exceptions.py:24
 msgid "Can not be used with multiple objects"
 msgstr "Nu poate fi folosit cu obiecte multiple"
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:87
 msgid "Open"
 msgstr "Deschide"
 
-#: ../kupfer/obj/fileactions.py:43
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Nu există o aplicație implicită pentru %(file)s (%(type)s)"
 
-#: ../kupfer/obj/fileactions.py:45
 #, python-format
 msgid "Please use \"%s\""
 msgstr "Folosiți „%s”"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Stabilește aplicația implicită..."
 
-#: ../kupfer/obj/fileactions.py:71
 msgid "Open with default application"
 msgstr "Deschide cu aplicația implicită"
 
-#: ../kupfer/obj/fileactions.py:74
 msgid "Reveal"
 msgstr "Dezvăluie"
 
-#: ../kupfer/obj/fileactions.py:83
 msgid "Open parent folder"
 msgstr "Deschide dosarul părinte"
 
-#: ../kupfer/obj/fileactions.py:89
 msgid "Open Terminal Here"
 msgstr "Deschide terminalul aici"
 
-#: ../kupfer/obj/fileactions.py:102
 msgid "Open this location in a terminal"
 msgstr "Deschide această locație într-un terminal"
 
-#: ../kupfer/obj/fileactions.py:110
 msgid "Run in Terminal"
 msgstr "Rulează în terminal"
 
-#: ../kupfer/obj/fileactions.py:110
 msgid "Run (Execute)"
 msgstr "Rulează (Execută)"
 
-#: ../kupfer/obj/fileactions.py:130
 msgid "Run this program in a Terminal"
 msgstr "Rulează acest program într-un terminal"
 
-#: ../kupfer/obj/fileactions.py:132
 msgid "Run this program"
 msgstr "Rulează acest program"
 
-#: ../kupfer/obj/objects.py:255 ../kupfer/plugin/windows.py:105
-#: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Navighează la"
 
-#: ../kupfer/obj/objects.py:281
 msgid "Open URL"
 msgstr "Deschide URL"
 
-#: ../kupfer/obj/objects.py:292
 msgid "Open URL with default viewer"
 msgstr "Deschide URL cu vizualizatorul implicit"
 
-#: ../kupfer/obj/objects.py:306
 msgid "Launch"
 msgstr "Lansează"
 
-#: ../kupfer/obj/objects.py:319
 msgid "Show application window"
 msgstr "Afișează fereastra aplicației"
 
-#: ../kupfer/obj/objects.py:320
 msgid "Launch application"
 msgstr "Lansează aplicație"
 
-#: ../kupfer/obj/objects.py:331
 msgid "Launch Again"
 msgstr "Lansează din nou"
 
-#: ../kupfer/obj/objects.py:338
 msgid "Launch another instance of this application"
 msgstr "Lansează altă instanță a acestei aplicații"
 
-#: ../kupfer/obj/objects.py:344 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Închide"
 
-#: ../kupfer/obj/objects.py:352
 msgid "Attempt to close all application windows"
 msgstr "Încearcă să închidă toate ferestrele aplicației"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:401
 msgid "Run"
 msgstr "Rulează"
 
-#: ../kupfer/obj/objects.py:411
 msgid "Perform command"
 msgstr "Execută comanda"
 
-#: ../kupfer/obj/objects.py:424
 msgid "(Empty Text)"
 msgstr "(Text gol)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:454
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -419,258 +327,202 @@ msgstr[0] "„%(text)s”"
 msgstr[1] "(%(num)d linii) „%(text)s”"
 msgstr[2] "(%(num)d de linii) „%(text)s”"
 
-#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s și alții"
 
-#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Sursă recursivă a %(dir)s, (%(levels)d nivele)"
 
-#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Sursa %s a dosarului"
 
-#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Dosarul Acasă"
 
-#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Indexul catalogului"
 
-#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Un index cu toate sursele disponibile"
 
-#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Catalog rădăcină"
 
-#: ../kupfer/obj/special.py:10
 msgid "Please Configure Plugin"
 msgstr "Configurați modulul"
 
-#: ../kupfer/obj/special.py:11
 #, python-format
 msgid "Plugin %s is not configured"
 msgstr "Modulul %s nu este configurat"
 
-#: ../kupfer/obj/special.py:32
 #, python-format
 msgid "Invalid user credentials for %s"
 msgstr "Credențiale de utilizator nevalide pentru %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:42
 msgid "Applications"
 msgstr "Aplicații"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:81
 msgid "All applications and preferences"
 msgstr "Toate aplicațiile și preferințele"
 
-#: ../kupfer/plugin/applications.py:21
 msgid "Applications for Desktop Environment"
 msgstr "Aplicații pentru mediul desktop"
 
-#: ../kupfer/plugin/applications.py:28
 msgid "Use Desktop Filter (requires restart)"
 msgstr ""
 
-#: ../kupfer/plugin/applications.py:90
 msgid "Open With..."
 msgstr "Deschide cu..."
 
-#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Deschide cu orice aplicație"
 
-#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Stabilește aplicația implicită pentru a deschide acest tip de fișier"
 
-#: ../kupfer/plugin/archiveinside.py:8
 msgid "Deep Archives"
 msgstr "Arhive structurate"
 
-#: ../kupfer/plugin/archiveinside.py:10
 msgid "Allow browsing inside compressed archive files"
 msgstr "Permite navigarea în fișierele de arhive comprimate"
 
-#: ../kupfer/plugin/archiveinside.py:49
 #, python-format
 msgid "Content of %s"
 msgstr "Conținutul lui %s"
 
-#: ../kupfer/plugin/archivemanager.py:1
 msgid "Archive Manager"
 msgstr "Administrator de arhive"
 
-#: ../kupfer/plugin/archivemanager.py:9
 msgid "Use Archive Manager actions"
 msgstr "Utilizați acțiunile administratorului de arhive"
 
-#: ../kupfer/plugin/archivemanager.py:27
 msgid "Compressed archive type for 'Create Archive In'"
 msgstr "Tipul de arhivă comprimată pentru „Creează arhivă în”"
 
-#: ../kupfer/plugin/archivemanager.py:44
 msgid "Extract Here"
 msgstr "Extrage aici"
 
-#: ../kupfer/plugin/archivemanager.py:64
 msgid "Extract compressed archive"
 msgstr "Extrage arhiva comprimată"
 
-#: ../kupfer/plugin/archivemanager.py:70
 msgid "Create Archive"
 msgstr "Creează arhivă"
 
-#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Creează o arhivă comprimată din dosar"
 
-#: ../kupfer/plugin/archivemanager.py:92
 msgid "Create Archive In..."
 msgstr "Creează arhivă în..."
 
 #. TRANS: Default filename (no extension) for 'Create Archive In...'
-#: ../kupfer/plugin/archivemanager.py:115
 msgid "Archive"
 msgstr "Arhivă"
 
-#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
 msgid "Audacious"
 msgstr "Audacious"
 
-#: ../kupfer/plugin/audacious.py:3
 msgid "Control Audacious playback and playlist"
 msgstr "Controlează redarea și lista de redare Audacious"
 
-#: ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "Include piesele în prmul nivel"
 
-#: ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "Plasează la coadă"
 
-#: ../kupfer/plugin/audacious.py:62
 msgid "Add track to the Audacious play queue"
 msgstr "Adaugă piesa la coada de redare Audacious"
 
-#: ../kupfer/plugin/audacious.py:70
 msgid "Dequeue"
 msgstr "Șterge de la coadă"
 
-#: ../kupfer/plugin/audacious.py:74
 msgid "Remove track from the Audacious play queue"
 msgstr "Elimină pista din coada de redare Audacious"
 
-#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "Redă"
 
-#: ../kupfer/plugin/audacious.py:86
 msgid "Jump to track in Audacious"
 msgstr "Sari la piesă în Audacious"
 
-#: ../kupfer/plugin/audacious.py:96
 msgid "Resume playback in Audacious"
 msgstr "Reia redarea în Audacious"
 
-#: ../kupfer/plugin/audacious.py:102
 msgid "Pause"
 msgstr "Pauză"
 
-#: ../kupfer/plugin/audacious.py:106
 msgid "Pause playback in Audacious"
 msgstr "Pune pauză redării în Audacious"
 
-#: ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "Următorul"
 
-#: ../kupfer/plugin/audacious.py:116
 msgid "Jump to next track in Audacious"
 msgstr "Sari la pista următoare în Audacious"
 
-#: ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "Anteriorul"
 
-#: ../kupfer/plugin/audacious.py:126
 msgid "Jump to previous track in Audacious"
 msgstr "Sari la pista anterioară în Audacious"
 
-#: ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "Eliberează coada"
 
-#: ../kupfer/plugin/audacious.py:136
 msgid "Clear the Audacious play queue"
 msgstr "Eliberează coada de redare Audacious"
 
-#: ../kupfer/plugin/audacious.py:142
 msgid "Shuffle"
 msgstr "Amestecă"
 
-#: ../kupfer/plugin/audacious.py:146
 msgid "Toggle shuffle in Audacious"
 msgstr "Comută amestecarea în Audacious"
 
-#: ../kupfer/plugin/audacious.py:152
 msgid "Repeat"
 msgstr "Repetă"
 
-#: ../kupfer/plugin/audacious.py:156
 msgid "Toggle repeat in Audacious"
 msgstr "Comută repetarea în Audacious"
 
-#: ../kupfer/plugin/audacious.py:171
+msgid "Show Playing"
+msgstr "Afișează redarea"
+
+msgid "Tell which song is currently playing"
+msgstr "Spune ce piesă este redată acum"
+
 msgid "Playlist"
 msgstr "Listă de redare"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Calculator"
 
-#: ../kupfer/plugin/calculator.py:4
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Calculează"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:109
 msgid "Clipboards"
 msgstr "Clipboarduri"
 
-#: ../kupfer/plugin/clipboard.py:4
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr "Clipboarduri recente și obiecte clipboard de tip proxy"
 
-#: ../kupfer/plugin/clipboard.py:23
 msgid "Number of recent clipboards to remember"
 msgstr "Numărul de clipboarduri recente de ținut minte"
 
-#: ../kupfer/plugin/clipboard.py:29
 msgid "Include selected text in clipboard history"
 msgstr "Include textul selectat în istoricul clipboardului"
 
-#: ../kupfer/plugin/clipboard.py:35
 msgid "Copy selected text to primary clipboard"
 msgstr "Copiază textul selectat în clipboardul de bază"
 
-#: ../kupfer/plugin/clipboard.py:44
 msgid "Selected Text"
 msgstr "Text selectat"
 
-#: ../kupfer/plugin/clipboard.py:54
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -678,31 +530,24 @@ msgstr[0] "Clipboard „%(desc)s”"
 msgstr[1] "Clipboard cu %(num)d linii „%(desc)s”"
 msgstr[2] "Clipboard cu %(num)d de linii „%(desc)s”"
 
-#: ../kupfer/plugin/clipboard.py:61
 msgid "Clipboard Text"
 msgstr "Text în clipboard"
 
-#: ../kupfer/plugin/clipboard.py:71
 msgid "Clipboard File"
 msgstr "Fișier în clipboard"
 
-#: ../kupfer/plugin/clipboard.py:81
 msgid "Clipboard Files"
 msgstr "Fișiere în clipboard"
 
-#: ../kupfer/plugin/clipboard.py:89
 msgid "Clear"
 msgstr "Eliberează"
 
-#: ../kupfer/plugin/clipboard.py:101
 msgid "Remove all recent clipboards"
 msgstr "Elimină toate clipboardurile recente"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:186
 msgid "Shell Commands"
 msgstr "Comenzi pentru shell"
 
-#: ../kupfer/plugin/commands.py:9
 #, python-format
 msgid ""
 "Run command-line programs. Actions marked with the symbol %s run in a "
@@ -711,824 +556,630 @@ msgstr ""
 "Rulează programe în linia de comandă. Acțiunile marcate cu simbolul %s "
 "rulează într-un subshell."
 
-#: ../kupfer/plugin/commands.py:39
 msgid "Run (Get Output)"
 msgstr "Rulează (Obține ieșire)"
 
-#: ../kupfer/plugin/commands.py:57
 msgid "Run program and return its output"
 msgstr "Rulează programul și întoarce ieșirea acestuia"
 
 #. TRANS: The user starts a program (command) and the text
 #. TRANS: is an argument to the command
-#: ../kupfer/plugin/commands.py:63
 msgid "Pass to Command..."
 msgstr "Pasează la comanda..."
 
-#: ../kupfer/plugin/commands.py:105
 msgid "Run program with object as an additional parameter"
 msgstr "Rulează programul cu un obiect ca parametru adițional"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
-#: ../kupfer/plugin/commands.py:113
 msgid "Write to Command..."
 msgstr "Scrie la comanda..."
 
-#: ../kupfer/plugin/commands.py:148 ../kupfer/plugin/commands.py:160
 msgid "Run program and supply text on the standard input"
 msgstr "Rulează programul și oferă textul în intrarea standard"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:156
 msgid "Filter through Command..."
 msgstr "Filtrează prin comanda..."
 
-#: ../kupfer/plugin/commands.py:212
 msgid "Run command-line programs"
 msgstr "Rulează programe în linia de comandă"
 
-#: ../kupfer/plugin/core/alternatives.py:7
 msgid "GTK+"
 msgstr "GTK+"
 
-#: ../kupfer/plugin/core/alternatives.py:13
 msgid "GNOME Terminal"
 msgstr "Terminal GNOME"
 
-#: ../kupfer/plugin/core/alternatives.py:22
 msgid "XFCE Terminal"
 msgstr "Terminal XFCE"
 
-#: ../kupfer/plugin/core/alternatives.py:31
 msgid "LXTerminal"
 msgstr "LXTerminal"
 
-#: ../kupfer/plugin/core/alternatives.py:40
 msgid "X Terminal"
 msgstr "Terminal X"
 
-#: ../kupfer/plugin/core/alternatives.py:49
 msgid "Urxvt"
 msgstr "Urxvt"
 
-#: ../kupfer/plugin/core/alternatives.py:58
 msgid "Konsole"
 msgstr "Konsole"
 
-#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:31
 msgid "Save As..."
 msgstr "Salvează ca..."
 
-#: ../kupfer/plugin/core/contents.py:20
 #, fuzzy
 msgid "Restart Kupfer"
 msgstr "Repornește serviciu"
 
-#: ../kupfer/plugin/core/contents.py:42
 msgid "Quit"
 msgstr "Ieșire"
 
-#: ../kupfer/plugin/core/contents.py:47
 msgid "Quit Kupfer"
 msgstr "Ieși din Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:53
 msgid "About Kupfer"
 msgstr "Despre Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:60
 msgid "Show information about Kupfer authors and license"
 msgstr "Afișează informații despre autorii Kupfer și licență"
 
-#: ../kupfer/plugin/core/contents.py:66
 msgid "Kupfer Help"
 msgstr "Ajutor Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:73
 msgid "Get help with Kupfer"
 msgstr "Obține ajutor prin intermediul lui Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:86
 msgid "Show preferences window for Kupfer"
 msgstr "Afișează fereastra de preferințe pentru Kupfer"
 
-#: ../kupfer/plugin/core/__init__.py:64
 msgid "Search Contents"
 msgstr "Caută conținuturi"
 
-#: ../kupfer/plugin/core/__init__.py:82
 msgid "Search inside this catalog"
 msgstr "Caută în interiorul acestui catalog"
 
-#: ../kupfer/plugin/core/__init__.py:90
 msgid "Copy"
 msgstr "Copiază"
 
-#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Copiază la clipboard"
 
-#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Rescanează"
 
-#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Forțează reindexarea acestei surse"
 
-#: ../kupfer/plugin/core/internal.py:13
 msgid "Last Command"
 msgstr "Ultima comandă"
 
-#: ../kupfer/plugin/core/internal.py:24
 msgid "Internal Kupfer Objects"
 msgstr "Obiecte Kupfer interne"
 
-#: ../kupfer/plugin/core/internal.py:46 ../kupfer/plugin/core/internal.py:48
 msgid "Last Result"
 msgstr "Ultimul rezultat"
 
-#: ../kupfer/plugin/core/internal.py:66
 msgid "Command Results"
 msgstr "Rezultatele comenzii"
 
-#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:41
 msgid "Custom Terminal"
 msgstr "Terminal personalizat"
 
-#: ../kupfer/plugin/custom_terminal.py:2
 msgid ""
 "Configure a custom terminal emulator.\n"
 "\n"
 "The plugin adds another terminal alternative (select it on the main page)."
 msgstr ""
 
-#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:891
 msgid "Command"
 msgstr "Comandă"
 
-#: ../kupfer/plugin/custom_terminal.py:20
 msgid "Execute flag"
 msgstr "Execută indicator"
 
-#: ../kupfer/plugin/defaultmail.py:1
 msgid "Default Email Client"
 msgstr "Clientul de email implicit"
 
-#: ../kupfer/plugin/defaultmail.py:6
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 "Compune un email utilizând adiministratorul „mailto:” implicit al sistemului"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Compune email"
 
-#: ../kupfer/plugin/defaultmail.py:43
 msgid "Send in Email To..."
 msgstr "Trimite email la..."
 
-#: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:20
 msgid "Dictionary"
 msgstr "Dicționar"
 
-#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:46
 msgid "Look up word in dictionary"
 msgstr "Caută cuvântul în dicționar"
 
-#: ../kupfer/plugin/dictionary.py:29
 msgid "Look Up"
 msgstr "Caută"
 
-#: ../kupfer/plugin/documents.py:1
 msgid "Documents"
 msgstr "Documente"
 
-#: ../kupfer/plugin/documents.py:4
 msgid "Recently used documents and bookmarked folders"
 msgstr "Documentele utilizate recent și dosarele favorite"
 
-#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Numărul maxim de zile pentru documentele recente"
 
-#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Elemente recente"
 
-#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Documente utilizate recent"
 
-#: ../kupfer/plugin/documents.py:88
+#. TRANS: Recent Documents for application %s
 #, python-format
 msgid "%s Documents"
 msgstr "%s documente"
 
-#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Documentele utilizate recent pentru %s"
 
-#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Locuri"
 
-#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Dosare favorite"
 
-#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
 msgid "DuckDuckGo Search"
 msgstr "Căutare DuckDuckGo"
 
-#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
 msgid "Search the web securely with DuckDuckGo"
 msgstr "Caută pe wem în mod sigur cu DuckDuckGo"
 
-#: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:21
 msgid "Favorites"
 msgstr "Favorite"
 
-#: ../kupfer/plugin/favorites.py:4
 msgid "Mark commonly used items and store objects for later use"
 msgstr ""
 "Marchează elementele utilizate uzual și stochează obiectele pentru a le "
 "utiliza mai târziu"
 
-#: ../kupfer/plugin/favorites.py:127
 msgid "Shelf of \"Favorite\" items"
 msgstr "Raftul elementelor „favorite”"
 
-#: ../kupfer/plugin/favorites.py:140
 msgid "Add to Favorites"
 msgstr "Adaugă la favorite"
 
-#: ../kupfer/plugin/favorites.py:148
 msgid "Add item to favorites shelf"
 msgstr "Adaugă elementul la raftul cu favorite"
 
-#: ../kupfer/plugin/favorites.py:155
 msgid "Remove from Favorites"
 msgstr "Elimină de la favorite"
 
-#: ../kupfer/plugin/favorites.py:163
 msgid "Remove item from favorites shelf"
 msgstr "Elimină elementul de pe raftul cu favorite"
 
-#: ../kupfer/plugin/fileactions.py:1
 msgid "File Actions"
 msgstr "Acțiuni de fișier"
 
-#: ../kupfer/plugin/fileactions.py:9
 msgid "More file actions"
 msgstr "Mai multe acțiuni de fișier"
 
-#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/thunar.py:211
-#: ../kupfer/plugin/windows.py:122
 msgid "Move To..."
 msgstr "Mută la..."
 
-#: ../kupfer/plugin/fileactions.py:67 ../kupfer/plugin/thunar.py:253
 msgid "Move file to new location"
 msgstr "Mută fișierul la o locație nouă"
 
-#: ../kupfer/plugin/fileactions.py:80 ../kupfer/plugin/fileactions.py:103
 msgid "Rename To..."
 msgstr "Redenumește în..."
 
-#: ../kupfer/plugin/fileactions.py:145 ../kupfer/plugin/thunar.py:166
 msgid "Copy To..."
 msgstr "Copiază la..."
 
-#: ../kupfer/plugin/fileactions.py:189 ../kupfer/plugin/thunar.py:207
 msgid "Copy file to a chosen location"
 msgstr "Copiază fișierul la o locație selectată"
 
 #. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
-#: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
 msgid "Glob"
 msgstr "Glob"
 
-#: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
 msgstr "Acțiuni de ordin superior"
 
-#: ../kupfer/plugin/higherorder.py:7
 msgid "Tools to work with commands as objects"
 msgstr "Unelte pentru a lucra cu comenzi ca obiecte"
 
-#: ../kupfer/plugin/higherorder.py:20
 msgid "Select in Kupfer"
 msgstr "Selectează în Kupfer"
 
-#: ../kupfer/plugin/higherorder.py:59
 #, python-format
 msgid "Result of %s (%s)"
 msgstr "Rezultatele lui %s (%s)"
 
-#: ../kupfer/plugin/higherorder.py:75
 msgid "Run (Take Result)"
 msgstr "Rulează (obține rezultatul)"
 
-#: ../kupfer/plugin/higherorder.py:90
 msgid "Take the command result as a proxy object"
 msgstr "Obține rezultatul comenzii ca un obiect proxy"
 
-#: ../kupfer/plugin/higherorder.py:95
 msgid "Run (Discard Result)"
 msgstr "Rulează (renunță la rezultat)"
 
-#: ../kupfer/plugin/image.py:1
 msgid "Image Tools"
 msgstr "Unelte pentru imagine"
 
-#: ../kupfer/plugin/image.py:10
 #, fuzzy
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Unelte pentru tansformarea imaginilor"
 
-#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Scalează..."
 
-#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr "Scalează imaginea pentru a se potrivi la măsura(ile) de pixel dată(e)"
 
-#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Rotește în sens orar"
 
-#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Rotește în sens anti-orar"
 
-#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Rotește automat"
 
-#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr ""
 "Rotește JPEG (într-un singur loc) potrivit datelor meta EXIF ale acesteia"
 
-#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:86
 msgid "Kupfer Plugins"
 msgstr "Module Kupfer"
 
-#: ../kupfer/plugin/kupfer_plugins.py:3
 msgid "Access Kupfer's plugin list in Kupfer"
 msgstr "Accesează lista de module Kupfer în Kupfer"
 
-#: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
 msgstr "Afișează informații"
 
-#: ../kupfer/plugin/kupfer_plugins.py:35
 msgid "Show Source Code"
 msgstr "Afișează codul sursă"
 
-#: ../kupfer/plugin/kupfer_plugins.py:80
 msgid "enabled"
 msgstr "activat"
 
-#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:483
 msgid "disabled"
 msgstr "dezactivat"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:176
-#: ../kupfer/plugin/notes.py:228
 msgid "Notes"
 msgstr "Note"
 
-#: ../kupfer/plugin/notes.py:13
 msgid "Gnote or Tomboy notes"
 msgstr "Gnote sau notițe Tomboy"
 
-#: ../kupfer/plugin/notes.py:34
 msgid "Work with application"
 msgstr "Lucrează cu aplicația"
 
-#: ../kupfer/plugin/notes.py:93
 msgid "Open with notes application"
 msgstr "Deschide cu aplicația de notițe"
 
-#: ../kupfer/plugin/notes.py:100
 msgid "Append to Note..."
 msgstr "Adaugă la notiță..."
 
-#: ../kupfer/plugin/notes.py:123
 msgid "Add text to existing note"
 msgstr "Adaugă text la notița existentă"
 
-#: ../kupfer/plugin/notes.py:138
 msgid "Create Note"
 msgstr "Creează notiță"
 
-#: ../kupfer/plugin/notes.py:152
 msgid "Create a new note from this text"
 msgstr "Creează o notiță nouă din acest text"
 
-#: ../kupfer/plugin/notes.py:158
 msgid "Get Note Search Results..."
 msgstr "Obține rezultatele căutării de note..."
 
-#: ../kupfer/plugin/notes.py:171
 msgid "Show search results for this query"
 msgstr "Afișează rezultatele căutării pentru această interogare"
 
-#: ../kupfer/plugin/notes.py:211
 #, python-format
 msgid "today, %s"
 msgstr "astăzi, %s"
 
-#: ../kupfer/plugin/notes.py:213
 #, python-format
 msgid "yesterday, %s"
 msgstr "ieri, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:217
 #, python-format
 msgid "Last updated %s"
 msgstr "Actualizat ultima dată %s"
 
-#: ../kupfer/plugin/qsicons/__init__.py:24
 msgid "Quicksilver Icons"
 msgstr "Iconițe Quicksilver"
 
-#: ../kupfer/plugin/quickview.py:1
 msgid "Quick Image Viewer"
 msgstr "Vizualizator de imagini Quick"
 
-#: ../kupfer/plugin/quickview.py:53
 msgid "View Image"
 msgstr "Vizualizează imaginea"
 
-#: ../kupfer/plugin/screen.py:1
 msgid "GNU Screen"
 msgstr "Ecran GNU"
 
-#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
 msgid "Active GNU Screen sessions"
 msgstr "Sesiunile active ale ecranului GNU"
 
-#: ../kupfer/plugin/screen.py:57
 msgid "Attached"
 msgstr "Atașat"
 
-#: ../kupfer/plugin/screen.py:58
 msgid "Detached"
 msgstr "Detașat"
 
-#: ../kupfer/plugin/screen.py:61
 #, python-format
 msgid "%(status)s session (%(pid)s) created %(time)s"
 msgstr "%(status)s sesiune (%(pid)s) creată %(time)s"
 
-#: ../kupfer/plugin/screen.py:70
 msgid "Screen Sessions"
 msgstr "Sesiuni de ecran"
 
-#: ../kupfer/plugin/screen.py:99
 msgid "Attach"
 msgstr "Atașează"
 
-#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:52
 msgid "Send Keys"
 msgstr "Trimite taste"
 
-#: ../kupfer/plugin/sendkeys.py:8
 msgid "Send synthetic keyboard events using xautomation"
 msgstr "Trimite evenimente de tastatură sintetice folosind xautomation"
 
-#: ../kupfer/plugin/sendkeys.py:28
 msgid "Paste to Foreground Window"
 msgstr "Lipește în fereastra din prim plan"
 
-#: ../kupfer/plugin/sendkeys.py:46
 msgid "Copy to clipboard and send Ctrl+V to foreground window"
 msgstr "Copiază în clipboard și trimite Ctrl+V ferestrei din prim plan"
 
-#: ../kupfer/plugin/sendkeys.py:101
 msgid "Send keys to foreground window"
 msgstr "Trimite taste ferestrei din prim plan"
 
-#: ../kupfer/plugin/sendkeys.py:106
 msgid "Type Text"
 msgstr "Tastează text"
 
-#: ../kupfer/plugin/sendkeys.py:127
 msgid "Type the text to foreground window"
 msgstr "Tastează text în fereastra din prim plan"
 
-#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:29
 msgid "GNOME Session Management"
 msgstr "Administrarea sesiunii GNOME"
 
-#: ../kupfer/plugin/session_gnome.py:3
 msgid "Special items and actions for GNOME environment"
 msgstr "Elemente și acțiuni speciale pentru mediul GNOME"
 
-#: ../kupfer/plugin/session_support.py:31
 msgid "Log Out..."
 msgstr "Închide sesiunea..."
 
-#: ../kupfer/plugin/session_support.py:34
 msgid "Log out or change user"
 msgstr "Închide sesiunea sau schimbă utilizatorul"
 
-#: ../kupfer/plugin/session_support.py:41
 msgid "Shut Down..."
 msgstr "Oprește..."
 
-#: ../kupfer/plugin/session_support.py:44
 msgid "Shut down, restart or suspend computer"
 msgstr "Oprește, repornește sau suspendă calculatorul"
 
-#: ../kupfer/plugin/session_support.py:51
 msgid "Lock Screen"
 msgstr "Blochează ecranul"
 
-#: ../kupfer/plugin/session_support.py:54
 msgid "Enable screensaver and lock"
 msgstr "Activează protectorul de ecran și blochează ecranul"
 
 #. -*- coding: utf-8 -*
-#: ../kupfer/plugin/session_xfce.py:3 ../kupfer/plugin/session_xfce.py:20
 msgid "XFCE Session Management"
 msgstr "Administrarea sesiunii XFCE"
 
-#: ../kupfer/plugin/session_xfce.py:5
 msgid "Special items and actions for XFCE environment"
 msgstr "Elemente și acțiuni speciale pentru mediul XFCE"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:70
 msgid "SSH Hosts"
 msgstr "Gazde SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:3
 msgid "Adds the SSH hosts found in ~/.ssh/config."
 msgstr "Adaugă gazda SSH găsită în ~/.ssh/config."
 
-#: ../kupfer/plugin/ssh_hosts.py:32
 msgid "SSH host"
 msgstr "Gazdă SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:43
 msgid "Connect"
 msgstr "Conectează"
 
-#: ../kupfer/plugin/ssh_hosts.py:49
 msgid "Connect to SSH host"
 msgstr "Conectează la gazda SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:102
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "Gazdele SSH cum sunt specificate în ~/.ssh/config"
 
-#: ../kupfer/plugin_support.py:144
 msgid "No D-Bus connection to desktop session"
 msgstr "Nu există conexiune D-Bus la sesiunea desktop"
 
-#: ../kupfer/plugin_support.py:171
 msgid "GNOME Keyring"
 msgstr "Inelul de chei GNOME"
 
-#: ../kupfer/plugin_support.py:172
 msgid "KWallet"
 msgstr "KWallet"
 
-#: ../kupfer/plugin_support.py:173
 msgid "Unencrypted File"
 msgstr "Fișier necriptat"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:106
 msgid "Document Templates"
 msgstr "Șabloane de documente"
 
-#: ../kupfer/plugin/templates.py:4
 msgid "Create new documents from your templates"
 msgstr "Creează documente noi de la șabloane"
 
-#: ../kupfer/plugin/templates.py:23
 #, python-format
 msgid "%s template"
 msgstr "%s șablon"
 
-#: ../kupfer/plugin/templates.py:36 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Fișier gol"
 
-#: ../kupfer/plugin/templates.py:46
 msgid "New Folder"
 msgstr "Dosar nou"
 
-#: ../kupfer/plugin/templates.py:56
 msgid "Create New Document..."
 msgstr "Creează document nou..."
 
-#: ../kupfer/plugin/templates.py:95
 msgid "Create a new document from template"
 msgstr "Creează un document nou de la șablon"
 
-#: ../kupfer/plugin/templates.py:102
 msgid "Create Document In..."
 msgstr "Creează document în..."
 
-#: ../kupfer/plugin/textfiles.py:13
 msgid "Textfiles"
 msgstr "Fișiere text"
 
-#: ../kupfer/plugin/textfiles.py:51
 msgid "Append To..."
 msgstr "Adaugă la..."
 
-#: ../kupfer/plugin/textfiles.py:75
 msgid "Append..."
 msgstr "Adaugă..."
 
-#: ../kupfer/plugin/textfiles.py:79
 msgid "Write To..."
 msgstr "Scrie la..."
 
-#: ../kupfer/plugin/textfiles.py:111
 msgid "Get Text Contents"
 msgstr "Obține conținuturi text"
 
-#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:185
-#: ../kupfer/plugin/thunar.py:225 ../kupfer/plugin/thunar.py:278
-#: ../kupfer/plugin/thunar.py:329
 msgid "Thunar"
 msgstr "Thunar"
 
-#: ../kupfer/plugin/thunar.py:11
 msgid "File manager Thunar actions"
 msgstr "Acțiunile administratorului de fișier Thunar"
 
-#: ../kupfer/plugin/thunar.py:67
 msgid "Select in File Manager"
 msgstr "Selectează în administratorul de fișiere"
 
-#: ../kupfer/plugin/thunar.py:95
 msgid "Show Properties"
 msgstr "Afișează proprietăți"
 
-#: ../kupfer/plugin/thunar.py:118
 msgid "Show information about file in file manager"
 msgstr "Afișează informații despre fișier în administratorul de fișiere"
 
-#: ../kupfer/plugin/thunar.py:127
 msgid "Send To..."
 msgstr "Trimite la..."
 
-#: ../kupfer/plugin/thunar.py:259
 msgid "Symlink In..."
 msgstr "Legătură simbolică în..."
 
-#: ../kupfer/plugin/thunar.py:300
 msgid "Create a symlink to file in a chosen location"
 msgstr "Creează o legătură simbolică la un fișier în locația aleasă"
 
-#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:74
 msgid "Empty Trash"
 msgstr "Golește gunoiul"
 
-#: ../kupfer/plugin/thunar.py:344
 msgid "Thunar Send To Objects"
 msgstr "Trimitere la obiecte Thunar"
 
 #. -*- coding: utf-8 -*-
-#: ../kupfer/plugin/thunderbird.py:4
 msgid "Thunderbird"
 msgstr "Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:7
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Contacte și acțiuni Thunderbird/Icedove"
 
-#: ../kupfer/plugin/thunderbird.py:31
 msgid "Compose New Email"
 msgstr "Redactează email nou"
 
-#: ../kupfer/plugin/thunderbird.py:38
 msgid "Compose a new message in Thunderbird"
 msgstr "Redactează un mesaj nou în Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:47
 #, fuzzy
 msgid "Compose Email To"
 msgstr "Compune email"
 
-#: ../kupfer/plugin/thunderbird.py:72
 #, fuzzy
 msgid "Attach in Email To..."
 msgstr "Trimite email la..."
 
-#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose Email With"
+msgstr "Compune email"
+
 #, fuzzy
 msgid "Compose a new message using the text as body"
 msgstr "Redactează un mesaj nou în Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Agenda Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Contactele din agenda Thunderbird"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/top.py:4
 msgid "Top"
 msgstr "Vârf"
 
-#: ../kupfer/plugin/top.py:6
 msgid "Show running tasks and allow sending signals to them"
 msgstr ""
 "Afișează sarcinile care rulează și permite trimiterea de semnale la acestea"
 
-#: ../kupfer/plugin/top.py:23
 msgid "Sort Order"
 msgstr "Ordinea de sortare"
 
-#: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
-#: ../kupfer/plugin/top.py:115
 msgid "Commandline"
 msgstr "Linia de comandă"
 
-#: ../kupfer/plugin/top.py:26
 msgid "CPU usage (descending)"
 msgstr "Utilizare CPU (descrescător)"
 
 #. sort processes (top don't allow to sort via cmd line)
-#: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:112
 msgid "Memory usage (descending)"
 msgstr "Utilizare memorie (descrescător)"
 
-#: ../kupfer/plugin/top.py:49
 msgid "Send Signal..."
 msgstr "Trimite semnal..."
 
-#: ../kupfer/plugin/top.py:79
 msgid "Signals"
 msgstr "Semnale"
 
-#: ../kupfer/plugin/top.py:91
 msgid "Running Tasks"
 msgstr "Sarcinile care rulează"
 
 #. default: by cpu
-#: ../kupfer/plugin/top.py:119
 #, python-format
 msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
 msgstr "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  timp: %(time)s"
 
-#: ../kupfer/plugin/top.py:139
 msgid "Running tasks for current user"
 msgstr "Sarcinile care rulează pentru utilizatorul curent"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:199
 msgid "Trash"
 msgstr "Gunoi"
 
-#: ../kupfer/plugin/trash.py:4
 msgid "Access trash contents"
 msgstr "Accesează conținutul gunoiului"
 
-#: ../kupfer/plugin/trash.py:22
 msgid "Move to Trash"
 msgstr "Mută la gunoi"
 
-#: ../kupfer/plugin/trash.py:39
 msgid "Move this file to trash"
 msgstr "Mută acest fișier la gunoi"
 
-#: ../kupfer/plugin/trash.py:48
 msgid "Restore"
 msgstr "Restaurează"
 
-#: ../kupfer/plugin/trash.py:67
 msgid "Move file back to original location"
 msgstr "Mută fișierul înapoi la locația originală"
 
-#: ../kupfer/plugin/trash.py:84
 msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
 
-#: ../kupfer/plugin/trash.py:187
 msgid "Trash is empty"
 msgstr "Coșul de gunoi este gol"
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:189
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
@@ -1536,11 +1187,9 @@ msgstr[0] "Gunoiul conține un fișier"
 msgstr[1] "Gunoiul conține %(num)s fișiere"
 msgstr[2] "Gunoiul conține %(num)s de fișier"
 
-#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:45
 msgid "Triggers"
 msgstr "Declanșatoare"
 
-#: ../kupfer/plugin/triggers.py:6
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command'."
@@ -1548,115 +1197,88 @@ msgstr ""
 "Atribuie combinații de taste globale (declanșatoare) la obiectele create "
 "prin intermediul „Compune comandă”."
 
-#: ../kupfer/plugin/triggers.py:156
 msgid "Add Trigger..."
 msgstr "Adaugă declanșator..."
 
-#: ../kupfer/plugin/triggers.py:175
 msgid "Remove Trigger"
 msgstr "Elimină declanșator"
 
-#: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
 msgid "URL Actions"
 msgstr "Acțiuni URL"
 
-#: ../kupfer/plugin/urlactions.py:63
 msgid "Download and Open"
 msgstr "Descarcă și deschide"
 
-#: ../kupfer/plugin/urlactions.py:83
 msgid "Download To..."
 msgstr "Descarcă la..."
 
-#: ../kupfer/plugin/urlactions.py:104
 msgid "Download URL to a chosen location"
 msgstr "Descarcă URL la o locație selectată"
 
-#: ../kupfer/plugin/wikipedia.py:5
 msgid "Wikipedia"
 msgstr "Wikipedia"
 
-#: ../kupfer/plugin/wikipedia.py:8 ../kupfer/plugin/wikipedia.py:31
 msgid "Search in Wikipedia"
 msgstr "Caută în Wikipedia"
 
-#: ../kupfer/plugin/wikipedia.py:21
 msgid "Wikipedia language"
 msgstr "Limbaj Wikipedia"
 
 #. TRANS: Default wikipedia language code
-#: ../kupfer/plugin/wikipedia.py:24
 msgid "en"
 msgstr "ro"
 
-#: ../kupfer/plugin/wikipedia.py:44
 #, python-format
 msgid "Search for this term in %s.wikipedia.org"
 msgstr "Caută acest element în %s.wikipedia.org"
 
-#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:210
 msgid "Window List"
 msgstr "Listă de ferestre"
 
-#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:233
 msgid "All windows on all workspaces"
 msgstr "Toate ferestrele de pe toate spațiile de lucru"
 
-#: ../kupfer/plugin/windows.py:18
 msgid "Activate"
 msgstr "Activează"
 
-#: ../kupfer/plugin/windows.py:22
 msgid "Shade"
 msgstr "Umbrește"
 
-#: ../kupfer/plugin/windows.py:22
 msgid "Unshade"
 msgstr "Luminează"
 
-#: ../kupfer/plugin/windows.py:25
 msgid "Minimize"
 msgstr "Minimizează"
 
-#: ../kupfer/plugin/windows.py:25
 msgid "Unminimize"
 msgstr "Deminimează"
 
-#: ../kupfer/plugin/windows.py:29
 msgid "Maximize"
 msgstr "Maximizează"
 
-#: ../kupfer/plugin/windows.py:29
 msgid "Unmaximize"
 msgstr "Demaximizează"
 
-#: ../kupfer/plugin/windows.py:33
 msgid "Maximize Vertically"
 msgstr "Maximizează vertical"
 
-#: ../kupfer/plugin/windows.py:33
 msgid "Unmaximize Vertically"
 msgstr "Demaximizează vertical"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:48
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "Fereastră pe %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:56
 msgid "Frontmost Window"
 msgstr "Fereastră de prim plan"
 
-#: ../kupfer/plugin/windows.py:85
 msgid "Next Window"
 msgstr "Fereastra următoare"
 
-#: ../kupfer/plugin/windows.py:116
 msgid "Jump to this window's workspace and focus"
 msgstr "Sari la spațiul de lucru al acestei ferestre și focalizează"
 
-#: ../kupfer/plugin/windows.py:252
 #, python-format
 msgid "%d window"
 msgid_plural "%d windows"
@@ -1664,196 +1286,150 @@ msgstr[0] "%d fereastră"
 msgstr[1] "%d ferestre"
 msgstr[2] "%d de ferestre"
 
-#: ../kupfer/plugin/windows.py:256
 msgid "Active workspace"
 msgstr "Spațiu de lucru activ"
 
-#: ../kupfer/plugin/windows.py:274
 msgid "Jump to this workspace"
 msgstr "Sari la acest spațiu de lucru"
 
-#: ../kupfer/plugin/windows.py:281
 msgid "Workspaces"
 msgstr "Spații de lucru"
 
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:94
 msgid "Volumes and Disks"
 msgstr "Volume și discuri"
 
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:115
 msgid "Mounted volumes and disks"
 msgstr "Volume și discuri montate"
 
-#: ../kupfer/plugin/volumes.py:42
 #, python-format
 msgid "Volume mounted at %s"
 msgstr "Volumele montate la %s"
 
-#: ../kupfer/plugin/volumes.py:51
 msgid "Unmount"
 msgstr "Demontează"
 
-#: ../kupfer/plugin/volumes.py:80
 msgid "Unmount this volume"
 msgstr "Demontează acest volum"
 
-#: ../kupfer/plugin/volumes.py:87
 msgid "Eject"
 msgstr "Scoate"
 
-#: ../kupfer/plugin/volumes.py:90
 msgid "Unmount and eject this media"
 msgstr "Demontează și scoate aceast mediu"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
-#: ../kupfer/plugin/show_text.py:25
 msgid "Show Text"
 msgstr "Afișează textul"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
-#: ../kupfer/plugin/show_text.py:58
 msgid "Display text in a window"
 msgstr "Afișează textul într-o fereastră"
 
-#: ../kupfer/plugin/show_text.py:37
 msgid "Large Type"
 msgstr "Tip mare"
 
-#: ../kupfer/plugin/show_text.py:66
 msgid "Show Notification"
 msgstr "Afișează notificări"
 
-#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Integrarea căutării de desktop a Trackerului"
 
-#: ../kupfer/plugin/tracker1.py:42
 msgid "Search in Tracker"
 msgstr "Caută în Tracker"
 
-#: ../kupfer/plugin/tracker1.py:47
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Deschide unealta de căutare Tracker și caută acest element"
 
-#: ../kupfer/plugin/tracker1.py:55
 msgid "Get Tracker Results..."
 msgstr "Obține rezultatele Trackerului..."
 
-#: ../kupfer/plugin/tracker1.py:64
 msgid "Show Tracker results for query"
 msgstr "Afișează rezultatele Trackerului pentru interogare"
 
-#: ../kupfer/plugin/tracker1.py:154
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Rezultate pentru „%s”"
 
-#: ../kupfer/plugin/tracker1.py:201
 msgid "Tracker Full Text Search"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:204
 msgid "Use '?' prefix to get full text results"
 msgstr ""
 
-#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
 msgid "Locate Files"
 msgstr "Localizează fișiere"
 
-#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
 msgid "Search filesystem using locate"
 msgstr "Caută sistemul de fișiere utilizând localizarea"
 
-#: ../kupfer/plugin/locate.py:21
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignoră majusculele atunci când se caută fișiere"
 
 #. encoding: utf-8
-#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:26
 msgid "Firefox Bookmarks"
 msgstr "Marcaje Firefox"
 
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:61
 msgid "Index of Firefox bookmarks"
 msgstr "Indexul marcajelor Firefox"
 
-#: ../kupfer/plugin/mediaplayers.py:1 ../kupfer/plugin/mediaplayers.py:22
 msgid "Media Player Control"
 msgstr ""
 
-#: ../kupfer/plugin/mediaplayers.py:3
 msgid "Playback control for media players"
 msgstr ""
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:75
 #, fuzzy, python-format
 msgid "Play/Pause (%s)"
 msgstr "Folosiți „%s”"
 
-#: ../kupfer/plugin/mediaplayers.py:81
 #, fuzzy
 msgid "Resume playback"
 msgstr "Reia redarea în Audacious"
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:88
 #, fuzzy, python-format
 msgid "Next (%s)"
 msgstr "Următorul"
 
-#: ../kupfer/plugin/mediaplayers.py:94
 #, fuzzy
 msgid "Skip to next track"
 msgstr "Sari la pista următoare în Audacious"
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:102
 #, fuzzy, python-format
 msgid "Previous (%s)"
 msgstr "Anteriorul"
 
-#: ../kupfer/plugin/mediaplayers.py:108
 #, fuzzy
 msgid "Skip to previous track"
 msgstr "Sari la pista anterioară în Audacious"
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:116
 #, python-format
 msgid "Stop (%s)"
 msgstr ""
 
-#: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
 
-#: ../kupfer/plugin/pidgin.py:3
 msgid "Pidgin"
 msgstr "Pidgin"
 
-#: ../kupfer/plugin/pidgin.py:9
 msgid "Access to Pidgin Contacts"
 msgstr "Acces la contactele Pidgin"
 
-#: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Afișează contactele deconectate"
 
-#: ../kupfer/plugin/pidgin.py:97
 msgid "Open Chat"
 msgstr "Deschide discuție"
 
-#: ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -1861,206 +1437,177 @@ msgstr[0] "%s (%d caracter)"
 msgstr[1] "%s (%d caractere)"
 msgstr[2] "%s (%d de caractere)"
 
-#: ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
 msgstr "Trimite mesaj..."
 
-#: ../kupfer/plugin/pidgin.py:158
 msgid "Available"
 msgstr "Disponibil"
 
-#: ../kupfer/plugin/pidgin.py:158
 msgid "Away"
 msgstr "Plecat"
 
-#: ../kupfer/plugin/pidgin.py:192
 msgid "Pidgin Contacts"
 msgstr "Contacte Pidgin"
 
+#. -*- coding: UTF-8 -*-
+msgid "Shorten Links"
+msgstr "Scurtează legăturile"
+
+msgid "Create short aliases of long URLs"
+msgstr "Creează aliasuri scurte ale URL-urilor lungi"
+
+msgid "Error"
+msgstr "Eroare"
+
+msgid "Shorten With..."
+msgstr "Scurtează cu..."
+
+msgid "Services"
+msgstr "Servicii"
+
 #. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
 msgstr "Activare alternativă"
 
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/accelerators.py:7
 msgid "Comma Trick"
 msgstr "Truc virgulă"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
-#: ../kupfer/ui/accelerators.py:10
 msgid "Compose Command"
 msgstr "Compune comanda"
 
-#: ../kupfer/ui/accelerators.py:11
 msgid "Mark Default Action"
 msgstr "Marchează acțiunea implicită"
 
-#: ../kupfer/ui/accelerators.py:12
 msgid "Forget Object"
 msgstr "Uită obiect"
 
-#: ../kupfer/ui/accelerators.py:13
 msgid "Reset All"
 msgstr "Restabilește tot"
 
-#: ../kupfer/ui/accelerators.py:14
 msgid "Select Quit"
 msgstr "Selectează ieșire"
 
-#: ../kupfer/ui/accelerators.py:15
 msgid "Select Selected File"
 msgstr "Selectează fișierul selectat"
 
-#: ../kupfer/ui/accelerators.py:16
 msgid "Select Selected Text"
 msgstr "Selectează textul selectat"
 
-#: ../kupfer/ui/accelerators.py:17
 msgid "Show Help"
 msgstr "Afișează ajutor"
 
-#: ../kupfer/ui/accelerators.py:18
 msgid "Show Preferences"
 msgstr "Afișează preferințe"
 
-#: ../kupfer/ui/accelerators.py:19
 msgid "Switch to First Pane"
 msgstr "Comută la primul panou"
 
-#: ../kupfer/ui/accelerators.py:20
 msgid "Toggle Text Mode"
 msgstr "Comută la modul text"
 
-#: ../kupfer/ui/browser.py:863
 #, python-format
 msgid "%s is empty"
 msgstr "%s este gol"
 
-#: ../kupfer/ui/browser.py:867
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Nu sunt potriviri în %(src)s pentru „%(query)s”"
 
-#: ../kupfer/ui/browser.py:873
 msgid "No matches"
 msgstr "Nu sunt potriviri"
 
-#: ../kupfer/ui/browser.py:878
 msgid "Type to search"
 msgstr "Tastați pentru a căuta"
 
-#: ../kupfer/ui/browser.py:884
 #, python-format
 msgid "Type to search %s"
 msgstr "Tastați pentru a căuta %s"
 
-#: ../kupfer/ui/browser.py:899
 msgid "No action"
 msgstr "Nicio acțiune"
 
-#: ../kupfer/ui/browser.py:1487
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Fă „%(action)s” implicit pentru „%(object)s”"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1497
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Uită de „%s”"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1986 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Afișează interfața principală"
 
-#: ../kupfer/ui/preferences.py:58
 msgid "Show with Selection"
 msgstr "Afișează cu selecție"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:434
 msgid "Description"
 msgstr "Descriere"
 
-#: ../kupfer/ui/preferences.py:434
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:451
 msgid "Version"
 msgstr "Versiune"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:461
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Modulul Python „%s” este necesar"
 
-#: ../kupfer/ui/preferences.py:475
 msgid "Plugin could not be read due to an error:"
 msgstr "Modulul nu a putut fi citit din cauza unei erori:"
 
-#: ../kupfer/ui/preferences.py:559
 msgid "Content of"
 msgstr "Conținut al"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:568
 msgid "Sources"
 msgstr "Surse"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:572
 msgid "Actions"
 msgstr "Acțiuni"
 
-#: ../kupfer/ui/preferences.py:595
 #, python-format
 msgid "Using encrypted password storage: %s"
 msgstr "Se folosește depozitare criptată de parole: %s"
 
-#: ../kupfer/ui/preferences.py:597
 #, python-format
 msgid "Using password storage: %s"
 msgstr "Se folosește depozitarea de parole: %s"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:614
 msgid "Configuration"
 msgstr "Configurație"
 
-#: ../kupfer/ui/preferences.py:634
 msgid "Set username and password"
 msgstr "Stabilește numele de utilizator și parola"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:688
 msgid "Choose a Directory"
 msgstr "Alegeți un director"
 
-#: ../kupfer/ui/preferences.py:883
 msgid "Reset all shortcuts to default values?"
 msgstr "Se restabilesc toate scurtăturile la valorile implicite?"
 
-#: ../kupfer/ui/preferences.py:892
 msgid "Shortcut"
 msgstr "Scurtătură"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:73
 msgid "translator-credits"
 msgstr "Florentina Mușat <kuchiki14 [AT] yahoo [DOT] com>"
 
-#: ../kupfer/version.py:78
 msgid "A free software (GPLv3+) launcher"
 msgstr "Un lansator de programe libere (GPLv3+)"
 
-#: ../kupfer/version.py:81
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -2092,7 +1639,6 @@ msgstr ""
 "acest program. Dacă nu, consultați <http://www.gnu.org/licenses/>.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Nu s-a putut găsi Kupfer care rulează"
 
@@ -2144,12 +1690,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Mergi la pista anterioară în Rhythmbox"
-
-#~ msgid "Show Playing"
-#~ msgstr "Afișează redarea"
-
-#~ msgid "Tell which song is currently playing"
-#~ msgstr "Spune ce piesă este redată acum"
 
 #~ msgid "Play tracks in Rhythmbox"
 #~ msgstr "Redă piste în Rhythmbox"
@@ -2749,21 +2289,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "%s Service"
 #~ msgstr "Serviciu %s"
-
-#~ msgid "Shorten Links"
-#~ msgstr "Scurtează legăturile"
-
-#~ msgid "Create short aliases of long URLs"
-#~ msgstr "Creează aliasuri scurte ale URL-urilor lungi"
-
-#~ msgid "Error"
-#~ msgstr "Eroare"
-
-#~ msgid "Shorten With..."
-#~ msgstr "Scurtează cu..."
-
-#~ msgid "Services"
-#~ msgstr "Servicii"
 
 #~| msgid "Show Source Code"
 #~ msgid "Show QRCode"

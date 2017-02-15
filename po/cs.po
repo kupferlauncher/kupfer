@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 12:54+0100\n"
+"POT-Creation-Date: 2017-02-15 20:22+0100\n"
 "PO-Revision-Date: 2012-08-31 23:53+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
@@ -20,103 +20,78 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
 msgstr "Přístupové údaje uživatele"
 
-#: ../data/credentials_dialog.ui.h:2
 msgid "_User:"
 msgstr "_Uživatel:"
 
-#: ../data/credentials_dialog.ui.h:3
 msgid "_Password:"
 msgstr "_Heslo:"
 
-#: ../data/credentials_dialog.ui.h:4
 msgid "_Change"
 msgstr "_Změnit"
 
-#: ../data/getkey_dialog.ui.h:1
 msgid "Set Keyboard Shortcut"
 msgstr "Nastavit klávesové zkratky"
 
-#: ../data/getkey_dialog.ui.h:2
 msgid "Please press desired key combination"
 msgstr "Zmáčkněte prosím požadovanou kombinaci kláves"
 
-#: ../data/getkey_dialog.ui.h:3
 msgid "Keybinding could not be bound"
 msgstr "Nelze najít klávesovou zkratku"
 
-#: ../data/preferences.ui.h:1 ../kupfer/plugin/core/contents.py:79
 msgid "Kupfer Preferences"
 msgstr "Předvolby Kupfer"
 
-#: ../data/preferences.ui.h:2
 msgid "Start automatically on login"
 msgstr "Spouštět automaticky po přihlášení"
 
-#: ../data/preferences.ui.h:3
 msgid "<b>Start</b>"
 msgstr "<b>Spuštění</b>"
 
-#: ../data/preferences.ui.h:4
 msgid "Show icon in notification area"
 msgstr "Zobrazovat ikonu v oznamovací oblasti"
 
-#: ../data/preferences.ui.h:5
 msgid "Icon set:"
 msgstr "Sada ikon:"
 
-#: ../data/preferences.ui.h:6
 msgid "Large Icon Size:"
 msgstr ""
 
-#: ../data/preferences.ui.h:7
 msgid "Small Icon Size:"
 msgstr ""
 
-#: ../data/preferences.ui.h:8
 msgid "Terminal emulator:"
 msgstr "Emulátor terminálu:"
 
-#: ../data/preferences.ui.h:9
 msgid "Desktop Environment"
 msgstr "Pracovní prostředí"
 
-#: ../data/preferences.ui.h:10
 msgid "General"
 msgstr "Obecné"
 
-#: ../data/preferences.ui.h:11
 msgid "<b>Global Keyboard Shortcuts</b>"
 msgstr "<b>Globální klávesové zkratky</b>"
 
-#: ../data/preferences.ui.h:12 ../kupfer/ui/preferences.py:885
 msgid "Reset"
 msgstr "Vrátit původní"
 
-#: ../data/preferences.ui.h:13
 msgid "<b>Browser Keyboard Shortcuts</b>"
 msgstr "<b>Klávesové zkratky prohlížeče</b>"
 
-#: ../data/preferences.ui.h:14
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Použít jednoklávesové příkazy (mezerník, lomítko, tečka, čárka atd.)"
 
-#: ../data/preferences.ui.h:15
 msgid "Keyboard"
 msgstr "Klávesnice"
 
-#: ../data/preferences.ui.h:16
 msgid "Plugins"
 msgstr "Zásuvné moduly"
 
-#: ../data/preferences.ui.h:17
 msgid "Inclusion in Top Level Searches"
 msgstr "Zahrnout do nejvyšší úrovně hledání"
 
-#: ../data/preferences.ui.h:18
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
@@ -124,100 +99,77 @@ msgstr ""
 "Označené zdroje mají své objekty zahrnuty v nejvyšší úrovni hledání.\n"
 "Obsah neoznačených zdrojů je dostupny pouze při hledání v jeho podkatalogu."
 
-#: ../data/preferences.ui.h:20
 msgid "Indexed Folders"
 msgstr "Indexované složky"
 
-#: ../data/preferences.ui.h:21
 msgid "Folders whose files are always available in the catalog."
 msgstr "Složky, jejichž soubory jsou již dostupné v katalogu."
 
-#: ../data/preferences.ui.h:22 ../kupfer/obj/sources.py:166
 msgid "Catalog"
 msgstr "Katalog"
 
-#: ../auxdata/kupfer.desktop.in.h:1 ../kupfer/plugin/core/contents.py:92
-#: ../kupfer/version.py:15
 msgid "Kupfer"
 msgstr "Kupfer"
 
-#: ../auxdata/kupfer.desktop.in.h:2
 msgid "Application Launcher"
 msgstr "Spouštěč aplikací"
 
-#: ../auxdata/kupfer.desktop.in.h:3
 msgid "Convenient command and access tool for applications and documents"
 msgstr ""
 "Nástroj pro pohodlné provádění příkazů a přístup k aplikacím a dokumentům"
 
-#: ../auxdata/kupfer-exec.desktop.in.h:1
 msgid "Execute in Kupfer"
 msgstr "Spustit v aplikaci Kupfer"
 
-#: ../auxdata/kupfer-mimetypes.xml.in.h:1
 msgid "Saved Kupfer Command"
 msgstr "Uložený příkaz aplikace Kupfer"
 
-#: ../kupfer/core/commandexec.py:239
 #, python-format
 msgid "Could not to carry out '%s'"
 msgstr "Nelze provést „%s“"
 
-#: ../kupfer/core/commandexec.py:268
 #, python-format
 msgid "\"%s\" produced a result"
 msgstr "„%s“ vyprodukoval výsledek"
 
-#: ../kupfer/core/execfile.py:29
 #, python-format
 msgid "No permission to run \"%s\" (not executable)"
 msgstr "Nedostatečné oprávnění ke spuštění „%s“ (není spustitelný)"
 
-#: ../kupfer/core/execfile.py:46
 #, python-format
 msgid "Command in \"%s\" is not available"
 msgstr "Příkaz v „%s“ není dostupný"
 
-#: ../kupfer/keyrelay.py:67
 #, python-format
 msgid "Keyboard relay is active for display %s"
 msgstr "Zachytávání klávesnice je aktivní pro displej %s"
 
-#: ../kupfer/main.py:45
 msgid "do not present main interface on launch"
 msgstr "po spuštění nezobrazit hlavní rozhraní"
 
-#: ../kupfer/main.py:46
 msgid "list available plugins"
 msgstr "vypsat dostupné zásuvné moduly"
 
-#: ../kupfer/main.py:47
 msgid "enable debug info"
 msgstr "zapnout ladicí informace"
 
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
-#: ../kupfer/main.py:50
 msgid "run plugin helper"
 msgstr "spustit pomocníka zásuvného modulu"
 
-#: ../kupfer/main.py:53
 msgid "show usage help"
 msgstr "zobrazit nápovědu k použití"
 
-#: ../kupfer/main.py:54
 msgid "show version information"
 msgstr "zobrazit informace o verzi"
 
-#: ../kupfer/main.py:60
 msgid "Usage: kupfer [ OPTIONS | FILE ... ]"
 msgstr "Použití: kupfer [PŘEPÍNAČE | SOUBOR … ]"
 
-#: ../kupfer/main.py:71
 msgid "Available plugins:"
 msgstr "Dostupné zásuvné moduly:"
 
-#: ../kupfer/main.py:120
 #, fuzzy, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
@@ -228,23 +180,18 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
-#: ../kupfer/obj/base.py:459 ../kupfer/plugin/core/text.py:20
 msgid "Text"
 msgstr "Text"
 
-#: ../kupfer/obj/compose.py:15
 msgid "Run after Delay..."
 msgstr "Spustit po chvíli…"
 
-#: ../kupfer/obj/compose.py:36
 msgid "Perform command after a specified time interval"
 msgstr "Provést příkaz po uplynutí zadané časové prodlevy"
 
-#: ../kupfer/obj/compose.py:95
 msgid "Multiple Objects"
 msgstr "Více objektů"
 
-#: ../kupfer/obj/compose.py:126
 #, python-format
 msgid "%s object"
 msgid_plural "%s objects"
@@ -252,163 +199,124 @@ msgstr[0] "%s objekt"
 msgstr[1] "%s objekty"
 msgstr[2] "%s objektů"
 
-#: ../kupfer/obj/contacts.py:129 ../kupfer/plugin/pidgin.py:156
 #, python-format
 msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
-#: ../kupfer/obj/contacts.py:131
 msgid "unknown"
 msgstr "neznámý"
 
-#: ../kupfer/obj/contacts.py:144
 msgid "Aim"
 msgstr "Aim"
 
-#: ../kupfer/obj/contacts.py:151
 msgid "Google Talk"
 msgstr "Google Talk"
 
-#: ../kupfer/obj/contacts.py:159
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../kupfer/obj/contacts.py:166
 msgid "MSN"
 msgstr "MSN"
 
-#: ../kupfer/obj/contacts.py:173
 msgid "QQ"
 msgstr "QQ"
 
-#: ../kupfer/obj/contacts.py:180
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../kupfer/obj/contacts.py:187
 msgid "Skype"
 msgstr "Skype"
 
-#: ../kupfer/obj/exceptions.py:19
 #, python-format
 msgid "%s does not support this operation"
 msgstr "%s nepodporuje tuto operaci"
 
-#: ../kupfer/obj/exceptions.py:24
 msgid "Can not be used with multiple objects"
 msgstr "Nelze použít s více objekty naráz"
 
-#: ../kupfer/obj/fileactions.py:31 ../kupfer/plugin/notes.py:87
 msgid "Open"
 msgstr "Otevřít"
 
-#: ../kupfer/obj/fileactions.py:43
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Není nastavená výchozí aplikace pro  %(file)s (%(type)s)"
 
-#: ../kupfer/obj/fileactions.py:45
 #, python-format
 msgid "Please use \"%s\""
 msgstr "Použijte prosím „%s“"
 
-#: ../kupfer/obj/fileactions.py:45 ../kupfer/plugin/applications.py:121
 msgid "Set Default Application..."
 msgstr "Nastavit výchozí aplikaci…"
 
-#: ../kupfer/obj/fileactions.py:71
 msgid "Open with default application"
 msgstr "Otevřít pomocí výchozí aplikace"
 
-#: ../kupfer/obj/fileactions.py:74
 msgid "Reveal"
 msgstr "Ukázat"
 
-#: ../kupfer/obj/fileactions.py:83
 msgid "Open parent folder"
 msgstr "Otevřít rodičovskou složku"
 
-#: ../kupfer/obj/fileactions.py:89
 msgid "Open Terminal Here"
 msgstr "Otevřít zde terminál"
 
-#: ../kupfer/obj/fileactions.py:102
 msgid "Open this location in a terminal"
 msgstr "Otevřít toto umístění v terminálu"
 
-#: ../kupfer/obj/fileactions.py:110
 msgid "Run in Terminal"
 msgstr "Spustit v terminálu"
 
-#: ../kupfer/obj/fileactions.py:110
 msgid "Run (Execute)"
 msgstr "Spustit (provést)"
 
-#: ../kupfer/obj/fileactions.py:130
 msgid "Run this program in a Terminal"
 msgstr "Spustit tento program v terminálu"
 
-#: ../kupfer/obj/fileactions.py:132
 msgid "Run this program"
 msgstr "Spustit tento program"
 
-#: ../kupfer/obj/objects.py:255 ../kupfer/plugin/windows.py:105
-#: ../kupfer/plugin/windows.py:264
 msgid "Go To"
 msgstr "Přejít na"
 
-#: ../kupfer/obj/objects.py:281
 msgid "Open URL"
 msgstr "Otevřít URL"
 
-#: ../kupfer/obj/objects.py:292
 msgid "Open URL with default viewer"
 msgstr "Otevřít URL s výchozím prohlížečem"
 
-#: ../kupfer/obj/objects.py:306
 msgid "Launch"
 msgstr "Spustit"
 
-#: ../kupfer/obj/objects.py:319
 msgid "Show application window"
 msgstr "Zobrazit okno aplikace"
 
-#: ../kupfer/obj/objects.py:320
 msgid "Launch application"
 msgstr "Spustit aplikaci"
 
-#: ../kupfer/obj/objects.py:331
 msgid "Launch Again"
 msgstr "Spustit znovu"
 
-#: ../kupfer/obj/objects.py:338
 msgid "Launch another instance of this application"
 msgstr "Spustit další instanci této aplikace"
 
-#: ../kupfer/obj/objects.py:344 ../kupfer/plugin/windows.py:37
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../kupfer/obj/objects.py:352
 msgid "Attempt to close all application windows"
 msgstr "Zkusit zavřít okna všech aplikací"
 
 #. TRANS: 'Run' as in Perform a (saved) command
-#: ../kupfer/obj/objects.py:401
 msgid "Run"
 msgstr "Spustit"
 
-#: ../kupfer/obj/objects.py:411
 msgid "Perform command"
 msgstr "Provést příkaz"
 
-#: ../kupfer/obj/objects.py:424
 msgid "(Empty Text)"
 msgstr "(Prázdný text)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
-#: ../kupfer/obj/objects.py:454
 #, python-format
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
@@ -416,258 +324,202 @@ msgstr[0] "„%(text)s“"
 msgstr[1] "(%(num)d řádky) „%(text)s“"
 msgstr[2] "(%(num)d řádků) „%(text)s“"
 
-#: ../kupfer/obj/sources.py:31
 #, python-format
 msgid "%s et. al."
 msgstr "%s a další"
 
-#: ../kupfer/obj/sources.py:61
 #, python-format
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekurzivní zdroj ze složky %(dir)s, (%(levels)d úrovní)"
 
-#: ../kupfer/obj/sources.py:117
 #, python-format
 msgid "Directory source %s"
 msgstr "Zdroj složka %s"
 
-#: ../kupfer/obj/sources.py:128
 msgid "Home Folder"
 msgstr "Domovská složka"
 
-#: ../kupfer/obj/sources.py:139
 msgid "Catalog Index"
 msgstr "Katalogový rejstřík"
 
-#: ../kupfer/obj/sources.py:154
 msgid "An index of all available sources"
 msgstr "Rejstřík ze všech dostupných zdrojů"
 
-#: ../kupfer/obj/sources.py:186
 msgid "Root catalog"
 msgstr "Kořenový katalog"
 
-#: ../kupfer/obj/special.py:10
 msgid "Please Configure Plugin"
 msgstr "Nastavte prosím zásuvný modul"
 
-#: ../kupfer/obj/special.py:11
 #, python-format
 msgid "Plugin %s is not configured"
 msgstr "Zásuvný modul %s není nastavený"
 
-#: ../kupfer/obj/special.py:32
 #, python-format
 msgid "Invalid user credentials for %s"
 msgstr "Neplatné přístupové údaje uživatele pro %s"
 
-#: ../kupfer/plugin/applications.py:2 ../kupfer/plugin/applications.py:42
 msgid "Applications"
 msgstr "Aplikace"
 
-#: ../kupfer/plugin/applications.py:8 ../kupfer/plugin/applications.py:81
 msgid "All applications and preferences"
 msgstr "Všechny aplikace a předvolby"
 
-#: ../kupfer/plugin/applications.py:21
 msgid "Applications for Desktop Environment"
 msgstr "Aplikace pro pracovní prostředí"
 
-#: ../kupfer/plugin/applications.py:28
 msgid "Use Desktop Filter (requires restart)"
 msgstr ""
 
-#: ../kupfer/plugin/applications.py:90
 msgid "Open With..."
 msgstr "Otevřít s…"
 
-#: ../kupfer/plugin/applications.py:117
 msgid "Open with any application"
 msgstr "Otevřít pomocí nějaké aplikace"
 
-#: ../kupfer/plugin/applications.py:137
 msgid "Set default application to open this file type"
 msgstr "Nastavit výchozí aplikaci na otevírání tohoto typu souboru"
 
-#: ../kupfer/plugin/archiveinside.py:8
 msgid "Deep Archives"
 msgstr "Do hloubky archivů"
 
-#: ../kupfer/plugin/archiveinside.py:10
 msgid "Allow browsing inside compressed archive files"
 msgstr "Umožňuje procházení uvnitř komprimovaných archivních souborů"
 
-#: ../kupfer/plugin/archiveinside.py:49
 #, python-format
 msgid "Content of %s"
 msgstr "Obsah archivu %s"
 
-#: ../kupfer/plugin/archivemanager.py:1
 msgid "Archive Manager"
 msgstr "Správa archivu"
 
-#: ../kupfer/plugin/archivemanager.py:9
 msgid "Use Archive Manager actions"
 msgstr "Použít akce správce archivu"
 
-#: ../kupfer/plugin/archivemanager.py:27
 msgid "Compressed archive type for 'Create Archive In'"
 msgstr "Typ komprimovaného archivu pro „Vytvořit archiv v“"
 
-#: ../kupfer/plugin/archivemanager.py:44
 msgid "Extract Here"
 msgstr "Rozbalit zde"
 
-#: ../kupfer/plugin/archivemanager.py:64
 msgid "Extract compressed archive"
 msgstr "Rozbalit komprimovaný archiv"
 
-#: ../kupfer/plugin/archivemanager.py:70
 msgid "Create Archive"
 msgstr "Vytvořit archiv"
 
-#: ../kupfer/plugin/archivemanager.py:86 ../kupfer/plugin/archivemanager.py:129
 msgid "Create a compressed archive from folder"
 msgstr "Vytvořit komprimovaný archiv ze složky"
 
-#: ../kupfer/plugin/archivemanager.py:92
 msgid "Create Archive In..."
 msgstr "Vytvořit archiv v…"
 
 #. TRANS: Default filename (no extension) for 'Create Archive In...'
-#: ../kupfer/plugin/archivemanager.py:115
 msgid "Archive"
 msgstr "Archiv"
 
-#: ../kupfer/plugin/audacious.py:1 ../kupfer/plugin/audacious.py:187
 msgid "Audacious"
 msgstr "Audacious"
 
-#: ../kupfer/plugin/audacious.py:3
 msgid "Control Audacious playback and playlist"
 msgstr "Ovládat přehrávání a seznamy skladeb přehrávače Audacious"
 
-#: ../kupfer/plugin/audacious.py:20
 msgid "Include songs in top level"
 msgstr "Zahrnout skladby do nejvyšší úrovně"
 
-#: ../kupfer/plugin/audacious.py:58
 msgid "Enqueue"
 msgstr "Zařadit do fronty"
 
-#: ../kupfer/plugin/audacious.py:62
 msgid "Add track to the Audacious play queue"
 msgstr "Přidat skladbu do fronty přehrávaných skladeb v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:70
 msgid "Dequeue"
 msgstr "Vyjmout z fronty"
 
-#: ../kupfer/plugin/audacious.py:74
 msgid "Remove track from the Audacious play queue"
 msgstr "Odstranit skladbu z fronty přehrávaných skladeb v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:82 ../kupfer/plugin/audacious.py:92
 msgid "Play"
 msgstr "Přehrát"
 
-#: ../kupfer/plugin/audacious.py:86
 msgid "Jump to track in Audacious"
 msgstr "Přeskočit na stopu v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:96
 msgid "Resume playback in Audacious"
 msgstr "Pokračovat v přehrávání v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:102
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../kupfer/plugin/audacious.py:106
 msgid "Pause playback in Audacious"
 msgstr "Pozastavit přehrávání v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:112
 msgid "Next"
 msgstr "Následující"
 
-#: ../kupfer/plugin/audacious.py:116
 msgid "Jump to next track in Audacious"
 msgstr "Přeskočit na následující stopu v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:122
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../kupfer/plugin/audacious.py:126
 msgid "Jump to previous track in Audacious"
 msgstr "Přeskočit na předchozí stopu v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:132
 msgid "Clear Queue"
 msgstr "Vymazat frontu"
 
-#: ../kupfer/plugin/audacious.py:136
 msgid "Clear the Audacious play queue"
 msgstr "Vymazat frontu přehrávaných skladeb v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:142
 msgid "Shuffle"
 msgstr "Náhodně"
 
-#: ../kupfer/plugin/audacious.py:146
 msgid "Toggle shuffle in Audacious"
 msgstr "Zapnout/vypnout náhodné pořadí v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:152
 msgid "Repeat"
 msgstr "Opakovat"
 
-#: ../kupfer/plugin/audacious.py:156
 msgid "Toggle repeat in Audacious"
 msgstr "Zapnout/vypnout opakování v přehrávači Audacious"
 
-#: ../kupfer/plugin/audacious.py:171
+msgid "Show Playing"
+msgstr "Zobrazit co se přehrává"
+
+msgid "Tell which song is currently playing"
+msgstr "Sdělit, která skladba se právě přehrává"
+
 msgid "Playlist"
 msgstr "Seznam skladeb"
 
-#: ../kupfer/plugin/calculator.py:2 ../kupfer/plugin/calculator.py:80
 msgid "Calculator"
 msgstr "Kalkulačka"
 
-#: ../kupfer/plugin/calculator.py:4
 msgid "Calculate mathematical expressions"
 msgstr ""
 
-#: ../kupfer/plugin/calculator.py:118
 msgid "Calculate"
 msgstr "Vypočítat"
 
-#: ../kupfer/plugin/clipboard.py:1 ../kupfer/plugin/clipboard.py:109
 msgid "Clipboards"
 msgstr "Schránky"
 
-#: ../kupfer/plugin/clipboard.py:4
 msgid "Recent clipboards and clipboard proxy objects"
 msgstr "Nedávné objekty schránek a proxy schránky"
 
-#: ../kupfer/plugin/clipboard.py:23
 msgid "Number of recent clipboards to remember"
 msgstr "Počet nedávných schránek k zapamatování"
 
-#: ../kupfer/plugin/clipboard.py:29
 msgid "Include selected text in clipboard history"
 msgstr "Zahrnout vybraný text do historie schránky"
 
-#: ../kupfer/plugin/clipboard.py:35
 msgid "Copy selected text to primary clipboard"
 msgstr "Kopírovat vybraný text do hlavní schránky"
 
-#: ../kupfer/plugin/clipboard.py:44
 msgid "Selected Text"
 msgstr "Vybraný text"
 
-#: ../kupfer/plugin/clipboard.py:54
 #, python-format
 msgid "Clipboard \"%(desc)s\""
 msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
@@ -675,31 +527,24 @@ msgstr[0] "Schránka „%(desc)s“"
 msgstr[1] "Schránka s %(num)d řádky „%(desc)s“"
 msgstr[2] "Schránka s %(num)d řádky „%(desc)s“"
 
-#: ../kupfer/plugin/clipboard.py:61
 msgid "Clipboard Text"
 msgstr "Text schránky"
 
-#: ../kupfer/plugin/clipboard.py:71
 msgid "Clipboard File"
 msgstr "Soubor schránky"
 
-#: ../kupfer/plugin/clipboard.py:81
 msgid "Clipboard Files"
 msgstr "Soubory schránky"
 
-#: ../kupfer/plugin/clipboard.py:89
 msgid "Clear"
 msgstr "Vyčistit"
 
-#: ../kupfer/plugin/clipboard.py:101
 msgid "Remove all recent clipboards"
 msgstr "Odstranit všechny nedávné položky ze schránky"
 
-#: ../kupfer/plugin/commands.py:1 ../kupfer/plugin/commands.py:186
 msgid "Shell Commands"
 msgstr "Příkazy shellu"
 
-#: ../kupfer/plugin/commands.py:9
 #, python-format
 msgid ""
 "Run command-line programs. Actions marked with the symbol %s run in a "
@@ -708,821 +553,627 @@ msgstr ""
 "Spustit programy příkazové řádky. Akce označené symbolem %s poběží v "
 "podřízeném shellu."
 
-#: ../kupfer/plugin/commands.py:39
 msgid "Run (Get Output)"
 msgstr "Spustit (získat výstup)"
 
-#: ../kupfer/plugin/commands.py:57
 msgid "Run program and return its output"
 msgstr "Spustit program a vrátit jeho výstup"
 
 #. TRANS: The user starts a program (command) and the text
 #. TRANS: is an argument to the command
-#: ../kupfer/plugin/commands.py:63
 msgid "Pass to Command..."
 msgstr "Předat do příkazu…"
 
-#: ../kupfer/plugin/commands.py:105
 msgid "Run program with object as an additional parameter"
 msgstr "Spustit program s objektem, jako doplňujícím parametrem"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
-#: ../kupfer/plugin/commands.py:113
 msgid "Write to Command..."
 msgstr "Zapsat do příkazu…"
 
-#: ../kupfer/plugin/commands.py:148 ../kupfer/plugin/commands.py:160
 msgid "Run program and supply text on the standard input"
 msgstr "Spustit program a poskytnout text na standardní vstup"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
-#: ../kupfer/plugin/commands.py:156
 msgid "Filter through Command..."
 msgstr "Filtrovat přes příkaz…"
 
-#: ../kupfer/plugin/commands.py:212
 msgid "Run command-line programs"
 msgstr "Spustit programy příkazové řádky"
 
-#: ../kupfer/plugin/core/alternatives.py:7
 msgid "GTK+"
 msgstr "GTK+"
 
-#: ../kupfer/plugin/core/alternatives.py:13
 msgid "GNOME Terminal"
 msgstr "Terminál GNOME"
 
-#: ../kupfer/plugin/core/alternatives.py:22
 msgid "XFCE Terminal"
 msgstr "Terminál XFCE"
 
-#: ../kupfer/plugin/core/alternatives.py:31
 msgid "LXTerminal"
 msgstr "LXTerminal"
 
-#: ../kupfer/plugin/core/alternatives.py:40
 msgid "X Terminal"
 msgstr "Terminál X"
 
-#: ../kupfer/plugin/core/alternatives.py:49
 msgid "Urxvt"
 msgstr "Urxvt"
 
-#: ../kupfer/plugin/core/alternatives.py:58
 msgid "Konsole"
 msgstr "Konsole"
 
-#: ../kupfer/plugin/core/commands.py:12 ../kupfer/plugin/core/commands.py:31
 msgid "Save As..."
 msgstr "Uložit jako…"
 
-#: ../kupfer/plugin/core/contents.py:20
 #, fuzzy
 msgid "Restart Kupfer"
 msgstr "Restartovat službu"
 
-#: ../kupfer/plugin/core/contents.py:42
 msgid "Quit"
 msgstr "Ukončit"
 
-#: ../kupfer/plugin/core/contents.py:47
 msgid "Quit Kupfer"
 msgstr "Ukončit aplikaci Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:53
 msgid "About Kupfer"
 msgstr "O aplikaci Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:60
 msgid "Show information about Kupfer authors and license"
 msgstr "Zobrazit informace o autorech aplikace Kupfer a licenci"
 
-#: ../kupfer/plugin/core/contents.py:66
 msgid "Kupfer Help"
 msgstr "Nápověda aplikace Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:73
 msgid "Get help with Kupfer"
 msgstr "Získat nápovědu k aplikaci Kupfer"
 
-#: ../kupfer/plugin/core/contents.py:86
 msgid "Show preferences window for Kupfer"
 msgstr "Zobrazit okno s předvolbami pro Kupfer"
 
-#: ../kupfer/plugin/core/__init__.py:64
 msgid "Search Contents"
 msgstr "Prohledat obsah"
 
-#: ../kupfer/plugin/core/__init__.py:82
 msgid "Search inside this catalog"
 msgstr "Hledat v tomto katalogu"
 
-#: ../kupfer/plugin/core/__init__.py:90
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: ../kupfer/plugin/core/__init__.py:106
 msgid "Copy to clipboard"
 msgstr "Kopírovat do schránky"
 
-#: ../kupfer/plugin/core/__init__.py:128
 msgid "Rescan"
 msgstr "Přeindexovat"
 
-#: ../kupfer/plugin/core/__init__.py:143
 msgid "Force reindex of this source"
 msgstr "Vynutit přeindexování tohoto zdroje"
 
-#: ../kupfer/plugin/core/internal.py:13
 msgid "Last Command"
 msgstr "Poslední příkaz"
 
-#: ../kupfer/plugin/core/internal.py:24
 msgid "Internal Kupfer Objects"
 msgstr "Interní objekty Kupfer"
 
-#: ../kupfer/plugin/core/internal.py:46 ../kupfer/plugin/core/internal.py:48
 msgid "Last Result"
 msgstr "Poslední výsledek"
 
-#: ../kupfer/plugin/core/internal.py:66
 msgid "Command Results"
 msgstr "Výsledky příkazu"
 
-#: ../kupfer/plugin/custom_terminal.py:1 ../kupfer/plugin/custom_terminal.py:41
 msgid "Custom Terminal"
 msgstr "Vlastní terminál"
 
-#: ../kupfer/plugin/custom_terminal.py:2
 msgid ""
 "Configure a custom terminal emulator.\n"
 "\n"
 "The plugin adds another terminal alternative (select it on the main page)."
 msgstr ""
 
-#: ../kupfer/plugin/custom_terminal.py:14 ../kupfer/ui/preferences.py:891
 msgid "Command"
 msgstr "Příkaz"
 
-#: ../kupfer/plugin/custom_terminal.py:20
 msgid "Execute flag"
 msgstr "Příznaky spuštění"
 
-#: ../kupfer/plugin/defaultmail.py:1
 msgid "Default Email Client"
 msgstr "Výchozí poštovní klient"
 
-#: ../kupfer/plugin/defaultmail.py:6
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Napsat e-mail ve výchozím programu systému pro zpracován mailto:"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
 msgid "Compose Email"
 msgstr "Napsat e-mail"
 
-#: ../kupfer/plugin/defaultmail.py:43
 msgid "Send in Email To..."
 msgstr "Odeslat e-mailem…"
 
-#: ../kupfer/plugin/dictionary.py:1 ../kupfer/plugin/dictionary.py:20
 msgid "Dictionary"
 msgstr "Slovník"
 
-#: ../kupfer/plugin/dictionary.py:3 ../kupfer/plugin/dictionary.py:46
 msgid "Look up word in dictionary"
 msgstr "Vyhledat slovíčko ve slovníku"
 
-#: ../kupfer/plugin/dictionary.py:29
 msgid "Look Up"
 msgstr "Vyhledat"
 
-#: ../kupfer/plugin/documents.py:1
 msgid "Documents"
 msgstr "Dokumenty"
 
-#: ../kupfer/plugin/documents.py:4
 msgid "Recently used documents and bookmarked folders"
 msgstr "Nedávno použité dokumenty a označené složky"
 
-#: ../kupfer/plugin/documents.py:22
 msgid "Max recent document days"
 msgstr "Max. stáří nedávných dokumentů ve dnech"
 
-#: ../kupfer/plugin/documents.py:32
 msgid "Recent Items"
 msgstr "Nedávné položky"
 
-#: ../kupfer/plugin/documents.py:78
 msgid "Recently used documents"
 msgstr "Nedávno použité dokumenty"
 
-#: ../kupfer/plugin/documents.py:88
+#. TRANS: Recent Documents for application %s
 #, python-format
 msgid "%s Documents"
 msgstr "Dokumenty %s"
 
-#: ../kupfer/plugin/documents.py:113
 #, python-format
 msgid "Recently used documents for %s"
 msgstr "Nedávno použité dokumenty pro %s"
 
-#: ../kupfer/plugin/documents.py:132
 msgid "Places"
 msgstr "Místa"
 
-#: ../kupfer/plugin/documents.py:167
 msgid "Bookmarked folders"
 msgstr "Označené složky"
 
-#: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
 msgid "DuckDuckGo Search"
 msgstr "Vyhledávač DuckDuckGo"
 
-#: ../kupfer/plugin/duckduckgo.py:8 ../kupfer/plugin/duckduckgo.py:30
 msgid "Search the web securely with DuckDuckGo"
 msgstr "Prohledat web bezpečně pomocí DuckDuckGo"
 
-#: ../kupfer/plugin/favorites.py:1 ../kupfer/plugin/favorites.py:21
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: ../kupfer/plugin/favorites.py:4
 msgid "Mark commonly used items and store objects for later use"
 msgstr "Označit běžně používané položky a uchovat objekty pro pozdější použití"
 
-#: ../kupfer/plugin/favorites.py:127
 msgid "Shelf of \"Favorite\" items"
 msgstr "Seznam „oblíbených“ položek"
 
-#: ../kupfer/plugin/favorites.py:140
 msgid "Add to Favorites"
 msgstr "Přidat do oblíbených"
 
-#: ../kupfer/plugin/favorites.py:148
 msgid "Add item to favorites shelf"
 msgstr "Přidat položku do seznamu oblíbených"
 
-#: ../kupfer/plugin/favorites.py:155
 msgid "Remove from Favorites"
 msgstr "Odebrat z oblíbených"
 
-#: ../kupfer/plugin/favorites.py:163
 msgid "Remove item from favorites shelf"
 msgstr "Odebrat položku ze seznamu oblíbených"
 
-#: ../kupfer/plugin/fileactions.py:1
 msgid "File Actions"
 msgstr "Akce se soubory"
 
-#: ../kupfer/plugin/fileactions.py:9
 msgid "More file actions"
 msgstr "Více akcí se soubory"
 
-#: ../kupfer/plugin/fileactions.py:40 ../kupfer/plugin/thunar.py:211
-#: ../kupfer/plugin/windows.py:122
 msgid "Move To..."
 msgstr "Přesunout do…"
 
-#: ../kupfer/plugin/fileactions.py:67 ../kupfer/plugin/thunar.py:253
 msgid "Move file to new location"
 msgstr "Přesunout tento soubor na nové místo"
 
-#: ../kupfer/plugin/fileactions.py:80 ../kupfer/plugin/fileactions.py:103
 msgid "Rename To..."
 msgstr "Přejmenovat na…"
 
-#: ../kupfer/plugin/fileactions.py:145 ../kupfer/plugin/thunar.py:166
 msgid "Copy To..."
 msgstr "Kopírovat do…"
 
-#: ../kupfer/plugin/fileactions.py:189 ../kupfer/plugin/thunar.py:207
 msgid "Copy file to a chosen location"
 msgstr "Kopírovat soubor na vybrané místo"
 
 #. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
-#: ../kupfer/plugin/glob.py:3 ../kupfer/plugin/glob.py:17
 msgid "Glob"
 msgstr "Glob"
 
-#: ../kupfer/plugin/higherorder.py:1
 msgid "Higher-order Actions"
 msgstr "Akce nejvyšší úrovně"
 
-#: ../kupfer/plugin/higherorder.py:7
 msgid "Tools to work with commands as objects"
 msgstr "Nástroj umožňující práci s příkazy jako s objekty"
 
-#: ../kupfer/plugin/higherorder.py:20
 msgid "Select in Kupfer"
 msgstr "Vybrat v aplikaci Kupfer"
 
-#: ../kupfer/plugin/higherorder.py:59
 #, python-format
 msgid "Result of %s (%s)"
 msgstr "Výsledky pro %s (%s)"
 
-#: ../kupfer/plugin/higherorder.py:75
 msgid "Run (Take Result)"
 msgstr "Spustit (převzít výsledky)"
 
-#: ../kupfer/plugin/higherorder.py:90
 msgid "Take the command result as a proxy object"
 msgstr "Převzít výsledek příkazu jako objekt proxy"
 
-#: ../kupfer/plugin/higherorder.py:95
 msgid "Run (Discard Result)"
 msgstr "Spustit (zahodit výsledky)"
 
-#: ../kupfer/plugin/image.py:1
 msgid "Image Tools"
 msgstr "Nástroje na obrázky"
 
-#: ../kupfer/plugin/image.py:10
 #, fuzzy
 msgid "Image transformation tools using 'convert' from ImageMagick"
 msgstr "Nástroje pro transformaci obrázků"
 
-#: ../kupfer/plugin/image.py:32
 msgid "Scale..."
 msgstr "Změnit velikost…"
 
-#: ../kupfer/plugin/image.py:86
 msgid "Scale image to fit inside given pixel measure(s)"
 msgstr ""
 "Změnit velikost obrázku, aby odpovídal vnitřně daným rozměrům v pixelech"
 
-#: ../kupfer/plugin/image.py:121
 msgid "Rotate Clockwise"
 msgstr "Otočit ve směru hodinových ručiček"
 
-#: ../kupfer/plugin/image.py:128
 msgid "Rotate Counter-Clockwise"
 msgstr "Otočit proti směru hodinových ručiček"
 
-#: ../kupfer/plugin/image.py:135
 msgid "Autorotate"
 msgstr "Automaticky otočit"
 
-#: ../kupfer/plugin/image.py:164
 msgid "Rotate JPEG (in-place) according to its EXIF metadata"
 msgstr "Otočit JPEG v souladu s jeho metadaty EXIF"
 
-#: ../kupfer/plugin/kupfer_plugins.py:1 ../kupfer/plugin/kupfer_plugins.py:86
 msgid "Kupfer Plugins"
 msgstr "Zásuvné moduly Kupfer"
 
-#: ../kupfer/plugin/kupfer_plugins.py:3
 msgid "Access Kupfer's plugin list in Kupfer"
 msgstr "Přístup k seznamu zásuvných modulů Kupfer v aplikaci Kupfer"
 
-#: ../kupfer/plugin/kupfer_plugins.py:19
 msgid "Show Information"
 msgstr "Zobrazit informace"
 
-#: ../kupfer/plugin/kupfer_plugins.py:35
 msgid "Show Source Code"
 msgstr "Zobrazit zdrojový kód"
 
-#: ../kupfer/plugin/kupfer_plugins.py:80
 msgid "enabled"
 msgstr "zapnutý"
 
-#: ../kupfer/plugin/kupfer_plugins.py:80 ../kupfer/ui/preferences.py:483
 msgid "disabled"
 msgstr "vypnutý"
 
-#: ../kupfer/plugin/notes.py:6 ../kupfer/plugin/notes.py:176
-#: ../kupfer/plugin/notes.py:228
 msgid "Notes"
 msgstr "Poznámky"
 
-#: ../kupfer/plugin/notes.py:13
 msgid "Gnote or Tomboy notes"
 msgstr "Poznámky v aplikacích Gnote nebo Tomboy"
 
-#: ../kupfer/plugin/notes.py:34
 msgid "Work with application"
 msgstr "Pracovat s aplikací"
 
-#: ../kupfer/plugin/notes.py:93
 msgid "Open with notes application"
 msgstr "Otevřít s aplikací pro práci s poznámkami"
 
-#: ../kupfer/plugin/notes.py:100
 msgid "Append to Note..."
 msgstr "Připojit k poznámce…"
 
-#: ../kupfer/plugin/notes.py:123
 msgid "Add text to existing note"
 msgstr "Přidat text do stávající poznámky"
 
-#: ../kupfer/plugin/notes.py:138
 msgid "Create Note"
 msgstr "Vytvořit poznámku"
 
-#: ../kupfer/plugin/notes.py:152
 msgid "Create a new note from this text"
 msgstr "Vytvořit novou poznámku z tohoto textu"
 
-#: ../kupfer/plugin/notes.py:158
 msgid "Get Note Search Results..."
 msgstr "Získat výsledky hledávání poznámek…"
 
-#: ../kupfer/plugin/notes.py:171
 msgid "Show search results for this query"
 msgstr "Zobrazit výsledky hledání pro tento dotaz"
 
-#: ../kupfer/plugin/notes.py:211
 #, python-format
 msgid "today, %s"
 msgstr "dnes, %s"
 
-#: ../kupfer/plugin/notes.py:213
 #, python-format
 msgid "yesterday, %s"
 msgstr "včera, %s"
 
 #. TRANS: Note description, %s is last changed time in locale format
-#: ../kupfer/plugin/notes.py:217
 #, python-format
 msgid "Last updated %s"
 msgstr "Naposledy aktualizováno %s"
 
-#: ../kupfer/plugin/qsicons/__init__.py:24
 msgid "Quicksilver Icons"
 msgstr "Ikony Quicksilver"
 
-#: ../kupfer/plugin/quickview.py:1
 msgid "Quick Image Viewer"
 msgstr "Rychlé prohlížení obrázků"
 
-#: ../kupfer/plugin/quickview.py:53
 msgid "View Image"
 msgstr "Zobrazit obrázek"
 
-#: ../kupfer/plugin/screen.py:1
 msgid "GNU Screen"
 msgstr "GNU Screen"
 
-#: ../kupfer/plugin/screen.py:3 ../kupfer/plugin/screen.py:89
 msgid "Active GNU Screen sessions"
 msgstr "Aktivovat sezení GNU Screen"
 
-#: ../kupfer/plugin/screen.py:57
 msgid "Attached"
 msgstr "Připojené"
 
-#: ../kupfer/plugin/screen.py:58
 msgid "Detached"
 msgstr "Odpojené"
 
-#: ../kupfer/plugin/screen.py:61
 #, python-format
 msgid "%(status)s session (%(pid)s) created %(time)s"
 msgstr "%(status)s sezení (%(pid)s) vytvořené %(time)s"
 
-#: ../kupfer/plugin/screen.py:70
 msgid "Screen Sessions"
 msgstr "Sezení obrazovky"
 
-#: ../kupfer/plugin/screen.py:99
 msgid "Attach"
 msgstr "Připojit"
 
-#: ../kupfer/plugin/sendkeys.py:2 ../kupfer/plugin/sendkeys.py:52
 msgid "Send Keys"
 msgstr "Poslat klávesy"
 
-#: ../kupfer/plugin/sendkeys.py:8
 msgid "Send synthetic keyboard events using xautomation"
 msgstr "Poslat pomocí xautomation uměle vyvolané události klávesnice"
 
-#: ../kupfer/plugin/sendkeys.py:28
 msgid "Paste to Foreground Window"
 msgstr "Vložit do okna na popředí"
 
-#: ../kupfer/plugin/sendkeys.py:46
 msgid "Copy to clipboard and send Ctrl+V to foreground window"
 msgstr "Kopírovat do schránky a poslat Ctrl+V do okna na popředí"
 
-#: ../kupfer/plugin/sendkeys.py:101
 msgid "Send keys to foreground window"
 msgstr "Poslat klávesy do okna na popředí"
 
-#: ../kupfer/plugin/sendkeys.py:106
 msgid "Type Text"
 msgstr "Psát text"
 
-#: ../kupfer/plugin/sendkeys.py:127
 msgid "Type the text to foreground window"
 msgstr "Psát text do okna na popředí"
 
-#: ../kupfer/plugin/session_gnome.py:1 ../kupfer/plugin/session_gnome.py:29
 msgid "GNOME Session Management"
 msgstr "Správa sezení GNOME"
 
-#: ../kupfer/plugin/session_gnome.py:3
 msgid "Special items and actions for GNOME environment"
 msgstr "Speciální položky a akce pro pracovní prostředí GNOME"
 
-#: ../kupfer/plugin/session_support.py:31
 msgid "Log Out..."
 msgstr "Odhlásit se…"
 
-#: ../kupfer/plugin/session_support.py:34
 msgid "Log out or change user"
 msgstr "Odhlásit nebo změnit uživatele"
 
-#: ../kupfer/plugin/session_support.py:41
 msgid "Shut Down..."
 msgstr "Vypnout…"
 
-#: ../kupfer/plugin/session_support.py:44
 msgid "Shut down, restart or suspend computer"
 msgstr "Vypnout, restartovat nebo uspat počítač"
 
-#: ../kupfer/plugin/session_support.py:51
 msgid "Lock Screen"
 msgstr "Zamknout obrazovku"
 
-#: ../kupfer/plugin/session_support.py:54
 msgid "Enable screensaver and lock"
 msgstr "Povolit šetřič obrazovky a zamykání"
 
 #. -*- coding: utf-8 -*
-#: ../kupfer/plugin/session_xfce.py:3 ../kupfer/plugin/session_xfce.py:20
 msgid "XFCE Session Management"
 msgstr "Správa sezení XFCE"
 
-#: ../kupfer/plugin/session_xfce.py:5
 msgid "Special items and actions for XFCE environment"
 msgstr "Speciální položky a akce pro pracovní prostředí XFCE"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/ssh_hosts.py:2 ../kupfer/plugin/ssh_hosts.py:70
 msgid "SSH Hosts"
 msgstr "Hostitelé SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:3
 msgid "Adds the SSH hosts found in ~/.ssh/config."
 msgstr "Přidává hostitele SSH nalezené v ~/.ssh/config."
 
-#: ../kupfer/plugin/ssh_hosts.py:32
 msgid "SSH host"
 msgstr "Hostitel SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:43
 msgid "Connect"
 msgstr "Připojit"
 
-#: ../kupfer/plugin/ssh_hosts.py:49
 msgid "Connect to SSH host"
 msgstr "Připojit k hostiteli SSH"
 
-#: ../kupfer/plugin/ssh_hosts.py:102
 msgid "SSH hosts as specified in ~/.ssh/config"
 msgstr "Hostitelé SSH jak jsou zadáni v ~/.ssh/config"
 
-#: ../kupfer/plugin_support.py:144
 msgid "No D-Bus connection to desktop session"
 msgstr ""
 "Neexistuje žádné napojení sběrnice D-Bus na sezení pracovního prostředí"
 
-#: ../kupfer/plugin_support.py:171
 msgid "GNOME Keyring"
 msgstr "Klíčenka GNOME"
 
-#: ../kupfer/plugin_support.py:172
 msgid "KWallet"
 msgstr "KWallet"
 
-#: ../kupfer/plugin_support.py:173
 msgid "Unencrypted File"
 msgstr "Rozšifrovat soubor"
 
-#: ../kupfer/plugin/templates.py:1 ../kupfer/plugin/templates.py:106
 msgid "Document Templates"
 msgstr "Šablony dokumentů"
 
-#: ../kupfer/plugin/templates.py:4
 msgid "Create new documents from your templates"
 msgstr "Vytvořit nový dokumentu ze své šablony"
 
-#: ../kupfer/plugin/templates.py:23
 #, python-format
 msgid "%s template"
 msgstr "Šablona %s"
 
-#: ../kupfer/plugin/templates.py:36 ../kupfer/plugin/textfiles.py:86
 msgid "Empty File"
 msgstr "Prázdný soubor"
 
-#: ../kupfer/plugin/templates.py:46
 msgid "New Folder"
 msgstr "Nová složka"
 
-#: ../kupfer/plugin/templates.py:56
 msgid "Create New Document..."
 msgstr "Vytvořit nový dokument…"
 
-#: ../kupfer/plugin/templates.py:95
 msgid "Create a new document from template"
 msgstr "Vytvořit nový dokument ze šablony"
 
-#: ../kupfer/plugin/templates.py:102
 msgid "Create Document In..."
 msgstr "Vytvořit dokument v…"
 
-#: ../kupfer/plugin/textfiles.py:13
 msgid "Textfiles"
 msgstr "Textové soubory"
 
-#: ../kupfer/plugin/textfiles.py:51
 msgid "Append To..."
 msgstr "Připojit k…"
 
-#: ../kupfer/plugin/textfiles.py:75
 msgid "Append..."
 msgstr "Připojit…"
 
-#: ../kupfer/plugin/textfiles.py:79
 msgid "Write To..."
 msgstr "Zapsat do…"
 
-#: ../kupfer/plugin/textfiles.py:111
 msgid "Get Text Contents"
 msgstr "Získat textový obsah"
 
-#: ../kupfer/plugin/thunar.py:1 ../kupfer/plugin/thunar.py:185
-#: ../kupfer/plugin/thunar.py:225 ../kupfer/plugin/thunar.py:278
-#: ../kupfer/plugin/thunar.py:329
 msgid "Thunar"
 msgstr "Thunar"
 
-#: ../kupfer/plugin/thunar.py:11
 msgid "File manager Thunar actions"
 msgstr "Akce správce souborů Thunar"
 
-#: ../kupfer/plugin/thunar.py:67
 msgid "Select in File Manager"
 msgstr "Vybrat ve správci souborů"
 
-#: ../kupfer/plugin/thunar.py:95
 msgid "Show Properties"
 msgstr "Zobrazit vlastnosti"
 
-#: ../kupfer/plugin/thunar.py:118
 msgid "Show information about file in file manager"
 msgstr "Zobrazit informace o souborech ve správci souborů"
 
-#: ../kupfer/plugin/thunar.py:127
 msgid "Send To..."
 msgstr "Odeslat do…"
 
-#: ../kupfer/plugin/thunar.py:259
 msgid "Symlink In..."
 msgstr "Symbolický odkaz v…"
 
-#: ../kupfer/plugin/thunar.py:300
 msgid "Create a symlink to file in a chosen location"
 msgstr "Vytvořit symbolický odkaz na soubor ve zvoleném umístění"
 
-#: ../kupfer/plugin/thunar.py:304 ../kupfer/plugin/trash.py:74
 msgid "Empty Trash"
 msgstr "Vyprázdnit koš"
 
-#: ../kupfer/plugin/thunar.py:344
 msgid "Thunar Send To Objects"
 msgstr "Objekty „Odeslat do“ aplikace Thunar"
 
 #. -*- coding: utf-8 -*-
-#: ../kupfer/plugin/thunderbird.py:4
 msgid "Thunderbird"
 msgstr "Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:7
 msgid "Thunderbird/Icedove Contacts and Actions"
 msgstr "Kontakty a akce v Thunderbird/Icedove"
 
-#: ../kupfer/plugin/thunderbird.py:31
 msgid "Compose New Email"
 msgstr "Napsat nový e-mail"
 
-#: ../kupfer/plugin/thunderbird.py:38
 msgid "Compose a new message in Thunderbird"
 msgstr "Napsat novou zprávu v aplikaci Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:47
 #, fuzzy
 msgid "Compose Email To"
 msgstr "Napsat e-mail"
 
-#: ../kupfer/plugin/thunderbird.py:72
 #, fuzzy
 msgid "Attach in Email To..."
 msgstr "Odeslat e-mailem…"
 
-#: ../kupfer/plugin/thunderbird.py:118
+#, fuzzy
+msgid "Compose Email With"
+msgstr "Napsat e-mail"
+
 #, fuzzy
 msgid "Compose a new message using the text as body"
 msgstr "Napsat novou zprávu v aplikaci Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
 msgstr "Adresář aplikace Thunderbird"
 
-#: ../kupfer/plugin/thunderbird.py:148
 msgid "Contacts from Thunderbird Address Book"
 msgstr "Kontakty z adresáře poštovního klienta Thunderbird"
 
 #. -*- coding: UTF-8 -*-
-#: ../kupfer/plugin/top.py:4
 msgid "Top"
 msgstr "Top"
 
-#: ../kupfer/plugin/top.py:6
 msgid "Show running tasks and allow sending signals to them"
 msgstr "Zobrazuje běžící úlohy a umožňuje jim zaslat signál"
 
-#: ../kupfer/plugin/top.py:23
 msgid "Sort Order"
 msgstr "Řazení"
 
-#: ../kupfer/plugin/top.py:25 ../kupfer/plugin/top.py:26
-#: ../kupfer/plugin/top.py:115
 msgid "Commandline"
 msgstr "Příkazový řádek"
 
-#: ../kupfer/plugin/top.py:26
 msgid "CPU usage (descending)"
 msgstr "Využití procesoru (sestupně)"
 
 #. sort processes (top don't allow to sort via cmd line)
-#: ../kupfer/plugin/top.py:27 ../kupfer/plugin/top.py:112
 msgid "Memory usage (descending)"
 msgstr "Využití paměti (sestupně)"
 
-#: ../kupfer/plugin/top.py:49
 msgid "Send Signal..."
 msgstr "Zaslat signál…"
 
-#: ../kupfer/plugin/top.py:79
 msgid "Signals"
 msgstr "Signály"
 
-#: ../kupfer/plugin/top.py:91
 msgid "Running Tasks"
 msgstr "Běžící úlohy"
 
 #. default: by cpu
-#: ../kupfer/plugin/top.py:119
 #, python-format
 msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
 msgstr "pid: %(pid)s  cpu: %(cpu)g%%  paměť: %(mem)g%%  čas: %(time)s"
 
-#: ../kupfer/plugin/top.py:139
 msgid "Running tasks for current user"
 msgstr "Úlohy běžící pro současného uživatele"
 
-#: ../kupfer/plugin/trash.py:1 ../kupfer/plugin/trash.py:199
 msgid "Trash"
 msgstr "Koš"
 
-#: ../kupfer/plugin/trash.py:4
 msgid "Access trash contents"
 msgstr "Přístup k obsahu koše"
 
-#: ../kupfer/plugin/trash.py:22
 msgid "Move to Trash"
 msgstr "Přesunout do koše"
 
-#: ../kupfer/plugin/trash.py:39
 msgid "Move this file to trash"
 msgstr "Přesunout tento soubor do koše"
 
-#: ../kupfer/plugin/trash.py:48
 msgid "Restore"
 msgstr "Obnovit"
 
-#: ../kupfer/plugin/trash.py:67
 msgid "Move file back to original location"
 msgstr "Přesunout soubor zpět na původní místo"
 
-#: ../kupfer/plugin/trash.py:84
 msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
 
-#: ../kupfer/plugin/trash.py:187
 msgid "Trash is empty"
 msgstr "Koš je prázdný"
 
 #. proper translation of plural
-#: ../kupfer/plugin/trash.py:189
 #, python-format
 msgid "Trash contains one file"
 msgid_plural "Trash contains %(num)s files"
@@ -1530,11 +1181,9 @@ msgstr[0] "Koš obsahuje jeden soubor"
 msgstr[1] "Koš obsahuje %(num)s soubory"
 msgstr[2] "Koš obsahuje %(num)s souborů"
 
-#: ../kupfer/plugin/triggers.py:1 ../kupfer/plugin/triggers.py:45
 msgid "Triggers"
 msgstr "Spouštěče"
 
-#: ../kupfer/plugin/triggers.py:6
 msgid ""
 "Assign global keybindings (triggers) to objects created with 'Compose "
 "Command'."
@@ -1542,115 +1191,88 @@ msgstr ""
 "Přiřadit globální klávesové zkratky (spouštěče) objektům vytvořeným pomocí "
 "„Napsat příkaz“"
 
-#: ../kupfer/plugin/triggers.py:156
 msgid "Add Trigger..."
 msgstr "Přidat spouštěč…"
 
-#: ../kupfer/plugin/triggers.py:175
 msgid "Remove Trigger"
 msgstr "Odstranit spouštěč"
 
-#: ../kupfer/plugin/urlactions.py:1 ../kupfer/plugin/urlactions.py:8
 msgid "URL Actions"
 msgstr "Akce s URL"
 
-#: ../kupfer/plugin/urlactions.py:63
 msgid "Download and Open"
 msgstr "Stáhnout a otevřít"
 
-#: ../kupfer/plugin/urlactions.py:83
 msgid "Download To..."
 msgstr "Stáhnout do…"
 
-#: ../kupfer/plugin/urlactions.py:104
 msgid "Download URL to a chosen location"
 msgstr "Stáhnout URL do vybraného místa"
 
-#: ../kupfer/plugin/wikipedia.py:5
 msgid "Wikipedia"
 msgstr "Wikipedie"
 
-#: ../kupfer/plugin/wikipedia.py:8 ../kupfer/plugin/wikipedia.py:31
 msgid "Search in Wikipedia"
 msgstr "Hledat na Wikipedii"
 
-#: ../kupfer/plugin/wikipedia.py:21
 msgid "Wikipedia language"
 msgstr "Jazyk Wikipedie"
 
 #. TRANS: Default wikipedia language code
-#: ../kupfer/plugin/wikipedia.py:24
 msgid "en"
 msgstr "cs"
 
-#: ../kupfer/plugin/wikipedia.py:44
 #, python-format
 msgid "Search for this term in %s.wikipedia.org"
 msgstr "Vyhledat tento výraz na %s.wikipedia.org"
 
-#: ../kupfer/plugin/windows.py:1 ../kupfer/plugin/windows.py:210
 msgid "Window List"
 msgstr "Seznam oken"
 
-#: ../kupfer/plugin/windows.py:3 ../kupfer/plugin/windows.py:233
 msgid "All windows on all workspaces"
 msgstr "Všechna okna na všech pracovních plochách"
 
-#: ../kupfer/plugin/windows.py:18
 msgid "Activate"
 msgstr "Aktivovat"
 
-#: ../kupfer/plugin/windows.py:22
 msgid "Shade"
 msgstr "Zakrýt"
 
-#: ../kupfer/plugin/windows.py:22
 msgid "Unshade"
 msgstr "Odkrýt"
 
-#: ../kupfer/plugin/windows.py:25
 msgid "Minimize"
 msgstr "Minimalizovat"
 
-#: ../kupfer/plugin/windows.py:25
 msgid "Unminimize"
 msgstr "Zrušit minimalizaci"
 
-#: ../kupfer/plugin/windows.py:29
 msgid "Maximize"
 msgstr "Maximalizovat"
 
-#: ../kupfer/plugin/windows.py:29
 msgid "Unmaximize"
 msgstr "Zrušit maximalizaci"
 
-#: ../kupfer/plugin/windows.py:33
 msgid "Maximize Vertically"
 msgstr "Maximalizovat svisle"
 
-#: ../kupfer/plugin/windows.py:33
 msgid "Unmaximize Vertically"
 msgstr "Zrušit svislou maximalizaci"
 
 #. TRANS: Window on (Workspace name), window description
-#: ../kupfer/plugin/windows.py:48
 #, python-format
 msgid "Window on %(wkspc)s"
 msgstr "Okno na ploše %(wkspc)s"
 
-#: ../kupfer/plugin/windows.py:56
 msgid "Frontmost Window"
 msgstr "Okno zcela nahoře"
 
-#: ../kupfer/plugin/windows.py:85
 msgid "Next Window"
 msgstr "Následující okno"
 
-#: ../kupfer/plugin/windows.py:116
 msgid "Jump to this window's workspace and focus"
 msgstr "Přejít na pracovní plochu s tímto oknem a zaměřit jej"
 
-#: ../kupfer/plugin/windows.py:252
 #, python-format
 msgid "%d window"
 msgid_plural "%d windows"
@@ -1658,196 +1280,150 @@ msgstr[0] "%d okno"
 msgstr[1] "%d okna"
 msgstr[2] "%d oken"
 
-#: ../kupfer/plugin/windows.py:256
 msgid "Active workspace"
 msgstr "Aktivní pracovní plocha"
 
-#: ../kupfer/plugin/windows.py:274
 msgid "Jump to this workspace"
 msgstr "Přejít na tuto pracovní plochu"
 
-#: ../kupfer/plugin/windows.py:281
 msgid "Workspaces"
 msgstr "Pracovní plochy"
 
-#: ../kupfer/plugin/volumes.py:1 ../kupfer/plugin/volumes.py:94
 msgid "Volumes and Disks"
 msgstr "Svazky a disky"
 
-#: ../kupfer/plugin/volumes.py:3 ../kupfer/plugin/volumes.py:115
 msgid "Mounted volumes and disks"
 msgstr "Připojené svazky a disky"
 
-#: ../kupfer/plugin/volumes.py:42
 #, python-format
 msgid "Volume mounted at %s"
 msgstr "Svazek připojen v %s"
 
-#: ../kupfer/plugin/volumes.py:51
 msgid "Unmount"
 msgstr "Odpojit"
 
-#: ../kupfer/plugin/volumes.py:80
 msgid "Unmount this volume"
 msgstr "Odpojit tento svazek"
 
-#: ../kupfer/plugin/volumes.py:87
 msgid "Eject"
 msgstr "Vysunout"
 
-#: ../kupfer/plugin/volumes.py:90
 msgid "Unmount and eject this media"
 msgstr "Odpojit a vysunout toto médium"
 
-#: ../kupfer/plugin/show_text.py:1 ../kupfer/plugin/show_text.py:18
-#: ../kupfer/plugin/show_text.py:25
 msgid "Show Text"
 msgstr "Zobrazit text"
 
-#: ../kupfer/plugin/show_text.py:7 ../kupfer/plugin/show_text.py:31
-#: ../kupfer/plugin/show_text.py:58
 msgid "Display text in a window"
 msgstr "Zobrazit text v okně"
 
-#: ../kupfer/plugin/show_text.py:37
 msgid "Large Type"
 msgstr "Rozsáhlý typ"
 
-#: ../kupfer/plugin/show_text.py:66
 msgid "Show Notification"
 msgstr "Zobrazovat oznámení"
 
-#: ../kupfer/plugin/tracker1.py:5
 msgid "Tracker"
 msgstr "Tracker"
 
-#: ../kupfer/plugin/tracker1.py:13
 msgid "Tracker desktop search integration"
 msgstr "Vyhledávač Tracker integrovaný v pracovním prostředí"
 
-#: ../kupfer/plugin/tracker1.py:42
 msgid "Search in Tracker"
 msgstr "Vyhledat prohledávačem Tracker"
 
-#: ../kupfer/plugin/tracker1.py:47
 msgid "Open Tracker Search Tool and search for this term"
 msgstr "Otevřít vyhledávací nástroj Tracker a vyhledat tento výraz"
 
-#: ../kupfer/plugin/tracker1.py:55
 msgid "Get Tracker Results..."
 msgstr "Získat výsledky prohledávače Tracker…"
 
-#: ../kupfer/plugin/tracker1.py:64
 msgid "Show Tracker results for query"
 msgstr "Zobrazit výsledky dotazu z prohledávače Tracker"
 
-#: ../kupfer/plugin/tracker1.py:154
 #, python-format
 msgid "Tracker Search for \"%s\""
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:168 ../kupfer/plugin/locate.py:47
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Výsledky pro „%s“"
 
-#: ../kupfer/plugin/tracker1.py:201
 msgid "Tracker Full Text Search"
 msgstr ""
 
-#: ../kupfer/plugin/tracker1.py:204
 msgid "Use '?' prefix to get full text results"
 msgstr ""
 
-#: ../kupfer/plugin/locate.py:1 ../kupfer/plugin/locate.py:29
 msgid "Locate Files"
 msgstr "Najít soubory"
 
-#: ../kupfer/plugin/locate.py:5 ../kupfer/plugin/locate.py:39
 msgid "Search filesystem using locate"
 msgstr "Prohledat souborový systém pomocí programu „locate“"
 
-#: ../kupfer/plugin/locate.py:21
 msgid "Ignore case distinctions when searching files"
 msgstr "Při vyhledávání souborů nebrat ohled na velikost písmen"
 
 #. encoding: utf-8
-#: ../kupfer/plugin/firefox.py:4 ../kupfer/plugin/firefox.py:26
 msgid "Firefox Bookmarks"
 msgstr "Záložky ve Firefoxu"
 
-#: ../kupfer/plugin/firefox.py:6 ../kupfer/plugin/firefox.py:61
 msgid "Index of Firefox bookmarks"
 msgstr "Seznam záložek v prohlížeči Firefox"
 
-#: ../kupfer/plugin/mediaplayers.py:1 ../kupfer/plugin/mediaplayers.py:22
 msgid "Media Player Control"
 msgstr ""
 
-#: ../kupfer/plugin/mediaplayers.py:3
 msgid "Playback control for media players"
 msgstr ""
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:75
 #, fuzzy, python-format
 msgid "Play/Pause (%s)"
 msgstr "Použijte prosím „%s“"
 
-#: ../kupfer/plugin/mediaplayers.py:81
 #, fuzzy
 msgid "Resume playback"
 msgstr "Pokračovat v přehrávání v přehrávači Audacious"
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:88
 #, fuzzy, python-format
 msgid "Next (%s)"
 msgstr "Následující"
 
-#: ../kupfer/plugin/mediaplayers.py:94
 #, fuzzy
 msgid "Skip to next track"
 msgstr "Přeskočit na následující stopu v přehrávači Audacious"
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:102
 #, fuzzy, python-format
 msgid "Previous (%s)"
 msgstr "Předchozí"
 
-#: ../kupfer/plugin/mediaplayers.py:108
 #, fuzzy
 msgid "Skip to previous track"
 msgstr "Přeskočit na předchozí stopu v přehrávači Audacious"
 
 #. TRANS: %s is a media player name
-#: ../kupfer/plugin/mediaplayers.py:116
 #, python-format
 msgid "Stop (%s)"
 msgstr ""
 
-#: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"
 msgstr ""
 
-#: ../kupfer/plugin/pidgin.py:3
 msgid "Pidgin"
 msgstr "Pidgin"
 
-#: ../kupfer/plugin/pidgin.py:9
 msgid "Access to Pidgin Contacts"
 msgstr "Přístup ke kontaktům v komunikátoru Pidgin"
 
-#: ../kupfer/plugin/pidgin.py:29
 msgid "Show offline contacts"
 msgstr "Zobrazovat odpojené kontakty"
 
-#: ../kupfer/plugin/pidgin.py:97
 msgid "Open Chat"
 msgstr "Otevřít diskuzi"
 
-#: ../kupfer/plugin/pidgin.py:111
 #, python-format
 msgid "%s (%d character)"
 msgid_plural "%s (%d characters)"
@@ -1855,207 +1431,178 @@ msgstr[0] "%s (%d znak)"
 msgstr[1] "%s (%d znaky)"
 msgstr[2] "%s (%d znaků)"
 
-#: ../kupfer/plugin/pidgin.py:120
 msgid "Send Message..."
 msgstr "Odeslat zprávu…"
 
-#: ../kupfer/plugin/pidgin.py:158
 msgid "Available"
 msgstr "Dostupný"
 
-#: ../kupfer/plugin/pidgin.py:158
 msgid "Away"
 msgstr "Pryč"
 
-#: ../kupfer/plugin/pidgin.py:192
 msgid "Pidgin Contacts"
 msgstr "Kontakty Pidgin"
 
+#. -*- coding: UTF-8 -*-
+msgid "Shorten Links"
+msgstr "Zkrácené odkazy"
+
+msgid "Create short aliases of long URLs"
+msgstr "Vytvořit zkrácené přezdívky pro dlouhé URL"
+
+msgid "Error"
+msgstr "Chyba"
+
+msgid "Shorten With..."
+msgstr "Zkrátit pomocí…"
+
+msgid "Services"
+msgstr "Služby"
+
 #. TRANS: Names of accelerators in the interface
-#: ../kupfer/ui/accelerators.py:4
 msgid "Alternate Activate"
 msgstr "Alternativní aktivace"
 
 # Překlad viz dotaz v konferenci kupfer: http://mail.gnome.org/archives/kupfer-list/2010-April/msg00003.html
 #. TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
 #. TRANS: user to select many objects to be used for one action
-#: ../kupfer/ui/accelerators.py:7
 msgid "Comma Trick"
 msgstr "Vložení do zásobníku"
 
 #. TRANS: "Compose Command" makes one object out of the selected
 #. TRANS: object + action (+iobject)
-#: ../kupfer/ui/accelerators.py:10
 msgid "Compose Command"
 msgstr "Sestavit příkaz"
 
-#: ../kupfer/ui/accelerators.py:11
 msgid "Mark Default Action"
 msgstr "Označit výchozí akci"
 
-#: ../kupfer/ui/accelerators.py:12
 msgid "Forget Object"
 msgstr "Zapomenout objekt"
 
-#: ../kupfer/ui/accelerators.py:13
 msgid "Reset All"
 msgstr "U všech vrátit původní"
 
-#: ../kupfer/ui/accelerators.py:14
 msgid "Select Quit"
 msgstr "Zvolit ukončení"
 
-#: ../kupfer/ui/accelerators.py:15
 msgid "Select Selected File"
 msgstr "Zvolit vybraný soubor"
 
-#: ../kupfer/ui/accelerators.py:16
 msgid "Select Selected Text"
 msgstr "Zvolit vybraný text"
 
-#: ../kupfer/ui/accelerators.py:17
 msgid "Show Help"
 msgstr "Zobrazit nápovědu"
 
-#: ../kupfer/ui/accelerators.py:18
 msgid "Show Preferences"
 msgstr "Zobrazit předvolby"
 
-#: ../kupfer/ui/accelerators.py:19
 msgid "Switch to First Pane"
 msgstr "Přepnout na první panel"
 
-#: ../kupfer/ui/accelerators.py:20
 msgid "Toggle Text Mode"
 msgstr "Přepnout textový režim"
 
-#: ../kupfer/ui/browser.py:863
 #, python-format
 msgid "%s is empty"
 msgstr "%s je prázdný"
 
-#: ../kupfer/ui/browser.py:867
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ve zdroji %(src)s nebylo pro dotaz \"%(query)s\" nic nalezeno"
 
-#: ../kupfer/ui/browser.py:873
 msgid "No matches"
 msgstr "Nic nenalezeno"
 
-#: ../kupfer/ui/browser.py:878
 msgid "Type to search"
 msgstr "Pište co se má vyhledat"
 
-#: ../kupfer/ui/browser.py:884
 #, python-format
 msgid "Type to search %s"
 msgstr "Pište, prohledá se %s"
 
-#: ../kupfer/ui/browser.py:899
 msgid "No action"
 msgstr "Žádná akce"
 
-#: ../kupfer/ui/browser.py:1487
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Nastavit akci „%(action)s“ jako výchozí pro objekt „%(object)s“"
 
 #. TRANS: Removing learned and/or configured bonus search score
-#: ../kupfer/ui/browser.py:1497
 #, python-format
 msgid "Forget About \"%s\""
 msgstr "Zapomenout informace o „%s“"
 
 #. TRANS: Names of global keyboard shortcuts
-#: ../kupfer/ui/browser.py:1986 ../kupfer/ui/preferences.py:57
 msgid "Show Main Interface"
 msgstr "Zobrazit hlavní rozhraní"
 
-#: ../kupfer/ui/preferences.py:58
 msgid "Show with Selection"
 msgstr "Zobrazit s výběrem"
 
 #. TRANS: Plugin info fields
-#: ../kupfer/ui/preferences.py:434
 msgid "Description"
 msgstr "Popis"
 
-#: ../kupfer/ui/preferences.py:434
 msgid "Author"
 msgstr "Autor"
 
-#: ../kupfer/ui/preferences.py:451
 msgid "Version"
 msgstr "Verze"
 
 #. TRANS: Error message when Plugin needs a Python module to load
-#: ../kupfer/ui/preferences.py:461
 #, python-format
 msgid "Python module '%s' is needed"
 msgstr "Je zapotřebí modul Python „%s“"
 
-#: ../kupfer/ui/preferences.py:475
 msgid "Plugin could not be read due to an error:"
 msgstr "Zásuvný modul nemohl být načten kvůli výskytu chyby:"
 
-#: ../kupfer/ui/preferences.py:559
 msgid "Content of"
 msgstr "Obsah"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:568
 msgid "Sources"
 msgstr "Zdroje"
 
 #. TRANS: Plugin contents header
-#: ../kupfer/ui/preferences.py:572
 msgid "Actions"
 msgstr "Akce"
 
-#: ../kupfer/ui/preferences.py:595
 #, python-format
 msgid "Using encrypted password storage: %s"
 msgstr "Použití šifrovaného úložiště s heslem: %s"
 
-#: ../kupfer/ui/preferences.py:597
 #, python-format
 msgid "Using password storage: %s"
 msgstr "Použití úložiště s heslem: %s"
 
 #. TRANS: Plugin-specific configuration (header)
-#: ../kupfer/ui/preferences.py:614
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../kupfer/ui/preferences.py:634
 msgid "Set username and password"
 msgstr "Nastavit jméno a heslo"
 
 #. TRANS: File Chooser Title
-#: ../kupfer/ui/preferences.py:688
 msgid "Choose a Directory"
 msgstr "Výběr složky"
 
-#: ../kupfer/ui/preferences.py:883
 msgid "Reset all shortcuts to default values?"
 msgstr "Nastavit všechny klávesové zkratky na výchozí hodnoty?"
 
-#: ../kupfer/ui/preferences.py:892
 msgid "Shortcut"
 msgstr "Klávesová zkratka"
 
 #. TRANS: Don't translate literally!
 #. TRANS: This should be a list of all translators of this language
-#: ../kupfer/version.py:73
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../kupfer/version.py:78
 msgid "A free software (GPLv3+) launcher"
 msgstr "Spouštěč vydaný pod svobodnou licencí (GPLv3+)"
 
-#: ../kupfer/version.py:81
 msgid ""
 "\n"
 "This program is free software: you can redistribute it and/or modify\n"
@@ -2086,7 +1633,6 @@ msgstr ""
 ">.\n"
 
 #. follows strings used elsewhere
-#: ../kupfer/version.py:98
 msgid "Could not find running Kupfer"
 msgstr "Nelze najít běžící aplikaci Kupfer"
 
@@ -2138,12 +1684,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Přeskočit na předchozí stopu v přehrávači Rhythmbox"
-
-#~ msgid "Show Playing"
-#~ msgstr "Zobrazit co se přehrává"
-
-#~ msgid "Tell which song is currently playing"
-#~ msgstr "Sdělit, která skladba se právě přehrává"
 
 #~ msgid "Play tracks in Rhythmbox"
 #~ msgstr "Přehrát skladby v přehrávači Rhythmbox"
@@ -2720,21 +2260,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "%s Service"
 #~ msgstr "Služba %s"
-
-#~ msgid "Shorten Links"
-#~ msgstr "Zkrácené odkazy"
-
-#~ msgid "Create short aliases of long URLs"
-#~ msgstr "Vytvořit zkrácené přezdívky pro dlouhé URL"
-
-#~ msgid "Error"
-#~ msgstr "Chyba"
-
-#~ msgid "Shorten With..."
-#~ msgstr "Zkrátit pomocí…"
-
-#~ msgid "Services"
-#~ msgstr "Služby"
 
 #~ msgid "Show QRCode"
 #~ msgstr "Zobrazit kód QR"
