@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 12:54+0100\n"
+"POT-Creation-Date: 2017-02-14 21:37+0100\n"
 "PO-Revision-Date: 2015-08-10 18:48+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -878,7 +878,7 @@ msgstr "Förvald e-postläsare"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Skriv nytt e-postmeddelande m.h.a systemets mailto:-hanterare"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
+#: ../kupfer/plugin/defaultmail.py:18
 msgid "Compose Email"
 msgstr "Skriv e-postmeddelande"
 
@@ -1418,6 +1418,10 @@ msgstr "Skriv e-postmeddelande till"
 #: ../kupfer/plugin/thunderbird.py:72
 msgid "Attach in Email To..."
 msgstr "Bifoga i e-post till..."
+
+#: ../kupfer/plugin/thunderbird.py:104
+msgid "Compose Email With"
+msgstr "Skriv e-postmeddelande med"
 
 #: ../kupfer/plugin/thunderbird.py:118
 msgid "Compose a new message using the text as body"

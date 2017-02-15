@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 12:54+0100\n"
+"POT-Creation-Date: 2017-02-14 21:37+0100\n"
 "PO-Revision-Date: 2013-03-13 20:50+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -881,7 +881,7 @@ msgstr "Vorgegebenes E-Mail-Programm"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "E-Mail mit dem »mailto:«-Handler des Systems verfassen"
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
+#: ../kupfer/plugin/defaultmail.py:18
 msgid "Compose Email"
 msgstr "Neue E-Mail verfassen"
 
@@ -1421,9 +1421,13 @@ msgid "Compose Email To"
 msgstr "Neue E-Mail verfassen"
 
 #: ../kupfer/plugin/thunderbird.py:72
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "In E-Mail senden an …"
+
+#: ../kupfer/plugin/thunderbird.py:104
+#, fuzzy
+msgid "Compose Email With"
+msgstr "Neue E-Mail verfassen"
 
 #: ../kupfer/plugin/thunderbird.py:118
 #, fuzzy
@@ -1788,42 +1792,39 @@ msgstr ""
 
 #. TRANS: %s is a media player name
 #: ../kupfer/plugin/mediaplayers.py:75
-#, fuzzy, python-format
+#, python-format
 msgid "Play/Pause (%s)"
-msgstr "Bitte benutzen Sie »%s«"
+msgstr "Abspielen/Pause (%s)"
 
 #: ../kupfer/plugin/mediaplayers.py:81
-#, fuzzy
 msgid "Resume playback"
-msgstr "Wiedergabe in Audacious fortsetzen"
+msgstr "Wiedergabe fortsetzen"
 
 #. TRANS: %s is a media player name
 #: ../kupfer/plugin/mediaplayers.py:88
-#, fuzzy, python-format
+#, python-format
 msgid "Next (%s)"
-msgstr "Nächstes"
+msgstr "Nächstes (%s)"
 
 #: ../kupfer/plugin/mediaplayers.py:94
-#, fuzzy
 msgid "Skip to next track"
-msgstr "In Audacious zum nächsten Titel springen"
+msgstr "Zum nächsten Titel springen"
 
 #. TRANS: %s is a media player name
 #: ../kupfer/plugin/mediaplayers.py:102
-#, fuzzy, python-format
+#, python-format
 msgid "Previous (%s)"
-msgstr "Vorheriges"
+msgstr "Vorheriges (%s)"
 
 #: ../kupfer/plugin/mediaplayers.py:108
-#, fuzzy
 msgid "Skip to previous track"
-msgstr "In Audacious zum vorherigen Titel springen"
+msgstr "Zum vorherigen Titel springen"
 
 #. TRANS: %s is a media player name
 #: ../kupfer/plugin/mediaplayers.py:116
 #, python-format
 msgid "Stop (%s)"
-msgstr ""
+msgstr "Stopp (%s)"
 
 #: ../kupfer/plugin/mediaplayers.py:122
 msgid "Stop playback"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-14 12:54+0100\n"
+"POT-Creation-Date: 2017-02-14 21:37+0100\n"
 "PO-Revision-Date: 2012-08-23 09:52+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -867,7 +867,7 @@ msgstr "Forvalgt e-postklient"
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 
-#: ../kupfer/plugin/defaultmail.py:18 ../kupfer/plugin/thunderbird.py:104
+#: ../kupfer/plugin/defaultmail.py:18
 msgid "Compose Email"
 msgstr ""
 
@@ -922,9 +922,8 @@ msgid "Places"
 msgstr "Steder"
 
 #: ../kupfer/plugin/documents.py:167
-#, fuzzy
 msgid "Bookmarked folders"
-msgstr "Navn på bokmerke"
+msgstr "Bokmerkete steder"
 
 #: ../kupfer/plugin/duckduckgo.py:5 ../kupfer/plugin/duckduckgo.py:19
 msgid "DuckDuckGo Search"
@@ -1405,17 +1404,20 @@ msgid "Compose a new message in Thunderbird"
 msgstr ""
 
 #: ../kupfer/plugin/thunderbird.py:47
-#, fuzzy
 msgid "Compose Email To"
-msgstr "Bygg kommando"
+msgstr "Skriv e-post til"
 
 #: ../kupfer/plugin/thunderbird.py:72
 msgid "Attach in Email To..."
-msgstr ""
+msgstr "Legg ved i e-post til..."
+
+#: ../kupfer/plugin/thunderbird.py:104
+msgid "Compose Email With"
+msgstr "Skriv e-post med"
 
 #: ../kupfer/plugin/thunderbird.py:118
 msgid "Compose a new message using the text as body"
-msgstr ""
+msgstr "Skriv ny e-post med teksten"
 
 #: ../kupfer/plugin/thunderbird.py:124
 msgid "Thunderbird Address Book"
@@ -1480,7 +1482,7 @@ msgstr "Papirkurv"
 
 #: ../kupfer/plugin/trash.py:4
 msgid "Access trash contents"
-msgstr ""
+msgstr "Tilgang til papirkurvens innhold"
 
 #: ../kupfer/plugin/trash.py:22
 msgid "Move to Trash"
@@ -1488,7 +1490,7 @@ msgstr "Flytt til papirkurven"
 
 #: ../kupfer/plugin/trash.py:39
 msgid "Move this file to trash"
-msgstr ""
+msgstr "Flytt fil til papirkurven"
 
 #: ../kupfer/plugin/trash.py:48
 msgid "Restore"
@@ -1496,13 +1498,15 @@ msgstr "Gjenopprett"
 
 #: ../kupfer/plugin/trash.py:67
 msgid "Move file back to original location"
-msgstr ""
+msgstr "Flytt fil tilbake til opprinnelig sted"
 
 #: ../kupfer/plugin/trash.py:84
 msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
+"Kunne ikke slette filer:\n"
+"    "
 
 #: ../kupfer/plugin/trash.py:187
 msgid "Trash is empty"
