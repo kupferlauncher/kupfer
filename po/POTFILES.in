@@ -79,6 +79,7 @@ kupfer/plugin/locate.py
 kupfer/plugin/firefox.py
 kupfer/plugin/mediaplayers.py
 kupfer/plugin/pidgin.py
+kupfer/plugin/shorten_links.py
 
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
