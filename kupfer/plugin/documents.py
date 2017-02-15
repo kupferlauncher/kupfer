@@ -5,6 +5,7 @@ __description__ = _("Recently used documents and bookmarked folders")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import functools
 from os import path
 import xdg.BaseDirectory as base
 
@@ -25,12 +26,15 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+ALIASES = {
+    'libreoffice': 'soffice',
+}
 
 class RecentsSource (Source):
     def __init__(self, name=None):
         if not name:
             name = _("Recent Items")
-        super(RecentsSource, self).__init__(name)
+        super().__init__(name)
 
     def initialize(self):
         """Set up change callback"""
@@ -44,33 +48,42 @@ class RecentsSource (Source):
     
     def get_items(self):
         max_days = __kupfer_settings__["max_days"]
-        #self.output_info("Items younger than", max_days, "days")
-        items = self._get_items(max_days)
-        return items
+        return self._get_items(max_days)
 
-    @classmethod
-    def _get_items(cls, max_days, for_application_named=None):
+    @staticmethod
+    def _get_items(max_days, for_app_names=None):
+        """
+        for_app_names: set of candidate app names, or None.
+        """
         manager = Gtk.RecentManager.get_default()
+        def first_word(s):
+            return s.split(None, 1)[0]
+
         items = manager.get_items()
         item_leaves = []
         for item in items:
-            if for_application_named:
-                low_apps = [A.lower() for A in item.get_applications()]
-                if for_application_named.lower() not in low_apps:
-                    continue
             day_age = item.get_age()
             if max_days >= 0 and day_age > max_days:
                 continue
             if not item.exists():
                 continue
+            if item.get_private_hint():
+                continue
+            if not item.is_local():
+                continue
+            if for_app_names:
+                apps = item.get_applications()
+                in_low_apps = any(A.lower() in for_app_names for A in apps)
+                in_execs = any(first_word(item.get_application_info(A)[0])
+                               in for_app_names for A in apps)
+                if not in_low_apps and not in_execs:
+                    continue
 
             uri = item.get_uri()
             name = item.get_short_name()
-            if item.is_local():
-                leaf = FileLeaf(Gio.File.new_for_uri(uri).get_path())
-            else:
-                leaf = UrlLeaf(uri, name)
+            leaf = FileLeaf(Gio.File.new_for_uri(uri).get_path())
             item_leaves.append((leaf, item.get_modified()))
+        # Sort with most recently used first
         for lf, date in sorted(item_leaves, key=lambda t: t[1], reverse=True):
             yield lf
 
@@ -85,8 +98,9 @@ class RecentsSource (Source):
 
 class ApplicationRecentsSource (RecentsSource):
     def __init__(self, application):
+        # TRANS: Recent Documents for application %s
         name = _("%s Documents") % str(application)
-        super(ApplicationRecentsSource, self).__init__(name)
+        super().__init__(name)
         self.application = application
 
     def repr_key(self):
@@ -94,15 +108,19 @@ class ApplicationRecentsSource (RecentsSource):
 
     def get_items(self):
         svc = launch.GetApplicationsMatcherService()
-        app_name = svc.application_name(self.application.get_id())
-        max_days = -1
-        self.output_info("Items for", app_name)
-        items = self._get_items(max_days, app_name)
+        app_names = self.app_names(self.application)
+        max_days = __kupfer_settings__["max_days"]
+        self.output_debug("Items for", app_names)
+        items = self._get_items(max_days, app_names)
         return items
 
-    @classmethod
-    def has_items_for_application(cls, name):
-        for item in cls._get_items(-1, name):
+    # Cache doesn't need to be large to serve main purpose:
+    # there will be many identical queries in a row
+    @staticmethod
+    @functools.lru_cache(maxsize=10)
+    def has_items_for_application(names):
+        max_days = __kupfer_settings__["max_days"]
+        for item in RecentsSource._get_items(max_days, names):
             return True
         return False
 
@@ -118,11 +136,24 @@ class ApplicationRecentsSource (RecentsSource):
 
     @classmethod
     def decorate_item(cls, leaf):
-        svc = launch.GetApplicationsMatcherService()
-        app_name = svc.application_name(leaf.get_id())
-        if app_name and cls.has_items_for_application(app_name):
+        app_names = cls.app_names(leaf)
+        if cls.has_items_for_application(app_names):
             return cls(leaf)
         return None
+
+    @classmethod
+    def app_names(cls, leaf):
+        "Return a frozenset of names"
+        svc = launch.GetApplicationsMatcherService()
+        ids = [leaf.get_id()]
+        app_name = svc.application_name(ids[0])
+        if app_name is not None:
+            ids.append(app_name.lower())
+        ids.append(leaf.object.get_executable())
+        for k, v in ALIASES.items():
+            if k in ids:
+                ids.append(v)
+        return frozenset(ids)
 
 class PlacesSource (Source):
     """
