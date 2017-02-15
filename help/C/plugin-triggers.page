@@ -72,7 +72,8 @@
  </section>
  <section>
    <title>Power User Tips</title>
-   <p> <em>Proxy objects</em> such as <em>Selected Text</em>,  <em>Selected File</em>,
+   <p> <em>Proxy objects</em> such as <em>Selected Text</em>,  <em>Clipboard Text</em>,
+     <em>Clipboard File</em>,
      <em>Frontmost Window</em>, <em>Last Command</em> et cetera allow very
      powerful triggers.
    </p>
@@ -94,13 +95,8 @@
        </p>
      </item>
      <item>
-         <title><em>Selected Text → Search With → Google</em></title>
-         <p>Search the web using the currently selected text.  </p></item>
-     <item>
-       <title><em>Selected File → Move To → (Downloads Folder)</em></title>
-       <p> Move the currently selected file to a specific folder
-     </p>
-     </item>
+         <title><em>Selected Text → Search in Wikpedia</em></title>
+         <p>Search using the currently selected text.  </p></item>
      <item>
        <title><em>Songs → Search Contents</em></title>
        <p>
