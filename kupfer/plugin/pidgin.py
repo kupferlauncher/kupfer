@@ -344,9 +344,3 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource, PicklingHelper
 
     def provides(self):
         yield PidginContact
-
-
-# Local Variables: ***
-# python-indent: 8 ***
-# indent-tabs-mode: t ***
-# End: ***
