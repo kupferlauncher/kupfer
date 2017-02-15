@@ -1922,6 +1922,12 @@ class WindowController (pretty.OutputMixin):
         self.window.connect("map-event", self._on_window_map_event)
         self._setup_window()
 
+        # Accept drops
+        self.window.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.COPY)
+        self.window.drag_dest_add_uri_targets()
+        self.window.drag_dest_add_text_targets()
+        self.window.connect("drag-data-received", self._on_drag_data_received)
+
     def show_statusicon(self):
         if not self._statusicon:
             self._statusicon = self._setup_status_icon()
@@ -2237,6 +2243,13 @@ class WindowController (pretty.OutputMixin):
             self.on_present(keyobj, display, timestamp)
             self.interface.select_selected_text()
             self.interface.select_selected_file()
+
+    def _on_drag_data_received(self, widget, context, x, y, data, info, time):
+        uris = data.get_uris()
+        if uris:
+            self.interface.put_files(uris, paths=False)
+        else:
+            self.interface.put_text(data.get_text())
 
     def on_put_text(self, sender, text, display, timestamp):
         """We got a search text from dbus"""
