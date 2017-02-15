@@ -10,14 +10,14 @@ __kupfer_sources__ = (
         "IconThemeSource",
     )
 __description__ = _("Browse the icons of the Icon Naming Specification")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.1"
+__author__ = "US"
 
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from xml.etree import cElementTree as ET
 
-import gtk
+from gi.repository import Gtk
 
 from kupfer.objects import Leaf, Action, Source, SourceLeaf
 from kupfer import uiutils
@@ -29,7 +29,7 @@ class ShowDescription(Action):
     def __init__(self):
         Action.__init__(self, _("Show Full Description"))
     def activate(self, leaf):
-        uiutils.show_large_type(leaf.description)
+        uiutils.show_text_result(leaf.description)
 
 class IconName (Leaf):
     def __init__(self, obj, desc, category):
@@ -53,12 +53,12 @@ class StandardIconsSource (IconNamesSource):
     def __init__(self):
         return Source.__init__(self, _("Standard Icon Names"))
     def _get_all_items(self):
-        parsed = ET.parse(urllib.urlopen(ICON_SPEC_ADDRESS))
+        parsed = ET.parse(urllib.request.urlopen(ICON_SPEC_ADDRESS))
         root = parsed.getroot()
 
         icon_names = {}
         def first(lst):
-            return iter(lst).next()
+            return next(iter(lst))
 
         def flatten(tag):
             """return text of @tag and its immediate children"""
@@ -87,7 +87,7 @@ class IconThemeCategorySource (IconNamesSource):
     def repr_key(self):
         return self.category
     def _get_all_items(self):
-        it = gtk.icon_theme_get_default()
+        it = Gtk.IconTheme.get_default()
         for icon_name in it.list_icons(self.category):
             desc = str(it.get_icon_sizes(icon_name))
             yield icon_name, desc, self.category
@@ -99,10 +99,10 @@ class IconThemeSource (Source):
     def __init__(self):
         Source.__init__(self, _("All Icon Theme Icons"))
     def get_items(self):
-        it = gtk.icon_theme_get_default()
+        it = Gtk.IconTheme.get_default()
         yield SourceLeaf(IconThemeCategorySource(None))
         for ctx in it.list_contexts():
             yield SourceLeaf(IconThemeCategorySource(ctx))
     def get_icon_name(self):
-        it = gtk.icon_theme_get_default()
+        it = Gtk.IconTheme.get_default()
         return it.get_example_icon_name()
