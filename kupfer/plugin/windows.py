@@ -8,7 +8,6 @@ from gi.repository import Wnck
 
 from kupfer.objects import Leaf, Action, Source
 from kupfer.weaklib import gobject_connect_weakly
-from kupfer.obj.helplib import PicklingHelperMixin
 
 
 class WindowLeaf (Leaf):
@@ -276,14 +275,13 @@ class ActivateWorkspace (Action):
         return "go-jump"
 
 
-class WorkspacesSource (Source, PicklingHelperMixin):
+class WorkspacesSource (Source):
+    source_use_cache = False
+
     def __init__(self):
         Source.__init__(self, _("Workspaces"))
         screen = Wnck.Screen.get_default()
         screen.get_workspaces()
-
-    def pickle_prepare(self):
-        self.mark_for_update()
 
     def initialize(self):
         screen = Wnck.Screen.get_default()
