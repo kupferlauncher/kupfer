@@ -2,9 +2,10 @@ __kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
 __description__ = _("Recently used documents and bookmarked folders")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.2"
+__author__ = ""
 
+import operator
 import functools
 from os import path
 import xdg.BaseDirectory as base
@@ -60,17 +61,15 @@ class RecentsSource (Source):
     def _recent_changed(self, *args):
         # FIXME: We don't get single item updates, might this be
         # too many updates?
+        self._get.cache_clear()
         self.mark_for_update()
     
     def get_items(self):
         max_days = __kupfer_settings__["max_days"]
         return self._get_items(max_days)
 
-    @staticmethod
-    def _get_items(max_days, for_app_names=None):
-        """
-        for_app_names: set of candidate app names, or None.
-        """
+    @functools.lru_cache(maxsize=1)
+    def _get(max_days):
         manager = Gtk.RecentManager.get_default()
         def first_word(s):
             return s.split(None, 1)[0]
@@ -87,6 +86,21 @@ class RecentsSource (Source):
                 continue
             if not item.is_local():
                 continue
+            uri = item.get_uri()
+            file_path = Gio.File.new_for_uri(uri).get_path()
+            item_leaves.append((file_path, item.get_modified(), item))
+        item_leaves.sort(key=operator.itemgetter(1), reverse=True)
+        return item_leaves
+
+    @staticmethod
+    def _get_items(max_days, for_app_names=None):
+        """
+        for_app_names: set of candidate app names, or None.
+        """
+        def first_word(s):
+            return s.split(None, 1)[0]
+
+        for file_path, _modified, item in RecentsSource._get(max_days):
             if for_app_names:
                 apps = item.get_applications()
                 in_low_apps = any(A.lower() in for_app_names for A in apps)
@@ -95,24 +109,18 @@ class RecentsSource (Source):
                 if not in_low_apps and not in_execs:
                     continue
 
-            uri = item.get_uri()
-            name = item.get_short_name()
-            leaf = FileLeaf(Gio.File.new_for_uri(uri).get_path())
             if for_app_names:
                 accept_item = True
                 for app_id, sort_table in SEPARATE_APPS.items():
                     if app_id in for_app_names:
-                        _, ext = path.splitext(uri)
+                        _, ext = path.splitext(file_path)
                         ext = ext.lower()
                         if ext in sort_table and sort_table[ext] not in for_app_names:
                             accept_item = False
                             break
                 if not accept_item:
                     continue
-            item_leaves.append((leaf, item.get_modified()))
-        # Sort with most recently used first
-        for lf, date in sorted(item_leaves, key=lambda t: t[1], reverse=True):
-            yield lf
+            yield FileLeaf(file_path)
 
     def get_description(self):
         return _("Recently used documents")
