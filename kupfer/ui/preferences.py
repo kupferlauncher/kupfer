@@ -646,6 +646,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 continue
 
             label_wid = wrapped_label(label, maxwid=200)
+            label_wid.set_xalign(0.)
             if issubclass(typ, str):
                 if alternatives:
                     wid = Gtk.ComboBoxText.new()
