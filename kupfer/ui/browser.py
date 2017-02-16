@@ -128,7 +128,7 @@ class LeafModel (object):
         First column is always the object -- returned by get_object
         it needs not be specified in columns
         """
-        columns = (GObject.TYPE_OBJECT, str, str, str)
+        columns = (GObject.TYPE_OBJECT, str, str, str, str)
         self.store = Gtk.ListStore(GObject.TYPE_PYOBJECT, *columns)
         self.object_column = 0
         self.base = None
@@ -140,31 +140,29 @@ class LeafModel (object):
 
     def _setup_columns(self):
         self.icon_col = 1
-        self.val_col = 2
-        self.info_col = 3
-        self.rank_col = 4
+        self.name_col = 2
+        self.fav_col = 3
+        self.info_col = 4
+        self.rank_col = 5
 
         # only show in debug mode
         show_rank_col = pretty.debug
 
-        cell = Gtk.CellRendererText()
-        cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
-        cell.set_property("width-chars", 45)
-        col = Gtk.TreeViewColumn("item", cell)
+        # Name and description column
+        # Expands to the rest of the space
+        name_cell = Gtk.CellRendererText()
+        name_cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
+        name_col = Gtk.TreeViewColumn("item", name_cell)
+        name_col.set_expand(True)
+        name_col.add_attribute(name_cell, "markup", self.name_col)
 
-        """
-        info_cell = Gtk.CellRendererPixbuf()
-        info_cell.set_property("height", 16)
-        info_cell.set_property("width", 16)
-        info_col = Gtk.TreeViewColumn("info", info_cell)
-        info_col.add_attribute(info_cell, "icon-name", self.info_col)
-        """
+        fav_cell = Gtk.CellRendererText()
+        fav_col = Gtk.TreeViewColumn("fav", fav_cell)
+        fav_col.add_attribute(fav_cell, "text", self.fav_col)
+
         info_cell = Gtk.CellRendererText()
-        info_cell.set_property("width-chars", 1)
         info_col = Gtk.TreeViewColumn("info", info_cell)
         info_col.add_attribute(info_cell, "text", self.info_col)
-
-        col.add_attribute(cell, "markup", self.val_col)
 
         nbr_cell = Gtk.CellRendererText()
         nbr_col = Gtk.TreeViewColumn("rank", nbr_cell)
@@ -179,7 +177,7 @@ class LeafModel (object):
         icon_col = Gtk.TreeViewColumn("icon", icon_cell)
         icon_col.add_attribute(icon_cell, "pixbuf", self.icon_col)
 
-        self.columns = [icon_col, col, info_col,]
+        self.columns = [icon_col, name_col, fav_col, info_col,]
         if show_rank_col:
             self.columns += (nbr_col, )
 
@@ -228,9 +226,10 @@ class LeafModel (object):
         leaf, rank = rankable.object, rankable.rank
         icon = self.get_icon(leaf)
         markup = self.get_label_markup(rankable)
+        fav = self.get_fav(leaf)
         info = self.get_aux_info(leaf)
         rank_str = self.get_rank_str(rank)
-        return (rankable, icon, markup, info, rank_str)
+        return (rankable, icon, markup, fav, info, rank_str)
 
     def add(self, rankable):
         self.store.append(self._get_row(rankable))
@@ -256,22 +255,23 @@ class LeafModel (object):
             text = '%s' % (name, )
         return text
 
+    def get_fav(self, leaf):
+        # fav: display star if it's a favourite
+        if learn.is_favorite(leaf):
+            return "\N{BLACK STAR}"
+        else:
+            return ""
+
     def get_aux_info(self, leaf):
         # info: display arrow if leaf has content
-        fill_space = "\N{EM SPACE}"
-        if text_direction_is_ltr():
-            content_mark = "\N{BLACK RIGHT-POINTING SMALL TRIANGLE}"
-        else:
-            content_mark = "\N{BLACK LEFT-POINTING SMALL TRIANGLE}"
-
-        info = ""
-        if learn.is_favorite(leaf):
-            info += "\N{BLACK STAR}"
-        else:
-            info += fill_space
         if hasattr(leaf, "has_content") and leaf.has_content():
-            info += content_mark
-        return info
+            if text_direction_is_ltr():
+                return "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
+            else:
+                return "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
+        else:
+            return ""
+
     def get_rank_str(self, rank):
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
