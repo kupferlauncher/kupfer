@@ -478,12 +478,12 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         new_label_width = self.label_char_width - self.preedit_char_width
         self.label.set_width_chars(new_label_width)
         preedit.set_width_chars(self.preedit_char_width)
-        pass
+        preedit.get_style_context().remove_class(PREEDIT_HIDDEN_CLASS)
 
     def shrink_preedit(self, preedit):
         self.label.set_width_chars(self.label_char_width)
         preedit.set_width_chars(0)
-        pass
+        preedit.get_style_context().add_class(PREEDIT_HIDDEN_CLASS)
 
     def inject_preedit(self, preedit):
         """
@@ -1744,6 +1744,7 @@ GObject.signal_new("cancelled", Interface, GObject.SignalFlags.RUN_LAST,
 GObject.signal_new("launched-action", Interface, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
+PREEDIT_HIDDEN_CLASS = "hidden"
 
 KUPFER_CSS = b"""
 #kupfer {
@@ -1754,7 +1755,16 @@ KUPFER_CSS = b"""
 }
 
 #kupfer-preedit {
-    border-width: 0px;
+    padding: 0 0 0 0;
+}
+
+#kupfer-preedit.hidden {
+    border-width: 0 0 0 0;
+    padding: 0 0 0 0 ;
+    margin: 0 0 0 0;
+    outline-width: 0;
+    min-height: 0;
+    min-width: 0;
 }
 
 #kupfer-object-pane {
