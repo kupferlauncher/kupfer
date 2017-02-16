@@ -42,9 +42,9 @@ class MoveTo (Action, pretty.OutputMixin):
     def has_result(self):
         return True
     def activate(self, leaf, obj):
-        sfile = Gio.File.new_for_path(leaf.object)
+        sfile = leaf.get_gfile()
         bname = sfile.get_basename()
-        dfile = Gio.File.new_for_path(os_path.join(obj.object, bname))
+        dfile = obj.get_gfile().get_child(bname)
         try:
             ret = sfile.move(dfile, Gio.FileCopyFlags.ALL_METADATA, None, None, None)
             self.output_debug("Move %s to %s (ret: %s)" % (sfile, dfile, ret))
@@ -106,7 +106,7 @@ class Rename (Action, pretty.OutputMixin):
     def has_result(self):
         return True
     def activate(self, leaf, obj):
-        sfile = Gio.File.new_for_path(leaf.object)
+        sfile = leaf.get_gfile()
         dest = os_path.join(os_path.dirname(leaf.object), obj.object)
         dfile = Gio.File.new_for_path(dest)
         try:
@@ -149,9 +149,8 @@ class CopyTo (Action, pretty.OutputMixin):
         return True
 
     def activate(self, leaf, iobj, ctx):
-        sfile = Gio.File.new_for_path(leaf.object)
-        dpath = os_path.join(iobj.object, os_path.basename(leaf.object))
-        dfile = Gio.File.new_for_path(dpath)
+        sfile = leaf.get_gfile()
+        dfile = iobj.get_gfile().get_child(os_path.basename(leaf.object))
         return CopyTask(str(leaf), sfile, dfile, ctx)
 
     def is_async(self):
