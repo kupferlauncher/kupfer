@@ -73,9 +73,12 @@ def build(bld):
     if bld.is_install and bld.env["AUXDATA_MIME"]:
         bld.add_post_fun(update_mime)
 
-    ## install kupfer.svg icon
-    icons_inst = bld.install_files("${DATADIR}/icons/hicolor/scalable/apps",
-                                   "kupfer.svg")
+
+    ## install kupfer icon
+    icons_inst = bld.install_files("${DATADIR}/icons/hicolor",
+                                   bld.path.ant_glob("hicolor/**"),
+                                   cwd=bld.path.find_dir("hicolor"),
+                                   relative_trick=True)
 
     def update_icon_cache(bld):
         icon_dir = Utils.subst_vars('${DATADIR}/icons/hicolor', bld.env)
