@@ -135,7 +135,8 @@ class FileLeaf (Leaf, TextRepresentation):
 
     def get_thumbnail(self, width, height):
         if self.is_dir(): return None
-        return icons.get_thumbnail_for_file(self.object, width, height)
+        return icons.get_thumbnail_for_gfile(self.get_gfile(), width, height)
+
     def get_gicon(self):
         return icons.get_gicon_for_file(self.object)
     def get_icon_name(self):
