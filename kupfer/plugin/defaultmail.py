@@ -14,7 +14,7 @@ from kupfer import utils
 
 class NewMailAction(Action):
     def __init__(self):
-        Action.__init__(self, _('Compose Email'))
+        Action.__init__(self, _('Compose Email To'))
 
     def activate(self, leaf):
         email = email_from_leaf(leaf)
