@@ -41,6 +41,8 @@ SEPARATE_APPS = {
         '.xlsx': 'libreoffice-calc',
         '.csv': 'libreoffice-calc',
         '.odp': 'libreoffice-impress',
+        '.ppt': 'libreoffice-impress',
+        '.pptx': 'libreoffice-impress',
         '.odg': 'libreoffice-draw',
         '.odf': 'libreoffice-math',
         '.mml': 'libreoffice-math',
