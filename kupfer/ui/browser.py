@@ -1644,7 +1644,8 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
     def _description_changed(self):
         match = self.current.get_current()
-        desc = match and match.get_description() or ""
+        # Use invisible WORD JOINER instead of empty, to maintain vertical size
+        desc = match and match.get_description() or "\N{WORD JOINER}"
         markup = "<small>%s</small>" % (escape_markup_str(desc), )
         self.label.set_markup(markup)
 
