@@ -31,20 +31,6 @@ from kupfer import utils
 
 # FIXME: Sometimes require that the type is *exactly* text/plain?
 
-def is_content_type(fileleaf, ctype):
-    predicate = Gio.content_type_is_a
-    ctype_guess, uncertain = Gio.content_type_guess(fileleaf.object, None)
-    ret = predicate(ctype_guess, ctype)
-    if ret or not uncertain:
-        return ret
-    content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-    gfile = Gio.File.new_for_path(fileleaf.object)
-    if not gfile.query_exists(None):
-        return
-    info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
-    content_type = info.get_attribute_string(content_attr)
-    return predicate(content_type, ctype)
-
 class AppendTo (Action):
     def __init__(self, name=None):
         if not name:
@@ -65,7 +51,7 @@ class AppendTo (Action):
     def object_types(self):
         yield FileLeaf
     def valid_object(self, iobj, for_item=None):
-        return is_content_type(iobj, "text/plain")
+        return iobj.is_content_type("text/plain")
 
     def get_icon_name(self):
         return "list-add"
@@ -122,7 +108,7 @@ class GetTextContents (Action):
     def item_types(self):
         yield FileLeaf
     def valid_for_item(self, item):
-        return is_content_type(item, "text/plain")
+        return item.is_content_type("text/plain")
 
     def get_icon_name(self):
         return "edit-copy"

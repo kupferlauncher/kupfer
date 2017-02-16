@@ -145,6 +145,26 @@ class FileLeaf (Leaf, TextRepresentation):
         else:
             return "text-x-generic"
 
+    def is_content_type(self, ctype):
+        """
+        Return True if this file is of the type ctype
+
+        ctype: A mime type, can have wildcards like 'image/*'
+        """
+        predicate = Gio.content_type_is_a
+        ctype_guess, uncertain = Gio.content_type_guess(self.object, None)
+        ret = predicate(ctype_guess, ctype)
+        if ret or not uncertain:
+            return ret
+        content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+        gfile = self.get_gfile()
+        if not gfile.query_exists(None):
+            return
+        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
+        content_type = info.get_attribute_string(content_attr)
+        return predicate(content_type, ctype)
+
+
 class SourceLeaf (Leaf):
     def __init__(self, obj, name=None):
         """Create SourceLeaf for source @obj"""
