@@ -43,6 +43,16 @@ def _directory_content(dirpath, show_hidden):
     from kupfer.obj.sources import DirectorySource
     return DirectorySource(dirpath, show_hidden)
 
+def _as_gfile(file_path):
+    return Gio.File.new_for_path(file_path)
+
+def _display_name(g_file):
+    info = \
+    g_file.query_info(Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+                      Gio.FileQueryInfoFlags.NONE,
+                      None)
+    return info.get_attribute_string(Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)
+
 class FileLeaf (Leaf, TextRepresentation):
     """
     Represents one file: the represented object is a bytestring (important!)
@@ -101,7 +111,13 @@ class FileLeaf (Leaf, TextRepresentation):
         return GLib.filename_display_name(self.object)
 
     def get_urilist_representation(self):
-        return [Gio.File.new_for_path(self.object).get_uri()]
+        return [self.get_gfile().get_uri()]
+
+    def get_gfile(self):
+        """
+        Return a Gio.File of self
+        """
+        return _as_gfile(self.object)
 
     def get_description(self):
         return utils.get_display_path_for_bytestring(self.canonical_path())
