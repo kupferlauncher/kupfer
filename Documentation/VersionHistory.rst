@@ -3,6 +3,12 @@
 NEWS for kupfer
 ===============
 
+kupfer v308.1
+-------------
+
++ Fix widget style/space issue that was especially apparent in the GTK theme
+  Adapta.
+
 kupfer v308
 -----------
 
