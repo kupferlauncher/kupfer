@@ -49,6 +49,22 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+WHITELIST_IDS = frozenset([
+    # if you set/reset default handler for folders it is useful
+    "Thunar-folder-handler.desktop",
+    "nautilus-folder-handler.desktop",
+    # we think that these are useful to show
+    "eog.desktop",
+    "evince.desktop",
+    "gnome-about.desktop",
+    "gstreamer-properties.desktop",
+    "notification-properties.desktop",
+    "shotwell-viewer.desktop",
+    ])
+BLACKLIST_IDS = frozenset([
+    "nautilus-home.desktop",
+])
+
 class AppSource (Source, FilesystemWatchMixin):
     """
     Applications source
@@ -84,25 +100,12 @@ class AppSource (Source, FilesystemWatchMixin):
         desktop_type = __kupfer_settings__["desktop_type"]
 
         # Add this to the default
-        whitelist = set([
-            # if you set/reset default handler for folders it is useful
-            "nautilus-folder-handler.desktop",
-            # we think that these are useful to show
-            "eog.desktop",
-            "evince.desktop",
-            "gnome-about.desktop",
-            "gstreamer-properties.desktop",
-            "notification-properties.desktop",
-            ])
-        blacklist = set([
-            "nautilus-home.desktop",
-        ])
 
         for item in Gio.app_info_get_all():
             id_ = item.get_id()
-            if id_ in whitelist or (
+            if id_ in WHITELIST_IDS or (
                 self.should_show(item, desktop_type, use_filter)
-                and not id_ in blacklist):
+                and not id_ in BLACKLIST_IDS):
                 yield AppLeaf(item)
 
     def should_sort_lexically(self):
