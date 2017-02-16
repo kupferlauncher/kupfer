@@ -367,8 +367,8 @@ msgstr "Alla program och inställningspaneler"
 msgid "Applications for Desktop Environment"
 msgstr "Program för skrivbordsmiljö"
 
-msgid "Use Desktop Filter (requires restart)"
-msgstr "Använd skrivbords-filter (kräver omstart)"
+msgid "Use Desktop Filter"
+msgstr "Använd skrivbords-filter"
 
 msgid "Open With..."
 msgstr "Öppna med..."
@@ -683,11 +683,8 @@ msgstr "Förvald e-postläsare"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Skriv nytt e-postmeddelande m.h.a systemets mailto:-hanterare"
 
-msgid "Compose Email"
-msgstr "Skriv e-postmeddelande"
-
-msgid "Send in Email To..."
-msgstr "Skicka med e-post till..."
+msgid "Compose Email To"
+msgstr "Skriv e-postmeddelande till"
 
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -1083,9 +1080,6 @@ msgstr "Skriv nytt e-postmeddelande"
 
 msgid "Compose a new message in Thunderbird"
 msgstr "Skriv nytt mail i Thunderbird"
-
-msgid "Compose Email To"
-msgstr "Skriv e-postmeddelande till"
 
 msgid "Attach in Email To..."
 msgstr "Bifoga i e-post till..."
@@ -1622,6 +1616,12 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
+
+#~ msgid "Compose Email"
+#~ msgstr "Skriv e-postmeddelande"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Skicka med e-post till..."
 
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "GNOME-terminal-profiler"
