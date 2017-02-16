@@ -22,14 +22,14 @@ class MoveToTrash (Action):
         Action.__init__(self, _("Move to Trash"))
 
     def activate(self, leaf):
-        gfile = Gio.File.new_for_path(leaf.object)
+        gfile = leaf.get_gfile()
         try:
             gfile.trash()
         except Gio.Error as exc:
             raise OperationError(exc)
 
     def valid_for_item(self, item):
-        gfile = Gio.File.new_for_path(item.object)
+        gfile = item.get_gfile()
         if not gfile.query_exists(None):
             return False
         info = gfile.query_info(Gio.FILE_ATTRIBUTE_ACCESS_CAN_TRASH,
