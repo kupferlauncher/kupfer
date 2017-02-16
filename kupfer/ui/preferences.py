@@ -203,6 +203,12 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.gkeybind_table.connect("row-activated",
                 self.on_gkeybindings_row_activate)
 
+        # Requires GTK 3.22
+        try:
+            self.gkeybindings_list_parent.set_propagate_natural_height(True)
+        except AttributeError:
+            pass
+
         self._show_keybindings(setctl)
         self._show_gkeybindings(setctl)
 
