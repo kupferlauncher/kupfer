@@ -88,8 +88,12 @@
       in the plugin's information pane in <app>Kupfer Preferences</app>
       determines how <app>Kupfer</app> should act with regard to the desktop
       environment configuration—certain applications request not to be
-      shown depending on which desktop environment is used. By default, it
-      behaves like GNOME.
+      shown depending on which desktop environment is used.
+    </p>
+    <p>
+      The default setting is blank which means that it will use the environment
+      variable <code>XDG_CURRENT_DESKTOP</code> to identify the desktop
+      environment automatically.
     </p>
   </section>
 </page>
