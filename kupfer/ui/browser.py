@@ -24,6 +24,7 @@ from kupfer.core import settings
 from kupfer import icons
 from kupfer import interface
 from kupfer import pretty
+import kupfer.environment
 
 ELLIPSIZE_MIDDLE = Pango.EllipsizeMode.MIDDLE
 
@@ -629,7 +630,8 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         return self.list_window.get_property("visible")
 
     def hide_table(self):
-        self.list_window.hide()
+        if self.get_table_visible():
+            self.list_window.hide()
 
     def _show_table(self):
         setctl = settings.GetSettingsController()
@@ -663,6 +665,15 @@ class Search (Gtk.Bin, pretty.OutputMixin):
 
     def show_table(self):
         self.go_down(True)
+
+    def show_table_quirk(self):
+        "Show table after being hidden in the same event"
+        # KWin bugs out if we hide and show the table during the same gtk event
+        # issue #47
+        if kupfer.environment.is_kwin():
+            GLib.idle_add(self.show_table)
+        else:
+            self.show_table()
 
     def _table_scroll_changed(self, scrollbar, scroll_type, value):
         """When the scrollbar changes due to user interaction"""
@@ -1520,7 +1531,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self._reset_to_toplevel = False
             if not at_root:
                 self.reset_current(populate=True)
-                wid.show_table()
+                wid.show_table_quirk()
 
     def update_third(self):
         if self._pane_three_is_visible:
