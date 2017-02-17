@@ -29,6 +29,7 @@ Thomas Renard
 PACKAGERS="""
 Luca Falavigna (Debian, Ubuntu)
 Francesco Marella (Ubuntu PPA)
+D. Can Celasun (Arch Linux AUR)
 """.splitlines()
 
 TRANSLATORS="""
