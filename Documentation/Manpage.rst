@@ -6,7 +6,7 @@ kupfer
 Convenient command and access tool for applications and documents
 -----------------------------------------------------------------
 
-:Author: Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+:Author: Ulrik Sverdrup
 :Date: 2017
 :Manual section: 1
 

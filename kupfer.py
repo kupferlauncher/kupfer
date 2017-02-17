@@ -1,7 +1,7 @@
 """
-kupfer      A convenient access and command tool
+kupfer      A convenient command and access tool
 
-Copyright 2007--2010 Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+Copyright 2007--2017 Ulrik Sverdrup
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 if __name__ == '__main__':
