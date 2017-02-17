@@ -122,9 +122,12 @@ class AsyncCommand (pretty.OutputMixin):
         pretty.print_debug(__name__, "AsyncCommand:", argv)
 
         flags = (GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD)
+        kwargs = {}
+        if env is not None:
+            kwargs['envp'] = env
         pid, stdin_fd, stdout_fd, stderr_fd = \
-             GLib.spawn_async(argv, env or [], standard_output=True, standard_input=True,
-                              standard_error=True, flags=flags)
+             GLib.spawn_async(argv, standard_output=True, standard_input=True,
+                              standard_error=True, flags=flags, **kwargs)
 
         if stdin:
             self.stdin[:] = self._split_string(stdin, self.max_input_buf)
