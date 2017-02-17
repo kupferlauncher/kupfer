@@ -3,6 +3,15 @@
 NEWS for kupfer
 ===============
 
+kupfer v308.2
+-------------
+
++ Fix showing the result list in KWin (#47) with a specific workaround
++ Plugins:
+
+  + Fix *Shell Commands* so that they inherit the parent environment
+  + Remove *GNOME Session Management* from the set enabled by default
+
 kupfer v308.1
 -------------
 
