@@ -11,16 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
-"PO-Revision-Date: 2013-03-13 20:50+0100\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2017-02-17 19:02+0100\n"
+"PO-Revision-Date: 2017-02-17 19:20+0100\n"
+"Last-Translator: Ulrik Sverdrup\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Poedit 1.8.11\n"
 
 msgid "User credentials"
 msgstr "Anmeldedaten"
@@ -59,10 +59,10 @@ msgid "Icon set:"
 msgstr "Symbolsatz:"
 
 msgid "Large Icon Size:"
-msgstr ""
+msgstr "Symbolgröße (groß)"
 
 msgid "Small Icon Size:"
-msgstr ""
+msgstr "Symbolgröße (klein)"
 
 msgid "Terminal emulator:"
 msgstr "Terminal-Emulator:"
@@ -372,8 +372,8 @@ msgstr "Alle Anwendungen und Einstellungen"
 msgid "Applications for Desktop Environment"
 msgstr "Anwendungen für die Arbeitsumgebung"
 
-msgid "Use Desktop Filter (requires restart)"
-msgstr ""
+msgid "Use Desktop Filter"
+msgstr "Filter der Arbeitsumgebung verwenden"
 
 msgid "Open With..."
 msgstr "Öffnen mit …"
@@ -501,7 +501,7 @@ msgid "Calculator"
 msgstr "Rechner"
 
 msgid "Calculate mathematical expressions"
-msgstr ""
+msgstr "Mathematische Ausdrücke berechnen"
 
 msgid "Calculate"
 msgstr "Berechnen"
@@ -686,11 +686,8 @@ msgstr "Vorgegebenes E-Mail-Programm"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "E-Mail mit dem »mailto:«-Handler des Systems verfassen"
 
-msgid "Compose Email"
-msgstr "Neue E-Mail verfassen"
-
-msgid "Send in Email To..."
-msgstr "In E-Mail senden an …"
+msgid "Compose Email To"
+msgstr "Neue E-Mail verfassen an"
 
 msgid "Dictionary"
 msgstr "Wörterbuch"
@@ -1088,20 +1085,14 @@ msgstr "Neue E-Mail verfassen"
 msgid "Compose a new message in Thunderbird"
 msgstr "Eine neue E-Mail mit Thunderbird erstellen"
 
-#, fuzzy
-msgid "Compose Email To"
-msgstr "Neue E-Mail verfassen"
-
 msgid "Attach in Email To..."
 msgstr "In E-Mail senden an …"
 
-#, fuzzy
 msgid "Compose Email With"
-msgstr "Neue E-Mail verfassen"
+msgstr "Neue E-Mail verfassen damit"
 
-#, fuzzy
 msgid "Compose a new message using the text as body"
-msgstr "Eine neue E-Mail mit Thunderbird erstellen"
+msgstr "Eine neue E-Mail mit dem Text erstellen"
 
 msgid "Thunderbird Address Book"
 msgstr "Thunderbird-Adressbuch"
@@ -1168,6 +1159,8 @@ msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
+"Dateien könnte nicht gelöscht werden:\n"
+"    "
 
 msgid "Trash is empty"
 msgstr "Der Papierkorb ist leer"
@@ -1340,17 +1333,17 @@ msgstr "Tracker Ergebnisse für den Suchbegriff anzeigen"
 
 #, python-format
 msgid "Tracker Search for \"%s\""
-msgstr ""
+msgstr "Tracker-Suche nach »%s«"
 
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Ergebnisse für »%s«"
 
 msgid "Tracker Full Text Search"
-msgstr ""
+msgstr "Tracker Volltextsuche"
 
 msgid "Use '?' prefix to get full text results"
-msgstr ""
+msgstr "»?«-Prefix verwenden für Volltextsuche"
 
 msgid "Locate Files"
 msgstr "Datei finden"
@@ -1369,7 +1362,7 @@ msgid "Index of Firefox bookmarks"
 msgstr "Index der Lesezeichen in Firefox"
 
 msgid "Media Player Control"
-msgstr ""
+msgstr "Mediaspieler-Bedienung"
 
 msgid "Playback control for media players"
 msgstr ""
@@ -1404,7 +1397,7 @@ msgid "Stop (%s)"
 msgstr "Stopp (%s)"
 
 msgid "Stop playback"
-msgstr ""
+msgstr "Wiedergabe halten"
 
 msgid "Pidgin"
 msgstr "Pidgin"
@@ -1595,7 +1588,8 @@ msgstr ""
 "Thibaud Roth <thibaud.roth@betriebsdirektor.de>\n"
 "Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
-"Daniel Winzen <d@winzen4.de>"
+"Daniel Winzen <d@winzen4.de>\n"
+"Ulrik Sverdrup"
 
 msgid "A free software (GPLv3+) launcher"
 msgstr "Ein freier Anwendungsstarter (GPLv3+)"
@@ -1638,6 +1632,12 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
+
+#~ msgid "Compose Email"
+#~ msgstr "Neue E-Mail verfassen"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "In E-Mail senden an …"
 
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "GNOME-Terminal-Profile"
