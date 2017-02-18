@@ -414,11 +414,11 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
                 icon = self._render_composed_icon(icon, pixbufs, small_size)
             self.icon_view.set_from_pixbuf(icon)
         else:
-            self.icon_view.set_from_icon_name("gtk-file", self.icon_size)
+            self.icon_view.clear()
             self.icon_view.set_pixel_size(self.icon_size)
 
         if not self.cur_text:
-            self.label.set_text("<no text>")
+            self.label.set_text("")
             return
 
         if not self.cur_match:
