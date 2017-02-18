@@ -3,6 +3,7 @@
 /debug.py		export-ignore
 /oldplugins		export-ignore
 /contrib		export-ignore
+/.github/		export-ignore
 
 # Filter .po files before committing
 # The filter will remove all filename:line comments when
