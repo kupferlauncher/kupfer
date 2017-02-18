@@ -21,7 +21,7 @@ import xml.sax.saxutils
 import dbus
 import xdg.BaseDirectory as base
 
-from kupfer.objects import Action, Source, Leaf, TextLeaf
+from kupfer.objects import Action, Source, Leaf, TextLeaf, NotAvailableError
 from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
 from kupfer import pretty, textutils
@@ -82,13 +82,36 @@ def _get_notes_interface(activate=False):
         notes = dbus.Interface(searchobj, iface_name)
         return notes
 
+def _get_notes_interactive():
+    """
+    Return the dbus proxy object, activate if necessary,
+    raise an OperationError if not available.
+    """
+    obj = _get_notes_interface(activate=True)
+    if obj is None:
+        raise NotAvailableError(__kupfer_settings__["notes_application"])
+    return obj
+
+def reply_noop(*args):
+    pass
+
+def make_error_handler(ctx):
+    def error_handler(exc):
+        pretty.print_debug(__name__, exc)
+        ctx.register_late_error(NotAvailableError(__kupfer_settings__["notes_application"]))
+    return error_handler
+
 class Open (Action):
     def __init__(self):
         Action.__init__(self, _("Open"))
-    def activate(self, leaf):
+    def wants_context(self):
+        return True
+    def activate(self, leaf, ctx):
         noteuri = leaf.object
-        notes = _get_notes_interface(activate=True)
-        notes.DisplayNote(noteuri)
+        notes = _get_notes_interactive()
+        notes.DisplayNote(noteuri,
+                          reply_handler=reply_noop,
+                          error_handler=make_error_handler(ctx))
     def get_description(self):
         return _("Open with notes application")
     def get_gicon(self):
@@ -99,17 +122,26 @@ class AppendToNote (Action):
     def __init__(self):
         Action.__init__(self, _("Append to Note..."))
 
-    def activate(self, leaf, iobj):
-        notes = _get_notes_interface(activate=True)
+    def wants_context(self):
+        return True
+    def activate(self, leaf, iobj, ctx):
+        notes = _get_notes_interactive()
         noteuri = iobj.object
         text = leaf.object
 
         # NOTE: We search and replace in the XML here
-        xmlcontents = notes.GetNoteCompleteXml(noteuri)
-        endtag = "</note-content>"
-        xmltext = xml.sax.saxutils.escape(text)
-        xmlcontents = xmlcontents.replace(endtag, "\n%s%s" % (xmltext, endtag))
-        notes.SetNoteCompleteXml(noteuri, xmlcontents)
+        def reply_note_xml(xmlcontents):
+            pretty.print_debug(__name__, "reply_note_xml", xmlcontents)
+            endtag = "</note-content>"
+            xmltext = xml.sax.saxutils.escape(text)
+            xmlcontents = xmlcontents.replace(endtag, "\n%s%s" % (xmltext, endtag))
+            notes.SetNoteCompleteXml(noteuri, xmlcontents,
+                                     reply_handler=reply_noop,
+                                     error_handler=make_error_handler(ctx))
+
+        xmlcontents = notes.GetNoteCompleteXml(noteuri,
+                                               reply_handler=reply_note_xml,
+                                               error_handler=make_error_handler(ctx))
 
     def item_types(self):
         yield TextLeaf
@@ -138,7 +170,7 @@ class CreateNote (Action):
         Action.__init__(self, _("Create Note"))
 
     def activate(self, leaf):
-        notes = _get_notes_interface(activate=True)
+        notes = _get_notes_interactive()
         text = _prepare_note_text(leaf.object)
         # FIXME: For Gnote we have to call DisplayNote
         # else we can't change its contents
@@ -176,7 +208,7 @@ class NoteSearchSource (Source):
         Source.__init__(self, _("Notes"))
 
     def get_items(self):
-        notes = _get_notes_interface(activate=True)
+        notes = _get_notes_interactive()
         noteuris = notes.SearchNotes(self.query, False)
         for noteuri in noteuris:
             title = notes.GetNoteTitle(noteuri)
