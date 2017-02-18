@@ -43,8 +43,13 @@ class DbusWeakCallback (WeakCallback):
     """
     def object_deleted(self, wref):
         # App is shutting down
-        if sys.is_finalizing():
-            return
+        try:
+            if sys.is_finalizing():
+                return
+        except AttributeError:
+            if sys is None:
+                return
+
         if self.token:
             self.token.remove()
             self.token = None
@@ -67,8 +72,12 @@ class GobjectWeakCallback (WeakCallback):
 
     def object_deleted(self, wref):
         # App is shutting down
-        if sys.is_finalizing():
-            return
+        try:
+            if sys.is_finalizing():
+                return
+        except AttributeError:
+            if sys is None:
+                return
 
         sender = self.__senders.pop(self.token, None)
         if sender is not None:
