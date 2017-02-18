@@ -2376,17 +2376,20 @@ class WindowController (pretty.OutputMixin):
         signal.signal(signal.SIGINT, self._on_early_interrupt)
 
         try:
-            kserv = listen.Service()
+            # NOTE: For a *very short* time we will use both APIs
+            kserv1 = listen.Service()
+            kserv2 = listen.ServiceNew()
         except listen.AlreadyRunningError:
             self.output_info("An instance is already running, exiting...")
             self.quit_now()
         except listen.NoConnectionError:
-            kserv = None
+            kserv1 = None
+            kserv2 = None
         else:
             keyobj = keybindings.GetKeyboundObject()
             keyobj.connect("bound-key-changed",
-                           lambda x,y,z: kserv.BoundKeyChanged(y,z))
-            kserv.connect("relay-keys", keyobj.relayed_keys)
+                           lambda x,y,z: kserv1.BoundKeyChanged(y,z))
+            kserv1.connect("relay-keys", keyobj.relayed_keys)
 
         # Load data
         data_controller = data.DataController()
@@ -2396,13 +2399,20 @@ class WindowController (pretty.OutputMixin):
         self.initialize(data_controller)
         sch.display()
 
-        if kserv:
-            kserv.connect("present", self.on_present)
-            kserv.connect("show-hide", self.on_show_hide)
-            kserv.connect("put-text", self.on_put_text)
-            kserv.connect("put-files", self.on_put_files)
-            kserv.connect("execute-file", self.on_execute_file)
-            kserv.connect("quit", self.quit)
+        if kserv1:
+            kserv1.connect("present", self.on_present)
+            kserv1.connect("show-hide", self.on_show_hide)
+            kserv1.connect("put-text", self.on_put_text)
+            kserv1.connect("put-files", self.on_put_files)
+            kserv1.connect("execute-file", self.on_execute_file)
+            kserv1.connect("quit", self.quit)
+        if kserv2:
+            kserv2.connect("present", self.on_present)
+            kserv2.connect("show-hide", self.on_show_hide)
+            kserv2.connect("put-text", self.on_put_text)
+            kserv2.connect("put-files", self.on_put_files)
+            kserv2.connect("execute-file", self.on_execute_file)
+            kserv2.connect("quit", self.quit)
 
         if not quiet:
             self.activate()
@@ -2424,8 +2434,10 @@ class WindowController (pretty.OutputMixin):
             self.save_data()
 
         # tear down but keep hanging
-        if kserv:
-            kserv.unregister()
+        if kserv1:
+            kserv1.unregister()
+        if kserv2:
+            kserv2.unregister()
         keybindings.bind_key(None, keybindings.KEYBINDING_DEFAULT)
         keybindings.bind_key(None, keybindings.KEYBINDING_MAGIC)
 

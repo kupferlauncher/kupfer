@@ -28,9 +28,9 @@ PYTHONDIR="@PYTHONDIR@"
 _hasprefix "$PYTHON" "@"  && PYTHON=python3
 _hasprefix "$PYTHONDIR" "@" && PYTHONDIR=$(dirname $(readlink -f -- $0))/..
 
-SERVICE="se.kaizer.kupfer"
-OBJ="/interface"
-IFACE="se.kaizer.kupfer.Listener"
+SERVICE="io.github.kupferlauncher"
+OBJ="/io/github/kupferlauncher"
+IFACE="io.github.kupferlauncher.Listener"
 
 # We allow reading directly from stdin if we pipe text into Kupfer
 if ! tty --quiet

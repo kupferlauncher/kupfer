@@ -14,9 +14,9 @@ then
 	exit 1
 fi
 
-SERVICE="se.kaizer.kupfer"
-OBJ="/interface"
-IFACE="se.kaizer.kupfer.Listener"
+SERVICE="io.github.kupferlauncher"
+OBJ="/io/github/kupferlauncher"
+IFACE="io.github.kupferlauncher.Listener"
 
 while test $# != 0
 do
