@@ -12,7 +12,6 @@ import signal
 import operator
 
 from kupfer.objects import Action, Source, Leaf
-from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer import scheduler
 from kupfer import plugin_support
 from kupfer import utils
@@ -85,17 +84,14 @@ class _SignalsSource(Source):
         yield _Signal
     
 
-class TaskSource(Source, PicklingHelperMixin):
+class TaskSource(Source):
     task_update_interval_sec = 5
+    source_use_cache = False
 
     def __init__(self, name=_("Running Tasks")):
         Source.__init__(self, name)
         self._cache = []
         self._version = 2
-
-    def pickle_prepare(self):
-        # clear saved processes
-        self.mark_for_update()
 
     def initialize(self):
         self._timer = scheduler.Timer()

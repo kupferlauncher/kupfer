@@ -24,6 +24,7 @@ from kupfer.core import settings
 from kupfer import icons
 from kupfer import interface
 from kupfer import pretty
+import kupfer.environment
 
 ELLIPSIZE_MIDDLE = Pango.EllipsizeMode.MIDDLE
 
@@ -128,7 +129,7 @@ class LeafModel (object):
         First column is always the object -- returned by get_object
         it needs not be specified in columns
         """
-        columns = (GObject.TYPE_OBJECT, str, str, str)
+        columns = (GObject.TYPE_OBJECT, str, str, str, str)
         self.store = Gtk.ListStore(GObject.TYPE_PYOBJECT, *columns)
         self.object_column = 0
         self.base = None
@@ -140,31 +141,29 @@ class LeafModel (object):
 
     def _setup_columns(self):
         self.icon_col = 1
-        self.val_col = 2
-        self.info_col = 3
-        self.rank_col = 4
+        self.name_col = 2
+        self.fav_col = 3
+        self.info_col = 4
+        self.rank_col = 5
 
         # only show in debug mode
         show_rank_col = pretty.debug
 
-        cell = Gtk.CellRendererText()
-        cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
-        cell.set_property("width-chars", 45)
-        col = Gtk.TreeViewColumn("item", cell)
+        # Name and description column
+        # Expands to the rest of the space
+        name_cell = Gtk.CellRendererText()
+        name_cell.set_property("ellipsize", ELLIPSIZE_MIDDLE)
+        name_col = Gtk.TreeViewColumn("item", name_cell)
+        name_col.set_expand(True)
+        name_col.add_attribute(name_cell, "markup", self.name_col)
 
-        """
-        info_cell = Gtk.CellRendererPixbuf()
-        info_cell.set_property("height", 16)
-        info_cell.set_property("width", 16)
-        info_col = Gtk.TreeViewColumn("info", info_cell)
-        info_col.add_attribute(info_cell, "icon-name", self.info_col)
-        """
+        fav_cell = Gtk.CellRendererText()
+        fav_col = Gtk.TreeViewColumn("fav", fav_cell)
+        fav_col.add_attribute(fav_cell, "text", self.fav_col)
+
         info_cell = Gtk.CellRendererText()
-        info_cell.set_property("width-chars", 1)
         info_col = Gtk.TreeViewColumn("info", info_cell)
         info_col.add_attribute(info_cell, "text", self.info_col)
-
-        col.add_attribute(cell, "markup", self.val_col)
 
         nbr_cell = Gtk.CellRendererText()
         nbr_col = Gtk.TreeViewColumn("rank", nbr_cell)
@@ -179,7 +178,7 @@ class LeafModel (object):
         icon_col = Gtk.TreeViewColumn("icon", icon_cell)
         icon_col.add_attribute(icon_cell, "pixbuf", self.icon_col)
 
-        self.columns = [icon_col, col, info_col,]
+        self.columns = [icon_col, name_col, fav_col, info_col,]
         if show_rank_col:
             self.columns += (nbr_col, )
 
@@ -228,9 +227,10 @@ class LeafModel (object):
         leaf, rank = rankable.object, rankable.rank
         icon = self.get_icon(leaf)
         markup = self.get_label_markup(rankable)
+        fav = self.get_fav(leaf)
         info = self.get_aux_info(leaf)
         rank_str = self.get_rank_str(rank)
-        return (rankable, icon, markup, info, rank_str)
+        return (rankable, icon, markup, fav, info, rank_str)
 
     def add(self, rankable):
         self.store.append(self._get_row(rankable))
@@ -256,22 +256,23 @@ class LeafModel (object):
             text = '%s' % (name, )
         return text
 
+    def get_fav(self, leaf):
+        # fav: display star if it's a favourite
+        if learn.is_favorite(leaf):
+            return "\N{BLACK STAR}"
+        else:
+            return ""
+
     def get_aux_info(self, leaf):
         # info: display arrow if leaf has content
-        fill_space = "\N{EM SPACE}"
-        if text_direction_is_ltr():
-            content_mark = "\N{BLACK RIGHT-POINTING SMALL TRIANGLE}"
-        else:
-            content_mark = "\N{BLACK LEFT-POINTING SMALL TRIANGLE}"
-
-        info = ""
-        if learn.is_favorite(leaf):
-            info += "\N{BLACK STAR}"
-        else:
-            info += fill_space
         if hasattr(leaf, "has_content") and leaf.has_content():
-            info += content_mark
-        return info
+            if text_direction_is_ltr():
+                return "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
+            else:
+                return "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
+        else:
+            return ""
+
     def get_rank_str(self, rank):
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
@@ -478,12 +479,12 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         new_label_width = self.label_char_width - self.preedit_char_width
         self.label.set_width_chars(new_label_width)
         preedit.set_width_chars(self.preedit_char_width)
-        pass
+        preedit.get_style_context().remove_class(PREEDIT_HIDDEN_CLASS)
 
     def shrink_preedit(self, preedit):
         self.label.set_width_chars(self.label_char_width)
         preedit.set_width_chars(0)
-        pass
+        preedit.get_style_context().add_class(PREEDIT_HIDDEN_CLASS)
 
     def inject_preedit(self, preedit):
         """
@@ -629,7 +630,8 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         return self.list_window.get_property("visible")
 
     def hide_table(self):
-        self.list_window.hide()
+        if self.get_table_visible():
+            self.list_window.hide()
 
     def _show_table(self):
         setctl = settings.GetSettingsController()
@@ -663,6 +665,15 @@ class Search (Gtk.Bin, pretty.OutputMixin):
 
     def show_table(self):
         self.go_down(True)
+
+    def show_table_quirk(self):
+        "Show table after being hidden in the same event"
+        # KWin bugs out if we hide and show the table during the same gtk event
+        # issue #47
+        if kupfer.environment.is_kwin():
+            GLib.idle_add(self.show_table)
+        else:
+            self.show_table()
 
     def _table_scroll_changed(self, scrollbar, scroll_type, value):
         """When the scrollbar changes due to user interaction"""
@@ -962,12 +973,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.entry.connect("changed", self._changed)
         self.preedit.connect("insert-text", self._preedit_insert_text)
         self.preedit.connect("draw", self._preedit_draw)
-        ## preedit-changed is GTK+ 2.20
-        ## if not available, silently skip it
-        try:
-            self.preedit.connect("preedit-changed", self._preedit_im_changed)
-        except TypeError:
-            pass
+        self.preedit.connect("preedit-changed", self._preedit_im_changed)
         for widget in (self.entry, self.preedit):
             widget.connect("activate", self._activate, None)
             widget.connect("key-press-event", self._entry_key_press)
@@ -1532,7 +1538,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self._reset_to_toplevel = False
             if not at_root:
                 self.reset_current(populate=True)
-                wid.show_table()
+                wid.show_table_quirk()
 
     def update_third(self):
         if self._pane_three_is_visible:
@@ -1656,7 +1662,8 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
     def _description_changed(self):
         match = self.current.get_current()
-        desc = match and match.get_description() or ""
+        # Use invisible WORD JOINER instead of empty, to maintain vertical size
+        desc = match and match.get_description() or "\N{WORD JOINER}"
         markup = "<small>%s</small>" % (escape_markup_str(desc), )
         self.label.set_markup(markup)
 
@@ -1755,8 +1762,9 @@ GObject.signal_new("cancelled", Interface, GObject.SignalFlags.RUN_LAST,
 GObject.signal_new("launched-action", Interface, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
+PREEDIT_HIDDEN_CLASS = "hidden"
 #    background: alpha(@theme_selected_bg_color, 0.5);  
-#   kupfer rgba(255, 255, 255, 0.5);  
+#    kupfer rgba(255, 255, 255, 0.5);  
 #   *:selected background: rgba(0, 0, 0, 0.4);  
 
 css_file = open('kupfer/ui/style.css','rb')
@@ -1909,6 +1917,12 @@ class WindowController (pretty.OutputMixin):
         self.interface.connect("cancelled", self._cancelled)
         self.window.connect("map-event", self._on_window_map_event)
         self._setup_window()
+
+        # Accept drops
+        self.window.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.COPY)
+        self.window.drag_dest_add_uri_targets()
+        self.window.drag_dest_add_text_targets()
+        self.window.connect("drag-data-received", self._on_drag_data_received)
 
     def show_statusicon(self):
         if not self._statusicon:
@@ -2225,6 +2239,13 @@ class WindowController (pretty.OutputMixin):
             self.on_present(keyobj, display, timestamp)
             self.interface.select_selected_text()
             self.interface.select_selected_file()
+
+    def _on_drag_data_received(self, widget, context, x, y, data, info, time):
+        uris = data.get_uris()
+        if uris:
+            self.interface.put_files(uris, paths=False)
+        else:
+            self.interface.put_text(data.get_text())
 
     def on_put_text(self, sender, text, display, timestamp):
         """We got a search text from dbus"""

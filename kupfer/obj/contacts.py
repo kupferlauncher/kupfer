@@ -36,7 +36,7 @@ YAHOO_KEY = "YAHOO"
 
 
 class ContactLeaf(GroupingLeaf):
-    grouping_slots = (NAME_KEY, )
+    grouping_slots = ()
 
     def __init__(self, obj, name, image=None):
         self.image = image

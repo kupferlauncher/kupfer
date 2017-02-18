@@ -101,7 +101,7 @@ class AttachToNewMail(Action):
 
 class NewMailWithBody(Action):
     def __init__(self):
-        super().__init__(_("Compose Email"))
+        super().__init__(_("Compose Email With"))
 
     def activate(self, leaf):
         args = ["-compose", "body='%s'" % leaf.object]

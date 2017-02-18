@@ -6,30 +6,64 @@ __kupfer_actions__ = (
         "SetDefaultApplication",
     )
 __description__ = _("All applications and preferences")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.2"
+__author__ = ""
 
 from gi.repository import Gio
 
 from kupfer.objects import Action, Source, AppLeaf, FileLeaf
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import config, plugin_support
+from kupfer.weaklib import gobject_connect_weakly
+
+_ALTERNATIVES = (
+    "",
+    "Cinnamon",
+    "EDE",
+    "GNOME",
+    "KDE",
+    "LXDE",
+    "LXQt",
+    "MATE",
+    "Pantheon",
+    "ROX",
+    "Razor",
+    "TDE",
+    "Unity",
+    "XFCE",
+)
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key" : "desktop_type",
         "label": _("Applications for Desktop Environment"),
         "type": str,
-        "value": "GNOME",
-        "alternatives": ("GNOME", "KDE", "LXDE", "MATE", "ROX", "XFCE")
+        "value": "",
+        "alternatives": _ALTERNATIVES,
     },
     {
         "key" : "desktop_filter",
-        "label": _("Use Desktop Filter (requires restart)"),
+        "label": _("Use Desktop Filter"),
         "type": bool,
         "value": True,
     },
 )
+
+WHITELIST_IDS = frozenset([
+    # if you set/reset default handler for folders it is useful
+    "Thunar-folder-handler.desktop",
+    "nautilus-folder-handler.desktop",
+    # we think that these are useful to show
+    "eog.desktop",
+    "evince.desktop",
+    "gnome-about.desktop",
+    "gstreamer-properties.desktop",
+    "notification-properties.desktop",
+    "shotwell-viewer.desktop",
+    ])
+BLACKLIST_IDS = frozenset([
+    "nautilus-home.desktop",
+])
 
 class AppSource (Source, FilesystemWatchMixin):
     """
@@ -44,34 +78,34 @@ class AppSource (Source, FilesystemWatchMixin):
     def initialize(self):
         application_dirs = config.get_data_dirs("", "applications")
         self.monitor_token = self.monitor_directories(*application_dirs)
+        gobject_connect_weakly(__kupfer_settings__, "plugin-setting-changed",
+                               self._on_setting_change)
+
+    def _on_setting_change(self, *_args):
+        self.mark_for_update()
+
+    @classmethod
+    def should_show(cls, app_info, desktop_type, use_filter):
+        if app_info.get_nodisplay():
+            return False
+        if not use_filter:
+            return True
+        if desktop_type == "":
+            return app_info.should_show()
+        else:
+            return app_info.get_show_in(desktop_type)
 
     def get_items(self):
-        # If we set proper desktop environment
-        # We get exactly the apps shown in the menu,
-        # as well as the preference panes
         use_filter = __kupfer_settings__["desktop_filter"]
         desktop_type = __kupfer_settings__["desktop_type"]
-        if use_filter:
-            Gio.DesktopAppInfo.set_desktop_env(desktop_type)
-        #desktop_app_info_set_desktop_env(desktop_type)
+
         # Add this to the default
-        whitelist = set([
-            # if you set/reset default handler for folders it is useful
-            "nautilus-folder-handler.desktop",
-            # we think that these are useful to show
-            "eog.desktop",
-            "evince.desktop",
-            "gnome-about.desktop",
-            "gstreamer-properties.desktop",
-            "notification-properties.desktop",
-            ])
-        blacklist = set([
-            "nautilus-home.desktop",
-        ])
 
         for item in Gio.app_info_get_all():
             id_ = item.get_id()
-            if use_filter or id_ in whitelist or (item.should_show() and not id_ in blacklist):
+            if id_ in WHITELIST_IDS or (
+                self.should_show(item, desktop_type, use_filter)
+                and not id_ in BLACKLIST_IDS):
                 yield AppLeaf(item)
 
     def should_sort_lexically(self):

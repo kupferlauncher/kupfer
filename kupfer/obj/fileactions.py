@@ -34,7 +34,7 @@ class Open (Action):
     @classmethod
     def default_application_for_leaf(cls, leaf):
         content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-        gfile = Gio.File.new_for_path(leaf.object)
+        gfile = leaf.get_gfile()
         info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
         content_type = info.get_attribute_string(content_attr)
         def_app = Gio.app_info_get_default_for_type(content_type, False)

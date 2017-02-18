@@ -70,7 +70,7 @@ class Reveal (Action):
         return True
 
     def activate(self, leaf, ctx):
-        gfile = Gio.File.new_for_path(leaf.object)
+        gfile = leaf.get_gfile()
         parent = gfile.get_parent()
         if not parent:
             return
@@ -98,7 +98,7 @@ class GetInfo (Action):
         return True
 
     def activate(self, leaf, ctx):
-        gfile = Gio.File.new_for_path(leaf.object)
+        gfile = leaf.get_gfile()
         uri = gfile.get_uri()
         id_ = ctx.environment.get_startup_notification_id()
         display = ctx.environment.get_display()
@@ -158,8 +158,8 @@ def _good_destination(dpath, spath):
         return False
     return True
 
-def path_to_uri(filepath):
-    return Gio.File.new_for_path(filepath).get_uri()
+def leaf_uri(leaf):
+    return leaf.get_gfile().get_uri()
 
 class CopyTo (Action, pretty.OutputMixin):
     def __init__(self):
@@ -175,7 +175,7 @@ class CopyTo (Action, pretty.OutputMixin):
         work_dir = os.path.expanduser("~/")
         display = ctx.environment.get_display()
         notify_id = ctx.environment.get_startup_notification_id()
-        sourcefiles = [path_to_uri(L.object) for L in leaves]
+        sourcefiles = [leaf_uri(L) for L in leaves]
 
         def _reply(*args):
             self.output_debug("reply got for copying", *args)
@@ -185,7 +185,7 @@ class CopyTo (Action, pretty.OutputMixin):
             ctx.register_late_error(NotAvailableError(_("Thunar")))
 
         for dest_iobj in iobjects:
-            desturi = path_to_uri(dest_iobj.object)
+            desturi = leaf_uri(dest_iobj)
             thunar.CopyInto(work_dir, sourcefiles, desturi, display, notify_id,
                             reply_handler=_reply,
                             error_handler=_reply_error)
@@ -230,8 +230,8 @@ class MoveTo (Action, pretty.OutputMixin):
         work_dir = os.path.expanduser("~/")
         display = ctx.environment.get_display()
         notify_id = ctx.environment.get_startup_notification_id()
-        sourcefiles = [path_to_uri(L.object) for L in leaves]
-        desturi = path_to_uri(dest_iobj.object)
+        sourcefiles = [leaf_uri(L) for L in leaves]
+        desturi = leaf_uri(dest_iobj)
         thunar.MoveInto(work_dir, sourcefiles, desturi, display, notify_id,
                         reply_handler=_reply,
                         error_handler=_reply_error)
@@ -268,7 +268,7 @@ class LinkTo (Action, pretty.OutputMixin):
         work_dir = os.path.expanduser("~/")
         display = ctx.environment.get_display()
         notify_id = ctx.environment.get_startup_notification_id()
-        sourcefiles = [path_to_uri(L.object) for L in leaves]
+        sourcefiles = [leaf_uri(L) for L in leaves]
 
         def _reply(*args):
             self.output_debug("reply got for copying", *args)
@@ -278,7 +278,7 @@ class LinkTo (Action, pretty.OutputMixin):
             ctx.register_late_error(NotAvailableError(_("Thunar")))
 
         for dest_iobj in iobjects:
-            desturi = path_to_uri(dest_iobj.object)
+            desturi = leaf_uri(dest_iobj)
             thunar.LinkInto(work_dir, sourcefiles, desturi, display, notify_id,
                             reply_handler=_reply,
                             error_handler=_reply_error)

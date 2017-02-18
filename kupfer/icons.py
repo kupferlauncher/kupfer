@@ -170,20 +170,16 @@ def _render_composed_icon(composed_icon, icon_size):
             dcoord, dcoord, fr, fr, GdkPixbuf.InterpType.BILINEAR, 255)
     return dest
 
-def get_thumbnail_for_file(uri, width=-1, height=-1):
+def get_thumbnail_for_gfile(gfile, width=-1, height=-1):
     """
     Return a Pixbuf thumbnail for the file at
-    the @uri, which can be *either* and uri or a path
+    gfile: Gio.File
     size is @width x @height
 
     return None if not found
     """
-
-    gfile = Gio.File.new_for_path(uri)
     if not gfile.query_exists():
-        gfile = File.new_for_uri(uri)
-        if not gfile.query_exists():
-            return None
+        return None
     finfo = gfile.query_info(FILE_ATTRIBUTE_THUMBNAIL_PATH, Gio.FileQueryInfoFlags.NONE, None)
     thumb_path = finfo.get_attribute_byte_string(FILE_ATTRIBUTE_THUMBNAIL_PATH)
 

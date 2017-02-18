@@ -203,6 +203,12 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.gkeybind_table.connect("row-activated",
                 self.on_gkeybindings_row_activate)
 
+        # Requires GTK 3.22
+        try:
+            self.gkeybindings_list_parent.set_propagate_natural_height(True)
+        except AttributeError:
+            pass
+
         self._show_keybindings(setctl)
         self._show_gkeybindings(setctl)
 
@@ -539,6 +545,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                     "%s" % (m_name, )
                 label = wrapped_label()
                 label.set_markup(name_label)
+                label.set_xalign(0.)
                 hbox.pack_start(label, False, True, 0)
                 objvbox.pack_start(hbox, True, True, 0)
                 # Display information for application content-sources.
@@ -639,6 +646,7 @@ class PreferencesWindowController (pretty.OutputMixin):
                 continue
 
             label_wid = wrapped_label(label, maxwid=200)
+            label_wid.set_xalign(0.)
             if issubclass(typ, str):
                 if alternatives:
                     wid = Gtk.ComboBoxText.new()

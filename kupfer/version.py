@@ -14,7 +14,7 @@ else:
 ICON_NAME = "kupfer"
 PROGRAM_NAME = _("Kupfer")
 
-AUTHORS = """Ulrik Sverdrup <ulrik.sverdrup@gmail.com>
+AUTHORS = """Ulrik Sverdrup
 Karol Będkowski
 Francesco Marella
 Chmouel Boudjnah
@@ -29,6 +29,7 @@ Thomas Renard
 PACKAGERS="""
 Luca Falavigna (Debian, Ubuntu)
 Francesco Marella (Ubuntu PPA)
+D. Can Celasun (Arch Linux AUR)
 """.splitlines()
 
 TRANSLATORS="""

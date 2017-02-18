@@ -15,20 +15,6 @@ from kupfer.objects import OperationError
 from kupfer import utils
 
 
-def is_content_type(fileleaf, ctype):
-    predicate = Gio.content_type_is_a
-    ctype_guess, uncertain = Gio.content_type_guess(fileleaf.object, None)
-    ret = predicate(ctype_guess, ctype)
-    if ret or not uncertain:
-        return ret
-    content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
-    gfile = Gio.File.new_for_path(fileleaf.object)
-    if not gfile.query_exists(None):
-        return
-    info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
-    content_type = info.get_attribute_string(content_attr)
-    return predicate(content_type, ctype)
-
 def _set_size(loader, width, height, max_w, max_h):
     if width <= max_w and height <= max_h:
         return
@@ -57,7 +43,7 @@ class View (Action):
         yield FileLeaf
 
     def valid_for_item(self, obj):
-        return is_content_type(obj, "image/*")
+        return obj.is_content_type("image/*")
 
     def wants_context(self):
         return True

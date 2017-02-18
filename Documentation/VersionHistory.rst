@@ -3,6 +3,70 @@
 NEWS for kupfer
 ===============
 
+kupfer v308.2
+-------------
+
++ Fix showing the result list in KWin (#47) with a specific workaround
++ Plugins:
+
+  + Fix *Shell Commands* so that they inherit the parent environment
+  + Remove *GNOME Session Management* from the set enabled by default
+
+kupfer v308.1
+-------------
+
++ Fix widget style/space issue that was especially apparent in the GTK theme
+  Adapta.
+
+kupfer v308
+-----------
+
+Be sure to check out the settings in the *Applications* plugin in this
+release. The web site now also shows a language selection for the user’s
+guide, so that the translations are readily available.
+
++ Fix a slight wobble in the result list’s position by making sure the
+  description label stays the same size
++ Fix how the star and arrow at the right side of the result list line up
++ Plugin API: Add methods ``get_gfile`` and ``is_content_type`` to ``FileLeaf``
++ Prerender and install fixed icon sizes
++ Plugins:
+
+  + In *Applications* change how it filters applications based on desktop
+    type. The new default desktop type is blank, and this should pick up
+    the right desktop environment automatically. Make the *Use Desktop
+    Filter* toggle actually work.
+  + Speed up recent documents slightly by caching an intermediate result
+  + In *Documents* also recognize more file extensions when sorting
+    libreoffice documents to the right app.
+  + Remove action *Send in Email To* from *Default Email Client*, since it
+    is unlikely to work for the default ``mailto:`` URL handler.
+  + Rename the remaining action *Compose Email* → *Compose Email To* in
+    default mail, for consistency.
+
+kupfer v307
+-----------
+
+Released Wednesday, 15 feb 2017
+
++ Fix a bug with disambiguation of action names
++ Stop merging contacts by full name equality
++ Accept dropped text and files on Kupfer’s window
++ Fix API to not ask for content-decoration of a leaf with existing content
++ Plugins
+
+  + Reintroduce *Pidgin*
+  + Reintroduce *Shorten Links*
+  + In *Thunderbird*, rename compose email actions to differentiate them,
+    *Compose Email To*, *Compose Email With*.
+  + In *Image Tools*, show an error if ``jpegtran`` is not found
+  + In *Audacious* add runnable item *Show Playing*
+  + Fix *Wikipedia* to use https
+  + In *Documents*, match more applications to their own recent documents,
+    notably LibreOffice
+  + Run copy from *File Actions* asynchronously
+  + Add a new help page, for plugin *Thunar*
+
 kupfer v306
 -----------
 
@@ -86,7 +150,7 @@ time!
 + Build config will now look for ``python3`` if ``python`` is too old.
 + Plugins:
 
-  + Re-add *Locate*
+  + Reintroduce *Locate*
 
 kupfer v302
 -----------

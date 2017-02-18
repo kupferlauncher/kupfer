@@ -1,5 +1,5 @@
-kupfer is a simple, flexible launcher
-+++++++++++++++++++++++++++++++++++++
+kupfer is a smart, quick launcher
++++++++++++++++++++++++++++++++++
 
 :Homepage:  https://kupferlauncher.github.io/
 :Credits:   Copyright 2007–2017 Ulrik Sverdrup and other Kupfer authors

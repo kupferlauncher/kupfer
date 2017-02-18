@@ -2,14 +2,12 @@
 __kupfer_name__ = _("Shorten Links")
 __kupfer_actions__ = ("ShortenLinks", )
 __description__ = _("Create short aliases of long URLs")
-__version__ = "2011-03-01"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+__version__ = "2017.1"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
-import http.client
-import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.parse
 
 from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
-from kupfer.plugin import ssl_support
 from kupfer import pretty
 
 class _ShortLinksService(Leaf):
@@ -29,44 +27,27 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
         """Shorten @url or raise ValueError"""
         query_string = urllib.parse.urlencode({self.url_key : url})
         try:
-            if self.use_https and ssl_support.is_supported():
-                conn = ssl_support.VerifiedHTTPSConnection(self.host, timeout=5)
-                pretty.print_debug(__name__, "Connected SSL to", self.host)
-            else:
-                conn = http.client.HTTPConnection(self.host, timeout=5)
-            conn.request("GET", self.path+query_string)
-            resp = conn.getresponse()
+            pretty.print_debug(__name__, "Request", self.path + query_string)
+            resp = urllib.request.urlopen(self.path + query_string)
             if resp.status != 200:
-                raise ValueError('Invalid response %d, %s' % (resp.status,
-                    resp.reason))
+                raise ValueError('Invalid response %d, %s' % (resp.status, resp.reason))
             
             result = resp.read()
-            return result.strip()
+            return result.strip().decode("utf-8")
 
-        except (http.client.HTTPException, IOError, ValueError) as exc:
+        except (OSError, IOError, ValueError) as exc:
             raise ValueError(exc)
         return _('Error')
 
 
 # NOTE: It's important that we use only sites that provide a stable API
 
-class TinyUrl(_GETService):
-    """
-    Website: http://tinyurl.com
-    """
-    host = "tinyurl.com"
-    path = "/api-create.php?"
-
-    def __init__(self):
-        _ShortLinksService.__init__(self, 'TinyUrl.com')
-
 class IsGd(_GETService):
     """
     Website: http://is.gd
     Reference: http://is.gd/apishorteningreference.php
     """
-    host = 'is.gd'
-    path = '/create.php?format=simple&'
+    path = 'https://is.gd/create.php?format=simple&'
 
     def __init__(self):
         _ShortLinksService.__init__(self, 'Is.gd')
@@ -78,40 +59,10 @@ class VGd(_GETService):
 
     Like is.gd, but v.gd always shows a preview page.
     """
-    host = 'v.gd'
-    path = '/create.php?format=simple&'
+    path = 'https://v.gd/create.php?format=simple&'
 
     def __init__(self):
         _ShortLinksService.__init__(self, 'V.gd')
-
-class BitLy(_GETService):
-    """
-    Website: http://bit.ly
-    Reference: http://code.google.com/p/bitly-api/wiki/ApiDocumentation
-    """
-    # No password is available for this login name,
-    # yet there is a possibility that you could track
-    # all URLs shortened using this API key
-    BITLY_LOGIN = "kupferkupfer"
-    BITLY_API_KEY = "R_a617770f00b647d6c22ce162105125c2"
-
-    host = 'api.bitly.com'
-    path = ('/v3/shorten?login=%s&apiKey=%s&format=txt&' %
-            (BITLY_LOGIN, BITLY_API_KEY))
-    url_key = "longUrl"
-
-    def __init__(self):
-        _ShortLinksService.__init__(self, 'Bit.ly')
-
-class BitLySSL(BitLy):
-    host = 'api-ssl.bitly.com'
-    use_https = True
-
-    def __init__(self):
-        _ShortLinksService.__init__(self, 'Bit.ly (HTTPS)')
-    def process(self, url):
-        resp = BitLy.process(self, url)
-        return resp.replace("http://bit.ly", "https://bit.ly")
 
 
 class ShortenLinks(Action):
@@ -147,16 +98,13 @@ class ShortenLinks(Action):
 
 
 class ServicesSource(Source):
+    source_use_cache = False
     def __init__(self):
-        Source.__init__(self, _("Services"))
+        super().__init__(_("Services"))
 
     def get_items(self):
-        yield TinyUrl()
         yield IsGd()
         yield VGd()
-        yield BitLy()
-        if ssl_support.is_supported():
-            yield BitLySSL()
 
     def should_sort_lexically(self):
         return True

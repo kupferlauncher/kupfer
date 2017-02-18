@@ -43,6 +43,16 @@ def _directory_content(dirpath, show_hidden):
     from kupfer.obj.sources import DirectorySource
     return DirectorySource(dirpath, show_hidden)
 
+def _as_gfile(file_path):
+    return Gio.File.new_for_path(file_path)
+
+def _display_name(g_file):
+    info = \
+    g_file.query_info(Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+                      Gio.FileQueryInfoFlags.NONE,
+                      None)
+    return info.get_attribute_string(Gio.FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME)
+
 class FileLeaf (Leaf, TextRepresentation):
     """
     Represents one file: the represented object is a bytestring (important!)
@@ -101,7 +111,13 @@ class FileLeaf (Leaf, TextRepresentation):
         return GLib.filename_display_name(self.object)
 
     def get_urilist_representation(self):
-        return [Gio.File.new_for_path(self.object).get_uri()]
+        return [self.get_gfile().get_uri()]
+
+    def get_gfile(self):
+        """
+        Return a Gio.File of self
+        """
+        return _as_gfile(self.object)
 
     def get_description(self):
         return utils.get_display_path_for_bytestring(self.canonical_path())
@@ -119,7 +135,8 @@ class FileLeaf (Leaf, TextRepresentation):
 
     def get_thumbnail(self, width, height):
         if self.is_dir(): return None
-        return icons.get_thumbnail_for_file(self.object, width, height)
+        return icons.get_thumbnail_for_gfile(self.get_gfile(), width, height)
+
     def get_gicon(self):
         return icons.get_gicon_for_file(self.object)
     def get_icon_name(self):
@@ -127,6 +144,26 @@ class FileLeaf (Leaf, TextRepresentation):
             return "folder"
         else:
             return "text-x-generic"
+
+    def is_content_type(self, ctype):
+        """
+        Return True if this file is of the type ctype
+
+        ctype: A mime type, can have wildcards like 'image/*'
+        """
+        predicate = Gio.content_type_is_a
+        ctype_guess, uncertain = Gio.content_type_guess(self.object, None)
+        ret = predicate(ctype_guess, ctype)
+        if ret or not uncertain:
+            return ret
+        content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+        gfile = self.get_gfile()
+        if not gfile.query_exists(None):
+            return
+        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
+        content_type = info.get_attribute_string(content_attr)
+        return predicate(content_type, ctype)
+
 
 class SourceLeaf (Leaf):
     def __init__(self, obj, name=None):
