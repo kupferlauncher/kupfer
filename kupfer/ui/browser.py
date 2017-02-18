@@ -892,14 +892,12 @@ class LeafSearch (Search):
 
     def setup_empty(self):
         icon = None
-        title = _("Type to search")
+        title = "<i>" + _("Type to search") + "</i>"
         def get_pbuf(m):
             return (m.get_thumbnail(self.icon_size*4//3, self.icon_size) or
                     m.get_pixbuf(self.icon_size))
         if self.source:
             icon = get_pbuf(self.source)
-            title = (_("Type to search %s") %
-                    "<i>%s</i>" % escape_markup_str(str(self.source)))
 
         self._set_match(None)
         self.match_state = State.Wait
