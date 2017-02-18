@@ -44,7 +44,7 @@ def get_options():
     program_options = [
         ("no-splash", _("do not present main interface on launch")),
         ("list-plugins", _("list available plugins")),
-        ("prefrences",_("show prefrences dialog")),
+        ("preferences",_("show preferences dialog")),
         ("colorize",_("change the color of kupfer")),
         ("debug", _("enable debug info")),
         # TRANS: --exec-helper=HELPER is an internal command
@@ -88,7 +88,7 @@ def get_options():
         raise SystemExit(1)
 
     for k, v in opts:
-        if k == "--prefrences":
+        if k == "--preferences":
             from kupfer.kupferui import show_preferences
             show_preferences(None)
             #Append --no-splash so that the kupfer browser doesn't popup

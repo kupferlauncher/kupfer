@@ -1,5 +1,6 @@
 /GIT_VERSION
 /build/
+/test/
 /waf
 /.waf-*/
 /.lock-wscript
