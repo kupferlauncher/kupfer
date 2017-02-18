@@ -340,11 +340,11 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
 
         # infobox: icon and match name
         icon_align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
-        icon_align.set_property("top-padding", 5)
+        icon_align.set_property("left-padding", 15)
         icon_align.add(self.icon_view)
         infobox = Gtk.HBox()
         infobox.pack_start(icon_align, True, True, 0)
-        box = Gtk.VBox()
+        box = Gtk.HBox() #this was Gtk.VBox() myNotes
         box.pack_start(infobox, True, False, 0)
         self._editbox = Gtk.HBox()
         self._editbox.pack_start(self.label, True, True, 0)
@@ -935,7 +935,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.action = ActionSearch()
         self.third = LeafSearch()
         self.entry = Gtk.Entry()
-        self.label = Gtk.Label()
+        self.label = Gtk.Label()        
         self.preedit = Gtk.Entry()
         self.search.set_name("kupfer-object-pane")
         self.action.set_name("kupfer-action-pane")
@@ -968,7 +968,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.label.set_single_line_mode(True)
         self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
         self.label.set_name("kupfer-description")
-
+        
         self.switch_to_source()
         self.entry.connect("changed", self._changed)
         self.preedit.connect("insert-text", self._preedit_insert_text)
@@ -991,7 +991,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             # window signals
             window.connect("configure-event", widget._window_config)
             window.connect("hide", widget._window_hidden)
-
+        #myNotes
         self.data_controller = controller
         self.data_controller.connect("search-result", self._search_result)
         self.data_controller.connect("source-changed", self._new_source)
@@ -1030,19 +1030,26 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if self._widget:
             return self._widget
         box = Gtk.HBox()
-        box.pack_start(self.search, True, True, 3)
-        box.pack_start(self.action, True, True, 3)
-        box.pack_start(self.third, True, True, 3)
+        box.pack_start(self.search, True, True, 0)
+        #box.modify_bg(Gtk.StateType.NORMAL, Gdk.Color(red=255,green=255,blue=255))
+        #box.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(0.0, 0.0, 0.0, 0.1))
+        #background handled in CSS
+        
+        #box.pack_start(self.action, True, True, 3)
+        #box.pack_start(self.third, True, True, 3)
         vbox = Gtk.VBox()
+        #vbox.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(0.0,0.0, 0.0, 0.1))
         vbox.pack_start(box, True, True, 0)
 
-        label_align = Gtk.Alignment.new(0.5, 1, 0, 0)
-        label_align.set_property("top-padding", 3)
-        label_align.add(self.label)
-        vbox.pack_start(label_align, False, False, 0)
-        vbox.pack_start(self.entry, False, False, 0)
+        #label_align = Gtk.Alignment.new(0.5, 1, 0, 0)
+        #label_align.set_property("top-padding", 3)
+        #label_align.add(self.label)
+        
+        #vbox.pack_start(label_align, False, False, 0)
+        #vbox.pack_start(self.entry, False, False, 0)
         vbox.show_all()
         self.third.hide()
+        self.action.hide()
         self._widget = vbox
         return vbox
 
@@ -1756,48 +1763,14 @@ GObject.signal_new("launched-action", Interface, GObject.SignalFlags.RUN_LAST,
         GObject.TYPE_BOOLEAN, ())
 
 PREEDIT_HIDDEN_CLASS = "hidden"
+#    background: alpha(@theme_selected_bg_color, 0.5);  
+#    kupfer rgba(255, 255, 255, 0.5);  
+#   *:selected background: rgba(0, 0, 0, 0.4);  
 
-KUPFER_CSS = b"""
-#kupfer {
-}
-
-.matchview {
-    border-radius: 10px;
-}
-
-#kupfer-preedit {
-    padding: 0 0 0 0;
-}
-
-#kupfer-preedit.hidden {
-    border-width: 0 0 0 0;
-    padding: 0 0 0 0 ;
-    margin: 0 0 0 0;
-    outline-width: 0;
-    min-height: 0;
-    min-width: 0;
-}
-
-#kupfer-object-pane {
-}
-
-#kupfer-action-pane {
-}
-
-#kupfer-indirect-object-pane {
-}
-
-#kupfer-list {
-}
-
-#kupfer-list-view {
-}
-
-*:selected .matchview {
-    background: alpha(@theme_selected_bg_color, 0.5);
-    border: 2px solid alpha(black, 0.3)
-}
-"""
+css_file = open('kupfer/ui/style.css','rb')
+KUPFER_CSS = css_file.read()
+#print(KUPFER_CSS)
+css_file.close()
 
 class KupferWindow (Gtk.Window):
     __gtype_name__ = "KupferWindow"
@@ -1935,6 +1908,7 @@ class WindowController (pretty.OutputMixin):
         self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
 
         #data_controller = data.DataController()
+        #myNotes
         data_controller.connect("launched-action", self.launch_callback)
         data_controller.connect("command-result", self.result_callback)
 
@@ -2086,10 +2060,10 @@ class WindowController (pretty.OutputMixin):
                            button, btext)
         button.set_name("kupfer-menu-button")
         title_align = Gtk.Alignment.new(0, 0.5, 0, 0)
-        title_align.add(title)
+        #title_align.add(title)
         topbar.pack_start(title_align, True, True, 0)
         topbar.pack_start(button_box, False, False, 0)
-        topbar.show_all()
+        #topbar.show_all()
 
         self.window.set_title(version.PROGRAM_NAME)
         self.window.set_icon_name(version.ICON_NAME)
@@ -2419,6 +2393,7 @@ class WindowController (pretty.OutputMixin):
             do_main_iterations(10)
         finally:
             self.save_data()
+            #2272 def save_data():
 
         # tear down but keep hanging
         if kserv:
