@@ -18,6 +18,7 @@ kupfer v309
 
   + In *Notes*, some actions are now asynchronous and/or have better error
     reporting.
+  + In *Notes*, update for kzrnote 0.2
   + Enable *Quicksilver Icons* by default
 
 kupfer v308.2
