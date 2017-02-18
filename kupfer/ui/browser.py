@@ -442,11 +442,17 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
 
     @classmethod
     def _dim_icon(cls, icon):
-        if icon:
-            dim_icon = icon.copy()
-            icon.saturate_and_pixelate(dim_icon, 0, True)
-        else:
-            dim_icon = None
+        if not icon:
+            return icon
+        dim_icon = icon.copy()
+        dim_icon.fill(0)
+        icon.composite(dim_icon,
+                       0, 0,
+                       icon.get_width(), icon.get_height(),
+                       0, 0,
+                       1., 1.,
+                       GdkPixbuf.InterpType.NEAREST,
+                       127)
         return dim_icon
 
     def set_object(self, text, icon, update=True):
