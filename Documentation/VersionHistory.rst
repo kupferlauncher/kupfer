@@ -3,6 +3,23 @@
 NEWS for kupfer
 ===============
 
+kupfer v309
+-----------
+
++ Change Kupfer's D-Bus name and interface and object path. The old names
+  are still active, but the migration period will be very short because we
+  are in a rapid change phase. New names use the domain ``io.github.kupferlauncher``.
++ Change the no match icon to use transparency instead of ugly pixelation
++ Change the default text to simply be *Type to search*, which is shorter
+  and simpler.
++ Folding of *ß* has been restored, so that a search for *ss* will match it.
+
++ Plugins:
+
+  + In *Notes*, some actions are now asynchronous and/or have better error
+    reporting.
+  + Enable *Quicksilver Icons* by default
+
 kupfer v308.2
 -------------
 
