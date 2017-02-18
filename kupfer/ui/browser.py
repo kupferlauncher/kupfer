@@ -1762,7 +1762,10 @@ KUPFER_CSS = b"""
 }
 
 .matchview {
-    border-radius: 10px;
+    border-radius: 0.6em;
+}
+.matchview label {
+    margin-bottom: 0.2em;
 }
 
 #kupfer-preedit {
