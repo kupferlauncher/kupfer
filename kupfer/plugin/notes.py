@@ -51,9 +51,9 @@ PROGRAM_SERIVCES = {
     "tomboy": ("org.gnome.Tomboy",
                "/org/gnome/Tomboy/RemoteControl",
                "org.gnome.Tomboy.RemoteControl"),
-    "kzrnote": ("se.kaizer.kzrnote",
-                "/se/kaizer/kzrnote",
-                "se.kaizer.kzrnote"),
+    "kzrnote": ("io.github.kupferlauncher.kzrnote",
+                "/io/github/kupferlauncher/kzrnote",
+                "io.github.kupferlauncher.kzrnote"),
 }
 
 def _get_notes_interface(activate=False):
