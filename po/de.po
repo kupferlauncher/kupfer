@@ -781,7 +781,7 @@ msgid "Glob"
 msgstr "Glob"
 
 msgid "Higher-order Actions"
-msgstr "Wichtigere Aktionen"
+msgstr "Aktionen höherer Ordnung"
 
 msgid "Tools to work with commands as objects"
 msgstr "Werkzeuge zur Arbeit mit Befehlen als Objekte"
