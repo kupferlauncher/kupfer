@@ -11,7 +11,6 @@ def _folditems():
         "œ" : "oe",
         "ð" : "d",
         "þ" : "th",
-        #u"ß" : u"ss",
         # germano-scandinavic canonical transliterations
         "ü" : "ue",
         "å" : "aa",
@@ -22,8 +21,10 @@ def _folditems():
     }
 
     for c, rep in list(_folding_table.items()):
-        yield (ord(c.upper()), rep.title())
+        yield (ord(c.upper()), rep.upper())
         yield (ord(c), rep)
+    yield ord("ß"), "ss"
+    yield ord("ẞ"), "SS"
 
 folding_table = dict(_folditems())
 
@@ -68,6 +69,8 @@ def tofolded(ustr):
     'Wylacz'
     >>> tofolded(u"naïveté")
     'naivete'
+    >>> tofolded(u"Groß")
+    'Gross'
 
     Characters from other scripts are not transliterated.
 
