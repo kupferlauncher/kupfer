@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 if __name__ == '__main__':
     from kupfer import main
-    from os import chdir
-    chdir("/home/chaitanya/Documents/PROJECTS/kupfer/")
+#    from os import chdir
+#    chdir("/home/chaitanya/Documents/PROJECTS/kupfer/")
+#    chdir is required if kupfer script added in OS starup (start on boot). Otherwise all the applications are not indexed.
     main.main()
