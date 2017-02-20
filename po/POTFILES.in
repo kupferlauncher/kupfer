@@ -81,6 +81,7 @@ kupfer/plugin/firefox_keywords.py
 kupfer/plugin/mediaplayers.py
 kupfer/plugin/pidgin.py
 kupfer/plugin/shorten_links.py
+kupfer/plugin/rhythmbox.py
 
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
