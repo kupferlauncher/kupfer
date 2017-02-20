@@ -58,21 +58,27 @@ def add_rank_objects(rankables, rank):
         obj.rank += rank
         yield obj
 
+def _score_for_key(query):
+    if len(query) == 1:
+        return relevance.score_single
+    else:
+        return relevance.score
+
 def score_objects(rankables, key):
     """Return @rankables that pass with a >0 rank for @key,
 
     rank is added to previous rank,
     if not @key, then all items are returned"""
-    _score = relevance.score
     key = key.lower()
+    _score = _score_for_key(key)
     for rb in rankables:
         # Rank object
-        rank = _score(rb.value, key)*100
+        rank = _score(rb.value, key) * 100
         if rank < 90:
             for alias in rb.aliases:
                 # consider aliases and change rb.value if alias is better
                 # aliases rank lower so that value is chosen when close
-                arank = _score(alias, key)*95
+                arank = _score(alias, key) * 95
                 if arank > rank:
                     rank = arank
                     rb.value = alias
