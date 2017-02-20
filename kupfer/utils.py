@@ -244,7 +244,7 @@ def spawn_async_raise(argv, workdir="."):
         return GLib.spawn_async (argv, working_directory=workdir,
                 flags=GLib.SPAWN_SEARCH_PATH)
     except GLib.GError as exc:
-        raise SpawnError(exc)
+        raise SpawnError(exc.message)
 
 def argv_for_commandline(cli):
     return desktop_parse.parse_argv(cli)

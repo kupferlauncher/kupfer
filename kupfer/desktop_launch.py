@@ -405,7 +405,7 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
         error_log("Error Launching ", argv, str(exc))
         if notify_id:
             Gdk.notify_startup_complete_with_id(notify_id)
-        raise SpawnError(str(exc))
+        raise SpawnError(exc.message)
     if launch_cb:
         launch_cb(argv, pid, notify_id, filelist, timestamp)
     return pid
