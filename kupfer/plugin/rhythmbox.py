@@ -24,6 +24,7 @@ from kupfer import pretty
 from kupfer.objects import Leaf, Source, Action, RunnableLeaf, SourceLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.objects import OperationError
 from kupfer import plugin_support
 from kupfer.plugin import rhythmbox_support
 
@@ -93,16 +94,13 @@ def _get_all_songs_via_dbus():
                     'track-number': str(item['TrackNumber']),
                     'location': str(item['URLs'][0])}
 
-def play_song(info):
-    uri = _tostr(info["location"])
-    iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
-                _OBJ_PATH_MPRIS, True)
-    if iface:
-        iface.OpenUri(uri)
-    else:
-        utils.spawn_async(("rhythmbox-client", "--play-uri=%s" % uri))
+def spawn_async(argv):
+    try:
+        utils.spawn_async_raise(argv)
+    except utils.SpawnError as exc:
+        raise OperationError(exc)
 
-def enqueue_songs(info, clear_queue=False):
+def enqueue_songs(info, clear_queue=False, play_first=False):
     songs = list(info)
     if not songs:
         return
@@ -115,13 +113,18 @@ def enqueue_songs(info, clear_queue=False):
         path = gfile.get_path()
         qargv.append("--enqueue")
         qargv.append(path)
-    utils.spawn_async(qargv)
+    if play_first:
+        song = songs[0]
+        uri = _tostr(song["location"])
+        qargv.append("--play-uri")
+        qargv.append(uri)
+    spawn_async(qargv)
 
 class ClearQueue (RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, name=_("Clear Queue"))
     def run(self):
-        utils.spawn_async(("rhythmbox-client", "--no-start", "--clear-queue"))
+        spawn_async(("rhythmbox-client", "--no-start", "--clear-queue"))
     def get_icon_name(self):
         return "edit-clear"
 
@@ -143,20 +146,10 @@ class PlayTracks (Action):
     def activate_multiple(self, objects):
         # for multiple dispatch, play the first and enqueue the rest
         to_enqueue = []
-        objects = iter(objects)
-        # take only the first object in the first loop
-        # notice the break
-        for leaf in objects:
-            songs = _songs_from_leaf(leaf)
-            if not songs:
-                continue
-            play_song(songs[0])
-            to_enqueue.extend(songs[1:])
-            break
         for leaf in objects:
             to_enqueue.extend(_songs_from_leaf(leaf))
         if to_enqueue:
-            enqueue_songs(to_enqueue, clear_queue=True)
+            enqueue_songs(to_enqueue, clear_queue=True, play_first=True)
 
     def get_description(self):
         return _("Play tracks in Rhythmbox")
