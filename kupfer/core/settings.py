@@ -3,6 +3,7 @@
 import configparser
 import copy
 import os
+import locale
 
 from gi.repository import GLib, GObject
 
@@ -26,6 +27,17 @@ def strint(value, default=0):
         return int(value)
     except ValueError:
         return default
+
+def _override_encoding(name):
+    """
+    Return a new encoding name if we want to override it, else return None.
+
+    This is used to “upgrade” ascii to UTF-8 since the latter is a superset.
+    """
+    if name.lower() in ("ascii", "ANSI_X3.4-1968".lower()):
+        return "UTF-8"
+    else:
+        return None
 
 class SettingsController (GObject.GObject, pretty.OutputMixin):
     __gtype_name__ = "SettingsController"
@@ -55,6 +67,8 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
     def __init__(self):
         GObject.GObject.__init__(self)
         self._defaults_path = None
+        self.encoding = _override_encoding(locale.getpreferredencoding())
+        self.output_debug("Using", self.encoding)
         self._config = self._read_config()
         self._save_timer = scheduler.Timer(True)
         self._alternatives = {}
@@ -103,8 +117,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
 
         for config_file in config_files:
             try:
-                with open(config_file, "r") as fil:
-                    parser.read_file(fil)
+                parser.read(config_file, encoding=self.encoding)
             except IOError as e:
                 print(("Error reading configuration file %s: %s" % (config_file, e)))
             except UnicodeDecodeError as e:
