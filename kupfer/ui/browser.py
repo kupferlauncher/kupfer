@@ -877,8 +877,7 @@ class LeafSearch (Search):
             lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
                     m.get_pixbuf(self.icon_size))
         if empty and self.source:
-            return (_("%s is empty") %
-                    escape_markup_str(str(self.source)),
+            return ("<i>" + escape_markup_str(self.source.get_empty_text()) + "</i>",
                     get_pbuf(self.source))
         elif self.source:
             return (_('No matches in %(src)s for "%(query)s"') % {
@@ -892,12 +891,14 @@ class LeafSearch (Search):
 
     def setup_empty(self):
         icon = None
-        title = "<i>" + _("Type to search") + "</i>"
         def get_pbuf(m):
             return (m.get_thumbnail(self.icon_size*4//3, self.icon_size) or
                     m.get_pixbuf(self.icon_size))
         if self.source:
             icon = get_pbuf(self.source)
+            title = "<i>" + self.source.get_search_text() + "</i>"
+        else:
+            title = "<i>" + _("Type to search") + "</i>"
 
         self._set_match(None)
         self.match_state = State.Wait
@@ -911,8 +912,12 @@ class ActionSearch (Search):
         # don't look up icons too early
         if not self._initialized:
             return ("", None)
+        if self.text:
+            title = "<i>" + (_('No action matches "%s"') % escape_markup_str(self.text)) + "</i>"
+        else:
+            title = ""
 
-        return "", icons.get_icon_for_name("kupfer-execute", self.icon_size)
+        return title, icons.get_icon_for_name("kupfer-execute", self.icon_size)
     def setup_empty(self):
         self.handle_no_matches()
         self.hide_table()

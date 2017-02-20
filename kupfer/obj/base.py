@@ -450,14 +450,26 @@ class Source (KupferObject, pretty.OutputMixin):
         """
         return ()
 
+    def get_search_text(self):
+        return _("Type to search")
+
+    def get_empty_text(self):
+        return _("%s is empty") % str(self)
+
+
 class TextSource (KupferObject):
     """TextSource base class implementation,
 
     this is a psedo Source"""
-    def __init__(self, name=None):
+    def __init__(self, name=None, placeholder=None):
+        """
+        name: Localized name
+        placeholder: Localized placeholder when it has no input
+        """
         if not name:
             name = _("Text")
         KupferObject.__init__(self, name)
+        self.placeholder = placeholder
 
     def __eq__(self, other):
         return (type(self) == type(other) and repr(self).__eq__(repr(other)))
@@ -491,6 +503,12 @@ class TextSource (KupferObject):
 
     def get_icon_name(self):
         return "edit-select-all"
+
+    def get_search_text(self):
+        return self.placeholder if self.placeholder else _("Text")
+
+    def get_empty_text(self):
+        return self.placeholder if self.placeholder else _("Text")
 
 
 class ActionGenerator (object):
