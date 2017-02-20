@@ -52,6 +52,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
             "keybinding" : "" ,
             "magickeybinding": "",
             "showstatusicon" : True,
+            "showstatusicon_ai" : False,
             "usecommandkeys" : True,
         },
         "Appearance": {
@@ -333,11 +334,24 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
         return self._set_config("Appearance", "icon_small_size", size)
 
     def get_show_status_icon(self):
-        """Convenience: Show icon in notification area as bool"""
+        """Convenience: Show icon in notification area as bool
+        (GTK)
+        """
         return strbool(self.get_config("Kupfer", "showstatusicon"))
+
     def set_show_status_icon(self, enabled):
         """Set config value and return success"""
         return self._set_config("Kupfer", "showstatusicon", enabled)
+
+    def get_show_status_icon_ai(self):
+        """Convenience: Show icon in notification area as bool
+        (AppIndicator3)
+        """
+        return strbool(self.get_config("Kupfer", "showstatusicon_ai"))
+
+    def set_show_status_icon_ai(self, enabled):
+        """Set config value and return success"""
+        return self._set_config("Kupfer", "showstatusicon_ai", enabled)
 
     def get_directories(self, direct=True):
         """Yield directories to use as directory sources"""

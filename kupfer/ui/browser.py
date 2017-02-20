@@ -6,9 +6,18 @@ import signal
 import sys
 import textwrap
 
+import gi
 from gi.repository import Gtk, Gdk, GObject
 from gi.repository import GLib, Gio, Pango
 from gi.repository import GdkPixbuf
+
+try:
+    gi.require_version("AppIndicator3", "0.1")
+except ValueError:
+    AppIndicator3 = None
+else:
+    from gi.repository import AppIndicator3
+
 import cairo
 
 from kupfer import kupferui
@@ -1940,6 +1949,7 @@ class WindowController (pretty.OutputMixin):
         self.current_screen = None
         self.interface = None
         self._statusicon = None
+        self._statusicon_ai = None
         self._window_hide_timer = scheduler.Timer()
 
     def initialize(self, data_controller):
@@ -1962,9 +1972,12 @@ class WindowController (pretty.OutputMixin):
         self.window.drag_dest_add_text_targets()
         self.window.connect("drag-data-received", self._on_drag_data_received)
 
+    def _on_window_map_event(self, *args):
+        self.interface.update_third()
+
     def show_statusicon(self):
         if not self._statusicon:
-            self._statusicon = self._setup_status_icon()
+            self._statusicon = self._setup_gtk_status_icon(self._setup_menu())
         try:
             self._statusicon.set_visible(True)
         except AttributeError:
@@ -1977,15 +1990,29 @@ class WindowController (pretty.OutputMixin):
             except AttributeError:
                 self._statusicon = None
 
-    def _on_window_map_event(self, *args):
-        self.interface.update_third()
-
     def _showstatusicon_changed(self, setctl, section, key, value):
         "callback from SettingsController"
         if value:
             self.show_statusicon()
         else:
             self.hide_statusicon()
+
+    def show_statusicon_ai(self):
+        if not self._statusicon_ai:
+            self._statusicon_ai = self._setup_appindicator(self._setup_menu())
+        if not self._statusicon_ai:
+            return
+        self._statusicon_ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+
+    def hide_statusicon_ai(self):
+        if self._statusicon_ai:
+            self._statusicon_ai.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
+
+    def _showstatusicon_ai_changed(self, setctl, section, key, value):
+        if value:
+            self.show_statusicon_ai()
+        else:
+            self.hide_statusicon_ai()
 
     def _setup_menu(self, context_menu=False):
         menu = Gtk.Menu()
@@ -2036,13 +2063,6 @@ class WindowController (pretty.OutputMixin):
 
         return menu
 
-    def _setup_status_icon(self):
-        menu = self._setup_menu()
-        # FIXME: Port to gi AppIndicator3,
-        # but also find out how to automatically pick what to use
-        #return self._setup_appindicator(menu)
-        return self._setup_gtk_status_icon(menu)
-
     def _setup_gtk_status_icon(self, menu):
         status = Gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
         status.set_tooltip_text(version.PROGRAM_NAME)
@@ -2052,12 +2072,12 @@ class WindowController (pretty.OutputMixin):
         return status
 
     def _setup_appindicator(self, menu):
-        from gi.repository import AppIndicator3
+        if AppIndicator3 is None:
+            return None
         indicator = AppIndicator3.Indicator.new(version.PROGRAM_NAME,
             version.ICON_NAME,
             AppIndicator3.IndicatorCategory.APPLICATION_STATUS)
         indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-
         indicator.set_menu(menu)
         return indicator
 
@@ -2351,8 +2371,12 @@ class WindowController (pretty.OutputMixin):
         setctl = settings.GetSettingsController()
         if setctl.get_show_status_icon():
             self.show_statusicon()
+        if setctl.get_show_status_icon_ai():
+            self.show_statusicon_ai()
         setctl.connect("value-changed::kupfer.showstatusicon",
                        self._showstatusicon_changed)
+        setctl.connect("value-changed::kupfer.showstatusicon_ai",
+                       self._showstatusicon_ai_changed)
         keystr = setctl.get_keybinding()
         magickeystr = setctl.get_magic_keybinding()
 

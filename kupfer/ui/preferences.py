@@ -1,6 +1,8 @@
 import os
 import re
 
+import gi
+
 from gi.repository import GLib, GObject, Gtk, Gio, Gdk
 from gi.repository import Pango
 from xdg import BaseDirectory as base
@@ -86,7 +88,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 
         self.buttonremovedirectory = builder.get_object("buttonremovedirectory")
         checkautostart = builder.get_object("checkautostart")
-        checkstatusicon = builder.get_object("checkstatusicon")
+        checkstatusicon_gtk = builder.get_object("checkstatusicon_gtk")
+        checkstatusicon_ai = builder.get_object("checkstatusicon_ai")
         checkusecommandkeys = builder.get_object("checkusecommandkeys")
         self.entry_plugins_filter = builder.get_object('entry_plugins_filter')
         self.keybindings_list_parent = builder.get_object('keybindings_list_parent')
@@ -96,7 +99,19 @@ class PreferencesWindowController (pretty.OutputMixin):
 
         setctl = settings.GetSettingsController()
         checkautostart.set_active(self._get_should_autostart())
-        checkstatusicon.set_active(setctl.get_show_status_icon())
+        checkstatusicon_gtk.set_active(setctl.get_show_status_icon())
+
+        if supports_app_indicator():
+            checkstatusicon_ai.set_active(setctl.get_show_status_icon_ai())
+        else:
+            checkstatusicon_ai.set_sensitive(False)
+
+        label = checkstatusicon_gtk.get_label()
+        checkstatusicon_gtk.set_label(label + " (GtkStatusIcon)")
+        label = checkstatusicon_ai.get_label()
+        checkstatusicon_ai.set_label(label + " (AppIndicator)")
+
+
         checkusecommandkeys.set_active(setctl.get_use_command_keys())
 
         # List store with columns (Name, ID) 
@@ -263,9 +278,13 @@ class PreferencesWindowController (pretty.OutputMixin):
             self.hide()
             return True
 
-    def on_checkstatusicon_toggled(self, widget):
+    def on_checkstatusicon_gtk_toggled(self, widget):
         setctl = settings.GetSettingsController()
         setctl.set_show_status_icon(widget.get_active())
+
+    def on_checkstatusicon_ai_toggled(self, widget):
+        setctl = settings.GetSettingsController()
+        setctl.set_show_status_icon_ai(widget.get_active())
 
     def _get_should_autostart(self):
         KUPFER_DESKTOP = "kupfer.desktop"
@@ -1004,3 +1023,13 @@ class SourceListController (object):
         setctl = settings.GetSettingsController()
         setctl.set_source_is_toplevel(plugin_id, src, is_toplevel)
         self.store.set_value(it, checkcol, is_toplevel)
+
+
+def supports_app_indicator():
+    try:
+        gi.require_version("AppIndicator3", "0.1")
+    except ValueError:
+        return False
+    else:
+        return True
+

@@ -83,17 +83,31 @@
                                     <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
-                                      <object class="GtkCheckButton" id="checkstatusicon">
+                                      <object class="GtkCheckButton" id="checkstatusicon_gtk">
                                         <property name="label" translatable="yes">Show icon in notification area</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_checkstatusicon_toggled"/>
+                                        <signal name="toggled" handler="on_checkstatusicon_gtk_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="checkstatusicon_ai">
+                                        <property name="label" translatable="yes">Show icon in notification area</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_checkstatusicon_ai_toggled"/>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -127,7 +141,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
 				    <child>
@@ -172,7 +186,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
 				    <child>
@@ -216,7 +230,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">3</property>
+                                        <property name="position">4</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -250,7 +264,7 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">4</property>
+                                        <property name="position">5</property>
                                       </packing>
                                     </child>
                                   </object>
