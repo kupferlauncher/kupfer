@@ -2,9 +2,9 @@
 # TRANS: "Glob" is the matching files like a shell with "*.py" etc.
 __kupfer_name__ = _("Glob")
 __kupfer_actions__ = ("Glob",)
-__description__ = ""
+__description__ = _("Select objects using '*' and '?' as wildcards.")
 __version__ = ""
-__author__ = "Ulrik"
+__author__ = ""
 
 import fnmatch
 import re
@@ -61,3 +61,5 @@ class Glob (Action):
     def valid_object(self, iobj, for_item):
         return ('*' in iobj.object) or ('?' in iobj.object)
 
+    def get_description(self):
+        return __description__
