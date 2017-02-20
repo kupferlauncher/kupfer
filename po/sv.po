@@ -387,7 +387,7 @@ msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
 msgid "Reset Associations"
-msgstr "Återställ ssociationer"
+msgstr "Återställ associationer"
 
 msgid "Reset program associations for files of this type."
 msgstr "Återställ associerade program för filer av den här typen."
