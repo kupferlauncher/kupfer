@@ -119,7 +119,7 @@ class AsyncCommand (pretty.OutputMixin):
         self.finish_callback = finish_callback
 
         # FIXME: No byte string support
-        pretty.print_debug(__name__, "AsyncCommand:", argv)
+        self.output_debug("AsyncCommand:", argv)
 
         flags = (GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD)
         kwargs = {}
@@ -175,7 +175,6 @@ class AsyncCommand (pretty.OutputMixin):
         # @condition is the &status field of waitpid(2) (C library)
         self.exit_status = os.WEXITSTATUS(condition)
         self.finished = True
-        self.output_debug(self.stdout)
         self.finish_callback(self, b"".join(self.stdout), b"".join(self.stderr))
 
     def _timeout_callback(self):
