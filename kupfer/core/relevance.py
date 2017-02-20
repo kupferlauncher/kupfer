@@ -88,6 +88,36 @@ def formatCommonSubstrings(s, query, format_clean=None, format_match=None):
             format(tail),
             ))
 
+def score_single(s, query):
+    """
+    s: text body to score
+    query: A single character
+
+    This is a single character approximation to `score`.
+
+    >>> round(score_single('terminal', 't'), 6)
+    0.973125
+    >>> round(score_single('terminal', 'e'), 6)
+    0.903125
+    >>> round(score_single('terminal', 'a'), 6)
+    0.903125
+    >>> round(score_single('t', 't'), 6)
+    0.995
+    """
+
+    ls = s.lower()
+
+    # Find the shortest possible substring that matches the query
+    # and get the ration of their lengths for a base score
+    first = ls.find(query)
+    if first == -1:
+        return .0
+    score = 0.9 + .025 / len(s)
+
+    if first == 0:
+        score += 0.07
+    return score
+
 def score(s, query):
     """
     A relevancy score for the string ranging from 0 to 1
@@ -108,6 +138,10 @@ def score(s, query):
     0.0
     >>> print(score('terminal', ''))
     1.0
+    >>> round(score('terminal', 't'), 6)
+    0.98949
+    >>> round(score('terminal', 'e'), 6)
+    0.918438
     """
     if not query:
         return 1.0
