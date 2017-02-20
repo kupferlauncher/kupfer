@@ -3,8 +3,12 @@
 NEWS for kupfer
 ===============
 
+kupfer v310
+-----------
+
 + Speed up ranking objects a bit when the catalog is large
 + Show a nicer message when no action matches the search
++ Using AppIndicator is now an option (and optional dependency)
 + Plugins:
 
   + Add *Firefox Keywords* to use configured keywords as search engines
@@ -13,6 +17,8 @@ NEWS for kupfer
   + Reintroduce the *Rhythmbox* plugin, which allows searching the library,
     playing and enqueuing songs. General Play/Pause/Prev/Next is in
     the *Media Player Control* plugin already.
+  + Reintroduce the *Getting things GNOME* plugin.
+  + Reintroduce the *Devhelp* plugin.
 
 + (API) Allow Sources and TextSources to customize their no match and
   waiting for search text.
