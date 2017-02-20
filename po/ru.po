@@ -328,6 +328,7 @@ msgstr[0] "(%(num)d строка) \"%(text)s\""
 msgstr[1] "(%(num)d строки) \"%(text)s\""
 msgstr[2] "(%(num)d строк) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s и другие."
@@ -383,6 +384,13 @@ msgstr "Открыть с помощью любого приложения"
 
 msgid "Set default application to open this file type"
 msgstr "Установить приложение по умолчанию для открытия данного типа файлов"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Действия URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Deep Archives"
@@ -1376,12 +1384,12 @@ msgstr "Список закладок Firefox"
 msgid "Firefox Keywords"
 msgstr "Закладки Firefox"
 
-msgid "Search With..."
-msgstr "Поиск при помощи..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Поиск в Интернете при помощи поисковой системы OpenSearch"
+
+msgid "Search With..."
+msgstr "Поиск при помощи..."
 
 msgid "Search For..."
 msgstr "Поиск..."
@@ -1477,6 +1485,58 @@ msgstr "Сократить с помощью..."
 
 msgid "Services"
 msgstr "Службы"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Воспроизведение и добавление треков в очередь , просмотр библиотеки музыки"
+
+msgid "Include artists in top level"
+msgstr "Включая популярных исполнителей"
+
+msgid "Include albums in top level"
+msgstr "Включая популярные альбомы"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Воспроизвести трек в  Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Добавить трек в очередь воспроизведения"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "Исполнитель: %(artist)s, альбом: %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "Исполнитель: %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Исполнитель треков: %s"
+
+msgid "Albums"
+msgstr "Альбом"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Музыкальные альбомы в библиотеки Rhythmbox"
+
+msgid "Artists"
+msgstr "Исполнитель"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Исполнители в библиотеки Rhythmbox"
+
+msgid "Songs"
+msgstr "Песни"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Песни в библиотеки Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1687,19 +1747,6 @@ msgstr "Не удалось найти запущенный Kupfer"
 #~ msgid "Selected Files"
 #~ msgstr "Выбранные файлы"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Воспроизведение и добавление треков в очередь , просмотр библиотеки музыки"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Включая популярных исполнителей"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Включая популярные альбомы"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Возобновить воспроизведение в Rhythmbox"
 
@@ -1711,39 +1758,6 @@ msgstr "Не удалось найти запущенный Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Перейти к предыдущему треку в Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Воспроизвести трек в  Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Добавить трек в очередь воспроизведения"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "Исполнитель: %(artist)s, альбом: %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "Исполнитель: %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Исполнитель треков: %s"
-
-#~ msgid "Albums"
-#~ msgstr "Альбом"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Музыкальные альбомы в библиотеки Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Исполнитель"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Исполнители в библиотеки Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Песни"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Песни в библиотеки Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Поиск в Интернете"

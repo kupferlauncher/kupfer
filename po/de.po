@@ -335,6 +335,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "»%(text)s«"
 msgstr[1] "(%(num)d Zeilen) »%(text)s«"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -1473,6 +1474,59 @@ msgstr "Abkürzen als …"
 msgid "Services"
 msgstr "Dienste"
 
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Titel abspielen und zur Wiedergabeliste hinzufügen und die Musikbibliothek "
+"durchsuchen"
+
+msgid "Include artists in top level"
+msgstr "Künstler auf der ersten Ebene anzeigen"
+
+msgid "Include albums in top level"
+msgstr "Alben auf der ersten Ebene anzeigen"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Titel in Rhythmbox abspielen"
+
+msgid "Add tracks to the play queue"
+msgstr "Titel zur Wiedergabeliste hinzufügen"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "von %(artist)s aus %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "von %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Lieder von %s"
+
+msgid "Albums"
+msgstr "Alben"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Alben in der Rhythmbox-Bibliothek"
+
+msgid "Artists"
+msgstr "Künstler"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Künstler in der Rhythmbox-Bibliothek"
+
+msgid "Songs"
+msgstr "Lieder"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Lieder in der Rhythmbox-Bibliothek"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternative Aktivierung"
@@ -1687,20 +1741,6 @@ msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 #~ msgid "Firefox tag"
 #~ msgstr "Firefox-Tag"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Titel abspielen und zur Wiedergabeliste hinzufügen und die "
-#~ "Musikbibliothek durchsuchen"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Künstler auf der ersten Ebene anzeigen"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Alben auf der ersten Ebene anzeigen"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Wiedergabe in Rhythmbox fortsetzen"
 
@@ -1712,39 +1752,6 @@ msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "In Rhythmbox zum vorherigen Titel springen"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Titel in Rhythmbox abspielen"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Titel zur Wiedergabeliste hinzufügen"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "von %(artist)s aus %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "von %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Lieder von %s"
-
-#~ msgid "Albums"
-#~ msgstr "Alben"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Alben in der Rhythmbox-Bibliothek"
-
-#~ msgid "Artists"
-#~ msgstr "Künstler"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Künstler in der Rhythmbox-Bibliothek"
-
-#~ msgid "Songs"
-#~ msgstr "Lieder"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Lieder in der Rhythmbox-Bibliothek"
 
 #~ msgid "Search the Web"
 #~ msgstr "Das Internet durchsuchen"

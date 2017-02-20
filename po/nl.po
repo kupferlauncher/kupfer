@@ -336,6 +336,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d lines) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s e.a."
@@ -391,6 +392,13 @@ msgstr "Open met een programma"
 
 msgid "Set default application to open this file type"
 msgstr "Stel standaardprogramma in om dit bestandstype te openen"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "URL Acties"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 #, fuzzy
 msgid "Deep Archives"
@@ -1413,12 +1421,12 @@ msgstr "Index van Firefox favorieten"
 msgid "Firefox Keywords"
 msgstr "Firefox Favorieten"
 
-msgid "Search With..."
-msgstr "Zoeken met..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Het web doorzoeken met OpenSearch zoekmotoren"
+
+msgid "Search With..."
+msgstr "Zoeken met..."
 
 msgid "Search For..."
 msgstr "Zoeken naar..."
@@ -1513,6 +1521,58 @@ msgstr "Verkorten met..."
 
 msgid "Services"
 msgstr ""
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Nummers spelen en toevoegen aan speellijst en muziekbibliotheek doorzoeken"
+
+msgid "Include artists in top level"
+msgstr "Artiesten opnemen in eerste level"
+
+msgid "Include albums in top level"
+msgstr "Albums opnemen in eerste level"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Speel nummers in Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Voeg nummers toe aan speellijst"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "door %(artist)s uit %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "door %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Nummers van %s"
+
+msgid "Albums"
+msgstr "Albums"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Muziekalbums in Rhythmboxbibliotheek"
+
+msgid "Artists"
+msgstr "Artiesten"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Muzikanten in Rhythmboxbibliotheek"
+
+msgid "Songs"
+msgstr "Liedjes"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Liedjes in Rhythmboxbibliotheek"
 
 #. TRANS: Names of accelerators in the interface
 #, fuzzy
@@ -1743,19 +1803,6 @@ msgstr ""
 #~ msgid "Selected Files"
 #~ msgstr "Geselecteerd bestanden"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Nummers spelen en toevoegen aan speellijst en muziekbibliotheek doorzoeken"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Artiesten opnemen in eerste level"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Albums opnemen in eerste level"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Afspelen hervatten in Rhythmbox"
 
@@ -1767,39 +1814,6 @@ msgstr ""
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Spring naar vorige nummer in Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Speel nummers in Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Voeg nummers toe aan speellijst"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "door %(artist)s uit %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "door %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Nummers van %s"
-
-#~ msgid "Albums"
-#~ msgstr "Albums"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Muziekalbums in Rhythmboxbibliotheek"
-
-#~ msgid "Artists"
-#~ msgstr "Artiesten"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Muzikanten in Rhythmboxbibliotheek"
-
-#~ msgid "Songs"
-#~ msgstr "Liedjes"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Liedjes in Rhythmboxbibliotheek"
 
 #~ msgid "Search the Web"
 #~ msgstr "Het Web doorzoeken"

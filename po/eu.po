@@ -331,6 +331,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d lerro) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -386,6 +387,13 @@ msgstr "Ireki edozein aplikaziorekin"
 
 msgid "Set default application to open this file type"
 msgstr "Ezarri aplikazio lehenetsia fitxategi mota hau irekitzeko"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "URL ekintzak"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Artxibo sakonak"
@@ -1395,12 +1403,12 @@ msgstr "Firefox-en laster-marken indizea"
 msgid "Firefox Keywords"
 msgstr "Firefox-en laster-markak"
 
-msgid "Search With..."
-msgstr "Bilatu honekin..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Bilatu webean Open Search bilaketako motorrekin"
+
+msgid "Search With..."
+msgstr "Bilatu honekin..."
 
 msgid "Search For..."
 msgstr "Hau bilatu..."
@@ -1495,6 +1503,57 @@ msgstr "Laburtu honekin..."
 
 msgid "Services"
 msgstr "Zerbitzuak"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Entzun eta jarri abestiak ilaran, eta arakatu musikaren liburutegia"
+
+msgid "Include artists in top level"
+msgstr "Sartu artistak maila gorenean"
+
+msgid "Include albums in top level"
+msgstr "Sartu albumak maila gorenean"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Erreproduzitu abestiak Rhythmbox-en"
+
+msgid "Add tracks to the play queue"
+msgstr "Gehitu abestiak erreprodukzio-zerrendari"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "%(album)s-eko %(artist)s-en arabera"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "%s(r)en arabera"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Abestiak %s-ren arabera"
+
+msgid "Albums"
+msgstr "Albumak"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Rhythmbox liburutegiko musikaren albumak"
+
+msgid "Artists"
+msgstr "Artistak"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Rhythmbox liburutegiko musikaren artistak"
+
+msgid "Songs"
+msgstr "Abestiak"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Rhythmbox liburutegiko abestiak"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1716,18 +1775,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 #~ msgid "Selected Files"
 #~ msgstr "Hautatutako fitxategiak"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Entzun eta jarri abestiak ilaran, eta arakatu musikaren liburutegia"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Sartu artistak maila gorenean"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Sartu albumak maila gorenean"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Jarraitu erreprodukzioa Rhythmbox-en"
 
@@ -1739,39 +1786,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Joan aurreko abestira Rhythmbox-en"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Erreproduzitu abestiak Rhythmbox-en"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Gehitu abestiak erreprodukzio-zerrendari"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "%(album)s-eko %(artist)s-en arabera"
-
-#~ msgid "by %s"
-#~ msgstr "%s(r)en arabera"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Abestiak %s-ren arabera"
-
-#~ msgid "Albums"
-#~ msgstr "Albumak"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Rhythmbox liburutegiko musikaren albumak"
-
-#~ msgid "Artists"
-#~ msgstr "Artistak"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Rhythmbox liburutegiko musikaren artistak"
-
-#~ msgid "Songs"
-#~ msgstr "Abestiak"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Rhythmbox liburutegiko abestiak"
 
 #~ msgid "Search the Web"
 #~ msgstr "Bilatu webean"

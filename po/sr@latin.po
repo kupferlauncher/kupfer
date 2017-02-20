@@ -333,6 +333,7 @@ msgstr[1] "(%(num)d linije) „%(text)s“"
 msgstr[2] "(%(num)d linija) „%(text)s“"
 msgstr[3] "(%(num)d linija) „%(text)s“"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s i ostali"
@@ -389,6 +390,13 @@ msgstr "Otvori nekim drugim programom"
 
 msgid "Set default application to open this file type"
 msgstr "Postavite podrazumevani program za otvaranje datoteke ove vrste"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Radnje sa adresama"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Duboke arhive"
@@ -1390,12 +1398,12 @@ msgstr "Sadržaj zabeleški Fajerfoksa"
 msgid "Firefox Keywords"
 msgstr "Zabeleške Fajerfoksa"
 
-msgid "Search With..."
-msgstr "Pretraži uz pomoć..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Pretražuje veb pogonima pretrage Otvorene pretrage"
+
+msgid "Search With..."
+msgstr "Pretraži uz pomoć..."
 
 msgid "Search For..."
 msgstr "Traži..."
@@ -1492,6 +1500,57 @@ msgstr "Skrati uz pomoć..."
 
 msgid "Services"
 msgstr "Usluge"
+
+msgid "Rhythmbox"
+msgstr "Muzička kutija"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Izvedi i zakaži numere, i razgledaj muzičku zbirku"
+
+msgid "Include artists in top level"
+msgstr "Uključi izvođače u prioritet pretrage"
+
+msgid "Include albums in top level"
+msgstr "Uključi albume u prioritet pretrage"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Izvodi pesme u muzičkoj kutiji"
+
+msgid "Add tracks to the play queue"
+msgstr "Dodaje numere u zakazane za izvođenje"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "od %(artist)s sa %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "od %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Pesme od %s"
+
+msgid "Albums"
+msgstr "Albumi"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Muzički albumi u zbirci Muzičke kutije"
+
+msgid "Artists"
+msgstr "Izvođači"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Izvođači muzike u zbirci Muzičke kutije"
+
+msgid "Songs"
+msgstr "Pesme"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Pesme u zbirci Muzičke kutije"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1695,18 +1754,6 @@ msgstr "Ne mogu da pronađem pokrenutog Bakarnika"
 #~ msgid "Firefox tag"
 #~ msgstr "Oznaka Fajerfoksa"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Muzička kutija"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Izvedi i zakaži numere, i razgledaj muzičku zbirku"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Uključi izvođače u prioritet pretrage"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Uključi albume u prioritet pretrage"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Nastavi izvođenje u muzičkoj kutiji"
 
@@ -1718,39 +1765,6 @@ msgstr "Ne mogu da pronađem pokrenutog Bakarnika"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Skače na prethodnu numeru u muzičkoj kutiji"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Izvodi pesme u muzičkoj kutiji"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Dodaje numere u zakazane za izvođenje"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "od %(artist)s sa %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "od %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Pesme od %s"
-
-#~ msgid "Albums"
-#~ msgstr "Albumi"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Muzički albumi u zbirci Muzičke kutije"
-
-#~ msgid "Artists"
-#~ msgstr "Izvođači"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Izvođači muzike u zbirci Muzičke kutije"
-
-#~ msgid "Songs"
-#~ msgstr "Pesme"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Pesme u zbirci Muzičke kutije"
 
 #~ msgid "Search the Web"
 #~ msgstr "Pretraži veb"

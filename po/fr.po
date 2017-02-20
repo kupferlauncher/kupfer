@@ -333,6 +333,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "« %(text)s »"
 msgstr[1] "(%(num)d lignes) « %(text)s »"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s et al."
@@ -388,6 +389,13 @@ msgstr "Ouvrir avec n'importe quelle application"
 
 msgid "Set default application to open this file type"
 msgstr "Sauvegarder l'application par défaut pour ouvrir ce type de fichier"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Actions sur les URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Parcourir les archives"
@@ -1382,12 +1390,12 @@ msgstr "Index des marque-pages de Firefox"
 msgid "Firefox Keywords"
 msgstr "Marque-pages de Firefox"
 
-msgid "Search With..."
-msgstr "Rechercher avec..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Rechercher sur le Web en utilisant les moteurs de recherche OpenSearch"
+
+msgid "Search With..."
+msgstr "Rechercher avec..."
 
 msgid "Search For..."
 msgstr "Rechercher..."
@@ -1482,6 +1490,58 @@ msgstr "Raccourcir avec..."
 
 msgid "Services"
 msgstr "Services"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Jouer, mettre en attente les pistes et parcourir la bibliothèque musicale"
+
+msgid "Include artists in top level"
+msgstr "Inclure les artistes au premier niveau"
+
+msgid "Include albums in top level"
+msgstr "Inclure les albums au premier niveau"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Lire les pistes dans Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Ajouter les pistes à la file d'attente de lecture"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "par %(artist)s sur %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "par %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Pistes de %s"
+
+msgid "Albums"
+msgstr "Albums"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Albums de la bibliothèque Rhythmbox"
+
+msgid "Artists"
+msgstr "Artistes"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Artistes de la bibliothèque Rhythmbox"
+
+msgid "Songs"
+msgstr "Chansons"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Chansons de la bibliothèque Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1703,19 +1763,6 @@ msgstr "Impossible de trouver une instance de Kupfer"
 #~ msgid "Selected Files"
 #~ msgstr "Fichiers sélectionnés"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Jouer, mettre en attente les pistes et parcourir la bibliothèque musicale"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Inclure les artistes au premier niveau"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Inclure les albums au premier niveau"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Reprendre la lecture dans Rhythmbox"
 
@@ -1727,39 +1774,6 @@ msgstr "Impossible de trouver une instance de Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Aller à la piste précédente dans Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Lire les pistes dans Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Ajouter les pistes à la file d'attente de lecture"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "par %(artist)s sur %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "par %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Pistes de %s"
-
-#~ msgid "Albums"
-#~ msgstr "Albums"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Albums de la bibliothèque Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Artistes"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Artistes de la bibliothèque Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Chansons"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Chansons de la bibliothèque Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Rechercher sur le Web"

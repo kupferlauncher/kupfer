@@ -326,6 +326,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d satır) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s ve diğerleri"
@@ -381,6 +382,13 @@ msgstr "Herhangi bir uygulama ile aç"
 
 msgid "Set default application to open this file type"
 msgstr "Bu dosya türü için öntanımlı uygulama olarak ayarla"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "URL Eylemleri"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Karışık Arşivler"
@@ -1366,12 +1374,12 @@ msgstr "Firefox yerimleri içeriği"
 msgid "Firefox Keywords"
 msgstr "Firefox Yerimleri"
 
-msgid "Search With..."
-msgstr "Birlikte Ara...."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "OpenSearch destekleyen arama motorları ile web'de ara"
+
+msgid "Search With..."
+msgstr "Birlikte Ara...."
 
 msgid "Search For..."
 msgstr "Ara..."
@@ -1466,6 +1474,58 @@ msgstr "Kısaltıldı..."
 
 msgid "Services"
 msgstr "Servisler"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Müzik kütüphanenize göz atın, şarkıları çalma listesine ekleyi ve oynatın"
+
+msgid "Include artists in top level"
+msgstr "En üst seviyedeki sanatçıları dahil et"
+
+msgid "Include albums in top level"
+msgstr "En üst seviyedeki albümleri dahil et"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Şarkıları Rhythmbox'ta çal"
+
+msgid "Add tracks to the play queue"
+msgstr "Şarkıları çalma listesine ekle"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "%(artist)s tarafından %(album)s albümünde"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "%s tarafından"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "%s Şarkıları"
+
+msgid "Albums"
+msgstr "Albümler"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Rhythmbox Kütüphanesindeki albümler"
+
+msgid "Artists"
+msgstr "Sanatçılar"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Rhythmbox Kütüphanesindeki şarkıcılar"
+
+msgid "Songs"
+msgstr "Şarkılar"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Rhythmbox Kütüphanesindeki şarkılar"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1667,19 +1727,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 #~ msgid "Firefox tag"
 #~ msgstr "Firefox etiketi"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Müzik kütüphanenize göz atın, şarkıları çalma listesine ekleyi ve oynatın"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "En üst seviyedeki sanatçıları dahil et"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "En üst seviyedeki albümleri dahil et"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Rhythmbox'da çalmayı sürdür"
 
@@ -1691,39 +1738,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Rhythmbox'da önceki şarkıya atla"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Şarkıları Rhythmbox'ta çal"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Şarkıları çalma listesine ekle"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "%(artist)s tarafından %(album)s albümünde"
-
-#~ msgid "by %s"
-#~ msgstr "%s tarafından"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "%s Şarkıları"
-
-#~ msgid "Albums"
-#~ msgstr "Albümler"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Rhythmbox Kütüphanesindeki albümler"
-
-#~ msgid "Artists"
-#~ msgstr "Sanatçılar"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Rhythmbox Kütüphanesindeki şarkıcılar"
-
-#~ msgid "Songs"
-#~ msgstr "Şarkılar"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Rhythmbox Kütüphanesindeki şarkılar"
 
 #~ msgid "Search the Web"
 #~ msgstr "Web'de ara"

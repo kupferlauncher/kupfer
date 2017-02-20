@@ -322,6 +322,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] ""
 msgstr[1] ""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr ""
@@ -376,6 +377,13 @@ msgid "Open with any application"
 msgstr ""
 
 msgid "Set default application to open this file type"
+msgstr ""
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Accions"
+
+msgid "Reset program associations for files of this type."
 msgstr ""
 
 msgid "Deep Archives"
@@ -1387,12 +1395,12 @@ msgstr "Adreces d'interès del Firefox"
 msgid "Firefox Keywords"
 msgstr "Adreces d'interès del Firefox"
 
+msgid "Search the web with Firefox keywords"
+msgstr ""
+
 #, fuzzy
 msgid "Search With..."
 msgstr "Obre amb..."
-
-msgid "Search the web with Firefox keywords"
-msgstr ""
 
 msgid "Search For..."
 msgstr ""
@@ -1487,6 +1495,57 @@ msgstr "Obre amb..."
 
 msgid "Services"
 msgstr "Serveis"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+
+msgid "Include artists in top level"
+msgstr ""
+
+msgid "Include albums in top level"
+msgstr ""
+
+msgid "Play tracks in Rhythmbox"
+msgstr ""
+
+msgid "Add tracks to the play queue"
+msgstr ""
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr ""
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "per %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr ""
+
+msgid "Albums"
+msgstr "Àlbums"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr ""
+
+msgid "Artists"
+msgstr "Artistes"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr ""
+
+msgid "Songs"
+msgstr "Cançons"
+
+msgid "Songs in Rhythmbox library"
+msgstr ""
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1665,21 +1724,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Firefox tag"
 #~ msgstr "Adreces d'interès del Firefox"
-
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "by %s"
-#~ msgstr "per %s"
-
-#~ msgid "Albums"
-#~ msgstr "Àlbums"
-
-#~ msgid "Artists"
-#~ msgstr "Artistes"
-
-#~ msgid "Songs"
-#~ msgstr "Cançons"
 
 #~ msgid "Search the Web"
 #~ msgstr "Cerca al web"

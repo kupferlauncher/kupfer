@@ -329,6 +329,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d γραμμές) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s κ.α."
@@ -384,6 +385,13 @@ msgstr "Άνοιγμα με οποιαδήποτε εφαρμογή"
 
 msgid "Set default application to open this file type"
 msgstr "Ορισμός προεπιλεγμένης εφαρμογής για άνοιγμα με αυτόν τον τύπο αρχείου"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Ενέργειες URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Βαθιές αρχειοθήκες"
@@ -1375,12 +1383,12 @@ msgstr "Ευρετήριο σελιδοδεικτών του Firefox"
 msgid "Firefox Keywords"
 msgstr "Σελιδοδείκτες Firefox"
 
-msgid "Search With..."
-msgstr "Αναζήτηση με..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Αναζήτηση στον ιστό με μηχανές αναζήτησης OpenSearch"
+
+msgid "Search With..."
+msgstr "Αναζήτηση με..."
 
 msgid "Search For..."
 msgstr "Αναζήτηση για..."
@@ -1475,6 +1483,59 @@ msgstr "Συντόμευση με..."
 
 msgid "Services"
 msgstr "Υπηρεσίες"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Αναπαραγωγή, τοποθέτηση κομματιών σε αναμονή και περιήγηση της μουσικής "
+"βιβλιοθήκης"
+
+msgid "Include artists in top level"
+msgstr "Να συμπεριλαμβάνονται οι καλλιτέχνες στο κορυφαίο επίπεδο"
+
+msgid "Include albums in top level"
+msgstr "Να συμπεριλαμβάνονται οι δίσκοι στο κορυφαίο επίπεδο"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Αναπαραγωγή κομματιών στο Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Προσθήκη κομματιών στη σειρά αναπαραγωγής"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "κατά %(artist)s από %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "κατά %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Κομμάτια κατά %s"
+
+msgid "Albums"
+msgstr "Δίσκοι"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Μουσικοί δίσκοι στη βιβλιοθήκη Rhythmbox"
+
+msgid "Artists"
+msgstr "Καλλιτέχνες"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Μουσικοί καλλιτέχνες στη βιβλιοθήκη Rhythmbox"
+
+msgid "Songs"
+msgstr "Τραγούδια"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Τραγούδια στη βιβλιοθήκη Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1684,20 +1745,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 #~ msgid "Firefox tag"
 #~ msgstr "Ετικέτα Firefox"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Αναπαραγωγή, τοποθέτηση κομματιών σε αναμονή και περιήγηση της μουσικής "
-#~ "βιβλιοθήκης"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Να συμπεριλαμβάνονται οι καλλιτέχνες στο κορυφαίο επίπεδο"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Να συμπεριλαμβάνονται οι δίσκοι στο κορυφαίο επίπεδο"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Συνέχιση αναπαραγωγής στο Rhythmbox"
 
@@ -1709,39 +1756,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Μετάβαση στο προηγούμενο κομμάτι στο Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Αναπαραγωγή κομματιών στο Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Προσθήκη κομματιών στη σειρά αναπαραγωγής"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "κατά %(artist)s από %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "κατά %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Κομμάτια κατά %s"
-
-#~ msgid "Albums"
-#~ msgstr "Δίσκοι"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Μουσικοί δίσκοι στη βιβλιοθήκη Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Καλλιτέχνες"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Μουσικοί καλλιτέχνες στη βιβλιοθήκη Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Τραγούδια"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Τραγούδια στη βιβλιοθήκη Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Αναζήτηση στον ιστό"

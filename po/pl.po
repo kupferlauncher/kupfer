@@ -338,6 +338,7 @@ msgstr[0] "(%(num)d wiersz) „%(text)s”"
 msgstr[1] "(%(num)d wiersze) „%(text)s”"
 msgstr[2] "(%(num)d wierszy) „%(text)s”"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s i inni"
@@ -393,6 +394,13 @@ msgstr "Otwiera za pomocą innego programu"
 
 msgid "Set default application to open this file type"
 msgstr "Ustawia domyślny program dla tego typu plików"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Działania adresów URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Przeglądane archiwów"
@@ -1383,12 +1391,12 @@ msgstr "Indeks zakładek programu Firefox"
 msgid "Firefox Keywords"
 msgstr "Zakładki programu Firefox"
 
-msgid "Search With..."
-msgstr "Znajdź za pomocą…"
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch"
+
+msgid "Search With..."
+msgstr "Znajdź za pomocą…"
 
 msgid "Search For..."
 msgstr "Znajdź…"
@@ -1484,6 +1492,58 @@ msgstr "Skróć za pomocą…"
 
 msgid "Services"
 msgstr "Usługi"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+"Odtwarzanie i kolejkowanie utworów oraz przeglądanie kolekcji muzycznej"
+
+msgid "Include artists in top level"
+msgstr "Wyświetlanie wykonawców na najwyższym poziomie listy"
+
+msgid "Include albums in top level"
+msgstr "Wyświetlanie albumów na najwyższym poziomie listy"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Odtwarza utwory w programie Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Dodaje utwory do kolejki odtwarzania"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr " %(artist)s z %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr " %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Utwory wykonawcy %s"
+
+msgid "Albums"
+msgstr "Albumy"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Albumy w kolekcji programu Rhythmbox"
+
+msgid "Artists"
+msgstr "Wykonawcy"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Wykonawcy w kolekcji programu Rhythmbox"
+
+msgid "Songs"
+msgstr "Utwory"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Utwory w kolekcji programu Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1693,19 +1753,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 #~ msgid "Firefox tag"
 #~ msgstr "Etykieta programu Firefox"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Odtwarzanie i kolejkowanie utworów oraz przeglądanie kolekcji muzycznej"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Wyświetlanie wykonawców na najwyższym poziomie listy"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Wyświetlanie albumów na najwyższym poziomie listy"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Wznawia odtwarzanie w programie Rhythmbox"
 
@@ -1717,39 +1764,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Przechodzi do poprzedniego utworu w programie Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Odtwarza utwory w programie Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Dodaje utwory do kolejki odtwarzania"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr " %(artist)s z %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr " %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Utwory wykonawcy %s"
-
-#~ msgid "Albums"
-#~ msgstr "Albumy"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Albumy w kolekcji programu Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Wykonawcy"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Wykonawcy w kolekcji programu Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Utwory"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Utwory w kolekcji programu Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Wyszukiwanie w sieci WWW"

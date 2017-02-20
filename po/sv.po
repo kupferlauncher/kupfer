@@ -330,6 +330,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "”%(text)s”"
 msgstr[1] "(%(num)d rader) ”%(text)s”"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -1469,6 +1470,57 @@ msgstr "Förkorta med..."
 msgid "Services"
 msgstr "Service"
 
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Spela spår och sök i musikbiblioteket"
+
+msgid "Include artists in top level"
+msgstr "Inkludera artister i toppnivån"
+
+msgid "Include albums in top level"
+msgstr "Inkludera album i toppnivån"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Spela upp spår i Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Lägg till spår i spelkön"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "av %(artist)s från %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "av %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Spår av %s"
+
+msgid "Albums"
+msgstr "Album"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Album i Rhythmboxs bibliotek"
+
+msgid "Artists"
+msgstr "Artister"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Artister i Rhythmboxs bibliotek"
+
+msgid "Songs"
+msgstr "Låtar"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Låtar i Rhythmboxs bibliotek"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
@@ -1671,18 +1723,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 #~ msgid "Firefox tag"
 #~ msgstr "Firefox-tagg"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Spela spår och sök i musikbiblioteket"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Inkludera artister i toppnivån"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Inkludera album i toppnivån"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Starta uppspelning i Rhythmbox"
 
@@ -1694,39 +1734,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Hoppa till föregående spår i Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Spela upp spår i Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Lägg till spår i spelkön"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "av %(artist)s från %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "av %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Spår av %s"
-
-#~ msgid "Albums"
-#~ msgstr "Album"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Album i Rhythmboxs bibliotek"
-
-#~ msgid "Artists"
-#~ msgstr "Artister"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Artister i Rhythmboxs bibliotek"
-
-#~ msgid "Songs"
-#~ msgstr "Låtar"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Låtar i Rhythmboxs bibliotek"
 
 #~ msgid "Search the Web"
 #~ msgstr "Webbsökning"

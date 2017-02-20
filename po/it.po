@@ -334,6 +334,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d righe) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -389,6 +390,13 @@ msgstr "Apre con qualsiasi applicazione"
 
 msgid "Set default application to open this file type"
 msgstr "Imposta l'applicazione predefinita per questo tipo di file"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Azioni su URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Azioni su archivi"
@@ -1398,12 +1406,12 @@ msgstr "Indice dei segnalibri di Firefox"
 msgid "Firefox Keywords"
 msgstr "Segnalibri di Firefox"
 
-msgid "Search With..."
-msgstr "Ricerca con..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Ricerca nel web con OpenSearch"
+
+msgid "Search With..."
+msgstr "Ricerca con..."
 
 msgid "Search For..."
 msgstr "Cerca contenuto..."
@@ -1498,6 +1506,57 @@ msgstr "Abbrevia con..."
 
 msgid "Services"
 msgstr "Servizi"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Riproduce, accoda tracce e sfoglia la libreria musicale"
+
+msgid "Include artists in top level"
+msgstr "Includere gli artisti nel livello principale"
+
+msgid "Include albums in top level"
+msgstr "Includere gli album nel livello principale"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Riproduce tracce in Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Aggiunge tracce alla coda di riproduzione"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "di %(artist)s da %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "di %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Traccia da %s"
+
+msgid "Albums"
+msgstr "Album"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Album musicali nella libreria di Rhythmbox"
+
+msgid "Artists"
+msgstr "Artisti"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Artisti musicali nella libreria di Rhythmbox"
+
+msgid "Songs"
+msgstr "Canzoni"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Canzoni nella libreria di Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1722,18 +1781,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 #~ msgid "Selected Files"
 #~ msgstr "File selezionati"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Riproduce, accoda tracce e sfoglia la libreria musicale"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Includere gli artisti nel livello principale"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Includere gli album nel livello principale"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Riprende la riproduzione in Rhythmbox"
 
@@ -1745,39 +1792,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Salta alla traccia precedente in Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Riproduce tracce in Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Aggiunge tracce alla coda di riproduzione"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "di %(artist)s da %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "di %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Traccia da %s"
-
-#~ msgid "Albums"
-#~ msgstr "Album"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Album musicali nella libreria di Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Artisti"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Artisti musicali nella libreria di Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Canzoni"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Canzoni nella libreria di Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Cerca sul web"

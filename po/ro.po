@@ -334,6 +334,7 @@ msgstr[0] "„%(text)s”"
 msgstr[1] "(%(num)d linii) „%(text)s”"
 msgstr[2] "(%(num)d de linii) „%(text)s”"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s și alții"
@@ -389,6 +390,13 @@ msgstr "Deschide cu orice aplicație"
 
 msgid "Set default application to open this file type"
 msgstr "Stabilește aplicația implicită pentru a deschide acest tip de fișier"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Acțiuni URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Arhive structurate"
@@ -1382,12 +1390,12 @@ msgstr "Indexul marcajelor Firefox"
 msgid "Firefox Keywords"
 msgstr "Marcaje Firefox"
 
-msgid "Search With..."
-msgstr "Caută cu..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Caută pe web cu motoarele de căutare OpenSearch"
+
+msgid "Search With..."
+msgstr "Caută cu..."
 
 msgid "Search For..."
 msgstr "Caută pentru..."
@@ -1483,6 +1491,57 @@ msgstr "Scurtează cu..."
 
 msgid "Services"
 msgstr "Servicii"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Redă și plasează la rând pistele și navigheză biblioteca de muzică"
+
+msgid "Include artists in top level"
+msgstr "Include artiștii în primul nivel"
+
+msgid "Include albums in top level"
+msgstr "Include albumele în primul nivel"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Redă piste în Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Adaugă piste la coada de redare"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "de %(artist)s din %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "de %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Piste de %s"
+
+msgid "Albums"
+msgstr "Albume"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Albume de muzică în biblioteca Rhythmbox"
+
+msgid "Artists"
+msgstr "Artiști"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Artiști de muzică în biblioteca Rhythmbox"
+
+msgid "Songs"
+msgstr "Cântece"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Cântece în biblioteca Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1688,18 +1747,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 #~ msgid "Firefox tag"
 #~ msgstr "Etichetă Firefox"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Redă și plasează la rând pistele și navigheză biblioteca de muzică"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Include artiștii în primul nivel"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Include albumele în primul nivel"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Reia redarea în Rhythmbox"
 
@@ -1711,39 +1758,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Mergi la pista anterioară în Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Redă piste în Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Adaugă piste la coada de redare"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "de %(artist)s din %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "de %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Piste de %s"
-
-#~ msgid "Albums"
-#~ msgstr "Albume"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Albume de muzică în biblioteca Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Artiști"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Artiști de muzică în biblioteca Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Cântece"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Cântece în biblioteca Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Caută pe web"

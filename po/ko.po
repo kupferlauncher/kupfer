@@ -327,6 +327,7 @@ msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "(%(num)d 줄) \"%(text)s\""
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s 등."
@@ -382,6 +383,13 @@ msgstr "다른 프로그램으로 열기..."
 
 msgid "Set default application to open this file type"
 msgstr "이 파일 형식을 열 기본 응용 프로그램을 설정합니다"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "URL 동작"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "압축 파일 내부 검색"
@@ -1385,12 +1393,12 @@ msgstr "파이어폭스 책갈피 인덱스"
 msgid "Firefox Keywords"
 msgstr "파이어폭스 책갈피"
 
-msgid "Search With..."
-msgstr "다음으로 검색..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "OpenSearch 검색 엔진으로 웹을 검색합니다"
+
+msgid "Search With..."
+msgstr "다음으로 검색..."
 
 msgid "Search For..."
 msgstr "다음 항목 검색..."
@@ -1484,6 +1492,57 @@ msgstr "다음으로 줄임..."
 
 msgid "Services"
 msgstr "서비스"
+
+msgid "Rhythmbox"
+msgstr "리듬박스"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "트랙을 연주하거나 재생 대기열에 추가하고 음악 라이브러리를 검색합니다"
+
+msgid "Include artists in top level"
+msgstr "최 상위에 음악가 포함"
+
+msgid "Include albums in top level"
+msgstr "최 상위에 앨범 포함"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "리듬박스로 트랙을 연주합니다"
+
+msgid "Add tracks to the play queue"
+msgstr "재생 대기열에 트랙을 추가합니다"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "음악가 %(artist)s 앨범 %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "음악가 %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "트랙 음악가 %s"
+
+msgid "Albums"
+msgstr "앨범"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "리듬박스 라이브러리 안의 음악 앨범"
+
+msgid "Artists"
+msgstr "음악가"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "리듬박스 라이브러리 안의 음악가"
+
+msgid "Songs"
+msgstr "노래"
+
+msgid "Songs in Rhythmbox library"
+msgstr "리듬박스 라이브러리 안의 노래"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1701,19 +1760,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 #~ msgid "Selected Files"
 #~ msgstr "선택한 파일"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "리듬박스"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "트랙을 연주하거나 재생 대기열에 추가하고 음악 라이브러리를 검색합니다"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "최 상위에 음악가 포함"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "최 상위에 앨범 포함"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "리듬박스 재생을 계속합니다"
 
@@ -1725,39 +1771,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "리듬박스를 이전 트랙으로 넘깁니다"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "리듬박스로 트랙을 연주합니다"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "재생 대기열에 트랙을 추가합니다"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "음악가 %(artist)s 앨범 %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "음악가 %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "트랙 음악가 %s"
-
-#~ msgid "Albums"
-#~ msgstr "앨범"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "리듬박스 라이브러리 안의 음악 앨범"
-
-#~ msgid "Artists"
-#~ msgstr "음악가"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "리듬박스 라이브러리 안의 음악가"
-
-#~ msgid "Songs"
-#~ msgstr "노래"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "리듬박스 라이브러리 안의 노래"
 
 #~ msgid "Search the Web"
 #~ msgstr "웹 검색"

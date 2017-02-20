@@ -331,6 +331,7 @@ msgstr[0] "„%(text)s“"
 msgstr[1] "(%(num)d řádky) „%(text)s“"
 msgstr[2] "(%(num)d řádků) „%(text)s“"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s a další"
@@ -386,6 +387,13 @@ msgstr "Otevřít pomocí nějaké aplikace"
 
 msgid "Set default application to open this file type"
 msgstr "Nastavit výchozí aplikaci na otevírání tohoto typu souboru"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Akce s URL"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Do hloubky archivů"
@@ -1376,12 +1384,12 @@ msgstr "Seznam záložek v prohlížeči Firefox"
 msgid "Firefox Keywords"
 msgstr "Záložky ve Firefoxu"
 
-msgid "Search With..."
-msgstr "Prohledat pomocí…"
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Prohledat web pomocí vyhledávacího stroje OpenSearch"
+
+msgid "Search With..."
+msgstr "Prohledat pomocí…"
 
 msgid "Search For..."
 msgstr "Vyhledat…"
@@ -1477,6 +1485,57 @@ msgstr "Zkrátit pomocí…"
 
 msgid "Services"
 msgstr "Služby"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Přehrávání a přidávání skladeb do fronty a procházení hudební knihovny"
+
+msgid "Include artists in top level"
+msgstr "Zahrnout umělce do nejvyšší úrovně"
+
+msgid "Include albums in top level"
+msgstr "Zahrnout alba do nejvyšší úrovně"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Přehrát skladby v přehrávači Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Přidat skladbu do fronty přehrávaných skladeb"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "od interpreta %(artist)s z alba %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "od interpreta %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Skladby od interpreta %s"
+
+msgid "Albums"
+msgstr "Alba"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Hudební album v knihovně Rhythmbox"
+
+msgid "Artists"
+msgstr "Umělci"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Hudební umělec v knihovně Rhythmbox"
+
+msgid "Songs"
+msgstr "Skladby"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Skladba v knihovně Rhythmbox"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1681,19 +1740,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 #~ msgid "Firefox tag"
 #~ msgstr "Štítky ve Firefoxu"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr ""
-#~ "Přehrávání a přidávání skladeb do fronty a procházení hudební knihovny"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Zahrnout umělce do nejvyšší úrovně"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Zahrnout alba do nejvyšší úrovně"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Pokračovat v přehrávání v přehrávači Rhythmbox"
 
@@ -1705,39 +1751,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Přeskočit na předchozí stopu v přehrávači Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Přehrát skladby v přehrávači Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Přidat skladbu do fronty přehrávaných skladeb"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "od interpreta %(artist)s z alba %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "od interpreta %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Skladby od interpreta %s"
-
-#~ msgid "Albums"
-#~ msgstr "Alba"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Hudební album v knihovně Rhythmbox"
-
-#~ msgid "Artists"
-#~ msgstr "Umělci"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Hudební umělec v knihovně Rhythmbox"
-
-#~ msgid "Songs"
-#~ msgstr "Skladby"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Skladba v knihovně Rhythmbox"
 
 #~ msgid "Search the Web"
 #~ msgstr "Prohledat web"

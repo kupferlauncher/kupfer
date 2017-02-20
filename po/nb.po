@@ -320,6 +320,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "«%(text)s»"
 msgstr[1] "(%(num)d linjer) «%(text)s»"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr ""
@@ -374,6 +375,13 @@ msgid "Open with any application"
 msgstr "Åpne med valgfritt program"
 
 msgid "Set default application to open this file type"
+msgstr ""
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "URL-handlinger"
+
+msgid "Reset program associations for files of this type."
 msgstr ""
 
 msgid "Deep Archives"
@@ -1360,12 +1368,12 @@ msgstr "Åpne bokmerke %s"
 msgid "Firefox Keywords"
 msgstr "Firefox-bokmerker"
 
-msgid "Search With..."
-msgstr "Søk med …"
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Søk på nettet med nettleserens innstillinger for søk"
+
+msgid "Search With..."
+msgstr "Søk med …"
 
 msgid "Search For..."
 msgstr "Søk etter …"
@@ -1459,6 +1467,57 @@ msgstr "Åpne med …"
 
 msgid "Services"
 msgstr "Tjenester"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+
+msgid "Include artists in top level"
+msgstr ""
+
+msgid "Include albums in top level"
+msgstr ""
+
+msgid "Play tracks in Rhythmbox"
+msgstr ""
+
+msgid "Add tracks to the play queue"
+msgstr ""
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr ""
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "av %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Spor av %s"
+
+msgid "Albums"
+msgstr "Album"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr ""
+
+msgid "Artists"
+msgstr "Artister"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr ""
+
+msgid "Songs"
+msgstr "Sanger"
+
+msgid "Songs in Rhythmbox library"
+msgstr ""
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1630,24 +1689,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Firefox tag"
 #~ msgstr "Firefox-bokmerker"
-
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "by %s"
-#~ msgstr "av %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Spor av %s"
-
-#~ msgid "Albums"
-#~ msgstr "Album"
-
-#~ msgid "Artists"
-#~ msgstr "Artister"
-
-#~ msgid "Songs"
-#~ msgstr "Sanger"
 
 #~ msgid "Search the Web"
 #~ msgstr "Søk på nettet"

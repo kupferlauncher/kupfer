@@ -428,6 +428,7 @@ msgstr[0] "(%(num)d riadkov) „%(text)s“"
 msgstr[1] "„%(text)s“"
 msgstr[2] "(%(num)d riadky) „%(text)s“"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s a ďalší"
@@ -495,6 +496,12 @@ msgstr "Otvorí pomocou ľubovoľnej aplikácie"
 #  PB: Popis akcie
 msgid "Set default application to open this file type"
 msgstr "Nastaví predvolenú aplikáciu pre otvorenie tohto typu súboru"
+
+msgid "Reset Associations"
+msgstr ""
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr ""
@@ -1552,13 +1559,13 @@ msgstr ""
 msgid "Firefox Keywords"
 msgstr ""
 
+msgid "Search the web with Firefox keywords"
+msgstr ""
+
 #  PB: Názov akcie
 #, fuzzy
 msgid "Search With..."
 msgstr "Otvoriť pomocou…"
-
-msgid "Search the web with Firefox keywords"
-msgstr ""
 
 msgid "Search For..."
 msgstr ""
@@ -1657,6 +1664,57 @@ msgid "Shorten With..."
 msgstr "Otvoriť pomocou…"
 
 msgid "Services"
+msgstr ""
+
+msgid "Rhythmbox"
+msgstr ""
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr ""
+
+msgid "Include artists in top level"
+msgstr ""
+
+msgid "Include albums in top level"
+msgstr ""
+
+msgid "Play tracks in Rhythmbox"
+msgstr ""
+
+msgid "Add tracks to the play queue"
+msgstr ""
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr ""
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr ""
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr ""
+
+msgid "Albums"
+msgstr ""
+
+msgid "Music albums in Rhythmbox Library"
+msgstr ""
+
+msgid "Artists"
+msgstr ""
+
+msgid "Music artists in Rhythmbox Library"
+msgstr ""
+
+msgid "Songs"
+msgstr ""
+
+msgid "Songs in Rhythmbox library"
 msgstr ""
 
 #. TRANS: Names of accelerators in the interface

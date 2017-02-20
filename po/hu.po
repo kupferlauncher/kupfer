@@ -331,6 +331,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "„%(text)s”"
 msgstr[1] "(%(num)d sor) „%(text)s”"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s et. al."
@@ -386,6 +387,13 @@ msgstr "Megnyitás bármely alkalmazással"
 
 msgid "Set default application to open this file type"
 msgstr "Alapértelmezett alkalmazás beállítása ezen fájltípus megnyitásához"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "URL műveletek"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Mély archívumok"
@@ -1375,12 +1383,12 @@ msgstr "Firefox könyvjelzők indexe"
 msgid "Firefox Keywords"
 msgstr "Firefox könyvjelzők"
 
-msgid "Search With..."
-msgstr "Keresés ezzel…"
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Keresés a világhálón az OpenSearch keresőmotorokkal"
+
+msgid "Search With..."
+msgstr "Keresés ezzel…"
 
 msgid "Search For..."
 msgstr "Keresés erre…"
@@ -1475,6 +1483,57 @@ msgstr "Rövidítés ezzel…"
 
 msgid "Services"
 msgstr "Szolgáltatások"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Számok lejátszása és sorba állítása és a zenekönyvtár böngészése"
+
+msgid "Include artists in top level"
+msgstr "Előadók láthatók a felső szinten is"
+
+msgid "Include albums in top level"
+msgstr "Albumok láthatók a felső szinten is"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Számok lejátszása a Rhythmboxban"
+
+msgid "Add tracks to the play queue"
+msgstr "Számok hozzáadása a lejátszási sorhoz"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "%(artist)s - %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "%s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "%s számai"
+
+msgid "Albums"
+msgstr "Albumok"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Zene albumok a Rhythmbox könyvtárban"
+
+msgid "Artists"
+msgstr "Előadók"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Zene előadók a Rhythmbox könyvtárban"
+
+msgid "Songs"
+msgstr "Dalok"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Dalok a Rhythmbox könyvtárban"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1683,18 +1742,6 @@ msgstr "Nem található futó Kupfer"
 #~ msgid "Firefox tag"
 #~ msgstr "Firefox címke"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Számok lejátszása és sorba állítása és a zenekönyvtár böngészése"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Előadók láthatók a felső szinten is"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Albumok láthatók a felső szinten is"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Lejátszás folytatása a Rhythmboxban"
 
@@ -1706,39 +1753,6 @@ msgstr "Nem található futó Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Ugrás az előző számra a Rhythmboxban"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Számok lejátszása a Rhythmboxban"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Számok hozzáadása a lejátszási sorhoz"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "%(artist)s - %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "%s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "%s számai"
-
-#~ msgid "Albums"
-#~ msgstr "Albumok"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Zene albumok a Rhythmbox könyvtárban"
-
-#~ msgid "Artists"
-#~ msgstr "Előadók"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Zene előadók a Rhythmbox könyvtárban"
-
-#~ msgid "Songs"
-#~ msgstr "Dalok"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Dalok a Rhythmbox könyvtárban"
 
 #~ msgid "Search the Web"
 #~ msgstr "Keresés a világhálón"

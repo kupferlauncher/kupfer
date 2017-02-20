@@ -344,6 +344,7 @@ msgstr[1] "(%(num)d linjer) \"%(text)s\""
 # forkortelse for 'et alia', som betyder 'og andre'.  Det er forkert at
 # have punktum efter 'et'.  Den rigtige måde at skrive det på er 'et
 # al.'  Kunne evt. være m.fl. på dansk
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, fuzzy, python-format
 msgid "%s et. al."
 msgstr "%s m.fl."
@@ -399,6 +400,13 @@ msgstr "Åbn med vilkårligt program"
 
 msgid "Set default application to open this file type"
 msgstr "Angiv standardprogram til at åbne denne filtype med"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "Adressehandlinger"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "Dybe arkiver"
@@ -1415,12 +1423,12 @@ msgstr "Indeks af Firefoxbogmærker"
 msgid "Firefox Keywords"
 msgstr "Firefoxbogmærker"
 
-msgid "Search With..."
-msgstr "Søg med..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "Søg på internettet med OpenSearchs søgemotorer"
+
+msgid "Search With..."
+msgstr "Søg med..."
 
 msgid "Search For..."
 msgstr "Søg efter..."
@@ -1516,6 +1524,57 @@ msgstr "Forkort med..."
 
 msgid "Services"
 msgstr "Tjenester"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "Afspil og sæt numre i kø og gennemse musikbiblioteket"
+
+msgid "Include artists in top level"
+msgstr "Inkluder kunstnere i overniveau"
+
+msgid "Include albums in top level"
+msgstr "Inkluder album i overniveau"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "Afspil numre i Rhythmbox"
+
+msgid "Add tracks to the play queue"
+msgstr "Tilføj numre til afspilningskøen"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "af %(artist)s fra %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "af %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "Numre af %s"
+
+msgid "Albums"
+msgstr "Album"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Musikalbum i Rhythmboxbibliotek"
+
+msgid "Artists"
+msgstr "Kunstnere"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "Musikkunstnere i Rhythmboxbibliotek"
+
+msgid "Songs"
+msgstr "Sange"
+
+msgid "Songs in Rhythmbox library"
+msgstr "Sange i Rhythmboxbibliotek"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1739,18 +1798,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 #~ msgid "Selected Files"
 #~ msgstr "Valgte filer"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "Afspil og sæt numre i kø og gennemse musikbiblioteket"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "Inkluder kunstnere i overniveau"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "Inkluder album i overniveau"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Genoptag afspilning i Rhythmbox"
 
@@ -1762,39 +1809,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Hop til forrige nummer i Rhythmbox"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "Afspil numre i Rhythmbox"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "Tilføj numre til afspilningskøen"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "af %(artist)s fra %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "af %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "Numre af %s"
-
-#~ msgid "Albums"
-#~ msgstr "Album"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Musikalbum i Rhythmboxbibliotek"
-
-#~ msgid "Artists"
-#~ msgstr "Kunstnere"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "Musikkunstnere i Rhythmboxbibliotek"
-
-#~ msgid "Songs"
-#~ msgstr "Sange"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "Sange i Rhythmboxbibliotek"
 
 #~ msgid "Search the Web"
 #~ msgstr "Søg på internettet"

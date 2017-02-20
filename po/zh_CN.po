@@ -333,6 +333,7 @@ msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "\"%(text)s\""
 msgstr[1] "(%(num)d 行) ”%(text)s“"
 
+#. TRANS: Multiple artist description "Artist1 et. al. "
 #, python-format
 msgid "%s et. al."
 msgstr "%s 等"
@@ -388,6 +389,13 @@ msgstr "使用任意可用程序打开"
 
 msgid "Set default application to open this file type"
 msgstr "设置打开此类文件的默认程序"
+
+#, fuzzy
+msgid "Reset Associations"
+msgstr "超链接操作"
+
+msgid "Reset program associations for files of this type."
+msgstr ""
 
 msgid "Deep Archives"
 msgstr "深层档案"
@@ -1391,12 +1399,12 @@ msgstr "Firefox 网络浏览器书签索引"
 msgid "Firefox Keywords"
 msgstr "Firefox 网络浏览器书签"
 
-msgid "Search With..."
-msgstr "搜索方式..."
-
 #, fuzzy
 msgid "Search the web with Firefox keywords"
 msgstr "使用 OpenSearch 搜索引擎搜索互联网"
+
+msgid "Search With..."
+msgstr "搜索方式..."
 
 msgid "Search For..."
 msgstr "搜索内容..."
@@ -1491,6 +1499,57 @@ msgstr "取短方式..."
 
 msgid "Services"
 msgstr "服务"
+
+msgid "Rhythmbox"
+msgstr "Rhythmbox"
+
+msgid "Play and enqueue tracks and browse the music library"
+msgstr "播放，新增音轨，浏览音乐库"
+
+msgid "Include artists in top level"
+msgstr "把艺术家放到顶端"
+
+msgid "Include albums in top level"
+msgstr "把专辑放到顶端"
+
+msgid "Play tracks in Rhythmbox"
+msgstr "在 Rhythmbox 里面播放音轨"
+
+msgid "Add tracks to the play queue"
+msgstr "新增音轨到播放队列"
+
+#. TRANS: Song description
+#, python-format
+msgid "by %(artist)s from %(album)s"
+msgstr "艺术家 %(artist)s 专辑 %(album)s"
+
+#. TRANS: Album description "by Artist"
+#, python-format
+msgid "by %s"
+msgstr "艺术家 %s"
+
+#. TRANS: Artist songs collection description
+#, python-format
+msgid "Tracks by %s"
+msgstr "音轨 %s "
+
+msgid "Albums"
+msgstr "专辑"
+
+msgid "Music albums in Rhythmbox Library"
+msgstr "Rhythmbox 媒体库中的音乐专辑"
+
+msgid "Artists"
+msgstr "艺术家"
+
+msgid "Music artists in Rhythmbox Library"
+msgstr "媒体库中的音乐艺术家"
+
+msgid "Songs"
+msgstr "歌曲"
+
+msgid "Songs in Rhythmbox library"
+msgstr "媒体库中的歌曲"
 
 #. TRANS: Names of accelerators in the interface
 #, fuzzy
@@ -1707,18 +1766,6 @@ msgstr "找不到运行中的 Kupfer"
 #~ msgid "Selected Files"
 #~ msgstr "选中的文件"
 
-#~ msgid "Rhythmbox"
-#~ msgstr "Rhythmbox"
-
-#~ msgid "Play and enqueue tracks and browse the music library"
-#~ msgstr "播放，新增音轨，浏览音乐库"
-
-#~ msgid "Include artists in top level"
-#~ msgstr "把艺术家放到顶端"
-
-#~ msgid "Include albums in top level"
-#~ msgstr "把专辑放到顶端"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "恢复 Rhythmbox 播放"
 
@@ -1730,39 +1777,6 @@ msgstr "找不到运行中的 Kupfer"
 
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "跳到前一首歌曲"
-
-#~ msgid "Play tracks in Rhythmbox"
-#~ msgstr "在 Rhythmbox 里面播放音轨"
-
-#~ msgid "Add tracks to the play queue"
-#~ msgstr "新增音轨到播放队列"
-
-#~ msgid "by %(artist)s from %(album)s"
-#~ msgstr "艺术家 %(artist)s 专辑 %(album)s"
-
-#~ msgid "by %s"
-#~ msgstr "艺术家 %s"
-
-#~ msgid "Tracks by %s"
-#~ msgstr "音轨 %s "
-
-#~ msgid "Albums"
-#~ msgstr "专辑"
-
-#~ msgid "Music albums in Rhythmbox Library"
-#~ msgstr "Rhythmbox 媒体库中的音乐专辑"
-
-#~ msgid "Artists"
-#~ msgstr "艺术家"
-
-#~ msgid "Music artists in Rhythmbox Library"
-#~ msgstr "媒体库中的音乐艺术家"
-
-#~ msgid "Songs"
-#~ msgstr "歌曲"
-
-#~ msgid "Songs in Rhythmbox library"
-#~ msgstr "媒体库中的歌曲"
 
 #~ msgid "Search the Web"
 #~ msgstr "搜索互联网"
