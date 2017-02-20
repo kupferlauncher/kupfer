@@ -4,6 +4,7 @@ debug = False
 
 import sys
 import traceback
+from time import time as timestamp
 
 class OutputMixin (object):
     """
@@ -74,3 +75,16 @@ print_info = _StaticOutput.print_info
 print_debug = _StaticOutput.print_debug
 print_error = _StaticOutput.print_error
 print_exc = _StaticOutput.print_exc
+
+
+def timing_start():
+    if debug:
+        return [timestamp()]
+    else:
+        return None
+
+def timing_step(modulename, start, label):
+    if debug:
+        t = timestamp()
+        print_debug(modulename, label, "in %.6f s" % (t - start[0], ))
+        start[0] = t
