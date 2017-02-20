@@ -181,6 +181,13 @@ msgstr ""
 "    %(COPYRIGHT)s\n"
 "    %(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Skriv för att söka"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s är tom"
+
 msgid "Text"
 msgstr "Text"
 
@@ -321,7 +328,7 @@ msgstr "(Tom text)"
 msgid "\"%(text)s\""
 msgid_plural "(%(num)d lines) \"%(text)s\""
 msgstr[0] "”%(text)s”"
-msgstr[1] "(%(num)d lines) ”%(text)s”"
+msgstr[1] "(%(num)d rader) ”%(text)s”"
 
 #, python-format
 msgid "%s et. al."
@@ -729,7 +736,7 @@ msgid "DuckDuckGo Search"
 msgstr "Sök med DuckDuckGo"
 
 msgid "Search the web securely with DuckDuckGo"
-msgstr "Sök webben med https med DuckDuckGo"
+msgstr "Säker webbsökning med DuckDuckGo"
 
 msgid "Favorites"
 msgstr "Favoriter"
@@ -1357,6 +1364,21 @@ msgstr "Firefox-bokmärken"
 msgid "Index of Firefox bookmarks"
 msgstr "Index över Firefox-bokmärken"
 
+msgid "Firefox Keywords"
+msgstr "Firefox nyckelord"
+
+msgid "Search With..."
+msgstr "Sök med..."
+
+msgid "Search the web with Firefox keywords"
+msgstr "Webbsökning med Firefox nyckelord"
+
+msgid "Search For..."
+msgstr "Sök efter..."
+
+msgid "Search Terms"
+msgstr "Söktermer"
+
 msgid "Media Player Control"
 msgstr "Mediaspelarkontroll"
 
@@ -1486,25 +1508,15 @@ msgid "Toggle Text Mode"
 msgstr "Växla fritextläge"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s är tom"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Inga träffar i %(src)s för ”%(query)s”"
 
 msgid "No matches"
 msgstr "Inga träffar"
 
-msgid "Type to search"
-msgstr "Skriv för att söka"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Skriv för att söka i %s"
-
-msgid "No action"
-msgstr "Inget kommando"
+#, , python-format
+msgid "No action matches \"%s\""
+msgstr "Inga kommandon för ”%s”"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1617,6 +1629,12 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
 
+#~ msgid "Type to search %s"
+#~ msgstr "Skriv för att söka i %s"
+
+#~ msgid "No action"
+#~ msgstr "Inget kommando"
+
 #~ msgid "Compose Email"
 #~ msgstr "Skriv e-postmeddelande"
 
@@ -1706,18 +1724,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Search the Web"
 #~ msgstr "Webbsökning"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Sök webben med OpenSearch-sökmotorer"
-
-#~ msgid "Search With..."
-#~ msgstr "Sök med..."
-
-#~ msgid "Search For..."
-#~ msgstr "Sök efter..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Sökmotorer"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"
