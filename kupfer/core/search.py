@@ -12,9 +12,6 @@ class Rankable (object):
     """
     Rankable has an object (represented item),
     value (determines rank) and an associated rank
-
-    Rankable has __hash__ and __eq__ of the object so that a Rankable's
-    rank doesn't matter, Rankables can still be equal
     """
     # To save memory with (really) many Rankables
     __slots__ = ("rank", "value", "object", "aliases")
@@ -24,12 +21,6 @@ class Rankable (object):
         self.object = obj
         self.aliases = getattr(obj, "name_aliases", ())
     
-    def __hash__(self):
-        return hash(self.object)
-
-    def __eq__(self, other):
-        return (self.object == self.object)
-
     def __str__(self):
         return "%s: %s" % (self.rank, self.value)
 
