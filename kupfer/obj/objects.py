@@ -145,6 +145,18 @@ class FileLeaf (Leaf, TextRepresentation):
         else:
             return "text-x-generic"
 
+    def get_content_type(self):
+        ret, uncertain = Gio.content_type_guess(self.object, None)
+        if not uncertain:
+            return ret
+        content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
+        gfile = self.get_gfile()
+        if not gfile.query_exists(None):
+            return None
+        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
+        content_type = info.get_attribute_string(content_attr)
+        return content_type
+
     def is_content_type(self, ctype):
         """
         Return True if this file is of the type ctype

@@ -4,9 +4,10 @@ __kupfer_sources__ = ("AppSource", )
 __kupfer_actions__ = (
         "OpenWith",
         "SetDefaultApplication",
+        "ResetAssociations",
     )
 __description__ = _("All applications and preferences")
-__version__ = "2017.2"
+__version__ = "2017.3"
 __author__ = ""
 
 from gi.repository import Gio
@@ -49,10 +50,11 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+# Gio.AppInfo / Desktop Item nodisplay vs hidden:
+# NoDisplay: Don't show this in program menus
+# Hidden: Disable/never use at all
+
 WHITELIST_IDS = frozenset([
-    # if you set/reset default handler for folders it is useful
-    "Thunar-folder-handler.desktop",
-    "nautilus-folder-handler.desktop",
     # we think that these are useful to show
     "eog.desktop",
     "evince.desktop",
@@ -72,8 +74,8 @@ class AppSource (Source, FilesystemWatchMixin):
     This Source contains all user-visible applications (as given by
     the desktop files)
     """
-    def __init__(self):
-        super(AppSource, self).__init__(_("Applications"))
+    def __init__(self, name=None):
+        super().__init__(name or _("Applications"))
 
     def initialize(self):
         application_dirs = config.get_data_dirs("", "applications")
@@ -119,9 +121,9 @@ class AppSource (Source, FilesystemWatchMixin):
     def provides(self):
         yield AppLeaf
 
-class OpenWith (Action):
+class OpenWith(Action):
     def __init__(self):
-        Action.__init__(self, _("Open With..."))
+        super().__init__(_("Open With..."))
 
     def _activate(self, app_leaf, paths, ctx):
         app_leaf.launch(paths=paths, ctx=ctx)
@@ -130,19 +132,33 @@ class OpenWith (Action):
         return True
 
     def activate(self, leaf, iobj, ctx):
-        self._activate(iobj, (leaf.object, ), ctx)
+        self.activate_multiple((leaf, ), (iobj, ), ctx)
+
     def activate_multiple(self, objects, iobjects, ctx):
         # for each application, launch all the files
         for iobj_app in iobjects:
             self._activate(iobj_app, [L.object for L in objects], ctx)
+        return
+        for iobj_app in iobjects:
+            for L in objects:
+                ct = L.get_content_type()
+                if ct:
+                    iobj_app.object.set_as_last_used_for_type(ct)
 
     def item_types(self):
         yield FileLeaf
+
     def requires_object(self):
         return True
 
     def object_types(self):
         yield AppLeaf
+
+    def object_source(self, leaf):
+        return AppsAll()
+
+    def object_source_and_catalog(self, leaf):
+        return True
 
     def valid_object(self, iobj, for_item):
         return iobj.object.supports_files() or iobj.object.supports_uris()
@@ -152,20 +168,74 @@ class OpenWith (Action):
 
 class SetDefaultApplication (Action):
     def __init__(self):
-        Action.__init__(self, _("Set Default Application..."))
+        super().__init__(_("Set Default Application..."))
+
     def activate(self, leaf, obj):
-        gfile = Gio.File.new_for_path(leaf.object)
-        info = gfile.query_info(Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-                Gio.FileQueryInfoFlags.NONE, None)
-        content_type = info.get_attribute_string(Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE)
-        print(content_type, gfile)
         desktop_item = obj.object
-        desktop_item.set_as_default_for_type(content_type)
+        desktop_item.set_as_default_for_type(leaf.get_content_type())
+
     def item_types(self):
         yield FileLeaf
+
     def requires_object(self):
         return True
+
     def object_types(self):
         yield AppLeaf
+
+    def object_source(self, leaf):
+        return AppsAll()
+
+    def object_source_and_catalog(self, leaf):
+        return True
+
+    def valid_object(self, iobj, for_item):
+        return iobj.object.supports_files() or iobj.object.supports_uris()
+
     def get_description(self):
         return _("Set default application to open this file type")
+
+class AppsAll(Source):
+    def __init__(self):
+        super().__init__(_("Applications"))
+
+    def get_items(self):
+        use_filter = __kupfer_settings__["desktop_filter"]
+        desktop_type = __kupfer_settings__["desktop_type"]
+
+        # Get all apps; this includes those only configured for
+        # opening files with.
+        for item in Gio.AppInfo.get_all():
+            if AppSource.should_show(item, desktop_type, use_filter):
+                continue
+            if not item.supports_uris() and not item.supports_files():
+                continue
+            yield AppLeaf(item)
+
+    def should_sort_lexically(self):
+        return False
+
+    def get_description(self):
+        return None
+
+    def get_icon_name(self):
+        return "applications-office"
+
+    def provides(self):
+        yield AppLeaf
+
+class ResetAssociations (Action):
+    rank_adjust = -10
+    def __init__(self):
+        super().__init__(_("Reset Associations"))
+
+    def activate(self, leaf):
+        content_type = leaf.get_content_type()
+        Gio.AppInfo.reset_type_associations(content_type)
+
+    def item_types(self):
+        yield FileLeaf
+
+    def get_description(self):
+        return _("Reset program associations for files of this type.")
+
