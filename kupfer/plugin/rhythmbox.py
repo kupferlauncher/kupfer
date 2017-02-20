@@ -1,9 +1,8 @@
-# -*- coding: UTF8 -*-
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue tracks and browse the music library")
-__version__ = "2012-10-17"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.1"
+__author__ = "US, Karol Będkowski"
 
 '''
 Changes:
@@ -92,7 +91,6 @@ def _get_all_songs_via_dbus():
                     'artist': str(item['Artist']),
                     'title': str(item['DisplayName']),
                     'track-number': str(item['TrackNumber']),
-                    'title': str(item['DisplayName']),
                     'location': str(item['URLs'][0])}
 
 def play_song(info):
@@ -118,78 +116,6 @@ def enqueue_songs(info, clear_queue=False):
         qargv.append("--enqueue")
         qargv.append(path)
     utils.spawn_async(qargv)
-
-class Play (RunnableLeaf):
-    def __init__(self):
-        RunnableLeaf.__init__(self, name=_("Play"))
-    def run(self):
-        iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
-                _OBJ_PATH_MPRIS, True)
-        if iface:
-            iface.Play()
-        else:
-            utils.spawn_async(("rhythmbox-client", "--play"))
-    def get_description(self):
-        return _("Resume playback in Rhythmbox")
-    def get_icon_name(self):
-        return "media-playback-start"
-
-class Pause (RunnableLeaf):
-    def __init__(self):
-        RunnableLeaf.__init__(self, name=_("Pause"))
-    def run(self):
-        iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
-                _OBJ_PATH_MPRIS, True)
-        if iface:
-            iface.Pause()
-        else:
-            utils.spawn_async(("rhythmbox-client", "--no-start", "--pause"))
-    def get_description(self):
-        return _("Pause playback in Rhythmbox")
-    def get_icon_name(self):
-        return "media-playback-pause"
-
-class Next (RunnableLeaf):
-    def __init__(self):
-        RunnableLeaf.__init__(self, name=_("Next"))
-    def run(self):
-        iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
-                _OBJ_PATH_MPRIS, True)
-        if iface:
-            iface.Next()
-        else:
-            utils.spawn_async(("rhythmbox-client", "--no-start", "--next"))
-    def get_description(self):
-        return _("Jump to next track in Rhythmbox")
-    def get_icon_name(self):
-        return "media-skip-forward"
-
-class Previous (RunnableLeaf):
-    def __init__(self):
-        RunnableLeaf.__init__(self, name=_("Previous"))
-    def run(self):
-        iface = _create_dbus_connection_mpris(_OBJ_NAME_MPRIS_PLAYER,
-                _OBJ_PATH_MPRIS, True)
-        if iface:
-            iface.Previous()
-        else:
-            utils.spawn_async(("rhythmbox-client", "--no-start", "--previous"))
-    def get_description(self):
-        return _("Jump to previous track in Rhythmbox")
-    def get_icon_name(self):
-        return "media-skip-backward"
-
-class ShowPlaying (RunnableLeaf):
-    def __init__(self):
-        RunnableLeaf.__init__(self, name=_("Show Playing"))
-    def run(self):
-        utils.spawn_async(("rhythmbox-client", "--no-start", "--notify"))
-    def get_description(self):
-        return _("Tell which song is currently playing")
-    def get_gicon(self):
-        return icons.ComposedIcon("dialog-information", "audio-x-generic")
-    def get_icon_name(self):
-        return "dialog-information"
 
 class ClearQueue (RunnableLeaf):
     def __init__(self):
@@ -483,21 +409,9 @@ class RhythmboxSource (AppLeafContentMixin, Source):
     def get_items(self):
         # first try to load songs via dbus
         songs = list(_get_all_songs_via_dbus())
-        if not songs:
-            try:
-                dbfile = config.get_data_file("rhythmdb.xml", "rhythmbox")
-                songs = rhythmbox_support.get_rhythmbox_songs(dbfile=dbfile)
-            except Exception as e:
-                self.output_error(e)
-                songs = []
         albums = rhythmbox_support.parse_rhythmbox_albums(songs)
         artists = rhythmbox_support.parse_rhythmbox_artists(songs)
-        yield Play()
-        yield Pause()
-        yield Next()
-        yield Previous()
         yield ClearQueue()
-        yield ShowPlaying()
         artist_source = RhythmboxArtistsSource(artists)
         album_source = RhythmboxAlbumsSource(albums)
         songs_source = RhythmboxSongsSource(artists)
