@@ -94,7 +94,10 @@ def _load_tasks(interface, apiver):
 
 def _change_task_status(task_id, status):
     interface, apiver = _create_dbus_connection(True)
-    task = interface.get_task(task_id)
+    if apiver == 1:
+        task = interface.get_task(task_id)
+    else:
+        task = interface.GetTask(task_id)
     task['status'] = status
     if apiver == 1:
         interface.modify_task(task_id, task)
@@ -248,6 +251,9 @@ class TasksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
                     signal_name="TaskDeleted", dbus_interface=_IFACE_NAME2)
             bus.remove_signal_receiver(self._on_tasks_updated,
                     signal_name="TaskModified", dbus_interface=_IFACE_NAME2)
+            del self._signal_new_task
+            del self._signal_task_deleted
+            del self._signal_task_modified
 
     def get_items(self):
         interface, apiver = _create_dbus_connection()
