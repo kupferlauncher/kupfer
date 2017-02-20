@@ -386,6 +386,12 @@ msgstr "Öppna med godtyckligt program"
 msgid "Set default application to open this file type"
 msgstr "Välj förvalsprogram att öppna filer av den här typen med."
 
+msgid "Reset Associations"
+msgstr "Återställ ssociationer"
+
+msgid "Reset program associations for files of this type."
+msgstr "Återställ associerade program för filer av den här typen."
+
 msgid "Deep Archives"
 msgstr "Djupa arkiv"
 
@@ -1367,11 +1373,11 @@ msgstr "Index över Firefox-bokmärken"
 msgid "Firefox Keywords"
 msgstr "Firefox nyckelord"
 
-msgid "Search With..."
-msgstr "Sök med..."
-
 msgid "Search the web with Firefox keywords"
 msgstr "Webbsökning med Firefox nyckelord"
+
+msgid "Search With..."
+msgstr "Sök med..."
 
 msgid "Search For..."
 msgstr "Sök efter..."
