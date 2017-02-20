@@ -89,6 +89,7 @@ class Searcher (object):
         if not item_check: item_check = identity
         if not decorator: decorator = identity
 
+        start_time = pretty.timing_start()
         match_lists = []
         for src in sources:
             fixedrank = 0
@@ -144,6 +145,7 @@ class Searcher (object):
         # results are accessed through the iterators
         unique_matches = as_set_iter(matches)
         match, match_iter = peekfirst(decorator(valid_check(unique_matches)))
+        pretty.timing_step(__name__, start_time, "ranked")
         return match, match_iter
 
     def rank_actions(self, objects, key, leaf, item_check=None, decorator=None):
