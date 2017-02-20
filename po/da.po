@@ -823,6 +823,9 @@ msgstr "Kopier fil til en valgt placering"
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Handlinger med højere prioritet"
 
@@ -1621,6 +1624,12 @@ msgstr "Opret opgave"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Opret ny opgave i Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Søg i Devhelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivering"
@@ -1920,12 +1929,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Kontakter fra Claws' postadressebog"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Søg i Devhelp"
 
 #, fuzzy
 #~ msgid "Access to Empathy Contacts"

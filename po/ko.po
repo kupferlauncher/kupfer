@@ -803,6 +803,9 @@ msgstr "선택한 위치로 파일을 복사합니다"
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "고차 동작"
 
@@ -1589,6 +1592,12 @@ msgstr "작업 만들기"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Getting Things GNOME에 새 작업 만들기"
 
+msgid "Devhelp"
+msgstr "개발자 도움말"
+
+msgid "Search in Devhelp"
+msgstr "개발자 도움말 검색"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "대안 활성화"
@@ -1882,12 +1891,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "클러 메일 주소록 안의 연락처"
-
-#~ msgid "Devhelp"
-#~ msgstr "개발자 도움말"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "개발자 도움말 검색"
 
 #, fuzzy
 #~ msgid "Access to Empathy Contacts"

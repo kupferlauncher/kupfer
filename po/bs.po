@@ -794,6 +794,9 @@ msgstr "Kopiraj fajl u odabranu lokaciju"
 msgid "Glob"
 msgstr "Glom"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Akcije višeg reda"
 
@@ -1582,6 +1585,12 @@ msgstr "Kreiraj Zadatak"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Kreiraj novi zadatak u Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "DevHelp"
+
+msgid "Search in Devhelp"
+msgstr "Traži u Devhelp-u"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alt Aktiviraj"
@@ -1891,12 +1900,6 @@ msgstr "Ne mogu naći pokrenuti Kupfer"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Devhelp"
-#~ msgstr "DevHelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Traži u Devhelp-u"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

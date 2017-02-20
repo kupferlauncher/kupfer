@@ -810,6 +810,9 @@ msgstr "Kopiatu fitxategia aukeratutako kokapenera"
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Goi-mailako ekintzak"
 
@@ -1600,6 +1603,12 @@ msgstr "Sortu ataza"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Sortu ataza berria 'Getting Things GNOME'n"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Bilatu Devhelp-en"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Ordezko aktibazioa"
@@ -1897,12 +1906,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Claws-eko helbide-liburuko kontaktuak"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Bilatu Devhelp-en"
 
 #, fuzzy
 #~ msgid "Access to Empathy Contacts"

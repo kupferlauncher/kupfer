@@ -788,6 +788,9 @@ msgstr "Dosyayı seçilen konuma kopyala"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Yüksek Öncelikli Eylemler"
 
@@ -1572,6 +1575,12 @@ msgstr "Görev Oluştur"
 msgid "Create new task in Getting Things GNOME"
 msgstr "GNOME'la, hayatını yaşa'da yeni görev oluştur"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Devhelp'te ara"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternatif Etkinleştirme"
@@ -1877,12 +1886,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Devhelp'te ara"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

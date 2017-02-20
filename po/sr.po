@@ -807,6 +807,9 @@ msgstr "Умножава датотеку на изабрано одредишт
 msgid "Glob"
 msgstr "Глоб"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Радње више важности"
 
@@ -1596,6 +1599,12 @@ msgstr "Направи задатак"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Направите нови задатак у Гномовом управнику задатака"
 
+msgid "Devhelp"
+msgstr "Девхелп"
+
+msgid "Search in Devhelp"
+msgstr "Претражи у Девхелпу"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Заменски покрени"
@@ -1903,12 +1912,6 @@ msgstr "Не могу да пронађем покренутог Бакарни�
 
 #~ msgid "Theme:"
 #~ msgstr "Тема:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Девхелп"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Претражи у Девхелпу"
 
 #~ msgid "Empathy"
 #~ msgstr "Интернет писмоноша"

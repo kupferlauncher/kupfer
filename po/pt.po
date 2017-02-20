@@ -794,6 +794,9 @@ msgstr "Copiar ficheiro para uma localização escolhida"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Ações de alto nível"
 
@@ -1579,6 +1582,12 @@ msgstr "Criar tarefa"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Criar nova tarefa no Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Procurar no Devhelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternar Ativar"
@@ -1891,12 +1900,6 @@ msgstr "Impossível encontrar um Kupfer em execução"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Procurar no Devhelp"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

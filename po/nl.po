@@ -816,6 +816,9 @@ msgstr "Bestand kopiëren naar opgegeven locatie"
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Belangrijkere acties"
 
@@ -1621,6 +1624,12 @@ msgstr "Notitie maken"
 msgid "Create new task in Getting Things GNOME"
 msgstr ""
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Devhelp doorzoeken"
+
 #. TRANS: Names of accelerators in the interface
 #, fuzzy
 msgid "Alternate Activate"
@@ -1927,12 +1936,6 @@ msgstr ""
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Adressen uit Claws Mail Adresboek"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Devhelp doorzoeken"
 
 #, fuzzy
 #~ msgid "Access to Empathy Contacts"

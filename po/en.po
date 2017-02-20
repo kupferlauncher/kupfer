@@ -781,6 +781,9 @@ msgstr ""
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr ""
 
@@ -1555,6 +1558,12 @@ msgid "Create Task"
 msgstr ""
 
 msgid "Create new task in Getting Things GNOME"
+msgstr ""
+
+msgid "Devhelp"
+msgstr ""
+
+msgid "Search in Devhelp"
 msgstr ""
 
 #. TRANS: Names of accelerators in the interface

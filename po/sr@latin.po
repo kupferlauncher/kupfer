@@ -808,6 +808,9 @@ msgstr "Umnožava datoteku na izabrano odredište"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Radnje više važnosti"
 
@@ -1597,6 +1600,12 @@ msgstr "Napravi zadatak"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Napravite novi zadatak u Gnomovom upravniku zadataka"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Pretraži u Devhelpu"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Zamenski pokreni"
@@ -1904,12 +1913,6 @@ msgstr "Ne mogu da pronađem pokrenutog Bakarnika"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Pretraži u Devhelpu"
 
 #~ msgid "Empathy"
 #~ msgstr "Internet pismonoša"

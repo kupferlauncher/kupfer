@@ -813,6 +813,9 @@ msgstr "Copia il file in una nuova posizione"
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Azioni Higher-order"
 
@@ -1603,6 +1606,12 @@ msgstr "Crea attività"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Crea una nuova attività in Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Cerca in Devhelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Attivazione alternativa"
@@ -1903,12 +1912,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Contatti dalla rubrica indirizzi di Claws Mail"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Cerca in Devhelp"
 
 #, fuzzy
 #~ msgid "Access to Empathy Contacts"

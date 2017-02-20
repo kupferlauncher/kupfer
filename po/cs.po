@@ -794,6 +794,9 @@ msgstr "Kopírovat soubor na vybrané místo"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Akce nejvyšší úrovně"
 
@@ -1582,6 +1585,12 @@ msgstr "Vytvořit úkol"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Vytvořit nový úkol v aplikaci Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Hledat v nápovědě pro vývojáře DevHelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativní aktivace"
@@ -1892,12 +1901,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "Theme:"
 #~ msgstr "Motiv:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Hledat v nápovědě pro vývojáře DevHelp"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

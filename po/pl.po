@@ -803,6 +803,9 @@ msgstr "Kopiuje plik do wybranego położenia"
 msgid "Glob"
 msgstr "Wyrażenie regularne"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Wysokopoziomowe działania"
 
@@ -1590,6 +1593,12 @@ msgstr "Utwórz zadanie"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Tworzy nowe zadanie w programie Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Wyszukiwanie w programie Devhelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternatywna aktywacja"
@@ -1903,12 +1912,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Theme:"
 #~ msgstr "Motyw:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Wyszukiwanie w programie Devhelp"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

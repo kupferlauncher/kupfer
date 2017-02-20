@@ -794,6 +794,9 @@ msgstr "Datei an einen ausgesuchten Ort kopieren"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Aktionen höherer Ordnung"
 
@@ -1572,6 +1575,12 @@ msgstr "Aufgabe anlegen"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Neue Aufgabe in Getting Things GNOME! anlegen"
 
+msgid "Devhelp"
+msgstr "Hilfe für Entwickler"
+
+msgid "Search in Devhelp"
+msgstr "In der Hilfe für Entwickler suchen"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternative Aktivierung"
@@ -1897,12 +1906,6 @@ msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 
 #~ msgid "Theme:"
 #~ msgstr "Thema:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Hilfe für Entwickler"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "In der Hilfe für Entwickler suchen"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

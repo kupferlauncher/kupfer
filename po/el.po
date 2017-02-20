@@ -795,6 +795,9 @@ msgstr "Αντιγραφή αρχείου σε επιλεγμένη θέση"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Ενέργειες μεγαλύτερης τάξης"
 
@@ -1582,6 +1585,12 @@ msgstr "Δημιουργία εργασίας"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Δημιουργία νέας εργασίας στο Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Βοήθεια ανάπτυξης"
+
+msgid "Search in Devhelp"
+msgstr "Αναζήτηση στη βοήθεια ανάπτυξης"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Εναλλακτική ενεργοποίηση"
@@ -1896,12 +1905,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
 #~ msgid "Theme:"
 #~ msgstr "Θέμα:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Βοήθεια ανάπτυξης"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Αναζήτηση στη βοήθεια ανάπτυξης"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

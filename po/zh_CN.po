@@ -808,6 +808,9 @@ msgstr "复制文件到一个选择好的位置"
 msgid "Glob"
 msgstr ""
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "高优先级操作"
 
@@ -1596,6 +1599,12 @@ msgstr "创建任务"
 msgid "Create new task in Getting Things GNOME"
 msgstr "在 Getting Things GNOME 中创建新任务"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "在 Devhelp 中查找"
+
 #. TRANS: Names of accelerators in the interface
 #, fuzzy
 msgid "Alternate Activate"
@@ -1888,12 +1897,6 @@ msgstr "找不到运行中的 Kupfer"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Claws 地址簿中的联系人"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "在 Devhelp 中查找"
 
 #, fuzzy
 #~ msgid "Access to Empathy Contacts"

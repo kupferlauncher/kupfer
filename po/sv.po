@@ -791,6 +791,9 @@ msgstr "Kopiera filen till vald plats"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Högre ordningens kommandon"
 
@@ -1566,6 +1569,12 @@ msgstr "Skapa uppgift"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Skapa ny uppgift i Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Sök i Devhelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
@@ -1873,12 +1882,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Sök i Devhelp"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

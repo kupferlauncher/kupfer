@@ -796,6 +796,9 @@ msgstr "Fájl másolása a kiválasztott helyre"
 msgid "Glob"
 msgstr "Minta"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Magasabb rendű műveletek"
 
@@ -1580,6 +1583,12 @@ msgstr "Feladat létrehozása"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Feladat létrehozása a „Getting Things GNOME”-ban"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Keresés a Devhelpben"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternatív aktiválása"
@@ -1893,12 +1902,6 @@ msgstr "Nem található futó Kupfer"
 
 #~ msgid "Theme:"
 #~ msgstr "Téma:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Keresés a Devhelpben"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

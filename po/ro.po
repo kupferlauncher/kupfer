@@ -800,6 +800,9 @@ msgstr "Copiază fișierul la o locație selectată"
 msgid "Glob"
 msgstr "Glob"
 
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr ""
+
 msgid "Higher-order Actions"
 msgstr "Acțiuni de ordin superior"
 
@@ -1588,6 +1591,12 @@ msgstr "Creează sarcină"
 msgid "Create new task in Getting Things GNOME"
 msgstr "Creează o sarcină nouă în Getting Things GNOME"
 
+msgid "Devhelp"
+msgstr "Devhelp"
+
+msgid "Search in Devhelp"
+msgstr "Caută în Devhelp"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Activare alternativă"
@@ -1897,12 +1906,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Theme:"
 #~ msgstr "Temă:"
-
-#~ msgid "Devhelp"
-#~ msgstr "Devhelp"
-
-#~ msgid "Search in Devhelp"
-#~ msgstr "Caută în Devhelp"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"
