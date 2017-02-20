@@ -298,6 +298,9 @@ class Action (KupferObject):
         """
         return None
 
+    def object_source_and_catalog(self, for_item):
+        return False
+
     def object_types(self):
         """Yield types this action may use as indirect objects, if the action
         requrires it.

@@ -383,6 +383,11 @@ Determining Eligible Objects
     catalog, but from a defined source, return an instance of the Source
     here, else return None. ``for_item`` is the direct object.
 
+``object_source_and_catalog(self, for_item)``
+    If the action has an object source, by default only that source is
+    used for indirect objects. Return ``True`` here to use both the
+    custom source and the whole catalog.
+
 ``valid_object(self, iobj, for_item)``
     This method, if defined,  will be called for each indirect object
     (with the direct object as ``for_item``), to decide if it can be

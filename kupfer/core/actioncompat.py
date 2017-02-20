@@ -25,8 +25,15 @@ def actions_for_item(leaf, sourcecontroller):
     return actions
 
 def iobject_source_for_action(action, for_item):
+    """
+    Return (src, use_catalog)
+
+    where
+    src: object source or None,
+    use_catalog: True to use catalog in addition.
+    """
     for leaf in _get_leaf_members(for_item):
-        return action.object_source(leaf)
+        return action.object_source(leaf), action.object_source_and_catalog(leaf)
 
 def iobjects_valid_for_action(action, for_item):
     """

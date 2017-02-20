@@ -370,12 +370,13 @@ class SecondaryObjectPane (LeafPane):
         self.current_item = item
         self.current_action = act
         if item and act:
-            ownsrc = actioncompat.iobject_source_for_action(act, item)
-            if ownsrc:
+            ownsrc, use_catalog = actioncompat.iobject_source_for_action(act, item)
+            if ownsrc and not use_catalog:
                 self.source_rebase(ownsrc)
             else:
+                extra_sources = [ownsrc] if ownsrc else ()
                 sc = GetSourceController()
-                self.source_rebase(sc.root_for_types(act.object_types()))
+                self.source_rebase(sc.root_for_types(act.object_types(), extra_sources))
         else:
             self.reset()
 

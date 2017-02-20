@@ -442,17 +442,20 @@ class SourceController (pretty.OutputMixin):
             if issubclass(t, types):
                 return True
 
-    def root_for_types(self, types):
+    def root_for_types(self, types, extra_sources=[]):
         """
         Get root for a flat catalog of all catalogs
         providing at least Leaves of @types
+
+        types: Iterable of classes
+        extra_sources: Sources to include
 
         Take all sources which:
             Provide a type T so that it is a subclass
             to one in the set of types we want
         """
         types = tuple(types)
-        firstlevel = set()
+        firstlevel = set(extra_sources)
         # include the Catalog index since we want to include
         # the top of the catalogs (like $HOME)
         catalog_index = (sources.SourcesSource(self.sources), )
