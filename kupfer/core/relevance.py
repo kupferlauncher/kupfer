@@ -130,7 +130,7 @@ def score(s, query):
     bad = 1
     firstCount = 0
     for i in range(first, last-1):
-        if ls[i] in " -":
+        if ls[i] in " -.([_":
             if ls[i + 1] in query:
                 firstCount += 1
             else:
