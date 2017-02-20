@@ -85,7 +85,7 @@ def score_objects(rankables, key):
                 if arank > rank:
                     rank = arank
                     rb.value = alias
-        if rank:
+        if rank > 10:
             rb.rank = rank
             yield rb
 
