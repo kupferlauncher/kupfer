@@ -1,9 +1,11 @@
 # -*- coding: UTF-8 -*-
 
+import operator
+import itertools
 from kupfer.core import learn, relevance
 
 def make_rankables(itr, rank=0):
-    return (Rankable(str(obj), obj, rank) for obj in itr)
+    return [Rankable(str(obj), obj, rank) for obj in itr]
 
 def wrap_rankable(obj, rank=0):
     return Rankable(str(obj), obj, rank)
@@ -28,16 +30,14 @@ class Rankable (object):
         return "<Rankable %s repres %s at %x>" % (str(self), repr(self.object), id(self))
 
 def bonus_objects(rankables, key):
-    """generator of @rankables that have mnemonics for @key
-
-    add bonus for mnemonics
-
-    rank is added to prev rank, all items are yielded"""
+    """
+    rankables: List[Rankable]
+    inncrement each for mnemonic score for key.
+    """
     key = key.lower()
     get_record_score = learn.get_record_score
     for obj in rankables:
         obj.rank += get_record_score(obj.object, key)
-        yield obj
 
 def bonus_actions(rankables, key):
     """
@@ -54,9 +54,12 @@ def bonus_actions(rankables, key):
         yield obj
 
 def add_rank_objects(rankables, rank):
+    """
+    rankables: List[Rankable]
+    rank: Fixed rank
+    """
     for obj in rankables:
         obj.rank += rank
-        yield obj
 
 def _score_for_key(query):
     if len(query) == 1:
@@ -65,16 +68,19 @@ def _score_for_key(query):
         return relevance.score
 
 def score_objects(rankables, key):
-    """Return @rankables that pass with a >0 rank for @key,
+    """
+    rankables: List[Rankable]
 
-    rank is added to previous rank,
-    if not @key, then all items are returned"""
+    Prune rankables that score low for the key.
+    """
     key = key.lower()
     _score = _score_for_key(key)
     for rb in rankables:
         # Rank object
-        rank = _score(rb.value, key) * 100
-        if rank < 90:
+        rb.rank = _score(rb.value, key) * 100
+    for rb in rankables:
+        if rb.rank < 90:
+            rank = rb.rank
             for alias in rb.aliases:
                 # consider aliases and change rb.value if alias is better
                 # aliases rank lower so that value is chosen when close
@@ -82,10 +88,8 @@ def score_objects(rankables, key):
                 if arank > rank:
                     rank = arank
                     rb.value = alias
-        if rank > 10:
             rb.rank = rank
-            yield rb
-
+    rankables[:] = [rb for rb in rankables if rb.rank > 10]
 
 def score_actions(rankables, for_leaf):
     """Alternative (rigid) scoring mechanism for objects,
@@ -103,3 +107,37 @@ def score_actions(rankables, for_leaf):
             obj.rank = -50 + ra + get_record_score(obj.object)
         yield obj
 
+
+def _max_multiple(iterables, key):
+    maxval = None
+    for iterable in iterables:
+        try:
+            new_max = max(iterable, key=key)
+        except ValueError:
+            continue
+        if maxval is None:
+            maxval = new_max
+        else:
+            maxval = max(maxval, new_max, key=key)
+    return maxval
+
+def find_best_sort(rankables):
+    """
+    rankables: List[List[Rankable]]
+
+    A special kind of lazy sort:
+
+    simply find the best ranked item and yield it first,
+    then if needed continue by sorting the rest.
+
+    Note: this will duplicate the best item.
+
+    Yield rankables in best rank first order
+    """
+
+    key = operator.attrgetter("rank")
+    maxval = _max_multiple(rankables, key)
+    if maxval is None: return
+    yield maxval
+
+    yield from sorted(itertools.chain(*rankables), key=key, reverse=True)

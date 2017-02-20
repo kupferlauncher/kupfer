@@ -83,10 +83,13 @@ class Searcher (object):
             self._source_cache.clear()
         self._old_key = key
 
+        # General strategy: Extract a `list` from each source,
+        # and perform ranking as in place operations on lists
+
         if not item_check: item_check = identity
         if not decorator: decorator = identity
 
-        match_iters = []
+        match_lists = []
         for src in sources:
             fixedrank = 0
             can_cache = True
@@ -106,28 +109,25 @@ class Searcher (object):
                     except AttributeError:
                         items = item_check(src.get_leaves())
 
-            if not rankables:
+            if rankables is None:
                 rankables = search.make_rankables(items)
 
             if score:
                 if fixedrank:
-                    rankables = search.add_rank_objects(rankables, fixedrank)
+                    search.add_rank_objects(rankables, fixedrank)
                 elif key:
-                    rankables = search.score_objects(rankables, key)
-                matches = search.bonus_objects(rankables, key)
+                    search.score_objects(rankables, key)
+                    search.bonus_objects(rankables, key)
                 if can_cache:
-                    # we fork off a copy of the iterator to save
-                    matches, self._source_cache[src] = itertools.tee(matches)
-            else:
-                # we only want to list them
-                matches = rankables
+                    self._source_cache[src] = rankables
+            matches = rankables
 
-            match_iters.append(matches)
+            match_lists.append(matches)
         
-        matches = itertools.chain(*match_iters)
         if score:
-            matches = sorted(matches, key=operator.attrgetter("rank"),
-                    reverse=True)
+            matches = search.find_best_sort(match_lists)
+        else:
+            matches = itertools.chain(*match_lists)
 
         def as_set_iter(seq):
             key = operator.attrgetter("object")
@@ -160,7 +160,7 @@ class Searcher (object):
 
         rankables = search.make_rankables(item_check(objects))
         if key:
-            rankables = search.score_objects(rankables, key)
+            search.score_objects(rankables, key)
             matches = search.bonus_actions(rankables, key)
         else:
             matches = search.score_actions(rankables, leaf)
