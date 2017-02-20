@@ -1,11 +1,9 @@
-# -*- coding: UTF-8 -*-
 __kupfer_name__ = _("Getting Things GNOME")
 __kupfer_sources__ = ("TasksSource", )
 __kupfer_actions__ = ("CreateNewTask",)
 __description__ = _("Browse and create new tasks in GTG")
-__version__ = "2010-05-27"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
+__version__ = "2017.1"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
 '''
 Changes:
@@ -20,16 +18,13 @@ import dbus
 from kupfer import plugin_support
 from kupfer import pretty
 from kupfer import textutils
-from kupfer.obj.base import Leaf, Action, Source
-from kupfer.obj.objects import TextLeaf
+from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import TextLeaf, NotAvailableError
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 
 plugin_support.check_dbus_connection()
 
-_SERVICE_NAME = 'org.GTG'
-_OBJECT_NAME = '/org/GTG'
-_IFACE_NAME = 'org.GTG'
 _GTG_HOME = "~/.local/share/gtg/"
 _SERVICE_NAME2 = 'org.gnome.GTG'
 _OBJECT_NAME2 = '/org/gnome/GTG'
@@ -56,14 +51,13 @@ def _create_dbus_connection_gtg(iface, obj, service, activate=False):
 
 
 def _create_dbus_connection(activate=False):
-    interface, apiver = _create_dbus_connection_gtg(_IFACE_NAME, _OBJECT_NAME,
-            _SERVICE_NAME, activate), 1
-    if interface is None:
-        interface, apiver = _create_dbus_connection_gtg(_IFACE_NAME2,
-                _OBJECT_NAME2, _SERVICE_NAME2, activate), 2
+    interface = _create_dbus_connection_gtg(_IFACE_NAME2,
+            _OBJECT_NAME2, _SERVICE_NAME2, activate)
     if interface is None:
         pretty.print_error('Cannot connect to GTG via DBus')
-    return interface, apiver
+        if activate:
+            raise NotAvailableError(_("Getting Things GNOME"))
+    return interface
 
 
 def _truncate_long_text(text, maxlen=80):
@@ -72,14 +66,11 @@ def _truncate_long_text(text, maxlen=80):
     return text
 
 
-def _load_tasks(interface, apiver):
+def _load_tasks(interface):
     ''' Load task by dbus interface '''
-    if apiver == 1:
-        tasks = interface.get_tasks()
-    else:
-        tasks = interface.GetTasks()
-        if not tasks:
-            tasks = interface.GetTasksFiltered("")
+    tasks = interface.GetTasks()
+    if not tasks:
+        tasks = interface.GetTasksFiltered("")
     for task in tasks:
         title = task['title'].strip()
         if not title:
@@ -93,17 +84,10 @@ def _load_tasks(interface, apiver):
 
 
 def _change_task_status(task_id, status):
-    interface, apiver = _create_dbus_connection(True)
-    if apiver == 1:
-        task = interface.get_task(task_id)
-    else:
-        task = interface.GetTask(task_id)
+    interface = _create_dbus_connection(True)
+    task = interface.GetTask(task_id)
     task['status'] = status
-    if apiver == 1:
-        interface.modify_task(task_id, task)
-    else:
-        interface.ModifyTask(task_id, task)
-
+    interface.ModifyTask(task_id, task)
 
 class Task (Leaf):
     def __init__(self, task_id, title, status):
@@ -132,7 +116,6 @@ class Task (Leaf):
         yield MarkDone()
         yield Dismiss()
 
-
 class OpenEditor (Action):
     rank_adjust = 1
 
@@ -140,11 +123,8 @@ class OpenEditor (Action):
         Action.__init__(self, _("Open"))
 
     def activate(self, leaf):
-        interface, apiver = _create_dbus_connection(True)
-        if apiver == 1:
-            interface.open_task_editor(leaf.object)
-        else:
-            interface.OpenTaskEditor(leaf.object)
+        interface = _create_dbus_connection(True)
+        interface.OpenTaskEditor(leaf.object)
 
     def get_icon_name(self):
         return 'document-open'
@@ -160,11 +140,8 @@ class Delete (Action):
         Action.__init__(self, _("Delete"))
 
     def activate(self, leaf):
-        interface, apiver = _create_dbus_connection(True)
-        if apiver:
-            interface.delete_task(leaf.object)
-        else:
-            interface.DeleteTask(leaf.object)
+        interface = _create_dbus_connection(True)
+        interface.DeleteTask(leaf.object)
 
     def get_icon_name(self):
         return 'edit-delete'
@@ -192,7 +169,7 @@ class Dismiss (Action):
         Action.__init__(self, _("Dismiss"))
 
     def activate(self, leaf):
-        _change_task_status(leaf.object, 'Dismiss')
+        _change_task_status(leaf.object, 'Postponed')
 
     def get_icon_name(self):
         return 'gtk-cancel'
@@ -206,12 +183,9 @@ class CreateNewTask (Action):
         Action.__init__(self, _("Create Task"))
 
     def activate(self, leaf):
-        interface, apiver = _create_dbus_connection(True)
+        interface = _create_dbus_connection(True)
         title, body = textutils.extract_title_body(leaf.object)
-        if apiver == 1:
-            interface.open_new_task(title, body)
-        else:
-            interface.OpenNewTask(title, body)
+        interface.OpenNewTask(title, body)
 
     def item_types(self):
         yield TextLeaf
@@ -229,7 +203,7 @@ class TasksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
     def __init__(self, name=None):
         Source.__init__(self, name or __kupfer_name__)
         self._tasks = []
-        self._version = 2
+        self._version = 3
 
     def initialize(self):
         self.monitor_token = \
@@ -256,9 +230,9 @@ class TasksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
             del self._signal_task_modified
 
     def get_items(self):
-        interface, apiver = _create_dbus_connection()
+        interface = _create_dbus_connection()
         if interface is not None:
-            self._tasks = list(_load_tasks(interface, apiver))
+            self._tasks = list(_load_tasks(interface))
         return self._tasks
 
     def get_icon_name(self):
