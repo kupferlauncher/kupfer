@@ -3,6 +3,7 @@
 
 __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
+__kupfer_actions__ = ()
 __description__ = _("Index of Firefox bookmarks")
 __version__ = "2017.1"
 __author__ = "Ulrik, William Friesen, Karol Będkowski"
@@ -11,12 +12,15 @@ from configparser import RawConfigParser
 from contextlib import closing
 import os
 import sqlite3
+from urllib.parse import quote, urlparse
 
 from kupfer import plugin_support
-from kupfer.objects import Source
-from kupfer.objects import UrlLeaf
+from kupfer.objects import Source, Action, Leaf
+from kupfer.objects import UrlLeaf, TextLeaf, TextSource
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.obj.objects import OpenUrl
+from kupfer import utils
 
 MAX_ITEMS = 10000
 
