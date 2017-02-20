@@ -49,6 +49,7 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
                 c.execute("""SELECT moz_places.url, moz_bookmarks.title
                              FROM moz_places, moz_bookmarks
                              WHERE moz_places.id = moz_bookmarks.fk
+                                AND moz_bookmarks.keyword_id IS NULL
                              ORDER BY visit_count DESC
                              LIMIT ?""",
                              (MAX_ITEMS, ))
