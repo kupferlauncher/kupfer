@@ -391,6 +391,12 @@ msgstr "Mit einer Anwendung öffnen"
 msgid "Set default application to open this file type"
 msgstr "Standardanwendung für diesen Dateityp auswählen"
 
+msgid "Reset Associations"
+msgstr "Verknüpfungen zurücksetzen"
+
+msgid "Reset program associations for files of this type."
+msgstr "Alle verknüpfte Anwendungen für diesen Dateityp zurücksetzen."
+
 msgid "Deep Archives"
 msgstr "In Archive vertiefen"
 
@@ -1371,11 +1377,11 @@ msgstr "Index der Lesezeichen in Firefox"
 msgid "Firefox Keywords"
 msgstr "Schlüsselwörter in Firefox"
 
-msgid "Search With..."
-msgstr "Suchen mit …"
-
 msgid "Search the web with Firefox keywords"
 msgstr "Das Internet mit Firefox Schlüsselwörter durchsuchen"
+
+msgid "Search With..."
+msgstr "Suchen mit …"
 
 msgid "Search For..."
 msgstr "Suchen nach …"
