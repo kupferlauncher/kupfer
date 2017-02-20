@@ -113,12 +113,13 @@ class Task (Leaf):
     def get_icon_name(self):
         return 'gtg'
 
-
     def get_actions(self):
         yield OpenEditor()
         yield Delete()
-        yield MarkDone()
-        yield Dismiss()
+        if self.status != 'Done':
+            yield MarkDone()
+        if self.status != 'Dismiss':
+            yield Dismiss()
 
     def sort_key(self):
         return _STATUS_RANK.get(self.status, _STATUS_RANK_DEFAULT)
