@@ -21,11 +21,9 @@ from kupfer import textutils
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, NotAvailableError
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import FilesystemWatchMixin
 
 plugin_support.check_dbus_connection()
 
-_GTG_HOME = "~/.local/share/gtg/"
 _SERVICE_NAME2 = 'org.gnome.GTG'
 _OBJECT_NAME2 = '/org/gnome/GTG'
 _IFACE_NAME2 = 'org.gnome.GTG'
@@ -205,7 +203,7 @@ class CreateNewTask (Action):
         return _("Create new task in Getting Things GNOME")
 
 
-class TasksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
+class TasksSource (AppLeafContentMixin, Source):
     appleaf_content_id = 'gtg'
 
     def __init__(self, name=None):
@@ -214,8 +212,6 @@ class TasksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
         self._version = 3
 
     def initialize(self):
-        self.monitor_token = \
-            self.monitor_directories(os.path.expanduser(_GTG_HOME))
         bus = dbus.Bus()
         self._signal_new_task = bus.add_signal_receiver(self._on_tasks_updated,
                 signal_name="TaskAdded", dbus_interface=_IFACE_NAME2)
