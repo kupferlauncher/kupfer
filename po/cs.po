@@ -1537,6 +1537,51 @@ msgstr "Skladby"
 msgid "Songs in Rhythmbox library"
 msgstr "Skladba v knihovně Rhythmbox"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Procházení a vytváření nových úkolů v GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "termín: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "začít: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "značky: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Otevřít úkol v Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Smazat"
+
+msgid "Permanently remove this task"
+msgstr "Trvale odstranit tento úkol"
+
+msgid "Mark Done"
+msgstr "Označit „Dokončeno“"
+
+msgid "Mark this task as done"
+msgstr "Označit tento úkol jako dokončený"
+
+msgid "Dismiss"
+msgstr "Zahodit"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Označit úkol, že již nebude dokončen"
+
+msgid "Create Task"
+msgstr "Vytvořit úkol"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Vytvořit nový úkol v aplikaci Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativní aktivace"
@@ -2070,48 +2115,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "%s total found"
 #~ msgstr "Celkem nalezeno %s"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Procházení a vytváření nových úkolů v GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "termín: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "začít: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "značky: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Otevřít úkol v Getting Things GNOME!"
-
-#~ msgid "Delete"
-#~ msgstr "Smazat"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Trvale odstranit tento úkol"
-
-#~ msgid "Mark Done"
-#~ msgstr "Označit „Dokončeno“"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Označit tento úkol jako dokončený"
-
-#~ msgid "Dismiss"
-#~ msgstr "Zahodit"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Označit úkol, že již nebude dokončen"
-
-#~ msgid "Create Task"
-#~ msgstr "Vytvořit úkol"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Vytvořit nový úkol v aplikaci Getting Things GNOME"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

@@ -1521,6 +1521,51 @@ msgstr "Låtar"
 msgid "Songs in Rhythmbox library"
 msgstr "Låtar i Rhythmboxs bibliotek"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME!"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Bläddra i och skapa nya uppgifter i GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "förfaller: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "start: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "taggar: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Öppna uppgift i Getting Things GNOME"
+
+msgid "Delete"
+msgstr "Radera"
+
+msgid "Permanently remove this task"
+msgstr "Ta bort uppgift permanent"
+
+msgid "Mark Done"
+msgstr "Markera som slutförd"
+
+msgid "Mark this task as done"
+msgstr "Markera uppgift som slutförd"
+
+msgid "Dismiss"
+msgstr "Avfärda"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Markera att uppgiften inte ska göras längre"
+
+msgid "Create Task"
+msgstr "Skapa uppgift"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Skapa ny uppgift i Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
@@ -2048,48 +2093,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "%s total found"
 #~ msgstr "%s funna totalt"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME!"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Bläddra i och skapa nya uppgifter i GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "förfaller: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "start: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "taggar: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Öppna uppgift i Getting Things GNOME"
-
-#~ msgid "Delete"
-#~ msgstr "Radera"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Ta bort uppgift permanent"
-
-#~ msgid "Mark Done"
-#~ msgstr "Markera som slutförd"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Markera uppgift som slutförd"
-
-#~ msgid "Dismiss"
-#~ msgstr "Avfärda"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Markera att uppgiften inte ska göras längre"
-
-#~ msgid "Create Task"
-#~ msgstr "Skapa uppgift"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Skapa ny uppgift i Getting Things GNOME"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

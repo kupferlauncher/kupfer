@@ -1546,6 +1546,51 @@ msgstr "Pesmi"
 msgid "Songs in Rhythmbox library"
 msgstr "Pesmi v knjižnici Rhythmbox"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Brskanje in ustvarjanje novih opravil v GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "rok: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "začni: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "oznake: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Odpri opravilo v Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Izbriši"
+
+msgid "Permanently remove this task"
+msgstr "Trajno odstrani to nalogo"
+
+msgid "Mark Done"
+msgstr "Označi končano"
+
+msgid "Mark this task as done"
+msgstr "Označi to nalogo kot končano"
+
+msgid "Dismiss"
+msgstr "Zavrzi"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Označi to nalogo kot takšno, ki je ni treba več opraviti "
+
+msgid "Create Task"
+msgstr "Ustvari novo nalogo"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Ustvari novo opravilo v Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Dodatno omogoči"
@@ -2080,48 +2125,6 @@ msgstr "Ni mogoče najti Kupferja v teku"
 
 #~ msgid "%s total found"
 #~ msgstr "%s skupaj najdenih"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Brskanje in ustvarjanje novih opravil v GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "rok: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "začni: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "oznake: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Odpri opravilo v Getting Things GNOME!"
-
-#~ msgid "Delete"
-#~ msgstr "Izbriši"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Trajno odstrani to nalogo"
-
-#~ msgid "Mark Done"
-#~ msgstr "Označi končano"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Označi to nalogo kot končano"
-
-#~ msgid "Dismiss"
-#~ msgstr "Zavrzi"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Označi to nalogo kot takšno, ki je ni treba več opraviti "
-
-#~ msgid "Create Task"
-#~ msgstr "Ustvari novo nalogo"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Ustvari novo opravilo v Getting Things GNOME"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

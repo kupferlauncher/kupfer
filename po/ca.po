@@ -1547,6 +1547,52 @@ msgstr "Cançons"
 msgid "Songs in Rhythmbox library"
 msgstr ""
 
+msgid "Getting Things GNOME"
+msgstr ""
+
+msgid "Browse and create new tasks in GTG"
+msgstr ""
+
+#, python-format
+msgid "due: %s"
+msgstr ""
+
+#, python-format
+msgid "start: %s"
+msgstr ""
+
+#, python-format
+msgid "tags: %s"
+msgstr ""
+
+msgid "Open task in Getting Things GNOME!"
+msgstr ""
+
+msgid "Delete"
+msgstr "Suprimeix"
+
+msgid "Permanently remove this task"
+msgstr ""
+
+msgid "Mark Done"
+msgstr ""
+
+msgid "Mark this task as done"
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
+msgid "Mark this task as not to be done anymore"
+msgstr ""
+
+#, fuzzy
+msgid "Create Task"
+msgstr "Crea arxiu"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr ""
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr ""
@@ -1822,9 +1868,6 @@ msgstr ""
 
 #~ msgid "File:"
 #~ msgstr "Fitxer:"
-
-#~ msgid "Delete"
-#~ msgstr "Suprimeix"
 
 #~ msgid "Send Message"
 #~ msgstr "Envia el missatge"

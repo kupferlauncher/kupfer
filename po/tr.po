@@ -1527,6 +1527,51 @@ msgstr "Şarkılar"
 msgid "Songs in Rhythmbox library"
 msgstr "Rhythmbox Kütüphanesindeki şarkılar"
 
+msgid "Getting Things GNOME"
+msgstr "GNOME'la, hayatını yaşa!"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "GHY'da bulunan görevlere göz at ve yenilerini oluştur"
+
+#, python-format
+msgid "due: %s"
+msgstr "nedeniyle: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "başlat: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "etiket:  %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Gnome'la, Hayatını Yaşa'da görev aç"
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid "Permanently remove this task"
+msgstr "Bu görevi kalıcı olark sil"
+
+msgid "Mark Done"
+msgstr "Tamamlanmış Olarak İşaretle"
+
+msgid "Mark this task as done"
+msgstr "Bunu Tamamlandı Olarak İşaretle"
+
+msgid "Dismiss"
+msgstr "Kapat"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Yapılmayacak olarak işaretle"
+
+msgid "Create Task"
+msgstr "Görev Oluştur"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "GNOME'la, hayatını yaşa'da yeni görev oluştur"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternatif Etkinleştirme"
@@ -2062,48 +2107,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "%s total found"
 #~ msgstr "Toplam %s bulundu"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "GNOME'la, hayatını yaşa!"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "GHY'da bulunan görevlere göz at ve yenilerini oluştur"
-
-#~ msgid "due: %s"
-#~ msgstr "nedeniyle: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "başlat: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "etiket:  %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Gnome'la, Hayatını Yaşa'da görev aç"
-
-#~ msgid "Delete"
-#~ msgstr "Sil"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Bu görevi kalıcı olark sil"
-
-#~ msgid "Mark Done"
-#~ msgstr "Tamamlanmış Olarak İşaretle"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Bunu Tamamlandı Olarak İşaretle"
-
-#~ msgid "Dismiss"
-#~ msgstr "Kapat"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Yapılmayacak olarak işaretle"
-
-#~ msgid "Create Task"
-#~ msgstr "Görev Oluştur"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "GNOME'la, hayatını yaşa'da yeni görev oluştur"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

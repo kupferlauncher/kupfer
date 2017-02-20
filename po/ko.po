@@ -1544,6 +1544,51 @@ msgstr "노래"
 msgid "Songs in Rhythmbox library"
 msgstr "리듬박스 라이브러리 안의 노래"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "GTG를 찾아보고 새 작업을 만듭니다"
+
+#, python-format
+msgid "due: %s"
+msgstr "기한:  %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "시작:  %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "태그: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Getting Things GNOME!에 작업을 엽니다"
+
+msgid "Delete"
+msgstr "삭제"
+
+msgid "Permanently remove this task"
+msgstr "이 작업을 영구적으로 제거"
+
+msgid "Mark Done"
+msgstr "완료된 것으로 표시"
+
+msgid "Mark this task as done"
+msgstr "이 작업을 완료한 것으로 표시"
+
+msgid "Dismiss"
+msgstr "해제"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "이 작업을 더 이상 완료할 수 없는 것으로 표시"
+
+msgid "Create Task"
+msgstr "작업 만들기"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Getting Things GNOME에 새 작업 만들기"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "대안 활성화"
@@ -2022,48 +2067,6 @@ msgstr "실행 중인 쿠퍼를 찾을 수 없습니다"
 
 #~ msgid "Show translation in browser"
 #~ msgstr "브라우저로 변역 보이기"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "GTG를 찾아보고 새 작업을 만듭니다"
-
-#~ msgid "due: %s"
-#~ msgstr "기한:  %s"
-
-#~ msgid "start: %s"
-#~ msgstr "시작:  %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "태그: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Getting Things GNOME!에 작업을 엽니다"
-
-#~ msgid "Delete"
-#~ msgstr "삭제"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "이 작업을 영구적으로 제거"
-
-#~ msgid "Mark Done"
-#~ msgstr "완료된 것으로 표시"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "이 작업을 완료한 것으로 표시"
-
-#~ msgid "Dismiss"
-#~ msgstr "해제"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "이 작업을 더 이상 완료할 수 없는 것으로 표시"
-
-#~ msgid "Create Task"
-#~ msgstr "작업 만들기"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Getting Things GNOME에 새 작업 만들기"
 
 #, fuzzy
 #~ msgid "%(user)s on %(service)s"

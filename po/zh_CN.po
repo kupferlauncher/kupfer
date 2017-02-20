@@ -1551,6 +1551,51 @@ msgstr "歌曲"
 msgid "Songs in Rhythmbox library"
 msgstr "媒体库中的歌曲"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "在 GTG 中浏览和创建新任务"
+
+#, python-format
+msgid "due: %s"
+msgstr "到期：%s"
+
+#, python-format
+msgid "start: %s"
+msgstr "开始：%s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "标签 %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "在 Getting Things GNOME 中打开新任务"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Permanently remove this task"
+msgstr "永远移除此任务"
+
+msgid "Mark Done"
+msgstr "标记完成"
+
+msgid "Mark this task as done"
+msgstr "将此任务标记为已完成"
+
+msgid "Dismiss"
+msgstr "解除"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "标志此任务为未完成"
+
+msgid "Create Task"
+msgstr "创建任务"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "在 Getting Things GNOME 中创建新任务"
+
 #. TRANS: Names of accelerators in the interface
 #, fuzzy
 msgid "Alternate Activate"
@@ -2030,48 +2075,6 @@ msgstr "找不到运行中的 Kupfer"
 
 #~ msgid "Show translation in browser"
 #~ msgstr "在浏览器显示翻译"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "在 GTG 中浏览和创建新任务"
-
-#~ msgid "due: %s"
-#~ msgstr "到期：%s"
-
-#~ msgid "start: %s"
-#~ msgstr "开始：%s"
-
-#~ msgid "tags: %s"
-#~ msgstr "标签 %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "在 Getting Things GNOME 中打开新任务"
-
-#~ msgid "Delete"
-#~ msgstr "删除"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "永远移除此任务"
-
-#~ msgid "Mark Done"
-#~ msgstr "标记完成"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "将此任务标记为已完成"
-
-#~ msgid "Dismiss"
-#~ msgstr "解除"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "标志此任务为未完成"
-
-#~ msgid "Create Task"
-#~ msgstr "创建任务"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "在 Getting Things GNOME 中创建新任务"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

@@ -1537,6 +1537,51 @@ msgstr "Τραγούδια"
 msgid "Songs in Rhythmbox library"
 msgstr "Τραγούδια στη βιβλιοθήκη Rhythmbox"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Περιήγηση και δημιουργία νέων εργασιών στο GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "λήξη: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "έναρξη: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "ετικέτες: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Άνοιγμα εργασίας στο Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Διαγραφή"
+
+msgid "Permanently remove this task"
+msgstr "Μόνιμη απομάκρυνση αυτής της εργασίας"
+
+msgid "Mark Done"
+msgstr "Έτοιμο"
+
+msgid "Mark this task as done"
+msgstr "Σημείωση αυτής της εργασίας ως έτοιμης"
+
+msgid "Dismiss"
+msgstr "Αποδέσμευση"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Σημείωση αυτής της εργασίας να μην γίνει πια"
+
+msgid "Create Task"
+msgstr "Δημιουργία εργασίας"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Δημιουργία νέας εργασίας στο Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Εναλλακτική ενεργοποίηση"
@@ -2071,48 +2116,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
 #~ msgid "%s total found"
 #~ msgstr "βρέθηκαν συνολικά %s"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Περιήγηση και δημιουργία νέων εργασιών στο GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "λήξη: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "έναρξη: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "ετικέτες: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Άνοιγμα εργασίας στο Getting Things GNOME!"
-
-#~ msgid "Delete"
-#~ msgstr "Διαγραφή"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Μόνιμη απομάκρυνση αυτής της εργασίας"
-
-#~ msgid "Mark Done"
-#~ msgstr "Έτοιμο"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Σημείωση αυτής της εργασίας ως έτοιμης"
-
-#~ msgid "Dismiss"
-#~ msgstr "Αποδέσμευση"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Σημείωση αυτής της εργασίας να μην γίνει πια"
-
-#~ msgid "Create Task"
-#~ msgstr "Δημιουργία εργασίας"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Δημιουργία νέας εργασίας στο Getting Things GNOME"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

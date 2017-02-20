@@ -1551,6 +1551,51 @@ msgstr "Песме"
 msgid "Songs in Rhythmbox library"
 msgstr "Песме у збирци Музичке кутије"
 
+msgid "Getting Things GNOME"
+msgstr "Гномов управник задатака"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Прегледа и образује нове задатке у ГТГ"
+
+#, python-format
+msgid "due: %s"
+msgstr "рок: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "почиње: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "ознака: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Отворите задатак у Гномовом управнику задатака!"
+
+msgid "Delete"
+msgstr "Обриши"
+
+msgid "Permanently remove this task"
+msgstr "Трајно уклоните овај задатак"
+
+msgid "Mark Done"
+msgstr "Означи да је готово"
+
+msgid "Mark this task as done"
+msgstr "Означава овај задатак као завршен"
+
+msgid "Dismiss"
+msgstr "Откажи"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Означи овај задатак да се више не извршава"
+
+msgid "Create Task"
+msgstr "Направи задатак"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Направите нови задатак у Гномовом управнику задатака"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Заменски покрени"
@@ -2082,48 +2127,6 @@ msgstr "Не могу да пронађем покренутог Бакарни�
 
 #~ msgid "%s total found"
 #~ msgstr "Пронашао сам %s"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Гномов управник задатака"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Прегледа и образује нове задатке у ГТГ"
-
-#~ msgid "due: %s"
-#~ msgstr "рок: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "почиње: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "ознака: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Отворите задатак у Гномовом управнику задатака!"
-
-#~ msgid "Delete"
-#~ msgstr "Обриши"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Трајно уклоните овај задатак"
-
-#~ msgid "Mark Done"
-#~ msgstr "Означи да је готово"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Означава овај задатак као завршен"
-
-#~ msgid "Dismiss"
-#~ msgstr "Откажи"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Означи овај задатак да се више не извршава"
-
-#~ msgid "Create Task"
-#~ msgstr "Направи задатак"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Направите нови задатак у Гномовом управнику задатака"
 
 #~ msgid "Gwibber"
 #~ msgstr "Гвибер"

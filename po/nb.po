@@ -1519,6 +1519,53 @@ msgstr "Sanger"
 msgid "Songs in Rhythmbox library"
 msgstr ""
 
+msgid "Getting Things GNOME"
+msgstr ""
+
+msgid "Browse and create new tasks in GTG"
+msgstr ""
+
+#, python-format
+msgid "due: %s"
+msgstr ""
+
+#, python-format
+msgid "start: %s"
+msgstr ""
+
+#, python-format
+msgid "tags: %s"
+msgstr ""
+
+msgid "Open task in Getting Things GNOME!"
+msgstr ""
+
+#, fuzzy
+msgid "Delete"
+msgstr "Slett melding"
+
+msgid "Permanently remove this task"
+msgstr ""
+
+msgid "Mark Done"
+msgstr ""
+
+msgid "Mark this task as done"
+msgstr "Merk denne oppgaven som utført"
+
+msgid "Dismiss"
+msgstr ""
+
+#, fuzzy
+msgid "Mark this task as not to be done anymore"
+msgstr "Merk denne oppgaven som utført"
+
+msgid "Create Task"
+msgstr "Lag oppgave"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr ""
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Aktiver (alternativ)"
@@ -1834,12 +1881,6 @@ msgstr ""
 #~ msgid "Google Search"
 #~ msgstr "Google søk"
 
-#~ msgid "Mark this task as done"
-#~ msgstr "Merk denne oppgaven som utført"
-
-#~ msgid "Create Task"
-#~ msgstr "Lag oppgave"
-
 #~ msgid "%(user)s %(when)s on %(where)s"
 #~ msgstr "%(user)s %(when)s på %(where)s"
 
@@ -1860,9 +1901,6 @@ msgstr ""
 
 #~ msgid "Reply..."
 #~ msgstr "Svar …"
-
-#~ msgid "Delete Message"
-#~ msgstr "Slett melding"
 
 #~ msgid "Send Private Message..."
 #~ msgstr "Send privat melding …"

@@ -1535,6 +1535,51 @@ msgstr "Músicas"
 msgid "Songs in Rhythmbox library"
 msgstr "Músicas na biblioteca do Rhythmbox"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Procurar e criar novas tarefas no GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "vencimento: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "Início: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "etiquetas: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Tarefa aberta no Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Remover"
+
+msgid "Permanently remove this task"
+msgstr "Remove permanentemente esta tarefa"
+
+msgid "Mark Done"
+msgstr "Marcar como feito"
+
+msgid "Mark this task as done"
+msgstr "Marca esta tarefa como concluída"
+
+msgid "Dismiss"
+msgstr "Desconsiderar"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Marca esta tarefa como uma tarefa que não deve ser feita mais"
+
+msgid "Create Task"
+msgstr "Criar tarefa"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Criar nova tarefa no Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Ativar o suplente"
@@ -2067,48 +2112,6 @@ msgstr "Não foi possível encontrar a execução do Kupfer"
 
 #~ msgid "%s total found"
 #~ msgstr "Total encontrado %s"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Procurar e criar novas tarefas no GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "vencimento: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "Início: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "etiquetas: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Tarefa aberta no Getting Things GNOME!"
-
-#~ msgid "Delete"
-#~ msgstr "Remover"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Remove permanentemente esta tarefa"
-
-#~ msgid "Mark Done"
-#~ msgstr "Marcar como feito"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Marca esta tarefa como concluída"
-
-#~ msgid "Dismiss"
-#~ msgstr "Desconsiderar"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Marca esta tarefa como uma tarefa que não deve ser feita mais"
-
-#~ msgid "Create Task"
-#~ msgstr "Criar tarefa"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Criar nova tarefa no Getting Things GNOME"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

@@ -1555,6 +1555,51 @@ msgstr "Abestiak"
 msgid "Songs in Rhythmbox library"
 msgstr "Rhythmbox liburutegiko abestiak"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Arakatu eta sortu ataza berriak GTGen"
+
+#, python-format
+msgid "due: %s"
+msgstr "iraungitzea: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "hasiera: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "etiketak: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Ireki ataza 'Getting Things GNOME'n"
+
+msgid "Delete"
+msgstr "Ezabatu"
+
+msgid "Permanently remove this task"
+msgstr "Kendu betirako ataza hau"
+
+msgid "Mark Done"
+msgstr "Markatu eginda gisa"
+
+msgid "Mark this task as done"
+msgstr "Markatu ataza hau eginda balego bezala"
+
+msgid "Dismiss"
+msgstr "Baztertu"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Markatu ataza hau gehiago ez egiteko gisa"
+
+msgid "Create Task"
+msgstr "Sortu ataza"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Sortu ataza berria 'Getting Things GNOME'n"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Ordezko aktibazioa"
@@ -2039,48 +2084,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Show translation in browser"
 #~ msgstr "Erakutsi itzulpena arakatzailean"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Arakatu eta sortu ataza berriak GTGen"
-
-#~ msgid "due: %s"
-#~ msgstr "iraungitzea: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "hasiera: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "etiketak: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Ireki ataza 'Getting Things GNOME'n"
-
-#~ msgid "Delete"
-#~ msgstr "Ezabatu"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Kendu betirako ataza hau"
-
-#~ msgid "Mark Done"
-#~ msgstr "Markatu eginda gisa"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Markatu ataza hau eginda balego bezala"
-
-#~ msgid "Dismiss"
-#~ msgstr "Baztertu"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Markatu ataza hau gehiago ez egiteko gisa"
-
-#~ msgid "Create Task"
-#~ msgstr "Sortu ataza"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Sortu ataza berria 'Getting Things GNOME'n"
 
 #, fuzzy
 #~ msgid "%(user)s on %(service)s"

@@ -1535,6 +1535,51 @@ msgstr "Dalok"
 msgid "Songs in Rhythmbox library"
 msgstr "Dalok a Rhythmbox könyvtárban"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Böngészés és új feladatok létrehozása a GTG-ben"
+
+#, python-format
+msgid "due: %s"
+msgstr "határidő: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "kezdés: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "címkék: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Feladat megnyitása a „Getting Things GNOME!”-ban"
+
+msgid "Delete"
+msgstr "Törlés"
+
+msgid "Permanently remove this task"
+msgstr "Feladat végleges eltávolítása"
+
+msgid "Mark Done"
+msgstr "Készre jelölés"
+
+msgid "Mark this task as done"
+msgstr "A feladat készre jelölése"
+
+msgid "Dismiss"
+msgstr "Eltüntetés"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Feladat megjelölése „többé nem kell elvégezni”-ként"
+
+msgid "Create Task"
+msgstr "Feladat létrehozása"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Feladat létrehozása a „Getting Things GNOME”-ban"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternatív aktiválása"
@@ -2075,48 +2120,6 @@ msgstr "Nem található futó Kupfer"
 
 #~ msgid "%s total found"
 #~ msgstr "%s találat összesen"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Böngészés és új feladatok létrehozása a GTG-ben"
-
-#~ msgid "due: %s"
-#~ msgstr "határidő: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "kezdés: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "címkék: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Feladat megnyitása a „Getting Things GNOME!”-ban"
-
-#~ msgid "Delete"
-#~ msgstr "Törlés"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Feladat végleges eltávolítása"
-
-#~ msgid "Mark Done"
-#~ msgstr "Készre jelölés"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "A feladat készre jelölése"
-
-#~ msgid "Dismiss"
-#~ msgstr "Eltüntetés"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Feladat megjelölése „többé nem kell elvégezni”-ként"
-
-#~ msgid "Create Task"
-#~ msgstr "Feladat létrehozása"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Feladat létrehozása a „Getting Things GNOME”-ban"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

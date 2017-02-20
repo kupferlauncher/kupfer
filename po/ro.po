@@ -1543,6 +1543,51 @@ msgstr "Cântece"
 msgid "Songs in Rhythmbox library"
 msgstr "Cântece în biblioteca Rhythmbox"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Navighează și creează sarcini noi în GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "scadent: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "pornire: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "etichete: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Deschide sarcina în Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Șterge"
+
+msgid "Permanently remove this task"
+msgstr "Elimină permanent această sarcină"
+
+msgid "Mark Done"
+msgstr "Marchează ca fiind terminată"
+
+msgid "Mark this task as done"
+msgstr "Marchează această sarcină ca fiind terminată"
+
+msgid "Dismiss"
+msgstr "Eliberează"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Marchează această sarcină pentru a nu mai fi terminată"
+
+msgid "Create Task"
+msgstr "Creează sarcină"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Creează o sarcină nouă în Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Activare alternativă"
@@ -2086,48 +2131,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "%s total found"
 #~ msgstr "%s găsite în total"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Navighează și creează sarcini noi în GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "scadent: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "pornire: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "etichete: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Deschide sarcina în Getting Things GNOME!"
-
-#~ msgid "Delete"
-#~ msgstr "Șterge"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Elimină permanent această sarcină"
-
-#~ msgid "Mark Done"
-#~ msgstr "Marchează ca fiind terminată"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Marchează această sarcină ca fiind terminată"
-
-#~ msgid "Dismiss"
-#~ msgstr "Eliberează"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Marchează această sarcină pentru a nu mai fi terminată"
-
-#~ msgid "Create Task"
-#~ msgstr "Creează sarcină"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Creează o sarcină nouă în Getting Things GNOME"
 
 #~ msgid "Gwibber"
 #~ msgstr "Gwibber"

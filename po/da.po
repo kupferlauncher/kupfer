@@ -1576,6 +1576,51 @@ msgstr "Sange"
 msgid "Songs in Rhythmbox library"
 msgstr "Sange i Rhythmboxbibliotek"
 
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Gennemse og opret nye opgaver i GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "forfalden: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "start: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "mærker: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Åbn opgave i Getting Things GNOME!"
+
+msgid "Delete"
+msgstr "Slet"
+
+msgid "Permanently remove this task"
+msgstr "Fjern permanent denne opgave"
+
+msgid "Mark Done"
+msgstr "Markering færdig"
+
+msgid "Mark this task as done"
+msgstr "Marker denne opgave som færdig"
+
+msgid "Dismiss"
+msgstr "Afvis"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Marker at denne opgave ikke længere skal udføres"
+
+msgid "Create Task"
+msgstr "Opret opgave"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Opret ny opgave i Getting Things GNOME"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivering"
@@ -2062,48 +2107,6 @@ msgstr "Kunne ikke finde kørende Kupfer"
 
 #~ msgid "Show translation in browser"
 #~ msgstr "Vis oversættelse i browser"
-
-#~ msgid "Getting Things GNOME"
-#~ msgstr "Getting Things GNOME"
-
-#~ msgid "Browse and create new tasks in GTG"
-#~ msgstr "Gennemse og opret nye opgaver i GTG"
-
-#~ msgid "due: %s"
-#~ msgstr "forfalden: %s"
-
-#~ msgid "start: %s"
-#~ msgstr "start: %s"
-
-#~ msgid "tags: %s"
-#~ msgstr "mærker: %s"
-
-#~ msgid "Open task in Getting Things GNOME!"
-#~ msgstr "Åbn opgave i Getting Things GNOME!"
-
-#~ msgid "Delete"
-#~ msgstr "Slet"
-
-#~ msgid "Permanently remove this task"
-#~ msgstr "Fjern permanent denne opgave"
-
-#~ msgid "Mark Done"
-#~ msgstr "Markering færdig"
-
-#~ msgid "Mark this task as done"
-#~ msgstr "Marker denne opgave som færdig"
-
-#~ msgid "Dismiss"
-#~ msgstr "Afvis"
-
-#~ msgid "Mark this task as not to be done anymore"
-#~ msgstr "Marker at denne opgave ikke længere skal udføres"
-
-#~ msgid "Create Task"
-#~ msgstr "Opret opgave"
-
-#~ msgid "Create new task in Getting Things GNOME"
-#~ msgstr "Opret ny opgave i Getting Things GNOME"
 
 #, fuzzy
 #~ msgid "%(user)s on %(service)s"
