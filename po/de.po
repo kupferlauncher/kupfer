@@ -186,6 +186,13 @@ msgstr ""
 "   %(COPYRIGHT)s\n"
 "   %(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Eingeben, um zu suchen"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s ist leer"
+
 msgid "Text"
 msgstr "Text"
 
@@ -1361,6 +1368,21 @@ msgstr "Lesezeichen in Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Index der Lesezeichen in Firefox"
 
+msgid "Firefox Keywords"
+msgstr "Schlüsselwörter in Firefox"
+
+msgid "Search With..."
+msgstr "Suchen mit …"
+
+msgid "Search the web with Firefox keywords"
+msgstr "Das Internet mit Firefox Schlüsselwörter durchsuchen"
+
+msgid "Search For..."
+msgstr "Suchen nach …"
+
+msgid "Search Terms"
+msgstr "Suchbegriffe"
+
 msgid "Media Player Control"
 msgstr "Mediaspieler-Bedienung"
 
@@ -1490,25 +1512,15 @@ msgid "Toggle Text Mode"
 msgstr "Textmodus umschalten"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s ist leer"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Keine Treffer in %(src)s für »%(query)s«"
 
 msgid "No matches"
 msgstr "Keine Treffer"
 
-msgid "Type to search"
-msgstr "Eingeben, um zu suchen"
-
 #, python-format
-msgid "Type to search %s"
-msgstr "Eingeben, um »%s« zu durchsuchen"
-
-msgid "No action"
-msgstr "Keine Aktion"
+msgid "No action matches \"%s\""
+msgstr "Keine Aktion für »%s«"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1633,6 +1645,12 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 
+#~ msgid "Type to search %s"
+#~ msgstr "Eingeben, um »%s« zu durchsuchen"
+
+#~ msgid "No action"
+#~ msgstr "Keine Aktion"
+
 #~ msgid "Compose Email"
 #~ msgstr "Neue E-Mail verfassen"
 
@@ -1727,12 +1745,6 @@ msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 
 #~ msgid "Search the web with OpenSearch search engines"
 #~ msgstr "Das Internet mit den OpenSearch-Suchmaschinen durchsuchen"
-
-#~ msgid "Search With..."
-#~ msgstr "Suchen mit …"
-
-#~ msgid "Search For..."
-#~ msgstr "Suchen nach …"
 
 #~ msgid "Search Engines"
 #~ msgstr "Suchmaschinen"
