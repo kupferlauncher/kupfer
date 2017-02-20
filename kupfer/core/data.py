@@ -161,7 +161,7 @@ class Searcher (object):
         rankables = search.make_rankables(item_check(objects))
         if key:
             rankables = search.score_objects(rankables, key)
-            matches = search.bonus_objects(rankables, key)
+            matches = search.bonus_actions(rankables, key)
         else:
             matches = search.score_actions(rankables, leaf)
         matches = sorted(matches, key=operator.attrgetter("rank"), reverse=True)

@@ -39,6 +39,21 @@ class Rankable (object):
 def bonus_objects(rankables, key):
     """generator of @rankables that have mnemonics for @key
 
+    add bonus for mnemonics
+
+    rank is added to prev rank, all items are yielded"""
+    key = key.lower()
+    get_record_score = learn.get_record_score
+    for obj in rankables:
+        obj.rank += get_record_score(obj.object, key)
+        yield obj
+
+def bonus_actions(rankables, key):
+    """
+    generator of @rankables that have mnemonics for @key
+
+    Add bonus for mnemonics and rank_adjust
+
     rank is added to prev rank, all items are yielded"""
     key = key.lower()
     get_record_score = learn.get_record_score
