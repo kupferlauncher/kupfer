@@ -30,6 +30,9 @@ _SERVICE_NAME2 = 'org.gnome.GTG'
 _OBJECT_NAME2 = '/org/gnome/GTG'
 _IFACE_NAME2 = 'org.gnome.GTG'
 
+_STATUS_RANK = dict(enumerate(['Active', 'Postponed', 'Dismiss', 'Done']))
+_STATUS_RANK_DEFAULT = len(_STATUS_RANK)
+
 
 def _create_dbus_connection_gtg(iface, obj, service, activate=False):
     ''' Create dbus connection to GTG
@@ -110,11 +113,15 @@ class Task (Leaf):
     def get_icon_name(self):
         return 'gtg'
 
+
     def get_actions(self):
         yield OpenEditor()
         yield Delete()
         yield MarkDone()
         yield Dismiss()
+
+    def sort_key(self):
+        return _STATUS_RANK.get(self.status, _STATUS_RANK_DEFAULT)
 
 class OpenEditor (Action):
     rank_adjust = 1
@@ -233,6 +240,7 @@ class TasksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
         interface = _create_dbus_connection()
         if interface is not None:
             self._tasks = list(_load_tasks(interface))
+            self._tasks.sort(key=Task.sort_key)
         return self._tasks
 
     def get_icon_name(self):
