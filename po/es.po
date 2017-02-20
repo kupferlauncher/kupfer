@@ -182,6 +182,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Teclear para buscar"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s está vacío"
+
 msgid "Text"
 msgstr "Texto"
 
@@ -368,7 +375,7 @@ msgstr "Todas las aplicaciones y preferencias"
 msgid "Applications for Desktop Environment"
 msgstr "Aplicaciones para el entorno de escritorio"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -686,11 +693,9 @@ msgstr ""
 "Redactar un correo-e usando el manejador predeterminado del sistema para "
 "«mailto:»"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Redactar un correo nuevo"
-
-msgid "Send in Email To..."
-msgstr "Enviar un correo-e a…"
 
 msgid "Dictionary"
 msgstr "Diccionario"
@@ -1090,10 +1095,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Escribir un mensaje nuevo en Thunderbird"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Redactar un correo nuevo"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Enviar un correo-e a…"
 
@@ -1370,6 +1371,24 @@ msgstr "Marcadores de Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Índice de marcadores de Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Marcadores de Firefox"
+
+msgid "Search With..."
+msgstr "Buscar con…"
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Buscar en la web con motores de búsqueda OpenSearch"
+
+msgid "Search For..."
+msgstr "Buscar…"
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Motores de búsqueda"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1502,25 +1521,15 @@ msgid "Toggle Text Mode"
 msgstr "Conmutar el modo texto"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s está vacío"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "No hay coincidencias en %(src)s para «%(query)s»"
 
 msgid "No matches"
 msgstr "No hay coincidencias"
 
-msgid "Type to search"
-msgstr "Teclear para buscar"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Teclear para buscar %s"
-
-msgid "No action"
-msgstr "Sin acción"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "No hay coincidencias"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1642,6 +1651,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "No se pudo encontrar un Kupfer en ejecución"
 
+#~ msgid "Compose Email"
+#~ msgstr "Redactar un correo nuevo"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Enviar un correo-e a…"
+
+#~ msgid "Type to search %s"
+#~ msgstr "Teclear para buscar %s"
+
+#~ msgid "No action"
+#~ msgstr "Sin acción"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Perfiles de la terminal de GNOME"
 
@@ -1725,18 +1746,6 @@ msgstr "No se pudo encontrar un Kupfer en ejecución"
 
 #~ msgid "Search the Web"
 #~ msgstr "Buscar en la web"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Buscar en la web con motores de búsqueda OpenSearch"
-
-#~ msgid "Search With..."
-#~ msgstr "Buscar con…"
-
-#~ msgid "Search For..."
-#~ msgstr "Buscar…"
-
-#~ msgid "Search Engines"
-#~ msgstr "Motores de búsqueda"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

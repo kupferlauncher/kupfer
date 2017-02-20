@@ -177,6 +177,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Введите поисковый запрос"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s пуст"
+
 msgid "Text"
 msgstr "Текст"
 
@@ -365,7 +372,7 @@ msgstr "Все приложения и настройки"
 msgid "Applications for Desktop Environment"
 msgstr "Приложения для рабочей среды"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -681,11 +688,9 @@ msgstr "Почтовый клиент по умолчанию"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Создание нового электронного письма в почтовом клиенте по умолчанию"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Создать электронное письмо"
-
-msgid "Send in Email To..."
-msgstr "Отправить в электронном письме..."
 
 msgid "Dictionary"
 msgstr "Словарь"
@@ -1087,10 +1092,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Создать новое сообщение в Thunderbird"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Создать электронное письмо"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Отправить в электронном письме..."
 
@@ -1371,6 +1372,24 @@ msgstr "Закладки Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Список закладок Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Закладки Firefox"
+
+msgid "Search With..."
+msgstr "Поиск при помощи..."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Поиск в Интернете при помощи поисковой системы OpenSearch"
+
+msgid "Search For..."
+msgstr "Поиск..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Поисковые системы"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1504,25 +1523,15 @@ msgid "Toggle Text Mode"
 msgstr "Переключить в текстовый режим"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s пуст"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "нет совпадений в %(src)s для \"%(query)s\""
 
 msgid "No matches"
 msgstr "Нет совпадений"
 
-msgid "Type to search"
-msgstr "Введите поисковый запрос"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Введите поисковый запрос %s"
-
-msgid "No action"
-msgstr "Действие не назначено"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Нет совпадений"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1636,6 +1645,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Не удалось найти запущенный Kupfer"
 
+#~ msgid "Compose Email"
+#~ msgstr "Создать электронное письмо"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Отправить в электронном письме..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "Введите поисковый запрос %s"
+
+#~ msgid "No action"
+#~ msgstr "Действие не назначено"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Профили терминала GNOME"
 
@@ -1726,18 +1747,6 @@ msgstr "Не удалось найти запущенный Kupfer"
 
 #~ msgid "Search the Web"
 #~ msgstr "Поиск в Интернете"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Поиск в Интернете при помощи поисковой системы OpenSearch"
-
-#~ msgid "Search With..."
-#~ msgstr "Поиск при помощи..."
-
-#~ msgid "Search For..."
-#~ msgstr "Поиск..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Поисковые системы"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

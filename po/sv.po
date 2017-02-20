@@ -1514,7 +1514,7 @@ msgstr "Inga träffar i %(src)s för ”%(query)s”"
 msgid "No matches"
 msgstr "Inga träffar"
 
-#, , python-format
+#, python-format
 msgid "No action matches \"%s\""
 msgstr "Inga kommandon för ”%s”"
 

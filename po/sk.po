@@ -244,6 +244,17 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+# PM: znie to neprirodzene 
+#, fuzzy
+msgid "Type to search"
+msgstr "Píšte pre vyhľadávanie"
+
+# PM: čo je %s? je tu správny rod?
+# PM: podľa kódu je %s to isté ako v nasledujúcom riadku %(src)s
+#, fuzzy, python-format
+msgid "%s is empty"
+msgstr "%s je prázdny"
+
 msgid "Text"
 msgstr "Text"
 
@@ -470,7 +481,7 @@ msgstr "Všetky aplikácie a nastavenia"
 msgid "Applications for Desktop Environment"
 msgstr "Aplikácie pre pracovné prostredie"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 #  PB: Názov akcie
@@ -839,11 +850,10 @@ msgstr ""
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 
-msgid "Compose Email"
-msgstr ""
-
-msgid "Send in Email To..."
-msgstr ""
+#  pb: Akcelerátor
+#, fuzzy
+msgid "Compose Email To"
+msgstr "Zostaviť príkaz"
 
 msgid "Dictionary"
 msgstr ""
@@ -1265,11 +1275,6 @@ msgstr ""
 msgid "Compose a new message in Thunderbird"
 msgstr ""
 
-#  pb: Akcelerátor
-#, fuzzy
-msgid "Compose Email To"
-msgstr "Zostaviť príkaz"
-
 msgid "Attach in Email To..."
 msgstr ""
 
@@ -1544,6 +1549,25 @@ msgstr ""
 msgid "Index of Firefox bookmarks"
 msgstr ""
 
+msgid "Firefox Keywords"
+msgstr ""
+
+#  PB: Názov akcie
+#, fuzzy
+msgid "Search With..."
+msgstr "Otvoriť pomocou…"
+
+msgid "Search the web with Firefox keywords"
+msgstr ""
+
+msgid "Search For..."
+msgstr ""
+
+#  PB: Názov akcie
+#, fuzzy
+msgid "Search Terms"
+msgstr "Prehľadať obsah"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1691,12 +1715,6 @@ msgstr "Prepnúť na prvý panel"
 msgid "Toggle Text Mode"
 msgstr "Prepnúť textový režim"
 
-# PM: čo je %s? je tu správny rod?
-# PM: podľa kódu je %s to isté ako v nasledujúcom riadku %(src)s
-#, fuzzy, python-format
-msgid "%s is empty"
-msgstr "%s je prázdny"
-
 # PM: ako to bude vyzerať, uveď sem prosím nejaké príklady
 #, fuzzy, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
@@ -1707,18 +1725,10 @@ msgstr "Neboli nájdené žiadne výsledky v %(src)s pre dopyt „%(query)s“"
 msgid "No matches"
 msgstr "Žiadne výsledky"
 
-# PM: znie to neprirodzene 
-#, fuzzy
-msgid "Type to search"
-msgstr "Píšte pre vyhľadávanie"
-
-#  čo je miesto %s:
+#  PM: skôr žiadne zhody, alebo nič sa nenašlo
 #, fuzzy, python-format
-msgid "Type to search %s"
-msgstr "Píšte pre vyhľadávanie %s"
-
-msgid "No action"
-msgstr "Žiadna akcia"
+msgid "No action matches \"%s\""
+msgstr "Žiadne výsledky"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1834,6 +1844,14 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Nepodarilo sa nájsť spustenú aplikáciu Kupfer"
+
+#  čo je miesto %s:
+#, fuzzy
+#~ msgid "Type to search %s"
+#~ msgstr "Píšte pre vyhľadávanie %s"
+
+#~ msgid "No action"
+#~ msgstr "Žiadna akcia"
 
 #  PB: Popis zásuvného modulu
 #~ msgid "Calculate expressions starting with '='"

@@ -180,6 +180,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Upišite za pretragu"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s je prazan"
+
 msgid "Text"
 msgstr "Tekst"
 
@@ -371,7 +378,7 @@ msgstr "Svi programi i postavke"
 msgid "Applications for Desktop Environment"
 msgstr "Programi radnog okruženja"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -695,11 +702,9 @@ msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 "Sastavite el. poštu koristeći osnovni program za slanje pošte na sistemu"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Sastavi el. poštu"
-
-msgid "Send in Email To..."
-msgstr "Pošaljite el. poruku za..."
 
 msgid "Dictionary"
 msgstr "Rečnik"
@@ -1103,10 +1108,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Sastavi novu poruku u Tanderberdu"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Sastavi el. poštu"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Pošaljite el. poruku za..."
 
@@ -1385,6 +1386,24 @@ msgstr "Zabeleške Fajerfoksa"
 msgid "Index of Firefox bookmarks"
 msgstr "Sadržaj zabeleški Fajerfoksa"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Zabeleške Fajerfoksa"
+
+msgid "Search With..."
+msgstr "Pretraži uz pomoć..."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Pretražuje veb pogonima pretrage Otvorene pretrage"
+
+msgid "Search For..."
+msgstr "Traži..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Pogoni pretrage"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1519,25 +1538,15 @@ msgid "Toggle Text Mode"
 msgstr "Prekidač načina prikaza tekstom"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s je prazan"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Nema poklapanje u %(src)s za „%(query)s“"
 
 msgid "No matches"
 msgstr "Nema poklapanja"
 
-msgid "Type to search"
-msgstr "Upišite za pretragu"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Upišite da potražite %s"
-
-msgid "No action"
-msgstr "Nema radnje"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Nema poklapanja"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1650,6 +1659,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Ne mogu da pronađem pokrenutog Bakarnika"
 
+#~ msgid "Compose Email"
+#~ msgstr "Sastavi el. poštu"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Pošaljite el. poruku za..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "Upišite da potražite %s"
+
+#~ msgid "No action"
+#~ msgstr "Nema radnje"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Profili Gnomovog terminala"
 
@@ -1733,18 +1754,6 @@ msgstr "Ne mogu da pronađem pokrenutog Bakarnika"
 
 #~ msgid "Search the Web"
 #~ msgstr "Pretraži veb"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Pretražuje veb pogonima pretrage Otvorene pretrage"
-
-#~ msgid "Search With..."
-#~ msgstr "Pretraži uz pomoć..."
-
-#~ msgid "Search For..."
-#~ msgstr "Traži..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Pogoni pretrage"
 
 #~ msgid "Abiword"
 #~ msgstr "Abivord"

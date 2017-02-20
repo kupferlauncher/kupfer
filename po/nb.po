@@ -171,6 +171,13 @@ msgid ""
 "   %(WEBSITE)s\n"
 msgstr ""
 
+msgid "Type to search"
+msgstr "Skriv for å søke"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s er tom"
+
 msgid "Text"
 msgstr "Tekst"
 
@@ -357,7 +364,7 @@ msgstr "Alle programmer og brukervalg"
 msgid "Applications for Desktop Environment"
 msgstr ""
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -672,11 +679,8 @@ msgstr "Forvalgt e-postklient"
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 
-msgid "Compose Email"
-msgstr ""
-
-msgid "Send in Email To..."
-msgstr ""
+msgid "Compose Email To"
+msgstr "Skriv e-post til"
 
 msgid "Dictionary"
 msgstr "Ordbok"
@@ -1076,9 +1080,6 @@ msgstr ""
 msgid "Compose a new message in Thunderbird"
 msgstr ""
 
-msgid "Compose Email To"
-msgstr "Skriv e-post til"
-
 msgid "Attach in Email To..."
 msgstr "Legg ved i e-post til..."
 
@@ -1355,6 +1356,24 @@ msgstr "Firefox-bokmerker"
 msgid "Index of Firefox bookmarks"
 msgstr "Åpne bokmerke %s"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Firefox-bokmerker"
+
+msgid "Search With..."
+msgstr "Søk med …"
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Søk på nettet med nettleserens innstillinger for søk"
+
+msgid "Search For..."
+msgstr "Søk etter …"
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Søkemotorer"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1486,25 +1505,15 @@ msgid "Toggle Text Mode"
 msgstr ""
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s er tom"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ingen treff i %(src)s for «%(query)s»"
 
 msgid "No matches"
 msgstr "Ingen treff"
 
-msgid "Type to search"
-msgstr "Skriv for å søke"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Skriv for å søke i %s"
-
-msgid "No action"
-msgstr "Ingen handling"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Ingen treff"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1604,6 +1613,12 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr ""
 
+#~ msgid "Type to search %s"
+#~ msgstr "Skriv for å søke i %s"
+
+#~ msgid "No action"
+#~ msgstr "Ingen handling"
+
 #, fuzzy
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Åpne terminal her"
@@ -1636,19 +1651,6 @@ msgstr ""
 
 #~ msgid "Search the Web"
 #~ msgstr "Søk på nettet"
-
-#, fuzzy
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Søk på nettet med nettleserens innstillinger for søk"
-
-#~ msgid "Search With..."
-#~ msgstr "Søk med …"
-
-#~ msgid "Search For..."
-#~ msgstr "Søk etter …"
-
-#~ msgid "Search Engines"
-#~ msgstr "Søkemotorer"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

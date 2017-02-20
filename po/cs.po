@@ -180,6 +180,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Pište co se má vyhledat"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s je prázdný"
+
 msgid "Text"
 msgstr "Text"
 
@@ -368,7 +375,7 @@ msgstr "Všechny aplikace a předvolby"
 msgid "Applications for Desktop Environment"
 msgstr "Aplikace pro pracovní prostředí"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -684,11 +691,9 @@ msgstr "Výchozí poštovní klient"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Napsat e-mail ve výchozím programu systému pro zpracován mailto:"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Napsat e-mail"
-
-msgid "Send in Email To..."
-msgstr "Odeslat e-mailem…"
 
 msgid "Dictionary"
 msgstr "Slovník"
@@ -1089,10 +1094,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Napsat novou zprávu v aplikaci Thunderbird"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Napsat e-mail"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Odeslat e-mailem…"
 
@@ -1371,6 +1372,24 @@ msgstr "Záložky ve Firefoxu"
 msgid "Index of Firefox bookmarks"
 msgstr "Seznam záložek v prohlížeči Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Záložky ve Firefoxu"
+
+msgid "Search With..."
+msgstr "Prohledat pomocí…"
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Prohledat web pomocí vyhledávacího stroje OpenSearch"
+
+msgid "Search For..."
+msgstr "Vyhledat…"
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Vyhledávací stroje"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1505,25 +1524,15 @@ msgid "Toggle Text Mode"
 msgstr "Přepnout textový režim"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s je prázdný"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ve zdroji %(src)s nebylo pro dotaz \"%(query)s\" nic nalezeno"
 
 msgid "No matches"
 msgstr "Nic nenalezeno"
 
-msgid "Type to search"
-msgstr "Pište co se má vyhledat"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Pište, prohledá se %s"
-
-msgid "No action"
-msgstr "Žádná akce"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Nic nenalezeno"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1636,6 +1645,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Nelze najít běžící aplikaci Kupfer"
 
+#~ msgid "Compose Email"
+#~ msgstr "Napsat e-mail"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Odeslat e-mailem…"
+
+#~ msgid "Type to search %s"
+#~ msgstr "Pište, prohledá se %s"
+
+#~ msgid "No action"
+#~ msgstr "Žádná akce"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Profily terminálu GNOME"
 
@@ -1720,18 +1741,6 @@ msgstr "Nelze najít běžící aplikaci Kupfer"
 
 #~ msgid "Search the Web"
 #~ msgstr "Prohledat web"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Prohledat web pomocí vyhledávacího stroje OpenSearch"
-
-#~ msgid "Search With..."
-#~ msgstr "Prohledat pomocí…"
-
-#~ msgid "Search For..."
-#~ msgstr "Vyhledat…"
-
-#~ msgid "Search Engines"
-#~ msgstr "Vyhledávací stroje"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

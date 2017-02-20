@@ -173,6 +173,13 @@ msgid ""
 "   %(WEBSITE)s\n"
 msgstr ""
 
+msgid "Type to search"
+msgstr "Teclegeu per cercar"
+
+#, python-format
+msgid "%s is empty"
+msgstr ""
+
 msgid "Text"
 msgstr "Text"
 
@@ -359,7 +366,7 @@ msgstr ""
 msgid "Applications for Desktop Environment"
 msgstr ""
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -680,11 +687,8 @@ msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 
 #, fuzzy
-msgid "Compose Email"
+msgid "Compose Email To"
 msgstr "Adreça electrònica particular"
-
-msgid "Send in Email To..."
-msgstr ""
 
 msgid "Dictionary"
 msgstr "Diccionari"
@@ -1094,10 +1098,6 @@ msgstr ""
 msgid "Compose a new message in Thunderbird"
 msgstr ""
 
-#, fuzzy
-msgid "Compose Email To"
-msgstr "Adreça electrònica particular"
-
 msgid "Attach in Email To..."
 msgstr ""
 
@@ -1383,6 +1383,24 @@ msgstr "Adreces d'interès del Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Adreces d'interès del Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Adreces d'interès del Firefox"
+
+#, fuzzy
+msgid "Search With..."
+msgstr "Obre amb..."
+
+msgid "Search the web with Firefox keywords"
+msgstr ""
+
+msgid "Search For..."
+msgstr ""
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Motors de cerca"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1515,25 +1533,15 @@ msgid "Toggle Text Mode"
 msgstr ""
 
 #, python-format
-msgid "%s is empty"
-msgstr ""
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr ""
 
 msgid "No matches"
 msgstr "No hi ha cap coincidència"
 
-msgid "Type to search"
-msgstr "Teclegeu per cercar"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Teclegeu per cercar %s"
-
-msgid "No action"
-msgstr "Cap acció"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "No hi ha cap coincidència"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1634,6 +1642,16 @@ msgid "Could not find running Kupfer"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Compose Email"
+#~ msgstr "Adreça electrònica particular"
+
+#~ msgid "Type to search %s"
+#~ msgstr "Teclegeu per cercar %s"
+
+#~ msgid "No action"
+#~ msgstr "Cap acció"
+
+#, fuzzy
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Terminal del GNOME"
 
@@ -1665,9 +1683,6 @@ msgstr ""
 
 #~ msgid "Search the Web"
 #~ msgstr "Cerca al web"
-
-#~ msgid "Search Engines"
-#~ msgstr "Motors de cerca"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

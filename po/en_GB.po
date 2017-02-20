@@ -170,6 +170,13 @@ msgid ""
 "   %(WEBSITE)s\n"
 msgstr ""
 
+msgid "Type to search"
+msgstr ""
+
+#, fuzzy, python-format
+msgid "%s is empty"
+msgstr "The wastebasket is empty"
+
 msgid "Text"
 msgstr ""
 
@@ -357,7 +364,7 @@ msgstr ""
 msgid "Applications for Desktop Environment"
 msgstr ""
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -675,10 +682,7 @@ msgstr ""
 msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 
-msgid "Compose Email"
-msgstr ""
-
-msgid "Send in Email To..."
+msgid "Compose Email To"
 msgstr ""
 
 msgid "Dictionary"
@@ -1079,9 +1083,6 @@ msgstr ""
 msgid "Compose a new message in Thunderbird"
 msgstr ""
 
-msgid "Compose Email To"
-msgstr ""
-
 msgid "Attach in Email To..."
 msgstr ""
 
@@ -1357,6 +1358,22 @@ msgstr ""
 msgid "Index of Firefox bookmarks"
 msgstr ""
 
+msgid "Firefox Keywords"
+msgstr ""
+
+msgid "Search With..."
+msgstr ""
+
+msgid "Search the web with Firefox keywords"
+msgstr ""
+
+msgid "Search For..."
+msgstr ""
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Access the content of the wastebasket"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1488,10 +1505,6 @@ msgstr ""
 msgid "Toggle Text Mode"
 msgstr ""
 
-#, fuzzy, python-format
-msgid "%s is empty"
-msgstr "The wastebasket is empty"
-
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "No matches in %(src)s for “%(query)s”"
@@ -1499,14 +1512,8 @@ msgstr "No matches in %(src)s for “%(query)s”"
 msgid "No matches"
 msgstr ""
 
-msgid "Type to search"
-msgstr ""
-
 #, python-format
-msgid "Type to search %s"
-msgstr ""
-
-msgid "No action"
+msgid "No action matches \"%s\""
 msgstr ""
 
 #, python-format

@@ -178,6 +178,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Idatzi bilatzeko"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s hutsa dago"
+
 #, fuzzy
 msgid "Text"
 msgstr "Erakutsi testua"
@@ -368,7 +375,7 @@ msgstr "Aplikazio eta hobespen guztiak"
 msgid "Applications for Desktop Environment"
 msgstr "Mahaigainaren ingurunearentzako aplikazioak"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -697,11 +704,9 @@ msgstr "Posta-bezero lehenetsia"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Prestatu mezua sistemako posta-bezero lehenetsia erabiliz"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Prestatu mezua"
-
-msgid "Send in Email To..."
-msgstr "Bidali mezua honi..."
 
 msgid "Dictionary"
 msgstr "Hiztegia"
@@ -1106,10 +1111,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Prestatu mezu berria Thunderbird-en"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Prestatu mezua"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Bidali mezua honi..."
 
@@ -1390,6 +1391,24 @@ msgstr "Firefox-en laster-markak"
 msgid "Index of Firefox bookmarks"
 msgstr "Firefox-en laster-marken indizea"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Firefox-en laster-markak"
+
+msgid "Search With..."
+msgstr "Bilatu honekin..."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Bilatu webean Open Search bilaketako motorrekin"
+
+msgid "Search For..."
+msgstr "Hau bilatu..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Bilaketako motorrak"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1523,25 +1542,15 @@ msgid "Toggle Text Mode"
 msgstr "Aldatu testu modura"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s hutsa dago"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Ez dago \"%(query)s\"(r)ekin bat datorrenik %(src)s-en"
 
 msgid "No matches"
 msgstr "Ez dago bat datorrenik"
 
-msgid "Type to search"
-msgstr "Idatzi bilatzeko"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Idatzi %s bilatzeko"
-
-msgid "No action"
-msgstr "Ekintzarik ez"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Ez dago bat datorrenik"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1656,6 +1665,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
+#~ msgid "Compose Email"
+#~ msgstr "Prestatu mezua"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Bidali mezua honi..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "Idatzi %s bilatzeko"
+
+#~ msgid "No action"
+#~ msgstr "Ekintzarik ez"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "GNOMEren terminaleko profilak"
 
@@ -1754,18 +1775,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Search the Web"
 #~ msgstr "Bilatu webean"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Bilatu webean Open Search bilaketako motorrekin"
-
-#~ msgid "Search With..."
-#~ msgstr "Bilatu honekin..."
-
-#~ msgid "Search For..."
-#~ msgstr "Hau bilatu..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Bilaketako motorrak"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

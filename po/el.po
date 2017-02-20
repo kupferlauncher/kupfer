@@ -180,6 +180,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Πληκτρολογήστε για αναζήτηση"
+
+#, python-format
+msgid "%s is empty"
+msgstr "το %s είναι κενό"
+
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -366,7 +373,7 @@ msgstr "Όλες οι εφαρμογές και προτιμήσεις"
 msgid "Applications for Desktop Environment"
 msgstr "Εφαρμογές για το περιβάλλον επιφάνειας εργασίας"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -683,11 +690,9 @@ msgstr ""
 "Σύνταξη αλληλογραφίας χρησιμοποιώντας τον προεπιλεγμένο χειριστή mailto: του "
 "συστήματος"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Σύνταξη αλληλογραφίας"
-
-msgid "Send in Email To..."
-msgstr "Αποστολή με αλληλογραφία σε..."
 
 msgid "Dictionary"
 msgstr "Λεξικό"
@@ -1089,10 +1094,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Σύνταξη νέου μηνύματος στο Thunderbird"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Σύνταξη αλληλογραφίας"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Αποστολή με αλληλογραφία σε..."
 
@@ -1370,6 +1371,24 @@ msgstr "Σελιδοδείκτες Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Ευρετήριο σελιδοδεικτών του Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Σελιδοδείκτες Firefox"
+
+msgid "Search With..."
+msgstr "Αναζήτηση με..."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Αναζήτηση στον ιστό με μηχανές αναζήτησης OpenSearch"
+
+msgid "Search For..."
+msgstr "Αναζήτηση για..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Μηχανές αναζήτησης"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1502,25 +1521,15 @@ msgid "Toggle Text Mode"
 msgstr "Εναλλαγή σε κατάσταση κειμένου"
 
 #, python-format
-msgid "%s is empty"
-msgstr "το %s είναι κενό"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Δεν υπάρχει συμφωνία στο %(src)s για το \"%(query)s\""
 
 msgid "No matches"
 msgstr "Καμία συμφωνία"
 
-msgid "Type to search"
-msgstr "Πληκτρολογήστε για αναζήτηση"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Πληκτρολογήστε για αναζήτηση του %s"
-
-msgid "No action"
-msgstr "Καμία ενέργεια"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Καμία συμφωνία"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1639,6 +1648,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
+#~ msgid "Compose Email"
+#~ msgstr "Σύνταξη αλληλογραφίας"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Αποστολή με αλληλογραφία σε..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "Πληκτρολογήστε για αναζήτηση του %s"
+
+#~ msgid "No action"
+#~ msgstr "Καμία ενέργεια"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Κατατομές τερματικού GNOME"
 
@@ -1724,18 +1745,6 @@ msgstr "Αδύνατη η εύρεση εκτελούμενου Kupfer"
 
 #~ msgid "Search the Web"
 #~ msgstr "Αναζήτηση στον ιστό"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Αναζήτηση στον ιστό με μηχανές αναζήτησης OpenSearch"
-
-#~ msgid "Search With..."
-#~ msgstr "Αναζήτηση με..."
-
-#~ msgid "Search For..."
-#~ msgstr "Αναζήτηση για..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Μηχανές αναζήτησης"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

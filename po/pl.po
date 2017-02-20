@@ -187,6 +187,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Wprowadzenie tekstu wyszuka"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s jest puste"
+
 msgid "Text"
 msgstr "Tekst"
 
@@ -375,7 +382,7 @@ msgstr "Wszystkie programy i preferencje"
 msgid "Applications for Desktop Environment"
 msgstr "Programy środowiska graficznego"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -691,11 +698,9 @@ msgstr "Domyślny klient poczty"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Tworzenie wiadomości e-mail używając domyślnego klienta poczty"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Utwórz wiadomość e-mail"
-
-msgid "Send in Email To..."
-msgstr "Wyślij w wiadomości e-mail do…"
 
 msgid "Dictionary"
 msgstr "Słownik"
@@ -1096,10 +1101,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Tworzy nową wiadomość w programie Thunderbird"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Utwórz wiadomość e-mail"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Wyślij w wiadomości e-mail do…"
 
@@ -1378,6 +1379,24 @@ msgstr "Zakładki programu Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Indeks zakładek programu Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Zakładki programu Firefox"
+
+msgid "Search With..."
+msgstr "Znajdź za pomocą…"
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch"
+
+msgid "Search For..."
+msgstr "Znajdź…"
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Wyszukiwarki"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1511,25 +1530,15 @@ msgid "Toggle Text Mode"
 msgstr "Przełączenie trybu tekstowego"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s jest puste"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Brak wyników w %(src)s dla „%(query)s”"
 
 msgid "No matches"
 msgstr "Brak wyników"
 
-msgid "Type to search"
-msgstr "Wprowadzenie tekstu wyszuka"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Wprowadzenie tekstu wyszuka %s"
-
-msgid "No action"
-msgstr "Brak działania"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Brak wyników"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1648,6 +1657,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
+#~ msgid "Compose Email"
+#~ msgstr "Utwórz wiadomość e-mail"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Wyślij w wiadomości e-mail do…"
+
+#~ msgid "Type to search %s"
+#~ msgstr "Wprowadzenie tekstu wyszuka %s"
+
+#~ msgid "No action"
+#~ msgstr "Brak działania"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Profile Terminala GNOME"
 
@@ -1732,18 +1753,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Search the Web"
 #~ msgstr "Wyszukiwanie w sieci WWW"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch"
-
-#~ msgid "Search With..."
-#~ msgstr "Znajdź za pomocą…"
-
-#~ msgid "Search For..."
-#~ msgstr "Znajdź…"
-
-#~ msgid "Search Engines"
-#~ msgstr "Wyszukiwarki"
 
 #~ msgid "Abiword"
 #~ msgstr "AbiWord"

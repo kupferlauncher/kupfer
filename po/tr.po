@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-19 14:08+0100\n"
 "PO-Revision-Date: 2015-05-30 11:28+0000\n"
 "Last-Translator: Simge Sezgin <simgesezgin88@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
@@ -176,6 +176,13 @@ msgstr ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
+
+msgid "Type to search"
+msgstr "Aramak için yazın"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s boş"
 
 msgid "Text"
 msgstr "Metin"
@@ -363,7 +370,7 @@ msgstr "Tüm uygulamalar ve ayarları"
 msgid "Applications for Desktop Environment"
 msgstr "Masaüstü Ortamı İçin Uygulamalar"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -678,11 +685,9 @@ msgstr "Öntanımlı E-posta İstemcisi"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Öntanımlı sistem eposta adresi kullanan eposta oluştur: işleyici"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "E-Posta yaz"
-
-msgid "Send in Email To..."
-msgstr "E-posta gönder..."
 
 msgid "Dictionary"
 msgstr "Sözlük"
@@ -1081,10 +1086,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Thunderbird'de yeni ileti yaz"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "E-Posta yaz"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "E-posta gönder..."
 
@@ -1361,6 +1362,24 @@ msgstr "Firefox Yerimleri"
 msgid "Index of Firefox bookmarks"
 msgstr "Firefox yerimleri içeriği"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Firefox Yerimleri"
+
+msgid "Search With..."
+msgstr "Birlikte Ara...."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "OpenSearch destekleyen arama motorları ile web'de ara"
+
+msgid "Search For..."
+msgstr "Ara..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Arama Motorları"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1493,25 +1512,15 @@ msgid "Toggle Text Mode"
 msgstr "Metin Kipine Geç"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s boş"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "\"%(query)s\" için eşleşen %(src)s yok"
 
 msgid "No matches"
 msgstr "Eşleşme bulunamadı"
 
-msgid "Type to search"
-msgstr "Aramak için yazın"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "%s aramak için girin"
-
-msgid "No action"
-msgstr "Eylem yok"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Eşleşme bulunamadı"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1621,6 +1630,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Çalışan Kupfer bulunamadı."
 
+#~ msgid "Compose Email"
+#~ msgstr "E-Posta yaz"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "E-posta gönder..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "%s aramak için girin"
+
+#~ msgid "No action"
+#~ msgstr "Eylem yok"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "GNOME Uçbirim Profilleri"
 
@@ -1706,18 +1727,6 @@ msgstr "Çalışan Kupfer bulunamadı."
 
 #~ msgid "Search the Web"
 #~ msgstr "Web'de ara"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "OpenSearch destekleyen arama motorları ile web'de ara"
-
-#~ msgid "Search With..."
-#~ msgstr "Birlikte Ara...."
-
-#~ msgid "Search For..."
-#~ msgstr "Ara..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Arama Motorları"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

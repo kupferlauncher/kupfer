@@ -181,6 +181,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "输入进行搜索"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s 是空的"
+
 #, fuzzy
 msgid "Text"
 msgstr "显示文本"
@@ -370,7 +377,7 @@ msgstr "所有的应用程序和设置"
 msgid "Applications for Desktop Environment"
 msgstr "桌面环境的应用程序"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -697,11 +704,9 @@ msgstr "默认电子邮件客户端"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "使用系统默认的 mailto: 处理器编辑邮件"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "编写新邮件"
-
-msgid "Send in Email To..."
-msgstr "发送邮件到..."
 
 msgid "Dictionary"
 msgstr "字典"
@@ -1105,10 +1110,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "在 Thunderbird 中编辑新消息"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "编写新邮件"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "发送邮件到..."
 
@@ -1386,6 +1387,24 @@ msgstr "Firefox 网络浏览器书签"
 msgid "Index of Firefox bookmarks"
 msgstr "Firefox 网络浏览器书签索引"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Firefox 网络浏览器书签"
+
+msgid "Search With..."
+msgstr "搜索方式..."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "使用 OpenSearch 搜索引擎搜索互联网"
+
+msgid "Search For..."
+msgstr "搜索内容..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "搜索引擎"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1521,25 +1540,15 @@ msgid "Toggle Text Mode"
 msgstr "切换文本模式"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s 是空的"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "在 %(src)s 中没有符合“%(query)s”的"
 
 msgid "No matches"
 msgstr "无匹配"
 
-msgid "Type to search"
-msgstr "输入进行搜索"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "输入以搜索 %s"
-
-msgid "No action"
-msgstr "无操作"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "无匹配"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1649,6 +1658,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "找不到运行中的 Kupfer"
 
+#~ msgid "Compose Email"
+#~ msgstr "编写新邮件"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "发送邮件到..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "输入以搜索 %s"
+
+#~ msgid "No action"
+#~ msgstr "无操作"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "GNOME 终端配置"
 
@@ -1745,18 +1766,6 @@ msgstr "找不到运行中的 Kupfer"
 
 #~ msgid "Search the Web"
 #~ msgstr "搜索互联网"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "使用 OpenSearch 搜索引擎搜索互联网"
-
-#~ msgid "Search With..."
-#~ msgstr "搜索方式..."
-
-#~ msgid "Search For..."
-#~ msgstr "搜索内容..."
-
-#~ msgid "Search Engines"
-#~ msgstr "搜索引擎"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"

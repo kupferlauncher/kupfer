@@ -183,6 +183,13 @@ msgstr ""
 "\t%(COPYRIGHT)s\n"
 "\t%(WEBSITE)s\n"
 
+msgid "Type to search"
+msgstr "Tastați pentru a căuta"
+
+#, python-format
+msgid "%s is empty"
+msgstr "%s este gol"
+
 msgid "Text"
 msgstr "Text"
 
@@ -371,7 +378,7 @@ msgstr "Toate aplicațiile și preferințele"
 msgid "Applications for Desktop Environment"
 msgstr "Aplicații pentru mediul desktop"
 
-msgid "Use Desktop Filter (requires restart)"
+msgid "Use Desktop Filter"
 msgstr ""
 
 msgid "Open With..."
@@ -688,11 +695,9 @@ msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 "Compune un email utilizând adiministratorul „mailto:” implicit al sistemului"
 
-msgid "Compose Email"
+#, fuzzy
+msgid "Compose Email To"
 msgstr "Compune email"
-
-msgid "Send in Email To..."
-msgstr "Trimite email la..."
 
 msgid "Dictionary"
 msgstr "Dicționar"
@@ -1094,10 +1099,6 @@ msgid "Compose a new message in Thunderbird"
 msgstr "Redactează un mesaj nou în Thunderbird"
 
 #, fuzzy
-msgid "Compose Email To"
-msgstr "Compune email"
-
-#, fuzzy
 msgid "Attach in Email To..."
 msgstr "Trimite email la..."
 
@@ -1377,6 +1378,24 @@ msgstr "Marcaje Firefox"
 msgid "Index of Firefox bookmarks"
 msgstr "Indexul marcajelor Firefox"
 
+#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Marcaje Firefox"
+
+msgid "Search With..."
+msgstr "Caută cu..."
+
+#, fuzzy
+msgid "Search the web with Firefox keywords"
+msgstr "Caută pe web cu motoarele de căutare OpenSearch"
+
+msgid "Search For..."
+msgstr "Caută pentru..."
+
+#, fuzzy
+msgid "Search Terms"
+msgstr "Motoare de căutare"
+
 msgid "Media Player Control"
 msgstr ""
 
@@ -1510,25 +1529,15 @@ msgid "Toggle Text Mode"
 msgstr "Comută la modul text"
 
 #, python-format
-msgid "%s is empty"
-msgstr "%s este gol"
-
-#, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Nu sunt potriviri în %(src)s pentru „%(query)s”"
 
 msgid "No matches"
 msgstr "Nu sunt potriviri"
 
-msgid "Type to search"
-msgstr "Tastați pentru a căuta"
-
-#, python-format
-msgid "Type to search %s"
-msgstr "Tastați pentru a căuta %s"
-
-msgid "No action"
-msgstr "Nicio acțiune"
+#, fuzzy, python-format
+msgid "No action matches \"%s\""
+msgstr "Nu sunt potriviri"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1642,6 +1651,18 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Nu s-a putut găsi Kupfer care rulează"
 
+#~ msgid "Compose Email"
+#~ msgstr "Compune email"
+
+#~ msgid "Send in Email To..."
+#~ msgstr "Trimite email la..."
+
+#~ msgid "Type to search %s"
+#~ msgstr "Tastați pentru a căuta %s"
+
+#~ msgid "No action"
+#~ msgstr "Nicio acțiune"
+
 #~ msgid "GNOME Terminal Profiles"
 #~ msgstr "Profiluri de terminal GNOME"
 
@@ -1726,18 +1747,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Search the Web"
 #~ msgstr "Caută pe web"
-
-#~ msgid "Search the web with OpenSearch search engines"
-#~ msgstr "Caută pe web cu motoarele de căutare OpenSearch"
-
-#~ msgid "Search With..."
-#~ msgstr "Caută cu..."
-
-#~ msgid "Search For..."
-#~ msgstr "Caută pentru..."
-
-#~ msgid "Search Engines"
-#~ msgstr "Motoare de căutare"
 
 #~ msgid "Abiword"
 #~ msgstr "Abiword"
