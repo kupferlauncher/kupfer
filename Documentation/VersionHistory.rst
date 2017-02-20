@@ -3,6 +3,22 @@
 NEWS for kupfer
 ===============
 
++ Speed up ranking objects a bit when the catalog is large
++ Show a nicer message when no action matches the search
++ Plugins:
+
+  + Add *Firefox Keywords* to use configured keywords as search engines
+  + In *Applications* show more apps in *Open With...*
+  + In *Applications* add new action *Reset Associations*
+  + Reintroduce the *Rhythmbox* plugin, which allows searching the library,
+    playing and enqueuing songs. General Play/Pause/Prev/Next is in
+    the *Media Player Control* plugin already.
+
++ (API) Allow Sources and TextSources to customize their no match and
+  waiting for search text.
++ (API) Allow Actions to use both the catalog and an extra source for the
+  indirect object
+
 kupfer v309
 -----------
 
