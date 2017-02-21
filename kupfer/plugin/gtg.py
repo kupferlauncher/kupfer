@@ -28,7 +28,7 @@ _SERVICE_NAME2 = 'org.gnome.GTG'
 _OBJECT_NAME2 = '/org/gnome/GTG'
 _IFACE_NAME2 = 'org.gnome.GTG'
 
-_STATUS_RANK = dict(enumerate(['Active', 'Postponed', 'Dismiss', 'Done']))
+_STATUS_RANK = {s: i for i, s in enumerate(['Active', 'Postponed', 'Dismiss', 'Done']) }
 _STATUS_RANK_DEFAULT = len(_STATUS_RANK)
 
 
