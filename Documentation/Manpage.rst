@@ -81,6 +81,9 @@ plugins (installed in the program's python package).
 If *KUPFER_NO_CACHE* is set, do not load from or write to any source
 cache files.
 
+If *KUPFER_NO_KEYBINDER* is set do not use ``Keybinder`` even if it is
+installed.
+
 
 .. vim: ft=rst tw=72
 .. this document best viewed with::

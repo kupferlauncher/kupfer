@@ -1,6 +1,8 @@
+import gi
 from gi.repository import GObject
 
 from kupfer import pretty
+from kupfer import config
 
 KEYBINDING_DEFAULT = 1
 KEYBINDING_MAGIC = 2
@@ -8,11 +10,17 @@ KEYBINDING_MAGIC = 2
 KEYRANGE_RESERVED = (3, 0x1000)
 KEYRANGE_TRIGGERS = (0x1000, 0x2000)
 
-import gi
-gi.require_version("Keybinder", "3.0")
-from gi.repository import Keybinder as keybinder
-
-keybinder.init()
+Keybinder = None
+if config.has_capability("KEYBINDER"):
+    try:
+        gi.require_version("Keybinder", "3.0")
+    except ValueError:
+        pretty.print_debug(__name__, "Keybinder 3.0 not available in gi")
+    else:
+        from gi.repository import Keybinder
+        Keybinder.init()
+else:
+    pretty.print_debug(__name__, "Keybinder disabled")
 
 _keybound_object = None
 def GetKeyboundObject():
@@ -34,7 +42,7 @@ class KeyboundObject (GObject.GObject):
     def __init__(self):
         super(KeyboundObject, self).__init__()
     def _keybinding(self, target):
-        time = keybinder.get_current_event_time()
+        time = Keybinder.get_current_event_time()
         self.emit("keybinding", target, "", time)
     def emit_bound_key_changed(self, keystring, is_bound):
         self.emit("bound-key-changed", keystring, is_bound)
@@ -54,12 +62,20 @@ GObject.signal_new("bound-key-changed", KeyboundObject, GObject.SignalFlags.RUN_
 
 _currently_bound = {}
 
+def is_available():
+    """
+    Return True if keybindings are available.
+    """
+    return Keybinder is not None
+
 def get_all_bound_keys():
     return list(filter(bool, list(_currently_bound.values())))
 
 def get_current_event_time():
     "Return current event time as given by keybinder"
-    return keybinder.get_current_event_time()
+    if Keybinder is None:
+        return 0
+    return Keybinder.get_current_event_time()
 
 def _register_bound_key(keystr, target):
     _currently_bound[target] = keystr
@@ -74,6 +90,9 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
     """
     keybinding_target = int(keybinding_target)
 
+    if Keybinder is None:
+        return False
+
     def callback(keystr):
         return GetKeyboundObject()._keybinding(keybinding_target)
 
@@ -84,7 +103,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
     succ = True
     if keystr:
         try:
-            succ = keybinder.bind(keystr, callback)
+            succ = Keybinder.bind(keystr, callback)
             pretty.print_debug(__name__, "binding", repr(keystr))
             GetKeyboundObject().emit_bound_key_changed(keystr, True)
         except KeyError as exc:
@@ -93,7 +112,7 @@ def bind_key(keystr, keybinding_target=KEYBINDING_DEFAULT):
     if succ:
         old_keystr = get_currently_bound_key(keybinding_target)
         if old_keystr and old_keystr != keystr:
-            keybinder.unbind(old_keystr)
+            Keybinder.unbind(old_keystr)
             pretty.print_debug(__name__, "unbinding", repr(old_keystr))
             GetKeyboundObject().emit_bound_key_changed(old_keystr, False)
         _register_bound_key(keystr, keybinding_target)

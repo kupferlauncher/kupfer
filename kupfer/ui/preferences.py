@@ -95,6 +95,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.keybindings_list_parent = builder.get_object('keybindings_list_parent')
         self.gkeybindings_list_parent = builder.get_object('gkeybindings_list_parent')
         source_list_parent = builder.get_object("source_list_parent")
+        button_reset_keys = builder.get_object("button_reset_keys")
         self.sources_list_ctrl = SourceListController(source_list_parent)
 
         setctl = settings.GetSettingsController()
@@ -208,11 +209,15 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.dirlist_parent.add(self.dir_table)
         self.read_directory_settings()
 
-        # keybindings list
+        # global keybindings list
         self.keybind_table, self.keybind_store = _create_conf_keys_list()
         self.keybindings_list_parent.add(self.keybind_table)
         self.keybind_table.connect("row-activated", self.on_keybindings_row_activate)
-        # global keybindings list
+        button_reset_keys.set_sensitive(keybindings.is_available())
+        self.keybind_table.set_sensitive(keybindings.is_available())
+
+
+        # kupfer interface (accelerators) keybindings list 
         self.gkeybind_table, self.gkeybind_store = _create_conf_keys_list()
         self.gkeybindings_list_parent.add(self.gkeybind_table)
         self.gkeybind_table.connect("row-activated",
@@ -490,6 +495,8 @@ class PreferencesWindowController (pretty.OutputMixin):
                 errstr = re.sub(import_error_pat,
                         import_error_localized,
                         errmsg, count=1)
+            elif issubclass(etype, ImportError):
+                errstr = errmsg
             else:
                 import traceback
                 errstr = "".join(traceback.format_exception(*exc_info))

@@ -221,6 +221,13 @@ def check_keyring_support():
         if old_pykde4:
             sys.modules['PyKDE4'] = old_pykde4
 
+def check_keybinding_support():
+    """
+    Check if we can make global keybindings
+    """
+    from kupfer.ui import keybindings
+    if not keybindings.is_available():
+        raise ImportError(_("Dependency '%s' is not available") % "Keybinder")
 
 def _plugin_configuration_error(plugin, err):
     pretty.print_error(__name__, err)

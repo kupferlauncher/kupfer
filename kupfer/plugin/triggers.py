@@ -22,7 +22,9 @@ from kupfer.ui import keybindings
 from kupfer.ui import uievents
 from kupfer.ui import getkey_dialog
 from kupfer.core import commandexec
+from kupfer import plugin_support
 
+plugin_support.check_keybinding_support()
 
 class Trigger (RunnableLeaf):
     def get_actions(self):

@@ -107,10 +107,11 @@ Keybinder Module
 
 Keybinder is a library for global keyboard shortcuts.
 
-(Temporarily: Keybinder is required to be present. We want to fix that).
-You can use kupfer without the keybinder module, for example by
-assigning a global keybinding to the ``kupfer`` binary, but it not the
-recommended way.
+You can use kupfer without the keybinder module, for example by assigning
+a window manager keybinding to the ``kupfer`` binary.
+
+If ``Keybinder`` gi bindings are installed, the library is used. If you must
+disable it without uninstalling them then see the man page.
 
 Documentation
 =============
