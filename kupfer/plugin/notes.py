@@ -25,6 +25,7 @@ from kupfer.objects import Action, Source, Leaf, TextLeaf, NotAvailableError
 from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
 from kupfer import pretty, textutils
+from kupfer.weaklib import dbus_signal_connect_weakly
 
 
 PROGRAM_IDS = ["gnote", "tomboy", "kzrnote"]
@@ -269,6 +270,18 @@ class NotesSource (ApplicationSource):
                     os.path.expanduser("~/.%s" % program))
             dirs.extend(notedatapaths)
         self.monitor_token = self.monitor_directories(*dirs)
+
+        set_prog = __kupfer_settings__["notes_application"]
+        if set_prog in PROGRAM_SERIVCES:
+            bus_name = PROGRAM_SERIVCES[set_prog][0]
+            bus = dbus.SessionBus()
+            dbus_signal_connect_weakly(bus, "NameOwnerChanged", self._name_owner_changed,
+                                       dbus_interface="org.freedesktop.DBus",
+                                       arg0=bus_name)
+
+    def _name_owner_changed(self, name, old, new):
+        if new is not None:
+            self.mark_for_update()
 
     def _update_cache(self, notes):
         try:
