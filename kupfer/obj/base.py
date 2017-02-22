@@ -80,10 +80,6 @@ class KupferObject (object, metaclass=_BuiltinObject):
     def __str__(self):
         return self.name
 
-    def __unicode__(self):
-        """Return a `unicode` representation of @self """
-        return self.name
-
     def __repr__(self):
         key = self.repr_key()
         keys = " %s" % (key, ) if (key is not None and key != "") else ""

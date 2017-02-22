@@ -20,8 +20,9 @@ class Task (object):
     def __init__(self, name=None):
         self.name = name
 
-    def __unicode__(self):
-        return self.name
+    def __repr__(self):
+        return "<%s.%s name=%r>" % (type(self).__module__,
+                                    type(self).__name__, self.name)
 
     def start(self, finish_callback):
         raise NotImplementedError
