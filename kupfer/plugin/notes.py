@@ -18,6 +18,8 @@ import os
 import time
 import xml.sax.saxutils
 
+from gi.repository import GLib
+
 import dbus
 import xdg.BaseDirectory as base
 
@@ -63,25 +65,24 @@ def _get_notes_interface(activate=False):
     if @activate, we will activate it over d-bus (start if not running)
     """
     bus = dbus.SessionBus()
-    proxy_obj = bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus')
-    dbus_iface = dbus.Interface(proxy_obj, 'org.freedesktop.DBus')
 
     set_prog = __kupfer_settings__["notes_application"]
     programs = (set_prog, ) if set_prog else PROGRAM_IDS
 
     for program in programs:
         service_name, obj_name, iface_name = PROGRAM_SERIVCES[program]
-
-        if not activate and not dbus_iface.NameHasOwner(service_name):
-            continue
+        if activate:
+            _ignore, status = bus.start_service_by_name(service_name)
+        else:
+            if not bus.name_has_owner(service_name):
+                continue
 
         try:
             searchobj = bus.get_object(service_name, obj_name)
         except dbus.DBusException as e:
             pretty.print_error(__name__, e)
             return
-        notes = dbus.Interface(searchobj, iface_name)
-        return notes
+        return dbus.Interface(searchobj, iface_name)
 
 def _get_notes_interactive():
     """
@@ -96,6 +97,40 @@ def _get_notes_interactive():
 def reply_noop(*args):
     pass
 
+class RetryDbusCalls(pretty.OutputMixin):
+    """
+    A d-bus interface wrapper for a proxy object; will retry a method
+    call if it fails (a limited number of times)
+
+    The method call must be async (with reply_handler and error_handler)
+    """
+    def __init__(self, proxy_object, retries=10):
+        self.__obj = proxy_object
+        self.__retries = retries
+
+    @property
+    def proxy_obj(self):
+        """
+        Return the inner proxy object. You can call methods synchronously on it.
+        """
+        return self.__obj
+
+    def __getattr__(self, name):
+        x = 0
+        def proxy_method(*args, error_handler=None, **kwargs):
+            def make_call():
+                getattr(self.__obj, name)(*args, error_handler=error_handler_, **kwargs)
+            def error_handler_(exc):
+                nonlocal x
+                x += 1
+                if (x > self.__retries or
+                    exc.get_dbus_name() != "org.freedesktop.DBus.Error.UnknownMethod"):
+                    return error_handler(exc)
+                self.output_debug("retrying", name, "because of", exc)
+                GLib.timeout_add(25 * x, make_call)
+            return make_call()
+        return proxy_method
+
 def make_error_handler(ctx):
     def error_handler(exc):
         pretty.print_debug(__name__, exc)
@@ -109,7 +144,7 @@ class Open (Action):
         return True
     def activate(self, leaf, ctx):
         noteuri = leaf.object
-        notes = _get_notes_interactive()
+        notes = RetryDbusCalls(_get_notes_interactive())
         notes.DisplayNote(noteuri,
                           reply_handler=reply_noop,
                           error_handler=make_error_handler(ctx))
@@ -126,13 +161,12 @@ class AppendToNote (Action):
     def wants_context(self):
         return True
     def activate(self, leaf, iobj, ctx):
-        notes = _get_notes_interactive()
+        notes = RetryDbusCalls(_get_notes_interactive())
         noteuri = iobj.object
         text = leaf.object
 
-        # NOTE: We search and replace in the XML here
         def reply_note_xml(xmlcontents):
-            pretty.print_debug(__name__, "reply_note_xml", xmlcontents)
+            # NOTE: We search and replace in the XML here
             endtag = "</note-content>"
             xmltext = xml.sax.saxutils.escape(text)
             xmlcontents = xmlcontents.replace(endtag, "\n%s%s" % (xmltext, endtag))
@@ -140,9 +174,9 @@ class AppendToNote (Action):
                                      reply_handler=reply_noop,
                                      error_handler=make_error_handler(ctx))
 
-        xmlcontents = notes.GetNoteCompleteXml(noteuri,
-                                               reply_handler=reply_note_xml,
-                                               error_handler=make_error_handler(ctx))
+        notes.GetNoteCompleteXml(noteuri,
+                                 reply_handler=reply_note_xml,
+                                 error_handler=make_error_handler(ctx))
 
     def item_types(self):
         yield TextLeaf
@@ -170,14 +204,24 @@ class CreateNote (Action):
     def __init__(self):
         Action.__init__(self, _("Create Note"))
 
-    def activate(self, leaf):
-        notes = _get_notes_interactive()
+    def wants_context(self):
+        return True
+
+    def activate(self, leaf, ctx):
+        notes = RetryDbusCalls(_get_notes_interactive())
         text = _prepare_note_text(leaf.object)
-        # FIXME: For Gnote we have to call DisplayNote
-        # else we can't change its contents
-        noteuri = notes.CreateNote()
-        notes.DisplayNote(noteuri)
-        notes.SetNoteContents(noteuri, text)
+
+        def _created_note(noteuri):
+            nonlocal notes
+            notes = notes.proxy_obj
+            # FIXME: For Gnote we have to call DisplayNote
+            # else we can't change its contents
+            notes.DisplayNote(noteuri)
+            notes.SetNoteContents(noteuri, text)
+
+        notes.CreateNote(reply_handler=_created_note,
+                         error_handler=make_error_handler(ctx))
+
 
     def item_types(self):
         yield TextLeaf
