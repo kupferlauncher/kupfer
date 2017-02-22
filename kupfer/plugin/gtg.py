@@ -21,6 +21,7 @@ from kupfer import textutils
 from kupfer.objects import Leaf, Action, Source
 from kupfer.objects import TextLeaf, NotAvailableError
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.weaklib import dbus_signal_connect_weakly
 
 plugin_support.check_dbus_connection()
 
@@ -212,26 +213,23 @@ class TasksSource (AppLeafContentMixin, Source):
         self._version = 3
 
     def initialize(self):
-        bus = dbus.Bus()
-        self._signal_new_task = bus.add_signal_receiver(self._on_tasks_updated,
-                signal_name="TaskAdded", dbus_interface=_IFACE_NAME2)
-        self._signal_task_deleted = bus.add_signal_receiver(self._on_tasks_updated,
-                signal_name="TaskDeleted", dbus_interface=_IFACE_NAME2)
-        self._signal_task_modified = bus.add_signal_receiver(self._on_tasks_updated,
-                signal_name="TaskModified", dbus_interface=_IFACE_NAME2)
+        bus = dbus.SessionBus()
+        dbus_signal_connect_weakly(bus, "TaskAdded", self._on_tasks_updated,
+                                   dbus_interface=_IFACE_NAME2)
+        dbus_signal_connect_weakly(bus, "TaskModified", self._on_tasks_updated,
+                                   dbus_interface=_IFACE_NAME2)
+        dbus_signal_connect_weakly(bus, "TaskDeleted", self._on_tasks_updated,
+                                   dbus_interface=_IFACE_NAME2)
+        dbus_signal_connect_weakly(bus, "NameOwnerChanged", self._name_owner_changed,
+                                   dbus_interface="org.freedesktop.DBus",
+                                   arg0=_SERVICE_NAME2)
 
-    def finalize(self):
-        bus = dbus.Bus()
-        if self._signal_new_task is not None:
-            bus.remove_signal_receiver(self._on_tasks_updated,
-                    signal_name="TaskAdded", dbus_interface=_IFACE_NAME2)
-            bus.remove_signal_receiver(self._on_tasks_updated,
-                    signal_name="TaskDeleted", dbus_interface=_IFACE_NAME2)
-            bus.remove_signal_receiver(self._on_tasks_updated,
-                    signal_name="TaskModified", dbus_interface=_IFACE_NAME2)
-            del self._signal_new_task
-            del self._signal_task_deleted
-            del self._signal_task_modified
+    def _name_owner_changed(self, name, old, new):
+        if new is not None and not self._tasks:
+            self.mark_for_update()
+
+    def _on_tasks_updated(self, task_id):
+        self.mark_for_update()
 
     def get_items(self):
         interface = _create_dbus_connection()
@@ -245,6 +243,3 @@ class TasksSource (AppLeafContentMixin, Source):
 
     def provides(self):
         yield Task
-
-    def _on_tasks_updated(self, *argv, **kwarg):
-        self.mark_for_update()
