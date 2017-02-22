@@ -3,6 +3,21 @@
 NEWS for kupfer
 ===============
 
+kupfer v311
+-----------
+
++ Work even if ``Keybinder`` is not installed. Also added environment var if
+  you need to disable it, even when it is installed.
++ (API) Actions can now post sources as “late results”. (*Get Notes Search
+  Results...* now uses this.)
++ (API) Add ``ShowHide``, ``ShowHideOnDisplay`` to D-Bus interface.
+
++ Plugins
+
+  + In *Notes*, retry opening notes for slow activation in Gnote/Tomboy
+  + Fix task sort order in *Getting Things GNOME*
+  + *Rhythmbox* and *Notes* refresh more often (when their programs restart)
+
 kupfer v310
 -----------
 

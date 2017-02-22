@@ -412,7 +412,7 @@ The object passed as ``ctx`` has the following interface:
 
 ``ctx.register_late_result(result_object)``
     Register the ``result_object`` as a late result. It must be a
-    ``Leaf``.
+    ``Leaf`` or a ``Source``.
 
 ``ctx.register_late_error(exc_info=None)``
     Register an asynchronous error. (For synchronous errors, simply raise
