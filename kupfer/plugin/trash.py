@@ -5,7 +5,7 @@ __description__ = _("Access trash contents")
 __version__ = "2009-12-06"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 
 from kupfer.objects import Leaf, Action, Source, SourceLeaf, FileLeaf
 from kupfer.objects import OperationError
@@ -25,8 +25,8 @@ class MoveToTrash (Action):
         gfile = leaf.get_gfile()
         try:
             gfile.trash()
-        except Gio.Error as exc:
-            raise OperationError(exc)
+        except GLib.Error as exc:
+            raise OperationError(exc.message)
 
     def valid_for_item(self, item):
         gfile = item.get_gfile()
@@ -198,7 +198,10 @@ class TrashSource (Source):
     def __init__(self):
         Source.__init__(self, _("Trash"))
     def get_items(self):
-        yield Trash(TRASH_URI)
+        try:
+            yield Trash(TRASH_URI)
+        except GLib.Error as exc:
+            self.output_exc()
     def get_leaf_repr(self):
         return InvisibleSourceLeaf(self)
     def provides(self):

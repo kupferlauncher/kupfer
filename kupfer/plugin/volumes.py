@@ -53,13 +53,13 @@ class Unmount (Action):
     def eject_callback(self, mount, async_result, ctx):
         try:
             mount.eject_finish(async_result)
-        except Gio.Error:
+        except GLib.Error:
             ctx.register_late_error()
 
     def unmount_callback(self, mount, async_result, ctx):
         try:
             mount.unmount_finish(async_result)
-        except Gio.Error:
+        except GLib.Error:
             ctx.register_late_error()
 
     def wants_context(self):
