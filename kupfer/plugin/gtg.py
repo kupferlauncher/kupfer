@@ -47,7 +47,7 @@ def _create_dbus_connection_gtg(iface, obj, service, activate=False):
             if obj:
                 interface = dbus.Interface(obj, iface)
     except dbus.exceptions.DBusException as err:
-        pretty.print_debug(err)
+        pretty.print_debug(__name__, err)
     return interface
 
 
@@ -55,7 +55,7 @@ def _create_dbus_connection(activate=False):
     interface = _create_dbus_connection_gtg(_IFACE_NAME2,
             _OBJECT_NAME2, _SERVICE_NAME2, activate)
     if interface is None:
-        pretty.print_error('Cannot connect to GTG via DBus')
+        pretty.print_error(__name__, 'Cannot connect to GTG via DBus')
         if activate:
             raise NotAvailableError(_("Getting Things GNOME"))
     return interface
