@@ -12,7 +12,7 @@ from kupfer.weaklib import dbus_signal_connect_weakly
 
 plugin_support.check_dbus_connection()
 
-MRPIS_PREFIX = 'org.mpris.MediaPlayer2.'
+MPRIS_PREFIX = 'org.mpris.MediaPlayer2.'
 MPRIS_PLAYER = 'org.mpris.MediaPlayer2.Player'
 MPRIS_OBJ = '/org/mpris/MediaPlayer2'
 
@@ -30,13 +30,13 @@ class Players(Source):
         pass
 
     def _name_owner_changed(self, name, old, new):
-        if name.startswith(MRPIS_PREFIX):
+        if name.startswith(MPRIS_PREFIX):
             self.mark_for_update()
 
     def get_items(self):
         for bus_name in dbus.SessionBus().list_names():
-            if bus_name.startswith(MRPIS_PREFIX):
-                name = bus_name[len(MRPIS_PREFIX):]
+            if bus_name.startswith(MPRIS_PREFIX):
+                name = bus_name[len(MPRIS_PREFIX):]
                 yield PlayPause(bus_name, name)
                 yield Next(bus_name, name)
                 yield Previous(bus_name, name)
