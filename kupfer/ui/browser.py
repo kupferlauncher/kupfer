@@ -33,6 +33,7 @@ from kupfer.core import settings
 from kupfer import icons
 from kupfer import interface
 from kupfer import pretty
+import kupfer.config
 import kupfer.environment
 
 ELLIPSIZE_MIDDLE = Pango.EllipsizeMode.MIDDLE
@@ -2180,6 +2181,8 @@ class WindowController (pretty.OutputMixin):
             self.on_present(sender, "", Gtk.get_current_event_time())
 
     def _lost_focus(self, window, event):
+        if not kupfer.config.has_capability("HIDE_ON_FOCUS_OUT"):
+            return
         # Close at unfocus.
         # Since focus-out-event is triggered even
         # when we click inside the window, we'll
