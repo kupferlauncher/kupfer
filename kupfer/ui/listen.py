@@ -191,6 +191,15 @@ class ServiceNew (ExportedGObject):
         with uievents.using_startup_notify_id(notify_id) as time:
             self.emit("present", display, time)
 
+    @dbus.service.method(interface_name_new)
+    def ShowHide(self):
+        self.ShowHideOnDisplay("", "")
+
+    @dbus.service.method(interface_name_new, in_signature="ss")
+    def ShowHideOnDisplay(self, display, notify_id):
+        with uievents.using_startup_notify_id(notify_id) as time:
+            self.emit("show-hide", display, time)
+
     @dbus.service.method(interface_name_new, in_signature="s")
     def PutText(self, text):
         self.PutTextOnDisplay(text, "", "")
