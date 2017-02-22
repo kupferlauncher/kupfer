@@ -23,7 +23,7 @@ from gi.repository import GLib
 import dbus
 import xdg.BaseDirectory as base
 
-from kupfer.objects import Action, Source, Leaf, TextLeaf, NotAvailableError
+from kupfer.objects import Action, Source, Leaf, TextLeaf, NotAvailableError, SourceLeaf
 from kupfer.obj.apps import ApplicationSource
 from kupfer import icons, plugin_support
 from kupfer import pretty, textutils
@@ -237,9 +237,19 @@ class GetNoteSearchResults (Action):
     def is_factory(self):
         return True
 
-    def activate(self, leaf):
-        query = leaf.object
-        return NoteSearchSource(query)
+    def wants_context(self):
+        return True
+
+    def activate(self, leaf, ctx):
+        query = leaf.object.lower()
+        notes = RetryDbusCalls(_get_notes_interactive())
+
+        def search_reply(noteuris):
+            ctx.register_late_result(NoteSearchSource(query, noteuris))
+
+        notes.SearchNotes(query, False,
+                          reply_handler=search_reply,
+                          error_handler=make_error_handler(ctx))
 
     def item_types(self):
         yield TextLeaf
@@ -248,14 +258,14 @@ class GetNoteSearchResults (Action):
         return _("Show search results for this query")
 
 class NoteSearchSource (Source):
-    def __init__(self, query):
+    def __init__(self, query, noteuris):
         self.query = query.lower()
         Source.__init__(self, _("Notes"))
+        self.noteuris = noteuris
 
     def get_items(self):
         notes = _get_notes_interactive()
-        noteuris = notes.SearchNotes(self.query, False)
-        for noteuri in noteuris:
+        for noteuri in self.noteuris:
             title = notes.GetNoteTitle(noteuri)
             date = notes.GetNoteChangeDate(noteuri)
             yield Note(noteuri, title, date)
