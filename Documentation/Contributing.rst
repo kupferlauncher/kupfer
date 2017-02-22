@@ -57,7 +57,7 @@ Python's general style guideline is called `PEP 8`_, and you should
 programmers should read it. The advice given there is very useful when
 coding for Kupfer.
 
-.. _`PEP 8`: http://www.python.org/dev/peps/pep-0008/
+.. _`PEP 8`: https://www.python.org/dev/peps/pep-0008/
 
 Specific Points
 ---------------
@@ -101,18 +101,18 @@ Internally, kupfer must use ``str`` for all internal text.
 The module ``kupfer.kupferstring`` has functions for the most important
 text conversions.
 
-Two good resources for unicode in Python are to be found here:
+A resource for unicode in Python:
 
 | http://farmdev.com/talks/unicode/
-| http://www.amk.ca/python/howto/unicode
 
 **Always** find out what encoding you must expect for externally read
 text (from files or command output). If you must guess, use the locale
 encoding.
-Text received from PyGTK is either already unicode or in the UTF-8
-encoding, so this text can be passed to ``kupferstring.tounicode``.
+Text received from GTK is always ``str``, which means encoding is not
+a problem.
 
-Note that the gettext function ``_()`` always returns a unicode string.
+Note that the gettext function ``_()`` always returns a unicode string
+(``str``).
 
 .. vim: ft=rst tw=72 et sts=4
 .. this document best viewed with rst2html

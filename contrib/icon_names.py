@@ -1,8 +1,6 @@
 """
 A quick hack to search the icons of the `Icon Naming Specification`__, shown
 as available on the current system.
-
-__ http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 """
 __kupfer_name__ = _("Icon Names")
 __kupfer_sources__ = (
@@ -23,7 +21,7 @@ from kupfer.objects import Leaf, Action, Source, SourceLeaf
 from kupfer import uiutils
 
 
-ICON_SPEC_ADDRESS = "http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-0.8.90.xml"
+ICON_SPEC_ADDRESS = "https://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-0.8.90.xml"
 
 class ShowDescription(Action):
     def __init__(self):
