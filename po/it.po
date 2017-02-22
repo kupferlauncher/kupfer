@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2010-08-24 20:06+0200\n"
 "Last-Translator: Francesco Marella <francesco.marella@gmail.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -1040,6 +1040,10 @@ msgstr ""
 msgid "Unencrypted File"
 msgstr "File selezionato"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "Comando in \"%s\" non è disponibile"
+
 msgid "Document Templates"
 msgstr "Modelli di documento"
 
@@ -1612,6 +1616,37 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Cerca in Devhelp"
 
+#, fuzzy
+msgid "Empathy"
+msgstr "Contatti Gajim"
+
+#, fuzzy
+msgid "Access to Empathy Contacts"
+msgstr "Accede ai contatti Gajim"
+
+msgid "Busy"
+msgstr "Occupato"
+
+msgid "Not Available"
+msgstr "Non disponibile"
+
+msgid "Invisible"
+msgstr "Invisibile"
+
+msgid "Offline"
+msgstr "Fuori rete"
+
+msgid "Change Global Status To..."
+msgstr "Cambia stato globale in..."
+
+#, fuzzy
+msgid "Empathy Contacts"
+msgstr "Contatti Gajim"
+
+#, fuzzy
+msgid "Empathy Account Status"
+msgstr "Stato account Gajim"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Attivazione alternativa"
@@ -1912,33 +1947,6 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Contatti dalla rubrica indirizzi di Claws Mail"
-
-#, fuzzy
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Accede ai contatti Gajim"
-
-#~ msgid "Busy"
-#~ msgstr "Occupato"
-
-#~ msgid "Not Available"
-#~ msgstr "Non disponibile"
-
-#~ msgid "Invisible"
-#~ msgstr "Invisibile"
-
-#~ msgid "Offline"
-#~ msgstr "Fuori rete"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Cambia stato globale in..."
-
-#, fuzzy
-#~ msgid "Empathy Contacts"
-#~ msgstr "Contatti Gajim"
-
-#, fuzzy
-#~ msgid "Empathy Account Status"
-#~ msgstr "Stato account Gajim"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

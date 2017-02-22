@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2010-08-27 17:12+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -1037,6 +1037,10 @@ msgstr ""
 msgid "Unencrypted File"
 msgstr "Hautatutako fitxategia"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "\"%s\" komandoa ez dago eskuragarri"
+
 msgid "Document Templates"
 msgstr "Dokumentuen txantiloiak"
 
@@ -1609,6 +1613,37 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Bilatu Devhelp-en"
 
+#, fuzzy
+msgid "Empathy"
+msgstr "Gajim-eko kontaktuak"
+
+#, fuzzy
+msgid "Access to Empathy Contacts"
+msgstr "Atzitu Gajim-eko kontaktuak"
+
+msgid "Busy"
+msgstr "Lanpetuta"
+
+msgid "Not Available"
+msgstr "Ez erabilgarri"
+
+msgid "Invisible"
+msgstr "Ikustezin"
+
+msgid "Offline"
+msgstr "Deskonektatuta"
+
+msgid "Change Global Status To..."
+msgstr "Aldatu egoera orokorra hona..."
+
+#, fuzzy
+msgid "Empathy Contacts"
+msgstr "Gajim-eko kontaktuak"
+
+#, fuzzy
+msgid "Empathy Account Status"
+msgstr "Gajim-eko kontuaren egoera"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Ordezko aktibazioa"
@@ -1906,33 +1941,6 @@ msgstr "Ezin izan da exekutatzen ari den Kupfer instantziarik aurkitu"
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Claws-eko helbide-liburuko kontaktuak"
-
-#, fuzzy
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Atzitu Gajim-eko kontaktuak"
-
-#~ msgid "Busy"
-#~ msgstr "Lanpetuta"
-
-#~ msgid "Not Available"
-#~ msgstr "Ez erabilgarri"
-
-#~ msgid "Invisible"
-#~ msgstr "Ikustezin"
-
-#~ msgid "Offline"
-#~ msgstr "Deskonektatuta"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Aldatu egoera orokorra hona..."
-
-#, fuzzy
-#~ msgid "Empathy Contacts"
-#~ msgstr "Gajim-eko kontaktuak"
-
-#, fuzzy
-#~ msgid "Empathy Account Status"
-#~ msgstr "Gajim-eko kontuaren egoera"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

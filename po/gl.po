@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2012-08-10 17:37+0200\n"
 "Last-Translator: Oscar Blanco <dev.4m1g0@gmail.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
@@ -1022,6 +1022,10 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Ficheiro non cifrado"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "A orde en «%s» non está dispoñíbel"
+
 msgid "Document Templates"
 msgstr "Modelos de documentos"
 
@@ -1590,6 +1594,33 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Buscar en Devhelp"
 
+msgid "Empathy"
+msgstr "Empathy"
+
+msgid "Access to Empathy Contacts"
+msgstr "Acceder aos contactos de Empathy"
+
+msgid "Busy"
+msgstr "Ocupado"
+
+msgid "Not Available"
+msgstr "Non dispoñíbel"
+
+msgid "Invisible"
+msgstr "Invisíbel"
+
+msgid "Offline"
+msgstr "Desconectado"
+
+msgid "Change Global Status To..."
+msgstr "Cambiar o estado global a..."
+
+msgid "Empathy Contacts"
+msgstr "Contactos de Empathy"
+
+msgid "Empathy Account Status"
+msgstr "Estado da conta de Empathy"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Activación alternativa"
@@ -1894,33 +1925,6 @@ msgstr "Non foi posíbel encontrar un Kupfer en execución"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Empathy"
-#~ msgstr "Empathy"
-
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Acceder aos contactos de Empathy"
-
-#~ msgid "Busy"
-#~ msgstr "Ocupado"
-
-#~ msgid "Not Available"
-#~ msgstr "Non dispoñíbel"
-
-#~ msgid "Invisible"
-#~ msgstr "Invisíbel"
-
-#~ msgid "Offline"
-#~ msgstr "Desconectado"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Cambiar o estado global a..."
-
-#~ msgid "Empathy Contacts"
-#~ msgstr "Contactos de Empathy"
-
-#~ msgid "Empathy Account Status"
-#~ msgstr "Estado da conta de Empathy"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2015-10-25 11:37+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -1026,6 +1026,10 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Fișier necriptat"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "Comanda în „%s” nu este disponibilă"
+
 msgid "Document Templates"
 msgstr "Șabloane de documente"
 
@@ -1597,6 +1601,33 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Caută în Devhelp"
 
+msgid "Empathy"
+msgstr "Empathy"
+
+msgid "Access to Empathy Contacts"
+msgstr "Acces la contacte Empathy"
+
+msgid "Busy"
+msgstr "Ocupat"
+
+msgid "Not Available"
+msgstr "Indisponibil"
+
+msgid "Invisible"
+msgstr "Invizibil"
+
+msgid "Offline"
+msgstr "Deconectat"
+
+msgid "Change Global Status To..."
+msgstr "Modifică starea globală la..."
+
+msgid "Empathy Contacts"
+msgstr "Contacte Empathy"
+
+msgid "Empathy Account Status"
+msgstr "Stare cont Empathy"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Activare alternativă"
@@ -1906,36 +1937,6 @@ msgstr "Nu s-a putut găsi Kupfer care rulează"
 
 #~ msgid "Theme:"
 #~ msgstr "Temă:"
-
-#~ msgid "Empathy"
-#~ msgstr "Empathy"
-
-#~| msgid "Access to Gajim Contacts"
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Acces la contacte Empathy"
-
-#~ msgid "Busy"
-#~ msgstr "Ocupat"
-
-#~ msgid "Not Available"
-#~ msgstr "Indisponibil"
-
-#~ msgid "Invisible"
-#~ msgstr "Invizibil"
-
-#~ msgid "Offline"
-#~ msgstr "Deconectat"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Modifică starea globală la..."
-
-#~| msgid "Gajim Contacts"
-#~ msgid "Empathy Contacts"
-#~ msgstr "Contacte Empathy"
-
-#~| msgid "Gajim Account Status"
-#~ msgid "Empathy Account Status"
-#~ msgstr "Stare cont Empathy"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

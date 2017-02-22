@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2012-08-23 09:52+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
@@ -1008,6 +1008,10 @@ msgstr ""
 msgid "Unencrypted File"
 msgstr "Ukryptert fil"
 
+#, python-format
+msgid "Dependency '%s' is not available"
+msgstr ""
+
 msgid "Document Templates"
 msgstr "Dokumentmaler"
 
@@ -1575,6 +1579,35 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Søk i Devhelp"
 
+msgid "Empathy"
+msgstr "Empathy"
+
+#, fuzzy
+msgid "Access to Empathy Contacts"
+msgstr "Empathy-kontakter"
+
+msgid "Busy"
+msgstr "Opptatt"
+
+msgid "Not Available"
+msgstr "Ikke tilgjengelig"
+
+msgid "Invisible"
+msgstr "Usynlig"
+
+msgid "Offline"
+msgstr "Frakoblet"
+
+msgid "Change Global Status To..."
+msgstr ""
+
+msgid "Empathy Contacts"
+msgstr "Empathy-kontakter"
+
+#, fuzzy
+msgid "Empathy Account Status"
+msgstr "Empathy-kontakter"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Aktiver (alternativ)"
@@ -1785,24 +1818,6 @@ msgstr ""
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Empathy"
-#~ msgstr "Empathy"
-
-#~ msgid "Busy"
-#~ msgstr "Opptatt"
-
-#~ msgid "Not Available"
-#~ msgstr "Ikke tilgjengelig"
-
-#~ msgid "Invisible"
-#~ msgstr "Usynlig"
-
-#~ msgid "Offline"
-#~ msgstr "Frakoblet"
-
-#~ msgid "Empathy Contacts"
-#~ msgstr "Empathy-kontakter"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

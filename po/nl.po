@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2009-10-12 01:54+0200\n"
 "Last-Translator: Martin Koelewijn <martinkoelewijn@gmail.com>\n"
 "Language-Team: Dutch\n"
@@ -1047,6 +1047,10 @@ msgstr ""
 msgid "Unencrypted File"
 msgstr "Geselecteerd bestand"
 
+#, python-format
+msgid "Dependency '%s' is not available"
+msgstr ""
+
 msgid "Document Templates"
 msgstr "Documentsjablonen"
 
@@ -1630,6 +1634,37 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Devhelp doorzoeken"
 
+#, fuzzy
+msgid "Empathy"
+msgstr "Gajim Contacten"
+
+#, fuzzy
+msgid "Access to Empathy Contacts"
+msgstr "Toegang tot Gajim Contacten"
+
+msgid "Busy"
+msgstr "Bezig"
+
+msgid "Not Available"
+msgstr "Niet beschikbaar"
+
+msgid "Invisible"
+msgstr "Onzichtbaar"
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Change Global Status To..."
+msgstr "Algemene status veranderen naar..."
+
+#, fuzzy
+msgid "Empathy Contacts"
+msgstr "Gajim Contacten"
+
+#, fuzzy
+msgid "Empathy Account Status"
+msgstr "Gajim Account status"
+
 #. TRANS: Names of accelerators in the interface
 #, fuzzy
 msgid "Alternate Activate"
@@ -1936,33 +1971,6 @@ msgstr ""
 
 #~ msgid "Contacts from Claws Mail Address Book"
 #~ msgstr "Adressen uit Claws Mail Adresboek"
-
-#, fuzzy
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Toegang tot Gajim Contacten"
-
-#~ msgid "Busy"
-#~ msgstr "Bezig"
-
-#~ msgid "Not Available"
-#~ msgstr "Niet beschikbaar"
-
-#~ msgid "Invisible"
-#~ msgstr "Onzichtbaar"
-
-#~ msgid "Offline"
-#~ msgstr "Offline"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Algemene status veranderen naar..."
-
-#, fuzzy
-#~ msgid "Empathy Contacts"
-#~ msgstr "Gajim Contacten"
-
-#, fuzzy
-#~ msgid "Empathy Account Status"
-#~ msgstr "Gajim Account status"
 
 #, fuzzy
 #~ msgid "Evolution contacts"

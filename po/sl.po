@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2012-07-10 09:04+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
@@ -1026,6 +1026,10 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Nešifrirana datoteka"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "Ukaz v \"%s\" ni na voljo"
+
 msgid "Document Templates"
 msgstr "Predloge dokumenta"
 
@@ -1600,6 +1604,33 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Iskanje v Devhelp"
 
+msgid "Empathy"
+msgstr "Empathy"
+
+msgid "Access to Empathy Contacts"
+msgstr "Dostop do stikov Empathy"
+
+msgid "Busy"
+msgstr "Zaposlen"
+
+msgid "Not Available"
+msgstr "Ni na voljo"
+
+msgid "Invisible"
+msgstr "Neviden"
+
+msgid "Offline"
+msgstr "Nepovezan"
+
+msgid "Change Global Status To..."
+msgstr "Spremeni splošno stanje v ..."
+
+msgid "Empathy Contacts"
+msgstr "Stiki Empathy"
+
+msgid "Empathy Account Status"
+msgstr "Stanje računa Empathy"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Dodatno omogoči"
@@ -1909,33 +1940,6 @@ msgstr "Ni mogoče najti Kupferja v teku"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Empathy"
-#~ msgstr "Empathy"
-
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Dostop do stikov Empathy"
-
-#~ msgid "Busy"
-#~ msgstr "Zaposlen"
-
-#~ msgid "Not Available"
-#~ msgstr "Ni na voljo"
-
-#~ msgid "Invisible"
-#~ msgstr "Neviden"
-
-#~ msgid "Offline"
-#~ msgstr "Nepovezan"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Spremeni splošno stanje v ..."
-
-#~ msgid "Empathy Contacts"
-#~ msgstr "Stiki Empathy"
-
-#~ msgid "Empathy Account Status"
-#~ msgstr "Stanje računa Empathy"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

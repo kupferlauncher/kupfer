@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2014-10-29 21:23+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
@@ -1034,6 +1034,10 @@ msgstr "Кновчаник"
 msgid "Unencrypted File"
 msgstr "Нешифрована датотека"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "Наредба у „%s“ није доступна"
+
 msgid "Document Templates"
 msgstr "Обрасци докумената"
 
@@ -1605,6 +1609,33 @@ msgstr "Девхелп"
 msgid "Search in Devhelp"
 msgstr "Претражи у Девхелпу"
 
+msgid "Empathy"
+msgstr "Интернет писмоноша"
+
+msgid "Access to Empathy Contacts"
+msgstr "Приступ познаницима из Интернет писмоноше"
+
+msgid "Busy"
+msgstr "Заузет"
+
+msgid "Not Available"
+msgstr "Није доступан"
+
+msgid "Invisible"
+msgstr "Невидљив"
+
+msgid "Offline"
+msgstr "Ван мреже"
+
+msgid "Change Global Status To..."
+msgstr "Промените стање присутности на..."
+
+msgid "Empathy Contacts"
+msgstr "Познаници из Интернет писмоноше"
+
+msgid "Empathy Account Status"
+msgstr "Стање Интернет писмоноше"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Заменски покрени"
@@ -1912,33 +1943,6 @@ msgstr "Не могу да пронађем покренутог Бакарни�
 
 #~ msgid "Theme:"
 #~ msgstr "Тема:"
-
-#~ msgid "Empathy"
-#~ msgstr "Интернет писмоноша"
-
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Приступ познаницима из Интернет писмоноше"
-
-#~ msgid "Busy"
-#~ msgstr "Заузет"
-
-#~ msgid "Not Available"
-#~ msgstr "Није доступан"
-
-#~ msgid "Invisible"
-#~ msgstr "Невидљив"
-
-#~ msgid "Offline"
-#~ msgstr "Ван мреже"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Промените стање присутности на..."
-
-#~ msgid "Empathy Contacts"
-#~ msgstr "Познаници из Интернет писмоноше"
-
-#~ msgid "Empathy Account Status"
-#~ msgstr "Стање Интернет писмоноше"
 
 #~ msgid "Evolution"
 #~ msgstr "Еволуција"

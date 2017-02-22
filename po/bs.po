@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2015-01-09 14:13+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -1019,6 +1019,10 @@ msgstr "K‑novčanik"
 msgid "Unencrypted File"
 msgstr "Šifrovani fajl"
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "Komanda u \"%s\" nije dostupna"
+
 msgid "Document Templates"
 msgstr "Predlosci dokumenta"
 
@@ -1591,6 +1595,33 @@ msgstr "DevHelp"
 msgid "Search in Devhelp"
 msgstr "Traži u Devhelp-u"
 
+msgid "Empathy"
+msgstr "Empathy"
+
+msgid "Access to Empathy Contacts"
+msgstr "Pristupi Empathy kontaktima"
+
+msgid "Busy"
+msgstr "Zauzeto"
+
+msgid "Not Available"
+msgstr "Nedostup(an/na)"
+
+msgid "Invisible"
+msgstr "Nevidljiv"
+
+msgid "Offline"
+msgstr "Izvan mreže"
+
+msgid "Change Global Status To..."
+msgstr "Promijeni Globalni status u..."
+
+msgid "Empathy Contacts"
+msgstr "Empathy kontakti"
+
+msgid "Empathy Account Status"
+msgstr "Status Empathy naloga"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alt Aktiviraj"
@@ -1900,33 +1931,6 @@ msgstr "Ne mogu naći pokrenuti Kupfer"
 
 #~ msgid "Theme:"
 #~ msgstr "Tema:"
-
-#~ msgid "Empathy"
-#~ msgstr "Empathy"
-
-#~ msgid "Access to Empathy Contacts"
-#~ msgstr "Pristupi Empathy kontaktima"
-
-#~ msgid "Busy"
-#~ msgstr "Zauzeto"
-
-#~ msgid "Not Available"
-#~ msgstr "Nedostup(an/na)"
-
-#~ msgid "Invisible"
-#~ msgstr "Nevidljiv"
-
-#~ msgid "Offline"
-#~ msgstr "Izvan mreže"
-
-#~ msgid "Change Global Status To..."
-#~ msgstr "Promijeni Globalni status u..."
-
-#~ msgid "Empathy Contacts"
-#~ msgstr "Empathy kontakti"
-
-#~ msgid "Empathy Account Status"
-#~ msgstr "Status Empathy naloga"
 
 #~ msgid "Evolution"
 #~ msgstr "Evolution"

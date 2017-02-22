@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-15 20:22+0100\n"
+"POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2012-10-31 19:55+0200\n"
 "Last-Translator: Pavol Babinčák <scroolik@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
@@ -1202,6 +1202,10 @@ msgstr ""
 msgid "Unencrypted File"
 msgstr ""
 
+#, fuzzy, python-format
+msgid "Dependency '%s' is not available"
+msgstr "Príkaz v „%s“ nie je dostupný"
+
 msgid "Document Templates"
 msgstr ""
 
@@ -1769,6 +1773,34 @@ msgid "Devhelp"
 msgstr ""
 
 msgid "Search in Devhelp"
+msgstr ""
+
+msgid "Empathy"
+msgstr ""
+
+msgid "Access to Empathy Contacts"
+msgstr ""
+
+msgid "Busy"
+msgstr ""
+
+#, fuzzy
+msgid "Not Available"
+msgstr "Dostupné zásuvné moduly:"
+
+msgid "Invisible"
+msgstr ""
+
+msgid "Offline"
+msgstr ""
+
+msgid "Change Global Status To..."
+msgstr ""
+
+msgid "Empathy Contacts"
+msgstr ""
+
+msgid "Empathy Account Status"
 msgstr ""
 
 #. TRANS: Names of accelerators in the interface
