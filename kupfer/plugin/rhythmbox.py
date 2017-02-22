@@ -25,7 +25,9 @@ from kupfer.objects import Leaf, Source, Action, RunnableLeaf, SourceLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.objects import OperationError
+from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer import plugin_support
+
 from kupfer.plugin import rhythmbox_support
 
 plugin_support.check_dbus_connection()
@@ -399,6 +401,17 @@ class RhythmboxSource (AppLeafContentMixin, Source):
     appleaf_content_id = "rhythmbox"
     def __init__(self):
         Source.__init__(self, _("Rhythmbox"))
+
+    def initialize(self):
+        bus = dbus.SessionBus()
+        dbus_signal_connect_weakly(bus, "NameOwnerChanged", self._name_owner_changed,
+                                   dbus_interface="org.freedesktop.DBus",
+                                   arg0=_BUS_NAME)
+
+    def _name_owner_changed(self, name, old, new):
+        if new is not None:
+            self.mark_for_update()
+
     def get_items(self):
         # first try to load songs via dbus
         songs = list(_get_all_songs_via_dbus())
