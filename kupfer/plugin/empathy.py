@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-# vim: set noexpandtab ts=8 sw=8:
 __kupfer_name__ = _("Empathy")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("ChangeStatus", 'OpenChat')
@@ -173,8 +171,8 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
     appleaf_content_id = 'empathy'
 
     def __init__(self, name=_('Empathy Contacts')):
-        super(ContactsSource, self).__init__(name, "Contacts")
-        self._version = 2
+        super().__init__(name, "Contacts")
+        self._version = 3
         self.unpickle_finish()
 
     def pickle_prepare(self):
@@ -216,25 +214,25 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
                     self.output_info(ex)
                     contacts = None
                 if contacts:
-                        contacts = [c for c in contacts]
-                        contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
-                        contact_attributes = [str(a) for a in contact_attributes]
-                        contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
-                        for contact, details in contact_details.items():
-                                try:
-                                    status_code = details[_ATTRIBUTES.get("presence")][1]
-                                except KeyError as ex:
-                                    self.output_info('Presence could not be established with %s. Leaving unknown.' % ex)
-                                    status_code = 'unknown'
-                                if not show_offline and status_code == 'offline':
-                                    continue
-                                yield EmpathyContact(
-                                        details[_ATTRIBUTES.get("jid")],
-                                        details[_ATTRIBUTES.get("alias")],
-                                        _STATUSES.get(status_code),
-                                        '', # empathy does not provide resource here AFAIK
-                                        valid_account,
-                                        contact)
+                    contacts = [c for c in contacts]
+                    contact_attributes = connection.Get(CONTACT_IFACE, "ContactAttributeInterfaces")
+                    contact_attributes = [str(a) for a in contact_attributes]
+                    contact_details = connection.GetContactAttributes(contacts, contact_attributes, False)
+                    for contact, details in contact_details.items():
+                        try:
+                            status_code = details[_ATTRIBUTES.get("presence")][1]
+                        except KeyError as ex:
+                            self.output_info('Presence could not be established with %s. Leaving unknown.' % ex)
+                            status_code = 'unknown'
+                        if not show_offline and status_code == 'offline':
+                            continue
+                        yield EmpathyContact(
+                            details[_ATTRIBUTES.get("jid")],
+                            details[_ATTRIBUTES.get("alias")],
+                            _STATUSES.get(status_code),
+                            '', # empathy does not provide resource here AFAIK
+                            valid_account,
+                            contact)
 
     def get_icon_name(self):
         return 'empathy'
