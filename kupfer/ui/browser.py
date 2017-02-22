@@ -1436,6 +1436,10 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         "called to notify that 'activate' was successful"
         self._reset_when_back = True
 
+    def did_get_result(self):
+        "called when a command result has come in"
+        self._reset_when_back = False
+
     def put_away(self):
         """Called when the interface is hidden"""
         self._relax_search_terms()
@@ -2169,6 +2173,7 @@ class WindowController (pretty.OutputMixin):
         self._window_hide_timer.set_ms(100, self.put_away)
 
     def result_callback(self, sender, result_type, ui_ctx):
+        self.interface.did_get_result()
         if ui_ctx:
             self.on_present(sender, ui_ctx.get_display(), ui_ctx.get_timestamp())
         else:

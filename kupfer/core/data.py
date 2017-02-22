@@ -213,6 +213,11 @@ class LeafPane (Pane, pretty.OutputMixin):
         self.source = None
         self.object_stack = []
 
+    def select(self, item):
+        assert item is None or isinstance(item, base.Leaf), \
+                    "New selection for object pane is not a Leaf!"
+        super().select(item)
+
     def _load_source(self, src):
         """Try to get a source from the SourceController,
         if it is already loaded we get it from there, else
@@ -318,6 +323,11 @@ class PrimaryActionPane (Pane):
     def __init__(self):
         super(PrimaryActionPane, self).__init__()
         self.set_item(None)
+
+    def select(self, item):
+        assert not item or isinstance(item, base.Action), \
+                "Selection in action pane is not an Action!"
+        super().select(item)
 
     def set_item(self, item):
         """Set which @item we are currently listing actions for"""
@@ -706,8 +716,6 @@ class DataController (GObject.GObject, pretty.OutputMixin):
         self.cancel_search()
         panectl.select(item)
         if pane is SourcePane:
-            assert not item or isinstance(item, base.Leaf), \
-                    "Selection in Source pane is not a Leaf!"
             # populate actions
             citem = self._get_pane_object_composed(self.source_pane)
             self.action_pane.set_item(citem)
@@ -716,8 +724,6 @@ class DataController (GObject.GObject, pretty.OutputMixin):
                 self.object_stack_clear(ObjectPane)
                 self._populate_third_pane()
         elif pane is ActionPane:
-            assert not item or isinstance(item, base.Action), \
-                    "Selection in Source pane is not an Action!"
             self.object_stack_clear(ObjectPane)
             if item and item.requires_object():
                 newmode = SourceActionObjectMode
@@ -729,8 +735,7 @@ class DataController (GObject.GObject, pretty.OutputMixin):
             if self.mode == SourceActionObjectMode:
                 self._populate_third_pane()
         elif pane is ObjectPane:
-            assert not item or isinstance(item, base.Leaf), \
-                    "Selection in Object pane is not a Leaf!"
+            pass
 
     def _populate_third_pane(self):
         citem = self._get_pane_object_composed(self.source_pane)

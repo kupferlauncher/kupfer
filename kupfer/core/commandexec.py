@@ -36,6 +36,7 @@ from kupfer import pretty
 from kupfer import task
 from kupfer import uiutils
 from kupfer.objects import OperationError
+from kupfer.obj.base import Leaf, Source
 from kupfer.obj.objects import SourceLeaf
 from kupfer.obj.sources import MultiSource
 from kupfer.obj.compose import MultipleLeaf
@@ -129,6 +130,21 @@ def parse_action_result(action, ret):
         res = RESULT_OBJECT
     elif action.is_async() and valid_result(ret):
         res = RESULT_ASYNC
+    return res
+
+def parse_late_action_result(action, ret):
+    # Late result is assumed to be a Leaf (Object) result
+    # by default for backward compat.
+    #
+    # It is also allowed to be a Source
+    def valid_result(ret):
+        return ret and (not hasattr(ret, "is_valid") or ret.is_valid())
+
+    res = RESULT_NONE
+    if isinstance(ret, Source) and valid_result(ret):
+        res = RESULT_SOURCE
+    elif valid_result(ret):
+        res = RESULT_OBJECT
     return res
 
 class ExecutionToken (object):
@@ -259,21 +275,28 @@ class ActionExecutionContext (GObject.GObject, pretty.OutputMixin):
         command_id, (_ign1, action, _ign2) = token
         if result is None:
             raise ActionExecutionError("Late result from %s was None" % action)
+        assert isinstance(result, (Leaf, Source))
         res_name = str(result)
         res_desc = result.get_description()
         if res_desc:
             description = "%s (%s)" % (res_name, res_desc)
         else:
             description = res_name
-        uiutils.show_notification(_('"%s" produced a result') % action,
-                description)
 
         # If only registration was requsted, remove the command id info
         if not show:
             command_id = -1
-        self.emit("late-command-result", command_id, RESULT_OBJECT, result,
-                                         ctxenv)
-        self._append_result(RESULT_OBJECT, result)
+
+        result_type = parse_late_action_result(action, result)
+
+        self.output_debug("late-command-result", command_id, result_type, result, ctxenv)
+
+        if result_type == RESULT_NONE:
+            return
+        uiutils.show_notification(_('"%s" produced a result') % action, description)
+
+        self.emit("late-command-result", command_id, result_type, result, ctxenv)
+        self._append_result(result_type, result)
 
     def _append_result(self, res_type, result):
         if res_type == RESULT_OBJECT:
