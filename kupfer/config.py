@@ -13,6 +13,9 @@ class ResourceLookupError (Exception):
 def has_capability(cap):
     return not bool(os.getenv("KUPFER_NO_%s" % cap, False))
 
+def get_kupfer_env(name, default=""):
+    return os.getenv("KUPFER_%s" % name, default)
+
 def get_cache_home():
     """
     Directory where cache files should be put

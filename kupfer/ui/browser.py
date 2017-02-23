@@ -2130,7 +2130,7 @@ class WindowController (pretty.OutputMixin):
 
         self.window.set_title(version.PROGRAM_NAME)
         self.window.set_icon_name(version.ICON_NAME)
-        self.window.set_type_hint(Gdk.WindowTypeHint.UTILITY)
+        self.window.set_type_hint(self._window_type_hint())
         self.window.set_property("skip-taskbar-hint", True)
         self.window.set_keep_above(True)
 
@@ -2139,6 +2139,21 @@ class WindowController (pretty.OutputMixin):
         # Setting not resizable changes from utility window
         # on metacity
         self.window.set_resizable(False)
+
+    def _window_type_hint(self):
+        type_hint = Gdk.WindowTypeHint.UTILITY
+        hint_name = kupfer.config.get_kupfer_env("WINDOW_TYPE_HINT").upper()
+        if hint_name:
+            hint_enum = getattr(Gdk.WindowTypeHint, hint_name, None)
+            if hint_enum is None:
+                self.output_error("No such Window Type Hint", hint_name)
+                self.output_error("Existing type hints:")
+                for name in dir(Gdk.WindowTypeHint):
+                    if name.upper() == name:
+                        self.output_error(name)
+            else:
+                type_hint = hint_enum
+        return type_hint
 
     def _window_frame_clicked(self, widget, event):
         "Start drag when the window is clicked"
