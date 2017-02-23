@@ -153,7 +153,6 @@ def configure(conf):
     python_modules = """
         gi.repository.Gtk
         gi.repository.Wnck
-        gi.repository.Keybinder
         xdg
         dbus
         """
@@ -166,7 +165,8 @@ def configure(conf):
             "dbus-send": "Focus kupfer from the command line",
         }
     opt_pymodules = {
-        }
+        "gi.repository.Keybinder": "Register global keybindings",
+    }
 
     for prog in opt_programs:
         try:
