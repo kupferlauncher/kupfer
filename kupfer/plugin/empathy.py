@@ -100,16 +100,19 @@ class OpenChat(Action):
     def activate(self, leaf):
         bus = dbus.SessionBus()
         jid = JABBER_JID_KEY in leaf and leaf[JABBER_JID_KEY]
-        account = bus.get_object(ACCOUNTMANAGER_IFACE, leaf[EMPATHY_ACCOUNT_KEY])
         contact_id = leaf[EMPATHY_CONTACT_ID]
 
         channel_dispatcher_iface = bus.get_object(CHANNELDISPATCHER_IFACE, CHANNELDISPATCHER_PATH)
-        ticks = dbus.Int64(time.time())
-        channel_request_params = dbus.Dictionary()
-        channel_request_params[CHANNEL_TYPE] = dbus.String(CHANNEL_TYPE_TEXT, variant_level=1)
-        channel_request_params[CHANNEL_TARGETHANDLETYPE] = dbus.UInt32(1, variant_level=1)
-        channel_request_params[CHANNEL_TARGETHANDLE] = contact_id
-        message_channel_path = channel_dispatcher_iface.EnsureChannel(account, channel_request_params, ticks, EMPATHY_CLIENT_IFACE)
+        ticks = time.time()
+        channel_request_params = {
+            CHANNEL_TYPE: CHANNEL_TYPE_TEXT,
+            CHANNEL_TARGETHANDLETYPE: 1,
+            CHANNEL_TARGETHANDLE: contact_id,
+        }
+        message_channel_path = \
+            channel_dispatcher_iface.EnsureChannel(leaf[EMPATHY_ACCOUNT_KEY],
+                channel_request_params, ticks, EMPATHY_CLIENT_IFACE,
+                dbus_interface=CHANNELDISPATCHER_IFACE)
         channel_request = bus.get_object(ACCOUNTMANAGER_IFACE, message_channel_path)
         channel_request.Proceed()
 
@@ -169,6 +172,7 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
         PicklingHelperMixin):
     ''' Get contacts from all on-line accounts in Empathy via DBus '''
     appleaf_content_id = 'empathy'
+    source_use_cache = False
 
     def __init__(self, name=_('Empathy Contacts')):
         super().__init__(name, "Contacts")
