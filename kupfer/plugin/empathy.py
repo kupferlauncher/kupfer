@@ -30,12 +30,18 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 plugin_support.check_dbus_connection()
 
 _STATUSES = {
-    'available':    _('Available'),
+    'available':_('Available'),
     'away':     _('Away'),
     'dnd':      _('Busy'),
     'xa':       _('Not Available'),
     'hidden':   _('Invisible'),
-    'offline':  _('Offline')
+}
+_STATUS_ICONS = {
+    'available':    'user-available',
+    'away':     'user-away',
+    'dnd':      'user-available',
+    'xa':       'user-away',
+    'hidden':   'user-offline',
 }
 
 _ATTRIBUTES = {
@@ -54,6 +60,7 @@ CHANNEL_GROUP_IFACE = "org.freedesktop.Telepathy.Channel.Interface.Group"
 CONTACT_IFACE = "org.freedesktop.Telepathy.Connection.Interface.Contacts"
 SIMPLE_PRESENCE_IFACE = "org.freedesktop.Telepathy.Connection.Interface.SimplePresence"
 DBUS_PROPS_IFACE = "org.freedesktop.DBus.Properties"
+# Note: Both bus name and interface name
 CHANNELDISPATCHER_IFACE = "org.freedesktop.Telepathy.ChannelDispatcher"
 CHANNELDISPATCHER_PATH = "/org/freedesktop/Telepathy/ChannelDispatcher"
 CHANNEL_TYPE = "org.freedesktop.Telepathy.Channel.ChannelType"
@@ -89,7 +96,8 @@ class EmpathyContact(JabberContact):
 
 
 class AccountStatus(Leaf):
-    pass
+    def get_icon_name(self):
+        return _STATUS_ICONS[self.object]
 
 
 class OpenChat(Action):
@@ -142,15 +150,11 @@ class ChangeStatus(Action):
             if connection_status != 0:
                 continue
 
-            if iobj.object == "offline":
-                false = dbus.Boolean(0, variant_level=1)
-                account.Set(ACCOUNT_IFACE, "Enabled", false)
-            else:
-                connection_path = account.Get(ACCOUNT_IFACE, "Connection")
-                connection_iface = connection_path.replace("/", ".")[1:]
-                connection = bus.get_object(connection_iface, connection_path)
-                simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
-                simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
+            connection_path = account.Get(ACCOUNT_IFACE, "Connection")
+            connection_iface = connection_path.replace("/", ".")[1:]
+            connection = bus.get_object(connection_iface, connection_path)
+            simple_presence = dbus.Interface(connection, SIMPLE_PRESENCE_IFACE)
+            simple_presence.SetPresence(iobj.object, _STATUSES.get(iobj.object))
 
     def item_types(self):
         yield AppLeaf
