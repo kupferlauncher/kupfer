@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-22 23:26+0100\n"
-"PO-Revision-Date: 2017-02-17 19:20+0100\n"
+"POT-Creation-Date: 2017-02-24 22:20+0100\n"
+"PO-Revision-Date: 2017-02-24 22:30+0100\n"
 "Last-Translator: Ulrik Sverdrup\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -536,7 +536,7 @@ msgid "Copy selected text to primary clipboard"
 msgstr "Ausgewählten Text in die primäre Zwischenablage kopieren"
 
 msgid "Selected Text"
-msgstr "Markierter Text"
+msgstr "Ausgewählten Text"
 
 #, python-format
 msgid "Clipboard \"%(desc)s\""
@@ -905,7 +905,7 @@ msgid "Last updated %s"
 msgstr "Zuletzt aktualisiert %s"
 
 msgid "Quicksilver Icons"
-msgstr "Quecksilber-Symbole"
+msgstr "Quicksilver-Symbole"
 
 msgid "Quick Image Viewer"
 msgstr "Bild-Schnellanzeiger"
@@ -1019,9 +1019,9 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Unverschlüsselte Datei"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Dependency '%s' is not available"
-msgstr "Befehl in »%s« ist nicht verfügbar"
+msgstr "Abhängigkeit »%s« ist nicht verfügbar"
 
 msgid "Document Templates"
 msgstr "Dokumentvorlagen"
@@ -1506,6 +1506,9 @@ msgstr "Titel zur Wiedergabeliste hinzufügen"
 msgid "by %(artist)s from %(album)s"
 msgstr "von %(artist)s aus %(album)s"
 
+msgid "Get File"
+msgstr "Datei holen"
+
 #. TRANS: Album description "by Artist"
 #, python-format
 msgid "by %s"
@@ -1585,33 +1588,6 @@ msgstr "Hilfe für Entwickler"
 msgid "Search in Devhelp"
 msgstr "In der Hilfe für Entwickler suchen"
 
-msgid "Empathy"
-msgstr "Empathy"
-
-msgid "Access to Empathy Contacts"
-msgstr "Zugriff auf Empathy-Kontakte"
-
-msgid "Busy"
-msgstr "Beschäftigt"
-
-msgid "Not Available"
-msgstr "Nicht verfügbar"
-
-msgid "Invisible"
-msgstr "Verborgen"
-
-msgid "Offline"
-msgstr "Abgemeldet"
-
-msgid "Change Global Status To..."
-msgstr "Globalen Status ändern in …"
-
-msgid "Empathy Contacts"
-msgstr "Empathy-Kontakte"
-
-msgid "Empathy Account Status"
-msgstr "Kontenstatus von Empathy"
-
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternative Aktivierung"
@@ -1644,14 +1620,26 @@ msgstr "Ausgewählte Datei wählen"
 msgid "Select Selected Text"
 msgstr "Markierten Text wählen"
 
+msgid "Select Clipboard File"
+msgstr "Datei in Zwischenablage wählen"
+
+msgid "Select Clipboard Text"
+msgstr "Text in Zwischenablage wählen"
+
 msgid "Show Help"
 msgstr "Hilfe anzeigen"
 
 msgid "Show Preferences"
 msgstr "Einstellungen anzeigen"
 
-msgid "Switch to First Pane"
-msgstr "In erste Leiste wechseln"
+msgid "Switch to 1st Pane"
+msgstr "In 1. Leiste wechseln"
+
+msgid "Switch to 2nd Pane"
+msgstr "In 2. Leiste wechseln"
+
+msgid "Switch to 3rd Pane"
+msgstr "In 3. Leiste wechseln"
 
 msgid "Toggle Text Mode"
 msgstr "Textmodus umschalten"
@@ -1789,6 +1777,33 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
+
+#~ msgid "Empathy"
+#~ msgstr "Empathy"
+
+#~ msgid "Access to Empathy Contacts"
+#~ msgstr "Zugriff auf Empathy-Kontakte"
+
+#~ msgid "Busy"
+#~ msgstr "Beschäftigt"
+
+#~ msgid "Not Available"
+#~ msgstr "Nicht verfügbar"
+
+#~ msgid "Invisible"
+#~ msgstr "Verborgen"
+
+#~ msgid "Offline"
+#~ msgstr "Abgemeldet"
+
+#~ msgid "Change Global Status To..."
+#~ msgstr "Globalen Status ändern in …"
+
+#~ msgid "Empathy Contacts"
+#~ msgstr "Empathy-Kontakte"
+
+#~ msgid "Empathy Account Status"
+#~ msgstr "Kontenstatus von Empathy"
 
 #~ msgid "Type to search %s"
 #~ msgstr "Eingeben, um »%s« zu durchsuchen"
