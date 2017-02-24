@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer beta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-22 23:26+0100\n"
-"PO-Revision-Date: 2015-08-10 18:48+0200\n"
-"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+"POT-Creation-Date: 2017-02-24 22:19+0100\n"
+"PO-Revision-Date: 2017-02-24 22:19+0100\n"
+"Last-Translator: US\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.3\n"
+"X-Generator: Poedit 1.8.11\n"
 
 msgid "User credentials"
 msgstr "Användaruppgifter"
@@ -1015,9 +1015,9 @@ msgstr "KWallet"
 msgid "Unencrypted File"
 msgstr "Ej krypterad fil"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Dependency '%s' is not available"
-msgstr "Kommando i ”%s” är ej tillgängligt"
+msgstr "Beroende ”%s” är ej tillgängligt"
 
 msgid "Document Templates"
 msgstr "Dokumentmallar"
@@ -1500,6 +1500,9 @@ msgstr "Lägg till spår i spelkön"
 msgid "by %(artist)s from %(album)s"
 msgstr "av %(artist)s från %(album)s"
 
+msgid "Get File"
+msgstr "Hämta Fil"
+
 #. TRANS: Album description "by Artist"
 #, python-format
 msgid "by %s"
@@ -1579,33 +1582,6 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Sök i Devhelp"
 
-msgid "Empathy"
-msgstr "Empathy"
-
-msgid "Access to Empathy Contacts"
-msgstr "Tillgång till Empathy-kontakter"
-
-msgid "Busy"
-msgstr "Stör inte"
-
-msgid "Not Available"
-msgstr "Ej tillgänglig"
-
-msgid "Invisible"
-msgstr "Osynlig"
-
-msgid "Offline"
-msgstr "Frånkopplad"
-
-msgid "Change Global Status To..."
-msgstr "Ändra global status till..."
-
-msgid "Empathy Contacts"
-msgstr "Empathy-kontakter"
-
-msgid "Empathy Account Status"
-msgstr "Empathy-status"
-
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
@@ -1638,14 +1614,26 @@ msgstr "Välj markerad fil"
 msgid "Select Selected Text"
 msgstr "Välj markering"
 
+msgid "Select Clipboard File"
+msgstr "Välj urklippt fil"
+
+msgid "Select Clipboard Text"
+msgstr "Välj urklippt text"
+
 msgid "Show Help"
 msgstr "Visa hjälp"
 
 msgid "Show Preferences"
 msgstr "Visa inställningar"
 
-msgid "Switch to First Pane"
-msgstr "Välj första rutan"
+msgid "Switch to 1st Pane"
+msgstr "Välj 1:a rutan"
+
+msgid "Switch to 2nd Pane"
+msgstr "Välj 2:a rutan"
+
+msgid "Switch to 3rd Pane"
+msgstr "Välj 3:e rutan"
 
 msgid "Toggle Text Mode"
 msgstr "Växla fritextläge"
@@ -1771,6 +1759,33 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
+
+#~ msgid "Empathy"
+#~ msgstr "Empathy"
+
+#~ msgid "Access to Empathy Contacts"
+#~ msgstr "Tillgång till Empathy-kontakter"
+
+#~ msgid "Busy"
+#~ msgstr "Stör inte"
+
+#~ msgid "Not Available"
+#~ msgstr "Ej tillgänglig"
+
+#~ msgid "Invisible"
+#~ msgstr "Osynlig"
+
+#~ msgid "Offline"
+#~ msgstr "Frånkopplad"
+
+#~ msgid "Change Global Status To..."
+#~ msgstr "Ändra global status till..."
+
+#~ msgid "Empathy Contacts"
+#~ msgstr "Empathy-kontakter"
+
+#~ msgid "Empathy Account Status"
+#~ msgstr "Empathy-status"
 
 #~ msgid "Type to search %s"
 #~ msgstr "Skriv för att söka i %s"
