@@ -3,6 +3,25 @@
 NEWS for kupfer
 ===============
 
+kupfer v312
+-----------
+
+*There are some lingering open bugs for desktop environments that are not my
+main desktop. Kupfer only becomes what everyone puts in, so if you can help
+fixing bugs related to your environment, please come to our github page.*
+
++ Add several new possible accelerator keys in the main kupfer interface:
+  + *Select Pane 1, 2, 3*
+  + *Select Clipboard Text*, *Select Clipboard File*
+  + Configure them in the keyboard tab in preferences
++ ``Keybinder`` which is optional is now also treated as such by configure
++ (API) Minor bugfix so that async Tasks don't need to set a name
++ Plugins:
+
+  + Handle errors better in the *Trash* plugin
+  + Fix the way *Rhythmbox* starts playback of multiple songs
+  + Add action *Get File* on *Rhythmbox* songs
+
 kupfer v311
 -----------
 
