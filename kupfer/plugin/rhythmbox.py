@@ -22,6 +22,7 @@ import dbus
 
 from kupfer import pretty
 from kupfer.objects import Leaf, Source, Action, RunnableLeaf, SourceLeaf
+from kupfer.objects import FileLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.objects import OperationError
@@ -193,6 +194,7 @@ class SongLeaf (Leaf):
     def get_actions(self):
         yield PlayTracks()
         yield Enqueue()
+        yield GetFile()
     def get_description(self):
         # TRANS: Song description
         return _("by %(artist)s from %(album)s") % {
@@ -201,6 +203,21 @@ class SongLeaf (Leaf):
                 }
     def get_icon_name(self):
         return "audio-x-generic"
+
+class GetFile (Action):
+    def __init__(self):
+        super().__init__(_("Get File"))
+
+    def has_result(self):
+        return True
+
+    def activate(self, leaf):
+        gfile = Gio.File.new_for_uri(leaf.object["location"])
+        path = gfile.get_path()
+        if path:
+            result = FileLeaf(path)
+            if result.is_valid():
+                return result
 
 class CollectionSource (Source):
     def __init__(self, leaf):
