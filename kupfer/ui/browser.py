@@ -988,7 +988,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.label.set_ellipsize(ELLIPSIZE_MIDDLE)
         self.label.set_name("kupfer-description")
 
-        self.switch_to_source()
+        self.switch_to_source_init()
         self.entry.connect("changed", self._changed)
         self.preedit.connect("insert-text", self._preedit_insert_text)
         self.preedit.connect("draw", self._preedit_draw)
@@ -1213,7 +1213,6 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         elif keyv == key_book["Left"]:
             self._back_key_press()
         elif keyv in (key_book["Tab"], key_book["ISO_Left_Tab"]):
-            self.current.hide_table()
             self.switch_current(reverse=(keyv == key_book["ISO_Left_Tab"]))
         elif keyv == key_book['Home']:
             self.current.go_first()
@@ -1413,14 +1412,21 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self.entry.hide()
         self._update_active()
 
+    def switch_to_source_init(self):
+        # Initial switch to source
+        self.current = self.search
+        self._update_active()
+        if self.get_in_text_mode():
+            self.toggle_text_mode_quick()
+
     def switch_to_source(self):
-        if self.current is not self.search:
-            if self.current:
-                self.current.hide_table()
-            self.current = self.search
-            self._update_active()
-            if self.get_in_text_mode():
-                self.toggle_text_mode_quick()
+        self.switch_current_to(0)
+
+    def switch_to_2(self):
+        self.switch_current_to(1)
+
+    def switch_to_3(self):
+        self.switch_current_to(2)
 
     def focus(self):
         """called when the interface is focus (after being away)"""
@@ -1596,10 +1602,28 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         curidx = order.index(self.current)
         newidx = curidx -1 if reverse else curidx +1
         newidx %= len(order)
-        prev_pane = order[max(newidx -1, 0)]
-        new_focus = order[newidx]
-        if (prev_pane.get_match_state() is State.Match and
+        self.switch_current_to(newidx)
+
+    def switch_current_to(self, index):
+        """
+        Switch selected pane
+
+        index: index (0, 1, or 2) of the pane to select.
+        """
+        assert index in (0, 1, 2)
+        order = [self.search, self.action]
+        if self._pane_three_is_visible:
+            order.append(self.third)
+
+        if index >= len(order):
+            return False
+        pane_before = order[max(index - 1, 0)]
+        new_focus = order[index]
+        no_match_ok = index == 0
+        # Only allow switch if we have match in the pane before
+        if ((no_match_ok or pane_before.get_match_state() is State.Match) and
                 new_focus is not self.current):
+            self.current.hide_table()
             self.current = new_focus
             # Use toggle_text_mode to reset
             self.toggle_text_mode(False)
@@ -1607,6 +1631,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self._update_active()
             if self.data_controller.get_should_enter_text_mode(pane):
                 self.toggle_text_mode_quick()
+        return True
 
     def _browse_up(self):
         pane = self._pane_for_widget(self.current)

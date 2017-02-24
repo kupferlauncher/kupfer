@@ -16,6 +16,8 @@ ACCELERATOR_NAMES = {
     'select_selected_text': _('Select Selected Text'),
     'show_help': _('Show Help'),
     'show_preferences': _('Show Preferences'),
-    'switch_to_source': _('Switch to First Pane'),
+    'switch_to_source': _('Switch to 1st Pane'),
+    'switch_to_2': _('Switch to 2nd Pane'),
+    'switch_to_3': _('Switch to 3rd Pane'),
     "toggle_text_mode_quick": _('Toggle Text Mode'),
 }
