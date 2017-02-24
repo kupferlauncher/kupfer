@@ -109,17 +109,18 @@ def enqueue_songs(info, clear_queue=False, play_first=False):
     qargv = ["rhythmbox-client"]
     if clear_queue:
         qargv.append("--clear-queue")
+    if play_first and songs:
+        song = songs[0]
+        songs = songs[1:]
+        uri = _tostr(song["location"])
+        qargv.append("--play-uri")
+        qargv.append(uri)
     for song in songs:
         uri = _tostr(song["location"])
         gfile = Gio.File.new_for_uri(uri)
         path = gfile.get_path()
         qargv.append("--enqueue")
         qargv.append(path)
-    if play_first:
-        song = songs[0]
-        uri = _tostr(song["location"])
-        qargv.append("--play-uri")
-        qargv.append(uri)
     spawn_async(qargv)
 
 class ClearQueue (RunnableLeaf):
