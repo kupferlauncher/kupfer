@@ -22,7 +22,8 @@ class Task (object):
 
     def __repr__(self):
         return "<%s.%s name=%r>" % (type(self).__module__,
-                                    type(self).__name__, self.name)
+                                    type(self).__name__,
+                                    getattr(self, 'name', None))
 
     def start(self, finish_callback):
         raise NotImplementedError
