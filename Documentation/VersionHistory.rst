@@ -11,9 +11,11 @@ main desktop. Kupfer only becomes what everyone puts in, so if you can help
 fixing bugs related to your environment, please come to our github page.*
 
 + Add several new possible accelerator keys in the main kupfer interface:
+
   + *Select Pane 1, 2, 3*
   + *Select Clipboard Text*, *Select Clipboard File*
   + Configure them in the keyboard tab in preferences
+
 + ``Keybinder`` which is optional is now also treated as such by configure
 + (API) Minor bugfix so that async Tasks don't need to set a name
 + Plugins:
