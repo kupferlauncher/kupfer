@@ -14,6 +14,8 @@ ACCELERATOR_NAMES = {
     'select_quit': _('Select Quit'),
     'select_selected_file': _('Select Selected File'),
     'select_selected_text': _('Select Selected Text'),
+    'select_clipboard_file': _('Select Clipboard File'),
+    'select_clipboard_text': _('Select Clipboard Text'),
     'show_help': _('Show Help'),
     'show_preferences': _('Show Preferences'),
     'switch_to_source': _('Switch to 1st Pane'),

@@ -1457,8 +1457,16 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         # Add optional lookup data to narrow the search
         self.data_controller.find_object("qpfer:selectedfile#any.FileLeaf")
 
+    def select_clipboard_file(self):
+        # Add optional lookup data to narrow the search
+        self.data_controller.find_object("qpfer:clipboardfile#any.FileLeaf")
+
     def select_selected_text(self):
         self.data_controller.find_object("qpfer:selectedtext#any.TextLeaf")
+
+    def select_clipboard_text(self):
+        # Add optional lookup data to narrow the search
+        self.data_controller.find_object("qpfer:clipboardtext#any.FileLeaf")
 
     def select_quit(self):
         self.data_controller.find_object("qpfer:quit")
