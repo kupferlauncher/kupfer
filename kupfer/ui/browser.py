@@ -1500,6 +1500,12 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self._is_text_mode = True
         self.update_text_mode()
 
+    def disable_text_mode_quick(self):
+        """Toggle text mode or not, if we can or not, without reset"""
+        if self._is_text_mode:
+            self._is_text_mode = False
+            self.update_text_mode()
+
     def update_text_mode(self):
         """update appearance to whether text mode enabled or not"""
         if self._is_text_mode:
@@ -1619,6 +1625,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         success, activate = self.action.select_action(c)
         if success:
             if activate:
+                self.disable_text_mode_quick()
                 self.activate()
             else:
                 self.switch_to_3()
