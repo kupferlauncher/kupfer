@@ -19,10 +19,11 @@ SMALL_SZ = 24
 
 ## default fallbacks for our themable icons
 kupfer_icon_fallbacks = {
-    'kupfer-execute': 'gtk-execute',
-    'kupfer-object': 'gtk-file',
-    'kupfer-object-multiple': 'gtk-file',
-    'kupfer-catalog': 'folder-saved-search',
+    'kupfer-execute': 'system-run',
+    'kupfer-object': 'text-x-generic',
+    'kupfer-object-multiple': 'folder',
+    'kupfer-catalog': 'system-search',
+    'kupfer-search': 'system-search',
 }
 
 kupfer_locally_installed_names = set()

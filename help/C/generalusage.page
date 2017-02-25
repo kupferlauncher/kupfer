@@ -78,10 +78,10 @@
     <title>Learning Habits</title>
     <p>
       <app>Kupfer</app> remembers which objects and actions are used the
-      most. When beginning to use it, you have to use the arrow keys at
+      most and which abbreviations you use to access them. When starting,
+      you have to use the arrow keys at
       times to make it precise which object you want to find. After a few
-      uses of that object, Kupfer will rank it higher. Objects marked as
-      <link xref="plugin-favorites">favorites</link> are also ranked higher.
+      uses of that object, Kupfer will rank it higher.
     </p>
   </section>
 

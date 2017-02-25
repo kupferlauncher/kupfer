@@ -154,7 +154,7 @@ class SourcesSource (Source):
         return _("An index of all available sources")
 
     def get_icon_name(self):
-        return "folder-saved-search"
+        return "kupfer-catalog"
 
 class MultiSource (Source):
     """

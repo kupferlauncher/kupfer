@@ -29,7 +29,7 @@ from kupfer.ui import keybindings
 from kupfer.ui import listen
 from kupfer.ui import uievents
 from kupfer.core import data, relevance, learn
-from kupfer.core import settings
+from kupfer.core import settings, actionaccel
 from kupfer import icons
 from kupfer import interface
 from kupfer import pretty
@@ -134,7 +134,7 @@ class LeafModel (object):
     Attributes:
     icon_size
     """
-    def __init__(self):
+    def __init__(self, aux_info_callback):
         """
         First column is always the object -- returned by get_object
         it needs not be specified in columns
@@ -145,6 +145,7 @@ class LeafModel (object):
         self.base = None
         self._setup_columns()
         self.icon_size = 32
+        self.aux_info_callback = aux_info_callback
 
     def __len__(self):
         return len(self.store)
@@ -274,14 +275,22 @@ class LeafModel (object):
             return ""
 
     def get_aux_info(self, leaf):
-        # info: display arrow if leaf has content
+        # For objects: Show arrow if it has content
+        # For actions: Show accelerator
+        #
+        if self.aux_info_callback is not None:
+            return self.aux_info_callback(leaf)
+        return ""
         if hasattr(leaf, "has_content") and leaf.has_content():
             if text_direction_is_ltr():
                 return "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
             else:
                 return "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
         else:
-            return ""
+            accel = getattr(leaf, "action_accelerator", None)
+            if accel:
+                return "Alt + " + accel.upper()
+        return ""
 
     def get_rank_str(self, rank):
         # Display rank empty instead of 0 since it looks better
@@ -544,7 +553,7 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     def __init__(self):
         GObject.GObject.__init__(self)
         # object attributes
-        self.model = LeafModel()
+        self.model = LeafModel(self.get_aux_info)
         self.match = None
         self.match_state = State.Wait
         self.text = ""
@@ -563,6 +572,11 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self._icon_size_small = None
         self._read_icon_size()
         self.setup_empty()
+
+
+    def get_aux_info(self, leaf):
+        # Return content for the aux info column
+        return ""
 
     @property
     def icon_size(self):
@@ -706,6 +720,12 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         path_at_row = lambda r: (r,)
         self.table.set_cursor(path_at_row(row))
 
+    def _table_current_row(self):
+        row_at_path = lambda p: p[0]
+
+        path, col = self.table.get_cursor()
+        return row_at_path(path) if path else None
+
     def go_up(self, rows_count=1):
         """
         Upwards in the table
@@ -721,7 +741,7 @@ class Search (Gtk.Bin, pretty.OutputMixin):
             else:
                 self.hide_table()
 
-    def go_down(self, force=False, rows_count=1):
+    def go_down(self, force=False, rows_count=1, show_table=True):
         """
         Down in the table
         """
@@ -745,8 +765,9 @@ class Search (Gtk.Bin, pretty.OutputMixin):
                         self._table_set_cursor_at_row(r + step)
             else:
                 self._table_set_cursor_at_row(0)
-            self._show_table()
-        if force:
+            if show_table:
+                self._show_table()
+        if force and show_table:
             self._show_table()
 
     def go_page_up(self):
@@ -842,7 +863,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
             return self.handle_no_matches(empty=not key)
         self._set_match(matchrankable)
         self.model.set_base(iter(matches))
-        self._browsing_match = False
         if not self.model and self.get_table_visible():
             self.go_down()
 
@@ -856,10 +876,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self.match_state = State.NoMatch
         self.match_view.set_match_state("No match", None, state=State.NoMatch)
         self.relax_match()
-
-    def get_is_browsing(self):
-        """Return if self is browsing"""
-        return self._browsing_match
 
     def populate(self, num):
         """populate model with num items"""
@@ -882,6 +898,14 @@ class LeafSearch (Search):
     """
     Customize for leaves search
     """
+    def get_aux_info(self, leaf):
+        if hasattr(leaf, "has_content") and leaf.has_content():
+            if text_direction_is_ltr():
+                return "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
+            else:
+                return "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
+        return ""
+
     def get_nomatch_name_icon(self, empty):
         get_pbuf = \
             lambda m: (m.get_thumbnail(self.icon_size*4/3, self.icon_size) or \
@@ -917,7 +941,43 @@ class LeafSearch (Search):
 class ActionSearch (Search):
     """
     Customization for Actions
+
+    Attributes:
+
+    accel_modifier
     """
+    def __init__(self):
+        super().__init__()
+        self.action_accel_config = None
+        self.accel_modifier = Gdk.ModifierType.MOD1_MASK
+
+    def lazy_setup(self):
+        setctl = settings.GetSettingsController()
+        setctl.connect("value-changed::kupfer.action_accelerator_modifer",
+                       self._on_modifier_changed)
+        self._read_accel_modifer(setctl.get_action_accelerator_modifer())
+
+    def _on_modifier_changed(self, setctl, section, key, value):
+        self._read_accel_modifer(value)
+
+    def _read_accel_modifer(self, value):
+        if value == "alt":
+            self.accel_modifier = Gdk.ModifierType.MOD1_MASK
+        elif value == "ctrl":
+            self.accel_modifier = Gdk.ModifierType.CONTROL_MASK
+        else:
+            self.print_error("Unknown modifier key", value)
+
+    def get_aux_info(self, obj):
+        if not self.action_accel_config:
+            return ""
+        accel = self.accel_for_action(obj, self.action_accel_config)
+        if accel:
+            c = Gdk.unicode_to_keyval(ord(accel))
+            return Gtk.accelerator_get_label(c, self.accel_modifier)
+        else:
+            return ""
+
     def get_nomatch_name_icon(self, empty=False):
         # don't look up icons too early
         if not self._initialized:
@@ -931,6 +991,50 @@ class ActionSearch (Search):
     def setup_empty(self):
         self.handle_no_matches()
         self.hide_table()
+
+    @classmethod
+    def accel_for_action(self, action, action_accel_config):
+        if action_accel_config is None:
+            return None
+        config_accel = action_accel_config.get(action)
+        if config_accel is not None:
+            return config_accel
+        return action.action_accelerator
+
+    def select_action(self, accel):
+        """
+        Find and select the next action with accelerator key @accel
+
+        Return pair of bool success, can activate
+        """
+        if self.get_match_state() == State.NoMatch:
+            return False, False
+
+        initial = self.get_current()
+        cur = None
+        i = self._table_current_row() or 0
+        self.populate(self.show_more)
+        if not len(self.model):
+            return False, False
+        start_row = i
+        self.output_debug("initial row", start_row)
+        while True:
+            cur = self.model.get_object((i, ))
+            self.output_debug("Looking at action", cur)
+            action = cur.object
+
+            if self.accel_for_action(action, self.action_accel_config) == accel:
+                self.output_debug("Found")
+                self._table_set_cursor_at_row(i)
+                return True, not action.requires_object()
+
+            self.populate(1)
+            i += 1
+            i %= len(self.model)
+            if i == start_row:
+                break
+            continue
+        return False, False
 
 class Interface (GObject.GObject, pretty.OutputMixin):
     """
@@ -1042,6 +1146,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             D["Left"], D["Right"] = D["Right"], D["Left"]
 
         self.keys_sensible = set(self.key_book.values())
+        self.action_accel_config = actionaccel.AccelConfig()
         self.search.reset()
 
     def get_widget(self):
@@ -1064,6 +1169,16 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.third.hide()
         self._widget = vbox
         return vbox
+    
+    def lazy_setup(self):
+        self.action_accel_config.load()
+        self.action.action_accel_config = self.action_accel_config
+        self.action.lazy_setup()
+        self.output_debug("Finished lazy_setup")
+
+    def save_config(self):
+        self.action_accel_config.store()
+        self.output_debug("Finished save_config")
 
     def _entry_realized(self, widget):
         self.update_text_mode()
@@ -1096,6 +1211,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         modifiers = all_modifiers & ~consumed
         # MOD1_MASK is alt/option
         mod1_mask = ((event.get_state() & modifiers) == Gdk.ModifierType.MOD1_MASK)
+        action_accel_mask = ((event.get_state() & modifiers) == self.action.accel_modifier)
         shift_mask = ((event.get_state() & all_modifiers) == Gdk.ModifierType.SHIFT_MASK)
 
         text_mode = self.get_in_text_mode()
@@ -1117,6 +1233,14 @@ class Interface (GObject.GObject, pretty.OutputMixin):
                 else:
                     action_method()
                 return True
+
+        # look for action accelerators
+        if action_accel_mask:
+            codepoint = Gdk.keyval_to_unicode(keyv)
+            c = chr(codepoint)
+            if codepoint != 0 and c.isalnum():
+                if self.action_accelerator(c):
+                    return True
 
         key_book = self.key_book
         use_command_keys = setctl.get_use_command_keys()
@@ -1400,6 +1524,12 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self._is_text_mode = True
         self.update_text_mode()
 
+    def disable_text_mode_quick(self):
+        """Toggle text mode or not, if we can or not, without reset"""
+        if self._is_text_mode:
+            self._is_text_mode = False
+            self.update_text_mode()
+
     def update_text_mode(self):
         """update appearance to whether text mode enabled or not"""
         if self._is_text_mode:
@@ -1505,6 +1635,45 @@ class Interface (GObject.GObject, pretty.OutputMixin):
                 self.reset_text()
             return True
 
+    def action_accelerator(self, c):
+        """
+        c: Single letter string 
+
+        Return False if it was not possible to handle or the action was not
+        used, return True if it was acted upon
+        """
+        if self.search.get_match_state() != State.Match:
+            return False
+        c = c.lower()
+        self.output_debug("Looking for action accelerator for", c)
+        success, activate = self.action.select_action(c)
+        if success:
+            if activate:
+                self.disable_text_mode_quick()
+                self.activate()
+            else:
+                self.switch_to_3()
+        else:
+            self.output_debug("No action found for", c)
+            return False
+        return True
+
+    def assign_action_accelerator(self):
+        def is_good_keystr(k):
+            return len(k) == 1 and k.isalnum()
+        if self.action.get_match_state() != State.Match:
+            raise RuntimeError("No Action Selected")
+        from kupfer.ui import getkey_dialog
+        w = self.get_widget()
+        keystr = getkey_dialog.ask_for_key(is_good_keystr,
+                screen=w.get_screen(),
+                parent=w.get_toplevel())
+        if keystr is None:
+            # Was cancelled
+            return
+        action = self.action.get_current()
+        self.action_accel_config.set(action, keystr)
+
     def get_context_actions(self):
         """
         Get a list of (name, function) currently
@@ -1517,7 +1686,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             return (accelerators.ACCELERATOR_NAMES[key], getattr(self, key))
         def trunc(ustr):
             "truncate long object names"
-            return ustr[:25]
+            return ustr[:25] + "…" if len(ustr) > 27 else ustr
         has_match = self.current.get_match_state() == State.Match
         if has_match:
             yield get_accel('compose_action')
@@ -1527,6 +1696,13 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if self.action.get_match_state() == State.Match:
             smatch = self.search.get_current()
             amatch = self.action.get_current()
+
+            label = (_('Assign Accelerator to "%(action)s"') % {
+                     'action': trunc(str(amatch)),
+                     })
+            w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
+            yield ("\n".join(w_label), self.assign_action_accelerator)
+
             label = (_('Make "%(action)s" Default for "%(object)s"') % {
                      'action': trunc(str(amatch)),
                      'object': trunc(str(smatch)),
@@ -2391,6 +2567,7 @@ class WindowController (pretty.OutputMixin):
         """Save state before quit"""
         sch = scheduler.GetScheduler()
         sch.finish()
+        self.interface.save_config()
 
     def quit(self, sender=None):
         Gtk.main_quit()
@@ -2457,6 +2634,7 @@ class WindowController (pretty.OutputMixin):
         client = session.SessionClient()
         client.connect("save-yourself", self._session_save)
         client.connect("die", self._session_die)
+        self.interface.lazy_setup()
 
         self.output_debug("finished lazy_setup")
 

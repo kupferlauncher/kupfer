@@ -463,6 +463,13 @@ Some auxiliary methods tell Kupfer about how to handle the action:
     if you need to differentiate between different instances of the
     same Action class.
 
+Class Attributes
+................
+
+The attribute ``action_accelerator`` is ``None`` by default but
+can be a single letter string to suggest a default accelerator for
+this action. Actions that act like the default open should use ``"o"``.
+
 
 Source
 ::::::

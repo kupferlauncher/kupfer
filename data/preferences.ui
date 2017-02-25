@@ -455,8 +455,41 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="position">4</property>
+                        <property name="padding">10</property>
                       </packing>
                     </child>
+
+                    <child>
+                      <object class="GtkRadioButton" id="radio_actionaccelalt">
+                        <property name="label" translatable="yes">Action accelerators use Alt</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">radio_actionaccelalt</property>
+                        <signal name="toggled" handler="on_radio_action_accel_alt"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="radio_actionaccelctrl">
+                        <property name="label" translatable="yes">Action accelerators use Ctrl</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">radio_actionaccelalt</property>
+                        <signal name="toggled" handler="on_radio_action_accel_ctrl"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">6</property>
+                      </packing>
+                    </child>
+
                   </object>
                   <packing>
                     <property name="position">1</property>

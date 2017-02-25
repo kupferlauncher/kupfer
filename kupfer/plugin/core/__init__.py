@@ -81,7 +81,7 @@ class SearchInside (Action):
     def get_description(self):
         return _("Search inside this catalog")
     def get_icon_name(self):
-        return "search"
+        return "kupfer-search"
 
 class CopyToClipboard (Action):
     # rank down since it applies everywhere

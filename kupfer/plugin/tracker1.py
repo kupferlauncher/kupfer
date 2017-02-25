@@ -11,7 +11,7 @@ __kupfer_actions__ = (
         "TrackerSearchHere",
     )
 __description__ = _("Tracker desktop search integration")
-__version__ = "2017.1"
+__version__ = "2017.2"
 __author__ = "US"
 
 from xml.etree.cElementTree import ElementTree
@@ -50,15 +50,32 @@ class TrackerSearch (Action):
     def item_types(self):
         yield TextLeaf
 
-class TrackerSearchHere (Action):
+class TrackerSearchHere(Action):
     def __init__(self):
-        Action.__init__(self, _("Get Tracker Results..."))
+        super().__init__(_("Get Tracker Results..."))
 
-    def is_factory(self):
+    def wants_context(self):
         return True
 
-    def activate(self, leaf):
-        return TrackerQuerySource(leaf.object, max_items=500)
+    def activate(self, leaf, ctx):
+        query = leaf.object
+
+        def error(exc):
+            ctx.register_late_error(exc)
+
+        def reply(results):
+            ret = []
+            new_file = Gio.File.new_for_uri
+            for result in results:
+                try:
+                    ret.append(FileLeaf(new_file(result[0]).get_path()))
+                except Exception: # This very vague exception is from getpath
+                    continue
+            ctx.register_late_result(TrackerQuerySource(query, search_results=ret))
+
+        for _ignore in get_tracker_filequery(query, max_items=500,
+                reply_handler=reply, error_handler=error):
+            pass
 
     def get_description(self):
         return _("Show Tracker results for query")
@@ -89,7 +106,7 @@ ORDER_BY = {
     "rank": "ORDER BY DESC (fts:rank(?s))",
     "recent": "ORDER BY DESC (nfo:fileLastModified(?s))",
 }
-def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank"):
+def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank", **kwargs):
     clean_query = sparql_escape(query)
     sql = ("""SELECT tracker:coalesce (nie:url (?s), ?s)
               WHERE {  ?s fts:match "%s" .  ?s tracker:available true . }
@@ -100,7 +117,9 @@ def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank"):
               int(max_items)))
 
     pretty.print_debug(__name__, sql)
-    results = searchobj.SparqlQuery(sql)
+    results = searchobj.SparqlQuery(sql, **kwargs)
+    if results is None:
+        return
 
     new_file = Gio.File.new_for_uri
     for result in results:
@@ -150,16 +169,20 @@ def get_tracker_filequery(query, **kwargs):
     return queryfunc(searchobj, query, **kwargs)
 
 class TrackerQuerySource (Source):
-    def __init__(self, query, **search_args):
+    def __init__(self, query, search_results=None, **search_args):
         Source.__init__(self, name=_('Tracker Search for "%s"') % query)
         self.query = query
         self.search_args = search_args
+        self.search_results = None
 
     def repr_key(self):
         return self.query
 
     def get_items(self):
-        return get_tracker_filequery(self.query, **self.search_args)
+        if self.search_results:
+            return self.search_results
+        else:
+            return get_tracker_filequery(self.query, **self.search_args)
 
     def provides(self):
         yield FileLeaf
@@ -190,7 +213,6 @@ class TrackerQuerySource (Source):
             return cls(query)
         except Exception:
             return None
-
 
 # FIXME: Port tracker tag sources and actions
 # to the new, much more powerful sparql + dbus API

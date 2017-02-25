@@ -122,6 +122,7 @@ class AppSource (Source, FilesystemWatchMixin):
         yield AppLeaf
 
 class OpenWith(Action):
+    action_accelerator = "w"
     def __init__(self):
         super().__init__(_("Open With..."))
 

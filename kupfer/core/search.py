@@ -24,10 +24,10 @@ class Rankable (object):
         self.aliases = getattr(obj, "name_aliases", ())
     
     def __str__(self):
-        return "%s: %s" % (self.rank, self.value)
+        return "%.2f: %r, %r" % (self.rank, self.value, self.object)
 
     def __repr__(self):
-        return "<Rankable %s repres %s at %x>" % (str(self), repr(self.object), id(self))
+        return "<Rankable %s repres %r at %x>" % (self, self.object, id(self))
 
 def bonus_objects(rankables, key):
     """

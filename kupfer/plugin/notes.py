@@ -138,6 +138,7 @@ def make_error_handler(ctx):
     return error_handler
 
 class Open (Action):
+    action_accelerator = "o"
     def __init__(self):
         Action.__init__(self, _("Open"))
     def wants_context(self):

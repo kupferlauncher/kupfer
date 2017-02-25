@@ -176,15 +176,17 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
 
         parser = configparser.ConfigParser()
         def fill_parser(parser, defaults):
-            for secname, section in defaults.items():
+            for secname in sorted(defaults):
+                section = defaults[secname]
                 if not parser.has_section(secname):
                     parser.add_section(secname)
-                for key, default in section.items():
-                    if isinstance(default, (tuple, list)):
-                        default = self.sep.join(default)
-                    elif isinstance(default, int):
-                        default = str(default)
-                    parser.set(secname, key, default)
+                for key in sorted(section):
+                    value = section[key]
+                    if isinstance(value, (tuple, list)):
+                        value = self.sep.join(value)
+                    elif isinstance(value, int):
+                        value = str(value)
+                    parser.set(secname, key, value)
 
         confmap = confmap_difference(self._config, default_confmap)
         fill_parser(parser, confmap)
@@ -326,6 +328,16 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
 
     def set_use_command_keys(self, enabled):
         return self._set_config("Kupfer", "usecommandkeys", enabled)
+
+    def get_action_accelerator_modifer(self):
+        return self.get_config("Kupfer", "action_accelerator_modifer")
+
+    def set_action_accelerator_modifier(self, value):
+        """
+        Valid values are:
+        'alt', 'ctrl'
+        """
+        return self._set_config("Kupfer", "action_accelerator_modifer", value)
 
     def set_large_icon_size(self, size):
         return self._set_config("Appearance", "icon_large_size", size)

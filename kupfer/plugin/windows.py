@@ -102,7 +102,7 @@ class NextWindow (WindowLeaf):
 
 class WindowActivateWorkspace (Action):
     def __init__(self, name=_("Go To")):
-        super(WindowActivateWorkspace, self).__init__(name)
+        super().__init__(name)
     def wants_context(self):
         return True
     def activate (self, leaf, ctx):
@@ -258,6 +258,7 @@ class Workspace (Leaf):
         return None
 
 class ActivateWorkspace (Action):
+    action_accelerator = "o"
     rank_adjust = 5
     def __init__(self):
         Action.__init__(self, _("Go To"))

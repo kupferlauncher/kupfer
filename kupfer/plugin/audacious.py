@@ -12,7 +12,11 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import icons, utils, uiutils
 from kupfer import plugin_support
 from kupfer import kupferstring
+from kupfer.weaklib import dbus_signal_connect_weakly
 
+plugin_support.check_dbus_connection()
+
+import dbus
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -25,6 +29,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 AUDTOOL = "audtool"
 AUDACIOUS = "audacious"
+_BUS_NAME = "org.atheme.audacious"
 
 def enqueue_song(info):
     utils.spawn_async((AUDTOOL, "playqueue-add", "%d" % info))
@@ -62,6 +67,7 @@ def clear_queue():
     utils.spawn_async((AUDTOOL, "playqueue-clear"))
 
 class Enqueue (Action):
+    action_accelerator = "e"
     def __init__(self):
         Action.__init__(self, _("Enqueue"))
     def activate(self, leaf):
@@ -86,6 +92,7 @@ class Dequeue (Action):
         return "media-playback-stop"
 
 class JumpToSong(Action):
+    action_accelerator = "o"
     def __init__(self):
         Action.__init__(self, _("Play"))
     def activate(self, leaf):
@@ -207,6 +214,17 @@ class AudaciousSource (AppLeafContentMixin, Source):
 
     def __init__(self):
         Source.__init__(self, _("Audacious"))
+
+    def initialize(self):
+        bus = dbus.SessionBus()
+        dbus_signal_connect_weakly(bus, "NameOwnerChanged", self._name_owner_changed,
+                                   dbus_interface="org.freedesktop.DBus",
+                                   arg0=_BUS_NAME)
+
+    def _name_owner_changed(self, name, old, new):
+        if new is not None:
+            self.mark_for_update()
+
     def get_items(self):
         yield Play()
         yield Pause()

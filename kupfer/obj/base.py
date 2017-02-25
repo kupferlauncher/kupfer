@@ -218,8 +218,13 @@ class Action (KupferObject):
         which it should be applied to
         """
         return True
+
+    @action_accelerator: str or None
+        Default single lowercase letter key to use for selecting the action
+        quickly
     '''
     fallback_icon_name = "kupfer-execute"
+    action_accelerator = None
 
     def __hash__(self):
         return hash(repr(self))

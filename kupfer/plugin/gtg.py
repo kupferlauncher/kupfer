@@ -1,6 +1,6 @@
 __kupfer_name__ = _("Getting Things GNOME")
 __kupfer_sources__ = ("TasksSource", )
-__kupfer_actions__ = ("CreateNewTask",)
+__kupfer_actions__ = ("CreateNewTask", "CreateNewEmptyTask")
 __description__ = _("Browse and create new tasks in GTG")
 __version__ = "2017.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
@@ -19,12 +19,13 @@ from kupfer import plugin_support
 from kupfer import pretty
 from kupfer import textutils
 from kupfer.objects import Leaf, Action, Source
-from kupfer.objects import TextLeaf, NotAvailableError
+from kupfer.objects import TextLeaf, NotAvailableError, AppLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.weaklib import dbus_signal_connect_weakly
 
 plugin_support.check_dbus_connection()
 
+GTG_ID = "gtg"
 _SERVICE_NAME2 = 'org.gnome.GTG'
 _OBJECT_NAME2 = '/org/gnome/GTG'
 _IFACE_NAME2 = 'org.gnome.GTG'
@@ -125,6 +126,7 @@ class Task (Leaf):
 
 class OpenEditor (Action):
     rank_adjust = 1
+    action_accelerator = "o"
 
     def __init__(self):
         Action.__init__(self, _("Open"))
@@ -158,6 +160,7 @@ class Delete (Action):
 
 
 class MarkDone (Action):
+    action_accelerator = "d"
     def __init__(self):
         Action.__init__(self, _("Mark Done"))
 
@@ -172,11 +175,12 @@ class MarkDone (Action):
 
 
 class Dismiss (Action):
+    action_accelerator = "i"
     def __init__(self):
         Action.__init__(self, _("Dismiss"))
 
     def activate(self, leaf):
-        _change_task_status(leaf.object, 'Postponed')
+        _change_task_status(leaf.object, 'Dismiss')
 
     def get_icon_name(self):
         return 'gtk-cancel'
@@ -203,9 +207,29 @@ class CreateNewTask (Action):
     def get_description(self):
         return _("Create new task in Getting Things GNOME")
 
+class CreateNewEmptyTask (Action):
+    def __init__(self):
+        Action.__init__(self, _("Create Task"))
+
+    def activate(self, leaf):
+        interface = _create_dbus_connection(True)
+        interface.OpenNewTask("", "")
+
+    def item_types(self):
+        yield AppLeaf
+
+    def valid_for_item(self, leaf):
+        return leaf.get_id() == GTG_ID
+
+    def get_icon_name(self):
+        return 'document-new'
+
+    def get_description(self):
+        return _("Create new task in Getting Things GNOME")
+
 
 class TasksSource (AppLeafContentMixin, Source):
-    appleaf_content_id = 'gtg'
+    appleaf_content_id = GTG_ID
 
     def __init__(self, name=None):
         Source.__init__(self, name or __kupfer_name__)

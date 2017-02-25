@@ -324,6 +324,7 @@ class AppLeaf (Leaf):
         return "exec"
 
 class OpenUrl (Action):
+    action_accelerator = "o"
     rank_adjust = 5
     def __init__(self, name=None):
         if not name:
@@ -345,6 +346,7 @@ class OpenUrl (Action):
 
 class Launch (Action):
     """ Launches an application (AppLeaf) """
+    action_accelerator = "o"
     rank_adjust = 5
     def __init__(self, name=None, is_running=False, open_new=False):
         """
@@ -374,6 +376,7 @@ class Launch (Action):
         return "kupfer-launch"
 
 class LaunchAgain (Launch):
+    action_accelerator = None
     rank_adjust = 0
     def __init__(self, name=None):
         if not name:
@@ -444,6 +447,7 @@ class RunnableLeaf (Leaf):
 
 class Perform (Action):
     """Perform the action in a RunnableLeaf"""
+    action_accelerator = "o"
     rank_adjust = 5
     def __init__(self, name=None):
         # TRANS: 'Run' as in Perform a (saved) command

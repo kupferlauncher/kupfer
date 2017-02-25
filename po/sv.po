@@ -84,6 +84,12 @@ msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Använd enstaka tangenter som kommandon (Blanksteg, /, punkt, komma etc.)"
 
+msgid "Action accelerators use Alt"
+msgstr "Kommandosnabbtangenter använder Alt"
+
+msgid "Action accelerators use Ctrl"
+msgstr "Kommandosnabbtangenter använder Ctrl"
+
 msgid "Keyboard"
 msgstr "Tangentbord"
 
@@ -1648,6 +1654,10 @@ msgstr "Inga träffar"
 #, python-format
 msgid "No action matches \"%s\""
 msgstr "Inga kommandon för ”%s”"
+
+#, python-format
+msgid "Assign Accelerator to \"%(action)s\""
+msgstr "Välj snabbtangent för ”%(action)s”"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
