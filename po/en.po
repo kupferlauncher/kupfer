@@ -1655,6 +1655,10 @@ msgid "No action matches \"%s\""
 msgstr ""
 
 #, python-format
+msgid "Assign Accelerator to \"%(action)s\""
+msgstr "Assign Accelerator to “%(action)s”"
+
+#, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
 msgstr "Make “%(action)s” Default for “%(object)s”"
 
