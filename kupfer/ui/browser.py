@@ -842,7 +842,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
             return self.handle_no_matches(empty=not key)
         self._set_match(matchrankable)
         self.model.set_base(iter(matches))
-        self._browsing_match = False
         if not self.model and self.get_table_visible():
             self.go_down()
 
@@ -856,10 +855,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self.match_state = State.NoMatch
         self.match_view.set_match_state("No match", None, state=State.NoMatch)
         self.relax_match()
-
-    def get_is_browsing(self):
-        """Return if self is browsing"""
-        return self._browsing_match
 
     def populate(self, num):
         """populate model with num items"""
