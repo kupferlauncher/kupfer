@@ -159,6 +159,7 @@ class Delete (Action):
 
 
 class MarkDone (Action):
+    action_accelerator = "d"
     def __init__(self):
         Action.__init__(self, _("Mark Done"))
 
@@ -173,6 +174,7 @@ class MarkDone (Action):
 
 
 class Dismiss (Action):
+    action_accelerator = "i"
     def __init__(self):
         Action.__init__(self, _("Dismiss"))
 
