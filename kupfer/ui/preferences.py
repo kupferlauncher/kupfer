@@ -91,6 +91,8 @@ class PreferencesWindowController (pretty.OutputMixin):
         checkstatusicon_gtk = builder.get_object("checkstatusicon_gtk")
         checkstatusicon_ai = builder.get_object("checkstatusicon_ai")
         checkusecommandkeys = builder.get_object("checkusecommandkeys")
+        radio_actionaccelalt = builder.get_object("radio_actionaccelalt")
+        radio_actionaccelctrl = builder.get_object("radio_actionaccelctrl")
         self.entry_plugins_filter = builder.get_object('entry_plugins_filter')
         self.keybindings_list_parent = builder.get_object('keybindings_list_parent')
         self.gkeybindings_list_parent = builder.get_object('gkeybindings_list_parent')
@@ -114,6 +116,8 @@ class PreferencesWindowController (pretty.OutputMixin):
 
 
         checkusecommandkeys.set_active(setctl.get_use_command_keys())
+        radio_actionaccelalt.set_active(setctl.get_action_accelerator_modifer() != 'ctrl')
+        radio_actionaccelctrl.set_active(setctl.get_action_accelerator_modifer() == 'ctrl')
 
         # List store with columns (Name, ID) 
         # Make alternative comboboxes
@@ -809,6 +813,16 @@ class PreferencesWindowController (pretty.OutputMixin):
     def on_checkusecommandkeys_toggled(self, widget):
         setctl = settings.GetSettingsController()
         setctl.set_use_command_keys(widget.get_active())
+
+    def on_radio_action_accel_alt(self, widget):
+        if widget.get_active():
+            setctl = settings.GetSettingsController()
+            setctl.set_action_accelerator_modifier('alt')
+
+    def on_radio_action_accel_ctrl(self, widget):
+        if widget.get_active():
+            setctl = settings.GetSettingsController()
+            setctl.set_action_accelerator_modifier('ctrl')
 
     def dir_table_cursor_changed(self, table):
         curpath, curcol = table.get_cursor()

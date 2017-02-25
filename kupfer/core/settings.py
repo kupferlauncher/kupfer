@@ -327,6 +327,16 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
     def set_use_command_keys(self, enabled):
         return self._set_config("Kupfer", "usecommandkeys", enabled)
 
+    def get_action_accelerator_modifer(self):
+        return self.get_config("Kupfer", "action_accelerator_modifer")
+
+    def set_action_accelerator_modifier(self, value):
+        """
+        Valid values are:
+        'alt', 'ctrl'
+        """
+        return self._set_config("Kupfer", "action_accelerator_modifer", value)
+
     def set_large_icon_size(self, size):
         return self._set_config("Appearance", "icon_large_size", size)
 
