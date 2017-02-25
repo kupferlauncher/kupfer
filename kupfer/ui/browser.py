@@ -1668,18 +1668,19 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if self.action.get_match_state() == State.Match:
             smatch = self.search.get_current()
             amatch = self.action.get_current()
-            label = (_('Make "%(action)s" Default for "%(object)s"') % {
-                     'action': trunc(str(amatch)),
-                     'object': trunc(str(smatch)),
-                     })
-            w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
-            yield ("\n".join(w_label), self.mark_as_default)
 
             label = (_('Assign Accelerator to "%(action)s"') % {
                      'action': trunc(str(amatch)),
                      })
             w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
             yield ("\n".join(w_label), self.assign_action_accelerator)
+
+            label = (_('Make "%(action)s" Default for "%(object)s"') % {
+                     'action': trunc(str(amatch)),
+                     'object': trunc(str(smatch)),
+                     })
+            w_label = textwrap.wrap(label, width=40, subsequent_indent="    ")
+            yield ("\n".join(w_label), self.mark_as_default)
         if has_match:
             if self.data_controller.get_object_has_affinity(data.SourcePane):
                 match = self.search.get_current()
