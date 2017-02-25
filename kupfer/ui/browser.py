@@ -1238,10 +1238,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if action_accel_mask:
             codepoint = Gdk.keyval_to_unicode(keyv)
             c = chr(codepoint)
-            is_copy_paste = (self.action.accel_modifier == Gdk.ModifierType.CONTROL_MASK and
-                             c in ('c', 'v', 'x'))
-            self.output_debug("copy paste:", is_copy_paste)
-            if not is_copy_paste and codepoint != 0 and c.isalnum():
+            if codepoint != 0 and c.isalnum():
                 if self.action_accelerator(c):
                     return True
 
