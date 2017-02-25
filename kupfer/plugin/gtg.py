@@ -177,7 +177,7 @@ class Dismiss (Action):
         Action.__init__(self, _("Dismiss"))
 
     def activate(self, leaf):
-        _change_task_status(leaf.object, 'Postponed')
+        _change_task_status(leaf.object, 'Dismiss')
 
     def get_icon_name(self):
         return 'gtk-cancel'
