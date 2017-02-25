@@ -941,10 +941,32 @@ class LeafSearch (Search):
 class ActionSearch (Search):
     """
     Customization for Actions
+
+    Attributes:
+
+    accel_modifier
     """
     def __init__(self):
         super().__init__()
         self.action_accel_config = None
+        self.accel_modifier = Gdk.ModifierType.MOD1_MASK
+
+    def lazy_setup(self):
+        setctl = settings.GetSettingsController()
+        setctl.connect("value-changed::kupfer.action_accelerator_modifer",
+                       self._on_modifier_changed)
+        self._read_accel_modifer(setctl.get_action_accelerator_modifer())
+
+    def _on_modifier_changed(self, setctl, section, key, value):
+        self._read_accel_modifer(value)
+
+    def _read_accel_modifer(self, value):
+        if value == "alt":
+            self.accel_modifier = Gdk.ModifierType.MOD1_MASK
+        elif value == "ctrl":
+            self.accel_modifier = Gdk.ModifierType.CONTROL_MASK
+        else:
+            self.print_error("Unknown modifier key", value)
 
     def get_aux_info(self, obj):
         if not self.action_accel_config:
@@ -952,7 +974,7 @@ class ActionSearch (Search):
         accel = self.accel_for_action(obj, self.action_accel_config)
         if accel:
             c = Gdk.unicode_to_keyval(ord(accel))
-            return Gtk.accelerator_get_label(c, Gdk.ModifierType.MOD1_MASK)
+            return Gtk.accelerator_get_label(c, self.accel_modifier)
         else:
             return ""
 
@@ -1151,6 +1173,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
     def lazy_setup(self):
         self.action_accel_config.load()
         self.action.action_accel_config = self.action_accel_config
+        self.action.lazy_setup()
         self.output_debug("Finished lazy_setup")
 
     def save_config(self):
@@ -1188,6 +1211,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         modifiers = all_modifiers & ~consumed
         # MOD1_MASK is alt/option
         mod1_mask = ((event.get_state() & modifiers) == Gdk.ModifierType.MOD1_MASK)
+        action_accel_mask = ((event.get_state() & modifiers) == self.action.accel_modifier)
         shift_mask = ((event.get_state() & all_modifiers) == Gdk.ModifierType.SHIFT_MASK)
 
         text_mode = self.get_in_text_mode()
@@ -1211,7 +1235,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
                 return True
 
         # look for action accelerators
-        if mod1_mask:
+        if action_accel_mask:
             codepoint = Gdk.keyval_to_unicode(keyv)
             c = chr(codepoint)
             if codepoint != 0 and c.isalnum():
