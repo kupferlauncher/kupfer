@@ -1667,8 +1667,11 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         keystr = getkey_dialog.ask_for_key(is_good_keystr,
                 screen=w.get_screen(),
                 parent=w.get_toplevel())
+        if keystr is None:
+            # Was cancelled
+            return
         action = self.action.get_current()
-        self.action_accel_config.set(action, keystr or "")
+        self.action_accel_config.set(action, keystr)
 
     def get_context_actions(self):
         """
