@@ -1642,8 +1642,8 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         """
         c: Single letter string 
 
-        return False if it is not possible to handle, True if it was acted upon
-        in any way.
+        Return False if it was not possible to handle or the action was not
+        used, return True if it was acted upon
         """
         if self.search.get_match_state() != State.Match:
             return False
@@ -1658,6 +1658,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
                 self.switch_to_3()
         else:
             self.output_debug("No action found for", c)
+            return False
         return True
 
     def assign_action_accelerator(self):
