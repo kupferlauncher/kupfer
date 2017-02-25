@@ -52,6 +52,19 @@ def kobject_should_show(obj):
             return False
     return True
 
+def set_combobox(value, combobox):
+    """
+    Set activate the alternative in the combobox with text value
+    """
+    value = str(value)
+    col = combobox.get_entry_text_column()
+    combobox_store = combobox.get_model()
+    for row in combobox.get_model():
+        if row[col] == value:
+            combobox.set_active_iter(row.iter)
+            return
+
+
 class PreferencesWindowController (pretty.OutputMixin):
 
     KEYBINDING_NAMES = {
@@ -90,6 +103,8 @@ class PreferencesWindowController (pretty.OutputMixin):
         checkautostart = builder.get_object("checkautostart")
         checkstatusicon_gtk = builder.get_object("checkstatusicon_gtk")
         checkstatusicon_ai = builder.get_object("checkstatusicon_ai")
+        combo_icons_large_size = builder.get_object("icons_large_size")
+        combo_icons_small_size = builder.get_object("icons_small_size")
         checkusecommandkeys = builder.get_object("checkusecommandkeys")
         radio_actionaccelalt = builder.get_object("radio_actionaccelalt")
         radio_actionaccelctrl = builder.get_object("radio_actionaccelctrl")
@@ -103,6 +118,12 @@ class PreferencesWindowController (pretty.OutputMixin):
         setctl = settings.GetSettingsController()
         checkautostart.set_active(self._get_should_autostart())
         checkstatusicon_gtk.set_active(setctl.get_show_status_icon())
+
+        large_icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+        small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
+
+        set_combobox(large_icon_size, combo_icons_large_size)
+        set_combobox(small_icon_size, combo_icons_small_size)
 
         if supports_app_indicator():
             checkstatusicon_ai.set_active(setctl.get_show_status_icon_ai())
