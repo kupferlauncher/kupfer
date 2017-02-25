@@ -62,6 +62,7 @@ def clear_queue():
     utils.spawn_async((AUDTOOL, "playqueue-clear"))
 
 class Enqueue (Action):
+    action_accelerator = "e"
     def __init__(self):
         Action.__init__(self, _("Enqueue"))
     def activate(self, leaf):
@@ -86,6 +87,7 @@ class Dequeue (Action):
         return "media-playback-stop"
 
 class JumpToSong(Action):
+    action_accelerator = "o"
     def __init__(self):
         Action.__init__(self, _("Play"))
     def activate(self, leaf):

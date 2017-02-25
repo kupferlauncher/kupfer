@@ -140,6 +140,8 @@ def _songs_from_leaf(leaf):
         return list(leaf.object)
 
 class PlayTracks (Action):
+    action_accelerator = "o"
+
     rank_adjust = 5
     def __init__(self):
         Action.__init__(self, _("Play"))
@@ -161,6 +163,8 @@ class PlayTracks (Action):
         return "media-playback-start"
 
 class Enqueue (Action):
+    action_accelerator = "e"
+
     def __init__(self):
         Action.__init__(self, _("Enqueue"))
     def activate(self, leaf):
