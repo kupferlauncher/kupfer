@@ -176,15 +176,17 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
 
         parser = configparser.ConfigParser()
         def fill_parser(parser, defaults):
-            for secname, section in defaults.items():
+            for secname in sorted(defaults):
+                section = defaults[secname]
                 if not parser.has_section(secname):
                     parser.add_section(secname)
-                for key, default in section.items():
-                    if isinstance(default, (tuple, list)):
-                        default = self.sep.join(default)
-                    elif isinstance(default, int):
-                        default = str(default)
-                    parser.set(secname, key, default)
+                for key in sorted(section):
+                    value = section[key]
+                    if isinstance(value, (tuple, list)):
+                        value = self.sep.join(value)
+                    elif isinstance(value, int):
+                        value = str(value)
+                    parser.set(secname, key, value)
 
         confmap = confmap_difference(self._config, default_confmap)
         fill_parser(parser, confmap)
