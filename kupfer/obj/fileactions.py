@@ -27,6 +27,7 @@ def get_actions_for_file(fileleaf):
 
 class Open (Action):
     """ Open with default application """
+    action_accelerator = "o"
     rank_adjust = 5
     def __init__(self, name=_("Open")):
         Action.__init__(self, name)
@@ -86,6 +87,7 @@ class RevealFile (Action):
         return "folder-open"
 
 class OpenTerminal (Action):
+    action_accelerator = "t"
     def __init__(self, name=_("Open Terminal Here")):
         super(OpenTerminal, self).__init__(name)
 
