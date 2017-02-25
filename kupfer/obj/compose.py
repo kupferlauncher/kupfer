@@ -11,6 +11,7 @@ from kupfer.obj.objects import Perform, RunnableLeaf, TextLeaf
 
 class TimedPerform (Perform):
     """A timed (delayed) version of Run (Perform) """
+    action_accelerator = None
     def __init__(self):
         Action.__init__(self, _("Run after Delay..."))
 
