@@ -1658,7 +1658,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             return (accelerators.ACCELERATOR_NAMES[key], getattr(self, key))
         def trunc(ustr):
             "truncate long object names"
-            return ustr[:25]
+            return ustr[:25] + "…" if len(ustr) > 27 else ustr
         has_match = self.current.get_match_state() == State.Match
         if has_match:
             yield get_accel('compose_action')
