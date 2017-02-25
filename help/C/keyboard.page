@@ -86,9 +86,14 @@
     <title>Kupfer's Keyboard Shortcuts</title>
     <p>
       These keyboard shortcuts are used in <app>Kupfer</app>'s interface.
-      They have the following meanings and default shortcuts:
+      They have the following meanings and default shortcuts (some
+      have no default).
     </p>
   <table>
+    <tr>
+      <td><p><keyseq><key>Alt</key><key>A</key></keyseq></p></td>
+      <td><p> Alternate activate </p></td>
+    </tr>
     <tr>
       <td><p><keyseq><key>Ctrl</key><key>.</key></keyseq></p></td>
       <td><p> Toggle text mode </p></td>
@@ -106,27 +111,39 @@
       <td><p> Reset all </p></td>
     </tr>
     <tr>
-      <td><p><keyseq><key>Alt</key><key>A</key></keyseq></p></td>
-      <td><p> Alternate activate </p></td>
-    </tr>
-    <tr>
       <td><p><keyseq><key>Ctrl</key><key>Return</key></keyseq></p></td>
       <td><p> Compose command </p></td>
     </tr>
     <tr>
-      <td><p><keyseq><key>Ctrl</key><key>S</key></keyseq></p></td>
-      <td><p> Switch to first pane </p></td>
+      <td><p></p></td>
+      <td><p> Switch to 1st pane </p></td>
+    </tr>
+    <tr>
+      <td><p></p></td>
+      <td><p> Switch to 2st pane </p></td>
+    </tr>
+    <tr>
+      <td><p></p></td>
+      <td><p> Switch to 3st pane </p></td>
     </tr>
     <tr>
       <td><p><keyseq><key>Ctrl</key><key>Q</key></keyseq></p></td>
       <td><p> Select 'Quit' </p></td>
     </tr>
     <tr>
-      <td><p><keyseq><key>Ctrl</key><key>G</key></keyseq></p></td>
+      <td><p></p></td>
+      <td><p> Select 'Clipboard File' </p></td>
+    </tr>
+    <tr>
+      <td><p></p></td>
+      <td><p> Select 'Clipboard Text' </p></td>
+    </tr>
+    <tr>
+      <td><p></p></td>
       <td><p> Select 'Selected File' </p></td>
     </tr>
     <tr>
-      <td><p><keyseq><key>Ctrl</key><key>T</key></keyseq></p></td>
+      <td><p><keyseq><key>Ctrl</key><key>G</key></keyseq></p></td>
       <td><p> Select 'Selected Text' </p></td>
     </tr>
     <tr>
@@ -158,6 +175,55 @@
       </p>
      </item>
     </steps>
+  </section>
+
+  <section>
+    <title>Action Accelerators</title>
+    <p>
+      Action acclerators are a quick way to select or run a certain action
+      on an object.
+      All action accelerators use the same modifier key, which is <key>Ctrl</key>
+      by default.
+    </p>
+    <p>
+      An action's accelerator is a single letter that is pressed together
+      with the modifier to run the action (in the case of actions that need
+      an indirect object, the third pane will be selected instead).
+    </p>
+   <steps>
+     <title>How to configure an action accelerator</title>
+     <item>
+      <p>
+        Open <app>Kupfer</app> and find an object that allows the action
+        you are configuring. Switch to the action pane with <key>Tab</key>.
+      </p>
+     </item>
+     <item>
+      <p>
+        Find the action to configure an accelerator for in the action pane.
+      </p>
+     </item>
+     <item>
+      <p>
+        Click the kupfer context menu in the window and select the option
+        <em>Assign Accelerator to “(Action)”</em>
+      </p>
+     </item>
+     <item>
+      <p>
+        Type a single letter (without modifier) in the window that pops up.
+        <key>Escape</key> cancels the configuration, and <key>Backspace</key>
+        unsets the accelerator key for the action.
+      </p>
+     </item>
+    </steps>
+    <note>
+      <p>Regular keyboard shortcuts in <app>Kupfer</app> take precedence over
+        action accelerator keys. If multiple simultaneously eligible actions
+        have the same accelerator key, the highest ranked one will be
+        activated.
+      </p>
+    </note>
   </section>
 
   <section>
