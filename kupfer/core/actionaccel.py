@@ -51,7 +51,7 @@ class AccelConfig(pretty.OutputMixin):
         self.accels = {str(k): str(v) for k, v in self.accels.items()}
         delete = set()
         for obj, k in self.accels.items():
-            if not len(k) == 1 or not k.isalnum():
+            if k and (not len(k) == 1 or not k.isalnum()):
                 delete.add(obj)
                 self.output_error("Ignoring invalid accel", k, "for", obj)
         for obj in delete:
