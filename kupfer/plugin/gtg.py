@@ -125,6 +125,7 @@ class Task (Leaf):
 
 class OpenEditor (Action):
     rank_adjust = 1
+    action_accelerator = "o"
 
     def __init__(self):
         Action.__init__(self, _("Open"))
