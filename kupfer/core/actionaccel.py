@@ -30,10 +30,11 @@ class AccelConfig(pretty.OutputMixin):
         try:
             with open(data_file, "r") as fp:
                 self.accels = json.load(fp)
+            self.output_debug("Read", data_file)
         except FileNotFoundError:
             return
         except Exception as exc:
-            self.output_error("Failed to read file")
+            self.output_error("Failed to read:", data_file)
             self.output_exc()
             return
 
@@ -75,10 +76,11 @@ class AccelConfig(pretty.OutputMixin):
         data_file = self._filename()
         if data_file is None:
             return False
+        self.output_debug("Writing to", data_file)
         try:
             with open(data_file, "w") as fp:
                 json.dump(self.accels, fp, indent=4)
         except Exception as exc:
-            self.output_error("Failed to write config file")
+            self.output_error("Failed to write:", data_file)
             self.output_exc()
         self.changed = False
