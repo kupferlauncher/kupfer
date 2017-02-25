@@ -87,6 +87,9 @@ class AttachToNewMail(Action):
     def item_types(self):
         yield FileLeaf
 
+    def valid_for_item(self, leaf):
+        return not leaf.is_dir()
+
     def requires_object(self):
         return True
 
