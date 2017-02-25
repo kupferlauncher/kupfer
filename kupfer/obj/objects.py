@@ -376,7 +376,7 @@ class Launch (Action):
         return "kupfer-launch"
 
 class LaunchAgain (Launch):
-    action_accelerator = "n"
+    action_accelerator = None
     rank_adjust = 0
     def __init__(self, name=None):
         if not name:
