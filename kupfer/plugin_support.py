@@ -143,83 +143,14 @@ def check_dbus_connection():
     if not _has_dbus_connection:
         raise ImportError(_("No D-Bus connection to desktop session"))
 
-class UserNamePassword (settings.ExtendedSetting):
-    ''' Configuration type for storing username/password values.
-    Username is stored in Kupfer config, password in keyring '''
-    def __init__(self, obj=None):
-        settings.ExtendedSetting.__init__(self)
-        self.username = None
-        self.password = None
-        if obj:
-            self.username = obj.username
-            self.password = obj.password
-
-    def __repr__(self):
-        return '<UserNamePassword "%s", %s>' % (self.username,
-                                                bool(self.password))
-
-    @classmethod
-    def is_backend_encrypted(cls):
-        import keyring.core
-        return keyring.core.get_keyring().supported() == 1
-
-    @classmethod
-    def get_backend_name(cls):
-        import keyring.core
-        import keyring.backend
-        keyring_map = {
-                keyring.backend.GnomeKeyring : _("GNOME Keyring"),
-                keyring.backend.KDEKWallet : _("KWallet"),
-                keyring.backend.UncryptedFileKeyring: _("Unencrypted File"),
-            }
-        kr = keyring.get_keyring()
-        keyring_name = keyring_map.get(type(kr), type(kr).__name__)
-        return keyring_name
-
-    def load(self, plugin_id, key, username):
-        self.password = keyring.get_password(plugin_id, username)
-        self.username = username
-
-    def save(self, plugin_id, key):
-        ''' save @user_password - store password in keyring and return username
-        to save in standard configuration file '''
-        keyring.set_password(plugin_id, str(self.username), self.password)
-        return self.username
+class UserNamePassword (object):
+    pass
 
 def check_keyring_support():
     """
-    Check if the UserNamePassword class can be used,
-    else raise ImportError with an explanatory error message.
+    raise ImportError with because it is not supported
     """
-    global keyring
-    # if gnomekeyring exists, block kde libraries
-    old_pykde4 = sys.modules.get('PyKDE4')
-    try:
-        import gnomekeyring
-    except ImportError:
-        pass
-    else:
-        sys.modules['PyKDE4'] = None
-    try:
-        import keyring
-    except ImportError:
-        global UserNamePassword
-        class UserNamePassword (object):
-            pass
-        raise
-    else:
-        # Configure the fallback keyring's configuration file if used
-        import keyring.backend
-        kr = keyring.get_keyring()
-        if hasattr(kr, "crypted_password"):
-            keyring.set_keyring(keyring.backend.UncryptedFileKeyring())
-            kr = keyring.get_keyring()
-        if hasattr(kr, "file_path"):
-            kr.file_path = config.save_config_file("keyring.cfg")
-    finally:
-        # now unblock kde libraries again
-        if old_pykde4:
-            sys.modules['PyKDE4'] = old_pykde4
+    raise ImportError("Keyring is not supported")
 
 def check_keybinding_support():
     """
