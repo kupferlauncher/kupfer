@@ -247,7 +247,7 @@ def _get_icon_for_standard_gicon(gicon, icon_size):
     if isinstance(gicon, ThemedIcon):
         names = gicon.get_names()
         return get_icon_for_name(names[0], icon_size, names)
-    print("get_icon_for_gicon, could not load", gicon)
+    pretty.print_debug(__name__, "get_icon_for_gicon, could not load", gicon)
     return None
 
 

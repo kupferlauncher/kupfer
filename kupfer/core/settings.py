@@ -106,7 +106,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
         try:
             defaults_path = config.get_data_file(self.defaults_filename)
         except config.ResourceLookupError:
-            print(("Error: no default config file %s found!" % self.defaults_filename))
+            self.output_error(("Error: no default config file %s found!" % self.defaults_filename))
         else:
             self._defaults_path = defaults_path
             config_files += (defaults_path, )
@@ -120,9 +120,9 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
             try:
                 parser.read(config_file, encoding=self.encoding)
             except IOError as e:
-                print(("Error reading configuration file %s: %s" % (config_file, e)))
+                self.output_error(("Error reading configuration file %s: %s" % (config_file, e)))
             except UnicodeDecodeError as e:
-                print(("Error reading configuration file %s: %s" % (config_file, e)))
+                self.output_error(("Error reading configuration file %s: %s" % (config_file, e)))
 
         # Read parsed file into the dictionary again
         for secname in parser.sections():
@@ -241,7 +241,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
         """Load values from default configuration file.
         If @option is None, return all section items as (key, value) """
         if self._defaults_path is None:
-            print('Defaults not found')
+            self.output_error('Defaults not found')
             return
         parser = configparser.ConfigParser()
         parser.read(self._defaults_path)
