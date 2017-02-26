@@ -12,6 +12,7 @@ else:
     PACKAGE_NAME = version_subst.PACKAGE_NAME
 
 ICON_NAME = "kupfer"
+DESKTOP_ID = "kupfer"
 PROGRAM_NAME = _("Kupfer")
 
 AUTHORS = """Ulrik Sverdrup

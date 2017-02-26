@@ -20,6 +20,7 @@ from kupfer.obj.base import InvalidDataError, OperationError
 from kupfer.obj import fileactions
 from kupfer.interface import TextRepresentation
 from kupfer.kupferstring import tounicode
+from kupfer.version import DESKTOP_ID
 
 def ConstructFileLeafTypes():
     """ Return a seq of the Leaf types returned by ConstructFileLeaf"""
@@ -300,7 +301,10 @@ class AppLeaf (Leaf):
         return launch.application_id(self.object, self.init_path)
 
     def get_actions(self):
-        if launch.application_is_running(self.get_id()):
+        id_ = self.get_id()
+        if id_ == DESKTOP_ID:
+            return
+        if launch.application_is_running(id_):
             yield Launch(_("Go To"), is_running=True)
             yield CloseAll()
         else:

@@ -4,6 +4,7 @@ from kupfer.objects import Source, RunnableLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer import pretty
 from kupfer import kupferui
+from kupfer.version import DESKTOP_ID
 
 __kupfer_sources__ = ("KupferSource", )
 __kupfer_actions__ = ()
@@ -88,7 +89,7 @@ class Preferences (RunnableLeaf):
         return "preferences-desktop"
 
 class KupferSource (AppLeafContentMixin, Source):
-    appleaf_content_id = "kupfer"
+    appleaf_content_id = DESKTOP_ID
     def __init__(self, name=_("Kupfer")):
         Source.__init__(self, name)
     def is_dynamic(self):
