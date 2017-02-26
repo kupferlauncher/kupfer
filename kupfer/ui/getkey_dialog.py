@@ -5,9 +5,16 @@ from kupfer import version, config
 
 
 class GetKeyDialogController(object):
-    def __init__(self, check_callback=None, previous_key=None, screen=None, parent=None):
-        '''@check_callback - optional function to check is entered key is valid.
-        @previous_key - optional previous keybinding, press equal act like cancel'''
+    def __init__(self, check_callback=None, previous_key=None,
+                 screen=None, parent=None,
+                 show_clear=True):
+        '''
+        check_callback: optional function to check is entered key is valid.
+        previous_key - optional previous keybinding, press equal act like cancel
+        screen: Screen to use
+        parent: Parent toplevel window
+        show_clear: Show the “clear” button
+        '''
         builder = Gtk.Builder()
         builder.set_translation_domain(version.PACKAGE_NAME)
 
@@ -19,6 +26,9 @@ class GetKeyDialogController(object):
         self.imagekeybindingaux = builder.get_object('imagekeybindingaux')
         self.labelkeybindingaux = builder.get_object('labelkeybindingaux')
         self.labelaccelerator = builder.get_object('labelaccelerator')
+        buttonclear = builder.get_object('buttonclear')
+        if not show_clear:
+            buttonclear.hide()
 
         self.imagekeybindingaux.hide()
         self.labelkeybindingaux.hide()
@@ -48,7 +58,18 @@ class GetKeyDialogController(object):
         self.window.hide()
 
     def on_buttoncancel_activate(self, _widget):
+        self.return_cancel()
+        return True
+
+    def on_buttonclear_activate(self, _widget):
+        self.return_clear()
+        return True
+
+    def return_cancel(self):
         self._return(None)
+
+    def return_clear(self):
+        self._return("")
 
     def translate_keyboard_event(self, widget, event):
         keymap = Gdk.Keymap.get_for_display(widget.get_display())
@@ -74,9 +95,9 @@ class GetKeyDialogController(object):
         state = Gdk.ModifierType(state)
         keyname = Gtk.accelerator_name(keyval, state)
         if keyname == 'Escape':
-            self._return(None)
+            self.return_cancel()
         elif keyname == 'BackSpace':
-            self._return('')
+            self.return_clear()
         self.update_accelerator_label(keyval, state)
 
     def on_dialoggetkey_key_release_event(self, widget, event):
@@ -90,7 +111,7 @@ class GetKeyDialogController(object):
             key = Gtk.accelerator_name(keyval, state)
             if (self._previous_key is not None and
                     key == self._previous_key):
-                self._return(None)
+                self.return_cancel()
                 return
             if self._check_callback is None or self._check_callback(key):
                 self._return(key)
@@ -106,7 +127,11 @@ class GetKeyDialogController(object):
         pass
 
 
-def ask_for_key(check_callback=None, previous_key=None, screen=None, parent=None):
-    dlg = GetKeyDialogController(check_callback, previous_key, screen, parent)
+def ask_for_key(check_callback=None, previous_key=None, screen=None,
+                parent=None, show_clear=True):
+    dlg = GetKeyDialogController(check_callback, previous_key,
+                                 screen=screen,
+                                 parent=parent,
+                                 show_clear=show_clear)
     result = dlg.run()
     return result

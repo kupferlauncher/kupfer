@@ -148,7 +148,9 @@ class BindTask (task.Task):
         GLib.idle_add(self.ask_key, finish_callback)
 
     def ask_key(self, finish_callback):
-        keystr = getkey_dialog.ask_for_key(try_bind_key, screen=self.screen)
+        keystr = getkey_dialog.ask_for_key(try_bind_key,
+                                           screen=self.screen,
+                                           show_clear=False)
         if keystr:
             Triggers.add_trigger(self.leaf, keystr)
         finish_callback(self)
