@@ -74,7 +74,7 @@ class SendKeys (Action):
         m = {
             Gdk.ModifierType.SHIFT_MASK: "Shift_L",
             Gdk.ModifierType.CONTROL_MASK: "Control_L",
-            Gdk.EventMask.SUPER_MASK: "Super_L",
+            Gdk.ModifierType.SUPER_MASK: "Super_L",
             Gdk.ModifierType.MOD1_MASK: "Alt_L",
         }
         mod_names = []
