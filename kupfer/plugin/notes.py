@@ -166,6 +166,16 @@ class AppendToNote (Action):
         noteuri = iobj.object
         text = leaf.object
 
+        def reply_note_plain_text(contents):
+            if not contents.endswith("\n"):
+                contents += "\n"
+            contents += text
+            if not text.endswith("\n"):
+                contents += "\n"
+            notes.SetNoteContents(noteuri, contents,
+                                  reply_handler=reply_noop,
+                                  error_handler=make_error_handler(ctx))
+
         def reply_note_xml(xmlcontents):
             # NOTE: We search and replace in the XML here
             endtag = "</note-content>"
@@ -175,9 +185,14 @@ class AppendToNote (Action):
                                      reply_handler=reply_noop,
                                      error_handler=make_error_handler(ctx))
 
-        notes.GetNoteCompleteXml(noteuri,
-                                 reply_handler=reply_note_xml,
-                                 error_handler=make_error_handler(ctx))
+        if __kupfer_settings__["notes_application"] == "kzrnote":
+            notes.GetNoteContents(noteuri,
+                                  reply_handler=reply_note_plain_text,
+                                  error_handler=make_error_handler(ctx))
+        else:
+            notes.GetNoteCompleteXml(noteuri,
+                                     reply_handler=reply_note_xml,
+                                     error_handler=make_error_handler(ctx))
 
     def item_types(self):
         yield TextLeaf
