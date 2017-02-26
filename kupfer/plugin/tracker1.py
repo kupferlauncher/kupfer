@@ -51,6 +51,7 @@ class TrackerSearch (Action):
         yield TextLeaf
 
 class TrackerSearchHere(Action):
+    action_accelerator = "t"
     def __init__(self):
         super().__init__(_("Get Tracker Results..."))
 
