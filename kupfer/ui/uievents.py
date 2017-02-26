@@ -28,6 +28,12 @@ class GUIEnvironmentContext (object):
         self._timestamp = timestamp
         self._screen = screen or Gdk.Screen.get_default()
 
+    def __repr__(self):
+        return "<%s time=%r screen=%r>" % (
+                type(self).__name__,
+                self._timestamp,
+                self._screen)
+
     @classmethod
     def ensure_display_open(cls, display):
         """

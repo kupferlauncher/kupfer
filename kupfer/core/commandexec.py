@@ -318,7 +318,7 @@ class ActionExecutionContext (GObject.GObject, pretty.OutputMixin):
             raise ActionExecutionError("Primary Object and Action required")
         if iobj is None and action.requires_object():
             raise ActionExecutionError("%s requires indirect object" % action)
-        self.output_debug(repr(obj), repr(action), repr(iobj))
+        self.output_debug(repr(obj), repr(action), repr(iobj), repr(ui_ctx))
 
         # The execution token object for the current invocation
         execution_token = self.make_execution_token(ui_ctx)
