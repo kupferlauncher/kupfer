@@ -42,7 +42,10 @@ class TrackerSearch (Action):
         Action.__init__(self, _("Search in Tracker"))
 
     def activate(self, leaf):
-        utils.spawn_async([TRACKER_GUI_SEARCH, leaf.object])
+        try:
+            utils.spawn_async_raise([TRACKER_GUI_SEARCH, leaf.object])
+        except utils.SpawnError as exc:
+            raise OperationError(exc)
     def get_description(self):
         return _("Open Tracker Search Tool and search for this term")
     def get_icon_name(self):
