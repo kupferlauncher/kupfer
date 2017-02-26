@@ -549,6 +549,8 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     * table-event: def callback(widget, table, event)
         called when the user types in the table
     """
+    # minimal length of list is MULT * icon size small
+    LIST_MIN_MULT = 8
     __gtype_name__ = 'Search'
     def __init__(self):
         GObject.GObject.__init__(self)
@@ -666,6 +668,8 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     def _show_table(self):
         setctl = settings.GetSettingsController()
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
+        if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:
+            list_maxheight = self.LIST_MIN_MULT * self._icon_size_small
         # self.get_window() is a GdkWindow (of self's parent)
         win_width = self.get_window().get_width()
         win_height = self.get_window().get_height()
