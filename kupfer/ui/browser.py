@@ -2493,13 +2493,17 @@ class WindowController (pretty.OutputMixin):
         self._window_hide_timer.invalidate()
         if not display:
             display = Gdk.Display.get_default().get_name()
-        if (self._should_recenter_window() or
-            not self.is_current_display(display)):
+        # Center window before first show
+        if not self.window.get_realized():
             self._center_window(display)
         self.window.stick()
         self.window.present_with_time(timestamp)
         self.window.get_window().focus(timestamp=timestamp)
         self.interface.focus()
+
+        # Center after present if we are moving between monitors
+        if self._should_recenter_window():
+            self._center_window(display)
 
     def put_away(self):
         self.interface.put_away()
