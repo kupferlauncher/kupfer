@@ -2,7 +2,7 @@ __kupfer_name__ = _("Getting Things GNOME")
 __kupfer_sources__ = ("TasksSource", )
 __kupfer_actions__ = ("CreateNewTask", "CreateNewEmptyTask")
 __description__ = _("Browse and create new tasks in GTG")
-__version__ = "2017.1"
+__version__ = "2017.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
 '''

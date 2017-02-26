@@ -5,7 +5,7 @@ __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource", )
 __kupfer_actions__ = ("NewMailAction", "AttachToNewMail", "NewMailWithBody", )
 __description__ = _("Thunderbird/Icedove Contacts and Actions")
-__version__ = "2017.1"
+__version__ = "2017.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
 from kupfer.objects import Action

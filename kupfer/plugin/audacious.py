@@ -1,7 +1,7 @@
 __kupfer_name__ = _("Audacious")
 __kupfer_sources__ = ("AudaciousSource", )
 __description__ = _("Control Audacious playback and playlist")
-__version__ = "2017.1"
+__version__ = "2017.2"
 __author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>, US"
 
 import subprocess

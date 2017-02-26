@@ -2,7 +2,7 @@ __kupfer_name__ = _("Trash")
 __kupfer_actions__ = ("MoveToTrash", "EmptyTrash")
 __kupfer_sources__ = ("TrashSource", )
 __description__ = _("Access trash contents")
-__version__ = "2009-12-06"
+__version__ = "2017.2"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from gi.repository import Gio, GLib
