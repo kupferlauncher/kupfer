@@ -3,6 +3,37 @@
 NEWS for kupfer
 ===============
 
+kupfer v313
+-----------
+
++ **Action Accelerators**: every action can have a configurable accelerator
+  key that allows activating it directly.
++ Changed some default shortcuts:
+
+  + *Select ‘Selected Text’* now uses Ctrl + G
+  + *Switch to 1st Pane* now has no binding by default
+
++ Fix monitor placement in Unity (#45)
++ The preferences window now loads and shows current icon size
++ The configuration file is now written in sorted order.
++ Fix a minor visual issue using some themes (padding under match text)
++ The set keybinding window now has a button to clear the current binding
++ The result list now has a minimum size depending on the small icon size,
+  so it sizes better for hidpi
+
++ Plugins
+
+  + Handle errors better in *Tracker* and make *Get Tracker Results...*
+    fetch the results asynchronously.
+  + Fix *Dismiss* action in *Getting Things GNOME* plugin. Thanks
+    @khurshid-alam for the patch!
+  + Another *Create Task* action was added to GTG (an action on the app itself).
+  + *Audacious* now refreshes when the program starts
+  + *Attach in Email To* in *Thunderbird* is now not allowed on directories
+  + *Notes* now has *(Note) → Append → (Text)* which is a reversal of
+    an existing action
+  + *Append To Note* now works for kzrnote as well
+
 kupfer v312
 -----------
 
