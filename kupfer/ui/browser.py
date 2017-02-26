@@ -2038,7 +2038,6 @@ class KupferWindow (Gtk.Window):
     __gtype_name__ = "KupferWindow"
     def __init__(self, type_):
         super(KupferWindow, self).__init__(type=type_)
-        self.connect("style-set", self.on_style_set)
         self.set_name("kupfer")
         #self.connect("map-event", self.on_expose_event)
         self.connect("size-allocate", self.on_size_allocate)
@@ -2046,18 +2045,20 @@ class KupferWindow (Gtk.Window):
         self.connect("realize", self.on_realize)
         #self.set_app_paintable(True)
 
-    def on_style_set(self, widget, old_style):
+    def on_realize(self, widget):
+        self._set_style(widget)
+        self.reshape(widget, widget.get_allocation())
+
+    def _set_style(self, widget):
         pretty.print_debug(__name__, "Scale factor", self.get_scale_factor())
         widget.set_property('decorated', WINDOW_DECORATED)
                 #widget.style_get_property('decorated'))
         widget.set_property('border-width', WINDOW_BORDER_WIDTH)
                 #widget.style_get_property('border-width'))
         self._load_css()
-        return False
 
     def _load_css(self):
         style_provider = Gtk.CssProvider()
-
         style_provider.load_from_data(KUPFER_CSS)
 
         Gtk.StyleContext.add_provider_for_screen(
@@ -2101,9 +2102,6 @@ class KupferWindow (Gtk.Window):
         cr.stroke()
 
     def on_composited_changed(self, widget):
-        self.reshape(widget, widget.get_allocation())
-
-    def on_realize(self, widget):
         self.reshape(widget, widget.get_allocation())
 
     def on_size_allocate(self, widget, allocation):
