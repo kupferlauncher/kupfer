@@ -7,12 +7,13 @@ __kupfer_name__ = _("Notes")
 __kupfer_sources__ = ("NotesSource", )
 __kupfer_actions__ = (
         "AppendToNote",
+        "AppendTextToNote",
         "CreateNote",
         "GetNoteSearchResults",
     )
 __description__ = _("Gnote or Tomboy notes")
-__version__ = ""
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.2"
+__author__ = ""
 
 import os
 import time
@@ -25,6 +26,7 @@ import xdg.BaseDirectory as base
 
 from kupfer.objects import Action, Source, Leaf, TextLeaf, NotAvailableError, SourceLeaf
 from kupfer.obj.apps import ApplicationSource
+from kupfer.objects import TextSource
 from kupfer import icons, plugin_support
 from kupfer import pretty, textutils
 from kupfer.weaklib import dbus_signal_connect_weakly
@@ -206,6 +208,23 @@ class AppendToNote (Action):
         return _("Add text to existing note")
     def get_icon_name(self):
         return "list-add"
+
+class AppendTextToNote (AppendToNote):
+    def __init__(self):
+        Action.__init__(self, _("Append..."))
+    def wants_context(self):
+        return True
+    def activate(self, leaf, iobj, ctx):
+        return super().activate(iobj, leaf, ctx)
+
+    def item_types(self):
+        return super().object_types()
+    def requires_object(self):
+        return True
+    def object_types(self):
+        return super().item_types()
+    def object_source(self, for_item=None):
+        return TextSource()
 
 def _prepare_note_text(text):
     ## split the text into a title + newline + rest of the text
