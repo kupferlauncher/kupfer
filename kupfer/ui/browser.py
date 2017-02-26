@@ -367,7 +367,7 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         box.pack_start(infobox, True, False, 0)
         self._editbox = Gtk.HBox()
         self._editbox.pack_start(self.label, True, True, 0)
-        box.pack_start(self._editbox, False, True, 0)
+        box.pack_start(self._editbox, False, False, 3)
         self.event_box = Gtk.EventBox()
         self.event_box.add(box)
         self.event_box.get_style_context().add_class("matchview")
@@ -1995,9 +1995,6 @@ KUPFER_CSS = b"""
 
 .matchview {
     border-radius: 0.6em;
-}
-.matchview label {
-    margin-bottom: 0.2em;
 }
 
 #kupfer-preedit {
