@@ -54,6 +54,9 @@ OPTIONS
 --debug         Enable more verbose output that can help understanding
                 the program's operation.
 
+--list-plugins  List all installed plugins by their identifier, version
+                and description.
+
 The following are options for internal use
 
 --exec-helper=HELPER    Run plugin helper program, which should be the
