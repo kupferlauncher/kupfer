@@ -20,7 +20,7 @@ from gi.repository import Gio
 import dbus
 
 from kupfer.objects import Action, Source
-from kupfer.objects import TextLeaf, FileLeaf, TextSource 
+from kupfer.objects import TextLeaf, FileLeaf, TextSource, OperationError
 from kupfer import utils, pretty
 from kupfer import plugin_support
 
@@ -74,6 +74,7 @@ class TrackerSearchHere(Action):
             ctx.register_late_result(TrackerQuerySource(query, search_results=ret))
 
         for _ignore in get_tracker_filequery(query, max_items=500,
+                operation_err=True,
                 reply_handler=reply, error_handler=error):
             pass
 
@@ -138,30 +139,22 @@ version_query = {
 }
 
 
-def get_searchobject(sname, opath, sinface):
+def get_searchobject(sname, opath, sinface, operation_err=False):
     bus = dbus.SessionBus()
     searchobj = None
     try:
         tobj = bus.get_object(sname, opath)
         searchobj = dbus.Interface(tobj, sinface)
     except dbus.DBusException as exc:
+        if operation_err:
+            raise OperationError(exc)
         pretty.print_debug(__name__, exc)
     return searchobj
 
-def get_tracker_filequery(query, **kwargs):
-    searchobj = None
-    global use_version
-    if use_version is None:
-        for version, (sname, opath, sinface) in list(versions.items()):
-            pretty.print_debug(__name__, "Trying", sname, version)
-            searchobj = get_searchobject(sname, opath, sinface)
-            if searchobj is not None:
-                use_version = version
-                break
-    else:
-        searchobj = get_searchobject(*versions[use_version])
+def get_tracker_filequery(query, operation_err=False, **kwargs):
+    searchobj = get_searchobject(*versions[use_version],
+                                 operation_err=operation_err)
     if searchobj is None:
-        use_version = None
         pretty.print_error(__name__, "Could not connect to Tracker")
         return ()
 
