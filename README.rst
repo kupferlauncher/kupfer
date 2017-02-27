@@ -77,7 +77,6 @@ boundaries of dependencies are. I've given the versions where it is
 known to work.
 
 * Gtk-3.0 version 3.22
-* Wnck-3.0 version 3.20
 * libkeybinder-3.0 version 0.3.1
 * python gir1.2
 * dbus python bindings
@@ -91,6 +90,8 @@ Opportunistic dependencies
 
 Recommended dependencies
 
+* Wnck-3.0 version 3.20 (Without this you can't focus already running
+  applications)
 * Yelp, the help browser
 
 Some plugins will require additional python modules!

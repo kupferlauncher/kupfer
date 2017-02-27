@@ -19,7 +19,7 @@ try:
     gi.require_version("Wnck", "3.0")
     from gi.repository import Wnck
     Wnck.set_client_type(Wnck.ClientType.PAGER)
-except ImportError as e:
+except ValueError as e:
     pretty.print_info(__name__, "Disabling window tracking:", e)
     Wnck = None
 
