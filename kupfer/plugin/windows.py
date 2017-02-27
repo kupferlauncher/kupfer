@@ -6,7 +6,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from gi.repository import Wnck
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Leaf, Action, Source, NotAvailableError
 from kupfer.weaklib import gobject_connect_weakly
 
 
@@ -212,13 +212,17 @@ class WindowsSource (Source):
         # since the first call "primes" the event loop
         # and always comes back empty
         screen = Wnck.Screen.get_default()
-        screen.get_windows_stacked()
+        if screen is not None:
+            screen.get_windows_stacked()
 
     def is_dynamic(self):
         return True
     def get_items(self):
         # wnck should be "primed" now to return the true list
         screen = Wnck.Screen.get_default()
+        if screen is None:
+            self.output_error("Environment not supported")
+            return
         yield FrontmostWindow()
         yield NextWindow()
         for win in reversed(screen.get_windows_stacked()):
@@ -282,12 +286,14 @@ class WorkspacesSource (Source):
     def __init__(self):
         Source.__init__(self, _("Workspaces"))
         screen = Wnck.Screen.get_default()
-        screen.get_workspaces()
+        if screen is not None:
+            screen.get_workspaces()
 
     def initialize(self):
         screen = Wnck.Screen.get_default()
-        gobject_connect_weakly(screen, "workspace-created", self._changed)
-        gobject_connect_weakly(screen, "workspace-destroyed", self._changed)
+        if screen is not None:
+            gobject_connect_weakly(screen, "workspace-created", self._changed)
+            gobject_connect_weakly(screen, "workspace-destroyed", self._changed)
 
     def _changed(self, screen, workspace):
         self.mark_for_update()
@@ -295,6 +301,8 @@ class WorkspacesSource (Source):
     def get_items(self):
         # wnck should be "primed" now to return the true list
         screen = Wnck.Screen.get_default()
+        if screen is not None:
+            return
         for wspc in screen.get_workspaces():
             yield Workspace(wspc, wspc.get_name())
 

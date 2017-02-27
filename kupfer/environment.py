@@ -15,10 +15,12 @@ def is_kwin():
     except ImportError:
         pass
     else:
-        wm = Wnck.Screen.get_default().get_window_manager_name()
-        pretty.print_debug(__name__, "window manager is", wm)
-        if wm:
-            return wm.lower() == "kwin"
+        screen = Wnck.Screen.get_default()
+        if screen is not None:
+            wm = screen.get_window_manager_name()
+            pretty.print_debug(__name__, "window manager is", wm)
+            if wm:
+                return wm.lower() == "kwin"
     return _desktop_environment_guess().lower() == "kde"
 
 def _desktop_environment_guess():

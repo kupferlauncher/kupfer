@@ -117,6 +117,8 @@ class ApplicationsMatcherService (pretty.OutputMixin):
         if not Wnck:
             return ()
         screen = Wnck.Screen.get_default()
+        if screen is None:
+            return ()
         return screen.get_windows_stacked()
 
     def _get_filename(self):
@@ -297,7 +299,8 @@ class ApplicationsMatcherService (pretty.OutputMixin):
             if window.get_name() == "x-nautilus-desktop":
                 if len(windows) == 1:
                     screen = Wnck.Screen.get_default()
-                    screen.toggle_showing_desktop(True)
+                    if screen is not None:
+                        screen.toggle_showing_desktop(True)
                 else:
                     continue
             wspc = window.get_workspace()
