@@ -884,7 +884,7 @@ can reuse.
         error.
 
         Specialized versions exist: Such as
-        ``CommandMissingError(cmd)``, ``NotAvailableError(toolname)``,
+        ``NotAvailableError(toolname)``,
         ``NoMultiError()``
 
 
