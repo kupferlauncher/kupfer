@@ -286,10 +286,14 @@ class AlbumLeaf (TrackCollection):
             #" - ".join([us.encode("ascii", "ignore") for us in (artist, album)])
         cover_names = ("cover.jpg", "album.jpg", "albumart.jpg",
                 ".folder.jpg", "folder.jpg", bs_artist_album + ".jpg")
-        for cover_name in os.listdir(cdir):
-            if cover_name.lower() in cover_names:
-                cfile = gfile.resolve_relative_path("../" + cover_name)
-                return cfile.get_path()
+        try:
+            for cover_name in os.listdir(cdir):
+                if cover_name.lower() in cover_names:
+                    cfile = gfile.resolve_relative_path("../" + cover_name)
+                    return cfile.get_path()
+        except OSError:
+            pretty.print_exc(__name__)
+            return None
 
     def _get_thumb_mediaart(self):
         """old thumb location"""
