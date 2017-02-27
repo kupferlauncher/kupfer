@@ -29,7 +29,8 @@ Thomas Renard
 
 PACKAGERS="""
 Luca Falavigna (Debian, Ubuntu)
-Francesco Marella (Ubuntu PPA)
+Andrew from WebUpd8 (Ubuntu PPA ca 2017)
+Francesco Marella (Ubuntu PPA ca 2010)
 D. Can Celasun (Arch Linux AUR)
 """.splitlines()
 
