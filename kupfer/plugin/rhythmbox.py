@@ -155,7 +155,9 @@ class PlayTracks (Action):
         for leaf in objects:
             to_enqueue.extend(_songs_from_leaf(leaf))
         if to_enqueue:
-            enqueue_songs(to_enqueue, clear_queue=True, play_first=True)
+            enqueue_songs(to_enqueue,
+                          clear_queue=len(to_enqueue) > 1,
+                          play_first=True)
 
     def get_description(self):
         return _("Play tracks in Rhythmbox")
