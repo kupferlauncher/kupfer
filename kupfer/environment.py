@@ -1,13 +1,11 @@
 
 import functools
 import os
-from kupfer import pretty
+from kupfer import pretty, config
 
 @functools.lru_cache(maxsize=1)
 def is_kwin():
-    """
-    Try to figure out if KWin is the current window manager.
-    """
+    """ Try to figure out if KWin is the current window manager.  """
     global Wnck
 
     try:
@@ -27,3 +25,9 @@ def _desktop_environment_guess():
     ret = os.getenv("XDG_CURRENT_DESKTOP") or ""
     pretty.print_debug(__name__, "desktop environment is", ret)
     return ret
+
+def is_wayland():
+    return bool(os.getenv("WAYLAND_DISPLAY"))
+
+def allows_keybinder():
+    return config.has_capability("KEYBINDER") and not is_wayland()

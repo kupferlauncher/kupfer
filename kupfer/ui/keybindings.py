@@ -2,7 +2,7 @@ import gi
 from gi.repository import GObject
 
 from kupfer import pretty
-from kupfer import config
+from kupfer import environment
 
 KEYBINDING_DEFAULT = 1
 KEYBINDING_MAGIC = 2
@@ -11,7 +11,7 @@ KEYRANGE_RESERVED = (3, 0x1000)
 KEYRANGE_TRIGGERS = (0x1000, 0x2000)
 
 Keybinder = None
-if config.has_capability("KEYBINDER"):
+if environment.allows_keybinder():
     try:
         gi.require_version("Keybinder", "3.0")
     except ValueError:
