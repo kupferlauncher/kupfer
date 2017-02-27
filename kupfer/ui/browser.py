@@ -2040,6 +2040,7 @@ class KupferWindow (Gtk.Window):
     def __init__(self, type_):
         super(KupferWindow, self).__init__(type=type_)
         self.set_name("kupfer")
+        self.set_decorated(False)
         #self.connect("map-event", self.on_expose_event)
         self.connect("size-allocate", self.on_size_allocate)
         self.connect("composited-changed", self.on_composited_changed)
@@ -2052,10 +2053,7 @@ class KupferWindow (Gtk.Window):
 
     def _set_style(self, widget):
         pretty.print_debug(__name__, "Scale factor", self.get_scale_factor())
-        widget.set_property('decorated', WINDOW_DECORATED)
-                #widget.style_get_property('decorated'))
         widget.set_property('border-width', WINDOW_BORDER_WIDTH)
-                #widget.style_get_property('border-width'))
         self._load_css()
 
     def _load_css(self):
