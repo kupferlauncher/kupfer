@@ -301,7 +301,7 @@ class WorkspacesSource (Source):
     def get_items(self):
         # wnck should be "primed" now to return the true list
         screen = Wnck.Screen.get_default()
-        if screen is not None:
+        if screen is None:
             return
         for wspc in screen.get_workspaces():
             yield Workspace(wspc, wspc.get_name())
