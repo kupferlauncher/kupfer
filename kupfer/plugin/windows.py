@@ -1,8 +1,8 @@
 __kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", "WorkspacesSource", )
 __description__ = _("All windows on all workspaces")
-__version__ = "2010-01-08"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.2"
+__author__ = ""
 
 from gi.repository import Wnck
 
@@ -207,7 +207,9 @@ class ToggleAction (WindowAction):
 
 class WindowsSource (Source):
     def __init__(self, name=_("Window List")):
-        super(WindowsSource, self).__init__(name)
+        super().__init__(name)
+
+    def initialize(self):
         # "preload" windows: Ask for them early
         # since the first call "primes" the event loop
         # and always comes back empty
@@ -217,6 +219,7 @@ class WindowsSource (Source):
 
     def is_dynamic(self):
         return True
+
     def get_items(self):
         # wnck should be "primed" now to return the true list
         screen = Wnck.Screen.get_default()
@@ -284,14 +287,12 @@ class WorkspacesSource (Source):
     source_use_cache = False
 
     def __init__(self):
-        Source.__init__(self, _("Workspaces"))
-        screen = Wnck.Screen.get_default()
-        if screen is not None:
-            screen.get_workspaces()
+        super().__init__(_("Workspaces"))
 
     def initialize(self):
         screen = Wnck.Screen.get_default()
         if screen is not None:
+            screen.get_workspaces()
             gobject_connect_weakly(screen, "workspace-created", self._changed)
             gobject_connect_weakly(screen, "workspace-destroyed", self._changed)
 
