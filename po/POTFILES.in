@@ -84,6 +84,7 @@ kupfer/plugin/shorten_links.py
 kupfer/plugin/rhythmbox.py
 kupfer/plugin/gtg.py
 kupfer/plugin/devhelp.py
+kupfer/plugin/nemo.py
 
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
