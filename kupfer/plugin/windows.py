@@ -221,7 +221,7 @@ class WindowsSource (Source):
         # wnck should be "primed" now to return the true list
         screen = Wnck.Screen.get_default()
         if screen is None:
-            self.output_error("Environment not supported")
+            self.output_debug("Environment not supported")
             return
         yield FrontmostWindow()
         yield NextWindow()
