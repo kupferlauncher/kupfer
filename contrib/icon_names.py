@@ -41,6 +41,9 @@ class IconName (Leaf):
         return self.description.splitlines()[0] if self.description else None
     def get_icon_name(self):
         return self.object
+    # So that it can be copied to clipboard
+    def get_text_representation(self):
+        return self.object
 
 class IconNamesSource (Source):
     def get_items(self):
