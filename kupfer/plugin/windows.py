@@ -47,7 +47,7 @@ class WindowLeaf (Leaf):
         return _("Window on %(wkspc)s") % {"wkspc": name}
 
     def get_icon_name(self):
-        return "gnome-window-manager"
+        return "window-manager"
 
 class FrontmostWindow (WindowLeaf):
     qf_id = "frontwindow"
@@ -238,7 +238,7 @@ class WindowsSource (Source):
     def get_description(self):
         return _("All windows on all workspaces")
     def get_icon_name(self):
-        return "gnome-window-manager"
+        return "window-manager"
     def provides(self):
         yield WindowLeaf
 
@@ -248,7 +248,7 @@ class Workspace (Leaf):
     def repr_key(self):
         return self.object.get_number()
     def get_icon_name(self):
-        return "gnome-window-manager"
+        return "window-manager"
     def get_description(self):
         screen = Wnck.Screen.get_default()
         if screen:
@@ -308,7 +308,7 @@ class WorkspacesSource (Source):
             yield Workspace(wspc, wspc.get_name())
 
     def get_icon_name(self):
-        return "gnome-window-manager"
+        return "window-manager"
     def provides(self):
         yield Workspace
 
