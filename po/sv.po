@@ -53,6 +53,12 @@ msgstr "<b>Start</b>"
 msgid "Show icon in notification area"
 msgstr "Visa ikon i aviseringsytan"
 
+msgid "Terminal emulator:"
+msgstr "Terminalemulator:"
+
+msgid "Desktop Environment"
+msgstr "Skrivbordsmiljö"
+
 msgid "Icon set:"
 msgstr "Ikonuppsättning:"
 
@@ -62,11 +68,8 @@ msgstr "Stor ikonstorlek"
 msgid "Small Icon Size:"
 msgstr "Liten ikonstorlek"
 
-msgid "Terminal emulator:"
-msgstr "Terminalemulator:"
-
-msgid "Desktop Environment"
-msgstr "Skrivbordsmiljö"
+msgid "Appearance"
+msgstr "Utseende"
 
 msgid "General"
 msgstr "Allmänt"
@@ -882,6 +885,9 @@ msgstr "Lägg till anteckning..."
 msgid "Add text to existing note"
 msgstr "Tillfoga texten till existerande anteckning"
 
+msgid "Append..."
+msgstr "Lägg till..."
+
 msgid "Create Note"
 msgstr "Skapa anteckning"
 
@@ -1012,15 +1018,6 @@ msgstr "SSH-värdar konfigurerade i ~/.ssh/config"
 msgid "No D-Bus connection to desktop session"
 msgstr "Ingen D-Bus-anslutning till sessionen"
 
-msgid "GNOME Keyring"
-msgstr "GNOME-nyckelring"
-
-msgid "KWallet"
-msgstr "KWallet"
-
-msgid "Unencrypted File"
-msgstr "Ej krypterad fil"
-
 #, python-format
 msgid "Dependency '%s' is not available"
 msgstr "Beroende ”%s” är ej tillgängligt"
@@ -1054,9 +1051,6 @@ msgid "Textfiles"
 msgstr "Textfiler"
 
 msgid "Append To..."
-msgstr "Lägg till..."
-
-msgid "Append..."
 msgstr "Lägg till..."
 
 msgid "Write To..."
@@ -1588,6 +1582,12 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Sök i Devhelp"
 
+msgid "Nemo"
+msgstr "Nemo"
+
+msgid "File manager actions"
+msgstr "Kommandon i filhanteraren"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
@@ -1769,6 +1769,15 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
+
+#~ msgid "GNOME Keyring"
+#~ msgstr "GNOME-nyckelring"
+
+#~ msgid "KWallet"
+#~ msgstr "KWallet"
+
+#~ msgid "Unencrypted File"
+#~ msgstr "Ej krypterad fil"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"

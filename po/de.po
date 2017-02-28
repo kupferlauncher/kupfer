@@ -55,6 +55,12 @@ msgstr "<b>Start</b>"
 msgid "Show icon in notification area"
 msgstr "Symbol im Benachrichtigungsfeld anzeigen"
 
+msgid "Terminal emulator:"
+msgstr "Terminal-Emulator:"
+
+msgid "Desktop Environment"
+msgstr "Arbeitsumgebung"
+
 msgid "Icon set:"
 msgstr "Symbolsatz:"
 
@@ -64,11 +70,8 @@ msgstr "Symbolgröße (groß)"
 msgid "Small Icon Size:"
 msgstr "Symbolgröße (klein)"
 
-msgid "Terminal emulator:"
-msgstr "Terminal-Emulator:"
-
-msgid "Desktop Environment"
-msgstr "Arbeitsumgebung"
+msgid "Appearance"
+msgstr "Erscheinungsbild"
 
 msgid "General"
 msgstr "Allgemein"
@@ -86,6 +89,12 @@ msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Einzelne Tastaturbefehle verwenden (Leerzeichen, Schrägstrich, Punkt, Komma "
 "usw.)"
+
+msgid "Action accelerators use Alt"
+msgstr ""
+
+msgid "Action accelerators use Ctrl"
+msgstr ""
 
 msgid "Keyboard"
 msgstr "Tastatur"
@@ -879,6 +888,9 @@ msgstr "An eine Notiz anfügen …"
 msgid "Add text to existing note"
 msgstr "Den Text zu einer bereits vorhandenen Notiz hinzufügen"
 
+msgid "Append..."
+msgstr "Anhängen …"
+
 msgid "Create Note"
 msgstr "Notiz erstellen"
 
@@ -1010,15 +1022,6 @@ msgstr "SSH-Rechner wie in ~/.ssh/config angegeben"
 msgid "No D-Bus connection to desktop session"
 msgstr "Keine D-Bus-Verbindung zur Desktopsitzung"
 
-msgid "GNOME Keyring"
-msgstr "GNOME-Schlüsselbund"
-
-msgid "KWallet"
-msgstr "KWallet"
-
-msgid "Unencrypted File"
-msgstr "Unverschlüsselte Datei"
-
 #, python-format
 msgid "Dependency '%s' is not available"
 msgstr "Abhängigkeit »%s« ist nicht verfügbar"
@@ -1053,9 +1056,6 @@ msgstr "Textdateien"
 
 msgid "Append To..."
 msgstr "Anhängen an …"
-
-msgid "Append..."
-msgstr "Anhängen …"
 
 msgid "Write To..."
 msgstr "Schreiben an …"
@@ -1588,6 +1588,12 @@ msgstr "Hilfe für Entwickler"
 msgid "Search in Devhelp"
 msgstr "In der Hilfe für Entwickler suchen"
 
+msgid "Nemo"
+msgstr "Nemo"
+
+msgid "File manager actions"
+msgstr "Aktionen des Dateimanagers"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternative Aktivierung"
@@ -1654,6 +1660,10 @@ msgstr "Keine Treffer"
 #, python-format
 msgid "No action matches \"%s\""
 msgstr "Keine Aktion für »%s«"
+
+#, python-format
+msgid "Assign Accelerator to \"%(action)s\""
+msgstr "Tastenkürtzel für »%(action)s« bestimmen"
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1777,6 +1787,15 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
+
+#~ msgid "GNOME Keyring"
+#~ msgstr "GNOME-Schlüsselbund"
+
+#~ msgid "KWallet"
+#~ msgstr "KWallet"
+
+#~ msgid "Unencrypted File"
+#~ msgstr "Unverschlüsselte Datei"
 
 #~ msgid "Empathy"
 #~ msgstr "Empathy"
