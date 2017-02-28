@@ -66,7 +66,14 @@ def is_available():
     """
     Return True if keybindings are available.
     """
-    return Keybinder is not None
+    if Keybinder is None:
+        return False
+    else:
+        try:
+            return Keybinder.supported()
+        except AttributeError:
+            return True
+
 
 def get_all_bound_keys():
     return list(filter(bool, list(_currently_bound.values())))
