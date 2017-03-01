@@ -162,5 +162,14 @@
       running).
     </p>
   </section>
+  <section>
+    <title>Ignoring Accents</title>
+    <p>
+      You can find an object by an unaccented version of its name (this is
+      more or less only implemented for latin-based alphabets).  For example
+      an item named <em>Suð í</em> can be matched with <em>sud i</em>
+      because the accent is removed and the ð transliterated to d.
+    </p>
+  </section>
 
 </page>
