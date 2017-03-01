@@ -989,7 +989,7 @@ class ActionSearch (Search):
         self.hide_table()
 
     @classmethod
-    def accel_for_action(self, action, action_accel_config):
+    def accel_for_action(cls, action, action_accel_config):
         if action_accel_config is None:
             return None
         config_accel = action_accel_config.get(action)
@@ -1006,21 +1006,17 @@ class ActionSearch (Search):
         if self.get_match_state() == State.NoMatch:
             return False, False
 
-        initial = self.get_current()
-        cur = None
         i = self._table_current_row() or 0
-        self.populate(self.show_more)
+        self.populate(1)
         if not len(self.model):
             return False, False
         start_row = i
-        self.output_debug("initial row", start_row)
         while True:
             cur = self.model.get_object((i, ))
-            self.output_debug("Looking at action", cur)
+            self.output_debug("Looking at action", repr(cur.object))
             action = cur.object
 
             if self.accel_for_action(action, self.action_accel_config) == accel:
-                self.output_debug("Found")
                 self._table_set_cursor_at_row(i)
                 return True, not action.requires_object()
 
@@ -1029,7 +1025,6 @@ class ActionSearch (Search):
             i %= len(self.model)
             if i == start_row:
                 break
-            continue
         return False, False
 
 class Interface (GObject.GObject, pretty.OutputMixin):
