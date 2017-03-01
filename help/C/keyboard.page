@@ -186,9 +186,10 @@
       by default.
     </p>
     <p>
-      An action's accelerator is a single letter that is pressed together
-      with the modifier to run the action (in the case of actions that need
-      an indirect object, the third pane will be selected instead).
+      An action's accelerator is a key that is pressed together with the
+      modifier to directly run the action on the currently selected object
+      (in the case of actions that need an indirect object, the third pane
+      will be focused instead).
     </p>
    <steps>
      <title>How to configure an action accelerator</title>
@@ -211,9 +212,10 @@
      </item>
      <item>
       <p>
-        Type a single letter (without modifier) in the window that pops up.
-        <key>Escape</key> cancels the configuration, and <key>Backspace</key>
-        unsets the accelerator key for the action.
+        Press and release a single key (with or without the action
+        accelerator’s modifier) in the window that pops up.
+        <key>Escape</key> cancels the configuration, and
+        <key>Backspace</key> unsets the accelerator key for the action.
       </p>
      </item>
     </steps>
