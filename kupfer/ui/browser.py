@@ -1260,7 +1260,11 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if text_mode and keyv in (key_book["Left"], key_book["Right"],
                                   key_book["Home"], key_book["End"]):
             # pass these through in text mode
-            return False
+            # except on → at the end of the input
+            cursor_position = self.entry.get_property("cursor-position")
+            if keyv != key_book["Right"] or cursor_position == 0 or \
+                cursor_position != self.entry.get_text_length():
+                return False
 
         # disabled  repeat-key activation and shift-to-action selection
         # check for repeated key activation
