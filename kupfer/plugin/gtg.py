@@ -249,7 +249,7 @@ class TasksSource (AppLeafContentMixin, Source):
                                    arg0=_SERVICE_NAME2)
 
     def _name_owner_changed(self, name, old, new):
-        if new is not None and not self._tasks:
+        if new and not self._tasks:
             self.mark_for_update()
 
     def _on_tasks_updated(self, task_id):

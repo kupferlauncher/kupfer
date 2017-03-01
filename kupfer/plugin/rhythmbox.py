@@ -437,7 +437,7 @@ class RhythmboxSource (AppLeafContentMixin, Source):
                                    arg0=_BUS_NAME)
 
     def _name_owner_changed(self, name, old, new):
-        if new is not None:
+        if new:
             self.mark_for_update()
 
     def get_items(self):

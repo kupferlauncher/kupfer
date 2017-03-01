@@ -369,7 +369,7 @@ class NotesSource (ApplicationSource):
                                        arg0=bus_name)
 
     def _name_owner_changed(self, name, old, new):
-        if new is not None:
+        if new:
             self.mark_for_update()
 
     def _update_cache(self, notes):
