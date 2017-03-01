@@ -49,9 +49,6 @@ msgstr "Kupfer-Einstellungen"
 msgid "Start automatically on login"
 msgstr "Beim Anmelden automatisch starten"
 
-msgid "<b>Start</b>"
-msgstr "<b>Start</b>"
-
 msgid "Show icon in notification area"
 msgstr "Symbol im Benachrichtigungsfeld anzeigen"
 
@@ -91,10 +88,10 @@ msgstr ""
 "usw.)"
 
 msgid "Action accelerators use Alt"
-msgstr ""
+msgstr "Tastenkürtzel für Befehle benutzen Alt"
 
 msgid "Action accelerators use Ctrl"
-msgstr ""
+msgstr "Tastenkürtzel für Befehle benutzen Strg"
 
 msgid "Keyboard"
 msgstr "Tastatur"
@@ -272,11 +269,8 @@ msgstr "Standardanwendung auswählen …"
 msgid "Open with default application"
 msgstr "Mit der Standardanwendung öffnen"
 
-msgid "Reveal"
-msgstr "Beinhaltenden Ordner öffnen"
-
-msgid "Open parent folder"
-msgstr "Übergeordneten Ordner öffnen"
+msgid "Get Parent Folder"
+msgstr "Übergeordneten Ordner"
 
 msgid "Open Terminal Here"
 msgstr "Hier ein Terminal öffnen"
@@ -805,6 +799,8 @@ msgstr "Glob"
 
 msgid "Select objects using '*' and '?' as wildcards."
 msgstr ""
+"Objekte auswählen die mit einem Muster (‘*’ und ‘?’ sind erlaubt) "
+"übereinstimmen."
 
 msgid "Higher-order Actions"
 msgstr "Aktionen höherer Ordnung"
@@ -1787,6 +1783,12 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
+
+#~ msgid "<b>Start</b>"
+#~ msgstr "<b>Start</b>"
+
+#~ msgid "Reveal"
+#~ msgstr "Beinhaltenden Ordner öffnen"
 
 #~ msgid "GNOME Keyring"
 #~ msgstr "GNOME-Schlüsselbund"
