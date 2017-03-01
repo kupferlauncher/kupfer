@@ -281,16 +281,6 @@ class LeafModel (object):
         if self.aux_info_callback is not None:
             return self.aux_info_callback(leaf)
         return ""
-        if hasattr(leaf, "has_content") and leaf.has_content():
-            if text_direction_is_ltr():
-                return "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
-            else:
-                return "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
-        else:
-            accel = getattr(leaf, "action_accelerator", None)
-            if accel:
-                return "Alt + " + accel.upper()
-        return ""
 
     def get_rank_str(self, rank):
         # Display rank empty instead of 0 since it looks better
