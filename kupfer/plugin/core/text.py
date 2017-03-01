@@ -36,11 +36,16 @@ class PathTextSource (TextSource):
         return 80
     def get_text_items(self, text):
         # Find directories or files
-        prefix = os.path.expanduser("~/")
-        ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
-        filepath = os.path.normpath(ufilepath)
-        if os.access(filepath, os.R_OK):
-            yield FileLeaf(filepath)
+        if text.startswith("file://"):
+            leaf = FileLeaf.from_uri(text)
+            if leaf.is_valid():
+                yield leaf
+        else:
+            prefix = os.path.expanduser("~/")
+            ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
+            filepath = os.path.normpath(ufilepath)
+            if os.access(filepath, os.R_OK):
+                yield FileLeaf(filepath)
     def provides(self):
         yield FileLeaf
 
@@ -95,6 +100,8 @@ class URLTextSource (TextSource):
     def get_text_items(self, text):
         # Only detect "perfect" URLs
         text = text.strip()
+        if text.startswith("file://"):
+            return
         components = list(urllib.parse.urlparse(text))
         domain = "".join(components[1:])
 

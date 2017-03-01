@@ -80,6 +80,22 @@ class FileLeaf (Leaf, TextRepresentation):
         if alias:
             self.kupfer_add_alias(alias)
 
+    @classmethod
+    def from_uri(cls, uri):
+        """
+        Construct a FileLeaf
+
+        uri: A local uri
+
+        Return FileLeaf if it is supported, else None
+        """
+        gfile = Gio.File.new_for_uri(uri)
+        p = gfile.get_path()
+        if p:
+            return cls(p)
+        else:
+            return None
+
     def __hash__(self):
         return hash(str(self))
 
