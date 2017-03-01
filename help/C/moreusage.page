@@ -43,6 +43,15 @@
     </p>
   </section>
 
+  <section>
+    <title>Show Hidden Files</title>
+    <p>
+      If you use <keyseq><key>Alt</key><key>→</key></keyseq> instead of just
+      <key>→</key> when descending into a directory it will list hidden
+      files too.
+    </p>
+  </section>
+
  <section>
    <title>The <em>Comma Trick</em></title>
     <p> The comma trick allows the user to use actions on many objects at
