@@ -85,10 +85,12 @@
       in the package format can include icon files. Python packages can even
       be installed as <code>.zip</code> files.
     </p>
+    <note style="warning">
     <p>
       <em>Caution:</em> Treat a plugin as a computer program.
       Do not install untrusted plugins.
     </p>
+    </note>
   </section>
 
   <section>
