@@ -47,9 +47,6 @@ msgstr "Inställningar för Kupfer"
 msgid "Start automatically on login"
 msgstr "Starta automatiskt vid inloggning"
 
-msgid "<b>Start</b>"
-msgstr "<b>Start</b>"
-
 msgid "Show icon in notification area"
 msgstr "Visa ikon i aviseringsytan"
 
@@ -267,11 +264,8 @@ msgstr "Välj standardprogram..."
 msgid "Open with default application"
 msgstr "Öppna med förvalt program"
 
-msgid "Reveal"
-msgstr "Visa"
-
-msgid "Open parent folder"
-msgstr "Öppna föräldermapp i filhanteraren"
+msgid "Get Parent Folder"
+msgstr "Välj föräldermapp"
 
 msgid "Open Terminal Here"
 msgstr "Öppna i terminalfönster"
@@ -1769,6 +1763,12 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Hittade ingen aktiv Kupfer-process"
+
+#~ msgid "<b>Start</b>"
+#~ msgstr "<b>Start</b>"
+
+#~ msgid "Reveal"
+#~ msgstr "Visa"
 
 #~ msgid "GNOME Keyring"
 #~ msgstr "GNOME-nyckelring"
