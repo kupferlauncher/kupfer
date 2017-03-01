@@ -17,7 +17,7 @@ def is_good_executable(fileleaf):
     return uncertain or Gio.content_type_can_be_executable(ctype)
 
 def get_actions_for_file(fileleaf):
-    acts = [RevealFile(), ]
+    acts = [GetParent(), ]
     if fileleaf.is_dir():
         acts.append(OpenTerminal())
     elif fileleaf.is_valid():
@@ -71,17 +71,22 @@ class Open (Action):
     def get_description(self):
         return _("Open with default application")
 
-class RevealFile (Action):
-    def __init__(self, name=_("Reveal")):
-        super(RevealFile, self).__init__(name)
+class GetParent (Action):
+    action_accelerator = "p"
+    rank_adjust = -5
+    def __init__(self, name=_("Get Parent Folder")):
+        super().__init__(name)
     
+    def has_result(self):
+        return True
+
     def activate(self, leaf):
         fileloc = leaf.object
         parent = os.path.normpath(os.path.join(fileloc, os.path.pardir))
-        utils.show_path(parent)
+        return type(leaf)(parent)
 
     def get_description(self):
-        return _("Open parent folder")
+        return None
 
     def get_icon_name(self):
         return "folder-open"
