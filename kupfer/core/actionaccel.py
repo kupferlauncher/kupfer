@@ -19,7 +19,7 @@ class AccelConfig(pretty.OutputMixin):
             self.output_error("Can't find XDG_CONFIG_HOME")
         return ret
 
-    def load(self):
+    def load(self, validate_func):
         if self.loaded:
             return True
         self.loaded = True
@@ -39,19 +39,19 @@ class AccelConfig(pretty.OutputMixin):
             return
 
         try:
-            self._valid_accel()
+            self._valid_accel(validate_func)
         except:
             self.output_exc()
             self.accels = {}
         self.output_debug("Loaded", self.accels)
 
-    def _valid_accel(self):
+    def _valid_accel(self, validate_func):
         if not isinstance(self.accels, dict):
             raise TypeError("Accelerators must be a dictionary")
         self.accels = {str(k): str(v) for k, v in self.accels.items()}
         delete = set()
         for obj, k in self.accels.items():
-            if k and (not len(k) == 1 or not k.isalnum()):
+            if not validate_func(k):
                 delete.add(obj)
                 self.output_error("Ignoring invalid accel", k, "for", obj)
         for obj in delete:
@@ -79,7 +79,7 @@ class AccelConfig(pretty.OutputMixin):
         self.output_debug("Writing to", data_file)
         try:
             with open(data_file, "w") as fp:
-                json.dump(self.accels, fp, indent=4)
+                json.dump(self.accels, fp, indent=4, sort_keys=True)
         except Exception as exc:
             self.output_error("Failed to write:", data_file)
             self.output_exc()

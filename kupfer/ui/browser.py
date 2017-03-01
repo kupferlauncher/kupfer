@@ -967,8 +967,10 @@ class ActionSearch (Search):
             return ""
         accel = self.accel_for_action(obj, self.action_accel_config)
         if accel:
-            c = Gdk.unicode_to_keyval(ord(accel))
-            return Gtk.accelerator_get_label(c, self.accel_modifier)
+            keyv, mods = Gtk.accelerator_parse(accel)
+            if mods != 0:
+                self.output_error("Ignoring action accelerator mod", mods)
+            return Gtk.accelerator_get_label(keyv, self.accel_modifier)
         else:
             return ""
 
@@ -1165,7 +1167,12 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         return vbox
     
     def lazy_setup(self):
-        self.action_accel_config.load()
+        def validate(keystr):
+            keyv, mod = Gtk.accelerator_parse(keystr)
+            self.output_debug(keystr, keyv, mod, Gtk.accelerator_valid(keyv, Gdk.ModifierType.MOD1_MASK))
+            return mod == 0 and keyv != 0 and Gtk.accelerator_valid(keyv, Gdk.ModifierType.MOD1_MASK)
+
+        self.action_accel_config.load(validate)
         self.action.action_accel_config = self.action_accel_config
         self.action.lazy_setup()
         self.output_debug("Finished lazy_setup")
@@ -1230,11 +1237,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
         # look for action accelerators
         if action_accel_mask:
-            codepoint = Gdk.keyval_to_unicode(keyv)
-            c = chr(codepoint)
-            if codepoint != 0 and c.isalnum():
-                if self.action_accelerator(c):
-                    return True
+            keystr = Gtk.accelerator_name(keyv, 0)
+            if self.action_accelerator(keystr):
+                return True
 
         key_book = self.key_book
         use_command_keys = setctl.get_use_command_keys()
@@ -1629,18 +1634,17 @@ class Interface (GObject.GObject, pretty.OutputMixin):
                 self.reset_text()
             return True
 
-    def action_accelerator(self, c):
+    def action_accelerator(self, keystr):
         """
-        c: Single letter string 
+        keystr: accelerator name string
 
         Return False if it was not possible to handle or the action was not
         used, return True if it was acted upon
         """
         if self.search.get_match_state() != State.Match:
             return False
-        c = c.lower()
-        self.output_debug("Looking for action accelerator for", c)
-        success, activate = self.action.select_action(c)
+        self.output_debug("Looking for action accelerator for", keystr)
+        success, activate = self.action.select_action(keystr)
         if success:
             if activate:
                 self.disable_text_mode_quick()
@@ -1648,16 +1652,20 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             else:
                 self.switch_to_3()
         else:
-            self.output_debug("No action found for", c)
+            self.output_debug("No action found for", keystr)
             return False
         return True
 
     def assign_action_accelerator(self):
-        def is_good_keystr(k):
-            return len(k) == 1 and k.isalnum()
+        from kupfer.ui import getkey_dialog
         if self.action.get_match_state() != State.Match:
             raise RuntimeError("No Action Selected")
-        from kupfer.ui import getkey_dialog
+
+        def is_good_keystr(k):
+            keyv, mods = Gtk.accelerator_parse(k)
+            return keyv != 0 and (mods == 0
+                    or mods == self.action.accel_modifier)
+
         w = self.get_widget()
         keystr = getkey_dialog.ask_for_key(is_good_keystr,
                 screen=w.get_screen(),
@@ -1665,7 +1673,11 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if keystr is None:
             # Was cancelled
             return
+
         action = self.action.get_current()
+        # Remove the modifiers
+        keyv, _mods = Gtk.accelerator_parse(keystr)
+        keystr = Gtk.accelerator_name(keyv, 0)
         self.action_accel_config.set(action, keystr)
 
     def get_context_actions(self):
