@@ -3,6 +3,30 @@
 NEWS for kupfer
 ===============
 
+kupfer v314
+-----------
+
++ Replaced file action *Reveal* (file manager plugins do this better)
+  with *Get Parent Folder* which has the default accelerator *P* and thus is
+  very handy for navigation.
++ Fix so that right arrow can enter directories even in text mode
++ Allow **Action Accelerators** to use more keys
++ Misc fixes to start **wayland compatibility**. All uses of Wnck now
+  gracefully disable when not applicable.
++ Wnck is now technically optional, still recommended for best experience in X.
++ Tweak arrangement of items in the first page of the preferences window,
+  and add a few more icon size alternatives.
++ Tweak the multiple objects icon to look at bit better
++ Recognize pasted file:// uris as files
+
++ Plugins
+
+  + New plugin for file manager *Nemo*
+  + Fix *Rhythmbox* to not clear the queue when playing a single song
+  + Fix *Rhythmbox* to handle missing files gracefully
+  + Fix *Rhythmbox*, *Audacious* to not clear cached library/playlist when
+    the respective program exits
+
 kupfer v313
 -----------
 
