@@ -234,7 +234,7 @@ class PlacesSource (Source):
     def get_description(self):
         return _("Bookmarked folders")
     def get_icon_name(self):
-        return "file-manager"
+        return "system-file-manager"
     def provides(self):
         yield FileLeaf
         yield UrlLeaf

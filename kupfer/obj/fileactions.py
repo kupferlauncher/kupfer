@@ -108,7 +108,7 @@ class OpenTerminal (Action):
     def get_description(self):
         return _("Open this location in a terminal")
     def get_icon_name(self):
-        return "terminal"
+        return "utilities-terminal"
 
 class Execute (Action):
     """ Execute executable file (FileLeaf) """
