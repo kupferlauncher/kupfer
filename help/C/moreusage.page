@@ -46,9 +46,8 @@
   <section>
     <title>Show Hidden Files</title>
     <p>
-      If you use <keyseq><key>Alt</key><key>→</key></keyseq> instead of just
-      <key>→</key> when descending into a directory it will list hidden
-      files too.
+      Use <keyseq><key>Alt</key><key>→</key></keyseq> instead of just
+      <key>→</key> when descending into a directory to list hidden files too.
     </p>
   </section>
 
