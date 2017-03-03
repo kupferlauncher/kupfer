@@ -2340,6 +2340,9 @@ class WindowController (pretty.OutputMixin):
         self.window.set_type_hint(self._window_type_hint())
         self.window.set_property("skip-taskbar-hint", True)
         self.window.set_keep_above(True)
+        pos = self._window_position()
+        if pos != Gtk.WindowPosition.NONE:
+            self.window.set_position(pos)
 
         if not text_direction_is_ltr():
             self.window.set_gravity(Gdk.GRAVITY_NORTH_EAST)
@@ -2361,6 +2364,21 @@ class WindowController (pretty.OutputMixin):
             else:
                 type_hint = hint_enum
         return type_hint
+
+    def _window_position(self):
+        value = Gtk.WindowPosition.NONE
+        hint_name = kupfer.config.get_kupfer_env("WINDOW_POSITION").upper()
+        if hint_name:
+            hint_enum = getattr(Gtk.WindowPosition, hint_name, None)
+            if hint_enum is None:
+                self.output_error("No such Window Position", hint_name)
+                self.output_error("Existing values:")
+                for name in dir(Gtk.WindowPosition):
+                    if name.upper() == name:
+                        self.output_error(name)
+            else:
+                value = hint_enum
+        return value
 
     def _window_frame_clicked(self, widget, event):
         "Start drag when the window is clicked"
@@ -2450,6 +2468,8 @@ class WindowController (pretty.OutputMixin):
         self.current_screen = screen
 
     def _center_window(self, displayname=None):
+        if self._window_position() != Gtk.WindowPosition.NONE:
+            return
         """Center Window on the monitor the pointer is currently on"""
         def norm_name(name):
             "Make :0.0 out of :0"
