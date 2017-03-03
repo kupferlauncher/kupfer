@@ -2168,7 +2168,6 @@ class WindowController (pretty.OutputMixin):
         self.window = KupferWindow(Gtk.WindowType.TOPLEVEL)
         self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
 
-        #data_controller = data.DataController()
         data_controller.connect("launched-action", self.launch_callback)
         data_controller.connect("command-result", self.result_callback)
 
