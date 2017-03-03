@@ -52,13 +52,13 @@ class Unmount (Action):
 
     def eject_callback(self, mount, async_result, ctx):
         try:
-            mount.eject_finish(async_result)
+            mount.eject_with_operation_finish(async_result)
         except GLib.Error:
             ctx.register_late_error()
 
     def unmount_callback(self, mount, async_result, ctx):
         try:
-            mount.unmount_finish(async_result)
+            mount.unmount_with_operation_finish(async_result)
         except GLib.Error:
             ctx.register_late_error()
 
@@ -70,11 +70,18 @@ class Unmount (Action):
             return
         vol = leaf.volume
         if vol.can_eject():
-            vol.eject(Gio.MountUnmountFlags.NONE, None,
-                      self.eject_callback, ctx)
+            vol.eject_with_operation(
+                Gio.MountUnmountFlags.NONE,
+                None,
+                None,
+                self.eject_callback,
+                ctx)
         elif vol.can_unmount():
-            vol.unmount(Gio.MountUnmountFlags.NONE, None,
-                        self.unmount_callback, ctx)
+            vol.unmount_with_operation(
+                Gio.MountUnmountFlags.NONE,
+                None,
+                None,
+                self.unmount_callback, ctx)
 
     def get_description(self):
         return _("Unmount this volume")
