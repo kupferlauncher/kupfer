@@ -2466,8 +2466,6 @@ class WindowController (pretty.OutputMixin):
         self.current_screen = screen
 
     def _center_window(self, displayname=None):
-        if self._window_position() != Gtk.WindowPosition.NONE:
-            return
         """Center Window on the monitor the pointer is currently on"""
         def norm_name(name):
             "Make :0.0 out of :0"
