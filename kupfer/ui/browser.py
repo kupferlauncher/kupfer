@@ -1164,7 +1164,6 @@ class Interface (GObject.GObject, pretty.OutputMixin):
     def lazy_setup(self):
         def validate(keystr):
             keyv, mod = Gtk.accelerator_parse(keystr)
-            self.output_debug(keystr, keyv, mod, Gtk.accelerator_valid(keyv, Gdk.ModifierType.MOD1_MASK))
             return mod == 0 and keyv != 0 and Gtk.accelerator_valid(keyv, Gdk.ModifierType.MOD1_MASK)
 
         self.action_accel_config.load(validate)
