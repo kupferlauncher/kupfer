@@ -1,14 +1,14 @@
 __kupfer_name__ = _("Volumes and Disks")
 __kupfer_sources__ = ("VolumesSource", )
 __description__ = _("Mounted volumes and disks")
-__version__ = "2017.1"
-__author__ = "US"
+__version__ = "2017.2"
+__author__ = ""
 
 from gi.repository import Gio, GLib
 
 from kupfer.objects import Action, Source, FileLeaf
 from kupfer.obj.fileactions import Open, OpenTerminal
-from kupfer import utils
+from kupfer import utils, uiutils
 
 
 class Volume (FileLeaf):
@@ -55,12 +55,20 @@ class Unmount (Action):
             mount.eject_with_operation_finish(async_result)
         except GLib.Error:
             ctx.register_late_error()
+        else:
+            self.success(mount.get_name())
 
     def unmount_callback(self, mount, async_result, ctx):
         try:
             mount.unmount_with_operation_finish(async_result)
         except GLib.Error:
             ctx.register_late_error()
+        else:
+            self.success(mount.get_name())
+
+    def success(self, name):
+        uiutils.show_notification(_("Unmount finished"),
+                                  _('"%s" was successfully unmounted') % name)
 
     def wants_context(self):
         return True
