@@ -90,7 +90,6 @@ class PreferencesWindowController (pretty.OutputMixin):
         else:
             self.window = None
             return
-        builder.connect_signals(self)
         self.window = builder.get_object("preferenceswindow")
         self.window.set_position(Gtk.WindowPosition.CENTER)
         self.window.connect("delete-event", self._close_window)
@@ -256,6 +255,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 
         self._show_keybindings(setctl)
         self._show_gkeybindings(setctl)
+
+        # Connect to signals at the last point
+        builder.connect_signals(self)
 
     def _show_keybindings(self, setctl):
         names = self.KEYBINDING_NAMES
