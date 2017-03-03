@@ -18,7 +18,7 @@ from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
 from kupfer import utils, config
 
-from kupfer.plugin import firefox_support
+from kupfer.plugin import firefox
 
 
 def _noescape_urlencode(items):
@@ -166,7 +166,7 @@ class OpenSearchSource (Source):
         plugin_dirs.extend(config.get_data_dirs("searchplugins"))
 
         # firefox in home directory
-        ffx_home = firefox_support.get_firefox_home_file("searchplugins")
+        ffx_home = firefox.get_firefox_home_file("searchplugins")
         if ffx_home and os.path.isdir(ffx_home):
             plugin_dirs.append(ffx_home)
 
