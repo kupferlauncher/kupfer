@@ -33,9 +33,7 @@ def _urlencode(word):
 
 def _do_search_engine(terms, search_url, encoding="UTF-8"):
     """Show an url searching for @search_url with @terms"""
-    search_url = search_url.encode(encoding, "ignore")
-    terms_enc = terms.encode(encoding, "ignore")
-    query_url = search_url.replace("{searchTerms}", _urlencode(terms_enc))
+    query_url = search_url.replace("{searchTerms}", _urlencode(terms))
     utils.show_url(query_url)
 
 class SearchWithEngine (Action):
@@ -44,9 +42,8 @@ class SearchWithEngine (Action):
         Action.__init__(self, _("Search With..."))
 
     def activate(self, leaf, iobj):
-        coding = iobj.object.get("InputEncoding")
         url = iobj.object["Url"]
-        _do_search_engine(leaf.object, url, encoding=coding)
+        _do_search_engine(leaf.object, url)
 
     def item_types(self):
         yield TextLeaf
