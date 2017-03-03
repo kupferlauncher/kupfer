@@ -2350,7 +2350,7 @@ class WindowController (pretty.OutputMixin):
         self.window.set_resizable(False)
 
     def _window_type_hint(self):
-        type_hint = Gdk.WindowTypeHint.UTILITY
+        type_hint = Gdk.WindowTypeHint.NORMAL
         hint_name = kupfer.config.get_kupfer_env("WINDOW_TYPE_HINT").upper()
         if hint_name:
             hint_enum = getattr(Gdk.WindowTypeHint, hint_name, None)
