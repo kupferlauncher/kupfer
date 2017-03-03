@@ -384,7 +384,8 @@ def spawn_app(app_info, argv, filelist, workdir=None, startup_notify=True,
     else:
         child_env_add = {}
     if screen:
-        child_env_add["DISPLAY"]=screen.make_display_name()
+        # FIXME: Not sure we can do anything here
+        pass
 
     if not workdir or not os.path.exists(workdir):
         workdir = "."
