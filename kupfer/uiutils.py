@@ -192,7 +192,8 @@ def show_large_type(text, ctx=None):
 SERVICE_NAME = "org.freedesktop.Notifications"
 OBJECT_PATH = "/org/freedesktop/Notifications"
 IFACE_NAME = "org.freedesktop.Notifications"
-def _get_notification_iface():
+
+def _get_notification_obj():
     "we will activate it over d-bus (start if not running)"
     import dbus
     try:
@@ -201,8 +202,7 @@ def _get_notification_iface():
     except dbus.DBusException as e:
         pretty.print_debug(__name__, e)
         return
-    iface_obj = dbus.Interface(proxy_obj, IFACE_NAME)
-    return iface_obj
+    return proxy_obj
 
 def show_notification(title, text="", icon_name="", nid=0):
     """
@@ -210,11 +210,15 @@ def show_notification(title, text="", icon_name="", nid=0):
 
     Returns the id of the displayed notification.
     """
-    notifications = _get_notification_iface()
+    notifications = _get_notification_obj()
     if not notifications:
         return None
+    hints = {
+        'desktop-entry': version.DESKTOP_ID,
+    }
     rid = notifications.Notify("kupfer",
-                               nid, icon_name, title, text, (), {}, -1)
+                               nid, icon_name, title, text, (), hints, -1,
+                               dbus_interface=IFACE_NAME)
     return rid
 
 
