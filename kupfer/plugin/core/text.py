@@ -36,9 +36,9 @@ class PathTextSource (TextSource):
         return 80
     def get_text_items(self, text):
         # Find directories or files
-        if text.startswith("file://"):
+        if text.startswith("file:///"):
             leaf = FileLeaf.from_uri(text)
-            if leaf.is_valid():
+            if leaf and leaf.is_valid():
                 yield leaf
         else:
             prefix = os.path.expanduser("~/")
