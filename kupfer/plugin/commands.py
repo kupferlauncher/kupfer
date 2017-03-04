@@ -178,7 +178,7 @@ class Command (TextLeaf):
         return icons.get_gicon_for_file(self.exepath)
 
     def get_icon_name(self):
-        return "applicaton-x-executable"
+        return "application-x-executable"
 
 class CommandTextSource (TextSource):
     """Yield path and command text items """
