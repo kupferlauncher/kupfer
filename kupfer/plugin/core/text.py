@@ -100,8 +100,6 @@ class URLTextSource (TextSource):
     def get_text_items(self, text):
         # Only detect "perfect" URLs
         text = text.strip()
-        if text.startswith("file://"):
-            return
         components = list(urllib.parse.urlparse(text))
         domain = "".join(components[1:])
 
