@@ -43,6 +43,8 @@ class Volume (FileLeaf):
                 utils.get_display_path_for_bytestring(self.object)
     def get_gicon(self):
         return self.volume.get_icon()
+
+    @classmethod
     def get_icon_name(self):
         return "drive-removable-media"
 
@@ -68,7 +70,8 @@ class Unmount (Action):
 
     def success(self, name):
         uiutils.show_notification(_("Unmount finished"),
-                                  _('"%s" was successfully unmounted') % name)
+                                  _('"%s" was successfully unmounted') % name,
+                                  icon_name=Volume.get_icon_name())
 
     def wants_context(self):
         return True
