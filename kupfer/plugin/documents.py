@@ -1,8 +1,9 @@
 __kupfer_name__ = _("Documents")
-__kupfer_sources__ = ("RecentsSource", "PlacesSource", )
+__kupfer_sources__ = ("RecentsSource", "PlacesSource", "IgnoredApps", )
+__kupfer_actions__ = ("Toggle", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
 __description__ = _("Recently used documents and bookmarked folders")
-__version__ = "2017.2"
+__version__ = "2017.3"
 __author__ = ""
 
 import operator
@@ -12,7 +13,8 @@ import xdg.BaseDirectory as base
 
 from gi.repository import Gio, Gtk
 
-from kupfer.objects import Source, AppLeaf, FileLeaf, UrlLeaf
+from kupfer.objects import Action, Source
+from kupfer.objects import SourceLeaf, AppLeaf, FileLeaf, UrlLeaf
 from kupfer import icons
 from kupfer import launch
 from kupfer import plugin_support
@@ -144,7 +146,6 @@ class ApplicationRecentsSource (RecentsSource):
         return self.application.repr_key()
 
     def get_items(self):
-        svc = launch.GetApplicationsMatcherService()
         app_names = self.app_names(self.application)
         max_days = __kupfer_settings__["max_days"]
         self.output_debug("Items for", app_names)
@@ -173,6 +174,8 @@ class ApplicationRecentsSource (RecentsSource):
 
     @classmethod
     def decorate_item(cls, leaf):
+        if IgnoredApps.contains(leaf):
+            return None
         app_names = cls.app_names(leaf)
         if cls.has_items_for_application(app_names):
             return cls(leaf)
@@ -238,3 +241,86 @@ class PlacesSource (Source):
     def provides(self):
         yield FileLeaf
         yield UrlLeaf
+
+class IgnoredApps(Source):
+    # This Source is invisibile and has no content
+    # It exists just to store (through the config mechanism) the list of apps
+    # we ignore for recent documents content decoration
+    def __init__(self):
+        super().__init__(_("Toggle Recent Documents"))
+        # apps is a mapping: app id (str) -> empty dict
+        self.apps = {}
+
+    def config_save(self):
+        return self.apps
+
+    def config_save_name(self):
+        return __name__
+
+    def config_restore(self, state):
+        self.apps = state
+
+    def initialize(self):
+        IgnoredApps.instance = self
+
+    def finalize(self):
+        del IgnoredApps.instance
+
+    def get_items(self):
+        return []
+
+    def provides(self):
+        return ()
+
+    @classmethod
+    def add(cls, app_leaf):
+        cls.instance.apps[app_leaf.get_id()] = {}
+        # FIXME: Semi-hack to refresh the content
+        cls.instance.mark_for_update()
+
+    @classmethod
+    def remove(cls, app_leaf):
+        cls.instance.apps.pop(app_leaf.get_id(), None)
+        cls.instance.mark_for_update()
+
+    @classmethod
+    def contains(cls, app_leaf):
+        return app_leaf.get_id() in cls.instance.apps
+
+    def get_leaf_repr(self):
+        return InvisibleSourceLeaf(self)
+
+class Toggle(Action):
+    rank_adjust = -5
+    def __init__(self):
+        super().__init__(_("Toggle Recent Documents"))
+
+    def item_types(self):
+        yield AppLeaf
+
+    def valid_for_item(self, leaf):
+        if IgnoredApps.contains(leaf):
+            return True
+        app_names = ApplicationRecentsSource.app_names(leaf)
+        return ApplicationRecentsSource.has_items_for_application(app_names)
+
+    def has_result(self):
+        return True
+
+    def activate(self, leaf):
+        if IgnoredApps.contains(leaf):
+            IgnoredApps.remove(leaf)
+        else:
+            IgnoredApps.add(leaf)
+        # Neat trick: We return the leaf,
+        # and that updates the decoration
+        leaf._content_source = None
+        return leaf
+
+    def get_description(self):
+        return _("Enable/disable listing recent documents in content for this application")
+
+class InvisibleSourceLeaf (SourceLeaf):
+    """Hack to hide this source"""
+    def is_valid(self):
+        return False
