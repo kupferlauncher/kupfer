@@ -26,7 +26,7 @@ def sort_album_order(songs):
             tnr = int(rec["track-number"])
         except (KeyError, ValueError):
             tnr = 0
-        return (rec["album"], tnr)
+        return (rec['date'], rec["album"], tnr)
     songs.sort(key=get_album_order)
 
 def parse_rhythmbox_albums(songs):

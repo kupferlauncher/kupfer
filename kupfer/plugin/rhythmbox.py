@@ -95,7 +95,9 @@ def _get_all_songs_via_dbus():
                     'artist': str(item['Artist']),
                     'title': str(item['DisplayName']),
                     'track-number': str(item['TrackNumber']),
-                    'location': str(item['URLs'][0])}
+                    'location': str(item['URLs'][0]),
+                    'date': str(item['Date'])
+                }
 
 def spawn_async(argv):
     try:
@@ -332,10 +334,12 @@ class ArtistAlbumsSource (CollectionSource):
             album_list = albums.get(album, [])
             album_list.append(song)
             albums[album] = album_list
-        for album in albums:
+        names = utils.locale_sort(albums)
+        names.sort(key=lambda name: albums[name][0]['date'])
+        for album in names:
             yield AlbumLeaf(albums[album], album)
     def should_sort_lexically(self):
-        return True
+        return False
 
 class ArtistLeaf (TrackCollection):
     def get_description(self):
@@ -428,7 +432,8 @@ class RhythmboxSongsSource (Source):
 class RhythmboxSource (AppLeafContentMixin, Source):
     appleaf_content_id = "rhythmbox"
     def __init__(self):
-        Source.__init__(self, _("Rhythmbox"))
+        super().__init__(_("Rhythmbox"))
+        self._version = 2
 
     def initialize(self):
         bus = dbus.SessionBus()
