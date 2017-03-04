@@ -1299,6 +1299,13 @@ msgstr ""
 msgid "Unmount"
 msgstr ""
 
+msgid "Unmount finished"
+msgstr ""
+
+#, python-format
+msgid "\"%s\" was successfully unmounted"
+msgstr "“%s” was successfully unmounted"
+
 msgid "Unmount this volume"
 msgstr ""
 
