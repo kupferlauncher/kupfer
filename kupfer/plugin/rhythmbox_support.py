@@ -13,20 +13,16 @@ def sort_album_order(songs):
     """Sort songs in order by album then by track number
 
     >>> songs = [
-    ... {"title": "a", "album": "B", "track-number": "2"},
-    ... {"title": "b", "album": "A", "track-number": "1"},
-    ... {"title": "c", "album": "B", "track-number": "1"},
+    ... {"title": "a", "album": "B", "track-number": 2},
+    ... {"title": "b", "album": "A", "track-number": 1},
+    ... {"title": "c", "album": "B", "track-number": 1},
     ... ]
     >>> sort_album_order(songs)
     >>> [s["title"] for s in songs]
     ['b', 'c', 'a']
     """
     def get_album_order(rec):
-        try:
-            tnr = int(rec["track-number"])
-        except (KeyError, ValueError):
-            tnr = 0
-        return (rec['date'], rec["album"], tnr)
+        return (rec['date'], rec["album"], rec['track-number'])
     songs.sort(key=get_album_order)
 
 def parse_rhythmbox_albums(songs):

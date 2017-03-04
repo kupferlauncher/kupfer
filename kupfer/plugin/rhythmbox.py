@@ -1,7 +1,7 @@
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = ("RhythmboxSource", )
 __description__ = _("Play and enqueue tracks and browse the music library")
-__version__ = "2017.1"
+__version__ = "2017.2"
 __author__ = "US, Karol Będkowski"
 
 '''
@@ -85,18 +85,38 @@ def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
         pretty.print_debug(err)
     return interface
 
+def _canonicalize(strmap, string):
+    """Look up @string in the string map,
+    and return the copy in the map.
+
+    If not found, update the map with the string.
+    """
+    try:
+        return strmap[string]
+    except KeyError:
+        string = str(string)
+        strmap[string] = string
+        return string
+
+def _tracknr(string):
+    try:
+        return int(string)
+    except ValueError:
+        return None
 
 def _get_all_songs_via_dbus():
     iface = _create_dbus_connection_mpris(_OBJ_NAME_MEDIA_CONT,
             _OBJ_PATH_MEDIASERVC_ALL)
     if iface:
+        ss = {}
         for item in iface.ListItems(0, 9999, ['*']):
-            yield {'album': str(item['Album']),
-                    'artist': str(item['Artist']),
+            yield {
+                'album': _canonicalize(ss, item['Album']),
+                    'artist': _canonicalize(ss, item['Artist']),
                     'title': str(item['DisplayName']),
-                    'track-number': str(item['TrackNumber']),
+                    'track-number': _tracknr(item['TrackNumber']),
                     'location': str(item['URLs'][0]),
-                    'date': str(item['Date'])
+                    'date': _canonicalize(ss, item['Date']),
                 }
 
 def spawn_async(argv):
