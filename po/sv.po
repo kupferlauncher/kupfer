@@ -742,6 +742,12 @@ msgstr "Platser"
 msgid "Bookmarked folders"
 msgstr "Bokmärkta mappar"
 
+msgid "Toggle Recent Documents"
+msgstr "Slå på/av senaste dokument"
+
+msgid "Enable/disable listing recent documents in content for this application"
+msgstr "Aktivera/deaktivera senaste dokument som innehåll i programmet"
+
 msgid "DuckDuckGo Search"
 msgstr "Sök med DuckDuckGo"
 
@@ -1302,6 +1308,13 @@ msgstr "Volym monterad vid %s"
 
 msgid "Unmount"
 msgstr "Avmontera"
+
+msgid "Unmount finished"
+msgstr "Avmontering avslutad"
+
+#, python-format
+msgid "\"%s\" was successfully unmounted"
+msgstr "”%s” avmonterades utan problem"
 
 msgid "Unmount this volume"
 msgstr "Avmontera volym"
@@ -2373,9 +2386,6 @@ msgstr "Hittade ingen aktiv Kupfer-process"
 
 #~ msgid "Recently used documents in Vim"
 #~ msgstr "Senaste dokument i Vim"
-
-#~ msgid "Vim Recent Documents"
-#~ msgstr "Senast använda dokument i Vim"
 
 #~ msgid "Close (Save All)"
 #~ msgstr "Stäng (Spara alla)"
