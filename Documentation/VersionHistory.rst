@@ -3,6 +3,21 @@
 NEWS for kupfer
 ===============
 
+kupfer v315
+-----------
+
++ Fix an issue with launching X applications in wayland (#65)
++ Fix an exception on text input “file://”
+
++ Plugins
+
+  + In *Volumes*, show a notification on successful unmounts (#64)
+  + In *Documents* you can now opt out applications of having their recent
+    documents listed inside.
+  + In *Rhythmbox*, use less memory for storing the library cache
+  + In *Rhythmbox*, sort albums of an artist primarily by year, then title.
+  + In *Shell Commands*, fix the icon name of a command
+
 kupfer v314
 -----------
 
