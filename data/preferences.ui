@@ -217,7 +217,9 @@
                                             <signal name="changed" handler="on_icons_large_size_changed"/>
                                             <items>
                                               <item>256</item>
+                                              <item>240</item>
                                               <item>224</item>
+                                              <item>208</item>
                                               <item>192</item>
                                               <item>176</item>
                                               <item>160</item>
@@ -226,7 +228,9 @@
                                               <item>112</item>
                                               <item>96</item>
                                               <item>80</item>
+                                              <item>72</item>
                                               <item>64</item>
+                                              <item>56</item>
                                               <item>48</item>
                                               <item>32</item>
                                             </items>
