@@ -14,6 +14,7 @@ __description__ = _("Tracker desktop search integration")
 __version__ = "2017.2"
 __author__ = "US"
 
+import os
 from xml.etree.cElementTree import ElementTree
 
 from gi.repository import Gio 
@@ -111,15 +112,28 @@ ORDER_BY = {
     "rank": "ORDER BY DESC (fts:rank(?s))",
     "recent": "ORDER BY DESC (nfo:fileLastModified(?s))",
 }
-def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank", **kwargs):
+def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank",
+                            location=None, **kwargs):
     clean_query = sparql_escape(query)
+
+    if location:
+        location_filter = \
+        'FILTER(tracker:uri-is-descendant ("%s", nie:url (?s)))' % sparql_escape(location)
+    else:
+        location_filter = ""
+
     sql = ("""SELECT tracker:coalesce (nie:url (?s), ?s)
-              WHERE {  ?s fts:match "%s" .  ?s tracker:available true . }
-              %s
-              OFFSET 0 LIMIT %d""" % (
-              clean_query,
-              ORDER_BY[order_by],
-              int(max_items)))
+              WHERE {
+                ?s fts:match "%(query)s" .  ?s tracker:available true .
+                %(location_filter)s
+              }
+              %(order_by)s
+              OFFSET 0 LIMIT %(limit)d""" % dict(
+              query=clean_query,
+              location_filter=location_filter,
+              order_by=ORDER_BY[order_by],
+              limit=int(max_items))
+              )
 
     pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql, **kwargs)
@@ -207,9 +221,19 @@ class TrackerQuerySource (Source):
         try:
             et = ElementTree(file=leaf.object)
             query = et.getroot().find("text").text
-            return cls(query)
+            location_tag = et.getroot().find("location")
+            location = location_tag.text if location_tag is not None else None
+            return cls(query, location=location_uri(location))
         except Exception:
+            pretty.print_exc(__name__)
             return None
+
+def location_uri(location):
+    if location is None:
+        return None
+    if not os.path.isabs(location):
+        location = os.path.expanduser("~/" + location)
+    return Gio.File.new_for_path(location).get_uri()
 
 # FIXME: Port tracker tag sources and actions
 # to the new, much more powerful sparql + dbus API
