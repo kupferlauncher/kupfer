@@ -3,6 +3,20 @@
 NEWS for kupfer
 ===============
 
+kupfer v316
+-----------
+
++ Bundle an icon used for windows and workspaces. Based on an icon in Adwaita.
++ Add two more default terminal alternatives, exo-open and x-terminal-emulator.
++ Add a few more alternatives in the drop down for large icon size
+
++ Plugins
+
+  + In *Rhythmbox*, look for more album art filenames in the same directory
+  + In *Firefox Keywords*, allow copying them to clipboard (Ctrl + C)
+  + In *Text Files*, fix *Write To* and *Append To*
+  + In *Tracker* support a location restriction for ``.savedSearch`` files.
+
 kupfer v315
 -----------
 
