@@ -330,19 +330,10 @@ class AlbumLeaf (TrackCollection):
         cache_name = "album-%s-%s.jpeg" % (hartist, htitle)
         return config.get_cache_file(("media-art", cache_name))
 
-    def _get_thumb_rhythmbox(self):
-        artist = self.object[0]["artist"]
-        album = str(self)
-        bs_artist_album = (
-            " - ".join([artist, album])
-            #" - ".join([us.encode("ascii", "ignore") for us in (artist, album)]) \
-            + ".jpg")
-        return config.get_cache_file(("rhythmbox", "covers", bs_artist_album))
 
     def get_thumbnail(self, width, height):
         if not hasattr(self, "cover_file"):
-            self.cover_file = (self._get_thumb_rhythmbox() or
-                               self._get_thumb_mediaart() or
+            self.cover_file = (self._get_thumb_mediaart() or
                                self._get_thumb_local())
         return icons.get_pixbuf_from_file(self.cover_file, width, height)
 
