@@ -18,8 +18,8 @@ __kupfer_actions__ = (
         "GetTextContents",
     )
 __description__ = None
-__version__ = "0.1"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__version__ = "2017.1"
+__author__ = ""
 
 from gi.repository import Gio
 
@@ -38,9 +38,8 @@ class AppendTo (Action):
         Action.__init__(self, name)
 
     def activate(self, leaf, iobj):
-        l_text = kupferstring.tolocale(leaf.object)
-        with open(iobj.object, "ab") as outfile:
-            outfile.write(l_text)
+        with open(iobj.object, "a") as outfile:
+            outfile.write(leaf.object)
             outfile.write("\n")
 
     def item_types(self):
@@ -73,8 +72,8 @@ class WriteTo (Action):
         try:
             l_text = kupferstring.tolocale(leaf.object)
             outfile.write(l_text)
-            if not l_text.endswith("\n"):
-                outfile.write("\n")
+            if not l_text.endswith(b"\n"):
+                outfile.write(b"\n")
         finally:
             outfile.close()
         return FileLeaf(outpath)
@@ -88,6 +87,9 @@ class WriteTo (Action):
         yield FileLeaf
     def valid_object(self, iobj, for_item=None):
         return iobj.is_dir()
+
+    def get_description(self):
+        return _("Write the text to a new file in specified directory")
 
     def get_icon_name(self):
         return "document-new"
