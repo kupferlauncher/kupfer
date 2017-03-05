@@ -1076,6 +1076,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.preedit.set_has_frame(False)
         self.preedit.set_width_chars(0)
         self.preedit.set_alignment(1)
+        self._preedit_text = ""
 
         self.label.set_width_chars(50)
         self.label.set_max_width_chars(50)
@@ -1234,6 +1235,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             keystr = Gtk.accelerator_name(keyv, 0)
             if self.action_accelerator(keystr):
                 return True
+
+        if self._preedit_text:
+            return False
 
         key_book = self.key_book
         use_command_keys = setctl.get_use_command_keys()
@@ -1929,6 +1933,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if preedit_string:
             self.current.match_view.expand_preedit(self.preedit)
             self._reset_input_timer()
+        self._preedit_text = preedit_string
 
     def _preedit_insert_text(self, editable, text, byte_length, position):
         # New text about to be inserted in preedit
