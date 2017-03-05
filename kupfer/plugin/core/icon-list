@@ -3,3 +3,4 @@
 # icons are used if not existing in the icon theme
 kupfer-object	object.svg
 kupfer-object-multiple	objects.svg
+kupfer-window	window.svg

@@ -64,7 +64,9 @@ Aron Xu (zh_CN)
 Yinghua Wang (zh_CN)
 """.splitlines()
 
-ARTISTS="""Nasser Alshammari <designernasser@gmail.com>
+ARTISTS="""
+Nasser Alshammari <designernasser@gmail.com> (Kupfer Icon)
+GNOME Project https://www.gnome.org (Misc Icons)
 """.splitlines()
 
 AUTHORS += ARTISTS + PACKAGERS + TRANSLATORS
