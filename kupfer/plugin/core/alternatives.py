@@ -26,6 +26,15 @@ def initialize_alternatives(__name__):
             'startup_notify': True,
         })
 
+    plugin_support.register_alternative(__name__, 'terminal', 'exo-open',
+        **{
+            'name': "exo-open",
+            'argv': ['exo-open', '--launch', 'TerminalEmulator'],
+            'exearg': '',
+            'desktopid': "",
+            'startup_notify': False,
+        })
+
     plugin_support.register_alternative(__name__, 'terminal', 'lxterminal',
         **{
             'name': _("LXTerminal"),
@@ -41,6 +50,15 @@ def initialize_alternatives(__name__):
             'argv': ['xterm'],
             'exearg': '-e',
             'desktopid': "xterm.desktop",
+            'startup_notify': False,
+        })
+
+    plugin_support.register_alternative(__name__, 'terminal', 'x-terminal-emulator',
+        **{
+            'name': 'x-terminal-emulator',
+            'argv': ['x-terminal-emulator'],
+            'exearg': '-e',
+            'desktopid': "",
             'startup_notify': False,
         })
 
