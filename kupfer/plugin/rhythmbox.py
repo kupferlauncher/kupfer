@@ -307,9 +307,16 @@ class AlbumLeaf (TrackCollection):
         # We don't support unicode ATM
         bs_artist_album = \
             " - ".join([artist, album])
+        bs_artist_album2 = \
+            "-".join([artist, album])
             #" - ".join([us.encode("ascii", "ignore") for us in (artist, album)])
-        cover_names = ("cover.jpg", "album.jpg", "albumart.jpg",
-                ".folder.jpg", "folder.jpg", bs_artist_album + ".jpg")
+        cover_names = (
+                "cover.jpg", "album.jpg", "albumart.jpg",
+                "cover.gif", "album.png",
+                ".folder.jpg", "folder.jpg",
+                bs_artist_album + ".jpg",
+                bs_artist_album2 + ".jpg",
+            )
         try:
             for cover_name in os.listdir(cdir):
                 if cover_name.lower() in cover_names:
