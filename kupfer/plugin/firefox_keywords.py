@@ -71,6 +71,9 @@ class Keyword(Leaf):
     def get_icon_name(self):
         return "text-html"
 
+    def get_text_representation(self):
+        return self.object
+
 class KeywordsSource (Source, FilesystemWatchMixin):
     def __init__(self):
         super().__init__(_("Firefox Keywords"))
