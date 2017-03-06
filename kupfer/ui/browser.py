@@ -324,7 +324,7 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         setctl.connect("value-changed::appearance.icon_large_size",
                        self._icon_size_changed)
         self._icon_size_changed(setctl, None, None, None)
-        
+
     def _update_theme(self, *args):
         # Style subtables to choose from
         # fg, bg, text, base
@@ -1161,7 +1161,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         self.third.hide()
         self._widget = vbox
         return vbox
-    
+
     def lazy_setup(self):
         def validate(keystr):
             keyv, mod = Gtk.accelerator_parse(keystr)
@@ -1998,47 +1998,9 @@ GObject.signal_new("launched-action", Interface, GObject.SignalFlags.RUN_LAST,
 
 PREEDIT_HIDDEN_CLASS = "hidden"
 
-KUPFER_CSS = b"""
-#kupfer {
-}
-
-.matchview {
-    border-radius: 0.6em;
-}
-
-#kupfer-preedit {
-    padding: 0 0 0 0;
-}
-
-#kupfer-preedit.hidden {
-    border-width: 0 0 0 0;
-    padding: 0 0 0 0 ;
-    margin: 0 0 0 0;
-    outline-width: 0;
-    min-height: 0;
-    min-width: 0;
-}
-
-#kupfer-object-pane {
-}
-
-#kupfer-action-pane {
-}
-
-#kupfer-indirect-object-pane {
-}
-
-#kupfer-list {
-}
-
-#kupfer-list-view {
-}
-
-*:selected .matchview {
-    background: alpha(@theme_selected_bg_color, 0.5);
-    border: 2px solid alpha(black, 0.3)
-}
-"""
+css_file = open(kupfer.config.get_data_file('style.css'),'rb')
+KUPFER_CSS = css_file.read()
+css_file.close()
 
 class KupferWindow (Gtk.Window):
     __gtype_name__ = "KupferWindow"

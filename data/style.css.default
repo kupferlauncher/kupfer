@@ -1,0 +1,39 @@
+#kupfer {
+}
+
+.matchview {
+    border-radius: 0.6em;
+}
+
+#kupfer-preedit {
+    padding: 0 0 0 0;
+}
+
+#kupfer-preedit.hidden {
+    border-width: 0 0 0 0;
+    padding: 0 0 0 0 ;
+    margin: 0 0 0 0;
+    outline-width: 0;
+    min-height: 0;
+    min-width: 0;
+}
+
+#kupfer-object-pane {
+}
+
+#kupfer-action-pane {
+}
+
+#kupfer-indirect-object-pane {
+}
+
+#kupfer-list {
+}
+
+#kupfer-list-view {
+}
+
+*:selected .matchview {
+    background: alpha(@theme_selected_bg_color, 0.5);
+    border: 2px solid alpha(black, 0.3)
+}
