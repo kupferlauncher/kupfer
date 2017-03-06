@@ -109,18 +109,6 @@ def get_options():
     # return list first of tuple pair
     return [tupl[0] for tupl in opts]
 
-def change_theme(theme='default'):
-    from kupfer.config import get_data_file
-
-    css_file = open(get_data_file('style.css.'+theme))
-    new_file = open(get_data_file('style.css'),'wb')
-
-    css_data = css_file.read()
-    new_file.write(bytes(css_data,encoding='UTF-8'))
-
-    css_file.close()
-    new_file.close()
-
 def print_version():
     from kupfer import version
     prt(version.PACKAGE_NAME, version.VERSION)
@@ -170,7 +158,7 @@ def main():
     print_banner()
 
     from kupfer import pretty, version
-    #change_theme('light')
+
     if _debug:
         pretty.debug = _debug
         pretty.print_debug(__name__, "Version:", version.PACKAGE_NAME, version.VERSION)
