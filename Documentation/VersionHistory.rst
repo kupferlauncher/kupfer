@@ -1,7 +1,26 @@
-.. role:: lp(strong)
-
 NEWS for kupfer
 ===============
+
+kupfer v317
+-----------
+
++ When an input method's preedit is active, backspace, return, arrows and
+  other keys are now reserved for the input method (ibus-anthy was tested).
++ All exceptions from content decorators from plugins are now caught and
+  logged (#73)
++ Fix remembering “Make (Action) Default for (Object)” when the object is
+  a text or a shell command.
++ Change so that ``kupfer`` only reads from stdin when called with no
+  arguments and when not started from a desktop file. This should fix issues
+  with starting from autostart or menus in some environments. (#72)
++ Fix a crash when the *Show Text* window is closed. (#71)
++ (API) Trying to install a plugin setting key with a reserved name now raises
+  an exception.
+
++ Plugins:
+
+  + In *Recent Documents*, fix an exception with filenames in unknown encoding
+  + In *Tracker*, fix an exception with malformed ``.savedSearch`` files.
 
 kupfer v316
 -----------
@@ -378,6 +397,8 @@ A new decade of Kupfer dawns!
 
   + This release requires ``Keybinder-3.0`` (using G-I), that will be
     relaxed later
+
+.. role:: lp(strong)
 
 kupfer v208
 -----------
