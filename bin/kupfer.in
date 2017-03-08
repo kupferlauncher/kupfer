@@ -84,5 +84,5 @@ fi
 
 if test $KUPFER_RUNNING != 0
 then
-	exec ${PYTHON} "$PYTHONDIR/kupfer.py" $*
+	exec ${PYTHON} "$PYTHONDIR/kupfer.py" "$@"
 fi
