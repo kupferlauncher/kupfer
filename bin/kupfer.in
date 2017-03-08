@@ -37,7 +37,7 @@ _hasprefix "$1" "--"
 KUPFER_HAS_OPTIONS=$?
 
 # We allow reading directly from stdin if we pipe text into Kupfer
-if [ ! -t 0 -a $# = 0 ]
+if [ ! -t 0 -a $# = 0 -a -z "$DESKTOP_STARTUP_ID" ]
 then
 	echo "kupfer: Reading from stdin" >&2
 	TEXT_INPUT=$(cat)
