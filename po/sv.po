@@ -1056,6 +1056,9 @@ msgstr "Lägg till..."
 msgid "Write To..."
 msgstr "Skriv till..."
 
+msgid "Write the text to a new file in specified directory"
+msgstr "Skriv texten till en ny fil i den angivna katalogen"
+
 msgid "Get Text Contents"
 msgstr "Hämta textinnehåll"
 
