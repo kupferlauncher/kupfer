@@ -54,6 +54,8 @@ class PluginSettings (GObject.GObject, pretty.OutputMixin):
             if not req_keys.issubset(list(desc.keys())):
                 missing = req_keys.difference(list(desc.keys()))
                 raise KeyError("Plugin setting missing keys: %s" % missing)
+            if _is_core_setting(desc["key"]):
+                raise KeyError("Reserved plugin setting key: %r" % (desc["key"], ))
             self.setting_descriptions[desc["key"]] = dict(desc)
             self.setting_key_order.append(desc["key"])
 
