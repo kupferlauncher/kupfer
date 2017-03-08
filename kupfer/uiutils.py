@@ -13,13 +13,13 @@ from kupfer import pretty
 from kupfer import config, version
 from kupfer.ui import uievents
 
-def _window_destroy_on_escape(widget, event):
+def _window_close_on_escape(widget, event):
     """
     Callback function for Window's key press event, will destroy window
     on escape
     """
     if event.keyval == Gdk.keyval_from_name("Escape"):
-        widget.destroy()
+        widget.close()
         return True
 
 def builder_get_objects_from_file(fname, attrs, autoconnect_to=None):
@@ -57,10 +57,10 @@ def show_text_result(text, title=None, ctx=None):
             self.names = None
 
         def on_text_result_window_key_press_event(self, widget, event):
-            return _window_destroy_on_escape(widget, event)
+            return _window_close_on_escape(widget, event)
 
         def on_close_button_clicked(self, widget):
-            self.names.text_result_window.get_window().destroy()
+            self.names.text_result_window.close()
             return True
         def on_copy_button_clicked(self, widget):
             clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
