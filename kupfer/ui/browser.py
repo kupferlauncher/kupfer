@@ -512,7 +512,7 @@ CORNER_RADIUS = 15
 OPACITY = 95
 #Gtk.widget_class_install_style_property(MatchView, ('opacity', GObject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, GObject.PARAM_READABLE))
 
-class Search (Gtk.Bin, pretty.OutputMixin):
+class Search(GObject.GObject, pretty.OutputMixin):
     """
     A Widget for displaying search results
     icon + aux table etc
@@ -557,6 +557,29 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         # Return content for the aux info column
         return ""
 
+    def set_name(self, name):
+        """
+        Set the name of the Search's widget
+
+        name: str
+        """
+        self._child.set_name(name)
+
+    def set_state(self, state):
+        self._child.set_state(state)
+
+    def show(self):
+        self._child.show()
+
+    def hide(self):
+        self._child.hide()
+
+    def set_visible(self, flag):
+        if flag:
+            self.show()
+        else:
+            self.hide()
+
     @property
     def icon_size(self):
         return self._icon_size
@@ -598,14 +621,15 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self.list_window = Gtk.Window.new(Gtk.WindowType.POPUP)
         self.list_window.set_name("kupfer-list")
 
-        box = Gtk.VBox()
-        box.pack_start(self.match_view.widget(), True, True, 0)
-        self.add(box)
-        box.show_all()
-        self.__child = box
-
         self.list_window.add(self.scroller)
         self.scroller.show_all()
+        self._child = self.match_view.widget()
+
+    def widget(self):
+        """
+        Return the corresponding Widget
+        """
+        return self._child
 
     def get_current(self):
         """
@@ -626,12 +650,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     def get_match_text(self):
         return self.text
 
-    def do_size_allocate (self, allocation):
-        self.__child.size_allocate (allocation)
-
-    def do_forall (self, include_internals, callback, *user_data):
-        callback (self.__child, *user_data)
-
     def get_table_visible(self):
         return self.list_window.get_property("visible")
 
@@ -644,13 +662,15 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
         if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:
             list_maxheight = self.LIST_MIN_MULT * self._icon_size_small
-        # self.get_window() is a GdkWindow (of self's parent)
-        win_width = self.get_window().get_width()
-        win_height = self.get_window().get_height()
-        pos_x, pos_y = self.get_window().get_position()
+        widget = self.widget()
+        # widget.get_window() is a GdkWindow (of widget's parent)
+        win_width = widget.get_window().get_width()
+        win_height = widget.get_window().get_height()
+        pos_x, pos_y = widget.get_window().get_position()
         # find origin in parent's coordinates
-        self_x, self_y = self.translate_coordinates(self.get_parent(), 0, 0)
-        self_width = self.size_request().width
+        self_x, self_y = widget.translate_coordinates(widget.get_parent(), 0, 0)
+        self_x = -10
+        self_width = widget.size_request().width
         sub_x = pos_x
         sub_y = pos_y + win_height
         # to stop a warning
@@ -665,7 +685,7 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self.list_window.move(sub_x, sub_y)
         self.list_window.resize(subwin_width, subwin_height)
 
-        win = self.get_toplevel()
+        win = widget.get_toplevel()
         self.list_window.set_transient_for(win)
         self.list_window.set_property("focus-on-map", False)
         self.list_window.show()
@@ -1083,13 +1103,14 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
         # set up panewidget => self signals
         # as well as window => panewidgets
-        for widget in (self.search, self.action, self.third):
-            widget.connect("activate", self._activate)
+        for widget_owner in (self.search, self.action, self.third):
+            widget = widget_owner.widget()
+            widget_owner.connect("activate", self._activate)
+            widget_owner.connect("cursor-changed", self._selection_changed)
             widget.connect("button-press-event", self._panewidget_button_press)
-            widget.connect("cursor-changed", self._selection_changed)
             # window signals
-            window.connect("configure-event", widget._window_config)
-            window.connect("hide", widget._window_hidden)
+            window.connect("configure-event", widget_owner._window_config)
+            window.connect("hide", widget_owner._window_hidden)
 
         self.data_controller = controller
         self.data_controller.connect("search-result", self._search_result)
@@ -1130,9 +1151,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if self._widget:
             return self._widget
         box = Gtk.HBox()
-        box.pack_start(self.search, True, True, 3)
-        box.pack_start(self.action, True, True, 3)
-        box.pack_start(self.third, True, True, 3)
+        box.pack_start(self.search.widget(), True, True, 3)
+        box.pack_start(self.action.widget(), True, True, 3)
+        box.pack_start(self.third.widget(), True, True, 3)
         vbox = Gtk.VBox()
         vbox.pack_start(box, True, True, 0)
 
@@ -1756,7 +1777,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
     def _show_third_pane(self, show):
         self._ui_transition_timer.invalidate()
-        self.third.set_property("visible", show)
+        self.third.set_visible(show)
 
     def _update_active(self):
         for panewidget in (self.action, self.search, self.third):
@@ -2018,7 +2039,7 @@ KUPFER_CSS = b"""
 #kupfer-list-view {
 }
 
-*:selected .matchview {
+*:selected.matchview {
     background: alpha(@theme_selected_bg_color, 0.5);
     border: 2px solid alpha(black, 0.3)
 }
