@@ -2045,120 +2045,7 @@ KUPFER_CSS = b"""
 }
 """
 
-class KupferWindow (Gtk.Window):
-    __gtype_name__ = "KupferWindow"
-    def __init__(self, type_):
-        super(KupferWindow, self).__init__(type=type_)
-        self.set_name("kupfer")
-        self.set_decorated(False)
-        #self.connect("map-event", self.on_expose_event)
-        self.connect("size-allocate", self.on_size_allocate)
-        self.connect("composited-changed", self.on_composited_changed)
-        self.connect("realize", self.on_realize)
-        #self.set_app_paintable(True)
-
-    def on_realize(self, widget):
-        self._set_style(widget)
-        self.reshape(widget, widget.get_allocation())
-
-    def _set_style(self, widget):
-        pretty.print_debug(__name__, "Scale factor", self.get_scale_factor())
-        widget.set_property('border-width', WINDOW_BORDER_WIDTH)
-        self._load_css()
-
-    def _load_css(self):
-        style_provider = Gtk.CssProvider()
-        style_provider.load_from_data(KUPFER_CSS)
-
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
-
-    def on_expose_event(self, widget, event):
-        cr = widget.window.cairo_create()
-        w,h = widget.allocation.width, widget.allocation.height
-
-        region = Gdk.region_rectangle(event.area)
-        cr.region(region)
-        cr.clip()
-
-        def rgba_from_gdk(c, alpha):
-            return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
-
-        radius = CORNER_RADIUS
-        if widget.is_composited():
-            opacity = 0.01*widget.style_get_property('opacity')
-            #cr.set_operator(cairo.OPERATOR_CLEAR)
-            cr.set_operator(cairo.OPERATOR_SOURCE)
-            cr.set_source_rgba(0,0,0,0)
-            cr.rectangle(0,0,w,h)
-            cr.fill()
-            #cr.rectangle(0,0,w,h)
-            make_rounded_rect(cr, 0, 0, w, h, radius)
-            cr.set_operator(cairo.OPERATOR_SOURCE)
-            c = widget.style.bg[widget.get_state()]
-            cr.set_source_rgba(*rgba_from_gdk(c, opacity))
-            cr.fill()
-
-        #c = widget.style.dark[Gtk.StateType.SELECTED]
-        #cr.set_operator(cairo.OPERATOR_OVER)
-        #cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
-
-        make_rounded_rect(cr, 0, 0, w, h, radius)
-        cr.set_line_width(1)
-        cr.stroke()
-
-    def on_composited_changed(self, widget):
-        self.reshape(widget, widget.get_allocation())
-
-    def on_size_allocate(self, widget, allocation):
-        if not hasattr(self, "_old_alloc"):
-            self._old_alloc = (0,0)
-        w,h = allocation.width, allocation.height
-
-        if self._old_alloc == (w,h):
-            return
-        self._old_alloc = (w,h)
-        self.reshape(widget, allocation)
-
-    def reshape(self, widget, allocation):
-        return
-        ## if not composited, use rounded window shape
-        w,h = allocation.width, allocation.height
-        radius = CORNER_RADIUS
-        if not widget.is_composited() and radius:
-            bitmap = Gdk.Pixmap(None, w, h, 1)
-            cr = bitmap.cairo_create()
-
-            cr.set_source_rgb(0.0, 0.0, 0.0)
-            cr.set_operator(cairo.OPERATOR_CLEAR)
-            cr.paint()
-
-            # radius of rounded corner
-            cr.set_source_rgb(1.0, 1.0, 1.0)
-            cr.set_operator(cairo.OPERATOR_SOURCE)
-            make_rounded_rect(cr, 0, 0, w, h, radius)
-            cr.fill()
-            widget.shape_combine_mask(bitmap, 0, 0)
-        else:
-            if widget.window:
-                widget.window.shape_combine_mask(None, 0, 0)
-        if widget.window:
-            widget.window.invalidate_rect((0, 0, w, h), False)
-
-
-GObject.type_register(KupferWindow)
-WINDOW_CORNER_RAIDUS = 15
-WINDOW_OPACITY = 85
-WINDOW_DECORATED = False
-#Gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, GObject.PARAM_READABLE))
-#Gtk.widget_class_install_style_property(KupferWindow, ('opacity', GObject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, GObject.PARAM_READABLE))
-#Gtk.widget_class_install_style_property(KupferWindow, ('decorated', GObject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, GObject.PARAM_READABLE))
-
 WINDOW_BORDER_WIDTH = 8
-#Gtk.widget_class_install_style_property(KupferWindow, ('border-width', GObject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, GObject.PARAM_READABLE))
 
 class WindowController (pretty.OutputMixin):
     """
@@ -2174,7 +2061,11 @@ class WindowController (pretty.OutputMixin):
         self._window_hide_timer = scheduler.Timer()
 
     def initialize(self, data_controller):
-        self.window = KupferWindow(Gtk.WindowType.TOPLEVEL)
+        self.window = Gtk.Window(type=Gtk.WindowType.TOPLEVEL,
+                                 border_width=WINDOW_BORDER_WIDTH,
+                                 decorated=False,
+                                 name="kupfer")
+        self.window.connect("realize", self._on_window_realize)
         self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
 
         data_controller.connect("launched-action", self.launch_callback)
@@ -2194,6 +2085,17 @@ class WindowController (pretty.OutputMixin):
 
     def _on_window_map_event(self, *args):
         self.interface.update_third()
+
+    def _on_window_realize(self, widget):
+        # Load css
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(KUPFER_CSS)
+
+        Gtk.StyleContext.add_provider_for_screen(
+            widget.get_screen(),
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def show_statusicon(self):
         if not self._statusicon:
