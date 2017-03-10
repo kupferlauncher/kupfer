@@ -639,9 +639,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     def get_match_text(self):
         return self.text
 
-    def do_size_request (self, requisition):
-        requisition.width, requisition.height = self.__child.size_request ()
-
     def do_size_allocate (self, allocation):
         self.__child.size_allocate (allocation)
 
