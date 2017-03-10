@@ -286,7 +286,7 @@ class LeafModel (object):
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
 
-class MatchView (Gtk.Bin, pretty.OutputMixin):
+class MatchView(GObject.GObject, pretty.OutputMixin):
     """
     A Widget for displaying name, icon and underlining properly if
     it matches
@@ -302,8 +302,6 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
 
         self.object_stack = []
 
-        self.connect("realize", self._update_theme)
-        self.connect("style-set", self._update_theme)
         # finally build widget
         self.build_widget()
         self.cur_icon = None
@@ -325,17 +323,6 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
                        self._icon_size_changed)
         self._icon_size_changed(setctl, None, None, None)
         
-    def _update_theme(self, *args):
-        # Style subtables to choose from
-        # fg, bg, text, base
-        # light, mid, dark
-
-        # Use a darker color for selected state
-        # leave active state as preset
-        #selectedc = self.style.dark[Gtk.StateType.SELECTED]
-        #self.event_box.modify_bg(Gtk.StateType.SELECTED, selectedc)
-                pass
-
     def build_widget(self):
         """
         Core initalization method that builds the widget
@@ -361,14 +348,14 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         self.event_box = Gtk.EventBox()
         self.event_box.add(box)
         self.event_box.get_style_context().add_class("matchview")
-        self.add(self.event_box)
         self.event_box.show_all()
-        self.__child = self.event_box
+        self._child = self.event_box
 
-
-    # No do_size_allocate here, we just use the default
-    def do_forall (self, include_internals, callback, *user_data):
-        callback (self.__child, *user_data)
+    def widget(self):
+        """
+        Return the corresponding Widget
+        """
+        return self._child
 
     def _render_composed_icon(self, base, pixbufs, small_size):
         """
@@ -612,7 +599,7 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self.list_window.set_name("kupfer-list")
 
         box = Gtk.VBox()
-        box.pack_start(self.match_view, True, True, 0)
+        box.pack_start(self.match_view.widget(), True, True, 0)
         self.add(box)
         box.show_all()
         self.__child = box
