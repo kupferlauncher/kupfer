@@ -25,6 +25,7 @@ from kupfer.objects import Leaf, Source, Action, RunnableLeaf, SourceLeaf
 from kupfer.objects import FileLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.objects import OperationError
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer import plugin_support
@@ -447,11 +448,12 @@ class RhythmboxSongsSource (Source):
     def provides(self):
         yield SongLeaf
 
-class RhythmboxSource (AppLeafContentMixin, Source):
+class RhythmboxSource (AppLeafContentMixin, Source, PicklingHelperMixin):
     appleaf_content_id = "rhythmbox"
     def __init__(self):
         super().__init__(_("Rhythmbox"))
-        self._version = 2
+        self._version = 3
+        self._songs = []
 
     def initialize(self):
         bus = dbus.SessionBus()
@@ -463,9 +465,13 @@ class RhythmboxSource (AppLeafContentMixin, Source):
         if new:
             self.mark_for_update()
 
+    def pickle_prepare(self):
+        self.mark_for_update()
+
     def get_items(self):
         # first try to load songs via dbus
         songs = list(_get_all_songs_via_dbus())
+        self._songs = songs = songs or self._songs
         albums = rhythmbox_support.parse_rhythmbox_albums(songs)
         artists = rhythmbox_support.parse_rhythmbox_artists(songs)
         yield ClearQueue()
