@@ -423,7 +423,7 @@ def _locale_sort_artist_album_songs(artists):
         albums = {}
         albumkey = lambda song: song["album"]
         for album, songs in itertools.groupby(artist_songs, albumkey):
-            albums[album] = list(songs)
+            albums.setdefault(album, []).extend(songs)
         for album in utils.locale_sort(albums):
             for song in albums[album]:
                 yield song
