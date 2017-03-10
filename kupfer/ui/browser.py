@@ -286,15 +286,12 @@ class LeafModel (object):
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
 
-class MatchView(GObject.GObject, pretty.OutputMixin):
+class MatchViewOwner(pretty.OutputMixin):
     """
-    A Widget for displaying name, icon and underlining properly if
-    it matches
+    Owner of the widget for displaying name, icon and name underlining (if
+    applicable) of the current match.
     """
-    __gtype_name__ = "MatchView"
-
     def __init__(self):
-        GObject.GObject.__init__(self)
         # object attributes
         self.label_char_width = 25
         self.preedit_char_width = 5
@@ -506,16 +503,10 @@ class MatchView(GObject.GObject, pretty.OutputMixin):
             self.label.set_width_chars(self.label_char_width)
             self.label.set_alignment(.5,.5)
 
-GObject.type_register(MatchView)
-CORNER_RADIUS = 15
-#Gtk.widget_class_install_style_property(MatchView, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, GObject.PARAM_READABLE))
-OPACITY = 95
-#Gtk.widget_class_install_style_property(MatchView, ('opacity', GObject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, GObject.PARAM_READABLE))
-
 class Search(GObject.GObject, pretty.OutputMixin):
     """
-    A Widget for displaying search results
-    icon + aux table etc
+    Owner of a widget for displaying search results (using match view),
+    keeping current search result list and its display.
 
     Signals
     * cursor-changed: def callback(widget, selection)
@@ -599,7 +590,7 @@ class Search(GObject.GObject, pretty.OutputMixin):
         """
         Core initalization method that builds the widget
         """
-        self.match_view = MatchView()
+        self.match_view = MatchViewOwner()
 
         self.table = Gtk.TreeView.new_with_model(self.model.get_store())
         self.table.set_name("kupfer-list-view")
@@ -1854,7 +1845,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         event_time = Gtk.get_current_event_time()
         return uievents.gui_context_from_widget(event_time, self._widget)
 
-    def _activate(self, widget, current):
+    def _activate(self, pane_owner, current):
         self.data_controller.activate(ui_ctx=self._make_gui_ctx())
 
     def activate(self):
@@ -1903,10 +1894,10 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self.activate()
             return True
 
-    def _selection_changed(self, widget, match):
-        pane = self._pane_for_widget(widget)
+    def _selection_changed(self, pane_owner, match):
+        pane = self._pane_for_widget(pane_owner)
         self.data_controller.select(pane, match)
-        if not widget is self.current:
+        if not pane_owner is self.current:
             return
         self._description_changed()
 
