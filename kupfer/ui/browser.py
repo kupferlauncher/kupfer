@@ -662,31 +662,43 @@ class Search(GObject.GObject, pretty.OutputMixin):
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
         if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:
             list_maxheight = self.LIST_MIN_MULT * self._icon_size_small
+
         widget = self.widget()
-        # widget.get_window() is a GdkWindow (of widget's parent)
-        win_width = widget.get_window().get_width()
-        win_height = widget.get_window().get_height()
-        pos_x, pos_y = widget.get_window().get_position()
-        # find origin in parent's coordinates
-        self_x, self_y = widget.translate_coordinates(widget.get_parent(), 0, 0)
-        self_x = -10
+        window = widget.get_toplevel()
+
+        win_width, win_height = window.get_size()
+
+        parent_padding_x = WINDOW_BORDER_WIDTH
+
+        self_x, self_y = widget.translate_coordinates(window, 0, 0)
+        pos_x, pos_y = window.get_position()
         self_width = widget.size_request().width
+        self_end = self_x + self_width
+
         sub_x = pos_x
         sub_y = pos_y + win_height
         # to stop a warning
         _dummy_sr = self.table.size_request()
+
         # FIXME: Adapt list length
         subwin_height = list_maxheight
-        subwin_width = self_width*2 - self_x
+        subwin_width = self_width * 2 + parent_padding_x
         if not text_direction_is_ltr():
             sub_x += win_width - subwin_width + self_x
         else:
-            sub_x -= self_x
+            sub_x -= 0
+
+        if self_end < subwin_width:
+            # Place snugly to left
+            sub_x = pos_x + self_x
+        else:
+            # Place aligned with right side of window
+            sub_x = pos_x + self_end - subwin_width
+
         self.list_window.move(sub_x, sub_y)
         self.list_window.resize(subwin_width, subwin_height)
 
-        win = widget.get_toplevel()
-        self.list_window.set_transient_for(win)
+        self.list_window.set_transient_for(window)
         self.list_window.set_property("focus-on-map", False)
         self.list_window.show()
         self._old_win_position = pos_x, pos_y
