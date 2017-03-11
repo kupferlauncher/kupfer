@@ -745,6 +745,13 @@ msgstr "Orte"
 msgid "Bookmarked folders"
 msgstr "Als Lesezeichen gespeicherte Ordner"
 
+msgid "Toggle Recent Documents"
+msgstr "Zuletzt geöffnete Dokumente umschalten"
+
+msgid "Enable/disable listing recent documents in content for this application"
+msgstr ""
+"Zuletzt geöffnete Dokumente zeigen als Inhalt dieser Anwendung umschalten"
+
 msgid "DuckDuckGo Search"
 msgstr "DuckDuckGo-Suche"
 
@@ -1056,6 +1063,9 @@ msgstr "Anhängen an …"
 msgid "Write To..."
 msgstr "Schreiben an …"
 
+msgid "Write the text to a new file in specified directory"
+msgstr "Text in eine neu erstellten Datei in ausgewählten Ordner schreiben"
+
 msgid "Get Text Contents"
 msgstr "Textinhalte holen"
 
@@ -1308,6 +1318,13 @@ msgstr "Partition in %s eingebunden"
 
 msgid "Unmount"
 msgstr "Aushängen"
+
+msgid "Unmount finished"
+msgstr "Aushängen abgeschlossen"
+
+#, python-format
+msgid "\"%s\" was successfully unmounted"
+msgstr "Aushängen von »%s« ohne Fehler abgeschlossen"
 
 msgid "Unmount this volume"
 msgstr "Diese Partition aushängen"
@@ -2400,9 +2417,6 @@ msgstr "Laufender Kupfer-Prozess konnte nicht gefunden werden"
 
 #~ msgid "Recently used documents in Vim"
 #~ msgstr "Kürzlich in Vim verwendete Dokumente"
-
-#~ msgid "Vim Recent Documents"
-#~ msgstr "Zuletzt in Vim geöffnete Dokumente"
 
 #~ msgid "Close (Save All)"
 #~ msgstr "Schließen (alle speichern)"

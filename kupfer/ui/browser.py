@@ -286,15 +286,12 @@ class LeafModel (object):
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
 
-class MatchView (Gtk.Bin, pretty.OutputMixin):
+class MatchViewOwner(pretty.OutputMixin):
     """
-    A Widget for displaying name, icon and underlining properly if
-    it matches
+    Owner of the widget for displaying name, icon and name underlining (if
+    applicable) of the current match.
     """
-    __gtype_name__ = "MatchView"
-
     def __init__(self):
-        GObject.GObject.__init__(self)
         # object attributes
         self.label_char_width = 25
         self.preedit_char_width = 5
@@ -302,8 +299,6 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
 
         self.object_stack = []
 
-        self.connect("realize", self._update_theme)
-        self.connect("style-set", self._update_theme)
         # finally build widget
         self.build_widget()
         self.cur_icon = None
@@ -324,17 +319,6 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         setctl.connect("value-changed::appearance.icon_large_size",
                        self._icon_size_changed)
         self._icon_size_changed(setctl, None, None, None)
-
-    def _update_theme(self, *args):
-        # Style subtables to choose from
-        # fg, bg, text, base
-        # light, mid, dark
-
-        # Use a darker color for selected state
-        # leave active state as preset
-        #selectedc = self.style.dark[Gtk.StateType.SELECTED]
-        #self.event_box.modify_bg(Gtk.StateType.SELECTED, selectedc)
-                pass
 
     def build_widget(self):
         """
@@ -361,14 +345,14 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
         self.event_box = Gtk.EventBox()
         self.event_box.add(box)
         self.event_box.get_style_context().add_class("matchview")
-        self.add(self.event_box)
         self.event_box.show_all()
-        self.__child = self.event_box
+        self._child = self.event_box
 
-
-    # No do_size_allocate here, we just use the default
-    def do_forall (self, include_internals, callback, *user_data):
-        callback (self.__child, *user_data)
+    def widget(self):
+        """
+        Return the corresponding Widget
+        """
+        return self._child
 
     def _render_composed_icon(self, base, pixbufs, small_size):
         """
@@ -519,16 +503,10 @@ class MatchView (Gtk.Bin, pretty.OutputMixin):
             self.label.set_width_chars(self.label_char_width)
             self.label.set_alignment(.5,.5)
 
-GObject.type_register(MatchView)
-CORNER_RADIUS = 15
-#Gtk.widget_class_install_style_property(MatchView, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around match', 0, 50, 15, GObject.PARAM_READABLE))
-OPACITY = 95
-#Gtk.widget_class_install_style_property(MatchView, ('opacity', GObject.TYPE_INT, 'Bezel opacity', 'Opacity of bezel around match', 50, 100, 95, GObject.PARAM_READABLE))
-
-class Search (Gtk.Bin, pretty.OutputMixin):
+class Search(GObject.GObject, pretty.OutputMixin):
     """
-    A Widget for displaying search results
-    icon + aux table etc
+    Owner of a widget for displaying search results (using match view),
+    keeping current search result list and its display.
 
     Signals
     * cursor-changed: def callback(widget, selection)
@@ -570,6 +548,29 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         # Return content for the aux info column
         return ""
 
+    def set_name(self, name):
+        """
+        Set the name of the Search's widget
+
+        name: str
+        """
+        self._child.set_name(name)
+
+    def set_state(self, state):
+        self._child.set_state(state)
+
+    def show(self):
+        self._child.show()
+
+    def hide(self):
+        self._child.hide()
+
+    def set_visible(self, flag):
+        if flag:
+            self.show()
+        else:
+            self.hide()
+
     @property
     def icon_size(self):
         return self._icon_size
@@ -589,7 +590,7 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         """
         Core initalization method that builds the widget
         """
-        self.match_view = MatchView()
+        self.match_view = MatchViewOwner()
 
         self.table = Gtk.TreeView.new_with_model(self.model.get_store())
         self.table.set_name("kupfer-list-view")
@@ -611,14 +612,15 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         self.list_window = Gtk.Window.new(Gtk.WindowType.POPUP)
         self.list_window.set_name("kupfer-list")
 
-        box = Gtk.VBox()
-        box.pack_start(self.match_view, True, True, 0)
-        self.add(box)
-        box.show_all()
-        self.__child = box
-
         self.list_window.add(self.scroller)
         self.scroller.show_all()
+        self._child = self.match_view.widget()
+
+    def widget(self):
+        """
+        Return the corresponding Widget
+        """
+        return self._child
 
     def get_current(self):
         """
@@ -639,15 +641,6 @@ class Search (Gtk.Bin, pretty.OutputMixin):
     def get_match_text(self):
         return self.text
 
-    def do_size_request (self, requisition):
-        requisition.width, requisition.height = self.__child.size_request ()
-
-    def do_size_allocate (self, allocation):
-        self.__child.size_allocate (allocation)
-
-    def do_forall (self, include_internals, callback, *user_data):
-        callback (self.__child, *user_data)
-
     def get_table_visible(self):
         return self.list_window.get_property("visible")
 
@@ -660,29 +653,43 @@ class Search (Gtk.Bin, pretty.OutputMixin):
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
         if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:
             list_maxheight = self.LIST_MIN_MULT * self._icon_size_small
-        # self.get_window() is a GdkWindow (of self's parent)
-        win_width = self.get_window().get_width()
-        win_height = self.get_window().get_height()
-        pos_x, pos_y = self.get_window().get_position()
-        # find origin in parent's coordinates
-        self_x, self_y = self.translate_coordinates(self.get_parent(), 0, 0)
-        self_width = self.size_request().width
+
+        widget = self.widget()
+        window = widget.get_toplevel()
+
+        win_width, win_height = window.get_size()
+
+        parent_padding_x = WINDOW_BORDER_WIDTH
+
+        self_x, self_y = widget.translate_coordinates(window, 0, 0)
+        pos_x, pos_y = window.get_position()
+        self_width = widget.size_request().width
+        self_end = self_x + self_width
+
         sub_x = pos_x
         sub_y = pos_y + win_height
         # to stop a warning
         _dummy_sr = self.table.size_request()
+
         # FIXME: Adapt list length
         subwin_height = list_maxheight
-        subwin_width = self_width*2 - self_x
+        subwin_width = self_width * 2 + parent_padding_x
         if not text_direction_is_ltr():
             sub_x += win_width - subwin_width + self_x
         else:
-            sub_x -= self_x
+            sub_x -= 0
+
+        if self_end < subwin_width:
+            # Place snugly to left
+            sub_x = pos_x + self_x
+        else:
+            # Place aligned with right side of window
+            sub_x = pos_x + self_end - subwin_width
+
         self.list_window.move(sub_x, sub_y)
         self.list_window.resize(subwin_width, subwin_height)
 
-        win = self.get_toplevel()
-        self.list_window.set_transient_for(win)
+        self.list_window.set_transient_for(window)
         self.list_window.set_property("focus-on-map", False)
         self.list_window.show()
         self._old_win_position = pos_x, pos_y
@@ -1099,13 +1106,14 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
         # set up panewidget => self signals
         # as well as window => panewidgets
-        for widget in (self.search, self.action, self.third):
-            widget.connect("activate", self._activate)
+        for widget_owner in (self.search, self.action, self.third):
+            widget = widget_owner.widget()
+            widget_owner.connect("activate", self._activate)
+            widget_owner.connect("cursor-changed", self._selection_changed)
             widget.connect("button-press-event", self._panewidget_button_press)
-            widget.connect("cursor-changed", self._selection_changed)
             # window signals
-            window.connect("configure-event", widget._window_config)
-            window.connect("hide", widget._window_hidden)
+            window.connect("configure-event", widget_owner._window_config)
+            window.connect("hide", widget_owner._window_hidden)
 
         self.data_controller = controller
         self.data_controller.connect("search-result", self._search_result)
@@ -1146,9 +1154,9 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         if self._widget:
             return self._widget
         box = Gtk.HBox()
-        box.pack_start(self.search, True, True, 3)
-        box.pack_start(self.action, True, True, 3)
-        box.pack_start(self.third, True, True, 3)
+        box.pack_start(self.search.widget(), True, True, 3)
+        box.pack_start(self.action.widget(), True, True, 3)
+        box.pack_start(self.third.widget(), True, True, 3)
         vbox = Gtk.VBox()
         vbox.pack_start(box, True, True, 0)
 
@@ -1772,7 +1780,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
 
     def _show_third_pane(self, show):
         self._ui_transition_timer.invalidate()
-        self.third.set_property("visible", show)
+        self.third.set_visible(show)
 
     def _update_active(self):
         for panewidget in (self.action, self.search, self.third):
@@ -1837,7 +1845,7 @@ class Interface (GObject.GObject, pretty.OutputMixin):
         event_time = Gtk.get_current_event_time()
         return uievents.gui_context_from_widget(event_time, self._widget)
 
-    def _activate(self, widget, current):
+    def _activate(self, pane_owner, current):
         self.data_controller.activate(ui_ctx=self._make_gui_ctx())
 
     def activate(self):
@@ -1886,10 +1894,10 @@ class Interface (GObject.GObject, pretty.OutputMixin):
             self.activate()
             return True
 
-    def _selection_changed(self, widget, match):
-        pane = self._pane_for_widget(widget)
+    def _selection_changed(self, pane_owner, match):
+        pane = self._pane_for_widget(pane_owner)
         self.data_controller.select(pane, match)
-        if not widget is self.current:
+        if not pane_owner is self.current:
             return
         self._description_changed()
 
@@ -2002,120 +2010,7 @@ css_file = open(kupfer.config.get_data_file('style.css'),'rb')
 KUPFER_CSS = css_file.read()
 css_file.close()
 
-class KupferWindow (Gtk.Window):
-    __gtype_name__ = "KupferWindow"
-    def __init__(self, type_):
-        super(KupferWindow, self).__init__(type=type_)
-        self.set_name("kupfer")
-        self.set_decorated(False)
-        #self.connect("map-event", self.on_expose_event)
-        self.connect("size-allocate", self.on_size_allocate)
-        self.connect("composited-changed", self.on_composited_changed)
-        self.connect("realize", self.on_realize)
-        #self.set_app_paintable(True)
-
-    def on_realize(self, widget):
-        self._set_style(widget)
-        self.reshape(widget, widget.get_allocation())
-
-    def _set_style(self, widget):
-        pretty.print_debug(__name__, "Scale factor", self.get_scale_factor())
-        widget.set_property('border-width', WINDOW_BORDER_WIDTH)
-        self._load_css()
-
-    def _load_css(self):
-        style_provider = Gtk.CssProvider()
-        style_provider.load_from_data(KUPFER_CSS)
-
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
-
-    def on_expose_event(self, widget, event):
-        cr = widget.window.cairo_create()
-        w,h = widget.allocation.width, widget.allocation.height
-
-        region = Gdk.region_rectangle(event.area)
-        cr.region(region)
-        cr.clip()
-
-        def rgba_from_gdk(c, alpha):
-            return (c.red/65535.0, c.green/65535.0, c.blue/65535.0, alpha)
-
-        radius = CORNER_RADIUS
-        if widget.is_composited():
-            opacity = 0.01*widget.style_get_property('opacity')
-            #cr.set_operator(cairo.OPERATOR_CLEAR)
-            cr.set_operator(cairo.OPERATOR_SOURCE)
-            cr.set_source_rgba(0,0,0,0)
-            cr.rectangle(0,0,w,h)
-            cr.fill()
-            #cr.rectangle(0,0,w,h)
-            make_rounded_rect(cr, 0, 0, w, h, radius)
-            cr.set_operator(cairo.OPERATOR_SOURCE)
-            c = widget.style.bg[widget.get_state()]
-            cr.set_source_rgba(*rgba_from_gdk(c, opacity))
-            cr.fill()
-
-        #c = widget.style.dark[Gtk.StateType.SELECTED]
-        #cr.set_operator(cairo.OPERATOR_OVER)
-        #cr.set_source_rgba(*rgba_from_gdk(c, 0.7))
-
-        make_rounded_rect(cr, 0, 0, w, h, radius)
-        cr.set_line_width(1)
-        cr.stroke()
-
-    def on_composited_changed(self, widget):
-        self.reshape(widget, widget.get_allocation())
-
-    def on_size_allocate(self, widget, allocation):
-        if not hasattr(self, "_old_alloc"):
-            self._old_alloc = (0,0)
-        w,h = allocation.width, allocation.height
-
-        if self._old_alloc == (w,h):
-            return
-        self._old_alloc = (w,h)
-        self.reshape(widget, allocation)
-
-    def reshape(self, widget, allocation):
-        return
-        ## if not composited, use rounded window shape
-        w,h = allocation.width, allocation.height
-        radius = CORNER_RADIUS
-        if not widget.is_composited() and radius:
-            bitmap = Gdk.Pixmap(None, w, h, 1)
-            cr = bitmap.cairo_create()
-
-            cr.set_source_rgb(0.0, 0.0, 0.0)
-            cr.set_operator(cairo.OPERATOR_CLEAR)
-            cr.paint()
-
-            # radius of rounded corner
-            cr.set_source_rgb(1.0, 1.0, 1.0)
-            cr.set_operator(cairo.OPERATOR_SOURCE)
-            make_rounded_rect(cr, 0, 0, w, h, radius)
-            cr.fill()
-            widget.shape_combine_mask(bitmap, 0, 0)
-        else:
-            if widget.window:
-                widget.window.shape_combine_mask(None, 0, 0)
-        if widget.window:
-            widget.window.invalidate_rect((0, 0, w, h), False)
-
-
-GObject.type_register(KupferWindow)
-WINDOW_CORNER_RAIDUS = 15
-WINDOW_OPACITY = 85
-WINDOW_DECORATED = False
-#Gtk.widget_class_install_style_property(KupferWindow, ('corner-radius', GObject.TYPE_INT, 'Corner radius', 'Radius of bezel around window', 0, 50, 15, GObject.PARAM_READABLE))
-#Gtk.widget_class_install_style_property(KupferWindow, ('opacity', GObject.TYPE_INT, 'Frame opacity', 'Opacity of window background', 50, 100, 85, GObject.PARAM_READABLE))
-#Gtk.widget_class_install_style_property(KupferWindow, ('decorated', GObject.TYPE_BOOLEAN, 'Decorated', 'Whether to use window decorations', False, GObject.PARAM_READABLE))
-
 WINDOW_BORDER_WIDTH = 8
-#Gtk.widget_class_install_style_property(KupferWindow, ('border-width', GObject.TYPE_INT, 'Border width', 'Width of border around window content', 0, 100, 8, GObject.PARAM_READABLE))
 
 class WindowController (pretty.OutputMixin):
     """
@@ -2131,7 +2026,11 @@ class WindowController (pretty.OutputMixin):
         self._window_hide_timer = scheduler.Timer()
 
     def initialize(self, data_controller):
-        self.window = KupferWindow(Gtk.WindowType.TOPLEVEL)
+        self.window = Gtk.Window(type=Gtk.WindowType.TOPLEVEL,
+                                 border_width=WINDOW_BORDER_WIDTH,
+                                 decorated=False,
+                                 name="kupfer")
+        self.window.connect("realize", self._on_window_realize)
         self.window.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
 
         data_controller.connect("launched-action", self.launch_callback)
@@ -2151,6 +2050,17 @@ class WindowController (pretty.OutputMixin):
 
     def _on_window_map_event(self, *args):
         self.interface.update_third()
+
+    def _on_window_realize(self, widget):
+        # Load css
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(KUPFER_CSS)
+
+        Gtk.StyleContext.add_provider_for_screen(
+            widget.get_screen(),
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
     def show_statusicon(self):
         if not self._statusicon:
