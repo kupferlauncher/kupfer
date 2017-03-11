@@ -139,7 +139,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         radio_actionaccelalt.set_active(setctl.get_action_accelerator_modifer() != 'ctrl')
         radio_actionaccelctrl.set_active(setctl.get_action_accelerator_modifer() == 'ctrl')
 
-        # List store with columns (Name, ID)
+        # List store with columns (Name, ID) 
         # Make alternative comboboxes
         terminal_combobox = builder.get_object("terminal_combobox")
         icons_combobox = builder.get_object("icons_combobox")
@@ -241,7 +241,7 @@ class PreferencesWindowController (pretty.OutputMixin):
         self.keybind_table.set_sensitive(keybindings.is_available())
 
 
-        # kupfer interface (accelerators) keybindings list
+        # kupfer interface (accelerators) keybindings list 
         self.gkeybind_table, self.gkeybind_store = _create_conf_keys_list()
         self.gkeybindings_list_parent.add(self.gkeybind_table)
         self.gkeybind_table.connect("row-activated",
@@ -881,18 +881,6 @@ class PreferencesWindowController (pretty.OutputMixin):
         if itr:
             val = widget.get_active_text()
             setctl.set_small_icon_size(val)
-
-    def on_theme_selector_changed(self,widget):
-        from shutil import copyfile
-        from kupfer.config import get_data_file
-        #setctl = settings.GetSettingsController()
-        itr = widget.get_active_iter()
-        if itr:
-            val = widget.get_active_text()
-            copyfile(get_data_file('style.css.'+val.lower()),get_data_file('style.css'))
-            print("Theme set to "+val)
-            print("Kupfer needs to be manually restarted")
-            #setctl.set_theme(val)
 
     def _update_alternative_combobox(self, category_key, combobox):
         """

@@ -59,7 +59,6 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
             "icon_large_size": 128,
             "icon_small_size": 24,
             "list_height": 200,
-            "theme":"light",
         },
         "Directories" : { "direct" : default_directories, "catalog" : (), },
         "DeepDirectories" : { "direct" : (), "catalog" : (), "depth" : 1, },
@@ -345,9 +344,6 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
 
     def set_small_icon_size(self, size):
         return self._set_config("Appearance", "icon_small_size", size)
-
-    #def set_theme(self,theme):
-    #  return self._set_config("Appearance","theme",theme.lower())
 
     def get_show_status_icon(self):
         """Convenience: Show icon in notification area as bool
