@@ -1,4 +1,6 @@
 #kupfer {
+    background: @theme_fg_color;
+    color: white;
 }
 
 .matchview {
@@ -31,6 +33,14 @@
 }
 
 #kupfer-list-view {
+    background-color: @theme_fg_color;
+    color: white;
+}
+
+#kupfer-list-view:selected {
+  background-color: @theme_selected_bg_color;
+  color: @theme_selected_fg_color;
+
 }
 
 *:selected .matchview {
