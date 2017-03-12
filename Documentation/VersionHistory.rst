@@ -71,7 +71,7 @@ kupfer v314
   with *Get Parent Folder* which has the default accelerator *P* and thus is
   very handy for navigation.
 + Fix so that right arrow can enter directories even in text mode
-+ Allow **Action Accelerators** to use more keys
++ Allow **Action Accelerators** to use more than just A-Z keys
 + Misc fixes to start **wayland compatibility**. All uses of Wnck now
   gracefully disable when not applicable.
 + Wnck is now technically optional, still recommended for best experience in X.
