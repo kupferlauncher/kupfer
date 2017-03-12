@@ -1417,6 +1417,9 @@ msgstr "Spela/Pausa (%s)"
 msgid "Resume playback"
 msgstr "Starta uppspelning"
 
+msgid "Pause All"
+msgstr "Pausa alla"
+
 #. TRANS: %s is a media player name
 #, python-format
 msgid "Next (%s)"
