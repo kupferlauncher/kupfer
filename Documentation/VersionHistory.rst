@@ -1,6 +1,19 @@
 NEWS for kupfer
 ===============
 
+kupfer v318
+-----------
+
++ Refactor some of the UI so that it uses composition instead of inheritance
+  for Gtk widgets. No functional changes intended.
+
++ Plugins:
+
+  + In *Rhythmbox*, keep the cache even if the player is not running (#75).
+  + In *Rhythmbox*, fix a bug where songs would sometimes be skipped in the
+    *Songs* catalog.
+  + In *Media Player Control*, add item *Pause All*
+
 kupfer v317
 -----------
 
