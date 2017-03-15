@@ -141,10 +141,8 @@ def enqueue_songs(info, clear_queue=False, play_first=False):
         qargv.append(uri)
     for song in songs:
         uri = _tostr(song["location"])
-        gfile = Gio.File.new_for_uri(uri)
-        path = gfile.get_path()
         qargv.append("--enqueue")
-        qargv.append(path)
+        qargv.append(uri)
     spawn_async(qargv)
 
 class ClearQueue (RunnableLeaf):
