@@ -240,7 +240,12 @@ class GetFile (Action):
 
     def activate(self, leaf):
         gfile = Gio.File.new_for_uri(leaf.object["location"])
-        path = gfile.get_path()
+        try:
+            path = gfile.get_path()
+        except Exception as exc:
+            # On utf-8 decode error
+            # FIXME: Unrepresentable path
+            raise OperationError(exc)
         if path:
             result = FileLeaf(path)
             if result.is_valid():
