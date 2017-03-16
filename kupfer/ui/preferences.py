@@ -646,21 +646,13 @@ class PreferencesWindowController (pretty.OutputMixin):
             setctl.set_plugin_config(plugin_id, key, value, value_type)
         return callback
 
-    def _get_plugin_credentials_callback(self, plugin_id, key):
+    def _get_plugin_extended_setting_callback(self, plugin_id, key, val_type):
         def callback(widget):
             setctl = settings.GetSettingsController()
-            val_type = plugin_support.UserNamePassword
-            backend_name = plugin_support.UserNamePassword.get_backend_name()
-            if plugin_support.UserNamePassword.is_backend_encrypted():
-                information = _("Using encrypted password storage: %s") % backend_name
-            else:
-                information = _("Using password storage: %s") % backend_name
-            upass = setctl.get_plugin_config(plugin_id, key, val_type) \
-                    or plugin_support.UserNamePassword()
-            user_password = ask_user_credentials(upass.username, upass.password, information)
-            if user_password:
-                upass.username, upass.password = user_password
-                setctl.set_plugin_config(plugin_id, key, upass, val_type)
+            usetter = setctl.get_plugin_config(plugin_id, key, val_type) \
+                or val_type()
+            if usetter.ask_user():
+                setctl.set_plugin_config(plugin_id, key, usetter, val_type)
         return callback
 
     def _make_plugin_settings_widget(self, plugin_id):
@@ -690,10 +682,10 @@ class PreferencesWindowController (pretty.OutputMixin):
                 hbox.set_tooltip_text(tooltip)
             label = plugin_settings.get_label(setting)
 
-            if issubclass(typ, plugin_support.UserNamePassword):
-                wid = Gtk.Button(label or _("Set username and password"))
-                wid.connect("clicked", self._get_plugin_credentials_callback(
-                        plugin_id, setting))
+            if issubclass(typ, settings.ExtendedSetting):
+                wid = Gtk.Button(label or _("Set"))
+                wid.connect("clicked", self._get_plugin_extended_setting_callback(
+                        plugin_id, setting, typ))
                 hbox.pack_start(wid, False, True, 0)
                 vbox.pack_start(hbox, False, True, 0)
                 continue
