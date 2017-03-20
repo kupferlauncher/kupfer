@@ -479,8 +479,14 @@ class SourceController (pretty.OutputMixin):
         for typ in self.content_decorators:
             if not isinstance(leaf, typ):
                 continue
-            for content in self.content_decorators[typ]:
-                dsrc = content.decorate_item(leaf)
+            for content in list(self.content_decorators[typ]):
+                dsrc = None
+                with pluginload.exception_guard(
+                        content,
+                        self._remove_source,
+                        content,
+                        is_decorator=True):
+                    dsrc = content.decorate_item(leaf)
                 if dsrc:
                     if types and not self.good_source_for_types(dsrc, types):
                         continue
@@ -573,11 +579,14 @@ class SourceController (pretty.OutputMixin):
             if source:
                 yield source
 
-    def _remove_source(self, source):
+    def _remove_source(self, source, is_decorator=False):
         "Oust @source from catalog if any exception is raised"
-        self.sources.discard(source)
-        self.toplevel_sources.discard(source)
-        source_type = type(source)
+        if not is_decorator:
+            self.sources.discard(source)
+            self.toplevel_sources.discard(source)
+            source_type = type(source)
+        else:
+            source_type = source
         for typ in self.content_decorators:
             self.content_decorators[typ].discard(source_type)
 

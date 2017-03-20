@@ -10,6 +10,7 @@ see the main program file, and COPYING for details.
 
 import os
 from os import path
+import zlib
 
 from gi.repository import GLib, Gio
 
@@ -501,7 +502,7 @@ class TextLeaf (Leaf, TextRepresentation):
         return ()
 
     def repr_key(self):
-        return hash(self.object)
+        return zlib.crc32(self.object.encode("utf-8", "surrogateescape"))
 
     @classmethod
     def get_first_text_line(cls, text):

@@ -165,6 +165,9 @@ class Command (TextLeaf):
         TextLeaf.__init__(self, name, name)
         self.exepath = exepath
 
+    def repr_key(self):
+        return self.name
+
     def get_actions(self):
         yield Execute(quoted=False)
         yield Execute(in_terminal=True, quoted=False)

@@ -128,6 +128,9 @@ def print_version():
 def print_banner():
     from kupfer import version
 
+    if not sys.stdout or not sys.stdout.isatty():
+        return
+
     banner = _(
         "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
         "   %(COPYRIGHT)s\n"

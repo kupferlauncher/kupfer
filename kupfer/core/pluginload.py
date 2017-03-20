@@ -54,7 +54,7 @@ def load_plugin(plugin_id):
     return desc
 
 @contextlib.contextmanager
-def exception_guard(name, callback=None, *args):
+def exception_guard(name, callback=None, *args, **kwargs):
     "Guard for exceptions, print traceback and call @callback if any is raised"
     try:
         yield
@@ -65,7 +65,7 @@ def exception_guard(name, callback=None, *args):
         pretty.print_error(__name__, "This error is probably a bug in", name)
         pretty.print_error(__name__, "Please file a bug report")
         if callback is not None:
-            callback(*args)
+            callback(*args, **kwargs)
 
 def remove_plugin(plugin_id):
     plugins.unimport_plugin(plugin_id)

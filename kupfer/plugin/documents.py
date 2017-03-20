@@ -51,6 +51,13 @@ SEPARATE_APPS = {
     }
 }
 
+def _file_path(uri):
+    try:
+        return Gio.File.new_for_uri(uri).get_path()
+    except Exception:
+        # FIXME: encoding errors in get_path raise generic Exception
+        return None
+
 class RecentsSource (Source):
     def __init__(self, name=None):
         if not name:
@@ -91,7 +98,9 @@ class RecentsSource (Source):
             if not item.is_local():
                 continue
             uri = item.get_uri()
-            file_path = Gio.File.new_for_uri(uri).get_path()
+            file_path = _file_path(uri)
+            if not file_path:
+                continue
             item_leaves.append((file_path, item.get_modified(), item))
         item_leaves.sort(key=operator.itemgetter(1), reverse=True)
         return item_leaves
