@@ -26,7 +26,7 @@ from kupfer.objects import FileLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import PicklingHelperMixin
-from kupfer.objects import OperationError
+from kupfer.objects import OperationError, NotAvailableError
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer import plugin_support
 
@@ -250,6 +250,7 @@ class GetFile (Action):
             result = FileLeaf(path)
             if result.is_valid():
                 return result
+        raise NotAvailableError(str(leaf))
 
 class CollectionSource (Source):
     def __init__(self, leaf):
