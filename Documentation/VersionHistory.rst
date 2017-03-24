@@ -18,7 +18,8 @@ kupfer v318
 -----------
 
 + Refactor some of the UI so that it uses composition instead of inheritance
-  for Gtk widgets. No functional changes intended.
+  for Gtk widgets. No functional changes intended (except given below).
++ The result list for the third pane now sticks to the right side.
 
 + Plugins:
 
