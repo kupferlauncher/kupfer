@@ -416,7 +416,7 @@ msgid "Compressed archive type for 'Create Archive In'"
 msgstr "Arkivtyp för ‘Skapa arkiv i’"
 
 msgid "Extract Here"
-msgstr "Packa upp här"
+msgstr "Extrahera här"
 
 msgid "Extract compressed archive"
 msgstr "Packa upp komprimerad fil"
