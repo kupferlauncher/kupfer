@@ -1,6 +1,19 @@
 NEWS for kupfer
 ===============
 
+kupfer v319
+-----------
+
++ Fix *Get Parent Folder* to always return a ``FileLeaf`` (not a subclass)
+
++ Plugins:
+
+  + In *Rhythmbox*, always use song uris for enqueueing tracks (fixes an issue
+    with legacy encoded file paths).
+  + In *Rhythmbox*, improve error reporting on errors in *Get File*.
+  + Add *Prefer Dark Theme* that allows you to flip this GTK setting just
+    for Kupfer
+
 kupfer v318
 -----------
 
