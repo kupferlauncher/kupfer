@@ -31,7 +31,7 @@ kupfer v317
 -----------
 
 + When an input method's preedit is active, backspace, return, arrows and
-  other keys are now reserved for the input method (ibus-anthy was tested).
+  other keys are now reserved for the input method (ibus-mozc was tested).
 + All exceptions from content decorators from plugins are now caught and
   logged (#73)
 + Fix remembering “Make (Action) Default for (Object)” when the object is
