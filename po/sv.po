@@ -1601,6 +1601,9 @@ msgstr "Nemo"
 msgid "File manager actions"
 msgstr "Kommandon i filhanteraren"
 
+msgid "Prefer Dark Theme"
+msgstr "Föredra mörkt tema"
+
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
 msgstr "Alternativ aktivera"
