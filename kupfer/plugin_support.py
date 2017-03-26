@@ -170,6 +170,10 @@ class UserNamePassword (settings.ExtendedSetting):
 		keyring.set_password(plugin_id, self.username, self.password)
 		return self.username
 
+	@classmethod
+	def get_backend_name(cls):
+		return keyring.get_keyring().name
+
 
 def check_keyring_support():
     """
@@ -179,7 +183,15 @@ def check_keyring_support():
         global keyring
         import keyring
     except ImportError:
-        ImportError("Keyring is not supported")
+        raise ImportError("Keyring is not installed")
+
+    from keyring.backends.fail import Keyring as FailKeyring
+    key_storage = keyring.get_keyring()
+    
+    if isinstance(key_storage, FailKeyring):
+        msg = "This plugin require Gnome Keyring, Kwallet or " + \
+              "other keyring backend to store password properly."
+        raise ImportError(msg)
 
 def check_keybinding_support():
     """
