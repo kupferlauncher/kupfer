@@ -646,11 +646,11 @@ class PreferencesWindowController (pretty.OutputMixin):
             setctl.set_plugin_config(plugin_id, key, value, value_type)
         return callback
 
-    def _get_plugin_extended_setting_callback(self, plugin_id, key, val_type):
+    def _get_plugin_extended_setting_callback(self, plugin_id, key, val_type, val=None):
         def callback(widget):
             setctl = settings.GetSettingsController()
             usetter = setctl.get_plugin_config(plugin_id, key, val_type) \
-                or val_type()
+                or val or val_type()
             if usetter.ask_user():
                 setctl.set_plugin_config(plugin_id, key, usetter, val_type)
         return callback
@@ -684,8 +684,9 @@ class PreferencesWindowController (pretty.OutputMixin):
 
             if issubclass(typ, settings.ExtendedSetting):
                 wid = Gtk.Button(label or _("Set"))
+                val = plugin_settings[setting]
                 wid.connect("clicked", self._get_plugin_extended_setting_callback(
-                        plugin_id, setting, typ))
+                        plugin_id, setting, typ, val))
                 hbox.pack_start(wid, False, True, 0)
                 vbox.pack_start(hbox, False, True, 0)
                 continue
