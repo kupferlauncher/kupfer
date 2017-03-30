@@ -1,4 +1,5 @@
 import sys
+import ast
 
 from gi.repository import GObject
 
@@ -9,7 +10,8 @@ from kupfer import config
 from kupfer.core import settings
 from kupfer.core import plugins
 from kupfer import utils
-from kupfer.ui.credentials_dialog import ask_user_credentials
+from kupfer.ui.credentials_dialog import ask_user_credentials, \
+    ask_user_oauth1_credentials
 
 __all__ = [
     "UserNamePassword",
@@ -168,11 +170,86 @@ class UserNamePassword (settings.ExtendedSetting):
 	def save(self, plugin_id, key):
 		'''Save @user_password - store password in keyring and return username
 		to save in standard configuration file '''
+		
 		keyring.set_password(plugin_id, self.username, self.password)
 		return self.username
 	
 	def ask_user(self):
-		return ask_user_credentials(self.username, self.password)
+		result = ask_user_credentials(self.username, self.password)
+		if result:
+			self.username, self.password = result
+			return self
+
+
+class DictConfig(settings.ExtendedSetting, dict):
+    ''' Define extended config to store dicts '''
+    
+    def __init__(self, *keys, **key_values):
+        settings.ExtendedSetting.__init__(self)
+        dict.__init__(self, [(key, None) for key in keys], **key_values)
+    
+    def __getattr__(self, name):
+        return self.get(name, None)
+
+
+class OAuth1(DictConfig):
+    ''' Configuration type for storing OAuth1 token.
+    Token is stored in keyring.'''
+
+    def __init__(self, saved=None, **key_values):
+        DictConfig.__init__(self,
+            'user_id',
+            'plugin_id',
+            'url_access',
+            'url_auth',
+            'url_request',
+            'url_callback',
+            'plugin_secret',
+            'user_secret',
+            **key_values)
+        self._update_saved(saved)
+
+    def _update_saved(self, saved):
+        if saved:
+            if isinstance(saved, str):
+                saved = ast.literal_eval(saved)
+            self.update(saved)
+    
+    def _clean_copy(self):
+        result = self.copy()
+        result.pop('user_secret', '')
+        result.pop('plugin_secret', '')
+        return result
+
+    def __repr__(self):
+        return repr(self._clean_copy())
+
+    def load(self, kid, name, values):
+        ''' Loads config from values.
+        kid: kupfer internal plugin id
+        name: kupfer plugin config name
+        values: dict with saved/default values '''
+        self._update_saved(values)
+        get_secret = lambda *args: keyring.get_password(*args)
+        self['user_secret'] = get_secret(kid, name + 'u') or self.user_secret
+        self['plugin_secret'] = get_secret(kid, name + 'p') or self.user_secret
+
+    def save(self, kid, name):
+        ''' Save @OAuth1 - store user and plugin secret in keyring and return
+        other info dict to save in standard configuration file.
+        kid: kupfer internal plugin id
+        name: kupfer plugin config name
+        return: dict with non sensitive data'''
+        keyring.set_password(kid, name + 'u', self.user_secret or '')
+        keyring.set_password(kid, name + 'p', self.plugin_secret or '')
+        return self._clean_copy()
+
+    def ask_user(self):
+        clone = self.copy()
+        result = ask_user_oauth1_credentials(clone)
+        if result:
+            self.update(result)
+            return self._clean_copy()
 
 
 def check_keyring_support():
@@ -192,6 +269,16 @@ def check_keyring_support():
         msg = "This plugin require Gnome Keyring, Kwallet or " + \
               "other keyring backend to store password properly."
         raise ImportError(msg)
+
+def check_oauth_support():
+    """
+    Check if requests_oauthlib is installed
+    """
+    try:
+        import requests_oauthlib
+    except ImportError:
+        raise ImportError("requests_oauthlib is no installed")
+    check_keyring_support()
 
 def check_keybinding_support():
     """
