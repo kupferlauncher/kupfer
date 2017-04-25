@@ -18,7 +18,7 @@ from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
 from kupfer import utils, config
 
-from kupfer.plugin import firefox_support
+from kupfer.plugin import firefox
 
 
 def _noescape_urlencode(items):
@@ -33,9 +33,7 @@ def _urlencode(word):
 
 def _do_search_engine(terms, search_url, encoding="UTF-8"):
     """Show an url searching for @search_url with @terms"""
-    search_url = search_url.encode(encoding, "ignore")
-    terms_enc = terms.encode(encoding, "ignore")
-    query_url = search_url.replace("{searchTerms}", _urlencode(terms_enc))
+    query_url = search_url.replace("{searchTerms}", _urlencode(terms))
     utils.show_url(query_url)
 
 class SearchWithEngine (Action):
@@ -44,9 +42,8 @@ class SearchWithEngine (Action):
         Action.__init__(self, _("Search With..."))
 
     def activate(self, leaf, iobj):
-        coding = iobj.object.get("InputEncoding")
         url = iobj.object["Url"]
-        _do_search_engine(leaf.object, url, encoding=coding)
+        _do_search_engine(leaf.object, url)
 
     def item_types(self):
         yield TextLeaf
@@ -166,7 +163,7 @@ class OpenSearchSource (Source):
         plugin_dirs.extend(config.get_data_dirs("searchplugins"))
 
         # firefox in home directory
-        ffx_home = firefox_support.get_firefox_home_file("searchplugins")
+        ffx_home = firefox.get_firefox_home_file("searchplugins")
         if ffx_home and os.path.isdir(ffx_home):
             plugin_dirs.append(ffx_home)
 
