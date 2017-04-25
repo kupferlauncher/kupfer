@@ -133,12 +133,12 @@ def readf(fname, m='r'):
 	:rtype: string
 	:return: Content of the file
 	"""
-	f = open(fname, m)
 	try:
-		txt = f.read()
-	finally:
-		f.close()
-	return txt
+		with open(fname, m) as f:
+			return f.read()
+	except UnicodeDecodeError:
+		with open(fname, m, encoding='utf-8') as f:
+			return f.read()
 
 def h_file(filename):
 	"""
