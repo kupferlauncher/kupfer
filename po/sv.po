@@ -416,7 +416,7 @@ msgid "Compressed archive type for 'Create Archive In'"
 msgstr "Arkivtyp för ‘Skapa arkiv i’"
 
 msgid "Extract Here"
-msgstr "Packa upp här"
+msgstr "Extrahera här"
 
 msgid "Extract compressed archive"
 msgstr "Packa upp komprimerad fil"
@@ -1417,6 +1417,9 @@ msgstr "Spela/Pausa (%s)"
 msgid "Resume playback"
 msgstr "Starta uppspelning"
 
+msgid "Pause All"
+msgstr "Pausa alla"
+
 #. TRANS: %s is a media player name
 #, python-format
 msgid "Next (%s)"
@@ -1597,6 +1600,9 @@ msgstr "Nemo"
 
 msgid "File manager actions"
 msgstr "Kommandon i filhanteraren"
+
+msgid "Prefer Dark Theme"
+msgstr "Föredra mörkt tema"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"

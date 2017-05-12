@@ -34,6 +34,7 @@ class Players(Source):
             self.mark_for_update()
 
     def get_items(self):
+        bus_names = []
         for bus_name in dbus.SessionBus().list_names():
             if bus_name.startswith(MPRIS_PREFIX):
                 name = bus_name[len(MPRIS_PREFIX):]
@@ -41,6 +42,9 @@ class Players(Source):
                 yield Next(bus_name, name)
                 yield Previous(bus_name, name)
                 yield Stop(bus_name, name)
+                bus_names.append(bus_name)
+        if bus_names:
+            yield PauseAll(bus_names)
 
     def provides(self):
         yield RunnableLeaf
@@ -81,6 +85,23 @@ class PlayPause(MprisAction):
         return _("Resume playback")
     def get_icon_name(self):
         return "media-playback-start"
+
+def _reply_nop(*args):
+    pass
+
+class PauseAll(RunnableLeaf):
+    def __init__(self, bus_names):
+        super().__init__(name=_("Pause All"))
+        self.bus_names = bus_names
+
+    def run(self):
+        for name in self.bus_names:
+            mpris_connection(name).Pause(
+                reply_handler=_reply_nop,
+                error_handler=_reply_nop)
+
+    def get_icon_name(self):
+        return "media-playback-pause"
 
 class Next (MprisAction):
     def __init__(self, bus_name, name):

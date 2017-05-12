@@ -84,7 +84,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
         default -> then config
         (in all XDG_CONFIG_DIRS)
         """
-        parser = configparser.ConfigParser()
+        parser = configparser.RawConfigParser()
 
         def fill_parser(parser, defaults):
             for secname, section in defaults.items():
@@ -174,7 +174,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
                     del difference[secname]
             return difference
 
-        parser = configparser.ConfigParser()
+        parser = configparser.RawConfigParser()
         def fill_parser(parser, defaults):
             for secname in sorted(defaults):
                 section = defaults[secname]
@@ -243,7 +243,7 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
         if self._defaults_path is None:
             self.output_error('Defaults not found')
             return
-        parser = configparser.ConfigParser()
+        parser = configparser.RawConfigParser()
         parser.read(self._defaults_path)
         if option is None:
             return parser.items(section)

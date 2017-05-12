@@ -279,7 +279,7 @@ This defines, in addition to KupferObject:
 
 ``__hash__`` and ``__eq__``
     Leaves are hashable, can be members in a set, and duplicates are
-    recognized (and removed); this is essensial so that equivalent
+    recognized (and removed); this is essential so that equivalent
     Leaves from different sources are recognized. 
 
     These methods need normally not be overridden.
@@ -346,7 +346,7 @@ Activate: Carrying Out the Action
 
     You should implement ``activate_multiple`` if it is possible to do
     something better than the equivalent of repeating ``activate``
-    *n* for *n* objects.
+    *n* times for *n* objects.
 
 ``activate`` and ``activate_multiple`` also receive a keyword argument
 called ``ctx`` if the action defines ``wants_context(self)`` to return
@@ -436,7 +436,7 @@ The object passed as ``ctx`` has the following interface:
         Return the display name (i.e ``:0.0``)
 
     ``present_window(self, window)``
-        Present ``window`` (a ``gtk.Window``) on the current
+        Present ``window`` (a ``Gtk.Window``) on the current
         workspace and monitor using the current event time.
 
 

@@ -1,11 +1,38 @@
 NEWS for kupfer
 ===============
 
+kupfer v319
+-----------
+
++ Fix *Get Parent Folder* to always return a ``FileLeaf`` (not a subclass)
+
++ Plugins:
+
+  + In *Rhythmbox*, always use song uris for enqueueing tracks (fixes an issue
+    with legacy encoded file paths).
+  + In *Rhythmbox*, improve error reporting on errors in *Get File*.
+  + Add *Prefer Dark Theme* that allows you to flip this GTK setting just
+    for Kupfer
+
+kupfer v318
+-----------
+
++ Refactor some of the UI so that it uses composition instead of inheritance
+  for Gtk widgets. No functional changes intended (except given below).
++ The result list for the third pane now sticks to the right side.
+
++ Plugins:
+
+  + In *Rhythmbox*, keep the cache even if the player is not running (#75).
+  + In *Rhythmbox*, fix a bug where songs would sometimes be skipped in the
+    *Songs* catalog.
+  + In *Media Player Control*, add item *Pause All*
+
 kupfer v317
 -----------
 
 + When an input method's preedit is active, backspace, return, arrows and
-  other keys are now reserved for the input method (ibus-anthy was tested).
+  other keys are now reserved for the input method (ibus-mozc was tested).
 + All exceptions from content decorators from plugins are now caught and
   logged (#73)
 + Fix remembering “Make (Action) Default for (Object)” when the object is
@@ -58,7 +85,7 @@ kupfer v314
   with *Get Parent Folder* which has the default accelerator *P* and thus is
   very handy for navigation.
 + Fix so that right arrow can enter directories even in text mode
-+ Allow **Action Accelerators** to use more keys
++ Allow **Action Accelerators** to use more than just A-Z keys
 + Misc fixes to start **wayland compatibility**. All uses of Wnck now
   gracefully disable when not applicable.
 + Wnck is now technically optional, still recommended for best experience in X.

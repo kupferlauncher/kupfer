@@ -26,7 +26,7 @@ from kupfer.objects import FileLeaf
 from kupfer import icons, utils, config
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import PicklingHelperMixin
-from kupfer.objects import OperationError
+from kupfer.objects import OperationError, NotAvailableError
 from kupfer.weaklib import dbus_signal_connect_weakly
 from kupfer import plugin_support
 
@@ -141,10 +141,8 @@ def enqueue_songs(info, clear_queue=False, play_first=False):
         qargv.append(uri)
     for song in songs:
         uri = _tostr(song["location"])
-        gfile = Gio.File.new_for_uri(uri)
-        path = gfile.get_path()
         qargv.append("--enqueue")
-        qargv.append(path)
+        qargv.append(uri)
     spawn_async(qargv)
 
 class ClearQueue (RunnableLeaf):
@@ -242,11 +240,17 @@ class GetFile (Action):
 
     def activate(self, leaf):
         gfile = Gio.File.new_for_uri(leaf.object["location"])
-        path = gfile.get_path()
+        try:
+            path = gfile.get_path()
+        except Exception as exc:
+            # On utf-8 decode error
+            # FIXME: Unrepresentable path
+            raise OperationError(exc)
         if path:
             result = FileLeaf(path)
             if result.is_valid():
                 return result
+        raise NotAvailableError(str(leaf))
 
 class CollectionSource (Source):
     def __init__(self, leaf):

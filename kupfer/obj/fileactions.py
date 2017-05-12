@@ -81,9 +81,11 @@ class GetParent (Action):
         return True
 
     def activate(self, leaf):
+        # Avoid cyclical dep on module level
+        from kupfer.objects import FileLeaf
         fileloc = leaf.object
         parent = os.path.normpath(os.path.join(fileloc, os.path.pardir))
-        return type(leaf)(parent)
+        return FileLeaf(parent)
 
     def get_description(self):
         return None

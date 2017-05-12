@@ -85,6 +85,7 @@ kupfer/plugin/rhythmbox.py
 kupfer/plugin/gtg.py
 kupfer/plugin/devhelp.py
 kupfer/plugin/nemo.py
+kupfer/plugin/darktheme.py
 
 kupfer/ui/accelerators.py
 kupfer/ui/browser.py
