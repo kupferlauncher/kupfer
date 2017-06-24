@@ -74,6 +74,17 @@ class Suspend (CommandLeaf):
     def get_icon_name(self):
         return "system-suspend"
 
+class SaveSession (CommandLeaf):
+    """"""
+    def __init__(self, commands, name=None):
+        if not name: name = _("Save session...")
+        CommandLeaf.__init__(self, commands, name)
+    def get_description(self):
+        return _("save session")
+    def get_icon_name(self):
+        return "document-save"
+
+
 class CommonSource (Source):
     def __init__(self, name):
         super(CommonSource, self).__init__(name)
@@ -90,7 +101,7 @@ SHUTDOWN_CMD = (["qdbus org.kde.ksmserver /KSMServer logout 0 2 0"])
 RESTART_CMD = (["qdbus org.kde.ksmserver /KSMServer logout 0 1 0"])
 LOCK_CMD = (["qdbus org.kde.ksmserver /ScreenSaver Lock"])
 SUSPEND_CMD = (["qdbus org.kde.Solid.PowerManagement /org/freedesktop/PowerManagement Suspend"])
-
+SAVE_SESSION_CMD = (["qdbus org.kde.ksmserver /KSMServer saveCurrentSession"])
 
 class KDEItemsSource (CommonSource):
     def __init__(self):
@@ -102,6 +113,7 @@ class KDEItemsSource (CommonSource):
             Suspend(SUSPEND_CMD),
             Restart(RESTART_CMD),
             LockScreen(LOCK_CMD),
+            SaveSession(SAVE_SESSION_CMD),
         )
 
 
