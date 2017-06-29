@@ -22,4 +22,4 @@ class RecollIndex (Action):
         return _("Search in your recollindex")
 
     def get_icon_name(self):
-        return "edit-find"
+        return "recoll"
