@@ -6,7 +6,7 @@ Control VirtualBox via Python interface (vboxapi).
 Only (?) Sun VirtualBox (no OSE).
 '''
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-__version__ = "2018-09-07"
+__version__ = "2018-10-21"
 
 import vboxapi
 
@@ -28,62 +28,43 @@ APP_ID = "virtualbox"
 
 
 _ACTIONS = {
-        vbox_const.VM_POWEROFF: lambda c: c.powerDown(),
-        vbox_const.VM_ACPI_POWEROFF: lambda c: c.powerButton(),
-        vbox_const.VM_PAUSE: lambda c: c.pause(),
-        vbox_const.VM_REBOOT: lambda c: c.reset(),
-        vbox_const.VM_RESUME: lambda c: c.resume(),
-        vbox_const.VM_SAVE: lambda c: c.saveState(),
+    vbox_const.VM_POWEROFF: lambda c: c.powerDown(),
+    vbox_const.VM_ACPI_POWEROFF: lambda c: c.powerButton(),
+    vbox_const.VM_PAUSE: lambda c: c.pause(),
+    vbox_const.VM_REBOOT: lambda c: c.reset(),
+    vbox_const.VM_RESUME: lambda c: c.resume(),
+    vbox_const.VM_SAVE: lambda c: c.saveState(),
 }
 
 
-def _get_object_session():
-    ''' get new session to vm '''
-    vbox, session = None, None
+_VBOX = vboxapi.VirtualBoxManager(None, None)
+
+
+def get_machine_by_id(mid):
     try:
-        vbox = vboxapi.VirtualBoxManager(None, None)
-        session = vbox.mgr.getSessionObject(vbox.vbox)
-    except Exception as err:
-        pretty.print_error(__name__, 'virtualbox: get session error ', err)
-    return vbox, session
-
-
-def _get_existing_session(vm_uuid):
-    ''' get existing session by machine uuid '''
-    vbox, session = None, None
-    try:
-        vbox = vboxapi.VirtualBoxManager(None, None)
-        session = vbox.mgr.getSessionObject(vbox.vbox)
-    except Exception as err:
-        pretty.print_error(__name__, 'virtualbox: get session error', vm_uuid,
-                err)
-    return vbox, session
-
-
-def get_machine_by_id(vbox, mid):
-    try:
-        mach = vbox.getMachine(mid)
-    except:
-        mach = vbox.findMachine(mid)
+        mach = _VBOX.getVirtualBox().getMachine(mid)
+    except AttributeError:
+        mach = _VBOX.getVirtualBox().findMachine(mid)
     return mach
 
 
 def get_machine_state(machine_id):
     ''' check vms state (on/off/paused) '''
-    vbox, vbox_sess = _get_object_session()
-    if vbox_sess is None:
+    if _VBOX is None:
         return vbox_const.VM_STATE_POWEROFF
     state = vbox_const.VM_STATE_POWERON
+    machine_state = None
     try:
-        machine = get_machine_by_id(vbox.vbox, machine_id)
+        machine = get_machine_by_id(machine_id)
+        pretty.print_debug(__name__, "machine ", repr(machine))
         machine_state = machine.state
-        if machine_state == vbox.constants.MachineState_Paused:
+        if machine_state == _VBOX.constants.MachineState_Paused:
             state = vbox_const.VM_STATE_PAUSED
-        elif machine_state in (vbox.constants.MachineState_PoweredOff,
-                vbox.constants.MachineState_Aborted,
-                vbox.constants.MachineState_Starting):
+        elif machine_state in (_VBOX.constants.MachineState_PoweredOff,
+                               _VBOX.constants.MachineState_Aborted,
+                               _VBOX.constants.MachineState_Starting):
             state = vbox_const.VM_STATE_POWEROFF
-        elif machine_state == vbox.constants.MachineState_Saved:
+        elif machine_state == _VBOX.constants.MachineState_Saved:
             state = vbox_const.VM_STATE_SAVED
     except Exception as err:  # exception == machine is off (xpcom.Exception)
         pretty.print_debug(__name__, 'get_machine_state', machine_state, err)
@@ -97,32 +78,31 @@ def _machine_start(vm_uuid, mode):
         @param vm_uuid - uuid of virtual machine
         @param mode - mode: gui, headless
     '''
-    vbox, session = _get_object_session()
-    if session:
-        try:
-            mach = get_machine_by_id(vbox.vbox, vm_uuid)
-            remote_sess = mach.launchVMProcess(session, mode, '')
-            remote_sess.waitForCompletion(-1)
-            session.unlockMachine()
-        except Exception as err:
-            pretty.print_error(__name__, "StartVM:", vm_uuid, "Mode ", mode,
-                    "error", err)
+    try:
+        session = _VBOX.getSessionObject()
+        mach = get_machine_by_id(vm_uuid)
+        remote_sess = mach.launchVMProcess(session, mode, '')
+        remote_sess.waitForCompletion(-1)
+        session.unlockMachine()
+    except Exception as err:
+        pretty.print_error(__name__, "StartVM:", vm_uuid, "Mode ", mode,
+                           "error", err)
 
 
 def _execute_machine_action(vm_uuid, action):
     ''' Start virtual machine
         @param vm_uuid - uuid of virtual machine
-        @param action - function called on vbox session
+        @param action - function called on _VBOX session
     '''
-    vbox, session = _get_existing_session(vm_uuid)
     try:
-        mach = get_machine_by_id(vbox.vbox, vm_uuid)
-        mach.lockMachine(session, vbox.constants.LockType_Shared)
+        session = _VBOX.getSessionObject()
+        mach = get_machine_by_id(vm_uuid)
+        mach.lockMachine(session, _VBOX.constants.LockType_Shared)
         action(session.console)
         session.unlockMachine()
     except Exception as err:
         pretty.print_error(__name__, "_execute_machine_action:", repr(action),
-                " vm:", vm_uuid, "error", err)
+                           " vm:", vm_uuid, "error", err)
 
 
 def vm_action(action, vm_uuid):
@@ -130,6 +110,8 @@ def vm_action(action, vm_uuid):
         @param action - one of the const VM_*
         @param vm_uuid - virtual machine uuid
     '''
+    if _VBOX is None:
+        return
     if action == vbox_const.VM_START_NORMAL:
         _machine_start(vm_uuid, 'gui')
     elif action == vbox_const.VM_START_HEADLESS:
@@ -143,11 +125,10 @@ def get_machines():
     ''' Get generator of items:
         (machine uuid, machine name, machine description)
     '''
-    vbox, vbox_sess = _get_object_session()
-    if vbox_sess is None:
+    if _VBOX is None:
         return
 
-    machines = vbox.getArray(vbox.vbox, 'machines')
+    machines = _VBOX.getArray(_VBOX.getVirtualBox(), 'machines')
     for machine in machines:
         if not machine.accessible:
             continue
