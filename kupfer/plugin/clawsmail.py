@@ -3,7 +3,7 @@ __kupfer_name__ = _("Claws Mail")
 __kupfer_sources__ = ("ClawsContactsSource", )
 __kupfer_actions__ = ("NewMailAction", "SendFileByMail")
 __description__ = _("Claws Mail Contacts and Actions")
-__version__ = "2010-05-19"
+__version__ = "2018-10-07"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
@@ -19,14 +19,13 @@ from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 
 
-
 class ComposeMail(RunnableLeaf):
     ''' Create new mail without recipient '''
     def __init__(self):
         RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
     def run(self):
-        utils.spawn_async(['claws-mail','--compose'])
+        utils.spawn_async(['claws-mail', '--compose'])
 
     def get_description(self):
         return _("Compose a new message in Claws Mail")
@@ -90,35 +89,38 @@ class SendFileByMail (Action):
 
     def item_types(self):
         yield FileLeaf
+
     def valid_for_item(self, item):
         return not item.is_dir()
 
     def requires_object(self):
         return True
+
     def object_types(self):
         yield ContactLeaf
         # we can enter email
         yield TextLeaf
         yield UrlLeaf
+
     def valid_object(self, iobj, for_item=None):
         return bool(email_from_leaf(iobj))
 
     def get_description(self):
         return _("Compose new message in Claws Mail and attach file")
+
     def get_icon_name(self):
         return "document-send"
 
 
 class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
-        FilesystemWatchMixin):
+                          FilesystemWatchMixin):
     appleaf_content_id = 'claws-mail'
 
     def __init__(self, name=_("Claws Mail Address Book")):
         super(ClawsContactsSource, self).__init__(name, "Contacts")
-        #Source.__init__(self, name)
         self._claws_addrbook_dir = os.path.expanduser('~/.claws-mail/addrbook')
-        self._claws_addrbook_index = os.path.join(self._claws_addrbook_dir, \
-                "addrbook--index.xml")
+        self._claws_addrbook_index = os.path.join(self._claws_addrbook_dir,
+                                                  "addrbook--index.xml")
         self._version = 4
 
     def initialize(self):
@@ -136,7 +138,8 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
     def get_items(self):
         if os.path.isfile(self._claws_addrbook_index):
             for addrbook_file in self._load_address_books():
-                addrbook_filepath = os.path.join(self._claws_addrbook_dir, addrbook_file)
+                addrbook_filepath = os.path.join(self._claws_addrbook_dir,
+                                                 addrbook_file)
                 if not os.path.exists(addrbook_filepath):
                     continue
 
@@ -178,6 +181,3 @@ class ClawsContactsSource(AppLeafContentMixin, ToplevelGroupingSource,
                 yield book.getAttribute('file')
         except (Exception, xml.parsers.expat.ExpatError) as err:
             self.output_error(err)
-
-
-
