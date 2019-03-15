@@ -5,6 +5,7 @@
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
 # Jorge González <jorgegonz@svn.gnome.org>, 2009, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
+# Leonardo Masuero <leoen25demayo@gmail.com>, 2019.
 #
 msgid ""
 msgstr ""
@@ -58,10 +59,10 @@ msgid "Icon set:"
 msgstr "Conjunto de iconos:"
 
 msgid "Large Icon Size:"
-msgstr ""
+msgstr "Tamaño de los iconos grandes:"
 
 msgid "Small Icon Size:"
-msgstr ""
+msgstr "Tamaño de los iconos pequeños"
 
 msgid "Terminal emulator:"
 msgstr "Emulador de la terminal:"
@@ -251,7 +252,7 @@ msgstr "No existe una aplicación predeterminada para %(file)s (%(type)s)"
 
 #, python-format
 msgid "Please use \"%s\""
-msgstr "Use «%s»"
+msgstr "Por favor, use «%s»"
 
 msgid "Set Default Application..."
 msgstr "Establecer aplicación predeterminada…"
@@ -377,7 +378,7 @@ msgid "Applications for Desktop Environment"
 msgstr "Aplicaciones para el entorno de escritorio"
 
 msgid "Use Desktop Filter"
-msgstr ""
+msgstr "Usar filtro de escritorio"
 
 msgid "Open With..."
 msgstr "Abrir con…"
@@ -394,7 +395,7 @@ msgid "Reset Associations"
 msgstr "Acciones de URL"
 
 msgid "Reset program associations for files of this type."
-msgstr ""
+msgstr "Restablecer las asociaciones de programas para este tipo de archivos."
 
 msgid "Deep Archives"
 msgstr "Archivadores profundos"
@@ -513,7 +514,7 @@ msgid "Calculator"
 msgstr "Calculadora"
 
 msgid "Calculate mathematical expressions"
-msgstr ""
+msgstr "Calcular expresiones matematicas"
 
 msgid "Calculate"
 msgstr "Calcular"
@@ -686,6 +687,9 @@ msgid ""
 "\n"
 "The plugin adds another terminal alternative (select it on the main page)."
 msgstr ""
+"Configurar un emulador de terminal personalizado.\n"
+"\n"
+"El complemento agrega otra alternativa de terminal (selecciónela en la página principal)."
 
 msgid "Command"
 msgstr "Comando"
@@ -798,7 +802,7 @@ msgid "Glob"
 msgstr "Glob"
 
 msgid "Select objects using '*' and '?' as wildcards."
-msgstr ""
+msgstr "Seleccionar objetos usando '*' y '?' como comodines."
 
 msgid "Higher-order Actions"
 msgstr "Acciones de nivel más alto"
@@ -1186,6 +1190,8 @@ msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
+"No se pudieron eliminar los archivos:\n"
+"    "
 
 msgid "Trash is empty"
 msgstr "La papelera está vacía"
@@ -1440,10 +1446,10 @@ msgstr "Saltar a la pista anterior en Audacious"
 #. TRANS: %s is a media player name
 #, python-format
 msgid "Stop (%s)"
-msgstr ""
+msgstr "Detener (%s)"
 
 msgid "Stop playback"
-msgstr ""
+msgstr "Detener la reproducción"
 
 msgid "Pidgin"
 msgstr "Pidgin"
@@ -1662,7 +1668,7 @@ msgid "Switch to First Pane"
 msgstr "Cambiar al primer panel"
 
 msgid "Toggle Text Mode"
-msgstr "Conmutar el modo texto"
+msgstr "Cambiar a Modo Texto"
 
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
@@ -1751,6 +1757,7 @@ msgstr "Atajo"
 #. TRANS: This should be a list of all translators of this language
 msgid "translator-credits"
 msgstr ""
+"Leonardo Masuero <leoen25demayo@gmail.com>, 2019\n"
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2011\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2009-2011\n"
 "Leandro Leites <laloleites@gmail.com>\n"
