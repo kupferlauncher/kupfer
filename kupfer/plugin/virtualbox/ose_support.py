@@ -6,9 +6,8 @@ Control VirtualBox via command-line interface.
 Support both Sun VirtualBox and VirtualBox OpenSource Edition.
 '''
 
-
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-__version__ = '0.3'
+__version__ = '2018-10-21'
 
 import os
 from xml.dom import minidom
@@ -16,22 +15,25 @@ from xml.dom import minidom
 from kupfer import pretty, utils
 from kupfer.plugin.virtualbox import constants as vbox_const
 
-_VBOX_CONFIG_DIR = os.path.expanduser('~/.VirtualBox/')
-_VBOX_CONFIG_FILE = os.path.join(_VBOX_CONFIG_DIR, 'VirtualBox.xml')
+_VBOX_CONFIG_DIRS = (
+    os.path.expanduser('~/.config/VirtualBox/'),
+    os.path.expanduser('~/.VirtualBox/')
+)
+_VBOX_CONFIG_FILE = 'VirtualBox.xml'
 
-MONITORED_DIRS = (_VBOX_CONFIG_DIR, )
+MONITORED_DIRS = _VBOX_CONFIG_DIRS
 IS_DYNAMIC = False
 ICON = "virtualbox-ose"
 APP_ID = "virtualbox-ose"
 
 # parameters for VBoxManage
 _ACTIONS = {
-        vbox_const.VM_POWEROFF: 'poweroff',
-        vbox_const.VM_ACPI_POWEROFF: 'acpipowerbutton',
-        vbox_const.VM_PAUSE: 'pause',
-        vbox_const.VM_REBOOT: 'reset',
-        vbox_const.VM_RESUME: 'resume',
-        vbox_const.VM_SAVE: 'savestate',
+    vbox_const.VM_POWEROFF: 'poweroff',
+    vbox_const.VM_ACPI_POWEROFF: 'acpipowerbutton',
+    vbox_const.VM_PAUSE: 'pause',
+    vbox_const.VM_REBOOT: 'reset',
+    vbox_const.VM_RESUME: 'resume',
+    vbox_const.VM_SAVE: 'savestate',
 }
 
 
@@ -53,7 +55,8 @@ def get_machine_state(vm_uuid):
         elif str_state == 'saved':
             state = vbox_const.VM_STATE_SAVED
     except IOError as err:
-        pretty.print_error(__name__, 'get_machine_state', vm_uuid, 'error', err)
+        pretty.print_error(__name__, 'get_machine_state', vm_uuid,
+                           'error', err)
         state = vbox_const.VM_STATE_POWEROFF
 
     return state
@@ -82,12 +85,13 @@ def _get_virtual_machines(config_file):
     try:
         dtree = minidom.parse(config_file)
         machine_registry = dtree.getElementsByTagName('MachineRegistry')[0]
+        print(machine_registry)
         for machine in machine_registry.getElementsByTagName('MachineEntry'):
             yield (machine.getAttribute('uuid')[1:-1],
-                    machine.getAttribute('src'))
+                   machine.getAttribute('src'))
     except Exception as err:
         pretty.print_error(__name__, '_get_virtual_machines', config_file,
-                'error', err)
+                           'error', err)
 
 
 def _get_machine_info(vm_uuid, config_file):
@@ -111,16 +115,19 @@ def _get_machine_info(vm_uuid, config_file):
                 break
         return (name, description or os_type)
     except Exception as err:
-        pretty.print_error(__name__, '_get_machine_info', vm_uuid, 'error' + \
-                config_file, err)
+        pretty.print_error(__name__, '_get_machine_info', vm_uuid, 'error' +
+                           config_file, err)
     return None, None
 
 
 def get_machines():
-    if os.path.isfile(_VBOX_CONFIG_FILE):
-        for vm_uuid, config in _get_virtual_machines(_VBOX_CONFIG_FILE):
+    for dirname in _VBOX_CONFIG_DIRS:
+        vbox_conf = os.path.join(dirname, _VBOX_CONFIG_FILE)
+        if not os.path.isfile(vbox_conf):
+            continue
+        for vm_uuid, config in _get_virtual_machines(vbox_conf):
             if not os.path.isabs(config):
-                config = os.path.join(os.path.dirname(_VBOX_CONFIG_FILE), config)
+                config = os.path.join(dirname, config)
             name, description = _get_machine_info(vm_uuid, config)
             if name:
                 yield (vm_uuid, name, description)

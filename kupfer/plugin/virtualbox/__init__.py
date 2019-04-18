@@ -4,7 +4,7 @@ __kupfer_name__ = _("VirtualBox")
 __kupfer_sources__ = ("VBoxMachinesSource", )
 __description__ = _("Control VirtualBox Virtual Machines. "
                     "Supports both Sun VirtualBox and Open Source Edition.")
-__version__ = "0.3"
+__version__ = "0.4"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 from kupfer.objects import Leaf, Action, Source

@@ -1,4 +1,4 @@
-__kupfer_name__ = _("Documents")
+:__kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", "IgnoredApps", )
 __kupfer_actions__ = ("Toggle", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
@@ -27,6 +27,13 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "type": int,
         "value": 28,
     },
+    {
+        "key" : "check_doc_exist",
+        "label": _("Show only existing documents"),
+        "type": bool,
+        "value": True,
+
+    }
 )
 
 ALIASES = {
@@ -74,7 +81,7 @@ class RecentsSource (Source):
         # too many updates?
         self._get.cache_clear()
         self.mark_for_update()
-    
+
     def get_items(self):
         max_days = __kupfer_settings__["max_days"]
         return self._get_items(max_days)
@@ -87,11 +94,12 @@ class RecentsSource (Source):
 
         items = manager.get_items()
         item_leaves = []
+        check_doc_exist = __kupfer_settings__["check_doc_exist"]
         for item in items:
             day_age = item.get_age()
             if max_days >= 0 and day_age > max_days:
                 continue
-            if not item.exists():
+            if check_doc_exist and not item.exists():
                 continue
             if item.get_private_hint():
                 continue
@@ -206,7 +214,7 @@ class ApplicationRecentsSource (RecentsSource):
 
 class PlacesSource (Source):
     """
-    Source for items from gtk bookmarks 
+    Source for items from gtk bookmarks
     """
     def __init__(self):
         super(PlacesSource, self).__init__(_("Places"))
@@ -215,7 +223,7 @@ class PlacesSource (Source):
 
     def initialize(self):
         self.places_file = path.join(base.xdg_config_home, "gtk-3.0", "bookmarks")
-    
+
     def get_items(self):
         """
         gtk-bookmarks: each line has url and optional title
