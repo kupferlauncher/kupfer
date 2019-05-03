@@ -1,4 +1,4 @@
-:__kupfer_name__ = _("Documents")
+__kupfer_name__ = _("Documents")
 __kupfer_sources__ = ("RecentsSource", "PlacesSource", "IgnoredApps", )
 __kupfer_actions__ = ("Toggle", )
 __kupfer_contents__ = ("ApplicationRecentsSource", )
