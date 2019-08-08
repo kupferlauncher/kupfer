@@ -1,18 +1,17 @@
-# encoding: utf-8
-
-
 __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
 __kupfer_actions__ = ()
 __description__ = _("Index of Firefox bookmarks")
-__version__ = "2017.1"
-__author__ = "Ulrik, William Friesen, Karol Będkowski"
+__version__ = "2019.1"
+__author__ = "Ulrik Sverdrup, William Friesen, Karol Będkowski, Dario Seidl"
 
 from configparser import RawConfigParser
 from contextlib import closing
 import os
 import sqlite3
 from urllib.parse import quote, urlparse
+from shutil import copy2
+from tempfile import gettempdir
 
 from kupfer import plugin_support
 from kupfer.objects import Source, Action, Leaf
@@ -42,9 +41,17 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
         fpath = get_firefox_home_file("places.sqlite")
         if not (fpath and os.path.isfile(fpath)):
             return []
+        tmp = gettempdir()
+        tmpd = os.path.join(tmp, "kupfer")
+        if not os.path.exists(tmpd):
+            os.makedirs(tmpd)
+        tmpfpath = os.path.join(tmpd, "places.sqlite")
+        if not os.path.isfile(tmpfpath):
+            copy2(fpath, tmpfpath)
         try:
-            self.output_debug("Reading bookmarks from", fpath)
-            with closing(sqlite3.connect(fpath, timeout=1)) as conn:
+            copy2(fpath, tmpfpath)
+            self.output_debug("Reading bookmarks from", tmpfpath)
+            with closing(sqlite3.connect(tmpfpath, timeout=1)) as conn:
                 c = conn.cursor()
                 c.execute("""SELECT moz_places.url, moz_bookmarks.title
                              FROM moz_places, moz_bookmarks

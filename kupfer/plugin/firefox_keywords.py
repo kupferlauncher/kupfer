@@ -3,14 +3,16 @@ __kupfer_sources__ = ("KeywordsSource", )
 __kupfer_text_sources__ = ("KeywordSearchSource", )
 __kupfer_actions__ = ("SearchWithEngine", )
 __description__ = _("Search the web with Firefox keywords")
-__version__ = "2017.1"
-__author__ = ""
+__version__ = "2019.1"
+__author__ = "Ulrik Sverdrup, Dario Seidl"
 
 from configparser import RawConfigParser
 from contextlib import closing
 import os
 import sqlite3
 from urllib.parse import quote, urlparse
+from shutil import copy2
+from tempfile import gettempdir
 
 from kupfer import plugin_support
 from kupfer.objects import Source, Action, Leaf
@@ -104,9 +106,16 @@ class KeywordsSource (Source, FilesystemWatchMixin):
         fpath = get_firefox_home_file("places.sqlite")
         if not (fpath and os.path.isfile(fpath)):
             return []
+        tmp = gettempdir()
+        tmpd = os.path.join(tmp, "kupfer")
+        if not os.path.exists(tmpd):
+            os.makedirs(tmpd)
+        tmpfpath = os.path.join(tmpd, "places.sqlite")
+        if not os.path.isfile(tmpfpath):
+            copy2(fpath, tmpfpath)
         try:
-            self.output_debug("Reading bookmarks from", fpath)
-            with closing(sqlite3.connect(fpath, timeout=1)) as conn:
+            self.output_debug("Reading bookmarks from", tmpfpath)
+            with closing(sqlite3.connect(tmpfpath, timeout=1)) as conn:
                 c = conn.cursor()
                 c.execute("""SELECT moz_places.url, moz_places.title, moz_keywords.keyword
                              FROM moz_places, moz_keywords
