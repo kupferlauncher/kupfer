@@ -105,6 +105,8 @@ class KeywordsSource (Source, FilesystemWatchMixin):
         if not (fpath and os.path.isfile(fpath)):
             return []
         try:
+            fpath = fpath.replace("?", "%3f").replace("#", '%23')
+            fpath = 'file:' + fpath + '?immutable=1'
             self.output_debug("Reading bookmarks from", fpath)
             with closing(sqlite3.connect(fpath, timeout=1)) as conn:
                 c = conn.cursor()
@@ -267,4 +269,3 @@ def _query_url(terms, search_url):
     """Show an url searching for @search_url with @terms"""
     query_url = search_url.replace("%s", quote(terms))
     return query_url
-
