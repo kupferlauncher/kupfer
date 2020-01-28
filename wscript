@@ -189,14 +189,16 @@ def _new_package(bld, name):
     obj = bld("py")
     node = bld.path.find_dir(name)
     obj.source = node.ant_glob("*.py")
-    obj.install_path = "${PYTHONDIR}/%s" % name
+    obj.install_path = "${PYTHONDIR}/"
 
     # Find embedded package datafiles
     pkgnode = bld.path.find_dir(name)
-
-    bld.install_files(obj.install_path, pkgnode.ant_glob("icon-list"))
-    bld.install_files(obj.install_path, pkgnode.ant_glob("*.png"))
-    bld.install_files(obj.install_path, pkgnode.ant_glob("*.svg"))
+    bld.install_files(obj.install_path, pkgnode.ant_glob("icon-list"),
+                      relative_trick=True)
+    bld.install_files(obj.install_path, pkgnode.ant_glob("*.png"),
+                      relative_trick=True)
+    bld.install_files(obj.install_path, pkgnode.ant_glob("*.svg"),
+                      relative_trick=True)
 
 def _find_packages_in_directory(bld, name):
     """Go through directory @name and recursively add all
@@ -253,7 +255,7 @@ def build(bld):
         bld(
             source = "Documentation/Manpage.rst",
             target = "kupfer.1",
-            rule = '%s ${SRC} > ${TGT}' % bld.env["RST2MAN"],
+            rule = '%s ${SRC} > ${TGT}' % bld.env["RST2MAN"][0],
         )
         bld.add_group()
         # compress and install man page
@@ -301,5 +303,3 @@ def test(bld):
 
 def shutdown(bld):
     pass
-
-

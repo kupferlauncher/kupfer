@@ -31,7 +31,7 @@ def build(bld):
         return bld(
             features="intltool_in",
             podir="../po",
-            flags = ("-d", "-q", "-u", "-c"),
+            flags = ("-d", "-q", "-u"),
             source = desktop_subst_file  + ".in",
             target = desktop_subst_file,
             install_path = "${DATADIR}/applications",
@@ -56,7 +56,7 @@ def build(bld):
     bld(
         features="intltool_in",
         podir="../po",
-        flags = ("-x", "-q", "-u", "-c"),
+        flags = ("-x", "-q", "-u"),
         source = mimetypes_file  + ".in",
         target = mimetypes_file,
         install_path = "${DATADIR}/mime/packages/",

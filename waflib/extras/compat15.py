@@ -3,7 +3,8 @@
 # Thomas Nagy, 2010 (ita)
 
 """
-This file is provided to enable compatibility with waf 1.5, it will be removed in waf 1.7
+This file is provided to enable compatibility with waf 1.5
+It was enabled by default in waf 1.6, but it is not used in waf 1.7
 """
 
 import sys
@@ -23,6 +24,9 @@ sys.modules['Node'] = Node
 sys.modules['Runner'] = Runner
 sys.modules['TaskGen'] = TaskGen
 sys.modules['Utils'] = Utils
+sys.modules['Constants'] = Context
+Context.SRCDIR = ''
+Context.BLDDIR = ''
 
 from waflib.Tools import c_preproc
 sys.modules['preproc'] = c_preproc
@@ -33,13 +37,50 @@ sys.modules['config_c'] = c_config
 ConfigSet.ConfigSet.copy = ConfigSet.ConfigSet.derive
 ConfigSet.ConfigSet.set_variant = Utils.nada
 
+Utils.pproc = Utils.subprocess
+
 Build.BuildContext.add_subdirs = Build.BuildContext.recurse
 Build.BuildContext.new_task_gen = Build.BuildContext.__call__
 Build.BuildContext.is_install = 0
 Node.Node.relpath_gen = Node.Node.path_from
 
+Utils.pproc = Utils.subprocess
+Utils.get_term_cols = Logs.get_term_cols
+
+def cmd_output(cmd, **kw):
+
+	silent = False
+	if 'silent' in kw:
+		silent = kw['silent']
+		del(kw['silent'])
+
+	if 'e' in kw:
+		tmp = kw['e']
+		del(kw['e'])
+		kw['env'] = tmp
+
+	kw['shell'] = isinstance(cmd, str)
+	kw['stdout'] = Utils.subprocess.PIPE
+	if silent:
+		kw['stderr'] = Utils.subprocess.PIPE
+
+	try:
+		p = Utils.subprocess.Popen(cmd, **kw)
+		output = p.communicate()[0]
+	except OSError as e:
+		raise ValueError(str(e))
+
+	if p.returncode:
+		if not silent:
+			msg = "command execution failed: %s -> %r" % (cmd, str(output))
+			raise ValueError(msg)
+		output = ''
+	return output
+Utils.cmd_output = cmd_output
+
 def name_to_obj(self, s, env=None):
-	Logs.warn('compat: change "name_to_obj(name, env)" by "get_tgen_by_name(name)"')
+	if Logs.verbose:
+		Logs.warn('compat: change "name_to_obj(name, env)" by "get_tgen_by_name(name)"')
 	return self.get_tgen_by_name(s)
 Build.BuildContext.name_to_obj = name_to_obj
 
@@ -65,7 +106,8 @@ def retrieve(self, name, fromenv=None):
 		self.prepare_env(env)
 		self.all_envs[name] = env
 	else:
-		if fromenv: Logs.warn("The environment %s may have been configured already" % name)
+		if fromenv:
+			Logs.warn('The environment %s may have been configured already', name)
 	return env
 Configure.ConfigurationContext.retrieve = retrieve
 
@@ -73,13 +115,14 @@ Configure.ConfigurationContext.sub_config = Configure.ConfigurationContext.recur
 Configure.ConfigurationContext.check_tool = Configure.ConfigurationContext.load
 Configure.conftest = Configure.conf
 Configure.ConfigurationError = Errors.ConfigurationError
+Utils.WafError = Errors.WafError
 
 Options.OptionsContext.sub_options = Options.OptionsContext.recurse
 Options.OptionsContext.tool_options = Context.Context.load
 Options.Handler = Options.OptionsContext
 
 Task.simple_task_type = Task.task_type_from_func = Task.task_factory
-Task.TaskBase.classes = Task.classes
+Task.Task.classes = Task.classes
 
 def setitem(self, key, value):
 	if key.startswith('CCFLAGS'):
@@ -98,26 +141,48 @@ eld = Context.load_tool
 def load_tool(*k, **kw):
 	ret = eld(*k, **kw)
 	if 'set_options' in ret.__dict__:
-		Logs.warn('compat: rename "set_options" to options')
+		if Logs.verbose:
+			Logs.warn('compat: rename "set_options" to options')
 		ret.options = ret.set_options
 	if 'detect' in ret.__dict__:
-		Logs.warn('compat: rename "detect" to "configure"')
+		if Logs.verbose:
+			Logs.warn('compat: rename "detect" to "configure"')
 		ret.configure = ret.detect
 	return ret
 Context.load_tool = load_tool
 
+def get_curdir(self):
+	return self.path.abspath()
+Context.Context.curdir = property(get_curdir, Utils.nada)
+
+def get_srcdir(self):
+	return self.srcnode.abspath()
+Configure.ConfigurationContext.srcdir = property(get_srcdir, Utils.nada)
+
+def get_blddir(self):
+	return self.bldnode.abspath()
+Configure.ConfigurationContext.blddir = property(get_blddir, Utils.nada)
+
+Configure.ConfigurationContext.check_message_1 = Configure.ConfigurationContext.start_msg
+Configure.ConfigurationContext.check_message_2 = Configure.ConfigurationContext.end_msg
+
 rev = Context.load_module
-def load_module(path):
-	ret = rev(path)
+def load_module(path, encoding=None):
+	ret = rev(path, encoding)
 	if 'set_options' in ret.__dict__:
-		Logs.warn('compat: rename "set_options" to "options" (%r)' % path)
+		if Logs.verbose:
+			Logs.warn('compat: rename "set_options" to "options" (%r)', path)
 		ret.options = ret.set_options
 	if 'srcdir' in ret.__dict__:
-		Logs.warn('compat: rename "srcdir" to "top" (%r)' % path)
+		if Logs.verbose:
+			Logs.warn('compat: rename "srcdir" to "top" (%r)', path)
 		ret.top = ret.srcdir
 	if 'blddir' in ret.__dict__:
-		Logs.warn('compat: rename "blddir" to "out" (%r)' % path)
+		if Logs.verbose:
+			Logs.warn('compat: rename "blddir" to "out" (%r)', path)
 		ret.out = ret.blddir
+	Utils.g_module = Context.g_module
+	Options.launch_dir = Context.launch_dir
 	return ret
 Context.load_module = load_module
 
@@ -125,15 +190,18 @@ old_post = TaskGen.task_gen.post
 def post(self):
 	self.features = self.to_list(self.features)
 	if 'cc' in self.features:
-		Logs.warn('compat: the feature cc does not exist anymore (use "c")')
+		if Logs.verbose:
+			Logs.warn('compat: the feature cc does not exist anymore (use "c")')
 		self.features.remove('cc')
 		self.features.append('c')
 	if 'cstaticlib' in self.features:
-		Logs.warn('compat: the feature cstaticlib does not exist anymore (use "cstlib" or "cxxstlib")')
+		if Logs.verbose:
+			Logs.warn('compat: the feature cstaticlib does not exist anymore (use "cstlib" or "cxxstlib")')
 		self.features.remove('cstaticlib')
 		self.features.append(('cxx' in self.features) and 'cxxstlib' or 'cstlib')
 	if getattr(self, 'ccflags', None):
-		Logs.warn('compat: "ccflags" was renamed to "cflags"')
+		if Logs.verbose:
+			Logs.warn('compat: "ccflags" was renamed to "cflags"')
 		self.cflags = self.ccflags
 	return old_post(self)
 TaskGen.task_gen.post = post
@@ -161,10 +229,12 @@ def apply_uselib_local(self):
 	self.includes = self.to_list(getattr(self, 'includes', []))
 	names = self.to_list(getattr(self, 'uselib_local', []))
 	get = self.bld.get_tgen_by_name
-	seen = set([])
+	seen = set()
+	seen_uselib = set()
 	tmp = Utils.deque(names) # consume a copy of the list of names
 	if tmp:
-		Logs.warn('compat: "uselib_local" is deprecated, replace by "use"')
+		if Logs.verbose:
+			Logs.warn('compat: "uselib_local" is deprecated, replace by "use"')
 	while tmp:
 		lib_name = tmp.popleft()
 		# visit dependencies only once
@@ -207,9 +277,11 @@ def apply_uselib_local(self):
 
 		# add ancestors uselib too - but only propagate those that have no staticlib defined
 		for v in self.to_list(getattr(y, 'uselib', [])):
-			if not env['STLIB_' + v]:
-				if not v in self.uselib:
-					self.uselib.insert(0, v)
+			if v not in seen_uselib:
+				seen_uselib.add(v)
+				if not env['STLIB_' + v]:
+					if not v in self.uselib:
+						self.uselib.insert(0, v)
 
 		# if the library task generator provides 'export_includes', add to the include path
 		# the export_includes must be a list of paths relative to the other library
@@ -244,10 +316,12 @@ def apply_objdeps(self):
 			lst = y.to_list(y.add_objects)
 			lst.reverse()
 			for u in lst:
-				if u in seen: continue
+				if u in seen:
+					continue
 				added = 1
 				names = [u]+names
-			if added: continue # list of names modified, loop
+			if added:
+				continue # list of names modified, loop
 
 		# safe to process the current object
 		y.post()
@@ -269,24 +343,26 @@ def add_obj_file(self, file):
 	"""Small example on how to link object files as if they were source
 	obj = bld.create_obj('cc')
 	obj.add_obj_file('foo.o')"""
-	if not hasattr(self, 'obj_files'): self.obj_files = []
-	if not 'process_obj_files' in self.meths: self.meths.append('process_obj_files')
+	if not hasattr(self, 'obj_files'):
+		self.obj_files = []
+	if not 'process_obj_files' in self.meths:
+		self.meths.append('process_obj_files')
 	self.obj_files.append(file)
 
 
 old_define = Configure.ConfigurationContext.__dict__['define']
 
 @Configure.conf
-def define(self, key, val, quote=True):
-	old_define(self, key, val, quote)
+def define(self, key, val, quote=True, comment=''):
+	old_define(self, key, val, quote, comment)
 	if key.startswith('HAVE_'):
 		self.env[key] = 1
 
 old_undefine = Configure.ConfigurationContext.__dict__['undefine']
 
 @Configure.conf
-def undefine(self, key):
-	old_undefine(self, key)
+def undefine(self, key, comment=''):
+	old_undefine(self, key, comment)
 	if key.startswith('HAVE_'):
 		self.env[key] = 0
 
@@ -295,4 +371,36 @@ def set_incdirs(self, val):
 	Logs.warn('compat: change "export_incdirs" by "export_includes"')
 	self.export_includes = val
 TaskGen.task_gen.export_incdirs = property(None, set_incdirs)
+
+def install_dir(self, path):
+	if not path:
+		return []
+
+	destpath = Utils.subst_vars(path, self.env)
+
+	if self.is_install > 0:
+		Logs.info('* creating %s', destpath)
+		Utils.check_dir(destpath)
+	elif self.is_install < 0:
+		Logs.info('* removing %s', destpath)
+		try:
+			os.remove(destpath)
+		except OSError:
+			pass
+Build.BuildContext.install_dir = install_dir
+
+# before/after names
+repl = {'apply_core': 'process_source',
+	'apply_lib_vars': 'process_source',
+	'apply_obj_vars': 'propagate_uselib_vars',
+	'exec_rule': 'process_rule'
+}
+def after(*k):
+	k = [repl.get(key, key) for key in k]
+	return TaskGen.after_method(*k)
+
+def before(*k):
+	k = [repl.get(key, key) for key in k]
+	return TaskGen.before_method(*k)
+TaskGen.before = before
 

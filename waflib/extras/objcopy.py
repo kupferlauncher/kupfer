@@ -3,7 +3,7 @@
 
 """
 Support for converting linked targets to ihex, srec or binary files using
-objcopy. Use the 'objcopy' feature in conjuction with the 'cc' or 'cxx'
+objcopy. Use the 'objcopy' feature in conjunction with the 'cc' or 'cxx'
 feature. The 'objcopy' feature uses the following attributes:
 
 objcopy_bfdname		Target object format name (eg. ihex, srec, binary).
@@ -15,7 +15,7 @@ objcopy_flags		  Additional flags passed to objcopy.
 """
 
 from waflib.Utils import def_attrs
-from waflib import Task
+from waflib import Task, Options
 from waflib.TaskGen import feature, after_method
 
 class objcopy(Task.Task):
@@ -24,7 +24,7 @@ class objcopy(Task.Task):
 
 @feature('objcopy')
 @after_method('apply_link')
-def objcopy(self):
+def map_objcopy(self):
 	def_attrs(self,
 	   objcopy_bfdname = 'ihex',
 	   objcopy_target = None,
@@ -34,9 +34,7 @@ def objcopy(self):
 	link_output = self.link_task.outputs[0]
 	if not self.objcopy_target:
 		self.objcopy_target = link_output.change_ext('.' + self.objcopy_bfdname).name
-	task = self.create_task('objcopy',
-							src=link_output,
-							tgt=self.path.find_or_declare(self.objcopy_target))
+	task = self.create_task('objcopy', src=link_output, tgt=self.path.find_or_declare(self.objcopy_target))
 
 	task.env.append_unique('TARGET_BFDNAME', self.objcopy_bfdname)
 	try:
@@ -45,10 +43,11 @@ def objcopy(self):
 		pass
 
 	if self.objcopy_install_path:
-		self.bld.install_files(self.objcopy_install_path,
-							   task.outputs[0],
-							   env=task.env.derive())
+		self.add_install_files(install_to=self.objcopy_install_path, install_from=task.outputs[0])
 
 def configure(ctx):
-	objcopy = ctx.find_program('objcopy', var='OBJCOPY', mandatory=True)
-
+	program_name = 'objcopy'
+	prefix = getattr(Options.options, 'cross_prefix', None)
+	if prefix:
+		program_name = '{}-{}'.format(prefix, program_name)
+	ctx.find_program(program_name, var='OBJCOPY', mandatory=True)

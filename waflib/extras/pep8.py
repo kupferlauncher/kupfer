@@ -9,7 +9,7 @@ $ easy_install pep8
 	or
 $ pip install pep8
 
-To add the boost tool to the waf file:
+To add the pep8 tool to the waf file:
 $ ./waf-light --tools=compat15,pep8
 	or, if you have waf >= 1.6.2
 $ ./waf update --files=pep8
@@ -24,7 +24,7 @@ def run_pep8(self, node):
 '''
 
 import threading
-from waflib import TaskGen, Task, Options
+from waflib import Task, Options
 
 pep8 = __import__('pep8')
 

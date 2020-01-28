@@ -15,7 +15,7 @@ It is likely to break in the following cases:
 """
 
 import re
-from waflib import Options, Task, Logs
+from waflib import Options, Task
 from waflib.Build import BuildContext
 
 class MakeContext(BuildContext):
@@ -48,7 +48,7 @@ class MakeContext(BuildContext):
 			for pat in self.files.split(','):
 				matcher = self.get_matcher(pat)
 				for tg in g:
-					if isinstance(tg, Task.TaskBase):
+					if isinstance(tg, Task.Task):
 						lst = [tg]
 					else:
 						lst = tg.tasks
@@ -56,7 +56,7 @@ class MakeContext(BuildContext):
 						all_tasks.append(tsk)
 
 						do_exec = False
-						for node in getattr(tsk, 'inputs', []):
+						for node in tsk.inputs:
 							try:
 								uses[node].append(tsk)
 							except:
@@ -66,7 +66,7 @@ class MakeContext(BuildContext):
 								do_exec = True
 								break
 
-						for node in getattr(tsk, 'outputs', []):
+						for node in tsk.outputs:
 							try:
 								provides[node].append(tsk)
 							except:
@@ -86,14 +86,14 @@ class MakeContext(BuildContext):
 				result = all_tasks
 			else:
 				# this is like a big filter...
-				result = set([])
-				seen = set([])
+				result = set()
+				seen = set()
 				cur = set(tasks)
 				while cur:
 					result |= cur
-					tosee = set([])
+					tosee = set()
 					for tsk in cur:
-						for node in getattr(tsk, 'inputs', []):
+						for node in tsk.inputs:
 							if node in seen:
 								continue
 							seen.add(node)
@@ -129,9 +129,9 @@ class MakeContext(BuildContext):
 			pattern = re.compile(pat)
 
 		def match(node, output):
-			if output == True and not out:
+			if output and not out:
 				return False
-			if output == False and not inn:
+			if not output and not inn:
 				return False
 
 			if anode:

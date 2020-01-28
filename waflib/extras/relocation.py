@@ -15,7 +15,7 @@ files in that directory will change, causing a partial build.
 
 import os
 from waflib import Build, ConfigSet, Task, Utils, Errors
-from waflib.TaskGen import feature, before_method, after_method
+from waflib.TaskGen import feature, after_method
 
 EXTRA_LOCK = '.old_srcdir'
 
@@ -64,7 +64,7 @@ def uid(self):
 	try:
 		return self.uid_
 	except AttributeError:
-		# this is not a real hot zone, but we want to avoid surprizes here
+		# this is not a real hot zone, but we want to avoid surprises here
 		m = Utils.md5()
 		up = m.update
 		up(self.__class__.__name__.encode())

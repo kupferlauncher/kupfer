@@ -16,7 +16,7 @@ def options(opt):
 	opt.load('package')
 
 def configure(conf):
-    conf.load_packages()
+	conf.load_packages()
 """
 
 from waflib import Logs
@@ -24,7 +24,7 @@ from waflib.Configure import conf
 
 try:
 	from urllib import request
-except:
+except ImportError:
 	from urllib import urlopen
 else:
 	urlopen = request.urlopen
@@ -64,13 +64,13 @@ def download_archive(self, src, dst):
 		else:
 			tmp = self.root.make_node(dst)
 			tmp.write(web.read())
-			Logs.warn('Downloaded %s from %s' % (tmp.abspath(), url))
+			Logs.warn('Downloaded %s from %s', tmp.abspath(), url)
 			break
 	else:
 		self.fatal('Could not get the package %s' % src)
 
 @conf
 def load_packages(self):
-	cache = self.get_package_cache_dir()
+	self.get_package_cache_dir()
 	# read the dependencies, get the archives, ..
 

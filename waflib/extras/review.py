@@ -79,18 +79,12 @@ class Odict(dict):
 		return p
 
 	def __str__(self):
-		s = "{"
-		l = len(self._keys)
+		buf = []
+		buf.append("{ ")
 		for k, v in self.items():
-			l -= 1
-			strkey = str(k)
-			if isinstance(k, basestring): strkey = "'"+strkey+"'"
-			strval = str(v)
-			if isinstance(v, basestring): strval = "'"+strval+"'"
-			s += strkey + ":" + strval
-			if l > 0: s += ", "
-		s += "}"
-		return s
+			buf.append('%r : %r, ' % (k, v))
+		buf.append("}")
+		return ''.join(buf)
 
 review_options = Odict()
 """
@@ -248,7 +242,8 @@ class ReviewContext(Context.Context):
 		"""
 		Return true if the review sets specified are equal.
 		"""
-		if len(set1.keys()) != len(set2.keys()): return False
+		if len(set1.keys()) != len(set2.keys()):
+			return False
 		for key in set1.keys():
 			if not key in set2 or set1[key] != set2[key]:
 				return False
@@ -265,7 +260,8 @@ class ReviewContext(Context.Context):
 			name = ", ".join(opt._short_opts + opt._long_opts)
 			help = opt.help
 			actual = None
-			if dest in review_set: actual = review_set[dest]
+			if dest in review_set:
+				actual = review_set[dest]
 			default = review_defaults[dest]
 			lines.append(self.format_option(name, help, actual, default, term_width))
 		return "Configuration:\n\n" + "\n\n".join(lines) + "\n"
@@ -284,7 +280,8 @@ class ReviewContext(Context.Context):
 
 		w = textwrap.TextWrapper()
 		w.width = term_width - 1
-		if w.width < 60: w.width = 60
+		if w.width < 60:
+			w.width = 60
 
 		out = ""
 
