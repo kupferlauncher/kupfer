@@ -165,9 +165,11 @@ class ApplicationsMatcherService (pretty.OutputMixin):
     def _store(self, app_id, window):
         # FIXME: Store the 'res_class' name?
         application = window.get_application()
+        res_class = window.get_class_group().get_res_class()
         store_name = application.get_name()
-        self.register[app_id] = store_name
-        self.output_debug("storing application", app_id, "as", store_name)
+        self.register[app_id] = res_class
+        self.output_debug("storing application", app_id, "as", store_name,
+                          "res_class", res_class)
 
     def _has_match(self, app_id):
         return app_id in self.register
