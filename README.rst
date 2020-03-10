@@ -65,7 +65,7 @@ Build Requirements
 * Python 3
 * intltool
 * optionally: rst2man (python-docutils)  to install the manpage
-* optionally: xml2po (gnome-doc-utils)  to install mallard help pages
+* optionally: itstool  to install mallard help pages
 
 Runtime Requirements
 --------------------

@@ -5,17 +5,15 @@
 # This file is needed for GNOME's translation infrastructure,
 # but it is never used as a real Makefile.
 #
-# Define all languages for translation in the variable DOC_LINGUAS
+# Define all languages for translation in the variable HELP_LINGUAS
 #
 
 
-# include $(top_srcdir)/gnome-doc-utils.make
+# @YELP_HELP_RULES@
 
-DOC_ID = kupfer
-DOC_INCLUDES =
-DOC_FIGURES =
+HELP_ID = kupfer
 
-DOC_PAGES = \
+HELP_FILES = \
 	generalusage.page \
 	index.page \
 	introduction.page \
@@ -34,7 +32,7 @@ DOC_PAGES = \
 	plugin-websearch.page
 
 
-DOC_LINGUAS = cs de el es fr it pl ro sl
+HELP_LINGUAS = cs de el es fr it pl ro sl
 
 
 # dist-hook: doc-dist-hook
