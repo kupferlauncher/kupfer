@@ -1,7 +1,7 @@
 __kupfer_name__ = _("Window List")
 __kupfer_sources__ = ("WindowsSource", "WorkspacesSource", )
 __description__ = _("All windows on all workspaces")
-__version__ = "2017.2"
+__version__ = "2020-04-14"
 __author__ = ""
 
 from gi.repository import Wnck
@@ -10,13 +10,43 @@ from kupfer.objects import Leaf, Action, Source, NotAvailableError
 from kupfer.weaklib import gobject_connect_weakly
 
 
+def _get_window(xid):
+    """Get wnck window by xid."""
+    if not xid:
+        return None
+
+    scr = Wnck.Screen.get_default()
+    if not scr:
+        return None
+
+    for wnd in scr.get_windows():
+        if wnd.get_xid() == xid:
+            return wnd
+
+    return None
+
+
+def _get_workspace(idx):
+    """Get wnck workspacke by its number."""
+    scr = Wnck.Screen.get_default()
+    if not scr:
+        return None
+
+    return scr.get_workspace(self.object)
+
+
 class WindowLeaf (Leaf):
+    # object = window xid
+
     def get_actions(self):
         yield WindowActivateWorkspace()
         yield WindowMoveToWorkspace()
         yield WindowAction(_("Activate"), "activate", time=True)
 
-        W = self.object
+        W = _get_window(self.object)
+        if not W:
+            return
+
         T = type(W)
         yield ToggleAction(_("Shade"), _("Unshade"),
                 "shade", "unshade",
@@ -36,12 +66,18 @@ class WindowLeaf (Leaf):
         yield WindowAction(_("Close"), "close", time=True, icon="window-close")
 
     def is_valid(self):
-        return self.object and self.object.get_xid()
+        wnd = _get_window(self.object)
+        return wnd and wnd.get_xid() == self.object
 
     def get_description(self):
-        workspace = self.object.get_workspace()
+        wnd = _get_window(self.object)
+        if not wnd:
+            return ""
+
+        workspace = wnd.get_workspace()
         if not workspace:
             return ""
+
         _nr, name = workspace.get_number(), workspace.get_name()
         # TRANS: Window on (Workspace name), window description
         return _("Window on %(wkspc)s") % {"wkspc": name}
@@ -106,11 +142,15 @@ class WindowActivateWorkspace (Action):
     def wants_context(self):
         return True
     def activate (self, leaf, ctx):
-        window = leaf.object
+        window = _get_window(leaf.object)
+        if not window:
+            return
+
         workspace = window.get_workspace()
         time = ctx.environment.get_timestamp()
         workspace.activate(time)
         window.activate(time)
+
     def get_description(self):
         return _("Jump to this window's workspace and focus")
     def get_icon_name(self):
@@ -124,8 +164,14 @@ class WindowMoveToWorkspace (Action):
         return True
 
     def activate(self, leaf, iobj, ctx):
-        window = leaf.object
-        workspace = iobj.object
+        window = _get_window(leaf.object)
+        if not window:
+            return
+
+        workspace = _get_workspace(iobj.object)
+        if not workspace:
+            return
+
         window.move_to_workspace(workspace)
         time = ctx.environment.get_timestamp()
         workspace.activate(time)
@@ -139,8 +185,8 @@ class WindowMoveToWorkspace (Action):
         return WorkspacesSource()
 
     def valid_object(self, iobj, for_item):
-        window = for_item.object
-        return not window.is_on_workspace(iobj.object)
+        window = _get_window(for_item.object)
+        return window and window.get_workspace().get_number() != iobj.object
 
     def get_icon_name(self):
         return "forward"
@@ -165,7 +211,10 @@ class WindowAction (Action):
 
     @classmethod
     def _perform_action(cls, action_attr, leaf, time=None):
-        window = leaf.object
+        window = _get_window(leaf.object)
+        if not window:
+            return
+
         action_method = getattr(window, action_attr)
         if time is not None:
             action_method(time)
@@ -198,7 +247,11 @@ class ToggleAction (WindowAction):
         self.uaction = uaction
 
     def activate(self, leaf, ctx):
-        if self.predicate(leaf.object):
+        wnd = _get_window(leaf.object)
+        if not wnd:
+            return
+
+        if self.predicate(wnd):
             # only use time on the disable action
             time = self._get_time(ctx) if self.time else None
             self._perform_action(self.uaction, leaf, time)
@@ -233,7 +286,7 @@ class WindowsSource (Source):
                 name, app = (win.get_name(), win.get_application().get_name())
                 if name != app and app not in name:
                     name = "%s (%s)" % (name, app)
-                yield WindowLeaf(win, name)
+                yield WindowLeaf(win.get_xid(), name)
 
     def get_description(self):
         return _("All windows on all workspaces")
@@ -243,22 +296,24 @@ class WindowsSource (Source):
         yield WindowLeaf
 
 class Workspace (Leaf):
+    # object = number
     def get_actions(self):
         yield ActivateWorkspace()
     def repr_key(self):
-        return self.object.get_number()
+        return self.object
     def get_icon_name(self):
         return "kupfer-window"
     def get_description(self):
         screen = Wnck.Screen.get_default()
         if screen:
             n_windows = sum([1 for w in screen.get_windows()
-                            if w.get_workspace() == self.object])
+                            if w.get_workspace()
+                            and w.get_workspace().get_number() == self.object])
 
             w_msg = (ngettext("%d window", "%d windows", n_windows) % n_windows)
 
             active_wspc = screen.get_active_workspace()
-            if active_wspc == self.object:
+            if active_wspc.get_number() == self.object:
                 return _("Active workspace") + " (%s)" % w_msg
             if n_windows:
                 return "(%s)" % w_msg
@@ -273,9 +328,10 @@ class ActivateWorkspace (Action):
     def wants_context(self):
         return True
     def activate (self, leaf, ctx):
-        workspace = leaf.object
-        time = ctx.environment.get_timestamp()
-        workspace.activate(time)
+        workspace = _get_workspace(self.object)
+        if workspace:
+            time = ctx.environment.get_timestamp()
+            workspace.activate(time)
 
     def get_description(self):
         return _("Jump to this workspace")
@@ -305,10 +361,9 @@ class WorkspacesSource (Source):
         if screen is None:
             return
         for wspc in screen.get_workspaces():
-            yield Workspace(wspc, wspc.get_name())
+            yield Workspace(wspc.get_number(), wspc.get_name())
 
     def get_icon_name(self):
         return "kupfer-window"
     def provides(self):
         yield Workspace
-
