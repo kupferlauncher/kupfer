@@ -427,13 +427,14 @@ class CloseAll (Action):
         return "window-close"
 
 class UrlLeaf (Leaf, TextRepresentation):
+    serializable = 1
     def __init__(self, obj, name):
         super(UrlLeaf, self).__init__(obj, name or obj)
         if obj != name:
             self.kupfer_add_alias(obj)
 
     def get_actions(self):
-        return (OpenUrl(), )
+        yield OpenUrl()
 
     def get_description(self):
         return self.object
@@ -530,4 +531,3 @@ class TextLeaf (Leaf, TextRepresentation):
 
     def get_icon_name(self):
         return "edit-select-all"
-
