@@ -6,37 +6,38 @@ __kupfer_actions__ = (
         "SearchWithEngine",
     )
 __description__ = _("Search the web with OpenSearch search engines")
-__version__ = ""
+__version__ = "2020-04-19"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import locale
 import os
-import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 import xml.etree.cElementTree as ElementTree
 
 from kupfer.objects import Action, Source, Leaf
 from kupfer.objects import TextLeaf
 from kupfer import utils, config
 
-from kupfer.plugin import firefox_support
+from kupfer.plugin import firefox
 
 
 def _noescape_urlencode(items):
     """Assemble an url param string from @items, without
     using any url encoding.
     """
-    return "?" + "&".join("%s=%s" % (n,v) for n,v in items)
+    return "?" + "&".join("%s=%s" % (n, v) for n, v in items)
+
 
 def _urlencode(word):
     """Urlencode a single string of bytes @word"""
     return urllib.parse.urlencode({"q": word})[2:]
 
+
 def _do_search_engine(terms, search_url, encoding="UTF-8"):
     """Show an url searching for @search_url with @terms"""
-    search_url = search_url.encode(encoding, "ignore")
-    terms_enc = terms.encode(encoding, "ignore")
-    query_url = search_url.replace("{searchTerms}", _urlencode(terms_enc))
+    query_url = search_url.replace("{searchTerms}", _urlencode(terms))
     utils.show_url(query_url)
+
 
 class SearchWithEngine (Action):
     """TextLeaf -> SearchWithEngine -> SearchEngine"""
@@ -53,6 +54,7 @@ class SearchWithEngine (Action):
 
     def requires_object(self):
         return True
+
     def object_types(self):
         yield SearchEngine
 
@@ -61,8 +63,10 @@ class SearchWithEngine (Action):
 
     def get_description(self):
         return _("Search the web with OpenSearch search engines")
+
     def get_icon_name(self):
         return "edit-find"
+
 
 class SearchFor (Action):
     """SearchEngine -> SearchFor -> TextLeaf
@@ -83,20 +87,25 @@ class SearchFor (Action):
 
     def requires_object(self):
         return True
+
     def object_types(self):
         yield TextLeaf
 
     def get_description(self):
         return _("Search the web with OpenSearch search engines")
+
     def get_icon_name(self):
         return "edit-find"
+
 
 class SearchEngine (Leaf):
     def get_description(self):
         desc = self.object.get("Description")
         return desc if desc != str(self) else None
+
     def get_icon_name(self):
         return "text-html"
+
 
 def coroutine(func):
     """Coroutine decorator: Start the coroutine"""
@@ -106,8 +115,14 @@ def coroutine(func):
         return cr
     return startcr
 
+
 class OpenSearchParseError (Exception):
     pass
+
+
+def gettagname(tag):
+    return tag.rsplit("}", 1)[-1]
+
 
 class OpenSearchSource (Source):
     def __init__(self):
@@ -117,11 +132,8 @@ class OpenSearchSource (Source):
     def _parse_opensearch(self, target):
         """This is a coroutine to parse OpenSearch files"""
         vital_keys = set(["Url", "ShortName"])
-        keys =  set(["Description", "Url", "ShortName", "InputEncoding"])
-        #mozns = '{http://www.mozilla.org/2006/browser/search/}'
-        #osns = '{http://a9.com/-/spec/opensearch/1.1/}'
+        keys = set(["Description", "Url", "ShortName", "InputEncoding"])
         roots = ('OpenSearchDescription', 'SearchPlugin')
-        gettagname = lambda tag: tag.rsplit("}", 1)[-1]
 
         def parse_etree(etree, name=None):
             if not gettagname(etree.getroot().tag) in roots:
@@ -134,7 +146,7 @@ class OpenSearchSource (Source):
                 # Only pick up Url tags with type="text/html"
                 if tagname == "Url":
                     if (child.get("type") == "text/html" and
-                        child.get("template")):
+                            child.get("template")):
                         text = child.get("template")
                         params = {}
                         for ch in child.getchildren():
@@ -166,14 +178,14 @@ class OpenSearchSource (Source):
         plugin_dirs.extend(config.get_data_dirs("searchplugins"))
 
         # firefox in home directory
-        ffx_home = firefox_support.get_firefox_home_file("searchplugins")
+        ffx_home = firefox.get_firefox_home_file("searchplugins")
         if ffx_home and os.path.isdir(ffx_home):
             plugin_dirs.append(ffx_home)
 
         plugin_dirs.extend(config.get_data_dirs("searchplugins",
-            package="firefox"))
+                                                package="firefox"))
         plugin_dirs.extend(config.get_data_dirs("searchplugins",
-            package="iceweasel"))
+                                                package="iceweasel"))
 
         addon_dir = "/usr/lib/firefox-addons/searchplugins"
         cur_lang, _ignored = locale.getlocale(locale.LC_MESSAGES)
@@ -191,19 +203,28 @@ class OpenSearchSource (Source):
             plugin_dirs.append("/etc/iceweasel/searchplugins/common")
         for suffix in suffixes:
             addon_dir = os.path.join("/etc/iceweasel/searchplugins/locale",
-                    suffix)
+                                     suffix)
             if os.path.isdir(addon_dir):
                 plugin_dirs.append(addon_dir)
 
         # try to find all versions of firefox
-        for dirname in os.listdir("/usr/lib/"):
-            if dirname.startswith("firefox") or dirname.startswith("iceweasel"):
-                addon_dir = os.path.join("/usr/lib", dirname, "searchplugins")
-                if os.path.isdir(addon_dir):
-                    plugin_dirs.append(addon_dir)
+        for prefix in ('/usr/lib', '/usr/share'):
+            for dirname in os.listdir(prefix):
+                if dirname.startswith("firefox") or \
+                        dirname.startswith("iceweasel"):
+                    addon_dir = os.path.join(prefix, dirname,
+                                             "searchplugins")
+                    if os.path.isdir(addon_dir):
+                        plugin_dirs.append(addon_dir)
+
+                    addon_dir = os.path.join(prefix, dirname,
+                                             "distribution", "searchplugins",
+                                             "common")
+                    if os.path.isdir(addon_dir):
+                        plugin_dirs.append(addon_dir)
 
         self.output_debug("Found following searchplugins directories",
-                sep="\n", *plugin_dirs)
+                          sep="\n", *plugin_dirs)
 
         @coroutine
         def collect(seq):
@@ -221,7 +242,10 @@ class OpenSearchSource (Source):
                 for f in os.listdir(pdir):
                     if f in visited_files:
                         continue
-                    parser.send(os.path.join(pdir, f))
+                    fpath = os.path.join(pdir, f)
+                    if os.path.isdir(fpath):
+                        continue
+                    parser.send(fpath)
                     visited_files.add(f)
             except EnvironmentError as exc:
                 self.output_error(exc)
