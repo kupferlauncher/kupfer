@@ -3,10 +3,9 @@ __kupfer_sources__ = ("KeywordsSource", )
 __kupfer_text_sources__ = ("KeywordSearchSource", )
 __kupfer_actions__ = ("SearchWithEngine", )
 __description__ = _("Search the web with Firefox keywords")
-__version__ = "2017.1"
+__version__ = "2020.1"
 __author__ = ""
 
-from configparser import RawConfigParser
 from contextlib import closing
 import os
 import sqlite3
@@ -19,7 +18,8 @@ from kupfer.objects import TextLeaf, TextSource
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.objects import OpenUrl, RunnableLeaf
 from kupfer import utils
-from kupfer import config, plugin_support
+
+from ._firefox_support import get_firefox_home_file
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -27,32 +27,15 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "label": _("Default for ?"),
         "type": str,
         "value": 'https://www.google.com/search?ie=UTF-8&q=%s',
-    }
+    },
+    {
+        "key": "profile",
+        "label": _("Firefox profile name or path"),
+        "type": str,
+        "value": "",
+    },
 )
 
-def get_firefox_home_file(needed_file):
-    firefox_dir = os.path.expanduser("~/.mozilla/firefox")
-    if not os.path.exists(firefox_dir):
-        return None
-
-    config = RawConfigParser({"Default" : 0})
-    config.read(os.path.join(firefox_dir, "profiles.ini"))
-    path = None
-
-    for section in config.sections():
-        if config.has_option(section, "Default") and config.get(section, "Default") == "1":
-            path = config.get (section, "Path")
-            break
-        elif path == None and config.has_option(section, "Path"):
-            path = config.get (section, "Path")
-
-    if path == None:
-        return ""
-
-    if path.startswith("/"):
-        return os.path.join(path, needed_file)
-
-    return os.path.join(firefox_dir, path, needed_file)
 
 def _url_domain(text):
     components = list(urlparse(text))
@@ -84,14 +67,15 @@ class Keyword(Leaf):
     def get_text_representation(self):
         return self.object
 
-class KeywordsSource (Source, FilesystemWatchMixin):
+class KeywordsSource(Source, FilesystemWatchMixin):
     instance = None
     def __init__(self):
         super().__init__(_("Firefox Keywords"))
 
     def initialize(self):
         KeywordsSource.instance = self
-        ff_home = get_firefox_home_file('')
+        profile = __kupfer_settings__["profile"]
+        ff_home = get_firefox_home_file('', profile)
         self.monitor_token = self.monitor_directories(ff_home)
 
     def finalize(self):
@@ -102,13 +86,16 @@ class KeywordsSource (Source, FilesystemWatchMixin):
 
     def _get_ffx3_bookmarks(self):
         """Query the firefox places bookmark database"""
-        fpath = get_firefox_home_file("places.sqlite")
+        profile = __kupfer_settings__["profile"]
+        fpath = get_firefox_home_file("places.sqlite", profile)
         if not (fpath and os.path.isfile(fpath)):
             return []
+
+        fpath = fpath.replace("?", "%3f").replace("#", "%23")
+        fpath = "file:" + fpath + "?immutable=1&mode=ro"
+
         for _ in range(2):
             try:
-                fpath = fpath.replace("?", "%3f").replace("#", "%23")
-                fpath = "file:" + fpath + "?immutable=1&mode=ro"
                 self.output_debug("Reading bookmarks from", fpath)
                 with closing(sqlite3.connect(fpath, timeout=1)) as conn:
                     c = conn.cursor()
@@ -118,7 +105,8 @@ class KeywordsSource (Source, FilesystemWatchMixin):
                               WHERE moz_places.id = moz_keywords.place_id
                               """)
                     return [Keyword(title, kw,  url) for url, title, kw in c]
-            except sqlite3.Error:
+            except sqlite3.Error as err:
+                self.output_debug("Read bookmarks error:", str(err))
                 # Something is wrong with the database
                 # wait short time and try again
                 time.sleep(1)

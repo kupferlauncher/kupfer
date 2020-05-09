@@ -1,31 +1,36 @@
-# encoding: utf-8
-
-
 __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource", )
 __kupfer_actions__ = ()
 __description__ = _("Index of Firefox bookmarks")
-__version__ = "2017.1"
+__version__ = "2020.1"
 __author__ = "Ulrik, William Friesen, Karol Będkowski"
 
-from configparser import RawConfigParser
 from contextlib import closing
 import os
 import sqlite3
 import time
-from urllib.parse import quote, urlparse
 
-from kupfer import plugin_support
-from kupfer.objects import Source, Action, Leaf
-from kupfer.objects import UrlLeaf, TextLeaf, TextSource
+from kupfer.objects import Source
+from kupfer.objects import UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer.obj.objects import OpenUrl
-from kupfer import utils
+from kupfer import plugin_support
+
+from ._firefox_support import get_firefox_home_file
 
 MAX_ITEMS = 10000
 
-class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
+__kupfer_settings__ = plugin_support.PluginSettings(
+    {
+        "key": "profile",
+        "label": _("Firefox profile name or path"),
+        "type": str,
+        "value": "",
+    },
+)
+
+
+class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("firefox", "firefox-esr")
     def __init__(self):
         super().__init__(_("Firefox Bookmarks"))
@@ -40,13 +45,16 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def _get_ffx3_bookmarks(self):
         """Query the firefox places bookmark database"""
-        fpath = get_firefox_home_file("places.sqlite")
+        profile = __kupfer_settings__["profile"]
+        fpath = get_firefox_home_file("places.sqlite", profile)
         if not (fpath and os.path.isfile(fpath)):
             return []
+
+        fpath = fpath.replace("?", "%3f").replace("#", "%23")
+        fpath = "file:" + fpath + "?immutable=1&mode=ro"
+
         for _ in range(2):
             try:
-                fpath = fpath.replace("?", "%3f").replace("#", "%23")
-                fpath = "file:" + fpath + "?immutable=1&mode=ro"
                 self.output_debug("Reading bookmarks from", fpath)
                 with closing(sqlite3.connect(fpath, timeout=1)) as conn:
                     c = conn.cursor()
@@ -58,9 +66,10 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
                               LIMIT ?""",
                               (MAX_ITEMS, ))
                     return [UrlLeaf(url, title) for url, title in c]
-            except sqlite3.Error:
+            except sqlite3.Error as err:
                 # Something is wrong with the database
                 # wait short time and try again
+                self.output_debug("Read bookmarks error:", str(err))
                 time.sleep(1)
         self.output_exc()
         return []
@@ -79,27 +88,3 @@ class BookmarksSource (AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def provides(self):
         yield UrlLeaf
-
-def get_firefox_home_file(needed_file):
-    firefox_dir = os.path.expanduser("~/.mozilla/firefox")
-    if not os.path.exists(firefox_dir):
-        return None
-
-    config = RawConfigParser({"Default" : 0})
-    config.read(os.path.join(firefox_dir, "profiles.ini"))
-    path = None
-
-    for section in config.sections():
-        if config.has_option(section, "Default") and config.get(section, "Default") == "1":
-            path = config.get (section, "Path")
-            break
-        elif path == None and config.has_option(section, "Path"):
-            path = config.get (section, "Path")
-
-    if path == None:
-        return ""
-
-    if path.startswith("/"):
-        return os.path.join(path, needed_file)
-
-    return os.path.join(firefox_dir, path, needed_file)
