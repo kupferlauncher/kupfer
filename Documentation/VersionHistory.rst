@@ -1,6 +1,31 @@
 NEWS for kupfer
 ===============
 
+kupfer v320
+-----------
+
++ Update translations: es, pl
++ Fix detecting running gui application, selecting active window and crashes
+  when application was closed (closes #124, #130)
++ Allow serialize UrlLeaf ans save it as actions (closes #126)
+
++ Plugins:
+
+  + In *Firefox Keywords* provide quick search using '?keyword query'
+  + In *Documents* option for disable checking is file exist before add
+    to list that solve problems when files are in slow/inaccesible locations
+  + Restore *Clawsmail* plugin
+  + Update *VirtualBox* plugin to work with last version
+  + Add *deepdirectories* plugin
+  + Restore *websearch* plugin (closes #127)
+  + In *Firefox* fix openning locked database; fix loading profiles, allow
+    user to select non-default profile by name of path (closes #131)
+  + Add LXQT session suport
+
++ Dev:
+
+  + Update WAF version; use itstool instead of xml2po  (closes #125)
+
 kupfer v319
 -----------
 
@@ -569,7 +594,7 @@ __ http://kaizer.se/wiki/kupfer/help/
   (:lp:`753376`)
 * *Notes:* support the program kzrnote as well
 * Renamed the two like-named command actions in spanish (Daniel Mustieles)
- 
+
 * Localization updates for v206:
 
   + sl Andrej Žnidaršič
@@ -678,7 +703,7 @@ This is the changelog for the v205 release, which was released previously.
   workspace, and upon the next invocations it will focus the other
   workspaces, in order, if they have windows from the same application.  For
   single-window applications, nothing is changed.
- 
+
 * Localization updates for v205:
 
   + (cs) Marek Černocký
@@ -1224,7 +1249,7 @@ kupfer version c14
 kupfer version c13.1
 --------------------
 
-* Fix two bugs with *Rename To...* 
+* Fix two bugs with *Rename To...*
 
 kupfer version c13
 ------------------
@@ -1322,7 +1347,7 @@ kupfer version c8
 * Fix a bug with tracker tags
 
 [Please file bug reports and feature requests.][lp]. Read the files in
-`Documentation/` and see how you can add new plugins with object and 
+`Documentation/` and see how you can add new plugins with object and
 application knowledge to kupfer.
 
 This release is localized in: Swedish (100%), Italian (60%)
@@ -1348,7 +1373,7 @@ introduced lots of major changes, including a preferences window and
 
 
 [Please file bug reports and feature requests.][lp]. Read the files in
-`Documentation/` and see how you can add new plugins with object and 
+`Documentation/` and see how you can add new plugins with object and
 application knowledge to kupfer.
 
 This release is localized in: Swedish (100%), Italian (60%)
@@ -1361,7 +1386,7 @@ kupfer version c6
 The "Sisyphus incremental improvements" release
 
 * Preferences window
-  
+
   * Allows setting keybinding on the fly
   * List and enable/disable plugins and set plugin options
 
