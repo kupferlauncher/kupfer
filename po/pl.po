@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-22 23:26+0100\n"
-"PO-Revision-Date: 2015-09-04 12:15+0200\n"
+"POT-Creation-Date: 2020-08-08 10:18+0200\n"
+"PO-Revision-Date: 2020-08-08 10:40+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -52,26 +52,26 @@ msgstr "Preferencje programu Kupfer"
 msgid "Start automatically on login"
 msgstr "Automatycznie uruchamianie po zalogowaniu"
 
-msgid "<b>Start</b>"
-msgstr "<b>Początek</b>"
-
 msgid "Show icon in notification area"
 msgstr "Ikona w obszarze powiadamiania"
-
-msgid "Icon set:"
-msgstr "Zestaw ikon:"
-
-msgid "Large Icon Size:"
-msgstr ""
-
-msgid "Small Icon Size:"
-msgstr ""
 
 msgid "Terminal emulator:"
 msgstr "Emulator terminala:"
 
 msgid "Desktop Environment"
 msgstr "Środowisko graficzne"
+
+msgid "Icon set:"
+msgstr "Zestaw ikon:"
+
+msgid "Large Icon Size:"
+msgstr "Rozmiar dużych ikon:"
+
+msgid "Small Icon Size:"
+msgstr "Rozmiar małych ikon:"
+
+msgid "Appearance"
+msgstr "Wygląd"
 
 msgid "General"
 msgstr "Ogólne"
@@ -88,6 +88,12 @@ msgstr "<b>Skróty klawiszowe przeglądarki</b>"
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr ""
 "Włączenie jednoklawiszowych poleceń (spacja, /, kropka, przecinek itp.)"
+
+msgid "Action accelerators use Alt"
+msgstr "Aktywacja akcji z uzyciem Alt-a"
+
+msgid "Action accelerators use Ctrl"
+msgstr "Aktywacja akcji z użyciem Ctrl"
 
 msgid "Keyboard"
 msgstr "Klawiatura"
@@ -177,15 +183,14 @@ msgstr "Użycie: kupfer [ OPCJE | PLIK… ]"
 msgid "Available plugins:"
 msgstr "Dostępne wtyczki:"
 
-#, fuzzy, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
 "   %(COPYRIGHT)s\n"
 "   %(WEBSITE)s\n"
 msgstr ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
-"\t%(COPYRIGHT)s\n"
-"\t%(WEBSITE)s\n"
+"   %(COPYRIGHT)s\n"
+"   %(WEBSITE)s\n"
 
 msgid "Type to search"
 msgstr "Wprowadzenie tekstu wyszuka"
@@ -265,11 +270,8 @@ msgstr "Ustaw domyślny program…"
 msgid "Open with default application"
 msgstr "Otwiera za pomocą domyślnego programu"
 
-msgid "Reveal"
-msgstr "Wyświetl"
-
-msgid "Open parent folder"
-msgstr "Otwiera katalog nadrzędny"
+msgid "Get Parent Folder"
+msgstr "Wybierz katalog nadrzędny"
 
 msgid "Open Terminal Here"
 msgstr "Uruchom terminal w tym miejscu"
@@ -384,7 +386,7 @@ msgid "Applications for Desktop Environment"
 msgstr "Programy środowiska graficznego"
 
 msgid "Use Desktop Filter"
-msgstr ""
+msgstr "Filtruj aplikacje typu Desktop"
 
 msgid "Open With..."
 msgstr "Otwórz za pomocą…"
@@ -395,12 +397,11 @@ msgstr "Otwiera za pomocą innego programu"
 msgid "Set default application to open this file type"
 msgstr "Ustawia domyślny program dla tego typu plików"
 
-#, fuzzy
 msgid "Reset Associations"
-msgstr "Działania adresów URL"
+msgstr "Resetuj przypisanie"
 
 msgid "Reset program associations for files of this type."
-msgstr ""
+msgstr "Resetuj przypisany program dla plików tego typu"
 
 msgid "Deep Archives"
 msgstr "Przeglądane archiwów"
@@ -519,7 +520,7 @@ msgid "Calculator"
 msgstr "Kalkulator"
 
 msgid "Calculate mathematical expressions"
-msgstr ""
+msgstr "Oblicz wyrażenie matematyczne"
 
 msgid "Calculate"
 msgstr "Oblicz"
@@ -630,9 +631,8 @@ msgstr "Konsole"
 msgid "Save As..."
 msgstr "Zapisz jako…"
 
-#, fuzzy
 msgid "Restart Kupfer"
-msgstr "Uruchom ponownie usługę"
+msgstr "Uruchom ponownie Kupfer"
 
 msgid "Quit"
 msgstr "Zakończ"
@@ -693,6 +693,9 @@ msgid ""
 "\n"
 "The plugin adds another terminal alternative (select it on the main page)."
 msgstr ""
+"Konfiguruj własny emulator terminala.\n"
+"\n"
+"Wtyczka  dodaje kolejny, alternatywny terminal (do wyboru na stronie głównej) "
 
 msgid "Command"
 msgstr "Polecenie"
@@ -706,9 +709,8 @@ msgstr "Domyślny klient poczty"
 msgid "Compose email using the system's default mailto: handler"
 msgstr "Tworzenie wiadomości e-mail używając domyślnego klienta poczty"
 
-#, fuzzy
 msgid "Compose Email To"
-msgstr "Utwórz wiadomość e-mail"
+msgstr "Utwórz e-mail do"
 
 msgid "Dictionary"
 msgstr "Słownik"
@@ -727,6 +729,9 @@ msgstr "Ostatnio używane dokumenty i katalogi w zakładkach"
 
 msgid "Max recent document days"
 msgstr "Maksymalna liczba dni dla ostatnio używanych dokumentów"
+
+msgid "Show only existing documents"
+msgstr "Wyświetl tylko istniejące dokumenty"
 
 msgid "Recent Items"
 msgstr "Ostatnie elementy"
@@ -748,6 +753,12 @@ msgstr "Miejsca"
 
 msgid "Bookmarked folders"
 msgstr "Katalogi w zakładkach"
+
+msgid "Toggle Recent Documents"
+msgstr "Przełącz ostatnie dokumenty"
+
+msgid "Enable/disable listing recent documents in content for this application"
+msgstr "Włącz/wyłącz wyświetlanie ostatnich dokumentów w kontekście tej aplikacji"
 
 msgid "DuckDuckGo Search"
 msgstr "Wyszukiwanie w serwisie DuckDuckGo"
@@ -804,7 +815,7 @@ msgid "Glob"
 msgstr "Wyrażenie regularne"
 
 msgid "Select objects using '*' and '?' as wildcards."
-msgstr ""
+msgstr "Wybór obiektów z użyciem '*' i '?' jako znaków wieloznacznych"
 
 msgid "Higher-order Actions"
 msgstr "Wysokopoziomowe działania"
@@ -831,9 +842,8 @@ msgstr "Uruchom (porzuć rezultat)"
 msgid "Image Tools"
 msgstr "Narzędzia do obrazów"
 
-#, fuzzy
 msgid "Image transformation tools using 'convert' from ImageMagick"
-msgstr "Narzędzia do przekształcania plików graficznych"
+msgstr "Przekształcania plików graficznych z użyciem 'convert' z ImageMagick"
 
 msgid "Scale..."
 msgstr "Skaluj…"
@@ -888,6 +898,9 @@ msgstr "Dołącz do notatki…"
 
 msgid "Add text to existing note"
 msgstr "Dodaje tekst do istniejącej notatki"
+
+msgid "Append..."
+msgstr "Dopisz…"
 
 msgid "Create Note"
 msgstr "Utwórz notatkę"
@@ -1019,18 +1032,8 @@ msgstr "Komputery SSH określone w ~/.ssh/config"
 msgid "No D-Bus connection to desktop session"
 msgstr "Brak połączenia usługi D-Bus do sesji pulpitu"
 
-msgid "GNOME Keyring"
-msgstr "Baza kluczy GNOME"
-
-msgid "KWallet"
-msgstr "KWallet"
-
-msgid "Unencrypted File"
-msgstr "Niezaszyfrowany plik"
-
-#, fuzzy, python-format
 msgid "Dependency '%s' is not available"
-msgstr "Polecenie w „%s” jest niedostępne"
+msgstr "Wymagana biblioteka „%s” jest niedostępna"
 
 msgid "Document Templates"
 msgstr "Szablony dokumentów"
@@ -1063,11 +1066,11 @@ msgstr "Pliki tekstowe"
 msgid "Append To..."
 msgstr "Dopisz do…"
 
-msgid "Append..."
-msgstr "Dopisz…"
-
 msgid "Write To..."
 msgstr "Zapisz do…"
+
+msgid "Write the text to a new file in specified directory"
+msgstr "Zapisz tekst do nowego pliku w wybranym katalogu"
 
 msgid "Get Text Contents"
 msgstr "Pobiera zawartość pliku tekstowego"
@@ -1115,17 +1118,14 @@ msgstr "Napisz nową wiadomość e-mail"
 msgid "Compose a new message in Thunderbird"
 msgstr "Tworzy nową wiadomość w programie Thunderbird"
 
-#, fuzzy
 msgid "Attach in Email To..."
-msgstr "Wyślij w wiadomości e-mail do…"
+msgstr "załącz w wiadomości e-mail do…"
 
-#, fuzzy
 msgid "Compose Email With"
-msgstr "Utwórz wiadomość e-mail"
+msgstr "Utwórz wiadomość e-mail z"
 
-#, fuzzy
 msgid "Compose a new message using the text as body"
-msgstr "Tworzy nową wiadomość w programie Thunderbird"
+msgstr "Tworzy nową wiadomość z użyciem tekstu jako treści"
 
 msgid "Thunderbird Address Book"
 msgstr "Książka adresowa programu Thunderbird"
@@ -1192,6 +1192,8 @@ msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
+"Nie można usunąć plików:\n"
+"    "
 
 msgid "Trash is empty"
 msgstr "Kosz jest pusty"
@@ -1325,6 +1327,13 @@ msgstr "Wolumin zamontowany w %s"
 msgid "Unmount"
 msgstr "Odmontuj"
 
+msgid "Unmount finished"
+msgstr "Odmontowanie zakończone"
+
+#, python-format
+msgid "\"%s\" was successfully unmounted"
+msgstr "\"%s\" odmontowano z sukcesem"
+
 msgid "Unmount this volume"
 msgstr "Odmontowuje ten wolumin"
 
@@ -1366,17 +1375,17 @@ msgstr "Wyświetla wyniki wyszukiwania programu Tracker dla zapytania"
 
 #, python-format
 msgid "Tracker Search for \"%s\""
-msgstr ""
+msgstr "Wyszukaj \"%s\" w Tracker"
 
 #, python-format
 msgid "Results for \"%s\""
 msgstr "Wyniki dla „%s”"
 
 msgid "Tracker Full Text Search"
-msgstr ""
+msgstr "Wyszukiwanie pełno-tekstowe w Tracker"
 
 msgid "Use '?' prefix to get full text results"
-msgstr ""
+msgstr "Przedrostek '?' włącza wyszukiwanie pełno-tekstowe"
 
 msgid "Locate Files"
 msgstr "Znajdź pliki"
@@ -1387,20 +1396,23 @@ msgstr "Przeszukuje system plików za pomocą programu locate"
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorowanie wielkości liter podczas wyszukiwania plików"
 
-#. encoding: utf-8
 msgid "Firefox Bookmarks"
 msgstr "Zakładki programu Firefox"
 
 msgid "Index of Firefox bookmarks"
 msgstr "Indeks zakładek programu Firefox"
 
-#, fuzzy
-msgid "Firefox Keywords"
-msgstr "Zakładki programu Firefox"
+msgid "Firefox profile name or path"
+msgstr "Nazwa lub ścieżka profilu Firefox"
 
-#, fuzzy
+msgid "Firefox Keywords"
+msgstr "Słowa kluczowe Firefox"
+
 msgid "Search the web with Firefox keywords"
-msgstr "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch"
+msgstr "Wyszukiwanie w sieci za pomocą słów kluczowych Firefox"
+
+msgid "Default for ?"
+msgstr "Domyślne dla ?"
 
 msgid "Search With..."
 msgstr "Znajdź za pomocą…"
@@ -1408,50 +1420,55 @@ msgstr "Znajdź za pomocą…"
 msgid "Search For..."
 msgstr "Znajdź…"
 
-#, fuzzy
 msgid "Search Terms"
-msgstr "Wyszukiwarki"
+msgstr "Szukane wyrażenie"
+
+msgid "Firefox Keywords (?-source)"
+msgstr "Słowa kluczowe Firefox (?-źródło)"
+
+msgid "Search for \"%s\""
+msgstr "Szukaj \"%s\""
+
+msgid "Search using %s"
+msgstr "Szukaj z użyciem %s"
 
 msgid "Media Player Control"
-msgstr ""
+msgstr "Kontrola odtwarzaczy multimedialnych"
 
 msgid "Playback control for media players"
-msgstr ""
+msgstr "Kontrola odtwarzania dla odtwarzaczy multimedialnych"
 
 #. TRANS: %s is a media player name
-#, fuzzy, python-format
 msgid "Play/Pause (%s)"
-msgstr "Proszę użyć „%s”"
+msgstr "Odtwarzaj/Wstrzymaj (%s)"
 
-#, fuzzy
 msgid "Resume playback"
-msgstr "Wznawia odtwarzanie w programie Audacious"
+msgstr "Wznów odtwarzanie"
+
+msgid "Pause All"
+msgstr "Wstrzymaj wszystko"
 
 #. TRANS: %s is a media player name
-#, fuzzy, python-format
 msgid "Next (%s)"
-msgstr "Następny"
+msgstr "Następny (%s)"
 
-#, fuzzy
 msgid "Skip to next track"
-msgstr "Przechodzi do następnego utworu w programie Audacious"
+msgstr "Przechodzi do następnego utworu"
 
 #. TRANS: %s is a media player name
-#, fuzzy, python-format
 msgid "Previous (%s)"
-msgstr "Poprzedni"
+msgstr "Poprzedni (%s)"
 
-#, fuzzy
 msgid "Skip to previous track"
-msgstr "Przechodzi do poprzedniego utworu w programie Audacious"
+msgstr "Przechodzi do poprzedniego utworu"
 
 #. TRANS: %s is a media player name
 #, python-format
 msgid "Stop (%s)"
-msgstr ""
+msgstr "Zatrzymaj (%s)"
 
 msgid "Stop playback"
-msgstr ""
+msgstr "Zatrzymaj odtwarzanie"
 
 msgid "Pidgin"
 msgstr "Pidgin"
@@ -1523,6 +1540,9 @@ msgstr "Dodaje utwory do kolejki odtwarzania"
 #, python-format
 msgid "by %(artist)s from %(album)s"
 msgstr " %(artist)s z %(album)s"
+
+msgid "Get File"
+msgstr "Wybierz plik"
 
 #. TRANS: Album description "by Artist"
 #, python-format
@@ -1603,32 +1623,14 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Wyszukiwanie w programie Devhelp"
 
-msgid "Empathy"
-msgstr "Empathy"
+msgid "Nemo"
+msgstr "Nemo"
 
-msgid "Access to Empathy Contacts"
-msgstr "Dostęp do kontaktów programu Empathy"
+msgid "File manager actions"
+msgstr "Działania menedżera plików"
 
-msgid "Busy"
-msgstr "Zajęty"
-
-msgid "Not Available"
-msgstr "Nieobecny"
-
-msgid "Invisible"
-msgstr "Niewidoczny"
-
-msgid "Offline"
-msgstr "Rozłączony"
-
-msgid "Change Global Status To..."
-msgstr "Zmień globalny stan na…"
-
-msgid "Empathy Contacts"
-msgstr "Kontakty programu Empathy"
-
-msgid "Empathy Account Status"
-msgstr "Stan konta programu Empathy"
+msgid "Prefer Dark Theme"
+msgstr "Preferuj ciemny motyw"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1662,14 +1664,26 @@ msgstr "Przejście do zaznaczonego pliku"
 msgid "Select Selected Text"
 msgstr "Przejście do zaznaczonego tekstu"
 
+msgid "Select Clipboard File"
+msgstr "Wybierz plik w schowku"
+
+msgid "Select Clipboard Text"
+msgstr "Wybierz tekst w schowku"
+
 msgid "Show Help"
 msgstr "Wyświetlenie pomocy"
 
 msgid "Show Preferences"
 msgstr "Wyświetlenie preferencji"
 
-msgid "Switch to First Pane"
+msgid "Switch to 1st Pane"
 msgstr "Przejście do pierwszego panelu"
+
+msgid "Switch to 2nd Pane"
+msgstr "Przejście do drugiego panelu"
+
+msgid "Switch to 3rd Pane"
+msgstr "Przejście do trzeciego panelu"
 
 msgid "Toggle Text Mode"
 msgstr "Przełączenie trybu tekstowego"
@@ -1681,9 +1695,12 @@ msgstr "Brak wyników w %(src)s dla „%(query)s”"
 msgid "No matches"
 msgstr "Brak wyników"
 
-#, fuzzy, python-format
 msgid "No action matches \"%s\""
-msgstr "Brak wyników"
+msgstr "Brak wyników dla \"%s\""
+
+#, python-format
+msgid "Assign Accelerator to \"%(action)s\""
+msgstr "Przypis wywołanie dla \"%(action)s\""
 
 #, python-format
 msgid "Make \"%(action)s\" Default for \"%(object)s\""
@@ -1801,6 +1818,48 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
+
+#~ msgid "<b>Start</b>"
+#~ msgstr "<b>Początek</b>"
+
+#~ msgid "Reveal"
+#~ msgstr "Wyświetl"
+
+#~ msgid "GNOME Keyring"
+#~ msgstr "Baza kluczy GNOME"
+
+#~ msgid "KWallet"
+#~ msgstr "KWallet"
+
+#~ msgid "Unencrypted File"
+#~ msgstr "Niezaszyfrowany plik"
+
+#~ msgid "Empathy"
+#~ msgstr "Empathy"
+
+#~ msgid "Access to Empathy Contacts"
+#~ msgstr "Dostęp do kontaktów programu Empathy"
+
+#~ msgid "Busy"
+#~ msgstr "Zajęty"
+
+#~ msgid "Not Available"
+#~ msgstr "Nieobecny"
+
+#~ msgid "Invisible"
+#~ msgstr "Niewidoczny"
+
+#~ msgid "Offline"
+#~ msgstr "Rozłączony"
+
+#~ msgid "Change Global Status To..."
+#~ msgstr "Zmień globalny stan na…"
+
+#~ msgid "Empathy Contacts"
+#~ msgstr "Kontakty programu Empathy"
+
+#~ msgid "Empathy Account Status"
+#~ msgstr "Stan konta programu Empathy"
 
 #~ msgid "Compose Email"
 #~ msgstr "Utwórz wiadomość e-mail"
@@ -2377,9 +2436,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Recently used documents in Vim"
 #~ msgstr "Ostatnio używane dokumenty w programie Vim"
-
-#~ msgid "Vim Recent Documents"
-#~ msgstr "Ostatnio używane dokumenty programu Vim"
 
 #~ msgid "Close (Save All)"
 #~ msgstr "Zamknij (zapisz wszystkie)"
