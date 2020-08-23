@@ -5,7 +5,7 @@
 # Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, 2009.
 # Jorge González <jorgegonz@svn.gnome.org>, 2009, 2010.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012.
-# Leonardo Masuero <leoen25demayo@gmail.com>, 2019.
+# Leonardo Masuero <leom255255@gmail.com>, 2020.
 #
 msgid ""
 msgstr ""
@@ -84,6 +84,12 @@ msgstr "<b>Atajos de teclado del examinador</b>"
 
 msgid "Use single keystroke commands (Space, /, period, comma etc.)"
 msgstr "Usar comandos de una sola tecla (espacio, /, punto, coma, etc.)"
+
+msgid "Los aceleradores de acción usan Alt"
+msgstr "Tastenkürtzel für Befehle benutzen Alt"
+
+msgid "Los aceleradores de acción usan Ctrl"
+msgstr "Tastenkürtzel für Befehle benutzen Strg"
 
 msgid "Keyboard"
 msgstr "Teclado"
