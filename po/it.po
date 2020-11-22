@@ -4,6 +4,7 @@
 #
 # Andrea Zagli <azagli@libero.it>, 2009.
 # Francesco Marella <francesco.marella@gmail.com>, 2010.
+#Albano Battistella <albano_battistella@hotmail.com>, 2020.
 #
 msgid ""
 msgstr ""
@@ -11,8 +12,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-22 23:26+0100\n"
 "PO-Revision-Date: 2010-08-24 20:06+0200\n"
-"Last-Translator: Francesco Marella <francesco.marella@gmail.com>\n"
-"Language-Team: Italian <tp@lists.linux.it>\n"
+"Last-Translator: Albano Battistella <albano_battistella@hotmail.com>\n"
+"Language-Team: Italian <albano_battistella@hotmail.com>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,21 +54,19 @@ msgid "Show icon in notification area"
 msgstr "Mostrare l'icona nell'area di notifica"
 
 msgid "Icon set:"
-msgstr ""
+msgstr "Set Icone:"
 
 msgid "Large Icon Size:"
-msgstr ""
+msgstr "Dimensione icona grande:"
 
 msgid "Small Icon Size:"
-msgstr ""
+msgstr "Dimensione icona piccola:"
 
-#, fuzzy
 msgid "Terminal emulator:"
-msgstr "Apri terminale qui"
+msgstr "Emulatore di terminale:"
 
-#, fuzzy
 msgid "Desktop Environment"
-msgstr "Applicazioni per l'ambiente desktop"
+msgstr "Ambiente Desktop"
 
 msgid "General"
 msgstr "Generale"
@@ -91,21 +90,21 @@ msgstr "Tastiera"
 msgid "Plugins"
 msgstr "Plugin"
 
-#, fuzzy
 msgid "Inclusion in Top Level Searches"
-msgstr "Includere le canzoni nel livello principale"
+msgstr "Inclusione nelle ricerche di primo livello"
 
 msgid ""
 "Marked sources have their objects included in top level searches.\n"
 "An unmarked source's contents are only available by locating its subcatalog."
 msgstr ""
+"Le sorgenti contrassegnate hanno i loro oggetti inclusi nelle ricerche di primo livello.\n"
+"I contenuti di una fonte non contrassegnata sono disponibili solo individuando il relativo sottocatalogo."
 
-#, fuzzy
 msgid "Indexed Folders"
-msgstr "Nuova cartella"
+msgstr "Cartelle indicizzate"
 
 msgid "Folders whose files are always available in the catalog."
-msgstr ""
+msgstr "Cartelle i cui file sono sempre disponibili nel catalogo."
 
 msgid "Catalog"
 msgstr "Catalogo"
@@ -157,7 +156,7 @@ msgstr "abilita informazioni di debug"
 #. TRANS: --exec-helper=HELPER is an internal command
 #. TRANS: that executes a helper program that is part of kupfer
 msgid "run plugin helper"
-msgstr ""
+msgstr "eseguire il plugin helper"
 
 msgid "show usage help"
 msgstr "mostra l'aiuto per l'uso"
@@ -188,9 +187,8 @@ msgstr "Digita per cercare"
 msgid "%s is empty"
 msgstr "%s è vuoto"
 
-#, fuzzy
 msgid "Text"
-msgstr "Mostra testo"
+msgstr "Testo"
 
 msgid "Run after Delay..."
 msgstr "Eseguire dopo un ritardo..."
@@ -212,7 +210,7 @@ msgid "[%(status)s] %(userid)s/%(service)s"
 msgstr "[%(status)s] %(userid)s/%(service)s"
 
 msgid "unknown"
-msgstr ""
+msgstr "Sconosciuto"
 
 #, fuzzy
 msgid "Aim"
@@ -239,10 +237,10 @@ msgstr "Skype"
 
 #, python-format
 msgid "%s does not support this operation"
-msgstr ""
+msgstr "%s non supporta questa operazione"
 
 msgid "Can not be used with multiple objects"
-msgstr ""
+msgstr "Non può essere utilizzato con più oggetti"
 
 msgid "Open"
 msgstr "Apri"
@@ -322,9 +320,8 @@ msgstr "Esegui"
 msgid "Perform command"
 msgstr "Esegui comando"
 
-#, fuzzy
 msgid "(Empty Text)"
-msgstr "File vuoto"
+msgstr "(File vuoto)"
 
 #. TRANS: This is description for a TextLeaf, a free-text search
 #. TRANS: The plural parameter is the number of lines %(num)d
@@ -380,7 +377,7 @@ msgid "Applications for Desktop Environment"
 msgstr "Applicazioni per l'ambiente desktop"
 
 msgid "Use Desktop Filter"
-msgstr ""
+msgstr "Usa Filtro Desktop"
 
 msgid "Open With..."
 msgstr "Apri con..."
@@ -391,12 +388,11 @@ msgstr "Apre con qualsiasi applicazione"
 msgid "Set default application to open this file type"
 msgstr "Imposta l'applicazione predefinita per questo tipo di file"
 
-#, fuzzy
 msgid "Reset Associations"
-msgstr "Azioni su URL"
+msgstr "Reimposta associazioni"
 
 msgid "Reset program associations for files of this type."
-msgstr ""
+msgstr "Reimposta le associazioni del programma per i file di questo tipo."
 
 msgid "Deep Archives"
 msgstr "Azioni su archivi"
@@ -517,7 +513,7 @@ msgid "Calculator"
 msgstr "Calcolatrice"
 
 msgid "Calculate mathematical expressions"
-msgstr ""
+msgstr "Calcola espressioni matematiche"
 
 msgid "Calculate"
 msgstr "Calcola"
@@ -526,18 +522,16 @@ msgid "Clipboards"
 msgstr "Appunti"
 
 msgid "Recent clipboards and clipboard proxy objects"
-msgstr ""
+msgstr "Appunti recenti e oggetti proxy negli appunti"
 
-#, fuzzy
 msgid "Number of recent clipboards to remember"
-msgstr "Numero di appunti recenti"
+msgstr "Numero di appunti recenti da ricordare"
 
 msgid "Include selected text in clipboard history"
-msgstr ""
+msgstr "Includi il testo selezionato nella cronologia degli appunti"
 
-#, fuzzy
 msgid "Copy selected text to primary clipboard"
-msgstr "Copia selezione negli appunti primari"
+msgstr "Copia il testo selezionato negli appunti principali"
 
 msgid "Selected Text"
 msgstr "Testo selezionato"
@@ -548,17 +542,14 @@ msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
 msgstr[0] "Appunti \"%(desc)s\""
 msgstr[1] "Appunti con %(num)d righe \"%(desc)s\""
 
-#, fuzzy
 msgid "Clipboard Text"
-msgstr "Appunti"
+msgstr "Testo appunti"
 
-#, fuzzy
 msgid "Clipboard File"
-msgstr "Appunti"
+msgstr "Appunto File"
 
-#, fuzzy
 msgid "Clipboard Files"
-msgstr "Appunti"
+msgstr "Appunti FIle"
 
 msgid "Clear"
 msgstr "Cancella"
@@ -574,6 +565,8 @@ msgid ""
 "Run command-line programs. Actions marked with the symbol %s run in a "
 "subshell."
 msgstr ""
+"Esegui programmi da riga di comando. Le azioni contrassegnate con il simbolo %s vengono eseguite in "
+"subshell."
 
 msgid "Run (Get Output)"
 msgstr "Esegui (con output)"
@@ -583,51 +576,44 @@ msgstr "Esegui il programma e ritorna il suo risultato"
 
 #. TRANS: The user starts a program (command) and the text
 #. TRANS: is an argument to the command
-#, fuzzy
 msgid "Pass to Command..."
-msgstr "Ultimo comando"
+msgstr "Passa al comando..."
 
 msgid "Run program with object as an additional parameter"
-msgstr ""
+msgstr "Esegui il programma con oggetto come parametro aggiuntivo"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin
-#, fuzzy
 msgid "Write to Command..."
-msgstr "Scrivi in... "
+msgstr "Scrivi Comando... "
 
-#, fuzzy
 msgid "Run program and supply text on the standard input"
-msgstr "Esegui il programma e ritorna il suo risultato"
+msgstr "Eseguire il programma e fornire il testo sullo standard input"
 
 #. TRANS: The user starts a program (command) and
 #. TRANS: the text is written on stdin, and we
 #. TRANS: present the output (stdout) to the user.
 msgid "Filter through Command..."
-msgstr ""
+msgstr "Filtra tramite il Comando..."
 
-#, fuzzy
 msgid "Run command-line programs"
 msgstr "Esegue programmi a riga di comando"
 
 msgid "GTK+"
 msgstr ""
 
-#, fuzzy
 msgid "GNOME Terminal"
-msgstr "Profili del Terminale di GNOME"
+msgstr "Terminale di GNOME"
 
-#, fuzzy
 msgid "XFCE Terminal"
-msgstr "Esegui nel terminale"
+msgstr "TerminaleXFCE"
 
-#, fuzzy
 msgid "LXTerminal"
-msgstr "Esegui nel terminale"
+msgstr "Terminale LX"
 
 #, fuzzy
 msgid "X Terminal"
-msgstr "Esegui nel terminale"
+msgstr "Terminale X"
 
 msgid "Urxvt"
 msgstr ""
@@ -638,9 +624,8 @@ msgstr ""
 msgid "Save As..."
 msgstr "Salva come..."
 
-#, fuzzy
 msgid "Restart Kupfer"
-msgstr "Riavvia servizio"
+msgstr "Riavvia Kupfer"
 
 msgid "Quit"
 msgstr "Esci"
@@ -693,15 +678,17 @@ msgstr "Ultimo risultato"
 msgid "Command Results"
 msgstr "Risultati comando"
 
-#, fuzzy
 msgid "Custom Terminal"
-msgstr "Esegui nel terminale"
+msgstr "Terminale personalizzato"
 
 msgid ""
 "Configure a custom terminal emulator.\n"
 "\n"
 "The plugin adds another terminal alternative (select it on the main page)."
 msgstr ""
+"Configura un emulatore di terminale personalizzato.\n"
+"\n"
+"Il plugin aggiunge un'altra alternativa al terminale (selezionalo nella pagina principale)."
 
 msgid "Command"
 msgstr "Comando"
@@ -716,7 +703,6 @@ msgid "Compose email using the system's default mailto: handler"
 msgstr ""
 "Compone nuovo messaggio di posta usando il gestore di posta predefinito"
 
-#, fuzzy
 msgid "Compose Email To"
 msgstr "Componi nuovo messaggio di posta"
 
@@ -759,19 +745,17 @@ msgstr "Risorse"
 msgid "Bookmarked folders"
 msgstr "Cartelle aggiunte ai segnalibri"
 
-#, fuzzy
 msgid "DuckDuckGo Search"
-msgstr "Cerca con Google"
+msgstr "Cerca con DuckDuckGo"
 
 msgid "Search the web securely with DuckDuckGo"
-msgstr ""
+msgstr "Cerca nel web in sicurezza con DuckDuckGo"
 
 msgid "Favorites"
 msgstr "Preferiti"
 
 msgid "Mark commonly used items and store objects for later use"
-msgstr ""
-"Segna elementi usati comunemente e archivia oggetti per un utilizzo futuro"
+msgstr "Segna elementi usati comunemente e archivia oggetti per un utilizzo futuro"
 
 msgid "Shelf of \"Favorite\" items"
 msgstr "Lista di voci preferite"
@@ -814,7 +798,7 @@ msgid "Glob"
 msgstr ""
 
 msgid "Select objects using '*' and '?' as wildcards."
-msgstr ""
+msgstr "Seleziona gli oggetti usando '*' e '?' come caratteri jolly."
 
 msgid "Higher-order Actions"
 msgstr "Azioni Higher-order"
@@ -925,13 +909,13 @@ msgid "Last updated %s"
 msgstr "Ultimo aggiornamento %s"
 
 msgid "Quicksilver Icons"
-msgstr ""
+msgstr "Icone Quicksilver"
 
 msgid "Quick Image Viewer"
-msgstr ""
+msgstr "Visualizzatore rapido di immagini"
 
 msgid "View Image"
-msgstr ""
+msgstr "Guarda immagine"
 
 msgid "GNU Screen"
 msgstr "GNU Screen"
@@ -956,25 +940,25 @@ msgid "Attach"
 msgstr "Attacca"
 
 msgid "Send Keys"
-msgstr ""
+msgstr "Invia Chiave"
 
 msgid "Send synthetic keyboard events using xautomation"
-msgstr ""
+msgstr "Invia eventi di tastiera sintetica utilizzando xautomation"
 
 msgid "Paste to Foreground Window"
-msgstr ""
+msgstr "Incolla nella finestra in primo piano"
 
 msgid "Copy to clipboard and send Ctrl+V to foreground window"
-msgstr ""
+msgstr "Copia negli appunti e invia Ctrl+V alla finestra in primo piano"
 
 msgid "Send keys to foreground window"
-msgstr ""
+msgstr "Invia le chiavi alla finestra in primo piano"
 
 msgid "Type Text"
-msgstr ""
+msgstr "Digita Testo"
 
 msgid "Type the text to foreground window"
-msgstr ""
+msgstr "Digita il testo nella finestra in primo piano"
 
 msgid "GNOME Session Management"
 msgstr "Gestore sessioni di GNOME"
@@ -1029,16 +1013,14 @@ msgstr "Host SSH come specificato in ~/.ssh/config"
 msgid "No D-Bus connection to desktop session"
 msgstr "Connessione D-Bus alla sessione assente"
 
-#, fuzzy
 msgid "GNOME Keyring"
-msgstr "Profili del Terminale di GNOME"
+msgstr "Portachiavi GNOME"
 
 msgid "KWallet"
 msgstr ""
 
-#, fuzzy
 msgid "Unencrypted File"
-msgstr "File selezionato"
+msgstr "File non crittografato"
 
 #, fuzzy, python-format
 msgid "Dependency '%s' is not available"
@@ -1205,6 +1187,7 @@ msgid ""
 "Could not delete files:\n"
 "    "
 msgstr ""
+"Impossibile eliminare i file:\n"
 
 msgid "Trash is empty"
 msgstr "Il cestino è vuoto"
@@ -1390,7 +1373,7 @@ msgid "Tracker Full Text Search"
 msgstr ""
 
 msgid "Use '?' prefix to get full text results"
-msgstr ""
+msgstr "Uso '?' prefisso per ottenere risultati di testo completo"
 
 msgid "Locate Files"
 msgstr "Trova file"
@@ -1399,8 +1382,7 @@ msgid "Search filesystem using locate"
 msgstr "Cerca nel filesystem con locate"
 
 msgid "Ignore case distinctions when searching files"
-msgstr ""
-"Ignorare distinzione tra maiuscole/minuscole durante la ricerca dei file"
+msgstr "Ignorare distinzione tra maiuscole/minuscole durante la ricerca dei file"
 
 #. encoding: utf-8
 msgid "Firefox Bookmarks"
@@ -1463,10 +1445,10 @@ msgstr "Salta alla traccia precedente in Audacious"
 #. TRANS: %s is a media player name
 #, python-format
 msgid "Stop (%s)"
-msgstr ""
+msgstr "  Ferma (%s)"
 
 msgid "Stop playback"
-msgstr ""
+msgstr "Ferma riprodizione"
 
 msgid "Pidgin"
 msgstr "Pidgin"
@@ -1616,13 +1598,11 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Cerca in Devhelp"
 
-#, fuzzy
 msgid "Empathy"
-msgstr "Contatti Gajim"
+msgstr "Empathy"
 
-#, fuzzy
 msgid "Access to Empathy Contacts"
-msgstr "Accede ai contatti Gajim"
+msgstr "Accede ai contatti di Empathy"
 
 msgid "Busy"
 msgstr "Occupato"
@@ -1639,13 +1619,11 @@ msgstr "Fuori rete"
 msgid "Change Global Status To..."
 msgstr "Cambia stato globale in..."
 
-#, fuzzy
 msgid "Empathy Contacts"
-msgstr "Contatti Gajim"
+msgstr "Contatti di Empathy"
 
-#, fuzzy
 msgid "Empathy Account Status"
-msgstr "Stato account Gajim"
+msgstr "Stato account Empathy"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1661,12 +1639,11 @@ msgstr "Posiziona selezione in pila"
 msgid "Compose Command"
 msgstr "Comando Componi"
 
-#, fuzzy
 msgid "Mark Default Action"
-msgstr "Imposta applicazione predefinita..."
+msgstr "Contrassegna azione predefinita"
 
 msgid "Forget Object"
-msgstr ""
+msgstr "Dimentica Oggetto"
 
 msgid "Reset All"
 msgstr "Ripristina tutto"
@@ -1750,11 +1727,11 @@ msgstr "Azioni"
 
 #, python-format
 msgid "Using encrypted password storage: %s"
-msgstr ""
+msgstr "Utilizzo dell'archiviazione password crittografata: %s"
 
 #, python-format
 msgid "Using password storage: %s"
-msgstr ""
+msgstr "Utilizzo dell'archiviazione password: %s"
 
 #. TRANS: Plugin-specific configuration (header)
 msgid "Configuration"
@@ -2111,32 +2088,26 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 #~ msgid "%(user)s %(when)s on %(where)s"
 #~ msgstr "%(user)s %(when)s"
 
-#, fuzzy
 #~ msgid "Send Message"
-#~ msgstr "Invia messaggio..."
+#~ msgstr "Invia messaggio"
 
-#, fuzzy
 #~ msgid "Send Message To..."
-#~ msgstr "Invia messaggio..."
+#~ msgstr "Invia messaggio a..."
 
 #~ msgid "Reply..."
 #~ msgstr "Rispondi..."
 
-#, fuzzy
 #~ msgid "Delete Message"
-#~ msgstr "Invia messaggio..."
+#~ msgstr "Cancella Messaggio"
 
-#, fuzzy
 #~ msgid "Send Private Message..."
-#~ msgstr "Invia messaggio diretto..."
+#~ msgstr "Invia Messaggio Privato"
 
-#, fuzzy
 #~ msgid "Send direct message to user"
-#~ msgstr "Invia messaggio diretto a..."
+#~ msgstr "Invia messaggio diretto ad un utente"
 
-#, fuzzy
 #~ msgid "Retweet To..."
-#~ msgstr "Rinomina in..."
+#~ msgstr "Ritwetta a..."
 
 #, fuzzy
 #~ msgid "Retweet message to all Gwibber accounts"
@@ -2205,8 +2176,7 @@ msgstr "Impossibile trovare Kupfer in esecuzione"
 #~ msgstr "Servizi di sistema"
 
 #~ msgid "Start, stop or restart system services via init scripts"
-#~ msgstr ""
-#~ "Avvia, interrompe o riavvia servizi di sistema attraverso script init"
+#~ msgstr "Avvia, interrompe o riavvia servizi di sistema attraverso script init"
 
 #~ msgid "Sudo-like Command"
 #~ msgstr "Comandi della shell"
