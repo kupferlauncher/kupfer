@@ -149,7 +149,7 @@ class OpenSearchSource (Source):
                             child.get("template")):
                         text = child.get("template")
                         params = {}
-                        for ch in child.getchildren():
+                        for ch in child:
                             if gettagname(ch.tag) == "Param":
                                 params[ch.get("name")] = ch.get("value")
                         if params:

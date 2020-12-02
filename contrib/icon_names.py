@@ -63,7 +63,7 @@ class StandardIconsSource (IconNamesSource):
 
         def flatten(tag):
             """return text of @tag and its immediate children"""
-            return tag.text + "".join(c.text+c.tail for c in tag.getchildren())
+            return tag.text + "".join(c.text+c.tail for c in tag)
 
         names = first(s for s in root.findall("sect1") if s.get("id") == "names")
         for table in names.findall("table"):
