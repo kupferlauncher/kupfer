@@ -11,7 +11,7 @@ from kupfer.obj.apps import AppLeafContentMixin
 
 
 class BookmarksSource (AppLeafContentMixin, Source):
-    appleaf_content_id = ("chromium-browser")
+    appleaf_content_id = ("chromium-browser", "chromium")
     def __init__(self):
         super(BookmarksSource, self).__init__(_("Chromium Bookmarks"))
 

@@ -17,7 +17,7 @@ def get_bookmarks(bookmarks_file):
         return []
 
     with open(bookmarks_file) as f:
-        content = f.read().decode("UTF-8")
+        content = f.read()
         root = json_decoder(content)
 
     # make a dictionary of unique bookmarks
