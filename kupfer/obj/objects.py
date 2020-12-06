@@ -440,7 +440,7 @@ class UrlLeaf (Leaf, TextRepresentation):
         return self.object
 
     def get_icon_name(self):
-        return "text-html"
+        return "web-browser"
 
 class RunnableLeaf (Leaf):
     """Leaf where the Leaf is basically the action itself,

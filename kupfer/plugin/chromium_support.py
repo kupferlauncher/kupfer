@@ -17,7 +17,7 @@ def get_bookmarks(bookmarks_file):
         return []
 
     with open(bookmarks_file) as f:
-        content = f.read().decode("UTF-8")
+        content = f.read()
         root = json_decoder(content)
 
     # make a dictionary of unique bookmarks
@@ -52,5 +52,5 @@ def get_bookmarks(bookmarks_file):
     return list(bmap.values())
 
 if __name__ == "__main__":
-    fpath = os.path.expanduser("~/.config/chromium/Default/")
+    fpath = os.path.expanduser("~/.config/chromium/Default/Bookmarks")
     print("Parsed # bookmarks:", len(list(get_bookmarks(fpath))))
