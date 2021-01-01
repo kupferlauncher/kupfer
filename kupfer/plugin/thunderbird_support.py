@@ -1,29 +1,33 @@
 # -*- coding: utf-8 -*-
-
-
-
-import os
-import re
-from configparser import RawConfigParser
-
-from kupfer import pretty
-
-__version__ = "2011-04-10"
-__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
-
 '''
 Module provide function to read Thunderbird's address book.
 
 Concept for mork parser from:
     - demork.py by Kumaran Santhanam
     - mork.cs from GnomeDo by Pierre Östlund
+
+2021-01-01 Add support sqlite address book file format
 '''
 
+import os
+import re
+from configparser import RawConfigParser
+import sqlite3
+import time
+from contextlib import closing
+
+from kupfer import pretty
+
+__version__ = "2021-01-01"
+__author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
+
 THUNDERBIRD_HOME = list(map(os.path.expanduser,
-        ('~/.mozilla-thunderbird/', '~/.thunderbird', '~/.icedove/')))
+                            ('~/.mozilla-thunderbird/',
+                             '~/.thunderbird',
+                             '~/.icedove/')))
 
 THUNDERBIRD_PROFILES = [(thome, os.path.join(thome, 'profiles.ini'))
-        for thome in THUNDERBIRD_HOME]
+                        for thome in THUNDERBIRD_HOME]
 
 
 RE_COLS = re.compile(r'<\s*<\(a=c\)>\s*(\/\/)?\s*(\(.+?\))\s*>')
@@ -262,6 +266,62 @@ def _mork2contacts(tables):
                     yield (display_name or email[:email.find('@')], email)
 
 
+_ABOOK_CONTACTS_SQL = """
+select
+    (select value from properties
+     where card = c.uid and name = 'FirstName'
+    ) as FirstName,
+    (select value from properties
+     where card = c.uid and name = 'LastName'
+    ) as LastName ,
+    (select value from properties
+     where card = c.uid and name = 'DisplayName'
+    ) as DisplayName ,
+    (select value from properties
+     where card = c.uid and name = 'PrimaryEmail'
+    ) as PrimaryEmail ,
+    (select value from properties
+     where card = c.uid and name = 'SecondEmail'
+    ) as SecondEmail
+from cards c
+"""
+
+
+def _load_abook_sqlite(filename):
+    ''' Load contacts from abook.sqlite filename.
+
+    Thunderbird (like firefox) lock database, so it mus be opened as immutable
+    and read-only. Also changes may be not visible immediate - require close
+    sqlite file by thunderbird.
+    '''
+
+    dbfpath = filename.replace("?", "%3f").replace("#", "%23")
+    dbfpath = "file:" + dbfpath + "?immutable=1&mode=ro"
+
+    for _ in range(2):
+        try:
+            pretty.print_debug(__name__, "_load_abook_sqlite load:", dbfpath)
+            with closing(sqlite3.connect(dbfpath, timeout=1)) as conn:
+                cur = conn.cursor()
+                cur.execute(_ABOOK_CONTACTS_SQL)
+                for (first_name, last_name, display_name, primary_email,
+                     second_email) in cur:
+                    if not display_name:
+                        display_name = ' '.join((first_name, last_name))
+                    if display_name:
+                        display_name = display_name.strip()
+                    for email in (primary_email, second_email):
+                        if email:
+                            yield (display_name or email[:email.find('@')],
+                                   email)
+            return
+        except sqlite3.Error as err:
+            # Something is wrong with the database
+            # wait short time and try again
+            pretty.print_debug(__name__, "_load_abook_sqlite error:", str(err))
+            time.sleep(1)
+
+
 def get_addressbook_dirs():
     ''' Get path to addressbook file from default profile. '''
     for thome, tprofile in THUNDERBIRD_PROFILES:
@@ -288,19 +348,28 @@ def get_addressbook_files():
                 if os.path.isfile(fullpath):
                     yield fullpath
 
+        abook_filename = os.path.join(path, "abook.sqlite")
+        if os.path.isfile(abook_filename):
+            yield abook_filename
+
 
 def get_contacts():
     ''' Get all contacts from all Thunderbird address books as
         ((contact name, contact email)) '''
     for abook in get_addressbook_files():
         pretty.print_debug(__name__, 'get_contacts:', abook)
-        try:
-            tables = _read_mork(abook)
-        except IOError as err:
-            pretty.print_error(__name__, 'get_contacts error', abook, err)
+        if abook.endswith("abook.sqlite"):
+            try:
+                yield from _load_abook_sqlite(abook)
+            except Exception as err:
+                pretty.print_error(__name__, 'get_contacts error', abook, err)
         else:
-            for item in _mork2contacts(tables):
-                yield item
+            try:
+                tables = _read_mork(abook)
+            except IOError as err:
+                pretty.print_error(__name__, 'get_contacts error', abook, err)
+            else:
+                yield from _mork2contacts(tables)
 
 
 if __name__ == '__main__':
