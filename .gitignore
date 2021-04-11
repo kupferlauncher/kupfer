@@ -7,3 +7,7 @@
 /po/untitled.pot
 
 *.pyc
+
+.mypy_cache
+/.ropeproject
+/.lock*
