@@ -6,15 +6,17 @@
 
 import os
 import sys
+import subprocess
 try:
-    from waflib import Configure, Options, Utils, Logs
+    from waflib import Configure, Options, Utils, Logs, Errors
 except ImportError:
     print("You need to upgrade to Waf 1.6! See README.")
     sys.exit(1)
 
 # the following two variables are used by the target "waf dist"
-APPNAME="kupfer"
+APPNAME = "kupfer"
 VERSION = "undefined"
+
 
 def _get_git_version():
     """ try grab the current version number from git"""
@@ -26,6 +28,7 @@ def _get_git_version():
             print(e)
     return version
 
+
 def _read_git_version():
     """Read version from git repo, or from GIT_VERSION"""
     version = _get_git_version()
@@ -36,6 +39,7 @@ def _read_git_version():
     if version:
         global VERSION
         VERSION = version
+
 
 def _write_git_version():
     """ Write the revision to a file called GIT_VERSION,
@@ -60,9 +64,9 @@ config_subdirs = "auxdata help"
 build_subdirs = "auxdata data po help"
 
 EXTRA_DIST = [
-    #"waf",
     "GIT_VERSION",
 ]
+
 
 def _tarfile_append_as(tarname, filename, destname):
     import tarfile
@@ -78,9 +82,9 @@ def _tarfile_append_as(tarname, filename, destname):
     finally:
         tf.close()
 
+
 def gitdist(ctx):
     """Make the release tarball using git-archive"""
-    import subprocess
     if not _write_git_version():
         raise Exception("No version")
     basename = "%s-%s" % (APPNAME, VERSION)
@@ -109,24 +113,32 @@ def options(opt):
     # options for disabling pyc or pyo compilation
     opt.load("python")
     opt.load("gnu_dirs")
-    opt.add_option('--nopyo',action='store_false',default=False,help='Do not install optimised compiled .pyo files [This is the default for Kupfer]',dest='pyo')
-    opt.add_option('--pyo',action='store_true',default=False,help='Install optimised compiled .pyo files [Default:not install]',dest='pyo')
-    opt.add_option('--no-runtime-deps',action='store_false',default=True,
-            help='Do not check for any runtime dependencies',dest='check_deps')
+    opt.add_option('--nopyo', action='store_false', default=False,
+                   help='Do not install optimised compiled .pyo files '
+                   '[This is the default for Kupfer]',
+                   dest='pyo')
+    opt.add_option('--pyo', action='store_true', default=False,
+                   help='Install optimised compiled .pyo files '
+                   '[Default:not install]',
+                   dest='pyo')
+    opt.add_option('--no-runtime-deps', action='store_false', default=True,
+                   help='Do not check for any runtime dependencies',
+                   dest='check_deps')
     opt.recurse(config_subdirs)
+
 
 def configure(conf):
     conf.load("python")
     try:
         conf.check_python_version((3, 5, 0))
-    except Configure.ConfigurationError:
+    except Errors.ConfigurationError:
         if os.getenv("PYTHON"):
             raise
         Logs.pprint("NORMAL", "Looking for Python 3 instead")
         conf.env["PYTHON"] = ["python3"]
         conf.check_python_version((3, 5, 0))
-    conf.load("gnu_dirs")
 
+    conf.load("gnu_dirs")
     conf.load("intltool")
 
     conf.env["KUPFER"] = Utils.subst_vars("${BINDIR}/kupfer", conf.env)
@@ -136,7 +148,7 @@ def configure(conf):
     # Setup PYTHONDIR so we install into $DATADIR
     conf.env["PYTHONDIR"] = Utils.subst_vars("${DATADIR}/kupfer", conf.env)
     Logs.pprint("NORMAL",
-            "Installing python modules into: %(PYTHONDIR)s" % conf.env)
+                "Installing python modules into: %(PYTHONDIR)s" % conf.env)
 
     opt_build_programs = {
             "rst2man": "Generate and install man page",
@@ -146,7 +158,7 @@ def configure(conf):
             conf.find_program(prog, var=prog.replace("-", "_").upper())
         except conf.errors.ConfigurationError:
             Logs.pprint("YELLOW",
-                         "Optional, allows: %s" % opt_build_programs[prog])
+                        "Optional, allows: %s" % opt_build_programs[prog])
 
     if not Options.options.check_deps:
         return
@@ -178,7 +190,7 @@ def configure(conf):
     for mod in opt_pymodules:
         try:
             conf.check_python_module(mod)
-        except Configure.ConfigurationError:
+        except Errors.ConfigurationError:
             Logs.pprint("YELLOW", "module %s is recommended, allows %s" % (
                 mod, opt_pymodules[mod]))
 
@@ -201,6 +213,7 @@ def _new_package(bld, name):
     bld.install_files(obj.install_path, pkgnode.ant_glob("*.svg"),
                       relative_trick=True)
 
+
 def _find_packages_in_directory(bld, name):
     """Go through directory @name and recursively add all
     Python packages with contents to the sources to be installed
@@ -209,8 +222,10 @@ def _find_packages_in_directory(bld, name):
         if "__init__.py" in filenames:
             _new_package(bld, dirname)
 
+
 def _dict_slice(D, keys):
-    return dict((k,D[k]) for k in keys)
+    return dict((k, D[k]) for k in keys)
+
 
 def build(bld):
     # always read new version
@@ -222,7 +237,7 @@ def build(bld):
     bld(features="subst",
         source=version_subst_file + ".in",
         target=version_subst_file,
-        dict = _dict_slice(bld.env,"VERSION DATADIR PACKAGE LOCALEDIR".split())
+        dict=_dict_slice(bld.env, "VERSION DATADIR PACKAGE LOCALEDIR".split())
         )
     bld.install_files("${PYTHONDIR}/kupfer", "kupfer/version_subst.py")
 
@@ -237,16 +252,16 @@ def build(bld):
     # bin/
     # Write in some variables in the shell script binaries
     bld(features="subst",
-        source = "bin/kupfer.in",
-        target = "bin/kupfer",
-        dict = _dict_slice(bld.env, "PYTHON PYTHONDIR".split())
+        source="bin/kupfer.in",
+        target="bin/kupfer",
+        dict=_dict_slice(bld.env, "PYTHON PYTHONDIR".split())
         )
     bld.install_files("${BINDIR}", "bin/kupfer", chmod=0o755)
 
     bld(features="subst",
-        source = "bin/kupfer-exec.in",
-        target = "bin/kupfer-exec",
-        dict = _dict_slice(bld.env, "PYTHON PACKAGE LOCALEDIR".split())
+        source="bin/kupfer-exec.in",
+        target="bin/kupfer-exec",
+        dict=_dict_slice(bld.env, "PYTHON PACKAGE LOCALEDIR".split())
         )
     bld.install_files("${BINDIR}", "bin/kupfer-exec", chmod=0o755)
 
@@ -254,17 +269,17 @@ def build(bld):
     if bld.env["RST2MAN"]:
         # generate man page from Manpage.rst
         bld(
-            source = "Documentation/Manpage.rst",
-            target = "kupfer.1",
-            rule = '%s ${SRC} > ${TGT}' % bld.env["RST2MAN"][0],
+            source="Documentation/Manpage.rst",
+            target="kupfer.1",
+            rule='%s ${SRC} > ${TGT}' % bld.env["RST2MAN"][0],
         )
         bld.add_group()
         # compress and install man page
         manpage = bld(
-            source = "kupfer.1",
-            target = "kupfer.1.gz",
-            rule = 'gzip -9 -c ${SRC} > ${TGT}',
-            install_path = "${MANDIR}/man1",
+            source="kupfer.1",
+            target="kupfer.1.gz",
+            rule='gzip -9 -c ${SRC} > ${TGT}',
+            install_path="${MANDIR}/man1",
         )
         man_path = Utils.subst_vars(
                 os.path.join(manpage.install_path, manpage.target),
@@ -274,13 +289,16 @@ def build(bld):
     # Separate subdirectories
     bld.recurse(build_subdirs)
 
+
 def distclean(bld):
     bld.exec_command("find ./ -name '*.pyc' -delete")
+
 
 def intlupdate(util):
     print("You should use intltool-update directly.")
     print("You can read about this in Documentation/Manual.rst")
     print("in the localization chapter!")
+
 
 def test(bld):
     # find all files with doctests
@@ -294,13 +312,20 @@ def test(bld):
         cmd = [python, p]
         if verbose:
             cmd.append("-v")
-        sin, souterr = os.popen4(cmd)
+
+        pcmd = subprocess.Popen(
+            cmd, shell=True,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT, close_fds=True)
+        sin, souterr = pcmd.stdin, pcmd.stdout
         sin.close()
         res = souterr.read()
         souterr.close()
-        print (res or "OK")
+        print(res or "OK")
         all_success = all_success and bool(res)
     return all_success
+
 
 def shutdown(bld):
     pass
