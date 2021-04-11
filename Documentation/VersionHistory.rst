@@ -1,6 +1,26 @@
 NEWS for kupfer
 ===============
 
+kupfer v321
+-----------
+
++ Update translations: es, it, pl
+
++ Plugins:
+
+  + Add *WhatsApp Web* by leoen25demayo
+  + Add *Instapaper* by Peter Stuifzand
+  + Add *Pinboard* by Peter Stuifzand
+  + Add *Brotab* by Peter Stuifzand
+  + Fix loading data error in  *OpenSearchSource* (closes: #142)
+  + Add *chromium* plugin (port old plugin to Py3) by emareg
+  + In *thunderbird* add support for addressbook in sqlite format
+  + In *XFCE Session* allow configure lock screen command (closes: #146)
+
++ Dev:
+
+  + Fix building distributing tar file (closes: #147)
+
 kupfer v320
 -----------
 
