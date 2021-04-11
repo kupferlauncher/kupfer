@@ -96,9 +96,10 @@ def gitdist(ctx):
     subprocess.call(["xz", "-6e", outname])
     subprocess.call(["sha1sum", outname + ".xz"])
 
+
 def dist(ctx):
     "The standard waf dist process"
-    import Scripting
+    from waflib import Scripting
     _write_git_version()
     Scripting.g_gz = "gz"
     Scripting.dist(ctx)
