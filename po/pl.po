@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-08 10:18+0200\n"
-"PO-Revision-Date: 2020-08-08 10:40+0200\n"
+"POT-Creation-Date: 2021-04-12 19:26+0200\n"
+"PO-Revision-Date: 2021-04-12 19:26+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -183,6 +183,7 @@ msgstr "Użycie: kupfer [ OPCJE | PLIK… ]"
 msgid "Available plugins:"
 msgstr "Dostępne wtyczki:"
 
+#, python-format
 msgid ""
 "%(PROGRAM_NAME)s: %(SHORT_DESCRIPTION)s\n"
 "   %(COPYRIGHT)s\n"
@@ -695,7 +696,8 @@ msgid ""
 msgstr ""
 "Konfiguruj własny emulator terminala.\n"
 "\n"
-"Wtyczka  dodaje kolejny, alternatywny terminal (do wyboru na stronie głównej) "
+"Wtyczka  dodaje kolejny, alternatywny terminal (do wyboru na stronie "
+"głównej) "
 
 msgid "Command"
 msgstr "Polecenie"
@@ -758,7 +760,8 @@ msgid "Toggle Recent Documents"
 msgstr "Przełącz ostatnie dokumenty"
 
 msgid "Enable/disable listing recent documents in content for this application"
-msgstr "Włącz/wyłącz wyświetlanie ostatnich dokumentów w kontekście tej aplikacji"
+msgstr ""
+"Włącz/wyłącz wyświetlanie ostatnich dokumentów w kontekście tej aplikacji"
 
 msgid "DuckDuckGo Search"
 msgstr "Wyszukiwanie w serwisie DuckDuckGo"
@@ -1010,6 +1013,9 @@ msgstr "Menedżer sesji Xfce"
 msgid "Special items and actions for XFCE environment"
 msgstr "Specjalne elementy i działania dla środowiska Xfce"
 
+msgid "Screen lock command"
+msgstr "Polecenie blokady ekranu"
+
 #. -*- coding: UTF-8 -*-
 msgid "SSH Hosts"
 msgstr "Komputery SSH"
@@ -1032,6 +1038,7 @@ msgstr "Komputery SSH określone w ~/.ssh/config"
 msgid "No D-Bus connection to desktop session"
 msgstr "Brak połączenia usługi D-Bus do sesji pulpitu"
 
+#, python-format
 msgid "Dependency '%s' is not available"
 msgstr "Wymagana biblioteka „%s” jest niedostępna"
 
@@ -1426,9 +1433,11 @@ msgstr "Szukane wyrażenie"
 msgid "Firefox Keywords (?-source)"
 msgstr "Słowa kluczowe Firefox (?-źródło)"
 
+#, python-format
 msgid "Search for \"%s\""
 msgstr "Szukaj \"%s\""
 
+#, python-format
 msgid "Search using %s"
 msgstr "Szukaj z użyciem %s"
 
@@ -1439,6 +1448,7 @@ msgid "Playback control for media players"
 msgstr "Kontrola odtwarzania dla odtwarzaczy multimedialnych"
 
 #. TRANS: %s is a media player name
+#, python-format
 msgid "Play/Pause (%s)"
 msgstr "Odtwarzaj/Wstrzymaj (%s)"
 
@@ -1449,6 +1459,7 @@ msgid "Pause All"
 msgstr "Wstrzymaj wszystko"
 
 #. TRANS: %s is a media player name
+#, python-format
 msgid "Next (%s)"
 msgstr "Następny (%s)"
 
@@ -1456,6 +1467,7 @@ msgid "Skip to next track"
 msgstr "Przechodzi do następnego utworu"
 
 #. TRANS: %s is a media player name
+#, python-format
 msgid "Previous (%s)"
 msgstr "Poprzedni (%s)"
 
@@ -1695,6 +1707,7 @@ msgstr "Brak wyników w %(src)s dla „%(query)s”"
 msgid "No matches"
 msgstr "Brak wyników"
 
+#, python-format
 msgid "No action matches \"%s\""
 msgstr "Brak wyników dla \"%s\""
 
@@ -1818,6 +1831,9 @@ msgstr ""
 #. follows strings used elsewhere
 msgid "Could not find running Kupfer"
 msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
+
+#~ msgid "Lock screen command"
+#~ msgstr "Polecenie blokady ekranu"
 
 #~ msgid "<b>Start</b>"
 #~ msgstr "<b>Początek</b>"
@@ -2442,9 +2458,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Send..."
 #~ msgstr "Wyślij…"
-
-#~ msgid "Send ex command"
-#~ msgstr "Wysyła polecenie ex"
 
 #~ msgid "Insert in Vim..."
 #~ msgstr "Wstaw w programie Vim…"
