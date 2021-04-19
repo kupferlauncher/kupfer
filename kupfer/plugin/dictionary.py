@@ -10,6 +10,7 @@ from kupfer import plugin_support
 
 dictionaries = {
     'gnome-dictionary': ['gnome-dictionary', '--look-up='],
+    'mate-dictionary': ['mate-dictionary', '--look-up='],
     'purple': ['purple', '--define='],
     'xfce4-dict': ['xfce4-dict', '--dict', ''],
 }
