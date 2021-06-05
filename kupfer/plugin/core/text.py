@@ -11,7 +11,7 @@ __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource",)
 __kupfer_actions__ = ("OpenTextUrl", )
 __description__ = "Basic support for free-text queries"
-__version__ = "2009-12-16"
+__version__ = "2021.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 class BasicTextSource (TextSource):
@@ -34,9 +34,29 @@ class PathTextSource (TextSource):
 
     def get_rank(self):
         return 80
+
+    def _get_hostname(self):
+        if not hasattr(self, '_hostname'):
+            try:
+                import socket
+                self._hostname = socket.gethostname()
+            except Exception:
+                self._hostname = ""
+                self.output_exc()
+        return self._hostname
+
+    def _is_local_file_url(self, url):
+        # Recognize file:/// or file://localhost/ or file://<local_hostname>/ URLs
+        if url.startswith("file:"):
+            hostname = self._get_hostname()
+            for prefix in ['file:///', 'file://localhost/', 'file://%s/' % hostname]:
+                if url.startswith(prefix):
+                    return True
+        return False
+
     def get_text_items(self, text):
         # Find directories or files
-        if text.startswith("file:///"):
+        if self._is_local_file_url(text):
             leaf = FileLeaf.from_uri(text)
             if leaf and leaf.is_valid():
                 yield leaf
@@ -46,6 +66,7 @@ class PathTextSource (TextSource):
             filepath = os.path.normpath(ufilepath)
             if os.access(filepath, os.R_OK):
                 yield FileLeaf(filepath)
+
     def provides(self):
         yield FileLeaf
 
