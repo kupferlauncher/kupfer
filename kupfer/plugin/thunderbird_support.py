@@ -301,7 +301,7 @@ def _load_abook_sqlite(filename):
     for _ in range(2):
         try:
             pretty.print_debug(__name__, "_load_abook_sqlite load:", dbfpath)
-            with closing(sqlite3.connect(dbfpath, timeout=1)) as conn:
+            with closing(sqlite3.connect(dbfpath, uri=True, timeout=1)) as conn:
                 cur = conn.cursor()
                 cur.execute(_ABOOK_CONTACTS_SQL)
                 for (first_name, last_name, display_name, primary_email,

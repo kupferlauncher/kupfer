@@ -56,7 +56,8 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
         for _ in range(2):
             try:
                 self.output_debug("Reading bookmarks from", fpath)
-                with closing(sqlite3.connect(fpath, timeout=1)) as conn:
+                with closing(sqlite3.connect(fpath, uri=True,
+                                             timeout=1)) as conn:
                     c = conn.cursor()
                     c.execute("""SELECT moz_places.url, moz_bookmarks.title
                               FROM moz_places, moz_bookmarks
