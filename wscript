@@ -278,7 +278,7 @@ def build(bld):
         manpage = bld(
             source="kupfer.1",
             target="kupfer.1.gz",
-            rule='gzip -9 -c ${SRC} > ${TGT}',
+            rule='gzip -n -9 -c ${SRC} > ${TGT}',
             install_path="${MANDIR}/man1",
         )
         man_path = Utils.subst_vars(
