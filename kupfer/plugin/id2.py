@@ -1,9 +1,10 @@
 """ ID2 – Guess Identifier (Kupfer Plugin). See https://id2.dev
 """
-__kupfer_name__    = ("Identifier Resolver")
+__kupfer_name__ = _("Identifier Resolver")
 __kupfer_sources__ = ()
-__kupfer_actions__ = ( "LookupID", )
-__description__    = ("""Detect and open DOIs, ISBNs, OrcIDs, crypto-addresses, geo-coordinates, and more in your web-browser. Examples:
+__kupfer_text_sources__ = ("IdentifierSource", )
+__kupfer_actions__ = ("LookupID", )
+__description__ = _("""Detect and open DOIs, ISBNs, OrcIDs, crypto-addresses, geo-coordinates, and more in your web-browser. Examples:
 
 - Unicode:  \t"U+1F194"
 - UnixTime: \t"1606324253"
@@ -14,62 +15,66 @@ __description__    = ("""Detect and open DOIs, ISBNs, OrcIDs, crypto-addresses, 
 
 For a full list, see https://id2.dev
 
-To disable a certain ID, write "x" into URL field below.
+To disable a certain ID, write a single character (e.g. "x") into the URL field below.
 """)
 __version__ = "2021.0"
-__author__  = "Emanuel Regnath"
+__author__ = "Emanuel Regnath"
 
 
-import urllib.parse
-import re
-
-from kupfer.objects import Action, TextLeaf
-from kupfer import utils, plugin_support
 from kupfer.plugin.id2_support import id2data   # Dict/JSON with all IDs
+from kupfer import utils, plugin_support
+from kupfer.objects import Action, TextLeaf, TextSource
+import re
+import urllib.parse
 
-
-# keys for which we allow custom URLs via Settings
-# these should be IDs with multiple resolvers.
-SETTING_URL_KEYS=["i:ip4", "i:ip6", "i:utf8", "g:gps", "o:ean", "o:upc"]
-
-__kupfer_settings__ = plugin_support.PluginSettings(
-    *[{"key": k[2:], 
-      "label": "URL for "+k[2:].upper(), 
-      "type": str, 
-      "value": id2data[k]["url"] } for k in SETTING_URL_KEYS if k in id2data]
-)
 
 # global table holding identifier classes and icon names
-CLASS_NAMES={
+CLASS_NAMES = {
     "i": ["Identifier", "edit-find"],
     "g": ["Geo-Location", "applications-internet"],
     "d": ["Document", "x-office-document"],
     "o": ["Object", "package-x-generic"],
-    "h": ["Hash", "dialog-password"], 
+    "h": ["Hash", "dialog-password"],
     "t": ["Time", "x-office-calendar"],
-    "w": ["Person", "stock_person" ],
+    "w": ["Person", "stock_person"],
 }
 
 
+# kupfer setting keys must not have colons
+def _settings_key(key: str):
+    return key.replace(':', '_')
 
-def guessId(token):
+
+# keys for which we allow custom URLs via Settings
+# these should be IDs with multiple resolvers.
+SETTING_URL_KEYS = ["i:ip4", "i:ip6", "i:utf8",
+                    "g:gps", "o:ean", "o:upc", "o:asin"]
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+    *[{"key": _settings_key(k),
+       "label": "URL for "+k[2:].upper(),
+       "type": str,
+       "value": id2data[k]["url"]} for k in SETTING_URL_KEYS if k in id2data]
+)
+
+
+def guess_id(token: str):
     """Test if "token" matches the regex of any identifier and return all found types."""
     token = token.strip()
     types = []
     for key, entry in id2data.items():
-        if key in SETTING_URL_KEYS and len(__kupfer_settings__[key[2:]]) < 3: continue 
+        if key in SETTING_URL_KEYS and len(__kupfer_settings__[_settings_key(key)]) < 3:
+            continue
         if len(token) in entry["lens"]:
-            match = entry["recomp"].match(token)
+            match = re.match(r'^'+entry["re"]+r'$', token)
             if match:
-                entry["part"]=match.group(1)
+                entry["part"] = match.group(1)
                 types.append(entry)
     return types
 
 
-
-def parseIdentifierLengthsOnce():
+def _parse_identifier_lengths():
     """parse "len" key string and assign a list of integers to speed up execution"""
-    if "lens" in id2data["d:doi"].keys(): return # check if already done
     lens = []
     for key, entry in id2data.items():
         parts = entry['len'].split(",")
@@ -77,7 +82,8 @@ def parseIdentifierLengthsOnce():
             nums = part.split("-")
             imin = int(nums[0])
             if(len(nums) == 2):
-                if(nums[1] == ""): nums[1] = "40"
+                if(nums[1] == ""):
+                    nums[1] = "40"
                 imax = int(nums[1])
                 lens = list(range(imin, imax+1))
             else:
@@ -86,50 +92,64 @@ def parseIdentifierLengthsOnce():
         id2data[key]['lens'] = lens
 
 
+class IdentifierLeaf(TextLeaf):
+    def __init__(self, id2key, token):
+        TextLeaf.__init__(self, token)
+        self.id2key = id2key
+        self.id2cls = id2key[0]
 
-def precompileRegexOnce():
-    if "recomp" in id2data["d:doi"].keys(): return # check if already done
-    for _, entry in id2data.items():
-        entry["recomp"] = re.compile(r'^'+entry["re"]+r'$')
+    def get_actions(self):
+        yield LookupID()
 
+    def get_icon_name(self):
+        return CLASS_NAMES[self.id2cls][1]
+
+    def get_description(self):
+        return "{} ID: {}".format(CLASS_NAMES[self.id2cls][0],
+                                  id2data[self.id2key]["desc"])
+
+
+class IdentifierSource(TextSource):
+    def __init__(self):
+        TextSource.__init__(self, name=_('ID2 Identifiers'))
+
+    def get_text_items(self, text):
+        if len(text) < 5:
+            return None
+        types = guess_id(text)
+        for entry in types:
+            yield IdentifierLeaf(entry['id'], text)
+
+    def provides(self):
+        yield IdentifierLeaf
+
+    def get_rank(self):
+        return 42
 
 
 class LookupID (Action):
     def __init__(self):
         Action.__init__(self, name=_("Open in Browser"))
-        self.foundId = {}
-        self.rank_adjust = 3     # Rank our result slightly higher than default. Since we match a regex, we probably offer what the user is looking for.
-        self.icon_name = "web-browser"
+        self.rank_adjust = 5  # default action for IdentifierLeaf
 
     def activate(self, leaf):
         """Called when item is selected via Enter/click"""
-        if self.foundId["id"] in SETTING_URL_KEYS:
-            query_url = __kupfer_settings__[self.foundId["id"][2:]] + self.foundId["part"]
+        entry = id2data[leaf.id2key]
+        if leaf.id2key in SETTING_URL_KEYS:
+            url_prefix = __kupfer_settings__[_settings_key(leaf.id2key)]
         else:
-            query_url = self.foundId["url"] + self.foundId["part"]
-        utils.show_url(query_url)
+            url_prefix = entry["url"]
+        utils.show_url(url_prefix + entry["part"])
 
     def item_types(self):
-        yield TextLeaf
-
-    def valid_for_item(self, leaf):
-        if len(leaf.object) < 5: return False
-        types = guessId(leaf.object)
-        if not types: return False
-        self.foundId = types[0]
-        idclass = types[0]["id"][0]
-        leaf.get_description = lambda: (self.foundId["desc"] + " ({})".format(CLASS_NAMES[idclass][0]) )
-        leaf.get_icon_name = lambda: CLASS_NAMES[idclass][1]
-        return True
+        yield IdentifierLeaf
 
     def get_description(self):
-        return "Resolve this ID using a WebService"
+        return _("Resolve this ID using a WebService")
 
     def get_icon_name(self):
-        return self.icon_name
+        return "web-browser"
 
 
-
-# execute once on import
-parseIdentifierLengthsOnce()
-precompileRegexOnce()
+def initialize_plugin(name):
+    _parse_identifier_lengths()
