@@ -14,10 +14,11 @@ __description__    = ("""Detect and open DOIs, ISBNs, OrcIDs, crypto-addresses, 
 
 For a full list, see https://id2.dev
 
-To disable a certain ID, put "x" into URL field below.
+To disable a certain ID, write "x" into URL field below.
 """)
 __version__ = "2021.0"
 __author__  = "Emanuel Regnath"
+
 
 import urllib.parse
 import re
@@ -38,7 +39,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
       "value": id2data[k]["url"] } for k in SETTING_URL_KEYS if k in id2data]
 )
 
-
 # global table holding identifier classes and icon names
 CLASS_NAMES={
     "i": ["Identifier", "edit-find"],
@@ -51,26 +51,25 @@ CLASS_NAMES={
 }
 
 
-def guessId(token, idclass=None):
-    """Test if "token" matches the regex of any identifier and return all found types. If idclass is given, only test those."""
+
+def guessId(token):
+    """Test if "token" matches the regex of any identifier and return all found types."""
     token = token.strip()
     types = []
     for key, entry in id2data.items():
-        if idclass and idclass != key[0]: continue
-        # sys.stderr.write(key)
         if key in SETTING_URL_KEYS and len(__kupfer_settings__[key[2:]]) < 3: continue 
         if len(token) in entry["lens"]:
-            regex = entry["re"]
-            match = re.match(r'^'+regex+r'$', token)
+            match = entry["recomp"].match(token)
             if match:
                 entry["part"]=match.group(1)
                 types.append(entry)
     return types
 
 
+
 def parseIdentifierLengthsOnce():
     """parse "len" key string and assign a list of integers to speed up execution"""
-    if "lens" in  id2data["d:doi"].keys(): return
+    if "lens" in id2data["d:doi"].keys(): return # check if already done
     lens = []
     for key, entry in id2data.items():
         parts = entry['len'].split(",")
@@ -85,6 +84,13 @@ def parseIdentifierLengthsOnce():
                 lens.append(imin)
 
         id2data[key]['lens'] = lens
+
+
+
+def precompileRegexOnce():
+    if "recomp" in id2data["d:doi"].keys(): return # check if already done
+    for _, entry in id2data.items():
+        entry["recomp"] = re.compile(r'^'+entry["re"]+r'$')
 
 
 
@@ -123,4 +129,7 @@ class LookupID (Action):
         return self.icon_name
 
 
-parseIdentifierLengthsOnce()   # execute on import
+
+# execute once on import
+parseIdentifierLengthsOnce()
+precompileRegexOnce()
