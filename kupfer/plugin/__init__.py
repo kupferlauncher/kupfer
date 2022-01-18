@@ -1,4 +1,3 @@
-
 def _extend_path():
     # Inside a function to not leak variables to module namespace
     import os
@@ -23,5 +22,5 @@ def _extend_path():
             pretty.print_debug(__name__, "Adding", directory, zipnames)
         __path__.extend(os.path.join(directory, z) for z in zipnames)
 
-_extend_path()
 
+_extend_path()

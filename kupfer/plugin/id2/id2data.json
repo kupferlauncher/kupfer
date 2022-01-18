@@ -1,4 +1,4 @@
-id2data = {
+{
 
 "t:iso": {
 	"id": "t:iso",
@@ -16,7 +16,6 @@ id2data = {
 	"ex": "1606324253",
 	"url": "https://timestamp.online/timestamp/"
 },
-
 
 
 
@@ -52,8 +51,6 @@ id2data = {
 	"ex": "4QFJ1093763778",
 	"url": "https://mappingsupport.com/p2/gissurfer.php?center="
 },
-
-
 
 
 
@@ -108,7 +105,6 @@ id2data = {
 	"ex": "4006375008111",
 	"url": "https://www.ean-search.org/?q="
 },
-
 "o:upc": {
 	"id": "o:upc",
 	"re": "([016-9] ?[0-9]{5} ?[0-9]{5} ?[0-9])",
@@ -117,7 +113,6 @@ id2data = {
 	"ex": "042100005264",
 	"url": "https://www.ean-search.org/?q="
 },
-
 "o:asin": {
 	"id": "o:asin",
 	"re": "(B[0-9A-Z]{9}|[0-9]{9}(X|0-9))",
@@ -126,7 +121,6 @@ id2data = {
 	"ex": "B000F9J5RA",
 	"url": "https://amzn.com/"
 },
-
 "o:imo": {
 	"id": "o:imo",
 	"re": "(?:imo|IMO)[ -:]?([0-9]{7})",
@@ -135,7 +129,6 @@ id2data = {
 	"ex": "IMO 9319466",
 	"url": "https://www.vesselfinder.com/vessels?name="
 },
-
 "o:ups": {
 	"id": "o:ups",
 	"re": "(1Z ?[0-9A-Z]{3} ?[0-9A-Z]{3} ?[0-9A-Z]{2} ?[0-9A-Z]{4} ?[0-9A-Z]{3} ?[0-9A-Z]|[\\dT]\\d{3}\\s?\\d{4} ?\\d{3})",
@@ -144,7 +137,6 @@ id2data = {
 	"ex": "1Z9999999999999999",
 	"url": "https://www.ups.com/WebTracking/processInputRequest?tracknum="
 },
-
 
 
 
@@ -252,7 +244,6 @@ id2data = {
 	"ex": "ISAN 0000-0000-3A8D-0000-Z-0000-0000-6",
 	"url": "https://web.isan.org/public/en/search?isan="
 }, 
-
 "d:ytv": {
 	"id": "d:ytv",
 	"re": "(?:v=)?([0-9A-Za-z_-]{10}[048AEIMQUYcgkosw])(?:&t=[0-9]{1,3}s)?",
@@ -269,10 +260,6 @@ id2data = {
 	"ex": "UCsT0YIqwnpJCM-mx7-gSA4Q",
 	"url": "https://www.youtube.com/channel/"
 },  
-
-
-
-
 
 
 
@@ -324,8 +311,6 @@ id2data = {
 	"ex": "U+1F194",
 	"url": "https://www.compart.com/en/unicode/U+"
 },
-
-
 
 
 
