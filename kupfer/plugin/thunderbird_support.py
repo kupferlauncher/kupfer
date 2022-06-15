@@ -351,14 +351,13 @@ def _load_abook_sqlite(filename):
                     primary_email,
                     second_email,
                 ) in cur:
-                    if not display_name:
-                        display_name = " ".join((first_name, last_name))
-                    if display_name:
-                        display_name = display_name.strip()
+                    display_name = display_name or " ".join(
+                        filter(None, (first_name, last_name))
+                    )
                     for email in (primary_email, second_email):
                         if email:
                             yield (
-                                display_name or email[: email.find("@")],
+                                display_name or email.partition("@")[0],
                                 email,
                             )
             return
