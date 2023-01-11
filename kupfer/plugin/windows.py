@@ -96,6 +96,8 @@ class FrontmostWindow (WindowLeaf):
         pass
     def _get_object(self):
         scr = Wnck.Screen.get_default()
+        if scr is None:
+            return None
         active = scr.get_active_window() or scr.get_previously_active_window()
         # FIXME: Ignore Kupfer's main window reliably
         if active and active.get_application().get_name() != "kupfer.py":
@@ -123,6 +125,8 @@ class NextWindow (WindowLeaf):
         pass
     def _get_object(self):
         scr = Wnck.Screen.get_default()
+        if scr is None:
+            return None
         wspc = scr.get_active_workspace()
         for win in scr.get_windows_stacked():
             if not win.is_skip_tasklist():
