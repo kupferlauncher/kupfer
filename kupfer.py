@@ -18,6 +18,40 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-if __name__ == '__main__':
+import sys
+
+try:
+    import stackprinter
+
+    stackprinter.set_excepthook(style="color")
+except ImportError:
+    try:
+        from rich.traceback import install
+
+        install()
+    except ImportError:
+        pass
+
+try:
+    import icecream
+
+    icecream.install()
+    icecream.ic.configureOutput(includeContext=True)
+except ImportError:  # Graceful fallback if IceCream isn't installed.
+    pass
+
+
+try:
+    if "--debug" in sys.argv:
+        from typeguard.importhook import install_import_hook
+
+        install_import_hook("kupfer")
+        print("WARN! typeguard hook installed")
+except ImportError:
+    pass
+
+
+if __name__ == "__main__":
     from kupfer import main
+
     main.main()

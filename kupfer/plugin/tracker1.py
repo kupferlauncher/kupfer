@@ -4,27 +4,33 @@ This is version works with Tracker1.
 """
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ()
-__kupfer_text_sources__ = ("TrackerFulltext", )
-__kupfer_contents__ = ("TrackerQuerySource", )
+__kupfer_text_sources__ = ("TrackerFulltext",)
+__kupfer_contents__ = ("TrackerQuerySource",)
 __kupfer_actions__ = (
-        "TrackerSearch",
-        "TrackerSearchHere",
-    )
+    "TrackerSearch",
+    "TrackerSearchHere",
+)
 __description__ = _("Tracker desktop search integration")
 __version__ = "2017.2"
 __author__ = "US"
 
 import os
-from xml.etree.cElementTree import ElementTree
+from contextlib import suppress
+from xml.etree.ElementTree import ElementTree
 
-from gi.repository import Gio 
 import dbus
+from gi.repository import Gio
 
-from kupfer.objects import Action, Source
-from kupfer.objects import TextLeaf, FileLeaf, TextSource, OperationError
-from kupfer import utils, pretty
-from kupfer import plugin_support
-
+from kupfer import plugin_support, utils
+from kupfer.obj import (
+    Action,
+    FileLeaf,
+    OperationError,
+    Source,
+    TextLeaf,
+    TextSource,
+)
+from kupfer.support import pretty
 
 plugin_support.check_dbus_connection()
 
@@ -38,31 +44,38 @@ SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
 
 TRACKER_GUI_SEARCH = "tracker-needle"
 
-class TrackerSearch (Action):
+
+class TrackerSearch(Action):
     def __init__(self):
         Action.__init__(self, _("Search in Tracker"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         try:
             utils.spawn_async_raise([TRACKER_GUI_SEARCH, leaf.object])
         except utils.SpawnError as exc:
             raise OperationError(exc)
+
     def get_description(self):
         return _("Open Tracker Search Tool and search for this term")
+
     def get_icon_name(self):
         return "system-search"
+
     def item_types(self):
         yield TextLeaf
 
+
 class TrackerSearchHere(Action):
     action_accelerator = "t"
+
     def __init__(self):
         super().__init__(_("Get Tracker Results..."))
 
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
         query = leaf.object
 
         def error(exc):
@@ -72,23 +85,33 @@ class TrackerSearchHere(Action):
             ret = []
             new_file = Gio.File.new_for_uri
             for result in results:
-                try:
+                with suppress(
+                    Exception
+                ):  # This very vague exception is from getpath
                     ret.append(FileLeaf(new_file(result[0]).get_path()))
-                except Exception: # This very vague exception is from getpath
-                    continue
-            ctx.register_late_result(TrackerQuerySource(query, search_results=ret))
 
-        for _ignore in get_tracker_filequery(query, max_items=500,
-                operation_err=True,
-                reply_handler=reply, error_handler=error):
+            ctx.register_late_result(
+                TrackerQuerySource(query, search_results=ret)
+            )
+
+        for _ignore in get_tracker_filequery(
+            query,
+            max_items=500,
+            operation_err=True,
+            reply_handler=reply,
+            error_handler=error,
+        ):
             pass
 
     def get_description(self):
         return _("Show Tracker results for query")
+
     def get_icon_name(self):
         return "tracker"
+
     def item_types(self):
         yield TextLeaf
+
 
 def sparql_escape(ustr):
     """Escape unicode string @ustr for insertion into a SPARQL query
@@ -96,44 +119,47 @@ def sparql_escape(ustr):
     Implemented to behave like tracker_sparql_escape in libtracker-client
     """
     sparql_escape_table = {
-        ord('\t'): r'\t',
-        ord('\n'): r'\n',
-        ord('\r'): r'\r',
-        ord('\b'): r'\b',
-        ord('\f'): r'\f',
-        ord('"') : r'\"',
-        ord('\\'): '\\\\',
+        ord("\t"): r"\t",
+        ord("\n"): r"\n",
+        ord("\r"): r"\r",
+        ord("\b"): r"\b",
+        ord("\f"): r"\f",
+        ord('"'): r"\"",
+        ord("\\"): "\\\\",
         # Extra rule: Can't have ?
-        ord("?") : "",
+        ord("?"): "",
     }
     return ustr.translate(sparql_escape_table)
+
 
 ORDER_BY = {
     "rank": "ORDER BY DESC (fts:rank(?s))",
     "recent": "ORDER BY DESC (nfo:fileLastModified(?s))",
 }
-def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank",
-                            location=None, **kwargs):
+
+
+def get_file_results_sparql(
+    searchobj, query, max_items=50, order_by="rank", location=None, **kwargs
+):
     clean_query = sparql_escape(query)
 
     if location:
-        location_filter = \
-        'FILTER(tracker:uri-is-descendant ("%s", nie:url (?s)))' % sparql_escape(location)
+        location_filter = f'FILTER(tracker:uri-is-descendant ("{sparql_escape(location)}", nie:url (?s)))'
     else:
         location_filter = ""
 
-    sql = ("""SELECT tracker:coalesce (nie:url (?s), ?s)
+    sql = """SELECT tracker:coalesce (nie:url (?s), ?s)
               WHERE {
                 ?s fts:match "%(query)s" .  ?s tracker:available true .
                 %(location_filter)s
               }
               %(order_by)s
               OFFSET 0 LIMIT %(limit)d""" % dict(
-              query=clean_query,
-              location_filter=location_filter,
-              order_by=ORDER_BY[order_by],
-              limit=int(max_items))
-              )
+        query=clean_query,
+        location_filter=location_filter,
+        order_by=ORDER_BY[order_by],
+        limit=int(max_items),
+    )
 
     pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql, **kwargs)
@@ -142,10 +168,9 @@ def get_file_results_sparql(searchobj, query, max_items=50, order_by="rank",
 
     new_file = Gio.File.new_for_uri
     for result in results:
-        try:
+        with suppress(Exception):  # This very vague exception is from getpath
             yield FileLeaf(new_file(result[0]).get_path())
-        except Exception: # This very vague exception is from getpath
-            continue
+
 
 use_version = "0.8"
 versions = {
@@ -166,12 +191,16 @@ def get_searchobject(sname, opath, sinface, operation_err=False):
     except dbus.DBusException as exc:
         if operation_err:
             raise OperationError(exc)
+
         pretty.print_debug(__name__, exc)
+
     return searchobj
 
+
 def get_tracker_filequery(query, operation_err=False, **kwargs):
-    searchobj = get_searchobject(*versions[use_version],
-                                 operation_err=operation_err)
+    searchobj = get_searchobject(
+        *versions[use_version], operation_err=operation_err
+    )
     if searchobj is None:
         pretty.print_error(__name__, "Could not connect to Tracker")
         return ()
@@ -179,7 +208,8 @@ def get_tracker_filequery(query, operation_err=False, **kwargs):
     queryfunc = version_query[use_version]
     return queryfunc(searchobj, query, **kwargs)
 
-class TrackerQuerySource (Source):
+
+class TrackerQuerySource(Source):
     def __init__(self, query, search_results=None, **search_args):
         Source.__init__(self, name=_('Tracker Search for "%s"') % query)
         self.query = query
@@ -192,14 +222,15 @@ class TrackerQuerySource (Source):
     def get_items(self):
         if self.search_results:
             return self.search_results
-        else:
-            return get_tracker_filequery(self.query, **self.search_args)
+
+        return get_tracker_filequery(self.query, **self.search_args)
 
     def provides(self):
         yield FileLeaf
 
     def get_description(self):
         return _('Results for "%s"') % self.query
+
     def get_icon_name(self):
         return "tracker"
 
@@ -218,32 +249,40 @@ class TrackerQuerySource (Source):
 
         if not leaf.object.endswith(".savedSearch"):
             return None
+
         try:
             et = ElementTree(file=leaf.object)
             query = et.getroot().find("text").text
             if not query:
                 return None
+
             location_tag = et.getroot().find("location")
             location = location_tag.text if location_tag is not None else None
             return cls(query, location=location_uri(location))
+
         except Exception:
             pretty.print_exc(__name__)
             return None
 
+
 def location_uri(location):
     if location is None:
         return None
+
     if not os.path.isabs(location):
         location = os.path.expanduser("~/" + location)
+
     return Gio.File.new_for_path(location).get_uri()
+
 
 # FIXME: Port tracker tag sources and actions
 # to the new, much more powerful sparql + dbus API
 # (using tracker-tag as in 0.6 is a plain hack and a dead end)
 
-class TrackerFulltext (TextSource):
+
+class TrackerFulltext(TextSource):
     def __init__(self):
-        TextSource.__init__(self, name=_('Tracker Full Text Search'))
+        TextSource.__init__(self, name=_("Tracker Full Text Search"))
 
     def get_description(self):
         return _("Use '?' prefix to get full text results")
@@ -253,9 +292,12 @@ class TrackerFulltext (TextSource):
             rank = "rank"
             if text.startswith("?~"):
                 rank = "recent"
+
             query = text.lstrip("? ~")
             if len(query) > 2 and not has_parsing_error(query):
-                yield from TrackerQuerySource(query, order_by=rank, max_items=50).get_items()
+                yield from TrackerQuerySource(
+                    query, order_by=rank, max_items=50
+                ).get_items()
 
     def provides(self):
         yield FileLeaf
@@ -270,6 +312,8 @@ def has_parsing_error(query):
     # Unfinshed "" and OR, AND without following won't parse
     if words and words[-1] in ("OR", "AND"):
         return True
+
     if query.count('"') % 2 != 0:
         return True
+
     return False

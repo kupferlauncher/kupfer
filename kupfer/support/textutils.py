@@ -1,11 +1,29 @@
-# encoding: utf-8
-
-def _unicode_truncate(ustr, length, encoding="UTF-8"):
+def _unicode_truncate(ustr: str, length: int, encoding: str = "UTF-8") -> str:
     "Truncate @ustr to specific encoded byte length"
     bstr = ustr.encode(encoding)[:length]
-    return bstr.decode(encoding, 'ignore')
+    return bstr.decode(encoding, "ignore")
 
-def extract_title_body(text, maxtitlelen=60):
+
+def _split_first_line(text: str) -> tuple[str, str]:
+    """Take first non-empty line of @text and rest"""
+    lines, *rest = text.lstrip().split("\n", maxsplit=1)
+    return lines, rest[0] if rest else ""
+
+
+def _split_first_words(text: str, maxlen: int) -> tuple[str, str]:
+    text = text.lstrip()
+    first_text = _unicode_truncate(text, maxlen)
+    words = first_text.split()
+    if len(words) > 3:
+        first_words = " ".join(words[:-2])
+        if text.startswith(first_words):
+            first_text = first_words
+
+    rest_text = text[len(first_text) :]
+    return first_text, rest_text
+
+
+def extract_title_body(text: str, maxtitlelen: int = 60) -> tuple[str, str]:
     """Prepare @text: Return a (title, body) tuple
 
     @text: A user-submitted paragraph or otherwise snippet of text. We
@@ -32,42 +50,23 @@ def extract_title_body(text, maxtitlelen=60):
     if not text.strip():
         return text, ""
 
-    def split_first_line(text):
-        """Take first non-empty line of text"""
-        lines = iter(text.splitlines())
-        for l in lines:
-            l = l.strip()
-            if not l:
-                continue
-            rest = "\n".join(lines)
-            return l, rest
+    firstline, rest = _split_first_line(text)
+    if len(firstline.encode("UTF-8")) <= maxtitlelen:
+        return firstline, rest
 
     # We use the UTF-8 encoding and truncate due to it:
     # this is a good heuristic for ascii vs "wide characters"
     # it results in taking fewer characters if they are asian, which
     # is exactly what we want
-    def split_first_words(text, maxlen):
-        text = text.lstrip()
-        first_text = _unicode_truncate(text, maxlen)
-        words = first_text.split()
-        if len(words) > 3:
-            words = words[:-1]
-            first_words = " ".join(words[:-1])
-            if text.startswith(first_words):
-                first_text = first_words
-        rest_text = text[len(first_text):]
-        return first_text, rest_text
+    firstline, rest = _split_first_words(text, maxtitlelen)
 
-    firstline, rest = split_first_line(text)
-    if len(firstline.encode("UTF-8")) > maxtitlelen:
-        firstline, rest = split_first_words(text, maxtitlelen)
-    else:
-        return firstline, rest
     if rest.strip():
         return firstline, text
-    else:
-        return text, ""
 
-if __name__ == '__main__':
+    return text, ""
+
+
+if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

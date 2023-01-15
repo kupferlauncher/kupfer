@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("APT")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -10,13 +12,12 @@ __description__ = _("Interface with the package manager APT")
 __version__ = ""
 __author__ = "Martin Koelewijn <martinkoelewijn@gmail.com>, Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import os
 import subprocess
 
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf
-from kupfer import icons, kupferstring, task, uiutils, utils
-from kupfer import plugin_support
+from kupfer import icons, plugin_support, utils
+from kupfer.objects import Action, Leaf, Source, TextLeaf
+from kupfer.support import kupferstring, task
+from kupfer.ui import uiutils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -29,35 +30,45 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 
 class InfoTask(task.Task):
-    def __init__(self, text):
-        super(InfoTask, self).__init__()
+    def __init__(self, text: str):
+        super().__init__()
         self.text = text
-        self.aptitude = None
-        self.apt_cache = None
+        self.aptitude: bytes | None = None
+        self.apt_cache: bytes | None = None
+        self._finish_callback = None
 
     def start(self, finish_callback):
         self._finish_callback = finish_callback
         timeout = 60
-        AC = utils.AsyncCommand
-        AC(["apt", "show", self.text], self.aptitude_finished, timeout)
-        AC(["apt-cache", "policy", self.text], self.aptcache_finished, timeout)
+        utils.AsyncCommand(
+            ["apt", "show", self.text], self._aptitude_finished, timeout
+        )
+        utils.AsyncCommand(
+            ["apt-cache", "policy", self.text],
+            self._aptcache_finished,
+            timeout,
+        )
 
-    def aptitude_finished(self, acommand, stdout, stderr):
-        self.aptitude = stderr
-        self.aptitude += stdout
+    def _aptitude_finished(
+        self, acommand: utils.AsyncCommand, stdout: bytes, stderr: bytes
+    ) -> None:
+        self.aptitude = stderr + stdout
         self._check_end()
 
-    def aptcache_finished(self, acommand, stdout, stderr):
-        self.apt_cache = stderr
-        self.apt_cache += stdout
+    def _aptcache_finished(
+        self, acommand: utils.AsyncCommand, stdout: bytes, stderr: bytes
+    ) -> None:
+        self.apt_cache = stderr + stdout
         self._check_end()
 
     def _check_end(self):
-        if self.aptitude is not None and self.apt_cache is not None:
-            self.finish("".join(kupferstring.fromlocale(s)
-                                for s in (self.aptitude, self.apt_cache)))
+        if self.aptitude is None or self.apt_cache is None:
+            return
 
-    def finish(self, text):
+        assert self._finish_callback
+        text = kupferstring.fromlocale(self.aptitude) + kupferstring.fromlocale(
+            self.apt_cache
+        )
         uiutils.show_text_result(text, title=_("Show Package Information"))
         self._finish_callback(self)
 
@@ -76,9 +87,9 @@ class ShowPackageInfo(Action):
         yield TextLeaf
         yield Package
 
-    def valid_for_item(self, item):
+    def valid_for_item(self, leaf):
         # check if it is a single word
-        text = item.object
+        text = leaf.object
         return len(text.split(None, 1)) == 1
 
     def get_gicon(self):
@@ -89,11 +100,11 @@ class InstallPackage(Action):
     def __init__(self):
         Action.__init__(self, _("Install"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         self.activate_multiple((leaf,))
 
     def activate_multiple(self, objs):
-        program = (__kupfer_settings__["installation_method"])
+        program = __kupfer_settings__["installation_method"]
         pkgs = [o.object.strip() for o in objs]
         prog_argv = utils.argv_for_commandline(program)
         utils.spawn_in_terminal(prog_argv + pkgs)
@@ -110,7 +121,7 @@ class InstallPackage(Action):
 
 
 class Package(Leaf):
-    def __init__(self, package, desc):
+    def __init__(self, package: str, desc: str):
         Leaf.__init__(self, package, package)
         self.desc = desc
 
@@ -133,15 +144,20 @@ class PackageSearchSource(Source):
         return self.query
 
     def get_items(self):
-        package = kupferstring.tolocale(self.query)
-        p = subprocess.run(['apt-cache', 'search', '--names-only', package],
-                           capture_output=True)
-        for line in kupferstring.fromlocale(p.stdout).splitlines():
+        query = kupferstring.tolocale(self.query)
+        proc = subprocess.run(
+            ["apt-cache", "search", "--names-only", query],
+            capture_output=True,
+            check=True,
+        )
+        for line in kupferstring.fromlocale(proc.stdout).splitlines():
             if not line.strip():
                 continue
-            if not " - " in line:
+
+            if " - " not in line:
                 self.output_error("apt-cache: ", line)
                 continue
+
             package, desc = line.split(" - ", 1)
             yield Package(package, desc)
 
@@ -162,16 +178,16 @@ class SearchPackageName(Action):
     def is_factory(self):
         return True
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         package = leaf.object.strip()
         return PackageSearchSource(package)
 
     def item_types(self):
         yield TextLeaf
 
-    def valid_for_item(self, item):
+    def valid_for_item(self, leaf):
         # check if it is a single word
-        text = item.object
+        text = leaf.object
         return len(text.split(None, 1)) == 1
 
     def get_icon_name(self):

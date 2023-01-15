@@ -18,7 +18,6 @@ kupfer/obj/base.py
 kupfer/obj/compose.py
 kupfer/obj/contacts.py
 kupfer/obj/exceptions.py
-kupfer/obj/fileactions.py
 kupfer/obj/objects.py
 kupfer/obj/sources.py
 kupfer/obj/special.py

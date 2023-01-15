@@ -14,13 +14,16 @@ import urllib.parse
 from kupfer.objects import Action, TextLeaf
 from kupfer import utils
 
-class DuckDuckGoSearch (Action):
+
+class DuckDuckGoSearch(Action):
     def __init__(self):
         Action.__init__(self, _("DuckDuckGo Search"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         search_url = "https://duckduckgo.com/"
-        query_url = search_url + "?" + urllib.parse.urlencode({"q" : leaf.object})
+        query_url = (
+            search_url + "?" + urllib.parse.urlencode({"q": leaf.object})
+        )
         utils.show_url(query_url)
 
     def item_types(self):

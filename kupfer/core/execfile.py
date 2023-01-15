@@ -1,19 +1,26 @@
 import hashlib
-import pickle
 import os
+import pickle
+import typing as ty
+from pathlib import Path
 
-from gi.repository import Gio, GLib
+from gi.repository import GdkPixbuf, Gio, GLib
 
-from kupfer import pretty
 from kupfer import puid
-from kupfer import conspickle
+from kupfer.obj.base import KupferObject
+from kupfer.support import conspickle, pretty
 
-KUPFER_COMMAND_SHEBANG=b"#!/usr/bin/env kupfer-exec\n"
+KUPFER_COMMAND_SHEBANG = b"#!/usr/bin/env kupfer-exec\n"
 
-class ExecutionError (Exception):
+if ty.TYPE_CHECKING:
+    _ = str
+
+
+class ExecutionError(Exception):
     pass
 
-def parse_kfcom_file(filepath):
+
+def parse_kfcom_file(filepath: str) -> ty.Tuple[ty.Any, ...]:
     """Extract the serialized command inside @filepath
 
     The file must be executable (comparable to a shell script)
@@ -24,56 +31,63 @@ def parse_kfcom_file(filepath):
 
     Return commands triple
     """
-    fobj = open(filepath, "rb")
     if not os.access(filepath, os.X_OK):
-        raise ExecutionError(_('No permission to run "%s" (not executable)') %
-                GLib.filename_display_basename(filepath))
+        raise ExecutionError(
+            _('No permission to run "%s" (not executable)')
+            % GLib.filename_display_basename(filepath)
+        )
 
-    # strip shebang away
-    data = fobj.read()
+    with open(filepath, "rb") as fobj:
+        # strip shebang away
+        data = fobj.read()
+
     if data.startswith(b"#!") and b"\n" in data:
-        shebang, data = data.split(b"\n", 1)
+        _shebang, data = data.split(b"\n", 1)
 
     try:
         id_ = conspickle.BasicUnpickler.loads(data)
         command_object = puid.resolve_unique_id(id_)
     except pickle.UnpicklingError as err:
-        raise ExecutionError("Could not parse: %s" % str(err))
-    except Exception:
-        raise ExecutionError('"%s" is not a saved command' %
-                os.path.basename(filepath))
+        raise ExecutionError(f"Could not parse: {err}") from err
+    except Exception as err:
+        raise ExecutionError(
+            f'"{os.path.basename(filepath)}" is not a saved command'
+        ) from err
+
     if command_object is None:
-        raise ExecutionError(_('Command in "%s" is not available') %
-                GLib.filename_display_basename(filepath))
+        raise ExecutionError(
+            _('Command in "%s" is not available')
+            % GLib.filename_display_basename(filepath)
+        )
 
     try:
         return tuple(command_object.object)
-    except (AttributeError, TypeError):
-        raise ExecutionError('"%s" is not a saved command' %
-                os.path.basename(filepath))
+    except (AttributeError, TypeError) as exe:
+        raise ExecutionError(
+            f'"{os.path.basename(filepath)}" is not a saved command'
+        ) from exe
     finally:
         GLib.idle_add(update_icon, command_object, filepath)
 
-def save_to_file(command_leaf, filename):
-    fd = os.open(filename, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o777)
-    wfile = os.fdopen(fd, "wb")
-    try:
+
+def save_to_file(command_leaf: ty.Any, filename: str) -> None:
+    ofd = os.open(filename, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o777)
+    with os.fdopen(ofd, "wb") as wfile:
         wfile.write(KUPFER_COMMAND_SHEBANG)
         pickle.dump(puid.get_unique_id(command_leaf), wfile, protocol=3)
-    finally:
-        wfile.close()
 
-def _write_thumbnail(gfile, pixbuf):
+
+def _write_thumbnail(gfile: Gio.File, pixbuf: GdkPixbuf.Pixbuf) -> Path:
     uri = gfile.get_uri()
     hashname = hashlib.md5(uri.encode("utf-8")).hexdigest()
-    thumb_dir = os.path.expanduser("~/.thumbnails/normal")
-    if not os.path.exists(thumb_dir):
-        os.makedirs(thumb_dir, 0o700)
-    thumb_filename = os.path.join(thumb_dir, hashname + ".png")
-    pixbuf.savev(thumb_filename, "png", [], [])
+    thumb_dir = Path("~/.thumbnails/normal").expanduser()
+    thumb_dir.mkdir(mode=0o700, parents=True, exist_ok=True)
+    thumb_filename = thumb_dir.joinpath(hashname + ".png")
+    pixbuf.savev(str(thumb_filename), "png", [], [])
     return thumb_filename
 
-def update_icon(kobj, filepath):
+
+def update_icon(kobj: KupferObject, filepath: str) -> None:
     "Give @filepath a custom icon taken from @kobj"
     icon_key = "metadata::custom-icon"
 
@@ -82,18 +96,23 @@ def update_icon(kobj, filepath):
     custom_icon_uri = finfo.get_attribute_string(icon_key)
     if custom_icon_uri and Gio.File.new_for_uri(custom_icon_uri).query_exists():
         return
-    namespace = gfile.query_writable_namespaces() # FileAttributeInfoList
+
+    namespace = gfile.query_writable_namespaces()  # FileAttributeInfoList
     if namespace.n_infos > 0:
         pretty.print_debug(__name__, "Updating icon for", filepath)
         thumb_filename = _write_thumbnail(gfile, kobj.get_pixbuf(128))
         try:
-            gfile.set_attribute_string(icon_key,
-                    Gio.File.new_for_path(thumb_filename).get_uri(),
-                    Gio.FileQueryInfoFlags.NONE,
-                    None)
+            gfile.set_attribute_string(
+                icon_key,
+                Gio.File.new_for_path(str(thumb_filename)).get_uri(),
+                Gio.FileQueryInfoFlags.NONE,
+                None,
+            )
         except GLib.GError:
             pretty.print_exc(__name__)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

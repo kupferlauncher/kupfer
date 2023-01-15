@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Module provide function to read Thunderbird's address book.
 
@@ -17,8 +16,9 @@ from configparser import RawConfigParser
 import sqlite3
 import time
 from contextlib import closing
+import typing as ty
 
-from kupfer import pretty
+from kupfer.support import pretty
 
 __version__ = "2021-01-01"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -72,56 +72,54 @@ class _Table:
         self.rows = {}
 
     def __repr__(self):
-        return f"Table %r: %r" % (self.tableid, self.rows)
+        return f"Table {self.tableid!r}: {self.rows!r}"
 
-    def add_cell(self, rowid, col, atom):
+    def add_cell(self, rowid: str, col: str, atom: str) -> None:
         if ":" in rowid:
             rowid = rowid.split(":")[0]
+
         row = self.rows.get(rowid)
         if not row:
             row = self.rows[rowid] = {}
+
         row[col] = _unescape_data(atom)
 
-    def del_row(self, rowid):
+    def del_row(self, rowid: str) -> None:
         if ":" in rowid:
             rowid = rowid.split(":")[0]
+
         if rowid in self.rows:
             del self.rows[rowid]
 
 
-def _unescape_character(match):
-    value = match.group()
-    try:
-        return chr(int(value[1:], 16))
-    except ValueError:
-        return value
-
-
-def _unescape_byte(match):
+def _unescape_byte(match: re.Match[bytes]) -> bytes:
     value = match.group()
     return bytes([int(value[1:], 16)])
 
 
-def _unescape_data(instr):
+def _unescape_data(instr: str) -> str:
     for src, dst in SPECIAL_CHARS:
         instr = instr.replace(src, dst)
+
     if RE_ESCAPED.search(instr) is not None:
         inbytes = instr.encode("utf-8")
         instr = RE_ESCAPEDB.sub(_unescape_byte, inbytes).decode(
             "utf-8", "replace"
         )
+
     return instr
 
 
-def _read_mork(filename):
+def _read_mork(filename: str) -> dict[str, _Table]:
     """Read mork file, return tables from file"""
-    data = []
-    with open(filename, "rt") as mfile:
+    data_lines = []
+    with open(filename, encoding="UTF-8") as mfile:
         header = mfile.readline().strip()
         # check header
         if not RE_HEADER.match(header):
             pretty.print_debug(__name__, "_read_mork: header error", header)
             return {}
+
         for line in mfile.readlines():
             # remove blank lines and comments
             line = line.strip()
@@ -131,9 +129,11 @@ def _read_mork(filename):
             comments = line.find("// ")
             if comments > -1:
                 line = line[:comments].strip()
+
             if line:
-                data.append(line)
-        data = "".join(data)
+                data_lines.append(line)
+
+    data = "".join(data_lines)
 
     if not data:
         return {}
@@ -143,7 +143,7 @@ def _read_mork(filename):
     # decode data
     cells = {}
     atoms = {}
-    tables = {}
+    tables: dict[str, _Table] = {}
     pos = 0
     active_trans = False
     while data:
@@ -158,6 +158,7 @@ def _read_mork(filename):
                 key, val = cell.split("=", 1)
                 if val in COLS_TO_KEEP:  # skip necessary columns
                     cells[key] = val
+
             pos = match.span()[1]
             continue
 
@@ -168,6 +169,7 @@ def _read_mork(filename):
                 if "=" in cell:
                     key, val = cell.split("=", 1)
                     atoms[key] = val
+
             pos = match.span()[1]
             continue
 
@@ -178,16 +180,19 @@ def _read_mork(filename):
             table = tables.get(tableid)
             if not table:
                 table = tables[tableid] = _Table(tableid)
+
             for row in RE_ROW.findall(match.group()):
                 tran, rowid = row[:2]
                 if active_trans and rowid[0] == "-":
                     rowid = rowid[1:]
                     table.del_row(rowid)
+
                 if not active_trans or tran != "-":
                     rowdata = row[2:]
                     for rowcell in rowdata:
                         if not rowcell:
                             continue
+
                         for cell in RE_CELL.findall(rowcell):
                             atom, col = None, None
                             cmatch = RE_CELL_TEXT.match(cell)
@@ -199,25 +204,24 @@ def _read_mork(filename):
                                 if cmatch:
                                     col = cells.get(cmatch.group(1))
                                     atom = atoms.get(cmatch.group(2))
+
                             if col and atom:
                                 table.add_cell(rowid, col, atom)
+
             pos = match.span()[1]
             continue
 
         # transaction
-        match = RE_TRAN_BEGIN.match(data)
-        if match:
+        if RE_TRAN_BEGIN.match(data):
             active_trans = True
             continue
 
-        match = RE_TRAN_END.match(data)
-        if match:
+        if RE_TRAN_END.match(data):
             tran = True
             continue
 
         # dangling rows
-        match = RE_ROW.match(data)
-        if match:
+        if match := RE_ROW.match(data):
             row = match.groups()
             tran, rowid = row[:2]
             table = tables.get("1:80")  # bind to default table
@@ -225,14 +229,17 @@ def _read_mork(filename):
                 rowid = rowid[1:]
                 if table:
                     table.del_row(rowid)
+
             if tran != "-":
                 rowdata = row[2:]
                 if rowdata:
                     if not table:
                         table = tables["1:80"] = _Table("1:80")
+
                     for rowcell in rowdata:
                         if not rowcell:
                             continue
+
                         for cell in RE_CELL.findall(str(rowcell)):
                             atom, col = None, None
                             cmatch = RE_CELL_TEXT.match(cell)
@@ -244,33 +251,36 @@ def _read_mork(filename):
                                 if cmatch:
                                     col = cells.get(cmatch.group(1))
                                     atom = atoms.get(cmatch.group(2))
+
                             if col and atom:
                                 table.add_cell(rowid, col, atom)
+
             pos = match.span()[1]
             continue
 
         pos = 1
+
     return tables
 
 
-def _mork2contacts(tables):
+def _mork2contacts(tables: dict[str, _Table]) -> ty.Iterator[tuple[str, str]]:
     """Get contacts from mork table prepared by _read_mork"""
     if not tables:
         return
     # get only default table
-    table = tables.get("1:80")
-    if table:
+    if table := tables.get("1:80"):
         for row in table.rows.values():
             display_name = row.get("DisplayName")
             if not display_name:
                 first_name = row.get("FirstName", "")
                 last_name = row.get("LastName", "")
                 display_name = " ".join((first_name, last_name))
+
             if display_name:
                 display_name = display_name.strip()
+
             for key in ("PrimaryEmail", "SecondEmail"):
-                email = row.get(key)
-                if email:
+                if email := row.get(key):
                     yield (display_name or email[: email.find("@")], email)
 
 
@@ -316,7 +326,7 @@ from (select distinct card from properties) c
 """
 
 
-def _load_abook_sqlite(filename):
+def _load_abook_sqlite(filename: str) -> ty.Iterator[tuple[str, str]]:
     """Load contacts from abook.sqlite filename.
 
     Thunderbird (like firefox) lock database, so it mus be opened as immutable
@@ -330,7 +340,9 @@ def _load_abook_sqlite(filename):
     for _ in range(2):
         try:
             pretty.print_debug(__name__, "_load_abook_sqlite load:", dbfpath)
-            with closing(sqlite3.connect(dbfpath, uri=True, timeout=1)) as conn:
+            with closing(
+                sqlite3.connect(dbfpath, uri=True, timeout=1)
+            ) as conn:
                 cur = conn.cursor()
 
                 # check db version
@@ -368,7 +380,7 @@ def _load_abook_sqlite(filename):
             time.sleep(1)
 
 
-def get_addressbook_dirs():
+def get_addressbook_dirs() -> ty.Iterator[str]:
     """Get path to addressbook file from default profile."""
     for thome, tprofile in _THUNDERBIRD_PROFILES:
         if os.path.isfile(tprofile):
@@ -379,11 +391,12 @@ def get_addressbook_dirs():
                     path = config.get(section, "Path")
                     if not os.path.isabs(path):
                         path = os.path.join(thome, path)
+
                     if os.path.isdir(path):
                         yield path
 
 
-def get_addressbook_files():
+def get_addressbook_files() -> ty.Iterator[str]:
     """Get full path to all Thunderbird address book files."""
     for path in get_addressbook_dirs():
         pretty.print_debug(__name__, "get_addressbook_files dir:", path)
@@ -400,7 +413,7 @@ def get_addressbook_files():
                     yield fullpath
 
 
-def get_contacts():
+def get_contacts() -> ty.Iterator[tuple[str, str]]:
     """Get all contacts from all Thunderbird address books as
     ((contact name, contact email))"""
     for abook in get_addressbook_files():
@@ -413,7 +426,7 @@ def get_contacts():
         else:
             try:
                 tables = _read_mork(abook)
-            except IOError as err:
+            except OSError as err:
                 pretty.print_error(__name__, "get_contacts error", abook, err)
             else:
                 yield from _mork2contacts(tables)

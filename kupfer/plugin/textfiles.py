@@ -9,29 +9,27 @@ FIXME: Be less strict (use UTF-8 if locale says Ascii)
 """
 
 
-
 __kupfer_name__ = _("Textfiles")
 __kupfer_actions__ = (
-        "AppendTo",
-        "AppendText",
-        "WriteTo",
-        "GetTextContents",
-    )
+    "AppendTo",
+    "AppendText",
+    "WriteTo",
+    "GetTextContents",
+)
 __description__ = None
 __version__ = "2017.1"
 __author__ = ""
 
 from gi.repository import Gio
 
-from kupfer.objects import Action
-from kupfer.objects import TextLeaf, FileLeaf
-from kupfer.obj import helplib
-from kupfer import kupferstring
 from kupfer import utils
+from kupfer.obj import Action, FileLeaf, TextLeaf, helplib
+from kupfer.support import kupferstring
 
 # FIXME: Sometimes require that the type is *exactly* text/plain?
 
-class AppendTo (Action):
+
+class AppendTo(Action):
     def __init__(self, name=None):
         if not name:
             name = _("Append To...")
@@ -47,28 +45,37 @@ class AppendTo (Action):
 
     def requires_object(self):
         return True
+
     def object_types(self):
         yield FileLeaf
+
     def valid_object(self, iobj, for_item=None):
         return iobj.is_content_type("text/plain")
 
     def get_icon_name(self):
         return "list-add"
 
-class AppendText (helplib.reverse_action(AppendTo)):
+
+class AppendText(helplib.reverse_action(AppendTo)):
     def __init__(self):
         Action.__init__(self, _("Append..."))
 
-class WriteTo (Action):
+
+class WriteTo(Action):
     def __init__(self):
         Action.__init__(self, _("Write To..."))
 
     def has_result(self):
         return True
 
-    def activate(self, leaf, iobj):
-        outfile, outpath = \
-                utils.get_destfile_in_directory(iobj.object, _("Empty File"))
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert iobj
+        outfile, outpath = utils.get_destfile_in_directory(
+            iobj.object, _("Empty File")
+        )
+        if outfile or outfile:
+            return None
+
         try:
             l_text = kupferstring.tolocale(leaf.object)
             outfile.write(l_text)
@@ -76,6 +83,7 @@ class WriteTo (Action):
                 outfile.write(b"\n")
         finally:
             outfile.close()
+
         return FileLeaf(outpath)
 
     def item_types(self):
@@ -83,8 +91,10 @@ class WriteTo (Action):
 
     def requires_object(self):
         return True
+
     def object_types(self):
         yield FileLeaf
+
     def valid_object(self, iobj, for_item=None):
         return iobj.is_dir()
 
@@ -94,23 +104,26 @@ class WriteTo (Action):
     def get_icon_name(self):
         return "document-new"
 
-class GetTextContents (Action):
+
+class GetTextContents(Action):
     def __init__(self):
         Action.__init__(self, _("Get Text Contents"))
 
     def has_result(self):
         return True
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         with open(leaf.object, "rb") as infile:
             l_text = infile.read()
             us_text = kupferstring.fromlocale(l_text)
+
         return TextLeaf(us_text)
 
     def item_types(self):
         yield FileLeaf
-    def valid_for_item(self, item):
-        return item.is_content_type("text/plain")
+
+    def valid_for_item(self, leaf):
+        return leaf.is_content_type("text/plain")
 
     def get_icon_name(self):
         return "edit-copy"

@@ -1,10 +1,10 @@
 __kupfer_name__ = _("Triggers")
-__kupfer_sources__ = ("Triggers", )
-__kupfer_actions__ = (
-    "AddTrigger",
+__kupfer_sources__ = ("Triggers",)
+__kupfer_actions__ = ("AddTrigger",)
+__description__ = _(
+    "Assign global keybindings (triggers) to objects created "
+    "with 'Compose Command'."
 )
-__description__ = _("Assign global keybindings (triggers) to objects created "
-                    "with 'Compose Command'.")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -15,8 +15,7 @@ from kupfer.objects import RunnableLeaf
 from kupfer.objects import OperationError
 from kupfer.obj.compose import ComposedLeaf
 from kupfer import puid
-from kupfer import kupferstring
-from kupfer import task
+from kupfer.support import kupferstring, task
 
 from kupfer.ui import keybindings
 from kupfer.ui import uievents
@@ -26,21 +25,27 @@ from kupfer import plugin_support
 
 plugin_support.check_keybinding_support()
 
-class Trigger (RunnableLeaf):
+
+class Trigger(RunnableLeaf):
     def get_actions(self):
-        for act in RunnableLeaf.get_actions(self):
-            yield act
+        yield from RunnableLeaf.get_actions(self)
         yield RemoveTrigger()
+
     def wants_context(self):
         return True
+
     def is_valid(self):
         return Triggers.has_trigger(self.object)
-    def run(self, ctx):
+
+    def run(self, ctx=None):
+        assert ctx
         return Triggers.perform_trigger(ctx, self.object)
+
     def repr_key(self):
         return self.object
 
-class Triggers (Source):
+
+class Triggers(Source):
     instance = None
 
     def __init__(self):
@@ -56,31 +61,34 @@ class Triggers (Source):
     def config_restore(self, state):
         self.trigger_table = state["triggers"]
         return True
-    
+
     def initialize(self):
         Triggers.instance = self
-        keybindings.GetKeyboundObject().connect("keybinding",
-                                                self.keybinding_callback)
-        for target, (keystr, name, id_) in self.trigger_table.items():
+        keybindings.get_keybound_object().connect(
+            "keybinding", self.keybinding_callback
+        )
+        for target, (keystr, _name, _id) in self.trigger_table.items():
             keybindings.bind_key(keystr, target)
+
         self.output_debug("Loaded triggers, count:", len(self.trigger_table))
 
     def finalize(self):
-        for target, (keystr, name, id_) in self.trigger_table.items():
+        for target in self.trigger_table.keys():
             keybindings.bind_key(None, target)
 
     def keybinding_callback(self, keyobj, target, display, event_time):
         if not self.has_trigger(target):
             return
+
         ui_ctx = uievents.gui_context_from_keyevent(event_time, display)
-        ctx = commandexec.DefaultActionExecutionContext()
+        ctx = commandexec.default_action_execution_context()
         exec_token = ctx.make_execution_token(ui_ctx)
         self.perform_trigger(exec_token, target)
 
     def get_items(self):
-        for target, (keystr, name, id_) in self.trigger_table.items():
+        for target, (keystr, name, _id) in self.trigger_table.items():
             label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
-            yield Trigger(target, "%s (%s)" % (label or keystr, name))
+            yield Trigger(target, f"{label or keystr} ({name})")
 
     def should_sort_lexically(self):
         return True
@@ -90,31 +98,35 @@ class Triggers (Source):
 
     @classmethod
     def has_trigger(cls, target):
+        assert cls.instance
         return target in cls.instance.trigger_table
 
     @classmethod
     def perform_trigger(cls, ctx, target):
+        assert cls.instance
         try:
-            keystr, name, id_ = cls.instance.trigger_table[target]
+            _, _, id_ = cls.instance.trigger_table[target]
         except KeyError:
-            raise OperationError("Trigger '%s' does not exist" % (target, ))
-        obj = puid.resolve_unique_id(id_)
-        if obj is None:
-            return
-        return obj.run(ctx)
+            raise OperationError(f"Trigger '{target}' does not exist")
+
+        if (obj := puid.resolve_unique_id(id_)) is not None:
+            return obj.run(ctx)  # TODO: check
+
+        return None
 
     @classmethod
     def add_trigger(cls, leaf, keystr):
-        Triggers.instance._add_trigger(leaf, keystr)
+        cls.instance._add_trigger(leaf, keystr)
 
     @classmethod
     def remove_trigger(cls, target):
-        Triggers.instance._remove_trigger(target)
-    
+        cls.instance._remove_trigger(target)
+
     def _add_trigger(self, leaf, keystr):
         for target in range(*keybindings.KEYRANGE_TRIGGERS):
             if target not in self.trigger_table:
                 break
+
         keybindings.bind_key(keystr, target)
         name = str(leaf)
         self.trigger_table[target] = (keystr, name, puid.get_unique_id(leaf))
@@ -128,18 +140,21 @@ class Triggers (Source):
     def get_icon_name(self):
         return "key_bindings"
 
+
 def try_bind_key(keystr):
     label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
     ulabel = kupferstring.tounicode(label)
     if len(ulabel) == 1 and ulabel.isalnum():
         return False
+
     target = keybindings.KEYRANGE_TRIGGERS[-1] - 1
-    succ = keybindings.bind_key(keystr, target)
-    if succ:
+    if succ := keybindings.bind_key(keystr, target):
         keybindings.bind_key(None, target)
+
     return succ
 
-class BindTask (task.Task):
+
+class BindTask(task.Task):
     def __init__(self, leaf, screen):
         self.leaf = leaf
         self.screen = screen
@@ -148,24 +163,27 @@ class BindTask (task.Task):
         GLib.idle_add(self.ask_key, finish_callback)
 
     def ask_key(self, finish_callback):
-        keystr = getkey_dialog.ask_for_key(try_bind_key,
-                                           screen=self.screen,
-                                           show_clear=False)
+        keystr = getkey_dialog.ask_for_key(
+            try_bind_key, screen=self.screen, show_clear=False
+        )
         if keystr:
             Triggers.add_trigger(self.leaf, keystr)
+
         finish_callback(self)
 
-class AddTrigger (Action):
+
+class AddTrigger(Action):
     def __init__(self):
         Action.__init__(self, _("Add Trigger..."))
-    
+
     def is_async(self):
         return True
 
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
         return BindTask(leaf, ctx.environment.get_screen())
 
     def item_types(self):
@@ -174,13 +192,13 @@ class AddTrigger (Action):
     def get_icon_name(self):
         return "list-add"
 
-class RemoveTrigger (Action):
+
+class RemoveTrigger(Action):
     def __init__(self):
         Action.__init__(self, _("Remove Trigger"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         Triggers.remove_trigger(leaf.object)
 
     def get_icon_name(self):
         return "list-remove"
-

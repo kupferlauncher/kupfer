@@ -1,14 +1,16 @@
-# -*- coding: UTF-8 -*-
-
 __kupfer_name__ = _("VirtualBox")
-__kupfer_sources__ = ("VBoxMachinesSource", )
-__description__ = _("Control VirtualBox Virtual Machines. "
-                    "Supports both Sun VirtualBox and Open Source Edition.")
+__kupfer_sources__ = ("VBoxMachinesSource",)
+__description__ = _(
+    "Control VirtualBox Virtual Machines. "
+    "Supports both Sun VirtualBox and Open Source Edition."
+)
 __version__ = "0.4"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+from contextlib import suppress
+
 from kupfer.objects import Leaf, Action, Source
-from kupfer import pretty
+from kupfer.support import pretty
 from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
 
@@ -27,22 +29,23 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 
 def _get_vbox():
-    if __kupfer_settings__['force_cli']:
-        pretty.print_info(__name__, 'Using cli...')
+    if __kupfer_settings__["force_cli"]:
+        pretty.print_info(__name__, "Using cli...")
         return ose_support
-    try:
+
+    with suppress(ImportError):
         from kupfer.plugin.virtualbox import vboxapi4_support
-        pretty.print_info(__name__, 'Using vboxapi4...')
+
+        pretty.print_info(__name__, "Using vboxapi4...")
         return vboxapi4_support
-    except ImportError:
-        pass
-    try:
+
+    with suppress(ImportError):
         from kupfer.plugin.virtualbox import vboxapi_support
-        pretty.print_info(__name__, 'Using vboxapi...')
+
+        pretty.print_info(__name__, "Using vboxapi...")
         return vboxapi_support
-    except ImportError:
-        pass
-    pretty.print_info(__name__, 'Using cli...')
+
+    pretty.print_info(__name__, "Using cli...")
     return ose_support
 
 
@@ -55,7 +58,7 @@ class _VBoxSupportProxy:
         return getattr(self.VBOX, attr)
 
     def reload_settings(self):
-        pretty.print_debug(__name__, '_VBoxSupportProxy.reloading...')
+        pretty.print_debug(__name__, "_VBoxSupportProxy.reloading...")
         self.unload_module()
         self.VBOX = _get_vbox()
 
@@ -83,29 +86,46 @@ class VirtualMachine(Leaf):
     def get_actions(self):
         state = vbox_support.get_machine_state(self.object)
         if state == vbox_const.VM_STATE_POWEROFF:
-            yield VMAction(_('Power On'), 'system-run',
-                    vbox_const.VM_START_NORMAL)
-            yield VMAction(_('Power On Headless'), 'system-run',
-                    vbox_const.VM_START_HEADLESS, -5)
+            yield VMAction(
+                _("Power On"), "system-run", vbox_const.VM_START_NORMAL
+            )
+            yield VMAction(
+                _("Power On Headless"),
+                "system-run",
+                vbox_const.VM_START_HEADLESS,
+                -5,
+            )
         elif state == vbox_const.VM_STATE_POWERON:
-            yield VMAction(_('Send Power Off Signal'), 'system-shutdown',
-                    vbox_const.VM_ACPI_POWEROFF, -5)
-            yield VMAction(_('Pause'), 'pause', vbox_const.VM_PAUSE)
-            yield VMAction(_('Reboot'), 'system-reboot',
-                    vbox_const.VM_REBOOT, -10)
+            yield VMAction(
+                _("Send Power Off Signal"),
+                "system-shutdown",
+                vbox_const.VM_ACPI_POWEROFF,
+                -5,
+            )
+            yield VMAction(_("Pause"), "pause", vbox_const.VM_PAUSE)
+            yield VMAction(
+                _("Reboot"), "system-reboot", vbox_const.VM_REBOOT, -10
+            )
         elif state == vbox_const.VM_STATE_SAVED:
-            yield VMAction(_('Power On'), 'system-run',
-                    vbox_const.VM_START_NORMAL)
-            yield VMAction(_('Power On Headless'), 'system-run',
-                    vbox_const.VM_START_HEADLESS, -5)
+            yield VMAction(
+                _("Power On"), "system-run", vbox_const.VM_START_NORMAL
+            )
+            yield VMAction(
+                _("Power On Headless"),
+                "system-run",
+                vbox_const.VM_START_HEADLESS,
+                -5,
+            )
         else:  # VM_STATE_PAUSED
-            yield VMAction(_('Resume'), 'resume', vbox_const.VM_RESUME)
+            yield VMAction(_("Resume"), "resume", vbox_const.VM_RESUME)
 
         if state in (vbox_const.VM_STATE_POWERON, vbox_const.VM_STATE_PAUSED):
-            yield VMAction(_('Save State'), 'system-supsend',
-                    vbox_const.VM_SAVE)
-            yield VMAction(_('Power Off'), 'system-shutdown',
-                    vbox_const.VM_POWEROFF, -10)
+            yield VMAction(
+                _("Save State"), "system-supsend", vbox_const.VM_SAVE
+            )
+            yield VMAction(
+                _("Power Off"), "system-shutdown", vbox_const.VM_POWEROFF, -10
+            )
 
 
 class VMAction(Action):
@@ -134,8 +154,12 @@ class VBoxMachinesSource(ApplicationSource):
     def initialize(self):
         if vbox_support.MONITORED_DIRS:
             self.monitor_token = self.monitor_directories(
-                    *vbox_support.MONITORED_DIRS)
-        __kupfer_settings__.connect("plugin-setting-changed", self._setting_changed)
+                *vbox_support.MONITORED_DIRS
+            )
+
+        __kupfer_settings__.connect(
+            "plugin-setting-changed", self._setting_changed
+        )
 
     def finalize(self):
         if vbox_support:
@@ -145,7 +169,11 @@ class VBoxMachinesSource(ApplicationSource):
         return vbox_support.IS_DYNAMIC
 
     def get_items(self):
-        for machine_id, machine_name, machine_desc in vbox_support.get_machines():
+        for (
+            machine_id,
+            machine_name,
+            machine_desc,
+        ) in vbox_support.get_machines():
             yield VirtualMachine(machine_id, machine_name, machine_desc)
 
     def get_description(self):

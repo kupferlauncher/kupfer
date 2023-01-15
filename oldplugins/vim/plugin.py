@@ -46,7 +46,7 @@ def get_vim_files(filepath):
                 recentfile = os.path.expanduser(parts[-1].strip())
                 if recentfile:
                     recents.append(recentfile)
-    return datatools.UniqueIterator(recents)
+    return datatools.unique_iterator(recents)
 
 class RecentsSource (AppLeafContentMixin, Source):
     appleaf_content_id = ("vim", "gvim")

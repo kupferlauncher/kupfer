@@ -19,6 +19,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+
 class PinboardBookmarkSource(Source):
     def __init__(self):
         super().__init__(_("Pinboard Bookmarks"))
@@ -27,6 +28,7 @@ class PinboardBookmarkSource(Source):
         token = __kupfer_settings__["token"]
         if token == "":
             return []
+
         pb = pinboard.Pinboard(token)
         bookmarks = pb.posts.all(start=0, results=100)
         return [UrlLeaf(b.url, b.description) for b in bookmarks]

@@ -1,86 +1,99 @@
+from __future__ import annotations
 
 import json
+import typing as ty
 
 # Action Accelerator configuration
 from kupfer import config
-from kupfer import pretty
+from kupfer.support import pretty
 
 _repr_key = repr
 
+_ValidateFunc = ty.Callable[[str], bool]
+
+
 class AccelConfig(pretty.OutputMixin):
     def __init__(self):
-        self.accels = {}
-        self.loaded = False
-        self.changed = False
+        self.accels: ty.Dict[str, str] = {}
+        self.loaded: bool = False
+        self.changed: bool = False
 
-    def _filename(self):
-        ret = config.save_config_file("action_accels.json")
-        if ret is None:
-            self.output_error("Can't find XDG_CONFIG_HOME")
-        return ret
+    def _filename(self) -> str | None:
+        if ret := config.save_config_file("action_accels.json"):
+            return ret
 
-    def load(self, validate_func):
+        self.output_error("Can't find XDG_CONFIG_HOME")
+        return None
+
+    def load(self, validate_func: _ValidateFunc) -> bool:
         if self.loaded:
             return True
+
         self.loaded = True
         data_file = self._filename()
         if data_file is None:
             return False
 
         try:
-            with open(data_file, "r") as fp:
-                self.accels = json.load(fp)
+            with open(data_file, encoding="UTF-8") as dfp:
+                self.accels = json.load(dfp)
+
             self.output_debug("Read", data_file)
         except FileNotFoundError:
-            return
-        except Exception as exc:
+            return False
+        except Exception:
             self.output_error("Failed to read:", data_file)
             self.output_exc()
-            return
+            return False
 
         try:
             self._valid_accel(validate_func)
-        except:
+        except Exception:
             self.output_exc()
             self.accels = {}
-        self.output_debug("Loaded", self.accels)
 
-    def _valid_accel(self, validate_func):
+        self.output_debug("Loaded", self.accels)
+        return True
+
+    def _valid_accel(self, validate_func: _ValidateFunc) -> None:
         if not isinstance(self.accels, dict):
             raise TypeError("Accelerators must be a dictionary")
-        self.accels = {str(k): str(v) for k, v in self.accels.items()}
-        delete = set()
-        for obj, k in self.accels.items():
-            if not validate_func(k):
-                delete.add(obj)
-                self.output_error("Ignoring invalid accel", k, "for", obj)
-        for obj in delete:
-            self.accels.pop(obj, None)
 
-    def get(self, obj):
+        self.accels.clear()
+        for obj, k in self.accels.items():
+            if validate_func(k):
+                self.accels[str(obj)] = str(k)
+            else:
+                self.output_error("Ignoring invalid accel", k, "for", obj)
+
+    def get(self, obj: ty.Any) -> str | None:
         """
         Return accel key for @obj or None
         """
         return self.accels.get(_repr_key(obj))
 
-    def set(self, obj, key):
+    def set(self, obj: ty.Any, key: str) -> None:
         self.output_debug("Set", key, "for", _repr_key(obj))
         assert hasattr(obj, "activate")
         assert isinstance(key, str)
         self.accels[_repr_key(obj)] = key
         self.changed = True
 
-    def store(self):
+    def store(self) -> None:
         if not self.changed:
             return
+
         data_file = self._filename()
         if data_file is None:
-            return False
+            return
+
         self.output_debug("Writing to", data_file)
         try:
-            with open(data_file, "w") as fp:
-                json.dump(self.accels, fp, indent=4, sort_keys=True)
-        except Exception as exc:
+            with open(data_file, "w", encoding="UTF-8") as dfp:
+                json.dump(self.accels, dfp, indent=4, sort_keys=True)
+
+        except Exception:
             self.output_error("Failed to write:", data_file)
             self.output_exc()
+
         self.changed = False

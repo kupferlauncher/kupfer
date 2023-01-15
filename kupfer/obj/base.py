@@ -1,47 +1,49 @@
-from kupfer import datatools
+from __future__ import annotations
+
+import builtins
+import typing as ty
+
+from gi.repository import GdkPixbuf
+
 from kupfer import icons
-from kupfer import pretty
+from kupfer.support import datatools, kupferstring, pretty
 from kupfer.utils import locale_sort
-from kupfer.kupferstring import tounicode, tofolded
 
 __all__ = [
-    "Error", "InvalidDataError", "OperationError", "InvalidLeafError",
-    "KupferObject", "Leaf", "Action", "Source", "TextSource",
+    "KupferObject",
+    "Leaf",
+    "Action",
+    "Source",
+    "TextSource",
 ]
+
 
 # If no gettext function is loaded at this point, we load a substitute,
 # so that testing code can still work
-import builtins
 if not hasattr(builtins, "_"):
-    def identity(x): return x
-    builtins._ = identity
-
-class Error (Exception):
-    pass
-
-class InvalidDataError (Error):
-    "The data is wrong for the given Leaf"
-
-class OperationError (Error):
-    "Command execution experienced an error"
-
-class InvalidLeafError (OperationError):
-    "The Leaf passed to an Action is invalid"
-
-_builtin_modules = frozenset([
-    "kupfer.obj.objects",
-    "kupfer.obj.base",
-    "kupfer.obj.sources",
-    "kupfer.obj.fileactions",
-])
-
-class _BuiltinObject (type):
-    def __new__(mcls, name, bases, dict):
-        dict["_is_builtin"] = dict["__module__"] in _builtin_modules
-        return type.__new__(mcls, name, bases, dict)
+    builtins._ = _ = str  # type: ignore
 
 
-class KupferObject (object, metaclass=_BuiltinObject):
+_builtin_modules = frozenset(
+    [
+        "kupfer.obj.objects",
+        "kupfer.obj.base",
+        "kupfer.obj.sources",
+    ]
+)
+
+
+def no_sort_func(x, _key=None):
+    return x
+
+
+class _BuiltinObject(type):
+    def __new__(cls, name, bases, data):
+        data["_is_builtin"] = data["__module__"] in _builtin_modules
+        return type.__new__(cls, name, bases, data)
+
+
+class KupferObject(metaclass=_BuiltinObject):
     """
     Base class for kupfer data model
 
@@ -58,36 +60,42 @@ class KupferObject (object, metaclass=_BuiltinObject):
     @fallback_icon_name is a class attribute for the last fallback
     icon; it must always be accessible.
     """
-    rank_adjust = 0
-    fallback_icon_name = "kupfer-object"
-    def __init__(self, name=None):
-        """ Init kupfer object with, where
+
+    rank_adjust: int = 0
+    fallback_icon_name: str = "kupfer-object"
+    _is_builtin: bool = False
+
+    def __init__(self, name: str | None = None) -> None:
+        """Init kupfer object with, where
         @name *should* be a unicode object but *may* be
         a UTF-8 encoded `str`
         """
         if not name:
             name = self.__class__.__name__
-        self.name = tounicode(name)
-        folded_name = tofolded(self.name)
+
+        self.name: str = kupferstring.tounicode(name)  # type: ignore
+        folded_name = kupferstring.tofolded(self.name)
         self.kupfer_add_alias(folded_name)
 
-    def kupfer_add_alias(self, alias):
+    def kupfer_add_alias(self, alias: str) -> None:
         if alias != str(self):
             if not hasattr(self, "name_aliases"):
                 self.name_aliases = set()
+
             self.name_aliases.add(alias)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         key = self.repr_key()
-        keys = " %s" % (key, ) if (key is not None and key != "") else ""
+        keys = f" {key}" if (key is not None and key != "") else ""
         if self._is_builtin:
-            return "<builtin.%s%s>" % (self.__class__.__name__, keys)
-        return "<%s.%s%s>" % (self.__module__, self.__class__.__name__, keys)
+            return f"<builtin.{self.__class__.__name__}{keys}>"
 
-    def repr_key(self):
+        return f"<{self.__module__}.{self.__class__.__name__}{keys}>"
+
+    def repr_key(self) -> ty.Any:
         """
         Return an object whose str() will be used in the __repr__,
         self is returned by default.
@@ -96,19 +104,19 @@ class KupferObject (object, metaclass=_BuiltinObject):
         """
         return self
 
-    def get_description(self):
+    def get_description(self) -> str | None:
         """Return a description of the specific item
         which *should* be a unicode object
         """
         return None
 
-    def get_thumbnail(self, width, height):
+    def get_thumbnail(self, width: int, height: int) -> GdkPixbuf.Pixbuf | None:
         """Return pixbuf of size @width x @height if available
         Most objects will not implement this
         """
         return None
 
-    def get_pixbuf(self, icon_size):
+    def get_pixbuf(self, icon_size: int) -> GdkPixbuf.Pixbuf | None:
         """
         Returns an icon in pixbuf format with dimension @icon_size
 
@@ -116,17 +124,17 @@ class KupferObject (object, metaclass=_BuiltinObject):
         if they make sense.
         The methods are tried in that order.
         """
-        gicon = self.get_gicon()
-        pbuf = gicon and icons.get_icon_for_gicon(gicon, icon_size)
-        if pbuf:
-            return pbuf
+        if gicon := self.get_gicon():
+            if pbuf := icons.get_icon_for_gicon(gicon, icon_size):
+                return pbuf
+
         icon_name = self.get_icon_name()
-        icon = icon_name and icons.get_icon_for_name(icon_name, icon_size)
-        if icon:
+        if icon := icon_name and icons.get_icon_for_name(icon_name, icon_size):
             return icon
+
         return icons.get_icon_for_name(self.fallback_icon_name, icon_size)
 
-    def get_icon(self):
+    def get_icon(self) -> icons.GIcon | None:
         """
         Returns an icon in GIcon format
 
@@ -134,76 +142,90 @@ class KupferObject (object, metaclass=_BuiltinObject):
         if they make sense.
         The methods are tried in that order.
         """
-        gicon = self.get_gicon()
-        if gicon and icons.is_good(gicon):
-            return gicon
-        icon_name = self.get_icon_name()
-        if icon_name and icons.get_good_name_for_icon_names((icon_name, )):
-            return icons.get_gicon_for_names(icon_name)
+        if gicon := self.get_gicon():
+            if icons.is_good(gicon):
+                return gicon
+
+        if icon_name := self.get_icon_name():
+            if icons.get_good_name_for_icon_names((icon_name,)):
+                return icons.get_gicon_for_names(icon_name)
+
         return icons.get_gicon_for_names(self.fallback_icon_name)
 
-    def get_gicon(self):
+    def get_gicon(self) -> icons.GIcon | None:
         """Return GIcon, if there is one"""
         return None
 
-    def get_icon_name(self):
+    def get_icon_name(self) -> str:
         """Return icon name. All items should have at least
         a generic icon name to return.
         """
         return self.fallback_icon_name
 
-def aslist(seq):
-    """Return a list out of @seq, or seq if it is a list"""
-    if not isinstance(seq, type([])) and not isinstance(seq, type(())):
-        seq = list(seq)
-    return seq
 
-class _NonpersistentToken (object):
+T = ty.TypeVar("T")
+
+
+def _aslist(seq: ty.Iterable[T]) -> ty.Collection[T]:
+    """Return a list out of @seq, or seq if it is a list"""
+    if isinstance(seq, (list, tuple)):
+        return seq
+
+    return list(seq)
+
+
+class _NonpersistentToken:
     "Goes None when pickled"
-    __slots__ = "object"
+    __slots__ = ("object",)
+
     def __init__(self, object_):
         self.object = object_
+
     def __bool__(self):
         return bool(self.object)
+
     def __reduce__(self):
         return (sum, ((), None))
 
-class Leaf (KupferObject):
+
+class Leaf(KupferObject):
     """
     Base class for objects
 
     Leaf.object is the represented object (data)
     All Leaves should be hashable (__hash__ and __eq__)
     """
-    def __init__(self, obj, name):
-        """Represented object @obj and its @name"""
-        super(Leaf, self).__init__(name)
-        self.object = obj
-        self._content_source = None
 
-    def __hash__(self):
+    def __init__(self, obj: ty.Any, name: str) -> None:
+        """Represented object @obj and its @name"""
+        super().__init__(name)
+        self.object = obj
+        self._content_source: ty.Union[_NonpersistentToken, Source, None] = None
+
+    def __hash__(self) -> int:
         return hash(str(self))
 
-    def __eq__(self, other):
-        return (type(self) == type(other) and self.object == other.object)
+    def __eq__(self, other: ty.Any) -> bool:
+        return type(self) is type(other) and self.object == other.object
 
-    def add_content(self, content):
+    def add_content(self, content: ty.Any) -> None:
         """Register content source @content with Leaf"""
         self._content_source = content and _NonpersistentToken(content)
 
-    def has_content(self):
-        return self._content_source
+    def has_content(self) -> bool:
+        return bool(self._content_source)
 
-    def content_source(self, alternate=False):
+    def content_source(self, alternate: bool = False) -> Source | None:
         """Content of leaf. it MAY alter behavior with @alternate,
         as easter egg/extra mode"""
-        return self._content_source and self._content_source.object
+        return self._content_source and self._content_source.object  # type: ignore
 
-    def get_actions(self):
+    def get_actions(self) -> ty.Iterable[Action]:
         """Default (builtin) actions for this Leaf"""
         return ()
 
-class Action (KupferObject):
+
+class Action(KupferObject):
     '''
     Base class for all actions
 
@@ -223,24 +245,30 @@ class Action (KupferObject):
         Default single lowercase letter key to use for selecting the action
         quickly
     '''
-    fallback_icon_name = "kupfer-execute"
-    action_accelerator = None
 
-    def __hash__(self):
+    fallback_icon_name: str = "kupfer-execute"
+    action_accelerator: str | None = None
+
+    def __hash__(self) -> int:
         return hash(repr(self))
 
-    def __eq__(self, other):
-        return (type(self) == type(other) and repr(self) == repr(other) and
-                str(self) == str(other))
+    def __eq__(self, other: ty.Any) -> bool:
+        return (
+            type(self) is type(other)
+            and repr(self) == repr(other)
+            and str(self) == str(other)
+        )
 
-    def repr_key(self):
+    def repr_key(self) -> ty.Any:
         """by default, actions of one type are all the same"""
         return ""
 
-    def activate(self, obj, iobj=None, ctx=None):
+    def activate(
+        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
+    ) -> Leaf | None:
         """Use this action with @obj and @iobj
 
-        @obj:  the direct object (Leaf)
+        @leaf:  the direct object (Leaf)
         @iobj: the indirect object (Leaf), if ``self.requires_object``
                returns ``False``
 
@@ -251,9 +279,8 @@ class Action (KupferObject):
         is called if it is defined and the action gets either
         multiple objects or iobjects.
         """
-        pass
 
-    def wants_context(self):
+    def wants_context(self) -> bool:
         """Return ``True`` if ``activate`` should receive the
         ActionExecutionContext as the keyword argument context
 
@@ -261,15 +288,15 @@ class Action (KupferObject):
         """
         return False
 
-    def is_factory(self):
+    def is_factory(self) -> bool:
         """Return whether action may return a result collection as a Source"""
         return False
 
-    def has_result(self):
+    def has_result(self) -> bool:
         """Return whether action may return a result item as a Leaf"""
         return False
 
-    def is_async(self):
+    def is_async(self) -> bool:
         """If this action runs asynchronously, return True.
 
         Then activate(..) must return an object from the kupfer.task module,
@@ -277,38 +304,39 @@ class Action (KupferObject):
         """
         return False
 
-    def item_types(self):
+    def item_types(self) -> ty.Iterable[ty.Type[Leaf]]:
         """Yield types this action may apply to. This is used only
         when this action is specified in __kupfer_actions__ to "decorate"
         """
         return ()
 
-    def valid_for_item(self, item):
+    def valid_for_item(self, leaf: Leaf) -> bool:
         """Whether action can be used with exactly @item"""
         return True
 
-    def requires_object(self):
+    def requires_object(self) -> bool:
         """If this action requires a secondary object
         to complete is action, return True
         """
         return False
 
-    def object_source(self, for_item=None):
+    def object_source(self, for_item: Leaf | None = None) -> Source | None:
         """Source to use for object or None,
         to use the catalog (flat and filtered for @object_types)
         """
         return None
 
-    def object_source_and_catalog(self, for_item):
+    def object_source_and_catalog(self, for_item: Leaf) -> bool:
         return False
 
-    def object_types(self):
+    def object_types(self) -> ty.Iterable[ty.Type[Leaf]]:
         """Yield types this action may use as indirect objects, if the action
         requrires it.
         """
         return ()
 
-class Source (KupferObject, pretty.OutputMixin):
+
+class Source(KupferObject, pretty.OutputMixin):
     """
     Source: Data provider for a kupfer browser
 
@@ -323,6 +351,7 @@ class Source (KupferObject, pretty.OutputMixin):
     @source_use_cache if True, the source can be pickled to disk to save its
         cached items until the next time the launcher is started.
     """
+
     fallback_icon_name = "kupfer-object-multiple"
     source_user_reloadable = False
     source_prefer_sublevel = False
@@ -330,26 +359,29 @@ class Source (KupferObject, pretty.OutputMixin):
 
     def __init__(self, name):
         KupferObject.__init__(self, name)
-        self.cached_items = None
-        self._version = 1
+        self.cached_items: ty.Iterable[Leaf] | None = None
+        self._version: int = 1
 
     @property
-    def version(self):
+    def version(self) -> int:
         """version is for pickling (save and restore from cache),
         subclasses should increase self._version when changing"""
         return self._version
 
     def __eq__(self, other):
-        return (type(self) == type(other) and repr(self) == repr(other) and
-                self.version == other.version)
+        return (
+            type(self) is type(other)
+            and repr(self) == repr(other)
+            and self.version == other.version
+        )
 
-    def __hash__(self ):
+    def __hash__(self) -> int:
         return hash(repr(self))
 
-    def toplevel_source(self):
+    def toplevel_source(self) -> Source:
         return self
 
-    def initialize(self):
+    def initialize(self) -> None:
         """
         Called when a Source enters Kupfer's system for real
 
@@ -357,18 +389,16 @@ class Source (KupferObject, pretty.OutputMixin):
         must be able to return an icon name for get_icon_name as well as a
         description for get_description, even if this method was never called.
         """
-        pass
 
-    def finalize(self):
+    def finalize(self) -> None:
         """
         Called before a source is deactivated.
         """
-        pass
 
-    def repr_key(self):
+    def repr_key(self) -> ty.Any:
         return ""
 
-    def get_items(self):
+    def get_items(self) -> ty.Iterable[Leaf]:
         """
         Internal method to compute and return the needed items
 
@@ -377,20 +407,20 @@ class Source (KupferObject, pretty.OutputMixin):
         """
         return []
 
-    def get_items_forced(self):
+    def get_items_forced(self) -> ty.Iterable[Leaf]:
         """
         Force compute and return items for source.
         Default - call get_items method.
         """
         return self.get_items()
 
-    def is_dynamic(self):
+    def is_dynamic(self) -> bool:
         """
         Whether to recompute contents each time it is accessed
         """
         return False
 
-    def mark_for_update(self):
+    def mark_for_update(self) -> None:
         """
         Mark source as changed
 
@@ -398,7 +428,7 @@ class Source (KupferObject, pretty.OutputMixin):
         """
         self.cached_items = None
 
-    def should_sort_lexically(self):
+    def should_sort_lexically(self) -> bool:
         """
         Sources should return items by most relevant order (most
         relevant first). If this is True, Source will sort items
@@ -406,7 +436,9 @@ class Source (KupferObject, pretty.OutputMixin):
         """
         return False
 
-    def get_leaves(self, force_update=False):
+    def get_leaves(
+        self, force_update: bool = False
+    ) -> ty.Iterable[Leaf] | None:
         """
         Return a list of all leaves.
 
@@ -418,104 +450,112 @@ class Source (KupferObject, pretty.OutputMixin):
             # sort in locale order
             sort_func = locale_sort
         else:
-            sort_func = lambda x: x
+            sort_func = no_sort_func
 
         if self.is_dynamic():
             if force_update:
                 return sort_func(self.get_items_forced())
-            else:
-                return sort_func(self.get_items())
+
+            return sort_func(self.get_items())
 
         if self.cached_items is None or force_update:
             if force_update:
-                self.cached_items = aslist(sort_func(self.get_items_forced()))
-                self.output_debug("Loaded %d items" % len(self.cached_items))
+                self.cached_items = _aslist(sort_func(self.get_items_forced()))
+                self.output_debug(f"Loaded {len(self.cached_items)} items")
             else:
-                self.cached_items = \
-                        datatools.SavedIterable(sort_func(self.get_items()))
+                self.cached_items = datatools.SavedIterable(
+                    sort_func(self.get_items())
+                )
                 self.output_debug("Loaded items")
-        return self.cached_items
 
-    def has_parent(self):
+        return self.cached_items  # type: ignore
+
+    def has_parent(self) -> bool:
         return False
 
-    def get_parent(self):
+    def get_parent(self) -> KupferObject | None:
         return None
 
-    def get_leaf_repr(self):
+    def get_leaf_repr(self) -> Leaf | None:
         """Return, if appicable, another object
         to take the source's place as Leaf"""
         return None
 
-    def provides(self):
+    def provides(self) -> ty.Iterable[ty.Type[Leaf]]:
         """A seq of the types of items it provides;
         empty is taken as anything -- however most sources
         should set this to exactly the type they yield
         """
         return ()
 
-    def get_search_text(self):
+    def get_search_text(self) -> str:
         return _("Type to search")
 
-    def get_empty_text(self):
+    def get_empty_text(self) -> str:
         return _("%s is empty") % str(self)
 
 
-class TextSource (KupferObject):
+class TextSource(KupferObject):
     """TextSource base class implementation,
 
     this is a psedo Source"""
-    def __init__(self, name=None, placeholder=None):
+
+    def __init__(
+        self,
+        name: str | None = None,
+        placeholder: str | None = None,
+    ) -> None:
         """
         name: Localized name
         placeholder: Localized placeholder when it has no input
         """
         if not name:
             name = _("Text")
+
         KupferObject.__init__(self, name)
         self.placeholder = placeholder
 
-    def __eq__(self, other):
-        return (type(self) == type(other) and repr(self).__eq__(repr(other)))
+    def __eq__(self, other: ty.Any) -> bool:
+        return type(self) is type(other) and repr(self).__eq__(repr(other))
 
-    def __hash__(self ):
+    def __hash__(self) -> int:
         return hash(repr(self))
 
-    def initialize(self):
+    def initialize(self) -> None:
         pass
 
-    def repr_key(self):
+    def repr_key(self) -> ty.Any:
         return ""
 
-    def get_rank(self):
+    def get_rank(self) -> int:
         """All items are given this rank"""
         return 20
 
-    def get_items(self, text):
+    def get_items(self, text: str) -> ty.Iterable[Leaf]:
         return ()
 
-    def get_text_items(self, text):
+    def get_text_items(self, text: str) -> ty.Iterable[Leaf]:
         """Get leaves for unicode string @text"""
         return self.get_items(text)
 
-    def has_parent(self):
+    def has_parent(self) -> bool:
         return False
 
-    def provides(self):
+    def provides(self) -> ty.Iterable[ty.Type[Leaf]]:
         """A seq of the types of items it provides"""
         yield Leaf
 
-    def get_icon_name(self):
+    def get_icon_name(self) -> str:
         return "edit-select-all"
 
-    def get_search_text(self):
-        return self.placeholder if self.placeholder else _("Text")
+    def get_search_text(self) -> str:
+        return self.placeholder or _("Text")
 
-    def get_empty_text(self):
-        return self.placeholder if self.placeholder else _("Text")
+    def get_empty_text(self) -> str:
+        return self.placeholder or _("Text")
 
 
-class ActionGenerator (object):
+class ActionGenerator:
     """A "source" for actions
 
     NOTE: The ActionGenerator should not perform any expensive
@@ -524,6 +564,9 @@ class ActionGenerator (object):
     each Action's valid_for_item method.
     """
 
-    def get_actions_for_leaf(self, leaf):
-        '''Return actions appropriate for given leaf. '''
+    def get_actions_for_leaf(self, leaf: Leaf) -> ty.Iterable[Action]:
+        """Return actions appropriate for given leaf."""
         return []
+
+
+AnySource = ty.Union[Source, TextSource]

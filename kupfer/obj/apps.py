@@ -1,8 +1,15 @@
-from kupfer.obj.base import InvalidDataError, Source
-from kupfer.obj.helplib import PicklingHelperMixin, FilesystemWatchMixin
-from kupfer.obj.objects import AppLeaf
+from __future__ import annotations
 
-class AppLeafContentMixin (object):
+import typing as ty
+from contextlib import suppress
+
+from .base import Leaf, Source
+from .exceptions import InvalidDataError
+from .files import AppLeaf
+from .helplib import FilesystemWatchMixin, PicklingHelperMixin
+
+
+class AppLeafContentMixin:
     """
     Mixin for Source that correspond one-to-one with a AppLeaf
 
@@ -17,34 +24,44 @@ class AppLeafContentMixin (object):
     decorates_type,
     decorates_item
     """
+
     @classmethod
-    def get_leaf_repr(cls):
+    def get_leaf_repr(cls) -> AppLeaf | None:
         if not hasattr(cls, "_cached_leaf_repr"):
-            cls._cached_leaf_repr = cls.__get_leaf_repr()
-        return cls._cached_leaf_repr
+            cls._cached_leaf_repr = cls.__get_leaf_repr()  # type: ignore
+
+        return cls._cached_leaf_repr  # type: ignore
+
     @classmethod
-    def __get_appleaf_id_iter(cls):
-        if isinstance(cls.appleaf_content_id, str):
-            ids = (cls.appleaf_content_id, )
+    def __get_appleaf_id_iter(cls) -> ty.Tuple[str, ...]:
+        if isinstance(cls.appleaf_content_id, str):  # type: ignore
+            ids = (cls.appleaf_content_id,)  # type: ignore
         else:
-            ids = list(cls.appleaf_content_id)
+            ids = tuple(cls.appleaf_content_id)  # type: ignore
+
         return ids
+
     @classmethod
-    def __get_leaf_repr(cls):
+    def __get_leaf_repr(cls) -> ty.Optional[AppLeaf]:
         for appleaf_id in cls.__get_appleaf_id_iter():
-            try:
+            with suppress(InvalidDataError):
                 return AppLeaf(app_id=appleaf_id)
-            except InvalidDataError:
-                pass
+
+        return None
+
     @classmethod
-    def decorates_type(cls):
+    def decorates_type(cls) -> ty.Type[Leaf]:
         return AppLeaf
+
     @classmethod
-    def decorate_item(cls, leaf):
+    def decorate_item(cls, leaf: Leaf) -> ty.Optional[AppLeafContentMixin]:
         if leaf == cls.get_leaf_repr():
             return cls()
 
-class ApplicationSource(AppLeafContentMixin, Source, PicklingHelperMixin,
-        FilesystemWatchMixin):
-    pass
+        return None
 
+
+class ApplicationSource(
+    AppLeafContentMixin, Source, PicklingHelperMixin, FilesystemWatchMixin
+):
+    pass

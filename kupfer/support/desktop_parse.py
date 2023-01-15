@@ -1,4 +1,3 @@
-
 """
 Implementation of unescaping and unquoting of the Exec= key in
 the Desktop Entry Specification (As of March 2011, version 1.1-draft)
@@ -10,97 +9,110 @@ rules, but we accept everything, if validly quoted or not.
 """
 
 import shlex
+import typing as ty
 
 # This is the "string" type encoding escapes
 # this is unescaped before we process anything..
-escape_table = {
-    r'\s': ' ',
-    r'\n': '\n',
-    r'\t': '\t',
-    r'\r': '\r',
-    '\\\\': '\\',
+_ESCAPE_TABLE = {
+    r"\s": " ",
+    r"\n": "\n",
+    r"\t": "\t",
+    r"\r": "\r",
+    "\\\\": "\\",
 }
 
 # quoted are those chars that need a backslash in front
 # (inside a double-quoted section, that is)
-quoted = r""" " ` $ \ """.split()
-quoted_table = {
-    r'\"': '"',
-    r'\`': '`',
-    r'\$': '$',
-    '\\\\': '\\',
-}
+# not in use
+# quoted = r""" " ` $ \ """.split()
+# quoted_table = {
+#     r"\"": '"',
+#     r"\`": "`",
+#     r"\$": "$",
+#     "\\\\": "\\",
+# }
 
-'''
 # reserved are those that need to be inside quotes
 # note that all the quoted are also reserved, of course
+# We don't use these at all
+# reserved = r""" " ' \ > < ~ | & ; $ * ? # ( ) ` """.split()
+# reserved.extend([' ', '\t', '\n'])
 
-We don't use these at all
-reserved = r""" " ' \ > < ~ | & ; $ * ? # ( ) ` """.split()
-reserved.extend([' ', '\t', '\n'])
-'''
 
-def two_part_unescaper(s, reptable):
+def two_part_unescaper(string: str, reptable: ty.Dict[str, str]) -> str:
     "Scan @s two characters at a time and replace using @reptable"
-    if not s:
-        return s
+    if not string:
+        return string
+
     def _inner():
-        it = iter(zip(s, s[1:]))
-        for cur, nex in it:
-            key = cur+nex
-            if key in reptable:
+        pairs = zip(string, string[1:])
+        for cur, nex in pairs:
+            if (key := cur + nex) in reptable:
                 yield reptable[key]
                 try:
-                    next(it)
+                    next(pairs)
                 except StopIteration:
                     return
             else:
                 yield cur
-        yield s[-1]
-    return ''.join(_inner())
 
-def custom_shlex_split(s, comments=False, posix=True):
+        yield string[-1]
+
+    return "".join(_inner())
+
+
+T = ty.TypeVar("T", str, bytes)
+
+
+def _custom_shlex_split(
+    string: T, comments: bool = False, posix: bool = True
+) -> list[T]:
     """
     Wrapping shlex.split
     """
-    if isinstance(s, str):
-        is_unicode = True
-        #s = s.encode("UTF-8")
+    ustring: str
+    if isinstance(string, str):
+        ustring = string
+    elif isinstance(string, bytes):
+        ustring = string.decode("UTF-8", "replace")
     else:
-        s = s.decode("UTF-8", "replace")
-        is_unicode = False
-    lex = shlex.shlex(s, posix=posix)
+        raise TypeError
+
+    lex = shlex.shlex(ustring, posix=posix)
     lex.whitespace_split = True
     if not comments:
-        lex.commenters = ''
+        lex.commenters = ""
+
     try:
         lex_output = list(lex)
     except ValueError:
-        lex_output = [s]
+        lex_output = [ustring]
 
     ## extra-unescape  ` and $ that are not handled by shlex
-    quoted_shlex = {r'\`': '`', r'\$':'$'}
-    lex_output[:] = [two_part_unescaper(x, quoted_shlex) for x in lex_output]
-    if is_unicode:
-        return lex_output
-    else:
-        return [x.encode("UTF-8") for x in lex_output]
+    quoted_shlex = {r"\`": "`", r"\$": "$"}
+    output = (two_part_unescaper(x, quoted_shlex) for x in lex_output)
+    if isinstance(string, str):
+        return list(output)
 
-def unescape(s):
+    return [x.encode("UTF-8") for x in lex_output]
+
+
+def _unescape(string: str) -> str:
     "Primary unescape of control sequences"
-    return two_part_unescaper(s, escape_table)
+    return two_part_unescaper(string, _ESCAPE_TABLE)
+
 
 def test_unescape():
     r"""
     >>> t = r'"This \\$ \\\\ \s\\\\"'
-    >>> unescape(t)
+    >>> _unescape(t)
     '"This \\$ \\\\  \\\\"'
-    >>> unescape(r'\t\s\\\\')
+    >>> _unescape(r'\t\s\\\\')
     '\t \\\\'
     """
-    pass
 
-def parse_argv(instr):
+
+def parse_argv(instr: str) -> list[str]:
     r"""
     Parse quoted @instr into an argv
 
@@ -151,9 +163,10 @@ def parse_argv(instr):
     ['A\\\\BC "hi there']
 
     """
-    return custom_shlex_split(instr)
+    return _custom_shlex_split(instr)
 
-def parse_unesc_argv(instr):
+
+def parse_unesc_argv(instr: str) -> list[str]:
     r"""
     Parse quoted @instr into an argv after unescaping it
 
@@ -168,9 +181,10 @@ def parse_unesc_argv(instr):
     >>> parse_unesc_argv("'/usr'/bin/gnome-terminal -x gvim 'Insanely Broken'Yes")
     ['/usr/bin/gnome-terminal', '-x', 'gvim', 'Insanely BrokenYes']
     """
-    return custom_shlex_split(unescape(instr))
+    return _custom_shlex_split(_unescape(instr))
 
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()

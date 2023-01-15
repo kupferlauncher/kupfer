@@ -1,6 +1,9 @@
 __kupfer_name__ = _("Favorites")
-__kupfer_sources__ = ("FavoritesSource", )
-__kupfer_actions__ = ("AddFavorite", "RemoveFavorite", )
+__kupfer_sources__ = ("FavoritesSource",)
+__kupfer_actions__ = (
+    "AddFavorite",
+    "RemoveFavorite",
+)
 __description__ = _("Mark commonly used items and store objects for later use")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
@@ -14,16 +17,18 @@ from kupfer import puid
 from kupfer.core import learn
 
 
-class FavoritesSource (Source):
+class FavoritesSource(Source):
     """Keep a list of Leaves that the User may add and remove from"""
+
     instance = None
+
     def __init__(self):
         Source.__init__(self, _("Favorites"))
         ## these are default favorites for new users
         self.references = [
-                '<kupfer.plugin.core.contents.Help>',
-                '<kupfer.plugin.core.contents.Preferences>',
-            ]
+            "<kupfer.plugin.core.contents.Help>",
+            "<kupfer.plugin.core.contents.Preferences>",
+        ]
 
     def config_save(self):
         references = [puid.get_unique_id(F) for F in self.favorites]
@@ -36,24 +41,21 @@ class FavoritesSource (Source):
         self.references = state["favorites"]
 
     def _lookup_item(self, id_):
-        itm = puid.resolve_unique_id(id_, excluding=self)
-        if itm is None:
-            return None
-        return itm
+        return puid.resolve_unique_id(id_, excluding=self)
 
-    def _valid_item(self,  itm):
-        if hasattr(itm, "is_valid") and not itm.is_valid():
-            return False
-        return True
+    def _valid_item(self, itm):
+        return not (hasattr(itm, "is_valid") and not itm.is_valid())
 
     def _find_item(self, id_):
         itm = self._lookup_item(id_)
         if itm is None or not self._valid_item(itm):
             return None
+
         if puid.is_reference(id_):
             self.reference_table[id_] = itm
         else:
             self.persist_table[id_] = itm
+
         return itm
 
     def initialize(self):
@@ -70,14 +72,15 @@ class FavoritesSource (Source):
             if id_ in self.persist_table:
                 self.favorites.append(self.persist_table[id_])
                 continue
+
             if id_ in self.reference_table:
                 self.favorites.append(self.reference_table[id_])
                 continue
-            itm = self._find_item(id_)
-            if itm is None:
-                self.output_debug("MISSING:", id_)
-            else:
+
+            if (itm := self._find_item(id_)) is not None:
                 self.favorites.append(itm)
+            else:
+                self.output_debug("MISSING:", id_)
 
     @classmethod
     def add(cls, itm):
@@ -86,6 +89,7 @@ class FavoritesSource (Source):
     def _add(self, itm):
         if self._has_item(itm):
             self._remove(itm)
+
         learn.add_favorite(itm)
         self.favorites.append(itm)
         self.references.append(puid.get_unique_id(itm))
@@ -115,12 +119,14 @@ class FavoritesSource (Source):
                     self.references.remove(key)
                     self.persist_table.pop(key)
                     break
+
         self.mark_for_update()
 
     def get_items(self):
         self._update_items()
         for fav in self.favorites:
             learn.add_favorite(fav)
+
         return reversed(self.favorites)
 
     def get_description(self):
@@ -133,33 +139,47 @@ class FavoritesSource (Source):
         # returning nothing means it provides anything
         return ()
 
-class AddFavorite (Action):
+
+class AddFavorite(Action):
     # Rank down, since it applies everywhere
     rank_adjust = -15
+
     def __init__(self):
         Action.__init__(self, _("Add to Favorites"))
+
     def activate(self, leaf):
         FavoritesSource.add(leaf)
+
     def item_types(self):
-        return (Leaf, )
+        return (Leaf,)
+
     def valid_for_item(self, item):
         return not FavoritesSource.has_item(item)
+
     def get_description(self):
         return _("Add item to favorites shelf")
+
     def get_icon_name(self):
         return "list-add"
 
-class RemoveFavorite (Action):
+
+class RemoveFavorite(Action):
     rank_adjust = -15
+
     def __init__(self):
         Action.__init__(self, _("Remove from Favorites"))
+
     def activate(self, leaf):
         FavoritesSource.remove(leaf)
+
     def item_types(self):
-        return (Leaf, )
+        return (Leaf,)
+
     def valid_for_item(self, item):
         return FavoritesSource.has_item(item)
+
     def get_description(self):
         return _("Remove item from favorites shelf")
+
     def get_icon_name(self):
         return "list-remove"

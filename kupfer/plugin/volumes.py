@@ -1,21 +1,24 @@
 __kupfer_name__ = _("Volumes and Disks")
-__kupfer_sources__ = ("VolumesSource", )
+__kupfer_sources__ = ("VolumesSource",)
 __description__ = _("Mounted volumes and disks")
 __version__ = "2017.2"
 __author__ = ""
 
 from gi.repository import Gio, GLib
 
-from kupfer.objects import Action, Source, FileLeaf
-from kupfer.obj.fileactions import Open, OpenTerminal
-from kupfer import utils, uiutils
+from kupfer import utils
+from kupfer.obj import Action, FileLeaf, Open, OpenTerminal, Source
+from kupfer.ui import uiutils
+
+_VOLUME_ICON_NAME = "drive-removable-media"
 
 
-class Volume (FileLeaf):
+class Volume(FileLeaf):
     """
     The Volume class actually represents one instance
     of GIO's GMount (as long as it is mounted)
     """
+
     # NOTE: marking as non-serializable
     serializable = None
 
@@ -23,7 +26,7 @@ class Volume (FileLeaf):
         self.volume = volume
         fil = self.volume.get_root()
         path = fil.get_path()
-        super(Volume, self).__init__(obj=path, name=volume.get_name())
+        super().__init__(obj=path, name=volume.get_name())
         self.kupfer_add_alias(fil.get_basename())
 
     def get_actions(self):
@@ -31,6 +34,7 @@ class Volume (FileLeaf):
         yield OpenTerminal()
         if self.volume.can_eject():
             yield Eject()
+
         elif self.volume.can_unmount():
             yield Unmount()
 
@@ -39,18 +43,20 @@ class Volume (FileLeaf):
         return any(self.volume == v for v in vm.get_mounts())
 
     def get_description(self):
-        return _("Volume mounted at %s") % \
-                utils.get_display_path_for_bytestring(self.object)
+        return _(
+            "Volume mounted at %s"
+        ) % utils.get_display_path_for_bytestring(self.object)
+
     def get_gicon(self):
         return self.volume.get_icon()
 
-    @classmethod
     def get_icon_name(self):
-        return "drive-removable-media"
+        return _VOLUME_ICON_NAME
 
-class Unmount (Action):
+
+class Unmount(Action):
     def __init__(self, name=None):
-        super(Unmount, self).__init__(name or _("Unmount"))
+        super().__init__(name or _("Unmount"))
 
     def eject_callback(self, mount, async_result, ctx):
         try:
@@ -69,16 +75,21 @@ class Unmount (Action):
             self.success(mount.get_name())
 
     def success(self, name):
-        uiutils.show_notification(_("Unmount finished"),
-                                  _('"%s" was successfully unmounted') % name,
-                                  icon_name=Volume.get_icon_name())
+        uiutils.show_notification(
+            _("Unmount finished"),
+            _('"%s" was successfully unmounted') % name,
+            icon_name=_VOLUME_ICON_NAME,
+        )
 
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+
         if not leaf.is_valid():
             return
+
         vol = leaf.volume
         if vol.can_eject():
             vol.eject_with_operation(
@@ -86,13 +97,16 @@ class Unmount (Action):
                 None,
                 None,
                 self.eject_callback,
-                ctx)
+                ctx,
+            )
         elif vol.can_unmount():
             vol.unmount_with_operation(
                 Gio.MountUnmountFlags.NONE,
                 None,
                 None,
-                self.unmount_callback, ctx)
+                self.unmount_callback,
+                ctx,
+            )
 
     def get_description(self):
         return _("Unmount this volume")
@@ -100,38 +114,45 @@ class Unmount (Action):
     def get_icon_name(self):
         return "media-eject"
 
-class Eject (Unmount):
+
+class Eject(Unmount):
     def __init__(self):
-        super(Eject, self).__init__(_("Eject"))
+        super().__init__(_("Eject"))
 
     def get_description(self):
         return _("Unmount and eject this media")
 
-class VolumesSource (Source):
+
+class VolumesSource(Source):
     source_use_cache = False
+
     def __init__(self, name=_("Volumes and Disks")):
+        self.volmon = None
         super().__init__(name)
 
     def initialize(self):
-        self.vm = Gio.VolumeMonitor.get()
-        self.vm.connect("mount-added", self._update)
-        self.vm.connect("mount-changed", self._update)
-        self.vm.connect("mount-removed", self._update)
+        self.volmon = Gio.VolumeMonitor.get()
+        self.volmon.connect("mount-added", self._update)
+        self.volmon.connect("mount-changed", self._update)
+        self.volmon.connect("mount-removed", self._update)
 
     def _update(self, *args):
         self.mark_for_update()
-        GLib.timeout_add_seconds(1, lambda: self.mark_for_update())
+        GLib.timeout_add_seconds(1, self.mark_for_update)
 
     def finalize(self):
-        del self.vm
+        del self.volmon
 
     def get_items(self):
+        assert self.volmon
         # get_mounts gets all mounted removable media
-        return (Volume(v) for v in self.vm.get_mounts())
+        return map(Volume, self.volmon.get_mounts())
 
     def get_description(self):
         return _("Mounted volumes and disks")
+
     def get_icon_name(self):
         return "drive-removable-media"
+
     def provides(self):
         yield Volume

@@ -1,33 +1,41 @@
+import atexit
+import os
+import sys
+import typing as ty
+
 from gi.repository import Gtk
 
-from kupfer.objects import Source, RunnableLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer import pretty
-from kupfer import kupferui
+from kupfer.objects import RunnableLeaf, Source
+from kupfer.support import pretty
+from kupfer.ui import about, kupferhelp, preferences
 from kupfer.version import DESKTOP_ID
 
-__kupfer_sources__ = ("KupferSource", )
+__kupfer_sources__ = ("KupferSource",)
 __kupfer_actions__ = ()
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __all__ = __kupfer_sources__ + __kupfer_actions__
 
+
+if ty.TYPE_CHECKING:
+    _ = str
+
+
 def _is_debug():
     # Return True if Kupfer is in debug mode
-    return pretty.debug
+    return pretty.DEBUG
 
-class DebugRestart (RunnableLeaf):
+
+class DebugRestart(RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, None, _("Restart Kupfer"))
 
     @classmethod
     def _exec_new_kupfer(cls, executable, argv):
-        import os
         os.execvp(executable, [executable] + argv)
 
-    def run(self):
-        import atexit
-        import sys
+    def run(self, ctx=None):
         Gtk.main_quit()
         atexit.register(self._exec_new_kupfer, sys.executable, sys.argv)
 
@@ -37,63 +45,88 @@ class DebugRestart (RunnableLeaf):
     def get_icon_name(self):
         return "view-refresh"
 
-class Quit (RunnableLeaf):
+
+class Quit(RunnableLeaf):
     qf_id = "quit"
+
     def __init__(self, name=None):
-        if not name: name = _("Quit")
-        super(Quit, self).__init__(name=name)
-    def run(self):
+        super().__init__(name=name or _("Quit"))
+
+    def run(self, ctx=None):
         Gtk.main_quit()
+
     def get_description(self):
         return _("Quit Kupfer")
+
     def get_icon_name(self):
         return "application-exit"
 
-class About (RunnableLeaf):
+
+class About(RunnableLeaf):
     def __init__(self, name=None):
-        if not name: name = _("About Kupfer")
-        super(About, self).__init__(name=name)
+        if not name:
+            name = _("About Kupfer")
+        super().__init__(name=name)
+
     def wants_context(self):
         return True
-    def run(self, ctx):
-        kupferui.show_about_dialog(ctx.environment)
+
+    def run(self, ctx=None):
+        assert ctx
+        about.show_about_dialog(ctx.environment)
+
     def get_description(self):
         return _("Show information about Kupfer authors and license")
+
     def get_icon_name(self):
         return "help-about"
 
-class Help (RunnableLeaf):
+
+class Help(RunnableLeaf):
     def __init__(self, name=None):
-        if not name: name = _("Kupfer Help")
-        super(Help, self).__init__(name=name)
+        super().__init__(name=name or _("Kupfer Help"))
+
     def wants_context(self):
         return True
-    def run(self, ctx):
-        kupferui.show_help(ctx.environment)
+
+    def run(self, ctx=None):
+        assert ctx
+        kupferhelp.show_help(ctx.environment)
+
     def get_description(self):
         return _("Get help with Kupfer")
+
     def get_icon_name(self):
         return "help-contents"
 
-class Preferences (RunnableLeaf):
+
+class Preferences(RunnableLeaf):
     def __init__(self, name=None):
-        if not name: name = _("Kupfer Preferences")
-        super(Preferences, self).__init__(name=name)
+        super().__init__(name=name or _("Kupfer Preferences"))
+
     def wants_context(self):
         return True
-    def run(self, ctx):
-        kupferui.show_preferences(ctx.environment)
+
+    def run(self, ctx=None):
+        assert ctx
+        preferences.show_preferences(ctx.environment)
+
     def get_description(self):
         return _("Show preferences window for Kupfer")
+
     def get_icon_name(self):
         return "preferences-desktop"
 
-class KupferSource (AppLeafContentMixin, Source):
+
+class KupferSource(AppLeafContentMixin, Source):
     appleaf_content_id = DESKTOP_ID
-    def __init__(self, name=_("Kupfer")):
-        Source.__init__(self, name)
+
+    def __init__(self, name=None):
+        Source.__init__(self, name or _("Kupfer"))
+
     def is_dynamic(self):
         return True
+
     def get_items(self):
         yield Preferences()
         yield Help()
@@ -103,7 +136,9 @@ class KupferSource (AppLeafContentMixin, Source):
 
     def get_description(self):
         return None
+
     def get_icon_name(self):
         return "search"
+
     def provides(self):
         yield RunnableLeaf

@@ -1,87 +1,100 @@
 __kupfer_name__ = _("Clipboards")
-__kupfer_sources__ = ("ClipboardSource", )
-__kupfer_actions__ = ("ClearClipboards", )
+__kupfer_sources__ = ("ClipboardSource",)
+__kupfer_actions__ = ("ClearClipboards",)
 __description__ = _("Recent clipboards and clipboard proxy objects")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from collections import deque
 
-from gi.repository import Gdk
-from gi.repository import Gio
-from gi.repository import Gtk
+from gi.repository import Gdk, Gio, Gtk
 
-from kupfer.objects import Source, TextLeaf, Action, SourceLeaf
-from kupfer.objects import FileLeaf
-from kupfer.obj.compose import MultipleLeaf
 from kupfer import plugin_support
-from kupfer import kupferstring, pretty
+from kupfer.obj import (
+    Action,
+    FileLeaf,
+    Source,
+    SourceLeaf,
+    TextLeaf,
+)
+from kupfer.obj.compose import MultipleLeaf
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
-        "key" : "max",
+        "key": "max",
         "label": _("Number of recent clipboards to remember"),
         "type": int,
         "value": 10,
     },
     {
-        "key" : "use_selection",
+        "key": "use_selection",
         "label": _("Include selected text in clipboard history"),
         "type": bool,
         "value": False,
     },
     {
-        "key" : "sync_selection",
+        "key": "sync_selection",
         "label": _("Copy selected text to primary clipboard"),
         "type": bool,
         "value": False,
     },
 )
 
-class SelectedText (TextLeaf):
+
+class SelectedText(TextLeaf):
     qf_id = "selectedtext"
+
     def __init__(self, text):
-        TextLeaf.__init__(self, text, _('Selected Text'))
+        TextLeaf.__init__(self, text, _("Selected Text"))
 
     def __repr__(self):
-        return "<%s %s>" % (__name__, self.qf_id)
+        return f"<{__name__} {self.qf_id}>"
 
-class ClipboardText (TextLeaf):
+
+class ClipboardText(TextLeaf):
     def get_description(self):
         numlines = self.object.count("\n") + 1
         desc = self.get_first_text_line(self.object)
 
-        return ngettext('Clipboard "%(desc)s"',
+        return ngettext(
+            'Clipboard "%(desc)s"',
             'Clipboard with %(num)d lines "%(desc)s"',
-            numlines) % {"num": numlines, "desc": desc }
+            numlines,
+        ) % {"num": numlines, "desc": desc}
 
-class CurrentClipboardText (ClipboardText):
+
+class CurrentClipboardText(ClipboardText):
     qf_id = "clipboardtext"
+
     def __init__(self, text):
-        ClipboardText.__init__(self, text, _('Clipboard Text'))
+        ClipboardText.__init__(self, text, _("Clipboard Text"))
 
     def __repr__(self):
-        return "<%s %s>" % (__name__, self.qf_id)
+        return f"<{__name__} {self.qf_id}>"
 
-class CurrentClipboardFile (FileLeaf):
+
+class CurrentClipboardFile(FileLeaf):
     "represents the *unique* current clipboard file"
     qf_id = "clipboardfile"
+
     def __init__(self, filepath):
         """@filepath is a filesystem byte string `str`"""
-        FileLeaf.__init__(self, filepath, _('Clipboard File'))
+        FileLeaf.__init__(self, filepath, _("Clipboard File"))
 
     def __repr__(self):
-        return "<%s %s>" % (__name__, self.qf_id)
+        return f"<{__name__} {self.qf_id}>"
 
-class CurrentClipboardFiles (MultipleLeaf):
+
+class CurrentClipboardFiles(MultipleLeaf):
     "represents the *unique* current clipboard if there are many files"
     qf_id = "clipboardfile"
+
     def __init__(self, paths):
         files = [FileLeaf(path) for path in paths]
         MultipleLeaf.__init__(self, files, _("Clipboard Files"))
 
     def __repr__(self):
-        return "<%s %s>" % (__name__, self.qf_id)
+        return f"<{__name__} {self.qf_id}>"
 
 
 class ClearClipboards(Action):
@@ -104,7 +117,7 @@ class ClearClipboards(Action):
         return "edit-clear"
 
 
-class ClipboardSource (Source):
+class ClipboardSource(Source):
     def __init__(self):
         Source.__init__(self, _("Clipboards"))
         self.clipboards = deque()
@@ -131,7 +144,7 @@ class ClipboardSource (Source):
         self.mark_for_update()
 
     def _clipboard_changed(self, clip, event, *args):
-        is_selection = (event.selection == Gdk.SELECTION_PRIMARY)
+        is_selection = event.selection == Gdk.SELECTION_PRIMARY
         clip.request_text(self._on_text_for_change, is_selection)
         if not is_selection:
             clip.request_uris(self._on_uris_for_change)
@@ -142,8 +155,9 @@ class ClipboardSource (Source):
 
         max_len = __kupfer_settings__["max"]
         is_valid = bool(text and text.strip())
-        is_sync_selection = (is_selection and
-                             __kupfer_settings__["sync_selection"])
+        is_sync_selection = (
+            is_selection and __kupfer_settings__["sync_selection"]
+        )
 
         if not is_selection or __kupfer_settings__["use_selection"]:
             if is_valid:
@@ -167,9 +181,14 @@ class ClipboardSource (Source):
         if cliptext in self.clipboards:
             self.clipboards.remove(cliptext)
         # if the previous text is a prefix of the new selection, supercede it
-        if (is_selection and self.clipboards
-                and (cliptext.startswith(self.clipboards[-1])
-                or cliptext.endswith(self.clipboards[-1]))):
+        if (
+            is_selection
+            and self.clipboards
+            and (
+                cliptext.startswith(self.clipboards[-1])
+                or cliptext.endswith(self.clipboards[-1])
+            )
+        ):
             self.clipboards.pop()
         self.clipboards.append(cliptext)
 
@@ -183,7 +202,14 @@ class ClipboardSource (Source):
             yield SelectedText(self.selected_text)
 
         # produce the current clipboard files if any
-        paths = [_f for _f in [Gio.File.new_for_uri(uri).get_path() for uri in self.clipboard_uris] if _f]
+        paths = [
+            _f
+            for _f in [
+                Gio.File.new_for_uri(uri).get_path()
+                for uri in self.clipboard_uris
+            ]
+            if _f
+        ]
         if len(paths) == 1:
             yield CurrentClipboardFile(paths[0])
         if len(paths) > 1:

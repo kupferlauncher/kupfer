@@ -1,24 +1,55 @@
-from kupfer import kupferstring
-from kupfer.obj.base import OperationError
+import typing as ty
 
-class LocaleOperationError (OperationError):
+from kupfer.support import kupferstring
+
+if ty.TYPE_CHECKING:
+    _ = str
+
+
+class Error(Exception):
+    pass
+
+
+class InvalidDataError(Error):
+    "The data is wrong for the given Leaf"
+
+
+class OperationError(Error):
+    "Command execution experienced an error"
+
+
+class InvalidLeafError(OperationError):
+    "The Leaf passed to an Action is invalid"
+
+
+class LocaleOperationError(OperationError):
     """
     User-visible error created from locale-encoded
     error message (for example OSError)
     """
-    def __init__(self, s):
-        OperationError.__init__(self, kupferstring.fromlocale(s))
 
-class NotAvailableError (OperationError):
+    def __init__(self, err: bytes):
+        OperationError.__init__(self, kupferstring.fromlocale(err))
+
+
+class NotAvailableError(OperationError):
     """
     User-visible error message when an external
     tool is the wrong version
     """
-    def __init__(self, toolname):
-        OperationError.__init__(self,
-                       _("%s does not support this operation") % toolname)
 
-class NoMultiError (OperationError):
+    def __init__(self, toolname: str):
+        OperationError.__init__(
+            self, _("%s does not support this operation") % toolname
+        )
+
+
+class NoMultiError(OperationError):
     def __init__(self):
-        OperationError.__init__(self,
-                       _("Can not be used with multiple objects"))
+        OperationError.__init__(
+            self, _("Can not be used with multiple objects")
+        )
+
+
+class NoDefaultApplicationError(OperationError):
+    pass

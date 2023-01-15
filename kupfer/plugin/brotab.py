@@ -40,7 +40,7 @@ class TabLeaf(Leaf):
     def __init__(self, tab_id, title, url):
         self.title = title
         self.url = url
-        super(TabLeaf, self).__init__(tab_id, title)
+        super().__init__(tab_id, title)
 
     def get_description(self):
         return self.url

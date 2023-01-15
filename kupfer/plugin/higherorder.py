@@ -11,36 +11,44 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from kupfer.objects import Action, Leaf
 from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
 from kupfer.core import commandexec
-from kupfer import pretty
+from kupfer.support import pretty
 
 
-class Select (Action):
+class Select(Action):
     rank_adjust = -15
+
     def __init__(self):
         Action.__init__(self, _("Select in Kupfer"))
 
     def has_result(self):
         return True
+
     def activate(self, leaf):
         return leaf
+
     def item_types(self):
         yield Leaf
 
+
 def _exec_no_show_result(composedleaf):
     pretty.print_debug(__name__, "Evaluating command", composedleaf)
-    obj, action, iobj = composedleaf.object
+    _obj, action, iobj = composedleaf.object
     ret = commandexec.activate_action(None, *composedleaf.object)
     result_type = commandexec.parse_action_result(action, ret)
-    if result_type == commandexec.RESULT_OBJECT:
+    if result_type == commandexec.ExecResult.OBJECT:
         return ret
-    if result_type == commandexec.RESULT_SOURCE:
+
+    if result_type == commandexec.ExecResult.SOURCE:
         leaves = list(ret.get_leaves())
         if not leaves:
             return
+
         if len(leaves) == 1:
             return leaves[0]
-        else:
-            return MultipleLeaf(leaves)
+
+        return MultipleLeaf(leaves)
+
+    return None
 
 
 def _save_result(cleaf):
@@ -51,8 +59,10 @@ def _save_result(cleaf):
     leaf = _exec_no_show_result(cleaf)
     if leaf is None:
         return None
-    class ResultObject (Leaf):
+
+    class ResultObject(Leaf):
         serializable = 1
+
         def __init__(self, leaf, cleaf):
             Leaf.__init__(self, leaf.object, str(leaf))
             vars(self).update(vars(leaf))
@@ -62,48 +72,58 @@ def _save_result(cleaf):
 
         def get_gicon(self):
             return None
+
         def get_icon_name(self):
             return Leaf.get_icon_name(self)
 
         def __reduce__(self):
-            return (_save_result, (self.__composed_leaf, ))
+            return (_save_result, (self.__composed_leaf,))
+
     return ResultObject(leaf, cleaf)
 
 
-class TakeResult (Action):
+class TakeResult(Action):
     def __init__(self):
         Action.__init__(self, _("Run (Take Result)"))
 
     def has_result(self):
         return True
-    def activate(self, leaf):
+
+    def activate(self, leaf, iobj=None, ctx=None):
         return _save_result(leaf)
 
     def item_types(self):
         yield ComposedLeaf
+
     def valid_for_item(self, leaf):
         action = leaf.object[1]
-        return ((action.has_result() or
-                 action.is_factory()) and
-                 not action.wants_context())
+        return (
+            action.has_result() or action.is_factory()
+        ) and not action.wants_context()
+
     def get_description(self):
         return _("Take the command result as a proxy object")
 
-class DiscardResult (Action):
+
+class DiscardResult(Action):
     """Run ComposedLeaf without showing the result"""
+
     def __init__(self):
         Action.__init__(self, _("Run (Discard Result)"))
 
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
         commandexec.activate_action(ctx, *leaf.object)
+
     def item_types(self):
         yield ComposedLeaf
+
     def valid_for_item(self, leaf):
         action = leaf.object[1]
         return action.has_result() or action.is_factory()
+
     def get_description(self):
         return None
-

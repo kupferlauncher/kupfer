@@ -1,4 +1,3 @@
-# -*- coding: UTF-8 -*-
 '''
 virtualbox_const_support.py
 

@@ -98,8 +98,8 @@ Text and Encodings
 
 Care must be taken with all input and output text and its encoding!
 Internally, kupfer must use ``str`` for all internal text.
-The module ``kupfer.kupferstring`` has functions for the most important
-text conversions.
+The module ``kupfer.support.kupferstring`` has functions for the most
+important text conversions.
 
 A resource for unicode in Python:
 

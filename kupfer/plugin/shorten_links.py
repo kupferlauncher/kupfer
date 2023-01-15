@@ -1,6 +1,5 @@
-# -*- coding: UTF-8 -*-
 __kupfer_name__ = _("Shorten Links")
-__kupfer_actions__ = ("ShortenLinks", )
+__kupfer_actions__ = ("ShortenLinks",)
 __description__ = _("Create short aliases of long URLs")
 __version__ = "2017.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
@@ -8,49 +7,60 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 import urllib.request, urllib.parse
 
 from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
-from kupfer import pretty
+from kupfer.support import pretty
+
 
 class _ShortLinksService(Leaf):
     def __init__(self, name):
         Leaf.__init__(self, name, name)
+
     def get_icon_name(self):
         return "text-html"
 
+
 class _GETService(_ShortLinksService, pretty.OutputMixin):
-    """ A unified shortener service working with GET requests """
-    host = None
-    path = None
+    """A unified shortener service working with GET requests"""
+
+    host: str = None  # type: ignore
+    path: str = None  # type: ignore
     url_key = "url"
     use_https = False
 
-    def process(self, url):
+    def process(self, url: str) -> str:
         """Shorten @url or raise ValueError"""
-        query_string = urllib.parse.urlencode({self.url_key : url})
+        assert self.path
+        query_string = urllib.parse.urlencode({self.url_key: url})
         try:
             pretty.print_debug(__name__, "Request", self.path + query_string)
-            resp = urllib.request.urlopen(self.path + query_string)
-            if resp.status != 200:
-                raise ValueError('Invalid response %d, %s' % (resp.status, resp.reason))
-            
-            result = resp.read()
-            return result.strip().decode("utf-8")
+            with urllib.request.urlopen(self.path + query_string) as resp:
+                if resp.status != 200:
+                    raise ValueError(
+                        f"Invalid response {resp.status}, {resp.reason}"
+                    )
 
-        except (OSError, IOError, ValueError) as exc:
+                result = resp.read()
+                return result.strip().decode("utf-8")
+
+        except (OSError, ValueError) as exc:
             raise ValueError(exc)
-        return _('Error')
+
+        return _("Error")
 
 
 # NOTE: It's important that we use only sites that provide a stable API
+
 
 class IsGd(_GETService):
     """
     Website: http://is.gd
     Reference: http://is.gd/apishorteningreference.php
     """
-    path = 'https://is.gd/create.php?format=simple&'
+
+    path = "https://is.gd/create.php?format=simple&"
 
     def __init__(self):
-        _ShortLinksService.__init__(self, 'Is.gd')
+        super().__init__("Is.gd")
+
 
 class VGd(_GETService):
     """
@@ -59,26 +69,28 @@ class VGd(_GETService):
 
     Like is.gd, but v.gd always shows a preview page.
     """
-    path = 'https://v.gd/create.php?format=simple&'
+
+    path = "https://v.gd/create.php?format=simple&"
 
     def __init__(self):
-        _ShortLinksService.__init__(self, 'V.gd')
+        super().__init__("V.gd")
 
 
 class ShortenLinks(Action):
-    ''' Shorten links with selected engine '''
+    """Shorten links with selected engine"""
 
     def __init__(self):
-        Action.__init__(self, _('Shorten With...'))
+        super().__init__(_("Shorten With..."))
 
     def has_result(self):
         return True
 
-    def activate(self, leaf, iobj):
+    def activate(self, leaf, iobj=None, ctx=None):
         try:
             result = iobj.process(leaf.object)
         except ValueError as exc:
             raise OperationError(str(exc))
+
         return UrlLeaf(result, result)
 
     def item_types(self):
@@ -99,6 +111,7 @@ class ShortenLinks(Action):
 
 class ServicesSource(Source):
     source_use_cache = False
+
     def __init__(self):
         super().__init__(_("Services"))
 
