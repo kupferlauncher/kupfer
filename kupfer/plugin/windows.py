@@ -32,7 +32,7 @@ def _get_workspace(idx):
     if not scr:
         return None
 
-    return scr.get_workspace(self.object)
+    return scr.get_workspace(idx)
 
 
 class WindowLeaf (Leaf):
@@ -332,7 +332,7 @@ class ActivateWorkspace (Action):
     def wants_context(self):
         return True
     def activate (self, leaf, ctx):
-        workspace = _get_workspace(self.object)
+        workspace = _get_workspace(leaf.object)
         if workspace:
             time = ctx.environment.get_timestamp()
             workspace.activate(time)
