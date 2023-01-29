@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-12 19:26+0200\n"
-"PO-Revision-Date: 2021-04-12 19:26+0200\n"
+"POT-Creation-Date: 2023-01-29 13:01+0100\n"
+"PO-Revision-Date: 2023-01-29 13:02+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -377,6 +377,22 @@ msgstr "Wtyczka %s nie jest skonfigurowana"
 msgid "Invalid user credentials for %s"
 msgstr "Nieprawidłowe dane użytkownika dla %s"
 
+#. -*- coding: UTF-8 -*-
+msgid "Shorten Links"
+msgstr "Skróć linki"
+
+msgid "Create short aliases of long URLs"
+msgstr "Tworzenie skrótów do długich adresów URL"
+
+msgid "Error"
+msgstr "Błąd"
+
+msgid "Shorten With..."
+msgstr "Skróć za pomocą…"
+
+msgid "Services"
+msgstr "Usługi"
+
 msgid "Applications"
 msgstr "Programy"
 
@@ -404,6 +420,221 @@ msgstr "Resetuj przypisanie"
 msgid "Reset program associations for files of this type."
 msgstr "Resetuj przypisany program dla plików tego typu"
 
+msgid "URL Actions"
+msgstr "Działania adresów URL"
+
+msgid "Download and Open"
+msgstr "Pobierz i otwórz"
+
+msgid "Download To..."
+msgstr "Pobierz do…"
+
+msgid "Download URL to a chosen location"
+msgstr "Pobiera adres URL do wybranego położenia"
+
+#. -*- coding: UTF-8 -*-
+msgid "Claws Mail"
+msgstr "Claws Mail"
+
+msgid "Claws Mail Contacts and Actions"
+msgstr "Kontakty i działania programu Claws Mail"
+
+msgid "Compose New Email"
+msgstr "Napisz nową wiadomość e-mail"
+
+msgid "Compose a new message in Claws Mail"
+msgstr "Tworzy nową wiadomość w programie Claws Mail"
+
+msgid "Receive All Email"
+msgstr "Pobierz wszystkie wiadomości"
+
+msgid "Receive new messages from all accounts in ClawsMail"
+msgstr "Pobiera wiadomości ze wszystkich kont programu Claws Mail"
+
+msgid "Compose Email"
+msgstr "Utwórz wiadomość e-mail"
+
+msgid "Send in Email To..."
+msgstr "Wyślij w wiadomości e-mail do…"
+
+msgid "Compose new message in Claws Mail and attach file"
+msgstr "Tworzy nową wiadomość w programie Claws Mail i załącza plik"
+
+msgid "Claws Mail Address Book"
+msgstr "Książka adresowa programu Claws Mail"
+
+msgid "Contacts from Claws Mail Address Book"
+msgstr "Kontakty z książki adresowej programu Claws Mail"
+
+msgid "GNOME Session Management"
+msgstr "Menedżer sesji GNOME"
+
+msgid "Special items and actions for GNOME environment"
+msgstr "Specjalne elementy i działania dla środowiska GNOME"
+
+msgid "Textfiles"
+msgstr "Pliki tekstowe"
+
+msgid "Append To..."
+msgstr "Dopisz do…"
+
+msgid "Append..."
+msgstr "Dopisz…"
+
+msgid "Write To..."
+msgstr "Zapisz do…"
+
+msgid "Empty File"
+msgstr "Pusty plik"
+
+msgid "Write the text to a new file in specified directory"
+msgstr "Zapisz tekst do nowego pliku w wybranym katalogu"
+
+msgid "Get Text Contents"
+msgstr "Pobiera zawartość pliku tekstowego"
+
+msgid "Search the Web"
+msgstr "Wyszukiwanie w sieci WWW"
+
+msgid "Search the web with OpenSearch search engines"
+msgstr "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch"
+
+msgid "Search With..."
+msgstr "Znajdź za pomocą…"
+
+msgid "Search For..."
+msgstr "Znajdź…"
+
+msgid "Search Engines"
+msgstr "Wyszukiwarki"
+
+msgid "GNU Screen"
+msgstr "GNU Screen"
+
+msgid "Active GNU Screen sessions"
+msgstr "Aktywuj sesje GNU Screen"
+
+msgid "Attached"
+msgstr "Podłączone"
+
+msgid "Detached"
+msgstr "Odłączone"
+
+#, python-format
+msgid "%(status)s session (%(pid)s) created %(time)s"
+msgstr "Sesja %(status)s (%(pid)s) utworzona %(time)s"
+
+msgid "Screen Sessions"
+msgstr "Sesje programu Screen"
+
+msgid "Attach"
+msgstr "Podłącz"
+
+msgid "Pidgin"
+msgstr "Pidgin"
+
+msgid "Access to Pidgin Contacts"
+msgstr "Dostęp do kontaktów programu Pidgin"
+
+msgid "Show offline contacts"
+msgstr "Wyświetlanie kontaktów offline"
+
+msgid "Open Chat"
+msgstr "Rozpocznij rozmowę"
+
+#, python-format
+msgid "%s (%d character)"
+msgid_plural "%s (%d characters)"
+msgstr[0] "%s (%d znak)"
+msgstr[1] "%s (%d znaki)"
+msgstr[2] "%s (%d znaków)"
+
+msgid "Send Message..."
+msgstr "Wyślij wiadomość…"
+
+msgid "Available"
+msgstr "Dostępny"
+
+msgid "Away"
+msgstr "Zaraz wracam"
+
+msgid "Pidgin Contacts"
+msgstr "Kontakty programu Pidgin"
+
+msgid "Getting Things GNOME"
+msgstr "Getting Things GNOME"
+
+msgid "Browse and create new tasks in GTG"
+msgstr "Przeglądanie i tworzenie nowych zadań w programie GTG"
+
+#, python-format
+msgid "due: %s"
+msgstr "do: %s"
+
+#, python-format
+msgid "start: %s"
+msgstr "początek: %s"
+
+#, python-format
+msgid "tags: %s"
+msgstr "etykiety: %s"
+
+msgid "Open task in Getting Things GNOME!"
+msgstr "Otwiera zadanie w programie Getting Things GNOME"
+
+msgid "Delete"
+msgstr "Usuń"
+
+msgid "Permanently remove this task"
+msgstr "Trwale usuwa to zadanie"
+
+msgid "Mark Done"
+msgstr "Wykonane"
+
+msgid "Mark this task as done"
+msgstr "Oznacza zadanie jako wykonane"
+
+msgid "Dismiss"
+msgstr "Pomiń"
+
+msgid "Mark this task as not to be done anymore"
+msgstr "Oznacza zadanie jako zadanie do pominięcia"
+
+msgid "Create Task"
+msgstr "Utwórz zadanie"
+
+msgid "Create new task in Getting Things GNOME"
+msgstr "Tworzy nowe zadanie w programie Getting Things GNOME"
+
+#. -*- coding: utf-8 -*
+msgid "LXQT Session Management"
+msgstr "Menedżer sesji LXQT"
+
+msgid "Actions for LXQT desktop"
+msgstr "Akcje dla środowiska LXQT"
+
+msgid "Zeal Search"
+msgstr "Wyszukiwanie w Zeal"
+
+msgid "Search in Zeal, offline documentation browser for software developers."
+msgstr "Wyszukiwanie w Zeal, offlinowej dokumentacji dla deweloperów"
+
+msgid "Search in Zeal"
+msgstr "Wyszukiwanie w programie Zeal"
+
+msgid "Zeal Docsets"
+msgstr "Dokumentacje Zeal"
+
+#, python-format
+msgid "Zeal %s Docset"
+msgstr "Dokumentacja %s w Zeal"
+
+msgid "Search In Zeal docset..."
+msgstr "Szukaj w dokumentacjach Zeal..."
+
+msgid "Search in Zeal docsets"
+msgstr "Znajdź w dokumentacjach Zeal"
+
 msgid "Deep Archives"
 msgstr "Przeglądane archiwów"
 
@@ -414,33 +645,60 @@ msgstr "Dostęp do zawartości skompresowanych archiwów"
 msgid "Content of %s"
 msgstr "Zawartość %s"
 
-msgid "Archive Manager"
-msgstr "Menedżer archiwów"
+#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
+msgid "Glob"
+msgstr "Wyrażenie regularne"
 
-msgid "Use Archive Manager actions"
-msgstr "Działania menedżera archiwów"
+msgid "Select objects using '*' and '?' as wildcards."
+msgstr "Wybór obiektów z użyciem '*' i '?' jako znaków wieloznacznych"
 
-msgid "Compressed archive type for 'Create Archive In'"
-msgstr "Typ skompresowanego archiwum dla „Utwórz archiwum w”"
+msgid "Shell Commands"
+msgstr "Polecenia powłoki"
 
-msgid "Extract Here"
-msgstr "Rozpakuj tutaj"
+#, python-format
+msgid ""
+"Run command-line programs. Actions marked with the symbol %s run in a "
+"subshell."
+msgstr ""
+"Uruchamianie programów wiersza poleceń. Działania oznaczone symbolem %s "
+"uruchamiane są w podpowłoce."
 
-msgid "Extract compressed archive"
-msgstr "Rozpakowuje skompresowane archiwum"
+msgid "Run (Get Output)"
+msgstr "Uruchom (pobierz wynik)"
 
-msgid "Create Archive"
-msgstr "Utwórz archiwum"
+msgid "Run program and return its output"
+msgstr "Uruchamia program i zwraca jego wynik"
 
-msgid "Create a compressed archive from folder"
-msgstr "Tworzy skompresowane archiwum z katalogu"
+#. TRANS: The user starts a program (command) and the text
+#. TRANS: is an argument to the command
+msgid "Pass to Command..."
+msgstr "Przekaż do polecenia…"
 
-msgid "Create Archive In..."
-msgstr "Utwórz archiwum w…"
+msgid "Run program with object as an additional parameter"
+msgstr "Uruchomia program z obiektem jako dodatkowym parametrem"
 
-#. TRANS: Default filename (no extension) for 'Create Archive In...'
-msgid "Archive"
-msgstr "Archiwum"
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin
+msgid "Write to Command..."
+msgstr "Zapisz do polecenia…"
+
+msgid "Run program and supply text on the standard input"
+msgstr "Uruchamia program i przesyła tekst do standardowego wejścia"
+
+#. TRANS: The user starts a program (command) and
+#. TRANS: the text is written on stdin, and we
+#. TRANS: present the output (stdout) to the user.
+msgid "Filter through Command..."
+msgstr "Filtruj przez polecenie…"
+
+msgid "Run command-line programs"
+msgstr "Uruchamia programy wiersza poleceń"
+
+msgid "DuckDuckGo Search"
+msgstr "Wyszukiwanie w serwisie DuckDuckGo"
+
+msgid "Search the web securely with DuckDuckGo"
+msgstr "Bezpieczne wyszukiwanie w sieci za pomocą serwisu DuckDuckGo"
 
 msgid "Audacious"
 msgstr "Audacious"
@@ -517,746 +775,11 @@ msgstr "Wyświetla obecnie odtwarzany utwór"
 msgid "Playlist"
 msgstr "Lista odtwarzania"
 
-msgid "Calculator"
-msgstr "Kalkulator"
-
-msgid "Calculate mathematical expressions"
-msgstr "Oblicz wyrażenie matematyczne"
-
-msgid "Calculate"
-msgstr "Oblicz"
-
-msgid "Clipboards"
-msgstr "Schowki"
-
-msgid "Recent clipboards and clipboard proxy objects"
-msgstr "Ostatnie schowki i ich obiekty pośredniczące"
-
-msgid "Number of recent clipboards to remember"
-msgstr "Liczba ostatnich schowków do pamiętania"
-
-msgid "Include selected text in clipboard history"
-msgstr "Dołączenie zaznaczonego tekstu w historii schowka"
-
-msgid "Copy selected text to primary clipboard"
-msgstr "Kopiuje zaznaczony tekst do podstawowego schowka"
-
-msgid "Selected Text"
-msgstr "Zaznaczony tekst"
-
-#, python-format
-msgid "Clipboard \"%(desc)s\""
-msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
-msgstr[0] "Schowek z %(num)d wierszem „%(desc)s”"
-msgstr[1] "Schowek z %(num)d wierszami „%(desc)s”"
-msgstr[2] "Schowek z %(num)d wierszami „%(desc)s”"
-
-msgid "Clipboard Text"
-msgstr "Tekst w schowku"
-
-msgid "Clipboard File"
-msgstr "Plik w schowku"
-
-msgid "Clipboard Files"
-msgstr "Pliki w schowku"
-
-msgid "Clear"
-msgstr "Wyczyść"
-
-msgid "Remove all recent clipboards"
-msgstr "Usuwa wszystkie ostatnie schowki"
-
-msgid "Shell Commands"
-msgstr "Polecenia powłoki"
-
-#, python-format
-msgid ""
-"Run command-line programs. Actions marked with the symbol %s run in a "
-"subshell."
-msgstr ""
-"Uruchamianie programów wiersza poleceń. Działania oznaczone symbolem %s "
-"uruchamiane są w podpowłoce."
-
-msgid "Run (Get Output)"
-msgstr "Uruchom (pobierz wynik)"
-
-msgid "Run program and return its output"
-msgstr "Uruchamia program i zwraca jego wynik"
-
-#. TRANS: The user starts a program (command) and the text
-#. TRANS: is an argument to the command
-msgid "Pass to Command..."
-msgstr "Przekaż do polecenia…"
-
-msgid "Run program with object as an additional parameter"
-msgstr "Uruchomia program z obiektem jako dodatkowym parametrem"
-
-#. TRANS: The user starts a program (command) and
-#. TRANS: the text is written on stdin
-msgid "Write to Command..."
-msgstr "Zapisz do polecenia…"
-
-msgid "Run program and supply text on the standard input"
-msgstr "Uruchamia program i przesyła tekst do standardowego wejścia"
-
-#. TRANS: The user starts a program (command) and
-#. TRANS: the text is written on stdin, and we
-#. TRANS: present the output (stdout) to the user.
-msgid "Filter through Command..."
-msgstr "Filtruj przez polecenie…"
-
-msgid "Run command-line programs"
-msgstr "Uruchamia programy wiersza poleceń"
-
-msgid "GTK+"
-msgstr "GTK+"
-
-msgid "GNOME Terminal"
-msgstr "Terminal GNOME"
-
-msgid "XFCE Terminal"
-msgstr "Terminal XFCE"
-
-msgid "LXTerminal"
-msgstr "LXTerminal"
-
-msgid "X Terminal"
-msgstr "X Terminal"
-
-msgid "Urxvt"
-msgstr "Urxvt"
-
-msgid "Konsole"
-msgstr "Konsole"
-
-msgid "Save As..."
-msgstr "Zapisz jako…"
-
-msgid "Restart Kupfer"
-msgstr "Uruchom ponownie Kupfer"
-
-msgid "Quit"
-msgstr "Zakończ"
-
-msgid "Quit Kupfer"
-msgstr "Kończy działanie programu Kupfer"
-
-msgid "About Kupfer"
-msgstr "O programie Kupfer"
-
-msgid "Show information about Kupfer authors and license"
-msgstr "Wyświetla informacje o autorach i licencji programu Kupfer"
-
-msgid "Kupfer Help"
-msgstr "Pomoc programu Kupfer"
-
-msgid "Get help with Kupfer"
-msgstr "Wyświetla pomocy programu Kupfer"
-
-msgid "Show preferences window for Kupfer"
-msgstr "Wyświetla okno preferencji programu Kupfer"
-
-msgid "Search Contents"
-msgstr "Wyszukiwanie zawartości"
-
-msgid "Search inside this catalog"
-msgstr "Wyszukuje wewnątrz tego katalogu"
-
-msgid "Copy"
-msgstr "Skopiuj"
-
-msgid "Copy to clipboard"
-msgstr "Kopiuje do schowka"
-
-msgid "Rescan"
-msgstr "Odśwież"
-
-msgid "Force reindex of this source"
-msgstr "Wymusza ponowne zindeksowanie tego źródła"
-
-msgid "Last Command"
-msgstr "Ostatnie polecenie"
-
-msgid "Internal Kupfer Objects"
-msgstr "Obiekty wewnętrzne programu Kupfer"
-
-msgid "Last Result"
-msgstr "Ostatni wynik"
-
-msgid "Command Results"
-msgstr "Wynik polecenia"
-
-msgid "Custom Terminal"
-msgstr "Terminal użytkownika"
-
-msgid ""
-"Configure a custom terminal emulator.\n"
-"\n"
-"The plugin adds another terminal alternative (select it on the main page)."
-msgstr ""
-"Konfiguruj własny emulator terminala.\n"
-"\n"
-"Wtyczka  dodaje kolejny, alternatywny terminal (do wyboru na stronie "
-"głównej) "
-
-msgid "Command"
-msgstr "Polecenie"
-
-msgid "Execute flag"
-msgstr "Parametr wykonania"
-
-msgid "Default Email Client"
-msgstr "Domyślny klient poczty"
-
-msgid "Compose email using the system's default mailto: handler"
-msgstr "Tworzenie wiadomości e-mail używając domyślnego klienta poczty"
-
-msgid "Compose Email To"
-msgstr "Utwórz e-mail do"
-
-msgid "Dictionary"
-msgstr "Słownik"
-
-msgid "Look up word in dictionary"
-msgstr "Wyszukuje słowa w słowniku"
-
-msgid "Look Up"
-msgstr "Znajdź"
-
-msgid "Documents"
-msgstr "Dokumenty"
-
-msgid "Recently used documents and bookmarked folders"
-msgstr "Ostatnio używane dokumenty i katalogi w zakładkach"
-
-msgid "Max recent document days"
-msgstr "Maksymalna liczba dni dla ostatnio używanych dokumentów"
-
-msgid "Show only existing documents"
-msgstr "Wyświetl tylko istniejące dokumenty"
-
-msgid "Recent Items"
-msgstr "Ostatnie elementy"
-
-msgid "Recently used documents"
-msgstr "Ostatnio używane dokumenty"
-
-#. TRANS: Recent Documents for application %s
-#, python-format
-msgid "%s Documents"
-msgstr "Dokumenty %s"
-
-#, python-format
-msgid "Recently used documents for %s"
-msgstr "Ostatnio używane dokumenty programu %s"
-
-msgid "Places"
-msgstr "Miejsca"
-
-msgid "Bookmarked folders"
-msgstr "Katalogi w zakładkach"
-
-msgid "Toggle Recent Documents"
-msgstr "Przełącz ostatnie dokumenty"
-
-msgid "Enable/disable listing recent documents in content for this application"
-msgstr ""
-"Włącz/wyłącz wyświetlanie ostatnich dokumentów w kontekście tej aplikacji"
-
-msgid "DuckDuckGo Search"
-msgstr "Wyszukiwanie w serwisie DuckDuckGo"
-
-msgid "Search the web securely with DuckDuckGo"
-msgstr "Bezpieczne wyszukiwanie w sieci za pomocą serwisu DuckDuckGo"
-
-msgid "Favorites"
-msgstr "Ulubione"
-
-msgid "Mark commonly used items and store objects for later use"
-msgstr ""
-"Zaznaczenie często używanych elementów i zachowanie ich do późniejszego "
-"użycia"
-
-msgid "Shelf of \"Favorite\" items"
-msgstr "Półka „ulubionych” elementów"
-
-msgid "Add to Favorites"
-msgstr "Dodaj do ulubionych"
-
-msgid "Add item to favorites shelf"
-msgstr "Dodaje element do półki z ulubionymi"
-
-msgid "Remove from Favorites"
-msgstr "Usuń z ulubionych"
-
-msgid "Remove item from favorites shelf"
-msgstr "Usuwa element z półki ulubionych"
-
-msgid "File Actions"
-msgstr "Działania na plikach"
-
-msgid "More file actions"
-msgstr "Dodatkowe działania na plikach"
-
-msgid "Move To..."
-msgstr "Przenieś do…"
-
-msgid "Move file to new location"
-msgstr "Przenosi plik do nowego położenia"
-
-msgid "Rename To..."
-msgstr "Zmień nazwę na…"
-
-msgid "Copy To..."
-msgstr "Skopiuj do…"
-
-msgid "Copy file to a chosen location"
-msgstr "Kopiuje plik do wybranego położenia"
-
-#. TRANS: "Glob" is the matching files like a shell with "*.py" etc.
-msgid "Glob"
-msgstr "Wyrażenie regularne"
-
-msgid "Select objects using '*' and '?' as wildcards."
-msgstr "Wybór obiektów z użyciem '*' i '?' jako znaków wieloznacznych"
-
-msgid "Higher-order Actions"
-msgstr "Wysokopoziomowe działania"
-
-msgid "Tools to work with commands as objects"
-msgstr "Narzędzia do pracy z poleceniami jako obiektami"
-
-msgid "Select in Kupfer"
-msgstr "Wybierz w programie Kupfer"
-
-#, python-format
-msgid "Result of %s (%s)"
-msgstr "Wyniki dla %s (%s)"
-
-msgid "Run (Take Result)"
-msgstr "Uruchom (pobierz rezultat)"
-
-msgid "Take the command result as a proxy object"
-msgstr "Użyje wynik polecenia jako obiekt pośredniczący"
-
-msgid "Run (Discard Result)"
-msgstr "Uruchom (porzuć rezultat)"
-
-msgid "Image Tools"
-msgstr "Narzędzia do obrazów"
-
-msgid "Image transformation tools using 'convert' from ImageMagick"
-msgstr "Przekształcania plików graficznych z użyciem 'convert' z ImageMagick"
-
-msgid "Scale..."
-msgstr "Skaluj…"
-
-msgid "Scale image to fit inside given pixel measure(s)"
-msgstr "Dopasowuje obraz do wybranego rozmiaru w pikselach"
-
-msgid "Rotate Clockwise"
-msgstr "Obróć zgodnie z ruchem wskazówek zegara"
-
-msgid "Rotate Counter-Clockwise"
-msgstr "Obróć odwrotnie do ruchu wskazówek zegara"
-
-msgid "Autorotate"
-msgstr "Obróć automatycznie"
-
-msgid "Rotate JPEG (in-place) according to its EXIF metadata"
-msgstr "Obróć plik JPEG zgodnie z jego danymi EXIF"
-
-msgid "Kupfer Plugins"
-msgstr "Wtyczki programu Kupfer"
-
-msgid "Access Kupfer's plugin list in Kupfer"
-msgstr "Dostęp do listy wtyczek programu Kupfer"
-
-msgid "Show Information"
-msgstr "Wyświetl informacje"
-
-msgid "Show Source Code"
-msgstr "Wyświetl kod źródłowy"
-
-msgid "enabled"
-msgstr "włączona"
-
-msgid "disabled"
-msgstr "wyłączone"
-
-msgid "Notes"
-msgstr "Notatki"
-
-msgid "Gnote or Tomboy notes"
-msgstr "Notatki w programie Gnote lub Tomboy"
-
-msgid "Work with application"
-msgstr "Współpraca z programem"
-
-msgid "Open with notes application"
-msgstr "Otwiera za pomocą programu notatek"
-
-msgid "Append to Note..."
-msgstr "Dołącz do notatki…"
-
-msgid "Add text to existing note"
-msgstr "Dodaje tekst do istniejącej notatki"
-
-msgid "Append..."
-msgstr "Dopisz…"
-
-msgid "Create Note"
-msgstr "Utwórz notatkę"
-
-msgid "Create a new note from this text"
-msgstr "Tworzy nową notatkę zawierającą ten tekst"
-
-msgid "Get Note Search Results..."
-msgstr "Wyszukaj wśród notatek…"
-
-msgid "Show search results for this query"
-msgstr "Wyświetla wyniki szukania dla zapytania"
-
-#, python-format
-msgid "today, %s"
-msgstr "dziś, %s"
-
-#, python-format
-msgid "yesterday, %s"
-msgstr "wczoraj, %s"
-
-#. TRANS: Note description, %s is last changed time in locale format
-#, python-format
-msgid "Last updated %s"
-msgstr "Ostatnia aktualizacja: %s"
-
-msgid "Quicksilver Icons"
-msgstr "Ikony Quicksilver"
-
 msgid "Quick Image Viewer"
 msgstr "Szybki podgląd obrazów"
 
 msgid "View Image"
 msgstr "Wyświetl obraz"
-
-msgid "GNU Screen"
-msgstr "GNU Screen"
-
-msgid "Active GNU Screen sessions"
-msgstr "Aktywuj sesje GNU Screen"
-
-msgid "Attached"
-msgstr "Podłączone"
-
-msgid "Detached"
-msgstr "Odłączone"
-
-#, python-format
-msgid "%(status)s session (%(pid)s) created %(time)s"
-msgstr "Sesja %(status)s (%(pid)s) utworzona %(time)s"
-
-msgid "Screen Sessions"
-msgstr "Sesje programu Screen"
-
-msgid "Attach"
-msgstr "Podłącz"
-
-msgid "Send Keys"
-msgstr "Wyślij klawisz"
-
-msgid "Send synthetic keyboard events using xautomation"
-msgstr "Wysyła sztuczne naciśnięcie klawiszy używając programu xautomation"
-
-msgid "Paste to Foreground Window"
-msgstr "Wyślij do okna na wierzchu"
-
-msgid "Copy to clipboard and send Ctrl+V to foreground window"
-msgstr "Skopiuj do schowka i wyślij Ctrl+V do okna na wierzchu"
-
-msgid "Send keys to foreground window"
-msgstr "Wysyła klawisze do okna na wierzchu"
-
-msgid "Type Text"
-msgstr "Napisz tekst"
-
-msgid "Type the text to foreground window"
-msgstr "„Napisanie” tekstu w oknie na wierzchu"
-
-msgid "GNOME Session Management"
-msgstr "Menedżer sesji GNOME"
-
-msgid "Special items and actions for GNOME environment"
-msgstr "Specjalne elementy i działania dla środowiska GNOME"
-
-msgid "Log Out..."
-msgstr "Wyloguj…"
-
-msgid "Log out or change user"
-msgstr "Wylogowuje lub zmienia użytkownika"
-
-msgid "Shut Down..."
-msgstr "Wyłącz…"
-
-msgid "Shut down, restart or suspend computer"
-msgstr "Wyłącza, uruchamia ponownie lub usypia komputer"
-
-msgid "Lock Screen"
-msgstr "Zablokuj ekran"
-
-msgid "Enable screensaver and lock"
-msgstr "Wygasza i blokuje ekran"
-
-#. -*- coding: utf-8 -*
-msgid "XFCE Session Management"
-msgstr "Menedżer sesji Xfce"
-
-msgid "Special items and actions for XFCE environment"
-msgstr "Specjalne elementy i działania dla środowiska Xfce"
-
-msgid "Screen lock command"
-msgstr "Polecenie blokady ekranu"
-
-#. -*- coding: UTF-8 -*-
-msgid "SSH Hosts"
-msgstr "Komputery SSH"
-
-msgid "Adds the SSH hosts found in ~/.ssh/config."
-msgstr "Dodaje komputery SSH odnalezione w ~/.ssh/config."
-
-msgid "SSH host"
-msgstr "Komputer SSH"
-
-msgid "Connect"
-msgstr "Połącz"
-
-msgid "Connect to SSH host"
-msgstr "Łączy z komputerem SSH"
-
-msgid "SSH hosts as specified in ~/.ssh/config"
-msgstr "Komputery SSH określone w ~/.ssh/config"
-
-msgid "No D-Bus connection to desktop session"
-msgstr "Brak połączenia usługi D-Bus do sesji pulpitu"
-
-#, python-format
-msgid "Dependency '%s' is not available"
-msgstr "Wymagana biblioteka „%s” jest niedostępna"
-
-msgid "Document Templates"
-msgstr "Szablony dokumentów"
-
-msgid "Create new documents from your templates"
-msgstr "Tworzy nowe dokumenty na podstawie szablonów"
-
-#, python-format
-msgid "%s template"
-msgstr "Szablon %s"
-
-msgid "Empty File"
-msgstr "Pusty plik"
-
-msgid "New Folder"
-msgstr "Pusty katalog"
-
-msgid "Create New Document..."
-msgstr "Utwórz nowy dokument…"
-
-msgid "Create a new document from template"
-msgstr "Tworzy nowy dokument na podstawie szablonu"
-
-msgid "Create Document In..."
-msgstr "Utwórz dokument w…"
-
-msgid "Textfiles"
-msgstr "Pliki tekstowe"
-
-msgid "Append To..."
-msgstr "Dopisz do…"
-
-msgid "Write To..."
-msgstr "Zapisz do…"
-
-msgid "Write the text to a new file in specified directory"
-msgstr "Zapisz tekst do nowego pliku w wybranym katalogu"
-
-msgid "Get Text Contents"
-msgstr "Pobiera zawartość pliku tekstowego"
-
-msgid "Thunar"
-msgstr "Thunar"
-
-msgid "File manager Thunar actions"
-msgstr "Działania menedżera plików Thunar"
-
-msgid "Select in File Manager"
-msgstr "Zaznacz w menedżerze plików"
-
-msgid "Show Properties"
-msgstr "Wyświetl właściwości"
-
-msgid "Show information about file in file manager"
-msgstr "Wyświetla informacje o pliku w menedżerze plików"
-
-msgid "Send To..."
-msgstr "Wyślij do…"
-
-msgid "Symlink In..."
-msgstr "Utwórz dowiązanie symboliczne…"
-
-msgid "Create a symlink to file in a chosen location"
-msgstr "Tworzy dowiązanie symboliczne do wybranego położenia"
-
-msgid "Empty Trash"
-msgstr "Opóźnij kosz"
-
-msgid "Thunar Send To Objects"
-msgstr "Obiekty „Wyślij do” programu Thunar"
-
-#. -*- coding: utf-8 -*-
-msgid "Thunderbird"
-msgstr "Thunderbird"
-
-msgid "Thunderbird/Icedove Contacts and Actions"
-msgstr "Kontakty i działania programu Thunderbird/Icedove"
-
-msgid "Compose New Email"
-msgstr "Napisz nową wiadomość e-mail"
-
-msgid "Compose a new message in Thunderbird"
-msgstr "Tworzy nową wiadomość w programie Thunderbird"
-
-msgid "Attach in Email To..."
-msgstr "załącz w wiadomości e-mail do…"
-
-msgid "Compose Email With"
-msgstr "Utwórz wiadomość e-mail z"
-
-msgid "Compose a new message using the text as body"
-msgstr "Tworzy nową wiadomość z użyciem tekstu jako treści"
-
-msgid "Thunderbird Address Book"
-msgstr "Książka adresowa programu Thunderbird"
-
-msgid "Contacts from Thunderbird Address Book"
-msgstr "Kontakty z książki adresowej programu Thunderbird"
-
-#. -*- coding: UTF-8 -*-
-msgid "Top"
-msgstr "Top"
-
-msgid "Show running tasks and allow sending signals to them"
-msgstr "Wyświetla uruchomione zadania i umożliwia wysłanie sygnałów do nich"
-
-msgid "Sort Order"
-msgstr "Kolejność porządkowania"
-
-msgid "Commandline"
-msgstr "Wiersz poleceń"
-
-msgid "CPU usage (descending)"
-msgstr "Użycie procesora (malejąco)"
-
-#. sort processes (top don't allow to sort via cmd line)
-msgid "Memory usage (descending)"
-msgstr "Użycie pamięci (malejąco)"
-
-msgid "Send Signal..."
-msgstr "Wyślij sygnał…"
-
-msgid "Signals"
-msgstr "Sygnały"
-
-msgid "Running Tasks"
-msgstr "Uruchomione zadania"
-
-#. default: by cpu
-#, python-format
-msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
-msgstr "PID: %(pid)s  procesor: %(cpu)g%%  pamięć: %(mem)g%%  czas: %(time)s"
-
-msgid "Running tasks for current user"
-msgstr "Uruchomione zadania bieżącego użytkownika"
-
-msgid "Trash"
-msgstr "Kosz"
-
-msgid "Access trash contents"
-msgstr "Dostęp do zawartości kosza"
-
-msgid "Move to Trash"
-msgstr "Przenieś do kosza"
-
-msgid "Move this file to trash"
-msgstr "Przenosi plik do kosza"
-
-msgid "Restore"
-msgstr "Przywróć"
-
-msgid "Move file back to original location"
-msgstr "Przenosi plik z powrotem do pierwotnego położenia"
-
-msgid ""
-"Could not delete files:\n"
-"    "
-msgstr ""
-"Nie można usunąć plików:\n"
-"    "
-
-msgid "Trash is empty"
-msgstr "Kosz jest pusty"
-
-#. proper translation of plural
-#, python-format
-msgid "Trash contains one file"
-msgid_plural "Trash contains %(num)s files"
-msgstr[0] "W koszu jest %(num)s plik"
-msgstr[1] "W koszu są %(num)s pliki"
-msgstr[2] "W koszu jest %(num)s plików"
-
-msgid "Triggers"
-msgstr "Wyzwalacze"
-
-msgid ""
-"Assign global keybindings (triggers) to objects created with 'Compose "
-"Command'."
-msgstr ""
-"Przypisanie skrótów klawiszowych (wyzwalaczy) do obiektów utworzonych przez "
-"„Polecenie komponowania”."
-
-msgid "Add Trigger..."
-msgstr "Dodaj wyzwalacz…"
-
-msgid "Remove Trigger"
-msgstr "Usuń wyzwalacz"
-
-msgid "URL Actions"
-msgstr "Działania adresów URL"
-
-msgid "Download and Open"
-msgstr "Pobierz i otwórz"
-
-msgid "Download To..."
-msgstr "Pobierz do…"
-
-msgid "Download URL to a chosen location"
-msgstr "Pobiera adres URL do wybranego położenia"
-
-msgid "Wikipedia"
-msgstr "Wikipedia"
-
-msgid "Search in Wikipedia"
-msgstr "Znajdź w Wikipedii"
-
-msgid "Wikipedia language"
-msgstr "Język Wikipedii"
-
-#. TRANS: Default wikipedia language code
-msgid "en"
-msgstr "pl"
-
-#, python-format
-msgid "Search for this term in %s.wikipedia.org"
-msgstr "Wyszukuje to wyrażenie w serwisie %s.wikipedia.org"
 
 msgid "Window List"
 msgstr "Lista okien"
@@ -1305,6 +828,9 @@ msgstr "Następne okno"
 msgid "Jump to this window's workspace and focus"
 msgstr "Przechodzi do obszaru roboczego okna i uaktywnia je"
 
+msgid "Move To..."
+msgstr "Przenieś do…"
+
 #, python-format
 msgid "%d window"
 msgid_plural "%d windows"
@@ -1320,6 +846,64 @@ msgstr "Przechodzi do obszaru roboczego"
 
 msgid "Workspaces"
 msgstr "Obszary robocze"
+
+#. -*- coding: UTF-8 -*-
+msgid "VirtualBox"
+msgstr "VirtualBox"
+
+msgid ""
+"Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and Open "
+"Source Edition."
+msgstr ""
+"Kontrolowanie maszyn wirtualnych VirtualBox. Obsługuje zarówno program "
+"VirtualBox firmy Sun, jak i edycję Open Source."
+
+msgid "Force use CLI interface"
+msgstr "Wymuszenie użycia interfejsu tekstowego"
+
+#. libvirt.VIR_DOMAIN_SHUTOFF:
+msgid "Power On"
+msgstr "Uruchom"
+
+msgid "Power On Headless"
+msgstr "Uruchom bez ekranu"
+
+msgid "Send Power Off Signal"
+msgstr "Wyślij sygnał wyłączenia"
+
+msgid "Reboot"
+msgstr "Uruchom ponownie"
+
+#. VM_STATE_PAUSED
+msgid "Resume"
+msgstr "Wznów"
+
+msgid "Save State"
+msgstr "Zapisz stan"
+
+msgid "Power Off"
+msgstr "Wyłącz"
+
+msgid "VirtualBox Machines"
+msgstr "Maszyny wirtualne programu VirtualBox"
+
+msgid "Kupfer Plugins"
+msgstr "Wtyczki programu Kupfer"
+
+msgid "Access Kupfer's plugin list in Kupfer"
+msgstr "Dostęp do listy wtyczek programu Kupfer"
+
+msgid "Show Information"
+msgstr "Wyświetl informacje"
+
+msgid "Show Source Code"
+msgstr "Wyświetl kod źródłowy"
+
+msgid "enabled"
+msgstr "włączona"
+
+msgid "disabled"
+msgstr "wyłączone"
 
 msgid "Volumes and Disks"
 msgstr "Woluminy i dyski"
@@ -1350,6 +934,100 @@ msgstr "Wysuń"
 msgid "Unmount and eject this media"
 msgstr "Odmontowuje i wysuwa ten nośnik"
 
+msgid "Calculator"
+msgstr "Kalkulator"
+
+msgid "Calculate mathematical expressions"
+msgstr "Oblicz wyrażenie matematyczne"
+
+msgid "Calculate"
+msgstr "Oblicz"
+
+msgid "Archive Manager"
+msgstr "Menedżer archiwów"
+
+msgid "Use Archive Manager actions"
+msgstr "Działania menedżera archiwów"
+
+msgid "Compressed archive type for 'Create Archive In'"
+msgstr "Typ skompresowanego archiwum dla „Utwórz archiwum w”"
+
+msgid "Extract Here"
+msgstr "Rozpakuj tutaj"
+
+msgid "Extract compressed archive"
+msgstr "Rozpakowuje skompresowane archiwum"
+
+msgid "Create Archive"
+msgstr "Utwórz archiwum"
+
+msgid "Create a compressed archive from folder"
+msgstr "Tworzy skompresowane archiwum z katalogu"
+
+msgid "Create Archive In..."
+msgstr "Utwórz archiwum w…"
+
+#. TRANS: Default filename (no extension) for 'Create Archive In...'
+msgid "Archive"
+msgstr "Archiwum"
+
+msgid "Nemo"
+msgstr "Nemo"
+
+msgid "File manager actions"
+msgstr "Działania menedżera plików"
+
+msgid "Select in File Manager"
+msgstr "Zaznacz w menedżerze plików"
+
+msgid "Show Properties"
+msgstr "Wyświetl właściwości"
+
+msgid "Show information about file in file manager"
+msgstr "Wyświetla informacje o pliku w menedżerze plików"
+
+msgid "Copy To..."
+msgstr "Skopiuj do…"
+
+msgid "Copy file to a chosen location"
+msgstr "Kopiuje plik do wybranego położenia"
+
+msgid "Empty Trash"
+msgstr "Opóźnij kosz"
+
+msgid "Prefer Dark Theme"
+msgstr "Preferuj ciemny motyw"
+
+msgid "Default Email Client"
+msgstr "Domyślny klient poczty"
+
+msgid "Compose email using the system's default mailto: handler"
+msgstr "Tworzenie wiadomości e-mail używając domyślnego klienta poczty"
+
+msgid "Compose Email To"
+msgstr "Utwórz e-mail do"
+
+msgid "Send Keys"
+msgstr "Wyślij klawisz"
+
+msgid "Send synthetic keyboard events using xautomation"
+msgstr "Wysyła sztuczne naciśnięcie klawiszy używając programu xautomation"
+
+msgid "Paste to Foreground Window"
+msgstr "Wyślij do okna na wierzchu"
+
+msgid "Copy to clipboard and send Ctrl+V to foreground window"
+msgstr "Skopiuj do schowka i wyślij Ctrl+V do okna na wierzchu"
+
+msgid "Send keys to foreground window"
+msgstr "Wysyła klawisze do okna na wierzchu"
+
+msgid "Type Text"
+msgstr "Napisz tekst"
+
+msgid "Type the text to foreground window"
+msgstr "„Napisanie” tekstu w oknie na wierzchu"
+
 msgid "Show Text"
 msgstr "Wyświetl tekst"
 
@@ -1362,38 +1040,6 @@ msgstr "Duży napis"
 msgid "Show Notification"
 msgstr "Wyświetl powiadomienie"
 
-msgid "Tracker"
-msgstr "Tracker"
-
-msgid "Tracker desktop search integration"
-msgstr "Integracja z programem Tracker"
-
-msgid "Search in Tracker"
-msgstr "Znajdź w programie Tracker"
-
-msgid "Open Tracker Search Tool and search for this term"
-msgstr "Otwiera narzędzie Tracker i wyszukuje to wyrażenie"
-
-msgid "Get Tracker Results..."
-msgstr "Pobierz wyniki programu Tracker…"
-
-msgid "Show Tracker results for query"
-msgstr "Wyświetla wyniki wyszukiwania programu Tracker dla zapytania"
-
-#, python-format
-msgid "Tracker Search for \"%s\""
-msgstr "Wyszukaj \"%s\" w Tracker"
-
-#, python-format
-msgid "Results for \"%s\""
-msgstr "Wyniki dla „%s”"
-
-msgid "Tracker Full Text Search"
-msgstr "Wyszukiwanie pełno-tekstowe w Tracker"
-
-msgid "Use '?' prefix to get full text results"
-msgstr "Przedrostek '?' włącza wyszukiwanie pełno-tekstowe"
-
 msgid "Locate Files"
 msgstr "Znajdź pliki"
 
@@ -1403,43 +1049,113 @@ msgstr "Przeszukuje system plików za pomocą programu locate"
 msgid "Ignore case distinctions when searching files"
 msgstr "Ignorowanie wielkości liter podczas wyszukiwania plików"
 
-msgid "Firefox Bookmarks"
-msgstr "Zakładki programu Firefox"
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Wyniki dla „%s”"
 
-msgid "Index of Firefox bookmarks"
-msgstr "Indeks zakładek programu Firefox"
+msgid "Documents"
+msgstr "Dokumenty"
 
-msgid "Firefox profile name or path"
-msgstr "Nazwa lub ścieżka profilu Firefox"
+msgid "Recently used documents and bookmarked folders"
+msgstr "Ostatnio używane dokumenty i katalogi w zakładkach"
 
-msgid "Firefox Keywords"
-msgstr "Słowa kluczowe Firefox"
+msgid "Max recent document days"
+msgstr "Maksymalna liczba dni dla ostatnio używanych dokumentów"
 
-msgid "Search the web with Firefox keywords"
-msgstr "Wyszukiwanie w sieci za pomocą słów kluczowych Firefox"
+msgid "Show only existing documents"
+msgstr "Wyświetl tylko istniejące dokumenty"
 
-msgid "Default for ?"
-msgstr "Domyślne dla ?"
+msgid "Recent Items"
+msgstr "Ostatnie elementy"
 
-msgid "Search With..."
-msgstr "Znajdź za pomocą…"
+msgid "Recently used documents"
+msgstr "Ostatnio używane dokumenty"
 
-msgid "Search For..."
-msgstr "Znajdź…"
-
-msgid "Search Terms"
-msgstr "Szukane wyrażenie"
-
-msgid "Firefox Keywords (?-source)"
-msgstr "Słowa kluczowe Firefox (?-źródło)"
+#. TRANS: Recent Documents for application %s
+#, python-format
+msgid "%s Documents"
+msgstr "Dokumenty %s"
 
 #, python-format
-msgid "Search for \"%s\""
-msgstr "Szukaj \"%s\""
+msgid "Recently used documents for %s"
+msgstr "Ostatnio używane dokumenty programu %s"
+
+msgid "Places"
+msgstr "Miejsca"
+
+msgid "Bookmarked folders"
+msgstr "Katalogi w zakładkach"
+
+msgid "Toggle Recent Documents"
+msgstr "Przełącz ostatnie dokumenty"
+
+msgid "Enable/disable listing recent documents in content for this application"
+msgstr ""
+"Włącz/wyłącz wyświetlanie ostatnich dokumentów w kontekście tej aplikacji"
+
+msgid "Notes"
+msgstr "Notatki"
+
+msgid "Gnote or Tomboy notes"
+msgstr "Notatki w programie Gnote lub Tomboy"
+
+msgid "Work with application"
+msgstr "Współpraca z programem"
+
+msgid "Open with notes application"
+msgstr "Otwiera za pomocą programu notatek"
+
+msgid "Append to Note..."
+msgstr "Dołącz do notatki…"
+
+msgid "Add text to existing note"
+msgstr "Dodaje tekst do istniejącej notatki"
+
+msgid "Create Note"
+msgstr "Utwórz notatkę"
+
+msgid "Create a new note from this text"
+msgstr "Tworzy nową notatkę zawierającą ten tekst"
+
+msgid "Get Note Search Results..."
+msgstr "Wyszukaj wśród notatek…"
+
+msgid "Show search results for this query"
+msgstr "Wyświetla wyniki szukania dla zapytania"
 
 #, python-format
-msgid "Search using %s"
-msgstr "Szukaj z użyciem %s"
+msgid "today, %s"
+msgstr "dziś, %s"
+
+#, python-format
+msgid "yesterday, %s"
+msgstr "wczoraj, %s"
+
+#. TRANS: Note description, %s is last changed time in locale format
+#, python-format
+msgid "Last updated %s"
+msgstr "Ostatnia aktualizacja: %s"
+
+msgid "Thunar"
+msgstr "Thunar"
+
+msgid "File manager Thunar actions"
+msgstr "Działania menedżera plików Thunar"
+
+msgid "Send To..."
+msgstr "Wyślij do…"
+
+msgid "Move file to new location"
+msgstr "Przenosi plik do nowego położenia"
+
+msgid "Symlink In..."
+msgstr "Utwórz dowiązanie symboliczne…"
+
+msgid "Create a symlink to file in a chosen location"
+msgstr "Tworzy dowiązanie symboliczne do wybranego położenia"
+
+msgid "Thunar Send To Objects"
+msgstr "Obiekty „Wyślij do” programu Thunar"
 
 msgid "Media Player Control"
 msgstr "Kontrola odtwarzaczy multimedialnych"
@@ -1482,52 +1198,130 @@ msgstr "Zatrzymaj (%s)"
 msgid "Stop playback"
 msgstr "Zatrzymaj odtwarzanie"
 
-msgid "Pidgin"
-msgstr "Pidgin"
+#. -*- coding: UTF-8 -*-
+msgid "Deep Directories"
+msgstr "Zagnieżdżone katalogi"
 
-msgid "Access to Pidgin Contacts"
-msgstr "Dostęp do kontaktów programu Pidgin"
+msgid "Recursive index directories"
+msgstr "Rekursywny indeks katalogów"
 
-msgid "Show offline contacts"
-msgstr "Wyświetlanie kontaktów offline"
+msgid "Directories (;-separated):"
+msgstr "Katalogi (oddzieleni średnikiem):"
 
-msgid "Open Chat"
-msgstr "Rozpocznij rozmowę"
+msgid "Depth (max 10):"
+msgstr "Głębokość (maks 10):"
+
+msgid "libvirt"
+msgstr "libvirt"
+
+msgid "Control libvirt guest domains."
+msgstr "Kontrola domen libvirt."
+
+msgid "Connection"
+msgstr "Połączenie"
+
+msgid "Libvirt domains"
+msgstr "Domeny libvirt"
+
+msgid "Open console"
+msgstr "Otwórz konsole"
+
+msgid "Open Virtual Machine Manager console for domain"
+msgstr "Otwórz kolnsolę Menadżera maszyn wirtualnych dla domeny"
+
+msgid "APT"
+msgstr "APT"
+
+msgid "Interface with the package manager APT"
+msgstr "Współpraca z menedżerem pakietów APT"
+
+msgid "Installation method"
+msgstr "Metoda instalacji"
+
+msgid "Show Package Information"
+msgstr "Wyświetl informacje o pakiecie"
+
+msgid "Install"
+msgstr "Zainstaluj"
+
+msgid "Install package using the configured method"
+msgstr "Instaluje pakiet używając skonfigurowanej metody"
 
 #, python-format
-msgid "%s (%d character)"
-msgid_plural "%s (%d characters)"
-msgstr[0] "%s (%d znak)"
-msgstr[1] "%s (%d znaki)"
-msgstr[2] "%s (%d znaków)"
+msgid "Packages matching \"%s\""
+msgstr "Pakiety pasujące do „%s”"
 
-msgid "Send Message..."
-msgstr "Wyślij wiadomość…"
-
-msgid "Available"
-msgstr "Dostępny"
-
-msgid "Away"
-msgstr "Zaraz wracam"
-
-msgid "Pidgin Contacts"
-msgstr "Kontakty programu Pidgin"
+msgid "Search Package Name..."
+msgstr "Znajdź pakiet o nazwie…"
 
 #. -*- coding: UTF-8 -*-
-msgid "Shorten Links"
-msgstr "Skróć linki"
+msgid "Top"
+msgstr "Top"
 
-msgid "Create short aliases of long URLs"
-msgstr "Tworzenie skrótów do długich adresów URL"
+msgid "Show running tasks and allow sending signals to them"
+msgstr "Wyświetla uruchomione zadania i umożliwia wysłanie sygnałów do nich"
 
-msgid "Error"
-msgstr "Błąd"
+msgid "Sort Order"
+msgstr "Kolejność porządkowania"
 
-msgid "Shorten With..."
-msgstr "Skróć za pomocą…"
+msgid "Commandline"
+msgstr "Wiersz poleceń"
 
-msgid "Services"
-msgstr "Usługi"
+msgid "CPU usage (descending)"
+msgstr "Użycie procesora (malejąco)"
+
+#. sort processes (top don't allow to sort via cmd line)
+msgid "Memory usage (descending)"
+msgstr "Użycie pamięci (malejąco)"
+
+msgid "Send Signal..."
+msgstr "Wyślij sygnał…"
+
+msgid "Signals"
+msgstr "Sygnały"
+
+msgid "Running Tasks"
+msgstr "Uruchomione zadania"
+
+#. default: by cpu
+#, python-format
+msgid "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
+msgstr "PID: %(pid)s  procesor: %(cpu)g%%  pamięć: %(mem)g%%  czas: %(time)s"
+
+msgid "Running tasks for current user"
+msgstr "Uruchomione zadania bieżącego użytkownika"
+
+#. -*- coding: utf-8 -*
+msgid "XFCE Session Management"
+msgstr "Menedżer sesji Xfce"
+
+msgid "Special items and actions for XFCE environment"
+msgstr "Specjalne elementy i działania dla środowiska Xfce"
+
+msgid "Screen lock command"
+msgstr "Polecenie blokady ekranu"
+
+msgid "Document Templates"
+msgstr "Szablony dokumentów"
+
+msgid "Create new documents from your templates"
+msgstr "Tworzy nowe dokumenty na podstawie szablonów"
+
+#, python-format
+msgid "%s template"
+msgstr "Szablon %s"
+
+msgid "New Folder"
+msgstr "Pusty katalog"
+
+msgid "Create New Document..."
+msgstr "Utwórz nowy dokument…"
+
+msgid "Create a new document from template"
+msgstr "Tworzy nowy dokument na podstawie szablonu"
+
+msgid "Create Document In..."
+msgstr "Utwórz dokument w…"
 
 msgid "Rhythmbox"
 msgstr "Rhythmbox"
@@ -1584,50 +1378,441 @@ msgstr "Utwory"
 msgid "Songs in Rhythmbox library"
 msgstr "Utwory w kolekcji programu Rhythmbox"
 
-msgid "Getting Things GNOME"
-msgstr "Getting Things GNOME"
+msgid "Wikipedia"
+msgstr "Wikipedia"
 
-msgid "Browse and create new tasks in GTG"
-msgstr "Przeglądanie i tworzenie nowych zadań w programie GTG"
+msgid "Search in Wikipedia"
+msgstr "Znajdź w Wikipedii"
+
+msgid "Wikipedia language"
+msgstr "Język Wikipedii"
+
+#. TRANS: Default wikipedia language code
+msgid "en"
+msgstr "pl"
 
 #, python-format
-msgid "due: %s"
-msgstr "do: %s"
+msgid "Search for this term in %s.wikipedia.org"
+msgstr "Wyszukuje to wyrażenie w serwisie %s.wikipedia.org"
+
+msgid "WhatsApp Web"
+msgstr "WhatsApp Web"
+
+msgid ""
+"Open a new number in WhatsApp Web\n"
+"\n"
+"The number format must respect:\n"
+"\"Country Code\" + \"Area Code\" + \"Number\"\n"
+"\n"
+"Example for a New York number: 12129999999\n"
+"Country Code: 1\n"
+"Area Code: 212\n"
+"Number: 9999999\n"
+"\n"
+"WhatsApp Web will open in the browser.\n"
+"\n"
+"For help visit https://faq.whatsapp.com/general/chats/how-to-use-click-to-"
+"chat/\n"
+"\n"
+msgstr ""
+"Otwórz nowy numer w WhatsApp Web\n"
+"\n"
+"Format numeru musi uwzględniać:\n"
+"\"kod kraju\" + \"numer kierunkowy\" + \"numer\"\n"
+"\n"
+"Przykładowy numer dla Nowego Yorku: 12129999999\n"
+"Kod kraju: 1\n"
+"Numer kierunkowy: 212\n"
+"Numer: 9999999\n"
+"\n"
+"WhatsApp Web zostanie otwarty w przeglądarce.\n"
+"\n"
+"Pomoc można uzyskać na stronie https://faq.whatsapp.com/general/chats/how-to-"
+"use-click-to-chat/\n"
+"\n"
+
+msgid "Send a WhatsApp to a new number."
+msgstr "Wyślij WhatsApp do nowego numeru."
+
+msgid "Firefox Keywords"
+msgstr "Słowa kluczowe Firefox"
+
+msgid "Search the web with Firefox keywords"
+msgstr "Wyszukiwanie w sieci za pomocą słów kluczowych Firefox"
+
+msgid "Default for ?"
+msgstr "Domyślne dla ?"
+
+msgid "Firefox profile name or path"
+msgstr "Nazwa lub ścieżka profilu Firefox"
+
+msgid "Search Terms"
+msgstr "Szukane wyrażenie"
+
+msgid "Firefox Keywords (?-source)"
+msgstr "Słowa kluczowe Firefox (?-źródło)"
 
 #, python-format
-msgid "start: %s"
-msgstr "początek: %s"
+msgid "Search for \"%s\""
+msgstr "Szukaj \"%s\""
 
 #, python-format
-msgid "tags: %s"
-msgstr "etykiety: %s"
+msgid "Search using %s"
+msgstr "Szukaj z użyciem %s"
 
-msgid "Open task in Getting Things GNOME!"
-msgstr "Otwiera zadanie w programie Getting Things GNOME"
+#. -*- coding: utf-8 -*-
+msgid "Thunderbird"
+msgstr "Thunderbird"
 
-msgid "Delete"
-msgstr "Usuń"
+msgid "Thunderbird/Icedove Contacts and Actions"
+msgstr "Kontakty i działania programu Thunderbird/Icedove"
 
-msgid "Permanently remove this task"
-msgstr "Trwale usuwa to zadanie"
+msgid "Compose a new message in Thunderbird"
+msgstr "Tworzy nową wiadomość w programie Thunderbird"
 
-msgid "Mark Done"
-msgstr "Wykonane"
+msgid "Attach in Email To..."
+msgstr "załącz w wiadomości e-mail do…"
 
-msgid "Mark this task as done"
-msgstr "Oznacza zadanie jako wykonane"
+msgid "Compose Email With"
+msgstr "Utwórz wiadomość e-mail z"
 
-msgid "Dismiss"
-msgstr "Pomiń"
+msgid "Compose a new message using the text as body"
+msgstr "Tworzy nową wiadomość z użyciem tekstu jako treści"
 
-msgid "Mark this task as not to be done anymore"
-msgstr "Oznacza zadanie jako zadanie do pominięcia"
+msgid "Thunderbird Address Book"
+msgstr "Książka adresowa programu Thunderbird"
 
-msgid "Create Task"
-msgstr "Utwórz zadanie"
+msgid "Contacts from Thunderbird Address Book"
+msgstr "Kontakty z książki adresowej programu Thunderbird"
 
-msgid "Create new task in Getting Things GNOME"
-msgstr "Tworzy nowe zadanie w programie Getting Things GNOME"
+msgid "File Actions"
+msgstr "Działania na plikach"
+
+msgid "More file actions"
+msgstr "Dodatkowe działania na plikach"
+
+msgid "Rename To..."
+msgstr "Zmień nazwę na…"
+
+msgid "Log Out..."
+msgstr "Wyloguj…"
+
+msgid "Log out or change user"
+msgstr "Wylogowuje lub zmienia użytkownika"
+
+msgid "Shut Down..."
+msgstr "Wyłącz…"
+
+msgid "Shut down, restart or suspend computer"
+msgstr "Wyłącza, uruchamia ponownie lub usypia komputer"
+
+msgid "Lock Screen"
+msgstr "Zablokuj ekran"
+
+msgid "Enable screensaver and lock"
+msgstr "Wygasza i blokuje ekran"
+
+msgid "Image Tools"
+msgstr "Narzędzia do obrazów"
+
+msgid "Image transformation tools using 'convert' from ImageMagick"
+msgstr "Przekształcania plików graficznych z użyciem 'convert' z ImageMagick"
+
+msgid "Scale..."
+msgstr "Skaluj…"
+
+msgid "Scale image to fit inside given pixel measure(s)"
+msgstr "Dopasowuje obraz do wybranego rozmiaru w pikselach"
+
+msgid "Rotate Clockwise"
+msgstr "Obróć zgodnie z ruchem wskazówek zegara"
+
+msgid "Rotate Counter-Clockwise"
+msgstr "Obróć odwrotnie do ruchu wskazówek zegara"
+
+msgid "Autorotate"
+msgstr "Obróć automatycznie"
+
+msgid "Rotate JPEG (in-place) according to its EXIF metadata"
+msgstr "Obróć plik JPEG zgodnie z jego danymi EXIF"
+
+msgid "GTK+"
+msgstr "GTK+"
+
+msgid "GNOME Terminal"
+msgstr "Terminal GNOME"
+
+msgid "XFCE Terminal"
+msgstr "Terminal XFCE"
+
+msgid "LXTerminal"
+msgstr "LXTerminal"
+
+msgid "X Terminal"
+msgstr "X Terminal"
+
+msgid "Urxvt"
+msgstr "Urxvt"
+
+msgid "Konsole"
+msgstr "Konsole"
+
+msgid "Last Command"
+msgstr "Ostatnie polecenie"
+
+msgid "Internal Kupfer Objects"
+msgstr "Obiekty wewnętrzne programu Kupfer"
+
+msgid "Last Result"
+msgstr "Ostatni wynik"
+
+msgid "Command Results"
+msgstr "Wynik polecenia"
+
+msgid "Search Contents"
+msgstr "Wyszukiwanie zawartości"
+
+msgid "Search inside this catalog"
+msgstr "Wyszukuje wewnątrz tego katalogu"
+
+msgid "Copy"
+msgstr "Skopiuj"
+
+msgid "Copy to clipboard"
+msgstr "Kopiuje do schowka"
+
+msgid "Rescan"
+msgstr "Odśwież"
+
+msgid "Force reindex of this source"
+msgstr "Wymusza ponowne zindeksowanie tego źródła"
+
+msgid "Save As..."
+msgstr "Zapisz jako…"
+
+msgid "Restart Kupfer"
+msgstr "Uruchom ponownie Kupfer"
+
+msgid "Quit"
+msgstr "Zakończ"
+
+msgid "Quit Kupfer"
+msgstr "Kończy działanie programu Kupfer"
+
+msgid "About Kupfer"
+msgstr "O programie Kupfer"
+
+msgid "Show information about Kupfer authors and license"
+msgstr "Wyświetla informacje o autorach i licencji programu Kupfer"
+
+msgid "Kupfer Help"
+msgstr "Pomoc programu Kupfer"
+
+msgid "Get help with Kupfer"
+msgstr "Wyświetla pomocy programu Kupfer"
+
+msgid "Show preferences window for Kupfer"
+msgstr "Wyświetla okno preferencji programu Kupfer"
+
+msgid "Clipboards"
+msgstr "Schowki"
+
+msgid "Recent clipboards and clipboard proxy objects"
+msgstr "Ostatnie schowki i ich obiekty pośredniczące"
+
+msgid "Number of recent clipboards to remember"
+msgstr "Liczba ostatnich schowków do pamiętania"
+
+msgid "Include selected text in clipboard history"
+msgstr "Dołączenie zaznaczonego tekstu w historii schowka"
+
+msgid "Copy selected text to primary clipboard"
+msgstr "Kopiuje zaznaczony tekst do podstawowego schowka"
+
+msgid "Selected Text"
+msgstr "Zaznaczony tekst"
+
+#, python-format
+msgid "Clipboard \"%(desc)s\""
+msgid_plural "Clipboard with %(num)d lines \"%(desc)s\""
+msgstr[0] "Schowek z %(num)d wierszem „%(desc)s”"
+msgstr[1] "Schowek z %(num)d wierszami „%(desc)s”"
+msgstr[2] "Schowek z %(num)d wierszami „%(desc)s”"
+
+msgid "Clipboard Text"
+msgstr "Tekst w schowku"
+
+msgid "Clipboard File"
+msgstr "Plik w schowku"
+
+msgid "Clipboard Files"
+msgstr "Pliki w schowku"
+
+msgid "Clear"
+msgstr "Wyczyść"
+
+msgid "Remove all recent clipboards"
+msgstr "Usuwa wszystkie ostatnie schowki"
+
+msgid "Pinboard"
+msgstr "Pinboard"
+
+msgid "Manage and use bookmarks from Pinboard"
+msgstr "Zarządzaj i używaj zakładek Pinboard"
+
+msgid "Pinboard API Token"
+msgstr "Token API Pinboard"
+
+msgid "Pinboard Bookmarks"
+msgstr "Zakładki Pinboard"
+
+msgid "Index of Pinboard bookmarks"
+msgstr "Indeks zakładek Pinboard"
+
+msgid "Higher-order Actions"
+msgstr "Wysokopoziomowe działania"
+
+msgid "Tools to work with commands as objects"
+msgstr "Narzędzia do pracy z poleceniami jako obiektami"
+
+msgid "Select in Kupfer"
+msgstr "Wybierz w programie Kupfer"
+
+#, python-format
+msgid "Result of %s (%s)"
+msgstr "Wyniki dla %s (%s)"
+
+msgid "Run (Take Result)"
+msgstr "Uruchom (pobierz rezultat)"
+
+msgid "Take the command result as a proxy object"
+msgstr "Użyje wynik polecenia jako obiekt pośredniczący"
+
+msgid "Run (Discard Result)"
+msgstr "Uruchom (porzuć rezultat)"
+
+#. -*- coding: UTF-8 -*-
+msgid "SSH Hosts"
+msgstr "Komputery SSH"
+
+msgid "Adds the SSH hosts found in ~/.ssh/config."
+msgstr "Dodaje komputery SSH odnalezione w ~/.ssh/config."
+
+msgid "SSH host"
+msgstr "Komputer SSH"
+
+msgid "Connect"
+msgstr "Połącz"
+
+msgid "Connect to SSH host"
+msgstr "Łączy z komputerem SSH"
+
+msgid "SSH hosts as specified in ~/.ssh/config"
+msgstr "Komputery SSH określone w ~/.ssh/config"
+
+msgid "Trash"
+msgstr "Kosz"
+
+msgid "Access trash contents"
+msgstr "Dostęp do zawartości kosza"
+
+msgid "Move to Trash"
+msgstr "Przenieś do kosza"
+
+msgid "Move this file to trash"
+msgstr "Przenosi plik do kosza"
+
+msgid "Restore"
+msgstr "Przywróć"
+
+msgid "Move file back to original location"
+msgstr "Przenosi plik z powrotem do pierwotnego położenia"
+
+msgid ""
+"Could not delete files:\n"
+"    "
+msgstr ""
+"Nie można usunąć plików:\n"
+"    "
+
+msgid "Trash is empty"
+msgstr "Kosz jest pusty"
+
+#. proper translation of plural
+#, python-format
+msgid "Trash contains one file"
+msgid_plural "Trash contains %(num)s files"
+msgstr[0] "W koszu jest %(num)s plik"
+msgstr[1] "W koszu są %(num)s pliki"
+msgstr[2] "W koszu jest %(num)s plików"
+
+msgid "Custom Terminal"
+msgstr "Terminal użytkownika"
+
+msgid ""
+"Configure a custom terminal emulator.\n"
+"\n"
+"The plugin adds another terminal alternative (select it on the main page)."
+msgstr ""
+"Konfiguruj własny emulator terminala.\n"
+"\n"
+"Wtyczka  dodaje kolejny, alternatywny terminal (do wyboru na stronie "
+"głównej) "
+
+msgid "Command"
+msgstr "Polecenie"
+
+msgid "Execute flag"
+msgstr "Parametr wykonania"
+
+msgid "Triggers"
+msgstr "Wyzwalacze"
+
+msgid ""
+"Assign global keybindings (triggers) to objects created with 'Compose "
+"Command'."
+msgstr ""
+"Przypisanie skrótów klawiszowych (wyzwalaczy) do obiektów utworzonych przez "
+"„Polecenie komponowania”."
+
+msgid "Add Trigger..."
+msgstr "Dodaj wyzwalacz…"
+
+msgid "Remove Trigger"
+msgstr "Usuń wyzwalacz"
+
+msgid "Brotab"
+msgstr "Brotab"
+
+msgid "Firefox Tabs"
+msgstr "Zakładki Firefox"
+
+msgid "Firefox browser tabs"
+msgstr "Zakładki przeglądarki Firefox"
+
+msgid "Activate Tab"
+msgstr "Aktywuj zakładkę"
+
+msgid "Close Tab"
+msgstr "Zamknij zakładkę"
+
+msgid "Get URL"
+msgstr "Weź URL"
+
+msgid "Dictionary"
+msgstr "Słownik"
+
+msgid "Look up word in dictionary"
+msgstr "Wyszukuje słowa w słowniku"
+
+msgid "Look Up"
+msgstr "Znajdź"
+
+msgid "Firefox Bookmarks"
+msgstr "Zakładki programu Firefox"
+
+msgid "Index of Firefox bookmarks"
+msgstr "Indeks zakładek programu Firefox"
 
 msgid "Devhelp"
 msgstr "Devhelp"
@@ -1635,14 +1820,86 @@ msgstr "Devhelp"
 msgid "Search in Devhelp"
 msgstr "Wyszukiwanie w programie Devhelp"
 
-msgid "Nemo"
-msgstr "Nemo"
+msgid "Chromium Bookmarks"
+msgstr "Zakładki programu Chromium"
 
-msgid "File manager actions"
-msgstr "Działania menedżera plików"
+msgid "Index of Chromium bookmarks"
+msgstr "Zakładki programu Chromium"
 
-msgid "Prefer Dark Theme"
-msgstr "Preferuj ciemny motyw"
+msgid "Instapaper"
+msgstr "Instapaper"
+
+msgid "Save url to Instapaper"
+msgstr "Zapisz url do Instapaper"
+
+msgid "Save to Instapaper"
+msgstr "Zapisz do Instapaper"
+
+msgid "Tracker"
+msgstr "Tracker"
+
+msgid "Tracker desktop search integration"
+msgstr "Integracja z programem Tracker"
+
+msgid "Search in Tracker"
+msgstr "Znajdź w programie Tracker"
+
+msgid "Open Tracker Search Tool and search for this term"
+msgstr "Otwiera narzędzie Tracker i wyszukuje to wyrażenie"
+
+msgid "Get Tracker Results..."
+msgstr "Pobierz wyniki programu Tracker…"
+
+msgid "Show Tracker results for query"
+msgstr "Wyświetla wyniki wyszukiwania programu Tracker dla zapytania"
+
+#, python-format
+msgid "Tracker Search for \"%s\""
+msgstr "Wyszukaj \"%s\" w Tracker"
+
+msgid "Tracker Full Text Search"
+msgstr "Wyszukiwanie pełno-tekstowe w Tracker"
+
+msgid "Use '?' prefix to get full text results"
+msgstr "Przedrostek '?' włącza wyszukiwanie pełno-tekstowe"
+
+msgid "Favorites"
+msgstr "Ulubione"
+
+msgid "Mark commonly used items and store objects for later use"
+msgstr ""
+"Zaznaczenie często używanych elementów i zachowanie ich do późniejszego "
+"użycia"
+
+msgid "Shelf of \"Favorite\" items"
+msgstr "Półka „ulubionych” elementów"
+
+msgid "Add to Favorites"
+msgstr "Dodaj do ulubionych"
+
+msgid "Add item to favorites shelf"
+msgstr "Dodaje element do półki z ulubionymi"
+
+msgid "Remove from Favorites"
+msgstr "Usuń z ulubionych"
+
+msgid "Remove item from favorites shelf"
+msgstr "Usuwa element z półki ulubionych"
+
+msgid "Firefox Tags"
+msgstr "Tagi Firefox"
+
+msgid "Browse Firefox bookmarks by tags"
+msgstr "Indeks zakładek programu Firefox"
+
+msgid "Index of Firefox bookmarks by tags"
+msgstr "Indeks zakładek programu Firefox wg tagów"
+
+msgid "Firefox Bookmarks by tag"
+msgstr "Zakładki programu Firefox wg tagu"
+
+msgid "Quicksilver Icons"
+msgstr "Ikony Quicksilver"
 
 #. TRANS: Names of accelerators in the interface
 msgid "Alternate Activate"
@@ -1832,6 +2089,13 @@ msgstr ""
 msgid "Could not find running Kupfer"
 msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
+#~ msgid "No D-Bus connection to desktop session"
+#~ msgstr "Brak połączenia usługi D-Bus do sesji pulpitu"
+
+#, python-format
+#~ msgid "Dependency '%s' is not available"
+#~ msgstr "Wymagana biblioteka „%s” jest niedostępna"
+
 #~ msgid "Lock screen command"
 #~ msgstr "Polecenie blokady ekranu"
 
@@ -1877,12 +2141,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 #~ msgid "Empathy Account Status"
 #~ msgstr "Stan konta programu Empathy"
 
-#~ msgid "Compose Email"
-#~ msgstr "Utwórz wiadomość e-mail"
-
-#~ msgid "Send in Email To..."
-#~ msgstr "Wyślij w wiadomości e-mail do…"
-
 #~ msgid "Type to search %s"
 #~ msgstr "Wprowadzenie tekstu wyszuka %s"
 
@@ -1910,9 +2168,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 #~ msgid "Include visited sites"
 #~ msgstr "Dołączenie odwiedzonych miejsc"
 
-#~ msgid "Firefox tag"
-#~ msgstr "Etykieta programu Firefox"
-
 #~ msgid "Resume playback in Rhythmbox"
 #~ msgstr "Wznawia odtwarzanie w programie Rhythmbox"
 
@@ -1925,9 +2180,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 #~ msgid "Jump to previous track in Rhythmbox"
 #~ msgstr "Przechodzi do poprzedniego utworu w programie Rhythmbox"
 
-#~ msgid "Search the Web"
-#~ msgstr "Wyszukiwanie w sieci WWW"
-
 #~ msgid "Abiword"
 #~ msgstr "AbiWord"
 
@@ -1936,30 +2188,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Abiword Recent Items"
 #~ msgstr "Ostatnie dokumenty programu AbiWord"
-
-#~ msgid "APT"
-#~ msgstr "APT"
-
-#~ msgid "Interface with the package manager APT"
-#~ msgstr "Współpraca z menedżerem pakietów APT"
-
-#~ msgid "Installation method"
-#~ msgstr "Metoda instalacji"
-
-#~ msgid "Show Package Information"
-#~ msgstr "Wyświetl informacje o pakiecie"
-
-#~ msgid "Install"
-#~ msgstr "Zainstaluj"
-
-#~ msgid "Install package using the configured method"
-#~ msgstr "Instaluje pakiet używając skonfigurowanej metody"
-
-#~ msgid "Packages matching \"%s\""
-#~ msgstr "Pakiety pasujące do „%s”"
-
-#~ msgid "Search Package Name..."
-#~ msgstr "Znajdź pakiet o nazwie…"
 
 #~ msgid "Ascii & Unicode Icon Set"
 #~ msgstr "Ikony ASCII i unikodu"
@@ -1976,36 +2204,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Unicode"
 #~ msgstr "Unikod"
-
-#~ msgid "Chromium Bookmarks"
-#~ msgstr "Zakładki programu Chromium"
-
-#~ msgid "Index of Chromium bookmarks"
-#~ msgstr "Zakładki programu Chromium"
-
-#~ msgid "Claws Mail"
-#~ msgstr "Claws Mail"
-
-#~ msgid "Claws Mail Contacts and Actions"
-#~ msgstr "Kontakty i działania programu Claws Mail"
-
-#~ msgid "Compose a new message in Claws Mail"
-#~ msgstr "Tworzy nową wiadomość w programie Claws Mail"
-
-#~ msgid "Receive All Email"
-#~ msgstr "Pobierz wszystkie wiadomości"
-
-#~ msgid "Receive new messages from all accounts in ClawsMail"
-#~ msgstr "Pobiera wiadomości ze wszystkich kont programu Claws Mail"
-
-#~ msgid "Compose new message in Claws Mail and attach file"
-#~ msgstr "Tworzy nową wiadomość w programie Claws Mail i załącza plik"
-
-#~ msgid "Claws Mail Address Book"
-#~ msgstr "Książka adresowa programu Claws Mail"
-
-#~ msgid "Contacts from Claws Mail Address Book"
-#~ msgstr "Kontakty z książki adresowej programu Claws Mail"
 
 #~ msgid "Configure a custom terminal emulator"
 #~ msgstr "Konfiguracja własnego emulatora terminala"
@@ -2148,9 +2346,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 #~ msgid "Show albums and upload files to Picasa"
 #~ msgstr "Wyświetla albumy i umożliwia wysyłanie plików do serwisu Picasa"
 
-#~ msgid "Users to show: (,-separated)"
-#~ msgstr "Wyświetlani użytkownicy (oddzieleni przecinkami):"
-
 #~ msgid "Load user and album icons"
 #~ msgstr "Pobieranie ikon użytkowników i albumów"
 
@@ -2198,9 +2393,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "User albums in Picasa"
 #~ msgstr "Albumy użytkownika w serwisie Picasa"
-
-#~ msgid "Google Search"
-#~ msgstr "Wyszukiwanie w serwisie Google"
 
 #~ msgid "Search Google with results shown directly"
 #~ msgstr "Wyszukuje w serwisie Google i bezpośrednio wyświetla wyniki"
@@ -2476,46 +2668,6 @@ msgstr "Nie można odnaleźć uruchomionego programu Kupfer"
 
 #~ msgid "Start Vinagre Session"
 #~ msgstr "Rozpocznij sesję programu Vinagre"
-
-#~ msgid "Vinagre Bookmarks"
-#~ msgstr "Zakładki programu Vinagre"
-
-#~ msgid "VirtualBox"
-#~ msgstr "VirtualBox"
-
-#~ msgid ""
-#~ "Control VirtualBox Virtual Machines. Supports both Sun VirtualBox and "
-#~ "Open Source Edition."
-#~ msgstr ""
-#~ "Kontrolowanie maszyn wirtualnych VirtualBox. Obsługuje zarówno program "
-#~ "VirtualBox firmy Sun, jak i edycję Open Source."
-
-#~ msgid "Force use CLI interface"
-#~ msgstr "Wymuszenie użycia interfejsu tekstowego"
-
-#~ msgid "Power On"
-#~ msgstr "Uruchom"
-
-#~ msgid "Power On Headless"
-#~ msgstr "Uruchom bez ekranu"
-
-#~ msgid "Send Power Off Signal"
-#~ msgstr "Wyślij sygnał wyłączenia"
-
-#~ msgid "Reboot"
-#~ msgstr "Uruchom ponownie"
-
-#~ msgid "Resume"
-#~ msgstr "Wznów"
-
-#~ msgid "Save State"
-#~ msgstr "Zapisz stan"
-
-#~ msgid "Power Off"
-#~ msgstr "Wyłącz"
-
-#~ msgid "VirtualBox Machines"
-#~ msgstr "Maszyny wirtualne programu VirtualBox"
 
 #~ msgid "Zim"
 #~ msgstr "Zim"
