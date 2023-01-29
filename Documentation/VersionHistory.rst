@@ -1,6 +1,32 @@
 NEWS for kupfer
 ===============
 
+kupfer v322
+-----------
+
++ Update translation: pl
+
++ Plugins:
+
+  + Add support mate-dictionary in *dictionary* plugin by Igor Santos
+  + Fix *Firefox* and *Thunderbird* database connection (closes: #153)
+  + Add support for `file://<local-hostname>/` URLs
+  + Add *Firefox tags* plugin
+  + Fix *Thunderbird* plugin - support new database schema
+  + Fix *Thunderbird* plugin - support contact without proper name or other
+    fields (closes: #164)
+  + Add *libvirt* plugin - manage libvirt domains
+  + Add *zeal* plugin - quick search in zeal docsets
+  + Fix *window* plugin - don't break on Wayland, fix switching workspace
+  + Fix segfault on Wayland and newer version of libwnck (closes: #165)
+
++ Dev:
+
+  + Don't embed timestamp in gzip header by kpcyrd
+  + remove some redundant list creation
+  + add missing file names in POTFILES.in
+
+
 kupfer v321
 -----------
 
