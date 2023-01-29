@@ -87,7 +87,7 @@ class TagsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
         return []
 
     def get_description(self):
-        return None
+        return _("Index of Firefox bookmarks by tags")
 
     def get_gicon(self):
         return self.get_leaf_repr() and self.get_leaf_repr().get_gicon()
@@ -143,9 +143,6 @@ LIMIT ?""",
 
         self.output_exc()
         return []
-
-    def get_description(self):
-        return _("Index of Firefox bookmarks for tag " + self.tag)
 
     def get_gicon(self):
         return self.get_leaf_repr() and self.get_leaf_repr().get_gicon()
