@@ -324,7 +324,7 @@ class SourceController (pretty.OutputMixin):
         self.output_debug("Removing objects for plugin:", plugin_id)
 
         # sources
-        for src in list(self.sources):
+        for src in self.sources:
             if self.get_plugin_id_for_object(src) == plugin_id:
                 self._remove(src)
                 removed_source = True
@@ -479,7 +479,7 @@ class SourceController (pretty.OutputMixin):
         for typ in self.content_decorators:
             if not isinstance(leaf, typ):
                 continue
-            for content in list(self.content_decorators[typ]):
+            for content in self.content_decorators[typ]:
                 dsrc = None
                 with pluginload.exception_guard(
                         content,
@@ -616,4 +616,3 @@ def GetSourceController():
     if _source_controller is None:
         _source_controller = SourceController()
     return _source_controller
-

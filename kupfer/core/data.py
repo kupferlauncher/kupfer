@@ -449,7 +449,7 @@ class DataController (GObject.GObject, pretty.OutputMixin):
             ActionPane : self.action_pane,
             ObjectPane : self.object_pane,
             }
-        for pane, ctl in list(self._panectl_table.items()):
+        for pane, ctl in self._panectl_table.items():
             ctl.connect("search-result", self._pane_search_result, pane)
         self.mode = None
         self._search_ids = itertools.count(1)
@@ -762,7 +762,7 @@ class DataController (GObject.GObject, pretty.OutputMixin):
         def valid_check(obj):
             return not (hasattr(obj, "is_valid") and not obj.is_valid())
 
-        for pane, panectl in list(self._panectl_table.items()):
+        for pane, panectl in self._panectl_table.items():
             sel = panectl.get_selection()
             if not valid_check(sel):
                 self.emit("pane-reset", pane, None)

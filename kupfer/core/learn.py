@@ -126,7 +126,7 @@ def set_correlation(obj, for_leaf):
     _register.setdefault(CORRELATION_KEY, {})[repr(for_leaf)] = repr(obj)
 
 def _get_mnemonic_items(in_register):
-    return [(k,v) for k,v in list(in_register.items()) if k != CORRELATION_KEY]
+    return [(k,v) for k,v in in_register.items() if k != CORRELATION_KEY]
 
 def get_object_has_affinity(obj):
     """

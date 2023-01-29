@@ -159,12 +159,12 @@ class SettingsController (GObject.GObject, pretty.OutputMixin):
         def confmap_difference(config, defaults):
             """Extract the non-default keys to write out"""
             difference = dict()
-            for secname, section in list(config.items()):
+            for secname, section in config.items():
                 if secname not in defaults:
                     difference[secname] = dict(section)
                     continue
                 difference[secname] = {}
-                for key, config_val in list(section.items()):
+                for key, config_val in section.items():
                     if (secname in defaults and
                             key in defaults[secname]):
                         if defaults[secname][key] == config_val:

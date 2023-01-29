@@ -385,7 +385,7 @@ class MatchViewOwner(pretty.OutputMixin):
         fr = small_size*1.0/sz
         dest_y = offset_y = int((1-fr)*sz)
         n_small = sz // small_size
-        for idx, pbuf in enumerate(list(pixbufs[-n_small:])):
+        for idx, pbuf in enumerate(pixbufs[-n_small:]):
             dest_x = offset_x = int(fr*sz)*idx
             pbuf.copy_area(0,0, small_size,small_size, destbuf, dest_x,dest_y)
         return destbuf
