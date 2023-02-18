@@ -117,6 +117,9 @@ class FileLeaf(Leaf, TextRepresentation):
     def is_valid(self) -> bool:
         return os.access(self.object, os.R_OK)
 
+    def is_writable(self) -> bool:
+        return os.access(self.object, os.W_OK)
+
     def _is_executable(self) -> bool:
         return os.access(self.object, os.R_OK | os.X_OK)
 

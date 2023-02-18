@@ -20,25 +20,20 @@ __description__ = None
 __version__ = "2017.1"
 __author__ = ""
 
-from gi.repository import Gio
-
 from kupfer import utils
 from kupfer.obj import Action, FileLeaf, TextLeaf, helplib
 from kupfer.support import kupferstring
 
-# FIXME: Sometimes require that the type is *exactly* text/plain?
-
 
 class AppendTo(Action):
     def __init__(self, name=None):
-        if not name:
-            name = _("Append To...")
-        Action.__init__(self, name)
+        super().__init__(name or _("Append To..."))
 
-    def activate(self, leaf, iobj):
-        with open(iobj.object, "a") as outfile:
-            outfile.write(leaf.object)
-            outfile.write("\n")
+    def activate(self, leaf, iobj=None, ctx=None):
+        # FIXME: added tolocale, needed?
+        with open(iobj.object, "ab") as outfile:
+            outfile.write(kupferstring.tolocale(leaf.object))
+            outfile.write(b"\n")
 
     def item_types(self):
         yield TextLeaf
@@ -50,20 +45,23 @@ class AppendTo(Action):
         yield FileLeaf
 
     def valid_object(self, iobj, for_item=None):
-        return iobj.is_content_type("text/plain")
+        # K: allow select all writable FileLeaves; filtering by content
+        # prevent navigate between directories
+        return iobj.is_writable()
+        # return iobj.is_content_type("text/plain")
 
     def get_icon_name(self):
         return "list-add"
 
 
-class AppendText(helplib.reverse_action(AppendTo)):
+class AppendText(helplib.reverse_action(AppendTo)):  # type: ignore
     def __init__(self):
-        Action.__init__(self, _("Append..."))
+        super().__init__(_("Append..."))
 
 
 class WriteTo(Action):
     def __init__(self):
-        Action.__init__(self, _("Write To..."))
+        super().__init__(_("Write To..."))
 
     def has_result(self):
         return True
@@ -73,7 +71,7 @@ class WriteTo(Action):
         outfile, outpath = utils.get_destfile_in_directory(
             iobj.object, _("Empty File")
         )
-        if outfile or outfile:
+        if not outfile or not outpath:
             return None
 
         try:
@@ -107,7 +105,7 @@ class WriteTo(Action):
 
 class GetTextContents(Action):
     def __init__(self):
-        Action.__init__(self, _("Get Text Contents"))
+        super().__init__(_("Get Text Contents"))
 
     def has_result(self):
         return True
