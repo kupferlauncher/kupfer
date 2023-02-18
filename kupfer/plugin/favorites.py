@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Favorites")
 __kupfer_sources__ = ("FavoritesSource",)
 __kupfer_actions__ = (
@@ -8,24 +10,28 @@ __description__ = _("Mark commonly used items and store objects for later use")
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import typing as ty
 import weakref
 
-from kupfer.objects import Leaf, Source, Action
 from kupfer import puid
 
 # NOTE: core import
 from kupfer.core import learn
+from kupfer.objects import Action, Leaf, Source
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 class FavoritesSource(Source):
     """Keep a list of Leaves that the User may add and remove from"""
 
-    instance = None
+    instance: FavoritesSource = None  # type:ignore
 
     def __init__(self):
         Source.__init__(self, _("Favorites"))
         ## these are default favorites for new users
-        self.references = [
+        self.references: list[ty.Any] = [
             "<kupfer.plugin.core.contents.Help>",
             "<kupfer.plugin.core.contents.Preferences>",
         ]
@@ -58,11 +64,14 @@ class FavoritesSource(Source):
 
         return itm
 
+    # pylint: disable=attribute-defined-outside-init
     def initialize(self):
         FavoritesSource.instance = self
         self.favorites = []
         self.persist_table = {}
-        self.reference_table = weakref.WeakValueDictionary()
+        self.reference_table: weakref.WeakValueDictionary[
+            ty.Any, Source
+        ] = weakref.WeakValueDictionary()
         self.mark_for_update()
 
     def _update_items(self):
@@ -84,7 +93,7 @@ class FavoritesSource(Source):
 
     @classmethod
     def add(cls, itm):
-        cls.instance._add(itm)
+        cls.instance._add(itm)  # pylint: disable=protected-access
 
     def _add(self, itm):
         if self._has_item(itm):
@@ -97,7 +106,7 @@ class FavoritesSource(Source):
 
     @classmethod
     def has_item(cls, itm):
-        return cls.instance._has_item(itm)
+        return cls.instance._has_item(itm)  # pylint: disable=protected-access
 
     def _has_item(self, itm):
         return itm in set(self.favorites)
@@ -105,7 +114,7 @@ class FavoritesSource(Source):
     @classmethod
     def remove(cls, itm):
         if cls.has_item(itm):
-            cls.instance._remove(itm)
+            cls.instance._remove(itm)  # pylint: disable=protected-access
 
     def _remove(self, itm):
         learn.remove_favorite(itm)
@@ -147,14 +156,14 @@ class AddFavorite(Action):
     def __init__(self):
         Action.__init__(self, _("Add to Favorites"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         FavoritesSource.add(leaf)
 
     def item_types(self):
         return (Leaf,)
 
-    def valid_for_item(self, item):
-        return not FavoritesSource.has_item(item)
+    def valid_for_item(self, leaf):
+        return not FavoritesSource.has_item(leaf)
 
     def get_description(self):
         return _("Add item to favorites shelf")
@@ -169,14 +178,14 @@ class RemoveFavorite(Action):
     def __init__(self):
         Action.__init__(self, _("Remove from Favorites"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         FavoritesSource.remove(leaf)
 
     def item_types(self):
         return (Leaf,)
 
-    def valid_for_item(self, item):
-        return FavoritesSource.has_item(item)
+    def valid_for_item(self, leaf):
+        return FavoritesSource.has_item(leaf)
 
     def get_description(self):
         return _("Remove item from favorites shelf")

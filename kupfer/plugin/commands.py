@@ -17,6 +17,7 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
+import typing as ty
 
 from kupfer import icons, utils
 from kupfer.obj import (
@@ -28,6 +29,9 @@ from kupfer.obj import (
     TextSource,
 )
 from kupfer.support import kupferstring, pretty
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 def finish_command(ctx, acommand, stdout, stderr, post_result=True):
@@ -124,10 +128,10 @@ class PassToCommand(Action):
 
 
 class WriteToCommand(Action):
-    def __init__(self):
+    def __init__(self, name=None):
         # TRANS: The user starts a program (command) and
         # TRANS: the text is written on stdin
-        Action.__init__(self, _("Write to Command..."))
+        Action.__init__(self, name or _("Write to Command..."))
         self.post_result = False
 
     def wants_context(self):
@@ -175,7 +179,7 @@ class FilterThroughCommand(WriteToCommand):
         # TRANS: The user starts a program (command) and
         # TRANS: the text is written on stdin, and we
         # TRANS: present the output (stdout) to the user.
-        Action.__init__(self, _("Filter through Command..."))
+        super().__init__(_("Filter through Command..."))
         self.post_result = True
 
     def get_description(self):

@@ -13,26 +13,25 @@ __description__ = _(
 __version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-# since "path" is a very generic name, you often forget..
-from os import path as os_path
 import subprocess
 from contextlib import suppress
 
-from kupfer.obj import Action, FileLeaf, TextLeaf, OperationError
-from kupfer import utils
-from kupfer.support import pretty
-from kupfer import runtimehelper
-from kupfer.utils import SpawnError
+# since "path" is a very generic name, you often forget..
+from os import path as os_path
 
+from kupfer import runtimehelper, utils
+from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf
+from kupfer.support import pretty
+from kupfer.desktop_launch import SpawnError
 
 # TODO: use imagemagick -auto-orient ??
 
 
-def spawn_operation_err(argv):
+def _spawn_operation_err(argv):
     try:
         utils.spawn_async_raise(argv)
     except SpawnError as exc:
-        raise OperationError(exc.args[0].message)
+        raise OperationError(exc.args[0].message) from exc
 
 
 class Scale(Action):
@@ -55,7 +54,7 @@ class Scale(Action):
         dpath = utils.get_destpath_in_directory(dirname, filename)
         argv = ["convert", "-scale", str(size), fpath, dpath]
         runtimehelper.register_async_file_result(ctx, dpath)
-        spawn_operation_err(argv)
+        _spawn_operation_err(argv)
         return FileLeaf(dpath)
 
     def item_types(self):
@@ -125,7 +124,7 @@ class RotateBase(Action):
             fpath,
         ]
         runtimehelper.register_async_file_result(ctx, dpath)
-        spawn_operation_err(argv)
+        _spawn_operation_err(argv)
         return FileLeaf(dpath)
 
     def item_types(self):
@@ -133,7 +132,7 @@ class RotateBase(Action):
 
     def valid_for_item(self, leaf):
         # FIXME: Make this detection smarter
-        root, ext = os_path.splitext(leaf.object)
+        _root, ext = os_path.splitext(leaf.object)
         return ext.lower() in (".jpeg", ".jpg")
 
 

@@ -3,12 +3,16 @@ __kupfer_sources__ = ("BookmarksSource",)
 __description__ = _("Index of Chromium bookmarks")
 __version__ = ""
 __author__ = "Francesco Marella <francesco.marella@gmail.com>"
+import typing as ty
 
-from kupfer.objects import Source
-from kupfer.objects import UrlLeaf
 from kupfer import config
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.objects import Source, UrlLeaf
 from kupfer.plugin import chromium_support
+
+if ty.TYPE_CHECKING:
+    _ = str
+
 
 class BookmarksSource(AppLeafContentMixin, Source):
     appleaf_content_id = ("chromium-browser", "chromium")
@@ -16,7 +20,7 @@ class BookmarksSource(AppLeafContentMixin, Source):
     def __init__(self):
         super().__init__(_("Chromium Bookmarks"))
 
-    def _get_chromium_items(self, fpath: str):
+    def _get_chromium_items(self, fpath: str) -> ty.Iterator[UrlLeaf]:
         """Parse Chromium' bookmarks backups"""
         self.output_debug("Parsing", fpath)
         bookmarks = chromium_support.get_bookmarks(fpath)

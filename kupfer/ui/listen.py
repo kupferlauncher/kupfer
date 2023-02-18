@@ -135,6 +135,7 @@ class Service(ExportedGObject):  # type:ignore
         byte_arrays=True,
     )
     def GetBoundKeys(self):
+        # pylint: disable=import-outside-toplevel
         from kupfer.ui import keybindings
 
         return keybindings.get_all_bound_keys()

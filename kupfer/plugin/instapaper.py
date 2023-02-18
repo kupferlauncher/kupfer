@@ -6,7 +6,7 @@ __version__ = "2020-11-15"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
 
 from kupfer import utils
-from kupfer.objects import Action, UrlLeaf, TextLeaf
+from kupfer.objects import Action, TextLeaf, UrlLeaf
 
 
 class SaveToInstapaper(Action):

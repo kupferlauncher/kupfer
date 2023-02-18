@@ -11,14 +11,14 @@ __description__ = _(
 __version__ = "1.1"
 __author__ = "Karol Będkowski"
 
-import os
 import json
+import os
 from pathlib import Path
 
-from kupfer.obj import Action, TextLeaf, Leaf, Source
-from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer import icons, utils
+from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer import utils, icons
+from kupfer.obj.helplib import FilesystemWatchMixin
 
 
 class ZealSearch(Action):
@@ -74,7 +74,7 @@ class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
             try:
                 with open(meta_file, "r", encoding="UTF-8") as meta:
                     content = json.load(meta)
-            except:
+            except IOError:
                 continue
 
             name = content.get("name") or docset_dir.stem

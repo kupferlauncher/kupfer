@@ -8,9 +8,9 @@ __description__ = _("Tools to work with commands as objects")
 __version__ = "2010-01-11"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from kupfer.objects import Action, Leaf
-from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
 from kupfer.core import commandexec
+from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
+from kupfer.objects import Action, Leaf
 from kupfer.support import pretty
 
 
@@ -23,7 +23,7 @@ class Select(Action):
     def has_result(self):
         return True
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         return leaf
 
     def item_types(self):
@@ -32,7 +32,7 @@ class Select(Action):
 
 def _exec_no_show_result(composedleaf):
     pretty.print_debug(__name__, "Evaluating command", composedleaf)
-    _obj, action, iobj = composedleaf.object
+    _obj, action, _iobj = composedleaf.object
     ret = commandexec.activate_action(None, *composedleaf.object)
     result_type = commandexec.parse_action_result(action, ret)
     if result_type == commandexec.ExecResult.OBJECT:

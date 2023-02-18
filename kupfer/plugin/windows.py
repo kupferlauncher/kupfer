@@ -7,10 +7,16 @@ __description__ = _("All windows on all workspaces")
 __version__ = "2020-04-14"
 __author__ = ""
 
+import typing as ty
+
 from gi.repository import Wnck
 
-from kupfer.objects import Leaf, Action, Source
+from kupfer.objects import Action, Leaf, Source
 from kupfer.support import weaklib
+
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
 
 
 def _get_window(xid):
@@ -137,6 +143,8 @@ class FrontmostWindow(WindowLeaf):
             if not win.is_skip_tasklist() and win.is_on_workspace(wspc):
                 return win
 
+        return None
+
     object = property(_get_object, _set_object)
 
     def repr_key(self):
@@ -165,6 +173,8 @@ class NextWindow(WindowLeaf):
             if not win.is_skip_tasklist() and win.is_on_workspace(wspc):
                 return win
 
+        return None
+
     object = property(_get_object, _set_object)
 
     def repr_key(self):
@@ -181,7 +191,9 @@ class WindowActivateWorkspace(Action):
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+
         window = _get_window(leaf.object)
         if not window:
             return
@@ -205,7 +217,10 @@ class WindowMoveToWorkspace(Action):
     def wants_context(self):
         return True
 
-    def activate(self, leaf, iobj, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert iobj
+        assert ctx
+
         window = _get_window(leaf.object)
         if not window:
             return
@@ -302,7 +317,9 @@ class ToggleAction(WindowAction):
         self.predicate = predicate
         self.uaction = uaction
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+
         wnd = _get_window(leaf.object)
         if not wnd:
             return
@@ -399,9 +416,10 @@ class ActivateWorkspace(Action):
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
-        workspace = _get_workspace(leaf.object)
-        if workspace:
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+
+        if workspace := _get_workspace(leaf.object):
             time = ctx.environment.get_timestamp()
             workspace.activate(time)
 
@@ -419,8 +437,7 @@ class WorkspacesSource(Source):
         super().__init__(_("Workspaces"))
 
     def initialize(self):
-        screen = Wnck.Screen.get_default()
-        if screen is not None:
+        if (screen := Wnck.Screen.get_default()) is not None:
             screen.get_workspaces()
             weaklib.gobject_connect_weakly(
                 screen, "workspace-created", self._changed

@@ -2,7 +2,7 @@ VERSION = "development version"
 PACKAGE_NAME = "kupfer"
 
 try:
-    from kupfer import version_subst
+    from kupfer import version_subst  # type:ignore
 except ImportError:
     pass
 else:
@@ -69,7 +69,7 @@ GNOME Project https://www.gnome.org (Misc Icons)
 
 AUTHORS += ARTISTS + PACKAGERS + TRANSLATORS
 
-DOCUMENTERS = []
+DOCUMENTERS: list[str] = []
 
 # TRANS: Don't translate literally!
 # TRANS: This should be a list of all translators of this language

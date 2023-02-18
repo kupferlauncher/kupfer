@@ -23,7 +23,7 @@ DEFAULT_TMPL_DIR = "~/Templates"
 class Template(FileLeaf):
     def __init__(self, path):
         basename = GLib.filename_display_basename(path)
-        nameroot, ext = os.path.splitext(basename)
+        nameroot, _ext = os.path.splitext(basename)
         FileLeaf.__init__(self, path, _("%s template") % nameroot)
 
     def get_actions(self):
@@ -120,7 +120,9 @@ class CreateNewDocument(Action):
         return "document-new"
 
 
-class CreateDocumentIn(helplib.reverse_action(CreateNewDocument)):
+class CreateDocumentIn(
+    helplib.reverse_action(CreateNewDocument)  # type:ignore
+):
     rank_adjust = 10
 
     def __init__(self):

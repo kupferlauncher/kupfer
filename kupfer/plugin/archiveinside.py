@@ -5,6 +5,8 @@ drill down into compressed archives.
 So far we only support .zip and .tar, .tar.gz, .tar.bz2, using Python's
 standard library.
 """
+from __future__ import annotations
+
 __kupfer_name__ = _("Deep Archives")
 __kupfer_contents__ = ("ArchiveContent",)
 __description__ = _("Allow browsing inside compressed archive files")
@@ -15,12 +17,16 @@ import hashlib
 import os
 import shutil
 import tarfile
-import zipfile
 import typing as ty
+import zipfile
 from pathlib import Path
 
-from kupfer.obj import Source, FileLeaf, DirectorySource
+from kupfer.obj import DirectorySource, FileLeaf, Source, Leaf
 from kupfer.support import pretty, scheduler
+
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 # Limit this to archives of a couple of megabytes
 MAX_ARCHIVE_BYTE_SIZE = 15 * 1024**2
@@ -41,9 +47,19 @@ def _is_safe_to_unarchive(path: str) -> bool:
     return not os.path.isabs(npth) and not npth.startswith(os.path.pardir)
 
 
+# pylint: disable=too-few-public-methods
+class _Extractor:
+    def __init__(self):
+        self.extensions: list[str] = []
+        self.predicate: ty.Callable[[str], bool] = None  # type: ignore
+
+    def __call__(self, src: str, dst: str) -> None:
+        pass
+
+
 class ArchiveContent(Source):
-    extractors = []
-    unarchived_files = []
+    extractors: list[_Extractor] = []
+    unarchived_files: list[str] = []
     end_timer = scheduler.Timer(True)
 
     def __init__(self, fileleaf, unarchive_func):
@@ -54,7 +70,7 @@ class ArchiveContent(Source):
     def repr_key(self):
         return self.path
 
-    def get_items(self):
+    def get_items(self) -> ty.Iterable[Leaf]:
         # always use the same destination for the same file and mtime
         basename = os.path.basename(os.path.normpath(self.path))
         root, _ext = os.path.splitext(basename)
@@ -69,7 +85,8 @@ class ArchiveContent(Source):
 
         files = list(DirectorySource(pth, show_hidden=True).get_leaves())
         if len(files) == 1 and files[0].has_content():
-            return files[0].content_source().get_leaves()
+            csrc = files[0].content_source()
+            return (csrc.get_leaves() or []) if csrc else []
 
         return files
 
@@ -89,6 +106,8 @@ class ArchiveContent(Source):
                     leaf.object
                 ):
                     return cls._source_for_path(leaf, extractor)
+
+        return None
 
     @classmethod
     def _source_for_path(cls, leaf, extractor):
@@ -130,13 +149,13 @@ class ArchiveContent(Source):
     (".tar", ".tar.gz", ".tgz", ".tar.bz2"), tarfile.is_tarfile
 )
 def extract_tarfile(filepath, destpath):
-    with tarfile.TarFile.open(filepath, "r") as zf:
+    with tarfile.TarFile.open(filepath, "r") as zfile:
         try:
-            for member in zf.getnames():
+            for member in zfile.getnames():
                 if not _is_safe_to_unarchive(member):
                     raise UnsafeArchiveError(member)
 
-            zf.extractall(path=destpath)
+            zfile.extractall(path=destpath)
         finally:
             pass
 
@@ -144,12 +163,12 @@ def extract_tarfile(filepath, destpath):
 # ZipFile only supports extractall since Python 2.6
 @ArchiveContent.extractor((".zip",), zipfile.is_zipfile)
 def extract_zipfile(filepath, destpath):
-    with zipfile.ZipFile(filepath, "r") as zf:
+    with zipfile.ZipFile(filepath, "r") as zfile:
         try:
-            for member in zf.namelist():
+            for member in zfile.namelist():
                 if not _is_safe_to_unarchive(member):
                     raise UnsafeArchiveError(member)
 
-            zf.extractall(path=destpath)
+            zfile.extractall(path=destpath)
         finally:
             pass

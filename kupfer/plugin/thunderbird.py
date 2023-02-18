@@ -9,13 +9,12 @@ __description__ = _("Thunderbird/Icedove Contacts and Actions")
 __version__ = "2017.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
-from kupfer.obj import Action, TextLeaf, UrlLeaf, RunnableLeaf, FileLeaf
+from kupfer import icons, utils
+from kupfer.obj import Action, FileLeaf, RunnableLeaf, TextLeaf, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer import utils, icons
-from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
-
+from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.plugin import thunderbird_support as support
 
 """
@@ -147,8 +146,7 @@ class ContactsSource(
 
     def initialize(self):
         ToplevelGroupingSource.initialize(self)
-        abook_dirs = list(support.get_addressbook_dirs())
-        if abook_dirs:
+        if abook_dirs := list(support.get_addressbook_dirs()):
             self.monitor_token = self.monitor_directories(*abook_dirs)
 
     def monitor_include_file(self, gfile):

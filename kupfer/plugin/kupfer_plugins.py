@@ -6,7 +6,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 from pathlib import Path
-
+import pkgutil
 
 # Since this is a core plugin we break some rules
 # These modules are normally out of bounds for plugins
@@ -47,7 +47,9 @@ class ShowSource(Action):
         # uncommon for now.
         # Additionally, it will fail for fake plugins
         plugin_id = leaf.object["name"]
-        filename = plugins.get_plugin_attribute(plugin_id, "__file__")
+        filename: str = plugins.get_plugin_attribute(  # type:ignore
+            plugin_id, "__file__"
+        )
         if not filename:
             return leaf
 
@@ -57,12 +59,9 @@ class ShowSource(Action):
 
         if not Path(filename).exists():
             # handle modules in zip or eggs
-            import pkgutil
-
             pfull = "kupfer.plugin." + plugin_id
-            loader = pkgutil.get_loader(pfull)
-            if loader:
-                return TextLeaf(loader.get_source(pfull))
+            if loader := pkgutil.get_loader(pfull):
+                return TextLeaf(loader.get_source(pfull))  # type:ignore
 
         return FileLeaf(filename)
 

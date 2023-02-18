@@ -365,8 +365,8 @@ class Toggle(Action):
             IgnoredApps.remove(leaf)
         else:
             IgnoredApps.add(leaf)
-        # Neat trick: We return the leaf,
-        # and that updates the decoration
+        # Neat trick: We return the leaf, and that updates the decoration
+        # pylint: disable=protected-access
         leaf._content_source = None
         return leaf
 

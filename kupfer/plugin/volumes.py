@@ -39,8 +39,8 @@ class Volume(FileLeaf):
             yield Unmount()
 
     def is_valid(self):
-        vm = Gio.VolumeMonitor.get()
-        return any(self.volume == v for v in vm.get_mounts())
+        vmon = Gio.VolumeMonitor.get()
+        return self.volume in vmon.get_mounts()
 
     def get_description(self):
         return _(

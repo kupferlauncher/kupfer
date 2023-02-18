@@ -203,7 +203,7 @@ def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
 
     maxwid = screen.get_width() - 50
     maxhei = screen.get_height() - 100
-    l_sr = label.size_request()
+    l_sr = label.size_request()  # pylint: disable=no-member
     wid, hei = l_sr.width, l_sr.height
 
     # If the text contains long lines, we try to
@@ -213,7 +213,7 @@ def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
     ):
         label.set_text(_wrap_paragraphs(text))
 
-    l_sr = label.size_request()
+    l_sr = label.size_request()  # pylint: disable=no-member
     wid, hei = l_sr.width, l_sr.height
     if wid > maxwid or hei > maxhei:
         # Round size down to fit inside
@@ -243,9 +243,9 @@ def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
         window.present_with_time(uievents.current_event_time())
 
 
-SERVICE_NAME = "org.freedesktop.Notifications"
-OBJECT_PATH = "/org/freedesktop/Notifications"
-IFACE_NAME = "org.freedesktop.Notifications"
+_SERVICE_NAME = "org.freedesktop.Notifications"
+_OBJECT_PATH = "/org/freedesktop/Notifications"
+_IFACE_NAME = "org.freedesktop.Notifications"
 
 
 def _get_notification_obj() -> ty.Any:
@@ -255,7 +255,7 @@ def _get_notification_obj() -> ty.Any:
 
     try:
         bus = dbus.SessionBus()
-        proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
+        proxy_obj = bus.get_object(_SERVICE_NAME, _OBJECT_PATH)
     except dbus.DBusException as exc:
         pretty.print_debug(__name__, exc)
         return None
@@ -286,6 +286,6 @@ def show_notification(
         (),
         hints,
         -1,
-        dbus_interface=IFACE_NAME,
+        dbus_interface=_IFACE_NAME,
     )
     return int(rid)

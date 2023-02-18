@@ -21,7 +21,7 @@ from kupfer.obj import (
 )
 from kupfer.support import pretty
 
-TRASH_URI = "trash://"
+_TRASH_URI = "trash://"
 
 
 class MoveToTrash(Action):
@@ -31,12 +31,13 @@ class MoveToTrash(Action):
     def __init__(self):
         Action.__init__(self, _("Move to Trash"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         gfile = leaf.get_gfile()
         try:
             gfile.trash()
         except GLib.Error as exc:
-            raise OperationError(exc.message)
+            # pylint: disable=no-member
+            raise OperationError(exc.message) from exc
 
     def valid_for_item(self, leaf):
         gfile = leaf.get_gfile()
@@ -70,7 +71,7 @@ class RestoreTrashedFile(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         orig_path = leaf.get_orig_path()
         if not orig_path:
-            return
+            return None
 
         orig_gfile = Gio.File.new_for_path(orig_path)
         cur_gfile = leaf.get_gfile()
@@ -100,7 +101,7 @@ class EmptyTrash(Action):
         Action.__init__(self, _("Empty Trash"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        gfile = Gio.File.new_for_uri(TRASH_URI)
+        gfile = Gio.File.new_for_uri(_TRASH_URI)
         failed = []
         for info in gfile.enumerate_children(
             "standard::*,trash::*", Gio.FileQueryInfoFlags.NONE, None
@@ -271,7 +272,7 @@ class TrashSource(Source):
 
     def get_items(self):
         try:
-            yield Trash(TRASH_URI)
+            yield Trash(_TRASH_URI)
         except GLib.Error:
             self.output_exc()
 

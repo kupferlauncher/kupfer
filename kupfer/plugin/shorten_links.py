@@ -4,9 +4,10 @@ __description__ = _("Create short aliases of long URLs")
 __version__ = "2017.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
-import urllib.request, urllib.parse
+import urllib.parse
+import urllib.request
 
-from kupfer.objects import Leaf, Action, Source, UrlLeaf, OperationError
+from kupfer.objects import Action, Leaf, OperationError, Source, UrlLeaf
 from kupfer.support import pretty
 
 
@@ -39,10 +40,10 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
                     )
 
                 result = resp.read()
-                return result.strip().decode("utf-8")
+                return result.strip().decode("utf-8")  # type: ignore
 
         except (OSError, ValueError) as exc:
-            raise ValueError(exc)
+            raise ValueError(exc) from exc
 
         return _("Error")
 
@@ -89,7 +90,7 @@ class ShortenLinks(Action):
         try:
             result = iobj.process(leaf.object)
         except ValueError as exc:
-            raise OperationError(str(exc))
+            raise OperationError(str(exc)) from exc
 
         return UrlLeaf(result, result)
 

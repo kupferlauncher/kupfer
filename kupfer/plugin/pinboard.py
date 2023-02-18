@@ -5,10 +5,10 @@ __description__ = _("Manage and use bookmarks from Pinboard")
 __version__ = "2020-11-15"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
 
-from kupfer import plugin_support
-from kupfer.objects import Source
-from kupfer.objects import UrlLeaf
 import pinboard
+
+from kupfer import plugin_support
+from kupfer.objects import Source, UrlLeaf
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -37,7 +37,10 @@ class PinboardBookmarkSource(Source):
         return _("Index of Pinboard bookmarks")
 
     def get_gicon(self):
-        return self.get_leaf_repr() and self.get_leaf_repr().get_gicon()
+        if lrepr := self.get_leaf_repr():
+            return lrepr.get_gicon()
+
+        return None
 
     def get_icon_name(self):
         return "web-browser"

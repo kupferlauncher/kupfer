@@ -9,11 +9,10 @@ __version__ = "2018-09-07"
 
 from contextlib import suppress
 
-from kupfer.support import pretty
-
 import vboxapi
 
 from kupfer.plugin.virtualbox import constants as vbox_const
+from kupfer.support import pretty
 
 MONITORED_DIRS = None
 IS_DYNAMIC = False

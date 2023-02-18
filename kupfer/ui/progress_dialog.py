@@ -1,10 +1,12 @@
+# note: not used
+
 from __future__ import annotations
 
 import functools
 import typing as ty
 
-import glib
-from gi.repository import Gtk
+# NOTE: was glib; changed to gio.repo.GLib
+from gi.repository import Gtk, GLib
 
 from kupfer import config, version
 
@@ -14,7 +16,7 @@ T = ty.TypeVar("T")
 def idle_call(func: ty.Callable[..., T]) -> ty.Callable[..., T]:
     @functools.wraps(func)
     def idle_wrapper(*args):
-        glib.idle_add(func, *args)
+        GLib.idle_add(func, *args)  # pylint: disable=no-member
 
     return idle_wrapper
 
@@ -53,7 +55,7 @@ class ProgressDialogController:
         label_header = builder.get_object("label_header")
         if header:
             label_header.set_markup(
-                _HEADER_MARKUP % glib.markup_escape_text(header)
+                _HEADER_MARKUP % GLib.markup_escape_text(header)
             )
         else:
             label_header.hide()
@@ -86,8 +88,8 @@ class ProgressDialogController:
         self._progressbar.set_fraction(min(value / self._max_value, 1.0))
         self._label_info.set_markup(
             "<b>"
-            + glib.markup_escape_text(label)
+            + GLib.markup_escape_text(label)
             + "</b>"
-            + glib.markup_escape_text(text)
+            + GLib.markup_escape_text(text)
         )
         return self.aborted

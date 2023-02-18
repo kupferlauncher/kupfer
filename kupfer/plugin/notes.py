@@ -19,24 +19,21 @@ import os
 import time
 import xml.sax.saxutils
 
-from gi.repository import GLib
-
 import dbus
 import xdg.BaseDirectory as base
+from gi.repository import GLib
 
+from kupfer import icons, plugin_support
+from kupfer.obj.apps import ApplicationSource
 from kupfer.objects import (
     Action,
-    Source,
     Leaf,
-    TextLeaf,
     NotAvailableError,
-    SourceLeaf,
+    Source,
+    TextLeaf,
+    TextSource,
 )
-from kupfer.obj.apps import ApplicationSource
-from kupfer.objects import TextSource
-from kupfer import icons, plugin_support
-from kupfer.support import pretty, weaklib, textutils
-
+from kupfer.support import pretty, textutils, weaklib
 
 PROGRAM_IDS = ["gnote", "tomboy", "kzrnote"]
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -100,6 +97,8 @@ def _get_notes_interface(activate=False):
             return
 
         return dbus.Interface(searchobj, iface_name)
+
+    return None
 
 
 def _get_notes_interactive():
@@ -203,8 +202,8 @@ class Open(Action):
 
 
 class AppendToNote(Action):
-    def __init__(self):
-        Action.__init__(self, _("Append to Note..."))
+    def __init__(self, name=None):
+        Action.__init__(self, name or _("Append to Note..."))
 
     def wants_context(self):
         return True
@@ -278,7 +277,7 @@ class AppendToNote(Action):
 
 class AppendTextToNote(AppendToNote):
     def __init__(self):
-        Action.__init__(self, _("Append..."))
+        super().__init__(_("Append..."))
 
     def wants_context(self):
         return True
@@ -438,12 +437,13 @@ class ClassProperty(property):
     """Subclass property to make classmethod properties possible"""
 
     def __get__(self, cls, owner):
-        return self.fget.__get__(None, owner)()
+        # pylint: disable=no-member
+        return self.fget.__get__(None, owner)()  # type: ignore
 
 
 class NotesSource(ApplicationSource):
     def __init__(self):
-        Source.__init__(self, _("Notes"))
+        super().__init__(_("Notes"))
         self._notes = []
         self.monitor_token = None
 

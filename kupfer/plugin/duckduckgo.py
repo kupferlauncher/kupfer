@@ -11,8 +11,8 @@ __author__ = "Isaac Aggrey <isaac.aggrey@gmail.com>"
 
 import urllib.parse
 
-from kupfer.objects import Action, TextLeaf
 from kupfer import utils
+from kupfer.objects import Action, TextLeaf
 
 
 class DuckDuckGoSearch(Action):

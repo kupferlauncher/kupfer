@@ -5,12 +5,12 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
-from pathlib import Path
 import pwd
+from pathlib import Path
 
-from kupfer.objects import Leaf, Action, Source
-from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import utils
+from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.objects import Action, Leaf, Source
 
 
 def screen_sessions_infos():

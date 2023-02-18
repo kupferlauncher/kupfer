@@ -11,15 +11,13 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import locale
 import os
-import urllib.parse
-from xml.etree import ElementTree
-from pathlib import Path
 import typing as ty
+import urllib.parse
+from pathlib import Path
+from xml.etree import ElementTree
 
-from kupfer.objects import Action, Source, Leaf
-from kupfer.objects import TextLeaf
-from kupfer import utils, config
-
+from kupfer import config, utils
+from kupfer.objects import Action, Leaf, Source, TextLeaf
 from kupfer.plugin._firefox_support import get_firefox_home_file
 
 
@@ -187,7 +185,7 @@ _OS_ROOTS = ("OpenSearchDescription", "SearchPlugin")
 
 
 def _parse_etree(etree, name=None):
-    if not gettagname(etree.getroot().tag) in _OS_ROOTS:
+    if gettagname(etree.getroot().tag) not in _OS_ROOTS:
         raise OpenSearchParseError(f"Search {name} has wrong type")
 
     search = {}
@@ -255,14 +253,14 @@ class OpenSearchSource(Source):
         visited_files = set()
         for pdir in plugin_dirs:
             try:
-                for f in os.listdir(pdir):
-                    if f in visited_files:
+                for fname in os.listdir(pdir):
+                    if fname in visited_files:
                         continue
 
-                    fpath = os.path.join(pdir, f)
+                    fpath = os.path.join(pdir, fname)
                     if not os.path.isdir(fpath):
                         parser.send(fpath)
-                        visited_files.add(f)
+                        visited_files.add(fname)
 
             except OSError as exc:
                 self.output_error(exc)

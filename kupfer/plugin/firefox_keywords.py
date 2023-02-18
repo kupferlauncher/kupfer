@@ -8,9 +8,9 @@ __description__ = _("Search the web with Firefox keywords")
 __version__ = "2020.1"
 __author__ = ""
 
-import os
 import sqlite3
 import time
+import typing as ty
 from contextlib import closing
 from urllib.parse import quote, urlparse
 
@@ -27,7 +27,7 @@ from kupfer.obj import (
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 
-from ._firefox_support import get_firefox_home_file, get_ffdb_conn_str
+from ._firefox_support import get_ffdb_conn_str, get_firefox_home_file
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -43,6 +43,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": "",
     },
 )
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 def _url_domain(text: str) -> str:
@@ -162,7 +165,7 @@ class SearchWithEngine(Action):
         yield Keyword
 
     def valid_object(self, obj, for_item):
-        return obj.is_search()
+        return obj.is_search
 
     def object_source(self, for_item=None):
         return KeywordsSource()
@@ -215,6 +218,13 @@ class SearchFor(Action):
 
 
 class KeywordSearchSource(TextSource):
+    """This source allow search using firefox keywords.
+
+    To use - i.e. define bookmarks for "https://hn.algolia.com/?q=%s" with keyword
+    "hn" and then you can search by '?hn something to search'
+
+    """
+
     def __init__(self):
         super().__init__(_("Firefox Keywords (?-source)"))
 

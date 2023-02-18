@@ -28,13 +28,13 @@ from kupfer.support import pretty, textutils, weaklib
 
 plugin_support.check_dbus_connection()
 
-GTG_ID = "gtg"
+_GTG_ID = "gtg"
 _SERVICE_NAME2 = "org.gnome.GTG"
 _OBJECT_NAME2 = "/org/gnome/GTG"
 _IFACE_NAME2 = "org.gnome.GTG"
 
 _STATUS_RANK = {
-    s: i for i, s in enumerate(["Active", "Postponed", "Dismiss", "Done"])
+    s: i for i, s in enumerate(("Active", "Postponed", "Dismiss", "Done"))
 }
 _STATUS_RANK_DEFAULT = len(_STATUS_RANK)
 
@@ -240,7 +240,7 @@ class CreateNewEmptyTask(Action):
         yield AppLeaf
 
     def valid_for_item(self, leaf):
-        return leaf.get_id() == GTG_ID
+        return leaf.get_id() == _GTG_ID
 
     def get_icon_name(self):
         return "document-new"
@@ -250,7 +250,7 @@ class CreateNewEmptyTask(Action):
 
 
 class TasksSource(AppLeafContentMixin, Source):
-    appleaf_content_id = GTG_ID
+    appleaf_content_id = _GTG_ID
 
     def __init__(self, name=None):
         Source.__init__(self, name or __kupfer_name__)

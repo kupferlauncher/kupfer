@@ -10,9 +10,13 @@ __kupfer_actions__ = (
 )
 __description__ = _("Interface with the package manager APT")
 __version__ = ""
-__author__ = "Martin Koelewijn <martinkoelewijn@gmail.com>, Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+__author__ = (
+    "Martin Koelewijn <martinkoelewijn@gmail.com>, "
+    "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+)
 
 import subprocess
+import typing as ty
 
 from kupfer import icons, plugin_support, utils
 from kupfer.objects import Action, Leaf, Source, TextLeaf
@@ -28,7 +32,11 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+if ty.TYPE_CHECKING:
+    _ = str
 
+
+# pylint: disable=too-few-public-methods
 class InfoTask(task.Task):
     def __init__(self, text: str):
         super().__init__()
@@ -80,7 +88,7 @@ class ShowPackageInfo(Action):
     def is_async(self):
         return True
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         return InfoTask(leaf.object.strip())
 
     def item_types(self):

@@ -17,7 +17,6 @@ from contextlib import suppress
 from pathlib import Path
 
 import dbus
-from gi.repository import Gio
 
 from kupfer import config, plugin_support
 from kupfer.obj import (
@@ -35,11 +34,11 @@ from kupfer.support import pretty
 
 plugin_support.check_dbus_connection()
 
-SERVICE_NAME = "org.xfce.Thunar"
-OBJECT_PATH = "/org/xfce/FileManager"
-IFACE_NAME = "org.xfce.FileManager"
+_SERVICE_NAME = "org.xfce.Thunar"
+_OBJECT_PATH = "/org/xfce/FileManager"
+_IFACE_NAME = "org.xfce.FileManager"
 
-TRASH_IFACE_NAME = "org.xfce.Trash"
+_TRASH_IFACE_NAME = "org.xfce.Trash"
 
 
 def _get_thunar():
@@ -48,12 +47,12 @@ def _get_thunar():
     """
     bus = dbus.SessionBus()
     try:
-        proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
-    except dbus.DBusException as e:
-        pretty.print_error(__name__, e)
-        return
+        proxy_obj = bus.get_object(_SERVICE_NAME, _OBJECT_PATH)
+    except dbus.DBusException as exc:
+        pretty.print_error(__name__, exc)
+        return None
 
-    iface_obj = dbus.Interface(proxy_obj, IFACE_NAME)
+    iface_obj = dbus.Interface(proxy_obj, _IFACE_NAME)
     return iface_obj
 
 
@@ -63,12 +62,12 @@ def _get_thunar_trash():
     """
     bus = dbus.SessionBus()
     try:
-        proxy_obj = bus.get_object(SERVICE_NAME, OBJECT_PATH)
-    except dbus.DBusException as e:
-        pretty.print_error(__name__, e)
-        return
+        proxy_obj = bus.get_object(_SERVICE_NAME, _OBJECT_PATH)
+    except dbus.DBusException as exc:
+        pretty.print_error(__name__, exc)
+        return None
 
-    iface_obj = dbus.Interface(proxy_obj, TRASH_IFACE_NAME)
+    iface_obj = dbus.Interface(proxy_obj, _TRASH_IFACE_NAME)
     return iface_obj
 
 
@@ -83,7 +82,9 @@ class Reveal(Action):
     def wants_context(self):
         return True
 
-    def activate(self, leaf, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+
         gfile = leaf.get_gfile()
         parent = gfile.get_parent()
         if not parent:
@@ -184,10 +185,7 @@ def _good_destination(dpath: str, spath: str) -> bool:
     spath = os.path.normpath(spath)
     dpath = os.path.normpath(dpath)
     cpfx = os.path.commonprefix((spath, dpath))
-    if os.path.samefile(dpath, spath) or cpfx == spath:
-        return False
-
-    return True
+    return not os.path.samefile(dpath, spath) and cpfx != spath
 
 
 def leaf_uri(leaf):
@@ -229,13 +227,13 @@ class CopyTo(Action, pretty.OutputMixin):
                 error_handler=_reply_error,
             )
 
-    def activate(self, leaf, iobj, ctx):
+    def activate(self, leaf, iobj=None, ctx=None):
         return self.activate_multiple([leaf], [iobj], ctx)
 
     def item_types(self):
         yield FileLeaf
 
-    def valid_for_item(self, item):
+    def valid_for_item(self, leaf):
         return True
 
     def requires_object(self):
@@ -272,6 +270,9 @@ class MoveTo(Action, pretty.OutputMixin):
         (dest_iobj,) = iobjects
         # Move everything into the destination
         thunar = _get_thunar()
+        if not thunar:
+            return
+
         work_dir = os.path.expanduser("~/")
         display = ctx.environment.get_display()
         notify_id = ctx.environment.get_startup_notification_id()
@@ -325,6 +326,9 @@ class LinkTo(Action, pretty.OutputMixin):
         # Unroll by looping over the destinations,
         # copying everything into each destination
         thunar = _get_thunar()
+        if not thunar:
+            return
+
         work_dir = os.path.expanduser("~/")
         display = ctx.environment.get_display()
         notify_id = ctx.environment.get_startup_notification_id()

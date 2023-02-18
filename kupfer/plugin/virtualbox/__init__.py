@@ -8,15 +8,14 @@ __version__ = "0.4"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 from contextlib import suppress
+import typing as ty
 
-from kupfer.objects import Leaf, Action, Source
-from kupfer.support import pretty
 from kupfer import plugin_support
 from kupfer.obj.apps import ApplicationSource
-
-from kupfer.plugin.virtualbox import ose_support
+from kupfer.objects import Action, Leaf
 from kupfer.plugin.virtualbox import constants as vbox_const
-
+from kupfer.plugin.virtualbox import ose_support
+from kupfer.support import pretty
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -27,6 +26,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+if ty.TYPE_CHECKING:
+    _ = str
+
 
 def _get_vbox():
     if __kupfer_settings__["force_cli"]:
@@ -34,12 +36,14 @@ def _get_vbox():
         return ose_support
 
     with suppress(ImportError):
+        # pylint: disable=import-outside-toplevel
         from kupfer.plugin.virtualbox import vboxapi4_support
 
         pretty.print_info(__name__, "Using vboxapi4...")
         return vboxapi4_support
 
     with suppress(ImportError):
+        # pylint: disable=import-outside-toplevel
         from kupfer.plugin.virtualbox import vboxapi_support
 
         pretty.print_info(__name__, "Using vboxapi...")
@@ -50,23 +54,26 @@ def _get_vbox():
 
 
 class _VBoxSupportProxy:
-    VBOX = None
+    _vbox = None
 
     def __getattr__(self, attr):
-        if not self.VBOX:
+        if not self._vbox:
             self.reload_settings()
-        return getattr(self.VBOX, attr)
+
+        return getattr(self._vbox, attr)
 
     def reload_settings(self):
         pretty.print_debug(__name__, "_VBoxSupportProxy.reloading...")
         self.unload_module()
-        self.VBOX = _get_vbox()
+        self._vbox = _get_vbox()
 
     def unload_module(self):
-        if not self.VBOX:
-            return
-        self.VBOX.unload()
-        self.VBOX = None
+        if self._vbox:
+            self._vbox.unload()
+            self._vbox = None
+
+    def __bool__(self):
+        return self._vbox is not None
 
 
 vbox_support = _VBoxSupportProxy()
@@ -141,7 +148,7 @@ class VMAction(Action):
     def item_types(self):
         yield VirtualMachine
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         vbox_support.vm_action(self.command, leaf.object)
 
 
@@ -149,7 +156,8 @@ class VBoxMachinesSource(ApplicationSource):
     appleaf_content_id = ("virtualbox-ose", "virtualbox")
 
     def __init__(self, name=_("VirtualBox Machines")):
-        Source.__init__(self, name)
+        super().__init__(name)
+        self.monitor_token = None
 
     def initialize(self):
         if vbox_support.MONITORED_DIRS:

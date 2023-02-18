@@ -8,8 +8,8 @@ __author__ = ""
 import fnmatch
 import re
 
-from kupfer.objects import Action, TextLeaf, TextSource, Leaf, OperationError
 from kupfer.obj.compose import MultipleLeaf
+from kupfer.objects import Action, Leaf, OperationError, TextLeaf, TextSource
 
 
 class Glob(Action):
@@ -35,7 +35,7 @@ class Glob(Action):
                     if re.match(pat, str(content), flags=re.I):
                         paths.append(content)
 
-        paths : list[str] = []
+        paths: list[str] = []
         for iobj in iobjects:
             glob = iobj.object
             if glob.startswith("**/"):

@@ -1,9 +1,10 @@
+import os
+from kupfer import config
+from kupfer.support import pretty
+
+
 def _extend_path():
     # Inside a function to not leak variables to module namespace
-    import os
-    from kupfer import config
-    from kupfer.support import pretty
-
     if not config.has_capability("CUSTOM_PLUGINS"):
         return
 

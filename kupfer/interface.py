@@ -7,6 +7,7 @@ from gi.repository import Gdk, Gtk
 from kupfer.obj.base import KupferObject
 
 # NOTE: TextRepresentation moved into obj.representation
+# pylint: disable=unused-import
 from kupfer.obj.representation import TextRepresentation, UriListRepresentation
 
 

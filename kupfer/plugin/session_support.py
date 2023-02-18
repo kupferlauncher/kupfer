@@ -2,9 +2,9 @@
 Common objects for session_* plugins.
 """
 
-from kupfer.objects import Source
-from kupfer.obj.objects import RunnableLeaf
 from kupfer import utils
+from kupfer.obj.objects import RunnableLeaf
+from kupfer.objects import Source
 from kupfer.support import pretty
 
 __version__ = "2009-12-05"

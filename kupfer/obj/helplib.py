@@ -137,7 +137,7 @@ def reverse_action(action: ty.Type[Action], rank: int = 0) -> ty.Type[Action]:
     called with only the new item as the first parameter when reversed.
     """
 
-    class ReverseAction(action):
+    class ReverseAction(action):  # type: ignore
         rank_adjust = rank
 
         def activate(

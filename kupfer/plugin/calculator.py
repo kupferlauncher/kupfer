@@ -5,15 +5,19 @@ __version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import cmath
-import math
-from contextlib import suppress
-import textwrap
 import inspect
+import math
+import textwrap
+import typing as ty
+from contextlib import suppress
 
 from kupfer import utils, version
-from kupfer.ui import uiutils
 from kupfer.objects import Action, TextLeaf
 from kupfer.support import pretty
+from kupfer.ui import uiutils
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 class IgnoreResultException(Exception):
@@ -31,6 +35,7 @@ class KupferSurprise(float):
         raise IgnoreResultException
 
 
+# pylint: disable=too-few-public-methods
 class DummyResult:
     def __str__(self):
         return "<Result of last expression>"
@@ -139,7 +144,7 @@ class Calculate(Action):
         environment = make_environment(self.last_result["last"])
         pretty.print_debug(__name__, "Evaluating", repr(expr))
         try:
-            result = eval(expr, environment)
+            result = eval(expr, environment)  # pylint: disable=eval-used
             resultstr = format_result(result)
             self.last_result["last"] = result
         except IgnoreResultException:

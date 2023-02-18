@@ -436,9 +436,7 @@ class Source(KupferObject, pretty.OutputMixin):
         """
         return False
 
-    def get_leaves(
-        self, force_update: bool = False
-    ) -> ty.Iterable[Leaf] | None:
+    def get_leaves(self, force_update: bool = False) -> ty.Iterable[Leaf]:
         """
         Return a list of all leaves.
 
@@ -468,7 +466,7 @@ class Source(KupferObject, pretty.OutputMixin):
                 )
                 self.output_debug("Loaded items")
 
-        return self.cached_items  # type: ignore
+        return self.cached_items or []  # type: ignore
 
     def has_parent(self) -> bool:
         return False

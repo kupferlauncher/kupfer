@@ -340,11 +340,11 @@ def get_plugin_attributes(
 
 def get_plugin_attribute(
     plugin_name: str, attr: PluginAttr | str
-) -> tuple[ty.Any, ...] | None:
+) -> tuple[ty.Any, ...] | ty.Any | None:
     """Get single plugin attribute"""
     attrs = tuple(get_plugin_attributes(plugin_name, (attr,)))
     if attrs and attrs[0]:
-        return attrs[0]  # type: ignore
+        return attrs[0]
 
     return None
 

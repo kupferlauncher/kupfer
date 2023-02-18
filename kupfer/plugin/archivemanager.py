@@ -18,6 +18,7 @@ import typing as ty
 from os import path as os_path
 
 from kupfer import plugin_support, runtimehelper, utils
+from kupfer.core.commandexec import ActionExecutionContext
 from kupfer.obj import Action, FileLeaf
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -38,7 +39,10 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-_EXTENSIONS_SET = {
+if ty.TYPE_CHECKING:
+    _ = str
+
+_EXTENSIONS_SET = (
     ".rar",
     ".7z",
     ".zip",
@@ -59,7 +63,7 @@ _EXTENSIONS_SET = {
     ".bz",
     ".tbz",
     ".lzh",
-}
+)
 
 
 class UnpackHere(Action):
@@ -99,7 +103,7 @@ class CreateArchive(Action):
     def __init__(self):
         Action.__init__(self, _("Create Archive"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         _make_archive((leaf.object,))
 
     def activate_multiple(self, objs):
@@ -116,7 +120,10 @@ class CreateArchive(Action):
 
 
 def _make_archive_in(
-    ctx, basename: str, dirpath: str, filepaths: ty.Iterable[str]
+    ctx: ActionExecutionContext,
+    basename: str,
+    dirpath: str,
+    filepaths: ty.Iterable[str],
 ) -> str:
     archive_type = __kupfer_settings__["archive_type"]
     archive_path = utils.get_destpath_in_directory(
@@ -141,7 +148,7 @@ class CreateArchiveIn(Action):
         assert ctx
         dirpath = iobj.object
         basename = os_path.basename(leaf.object)
-        self._make_archive(ctx, basename, dirpath, (leaf.object,))
+        _make_archive_in(ctx, basename, dirpath, (leaf.object,))
 
     def activate_multiple(self, objs, iobjs, ctx):
         # TRANS: Default filename (no extension) for 'Create Archive In...'

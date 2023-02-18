@@ -7,7 +7,7 @@ import typing as ty
 from contextlib import suppress
 
 try:
-    from kupfer import version_subst
+    from kupfer import version_subst  # type:ignore
 except ImportError:
     version_subst = None
 

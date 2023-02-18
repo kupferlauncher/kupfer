@@ -13,20 +13,16 @@ __author__ = (
 )
 __version__ = "2017.1"
 
+import typing as ty
+
 import dbus
 
+from kupfer import icons, plugin_support
+from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.contacts import EMAIL_KEY, NAME_KEY, ContactLeaf, is_valid_email
+from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.objects import Action, TextLeaf, TextSource
 from kupfer.support import pretty, scheduler, weaklib
-from kupfer import icons
-from kupfer import plugin_support
-from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.obj.contacts import (
-    NAME_KEY,
-    EMAIL_KEY,
-    ContactLeaf,
-    is_valid_email,
-)
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -37,16 +33,19 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
+
 plugin_support.check_dbus_connection()
 
 # Contact data contstants
-PIDGIN_ACCOUNT = "_PIDGIN_ACCOUNT"
-PIDGIN_JID = "_PIDGIN_JID"
+_PIDGIN_ACCOUNT = "_PIDGIN_ACCOUNT"
+_PIDGIN_JID = "_PIDGIN_JID"
 
 # D-Bus "addresses"
-SERVICE_NAME = "im.pidgin.purple.PurpleService"
-OBJECT_NAME = "/im/pidgin/purple/PurpleObject"
-IFACE_NAME = "im.pidgin.purple.PurpleInterface"
+_SERVICE_NAME = "im.pidgin.purple.PurpleService"
+_OBJECT_NAME = "/im/pidgin/purple/PurpleObject"
+_IFACE_NAME = "im.pidgin.purple.PurpleInterface"
 
 
 def _create_dbus_connection(activate=False):
@@ -63,11 +62,11 @@ def _create_dbus_connection(activate=False):
             "org.freedesktop.DBus", "/org/freedesktop/DBus"
         )
         dbus_iface = dbus.Interface(proxy_obj, "org.freedesktop.DBus")
-        if activate or dbus_iface.NameHasOwner(SERVICE_NAME):
-            obj = sbus.get_object(SERVICE_NAME, OBJECT_NAME)
+        if activate or dbus_iface.NameHasOwner(_SERVICE_NAME):
+            obj = sbus.get_object(_SERVICE_NAME, _OBJECT_NAME)
 
         if obj:
-            interface = dbus.Interface(obj, IFACE_NAME)
+            interface = dbus.Interface(obj, _IFACE_NAME)
 
     except dbus.exceptions.DBusException as err:
         pretty.print_debug(err)
@@ -83,8 +82,8 @@ def _send_message_to_contact(pcontact, message, present=False):
     if not interface:
         return
 
-    account = pcontact[PIDGIN_ACCOUNT]
-    jid = pcontact[PIDGIN_JID]
+    account = pcontact[_PIDGIN_ACCOUNT]
+    jid = pcontact[_PIDGIN_JID]
     conversation = interface.PurpleConversationNew(1, account, jid)
     im = interface.PurpleConvIm(conversation)
     interface.PurpleConvImSend(im, message)
@@ -116,7 +115,7 @@ class OpenChat(ContactAction):
         _send_message_to_contact(leaf, "", present=True)
 
     def get_required_slots(self):
-        return [PIDGIN_ACCOUNT, PIDGIN_JID]
+        return [_PIDGIN_ACCOUNT, _PIDGIN_JID]
 
 
 class ChatTextSource(TextSource):
@@ -146,7 +145,7 @@ class SendMessage(ContactAction):
         _send_message_to_contact(leaf, iobj.object)
 
     def get_required_slots(self):
-        return [PIDGIN_ACCOUNT, PIDGIN_JID]
+        return [_PIDGIN_ACCOUNT, _PIDGIN_JID]
 
     def requires_object(self):
         return True
@@ -159,7 +158,7 @@ class SendMessage(ContactAction):
 
     def valid_object(self, iobj, for_item=None):
         # ugly, but we don't want derived text
-        return type(iobj) is TextLeaf
+        return type(iobj) == TextLeaf
 
 
 class PidginContact(ContactLeaf):
@@ -173,8 +172,8 @@ class PidginContact(ContactLeaf):
         slots = {
             EMAIL_KEY: jid,
             NAME_KEY: name or jid,
-            PIDGIN_ACCOUNT: account,
-            PIDGIN_JID: jid,
+            _PIDGIN_ACCOUNT: account,
+            _PIDGIN_JID: jid,
         }
         if not is_valid_email(jid):
             slots[EMAIL_KEY] = None
@@ -199,7 +198,7 @@ class PidginContact(ContactLeaf):
 
     def repr_key(self):
         # the repr key should be persistent and hopefully unique
-        return f"{self.protocol}, {self.object[PIDGIN_JID]}"
+        return f"{self.protocol}, {self.object[_PIDGIN_JID]}"
 
     def get_description(self):
         return self._description
@@ -359,28 +358,28 @@ class ContactsSource(AppLeafContentMixin, ToplevelGroupingSource):
             session_bus,
             "SigningOff",
             self._signing_off,
-            dbus_interface=IFACE_NAME,
+            dbus_interface=_IFACE_NAME,
         )
 
         weaklib.dbus_signal_connect_weakly(
             session_bus,
             "BuddySignedOn",
             self._buddy_signed_on,
-            dbus_interface=IFACE_NAME,
+            dbus_interface=_IFACE_NAME,
         )
 
         weaklib.dbus_signal_connect_weakly(
             session_bus,
             "BuddyStatusChanged",
             self._buddy_status_changed,
-            dbus_interface=IFACE_NAME,
+            dbus_interface=_IFACE_NAME,
         )
 
         weaklib.dbus_signal_connect_weakly(
             session_bus,
             "BuddySignedOff",
             self._buddy_signed_off,
-            dbus_interface=IFACE_NAME,
+            dbus_interface=_IFACE_NAME,
         )
 
     def get_items(self):

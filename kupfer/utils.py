@@ -295,7 +295,7 @@ def spawn_async_raise(argv: ty.Collection[str], workdir: str = ".") -> bool:
         )
         return bool(res)
     except GLib.GError as exc:
-        raise SpawnError(exc.message) from exc
+        raise SpawnError(exc.message) from exc  # pylint: disable=no-member
 
     return False
 

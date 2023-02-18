@@ -7,11 +7,10 @@ __author__ = "Leonardo Masuero <leom255255@gmail.com>"
 
 from kupfer.plugin import session_support as support
 
-
 # sequences of argument lists
-LOGOUT_CMD = (["lxqt-leave", "--logout"],)
-SHUTDOWN_CMD = (["lxqt-leave", "--shutdown"],)
-LOCKSCREEN_CMD = (["lxqt-leave", "--lockscreen"],)
+_LOGOUT_CMD = (["lxqt-leave", "--logout"],)
+_SHUTDOWN_CMD = (["lxqt-leave", "--shutdown"],)
+_LOCKSCREEN_CMD = (["lxqt-leave", "--lockscreen"],)
 
 
 class LxqtItemsSource(support.CommonSource):
@@ -20,7 +19,7 @@ class LxqtItemsSource(support.CommonSource):
 
     def get_items(self):
         return (
-            support.Logout(LOGOUT_CMD),
-            support.LockScreen(LOCKSCREEN_CMD),
-            support.Shutdown(SHUTDOWN_CMD),
+            support.Logout(_LOGOUT_CMD),
+            support.LockScreen(_LOCKSCREEN_CMD),
+            support.Shutdown(_SHUTDOWN_CMD),
         )

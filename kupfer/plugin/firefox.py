@@ -6,7 +6,6 @@ __version__ = "2020.1"
 __author__ = "Ulrik, William Friesen, Karol Będkowski"
 
 import itertools
-import os
 import sqlite3
 import time
 from contextlib import closing

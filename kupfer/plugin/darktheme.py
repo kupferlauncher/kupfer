@@ -3,6 +3,8 @@ __description__ = ""
 __version__ = "2017.1"
 __author__ = ""
 
+import typing as ty
+
 from gi.repository import Gtk
 
 from kupfer import plugin_support
@@ -16,6 +18,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": True,
     },
 )
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 def initialize_plugin(name):

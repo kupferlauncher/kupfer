@@ -7,8 +7,9 @@ The plugin adds another terminal alternative (select it on the main page)."""
 __version__ = ""
 __author__ = "Ulrik Sverdrup"
 
-from kupfer import plugin_support
-from kupfer import utils
+import typing as ty
+
+from kupfer import plugin_support, utils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -28,6 +29,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         ),
     },
 )
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 def initialize_plugin(name):

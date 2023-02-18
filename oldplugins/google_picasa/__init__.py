@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 __kupfer_name__ = _("Google Picasa")
-__kupfer_sources__ = ("PicasaUsersSource", )
-__kupfer_actions__ = ('UploadFileToPicasa', 'UploadDirToPicasa')
+__kupfer_sources__ = ("PicasaUsersSource",)
+__kupfer_actions__ = ("UploadFileToPicasa", "UploadDirToPicasa")
 __description__ = _("Show albums and upload files to Picasa")
 __version__ = "2010-04-06"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
@@ -25,43 +25,43 @@ plugin_support.check_keyring_support()
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
-        'key': 'userpass',
-        'label': '',
-        'type': plugin_support.UserNamePassword,
-        'value': "",
+        "key": "userpass",
+        "label": "",
+        "type": plugin_support.UserNamePassword,
+        "value": "",
     },
     {
-        'key': 'showusers',
-        'label': _('Users to show: (,-separated)'),
-        'type': str,
-        'value': '',
+        "key": "showusers",
+        "label": _("Users to show: (,-separated)"),
+        "type": str,
+        "value": "",
     },
     {
-        'key': 'loadicons',
-        'label': _('Load user and album icons'),
-        'type': bool,
-        'value': True,
+        "key": "loadicons",
+        "label": _("Load user and album icons"),
+        "type": bool,
+        "value": True,
     },
 )
 
 
-ALBUM_URL = '/data/feed/api/user/%s/albumid/%s'
-USER_URL = 'http://picasaweb.google.com/%(user)s'
+ALBUM_URL = "/data/feed/api/user/%s/albumid/%s"
+USER_URL = "http://picasaweb.google.com/%(user)s"
 
 
 def is_plugin_configured():
-    upass = __kupfer_settings__['userpass']
+    upass = __kupfer_settings__["userpass"]
     return bool(upass and upass.username and upass.password)
 
 
 def valid_file(filepath):
-    ''' check is file supported by picasa '''
+    """check is file supported by picasa"""
     extension = os.path.splitext(filepath)[1].lower()
-    return extension in ('.jpg', '.jpeg', '.png', '.gif')
+    return extension in (".jpg", ".jpeg", ".png", ".gif")
 
 
 class UploadTask(task.ThreadTask):
-    """ Uploading files to picasa """
+    """Uploading files to picasa"""
 
     def __init__(self):
         task.ThreadTask.__init__(self)
@@ -69,18 +69,18 @@ class UploadTask(task.ThreadTask):
         self._files_albums_count = 0
 
     def add_files_to_existing_album(self, files, album_id):
-        ''' upload files to existing album.
+        """upload files to existing album.
         @files: list of local files (full path)
         @album_id: picasa album id
-        '''
+        """
         self._files_to_upload.append((files, album_id, None))
         self._files_albums_count += len(files)
 
     def add_files_to_new_album(self, files, album_name):
-        ''' create new album and upload files.
+        """create new album and upload files.
         @files: list of local files (full path)
-        @album_name: new album name 
-        '''
+        @album_name: new album name
+        """
         self._files_to_upload.append((files, None, album_name))
         self._files_albums_count += len(files) + 1
 
@@ -89,40 +89,51 @@ class UploadTask(task.ThreadTask):
         if not gd_client:
             return
         progress_dialog = ProgressDialogController(
-                _("Uploading Pictures"),
-                _("Uploading pictures to Picasa Web Album"),
-                max_value=self._files_albums_count)
+            _("Uploading Pictures"),
+            _("Uploading pictures to Picasa Web Album"),
+            max_value=self._files_albums_count,
+        )
         progress_dialog.show()
         try:
-            upass = __kupfer_settings__['userpass']
+            upass = __kupfer_settings__["userpass"]
             progress = 0
             for files, album_id, album_name in self._files_to_upload:
                 # create album
                 if album_id is None:
-                    progress_dialog.update(progress, _("Creating album:"),
-                            album_name)
-                    album = gd_client.InsertAlbum(title=album_name,
-                            summary=_('Album created by Kupfer'))
+                    progress_dialog.update(
+                        progress, _("Creating album:"), album_name
+                    )
+                    album = gd_client.InsertAlbum(
+                        title=album_name, summary=_("Album created by Kupfer")
+                    )
                     album_id = album.gphoto_id.text
                     progress += 1
                 # send files
                 album_url = ALBUM_URL % (upass.username, album_id)
                 for filename in files:
-                    pretty.print_debug(__name__, 'upload: sending', filename)
-                    progress_dialog.update(progress, _('File:'),
-                            utils.get_display_path_for_bytestring(filename))
+                    pretty.print_debug(__name__, "upload: sending", filename)
+                    progress_dialog.update(
+                        progress,
+                        _("File:"),
+                        utils.get_display_path_for_bytestring(filename),
+                    )
                     if progress_dialog.aborted:
-                        pretty.print_debug(__name__, 'upload: abort')
+                        pretty.print_debug(__name__, "upload: abort")
                         break
                     # send file
-                    gd_client.InsertPhotoSimple(album_url,
-                            os.path.basename(filename), '', filename)
-                    pretty.print_debug(__name__, 'upload: file sended', filename)
+                    gd_client.InsertPhotoSimple(
+                        album_url, os.path.basename(filename), "", filename
+                    )
+                    pretty.print_debug(
+                        __name__, "upload: file sended", filename
+                    )
                     progress += 1
 
-        except (gdata.service.Error, gdata.photos.service.GooglePhotosException) as \
-                err:
-            pretty.print_error(__name__, 'upload error', err)
+        except (
+            gdata.service.Error,
+            gdata.photos.service.GooglePhotosException,
+        ) as err:
+            pretty.print_error(__name__, "upload error", err)
 
         finally:
             progress_dialog.hide()
@@ -136,21 +147,25 @@ def picasa_login():
         return None
     gd_client = None
     try:
-        upass = __kupfer_settings__['userpass']
+        upass = __kupfer_settings__["userpass"]
         gd_client = gdata.photos.service.PhotosService()
         gd_client.email = upass.username
         gd_client.password = upass.password
-        gd_client.source = 'kupfer-google_picasa'
+        gd_client.source = "kupfer-google_picasa"
         gd_client.ProgrammaticLogin()
-    except (gdata.service.BadAuthentication, gdata.service.CaptchaRequired) as err:
-        pretty.print_error(__name__, 'picasa_login', 'authentication error',
-                err)
+    except (
+        gdata.service.BadAuthentication,
+        gdata.service.CaptchaRequired,
+    ) as err:
+        pretty.print_error(
+            __name__, "picasa_login", "authentication error", err
+        )
         gd_client = None
     return gd_client
 
 
 def get_thumb(gd_client, thumb_url):
-    ''' Load thumb from web '''
+    """Load thumb from web"""
     thumb = None
     if thumb_url:
         thumb_media = gd_client.GetMedia(thumb_url)
@@ -160,29 +175,30 @@ def get_thumb(gd_client, thumb_url):
 
 
 def get_user_leaf(gd_client, user_name):
-    ''' Create PicasaUser obj for given @user_name. '''
+    """Create PicasaUser obj for given @user_name."""
     leaf = None
     try:
         user_info = gd_client.GetContacts(user_name)
     except gdata.photos.service.GooglePhotosException as err:
-        pretty.print_info(__name__, 'get_uers_leaf', err)
+        pretty.print_info(__name__, "get_uers_leaf", err)
     else:
         thumb = None
-        if __kupfer_settings__['loadicons']:
+        if __kupfer_settings__["loadicons"]:
             thumb = get_thumb(gd_client, user_info.thumbnail.text)
         user_url = USER_URL % dict(user=user_info.user.text)
-        leaf = PicasaUser(user_url, kupferstring.tounicode(user_info.nickname.text),
-                thumb)
+        leaf = PicasaUser(
+            user_url, kupferstring.tounicode(user_info.nickname.text), thumb
+        )
     return leaf
 
 
-class PicasaDataCache():
+class PicasaDataCache:
     data = []
 
     @classmethod
     def get_albums(cls, force=False):
-        ''' Load user albums, and albums users defined in 'showusers' setting. '''
-        pretty.print_debug(__name__, 'get_albums', str(force))
+        """Load user albums, and albums users defined in 'showusers' setting."""
+        pretty.print_debug(__name__, "get_albums", str(force))
         if not force:
             return cls.data
         start_time = time.time()
@@ -192,53 +208,70 @@ class PicasaDataCache():
 
         pusers = []
         try:
-            user = __kupfer_settings__['userpass'].username
-            show_users = (__kupfer_settings__['showusers'] or '')
-            user_names = [U.strip() for U in show_users.split(',') if U.strip()]
+            user = __kupfer_settings__["userpass"].username
+            show_users = __kupfer_settings__["showusers"] or ""
+            user_names = [U.strip() for U in show_users.split(",") if U.strip()]
 
             if user not in user_names:
                 user_names.append(user)
 
             for user_name in user_names:
-                pretty.print_debug(__name__, 'get_albums: get album', user_name)
+                pretty.print_debug(__name__, "get_albums: get album", user_name)
                 # get user info
                 picasa_user_leaf = get_user_leaf(gd_client, user_name)
                 if picasa_user_leaf is None:
                     continue
-                picasa_user_leaf.my_albums = (user_name == user) # mark my albums
+                picasa_user_leaf.my_albums = user_name == user  # mark my albums
                 # get albums
                 user_albums = []
                 for album in gd_client.GetUserFeed(user=user_name).entry:
                     # get album thumbnail:
                     thumb = None
-                    if album.media.thumbnail and __kupfer_settings__['loadicons']:
-                        thumb = get_thumb(gd_client, album.media.thumbnail[0].url)
+                    if (
+                        album.media.thumbnail
+                        and __kupfer_settings__["loadicons"]
+                    ):
+                        thumb = get_thumb(
+                            gd_client, album.media.thumbnail[0].url
+                        )
                     name = kupferstring.tounicode(album.title.text)
-                    album = PicasaAlbum(album.GetAlternateLink().href,
-                            name, album.numphotos.text,
-                            album.gphoto_id.text, thumb,
-                            kupferstring.tounicode(user_name))
+                    album = PicasaAlbum(
+                        album.GetAlternateLink().href,
+                        name,
+                        album.numphotos.text,
+                        album.gphoto_id.text,
+                        thumb,
+                        kupferstring.tounicode(user_name),
+                    )
                     user_albums.append(album)
                 picasa_user_leaf.update_albums(user_albums)
                 pusers.append(picasa_user_leaf)
         except gdata.service.Error as err:
-            pretty.print_error(__name__, 'get_albums', err)
-        pretty.print_debug(__name__, 'get_albums finished', 'loaded: ', len(pusers),
-                str(time.time()-start_time))
+            pretty.print_error(__name__, "get_albums", err)
+        pretty.print_debug(
+            __name__,
+            "get_albums finished",
+            "loaded: ",
+            len(pusers),
+            str(time.time() - start_time),
+        )
         cls.data = pusers
         return pusers
 
 
 def _get_valid_files_in_dir(dir_path):
-    ''' get all files acceptable by picasa in given directory '''
-    files = [os.path.join(dir_path, filename)
-            for filename  in os.listdir(dir_path)
-            if valid_file(filename)]
+    """get all files acceptable by picasa in given directory"""
+    files = [
+        os.path.join(dir_path, filename)
+        for filename in os.listdir(dir_path)
+        if valid_file(filename)
+    ]
     return files
 
 
 class PicasaUser(UrlLeaf):
-    ''' Leaf represent user from Picasa '''
+    """Leaf represent user from Picasa"""
+
     def __init__(self, url, name, thumb=None, albums=None):
         UrlLeaf.__init__(self, url, name)
         # list of user albums [PicasaAlbum]
@@ -249,8 +282,9 @@ class PicasaUser(UrlLeaf):
     def update_albums(self, albums):
         self.albums = albums or []
         albums_count = len(self.albums)
-        self.description = ngettext("One album", "%(num)d albums",
-            albums_count) % {"num": albums_count}
+        self.description = ngettext(
+            "One album", "%(num)d albums", albums_count
+        ) % {"num": albums_count}
 
     def has_content(self):
         return bool(self.albums)
@@ -271,14 +305,16 @@ class PicasaUser(UrlLeaf):
 
 
 class PicasaAlbum(UrlLeaf):
-    ''' Leaf represent single album in Picasa '''
+    """Leaf represent single album in Picasa"""
+
     def __init__(self, url, name, pict_count, album_id, thumb, user):
         UrlLeaf.__init__(self, url, name)
         self.album_id = album_id
         self.thumb = thumb
-        photos_info = ngettext("one photo", "%(num)s photos",
-                int(pict_count)) % {"num": pict_count}
-        self.description = ': '.join((user, photos_info))
+        photos_info = ngettext(
+            "one photo", "%(num)s photos", int(pict_count)
+        ) % {"num": pict_count}
+        self.description = ": ".join((user, photos_info))
 
     def get_description(self):
         return self.description
@@ -293,13 +329,14 @@ class PicasaAlbum(UrlLeaf):
 
 
 class UploadFileToPicasa(Action):
-    ''' upload selected files or files from selected dirs into existing
-        album or new album (by enter new name) '''
+    """upload selected files or files from selected dirs into existing
+    album or new album (by enter new name)"""
+
     def __init__(self):
-        Action.__init__(self, _('Upload to Picasa Album...'))
+        Action.__init__(self, _("Upload to Picasa Album..."))
 
     def activate(self, obj, iobj):
-        return self.activate_multiple((obj, ), (iobj, ))
+        return self.activate_multiple((obj,), (iobj,))
 
     def activate_multiple(self, objects, iobjects):
         utask = UploadTask()
@@ -326,8 +363,9 @@ class UploadFileToPicasa(Action):
         yield FileLeaf
 
     def valid_for_item(self, item):
-        return (valid_file(item.object) or item.is_dir()) \
-                and is_plugin_configured()
+        return (
+            valid_file(item.object) or item.is_dir()
+        ) and is_plugin_configured()
 
     def requires_object(self):
         return True
@@ -344,12 +382,13 @@ class UploadFileToPicasa(Action):
 
 
 class UploadDirToPicasa(Action):
-    ''' Upload whole directories as new albums '''
+    """Upload whole directories as new albums"""
+
     def __init__(self):
-        Action.__init__(self, _('Upload to Picasa as New Album'))
+        Action.__init__(self, _("Upload to Picasa as New Album"))
 
     def activate(self, obj):
-        return self.activate_multiple((obj, ))
+        return self.activate_multiple((obj,))
 
     def activate_multiple(self, objects):
         utask = UploadTask()
@@ -407,7 +446,7 @@ class PicasaUsersSource(Source):
 
     def initialize(self):
         # fill loader cache by source cache
-        PicasaDataCache.data = self.cached_items or []
+        PicasaDataCache.data = self._cached_items or []
         __kupfer_settings__.connect("plugin-setting-changed", self._changed)
 
     def _changed(self, settings, key, value):
@@ -440,7 +479,8 @@ class PicasaUsersSource(Source):
 
 
 class PicasaAlbumSource(Source):
-    """ Source return albums for given user"""
+    """Source return albums for given user"""
+
     def __init__(self, picasa_user, name=_("Albums")):
         Source.__init__(self, name)
         self.picasa_user = picasa_user

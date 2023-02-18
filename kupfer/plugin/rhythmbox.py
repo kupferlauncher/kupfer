@@ -15,6 +15,7 @@ __author__ = "US, Karol Będkowski"
 import itertools
 import os
 from hashlib import md5
+import typing as ty
 
 import dbus
 from gi.repository import Gio
@@ -58,15 +59,14 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+if ty.TYPE_CHECKING:
+    _ = str
+
 _BUS_NAME = "org.gnome.Rhythmbox3"
 _OBJ_PATH_MPRIS = "/org/mpris/MediaPlayer2"
 _OBJ_NAME_MPRIS_PLAYER = "org.mpris.MediaPlayer2.Player"
 _OBJ_PATH_MEDIASERVC_ALL = "/org/gnome/UPnP/MediaServer2/Library/all"
 _OBJ_NAME_MEDIA_CONT = "org.gnome.UPnP.MediaContainer2"
-
-
-def _tostr(ustr):
-    return ustr
 
 
 def _toutf8_lossy(ustr):
@@ -94,18 +94,19 @@ def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
     return interface
 
 
-def _canonicalize(strmap, string):
+def _canonicalize(strmap: dict[str, str], string: ty.Any) -> str:
     """Look up @string in the string map,
     and return the copy in the map.
 
     If not found, update the map with the string.
     """
+    # TODO: check is still needed
     try:
         return strmap[string]
     except KeyError:
         string = str(string)
         strmap[string] = string
-        return string
+        return string  # type: ignore
 
 
 def _tracknr(string):
@@ -120,15 +121,15 @@ def _get_all_songs_via_dbus():
         _OBJ_NAME_MEDIA_CONT, _OBJ_PATH_MEDIASERVC_ALL
     )
     if iface:
-        ss = {}
+        strings: dict[str, str] = {}
         for item in iface.ListItems(0, 9999, ["*"]):
             yield {
-                "album": _canonicalize(ss, item["Album"]),
-                "artist": _canonicalize(ss, item["Artist"]),
+                "album": _canonicalize(strings, item["Album"]),
+                "artist": _canonicalize(strings, item["Artist"]),
                 "title": str(item["DisplayName"]),
                 "track-number": _tracknr(item["TrackNumber"]),
                 "location": str(item["URLs"][0]),
-                "date": _canonicalize(ss, item["Date"]),
+                "date": _canonicalize(strings, item["Date"]),
             }
 
 
@@ -136,7 +137,7 @@ def spawn_async(argv):
     try:
         utils.spawn_async_raise(argv)
     except utils.SpawnError as exc:
-        raise OperationError(exc)
+        raise OperationError(exc) from exc
 
 
 def enqueue_songs(info, clear_queue=False, play_first=False):
@@ -151,12 +152,12 @@ def enqueue_songs(info, clear_queue=False, play_first=False):
     if play_first and songs:
         song = songs[0]
         songs = songs[1:]
-        uri = _tostr(song["location"])
+        uri = song["location"]
         qargv.append("--play-uri")
         qargv.append(uri)
 
     for song in songs:
-        uri = _tostr(song["location"])
+        uri = song["location"]
         qargv.append("--enqueue")
         qargv.append(uri)
 
@@ -167,7 +168,7 @@ class ClearQueue(RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, name=_("Clear Queue"))
 
-    def run(self):
+    def run(self, ctx=None):
         spawn_async(("rhythmbox-client", "--no-start", "--clear-queue"))
 
     def get_icon_name(self):
@@ -180,7 +181,9 @@ def _songs_from_leaf(leaf):
         return (leaf.object,)
 
     if isinstance(leaf, TrackCollection):
-        return list(leaf.object)
+        return tuple(leaf.object)
+
+    return ()
 
 
 class PlayTracks(Action):
@@ -191,7 +194,7 @@ class PlayTracks(Action):
     def __init__(self):
         Action.__init__(self, _("Play"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         self.activate_multiple((leaf,))
 
     def activate_multiple(self, objects):
@@ -218,7 +221,7 @@ class Enqueue(Action):
     def __init__(self):
         Action.__init__(self, _("Enqueue"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         self.activate_multiple((leaf,))
 
     def activate_multiple(self, objects):
@@ -278,14 +281,14 @@ class GetFile(Action):
     def has_result(self):
         return True
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         gfile = Gio.File.new_for_uri(leaf.object["location"])
         try:
             path = gfile.get_path()
         except Exception as exc:
             # On utf-8 decode error
             # FIXME: Unrepresentable path
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
         if path:
             result = FileLeaf(path)
@@ -310,8 +313,8 @@ class CollectionSource(Source):
     def get_description(self):
         return self.leaf.get_description()
 
-    def get_thumbnail(self, w, h):
-        return self.leaf.get_thumbnail(w, h)
+    def get_thumbnail(self, width, height):
+        return self.leaf.get_thumbnail(width, height)
 
     def get_gicon(self):
         return self.leaf.get_gicon()
@@ -388,7 +391,8 @@ class AlbumLeaf(TrackCollection):
 
         except OSError:
             pretty.print_exc(__name__)
-            return None
+
+        return None
 
     def _get_thumb_mediaart(self):
         """old thumb location"""
@@ -403,6 +407,7 @@ class AlbumLeaf(TrackCollection):
 
     def get_thumbnail(self, width, height):
         if not hasattr(self, "cover_file"):
+            # pylint: disable=attribute-defined-outside-init
             self.cover_file = (
                 self._get_thumb_mediaart() or self._get_thumb_local()
             )
@@ -412,15 +417,12 @@ class AlbumLeaf(TrackCollection):
 
 class ArtistAlbumsSource(CollectionSource):
     def get_items(self):
-        albums = {}
+        albums: dict[str, list[dict[str, ty.Any]]] = {}
         for song in self.leaf.object:
-            album = song["album"]
-            album_list = albums.get(album, [])
-            album_list.append(song)
-            albums[album] = album_list
+            albums.setdefault(song["album"], []).append(song)
 
         names = utils.locale_sort(albums)
-        names.sort(key=lambda name: albums[name][0]["date"])
+        names.sort(key=lambda name: albums[name][0]["date"])  # type:ignore
         for album in names:
             yield AlbumLeaf(albums[album], album)
 
@@ -504,9 +506,10 @@ def _locale_sort_artist_album_songs(artists):
     """
     for artist in utils.locale_sort(artists):
         artist_songs = artists[artist]
-        albums = {}
-        albumkey = lambda song: song["album"]
-        for album, songs in itertools.groupby(artist_songs, albumkey):
+        albums: dict[str, list[rhythmbox_support.Song]] = {}
+        for album, songs in itertools.groupby(
+            artist_songs, lambda song: song["album"]  # type: ignore
+        ):
             albums.setdefault(album, []).extend(songs)
 
         for album in utils.locale_sort(albums):

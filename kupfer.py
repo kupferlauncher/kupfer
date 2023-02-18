@@ -37,6 +37,18 @@ try:
 
     icecream.install()
     icecream.ic.configureOutput(includeContext=True)
+
+    import traceback
+
+    def ic_stack():
+        ic("\n".join(traceback.format_stack()[:-2]))
+
+    try:
+        builtins = __import__("__builtin__")
+    except ImportError:
+        builtins = __import__("builtins")
+
+    setattr(builtins, "ic_stack", ic_stack)
 except ImportError:  # Graceful fallback if IceCream isn't installed.
     pass
 

@@ -4,14 +4,13 @@ __description__ = _("Show running tasks and allow sending signals to them")
 __version__ = "2009-11-24"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+import operator
 import os
 import signal
-import operator
 
-from kupfer.objects import Action, Source, Leaf
+from kupfer import plugin_support, utils
+from kupfer.objects import Action, Leaf, Source
 from kupfer.support import scheduler
-from kupfer import plugin_support
-from kupfer import utils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -47,7 +46,8 @@ class SendSignal(Action):
     def __init__(self):
         Action.__init__(self, _("Send Signal..."))
 
-    def activate(self, leaf, iobj, ctx=None):
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert iobj
         os.kill(leaf.object, iobj.object)
 
     def requires_object(self):
@@ -126,7 +126,7 @@ class TaskSource(Source):
     def _async_top_start(self):
         uid = os.getuid()
         utils.AsyncCommand(
-            ["top", "-b", "-n", "1", "-u", "%d" % uid],
+            ["top", "-b", "-n", "1", "-u", str(uid)],
             self._async_top_finished,
             60,
             env=["LC_NUMERIC=C"],

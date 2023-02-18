@@ -4,21 +4,20 @@ __kupfer_actions__ = (
     "SendKeys",
     "TypeText",
 )
-__description__ = _("Send synthetic keyboard events using " "xautomation")
+__description__ = _("Send synthetic keyboard events using xautomation")
 __version__ = ""
 __author__ = ""
 
 from contextlib import suppress
-from gi.repository import Gtk, Gdk
 
-from kupfer.objects import Leaf, Action, TextLeaf
-from kupfer.objects import OperationError
-from kupfer import utils
-from kupfer import interface
+from gi.repository import Gdk, Gtk
+
+from kupfer import interface, utils
+from kupfer.objects import Action, Leaf, OperationError, TextLeaf
 
 # delay for first keypress and all following
-INIT_DELAY = "usleep 300000"
-INTER_DELAY = "usleep 50000"
+_INIT_DELAY = "usleep 300000"
+_INTER_DELAY = "usleep 50000"
 
 
 class CopyAndPaste(Action):
@@ -28,12 +27,12 @@ class CopyAndPaste(Action):
     def __init__(self):
         Action.__init__(self, _("Paste to Foreground Window"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         interface.copy_to_clipboard(leaf, clip)
         xte_paste_argv = [
             "xte",
-            INIT_DELAY,
+            _INIT_DELAY,
             "keydown Control_L",
             "key v",
             "keyup Control_L",
@@ -41,7 +40,7 @@ class CopyAndPaste(Action):
         try:
             utils.spawn_async_raise(xte_paste_argv)
         except utils.SpawnError as exc:
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
     def item_types(self):
         yield Leaf
@@ -65,20 +64,20 @@ class SendKeys(Action):
         return self.activate_multiple((leaf,))
 
     def activate_multiple(self, objects):
-        xte_sendkey_argv = ["xte", INIT_DELAY]
+        xte_sendkey_argv = ["xte", _INIT_DELAY]
         iterobjects = iter(objects)
         for obj in iterobjects:
             xte_sendkey_argv.extend(self.make_keystr_arguments(obj.object))
             break
 
         for obj in iterobjects:
-            xte_sendkey_argv.append(INTER_DELAY)
+            xte_sendkey_argv.append(_INTER_DELAY)
             xte_sendkey_argv.extend(self.make_keystr_arguments(obj.object))
 
         try:
             utils.spawn_async_raise(xte_sendkey_argv)
         except utils.SpawnError as exc:
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
     def make_keystr_arguments(self, keystr):
         keys, orig_mods = Gtk.accelerator_parse(keystr)
@@ -86,7 +85,7 @@ class SendKeys(Action):
             Gdk.ModifierType.SHIFT_MASK: "Shift_L",
             Gdk.ModifierType.CONTROL_MASK: "Control_L",
             Gdk.ModifierType.SUPER_MASK: "Super_L",
-            Gdk.ModifierType.MOD1_MASK: "Alt_L",
+            Gdk.ModifierType.MOD1_MASK: "Alt_L",  # pylint: disable=no-member
         }
         mod_names = []
         mods = orig_mods
@@ -96,15 +95,12 @@ class SendKeys(Action):
                 mods &= ~mod
 
         if mods != 0:
-            raise OperationError(
-                "Keys not yet implemented: %s"
-                % Gtk.accelerator_get_label(keys, orig_mods)
-            )
+            label = Gtk.accelerator_get_label(keys, orig_mods)
+            raise OperationError(f"Keys not yet implemented: {label}")
 
-        key_arg = f"key {Gdk.keyval_name(keys)}"
         mods_down = ["keydown " + n for n in mod_names]
         mods_up = ["keyup " + n for n in reversed(mod_names)]
-        return mods_down + [key_arg] + mods_up
+        return mods_down + [f"key {Gdk.keyval_name(keys)}"] + mods_up
 
     def item_types(self):
         yield TextLeaf
@@ -126,6 +122,9 @@ class TypeText(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         text = interface.get_text_representation(leaf)
+        if not text:
+            return
+
         xte_paste_argv = ["xte", "usleep 300000"]
         # replace all newlines with 'key Return'
         for line in text.splitlines(True):
@@ -136,7 +135,7 @@ class TypeText(Action):
         try:
             utils.spawn_async_raise(xte_paste_argv)
         except utils.SpawnError as exc:
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
     def item_types(self):
         yield Leaf

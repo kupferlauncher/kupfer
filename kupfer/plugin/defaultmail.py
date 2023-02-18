@@ -4,10 +4,9 @@ __description__ = _("Compose email using the system's default mailto: handler")
 __version__ = "2017.1"
 __author__ = ""
 
-from kupfer.objects import Action
-from kupfer.objects import TextLeaf, UrlLeaf
-from kupfer.obj.contacts import ContactLeaf, email_from_leaf
 from kupfer import utils
+from kupfer.obj.contacts import ContactLeaf, email_from_leaf
+from kupfer.objects import Action, TextLeaf, UrlLeaf
 
 
 class NewMailAction(Action):

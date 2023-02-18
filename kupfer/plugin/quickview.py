@@ -6,7 +6,7 @@ __author__ = ""
 
 import shutil
 
-from gi.repository import Gdk, GdkPixbuf, Gio, GLib, Gtk
+from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
 
 from kupfer import utils
 from kupfer.obj import Action, FileLeaf, OperationError
@@ -31,7 +31,7 @@ def load_image_max_size(filename, width, height):
 
         pbloader.close()
     except (GLib.GError, OSError) as exc:
-        raise OperationError(exc)
+        raise OperationError(exc) from exc
 
     return pbloader.get_pixbuf()
 
@@ -70,7 +70,9 @@ class View(Action):
 
         window = Gtk.Window()
         window.set_title(str(leaf))
+        # pylint: disable=no-member
         window.set_position(Gtk.WindowPosition.CENTER)
+        # pylint: disable=no-member
         window.add(image_widget)
         ctx.environment.present_window(window)
         window.connect("key-press-event", self.window_key_press, leaf.object)

@@ -128,9 +128,7 @@ class GroupingSource(Source):
 
         return redundant_keys
 
-    def get_leaves(
-        self, force_update: bool = False
-    ) -> ty.Optional[ty.Iterable[Leaf]]:
+    def get_leaves(self, force_update: bool = False) -> ty.Iterable[Leaf]:
         starttime = time.time()
         # map (slot, value) -> group
         groups, non_group_leaves = self._get_groups(force_update)

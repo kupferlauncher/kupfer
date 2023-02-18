@@ -17,10 +17,9 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import libvirt
 
-from kupfer import utils
-from kupfer.objects import Leaf, Action, Source
-from kupfer import plugin_support
+from kupfer import plugin_support, utils
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.objects import Action, Leaf, Source
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

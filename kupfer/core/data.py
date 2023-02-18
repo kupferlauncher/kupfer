@@ -37,7 +37,7 @@ def _dress_leaves(
     """yield items of @seq "dressed" by the source controller"""
     sctr = get_source_controller()
     for itm in seq:
-        sctr.decorate_object(itm.object, action=action)
+        sctr.decorate_object(itm.object, action=action)  # type:ignore
         yield itm
 
 
@@ -82,6 +82,7 @@ class Searcher:
         self._source_cache = {}
         self._old_key: str | None = None
 
+    # pylint: disable=too-many-locals,too-many-branches
     def search(
         self,
         sources_: ty.Iterable[Source | TextSource | ty.Iterable[KupferObject]],
@@ -143,8 +144,9 @@ class Searcher:
                 if fixedrank:
                     rankables = search.add_rank_objects(rankables, fixedrank)
                 elif key:
-                    rankables = search.score_objects(rankables, key)
-                    rankables = search.bonus_objects(rankables, key)
+                    rankables = search.bonus_objects(
+                        search.score_objects(rankables, key), key
+                    )
 
                 if can_cache:
                     rankables = list(rankables)
@@ -201,7 +203,7 @@ class Searcher:
 WrapContext = tuple[int, ty.Any]
 
 
-class Pane(GObject.GObject):
+class Pane(GObject.GObject):  # type:ignore
     """
     signals:
         search-result (match, match_iter, context)
@@ -284,7 +286,9 @@ class LeafPane(Pane, pretty.OutputMixin):
         self.refresh_data()
 
     def push_source(self, src: AnySource) -> None:
-        self.source_stack.append(self.source)
+        if self.source:
+            self.source_stack.append(self.source)
+
         self.source = self._load_source(src)
         self.refresh_data()
 
@@ -322,7 +326,7 @@ class LeafPane(Pane, pretty.OutputMixin):
         if not succ:
             assert self.source
             if self.source.has_parent():
-                self.source_rebase(self.source.get_parent())
+                self.source_rebase(self.source.get_parent())  # type:ignore
                 succ = True
 
         if succ:
@@ -336,8 +340,9 @@ class LeafPane(Pane, pretty.OutputMixin):
         if @alternate, use the Source's alternate method"""
         leaf: Leaf = self.get_selection()  # type: ignore
         if leaf and leaf.has_content():
-            self.push_source(leaf.content_source(alternate=alternate))
-            return True
+            if csrc := leaf.content_source(alternate=alternate):
+                self.push_source(csrc)
+                return True
 
         return False
 
@@ -366,9 +371,11 @@ class LeafPane(Pane, pretty.OutputMixin):
         filter for action @item
         """
         self.latest_key = key
-        sources_: ty.Iterable[AnySource] = (
-            (self.get_source(),) if not text_mode else ()
-        )
+        sources_: ty.Iterable[AnySource] = ()
+        if not text_mode:
+            if srcs := self.get_source():
+                sources_ = (srcs,)
+
         if key and self.is_at_source_root():
             # Only use text sources when we are at root catalog
             sctr = get_source_controller()

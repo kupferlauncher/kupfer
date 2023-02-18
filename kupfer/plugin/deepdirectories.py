@@ -13,10 +13,10 @@ __version__ = "2018-09-04"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
+import typing as ty
 
 from kupfer import plugin_support
-from kupfer.obj import sources
-
+from kupfer.obj.files import FileSource
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -33,15 +33,18 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-MAX_DEPTH = 10
+if ty.TYPE_CHECKING:
+    _ = str
+
+_MAX_DEPTH = 10
 
 
-class DeepDirSource(sources.FileSource):
+class DeepDirSource(FileSource):
     def __init__(self, name=_("Deep Directories")):
-        sources.FileSource.__init__(
+        FileSource.__init__(
             self,
             self._get_dirs() or [""],
-            min(__kupfer_settings__["depth"], MAX_DEPTH),
+            min(__kupfer_settings__["depth"], _MAX_DEPTH),
         )
         self.name = name
 
@@ -55,8 +58,8 @@ class DeepDirSource(sources.FileSource):
         if not self.dirlist:
             return []
 
-        self.depth = min(__kupfer_settings__["depth"], MAX_DEPTH)
-        return sources.FileSource.get_items(self)
+        self.depth = min(__kupfer_settings__["depth"], _MAX_DEPTH)
+        return FileSource.get_items(self)
 
     @staticmethod
     def _get_dirs():

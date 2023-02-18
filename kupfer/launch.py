@@ -27,10 +27,8 @@ from kupfer import desktop_launch
 from kupfer.ui import uievents
 from kupfer import terminal
 
-from kupfer.desktop_launch import SpawnError  # pylint: disable=unused-import
-
-
 ## NOTE: SpawnError  *should* be imported from this module
+from kupfer.desktop_launch import SpawnError  # pylint: disable=unused-import
 
 
 _DEFAULT_ASSOCIATIONS = {

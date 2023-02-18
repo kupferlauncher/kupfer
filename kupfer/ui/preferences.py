@@ -85,9 +85,9 @@ _KEYBINDING_NAMES: dict[str, str] = {
     "magickeybinding": _("Show with Selection"),
 }
 
-_KEYBINDING_TARGETS: dict[str, keybindings.KeybindingTarget] = {
-    "keybinding": keybindings.KeybindingTarget.DEFAULT,
-    "magickeybinding": keybindings.KeybindingTarget.MAGIC,
+_KEYBINDING_TARGETS: dict[str, int] = {
+    "keybinding": keybindings.KEYBINDING_TARGET_DEFAULT,
+    "magickeybinding": keybindings.KEYBINDING_TARGET_MAGIC,
 }
 
 _KUPFER_DESKTOP: ty.Final = "kupfer.desktop"
@@ -95,6 +95,7 @@ _AUTOSTART_KEY: ty.Final = "X-GNOME-Autostart-enabled"
 _HIDDEN_KEY: ty.Final = "Hidden"
 
 
+# pylint: disable=too-many-instance-attributes
 class PreferencesWindowController(pretty.OutputMixin):
     _instance: PreferencesWindowController | None = None
 
@@ -598,7 +599,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         self.plugin_about_parent.show_all()
 
     def _make_plugin_info_widget(self, plugin_id: str) -> Gtk.Widget:
-        sources, actions, text_sources = plugins.get_plugin_attributes(
+        srcs, actions, text_sources = plugins.get_plugin_attributes(
             plugin_id,
             (
                 plugins.PluginAttr.SOURCES,
@@ -625,7 +626,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
                 hbox = Gtk.HBox()
                 hbox.set_property("spacing", 3)
-                obj = plugin_type()
+                obj = plugin_type()  # type: ignore
                 image = Gtk.Image()
                 image.set_property("gicon", obj.get_icon())
                 image.set_property("pixel-size", small_icon_size)
@@ -666,9 +667,9 @@ class PreferencesWindowController(pretty.OutputMixin):
 
             return objvbox
 
-        if sources := list(sources or ()) + list(text_sources or ()):
+        if srcs := list(srcs or ()) + list(text_sources or ()):
             # TRANS: Plugin contents header
-            swid = make_objects_frame(sources, _("Sources"))
+            swid = make_objects_frame(srcs, _("Sources"))
             vbox.pack_start(swid, True, True, 0)
 
         if actions:
@@ -707,10 +708,14 @@ class PreferencesWindowController(pretty.OutputMixin):
             setctl = settings.get_settings_controller()
             val_type = plugin_support.UserNamePassword
             # pylint: disable=no-member
-            backend_name = plugin_support.UserNamePassword.get_backend_name()
+            backend_name = (
+                plugin_support.UserNamePassword.get_backend_name()  # type:ignore
+            )
             assert backend_name
             # pylint: disable=no-member
-            if plugin_support.UserNamePassword.is_backend_encrypted():
+            if (
+                plugin_support.UserNamePassword.is_backend_encrypted()  # type:ignore
+            ):
                 information = (
                     _("Using encrypted password storage: %s") % backend_name
                 )
@@ -723,19 +728,22 @@ class PreferencesWindowController(pretty.OutputMixin):
             )
             # pylint: disable=no-member
             user_password = ask_user_credentials(
-                upass.username, upass.password, information
+                upass.username, upass.password, information  # type:ignore
             )
             if user_password:
                 # pylint: disable=no-member
-                upass.username, upass.password = user_password
+                upass.username, upass.password = user_password  # type:ignore
                 setctl.set_plugin_config(plugin_id, key, upass, val_type)
 
         return callback
 
+    # pylint: disable=too-many-locals
     def _make_plugin_settings_widget(self, plugin_id: str) -> Gtk.Widget | None:
-        plugin_settings = plugins.get_plugin_attribute(
+        plugin_settings: plugin_support.PluginSettings
+        plugin_settings = plugins.get_plugin_attribute(  # type:ignore
             plugin_id, plugins.PluginAttr.SETTINGS
         )
+
         if not plugin_settings:
             return None
 
@@ -869,7 +877,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def on_entry_plugins_filter_changed(self, widget: Gtk.Widget) -> None:
         s_filter = widget.get_text()
-        us_filter = kupferstring.tounicode(s_filter).lower()
+        us_filter = kupferstring.tounicode(s_filter).lower()  # type:ignore
         self._refresh_plugin_list(us_filter)
 
     def on_entry_plugins_filter_icon_press(
@@ -917,6 +925,9 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
         ulabel = kupferstring.tounicode(label)
+        if not ulabel:
+            return False
+
         return not (len(ulabel) == 1 and ulabel.isalnum())
 
     def on_gkeybindings_row_activate(
@@ -1128,8 +1139,7 @@ def _create_conf_keys_list() -> tuple[Gtk.TreeView, Gtk.ListStore]:
     return keybind_table, keybind_store
 
 
-def get_preferences_window_controller() -> PreferencesWindowController:
-    return PreferencesWindowController.instance()
+get_preferences_window_controller = PreferencesWindowController.instance
 
 
 _SOURCE_LIST_COLUMNS = [

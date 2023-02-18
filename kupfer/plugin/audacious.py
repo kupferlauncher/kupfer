@@ -5,6 +5,9 @@ __version__ = "2017.2"
 __author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>, US"
 
 import subprocess
+import typing as ty
+
+import dbus
 
 from kupfer import icons, plugin_support, utils
 from kupfer.obj import Action, Leaf, RunnableLeaf, Source, SourceLeaf
@@ -13,8 +16,6 @@ from kupfer.support import kupferstring, weaklib
 from kupfer.ui import uiutils
 
 plugin_support.check_dbus_connection()
-
-import dbus
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -25,28 +26,31 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-AUDTOOL = "audtool"
-AUDACIOUS = "audacious"
+if ty.TYPE_CHECKING:
+    _ = str
+
+_AUDTOOL = "audtool"
+_AUDACIOUS = "audacious"
 _BUS_NAME = "org.atheme.audacious"
 
 
 def enqueue_song(info):
-    utils.spawn_async((AUDTOOL, "playqueue-add", str(info)))
+    utils.spawn_async((_AUDTOOL, "playqueue-add", str(info)))
 
 
 def dequeue_song(info):
-    utils.spawn_async((AUDTOOL, "playqueue-remove", str(info)))
+    utils.spawn_async((_AUDTOOL, "playqueue-remove", str(info)))
 
 
 def play_song(info):
-    utils.spawn_async((AUDTOOL, "playlist-jump", str(info)))
-    utils.spawn_async((AUDTOOL, "playback-play"))
+    utils.spawn_async((_AUDTOOL, "playlist-jump", str(info)))
+    utils.spawn_async((_AUDTOOL, "playback-play"))
 
 
 def get_playlist_songs():
     """Yield tuples of (position, name) for playlist songs"""
     with subprocess.Popen(
-        [AUDTOOL, "playlist-display"], stdout=subprocess.PIPE
+        [_AUDTOOL, "playlist-display"], stdout=subprocess.PIPE
     ) as proc:
         stdout, _stderr = proc.communicate()
         for line in stdout.splitlines():
@@ -62,7 +66,7 @@ def get_playlist_songs():
 
 def get_current_song():
     with subprocess.Popen(
-        [AUDTOOL, "current-song"], stdout=subprocess.PIPE
+        [_AUDTOOL, "current-song"], stdout=subprocess.PIPE
     ) as proc:
         stdout, _stderr = proc.communicate()
         for line in stdout.splitlines():
@@ -72,7 +76,7 @@ def get_current_song():
 
 
 def clear_queue():
-    utils.spawn_async((AUDTOOL, "playqueue-clear"))
+    utils.spawn_async((_AUDTOOL, "playqueue-clear"))
 
 
 class Enqueue(Action):
@@ -132,7 +136,7 @@ class Play(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Play"))
 
     def run(self, ctx=None):
-        utils.spawn_async((AUDTOOL, "playback-play"))
+        utils.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Resume playback in Audacious")
@@ -146,7 +150,7 @@ class Pause(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Pause"))
 
     def run(self, ctx=None):
-        utils.spawn_async((AUDTOOL, "playback-pause"))
+        utils.spawn_async((_AUDTOOL, "playback-pause"))
 
     def get_description(self):
         return _("Pause playback in Audacious")
@@ -160,7 +164,7 @@ class Next(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Next"))
 
     def run(self, ctx=None):
-        utils.spawn_async((AUDTOOL, "playlist-advance"))
+        utils.spawn_async((_AUDTOOL, "playlist-advance"))
 
     def get_description(self):
         return _("Jump to next track in Audacious")
@@ -174,7 +178,7 @@ class Previous(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Previous"))
 
     def run(self, ctx=None):
-        utils.spawn_async((AUDTOOL, "playlist-reverse"))
+        utils.spawn_async((_AUDTOOL, "playlist-reverse"))
 
     def get_description(self):
         return _("Jump to previous track in Audacious")
@@ -202,7 +206,7 @@ class Shuffle(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Shuffle"))
 
     def run(self, ctx=None):
-        utils.spawn_async((AUDTOOL, "playlist-shuffle-toggle"))
+        utils.spawn_async((_AUDTOOL, "playlist-shuffle-toggle"))
 
     def get_description(self):
         return _("Toggle shuffle in Audacious")
@@ -215,8 +219,8 @@ class Repeat(RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, name=_("Repeat"))
 
-    def run(self):
-        utils.spawn_async((AUDTOOL, "playlist-repeat-toggle"))
+    def run(self, ctx=None):
+        utils.spawn_async((_AUDTOOL, "playlist-repeat-toggle"))
 
     def get_description(self):
         return _("Toggle repeat in Audacious")
@@ -229,7 +233,7 @@ class ShowPlaying(RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, name=_("Show Playing"))
 
-    def run(self):
+    def run(self, ctx=None):
         song = get_current_song()
         if song is not None:
             uiutils.show_notification(song, icon_name="audio-x-generic")
@@ -267,7 +271,7 @@ class AudaciousSongsSource(Source):
 
     def get_gicon(self):
         return icons.ComposedIcon(
-            AUDACIOUS, "audio-x-generic", emblem_is_fallback=True
+            _AUDACIOUS, "audio-x-generic", emblem_is_fallback=True
         )
 
     def provides(self):
@@ -275,7 +279,7 @@ class AudaciousSongsSource(Source):
 
 
 class AudaciousSource(AppLeafContentMixin, Source):
-    appleaf_content_id = AUDACIOUS
+    appleaf_content_id = _AUDACIOUS
     source_user_reloadable = True
 
     def __init__(self):
@@ -315,7 +319,7 @@ class AudaciousSource(AppLeafContentMixin, Source):
         return __description__
 
     def get_icon_name(self):
-        return AUDACIOUS
+        return _AUDACIOUS
 
     def provides(self):
         yield RunnableLeaf

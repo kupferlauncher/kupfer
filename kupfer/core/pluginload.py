@@ -1,7 +1,12 @@
 import contextlib
 import traceback
 
-from kupfer.obj.base import Action, ActionGenerator, AnySource, Source
+from kupfer.obj.base import (
+    Action,
+    ActionGenerator,
+    Source,
+    TextSource,
+)
 from kupfer.support import pretty
 
 from . import plugins
@@ -10,7 +15,7 @@ from .plugins import PluginAttr, initialize_plugin, load_plugin_objects
 
 # pylint: disable=too-few-public-methods
 class PluginDescription:
-    text_sources: list[AnySource] = []
+    text_sources: list[TextSource] = []
     action_decorators: list[Action] = []
     content_decorators: list[Source] = []
     action_generators: list[ActionGenerator] = []
@@ -23,7 +28,7 @@ def load_plugin(plugin_id: str) -> PluginDescription:
     @s_souces as just as subitems
     """
     sources: list[Source] = []
-    text_sources: list[AnySource] = []
+    text_sources: list[TextSource] = []
     action_decorators: list[Action] = []
     content_decorators: list[Source] = []
     action_generators: list[ActionGenerator] = []

@@ -10,7 +10,7 @@ from pathlib import Path
 import xdg.BaseDirectory as base
 
 try:
-    from . import version_subst
+    from . import version_subst  # type:ignore
 except ImportError:
     version_subst = None
 

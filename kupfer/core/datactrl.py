@@ -57,7 +57,8 @@ class PaneMode(IntEnum):
     SOURCE_ACTION_OBJECT = 2
 
 
-class DataController(GObject.GObject, pretty.OutputMixin):
+# pylint: disable=too-many-public-methods
+class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     """
     Sources <-> Actions controller
 
@@ -237,6 +238,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):
         """
         Insert all plugin sources into the catalog
         """
+        # pylint: disable=import-outside-toplevel
         from kupfer.core import plugins
 
         setctl = settings.get_settings_controller()
@@ -245,7 +247,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):
                 sources_ = self._load_plugin(item)
                 self._insert_sources(item, sources_, initialize=False)
 
-    def _load_plugin(self, plugin_id: str) -> ty.Set[AnySource]:
+    def _load_plugin(self, plugin_id: str) -> ty.Set[Source]:
         """
         Load @plugin_id, register all its Actions, Content and TextSources.
         Return its sources.
@@ -287,7 +289,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):
     def _reload_source_root(self) -> None:
         self.output_debug("Reloading source root")
         sctl = get_source_controller()
-        self._source_pane.source_rebase(sctl.root)
+        if sctl.root:
+            self._source_pane.source_rebase(sctl.root)
 
     def _plugin_catalog_changed(
         self, _setctl: ty.Any, _plugin_id: str, _toplevel: ty.Any
@@ -297,7 +300,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):
     def _insert_sources(
         self,
         plugin_id: str,
-        sources_: ty.Collection[AnySource],
+        sources_: ty.Iterable[Source],
         initialize: bool = True,
     ) -> None:
         if not sources_:
@@ -348,7 +351,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):
         if pane == PaneSel.ACTION:
             return None
 
-        panectl = self._get_panectl(pane)
+        panectl: LeafPane = self._get_panectl(pane)
         return panectl.soft_reset()
 
     def cancel_search(self, pane: PaneSel | None = None) -> None:
@@ -558,12 +561,12 @@ class DataController(GObject.GObject, pretty.OutputMixin):
 
         return False
 
-    def _insert_object(self, pane: PaneSel, obj: KupferObject) -> None:
+    def _insert_object(self, pane: PaneSel, obj: Leaf) -> None:
         "Insert @obj in @pane: prepare the object, then emit pane-reset"
         self._decorate_object(obj)
         self.emit("pane-reset", pane, search.wrap_rankable(obj))
 
-    def _decorate_object(self, *objects: KupferObject) -> None:
+    def _decorate_object(self, *objects: Leaf) -> None:
         sctl = get_source_controller()
         for obj in objects:
             sctl.decorate_object(obj)

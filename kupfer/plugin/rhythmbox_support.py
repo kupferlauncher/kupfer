@@ -1,4 +1,10 @@
-def sort_album(album):
+import typing as ty
+
+
+Song = dict[str, ty.Any]
+
+
+def _sort_album(album: list[Song]) -> None:
     """Sort album in track order"""
 
     def get_track_number(rec):
@@ -11,7 +17,7 @@ def sort_album(album):
     album.sort(key=get_track_number)
 
 
-def sort_album_order(songs):
+def _sort_album_order(songs: list[Song]) -> None:
     """Sort songs in order by album then by track number
 
     >>> songs = [
@@ -19,7 +25,7 @@ def sort_album_order(songs):
     ... {"title": "b", "album": "A", "track-number": 1},
     ... {"title": "c", "album": "B", "track-number": 1},
     ... ]
-    >>> sort_album_order(songs)
+    >>> _sort_album_order(songs)
     >>> [s["title"] for s in songs]
     ['b', 'c', 'a']
     """
@@ -30,41 +36,31 @@ def sort_album_order(songs):
     songs.sort(key=get_album_order)
 
 
-def parse_rhythmbox_albums(songs):
-    albums = {}
+def parse_rhythmbox_albums(songs: ty.Iterable[Song]) -> dict[str, list[Song]]:
+    albums: dict[str, list[Song]] = {}
     for song in songs:
-        song_artist = song["artist"]
-        if not song_artist:
+        if not song["artist"]:
             continue
 
-        song_album = song["album"]
-        if not song_album:
-            continue
+        if song_album := song["album"]:
+            albums.setdefault(song_album, []).append(song)
 
-        album = albums.get(song_album, [])
-        album.append(song)
-        albums[song_album] = album
     # sort album in track order
     for album in albums.values():
-        sort_album(album)
+        _sort_album(album)
 
     return albums
 
 
-def parse_rhythmbox_artists(songs):
-    artists = {}
+def parse_rhythmbox_artists(songs: ty.Iterable[Song]) -> dict[str, list[Song]]:
+    artists: dict[str, list[Song]] = {}
     for song in songs:
-        song_artist = song["artist"]
-        if not song_artist:
-            continue
+        if song_artist := song["artist"]:
+            artists.setdefault(song_artist, []).append(song)
 
-        artist = artists.get(song_artist, [])
-        artist.append(song)
-        artists[song_artist] = artist
     # sort in album + track order
-
     for artist in artists.values():
-        sort_album_order(artist)
+        _sort_album_order(artist)
 
     return artists
 

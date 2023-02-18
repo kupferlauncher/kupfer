@@ -10,15 +10,15 @@ import codecs
 import os
 
 from kupfer import icons, utils
-from kupfer.objects import Action
-from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.grouping import ToplevelGroupingSource
+from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.hosts import (
-    HOST_NAME_KEY,
-    HostLeaf,
-    HOST_SERVICE_NAME_KEY,
     HOST_ADDRESS_KEY,
+    HOST_NAME_KEY,
+    HOST_SERVICE_NAME_KEY,
+    HostLeaf,
 )
+from kupfer.objects import Action
 
 
 class SSHLeaf(HostLeaf):
@@ -91,22 +91,22 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
 
     def get_items(self):
         try:
-            content = codecs.open(self._config_path, "r", "UTF-8").readlines()
-            for line in content:
-                line = line.strip()
-                words = line.split()
-                # Take every word after "Host" as an individual host
-                # we must skip entries with wildcards
-                if words and words[0].lower() == "host":
-                    for word in words[1:]:
-                        if "*" not in word:
-                            yield SSHLeaf(word)
+            with codecs.open(self._config_path, "r", "UTF-8") as cfile:
+                for line in cfile.readlines():
+                    line = line.strip()
+                    words = line.split()
+                    # Take every word after "Host" as an individual host
+                    # we must skip entries with wildcards
+                    if words and words[0].lower() == "host":
+                        for word in words[1:]:
+                            if "*" not in word:
+                                yield SSHLeaf(word)
 
         except OSError as exc:
             self.output_error(exc)
         except UnicodeError as exc:
             self.output_error(
-                "File %s not in expected encoding (UTF-8)" % self._config_path
+                f"File {self._config_path} not in expected encoding (UTF-8)"
             )
             self.output_error(exc)
 

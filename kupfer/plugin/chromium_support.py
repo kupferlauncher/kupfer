@@ -1,14 +1,13 @@
+import json
 import os
 import typing as ty
-import json
-
 
 _CONTAINER = "folder"
 _UNWANTED_SCHEME = ("data", "place", "javascript")
 
 
 def _is_container(item: dict[str, ty.Any]) -> bool:
-    return item["type"] == _CONTAINER
+    return item["type"] == _CONTAINER  # type:ignore
 
 
 def _is_good_bookmark(item: dict[str, ty.Any]) -> bool:

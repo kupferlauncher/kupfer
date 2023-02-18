@@ -34,13 +34,13 @@ from kupfer.support import pretty
 
 plugin_support.check_dbus_connection()
 
-SERVICE_NAME = "org.freedesktop.Tracker"
-SEARCH_OBJECT_PATH = "/org/freedesktop/Tracker/Search"
-SEARCH_INTERFACE = "org.freedesktop.Tracker.Search"
+# SERVICE_NAME = "org.freedesktop.Tracker"
+# SEARCH_OBJECT_PATH = "/org/freedesktop/Tracker/Search"
+# SEARCH_INTERFACE = "org.freedesktop.Tracker.Search"
 
-SERVICE1_NAME = "org.freedesktop.Tracker1"
-SEARCH_OBJECT1_PATH = "/org/freedesktop/Tracker1/Resources"
-SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
+_SERVICE1_NAME = "org.freedesktop.Tracker1"
+_SEARCH_OBJECT1_PATH = "/org/freedesktop/Tracker1/Resources"
+_SEARCH1_INTERFACE = "org.freedesktop.Tracker1.Resources"
 
 TRACKER_GUI_SEARCH = "tracker-needle"
 
@@ -53,7 +53,7 @@ class TrackerSearch(Action):
         try:
             utils.spawn_async_raise([TRACKER_GUI_SEARCH, leaf.object])
         except utils.SpawnError as exc:
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
     def get_description(self):
         return _("Open Tracker Search Tool and search for this term")
@@ -172,9 +172,9 @@ def get_file_results_sparql(
             yield FileLeaf(new_file(result[0]).get_path())
 
 
-use_version = "0.8"
-versions = {
-    "0.8": (SERVICE1_NAME, SEARCH_OBJECT1_PATH, SEARCH1_INTERFACE),
+_USE_VERSION = "0.8"
+_VERSIONS = {
+    "0.8": (_SERVICE1_NAME, _SEARCH_OBJECT1_PATH, _SEARCH1_INTERFACE),
 }
 
 version_query = {
@@ -199,13 +199,13 @@ def get_searchobject(sname, opath, sinface, operation_err=False):
 
 def get_tracker_filequery(query, operation_err=False, **kwargs):
     searchobj = get_searchobject(
-        *versions[use_version], operation_err=operation_err
+        *_VERSIONS[_USE_VERSION], operation_err=operation_err
     )
     if searchobj is None:
         pretty.print_error(__name__, "Could not connect to Tracker")
         return ()
 
-    queryfunc = version_query[use_version]
+    queryfunc = version_query[_USE_VERSION]
     return queryfunc(searchobj, query, **kwargs)
 
 
@@ -252,7 +252,11 @@ class TrackerQuerySource(Source):
 
         try:
             et = ElementTree(file=leaf.object)
-            query = et.getroot().find("text").text
+            text_elem = et.getroot().find("text")
+            if not text_elem:
+                return None
+
+            query = text_elem.text
             if not query:
                 return None
 

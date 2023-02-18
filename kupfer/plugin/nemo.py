@@ -20,33 +20,33 @@ from kupfer.support import pretty
 
 plugin_support.check_dbus_connection()
 
-SERVICE_NAME = "org.Nemo"
-FO_OBJECT = "/org/Nemo"
-FO_IFACE = "org.Nemo.FileOperations"
+_SERVICE_NAME = "org.Nemo"
+_FO_OBJECT = "/org/Nemo"
+_FO_IFACE = "org.Nemo.FileOperations"
 
-FM_OBJECT = "/org/freedesktop/FileManager1"
-FM_IFACE = "org.freedesktop.FileManager1"
+_FM_OBJECT = "/org/freedesktop/FileManager1"
+_FM_IFACE = "org.freedesktop.FileManager1"
 
 
 def _get_fm1():
     bus = dbus.SessionBus()
     try:
-        proxy_obj = bus.get_object(SERVICE_NAME, FM_OBJECT)
+        proxy_obj = bus.get_object(_SERVICE_NAME, _FM_OBJECT)
     except dbus.DBusException as exc:
-        raise OperationError(exc)
+        raise OperationError(exc) from exc
 
-    iface_obj = dbus.Interface(proxy_obj, FM_IFACE)
+    iface_obj = dbus.Interface(proxy_obj, _FM_IFACE)
     return iface_obj
 
 
 def _get_nemo():
     bus = dbus.SessionBus()
     try:
-        proxy_obj = bus.get_object(SERVICE_NAME, FO_OBJECT)
+        proxy_obj = bus.get_object(_SERVICE_NAME, _FO_OBJECT)
     except dbus.DBusException as exc:
-        raise OperationError(exc)
+        raise OperationError(exc) from exc
 
-    iface_obj = dbus.Interface(proxy_obj, FO_IFACE)
+    iface_obj = dbus.Interface(proxy_obj, _FO_IFACE)
     return iface_obj
 
 

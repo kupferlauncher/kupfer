@@ -4,8 +4,8 @@ __description__ = _("Search in Devhelp")
 __version__ = "2017.1"
 __author__ = ""
 
-from kupfer.objects import Action, TextLeaf, OperationError
 from kupfer import utils
+from kupfer.objects import Action, OperationError, TextLeaf
 
 
 class LookUp(Action):
@@ -17,7 +17,7 @@ class LookUp(Action):
         try:
             utils.spawn_async_raise(["devhelp", f"--search={text}"])
         except utils.SpawnError as exc:
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
     def item_types(self):
         yield TextLeaf

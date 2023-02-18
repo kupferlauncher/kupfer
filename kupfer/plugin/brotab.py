@@ -1,14 +1,24 @@
 __kupfer_name__ = _("Brotab")
 __kupfer_sources__ = ("TabSource",)
-__kupfer_actions__ = ("TabActivate", "TabClose", "TabGetUrl",)
+__kupfer_actions__ = (
+    "TabActivate",
+    "TabClose",
+    "TabGetUrl",
+)
 __description__ = _("Firefox Tabs")
 __version__ = "2020.1"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
 
-from kupfer.obj.objects import UrlLeaf
-from kupfer.objects import Source, Leaf, Action
-from brotab.main import create_clients
+import typing as ty
+
 from brotab.api import MultipleMediatorsAPI
+from brotab.main import create_clients
+
+from kupfer.obj.objects import UrlLeaf
+from kupfer.objects import Action, Leaf, Source
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 
 def get_api():
@@ -25,9 +35,8 @@ def get_active_tab():
 def get_tabs():
     api = get_api()
     tabs = api.list_tabs([])
-    result = []
     for tab in tabs:
-        yield tab.split('\t')
+        yield tab.split("\t")
 
 
 class TabLeaf(Leaf):
@@ -55,6 +64,7 @@ class TabSource(Source):
 
     This Source contains all Tabs from Firefox (as given by Brotab)
     """
+
     source_use_cache = False
     task_update_interval_sec = 5
 
@@ -83,12 +93,11 @@ class TabSource(Source):
 
 
 class TabActivate(Action):
-
     def __init__(self):
         super().__init__(_("Activate Tab"))
 
-    def activate(self, obj, iobj=None, ctx=None):
-        get_api().activate_tab([obj.object], True)
+    def activate(self, leaf, iobj=None, ctx=None):
+        get_api().activate_tab([leaf.object], True)
 
     def item_types(self):
         yield TabLeaf
@@ -98,12 +107,11 @@ class TabActivate(Action):
 
 
 class TabClose(Action):
-
     def __init__(self):
         super().__init__(_("Close Tab"))
 
-    def activate(self, obj, iobj=None, ctx=None):
-        get_api().close_tabs([obj.object])
+    def activate(self, leaf, iobj=None, ctx=None):
+        get_api().close_tabs([leaf.object])
 
     def item_types(self):
         yield TabLeaf
@@ -113,15 +121,14 @@ class TabClose(Action):
 
 
 class TabGetUrl(Action):
-
     def __init__(self):
         super().__init__(_("Get URL"))
 
     def has_result(self):
         return True
 
-    def activate(self, obj, iobj=None, ctx=None):
-        return UrlLeaf(obj.url, obj.title)
+    def activate(self, leaf, iobj=None, ctx=None):
+        return UrlLeaf(leaf.url, leaf.title)
 
     def item_types(self):
         yield TabLeaf

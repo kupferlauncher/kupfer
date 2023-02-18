@@ -9,12 +9,17 @@ __description__ = _("All applications and preferences")
 __version__ = "2017.3"
 __author__ = ""
 
+import typing as ty
+
 from gi.repository import Gio
 
-from kupfer.obj import Action, Source, AppLeaf, FileLeaf
-from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer import config, plugin_support
+from kupfer.obj import Action, AppLeaf, FileLeaf, Source
+from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.support import weaklib
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 _ALTERNATIVES = (
     "",

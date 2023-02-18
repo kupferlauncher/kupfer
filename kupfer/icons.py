@@ -185,13 +185,12 @@ class ComposedIcon:
         self.baseicon = baseicon
         self.emblemicon = emblem
 
-
-#    @classmethod
-#    def new(cls, *args, **kwargs):
-#        """Contstuct a composed icon from @baseicon and @emblem,
-#        which may be GIcons or icon names (strings)
-#        """
-#        return cls(*args, **kwargs)
+    @classmethod
+    def new(cls, *args, **kwargs):
+        """Contstuct a composed icon from @baseicon and @emblem,
+        which may be GIcons or icon names (strings)
+        """
+        return cls(*args, **kwargs)
 
 
 # pylint: disable=invalid-name

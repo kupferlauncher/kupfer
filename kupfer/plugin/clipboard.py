@@ -6,17 +6,12 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from collections import deque
+import typing as ty
 
 from gi.repository import Gdk, Gio, Gtk
 
 from kupfer import plugin_support
-from kupfer.obj import (
-    Action,
-    FileLeaf,
-    Source,
-    SourceLeaf,
-    TextLeaf,
-)
+from kupfer.obj import Action, FileLeaf, Source, SourceLeaf, TextLeaf
 from kupfer.obj.compose import MultipleLeaf
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -39,6 +34,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": False,
     },
 )
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
 
 
 class SelectedText(TextLeaf):
@@ -101,7 +99,7 @@ class ClearClipboards(Action):
     def __init__(self):
         Action.__init__(self, _("Clear"))
 
-    def activate(self, leaf):
+    def activate(self, leaf, iobj=None, ctx=None):
         leaf.object.clear()
 
     def item_types(self):
@@ -120,8 +118,9 @@ class ClearClipboards(Action):
 class ClipboardSource(Source):
     def __init__(self):
         Source.__init__(self, _("Clipboards"))
-        self.clipboards = deque()
+        self.clipboards: deque[str] = deque()
 
+    # pylint: disable=attribute-defined-outside-init
     def initialize(self):
         clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         self._sig_id1 = clip.connect("owner-change", self._clipboard_changed)
@@ -219,8 +218,8 @@ class ClipboardSource(Source):
         if self.clipboard_text:
             yield CurrentClipboardText(self.clipboard_text)
         # put out the clipboard history
-        for t in reversed(self.clipboards):
-            yield ClipboardText(t)
+        for txt in reversed(self.clipboards):
+            yield ClipboardText(txt)
 
     def get_description(self):
         return __description__

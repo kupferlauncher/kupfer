@@ -4,17 +4,22 @@ __description__ = _("Playback control for media players")
 __version__ = "2017.1"
 __author__ = "US"
 
+import typing as ty
+
 import dbus
 
-from kupfer.objects import Source, RunnableLeaf, OperationError
 from kupfer import plugin_support
+from kupfer.objects import OperationError, RunnableLeaf, Source
 from kupfer.support import weaklib
 
 plugin_support.check_dbus_connection()
 
-MPRIS_PREFIX = "org.mpris.MediaPlayer2."
-MPRIS_PLAYER = "org.mpris.MediaPlayer2.Player"
-MPRIS_OBJ = "/org/mpris/MediaPlayer2"
+if ty.TYPE_CHECKING:
+    _ = str
+
+_MPRIS_PREFIX = "org.mpris.MediaPlayer2."
+_MPRIS_PLAYER = "org.mpris.MediaPlayer2.Player"
+_MPRIS_OBJ = "/org/mpris/MediaPlayer2"
 
 
 class Players(Source):
@@ -36,14 +41,14 @@ class Players(Source):
         pass
 
     def _name_owner_changed(self, name, old, new):
-        if name.startswith(MPRIS_PREFIX):
+        if name.startswith(_MPRIS_PREFIX):
             self.mark_for_update()
 
     def get_items(self):
         bus_names = []
         for bus_name in dbus.SessionBus().list_names():
-            if bus_name.startswith(MPRIS_PREFIX):
-                name = bus_name[len(MPRIS_PREFIX) :]
+            if bus_name.startswith(_MPRIS_PREFIX):
+                name = bus_name[len(_MPRIS_PREFIX) :]
                 yield PlayPause(bus_name, name)
                 yield Next(bus_name, name)
                 yield Previous(bus_name, name)
@@ -65,11 +70,11 @@ class Players(Source):
 
 def mpris_connection(bus_name, activate=False, operation_error=True):
     try:
-        if obj := dbus.SessionBus().get_object(bus_name, MPRIS_OBJ):
-            return dbus.Interface(obj, MPRIS_PLAYER)
+        if obj := dbus.SessionBus().get_object(bus_name, _MPRIS_OBJ):
+            return dbus.Interface(obj, _MPRIS_PLAYER)
 
     except dbus.exceptions.DBusException as err:
-        raise OperationError(str(err))
+        raise OperationError(str(err)) from err
 
     return None
 
@@ -84,6 +89,9 @@ class MprisAction(RunnableLeaf):
 
     def repr_key(self):
         return self.bus_name
+
+    def run(self, ctx: ty.Any = None) -> None:
+        raise NotImplementedError
 
 
 class PlayPause(MprisAction):

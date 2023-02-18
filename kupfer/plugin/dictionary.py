@@ -4,9 +4,9 @@ __description__ = _("Look up word in dictionary")
 __version__ = ""
 __author__ = "Ulrik"
 
-from kupfer.objects import Action, TextLeaf, OperationError
-from kupfer import utils
-from kupfer import plugin_support
+from kupfer import plugin_support, utils
+from kupfer.objects import Action, OperationError, TextLeaf
+from kupfer.desktop_launch import SpawnError
 
 dictionaries = {
     "gnome-dictionary": ["gnome-dictionary", "--look-up="],
@@ -37,7 +37,7 @@ class LookUp(Action):
         dict_argv[-1] = dict_argv[-1] + text
         try:
             utils.spawn_async_notify_as(dict_id + ".desktop", dict_argv)
-        except utils.SpawnError as exc:
+        except SpawnError as exc:
             raise OperationError(exc) from exc
 
     def item_types(self):

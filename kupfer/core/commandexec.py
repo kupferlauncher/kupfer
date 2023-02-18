@@ -360,7 +360,6 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         ret: ty.Any,
         ui_ctx: GUIEnvironmentContext | None,
     ) -> tuple[ExecResult, ty.Any]:
-        ic(res, ret)
         if not self._is_nested():
             self._append_result(res, ret)
             self.emit("command-result", res, ret, ui_ctx)

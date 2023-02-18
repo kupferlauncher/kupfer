@@ -12,11 +12,11 @@ Concept for mork parser from:
 
 import os
 import re
-from configparser import RawConfigParser
 import sqlite3
 import time
-from contextlib import closing
 import typing as ty
+from configparser import RawConfigParser
+from contextlib import closing
 
 from kupfer.support import pretty
 
@@ -33,20 +33,20 @@ _THUNDERBIRD_PROFILES = [
 ]
 
 
-RE_COLS = re.compile(r"<\s*<\(a=c\)>\s*(\/\/)?\s*(\(.+?\))\s*>")
-RE_CELL = re.compile(r"\((.+?)\)")
-RE_ATOM = re.compile(r"<\s*(\(.+?\))\s*>")
-RE_TABLE = re.compile(
+_RE_COLS = re.compile(r"<\s*<\(a=c\)>\s*(\/\/)?\s*(\(.+?\))\s*>")
+_RE_CELL = re.compile(r"\((.+?)\)")
+_RE_ATOM = re.compile(r"<\s*(\(.+?\))\s*>")
+_RE_TABLE = re.compile(
     r"\{-?(\d+):\^(..)\s*\{\(k\^(..):c\)\(s=9u?\)\s*(.*?)\}\s*(.+?)\}"
 )
-RE_ROW = re.compile(r"(-?)\s*\[(.+?)((\(.+?\)\s*)*)\]")
-RE_CELL_TEXT = re.compile(r"\^(.+?)=(.*)")
-RE_CELL_OID = re.compile(r"\^(.+?)\^(.+)")
-RE_TRAN_BEGIN = re.compile(r"@\$\$\{.+?\{\@")
-RE_TRAN_END = re.compile(r"@\$\$\}.+?\}\@")
+_RE_ROW = re.compile(r"(-?)\s*\[(.+?)((\(.+?\)\s*)*)\]")
+_RE_CELL_TEXT = re.compile(r"\^(.+?)=(.*)")
+_RE_CELL_OID = re.compile(r"\^(.+?)\^(.+)")
+_RE_TRAN_BEGIN = re.compile(r"@\$\$\{.+?\{\@")
+_RE_TRAN_END = re.compile(r"@\$\$\}.+?\}\@")
 
 
-COLS_TO_KEEP = (
+_COLS_TO_KEEP = (
     "DisplayName",
     "FirstName",
     "LastName",
@@ -110,9 +110,7 @@ def _unescape_data(instr: str) -> str:
     return instr
 
 
-def _read_mork(filename: str) -> dict[str, _Table]:
-    """Read mork file, return tables from file"""
-    data_lines = []
+def _read_mork_filecontent(filename: str) -> ty.Iterable[str]:
     with open(filename, encoding="UTF-8") as mfile:
         header = mfile.readline().strip()
         # check header
@@ -131,14 +129,15 @@ def _read_mork(filename: str) -> dict[str, _Table]:
                 line = line[:comments].strip()
 
             if line:
-                data_lines.append(line)
+                yield line.replace("\\)", "$29")
 
-    data = "".join(data_lines)
 
+def _read_mork(filename: str) -> dict[str, _Table]:
+    """Read mork file, return tables from file"""
+
+    data = "".join(_read_mork_filecontent(filename))
     if not data:
         return {}
-
-    data = data.replace("\\)", "$29")
 
     # decode data
     cells = {}
@@ -152,20 +151,18 @@ def _read_mork(filename: str) -> dict[str, _Table]:
             break
 
         # cols
-        match = RE_COLS.match(data)
-        if match:
-            for cell in RE_CELL.findall(match.group()):
+        if match := _RE_COLS.match(data):
+            for cell in _RE_CELL.findall(match.group()):
                 key, val = cell.split("=", 1)
-                if val in COLS_TO_KEEP:  # skip necessary columns
+                if val in _COLS_TO_KEEP:  # skip necessary columns
                     cells[key] = val
 
             pos = match.span()[1]
             continue
 
         # atoms
-        match = RE_ATOM.match(data)
-        if match:
-            for cell in RE_CELL.findall(match.group()):
+        if match := _RE_ATOM.match(data):
+            for cell in _RE_CELL.findall(match.group()):
                 if "=" in cell:
                     key, val = cell.split("=", 1)
                     atoms[key] = val
@@ -174,14 +171,13 @@ def _read_mork(filename: str) -> dict[str, _Table]:
             continue
 
         # tables
-        match = RE_TABLE.match(data)
-        if match:
+        if match := _RE_TABLE.match(data):
             tableid = ":".join(match.groups()[0:2])
             table = tables.get(tableid)
             if not table:
                 table = tables[tableid] = _Table(tableid)
 
-            for row in RE_ROW.findall(match.group()):
+            for row in _RE_ROW.findall(match.group()):
                 tran, rowid = row[:2]
                 if active_trans and rowid[0] == "-":
                     rowid = rowid[1:]
@@ -189,21 +185,16 @@ def _read_mork(filename: str) -> dict[str, _Table]:
 
                 if not active_trans or tran != "-":
                     rowdata = row[2:]
-                    for rowcell in rowdata:
-                        if not rowcell:
-                            continue
-
-                        for cell in RE_CELL.findall(rowcell):
+                    rowcell: str
+                    for rowcell in filter(None, rowdata):
+                        for cell in _RE_CELL.findall(rowcell):
                             atom, col = None, None
-                            cmatch = RE_CELL_TEXT.match(cell)
-                            if cmatch:
+                            if cmatch := _RE_CELL_TEXT.match(cell):
                                 col = cells.get(cmatch.group(1))
                                 atom = cmatch.group(2)
-                            else:
-                                cmatch = RE_CELL_OID.match(cell)
-                                if cmatch:
-                                    col = cells.get(cmatch.group(1))
-                                    atom = atoms.get(cmatch.group(2))
+                            elif cmatch := _RE_CELL_OID.match(cell):
+                                col = cells.get(cmatch.group(1))
+                                atom = atoms.get(cmatch.group(2))
 
                             if col and atom:
                                 table.add_cell(rowid, col, atom)
@@ -212,16 +203,16 @@ def _read_mork(filename: str) -> dict[str, _Table]:
             continue
 
         # transaction
-        if RE_TRAN_BEGIN.match(data):
+        if _RE_TRAN_BEGIN.match(data):
             active_trans = True
             continue
 
-        if RE_TRAN_END.match(data):
+        if _RE_TRAN_END.match(data):
             tran = True
             continue
 
         # dangling rows
-        if match := RE_ROW.match(data):
+        if match := _RE_ROW.match(data):
             row = match.groups()
             tran, rowid = row[:2]
             table = tables.get("1:80")  # bind to default table
@@ -231,26 +222,19 @@ def _read_mork(filename: str) -> dict[str, _Table]:
                     table.del_row(rowid)
 
             if tran != "-":
-                rowdata = row[2:]
-                if rowdata:
+                if rowdata := row[2:]:
                     if not table:
                         table = tables["1:80"] = _Table("1:80")
 
-                    for rowcell in rowdata:
-                        if not rowcell:
-                            continue
-
-                        for cell in RE_CELL.findall(str(rowcell)):
+                    for rowcell in filter(None, rowdata):
+                        for cell in _RE_CELL.findall(str(rowcell)):
                             atom, col = None, None
-                            cmatch = RE_CELL_TEXT.match(cell)
-                            if cmatch:
+                            if cmatch := _RE_CELL_TEXT.match(cell):
                                 col = cells.get(cmatch.group(1))
                                 atom = cmatch.group(2)
-                            else:
-                                cmatch = RE_CELL_OID.match(cell)
-                                if cmatch:
-                                    col = cells.get(cmatch.group(1))
-                                    atom = atoms.get(cmatch.group(2))
+                            elif cmatch := _RE_CELL_OID.match(cell):
+                                col = cells.get(cmatch.group(1))
+                                atom = atoms.get(cmatch.group(2))
 
                             if col and atom:
                                 table.add_cell(rowid, col, atom)
@@ -340,9 +324,7 @@ def _load_abook_sqlite(filename: str) -> ty.Iterator[tuple[str, str]]:
     for _ in range(2):
         try:
             pretty.print_debug(__name__, "_load_abook_sqlite load:", dbfpath)
-            with closing(
-                sqlite3.connect(dbfpath, uri=True, timeout=1)
-            ) as conn:
+            with closing(sqlite3.connect(dbfpath, uri=True, timeout=1)) as conn:
                 cur = conn.cursor()
 
                 # check db version

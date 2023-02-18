@@ -30,6 +30,7 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
+# FIXME: rename
 def ConstructFileLeaf(obj: str) -> Leaf:
     """
     If the path in @obj points to a Desktop Item file,
@@ -48,7 +49,7 @@ class FileLeaf(Leaf, TextRepresentation):
     Represents one file: the represented object is a bytestring (important!)
     """
 
-    serializable: int = 1
+    serializable: int | None = 1
 
     def __init__(
         self,

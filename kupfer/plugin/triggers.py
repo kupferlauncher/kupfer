@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Triggers")
 __kupfer_sources__ = ("Triggers",)
 __kupfer_actions__ = ("AddTrigger",)
@@ -8,20 +10,14 @@ __description__ = _(
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from gi.repository import Gtk, GLib
+from gi.repository import GLib, Gtk
 
-from kupfer.objects import Action, Source
-from kupfer.objects import RunnableLeaf
-from kupfer.objects import OperationError
-from kupfer.obj.compose import ComposedLeaf
-from kupfer import puid
-from kupfer.support import kupferstring, task
-
-from kupfer.ui import keybindings
-from kupfer.ui import uievents
-from kupfer.ui import getkey_dialog
+from kupfer import plugin_support, puid
 from kupfer.core import commandexec
-from kupfer import plugin_support
+from kupfer.obj.compose import ComposedLeaf
+from kupfer.objects import Action, OperationError, RunnableLeaf, Source
+from kupfer.support import kupferstring, task
+from kupfer.ui import getkey_dialog, keybindings, uievents
 
 plugin_support.check_keybinding_support()
 
@@ -46,7 +42,7 @@ class Trigger(RunnableLeaf):
 
 
 class Triggers(Source):
-    instance = None
+    instance: Triggers = None  # type: ignore
 
     def __init__(self):
         Source.__init__(self, _("Triggers"))
@@ -106,20 +102,22 @@ class Triggers(Source):
         assert cls.instance
         try:
             _, _, id_ = cls.instance.trigger_table[target]
-        except KeyError:
-            raise OperationError(f"Trigger '{target}' does not exist")
+        except KeyError as exc:
+            raise OperationError(f"Trigger '{target}' does not exist") from exc
 
         if (obj := puid.resolve_unique_id(id_)) is not None:
-            return obj.run(ctx)  # TODO: check
+            return obj.run(ctx)  # type:ignore
 
         return None
 
     @classmethod
     def add_trigger(cls, leaf, keystr):
+        # pylint: disable=protected-access
         cls.instance._add_trigger(leaf, keystr)
 
     @classmethod
     def remove_trigger(cls, target):
+        # pylint: disable=protected-access
         cls.instance._remove_trigger(target)
 
     def _add_trigger(self, leaf, keystr):
@@ -144,6 +142,9 @@ class Triggers(Source):
 def try_bind_key(keystr):
     label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
     ulabel = kupferstring.tounicode(label)
+    if ulabel is None:
+        return False
+
     if len(ulabel) == 1 and ulabel.isalnum():
         return False
 
@@ -156,6 +157,7 @@ def try_bind_key(keystr):
 
 class BindTask(task.Task):
     def __init__(self, leaf, screen):
+        super().__init__()
         self.leaf = leaf
         self.screen = screen
 

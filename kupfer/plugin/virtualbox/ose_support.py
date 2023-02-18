@@ -12,8 +12,8 @@ import os
 from xml.dom import minidom
 
 from kupfer import utils
-from kupfer.support import pretty
 from kupfer.plugin.virtualbox import constants as vbox_const
+from kupfer.support import pretty
 
 _VBOX_CONFIG_DIRS = (
     os.path.expanduser("~/.config/VirtualBox/"),
@@ -58,9 +58,7 @@ def get_machine_state(vm_uuid):
             state = vbox_const.VM_STATE_SAVED
 
     except OSError as err:
-        pretty.print_error(
-            __name__, "get_machine_state", vm_uuid, "error", err
-        )
+        pretty.print_error(__name__, "get_machine_state", vm_uuid, "error", err)
         state = vbox_const.VM_STATE_POWEROFF
 
     return state
