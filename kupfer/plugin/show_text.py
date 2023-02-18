@@ -1,17 +1,17 @@
 __kupfer_name__ = _("Show Text")
 __kupfer_actions__ = (
     "ShowText",
-    # "LargeType",
+    "LargeType",
     "ShowNotification",
 )
 __description__ = _("Display text in a window")
 __version__ = ""
 __author__ = "US"
 
-from kupfer.objects import Action, Leaf, TextLeaf
 from kupfer import icons
-from kupfer.ui import uiutils
+from kupfer.objects import Action, Leaf, TextLeaf
 from kupfer.support import textutils
+from kupfer.ui import uiutils
 
 
 class ShowText(Action):

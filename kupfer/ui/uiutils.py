@@ -177,12 +177,7 @@ def _wrap_paragraphs(text: str) -> str:
 
 
 def _set_font_size(label: Gtk.Label, fontsize: float = 48.0) -> None:
-    siz_attr = Pango.AttrFontDesc(
-        Pango.FontDescription.from_string(str(fontsize)), 0, -1
-    )
-    attrs = Pango.AttrList()
-    attrs.insert(siz_attr)
-    label.set_attributes(attrs)
+    label.modify_font(Pango.FontDescription.from_string(str(fontsize)))
 
 
 @typeguard_ignore
@@ -198,7 +193,7 @@ def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
     label.show()
 
     size = 72.0
-    # set_font_size(label, size)
+    _set_font_size(label, size)
 
     if ctx:
         screen = ctx.environment.get_screen()
@@ -208,7 +203,8 @@ def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
 
     maxwid = screen.get_width() - 50
     maxhei = screen.get_height() - 100
-    wid, hei = label.size_request()  # pylint: disable=no-member
+    l_sr = label.size_request()
+    wid, hei = l_sr.width, l_sr.height
 
     # If the text contains long lines, we try to
     # hard-wrap the text
@@ -217,7 +213,8 @@ def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
     ):
         label.set_text(_wrap_paragraphs(text))
 
-    wid, hei = label.size_request()  # pylint: disable=no-member
+    l_sr = label.size_request()
+    wid, hei = l_sr.width, l_sr.height
     if wid > maxwid or hei > maxhei:
         # Round size down to fit inside
         wscale = maxwid * 1.0 / wid
