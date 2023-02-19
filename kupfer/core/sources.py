@@ -10,6 +10,7 @@ import time
 import traceback
 import typing as ty
 import weakref
+from collections import defaultdict
 from pathlib import Path
 
 from kupfer import config
@@ -306,11 +307,11 @@ class SourceController(pretty.OutputMixin):
 
     def __init__(self):
         self._sources: ty.Set[Source] = set()
-        self.action_decorators: ty.Dict[ty.Any, ty.Set[Action]] = {}
+        self.action_decorators: dict[ty.Any, set[Action]] = defaultdict(set)
         self._rescanner = PeriodicRescanner(period=3)
         self._toplevel_sources: ty.Set[Source] = set()
         self._text_sources: ty.Set[TextSource] = set()
-        self._content_decorators: ty.Dict[ty.Any, ty.Set[Source]] = {}
+        self._content_decorators: dict[ty.Any, set[Source]] = defaultdict(set)
         self._action_generators: ty.List[ActionGenerator] = []
         self._plugin_object_map: weakref.WeakKeyDictionary[
             ty.Any, str
@@ -419,14 +420,14 @@ class SourceController(pretty.OutputMixin):
     ) -> None:
         # FIXME: can't specify set type because of mixins
         for typ, val in decos.items():
-            self._content_decorators.setdefault(typ, set()).update(val)
+            self._content_decorators[typ].update(val)
             self._register_plugin_objects(plugin_id, *val)
 
     def add_action_decorators(
         self, plugin_id: str, decos: dict[ty.Any, list[Action]]
     ) -> None:
         for typ, val in decos.items():
-            self.action_decorators.setdefault(typ, set()).update(val)
+            self.action_decorators[typ].update(val)
             self._register_plugin_objects(plugin_id, *val)
 
         for typ_v in self.action_decorators.values():
@@ -461,9 +462,6 @@ class SourceController(pretty.OutputMixin):
         return src in self._sources
 
     def __getitem__(self, src: AnySource) -> AnySource:
-        # TODO: check is necessary, rather no ???
-        # if not src in self:
-        #     raise KeyError
         for source in self._sources:
             if source == src:
                 return source

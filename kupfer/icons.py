@@ -19,7 +19,8 @@ from kupfer.support import datatools, kupferstring, pretty, scheduler
 
 ICON_CACHE: dict[int, datatools.LruCache[str, GdkPixbuf.Pixbuf]] = {}
 # number of elements in icon lru cache (per icon size)
-ICON_CACHE_SIZE = 15
+ICON_CACHE_SIZE_LARGE = 15
+ICON_CACHE_SIZE = 64
 
 LARGE_SZ = 128
 SMALL_SZ = 24
@@ -34,6 +35,9 @@ kupfer_icon_fallbacks = {
 }
 
 kupfer_locally_installed_names: set[str] = set()
+
+# keep missing files to prevent try to load every time
+MISSING_ICON_FILES = set()
 
 
 def _icon_theme_changed(theme):
@@ -148,7 +152,11 @@ def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
     """
     assert icon, f"icon {key} may not be {icon}"
     if icon_size not in ICON_CACHE:
-        ICON_CACHE[icon_size] = datatools.LruCache(ICON_CACHE_SIZE)
+        cache_size = ICON_CACHE_SIZE
+        if icon_size == LARGE_SZ:
+            cache_size = ICON_CACHE_SIZE_LARGE
+
+        ICON_CACHE[icon_size] = datatools.LruCache(cache_size)
 
     ICON_CACHE[icon_size][key] = icon
 
@@ -296,10 +304,14 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
     return None if not found
     """
 
+    if uri in MISSING_ICON_FILES:
+        return None
+
     gfile = File.new_for_path(uri)
     if not gfile.query_exists():
         gfile = File.new_for_uri(uri)
         if not gfile.query_exists():
+            MISSING_ICON_FILES.add(uri)
             return None
 
     finfo = gfile.query_info(
@@ -418,8 +430,10 @@ def get_icon_for_name(
     icon_size: int,
     icon_names: ty.Iterable[str] | None = None,
 ) -> GdkPixbuf.Pixbuf | None:
-    for i in get_icon(icon_name, icon_size):
-        return i
+    try:
+        return ICON_CACHE[icon_size][icon_name]
+    except KeyError:
+        pass
 
     # Try the whole list of given names
     for load_name in icon_names or (icon_name,):
@@ -450,13 +464,19 @@ def get_icon_from_file(
     icon_file: str, icon_size: int
 ) -> GdkPixbuf.Pixbuf | None:
     # try to load from cache
-    for icon in get_icon(icon_file, icon_size):
-        return icon
+    try:
+        return ICON_CACHE[icon_size][icon_file]
+    except KeyError:
+        pass
+
+    if icon_file in MISSING_ICON_FILES:
+        return None
 
     if icon := _ICON_RENDERER.pixbuf_for_file(icon_file, icon_size):
         store_icon(icon_file, icon_size, icon)
         return icon
 
+    MISSING_ICON_FILES.add(icon_file)
     return None
 
 
@@ -484,13 +504,13 @@ def get_gicon_with_fallbacks(
     if is_good(gicon):
         return gicon
 
+    name = None
     for name in names:
         gicon = ThemedIcon.new(name)
         if is_good(gicon):
             return gicon
 
-    # TODO: check; was: return ThemedIcon.new(last_name)
-    return None
+    return ThemedIcon.new(name) if name else None
 
 
 def get_good_name_for_icon_names(names: ty.Iterable[str]) -> str | None:

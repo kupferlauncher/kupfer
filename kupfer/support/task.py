@@ -7,6 +7,7 @@ import typing as ty
 from gi.repository import GLib
 
 from kupfer.support import pretty, scheduler
+from kupfer.support.types import ExecInfo
 
 TaskCallback = ty.Callable[[ty.Any], None]
 
@@ -51,14 +52,14 @@ class ThreadTask(Task):
         completion, and can be used to communicate with the GUI.
         """
 
-    def thread_finally(self, exc_info: pretty.ExecInfo | None) -> None:
+    def thread_finally(self, exc_info: ExecInfo | None) -> None:
         """Always run at thread finish"""
         if exc_info is not None:
             etype, value, tback = exc_info
             if etype:
                 raise etype(value).with_traceback(tback)
 
-    def _thread_finally(self, exc_info: pretty.ExecInfo | None) -> None:
+    def _thread_finally(self, exc_info: ExecInfo | None) -> None:
         try:
             self.thread_finally(exc_info)
         finally:

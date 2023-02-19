@@ -103,6 +103,8 @@ class Searcher:
         Return (first, match_iter), where first is the first match,
         and match_iter an iterator to all matches, including the first match.
         """
+        key = key.lower()
+
         if not self._old_key or not key.startswith(self._old_key):
             self._source_cache.clear()
 
@@ -113,18 +115,19 @@ class Searcher:
         item_check = item_check or _identity
         decorator = decorator or _identity
         start_time = pretty.timing_start()
-        match_lists: list[list[Rankable]] = []
+        match_lists: list[Rankable] = []
         for src in sources_:
             fixedrank = 0
             can_cache = True
-            rankables = None
+            src_hash = None
             if hasattr(src, "__iter__"):
-                items = src
+                rankables = search.make_rankables(item_check(src))  # type: ignore
                 can_cache = False
             else:
+                src_hash = hash(src)
                 # Look in source cache for stored rankables
                 try:
-                    rankables = self._source_cache[src]
+                    rankables = self._source_cache[src_hash]
                 except KeyError:
                     try:
                         # TextSources
@@ -135,8 +138,7 @@ class Searcher:
                         # Source
                         items = src.get_leaves()  # type: ignore
 
-            if rankables is None:
-                rankables = search.make_rankables(item_check(items))  # type: ignore
+                    rankables = search.make_rankables(item_check(items))
 
             assert rankables is not None
 
@@ -149,15 +151,12 @@ class Searcher:
                     )
 
                 if can_cache:
-                    rankables = list(rankables)
-                    self._source_cache[src] = rankables
+                    rankables = tuple(rankables)
+                    self._source_cache[src_hash] = rankables
 
-            match_lists.append(list(rankables))
+            match_lists.extend(rankables)
 
-        if score:
-            matches = search.find_best_sort(match_lists)
-        else:
-            matches = itertools.chain(*match_lists)
+        matches = search.find_best_sort(match_lists) if score else match_lists
 
         # Check if the items are valid as the search
         # results are accessed through the iterators
@@ -184,6 +183,7 @@ class Searcher:
         """
         item_check = item_check or _identity
         decorator = decorator or _identity
+        key = key.lower()
 
         rankables = search.make_rankables(item_check(objects))
         if key:
@@ -227,6 +227,7 @@ class Pane(GObject.GObject):  # type:ignore
 
     def reset(self) -> None:
         self.selection = None
+        self.latest_key = None
 
     def get_latest_key(self) -> str | None:
         return self.latest_key
@@ -322,7 +323,7 @@ class LeafPane(Pane, pretty.OutputMixin):
     def browse_up(self) -> bool:
         """Try to browse up to previous sources, from current
         source"""
-        succ = bool(self.pop_source())
+        succ = self.pop_source()
         if not succ:
             assert self.source
             if self.source.has_parent():
@@ -403,7 +404,7 @@ GObject.signal_new(
 class PrimaryActionPane(Pane):
     def __init__(self):
         super().__init__()
-        self._action_valid_cache = {}
+        self._action_valid_cache: dict[int, bool] = {}
         self.set_item(None)
 
     def select(self, item: KupferObject | None) -> None:
@@ -440,18 +441,18 @@ class PrimaryActionPane(Pane):
         actions = actioncompat.actions_for_item(leaf, get_source_controller())
         cache = self._action_valid_cache
 
-        def is_valid_cached(action: Action) -> bool:
-            """Check if @action is valid for current item"""
-            valid = cache.get(action)
-            if valid is None:
-                valid = actioncompat.action_valid_for_item(action, leaf)  # type: ignore
-                cache[action] = valid
-
-            return valid
-
         def valid_decorator(seq):
             """Check if actions are valid before access"""
-            return (obj for obj in seq if is_valid_cached(obj.object))
+            for obj in seq:
+                action = obj.object
+                action_hash = hash(action)
+                valid = cache.get(action_hash)
+                if valid is None:
+                    valid = actioncompat.action_valid_for_item(action, leaf)  # type: ignore
+                    cache[action_hash] = valid
+
+                if valid:
+                    yield obj
 
         match, match_iter = self.searcher.rank_actions(
             actions, key, leaf, decorator=valid_decorator

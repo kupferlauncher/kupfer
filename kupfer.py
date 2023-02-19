@@ -40,8 +40,8 @@ try:
 
     import traceback
 
-    def ic_stack():
-        ic("\n".join(traceback.format_stack()[:-2]))
+    def ic_stack(*args, **kwargs):
+        ic("\n".join(traceback.format_stack()[:-2]), *args, **kwargs)
 
     try:
         builtins = __import__("__builtin__")
@@ -62,8 +62,21 @@ try:
 except ImportError:
     pass
 
+try:
+    from pympler import tracker
+except ImportError:
+    tracker = None
+
 
 if __name__ == "__main__":
     from kupfer import main
 
+    if tracker:
+        tr = tracker.SummaryTracker()
+
     main.main()
+
+    if tracker:
+        print("--- TRACKER start ---")
+        tr.print_diff()
+        print("--- TRACKER end ---")

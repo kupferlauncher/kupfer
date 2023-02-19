@@ -104,6 +104,12 @@ class FilesystemWatchMixin:
         """
         return not (gfile and gfile.get_basename().startswith("."))
 
+    def stop_monitor_directories(self, nptoken: NonpersistentToken) -> None:
+        if nptoken:
+            for token in nptoken.data:
+                assert isinstance(token, Gio.FileMonitor)
+                token.cancel()
+
     def __directory_changed(
         self,
         _monitor: ty.Any,

@@ -22,6 +22,7 @@ __author__ = "US, Karol Będkowski"
 import itertools
 import os
 import typing as ty
+from collections import defaultdict
 from hashlib import md5
 
 import dbus
@@ -411,9 +412,9 @@ class AlbumLeaf(TrackCollection):
 
 class ArtistAlbumsSource(CollectionSource):
     def get_items(self):
-        albums: dict[str, list[dict[str, ty.Any]]] = {}
+        albums: dict[str, list[dict[str, ty.Any]]] = defaultdict(list)
         for song in self.leaf.object:
-            albums.setdefault(song["album"], []).append(song)
+            albums[song["album"]].append(song)
 
         names = utils.locale_sort(albums)
         names.sort(key=lambda name: albums[name][0]["date"])  # type:ignore
@@ -500,11 +501,11 @@ def _locale_sort_artist_album_songs(artists):
     """
     for artist in utils.locale_sort(artists):
         artist_songs = artists[artist]
-        albums: dict[str, list[rhythmbox_support.Song]] = {}
+        albums: dict[str, list[rhythmbox_support.Song]] = defaultdict(list)
         for album, songs in itertools.groupby(
             artist_songs, lambda song: song["album"]  # type: ignore
         ):
-            albums.setdefault(album, []).extend(songs)
+            albums[album].extend(songs)
 
         for album in utils.locale_sort(albums):
             for song in albums[album]:

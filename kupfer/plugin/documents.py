@@ -66,7 +66,6 @@ def _file_path(uri: str) -> Gio.File | None:
     try:
         return Gio.File.new_for_uri(uri).get_path()
     except Exception:
-        # FIXME: encoding errors in get_path raise generic Exception
         return None
 
 
@@ -291,7 +290,7 @@ class IgnoredApps(Source):
     # This Source is invisibile and has no content
     # It exists just to store (through the config mechanism) the list of apps
     # we ignore for recent documents content decoration
-    instance: IgnoredApps | None = None
+    instance: IgnoredApps = None  # type:ignore
 
     def __init__(self):
         super().__init__(_("Toggle Recent Documents"))

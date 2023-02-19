@@ -88,8 +88,11 @@ class KupferObject(metaclass=_BuiltinObject):
         return self.name
 
     def __repr__(self) -> str:
-        key = self.repr_key()
-        keys = f" {key}" if (key is not None and key != "") else ""
+        if key := self.repr_key():
+            keys = f" {key}"
+        else:
+            keys = ""
+
         if self._is_builtin:
             return f"<builtin.{self.__class__.__name__}{keys}>"
 
@@ -128,9 +131,9 @@ class KupferObject(metaclass=_BuiltinObject):
             if pbuf := icons.get_icon_for_gicon(gicon, icon_size):
                 return pbuf
 
-        icon_name = self.get_icon_name()
-        if icon := icon_name and icons.get_icon_for_name(icon_name, icon_size):
-            return icon
+        if icon_name := self.get_icon_name():
+            if icon := icons.get_icon_for_name(icon_name, icon_size):
+                return icon
 
         return icons.get_icon_for_name(self.fallback_icon_name, icon_size)
 

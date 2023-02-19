@@ -123,26 +123,29 @@ class LruCache(ty.Generic[K, V]):
     """
 
     def __init__(self, maxsiz: int) -> None:
-        self.data: OrderedDict[K, V] = OrderedDict()
-        self.maxsiz = maxsiz
+        self._data: OrderedDict[K, V] = OrderedDict()
+        self._maxsize = maxsiz
 
     def __contains__(self, key: K) -> bool:
-        return key in self.data
+        return key in self._data
 
     def __setitem__(self, key: K, value: V) -> None:
         try:
-            self.data.move_to_end(key, last=True)
+            self._data.move_to_end(key, last=True)
         except KeyError:
-            self.data[key] = value
+            self._data[key] = value
 
-            if len(self.data) > self.maxsiz:
+            if len(self._data) > self._maxsize:
                 # remove the first item (was inserted longest time ago)
-                self.data.popitem(last=False)
+                self._data.popitem(last=False)
 
     def __getitem__(self, key: K) -> V:
-        value = self.data.pop(key)
-        self.data.move_to_end(key, last=True)
+        value = self._data.pop(key)
+        self._data.move_to_end(key, last=True)
         return value
+
+    def items(self):
+        return self._data.items()
 
 
 if __name__ == "__main__":

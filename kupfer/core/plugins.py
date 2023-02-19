@@ -11,6 +11,7 @@ from enum import Enum
 from kupfer import icons
 from kupfer import plugin as kplugin
 from kupfer.support import pretty
+from kupfer.support.types import ExecInfo
 
 from . import settings
 
@@ -173,7 +174,7 @@ def _truncate_source(text: str, find_attributes: ty.Iterable[str]) -> str:
 
 
 def _import_plugin_fake(
-    modpath: str, error: pretty.ExecInfo | None = None
+    modpath: str, error: ExecInfo | None = None
 ) -> FakePlugin | None:
     """
     Return an object that has the plugin info attributes we can rescue

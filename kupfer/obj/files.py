@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import os
 import typing as ty
+from collections import defaultdict
 from contextlib import suppress
 from os import path
 
@@ -23,21 +24,19 @@ from .exceptions import (
     NoDefaultApplicationError,
     OperationError,
 )
-from .helplib import FilesystemWatchMixin, PicklingHelperMixin
 from .representation import TextRepresentation
+from .helplib import FilesystemWatchMixin, PicklingHelperMixin
 
 if ty.TYPE_CHECKING:
     _ = str
 
 
-# FIXME: rename
-def ConstructFileLeaf(obj: str) -> Leaf:
+def construct_file_leaf(obj: str) -> Leaf:
     """
     If the path in @obj points to a Desktop Item file,
     return an AppLeaf, otherwise return a FileLeaf
     """
-    _root, ext = path.splitext(obj)
-    if ext == ".desktop":
+    if obj.endswith(".desktop"):
         with suppress(InvalidDataError):
             return AppLeaf(init_path=obj)
 
@@ -46,7 +45,7 @@ def ConstructFileLeaf(obj: str) -> Leaf:
 
 class FileLeaf(Leaf, TextRepresentation):
     """
-    Represents one file: the represented object is a bytestring (important!)
+    Represents one file: the represented object is a string.
     """
 
     serializable: int | None = 1
@@ -121,7 +120,7 @@ class FileLeaf(Leaf, TextRepresentation):
     def is_writable(self) -> bool:
         return os.access(self.object, os.W_OK)
 
-    def _is_executable(self) -> bool:
+    def is_executable(self) -> bool:
         return os.access(self.object, os.R_OK | os.X_OK)
 
     def is_dir(self) -> bool:
@@ -214,7 +213,7 @@ class FileLeaf(Leaf, TextRepresentation):
         return predicate(content_type, ctype)  # type: ignore
 
     def _is_good_executable(self):
-        if not self._is_executable():
+        if not self.is_executable():
             return False
 
         ctype, uncertain = Gio.content_type_guess(self.object, None)
@@ -234,20 +233,18 @@ class AppLeaf(Leaf):
 
         @require_x: require executable file
         """
-        self.init_item = item
-        self.init_path = init_path
-        self.init_item_id = app_id and app_id + ".desktop"
+        self._init_path = init_path
+        self._init_item_id = app_id and app_id + ".desktop"
         # finish will raise InvalidDataError on invalid item
-        self.finish(require_x)
-        Leaf.__init__(self, self.object, self.object.get_name())
+        self.finish(require_x, item)
+        super().__init__(self.object, self.object.get_name())
         self._add_aliases()
 
     def _add_aliases(self) -> None:
         # find suitable alias
         # use package name: non-extension part of ID
-        lowername = str(self).lower()
-        package_name = self._get_package_name()
-        if package_name and package_name not in lowername:
+        package_name = GLib.filename_display_basename(self.get_id())
+        if package_name and package_name not in str(self).lower():
             self.kupfer_add_alias(package_name)
 
     def __hash__(self) -> int:
@@ -257,39 +254,36 @@ class AppLeaf(Leaf):
         return isinstance(other, type(self)) and self.get_id() == other.get_id()
 
     def __getstate__(self) -> ty.Dict[str, ty.Any]:
-        self.init_item_id = self.object and self.object.get_id()
+        self._init_item_id = self.object and self.object.get_id()
         state = dict(vars(self))
         state["object"] = None
-        state["init_item"] = None
         return state
 
     def __setstate__(self, state: ty.Dict[str, ty.Any]) -> None:
         vars(self).update(state)
         self.finish()
 
-    def finish(self, require_x: bool = False) -> None:
+    def finish(self, require_x: bool = False, init_item: ty.Any = None) -> None:
         """Try to set self.object from init's parameters"""
-        item = None
-        if self.init_item:
-            item = self.init_item
-        else:
+        item = init_item
+        if not item:
             # Construct an AppInfo item from either path or item_id
             try:
-                if self.init_path and (
-                    not require_x or os.access(self.init_path, os.X_OK)
+                if self._init_path and (
+                    not require_x or os.access(self._init_path, os.X_OK)
                 ):
                     # serilizable if created from a "loose file"
                     self.serializable = 1
-                    item = Gio.DesktopAppInfo.new_from_filename(self.init_path)
-                elif self.init_item_id:
-                    item = Gio.DesktopAppInfo.new(self.init_item_id)
+                    item = Gio.DesktopAppInfo.new_from_filename(self._init_path)
+                elif self._init_item_id:
+                    item = Gio.DesktopAppInfo.new(self._init_item_id)
 
             except TypeError as exc:
                 pretty.print_debug(
                     __name__,
                     "Application not found:",
-                    self.init_item_id,
-                    self.init_path,
+                    self._init_item_id,
+                    self._init_path,
                 )
                 raise InvalidDataError from exc
 
@@ -299,9 +293,6 @@ class AppLeaf(Leaf):
 
     def repr_key(self) -> ty.Any:
         return self.get_id()
-
-    def _get_package_name(self) -> str:
-        return GLib.filename_display_basename(self.get_id())  # type: ignore
 
     def launch(
         self,
@@ -323,7 +314,7 @@ class AppLeaf(Leaf):
                 files=files,
                 paths=paths,
                 activate=activate,
-                desktop_file=self.init_path,
+                desktop_file=self._init_path,
                 screen=ctx and ctx.environment.get_screen(),
             )
         except launch.SpawnError as exc:  # type: ignore
@@ -335,7 +326,7 @@ class AppLeaf(Leaf):
         This is the GIO id "gedit.desktop" minus the .desktop part for
         system-installed applications.
         """
-        return launch.application_id(self.object, self.init_path)
+        return launch.application_id(self.object, self._init_path)
 
     def get_actions(self) -> ty.Iterable[Action]:
         id_ = self.get_id()
@@ -355,8 +346,8 @@ class AppLeaf(Leaf):
         # for "file-based" applications we show the path
         app_desc = kupferstring.tounicode(self.object.get_description())
         ret = kupferstring.tounicode(app_desc or self.object.get_executable())
-        if self.init_path:
-            app_path = utils.get_display_path_for_bytestring(self.init_path)
+        if self._init_path:
+            app_path = utils.get_display_path_for_bytestring(self._init_path)
             return f"({app_path}) {ret}"
 
         return ret
@@ -516,12 +507,12 @@ class Open(Action):
         self, objects: ty.Iterable[FileLeaf], ctx: ty.Any
     ) -> None:
         appmap: dict[str, Gio.AppInfo] = {}
-        leafmap: dict[str, list[FileLeaf]] = {}
+        leafmap: dict[str, list[FileLeaf]] = defaultdict(list)
         for obj in objects:
             app = self.default_application_for_leaf(obj)
             id_ = app.get_id()
             appmap[id_] = app
-            leafmap.setdefault(id_, []).append(obj)
+            leafmap[id_].append(obj)
 
         for id_, leaves in leafmap.items():
             app = appmap[id_]
@@ -614,52 +605,65 @@ class Execute(Action):
         return _("Run this program")
 
 
-class DirectorySource(Source, PicklingHelperMixin, FilesystemWatchMixin):
-    def __init__(self, directory: str, show_hidden: bool = False) -> None:
+class DirectorySource(Source, FilesystemWatchMixin):
+    def __init__(
+        self,
+        directory: str,
+        show_hidden: bool = False,
+        *,
+        toplevel: bool = False,
+    ) -> None:
         # Use glib filename reading to make display name out of filenames
         # this function returns a `unicode` object
+        # TODO: need use glib?
         name = GLib.filename_display_basename(directory)
         super().__init__(name)
-        self.directory = directory
-        self.show_hidden = show_hidden
+        self._directory = directory
+        self._show_hidden = show_hidden
+        self._toplevel = toplevel
         self.monitor: ty.Any = None
 
     def __repr__(self) -> str:
-        mod = self.__class__.__module__
-        cname = self.__class__.__name__
         return (
-            f'{mod}.{cname}("{self.directory}", show_hidden={self.show_hidden})'
+            f"{self.__class__.__module__}.{self.__class__.__name__}"
+            f'("{self._directory}", show_hidden={self._show_hidden})'
         )
 
     def initialize(self) -> None:
-        self.monitor = self.monitor_directories(self.directory)
+        # only toplevel directories are active monitored
+        if self._toplevel:
+            self.monitor = self.monitor_directories(self._directory)
 
     def finalize(self) -> None:
-        self.monitor = None
+        if self.monitor:
+            self.stop_monitor_directories(self.monitor)
+            self.monitor = None
 
     def monitor_include_file(self, gfile: Gio.File) -> bool:
-        return self.show_hidden or not gfile.get_basename().startswith(".")
+        return self._show_hidden or not gfile.get_basename().startswith(".")
 
     def get_items(self) -> ty.Iterator[Leaf]:
         try:
-            for fname in os.listdir(self.directory):
-                if not _representable_fname(fname):
-                    continue
-
-                if self.show_hidden or not fname.startswith("."):
-                    yield ConstructFileLeaf(path.join(self.directory, fname))
-
+            files: ty.Iterable[str] = os.listdir(self._directory)
         except OSError as exc:
             self.output_error(exc)
+        else:
+            if not self._show_hidden:
+                files = (f for f in files if f[0] != ".")
+
+            yield from (
+                construct_file_leaf(path.join(self._directory, fname))
+                for fname in files
+            )
 
     def should_sort_lexically(self) -> bool:
         return True
 
     def _parent_path(self) -> str:
-        return path.normpath(path.join(self.directory, path.pardir))
+        return path.normpath(path.join(self._directory, path.pardir))
 
     def has_parent(self) -> bool:
-        return not path.samefile(self.directory, self._parent_path())
+        return not path.samefile(self._directory, self._parent_path())
 
     def get_parent(self) -> ty.Optional[DirectorySource]:
         if not self.has_parent():
@@ -668,22 +672,22 @@ class DirectorySource(Source, PicklingHelperMixin, FilesystemWatchMixin):
         return DirectorySource(self._parent_path())
 
     def get_description(self) -> str:
-        return _("Directory source %s") % self.directory
+        return _("Directory source %s") % self._directory
 
     def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
-        return icons.get_gicon_for_file(self.directory)
+        return icons.get_gicon_for_file(self._directory)
 
     def get_icon_name(self) -> str:
         return "folder"
 
     def get_leaf_repr(self) -> ty.Optional[Leaf]:
         alias = None
-        if os.path.isdir(self.directory) and os.path.samefile(
-            self.directory, os.path.expanduser("~")
+        if os.path.isdir(self._directory) and os.path.samefile(
+            self._directory, os.path.expanduser("~")
         ):
             alias = _("Home Folder")
 
-        return FileLeaf(self.directory, alias=alias)
+        return FileLeaf(self._directory, alias=alias)
 
     def provides(self) -> ty.Iterable[ty.Type[Leaf]]:
         yield FileLeaf
@@ -692,6 +696,7 @@ class DirectorySource(Source, PicklingHelperMixin, FilesystemWatchMixin):
 
 def _representable_fname(fname: str) -> bool:
     "Return False if fname contains surrogate escapes"
+    # all string are utf so this is unnecessary
     try:
         fname.encode("utf-8")
         return True
@@ -720,12 +725,10 @@ class FileSource(Source):
 
     def get_items(self) -> ty.Iterable[Leaf]:
         for directory in self.dirlist:
-            files = list(
-                utils.get_dirlist(
-                    directory, max_depth=self.depth, exclude=self._exclude_file
-                )
+            files = utils.get_dirlist(
+                directory, max_depth=self.depth, exclude=self._exclude_file
             )
-            yield from map(ConstructFileLeaf, files)
+            yield from map(construct_file_leaf, files)
 
     def should_sort_lexically(self) -> bool:
         return True

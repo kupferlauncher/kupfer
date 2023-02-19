@@ -10,6 +10,7 @@ import socket
 
 from kupfer import utils
 from kupfer.support import pretty
+from kupfer.support.validators import is_url
 from kupfer.obj import FileLeaf, OpenUrl, TextLeaf, TextSource, UrlLeaf
 
 __kupfer_name__ = "Free-text Queries"
@@ -96,38 +97,6 @@ class PathTextSource(TextSource, pretty.OutputMixin):
 
     def provides(self):
         yield FileLeaf
-
-
-def is_url(text: str) -> str | None:
-    """If @text is an URL, return a cleaned-up URL, else return None"""
-    text = text.strip()
-    components = list(urllib.parse.urlparse(text))
-    domain = "".join(components[1:])
-    dotparts = domain.rsplit(".")
-
-    # TODO: clean
-    # 1. Domain name part is one word (without spaces)
-    # 2. Urlparse parses a scheme (http://), else we apply heuristics
-    if len(domain.split()) == 1 and (
-        components[0]
-        or (
-            "." in domain
-            and len(dotparts) >= 2
-            and len(dotparts[-1]) >= 2
-            and any(char.isalpha() for char in domain)
-            and all(part[:1].isalnum() for part in dotparts)
-        )
-    ):
-        if not components[0]:
-            url = "http://" + "".join(components[1:])
-        else:
-            url = text
-
-        name = ("".join(components[1:3])).strip("/")
-        if name:
-            return url
-
-    return None
 
 
 def try_unquote_url(url: str) -> str:

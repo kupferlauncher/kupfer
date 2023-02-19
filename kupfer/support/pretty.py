@@ -2,19 +2,12 @@ from __future__ import annotations
 
 import sys
 import traceback
-import types
 import typing as ty
 from time import time as timestamp
 
-DEBUG = False
+from .types import ExecInfo
 
-# TODO: move somewhere
-ExecInfo = ty.Union[
-    tuple[
-        ty.Type[BaseException], BaseException, ty.Optional[types.TracebackType]
-    ],
-    tuple[None, None, None],
-]
+DEBUG = False
 
 
 class OutputMixin:

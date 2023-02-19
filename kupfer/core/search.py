@@ -11,7 +11,7 @@ from . import learn, relevance
 
 def make_rankables(
     itr: ty.Iterable[KupferObject], rank: int = 0
-) -> ty.Iterator[Rankable]:
+) -> ty.Iterable[Rankable]:
     """Create Rankable from some KupferObject:w"""
     return (Rankable(str(obj), obj, rank) for obj in itr)
 
@@ -49,7 +49,6 @@ def bonus_objects(
     rankables: List[Rankable]
     inncrement each for mnemonic score for key.
     """
-    key = key.lower()
     get_record_score = learn.get_record_score
     for obj in rankables:
         obj.rank += get_record_score(obj.object, key)
@@ -65,7 +64,6 @@ def bonus_actions(
     Add bonus for mnemonics and rank_adjust
 
     rank is added to prev rank, all items are yielded"""
-    key = key.lower()
     get_record_score = learn.get_record_score
     for obj in rankables:
         obj.rank += get_record_score(obj.object, key) + obj.object.rank_adjust
@@ -107,16 +105,22 @@ def score_objects(
     _score = _score_for_key(key)
     for rankable in rankables:
         # Rank object
-        rank = rankable.rank = _score(rankable.value, key) * 100
+        rank = _score(rankable.value, key) * 100
         if rank < 90:
-            for alias in rankable.aliases:
-                # consider aliases and change rb.value if alias is better
-                # aliases rank lower so that value is chosen when close
-                if (arank := _score(alias, key) * 95) > rank:
+            # consider aliases and change rb.value if alias is better
+            # aliases rank lower so that value is chosen when close
+            arank_value = max(
+                ((_score(alias, key), alias) for alias in rankable.aliases),
+                default=None,
+            )
+            if arank_value:
+                arank, value = arank_value
+                arank *= 95
+                if arank > rank:
+                    rankable.value = value
                     rank = arank
-                    rankable.value = alias
 
-            rankable.rank = rank
+        rankable.rank = rank
 
         if rankable.rank > 10:
             yield rankable
@@ -130,39 +134,27 @@ def score_actions(
     """
     get_record_score = learn.get_record_score
     for obj in rankables:
-        rank_adj = obj.object.rank_adjust
-        rank_adj += learn.get_correlation_bonus(obj.object, for_leaf)
+        obj_object = obj.object
+        rank_adj = obj_object.rank_adjust + learn.get_correlation_bonus(
+            obj_object, for_leaf
+        )
 
         if rank_adj > 0:
-            obj.rank = 50 + rank_adj + get_record_score(obj.object) // 2
+            obj.rank = 50 + rank_adj + get_record_score(obj_object) // 2
         elif rank_adj == 0:
-            obj.rank = get_record_score(obj.object)
+            obj.rank = get_record_score(obj_object)
         else:
-            obj.rank = -50 + rank_adj + get_record_score(obj.object)
+            obj.rank = -50 + rank_adj + get_record_score(obj_object)
 
         yield obj
 
 
-# K: not in use
-# def _max_multiple(iterables, key):
-#     maxval = None
-#     for iterable in iterables:
-#         try:
-#             new_max = max(iterable, key=key)
-#         except ValueError:
-#             continue
-
-#         if maxval is None:
-#             maxval = new_max
-#         else:
-#             maxval = max(maxval, new_max, key=key)
-
-#     return maxval
+_rank_key = operator.attrgetter("rank")
 
 
 def find_best_sort(
-    rankables: list[list[Rankable]],
-) -> ty.Iterator[Rankable]:
+    rankables: ty.Iterable[Rankable],
+) -> ty.Iterable[Rankable]:
     """
     rankables: List[List[Rankable]]
 
@@ -176,11 +168,9 @@ def find_best_sort(
     Yield rankables in best rank first order
     """
 
-    key = operator.attrgetter("rank")
-    # maxval = _max_multiple(rankables, key)
-    maxval = max(itertools.chain(*rankables), default=None, key=key)
+    maxval = max(rankables, default=None, key=_rank_key)
     if maxval is None:
         return
 
     yield maxval
-    yield from sorted(itertools.chain(*rankables), key=key, reverse=True)
+    yield from sorted(rankables, key=_rank_key, reverse=True)

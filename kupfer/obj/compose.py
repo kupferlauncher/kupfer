@@ -76,7 +76,7 @@ class ComposedLeaf(RunnableLeaf):
         if (not obj or not act) or (iobj is None) != (iobjid is None):
             raise InvalidDataError(f"Parts of {self} not restored")
 
-        self.object[:] = [obj, act, iobj]
+        self.object[::] = [obj, act, iobj]
 
     def get_actions(self) -> ty.Iterator[Action]:
         yield Perform()
@@ -140,7 +140,7 @@ class MultipleLeaf(Leaf):
 
             objects.append(obj)
 
-        self.object[:] = objects
+        self.object[::] = objects
 
     def has_content(self) -> bool:
         return True

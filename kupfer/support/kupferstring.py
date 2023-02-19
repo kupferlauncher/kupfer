@@ -4,8 +4,6 @@ import locale
 import typing as ty
 from unicodedata import category, normalize
 
-# TODO: check is functions below are still relevant
-
 
 def _folditems():
     _folding_table = {

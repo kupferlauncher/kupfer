@@ -9,6 +9,7 @@ import itertools
 import os
 import sys
 import typing as ty
+from collections import defaultdict
 from contextlib import suppress
 from enum import IntEnum
 
@@ -27,6 +28,7 @@ from kupfer.obj import (
     compose,
 )
 from kupfer.support import pretty, scheduler
+from kupfer.support.types import ExecInfo
 from kupfer.ui.uievents import GUIEnvironmentContext
 
 from . import commandexec, execfile, learn, pluginload, qfurl, search, settings
@@ -125,10 +127,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self, plugin_id: str, actions: list[Action]
     ) -> None:
         # Keep a mapping: Decorated Leaf Type -> List of actions
-        decorate_types: ty.Dict[ty.Any, list[Action]] = {}
+        decorate_types: ty.Dict[ty.Any, list[Action]] = defaultdict(list)
         for action in actions:
             for appl_type in action.item_types():
-                decorate_types.setdefault(appl_type, []).append(action)
+                decorate_types[appl_type].append(action)
 
         if not decorate_types:
             return
@@ -147,11 +149,11 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """
         # Keep a mapping:
         # Decorated Leaf Type -> Set of content decorator types
-        decorate_item_types: ty.Dict[ty.Any, set[Source]] = {}
+        decorate_item_types: dict[ty.Any, set[Source]] = defaultdict(set)
         for content in contents:
             with suppress(AttributeError):
                 applies = content.decorates_type()  # type: ignore
-                decorate_item_types.setdefault(applies, set()).add(content)
+                decorate_item_types[applies].add(content)
 
         if not decorate_item_types:
             return
@@ -189,7 +191,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _get_directory_sources(
         self,
-    ) -> tuple[ty.Iterator[DirectorySource], ty.Iterator[DirectorySource],]:
+    ) -> tuple[tuple[DirectorySource, ...], tuple[DirectorySource, ...]]:
         """
         Return a tuple of dir_sources, indir_sources for
         directory sources directly included and for
@@ -197,27 +199,18 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """
         setctl = settings.get_settings_controller()
         source_config = setctl.get_config
+        dir_depth = source_config("DeepDirectories", "Depth")
 
         def file_source(opt, depth=1):
             abs_path = os.path.abspath(os.path.expanduser(opt))
             return FileSource([abs_path], depth)
 
-        indir_sources: ty.Iterator[DirectorySource] = (
-            DirectorySource(item)
-            for item in setctl.get_directories(False)
-            if os.path.isdir(item)
-        )
-
-        dir_sources: ty.Iterator[DirectorySource] = (
-            DirectorySource(item)
-            for item in setctl.get_directories(True)
-            if os.path.isdir(item)
-        )
-
-        dir_depth = source_config("DeepDirectories", "Depth")
-
         indir_sources = itertools.chain(
-            indir_sources,
+            (
+                DirectorySource(item, toplevel=True)
+                for item in setctl.get_directories(False)
+                if os.path.isdir(item)
+            ),
             (
                 file_source(item, dir_depth)
                 for item in source_config("DeepDirectories", "Catalog")
@@ -225,14 +218,18 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         )
 
         dir_sources = itertools.chain(
-            dir_sources,
+            (
+                DirectorySource(item, toplevel=True)
+                for item in setctl.get_directories(True)
+                if os.path.isdir(item)
+            ),
             (
                 file_source(item, dir_depth)
                 for item in source_config("DeepDirectories", "Direct")
             ),
         )
 
-        return dir_sources, indir_sources
+        return tuple(dir_sources), tuple(indir_sources)
 
     def _load_all_plugins(self):
         """
@@ -546,7 +543,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self,
         filepath: str,
         ui_ctx: GUIEnvironmentContext,
-        on_error: ty.Callable[[commandexec.ExecInfo], None],
+        on_error: ty.Callable[[ExecInfo], None],
     ) -> bool:
         ctx = self._execution_context
         try:
@@ -576,7 +573,6 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if pane != PaneSel.SOURCE:
             raise ValueError("Can only insert in first pane")
 
-        # FIXME: !!check; added * before objects
         self._decorate_object(*objects[:-1])
         self._set_object_stack(pane, objects[:-1])  # type: ignore
         self._insert_object(pane, objects[-1])

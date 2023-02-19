@@ -67,39 +67,29 @@ def make_histogram(vect, nbins=7):
 
 
 def icon_stats():
-    from kupfer.icons import ICON_CACHE
+    from kupfer.icons import ICON_CACHE, MISSING_ICON_FILES
 
     print("DEBUG: ICON STATS")
-
-    c = 0
-    tot_acc = 0
-    tot_pix = 0
-    acc_vect = []
-    for size in ICON_CACHE:
-        for k in ICON_CACHE[size]:
-            rec = ICON_CACHE[size][k]
-            acc = rec["accesses"]
-            acc_vect.append(acc)
-            if not acc:
-                c += 1
-
-            tot_acc += acc
-            icon = rec["icon"]
-            tot_pix += icon.get_height() * icon.get_width()
-
-        print("Cached icons:", len(ICON_CACHE[size]))
-        print("Unused cache entries", c)
-        print("Total accesses", tot_acc)
-        print(make_histogram(acc_vect))
-        print("Sum pixels", tot_pix)
+    for size, data in ICON_CACHE.items():
+        print("size:", size)
+        print("Cached icons:", len(data._data))
         print("Cached icon keys:")
-        for k in sorted(
-            ICON_CACHE[size], key=lambda k: icon_cache[size][k]["accesses"]
-        ):
-            print(k, ICON_CACHE[size][k]["accesses"])
+        for key in data._data.keys():
+            print("  ", key)
+
+    print("missing icon files: ", MISSING_ICON_FILES)
+
+
+def learn_stats():
+    from kupfer.core.learn import _REGISTER
+
+    print("Learn _REGISTER:")
+    for k, v in _REGISTER.items():
+        print(f"  {k}: {v}")
 
 
 def install():
     """Install atexit handlers for debug information"""
     atexit.register(mem_stats)
-    # atexit.register(icon_stats)
+    atexit.register(icon_stats)
+    atexit.register(learn_stats)

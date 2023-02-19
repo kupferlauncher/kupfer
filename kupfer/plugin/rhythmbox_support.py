@@ -1,5 +1,5 @@
 import typing as ty
-
+from collections import defaultdict
 
 Song = dict[str, ty.Any]
 
@@ -37,13 +37,13 @@ def _sort_album_order(songs: list[Song]) -> None:
 
 
 def parse_rhythmbox_albums(songs: ty.Iterable[Song]) -> dict[str, list[Song]]:
-    albums: dict[str, list[Song]] = {}
+    albums: dict[str, list[Song]] = defaultdict(list)
     for song in songs:
         if not song["artist"]:
             continue
 
         if song_album := song["album"]:
-            albums.setdefault(song_album, []).append(song)
+            albums[song_album].append(song)
 
     # sort album in track order
     for album in albums.values():
@@ -53,10 +53,10 @@ def parse_rhythmbox_albums(songs: ty.Iterable[Song]) -> dict[str, list[Song]]:
 
 
 def parse_rhythmbox_artists(songs: ty.Iterable[Song]) -> dict[str, list[Song]]:
-    artists: dict[str, list[Song]] = {}
+    artists: dict[str, list[Song]] = defaultdict(list)
     for song in songs:
         if song_artist := song["artist"]:
-            artists.setdefault(song_artist, []).append(song)
+            artists[song_artist].append(song)
 
     # sort in album + track order
     for artist in artists.values():

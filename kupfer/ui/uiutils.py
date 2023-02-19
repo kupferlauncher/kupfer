@@ -5,7 +5,6 @@ These helper functions can be called from plugins (are meant to serve this
 purpose), but care should be taken to only call UI functions from the main
 (default) thread.
 
-TODO: move to ui?
 """
 from __future__ import annotations
 

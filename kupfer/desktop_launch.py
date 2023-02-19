@@ -137,7 +137,7 @@ def _two_part_unescaper(
 
     Scan @s two characters at a time and replace using @repfunc
 
-    TODO: already seen this somewhere
+    TODO: similar function in desktop_parse; merge?
     """
     if not instr:
         return instr

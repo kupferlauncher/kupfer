@@ -7,7 +7,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import subprocess
 
 from kupfer import icons, plugin_support
-from kupfer.obj.files import ConstructFileLeaf
+from kupfer.obj.files import construct_file_leaf
 from kupfer.objects import Action, Source, TextLeaf
 from kupfer.support import kupferstring
 
@@ -74,7 +74,7 @@ class LocateQuerySource(Source):
         def get_locate_output(proc, offset=0):
             out, ignored_err = proc.communicate()
             return (
-                ConstructFileLeaf(kupferstring.fromlocale(f))
+                construct_file_leaf(kupferstring.fromlocale(f))
                 for f in out.split(b"\x00")[offset:-1]
             )
 

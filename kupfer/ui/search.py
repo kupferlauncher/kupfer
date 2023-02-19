@@ -180,6 +180,19 @@ class LeafModel:
         self._store.append(self._get_row(rankable))
 
     def add_first(self, rankable: Rankable) -> None:
+        """Add rankable on top the list. Remove previous object when already
+        exists.
+        """
+        siter = self._store.get_iter_first()
+        while siter:
+            row_rankable = self._store.get(siter, 0)[0]
+            if row_rankable.object == rankable.object:
+                # object already on list; remove it
+                self._store.remove(siter)
+                break
+
+            siter = self._store.iter_next(siter)
+
         self._store.prepend(self._get_row(rankable))
 
     def _get_icon(self, leaf: KupferObject) -> GdkPixbuf.Pixbuf | None:

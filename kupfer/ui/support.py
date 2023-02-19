@@ -3,7 +3,6 @@
 """
 UI support functions
 
-TODO: move somewhere
 """
 from gi.repository import Gtk
 

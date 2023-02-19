@@ -5,6 +5,7 @@ import pickle
 import random
 import typing as ty
 from pathlib import Path
+from collections import defaultdict
 
 from kupfer import config
 from kupfer.obj.base import KupferObject, Leaf
@@ -19,7 +20,7 @@ _DEFAULT_ACTIONS = {
     "<builtin.AppLeaf xfce4-terminal>": "<builtin.LaunchAgain>",
 }
 
-_FAVORITES: ty.Set[str] = set()
+_FAVORITES: set[str] = set()
 
 
 class Mnemonics:
@@ -28,18 +29,19 @@ class Mnemonics:
     as well as the total count
     """
 
+    __slots__ = ("mnemonics", "count")
+
     def __init__(self) -> None:
-        self.mnemonics: ty.Dict[str, int] = {}
+        self.mnemonics: defaultdict[str, int] = defaultdict(int)
         self.count: int = 0
 
     def __repr__(self) -> str:
-        mnm = "".join(f"{m}: {c}, " for m, c in self.mnemonics.items())
-        return f"<{self.__class__.__name__} {self.count} {mnm}>"
+        mnm = ",".join(f"{m}: {c}" for m, c in self.mnemonics.items())
+        return f"<{self.__class__.__name__} cnt={self.count} mnm={mnm}>"
 
-    def increment(self, mnemonic: ty.Optional[str] = None) -> None:
+    def increment(self, mnemonic: str | None = None) -> None:
         if mnemonic:
-            mcount = self.mnemonics.get(mnemonic, 0)
-            self.mnemonics[mnemonic] = mcount + 1
+            self.mnemonics[mnemonic] += 1
 
         self.count += 1
 
@@ -50,19 +52,25 @@ class Mnemonics:
             if (mcount := self.mnemonics[key]) > 1:
                 self.mnemonics[key] = mcount - 1
             else:
-                del self.mnemonics[key]
+                self.mnemonics.pop(key)
 
         self.count = max(self.count - 1, 0)
 
     def __bool__(self) -> bool:
         return self.count > 0
 
+    def __getstate__(self) -> dict[str, ty.Any]:
+        return {"count": self.count, "mnemonics": dict(self.mnemonics)}
+
+    def __setstate__(self, state: dict[str, ty.Any]) -> None:
+        self.count = state.get("count", 0)
+        self.mnemonics = defaultdict(int)
+        self.mnemonics.update(state.get("mnemonics", {}))
+
 
 class Learning:
     @classmethod
-    def unpickle_register(
-        cls, pickle_file: str
-    ) -> ty.Optional[ty.Dict[str, ty.Any]]:
+    def unpickle_register(cls, pickle_file: str) -> dict[str, ty.Any] | None:
         try:
             pfile = Path(pickle_file).read_bytes()
             data = conspickle.ConservativeUnpickler.loads(pfile)
@@ -77,9 +85,7 @@ class Learning:
         return None
 
     @classmethod
-    def pickle_register(
-        cls, reg: ty.Dict[str, ty.Any], pickle_file: str
-    ) -> bool:
+    def pickle_register(cls, reg: dict[str, ty.Any], pickle_file: str) -> bool:
         ## Write to tmp then rename over for atomicity
         tmp_pickle_file = f"{pickle_file}.{os.getpid()}"
         pretty.print_debug(__name__, f"Saving to {pickle_file}")
@@ -91,14 +97,19 @@ class Learning:
 
 
 # under _CORRELATION_KEY is {str:str}, other keys keeps Mnemonics
-_REGISTER: ty.Dict[str, ty.Union[Mnemonics, ty.Dict[str, str]]] = {}
+_REGISTER: dict[str, ty.Union[Mnemonics, dict[str, str]]] = {}
 
 
 def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
     """
     Record that KupferObject @obj was used, with the optional
-    search term @key recording
+    search term @key recording.
+    When key is None - skip registeration (this is only valid when action is
+    performed by accelerator)
     """
+    if key is None:
+        return
+
     name = repr(obj)
     mns = _REGISTER.get(name)
     if not mns:
@@ -114,7 +125,8 @@ def get_record_score(obj: ty.Any, key: str = "") -> float:
     bonus score is given for @key matches
     """
     name = repr(obj)
-    fav = 7 * (name in _FAVORITES)
+    fav = 7 if name in _FAVORITES else 0
+
     if name not in _REGISTER:
         return fav
 
@@ -124,10 +136,9 @@ def get_record_score(obj: ty.Any, key: str = "") -> float:
         return fav + 50 * (1 - 1.0 / (mns.count + 1))
 
     stats = mns.mnemonics
-    closescr = sum(stats[m] for m in stats if m.startswith(key))
-    mnscore = 30 * (1 - 1.0 / (closescr + 1))
-    exact = stats.get(key, 0)
-    mnscore += 50 * (1 - 1.0 / (exact + 1))
+    closescr = sum(val for m, val in stats.items() if m.startswith(key))
+    exact = stats[key]
+    mnscore = 30 * (1 - 1.0 / (closescr + 1)) + 50 * (1 - 1.0 / (exact + 1))
     return fav + mnscore
 
 
@@ -150,12 +161,6 @@ def set_correlation(obj: Leaf, for_leaf: Leaf) -> None:
     rval = _REGISTER[_CORRELATION_KEY]
     assert isinstance(rval, dict)
     rval[repr(for_leaf)] = repr(obj)
-
-
-def _get_mnemonic_items(
-    in_register: ty.Dict[str, ty.Any]
-) -> ty.List[ty.Tuple[str, ty.Any]]:
-    return [(k, v) for k, v in in_register.items() if k != _CORRELATION_KEY]
 
 
 def get_object_has_affinity(obj: Leaf) -> bool:
@@ -187,6 +192,8 @@ def _prune_register() -> None:
 
     To this we have to add the expected number of added mnemonics per
     invocation, est. 10, and we can estimate a target number of saved mnemonics.
+
+    TODO: ? make this deterministic?
     """
     random.seed()
     rand = random.random
@@ -196,14 +203,20 @@ def _prune_register() -> None:
     alpha = flux / goalitems**2
 
     chance = min(0.1, len(_REGISTER) * alpha)
-    for leaf, mne in _get_mnemonic_items(_REGISTER):
-        if rand() <= chance:
+    to_del = []
+    for leaf, mne in _REGISTER.items():
+        if leaf != _CORRELATION_KEY and rand() <= chance:
+            assert isinstance(mne, Mnemonics)
             mne.decrement()
             if not mne:
-                _REGISTER.pop(leaf)
+                to_del.append(leaf)
+
+    for leaf in to_del:
+        _REGISTER.pop(leaf)
 
     pretty.print_debug(
-        __name__, f"Pruned register ({len(_REGISTER)} mnemonics)"
+        __name__,
+        f"Pruned register ({len(_REGISTER)} mnemonics, {len(to_del)} deleted)",
     )
 
 

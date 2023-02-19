@@ -43,7 +43,7 @@ def get_dirlist(
     for dirname, dirnames, fnames in os.walk(folder):
         # skip deep directories
         depth = len(os.path.relpath(dirname, folder).split(os.path.sep)) - 1
-        if depth > max_depth:
+        if depth >= max_depth:
             dirnames.clear()
             continue
 
@@ -560,6 +560,10 @@ def get_safe_tempfile() -> tuple[ty.BinaryIO, str]:
     return (os.fdopen(fileno, "wb"), path)
 
 
+_homedir = os.path.expanduser("~/")
+_homedir_len = len(_homedir)
+
+
 def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
     """Return a unicode path for display for bytestring @filepath
 
@@ -567,9 +571,8 @@ def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
     format nicely (denote home by ~/ etc)
     """
     desc: str = GLib.filename_display_name(filepath)
-    homedir = os.path.expanduser("~/")
-    if desc.startswith(homedir) and homedir != desc:
-        desc = desc.replace(homedir, "~/", 1)
+    if desc.startswith(_homedir) and _homedir != desc:
+        desc = f"~/{desc[_homedir_len:]}"
 
     return desc
 
