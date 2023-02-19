@@ -13,6 +13,7 @@ __description__ = _(
 __version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import typing as ty
 import subprocess
 from contextlib import suppress
 
@@ -23,6 +24,9 @@ from kupfer import runtimehelper, utils
 from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf
 from kupfer.support import pretty
 from kupfer.desktop_launch import SpawnError
+
+if ty.TYPE_CHECKING:
+    _ = str
 
 # TODO: use imagemagick -auto-orient ??
 
@@ -61,9 +65,7 @@ class Scale(Action):
         yield FileLeaf
 
     def valid_for_item(self, leaf):
-        # FIXME: Make this detection smarter
-        _root, ext = os_path.splitext(leaf.object)
-        return ext.lower() in (".jpeg", ".jpg", ".png", ".gif")
+        return leaf.is_content_type("image/*")
 
     def requires_object(self):
         return True
@@ -131,9 +133,7 @@ class RotateBase(Action):
         yield FileLeaf
 
     def valid_for_item(self, leaf):
-        # FIXME: Make this detection smarter
-        _root, ext = os_path.splitext(leaf.object)
-        return ext.lower() in (".jpeg", ".jpg")
+        return leaf.is_content_type("image/*")
 
 
 class Rotate90(RotateBase):
