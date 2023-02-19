@@ -24,7 +24,7 @@ from kupfer.obj import (
 from kupfer.obj.sources import MultiSource, SourcesSource
 from kupfer.support import conspickle, pretty, scheduler
 
-from . import pluginload
+from . import pluginload, plugins
 
 
 class InternalError(Exception):
@@ -440,7 +440,6 @@ class SourceController(pretty.OutputMixin):
 
     def _disambiguate_actions(self, actions: ty.Iterable[Action]) -> None:
         """Rename actions by the same name (adding a suffix)"""
-        # FIXME: Disambiguate by plugin name, not python module name
         names: ty.Dict[str, Action] = {}
         renames = set()
         for action in actions:
@@ -453,7 +452,8 @@ class SourceController(pretty.OutputMixin):
 
         for action in renames:
             self.output_debug(f"Disambiguate Action {action}")
-            plugin_suffix = f" ({type(action).__module__.split('.')[-1]})"
+            module_name = plugins.get_plugin_name(type(action).__module__)
+            plugin_suffix = f" ({module_name})"
             if not action.name.endswith(plugin_suffix):
                 action.name += plugin_suffix
 

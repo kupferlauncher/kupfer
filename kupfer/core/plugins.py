@@ -478,3 +478,22 @@ def get_plugin_error(plugin_name: str) -> ty.Any:
         return sys.exc_info()
 
     return None
+
+
+def get_plugin_name(modulename: str) -> str:
+    """Get plugin name according to @modulename.
+    (return __kupfer_name__ in @modulename module).
+    """
+    name: str | None = None
+    for module in _IMPORTED_PLUGINS.values():
+        if not module or isinstance(module, FakePlugin):
+            continue
+
+        if module.__name__ == modulename:
+            name = getattr(module, "__kupfer_name__")
+            break
+
+    if name:
+        return name
+
+    return modulename.split(".")[-1]
