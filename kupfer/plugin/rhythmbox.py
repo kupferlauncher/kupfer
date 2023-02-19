@@ -3,19 +3,26 @@ Changes:
     2012-10-17 Karol Będkowski:
         + control rhythmbox via dbus interface
         + load songs via dbus interface
+    2023-02-19 KB:
+        + catch errors when no mpris is available via dbus
+        + simplify dbus string conversion
+
+NOTE: this require Rhythmbox with mpris supprt (i.e. rhythmbox-plugins package
+installed)
 """
+from __future__ import annotations
 
 __kupfer_name__ = _("Rhythmbox")
 __kupfer_sources__ = ("RhythmboxSource",)
 __description__ = _("Play and enqueue tracks and browse the music library")
-__version__ = "2017.2"
+__version__ = "2023.1"
 __author__ = "US, Karol Będkowski"
 
 
 import itertools
 import os
-from hashlib import md5
 import typing as ty
+from hashlib import md5
 
 import dbus
 from gi.repository import Gio
@@ -94,22 +101,7 @@ def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
     return interface
 
 
-def _canonicalize(strmap: dict[str, str], string: ty.Any) -> str:
-    """Look up @string in the string map,
-    and return the copy in the map.
-
-    If not found, update the map with the string.
-    """
-    # TODO: check is still needed
-    try:
-        return strmap[string]
-    except KeyError:
-        string = str(string)
-        strmap[string] = string
-        return string  # type: ignore
-
-
-def _tracknr(string):
+def _tracknr(string: ty.Any) -> int | None:
     try:
         return int(string)
     except ValueError:
@@ -117,20 +109,22 @@ def _tracknr(string):
 
 
 def _get_all_songs_via_dbus():
-    iface = _create_dbus_connection_mpris(
-        _OBJ_NAME_MEDIA_CONT, _OBJ_PATH_MEDIASERVC_ALL
-    )
-    if iface:
-        strings: dict[str, str] = {}
-        for item in iface.ListItems(0, 9999, ["*"]):
-            yield {
-                "album": _canonicalize(strings, item["Album"]),
-                "artist": _canonicalize(strings, item["Artist"]),
-                "title": str(item["DisplayName"]),
-                "track-number": _tracknr(item["TrackNumber"]),
-                "location": str(item["URLs"][0]),
-                "date": _canonicalize(strings, item["Date"]),
-            }
+    try:
+        iface = _create_dbus_connection_mpris(
+            _OBJ_NAME_MEDIA_CONT, _OBJ_PATH_MEDIASERVC_ALL
+        )
+        if iface:
+            for item in iface.ListItems(0, 9999, ["*"]):
+                yield {
+                    "album": str(item["Album"]),
+                    "artist": str(item["Artist"]),
+                    "title": str(item["DisplayName"]),
+                    "track-number": _tracknr(item["TrackNumber"]),
+                    "location": str(item["URLs"][0]),
+                    "date": str(item["Date"]),
+                }
+    except Exception:
+        pretty.print_exc(__name__, "_get_all_songs_via_dbus error")
 
 
 def spawn_async(argv):
@@ -544,7 +538,7 @@ class RhythmboxSongsSource(Source):
 
 
 class RhythmboxSource(AppLeafContentMixin, Source, PicklingHelperMixin):
-    appleaf_content_id = "rhythmbox"
+    appleaf_content_id = ("rhythmbox", "org.gnome.Rhythmbox3")
 
     def __init__(self):
         super().__init__(_("Rhythmbox"))
