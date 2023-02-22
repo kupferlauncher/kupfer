@@ -145,14 +145,53 @@ def check_dbus_connection():
     if not _has_dbus_connection:
         raise ImportError(_("No D-Bus connection to desktop session"))
 
-class UserNamePassword (object):
-    pass
+class UserNamePassword (settings.ExtendedSetting):
+	''' Configuration type for storing username/password values.
+	Username is stored in Kupfer config, password in keyring '''
+	def __init__(self, obj=None):
+		settings.ExtendedSetting.__init__(self)
+		self.username = None
+		self.password = None
+		if obj:
+			self.username = obj.username
+			self.password = obj.password
+
+	def __repr__(self):
+		return '<UserNamePassword "%s", %s>' % (self.username,
+		                                        bool(self.password))
+
+	def load(self, plugin_id, key, username):
+		self.password = keyring.get_password(plugin_id, username)
+		self.username = username
+
+	def save(self, plugin_id, key):
+		'''Save @user_password - store password in keyring and return username
+		to save in standard configuration file '''
+		keyring.set_password(plugin_id, self.username, self.password)
+		return self.username
+
+	@classmethod
+	def get_backend_name(cls):
+		return keyring.get_keyring().name
+
 
 def check_keyring_support():
     """
-    raise ImportError with because it is not supported
+    Check if keyring is installed
     """
-    raise ImportError("Keyring is not supported")
+    try:
+        global keyring
+        import keyring
+    except ImportError:
+        raise ImportError("Keyring is not installed")
+
+    from keyring.backends.fail import Keyring as FailKeyring
+    key_storage = keyring.get_keyring()
+    
+    if isinstance(key_storage, FailKeyring):
+        msg = "This plugin require Gnome Keyring, Kwallet or " + \
+              "other keyring backend to store password properly."
+        raise ImportError(msg)
 
 def check_keybinding_support():
     """
