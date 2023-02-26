@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# pylint:disable
+# pylint:disable=protected-access
 # type:ignore
 
 """
@@ -53,13 +53,13 @@ class TestValidateNetloc(unittest.TestCase):
         self.assertFalse(v.validate_netloc("[2001]"))
         self.assertFalse(v.validate_netloc("[2:2:3:4:4:5:5:5:5:6]"))
         self.assertFalse(
-            v.validate_netloc("aaaa:bbbb:aaaa:bbbb:aaaa:bbbb:aaaa:bbbb:")
+            v.validate_netloc("[aaaa:bbbb:aaaa:bbbb:aaaa:bbbb:aaaa:bbbb:]")
         )
         self.assertFalse(
-            v.validate_netloc("aaaa:bbbb:aaaa:bbbb:aaaa:bbbb::aaaa:bbbb")
+            v.validate_netloc("[aaaa:bbbb:aaaa:bbbb:aaaa:bbbb::aaaa:bbbb]")
         )
         self.assertFalse(
-            v.validate_netloc("aaaa:zbbb:aaaa:bbbb:aaaa:bbbb::azaa:bbbb")
+            v.validate_netloc("[aaaa:zbbb:aaaa:bbbb:aaaa:bbbb::azaa:bbbb]")
         )
 
     def test_hostname(self):
@@ -88,3 +88,48 @@ class TestValidateNetloc(unittest.TestCase):
             )
         )
         self.assertFalse(v.validate_netloc(".31231-.com"))
+
+
+class TestIsUrl(unittest.TestCase):
+    def test_is_http_domain(self):
+        self.assertTrue(v._is_http_domain("www.com"))
+        self.assertTrue(v._is_http_domain("www.abc.com"))
+        self.assertTrue(v._is_http_domain("www.abc.io"))
+        self.assertTrue(v._is_http_domain("test.pl"))
+        self.assertTrue(v._is_http_domain("test.com"))
+        self.assertTrue(v._is_http_domain("localhost"))
+        self.assertTrue(v._is_http_domain("ftp.localhost"))
+        self.assertTrue(v._is_http_domain("abc.local"))
+        self.assertTrue(v._is_http_domain("abc.local"))
+        self.assertTrue(v._is_http_domain("abc.home.arpa"))
+
+        self.assertFalse(v._is_http_domain("abcd"))
+        self.assertFalse(v._is_http_domain("abc.xxxxxxxx"))
+
+    def test_valid_http(self):
+        self.assertEqual("https://www.abc.com", v.is_url("www.abc.com"))
+        self.assertEqual("http://www.abc.com", v.is_url("http://www.abc.com"))
+        self.assertEqual("http://abc.com", v.is_url("http://abc.com"))
+        self.assertEqual(
+            "https://abc.com/abc?test", v.is_url("abc.com/abc?test")
+        )
+
+        self.assertEqual("http://localhost", v.is_url("localhost"))
+        self.assertEqual(
+            "https://localhost/test", v.is_url("https://localhost/test")
+        )
+
+        self.assertEqual(
+            "ftp://abc:123@localhost/test",
+            v.is_url("ftp://abc:123@localhost/test"),
+        )
+        self.assertEqual(
+            "ftp://abc:123@ftp.localhost/test",
+            v.is_url("abc:123@ftp.localhost/test"),
+        )
+
+    def test_valid_http_neg(self):
+        self.assertIsNone(v.is_url("www.abc"))
+        self.assertIsNone(v.is_url("abcdds"))
+        self.assertIsNone(v.is_url("http daldkal alkl"))
+        self.assertIsNone(v.is_url("com."))
