@@ -613,7 +613,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def select_clipboard_text(self) -> None:
         # Add optional lookup data to narrow the search
-        self._data_ctrl.find_object("qpfer:clipboardtext#any.FileLeaf")
+        self._data_ctrl.find_object("qpfer:clipboardtext#any.TextLeaf")
 
     def select_quit(self) -> None:
         self._data_ctrl.reset()
