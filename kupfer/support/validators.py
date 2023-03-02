@@ -44,6 +44,27 @@ def _is_ipv6(netloc: str) -> bool:
     return all(re.match(r"[0-9a-fA-F]{1,4}", part) for part in parts if part)
 
 
+def _is_valid_domain(domain: str) -> bool:
+    if not domain:
+        return False
+
+    domain_re = (
+        # hostname
+        r"[a-z\u00a1-\uffff0-9](?:[a-z\u00a1-\uffff0-9-]{0,61}"
+        r"[a-z\u00a1-\uffff0-9])?"
+        # domain
+        r"(?:\.(?!-)[a-z\u00a1-\uffff0-9-]{1,63}(?<!-))*"
+        # tld
+        r"\."  # dot
+        r"(?!-)"  # can't start with a dash
+        r"(?:[a-z\u00a1-\uffff-]{2,63}"  # domain label
+        r"|xn--[a-z0-9]{1,59})"  # or punycode label
+        r"(?<!-)"  # can't end with a dash
+        r"\.?"  # may have a trailing dot
+    )
+    return bool(re.match(domain_re, domain))
+
+
 def validate_netloc(netloc: str) -> bool:
     """Validate is netlocation valid.
     Accepted forms [<user>[:<pass>]@]<hostname with domain|ipv4|ipv6>[:port]
@@ -67,24 +88,13 @@ def validate_netloc(netloc: str) -> bool:
         if not _validate_port(port):
             return False
 
+    if not host:
+        return False
+
     if host == "localhost":
         return True
 
-    host_re = (
-        # hostname
-        r"[a-z\u00a1-\uffff0-9](?:[a-z\u00a1-\uffff0-9-]{0,61}"
-        r"[a-z\u00a1-\uffff0-9])?"
-        # domain
-        r"(?:\.(?!-)[a-z\u00a1-\uffff0-9-]{1,63}(?<!-))*"
-        # tld
-        r"\."  # dot
-        r"(?!-)"  # can't start with a dash
-        r"(?:[a-z\u00a1-\uffff-]{2,63}"  # domain label
-        r"|xn--[a-z0-9]{1,59})"  # or punycode label
-        r"(?<!-)"  # can't end with a dash
-        r"\.?"  # may have a trailing dot
-    )
-    return _is_ipv4(host) or bool(re.match(host_re, host)) or _is_ipv6(host)
+    return _is_ipv4(host) or _is_valid_domain(host) or _is_ipv6(host)
 
 
 def _is_http_domain(netloc: str) -> bool:
@@ -156,3 +166,15 @@ def is_url(text: str) -> str | None:
             return f"{schema}://{text}"
 
     return None
+
+
+def is_valid_email(text: str) -> bool:
+    if not text:
+        return False
+
+    local_part, _dummy, domain = text.partition("@")
+    if not _is_valid_domain(domain):
+        return False
+
+    re_local_part = r"[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+"
+    return bool(re.match(re_local_part, local_part))

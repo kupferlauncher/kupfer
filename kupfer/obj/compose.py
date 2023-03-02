@@ -12,9 +12,7 @@ from .exceptions import InvalidDataError
 from .objects import Perform, RunnableLeaf, TextLeaf
 
 if ty.TYPE_CHECKING:
-    _ = str
-    # pylint: disable=unnecessary-lambda-assignment
-    ngettext = lambda *x: str(x)
+    from gettext import gettext as _, ngettext
 
 
 class TimedPerform(Perform):

@@ -25,7 +25,7 @@ from .exceptions import (
     OperationError,
 )
 from .representation import TextRepresentation
-from .helplib import FilesystemWatchMixin, PicklingHelperMixin
+from .helplib import FilesystemWatchMixin
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -69,7 +69,7 @@ class FileLeaf(Leaf, TextRepresentation):
         # Use glib filename reading to make display name out of filenames
         # this function returns a `unicode` object
         if not name:
-            unicode_path = kupferstring.tounicode(obj)
+            unicode_path = obj  # kupferstring.tounicode(obj)
             name = GLib.filename_display_basename(unicode_path)
 
         assert name
@@ -344,8 +344,10 @@ class AppLeaf(Leaf):
     def get_description(self) -> ty.Optional[str]:
         # Use Application's description, else use executable
         # for "file-based" applications we show the path
-        app_desc = kupferstring.tounicode(self.object.get_description())
-        ret = kupferstring.tounicode(app_desc or self.object.get_executable())
+        # app_desc = kupferstring.tounicode(self.object.get_description())
+        app_desc = self.object.get_description()
+        # ret = kupferstring.tounicode(app_desc or self.object.get_executable())
+        ret = app_desc or self.object.get_executable()
         if self._init_path:
             app_path = utils.get_display_path_for_bytestring(self._init_path)
             return f"({app_path}) {ret}"

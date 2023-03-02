@@ -98,8 +98,6 @@ def score_objects(
     rankables: List[Rankable]
 
     Prune rankables that score low for the key.
-
-    TODO: convert to generator
     """
     key = key.lower()
     _score = _score_for_key(key)

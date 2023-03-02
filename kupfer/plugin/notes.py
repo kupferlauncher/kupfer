@@ -94,7 +94,7 @@ def _get_notes_interface(activate=False):
             searchobj = bus.get_object(service_name, obj_name)
         except dbus.DBusException as exc:
             pretty.print_error(__name__, exc)
-            return
+            return None
 
         return dbus.Interface(searchobj, iface_name)
 

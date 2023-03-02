@@ -9,12 +9,12 @@ for specific slots to be filled.
 """
 from __future__ import annotations
 
-import re
 import typing as ty
 
 from gi.repository import GdkPixbuf
 
 from kupfer import icons
+from kupfer.support import validators
 
 from .base import Leaf
 from .grouping import GroupingLeaf, Slots
@@ -70,17 +70,8 @@ class ContactLeaf(GroupingLeaf):
 
 def _get_email_from_url(url: str) -> str:
     """convert http://foo@bar.pl -> foo@bar.pl"""
-    _sch, _sep, email = url.partition("://")
+    *_dummy, email = url.partition("://")
     return email or url
-
-
-# FIXME: Find a more robust (less strict?) approach than regex
-_CHECK_EMAIL_RE = re.compile(r"^[a-z0-9\._%-+]+\@[a-z0-9._%-]+\.[a-z]{2,}$")
-
-
-def is_valid_email(email: str) -> bool:
-    """simple email check"""
-    return len(email) > 7 and _CHECK_EMAIL_RE.match(email.lower()) is not None
 
 
 def email_from_leaf(leaf: Leaf) -> ty.Optional[str]:
@@ -94,7 +85,7 @@ def email_from_leaf(leaf: Leaf) -> ty.Optional[str]:
         return leaf[EMAIL_KEY] if EMAIL_KEY in leaf else None
 
     email = _get_email_from_url(leaf.object)
-    return email if is_valid_email(email) else None
+    return email if validators.is_valid_email(email) else None
 
 
 class EmailContact(ContactLeaf):

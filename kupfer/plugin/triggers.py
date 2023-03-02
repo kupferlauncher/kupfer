@@ -141,7 +141,7 @@ class Triggers(Source):
 
 def try_bind_key(keystr):
     label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
-    ulabel = kupferstring.tounicode(label)
+    ulabel = label  # kupferstring.tounicode(label)
     if ulabel is None:
         return False
 

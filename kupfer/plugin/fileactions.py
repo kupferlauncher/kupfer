@@ -61,8 +61,8 @@ class MoveTo(Action, pretty.OutputMixin):
             self.output_debug(f"Move {sfile} to {dfile} (ret: {ret})")
         except GLib.Error as exc:
             raise OperationError(str(exc)) from exc
-        else:
-            return FileLeaf(dfile.get_path())
+
+        return FileLeaf(dfile.get_path())
 
     def valid_for_item(self, leaf):
         return os.access(leaf.object, os.R_OK | os.W_OK)
@@ -138,8 +138,8 @@ class Rename(Action, pretty.OutputMixin):
             self.output_debug(f"Move {sfile} to {dfile} (ret: {ret})")
         except GLib.Error as exc:
             raise OperationError(str(exc)) from exc
-        else:
-            return FileLeaf(dfile.get_path())
+
+        return FileLeaf(dfile.get_path())
 
     def activate_multiple(self, objs, iobjs):
         raise NotImplementedError

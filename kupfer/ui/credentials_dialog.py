@@ -45,11 +45,13 @@ class CredentialsDialogController:
 
     @property
     def username(self) -> str:
-        return kupferstring.tounicode(self.entry_user.get_text())  # type:ignore
+        # return kupferstring.tounicode(self.entry_user.get_text())  # type:ignore
+        return self.entry_user.get_text()
 
     @property
     def password(self) -> str:
-        return kupferstring.tounicode(self.entry_pass.get_text())  # type:ignore
+        # return kupferstring.tounicode(self.entry_pass.get_text())  # type:ignore
+        return self.entry_pass.get_text()
 
 
 def ask_user_credentials(

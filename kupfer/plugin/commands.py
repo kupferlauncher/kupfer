@@ -118,6 +118,7 @@ class PassToCommand(Action):
     def valid_object(self, iobj, for_item=None):
         if isinstance(iobj, Command):
             return True
+
         return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
 
     def get_description(self):
@@ -229,14 +230,14 @@ class CommandTextSource(TextSource):
             return
 
         ## check for absolute path with arguments
-        firstwords = text.split()
+        firstword, *rest = text.split(None, 1)
         ## files are handled elsewhere
-        if firstwords[0].startswith("/") and len(firstwords) == 1:
+        if firstword.startswith("/") and not rest:
             return
 
         ## absolute paths come out here since
         ## os.path.join with two abspaths returns the latter
-        firstword = firstwords[0]
+
         # iterate over $PATH directories
         env_path = os.environ.get("PATH", os.defpath)
         for execdir in env_path.split(os.pathsep):

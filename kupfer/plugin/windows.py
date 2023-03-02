@@ -24,24 +24,20 @@ def _get_window(xid):
     if not xid:
         return None
 
-    scr = Wnck.Screen.get_default()
-    if not scr:
-        return None
-
-    for wnd in scr.get_windows():
-        if wnd.get_xid() == xid:
-            return wnd
+    if scr := Wnck.Screen.get_default():
+        for wnd in scr.get_windows():
+            if wnd.get_xid() == xid:
+                return wnd
 
     return None
 
 
 def _get_workspace(idx):
     """Get wnck workspacke by its number."""
-    scr = Wnck.Screen.get_default()
-    if not scr:
-        return None
+    if scr := Wnck.Screen.get_default():
+        return scr.get_workspace(idx)
 
-    return scr.get_workspace(idx)
+    return None
 
 
 class WindowLeaf(Leaf):
@@ -290,6 +286,7 @@ class WindowAction(Action):
     def get_icon_name(self):
         if not self.icon_name:
             return super().get_icon_name()
+
         return self.icon_name
 
 
@@ -355,6 +352,7 @@ class WindowsSource(Source):
 
         yield FrontmostWindow()
         yield NextWindow()
+
         for win in reversed(screen.get_windows_stacked()):
             if not win.is_skip_tasklist():
                 name, app = (win.get_name(), win.get_application().get_name())

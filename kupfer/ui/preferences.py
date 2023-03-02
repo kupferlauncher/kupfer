@@ -858,7 +858,8 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def on_entry_plugins_filter_changed(self, widget: Gtk.Widget) -> None:
         s_filter = widget.get_text()
-        us_filter = kupferstring.tounicode(s_filter).lower()  # type:ignore
+        # us_filter = kupferstring.tounicode(s_filter).lower()  # type:ignore
+        us_filter = s_filter.lower()
         self._refresh_plugin_list(us_filter)
 
     def on_entry_plugins_filter_icon_press(
@@ -905,7 +906,7 @@ class PreferencesWindowController(pretty.OutputMixin):
             return False
 
         label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
-        ulabel = kupferstring.tounicode(label)
+        ulabel = label  # kupferstring.tounicode(label)
         if not ulabel:
             return False
 

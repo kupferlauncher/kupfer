@@ -145,13 +145,12 @@ def _parse_notify_id(startup_notification_id: str) -> int:
     """
     Return timestamp or 0 from @startup_notification_id
     """
-    timestamp = 0
     if "_TIME" in startup_notification_id:
         _ign, bstime = startup_notification_id.split("_TIME", 1)
         with contextlib.suppress(ValueError):
-            timestamp = abs(int(bstime))
+            return abs(int(bstime))
 
-    return timestamp
+    return 0
 
 
 @contextlib.contextmanager
@@ -164,9 +163,9 @@ def using_startup_notify_id(notify_id: str) -> ty.Any:
 
     The yelt object is the parsed timestamp
     """
-    timestamp = _parse_notify_id(notify_id)
-    if timestamp:
+    if timestamp := _parse_notify_id(notify_id):
         Gdk.notify_startup_complete_with_id(notify_id)
+
     try:
         pretty.print_debug(
             __name__, "Using startup id", repr(notify_id), timestamp

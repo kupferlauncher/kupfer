@@ -28,7 +28,7 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
-KUPFER_CSS = b"""
+KUPFER_CSS: ty.Final = b"""
 #kupfer {
     border-radius: 0.6em;
 }
@@ -71,7 +71,7 @@ KUPFER_CSS = b"""
 }
 """
 
-WINDOW_BORDER_WIDTH = 8
+WINDOW_BORDER_WIDTH: ty.Final = 8
 
 
 class WindowController(pretty.OutputMixin):
@@ -584,8 +584,7 @@ class WindowController(pretty.OutputMixin):
         info: ty.Any,
         time: int,
     ) -> None:
-        uris = data_.get_uris()
-        if uris:
+        if uris := data_.get_uris():
             self._interface.put_files(uris, paths=False)
         else:
             self._interface.put_text(data_.get_text())

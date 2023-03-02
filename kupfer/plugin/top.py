@@ -118,7 +118,12 @@ class TaskSource(Source):
             "pid: %(pid)s  cpu: %(cpu)g%%  mem: %(mem)g%%  time: %(time)s"
         )
         for pid, cpu, mem, ptime, cmd in processes:
-            description = fields % dict(pid=pid, cpu=cpu, mem=mem, time=ptime)
+            description = fields % {
+                "pid": pid,
+                "cpu": cpu,
+                "mem": mem,
+                "time": ptime,
+            }
             self._cache.append(Task(pid, cmd, description))
 
         self.mark_for_update()

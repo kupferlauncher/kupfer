@@ -23,10 +23,10 @@ from . import preferences
 from .search import ActionSearch, LeafSearch, Search, State
 from .support import escape_markup_str, text_direction_is_ltr
 
-_ELLIPSIZE_MIDDLE = Pango.EllipsizeMode.MIDDLE
-_SLOW_INPUT_INTERVAL = 2
-_KEY_PRESS_INTERVAL = 0.3
-_KEY_PRESS_REPEAT_THRESHOLD = 0.02
+_ELLIPSIZE_MIDDLE: ty.Final = Pango.EllipsizeMode.MIDDLE
+_SLOW_INPUT_INTERVAL: ty.Final = 2
+_KEY_PRESS_INTERVAL: ty.Final = 0.3
+_KEY_PRESS_REPEAT_THRESHOLD: ty.Final = 0.02
 
 
 if ty.TYPE_CHECKING:

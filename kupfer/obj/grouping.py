@@ -103,6 +103,7 @@ class GroupingSource(Source):
                     for slot in leaf.grouping_slots:  # type: ignore
                         if value := slots.get(slot):
                             groups[(slot, value)].add(leaf)  # type: ignore
+
         return groups, non_group_leaves
 
     def _merge_groups(self, groups: _Groups) -> set[tuple[str, ty.Any]]:
@@ -145,8 +146,7 @@ class GroupingSource(Source):
         if self.should_sort_lexically():
             leaves = utils.locale_sort(leaves)
 
-        mergetime = time.time() - starttime
-        if mergetime > 0.05:
+        if (mergetime := time.time() - starttime) > 0.05:
             self.output_debug(f"Warning(?): merged in {mergetime} seconds")
 
         return itertools.chain(non_group_leaves, leaves)

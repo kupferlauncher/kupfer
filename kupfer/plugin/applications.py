@@ -76,7 +76,9 @@ BLACKLIST_IDS = frozenset(
 )
 
 
-def _should_show(app_info, desktop_type, use_filter):
+def _should_show(
+    app_info: Gio.AppInfo, desktop_type: str, use_filter: bool
+) -> bool:
     if app_info.get_nodisplay():
         return False
 
@@ -84,9 +86,9 @@ def _should_show(app_info, desktop_type, use_filter):
         return True
 
     if desktop_type == "":
-        return app_info.should_show()
+        return app_info.should_show()  # type: ignore
 
-    return app_info.get_show_in(desktop_type)
+    return app_info.get_show_in(desktop_type)  # type:ignore
 
 
 class AppSource(Source, FilesystemWatchMixin):

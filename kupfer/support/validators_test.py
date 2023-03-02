@@ -3,7 +3,7 @@
 # type:ignore
 
 """
-
+Tests for validators.
 """
 import unittest
 
@@ -88,6 +88,7 @@ class TestValidateNetloc(unittest.TestCase):
             )
         )
         self.assertFalse(v.validate_netloc(".31231-.com"))
+        self.assertFalse(v.validate_netloc("test@"))
 
 
 class TestIsUrl(unittest.TestCase):
@@ -133,3 +134,13 @@ class TestIsUrl(unittest.TestCase):
         self.assertIsNone(v.is_url("abcdds"))
         self.assertIsNone(v.is_url("http daldkal alkl"))
         self.assertIsNone(v.is_url("com."))
+
+
+class TestIsEmail(unittest.TestCase):
+    def test_is_valid_email(self):
+        self.assertTrue(v.is_valid_email("test@ldldl.com"))
+        self.assertTrue(v.is_valid_email("test1w123@ldldl.com.pl"))
+
+        self.assertFalse(v.is_valid_email("test@"))
+        self.assertFalse(v.is_valid_email("@ldldl.com.pl"))
+        self.assertFalse(v.is_valid_email("ldldl.com.pl"))

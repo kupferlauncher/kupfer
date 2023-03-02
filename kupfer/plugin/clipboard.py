@@ -167,8 +167,10 @@ class ClipboardSource(Source):
 
         if is_selection:
             self.selected_text = text
+
         if not is_selection or is_sync_selection:
             self.clipboard_text = text
+
         self._prune_to_length(max_len)
         self.mark_for_update()
 
@@ -189,6 +191,7 @@ class ClipboardSource(Source):
             )
         ):
             self.clipboards.pop()
+
         self.clipboards.append(cliptext)
 
     def _prune_to_length(self, max_len):
@@ -201,22 +204,25 @@ class ClipboardSource(Source):
             yield SelectedText(self.selected_text)
 
         # produce the current clipboard files if any
-        paths = [
-            _f
-            for _f in [
-                Gio.File.new_for_uri(uri).get_path()
-                for uri in self.clipboard_uris
-            ]
-            if _f
-        ]
+        paths: list[str] = list(
+            filter(
+                None,
+                (
+                    Gio.File.new_for_uri(uri).get_path()
+                    for uri in self.clipboard_uris
+                ),
+            )
+        )
+
         if len(paths) == 1:
             yield CurrentClipboardFile(paths[0])
-        if len(paths) > 1:
+        elif len(paths) > 1:
             yield CurrentClipboardFiles(paths)
 
         # put out the current clipboard text
         if self.clipboard_text:
             yield CurrentClipboardText(self.clipboard_text)
+
         # put out the clipboard history
         for txt in reversed(self.clipboards):
             yield ClipboardText(txt)

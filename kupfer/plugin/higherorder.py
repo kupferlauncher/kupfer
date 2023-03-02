@@ -41,7 +41,7 @@ def _exec_no_show_result(composedleaf):
     if result_type == commandexec.ExecResult.SOURCE:
         leaves = list(ret.get_leaves())
         if not leaves:
-            return
+            return None
 
         if len(leaves) == 1:
             return leaves[0]

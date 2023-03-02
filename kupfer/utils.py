@@ -149,7 +149,6 @@ class AsyncCommand(pretty.OutputMixin):
         self.finish_callback = finish_callback
         self.exit_status: ty.Optional[int] = None
 
-        # FIXME: No byte string support
         self.output_debug("AsyncCommand:", argv)
 
         flags = GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD

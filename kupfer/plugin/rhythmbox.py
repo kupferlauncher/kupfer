@@ -416,7 +416,7 @@ class ArtistAlbumsSource(CollectionSource):
         for song in self.leaf.object:
             albums[song["album"]].append(song)
 
-        names = utils.locale_sort(albums)
+        names = utils.locale_sort(albums.keys())
         names.sort(key=lambda name: albums[name][0]["date"])  # type:ignore
         for album in names:
             yield AlbumLeaf(albums[album], album)

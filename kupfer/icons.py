@@ -103,7 +103,7 @@ def _load_icon_from_func(
     @get_data_func: function to retrieve the data if needed
     @override: override the icon theme
     """
-    icon_name = kupferstring.tounicode(icon_name)  # type: ignore
+    # icon_name = kupferstring.tounicode(icon_name)  # type: ignore
     if not override and icon_name in kupfer_locally_installed_names:
         pretty.print_debug(__name__, "Skipping existing", icon_name)
         return

@@ -507,20 +507,20 @@ class MatchViewOwner(pretty.OutputMixin):
         """
         @preedit: Widget to be injected or None
         """
-        if preedit:
-            if old_parent := preedit.get_parent():
-                old_parent.remove(preedit)
-
-            self.shrink_preedit(preedit)
-            self._editbox.pack_start(preedit, False, True, 0)
-            # selectedc = self.style.dark[Gtk.StateType.SELECTED]
-            # preedit.modify_bg(Gtk.StateType.SELECTED, selectedc)
-            preedit.show()
-            preedit.grab_focus()
+        if not preedit:
+            self.label.set_width_chars(_LABEL_CHAR_WIDTH)
+            self.label.set_alignment(0.5, 0.5)
             return
 
-        self.label.set_width_chars(_LABEL_CHAR_WIDTH)
-        self.label.set_alignment(0.5, 0.5)
+        if old_parent := preedit.get_parent():
+            old_parent.remove(preedit)
+
+        self.shrink_preedit(preedit)
+        self._editbox.pack_start(preedit, False, True, 0)
+        # selectedc = self.style.dark[Gtk.StateType.SELECTED]
+        # preedit.modify_bg(Gtk.StateType.SELECTED, selectedc)
+        preedit.show()
+        preedit.grab_focus()
 
 
 # number rows to skip when press PgUp/PgDown
@@ -1067,8 +1067,7 @@ class ActionSearch(Search):
         if not self.action_accel_config:
             return ""
 
-        accel = _accel_for_action(leaf, self.action_accel_config)
-        if accel:
+        if accel := _accel_for_action(leaf, self.action_accel_config):
             keyv, mods = Gtk.accelerator_parse(accel)
             if mods != 0:
                 self.output_error("Ignoring action accelerator mod", mods)
