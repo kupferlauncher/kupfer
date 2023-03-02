@@ -1,0 +1,117 @@
+[project]
+name = "kupfer"
+version = "323-dev"
+description = "Kupfer is an interface for quick and convenient access to applications and their documents."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = {file = "COPYING"}
+keywords = []
+authors = [
+  {name = "Ulrik Sverdrup"},
+  {name = "Karol Będkowski"},
+  {name = "Francesco Marella"},
+  {name = "Chmouel Boudjnah"},
+  {name = "Horia V. Corcalciuc"},
+  {name = "Grigory Javadyan"},
+  {name = "Chris Parsons"},
+  {name = "Fabian Carlström"},
+  {name = "Jakh Daven"},
+  {name = "Thomas Renard"}
+]
+maintainers = [
+  {name = "Karol Będkowski"},
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+
+dependencies = [
+  "gi.repository.Gtk",
+  "gi.repository.GLib",
+  "gi.repository.Gio",
+  "xdg",
+  "dbus"
+]
+
+[project.optional-dependencies]
+optional = [
+  "gi.repository.Wnck",
+  "gi.repository.Keybinder"
+]
+test = [
+]
+plugins = [
+  "vboxapi",
+  "pinboard",
+  "libvirt",
+  "brotab"
+]
+
+[project.urls]
+homepage = "https://kupferlauncher.github.io/"
+#documentation = ""
+repository = "http://github.com:kupferlauncher/kupfer"
+#changelog = ""
+
+
+[tool.black]
+line-length = 80
+target-version = ['py39']
+
+
+[tool.isort]
+line_length = 80
+multi_line_output = 3
+profile = "black"
+skip = "migrations"
+
+
+[tool.bandit]
+skips = ["B101", "B410", "B303", "B110", "B404", "B311", "B405", "B201"]
+
+
+[tool.mypy]
+python_version = 3.9
+strict = true
+exclude = [
+  '_test\.py$'
+]
+allow_untyped_defs = true
+allow_untyped_calls = true
+ignore_missing_imports = true
+
+
+[tool.flake8]
+builtins = "_"
+
+
+[tool.pylint.main]
+ignore=["build", "dist", "oldplugins", "contrib", "waflib", "waf"]
+jobs=4
+extension-pkg-allow-list="lxml"
+extension-pkg-whitelist="lxml"
+py-version = [3, 9]
+disable = ["missing-docstring", "format", "unused-argument"]
+
+[tool.pylint.basic]
+good-names=["i", "j", "k", "ex", "Run", "_", "db", "err", "ok", "x", "y", "id"]
+
+[tool.pylint.imports]
+ext-import-graph = ""
+import-graph = ""
+int-import-graph = "imports.svg"
+
+[tool.pylint.exceptions]
+overgeneral-exceptions = [""]
+
+[tool.pylint.design]
+max-args = 8
+max-attributes = 10
+
+[tool.pylint.variables]
+additional-builtins = ["_", "ngettext", "ic"]
+
+
+[tool.ruff]
+builtins = ["_", "ic", "ic_stack", "ngettext"]
