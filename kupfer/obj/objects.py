@@ -154,18 +154,10 @@ class TextLeaf(Leaf, TextRepresentation):
 
     @classmethod
     def get_first_text_line(cls, text: str) -> str:
-        firstline = None
-        if (firstnl := text.find("\n")) != -1:
-            firstline = text[:firstnl].strip()
-            if not firstline:
-                splut = text.split(None, 1)
-                firstline = splut[0] if splut else text
-        else:
-            firstline = text
+        if not text:
+            return text
 
-        if not firstline:
-            firstline = text.strip("\n")
-
+        firstline, *_dummy = text.lstrip().partition("\n")
         return firstline
 
     def get_description(self) -> str:
