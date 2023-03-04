@@ -87,20 +87,25 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
         self.monitor_token = self.monitor_directories(self._ssh_home)
 
     def monitor_include_file(self, gfile):
-        return gfile and gfile.get_basename() == self._ssh_config_file
+        return gfile and gfile.get_path() in (
+            self._ssh_config_file,
+            self._ssh_home,
+        )
 
     def get_items(self):
         try:
             with codecs.open(self._config_path, "r", "UTF-8") as cfile:
                 for line in cfile.readlines():
                     line = line.strip()
-                    words = line.split()
+                    if not line:
+                        continue
                     # Take every word after "Host" as an individual host
                     # we must skip entries with wildcards
-                    if words and words[0].lower() == "host":
-                        for word in words[1:]:
-                            if "*" not in word:
-                                yield SSHLeaf(word)
+                    head, *hosts = line.split()
+                    if head and head.lower() == "host":
+                        for host in hosts:
+                            if "*" not in host:
+                                yield SSHLeaf(host)
 
         except OSError as exc:
             self.output_error(exc)
