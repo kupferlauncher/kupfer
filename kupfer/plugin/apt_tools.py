@@ -7,6 +7,8 @@ __kupfer_actions__ = (
     "ShowPackageInfo",
     "SearchPackageName",
     "InstallPackage",
+    "OpenPackageWebsite",
+    "SearchForFile",
 )
 __description__ = _("Interface with the package manager APT")
 __version__ = ""
@@ -17,6 +19,7 @@ __author__ = (
 
 import subprocess
 import typing as ty
+import urllib.parse
 
 from kupfer import icons, plugin_support, utils
 from kupfer.objects import Action, Leaf, Source, TextLeaf
@@ -102,6 +105,31 @@ class ShowPackageInfo(Action):
 
     def get_gicon(self):
         return icons.ComposedIcon("dialog-information", "package-x-generic")
+
+
+class OpenPackageWebsite(Action):
+    def __init__(self):
+        Action.__init__(self, _("Browse packages.debian.org"))
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        name = leaf.object.strip()
+        url = f"https://packages.debian.org/{name}"
+        utils.show_url(url)
+
+    def get_description(self):
+        return _("Open packages.debian.org page for package")
+
+    def item_types(self):
+        yield TextLeaf
+        yield Package
+
+    def valid_for_item(self, leaf):
+        # check if it is a single word
+        text = leaf.object
+        return len(text.split(None, 1)) == 1
+
+    def get_gicon(self):
+        return icons.ComposedIcon("edit-find", "package-x-generic")
 
 
 class InstallPackage(Action):
@@ -200,3 +228,28 @@ class SearchPackageName(Action):
 
     def get_icon_name(self):
         return "system-software-install"
+
+
+class SearchForFile(Action):
+    def __init__(self):
+        Action.__init__(self, _("Search for file in packages..."))
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        name = urllib.parse.quote(leaf.object.strip())
+        url = f"https://packages.debian.org/file:{name}"
+        utils.show_url(url)
+
+    def get_description(self):
+        return _(
+            "Search the contents of Debian distributions for any files (online)"
+        )
+
+    def item_types(self):
+        yield TextLeaf
+
+    def valid_for_item(self, leaf):
+        text = leaf.object
+        return len(text) > 2
+
+    def get_gicon(self):
+        return icons.ComposedIcon("edit-find", "package-x-generic")
