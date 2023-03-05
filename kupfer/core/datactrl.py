@@ -331,14 +331,14 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if not final_invocation:
             self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
-    def _new_source(self, ctr: Pane, src: AnySource) -> None:
+    def _new_source(self, ctr: Pane, src: AnySource, select: ty.Any) -> None:
         if ctr is self._source_pane:
             pane = PaneSel.SOURCE
         elif ctr is self._object_pane:
             pane = PaneSel.OBJECT
 
         root = ctr.is_at_source_root()
-        self.emit("source-changed", pane, src, root)
+        self.emit("source-changed", pane, src, root, select)
 
     def reset(self) -> None:
         self._source_pane.reset()
@@ -789,7 +789,7 @@ GObject.signal_new(
     DataController,
     GObject.SignalFlags.RUN_LAST,
     GObject.TYPE_BOOLEAN,
-    (int, object, bool),
+    (int, object, bool, GObject.TYPE_PYOBJECT),
 )
 
 # mode, None(?)

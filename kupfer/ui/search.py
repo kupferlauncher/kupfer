@@ -195,6 +195,20 @@ class LeafModel:
 
         self._store.prepend(self._get_row(rankable))
 
+    def find(self, obj: KupferObject) -> int:
+        """Find @obj in store and return it row number"""
+        siter = self._store.get_iter_first()
+        row = 0
+        while siter:
+            row_rankable = self._store.get(siter, 0)[0]
+            if row_rankable.object == obj:
+                return row
+
+            siter = self._store.iter_next(siter)
+            row += 1
+
+        return -1
+
     def _get_icon(self, leaf: KupferObject) -> GdkPixbuf.Pixbuf | None:
         if (size := self.icon_size) > 8:
             return leaf.get_thumbnail(size, size) or leaf.get_pixbuf(size)
@@ -868,6 +882,15 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._set_match(obj)
         self._model.add_first(obj)
         self._table_set_cursor_at_row(0)
+
+    def set_match_leaf(self, leaf: Leaf) -> None:
+        """Set match to @leaf if it is on list"""
+        if len(self._model) == 0:
+            return
+
+        if (row := self._model.find(leaf)) >= 0:
+            self._table_set_cursor_at_row(row)
+            self._show_table()
 
     def relax_match(self) -> None:
         """Remove match text highlight"""

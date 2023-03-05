@@ -213,16 +213,16 @@ class Pane(GObject.GObject):  # type:ignore
 
     def __init__(self):
         super().__init__()
-        self.selection: KupferObject | None = None
+        self.selection: Leaf | None = None
         self.latest_key: str | None = None
         self.outstanding_search: int = -1
         self.outstanding_search_id: int = -1
         self.searcher = Searcher()
 
-    def select(self, item: KupferObject | None) -> None:
+    def select(self, item: Leaf | None) -> None:
         self.selection = item
 
-    def get_selection(self) -> KupferObject | None:
+    def get_selection(self) -> Leaf | None:
         return self.selection
 
     def reset(self) -> None:
@@ -261,8 +261,9 @@ class LeafPane(Pane, pretty.OutputMixin):
 
     def __init__(self):
         super().__init__()
-        self.source_stack: list[AnySource] = []
-        self.source: AnySource | None = None
+        # source_stack keep track on history selected sources and leaves
+        self._source_stack: list[tuple[AnySource, Leaf | None]] = []
+        self._source: AnySource | None = None
         self.object_stack: list[KupferObject] = []
 
     def select(self, item: KupferObject | None) -> None:
@@ -279,31 +280,31 @@ class LeafPane(Pane, pretty.OutputMixin):
         return sctr.get_canonical_source(src)
 
     def get_source(self) -> AnySource | None:
-        return self.source
+        return self._source
 
     def source_rebase(self, src: AnySource) -> None:
-        self.source_stack = []
-        self.source = self._load_source(src)
+        self._source_stack.clear()
+        self._source = self._load_source(src)
         self.refresh_data()
 
     def push_source(self, src: AnySource) -> None:
-        if self.source:
-            self.source_stack.append(self.source)
+        if self._source:
+            self._source_stack.append((self._source, self.selection))
 
-        self.source = self._load_source(src)
+        self._source = self._load_source(src)
         self.refresh_data()
 
-    def pop_source(self) -> bool:
+    def _pop_source(self) -> bool:
         """Return True if succeeded"""
-        if self.source_stack:
-            self.source = self.source_stack.pop()
+        if self._source_stack:
+            self._source, self.selection = self._source_stack.pop()
             return True
 
         return False
 
     def is_at_source_root(self) -> bool:
         """Return True if we have no source stack"""
-        return not self.source_stack
+        return not self._source_stack
 
     def object_stack_push(self, obj: KupferObject) -> None:
         self.object_stack.append(obj)
@@ -317,21 +318,21 @@ class LeafPane(Pane, pretty.OutputMixin):
     def get_should_enter_text_mode(self) -> bool:
         return False
 
-    def refresh_data(self) -> None:
-        self.emit("new-source", self.source)
+    def refresh_data(self, select: ty.Any = None) -> None:
+        self.emit("new-source", self._source, select)
 
     def browse_up(self) -> bool:
         """Try to browse up to previous sources, from current
         source"""
-        succ = self.pop_source()
+        succ = self._pop_source()
         if not succ:
-            assert self.source
-            if self.source.has_parent():
-                self.source_rebase(self.source.get_parent())  # type:ignore
+            assert self._source
+            if self._source.has_parent():
+                self.source_rebase(self._source.get_parent())  # type:ignore
                 succ = True
 
         if succ:
-            self.refresh_data()
+            self.refresh_data(select=self.selection)
 
         return succ
 
@@ -350,17 +351,17 @@ class LeafPane(Pane, pretty.OutputMixin):
     def reset(self) -> None:
         """Pop all sources and go back to top level"""
         Pane.reset(self)
-        while self.pop_source():
+        while self._pop_source():
             pass
 
         self.refresh_data()
 
     def soft_reset(self) -> ty.Optional[AnySource]:
         Pane.reset(self)
-        while self.pop_source():
+        while self._pop_source():
             pass
 
-        return self.source
+        return self._source
 
     def search(
         self,
@@ -397,7 +398,7 @@ GObject.signal_new(
     LeafPane,
     GObject.SignalFlags.RUN_LAST,
     GObject.TYPE_BOOLEAN,
-    (GObject.TYPE_PYOBJECT,),
+    (GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT),
 )
 
 

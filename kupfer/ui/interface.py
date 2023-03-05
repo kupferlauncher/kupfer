@@ -794,6 +794,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         pane: int,  # real PaneSel,
         source: AnySource,
         at_root: bool,
+        select: ty.Any,
     ) -> None:
         """Notification about a new data source,
         (represented object for the self.search object
@@ -812,6 +813,8 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
             if not at_root:
                 self.reset_current(populate=True)
                 wid.show_table_quirk()
+                if select:
+                    wid.set_match_leaf(select)
 
     def update_third(self) -> None:
         if self._pane_three_is_visible:
