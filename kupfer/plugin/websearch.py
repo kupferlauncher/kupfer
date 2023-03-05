@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Search the Web")
 __kupfer_sources__ = ("OpenSearchSource",)
 __kupfer_text_sources__ = ()
@@ -5,7 +7,9 @@ __kupfer_actions__ = (
     "SearchFor",
     "SearchWithEngine",
 )
-__description__ = _("Search the web with OpenSearch search engines")
+__description__ = _(
+    "Search the web with OpenSearch and user defined search engines"
+)
 __version__ = "2020-04-19"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -16,9 +20,20 @@ import urllib.parse
 from pathlib import Path
 from xml.etree import ElementTree
 
-from kupfer import config, utils
+from kupfer import config, plugin_support, utils
 from kupfer.objects import Action, Leaf, Source, TextLeaf
 from kupfer.plugin._firefox_support import get_firefox_home_file
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+    {
+        "key": "extra_engines",
+        "label": _(
+            "User search engines (URLs separated by ';'. Use '%s' for search term"
+        ),
+        "type": str,
+        "value": "https://www.qwant.com/?q=%s;https://search.brave.com/search?q=%s",
+    },
+)
 
 
 def _noescape_urlencode(items):
@@ -35,8 +50,29 @@ def _urlencode(word):
 
 def _do_search_engine(terms, search_url, encoding="UTF-8"):
     """Show an url searching for @search_url with @terms"""
-    query_url = search_url.replace("{searchTerms}", _urlencode(terms))
+    terms = _urlencode(terms)
+    if "{searchTerms}" in search_url:
+        query_url = search_url.replace("{searchTerms}", terms)
+    else:
+        query_url = search_url.replace("%s", terms)
+
     utils.show_url(query_url)
+
+
+def _get_custom_engine_name(url: str) -> str | None:
+    if not url:
+        return None
+
+    components = urllib.parse.urlparse(url)
+    if netloc := components.netloc:
+        return (
+            netloc.removeprefix("www.")
+            .removesuffix(".com")
+            .replace(".", " ")
+            .capitalize()
+        )
+
+    return None
 
 
 class SearchWithEngine(Action):
@@ -109,17 +145,6 @@ class SearchEngine(Leaf):
         return "text-html"
 
 
-def coroutine(func):
-    """Coroutine decorator: Start the coroutine"""
-
-    def startcr(*ar, **kw):
-        cr = func(*ar, **kw)
-        next(cr)
-        return cr
-
-    return startcr
-
-
 class OpenSearchParseError(Exception):
     pass
 
@@ -128,55 +153,46 @@ def gettagname(tag):
     return tag.rsplit("}", 1)[-1]
 
 
-def _get_plugin_dirs() -> ty.Iterator[str]:
+def _get_plugin_dirs() -> ty.Iterator[Path]:
+    """Get all posible plugins path (may not exists)"""
     # accept in kupfer data dirs
-    yield from config.get_data_dirs("searchplugins")
+    yield from map(Path, config.get_data_dirs("searchplugins"))
 
     # firefox in home directory
-    ffx_home = get_firefox_home_file("searchplugins")
-    if ffx_home and ffx_home.is_dir():
-        yield str(ffx_home)
+    if ffx_home := get_firefox_home_file("searchplugins"):
+        yield ffx_home
 
-    yield from config.get_data_dirs("searchplugins", package="firefox")
-    yield from config.get_data_dirs("searchplugins", package="iceweasel")
+    yield from map(
+        Path, config.get_data_dirs("searchplugins", package="firefox")
+    )
+    yield from map(
+        Path, config.get_data_dirs("searchplugins", package="iceweasel")
+    )
 
-    addon_dir = Path("/usr/lib/firefox-addons/searchplugins")
-    cur_lang, _ignored = locale.getlocale(locale.LC_MESSAGES)
     suffixes = ["en-US"]
-    if cur_lang:
+    if cur_lang := locale.getlocale(locale.LC_MESSAGES)[0]:
         suffixes = [cur_lang.replace("_", "-"), cur_lang[:2]] + suffixes
 
+    addon_dir = Path("/usr/lib/firefox-addons/searchplugins")
     for suffix in suffixes:
         if (addon_lang_dir := addon_dir.joinpath(suffix)).exists():
-            yield str(addon_lang_dir)
+            yield addon_lang_dir
             break
 
     # debian iceweasel
-    if Path("/etc/iceweasel/searchplugins/common").is_dir():
-        yield "/etc/iceweasel/searchplugins/common"
+    yield Path("/etc/iceweasel/searchplugins/common")
 
     for suffix in suffixes:
-        addon_path = Path("/etc/iceweasel/searchplugins/locale", suffix)
-        if addon_path.is_dir():
-            yield str(addon_path)
+        yield Path("/etc/iceweasel/searchplugins/locale", suffix)
 
     # try to find all versions of firefox
     for prefix in ("/usr/lib", "/usr/share"):
         for dirname in os.listdir(prefix):
             if dirname.startswith("firefox") or dirname.startswith("iceweasel"):
-                addon_dir = Path(prefix, dirname, "searchplugins")
-                if addon_dir.is_dir():
-                    yield str(addon_dir)
-
-                addon_dir = Path(
-                    prefix,
-                    dirname,
-                    "distribution",
-                    "searchplugins",
-                    "common",
+                yield Path(prefix, dirname, "searchplugins")
+                yield Path(
+                    prefix, dirname, "distribution", "searchplugins", "common"
                 )
-                if addon_dir.is_dir():
-                    yield str(addon_dir)
 
 
 _OS_VITAL_KEYS = {"Url", "ShortName"}
@@ -198,13 +214,13 @@ def _parse_etree(etree, name=None):
         if tagname == "Url":
             if child.get("type") == "text/html" and child.get("template"):
                 text = child.get("template")
-                params = {
-                    ch.get("name"): ch.get("value")
+                params = tuple(
+                    (ch.get("name"), ch.get("value"))
                     for ch in child
                     if gettagname(ch.tag) == "Param"
-                }
+                )
                 if params:
-                    text += _noescape_urlencode(list(params.items()))
+                    text += _noescape_urlencode(params)
             else:
                 continue
 
@@ -223,49 +239,40 @@ class OpenSearchSource(Source):
     def __init__(self):
         Source.__init__(self, _("Search Engines"))
 
-    @coroutine
-    def _parse_opensearch(self, target):
-        """This is a coroutine to parse OpenSearch files"""
-        while True:
-            try:
-                path = yield
-                etree = ElementTree.parse(path)
-                target.send(_parse_etree(etree, name=path))
-            except Exception as exc:
-                self.output_debug(f"{type(exc).__name__}: {exc}")
+    def _parse_opensearch(self, path: str) -> dict[str, ty.Any] | None:
+        try:
+            etree = ElementTree.parse(path)
+            return _parse_etree(etree, name=path)  # type:ignore
+        except Exception as exc:
+            self.output_debug(f"{type(exc).__name__}: {exc}")
 
-    def get_items(self):
-        plugin_dirs = list(_get_plugin_dirs())
-        self.output_debug(
-            "Found following searchplugins directories", sep="\n", *plugin_dirs
-        )
+        return None
 
-        @coroutine
-        def collect(seq):
-            """Collect items in list @seq"""
-            while True:
-                seq.append((yield))
-
-        searches: list[dict[str, ty.Any]] = []
-        collector = collect(searches)
-        parser = self._parse_opensearch(collector)
+    def get_items(self) -> ty.Iterator[SearchEngine]:
         # files are unique by filename to allow override
         visited_files = set()
-        for pdir in plugin_dirs:
-            try:
-                for fname in os.listdir(pdir):
-                    if fname in visited_files:
-                        continue
+        for pdir in _get_plugin_dirs():
+            if not pdir.is_dir():
+                continue
 
-                    fpath = os.path.join(pdir, fname)
-                    if not os.path.isdir(fpath):
-                        parser.send(fpath)
-                        visited_files.add(fname)
+            self.output_debug("Processing searchplugins dir", pdir)
 
-            except OSError as exc:
-                self.output_error(exc)
+            for fname in os.listdir(pdir):
+                if fname in visited_files:
+                    continue
 
-        yield from (SearchEngine(s, s["ShortName"]) for s in searches)
+                visited_files.add(fname)
+                fpath = pdir.joinpath(fname)
+                if not fpath.is_dir():
+                    if search := self._parse_opensearch(str(fpath)):
+                        yield SearchEngine(search, search["ShortName"])
+
+        # add user search engines
+        if custom_ses := __kupfer_settings__["extra_engines"]:
+            for url in custom_ses.split(";"):
+                url = url.strip()
+                if url and (name := _get_custom_engine_name(url)):
+                    yield SearchEngine({"Url": url}, name)
 
     def should_sort_lexically(self):
         return True
