@@ -138,7 +138,6 @@ class TextLeaf(Leaf, TextRepresentation):
 
     def __init__(self, text: str, name: ty.Optional[str] = None) -> None:
         """@text *must* be unicode or UTF-8 str"""
-        # text = kupferstring.tounicode(text)  # type: ignore
         if not name:
             name = self.get_first_text_line(text)
 

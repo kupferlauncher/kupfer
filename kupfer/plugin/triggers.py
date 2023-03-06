@@ -141,11 +141,10 @@ class Triggers(Source):
 
 def try_bind_key(keystr):
     label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
-    ulabel = label  # kupferstring.tounicode(label)
-    if ulabel is None:
+    if label is None:
         return False
 
-    if len(ulabel) == 1 and ulabel.isalnum():
+    if len(label) == 1 and label.isalnum():
         return False
 
     target = keybindings.KEYRANGE_TRIGGERS[-1] - 1

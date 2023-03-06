@@ -7,9 +7,12 @@ http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.1.html#
 The unescaping we are doing is only one way.. so we unescape according to the
 rules, but we accept everything, if validly quoted or not.
 """
+from __future__ import annotations
 
 import shlex
 import typing as ty
+
+from . import itertools as kitertools
 
 # This is the "string" type encoding escapes
 # this is unescaped before we process anything..
@@ -44,21 +47,10 @@ def _two_part_unescaper(string: str, reptable: ty.Dict[str, str]) -> str:
     if not string:
         return string
 
-    def _inner():
-        pairs = zip(string, string[1:])
-        for cur, nex in pairs:
-            if (key := cur + nex) in reptable:
-                yield reptable[key]
-                try:
-                    next(pairs)
-                except StopIteration:
-                    return
-            else:
-                yield cur
+    def repfunc(instr: str) -> str | None:
+        return reptable.get(instr)
 
-        yield string[-1]
-
-    return "".join(_inner())
+    return kitertools.two_part_mapper(string, repfunc)
 
 
 T = ty.TypeVar("T", str, bytes)

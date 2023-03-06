@@ -858,7 +858,6 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def on_entry_plugins_filter_changed(self, widget: Gtk.Widget) -> None:
         s_filter = widget.get_text()
-        # us_filter = kupferstring.tounicode(s_filter).lower()  # type:ignore
         us_filter = s_filter.lower()
         self._refresh_plugin_list(us_filter)
 
@@ -906,11 +905,10 @@ class PreferencesWindowController(pretty.OutputMixin):
             return False
 
         label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
-        ulabel = label  # kupferstring.tounicode(label)
-        if not ulabel:
+        if not label:
             return False
 
-        return not (len(ulabel) == 1 and ulabel.isalnum())
+        return not (len(label) == 1 and label.isalnum())
 
     def on_gkeybindings_row_activate(
         self,

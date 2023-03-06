@@ -11,7 +11,12 @@ import xdg.Exceptions
 from gi.repository import Gdk, Gio, GLib, Gtk
 
 from kupfer import terminal
-from kupfer.support import desktop_parse, kupferstring, pretty
+from kupfer.support import (
+    desktop_parse,
+    kupferstring,
+    pretty,
+    itertools as kitertools,
+)
 
 __all__ = ["launch_app_info", "spawn_app", "spawn_app_id"]
 
@@ -127,39 +132,6 @@ def app_to_desktop_info(app_info: Gio.AppInfo) -> dict[str, str | bool]:
         "Terminal": False,
         "StartupNotify": False,
     }
-
-
-def _two_part_unescaper(
-    instr: str, repfunc: ty.Callable[[str], str | None]
-) -> str:
-    """
-    Handle embedded format codes
-
-    Scan @s two characters at a time and replace using @repfunc
-
-    TODO: similar function in desktop_parse; merge?
-    """
-    if not instr:
-        return instr
-
-    def _inner():
-        sit = zip(instr, instr[1:])
-        for cur, nex in sit:
-            key = cur + nex
-            if (rep := repfunc(key)) is not None:
-                yield rep
-                # skip a step in the iter
-                try:
-                    next(sit)
-                except StopIteration:
-                    return
-
-            else:
-                yield cur
-
-        yield instr[-1]
-
-    return "".join(_inner())
 
 
 def _get_file_path(gfile: Gio.File) -> str:
@@ -279,7 +251,8 @@ def _replace_format_specs(
         if succ:
             new_argv.extend(newargs)
         else:
-            if arg := _two_part_unescaper(x, replace_single_code):
+            # Handle embedded format codes
+            if arg := kitertools.two_part_mapper(x, replace_single_code):
                 new_argv.append(arg)
 
     if len(gfilelist) > 1 and not flags.did_see_large_f:
