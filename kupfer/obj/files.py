@@ -246,6 +246,14 @@ class AppLeaf(Leaf):
         if package_name and package_name not in str(self).lower():
             self.kupfer_add_alias(package_name)
 
+        # add executable as alias
+        if cmdl := self.object.get_executable():
+            self.kupfer_add_alias(cmdl)
+
+        # add non-localized name
+        if (en_name := self.object.get_string("Name")) != self.name:
+            self.kupfer_add_alias(en_name)
+
     def __hash__(self) -> int:
         return hash(str(self))
 
