@@ -320,6 +320,15 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
     return gicon
 
 
+def get_gicon_from_file(path: str) -> FileIcon | None:
+    """Load GIcon from @path; return None if failed."""
+    file = File.new_for_path(path)
+    if file.query_exists():
+        return FileIcon.new(file)
+
+    return None
+
+
 def get_icon_for_gicon(gicon: GIcon, icon_size: int) -> GdkPixbuf.Pixbuf | None:
     """
     Return a pixbuf of @icon_size for the @gicon
