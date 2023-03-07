@@ -480,7 +480,7 @@ def child_setup(add_environ: dict[str, str]) -> None:
 def _locale_encode_argv(argv: list[ty.AnyStr]) -> ty.Iterator[str]:
     for x in argv:
         if isinstance(x, str):
-            yield kupferstring.tolocale(x).decode("UTF-8", "replace")
+            yield x  # kupferstring.tolocale(x).decode("UTF-8", "replace")
         else:
             yield x.decode("UTF-8", "replace")
 

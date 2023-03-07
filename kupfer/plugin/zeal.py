@@ -88,7 +88,11 @@ class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
             if extra:
                 keywords = extra.get("keywords")
 
-            yield ZealDocset(name, title, keywords)
+            icon_filename = None
+            if (icon := docset_dir.joinpath("icon@2x.png")).is_file():
+                icon_filename = str(icon)
+
+            yield ZealDocset(name, title, keywords, icon_filename)
 
     def get_icon_name(self):
         return "zeal"
@@ -101,8 +105,9 @@ class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 
 class ZealDocset(Leaf):
-    def __init__(self, name, title, keywords):
+    def __init__(self, name, title, keywords, icon):
         super().__init__(name, title)
+        self.icon = icon
         if keywords:
             for alias in keywords:
                 self.kupfer_add_alias(alias)
@@ -111,7 +116,10 @@ class ZealDocset(Leaf):
         return _("Zeal %s Docset") % self.name
 
     def get_gicon(self):
-        return icons.ComposedIcon("zeal", "emblem-documents")
+        if not self.icon:
+            return icons.ComposedIcon("zeal", "emblem-documents")
+
+        return icons.ComposedIcon("zeal", icons.get_gicon_from_file(self.icon))
 
     def get_icon_name(self):
         return "zeal"

@@ -90,11 +90,6 @@ def locale_sort(
     return seq
 
 
-def _argv_to_locale(argv: list[str]) -> list[bytes]:
-    "encode unicode strings in @argv according to the locale encoding"
-    return [kupferstring.tolocale(A) if isinstance(A, str) else A for A in argv]
-
-
 def _split_string(inp: bytes, length: int) -> ty.Iterator[bytes]:
     """Split @inp in pieces of @length
 
@@ -285,8 +280,6 @@ def spawn_async_raise(argv: ty.Collection[str], workdir: str = ".") -> bool:
 
     raises SpawnError
     """
-    # FIXME: How to support locale strings?
-    # argv = _argv_to_locale(argv)
     pretty.print_debug(__name__, "spawn_async", argv, workdir)
     try:
         res = GLib.spawn_async(

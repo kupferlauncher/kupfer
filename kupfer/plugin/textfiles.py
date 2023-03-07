@@ -30,10 +30,11 @@ class AppendTo(Action):
         super().__init__(name or _("Append To..."))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        # FIXME: added tolocale, needed?
-        with open(iobj.object, "ab") as outfile:
-            outfile.write(kupferstring.tolocale(leaf.object))
-            outfile.write(b"\n")
+        with open(
+            iobj.object, "at", encoding=kupferstring.get_encoding()
+        ) as outfile:
+            outfile.write(leaf.object)
+            outfile.write("\n")
 
     def item_types(self):
         yield TextLeaf
@@ -75,9 +76,9 @@ class WriteTo(Action):
             return None
 
         try:
-            l_text = kupferstring.tolocale(leaf.object)
-            outfile.write(l_text)
-            if not l_text.endswith(b"\n"):
+            text = str(leaf.object).encode()
+            outfile.write(text)
+            if not text.endswith(b"\n"):
                 outfile.write(b"\n")
         finally:
             outfile.close()
@@ -111,11 +112,12 @@ class GetTextContents(Action):
         return True
 
     def activate(self, leaf, iobj=None, ctx=None):
-        with open(leaf.object, "rb") as infile:
-            l_text = infile.read()
-            us_text = kupferstring.fromlocale(l_text)
+        with open(
+            leaf.object, "rt", encoding=kupferstring.get_encoding()
+        ) as infile:
+            text = infile.read()
 
-        return TextLeaf(us_text)
+        return TextLeaf(text)
 
     def item_types(self):
         yield FileLeaf

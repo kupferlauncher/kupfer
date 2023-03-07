@@ -3,6 +3,7 @@ from __future__ import annotations
 import locale
 import typing as ty
 from unicodedata import category, normalize
+from functools import cache
 
 
 def _folditems():
@@ -37,11 +38,9 @@ def tounicode(utf8str: ty.Union[str, bytes, None]) -> str | None:
     """Return `unicode` from UTF-8 encoded @utf8str
     This is to use the same error handling etc everywhere
     """
-    # TODO: check is there other strings than str
     if isinstance(utf8str, str) or utf8str is None:
         return utf8str
 
-    ic_stack(utf8str)
     return utf8str.decode("UTF-8", "replace") if utf8str is not None else ""
 
 
@@ -57,18 +56,21 @@ def tounicode(utf8str: ty.Union[str, bytes, None]) -> str | None:
 #     return ustr.encode("UTF-8")
 
 
+@cache
+def get_encoding() -> str:
+    return locale.getpreferredencoding(do_setlocale=False)
+
+
 def fromlocale(lstr: bytes) -> str:
     """Return a unicode string from locale bytestring @lstr"""
     assert isinstance(lstr, bytes)
-    enc = locale.getpreferredencoding(do_setlocale=False)
-    return lstr.decode(enc, "replace")
+    return lstr.decode(get_encoding(), "replace")
 
 
 def tolocale(ustr: str) -> bytes:
     """Return a locale-encoded bytestring from unicode @ustr"""
     assert isinstance(ustr, str)
-    enc = locale.getpreferredencoding(do_setlocale=False)
-    return ustr.encode(enc)
+    return ustr.encode(get_encoding())
 
 
 def tofolded(ustr: str) -> str:

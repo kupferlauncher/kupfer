@@ -180,9 +180,8 @@ class PackageSearchSource(Source):
         return self.query
 
     def get_items(self):
-        query = kupferstring.tolocale(self.query)
         proc = subprocess.run(
-            ["apt-cache", "search", "--names-only", query],
+            ["apt-cache", "search", "--names-only", self.query],
             capture_output=True,
             check=True,
         )
