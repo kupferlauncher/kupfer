@@ -20,6 +20,8 @@ __description__ = None
 __version__ = "2017.1"
 __author__ = ""
 
+from pathlib import Path
+
 from kupfer import utils
 from kupfer.obj import Action, FileLeaf, TextLeaf, helplib
 from kupfer.support import kupferstring
@@ -69,9 +71,16 @@ class WriteTo(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         assert iobj
-        outfile, outpath = utils.get_destfile_in_directory(
-            iobj.object, _("Empty File")
-        )
+
+        if isinstance(iobj, TextLeaf):
+            outfile, outpath = utils.get_destfile(iobj.object)
+        elif isinstance(iobj, FileLeaf):
+            outfile, outpath = utils.get_destfile_in_directory(
+                iobj.object, _("Empty File")
+            )
+        else:
+            raise ValueError()
+
         if not outfile or not outpath:
             return None
 
@@ -93,9 +102,24 @@ class WriteTo(Action):
 
     def object_types(self):
         yield FileLeaf
+        yield TextLeaf
 
     def valid_object(self, iobj, for_item=None):
-        return iobj.is_dir()
+        if isinstance(iobj, FileLeaf):
+            return iobj.is_dir()
+
+        # we accept TextLeaf if it look like path
+        path_str = str(iobj.object)
+        if not utils.is_valid_file_path(path_str):
+            return False
+
+        path = Path(path_str)
+        # file should not exist
+        if path.exists():
+            return False
+
+        # but parent dir must exists and be writable
+        return utils.is_directory_writable(path.parent)
 
     def get_description(self):
         return _("Write the text to a new file in specified directory")
