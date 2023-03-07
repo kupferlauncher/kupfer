@@ -11,6 +11,7 @@ import typing as ty
 from contextlib import suppress
 from os import path as os_path
 from pathlib import Path
+import re
 
 from gi.repository import Gdk, Gio, GLib, Gtk
 
@@ -484,12 +485,26 @@ def lookup_exec_path(exename: str) -> ty.Optional[str]:
     return None
 
 
-def is_directory_writable(dpath: str) -> bool:
+def is_directory_writable(dpath: str | Path) -> bool:
     """If directory path @dpath is a valid destination to write new files?"""
-    if not Path(dpath).is_dir():
+    if isinstance(dpath, str):
+        dpath = Path(dpath)
+
+    if not dpath.is_dir():
         return False
 
     return os.access(dpath, os.R_OK | os.W_OK | os.X_OK)
+
+
+def is_file_writable(dpath: str | Path) -> bool:
+    """If @dpath is a valid, writable file"""
+    if isinstance(dpath, str):
+        dpath = Path(dpath)
+
+    if not dpath.is_file():
+        return False
+
+    return os.access(dpath, os.R_OK | os.W_OK)
 
 
 def get_destpath_in_directory(
@@ -541,6 +556,30 @@ def get_destfile_in_directory(
             pretty.print_error(__name__, exc)
         else:
             return (os.fdopen(fileno, "wb"), destpath)
+
+    return (None, None)
+
+
+def get_destfile(
+    destpath: str | Path,
+) -> tuple[ty.Optional[ty.BinaryIO], ty.Optional[str]]:
+    """
+    Open file object for full file path. Return the same object
+    like get_destfile_in_directory.
+
+
+    Return (fileobj, filepath)
+    """
+    # retry if it fails
+    for _retry in range(3):
+        try:
+            fileno = os.open(
+                destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o666
+            )
+        except OSError as exc:
+            pretty.print_error(__name__, exc)
+        else:
+            return (os.fdopen(fileno, "wb"), str(destpath))
 
     return (None, None)
 
@@ -606,6 +645,27 @@ def parse_time_interval(tstr: str) -> int:
             amount = 0
 
     return total
+
+
+_UNPRINTABLE = (
+    "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0e\x0f"
+    "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a"
+    "\x1b\x1c\x1d\x1e\x1f\x7f"
+)
+
+
+def is_valid_file_path(path: str | None) -> bool:
+    """Not perfect path validation"""
+    if not path:
+        return False
+
+    if len(path) > 256:
+        return False
+
+    if re.match(r"^[a-z]+://", path) or path.startswith("//"):
+        return False
+
+    return not any(c in _UNPRINTABLE for c in path)
 
 
 if __name__ == "__main__":
