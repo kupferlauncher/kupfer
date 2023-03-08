@@ -1,8 +1,12 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Audacious")
 __kupfer_sources__ = ("AudaciousSource",)
 __description__ = _("Control Audacious playback and playlist")
-__version__ = "2017.2"
-__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>, US"
+__version__ = "2023.1"
+__author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>, US, KB"
+
+# TODO: support many playlists (?); for now we load only active playlist
 
 import subprocess
 import typing as ty
@@ -11,8 +15,9 @@ import dbus
 
 from kupfer import icons, plugin_support, utils
 from kupfer.obj import Action, Leaf, RunnableLeaf, Source, SourceLeaf
+from kupfer.obj.exceptions import NotAvailableError
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.support import kupferstring, weaklib
+from kupfer.support import kupferstring, pretty, weaklib
 from kupfer.ui import uiutils
 
 plugin_support.check_dbus_connection()
@@ -32,22 +37,41 @@ if ty.TYPE_CHECKING:
 _AUDTOOL = "audtool"
 _AUDACIOUS = "audacious"
 _BUS_NAME = "org.atheme.audacious"
+_OBJ_NAME = "/org/atheme/audacious"
+_IFACE_NAME = "org.atheme.audacious"
 
 
-def enqueue_song(info):
-    utils.spawn_async((_AUDTOOL, "playqueue-add", str(info)))
+def _create_dbus_connection(
+    iface: str, obj: str, service: str
+) -> dbus.Interface:
+    """Create dbus connection to NetworkManager"""
+    try:
+        sbus = dbus.SessionBus()
+        if dobj := sbus.get_object(service, obj):
+            return dbus.Interface(dobj, iface)
+
+    except dbus.exceptions.DBusException as err:
+        pretty.print_debug(__name__, err)
+        raise NotAvailableError(service) from err
+
+    raise NotAvailableError(service)
 
 
-def dequeue_song(info):
-    utils.spawn_async((_AUDTOOL, "playqueue-remove", str(info)))
+def get_playlist_songs_dbus() -> ty.Iterator[SongLeaf]:
+    conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+    total = conn.Length()
+    for pos in range(1, total + 1):
+        title = " ".join(
+            (conn.SongTuple(pos, "title"), conn.SongTuple(pos, "artist"))
+        ).strip()
+
+        if not title:
+            title = conn.SongTitle(pos)
+
+        yield SongLeaf(pos, title)
 
 
-def play_song(info):
-    utils.spawn_async((_AUDTOOL, "playlist-jump", str(info)))
-    utils.spawn_async((_AUDTOOL, "playback-play"))
-
-
-def get_playlist_songs():
+def get_playlist_songs() -> ty.Iterator[SongLeaf]:
     """Yield tuples of (position, name) for playlist songs"""
     with subprocess.Popen(
         [_AUDTOOL, "playlist-display"], stdout=subprocess.PIPE
@@ -61,10 +85,30 @@ def get_playlist_songs():
             songname, rest = rest.rsplit(b"|", 1)
             pos = int(position.strip())
             nam = kupferstring.fromlocale(songname.strip())
-            yield (pos, nam)
+            yield SongLeaf(pos, nam)
 
 
-def get_current_song():
+def get_current_song() -> str | None:
+    try:
+        conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+        pos = conn.Position()
+        total = conn.Length()
+        info = "\n".join(
+            filter(
+                None,
+                (
+                    conn.SongTuple(pos, "title"),
+                    conn.SongTuple(pos, "artist"),
+                    conn.SongTitle(pos),
+                    _("Position: %(pos)d / %(total)d")
+                    % {"pos": pos, "total": total},
+                ),
+            )
+        )
+        return info
+    except Exception:
+        pretty.print_exc(__name__)
+
     with subprocess.Popen(
         [_AUDTOOL, "current-song"], stdout=subprocess.PIPE
     ) as proc:
@@ -75,10 +119,6 @@ def get_current_song():
         return None
 
 
-def clear_queue():
-    utils.spawn_async((_AUDTOOL, "playqueue-clear"))
-
-
 class Enqueue(Action):
     action_accelerator = "e"
 
@@ -86,7 +126,13 @@ class Enqueue(Action):
         Action.__init__(self, _("Enqueue"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        enqueue_song(leaf.object)
+        pos = leaf.object
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.PlayqueneAdd(pos)
+        except Exception:
+            pretty.print_exc(__name__)
+            utils.spawn_async((_AUDTOOL, "playqueue-add", str(pos)))
 
     def get_description(self):
         return _("Add track to the Audacious play queue")
@@ -103,7 +149,12 @@ class Dequeue(Action):
         Action.__init__(self, _("Dequeue"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        dequeue_song(leaf.object)
+        pos = leaf.object
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.PlayqueneRemove(pos)
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playqueue-remove", str(pos)))
 
     def get_description(self):
         return _("Remove track from the Audacious play queue")
@@ -122,7 +173,14 @@ class JumpToSong(Action):
         Action.__init__(self, _("Play"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        play_song(leaf.object)
+        pos = leaf.object
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.Jump(pos)
+            conn.Play()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playlist-jump", str(pos)))
+            utils.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Jump to track in Audacious")
@@ -136,7 +194,11 @@ class Play(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Play"))
 
     def run(self, ctx=None):
-        utils.spawn_async((_AUDTOOL, "playback-play"))
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.Play()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Resume playback in Audacious")
@@ -145,12 +207,34 @@ class Play(RunnableLeaf):
         return "media-playback-start"
 
 
+class Stop(RunnableLeaf):
+    def __init__(self):
+        RunnableLeaf.__init__(self, name=_("Stop"))
+
+    def run(self, ctx=None):
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.Stop()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playback-play"))
+
+    def get_description(self):
+        return _("Stop playback in Audacious")
+
+    def get_icon_name(self):
+        return "media-playback-stop"
+
+
 class Pause(RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, name=_("Pause"))
 
     def run(self, ctx=None):
-        utils.spawn_async((_AUDTOOL, "playback-pause"))
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.Pause()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playback-pause"))
 
     def get_description(self):
         return _("Pause playback in Audacious")
@@ -164,7 +248,11 @@ class Next(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Next"))
 
     def run(self, ctx=None):
-        utils.spawn_async((_AUDTOOL, "playlist-advance"))
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.Advance()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playlist-advance"))
 
     def get_description(self):
         return _("Jump to next track in Audacious")
@@ -178,7 +266,11 @@ class Previous(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Previous"))
 
     def run(self, ctx=None):
-        utils.spawn_async((_AUDTOOL, "playlist-reverse"))
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.Reverse()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playlist-reverse"))
 
     def get_description(self):
         return _("Jump to previous track in Audacious")
@@ -192,7 +284,11 @@ class ClearQueue(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Clear Queue"))
 
     def run(self, ctx=None):
-        clear_queue()
+        try:
+            conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
+            conn.PlayqueneClear()
+        except Exception:
+            utils.spawn_async((_AUDTOOL, "playqueue-clear"))
 
     def get_description(self):
         return _("Clear the Audacious play queue")
@@ -261,13 +357,15 @@ class SongLeaf(Leaf):
 
 
 class AudaciousSongsSource(Source):
-    def __init__(self, library):
+    def __init__(self):
         Source.__init__(self, _("Playlist"))
-        self.library = library
 
     def get_items(self):
-        for song in self.library:
-            yield SongLeaf(*song)
+        try:
+            yield from get_playlist_songs_dbus()
+        except Exception:
+            pretty.print_exc(__name__)
+            yield from get_playlist_songs()
 
     def get_gicon(self):
         return icons.ComposedIcon(
@@ -301,6 +399,7 @@ class AudaciousSource(AppLeafContentMixin, Source):
 
     def get_items(self):
         yield Play()
+        yield Stop()
         yield Pause()
         yield Next()
         yield Previous()
@@ -309,8 +408,7 @@ class AudaciousSource(AppLeafContentMixin, Source):
         # Commented as these seem to have no effect
         # yield Shuffle()
         # yield Repeat()
-        songs = list(get_playlist_songs())
-        songs_source = AudaciousSongsSource(songs)
+        songs_source = AudaciousSongsSource()
         yield SourceLeaf(songs_source)
         if __kupfer_settings__["playlist_toplevel"]:
             yield from songs_source.get_leaves()
