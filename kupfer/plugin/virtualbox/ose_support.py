@@ -11,9 +11,10 @@ __version__ = "2018-10-21"
 import os
 from xml.dom import minidom
 
-from kupfer import utils
-from kupfer.plugin.virtualbox import constants as vbox_const
+from kupfer import launch
 from kupfer.support import pretty
+
+from . import constants as vbox_const
 
 _VBOX_CONFIG_DIRS = (
     os.path.expanduser("~/.config/VirtualBox/"),
@@ -70,14 +71,14 @@ def vm_action(action, vm_uuid):
     @param vm_uuid - virtual machine uuid
     """
     if action == vbox_const.VM_START_NORMAL:
-        utils.spawn_async(["VBoxManage", "startvm", vm_uuid, "--type", "gui"])
+        launch.spawn_async(["VBoxManage", "startvm", vm_uuid, "--type", "gui"])
     elif action == vbox_const.VM_START_HEADLESS:
-        utils.spawn_async(
+        launch.spawn_async(
             ["VBoxManage", "startvm", vm_uuid, "--type", "headless"]
         )
     else:
         command = _ACTIONS[action]
-        utils.spawn_async(["VBoxManage", "controlvm", vm_uuid, command])
+        launch.spawn_async(["VBoxManage", "controlvm", vm_uuid, command])
 
 
 def _get_virtual_machines(config_file):

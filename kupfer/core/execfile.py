@@ -20,7 +20,7 @@ class ExecutionError(Exception):
     pass
 
 
-def parse_kfcom_file(filepath: str) -> ty.Tuple[ty.Any, ...]:
+def parse_kfcom_file(filepath: str) -> tuple[ty.Any, ...]:
     """Extract the serialized command inside @filepath
 
     The file must be executable (comparable to a shell script)

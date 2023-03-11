@@ -21,8 +21,8 @@ import subprocess
 import typing as ty
 import urllib.parse
 
-from kupfer import icons, plugin_support, utils
-from kupfer.objects import Action, Leaf, Source, TextLeaf
+from kupfer import icons, launch, plugin_support, support
+from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.support import kupferstring, task
 from kupfer.ui import uiutils
 
@@ -51,23 +51,23 @@ class InfoTask(task.Task):
     def start(self, finish_callback):
         self._finish_callback = finish_callback
         timeout = 60
-        utils.AsyncCommand(
+        launch.AsyncCommand(
             ["apt", "show", self.text], self._aptitude_finished, timeout
         )
-        utils.AsyncCommand(
+        launch.AsyncCommand(
             ["apt-cache", "policy", self.text],
             self._aptcache_finished,
             timeout,
         )
 
     def _aptitude_finished(
-        self, acommand: utils.AsyncCommand, stdout: bytes, stderr: bytes
+        self, acommand: launch.AsyncCommand, stdout: bytes, stderr: bytes
     ) -> None:
         self.aptitude = stderr + stdout
         self._check_end()
 
     def _aptcache_finished(
-        self, acommand: utils.AsyncCommand, stdout: bytes, stderr: bytes
+        self, acommand: launch.AsyncCommand, stdout: bytes, stderr: bytes
     ) -> None:
         self.apt_cache = stderr + stdout
         self._check_end()
@@ -114,7 +114,7 @@ class OpenPackageWebsite(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         name = leaf.object.strip()
         url = f"https://packages.debian.org/{name}"
-        utils.show_url(url)
+        launch.show_url(url)
 
     def get_description(self):
         return _("Open packages.debian.org page for package")
@@ -142,8 +142,8 @@ class InstallPackage(Action):
     def activate_multiple(self, objs):
         program = __kupfer_settings__["installation_method"]
         pkgs = [o.object.strip() for o in objs]
-        prog_argv = utils.argv_for_commandline(program)
-        utils.spawn_in_terminal(prog_argv + pkgs)
+        prog_argv = support.argv_for_commandline(program)
+        launch.spawn_in_terminal(prog_argv + pkgs)
 
     def item_types(self):
         yield Package
@@ -236,7 +236,7 @@ class SearchForFile(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         name = urllib.parse.quote(leaf.object.strip())
         url = f"https://packages.debian.org/file:{name}"
-        utils.show_url(url)
+        launch.show_url(url)
 
     def get_description(self):
         return _(

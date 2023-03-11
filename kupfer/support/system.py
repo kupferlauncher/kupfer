@@ -5,8 +5,9 @@
 System related functions
 """
 
-import socket
 import functools
+import os.path
+import socket
 
 from . import pretty
 
@@ -20,3 +21,8 @@ def get_hostname() -> str:
         pretty.print_exc(__name__)
 
     return ""
+
+
+@functools.cache
+def get_homedir() -> str:
+    return os.path.expanduser("~")

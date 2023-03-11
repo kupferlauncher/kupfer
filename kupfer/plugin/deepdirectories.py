@@ -16,7 +16,7 @@ import os
 import typing as ty
 
 from kupfer import plugin_support
-from kupfer.obj.files import FileSource
+from kupfer.obj.filesrc import FileSource
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

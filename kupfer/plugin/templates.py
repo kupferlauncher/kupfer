@@ -12,10 +12,10 @@ from pathlib import Path
 
 from gi.repository import Gio, GLib
 
-from kupfer import icons, utils
+from kupfer import icons
 from kupfer.obj import Action, FileLeaf, Leaf, Source, helplib
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer.support import pretty
+from kupfer.support import fileutils, pretty
 
 DEFAULT_TMPL_DIR = "~/Templates"
 
@@ -76,19 +76,23 @@ class CreateNewDocument(Action):
             # Copy the template to destination directory
             basename = os.path.basename(iobj.object)
             tmpl_gfile = Gio.File.new_for_path(iobj.object)
-            destpath = utils.get_destpath_in_directory(leaf.object, basename)
+            destpath = fileutils.get_destpath_in_directory(
+                leaf.object, basename
+            )
             destfile = Gio.File.new_for_path(destpath)
             tmpl_gfile.copy(
                 destfile, Gio.FileCopyFlags.ALL_METADATA, None, None, None
             )
         elif isinstance(iobj, NewFolder):
             filename = str(iobj)
-            destpath = utils.get_destpath_in_directory(leaf.object, filename)
+            destpath = fileutils.get_destpath_in_directory(
+                leaf.object, filename
+            )
             Path(destpath).mkdir(parents=True)
         else:
             # create new empty file
             filename = str(iobj)
-            destfile, destpath = utils.get_destfile_in_directory(
+            destfile, destpath = fileutils.get_destfile_in_directory(
                 leaf.object, filename
             )
             if destfile:
@@ -125,6 +129,7 @@ class CreateDocumentIn(
 ):
     rank_adjust = 10
 
+    # pylint: disable=super-init-not-called,non-parent-init-called
     def __init__(self):
         Action.__init__(self, _("Create Document In..."))
 

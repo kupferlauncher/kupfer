@@ -7,7 +7,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 import urllib.parse
 import urllib.request
 
-from kupfer.objects import Action, Leaf, OperationError, Source, UrlLeaf
+from kupfer.obj import Action, Leaf, OperationError, Source, UrlLeaf
 from kupfer.support import pretty
 
 

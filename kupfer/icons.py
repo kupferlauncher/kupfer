@@ -15,18 +15,18 @@ from gi.repository.Gio import (
 from gi.repository.GLib import GError
 
 from kupfer.core import settings
-from kupfer.support import datatools, kupferstring, pretty, scheduler
+from kupfer.support import datatools, pretty, scheduler
 
-ICON_CACHE: dict[int, datatools.LruCache[str, GdkPixbuf.Pixbuf]] = {}
+_ICON_CACHE: ty.Final[dict[int, datatools.LruCache[str, GdkPixbuf.Pixbuf]]] = {}
 # number of elements in icon lru cache (per icon size)
-ICON_CACHE_SIZE_LARGE = 15
-ICON_CACHE_SIZE = 64
+_ICON_CACHE_SIZE_LARGE = 15
+_ICON_CACHE_SIZE = 64
 
-LARGE_SZ = 128
-SMALL_SZ = 24
+_LARGE_SZ = 128
+_SMALL_SZ = 24
 
 ## default fallbacks for our themable icons
-kupfer_icon_fallbacks = {
+_KUPFER_ICON_FALLBACKS: ty.Final = {
     "kupfer-execute": "system-run",
     "kupfer-object": "text-x-generic",
     "kupfer-object-multiple": "folder",
@@ -34,15 +34,15 @@ kupfer_icon_fallbacks = {
     "kupfer-search": "system-search",
 }
 
-kupfer_locally_installed_names: set[str] = set()
+_KUPFER_LOCALLY_INSTALLED_NAMES: ty.Final[set[str]] = set()
 
 # keep missing files to prevent try to load every time
-MISSING_ICON_FILES = set()
+_MISSING_ICON_FILES: ty.Final[set[str]] = set()
 
 
 def _icon_theme_changed(theme):
     pretty.print_info(__name__, "Icon theme changed, clearing cache")
-    ICON_CACHE.clear()
+    _ICON_CACHE.clear()
 
 
 _default_theme = Gtk.IconTheme.get_default()  # pylint: disable=no-member
@@ -103,7 +103,7 @@ def _load_icon_from_func(
     @get_data_func: function to retrieve the data if needed
     @override: override the icon theme
     """
-    if not override and icon_name in kupfer_locally_installed_names:
+    if not override and icon_name in _KUPFER_LOCALLY_INSTALLED_NAMES:
         pretty.print_debug(__name__, "Skipping existing", icon_name)
         return
 
@@ -120,7 +120,7 @@ def _load_icon_from_func(
         pretty.print_exc(__name__)
         return
 
-    for size in (SMALL_SZ, LARGE_SZ):
+    for size in (_SMALL_SZ, _LARGE_SZ):
         pixbuf = get_pixbuf_from_data(icon_data, size, size)
         Gtk.IconTheme.add_builtin_icon(  # pylint: disable=no-member
             icon_name, size, pixbuf
@@ -129,7 +129,7 @@ def _load_icon_from_func(
             __name__, "Loading icon", icon_name, "at", size, "for", plugin_name
         )
 
-    kupfer_locally_installed_names.add(icon_name)
+    _KUPFER_LOCALLY_INSTALLED_NAMES.add(icon_name)
 
 
 def get_icon(key: str, icon_size: int) -> ty.Iterator[GdkPixbuf.Pixbuf]:
@@ -138,7 +138,7 @@ def get_icon(key: str, icon_size: int) -> ty.Iterator[GdkPixbuf.Pixbuf]:
     is a generator so it can be concisely called with a for loop
     """
     try:
-        rec = ICON_CACHE[icon_size][key]
+        rec = _ICON_CACHE[icon_size][key]
     except KeyError:
         return
 
@@ -150,14 +150,14 @@ def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
     Store an icon in cache. It must not have been stored before
     """
     assert icon, f"icon {key} may not be {icon}"
-    if icon_size not in ICON_CACHE:
-        cache_size = ICON_CACHE_SIZE
-        if icon_size == LARGE_SZ:
-            cache_size = ICON_CACHE_SIZE_LARGE
+    if icon_size not in _ICON_CACHE:
+        cache_size = _ICON_CACHE_SIZE
+        if icon_size == _LARGE_SZ:
+            cache_size = _ICON_CACHE_SIZE_LARGE
 
-        ICON_CACHE[icon_size] = datatools.LruCache(cache_size)
+        _ICON_CACHE[icon_size] = datatools.LruCache(cache_size)
 
-    ICON_CACHE[icon_size][key] = icon
+    _ICON_CACHE[icon_size][key] = icon
 
 
 def _get_icon_dwim(
@@ -206,7 +206,7 @@ def ComposedIconSmall(
 ) -> ComposedIcon:
     """Create composed icon for leaves with emblem visible on browser list"""
     icon = ComposedIcon(baseicon, emblem, **kwargs)
-    icon.minimum_icon_size = SMALL_SZ
+    icon.minimum_icon_size = _SMALL_SZ
     return icon
 
 
@@ -303,14 +303,14 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
     return None if not found
     """
 
-    if uri in MISSING_ICON_FILES:
+    if uri in _MISSING_ICON_FILES:
         return None
 
     gfile = File.new_for_path(uri)
     if not gfile.query_exists():
         gfile = File.new_for_uri(uri)
         if not gfile.query_exists():
-            MISSING_ICON_FILES.add(uri)
+            _MISSING_ICON_FILES.add(uri)
             return None
 
     finfo = gfile.query_info(
@@ -360,7 +360,9 @@ def _get_icon_for_standard_gicon(
         names = gicon.get_names()
         return get_icon_for_name(names[0], icon_size, names)
 
-    pretty.print_debug(__name__, "get_icon_for_gicon, could not load", gicon)
+    pretty.print_debug(
+        __name__, "_get_icon_for_standard_gicon, could not load", gicon
+    )
     return None
 
 
@@ -373,7 +375,7 @@ class IconRenderer:
     def pixbuf_for_name(
         cls, icon_name: str, icon_size: int
     ) -> GdkPixbuf.Pixbuf | None:
-        if icon_name in kupfer_locally_installed_names:
+        if icon_name in _KUPFER_LOCALLY_INSTALLED_NAMES:
             with suppress(GError):
                 return _local_theme.load_icon(
                     icon_name,
@@ -419,7 +421,7 @@ def _setup_icon_renderer(_sched: ty.Any) -> None:
 
 
 def _icon_render_change(setctl, *_arguments):
-    global _ICON_RENDERER
+    global _ICON_RENDERER  # pylint: disable=global-statement
     renderer_dict = setctl.get_preferred_alternative("icon_renderer")
     renderer = renderer_dict.get("renderer")
     if not renderer or renderer is _ICON_RENDERER:
@@ -439,7 +441,7 @@ def get_icon_for_name(
     icon_names: ty.Iterable[str] | None = None,
 ) -> GdkPixbuf.Pixbuf | None:
     try:
-        return ICON_CACHE[icon_size][icon_name]
+        return _ICON_CACHE[icon_size][icon_name]
     except KeyError:
         pass
 
@@ -449,8 +451,7 @@ def get_icon_for_name(
             if icon := _ICON_RENDERER.pixbuf_for_name(load_name, icon_size):
                 break
 
-            if icon_name in kupfer_icon_fallbacks:
-                fallback_name = kupfer_icon_fallbacks[icon_name]
+            if fallback_name := _KUPFER_ICON_FALLBACKS.get(icon_name):
                 if icon := _ICON_RENDERER.pixbuf_for_name(
                     fallback_name, icon_size
                 ):
@@ -473,18 +474,18 @@ def get_icon_from_file(
 ) -> GdkPixbuf.Pixbuf | None:
     # try to load from cache
     try:
-        return ICON_CACHE[icon_size][icon_file]
+        return _ICON_CACHE[icon_size][icon_file]
     except KeyError:
         pass
 
-    if icon_file in MISSING_ICON_FILES:
+    if icon_file in _MISSING_ICON_FILES:
         return None
 
     if icon := _ICON_RENDERER.pixbuf_for_file(icon_file, icon_size):
         store_icon(icon_file, icon_size, icon)
         return icon
 
-    MISSING_ICON_FILES.add(icon_file)
+    _MISSING_ICON_FILES.add(icon_file)
     return None
 
 

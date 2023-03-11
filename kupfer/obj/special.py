@@ -1,3 +1,10 @@
+"""
+Special objects.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
+"""
 __version__ = "2010-01-21"
 
 import typing as ty
@@ -5,6 +12,8 @@ import typing as ty
 from kupfer.ui import preferences
 
 from .objects import RunnableLeaf
+
+__all__ = ("PleaseConfigureLeaf", "InvalidCredentialsLeaf")
 
 if ty.TYPE_CHECKING:
     _ = str

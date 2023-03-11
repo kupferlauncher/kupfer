@@ -19,6 +19,7 @@ if environment.allows_keybinder():
         Keybinder.init()  # type:ignore
     except (ValueError, ImportError):
         pretty.print_debug(__name__, "Keybinder 3.0 not available in gi")
+        Keybinder = None
 
 else:
     pretty.print_debug(__name__, "Keybinder disabled")

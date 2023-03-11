@@ -18,9 +18,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from kupfer import utils
+from kupfer import launch
 from kupfer.obj import Action, FileLeaf, UrlLeaf
-from kupfer.support import task
+from kupfer.support import fileutils, task
 
 
 def url_name(url):
@@ -49,9 +49,9 @@ class DownloadTask(task.ThreadTask):
         self, destname: str
     ) -> tuple[ty.BinaryIO | None, str | None]:
         if self.use_tempfile:
-            return utils.get_safe_tempfile()
+            return fileutils.get_safe_tempfile()
 
-        return utils.get_destfile_in_directory(self.destdir, destname)
+        return fileutils.get_destfile_in_directory(self.destdir, destname)
 
     def thread_do(self):
         # TODO: check response and destfile was DownloadTask field
@@ -89,7 +89,7 @@ class DownloadAndOpen(Action):
         uri = leaf.object
 
         def finish_action(filename):
-            utils.show_path(filename)
+            launch.show_path(filename)
             ctx.register_late_result(FileLeaf(filename), show=False)
 
         return DownloadTask(uri, None, True, finish_action)
@@ -132,7 +132,7 @@ class DownloadTo(Action):
         yield FileLeaf
 
     def valid_object(self, obj, for_item=None):
-        return utils.is_directory_writable(obj.object)
+        return fileutils.is_directory_writable(obj.object)
 
     def get_description(self):
         return _("Download URL to a chosen location")

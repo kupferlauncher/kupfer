@@ -23,13 +23,12 @@ from kupfer.obj import (
     Action,
     AppLeaf,
     FileLeaf,
-    InvalidDataError,
-    NoMultiError,
     NotAvailableError,
     RunnableLeaf,
     Source,
 )
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.exceptions import InvalidDataError, NoMultiError
 from kupfer.support import pretty
 
 plugin_support.check_dbus_connection()

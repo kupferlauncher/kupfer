@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import unittest
+
 from . import itertools as kit
 
 
@@ -52,3 +53,16 @@ class TestTwoPartMapper(unittest.TestCase):
             kit.two_part_mapper("baaabaaabaaabbaabb", repfunc),
             "b01ab01ab01a230123",
         )
+
+
+class TestPeekfirst(unittest.TestCase):
+    def test1(self):
+        first, tail = kit.peekfirst([])
+        self.assertIsNone(first)
+        self.assertTrue(hasattr(tail, "__next__"))
+        self.assertEqual([], list(tail))
+
+        first, tail = kit.peekfirst([1, 2, 3, 4, 5])
+        self.assertEqual(first, 1)
+        self.assertTrue(hasattr(tail, "__next__"))
+        self.assertEqual([1, 2, 3, 4, 5], list(tail))

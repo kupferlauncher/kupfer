@@ -1,3 +1,10 @@
+"""
+Base kupfer objects definitions.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
+"""
 from __future__ import annotations
 
 import builtins
@@ -6,8 +13,7 @@ import typing as ty
 from gi.repository import GdkPixbuf
 
 from kupfer import icons
-from kupfer.support import datatools, kupferstring, pretty
-from kupfer.utils import locale_sort
+from kupfer.support import itertools, kupferstring, pretty
 
 __all__ = [
     "KupferObject",
@@ -15,6 +21,8 @@ __all__ = [
     "Action",
     "Source",
     "TextSource",
+    "AnySource",
+    "ActionGenerator",
 ]
 
 
@@ -24,11 +32,8 @@ if not hasattr(builtins, "_"):
     builtins._ = _ = str  # type: ignore
 
 
-_builtin_modules = (
-    "kupfer.obj.objects",
-    "kupfer.obj.base",
-    "kupfer.obj.sources",
-)
+# builtins modules (extra); all kupfer.obj.* modules are included
+_BUILTIN_MODULES: tuple[str, ...] = ()
 
 
 def no_sort_func(x, _key=None):
@@ -37,7 +42,10 @@ def no_sort_func(x, _key=None):
 
 class _BuiltinObject(type):
     def __new__(mcs, name, bases, data):
-        data["_is_builtin"] = data["__module__"] in _builtin_modules
+        module = data["__module__"]
+        data["_is_builtin"] = (
+            module.startswith("kupfer.obj") or module in _BUILTIN_MODULES
+        )
         return type.__new__(mcs, name, bases, data)
 
 
@@ -162,17 +170,6 @@ class KupferObject(metaclass=_BuiltinObject):
         a generic icon name to return.
         """
         return self.fallback_icon_name
-
-
-T = ty.TypeVar("T")
-
-
-def _aslist(seq: ty.Iterable[T]) -> ty.Collection[T]:
-    """Return a list out of @seq, or seq if it is a list"""
-    if isinstance(seq, (list, tuple)):
-        return seq
-
-    return list(seq)
 
 
 class _NonpersistentToken:
@@ -447,7 +444,7 @@ class Source(KupferObject, pretty.OutputMixin):
         """
         if self.should_sort_lexically():
             # sort in locale order
-            sort_func = locale_sort
+            sort_func = kupferstring.locale_sort
         else:
             sort_func = no_sort_func
 
@@ -459,10 +456,12 @@ class Source(KupferObject, pretty.OutputMixin):
 
         if self.cached_items is None or force_update:
             if force_update:
-                self.cached_items = _aslist(sort_func(self.get_items_forced()))
+                self.cached_items = itertools.as_list(
+                    sort_func(self.get_items_forced())
+                )
                 self.output_debug(f"Loaded {len(self.cached_items)} items")
             else:
-                self.cached_items = datatools.SavedIterable(
+                self.cached_items = itertools.SavedIterable(
                     sort_func(self.get_items())
                 )
                 self.output_debug("Loaded items")

@@ -3,7 +3,6 @@ from __future__ import annotations
 from gi.repository import Gtk
 
 from kupfer import config, version
-from kupfer.support import kupferstring
 
 
 class CredentialsDialogController:

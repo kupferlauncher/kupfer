@@ -22,6 +22,13 @@ of object and indirect object.
 
 With multiple command execution (and delegation), we must then process and
 merge multiple return values.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
+
+TODO: delegation, run, combine_action_result_multiple need rethink / rebuild.
+It's work quite well but is too complicated.
 """
 
 from __future__ import annotations
@@ -32,18 +39,34 @@ import itertools
 import sys
 import typing as ty
 from enum import IntEnum
+from functools import partial
 
 from gi.repository import GObject
 
-from kupfer.obj.base import Action, KupferObject, Leaf, Source
+from kupfer.obj import (
+    Action,
+    KupferObject,
+    Leaf,
+    OperationError,
+    Source,
+    SourceLeaf,
+)
 from kupfer.obj.compose import MultipleLeaf
-from kupfer.obj.exceptions import OperationError
-from kupfer.obj.objects import SourceLeaf
 from kupfer.obj.sources import MultiSource
 from kupfer.support import pretty, task
 from kupfer.support.types import ExecInfo
 from kupfer.ui import uiutils
 from kupfer.ui.uievents import GUIEnvironmentContext
+
+from ._support import get_leaf_members, is_multiple_leaf
+
+__all__ = (
+    "ExecResult",
+    "ActionExecutionError",
+    "ExecutionToken",
+    "ActionExecutionContext",
+    "default_action_execution_context",
+)
 
 
 class ExecResult(IntEnum):
@@ -58,10 +81,17 @@ class ExecResult(IntEnum):
         return self in (ExecResult.OBJECT, ExecResult.SOURCE)
 
 
-_MAX_LAST_RESULTS = 10
+_MAX_LAST_RESULTS: ty.Final = 10
 
+## CmdTuple keep information about command arguments (leaf, action and optional
+## iobj)
 CmdTuple = tuple[Leaf, Action, ty.Optional[Leaf]]
+
+## Token keep information about (command id, and optional CmdTuple)
 Token = tuple[int, ty.Optional[CmdTuple]]
+
+## ActionResult is result (content) of action
+ActionResult = ty.Union[Source, Leaf, task.Task, None]
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -71,32 +101,11 @@ class ActionExecutionError(Exception):
     pass
 
 
-def _get_leaf_members(leaf: Leaf) -> ty.Iterable[Leaf]:
-    """
-    Return an iterator to members of @leaf, if it is a multiple leaf
-    """
-    # NOTE : This function duplicates one in core/actionlogic.py
-    try:
-        return leaf.get_multiple_leaf_representation()  # type: ignore
-    except AttributeError:
-        return (leaf,)
-
-
-def _is_multiple(leaf: Leaf | None) -> bool:
-    return hasattr(leaf, "get_multiple_leaf_representation")
-
-
-def _wants_context(action: Action) -> bool:
-    return action.wants_context()
-
-
 class ExecutionToken:
-    """
-    A token object that an ``Action`` carries with it
-    from ``activate``.
+    """A token object that an `Action` carries with it from `activate`.
 
-    Must be used for access to current execution context,
-    and to access the environment.
+    Must be used for access to current execution context, and to access the
+    environment.
     """
 
     def __init__(
@@ -105,6 +114,11 @@ class ExecutionToken:
         async_token: Token,
         ui_ctx: GUIEnvironmentContext | None,
     ) -> None:
+        """Initialize `ExecutionToken`.
+        `aectx` is context of execution.
+        `async_token` keeps data returned with late result
+        `ui_ctx` is optional gui context
+        """
         self._aectx: ActionExecutionContext = aectx
         self._token = async_token
         self._ui_ctx = ui_ctx
@@ -112,16 +126,24 @@ class ExecutionToken:
     def register_late_result(
         self, result_object: KupferObject, show: bool = True
     ) -> None:
+        """Put execution result (`result_object`) into action execution
+        context.
+        If `show` it True - try to show result to the user.
+        """
         self._aectx.register_late_result(
             self._token, result_object, show=show, ctxenv=self._ui_ctx
         )
 
     def register_late_error(self, exc_info: ExecInfo | None = None) -> None:
+        """Put error (`exc_info`) from failed execution into action execution
+        context."""
         self._aectx.register_late_error(self._token, exc_info)
 
     def delegated_run(
         self, obj: Leaf, action: Action, iobj: Leaf | None
-    ) -> tuple[ty.Any, ty.Any]:
+    ) -> tuple[ExecResult, ty.Any]:
+        """Activate action execution context - run it for `obj`, `action` and
+        `iobj`."""
         return self._aectx.run(
             obj, action, iobj, delegate=True, ui_ctx=self._ui_ctx
         )
@@ -142,7 +164,14 @@ class ExecutionToken:
 
 
 class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: ignore
-    """
+    """The ActionExecutionContext (ACE) keeps track of its nested invocation,
+    so that we can catch the results of commands executed inside other commands.
+    The delegation mechanism allows a user of the ACE to indicate that the result
+    of the command should be passed on from the earlier (more nested) invocation.
+
+    ActionExecutionContext is singleton; to get it use
+    `ActionExecutionContext.instance()` or `default_action_execution_context()`.
+
     command-result (result_type, result)
         Emitted when a command is carried out, with its resulting value
     """
@@ -159,7 +188,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
 
     def __init__(self):
         GObject.GObject.__init__(self)
-        self.task_runner = task.TaskRunner(end_on_finish=False)
+        self._task_runner = task.TaskRunner(end_on_finish=False)
         self._nest_level = 0
         self._delegate = False
         self._command_counter = itertools.count()
@@ -179,6 +208,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         finally:
             self._nest_level -= 1
 
+    @property
     def _is_nested(self) -> bool:
         return bool(self._nest_level)
 
@@ -192,13 +222,13 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
     def _do_error_conversion(
         self, cmdtuple: CmdTuple, exc_info: ExecInfo
     ) -> None:
-        if not self.operation_error(exc_info, cmdtuple):
+        if not self._operation_error(exc_info, cmdtuple):
             raise exc_info[1]  # type: ignore
 
         _etype, value, traceback = exc_info
         raise ActionExecutionError(value).with_traceback(traceback)
 
-    def get_async_token(self) -> Token:
+    def _get_async_token(self) -> Token:
         """Get an action execution for current execution
 
         Return a token for the currently active command execution.
@@ -210,16 +240,16 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
     def make_execution_token(
         self, ui_ctx: GUIEnvironmentContext | None
     ) -> ExecutionToken:
-        """
-        Return an ExecutionToken for @self and @ui_ctx
-        """
-        return ExecutionToken(self, self.get_async_token(), ui_ctx)
+        """Return an ExecutionToken for @self and @ui_ctx."""
+        return ExecutionToken(self, self._get_async_token(), ui_ctx)
 
-    def operation_error(
+    def _operation_error(
         self, exc_info: ExecInfo, cmdtuple: CmdTuple
     ) -> int | None:
-        "Error when executing action. Return True when error was handled"
-        if self._is_nested():
+        """Error when executing action - show notification to the user.
+        Nested error are ignored."""
+
+        if self._is_nested:
             return None
 
         _etype, value, _tb = exc_info
@@ -235,7 +265,9 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
     def register_late_error(
         self, token: Token, exc_info: ExecInfo | BaseException | None = None
     ) -> None:
-        "Register an error in exc_info. The error must be an OperationError"
+        """Register an error in exc_info. The error must be an OperationError.
+        ActionExecutionError is raised.
+        """
         if exc_info is None:
             exc_info = sys.exc_info()
         elif isinstance(exc_info, BaseException):
@@ -253,13 +285,15 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         show: bool = True,
         ctxenv: GUIEnvironmentContext | None = None,
     ) -> None:
-        """Register a late result
+        """Register a late result.
 
-        Result must be a Leaf (as in result object, not factory or async)
+        Result must be a Leaf (as in result object, not factory or async).
 
-        If @show, possibly display the result to the user.
+        If `show`, possibly display the result to the user (show leaf).
+        Desktop notification is always displayed when there is any result.
         """
         self.output_debug("Late result", repr(result), "for", token)
+
         command_id, (_ign1, action, _ign2) = token  # type: ignore
         if result is None:
             raise ActionExecutionError(f"Late result from {action} was None")
@@ -273,7 +307,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         if not show:
             command_id = -1
 
-        result_type = parse_late_action_result(action, result)
+        result_type = _parse_late_action_result(action, result)
 
         self.output_debug(
             "late-command-result", command_id, result_type, result, ctxenv
@@ -310,6 +344,8 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
 
         If a command carries out another command as part of its execution,
         and wishes to delegate to it, pass True for @delegate.
+
+        TODO: separate delegate executions to simplify code
         """
         self.last_command_id = next(self._command_counter)
         self.last_executed_command = (obj, action, iobj)
@@ -335,21 +371,24 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         # Delegated command execution was previously requested: we take
         # the result of the nested execution context
         if self._delegate:
+            assert not ret or isinstance(ret, tuple)
             # K: added; ret can be None
             # K: res was 0 (no value)
-            res, ret = ret if ret else (ExecResult.ZERO, None)
+            res, ret = ret if ret else (ExecResult.ZERO, None)  # type: ignore
             return self._return_result(res, ret, ui_ctx)
 
+        assert not ret or isinstance(ret, (Source, Leaf, task.Task))
         res = parse_action_result(action, ret)
         if res == ExecResult.ASYNC:
             # Register the task then "clear" the result
             self.output_debug("Registering async task", ret)
-            self.task_runner.add_task(ret)
+            assert isinstance(ret, task.Task)
+            self._task_runner.add_task(ret)
             res, ret = ExecResult.NONE, None
 
         # Delegated command execution was requested: we pass
         # through the result of the action to the parent execution context
-        if delegate and self._is_nested():
+        if delegate and self._is_nested:
             self._delegate = True
 
         return self._return_result(res, ret, ui_ctx)
@@ -360,7 +399,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         ret: ty.Any,
         ui_ctx: GUIEnvironmentContext | None,
     ) -> tuple[ExecResult, ty.Any]:
-        if not self._is_nested():
+        if not self._is_nested:
             self._append_result(res, ret)
             self.emit("command-result", res, ret, ui_ctx)
 
@@ -369,69 +408,95 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
     def combine_action_result_multiple(
         self,
         action: Action,
-        retvals: ty.Iterable[tuple[ExecResult, ty.Any] | None],
-    ) -> ty.Any:
+        retvals: list[tuple[ExecResult, ActionResult] | ActionResult],
+    ) -> tuple[ExecResult, ActionResult] | ActionResult:
+        """
+        When delegate is False `retvals` is list of `ActionResult` and function
+        return  `ActionResult`.
+
+        When delegate it True  `retvals` is list of (ExecResult, ActionResult)
+        and function return (ExecResult, ActionResult)
+
+        """
         self.output_debug(
             "Combining", repr(action), retvals, f"delegate={self._delegate}"
         )
 
-        def _make_retvalue(res: ExecResult, values: list[ty.Any]) -> ty.Any:
-            "Construct a return value for type res"
-            if res == ExecResult.SOURCE:
-                return values[0] if len(values) == 1 else MultiSource(values)
-
-            if res == ExecResult.OBJECT:
-                return values[0] if len(values) == 1 else MultipleLeaf(values)
-
-            if res == ExecResult.ASYNC:
-                # Register all tasks now, and return None upwards
-                for task_ in values:
-                    self.output_debug("Registering async task", task_)
-                    self.task_runner.add_task(task_)
-
-            return None
+        retvals_not_empty = filter(None, retvals)
 
         if not self._delegate:
-            values: list[tuple[ExecResult, ty.Any]] = []
+            values: list[ActionResult] = []
             res = ExecResult.NONE
-            for ret in retvals:
-                if (
-                    res_type := parse_action_result(action, ret)
-                ) != ExecResult.NONE and ret is not None:
+            ret: ActionResult
+            for ret in retvals_not_empty:  # type: ignore
+                res_type = parse_action_result(action, ret)
+                if res_type != ExecResult.NONE:
                     values.append(ret)
                     res = res_type
 
-            return _make_retvalue(res, values)
+            return self._make_retvalue(res, values)
 
         # Re-parse result values
         res = ExecResult.NONE
-        resmap: dict[ExecResult, list[ty.Any]] = collections.defaultdict(list)
-        for ret in retvals:
-            if ret is not None:
-                res_type, ret_obj = ret
-                if res_type != ExecResult.NONE:
-                    resmap[res_type].append(ret_obj)
-                    res = res_type
+        resmap: dict[ExecResult, list[ActionResult]] = collections.defaultdict(
+            list
+        )
+        ret_obj: ActionResult
+        for res_type, ret_obj in retvals_not_empty:  # type: ignore
+            if res_type != ExecResult.NONE:
+                resmap[res_type].append(ret_obj)
+                res = res_type
 
         # register tasks
-        tasks = resmap.pop(ExecResult.ASYNC, [])
-        _make_retvalue(ExecResult.ASYNC, tasks)
+        if tasks := resmap.pop(ExecResult.ASYNC, None):
+            self._make_retvalue(ExecResult.ASYNC, tasks)
 
         if len(resmap) == 1:
             # Return the only of the Source or Object case
-            key, values = list(resmap.items())[0]
-            return key, _make_retvalue(key, values)
+            key, values = resmap.popitem()
+            return key, self._make_retvalue(key, values)
 
         if len(resmap) > 1:
             # Put the source in a leaf and return a multiple leaf
-            source = _make_retvalue(
+            source = self._make_retvalue(
                 ExecResult.SOURCE, resmap[ExecResult.SOURCE]
             )
+            assert isinstance(source, Source)
             objects = resmap[ExecResult.OBJECT]
             objects.append(SourceLeaf(source))
-            return ExecResult.OBJECT, _make_retvalue(ExecResult.OBJECT, objects)
+            return ExecResult.OBJECT, self._make_retvalue(
+                ExecResult.OBJECT, objects
+            )
 
-        return ExecResult.NONE
+        return ExecResult.NONE, None
+
+    def _make_retvalue(
+        self, res: ExecResult, values: list[ActionResult]
+    ) -> ActionResult:
+        """Construct a return value for type res.
+
+        If Result is source or object construct MultpileSource/MultipleLeaf for
+        many results or simple return first result.
+        For async result register async task.
+        """
+        if res == ExecResult.SOURCE:
+            return (
+                values[0]
+                if len(values) == 1
+                else MultiSource(values)  # type: ignore
+            )
+
+        if res == ExecResult.OBJECT:
+            return values[0] if len(values) == 1 else MultipleLeaf(values)
+
+        if res == ExecResult.ASYNC:
+            # Register all tasks now, and return None upwards
+            for task_ in values:
+                assert isinstance(task_, task.Task)
+                self.output_debug("Registering async task", task_)
+                self._task_runner.add_task(task_)
+
+        return None
 
 
 # Signature: Action result type, action result, gui_context
@@ -458,7 +523,32 @@ GObject.signal_new(
 )
 
 
+## Get ActionExecutionContext instance
 default_action_execution_context = ActionExecutionContext.instance
+
+
+# pylint: disable=too-few-public-methods
+class ActionActivateFunc(ty.Protocol):
+    def __call__(
+        self,
+        obj: Leaf,
+        iobj: Leaf | None = None,
+        ctx: ExecutionToken | None = None,
+        /,
+    ) -> ActionResult:
+        pass
+
+
+# pylint: disable=too-few-public-methods
+class ActionActivateMultipleFunc(ty.Protocol):
+    def __call__(
+        self,
+        obj: ty.Iterable[Leaf],
+        iobj: ty.Iterable[Leaf | None] | None = None,
+        ctx: ExecutionToken | None = None,
+        /,
+    ) -> ActionResult:
+        pass
 
 
 def activate_action(
@@ -466,70 +556,81 @@ def activate_action(
     obj: Leaf,
     action: Action,
     iobj: Leaf | None,
-) -> ty.Any:
+) -> tuple[ExecResult, ActionResult] | ActionResult:
     """Activate @action in simplest manner"""
-    kwargs: dict[str, ty.Any] = {}
-    if _wants_context(action):
-        kwargs["ctx"] = context
 
-    if not _is_multiple(obj) and not _is_multiple(iobj):
-        return _activate_action_single(obj, action, iobj, kwargs)
+    if not action.wants_context():
+        context = None
 
-    return _activate_action_multiple(obj, action, iobj, kwargs)
+    if not is_multiple_leaf(obj) and not is_multiple_leaf(iobj):
+        return _activate_action_single(obj, action, iobj, context)
+
+    return _activate_action_multiple(obj, action, iobj, context)
 
 
 def _activate_action_single(
-    obj: Leaf, action: Action, iobj: Leaf | None, kwargs: dict[str, ty.Any]
-) -> ty.Any:
-    if action.requires_object():
-        return action.activate(obj, iobj, **kwargs)
+    obj: Leaf, action: Action, iobj: Leaf | None, ctx: ExecutionToken | None
+) -> tuple[ExecResult, ActionResult] | ActionResult:
+    func: ActionActivateFunc = action.activate
+    if ctx:
+        # set context to action.activate call
+        func = partial(func, ctx=ctx)
 
-    return action.activate(obj, **kwargs)
+    if action.requires_object():
+        return func(obj, iobj)
+
+    return func(obj)
 
 
 def _activate_action_multiple(
-    obj: Leaf, action: Action, iobj: Leaf | None, kwargs: dict[str, ty.Any]
-) -> ty.Any:
+    obj: Leaf, action: Action, iobj: Leaf | None, ctx: ExecutionToken | None
+) -> tuple[ExecResult, ActionResult] | ActionResult | None:
+    objs = get_leaf_members(obj)
+
     if not hasattr(action, "activate_multiple"):
-        iobjs = (None,) if iobj is None else _get_leaf_members(iobj)
-        return _activate_action_multiple_multiplied(
-            _get_leaf_members(obj), action, iobjs, kwargs
-        )
+        iobjs = (None,) if iobj is None else get_leaf_members(iobj)
+        return _activate_action_multiple_multiplied(objs, action, iobjs, ctx)
+
+    func: ActionActivateMultipleFunc = action.activate_multiple  # type: ignore
+    if ctx:
+        func = partial(func, ctx=ctx)
 
     if action.requires_object():
-        iobjs = (None,) if iobj is None else _get_leaf_members(iobj)
-        return action.activate_multiple(  # type: ignore
-            _get_leaf_members(obj), iobjs, **kwargs
-        )
+        iobjs = (None,) if iobj is None else get_leaf_members(iobj)
+        return func(objs, iobjs)
 
-    return action.activate_multiple(_get_leaf_members(obj), **kwargs)  # type: ignore
+    return func(objs)
 
 
 def _activate_action_multiple_multiplied(
     objs: ty.Iterable[Leaf],
     action: Action,
     iobjs: ty.Iterable[Leaf | None],
-    kwargs: dict[str, ty.Any],
-) -> ty.Any:
+    ctx: ExecutionToken | None,
+) -> tuple[ExecResult, ActionResult] | ActionResult | None:
     """
     Multiple dispatch by "mulitplied" invocation of the simple activation
 
-    Return an iterable of the return values.
+    When action is delegated return (ExecResult, ActionResult), otherwise
+    return ActionResult
+
     """
     rets = [
-        _activate_action_single(leaf, action, item, kwargs)
+        _activate_action_single(leaf, action, item, ctx)
         for leaf in objs
         for item in iobjs
     ]
 
-    ctx = default_action_execution_context()
-    ret = ctx.combine_action_result_multiple(action, rets)
+    actx = default_action_execution_context()
+    ret = actx.combine_action_result_multiple(action, rets)
     return ret
 
 
-def parse_action_result(action: Action, ret: ty.Any) -> ExecResult:
+def parse_action_result(action: Action, ret: ActionResult) -> ExecResult:
     """Return result type for @action and return value @ret"""
-    if not ret or (hasattr(ret, "is_valid") and not ret.is_valid()):
+    if not ret or (
+        hasattr(ret, "is_valid") and not ret.is_valid()  # type:ignore
+    ):
         return ExecResult.NONE
 
     # handle actions returning "new contexts"
@@ -545,7 +646,7 @@ def parse_action_result(action: Action, ret: ty.Any) -> ExecResult:
     return res
 
 
-def parse_late_action_result(action: Action, ret: ty.Any) -> int:
+def _parse_late_action_result(action: Action, ret: ty.Any) -> int:
     # Late result is assumed to be a Leaf (Object) result
     # by default for backward compat.
     #

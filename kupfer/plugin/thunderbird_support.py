@@ -116,7 +116,7 @@ def _read_mork_filecontent(filename: str) -> ty.Iterable[str]:
         # check header
         if not RE_HEADER.match(header):
             pretty.print_debug(__name__, "_read_mork: header error", header)
-            return {}
+            return
 
         for line in mfile.readlines():
             # remove blank lines and comments
@@ -132,6 +132,8 @@ def _read_mork_filecontent(filename: str) -> ty.Iterable[str]:
                 yield line.replace("\\)", "$29")
 
 
+# pylint: disable=too-many-locals,too-many-nested-blocks,too-many-branches
+# pylint: disable=too-many-statements
 def _read_mork(filename: str) -> dict[str, _Table]:
     """Read mork file, return tables from file"""
 

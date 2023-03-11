@@ -8,7 +8,7 @@ import shutil
 
 from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
 
-from kupfer import utils
+from kupfer import launch
 from kupfer.obj import Action, FileLeaf, OperationError
 
 
@@ -91,7 +91,7 @@ class View(Action):
 
         if Gdk.keyval_name(event.keyval) == "Return":
             self.window_deleted(window, event, filepath)
-            utils.show_path(filepath)
+            launch.show_path(filepath)
             window.destroy()
             return True
 

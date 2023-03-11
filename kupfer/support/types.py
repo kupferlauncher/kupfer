@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
-
 """
-
+Various, common types for typechecing
 """
 import types
 import typing as ty

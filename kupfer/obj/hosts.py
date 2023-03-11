@@ -3,18 +3,25 @@ Kupfer's Hosts API
 
 Main definition and *constructor* classes.
 
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
 """
 
 import typing as ty
 
-from kupfer.obj.grouping import GroupingLeaf, Slots
+from .grouping import GroupingLeaf, Slots
 
 __author__ = (
     "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "
     "Karol Będkowski <karol.bedkowsk+gh@gmail.com>"
 )
 
-# TODO: enum
+__all__ = (
+    "HostLeaf",
+    "HostServiceLeaf",
+)
+
 HOST_NAME_KEY = "HOST_NAME"
 HOST_ADDRESS_KEY = "HOST_ADDRESS"
 HOST_SERVICE_NAME_KEY = "HOST_SERVICE_NAME"

@@ -11,8 +11,8 @@ import textwrap
 import typing as ty
 from contextlib import suppress
 
-from kupfer import utils, version
-from kupfer.objects import Action, TextLeaf
+from kupfer import launch, version
+from kupfer.obj import Action, TextLeaf
 from kupfer.support import pretty
 from kupfer.ui import uiutils
 
@@ -31,7 +31,7 @@ class KupferSurprise(float):
     """
 
     def __call__(self, *args):
-        utils.show_url(version.WEBSITE)
+        launch.show_url(version.WEBSITE)
         raise IgnoreResultException
 
 
@@ -110,10 +110,10 @@ def make_environment(last_result=None):
 def format_result(res):
     cres = complex(res)
     parts = []
-    if cres.real:
+    if cres.real:  # pylint: disable=using-constant-test
         parts.append(f"{cres.real}")
 
-    if cres.imag:
+    if cres.imag:  # pylint: disable=using-constant-test
         parts.append(f"{complex(0, cres.imag)}")
 
     return "+".join(parts) or f"{res}"

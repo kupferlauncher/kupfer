@@ -40,6 +40,7 @@ optional = [
   "gi.repository.Keybinder"
 ]
 test = [
+  "pytest"
 ]
 plugins = [
   "vboxapi",
@@ -58,6 +59,14 @@ repository = "http://github.com:kupferlauncher/kupfer"
 [tool.black]
 line-length = 80
 target-version = ['py39']
+extend-exclude = '''
+/(
+  | waf
+  | waflib
+  | contrib
+  | oldplugins
+)/
+'''
 
 
 [tool.isort]
@@ -65,7 +74,8 @@ line_length = 80
 multi_line_output = 3
 profile = "black"
 skip = "migrations"
-
+skip_glob = ["waf", "waflib", "oldplugins", "contrib"]
+skip_gitignore = true
 
 [tool.bandit]
 skips = ["B101", "B410", "B303", "B110", "B404", "B311", "B405", "B201"]
@@ -115,3 +125,7 @@ additional-builtins = ["_", "ngettext", "ic"]
 
 [tool.ruff]
 builtins = ["_", "ic", "ic_stack", "ngettext"]
+
+[tool.pytest]
+addopts = "--doctest-modules"
+collect_ignore_glob = ["contrib/*", "oldplugins/*"]

@@ -21,8 +21,25 @@ from .grouping import GroupingLeaf, Slots
 
 __author__ = (
     "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "
-    "Karol Będkowski <karol.bedkowsk+gh@gmail.com>",
-    "Adi Sieker <adi@sieker.info>",
+    "Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
+    "Adi Sieker <adi@sieker.info>"
+)
+
+__all__ = (
+    "email_from_leaf",
+    "AIMContact",
+    "AddressContact",
+    "ContactLeaf",
+    "EmailContact",
+    "GoogleTalkContact",
+    "ICQContact",
+    "IMContact",
+    "JabberContact",
+    "MSNContact",
+    "PhoneContact",
+    "QQContact",
+    "SkypeContact",
+    "YahooContact",
 )
 
 EMAIL_KEY = "EMAIL"

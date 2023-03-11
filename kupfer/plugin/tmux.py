@@ -1,9 +1,9 @@
-from __future__ import annotations
-
 """
 This plugin for simplicity use cli interface instead of api, so we don't need
 additional modules.
 """
+
+from __future__ import annotations
 
 __kupfer_name__ = _("tmux / tmuxp")
 __kupfer_sources__ = ("TmuxSessionsSource", "TmuxpSessionsSource")
@@ -15,35 +15,29 @@ import datetime
 import os
 import typing as ty
 
-from kupfer import utils
-from kupfer.objects import Action, Leaf, Source
+from kupfer import launch
+from kupfer.obj import Action, Leaf, Source
 
-_STATUS = {
-    "Attached": _("Attached"),
-    "Detached": _("Detached"),
-}
+if ty.TYPE_CHECKING:
+    from getttext import gettext as _
 
 
 class TmuxSession(Leaf):
     """Represented object is the session_id as string"""
 
     def __init__(
-        self, sid: str, name: str, windows: str, attached: str, created: str
+        self, sid: str, name: str, attached: str, created: str
     ) -> None:
         super().__init__(sid, name)
-        self._windows = windows
-        self._status = _STATUS.get(attached) or attached
-        self._created = str(datetime.datetime.fromtimestamp(int(created)))
+        self._attached = attached != "0"
+        self._created = datetime.datetime.fromtimestamp(int(created))
 
     def get_actions(self):
         yield Attach()
 
     def get_description(self) -> str:
-        return _(
-            "%(status)s session, %(windows)s windows, created %(time)s"
-        ) % {
-            "status": self._status,
-            "windows": self._windows,
+        return _("%(status)s tmux session, created %(time)s") % {  # type:ignore
+            "status": _("Attached") if self._attached else _("Detached"),
             "time": self._created,
         }
 
@@ -54,7 +48,7 @@ class TmuxSession(Leaf):
 def tmux_sessions(session_id: str | None = None) -> ty.Iterator[list[str]]:
     cmd = (
         "tmux list-sessions -F "
-        "'#{session_id}\t#{session_name}\t#{session_windows}\t"
+        "'#{session_id}\t#{session_name}\t"
         "#{session_attached}\t#{session_created}'"
     )
     if session_id is not None:
@@ -69,7 +63,7 @@ def tmux_sessions(session_id: str | None = None) -> ty.Iterator[list[str]]:
 class TmuxSessionsSource(Source):
     """Source for tmux sessions"""
 
-    source_use_cache = True
+    source_use_cache = False
 
     def __init__(self):
         super().__init__(_("tmux Sessions"))
@@ -96,7 +90,7 @@ class Attach(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         sid = leaf.object
         action_argv = ["tmux", "attach-session", "-t", sid, "-d"]
-        utils.spawn_in_terminal(action_argv)
+        launch.spawn_in_terminal(action_argv)
 
 
 class TmuxpSession(Leaf):
@@ -107,7 +101,7 @@ class TmuxpSession(Leaf):
         yield StartTmuxpSession()
 
     def get_description(self) -> str:
-        return _("tmuxp saved session")
+        return _("tmuxp saved session")  # type: ignore
 
     def get_icon_name(self):
         return "gnome-window-manager"
@@ -120,7 +114,7 @@ class StartTmuxpSession(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         action_argv = ["tmuxp", "load", leaf.object]
-        utils.spawn_in_terminal(action_argv)
+        launch.spawn_in_terminal(action_argv)
 
 
 class TmuxpSessionsSource(Source):

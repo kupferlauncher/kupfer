@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing as ty
 import urllib.parse
 from contextlib import suppress
@@ -83,7 +85,7 @@ class Qfurl:
         return urllib.parse.urldefrag(url)[0].replace("///", "", 1)
 
     @classmethod
-    def _parts_mother_id_typename(cls, url: str) -> ty.Tuple[str, str, str]:
+    def _parts_mother_id_typename(cls, url: str) -> tuple[str, str, str]:
         """
         >>> murl = "qpfer://mother/qfid#module_and_type_hint"
         >>> Qfurl._parts_mother_id_typename(murl)
@@ -96,9 +98,7 @@ class Qfurl:
         qfid = qfid.lstrip("/")
         return mother, qfid, typname
 
-    def resolve_in_catalog(
-        self, catalog: ty.Collection[Source]
-    ) -> ty.Optional[Leaf]:
+    def resolve_in_catalog(self, catalog: ty.Collection[Source]) -> Leaf | None:
         """Resolve self in a catalog of sources
 
         Return *immediately* on match found"""

@@ -8,9 +8,9 @@ import os
 import pwd
 from pathlib import Path
 
-from kupfer import utils
+from kupfer import launch
+from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer.objects import Action, Leaf, Source
 
 
 def screen_sessions_infos():
@@ -77,6 +77,7 @@ class ScreenSessionsSource(Source, FilesystemWatchMixin):
     def __init__(self):
         super().__init__(_("Screen Sessions"))
         self.screen_dir = None
+        self.monitor_token = None
 
     def initialize(self):
         ## the screen dir might not exist when we start
@@ -110,13 +111,10 @@ class ScreenSessionsSource(Source, FilesystemWatchMixin):
 
 
 class AttachScreen(Action):
-    """ """
-
     def __init__(self):
-        name = _("Attach")
-        super().__init__(name)
+        super().__init__(name=_("Attach"))
 
     def activate(self, leaf, iobj=None, ctx=None):
         pid = leaf.object
         action_argv = ["screen", "-x", "-R", str(pid)]
-        utils.spawn_in_terminal(action_argv)
+        launch.spawn_in_terminal(action_argv)

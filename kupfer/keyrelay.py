@@ -13,7 +13,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("Keybinder", "3.0")
 
 # pylint: disable=wrong-import-position
-from gi.repository import Gtk, Keybinder
+from gi.repository import Gtk, Keybinder  # noqa:E402
 
 SERV = "se.kaizer.kupfer"
 OBJ = "/interface"

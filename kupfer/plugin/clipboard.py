@@ -5,8 +5,8 @@ __description__ = _("Recent clipboards and clipboard proxy objects")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from collections import deque
 import typing as ty
+from collections import deque
 
 from gi.repository import Gdk, Gio, Gtk
 
@@ -36,7 +36,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 
 class SelectedText(TextLeaf):

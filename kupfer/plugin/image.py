@@ -13,17 +13,16 @@ __description__ = _(
 __version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import typing as ty
 import subprocess
+import typing as ty
 from contextlib import suppress
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
-from kupfer import runtimehelper, utils
+from kupfer import launch, runtimehelper
 from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf
-from kupfer.support import pretty
-from kupfer.desktop_launch import SpawnError
+from kupfer.support import fileutils, pretty
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -33,8 +32,8 @@ if ty.TYPE_CHECKING:
 
 def _spawn_operation_err(argv):
     try:
-        utils.spawn_async_raise(argv)
-    except SpawnError as exc:
+        launch.spawn_async_raise(argv)
+    except launch.SpawnError as exc:
         raise OperationError(exc.args[0].message) from exc
 
 
@@ -55,7 +54,7 @@ class Scale(Action):
         dirname = os_path.dirname(fpath)
         head, ext = os_path.splitext(os_path.basename(fpath))
         filename = f"{head}_{size}{ext}"
-        dpath = utils.get_destpath_in_directory(dirname, filename)
+        dpath = fileutils.get_destpath_in_directory(dirname, filename)
         argv = ["convert", "-scale", str(size), fpath, dpath]
         runtimehelper.register_async_file_result(ctx, dpath)
         _spawn_operation_err(argv)
@@ -114,7 +113,7 @@ class RotateBase(Action):
         dirname = os_path.dirname(fpath)
         head, ext = os_path.splitext(os_path.basename(fpath))
         filename = f"{head}_{self.rotation}{ext}"
-        dpath = utils.get_destpath_in_directory(dirname, filename)
+        dpath = fileutils.get_destpath_in_directory(dirname, filename)
         argv = [
             "jpegtran",
             "-copy",
@@ -162,7 +161,7 @@ class Autorotate(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         fpath = leaf.object
         argv = ["jhead", "-autorot", fpath]
-        utils.spawn_async(argv)
+        launch.spawn_async(argv)
 
     def item_types(self):
         yield FileLeaf

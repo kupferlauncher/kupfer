@@ -9,7 +9,8 @@ __kupfer_actions__ = ("SSHConnect",)
 import codecs
 import os
 
-from kupfer import icons, utils
+from kupfer import icons, launch
+from kupfer.obj import Action
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.hosts import (
@@ -18,7 +19,6 @@ from kupfer.obj.hosts import (
     HOST_SERVICE_NAME_KEY,
     HostLeaf,
 )
-from kupfer.objects import Action
 
 
 class SSHLeaf(HostLeaf):
@@ -52,7 +52,7 @@ class SSHConnect(Action):
         Action.__init__(self, name=_("Connect"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        utils.spawn_in_terminal(["ssh", leaf[HOST_ADDRESS_KEY]])
+        launch.spawn_in_terminal(["ssh", leaf[HOST_ADDRESS_KEY]])
 
     def get_description(self):
         return _("Connect to SSH host")

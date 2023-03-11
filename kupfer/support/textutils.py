@@ -1,3 +1,9 @@
+from __future__ import annotations
+
+import itertools
+from contextlib import suppress
+
+
 def _unicode_truncate(ustr: str, length: int, encoding: str = "UTF-8") -> str:
     "Truncate @ustr to specific encoded byte length"
     bstr = ustr.encode(encoding)[:length]
@@ -64,6 +70,44 @@ def extract_title_body(text: str, maxtitlelen: int = 60) -> tuple[str, str]:
         return firstline, text
 
     return text, ""
+
+
+def parse_time_interval(tstr: str) -> int:
+    """Parse a time interval in `tstr`, return whole number of seconds.
+
+    >>> parse_time_interval("2")
+    2
+    >>> parse_time_interval("1h 2m 5s")
+    3725
+    >>> parse_time_interval("2 min")
+    120
+    """
+    weights = {
+        "s": 1,
+        "sec": 1,
+        "m": 60,
+        "min": 60,
+        "h": 3600,
+        "hours": 3600,
+    }
+
+    with suppress(ValueError):
+        return int(tstr)
+
+    total = 0
+    amount = 0
+    # Split the string in runs of digits and runs of characters
+    for isdigit, group in itertools.groupby(tstr, lambda k: k.isdigit()):
+        if not (part := "".join(group).strip()):
+            continue
+
+        if isdigit:
+            amount = int(part)
+        else:
+            total += amount * weights.get(part.lower(), 0)
+            amount = 0
+
+    return total
 
 
 if __name__ == "__main__":

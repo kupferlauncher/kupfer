@@ -21,7 +21,7 @@ from xml.etree.ElementTree import ElementTree
 import dbus
 from gi.repository import Gio
 
-from kupfer import plugin_support, utils
+from kupfer import launch, plugin_support
 from kupfer.obj import (
     Action,
     FileLeaf,
@@ -51,8 +51,8 @@ class TrackerSearch(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         try:
-            utils.spawn_async_raise([TRACKER_GUI_SEARCH, leaf.object])
-        except utils.SpawnError as exc:
+            launch.spawn_async_raise([TRACKER_GUI_SEARCH, leaf.object])
+        except launch.SpawnError as exc:
             raise OperationError(exc) from exc
 
     def get_description(self):
@@ -144,7 +144,10 @@ def get_file_results_sparql(
     clean_query = sparql_escape(query)
 
     if location:
-        location_filter = f'FILTER(tracker:uri-is-descendant ("{sparql_escape(location)}", nie:url (?s)))'
+        location_filter = (
+            "FILTER(tracker:uri-is-descendant "
+            f'("{sparql_escape(location)}", nie:url (?s)))'
+        )
     else:
         location_filter = ""
 
@@ -154,12 +157,12 @@ def get_file_results_sparql(
                 %(location_filter)s
               }
               %(order_by)s
-              OFFSET 0 LIMIT %(limit)d""" % dict(
-        query=clean_query,
-        location_filter=location_filter,
-        order_by=ORDER_BY[order_by],
-        limit=int(max_items),
-    )
+              OFFSET 0 LIMIT %(limit)d""" % {
+        "query": clean_query,
+        "location_filter": location_filter,
+        "order_by": ORDER_BY[order_by],
+        "limit": int(max_items),
+    }
 
     pretty.print_debug(__name__, sql)
     results = searchobj.SparqlQuery(sql, **kwargs)
@@ -190,7 +193,7 @@ def get_searchobject(sname, opath, sinface, operation_err=False):
         searchobj = dbus.Interface(tobj, sinface)
     except dbus.DBusException as exc:
         if operation_err:
-            raise OperationError(exc)
+            raise OperationError(exc) from exc
 
         pretty.print_debug(__name__, exc)
 

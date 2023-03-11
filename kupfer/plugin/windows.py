@@ -11,12 +11,12 @@ import typing as ty
 
 from gi.repository import Wnck
 
-from kupfer.objects import Action, Leaf, Source
+from kupfer.obj import Action, Leaf, Source
 from kupfer.support import weaklib
 
-
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 
 def _get_window(xid):
@@ -298,6 +298,7 @@ class ToggleAction(WindowAction):
     @predicate: Callable for state taking the window object as only argument
     """
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         ename,

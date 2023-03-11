@@ -4,9 +4,9 @@ __description__ = _("Compose email using the system's default mailto: handler")
 __version__ = "2017.1"
 __author__ = ""
 
-from kupfer import utils
+from kupfer import launch
+from kupfer.obj import Action, TextLeaf, UrlLeaf
 from kupfer.obj.contacts import ContactLeaf, email_from_leaf
-from kupfer.objects import Action, TextLeaf, UrlLeaf
 
 
 class NewMailAction(Action):
@@ -15,12 +15,12 @@ class NewMailAction(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         email = email_from_leaf(leaf)
-        utils.show_url(f"mailto:{email}")
+        launch.show_url(f"mailto:{email}")
 
     def activate_multiple(self, objects):
         recipients = ",".join(filter(None, map(email_from_leaf, objects)))
         url = "mailto:" + recipients
-        utils.show_url(url)
+        launch.show_url(url)
 
     def item_types(self):
         yield ContactLeaf

@@ -5,8 +5,8 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
-from pathlib import Path
 import pkgutil
+from pathlib import Path
 
 # Since this is a core plugin we break some rules
 # These modules are normally out of bounds for plugins

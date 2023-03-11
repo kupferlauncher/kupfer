@@ -5,10 +5,10 @@ __description__ = _("Manage and use bookmarks from Pinboard")
 __version__ = "2020-11-15"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
 
-import pinboard
+import pinboard  # pylint: disable=import-error
 
 from kupfer import plugin_support
-from kupfer.objects import Source, UrlLeaf
+from kupfer.obj import Source, UrlLeaf
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

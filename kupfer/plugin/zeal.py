@@ -15,7 +15,7 @@ import json
 import os
 from pathlib import Path
 
-from kupfer import icons, utils
+from kupfer import icons, launch
 from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
@@ -26,7 +26,7 @@ class ZealSearch(Action):
         Action.__init__(self, _("Zeal Search"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        utils.spawn_async(["zeal", leaf.object])
+        launch.spawn_async(["zeal", leaf.object])
 
     def get_description(self):
         return _("Search in Zeal")
@@ -135,7 +135,7 @@ class ZealSearchInDocset(Action):
         assert iobj
         docset = iobj.object
         terms = leaf.object
-        utils.spawn_async(["zeal", docset + ":" + terms])
+        launch.spawn_async(["zeal", docset + ":" + terms])
 
     def item_types(self):
         yield TextLeaf
@@ -172,7 +172,7 @@ class ZealSearchFor(Action):
         assert iobj
         docset = leaf.object
         terms = iobj.object
-        utils.spawn_async(["zeal", docset + ":" + terms])
+        launch.spawn_async(["zeal", docset + ":" + terms])
 
     def item_types(self):
         yield ZealDocset

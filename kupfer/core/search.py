@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import itertools
 import operator
 import typing as ty
 
@@ -125,7 +124,7 @@ def score_objects(
 
 
 def score_actions(
-    rankables: ty.Iterable[Rankable], for_leaf: ty.Optional[Leaf]
+    rankables: ty.Iterable[Rankable], for_leaf: Leaf | None
 ) -> ty.Iterator[Rankable]:
     """Alternative (rigid) scoring mechanism for objects,
     putting much more weight in rank_adjust

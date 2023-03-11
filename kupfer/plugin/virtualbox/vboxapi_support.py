@@ -9,10 +9,11 @@ __version__ = "2018-09-07"
 
 from contextlib import suppress
 
-import vboxapi
+import vboxapi  # pylint: disable=import-error
 
-from kupfer.plugin.virtualbox import constants as vbox_const
 from kupfer.support import pretty
+
+from . import constants as vbox_const
 
 MONITORED_DIRS = None
 IS_DYNAMIC = False

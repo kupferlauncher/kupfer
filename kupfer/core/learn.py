@@ -3,24 +3,25 @@ from __future__ import annotations
 import os
 import pickle
 import random
+import time
 import typing as ty
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 from kupfer import config
 from kupfer.obj.base import KupferObject, Leaf
 from kupfer.support import conspickle, pretty
 
 _MNEMONICS_FILENAME = "mnemonics.pickle"
-_CORRELATION_KEY = "kupfer.bonus.correlation"
+_CORRELATION_KEY: ty.Final = "kupfer.bonus.correlation"
 
 ## this is a harmless default
-_DEFAULT_ACTIONS = {
+_DEFAULT_ACTIONS: ty.Final = {
     "<builtin.AppLeaf gnome-terminal>": "<builtin.LaunchAgain>",
     "<builtin.AppLeaf xfce4-terminal>": "<builtin.LaunchAgain>",
 }
 
-_FAVORITES: set[str] = set()
+_FAVORITES: ty.Final[set[str]] = set()
 
 
 class Mnemonics:
@@ -29,26 +30,31 @@ class Mnemonics:
     as well as the total count
     """
 
-    __slots__ = ("mnemonics", "count")
+    __slots__ = ("mnemonics", "count", "last_ts_used")
 
     def __init__(self) -> None:
         self.mnemonics: defaultdict[str, int] = defaultdict(int)
         self.count: int = 0
+        self.last_ts_used: int = 0
 
     def __repr__(self) -> str:
-        mnm = ",".join(f"{m}: {c}" for m, c in self.mnemonics.items())
-        return f"<{self.__class__.__name__} cnt={self.count} mnm={mnm}>"
+        mnm = ", ".join(f"{m}:{c}" for m, c in self.mnemonics.items())
+        return (
+            f"<{self.__class__.__name__} cnt={self.count} mnm={mnm}"
+            f" ts={self.last_ts_used}>"
+        )
 
     def increment(self, mnemonic: str | None = None) -> None:
         if mnemonic:
             self.mnemonics[mnemonic] += 1
 
         self.count += 1
+        self.last_ts_used = int(time.time())
 
     def decrement(self) -> None:
         """Decrement total count and the least mnemonic"""
         if self.mnemonics:
-            key = min(self.mnemonics, key=lambda k: self.mnemonics[k])
+            key = min(self.mnemonics.keys(), key=lambda k: self.mnemonics[k])
             if (mcount := self.mnemonics[key]) > 1:
                 self.mnemonics[key] = mcount - 1
             else:
@@ -60,10 +66,15 @@ class Mnemonics:
         return self.count > 0
 
     def __getstate__(self) -> dict[str, ty.Any]:
-        return {"count": self.count, "mnemonics": dict(self.mnemonics)}
+        return {
+            "count": self.count,
+            "mnemonics": dict(self.mnemonics),
+            "last_ts_used": self.last_ts_used,
+        }
 
     def __setstate__(self, state: dict[str, ty.Any]) -> None:
         self.count = state.get("count", 0)
+        self.last_ts_used = state.get("last_ts_used", 0)
         self.mnemonics = defaultdict(int)
         self.mnemonics.update(state.get("mnemonics", {}))
 
@@ -183,9 +194,11 @@ def erase_object_affinity(obj: Leaf) -> None:
     _REGISTER[_CORRELATION_KEY].pop(robj, None)  # type: ignore
 
 
-def _prune_register() -> None:
+def _prune_register(goalitems: int = 500) -> None:
     """
-    Remove items with chance (len/25000)
+    in first pass try to delete oldest mnemonics with score == 1.
+
+    Then, remove items with chance (len/25000)
 
     Assuming homogenous records (all with score one) we keep:
     x_n+1 := x_n * (1 - chance)
@@ -193,12 +206,38 @@ def _prune_register() -> None:
     To this we have to add the expected number of added mnemonics per
     invocation, est. 10, and we can estimate a target number of saved mnemonics.
 
-    TODO: ? make this deterministic?
     """
+
+    # get all items sorted by last used time
+    items = sorted(
+        (mne.last_ts_used, leaf, mne)  # type: ignore
+        for leaf, mne in _REGISTER.items()
+        if leaf != _CORRELATION_KEY
+    )
+    to_del = []
+    to_del_cnt = len(items) - goalitems
+    for _ts, leaf, mne in items:
+        mne.decrement()  # type: ignore
+        if not mne:
+            to_del.append(leaf)
+            to_del_cnt -= 1
+            if not to_del_cnt:
+                break
+
+    for leaf in to_del:
+        _REGISTER.pop(leaf)
+
+    pretty.print_debug(
+        __name__,
+        f"Pruned register ({len(_REGISTER)} mnemonics, {len(to_del)} oldest deleted)",
+    )
+
+    if len(_REGISTER) <= goalitems:
+        return
+
     random.seed()
     rand = random.random
 
-    goalitems = 500
     flux = 2.0
     alpha = flux / goalitems**2
 
@@ -242,8 +281,8 @@ def save() -> None:
         pretty.print_debug(__name__, "Not writing empty register")
         return
 
-    if len(_REGISTER) > 100:
-        _prune_register()
+    if len(_REGISTER) > 500:
+        _prune_register(500)
 
     filepath = config.save_config_file(_MNEMONICS_FILENAME)
     assert filepath

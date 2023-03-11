@@ -9,7 +9,7 @@ import xml
 from pathlib import Path
 from xml.dom import minidom
 
-from kupfer import utils
+from kupfer import launch
 from kupfer.obj import Action, FileLeaf, RunnableLeaf, TextLeaf, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
@@ -24,7 +24,7 @@ class ComposeMail(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Compose New Email"))
 
     def run(self, ctx=None):
-        utils.spawn_async(["claws-mail", "--compose"])
+        launch.spawn_async(["claws-mail", "--compose"])
 
     def get_description(self):
         return _("Compose a new message in Claws Mail")
@@ -40,7 +40,7 @@ class ReceiveMail(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Receive All Email"))
 
     def run(self, ctx=None):
-        utils.spawn_async(["claws-mail", "--receive-all"])
+        launch.spawn_async(["claws-mail", "--receive-all"])
 
     def get_description(self):
         return _("Receive new messages from all accounts in ClawsMail")
@@ -60,7 +60,7 @@ class NewMailAction(Action):
 
     def activate_multiple(self, objects):
         recipients = ",".join(filter(None, map(email_from_leaf, objects)))
-        utils.spawn_async(["claws-mail", "--compose", recipients])
+        launch.spawn_async(["claws-mail", "--compose", recipients])
 
     def get_icon_name(self):
         return "mail-message-new"
@@ -88,7 +88,7 @@ class SendFileByMail(Action):
     def activate_multiple(self, objects, iobjects):
         recipients = ",".join(filter(None, map(email_from_leaf, iobjects)))
         attachlist = ["--attach"] + [L.object for L in objects]
-        utils.spawn_async(["claws-mail", "--compose", recipients] + attachlist)
+        launch.spawn_async(["claws-mail", "--compose", recipients] + attachlist)
 
     def item_types(self):
         yield FileLeaf

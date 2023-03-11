@@ -4,7 +4,7 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
-ACCELERATOR_NAMES = {
+ACCELERATOR_NAMES: ty.Final = {
     # TRANS: Names of accelerators in the interface
     "activate": _("Alternate Activate"),
     # TRANS: The "Comma Trick"/"Put Selection on Stack" allows the

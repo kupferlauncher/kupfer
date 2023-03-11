@@ -15,29 +15,28 @@ from enum import IntEnum
 
 from gi.repository import GLib, GObject
 
-from kupfer.obj import (
+from kupfer.obj import compose
+from kupfer.obj.base import (
     Action,
     ActionGenerator,
     AnySource,
-    DirectorySource,
-    FileSource,
     KupferObject,
     Leaf,
     Source,
     TextSource,
-    compose,
 )
+from kupfer.obj.filesrc import DirectorySource, FileSource
 from kupfer.support import pretty, scheduler
 from kupfer.support.types import ExecInfo
 from kupfer.ui.uievents import GUIEnvironmentContext
 
 from . import commandexec, execfile, learn, pluginload, qfurl, search, settings
-from .data import (
+from .panes import (
     LeafPane,
     Pane,
     PrimaryActionPane,
+    SearchContext,
     SecondaryObjectPane,
-    WrapContext,
 )
 from .search import Rankable
 from .sources import get_source_controller
@@ -127,7 +126,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self, plugin_id: str, actions: list[Action]
     ) -> None:
         # Keep a mapping: Decorated Leaf Type -> List of actions
-        decorate_types: ty.Dict[ty.Any, list[Action]] = defaultdict(list)
+        decorate_types: defaultdict[ty.Any, list[Action]] = defaultdict(list)
         for action in actions:
             for appl_type in action.item_types():
                 decorate_types[appl_type].append(action)
@@ -149,7 +148,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """
         # Keep a mapping:
         # Decorated Leaf Type -> Set of content decorator types
-        decorate_item_types: dict[ty.Any, set[Source]] = defaultdict(set)
+        decorate_item_types: defaultdict[
+            ty.Type[Leaf], set[Source]
+        ] = defaultdict(set)
+
         for content in contents:
             with suppress(AttributeError):
                 applies = content.decorates_type()  # type: ignore
@@ -244,7 +246,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 sources_ = self._load_plugin(item)
                 self._insert_sources(item, sources_, initialize=False)
 
-    def _load_plugin(self, plugin_id: str) -> ty.Set[Source]:
+    def _load_plugin(self, plugin_id: str) -> set[Source]:
         """
         Load @plugin_id, register all its Actions, Content and TextSources.
         Return its sources.
@@ -268,6 +270,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _plugin_enabled(
         self, _setctl: ty.Any, plugin_id: str, enabled: bool | int
     ) -> None:
+        # pylint: disable=import-outside-toplevel
         from kupfer.core import plugins
 
         if enabled and not plugins.is_plugin_loaded(plugin_id):
@@ -344,7 +347,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._source_pane.reset()
         self._action_pane.reset()
 
-    def soft_reset(self, pane: PaneSel) -> ty.Optional[AnySource]:
+    def soft_reset(self, pane: PaneSel) -> AnySource | None:
         if pane == PaneSel.ACTION:
             return None
 
@@ -405,7 +408,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         panectl: Pane,
         match: Rankable | None,
         match_iter: ty.Iterable[Rankable],
-        wrapcontext: WrapContext,
+        wrapcontext: SearchContext,
         pane: PaneSel,
     ) -> bool:
         search_id, context = wrapcontext
@@ -417,8 +420,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return True
 
     def select(self, pane: PaneSel, item: KupferObject | None) -> None:
-        """Select @item in @pane to self-update
-        relevant places"""
+        """Select @item in @pane to self-update relevant places"""
         # If already selected, do nothing
         panectl = self._get_panectl(pane)
         if item == panectl.get_selection():

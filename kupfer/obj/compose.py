@@ -1,21 +1,32 @@
+"""
+Object related to composited objects.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
+"""
 from __future__ import annotations
 
 import typing as ty
+from gettext import gettext as _
+from gettext import ngettext
 
 from gi.repository import GdkPixbuf
 
-from kupfer import icons, puid, utils
-from kupfer.support import datatools, pretty, scheduler
+from kupfer import icons, puid
+from kupfer.support import itertools, pretty, scheduler, textutils
 
+from . import actions, exceptions, objects
 from .base import Action, Leaf, Source
-from .exceptions import InvalidDataError
-from .objects import Perform, RunnableLeaf, TextLeaf
 
-if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+__all__ = (
+    "TimedPerform",
+    "ComposedLeaf",
+    "MultipleLeaf",
+)
 
 
-class TimedPerform(Perform):
+class TimedPerform(actions.Perform):
     """A timed (delayed) version of Run (Perform)"""
 
     action_accelerator: ty.Optional[str] = None
@@ -27,29 +38,30 @@ class TimedPerform(Perform):
         self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
     ) -> None:
         # make a timer that will fire when Kupfer exits
-        interval = utils.parse_time_interval(iobj.object)
+        interval = textutils.parse_time_interval(iobj.object)
         pretty.print_debug(__name__, f"Run {leaf} in {interval} seconds")
         timer = scheduler.Timer(True)
-        args = (ctx,) if leaf.wants_context() else ()
-        timer.set(interval, leaf.run, *args)
+        if leaf.wants_context():
+            timer.set(interval, leaf.run, ctx)
+        else:
+            timer.set(interval, leaf.run)
 
     def requires_object(self) -> bool:
         return True
 
     def object_types(self) -> ty.Iterator[ty.Type[Leaf]]:
-        yield TextLeaf
+        yield objects.TextLeaf
 
     def valid_object(
         self, iobj: Leaf, for_item: ty.Optional[Leaf] = None
     ) -> bool:
-        interval = utils.parse_time_interval(iobj.object)
-        return interval > 0
+        return textutils.parse_time_interval(iobj.object) > 0
 
     def get_description(self) -> str:
         return _("Perform command after a specified time interval")
 
 
-class ComposedLeaf(RunnableLeaf):
+class ComposedLeaf(objects.RunnableLeaf):
     serializable = 1
 
     def __init__(
@@ -58,7 +70,7 @@ class ComposedLeaf(RunnableLeaf):
         object_ = (obj, action, iobj)
         # A slight hack: We remove trailing ellipsis and whitespace
         name = " → ".join(str(o).strip(".… ") for o in object_ if o is not None)
-        RunnableLeaf.__init__(self, object_, name)
+        objects.RunnableLeaf.__init__(self, object_, name)
 
     def __getstate__(self) -> ty.Dict[str, ty.Any]:
         state = dict(vars(self))
@@ -72,12 +84,12 @@ class ComposedLeaf(RunnableLeaf):
         act = puid.resolve_action_id(actid, obj)
         iobj = puid.resolve_unique_id(iobjid)
         if (not obj or not act) or (iobj is None) != (iobjid is None):
-            raise InvalidDataError(f"Parts of {self} not restored")
+            raise exceptions.InvalidDataError(f"Parts of {self} not restored")
 
         self.object[::] = [obj, act, iobj]
 
     def get_actions(self) -> ty.Iterator[Action]:
-        yield Perform()
+        yield actions.Perform()
         yield TimedPerform()
 
     def repr_key(self) -> ty.Any:
@@ -117,7 +129,7 @@ class MultipleLeaf(Leaf):
 
     def __init__(self, obj: ty.Any, name: ty.Optional[str] = None) -> None:
         # modifying the list of objects is strictly forbidden
-        robj = list(datatools.unique_iterator(obj))
+        robj = list(itertools.unique_iterator(obj))
         Leaf.__init__(self, robj, name or _("Multiple Objects"))
 
     def get_multiple_leaf_representation(self) -> ty.Iterable[Leaf]:
@@ -130,15 +142,16 @@ class MultipleLeaf(Leaf):
 
     def __setstate__(self, state: ty.Dict[str, ty.Any]) -> None:
         vars(self).update(state)
-        objects = []
+        objs = []
         for id_ in state["object"]:
-            obj = puid.resolve_unique_id(id_)
-            if obj is None:
-                raise InvalidDataError(f"{id_} could not be restored!")
+            if (obj := puid.resolve_unique_id(id_)) is not None:
+                objs.append(obj)
+            else:
+                raise exceptions.InvalidDataError(
+                    f"{id_} could not be restored!"
+                )
 
-            objects.append(obj)
-
-        self.object[::] = objects
+        self.object[::] = objs
 
     def has_content(self) -> bool:
         return True

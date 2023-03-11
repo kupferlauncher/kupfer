@@ -6,8 +6,6 @@ Constants for VirtualBox.
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __version__ = "0.4"
 
-# TODO: Enum
-
 # virtual machine states
 VM_STATE_POWEROFF = 0
 VM_STATE_POWERON = 1

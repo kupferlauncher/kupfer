@@ -10,7 +10,7 @@ from kupfer import puid
 
 # NOTE: Core imports
 from kupfer.core import learn, qfurl
-from kupfer.obj.base import Action, Leaf, Source
+from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.compose import ComposedLeaf
 from kupfer.support import pretty
 from kupfer.ui import uiutils

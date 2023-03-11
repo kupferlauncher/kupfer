@@ -21,9 +21,9 @@ import typing as ty
 import zipfile
 from pathlib import Path
 
-from kupfer.obj import DirectorySource, FileLeaf, Source, Leaf
+from kupfer.obj import FileLeaf, Leaf, Source
+from kupfer.obj.filesrc import DirectorySource
 from kupfer.support import pretty, scheduler
-
 
 if ty.TYPE_CHECKING:
     _ = str

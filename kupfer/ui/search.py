@@ -12,10 +12,10 @@ import kupfer.environment
 from kupfer import icons
 from kupfer.core import actionaccel, learn, relevance, settings
 from kupfer.core.search import Rankable
-from kupfer.obj.base import Action, AnySource, KupferObject, Leaf
+from kupfer.obj import Action, AnySource, KupferObject, Leaf
 from kupfer.support import pretty
 
-from .support import escape_markup_str, text_direction_is_ltr
+from ._support import escape_markup_str, text_direction_is_ltr
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -700,7 +700,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if self.get_table_visible():
             self._list_window.hide()
 
-    def _show_table(self) -> None:
+    def _show_table(self) -> None:  # pylint: disable=too-many-locals
         setctl = settings.get_settings_controller()
         list_maxheight = setctl.get_config_int("Appearance", "list_height")
         if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:

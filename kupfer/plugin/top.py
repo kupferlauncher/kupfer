@@ -8,8 +8,8 @@ import operator
 import os
 import signal
 
-from kupfer import plugin_support, utils
-from kupfer.objects import Action, Leaf, Source
+from kupfer import launch, plugin_support
+from kupfer.obj import Action, Leaf, Source
 from kupfer.support import scheduler
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -130,7 +130,7 @@ class TaskSource(Source):
 
     def _async_top_start(self):
         uid = os.getuid()
-        utils.AsyncCommand(
+        launch.AsyncCommand(
             ["top", "-b", "-n", "1", "-u", str(uid)],
             self._async_top_finished,
             60,

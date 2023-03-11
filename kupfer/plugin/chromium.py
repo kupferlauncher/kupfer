@@ -6,8 +6,8 @@ __author__ = "Francesco Marella <francesco.marella@gmail.com>"
 import typing as ty
 
 from kupfer import config
+from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.objects import Source, UrlLeaf
 from kupfer.plugin import chromium_support
 
 if ty.TYPE_CHECKING:

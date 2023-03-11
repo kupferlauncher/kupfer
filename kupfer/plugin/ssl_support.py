@@ -3,6 +3,7 @@ Stub implementation of HTTPS connections.
 """
 
 
+# pylint: disable=too-few-public-methods
 class VerifiedHTTPSConnection:
     "implementation stub"
 

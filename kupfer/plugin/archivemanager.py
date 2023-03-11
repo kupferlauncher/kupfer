@@ -17,9 +17,10 @@ import typing as ty
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
-from kupfer import plugin_support, runtimehelper, utils
+from kupfer import launch, plugin_support, runtimehelper
 from kupfer.core.commandexec import ActionExecutionContext
 from kupfer.obj import Action, FileLeaf
+from kupfer.support import fileutils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -29,7 +30,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": ".tar.gz",
         "alternatives": (
             ".7z",
-            ".rar",
             ".tar",
             ".tar.gz",
             ".tar.bz2",
@@ -43,26 +43,48 @@ if ty.TYPE_CHECKING:
     _ = str
 
 _EXTENSIONS_SET = (
-    ".rar",
     ".7z",
-    ".zip",
-    ".gz",
-    ".tgz",
-    ".tar",
-    ".lzma",
-    ".bz2",
-    ".tbz2",
-    ".tzo",
-    ".lzo",
-    ".xz",
-    ".ar",
-    ".cbz",
     ".Z",
-    ".taz",
-    ".lz",
+    ".ace",
+    ".alz",
+    ".ar",
+    ".arj",
     ".bz",
-    ".tbz",
+    ".bz2",
+    ".cab",
+    ".cbr",
+    ".cbz",
+    ".cpio",
+    ".deb",
+    ".dmg",
+    ".ear",
+    ".gz",
+    ".iso",
+    ".jar",
+    ".lha",
+    ".lz",
     ".lzh",
+    ".lzma",
+    ".lzo",
+    ".rar",
+    ".rpm",
+    ".sit",
+    ".snap",
+    ".sqsh",
+    ".tar",
+    ".taz",
+    ".tbz",
+    ".tbz2",
+    ".tgz",
+    ".tlrz",
+    ".tlz",
+    ".tzo",
+    ".tzst",
+    ".war",
+    ".xz",
+    ".zip",
+    ".zoo",
+    ".zst",
 )
 
 
@@ -71,17 +93,25 @@ class UnpackHere(Action):
         Action.__init__(self, _("Extract Here"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        utils.spawn_async_notify_as(
+        launch.spawn_async_notify_as(
             "file-roller.desktop",
             ["file-roller", "--extract-here", leaf.object],
         )
 
     def valid_for_item(self, leaf):
-        _tail, ext = os.path.splitext(leaf.object)
-        # FIXME: Make this detection smarter
+        fname, ext = os.path.splitext(leaf.object)
         # check for standard extension or a multi-part rar extension
         ext = ext.lower()
-        return ext in _EXTENSIONS_SET or re.search(r".r\d+$", ext) is not None
+        if ext in _EXTENSIONS_SET:
+            return True
+
+        # for multi-part archives must exists also file without number, ie:
+        # Filename.rar Filename.r00 Filename.r01 etc
+        # not sure we can allow decompress no-first archive
+        if re.search(r".r\d+$", ext) is not None:
+            return os_path.isfile(f"{fname}.rar")
+
+        return False
 
     def item_types(self):
         yield FileLeaf
@@ -96,7 +126,7 @@ class UnpackHere(Action):
 def _make_archive(filepaths: ty.Iterable[str]) -> None:
     cmd = ["file-roller", "--add"]
     cmd.extend(filepaths)
-    utils.spawn_async_notify_as("file-roller.desktop", cmd)
+    launch.spawn_async_notify_as("file-roller.desktop", cmd)
 
 
 class CreateArchive(Action):
@@ -126,13 +156,13 @@ def _make_archive_in(
     filepaths: ty.Iterable[str],
 ) -> str:
     archive_type = __kupfer_settings__["archive_type"]
-    archive_path = utils.get_destpath_in_directory(
+    archive_path = fileutils.get_destpath_in_directory(
         dirpath, basename, archive_type
     )
     cmd = ["file-roller", f"--add-to={archive_path}"]
     cmd.extend(filepaths)
     runtimehelper.register_async_file_result(ctx, archive_path)
-    utils.spawn_async_notify_as("file-roller.desktop", cmd)
+    launch.spawn_async_notify_as("file-roller.desktop", cmd)
     return archive_path
 
 
@@ -168,7 +198,7 @@ class CreateArchiveIn(Action):
         yield FileLeaf
 
     def valid_object(self, obj, for_item=None):
-        return utils.is_directory_writable(obj.object)
+        return fileutils.is_directory_writable(obj.object)
 
     def get_description(self):
         return _("Create a compressed archive from folder")

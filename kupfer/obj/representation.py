@@ -1,9 +1,14 @@
 #! /usr/bin/env python3
-
 """
 Interfaces that may implements objects.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
 """
 import typing as ty
+
+__all__ = ("TextRepresentation", "UriListRepresentation")
 
 
 # pylint: disable=too-few-public-methods

@@ -28,7 +28,7 @@ from hashlib import md5
 import dbus
 from gi.repository import Gio
 
-from kupfer import config, icons, plugin_support, utils
+from kupfer import config, icons, launch, plugin_support
 from kupfer.obj import (
     Action,
     FileLeaf,
@@ -42,7 +42,7 @@ from kupfer.obj import (
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.plugin import rhythmbox_support
-from kupfer.support import pretty, weaklib
+from kupfer.support import kupferstring, pretty, weaklib
 
 plugin_support.check_dbus_connection()
 
@@ -130,8 +130,8 @@ def _get_all_songs_via_dbus():
 
 def spawn_async(argv):
     try:
-        utils.spawn_async_raise(argv)
-    except utils.SpawnError as exc:
+        launch.spawn_async_raise(argv)
+    except launch.SpawnError as exc:
         raise OperationError(exc) from exc
 
 
@@ -416,7 +416,7 @@ class ArtistAlbumsSource(CollectionSource):
         for song in self.leaf.object:
             albums[song["album"]].append(song)
 
-        names = utils.locale_sort(albums.keys())
+        names = kupferstring.locale_sort(albums.keys())
         names.sort(key=lambda name: albums[name][0]["date"])  # type:ignore
         for album in names:
             yield AlbumLeaf(albums[album], album)
@@ -499,7 +499,7 @@ def _locale_sort_artist_album_songs(artists):
     each artist in @artists should already contain songs
     grouped by album and sorted by track number.
     """
-    for artist in utils.locale_sort(artists):
+    for artist in kupferstring.locale_sort(artists):
         artist_songs = artists[artist]
         albums: dict[str, list[rhythmbox_support.Song]] = defaultdict(list)
         for album, songs in itertools.groupby(
@@ -507,7 +507,7 @@ def _locale_sort_artist_album_songs(artists):
         ):
             albums[album].extend(songs)
 
-        for album in utils.locale_sort(albums):
+        for album in kupferstring.locale_sort(albums):
             for song in albums[album]:
                 yield song
 

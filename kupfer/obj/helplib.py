@@ -1,8 +1,9 @@
 """
 This module contains Helper constructs
 
-This module is a part of the program Kupfer, see the main program file for
-more information.
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
 """
 
 import typing as ty
@@ -11,7 +12,13 @@ from gi.repository import Gio, GLib
 
 from kupfer.support import pretty
 
-from .base import Action, Leaf, Source
+from . import base
+
+__all__ = (
+    "PicklingHelperMixin",
+    "NonpersistentToken",
+    "reverse_action",
+)
 
 
 class PicklingHelperMixin:
@@ -124,7 +131,9 @@ class FilesystemWatchMixin:
             self.mark_for_update()  # type: ignore
 
 
-def reverse_action(action: ty.Type[Action], rank: int = 0) -> ty.Type[Action]:
+def reverse_action(
+    action: ty.Type[base.Action], rank: int = 0
+) -> ty.Type[base.Action]:
     """Return a reversed version a three-part action
 
     @action: the action class
@@ -151,27 +160,37 @@ def reverse_action(action: ty.Type[Action], rank: int = 0) -> ty.Type[Action]:
         ) -> ty.Any:
             return action.activate(self, iobj, leaf, ctx)
 
-        def item_types(self) -> ty.Iterable[ty.Type[Leaf]]:
+        def item_types(self) -> ty.Iterable[ty.Type[base.Leaf]]:
             return action.object_types(self)
 
-        def valid_for_item(self, leaf: Leaf) -> bool:
+        def valid_for_item(self, leaf: base.Leaf) -> bool:
             try:
                 return action.valid_object(self, leaf)  # type: ignore
             except AttributeError:
                 return True
 
-        def object_types(self) -> ty.Iterable[ty.Type[Leaf]]:
+        def object_types(self) -> ty.Iterable[ty.Type[base.Leaf]]:
             return action.item_types(self)
 
         def valid_object(
-            self, obj: Leaf, for_item: ty.Optional[Leaf] = None
+            self, obj: base.Leaf, for_item: ty.Optional[base.Leaf] = None
         ) -> bool:
             return action.valid_for_item(self, obj)
 
         def object_source(
-            self, for_item: ty.Optional[Leaf] = None
-        ) -> ty.Optional[Source]:
+            self, for_item: ty.Optional[base.Leaf] = None
+        ) -> ty.Optional[base.Source]:
             return None
 
     ReverseAction.__name__ = "Reverse" + action.__name__
     return ReverseAction
+
+
+def _representable_fname(fname: str) -> bool:
+    "Return False if fname contains surrogate escapes"
+    # all string are utf so this is unnecessary
+    try:
+        fname.encode("utf-8")
+        return True
+    except UnicodeEncodeError:
+        return False

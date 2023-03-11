@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import os
 import pickle
+import signal
+import sys
 import typing as ty
 from collections import defaultdict
+from contextlib import suppress
 from pathlib import Path
 from time import time
 
-from gi.repository import Gdk, Gio, GLib
+from gi.repository import Gdk, Gio, GLib, Gtk
 
 try:
     from gi.repository import Wnck
@@ -22,12 +25,20 @@ except ImportError as e:
     pretty.print_info(__name__, "Disabling window tracking:", e)
     Wnck = None
 
-from kupfer import config, desktop_launch, terminal
+from kupfer import config, desktop_launch
+from kupfer.core import settings
 
-## NOTE: SpawnError  *should* be imported from this module
-from kupfer.desktop_launch import SpawnError  # pylint: disable=unused-import
-from kupfer.support import pretty, scheduler
+## NOTE: SpawnError  *should* be imported from this module TODO: check
+# pylint: disable=unused-import
+from kupfer.desktop_launch import SpawnError  # noqa: F401
+from kupfer.support import fileutils, pretty, scheduler, system
 from kupfer.ui import uievents
+
+__all__ = (
+    "SpawnError",
+    "launch_application",
+    "get_applications_matcher_service",
+)
 
 _DEFAULT_ASSOCIATIONS = {
     "evince": "Document Viewer",
@@ -87,7 +98,7 @@ def launch_application(
     if track:
         # An launch callback closure for the @app_id
         def app_launch_callback(argv, pid, _notify_id, _files, _timestamp):
-            if not terminal.is_known_terminal_executable(argv[0]):
+            if not settings.is_known_terminal_executable(argv[0]):
                 svc.launched_application(app_id, pid)
 
         launch_callback = app_launch_callback
@@ -382,3 +393,369 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
 # Get the (singleton) ApplicationsMatcherService"
 get_applications_matcher_service = ApplicationsMatcherService.instance
+
+
+def _split_string(inp: bytes, length: int) -> ty.Iterator[bytes]:
+    """Split @inp in pieces of @length
+
+    >>> list(_split_string(b"abcdefghijk", 3))
+    [b"abc", b"def", b"ghi", b"jk"]
+
+    """
+    while inp:
+        yield inp[:length]
+        inp = inp[length:]
+
+
+class AsyncCommand(pretty.OutputMixin):
+    """
+    Run a command asynchronously (using the GLib mainloop)
+
+    call @finish_callback when command terminates, or
+    when command is killed after @timeout_s seconds, whichever
+    comes first.
+
+    If @timeout_s is None, no timeout is used
+
+    If stdin is a byte string, it is supplied on the command's stdin.
+
+    If env is None, command will inherit the parent's environment.
+
+    finish_callback -> (AsyncCommand, stdout_output, stderr_output)
+
+    Attributes:
+    self.exit_status  Set after process exited
+    self.finished     bool
+
+    """
+
+    # the maximum input (bytes) we'll read in one shot (one io_callback)
+    max_input_buf = 512 * 1024
+
+    def __init__(
+        self,
+        argv: list[str],
+        finish_callback: ty.Callable[[AsyncCommand, bytes, bytes], None],
+        timeout_s: int | None,
+        stdin: ty.Optional[bytes] = None,
+        env: ty.Any = None,
+    ) -> None:
+        self.stdout: list[bytes] = []
+        self.stderr: list[bytes] = []
+        self.stdin: list[bytes] = []
+        self.timeout = False
+        self.killed = False
+        self.finished = False
+        self.finish_callback = finish_callback
+        self.exit_status: ty.Optional[int] = None
+
+        self.output_debug("AsyncCommand:", argv)
+
+        flags = GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD
+        kwargs = {}
+        if env is not None:
+            kwargs["envp"] = env
+
+        pid, stdin_fd, stdout_fd, stderr_fd = GLib.spawn_async(
+            argv,
+            standard_output=True,
+            standard_input=True,
+            standard_error=True,
+            flags=flags,
+            **kwargs,
+        )
+
+        if stdin:
+            self.stdin = list(_split_string(stdin, self.max_input_buf))
+            in_io_flags = GLib.IO_OUT | GLib.IO_ERR | GLib.IO_HUP | GLib.IO_NVAL
+            GLib.io_add_watch(
+                stdin_fd, in_io_flags, self._in_io_callback, self.stdin
+            )
+        else:
+            os.close(stdin_fd)
+
+        io_flags = GLib.IO_IN | GLib.IO_ERR | GLib.IO_HUP | GLib.IO_NVAL
+        GLib.io_add_watch(stdout_fd, io_flags, self._io_callback, self.stdout)
+        GLib.io_add_watch(stderr_fd, io_flags, self._io_callback, self.stderr)
+        self.pid = pid
+        GLib.child_watch_add(pid, self._child_callback)
+        if timeout_s is not None:
+            GLib.timeout_add_seconds(timeout_s, self._timeout_callback)
+
+    def _io_callback(
+        self, sourcefd: int, condition: int, databuf: list[bytes]
+    ) -> bool:
+        if condition & GLib.IO_IN:
+            databuf.append(os.read(sourcefd, self.max_input_buf))
+            return True
+
+        return False
+
+    def _in_io_callback(
+        self, sourcefd: int, condition: int, databuf: list[bytes]
+    ) -> bool:
+        """write to child's stdin"""
+        if condition & GLib.IO_OUT:
+            if not databuf:
+                os.close(sourcefd)
+                return False
+
+            data = databuf.pop(0)
+            written = os.write(sourcefd, data)
+            if written < len(data):
+                databuf.insert(0, data[written:])
+
+            return True
+
+        return False
+
+    def _child_callback(self, pid: int, condition: int) -> None:
+        # @condition is the &status field of waitpid(2) (C library)
+        self.exit_status = os.WEXITSTATUS(condition)
+        self.finished = True
+        self.finish_callback(self, b"".join(self.stdout), b"".join(self.stderr))
+
+    def _timeout_callback(self) -> None:
+        "send term signal on timeout"
+        if not self.finished:
+            self.timeout = True
+            os.kill(self.pid, signal.SIGTERM)
+            GLib.timeout_add_seconds(2, self._kill_callback)
+
+    def _kill_callback(self) -> None:
+        "Last resort, send kill signal"
+        if not self.finished:
+            self.killed = True
+            os.kill(self.pid, signal.SIGKILL)
+
+
+def spawn_terminal(
+    workdir: ty.Optional[str] = None, screen: ty.Optional[str] = None
+) -> bool:
+    "Raises SpawnError"
+    term = settings.get_configured_terminal()
+    notify = term["startup_notify"]
+    app_id = term["desktopid"]
+    argv = term["argv"]
+    return desktop_launch.spawn_app_id(app_id, argv, workdir, notify, screen)
+
+
+def spawn_in_terminal(
+    argv: list[str], workdir: ty.Optional[str] = None
+) -> bool:
+    "Raises SpawnError"
+    term = settings.get_configured_terminal()
+    notify = term["startup_notify"]
+    _argv = list(term["argv"])
+    if term["exearg"]:
+        _argv.append(term["exearg"])
+
+    _argv.extend(argv)
+    return desktop_launch.spawn_app_id(
+        term["desktopid"], _argv, workdir, notify
+    )
+
+
+def spawn_async_notify_as(app_id: str, argv: list[str]) -> bool:
+    """
+    Spawn argument list @argv and startup-notify as
+    if application @app_id is starting (if possible)
+
+    raises SpawnError
+    """
+    return desktop_launch.spawn_app_id(app_id, argv, None, True)
+
+
+def spawn_async(argv: ty.Collection[str], in_dir: str = ".") -> bool:
+    """
+    Silently spawn @argv in the background
+
+    Returns False on failure
+    """
+    try:
+        return spawn_async_raise(argv, in_dir)
+    except SpawnError as exc:
+        pretty.print_debug(__name__, "spawn_async", argv, exc)
+        return False
+
+
+def spawn_async_raise(argv: ty.Collection[str], workdir: str = ".") -> bool:
+    """
+    A version of spawn_async that raises on error.
+
+    raises SpawnError
+    """
+    pretty.print_debug(__name__, "spawn_async", argv, workdir)
+    try:
+        res = GLib.spawn_async(
+            argv, working_directory=workdir, flags=GLib.SPAWN_SEARCH_PATH
+        )
+        return bool(res)
+    except GLib.GError as exc:
+        raise SpawnError(exc.message) from exc  # pylint: disable=no-member
+
+    return False
+
+
+def _try_register_pr_pdeathsig() -> None:
+    """
+    Register pr_set_pdeathsig (linux-only) for the calling process
+    which is a signal delivered when its parent dies.
+
+    This should ensure child processes die with the parent.
+    """
+    pr_set_pdeathsig = 1
+    sighup = 1
+    if sys.platform != "linux2":
+        return
+
+    with suppress(ImportError):
+        # pylint: disable=import-outside-toplevel
+        import ctypes
+
+    with suppress(AttributeError, OSError):
+        libc = ctypes.CDLL("libc.so.6")
+        libc.prctl(pr_set_pdeathsig, sighup)
+
+
+def _on_child_exit(
+    pid: int, condition: int, user_data: tuple[ty.Any, bool]
+) -> None:
+    # @condition is the &status field of waitpid(2) (C library)
+    argv, respawn = user_data
+    if respawn:
+        is_signal = os.WIFSIGNALED(condition)
+        if is_signal and respawn:
+
+            def callback(*args):
+                _spawn_child(*args)
+                return False
+
+            GLib.timeout_add_seconds(10, callback, argv, respawn)
+
+
+def _spawn_child(
+    argv: list[str], respawn: bool = True, display: ty.Optional[str] = None
+) -> int:
+    """
+    Spawn argv in the mainloop and keeping it as a child process
+    (it will be made sure to exit with the parent).
+
+    @respawn: If True, respawn if child dies abnormally
+
+    raises launch.SpawnError
+    returns pid
+    """
+    flags = GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD
+    envp: list[str] = []
+    if display:
+        # environment is passed as a sequence of strings
+        envd = os.environ.copy()
+        envd["DISPLAY"] = display
+        envp = ["=".join((k, v)) for k, v in envd.items()]
+
+    try:
+        pid, *_fds = GLib.spawn_async(
+            argv,
+            envp,
+            flags=flags,
+            child_setup=_try_register_pr_pdeathsig,
+        )
+    except GLib.GError as exc:
+        raise SpawnError(str(exc)) from exc
+
+    if pid:
+        GLib.child_watch_add(pid, _on_child_exit, (argv, respawn))
+
+    return pid  # type: ignore
+
+
+def start_plugin_helper(
+    name: str, respawn: bool, display: ty.Optional[str] = None
+) -> int:
+    """
+    @respawn: If True, respawn if child dies abnormally
+
+    raises SpawnError
+
+    UNUNSED
+    """
+    argv = [sys.executable]
+    argv.extend(sys.argv)
+    argv.append(f"--exec-helper={name}")
+    pretty.print_debug(__name__, "Spawning", argv)
+    return _spawn_child(argv, respawn, display=display)
+
+
+def show_path(path: str) -> None:
+    """Open local @path with default viewer"""
+    # Implemented using Gtk.show_uri
+    gfile = Gio.File.new_for_path(path)
+    if not gfile:
+        return
+
+    url = gfile.get_uri()
+    show_url(url)
+
+
+def show_url(url: str) -> bool:
+    """Open any @url with default viewer"""
+    try:
+        pretty.print_debug(__name__, "show_url", url)
+        return Gtk.show_uri(  # type: ignore
+            Gdk.Screen.get_default(), url, Gtk.get_current_event_time()
+        )
+    except GLib.GError as exc:
+        pretty.print_error(__name__, "Gtk.show_uri:", exc)
+
+    return False
+
+
+def show_help_url(url: str) -> bool:
+    """
+    Try at length to display a startup notification for the help browser.
+
+    Return False if there is no handler for the help URL
+    """
+    ## Check that the system help viewer is Yelp,
+    ## and if it is, launch its startup notification.
+    scheme = Gio.File.new_for_uri(url).get_uri_scheme()
+    default = Gio.app_info_get_default_for_uri_scheme(scheme)
+    if not default:
+        return False
+
+    help_viewer_id = "yelp.desktop"
+
+    try:
+        yelp = Gio.DesktopAppInfo.new(help_viewer_id)
+    except (TypeError, RuntimeError):
+        return show_url(url)
+
+    cmd_path = fileutils.lookup_exec_path(default.get_executable())
+    yelp_path = fileutils.lookup_exec_path(yelp.get_executable())
+    if cmd_path and yelp_path and os.path.samefile(cmd_path, yelp_path):
+        with suppress(SpawnError):
+            spawn_async_notify_as(help_viewer_id, [cmd_path, url])
+            return True
+
+    return show_url(url)
+
+
+def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
+    """Return a unicode path for display for bytestring @filepath
+
+    Will use glib's filename decoding functions, and will
+    format nicely (denote home by ~/ etc)
+    """
+    desc: str = GLib.filename_display_name(filepath)
+    homedir = system.get_homedir()
+    if desc.startswith(homedir) and homedir != desc:
+        desc = f"~/{desc[len(homedir):]}"
+
+    return desc
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()

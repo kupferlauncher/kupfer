@@ -5,8 +5,8 @@ __description__ = _("Save url to Instapaper")
 __version__ = "2020-11-15"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
 
-from kupfer import utils
-from kupfer.objects import Action, TextLeaf, UrlLeaf
+from kupfer import launch
+from kupfer.obj import Action, TextLeaf, UrlLeaf
 
 
 class SaveToInstapaper(Action):
@@ -14,7 +14,7 @@ class SaveToInstapaper(Action):
         Action.__init__(self, _("Save to Instapaper"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        utils.show_url(f"https://www.instapaper.com/edit?url={leaf.object}")
+        launch.show_url(f"https://www.instapaper.com/edit?url={leaf.object}")
 
     def item_types(self):
         yield UrlLeaf

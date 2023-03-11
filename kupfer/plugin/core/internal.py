@@ -1,7 +1,7 @@
 import typing as ty
 
 from kupfer.core import commandexec
-from kupfer.objects import Leaf, RunnableLeaf, Source
+from kupfer.obj import Leaf, RunnableLeaf, Source
 
 __kupfer_sources__ = (
     "KupferInterals",

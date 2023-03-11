@@ -2,9 +2,8 @@
 Common objects for session_* plugins.
 """
 
-from kupfer import utils
-from kupfer.obj.objects import RunnableLeaf
-from kupfer.objects import Source
+from kupfer import launch
+from kupfer.obj import RunnableLeaf, Source
 from kupfer.support import pretty
 
 __version__ = "2009-12-05"
@@ -12,12 +11,12 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 
 def launch_argv_with_fallbacks(commands, print_error=True):
-    """Try the sequence of @commands with utils.spawn_async,
+    """Try the sequence of @commands with launch.spawn_async,
     and return with the first successful command.
     return False if no command is successful and log an error
     """
     for argv in commands:
-        if ret := utils.spawn_async(argv):
+        if ret := launch.spawn_async(argv):
             return ret
 
     pretty.print_error(__name__, "Unable to run command(s)", commands)

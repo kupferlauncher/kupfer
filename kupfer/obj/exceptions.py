@@ -1,6 +1,21 @@
+"""
+Common exceptions defintion.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
+"""
 import typing as ty
 
-from kupfer.support import kupferstring
+__all__ = (
+    "Error",
+    "InvalidDataError",
+    "OperationError",
+    "InvalidLeafError",
+    "NotAvailableError",
+    "NoMultiError",
+    "NoDefaultApplicationError",
+)
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -20,16 +35,6 @@ class OperationError(Error):
 
 class InvalidLeafError(OperationError):
     "The Leaf passed to an Action is invalid"
-
-
-class LocaleOperationError(OperationError):
-    """
-    User-visible error created from locale-encoded
-    error message (for example OSError)
-    """
-
-    def __init__(self, err: bytes):
-        OperationError.__init__(self, kupferstring.fromlocale(err))
 
 
 class NotAvailableError(OperationError):

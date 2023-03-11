@@ -1,15 +1,14 @@
-__kupfer_name__ = _("GNOME Session Management")
-__kupfer_sources__ = ("GnomeItemsSource",)
-__description__ = _("Special items and actions for GNOME environment")
-__version__ = "2012-10-16"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
 """
 Changes:
     2012-10-16 Karol Będkowski:
         + support Gnome3; closes lp#788713;
           author: Joseph Lansdowne
 """
+__kupfer_name__ = _("GNOME Session Management")
+__kupfer_sources__ = ("GnomeItemsSource",)
+__description__ = _("Special items and actions for GNOME environment")
+__version__ = "2012-10-16"
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from . import session_support as support
 

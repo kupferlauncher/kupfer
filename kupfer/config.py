@@ -48,7 +48,7 @@ def get_cache_home() -> str | None:
     return str(cache_dir)
 
 
-def get_cache_file(path: ty.Tuple[str, ...] = ()) -> ty.Optional[str]:
+def get_cache_file(path: tuple[str, ...] = ()) -> str | None:
     """Get file by @path from cache directory.  Return None when no exists."""
     cache_home = base.xdg_cache_home or os.path.expanduser("~/.cache")
     cache_path = Path(cache_home, *path)
@@ -113,9 +113,7 @@ def get_data_dirs(
     return base.load_data_paths(os.path.join(package, name))  # type: ignore
 
 
-def get_config_file(
-    filename: str, package: str = PACKAGE_NAME
-) -> ty.Optional[str]:
+def get_config_file(filename: str, package: str = PACKAGE_NAME) -> str | None:
     """
     Return path to @package/@filename if it exists anywhere in the config
     paths, else return None

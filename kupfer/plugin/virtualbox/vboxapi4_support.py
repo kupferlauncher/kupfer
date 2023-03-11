@@ -7,16 +7,17 @@ Only (?) Sun VirtualBox (no OSE).
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __version__ = "2018-10-21"
 
-import vboxapi
+import vboxapi  # pylint: disable=import-error
 
 from kupfer.support import pretty
-from kupfer.plugin.virtualbox import constants as vbox_const
+
+from . import constants as vbox_const
 
 # check api
 try:
     vboxapi.VirtualBoxReflectionInfo(None).SessionState_Locked
-except AttributeError:
-    raise ImportError()
+except AttributeError as exc:
+    raise ImportError() from exc
 
 
 MONITORED_DIRS = None

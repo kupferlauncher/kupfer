@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import os
 import typing as ty
+from dataclasses import dataclass
 
 from gi.repository import Gdk, Gtk
 
@@ -119,25 +120,28 @@ def gui_context_from_keyevent(
     return GUIEnvironmentContext(timestamp, screen)
 
 
+@dataclass
 class _InternalData:
-    seq = 0
-    current_event_time = 0
+    seq: int = 0
+    current_event_time: int = 0
 
-    @classmethod
-    def inc_seq(cls) -> None:
-        cls.seq = cls.seq + 1
+    def inc_seq(self) -> None:
+        self.seq = self.seq + 1
+
+
+_internal_data = _InternalData()
 
 
 def _make_startup_notification_id(time: int) -> str:
-    _InternalData.inc_seq()
-    return f"kupfer-%{os.getpid()}-{_InternalData.seq}_TIME{time}"
+    _internal_data.inc_seq()
+    return f"kupfer-%{os.getpid()}-{_internal_data.seq}_TIME{time}"
 
 
 def current_event_time() -> int:
     return int(
         Gtk.get_current_event_time()
         or keybindings.get_current_event_time()
-        or _InternalData.current_event_time
+        or _internal_data.current_event_time
     )
 
 
@@ -170,7 +174,7 @@ def using_startup_notify_id(notify_id: str) -> ty.Any:
         pretty.print_debug(
             __name__, "Using startup id", repr(notify_id), timestamp
         )
-        _InternalData.current_event_time = timestamp
+        _internal_data.current_event_time = timestamp
         yield timestamp
     finally:
-        _InternalData.current_event_time = Gdk.CURRENT_TIME
+        _internal_data.current_event_time = Gdk.CURRENT_TIME

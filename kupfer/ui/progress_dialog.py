@@ -6,7 +6,7 @@ import functools
 import typing as ty
 
 # NOTE: was glib; changed to gio.repo.GLib
-from gi.repository import Gtk, GLib
+from gi.repository import GLib, Gtk
 
 from kupfer import config, version
 

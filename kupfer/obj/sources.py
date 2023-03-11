@@ -1,11 +1,23 @@
+"""
+Sources definion.
+
+This file is a part of the program kupfer, which is
+released under GNU General Public License v3 (or any later version),
+see the main program file, and COPYING for details.
+"""
 from __future__ import annotations
 
 import typing as ty
 
-from kupfer.support import datatools
+from kupfer.support import itertools
 
 from .base import Leaf, Source
 from .objects import SourceLeaf
+
+__all__ = (
+    "SourcesSource",
+    "MultiSource",
+)
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -60,7 +72,7 @@ class MultiSource(Source):
         return True
 
     def get_items(self) -> ty.Iterable[Leaf]:
-        uniq_srcs = datatools.unique_iterator(
+        uniq_srcs = itertools.unique_iterator(
             S.toplevel_source() for S in self.sources
         )
         for src in uniq_srcs:

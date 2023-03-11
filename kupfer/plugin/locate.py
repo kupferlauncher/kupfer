@@ -7,8 +7,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import subprocess
 
 from kupfer import icons, plugin_support
-from kupfer.obj.files import construct_file_leaf
-from kupfer.objects import Action, Source, TextLeaf
+from kupfer.obj import Action, Source, TextLeaf
+from kupfer.obj.filesrc import construct_file_leaf
 from kupfer.support import kupferstring
 
 __kupfer_settings__ = plugin_support.PluginSettings(

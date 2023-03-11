@@ -9,7 +9,8 @@ __author__ = "Ulrik Sverdrup"
 
 import typing as ty
 
-from kupfer import plugin_support, utils
+from kupfer import plugin_support, support
+from kupfer.support import fileutils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -42,8 +43,8 @@ def initialize_plugin(name):
 def _update_alternative(*args):
     command = __kupfer_settings__["command"]
     exearg = __kupfer_settings__["exearg"]
-    argv = utils.argv_for_commandline(command)
-    if not argv or not utils.lookup_exec_path(argv[0]):
+    argv = support.argv_for_commandline(command)
+    if not argv or not fileutils.lookup_exec_path(argv[0]):
         return
 
     plugin_support.register_alternative(

@@ -3,20 +3,17 @@ from __future__ import annotations
 import os
 import typing as ty
 from contextlib import suppress
-from pathlib import Path
 from dataclasses import dataclass
+from pathlib import Path
 
 import xdg.DesktopEntry
 import xdg.Exceptions
 from gi.repository import Gdk, Gio, GLib, Gtk
 
-from kupfer import terminal
-from kupfer.support import (
-    desktop_parse,
-    kupferstring,
-    pretty,
-    itertools as kitertools,
-)
+from kupfer.core import settings
+from kupfer.support import desktop_parse
+from kupfer.support import itertools as kitertools
+from kupfer.support import pretty
 
 __all__ = ["launch_app_info", "spawn_app", "spawn_app_id"]
 
@@ -25,21 +22,6 @@ STARTUP_ENV = "DESKTOP_STARTUP_ID"
 # TODO: Broadcast Gio's launched message on dbus
 # NOTE: GDK's startup notification things that we use
 #       are really only sending xmessages. (roughly).
-
-
-def debug_log(*args: ty.Any) -> None:
-    pretty.print_debug(__name__, *args)
-
-
-warning_log = debug_log
-
-
-def error_log(*args: ty.Any) -> None:
-    pretty.print_error(__name__, *args)
-
-
-def exc_log() -> None:
-    pretty.print_exc(__name__)
 
 
 class SpawnError(Exception):
@@ -65,7 +47,9 @@ def _find_desktop_file(desk_id: str) -> str:
         raise ResourceLookupError("Empty id")
 
     try:
-        return next(xdg.BaseDirectory.load_data_paths("applications", desk_id))  # type: ignore
+        return next(  # type: ignore
+            xdg.BaseDirectory.load_data_paths("applications", desk_id)
+        )
     except StopIteration:
         ## it was not found as an immediate child of the data paths,
         ## so we split by the hyphens and search deeper
@@ -123,7 +107,7 @@ def _read_desktop_info(desktop_file: str) -> dict[str, str | bool]:
     }
 
 
-def app_to_desktop_info(app_info: Gio.AppInfo) -> dict[str, str | bool]:
+def _app_to_desktop_info(app_info: Gio.AppInfo) -> dict[str, str | bool]:
     return {
         "Exec": app_info.get_commandline() or "",
         "Name": app_info.get_name(),
@@ -144,6 +128,7 @@ class _Flags:
     did_see_large_f: bool = False
 
 
+# pylint: disable=too-many-locals
 def _replace_format_specs(
     argv: list[str],
     location: str,
@@ -180,9 +165,7 @@ def _replace_format_specs(
     """
     supports_single_file = False
     files_added_at_end = False
-
     flags = _Flags()
-
     fileiter = iter(gfilelist)
 
     def get_next_file_path() -> str:
@@ -203,7 +186,9 @@ def _replace_format_specs(
 
         if key in ("%f", "%u"):
             if flags.did_see_large_f or flags.did_see_small_f:
-                warning_log("Warning, multiple file format specs!")
+                pretty.print_debug(
+                    __name__, "Warning, multiple file format specs!"
+                )
                 return ""
 
             flags.did_see_small_f = True
@@ -218,15 +203,16 @@ def _replace_format_specs(
         return None
 
     def replace_array_format(elem: str) -> tuple[bool, str | list[str]]:
-        """
-        Handle array format codes -- only recognized as single arguments
+        """Handle array format codes -- only recognized as single arguments
 
         Return  flag, arglist
         where flag is true if something was replaced
         """
         if elem in ("%U", "%F"):
             if flags.did_see_large_f or flags.did_see_small_f:
-                warning_log("Warning, multiple file format specs!")
+                pretty.print_debug(
+                    __name__, "Warning, multiple file format specs!"
+                )
                 return True, []
 
             flags.did_see_large_f = True
@@ -269,7 +255,7 @@ def _file_for_app_info(app_info: Gio.AppInfo) -> str | None:
     try:
         return _find_desktop_file(app_info.get_id())
     except ResourceLookupError:
-        exc_log()
+        pretty.print_exc(__name__)
 
     return None
 
@@ -281,12 +267,23 @@ def _info_for_desktop_file(
         try:
             return _read_desktop_info(desktop_file)
         except ResourceReadError:
-            exc_log()
+            pretty.print_exc(__name__)
 
     return None
 
 
-LaunchCallback = ty.Callable[[list[str], int, int, list[str], int], None]
+# pylint: disable=too-few-public-methods
+class LaunchCallback(ty.Protocol):
+    def __call__(
+        self,
+        argv: list[str],
+        pid: int,
+        notify_id: int | None,
+        filelist: list[str],
+        timestamp: int,
+        /,
+    ) -> None:
+        pass
 
 
 # pylint: disable=too-many-locals
@@ -315,7 +312,7 @@ def launch_app_info(
     if not desktop_file or not desktop_info:
         # Allow in-memory app_info creations (without id or desktop file)
         desktop_file = ""
-        desktop_info = app_to_desktop_info(app_info)
+        desktop_info = _app_to_desktop_info(app_info)
         # in this case, the command line is already primarily escaped
         argv = desktop_parse.parse_argv(desktop_info["Exec"])  # type: ignore
     else:
@@ -342,18 +339,17 @@ def launch_app_info(
             launch_records.append((launch_argv, [file]))
 
     notify = bool(desktop_info["StartupNotify"])
-    workdir = desktop_info["Path"] or None
+    workdir: str | None = desktop_info["Path"] or None  # type: ignore
 
     if in_terminal is None:
         in_terminal = desktop_info["Terminal"]  # type: ignore
 
     if in_terminal:
-        term = terminal.get_configured_terminal()
+        term = settings.get_configured_terminal()
         notify = notify or bool(term["startup_notify"])
 
     for argv, files in launch_records:
         if in_terminal:
-            term = terminal.get_configured_terminal()
             targv = list(term["argv"])
             if exearg := term["exearg"]:
                 targv.append(exearg)
@@ -364,7 +360,7 @@ def launch_app_info(
             app_info,
             argv,
             files,
-            workdir,  # type: ignore
+            workdir,
             notify,
             timestamp=timestamp,
             launch_cb=launch_cb,
@@ -451,10 +447,10 @@ def spawn_app(
             child_setup=child_setup,
             user_data=child_env_add,
         )
-        debug_log("Launched", argv_, notify_id, "pid:", pid)
+        pretty.print_debug(__name__, "Launched", argv_, notify_id, "pid:", pid)
 
     except GLib.GError as exc:
-        error_log("Error Launching ", argv_, str(exc))
+        pretty.print_error(__name__, "Error Launching ", argv_, str(exc))
         if notify_id:
             Gdk.notify_startup_complete_with_id(notify_id)
 
@@ -471,16 +467,13 @@ def child_setup(add_environ: dict[str, str]) -> None:
     @add_environ is a dict for extra env variables
     """
     for key, val in add_environ.items():
-        if val is None:
-            val = ""
-
-        os.putenv(key, val)
+        os.putenv(key, val or "")
 
 
 def _locale_encode_argv(argv: list[ty.AnyStr]) -> ty.Iterator[str]:
     for x in argv:
         if isinstance(x, str):
-            yield x  # kupferstring.tolocale(x).decode("UTF-8", "replace")
+            yield x
         else:
             yield x.decode("UTF-8", "replace")
 

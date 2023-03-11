@@ -1,12 +1,7 @@
 import contextlib
 import traceback
 
-from kupfer.obj.base import (
-    Action,
-    ActionGenerator,
-    Source,
-    TextSource,
-)
+from kupfer.obj.base import Action, ActionGenerator, Source, TextSource
 from kupfer.support import pretty
 
 from . import plugins

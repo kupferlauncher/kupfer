@@ -11,11 +11,11 @@ import time
 from contextlib import closing
 
 from kupfer import plugin_support
+from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer.objects import Source, UrlLeaf
 
-from ._firefox_support import get_firefox_home_file, get_ffdb_conn_str
+from ._firefox_support import get_ffdb_conn_str, get_firefox_home_file
 
 MAX_ITEMS = 10000
 

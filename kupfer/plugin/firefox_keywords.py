@@ -14,7 +14,7 @@ import typing as ty
 from contextlib import closing
 from urllib.parse import quote, urlparse
 
-from kupfer import plugin_support, utils
+from kupfer import launch, plugin_support
 from kupfer.obj import (
     Action,
     Leaf,
@@ -293,7 +293,7 @@ def _do_search_engine(
     terms: str, search_url: str, encoding: str = "UTF-8"
 ) -> None:
     """Show an url searching for @search_url with @terms"""
-    utils.show_url(_query_url(terms, search_url))
+    launch.show_url(_query_url(terms, search_url))
 
 
 def _query_url(terms: str, search_url: str) -> str:

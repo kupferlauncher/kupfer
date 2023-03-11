@@ -24,8 +24,7 @@ import xdg.BaseDirectory as base
 from gi.repository import GLib
 
 from kupfer import icons, plugin_support
-from kupfer.obj.apps import ApplicationSource
-from kupfer.objects import (
+from kupfer.obj import (
     Action,
     Leaf,
     NotAvailableError,
@@ -33,6 +32,7 @@ from kupfer.objects import (
     TextLeaf,
     TextSource,
 )
+from kupfer.obj.apps import ApplicationSource
 from kupfer.support import pretty, textutils, weaklib
 
 PROGRAM_IDS = ["gnote", "tomboy", "kzrnote"]

@@ -30,8 +30,9 @@ based on the relevance.  It originates in Gnome-Do.
 
 Compatibility: Python 3
 """
-import typing as ty
+from __future__ import annotations
 
+import typing as ty
 
 FormatCleanCB = ty.Callable[[str], str]
 FormatMatchCB = ty.Callable[[str], str]
@@ -44,8 +45,8 @@ def _default_formatter(x: str) -> str:
 def format_common_substrings(
     string: str,
     query: str,
-    format_clean: ty.Optional[FormatCleanCB] = None,
-    format_match: ty.Optional[FormatMatchCB] = None,
+    format_clean: FormatCleanCB | None = None,
+    format_match: FormatMatchCB | None = None,
 ) -> str:
     """
     Creates a new string highlighting matching substrings.
@@ -214,7 +215,7 @@ def score(string: str, query: str) -> float:
     return strscore
 
 
-def _find_best_match(string: str, query: str) -> ty.Tuple[int, int]:
+def _find_best_match(string: str, query: str) -> tuple[int, int]:
     """
     Finds the shortest substring of @s that contains all characters of query
     in order.

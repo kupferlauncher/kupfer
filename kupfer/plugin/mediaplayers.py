@@ -9,7 +9,7 @@ import typing as ty
 import dbus
 
 from kupfer import plugin_support
-from kupfer.objects import OperationError, RunnableLeaf, Source
+from kupfer.obj import OperationError, RunnableLeaf, Source
 from kupfer.support import weaklib
 
 plugin_support.check_dbus_connection()

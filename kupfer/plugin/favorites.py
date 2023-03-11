@@ -17,7 +17,7 @@ from kupfer import puid
 
 # NOTE: core import
 from kupfer.core import learn
-from kupfer.objects import Action, Leaf, Source
+from kupfer.obj import Action, Leaf, Source
 
 if ty.TYPE_CHECKING:
     _ = str

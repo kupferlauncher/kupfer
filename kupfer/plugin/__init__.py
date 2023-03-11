@@ -1,4 +1,5 @@
 import os
+
 from kupfer import config
 from kupfer.support import pretty
 

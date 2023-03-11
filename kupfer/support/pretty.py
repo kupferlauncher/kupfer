@@ -30,13 +30,13 @@ class OutputMixin:
         category = self._output_category()
         print(prefix + category, *items, sep=sep, end=end, file=stream)
 
-    def output_info(self, *items: ty.Any, **kwargs: ty.Any) -> None:
+    def output_info(
+        self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
+    ) -> None:
         """
         Output given items using @sep as separator,
         ending the line with @end
         """
-        sep = kwargs.get("sep", " ")
-        end = kwargs.get("end", "\n")
         self._output_core("", sep, end, sys.stdout, *items)
 
     def output_exc(self, exc_info: ExecInfo | None = None) -> None:
@@ -51,15 +51,15 @@ class OutputMixin:
         msg = f"{etype.__name__}: {value}"
         self._output_core("Exception in ", " ", "\n", sys.stderr, msg)
 
-    def output_debug(self, *items: ty.Any, **kwargs: ty.Any) -> None:
+    def output_debug(
+        self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
+    ) -> None:
         if DEBUG:
-            sep = kwargs.get("sep", " ")
-            end = kwargs.get("end", "\n")
             self._output_core("D ", sep, end, sys.stderr, *items)
 
-    def output_error(self, *items: ty.Any, **kwargs: ty.Any) -> None:
-        sep = kwargs.get("sep", " ")
-        end = kwargs.get("end", "\n")
+    def output_error(
+        self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
+    ) -> None:
         self._output_core("Error ", sep, end, sys.stderr, *items)
 
 
@@ -103,15 +103,21 @@ print_error = _StaticOutputInst.print_error
 print_exc = _StaticOutputInst.print_exc
 
 
-def timing_start() -> list[float] | None:
+def timing_start() -> float | None:
+    """In debug get current timestamp; return None otherwise"""
     if DEBUG:
-        return [timestamp()]
+        return timestamp()
 
     return None
 
 
-def timing_step(modulename: str, start: list[float] | None, label: str) -> None:
+def timing_step(
+    modulename: str, start: float | None, label: str, *args: str
+) -> float | None:
+    """In debug print  time from `start`."""
     if DEBUG and start:
         cts = timestamp()
-        print_debug(modulename, label, f"in {cts - start[0]:.6f} s")
-        start[0] = cts
+        print_debug(modulename, label, f"in {cts - start:.6f} s", *args)
+        return cts
+
+    return None

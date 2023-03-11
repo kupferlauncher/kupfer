@@ -13,10 +13,11 @@ from xdg import BaseDirectory as base
 from xdg import DesktopEntry as desktop
 from xdg import Exceptions as xdg_e
 
-from kupfer import config, icons, plugin_support, utils, version
+from kupfer import config, icons, launch, plugin_support, version
 from kupfer.core import plugins, relevance, settings, sources
-from kupfer.obj.base import KupferObject
-from kupfer.support import kupferstring, pretty, scheduler, types as kty
+from kupfer.obj import KupferObject
+from kupfer.support import kupferstring, pretty, scheduler
+from kupfer.support import types as kty
 
 from . import accelerators, getkey_dialog, keybindings, kupferhelp
 from .credentials_dialog import ask_user_credentials
@@ -249,7 +250,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         table.append_column(col)
 
         self.plugin_list_timer = scheduler.Timer()
-        self.plugin_info = utils.locale_sort(
+        self.plugin_info = kupferstring.locale_sort(
             plugins.get_plugin_info(), key=lambda rec: rec["localized_name"]
         )
 
@@ -327,7 +328,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         have.append(directory)
         directory = os.path.expanduser(directory)
-        dispname = utils.get_display_path_for_bytestring(directory)
+        dispname = launch.get_display_path_for_bytestring(directory)
         gicon = icons.get_gicon_for_file(directory)
         self.dir_store.append((directory, gicon, dispname))
 
@@ -1008,7 +1009,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         setctl = settings.get_settings_controller()
         term_id = setctl.get_preferred_tool(category_key)
         # fill in the available alternatives
-        alternatives = utils.locale_sort(
+        alternatives = kupferstring.locale_sort(
             setctl.get_valid_alternative_ids(category_key), key=lambda t: t[1]
         )
         term_iter = None

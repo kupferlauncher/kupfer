@@ -12,8 +12,8 @@ from contextlib import suppress
 
 from gi.repository import Gdk, Gtk
 
-from kupfer import interface, utils
-from kupfer.objects import Action, Leaf, OperationError, TextLeaf
+from kupfer import interface, launch
+from kupfer.obj import Action, Leaf, OperationError, TextLeaf
 
 # delay for first keypress and all following
 _INIT_DELAY = "usleep 300000"
@@ -38,8 +38,8 @@ class CopyAndPaste(Action):
             "keyup Control_L",
         ]
         try:
-            utils.spawn_async_raise(xte_paste_argv)
-        except utils.SpawnError as exc:
+            launch.spawn_async_raise(xte_paste_argv)
+        except launch.SpawnError as exc:
             raise OperationError(exc) from exc
 
     def item_types(self):
@@ -75,8 +75,8 @@ class SendKeys(Action):
             xte_sendkey_argv.extend(self.make_keystr_arguments(obj.object))
 
         try:
-            utils.spawn_async_raise(xte_sendkey_argv)
-        except utils.SpawnError as exc:
+            launch.spawn_async_raise(xte_sendkey_argv)
+        except launch.SpawnError as exc:
             raise OperationError(exc) from exc
 
     def make_keystr_arguments(self, keystr):
@@ -133,8 +133,8 @@ class TypeText(Action):
                 xte_paste_argv.append("key Return")
 
         try:
-            utils.spawn_async_raise(xte_paste_argv)
-        except utils.SpawnError as exc:
+            launch.spawn_async_raise(xte_paste_argv)
+        except launch.SpawnError as exc:
             raise OperationError(exc) from exc
 
     def item_types(self):

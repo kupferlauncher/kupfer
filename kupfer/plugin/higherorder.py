@@ -9,8 +9,8 @@ __version__ = "2010-01-11"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from kupfer.core import commandexec
+from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
-from kupfer.objects import Action, Leaf
 from kupfer.support import pretty
 
 
@@ -33,12 +33,15 @@ class Select(Action):
 def _exec_no_show_result(composedleaf):
     pretty.print_debug(__name__, "Evaluating command", composedleaf)
     _obj, action, _iobj = composedleaf.object
-    ret = commandexec.activate_action(None, *composedleaf.object)
+    ret: commandexec.ActionResult = commandexec.activate_action(  # type: ignore
+        None, *composedleaf.object
+    )
     result_type = commandexec.parse_action_result(action, ret)
     if result_type == commandexec.ExecResult.OBJECT:
         return ret
 
     if result_type == commandexec.ExecResult.SOURCE:
+        assert isinstance(ret, Source)
         leaves = list(ret.get_leaves())
         if not leaves:
             return None

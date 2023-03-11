@@ -67,17 +67,17 @@ def make_histogram(vect, nbins=7):
 
 
 def icon_stats():
-    from kupfer.icons import ICON_CACHE, MISSING_ICON_FILES
+    from kupfer.icons import _ICON_CACHE, _MISSING_ICON_FILES
 
     print("DEBUG: ICON STATS")
-    for size, data in ICON_CACHE.items():
+    for size, data in _ICON_CACHE.items():
         print("size:", size)
         print("Cached icons:", len(data._data))
         print("Cached icon keys:")
         for key in data._data.keys():
             print("  ", key)
 
-    print("missing icon files: ", MISSING_ICON_FILES)
+    print("missing icon files: ", _MISSING_ICON_FILES)
 
 
 def learn_stats():

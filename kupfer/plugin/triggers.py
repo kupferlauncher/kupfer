@@ -14,9 +14,9 @@ from gi.repository import GLib, Gtk
 
 from kupfer import plugin_support, puid
 from kupfer.core import commandexec
+from kupfer.obj import Action, OperationError, RunnableLeaf, Source
 from kupfer.obj.compose import ComposedLeaf
-from kupfer.objects import Action, OperationError, RunnableLeaf, Source
-from kupfer.support import kupferstring, task
+from kupfer.support import task
 from kupfer.ui import getkey_dialog, keybindings, uievents
 
 plugin_support.check_keybinding_support()

@@ -20,8 +20,8 @@ import urllib.parse
 from pathlib import Path
 from xml.etree import ElementTree
 
-from kupfer import config, plugin_support, utils
-from kupfer.objects import Action, Leaf, Source, TextLeaf
+from kupfer import config, launch, plugin_support
+from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.plugin._firefox_support import get_firefox_home_file
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -56,7 +56,7 @@ def _do_search_engine(terms, search_url, encoding="UTF-8"):
     else:
         query_url = search_url.replace("%s", terms)
 
-    utils.show_url(query_url)
+    launch.show_url(query_url)
 
 
 def _get_custom_engine_name(url: str) -> str | None:

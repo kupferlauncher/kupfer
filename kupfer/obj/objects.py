@@ -13,11 +13,18 @@ import zlib
 from gi.repository import GdkPixbuf
 
 from kupfer import icons
-from kupfer.support import kupferstring
 
+from . import actions
 from .base import Action, Leaf, Source
-from .files import OpenUrl
 from .representation import TextRepresentation
+
+__all__ = (
+    "SourceLeaf",
+    "UrlLeaf",
+    "RunnableLeaf",
+    "TextLeaf",
+)
+
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -42,7 +49,7 @@ class SourceLeaf(Leaf):
 
     # FIXME: property vs class field
     @property
-    def fallback_icon_name(self) -> str:
+    def fallback_icon_name(self) -> str:  # type: ignore
         return self.object.fallback_icon_name  # type: ignore
 
     def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
@@ -61,7 +68,7 @@ class UrlLeaf(Leaf, TextRepresentation):
             self.kupfer_add_alias(obj)
 
     def get_actions(self) -> ty.Iterator[Action]:
-        yield OpenUrl()
+        yield actions.OpenUrl()
 
     def get_description(self) -> ty.Optional[str]:
         return self.object  # type:ignore
@@ -79,7 +86,7 @@ class RunnableLeaf(Leaf):
         Leaf.__init__(self, obj, name)
 
     def get_actions(self) -> ty.Iterator[Action]:
-        yield Perform()
+        yield actions.Perform()
 
     def run(self, ctx: ty.Any = None) -> None:
         raise NotImplementedError
@@ -101,32 +108,6 @@ class RunnableLeaf(Leaf):
 
     def get_icon_name(self) -> str:
         return ""
-
-
-class Perform(Action):
-    """Perform the action in a RunnableLeaf"""
-
-    action_accelerator: ty.Optional[str] = "o"
-    rank_adjust = 5
-
-    def __init__(self, name: ty.Optional[str] = None):
-        # TRANS: 'Run' as in Perform a (saved) command
-        super().__init__(name=name or _("Run"))
-
-    def wants_context(self) -> bool:
-        return True
-
-    def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
-    ) -> None:
-        if leaf.wants_context():
-            leaf.run(ctx=ctx)
-            return
-
-        leaf.run()
-
-    def get_description(self) -> str:
-        return _("Perform command")
 
 
 class TextLeaf(Leaf, TextRepresentation):

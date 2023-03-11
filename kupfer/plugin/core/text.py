@@ -1,17 +1,15 @@
 from __future__ import annotations
 
-import typing as ty
-
 import os
+import typing as ty
 import urllib.error
 import urllib.parse
 import urllib.request
-import socket
 
-from kupfer import utils
+from kupfer import launch
+from kupfer.obj import FileLeaf, Leaf, OpenUrl, TextLeaf, TextSource, UrlLeaf
 from kupfer.support import pretty, system
 from kupfer.support.validators import is_url
-from kupfer.obj import FileLeaf, OpenUrl, TextLeaf, TextSource, UrlLeaf
 
 __kupfer_name__ = "Free-text Queries"
 __kupfer_sources__ = ()
@@ -53,7 +51,7 @@ class PathTextSource(TextSource, pretty.OutputMixin):
     def get_rank(self):
         return 80
 
-    def _is_local_file_url(self, url):
+    def _is_local_file_url(self, url: str) -> bool:
         # Recognize file:/// or file://localhost/ or file://<local_hostname>/ URLs
         hostname = system.get_hostname()
         return (
@@ -62,21 +60,20 @@ class PathTextSource(TextSource, pretty.OutputMixin):
             or url.startswith(f"file://{hostname}/")
         )
 
-    def get_text_items(self, text):
+    def get_text_items(self, text: str) -> ty.Iterator[Leaf]:
         # Find directories or files
         if self._is_local_file_url(text):
             leaf = FileLeaf.from_uri(text)
             if leaf and leaf.is_valid():
                 yield leaf
 
-        else:
-            prefix = os.path.expanduser("~/")
-            ufilepath = (
-                text if os.path.isabs(text) else os.path.join(prefix, text)
-            )
-            filepath = os.path.normpath(ufilepath)
-            if os.access(filepath, os.R_OK):
-                yield FileLeaf(filepath)
+            return
+
+        prefix = system.get_homedir()
+        ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
+        filepath = os.path.normpath(ufilepath)
+        if os.access(filepath, os.R_OK):
+            yield FileLeaf(filepath)
 
     def provides(self):
         yield FileLeaf
@@ -87,7 +84,7 @@ class OpenTextUrl(OpenUrl):
 
     def activate(self, leaf, iobj=None, ctx=None):
         if url := is_url(leaf.object):
-            utils.show_url(url)
+            launch.show_url(url)
 
     def item_types(self):
         yield TextLeaf
@@ -105,8 +102,8 @@ class URLTextSource(TextSource):
     def get_rank(self):
         return 75
 
-    def get_text_items(self, text):
-        # FIXME: more strict checking?
+    def get_text_items(self, text: str) -> ty.Iterator[Leaf]:
+        # TODO: maybe more strict checking?
 
         # Only detect "perfect" URLs
         text = text.strip()
@@ -122,7 +119,7 @@ class URLTextSource(TextSource):
 
         name = f"{components.netloc}{components.path}".strip("/")
         # Try to turn an URL-escaped string into a Unicode string
-        name = urllib.parse.unquote(url) or text
+        name = urllib.parse.unquote(name) or text
         yield UrlLeaf(text, name=name)
 
     def provides(self):

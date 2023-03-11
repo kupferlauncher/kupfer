@@ -4,9 +4,8 @@ import typing as ty
 
 from gi.repository import GObject
 
-from kupfer import utils
 from kupfer.core import plugins, settings
-from kupfer.support import pretty
+from kupfer.support import fileutils, pretty
 
 __all__ = [
     "UserNamePassword",
@@ -156,6 +155,7 @@ GObject.signal_new(
 _HAS_DBUS_CONNECTION = None
 
 
+# pylint: disable=too-few-public-methods
 class _DBusChecker:
     has_connection = None
 
@@ -186,7 +186,7 @@ def check_dbus_connection() -> None:
         raise ImportError(_("No D-Bus connection to desktop session"))
 
 
-# TODO: check
+# pylint: disable=too-few-public-methods
 class UserNamePassword:
     pass
 
@@ -217,10 +217,10 @@ def _is_valid_terminal(term_dict: dict[str, ty.Any]) -> bool:
         return False
 
     exe = term_dict["argv"][0]
-    return bool(utils.lookup_exec_path(exe))
+    return bool(fileutils.lookup_exec_path(exe))
 
 
-_AVAILABLE_ALTERNATIVES: dict[str, dict[str, ty.Any]] = {
+_AVAILABLE_ALTERNATIVES: ty.Final[dict[str, dict[str, ty.Any]]] = {
     "terminal": {
         "filter": _is_valid_terminal,
         "required_keys": {

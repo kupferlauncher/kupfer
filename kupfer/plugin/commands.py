@@ -19,7 +19,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 import typing as ty
 
-from kupfer import icons, utils
+from kupfer import icons, launch
 from kupfer.obj import (
     Action,
     Execute,
@@ -67,7 +67,7 @@ class GetOutput(Action):
             finish_command(ctx, acommand, stdout, stderr)
 
         pretty.print_debug(__name__, "Spawning with timeout 15 seconds")
-        utils.AsyncCommand(argv, finish_callback, 15)
+        launch.AsyncCommand(argv, finish_callback, 15)
 
     def get_description(self):
         return _("Run program and return its output") + " \N{GEAR}"
@@ -98,7 +98,7 @@ class PassToCommand(Action):
 
         argv.extend([o.object for o in objs])
         pretty.print_debug(__name__, "Spawning without timeout")
-        utils.AsyncCommand(argv, finish_callback, None)
+        launch.AsyncCommand(argv, finish_callback, None)
 
     def activate_multiple(self, objs, iobjs, ctx):
         for iobj in iobjs:
@@ -152,7 +152,7 @@ class WriteToCommand(Action):
 
         pretty.print_debug(__name__, "Spawning without timeout")
         output = leaf.object.encode("utf-8")
-        utils.AsyncCommand(argv, finish_callback, None, stdin=output)
+        launch.AsyncCommand(argv, finish_callback, None, stdin=output)
 
     def item_types(self):
         yield TextLeaf

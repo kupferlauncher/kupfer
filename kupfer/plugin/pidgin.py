@@ -18,11 +18,12 @@ import typing as ty
 import dbus
 
 from kupfer import icons, plugin_support
+from kupfer.obj import Action, TextLeaf, TextSource
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.contacts import EMAIL_KEY, NAME_KEY, ContactLeaf, is_valid_email
+from kupfer.obj.contacts import EMAIL_KEY, NAME_KEY, ContactLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
-from kupfer.objects import Action, TextLeaf, TextSource
 from kupfer.support import pretty, scheduler, weaklib
+from kupfer.support.validators import is_valid_email
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -34,7 +35,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 plugin_support.check_dbus_connection()
 
@@ -158,7 +160,7 @@ class SendMessage(ContactAction):
 
     def valid_object(self, iobj, for_item=None):
         # ugly, but we don't want derived text
-        return type(iobj) == TextLeaf
+        return type(iobj) == TextLeaf  # pylint: disable=unidiomatic-typecheck
 
 
 class PidginContact(ContactLeaf):

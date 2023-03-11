@@ -13,9 +13,15 @@ import typing as ty
 
 import dbus
 
-from kupfer import icons, plugin_support, utils
-from kupfer.obj import Action, Leaf, RunnableLeaf, Source, SourceLeaf
-from kupfer.obj.exceptions import NotAvailableError
+from kupfer import icons, launch, plugin_support
+from kupfer.obj import (
+    Action,
+    Leaf,
+    NotAvailableError,
+    RunnableLeaf,
+    Source,
+    SourceLeaf,
+)
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import kupferstring, pretty, weaklib
 from kupfer.ui import uiutils
@@ -132,7 +138,7 @@ class Enqueue(Action):
             conn.PlayqueneAdd(pos)
         except Exception:
             pretty.print_exc(__name__)
-            utils.spawn_async((_AUDTOOL, "playqueue-add", str(pos)))
+            launch.spawn_async((_AUDTOOL, "playqueue-add", str(pos)))
 
     def get_description(self):
         return _("Add track to the Audacious play queue")
@@ -154,7 +160,7 @@ class Dequeue(Action):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.PlayqueneRemove(pos)
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playqueue-remove", str(pos)))
+            launch.spawn_async((_AUDTOOL, "playqueue-remove", str(pos)))
 
     def get_description(self):
         return _("Remove track from the Audacious play queue")
@@ -179,8 +185,8 @@ class JumpToSong(Action):
             conn.Jump(pos)
             conn.Play()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playlist-jump", str(pos)))
-            utils.spawn_async((_AUDTOOL, "playback-play"))
+            launch.spawn_async((_AUDTOOL, "playlist-jump", str(pos)))
+            launch.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Jump to track in Audacious")
@@ -198,7 +204,7 @@ class Play(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Play()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playback-play"))
+            launch.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Resume playback in Audacious")
@@ -216,7 +222,7 @@ class Stop(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Stop()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playback-play"))
+            launch.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Stop playback in Audacious")
@@ -234,7 +240,7 @@ class Pause(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Pause()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playback-pause"))
+            launch.spawn_async((_AUDTOOL, "playback-pause"))
 
     def get_description(self):
         return _("Pause playback in Audacious")
@@ -252,7 +258,7 @@ class Next(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Advance()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playlist-advance"))
+            launch.spawn_async((_AUDTOOL, "playlist-advance"))
 
     def get_description(self):
         return _("Jump to next track in Audacious")
@@ -270,7 +276,7 @@ class Previous(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Reverse()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playlist-reverse"))
+            launch.spawn_async((_AUDTOOL, "playlist-reverse"))
 
     def get_description(self):
         return _("Jump to previous track in Audacious")
@@ -288,7 +294,7 @@ class ClearQueue(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.PlayqueneClear()
         except Exception:
-            utils.spawn_async((_AUDTOOL, "playqueue-clear"))
+            launch.spawn_async((_AUDTOOL, "playqueue-clear"))
 
     def get_description(self):
         return _("Clear the Audacious play queue")
@@ -302,7 +308,7 @@ class Shuffle(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Shuffle"))
 
     def run(self, ctx=None):
-        utils.spawn_async((_AUDTOOL, "playlist-shuffle-toggle"))
+        launch.spawn_async((_AUDTOOL, "playlist-shuffle-toggle"))
 
     def get_description(self):
         return _("Toggle shuffle in Audacious")
@@ -316,7 +322,7 @@ class Repeat(RunnableLeaf):
         RunnableLeaf.__init__(self, name=_("Repeat"))
 
     def run(self, ctx=None):
-        utils.spawn_async((_AUDTOOL, "playlist-repeat-toggle"))
+        launch.spawn_async((_AUDTOOL, "playlist-repeat-toggle"))
 
     def get_description(self):
         return _("Toggle repeat in Audacious")

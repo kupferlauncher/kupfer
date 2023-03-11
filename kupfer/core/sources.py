@@ -14,14 +14,8 @@ from collections import defaultdict
 from pathlib import Path
 
 from kupfer import config
-from kupfer.obj import (
-    Action,
-    ActionGenerator,
-    AnySource,
-    Leaf,
-    Source,
-    TextSource,
-)
+from kupfer.obj import Action, AnySource, Leaf, Source, TextSource
+from kupfer.obj.base import ActionGenerator
 from kupfer.obj.sources import MultiSource, SourcesSource
 from kupfer.support import conspickle, pretty, scheduler
 
@@ -75,6 +69,7 @@ class PeriodicRescanner(pretty.OutputMixin):
             oldtime = self._latest_rescan_time.get(source, 0)
             if (time.time() - oldtime) > self._min_rescan_interval:
                 self._timer.set(self._period, self._periodic_rescan_helper)
+                self.output_debug(f"scanning {source}")
                 self._start_source_rescan(source)
                 return
 
@@ -287,6 +282,10 @@ class SourceDataPickler(pretty.OutputMixin):
         return True
 
 
+## define type for Source subclass to prevent problems with mixins
+SourceSubclass = ty.TypeVar("SourceSubclass", bound=Source)
+
+
 # pylint: disable=too-many-instance-attributes,too-many-public-methods
 class SourceController(pretty.OutputMixin):
     """Control sources; loading, pickling, rescanning
@@ -306,23 +305,23 @@ class SourceController(pretty.OutputMixin):
         return cls._instance
 
     def __init__(self):
-        self._sources: ty.Set[Source] = set()
+        self._sources: set[Source] = set()
         self.action_decorators: dict[ty.Any, set[Action]] = defaultdict(set)
         self._rescanner = PeriodicRescanner(period=3)
-        self._toplevel_sources: ty.Set[Source] = set()
-        self._text_sources: ty.Set[TextSource] = set()
+        self._toplevel_sources: set[Source] = set()
+        self._text_sources: set[TextSource] = set()
         self._content_decorators: dict[ty.Any, set[Source]] = defaultdict(set)
-        self._action_generators: ty.List[ActionGenerator] = []
+        self._action_generators: list[ActionGenerator] = []
         self._plugin_object_map: weakref.WeakKeyDictionary[
             ty.Any, str
         ] = weakref.WeakKeyDictionary()
         self._loaded_successfully = False
         self._did_finalize_sources = False
-        self._pre_root: ty.Optional[ty.List[Source]] = None
+        self._pre_root: list[Source] | None = None
 
     def add(
         self,
-        plugin_id: ty.Optional[str],
+        plugin_id: str | None,
         srcs: ty.Iterable[Source],
         toplevel: bool = False,
         initialize: bool = False,
@@ -367,7 +366,7 @@ class SourceController(pretty.OutputMixin):
         self._finalize_source(src)
         pretty.print_debug(__name__, "Remove", repr(src))
 
-    def get_plugin_id_for_object(self, obj: ty.Any) -> ty.Optional[str]:
+    def get_plugin_id_for_object(self, obj: ty.Any) -> str | None:
         id_ = self._plugin_object_map.get(obj)
         # self.output_debug("Object", repr(obj), "has id", id_, id(obj))
         return id_
@@ -405,20 +404,19 @@ class SourceController(pretty.OutputMixin):
 
         return removed_source
 
-    def get_sources(self) -> ty.Set[Source]:
+    def get_sources(self) -> set[Source]:
         return self._sources
 
     def add_text_sources(self, plugin_id, srcs):
         self._text_sources.update(srcs)
         self._register_plugin_objects(plugin_id, *srcs)
 
-    def get_text_sources(self) -> ty.Set[TextSource]:
+    def get_text_sources(self) -> set[TextSource]:
         return self._text_sources
 
     def add_content_decorators(
-        self, plugin_id: str, decos: ty.Dict[ty.Any, ty.Set[ty.Any]]
+        self, plugin_id: str, decos: dict[ty.Type[Leaf], set[SourceSubclass]]
     ) -> None:
-        # FIXME: can't specify set type because of mixins
         for typ, val in decos.items():
             self._content_decorators[typ].update(val)
             self._register_plugin_objects(plugin_id, *val)
@@ -441,7 +439,7 @@ class SourceController(pretty.OutputMixin):
 
     def _disambiguate_actions(self, actions: ty.Iterable[Action]) -> None:
         """Rename actions by the same name (adding a suffix)"""
-        names: ty.Dict[str, Action] = {}
+        names: dict[str, Action] = {}
         renames = set()
         for action in actions:
             name = str(action)
@@ -469,7 +467,7 @@ class SourceController(pretty.OutputMixin):
         raise KeyError
 
     @property
-    def root(self) -> ty.Optional[Source]:
+    def root(self) -> Source | None:
         """Get the root source of catalog"""
         if len(self._sources) == 1:
             (root_catalog,) = self._sources
@@ -486,7 +484,7 @@ class SourceController(pretty.OutputMixin):
         self._pre_root = None
 
     @property
-    def firstlevel(self) -> ty.List[Source]:
+    def firstlevel(self) -> list[Source]:
         if self._pre_root:
             return self._pre_root
 
@@ -495,7 +493,7 @@ class SourceController(pretty.OutputMixin):
         sourceindex.add(kupfer_sources)
         # Make sure firstlevel is ordered
         # So that it keeps the ordering.. SourcesSource first
-        firstlevel: ty.List[Source] = []
+        firstlevel: list[Source] = []
         firstlevel.append(SourcesSource(sourceindex))
         firstlevel.extend(self._toplevel_sources)
         self._pre_root = firstlevel
@@ -503,7 +501,7 @@ class SourceController(pretty.OutputMixin):
 
     @classmethod
     def good_source_for_types(
-        cls, source: AnySource, types: ty.Tuple[ty.Any, ...]
+        cls, source: AnySource, types: tuple[ty.Any, ...]
     ) -> bool:
         """return whether @s provides good leaves for @types"""
         if provides := list(source.provides()):
@@ -514,7 +512,7 @@ class SourceController(pretty.OutputMixin):
     def root_for_types(
         self,
         types: ty.Iterable[ty.Any],
-        extra_sources: ty.Optional[ty.Iterable[Source]] = None,
+        extra_sources: ty.Iterable[Source] | None = None,
     ) -> MultiSource:
         """
         Get root for a flat catalog of all catalogs
@@ -527,7 +525,7 @@ class SourceController(pretty.OutputMixin):
             Provide a type T so that it is a subclass
             to one in the set of types we want
         """
-        ttypes: ty.Tuple[ty.Any, ...] = tuple(types)
+        ttypes: tuple[ty.Any, ...] = tuple(types)
         firstlevel = set(extra_sources or [])
         # include the Catalog index since we want to include
         # the top of the catalogs (like $HOME)
@@ -550,25 +548,27 @@ class SourceController(pretty.OutputMixin):
             return source
 
     def get_contents_for_leaf(
-        self, leaf: Leaf, types: ty.Optional[ty.Tuple[ty.Any, ...]] = None
+        self, leaf: Leaf, types: tuple[ty.Any, ...] | None = None
     ) -> ty.Iterator[AnySource]:
-        """Iterator of content sources for @leaf,
-        providing @types (or None for all)"""
+        """Iterator of content sources for @leaf, providing @types
+        (or None for all)"""
         for typ, val in self._content_decorators.items():
             if not isinstance(leaf, typ):
                 continue
 
-            for content in list(val):
+            for content in val:
                 with pluginload.exception_guard(
                     content, self._remove_source, content, is_decorator=True
                 ):
                     dsrc = content.decorate_item(leaf)  # type: ignore
 
-                if dsrc:
-                    if types and not self.good_source_for_types(dsrc, types):
-                        continue
+                if not dsrc:
+                    continue
 
-                    yield self.get_canonical_source(dsrc)
+                if types and not self.good_source_for_types(dsrc, types):
+                    continue
+
+                yield self.get_canonical_source(dsrc)
 
     def get_actions_for_leaf(self, leaf: Leaf) -> ty.Iterator[Action]:
         for typ, val in self.action_decorators.items():
@@ -578,18 +578,22 @@ class SourceController(pretty.OutputMixin):
         for agenerator in self._action_generators:
             yield from agenerator.get_actions_for_leaf(leaf)
 
-    def decorate_object(
-        self, obj: Leaf, action: ty.Optional[Action] = None
-    ) -> None:
+    def decorate_object(self, obj: Leaf, action: Action | None = None) -> None:
+        """If `obj` may have content (Source) and currently there is no assigned
+        content - get sources for `obj` and optional `action` and add it into obj.
+        Multiple sources are packed into SourcesSource.
+        WARN: obj is updated in packet
+        """
         if hasattr(obj, "has_content") and not obj.has_content():
             types = tuple(action.object_types()) if action else ()
-            contents = list(self.get_contents_for_leaf(obj, types))
-            if len(contents) > 1:
-                obj.add_content(
-                    SourcesSource(contents, name=str(obj), use_reprs=False)  # type: ignore
-                )
-            else:
+            contents = tuple(self.get_contents_for_leaf(obj, types))
+            if len(contents) <= 1:
                 obj.add_content(contents[0] if contents else None)
+                return
+
+            obj.add_content(
+                SourcesSource(contents, name=str(obj), use_reprs=False)  # type: ignore
+            )
 
     def finalize(self) -> None:
         "Finalize all sources, equivalent to deactivating all sources"

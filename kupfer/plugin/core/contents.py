@@ -5,8 +5,8 @@ import typing as ty
 
 from gi.repository import Gtk
 
+from kupfer.obj import RunnableLeaf, Source
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.objects import RunnableLeaf, Source
 from kupfer.support import pretty
 from kupfer.ui import about, kupferhelp, preferences
 from kupfer.version import DESKTOP_ID

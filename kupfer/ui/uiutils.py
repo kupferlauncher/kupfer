@@ -15,22 +15,10 @@ import typing as ty
 from gi.repository import Gdk, Gtk, Pango
 
 from kupfer import config, version
+from kupfer.core import commandexec
 from kupfer.support import pretty
 
 from . import uievents
-
-if ty.TYPE_CHECKING:
-    # commandexec import uiutils TODO: fix imports
-    from kupfer.core.commandexec import ExecutionToken
-
-try:
-    from typeguard import typeguard_ignore
-except ImportError:
-    _F = ty.TypeVar("_F")
-
-    def typeguard_ignore(f: _F) -> _F:  # pylint: disable=invalid-name
-        """This decorator is a noop during static type-checking."""
-        return f
 
 
 def _window_close_on_escape(widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
@@ -61,6 +49,7 @@ def builder_get_objects_from_file(
     ui_file = config.get_data_file(fname)
     builder.add_from_file(ui_file)
 
+    # pylint: disable=too-few-public-methods
     class Namespace:
         pass
 
@@ -126,11 +115,10 @@ def _calculate_window_size(
     return vsize, hsize
 
 
-@typeguard_ignore
 def show_text_result(
     text: str,
     title: str | None = None,
-    ctx: "ExecutionToken" | None = None,
+    ctx: commandexec.ExecutionToken | None = None,
 ) -> None:
     """
     Show @text in a result window.
@@ -179,8 +167,9 @@ def _set_font_size(label: Gtk.Label, fontsize: float = 48.0) -> None:
     label.modify_font(Pango.FontDescription.from_string(str(fontsize)))
 
 
-@typeguard_ignore
-def show_large_type(text: str, ctx: "ExecutionToken" | None = None) -> None:
+def show_large_type(
+    text: str, ctx: commandexec.ExecutionToken | None = None
+) -> None:
     """
     Show @text, large, in a result window.
     """

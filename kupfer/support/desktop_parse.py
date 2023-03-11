@@ -94,16 +94,6 @@ def _unescape(string: str) -> str:
     return _two_part_unescaper(string, _ESCAPE_TABLE)
 
 
-def test_unescape():
-    r"""
-    >>> t = r'"This \\$ \\\\ \s\\\\"'
-    >>> _unescape(t)
-    '"This \\$ \\\\  \\\\"'
-    >>> _unescape(r'\t\s\\\\')
-    '\t \\\\'
-    """
-
-
 def parse_argv(instr: str) -> list[str]:
     r"""
     Parse quoted @instr into an argv
