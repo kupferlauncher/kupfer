@@ -43,12 +43,30 @@ try:
     def ic_stack(*args, **kwargs):
         ic("\n".join(traceback.format_stack()[:-2]), *args, **kwargs)
 
-    try:
-        builtins = __import__("__builtin__")
-    except ImportError:
-        builtins = __import__("builtins")
+    import inspect
+
+    class ShiftedIceCreamDebugger(icecream.IceCreamDebugger):
+        def format(self, *args):
+            # one more frame back
+            callFrame = inspect.currentframe().f_back.f_back
+            out = self._format(callFrame, *args)
+            return out
+
+    sic = ShiftedIceCreamDebugger()
+
+    def ic_trace(func):
+        def wrapper(*args, **kwargs):
+            sic(func, args, kwargs)
+            res = func(*args, **kwargs)
+            sic(func, res)
+            return res
+
+        return wrapper
+
+    import builtins
 
     setattr(builtins, "ic_stack", ic_stack)
+    setattr(builtins, "ic_trace", ic_trace)
 except ImportError:  # Graceful fallback if IceCream isn't installed.
     pass
 
