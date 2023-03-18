@@ -7,6 +7,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import operator
 import os
 import signal
+from pathlib import Path
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
@@ -184,8 +185,8 @@ def parse_top_output(out):
         cmd = line_fields[-1]
 
         # read command line
-        proc_file = f"/proc/{pid}/cmdline"
-        if os.path.isfile(proc_file):  # also skip (finished) missing tasks
+        proc_file = Path(f"/proc/{pid}/cmdline")
+        if proc_file.is_file():  # also skip (finished) missing tasks
             with open(proc_file, encoding="UTF=8") as fin:
                 cmd = fin.readline().replace("\x00", " ") or cmd
 

@@ -440,10 +440,8 @@ def get_icon_for_name(
     icon_size: int,
     icon_names: ty.Iterable[str] | None = None,
 ) -> GdkPixbuf.Pixbuf | None:
-    try:
+    with suppress(KeyError):
         return _ICON_CACHE[icon_size][icon_name]
-    except KeyError:
-        pass
 
     # Try the whole list of given names
     for load_name in icon_names or (icon_name,):
@@ -473,10 +471,8 @@ def get_icon_from_file(
     icon_file: str, icon_size: int
 ) -> GdkPixbuf.Pixbuf | None:
     # try to load from cache
-    try:
+    with suppress(KeyError):
         return _ICON_CACHE[icon_size][icon_file]
-    except KeyError:
-        pass
 
     if icon_file in _MISSING_ICON_FILES:
         return None

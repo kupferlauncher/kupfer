@@ -452,8 +452,12 @@ class NotesSource(ApplicationSource):
         # We monitor all directories that exist of a couple of candidates
         dirs: list[str] = []
         for program in PROGRAM_IDS:
-            dirs.append(os.path.join(base.xdg_data_home, program))
-            dirs.append(os.path.expanduser(f"~/.{program}"))
+            dirs.extend(
+                (
+                    os.path.join(base.xdg_data_home, program),
+                    os.path.expanduser(f"~/.{program}"),
+                )
+            )
 
         self.monitor_token = self.monitor_directories(*dirs)
 

@@ -37,10 +37,9 @@ def parse_kfcom_file(filepath: str) -> tuple[ty.Any, ...]:
             % GLib.filename_display_basename(filepath)
         )
 
-    with open(filepath, "rb") as fobj:
-        # strip shebang away
-        data = fobj.read()
+    data = Path(filepath).read_bytes()
 
+    # strip shebang away
     if data.startswith(b"#!") and b"\n" in data:
         _shebang, data = data.split(b"\n", 1)
 

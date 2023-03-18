@@ -65,7 +65,7 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
             if _is_core_setting(desc["key"]):
                 raise KeyError(f"Reserved plugin setting key: {desc['key']!r}")
 
-            self.setting_descriptions[desc["key"]] = dict(desc)
+            self.setting_descriptions[desc["key"]] = desc.copy()
             self.setting_key_order.append(desc["key"])
 
     def __iter__(self) -> ty.Iterator[str]:
@@ -259,16 +259,12 @@ def register_alternative(
 
     Returns True with success
     """
-    caller = str(caller)
-    category_key = str(category_key)
-
     if category_key not in _AVAILABLE_ALTERNATIVES:
         _plugin_configuration_error(
             caller, f"Category '{category_key}' does not exist"
         )
         return False
 
-    id_ = str(id_)
     full_id = f"{caller}.{id_}"
     kw_set = set(kwargs)
     alt = _AVAILABLE_ALTERNATIVES[category_key]

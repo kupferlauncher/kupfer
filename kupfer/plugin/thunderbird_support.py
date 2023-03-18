@@ -118,7 +118,7 @@ def _read_mork_filecontent(filename: str) -> ty.Iterable[str]:
             pretty.print_debug(__name__, "_read_mork: header error", header)
             return
 
-        for line in mfile.readlines():
+        for line in mfile:
             # remove blank lines and comments
             line = line.strip()
             if not line:
@@ -229,7 +229,7 @@ def _read_mork(filename: str) -> dict[str, _Table]:
                         table = tables["1:80"] = _Table("1:80")
 
                     for rowcell in filter(None, rowdata):
-                        for cell in _RE_CELL.findall(str(rowcell)):
+                        for cell in _RE_CELL.findall(rowcell):
                             atom, col = None, None
                             if cmatch := _RE_CELL_TEXT.match(cell):
                                 col = cells.get(cmatch.group(1))

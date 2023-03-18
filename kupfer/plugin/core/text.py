@@ -54,10 +54,8 @@ class PathTextSource(TextSource, pretty.OutputMixin):
     def _is_local_file_url(self, url: str) -> bool:
         # Recognize file:/// or file://localhost/ or file://<local_hostname>/ URLs
         hostname = system.get_hostname()
-        return (
-            url.startswith("file:///")
-            or url.startswith("file://localhost/")
-            or url.startswith(f"file://{hostname}/")
+        return url.startswith(
+            ("file:///", "file://localhost/", f"file://{hostname}/")
         )
 
     def get_text_items(self, text: str) -> ty.Iterator[Leaf]:

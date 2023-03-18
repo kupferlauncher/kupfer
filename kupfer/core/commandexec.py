@@ -374,7 +374,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
             assert not ret or isinstance(ret, tuple)
             # K: added; ret can be None
             # K: res was 0 (no value)
-            res, ret = ret if ret else (ExecResult.ZERO, None)  # type: ignore
+            res, ret = ret or (ExecResult.ZERO, None)  # type: ignore
             return self._return_result(res, ret, ui_ctx)
 
         assert not ret or isinstance(ret, (Source, Leaf, task.Task))

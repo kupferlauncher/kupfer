@@ -47,7 +47,6 @@ class SourceLeaf(Leaf):
     def get_description(self) -> ty.Optional[str]:
         return self.object.get_description()  # type: ignore
 
-    # FIXME: property vs class field
     @property
     def fallback_icon_name(self) -> str:  # type: ignore
         return self.object.fallback_icon_name  # type: ignore
@@ -122,7 +121,7 @@ class TextLeaf(Leaf, TextRepresentation):
         if not name:
             name = self.get_first_text_line(text)
 
-        if len(text) == 0 or not name:
+        if not text or not name:
             name = _("(Empty Text)")
 
         assert name

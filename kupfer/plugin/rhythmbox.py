@@ -148,13 +148,11 @@ def enqueue_songs(info, clear_queue=False, play_first=False):
         song = songs[0]
         songs = songs[1:]
         uri = song["location"]
-        qargv.append("--play-uri")
-        qargv.append(uri)
+        qargv.extend(("--play-uri", uri))
 
     for song in songs:
         uri = song["location"]
-        qargv.append("--enqueue")
-        qargv.append(uri)
+        qargv.extend(("--enqueue", uri))
 
     spawn_async(qargv)
 

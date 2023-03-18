@@ -72,7 +72,7 @@ class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
                 continue
 
             try:
-                with open(meta_file, "r", encoding="UTF-8") as meta:
+                with meta_file.open("r", encoding="UTF-8") as meta:
                     content = json.load(meta)
             except IOError:
                 continue

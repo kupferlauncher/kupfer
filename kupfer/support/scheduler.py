@@ -115,9 +115,7 @@ class Timer:
         """
         self.invalidate()
         self._current_callback = lambda: callback(*arguments)
-        self._current_timer = GLib.timeout_add(
-            int(timeout_milliseconds), self._call
-        )
+        self._current_timer = GLib.timeout_add(timeout_milliseconds, self._call)
 
     def set_idle(self, callback: TimerCallback, *arguments: ty.Any) -> None:
         self.invalidate()

@@ -33,7 +33,7 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
-def _new_label(
+def _new_label(  # pylint: disable=keyword-arg-before-vararg
     parent: Gtk.Widget = None,
     /,
     *markup: str,

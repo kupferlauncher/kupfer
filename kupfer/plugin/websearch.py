@@ -188,7 +188,7 @@ def _get_plugin_dirs() -> ty.Iterator[Path]:
     # try to find all versions of firefox
     for prefix in ("/usr/lib", "/usr/share"):
         for dirname in os.listdir(prefix):
-            if dirname.startswith("firefox") or dirname.startswith("iceweasel"):
+            if dirname.startswith(("firefox", "iceweasel")):
                 yield Path(prefix, dirname, "searchplugins")
                 yield Path(
                     prefix, dirname, "distribution", "searchplugins", "common"

@@ -135,11 +135,7 @@ class GetTextContents(Action):
         return True
 
     def activate(self, leaf, iobj=None, ctx=None):
-        with open(
-            leaf.object, "rt", encoding=kupferstring.get_encoding()
-        ) as infile:
-            text = infile.read()
-
+        text = Path(leaf.object).read_text(encoding=kupferstring.get_encoding())
         return TextLeaf(text)
 
     def item_types(self):

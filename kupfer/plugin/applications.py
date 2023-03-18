@@ -58,22 +58,16 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 # NoDisplay: Don't show this in program menus
 # Hidden: Disable/never use at all
 
-WHITELIST_IDS = frozenset(
-    [
-        # we think that these are useful to show
-        "eog.desktop",
-        "evince.desktop",
-        "gnome-about.desktop",
-        "gstreamer-properties.desktop",
-        "notification-properties.desktop",
-        "shotwell-viewer.desktop",
-    ]
+WHITELIST_IDS: ty.Final = (
+    # we think that these are useful to show
+    "eog.desktop",
+    "evince.desktop",
+    "gnome-about.desktop",
+    "gstreamer-properties.desktop",
+    "notification-properties.desktop",
+    "shotwell-viewer.desktop",
 )
-BLACKLIST_IDS = frozenset(
-    [
-        "nautilus-home.desktop",
-    ]
-)
+BLACKLIST_IDS: ty.Final = ("nautilus-home.desktop",)
 
 
 def _should_show(

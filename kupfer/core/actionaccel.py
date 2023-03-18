@@ -83,7 +83,7 @@ class AccelConfig(pretty.OutputMixin):
         self.accels.clear()
         for obj, k in self.accels.items():
             if validate_func(k):
-                self.accels[str(obj)] = str(k)
+                self.accels[obj] = k
             else:
                 self.output_error("Ignoring invalid accel", k, "for", obj)
 

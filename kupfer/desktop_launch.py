@@ -467,7 +467,7 @@ def child_setup(add_environ: dict[str, str]) -> None:
     @add_environ is a dict for extra env variables
     """
     for key, val in add_environ.items():
-        os.putenv(key, val or "")
+        os.putenv(key, val)
 
 
 def _locale_encode_argv(argv: list[ty.AnyStr]) -> ty.Iterator[str]:

@@ -12,6 +12,7 @@ import typing as ty
 from collections import defaultdict
 from contextlib import suppress
 from enum import IntEnum
+from pathlib import Path
 
 from gi.repository import GLib, GObject
 
@@ -211,7 +212,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             (
                 DirectorySource(item, toplevel=True)
                 for item in setctl.get_directories(False)
-                if os.path.isdir(item)
+                if Path(item).is_dir()
             ),
             (
                 file_source(item, dir_depth)
@@ -223,7 +224,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             (
                 DirectorySource(item, toplevel=True)
                 for item in setctl.get_directories(True)
-                if os.path.isdir(item)
+                if Path(item).is_dir()
             ),
             (
                 file_source(item, dir_depth)

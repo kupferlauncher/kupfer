@@ -80,7 +80,7 @@ def _parse_value(defval: ty.Any, value: str) -> ty.Any:
     if isinstance(defval, int):
         return type(defval)(value)
 
-    return str(value)
+    return value
 
 
 def _fill_confmap_fom_parser(
@@ -107,7 +107,7 @@ def _confmap_difference(conf: Config, defaults: Config) -> Config:
     difference = {}
     for secname, section in conf.items():
         if secname not in defaults:
-            difference[secname] = dict(section)
+            difference[secname] = section.copy()
             continue
 
         difference[secname] = {}

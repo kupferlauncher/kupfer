@@ -2,28 +2,25 @@ from __future__ import annotations
 
 import re
 import urllib.parse
+from contextlib import suppress
 
 
 def _validate_port(port: str) -> bool:
     if not port:
         return False
 
-    try:
+    with suppress(ValueError):
         numport = int(port)
         return 0 <= numport <= 65535
-    except ValueError:
-        pass
 
     return False
 
 
 def _is_ipv4(string: str) -> bool:
     if len(octets := string.split(".")) == 4:
-        try:
+        with suppress(ValueError):
             if all(0 <= int(o) <= 255 for o in octets):
                 return True
-        except ValueError:
-            pass
 
     return False
 
