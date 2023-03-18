@@ -8,6 +8,7 @@ System related functions
 import functools
 import os.path
 import socket
+import sys
 
 from . import pretty
 
@@ -26,3 +27,8 @@ def get_hostname() -> str:
 @functools.cache
 def get_homedir() -> str:
     return os.path.expanduser("~")
+
+
+@functools.cache
+def get_application_filename() -> str:
+    return os.path.basename(sys.argv[0])

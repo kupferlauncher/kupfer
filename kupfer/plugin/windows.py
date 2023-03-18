@@ -12,7 +12,7 @@ import typing as ty
 from gi.repository import Wnck
 
 from kupfer.obj import Action, Leaf, Source
-from kupfer.support import weaklib
+from kupfer.support import system, weaklib
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -129,8 +129,10 @@ class FrontmostWindow(WindowLeaf):
             return None
 
         active = scr.get_active_window() or scr.get_previously_active_window()
-        # FIXME: Ignore Kupfer's main window reliably
-        if active and active.get_application().get_name() != "kupfer.py":
+        if active and active.get_application().get_name() not in (
+            "kupfer.py",
+            system.get_application_filename(),
+        ):
             if not active.is_skip_tasklist():
                 return active
 
