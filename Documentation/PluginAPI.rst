@@ -22,6 +22,7 @@ The ``kupfer`` package is organized as follows::
             core/__init__.py
             applications.py
             ...
+        support/
         ...
 
 Plugins live in the package ``kupfer.plugin``. Kupfer also includes
@@ -124,7 +125,7 @@ The complete python code for the plugin:
 
     from gi.repository import Gtk
 
-    from kupfer.objects import Action, FileLeaf
+    from kupfer.obj import Action, FileLeaf
 
     class View (Action):
         def __init__(self):
@@ -173,12 +174,12 @@ Below follows a complete summary. To accompany this reference, you can
 read kupfer's inline module documentation with pydoc, by doing the
 following in the source directory::
 
-    $ pydoc kupfer.obj.base
+    $ pydoc kupfer.obj
 
 or equivalently::
 
     $ python
-    >>> help("kupfer.obj.base")
+    >>> help("kupfer.obj")
 
 KupferObject
 ::::::::::::
@@ -831,12 +832,6 @@ Reference to the ``kupfer`` Package
 There are several modules inside the ``kupfer`` package that a plugin
 can reuse.
 
-.. topic:: ``kupfer.commandexec``
-
-    ``kupfer.commandexec`` is not used by plugins anymore
-    after version v204. See `Auxiliary Method wants_context(self)`_
-    above instead.
-
 .. topic:: ``kupfer.config``
 
     ..
@@ -854,10 +849,11 @@ can reuse.
 
 .. topic:: ``kupfer.support.kupferstring``
 
-    A **byte string** (Python ``str``) is just a stream of data. When
-    you handle byte strings that is text, you must convert it to unicode
-    as soon as possible. You only know the encoding depending on the
-    source of the byte string.
+    Kupfer and python internall use unicode strings. Files, command
+    results etc may use other text representation (bytes).
+    When you handle byte strings that is text, you must convert it to
+    unicode as soon as possible. You only know the encoding depending
+    on the source of the byte string.
 
     ``tounicode``
         decode UTF-8 or unicode object into unicode.
@@ -869,10 +865,10 @@ can reuse.
         decode locale-encoded bytestring ``lstr`` to a unicode object.
 
 
-.. topic:: ``kupfer.objects``
+.. topic:: ``kupfer.obj``
 
-    ``kupfer.objects`` includes the basic objects from the package
-    ``kupfer.obj``, such as ``Leaf``, ``Action``, ``Source`` etc.
+    ``kupfer.obj`` includes the basic objects such as ``Leaf``,
+    ``Action``, ``Source`` etc.
 
     ``FileLeaf``, ``AppLeaf``, ``TextLeaf`` etc.
         The basic re-usable types live here
@@ -887,18 +883,42 @@ can reuse.
         ``NotAvailableError(toolname)``,
         ``NoMultiError()``
 
+    Other, rarely used object should be imported from kupfer.obj
+    sub-packages, ie:
 
-.. topic:: ``kupfer.pretty``
+    ``kupfe.obj.contacts``
+        Module provide leaves definition for contacts (emails, im etc)
+        that can be used in plugins supporting email clients and
+        similar software where is some kind of "address book".
+        Contact leaves can be grouped.
 
-    ..
+    ``kupfe.obj.helplib``
+        ``PicklingHelperMixin`` helper for save and load object state
+
+        ``FilesystemWatchMixin`` allow active monitoring file changes
+        and update objects state
+
+    ``kupfe.obj.fileactions``
+        Actions operating on files (``Open``). Usually not need to be
+        used in plugins.
+
+    ``kupfer.obj.hosts``
+        Define ``HostLeaf`` and ``HostServiceLeaf`` than can be used
+        for define service on given host (ie. ssh, www etc).
+        This leaves can be grouped by host.
+
+
+.. topic:: ``kupfer.support.pretty``
+
+   Methods than can be used for debugging - logging.
 
 .. topic:: ``kupfer.runtimehelper``
 
-    ..
+   Module provide support for async results.
 
 .. topic:: ``kupfer.support.textutils``
 
-    ..
+   Methods for text parsing / extracting.
 
 .. topic:: ``kupfer.ui.uiutils``
 
@@ -909,7 +929,7 @@ can reuse.
         Returns a notification identifier, or None if notifications
         are not supported.
 
-.. topic:: ``kupfer.utils``
+.. topic:: ``kupfer.launch``
 
     ``spawn_async(argv)``
         Spawn a child process, returning True if successfully started.
@@ -930,7 +950,11 @@ can reuse.
 
 .. topic:: ``kupfer.task``
 
-    ..
+    Allow run some task in background.
+
+.. topic:: ``kupfer.support.validators``
+
+   Check if text is valid email, url etc.
 
 .. topic:: ``kupfer.support.weaklib``
 
