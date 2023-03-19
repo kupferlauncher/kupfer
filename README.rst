@@ -47,8 +47,8 @@ Waf is included in both the distributable tarball and the repository (so
 that full source code is incuded. See the file `waf` for author and
 licensing information).
 
-Waf was acquired through http://waf.googlecode.com/files/waf-1.6.11.tar.bz2
-on Saturday, 25 February 2012. The following files extracted::
+Waf was acquired through https://waf.io/, version 2.0.25.
+The following files extracted::
 
     ./waf-light -> ./waf
     ./waflib    -> ./waflib
@@ -57,7 +57,6 @@ on Saturday, 25 February 2012. The following files extracted::
     ./waflib/Tools/*  some files excluded
     ./waflib/extras/* some files excluded
 
-1 patch as been applied to waf.
 
 Build Requirements
 ------------------

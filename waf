@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # encoding: latin-1
 # Thomas Nagy, 2005-2018
 #
@@ -32,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 import os, sys, inspect
 
-VERSION="2.0.19"
+VERSION="2.0.25"
 REVISION="x"
 GIT="x"
 INSTALL="x"
@@ -168,3 +168,4 @@ if __name__ == '__main__':
 	#import waflib.extras.compat15#PRELUDE
 	from waflib import Scripting
 	Scripting.waf_entry_point(cwd, VERSION, wafdir)
+

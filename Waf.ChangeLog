@@ -1,3 +1,66 @@
+NEW IN WAF 2.0.25
+-----------------
+* Fix invalid characters returned by find_program #2397
+* Prepare for distutils removal (Python 3.12 regression) #2402
+* Improve cp65001 compat in cpython < 3.3 #2346
+* Add Fujitsu Fortran compiler detection on ARM64FX #2348
+* Support multiple Sphinx output formats #2344
+* Improve PyQt5 detection #2343
+* Add asynchronous wafcache uploads
+
+NEW IN WAF 2.0.24
+-----------------
+* Use EXT_SUFFIX config var over the deprecated/removed SO (Python 3.11 regression) #2386
+* When detecting Visual Studio compilers, prefer the oldest version regardless of compiler type #2352
+* Update the MacOS-specific examples #2337
+* Fix Configure.find_program() invalid character handling in default variable names #2397
+
+NEW IN WAF 2.0.23
+-----------------
+* Fix the Qt3D* libraries detection #2368
+* Fix swig processing when \r is preset in the module name #2350
+* Add RISC-V generic detection #2322
+* Detect gcc first on GNU/kFreeBSD #2336
+* Improve waflib/extras/msvcdeps performance #2323
+
+NEW IN WAF 2.0.22
+-----------------
+* Fix stdin propagation with faulty vcvarsall scripts #2315
+* Enable mixing Unix-style paths with destdir on Windows platforms #2337
+* Fix shell escaping unit test parameters #2314
+* Improve extras/clang_compilation_database and extras/swig compatibility #2336
+* Propagate C++ flags to the Cuda compiler in extras/cuda #2311
+* Fix detection of Qt 5.0.0 (preparation for Qt6) #2331
+* Enable Haxe processing #2308
+* Fix regression in MACOSX_DEPLOYMENT_TARGET caused by distutils #2330
+* Fix extras/wafcache concurrent trimming issues #2312
+* Fix extras/wafcache symlink handling #2327
+
+NEW IN WAF 2.0.21
+-----------------
+* Set the default --msvc_version from VSCMD_VER if present #2299
+* Force unit-test reruns on ut_str, ut_cmd or ut_path changes #2302
+* Describe Qt5's library detection #2288
+* Introduce conf.env.ASMDEFINES_ST to enable assembly-specific define flags
+* Update extras/xcode6 to Python3 #2290
+* Enable parameter "always" in extras/doxygen #2292
+* Fix extras/c_dumbpreproc as it was previously broken
+* Fix extras/gccdeps and extras/msvcdeps on header renaming #2293
+* Improve extras/msvcdeps debug outputs and flags #2287 #2291
+* Add add MCST Elbrus CPU detection in c config #2297
+* Add minio object copies to extras/wafcache #2304
+
+NEW IN WAF 2.0.20
+-----------------
+* Detect -flto and -fno-lto in parse_config #2281
+* Improve custom option processing #2280
+* Enable Clang on cygwin #2279
+* Make distclean target 'no_lock_in_top/run' modifiers compatible with env vars #2271
+* Update irix compiler detection
+* Exclude ConfigSet from altering ConfigurationContext.run_build caches #2273
+* Add gas support in extras/gccdeps.py #2278
+* Improve compatibility with custom commands in extras/clang_compilation_database #2274
+
 NEW IN WAF 2.0.19
 -----------------
 * Enable race-free pdb file generation waflib/extras/msvc_pdb.py #1731

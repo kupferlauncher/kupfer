@@ -18,13 +18,13 @@ else:
 	import imp
 
 # the following 3 constants are updated on each new release (do not touch)
-HEXVERSION=0x2001300
+HEXVERSION=0x2001900
 """Constant updated on new releases"""
 
-WAFVERSION="2.0.19"
+WAFVERSION="2.0.25"
 """Constant updated on new releases"""
 
-WAFREVISION="e83405712e95b47c040763fdfa468c04dfe72e4b"
+WAFREVISION="2db0b41b2805cd5db3b55476c06b23c1e46d319f"
 """Git revision when the waf version is updated"""
 
 WAFNAME="waf"
@@ -144,7 +144,7 @@ class Context(ctx):
 	:type fun: string
 
 	.. inheritance-diagram:: waflib.Context.Context waflib.Build.BuildContext waflib.Build.InstallContext waflib.Build.UninstallContext waflib.Build.StepContext waflib.Build.ListContext waflib.Configure.ConfigurationContext waflib.Scripting.Dist waflib.Scripting.DistCheck waflib.Build.CleanContext
-
+	   :top-classes: waflib.Context.Context
 	"""
 
 	errors = Errors
@@ -530,7 +530,7 @@ class Context(ctx):
 		"""
 		Prints a configuration message of the form ``msg: result``.
 		The second part of the message will be in colors. The output
-		can be disabled easly by setting ``in_msg`` to a positive value::
+		can be disabled easily by setting ``in_msg`` to a positive value::
 
 			def configure(conf):
 				self.in_msg = 1

@@ -62,6 +62,21 @@ class opt_parser(optparse.OptionParser):
 				else:
 					self.error(str(e))
 
+	def _process_long_opt(self, rargs, values):
+		# --custom-option=-ftxyz is interpreted as -f -t... see #2280
+		if self.allow_unknown:
+			back = [] + rargs
+			try:
+				optparse.OptionParser._process_long_opt(self, rargs, values)
+			except optparse.BadOptionError:
+				while rargs:
+					rargs.pop()
+				rargs.extend(back)
+				rargs.pop(0)
+				raise
+		else:
+			optparse.OptionParser._process_long_opt(self, rargs, values)
+
 	def print_usage(self, file=None):
 		return self.print_help(file)
 
@@ -141,9 +156,9 @@ class OptionsContext(Context.Context):
 		gr.add_option('-o', '--out', action='store', default='', help='build dir for the project', dest='out')
 		gr.add_option('-t', '--top', action='store', default='', help='src dir for the project', dest='top')
 
-		gr.add_option('--no-lock-in-run', action='store_true', default='', help=optparse.SUPPRESS_HELP, dest='no_lock_in_run')
-		gr.add_option('--no-lock-in-out', action='store_true', default='', help=optparse.SUPPRESS_HELP, dest='no_lock_in_out')
-		gr.add_option('--no-lock-in-top', action='store_true', default='', help=optparse.SUPPRESS_HELP, dest='no_lock_in_top')
+		gr.add_option('--no-lock-in-run', action='store_true', default=os.environ.get('NO_LOCK_IN_RUN', ''), help=optparse.SUPPRESS_HELP, dest='no_lock_in_run')
+		gr.add_option('--no-lock-in-out', action='store_true', default=os.environ.get('NO_LOCK_IN_OUT', ''), help=optparse.SUPPRESS_HELP, dest='no_lock_in_out')
+		gr.add_option('--no-lock-in-top', action='store_true', default=os.environ.get('NO_LOCK_IN_TOP', ''), help=optparse.SUPPRESS_HELP, dest='no_lock_in_top')
 
 		default_prefix = getattr(Context.g_module, 'default_prefix', os.environ.get('PREFIX'))
 		if not default_prefix:
