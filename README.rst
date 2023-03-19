@@ -1,6 +1,10 @@
 kupfer is a smart, quick launcher
 +++++++++++++++++++++++++++++++++
 
+WARNING: THIS IS BETA (AKA "TESTING" / "NEXT") VERSION.
+This version may be incompatible with old, external plugins duo to reorganise
+Kupfer's modules.
+
 :Homepage:  https://kupferlauncher.github.io/
 :Credits:   Copyright 2007–2017 Ulrik Sverdrup and other Kupfer authors
 :Licence:   GNU General Public License v3 (or any later version)
