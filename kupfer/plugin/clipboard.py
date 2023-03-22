@@ -2,17 +2,19 @@ __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource",)
 __kupfer_actions__ = ("ClearClipboards",)
 __description__ = _("Recent clipboards and clipboard proxy objects")
-__version__ = ""
+__version__ = "2023-03-22"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import typing as ty
 from collections import deque
+from pathlib import Path
 
 from gi.repository import Gdk, Gio, Gtk
 
 from kupfer import plugin_support
 from kupfer.obj import Action, FileLeaf, Source, SourceLeaf, TextLeaf
 from kupfer.obj.compose import MultipleLeaf
+from kupfer.support import validators
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -45,6 +47,16 @@ class SelectedText(TextLeaf):
 
     def __init__(self, text):
         TextLeaf.__init__(self, text, _("Selected Text"))
+
+    def __repr__(self):
+        return f"<{__name__} {self.qf_id}>"
+
+
+class SelectedFile(FileLeaf):
+    qf_id = "selectedfile"
+
+    def __init__(self, text):
+        super().__init__(text, _("Selected File"))
 
     def __repr__(self):
         return f"<{__name__} {self.qf_id}>"
@@ -203,6 +215,11 @@ class ClipboardSource(Source):
         # selected text
         if self.selected_text:
             yield SelectedText(self.selected_text)
+            if (
+                validators.is_valid_file_path(self.selected_text)
+                and Path(self.selected_text).exists()
+            ):
+                yield SelectedFile(self.selected_text)
 
         # produce the current clipboard files if any
         paths: list[str] = list(
