@@ -5,6 +5,8 @@ import typing as ty
 import urllib.error
 import urllib.parse
 import urllib.request
+from pathlib import Path
+from contextlib import suppress
 
 from kupfer import launch
 from kupfer.obj import FileLeaf, Leaf, OpenUrl, TextLeaf, TextSource, UrlLeaf
@@ -67,11 +69,14 @@ class PathTextSource(TextSource, pretty.OutputMixin):
 
             return
 
-        prefix = system.get_homedir()
-        ufilepath = text if os.path.isabs(text) else os.path.join(prefix, text)
-        filepath = os.path.normpath(ufilepath)
-        if os.access(filepath, os.R_OK):
-            yield FileLeaf(filepath)
+        urlpath = Path(text)
+        if not urlpath.is_absolute():
+            urlpath = Path(system.get_homedir()).joinpath(urlpath)
+
+        with suppress(OSError):
+            filepath = urlpath.resolve(strict=True)
+            if os.access(filepath, os.R_OK):
+                yield FileLeaf(filepath)
 
     def provides(self):
         yield FileLeaf

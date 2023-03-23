@@ -12,6 +12,7 @@ from __future__ import annotations
 import os
 import typing as ty
 from os import path
+from pathlib import Path
 
 from gi.repository import GdkPixbuf, Gio, GLib
 
@@ -38,7 +39,7 @@ class FileLeaf(Leaf, TextRepresentation):
 
     def __init__(
         self,
-        obj: str,
+        obj: str | Path,
         name: ty.Optional[str] = None,
         alias: ty.Optional[str] = None,
     ) -> None:
@@ -47,11 +48,15 @@ class FileLeaf(Leaf, TextRepresentation):
         The display name of the file is normally derived from the full path,
         and @name should normally be left unspecified.
 
-        @obj: byte string (file system encoding)
+        @obj: string (path) or Path object
         @name: unicode name or None for using basename
         """
         if obj is None:
             raise InvalidDataError(f"File path for {name} may not be None")
+
+        if isinstance(obj, Path):
+            obj = str(obj)
+
         # Use glib filename reading to make display name out of filenames
         # this function returns a `unicode` object
         if not name:
