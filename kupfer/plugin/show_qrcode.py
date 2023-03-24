@@ -3,20 +3,30 @@ readers: Create some url with kupfer and QRCode it. Get it with the phone and
 use it's browser to display"""
 
 __kupfer_name__ = _("Show QRCode")
-__kupfer_actions__ = ("ShowQRCode",)
+__kupfer_actions__ = ("ShowQRCode", "CreateQRCode", "CreateTextQRCode")
 __description__ = _("Display text as QRCode in a window")
 __version__ = "2.0.0"
 __author__ = "Thomas Renard <cybaer42@web.de>, KB"
 
 import io
-
+import tempfile
 from contextlib import closing
 
 import qrcode
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import GdkPixbuf, Gtk
 
-from kupfer.obj import Action, Leaf
+from kupfer import plugin_support
+from kupfer.obj import Action, FileLeaf, Leaf, TextLeaf
 from kupfer.ui import uiutils
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+    {
+        "key": "max_size",
+        "label": _("Max QRCode size (pixels)"),
+        "type": int,
+        "value": 800,
+    },
+)
 
 
 class ShowQRCode(Action):
@@ -35,7 +45,7 @@ class ShowQRCode(Action):
         assert ctx
         try:
             text = leaf.get_text_representation()
-            image = self._create_image(text)
+            image = _create_image(text)
         except ValueError as err:
             uiutils.show_text_result(
                 _("Cannot create QRCode: %s") % err, _("Show QRCode"), ctx
@@ -75,13 +85,108 @@ class ShowQRCode(Action):
         """Name of the icon"""
         return "format-text-bold"
 
-    def _create_image(self, text):
-        qrc = qrcode.QRCode(box_size=10)
-        qrc.add_data(text)
-        qrc.make(fit=True)
 
-        # scale barcode if necessary by change box_size
-        if qrc.modules_count * 10 > 800:
-            qrc.box_size = max(1, 800 // qrc.modules_count)
+class CreateQRCode(Action):
+    def __init__(self):
+        """initialize action"""
+        Action.__init__(self, _("Create QRCode image"))
 
-        return qrc.make_image(fit=True).get_image()
+    def wants_context(self):
+        return True
+
+    def has_result(self):
+        return True
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+        try:
+            text = leaf.get_text_representation()
+            image = _create_image(text)
+        except ValueError as err:
+            uiutils.show_text_result(
+                _("Cannot create QRCode: %s") % err, _("Show QRCode"), ctx
+            )
+            return
+
+        with tempfile.NamedTemporaryFile(
+            suffix=".png", prefix="qrcode_", delete=False
+        ) as file:
+            image.save(file, "png")
+            return FileLeaf(file.name)
+
+    def item_types(self):
+        yield Leaf
+
+    def valid_for_item(self, leaf):
+        return hasattr(leaf, "get_text_representation")
+
+    def get_description(self):
+        """The Action description"""
+        return _("Create PNG file with QRCode")
+
+    def get_icon_name(self):
+        """Name of the icon"""
+        return "document-new"
+
+
+class CreateTextQRCode(Action):
+    """Create QRCode as unicode text and return it"""
+
+    def __init__(self):
+        """initialize action"""
+        Action.__init__(self, _("Create QRCode text"))
+
+    def wants_context(self):
+        return True
+
+    def has_result(self):
+        return True
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+        try:
+            text = leaf.get_text_representation()
+            qrc = qrcode.QRCode(box_size=10)
+            qrc.add_data(text)
+            qrc.make(fit=True)
+
+        except ValueError as err:
+            uiutils.show_text_result(
+                _("Cannot create QRCode: %s") % err, _("Show QRCode"), ctx
+            )
+            return
+
+        with io.StringIO() as buf:
+            qrc.print_ascii(out=buf)
+            buf.seek(0)
+            return TextLeaf(buf.getvalue())
+
+    def item_types(self):
+        yield Leaf
+
+    def valid_for_item(self, leaf):
+        return hasattr(leaf, "get_text_representation")
+
+    def get_description(self):
+        """The Action description"""
+        return _("Create QRCode as text with unicode characters")
+
+    def get_icon_name(self):
+        """Name of the icon"""
+        return "document-new"
+
+
+def _create_image(text):
+    qrc = qrcode.QRCode(box_size=10)
+    qrc.add_data(text)
+    qrc.make(fit=True)
+
+    # scale barcode if necessary by change box_size
+    max_size = int(__kupfer_settings__["max_size"] or 800)
+    if max_size < 0:
+        max_size = 800
+
+    if qrc.modules_count * 10 > max_size:
+        qrc.box_size = max(1, max_size // qrc.modules_count)
+
+    return qrc.make_image(fit=True).get_image()
