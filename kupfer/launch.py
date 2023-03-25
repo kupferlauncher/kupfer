@@ -750,7 +750,7 @@ def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
     desc: str = GLib.filename_display_name(filepath)
     homedir = system.get_homedir()
     if desc.startswith(homedir) and homedir != desc:
-        desc = f"~/{desc[len(homedir):]}"
+        desc = f"~{desc[len(homedir):]}"
 
     return desc
 
