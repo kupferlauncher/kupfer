@@ -557,7 +557,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         """
         Get preferred ID for a @tool_id
 
-        Supported: 'terminal'
+        Supported: 'terminal', 'editor'
         """
         return self.get_config("Tools", tool_id)
 

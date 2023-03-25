@@ -187,6 +187,10 @@ class PreferencesWindowController(pretty.OutputMixin):
         _make_combobox_model(self.terminal_combobox)
         self._update_alternative_combobox("terminal", self.terminal_combobox)
 
+        self.editor_combobox = builder.get_object("editor_combobox")
+        _make_combobox_model(self.editor_combobox)
+        self._update_alternative_combobox("editor", self.editor_combobox)
+
         self.icons_combobox = builder.get_object("icons_combobox")
         _make_combobox_model(self.icons_combobox)
         self._update_alternative_combobox("icon_renderer", self.icons_combobox)
@@ -980,6 +984,12 @@ class PreferencesWindowController(pretty.OutputMixin):
             term_id = widget.get_model().get_value(itr, 1)
             setctl.set_preferred_tool("terminal", term_id)
 
+    def on_editor_combobox_changed(self, widget: Gtk.ComboBox) -> None:
+        setctl = settings.get_settings_controller()
+        if itr := widget.get_active_iter():
+            editor_id = widget.get_model().get_value(itr, 1)
+            setctl.set_preferred_tool("editor", editor_id)
+
     def on_icons_combobox_changed(self, widget: Gtk.ComboBox) -> None:
         setctl = settings.get_settings_controller()
         if itr := widget.get_active_iter():
@@ -1030,6 +1040,11 @@ class PreferencesWindowController(pretty.OutputMixin):
         if category_key == "terminal":
             self._update_alternative_combobox(
                 category_key, self.terminal_combobox
+            )
+
+        elif category_key == "editor":
+            self._update_alternative_combobox(
+                category_key, self.editor_combobox
             )
 
         elif category_key == "icon_renderer":

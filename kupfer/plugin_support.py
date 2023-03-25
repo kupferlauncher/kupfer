@@ -231,6 +231,14 @@ _AVAILABLE_ALTERNATIVES: ty.Final[dict[str, dict[str, ty.Any]]] = {
             "startup_notify": bool,
         },
     },
+    "editor": {
+        "filter": None,
+        "required_keys": {
+            "name": str,
+            "argv": list,
+            "terminal": bool,
+        },
+    },
     "icon_renderer": {
         "filter": None,
         "required_keys": {
@@ -242,6 +250,7 @@ _AVAILABLE_ALTERNATIVES: ty.Final[dict[str, dict[str, ty.Any]]] = {
 
 _ALTERNATIVES: dict[str, dict[str, ty.Any]] = {
     "terminal": {},
+    "editor": {},
     "icon_renderer": {},
 }
 

@@ -121,3 +121,58 @@ def initialize_alternatives(name):
             "startup_notify": False,
         },
     )
+
+    plugin_support.register_alternative(
+        name,
+        "editor",
+        "gvim",
+        **{
+            "name": _("GVim"),
+            "argv": ["gvim"],
+            "terminal": False,
+        },
+    )
+
+    plugin_support.register_alternative(
+        name,
+        "editor",
+        "vim",
+        **{
+            "name": _("Vim"),
+            "argv": ["vim"],
+            "terminal": True,
+        },
+    )
+
+    plugin_support.register_alternative(
+        name,
+        "editor",
+        "gedit",
+        **{
+            "name": _("GEdit"),
+            "argv": ["gedit"],
+            "terminal": False,
+        },
+    )
+
+    plugin_support.register_alternative(
+        name,
+        "editor",
+        "mousepad",
+        **{
+            "name": _("Mousepad"),
+            "argv": ["mousepad"],
+            "terminal": False,
+        },
+    )
+
+    plugin_support.register_alternative(
+        name,
+        "editor",
+        "sys-editor",
+        **{
+            "name": _("System `editor`"),
+            "argv": ["editor"],
+            "terminal": True,
+        },
+    )
