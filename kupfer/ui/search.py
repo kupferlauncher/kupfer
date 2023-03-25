@@ -1137,7 +1137,6 @@ class ActionSearch(Search):
             return False, False
 
         start_row = idx
-        model_len = len(self._model)
         while True:
             cur = self._model.get_object((idx,))
             self.output_debug("Looking at action", repr(cur.object))
@@ -1148,7 +1147,7 @@ class ActionSearch(Search):
                 return True, not action.requires_object()
 
             self._populate(1)
-            idx = (idx + 1) % model_len
+            idx = (idx + 1) % len(self._model)
             if idx == start_row:
                 break
 
