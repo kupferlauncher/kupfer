@@ -215,11 +215,10 @@ class ClipboardSource(Source):
         # selected text
         if self.selected_text:
             yield SelectedText(self.selected_text)
-            if (
-                validators.is_valid_file_path(self.selected_text)
-                and Path(self.selected_text).exists()
-            ):
-                yield SelectedFile(self.selected_text)
+            if validators.is_valid_file_path(self.selected_text):
+                path = Path(self.selected_text).expanduser()
+                if path.exists():
+                    yield SelectedFile(path)
 
         # produce the current clipboard files if any
         paths: list[str] = list(
