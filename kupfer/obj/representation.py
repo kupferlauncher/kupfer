@@ -6,13 +6,12 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
-import abc
 
 __all__ = ("TextRepresentation", "UriListRepresentation")
 
 
 # pylint: disable=too-few-public-methods
-class TextRepresentation(metaclass=abc.ABCMeta):
+class TextRepresentation:
     """
     Kupfer Objects that implement this interface have a plain text
     representation that can be used for Copy & Paste etc
@@ -25,7 +24,7 @@ class TextRepresentation(metaclass=abc.ABCMeta):
 
 
 # pylint: disable=too-few-public-methods
-class UriListRepresentation(metaclass=abc.ABCMeta):
+class UriListRepresentation:
     """
     Kupfer Objects that implement this interface have a uri-list
     representation that can be used for Copy & Paste etc
@@ -34,7 +33,6 @@ class UriListRepresentation(metaclass=abc.ABCMeta):
     URIs.
     """
 
-    @abc.abstractmethod
     def get_urilist_representation(self) -> list[str]:
         """The default implementation raises notimplementederror"""
         raise NotImplementedError
