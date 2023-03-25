@@ -78,6 +78,8 @@ def _get_custom_engine_name(url: str) -> str | None:
 class SearchWithEngine(Action):
     """TextLeaf -> SearchWithEngine -> SearchEngine"""
 
+    action_accelerator = "s"
+
     def __init__(self):
         Action.__init__(self, _("Search With..."))
 
@@ -110,6 +112,8 @@ class SearchFor(Action):
 
     This is the opposite action to SearchWithEngine
     """
+
+    action_accelerator = "s"
 
     def __init__(self):
         Action.__init__(self, _("Search For..."))

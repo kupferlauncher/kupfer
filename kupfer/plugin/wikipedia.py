@@ -43,6 +43,8 @@ class LangSource(Source):
 
 
 class WikipediaSearch(Action):
+    action_accelerator = "w"
+
     def __init__(self):
         Action.__init__(self, _("Search in Wikipedia"))
         self._update_settings()
