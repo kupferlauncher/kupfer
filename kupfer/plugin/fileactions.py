@@ -1,14 +1,10 @@
 __kupfer_name__ = _("File Actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = (
-    "MoveTo",
-    "Rename",
-    "CopyTo",
-)
+__kupfer_actions__ = ("MoveTo", "Rename", "CopyTo", "Edit")
 __description__ = _("More file actions")
-__version__ = ""
-__author__ = "Ulrik"
+__version__ = "2023-02-25"
+__author__ = "Ulrik, KB"
 
 import os
 
@@ -18,6 +14,8 @@ from pathlib import Path
 
 from gi.repository import Gio, GLib
 
+from kupfer import launch
+from kupfer.core import settings
 from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf, TextSource
 from kupfer.support import pretty, task
 
@@ -229,3 +227,31 @@ class CopyTask(task.ThreadTask, pretty.OutputMixin):
     def thread_finally(self, exc_info):
         if exc_info is not None:
             self.ctx.register_late_error(exc_info)
+
+
+class Edit(Action):
+    action_accelerator = "e"
+
+    def __init__(self):
+        super().__init__(_("Edit file content"))
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        sett = settings.get_settings_controller()
+        editor = sett.get_preferred_alternative("editor")
+        argv = editor["argv"] + [leaf.object]
+        if editor["terminal"]:
+            launch.spawn_in_terminal(argv)
+        else:
+            launch.spawn_async(argv)
+
+    def item_types(self):
+        yield FileLeaf
+
+    def valid_for_item(self, leaf):
+        return not leaf.is_dir()
+
+    def get_icon_name(self):
+        return "edit"
+
+    def get_description(self):
+        return _("Open file in configured editor")
