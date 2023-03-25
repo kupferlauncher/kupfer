@@ -32,24 +32,11 @@ if not hasattr(builtins, "_"):
     builtins._ = _ = str  # type: ignore
 
 
-# builtins modules (extra); all kupfer.obj.* modules are included
-_BUILTIN_MODULES: tuple[str, ...] = ()
-
-
 def no_sort_func(x, _key=None):
     return x
 
 
-class _BuiltinObject(type):
-    def __new__(mcs, name, bases, data):
-        module = data["__module__"]
-        data["_is_builtin"] = (
-            module.startswith("kupfer.obj") or module in _BUILTIN_MODULES
-        )
-        return type.__new__(mcs, name, bases, data)
-
-
-class KupferObject(metaclass=_BuiltinObject):
+class KupferObject:
     """
     Base class for kupfer data model
 
@@ -69,17 +56,13 @@ class KupferObject(metaclass=_BuiltinObject):
 
     rank_adjust: int = 0
     fallback_icon_name: str = "kupfer-object"
-    _is_builtin: bool = False
+    # _is_builtin: bool = False
 
     def __init__(self, name: str | None = None) -> None:
-        """Init kupfer object with, where
-        @name *should* be a unicode object but *may* be
-        a UTF-8 encoded `str`
+        """Init kupfer object with, where @name *should* be a unicode object
+        but *may* be a UTF-8 encoded `str`
         """
-        if not name:
-            name = self.__class__.__name__
-
-        self.name: str = name
+        self.name: str = name or self.__class__.__name__
         folded_name = kupferstring.tofolded(self.name)
         self.kupfer_add_alias(folded_name)
 
@@ -95,14 +78,9 @@ class KupferObject(metaclass=_BuiltinObject):
 
     def __repr__(self) -> str:
         if key := self.repr_key():
-            keys = f" {key}"
-        else:
-            keys = ""
+            return f"<{self.__module__}.{self.__class__.__name__} {key}>"
 
-        if self._is_builtin:
-            return f"<builtin.{self.__class__.__name__}{keys}>"
-
-        return f"<{self.__module__}.{self.__class__.__name__}{keys}>"
+        return f"<{self.__module__}.{self.__class__.__name__}>"
 
     def repr_key(self) -> ty.Any:
         """
