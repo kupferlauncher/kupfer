@@ -237,7 +237,7 @@ class Action(KupferObject):
 
     def repr_key(self) -> ty.Any:
         """by default, actions of one type are all the same"""
-        return ""
+        return None
 
     def activate(
         self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
@@ -372,7 +372,7 @@ class Source(KupferObject, pretty.OutputMixin):
         """
 
     def repr_key(self) -> ty.Any:
-        return ""
+        return None
 
     def get_items(self) -> ty.Iterable[Leaf]:
         """
@@ -501,7 +501,7 @@ class TextSource(KupferObject):
         pass
 
     def repr_key(self) -> ty.Any:
-        return ""
+        return None
 
     def get_rank(self) -> int:
         """All items are given this rank"""

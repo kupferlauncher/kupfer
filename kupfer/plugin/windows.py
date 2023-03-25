@@ -146,7 +146,7 @@ class FrontmostWindow(WindowLeaf):
     object = property(_get_object, _set_object)
 
     def repr_key(self):
-        return ""
+        return None
 
     def get_description(self):
         return self.object and self.object.get_name()
@@ -176,7 +176,7 @@ class NextWindow(WindowLeaf):
     object = property(_get_object, _set_object)
 
     def repr_key(self):
-        return ""
+        return None
 
     def get_description(self):
         return self.object and self.object.get_name()

@@ -97,7 +97,7 @@ class RunnableLeaf(Leaf):
         return False
 
     def repr_key(self) -> ty.Any:
-        return ""
+        return None
 
     def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
         if iname := self.get_icon_name():

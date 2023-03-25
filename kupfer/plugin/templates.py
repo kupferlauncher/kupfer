@@ -40,7 +40,7 @@ class EmptyFile(Leaf):
         Leaf.__init__(self, None, _("Empty File"))
 
     def repr_key(self):
-        return ""
+        return None
 
     def get_actions(self):
         yield CreateDocumentIn()
@@ -54,7 +54,7 @@ class NewFolder(Leaf):
         Leaf.__init__(self, None, _("New Folder"))
 
     def repr_key(self):
-        return ""
+        return None
 
     def get_actions(self):
         yield CreateDocumentIn()
