@@ -1,6 +1,9 @@
 import typing as ty
 
+from gi.repository import Gio
+
 from kupfer import icons, plugin_support
+from kupfer.support import desktop_parse
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -122,50 +125,10 @@ def initialize_alternatives(name):
         },
     )
 
-    plugin_support.register_alternative(
-        name,
-        "editor",
-        "gvim",
-        **{
-            "name": _("GVim"),
-            "argv": ["gvim"],
-            "terminal": False,
-        },
-    )
+    _register_text_editors(name)
 
-    plugin_support.register_alternative(
-        name,
-        "editor",
-        "vim",
-        **{
-            "name": _("Vim"),
-            "argv": ["vim"],
-            "terminal": True,
-        },
-    )
 
-    plugin_support.register_alternative(
-        name,
-        "editor",
-        "gedit",
-        **{
-            "name": _("GEdit"),
-            "argv": ["gedit"],
-            "terminal": False,
-        },
-    )
-
-    plugin_support.register_alternative(
-        name,
-        "editor",
-        "mousepad",
-        **{
-            "name": _("Mousepad"),
-            "argv": ["mousepad"],
-            "terminal": False,
-        },
-    )
-
+def _register_text_editors(name):
     plugin_support.register_alternative(
         name,
         "editor",
@@ -176,3 +139,21 @@ def initialize_alternatives(name):
             "terminal": True,
         },
     )
+
+    # find all applications that support text/plain and register it
+    # as text editors
+
+    for app in Gio.app_info_get_all_for_type("text/plain"):
+        cmd = app.get_commandline()
+        args = desktop_parse.parse_argv(cmd)
+
+        plugin_support.register_alternative(
+            name,
+            "editor",
+            app.get_id(),
+            **{
+                "name": app.get_display_name(),
+                "argv": args,
+                "terminal": app.get_boolean("Terminal"),
+            },
+        )

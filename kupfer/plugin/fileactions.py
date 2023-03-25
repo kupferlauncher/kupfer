@@ -11,6 +11,7 @@ import os
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 from pathlib import Path
+import typing as ty
 
 from gi.repository import Gio, GLib
 
@@ -238,11 +239,37 @@ class Edit(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         sett = settings.get_settings_controller()
         editor = sett.get_preferred_alternative("editor")
-        argv = editor["argv"] + [leaf.object]
+
+        argv: list[str] = editor["argv"]
+        new_argv = list(_replace_argv_filename(argv, (leaf,)))
+        if new_argv == argv:
+            new_argv.append(leaf.object)
+
         if editor["terminal"]:
-            launch.spawn_in_terminal(argv)
+            launch.spawn_in_terminal(new_argv)
         else:
-            launch.spawn_async(argv)
+            launch.spawn_async(new_argv)
+
+    def activate_multiple(self, objects):
+        sett = settings.get_settings_controller()
+        editor = sett.get_preferred_alternative("editor")
+
+        argv: list[str] = editor["argv"]
+        if "%f" in argv or len(objects) == 1:
+            # editor not support probably multiple files at once
+            for obj in objects:
+                self.activate(obj)
+
+            return
+
+        new_argv = list(_replace_argv_filename(argv, objects))
+        if new_argv == argv:
+            new_argv.extend(obj.object for obj in objects)
+
+        if editor["terminal"]:
+            launch.spawn_in_terminal(new_argv)
+        else:
+            launch.spawn_async(new_argv)
 
     def item_types(self):
         yield FileLeaf
@@ -255,3 +282,13 @@ class Edit(Action):
 
     def get_description(self):
         return _("Open file in configured editor")
+
+
+def _replace_argv_filename(
+    argv: list[str], leaves: ty.Iterable[FileLeaf]
+) -> ty.Iterable[str]:
+    for part in argv:
+        if part in ("%F", "%f"):
+            yield from (leaf.object for leaf in leaves)
+        else:
+            yield part
