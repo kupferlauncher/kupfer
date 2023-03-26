@@ -2,6 +2,7 @@ __kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource",)
 __kupfer_actions__ = (
     "OpenWith",
+    "OpenWithByMime",
     "SetDefaultApplication",
     "ResetAssociations",
 )
@@ -139,7 +140,7 @@ class OpenWith(Action):
     action_accelerator = "w"
 
     def __init__(self):
-        super().__init__(_("Open With..."))
+        super().__init__(_("Open With Any Application..."))
 
     def _activate(self, app_leaf, paths, ctx):
         app_leaf.launch(paths=paths, ctx=ctx)
@@ -177,6 +178,49 @@ class OpenWith(Action):
 
     def get_description(self):
         return _("Open with any application")
+
+
+class OpenWithByMime(Action):
+    rank_adjust = 5
+    action_accelerator = "w"
+
+    def __init__(self):
+        super().__init__(_("Open With..."))
+
+    def wants_context(self):
+        return True
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+        assert iobj
+        self.activate_multiple((leaf,), (iobj,), ctx)
+
+    def activate_multiple(self, objects, iobjects, ctx):
+        # for each application, launch all the files
+        for iobj_app in iobjects:
+            iobj_app.launch(paths=[L.object for L in objects], ctx=ctx)
+
+    def item_types(self):
+        yield FileLeaf
+
+    def object_types(self):
+        yield AppLeaf
+
+    def requires_object(self):
+        return True
+
+    def object_source(self, for_item=None):
+        if isinstance(for_item, FileLeaf):
+            if mime := for_item.get_content_type():
+                return AppsForMime(mime)
+
+        return None
+
+    def valid_object(self, iobj, for_item):
+        return iobj.object.supports_files() or iobj.object.supports_uris()
+
+    def get_description(self):
+        return _("Open with application supporting this file type")
 
 
 class SetDefaultApplication(Action):
@@ -237,6 +281,27 @@ class AppsAll(Source):
 
     def get_icon_name(self):
         return "applications-office"
+
+    def provides(self):
+        yield AppLeaf
+
+
+class AppsForMime(Source):
+    source_use_cache = False
+
+    def __init__(self, mimetype: str) -> None:
+        super().__init__(_("Applications supporting %s") % mimetype)
+        self._mimetype = mimetype
+
+    def get_items(self) -> ty.Iterator[AppLeaf]:
+        for item in Gio.app_info_get_all_for_type(self._mimetype):
+            if not item.supports_uris() and not item.supports_files():
+                continue
+
+            yield AppLeaf(item)
+
+    def should_sort_lexically(self):
+        return False
 
     def provides(self):
         yield AppLeaf
