@@ -73,7 +73,7 @@ class SSHConnect(Action):
 class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
     """Reads ~/.ssh/config and creates leaves for the hosts found."""
 
-    _ssh_home = os.path.expanduser("~/.ssh/")
+    _ssh_home = os.path.expanduser("~/.ssh")
     _ssh_config_file = "config"
     _config_path = os.path.join(_ssh_home, _ssh_config_file)
 
@@ -84,7 +84,9 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
 
     def initialize(self):
         ToplevelGroupingSource.initialize(self)
-        self.monitor_token = self.monitor_directories(self._ssh_home)
+        self.monitor_token = self.monitor_directories(
+            self._ssh_home, force=True
+        )
 
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_path() in (
