@@ -78,7 +78,7 @@ class DirectorySource(Source, FilesystemWatchMixin):
 
     def finalize(self) -> None:
         if self.monitor:
-            self.stop_monitor_directories(self.monitor)
+            self.stop_monitor_fs_changes(self.monitor)
             self.monitor = None
 
     def monitor_include_file(self, gfile: Gio.File) -> bool:

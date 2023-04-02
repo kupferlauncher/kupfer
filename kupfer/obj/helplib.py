@@ -5,8 +5,10 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+from __future__ import annotations
 
 import typing as ty
+from pathlib import Path
 
 from gi.repository import Gio, GLib
 
@@ -70,8 +72,31 @@ class NonpersistentToken(PicklingHelperMixin):
 class FilesystemWatchMixin:
     """A mixin for Sources watching directories"""
 
+    def monitor_files(self, *files: str | Path) -> NonpersistentToken:
+        """Start monitoring `files` for changes.
+        Similar `monitor_directories`, but always monitor also not existing
+        files.
+        """
+        tokens = []
+        for file in files:
+            if isinstance(file, Path):
+                file = str(file)
+
+            gfile = Gio.File.new_for_path(file)
+            try:
+                monitor = gfile.monitor_file(Gio.FileMonitorFlags.NONE, None)
+            except GLib.GError as exc:
+                pretty.print_debug(__name__, "FilesystemWatchMixin", exc)
+                continue
+
+            if monitor:
+                monitor.connect("changed", self._file_changed)
+                tokens.append(monitor)
+
+        return NonpersistentToken(tokens)
+
     def monitor_directories(
-        self, *directories: str, **kwargs: ty.Any
+        self, *directories: str | Path, force: bool = False
     ) -> NonpersistentToken:
         """Register @directories for monitoring;
 
@@ -81,12 +106,13 @@ class FilesystemWatchMixin:
 
         The token will be a false value if nothing could be monitored.
 
-        Nonexisting directories are skipped, if not passing
-        the kwarg @force
+        Nonexisting directories are skipped, if not passing `force` True
         """
         tokens = []
-        force = kwargs.get("force", False)
         for directory in directories:
+            if isinstance(directory, Path):
+                directory = str(directory)
+
             gfile = Gio.File.new_for_path(directory)
             if not force and not gfile.query_exists():
                 continue
@@ -100,24 +126,27 @@ class FilesystemWatchMixin:
                 continue
 
             if monitor:
-                monitor.connect("changed", self.__directory_changed)
+                monitor.connect("changed", self._directory_changed)
                 tokens.append(monitor)
 
         return NonpersistentToken(tokens)
 
     def monitor_include_file(self, gfile: Gio.File) -> bool:
         """Return whether @gfile should trigger an update event
-        by default, files beginning with "." are ignored
+        by default, files beginning with "." are ignored.
+
+        This method is used for monitoring both files and directories.
         """
         return not (gfile and gfile.get_basename().startswith("."))
 
-    def stop_monitor_directories(self, nptoken: NonpersistentToken) -> None:
+    def stop_monitor_fs_changes(self, nptoken: NonpersistentToken) -> None:
+        """Stop monitoring for files or directories changes"""
         if nptoken:
             for token in nptoken.data:
                 assert isinstance(token, Gio.FileMonitor)
                 token.cancel()
 
-    def __directory_changed(
+    def _directory_changed(
         self,
         _monitor: ty.Any,
         file1: Gio.File,
@@ -127,6 +156,20 @@ class FilesystemWatchMixin:
         if evt_type in (
             Gio.FileMonitorEvent.CREATED,
             Gio.FileMonitorEvent.DELETED,
+        ) and self.monitor_include_file(file1):
+            self.mark_for_update()  # type: ignore
+
+    def _file_changed(
+        self,
+        _monitor: ty.Any,
+        file1: Gio.File,
+        _file2: ty.Any,
+        evt_type: Gio.FileMonitorEvent,
+    ) -> None:
+        if evt_type in (
+            Gio.FileMonitorEvent.CREATED,
+            Gio.FileMonitorEvent.DELETED,
+            Gio.FileMonitorEvent.CHANGED,
         ) and self.monitor_include_file(file1):
             self.mark_for_update()  # type: ignore
 
