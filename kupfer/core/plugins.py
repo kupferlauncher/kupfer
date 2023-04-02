@@ -31,12 +31,25 @@ class PluginAttr(Enum):
     INITIALIZE = "initialize_plugin"
     FINALIZE = "finalize_plugin"
 
+    # info attributes
+    KUPFER_NAME = "__kupfer_name__"
+    VERSION = "__version__"
+    DESCRIPTION = "__description__"
+    AUTHOR = "__author__"
 
-_INFO_ATTRIBUTES = (
-    "__kupfer_name__",
-    "__version__",
-    "__description__",
-    "__author__",
+    # other
+    NAME = "__name__"
+    FILE = "__file__"
+
+
+_INFO_ATTRIBUTES = tuple(
+    pa.value
+    for pa in (
+        PluginAttr.KUPFER_NAME,
+        PluginAttr.VERSION,
+        PluginAttr.DESCRIPTION,
+        PluginAttr.AUTHOR,
+    )
 )
 
 _PLUGIN_ICON_FILE = "icon-list"
@@ -62,13 +75,18 @@ def get_plugin_ids() -> ty.Iterator[str]:
 
 # pylint: disable=too-few-public-methods
 class FakePlugin:
-    def __init__(self, plugin_id, attributes, exc_info):
+    def __init__(
+        self,
+        plugin_id: str,
+        attributes: dict[str, ty.Any],
+        exc_info: ExecInfo | None,
+    ) -> None:
         self.is_fake_plugin = True
         self.exc_info = exc_info
         self.__name__ = plugin_id
         vars(self).update(attributes)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<{type(self).__name__} {self.__name__}>"
 
 
@@ -208,7 +226,9 @@ def _import_plugin_fake(
         pretty.print_exc(__name__)
 
     attributes = {k: env.get(k) for k in _INFO_ATTRIBUTES}
-    attributes.update((k, env.get(k)) for k in ("__name__", "__file__"))
+    attributes.update(
+        (k.value, env.get(k.value)) for k in (PluginAttr.NAME, PluginAttr.FILE)
+    )
     return FakePlugin(modpath, attributes, error)
 
 
@@ -329,24 +349,20 @@ def get_plugin_attributes(
             attr = attr.value
 
         try:
-            obj = getattr(plugin, str(attr))
+            yield getattr(plugin, attr)
         except AttributeError as exc:
             if warn:
                 pretty.print_info(__name__, f"Plugin {plugin_name}: {exc}")
 
             yield None
 
-        else:
-            yield obj
-
 
 def get_plugin_attribute(
     plugin_name: str, attr: PluginAttr | str
-) -> tuple[ty.Any, ...] | ty.Any | None:
+) -> ty.Any | None:
     """Get single plugin attribute"""
-    attrs = tuple(get_plugin_attributes(plugin_name, (attr,)))
-    if attrs and (val := attrs[0]):
-        return val
+    for value in get_plugin_attributes(plugin_name, (attr,)):
+        return value or None
 
     return None
 
@@ -421,15 +437,13 @@ def initialize_plugin(plugin_name: str) -> None:
     """
     _load_icons(plugin_name)
     if settings_dict := get_plugin_attribute(plugin_name, PluginAttr.SETTINGS):
-        settings_dict.initialize(plugin_name)  # type: ignore
+        settings_dict.initialize(plugin_name)
 
     if initialize := get_plugin_attribute(plugin_name, PluginAttr.INITIALIZE):
-        initialize(plugin_name)  # type: ignore
+        initialize(plugin_name)  #
 
     if finalize := get_plugin_attribute(plugin_name, PluginAttr.FINALIZE):
-        register_plugin_unimport_hook(
-            plugin_name, finalize, plugin_name  # type: ignore
-        )
+        register_plugin_unimport_hook(plugin_name, finalize, plugin_name)
 
 
 def unimport_plugin(plugin_name: str) -> None:

@@ -48,7 +48,7 @@ class ShowSource(Action):
         # Additionally, it will fail for fake plugins
         plugin_id = leaf.object["name"]
         filename: str = plugins.get_plugin_attribute(  # type:ignore
-            plugin_id, "__file__"
+            plugin_id, plugins.PluginAttr.FILE
         )
         if not filename:
             return leaf

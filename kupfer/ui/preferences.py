@@ -527,9 +527,9 @@ class PreferencesWindowController(pretty.OutputMixin):
         ver, description, author = plugins.get_plugin_attributes(
             plugin_id,
             (
-                "__version__",
-                "__description__",
-                "__author__",
+                plugins.PluginAttr.VERSION,
+                plugins.PluginAttr.DESCRIPTION,
+                plugins.PluginAttr.AUTHOR,
             ),
         )
         infobox = Gtk.VBox()
@@ -597,7 +597,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         setctl = settings.get_settings_controller()
         small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
 
-        def make_objects_frame(objs, title):
+        def make_objects_frame(objs: ty.Iterable[str], title: str) -> Gtk.VBox:
             objvbox = Gtk.VBox()
             _new_label(
                 objvbox,
@@ -612,7 +612,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
                 hbox = Gtk.HBox()
                 hbox.set_property("spacing", 3)
-                obj = plugin_type()  # type: ignore
+                obj = plugin_type()
                 image = Gtk.Image()
                 image.set_property("gicon", obj.get_icon())
                 image.set_property("pixel-size", small_icon_size)

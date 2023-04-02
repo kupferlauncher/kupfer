@@ -49,7 +49,7 @@ def load_plugin(plugin_id: str) -> PluginDescription:
             plugin_id, PluginAttr.CONTENT_DECORATORS, instantiate=False
         )
     )
-    sources.extend(load_plugin_objects(plugin_id))
+    sources.extend(load_plugin_objects(plugin_id, PluginAttr.SOURCES))
 
     desc = PluginDescription()
 
