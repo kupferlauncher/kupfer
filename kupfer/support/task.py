@@ -25,7 +25,7 @@ class Task:
         finish_callback(self)
     """
 
-    def __init__(self, name: ty.Optional[str] = None) -> None:
+    def __init__(self, name: str | None = None) -> None:
         self.name = name
 
     def __repr__(self) -> str:
@@ -39,9 +39,9 @@ class Task:
 class ThreadTask(Task):
     """Run in a thread"""
 
-    def __init__(self, name: ty.Optional[str] = None):
+    def __init__(self, name: str | None = None):
         Task.__init__(self, name)
-        self._finish_callback: ty.Optional[TaskCallback] = None
+        self._finish_callback: TaskCallback | None = None
 
     def thread_do(self) -> None:
         """Override this to run what should be done in the thread"""

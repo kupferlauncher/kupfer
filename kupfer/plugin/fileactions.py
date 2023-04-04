@@ -7,11 +7,11 @@ __version__ = "2023-02-25"
 __author__ = "Ulrik, KB"
 
 import os
+import typing as ty
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 from pathlib import Path
-import typing as ty
 
 from gi.repository import Gio, GLib
 

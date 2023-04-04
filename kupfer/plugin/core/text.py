@@ -5,8 +5,8 @@ import typing as ty
 import urllib.error
 import urllib.parse
 import urllib.request
-from pathlib import Path
 from contextlib import suppress
+from pathlib import Path
 
 from kupfer import launch
 from kupfer.obj import FileLeaf, Leaf, OpenUrl, TextLeaf, TextSource, UrlLeaf
@@ -106,13 +106,14 @@ class URLTextSource(TextSource):
         return 75
 
     def get_text_items(self, text: str) -> ty.Iterator[Leaf]:
-        # TODO: maybe more strict checking?
-
         # Only detect "perfect" URLs
         text = text.strip()
+        if not text:
+            return
+
         components = urllib.parse.urlparse(text)
 
-        # If urlparse parses a scheme (http://), it's an URL
+        # scheme and netloc are required
         if not components.scheme or not components.netloc:
             return
 

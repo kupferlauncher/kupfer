@@ -56,7 +56,6 @@ class DirectorySource(Source, FilesystemWatchMixin):
     ) -> None:
         # Use glib filename reading to make display name out of filenames
         # this function returns a `unicode` object
-        # TODO: need use glib?
         name = GLib.filename_display_basename(directory)
         super().__init__(name)
         self._directory = directory
