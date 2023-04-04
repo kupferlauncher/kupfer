@@ -414,4 +414,4 @@ class ToggleWireless(Action):
         yield Leaf
 
     def valid_for_item(self, leaf: Leaf) -> bool:
-        return leaf.object and isinstance(leaf.object, DevicesSource)
+        return bool(leaf.object) and isinstance(leaf.object, DevicesSource)

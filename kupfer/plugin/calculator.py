@@ -160,7 +160,7 @@ class Calculate(Action):
 
     def valid_for_item(self, leaf):
         text = leaf.object
-        return text and text.startswith("=")
+        return bool(text) and text.startswith("=")
 
     def get_description(self):
         return None

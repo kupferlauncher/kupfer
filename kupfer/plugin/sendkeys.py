@@ -108,7 +108,7 @@ class SendKeys(Action):
     def valid_for_item(self, leaf):
         text = leaf.object
         keys, _mods = Gtk.accelerator_parse(text)
-        return keys
+        return bool(keys)
 
     def get_description(self):
         return _("Send keys to foreground window")

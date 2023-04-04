@@ -9,7 +9,10 @@ from .sources import SourceController
 
 
 def action_valid_for_item(action: Action, leaf: Leaf) -> bool:
-    """Check is `action` is valid for all `leaf` representation."""
+    """Check is `action` is valid for all `leaf` representation.
+
+    Note: valid_for_item MUST return bool.
+    """
     return all(action.valid_for_item(L) for L in get_leaf_members(leaf))
 
 

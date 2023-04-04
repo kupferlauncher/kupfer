@@ -46,7 +46,7 @@ class WhatsApp(Action):
     def valid_for_item(self, leaf):
         with suppress(BaseException):
             text = leaf.object
-            return text and int(text)
+            return bool(text) and int(text)
 
     def get_description(self):
         return _("Send a WhatsApp to a new number.")
