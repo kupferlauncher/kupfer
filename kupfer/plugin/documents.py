@@ -218,7 +218,7 @@ class ApplicationRecentsSource(RecentsSource):
 
     @classmethod
     def app_names(cls, leaf: AppLeaf) -> tuple[str, ...]:
-        "Return a frozenset of names"
+        "Return a tuple of names"
         # in most cases, there are only 2-3 items, so there is not need to
         # built set
         svc = launch.get_applications_matcher_service()
@@ -302,8 +302,8 @@ class IgnoredApps(Source):
 
     def __init__(self):
         super().__init__(_("Toggle Recent Documents"))
-        # apps is a mapping: app id (str) -> empty dict
-        self.apps = {}
+        self._version = 2
+        self.apps: set[str] = set()
 
     def config_save(self):
         return self.apps
@@ -329,14 +329,14 @@ class IgnoredApps(Source):
     @classmethod
     def add(cls, app_leaf):
         assert cls.instance
-        cls.instance.apps[app_leaf.get_id()] = {}
+        cls.instance.apps.add(app_leaf.get_id())
         # FIXME: Semi-hack to refresh the content
         cls.instance.mark_for_update()
 
     @classmethod
     def remove(cls, app_leaf):
         assert cls.instance
-        cls.instance.apps.pop(app_leaf.get_id(), None)
+        cls.instance.apps.discard(app_leaf.get_id())
         cls.instance.mark_for_update()
 
     @classmethod
