@@ -34,6 +34,15 @@ HOST_SERVICE_REMOTE_PATH_KEY = "HOST_SERVICE_REMOTE_PATH"
 class HostLeaf(GroupingLeaf):
     grouping_slots = (HOST_NAME_KEY, HOST_ADDRESS_KEY)
 
+    def __init__(self, obj: dict[str, ty.Any], name: str) -> None:
+        super().__init__(obj, name)
+        if service := obj.get(HOST_SERVICE_NAME_KEY):
+            if hostname := obj.get(HOST_NAME_KEY):
+                self.kupfer_add_alias(f"{service}:{hostname}")
+
+            if address := obj.get(HOST_ADDRESS_KEY):
+                self.kupfer_add_alias(f"{service}:{address}")
+
     def get_icon_name(self) -> str:
         return "computer"
 
