@@ -266,6 +266,9 @@ class SongLeaf(Leaf):
     def get_icon_name(self):
         return "audio-x-generic"
 
+    def get_text_representation(self):
+        return self.name
+
 
 class GetFile(Action):
     def __init__(self):

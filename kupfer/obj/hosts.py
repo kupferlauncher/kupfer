@@ -38,13 +38,24 @@ class HostLeaf(GroupingLeaf):
         super().__init__(obj, name)
         if service := obj.get(HOST_SERVICE_NAME_KEY):
             if hostname := obj.get(HOST_NAME_KEY):
-                self.kupfer_add_alias(f"{service}:{hostname}")
+                self.kupfer_add_alias(f"{service}://{hostname}")
 
             if address := obj.get(HOST_ADDRESS_KEY):
-                self.kupfer_add_alias(f"{service}:{address}")
+                self.kupfer_add_alias(f"{service}://{address}")
 
     def get_icon_name(self) -> str:
         return "computer"
+
+    def get_text_representation(self):
+        obj = self.object
+        if service := obj.get(HOST_SERVICE_NAME_KEY):
+            if hostname := obj.get(HOST_NAME_KEY):
+                return f"{service}://{hostname}"
+
+            if address := obj.get(HOST_ADDRESS_KEY):
+                return f"{service}://{address}"
+
+        return self.name
 
 
 class HostServiceLeaf(HostLeaf):
