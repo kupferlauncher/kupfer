@@ -8,9 +8,10 @@
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 try:
-    from waflib import Configure, Errors, Logs, Options, Utils
+    from waflib import Errors, Logs, Options, Utils
 except ImportError:
     print("You need to upgrade to Waf 2! See README.")
     sys.exit(1)
@@ -23,7 +24,7 @@ VERSION = "undefined"
 def _get_git_version():
     """try grab the current version number from git"""
     version = None
-    if os.path.exists(".git"):
+    if Path(".git").exists():
         try:
             version = os.popen("git describe").read().strip()
         except Exception as e:
@@ -35,25 +36,26 @@ def _get_git_version():
 def _read_git_version():
     """Read version from git repo, or from GIT_VERSION"""
     version = _get_git_version()
-    if not version and os.path.exists("GIT_VERSION"):
-        with open("GIT_VERSION", "r", encoding="UTF-8") as f:
-            version = f.read().strip()
+
+    gitverfile = Path("GIT_VERSION")
+    if not version and gitverfile.exists():
+        version = gitverfile.read_text(encoding="UTF-8").strip()
 
     if version:
-        global VERSION
+        global VERSION  # pylint: disable=global-statement
         VERSION = version
 
 
 def _write_git_version():
-    """Write the revision to a file called GIT_VERSION,
-    to grab the current version number from git when
-    generating the dist tarball."""
+    """Write the revision to a file called GIT_VERSION, to grab the current
+    version number from git when generating the dist tarball.
+    """
+
     version = _get_git_version()
     if not version:
         return False
 
-    with open("GIT_VERSION", "w", encoding="UTF-8") as version_file:
-        version_file.write(version + "\n")
+    Path("GIT_VERSION").write_text(f"{version}\n", encoding="UTF-8")
 
     return True
 
@@ -89,8 +91,10 @@ def gitdist(ctx):
     """Make the release tarball using git-archive"""
     if not _write_git_version():
         raise Exception("No version")
+
     basename = f"{APPNAME}-{VERSION}"
-    outname = basename + ".tar"
+    outname = f"{basename}.tar"
+
     with subprocess.Popen(
         ["git", "archive", "--format=tar", f"--prefix={basename}/", "HEAD"],
         stdout=subprocess.PIPE,
@@ -103,30 +107,29 @@ def gitdist(ctx):
         _tarfile_append_as(outname, distfile, os.path.join(basename, distfile))
 
     subprocess.call(["xz", "-6e", outname])
-    subprocess.call(["sha1sum", outname + ".xz"])
+    subprocess.call(["sha1sum", f"{outname}.xz"])
 
 
 def dist(ctx):
     "The standard waf dist process"
-    from waflib import Scripting
-
     _write_git_version()
-    Scripting.g_gz = "gz"
-    Scripting.dist(ctx)
+    ctx.excl = " ".join(
+        (
+            "**/__pycache__",
+            "**/*.pyc",
+            "tmp",
+            ".mypy_cache",
+            ".ropeproject",
+            ".ruff_cache",
+            ".lvimrc",
+        )
+    )
 
 
 def options(opt):
     # options for disabling pyc or pyo compilation
     opt.load("python")
     opt.load("gnu_dirs")
-    opt.add_option(
-        "--nopyo",
-        action="store_false",
-        default=False,
-        help="Do not install optimised compiled .pyo files "
-        "[This is the default for Kupfer]",
-        dest="pyo",
-    )
     opt.add_option(
         "--pyo",
         action="store_true",
@@ -140,6 +143,13 @@ def options(opt):
         default=True,
         help="Do not check for any runtime dependencies",
         dest="check_deps",
+    )
+    opt.add_option(
+        "--nopycache",
+        action="store_true",
+        default=False,
+        help="Do not install __pycache__ files ",
+        dest="nopycache",
     )
     opt.recurse(config_subdirs)
 
@@ -172,6 +182,7 @@ def configure(conf):
     opt_build_programs = {
         "rst2man": "Generate and install man page",
     }
+
     for prog, val in opt_build_programs.items():
         try:
             conf.find_program(prog, var=prog.replace("-", "_").upper())
@@ -181,12 +192,9 @@ def configure(conf):
     if not Options.options.check_deps:
         return
 
-    python_modules = """
-        gi.repository.Gtk
-        xdg
-        dbus
-        """
-    for module in python_modules.split():
+    python_modules = ("gi.repository.Gtk", "xdg", "dbus")
+
+    for module in python_modules:
         conf.check_python_module(module)
 
     Logs.pprint("NORMAL", "Checking optional dependencies:")
@@ -244,21 +252,25 @@ def _find_packages_in_directory(bld, name):
 
 
 def _dict_slice(D, keys):
-    return dict((k, D[k]) for k in keys)
+    return {k: D[k] for k in keys}
 
 
 def build(bld):
     # always read new version
     bld.env["VERSION"] = VERSION
+    bld.env.NOPYCACHE = bld.options.nopycache
+    bld.env.PYO = bld.options.pyo
 
     # kupfer/
     # kupfer module version info file
     version_subst_file = "kupfer/version_subst.py"
     bld(
         features="subst",
-        source=version_subst_file + ".in",
+        source=f"{version_subst_file}.in",
         target=version_subst_file,
-        dict=_dict_slice(bld.env, "VERSION DATADIR PACKAGE LOCALEDIR".split()),
+        dict=_dict_slice(
+            bld.env, ("VERSION", "DATADIR", "PACKAGE", "LOCALEDIR")
+        ),
     )
     bld.install_files("${PYTHONDIR}/kupfer", "kupfer/version_subst.py")
 
@@ -273,7 +285,7 @@ def build(bld):
         features="subst",
         source="bin/kupfer.in",
         target="bin/kupfer",
-        dict=_dict_slice(bld.env, "PYTHON PYTHONDIR".split()),
+        dict=_dict_slice(bld.env, ("PYTHON", "PYTHONDIR")),
     )
     bld.install_files("${BINDIR}", "bin/kupfer", chmod=0o755)
 
@@ -281,17 +293,17 @@ def build(bld):
         features="subst",
         source="bin/kupfer-exec.in",
         target="bin/kupfer-exec",
-        dict=_dict_slice(bld.env, "PYTHON PACKAGE LOCALEDIR".split()),
+        dict=_dict_slice(bld.env, ("PYTHON", "PACKAGE", "LOCALEDIR")),
     )
     bld.install_files("${BINDIR}", "bin/kupfer-exec", chmod=0o755)
 
     # Documentation/
-    if bld.env["RST2MAN"]:
+    if rst2man := bld.env["RST2MAN"]:
         # generate man page from Manpage.rst
         bld(
             source="Documentation/Manpage.rst",
             target="kupfer.1",
-            rule="%s ${SRC} > ${TGT}" % bld.env["RST2MAN"][0],
+            rule="%s ${SRC} > ${TGT}" % rst2man[0],
         )
         bld.add_group()
         # compress and install man page
@@ -311,7 +323,8 @@ def build(bld):
 
 
 def distclean(bld):
-    bld.exec_command("find ./ -name '*.pyc' -delete")
+    bld.exec_command("find ./ -name '*.pyc' -or -name '*.pyo' -delete")
+    bld.exec_command("find ./ -name '__pycache__' -delete")
 
 
 def intlupdate(util):
