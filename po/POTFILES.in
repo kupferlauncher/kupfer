@@ -10,7 +10,6 @@ auxdata/kupfer.desktop.in
 auxdata/kupfer-exec.desktop.in
 auxdata/kupfer-mimetypes.xml.in
 
-
 kupfer/icons.py
 kupfer/puid.py
 kupfer/keyrelay.py
@@ -75,11 +74,13 @@ kupfer/core/commandexec.py
 kupfer/core/learn.py
 kupfer/core/actioncompat.py
 kupfer/core/pluginload.py
+kupfer/plugin/show_qrcode.py
 kupfer/plugin/shorten_links.py
 kupfer/plugin/applications.py
 kupfer/plugin/urlactions.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/session_gnome.py
+kupfer/plugin/vim.py
 kupfer/plugin/textfiles.py
 kupfer/plugin/websearch.py
 kupfer/plugin/screen.py
@@ -142,6 +143,7 @@ kupfer/plugin/core/text.py
 kupfer/plugin/core/contents.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/chromium_support.py
+kupfer/plugin/zoxide.py
 kupfer/plugin/pinboard.py
 kupfer/plugin/higherorder.py
 kupfer/plugin/ssh_hosts.py
@@ -177,4 +179,3 @@ kupfer/support/datatools.py
 kupfer/support/desktop_parse.py
 kupfer/support/textutils.py
 kupfer/support/pretty.py
-
