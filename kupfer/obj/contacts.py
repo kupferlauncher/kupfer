@@ -174,6 +174,7 @@ class JabberContact(IMContact):
             image=image,
         )
         self._description: str = _("[%(status)s] %(userid)s/%(service)s") % {
+            # TRANS: unknown user status
             "status": status or _("unknown"),
             "userid": jid,
             "service": resource or "",

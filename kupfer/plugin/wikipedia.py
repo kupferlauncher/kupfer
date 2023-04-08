@@ -17,7 +17,7 @@ from kupfer.obj import Action, Leaf, Source, TextLeaf
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "lang",
-        "label": _("Wikipedia languages (separated by ';')"),
+        "label": _("Wikipedia languages (;-separated)"),
         "type": str,
         # TRANS: Default wikipedia language code
         "value": _("en"),

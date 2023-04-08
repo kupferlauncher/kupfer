@@ -22,7 +22,7 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "exclude",
-        "label": _("Exclude directories (:-separated):"),
+        "label": _("Exclude directories (;-separated):"),
         "type": str,
         "value": "",
     },
@@ -49,7 +49,7 @@ def _get_dirs(exclude: str, min_score: int, existing: bool) -> ty.Iterator[str]:
     if not existing:
         cmd.append("--all")
 
-    for excl in exclude.split(":"):
+    for excl in exclude.split(";"):
         if excl := excl.strip():
             cmd.extend(("--exclude", excl))
 

@@ -28,7 +28,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "extra_engines",
         "label": _(
-            "User search engines (URLs separated by ';'. Use '%s' for search term"
+            "User search engines (;-separated URLs. Use '%s' for search term"
         ),
         "type": str,
         "value": "https://www.qwant.com/?q=%s;https://search.brave.com/search?q=%s",

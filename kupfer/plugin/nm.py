@@ -61,18 +61,31 @@ def _create_dbus_connection_device(obj, /, sbus=None):
 
 
 _NM_DEVICE_STATE = {
+    # TRANS: network device status
     0: _("unknown"),
+    # TRANS: network device status
     10: _("unmanaged"),
+    # TRANS: network device status
     20: _("unavailable"),
+    # TRANS: network device status
     30: _("disconnected"),
+    # TRANS: network device status
     40: _("prepare"),
+    # TRANS: network device status
     50: _("config"),
+    # TRANS: network device status
     60: _("need auth"),
+    # TRANS: network device status
     70: _("ip config"),
+    # TRANS: network device status
     80: _("ip check"),
+    # TRANS: network device status
     90: _("secondaries"),
+    # TRANS: network device status
     100: _("activated"),
+    # TRANS: network device status
     110: _("deactivating"),
+    # TRANS: network device status
     120: _("failed"),
 }
 
@@ -179,6 +192,7 @@ class Disconnect(Action):
 
 class Connect(Action):
     def __init__(self):
+        # TRANS: activate connection (connect)
         Action.__init__(self, _("Connect..."))
 
     def activate(self, leaf, iobj=None, ctx=None):
@@ -388,13 +402,16 @@ class ToggleWireless(Action):
             _PROPS_IFACE, _NM_OBJECT, _NM_SERVICE, sbus=sbus
         ):
             if not bool(interface.Get(_NM_IFACE, "WirelessHardwareEnabled")):
+                 # TRANS: notification text when wireless is disabled by hardware
                 return _("Hardware wireless disabled")
 
             state = not bool(interface.Get(_NM_IFACE, "WirelessEnabled"))
             interface.Set(_NM_IFACE, "WirelessEnabled", state)
             if state:
+                 # TRANS: notification text after wireless enabled
                 return _("Wireless enabled")
 
+            # TRANS: notification text after wireless disabled
             return _("Wireless disabled")
 
         return None
