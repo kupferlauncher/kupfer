@@ -5,30 +5,37 @@
 
 ## Mallard functionality definitions ##
 import os
+from pathlib import Path
 from waflib import Task, TaskGen, Utils
 
 # FIXME: Support for figures
 
+
 def _read_makefile_am(filename):
-    "read a Makefile.am file for HELP_* variable definitions, return a dict"
-    varstring = open(filename).read()
+    """Read a Makefile.am file for HELP_* variable definitions, return tuples
+    (key, value)
+    """
+    varstring = Path(filename).read_text(encoding="UTF-8")
     varstring = varstring.replace("\\\n", " ")
-    varlines = [L for L in varstring.splitlines() if L.startswith("HELP")]
-    return dict(tuple(map(str.strip, var.split("=", 1))) for var in varlines)
+    for line in varstring.splitlines():
+        if line.startswith("HELP"):
+            key, _d, value = line.partition("=")
+            yield key.strip(), value.strip()
+
 
 def init_mallard(self):
     mf_am = self.path.find_resource(self.variable_definitions)
-    HELP_VAR = _read_makefile_am(mf_am.abspath())
+    help_var = dict(_read_makefile_am(mf_am.abspath()))
 
     require_vars = "HELP_ID HELP_LINGUAS HELP_FILES".split()
-    have_vars = set(var for var in HELP_VAR if HELP_VAR[var])
-    missing_vars = set(require_vars).difference(have_vars)
-    if missing_vars:
-        print("Missing HELP variable declarations in %s:" % (mf_am.abspath()))
+    have_vars = set(var for var in help_var if help_var[var])
+    if missing_vars := set(require_vars).difference(have_vars):
+        print(f"Missing HELP variable declarations in {mf_am.abspath()}:")
         print("\n".join(missing_vars))
 
-    self.bld.env.update(HELP_VAR)
-    self.help_install_prefix='${PREFIX}/share/help/'
+    self.bld.env.update(help_var)
+    self.help_install_prefix = "${PREFIX}/share/help/"
+
 
 def apply_mallard(self):
     bld = self.bld
@@ -42,59 +49,70 @@ def apply_mallard(self):
     # Check if the declared page list is consistent
     declared_pages = self.to_list(bld.env["HELP_FILES"])
     pages = [os.path.basename(str(p)) for p in pages]
-    missing_pages = set(pages).difference(declared_pages)
-    if missing_pages:
+    if missing_pages := set(pages).difference(declared_pages):
         print("Warning: Some pages not declared:")
-        print("\n".join([str(p) for p in missing_pages]))
+        print("\n".join(missing_pages))
 
     for lang in lst:
-        lang_install_path = os.path.join(self.install_path, lang, bld.env["HELP_ID"])
-        node = self.path.find_resource("%s/%s.po" % (lang, lang))
-        mo = self.path.find_or_declare("%s/%s.mo" % (lang, lang))
-        bld(name='msgfmt', color='BLUE',
-            rule='${MSGFMT} ${SRC} -o ${TGT}',
+        lang_install_path = os.path.join(
+            self.install_path, lang, bld.env["HELP_ID"]
+        )
+        node = self.path.find_resource(f"{lang}/{lang}.po")
+        mo = self.path.find_or_declare(f"{lang}/{lang}.mo")
+        bld(
+            name="msgfmt",
+            color="BLUE",
+            rule="${MSGFMT} ${SRC} -o ${TGT}",
             source=node,
             target=mo,
-            )
+        )
         for page in pages:
-            tsk = self.create_task('itstool')
-            out = self.path.find_or_declare('%s/%s' % (lang, page))
-            src = self.path.find_resource('C/%s' % page)
-            tsk.set_inputs([mo,src])
+            tsk = self.create_task("itstool")
+            out = self.path.find_or_declare(f"{lang}/{page}")
+            src = self.path.find_resource(f"C/{page}")
+            tsk.set_inputs([mo, src])
             tsk.set_outputs(out)
             bld.install_files(lang_install_path, tsk.outputs)
+
         bld.install_files(lang_install_path, legal_xml)
 
     c_install_path = os.path.join(self.install_path, "C", bld.env["HELP_ID"])
     for page in cnode.ant_glob("*.page"):
         bld.install_files(c_install_path, page)
+
     bld.install_files(c_install_path, legal_xml)
 
-Task.task_factory('itstool', '${ITSTOOL} ${ITSTOOLFLAGS} ${SRC} -o ${TGT}',
-        color='BLUE')
+
+Task.task_factory(
+    "itstool", "${ITSTOOL} ${ITSTOOLFLAGS} ${SRC} -o ${TGT}", color="BLUE"
+)
 
 TaskGen.feature("mallard")(init_mallard)
 TaskGen.feature("mallard")(apply_mallard)
-TaskGen.after('init_mallard')(apply_mallard)
+TaskGen.after("init_mallard")(apply_mallard)
 
 ## End Mallard functionality ##
 
 
 # Build Configuration
 
+
 def options(opt):
     pass
 
+
 def configure(ctx):
     try:
-        ctx.find_program('msgfmt', var='MSGFMT')
-        ctx.find_program('itstool', var='ITSTOOL')
-        ctx.env['ITSTOOLFLAGS'] = '-m'
+        ctx.find_program("msgfmt", var="MSGFMT")
+        ctx.find_program("itstool", var="ITSTOOL")
+        ctx.env["ITSTOOLFLAGS"] = "-m"
     except ctx.errors.ConfigurationError:
         pass
 
+
 def build(bld):
     if bld.env["ITSTOOL"]:
-        task = bld(features="mallard",
+        bld(
+            features="mallard",
             variable_definitions="Makefile.am",
         )

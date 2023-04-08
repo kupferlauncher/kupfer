@@ -3,24 +3,35 @@ import os
 
 from waflib import Options, Utils, Logs
 
+
 def options(opt):
-    opt.add_option('--no-hooks',
-            action='store_true',
-            default=False,
-            help="Don't run any mime, icon cache or similar update hooks [Default:False]")
-    opt.add_option('--no-update-mime',
-            action='store_true',
-            default=False,
-            help='Do not update mime and desktop databases [Default:Update]')
-    opt.add_option('--no-update-icon-cache',
-            action='store_true',
-            default=False,
-            help='Do not update icon cache [Default:Update]')
+    opt.add_option(
+        "--no-hooks",
+        action="store_true",
+        default=False,
+        help="Don't run any mime, icon cache or similar update hooks [Default:False]",
+    )
+    opt.add_option(
+        "--no-update-mime",
+        action="store_true",
+        default=False,
+        help="Do not update mime and desktop databases [Default:Update]",
+    )
+    opt.add_option(
+        "--no-update-icon-cache",
+        action="store_true",
+        default=False,
+        help="Do not update icon cache [Default:Update]",
+    )
+
 
 def configure(conf):
     if not Options.options.no_update_mime and not Options.options.no_hooks:
         conf.env["AUXDATA_MIME"] = 1
-    if not Options.options.no_update_icon_cache and not Options.options.no_hooks:
+    if (
+        not Options.options.no_update_icon_cache
+        and not Options.options.no_hooks
+    ):
         conf.env["UPDATE_ICON_CACHE"] = 1
 
 
@@ -31,23 +42,26 @@ def build(bld):
         return bld(
             features="intltool_in",
             podir="../po",
-            flags = ("-d", "-q", "-u"),
-            source = desktop_subst_file  + ".in",
-            target = desktop_subst_file,
-            install_path = "${DATADIR}/applications",
-            chmod = 0o755,
+            flags=("-d", "-q", "-u"),
+            source=desktop_subst_file + ".in",
+            target=desktop_subst_file,
+            install_path="${DATADIR}/applications",
+            chmod=0o755,
         )
 
     k_desktop = install_desktop_file("kupfer.desktop")
-    x_desktop = install_desktop_file("kupfer-exec.desktop")
+    _x_desktop = install_desktop_file("kupfer-exec.desktop")
 
     ## install kupfer.desktop as a Thunar sendto object
     kd_install = os.path.join(
-        Utils.subst_vars(k_desktop.install_path, bld.env), "kupfer.desktop")
-    symlink_location = \
-        Utils.subst_vars("${DATADIR}/Thunar/sendto/kupfer.desktop", bld.env)
-    symlink_target = \
-        os.path.relpath(kd_install, os.path.dirname(symlink_location))
+        Utils.subst_vars(k_desktop.install_path, bld.env), "kupfer.desktop"
+    )
+    symlink_location = Utils.subst_vars(
+        "${DATADIR}/Thunar/sendto/kupfer.desktop", bld.env
+    )
+    symlink_target = os.path.relpath(
+        kd_install, os.path.dirname(symlink_location)
+    )
     bld.symlink_as(symlink_location, symlink_target)
 
     ## install mimetype descriptions
@@ -56,39 +70,49 @@ def build(bld):
     bld(
         features="intltool_in",
         podir="../po",
-        flags = ("-x", "-q", "-u"),
-        source = mimetypes_file  + ".in",
-        target = mimetypes_file,
-        install_path = "${DATADIR}/mime/packages/",
+        flags=("-x", "-q", "-u"),
+        source=mimetypes_file + ".in",
+        target=mimetypes_file,
+        install_path="${DATADIR}/mime/packages/",
     )
 
-
     def update_mime(bld):
-        Logs.pprint('GREEN',"Updating mime database")
-        bld.exec_command(["update-mime-database",
-                Utils.subst_vars("${DATADIR}/mime", bld.env)])
-        bld.exec_command(["update-desktop-database",
-                Utils.subst_vars("${DATADIR}/applications", bld.env)])
+        Logs.pprint("GREEN", "Updating mime database")
+        bld.exec_command(
+            [
+                "update-mime-database",
+                Utils.subst_vars("${DATADIR}/mime", bld.env),
+            ]
+        )
+        bld.exec_command(
+            [
+                "update-desktop-database",
+                Utils.subst_vars("${DATADIR}/applications", bld.env),
+            ]
+        )
 
     if bld.is_install and bld.env["AUXDATA_MIME"]:
         bld.add_post_fun(update_mime)
 
-
     ## install kupfer icon
-    icons_inst = bld.install_files("${DATADIR}/icons/hicolor",
-                                   bld.path.ant_glob("hicolor/**"),
-                                   cwd=bld.path.find_dir("hicolor"),
-                                   relative_trick=True)
+    icons_inst = bld.install_files(
+        "${DATADIR}/icons/hicolor",
+        bld.path.ant_glob("hicolor/**"),
+        cwd=bld.path.find_dir("hicolor"),
+        relative_trick=True,
+    )
 
     def update_icon_cache(bld):
-        icon_dir = Utils.subst_vars('${DATADIR}/icons/hicolor', bld.env)
+        icon_dir = Utils.subst_vars("${DATADIR}/icons/hicolor", bld.env)
         if not Options.options.destdir:
-            Logs.pprint('GREEN',"Updating Gtk icon cache.")
-            command='gtk-update-icon-cache -q -f -t %s' % icon_dir
+            Logs.pprint("GREEN", "Updating Gtk icon cache.")
+            command = f"gtk-update-icon-cache -q -f -t {icon_dir}"
             bld.exec_command(command)
         else:
-            Logs.pprint('YELLOW','Icon cache not updated. After install, run this:')
-            Logs.pprint('YELLOW','gtk-update-icon-cache -q -f -t %s'%icon_dir)
+            Logs.pprint(
+                "YELLOW", "Icon cache not updated. After install, run this:"
+            )
+            Logs.pprint("YELLOW", f"gtk-update-icon-cache -q -f -t {icon_dir}")
 
     if icons_inst and bld.is_install and bld.env["UPDATE_ICON_CACHE"]:
         bld.add_post_fun(update_icon_cache)
