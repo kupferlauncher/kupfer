@@ -2,7 +2,7 @@
 """
 kupfer      A convenient command and access tool
 
-Copyright 2007--2017 Ulrik Sverdrup
+Copyright 2007-–2023 Ulrik Sverdrup and other Kupfer authors
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

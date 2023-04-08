@@ -79,7 +79,7 @@ WEBSITE = "https://kupferlauncher.github.io/"
 HELP_WEBSITE = "https://kupferlauncher.github.io/help/"
 
 SHORT_DESCRIPTION = _("A free software (GPLv3+) launcher")
-COPYRIGHT = """Copyright © 2007–2017 Ulrik Sverdrup with others"""
+COPYRIGHT = """Copyright © 2007–2023 Ulrik Sverdrup with others"""
 
 LICENSE = _(
     """
