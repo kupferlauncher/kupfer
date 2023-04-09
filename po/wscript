@@ -1,4 +1,2 @@
 def build(bld):
-    bld(
-        features = 'intltool_po',
-        appname = bld.env["PACKAGE"])
+    bld(features="intltool_po", appname=bld.env["PACKAGE"])

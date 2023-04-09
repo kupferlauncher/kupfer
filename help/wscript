@@ -28,7 +28,7 @@ def init_mallard(self):
     help_var = dict(_read_makefile_am(mf_am.abspath()))
 
     require_vars = "HELP_ID HELP_LINGUAS HELP_FILES".split()
-    have_vars = set(var for var in help_var if help_var[var])
+    have_vars = set(var for var, val in help_var.items() if val)
     if missing_vars := set(require_vars).difference(have_vars):
         print(f"Missing HELP variable declarations in {mf_am.abspath()}:")
         print("\n".join(missing_vars))

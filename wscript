@@ -9,6 +9,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+import typing as ty
 
 try:
     from waflib import Errors, Logs, Options, Utils
@@ -37,9 +38,10 @@ def _read_git_version():
     """Read version from git repo, or from GIT_VERSION"""
     version = _get_git_version()
 
-    gitverfile = Path("GIT_VERSION")
-    if not version and gitverfile.exists():
-        version = gitverfile.read_text(encoding="UTF-8").strip()
+    if not version:
+        gitverfile = Path("GIT_VERSION")
+        if gitverfile.exists():
+            version = gitverfile.read_text(encoding="UTF-8").strip()
 
     if version:
         global VERSION  # pylint: disable=global-statement
@@ -83,6 +85,7 @@ def _tarfile_append_as(tarname, filename, destname):
         tarinfo.gid = 0
         tarinfo.uname = "root"
         tarinfo.gname = "root"
+
         with open(filename, "rb") as f:
             tf.addfile(tarinfo, f)
 
@@ -110,20 +113,53 @@ def gitdist(ctx):
     subprocess.call(["sha1sum", f"{outname}.xz"])
 
 
+def _load_excludes(file: Path) -> ty.Iterable[str]:
+    """Load excludes from .gitignore file and covert to glob format."""
+    for line in file.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+
+        # if ignorefile contains '*' - skip whole catalog
+        if line == "*":
+            yield str(file.parent)
+            return
+
+        if line.startswith("/"):
+            yield line[1:]
+        else:
+            yield f"**/{line}"
+
+
+def _find_gitignores() -> ty.Iterable[Path]:
+    """File all .gitignore files, also add .git/info/exclude."""
+    for dirname, _dirs, filenames in os.walk("."):
+        if ".gitignore" in filenames:
+            yield Path(dirname, ".gitignore")
+
+    # 'private' exclude file
+    if (path := Path(".git/info/exclude")).exists():
+        yield path
+
+
 def dist(ctx):
     "The standard waf dist process"
     _write_git_version()
-    ctx.excl = " ".join(
-        (
-            "**/__pycache__",
-            "**/*.pyc",
-            "tmp",
-            ".mypy_cache",
-            ".ropeproject",
-            ".ruff_cache",
-            ".lvimrc",
-        )
-    )
+
+    # exclude .git folder
+    excl: set[str] = {".git"}
+
+    # load excluded from .gitignore files
+    for file in _find_gitignores():
+        excl.update(_load_excludes(file))
+
+    # always add GIT_VERSION to package
+    if "GIT_VERSION" in excl:
+        excl.remove("GIT_VERSION")
+
+    print(excl)
+
+    ctx.excl = " ".join(excl)
 
 
 def options(opt):
