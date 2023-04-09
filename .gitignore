@@ -1,6 +1,5 @@
 /GIT_VERSION
 /build/
-/waf
 /.waf-*/
 /.lock-wscript
 
@@ -13,3 +12,5 @@ __pycache__
 /.ropeproject
 /.lock*
 /.ruff_cache
+
+*.tar.*
