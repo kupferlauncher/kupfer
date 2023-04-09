@@ -180,7 +180,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         "Tools": {},
     }
 
-    _inst = None
+    _inst: SettingsController | None = None
 
     @classmethod
     def instance(cls) -> SettingsController:
@@ -190,6 +190,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         if cls._inst is None:
             cls._inst = SettingsController()
 
+        assert cls._inst
         return cls._inst
 
     def __init__(self) -> None:

@@ -177,13 +177,14 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
     """
 
     __gtype_name__ = "ActionExecutionContext"
-    _instance = None
+    _instance: ActionExecutionContext | None = None
 
     @classmethod
     def instance(cls) -> ActionExecutionContext:
         if cls._instance is None:
             cls._instance = ActionExecutionContext()
 
+        assert cls._instance
         return cls._instance
 
     def __init__(self):

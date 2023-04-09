@@ -402,13 +402,13 @@ class ToggleWireless(Action):
             _PROPS_IFACE, _NM_OBJECT, _NM_SERVICE, sbus=sbus
         ):
             if not bool(interface.Get(_NM_IFACE, "WirelessHardwareEnabled")):
-                 # TRANS: notification text when wireless is disabled by hardware
+                # TRANS: notification text when wireless is disabled by hardware
                 return _("Hardware wireless disabled")
 
             state = not bool(interface.Get(_NM_IFACE, "WirelessEnabled"))
             interface.Set(_NM_IFACE, "WirelessEnabled", state)
             if state:
-                 # TRANS: notification text after wireless enabled
+                # TRANS: notification text after wireless enabled
                 return _("Wireless enabled")
 
             # TRANS: notification text after wireless disabled

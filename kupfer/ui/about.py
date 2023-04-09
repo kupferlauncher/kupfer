@@ -16,13 +16,14 @@ from .uievents import GUIEnvironmentContext
 
 # pylint: disable=too-few-public-methods
 class _AboutDialog:
-    _dialog = None
+    _dialog: _AboutDialog | None = None
 
     @classmethod
-    def get(cls):
+    def get(cls) -> _AboutDialog:
         if cls._dialog is None:
             cls._dialog = cls._create()
 
+        assert cls._dialog
         return cls._dialog
 
     @classmethod
@@ -71,4 +72,4 @@ def show_about_dialog(
     if ctxenv:
         ctxenv.present_window(dlg)
     else:
-        dlg.present()
+        dlg.present()  # type: ignore

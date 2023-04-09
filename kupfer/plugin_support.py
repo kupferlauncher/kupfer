@@ -152,12 +152,10 @@ GObject.signal_new(
 
 # Plugin convenience functions for dependencies
 
-_HAS_DBUS_CONNECTION = None
-
 
 # pylint: disable=too-few-public-methods
 class _DBusChecker:
-    has_connection = None
+    has_connection: bool | None = None
 
     @classmethod
     def check(cls) -> bool:
@@ -170,6 +168,7 @@ class _DBusChecker:
             except (ImportError, dbus.DBusException):
                 cls.has_connection = False
 
+        assert cls.has_connection is not None
         return cls.has_connection
 
 

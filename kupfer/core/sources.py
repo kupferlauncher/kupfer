@@ -294,7 +294,7 @@ class SourceController(pretty.OutputMixin):
     Call .initialize() before use commences.
     """
 
-    _instance = None
+    _instance: SourceController | None = None
 
     @classmethod
     def instance(cls) -> SourceController:
@@ -302,6 +302,7 @@ class SourceController(pretty.OutputMixin):
         if cls._instance is None:
             cls._instance = SourceController()
 
+        assert cls._instance
         return cls._instance
 
     def __init__(self):

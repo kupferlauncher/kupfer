@@ -8,7 +8,7 @@ from gi.repository import Gdk, GObject
 from kupfer import environment
 from kupfer.support import pretty
 
-Keybinder = None  # pylint: disable=invalid-name
+Keybinder: ty.Any = None  # pylint: disable=invalid-name
 if environment.allows_keybinder():
     try:
         gi.require_version("Keybinder", "3.0")
@@ -16,7 +16,7 @@ if environment.allows_keybinder():
         # pylint: disable=ungrouped-imports
         from gi.repository import Keybinder  # type:ignore
 
-        Keybinder.init()  # type:ignore
+        Keybinder.init()
     except (ValueError, ImportError):
         pretty.print_debug(__name__, "Keybinder 3.0 not available in gi")
         Keybinder = None
@@ -117,12 +117,12 @@ def get_all_bound_keys() -> list[str]:
     return list(filter(None, _CURRENTLY_BOUND.values()))
 
 
-def get_current_event_time() -> int | float:
+def get_current_event_time() -> int:
     "Return current event time as given by keybinder"
     if Keybinder is None:
         return 0
 
-    return Keybinder.get_current_event_time()
+    return int(Keybinder.get_current_event_time())
 
 
 def _register_bound_key(keystr: str | None, target: int) -> None:

@@ -16,7 +16,7 @@ __kupfer_actions__ = (
     "WriteTo",
     "GetTextContents",
 )
-__description__ = None
+__description__ = _("Action for text files")
 __version__ = "2017.1"
 __author__ = ""
 
