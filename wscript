@@ -147,7 +147,7 @@ def dist(ctx):
     _write_git_version()
 
     # exclude .git folder
-    excl: set[str] = {".git"}
+    excl: set[str] = {".git", ".gitattributes", ".gitignore", ".github"}
 
     # load excluded from .gitignore files
     for file in _find_gitignores():
