@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-08 15:33+0200\n"
-"PO-Revision-Date: 2023-04-08 16:04+0200\n"
+"POT-Creation-Date: 2023-04-11 12:03+0200\n"
+"PO-Revision-Date: 2023-04-11 12:04+0200\n"
 "Last-Translator: Karol Będkowski <karol.bedkowski@gmail.com>\n"
 "Language-Team: Polish <->\n"
 "Language: pl\n"
@@ -428,11 +428,11 @@ msgstr "Zamknij"
 msgid "Attempt to close all application windows"
 msgstr "Próbuje zamknąć wszystkie okna programu"
 
-#: ../kupfer/plugin_support.py:186
+#: ../kupfer/plugin_support.py:185
 msgid "No D-Bus connection to desktop session"
 msgstr "Brak połączenia usługi D-Bus do sesji pulpitu"
 
-#: ../kupfer/plugin_support.py:208
+#: ../kupfer/plugin_support.py:207
 #, python-format
 msgid "Dependency '%s' is not available"
 msgstr "Wymagana biblioteka „%s” jest niedostępna"
@@ -726,12 +726,12 @@ msgstr "Brak uprawień do uruchomienia „%s” (plik nie jest wykonywalny)"
 msgid "Command in \"%s\" is not available"
 msgstr "Polecenie w „%s” jest niedostępne"
 
-#: ../kupfer/core/commandexec.py:260
+#: ../kupfer/core/commandexec.py:261
 #, python-format
 msgid "Could not to carry out '%s'"
 msgstr "Nie można wykonać „%s”"
 
-#: ../kupfer/core/commandexec.py:320
+#: ../kupfer/core/commandexec.py:321
 #, python-format
 msgid "\"%s\" produced a result"
 msgstr "„%s” zwróciło wynik"
@@ -910,45 +910,74 @@ msgstr "Menedżer sesji GNOME"
 msgid "Special items and actions for GNOME environment"
 msgstr "Specjalne elementy i działania dla środowiska GNOME"
 
-#: ../kupfer/plugin/vim.py:5
+#: ../kupfer/plugin/vim.py:7
 msgid "Vim"
 msgstr "Vim"
 
-#: ../kupfer/plugin/vim.py:7
+#: ../kupfer/plugin/vim.py:9
 msgid "Load recent files edited in VIM/GVIM"
 msgstr "Załaduj ostatnie pliki edytowane w VIM/GVIM"
 
-#: ../kupfer/plugin/vim.py:38
+#: ../kupfer/plugin/vim.py:27
+msgid "VimWiki directories (;-separated)"
+msgstr "Katalogi VimWiki (oddzieleni średnikiem):"
+
+#: ../kupfer/plugin/vim.py:51
 msgid "Vim Recent Documents"
 msgstr "Ostatnie dokumenty Vim"
+
+#: ../kupfer/plugin/vim.py:101
+#, python-format
+msgid "VimWiki in %s"
+msgstr "VimWiki w %s"
+
+#: ../kupfer/plugin/vim.py:106
+msgid "VimWiki Wikis"
+msgstr "Wiki VimWiki"
+
+#: ../kupfer/plugin/vim.py:169
+msgid "Open in GVim"
+msgstr "Otwórz w GVim"
 
 #: ../kupfer/plugin/textfiles.py:12
 msgid "Textfiles"
 msgstr "Pliki tekstowe"
 
-#: ../kupfer/plugin/textfiles.py:31
+#: ../kupfer/plugin/textfiles.py:20
+msgid "Action for text files"
+msgstr "Akcje dla plików tekstowych"
+
+#: ../kupfer/plugin/textfiles.py:34
 msgid "Append To..."
 msgstr "Dopisz do…"
 
-#: ../kupfer/plugin/textfiles.py:61 ../kupfer/plugin/notes.py:280
+#: ../kupfer/plugin/textfiles.py:64 ../kupfer/plugin/notes.py:280
 msgid "Append..."
 msgstr "Dopisz…"
 
-#: ../kupfer/plugin/textfiles.py:66
+#: ../kupfer/plugin/textfiles.py:69
 msgid "Write To..."
 msgstr "Zapisz do…"
 
-#: ../kupfer/plugin/textfiles.py:78 ../kupfer/plugin/templates.py:40
+#: ../kupfer/plugin/textfiles.py:81 ../kupfer/plugin/templates.py:40
 msgid "Empty File"
 msgstr "Pusty plik"
 
-#: ../kupfer/plugin/textfiles.py:124
+#: ../kupfer/plugin/textfiles.py:127
 msgid "Write the text to a new file in specified directory"
 msgstr "Zapisz tekst do nowego pliku w wybranym katalogu"
 
-#: ../kupfer/plugin/textfiles.py:132
+#: ../kupfer/plugin/textfiles.py:135
 msgid "Get Text Contents"
 msgstr "Pobiera zawartość pliku tekstowego"
+
+#: ../kupfer/plugin/textfiles.py:158
+msgid "Copy content"
+msgstr "Skopiuj zawartość"
+
+#: ../kupfer/plugin/textfiles.py:200
+msgid "Copy file content to clipboard"
+msgstr "Kopiuje zawartość pliku do schowka"
 
 #: ../kupfer/plugin/websearch.py:3
 msgid "Search the Web"
@@ -2575,19 +2604,19 @@ msgstr "Przeszukaj zawartość"
 msgid "Search inside this catalog"
 msgstr "Wyszukuje wewnątrz tego katalogu"
 
-#: ../kupfer/plugin/core/__init__.py:109
+#: ../kupfer/plugin/core/__init__.py:110
 msgid "Copy"
 msgstr "Skopiuj"
 
-#: ../kupfer/plugin/core/__init__.py:129
+#: ../kupfer/plugin/core/__init__.py:130
 msgid "Copy to clipboard"
 msgstr "Kopiuje do schowka"
 
-#: ../kupfer/plugin/core/__init__.py:155
+#: ../kupfer/plugin/core/__init__.py:156
 msgid "Rescan"
 msgstr "Odśwież"
 
-#: ../kupfer/plugin/core/__init__.py:172
+#: ../kupfer/plugin/core/__init__.py:173
 msgid "Force reindex of this source"
 msgstr "Wymusza ponowne zindeksowanie tego źródła"
 
@@ -3558,9 +3587,6 @@ msgstr "Ikony Quicksilver"
 
 #~ msgid "Insert in Vim..."
 #~ msgstr "Wstaw w programie Vim…"
-
-#~ msgid "Vim Session %s"
-#~ msgstr "Sesja programu Vim %s"
 
 #~ msgid "Vinagre"
 #~ msgstr "Vinagre"
