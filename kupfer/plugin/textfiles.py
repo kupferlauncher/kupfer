@@ -15,12 +15,15 @@ __kupfer_actions__ = (
     "AppendText",
     "WriteTo",
     "GetTextContents",
+    "CopyContent",
 )
 __description__ = _("Action for text files")
 __version__ = "2017.1"
 __author__ = ""
 
 from pathlib import Path
+
+from gi.repository import Gdk, Gtk
 
 from kupfer.obj import Action, FileLeaf, TextLeaf, helplib
 from kupfer.support import fileutils, kupferstring, validators
@@ -146,3 +149,50 @@ class GetTextContents(Action):
 
     def get_icon_name(self):
         return "edit-copy"
+
+
+class CopyContent(Action):
+    def __init__(self):
+        super().__init__(_("Copy content"))
+
+    def has_result(self):
+        return True
+
+    def item_types(self):
+        yield FileLeaf
+
+    def valid_for_item(self, leaf):
+        return leaf.is_content_type("text/plain")
+
+    def get_icon_name(self):
+        return "edit-copy"
+
+    def wants_context(self):
+        return True
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+        self.activate_multiple((leaf,), ctx=ctx)
+
+    def activate_multiple(self, objs, iobjects=None, ctx=None):
+        assert ctx
+
+        clip = Gtk.Clipboard.get_for_display(
+            ctx.environment.get_screen().get_display(), Gdk.SELECTION_CLIPBOARD
+        )
+
+        content = []
+        for obj in objs:
+            try:
+                content.append(
+                    Path(obj.object).read_text(
+                        encoding=kupferstring.get_encoding()
+                    )
+                )
+            except Exception as err:
+                content.append(f"Read file {obj.object} error: {err}")
+
+        clip.set_text("\n".join(content), -1)  # -1 for computed string length
+
+    def get_description(self):
+        return _("Copy file content to clipboard")
