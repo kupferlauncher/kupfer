@@ -152,6 +152,8 @@ class GetTextContents(Action):
 
 
 class CopyContent(Action):
+    action_accelerator = "c"
+
     def __init__(self):
         super().__init__(_("Copy content"))
 

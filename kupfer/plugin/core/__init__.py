@@ -104,6 +104,7 @@ class SearchInside(Action):
 class CopyToClipboard(Action):
     # rank down since it applies everywhere
     rank_adjust = -2
+    action_accelerator = "c"
 
     def __init__(self):
         Action.__init__(self, _("Copy"))
