@@ -2,20 +2,34 @@
 """
 Plugin generate recent opened files for vim/gvim.
 """
+from __future__ import annotations
+
 __kupfer_name__ = _("Vim")
-__kupfer_sources__ = ("VimRecentsSource",)
+__kupfer_sources__ = ("VimRecentsSource", "VimWikiSource")
 __description__ = _("Load recent files edited in VIM/GVIM")
 __version__ = "2023-04-02"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+import os
 import typing as ty
 from pathlib import Path
+import time
 
 from gi.repository import Gio
 
-from kupfer.obj import FileLeaf, Source
+from kupfer import plugin_support, launch, icons
+from kupfer.obj import FileLeaf, Source, SourceLeaf, Action
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
+
+__kupfer_settings__ = plugin_support.PluginSettings(
+    {
+        "key": "wikis",
+        "label": _("VimWiki directories (;-separated)"),
+        "type": str,
+        "value": "",
+    },
+)
 
 
 def _load_recent_files(viminfo: Path) -> ty.Iterable[FileLeaf]:
@@ -64,3 +78,107 @@ class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def provides(self):
         yield FileLeaf
+
+
+class VimWikiFile(FileLeaf):
+    def __init__(self, path: Path, name: str) -> None:
+        super().__init__(path, name)
+
+    def get_actions(self):
+        yield OpenVimWiki()
+
+
+class VimWiki(SourceLeaf):
+    def __init__(self, source: VimWikiFilesSource, name: str) -> None:
+        super().__init__(source, name)
+
+    def get_gicon(self):
+        return icons.ComposedIcon("gvim", "emblem-documents")
+
+    def get_icon_name(self) -> str:
+        return "emblem-documents"
+
+    def get_description(self):
+        return _("VimWiki in %s") % self.object.wikipath
+
+
+class VimWikiSource(Source):
+    def __init__(self):
+        super().__init__(name=_("VimWiki Wikis"))
+
+    def get_items(self):
+        existing_wiki = []
+        for path in __kupfer_settings__["wikis"].split(";"):
+            filepath = Path(path).expanduser()
+            if filepath.is_dir():
+                name = filepath.name
+                # make names unique (simple and not perfect)
+                if name in existing_wiki:
+                    name = f"{name} ({filepath.parent.name})"
+
+                existing_wiki.append(name)
+                yield VimWiki(VimWikiFilesSource(filepath), name)
+
+    def provides(self):
+        yield VimWiki
+
+    def get_gicon(self):
+        return icons.ComposedIcon("gvim", "emblem-documents")
+
+    def get_icon_name(self) -> str:
+        return "emblem-documents"
+
+
+class VimWikiFilesSource(Source):
+    def __init__(self, wikipath: Path) -> None:
+        super().__init__(wikipath.name)
+        self.wikipath = wikipath
+        self.update_ts = 0.0
+
+    def repr_key(self) -> str:
+        return str(self.wikipath)
+
+    def is_dynamic(self) -> bool:
+        # simple hack, cache only for 60 sec.
+        # we can't monitor all directories / files, so better is keep cache
+        # for some time
+        return (time.monotonic() - self.update_ts) > 60
+
+    def get_items(self) -> ty.Iterable[VimWikiFile]:
+        self.update_ts = time.monotonic()
+        # wiki can keep various files (txt, md, etc). Instead of read index
+        # and guess extension - load add files in wiki
+        wikipath = self.wikipath
+        for dirname, dirs, files in os.walk(wikipath):
+            dirp = Path(dirname)
+            # skip hidden directories
+            if dirp.name[0] == ".":
+                dirs.clear()
+                continue
+
+            for file in files:
+                # skip hidden files
+                if file[0] == ".":
+                    continue
+
+                filepath = dirp.joinpath(file)
+                yield VimWikiFile(filepath, str(filepath.relative_to(wikipath)))
+
+    def provides(self):
+        yield VimWikiFile
+
+    def should_sort_lexically(self):
+        return True
+
+
+class OpenVimWiki(Action):
+    rank_adjust = 20
+
+    def __init__(self):
+        super().__init__(name=_("Open in GVim"))
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        launch.spawn_async(["gvim", leaf.object])
+
+    def get_icon_name(self) -> str:
+        return "gvim"
