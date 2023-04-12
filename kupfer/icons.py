@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import typing as ty
+import functools
 from contextlib import suppress
 
 from gi.repository import GdkPixbuf, Gio, Gtk
@@ -185,20 +186,26 @@ class ComposedIcon:
     than `minimum_icon_size`.
     """
 
+    _cache: datatools.LruCache[int, ComposedIcon] = datatools.LruCache(64)
+
     def __init__(
         self,
         baseicon: GIcon | str,
         emblem: GIcon | str,
         emblem_is_fallback: bool = False,
+        minimum_icon_size: int = 48,
     ) -> None:
-        self.minimum_icon_size = 48
+        self.minimum_icon_size = minimum_icon_size
         self.baseicon = baseicon
         self.emblemicon = emblem
         self.emblem_is_fallback = emblem_is_fallback
 
+    def __new__(cls, *args, **kwargs):
+        return cls._cache.get_or_insert(hash(args), lambda: object.__new__(cls))
+
     @classmethod
     def new(cls, *args, **kwargs):
-        """Contstuct a composed icon from @baseicon and @emblem,
+        """Construct a composed icon from @baseicon and @emblem,
         which may be GIcons or icon names (strings)
         """
         return cls(*args, **kwargs)
@@ -209,9 +216,7 @@ def ComposedIconSmall(
     baseicon: GIcon | str, emblem: GIcon | str, **kwargs: ty.Any
 ) -> ComposedIcon:
     """Create composed icon for leaves with emblem visible on browser list"""
-    icon = ComposedIcon(baseicon, emblem, **kwargs)
-    icon.minimum_icon_size = _SMALL_SZ
-    return icon
+    return ComposedIcon(baseicon, emblem, minimum_icon_size=_SMALL_SZ, **kwargs)
 
 
 GIcon = ty.Union[ComposedIcon, ThemedIcon, FileIcon]
@@ -337,6 +342,7 @@ def get_gicon_from_file(path: str) -> FileIcon | None:
     return None
 
 
+@functools.lru_cache(maxsize=64)
 def get_icon_for_gicon(gicon: GIcon, icon_size: int) -> GdkPixbuf.Pixbuf | None:
     """
     Return a pixbuf of @icon_size for the @gicon
