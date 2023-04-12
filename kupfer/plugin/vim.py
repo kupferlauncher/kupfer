@@ -93,10 +93,7 @@ class VimWiki(SourceLeaf):
         super().__init__(source, name)
 
     def get_gicon(self):
-        return icons.ComposedIcon("gvim", "emblem-documents")
-
-    def get_icon_name(self) -> str:
-        return "emblem-documents"
+        return icons.ComposedIconSmall("gvim", "emblem-documents")
 
     def get_description(self):
         return _("VimWiki in %s") % self.object.wikipath
@@ -123,10 +120,7 @@ class VimWikiSource(Source):
         yield VimWiki
 
     def get_gicon(self):
-        return icons.ComposedIcon("gvim", "emblem-documents")
-
-    def get_icon_name(self) -> str:
-        return "emblem-documents"
+        return icons.ComposedIconSmall("gvim", "emblem-documents")
 
 
 class VimWikiFilesSource(Source):

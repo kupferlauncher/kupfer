@@ -15,7 +15,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import subprocess
 import typing as ty
 
-from kupfer import config, plugin_support
+from kupfer import config, plugin_support, icons
 from kupfer.obj import FileLeaf, Source
 from kupfer.obj.helplib import FilesystemWatchMixin
 
@@ -94,3 +94,6 @@ class ZoxideDirSource(Source, FilesystemWatchMixin):
     def _setting_changed(self, settings, key, value):
         if key in ("exclude", "min_score"):
             self.mark_for_update()
+
+    def get_gicon(self):
+        return icons.ComposedIconSmall("folder", "emblem-favorite")
