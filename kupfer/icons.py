@@ -180,6 +180,9 @@ class ComposedIcon:
     """
     A composed icon, which kupfer will render to pixbuf as
     background icon with the decorating icon as emblem
+
+    If `emblem_is_fallback` is True, use emblem if rendered icon is smaller
+    than `minimum_icon_size`.
     """
 
     def __init__(
@@ -191,6 +194,7 @@ class ComposedIcon:
         self.minimum_icon_size = 48
         self.baseicon = baseicon
         self.emblemicon = emblem
+        self.emblem_is_fallback = emblem_is_fallback
 
     @classmethod
     def new(cls, *args, **kwargs):
@@ -216,12 +220,16 @@ GIcon = ty.Union[ComposedIcon, ThemedIcon, FileIcon]
 def _render_composed_icon(
     composed_icon: ComposedIcon, icon_size: int
 ) -> GdkPixbuf.Pixbuf | None:
-    # If it's too small, render as fallback icon
-    if icon_size < composed_icon.minimum_icon_size:
-        return _get_icon_for_standard_gicon(composed_icon.baseicon, icon_size)
-
     emblemicon = composed_icon.emblemicon
     baseicon = composed_icon.baseicon
+
+    # If it's too small, render as fallback icon
+    if icon_size < composed_icon.minimum_icon_size:
+        if composed_icon.emblem_is_fallback:
+            return _get_icon_for_standard_gicon(emblemicon, icon_size)
+
+        return _get_icon_for_standard_gicon(baseicon, icon_size)
+
     toppbuf = _get_icon_dwim(emblemicon, icon_size)
     bottompbuf = _get_icon_dwim(baseicon, icon_size)
     if not toppbuf or not bottompbuf:
