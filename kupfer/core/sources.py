@@ -93,7 +93,10 @@ class PeriodicRescanner(pretty.OutputMixin):
             thread.start()
 
     def rescan_source(self, source: Source, force_update: bool = True) -> None:
-        list(source.get_leaves(force_update=force_update) or ())
+        cnt = sum(
+            1 for leaf in source.get_leaves(force_update=force_update) or ()
+        )
+        self.output_info(f"scan {source}: {cnt} leaves")
 
 
 class SourcePickler(pretty.OutputMixin):
