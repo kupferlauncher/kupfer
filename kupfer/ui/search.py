@@ -1120,9 +1120,13 @@ class ActionSearch(Search):
         self._handle_no_matches()
         self.hide_table()
 
-    def select_action(self, accel: str) -> tuple[bool, bool]:
+    def select_action_by_accel(self, accel: str) -> tuple[bool, bool]:
         """
-        Find and select the next action with accelerator key @accel
+        Find and select the next action with accelerator key @accel.
+
+        When exists two or more actions with the same accelerator, select next
+        and not execute it. This allow to iterate between action by pressing
+        accelerator key.
 
         Return pair of bool success, can activate
         """
@@ -1137,6 +1141,9 @@ class ActionSearch(Search):
             return False, False
 
         start_row = idx
+        # keep info about first found action with given accelerator
+        # (idx, action)
+        matched_action = None
 
         while True:
             self._populate(1)
@@ -1147,10 +1154,20 @@ class ActionSearch(Search):
             self.output_debug("Looking at action", repr(action))
 
             if _accel_for_action(action, self.action_accel_config) == accel:
-                self._table_set_cursor_at_row(idx)
-                return True, not action.requires_object()
+                if matched_action is None:
+                    matched_action = (idx, action)
+                else:
+                    # found another action with the same accelerator
+                    # select first action and exit (do not execute action)
+                    self._table_set_cursor_at_row(matched_action[0])
+                    return True, False
 
             if idx == start_row:
                 break
+
+        if matched_action:
+            idx, action = matched_action
+            self._table_set_cursor_at_row(idx)
+            return True, not action.requires_object()
 
         return False, False

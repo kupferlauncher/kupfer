@@ -686,7 +686,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
             return False
 
         self.output_debug("Looking for action accelerator for", keystr)
-        success, activate = self.action.select_action(keystr)
+        success, activate = self.action.select_action_by_accel(keystr)
         if success:
             if activate:
                 self._disable_text_mode_quick()
