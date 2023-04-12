@@ -32,6 +32,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 class ShowQRCode(Action):
     """Create QRCode windows from text or url"""
 
+    rank_adjust = -5
+
     def __init__(self):
         """initialize action"""
         Action.__init__(self, _("Show QRCode"))
@@ -87,6 +89,8 @@ class ShowQRCode(Action):
 
 
 class CreateQRCode(Action):
+    rank_adjust = -5
+
     def __init__(self):
         """initialize action"""
         Action.__init__(self, _("Create QRCode image"))
@@ -131,6 +135,8 @@ class CreateQRCode(Action):
 
 class CreateTextQRCode(Action):
     """Create QRCode as unicode text and return it"""
+
+    rank_adjust = -5
 
     def __init__(self):
         """initialize action"""
