@@ -44,3 +44,20 @@ class LruCache(ty.Generic[K, V]):
 
     def items(self):
         return self._data.items()
+
+    def get(self, key: K, default: V | None = None) -> V | None:
+        """Get value from cache or return `default` if not exists."""
+        try:
+            return self._data[key]
+        except KeyError:
+            return default
+
+    def get_or_insert(self, key: K, creator: ty.Callable[[], V]) -> V:
+        """Get value from cache. If not exists - create with with `creator`
+        function and insert into cache."""
+        try:
+            return self._data[key]
+        except KeyError:
+            val = creator()
+            self._data[key] = val
+            return val
