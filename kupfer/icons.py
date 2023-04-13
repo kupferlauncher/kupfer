@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import typing as ty
-import functools
 from contextlib import suppress
 
 from gi.repository import GdkPixbuf, Gio, Gtk
@@ -184,9 +183,26 @@ class ComposedIcon:
 
     If `emblem_is_fallback` is True, use emblem if rendered icon is smaller
     than `minimum_icon_size`.
+
+    ComposedIcon is cached, i.e. when ComposedIcon is created first cache is
+    checked if there is already object with the same parameters. If yes - its
+    returned, otherwise new object is created.
+
+    Icon itself is rendered only once.
     """
 
     _cache: datatools.LruCache[int, ComposedIcon] = datatools.LruCache(64)
+    __slots__ = (
+        "baseicon",
+        "emblemicon",
+        "emblem_is_fallback",
+        "minimum_icon_size",
+        "_rendered",
+        "_rendered_size",
+    )
+
+    # rendered is cache for rendered icons - (icon_size, Pixbuf)
+    _rendered: list[tuple[int, GdkPixbuf.Pixbuf | None]]
 
     def __init__(
         self,
@@ -201,7 +217,12 @@ class ComposedIcon:
         self.emblem_is_fallback = emblem_is_fallback
 
     def __new__(cls, *args, **kwargs):
-        return cls._cache.get_or_insert(hash(args), lambda: object.__new__(cls))
+        def create():
+            obj: ComposedIcon = object.__new__(cls)
+            obj._rendered = []
+            return obj
+
+        return cls._cache.get_or_insert(hash(args), create)
 
     @classmethod
     def new(cls, *args, **kwargs):
@@ -209,6 +230,47 @@ class ComposedIcon:
         which may be GIcons or icon names (strings)
         """
         return cls(*args, **kwargs)
+
+    def render_composed_icon(self, icon_size: int) -> GdkPixbuf.Pixbuf | None:
+        for size, icon in self._rendered:
+            if size == icon_size:
+                return icon
+
+        # If it's too small, render as fallback icon
+        if icon_size < self.minimum_icon_size:
+            if self.emblem_is_fallback:
+                return _get_icon_for_standard_gicon(self.emblemicon, icon_size)
+
+            return _get_icon_for_standard_gicon(self.baseicon, icon_size)
+
+        toppbuf = _get_icon_dwim(self.emblemicon, icon_size)
+        bottompbuf = _get_icon_dwim(self.baseicon, icon_size)
+        if not toppbuf or not bottompbuf:
+            self._rendered.append((icon_size, None))
+            return None
+
+        dest = bottompbuf.copy()
+        # @frac is the scale
+        frac = 0.6
+        dcoord = int((1 - frac) * icon_size)
+        dsize = int(frac * icon_size)
+        # http://library.gnome.org/devel/gdk-pixbuf/unstable//gdk-pixbuf-scaling.html
+        toppbuf.composite(
+            dest,
+            dcoord,
+            dcoord,
+            dsize,
+            dsize,
+            dcoord,
+            dcoord,
+            frac,
+            frac,
+            GdkPixbuf.InterpType.BILINEAR,
+            255,
+        )
+
+        self._rendered.append((icon_size, dest))
+        return dest
 
 
 # pylint: disable=invalid-name
@@ -220,46 +282,6 @@ def ComposedIconSmall(
 
 
 GIcon = ty.Union[ComposedIcon, ThemedIcon, FileIcon]
-
-
-def _render_composed_icon(
-    composed_icon: ComposedIcon, icon_size: int
-) -> GdkPixbuf.Pixbuf | None:
-    emblemicon = composed_icon.emblemicon
-    baseicon = composed_icon.baseicon
-
-    # If it's too small, render as fallback icon
-    if icon_size < composed_icon.minimum_icon_size:
-        if composed_icon.emblem_is_fallback:
-            return _get_icon_for_standard_gicon(emblemicon, icon_size)
-
-        return _get_icon_for_standard_gicon(baseicon, icon_size)
-
-    toppbuf = _get_icon_dwim(emblemicon, icon_size)
-    bottompbuf = _get_icon_dwim(baseicon, icon_size)
-    if not toppbuf or not bottompbuf:
-        return None
-
-    dest = bottompbuf.copy()
-    # @frac is the scale
-    frac = 0.6
-    dcoord = int((1 - frac) * icon_size)
-    dsize = int(frac * icon_size)
-    # http://library.gnome.org/devel/gdk-pixbuf/unstable//gdk-pixbuf-scaling.html
-    toppbuf.composite(
-        dest,
-        dcoord,
-        dcoord,
-        dsize,
-        dsize,
-        dcoord,
-        dcoord,
-        frac,
-        frac,
-        GdkPixbuf.InterpType.BILINEAR,
-        255,
-    )
-    return dest
 
 
 def get_thumbnail_for_gfile(
@@ -342,7 +364,6 @@ def get_gicon_from_file(path: str) -> FileIcon | None:
     return None
 
 
-@functools.lru_cache(maxsize=64)
 def get_icon_for_gicon(gicon: GIcon, icon_size: int) -> GdkPixbuf.Pixbuf | None:
     """
     Return a pixbuf of @icon_size for the @gicon
@@ -357,7 +378,7 @@ def get_icon_for_gicon(gicon: GIcon, icon_size: int) -> GdkPixbuf.Pixbuf | None:
         return None
 
     if isinstance(gicon, ComposedIcon):
-        return _render_composed_icon(gicon, icon_size)
+        return gicon.render_composed_icon(icon_size)
 
     return _get_icon_for_standard_gicon(gicon, icon_size)
 
