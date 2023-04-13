@@ -19,7 +19,7 @@ from kupfer.support import datatools, pretty, scheduler
 
 _ICON_CACHE: ty.Final[dict[int, datatools.LruCache[str, GdkPixbuf.Pixbuf]]] = {}
 # number of elements in icon lru cache (per icon size)
-_ICON_CACHE_SIZE_LARGE = 15
+_ICON_CACHE_SIZE_LARGE = 32
 _ICON_CACHE_SIZE = 64
 
 _LARGE_SZ = 128
@@ -357,10 +357,14 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
 
 def get_gicon_from_file(path: str) -> FileIcon | None:
     """Load GIcon from @path; return None if failed."""
+    if path in _MISSING_ICON_FILES:
+        return None
+
     file = File.new_for_path(path)
     if file.query_exists():
         return FileIcon.new(file)
 
+    _MISSING_ICON_FILES.add(path)
     return None
 
 
@@ -475,8 +479,9 @@ def get_icon_for_name(
     icon_size: int,
     icon_names: ty.Iterable[str] | None = None,
 ) -> GdkPixbuf.Pixbuf | None:
-    with suppress(KeyError):
-        return _ICON_CACHE[icon_size][icon_name]
+    if icon_name:
+        with suppress(KeyError):
+            return _ICON_CACHE[icon_size][icon_name]
 
     # Try the whole list of given names
     for load_name in icon_names or (icon_name,):
