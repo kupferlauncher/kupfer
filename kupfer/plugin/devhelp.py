@@ -4,11 +4,13 @@ __description__ = _("Search in Devhelp")
 __version__ = "2017.1"
 __author__ = ""
 
-from kupfer import launch
+from kupfer import launch, icons
 from kupfer.obj import Action, OperationError, TextLeaf
 
 
 class LookUp(Action):
+    fallback_icon_name = "edit-find"
+
     def __init__(self):
         Action.__init__(self, _("Search in Devhelp"))
 
@@ -26,8 +28,8 @@ class LookUp(Action):
         text = leaf.object
         return "\n" not in text
 
-    def get_description(self):
-        return None
-
     def get_icon_name(self):
         return "devhelp"
+
+    def get_gicon(self):
+        return icons.ComposedIcon("devhelp", "edit-find")
