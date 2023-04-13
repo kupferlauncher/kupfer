@@ -1,6 +1,8 @@
 """
 This is a Zeal search plugin.
 """
+from __future__ import annotations
+
 
 __kupfer_name__ = _("Zeal Search")
 __kupfer_sources__ = ("ZealDocsetsSource",)
@@ -18,7 +20,7 @@ from pathlib import Path
 from kupfer import icons, launch
 from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.obj.helplib import FilesystemWatchMixin, NonpersistentToken
 
 
 class ZealSearch(Action):
@@ -108,6 +110,7 @@ class ZealDocset(Leaf):
     def __init__(self, name, title, keywords, icon):
         super().__init__(name, title)
         self.icon = icon
+        self._icon: NonpersistentToken[icons.ComposedIcon] | None = None
         if keywords:
             for alias in keywords:
                 self.kupfer_add_alias(alias)
@@ -116,10 +119,24 @@ class ZealDocset(Leaf):
         return _("Zeal %s Docset") % self.name
 
     def get_gicon(self):
-        if not self.icon:
-            return icons.ComposedIcon("zeal", "emblem-documents")
+        """Because of we read gicon from file, cache whole icon."""
+        if self._icon:
+            return self._icon.data
 
-        return icons.ComposedIcon("zeal", icons.get_gicon_from_file(self.icon))
+        icon = None
+        if self.icon:
+            try:
+                icon = icons.ComposedIcon(
+                    "zeal", icons.get_gicon_from_file(self.icon)
+                )
+                self._icon = NonpersistentToken(icon)
+                return icon
+            except Exception:
+                # do not try load icon again
+                self.icon = None
+
+        # this is cached in icons
+        return icons.ComposedIcon("zeal", "emblem-documents")
 
     def get_icon_name(self):
         return "zeal"
