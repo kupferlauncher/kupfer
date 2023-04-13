@@ -56,10 +56,15 @@ class PicklingHelperMixin:
         self.unpickle_finish()
 
 
-class NonpersistentToken(PicklingHelperMixin):
+TokenDataT = ty.TypeVar("TokenDataT")
+
+
+class NonpersistentToken(PicklingHelperMixin, ty.Generic[TokenDataT]):
     """A token will keep a reference until pickling, when it is deleted"""
 
-    def __init__(self, data: ty.Any):
+    data: TokenDataT | None
+
+    def __init__(self, data: TokenDataT):
         self.data = data
 
     def __bool__(self) -> bool:
@@ -69,10 +74,13 @@ class NonpersistentToken(PicklingHelperMixin):
         self.data = None
 
 
+FileMonitorToken = NonpersistentToken[list[Gio.FileMonitor]]
+
+
 class FilesystemWatchMixin:
     """A mixin for Sources watching directories"""
 
-    def monitor_files(self, *files: str | Path) -> NonpersistentToken:
+    def monitor_files(self, *files: str | Path) -> FileMonitorToken:
         """Start monitoring `files` for changes.
         Similar `monitor_directories`, but always monitor also not existing
         files.
@@ -97,7 +105,7 @@ class FilesystemWatchMixin:
 
     def monitor_directories(
         self, *directories: str | Path, force: bool = False
-    ) -> NonpersistentToken:
+    ) -> FileMonitorToken:
         """Register @directories for monitoring;
 
         On changes, the Source will be marked for update.
@@ -139,9 +147,9 @@ class FilesystemWatchMixin:
         """
         return not (gfile and gfile.get_basename().startswith("."))
 
-    def stop_monitor_fs_changes(self, nptoken: NonpersistentToken) -> None:
+    def stop_monitor_fs_changes(self, nptoken: FileMonitorToken) -> None:
         """Stop monitoring for files or directories changes"""
-        if nptoken:
+        if nptoken and nptoken.data:
             for token in nptoken.data:
                 assert isinstance(token, Gio.FileMonitor)
                 token.cancel()
