@@ -1,18 +1,33 @@
 __kupfer_name__ = _("Dictionary")
 __kupfer_actions__ = ("LookUp",)
 __description__ = _("Look up word in dictionary")
-__version__ = ""
-__author__ = "Ulrik"
+__version__ = "2023-04-14"
+__author__ = "Ulrik, KB"
+
+import typing as ty
+import collections
 
 from kupfer import launch, plugin_support
 from kupfer.desktop_launch import SpawnError
 from kupfer.obj import Action, OperationError, TextLeaf
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+
+Dict = collections.namedtuple("Dict", ["title", "args"])
+
+
 dictionaries = {
-    "gnome-dictionary": ["gnome-dictionary", "--look-up="],
-    "mate-dictionary": ["mate-dictionary", "--look-up="],
-    "purple": ["purple", "--define="],
-    "xfce4-dict": ["xfce4-dict", "--dict", ""],
+    "gnome-dictionary": Dict(
+        _("Gnome Dictionary"), ["gnome-dictionary", "--look-up=%s"]
+    ),
+    "mate-dictionary": Dict(
+        _("Mate Dictionary"), ["mate-dictionary", "--look-up=%s"]
+    ),
+    "purple": Dict(_("Purple"), ["purple", "--define=%s"]),
+    "xfce4-dict": Dict(_("Xfce4 Dict"), ["xfce4-dict", "--dict", "%s"]),
+    "org.goldendict.GoldenDict": Dict(_("GoldenDict"), ["goldendict", "%s"]),
 }
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -20,7 +35,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "key": "dictionary",
         "label": _("Dictionary"),
         "type": str,
-        "alternatives": list(dictionaries.keys()),
+        "alternatives": [(key, dic.title) for key, dic in dictionaries.items()],
         "value": "gnome-dictionary",
     }
 )
@@ -33,8 +48,8 @@ class LookUp(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         text = leaf.object
         dict_id = __kupfer_settings__["dictionary"]
-        dict_argv = list(dictionaries[dict_id])
-        dict_argv[-1] = dict_argv[-1] + text
+        dict_def = dictionaries[dict_id]
+        dict_argv = [arg.replace("%s", text) for arg in dict_def.args]
         try:
             launch.spawn_async_notify_as(dict_id + ".desktop", dict_argv)
         except SpawnError as exc:
@@ -48,7 +63,8 @@ class LookUp(Action):
         return len(text.split("\n", 1)) <= 1
 
     def get_description(self):
-        return _("Look up word in dictionary")
+        curr_dict = __kupfer_settings__["dictionary"]
+        return _("Look up word in %s") % dictionaries[curr_dict].title
 
     def get_icon_name(self):
         return "accessories-dictionary"
