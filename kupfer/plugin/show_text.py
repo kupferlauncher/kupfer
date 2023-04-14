@@ -15,6 +15,8 @@ from kupfer.ui import uiutils
 
 
 class ShowText(Action):
+    rank_adjust = -10
+
     def __init__(self):
         Action.__init__(self, _("Show Text"))
 
@@ -38,6 +40,8 @@ class ShowText(Action):
 
 
 class LargeType(Action):
+    rank_adjust = -10
+
     def __init__(self):
         Action.__init__(self, _("Large Type"))
 
@@ -69,6 +73,8 @@ class LargeType(Action):
 
 
 class ShowNotification(Action):
+    rank_adjust = -10
+
     def __init__(self):
         Action.__init__(self, _("Show Notification"))
 
