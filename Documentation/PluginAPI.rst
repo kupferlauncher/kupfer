@@ -731,6 +731,11 @@ the user values until the plugin is properly initialized.
 ``PluginSettings`` is read-only but supports the GObject signal
 ``plugin-setting-changed (key, value)`` when values change.
 
+String-like type setting can provide ``alternatives`` - list of possible
+values to choose. Alternatives may by simple list of strings - then
+value displayed is equal to value used internally, or as list of tuples
+(<value id>, <value title>).
+
 check_dbus_support and check_keyring_support
 ............................................
 

@@ -803,8 +803,12 @@ class PreferencesWindowController(pretty.OutputMixin):
             val = plugin_settings[setting]
             active_index = -1
             for idx, text in enumerate(alternatives):
-                wid.append_text(text)
-                if text == val:
+                id_ = text
+                if isinstance(text, (tuple, list)):
+                    id_, text = text
+
+                wid.append(id=id_, text=text)
+                if id_ == val:
                     active_index = idx
 
             if active_index < 0:
@@ -815,7 +819,7 @@ class PreferencesWindowController(pretty.OutputMixin):
             wid.connect(
                 "changed",
                 self._get_plugin_change_callback(
-                    plugin_id, setting, str, "get_active_text"
+                    plugin_id, setting, str, "get_active_id"
                 ),
             )
         else:
