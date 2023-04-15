@@ -260,20 +260,19 @@ class PrimaryActionPane(Pane):
         context: SearchContext | None = None,
         text_mode: bool = False,
     ) -> None:
-        """Search: Register the search method in the event loop
-
-        using @key, promising to return
-        @context in the notification about the result, having selected
-        @item in PaneSel.SOURCE
+        """Search: Register the search method in the event loop using @key
+        , promising to return @context in the notification about the result,
+        having selected @item in PaneSel.SOURCE
 
         If we already have a call to search, we remove the "source"
         so that we always use the most recently requested search."""
 
+        self._latest_key = key
         leaf = self._current_item
         if not leaf:
+            self.emit_search_result(None, (), context)
             return
 
-        self._latest_key = key
         actions = actioncompat.actions_for_item(leaf, get_source_controller())
         cache = self._action_valid_cache
 
@@ -355,11 +354,13 @@ class SecondaryObjectPane(LeafPane):
         """
         filter for action @item
         """
+        self._latest_key = key
+
         assert self._current_action
         if not self._current_item:
+            self.emit_search_result(None, (), context)
             return
 
-        self._latest_key = key
         sources_: ty.Iterable[AnySource] = []
         if not text_mode or hasattr(self.get_source(), "get_text_items"):
             if srcs := self.get_source():
