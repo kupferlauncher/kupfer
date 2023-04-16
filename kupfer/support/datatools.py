@@ -6,7 +6,7 @@ see the main program file, and COPYING for details.
 """
 
 from __future__ import annotations
-
+import inspect
 import typing as ty
 from collections import OrderedDict
 
@@ -14,50 +14,58 @@ K = ty.TypeVar("K")
 V = ty.TypeVar("V")
 
 
-class LruCache(ty.Generic[K, V]):
+def _get_point_of_create(offset: int = 2) -> str:
+    for frame in inspect.stack()[offset:]:
+        if "kupfer" in frame.filename:
+            return f"{frame.filename}:{frame.lineno}"
+
+    return "?"
+
+
+class LruCache(OrderedDict[K, V]):
     """
-    Least-recently-used cache mapping of
-    size @maxsiz
+    Least-recently-used cache mapping of size `maxsiz`.
+
+    `name` is optional cache name for debug purpose. If not defined - is place
+    when cache is created (filename:lineno).
     """
 
-    def __init__(self, maxsiz: int) -> None:
-        self._data: OrderedDict[K, V] = OrderedDict()
+    def __init__(self, maxsiz: int, name: str | None = None) -> None:
+        super().__init__()
         self._maxsize = maxsiz
-
-    def __contains__(self, key: K) -> bool:
-        return key in self._data
+        self._name = name or _get_point_of_create()
 
     def __setitem__(self, key: K, value: V) -> None:
+        # set add item on the end of dict
         try:
-            self._data.move_to_end(key, last=True)
+            # check is item already in dict by trying to move it to the end
+            self.move_to_end(key, last=True)
         except KeyError:
-            self._data[key] = value
+            # item not found in dict so add it
+            super().__setitem__(key, value)
 
-            if len(self._data) > self._maxsize:
+            if len(self) > self._maxsize:
                 # remove the first item (was inserted longest time ago)
-                self._data.popitem(last=False)
+                self.popitem(last=False)
 
     def __getitem__(self, key: K) -> V:
-        value = self._data.pop(key)
-        self._data.move_to_end(key, last=True)
+        # try to get item from dict, if not found KeyError is raised
+        value = super().__getitem__(key)
+        # found, so move it to the end
+        self.move_to_end(key, last=True)
         return value
 
-    def items(self):
-        return self._data.items()
-
-    def get(self, key: K, default: V | None = None) -> V | None:
-        """Get value from cache or return `default` if not exists."""
-        try:
-            return self._data[key]
-        except KeyError:
-            return default
+    def __str__(self) -> str:
+        return (
+            f"<LruCache '{self._name}': maxsize={self._maxsize}, "
+            f"items={len(self)}>"
+        )
 
     def get_or_insert(self, key: K, creator: ty.Callable[[], V]) -> V:
         """Get value from cache. If not exists - create with with `creator`
         function and insert into cache."""
         try:
-            return self._data[key]
+            return self[key]
         except KeyError:
-            val = creator()
-            self._data[key] = val
+            val = self[key] = creator()
             return val
