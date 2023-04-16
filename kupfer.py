@@ -41,7 +41,8 @@ try:
     import traceback
 
     def ic_stack(*args, **kwargs):
-        ic("\n".join(traceback.format_stack()[:-2]), *args, **kwargs)
+        stack = "".join(tbs.rstrip() for tbs in traceback.format_stack()[:-2])
+        ic(stack, *args, **kwargs)
 
     import inspect
 

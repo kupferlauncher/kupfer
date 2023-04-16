@@ -155,7 +155,9 @@ def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
         if icon_size == _LARGE_SZ:
             cache_size = _ICON_CACHE_SIZE_LARGE
 
-        _ICON_CACHE[icon_size] = datatools.LruCache(cache_size)
+        _ICON_CACHE[icon_size] = datatools.LruCache(
+            cache_size, name=f"icon cache {icon_size}"
+        )
 
     _ICON_CACHE[icon_size][key] = icon
 

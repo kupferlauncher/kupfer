@@ -40,6 +40,7 @@ def mem_stats():
     # print "\n".join("%s: %d" % (k,v) for k,v in gtk[:10])
     print("---Just our objects (all > 1)")
     print("\n".join(f"{k}: {v}" for k, v in our if v > 1))
+    print("---------------------\n")
 
 
 def make_histogram(vect, nbins=7):
@@ -64,6 +65,7 @@ def make_histogram(vect, nbins=7):
         )
     )
     print(" ".join("%10d" % bins[i] for i in range(nbins)))
+    print("---------------------\n")
 
 
 def icon_stats():
@@ -72,12 +74,13 @@ def icon_stats():
     print("DEBUG: ICON STATS")
     for size, data in _ICON_CACHE.items():
         print("size:", size)
-        print("Cached icons:", len(data._data))
+        print("Cached icons:", len(data))
         print("Cached icon keys:")
-        for key in data._data.keys():
+        for key in data.keys():
             print("  ", key)
 
     print("missing icon files: ", _MISSING_ICON_FILES)
+    print("---------------------\n")
 
 
 def learn_stats():
@@ -86,6 +89,20 @@ def learn_stats():
     print("Learn _REGISTER:")
     for k, v in _REGISTER.items():
         print(f"  {k}: {v}")
+    print("---------------------\n")
+
+
+def cache_stats():
+    import gc
+
+    from kupfer.support.datatools import LruCache
+
+    print("Cache")
+    for obj in gc.get_objects():
+       if isinstance(obj, LruCache):
+           print(str(obj))
+    print("---------------------\n")
+
 
 
 def install():
@@ -93,3 +110,4 @@ def install():
     atexit.register(mem_stats)
     atexit.register(icon_stats)
     atexit.register(learn_stats)
+    atexit.register(cache_stats)
