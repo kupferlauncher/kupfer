@@ -38,6 +38,7 @@ def _new_label(  # pylint: disable=keyword-arg-before-vararg
     /,
     *markup: str,
     selectable: bool = True,
+    tooltip: str | None = None,
 ) -> Gtk.Label:
     text = "".join(markup)
     label = Gtk.Label()
@@ -45,8 +46,12 @@ def _new_label(  # pylint: disable=keyword-arg-before-vararg
     label.set_markup(text)
     label.set_line_wrap(True)  # pylint: disable=no-member
     label.set_selectable(selectable)
+    if tooltip:
+        label.set_tooltip_text(tooltip)
     # label.set_xalign(0.0)
-    parent.pack_start(label, False, True, 0)
+    if parent:
+        parent.pack_start(label, False, True, 0)
+
     return label
 
 
@@ -572,7 +577,7 @@ class PreferencesWindowController(pretty.OutputMixin):
             self._make_plugin_info_widget(plugin_id), False, True, 0
         )
         if psettings_wid := self._make_plugin_settings_widget(plugin_id):
-            about.pack_start(psettings_wid, False, True, 0)
+            about.pack_start(psettings_wid, True, True, 0)
 
         if oldch := self.plugin_about_parent.get_child():
             self.plugin_about_parent.remove(oldch)
@@ -727,77 +732,62 @@ class PreferencesWindowController(pretty.OutputMixin):
         if not plugin_settings:
             return None
 
-        vbox = Gtk.VBox()
-        _new_label(vbox, f"<b>{_('Configuration')}</b>", selectable=False)
-        # vbox.set_property("spacing", 5)
+        box = Gtk.Grid()
+        box.set_row_spacing(6)
+        box.set_column_spacing(12)
+        label = _new_label(
+            None, f"<b>{_('Configuration')}</b>", selectable=False
+        )
+        box.attach(label, 0, 0, 2, 1)
 
-        for setting in plugin_settings:
-            hbox = Gtk.HBox()
-            hbox.set_property("spacing", 10)
-            if tooltip := plugin_settings.get_tooltip(setting):
-                hbox.set_tooltip_text(tooltip)
-
+        for row, setting in enumerate(plugin_settings, 1):
             label = plugin_settings.get_label(setting)
             typ = plugin_settings.get_value_type(setting)
 
             if issubclass(typ, plugin_support.UserNamePassword):
                 wid = Gtk.Button(label or _("Set username and password"))
+                if tooltip := plugin_settings.get_tooltip(setting):
+                    wid.set_tooltip_text(tooltip)
                 wid.connect(
                     "clicked",
                     self._get_plugin_credentials_callback(plugin_id, setting),
                 )
-                hbox.pack_start(wid, False, True, 0)
-                vbox.pack_start(hbox, False, True, 0)
+                box.attach(wid, 0, row, 2, 1)
                 continue
 
-            if typ is not bool:
-                _new_label(hbox, label, selectable=False)
+            if issubclass(typ, bool):
+                wid = self._make_plugin_sett_widget_bool(
+                    label, plugin_id, setting, plugin_settings
+                )
+                box.attach(wid, 0, row, 2, 1)
+                continue
+
+            tooltip = plugin_settings.get_tooltip(setting)
+            wid = _new_label(None, label, selectable=False, tooltip=tooltip)
+            box.attach(wid, 0, row, 1, 1)
 
             if issubclass(typ, str):
-                self._make_plugin_sett_widget_str(
-                    hbox, plugin_id, setting, plugin_settings
+                wid = self._make_plugin_sett_widget_str(
+                    plugin_id, setting, plugin_settings
                 )
-
-            elif issubclass(typ, bool):
-                wid = Gtk.CheckButton.new_with_label(label)
-                wid.set_active(plugin_settings[setting])
-                hbox.pack_start(wid, False, True, 0)
-                wid.connect(
-                    "toggled",
-                    self._get_plugin_change_callback(
-                        plugin_id, setting, typ, "get_active"
-                    ),
-                )
+                box.attach(wid, 1, row, 1, 1)
 
             elif issubclass(typ, int):
-                wid = Gtk.SpinButton()
-                wid.set_increments(1, 1)
-                wid.set_range(0, 1000)
-                wid.set_value(plugin_settings[setting])
-                hbox.pack_start(wid, False, True, 0)
-                wid.connect(
-                    "changed",
-                    self._get_plugin_change_callback(
-                        plugin_id,
-                        setting,
-                        typ,
-                        "get_text",
-                        no_false_values=True,
-                    ),
+                wid = self._make_plugin_sett_widget_int(
+                    plugin_id, setting, plugin_settings
                 )
+                box.attach(wid, 1, row, 1, 1)
 
-            vbox.pack_start(hbox, False, True, 0)
 
-        vbox.show_all()
-        return vbox
+        box.show_all()
+        return box
 
     def _make_plugin_sett_widget_str(
         self,
-        hbox: Gtk.HBox,
         plugin_id: str,
         setting: str,
         plugin_settings: plugin_support.PluginSettings,
-    ) -> None:
+    ) -> Gtk.Widget:
         if alternatives := plugin_settings.get_alternatives(setting):
             wid = Gtk.ComboBoxText.new()
             val = plugin_settings[setting]
@@ -822,9 +812,30 @@ class PreferencesWindowController(pretty.OutputMixin):
                     plugin_id, setting, str, "get_active_id"
                 ),
             )
+        elif plugin_settings.get_parameter(setting, "multiline"):
+            wid = Gtk.ScrolledWindow()
+            # wid.set_border_width( 3 )
+            wid.set_shadow_type(type=Gtk.ShadowType.IN)
+            wid.set_hexpand(True)
+            # wid.set_vexpand(True)
+            wid.set_size_request(50, 75)
+            tview = Gtk.TextView()
+            tview.set_border_width(6)
+            buf = tview.get_buffer()
+            buf.set_text(plugin_settings[setting])
+
+            def callback(widget: Gtk.Widget) -> None:
+                start, end = buf.get_bounds()
+                value = buf.get_text(start, end, True)
+                setctl = settings.get_settings_controller()
+                setctl.set_plugin_config(plugin_id, setting, value, str)
+
+            buf.connect("changed", callback)
+            wid.add(tview)
         else:
             wid = Gtk.Entry()
             wid.set_text(plugin_settings[setting])
+            wid.set_hexpand(True)
             wid.connect(
                 "changed",
                 self._get_plugin_change_callback(
@@ -836,7 +847,56 @@ class PreferencesWindowController(pretty.OutputMixin):
                 ),
             )
 
-        hbox.pack_start(wid, True, True, 0)
+        if tooltip := plugin_settings.get_tooltip(setting):
+            wid.set_tooltip_text(tooltip)
+
+        return wid
+
+    def _make_plugin_sett_widget_bool(
+        self,
+        label,
+        plugin_id: str,
+        setting: str,
+        plugin_settings: plugin_support.PluginSettings,
+    ) -> Gtk.Widget:
+        wid = Gtk.CheckButton.new_with_label(label)
+        wid.set_active(plugin_settings[setting])
+        if tooltip := plugin_settings.get_tooltip(setting):
+            wid.set_tooltip_text(tooltip)
+
+        wid.connect(
+            "toggled",
+            self._get_plugin_change_callback(
+                plugin_id, setting, bool, "get_active"
+            ),
+        )
+        return wid
+
+    def _make_plugin_sett_widget_int(
+        self,
+        plugin_id: str,
+        setting: str,
+        plugin_settings: plugin_support.PluginSettings,
+    ) -> Gtk.Widget:
+        wid = Gtk.SpinButton()
+        wid.set_increments(1, 1)
+        wid.set_range(0, 1000)
+        wid.set_value(plugin_settings[setting])
+        wid.set_vexpand(False)
+        if tooltip := plugin_settings.get_tooltip(setting):
+            wid.set_tooltip_text(tooltip)
+
+        wid.connect(
+            "changed",
+            self._get_plugin_change_callback(
+                plugin_id,
+                setting,
+                int,
+                "get_text",
+                no_false_values=True,
+            ),
+        )
+        return wid
 
     def on_buttonadddirectory_clicked(self, widget: Gtk.Widget) -> None:
         # TRANS: File Chooser Title
