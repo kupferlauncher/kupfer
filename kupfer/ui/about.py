@@ -19,7 +19,7 @@ class _AboutDialog:
     _dialog: _AboutDialog | None = None
 
     @classmethod
-    def get(cls) -> _AboutDialog:
+    def get(cls) -> Gtk.AboutDialog:
         if cls._dialog is None:
             cls._dialog = cls._create()
 
@@ -72,4 +72,4 @@ def show_about_dialog(
     if ctxenv:
         ctxenv.present_window(dlg)
     else:
-        dlg.present()  # type: ignore
+        dlg.present()
