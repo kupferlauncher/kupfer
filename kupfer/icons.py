@@ -150,16 +150,17 @@ def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
     Store an icon in cache. It must not have been stored before
     """
     assert icon, f"icon {key} may not be {icon}"
-    if icon_size not in _ICON_CACHE:
+    icons = _ICON_CACHE.get(icon_size)
+    if icons is None:
         cache_size = _ICON_CACHE_SIZE
         if icon_size == _LARGE_SZ:
             cache_size = _ICON_CACHE_SIZE_LARGE
 
-        _ICON_CACHE[icon_size] = datatools.LruCache(
+        icons = _ICON_CACHE[icon_size] = datatools.LruCache(
             cache_size, name=f"icon cache {icon_size}"
         )
 
-    _ICON_CACHE[icon_size][key] = icon
+    icons[key] = icon
 
 
 def _get_icon_dwim(
@@ -193,7 +194,8 @@ class ComposedIcon:
     Icon itself is rendered only once.
     """
 
-    _cache: datatools.LruCache[int, ComposedIcon] = datatools.LruCache(64)
+    _cache: datatools.LruCache[int, ComposedIcon] = datatools.LruCache(32)
+
     __slots__ = (
         "baseicon",
         "emblemicon",
@@ -512,12 +514,12 @@ def get_icon_for_name(
 def get_icon_from_file(
     icon_file: str, icon_size: int
 ) -> GdkPixbuf.Pixbuf | None:
+    if icon_file in _MISSING_ICON_FILES:
+        return None
+
     # try to load from cache
     with suppress(KeyError):
         return _ICON_CACHE[icon_size][icon_file]
-
-    if icon_file in _MISSING_ICON_FILES:
-        return None
 
     if icon := _ICON_RENDERER.pixbuf_for_file(icon_file, icon_size):
         store_icon(icon_file, icon_size, icon)
