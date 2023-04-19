@@ -22,8 +22,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "dirs",
         "label": _("Directories (;- or new line-separated):"),
-        "type": str,
-        "value": "~/Documents/",
+        "type": list,
+        "kind": "dirs",
+        "value": ["~/Documents/"],
         "multiline": True,
     },
     {
@@ -67,11 +68,10 @@ class DeepDirSource(FileSource):
     @staticmethod
     def _get_dirs():
         dirs = __kupfer_settings__["dirs"]
-        dirs = dirs.replace("\n", ";").strip()
         if not dirs:
             return
 
-        for path in dirs.split(";"):
+        for path in dirs:
             if path := path.strip():
                 path = os.path.expanduser(path)
                 if os.path.isdir(path):

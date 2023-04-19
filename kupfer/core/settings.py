@@ -315,7 +315,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             self._config[section] = {}
 
         key = key.lower()
-        self._config[section][key] = str(value)
+        self._config[section][key] = value
         self._update_config_save_timer()
         return False
 
@@ -510,10 +510,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         if value_type is bool:
             value_type = strbool
+        elif value_type is list:
+            return val.split(SettingsController.sep)
 
         try:
             return value_type(val)
         except ValueError as err:
+            return value_type(val)
             self.output_info(
                 f"Error for stored value {plug_section}.{key}", err
             )
@@ -525,13 +528,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     ) -> bool:
         """Try set @key for plugin names @plugin, coerce to @value_type
         first."""
+
         plug_section = f"plugin_{plugin}"
         self._emit_value_changed(plug_section, key, value)
 
         if hasattr(value_type, "save"):
             value_repr = value.save(plugin, key)
-        else:
-            value_repr = value_type(value)
+        elif value_type is list:
+            value_repr = SettingsController.sep.join(value)
 
         return self._set_raw_config(plug_section, key, value_repr)
 

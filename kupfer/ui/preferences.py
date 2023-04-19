@@ -42,13 +42,15 @@ def _new_label(  # pylint: disable=keyword-arg-before-vararg
 ) -> Gtk.Label:
     text = "".join(markup)
     label = Gtk.Label()
-    label.set_alignment(0, 0.5)  # pylint: disable=no-member
+    label.set_alignment(0, 0)  # pylint: disable=no-member
+    label.set_padding(0, 4)
     label.set_markup(text)
     label.set_line_wrap(True)  # pylint: disable=no-member
     label.set_selectable(selectable)
+
     if tooltip:
         label.set_tooltip_text(tooltip)
-    # label.set_xalign(0.0)
+
     if parent:
         parent.pack_start(label, False, True, 0)
 
@@ -350,7 +352,7 @@ class PreferencesWindowController(pretty.OutputMixin):
     ) -> None:
         self.dir_store.remove(rowiter)
         if store:
-            have = list(os.path.normpath(row[0]) for row in self.dir_store)
+            have = [os.path.normpath(row[0]) for row in self.dir_store]
             setctl = settings.get_settings_controller()
             setctl.set_directories(have)
 
@@ -778,6 +780,17 @@ class PreferencesWindowController(pretty.OutputMixin):
                 )
                 box.attach(wid, 1, row, 1, 1)
 
+            elif issubclass(typ, list):
+                wid = None
+                kind = plugin_settings.get_parameter(setting, "kind")
+                if kind == "dirs":
+                    wid = self._make_plugin_sett_widget_dirs(
+                        plugin_id, setting, plugin_settings
+                    )
+
+                if wid:
+                    box.attach(wid, 1, row, 1, 1)
+
         box.show_all()
         return box
 
@@ -788,48 +801,14 @@ class PreferencesWindowController(pretty.OutputMixin):
         plugin_settings: plugin_support.PluginSettings,
     ) -> Gtk.Widget:
         if alternatives := plugin_settings.get_alternatives(setting):
-            wid = Gtk.ComboBoxText.new()
-            val = plugin_settings[setting]
-            active_index = -1
-            for idx, text in enumerate(alternatives):
-                id_ = text
-                if isinstance(text, (tuple, list)):
-                    id_, text = text
-
-                wid.append(id=id_, text=text)
-                if id_ == val:
-                    active_index = idx
-
-            if active_index < 0:
-                wid.prepend_text(val)
-                active_index = 0
-
-            wid.set_active(active_index)
-            wid.connect(
-                "changed",
-                self._get_plugin_change_callback(
-                    plugin_id, setting, str, "get_active_id"
-                ),
+            wid = self._make_plugin_sett_widget_combo(
+                plugin_id, setting, plugin_settings, alternatives
             )
-        elif plugin_settings.get_parameter(setting, "multiline"):
-            wid = Gtk.ScrolledWindow()
-            wid.set_shadow_type(type=Gtk.ShadowType.IN)
-            wid.set_hexpand(True)
-            # wid.set_vexpand(True)
-            wid.set_size_request(50, 75)
-            tview = Gtk.TextView()
-            tview.set_border_width(6)
-            buf = tview.get_buffer()
-            buf.set_text(plugin_settings[setting])
 
-            def callback(widget: Gtk.Widget) -> None:
-                start, end = buf.get_bounds()
-                value = buf.get_text(start, end, True)
-                setctl = settings.get_settings_controller()
-                setctl.set_plugin_config(plugin_id, setting, value, str)
-
-            buf.connect("changed", callback)
-            wid.add(tview)
+        if plugin_settings.get_parameter(setting, "multiline"):
+            wid = self._make_plugin_sett_widget_multiline(
+                plugin_id, setting, plugin_settings
+            )
         else:
             wid = Gtk.Entry()
             wid.set_text(plugin_settings[setting])
@@ -848,6 +827,65 @@ class PreferencesWindowController(pretty.OutputMixin):
         if tooltip := plugin_settings.get_tooltip(setting):
             wid.set_tooltip_text(tooltip)
 
+        return wid
+
+    def _make_plugin_sett_widget_combo(
+        self,
+        plugin_id: str,
+        setting: str,
+        plugin_settings: plugin_support.PluginSettings,
+        alternatives: ty.Iterable[str],
+    ) -> Gtk.Widget:
+        wid = Gtk.ComboBoxText.new()
+        wid.set_vexpand(False)
+        val = plugin_settings[setting]
+        active_index = -1
+        for idx, text in enumerate(alternatives):
+            id_ = text
+            if isinstance(text, (tuple, list)):
+                id_, text = text
+
+            wid.append(id=id_, text=text)
+            if id_ == val:
+                active_index = idx
+
+        if active_index < 0:
+            wid.prepend_text(val)
+            active_index = 0
+
+        wid.set_active(active_index)
+        wid.connect(
+            "changed",
+            self._get_plugin_change_callback(
+                plugin_id, setting, str, "get_active_id"
+            ),
+        )
+        return wid
+
+    def _make_plugin_sett_widget_multiline(
+        self,
+        plugin_id: str,
+        setting: str,
+        plugin_settings: plugin_support.PluginSettings,
+    ) -> Gtk.Widget:
+        wid = Gtk.ScrolledWindow()
+        wid.set_shadow_type(type=Gtk.ShadowType.IN)
+        wid.set_hexpand(True)
+        # wid.set_vexpand(True)
+        wid.set_size_request(50, 75)
+        tview = Gtk.TextView()
+        tview.set_border_width(6)
+        buf = tview.get_buffer()
+        buf.set_text(plugin_settings[setting])
+
+        def callback(widget: Gtk.Widget) -> None:
+            start, end = buf.get_bounds()
+            value = buf.get_text(start, end, True)
+            setctl = settings.get_settings_controller()
+            setctl.set_plugin_config(plugin_id, setting, value, str)
+
+        buf.connect("changed", callback)
+        wid.add(tview)
         return wid
 
     def _make_plugin_sett_widget_bool(
@@ -905,6 +943,14 @@ class PreferencesWindowController(pretty.OutputMixin):
             ),
         )
         return wid
+
+    def _make_plugin_sett_widget_dirs(
+        self,
+        plugin_id: str,
+        setting: str,
+        plugin_settings: plugin_support.PluginSettings,
+    ) -> Gtk.Widget:
+        return DirsSelectWidget(plugin_id, setting, plugin_settings)
 
     def on_buttonadddirectory_clicked(self, widget: Gtk.Widget) -> None:
         # TRANS: File Chooser Title
@@ -1290,7 +1336,10 @@ def _supports_app_indicator() -> bool:
 
 
 def _get_time(ctxenv: GUIEnvironmentContext | None) -> int:
-    return ctxenv.get_timestamp() if ctxenv else Gtk.get_current_event_time()  # type: ignore
+    if ctxenv:
+        return ctxenv.get_timestamp()
+
+    return int(Gtk.get_current_event_time())
 
 
 def show_preferences(ctxenv: GUIEnvironmentContext) -> None:
@@ -1306,3 +1355,131 @@ def show_plugin_info(
 ) -> None:
     prefs = get_preferences_window_controller()
     prefs.show_focus_plugin(plugin_id, _get_time(ctxenv))
+
+
+class DirsSelectWidget(Gtk.Bin):  # type: ignore
+    def __init__(
+        self,
+        plugin_id: str,
+        setting: str,
+        plugin_settings: plugin_support.PluginSettings,
+    ):
+        super().__init__()
+
+        self.plugin_id = plugin_id
+        self.setting = setting
+        self.plugin_settings = plugin_settings
+
+        self.model = Gtk.ListStore.new([str, Gio.Icon, str])
+        self.view = Gtk.TreeView.new_with_model(self.model)
+        self.btn_add = Gtk.Button.new_from_stock(Gtk.STOCK_ADD)
+        self.btn_del = Gtk.Button.new_from_stock(Gtk.STOCK_REMOVE)
+
+        box = self._create_box()
+        self.add(box)
+
+        if dirs := plugin_settings[setting]:
+            self._add_dirs(dirs)
+
+    def _create_box(self):
+        box = Gtk.VBox()
+        box.set_spacing(3)
+
+        view = self.view
+
+        view.set_headers_visible(False)
+        view.set_property("enable-search", False)
+        view.connect("cursor-changed", self._on_cursor_changed)
+        view.get_selection().set_mode(Gtk.SelectionMode.BROWSE)
+
+        icon_cell = Gtk.CellRendererPixbuf()
+        icon_col = Gtk.TreeViewColumn("icon", icon_cell)
+        icon_col.add_attribute(icon_cell, "gicon", 1)
+
+        cell = Gtk.CellRendererText()
+        cell.set_property("ellipsize", Pango.EllipsizeMode.END)
+
+        col = Gtk.TreeViewColumn("name", cell)
+        col.add_attribute(cell, "text", 2)
+
+        view.append_column(icon_col)
+        view.append_column(col)
+        view.show()
+
+        scrollwin = Gtk.ScrolledWindow()
+        scrollwin.set_shadow_type(type=Gtk.ShadowType.IN)
+        scrollwin.set_hexpand(True)
+        scrollwin.set_size_request(50, 100)
+        scrollwin.add(view)
+
+        box.pack_start(scrollwin, True, True, 0)
+
+        # buttons
+        bbox = Gtk.HButtonBox()
+        bbox.set_property("layout-style", Gtk.ButtonBoxStyle.END)
+
+        self.btn_del.connect("clicked", self._on_del_clicked)
+        bbox.pack_start(self.btn_del, False, False, 0)
+
+        self.btn_add.connect("clicked", self._on_add_clicked)
+        bbox.pack_start(self.btn_add, False, False, 0)
+
+        box.pack_end(bbox, True, True, 0)
+
+        box.set_hexpand(True)
+        return box
+
+    def _add_dirs(self, dirs: list[str]) -> None:
+        for directory in dirs:
+            directory = os.path.expanduser(directory)
+            dispname = launch.get_display_path_for_bytestring(directory)
+            gicon = icons.get_gicon_for_file(directory)
+            self.model.append((directory, gicon, dispname))
+
+    def _on_cursor_changed(self, table: Gtk.TreeView) -> None:
+        curpath, _curcol = table.get_cursor()
+        self.btn_del.set_sensitive(bool(curpath))
+
+    def _on_del_clicked(self, widget: Gtk.Widget) -> None:
+        curpath, _curcol = self.view.get_cursor()
+        if curpath:
+            rowiter = self.model.get_iter(curpath)
+            self.model.remove(rowiter)
+            self._save()
+
+    def _on_add_clicked(self, widget: Gtk.Widget) -> None:
+        # TRANS: File Chooser Title
+        chooser_dialog = Gtk.FileChooserDialog(
+            title=_("Choose a Directory"),
+            action=Gtk.FileChooserAction.SELECT_FOLDER,
+            buttons=(
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.REJECT,
+                Gtk.STOCK_OK,
+                Gtk.ResponseType.ACCEPT,
+            ),
+        )
+        chooser_dialog.set_select_multiple(True)
+
+        # pylint: disable=no-member
+        if chooser_dialog.run() == Gtk.ResponseType.ACCEPT:
+            # pylint: disable=no-member
+            have = self.current_dirs()
+            new_dirs = [
+                directory
+                for directory in chooser_dialog.get_filenames()
+                if directory not in have
+            ]
+            self._add_dirs(new_dirs)
+            self._save()
+
+        chooser_dialog.hide()
+
+    def current_dirs(self) -> list[str]:
+        return [os.path.normpath(row[0]) for row in self.model]
+
+    def _save(self) -> None:
+        setctl = settings.get_settings_controller()
+        setctl.set_plugin_config(
+            self.plugin_id, self.setting, self.current_dirs(), list
+        )
