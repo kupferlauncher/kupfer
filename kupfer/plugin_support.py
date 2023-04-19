@@ -128,6 +128,11 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Return tooltip string for setting @key (if any)"""
         return self.setting_descriptions[key].get("tooltip")
 
+    def get_parameter(
+        self, key: str, name: str, default: ty.Any = None
+    ) -> ty.Any:
+        return self.setting_descriptions[key].get(name, default)
+
     def connect_settings_changed_cb(
         self, callback: SettingChangeCB, *args: ty.Any
     ) -> None:
