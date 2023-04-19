@@ -106,10 +106,24 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHBox" id="hbox6">
+                                      <!-- n-columns=2 n-rows=2 -->
+                                      <object class="GtkGrid">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">6</property>
+                                        <property name="row-spacing">6</property>
+                                        <property name="column-spacing">12</property>
+                                        <property name="column-homogeneous">True</property>
+                                        <child>
+                                          <object class="GtkComboBox" id="terminal_combobox">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <signal name="changed" handler="on_terminal_combobox_changed" swapped="no"/>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">0</property>
+                                          </packing>
+                                        </child>
                                         <child>
                                           <object class="GtkLabel" id="label12">
                                             <property name="visible">True</property>
@@ -119,36 +133,10 @@
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">0</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <object class="GtkComboBox" id="terminal_combobox">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <signal name="changed" handler="on_terminal_combobox_changed" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="pack-type">end</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkHBox" id="hbox4">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkLabel" id="label5">
                                             <property name="visible">True</property>
@@ -158,9 +146,8 @@
                                             <property name="xalign">0</property>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">1</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -170,17 +157,15 @@
                                             <signal name="changed" handler="on_editor_combobox_changed" swapped="no"/>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="pack-type">end</property>
-                                            <property name="position">1</property>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">1</property>
                                           </packing>
                                         </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
-                                        <property name="position">4</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                   </object>
@@ -217,156 +202,114 @@
                                 <property name="top-padding">6</property>
                                 <property name="left-padding">12</property>
                                 <child>
-                                  <object class="GtkVBox" id="vbox9.1">
+                                  <!-- n-columns=2 n-rows=3 -->
+                                  <object class="GtkGrid">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="spacing">6</property>
+                                    <property name="row-spacing">6</property>
+                                    <property name="column-spacing">12</property>
+                                    <property name="column-homogeneous">True</property>
                                     <child>
-                                      <object class="GtkHBox" id="hbox3">
+                                      <object class="GtkComboBoxText" id="icons_small_size">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label7">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="xpad">3</property>
-                                            <property name="label" translatable="yes">Icon set:</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkComboBox" id="icons_combobox">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <signal name="changed" handler="on_icons_combobox_changed" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="pack-type">end</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
+                                        <items>
+                                          <item>128</item>
+                                          <item>112</item>
+                                          <item>96</item>
+                                          <item>80</item>
+                                          <item>64</item>
+                                          <item>48</item>
+                                          <item>40</item>
+                                          <item>32</item>
+                                          <item>24</item>
+                                          <item>16</item>
+                                        </items>
+                                        <signal name="changed" handler="on_icons_small_size_changed" swapped="no"/>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">2</property>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHBox" id="hbox3.1">
+                                      <object class="GtkLabel" id="label7.2">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label7.1">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="xpad">3</property>
-                                            <property name="label" translatable="yes">Large Icon Size:</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkComboBoxText" id="icons_large_size">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <items>
-                                              <item>256</item>
-                                              <item>240</item>
-                                              <item>224</item>
-                                              <item>208</item>
-                                              <item>192</item>
-                                              <item>176</item>
-                                              <item>160</item>
-                                              <item>144</item>
-                                              <item>128</item>
-                                              <item>112</item>
-                                              <item>96</item>
-                                              <item>80</item>
-                                              <item>72</item>
-                                              <item>64</item>
-                                              <item>56</item>
-                                              <item>48</item>
-                                              <item>32</item>
-                                            </items>
-                                            <signal name="changed" handler="on_icons_large_size_changed" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="pack-type">end</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
+                                        <property name="xpad">3</property>
+                                        <property name="label" translatable="yes">Small Icon Size:</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">3</property>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">2</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHBox" id="hbox3.2">
+                                      <object class="GtkLabel" id="label7.1">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label7.2">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="xpad">3</property>
-                                            <property name="label" translatable="yes">Small Icon Size:</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkComboBoxText" id="icons_small_size">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <items>
-                                              <item>128</item>
-                                              <item>112</item>
-                                              <item>96</item>
-                                              <item>80</item>
-                                              <item>64</item>
-                                              <item>48</item>
-                                              <item>40</item>
-                                              <item>32</item>
-                                              <item>24</item>
-                                              <item>16</item>
-                                            </items>
-                                            <signal name="changed" handler="on_icons_small_size_changed" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="pack-type">end</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
+                                        <property name="xpad">3</property>
+                                        <property name="label" translatable="yes">Large Icon Size:</property>
+                                        <property name="xalign">0</property>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBoxText" id="icons_large_size">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <items>
+                                          <item>256</item>
+                                          <item>240</item>
+                                          <item>224</item>
+                                          <item>208</item>
+                                          <item>192</item>
+                                          <item>176</item>
+                                          <item>160</item>
+                                          <item>144</item>
+                                          <item>128</item>
+                                          <item>112</item>
+                                          <item>96</item>
+                                          <item>80</item>
+                                          <item>72</item>
+                                          <item>64</item>
+                                          <item>56</item>
+                                          <item>48</item>
+                                          <item>32</item>
+                                        </items>
+                                        <signal name="changed" handler="on_icons_large_size_changed" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBox" id="icons_combobox">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <signal name="changed" handler="on_icons_combobox_changed" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="label7">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="xpad">3</property>
+                                        <property name="label" translatable="yes">Icon set:</property>
+                                        <property name="xalign">0</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">0</property>
                                       </packing>
                                     </child>
                                   </object>
