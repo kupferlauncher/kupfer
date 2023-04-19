@@ -21,15 +21,18 @@ from kupfer.obj.filesrc import FileSource
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "dirs",
-        "label": _("Directories (;-separated):"),
+        "label": _("Directories (;- or new line-separated):"),
         "type": str,
         "value": "~/Documents/",
+        "multiline": True,
     },
     {
         "key": "depth",
         "label": _("Depth (max 10):"),
         "type": int,
         "value": 2,
+        "max": 10,
+        "min": 1,
     },
 )
 
@@ -43,7 +46,7 @@ class DeepDirSource(FileSource):
     def __init__(self, name=_("Deep Directories")):
         FileSource.__init__(
             self,
-            self._get_dirs() or [""],
+            list(self._get_dirs()) or [""],
             min(__kupfer_settings__["depth"], _MAX_DEPTH),
         )
         self.name = name
@@ -54,7 +57,7 @@ class DeepDirSource(FileSource):
         )
 
     def get_items(self):
-        self.dirlist = self._get_dirs()
+        self.dirlist = list(self._get_dirs())
         if not self.dirlist:
             return []
 
@@ -63,18 +66,16 @@ class DeepDirSource(FileSource):
 
     @staticmethod
     def _get_dirs():
-        if not __kupfer_settings__["dirs"]:
-            return []
+        dirs = __kupfer_settings__["dirs"]
+        dirs = dirs.replace("\n", ";").strip()
+        if not dirs:
+            return
 
-        return list(
-            filter(
-                os.path.isdir,
-                (
-                    os.path.expanduser(path)
-                    for path in __kupfer_settings__["dirs"].split(";")
-                ),
-            )
-        )
+        for path in dirs.split(";"):
+            if path := path.strip():
+                path = os.path.expanduser(path)
+                if os.path.isdir(path):
+                    yield path
 
     def _setting_changed(self, settings, key, value):
         if key in ("dirs", "depth"):
