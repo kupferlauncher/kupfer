@@ -778,7 +778,6 @@ class PreferencesWindowController(pretty.OutputMixin):
                 )
                 box.attach(wid, 1, row, 1, 1)
 
-
         box.show_all()
         return box
 
@@ -814,7 +813,6 @@ class PreferencesWindowController(pretty.OutputMixin):
             )
         elif plugin_settings.get_parameter(setting, "multiline"):
             wid = Gtk.ScrolledWindow()
-            # wid.set_border_width( 3 )
             wid.set_shadow_type(type=Gtk.ShadowType.IN)
             wid.set_hexpand(True)
             # wid.set_vexpand(True)
@@ -854,7 +852,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def _make_plugin_sett_widget_bool(
         self,
-        label,
+        label: str,
         plugin_id: str,
         setting: str,
         plugin_settings: plugin_support.PluginSettings,
@@ -880,7 +878,17 @@ class PreferencesWindowController(pretty.OutputMixin):
     ) -> Gtk.Widget:
         wid = Gtk.SpinButton()
         wid.set_increments(1, 1)
-        wid.set_range(0, 1000)
+        min_val, max_val = 0, 1000
+
+        if val := plugin_settings.get_parameter(setting, "min"):
+            min_val = int(val)
+
+        if val := plugin_settings.get_parameter(setting, "max"):
+            max_val = int(val)
+
+        assert max_val > min_val
+
+        wid.set_range(min_val, max_val)
         wid.set_value(plugin_settings[setting])
         wid.set_vexpand(False)
         if tooltip := plugin_settings.get_tooltip(setting):
