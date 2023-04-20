@@ -74,8 +74,6 @@ class ZoxideDirSource(Source, FilesystemWatchMixin):
     def initialize(self):
         zoxide_home = config.get_data_dirs("", "zoxide")
         self.monitor = self.monitor_directories(*zoxide_home)
-
-    def initialized(self):
         __kupfer_settings__.connect(
             "plugin-setting-changed", self._setting_changed
         )

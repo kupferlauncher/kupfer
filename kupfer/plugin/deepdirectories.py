@@ -52,7 +52,7 @@ class DeepDirSource(FileSource):
         )
         self.name = name
 
-    def initialized(self):
+    def initialize(self):
         __kupfer_settings__.connect(
             "plugin-setting-changed", self._setting_changed
         )
