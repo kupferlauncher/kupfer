@@ -47,7 +47,7 @@ class DeepDirSource(FileSource):
     def __init__(self, name=_("Deep Directories")):
         FileSource.__init__(
             self,
-            list(self._get_dirs()) or [""],
+            [""],
             min(__kupfer_settings__["depth"], _MAX_DEPTH),
         )
         self.name = name
@@ -59,19 +59,13 @@ class DeepDirSource(FileSource):
 
     def get_items(self):
         self.dirlist = list(self._get_dirs())
-        if not self.dirlist:
-            return []
-
         self.depth = min(__kupfer_settings__["depth"], _MAX_DEPTH)
-        return FileSource.get_items(self)
+        yield from FileSource.get_items(self)
 
     @staticmethod
     def _get_dirs():
         dirs = __kupfer_settings__["dirs"]
-        if not dirs:
-            return
-
-        for path in dirs:
+        for path in dirs or ():
             if path := path.strip():
                 path = os.path.expanduser(path)
                 if os.path.isdir(path):
