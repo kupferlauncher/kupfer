@@ -22,9 +22,10 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "exclude",
-        "label": _("Exclude directories (;-separated):"),
-        "type": str,
-        "value": "",
+        "label": _("Exclude directories:"),
+        "type": list,
+        "value": [],
+        "helper": "choose_directory",
     },
     {
         "key": "min_score",
@@ -44,14 +45,10 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
-def _get_dirs(exclude: str, min_score: int, existing: bool) -> ty.Iterator[str]:
+def _get_dirs(exclude: list[str], min_score: int, existing: bool) -> ty.Iterator[str]:
     cmd = ["zoxide", "query", "--list", "--score"]
     if not existing:
         cmd.append("--all")
-
-    for excl in exclude.split(";"):
-        if excl := excl.strip():
-            cmd.extend(("--exclude", excl))
 
     with subprocess.Popen(cmd, stdout=subprocess.PIPE) as proc:
         stdout, _stderr = proc.communicate()
@@ -64,7 +61,12 @@ def _get_dirs(exclude: str, min_score: int, existing: bool) -> ty.Iterator[str]:
             if float(score) < min_score:
                 return
 
-            yield dirpath.decode()
+            path = dirpath.decode()
+            # zoxide query not support multiple --exclude; so filter it here
+            if any(map(path.startswith, exclude)):
+                continue
+
+            yield path
 
 
 class ZoxideDirSource(Source, FilesystemWatchMixin):
