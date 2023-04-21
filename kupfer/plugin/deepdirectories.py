@@ -21,11 +21,10 @@ from kupfer.obj.filesrc import FileSource
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "dirs",
-        "label": _("Directories (;- or new line-separated):"),
+        "label": _("Directories:"),
         "type": list,
-        "kind": "dirs",
+        "helper": "choose_directory",
         "value": ["~/Documents/"],
-        "multiline": True,
     },
     {
         "key": "depth",
