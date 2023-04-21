@@ -25,9 +25,10 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "wikis",
-        "label": _("VimWiki directories (;-separated)"),
-        "type": str,
-        "value": "",
+        "label": _("VimWiki directories:"),
+        "type": list,
+        "value": [],
+        "helper": "choose_directory",
     },
 )
 
@@ -105,7 +106,7 @@ class VimWikiSource(Source):
 
     def get_items(self):
         existing_wiki = []
-        for path in __kupfer_settings__["wikis"].split(";"):
+        for path in __kupfer_settings__["wikis"] or ():
             filepath = Path(path).expanduser()
             if filepath.is_dir():
                 name = filepath.name

@@ -41,6 +41,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "label": _("Firefox profile name or path"),
         "type": str,
         "value": "",
+        "helper": "choose_directory",
     },
 )
 
