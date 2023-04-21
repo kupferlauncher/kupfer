@@ -7,11 +7,15 @@ from __future__ import annotations
 
 import os
 import typing as ty
+import re
+import traceback
 
-from gi.repository import Gtk, Gio, Pango
+from gi.repository import Gtk, Gio, Pango, GLib
 
 from kupfer import icons, launch, plugin_support
-from kupfer.core import settings
+from kupfer.core import settings, plugins
+from kupfer.obj import KupferObject
+from kupfer.support import types as kty
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -41,10 +45,14 @@ class DirsSelectWidget(Gtk.Bin):  # type: ignore
         self.model = Gtk.ListStore.new([str, Gio.Icon, str])
         self.view = Gtk.TreeView.new_with_model(self.model)
 
-        # pylint: disable=no-member
-        self.btn_add = Gtk.Button.new_from_stock(Gtk.STOCK_ADD)
-        # pylint: disable=no-member
-        self.btn_del = Gtk.Button.new_from_stock(Gtk.STOCK_REMOVE)
+        self.btn_add = Gtk.Button.new_from_icon_name("add", Gtk.IconSize.BUTTON)
+        self.btn_add.always_show_image = True
+        self.btn_add.set_label(_("Add"))
+        self.btn_del = Gtk.Button.new_from_icon_name(
+            "remove", Gtk.IconSize.BUTTON
+        )
+        self.btn_del.always_show_image = True
+        self.btn_del.set_label(_("Remove"))
 
         self._configure_model()
         self._create_layout()
@@ -185,16 +193,22 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
 
         self.entry = Gtk.Entry()
 
-        # pylint: disable=no-member
-        self.btn_add = Gtk.Button.new_from_stock(Gtk.STOCK_FIND)
-        # pylint: disable=no-member
-        self.btn_del = Gtk.Button.new_from_stock(Gtk.STOCK_CLEAR)
+        self.btn_add = Gtk.Button.new_from_icon_name(
+            "fileopen", Gtk.IconSize.BUTTON
+        )
+        self.btn_add.always_show_image = True
+        self.btn_add.set_label(_("Select"))
+        self.btn_clear = Gtk.Button.new_from_icon_name(
+            "editclear", Gtk.IconSize.BUTTON
+        )
+        self.btn_clear.always_show_image = True
+        self.btn_clear.set_label(_("Clear"))
 
         self._create_layout()
 
         self.entry.set_text(plugin_settings[setting])
 
-        self.btn_del.connect("clicked", self._on_del_clicked)
+        self.btn_clear.connect("clicked", self._on_del_clicked)
         self.btn_add.connect("clicked", self._on_add_clicked)
         self.entry.connect("changed", self._on_change)
 
@@ -207,7 +221,7 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
         # buttons
         bbox = Gtk.HButtonBox()
         bbox.set_property("layout-style", Gtk.ButtonBoxStyle.END)
-        bbox.pack_start(self.btn_del, False, False, 0)
+        bbox.pack_start(self.btn_clear, False, False, 0)
         bbox.pack_start(self.btn_add, False, False, 0)
         box.pack_end(bbox, True, True, 0)
 
@@ -255,3 +269,200 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
             self.entry.set_text(fname)
 
         chooser_dialog.hide()
+
+
+class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
+    """Widget with list of `objs` (sources, actions): name, description."""
+
+    def __init__(
+        self,
+        plugin_id: str,
+        objs: ty.Iterable[str],
+    ) -> None:
+        super().__init__()
+
+        setctl = settings.get_settings_controller()
+        small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
+        self.small_icon_size = small_icon_size
+
+        box = Gtk.Grid()
+        box.set_row_spacing(6)
+        box.set_column_spacing(12)
+
+        for row, item in enumerate(objs):
+            plugin_type = plugins.get_plugin_attribute(plugin_id, item)
+            if not plugin_type:
+                continue
+
+            obj: KupferObject = plugin_type()
+
+            # object icon
+            image = Gtk.Image()
+            image.set_property("gicon", obj.get_icon())
+            image.set_property("pixel-size", small_icon_size)
+            image.set_alignment(0, 0)
+            box.attach(image, 0, row, 1, 1)
+
+            ibox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 3)
+            # name and description
+            name_label = GLib.markup_escape_text(str(obj))  # name
+            if desc := GLib.markup_escape_text(obj.get_description() or ""):
+                name_label = f"{name_label}\n<small>{desc}</small>"
+
+            label = Gtk.Label()
+            label.set_alignment(0, 0)  # pylint: disable=no-member
+            label.set_markup(name_label)
+            label.set_line_wrap(True)  # pylint: disable=no-member
+            label.set_selectable(True)
+            ibox.pack_start(label, False, True, 0)
+            box.attach(ibox, 1, row, 1, 1)
+
+            # Display information for application content-sources.
+            if not obj.is_valid():
+                continue
+
+            try:
+                leaf_repr = obj.get_leaf_repr()  # type: ignore
+            except AttributeError:
+                continue
+            else:
+                if leaf_repr:
+                    hbox = self._create_leaves_info(leaf_repr)
+                    ibox.pack_start(hbox, True, True, 0)
+
+        self.add(box)
+
+    def _create_leaves_info(self, leaf_repr: KupferObject) -> Gtk.Box:
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 3)
+        image = Gtk.Image()
+        image.set_property("gicon", leaf_repr.get_icon())
+        image.set_property("pixel-size", self.small_icon_size // 2)
+        hbox.pack_start(Gtk.Label.new(_("Content of")), False, True, 0)
+        hbox.pack_start(image, False, True, 0)
+        hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False, True, 0)
+        return hbox
+
+
+class PluginAboutWidget(Gtk.Bin):  # type: ignore
+    """Widget with basic informations about plugin."""
+
+    def __init__(self, plugin_id: str, info: dict[str, ty.Any]) -> None:
+        super().__init__()
+
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 12)
+
+        ver, description, author = plugins.get_plugin_attributes(
+            plugin_id,
+            (
+                plugins.PluginAttr.VERSION,
+                plugins.PluginAttr.DESCRIPTION,
+                plugins.PluginAttr.AUTHOR,
+            ),
+        )
+        infobox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 6)
+
+        # TRANS: Plugin info fields
+        for field, val in (
+            (_("Description"), description),
+            (_("Author"), author),
+            (_("Version"), ver),
+        ):
+            if sbox := self._create_title_val_label_box(field, val):
+                infobox.pack_start(sbox, False, True, 0)
+
+        box.pack_start(infobox, False, True, 0)
+
+        errormsg = None
+        # Check for plugin load exception
+        if (exc_info := plugins.get_plugin_error(plugin_id)) is not None:
+            errstr = _format_exc_info(exc_info)
+            errormsg = "".join(
+                (
+                    "<b>",
+                    _("Plugin could not be read due to an error:"),
+                    "</b>\n\n",
+                    GLib.markup_escape_text(errstr),
+                )
+            )
+        elif not plugins.is_plugin_loaded(plugin_id):
+            errormsg = (
+                "<i>"
+                + GLib.markup_escape_text(_("Plugin is disabled"))
+                + "</i>"
+            )
+
+        if errormsg:
+            label = Gtk.Label()
+            label.set_markup(errormsg)
+            label.set_alignment(0, 0)  # pylint: disable=no-member
+            label.set_line_wrap(True)  # pylint: disable=no-member
+            label.set_selectable(True)
+            box.pack_start(label, False, True, 0)
+
+        self.add(box)
+
+    def _create_title_val_label_box(
+        self, title: str, value: str
+    ) -> Gtk.Box | None:
+        if not value:
+            return None
+
+        sbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 3)
+        for label_text in (f"<b>{title}</b>", GLib.markup_escape_text(value)):
+            label = Gtk.Label()
+            label.set_markup(label_text)
+            label.set_alignment(0, 0)  # pylint: disable=no-member
+            label.set_line_wrap(True)  # pylint: disable=no-member
+            label.set_selectable(True)
+            sbox.pack_start(label, False, True, 0)
+
+        return sbox
+
+
+def _format_exc_info(exc_info: kty.ExecInfo) -> str:
+    etype, error, _tb = exc_info
+    import_error_pat = r"No module named ([^\s]+)"
+    errmsg = str(error)
+
+    if re.match(import_error_pat, errmsg):
+        # TRANS: Error message when Plugin needs a Python module to load
+        import_error_localized = _("Python module '%s' is needed") % "\\1"
+        return re.sub(import_error_pat, import_error_localized, errmsg, count=1)
+
+    if etype and issubclass(etype, ImportError):
+        return errmsg
+
+    return "".join(traceback.format_exception(*exc_info))
+
+
+def new_label_header(
+    parent: Gtk.Widget | None, markup: str, tooltip: str | None = None
+) -> Gtk.Label:
+    markup = GLib.markup_escape_text(markup)
+    return new_label(
+        parent, f"<b>{markup}</b>", selectable=False, tooltip=tooltip
+    )
+
+
+def new_label(  # pylint: disable=keyword-arg-before-vararg
+    parent: Gtk.Widget | None = None,
+    /,
+    *markup: str,
+    selectable: bool = True,
+    tooltip: str | None = None,
+) -> Gtk.Label:
+    text = "".join(markup)
+    label = Gtk.Label()
+    label.set_alignment(0, 0)  # pylint: disable=no-member
+    label.set_padding(0, 0)  # pylint: disable=no-member
+    label.set_markup(text)
+    label.set_line_wrap(True)  # pylint: disable=no-member
+    label.set_selectable(selectable)
+
+    if tooltip:
+        label.set_tooltip_text(tooltip)
+
+    if parent:
+        parent.pack_start(label, False, True, 0)
+
+    return label

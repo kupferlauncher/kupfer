@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import os
-import re
-import traceback
 import typing as ty
 from contextlib import suppress
 from pathlib import Path
@@ -15,9 +13,7 @@ from xdg import Exceptions as xdg_e
 
 from kupfer import config, icons, launch, plugin_support, version
 from kupfer.core import plugins, relevance, settings, sources
-from kupfer.obj import KupferObject
 from kupfer.support import kupferstring, pretty, scheduler
-from kupfer.support import types as kty
 
 from . import accelerators, getkey_dialog, keybindings, kupferhelp
 from .credentials_dialog import ask_user_credentials
@@ -32,55 +28,6 @@ _LIST_ICON_SIZE: ty.Final = 18
 
 if ty.TYPE_CHECKING:
     _ = str
-
-
-def _new_label(  # pylint: disable=keyword-arg-before-vararg
-    parent: Gtk.Widget = None,
-    /,
-    *markup: str,
-    selectable: bool = True,
-    tooltip: str | None = None,
-) -> Gtk.Label:
-    text = "".join(markup)
-    label = Gtk.Label()
-    label.set_alignment(0, 0)  # pylint: disable=no-member
-    label.set_padding(0, 4)  # pylint: disable=no-member
-    label.set_markup(text)
-    label.set_line_wrap(True)  # pylint: disable=no-member
-    label.set_selectable(selectable)
-
-    if tooltip:
-        label.set_tooltip_text(tooltip)
-
-    if parent:
-        parent.pack_start(label, False, True, 0)
-
-    return label
-
-
-def _format_exc_info(exc_info: kty.ExecInfo) -> str:
-    etype, error, _tb = exc_info
-    # TRANS: Error message when Plugin needs a Python module to load
-    import_error_localized = _("Python module '%s' is needed") % "\\1"
-    import_error_pat = r"No module named ([^\s]+)"
-    errmsg = str(error)
-
-    if re.match(import_error_pat, errmsg):
-        return re.sub(import_error_pat, import_error_localized, errmsg, count=1)
-
-    if etype and issubclass(etype, ImportError):
-        return errmsg
-
-    return "".join(traceback.format_exception(*exc_info))
-
-
-def _kobject_should_show(obj: KupferObject) -> bool:
-    with suppress(AttributeError):
-        if leaf_repr := obj.get_leaf_repr():  # type: ignore
-            if hasattr(leaf_repr, "is_valid") and not leaf_repr.is_valid():
-                return False
-
-    return True
 
 
 def _set_combobox(value: ty.Any, combobox: Gtk.ComboBoxText) -> None:
@@ -521,77 +468,45 @@ class PreferencesWindowController(pretty.OutputMixin):
         self._plugin_sidebar_update(plugin_id)
 
     def _plugin_sidebar_update(self, plugin_id: str) -> None:
-        about = Gtk.VBox()
-        about.set_property("spacing", 15)
-        about.set_property("border-width", 5)
+        # about.set_property("border-width", 5)
         info = self._plugin_info_for_id(plugin_id)
         if not info:
             return
+        about = Gtk.Box.new(Gtk.Orientation.VERTICAL, 12)
 
-        _new_label(
-            about,
-            f'<b><big>{GLib.markup_escape_text(info["localized_name"])}</big></b>',
-        )
-        ver, description, author = plugins.get_plugin_attributes(
-            plugin_id,
-            (
-                plugins.PluginAttr.VERSION,
-                plugins.PluginAttr.DESCRIPTION,
-                plugins.PluginAttr.AUTHOR,
-            ),
-        )
-        infobox = Gtk.VBox()
-        infobox.set_property("spacing", 3)
+        # title
+        label = Gtk.Label()
+        label.set_alignment(0, 0)  # pylint: disable=no-member
+        title = GLib.markup_escape_text(info["localized_name"])
+        label.set_markup(f"<b><big>{title}</big></b>")
+        label.set_line_wrap(True)  # pylint: disable=no-member
+        label.set_selectable(True)
+        about.pack_start(label, False, True, 0)
 
-        # TRANS: Plugin info fields
-        for field, val in (
-            (_("Description"), description),
-            (_("Author"), author),
-        ):
-            if val:
-                _new_label(infobox, f"<b>{field}</b>")
-                _new_label(infobox, GLib.markup_escape_text(val))
+        # about section
+        about_widg = widgets.PluginAboutWidget(plugin_id, info)
+        about.pack_start(about_widg, False, True, 0)
 
-        if ver:
-            _new_label(
-                infobox,
-                "<b>",
-                _("Version"),
-                ":</b> ",
-                GLib.markup_escape_text(ver),
-            )
+        # objects info section
+        if objects := self._make_plugin_objects_widget(plugin_id):
+            about.pack_start(objects, False, True, 0)
 
-        about.pack_start(infobox, False, True, 0)
-
-        # Check for plugin load exception
-        if (exc_info := plugins.get_plugin_error(plugin_id)) is not None:
-            errstr = _format_exc_info(exc_info)
-            _new_label(
-                about,
-                "<b>",
-                _("Plugin could not be read due to an error:"),
-                "</b>\n\n",
-                GLib.markup_escape_text(errstr),
-            )
-        elif not plugins.is_plugin_loaded(plugin_id):
-            _new_label(about, "(", _("disabled"), ")", selectable=False)
-
-        about.pack_start(
-            self._make_plugin_info_widget(plugin_id), False, True, 0
-        )
+        # settings
         if psettings_wid := self._make_plugin_settings_widget(plugin_id):
             about.pack_start(psettings_wid, True, True, 0)
 
+        # remove old panel if exists
         if oldch := self.plugin_about_parent.get_child():
             self.plugin_about_parent.remove(oldch)
 
+        # create new panel
         vport = Gtk.Viewport()
         vport.set_shadow_type(Gtk.ShadowType.NONE)  # pylint: disable=no-member
         vport.add(about)  # pylint: disable=no-member
         self.plugin_about_parent.add(vport)
         self.plugin_about_parent.show_all()
 
-    def _make_plugin_info_widget(self, plugin_id: str) -> Gtk.Widget:
+    def _make_plugin_objects_widget(self, plugin_id: str) -> Gtk.Widget | None:
         srcs, actions, text_sources = plugins.get_plugin_attributes(
             plugin_id,
             (
@@ -600,73 +515,24 @@ class PreferencesWindowController(pretty.OutputMixin):
                 plugins.PluginAttr.TEXT_SOURCES,
             ),
         )
-        vbox = Gtk.VBox()
-        vbox.set_property("spacing", 5)
-        setctl = settings.get_settings_controller()
-        small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
 
-        def make_objects_frame(objs: ty.Iterable[str], title: str) -> Gtk.VBox:
-            objvbox = Gtk.VBox()
-            _new_label(
-                objvbox,
-                f"<b>{GLib.markup_escape_text(title)}</b>",
-                selectable=False,
-            )
-            objvbox.set_property("spacing", 3)
-            for item in objs:
-                plugin_type = plugins.get_plugin_attribute(plugin_id, item)
-                if not plugin_type:
-                    continue
+        if not actions and not srcs and not text_sources:
+            return None
 
-                hbox = Gtk.HBox()
-                hbox.set_property("spacing", 3)
-                obj = plugin_type()
-                image = Gtk.Image()
-                image.set_property("gicon", obj.get_icon())
-                image.set_property("pixel-size", small_icon_size)
-                hbox.pack_start(image, False, True, 0)
-                name_label = GLib.markup_escape_text(str(obj))  # name
-                if desc := GLib.markup_escape_text(obj.get_description() or ""):
-                    name_label = f"{name_label}\n<small>{desc}</small>"
-
-                _new_label(hbox, name_label)
-
-                objvbox.pack_start(hbox, True, True, 0)
-                # Display information for application content-sources.
-                if not _kobject_should_show(obj):
-                    continue
-
-                try:
-                    leaf_repr = obj.get_leaf_repr()
-                except AttributeError:
-                    continue
-
-                if leaf_repr is None:
-                    continue
-
-                hbox = Gtk.HBox()
-                hbox.set_property("spacing", 3)
-                image = Gtk.Image()
-                image.set_property("gicon", leaf_repr.get_icon())
-                image.set_property("pixel-size", small_icon_size // 2)
-                hbox.pack_start(Gtk.Label.new(_("Content of")), False, True, 0)
-                hbox.pack_start(image, False, True, 0)
-                hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False, True, 0)
-                objvbox.pack_start(hbox, True, True, 0)
-
-            return objvbox
+        vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 6)
 
         if srcs := list(srcs or ()) + list(text_sources or ()):
             # TRANS: Plugin contents header
-            swid = make_objects_frame(srcs, _("Sources"))
+            widgets.new_label_header(vbox, _("Sources"))
+            swid = widgets.ObjectsInfoWidget(plugin_id, srcs)
             vbox.pack_start(swid, True, True, 0)
 
         if actions:
             # TRANS: Plugin contents header
-            awid = make_objects_frame(actions, _("Actions"))
+            widgets.new_label_header(vbox, _("Actions"))
+            awid = widgets.ObjectsInfoWidget(plugin_id, actions)
             vbox.pack_start(awid, True, True, 0)
 
-        vbox.show_all()
         return vbox
 
     def _get_plugin_change_callback(
@@ -723,10 +589,10 @@ class PreferencesWindowController(pretty.OutputMixin):
                 # pylint: disable=no-member
                 upass.username, upass.password = user_password  # type:ignore
                 # TODO: fix
-                setctl.set_plugin_config( # type:ignore
+                setctl.set_plugin_config(
                     plugin_id,
                     key,
-                    upass,
+                    upass,  # type:ignore
                     val_type,
                 )
 
@@ -744,9 +610,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         box = Gtk.Grid()
         box.set_row_spacing(6)
         box.set_column_spacing(12)
-        label = _new_label(
-            None, f"<b>{_('Configuration')}</b>", selectable=False
-        )
+        label = widgets.new_label_header(None, _("Configuration"))
         box.attach(label, 0, 0, 2, 1)
 
         for row, setting in enumerate(plugin_settings, 1):
@@ -772,7 +636,9 @@ class PreferencesWindowController(pretty.OutputMixin):
                 continue
 
             tooltip = plugin_settings.get_tooltip(setting)
-            wid = _new_label(None, label, selectable=False, tooltip=tooltip)
+            wid = widgets.new_label(
+                None, label, selectable=False, tooltip=tooltip
+            )
             box.attach(wid, 0, row, 1, 1)
 
             if issubclass(typ, str):
@@ -1322,7 +1188,7 @@ class SourceListController:
             if not plugin_id or setctl.get_plugin_is_hidden(plugin_id):
                 continue
 
-            if not _kobject_should_show(src):
+            if not src.is_valid():
                 continue
 
             gicon = src.get_icon()
