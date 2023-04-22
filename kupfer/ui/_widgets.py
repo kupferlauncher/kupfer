@@ -318,15 +318,13 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
             box.attach(ibox, 1, row, 1, 1)
 
             # Display information for application content-sources.
-            if not obj.is_valid():
-                continue
-
             try:
-                leaf_repr = obj.get_leaf_repr()  # type: ignore
+                # only sources have leaf representation
+                leaf_repr = obj.get_valid_leaf_repr()  # type: ignore
             except AttributeError:
                 continue
             else:
-                if leaf_repr:
+                if leaf_repr is not None:
                     hbox = self._create_leaves_info(leaf_repr)
                     ibox.pack_start(hbox, True, True, 0)
 

@@ -453,9 +453,19 @@ class Source(KupferObject, pretty.OutputMixin):
         return None
 
     def get_leaf_repr(self) -> Leaf | None:
-        """Return, if appicable, another object
-        to take the source's place as Leaf"""
+        """Return, if appicable, another object to take the source's place as
+        Leaf"""
         return None
+
+    def get_valid_leaf_repr(self) -> Leaf | None:
+        """Return, if appicable, another object to take the source's place as
+        Leaf.  Return it only if it is valid."""
+        if leaf_repr := self.get_leaf_repr():
+            if hasattr(leaf_repr, "is_valid"):
+                if not leaf_repr.is_valid():  # type: ignore
+                    return None
+
+        return leaf_repr
 
     def provides(self) -> ty.Iterable[ty.Type[Leaf]]:
         """A seq of the types of items it provides;
