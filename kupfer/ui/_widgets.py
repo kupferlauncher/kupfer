@@ -14,7 +14,7 @@ from gi.repository import Gtk, Gio, Pango, GLib
 
 from kupfer import icons, launch, plugin_support
 from kupfer.core import settings, plugins
-from kupfer.obj import KupferObject
+from kupfer.obj import KupferObject, Source
 from kupfer.support import types as kty
 
 if ty.TYPE_CHECKING:
@@ -283,7 +283,6 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
 
         setctl = settings.get_settings_controller()
         small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
-        self.small_icon_size = small_icon_size
 
         box = Gtk.Grid()
         box.set_row_spacing(6)
@@ -305,36 +304,37 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
 
             ibox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 3)
             # name and description
-            name_label = GLib.markup_escape_text(str(obj))  # name
-            if desc := GLib.markup_escape_text(obj.get_description() or ""):
-                name_label = f"{name_label}\n<small>{desc}</small>"
-
-            label = Gtk.Label()
-            label.set_alignment(0, 0)  # pylint: disable=no-member
-            label.set_markup(name_label)
-            label.set_line_wrap(True)  # pylint: disable=no-member
-            label.set_selectable(True)
-            ibox.pack_start(label, False, True, 0)
+            ibox.pack_start(self._create_label(obj), False, True, 0)
             box.attach(ibox, 1, row, 1, 1)
 
             # Display information for application content-sources.
-            try:
-                # only sources have leaf representation
-                leaf_repr = obj.get_valid_leaf_repr()  # type: ignore
-            except AttributeError:
-                continue
-            else:
-                if leaf_repr is not None:
-                    hbox = self._create_leaves_info(leaf_repr)
+            # only sources have leaf representation
+            if isinstance(obj, Source):
+                if (leaf_repr := obj.get_valid_leaf_repr()) is not None:
+                    hbox = self._create_leaves_info(leaf_repr, small_icon_size)
                     ibox.pack_start(hbox, True, True, 0)
 
         self.add(box)
 
-    def _create_leaves_info(self, leaf_repr: KupferObject) -> Gtk.Box:
-        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 3)
+    def _create_label(self, obj: KupferObject) -> Gtk.Label:
+        name_label = GLib.markup_escape_text(str(obj))  # name
+        if desc := GLib.markup_escape_text(obj.get_description() or ""):
+            name_label = f"{name_label}\n<small>{desc}</small>"
+
+        label = Gtk.Label()
+        label.set_alignment(0, 0)  # pylint: disable=no-member
+        label.set_markup(name_label)
+        label.set_line_wrap(True)  # pylint: disable=no-member
+        label.set_selectable(True)
+        return label
+
+    def _create_leaves_info(
+        self, leaf_repr: KupferObject, small_icon_size: int
+    ) -> Gtk.Box:
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 6)
         image = Gtk.Image()
         image.set_property("gicon", leaf_repr.get_icon())
-        image.set_property("pixel-size", self.small_icon_size // 2)
+        image.set_property("pixel-size", small_icon_size // 2)
         hbox.pack_start(Gtk.Label.new(_("Content of")), False, True, 0)
         hbox.pack_start(image, False, True, 0)
         hbox.pack_start(Gtk.Label.new(str(leaf_repr)), False, True, 0)

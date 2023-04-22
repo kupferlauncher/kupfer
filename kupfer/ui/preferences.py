@@ -112,21 +112,6 @@ class PreferencesWindowController(pretty.OutputMixin):
             builder.get_object("icons_small_size"),
         )
 
-        checkstatusicon_gtk = builder.get_object("checkstatusicon_gtk")
-        checkstatusicon_gtk.set_label(
-            checkstatusicon_gtk.get_label() + " (GtkStatusIcon)"
-        )
-        checkstatusicon_gtk.set_active(setctl.get_show_status_icon())
-
-        checkstatusicon_ai = builder.get_object("checkstatusicon_ai")
-        checkstatusicon_ai.set_label(
-            checkstatusicon_ai.get_label() + " (AppIndicator)"
-        )
-        if _supports_app_indicator():
-            checkstatusicon_ai.set_active(setctl.get_show_status_icon_ai())
-        else:
-            checkstatusicon_ai.set_sensitive(False)
-
         builder.get_object("checkusecommandkeys").set_active(
             setctl.get_use_command_keys()
         )
@@ -136,6 +121,8 @@ class PreferencesWindowController(pretty.OutputMixin):
         builder.get_object("radio_actionaccelctrl").set_active(
             setctl.get_action_accelerator_modifer() == "ctrl"
         )
+
+        self._init_checkstatus(setctl, builder)
 
         # Make alternative comboboxes
         self.terminal_combobox = builder.get_object("terminal_combobox")
@@ -176,6 +163,24 @@ class PreferencesWindowController(pretty.OutputMixin):
         # Connect to signals at the last point
         builder.connect_signals(self)  # pylint: disable=no-member
         setctl.connect("alternatives-changed", self._on_alternatives_changed)
+
+    def _init_checkstatus(
+        self, setctl: settings.SettingsController, builder: Gtk.Builder
+    ) -> None:
+        checkstatusicon_gtk = builder.get_object("checkstatusicon_gtk")
+        checkstatusicon_gtk.set_label(
+            checkstatusicon_gtk.get_label() + " (GtkStatusIcon)"
+        )
+        checkstatusicon_gtk.set_active(setctl.get_show_status_icon())
+
+        checkstatusicon_ai = builder.get_object("checkstatusicon_ai")
+        checkstatusicon_ai.set_label(
+            checkstatusicon_ai.get_label() + " (AppIndicator)"
+        )
+        if _supports_app_indicator():
+            checkstatusicon_ai.set_active(setctl.get_show_status_icon_ai())
+        else:
+            checkstatusicon_ai.set_sensitive(False)
 
     def _init_plugin_lists(self, parent: Gtk.Widget) -> None:
         # setup plugin list table
