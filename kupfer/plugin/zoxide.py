@@ -32,6 +32,19 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "label": _("Minimal score:"),
         "type": int,
         "value": 1,
+        "min": 1,
+        "tooltip": _(
+            "Load only directories that score is equal "
+            "or higher than configured minimum"
+        ),
+    },
+    {
+        "key": "max_items",
+        "label": _("Load limit:"),
+        "type": int,
+        "value": 50,
+        "min": 1,
+        "tooltip": _("Maximal number of directories to load"),
     },
     {
         "key": "existing",
@@ -46,7 +59,7 @@ if ty.TYPE_CHECKING:
 
 
 def _get_dirs(
-    exclude: list[str], min_score: int, existing: bool
+    exclude: list[str], min_score: int, existing: bool, max_items: int
 ) -> ty.Iterator[str]:
     cmd = ["zoxide", "query", "--list", "--score"]
     if not existing:
@@ -54,10 +67,13 @@ def _get_dirs(
 
     with subprocess.Popen(cmd, stdout=subprocess.PIPE) as proc:
         stdout, _stderr = proc.communicate()
-        for line in stdout.splitlines():
+        for rownum, line in enumerate(stdout.splitlines()):
+            if rownum > max_items:
+                return
+
             line = line.strip()
             score, _dummy, dirpath = line.partition(b" ")
-            if not line:
+            if not dirpath:
                 continue
 
             if float(score) < min_score:
@@ -90,6 +106,7 @@ class ZoxideDirSource(Source, FilesystemWatchMixin):
             __kupfer_settings__["exclude"],
             __kupfer_settings__["min_score"],
             __kupfer_settings__["existing"],
+            __kupfer_settings__["max_items"],
         ):
             yield FileLeaf(dirname)
 
