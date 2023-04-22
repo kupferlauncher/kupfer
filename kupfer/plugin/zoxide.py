@@ -45,7 +45,9 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
-def _get_dirs(exclude: list[str], min_score: int, existing: bool) -> ty.Iterator[str]:
+def _get_dirs(
+    exclude: list[str], min_score: int, existing: bool
+) -> ty.Iterator[str]:
     cmd = ["zoxide", "query", "--list", "--score"]
     if not existing:
         cmd.append("--all")

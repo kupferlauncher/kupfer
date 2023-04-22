@@ -102,7 +102,7 @@ jobs=4
 extension-pkg-allow-list="lxml"
 extension-pkg-whitelist="lxml"
 py-version = [3, 9]
-disable = ["missing-docstring", "format", "unused-argument"]
+disable = ["missing-docstring", "format", "unused-argument", "fixme"]
 
 [tool.pylint.basic]
 good-names=["i", "j", "k", "ex", "Run", "_", "db", "err", "ok", "x", "y", "id"]

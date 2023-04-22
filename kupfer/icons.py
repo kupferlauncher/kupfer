@@ -223,7 +223,7 @@ class ComposedIcon:
     def __new__(cls, *args, **kwargs):
         def create():
             obj: ComposedIcon = object.__new__(cls)
-            obj._rendered = []
+            obj._rendered = []  # pylint: disable=protected-access
             return obj
 
         return cls._cache.get_or_insert(hash(args), create)

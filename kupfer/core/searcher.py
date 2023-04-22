@@ -29,7 +29,7 @@ def _valid_check(seq: ty.Iterable[Rankable]) -> ty.Iterable[Rankable]:
     """yield items of @seq that are valid"""
     for itm in seq:
         obj = itm.object
-        if (not hasattr(obj, "is_valid")) or obj.is_valid():  # type:ignore
+        if (not hasattr(obj, "is_valid")) or obj.is_valid():  # type: ignore
             yield itm
 
 

@@ -9,6 +9,7 @@ __author__ = ""
 
 import typing as ty
 
+# pylint: disable=no-name-in-module
 from gi.repository import Wnck
 
 from kupfer.obj import Action, Leaf, Source

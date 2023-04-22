@@ -110,7 +110,7 @@ class CreateQRCode(Action):
             uiutils.show_text_result(
                 _("Cannot create QRCode: %s") % err, _("Show QRCode"), ctx
             )
-            return
+            return None
 
         with tempfile.NamedTemporaryFile(
             suffix=".png", prefix="qrcode_", delete=False
@@ -160,7 +160,7 @@ class CreateTextQRCode(Action):
             uiutils.show_text_result(
                 _("Cannot create QRCode: %s") % err, _("Show QRCode"), ctx
             )
-            return
+            return None
 
         with io.StringIO() as buf:
             qrc.print_ascii(out=buf)

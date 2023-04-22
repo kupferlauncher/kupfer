@@ -32,6 +32,7 @@ class ExtendedSetting(ty.Protocol):
         raise NotImplementedError()
 
 
+# pylint: disable=too-few-public-methods
 class ValueConverter(ty.Protocol):
     """Protocol that represent callable used to convert value stored
     in config file (as str) into required value (int, float, etc).
@@ -113,6 +114,7 @@ def _fill_parser_read(
             parser.set(secname, key, default)
 
 
+# pylint: disable=too-many-return-statements
 def _parse_value(defval: ty.Any, value: str) -> ty.Any:
     if isinstance(defval, tuple):
         if not value:
@@ -543,6 +545,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def set_directories(self, dirs: list[str]) -> bool:
         return self._set_config("Directories", "direct", dirs)  #
 
+    # pylint: disable=too-many-return-statements
     def get_plugin_config(
         self,
         plugin: str,

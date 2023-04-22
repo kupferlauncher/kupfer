@@ -1,7 +1,7 @@
 # Distributed under terms of the GPLv3 license.
 
 """
-
+Test for datatools module.
 """
 import unittest
 
@@ -49,6 +49,7 @@ class TestLruCache(unittest.TestCase):
     def test_get_or_insert(self):
         cache: d.LruCache[int, int] = d.LruCache(10)
 
+        # pylint: disable=too-few-public-methods
         class Creator:
             def __init__(self):
                 self.cntr = 0
