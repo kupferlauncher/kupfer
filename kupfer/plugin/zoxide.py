@@ -14,10 +14,13 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import subprocess
 import typing as ty
+import os.path
 
 from kupfer import config, plugin_support, icons
-from kupfer.obj import FileLeaf, Source
+from kupfer.obj import FileLeaf, Source, Action, Leaf
+from kupfer.obj import fileactions
 from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.core.datactrl import DataController
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -52,10 +55,78 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "type": bool,
         "value": True,
     },
+    {
+        "key": "record_enabled",
+        "label": _("Update database after activate"),
+        "type": bool,
+        "value": False,
+        "tooltip": _(
+            "When enabled open files and directories will update zoxide database"
+        ),
+    },
 )
 
 if ty.TYPE_CHECKING:
     _ = str
+
+
+class LaunchRecorder:
+    def __init__(self):
+        self._enabled = False
+        self._cb_pointer = None
+
+    def connect(self):
+        data_controller = DataController.instance()
+        self._cb_pointer = data_controller.connect(
+            "launched-action", self._launch_callback
+        )
+        __kupfer_settings__.connect(
+            "plugin-setting-changed", self._setting_changed
+        )
+        self._enabled = __kupfer_settings__["record_enabled"]
+
+    def disconnect(self):
+        if self._cb_pointer:
+            data_controller = DataController.instance()
+            data_controller.disconnect(self._cb_pointer)
+            self._cb_pointer = None
+
+    def _launch_callback(
+        self, sender: ty.Any, leaf: Leaf, action: Action, *_args: ty.Any
+    ) -> None:
+        if not self._enabled:
+            return
+
+        if not isinstance(leaf, FileLeaf):
+            return
+
+        if not isinstance(action, fileactions.Open):
+            return
+
+        path = leaf.object
+        if not leaf.is_dir():
+            path = os.path.dirname(path)
+
+        # check is path is excluded
+        if any(map(path.startswith, __kupfer_settings__["exclude"])):
+            return
+
+        subprocess.run(["zoxide", "add", path])
+
+    def _setting_changed(self, settings, key, value):
+        if key == "record_enabled":
+            self._enabled = bool(value)
+
+
+_RECORDER = LaunchRecorder()
+
+
+def initialize_plugin(plugin_name: str) -> None:
+    _RECORDER.connect()
+
+
+def finalize_plugin(plugin_name: str) -> None:
+    _RECORDER.disconnect()
 
 
 def _get_dirs(
