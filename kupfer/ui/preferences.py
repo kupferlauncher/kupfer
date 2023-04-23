@@ -503,6 +503,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         # remove old panel if exists
         if oldch := self.plugin_about_parent.get_child():
             self.plugin_about_parent.remove(oldch)
+            oldch.destroy()
 
         # create new panel
         vport = Gtk.Viewport()
@@ -1098,11 +1099,16 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def _hide(self) -> None:
         assert self.window
-        self.window.hide()
+        # close window instead of hide
+        # self.window.hide()
+        self.window.close()
 
     def _close_window(self, *ignored: ty.Any) -> bool:
-        self._hide()
-        return True
+        # remove instance on close window
+        # self._hide()
+        self.window.destroy()
+        PreferencesWindowController._instance = None
+        return False
 
     def _ask_user_for_reset_keybinding(self) -> bool:
         dlg = Gtk.MessageDialog(
