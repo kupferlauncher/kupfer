@@ -52,6 +52,7 @@ kupfer/ui/kupferhelp.py
 kupfer/ui/search.py
 kupfer/ui/uiutils.py
 kupfer/ui/browser.py
+kupfer/ui/_widgets.py
 kupfer/ui/uievents.py
 kupfer/ui/progress_dialog.py
 kupfer/config.py
@@ -169,6 +170,7 @@ kupfer/support/__init__.py
 kupfer/support/validators_test.py
 kupfer/support/conspickle.py
 kupfer/support/kupferstring.py
+kupfer/support/datatools_test.py
 kupfer/support/scheduler.py
 kupfer/support/types.py
 kupfer/support/weaklib.py
