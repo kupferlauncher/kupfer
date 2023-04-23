@@ -457,15 +457,17 @@ class Source(KupferObject, pretty.OutputMixin):
         Leaf"""
         return None
 
-    def get_valid_leaf_repr(self) -> Leaf | None:
+    def get_valid_leaf_repr(self) -> tuple[bool, Leaf | None]:
         """Return, if appicable, another object to take the source's place as
-        Leaf.  Return it only if it is valid."""
+        Leaf.  Return tuple (leaf representation is valid, leaf).
+        Valid representation may be None, so first element of tuple must be
+        checked."""
         if leaf_repr := self.get_leaf_repr():
             if hasattr(leaf_repr, "is_valid"):
                 if not leaf_repr.is_valid():  # type: ignore
-                    return None
+                    return False, None
 
-        return leaf_repr
+        return True, leaf_repr
 
     def provides(self) -> ty.Iterable[ty.Type[Leaf]]:
         """A seq of the types of items it provides;

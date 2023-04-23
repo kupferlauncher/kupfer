@@ -1199,7 +1199,7 @@ class SourceListController:
             if not plugin_id or setctl.get_plugin_is_hidden(plugin_id):
                 continue
 
-            if src.get_valid_leaf_repr() is not None:
+            if not src.get_valid_leaf_repr()[0]:
                 continue
 
             gicon = src.get_icon()

@@ -315,7 +315,8 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
             # Display information for application content-sources.
             # only sources have leaf representation
             if isinstance(obj, Source):
-                if (leaf_repr := obj.get_valid_leaf_repr()) is not None:
+                _valud, leaf_repr = obj.get_valid_leaf_repr()
+                if leaf_repr is not None:
                     hbox = self._create_leaves_info(leaf_repr, small_icon_size)
                     ibox.pack_start(hbox, True, True, 0)
 
