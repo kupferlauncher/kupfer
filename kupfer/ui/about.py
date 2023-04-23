@@ -16,19 +16,18 @@ from .uievents import GUIEnvironmentContext
 
 # pylint: disable=too-few-public-methods
 class _AboutDialog:
-    _dialog: _AboutDialog | None = None
+    _instance: _AboutDialog | None = None
 
     @classmethod
-    def get(cls) -> Gtk.AboutDialog:
-        if cls._dialog is None:
-            cls._dialog = cls._create()
+    def instance(cls) -> _AboutDialog:
+        if cls._instance is None:
+            cls._instance = _AboutDialog()
 
-        assert cls._dialog
-        return cls._dialog
+        assert cls._instance
+        return cls._instance
 
-    @classmethod
-    def _create(cls):
-        abdlg = Gtk.AboutDialog()
+    def __init__(self):
+        self._dlg = abdlg = Gtk.AboutDialog()
         abdlg.set_program_name(version.PROGRAM_NAME)
         abdlg.set_icon_name(version.ICON_NAME)
         abdlg.set_logo_icon_name(version.ICON_NAME)
@@ -47,18 +46,19 @@ class _AboutDialog:
         if version.ARTISTS:
             abdlg.set_artists(version.ARTISTS)
 
-        abdlg.connect("response", cls._response_callback)
-        abdlg.connect("delete-event", cls._close_callback)
+        abdlg.connect("response", self._response_callback)
 
-        return abdlg
+    def show(self, ctxenv: ty.Optional[GUIEnvironmentContext] = None) -> None:
+        if ctxenv:
+            ctxenv.present_window(self._dlg)
+        else:
+            self._dlg.present()
 
-    @staticmethod
-    def _response_callback(dialog: Gtk.Dialog, response_id: ty.Any) -> None:
-        dialog.hide()
-
-    @classmethod
-    def _close_callback(cls, *_args):
-        cls._dialog = None
+    def _response_callback(
+        self, dialog: Gtk.Dialog, response_id: ty.Any
+    ) -> bool:
+        dialog.destroy()
+        _AboutDialog._instance = None
         return True
 
 
@@ -68,8 +68,5 @@ def show_about_dialog(
     """
     create an about dialog and show it
     """
-    dlg = _AboutDialog.get()
-    if ctxenv:
-        ctxenv.present_window(dlg)
-    else:
-        dlg.present()
+    dlg = _AboutDialog.instance()
+    dlg.show()
