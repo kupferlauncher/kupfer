@@ -422,7 +422,7 @@ class WindowController(pretty.OutputMixin):
             activate_time,
         )
 
-    def _launch_callback(self, sender: ty.Any) -> None:
+    def _launch_callback(self, sender: ty.Any, *_args: ty.Any) -> None:
         # Separate window hide from the action being
         # done. This is to solve a window focus bug when
         # we switch windows using an action
@@ -740,7 +740,7 @@ class WindowController(pretty.OutputMixin):
             kserv1.connect("relay-keys", keyobj.relayed_keys)
 
         # Load data
-        data_controller = DataController()
+        data_controller = DataController.instance()
         sch = scheduler.get_scheduler()
         sch.load()
         # Now create UI and display

@@ -68,6 +68,16 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     so it can register itself at the scheduler correctly.
     """
 
+    _instance: DataController | None = None
+
+    @classmethod
+    def instance(cls) -> DataController:
+        """Get instance of DataController."""
+        if cls._instance is None:
+            cls._instance = DataController()
+
+        return cls._instance
+
     __gtype_name__ = "DataController"
 
     def __init__(self):
@@ -540,7 +550,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             return
 
         if not res.is_sync:
-            self.emit("launched-action")
+            self.emit("launched-action", leaf, action, sobject)
 
     def execute_file(
         self,
@@ -827,11 +837,11 @@ GObject.signal_new(
 )
 
 # when an action was launched
-# arguments: none
+# arguments: leaf, action, secondary leaf
 GObject.signal_new(
     "launched-action",
     DataController,
     GObject.SignalFlags.RUN_LAST,
     GObject.TYPE_BOOLEAN,
-    (),
+    (GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT),
 )
