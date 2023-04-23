@@ -21,6 +21,7 @@ if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
 
+# pylint: disable=too-few-public-methods
 class DirsSelectWidget(Gtk.Bin):  # type: ignore
     """Widgets with list of folders and buttons to add/remove folder into."""
 
@@ -45,9 +46,11 @@ class DirsSelectWidget(Gtk.Bin):  # type: ignore
         self.model = Gtk.ListStore.new([str, Gio.Icon, str])
         self.view = Gtk.TreeView.new_with_model(self.model)
 
+        # pylint: disable=no-member
         self.btn_add = Gtk.Button.new_from_icon_name("add", Gtk.IconSize.BUTTON)
         self.btn_add.always_show_image = True
         self.btn_add.set_label(_("Add"))
+        # pylint: disable=no-member
         self.btn_del = Gtk.Button.new_from_icon_name(
             "remove", Gtk.IconSize.BUTTON
         )
@@ -165,6 +168,7 @@ class DirsSelectWidget(Gtk.Bin):  # type: ignore
         )
 
 
+# pylint: disable=too-few-public-methods
 class FileDirSelectWidget(Gtk.Bin):  # type: ignore
     """Widgets with entry and buttons that allow to select file or directory."""
 
@@ -271,6 +275,7 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
         chooser_dialog.hide()
 
 
+# pylint: disable=too-few-public-methods
 class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
     """Widget with list of `objs` (sources, actions): name, description."""
 
@@ -341,6 +346,7 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
         return hbox
 
 
+# pylint: disable=too-few-public-methods
 class PluginAboutWidget(Gtk.Bin):  # type: ignore
     """Widget with basic informations about plugin."""
 

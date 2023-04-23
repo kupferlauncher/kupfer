@@ -87,8 +87,8 @@ def _send_message_to_contact(pcontact, message, present=False):
     account = pcontact[_PIDGIN_ACCOUNT]
     jid = pcontact[_PIDGIN_JID]
     conversation = interface.PurpleConversationNew(1, account, jid)
-    im = interface.PurpleConvIm(conversation)
-    interface.PurpleConvImSend(im, message)
+    imiface = interface.PurpleConvIm(conversation)
+    interface.PurpleConvImSend(imiface, message)
     if present:
         interface.PurpleConversationPresent(conversation)
 

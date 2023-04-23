@@ -29,8 +29,8 @@ class PinboardBookmarkSource(Source):
         if token == "":
             return []
 
-        pb = pinboard.Pinboard(token)
-        bookmarks = pb.posts.all(start=0, results=100)
+        pinb = pinboard.Pinboard(token)
+        bookmarks = pinb.posts.all(start=0, results=100)
         return [UrlLeaf(b.url, b.description) for b in bookmarks]
 
     def get_description(self):

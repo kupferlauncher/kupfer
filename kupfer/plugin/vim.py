@@ -51,6 +51,7 @@ class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def __init__(self, name=None):
         super().__init__(name=_("Vim Recent Documents"))
+        self.monitor_token = None
 
     def initialize(self):
         viminfo = Path(self._viminfo_file).expanduser()

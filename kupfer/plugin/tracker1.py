@@ -254,8 +254,8 @@ class TrackerQuerySource(Source):
             return None
 
         try:
-            et = ElementTree(file=leaf.object)
-            text_elem = et.getroot().find("text")
+            etree = ElementTree(file=leaf.object)
+            text_elem = etree.getroot().find("text")
             if not text_elem:
                 return None
 
@@ -263,7 +263,7 @@ class TrackerQuerySource(Source):
             if not query:
                 return None
 
-            location_tag = et.getroot().find("location")
+            location_tag = etree.getroot().find("location")
             location = location_tag.text if location_tag is not None else None
             return cls(query, location=location_uri(location))
 

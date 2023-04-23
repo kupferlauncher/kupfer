@@ -152,7 +152,7 @@ class CopyTo(Action, pretty.OutputMixin):
     def activate_multiple(self, leaves, iobjects, ctx):
         # Unroll by looping over the destinations,
         # copying everything into each destination
-        fm = _get_nemo()
+        nemo = _get_nemo()
         source_uris = [leaf_uri(L) for L in leaves]
 
         def _reply(*args):
@@ -160,7 +160,7 @@ class CopyTo(Action, pretty.OutputMixin):
 
         for dest_iobj in iobjects:
             desturi = leaf_uri(dest_iobj)
-            fm.CopyURIs(
+            nemo.CopyURIs(
                 source_uris,
                 desturi,
                 reply_handler=_reply,

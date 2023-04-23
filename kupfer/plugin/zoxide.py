@@ -90,6 +90,7 @@ def _get_dirs(
 class ZoxideDirSource(Source, FilesystemWatchMixin):
     def __init__(self):
         super().__init__(name=_("Zoxide Directories"))
+        self.monitor = None
 
     def initialize(self):
         zoxide_home = config.get_data_dirs("", "zoxide")
