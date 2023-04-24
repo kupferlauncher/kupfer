@@ -623,10 +623,10 @@ class PreferencesWindowController(pretty.OutputMixin):
             label = plugin_settings.get_label(setting)
             typ = plugin_settings.get_value_type(setting)
 
+            tooltip = plugin_settings.get_tooltip(setting)
             if issubclass(typ, plugin_support.UserNamePassword):
                 wid = Gtk.Button(label or _("Set username and password"))
-                if tooltip := plugin_settings.get_tooltip(setting):
-                    wid.set_tooltip_text(tooltip)
+                wid.set_tooltip_text(tooltip)
                 wid.connect(
                     "clicked",
                     self._get_plugin_credentials_callback(plugin_id, setting),
@@ -638,17 +638,14 @@ class PreferencesWindowController(pretty.OutputMixin):
                 wid = self._make_plugin_sett_widget_bool(
                     label, plugin_id, setting, plugin_settings
                 )
+                wid.set_tooltip_text(tooltip)
                 box.attach(wid, 0, row, 2, 1)
                 continue
 
-            tooltip = plugin_settings.get_tooltip(setting)
-            wid = widgets.new_label(
-                None, label, selectable=False, tooltip=tooltip
-            )
-            box.attach(wid, 0, row, 1, 1)
-
+            wid = None
+            multiline = False
             if issubclass(typ, str):
-                wid = self._make_plugin_sett_widget_str(
+                wid, multiline = self._make_plugin_sett_widget_str(
                     plugin_id, setting, plugin_settings
                 )
                 box.attach(wid, 1, row, 1, 1)
@@ -660,17 +657,30 @@ class PreferencesWindowController(pretty.OutputMixin):
                 box.attach(wid, 1, row, 1, 1)
 
             elif issubclass(typ, list):
-                wid = None
+                # TODO: plain multiline
                 helper = plugin_settings.get_parameter(setting, "helper")
                 if helper == "choose_directory":
                     wid = self._make_plugin_sett_widget_dirs(
                         plugin_id, setting, plugin_settings
                     )
+                    multiline = True
+                    box.attach(wid, 1, row, 1, 1)
                 else:
                     pretty.print_error("unknown helper", helper)
+                    continue
 
-                if wid:
-                    box.attach(wid, 1, row, 1, 1)
+            wid.set_tooltip_text(tooltip)
+
+            label_wid = widgets.new_label(
+                None, label, selectable=False, tooltip=tooltip
+            )
+            box.attach(label_wid, 0, row, 1, 1)
+            if multiline:
+                label_wid.set_alignment(0, 0)  # pylint: disable=no-member
+                label_wid.set_padding(0, 4)
+            else:
+                label_wid.set_alignment(0, 0.5)  # pylint: disable=no-member
+                label_wid.set_padding(0, 0)
 
         box.show_all()  # pylint: disable=no-member
         return box
@@ -680,8 +690,9 @@ class PreferencesWindowController(pretty.OutputMixin):
         plugin_id: str,
         setting: str,
         plugin_settings: plugin_support.PluginSettings,
-    ) -> Gtk.Widget:
+    ) -> tuple[Gtk.Widget, bool]:
         wid = None
+        multiline = False
         if alternatives := plugin_settings.get_alternatives(setting):
             wid = self._make_plugin_sett_widget_combo(
                 plugin_id, setting, plugin_settings, alternatives
@@ -691,12 +702,14 @@ class PreferencesWindowController(pretty.OutputMixin):
             wid = self._make_plugin_sett_widget_multiline(
                 plugin_id, setting, plugin_settings
             )
+            multiline = True
 
         elif helper := plugin_settings.get_parameter(setting, "helper"):
             if helper in ("choose_directory", "choose_file"):
                 wid = widgets.FileDirSelectWidget(
                     plugin_id, setting, plugin_settings, helper
                 )
+                multiline = True
             else:
                 pretty.print_error("unknown helper", helper)
 
@@ -716,10 +729,7 @@ class PreferencesWindowController(pretty.OutputMixin):
                 ),
             )
 
-        if tooltip := plugin_settings.get_tooltip(setting):
-            wid.set_tooltip_text(tooltip)
-
-        return wid
+        return wid, multiline
 
     def _make_plugin_sett_widget_combo(
         self,
@@ -789,9 +799,6 @@ class PreferencesWindowController(pretty.OutputMixin):
     ) -> Gtk.Widget:
         wid = Gtk.CheckButton.new_with_label(label)
         wid.set_active(plugin_settings[setting])
-        if tooltip := plugin_settings.get_tooltip(setting):
-            wid.set_tooltip_text(tooltip)
-
         wid.connect(
             "toggled",
             self._get_plugin_change_callback(
@@ -821,8 +828,6 @@ class PreferencesWindowController(pretty.OutputMixin):
         wid.set_range(min_val, max_val)
         wid.set_value(plugin_settings[setting])
         wid.set_vexpand(False)
-        if tooltip := plugin_settings.get_tooltip(setting):
-            wid.set_tooltip_text(tooltip)
 
         wid.connect(
             "changed",

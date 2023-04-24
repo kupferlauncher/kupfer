@@ -458,8 +458,7 @@ def new_label(  # pylint: disable=keyword-arg-before-vararg
 ) -> Gtk.Label:
     text = "".join(markup)
     label = Gtk.Label()
-    label.set_alignment(0, 0)  # pylint: disable=no-member
-    label.set_padding(0, 0)  # pylint: disable=no-member
+    label.set_alignment(0, 0.5)  # pylint: disable=no-member
     label.set_markup(text)
     label.set_line_wrap(True)  # pylint: disable=no-member
     label.set_selectable(selectable)
