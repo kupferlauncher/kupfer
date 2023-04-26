@@ -30,10 +30,18 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": [],
         "helper": "choose_directory",
     },
+    {
+        "key": "limit",
+        "label": _("Max recent documents:"),
+        "type": int,
+        "value": 25,
+        "min": 1,
+        "max": 100,
+    },
 )
 
 
-def _load_recent_files(viminfo: Path) -> ty.Iterable[FileLeaf]:
+def _load_recent_files(viminfo: Path, limit: int) -> ty.Iterable[FileLeaf]:
     with viminfo.open("rt", encoding="UTF-8", errors="replace") as fin:
         for line in fin:
             if not line.startswith("> "):
@@ -42,6 +50,9 @@ def _load_recent_files(viminfo: Path) -> ty.Iterable[FileLeaf]:
             *_dummy, filepath = line.strip().partition(" ")
             if filepath:
                 yield FileLeaf(Path(filepath).expanduser())
+                limit -= 1
+                if not limit:
+                    return
 
 
 class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
@@ -68,9 +79,9 @@ class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
         if not viminfo.exists():
             self.output_debug("Viminfo not found at", viminfo)
             return
-
+        limit = __kupfer_settings__["limit"]
         try:
-            yield from _load_recent_files(viminfo)
+            yield from _load_recent_files(viminfo, limit)
         except EnvironmentError:
             self.output_exc()
             return
