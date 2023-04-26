@@ -8,6 +8,7 @@ see the main program file, and COPYING for details.
 from __future__ import annotations
 
 import builtins
+import time
 import typing as ty
 
 from gi.repository import GdkPixbuf
@@ -326,17 +327,24 @@ class Source(KupferObject, pretty.OutputMixin):
         NOTE: *Almost never* use this: let the user decide, default to toplevel.
     @source_use_cache if True, the source can be pickled to disk to save its
         cached items until the next time the launcher is started.
+
+    @source_scan_interval set typical rescan interval (not guaranteed) in sec.
+        Set 0 to use default. When lower than min_rescan_interval in
+        PeriodicRescanner - value is ignored.
     """
 
     fallback_icon_name = "kupfer-object-multiple"
     source_user_reloadable = False
     source_prefer_sublevel = False
     source_use_cache = True
+    source_scan_interval: int = 0
 
     def __init__(self, name):
         KupferObject.__init__(self, name)
         self.cached_items: ty.Iterable[Leaf] | None = None
         self._version: int = 1
+        # last source rescan timestamp
+        self.last_scan: int = 0
 
     @property
     def version(self) -> int:
@@ -403,6 +411,8 @@ class Source(KupferObject, pretty.OutputMixin):
         it should be reloaded on next used (if normally cached)
         """
         self.cached_items = None
+        # mark for rescan
+        self.last_scan = 0
 
     def should_sort_lexically(self) -> bool:
         """
@@ -443,6 +453,8 @@ class Source(KupferObject, pretty.OutputMixin):
                     sort_func(self.get_items())
                 )
                 self.output_debug("Loaded items")
+
+            self.last_scan = int(time.time())
 
         return self.cached_items or []  # type: ignore
 

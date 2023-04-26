@@ -27,28 +27,30 @@ class InternalError(Exception):
 
 
 class PeriodicRescanner(pretty.OutputMixin):
-    """
-    Periodically rescan a @catalog of sources
+    """Periodically rescan a @catalog of sources.
 
-    Do first rescan after @startup seconds, then
-    followup with rescans in @period.
+    Do first rescan after @startup seconds, then followup with rescans in @period.
 
-    Each campaign of rescans is separarated by @campaign
-    seconds
+    Each campaign of rescans is separarated by @campaign seconds.
+
+    Source may define own min rescan interval, so can be rescanned less
+    frequently.
+    Last rescan is hold in source last_scan property, so when zeroed - force
+    load on next rescan.
     """
 
     def __init__(
-        self, period: int = 5, startup: int = 10, campaign: int = 3600
+        self,
+        period: int = 5,
+        startup: int = 10,
+        campaign: int = 60,
+        min_rescan_interval: int = 900,
     ) -> None:
         self._startup = startup
         self._period = period
         self._campaign = campaign
         self._timer = scheduler.Timer()
-        # Source -> time mapping
-        self._latest_rescan_time: weakref.WeakKeyDictionary[
-            Source, float
-        ] = weakref.WeakKeyDictionary()
-        self._min_rescan_interval = campaign // 4
+        self._min_rescan_interval = min_rescan_interval
         self._catalog: ty.Iterable[Source] = []
         self._catalog_cur: ty.Iterator[Source] | None = None
 
@@ -66,12 +68,22 @@ class PeriodicRescanner(pretty.OutputMixin):
     def _periodic_rescan_helper(self) -> None:
         # Advance until we find a source that was not recently rescanned
         for source in self._catalog_cur or ():
-            oldtime = self._latest_rescan_time.get(source, 0)
-            if (time.time() - oldtime) > self._min_rescan_interval:
-                self._timer.set(self._period, self._periodic_rescan_helper)
+            # skip dynamic sources
+            if source.is_dynamic():
+                continue
+
+            # for old objects that may not have this attribute
+            oldtime = getattr(source, "last_scan", 0)
+            interval = max(
+                getattr(source, "source_scan_interval", 0),
+                self._min_rescan_interval,
+            )
+            if time.time() - oldtime > interval:
                 self.output_debug(f"scanning {source}")
                 self._start_source_rescan(source)
                 return
+
+            # self.output_debug(f"source {source} up to date")
 
         # No source to scan found
         self.output_info(f"Campaign finished, pausing {self._campaign} s")
@@ -79,24 +91,36 @@ class PeriodicRescanner(pretty.OutputMixin):
 
     def rescan_now(self, source: Source, force_update: bool = False) -> None:
         "Rescan @source immediately"
-        if force_update:
-            # if forced update, we know that it was brought up to date
-            self._latest_rescan_time[source] = time.time()
+        if source.is_dynamic():
+            return
 
-        self.rescan_source(source, force_update=force_update)
+        self._rescan_source(source, force_update=force_update, campaign=False)
 
     def _start_source_rescan(self, source: Source) -> None:
-        self._latest_rescan_time[source] = time.time()
-        if not source.is_dynamic():
-            thread = threading.Thread(target=self.rescan_source, args=(source,))
-            thread.daemon = True
-            thread.start()
-
-    def rescan_source(self, source: Source, force_update: bool = True) -> None:
-        cnt = sum(
-            1 for leaf in source.get_leaves(force_update=force_update) or ()
+        thread = threading.Thread(
+            target=self._rescan_source, args=(source, True, True)
         )
-        self.output_info(f"scan {source}: {cnt} leaves")
+        thread.daemon = True
+        thread.start()
+
+    def _rescan_source(
+        self, source: Source, force_update: bool = True, campaign: bool = False
+    ) -> None:
+        start = time.monotonic()
+        try:
+            cnt = sum(
+                1 for leaf in source.get_leaves(force_update=force_update) or ()
+            )
+            duration = time.monotonic() - start
+            self.output_info(
+                f"scan {source}: {cnt} leaves in {duration:0.5f} s"
+            )
+        except Exception as exc:
+            self.output_error(f"Scanning {source}: {exc}")
+
+        if campaign:
+            # try to process next source
+            self._timer.set(self._period, self._periodic_rescan_helper)
 
 
 class SourcePickler(pretty.OutputMixin):
@@ -311,7 +335,7 @@ class SourceController(pretty.OutputMixin):
     def __init__(self):
         self._sources: set[Source] = set()
         self.action_decorators: dict[ty.Any, set[Action]] = defaultdict(set)
-        self._rescanner = PeriodicRescanner(period=3)
+        self._rescanner = PeriodicRescanner(period=1)
         self._toplevel_sources: set[Source] = set()
         self._text_sources: set[TextSource] = set()
         self._content_decorators: dict[ty.Any, set[Source]] = defaultdict(set)
@@ -702,6 +726,7 @@ class SourceController(pretty.OutputMixin):
     def _cache_sources(self, srcs: ty.Iterable[Source]) -> None:
         # Make sure that the toplevel sources are chached
         # either newly rescanned or the cache is fully loaded
+        self.output_info("Initial sources load")
         for src in srcs:
             with pluginload.exception_guard(src, self._remove_source, src):
                 self._rescanner.rescan_now(src, force_update=False)
