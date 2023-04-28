@@ -535,4 +535,9 @@ class ExtendedSetting(object):
         @Return value that should be stored in Kupfer config for
         plugin/key (string)'''
         return None
+    
+    def ask_user(self):
+        ''' Subclass must implement how ask for information
+        @Return True when change
+        '''
 
