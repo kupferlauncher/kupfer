@@ -22,7 +22,7 @@ def get_bookmarks(bookmarks_file: str) -> ty.Iterable[dict[str, ty.Any]]:
     if not bookmarks_file:
         return
 
-    with open(bookmarks_file, "rt", encoding="UTF-8") as fin:
+    with open(bookmarks_file, encoding="UTF-8") as fin:
         content = fin.read()
         root = json.loads(content)
 

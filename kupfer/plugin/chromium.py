@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Chromium Bookmarks")
 __kupfer_sources__ = ("BookmarksSource",)
 __description__ = _("Index of Chromium bookmarks")
@@ -9,16 +11,38 @@ from kupfer import config
 from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.plugin import chromium_support
+from kupfer.obj.helplib import FilesystemWatchMixin
 
 if ty.TYPE_CHECKING:
     _ = str
 
 
-class BookmarksSource(AppLeafContentMixin, Source):
-    appleaf_content_id = ("chromium-browser", "chromium")
+def _get_chrome_conf_filepath() -> str | None:
+    fpath = config.get_config_file("Bookmarks", package="chromium/Default")
 
-    def __init__(self):
+    # If there is no chromium bookmarks file, look for a google-chrome one
+    if not fpath:
+        fpath = config.get_config_file(
+            "Bookmarks", package="google-chrome/Default"
+        )
+
+    return fpath
+
+
+class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
+    appleaf_content_id = ("chromium-browser", "chromium")
+    source_scan_interval: int = 3600
+
+    def __init__(self) -> None:
+        self.monitor_token = None
         super().__init__(_("Chromium Bookmarks"))
+
+    def initialize(self) -> None:
+        if fpath := _get_chrome_conf_filepath():
+            self.monitor_token = self.monitor_directories(fpath)
+
+    def monitor_include_file(self, gfile):
+        return gfile and gfile.get_basename() == "lock"
 
     def _get_chromium_items(self, fpath: str) -> ty.Iterator[UrlLeaf]:
         """Parse Chromium' bookmarks backups"""
@@ -27,23 +51,15 @@ class BookmarksSource(AppLeafContentMixin, Source):
         for book in bookmarks:
             yield UrlLeaf(book["url"], book["name"])
 
-    def get_items(self):
-        fpath = config.get_config_file("Bookmarks", package="chromium/Default")
-
-        # If there is no chromium bookmarks file, look for a google-chrome one
-        if not fpath:
-            fpath = config.get_config_file(
-                "Bookmarks", package="google-chrome/Default"
-            )
-
-        if fpath:
+    def get_items(self) -> ty.Iterable[UrlLeaf]:
+        if fpath := _get_chrome_conf_filepath():
             try:
                 return self._get_chromium_items(fpath)
             except Exception as exc:
                 self.output_error(exc)
 
         self.output_error("No Chromium bookmarks file found")
-        return []
+        return ()
 
     def get_description(self):
         return _("Index of Chromium bookmarks")
