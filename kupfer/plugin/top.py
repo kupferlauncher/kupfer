@@ -1,17 +1,21 @@
 __kupfer_name__ = _("Top")
 __kupfer_sources__ = ("TaskSource",)
 __description__ = _("Show running tasks and allow sending signals to them")
-__version__ = "2009-11-24"
+__version__ = "2023-04-29"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import operator
 import os
 import signal
 from pathlib import Path
+import subprocess
+import typing as ty
 
-from kupfer import launch, plugin_support
+from kupfer import plugin_support
 from kupfer.obj import Action, Leaf, Source
-from kupfer.support import scheduler
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -88,30 +92,34 @@ class _SignalsSource(Source):
 class TaskSource(Source):
     task_update_interval_sec = 5
     source_use_cache = False
+    source_prefer_sublevel = True
 
     def __init__(self, name=_("Running Tasks")):
         Source.__init__(self, name)
-        self._cache = []
-        self._version = 2
-        self._timer = None
+        self._version = 3
 
-    def initialize(self):
-        self._timer = scheduler.Timer()
+    def is_dynamic(self):
+        return True
 
-    def finalize(self):
-        self._timer = None
-        self._cache.clear()
+    def get_items(self):
+        uid = os.getuid()
+        with subprocess.Popen(
+            ["top", "-b", "-n", "1", "-u", str(uid)],
+            stdout=subprocess.PIPE,
+            env={"LC_NUMERIC": "C"},
+        ) as proc:
+            if proc.stdout:
+                content = proc.stdout.read()
+            else:
+                return ()
 
-    def _async_top_finished(self, acommand, stdout, stderr):
-        self._cache.clear()
-
-        processes = parse_top_output(stdout)
-        # sort processes (top don't allow to sort via cmd line)
-        if __kupfer_settings__["sort_order"] == _("Memory usage (descending)"):
+        processes = parse_top_output(content)
+        sort_order = __kupfer_settings__["sort_order"]
+        if sort_order == _("Memory usage (descending)"):
             processes = sorted(
                 processes, key=operator.itemgetter(2), reverse=True
             )
-        elif __kupfer_settings__["sort_order"] == _("Commandline"):
+        elif sort_order == _("Commandline"):
             processes = sorted(processes, key=operator.itemgetter(4))
         # default: by cpu
 
@@ -125,25 +133,7 @@ class TaskSource(Source):
                 "mem": mem,
                 "time": ptime,
             }
-            self._cache.append(Task(pid, cmd, description))
-
-        self.mark_for_update()
-
-    def _async_top_start(self):
-        uid = os.getuid()
-        launch.AsyncCommand(
-            ["top", "-b", "-n", "1", "-u", str(uid)],
-            self._async_top_finished,
-            60,
-            env=["LC_NUMERIC=C"],
-        )
-
-    def get_items(self):
-        yield from self._cache
-        update_wait = self.task_update_interval_sec if self._cache else 0
-        assert self._timer
-        # update after a few seconds
-        self._timer.set(update_wait, self._async_top_start)
+            yield Task(pid, cmd, description)
 
     def get_description(self):
         return _("Running tasks for current user")
@@ -187,7 +177,5 @@ def parse_top_output(out):
         # read command line
         proc_file = Path(f"/proc/{pid}/cmdline")
         if proc_file.is_file():  # also skip (finished) missing tasks
-            with open(proc_file, encoding="UTF=8") as fin:
-                cmd = fin.readline().replace("\x00", " ") or cmd
-
+            cmd = proc_file.read_text(encoding="UTF=8").replace("\x00", " ")
             yield (int(pid), float(cpu), float(mem), ptime, cmd)
