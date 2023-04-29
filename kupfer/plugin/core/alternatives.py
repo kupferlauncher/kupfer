@@ -125,6 +125,7 @@ def initialize_alternatives(name):
         },
     )
 
+    _register_terminal_emulators(name)
     _register_text_editors(name)
 
 
@@ -144,16 +145,50 @@ def _register_text_editors(name):
     # as text editors
 
     for app in Gio.app_info_get_all_for_type("text/plain"):
+        app_id = app.get_id()
         cmd = app.get_commandline()
         args = desktop_parse.parse_argv(cmd)
 
         plugin_support.register_alternative(
             name,
             "editor",
-            app.get_id(),
+            app_id.removesuffix(".desktop"),
             **{
                 "name": app.get_display_name(),
                 "argv": args,
                 "terminal": app.get_boolean("Terminal"),
+            },
+        )
+
+
+def _register_terminal_emulators(name):
+    """Find all applications with category 'TerminalEmulator' and register
+    it as terminal alternative."""
+
+    # hard coded skip-list for already defined above terminals but with
+    # different id
+    skip = ("debian-uxterm.desktop", "debian-xterm.desktop")
+
+    for app in Gio.app_info_get_all():
+        app_id = app.get_id()
+        if app_id in skip:
+            continue
+
+        if "TerminalEmulator" not in (app.get_categories() or ""):
+            continue
+
+        cmd = app.get_commandline()
+        args = desktop_parse.parse_argv(cmd)
+
+        plugin_support.register_alternative(
+            name,
+            "terminal",
+            app_id.removesuffix(".desktop"),
+            **{
+                "name": app.get_display_name(),
+                "argv": args,
+                "exearg": "",
+                "desktopid": app_id,
+                "startup_notify": False,
             },
         )
