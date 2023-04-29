@@ -54,8 +54,9 @@ def tmux_sessions(session_id: str | None = None) -> ty.Iterator[list[str]]:
     if session_id is not None:
         cmd += f" -f '#{{m:{session_id},#{{session_id}}}}'"
 
-    pipe = os.popen(cmd)
-    output = pipe.read()
+    with os.popen(cmd) as pipe:
+        output = pipe.read()
+
     for line in output.splitlines():
         yield line.split("\t")
 
@@ -127,8 +128,9 @@ class TmuxpSessionsSource(Source):
         super().__init__(_("tmuxp Sessions"))
 
     def get_items(self):
-        pipe = os.popen("tmuxp ls")
-        output = pipe.read()
+        with os.popen("tmuxp ls") as pipe:
+            output = pipe.read()
+
         for line in output.splitlines():
             if line := line.strip():
                 yield TmuxpSession(line)

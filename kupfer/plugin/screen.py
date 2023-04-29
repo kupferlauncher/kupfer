@@ -18,8 +18,9 @@ def screen_sessions_infos():
     Yield tuples of pid, name, time, status
     for running screen sessions
     """
-    pipe = os.popen("screen -list")
-    output = pipe.read()
+    with os.popen("screen -list") as pipe:
+        output = pipe.read()
+
     for line in output.splitlines():
         fields = line.split("\t")
         if len(fields) == 4:

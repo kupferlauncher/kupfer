@@ -138,24 +138,26 @@ def _get_dirs(
 
     with subprocess.Popen(cmd, stdout=subprocess.PIPE) as proc:
         stdout, _stderr = proc.communicate()
-        for rownum, line in enumerate(stdout.splitlines()):
-            if rownum > max_items:
-                return
+        lines = stdout.splitlines()
 
-            line = line.strip()
-            score, _dummy, dirpath = line.partition(b" ")
-            if not dirpath:
-                continue
+    for rownum, line in enumerate(lines):
+        if rownum > max_items:
+            return
 
-            if float(score) < min_score:
-                return
+        line = line.strip()
+        score, _dummy, dirpath = line.partition(b" ")
+        if not dirpath:
+            continue
 
-            path = dirpath.decode()
-            # zoxide query not support multiple --exclude; so filter it here
-            if any(map(path.startswith, exclude)):
-                continue
+        if float(score) < min_score:
+            return
 
-            yield path
+        path = dirpath.decode()
+        # zoxide query not support multiple --exclude; so filter it here
+        if any(map(path.startswith, exclude)):
+            continue
+
+        yield path
 
 
 class ZoxideDirSource(Source, FilesystemWatchMixin):

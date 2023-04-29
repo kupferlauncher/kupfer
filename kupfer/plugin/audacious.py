@@ -371,10 +371,10 @@ class AudaciousSongsSource(Source):
 
     def get_items(self):
         try:
-            yield from get_playlist_songs_dbus()
+            return list(get_playlist_songs_dbus())
         except Exception:
             pretty.print_exc(__name__)
-            yield from get_playlist_songs()
+            return list(get_playlist_songs())
 
     def get_gicon(self):
         return icons.ComposedIcon(

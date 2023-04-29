@@ -6,8 +6,8 @@ __author__ = "Fabian Carlström"
 __kupfer_sources__ = ("SSHSource",)
 __kupfer_actions__ = ("SSHConnect",)
 
-import codecs
 import os
+import typing as ty
 
 from kupfer import icons, launch
 from kupfer.obj import Action
@@ -19,6 +19,9 @@ from kupfer.obj.hosts import (
     HOST_SERVICE_NAME_KEY,
     HostLeaf,
 )
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class SSHLeaf(HostLeaf):
@@ -96,21 +99,23 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
             self._ssh_home,
         )
 
+    def _get_items(self):
+        with open(self._config_path, "r", encoding="UTF-8") as cfile:
+            for line in cfile.readlines():
+                line = line.strip()
+                if not line:
+                    continue
+                # Take every word after "Host" as an individual host
+                # we must skip entries with wildcards
+                head, *hosts = line.split()
+                if head and head.lower() == "host":
+                    for host in hosts:
+                        if "*" not in host:
+                            yield SSHLeaf(host)
+
     def get_items(self):
         try:
-            with codecs.open(self._config_path, "r", "UTF-8") as cfile:
-                for line in cfile.readlines():
-                    line = line.strip()
-                    if not line:
-                        continue
-                    # Take every word after "Host" as an individual host
-                    # we must skip entries with wildcards
-                    head, *hosts = line.split()
-                    if head and head.lower() == "host":
-                        for host in hosts:
-                            if "*" not in host:
-                                yield SSHLeaf(host)
-
+            return list(self._get_items())
         except OSError as exc:
             self.output_error(exc)
         except UnicodeError as exc:
@@ -118,6 +123,8 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
                 f"File {self._config_path} not in expected encoding (UTF-8)"
             )
             self.output_error(exc)
+
+        return ()
 
     def get_description(self):
         return _("SSH hosts as specified in ~/.ssh/config")
