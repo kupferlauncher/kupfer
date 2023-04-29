@@ -283,6 +283,12 @@ def register_alternative(
     alt = _AVAILABLE_ALTERNATIVES[category_key]
     req_set = set(alt["required_keys"])
 
+    if full_id in _ALTERNATIVES[category_key]:
+        pretty.print_debug(
+            __name__, f"Alternative {full_id} already defined in {category_key}"
+        )
+        return False
+
     if not req_set.issubset(kw_set):
         _plugin_configuration_error(
             caller, f"Configuration error for alternative '{category_key}':"
