@@ -68,6 +68,9 @@ class TmuxSessionsSource(Source):
     def __init__(self):
         super().__init__(_("tmux Sessions"))
 
+    def is_dynamic(self):
+        return True
+
     def get_items(self):
         for session in tmux_sessions():
             yield TmuxSession(*session)
