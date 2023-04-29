@@ -25,6 +25,9 @@ from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, AppLeaf, FileLeaf, Source, SourceLeaf, UrlLeaf
 from kupfer.support import weaklib
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "max_days",
@@ -71,9 +74,8 @@ def _file_path(uri: str) -> Gio.File | None:
 
 
 @functools.lru_cache(maxsize=1)
-def _get(max_days):
+def _get(max_days: int) -> ty.Iterator[tuple[str, int, tuple[str, ...]]]:
     manager = Gtk.RecentManager.get_default()
-    item_leaves = []
     check_doc_exist = __kupfer_settings__["check_doc_exist"]
     for item in manager.get_items():
         if item.get_age() > max_days >= 0:
@@ -91,11 +93,7 @@ def _get(max_days):
         uri = item.get_uri()
         if file_path := _file_path(uri):
             apps_name = tuple(_get_app_id(item))
-            item_leaves.append((file_path, item.get_modified(), apps_name))
-
-    # sort by modified date
-    item_leaves.sort(key=operator.itemgetter(1), reverse=True)
-    return item_leaves
+            yield (file_path, item.get_modified(), apps_name)
 
 
 def _get_app_id(item: Gtk.RecentInfo) -> ty.Iterator[str]:
@@ -112,13 +110,13 @@ def _get_app_id(item: Gtk.RecentInfo) -> ty.Iterator[str]:
 
 
 def _get_items(
-    max_days: int, for_app_names: tuple[str, ...] | None = None
-) -> ty.Iterator[FileLeaf]:
+    max_days: int,
+    for_app_names: tuple[str, ...] | None = None,
+) -> ty.Iterator[tuple[FileLeaf, int]]:
     """
     for_app_names: set of candidate app names, or None.
     """
-
-    for file_path, _modified, apps in _get(max_days):
+    for file_path, modified, apps in _get(max_days):
         if for_app_names:
             if not any(a in for_app_names for a in apps):
                 continue
@@ -135,7 +133,19 @@ def _get_items(
             ):
                 continue
 
-        yield FileLeaf(file_path)
+        yield (FileLeaf(file_path), modified)
+
+
+def _get_items_sorted(max_days: int,
+    for_app_names: tuple[str, ...] | None = None,
+) -> ty.Iterator[FileLeaf]:
+    # sort by modified date
+    items = sorted(
+        _get_items(max_days, for_app_names),
+        key=operator.itemgetter(1),
+        reverse=True,
+    )
+    yield from map(operator.itemgetter(0), items)
 
 
 class RecentsSource(Source):
@@ -153,7 +163,7 @@ class RecentsSource(Source):
 
     def get_items(self):
         max_days = __kupfer_settings__["max_days"]
-        return _get_items(max_days)
+        return _get_items_sorted(max_days)
 
     def get_description(self):
         return _("Recently used documents")
@@ -180,7 +190,7 @@ class ApplicationRecentsSource(RecentsSource):
         app_names = self.app_names(self.application)
         max_days = __kupfer_settings__["max_days"]
         self.output_debug("Items for", app_names)
-        return _get_items(max_days, app_names)
+        return _get_items_sorted(max_days, app_names)
 
     # Cache doesn't need to be large to serve main purpose:
     # there will be many identical queries in a row
