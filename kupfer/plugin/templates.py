@@ -147,6 +147,8 @@ def _get_tmpl_dir():
 
 
 class TemplatesSource(Source, FilesystemWatchMixin):
+    source_scan_interval: int = 3600
+
     def __init__(self):
         Source.__init__(self, _("Document Templates"))
         self.monitor_token = None

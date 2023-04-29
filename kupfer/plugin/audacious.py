@@ -388,6 +388,7 @@ class AudaciousSongsSource(Source):
 class AudaciousSource(AppLeafContentMixin, Source):
     appleaf_content_id = _AUDACIOUS
     source_user_reloadable = True
+    source_scan_interval: int = 3600
 
     def __init__(self):
         Source.__init__(self, _("Audacious"))

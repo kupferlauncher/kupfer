@@ -40,6 +40,7 @@ LIMIT ?"""
 
 class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("firefox", "firefox-esr")
+    source_scan_interval: int = 3600
 
     def __init__(self):
         self.monitor_token = None

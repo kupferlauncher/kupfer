@@ -94,6 +94,8 @@ class AppSource(Source, FilesystemWatchMixin):
     the desktop files)
     """
 
+    source_scan_interval: int = 3600
+
     def __init__(self, name=None):
         super().__init__(name or _("Applications"))
         self.monitor_token = None

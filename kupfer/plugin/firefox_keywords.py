@@ -88,6 +88,7 @@ WHERE moz_places.id = moz_keywords.place_id
 
 class KeywordsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("firefox", "firefox-esr")
+    source_scan_interval: int = 3600
 
     instance: KeywordsSource = None  # type: ignore
 

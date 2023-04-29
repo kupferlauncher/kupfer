@@ -30,6 +30,8 @@ LOCKSCREEN_CMD = (
 
 
 class GnomeItemsSource(support.CommonSource):
+    source_scan_interval: int = 36000
+
     def __init__(self):
         support.CommonSource.__init__(self, _("GNOME Session Management"))
 

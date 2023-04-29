@@ -139,6 +139,7 @@ class ContactsSource(
     AppLeafContentMixin, ToplevelGroupingSource, FilesystemWatchMixin
 ):
     appleaf_content_id = ("thunderbird", "icedove")
+    source_scan_interval: int = 3600
 
     def __init__(self, name=_("Thunderbird Address Book")):
         ToplevelGroupingSource.__init__(self, name, "Contacts")

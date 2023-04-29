@@ -73,6 +73,8 @@ class SSHConnect(Action):
 class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
     """Reads ~/.ssh/config and creates leaves for the hosts found."""
 
+    source_scan_interval: int = 3600
+
     _ssh_home = os.path.expanduser("~/.ssh")
     _ssh_config_file = "config"
     _config_path = os.path.join(_ssh_home, _ssh_config_file)

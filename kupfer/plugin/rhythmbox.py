@@ -541,6 +541,7 @@ class RhythmboxSongsSource(Source):
 
 class RhythmboxSource(AppLeafContentMixin, Source, PicklingHelperMixin):
     appleaf_content_id = ("rhythmbox", "org.gnome.Rhythmbox3")
+    source_scan_interval: int = 3600
 
     def __init__(self):
         super().__init__(_("Rhythmbox"))

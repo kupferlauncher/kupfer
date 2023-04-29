@@ -251,6 +251,7 @@ class CreateNewEmptyTask(Action):
 
 class TasksSource(AppLeafContentMixin, Source):
     appleaf_content_id = _GTG_ID
+    source_scan_interval: int = 3600
 
     def __init__(self, name=None):
         Source.__init__(self, name or __kupfer_name__)

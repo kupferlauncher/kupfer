@@ -242,6 +242,8 @@ class PlacesSource(Source):
     Source for items from gtk bookmarks
     """
 
+    source_scan_interval: int = 3600
+
     def __init__(self):
         super().__init__(_("Places"))
         self.places_file = None
@@ -299,6 +301,7 @@ class IgnoredApps(Source):
     # It exists just to store (through the config mechanism) the list of apps
     # we ignore for recent documents content decoration
     instance: IgnoredApps = None  # type:ignore
+    source_scan_interval: int = 3600
 
     def __init__(self):
         super().__init__(_("Toggle Recent Documents"))

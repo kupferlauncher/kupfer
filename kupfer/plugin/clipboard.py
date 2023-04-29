@@ -129,6 +129,8 @@ class ClearClipboards(Action):
 
 
 class ClipboardSource(Source):
+    source_scan_interval: int = 3600
+
     def __init__(self):
         Source.__init__(self, _("Clipboards"))
         self.clipboards: deque[str] = deque()

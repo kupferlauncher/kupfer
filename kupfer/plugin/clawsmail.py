@@ -119,6 +119,7 @@ class ClawsContactsSource(
     AppLeafContentMixin, ToplevelGroupingSource, FilesystemWatchMixin
 ):
     appleaf_content_id = "claws-mail"
+    source_scan_interval: int = 3600
 
     def __init__(self, name=_("Claws Mail Address Book")):
         super().__init__(name, "Contacts")

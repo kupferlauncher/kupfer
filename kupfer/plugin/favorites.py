@@ -27,6 +27,7 @@ class FavoritesSource(Source):
     """Keep a list of Leaves that the User may add and remove from"""
 
     instance: FavoritesSource = None  # type:ignore
+    source_scan_interval: int = 3600
 
     def __init__(self):
         Source.__init__(self, _("Favorites"))

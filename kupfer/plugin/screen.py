@@ -74,6 +74,8 @@ class ScreenSession(Leaf):
 class ScreenSessionsSource(Source, FilesystemWatchMixin):
     """Source for GNU Screen sessions"""
 
+    source_scan_interval: int = 3600
+
     def __init__(self):
         super().__init__(_("Screen Sessions"))
         self.screen_dir = None

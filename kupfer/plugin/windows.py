@@ -434,6 +434,7 @@ class ActivateWorkspace(Action):
 
 class WorkspacesSource(Source):
     source_use_cache = False
+    source_scan_interval: int = 3600
 
     def __init__(self):
         super().__init__(_("Workspaces"))

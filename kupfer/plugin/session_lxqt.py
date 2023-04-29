@@ -14,6 +14,8 @@ _LOCKSCREEN_CMD = (["lxqt-leave", "--lockscreen"],)
 
 
 class LxqtItemsSource(support.CommonSource):
+    source_scan_interval: int = 36000
+
     def __init__(self):
         support.CommonSource.__init__(self, _("LXQT Session Management"))
 

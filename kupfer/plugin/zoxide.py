@@ -159,6 +159,8 @@ def _get_dirs(
 
 
 class ZoxideDirSource(Source, FilesystemWatchMixin):
+    source_scan_interval: int = 3600
+
     def __init__(self):
         super().__init__(name=_("Zoxide Directories"))
         self.monitor = None

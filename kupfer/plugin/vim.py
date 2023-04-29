@@ -57,6 +57,7 @@ def _load_recent_files(viminfo: Path, limit: int) -> ty.Iterable[FileLeaf]:
 
 class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("vim", "gvim")
+    source_scan_interval: int = 3600
 
     _viminfo_file = "~/.viminfo"
 

@@ -45,6 +45,7 @@ class ZealSearch(Action):
 
 class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("zeal", "org.zealdocs.zeal")
+    source_scan_interval: int = 3600
 
     def __init__(self):
         self.docsets_home = os.path.expanduser(

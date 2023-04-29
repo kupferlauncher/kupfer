@@ -120,8 +120,6 @@ class StartTmuxpSession(Action):
 class TmuxpSessionsSource(Source):
     """Source for tmuxp sessions"""
 
-    source_use_cache = True
-
     def __init__(self):
         super().__init__(_("tmuxp Sessions"))
 

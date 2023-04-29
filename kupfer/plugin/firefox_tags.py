@@ -51,6 +51,7 @@ WHERE mb.parent = 4
 
 class TagsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("firefox", "firefox-esr")
+    source_scan_interval: int = 3600
 
     def __init__(self):
         super().__init__(_("Firefox Tags"))

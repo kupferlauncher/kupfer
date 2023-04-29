@@ -412,6 +412,7 @@ class EmptyTrash(RunnableLeaf):
 
 class ThunarObjects(AppLeafContentMixin, Source):
     appleaf_content_id = "Thunar"
+    source_scan_interval: int = 36000
 
     def __init__(self):
         Source.__init__(self, _("Thunar"))

@@ -442,6 +442,8 @@ class ClassProperty(property):
 
 
 class NotesSource(ApplicationSource):
+    source_scan_interval: int = 3600
+
     def __init__(self):
         super().__init__(_("Notes"))
         self._notes = []
