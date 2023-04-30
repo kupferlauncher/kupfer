@@ -13,14 +13,17 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import os
 import typing as ty
 from pathlib import Path
-import time
 
 from gi.repository import Gio
 
 from kupfer import plugin_support, launch, icons
 from kupfer.obj import FileLeaf, Source, SourceLeaf, Action
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
+from kupfer.support.datatools import simple_cache
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -41,49 +44,63 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 
-def _load_recent_files(viminfo: Path, limit: int) -> ty.Iterable[FileLeaf]:
+@simple_cache
+def _load_recent_files(viminfo: Path, limit: int, stamp: float) -> list[Path]:
+    # stamp is file modification timestamp used to evict old cache items
+    files = []
     with viminfo.open("rt", encoding="UTF-8", errors="replace") as fin:
         for line in fin:
             if not line.startswith("> "):
                 continue
 
-            *_dummy, filepath = line.strip().partition(" ")
-            if filepath:
-                yield FileLeaf(Path(filepath).expanduser())
+            if filepath := line[2:].strip():
+                files.append(Path(filepath).expanduser())
                 limit -= 1
                 if not limit:
-                    return
+                    break
+
+    return files
 
 
 class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("vim", "gvim")
     source_scan_interval: int = 3600
 
-    _viminfo_file = "~/.viminfo"
-
     def __init__(self, name=None):
         super().__init__(name=_("Vim Recent Documents"))
-        self.monitor_token = None
+        self._monitor_token: FileMonitorToken | None = None
+        self._viminfo = Path("~/.viminfo").expanduser()
 
     def initialize(self):
-        viminfo = Path(self._viminfo_file).expanduser()
-        self.monitor_token = self.monitor_files(viminfo)
+        self._monitor_token = self.monitor_files(self._viminfo)
 
     def finalize(self):
-        self.stop_monitor_fs_changes(self.monitor_token)
+        self.stop_monitor_fs_changes(self._monitor_token)
 
     def monitor_include_file(self, gfile: Gio.File) -> bool:
-        return bool(gfile)
+        return bool(gfile) and gfile.get_basename() == ".viminfo"
+
+    def get_items_forced(self):
+        try:
+            _load_recent_files.cache_clear()
+        except AttributeError:
+            _load_recent_files.__wrapped__.cache_clear()  # type:ignore
+
+        return self.get_items()
 
     def get_items(self):
-        viminfo = Path(self._viminfo_file).expanduser()
+        viminfo = self._viminfo
         if not viminfo.exists():
             self.output_debug("Viminfo not found at", viminfo)
             return
+
         limit = __kupfer_settings__["limit"]
         try:
-            yield from _load_recent_files(viminfo, limit)
-        except EnvironmentError:
+            return map(
+                FileLeaf,
+                _load_recent_files(viminfo, limit, viminfo.stat().st_mtime),
+            )
+        except OSError:
             self.output_exc()
             return
 
@@ -120,7 +137,7 @@ class VimWikiSource(Source):
     def get_items(self):
         existing_wiki = []
         for path in __kupfer_settings__["wikis"] or ():
-            filepath = Path(path).expanduser()
+            filepath = Path(path).expanduser().resolve()
             if filepath.is_dir():
                 name = filepath.name
                 # make names unique (simple and not perfect)
@@ -137,23 +154,43 @@ class VimWikiSource(Source):
         return icons.ComposedIconSmall("gvim", "emblem-documents")
 
 
-class VimWikiFilesSource(Source):
+class VimWikiFilesSource(Source, FilesystemWatchMixin):
+    source_scan_interval: int = 3600
+
     def __init__(self, wikipath: Path) -> None:
         super().__init__(wikipath.name)
         self.wikipath = wikipath
-        self.update_ts = 0.0
+        self._viminfo = Path("~/.viminfo").expanduser()
+        self._monitor_token: FileMonitorToken | None = None
+
+    def initialize(self):
+        self._monitor_token = self.monitor_files(self._viminfo)
+
+    def finalize(self):
+        self.stop_monitor_fs_changes(self._monitor_token)
+
+    def monitor_include_file(self, gfile: Gio.File) -> bool:
+        if not gfile or gfile.get_basename() != ".viminfo":
+            return False
+
+        viminfo = self._viminfo
+        if not viminfo.exists():
+            return False
+
+        # check is last modified files in vim belong do this wiki
+        limit = __kupfer_settings__["limit"]
+        for fname in _load_recent_files(
+            viminfo, limit, viminfo.stat().st_mtime
+        ):
+            if fname.is_relative_to(self.wikipath):
+                return True
+
+        return False
 
     def repr_key(self) -> str:
         return str(self.wikipath)
 
-    def is_dynamic(self) -> bool:
-        # simple hack, cache only for 60 sec.
-        # we can't monitor all directories / files, so better is keep cache
-        # for some time
-        return (time.monotonic() - self.update_ts) > 60
-
     def get_items(self) -> ty.Iterable[VimWikiFile]:
-        self.update_ts = time.monotonic()
         # wiki can keep various files (txt, md, etc). Instead of read index
         # and guess extension - load add files in wiki
         wikipath = self.wikipath
