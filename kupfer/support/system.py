@@ -5,15 +5,14 @@
 System related functions
 """
 
-import functools
 import os.path
 import socket
 import sys
 
-from . import pretty
+from . import pretty, datatools
 
 
-@functools.cache
+@datatools.evaluate_once
 def get_hostname() -> str:
     """Get cached host name"""
     try:
@@ -24,11 +23,11 @@ def get_hostname() -> str:
     return ""
 
 
-@functools.cache
+@datatools.evaluate_once
 def get_homedir() -> str:
     return os.path.expanduser("~")
 
 
-@functools.cache
+@datatools.evaluate_once
 def get_application_filename() -> str:
     return os.path.basename(sys.argv[0])
