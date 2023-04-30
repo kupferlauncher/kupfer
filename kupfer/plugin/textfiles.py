@@ -35,7 +35,7 @@ class AppendTo(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         with open(
-            iobj.object, "at", encoding=kupferstring.get_encoding()
+            iobj.object, "a", encoding=kupferstring.get_encoding()
         ) as outfile:
             outfile.write(leaf.object)
             outfile.write("\n")

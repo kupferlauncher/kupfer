@@ -18,11 +18,12 @@ from contextlib import suppress
 from gi.repository import Gdk, Gtk
 
 from kupfer import interface
-from kupfer.obj import Action, Leaf, SourceLeaf
+from kupfer.obj import Action, Leaf, SourceLeaf, Source
 from kupfer.obj.apps import AppLeaf
 from kupfer.obj.exceptions import InvalidLeafError
 from kupfer.obj.sources import MultiSource
 from kupfer.plugin.core import commands, contents, internal, text
+from kupfer.core import commandexec
 from kupfer.support import pretty, task
 
 if ty.TYPE_CHECKING:
@@ -134,16 +135,21 @@ class CopyToClipboard(Action):
 
 
 class RescanActionTask(task.ThreadTask):
-    def __init__(self, source, async_token, retval):
+    def __init__(
+        self,
+        source: Source,
+        async_token: commandexec.ExecutionToken,
+        retval: Leaf,
+    ) -> None:
         task.ThreadTask.__init__(self)
         self.source = source
         self.async_token = async_token
         self.retval = retval
 
-    def thread_do(self):
+    def thread_do(self) -> None:
         self.source.get_leaves(force_update=True)
 
-    def thread_finish(self):
+    def thread_finish(self) -> None:
         self.async_token.register_late_result(self.retval)
 
 

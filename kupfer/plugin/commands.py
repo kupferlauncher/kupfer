@@ -119,7 +119,7 @@ class PassToCommand(Action):
         if isinstance(iobj, Command):
             return True
 
-        return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
+        return iobj.is_executable()
 
     def get_description(self):
         return (
@@ -167,7 +167,8 @@ class WriteToCommand(Action):
     def valid_object(self, iobj, for_item=None):
         if isinstance(iobj, Command):
             return True
-        return not iobj.is_dir() and os.access(iobj.object, os.X_OK | os.R_OK)
+
+        return iobj.is_executable()
 
     def get_description(self):
         return (

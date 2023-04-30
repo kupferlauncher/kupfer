@@ -677,10 +677,10 @@ class PreferencesWindowController(pretty.OutputMixin):
             box.attach(label_wid, 0, row, 1, 1)
             if multiline:
                 label_wid.set_alignment(0, 0)  # pylint: disable=no-member
-                label_wid.set_padding(0, 4)
+                label_wid.set_padding(0, 4)  # pylint: disable=no-member
             else:
                 label_wid.set_alignment(0, 0.5)  # pylint: disable=no-member
-                label_wid.set_padding(0, 0)
+                label_wid.set_padding(0, 0)  # pylint: disable=no-member
 
         box.show_all()  # pylint: disable=no-member
         return box

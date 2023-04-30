@@ -137,7 +137,7 @@ class CreateArchive(Action):
         _make_archive((leaf.object,))
 
     def activate_multiple(self, objs):
-        _make_archive((L.object for L in objs))
+        _make_archive(L.object for L in objs)
 
     def item_types(self):
         yield FileLeaf

@@ -519,8 +519,7 @@ class WindowController(pretty.OutputMixin):
     ) -> None:
         """Present on @display, where None means default display"""
         self._window_hide_timer.invalidate()
-        if not display:
-            display = Gdk.Display.get_default().get_name()
+        display = display or Gdk.Display.get_default().get_name()
 
         # Center window before first show
         if not self._window.get_realized():

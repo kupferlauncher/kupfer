@@ -92,7 +92,7 @@ class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
         viminfo = self._viminfo
         if not viminfo.exists():
             self.output_debug("Viminfo not found at", viminfo)
-            return
+            return ()
 
         limit = __kupfer_settings__["limit"]
         try:
@@ -102,7 +102,8 @@ class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
             )
         except OSError:
             self.output_exc()
-            return
+
+        return ()
 
     def get_icon_name(self):
         return "document-open-recent"

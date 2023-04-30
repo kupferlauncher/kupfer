@@ -198,12 +198,12 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
         self.entry = Gtk.Entry()
 
         self.btn_add = Gtk.Button.new_from_icon_name(
-            "fileopen", Gtk.IconSize.BUTTON
+            "fileopen", Gtk.IconSize.BUTTON  # pylint: disable=no-member
         )
         self.btn_add.always_show_image = True
         self.btn_add.set_label(_("Select"))
         self.btn_clear = Gtk.Button.new_from_icon_name(
-            "editclear", Gtk.IconSize.BUTTON
+            "editclear", Gtk.IconSize.BUTTON  # pylint: disable=no-member
         )
         self.btn_clear.always_show_image = True
         self.btn_clear.set_label(_("Clear"))
@@ -263,7 +263,7 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
         chooser_dialog.set_select_multiple(False)
         if fname := self.entry.get_text():
             fname = os.path.expanduser(fname)
-            chooser_dialog.set_filename(fname)
+            chooser_dialog.set_filename(fname)  # pylint: disable=no-member
 
         # pylint: disable=no-member
         if chooser_dialog.run() == Gtk.ResponseType.ACCEPT:
@@ -304,7 +304,7 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
             image = Gtk.Image()
             image.set_property("gicon", obj.get_icon())
             image.set_property("pixel-size", small_icon_size)
-            image.set_alignment(0, 0)
+            image.set_alignment(0, 0)  # pylint: disable=no-member
             box.attach(image, 0, row, 1, 1)
 
             ibox = Gtk.Box.new(Gtk.Orientation.VERTICAL, 3)

@@ -147,7 +147,7 @@ class FilesystemWatchMixin:
         """
         return not (gfile and gfile.get_basename().startswith("."))
 
-    def stop_monitor_fs_changes(self, nptoken: FileMonitorToken) -> None:
+    def stop_monitor_fs_changes(self, nptoken: FileMonitorToken | None) -> None:
         """Stop monitoring for files or directories changes"""
         if nptoken and nptoken.data:
             for token in nptoken.data:

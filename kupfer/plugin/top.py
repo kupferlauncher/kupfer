@@ -111,7 +111,7 @@ class TaskSource(Source):
             if proc.stdout:
                 content = proc.stdout.read()
             else:
-                return ()
+                return
 
         processes = parse_top_output(content)
         sort_order = __kupfer_settings__["sort_order"]

@@ -111,7 +111,7 @@ class LaunchRecorder:
         if any(map(path.startswith, __kupfer_settings__["exclude"])):
             return
 
-        subprocess.run(["zoxide", "add", path])
+        subprocess.run(["zoxide", "add", path], check=False)
 
     def _setting_changed(self, settings, key, value):
         if key == "record_enabled":

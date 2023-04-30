@@ -39,7 +39,7 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def initialize(self) -> None:
         if fpath := _get_chrome_conf_filepath():
-            self.monitor_token = self.monitor_directories(fpath)
+            self.monitor_token = self.monitor_directories(fpath)  # type: ignore
 
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_basename() == "lock"

@@ -111,7 +111,9 @@ class FileLeaf(Leaf, TextRepresentation):
         return os.access(self.object, os.W_OK)
 
     def is_executable(self) -> bool:
-        return os.access(self.object, os.R_OK | os.X_OK)
+        return not path.isdir(self.object) and os.access(
+            self.object, os.R_OK | os.X_OK
+        )
 
     def is_dir(self) -> bool:
         return path.isdir(self.object)

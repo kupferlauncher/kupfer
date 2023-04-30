@@ -90,7 +90,7 @@ class LruCache(OrderedDict[K, V]):
 RT = ty.TypeVar("RT")  # return type
 
 
-class simple_cache(ty.Generic[RT]):
+class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
     """Function wrapper that remember (cache) one result and return it
     if no arguments changed.
 

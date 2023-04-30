@@ -77,7 +77,7 @@ class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
             try:
                 with meta_file.open("r", encoding="UTF-8") as meta:
                     content = json.load(meta)
-            except IOError:
+            except OSError:
                 continue
 
             name = content.get("name") or docset_dir.stem

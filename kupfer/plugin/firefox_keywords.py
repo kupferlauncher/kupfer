@@ -56,12 +56,12 @@ def _url_domain(text: str) -> str:
 
 
 class Keyword(Leaf):
-    def __init__(self, title, kw, url):
+    def __init__(self, title: str, kw: str, url: str) -> None:
         title = title or _url_domain(url)
         name = f"{kw} ({title})"
         super().__init__(url, name)
         self.keyword = kw
-        self.is_search = "%s" in self.object
+        self.is_search = "%s" in url
 
     def get_actions(self):
         if self.is_search:
@@ -124,7 +124,9 @@ class KeywordsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
                 ) as conn:
                     cur = conn.cursor()
                     cur.execute(_KEYWORDS_SQL)
-                    return [Keyword(title, kw, url) for url, title, kw in cur]
+                    return [
+                        Keyword(title or url, kw, url) for url, title, kw in cur
+                    ]
             except sqlite3.Error as err:
                 self.output_debug("Read bookmarks error:", str(err))
                 # Something is wrong with the database
@@ -249,7 +251,7 @@ class KeywordSearchSource(TextSource):
             if "%s" not in default:
                 default += "%s"
 
-            yield SearchWithKeyword(Keyword(None, "", default), text[1:])
+            yield SearchWithKeyword(Keyword("", "", default), text[1:])
 
     def get_description(self):
         return None

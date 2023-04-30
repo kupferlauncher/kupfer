@@ -136,7 +136,8 @@ def _get_items(
         yield (FileLeaf(file_path), modified)
 
 
-def _get_items_sorted(max_days: int,
+def _get_items_sorted(
+    max_days: int,
     for_app_names: tuple[str, ...] | None = None,
 ) -> ty.Iterator[FileLeaf]:
     # sort by modified date
@@ -158,7 +159,12 @@ class RecentsSource(Source):
         weaklib.gobject_connect_weakly(manager, "changed", self._recent_changed)
 
     def _recent_changed(self, _rmgr: Gtk.RecentManager) -> None:
-        _get.cache_clear()
+        # when using typeguard lru_cache is wrapped
+        try:
+            _get.cache_clear()
+        except AttributeError:
+            _get.__wrapped__.cache_clear()  # type:ignore
+
         self.mark_for_update()
 
     def get_items(self):
