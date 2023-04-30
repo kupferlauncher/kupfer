@@ -94,15 +94,25 @@ def learn_stats():
 
 def cache_stats():
     import gc
+    import functools
 
-    from kupfer.support.datatools import LruCache
+    from kupfer.support.datatools import LruCache, simple_cache
 
     print("Cache")
     for obj in gc.get_objects():
-       if isinstance(obj, LruCache):
-           print(str(obj))
-    print("---------------------\n")
+        if isinstance(obj, (LruCache, simple_cache)):
+            print(str(obj))
 
+    print("\nfunctools.*cache")
+    for obj in gc.get_objects():
+        if isinstance(obj, functools._lru_cache_wrapper):
+            print(
+                obj.__wrapped__.__module__,
+                obj.__wrapped__.__name__,
+                obj.cache_info(),
+            )
+
+    print("---------------------\n")
 
 
 def install():

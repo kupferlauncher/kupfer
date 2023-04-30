@@ -9,6 +9,7 @@ from __future__ import annotations
 import inspect
 import typing as ty
 from collections import OrderedDict
+import functools
 
 K = ty.TypeVar("K")
 V = ty.TypeVar("V")
@@ -84,3 +85,82 @@ class LruCache(OrderedDict[K, V]):
             self._inserts += 1
             val = self[key] = creator()
             return val
+
+
+RT = ty.TypeVar("RT")  # return type
+
+
+class simple_cache(ty.Generic[RT]):
+    """Function wrapper that remember (cache) one result and return it
+    if no arguments changed.
+
+    Wrapper properties:
+        `cache_current_args`: remembered (last) arguments
+        `cache_current_value`: remembered (last) function result
+        `cache_hit`: number of result returned from cache
+        `cache_miss`: number of wrapped function calls
+
+    Usage:
+
+        @SimpleCache
+        def function(args):
+            ...
+    """
+
+    cache_current_value: RT | None
+    cache_current_args: ty.Any
+    cache_hit: int
+    cache_miss: int
+
+    def __init__(self, func: ty.Callable[..., RT]):
+        """Create SimpleCache.
+
+        Arguments:
+            `func`: cached function
+        """
+        functools.update_wrapper(self, func)
+        self.func = func
+        self.cache_clear()
+        self.name = _get_point_of_create()
+
+    def __call__(self, *args: ty.Any, **kwargs: ty.Any) -> RT:
+        if self.cache_current_args == (args, kwargs):
+            self.cache_hit += 1
+            return self.cache_current_value  # type: ignore
+
+        result = self.func(*args, **kwargs)
+
+        self.cache_current_args = (args, kwargs)
+        self.cache_current_value = result
+        self.cache_miss += 1
+
+        return result
+
+    def cache_clear(self) -> None:
+        """Clear cache and stats."""
+        self.cache_current_value = None
+        self.cache_current_args = None
+        self.cache_hit = 0
+        self.cache_miss = 0
+
+    def __str__(self) -> str:
+        return (
+            f"<simple_cache '{self.name}': hit={self.cache_hit},"
+            f" miss={self.cache_miss}>"
+        )
+
+
+def evaluate_once(func: ty.Callable[..., RT]) -> ty.Callable[..., RT]:
+    """Decorator that run decorated function once and always return computed
+    value. No thread safe."""
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return getattr(wrapper, "cached_value")
+        except AttributeError:
+            result = func(*args, **kwargs)
+            setattr(wrapper, "cached_value", result)
+            return result
+
+    return wrapper
