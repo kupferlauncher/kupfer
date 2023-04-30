@@ -103,6 +103,7 @@ kupfer/plugin/virtualbox/__init__.py
 kupfer/plugin/virtualbox/ose_support.py
 kupfer/plugin/virtualbox/vboxapi4_support.py
 kupfer/plugin/virtualbox/constants.py
+kupfer/plugin/tracker3.py
 kupfer/plugin/kupfer_plugins.py
 kupfer/plugin/volumes.py
 kupfer/plugin/nm.py
