@@ -15,7 +15,7 @@ except ImportError:
 import kupfer.config
 import kupfer.environment
 from kupfer import version
-from kupfer.core import settings
+from kupfer.core import settings, commandexec
 from kupfer.core.datactrl import DataController
 from kupfer.support import pretty, scheduler
 from kupfer.ui import about, keybindings, kupferhelp, listen, uievents
@@ -432,9 +432,17 @@ class WindowController(pretty.OutputMixin):
     def _result_callback(
         self,
         sender: DataController,
-        _result_type: ty.Any,
+        result_type: int,
         ui_ctx: uievents.GUIEnvironmentContext,
     ) -> None:
+        result_type = commandexec.ExecResult(result_type)
+        # handle "refresh" result
+        if result_type == commandexec.ExecResult.REFRESH:
+            self.output_debug("refresh leaves list")
+            self._interface.reset_current()
+            self._interface.did_launch()
+            return
+
         self._interface.did_get_result()
         if ui_ctx:
             self._on_present(

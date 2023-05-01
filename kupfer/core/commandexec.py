@@ -75,6 +75,7 @@ class ExecResult(IntEnum):
     OBJECT = 2
     SOURCE = 3
     ASYNC = 4
+    REFRESH = 5
 
     @property
     def is_sync(self):
@@ -95,6 +96,11 @@ ActionResult = ty.Union[Source, Leaf, task.Task, None]
 
 if ty.TYPE_CHECKING:
     _ = str
+
+
+# ActionResultRefresh is special leaf used as result of action that
+# want refresh current leaves list.
+ActionResultRefresh = Leaf(None, "ActionResultRefresh")
 
 
 class ActionExecutionError(Exception):
@@ -317,9 +323,10 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         if result_type == ExecResult.NONE:
             return
 
-        uiutils.show_notification(
-            _('"%s" produced a result') % action, description
-        )
+        if result_type != ExecResult.REFRESH:
+            uiutils.show_notification(
+                _('"%s" produced a result') % action, description
+            )
 
         self.emit(
             "late-command-result", command_id, result_type, result, ctxenv
@@ -629,6 +636,9 @@ def _activate_action_multiple_multiplied(
 
 def parse_action_result(action: Action, ret: ActionResult) -> ExecResult:
     """Return result type for @action and return value @ret"""
+    if ret is ActionResultRefresh:
+        return ExecResult.REFRESH
+
     if not ret or (
         hasattr(ret, "is_valid") and not ret.is_valid()  # type:ignore
     ):
@@ -652,6 +662,9 @@ def _parse_late_action_result(action: Action, ret: ty.Any) -> int:
     # by default for backward compat.
     #
     # It is also allowed to be a Source
+
+    if ret is ActionResultRefresh:
+        return ExecResult.REFRESH
 
     if not ret or (hasattr(ret, "is_valid") and not ret.is_valid()):
         return ExecResult.NONE

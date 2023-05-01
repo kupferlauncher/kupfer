@@ -604,6 +604,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         elif result_type == commandexec.ExecResult.OBJECT:
             self.object_stack_clear_all()
             self._insert_object(PaneSel.SOURCE, ret)
+        elif result_type == commandexec.ExecResult.REFRESH:
+            pass
         else:
             return
 
