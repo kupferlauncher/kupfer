@@ -1,8 +1,8 @@
 __kupfer_name__ = _("Volumes and Disks")
 __kupfer_sources__ = ("VolumesSource",)
 __description__ = _("Mounted volumes and disks")
-__version__ = "2017.2"
-__author__ = ""
+__version__ = "2023-05-01"
+__author__ = "US, KB"
 
 import typing as ty
 
@@ -12,6 +12,7 @@ from kupfer import launch
 from kupfer.obj import Action, FileLeaf, OpenTerminal, Source, Leaf
 from kupfer.obj.fileactions import Open
 from kupfer.ui import uiutils
+from kupfer.core import commandexec
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -94,19 +95,24 @@ class Mount(Action):
     def __init__(self, name=None):
         super().__init__(name or _("Mount"))
 
-    def mount_callback(self, volume, async_result, ctx):
+    def mount_callback(
+        self,
+        volume: Gio.Volume,
+        async_result: ty.Any,
+        ctx: commandexec.ExecutionToken,
+    ) -> None:
         try:
             volume.mount_finish(async_result)
-            name = volume.get_name()
         except GLib.Error:
             ctx.register_late_error()
         else:
             uiutils.show_notification(
                 _("Mount finished"),
                 # TRANS: %s is name of volume
-                _('"%s" was successfully mounted') % name,
+                _('"%s" was successfully mounted') % volume.get_name(),
                 icon_name=_VOLUME_ICON_NAME,
             )
+            ctx.register_late_result(commandexec.ActionResultRefresh)
 
     def wants_context(self):
         return True
@@ -134,15 +140,22 @@ class Unmount(Action):
     def __init__(self, name=None):
         super().__init__(name or _("Unmount"))
 
-    def unmount_callback(self, mount, async_result, ctx):
+    def unmount_callback(
+        self,
+        mount: Gio.Mount,
+        async_result: ty.Any,
+        ctx: commandexec.ExecutionToken,
+    ) -> None:
         try:
             mount.unmount_with_operation_finish(async_result)
         except GLib.Error:
+            # FIXME: argument
             ctx.register_late_error()
         else:
             self.success(mount.get_name())
+            ctx.register_late_result(commandexec.ActionResultRefresh)
 
-    def success(self, name):
+    def success(self, name: str) -> None:
         uiutils.show_notification(
             _("Unmount finished"),
             # TRANS: %s is name of volume
@@ -199,13 +212,19 @@ class Eject(Unmount):
                 ctx,
             )
 
-    def eject_callback(self, mount, async_result, ctx):
+    def eject_callback(
+        self,
+        mount: Gio.Mount,
+        async_result: ty.Any,
+        ctx: commandexec.ExecutionToken,
+    ) -> None:
         try:
             mount.eject_with_operation_finish(async_result)
         except GLib.Error:
             ctx.register_late_error()
         else:
             self.success(mount.get_name())
+            ctx.register_late_result(commandexec.ActionResultRefresh)
 
 
 class VolumesSource(Source):
