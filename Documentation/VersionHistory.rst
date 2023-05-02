@@ -1,6 +1,149 @@
 NEWS for kupfer
 ===============
 
+
+kupfer v323-beta1
+-----------------
+
+`Python upgrade release: something may be broken.`
+
++ Fixes:
+
+  + If actions have the same name, make it unique by adding plugin name;
+    previously module name was added.
+  + Improve detecting URLs, files path, and emails addresses in text.
+  + Fix not working "select clipboard text" accelerator.
+  + Fix presenting first line from Text leaves: now really get first line.
+  + Browser track history of selected leaves and allow return to parent leaf
+    instead of top of list.
+  + Make sure that file opened in plugins are closed after load.
+
++ New features:
+
+  + User can configure preferred text editor; list is loaded from
+    application registry.
+  + List of terminals is loaded from application registry (applications
+    with  "terminal" tag). Some terminal are still preconfigured.
+  + In plugins settings user can choose files and directories by appropriate
+    dialog instead of type path manually.
+  + Kupfer can more frequent refresh items in background and cache result;
+    this make searching and browsing faster
+  + Make Kupfer window rounded again.
+  + If more than one action have the same accelerator pressing key navigate
+    between them; previously first action was activated.
+  + Hosts / services have additional aliases "service:hostname"; this allow
+    user to fast find items by entering e.g. "sshmyserverhostname".
+  + Leaves representing songs (in *rhythmbox* and *audacious*  plugin) and
+    leaves representing services have text representation, i.e. user can
+    copy it to clipboard or use whenever text is acceptable.
+
++ Plugins:
+
+  + New:
+
+    - *NetworkManager*: manage network connections
+    - *Tmux*: support tmux session and tmuxp workplaces.
+    - *Zoxide*: load most used directories from zoxide database.
+    - *Vim*: recent files opened in vim and quick access to configured
+      VimWikis.
+    - *Tracker3*: full-text search in Tracker 3 application.
+    - *Show QRCode* plugin: generate qrcodes from text.
+    - *Aria2*: download files be remote aria2 instance.
+
+  + Updated:
+
+    - *Apt*: add new actions: "Search for file in packages..." and "Browse
+      packages.debian.org".
+    - *Application*:
+
+      + Add additional aliases do application: executable name and original
+        (English) name.
+      + New action "Open With...": open file with one of application that
+        support given file type.
+      + New action "Launch here": start application in selected folder.
+
+    - *Web Search*: allow user to define custom search engines by provide
+      appropriate URLs.
+    - *Audacious*: use D-Bus for interaction with audacious.
+    - *Wikipedia*:
+
+      + User can configure more than one language for Wikipedia search;
+        action "Search in Wikipedia" allow user to select Wikipedia language.
+      + Add "S" accelerator for "Search in Wikipedia" action.
+
+    - *File actions*: new action "Edit file content" that open configured
+      text editor
+    - *Volumes*:
+
+      + New "Mount" action
+      + Separate "Eject" and "Unmount" action.
+
+    - *Textfiles*:
+
+      + new action "Copy content" (with "C" accelerator): copy content of
+        text file to clipboard
+      + "Write To" action allow user to enter destination file name.
+      + Fix selecting destination directory
+      + Fix encoding on write files
+
+    - *Show Text*: bring back "Large Type" action.
+    - *Chromium*: monitor and load changes in bookmarks.
+    - *Dictionary*: add support for GoldenDict
+    - *libvirt*: monitor state of virtual machines
+    - *Archive manager*: user can select 7zip (7z or 7za) to use instead
+      of file-roller.
+    - *Session gnome*, *Session lxqt*, *Session xfce*: user must confirm
+      "logout" and "shutdown" actions
+    - *Session xfce*: load favorite applications defined in Whisker Menu.
+    - *Image*: detect images files by mime type, not by extension.
+    - *Rhythmbox*: fix errors when no mpris module available.
+    - *SSH hosts*: fix broken monitoring for configuration changes.
+    - *Windows*: better detection of Kupfer windows.
+    - *Clipboard*: detect URLs and files path in clipboard items, selected
+      text
+    - *Favorites*: allow user to add to favorite only leaves than can be
+      added.
+
++ Dev:
+
+  + *BREAKING*: refactor & modernize code; Python 3.9+ is now required.
+  + *BREAKING*: reorganise and rename some modules, functions. Split long
+    files into smaller.
+  + *BREAKING*: there is no backward compatibility with old/external plugins.
+  + Simplify, optimize code; remove legacy and duplicated code; drop
+    unnecessary list creation (use iterators whenever possible); remove
+    redundant caching. This improve performance and memory usage.
+  + Add types to most core objects.
+  + Add `pyproject.toml` file.
+  + Refactor ui: remove deprecated components, fix layout.
+  + Upgrade WAF v 2.0.25; fix & update wscript files.
+  + Add `icons.get_gicon_from_file`: quick load gicon from file.
+  + Add `kupfer.support.validators` with some useful functions; use it in
+    various places.
+  + Add some debugging tools to debug.py (ic, etc).
+  + `FileLeaf` accept Path object.
+  + `FilesystemWatchMixin` provide function to monitor single files.
+  + Add some caching for icons (esp. `ComposedIcons`)
+  + Add simpler caches in `kupfer.support.datatools` and some statistics to
+    existing. Add `get_or_insert` method to LruCache.
+  + Plugin preferences may use list of string (type list) and helpers
+    (select directory, file). For int-type preferences can be set min and
+    max value.
+    See *zoxide*, *firefox* plugins.
+  + Dialog like preferences are destroyed on close.
+  + Action may reload leaves list in browser as result of execute. See
+    *Volumes* plugin and "Mount" action.
+  + Refresh action do not duplicate sources in browser.
+  + Sources can define minimal interval between background load data
+    (`source_scan_interval`). `mark_as_default` method have new parameter
+    `postpone` (default False); when true, mark source to update in next
+    rescan campaign but not clear cache.
+  + Purge mnemonics remove first oldest entries.
+  + Plugins can register "favorite" items. See *Session XFCE* plugin.
+  + Add some tests.
+
+
+
 kupfer v322
 -----------
 
