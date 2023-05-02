@@ -8,6 +8,7 @@
 """
 Plugin allow control domains (virtual machines) managed by libvirt.
 """
+from __future__ import annotations
 
 __kupfer_name__ = _("libvirt")
 __kupfer_sources__ = ("LibvirtDomainsSource",)
@@ -15,11 +16,18 @@ __description__ = _("Control libvirt guest domains.")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+import typing as ty
+import threading
+
 import libvirt
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from getattr import getattr as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -40,11 +48,12 @@ class Domain(Leaf):
         return self.description
 
     def get_actions(self):
-        with libvirt.openReadOnly(
-            __kupfer_settings__["connection"] or None
-        ) as conn:
-            domain = conn.lookupByName(self.object)
-            state, _reason = domain.state()
+        conn = _ConnManager.instance().get_conn()
+        if not conn:
+            return
+
+        domain = conn.lookupByName(self.object)
+        state, _reason = domain.state()
 
         # https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainState
         if state == libvirt.VIR_DOMAIN_RUNNING:
@@ -112,33 +121,97 @@ def _get_domain_metadata(domain, key):
     return None
 
 
+class _ConnManager(pretty.OutputMixin):
+    """Libvirt connection manager. Only for read-only connections."""
+
+    _instance: _ConnManager = None  # type: ignore
+
+    @classmethod
+    def instance(cls) -> _ConnManager:
+        if not cls._instance:
+            cls._instance = _ConnManager()
+
+        return cls._instance
+
+    def __init__(self):
+        self.conn: libvirt.virConnect | None = None
+        self._start_event_loop()
+        __kupfer_settings__.connect(
+            "plugin-setting-changed", self._setting_changed
+        )
+
+    def _event_loop(self) -> None:
+        while True:
+            libvirt.virEventRunDefaultImpl()
+
+    def _start_event_loop(self) -> None:
+        libvirt.virEventRegisterDefaultImpl()
+        thr = threading.Thread(
+            target=self._event_loop, name="libvirtEventLoop", daemon=True
+        )
+        thr.start()
+
+    def _open(self) -> None:
+        connstr = __kupfer_settings__["connection"] or None
+        self.output_debug("LibVirt Connection open", connstr)
+        self.conn = libvirt.openReadOnly(connstr)
+        if self.conn:
+            self.conn.setKeepAlive(5, 3)
+
+    def close(self):
+        if self.conn:
+            self.conn.close()
+            self.conn = None
+
+    def _setting_changed(self, settings, key, value):
+        if self.conn:
+            self.conn.close()
+            self._open()
+
+    def get_conn(self) -> libvirt.virConnect | None:
+        if self.conn is None:
+            self._open()
+
+        return self.conn
+
+
 class LibvirtDomainsSource(AppLeafContentMixin, Source):
     source_use_cache = False
     appleaf_content_id = "virt-manager"
 
+    def __init__(self, name=_("Libvirt domains")):
+        Source.__init__(self, name)
+        self.cmgr: _ConnManager = None  # type: ignore
+
     def initialize(self):
         # prevent logging errors from libvirt
         libvirt.registerErrorHandler(lambda userdata, err: None, ctx=None)
+        self.cmgr = _ConnManager.instance()
+        if conn := self.cmgr.get_conn():
+            conn.domainEventRegister(self._callback, None)
 
-    def __init__(self, name=_("Libvirt domains")):
-        Source.__init__(self, name)
+    def finalize(self):
+        self.cmgr.close()
+        self.cmgr = None  # type: ignore
 
-    def is_dynamic(self):
-        return True
+    def _callback(self, _conn, dom, event, detail, _opaque):
+        pretty.print_debug(
+            "LibvirtDomainsSource event", dom.name(), dom.ID(), event, detail
+        )
+        self.mark_for_update()
 
     def get_items(self):
-        with libvirt.openReadOnly(
-            __kupfer_settings__["connection"] or None
-        ) as conn:
-            for dom in conn.listAllDomains():
-                name = dom.name()
-                title = _get_domain_metadata(
-                    dom, libvirt.VIR_DOMAIN_METADATA_TITLE
-                )
-                descr = _get_domain_metadata(
-                    dom, libvirt.VIR_DOMAIN_METADATA_DESCRIPTION
-                )
-                yield Domain(name, title or name, descr)
+        conn = self.cmgr.get_conn()
+        if not conn:
+            return
+
+        for dom in conn.listAllDomains():
+            name = dom.name()
+            title = _get_domain_metadata(dom, libvirt.VIR_DOMAIN_METADATA_TITLE)
+            descr = _get_domain_metadata(
+                dom, libvirt.VIR_DOMAIN_METADATA_DESCRIPTION
+            )
+            yield Domain(name, title or name, descr)
 
     def get_description(self):
         return None
