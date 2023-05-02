@@ -33,10 +33,6 @@ if not hasattr(builtins, "_"):
     builtins._ = _ = str  # type: ignore
 
 
-def no_sort_func(x, _key=None):
-    return x
-
-
 class KupferObject:
     """
     Base class for kupfer data model
@@ -430,33 +426,38 @@ class Source(KupferObject, pretty.OutputMixin):
         can handle sorting and caching.
         if @force_update, ignore cache, print number of items loaded
         """
-        if self.should_sort_lexically():
-            # sort in locale order
-            sort_func = kupferstring.locale_sort
-        else:
-            sort_func = no_sort_func
 
         if self.is_dynamic():
-            if force_update:
-                return sort_func(self.get_items_forced())
+            items = (
+                self.get_items_forced() if force_update else self.get_items()
+            )
 
-            return sort_func(self.get_items())
+            if self.should_sort_lexically():
+                items = kupferstring.locale_sort(items)
+
+            return items
 
         if self.cached_items is None or force_update:
+            items = (
+                self.get_items_forced() if force_update else self.get_items()
+            )
+            if self.should_sort_lexically():
+                items = kupferstring.locale_sort(items)
+
             if force_update:
-                self.cached_items = itertools.as_list(
-                    sort_func(self.get_items_forced())
-                )
+                self.cached_items = itertools.as_list(items)
                 self.output_debug(f"Loaded {len(self.cached_items)} items")
+            elif isinstance(items, (list, tuple)):
+                self.cached_items = items
+                self.output_debug(f"Loaded {len(items)} items (l)")
             else:
-                self.cached_items = itertools.SavedIterable(
-                    sort_func(self.get_items())
-                )
+                # use savediterable only for iterators
+                self.cached_items = itertools.SavedIterable(items)
                 self.output_debug("Loaded items")
 
             self.last_scan = int(time.time())
 
-        return self.cached_items or []  # type: ignore
+        return self.cached_items or ()
 
     def has_parent(self) -> bool:
         return False
