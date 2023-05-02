@@ -115,8 +115,22 @@ def cache_stats():
     print("---------------------\n")
 
 
+def opened_files():
+    try:
+        import psutil
+    except ImportError:
+        return
+
+    print("Opened files")
+    for file in psutil.Process().open_files():
+        print(str(file))
+
+    print("---------------------\n")
+
+
 def install():
     """Install atexit handlers for debug information"""
+    atexit.register(opened_files)
     atexit.register(mem_stats)
     atexit.register(icon_stats)
     atexit.register(learn_stats)
