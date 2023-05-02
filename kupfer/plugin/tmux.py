@@ -6,7 +6,7 @@ additional modules.
 from __future__ import annotations
 
 __kupfer_name__ = _("tmux / tmuxp")
-__kupfer_sources__ = ("TmuxSessionsSource", "TmuxpSessionsSource")
+__kupfer_sources__ = ("TmuxSessionsSource", "TmuxpWorkspacesSource")
 __description__ = _("Manage tmux and tmuxp sessions")
 __version__ = "2023.1"
 __author__ = "Karol Będkowski"
@@ -17,6 +17,12 @@ import typing as ty
 
 from kupfer import launch
 from kupfer.obj import Action, Leaf, Source
+from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
+
+try:
+    import libtmux
+except ImportError:
+    libtmux = None  # type: ignore
 
 if ty.TYPE_CHECKING:
     from getttext import gettext as _
@@ -45,7 +51,21 @@ class TmuxSession(Leaf):
         return "gnome-window-manager"
 
 
-def tmux_sessions(session_id: str | None = None) -> ty.Iterator[list[str]]:
+def tmux_sessions(
+    session_id: str | None = None,
+) -> ty.Iterator[ty.Collection[str]]:
+    if libtmux:
+        if srv := libtmux.Server():  # type: ignore
+            for sess in srv.sessions:
+                yield (
+                    sess.session_id,
+                    sess.session_name,
+                    sess.session_attached,
+                    sess.session_created,
+                )
+            return
+
+    # fallback
     cmd = (
         "tmux list-sessions -F "
         "'#{session_id}\t#{session_name}\t"
@@ -121,11 +141,22 @@ class StartTmuxpSession(Action):
         launch.spawn_in_terminal(action_argv)
 
 
-class TmuxpSessionsSource(Source):
-    """Source for tmuxp sessions"""
+class TmuxpWorkspacesSource(Source, FilesystemWatchMixin):
+    """Source for tmuxp workspaces"""
+
+    source_scan_interval: int = 3600
+    _tmuxp_home = "~/.tmuxp/"
 
     def __init__(self):
-        super().__init__(_("tmuxp Sessions"))
+        super().__init__(_("tmuxp Workspaces"))
+        self._monitor_token: FileMonitorToken | None = None
+
+    def initialize(self):
+        tmux_ws_dir = os.path.expanduser(self._tmuxp_home)
+        self._monitor_token = self.monitor_directories(tmux_ws_dir, force=True)
+
+    def finalize(self):
+        self.stop_monitor_fs_changes(self._monitor_token)
 
     def get_items(self):
         with os.popen("tmuxp ls") as pipe:
@@ -136,7 +167,7 @@ class TmuxpSessionsSource(Source):
                 yield TmuxpSession(line)
 
     def get_description(self):
-        return _("Active tmux sessions")
+        return _("Configured tmuxp workspaces")
 
     def get_icon_name(self):
         return "terminal"
