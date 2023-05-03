@@ -305,7 +305,7 @@ Action
 ``class Action`` inherits from KupferObject.
 
 An Action represents a command using a direct object and an optional
-indirect object. One example is ``kupfer.obj.objects.Open`` that
+indirect object. One example is ``kupfer.obj.fileactions.Open`` that
 will open its direct object (which must be a file), with its default
 viewer.
 
@@ -372,7 +372,7 @@ Determining Eligible Objects
     Return ``True`` if the action is a `Subject + Verb + Object`:t:
     action and requires both a direct and an indirect object.
 
-    If ``requires_object`` returns ``True``,  then you must must also
+    If ``requires_object`` returns ``True``,  then you must also
     define (at least) ``object_types``.
 
 ``object_types(self)``
@@ -619,11 +619,21 @@ Source Attributes
 
 ``Source.source_prefer_sublevel = False``
     Set to ``True`` to not export its objects to the top level by
-    default. Normally you don't wan't to change this
+    default. Normally you don't wan't to change this.
 
-``Source.source_use_cache =  True```
+``Source.source_use_cache =  True``
     If ``True``, the source can be pickled to disk to save its
     cached items until the next time the launcher is started.
+
+``Source.source_scan_interval``
+    Set inteval in secounds between refresh source by
+    ``PeriodicRescanner``. Background process check and refresh all
+    sounrces every 60 secounds but not often than
+    ``source_scan_interval``.
+    Sources marked to reload are refresh in next refresh run.
+
+``Source.last_scan``
+    Object attribute keep information about last rescan time.
 
 ``Source._version``
     Internal number that is ``1`` by default. Update this number in
@@ -731,10 +741,46 @@ the user values until the plugin is properly initialized.
 ``PluginSettings`` is read-only but supports the GObject signal
 ``plugin-setting-changed (key, value)`` when values change.
 
-String-like type setting can provide ``alternatives`` - list of possible
-values to choose. Alternatives may by simple list of strings - then
-value displayed is equal to value used internally, or as list of tuples
-(<value id>, <value title>).
+Supported parameter types:
+
+``str``
+    Simple string value that used Entry for enter value.
+    When addidtional parameter ``"multiline": True`` is provided,
+    multiline TextView is used in GUI to enter value.
+
+    Setting can provide ``alternatives`` - list of possible
+    values to choose. Alternatives may by simple list of strings - then
+    value displayed is equal to value used internally, or as list of
+    tuples (<value id>, <value title>). In this case GUI use ComboBox
+    widget.
+
+    Setting can provide ``helper`` that determine how value is entered
+    in preferences dialog.
+    Supported helpers are: ``choose_directory`` and ``choose_file``.
+
+    ``alternatives``, ``multiline`` and ``helper`` can't be use
+    together.
+
+``int``
+    Allow user to enter numeric value.
+
+    Additional parameters: ``min`` and ``max`` can be provided to limit
+    entered value.
+
+``bool``
+    Use checkbox for parameter.
+
+``list``
+    Setting value is list of strings. Additional parameter ``helper``
+    must be provided to determine how values are entered.
+
+    For now only supported is ``choose_directory`` helper that allow
+    user to select one or more directories.
+
+``plugin_support.UserNamePassword``
+    Form used to enter user credentials.
+
+
 
 check_dbus_support and check_keyring_support
 ............................................
@@ -755,6 +801,7 @@ which to use. Each category permits one choice.
     :``terminal``:      the terminal used for running programs that require
                         terminal
     :``icon_renderer``: method used to look up icon names
+    :``editor``:        editor used by *Edit* action
 
 Each category has a specific format of required data that is defined in
 ``kupfer/plugin_support.py``. A plugin should use the function
@@ -774,9 +821,9 @@ to register their implementations of new alternatives. The arguments are:
 .. topic:: Fields requried for the category ``terminal``
 
     :``name``:              unicode visible name
-    :``argv``:              argument list: list of byte strings
+    :``argv``:              argument list: list of strings
     :``exearg``:            the execute-flag as a byte string (``""`` when N/A)
-    :``desktopid``:         the likely application id as a byte string
+    :``desktopid``:         the likely application id as a string
     :``startup_notify``:    whether to use startup notification as boolean
 
 .. topic:: Fields required for the category ``icon_renderer``
@@ -784,6 +831,13 @@ to register their implementations of new alternatives. The arguments are:
     :``name``:              unicode visible name
     :``renderer``:          an object with an interface just like
                             ``kupfer.icons.IconRenderer``
+
+.. topic:: Fields requried for the category ``editor``
+
+    :``name``:              unicode visible name
+    :``argv``:              argument list: list of trings
+    :``terminal``:          whether to launch application in terminal as boolean
+
 
 
 Plugin Packages, Resources and Distribution
@@ -850,25 +904,13 @@ can reuse.
         ``get_text_representation``
             If a Leaf has a text representation (used for
             copy-to-clipboard), it should implement this method
-            and return a unicode string.
+            and return a string.
 
-.. topic:: ``kupfer.support.kupferstring``
-
-    Kupfer and python internall use unicode strings. Files, command
-    results etc may use other text representation (bytes).
-    When you handle byte strings that is text, you must convert it to
-    unicode as soon as possible. You only know the encoding depending
-    on the source of the byte string.
-
-    ``tounicode``
-        decode UTF-8 or unicode object into unicode.
-
-    ``tolocale(ustr)``
-        coerce unicode ``ustr`` into a locale-encoded bytestring.
-
-    ``fromlocale(lstr)``
-        decode locale-encoded bytestring ``lstr`` to a unicode object.
-
+    ``UriListRepresentation``
+        ``get_urilist_representation``
+            If a Leaf has a uri-list representation (used for
+            copy-to-clipboard), it should implement this method
+            and return a list of strings.
 
 .. topic:: ``kupfer.obj``
 
@@ -884,7 +926,7 @@ can reuse.
         inside ``Action.activate`` to notify the user of a serious
         error.
 
-        Specialized versions exist: Such as
+        Specialized versions exist in ``kupfer.obj.exceptions``: Such as
         ``NotAvailableError(toolname)``,
         ``NoMultiError()``
 
@@ -912,27 +954,92 @@ can reuse.
         for define service on given host (ie. ssh, www etc).
         This leaves can be grouped by host.
 
-
-.. topic:: ``kupfer.support.pretty``
-
-   Methods than can be used for debugging - logging.
-
 .. topic:: ``kupfer.runtimehelper``
 
    Module provide support for async results.
+
+.. topic:: ``kupfer.support.datatools``
+
+   Caching object and decorators.
+
+   ``LruCache``
+      Least-recentrly-used cache with defined max size.
+
+   ``simple_cache``
+      Function decorator that remember only one last result and
+      call wrapped function when argumets was changed.
+
+   ``evaluate_once``
+      Function decorator that call wrapped function once and always
+      return the same result.
+
+.. topic:: ``kupfer.support.fileutils``
+
+    Support function related to files and directories.
+
+.. topic:: ``kupfer.support.kupferstring``
+
+    Kupfer and python internall use unicode strings. Files, command
+    results etc may use other text representation (bytes).
+    When you handle byte strings that is text, you must convert it to
+    unicode as soon as possible. You only know the encoding depending
+    on the source of the byte string.
+
+    ``tounicode``
+        decode UTF-8 or unicode object into unicode.
+
+    ``tolocale(ustr)``
+        coerce unicode ``ustr`` into a locale-encoded bytestring.
+
+    ``fromlocale(lstr)``
+        decode locale-encoded bytestring ``lstr`` to a unicode object.
+
+    ``localesort``
+        sort collection of string in locale lexical order.
+
+.. topic:: ``kupfer.support.pretty``
+
+   Methods than can be used for debugging - logging: ``print_info``,
+   ``print_debug``, ``print_exc`` and ``print_error``.
+
+   Module also define ``OutputMixin`` that may be included in action,
+   source and leaves objects and provide methods like ``output_info``,
+   ``output_exc``, ``output_debug`` and ``output_error``.
+
+.. topic:: ``kupfer.support.system``
+
+    System related functions like ``get_hostname``, ``get_homedir`` and
+    ``get_application_filename``.
+
+.. topic:: ``kupfer.support.task``
+
+    Allow run some task in background.
 
 .. topic:: ``kupfer.support.textutils``
 
    Methods for text parsing / extracting.
 
+.. topic:: ``kupfer.support.validators``
+
+   Check if text is valid email, url etc.
+
+.. topic:: ``kupfer.support.weaklib``
+
+   Define some object and function useful to create callback with
+   weak references, e.g. ``dbus_signal_connect_weakly``,
+   ``gobject_connect_weakly``.
+
 .. topic:: ``kupfer.ui.uiutils``
 
     ``show_notification(title, text='', icon_name='', nid=0)``
         Show a notification. If a previous return value is passed as
-        ``nid`` , try to replace that previous notification.
+        ``nid``, try to replace that previous notification.
 
         Returns a notification identifier, or None if notifications
         are not supported.
+
+    ``show_text_result(title, text, ctx)``
+        Open window with text result.
 
 .. topic:: ``kupfer.launch``
 
@@ -940,7 +1047,7 @@ can reuse.
         Spawn a child process, returning True if successfully started.
 
     ``spawn_in_terminal(argv)``
-        ..
+        Run commands in terminal.
 
     ``show_path(path)``
         ..
@@ -949,21 +1056,9 @@ can reuse.
         Display with default viewer for ``path`` or ``url``.
 
     ``get_display_path_for_bytestring(filepath)``
-        File paths are bytestrings (and are not text).
         ``get_display_path_for_bytestring`` returns a user-displayable
-        text representation as a unicode object.
+        text representation as a string.
 
-.. topic:: ``kupfer.task``
-
-    Allow run some task in background.
-
-.. topic:: ``kupfer.support.validators``
-
-   Check if text is valid email, url etc.
-
-.. topic:: ``kupfer.support.weaklib``
-
-    ..
 
 .. topic:: ``kupfer.core``
 

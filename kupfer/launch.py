@@ -742,7 +742,7 @@ def show_help_url(url: str) -> bool:
 
 
 def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
-    """Return a unicode path for display for bytestring @filepath
+    """Return a unicode path for display for string or bytestring @filepath
 
     Will use glib's filename decoding functions, and will
     format nicely (denote home by ~/ etc)

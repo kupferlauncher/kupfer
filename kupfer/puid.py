@@ -63,6 +63,12 @@ PuID = ty.Union[str, SerializedObject]
 
 
 def get_unique_id(obj: ty.Any) -> PuID | None:
+    """Return uniqe id for object: if obj has attribute  qf_id  - return URI to
+    locate object in Kupfer catalog (as str); if object is serializable
+    return SerializedObject for `obj`; otherwise return string representation
+    of object.
+    Return None if obj is None or create SerializedObject failed.
+    """
     if obj is None:
         return None
 

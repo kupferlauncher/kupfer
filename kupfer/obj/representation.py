@@ -30,8 +30,7 @@ class UriListRepresentation(metaclass=abc.ABCMeta):
     Kupfer Objects that implement this interface have a uri-list
     representation that can be used for Copy & Paste etc
 
-    get_urilist_representation should return a sequence of bytestring
-    URIs.
+    get_urilist_representation should return a sequence of string URIs.
     """
 
     def get_urilist_representation(self) -> list[str]:

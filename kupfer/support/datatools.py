@@ -25,9 +25,9 @@ def _get_point_of_create(offset: int = 3) -> str:
 
 class LruCache(OrderedDict[K, V]):
     """
-    Least-recently-used cache mapping of size `maxsize`.
+    Least-recently-used cache mapping of size *maxsize*.
 
-    `name` is optional cache name for debug purpose. If not defined - is place
+    *name* is optional cache name for debug purpose. If not given, is place
     when cache is created (filename:lineno).
     """
 
@@ -95,12 +95,12 @@ class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
     if no arguments changed.
 
     Wrapper properties:
-        `cache_current_args`: remembered (last) arguments
-        `cache_current_value`: remembered (last) function result
-        `cache_hit`: number of result returned from cache
-        `cache_miss`: number of wrapped function calls
+        *cache_current_args*   remembered (last) arguments
+        *cache_current_value*  remembered (last) function result
+        *cache_hit*            number of result returned from cache
+        *cache_miss*           number of wrapped function calls
 
-    Usage:
+    Usage::
 
         @SimpleCache
         def function(args):
@@ -113,11 +113,7 @@ class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
     cache_miss: int
 
     def __init__(self, func: ty.Callable[..., RT]):
-        """Create SimpleCache.
-
-        Arguments:
-            `func`: cached function
-        """
+        """Create SimpleCache for *func* function."""
         functools.update_wrapper(self, func)
         self.func = func
         self.cache_clear()
@@ -151,7 +147,7 @@ class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
 
 
 def evaluate_once(func: ty.Callable[..., RT]) -> ty.Callable[..., RT]:
-    """Decorator that run decorated function once and always return computed
+    """Decorator that run wrapped function once and always return computed
     value. No thread safe."""
 
     @functools.wraps(func)

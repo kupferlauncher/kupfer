@@ -316,17 +316,22 @@ class Source(KupferObject, pretty.OutputMixin):
     All Sources should be hashable and treated as equal if
     their @repr are equal!
 
-    @source_user_reloadable if True source get "Reload" action without
-        debug mode.
-    @source_prefer_sublevel if True, the source by default exports
-        its contents in a subcatalog, not to the toplevel.
-        NOTE: *Almost never* use this: let the user decide, default to toplevel.
-    @source_use_cache if True, the source can be pickled to disk to save its
+    *source_user_reloadable*
+        if True source get "Reload" action without debug mode.
+
+    *source_prefer_sublevel*
+        if True, the source by default exports its contents in a subcatalog, not
+        to the toplevel.  NOTE: *Almost never* use this: let the user decide,
+        default to toplevel.
+
+    *source_use_cache*
+        if True, the source can be pickled to disk to save its
         cached items until the next time the launcher is started.
 
-    @source_scan_interval set typical rescan interval (not guaranteed) in sec.
-        Set 0 to use default. When lower than min_rescan_interval in
-        PeriodicRescanner - value is ignored.
+    *source_scan_interval*
+        set typical rescan interval (not guaranteed) in seconds.
+        Set 0 to use default. values lower than min_rescan_interval in
+        PeriodicRescanner are ignored.
     """
 
     fallback_icon_name = "kupfer-object-multiple"
@@ -419,12 +424,23 @@ class Source(KupferObject, pretty.OutputMixin):
         return False
 
     def get_leaves(self, force_update: bool = False) -> ty.Iterable[Leaf]:
-        """
-        Return a list of all leaves.
+        """Return a list of leaves.
 
-        Subclasses should implement get_items, so that Source
-        can handle sorting and caching.
-        if @force_update, ignore cache, print number of items loaded
+        Subclasses should implement ``get_items()``, so that ``Source`` can
+        handle sorting and caching.
+
+        If *force_update*, ignore cache, load *all* leaves from source and store
+        it into cache. Print number of items loaded.
+
+        If source ``get_items()`` return list or tuple - also all leaves are
+        loaded and stored in cache.
+
+        Otherwise (when ``get_items()`` is generator) leaves are loaded on
+        request and cached in ``SavedIterable``.
+
+        If ``should_sort_lexically()`` is True - all leaves are loaded, sorted
+        and cached.
+
         """
 
         if self.is_dynamic():
@@ -460,9 +476,11 @@ class Source(KupferObject, pretty.OutputMixin):
         return self.cached_items or ()
 
     def has_parent(self) -> bool:
+        """Return True when source has other, parent Source."""
         return False
 
-    def get_parent(self) -> KupferObject | None:
+    def get_parent(self) -> Source | None:
+        """Return parent Source for given source if exists or None."""
         return None
 
     def get_leaf_repr(self) -> Leaf | None:
@@ -499,7 +517,7 @@ class Source(KupferObject, pretty.OutputMixin):
 class TextSource(KupferObject):
     """TextSource base class implementation,
 
-    this is a psedo Source"""
+    this is a pseudo Source"""
 
     def __init__(
         self,
@@ -507,8 +525,8 @@ class TextSource(KupferObject):
         placeholder: str | None = None,
     ) -> None:
         """
-        name: Localized name
-        placeholder: Localized placeholder when it has no input
+        *name*:         Localized name
+        *placeholder*:  Localized placeholder when it has no input
         """
         if not name:
             name = _("Text")
