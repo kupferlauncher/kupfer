@@ -157,6 +157,9 @@ class ContactsSource(
             or gfile.get_basename() == "localstore.rdf"
         )
 
+    def mark_for_update(self):
+        super().mark_for_update(postpone=True)
+
     def get_items(self):
         for name, email in support.get_contacts():
             yield EmailContact(email, name)

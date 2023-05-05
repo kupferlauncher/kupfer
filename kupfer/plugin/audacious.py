@@ -405,7 +405,7 @@ class AudaciousSource(AppLeafContentMixin, Source):
 
     def _name_owner_changed(self, name, old, new):
         if new:
-            self.mark_for_update()
+            self.mark_for_update(postpone=True)
 
     def get_items(self):
         yield Play()

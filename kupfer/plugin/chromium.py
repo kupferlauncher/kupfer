@@ -44,6 +44,9 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_basename() == "lock"
 
+    def mark_for_update(self):
+        super().mark_for_update(postpone=True)
+
     def _get_chromium_items(self, fpath: str) -> ty.Iterator[UrlLeaf]:
         """Parse Chromium' bookmarks backups"""
         self.output_debug("Parsing", fpath)

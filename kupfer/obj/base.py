@@ -405,15 +405,17 @@ class Source(KupferObject, pretty.OutputMixin):
         """
         return False
 
-    def mark_for_update(self) -> None:
-        """
-        Mark source as changed
+    def mark_for_update(self, postpone: bool = False) -> None:
+        """Mark source as changed.
 
-        it should be reloaded on next used (if normally cached)
+        When postpone is True, cached items are not cleaned so be available to
+        use and refreshed on next PeriodicRescanner run.
+
+        If there is no cached_items source load items on next use.
         """
-        self.cached_items = None
-        # mark for rescan
         self.last_scan = 0
+        if not postpone:
+            self.cached_items = None
 
     def should_sort_lexically(self) -> bool:
         """

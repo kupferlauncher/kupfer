@@ -54,6 +54,9 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_basename() == "lock"
 
+    def mark_for_update(self):
+        super().mark_for_update(postpone=True)
+
     def _get_ffx3_bookmarks(self):
         """Query the firefox places bookmark database"""
         fpath = get_ffdb_conn_str(

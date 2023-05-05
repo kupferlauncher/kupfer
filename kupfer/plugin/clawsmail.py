@@ -147,6 +147,9 @@ class ClawsContactsSource(
             and gfile.get_basename().startswith("addrbook-")
         )
 
+    def mark_for_update(self):
+        super().mark_for_update(postpone=True)
+
     def get_items(self):
         if self._claws_addrbook_index.is_file():
             for addrbook_file in self._load_address_books():
