@@ -17,7 +17,7 @@ from kupfer import puid
 
 # NOTE: core import
 from kupfer.core import learn
-from kupfer.obj import Action, Leaf, Source
+from kupfer.obj import Action, Leaf, Source, SourceLeaf
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -160,7 +160,9 @@ class AddFavorite(Action):
         yield Leaf
 
     def valid_for_item(self, leaf):
-        return not FavoritesSource.instance.has_item(leaf)
+        return not isinstance(
+            leaf, SourceLeaf
+        ) and not FavoritesSource.instance.has_item(leaf)
 
     def get_description(self):
         return _("Add item to favorites shelf")
