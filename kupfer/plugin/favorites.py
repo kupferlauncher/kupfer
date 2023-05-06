@@ -32,103 +32,99 @@ class FavoritesSource(Source):
     def __init__(self):
         Source.__init__(self, _("Favorites"))
         ## these are default favorites for new users
-        self.references: list[ty.Any] = [
+        self.references: list[puid.PuID] = [
             "<kupfer.plugin.core.contents.Help>",
             "<kupfer.plugin.core.contents.Preferences>",
         ]
 
-    def config_save(self):
+    def config_save(self) -> dict[str, ty.Any]:
         references = [puid.get_unique_id(F) for F in self.favorites]
         return {"favorites": references, "version": self.version}
 
-    def config_save_name(self):
+    def config_save_name(self) -> str:
         return __name__
 
-    def config_restore(self, state):
+    def config_restore(self, state: dict[str, ty.Any]) -> None:
         self.references = state["favorites"]
 
-    def _lookup_item(self, id_):
-        return puid.resolve_unique_id(id_, excluding=self)
+    def _find_item(self, id_: puid.PuID) -> Leaf | None:
+        itm = puid.resolve_unique_id(id_, excluding=self)
+        if itm is None:
+            return None
 
-    def _valid_item(self, itm):
-        return not (hasattr(itm, "is_valid") and not itm.is_valid())
-
-    def _find_item(self, id_):
-        itm = self._lookup_item(id_)
-        if itm is None or not self._valid_item(itm):
+        # ignore invalid objects
+        if hasattr(itm, "is_valid") and not itm.is_valid():  # type: ignore
             return None
 
         if puid.is_reference(id_):
-            self.reference_table[id_] = itm
+            self.reference_table[id_] = itm  # type: ignore
         else:
-            self.persist_table[id_] = itm
+            self.persist_table[id_] = itm  # type: ignore
 
         return itm
 
     # pylint: disable=attribute-defined-outside-init
     def initialize(self):
         FavoritesSource.instance = self
-        self.favorites = []
-        self.persist_table = {}
+        self.favorites: list[Leaf] = []
+        # persist_table map Serialized object to Leaves
+        self.persist_table: dict[puid.SerializedObject, Leaf] = {}
+        # reference table map reference-type id to leaf
         self.reference_table: weakref.WeakValueDictionary[
-            ty.Any, Source
+            str, Leaf
         ] = weakref.WeakValueDictionary()
         self.mark_for_update()
 
     def _update_items(self):
-        self.favorites = []
-        self.mark_for_update()
+        # insert items on beginning to make last added items first on list
+        favorites: list[Leaf] = []
         for id_ in self.references:
-            if id_ in self.persist_table:
-                self.favorites.append(self.persist_table[id_])
+            if leaf := self.persist_table.get(id_):  # type: ignore
+                # id_ is in persist_table so is SerializedObject
+                favorites.insert(0, leaf)
                 continue
 
-            if id_ in self.reference_table:
-                self.favorites.append(self.reference_table[id_])
+            if leaf := self.reference_table.get(id_):  # type: ignore
+                # id_ is in reference_table, so is reference, so it's str
+                favorites.insert(0, leaf)
                 continue
 
             if (itm := self._find_item(id_)) is not None:
-                self.favorites.append(itm)
+                favorites.insert(0, itm)
             else:
                 self.output_debug("MISSING:", id_)
 
-    @classmethod
-    def add(cls, itm):
-        cls.instance._add(itm)  # pylint: disable=protected-access
+        self.favorites = favorites
 
-    def _add(self, itm):
-        if self._has_item(itm):
-            self._remove(itm)
+    def add(self, itm):
+        if id_ := puid.get_unique_id(itm):
+            # there shouldn't be possible to add twice the same leaf so
+            # remove should be not needed.
+            self.remove(itm)
+            learn.add_favorite(itm)
+            # favorites will be rebuild, so we can append
+            self.favorites.append(itm)
+            self.references.append(id_)
+            self.mark_for_update()
 
-        learn.add_favorite(itm)
-        self.favorites.append(itm)
-        self.references.append(puid.get_unique_id(itm))
-        self.mark_for_update()
+    def has_item(self, itm: Leaf) -> bool:
+        return itm in self.favorites
 
-    @classmethod
-    def has_item(cls, itm):
-        return cls.instance._has_item(itm)  # pylint: disable=protected-access
+    def remove(self, itm: Leaf) -> None:
+        if itm not in self.favorites:
+            return
 
-    def _has_item(self, itm):
-        return itm in set(self.favorites)
-
-    @classmethod
-    def remove(cls, itm):
-        if cls.has_item(itm):
-            cls.instance._remove(itm)  # pylint: disable=protected-access
-
-    def _remove(self, itm):
         learn.remove_favorite(itm)
         self.favorites.remove(itm)
-        id_ = puid.get_unique_id(itm)
-        if id_ in self.references:
-            self.references.remove(id_)
-        else:
-            for key, val in self.persist_table.items():
-                if val == itm:
-                    self.references.remove(key)
-                    self.persist_table.pop(key)
-                    break
+        if id_ := puid.get_unique_id(itm):
+            try:
+                self.references.remove(id_)
+            except KeyError:
+                for key, val in self.persist_table.items():
+                    if val == itm:
+                        self.references.remove(key)
+                        self.persist_table.pop(key)
+                        break
 
         self.mark_for_update()
 
@@ -137,7 +133,7 @@ class FavoritesSource(Source):
         for fav in self.favorites:
             learn.add_favorite(fav)
 
-        return reversed(self.favorites)
+        return self.favorites
 
     def get_description(self):
         return _('Shelf of "Favorite" items')
@@ -158,13 +154,13 @@ class AddFavorite(Action):
         Action.__init__(self, _("Add to Favorites"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        FavoritesSource.add(leaf)
+        FavoritesSource.instance.add(leaf)
 
     def item_types(self):
-        return (Leaf,)
+        yield Leaf
 
     def valid_for_item(self, leaf):
-        return not FavoritesSource.has_item(leaf)
+        return not FavoritesSource.instance.has_item(leaf)
 
     def get_description(self):
         return _("Add item to favorites shelf")
@@ -180,13 +176,13 @@ class RemoveFavorite(Action):
         Action.__init__(self, _("Remove from Favorites"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        FavoritesSource.remove(leaf)
+        FavoritesSource.instance.remove(leaf)
 
     def item_types(self):
-        return (Leaf,)
+        yield Leaf
 
     def valid_for_item(self, leaf):
-        return FavoritesSource.has_item(leaf)
+        return FavoritesSource.instance.has_item(leaf)
 
     def get_description(self):
         return _("Remove item from favorites shelf")
