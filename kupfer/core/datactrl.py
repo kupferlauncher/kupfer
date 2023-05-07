@@ -149,7 +149,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         sctr.add_action_decorators(plugin_id, decorate_types)
 
     def _register_content_decorators(
-        self, plugin_id: str, contents: ty.Collection[Source]
+        self, plugin_id: str, contents: ty.Collection[ty.Type[Source]]
     ) -> None:
         """
         Register the sequence of classes @contents as
@@ -160,7 +160,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         # Keep a mapping:
         # Decorated Leaf Type -> Set of content decorator types
         decorate_item_types: defaultdict[
-            ty.Type[Leaf], set[Source]
+            ty.Type[Leaf], set[ty.Type[Source]]
         ] = defaultdict(set)
 
         for content in contents:

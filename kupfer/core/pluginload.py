@@ -1,5 +1,6 @@
 import contextlib
 import traceback
+import typing as ty
 
 from kupfer.obj.base import Action, ActionGenerator, Source, TextSource
 from kupfer.support import pretty
@@ -12,7 +13,7 @@ from .plugins import PluginAttr, initialize_plugin, load_plugin_objects
 class PluginDescription:
     text_sources: list[TextSource] = []
     action_decorators: list[Action] = []
-    content_decorators: list[Source] = []
+    content_decorators: list[ty.Type[Source]] = []
     action_generators: list[ActionGenerator] = []
     sources: list[Source] = []
 
@@ -25,7 +26,7 @@ def load_plugin(plugin_id: str) -> PluginDescription:
     sources: list[Source] = []
     text_sources: list[TextSource] = []
     action_decorators: list[Action] = []
-    content_decorators: list[Source] = []
+    content_decorators: list[ty.Type[Source]] = []
     action_generators: list[ActionGenerator] = []
 
     initialize_plugin(plugin_id)

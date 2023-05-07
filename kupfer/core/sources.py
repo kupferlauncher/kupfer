@@ -334,12 +334,17 @@ class SourceController(pretty.OutputMixin):
 
     def __init__(self):
         self._sources: set[Source] = set()
-        self.action_decorators: dict[ty.Any, set[Action]] = defaultdict(set)
+        self.action_decorators: dict[ty.Type[Leaf], set[Action]] = defaultdict(
+            set
+        )
         self._rescanner = PeriodicRescanner(period=1)
         self._toplevel_sources: set[Source] = set()
         self._text_sources: set[TextSource] = set()
-        self._content_decorators: dict[ty.Any, set[Source]] = defaultdict(set)
+        self._content_decorators: dict[
+            ty.Type[Leaf], set[ty.Type[Source]]
+        ] = defaultdict(set)
         self._action_generators: list[ActionGenerator] = []
+        # map any object defined in plugin to plugin id
         self._plugin_object_map: weakref.WeakKeyDictionary[
             ty.Any, str
         ] = weakref.WeakKeyDictionary()
@@ -443,14 +448,16 @@ class SourceController(pretty.OutputMixin):
         return self._text_sources
 
     def add_content_decorators(
-        self, plugin_id: str, decos: dict[ty.Type[Leaf], set[SourceSubclass]]
+        self,
+        plugin_id: str,
+        decos: dict[ty.Type[Leaf], set[ty.Type[Source]]],
     ) -> None:
         for typ, val in decos.items():
             self._content_decorators[typ].update(val)
             self._register_plugin_objects(plugin_id, *val)
 
     def add_action_decorators(
-        self, plugin_id: str, decos: dict[ty.Any, list[Action]]
+        self, plugin_id: str, decos: dict[ty.Type[Leaf], list[Action]]
     ) -> None:
         for typ, val in decos.items():
             self.action_decorators[typ].update(val)
@@ -479,8 +486,8 @@ class SourceController(pretty.OutputMixin):
 
         for action in renames:
             self.output_debug(f"Disambiguate Action {action}")
-            module_name = plugins.get_plugin_name(type(action).__module__)
-            plugin_suffix = f" ({module_name})"
+            plugin_name = plugins.get_plugin_name(type(action).__module__)
+            plugin_suffix = f" ({plugin_name})"
             if not action.name.endswith(plugin_suffix):
                 action.name += plugin_suffix
 
@@ -709,7 +716,7 @@ class SourceController(pretty.OutputMixin):
             source_type = source  # type: ignore
 
         for cdv in self._content_decorators.values():
-            cdv.discard(source_type)  # type: ignore
+            cdv.discard(source_type)
 
     def initialize(self) -> None:
         "Initialize all sources and cache toplevel sources"

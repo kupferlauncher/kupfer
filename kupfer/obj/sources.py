@@ -29,7 +29,7 @@ class SourcesSource(Source):
     def __init__(
         self,
         sources: ty.Collection[Source],
-        name: ty.Optional[str] = None,
+        name: str | None = None,
         use_reprs: bool = True,
     ) -> None:
         super().__init__(name or _("Catalog Index"))
@@ -39,8 +39,13 @@ class SourcesSource(Source):
     def get_items(self) -> ty.Iterable[Leaf]:
         """Ask each Source for a Leaf substitute, else
         yield a SourceLeaf"""
-        for src in self.sources:
-            yield (self.use_reprs and src.get_leaf_repr()) or SourceLeaf(src)
+        if self.use_reprs:
+            for src in self.sources:
+                yield src.get_leaf_repr() or SourceLeaf(src)
+
+            return
+
+        yield from map(SourceLeaf, self.sources)
 
     def should_sort_lexically(self) -> bool:
         return True

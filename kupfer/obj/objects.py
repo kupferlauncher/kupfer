@@ -31,7 +31,7 @@ if ty.TYPE_CHECKING:
 
 
 class SourceLeaf(Leaf):
-    def __init__(self, obj: Source, name: ty.Optional[str] = None) -> None:
+    def __init__(self, obj: Source, name: str | None = None) -> None:
         """Create SourceLeaf for source @obj"""
         Leaf.__init__(self, obj, name or str(obj))
 
@@ -44,7 +44,7 @@ class SourceLeaf(Leaf):
     def content_source(self, alternate: bool = False) -> Source:
         return self.object  # type: ignore
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         return self.object.get_description()  # type: ignore
 
     @property
