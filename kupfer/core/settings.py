@@ -487,7 +487,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def get_use_command_keys(self) -> bool:
         return self.get_config("Kupfer", "usecommandkeys")  # type: ignore
 
-    def set_use_command_keys(self, enabled: str) -> bool:
+    def set_use_command_keys(self, enabled: bool) -> bool:
         return self._set_config("Kupfer", "usecommandkeys", enabled)
 
     def get_action_accelerator_modifer(self):
