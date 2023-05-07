@@ -5,6 +5,7 @@ UI support functions
 
 """
 from gi.repository import Gtk
+from kupfer.support import datatools
 
 _escape_table = {
     ord("&"): "&amp;",
@@ -14,13 +15,13 @@ _escape_table = {
 
 
 def escape_markup_str(mstr: str) -> str:
-    """
-    Use a simeple homegrown replace table to replace &, <, > with
+    """Use a simeple homegrown replace table to replace &, <, > with
     entities in @mstr
     """
     return mstr.translate(_escape_table)
 
 
+@datatools.evaluate_once
 def text_direction_is_ltr() -> bool:
     return Gtk.Widget.get_default_direction() != Gtk.TextDirection.RTL  # type: ignore
 

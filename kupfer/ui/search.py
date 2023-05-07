@@ -43,7 +43,7 @@ _INFO_COL = 4
 _RANK_COL = 5
 
 
-class LeafModel:
+class _LeafModel:
     """A base for a tree view
     With a magic load-on-demand feature.
 
@@ -565,7 +565,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def __init__(self):
         GObject.GObject.__init__(self)
         # object attributes
-        self._model = LeafModel(self._get_aux_info)
+        self._model = _LeafModel(self._get_aux_info)
         self._match = None
         self._match_state = State.WAIT
         self._text: str | None = ""

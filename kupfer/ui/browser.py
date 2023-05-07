@@ -102,11 +102,11 @@ class WindowController(pretty.OutputMixin):
         if (visual := screen.get_rgba_visual()) and screen.is_composited():
             self._window.set_visual(visual)  # pylint: disable=no-member
 
-        data_controller.connect("launched-action", self._launch_callback)
-        data_controller.connect("command-result", self._result_callback)
+        data_controller.connect("launched-action", self._on_launch_action)
+        data_controller.connect("command-result", self._on_command_result)
 
         self._interface = Interface(data_controller, self._window)
-        self._interface.connect("launched-action", self._launch_callback)
+        self._interface.connect("launched-action", self._on_launch_action)
         self._interface.connect("cancelled", self._cancelled)
         self._window.connect("map-event", self._on_window_map_event)
         self._setup_window()
@@ -134,8 +134,15 @@ class WindowController(pretty.OutputMixin):
         )
 
     def _show_statusicon(self) -> None:
+        """Create (if not exists) and show status icon."""
         if not self._statusicon:
-            self._statusicon = self._setup_gtk_status_icon(self._setup_menu())
+            status = Gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
+            status.set_tooltip_text(version.PROGRAM_NAME)
+            status.connect(
+                "popup-menu", self._on_popup_menu, self._setup_menu()
+            )
+            status.connect("activate", self._on_statusicon_activate)
+            self._statusicon = status
 
         with suppress(AttributeError):
             self._statusicon.set_visible(True)
@@ -154,15 +161,27 @@ class WindowController(pretty.OutputMixin):
         key: str,
         value: ty.Any,
     ) -> None:
-        "callback from SettingsController"
+        """Callback from SettingsController - show / hide status icon on
+        settings changed."""
         if value:
             self._show_statusicon()
         else:
             self._hide_statusicon()
 
     def _show_statusicon_ai(self) -> None:
+        """Show (create if not exists) status icon using AppIndicator3."""
+        if AppIndicator3 is None:
+            return
+
         if not self._statusicon_ai:
-            self._statusicon_ai = self._setup_appindicator(self._setup_menu())
+            indicator = AppIndicator3.Indicator.new(
+                version.PROGRAM_NAME,
+                version.ICON_NAME,
+                AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
+            )
+            indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
+            indicator.set_menu(self._setup_menu())
+            self._statusicon_ai = indicator
 
         if self._statusicon_ai or AppIndicator3 is None:
             return
@@ -170,6 +189,7 @@ class WindowController(pretty.OutputMixin):
         self._statusicon_ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
     def _hide_statusicon_ai(self) -> None:
+        """Hide status icon created by AppIndicator3."""
         if self._statusicon_ai and AppIndicator3 is not None:
             self._statusicon_ai.set_status(
                 AppIndicator3.IndicatorStatus.PASSIVE
@@ -182,6 +202,7 @@ class WindowController(pretty.OutputMixin):
         key: str,
         value: ty.Any,
     ) -> None:
+        """Show/Hide AppIndicator3 status icon on preferences change."""
         if value:
             self._show_statusicon_ai()
         else:
@@ -207,9 +228,8 @@ class WindowController(pretty.OutputMixin):
                 menuitem: Gtk.MenuItem, callback: ty.Callable[..., None]
             ) -> bool:
                 if with_ctx:
-                    event_time = Gtk.get_current_event_time()
                     ui_ctx = uievents.gui_context_from_widget(
-                        event_time, menuitem
+                        Gtk.get_current_event_time(), menuitem
                     )
                     callback(ui_ctx)
                 else:
@@ -231,7 +251,7 @@ class WindowController(pretty.OutputMixin):
         if context_menu:
             add_menu_item(Gtk.STOCK_CLOSE, self.put_away, with_ctx=False)
         else:
-            add_menu_item(None, self._activate, _("Show Main Interface"))
+            add_menu_item(None, self._on_activate, _("Show Main Interface"))
 
         menu.append(Gtk.SeparatorMenuItem())
         if context_menu:
@@ -251,35 +271,16 @@ class WindowController(pretty.OutputMixin):
 
         return menu
 
-    def _setup_gtk_status_icon(self, menu: Gtk.Menu) -> Gtk.StatusIcon:
-        status = Gtk.StatusIcon.new_from_icon_name(version.ICON_NAME)
-        status.set_tooltip_text(version.PROGRAM_NAME)
-
-        status.connect("popup-menu", self._popup_menu, menu)
-        status.connect("activate", self._show_hide)
-        return status
-
-    def _setup_appindicator(self, menu: Gtk.Menu) -> ty.Any:
-        if AppIndicator3 is None:
-            return None
-
-        indicator = AppIndicator3.Indicator.new(
-            version.PROGRAM_NAME,
-            version.ICON_NAME,
-            AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
-        )
-        indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
-        indicator.set_menu(menu)
-        return indicator
-
     def _setup_window(self) -> None:
         """
         Returns window
         """
 
-        self._window.connect("delete-event", self._close_window)
-        self._window.connect("focus-out-event", self._lost_focus)
-        self._window.connect("button-press-event", self._window_frame_clicked)
+        self._window.connect("delete-event", self._on_close_window)
+        self._window.connect("focus-out-event", self._on_lost_focus)
+        self._window.connect(
+            "button-press-event", self._on_window_frame_clicked
+        )
         widget = self._interface.get_widget()
         widget.show()
 
@@ -304,12 +305,12 @@ class WindowController(pretty.OutputMixin):
         button_adj.set_padding(0, 2, 0, 3)
         button_adj.add(button)
         button_box.add(button_adj)
-        button_box.connect("button-press-event", self._context_clicked)
+        button_box.connect("button-press-event", self._on_context_menu_clicked)
         button_box.connect(
-            "enter-notify-event", self._button_enter, button, btext
+            "enter-notify-event", self._on_button_enter, button, btext
         )
         button_box.connect(
-            "leave-notify-event", self._button_leave, button, btext
+            "leave-notify-event", self._on_button_leave, button, btext
         )
         button.set_name("kupfer-menu-button")
         title_align = Gtk.Alignment.new(0, 0.5, 0, 0)
@@ -366,53 +367,51 @@ class WindowController(pretty.OutputMixin):
 
         return value
 
-    def _window_frame_clicked(
+    def _on_window_frame_clicked(
         self, widget: Gtk.Widget, event: Gdk.EventButton
     ) -> None:
-        "Start drag when the window is clicked"
+        """Start drag when the window is clicked"""
         widget.begin_move_drag(
             event.button, int(event.x_root), int(event.y_root), event.time
         )
 
-    def _context_clicked(
+    def _on_context_menu_clicked(
         self, widget: Gtk.Widget, event: Gdk.EventButton
     ) -> bool:
-        "The context menu label was clicked"
+        """The context menu label was clicked"""
         menu = self._setup_menu(True)
         menu.set_screen(self._window.get_screen())  # pylint: disable=no-member
         menu.popup(None, None, None, None, event.button, event.time)
         return True
 
-    def _button_enter(
+    def _on_button_enter(
         self,
         widget: Gtk.Widget,
         event: Gdk.EventCrossing,
         button: Gtk.Widget,
         udata: str,
     ) -> None:
-        "Pointer enters context menu button"
+        """Pointer enters context menu button"""
         button.set_markup(f"<u>{udata}</u>")
 
-    def _button_leave(
+    def _on_button_leave(
         self,
         widget: Gtk.Widget,
         event: Gdk.EventCrossing,
         button: Gtk.Widget,
         udata: str,
     ) -> None:
-        "Pointer leaves context menu button"
+        """Pointer leaves context menu button"""
         button.set_markup(udata)
 
-    def _popup_menu(
+    def _on_popup_menu(
         self,
         status_icon: Gtk.StatusIcon,
-        button: Gtk.Widget,
+        button: int,
         activate_time: float,
         menu: Gtk.Menu,
     ) -> None:
-        """
-        When the StatusIcon is right-clicked
-        """
+        """When the StatusIcon is right-clicked."""
         menu.popup(
             None,
             None,
@@ -422,19 +421,22 @@ class WindowController(pretty.OutputMixin):
             activate_time,
         )
 
-    def _launch_callback(self, sender: ty.Any, *_args: ty.Any) -> None:
-        # Separate window hide from the action being
-        # done. This is to solve a window focus bug when
-        # we switch windows using an action
+    def _on_launch_action(self, sender: ty.Any, *_args: ty.Any) -> None:
+        """Callback for launch-action event: hide window.
+
+        Separate window hide from the action being done. This is to solve
+        a window focus bug when we switch windows using an action.
+        """
         self._interface.did_launch()
         self._window_hide_timer.set_ms(100, self.put_away)
 
-    def _result_callback(
+    def _on_command_result(
         self,
         sender: DataController,
         result_type: int,
         ui_ctx: uievents.GUIEnvironmentContext,
     ) -> None:
+        """Callback for command-result event: update window."""
         result_type = commandexec.ExecResult(result_type)
         # handle "refresh" result
         if result_type == commandexec.ExecResult.REFRESH:
@@ -451,24 +453,24 @@ class WindowController(pretty.OutputMixin):
         else:
             self._on_present(sender, "", Gtk.get_current_event_time())
 
-    def _lost_focus(self, window: Gtk.Window, event: Gdk.EventFocus) -> None:
+    def _on_lost_focus(self, window: Gtk.Window, event: Gdk.EventFocus) -> None:
+        """Hide window on lost focus."""
         if not kupfer.config.has_capability("HIDE_ON_FOCUS_OUT"):
             return
         # Close at unfocus.
-        # Since focus-out-event is triggered even
-        # when we click inside the window, we'll
-        # do some additional math to make sure that
-        # that window won't close if the mouse pointer
-        # is over it.
+        # Since focus-out-event is triggered even when we click inside the
+        # window, we'll do some additional math to make sure that
+        # that window won't close if the mouse pointer is over it.
         _gdkwindow, x, y, _mods = (
             window.get_screen().get_root_window().get_pointer()
         )
         w_x, w_y = window.get_position()
         w_w, w_h = window.get_size()
-        if x not in range(w_x, w_x + w_w) or y not in range(w_y, w_y + w_h):
+        if not (w_x <= x <= w_x + w_w and w_y <= y <= w_y + w_h):
             self._window_hide_timer.set_ms(50, self.put_away)
 
-    def _monitors_changed(self, *_ignored: ty.Any) -> None:
+    def _on_monitors_changed(self, *_ignored: ty.Any) -> None:
+        """Center window on monitor changed."""
         self._center_window()
 
     def _window_put_on_screen(self, screen: Gdk.Screen) -> None:
@@ -478,7 +480,7 @@ class WindowController(pretty.OutputMixin):
 
         self._window.set_screen(screen)  # pylint: disable=no-member
         self._current_screen_handler = screen.connect(
-            "monitors-changed", self._monitors_changed
+            "monitors-changed", self._on_monitors_changed
         )
 
     def _center_window(self, displayname: str | None = None) -> None:
@@ -517,7 +519,8 @@ class WindowController(pretty.OutputMixin):
         mon_win = screen.get_monitor_at_window(self._window.get_window())
         return mon_cur != mon_win  # type: ignore
 
-    def _activate(self, sender: ty.Any = None) -> None:
+    def _on_activate(self, sender: ty.Any = None) -> None:
+        """Activate (show) main windows."""
         # pylint: disable=no-member
         dispname = self._window.get_screen().make_display_name()
         self._on_present(sender, dispname, Gtk.get_current_event_time())
@@ -544,6 +547,7 @@ class WindowController(pretty.OutputMixin):
             self._center_window(display)
 
     def put_away(self) -> None:
+        """Hide main window."""
         self._interface.put_away()
         self._window.hide()
 
@@ -553,16 +557,14 @@ class WindowController(pretty.OutputMixin):
     def _on_show_hide(
         self, sender: ty.Any, display: str, timestamp: int
     ) -> None:
-        """
-        Toggle activate/put-away
-        """
+        """Toggle activate/put-away."""
         if self._window.get_property("visible"):
             self.put_away()
         else:
             self._on_present(sender, display, timestamp)
 
-    def _show_hide(self, sender: Gtk.Widget) -> None:
-        "GtkStatusIcon callback"
+    def _on_statusicon_activate(self, sender: Gtk.StatusIcon) -> None:
+        """GtkStatusIcon callback"""
         self._on_show_hide(sender, "", Gtk.get_current_event_time())
 
     def _key_binding(
@@ -596,14 +598,14 @@ class WindowController(pretty.OutputMixin):
         else:
             self._interface.put_text(data_.get_text())
 
-    def on_put_text(
+    def _on_put_text(
         self, sender: Gtk.Widget, text: str, display: str, timestamp: int
     ) -> None:
         """We got a search text from dbus"""
         self._on_present(sender, display, timestamp)
         self._interface.put_text(text)
 
-    def on_put_files(
+    def _on_put_files(
         self,
         sender: ty.Any,
         fileuris: ty.Iterable[str],
@@ -613,7 +615,7 @@ class WindowController(pretty.OutputMixin):
         self._on_present(sender, display, timestamp)
         self._interface.put_files(fileuris, paths=True)
 
-    def on_execute_file(
+    def _on_execute_file(
         self,
         sender: ty.Any,
         filepath: str,
@@ -622,14 +624,12 @@ class WindowController(pretty.OutputMixin):
     ) -> None:
         self._interface.execute_file(filepath, display, timestamp)
 
-    def _close_window(self, window: Gtk.Widget, event: ty.Any) -> bool:
+    def _on_close_window(self, window: Gtk.Widget, event: ty.Any) -> bool:
+        """Callback for main window delete-event."""
         self.put_away()
         return True
 
-    def _destroy(self, widget: Gtk.Widget, _data: ty.Any = None) -> None:
-        self._quit()
-
-    def _sigterm(self, signal_: int, _frame: ty.Any) -> None:
+    def _on_sigterm(self, signal_: int, _frame: ty.Any) -> None:
         self.output_info("Caught signal", signal_, "exiting..")
         self._quit()
 
@@ -649,16 +649,17 @@ class WindowController(pretty.OutputMixin):
         """Quit immediately (state save should already be done)"""
         raise SystemExit
 
-    def _session_save(self, *_args: ty.Any) -> bool:
+    def _on_session_save(self, *_args: ty.Any) -> bool:
         """Old-style session save callback.
-        ret True on successful
+
+        Return True on successful
         """
         # No quit, only save
         self.output_info("Saving for logout...")
         self.save_data()
         return True
 
-    def _session_die(self, *_args: ty.Any) -> None:
+    def _on_session_die(self, *_args: ty.Any) -> None:
         """Session callback on session end
         quit now, without saving, since we already do that on
         Session save!
@@ -710,13 +711,13 @@ class WindowController(pretty.OutputMixin):
         keyobj = keybindings.get_keybound_object()
         keyobj.connect("keybinding", self._key_binding)
 
-        signal.signal(signal.SIGINT, self._sigterm)
-        signal.signal(signal.SIGTERM, self._sigterm)
-        signal.signal(signal.SIGHUP, self._sigterm)
+        signal.signal(signal.SIGINT, self._on_sigterm)
+        signal.signal(signal.SIGTERM, self._on_sigterm)
+        signal.signal(signal.SIGHUP, self._on_sigterm)
 
         client = session.SessionClient()
-        client.connect("save-yourself", self._session_save)
-        client.connect("die", self._session_die)
+        client.connect("save-yourself", self._on_session_save)
+        client.connect("die", self._on_session_die)
         self._interface.lazy_setup()
 
         self.output_debug("finished lazy_setup")
@@ -758,13 +759,13 @@ class WindowController(pretty.OutputMixin):
             if kserv:
                 kserv.connect("present", self._on_present)
                 kserv.connect("show-hide", self._on_show_hide)
-                kserv.connect("put-text", self.on_put_text)
-                kserv.connect("put-files", self.on_put_files)
-                kserv.connect("execute-file", self.on_execute_file)
+                kserv.connect("put-text", self._on_put_text)
+                kserv.connect("put-files", self._on_put_files)
+                kserv.connect("execute-file", self._on_execute_file)
                 kserv.connect("quit", self._quit)
 
         if not quiet:
-            self._activate()
+            self._on_activate()
 
         GLib.idle_add(self.lazy_setup)
 

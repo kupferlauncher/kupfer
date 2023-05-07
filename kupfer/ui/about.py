@@ -65,8 +65,6 @@ class _AboutDialog:
 def show_about_dialog(
     ctxenv: ty.Optional[GUIEnvironmentContext] = None,
 ) -> None:
-    """
-    create an about dialog and show it
-    """
+    """Create an about dialog and show it."""
     dlg = _AboutDialog.instance()
     dlg.show()
