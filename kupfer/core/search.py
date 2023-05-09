@@ -3,13 +3,16 @@ from __future__ import annotations
 import operator
 import typing as ty
 
-from kupfer.obj.base import KupferObject, Leaf
+from kupfer.obj.base import Leaf, Action
 
 from . import learn, relevance
 
+# RankableObject is type of object that can be put in Rankable.
+RankableObject = ty.Union[Leaf, Action]
+
 
 def make_rankables(
-    itr: ty.Iterable[KupferObject], rank: int = 0
+    itr: ty.Iterable[RankableObject], rank: int = 0
 ) -> ty.Iterable[Rankable]:
     """Create Rankable from some KupferObject:w"""
     return (Rankable(str(obj), obj, rank) for obj in itr)
@@ -20,18 +23,18 @@ def wrap_rankable(obj: ty.Any, rank: int = 0) -> Rankable:
 
 
 class Rankable:
-    """
-    Rankable has an object (represented item),
-    value (determines rank) and an associated rank
-    """
+    """Rankable has an object (represented item), value (determines rank)
+    and an associated rank."""
 
     # To save memory with (really) many Rankables
     __slots__ = ("rank", "value", "object", "aliases")
 
-    def __init__(self, value: str, obj: KupferObject, rank: float = 0) -> None:
+    def __init__(
+        self, value: str, obj: RankableObject, rank: float = 0
+    ) -> None:
         self.rank = rank
         self.value: str = value
-        self.object = obj
+        self.object: RankableObject = obj
         self.aliases = getattr(obj, "name_aliases", ())
 
     def __str__(self):
@@ -83,13 +86,6 @@ def add_rank_objects(
         yield obj
 
 
-def _score_for_key(query: str) -> ty.Callable[[str, str], float]:
-    if len(query) == 1:
-        return relevance.score_single
-
-    return relevance.score
-
-
 def score_objects(
     rankables: ty.Iterable[Rankable], key: str
 ) -> ty.Iterator[Rankable]:
@@ -99,7 +95,8 @@ def score_objects(
     Prune rankables that score low for the key.
     """
     key = key.lower()
-    _score = _score_for_key(key)
+    _score = relevance.score_single if len(key) == 1 else relevance.score
+
     for rankable in rankables:
         # Rank object
         rank = _score(rankable.value, key) * 100
@@ -127,8 +124,7 @@ def score_actions(
     rankables: ty.Iterable[Rankable], for_leaf: Leaf | None
 ) -> ty.Iterator[Rankable]:
     """Alternative (rigid) scoring mechanism for objects,
-    putting much more weight in rank_adjust
-    """
+    putting much more weight in rank_adjust."""
     get_record_score = learn.get_record_score
     for obj in rankables:
         obj_object = obj.object
@@ -152,19 +148,11 @@ _rank_key = operator.attrgetter("rank")
 def find_best_sort(
     rankables: ty.Iterable[Rankable],
 ) -> ty.Iterable[Rankable]:
-    """
-    rankables: List[List[Rankable]]
+    """Yield rankables in best rank first order.
+    A special kind of lazy sort: simply find the best ranked item and yield
+    it first, then if needed continue by sorting the rest.
 
-    A special kind of lazy sort:
-
-    simply find the best ranked item and yield it first,
-    then if needed continue by sorting the rest.
-
-    Note: this will duplicate the best item.
-
-    Yield rankables in best rank first order
-    """
-
+    Note: this will duplicate the best item."""
     maxval = max(rankables, default=None, key=_rank_key)
     if maxval is None:
         return

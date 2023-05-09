@@ -99,8 +99,7 @@ class Qfurl:
         return mother, qfid, typname
 
     def resolve_in_catalog(self, catalog: ty.Collection[Source]) -> Leaf | None:
-        """Resolve self in a catalog of sources
-
+        """Resolve self in a catalog of sources.
         Return *immediately* on match found"""
         _mother, _qfid, typname = self._parts_mother_id_typename(self.url)
         _module, name = typname.rsplit(".", 1) if typname else (None, None)

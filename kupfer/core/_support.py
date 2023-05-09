@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """
 Helper functions - common code for core module.
 

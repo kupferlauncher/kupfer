@@ -57,12 +57,12 @@ _PLUGIN_HOOKS: dict[str, list[tuple[ty.Callable[..., None], ty.Any]]] = {}
 
 
 class NotEnabledError(Exception):
-    "Plugin may not be imported since it is not enabled"
+    """Plugin may not be imported since it is not enabled"""
 
 
 def get_plugin_ids() -> ty.Iterator[str]:
-    """Enumerate possible plugin ids;
-    return a sequence of possible plugin ids, not guaranteed to be plugins"""
+    """Enumerate possible plugin ids. Return a sequence of possible plugin ids,
+    not guaranteed to be plugins."""
 
     for _importer, modname, _ispkg in pkgutil.iter_modules(kplugin.__path__):
         if (
@@ -96,15 +96,8 @@ _IMPORTED_PLUGINS: dict[str, PluginModule | None] = {}
 
 
 def get_plugin_info() -> ty.Iterator[dict[str, ty.Any]]:
-    """Generator, yields dictionaries of plugin descriptions
-
-    with at least the fields:
-    name
-    localized_name
-    version
-    description
-    author
-    """
+    """Generator, yields dictionaries of plugin descriptions with at least the
+    fields: name, localized_name, version, description, author."""
     for plugin_name in sorted(get_plugin_ids()):
         try:
             plugin = _import_plugin_any(plugin_name)
@@ -194,8 +187,7 @@ def _truncate_source(
 def _import_plugin_fake(
     modpath: str, error: ExecInfo | None = None
 ) -> FakePlugin | None:
-    """
-    Return an object that has the plugin info attributes we can rescue
+    """Return an object that has the plugin info attributes we can rescue
     from a plugin raising on import.
 
     @error: If applicable, a tuple of exception info
@@ -265,9 +257,8 @@ def _import_hook_true(pathcomps: tuple[str, ...]) -> PluginModule:
 
 
 def _import_plugin_true(name: str) -> PluginModule | None:
-    """Try to import the plugin from the package,
-    and then from our plugin directories in $DATADIR
-    """
+    """Try to import the plugin from the package, and then from our plugin
+    directories in $."""
     plugin = None
     try:
         plugin = _staged_import(name, _import_hook_true)
@@ -286,7 +277,7 @@ def _staged_import(
     name: str,
     import_hook: ty.Callable[[tuple[str, ...]], PluginModule | None],
 ) -> PluginModule | None | ty.Any:
-    "Import plugin @name using @import_hook"
+    """Import plugin @name using @import_hook"""
     # FIXME: ty.Any because typeguard
     try:
         return import_hook(_plugin_path(name))
@@ -330,14 +321,10 @@ def get_plugin_attributes(
     attrs: tuple[str | PluginAttr, ...],
     warn: bool = False,
 ) -> ty.Iterator[ty.Any]:
-    """Generator of the attributes named @attrs
-    to be found in plugin @plugin_name
-    if the plugin is not found, we write an error
-    and yield nothing.
-
-    if @warn, we print a warning if a plugin does not have
-    a requested attribute
-    """
+    """Generator of the attributes named @attrs to be found in plugin
+    @plugin_name. If the plugin is not found, we write an error and yield
+    nothing. If @warn, we print a warning if a plugin does not have a requested
+    attribute."""
     try:
         plugin = _import_plugin(plugin_name)
     except ImportError as exc:
@@ -432,9 +419,8 @@ def _load_icons(plugin_name: str) -> None:
 
 
 def initialize_plugin(plugin_name: str) -> None:
-    """Initialize plugin.
-    Find settings attribute if defined, and initialize it
-    """
+    """Initialize plugin.  Find settings attribute if defined, and initialize
+    it."""
     _load_icons(plugin_name)
     if settings_dict := get_plugin_attribute(plugin_name, PluginAttr.SETTINGS):
         settings_dict.initialize(plugin_name)
@@ -448,8 +434,7 @@ def initialize_plugin(plugin_name: str) -> None:
 
 def unimport_plugin(plugin_name: str) -> None:
     """Remove @plugin_name from the plugin list and dereference its
-    python modules.
-    """
+    python modules."""
     # Run unimport hooks
     if plugin_name in _PLUGIN_HOOKS:
         try:
@@ -484,10 +469,8 @@ def register_plugin_unimport_hook(
 
 
 def get_plugin_error(plugin_name: str) -> ty.Any:
-    """
-    Return None if plugin is loaded without error, else
-    return a tuple of exception information
-    """
+    """Return None if plugin is loaded without error, else return a tuple of
+    exception information."""
     try:
         if plugin := _import_plugin(plugin_name):
             if getattr(plugin, "is_fake_plugin", None):

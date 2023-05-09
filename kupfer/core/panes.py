@@ -1,12 +1,8 @@
-#! /usr/bin/env python3
-"""
-Pane objects definition.
+"""Pane objects definition.
 
 This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
-
-
 """
 from __future__ import annotations
 
@@ -130,7 +126,7 @@ class LeafPane(Pane, pretty.OutputMixin):
         self.refresh_data()
 
     def _pop_source(self) -> bool:
-        """Return True if succeeded"""
+        """Remove source from stack. Return True if succeeded"""
         if self._source_stack:
             self._source, self._selection = self._source_stack.pop()
             return True
@@ -172,9 +168,8 @@ class LeafPane(Pane, pretty.OutputMixin):
         return succ
 
     def browse_down(self, alternate: bool = False) -> bool:
-        """Browse into @leaf if it's possible
-        and save away the previous sources in the stack
-        if @alternate, use the Source's alternate method"""
+        """Browse into @leaf if it's possible and save away the previous sources
+        in the stack. If @alternate, use the Source's alternate method."""
         leaf: Leaf = self.get_selection()  # type: ignore
         if leaf and leaf.has_content():
             if csrc := leaf.content_source(alternate=alternate):
@@ -204,9 +199,8 @@ class LeafPane(Pane, pretty.OutputMixin):
         context: SearchContext | None = None,
         text_mode: bool = False,
     ) -> None:
-        """
-        filter for action @item
-        """
+        """Search for `key`"""
+
         self._latest_key = key
         sources_: ty.Iterable[AnySource] = ()
         if not text_mode:
@@ -219,11 +213,11 @@ class LeafPane(Pane, pretty.OutputMixin):
             textsrcs = sctr.get_text_sources()
             sources_ = itertools.chain(sources_, textsrcs)
 
-        def decorator(seq):
+        def _decorator(seq):
             return _dress_leaves(seq, action=None)
 
         match, match_iter = self._searcher.search(
-            sources_, key, score=bool(key), decorator=decorator
+            sources_, key, score=bool(key), decorator=_decorator
         )
         self.emit_search_result(match, match_iter, context)
 

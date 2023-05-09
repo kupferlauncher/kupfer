@@ -1,8 +1,4 @@
-#! /usr/bin/env python3
-
-"""
-DataController
-"""
+""" DataController """
 from __future__ import annotations
 
 import itertools
@@ -61,8 +57,7 @@ class PaneMode(IntEnum):
 
 # pylint: disable=too-many-public-methods
 class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
-    """
-    Sources <-> Actions controller
+    """Sources <-> Actions controller.
 
     The data controller must be created before main program commences,
     so it can register itself at the scheduler correctly.
@@ -84,30 +79,30 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         super().__init__()
 
         self._source_pane = LeafPane()
+        self._source_pane.connect("new-source", self._on_new_source)
         self._object_pane = SecondaryObjectPane()
-        self._source_pane.connect("new-source", self._new_source)
-        self._object_pane.connect("new-source", self._new_source)
+        self._object_pane.connect("new-source", self._on_new_source)
         self._action_pane = PrimaryActionPane()
         for pane, ctl in self._all_pane_ctl():
-            ctl.connect("search-result", self._pane_search_result, pane)
+            ctl.connect("search-result", self._on_pane_search_result, pane)
 
         self._mode: PaneMode | None = None
         self._search_ids = itertools.count(1)
         self._latest_interaction = -1
         self._execution_context = commandexec.default_action_execution_context()
         self._execution_context.connect(
-            "command-result", self._command_execution_result
+            "command-result", self._on_command_execution_result
         )
         self._execution_context.connect(
-            "late-command-result", self._late_command_execution_result
+            "late-command-result", self._on_late_command_execution_result
         )
 
         self._save_data_timer = scheduler.Timer()
 
         sch = scheduler.get_scheduler()
-        sch.connect("load", self._load)
-        sch.connect("display", self._display)
-        sch.connect("finish", self._finish)
+        sch.connect("load", self._on_load)
+        sch.connect("display", self._on_display)
+        sch.connect("finish", self._on_finish)
 
     def _get_panectl(self, pane: PaneSel) -> Pane:
         if pane == PaneSel.SOURCE:
@@ -151,12 +146,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _register_content_decorators(
         self, plugin_id: str, contents: ty.Collection[ty.Type[Source]]
     ) -> None:
-        """
-        Register the sequence of classes @contents as
+        """Register the sequence of classes @contents as
         potential content decorators. Classes not conforming to
         the decoration protocol (most importantly, ``.decorates_type()``)
-        will be skipped
-        """
+        will be skipped."""
         # Keep a mapping:
         # Decorated Leaf Type -> Set of content decorator types
         decorate_item_types: defaultdict[
@@ -181,14 +174,16 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         for generator in generators:
             sctr.add_action_generator(plugin_id, generator)
 
-    def _load(self, _sched: ty.Any) -> None:
-        """Begin Data Controller work when we get application 'load' signal
+    def _on_load(self, _sched: ty.Any) -> None:
+        """Begin Data Controller work when we get application 'load' signal.
 
         Load the data model from saved configuration and caches
         """
         setctl = settings.get_settings_controller()
-        setctl.connect("plugin-enabled-changed", self._plugin_enabled)
-        setctl.connect("plugin-toplevel-changed", self._plugin_catalog_changed)
+        setctl.connect("plugin-enabled-changed", self._on_plugin_enabled)
+        setctl.connect(
+            "plugin-toplevel-changed", self._on_plugin_catalog_changed
+        )
 
         self._load_all_plugins()
         dir_src, indir_src = self._get_directory_sources()
@@ -198,18 +193,15 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         sctr.initialize()
         learn.load()
 
-    def _display(self, _sched: ty.Any) -> None:
+    def _on_display(self, _sched: ty.Any) -> None:
         self._reload_source_root()
         self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
     def _get_directory_sources(
         self,
     ) -> tuple[tuple[DirectorySource, ...], tuple[DirectorySource, ...]]:
-        """
-        Return a tuple of dir_sources, indir_sources for
-        directory sources directly included and for
-        catalog inclusion respectively
-        """
+        """Return a tuple of dir_sources, indir_sources for directory sources
+        directly included and for catalog inclusion respectively."""
         setctl = settings.get_settings_controller()
         source_config = setctl.get_config
         dir_depth = source_config("DeepDirectories", "Depth")
@@ -245,9 +237,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return tuple(dir_sources), tuple(indir_sources)
 
     def _load_all_plugins(self):
-        """
-        Insert all plugin sources into the catalog
-        """
+        """Insert all plugin sources into the catalog."""
         # pylint: disable=import-outside-toplevel
         from kupfer.core import plugins
 
@@ -258,10 +248,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 self._insert_sources(item, sources_, initialize=False)
 
     def _load_plugin(self, plugin_id: str) -> set[Source]:
-        """
-        Load @plugin_id, register all its Actions, Content and TextSources.
-        Return its sources.
-        """
+        """Load @plugin_id, register all its Actions, Content and TextSources.
+        Return its sources."""
         with pluginload.exception_guard(plugin_id):
             plugin = pluginload.load_plugin(plugin_id)
             self._register_text_sources(plugin_id, plugin.text_sources)
@@ -278,9 +266,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         return set()
 
-    def _plugin_enabled(
+    def _on_plugin_enabled(
         self, _setctl: ty.Any, plugin_id: str, enabled: bool | int
     ) -> None:
+        """Enable plugin, load if necessary."""
         # pylint: disable=import-outside-toplevel
         from kupfer.core import plugins
 
@@ -298,12 +287,13 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         pluginload.remove_plugin(plugin_id)
 
     def _reload_source_root(self) -> None:
+        """Reload items from root sources."""
         self.output_debug("Reloading source root")
         sctl = get_source_controller()
         if sctl.root:
             self._source_pane.source_rebase(sctl.root)
 
-    def _plugin_catalog_changed(
+    def _on_plugin_catalog_changed(
         self, _setctl: ty.Any, _plugin_id: str, _toplevel: ty.Any
     ) -> None:
         self._reload_source_root()
@@ -314,6 +304,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         sources_: ty.Iterable[Source],
         initialize: bool = True,
     ) -> None:
+        """Insert `sources_` into catalog. `Initialize` when True, initialize
+        plugin and reload catalog root."""
         if not sources_:
             return
 
@@ -328,7 +320,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if initialize:
             self._reload_source_root()
 
-    def _finish(self, _sched: ty.Any) -> None:
+    def _on_finish(self, _sched: ty.Any) -> None:
         "Close down the data model, save user data, and write caches to disk"
         get_source_controller().finalize()
         self._save_data(final_invocation=True)
@@ -345,7 +337,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if not final_invocation:
             self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
-    def _new_source(self, ctr: Pane, src: AnySource, select: ty.Any) -> None:
+    def _on_new_source(self, ctr: Pane, src: AnySource, select: ty.Any) -> None:
         if ctr is self._source_pane:
             pane = PaneSel.SOURCE
         elif ctr is self._object_pane:
@@ -357,6 +349,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def reset(self) -> None:
         self._source_pane.reset()
         self._action_pane.reset()
+        self._object_pane.reset()  # added, TODO: check
 
     def soft_reset(self, pane: PaneSel) -> AnySource | None:
         if pane == PaneSel.ACTION:
@@ -414,7 +407,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             timeout, ctl_search, key, wrapcontext, text_mode
         )
 
-    def _pane_search_result(
+    def _on_pane_search_result(
         self,
         panectl: Pane,
         match: Rankable | None,
@@ -479,12 +472,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return panectl.get_should_enter_text_mode()
 
     def validate(self) -> None:
-        """Check if all selected items are still valid
-        (for example after being spawned again, old item
-        still focused)
+        """Check if all selected items are still valid (for example after being
+        spawned again, old item still focused).
 
-        This will trigger .select() with None if items
-        are not valid..
+        This will trigger .select() with None if items are not valid..
         """
 
         def valid_check(obj):
@@ -497,13 +488,12 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 self.select(pane, None)
 
             if self._has_object_stack(pane):
-                new_stack = [o for o in panectl.object_stack if valid_check(o)]
+                new_stack = list(map(valid_check, panectl.object_stack))
                 if new_stack != panectl.object_stack:
                     self._set_object_stack(pane, new_stack)
 
     def browse_up(self, pane: PaneSel) -> bool:
-        """Try to browse up to previous sources, from current
-        source"""
+        """Try to browse up to previous sources, from current source"""
         if pane == PaneSel.SOURCE:
             return self._source_pane.browse_up()
 
@@ -513,9 +503,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return False
 
     def browse_down(self, pane: PaneSel, alternate: bool = False) -> None:
-        """Browse into @leaf if it's possible
-        and save away the previous sources in the stack
-        if @alternate, use the Source's alternate method"""
+        """Browse into @leaf if it's possible and save away the previous sources
+        in the stack. If @alternate, use the Source's alternate method"""
         if pane == PaneSel.ACTION:
             return
 
@@ -526,8 +515,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             learn.record_search_hit(sel, key)
 
     def activate(self, ui_ctx: GUIEnvironmentContext) -> None:
-        """
-        Activate current selection
+        """Activate current selection.
 
         @ui_ctx: GUI environment context object
         """
@@ -558,6 +546,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         ui_ctx: GUIEnvironmentContext,
         on_error: ty.Callable[[ExecInfo], None],
     ) -> bool:
+        """Execute a .kfcom file"""
         ctx = self._execution_context
         try:
             cmd_objs = execfile.parse_kfcom_file(filepath)
@@ -572,7 +561,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return False
 
     def _insert_object(self, pane: PaneSel, obj: Leaf) -> None:
-        "Insert @obj in @pane: prepare the object, then emit pane-reset"
+        """Insert @obj in @pane: prepare the object, then emit pane-reset"""
         self._decorate_object(obj)
         self.emit("pane-reset", pane, search.wrap_rankable(obj))
 
@@ -582,7 +571,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             sctl.decorate_object(obj)
 
     def insert_objects(self, pane: PaneSel, objects: list[Leaf]) -> None:
-        "Select @objects in @pane"
+        """Select @objects in @pane"""
         if pane != PaneSel.SOURCE:
             raise ValueError("Can only insert in first pane")
 
@@ -590,7 +579,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._set_object_stack(pane, objects[:-1])  # type: ignore
         self._insert_object(pane, objects[-1])
 
-    def _command_execution_result(
+    def _on_command_execution_result(
         self,
         ctx: commandexec.ActionExecutionContext,
         result_type: commandexec.ExecResult | int,
@@ -611,7 +600,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         self.emit("command-result", result_type, uictx)
 
-    def _late_command_execution_result(
+    def _on_late_command_execution_result(
         self,
         ctx: commandexec.ActionExecutionContext,
         id_: int,
@@ -619,9 +608,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         ret: ty.Any,
         uictx: GUIEnvironmentContext,
     ) -> None:
-        "Receive late command result"
+        """Receive late command result"""
         if self._latest_interaction < id_:
-            self._command_execution_result(ctx, result_type, ret, uictx)
+            self._on_command_execution_result(ctx, result_type, ret, uictx)
 
     def find_object(self, url: str) -> None:
         """Find object with URI @url and select it in the first pane"""
@@ -632,10 +621,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             self._insert_object(PaneSel.SOURCE, found)
 
     def mark_as_default(self, pane: PaneSel) -> None:
-        """
-        Make the object selected on @pane as default
-        for the selection in previous pane.
-        """
+        """Make the object selected on @pane as default for the selection in
+        previous pane."""
         if pane in (PaneSel.SOURCE, PaneSel.OBJECT):
             raise RuntimeError("Setting default on pane 1 or 3 not supported")
 
@@ -647,10 +634,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         learn.set_correlation(act, obj)
 
     def get_object_has_affinity(self, pane: PaneSel) -> bool:
-        """
-        Return ``True`` if we have any recorded affinity
-        for the object selected in @pane
-        """
+        """Return ``True`` if we have any recorded affinity for the object
+        selected in @pane"""
         panectl = self._get_panectl(pane)
         if selection := panectl.get_selection():
             assert isinstance(selection, Leaf)
@@ -659,10 +644,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return False
 
     def erase_object_affinity(self, pane: PaneSel) -> None:
-        """
-        Erase all learned and configured affinity for
-        the selection of @pane
-        """
+        """Erase all learned and configured affinity for the selection of
+        @pane."""
         panectl = self._get_panectl(pane)
         if selection := panectl.get_selection():
             assert isinstance(selection, Leaf)
@@ -695,9 +678,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _get_current_command_objects(
         self,
     ) -> tuple[Leaf, Action, Leaf | None] | tuple[None, None, None]:
-        """
-        Return a tuple of current (obj, action, iobj)
-        """
+        """Return a tuple of current (obj, action, iobj)."""
         objects = self._get_pane_object_composed(self._source_pane)
         action: Action = self._action_pane.get_selection()  # type: ignore
         if objects is None or action is None:
@@ -724,9 +705,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.emit("object-stack-changed", pane)
 
     def object_stack_push(self, pane: PaneSel, object_: KupferObject) -> bool:
-        """
-        Push @object_ onto the stack
-        """
+        """Push @object_ onto the stack."""
         if not self._has_object_stack(pane):
             return False
 
@@ -756,9 +735,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.emit("object-stack-changed", pane)
 
     def object_stack_clear_all(self) -> None:
-        """
-        Clear the object stack for all panes
-        """
+        """Clear the object stack for all panes."""
         # action don't have stack
         # self.object_stack_clear(PaneSel.ACTION)
         self.object_stack_clear(PaneSel.OBJECT)

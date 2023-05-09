@@ -18,7 +18,7 @@ Config = dict[str, dict[str, ty.Any]]
 
 @ty.runtime_checkable
 class ExtendedSetting(ty.Protocol):
-    """Abstract class for defining non-simple configuration option"""
+    """Protocol that define non-simple configuration option"""
 
     def load(self, plugin_id: str, key: str, config_value: str | None) -> None:
         """load value for @plugin_id and @key, @config_value is value
@@ -33,6 +33,7 @@ class ExtendedSetting(ty.Protocol):
 
 
 # pylint: disable=too-few-public-methods
+@ty.runtime_checkable
 class ValueConverter(ty.Protocol):
     """Protocol that represent callable used to convert value stored
     in config file (as str) into required value (int, float, etc).
@@ -85,8 +86,7 @@ def strlist(value: str, default: list[ty.Any] | None = None) -> list[ty.Any]:
 
 
 def _override_encoding(name: str) -> str | None:
-    """
-    Return a new encoding name if we want to override it, else return None.
+    """Return a new encoding name if we want to override it, else return None.
 
     This is used to “upgrade” ascii to UTF-8 since the latter is a superset.
     """
@@ -100,6 +100,7 @@ def _fill_parser_read(
     parser: configparser.RawConfigParser,
     defaults: Config,
 ) -> None:
+    """Add values from `defaults` to `parser`."""
     for secname, section in defaults.items():
         if not parser.has_section(secname):
             parser.add_section(secname)
@@ -146,6 +147,7 @@ def _fill_confmap_fom_parser(
     confmap: Config,
     defaults: Config,
 ) -> None:
+    """Put values from `parser` to `confmap` using `defaults` as schema."""
     for secname in parser.sections():
         if secname not in confmap:
             confmap[secname] = {}
@@ -187,6 +189,7 @@ def _confmap_difference(conf: Config, defaults: Config) -> Config:
 def _fill_parser_from_config(
     parser: configparser.RawConfigParser, defaults: Config
 ) -> None:
+    """Put content of `defaults` into `parser`."""
     for secname in sorted(defaults):
         section = defaults[secname]
         if not parser.has_section(secname):
@@ -246,8 +249,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     @classmethod
     def instance(cls) -> SettingsController:
         """SettingsController is singleton; instance return one, global
-        instance
-        """
+        instance."""
         if cls._inst is None:
             cls._inst = SettingsController()
 
@@ -268,11 +270,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self._save_timer.set(60, self._save_config)
 
     def _read_config(self, read_config: bool = True) -> Config:
-        """
-        Read cascading config files
-        default -> then config
-        (in all XDG_CONFIG_DIRS)
-        """
+        """Read cascading config files: default -> then config
+        (in all XDG_CONFIG_DIRS)."""
         parser = configparser.RawConfigParser()
 
         # Set up defaults

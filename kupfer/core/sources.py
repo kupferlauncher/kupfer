@@ -124,9 +124,7 @@ class PeriodicRescanner(pretty.OutputMixin):
 
 
 class SourcePickler(pretty.OutputMixin):
-    """
-    Takes care of pickling and unpickling Kupfer Sources.
-    """
+    """Takes care of pickling and unpickling Kupfer Sources."""
 
     format_version = 5
     name_template = "k%s-v%d.pickle.gz"
@@ -144,8 +142,7 @@ class SourcePickler(pretty.OutputMixin):
 
     def rm_old_cachefiles(self) -> None:
         """Checks if there are old cachefiles from last version,
-        and deletes those
-        """
+        and deletes those"""
         home = config.get_cache_home()
         assert home
         for dpath, _dirs, files in os.walk(home):
@@ -215,12 +212,9 @@ class SourcePickler(pretty.OutputMixin):
         return False
 
     def _pickle_source(self, pickle_file: str, source: Source) -> bool:
-        """
-        When writing to a file, use pickle.dumps()
-        and then write the file in one go --
-        if the file is a gzip file, pickler's thousands
-        of small writes are very slow
-        """
+        """When writing to a file, use pickle.dumps() and then write the file
+        in one go. If the file is a gzip file, pickler's thousands  of small
+        writes are very slow."""
         sname = os.path.basename
         self.output_debug("Storing", source, "as", sname(pickle_file))
         Path(pickle_file).write_bytes(
@@ -386,7 +380,7 @@ class SourceController(pretty.OutputMixin):
     def _register_plugin_objects(
         self, plugin_id: str, *objects: ty.Any
     ) -> None:
-        "Register a plugin id mapping for @objects"
+        """Register a plugin id mapping for @objects"""
         for obj in objects:
             self._plugin_object_map[obj] = plugin_id
             pretty.print_debug(__name__, "Add", repr(obj))
@@ -549,9 +543,8 @@ class SourceController(pretty.OutputMixin):
         types: ty.Iterable[ty.Any],
         extra_sources: ty.Iterable[Source] | None = None,
     ) -> MultiSource:
-        """
-        Get root for a flat catalog of all catalogs
-        providing at least Leaves of @types
+        """Get root for a flat catalog of all catalogs providing at least
+        Leaves of @types.
 
         types: Iterable of classes
         extra_sources: Sources to include
@@ -574,7 +567,7 @@ class SourceController(pretty.OutputMixin):
         return MultiSource(firstlevel)
 
     def get_canonical_source(self, source: AnySource) -> AnySource:
-        "Return the canonical instance for @source"
+        """Return the canonical instance for @source"""
         # check if we already have source, then return that
         try:
             return self[source]
@@ -631,14 +624,14 @@ class SourceController(pretty.OutputMixin):
             )
 
     def finalize(self) -> None:
-        "Finalize all sources, equivalent to deactivating all sources"
+        """Finalize all sources, equivalent to deactivating all sources"""
         for src in self._sources:
             src.finalize()
 
         self._did_finalize_sources = True
 
     def save_cache(self) -> None:
-        "Save all caches (non-important data)"
+        """Save all caches (non-important data)"""
         if not self._did_finalize_sources:
             raise InternalError("Called save_cache without finalize!")
 
@@ -648,7 +641,7 @@ class SourceController(pretty.OutputMixin):
             self.output_debug("Not writing cache on failed load")
 
     def save_data(self) -> None:
-        "Save (important) user data/configuration"
+        """Save (important) user data/configuration"""
         if not self._loaded_successfully:
             self.output_info("Not writing configuration on failed load")
             return
@@ -664,7 +657,7 @@ class SourceController(pretty.OutputMixin):
         configsaver.save_source(source)
 
     def _finalize_source(self, source: Source) -> None:
-        "Either save config, or save cache for @source"
+        """Either save config, or save cache for @source"""
         source.finalize()
         if SourceDataPickler.source_has_config(source):
             self._save_source(source)
@@ -688,8 +681,7 @@ class SourceController(pretty.OutputMixin):
         sourcepickler.pickle_source(source)
 
     def _try_restore(self, srcs: ty.Iterable[Source]) -> ty.Iterator[Source]:
-        """
-        Try to restore the source that is equivalent to the
+        """Try to restore the source that is equivalent to the
         "dummy" instance @source, from cache, or from saved configuration.
         yield the instances that succeed.
         """
@@ -707,7 +699,7 @@ class SourceController(pretty.OutputMixin):
     def _remove_source(
         self, source: Source, is_decorator: bool = False
     ) -> None:
-        "Oust @source from catalog if any exception is raised"
+        """Oust @source from catalog if any exception is raised"""
         if not is_decorator:
             self._sources.discard(source)
             self._toplevel_sources.discard(source)
@@ -719,7 +711,7 @@ class SourceController(pretty.OutputMixin):
             cdv.discard(source_type)
 
     def initialize(self) -> None:
-        "Initialize all sources and cache toplevel sources"
+        """Initialize all sources and cache toplevel sources"""
         self._initialize_sources(self._sources)
         self._rescanner.set_catalog(self._sources)
         self._cache_sources(self._toplevel_sources)

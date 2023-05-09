@@ -87,7 +87,7 @@ def _write_thumbnail(gfile: Gio.File, pixbuf: GdkPixbuf.Pixbuf) -> Path:
 
 
 def update_icon(kobj: KupferObject, filepath: str) -> None:
-    "Give @filepath a custom icon taken from @kobj"
+    """Give @filepath a custom icon taken from @kobj"""
     icon_key = "metadata::custom-icon"
 
     gfile = Gio.File.new_for_path(filepath)

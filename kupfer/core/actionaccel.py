@@ -26,7 +26,7 @@ class AccelConfig(pretty.OutputMixin):
     """Action Accelerator configuration"""
 
     def __init__(self):
-        self._accels: ty.Dict[str, str] = {}
+        self._accels: dict[str, str] = {}
         # is configuration loaded
         self._loaded: bool = False
         # is configuration changed and not saved

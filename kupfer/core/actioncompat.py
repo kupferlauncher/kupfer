@@ -59,7 +59,7 @@ def iobject_source_for_action(
 
 
 FilteringFunction = ty.Callable[
-    [ty.Iterable[KupferObject]], ty.Iterable[KupferObject]
+    [ty.Iterable[KupferObject]], ty.Iterable[ty.Union[Action, Leaf]]
 ]
 
 

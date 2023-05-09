@@ -25,10 +25,7 @@ _FAVORITES: ty.Final[set[str]] = set()
 
 
 class Mnemonics:
-    """
-    Class to describe a collection of mnemonics
-    as well as the total count
-    """
+    """Class to describe a collection of mnemonics as well as the total count."""
 
     __slots__ = ("mnemonics", "count", "last_ts_used")
 
@@ -112,12 +109,10 @@ _REGISTER: dict[str, ty.Union[Mnemonics, dict[str, str]]] = {}
 
 
 def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
-    """
-    Record that KupferObject @obj was used, with the optional
+    """Record that KupferObject @obj was used, with the optional
     search term @key recording.
     When key is None - skip registeration (this is only valid when action is
-    performed by accelerator)
-    """
+    performed by accelerator)."""
     if key is None:
         return
 
@@ -131,17 +126,15 @@ def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
 
 
 def get_record_score(obj: ty.Any, key: str = "") -> float:
-    """
-    Get total score for KupferObject @obj,
-    bonus score is given for @key matches
-    """
+    """Get total score for KupferObject @obj, bonus score is given for @key
+    matches"""
     name = repr(obj)
     fav = 7 if name in _FAVORITES else 0
 
-    if name not in _REGISTER:
+    mns = _REGISTER.get(name)
+    if mns is None:
         return fav
 
-    mns = _REGISTER[name]
     assert isinstance(mns, Mnemonics)
     if not key:
         return fav + 50 * (1 - 1.0 / (mns.count + 1))
@@ -154,9 +147,7 @@ def get_record_score(obj: ty.Any, key: str = "") -> float:
 
 
 def get_correlation_bonus(obj: KupferObject, for_leaf: Leaf | None) -> int:
-    """
-    Get the bonus rank for @obj when used with @for_leaf
-    """
+    """Get the bonus rank for @obj when used with @for_leaf."""
     rval = _REGISTER[_CORRELATION_KEY]
     assert isinstance(rval, dict)
     if rval.get(repr(for_leaf)) == repr(obj):
@@ -166,18 +157,14 @@ def get_correlation_bonus(obj: KupferObject, for_leaf: Leaf | None) -> int:
 
 
 def set_correlation(obj: Leaf, for_leaf: Leaf) -> None:
-    """
-    Register @obj to get a bonus when used with @for_leaf
-    """
+    """Register @obj to get a bonus when used with @for_leaf."""
     rval = _REGISTER[_CORRELATION_KEY]
     assert isinstance(rval, dict)
     rval[repr(for_leaf)] = repr(obj)
 
 
 def get_object_has_affinity(obj: Leaf) -> bool:
-    """
-    Return if @obj has any positive score in the register
-    """
+    """Return if @obj has any positive score in the register."""
     robj = repr(obj)
     return bool(
         _REGISTER.get(robj)
@@ -186,16 +173,15 @@ def get_object_has_affinity(obj: Leaf) -> bool:
 
 
 def erase_object_affinity(obj: Leaf) -> None:
-    """
-    Remove all track of affinity for @obj
-    """
+    """Remove all track of affinity for @obj."""
     robj = repr(obj)
     _REGISTER.pop(robj, None)
     _REGISTER[_CORRELATION_KEY].pop(robj, None)  # type: ignore
 
 
 def _prune_register(goalitems: int = 500) -> None:
-    """
+    """Try to reduce number of mnemonic to `goalitems`.
+
     in first pass try to delete oldest mnemonics with score == 1.
 
     Then, remove items with chance (len/25000)
@@ -205,7 +191,6 @@ def _prune_register(goalitems: int = 500) -> None:
 
     To this we have to add the expected number of added mnemonics per
     invocation, est. 10, and we can estimate a target number of saved mnemonics.
-
     """
 
     # get all items sorted by last used time
@@ -260,9 +245,7 @@ def _prune_register(goalitems: int = 500) -> None:
 
 
 def load() -> None:
-    """
-    Load learning database
-    """
+    """Load learning database."""
     _REGISTER.clear()
 
     if filepath := config.get_config_file(_MNEMONICS_FILENAME):
@@ -274,9 +257,7 @@ def load() -> None:
 
 
 def save() -> None:
-    """
-    Save the learning record
-    """
+    """Save the learning record."""
     if not _REGISTER:
         pretty.print_debug(__name__, "Not writing empty register")
         return

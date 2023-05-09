@@ -19,7 +19,8 @@ class PluginDescription:
 
 
 def load_plugin(plugin_id: str) -> PluginDescription:
-    """
+    """Load plugin by `plugin_id`.
+
     @S_sources are to be included directly in the catalog,
     @s_souces as just as subitems
     """

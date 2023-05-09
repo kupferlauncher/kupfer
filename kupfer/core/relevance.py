@@ -48,9 +48,7 @@ def format_common_substrings(
     format_clean: FormatCleanCB | None = None,
     format_match: FormatMatchCB | None = None,
 ) -> str:
-    """
-    Creates a new string highlighting matching substrings.
-
+    """Creates a new string highlighting matching substrings.
     Returns: a formatted string
 
     >>> format_common_substrings('hi there dude', 'hidude',
@@ -102,8 +100,10 @@ def format_common_substrings(
 
 
 def score_single(string: str, query: str) -> float:
-    """
-    s: text body to score
+    """Find the shortest possible substring that matches the query
+     and get the ration of their lengths for a base score.
+
+    string: text body to score
     query: A single character
 
     This is a single character approximation to `score`.
@@ -120,29 +120,24 @@ def score_single(string: str, query: str) -> float:
 
     string = string.lower()
 
-    # Find the shortest possible substring that matches the query
-    # and get the ration of their lengths for a base score
     first = string.find(query)
     if first == -1:
         return 0.0
 
-    strscore = 0.9 + 0.025 / len(string)
-
     if first == 0:
-        strscore += 0.07
+        return 0.97 + 0.025 / len(string)
 
-    return strscore
+    return 0.9 + 0.025 / len(string)
 
 
 def score(string: str, query: str) -> float:
-    """
-    A relevancy score for the string ranging from 0 to 1
+    """A relevancy score for the string ranging from 0 to 1.
 
-    @s: a string to be scored
+    @string: a string to be scored
     @query: a string query to score against
 
-    `s' is treated case-insensitively while `query' is interpreted literally,
-    including case and whitespace.
+    `string' is treated case-insensitively while `query' is interpreted
+    literally, including case and whitespace.
 
     Returns: a float between 0 and 1
 
@@ -208,19 +203,16 @@ def score(string: str, query: str) -> float:
     # everything else lower
 
     if last - first == query_len:
-        strscore = 0.9 + 0.1 * strscore
-    else:
-        strscore = 0.9 * strscore
+        return 0.9 + 0.1 * strscore
 
-    return strscore
+    return 0.9 * strscore
 
 
 def _find_best_match(string: str, query: str) -> tuple[int, int]:
-    """
-    Finds the shortest substring of @s that contains all characters of query
+    """Finds the shortest substring of @s that contains all characters of query
     in order.
 
-    @s: a string to search
+    @string: a string to search
     @query: a string query to search for
 
     Returns: a two-item tuple containing the start and end indicies of
