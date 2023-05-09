@@ -12,9 +12,10 @@ from kupfer.ui import keybindings
 
 
 def try_close_unused_displays(screen: Gdk.Screen) -> None:
-    """@screen is current GdkScreen
+    """Try to close inactive displays.
 
-    Try to close inactive displays...
+    `screen` is current GdkScreen.
+
     Take all GtkWindow that are hidden, and move to the
     current screen. If no windows remain then we close
     the display, but we never close the default display.
@@ -46,16 +47,13 @@ def try_close_unused_displays(screen: Gdk.Screen) -> None:
 
 
 class GUIEnvironmentContext:
-    """
-    Context object for action execution
-    in the current GUI context
-    """
+    """Context object for action execution in the current GUI context"""
 
-    def __init__(self, timestamp: int, screen: Gdk.Screen | None = None):
+    def __init__(
+        self, timestamp: int, screen: Gdk.Screen | None = None
+    ) -> None:
         self._timestamp = timestamp
-        self._screen: ty.Optional[Gdk.Screen] = (
-            screen or Gdk.Screen.get_default()
-        )
+        self._screen: Gdk.Screen = screen or Gdk.Screen.get_default()
 
     def __repr__(self):
         return (
@@ -76,28 +74,19 @@ class GUIEnvironmentContext:
         return self._timestamp
 
     def get_startup_notification_id(self) -> str:
-        """
-        Always returns a byte string
-        """
+        """Get new notification id."""
         return _make_startup_notification_id(self.get_timestamp())
 
     def get_display(self) -> str:
-        """return the display name to show new windows on
-
-        Always returns a byte string
-        """
+        """Return the display name to show new windows on."""
         return self._screen.make_display_name()  # type: ignore
 
     def get_screen(self) -> Gdk.Screen | None:
         return self._screen
 
     def present_window(self, window: Gtk.Window) -> None:
-        """
-        Show and present @window on the current
-        workspace, screen & display as appropriate.
-
-        @window: A Gtk.Window
-        """
+        """Show and present `window` on the current workspace, screen & display
+        as appropriate."""
         window.set_screen(self.get_screen())
         window.present_with_time(self.get_timestamp())
 
@@ -146,9 +135,7 @@ def current_event_time() -> int:
 
 
 def _parse_notify_id(startup_notification_id: str) -> int:
-    """
-    Return timestamp or 0 from @startup_notification_id
-    """
+    """Return timestamp or 0 from @startup_notification_id."""
     if "_TIME" in startup_notification_id:
         _ign, bstime = startup_notification_id.split("_TIME", 1)
         with contextlib.suppress(ValueError):
@@ -159,8 +146,7 @@ def _parse_notify_id(startup_notification_id: str) -> int:
 
 @contextlib.contextmanager
 def using_startup_notify_id(notify_id: str) -> ty.Any:
-    """
-    Pass in a DESKTOP_STARTUP_ID
+    """Pass in a DESKTOP_STARTUP_ID
 
     with using_startup_notify_id(...) as time:
         pass

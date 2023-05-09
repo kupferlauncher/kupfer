@@ -48,7 +48,7 @@ class _AboutDialog:
 
         abdlg.connect("response", self._response_callback)
 
-    def show(self, ctxenv: ty.Optional[GUIEnvironmentContext] = None) -> None:
+    def show(self, ctxenv: GUIEnvironmentContext | None = None) -> None:
         if ctxenv:
             ctxenv.present_window(self._dlg)
         else:
@@ -63,7 +63,7 @@ class _AboutDialog:
 
 
 def show_about_dialog(
-    ctxenv: ty.Optional[GUIEnvironmentContext] = None,
+    ctxenv: GUIEnvironmentContext | None = None,
 ) -> None:
     """Create an about dialog and show it."""
     dlg = _AboutDialog.instance()

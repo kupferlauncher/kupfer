@@ -9,7 +9,9 @@ from kupfer import config, version
 CheckCallback = ty.Callable[[str], bool]
 
 
-class GetKeyDialogController:
+class _GetKeyDialogController:
+    """Get Key for binding dialog controller."""
+
     def __init__(
         self,
         check_callback: CheckCallback | None = None,
@@ -162,7 +164,7 @@ def ask_for_key(
     parent: Gtk.Window | None = None,
     show_clear: bool = True,
 ) -> str | None:
-    dlg = GetKeyDialogController(
+    dlg = _GetKeyDialogController(
         check_callback,
         previous_key,
         screen=screen,

@@ -93,17 +93,17 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         private_iface_name = "org.gnome.SessionManager.ClientPrivate"
         bus.add_signal_receiver(
-            self._query_end_session,
+            self._on_query_end_session,
             "QueryEndSession",
             dbus_interface=private_iface_name,
         )
         bus.add_signal_receiver(
-            self._end_session_signal,
+            self._on_end_session_signal,
             "EndSession",
             dbus_interface=private_iface_name,
         )
         bus.add_signal_receiver(
-            self._stop_signal, "Stop", dbus_interface=private_iface_name
+            self._on_stop_signal, "Stop", dbus_interface=private_iface_name
         )
         return True
 
@@ -128,7 +128,7 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         private_iface_name = "org.xfce.Session.Manager"
         bus.add_signal_receiver(
-            self._xfce_session_state_changed,
+            self._on_xfce_session_state_changed,
             "StateChanged",
             dbus_interface=private_iface_name,
         )
@@ -150,13 +150,13 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
         smanager = dbus.Interface(obj, iface_name)
         return smanager
 
-    def _query_end_session(self, flags: str) -> None:
+    def _on_query_end_session(self, flags: str) -> None:
         self.output_debug("Query end", flags)
 
         if smanager := self._get_response_obj():
             smanager.EndSessionResponse(True, "Always OK")
 
-    def _end_session_signal(self, flags: str) -> None:
+    def _on_end_session_signal(self, flags: str) -> None:
         self.output_debug("Session end", flags)
         if not self._session_ended:
             self._session_ended = True
@@ -165,7 +165,7 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if smanager := self._get_response_obj():
             smanager.EndSessionResponse(True, "Always OK")
 
-    def _xfce_session_state_changed(
+    def _on_xfce_session_state_changed(
         self, old_value: int, new_value: int
     ) -> None:
         self.output_debug(
@@ -174,15 +174,15 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if new_value == 4:
             self.emit("save-yourself")
 
-    def _stop_signal(self) -> None:
+    def _on_stop_signal(self) -> None:
         self.output_debug("Session stop")
         self.emit("die")
 
-    def _session_save(self, obj: ty.Any, *args: ty.Any) -> None:
-        self.emit("save-yourself")
+    # def _session_save(self, obj: ty.Any, *args: ty.Any) -> None:
+    #     self.emit("save-yourself")
 
-    def _session_die(self, obj: ty.Any, *args: ty.Any) -> None:
-        self.emit("die")
+    # def _session_die(self, obj: ty.Any, *args: ty.Any) -> None:
+    #     self.emit("die")
 
     @property
     def enabled(self) -> bool:

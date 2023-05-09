@@ -22,10 +22,8 @@ from . import uievents
 
 
 def _window_close_on_escape(widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
-    """
-    Callback function for Window's key press event, will destroy window
-    on escape
-    """
+    """Callback function for Window's key press event, will destroy window
+    on escape"""
     if event.keyval == Gdk.keyval_from_name("Escape"):
         widget.close()
         return True
@@ -36,8 +34,7 @@ def _window_close_on_escape(widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
 def builder_get_objects_from_file(
     fname: str, attrs: ty.Iterable[str], autoconnect_to: ty.Any = None
 ) -> ty.Iterator[ty.Any]:
-    """
-    Open @fname with Gtk.Builder and yield objects named @attrs
+    """Open @fname with Gtk.Builder and yield objects named @attrs
 
     @fname is sought in the data directories.
     If @autoconnect_to is not None, signals are autoconnected to this object,
@@ -120,8 +117,7 @@ def show_text_result(
     title: str | None = None,
     ctx: commandexec.ExecutionToken | None = None,
 ) -> None:
-    """
-    Show @text in a result window.
+    """Show @text in a result window.
 
     Use @title to set a window title
     """
@@ -157,9 +153,7 @@ def show_text_result(
 
 
 def _wrap_paragraphs(text: str) -> str:
-    """
-    Return @text with linewrapped paragraphs
-    """
+    """Return @text with linewrapped paragraphs"""
     return "\n\n".join(textwrap.fill(par) for par in text.split("\n\n"))
 
 
@@ -170,9 +164,7 @@ def _set_font_size(label: Gtk.Label, fontsize: float = 48.0) -> None:
 def show_large_type(
     text: str, ctx: commandexec.ExecutionToken | None = None
 ) -> None:
-    """
-    Show @text, large, in a result window.
-    """
+    """Show @text, large, in a result window."""
     text = text.strip()
 
     window = Gtk.Window()
@@ -237,7 +229,7 @@ _IFACE_NAME = "org.freedesktop.Notifications"
 
 
 def _get_notification_obj() -> ty.Any:
-    "we will activate it over d-bus (start if not running)"
+    """we will activate it over d-bus (start if not running)"""
     # pylint: disable=import-outside-toplevel
     import dbus
 
@@ -254,9 +246,9 @@ def _get_notification_obj() -> ty.Any:
 def show_notification(
     title: str, text: str = "", icon_name: str = "", nid: int = 0
 ) -> int | None:
-    """
-    @nid: If not 0, the id of the notification to replace.
-
+    """Show notification with `title` and optional `text` and `icon_name`.
+    `nid` is id of then notification to replace; set 0 to get new notification
+    id.
     Returns the id of the displayed notification.
     """
     if not (notifications := _get_notification_obj()):

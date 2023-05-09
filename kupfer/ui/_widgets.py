@@ -425,6 +425,7 @@ class PluginAboutWidget(Gtk.Bin):  # type: ignore
 
 
 def _format_exc_info(exc_info: kty.ExecInfo) -> str:
+    """Format ExecInfo to presentable form."""
     etype, error, _tb = exc_info
     import_error_pat = r"No module named ([^\s]+)"
     errmsg = str(error)
@@ -441,8 +442,10 @@ def _format_exc_info(exc_info: kty.ExecInfo) -> str:
 
 
 def new_label_header(
-    parent: Gtk.Widget | None, markup: str, tooltip: str | None = None
+    parent: Gtk.Box | None, markup: str, tooltip: str | None = None
 ) -> Gtk.Label:
+    """Return "header" label with `markup` text and optional `tooltip`.
+    Add it to `parent` box if given. Return new label object."""
     markup = GLib.markup_escape_text(markup)
     return new_label(
         parent, f"<b>{markup}</b>", selectable=False, tooltip=tooltip
@@ -450,12 +453,16 @@ def new_label_header(
 
 
 def new_label(  # pylint: disable=keyword-arg-before-vararg
-    parent: Gtk.Widget | None = None,
+    parent: Gtk.Box | None = None,
     /,
     *markup: str,
     selectable: bool = True,
     tooltip: str | None = None,
 ) -> Gtk.Label:
+    """Create new label with `markup` text (concatenated).
+    Set optional parameters: `selectable` (default True), `tooltip`.
+    If `parent` box is given, add label to box.
+    Return widget object."""
     text = "".join(markup)
     label = Gtk.Label()
     label.set_alignment(0, 0.5)  # pylint: disable=no-member

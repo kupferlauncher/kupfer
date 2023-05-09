@@ -10,7 +10,7 @@ from gi.repository import Gdk, GdkPixbuf, GLib, GObject, Gtk, Pango
 import kupfer.config
 import kupfer.environment
 from kupfer import icons
-from kupfer.core import actionaccel, learn, relevance, settings
+from kupfer.core import actionaccel, learn, relevance, settings, search
 from kupfer.core.search import Rankable
 from kupfer.obj import Action, AnySource, KupferObject, Leaf
 from kupfer.support import pretty
@@ -22,6 +22,7 @@ if ty.TYPE_CHECKING:
 
 
 def _format_match(match: str) -> str:
+    """Function used to format matched text in label."""
     return f"<u><b>{escape_markup_str(match)}</b></u>"
 
 
@@ -32,36 +33,33 @@ class State(enum.IntEnum):
     NO_MATCH = 3
 
 
-_ELLIPSIZE_MIDDLE = Pango.EllipsizeMode.MIDDLE
-_PREEDIT_HIDDEN_CLASS = "hidden"
-_WINDOW_BORDER_WIDTH = 8
+_ELLIPSIZE_MIDDLE: ty.Final = Pango.EllipsizeMode.MIDDLE
+_PREEDIT_HIDDEN_CLASS: ty.Final = "hidden"
+_WINDOW_BORDER_WIDTH: ty.Final = 8
 
-_ICON_COL = 1
-_NAME_COL = 2
-_FAV_COL = 3
-_INFO_COL = 4
-_RANK_COL = 5
+# columns position
+_ICON_COL: ty.Final = 1
+_NAME_COL: ty.Final = 2
+_FAV_COL: ty.Final = 3
+_INFO_COL: ty.Final = 4
+_RANK_COL: ty.Final = 5
 
 
 class _LeafModel:
-    """A base for a tree view
-    With a magic load-on-demand feature.
+    """A base for a tree view with a magic load-on-demand feature.
 
-    self.set_base will set its base iterator
-    and self.populate(num) will load @num items into
-    the model
+    self.set_base will set its base iterator and self.populate(num) will load
+    @num items into the model
 
     Attributes:
     icon_size
     """
 
     def __init__(
-        self, aux_info_callback: ty.Callable[[Leaf | Action], str]
+        self, aux_info_callback: ty.Callable[[search.RankableObject], str]
     ) -> None:
-        """
-        First column is always the object -- returned by get_object
-        it needs not be specified in columns
-        """
+        """First column is always the object -- returned by get_object
+        it needs not be specified in columns."""
         self.icon_size = 32
         columns = (GObject.TYPE_OBJECT, str, str, str, str)
         self._store = Gtk.ListStore(GObject.TYPE_PYOBJECT, *columns)
@@ -73,9 +71,6 @@ class _LeafModel:
         return len(self._store)
 
     def _setup_columns(self):
-        # only show in debug mode
-        show_rank_col = pretty.DEBUG
-
         # Name and description column
         # Expands to the rest of the space
         name_cell = Gtk.CellRendererText()
@@ -98,28 +93,25 @@ class _LeafModel:
         nbr_col.add_attribute(nbr_cell, "text", _RANK_COL)
 
         icon_cell = Gtk.CellRendererPixbuf()
-        # icon_cell.set_property("height", 32)
-        # icon_cell.set_property("width", 32)
-        # icon_cell.set_property("stock-size", Gtk.IconSize.LARGE_TOOLBAR)
-
         icon_col = Gtk.TreeViewColumn("icon", icon_cell)
         icon_col.add_attribute(icon_cell, "pixbuf", _ICON_COL)
 
         self.columns = [icon_col, name_col, fav_col, info_col]
-        if show_rank_col:
+
+        # show rank only in debug mode
+        if pretty.DEBUG:
             self.columns.append(nbr_col)
 
-    def _get_column(self, treepath: ty.Iterable[int], col: int) -> ty.Any:
-        store_iter = self._store.get_iter(treepath)
-        return self._store.get_value(store_iter, col)
-
-    def get_object(self, path: ty.Iterable[int] | None) -> ty.Any:
+    def get_object(self, path: ty.Iterable[int] | None) -> Rankable | None:
+        """Get object for given `path`."""
         if path is None:
             return None
 
-        return self._get_column(path, 0)
+        store_iter = self._store.get_iter(path)
+        return self._store.get_value(store_iter, 0)  # type: ignore
 
     def get_store(self) -> Gtk.ListStore:
+        """Get list store."""
         return self._store
 
     def clear(self) -> None:
@@ -128,14 +120,12 @@ class _LeafModel:
         self._base = None
 
     def set_base(self, baseiter: ty.Iterable[Rankable]) -> None:
+        """Set base iterator that provide items for model."""
         self._base = iter(baseiter)
 
     def populate(self, num: int | None = None) -> KupferObject | None:
-        """
-        populate model with num items from its base
-        and return first item inserted
-        if num is none, insert everything
-
+        """Populate model with num items from its base and return first item
+        inserted. If num is none, insert everything.
         """
         if not self._base:
             return None
@@ -144,112 +134,110 @@ class _LeafModel:
         if num:
             iterator = itertools.islice(self._base, num)
 
+        append = self._store.append
+        build_row = self._build_row
+
         try:
             first_rank = next(iterator)
-            self.add(first_rank)
+            append(build_row(first_rank))
             first = first_rank.object
         except StopIteration:
             return None
 
         for item in iterator:
-            self.add(item)
+            append(build_row(item))
 
         # first.object is a leaf
         return first
 
-    def _get_row(
+    def _build_row(
         self, rankable: Rankable
     ) -> tuple[Rankable, GdkPixbuf.Pixbuf | None, str, str, str, str]:
-        """Use the UI description functions get_*
-        to initialize @rankable into the model
-
-        @return (rankable, icon, markup, fav, info, rank_str)
+        """Use the UI description functions get_* to initialize `rankable` into
+        the model. Return (rankable, icon, markup, fav, info, rank_str).
         """
         leaf, rank = rankable.object, rankable.rank
         assert isinstance(leaf, (Leaf, Action))
         return (
             rankable,
             self._get_icon(leaf),
-            self._get_label_markup(rankable),
+            self._get_label_markup(leaf),
             self._get_fav(leaf),
             self._get_aux_info(leaf),
             self._get_rank_str(rank),
         )
 
-    def add(self, rankable: Rankable) -> None:
-        self._store.append(self._get_row(rankable))
+    def _iter_store(self) -> ty.Iterator[tuple[Rankable, Gtk.TreeIter]]:
+        """Iterate over item in tree store and yield rankable object and iterator"""
+        siter = self._store.get_iter_first()
+        while siter:
+            yield self._store.get(siter, 0)[0], siter
+            siter = self._store.iter_next(siter)
 
     def add_first(self, rankable: Rankable) -> None:
         """Add rankable on top the list. Remove previous object when already
         exists.
         """
-        siter = self._store.get_iter_first()
-        while siter:
-            row_rankable = self._store.get(siter, 0)[0]
+        # first check is object already exists
+        for row_rankable, siter in self._iter_store():
             if row_rankable.object == rankable.object:
                 # object already on list; remove it
                 self._store.remove(siter)
                 break
 
-            siter = self._store.iter_next(siter)
+        self._store.prepend(self._build_row(rankable))
 
-        self._store.prepend(self._get_row(rankable))
-
-    def find(self, obj: KupferObject) -> int:
+    def find(self, obj: search.RankableObject) -> int:
         """Find @obj in store and return it row number"""
-        siter = self._store.get_iter_first()
-        row = 0
-        while siter:
-            row_rankable = self._store.get(siter, 0)[0]
+        for row, (row_rankable, _siter) in enumerate(self._iter_store()):
             if row_rankable.object == obj:
                 return row
 
-            siter = self._store.iter_next(siter)
-            row += 1
-
         return -1
 
-    def _get_icon(self, leaf: KupferObject) -> GdkPixbuf.Pixbuf | None:
+    def _get_icon(self, leaf: search.RankableObject) -> GdkPixbuf.Pixbuf | None:
+        """Get icon from `leaf` to show in row."""
         if (size := self.icon_size) > 8:
             return leaf.get_thumbnail(size, size) or leaf.get_pixbuf(size)
 
         return None
 
-    def _get_label_markup(self, rankable: Rankable) -> str:
-        leaf = rankable.object
-        # Here we use the items real name
-        # Previously we used the alias that was matched,
-        # but it can be too confusing or ugly
+    def _get_label_markup(self, leaf: search.RankableObject) -> str:
+        """Get `rankable` description to show in row."""
+        # Here we use the items real name.
+        # Previously we used the alias that was matched, but it can be too
+        # confusing or ugly
         name = escape_markup_str(str(leaf))
         if desc := escape_markup_str(leaf.get_description() or ""):
             return f"{name}\n<small>{desc}</small>"
 
-        return f"{name}"
+        return name
 
-    def _get_fav(self, leaf: KupferObject) -> str:
-        # fav: display star if it's a favourite
+    def _get_fav(self, leaf: search.RankableObject) -> str:
+        """Get star if `leaf` is favourite."""
         if learn.is_favorite(leaf):
             return "\N{BLACK STAR}"
 
         return ""
 
-    def _get_aux_info(self, leaf: Leaf | Action) -> str:
-        # For objects: Show arrow if it has content
-        # For actions: Show accelerator
-        #
+    def _get_aux_info(self, leaf: search.RankableObject) -> str:
+        """Show additional informations about leaves using aux_info_callback.
+        For objects: Show arrow if it has content.
+        For actions: Show accelerator.
+        """
         if self._aux_info_callback is not None:
             return self._aux_info_callback(leaf)
 
         return ""
 
-    def _get_rank_str(self, rank: ty.Optional[float]) -> str:
+    def _get_rank_str(self, rank: float | None) -> str:
         # Display rank empty instead of 0 since it looks better
         return str(int(rank)) if rank else ""
 
 
 def _dim_icon(icon: GdkPixbuf.Pixbuf | None) -> GdkPixbuf.Pixbuf | None:
     if not icon:
-        return icon
+        return None
 
     dim_icon = icon.copy()
     dim_icon.fill(0)
@@ -269,16 +257,14 @@ def _dim_icon(icon: GdkPixbuf.Pixbuf | None) -> GdkPixbuf.Pixbuf | None:
     return dim_icon
 
 
-_LABEL_CHAR_WIDTH = 25
-_PREEDIT_CHAR_WIDTH = 5
+_LABEL_CHAR_WIDTH: ty.Final = 25
+_PREEDIT_CHAR_WIDTH: ty.Final = 5
 
 
 # pylint: disable=too-many-instance-attributes
 class MatchViewOwner(pretty.OutputMixin):
-    """
-    Owner of the widget for displaying name, icon and name underlining (if
-    applicable) of the current match.
-    """
+    """Owner of the widget for displaying name, icon and name underlining (if
+    applicable) of the current match."""
 
     def __init__(self):
         # object attributes
@@ -288,23 +274,19 @@ class MatchViewOwner(pretty.OutputMixin):
 
         # finally build widget
         self._build_widget()
-        self._cur_icon: ty.Optional[GdkPixbuf.Pixbuf] = None
 
-        self._cur_text: ty.Optional[str] = None
-        self._cur_match: ty.Optional[str] = None
-        self._icon_size: ty.Optional[int] = None
+        self._cur_icon: GdkPixbuf.Pixbuf | None = None
+        self._cur_text: str | None = None
+        self._cur_match: str | None = None
+        self._icon_size: int = 0
+
         self._read_icon_size()
 
-    @property
-    def icon_size(self) -> int:
-        assert self._icon_size
-        return self._icon_size
-
-    def _icon_size_changed(
+    def _on_icon_size_changed(
         self,
         setctl: settings.SettingsController,
-        section: ty.Optional[str],
-        key: ty.Optional[str],
+        section: str | None,
+        key: str | None,
         value: ty.Any,
     ) -> None:
         self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
@@ -313,26 +295,24 @@ class MatchViewOwner(pretty.OutputMixin):
         setctl = settings.get_settings_controller()
         setctl.connect(
             "value-changed::appearance.icon_large_size",
-            self._icon_size_changed,
+            self._on_icon_size_changed,
         )
-        self._icon_size_changed(setctl, None, None, None)
+        self._on_icon_size_changed(setctl, None, None, None)
 
     def _build_widget(self) -> None:
-        """
-        Core initalization method that builds the widget
-        """
-        self.label = Gtk.Label.new("<match>")
-        self.label.set_single_line_mode(True)
-        self.label.set_width_chars(_LABEL_CHAR_WIDTH)
-        self.label.set_max_width_chars(_LABEL_CHAR_WIDTH)
-        self.label.set_ellipsize(_ELLIPSIZE_MIDDLE)
+        """Core initalization method that builds the widget."""
+        self._label = label = Gtk.Label.new("<match>")
+        label.set_single_line_mode(True)
+        label.set_width_chars(_LABEL_CHAR_WIDTH)
+        label.set_max_width_chars(_LABEL_CHAR_WIDTH)
+        label.set_ellipsize(_ELLIPSIZE_MIDDLE)
 
-        self.icon_view = Gtk.Image()
+        self._icon_view = Gtk.Image()
 
         # infobox: icon and match name
         icon_align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
         icon_align.set_property("top-padding", 5)
-        icon_align.add(self.icon_view)
+        icon_align.add(self._icon_view)
 
         infobox = Gtk.HBox()
         infobox.pack_start(icon_align, True, True, 0)
@@ -341,19 +321,17 @@ class MatchViewOwner(pretty.OutputMixin):
         box.pack_start(infobox, True, False, 0)
 
         self._editbox = Gtk.HBox()
-        self._editbox.pack_start(self.label, True, True, 0)
+        self._editbox.pack_start(self._label, True, True, 0)
         box.pack_start(self._editbox, False, False, 3)
 
-        self.event_box = Gtk.EventBox()
-        self.event_box.add(box)
-        self.event_box.get_style_context().add_class("matchview")
-        self.event_box.show_all()
-        self._child = self.event_box
+        event_box = Gtk.EventBox()
+        event_box.add(box)
+        event_box.get_style_context().add_class("matchview")
+        event_box.show_all()
+        self._child = event_box
 
     def widget(self) -> Gtk.Widget:
-        """
-        Return the corresponding Widget
-        """
+        """Return the corresponding Widget"""
         return self._child
 
     # pylint: disable=too-many-locals
@@ -363,8 +341,7 @@ class MatchViewOwner(pretty.OutputMixin):
         pixbufs: list[GdkPixbuf.Pixbuf],
         small_size: int,
     ) -> GdkPixbuf.Pixbuf:
-        """
-        Render the main selection + a string of objects on the stack.
+        """Render the main selection + a string of objects on the stack.
 
         Scale the main image into the upper portion, leaving a clear
         strip at the bottom where we line up the small icons.
@@ -373,7 +350,7 @@ class MatchViewOwner(pretty.OutputMixin):
         @pixbufs: icons of the object stack, in final (small) size
         @small_size: the size of the small icons
         """
-        size = self.icon_size
+        size = self._icon_size
         assert size
         base_scale = min(
             (size - small_size) * 1.0 / base.get_height(),
@@ -416,38 +393,36 @@ class MatchViewOwner(pretty.OutputMixin):
         return destbuf
 
     def update_match(self) -> None:
-        """
-        Update interface to display the currently selected match
-        """
+        """Update interface to display the currently selected match."""
         # update icon
         if icon := self._cur_icon:
             if self._match_state is State.NO_MATCH:
                 icon = _dim_icon(icon)
 
             if icon and self.object_stack:
-                small_max = 16
-                small_size = 16
+                small_size = small_max = 16
                 pixbufs = [
                     o.get_pixbuf(small_size)
                     for o in self.object_stack[-small_max:]
                 ]
                 icon = self._render_composed_icon(icon, pixbufs, small_size)
 
-            self.icon_view.set_from_pixbuf(icon)
+            self._icon_view.set_from_pixbuf(icon)
+
         else:
-            self.icon_view.clear()
-            self.icon_view.set_pixel_size(self.icon_size)
+            self._icon_view.clear()
+            self._icon_view.set_pixel_size(self._icon_size)
 
         if not self._cur_text:
-            self.label.set_text("")
+            self._label.set_text("")
             return
 
         if not self._cur_match:
             if self._match_state is not State.MATCH:
                 # Allow markup in the text string if we have no match
-                self.label.set_markup(self._cur_text)
+                self._label.set_markup(self._cur_text)
             else:
-                self.label.set_text(self._cur_text)
+                self._label.set_text(self._cur_text)
 
             return
 
@@ -458,7 +433,7 @@ class MatchViewOwner(pretty.OutputMixin):
             format_clean=escape_markup_str,
             format_match=_format_match,
         )
-        self.label.set_markup(markup)
+        self._label.set_markup(markup)
 
     def set_object(
         self,
@@ -480,10 +455,10 @@ class MatchViewOwner(pretty.OutputMixin):
         self._cur_match = match
         if state:
             self._match_state = state
+        elif match is not None:
+            self._match_state = State.MATCH
         else:
-            self._match_state = (
-                State.MATCH if self._cur_match is not None else State.NO_MATCH
-            )
+            self._match_state = State.NO_MATCH
 
         if update:
             self.update_match()
@@ -508,22 +483,20 @@ class MatchViewOwner(pretty.OutputMixin):
 
     def expand_preedit(self, preedit: Gtk.Entry) -> None:
         new_label_width = _LABEL_CHAR_WIDTH - _PREEDIT_CHAR_WIDTH
-        self.label.set_width_chars(new_label_width)
+        self._label.set_width_chars(new_label_width)
         preedit.set_width_chars(_PREEDIT_CHAR_WIDTH)
         preedit.get_style_context().remove_class(_PREEDIT_HIDDEN_CLASS)
 
     def shrink_preedit(self, preedit: Gtk.Entry) -> None:
-        self.label.set_width_chars(_LABEL_CHAR_WIDTH)
+        self._label.set_width_chars(_LABEL_CHAR_WIDTH)
         preedit.set_width_chars(0)
         preedit.get_style_context().add_class(_PREEDIT_HIDDEN_CLASS)
 
     def inject_preedit(self, preedit: Gtk.Entry | None) -> None:
-        """
-        @preedit: Widget to be injected or None
-        """
+        """@preedit: Widget to be injected or None"""
         if not preedit:
-            self.label.set_width_chars(_LABEL_CHAR_WIDTH)
-            self.label.set_alignment(0.5, 0.5)
+            self._label.set_width_chars(_LABEL_CHAR_WIDTH)
+            self._label.set_alignment(0.5, 0.5)
             return
 
         if old_parent := preedit.get_parent():
@@ -544,8 +517,7 @@ _SHOW_MORE: ty.Final = 10
 
 # pylint: disable=too-many-public-methods
 class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
-    """
-    Owner of a widget for displaying search results (using match view),
+    """Owner of a widget for displaying search results (using match view),
     keeping current search result list and its display.
 
     Signals
@@ -585,11 +557,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return ""
 
     def set_name(self, name: str) -> None:
-        """
-        Set the name of the Search's widget
-
-        name: str
-        """
+        """Set the `name` of the Search's widget."""
         self._child.set_name(name)
 
     def set_state(self, state: Gtk.StateType) -> None:
@@ -607,12 +575,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         else:
             self.hide()
 
-    @property
-    def icon_size(self) -> int:
-        assert self._icon_size
-        return self._icon_size
-
-    def _icon_size_changed(
+    def _on_icon_size_changed(
         self,
         setctl: settings.SettingsController,
         section: str | None,
@@ -629,13 +592,13 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         setctl = settings.get_settings_controller()
         setctl.connect(
             "value-changed::appearance.icon_large_size",
-            self._icon_size_changed,
+            self._on_icon_size_changed,
         )
         setctl.connect(
             "value-changed::appearance.icon_small_size",
-            self._icon_size_changed,
+            self._on_icon_size_changed,
         )
-        self._icon_size_changed(setctl, None, None, None)
+        self._on_icon_size_changed(setctl, None, None, None)
 
     def _build_widget(self) -> None:
         """
@@ -643,22 +606,24 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """
         self.match_view = MatchViewOwner()
 
-        self._table = Gtk.TreeView.new_with_model(self._model.get_store())
-        self._table.set_name("kupfer-list-view")
-        self._table.set_headers_visible(False)
-        self._table.set_property("enable-search", False)
+        self._table = table = Gtk.TreeView.new_with_model(
+            self._model.get_store()
+        )
+        table.set_name("kupfer-list-view")
+        table.set_headers_visible(False)
+        table.set_property("enable-search", False)
 
         for col in self._model.columns:
-            self._table.append_column(col)
+            table.append_column(col)
 
-        self._table.connect("row-activated", self._row_activated)
-        self._table.connect("cursor-changed", self._cursor_changed)
+        table.connect("row-activated", self._on_row_activated)
+        table.connect("cursor-changed", self._on_cursor_changed)
 
         scroller = Gtk.ScrolledWindow()
         scroller.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scroller.add(self._table)  # pylint: disable=no-member
+        scroller.add(table)  # pylint: disable=no-member
         vscroll = scroller.get_vscrollbar()
-        vscroll.connect("change-value", self._table_scroll_changed)
+        vscroll.connect("change-value", self._on_table_scroll_changed)
 
         self._list_window = Gtk.Window.new(Gtk.WindowType.POPUP)
         self._list_window.set_name("kupfer-list")
@@ -668,15 +633,11 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._child = self.match_view.widget()
 
     def widget(self) -> Gtk.Widget:
-        """
-        Return the corresponding Widget
-        """
+        """Return the corresponding Widget."""
         return self._child
 
-    def get_current(self) -> ty.Optional[KupferObject]:
-        """
-        return current selection
-        """
+    def get_current(self) -> KupferObject | None:
+        """return current selection"""
         return self._match
 
     def set_object_stack(self, stack: list[Leaf]) -> None:
@@ -749,7 +710,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         else:
             self.show_table()
 
-    def _table_scroll_changed(
+    def _on_table_scroll_changed(
         self, scrollbar: Gtk.Scrollbar, _scroll_type: ty.Any, value: int
     ) -> None:
         """When the scrollbar changes due to user interaction"""
@@ -765,14 +726,12 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _table_set_cursor_at_row(self, row: int) -> None:
         self._table.set_cursor((row,))
 
-    def _table_current_row(self) -> ty.Optional[int]:
+    def _table_current_row(self) -> int | None:
         path, _col = self._table.get_cursor()
         return path[0] if path else None
 
     def go_up(self, rows_count: int = 1) -> None:
-        """
-        Upwards in the table
-        """
+        """Upwards in the table"""
         # go up, simply. close table if we go up from row 0
         path, _col = self._table.get_cursor()
         if not path:
@@ -786,9 +745,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def go_down(
         self, force: bool = False, rows_count: int = 1, show_table: bool = True
     ) -> None:
-        """
-        Down in the table
-        """
+        """Down in the table."""
         table_visible = self.get_table_visible()
         # if no data is loaded (frex viewing catalog), load
         # if too little data is loaded, try load more
@@ -830,9 +787,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def window_config(
         self, widget: Gtk.Widget, event: Gdk.EventConfigure
     ) -> None:
-        """
-        When the window moves
-        """
+        """When the window moves"""
         winpos = event.x, event.y
         # only hide on move, not resize
         # set old win position in _show_table
@@ -841,25 +796,22 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
             GLib.timeout_add(300, self._show_table)
 
     def window_hidden(self, window: Gtk.Widget) -> None:
-        """
-        Window changed hid
-        """
+        """Window changed hid"""
         self.hide_table()
 
-    def _row_activated(
+    def _on_row_activated(
         self, treeview: Gtk.TreeView, path: ty.Any, col: ty.Any
     ) -> None:
         obj = self.get_current()
         self.emit("activate", obj)
 
-    def _cursor_changed(self, treeview: Gtk.TreeView) -> None:
+    def _on_cursor_changed(self, treeview: Gtk.TreeView) -> None:
         path, _col = treeview.get_cursor()
         match = self._model.get_object(path)
         self._set_match(match)
 
-    def _set_match(self, rankable: ty.Optional[Rankable] = None) -> None:
-        """
-        Set the currently selected (represented) object, either as
+    def _set_match(self, rankable: Rankable | None = None) -> None:
+        """Set the currently selected (represented) object, either as
         @rankable or KupferObject @obj
 
         Emits cursor-changed
@@ -869,9 +821,10 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if self._match:
             match_text = rankable.value if rankable else None
             self._match_state = State.MATCH
+            icon_size = self._icon_size
             pbuf = self._match.get_thumbnail(
-                self.icon_size * 4 // 3, self.icon_size
-            ) or self._match.get_pixbuf(self.icon_size)
+                icon_size * 4 // 3, icon_size
+            ) or self._match.get_pixbuf(icon_size)
             self.match_view.set_match_state(
                 match_text, pbuf, match=self._text, state=self._match_state
             )
@@ -911,7 +864,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def update_match(
         self,
         key: str | None,
-        matchrankable: ty.Optional[Rankable],
+        matchrankable: Rankable | None,
         matches: ty.Iterable[Rankable],
     ) -> None:
         """
@@ -942,7 +895,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.match_view.set_match_state("No match", None, state=State.NO_MATCH)
         self.relax_match()
 
-    def _populate(self, num: int) -> ty.Optional[KupferObject]:
+    def _populate(self, num: int) -> KupferObject | None:
         """populate model with num items"""
         return self._model.populate(num)
 
@@ -975,23 +928,26 @@ GObject.signal_new(
 
 
 class LeafSearch(Search):
-    """
-    Customize for leaves search
-    """
+    """Customize for leaves search"""
+
+    def __init__(self):
+        super().__init__()
+        if text_direction_is_ltr():
+            self._aux_info_str = "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
+        else:
+            self._aux_info_str = "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
 
     def _get_aux_info(self, leaf: KupferObject) -> str:
         if hasattr(leaf, "has_content") and leaf.has_content():  # type: ignore
-            if text_direction_is_ltr():
-                return "\N{BLACK RIGHT-POINTING SMALL TRIANGLE} "
-
-            return "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
+            return self._aux_info_str
 
         return ""
 
     def _get_pbuf(self, src: AnySource) -> GdkPixbuf.Pixbuf:
+        icon_size = self._icon_size
         return src.get_thumbnail(
-            self.icon_size * 4 // 3, self.icon_size
-        ) or src.get_pixbuf(self.icon_size)
+            icon_size * 4 // 3, icon_size
+        ) or src.get_pixbuf(icon_size)
 
     def _get_nomatch_name_icon(
         self, empty: bool
@@ -1014,7 +970,7 @@ class LeafSearch(Search):
             )
 
         return _("No matches"), icons.get_icon_for_name(
-            "kupfer-object", self.icon_size
+            "kupfer-object", self._icon_size
         )
 
     def _setup_empty(self) -> None:
@@ -1045,12 +1001,9 @@ def _accel_for_action(
 
 
 class ActionSearch(Search):
-    """
-    Customization for Actions
+    """Customization for Actions
 
-    Attributes:
-
-    accel_modifier
+    Attributes: accel_modifier
     """
 
     def __init__(self) -> None:
@@ -1114,15 +1067,14 @@ class ActionSearch(Search):
         else:
             title = ""
 
-        return title, icons.get_icon_for_name("kupfer-execute", self.icon_size)
+        return title, icons.get_icon_for_name("kupfer-execute", self._icon_size)
 
     def _setup_empty(self) -> None:
         self._handle_no_matches()
         self.hide_table()
 
     def select_action_by_accel(self, accel: str) -> tuple[bool, bool]:
-        """
-        Find and select the next action with accelerator key @accel.
+        """Find and select the next action with accelerator key @accel.
 
         When exists two or more actions with the same accelerator, select next
         and not execute it. This allow to iterate between action by pressing
@@ -1141,8 +1093,7 @@ class ActionSearch(Search):
             return False, False
 
         start_row = idx
-        # keep info about first found action with given accelerator
-        # (idx, action)
+        # keep info about first found action with given accelerator (idx, action)
         matched_action = None
 
         while True:
@@ -1150,7 +1101,8 @@ class ActionSearch(Search):
             idx = (idx + 1) % len(self._model)
 
             cur = self._model.get_object((idx,))
-            action = cur.object
+            assert isinstance(cur, Action)
+            action: Action = cur.object
             self.output_debug("Looking at action", repr(action))
 
             if _accel_for_action(action, self.action_accel_config) == accel:

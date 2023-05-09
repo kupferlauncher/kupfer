@@ -22,7 +22,6 @@ from . import _widgets as widgets
 
 # index in GtkNotebook
 _PLUGIN_LIST_PAGE: ty.Final = 2
-
 # List icon pixel size
 _LIST_ICON_SIZE: ty.Final = 18
 
@@ -139,7 +138,7 @@ def _make_plugin_sett_widget_str(
     Usually this setting is simple Entry, but this may be changed by parameters:
 
     - alternatives: create combobox
-    - miltiline: create TextView
+    - multiline: create TextView
     - helper (choose_directory, choose_file): text + buttons for select
          directory/file.
 
@@ -321,11 +320,10 @@ def _is_good_keystr(keystr: str) -> bool:
     if keystr is None:
         return False
 
-    label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
-    if not label:
-        return False
+    if label := Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr)):
+        return not (len(label) == 1 and label.isalnum())
 
-    return not (len(label) == 1 and label.isalnum())
+    return False
 
 
 def _create_conf_keys_list() -> tuple[Gtk.TreeView, Gtk.ListStore]:
@@ -1329,7 +1327,7 @@ def show_preferences(ctxenv: GUIEnvironmentContext) -> None:
 
 
 def show_plugin_info(
-    plugin_id: str, ctxenv: ty.Optional[GUIEnvironmentContext] = None
+    plugin_id: str, ctxenv: GUIEnvironmentContext | None = None
 ) -> None:
     prefs = get_preferences_window_controller()
     prefs.show_focus_plugin(plugin_id, _get_time(ctxenv))

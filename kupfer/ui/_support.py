@@ -23,10 +23,12 @@ def escape_markup_str(mstr: str) -> str:
 
 @datatools.evaluate_once
 def text_direction_is_ltr() -> bool:
+    """Check is system is configured as left-to-right."""
     return Gtk.Widget.get_default_direction() != Gtk.TextDirection.RTL  # type: ignore
 
 
 def normalize_display_name(name: str) -> str:
+    # NOT IN USE
     if name[-2] == ":":
         return name + ".0"
 

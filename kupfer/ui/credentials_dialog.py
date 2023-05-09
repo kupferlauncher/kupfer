@@ -5,7 +5,7 @@ from gi.repository import Gtk
 from kupfer import config, version
 
 
-class CredentialsDialogController:
+class _CredentialsDialogController:
     def __init__(
         self,
         username: str | None,
@@ -62,7 +62,7 @@ def ask_user_credentials(
     @return:
     (user, password) when user press "change"
     None when user press "cancel" button"""
-    dialog = CredentialsDialogController(user, password, infotext)
+    dialog = _CredentialsDialogController(user, password, infotext)
     result = None
     if dialog.show() == Gtk.ResponseType.ACCEPT:
         result = dialog.username, dialog.password

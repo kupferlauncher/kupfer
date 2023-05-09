@@ -107,7 +107,7 @@ class WindowController(pretty.OutputMixin):
 
         self._interface = Interface(data_controller, self._window)
         self._interface.connect("launched-action", self._on_launch_action)
-        self._interface.connect("cancelled", self._cancelled)
+        self._interface.connect("cancelled", self._on_cancelled)
         self._window.connect("map-event", self._on_window_map_event)
         self._setup_window()
 
@@ -147,14 +147,7 @@ class WindowController(pretty.OutputMixin):
         with suppress(AttributeError):
             self._statusicon.set_visible(True)
 
-    def _hide_statusicon(self) -> None:
-        if self._statusicon:
-            try:
-                self._statusicon.set_visible(False)
-            except AttributeError:
-                self._statusicon = None
-
-    def _showstatusicon_changed(
+    def _on_showstatusicon_changed(
         self,
         setctl: settings.SettingsController,
         section: str,
@@ -165,8 +158,12 @@ class WindowController(pretty.OutputMixin):
         settings changed."""
         if value:
             self._show_statusicon()
-        else:
-            self._hide_statusicon()
+        elif self._statusicon:
+            # hide
+            try:
+                self._statusicon.set_visible(False)
+            except AttributeError:
+                self._statusicon = None
 
     def _show_statusicon_ai(self) -> None:
         """Show (create if not exists) status icon using AppIndicator3."""
@@ -188,13 +185,6 @@ class WindowController(pretty.OutputMixin):
 
         self._statusicon_ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
-    def _hide_statusicon_ai(self) -> None:
-        """Hide status icon created by AppIndicator3."""
-        if self._statusicon_ai and AppIndicator3 is not None:
-            self._statusicon_ai.set_status(
-                AppIndicator3.IndicatorStatus.PASSIVE
-            )
-
     def _showstatusicon_ai_changed(
         self,
         setctl: settings.SettingsController,
@@ -203,10 +193,16 @@ class WindowController(pretty.OutputMixin):
         value: ty.Any,
     ) -> None:
         """Show/Hide AppIndicator3 status icon on preferences change."""
+        if AppIndicator3 is None:
+            return
+
         if value:
             self._show_statusicon_ai()
-        else:
-            self._hide_statusicon_ai()
+        elif self._statusicon_ai:
+            # hide
+            self._statusicon_ai.set_status(
+                AppIndicator3.IndicatorStatus.PASSIVE
+            )
 
     def _setup_menu(self, context_menu: bool = False) -> Gtk.Menu:
         menu = Gtk.Menu()
@@ -272,10 +268,7 @@ class WindowController(pretty.OutputMixin):
         return menu
 
     def _setup_window(self) -> None:
-        """
-        Returns window
-        """
-
+        """Returns window."""
         self._window.connect("delete-event", self._on_close_window)
         self._window.connect("focus-out-event", self._on_lost_focus)
         self._window.connect(
@@ -322,11 +315,11 @@ class WindowController(pretty.OutputMixin):
         self._window.set_title(version.PROGRAM_NAME)
         self._window.set_icon_name(version.ICON_NAME)
         self._window.set_type_hint(  # pylint: disable=no-member
-            self._window_type_hint()
+            self._create_window_type_hint()
         )
         self._window.set_property("skip-taskbar-hint", True)
         self._window.set_keep_above(True)  # pylint: disable=no-member
-        if (pos := self._window_position()) != Gtk.WindowPosition.NONE:
+        if (pos := self._create_window_position()) != Gtk.WindowPosition.NONE:
             self._window.set_position(pos)  # pylint: disable=no-member
 
         if not text_direction_is_ltr():
@@ -337,33 +330,39 @@ class WindowController(pretty.OutputMixin):
         # on metacity
         self._window.set_resizable(False)
 
-    def _window_type_hint(self) -> Gdk.WindowTypeHint:
+    def _create_window_type_hint(self) -> Gdk.WindowTypeHint:
+        """Create window type hints according to WINDOW_TYPE_HINT env setting."""
         type_hint = Gdk.WindowTypeHint.UTILITY
         hint_name = kupfer.config.get_kupfer_env("WINDOW_TYPE_HINT").upper()
-        if hint_name:
-            if hint_enum := getattr(Gdk.WindowTypeHint, hint_name, None):
-                type_hint = hint_enum
-            else:
-                self.output_error("No such Window Type Hint", hint_name)
-                self.output_error("Existing type hints:")
-                for name in dir(Gdk.WindowTypeHint):
-                    if name.upper() == name:
-                        self.output_error(name)
+        if not hint_name:
+            return type_hint
+
+        if hint_enum := getattr(Gdk.WindowTypeHint, hint_name, None):
+            return hint_enum
+
+        self.output_error("No such Window Type Hint", hint_name)
+        self.output_error("Existing type hints:")
+        for name in dir(Gdk.WindowTypeHint):
+            if name.upper() == name:
+                self.output_error(name)
 
         return type_hint
 
-    def _window_position(self) -> Gtk.WindowPosition:
+    def _create_window_position(self) -> Gtk.WindowPosition:
+        """Create window position according to WINDOW_POSITION env setting."""
         value = Gtk.WindowPosition.NONE
         hint_name = kupfer.config.get_kupfer_env("WINDOW_POSITION").upper()
-        if hint_name:
-            if hint_enum := getattr(Gtk.WindowPosition, hint_name, None):
-                value = hint_enum
-            else:
-                self.output_error("No such Window Position", hint_name)
-                self.output_error("Existing values:")
-                for name in dir(Gtk.WindowPosition):
-                    if name.upper() == name:
-                        self.output_error(name)
+        if not hint_name:
+            return value
+
+        if hint_enum := getattr(Gtk.WindowPosition, hint_name, None):
+            return hint_enum
+
+        self.output_error("No such Window Position", hint_name)
+        self.output_error("Existing values:")
+        for name in dir(Gtk.WindowPosition):
+            if name.upper() == name:
+                self.output_error(name)
 
         return value
 
@@ -474,6 +473,7 @@ class WindowController(pretty.OutputMixin):
         self._center_window()
 
     def _window_put_on_screen(self, screen: Gdk.Screen) -> None:
+        """Move window to `screen`."""
         if self._current_screen_handler:
             scr = self._window.get_screen()  # pylint: disable=no-member
             scr.disconnect(self._current_screen_handler)
@@ -505,9 +505,8 @@ class WindowController(pretty.OutputMixin):
         uievents.try_close_unused_displays(screen)
 
     def _should_recenter_window(self) -> bool:
-        """Return True if the mouse pointer and the window
-        are on different monitors.
-        """
+        """Return True if the mouse pointer and the window are on different
+        monitors."""
         # Check if the GtkWindow was realized yet
         if not self._window.get_realized():
             return True
@@ -551,7 +550,7 @@ class WindowController(pretty.OutputMixin):
         self._interface.put_away()
         self._window.hide()
 
-    def _cancelled(self, _obj: Interface) -> None:
+    def _on_cancelled(self, _obj: Interface) -> None:
         self.put_away()
 
     def _on_show_hide(
@@ -567,7 +566,7 @@ class WindowController(pretty.OutputMixin):
         """GtkStatusIcon callback"""
         self._on_show_hide(sender, "", Gtk.get_current_event_time())
 
-    def _key_binding(
+    def _on_key_binding(
         self,
         keyobj: keybindings.KeyboundObject,
         keybinding_number: int,
@@ -650,19 +649,15 @@ class WindowController(pretty.OutputMixin):
         raise SystemExit
 
     def _on_session_save(self, *_args: ty.Any) -> bool:
-        """Old-style session save callback.
-
-        Return True on successful
-        """
+        """Old-style session save callback.  Return True on successful."""
         # No quit, only save
         self.output_info("Saving for logout...")
         self.save_data()
         return True
 
     def _on_session_die(self, *_args: ty.Any) -> None:
-        """Session callback on session end
-        quit now, without saving, since we already do that on
-        Session save!
+        """Session callback on session end: quit now, without saving, since we
+        already do that on Session save!
         """
         self._quit_now()
 
@@ -685,7 +680,7 @@ class WindowController(pretty.OutputMixin):
 
         setctl.connect(
             "value-changed::kupfer.showstatusicon",
-            self._showstatusicon_changed,
+            self._on_showstatusicon_changed,
         )
         setctl.connect(
             "value-changed::kupfer.showstatusicon_ai",
@@ -709,7 +704,7 @@ class WindowController(pretty.OutputMixin):
             )
 
         keyobj = keybindings.get_keybound_object()
-        keyobj.connect("keybinding", self._key_binding)
+        keyobj.connect("keybinding", self._on_key_binding)
 
         signal.signal(signal.SIGINT, self._on_sigterm)
         signal.signal(signal.SIGTERM, self._on_sigterm)

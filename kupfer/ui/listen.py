@@ -34,8 +34,7 @@ class AlreadyRunningError(Exception):
 
 
 class NoConnectionError(Exception):
-    """Not possible to establish connection
-    for callbacks"""
+    """Not possible to establish connection for callbacks"""
 
 
 _SERVER_NAME: ty.Final = "se.kaizer.kupfer"

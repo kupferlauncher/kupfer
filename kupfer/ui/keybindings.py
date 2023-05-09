@@ -101,9 +101,7 @@ _CURRENTLY_BOUND: dict[int, str | None] = {}
 
 
 def is_available():
-    """
-    Return True if keybindings are available.
-    """
+    """Return True if keybindings are available."""
     if Keybinder is None:
         return False
 
@@ -114,6 +112,7 @@ def is_available():
 
 
 def get_all_bound_keys() -> list[str]:
+    """Return all currently bounded keys."""
     return list(filter(None, _CURRENTLY_BOUND.values()))
 
 
@@ -139,10 +138,8 @@ def bind_key(
     keystr: str | None,
     keybinding_target: KeybindingTarget = KEYBINDING_TARGET_DEFAULT,
 ) -> bool:
-    """
-    Bind @keystr, unbinding any previous key for @keybinding_target.
-    If @keystr is a false value, any previous key will be unbound.
-    """
+    """Bind @keystr, unbinding any previous key for @keybinding_target.
+    If @keystr is a false value, any previous key will be unbound."""
     if Keybinder is None:
         return False
 
@@ -178,7 +175,7 @@ def bind_key(
 
 
 def _is_sane_keybinding(keystr: str | None) -> bool:
-    "Refuse keys that we absolutely do not want to bind"
+    """Refuse keys that we absolutely do not want to bind"""
     if keystr is None:
         return True
 

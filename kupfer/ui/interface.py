@@ -53,8 +53,8 @@ def _get_accel(key: str, acf: AccelFunc) -> tuple[str, AccelFunc]:
     """Return name, method pair for @key"""
     try:
         return (accelerators.ACCELERATOR_NAMES[key], acf)
-    except KeyError:
-        raise RuntimeError(f"Missing accelerator: {key}")
+    except KeyError as err:
+        raise RuntimeError(f"Missing accelerator: {key}") from err
 
 
 def _translate_keys(event: Gdk.EventKey) -> tuple[int, int, bool]:
@@ -167,13 +167,17 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         # set up panewidget => self signals
         # as well as window => panewidgets
         for widget_owner in (self.search, self.action, self.third):
-            widget = widget_owner.widget()
-            widget_owner.connect("activate", self._on_activate)
-            widget_owner.connect("cursor-changed", self._on_selection_changed)
+            widget = widget_owner.widget()  # type:ignore
+            widget_owner.connect("activate", self._on_activate)  # type:ignore
+            widget_owner.connect(  # type:ignore
+                "cursor-changed", self._on_selection_changed
+            )
             widget.connect("button-press-event", self._on_pane_button_press)
             # window signals
-            window.connect("configure-event", widget_owner.window_config)
-            window.connect("hide", widget_owner.window_hidden)
+            window.connect(
+                "configure-event", widget_owner.window_config  # type:ignore
+            )
+            window.connect("hide", widget_owner.window_hidden)  # type:ignore
 
     def _prepare_key_book(self) -> None:
         keys = (
@@ -703,9 +707,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return False
 
     def _action_accelerator(self, keystr: str) -> bool:
-        """Find & launch accelerator action.
-
-        keystr: accelerator name string
+        """Find & launch accelerator action for `keystr` accelerator name..
 
         Return False if it was not possible to handle or the action was not
         used, return True if it was acted upon
@@ -753,10 +755,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._action_accel_config.set(action, keystr)
 
     def get_context_actions(self) -> ty.Iterable[tuple[str, AccelFunc]]:
-        """
-        Get a list of (name, function) currently
-        active context actions
-        """
+        """Get a list of (name, function) currently active context actions."""
         assert self.current
 
         has_match = self.current.get_match_state() == State.MATCH
@@ -1059,10 +1058,8 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._label.set_markup(markup)
 
     def put_text(self, text: str) -> None:
-        """
-        Put @text into the interface to search, to use
-        for "queries" from other sources
-        """
+        """Put @text into the interface to search, to use for "queries" from
+        other sources."""
         self._try_enable_text_mode()
         self._entry.set_text(text)
         self._entry.set_position(-1)
