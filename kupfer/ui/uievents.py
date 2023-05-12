@@ -62,12 +62,13 @@ class GUIEnvironmentContext:
         )
 
     @classmethod
-    def ensure_display_open(cls, _display: Gdk.Display | None) -> Gdk.Display:
-        """
-        Return GdkDisplay for name @display.
+    def ensure_display_open(cls, display_name: str | None) -> Gdk.Display:
+        """Get GdkDisplay for `display_name` or return default if `display_name`
+        is None or invalid/unavailable."""
+        # NOTE: display parameter was not supported; added (k)
+        if disp := Gdk.Display.open(display_name):
+            return disp
 
-        Return default if @display is None.
-        """
         return Gdk.DisplayManager.get().get_default_display()
 
     def get_timestamp(self) -> int:
