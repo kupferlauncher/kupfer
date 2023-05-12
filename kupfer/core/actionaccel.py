@@ -26,9 +26,11 @@ class AccelConfig(pretty.OutputMixin):
     """Action Accelerator configuration"""
 
     def __init__(self):
-        self.accels: ty.Dict[str, str] = {}
-        self.loaded: bool = False
-        self.changed: bool = False
+        self._accels: ty.Dict[str, str] = {}
+        # is configuration loaded
+        self._loaded: bool = False
+        # is configuration changed and not saved
+        self._changed: bool = False
 
     def _filename(self) -> str | None:
         if ret := config.save_config_file("action_accels.json"):
@@ -47,17 +49,19 @@ class AccelConfig(pretty.OutputMixin):
 
         Return True on success.
         """
-        if self.loaded:
+        if self._loaded:
             return True
 
-        self.loaded = True
+        self._loaded = True
         data_file = self._filename()
         if data_file is None:
             return False
 
+        self._accels.clear()
+
         try:
             with open(data_file, encoding="UTF-8") as dfp:
-                self.accels = json.load(dfp)
+                accels = json.load(dfp)
 
             self.output_debug("Read", data_file)
         except FileNotFoundError:
@@ -68,40 +72,44 @@ class AccelConfig(pretty.OutputMixin):
             return False
 
         try:
-            self._valid_accel(validate_func)
+            self._valid_accel(accels, validate_func)
         except Exception:
             self.output_exc()
-            self.accels = {}
 
-        self.output_debug("Loaded", self.accels)
+        self.output_debug("Loaded", self._accels)
         return True
 
-    def _valid_accel(self, validate_func: AcceleratorValidator) -> None:
-        if not isinstance(self.accels, dict):
+    def _valid_accel(
+        self, accels: dict[ty.Any, ty.Any], validate_func: AcceleratorValidator
+    ) -> None:
+        """Validate loaded data."""
+        if not isinstance(self._accels, dict):
             raise TypeError("Accelerators must be a dictionary")
 
-        self.accels.clear()
-        for obj, k in self.accels.items():
-            if validate_func(k):
-                self.accels[obj] = k
+        for obj, key in accels.items():
+            # make sure object and key are strings
+            obj = str(obj)
+            key = str(key)
+            if validate_func(key):
+                self._accels[obj] = key
             else:
-                self.output_error("Ignoring invalid accel", k, "for", obj)
+                self.output_error("Ignoring invalid accel", key, "for", obj)
 
     def get(self, obj: ty.Any) -> str | None:
         """Return accel key for @obj or None"""
-        return self.accels.get(_repr_key(obj))
+        return self._accels.get(_repr_key(obj))
 
     def set(self, obj: ty.Any, key: str) -> None:
         """Set accelerator `key` for `obj`."""
         self.output_debug("Set", key, "for", _repr_key(obj))
         assert hasattr(obj, "activate")
         assert isinstance(key, str)
-        self.accels[_repr_key(obj)] = key
-        self.changed = True
+        self._accels[_repr_key(obj)] = key
+        self._changed = True
 
     def store(self) -> None:
         """Write all accelerator into configuration file."""
-        if not self.changed:
+        if not self._changed:
             return
 
         data_file = self._filename()
@@ -111,10 +119,10 @@ class AccelConfig(pretty.OutputMixin):
         self.output_debug("Writing to", data_file)
         try:
             with open(data_file, "w", encoding="UTF-8") as dfp:
-                json.dump(self.accels, dfp, indent=4, sort_keys=True)
+                json.dump(self._accels, dfp, indent=4, sort_keys=True)
 
         except Exception:
             self.output_error("Failed to write:", data_file)
             self.output_exc()
 
-        self.changed = False
+        self._changed = False
