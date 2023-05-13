@@ -104,7 +104,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         sch.connect("display", self._on_display)
         sch.connect("finish", self._on_finish)
 
-    def _get_panectl(self, pane: PaneSel) -> Pane:
+    def _get_panectl(self, pane: PaneSel) -> Pane[KupferObject]:
         if pane == PaneSel.SOURCE:
             return self._source_pane
         if pane == PaneSel.ACTION:
@@ -114,7 +114,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         raise ValueError(f"invalid pane {pane}")
 
-    def _all_pane_ctl(self) -> ty.Iterator[tuple[PaneSel, Pane]]:
+    def _all_pane_ctl(self) -> ty.Iterator[tuple[PaneSel, Pane[KupferObject]]]:
         yield PaneSel.SOURCE, self._source_pane
         yield PaneSel.ACTION, self._action_pane
         yield PaneSel.OBJECT, self._object_pane
@@ -329,15 +329,17 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _save_data(self, final_invocation: bool = False) -> None:
         """Save Learning data and User's configuration data in sources
-        (Recurring timer)
-        """
+        (Recurring timer)."""
         self.output_info("Saving data...")
         learn.save()
         get_source_controller().save_data()
         if not final_invocation:
             self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
-    def _on_new_source(self, ctr: Pane, src: AnySource, select: ty.Any) -> None:
+    def _on_new_source(
+        self, ctr: Pane[KupferObject], src: AnySource, select: ty.Any
+    ) -> None:
+        """Update leaf or secondary object panel on sources changes."""
         if ctr is self._source_pane:
             pane = PaneSel.SOURCE
         elif ctr is self._object_pane:
@@ -409,7 +411,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _on_pane_search_result(
         self,
-        panectl: Pane,
+        panectl: Pane[ty.Any],
         match: Rankable | None,
         match_iter: ty.Iterable[Rankable],
         wrapcontext: SearchContext,
@@ -661,7 +663,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         obj = compose.ComposedLeaf(leaf, action, iobj)
         self._insert_object(PaneSel.SOURCE, obj)
 
-    def _get_pane_object_composed(self, pane: Pane) -> Leaf | None:
+    def _get_pane_object_composed(self, pane: Pane[Leaf]) -> Leaf | None:
         objects = list(pane.object_stack)
         sel = pane.get_selection()
         if sel and sel not in objects:

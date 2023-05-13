@@ -11,7 +11,6 @@ import typing as ty
 
 from gi.repository import GObject
 
-from kupfer.obj import base
 from kupfer.obj.base import Action, AnySource, KupferObject, Leaf
 from kupfer.support import pretty
 
@@ -34,8 +33,13 @@ def _dress_leaves(
         yield itm
 
 
-class Pane(GObject.GObject):  # type:ignore
-    """
+# Pane Object type definition
+PO = ty.TypeVar("PO", bound=KupferObject)
+
+
+class Pane(GObject.GObject, ty.Generic[PO]):  # type:ignore
+    """Pane with `PO` type objects.
+
     signals:
         search-result (match, match_iter, context)
     """
@@ -44,16 +48,16 @@ class Pane(GObject.GObject):  # type:ignore
 
     def __init__(self):
         super().__init__()
-        self._selection: KupferObject | None = None
+        self._selection: PO | None = None
         self._latest_key: str | None = None
         self.outstanding_search: int = -1
         self.outstanding_search_id: int = -1
         self._searcher = Searcher()
 
-    def select(self, item: KupferObject | None) -> None:
+    def select(self, item: PO | None) -> None:
         self._selection = item
 
-    def get_selection(self) -> KupferObject | None:
+    def get_selection(self) -> PO | None:
         return self._selection
 
     def reset(self) -> None:
@@ -87,17 +91,17 @@ GObject.signal_new(
 )
 
 
-class LeafPane(Pane, pretty.OutputMixin):
+class LeafPane(Pane[Leaf], pretty.OutputMixin):
     __gtype_name__ = "LeafPane"
 
     def __init__(self):
         super().__init__()
         # source_stack keep track on history selected sources and leaves
-        self._source_stack: list[tuple[AnySource, KupferObject | None]] = []
+        self._source_stack: list[tuple[AnySource, Leaf | None]] = []
         self._source: AnySource | None = None
         self.object_stack: list[KupferObject] = []
 
-    def select(self, item: KupferObject | None) -> None:
+    def select(self, item: Leaf | None) -> None:
         assert item is None or isinstance(
             item, Leaf
         ), "New selection for object pane is not a Leaf!"
@@ -153,8 +157,7 @@ class LeafPane(Pane, pretty.OutputMixin):
         self.emit("new-source", self._source, select)
 
     def browse_up(self) -> bool:
-        """Try to browse up to previous sources, from current
-        source"""
+        """Try to browse up to previous sources, from current source"""
         succ = self._pop_source()
         if not succ:
             assert self._source
@@ -231,15 +234,15 @@ GObject.signal_new(
 )
 
 
-class PrimaryActionPane(Pane):
+class PrimaryActionPane(Pane[Action]):
     def __init__(self):
         super().__init__()
         self._action_valid_cache: dict[int, bool] = {}
         self.set_item(None)
 
-    def select(self, item: KupferObject | None) -> None:
+    def select(self, item: Action | None) -> None:
         assert not item or isinstance(
-            item, base.Action
+            item, Action
         ), "Selection in action pane is not an Action!"
         super().select(item)
 
@@ -254,8 +257,8 @@ class PrimaryActionPane(Pane):
         context: SearchContext | None = None,
         text_mode: bool = False,
     ) -> None:
-        """Search: Register the search method in the event loop using @key
-        , promising to return @context in the notification about the result,
+        """Search: Register the search method in the event loop using @key,
+        promising to return @context in the notification about the result,
         having selected @item in PaneSel.SOURCE
 
         If we already have a call to search, we remove the "source"
