@@ -5,6 +5,8 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+from __future__ import annotations
+
 import os
 import typing as ty
 from collections import defaultdict
@@ -27,7 +29,7 @@ if ty.TYPE_CHECKING:
 
 
 class Open(Action):
-    """Open with default application"""
+    """Open with default application."""
 
     action_accelerator = "o"
     rank_adjust = 5
@@ -81,7 +83,7 @@ class Open(Action):
                 screen=ctx and ctx.environment.get_screen(),
             )
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         return _("Open with default application")
 
 
@@ -102,7 +104,7 @@ class GetParent(Action):
         parent = os.path.normpath(os.path.join(fileloc, os.path.pardir))
         return files.FileLeaf(parent)
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         return None
 
     def get_icon_name(self):

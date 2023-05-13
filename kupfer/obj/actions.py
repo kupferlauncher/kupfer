@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """
 Global actions.
 
@@ -6,6 +5,8 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+from __future__ import annotations
+
 import typing as ty
 
 from kupfer import launch, support
@@ -36,7 +37,7 @@ class OpenTerminal(Action):
         except SpawnError as exc:
             raise OperationError(exc) from exc
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         return _("Open this location in a terminal")
 
     def get_icon_name(self):
@@ -67,7 +68,7 @@ class Execute(Action):
         else:
             launch.spawn_async(argv)
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         if self.in_terminal:
             return _("Run this program in a Terminal")
 
@@ -75,10 +76,10 @@ class Execute(Action):
 
 
 class OpenUrl(Action):
-    action_accelerator: ty.Optional[str] = "o"
+    action_accelerator: str | None = "o"
     rank_adjust: int = 5
 
-    def __init__(self, name: ty.Optional[str] = None) -> None:
+    def __init__(self, name: str | None = None) -> None:
         super().__init__(name or _("Open URL"))
 
     def activate(
@@ -100,10 +101,10 @@ class OpenUrl(Action):
 class Perform(Action):
     """Perform the action in a RunnableLeaf"""
 
-    action_accelerator: ty.Optional[str] = "o"
+    action_accelerator: str | None = "o"
     rank_adjust = 5
 
-    def __init__(self, name: ty.Optional[str] = None):
+    def __init__(self, name: str | None = None):
         # TRANS: 'Run' as in Perform a (saved) command
         super().__init__(name=name or _("Run"))
 

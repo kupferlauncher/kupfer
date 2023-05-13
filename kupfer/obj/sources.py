@@ -37,8 +37,7 @@ class SourcesSource(Source):
         self.use_reprs = use_reprs
 
     def get_items(self) -> ty.Iterable[Leaf]:
-        """Ask each Source for a Leaf substitute, else
-        yield a SourceLeaf"""
+        """Ask each Source for a Leaf substitute, else yield a SourceLeaf"""
         if self.use_reprs:
             for src in self.sources:
                 yield src.get_leaf_repr() or SourceLeaf(src)
@@ -58,10 +57,7 @@ class SourcesSource(Source):
 
 
 class MultiSource(Source):
-    """
-    A source whose items are the combined items
-    of all @sources
-    """
+    """A source whose items are the combined items of all @sources"""
 
     fallback_icon_name = "kupfer-catalog"
 
@@ -70,10 +66,7 @@ class MultiSource(Source):
         self.sources = sources
 
     def is_dynamic(self) -> bool:
-        """
-        MultiSource should be dynamic so some of its content
-        also can be
-        """
+        """MultiSource should be dynamic so some of its content also can be."""
         return True
 
     def get_items(self) -> ty.Iterable[Leaf]:

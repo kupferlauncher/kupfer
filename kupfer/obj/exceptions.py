@@ -26,22 +26,19 @@ class Error(Exception):
 
 
 class InvalidDataError(Error):
-    "The data is wrong for the given Leaf"
+    """The data is wrong for the given Leaf"""
 
 
 class OperationError(Error):
-    "Command execution experienced an error"
+    """Command execution experienced an error"""
 
 
 class InvalidLeafError(OperationError):
-    "The Leaf passed to an Action is invalid"
+    """The Leaf passed to an Action is invalid"""
 
 
 class NotAvailableError(OperationError):
-    """
-    User-visible error message when an external
-    tool is the wrong version
-    """
+    """User-visible error message when an external tool is the wrong version."""
 
     def __init__(self, toolname: str):
         OperationError.__init__(

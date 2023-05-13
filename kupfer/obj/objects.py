@@ -32,7 +32,8 @@ if ty.TYPE_CHECKING:
 
 class SourceLeaf(Leaf):
     def __init__(self, obj: Source, name: str | None = None) -> None:
-        """Create SourceLeaf for source @obj"""
+        """Create SourceLeaf for source @obj.
+        Represented object is source."""
         Leaf.__init__(self, obj, name or str(obj))
 
     def has_content(self) -> bool:
@@ -69,7 +70,7 @@ class UrlLeaf(Leaf, TextRepresentation):
     def get_actions(self) -> ty.Iterator[Action]:
         yield actions.OpenUrl()
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str:
         return self.object  # type:ignore
 
     def get_icon_name(self) -> str:
@@ -77,9 +78,8 @@ class UrlLeaf(Leaf, TextRepresentation):
 
 
 class RunnableLeaf(Leaf):
-    """Leaf where the Leaf is basically the action itself,
-    for items such as Quit, Log out etc.
-    """
+    """Leaf where the Leaf is basically the action itself, for items such
+    as Quit, Log out etc."""
 
     def __init__(self, obj: ty.Any = None, name: str = "") -> None:
         Leaf.__init__(self, obj, name)
@@ -92,8 +92,7 @@ class RunnableLeaf(Leaf):
 
     def wants_context(self) -> bool:
         """Return ``True`` if you want the actions' execution
-        context passed as ctx= in RunnableLeaf.run
-        """
+        context passed as ctx= in RunnableLeaf.run."""
         return False
 
     def repr_key(self) -> ty.Any:
@@ -110,13 +109,12 @@ class RunnableLeaf(Leaf):
 
 
 class TextLeaf(Leaf, TextRepresentation):
-    """Represent a text query
-    The represented object is a unicode string
-    """
+    """Represent a text query.
+    The represented object is a string"""
 
     serializable = 1
 
-    def __init__(self, text: str, name: ty.Optional[str] = None) -> None:
+    def __init__(self, text: str, name: str | None = None) -> None:
         """@text *must* be unicode or UTF-8 str"""
         if not name:
             name = self.get_first_text_line(text)

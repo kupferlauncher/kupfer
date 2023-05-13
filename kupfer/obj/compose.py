@@ -29,7 +29,7 @@ __all__ = (
 class TimedPerform(actions.Perform):
     """A timed (delayed) version of Run (Perform)"""
 
-    action_accelerator: ty.Optional[str] = None
+    action_accelerator: str | None = None
 
     def __init__(self) -> None:
         super().__init__(_("Run after Delay..."))
@@ -52,9 +52,7 @@ class TimedPerform(actions.Perform):
     def object_types(self) -> ty.Iterator[ty.Type[Leaf]]:
         yield objects.TextLeaf
 
-    def valid_object(
-        self, iobj: Leaf, for_item: ty.Optional[Leaf] = None
-    ) -> bool:
+    def valid_object(self, iobj: Leaf, for_item: Leaf | None = None) -> bool:
         return textutils.parse_time_interval(iobj.object) > 0
 
     def get_description(self) -> str:
@@ -62,22 +60,26 @@ class TimedPerform(actions.Perform):
 
 
 class ComposedLeaf(objects.RunnableLeaf):
+    """Leaf that contains many other leaves, created by compose action.
+    Represented object is tuple (object, action, action object).
+    """
+
     serializable = 1
 
     def __init__(
-        self, obj: ty.Any, action: Action, iobj: ty.Optional[Leaf] = None
+        self, obj: ty.Any, action: Action, iobj: Leaf | None = None
     ) -> None:
         object_ = (obj, action, iobj)
         # A slight hack: We remove trailing ellipsis and whitespace
         name = " → ".join(str(o).strip(".… ") for o in object_ if o is not None)
         objects.RunnableLeaf.__init__(self, object_, name)
 
-    def __getstate__(self) -> ty.Dict[str, ty.Any]:
+    def __getstate__(self) -> dict[str, ty.Any]:
         state = dict(vars(self))
         state["object"] = [puid.get_unique_id(o) for o in self.object]
         return state
 
-    def __setstate__(self, state: ty.Dict[str, ty.Any]) -> None:
+    def __setstate__(self, state: dict[str, ty.Any]) -> None:
         vars(self).update(state)
         objid, actid, iobjid = state["object"]
         obj = puid.resolve_unique_id(objid)
@@ -118,16 +120,14 @@ class _MultipleLeafContentSource(Source):
 
 
 class MultipleLeaf(Leaf):
-    """
-    A Leaf for the direct representation of many leaves. It is not
+    """A Leaf for the direct representation of many leaves. It is not
     a container or "source", it *is* the many leaves itself.
 
-    The represented object is a sequence of Leaves
-    """
+    The represented object is a sequence of Leaves."""
 
     serializable = 1
 
-    def __init__(self, obj: ty.Any, name: ty.Optional[str] = None) -> None:
+    def __init__(self, obj: ty.Any, name: str | None = None) -> None:
         # modifying the list of objects is strictly forbidden
         robj = list(itertools.unique_iterator(obj))
         Leaf.__init__(self, robj, name or _("Multiple Objects"))
@@ -135,12 +135,12 @@ class MultipleLeaf(Leaf):
     def get_multiple_leaf_representation(self) -> ty.Iterable[Leaf]:
         return self.object  # type: ignore
 
-    def __getstate__(self) -> ty.Dict[str, ty.Any]:
+    def __getstate__(self) -> dict[str, ty.Any]:
         state = dict(vars(self))
         state["object"] = [puid.get_unique_id(o) for o in self.object]
         return state
 
-    def __setstate__(self, state: ty.Dict[str, ty.Any]) -> None:
+    def __setstate__(self, state: dict[str, ty.Any]) -> None:
         vars(self).update(state)
         objs = []
         for id_ in state["object"]:

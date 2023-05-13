@@ -27,6 +27,7 @@ class PicklingHelperMixin:
     """This pickling helper will define __getstate__/__setstate__
     acting simply on the class dictionary; it is up to the inheriting
     class to set up:
+
     pickle_prepare:
         Modify the instance dict to remove any unpickleable attributes,
         the resulting dict will be pickled
@@ -41,17 +42,15 @@ class PicklingHelperMixin:
     def unpickle_finish(self) -> None:
         pass
 
-    def __getstate__(self) -> ty.Dict[str, ty.Any]:
+    def __getstate__(self) -> dict[str, ty.Any]:
         """On pickle, getstate will call self.pickle_prepare(),
-        then it will return the class' current __dict__
-        """
+        then it will return the class' current __dict__."""
         self.pickle_prepare()
         return self.__dict__
 
-    def __setstate__(self, state: ty.Dict[str, ty.Any]) -> None:
+    def __setstate__(self, state: dict[str, ty.Any]) -> None:
         """On unpickle, setstate will restore the class' __dict__,
-        then call self.unpickle_finish()
-        """
+        then call self.unpickle_finish()."""
         self.__dict__.update(state)
         self.unpickle_finish()
 
@@ -82,9 +81,7 @@ class FilesystemWatchMixin:
 
     def monitor_files(self, *files: str | Path) -> FileMonitorToken:
         """Start monitoring `files` for changes.
-        Similar `monitor_directories`, but always monitor also not existing
-        files.
-        """
+        Similar `monitor_directories`, but monitor also not existing files."""
         tokens = []
         for file in files:
             if isinstance(file, Path):
@@ -114,7 +111,7 @@ class FilesystemWatchMixin:
 
         The token will be a false value if nothing could be monitored.
 
-        Nonexisting directories are skipped, if not passing `force` True
+        Nonexisting directories are skipped, if not passing `force` True.
         """
         tokens = []
         for directory in directories:
@@ -185,7 +182,7 @@ class FilesystemWatchMixin:
 def reverse_action(
     action: ty.Type[base.Action], rank: int = 0
 ) -> ty.Type[base.Action]:
-    """Return a reversed version a three-part action
+    """Return a reversed version a three-part action.
 
     @action: the action class
     @rank: the rank_adjust to give the reversed action
@@ -224,13 +221,13 @@ def reverse_action(
             return action.item_types(self)
 
         def valid_object(
-            self, obj: base.Leaf, for_item: ty.Optional[base.Leaf] = None
+            self, obj: base.Leaf, for_item: base.Leaf | None = None
         ) -> bool:
             return action.valid_for_item(self, obj)
 
         def object_source(
-            self, for_item: ty.Optional[base.Leaf] = None
-        ) -> ty.Optional[base.Source]:
+            self, for_item: base.Leaf | None = None
+        ) -> base.Source | None:
             return None
 
     ReverseAction.__name__ = "Reverse" + action.__name__

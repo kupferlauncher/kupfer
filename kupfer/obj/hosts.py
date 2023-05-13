@@ -7,6 +7,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+from __future__ import annotations
 
 import typing as ty
 
@@ -68,9 +69,9 @@ class HostServiceLeaf(HostLeaf):
         address: str,
         service: str,
         description: str,
-        port: ty.Optional[str] = None,
-        user: ty.Optional[str] = None,
-        password: ty.Optional[str] = None,
+        port: str | None = None,
+        user: str | None = None,
+        password: str | None = None,
         slots: Slots = None,
     ) -> None:
         _slots = {

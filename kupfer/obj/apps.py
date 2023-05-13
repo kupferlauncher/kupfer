@@ -57,7 +57,7 @@ class AppLeafContentMixin:
         return cls._cached_leaf_repr  # type: ignore
 
     @classmethod
-    def __get_appleaf_id_iter(cls) -> ty.Tuple[str, ...]:
+    def __get_appleaf_id_iter(cls) -> tuple[str, ...]:
         if isinstance(cls.appleaf_content_id, str):  # type: ignore
             ids = (cls.appleaf_content_id,)  # type: ignore
         else:
@@ -66,7 +66,7 @@ class AppLeafContentMixin:
         return ids
 
     @classmethod
-    def __get_leaf_repr(cls) -> ty.Optional[AppLeaf]:
+    def __get_leaf_repr(cls) -> AppLeaf | None:
         for appleaf_id in cls.__get_appleaf_id_iter():
             with suppress(InvalidDataError):
                 return AppLeaf(app_id=appleaf_id)
@@ -78,7 +78,7 @@ class AppLeafContentMixin:
         return AppLeaf
 
     @classmethod
-    def decorate_item(cls, leaf: Leaf) -> ty.Optional[AppLeafContentMixin]:
+    def decorate_item(cls, leaf: Leaf) -> AppLeafContentMixin | None:
         if leaf == cls.get_leaf_repr():
             return cls()
 
@@ -88,26 +88,29 @@ class AppLeafContentMixin:
 class ApplicationSource(
     AppLeafContentMixin, Source, PicklingHelperMixin, FilesystemWatchMixin
 ):
-    pass
+    """Abstract, helper class that include parent object to create source that
+    is bound to application leaf with file/folders monitoring."""
 
 
 class AppLeaf(Leaf):
     def __init__(
         self,
         item: ty.Any = None,
-        init_path: ty.Optional[str] = None,
-        app_id: ty.Optional[str] = None,
+        init_path: str | None = None,
+        app_id: str | None = None,
         require_x: bool = True,
     ) -> None:
         """Try constructing an Application for GAppInfo @item,
         for file @path or for package name @app_id.
 
         @require_x: require executable file
+
+        Represented object is Gio.DesktopAppInfo.
         """
         self._init_path = init_path
         self._init_item_id = app_id and app_id + ".desktop"
         # finish will raise InvalidDataError on invalid item
-        self.finish(require_x, item)
+        self._finish(require_x, item)
         super().__init__(self.object, self.object.get_name())
         self._add_aliases()
 
@@ -132,19 +135,22 @@ class AppLeaf(Leaf):
     def __eq__(self, other: ty.Any) -> bool:
         return isinstance(other, type(self)) and self.get_id() == other.get_id()
 
-    def __getstate__(self) -> ty.Dict[str, ty.Any]:
+    def __getstate__(self) -> dict[str, ty.Any]:
         self._init_item_id = self.object and self.object.get_id()
         state = dict(vars(self))
         state["object"] = None
         return state
 
-    def __setstate__(self, state: ty.Dict[str, ty.Any]) -> None:
+    def __setstate__(self, state: dict[str, ty.Any]) -> None:
         vars(self).update(state)
-        self.finish()
+        self._finish()
 
-    def finish(self, require_x: bool = False, init_item: ty.Any = None) -> None:
+    def _finish(
+        self,
+        require_x: bool = False,
+        item: Gio.DesktopAppInfo | None = None,
+    ) -> None:
         """Try to set self.object from init's parameters"""
-        item = init_item
         if not item:
             # Construct an AppInfo item from either path or item_id
             try:
@@ -180,8 +186,7 @@ class AppLeaf(Leaf):
         activate: bool = False,
         ctx: ty.Any = None,
     ) -> bool:
-        """
-        Launch the represented applications
+        """Launch the represented applications.
 
         @files: a seq of GFiles (Gio.File)
         @paths: a seq of bytestring paths
@@ -220,7 +225,7 @@ class AppLeaf(Leaf):
 
         yield LaunchAgain()
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         # Use Application's description, else use executable
         # for "file-based" applications we show the path
         app_desc = self.object.get_description()
@@ -241,12 +246,12 @@ class AppLeaf(Leaf):
 class Launch(Action):
     """Launches an application (AppLeaf)"""
 
-    action_accelerator: ty.Optional[str] = "o"
+    action_accelerator: str | None = "o"
     rank_adjust = 5
 
     def __init__(
         self,
-        name: ty.Optional[str] = None,
+        name: str | None = None,
         is_running: bool = False,
         open_new: bool = False,
     ) -> None:
@@ -280,10 +285,10 @@ class Launch(Action):
 
 
 class LaunchAgain(Launch):
-    action_accelerator: ty.Optional[str] = None
+    action_accelerator: str | None = None
     rank_adjust = 0
 
-    def __init__(self, name: ty.Optional[str] = None):
+    def __init__(self, name: str | None = None):
         Launch.__init__(self, name or _("Launch Again"), open_new=True)
 
     def item_types(self) -> ty.Iterator[ty.Type[Leaf]]:

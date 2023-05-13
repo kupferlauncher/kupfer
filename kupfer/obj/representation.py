@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """
 Interfaces that may implements objects.
 
@@ -13,10 +12,8 @@ __all__ = ("TextRepresentation", "UriListRepresentation")
 
 # pylint: disable=too-few-public-methods
 class TextRepresentation(metaclass=abc.ABCMeta):
-    """
-    Kupfer Objects that implement this interface have a plain text
-    representation that can be used for Copy & Paste etc
-    """
+    """Kupfer Objects that implement this interface have a plain text
+    representation that can be used for Copy & Paste etc."""
 
     def get_text_representation(self) -> str:
         """The default implementation returns the represented object"""
@@ -26,12 +23,10 @@ class TextRepresentation(metaclass=abc.ABCMeta):
 
 # pylint: disable=too-few-public-methods
 class UriListRepresentation(metaclass=abc.ABCMeta):
-    """
-    Kupfer Objects that implement this interface have a uri-list
+    """Kupfer Objects that implement this interface have a uri-list
     representation that can be used for Copy & Paste etc
 
-    get_urilist_representation should return a sequence of string URIs.
-    """
+    get_urilist_representation should return a sequence of string URIs."""
 
     def get_urilist_representation(self) -> list[str]:
         """The default implementation raises notimplementederror"""

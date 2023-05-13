@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 """
 File-related objects
 
@@ -31,17 +29,15 @@ if ty.TYPE_CHECKING:
 
 
 class FileLeaf(Leaf, TextRepresentation):
-    """
-    Represents one file: the represented object is a string.
-    """
+    """Represents one file: the represented object is a string."""
 
     serializable: int | None = 1
 
     def __init__(
         self,
         obj: str | Path,
-        name: ty.Optional[str] = None,
-        alias: ty.Optional[str] = None,
+        name: str | None = None,
+        alias: str | None = None,
     ) -> None:
         """Construct a FileLeaf
 
@@ -49,7 +45,7 @@ class FileLeaf(Leaf, TextRepresentation):
         and @name should normally be left unspecified.
 
         @obj: string (path) or Path object
-        @name: unicode name or None for using basename
+        @name: file name or None for using basename
         """
         if obj is None:
             raise InvalidDataError(f"File path for {name} may not be None")
@@ -68,13 +64,9 @@ class FileLeaf(Leaf, TextRepresentation):
             self.kupfer_add_alias(alias)
 
     @classmethod
-    def from_uri(cls, uri: str) -> ty.Optional[FileLeaf]:
-        """
-        Construct a FileLeaf
-
-        uri: A local uri
-
-        Return FileLeaf if it is supported, else None
+    def from_uri(cls, uri: str) -> FileLeaf | None:
+        """Construct a FileLeaf from local `uri`.
+        Return FileLeaf if it is supported, else None.
         """
         gfile = Gio.File.new_for_uri(uri)
         fpath = gfile.get_path()
@@ -121,16 +113,14 @@ class FileLeaf(Leaf, TextRepresentation):
     def get_text_representation(self) -> str:
         return GLib.filename_display_name(self.object)  # type: ignore
 
-    def get_urilist_representation(self) -> ty.List[str]:
+    def get_urilist_representation(self) -> list[str]:
         return [self.get_gfile().get_uri()]
 
     def get_gfile(self) -> Gio.File:
-        """
-        Return a Gio.File of self
-        """
+        """Return a Gio.File of self."""
         return Gio.File.new_for_path(self.object)
 
-    def get_description(self) -> ty.Optional[str]:
+    def get_description(self) -> str | None:
         return launch.get_display_path_for_bytestring(self.canonical_path())
 
     def get_actions(self) -> ty.Iterable[Action]:
@@ -169,7 +159,7 @@ class FileLeaf(Leaf, TextRepresentation):
 
         return "text-x-generic"
 
-    def get_content_type(self) -> ty.Optional[str]:
+    def get_content_type(self) -> str | None:
         ret, uncertain = Gio.content_type_guess(self.object, None)
         if not uncertain:
             return ret  # type: ignore
@@ -184,11 +174,8 @@ class FileLeaf(Leaf, TextRepresentation):
         return content_type  # type: ignore
 
     def is_content_type(self, ctype: str) -> bool:
-        """
-        Return True if this file is of the type ctype
-
-        ctype: A mime type, can have wildcards like 'image/*'
-        """
+        """Return True if this file is of the type `ctype` mime type, can have
+        wildcards like 'image/*'."""
         predicate = Gio.content_type_is_a
         ctype_guess, uncertain = Gio.content_type_guess(self.object, None)
         ret = predicate(ctype_guess, ctype)

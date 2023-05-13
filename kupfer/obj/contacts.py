@@ -63,7 +63,9 @@ if ty.TYPE_CHECKING:
 
 
 class ContactLeaf(GroupingLeaf):
-    grouping_slots: ty.Tuple[str, ...] = ()
+    """Represent "human" contact leaf, like email, im address and so."""
+
+    grouping_slots: tuple[str, ...] = ()
 
     def __init__(self, obj: ty.Any, name: str, image: ty.Any = None) -> None:
         self.image = image
@@ -91,9 +93,8 @@ def _get_email_from_url(url: str) -> str:
     return email or url
 
 
-def email_from_leaf(leaf: Leaf) -> ty.Optional[str]:
-    """
-    Return an email address string if @leaf has a valid email address.
+def email_from_leaf(leaf: Leaf) -> str | None:
+    """Return an email address string if @leaf has a valid email address.
 
     @leaf may also be a TextLeaf or UrlLeaf.
     Return a false value if no valid email is found.
@@ -101,7 +102,7 @@ def email_from_leaf(leaf: Leaf) -> ty.Optional[str]:
     if isinstance(leaf, ContactLeaf):
         return leaf[EMAIL_KEY] if EMAIL_KEY in leaf else None
 
-    email = _get_email_from_url(leaf.object)
+    email = _get_email_from_url(str(leaf.object))
     return email if validators.is_valid_email(email) else None
 
 
@@ -130,7 +131,7 @@ class IMContact(ContactLeaf):
         im_id_kind: str,
         im_id: str,
         name: str,
-        label: ty.Optional[str] = None,
+        label: str | None = None,
         other_slots: Slots = None,
         image: ty.Any = None,
     ) -> None:
@@ -160,8 +161,8 @@ class JabberContact(IMContact):
         self,
         jid: str,
         name: str,
-        status: ty.Optional[str] = None,
-        resource: ty.Optional[str] = None,
+        status: str | None = None,
+        resource: str | None = None,
         slots: Slots = None,
         image: ty.Any = None,
     ) -> None:

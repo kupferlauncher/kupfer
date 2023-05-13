@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """
 File - related sources
 
@@ -35,8 +34,7 @@ if ty.TYPE_CHECKING:
 
 
 def construct_file_leaf(obj: str) -> Leaf:
-    """
-    If the path in @obj points to a Desktop Item file,
+    """If the path in @obj points to a Desktop Item file,
     return an AppLeaf, otherwise return a FileLeaf
     """
     if obj.endswith(".desktop"):
@@ -106,7 +104,7 @@ class DirectorySource(Source, FilesystemWatchMixin):
     def has_parent(self) -> bool:
         return not path.samefile(self._directory, self._parent_path())
 
-    def get_parent(self) -> ty.Optional[DirectorySource]:
+    def get_parent(self) -> DirectorySource | None:
         if not self.has_parent():
             return None
 
@@ -121,7 +119,7 @@ class DirectorySource(Source, FilesystemWatchMixin):
     def get_icon_name(self) -> str:
         return "folder"
 
-    def get_leaf_repr(self) -> ty.Optional[Leaf]:
+    def get_leaf_repr(self) -> Leaf | None:
         alias = None
         directory = self._directory
         if os.path.isdir(directory) and os.path.samefile(
@@ -137,7 +135,7 @@ class DirectorySource(Source, FilesystemWatchMixin):
 
 
 class FileSource(Source):
-    def __init__(self, dirlist: ty.List[str], depth: int = 0) -> None:
+    def __init__(self, dirlist: list[str], depth: int = 0) -> None:
         """
         @dirlist: Directories as byte strings
         """

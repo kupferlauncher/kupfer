@@ -32,8 +32,7 @@ Slots = ty.Optional[dict[str, ty.Any]]
 
 
 class GroupingLeaf(Leaf):
-    """
-    A Leaf that groups with other leaves inside Grouping Sources
+    """A Leaf that groups with other leaves inside Grouping Sources.
 
     The represented object of a GroupedLeaf is a dictionary of (slot, value)
     pairs, where slot identifies the slot, and the value is something that must
@@ -43,7 +42,7 @@ class GroupingLeaf(Leaf):
     None will not be grouped with others.
     """
 
-    grouping_slots: ty.Tuple[str, ...] = ()
+    grouping_slots: tuple[str, ...] = ()
 
     def __init__(self, obj: ty.Any, name: str) -> None:
         Leaf.__init__(self, obj, name)
@@ -187,10 +186,8 @@ class GroupingSource(Source):
 
 
 class ToplevelGroupingSource(GroupingSource):
-    """
-    Sources of this type group their leaves with others in the toplevel
-    of the catalog.
-    """
+    """Sources of this type group their leaves with others in the toplevel
+    of the catalog."""
 
     _sources: dict[str, weakref.WeakKeyDictionary[Source, int]] = {}
 
