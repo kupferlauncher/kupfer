@@ -42,8 +42,8 @@ _ESCAPE_TABLE = {
 # reserved.extend([' ', '\t', '\n'])
 
 
-def _two_part_unescaper(string: str, reptable: ty.Dict[str, str]) -> str:
-    "Scan @s two characters at a time and replace using @reptable"
+def _two_part_unescaper(string: str, reptable: dict[str, str]) -> str:
+    """Scan @s two characters at a time and replace using @reptable"""
     if not string:
         return string
 
@@ -59,9 +59,7 @@ T = ty.TypeVar("T", str, bytes)
 def _custom_shlex_split(
     string: T, comments: bool = False, posix: bool = True
 ) -> list[T]:
-    """
-    Wrapping shlex.split
-    """
+    """Wrapping shlex.split."""
     ustring: str
     if isinstance(string, str):
         ustring = string
@@ -86,17 +84,16 @@ def _custom_shlex_split(
     if isinstance(string, str):
         return list(output)
 
-    return [x.encode("UTF-8") for x in output]
+    return list(map(str.encode, output))
 
 
 def _unescape(string: str) -> str:
-    "Primary unescape of control sequences"
+    """Primary unescape of control sequences"""
     return _two_part_unescaper(string, _ESCAPE_TABLE)
 
 
 def parse_argv(instr: str) -> list[str]:
-    r"""
-    Parse quoted @instr into an argv
+    r"""Parse quoted @instr into an argv
 
     This is according to the spec
     >>> parse_argv('env "VAR=is good" ./program')
@@ -149,8 +146,7 @@ def parse_argv(instr: str) -> list[str]:
 
 
 def parse_unesc_argv(instr: str) -> list[str]:
-    r"""
-    Parse quoted @instr into an argv after unescaping it
+    r"""Parse quoted @instr into an argv after unescaping it
 
     >>> parse_unesc_argv(r'stuff "C:\\\\suck\\\\start.exe"')
     ['stuff', 'C:\\suck\\start.exe']

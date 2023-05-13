@@ -178,8 +178,7 @@ class _DBusChecker:
 
 
 def check_dbus_connection() -> None:
-    """
-    Check if a connection to the D-Bus daemon is available,
+    """Check if a connection to the D-Bus daemon is available,
     else raise ImportError with an explanatory error message.
 
     For plugins that can not be used without contact with D-Bus;
@@ -196,16 +195,12 @@ class UserNamePassword:
 
 
 def check_keyring_support() -> None:
-    """
-    raise ImportError with because it is not supported
-    """
+    """raise ImportError with because it is not supported."""
     raise ImportError("Keyring is not supported")
 
 
 def check_keybinding_support() -> None:
-    """
-    Check if we can make global keybindings
-    """
+    """Check if we can make global keybindings."""
     from kupfer.ui import keybindings  # pylint: disable=import-outside-toplevel
 
     if not keybindings.is_available():
@@ -262,8 +257,7 @@ _ALTERNATIVES: dict[str, dict[str, ty.Any]] = {
 def register_alternative(
     caller: str, category_key: str, id_: str, **kwargs: ty.Any
 ) -> bool:
-    """
-    Register a new alternative for the category @category_key
+    """Register a new alternative for the category @category_key.
 
     @caller: Must be the caller's plugin id (Plugin __name__ variable)
 
@@ -318,8 +312,7 @@ def register_alternative(
 def _unregister_alternative(
     caller: str, category_key: str, full_id: str
 ) -> None:
-    """
-    Remove the alternative for category @category_key
+    """Remove the alternative for category @category_key
     (this is done automatically at plugin unload)
     """
     if category_key not in _AVAILABLE_ALTERNATIVES:

@@ -5,7 +5,7 @@ from contextlib import suppress
 
 
 def _unicode_truncate(ustr: str, length: int, encoding: str = "UTF-8") -> str:
-    "Truncate @ustr to specific encoded byte length"
+    """Truncate @ustr to specific encoded byte length"""
     bstr = ustr.encode(encoding)[:length]
     return bstr.decode(encoding, "ignore")
 

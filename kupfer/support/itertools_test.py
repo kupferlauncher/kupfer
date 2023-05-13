@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-
 import unittest
 
 from . import itertools as kit

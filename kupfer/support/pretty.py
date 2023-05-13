@@ -11,10 +11,7 @@ DEBUG = False
 
 
 class OutputMixin:
-    """
-    A mixin class providing prefixed output
-    standard output and DEBUG output
-    """
+    """A mixin class providing prefixed output standard output and DEBUG output."""
 
     def _output_category(self) -> str:
         return f"[{type(self).__module__}] {type(self).__name__}:"
@@ -33,10 +30,7 @@ class OutputMixin:
     def output_info(
         self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
     ) -> None:
-        """
-        Output given items using @sep as separator,
-        ending the line with @end
-        """
+        """Output given items using @sep as separator, ending the line with @end"""
         self._output_core("", sep, end, sys.stdout, *items)
 
     def output_exc(self, exc_info: ExecInfo | None = None) -> None:
@@ -114,7 +108,7 @@ def timing_start() -> float | None:
 def timing_step(
     modulename: str, start: float | None, label: str, *args: str
 ) -> float | None:
-    """In debug print  time from `start`."""
+    """In debug printtime from `start`."""
     if DEBUG and start:
         cts = timestamp()
         print_debug(modulename, label, f"in {cts - start:.6f} s", *args)

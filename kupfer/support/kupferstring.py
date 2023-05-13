@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import locale
 import typing as ty
-from functools import cache, cmp_to_key
+from functools import cmp_to_key
 from unicodedata import category, normalize
+
+from .datatools import evaluate_once
 
 
 def _folditems():
@@ -56,7 +58,7 @@ def tounicode(utf8str: ty.Union[str, bytes, None]) -> str | None:
 #     return ustr.encode("UTF-8")
 
 
-@cache
+@evaluate_once
 def get_encoding() -> str:
     return locale.getpreferredencoding(do_setlocale=False)
 
@@ -101,7 +103,7 @@ _SortItem = ty.TypeVar("_SortItem")
 
 def locale_sort(
     seq: ty.Iterable[_SortItem], key: ty.Callable[[_SortItem], ty.Any] = str
-) -> ty.List[_SortItem]:
+) -> list[_SortItem]:
     """Return @seq of objects with @key function as a list sorted
     in locale lexical order
 

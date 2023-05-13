@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 # pylint: disable=protected-access
 """
 This file is a part of the program kupfer, which is

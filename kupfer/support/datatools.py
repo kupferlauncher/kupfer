@@ -1,11 +1,10 @@
 """
-
 This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
-
 from __future__ import annotations
+
 import inspect
 import typing as ty
 from collections import OrderedDict
@@ -16,6 +15,7 @@ V = ty.TypeVar("V")
 
 
 def _get_point_of_create(offset: int = 3) -> str:
+    """Find information about function caller with `offset` in tracestack."""
     for frame in inspect.stack()[offset:]:
         if "kupfer" in frame.filename:
             return f"{frame.filename}:{frame.lineno}"
@@ -27,8 +27,7 @@ _sentinel = object()
 
 
 class LruCache(OrderedDict[K, V]):
-    """
-    Least-recently-used cache mapping of size *maxsize*.
+    """Least-recently-used cache mapping of size *maxsize*.
 
     *name* is optional cache name for debug purpose. If not given, is place
     when cache is created (filename:lineno).

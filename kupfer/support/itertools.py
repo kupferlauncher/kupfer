@@ -1,5 +1,3 @@
-#! /usr/bin/env python3
-# Distributed under terms of the GPLv3 license.
 """
 Support function for iterators
 
@@ -15,8 +13,7 @@ import typing as ty
 
 
 def two_part_mapper(instr: str, repfunc: ty.Callable[[str], str | None]) -> str:
-    """
-    Scan @instr two characters at a time and replace using @repfunc.
+    """Scan @instr two characters at a time and replace using @repfunc.
     If @repfunc return not None - use origin character.
     """
     if not instr:
@@ -103,35 +100,40 @@ class SavedIterable(ty.Generic[T]):
         return object.__new__(cls)
 
     def __init__(self, iterable: ty.Iterable[T]) -> None:
-        self.iterator: ty.Iterator[T] | None = iter(iterable)
-        self.data: list[T] = []
+        # parent iterator
+        self._iterator: ty.Iterator[T] | None = iter(iterable)
+        # cached data
+        self._data: list[T] = []
 
     def __iter__(self) -> ty.Iterator[T]:
-        if self.iterator is None:
-            return iter(self.data)
+        if self._iterator is None:
+            # iterator was exhausted, so we return data from cache
+            return iter(self._data)
 
         return self._incremental_caching_iter()
 
     def _incremental_caching_iter(self) -> ty.Iterator[T]:
+        """Get next item from local cache, if no more items is in cache, try
+        to load from origin iterator."""
         indices = itertools.count()
         while True:
             idx = next(indices)
             try:
-                yield self.data[idx]
+                yield self._data[idx]
             except IndexError:
                 pass
             else:
                 continue
 
-            if self.iterator is None:
+            if self._iterator is None:
                 return
 
             try:
-                x = next(self.iterator)
-                self.data.append(x)
+                x = next(self._iterator)
+                self._data.append(x)
                 yield x
             except StopIteration:
-                self.iterator = None
+                self._iterator = None
 
     def __reduce__(self) -> tuple[ty.Any, ...]:
         # pickle into a list with __reduce__
@@ -139,9 +141,12 @@ class SavedIterable(ty.Generic[T]):
         return (list, (), None, iter(self))
 
 
+K = ty.TypeVar("K")
+
+
 def unique_iterator(
     seq: ty.Iterable[T],
-    key: ty.Callable[[T], ty.Any] | None = None,
+    key: ty.Callable[[T], K] | None = None,
 ) -> ty.Iterator[T]:
     """Yield items of `seq` with set semantics; no duplicates.
     If `key` is given, value of key(object) is used for detecting duplicates.
@@ -151,19 +156,19 @@ def unique_iterator(
     >>> list(unique_iterator([1, -2, 3, -3, -5, 2], key=abs))
     [1, -2, 3, -5]
     """
-    coll = set()
     if key is None:
-        for obj in seq:
-            if obj not in coll:
-                yield obj
-                coll.add(obj)
-
-        return
-
-    for obj in seq:
-        if (value := key(obj)) not in coll:
+        coll: set[T] = set()
+        # itertools is ~10% faster
+        for obj in itertools.filterfalse(coll.__contains__, seq):
             yield obj
-            coll.add(value)
+            coll.add(obj)
+
+    else:
+        collk: set[K] = set()
+        for obj in seq:
+            if (value := key(obj)) not in collk:
+                yield obj
+                collk.add(value)
 
 
 def as_list(seq: ty.Iterable[T]) -> ty.Collection[T]:

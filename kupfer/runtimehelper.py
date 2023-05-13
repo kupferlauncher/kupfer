@@ -31,8 +31,7 @@ class AsyncFileResult:
 def register_async_file_result(
     ctx: ExecutionToken, filepath: str
 ) -> AsyncFileResult:
-    """
-    Register that @filepath may appear soon
+    """Register that @filepath may appear soon.
     @ctx: The action's execution context token
     """
     return AsyncFileResult(ctx, filepath)

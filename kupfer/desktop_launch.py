@@ -25,15 +25,15 @@ STARTUP_ENV = "DESKTOP_STARTUP_ID"
 
 
 class SpawnError(Exception):
-    "Error starting application"
+    """Error starting application"""
 
 
 class ResourceLookupError(Exception):
-    "Unable to find resource"
+    """Unable to find resource"""
 
 
 class ResourceReadError(Exception):
-    "Unable to open resource"
+    """Unable to open resource"""
 
 
 def _find_desktop_file(desk_id: str) -> str:
@@ -84,10 +84,8 @@ def _find_desktop_file(desk_id: str) -> str:
 
 
 def _read_desktop_info(desktop_file: str) -> dict[str, str | bool]:
-    """
-    Get the keys StartupNotify, Terminal, Exec, Path, Icon
-    Return dict with bool and unicode values
-    """
+    """Get the keys StartupNotify, Terminal, Exec, Path, Icon.
+    Return dict with bool and unicode values."""
     # Return values in unicode
     try:
         entry = xdg.DesktopEntry.DesktopEntry(desktop_file)
@@ -296,8 +294,7 @@ def launch_app_info(
     launch_cb: LaunchCallback | None = None,
     screen: Gdk.Screen | None = None,
 ) -> bool:
-    """
-    Launch @app_info, opening @gfiles
+    """Launch @app_info, opening @gfiles.
 
     @in_terminal: override Terminal flag
     @timestamp: override timestamp
@@ -378,9 +375,7 @@ def spawn_app_id(
     startup_notify: bool = True,
     screen: Gdk.Screen | None = None,
 ) -> bool:
-    """
-    Spawn @argv trying to notify it as if it is app_id
-    """
+    """Spawn @argv trying to notify it as if it is app_id."""
     try:
         app_info = _get_info_for_id(app_id)
     except (TypeError, RuntimeError):
@@ -402,8 +397,7 @@ def spawn_app(
     launch_cb: LaunchCallback | None = None,
     screen: Gdk.Screen | None = None,
 ) -> int:
-    """
-    Spawn app.
+    """Spawn app.
 
     @argv: argument list including files
     @workdir: where to set workdir if not cwd

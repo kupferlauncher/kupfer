@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """
 Various, common types for typechecing
 """

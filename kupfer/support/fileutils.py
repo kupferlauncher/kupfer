@@ -1,6 +1,4 @@
-#! /usr/bin/env python3
-"""
-File-related support functions.
+""" File-related support functions.
 
 This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
@@ -36,27 +34,29 @@ def get_dirlist(
     h_include: FilterFunc = include or (lambda x: True)
     h_exclude: FilterFunc = exclude or (lambda x: False)
 
-    def include_file(file):
+    def accept_file(file):
         return h_include(file) and not h_exclude(file)
 
     for dirname, dirnames, fnames in os.walk(folder):
         # skip deep directories
         depth = len(os.path.relpath(dirname, folder).split(os.path.sep)) - 1
         if depth >= max_depth:
+            # this stop processing subfolders
             dirnames.clear()
             continue
 
         excl_dir = []
         for directory in dirnames:
-            if include_file(directory):
+            if accept_file(directory):
                 yield os_path.join(dirname, directory)
             else:
                 excl_dir.append(directory)
 
         yield from (
-            os_path.join(dirname, file) for file in fnames if include_file(file)
+            os_path.join(dirname, file) for file in fnames if accept_file(file)
         )
 
+        # do not process excluded dirs
         for directory in reversed(excl_dir):
             dirnames.remove(directory)
 
@@ -142,12 +142,10 @@ def get_destfile_in_directory(
 def get_destfile(
     destpath: str | Path,
 ) -> tuple[ty.BinaryIO | None, str | None]:
-    """
-    Open file object for full file path. Return the same object
+    """Open file object for full file path. Return the same object
     like get_destfile_in_directory.
 
-
-    Return (fileobj, filepath)
+    Return (fileobj, filepath).
     """
     # retry if it fails
     for _retry in range(3):
@@ -171,7 +169,7 @@ def get_safe_tempfile() -> tuple[ty.BinaryIO, str]:
 
 
 def lookup_exec_path(exename: str) -> str | None:
-    "Return path for @exename in $PATH or None"
+    """Return path for @exename in $PATH or None"""
     env_path = os.environ.get("PATH") or os.defpath
     for execdir in env_path.split(os.pathsep):
         exepath = Path(execdir, exename)

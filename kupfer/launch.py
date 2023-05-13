@@ -69,14 +69,11 @@ def launch_application(
     desktop_file: str | None = None,
     screen: Gdk.Screen | None = None,
 ) -> bool:
-    """
-    Launch @app_rec correctly, using a startup notification
+    """Launch @app_rec correctly, using a startup notification. You may pass
+    in either a list of Gio.Files in @files, or a list of @uris or @paths.
 
-    you may pass in either a list of Gio.Files in @files, or
-    a list of @uris or @paths
-
-    if @track, it is a user-level application
-    if @activate, activate rather than start a new version
+    if @track, it is a user-level application.
+    if @activate, activate rather than start a new version.
 
     @app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
 
@@ -408,8 +405,7 @@ def _split_string(inp: bytes, length: int) -> ty.Iterator[bytes]:
 
 
 class AsyncCommand(pretty.OutputMixin):
-    """
-    Run a command asynchronously (using the GLib mainloop)
+    """Run a command asynchronously (using the GLib mainloop).
 
     call @finish_callback when command terminates, or
     when command is killed after @timeout_s seconds, whichever
@@ -426,7 +422,6 @@ class AsyncCommand(pretty.OutputMixin):
     Attributes:
     self.exit_status  Set after process exited
     self.finished     bool
-
     """
 
     # the maximum input (bytes) we'll read in one shot (one io_callback)
@@ -437,7 +432,7 @@ class AsyncCommand(pretty.OutputMixin):
         argv: list[str],
         finish_callback: ty.Callable[[AsyncCommand, bytes, bytes], None],
         timeout_s: int | None,
-        stdin: ty.Optional[bytes] = None,
+        stdin: bytes | None = None,
         env: ty.Any = None,
     ) -> None:
         self.stdout: list[bytes] = []
@@ -447,7 +442,7 @@ class AsyncCommand(pretty.OutputMixin):
         self.killed = False
         self.finished = False
         self.finish_callback = finish_callback
-        self.exit_status: ty.Optional[int] = None
+        self.exit_status: int | None = None
 
         self.output_debug("AsyncCommand:", argv)
 
@@ -530,7 +525,7 @@ class AsyncCommand(pretty.OutputMixin):
 
 
 def spawn_terminal(
-    workdir: ty.Optional[str] = None, screen: ty.Optional[str] = None
+    workdir: str | None = None, screen: str | None = None
 ) -> bool:
     "Raises SpawnError"
     term = settings.get_configured_terminal()
@@ -540,9 +535,7 @@ def spawn_terminal(
     return desktop_launch.spawn_app_id(app_id, argv, workdir, notify, screen)
 
 
-def spawn_in_terminal(
-    argv: list[str], workdir: ty.Optional[str] = None
-) -> bool:
+def spawn_in_terminal(argv: list[str], workdir: str | None = None) -> bool:
     "Raises SpawnError"
     term = settings.get_configured_terminal()
     notify = term["startup_notify"]
@@ -635,7 +628,7 @@ def _on_child_exit(
 
 
 def _spawn_child(
-    argv: list[str], respawn: bool = True, display: ty.Optional[str] = None
+    argv: list[str], respawn: bool = True, display: str | None = None
 ) -> int:
     """
     Spawn argv in the mainloop and keeping it as a child process
@@ -671,7 +664,7 @@ def _spawn_child(
 
 
 def start_plugin_helper(
-    name: str, respawn: bool, display: ty.Optional[str] = None
+    name: str, respawn: bool, display: str | None = None
 ) -> int:
     """
     @respawn: If True, respawn if child dies abnormally
@@ -712,8 +705,7 @@ def show_url(url: str) -> bool:
 
 
 def show_help_url(url: str) -> bool:
-    """
-    Try at length to display a startup notification for the help browser.
+    """Try at length to display a startup notification for the help browser.
 
     Return False if there is no handler for the help URL
     """

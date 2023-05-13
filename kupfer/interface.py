@@ -15,9 +15,7 @@ __all__ = ("TextRepresentation", "UriListRepresentation")
 
 
 def get_text_representation(obj: ty.Any) -> str | None:
-    """
-    Get text representation from any @obj.
-    """
+    """Get text representation from any @obj."""
     try:
         return obj.get_text_representation()  # type: ignore
     except AttributeError:
@@ -25,8 +23,7 @@ def get_text_representation(obj: ty.Any) -> str | None:
 
 
 def copy_to_clipboard(obj: KupferObject, clipboard: Gtk.Clipboard) -> bool:
-    """
-    Copy @obj to @clipboard, a Gtk.Clipboard
+    """Copy @obj to @clipboard, a Gtk.Clipboard.
 
     Support only text represention.
     TODO: support images (maybe)

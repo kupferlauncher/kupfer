@@ -1,5 +1,4 @@
-"""
-Persistent Globally Unique Indentifiers for KupferObjects.
+"""Persistent Globally Unique Indentifiers for KupferObjects.
 
 Some objects are assigned identifiers by reference, some are assigned
 identifiers containing the whole object data (SerializedObject).
@@ -63,7 +62,7 @@ PuID = ty.Union[str, SerializedObject]
 
 
 def get_unique_id(obj: ty.Any) -> PuID | None:
-    """Return uniqe id for object: if obj has attribute  qf_id  - return URI to
+    """Return unique id for object: if obj has attribute  qf_id  - return URI to
     locate object in Kupfer catalog (as str); if object is serializable
     return SerializedObject for `obj`; otherwise return string representation
     of object.
@@ -86,7 +85,7 @@ def get_unique_id(obj: ty.Any) -> PuID | None:
 
 
 def is_reference(puid: ty.Any) -> bool:
-    "Return True if @puid is a reference-type ID"
+    """Return True if @puid is a reference-type ID"""
     return not isinstance(puid, SerializedObject)
 
 
@@ -133,8 +132,7 @@ def _find_obj_in_catalog(
 def resolve_unique_id(
     puid: ty.Any, excluding: AnySource | None = None
 ) -> Leaf | None:
-    """
-    Resolve unique id @puid
+    """Resolve unique id @puid.
 
     The caller (if a Source) should pass itself as @excluding,
     so that recursion into itself is avoided.
