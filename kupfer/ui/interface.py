@@ -51,10 +51,10 @@ def _trunc_long_str(instr: ty.Any) -> str:
 
 def _get_accel(key: str, acf: AccelFunc) -> tuple[str, AccelFunc]:
     """Return name, method pair for @key"""
-    try:
-        return (accelerators.ACCELERATOR_NAMES[key], acf)
-    except KeyError as err:
-        raise RuntimeError(f"Missing accelerator: {key}") from err
+    if name := accelerators.ACCELERATOR_NAMES.get(key):
+        return name, acf
+
+    raise RuntimeError(f"Missing accelerator: {key}")
 
 
 def _translate_keys(event: Gdk.EventKey) -> tuple[int, int, bool]:

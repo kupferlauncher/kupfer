@@ -137,12 +137,9 @@ def get_icon(key: str, icon_size: int) -> ty.Iterator[GdkPixbuf.Pixbuf]:
     try retrieve icon in cache
     is a generator so it can be concisely called with a for loop
     """
-    try:
-        rec = _ICON_CACHE[icon_size][key]
-    except KeyError:
-        return
-
-    yield rec
+    if ics := _ICON_CACHE.get(icon_size):
+        if res := ics.get(key):
+            yield res
 
 
 def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
@@ -484,8 +481,9 @@ def get_icon_for_name(
     icon_names: ty.Iterable[str] | None = None,
 ) -> GdkPixbuf.Pixbuf | None:
     if icon_name:
-        with suppress(KeyError):
-            return _ICON_CACHE[icon_size][icon_name]
+        if ics := _ICON_CACHE.get(icon_size):
+            if res := ics.get(icon_name):
+                return res
 
     # Try the whole list of given names
     for load_name in icon_names or (icon_name,):
@@ -518,8 +516,9 @@ def get_icon_from_file(
         return None
 
     # try to load from cache
-    with suppress(KeyError):
-        return _ICON_CACHE[icon_size][icon_file]
+    if ics := _ICON_CACHE.get(icon_size):
+        if res := ics.get(icon_file):
+            return res
 
     if icon := _ICON_RENDERER.pixbuf_for_file(icon_file, icon_size):
         store_icon(icon_file, icon_size, icon)

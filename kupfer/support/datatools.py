@@ -23,6 +23,9 @@ def _get_point_of_create(offset: int = 3) -> str:
     return "?"
 
 
+_sentinel = object()
+
+
 class LruCache(OrderedDict[K, V]):
     """
     Least-recently-used cache mapping of size *maxsize*.
@@ -42,10 +45,10 @@ class LruCache(OrderedDict[K, V]):
     def __setitem__(self, key: K, value: V) -> None:
         self._inserts += 1
         # set add item on the end of dict
-        try:
+        if key in self:
             # check is item already in dict by trying to move it to the end
             self.move_to_end(key, last=True)
-        except KeyError:
+        else:
             # item not found in dict so add it
             super().__setitem__(key, value)
 
@@ -55,13 +58,12 @@ class LruCache(OrderedDict[K, V]):
 
     def __getitem__(self, key: K) -> V:
         # try to get item from dict, if not found KeyError is raised
-        try:
-            value = super().__getitem__(key)
-            self._hit += 1
-        except KeyError as err:
+        value = self.get(key, _sentinel)  # type: ignore
+        if value is _sentinel:
             self._miss += 1
-            raise err
+            raise KeyError(key)
 
+        self._hit += 1
         # found, so move it to the end
         self.move_to_end(key, last=True)
         return value
@@ -76,15 +78,15 @@ class LruCache(OrderedDict[K, V]):
     def get_or_insert(self, key: K, creator: ty.Callable[[], V]) -> V:
         """Get value from cache. If not exists - create with with `creator`
         function and insert into cache."""
-        try:
-            val = self[key]
+        val = self.get(key, _sentinel)  # type: ignore
+        if val is not _sentinel:
             self._hit += 1
             return val
-        except KeyError:
-            self._miss += 1
-            self._inserts += 1
-            val = self[key] = creator()
-            return val
+
+        self._miss += 1
+        self._inserts += 1
+        val = self[key] = creator()
+        return val
 
 
 RT = ty.TypeVar("RT")  # return type
@@ -152,11 +154,12 @@ def evaluate_once(func: ty.Callable[..., RT]) -> ty.Callable[..., RT]:
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        try:
-            return getattr(wrapper, "cached_value")
-        except AttributeError:
-            result = func(*args, **kwargs)
-            setattr(wrapper, "cached_value", result)
+        result = getattr(wrapper, "cached_value", _sentinel)
+        if result is not _sentinel:
             return result
+
+        result = func(*args, **kwargs)
+        setattr(wrapper, "cached_value", result)
+        return result
 
     return wrapper
