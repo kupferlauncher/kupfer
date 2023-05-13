@@ -1,11 +1,7 @@
 from __future__ import annotations
 
 __kupfer_name__ = _("Documents")
-__kupfer_sources__ = (
-    "RecentsSource",
-    "PlacesSource",
-    "IgnoredApps",
-)
+__kupfer_sources__ = ("RecentsSource", "PlacesSource", "IgnoredApps")
 __kupfer_actions__ = ("Toggle",)
 __kupfer_contents__ = ("ApplicationRecentsSource",)
 __description__ = _("Recently used documents and bookmarked folders")
@@ -13,7 +9,6 @@ __version__ = "2017.3"
 __author__ = ""
 
 import functools
-import operator
 import typing as ty
 from os import path
 from pathlib import Path
@@ -23,7 +18,7 @@ from gi.repository import Gio, Gtk
 
 from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, AppLeaf, FileLeaf, Source, SourceLeaf, UrlLeaf
-from kupfer.support import weaklib
+from kupfer.support import weaklib, datatools
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -73,10 +68,12 @@ def _file_path(uri: str) -> Gio.File | None:
         return None
 
 
-@functools.lru_cache(maxsize=1)
-def _get(max_days: int) -> ty.Iterator[tuple[str, int, tuple[str, ...]]]:
+@datatools.simple_cache
+def _get() -> list[tuple[str, int, tuple[str, ...]]]:
+    max_days = __kupfer_settings__["max_days"]
     manager = Gtk.RecentManager.get_default()
     check_doc_exist = __kupfer_settings__["check_doc_exist"]
+    items = []
     for item in manager.get_items():
         if item.get_age() > max_days >= 0:
             continue
@@ -93,7 +90,9 @@ def _get(max_days: int) -> ty.Iterator[tuple[str, int, tuple[str, ...]]]:
         uri = item.get_uri()
         if file_path := _file_path(uri):
             apps_name = tuple(_get_app_id(item))
-            yield (file_path, item.get_modified(), apps_name)
+            items.append((file_path, item.get_modified(), apps_name))
+
+    return items
 
 
 def _get_app_id(item: Gtk.RecentInfo) -> ty.Iterator[str]:
@@ -110,13 +109,14 @@ def _get_app_id(item: Gtk.RecentInfo) -> ty.Iterator[str]:
 
 
 def _get_items(
-    max_days: int,
     for_app_names: tuple[str, ...] | None = None,
-) -> ty.Iterator[tuple[FileLeaf, int]]:
-    """
+) -> ty.Iterator[tuple[int, str]]:
+    """Get recent items `for_app_names`.
+
     for_app_names: set of candidate app names, or None.
+    Return iterable: tuple (modification time, file path)
     """
-    for file_path, modified, apps in _get(max_days):
+    for file_path, modified, apps in _get():
         if for_app_names:
             if not any(a in for_app_names for a in apps):
                 continue
@@ -133,20 +133,48 @@ def _get_items(
             ):
                 continue
 
-        yield (FileLeaf(file_path), modified)
+        yield (modified, file_path)
 
 
 def _get_items_sorted(
-    max_days: int,
     for_app_names: tuple[str, ...] | None = None,
 ) -> ty.Iterator[FileLeaf]:
-    # sort by modified date
-    items = sorted(
-        _get_items(max_days, for_app_names),
-        key=operator.itemgetter(1),
-        reverse=True,
-    )
-    yield from map(operator.itemgetter(0), items)
+    """Get recent documents as iterable FileLeaf for `for_app_names` sorted
+    sorted by modified date desc."""
+    items = sorted(_get_items(for_app_names), reverse=True)
+    return (FileLeaf(item[1]) for item in items)
+
+
+@functools.lru_cache(maxsize=10)
+def _has_items_for_application(app_names: tuple[str, ...]) -> bool:
+    """Check is there any recent documents for `app_names`."""
+    # Cache doesn't need to be large to serve main purpose:
+    # there will be many identical queries in a row
+    for _item in _get_items(app_names):
+        return True
+
+    return False
+
+
+def _app_names(leaf: AppLeaf) -> tuple[str, ...]:
+    """Return a tuple of names for appleaf"""
+    # in most cases, there are only 2-3 items, so there is not need to
+    # built set
+    svc = launch.get_applications_matcher_service()
+
+    leaf_id = leaf.get_id()
+    ids = [leaf_id]
+
+    if (exe := leaf.object.get_executable()) != leaf_id:
+        ids.append(exe)
+
+    if app_name := svc.application_name(leaf_id):
+        if (app_name := app_name.lower()) != leaf_id:
+            ids.append(app_name)
+
+    ids.extend(v for k, v in ALIASES.items() if k in ids)
+    # return tuple as wee need hashable object for caching
+    return tuple(ids)
 
 
 class RecentsSource(Source):
@@ -168,8 +196,7 @@ class RecentsSource(Source):
         self.mark_for_update()
 
     def get_items(self):
-        max_days = __kupfer_settings__["max_days"]
-        return _get_items_sorted(max_days)
+        return _get_items_sorted()
 
     def get_description(self):
         return _("Recently used documents")
@@ -193,21 +220,9 @@ class ApplicationRecentsSource(RecentsSource):
         return self.application.repr_key()
 
     def get_items(self):
-        app_names = self.app_names(self.application)
-        max_days = __kupfer_settings__["max_days"]
+        app_names = _app_names(self.application)
         self.output_debug("Items for", app_names)
-        return _get_items_sorted(max_days, app_names)
-
-    # Cache doesn't need to be large to serve main purpose:
-    # there will be many identical queries in a row
-    @staticmethod
-    @functools.lru_cache(maxsize=10)
-    def has_items_for_application(names):
-        max_days = __kupfer_settings__["max_days"]
-        for _item in _get_items(max_days, names):
-            return True
-
-        return False
+        return _get_items_sorted(app_names)
 
     def get_gicon(self):
         return icons.ComposedIcon(
@@ -226,37 +241,15 @@ class ApplicationRecentsSource(RecentsSource):
         if IgnoredApps.contains(leaf):
             return None
 
-        app_names = cls.app_names(leaf)
-        if cls.has_items_for_application(app_names):
+        app_names = _app_names(leaf)
+        if _has_items_for_application(app_names):
             return cls(leaf)
 
         return None
 
-    @classmethod
-    def app_names(cls, leaf: AppLeaf) -> tuple[str, ...]:
-        "Return a tuple of names"
-        # in most cases, there are only 2-3 items, so there is not need to
-        # built set
-        svc = launch.get_applications_matcher_service()
-
-        leaf_id = leaf.get_id()
-        ids = [leaf_id]
-
-        if (exe := leaf.object.get_executable()) != leaf_id:
-            ids.append(exe)
-
-        if app_name := svc.application_name(leaf_id):
-            if (app_name := app_name.lower()) != leaf_id:
-                ids.append(app_name)
-
-        ids.extend(v for k, v in ALIASES.items() if k in ids)
-        return tuple(ids)
-
 
 class PlacesSource(Source):
-    """
-    Source for items from gtk bookmarks
-    """
+    """Source for items from gtk bookmarks/"""
 
     source_scan_interval: int = 3600
 
@@ -380,8 +373,8 @@ class Toggle(Action):
         if IgnoredApps.contains(leaf):
             return True
 
-        app_names = ApplicationRecentsSource.app_names(leaf)
-        return ApplicationRecentsSource.has_items_for_application(app_names)
+        app_names = _app_names(leaf)
+        return _has_items_for_application(app_names)
 
     def has_result(self):
         return True
@@ -398,7 +391,8 @@ class Toggle(Action):
 
     def get_description(self):
         return _(
-            "Enable/disable listing recent documents in content for this application"
+            "Enable/disable listing recent documents in "
+            "content for this application"
         )
 
 
