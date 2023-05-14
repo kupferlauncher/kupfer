@@ -83,6 +83,7 @@ kupfer/plugin/clawsmail.py
 kupfer/plugin/session_gnome.py
 kupfer/plugin/vim.py
 kupfer/plugin/textfiles.py
+kupfer/plugin/aria2.py
 kupfer/plugin/websearch.py
 kupfer/plugin/screen.py
 kupfer/plugin/pidgin.py
