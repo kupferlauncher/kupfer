@@ -87,6 +87,7 @@ class InfoTask(task.Task):
 class ShowPackageInfo(Action):
     def __init__(self):
         Action.__init__(self, _("Show Package Information"))
+        self.kupfer_add_alias("apt show")
 
     def is_async(self):
         return True
@@ -135,6 +136,7 @@ class OpenPackageWebsite(Action):
 class InstallPackage(Action):
     def __init__(self):
         Action.__init__(self, _("Install"))
+        self.kupfer_add_alias("apt install")
 
     def activate(self, leaf, iobj=None, ctx=None):
         self.activate_multiple((leaf,))
@@ -186,14 +188,15 @@ class PackageSearchSource(Source):
             check=True,
         )
         for line in kupferstring.fromlocale(proc.stdout).splitlines():
-            if not line.strip():
+            line = line.strip()
+            if not line:
                 continue
 
-            if " - " not in line:
+            package, sep, desc = line.partition(" - ")
+            if not sep:
                 self.output_error("apt-cache: ", line)
                 continue
 
-            package, desc = line.split(" - ", 1)
             yield Package(package, desc)
 
     def should_sort_lexically(self):
@@ -209,6 +212,7 @@ class PackageSearchSource(Source):
 class SearchPackageName(Action):
     def __init__(self):
         Action.__init__(self, _("Search Package Name..."))
+        self.kupfer_add_alias("apt search")
 
     def is_factory(self):
         return True
@@ -232,6 +236,7 @@ class SearchPackageName(Action):
 class SearchForFile(Action):
     def __init__(self):
         Action.__init__(self, _("Search for file in packages..."))
+        self.kupfer_add_alias("apt file")
 
     def activate(self, leaf, iobj=None, ctx=None):
         name = urllib.parse.quote(leaf.object.strip())

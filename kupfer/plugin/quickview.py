@@ -5,14 +5,18 @@ __version__ = ""
 __author__ = ""
 
 import shutil
+import typing as ty
 
 from gi.repository import Gdk, GdkPixbuf, GLib, Gtk
 
 from kupfer import launch
 from kupfer.obj import Action, FileLeaf, OperationError
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
-def _set_size(loader, width, height, max_w, max_h):
+
+def _on_size_prepared(loader, width, height, max_w, max_h):
     if width <= max_w and height <= max_h:
         return
 
@@ -22,14 +26,17 @@ def _set_size(loader, width, height, max_w, max_h):
     loader.set_size(int(width * scale), int(height * scale))
 
 
-def load_image_max_size(filename, width, height):
+def load_image_max_size(
+    filename: str, width: int, height: int
+) -> GdkPixbuf.Pixbuf:
     pbloader = GdkPixbuf.PixbufLoader()
-    pbloader.connect("size-prepared", _set_size, width, height)
+    pbloader.connect("size-prepared", _on_size_prepared, width, height)
     try:
         with open(filename, "rb") as fin:
             shutil.copyfileobj(fin, pbloader)
 
         pbloader.close()
+
     except (GLib.GError, OSError) as exc:
         raise OperationError(exc) from exc
 

@@ -157,7 +157,7 @@ class ContactsSource(
             or gfile.get_basename() == "localstore.rdf"
         )
 
-    def mark_for_update(self):
+    def mark_for_update(self, postpone=False):
         super().mark_for_update(postpone=True)
 
     def get_items(self):

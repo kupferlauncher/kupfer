@@ -188,7 +188,7 @@ class VimWikiFilesSource(Source, FilesystemWatchMixin):
 
         return False
 
-    def mark_for_update(self):
+    def mark_for_update(self, postpone=False):
         super().mark_for_update(postpone=True)
 
     def repr_key(self) -> str:

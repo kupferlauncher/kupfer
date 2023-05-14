@@ -139,7 +139,7 @@ class Triggers(Source):
         return "key_bindings"
 
 
-def try_bind_key(keystr):
+def _try_bind_key(keystr):
     label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
     if label is None:
         return False
@@ -165,7 +165,7 @@ class BindTask(task.Task):
 
     def ask_key(self, finish_callback):
         keystr = getkey_dialog.ask_for_key(
-            try_bind_key, screen=self.screen, show_clear=False
+            _try_bind_key, screen=self.screen, show_clear=False
         )
         if keystr:
             Triggers.add_trigger(self.leaf, keystr)

@@ -87,11 +87,10 @@ def _should_show(
 
 
 class AppSource(Source, FilesystemWatchMixin):
-    """
-    Applications source
+    """Applications source
 
     This Source contains all user-visible applications (as given by
-    the desktop files)
+    the desktop files).
     """
 
     source_scan_interval: int = 3600

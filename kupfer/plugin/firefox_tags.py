@@ -65,7 +65,7 @@ class TagsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_basename() == "lock"
 
-    def mark_for_update(self):
+    def mark_for_update(self, postpone=False):
         super().mark_for_update(postpone=True)
 
     def get_items(self):

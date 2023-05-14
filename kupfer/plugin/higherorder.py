@@ -1,9 +1,5 @@
 __kupfer_name__ = _("Higher-order Actions")
-__kupfer_actions__ = (
-    "Select",
-    "TakeResult",
-    "DiscardResult",
-)
+__kupfer_actions__ = ("Select", "TakeResult", "DiscardResult")
 __description__ = _("Tools to work with commands as objects")
 __version__ = "2010-01-11"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

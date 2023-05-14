@@ -1,10 +1,6 @@
 __kupfer_name__ = _("Nemo")
 __kupfer_sources__ = ("FmObjects",)
-__kupfer_actions__ = (
-    "Reveal",
-    "GetInfo",
-    "CopyTo",
-)
+__kupfer_actions__ = ("Reveal", "GetInfo", "CopyTo")
 __description__ = _("File manager actions")
 __version__ = "2017.1"
 __author__ = ""

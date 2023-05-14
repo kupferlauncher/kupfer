@@ -1,11 +1,7 @@
 __kupfer_name__ = _("Archive Manager")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = (
-    "UnpackHere",
-    "CreateArchive",
-    "CreateArchiveIn",
-)
+__kupfer_actions__ = ("UnpackHere", "CreateArchive", "CreateArchiveIn")
 __description__ = _("Use Archive Manager actions")
 __version__ = ""
 __author__ = "Ulrik"

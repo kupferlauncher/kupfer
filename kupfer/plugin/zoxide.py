@@ -71,6 +71,9 @@ if ty.TYPE_CHECKING:
 
 
 class LaunchRecorder:
+    """Launch recorder listen for 'launched-action' signals after Open  action on
+    FileLeaves and update zoxide about access to file folder."""
+
     def __init__(self):
         self._enabled = False
         self._cb_pointer = None
@@ -132,6 +135,7 @@ def finalize_plugin(plugin_name: str) -> None:
 def _get_dirs(
     exclude: list[str], min_score: int, existing: bool, max_items: int
 ) -> ty.Iterator[str]:
+    """Load folders with score from zoxide."""
     cmd = ["zoxide", "query", "--list", "--score"]
     if not existing:
         cmd.append("--all")

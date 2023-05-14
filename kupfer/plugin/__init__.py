@@ -19,10 +19,10 @@ def _extend_path():
         except OSError as error:
             pretty.print_error(__name__, error)
             continue
-        zipnames = [f for f in filenames if f.endswith(".zip")]
-        if zipnames:
+
+        if zipnames := [f for f in filenames if f.endswith(".zip")]:
             pretty.print_debug(__name__, "Adding", directory, zipnames)
-        __path__.extend(os.path.join(directory, z) for z in zipnames)
+            __path__.extend(os.path.join(directory, z) for z in zipnames)
 
 
 _extend_path()

@@ -17,10 +17,7 @@ from kupfer.ui import uiutils
 
 __kupfer_sources__ = ()
 __kupfer_contents__ = ("ComposedSource",)
-__kupfer_actions__ = (
-    "DebugInfo",
-    "Forget",
-)
+__kupfer_actions__ = ("DebugInfo", "Forget")
 __description__ = __doc__
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
@@ -197,10 +194,8 @@ class Apply(Action):
 
 
 class ComposedSource(Source):
-    """
-    Decorated ComposedLeaf with a Source that shows the contents of
-    Composed Commands
-    """
+    """Decorated ComposedLeaf with a Source that shows the contents of
+    Composed Commands"""
 
     def __init__(self, leaf):
         Source.__init__(self, "Composed Command")

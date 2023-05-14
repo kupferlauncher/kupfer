@@ -2,10 +2,7 @@
 plugin"""
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource",)
-__kupfer_actions__ = (
-    "OpenChat",
-    "SendMessage",
-)
+__kupfer_actions__ = ("OpenChat", "SendMessage")
 __description__ = _("Access to Pidgin Contacts")
 __author__ = (
     "Chmouel Boudjnah <chmouel@chmouel.com>, "
@@ -77,9 +74,7 @@ def _create_dbus_connection(activate=False):
 
 
 def _send_message_to_contact(pcontact, message, present=False):
-    """
-    Send @message to PidginContact @pcontact
-    """
+    """Send @message to PidginContact @pcontact"""
     interface = _create_dbus_connection()
     if not interface:
         return

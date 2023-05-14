@@ -3,10 +3,7 @@ import typing as ty
 from kupfer.core import commandexec
 from kupfer.obj import Leaf, RunnableLeaf, Source
 
-__kupfer_sources__ = (
-    "KupferInterals",
-    "CommandResults",
-)
+__kupfer_sources__ = ("KupferInterals", "CommandResults")
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 if ty.TYPE_CHECKING:
@@ -14,7 +11,8 @@ if ty.TYPE_CHECKING:
 
 
 class LastCommand(RunnableLeaf):
-    "Represented object is the command tuple to run"
+    """Represented object is the command tuple to run"""
+
     qf_id = "lastcommand"
 
     def __init__(self, obj):

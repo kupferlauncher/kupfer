@@ -1,12 +1,7 @@
 __kupfer_name__ = _("Image Tools")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = (
-    "Scale",
-    "Rotate90",
-    "Rotate270",
-    "Autorotate",
-)
+__kupfer_actions__ = ("Scale", "Rotate90", "Rotate270", "Autorotate")
 __description__ = _(
     "Image transformation tools using 'convert' from ImageMagick"
 )

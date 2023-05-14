@@ -18,6 +18,7 @@ __author__ = ""
 import os
 import time
 import xml.sax.saxutils
+import typing as ty
 
 import dbus
 import xdg.BaseDirectory as base
@@ -34,6 +35,10 @@ from kupfer.obj import (
 )
 from kupfer.obj.apps import ApplicationSource
 from kupfer.support import pretty, textutils, weaklib
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 
 PROGRAM_IDS = ["gnote", "tomboy", "kzrnote"]
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -102,24 +107,21 @@ def _get_notes_interface(activate=False):
 
 
 def _get_notes_interactive():
-    """
-    Return the dbus proxy object, activate if necessary,
-    raise an OperationError if not available.
-    """
+    """Return the dbus proxy object, activate if necessary,
+    raise an OperationError if not available."""
     if (obj := _get_notes_interface(activate=True)) is not None:
         return obj
 
     raise NotAvailableError(__kupfer_settings__["notes_application"])
 
 
-def reply_noop(*args):
+def _reply_noop(*args):
     pass
 
 
 class RetryDbusCalls(pretty.OutputMixin):
-    """
-    A d-bus interface wrapper for a proxy object; will retry a method
-    call if it fails (a limited number of times)
+    """A d-bus interface wrapper for a proxy object; will retry a method
+    call if it fails (a limited number of times).
 
     The method call must be async (with reply_handler and error_handler)
     """
@@ -130,9 +132,8 @@ class RetryDbusCalls(pretty.OutputMixin):
 
     @property
     def proxy_obj(self):
-        """
-        Return the inner proxy object. You can call methods synchronously on it.
-        """
+        """Return the inner proxy object. You can call methods synchronously on
+        it."""
         return self.__obj
 
     def __getattr__(self, name):
@@ -163,7 +164,7 @@ class RetryDbusCalls(pretty.OutputMixin):
         return proxy_method
 
 
-def make_error_handler(ctx):
+def _make_error_handler(ctx):
     def error_handler(exc):
         pretty.print_debug(__name__, exc)
         ctx.register_late_error(
@@ -189,8 +190,8 @@ class Open(Action):
         notes = RetryDbusCalls(_get_notes_interactive())
         notes.DisplayNote(
             noteuri,
-            reply_handler=reply_noop,
-            error_handler=make_error_handler(ctx),
+            reply_handler=_reply_noop,
+            error_handler=_make_error_handler(ctx),
         )
 
     def get_description(self):
@@ -227,8 +228,8 @@ class AppendToNote(Action):
             notes.SetNoteContents(
                 noteuri,
                 contents,
-                reply_handler=reply_noop,
-                error_handler=make_error_handler(ctx),
+                reply_handler=_reply_noop,
+                error_handler=_make_error_handler(ctx),
             )
 
         def reply_note_xml(xmlcontents):
@@ -239,21 +240,21 @@ class AppendToNote(Action):
             notes.SetNoteCompleteXml(
                 noteuri,
                 xmlcontents,
-                reply_handler=reply_noop,
-                error_handler=make_error_handler(ctx),
+                reply_handler=_reply_noop,
+                error_handler=_make_error_handler(ctx),
             )
 
         if __kupfer_settings__["notes_application"] == "kzrnote":
             notes.GetNoteContents(
                 noteuri,
                 reply_handler=reply_note_plain_text,
-                error_handler=make_error_handler(ctx),
+                error_handler=_make_error_handler(ctx),
             )
         else:
             notes.GetNoteCompleteXml(
                 noteuri,
                 reply_handler=reply_note_xml,
-                error_handler=make_error_handler(ctx),
+                error_handler=_make_error_handler(ctx),
             )
 
     def item_types(self):
@@ -332,7 +333,7 @@ class CreateNote(Action):
             notes.SetNoteContents(noteuri, text)
 
         notes.CreateNote(
-            reply_handler=_created_note, error_handler=make_error_handler(ctx)
+            reply_handler=_created_note, error_handler=_make_error_handler(ctx)
         )
 
     def item_types(self):
@@ -368,7 +369,7 @@ class GetNoteSearchResults(Action):
             query,
             False,
             reply_handler=search_reply,
-            error_handler=make_error_handler(ctx),
+            error_handler=_make_error_handler(ctx),
         )
 
     def item_types(self):

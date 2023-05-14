@@ -1,8 +1,5 @@
 __kupfer_name__ = _("Window List")
-__kupfer_sources__ = (
-    "WindowsSource",
-    "WorkspacesSource",
-)
+__kupfer_sources__ = ("WindowsSource", "WorkspacesSource")
 __description__ = _("All windows on all workspaces")
 __version__ = "2020-04-14"
 __author__ = ""

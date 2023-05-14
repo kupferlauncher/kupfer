@@ -6,10 +6,7 @@ __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("TrackerFulltext",)
 __kupfer_contents__ = ("TrackerQuerySource",)
-__kupfer_actions__ = (
-    "TrackerSearch",
-    "TrackerSearchHere",
-)
+__kupfer_actions__ = ("TrackerSearch", "TrackerSearchHere")
 __description__ = _("Tracker desktop search integration")
 __version__ = "2017.2"
 __author__ = "US"

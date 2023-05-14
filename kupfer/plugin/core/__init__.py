@@ -3,11 +3,7 @@ __kupfer_name__ = "Core"
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_contents__ = ()
-__kupfer_actions__ = (
-    "SearchInside",
-    "CopyToClipboard",
-    "Rescan",
-)
+__kupfer_actions__ = ("SearchInside", "CopyToClipboard", "Rescan")
 __description__ = "Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

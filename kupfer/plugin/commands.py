@@ -1,10 +1,6 @@
 __kupfer_name__ = _("Shell Commands")
 __kupfer_sources__ = ()
-__kupfer_actions__ = (
-    "PassToCommand",
-    "FilterThroughCommand",
-    "WriteToCommand",
-)
+__kupfer_actions__ = ("PassToCommand", "FilterThroughCommand", "WriteToCommand")
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = (
     _(

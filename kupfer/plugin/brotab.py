@@ -1,10 +1,6 @@
 __kupfer_name__ = _("Brotab")
 __kupfer_sources__ = ("TabSource",)
-__kupfer_actions__ = (
-    "TabActivate",
-    "TabClose",
-    "TabGetUrl",
-)
+__kupfer_actions__ = ("TabActivate", "TabClose", "TabGetUrl")
 __description__ = _("Firefox Tabs")
 __version__ = "2020.1"
 __author__ = "Peter Stuifzand <peter@p83.nl>"

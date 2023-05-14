@@ -64,10 +64,8 @@ class Volume(FileLeaf):
 
 
 class VolumeNotMounted(Leaf):
-    """
-    The Volume class actually represents one instance
-    of GIO's GMount that is not mounted anywhere.
-    """
+    """The Volume class actually represents one instance of GIO's GMount that
+    is not mounted anywhere."""
 
     # NOTE: marking as non-serializable
     serializable = None

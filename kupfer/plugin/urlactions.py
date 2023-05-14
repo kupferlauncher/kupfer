@@ -3,10 +3,7 @@ from __future__ import annotations
 __kupfer_name__ = _("URL Actions")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
-__kupfer_actions__ = (
-    "DownloadAndOpen",
-    "DownloadTo",
-)
+__kupfer_actions__ = ("DownloadAndOpen", "DownloadTo")
 __description__ = _("URL Actions")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"

@@ -1,9 +1,5 @@
 __kupfer_name__ = _("Show Text")
-__kupfer_actions__ = (
-    "ShowText",
-    "LargeType",
-    "ShowNotification",
-)
+__kupfer_actions__ = ("ShowText", "LargeType", "ShowNotification")
 __description__ = _("Display text in a window")
 __version__ = ""
 __author__ = "US"

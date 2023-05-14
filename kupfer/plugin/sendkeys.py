@@ -1,9 +1,5 @@
 __kupfer_name__ = _("Send Keys")
-__kupfer_actions__ = (
-    "CopyAndPaste",
-    "SendKeys",
-    "TypeText",
-)
+__kupfer_actions__ = ("CopyAndPaste", "SendKeys", "TypeText")
 __description__ = _("Send synthetic keyboard events using xautomation")
 __version__ = ""
 __author__ = ""
