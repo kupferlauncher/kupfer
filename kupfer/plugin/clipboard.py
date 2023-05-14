@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Clipboards")
 __kupfer_sources__ = ("ClipboardSource",)
 __kupfer_actions__ = ("ClearClipboards",)
@@ -12,7 +14,15 @@ from pathlib import Path
 from gi.repository import Gdk, Gio, Gtk
 
 from kupfer import plugin_support
-from kupfer.obj import Action, FileLeaf, Source, SourceLeaf, TextLeaf
+from kupfer.obj import (
+    Action,
+    FileLeaf,
+    Source,
+    SourceLeaf,
+    TextLeaf,
+    UrlLeaf,
+    Leaf,
+)
 from kupfer.obj.compose import MultipleLeaf
 from kupfer.support import validators
 
@@ -62,6 +72,31 @@ class SelectedFile(FileLeaf):
         return f"<{__name__} {self.qf_id}>"
 
 
+class SelectedUrl(UrlLeaf):
+    qf_id = "selectedtext"
+
+    def __init__(self, text):
+        super().__init__(text, _("Selected URL"))
+
+    def __repr__(self):
+        return f"<{__name__} {self.qf_id}>"
+
+
+def _new_selected_leaf(text: str | None) -> Leaf | None:
+    if not text:
+        return None
+
+    if validators.is_url(text):
+        return SelectedUrl(text)
+
+    if validators.is_valid_file_path(text):
+        path = Path(text).expanduser()
+        if path.exists():
+            return SelectedFile(path)
+
+    return SelectedText(text)
+
+
 class ClipboardText(TextLeaf):
     def get_description(self):
         numlines = self.object.count("\n") + 1
@@ -79,6 +114,26 @@ class CurrentClipboardText(ClipboardText):
 
     def __init__(self, text):
         ClipboardText.__init__(self, text, _("Clipboard Text"))
+
+    def __repr__(self):
+        return f"<{__name__} {self.qf_id}>"
+
+
+class ClipboardUrl(UrlLeaf):
+    def get_description(self):
+        return _('Clipboard "%(desc)s"') % {"desc": self.object}
+
+
+class ClipboardFile(FileLeaf):
+    def get_description(self):
+        return _('Clipboard "%(desc)s"') % {"desc": self.object}
+
+
+class CurrentClipboardUrl(ClipboardUrl):
+    qf_id = "clipboardtext"
+
+    def __init__(self, text):
+        super().__init__(text, _("Clipboard URL"))
 
     def __repr__(self):
         return f"<{__name__} {self.qf_id}>"
@@ -108,6 +163,33 @@ class CurrentClipboardFiles(MultipleLeaf):
         return f"<{__name__} {self.qf_id}>"
 
 
+def _new_current_leaf(text: str | None) -> Leaf | None:
+    if not text:
+        return None
+
+    if validators.is_url(text):
+        return CurrentClipboardUrl(text)
+
+    if validators.is_valid_file_path(text):
+        path = Path(text).expanduser()
+        if path.exists():
+            return CurrentClipboardFile(path)
+
+    return CurrentClipboardText(text)
+
+
+def _new_clipboard_leaf(text: str) -> Leaf:
+    if validators.is_url(text):
+        return ClipboardUrl(text, None)
+
+    if validators.is_valid_file_path(text):
+        path = Path(text).expanduser()
+        if path.exists():
+            return ClipboardFile(path)
+
+    return ClipboardText(text)
+
+
 class ClearClipboards(Action):
     def __init__(self):
         Action.__init__(self, _("Clear"))
@@ -130,6 +212,10 @@ class ClearClipboards(Action):
 
 class ClipboardSource(Source):
     source_scan_interval: int = 3600
+
+    selected_text: str | None
+    clipboard_uris: list[str]
+    clipboard_text: str | None
 
     def __init__(self):
         Source.__init__(self, _("Clipboards"))
@@ -215,12 +301,8 @@ class ClipboardSource(Source):
 
     def get_items(self):
         # selected text
-        if self.selected_text:
-            yield SelectedText(self.selected_text)
-            if validators.is_valid_file_path(self.selected_text):
-                path = Path(self.selected_text).expanduser()
-                if path.exists():
-                    yield SelectedFile(path)
+        if leaf := _new_selected_leaf(self.selected_text):
+            yield leaf
 
         # produce the current clipboard files if any
         paths: list[str] = list(
@@ -239,12 +321,11 @@ class ClipboardSource(Source):
             yield CurrentClipboardFiles(paths)
 
         # put out the current clipboard text
-        if self.clipboard_text:
-            yield CurrentClipboardText(self.clipboard_text)
+        if leaf := _new_current_leaf(self.clipboard_text):
+            yield leaf
 
         # put out the clipboard history
-        for txt in reversed(self.clipboards):
-            yield ClipboardText(txt)
+        yield from map(_new_clipboard_leaf, reversed(self.clipboards))
 
     def get_description(self):
         return __description__
