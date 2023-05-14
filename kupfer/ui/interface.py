@@ -836,7 +836,8 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if wid is self.current:
             self._toggle_text_mode(False)
             self._reset_to_toplevel = False
-            if not at_root:
+            # when `select` try to show selected item even on root
+            if not at_root or select:
                 self.reset_current(populate=True)
                 wid.show_table_quirk()
                 if select:
@@ -1211,7 +1212,6 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         # leftarrow (or backspace without object stack)
         # delete/go up through stource stack
         assert self.current
-
         if self.current.is_showing_result():
             self.reset_current(populate=True)
         elif not self._browse_up():

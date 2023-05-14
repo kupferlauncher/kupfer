@@ -725,6 +725,8 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
     # table methods
     def _table_set_cursor_at_row(self, row: int) -> None:
         self._table.set_cursor((row,))
+        # scroll with minimal delay
+        GLib.timeout_add(100, lambda: self._table.scroll_to_cell((row,)))
 
     def _table_current_row(self) -> int | None:
         path, _col = self._table.get_cursor()
@@ -842,8 +844,8 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
             return
 
         if (row := self._model.find(leaf)) >= 0:
-            self._table_set_cursor_at_row(row)
             self._show_table()
+            self._table_set_cursor_at_row(row)
 
     def relax_match(self) -> None:
         """Remove match text highlight"""
