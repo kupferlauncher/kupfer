@@ -8,10 +8,7 @@ __description__ = _("Search the web with Firefox keywords")
 __version__ = "2020.1"
 __author__ = ""
 
-import sqlite3
-import time
 import typing as ty
-from contextlib import closing
 from urllib.parse import quote, urlparse
 
 from kupfer import launch, plugin_support
@@ -27,7 +24,7 @@ from kupfer.obj import (
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 
-from ._firefox_support import get_ffdb_conn_str, get_firefox_home_file
+from ._firefox_support import get_firefox_home_file, query_database
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -113,31 +110,16 @@ class KeywordsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def get_items(self):
         """Query the firefox places bookmark database"""
-        fpath = get_ffdb_conn_str(
-            __kupfer_settings__["profile"], "places.sqlite"
+        fpath = get_firefox_home_file(
+            "places.sqlite", __kupfer_settings__["profile"]
         )
         if not fpath:
             return []
 
-        for _ in range(2):
-            try:
-                self.output_debug("Reading bookmarks from", fpath)
-                with closing(
-                    sqlite3.connect(fpath, uri=True, timeout=1)
-                ) as conn:
-                    cur = conn.cursor()
-                    cur.execute(_KEYWORDS_SQL)
-                    return [
-                        Keyword(title or url, kw, url) for url, title, kw in cur
-                    ]
-            except sqlite3.Error as err:
-                self.output_debug("Read bookmarks error:", str(err))
-                # Something is wrong with the database
-                # wait short time and try again
-                time.sleep(1)
-
-        self.output_exc()
-        return []
+        return [
+            Keyword(title or url, kw, url)
+            for url, title, kw in query_database(str(fpath), _KEYWORDS_SQL)
+        ]
 
     def get_description(self):
         return None

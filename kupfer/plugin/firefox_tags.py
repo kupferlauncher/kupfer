@@ -5,16 +5,19 @@ __version__ = "2021-09-05"
 __author__ = "Karol Będkowski"
 
 import itertools
-import sqlite3
-import time
-from contextlib import closing
+import typing as ty
 
 from kupfer import plugin_support
 from kupfer.obj import Leaf, Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 
-from ._firefox_support import get_ffdb_conn_str, get_firefox_home_file
+from ._firefox_support import get_firefox_home_file, query_database
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+MAX_ITEMS = 10000
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -25,9 +28,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "helper": "choose_directory",
     },
 )
-
-
-MAX_ITEMS = 10000
 
 
 class FirefoxTag(Leaf):
@@ -70,30 +70,15 @@ class TagsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def get_items(self):
         """Get tags from firefox places database"""
-        fpath = get_ffdb_conn_str(
-            __kupfer_settings__["profile"], "places.sqlite"
+        fpath = get_firefox_home_file(
+            "places.sqlite", __kupfer_settings__["profile"]
         )
         if not fpath:
             return []
 
-        for _ in range(2):
-            try:
-                self.output_debug("Reading bookmarks from", fpath)
-                with closing(
-                    sqlite3.connect(fpath, uri=True, timeout=1)
-                ) as conn:
-                    cur = conn.cursor()
-                    cur.execute(_TAGS_SQL)
-                    return list(itertools.starmap(FirefoxTag, cur))
-
-            except sqlite3.Error as err:
-                self.output_debug("Read bookmarks error:", str(err))
-                # Something is wrong with the database
-                # wait short time and try again
-                time.sleep(1)
-
-        self.output_exc()
-        return []
+        return list(
+            itertools.starmap(FirefoxTag, query_database(str(fpath), _TAGS_SQL))
+        )
 
     def get_description(self):
         return _("Index of Firefox bookmarks by tags")
@@ -129,30 +114,20 @@ class TagBookmarksSource(Source):
 
     def get_items(self):
         """Query the firefox places database for bookmarks with tag"""
-
-        fpath = get_ffdb_conn_str(
-            __kupfer_settings__["profile"], "places.sqlite"
+        fpath = get_firefox_home_file(
+            "places.sqlite", __kupfer_settings__["profile"]
         )
         if not fpath:
             return []
 
-        for _ in range(2):
-            try:
-                self.output_debug("Reading bookmarks from", fpath)
-                with closing(
-                    sqlite3.connect(fpath, uri=True, timeout=1)
-                ) as conn:
-                    cur = conn.cursor()
-                    cur.execute(_TAG_BOOKMARKS_SQL, (self.tag_id, MAX_ITEMS))
-                    return list(itertools.starmap(UrlLeaf, cur))
-            except sqlite3.Error as err:
-                # Something is wrong with the database
-                # wait short time and try again
-                self.output_debug("Read bookmarks error:", str(err))
-                time.sleep(1)
-
-        self.output_exc()
-        return []
+        return list(
+            itertools.starmap(
+                UrlLeaf,
+                query_database(
+                    str(fpath), _TAG_BOOKMARKS_SQL, (self.tag_id, MAX_ITEMS)
+                ),
+            )
+        )
 
     def get_gicon(self):
         if lrepr := self.get_leaf_repr():

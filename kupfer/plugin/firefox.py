@@ -6,16 +6,17 @@ __version__ = "2020.1"
 __author__ = "Ulrik, William Friesen, Karol Będkowski"
 
 import itertools
-import sqlite3
-import time
-from contextlib import closing
+import typing as ty
 
 from kupfer import plugin_support
 from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 
-from ._firefox_support import get_ffdb_conn_str, get_firefox_home_file
+from ._firefox_support import get_firefox_home_file, query_database
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 MAX_ITEMS = 10000
 
@@ -59,29 +60,18 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
     def _get_ffx3_bookmarks(self):
         """Query the firefox places bookmark database"""
-        fpath = get_ffdb_conn_str(
-            __kupfer_settings__["profile"], "places.sqlite"
+        fpath = get_firefox_home_file(
+            "places.sqlite", __kupfer_settings__["profile"]
         )
         if not fpath:
             return []
 
-        for _ in range(2):
-            try:
-                self.output_debug("Reading bookmarks from", fpath)
-                with closing(
-                    sqlite3.connect(fpath, uri=True, timeout=1)
-                ) as conn:
-                    cur = conn.cursor()
-                    cur.execute(_BOOKMARKS_SQL, (MAX_ITEMS,))
-                    return list(itertools.starmap(UrlLeaf, cur))
-            except sqlite3.Error as err:
-                # Something is wrong with the database
-                # wait short time and try again
-                self.output_debug("Read bookmarks error:", str(err))
-                time.sleep(1)
-
-        self.output_exc()
-        return []
+        return list(
+            itertools.starmap(
+                UrlLeaf,
+                query_database(str(fpath), _BOOKMARKS_SQL, (MAX_ITEMS,)),
+            )
+        )
 
     def get_items(self):
         return self._get_ffx3_bookmarks()
