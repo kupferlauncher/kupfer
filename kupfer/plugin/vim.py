@@ -113,8 +113,9 @@ class VimRecentsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
 
 
 class VimWikiFile(FileLeaf):
-    def __init__(self, path: Path, name: str) -> None:
+    def __init__(self, path: Path, name: str, wikiname: str) -> None:
         super().__init__(path, name)
+        self.kupfer_add_alias(f"vimwiki {wikiname} {name}")
 
     def get_actions(self):
         yield OpenVimWiki()
@@ -198,6 +199,7 @@ class VimWikiFilesSource(Source, FilesystemWatchMixin):
         # wiki can keep various files (txt, md, etc). Instead of read index
         # and guess extension - load add files in wiki
         wikipath = self.wikipath
+        wikiname = self.wikipath.name
         for dirname, dirs, files in os.walk(wikipath):
             dirp = Path(dirname)
             # skip hidden directories
@@ -211,7 +213,9 @@ class VimWikiFilesSource(Source, FilesystemWatchMixin):
                     continue
 
                 filepath = dirp.joinpath(file)
-                yield VimWikiFile(filepath, str(filepath.relative_to(wikipath)))
+                yield VimWikiFile(
+                    filepath, str(filepath.relative_to(wikipath)), wikiname
+                )
 
     def provides(self):
         yield VimWikiFile
