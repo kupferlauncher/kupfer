@@ -5,6 +5,7 @@ import sys
 import typing as ty
 from contextlib import suppress
 
+import cairo
 from gi.repository import Gdk, GLib, Gtk
 
 try:
@@ -28,9 +29,8 @@ if ty.TYPE_CHECKING:
     _ = str
 
 
-KUPFER_CSS: ty.Final = b"""
+_KUPFER_CSS: ty.Final = b"""
 #kupfer {
-    border-radius: 0.6em;
 }
 
 .matchview {
@@ -94,14 +94,15 @@ class WindowController(pretty.OutputMixin):
             decorated=False,
             name="kupfer",
         )
+        # screen = self._window.get_screen()  # pylint: disable=no-member
+        # if (visual := screen.get_rgba_visual()) and screen.is_composited():
+        #     self._window.set_visual(visual)  # pylint: disable=no-member
+
         self._window.connect("realize", self._on_window_realize)
+        self._window.connect("configure-event", self._on_window_configure_event)
         self._window.add_events(  # pylint: disable=no-member
             Gdk.EventMask.BUTTON_PRESS_MASK
         )
-        screen = self._window.get_screen()  # pylint: disable=no-member
-        if (visual := screen.get_rgba_visual()) and screen.is_composited():
-            self._window.set_visual(visual)  # pylint: disable=no-member
-
         data_controller.connect("launched-action", self._on_launch_action)
         data_controller.connect("command-result", self._on_command_result)
 
@@ -125,13 +126,41 @@ class WindowController(pretty.OutputMixin):
     def _on_window_realize(self, widget: Gtk.Widget) -> None:
         # Load css
         style_provider = Gtk.CssProvider()
-        style_provider.load_from_data(KUPFER_CSS)
+        style_provider.load_from_data(_KUPFER_CSS)
 
         Gtk.StyleContext.add_provider_for_screen(  # pylint: disable=no-member
             widget.get_screen(),
             style_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
         )
+
+    def _on_window_configure_event(
+        self, widget: Gtk.Widget, event: Gdk.EventConfigure
+    ) -> None:
+        """Set main window rounded shape."""
+        width, height = widget.get_size()
+        radius = 10
+        width_radius = width - radius
+        height_radius = height - radius
+        surface = cairo.ImageSurface(  # pylint: disable=no-member
+            cairo.FORMAT_ARGB32, width, height  # pylint: disable=no-member
+        )
+        ctx = cairo.Context(surface)  # pylint: disable=no-member
+        ctx.set_source_rgba(0.0, 0.0, 255.0, 128.0)
+        ctx.set_operator(cairo.OPERATOR_SOURCE)  # pylint: disable=no-member
+        ctx.move_to(radius, 0)
+        ctx.line_to(width_radius, 0)
+        ctx.arc(width_radius, radius, radius, 4.71, 6.28)
+        ctx.line_to(width, height_radius)
+        ctx.arc(width_radius, height_radius, radius, 0, 1.57)
+        ctx.line_to(radius, height)
+        ctx.arc(radius, height_radius, radius, 1.57, 3.14)
+        ctx.line_to(0, radius)
+        ctx.arc(radius, radius, radius, 3.14, 4.71)
+        ctx.close_path()
+        ctx.fill()
+        reg = Gdk.cairo_region_create_from_surface(surface)
+        widget.shape_combine_region(reg)
 
     def _show_statusicon(self) -> None:
         """Create (if not exists) and show status icon."""
