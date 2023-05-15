@@ -1103,7 +1103,7 @@ class ActionSearch(Search):
             idx = (idx + 1) % len(self._model)
 
             cur = self._model.get_object((idx,))
-            assert isinstance(cur, Action)
+            assert cur and isinstance(cur.object, Action)
             action: Action = cur.object
             self.output_debug("Looking at action", repr(action))
 
