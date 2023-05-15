@@ -20,6 +20,9 @@ from kupfer.support import pretty
 
 from . import uievents
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 
 def _window_close_on_escape(widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
     """Callback function for Window's key press event, will destroy window
@@ -269,3 +272,22 @@ def show_notification(
         dbus_interface=_IFACE_NAME,
     )
     return int(rid)
+
+
+def confirm_dialog(msg: str, positive_btn: str) -> bool:
+    """Request user confirmation of resetting keybinding."""
+    dlg = Gtk.MessageDialog(
+        None, Gtk.DialogFlags.MODAL, Gtk.MessageType.QUESTION
+    )
+    dlg.set_markup(msg)
+    dlg.set_title(_("Kupfer"))
+    dlg.add_buttons(
+        Gtk.STOCK_CANCEL,
+        Gtk.ResponseType.CLOSE,
+        positive_btn,
+        Gtk.ResponseType.ACCEPT,
+    )
+    # pylint: disable=no-member
+    result: bool = dlg.run() == Gtk.ResponseType.ACCEPT
+    dlg.destroy()
+    return result
