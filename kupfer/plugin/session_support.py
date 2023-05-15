@@ -2,15 +2,23 @@
 Common objects for session_* plugins.
 """
 
+import typing as ty
+
 from kupfer import launch
 from kupfer.obj import RunnableLeaf, Source
 from kupfer.support import pretty
+from kupfer.ui import uiutils
 
 __version__ = "2009-12-05"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
-def launch_argv_with_fallbacks(commands, print_error=True):
+
+def launch_argv_with_fallbacks(
+    commands: list[str], print_error: bool = True
+) -> bool:
     """Try the sequence of @commands with launch.spawn_async,
     and return with the first successful command.
     return False if no command is successful and log an error
@@ -42,6 +50,10 @@ class Logout(CommandLeaf):
     def get_icon_name(self):
         return "system-log-out"
 
+    def run(self, ctx=None):
+        if uiutils.confirm_dialog(_("Please confirm log out"), _("Log Out")):
+            super().run(ctx)
+
 
 class Shutdown(CommandLeaf):
     """Shutdown computer or reboot"""
@@ -54,6 +66,12 @@ class Shutdown(CommandLeaf):
 
     def get_icon_name(self):
         return "system-shutdown"
+
+    def run(self, ctx=None):
+        if uiutils.confirm_dialog(
+            _("Please confirm system shut down."), _("Shut down")
+        ):
+            super().run(ctx)
 
 
 class LockScreen(CommandLeaf):
