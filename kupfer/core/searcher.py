@@ -111,7 +111,9 @@ class Searcher:
                     rankables = search.add_rank_objects(rankables, fixedrank)
                 elif key:
                     rankables = search.bonus_objects(
-                        search.score_objects(rankables, key), key
+                        search.score_objects(rankables, key),
+                        key,
+                        src.rank_adjust,
                     )
 
                 if can_cache:

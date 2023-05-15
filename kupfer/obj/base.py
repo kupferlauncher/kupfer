@@ -315,6 +315,10 @@ class Source(KupferObject, pretty.OutputMixin):
         set typical rescan interval (not guaranteed) in seconds.
         Set 0 to use default. values lower than min_rescan_interval in
         PeriodicRescanner are ignored.
+
+    *rank_adjust*
+        change all leaves rank by given value. This only apply to search with
+        key when given leaf already pass minimum rank level.
     """
 
     fallback_icon_name = "kupfer-object-multiple"

@@ -45,7 +45,7 @@ class Rankable:
 
 
 def bonus_objects(
-    rankables: ty.Iterable[Rankable], key: str
+    rankables: ty.Iterable[Rankable], key: str, extra_bonus: int = 0
 ) -> ty.Iterator[Rankable]:
     """
     rankables: List[Rankable]
@@ -53,7 +53,7 @@ def bonus_objects(
     """
     get_record_score = learn.get_record_score
     for obj in rankables:
-        obj.rank += get_record_score(obj.object, key)
+        obj.rank += get_record_score(obj.object, key) + extra_bonus
         yield obj
 
 
