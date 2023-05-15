@@ -1,4 +1,4 @@
-import typing as ty
+from __future__ import annotations
 
 from gi.repository import Gio
 
@@ -19,9 +19,12 @@ class AsyncFileResult:
         self.callback_id = self.monitor.connect("changed", self.changed)
 
     def changed(
-        self, monitor: ty.Any, gfile1: Gio.File, gfile2: Gio.File, event: str
+        self,
+        monitor: Gio.FileMonitor,
+        gfile1: Gio.File,
+        gfile2: Gio.File | None,
+        event: Gio.FileMonitorEvent,
     ) -> None:
-        # GInotifyFileMonitor
         if event == Gio.FileMonitorEvent.CHANGES_DONE_HINT:
             self.ctx.register_late_result(FileLeaf(gfile1.get_path()))
             self.monitor.disconnect(self.callback_id)
