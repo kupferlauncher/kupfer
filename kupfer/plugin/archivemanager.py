@@ -3,19 +3,20 @@ __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
 __kupfer_actions__ = ("UnpackHere", "CreateArchive", "CreateArchiveIn")
 __description__ = _("Use Archive Manager actions")
-__version__ = ""
-__author__ = "Ulrik"
+__version__ = "2023-05-15"
+__author__ = "Ulrik, KB"
 
 import os
 import re
 import typing as ty
+from pathlib import Path
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
 from kupfer import launch, plugin_support, runtimehelper
-from kupfer.core.commandexec import ActionExecutionContext
-from kupfer.obj import Action, FileLeaf
+from kupfer.core import commandexec
+from kupfer.obj import Action, FileLeaf, Leaf
 from kupfer.support import fileutils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -31,6 +32,17 @@ __kupfer_settings__ = plugin_support.PluginSettings(
             ".tar.bz2",
             ".tar.xz",
             ".zip",
+        ),
+    },
+    {
+        "key": "tool",
+        "label": _("Tool used for operations:"),
+        "type": str,
+        "value": "file-roller",
+        "alternatives": (
+            "File-roller",
+            "7-zip",
+            "7za",
         ),
     },
 )
@@ -89,6 +101,16 @@ class UnpackHere(Action):
         Action.__init__(self, _("Extract Here"))
 
     def activate(self, leaf, iobj=None, ctx=None):
+        tool = __kupfer_settings__["tool"]
+        filedir = str(Path(leaf.object).parent)
+        if tool == "7-zip":
+            launch.spawn_in_terminal(["7z", "x", leaf.object], filedir)
+            return
+
+        if tool == "7za":
+            launch.spawn_in_terminal(["7za", "x", leaf.object], filedir)
+            return
+
         launch.spawn_async_notify_as(
             "file-roller.desktop",
             ["file-roller", "--extract-here", leaf.object],
@@ -144,9 +166,14 @@ class CreateArchive(Action):
     def get_icon_name(self):
         return "add-files-to-archive"
 
+    def valid_for_item(self, leaf: Leaf) -> bool:
+        """Allow to launch this action only with file-roller"""
+        tool = __kupfer_settings__["tool"]
+        return tool not in ("7-zip", "7za")
+
 
 def _make_archive_in(
-    ctx: ActionExecutionContext,
+    ctx: commandexec.ExecutionToken,
     basename: str,
     dirpath: str,
     filepaths: ty.Iterable[str],
@@ -155,10 +182,19 @@ def _make_archive_in(
     archive_path = fileutils.get_destpath_in_directory(
         dirpath, basename, archive_type
     )
-    cmd = ["file-roller", f"--add-to={archive_path}"]
-    cmd.extend(filepaths)
+
+    tool = __kupfer_settings__["tool"]
+    if tool in ("7-zip", "7za"):
+        cmd = ["7za" if tool == "7za" else "7z", "a", archive_path]
+        cmd.extend(filepaths)
+        launch.spawn_in_terminal(cmd)
+
+    else:
+        cmd = ["file-roller", f"--add-to={archive_path}"]
+        cmd.extend(filepaths)
+        launch.spawn_async_notify_as("file-roller.desktop", cmd)
+
     runtimehelper.register_async_file_result(ctx, archive_path)
-    launch.spawn_async_notify_as("file-roller.desktop", cmd)
     return archive_path
 
 
