@@ -337,9 +337,12 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             self._save_data_timer.set(DATA_SAVE_INTERVAL_S, self._save_data)
 
     def _on_new_source(
-        self, ctr: Pane[KupferObject], src: AnySource, select: ty.Any
+        self, ctr: Pane[KupferObject], src: AnySource | None, select: ty.Any
     ) -> None:
         """Update leaf or secondary object panel on sources changes."""
+        if not src:
+            return
+
         if ctr is self._source_pane:
             pane = PaneSel.SOURCE
         elif ctr is self._object_pane:
