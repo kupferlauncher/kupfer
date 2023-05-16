@@ -293,6 +293,7 @@ def launch_app_info(
     desktop_file: str | None = None,
     launch_cb: LaunchCallback | None = None,
     screen: Gdk.Screen | None = None,
+    work_dir: str | None = None,
 ) -> bool:
     """Launch @app_info, opening @gfiles.
 
@@ -300,6 +301,8 @@ def launch_app_info(
     @timestamp: override timestamp
     @desktop_file: specify location of desktop file
     @launch_cb: Called once per launched process, like ``spawn_app``
+    @work_dir: overwrite work dir of application. By default it's
+    "Path" parameter in desktop file.
 
     Will pass on exceptions from spawn_app
     """
@@ -336,7 +339,7 @@ def launch_app_info(
             launch_records.append((launch_argv, [file]))
 
     notify = bool(desktop_info["StartupNotify"])
-    workdir: str | None = desktop_info["Path"] or None  # type: ignore
+    workdir: str | None = work_dir or desktop_info["Path"] or None  # type: ignore
 
     if in_terminal is None:
         in_terminal = desktop_info["Terminal"]  # type: ignore

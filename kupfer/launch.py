@@ -68,6 +68,7 @@ def launch_application(
     activate: bool = True,
     desktop_file: str | None = None,
     screen: Gdk.Screen | None = None,
+    work_dir: str | None = None,
 ) -> bool:
     """Launch @app_rec correctly, using a startup notification. You may pass
     in either a list of Gio.Files in @files, or a list of @uris or @paths.
@@ -76,6 +77,8 @@ def launch_application(
     if @activate, activate rather than start a new version.
 
     @app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
+
+    @work_dir: overwrite work directory of application.
 
     Raises SpawnError on failed program start.
     """
@@ -113,6 +116,7 @@ def launch_application(
         desktop_file=desktop_file,
         launch_cb=launch_callback,
         screen=screen,
+        work_dir=work_dir,
     )
     return True
 

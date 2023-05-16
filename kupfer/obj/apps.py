@@ -185,12 +185,16 @@ class AppLeaf(Leaf):
         paths: ty.Iterable[str] = (),
         activate: bool = False,
         ctx: ty.Any = None,
+        work_dir: str | None = None,
     ) -> bool:
         """Launch the represented applications.
 
-        @files: a seq of GFiles (Gio.File)
-        @paths: a seq of bytestring paths
-        @activate: activate instead of start new
+        Either `files` or `paths` should be defined:
+        `files` is a sequence of GFiles (Gio.File), `paths` is a sequence of
+        paths (str).
+        When `activate` is True - activate running instance instead of start
+        new.
+        `work_dir` can overwrite work directory of application.
         """
         try:
             return launch.launch_application(
@@ -200,6 +204,7 @@ class AppLeaf(Leaf):
                 activate=activate,
                 desktop_file=self._init_path,
                 screen=ctx and ctx.environment.get_screen(),
+                work_dir=work_dir,
             )
         except launch.SpawnError as exc:
             raise OperationError(exc) from exc

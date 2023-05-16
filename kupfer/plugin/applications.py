@@ -5,12 +5,14 @@ __kupfer_actions__ = (
     "OpenWithByMime",
     "SetDefaultApplication",
     "ResetAssociations",
+    "LaunchHere",
 )
 __description__ = _("All applications and preferences")
 __version__ = "2017.3"
 __author__ = ""
 
 import typing as ty
+from pathlib import Path
 
 from gi.repository import Gio
 
@@ -323,3 +325,46 @@ class ResetAssociations(Action):
 
     def get_description(self):
         return _("Reset program associations for files of this type.")
+
+
+class LaunchHere(Action):
+    def __init__(self, name=_("Start Application Here...")):
+        super().__init__(name)
+
+    def wants_context(self):
+        return True
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert ctx
+        assert iobj
+        if leaf.is_dir():
+            work_dir = leaf.object
+        else:
+            work_dir = str(Path(leaf.object).parent)
+
+        iobj.launch(activate=False, ctx=ctx, work_dir=work_dir)
+
+    def get_description(self) -> str:
+        return _("Launch application in this location")
+
+    def get_icon_name(self) -> str:
+        return "kupfer-launch"
+
+    def item_types(self):
+        yield FileLeaf
+
+    # def valid_for_item(self, leaf):
+    #     # leaf is FileLeaf
+    #     return leaf.is_dir()
+
+    def requires_object(self):
+        return True
+
+    def object_types(self):
+        yield AppLeaf
+
+    def object_source(self, for_item=None):
+        return AppsAll()
+
+    def object_source_and_catalog(self, for_item):
+        return True
