@@ -72,6 +72,9 @@ class FavoritesSource(Source):
         ] = weakref.WeakValueDictionary()
         self.mark_for_update()
 
+    def finalize(self) -> None:
+        learn.replace_favorites(__name__)
+
     def _update_items(self):
         # insert items on beginning to make last added items first on list
         favorites: list[Leaf] = []
@@ -98,7 +101,7 @@ class FavoritesSource(Source):
             # there shouldn't be possible to add twice the same leaf so
             # remove should be not needed.
             self.remove(itm)
-            learn.add_favorite(itm)
+            learn.add_favorite(__name__, itm)
             # favorites will be rebuild, so we can append
             self.favorites.append(itm)
             self.references.append(id_)
@@ -111,7 +114,7 @@ class FavoritesSource(Source):
         if itm not in self.favorites:
             return
 
-        learn.remove_favorite(itm)
+        learn.remove_favorite(__name__, itm)
         self.favorites.remove(itm)
         if id_ := puid.get_unique_id(itm):
             try:
@@ -127,8 +130,7 @@ class FavoritesSource(Source):
 
     def get_items(self):
         self._update_items()
-        for fav in self.favorites:
-            learn.add_favorite(fav)
+        learn.replace_favorites(__name__, *self.favorites)
 
         return self.favorites
 

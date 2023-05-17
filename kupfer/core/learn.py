@@ -21,7 +21,10 @@ _DEFAULT_ACTIONS: ty.Final = {
     "<kupfer.obj.apps.AppLeaf xfce4-terminal>": "<kupfer.obj.apps.LaunchAgain>",
 }
 
+## Favorites is set of favorites (repr(obj))
 _FAVORITES: ty.Final[set[str]] = set()
+## _PLUG_FAVS are favorites by plugin; to use must be merged to _FAVORITES
+_PLUG_FAVS: ty.Final[dict[str, list[str]]] = {}
 
 
 class Mnemonics:
@@ -270,12 +273,54 @@ def save() -> None:
     Learning.pickle_register(_REGISTER, filepath)
 
 
-def add_favorite(obj: KupferObject) -> None:
-    _FAVORITES.add(repr(obj))
+def _rebuild_favorites():
+    """Build _FAVORITES set from _PLUG_FAVS buckets."""
+    _FAVORITES.clear()
+    for favs in _PLUG_FAVS.values():
+        _FAVORITES.update(favs)
 
 
-def remove_favorite(obj: KupferObject) -> None:
-    _FAVORITES.discard(repr(obj))
+def add_favorite(plugin_id: str, *objs: KupferObject) -> None:
+    """Add favorites `objs` to `plugin_id` bucket."""
+    fset = _PLUG_FAVS.get(plugin_id)
+    if fset:
+        # filter and add new obj
+        nfset = [obj for obj in map(repr, objs) if obj not in fset]
+        fset.extend(nfset)
+    else:
+        nfset = _PLUG_FAVS[plugin_id] = list(map(repr, objs))
+
+    _FAVORITES.update(nfset)
+
+
+def replace_favorites(plugin_id: str, *objs: KupferObject) -> None:
+    """Replace favorites in `plugin_id` bucket. If no `objs` remove all
+    favorites for `plugin_id`."""
+    if not objs:
+        if plugin_id in _PLUG_FAVS:
+            del _PLUG_FAVS[plugin_id]
+            _rebuild_favorites()
+
+        return
+
+    fset = _PLUG_FAVS[plugin_id] = list(map(repr, objs))
+    _FAVORITES.update(fset)
+
+
+def remove_favorite(plugin_id: str, obj: KupferObject) -> None:
+    """Remove `obj` from favorites in `plugin_id` bucket."""
+    if fset := _PLUG_FAVS.get(plugin_id):
+        try:
+            fset.remove(repr(obj))
+        except ValueError:
+            return
+
+        if fset:
+            _PLUG_FAVS[plugin_id] = fset
+        else:
+            del _PLUG_FAVS[plugin_id]
+
+        _rebuild_favorites()
 
 
 def is_favorite(obj: KupferObject) -> bool:
