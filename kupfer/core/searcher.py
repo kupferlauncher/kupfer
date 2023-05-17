@@ -104,7 +104,8 @@ class Searcher:
 
                 rankables = search.make_rankables(item_check(items))
 
-            assert rankables is not None
+            if not rankables:
+                continue
 
             if score:
                 if fixedrank:

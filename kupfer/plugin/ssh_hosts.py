@@ -100,7 +100,7 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
         )
 
     def _get_items(self):
-        with open(self._config_path, "r", encoding="UTF-8") as cfile:
+        with open(self._config_path, encoding="UTF-8") as cfile:
             for line in cfile.readlines():
                 line = line.strip()
                 if not line:

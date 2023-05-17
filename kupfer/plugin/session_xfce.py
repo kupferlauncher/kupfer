@@ -109,7 +109,7 @@ class XfceWhskerFavoritesSource(Source):
 
         try:
             favs = list(_load_whisher_favs())
-        except IOError:
+        except OSError:
             favs = []
         else:
             learn.replace_favorites(__name__, *favs)

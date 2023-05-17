@@ -344,6 +344,7 @@ class SourceController(pretty.OutputMixin):
         ] = weakref.WeakKeyDictionary()
         self._loaded_successfully = False
         self._did_finalize_sources = False
+        # _pre_root cache root sources
         self._pre_root: list[Source] | None = None
 
     def add(
@@ -498,11 +499,11 @@ class SourceController(pretty.OutputMixin):
     @property
     def root(self) -> Source | None:
         """Get the root source of catalog"""
+        # TODO: when there is only one source?
         if len(self._sources) == 1:
             (root_catalog,) = self._sources
         elif len(self._sources) > 1:
-            firstlevel = self.firstlevel
-            root_catalog = MultiSource(firstlevel)
+            root_catalog = MultiSource(self.firstlevel)
         else:
             root_catalog = None
 
@@ -522,8 +523,7 @@ class SourceController(pretty.OutputMixin):
         sourceindex.add(kupfer_sources)
         # Make sure firstlevel is ordered
         # So that it keeps the ordering.. SourcesSource first
-        firstlevel: list[Source] = []
-        firstlevel.append(SourcesSource(sourceindex))
+        firstlevel: list[Source] = [SourcesSource(sourceindex)]
         firstlevel.extend(self._toplevel_sources)
         self._pre_root = firstlevel
         return firstlevel
