@@ -10,15 +10,17 @@ from kupfer.obj import FileLeaf
 class AsyncFileResult:
     """Expect a given file path to be created, and when (probably) done,
     post the file as a late result.
+
+    FIXME: add some timeout and not wait forever
     """
 
     def __init__(self, ctx: ExecutionToken, filepath: str) -> None:
         self.ctx = ctx
         gfile = Gio.File.new_for_path(filepath)
         self.monitor = gfile.monitor_file(Gio.FileMonitorFlags.NONE)
-        self.callback_id = self.monitor.connect("changed", self.changed)
+        self.callback_id = self.monitor.connect("changed", self._on_changed)
 
-    def changed(
+    def _on_changed(
         self,
         monitor: Gio.FileMonitor,
         gfile1: Gio.File,

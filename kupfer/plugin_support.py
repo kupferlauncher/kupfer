@@ -84,7 +84,7 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 default = self.setting_descriptions[key]["value"]
                 setctl.set_plugin_config(plugin_name, key, default, value_type)
 
-        setctl.connect("value-changed", self._value_changed, plugin_name)
+        setctl.connect("value-changed", self._on_value_changed, plugin_name)
         # register for unload notification
         if not plugin_name.startswith("core."):
             plugins.register_plugin_unimport_hook(
@@ -100,7 +100,7 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if not _is_core_setting(key):
             self.emit(f"plugin-setting-changed::{key}", key, value)
 
-    def _value_changed(
+    def _on_value_changed(
         self,
         setctl: settings.SettingsController,
         section: str,

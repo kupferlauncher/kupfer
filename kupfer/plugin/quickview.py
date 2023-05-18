@@ -82,22 +82,24 @@ class View(Action):
         # pylint: disable=no-member
         window.add(image_widget)
         ctx.environment.present_window(window)
-        window.connect("key-press-event", self.window_key_press, leaf.object)
-        window.connect("delete-event", self.window_deleted, leaf.object)
+        window.connect(
+            "key-press-event", self._on_window_key_press, leaf.object
+        )
+        window.connect("delete-event", self._on_window_deleted, leaf.object)
         self.open_windows[leaf.object] = window
 
-    def window_deleted(self, window, event, filename):
+    def _on_window_deleted(self, window, event, filename):
         self.open_windows.pop(filename, None)
         return False
 
-    def window_key_press(self, window, event, filepath):
+    def _on_window_key_press(self, window, event, filepath):
         if Gdk.keyval_name(event.keyval) == "Escape":
-            self.window_deleted(window, event, filepath)
+            self._on_window_deleted(window, event, filepath)
             window.destroy()
             return True
 
         if Gdk.keyval_name(event.keyval) == "Return":
-            self.window_deleted(window, event, filepath)
+            self._on_window_deleted(window, event, filepath)
             launch.show_path(filepath)
             window.destroy()
             return True

@@ -95,7 +95,7 @@ class FilesystemWatchMixin:
                 continue
 
             if monitor:
-                monitor.connect("changed", self._file_changed)
+                monitor.connect("changed", self._on_file_changed)
                 tokens.append(monitor)
 
         return NonpersistentToken(tokens)
@@ -131,7 +131,7 @@ class FilesystemWatchMixin:
                 continue
 
             if monitor:
-                monitor.connect("changed", self._directory_changed)
+                monitor.connect("changed", self._on_directory_changed)
                 tokens.append(monitor)
 
         return NonpersistentToken(tokens)
@@ -151,7 +151,7 @@ class FilesystemWatchMixin:
                 assert isinstance(token, Gio.FileMonitor)
                 token.cancel()
 
-    def _directory_changed(
+    def _on_directory_changed(
         self,
         _monitor: ty.Any,
         file1: Gio.File,
@@ -164,7 +164,7 @@ class FilesystemWatchMixin:
         ) and self.monitor_include_file(file1):
             self.mark_for_update()  # type: ignore
 
-    def _file_changed(
+    def _on_file_changed(
         self,
         _monitor: ty.Any,
         file1: Gio.File,

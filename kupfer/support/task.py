@@ -88,7 +88,7 @@ class TaskRunner(pretty.OutputMixin):
     def __init__(self, end_on_finish: bool) -> None:
         self.tasks: set[Task] = set()
         self.end_on_finish = end_on_finish
-        scheduler.get_scheduler().connect("finish", self._finish_cleanup)
+        scheduler.get_scheduler().connect("finish", self._on_finish)
 
     def _task_finished(self, task):
         self.output_debug("Task finished", task)
@@ -99,7 +99,7 @@ class TaskRunner(pretty.OutputMixin):
         self.tasks.add(task)
         task.start(self._task_finished)
 
-    def _finish_cleanup(self, _sched: ty.Any) -> None:
+    def _on_finish(self, _sched: ty.Any) -> None:
         if self.end_on_finish:
             self.tasks.clear()
             return

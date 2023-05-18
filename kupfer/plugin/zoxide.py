@@ -81,10 +81,10 @@ class LaunchRecorder:
     def connect(self):
         data_controller = DataController.instance()
         self._cb_pointer = data_controller.connect(
-            "launched-action", self._launch_callback
+            "launched-action", self._on_launched_action
         )
         __kupfer_settings__.connect(
-            "plugin-setting-changed", self._setting_changed
+            "plugin-setting-changed", self._on_setting_changed
         )
         self._enabled = __kupfer_settings__["record_enabled"]
 
@@ -94,7 +94,7 @@ class LaunchRecorder:
             data_controller.disconnect(self._cb_pointer)
             self._cb_pointer = None
 
-    def _launch_callback(
+    def _on_launched_action(
         self, sender: ty.Any, leaf: Leaf, action: Action, *_args: ty.Any
     ) -> None:
         if not self._enabled:
@@ -116,7 +116,7 @@ class LaunchRecorder:
 
         subprocess.run(["zoxide", "add", path], check=False)
 
-    def _setting_changed(self, settings, key, value):
+    def _on_setting_changed(self, settings, key, value):
         if key == "record_enabled":
             self._enabled = bool(value)
 
@@ -176,7 +176,7 @@ class ZoxideDirSource(Source, FilesystemWatchMixin):
         zoxide_home = config.get_data_dirs("", "zoxide")
         self.monitor = self.monitor_directories(*zoxide_home)
         __kupfer_settings__.connect(
-            "plugin-setting-changed", self._setting_changed
+            "plugin-setting-changed", self._on_setting_changed
         )
 
     def monitor_include_file(self, gfile):
@@ -191,7 +191,7 @@ class ZoxideDirSource(Source, FilesystemWatchMixin):
         ):
             yield FileLeaf(dirname)
 
-    def _setting_changed(self, settings, key, value):
+    def _on_setting_changed(self, settings, key, value):
         if key in ("exclude", "min_score"):
             self.mark_for_update()
 

@@ -46,7 +46,7 @@ class _AboutDialog:
         if version.ARTISTS:
             abdlg.set_artists(version.ARTISTS)
 
-        abdlg.connect("response", self._response_callback)
+        abdlg.connect("response", self._on_reponse)
 
     def show(self, ctxenv: GUIEnvironmentContext | None = None) -> None:
         if ctxenv:
@@ -54,9 +54,7 @@ class _AboutDialog:
         else:
             self._dlg.present()
 
-    def _response_callback(
-        self, dialog: Gtk.Dialog, response_id: ty.Any
-    ) -> bool:
+    def _on_reponse(self, dialog: Gtk.Dialog, response_id: ty.Any) -> bool:
         dialog.destroy()
         _AboutDialog._instance = None
         return True

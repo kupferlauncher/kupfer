@@ -249,10 +249,10 @@ class OpenSearchSource(Source):
 
     def initialize(self):
         __kupfer_settings__.connect(
-            "plugin-setting-changed", self._setting_changed
+            "plugin-setting-changed", self._on_setting_changed
         )
 
-    def _setting_changed(self, settings, key, value):
+    def _on_setting_changed(self, settings, key, value):
         self.mark_for_update()
 
     def _parse_opensearch(self, path: str) -> dict[str, ty.Any] | None:

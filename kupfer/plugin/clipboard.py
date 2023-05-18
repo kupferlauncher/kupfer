@@ -224,9 +224,9 @@ class ClipboardSource(Source):
     # pylint: disable=attribute-defined-outside-init
     def initialize(self):
         clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        self._sig_id1 = clip.connect("owner-change", self._clipboard_changed)
+        self._sig_id1 = clip.connect("owner-change", self._on_clipboard_changed)
         clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
-        self._sig_id2 = clip.connect("owner-change", self._clipboard_changed)
+        self._sig_id2 = clip.connect("owner-change", self._on_clipboard_changed)
         self.clipboard_uris = []
         self.clipboard_text = None
         self.selected_text = None
@@ -243,7 +243,7 @@ class ClipboardSource(Source):
         self.selected_text = None
         self.mark_for_update()
 
-    def _clipboard_changed(self, clip, event, *args):
+    def _on_clipboard_changed(self, clip, event, *args):
         is_selection = event.selection == Gdk.SELECTION_PRIMARY
         clip.request_text(self._on_text_for_change, is_selection)
         if not is_selection:

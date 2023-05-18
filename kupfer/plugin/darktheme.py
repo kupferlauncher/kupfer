@@ -25,14 +25,14 @@ if ty.TYPE_CHECKING:
 
 def initialize_plugin(name):
     use_theme(__kupfer_settings__["prefer_dark"])
-    __kupfer_settings__.connect_settings_changed_cb(on_change_theme)
+    __kupfer_settings__.connect_settings_changed_cb(_on_change_theme)
 
 
 def finalize_plugin(name):
     use_theme(None)
 
 
-def on_change_theme(sender, key, value):
+def _on_change_theme(sender, key, value):
     use_theme(value)
 
 

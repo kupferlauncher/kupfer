@@ -40,13 +40,13 @@ _KUPFER_LOCALLY_INSTALLED_NAMES: ty.Final[set[str]] = set()
 _MISSING_ICON_FILES: ty.Final[set[str]] = set()
 
 
-def _icon_theme_changed(theme):
+def _on_icon_theme_changed(theme):
     pretty.print_info(__name__, "Icon theme changed, clearing cache")
     _ICON_CACHE.clear()
 
 
 _default_theme = Gtk.IconTheme.get_default()  # pylint: disable=no-member
-_default_theme.connect("changed", _icon_theme_changed)
+_default_theme.connect("changed", _on_icon_theme_changed)
 _local_theme = Gtk.IconTheme.new()
 _local_theme.set_search_path([])
 
@@ -455,12 +455,14 @@ _ICON_RENDERER = IconRenderer  # pylint: disable=invalid-name
 
 def _setup_icon_renderer(_sched: ty.Any) -> None:
     setctl = settings.get_settings_controller()
-    setctl.connect("alternatives-changed::icon_renderer", _icon_render_change)
-    setctl.connect("value-changed::tools.icon_renderer", _icon_render_change)
-    _icon_render_change(setctl)
+    setctl.connect(
+        "alternatives-changed::icon_renderer", _on_icon_render_change
+    )
+    setctl.connect("value-changed::tools.icon_renderer", _on_icon_render_change)
+    _on_icon_render_change(setctl)
 
 
-def _icon_render_change(setctl, *_arguments):
+def _on_icon_render_change(setctl, *_arguments):
     global _ICON_RENDERER  # pylint: disable=global-statement
     renderer_dict = setctl.get_preferred_alternative("icon_renderer")
     renderer = renderer_dict.get("renderer")
@@ -468,7 +470,7 @@ def _icon_render_change(setctl, *_arguments):
         return
 
     pretty.print_debug(__name__, "Using", renderer)
-    _icon_theme_changed(None)
+    _on_icon_theme_changed(None)
     _ICON_RENDERER = renderer
 
 

@@ -134,7 +134,7 @@ class _ConnManager(pretty.OutputMixin):
         self.conn: libvirt.virConnect | None = None
         self._start_event_loop()
         __kupfer_settings__.connect(
-            "plugin-setting-changed", self._setting_changed
+            "plugin-setting-changed", self._on_setting_changed
         )
 
     def _event_loop(self) -> None:
@@ -160,7 +160,7 @@ class _ConnManager(pretty.OutputMixin):
             self.conn.close()
             self.conn = None
 
-    def _setting_changed(self, settings, key, value):
+    def _on_setting_changed(self, settings, key, value):
         if self.conn:
             self.conn.close()
             self._open()

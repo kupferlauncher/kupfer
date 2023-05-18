@@ -149,7 +149,7 @@ class ApplicationsMatcherService(pretty.OutputMixin):
     def __init__(self):
         self.register: dict[str, "Wnck.Window"] = {}
         self._get_wnck_screen_windows_stacked()
-        scheduler.get_scheduler().connect("finish", self._finish)
+        scheduler.get_scheduler().connect("finish", self._on_finish)
         self._load()
 
     @classmethod
@@ -180,7 +180,7 @@ class ApplicationsMatcherService(pretty.OutputMixin):
             )
             self.output_debug(f"\n{{\n{items}\n}}")
 
-    def _finish(self, _sched: ty.Any) -> None:
+    def _on_finish(self, _sched: ty.Any) -> None:
         self._pickle_register(self.register, self._get_filename())
 
     def _unpickle_register(self, pickle_file: str) -> ty.Any:

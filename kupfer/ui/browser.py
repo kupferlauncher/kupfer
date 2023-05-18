@@ -291,7 +291,7 @@ class WindowController(pretty.OutputMixin):
         add_menu_item(Gtk.STOCK_HELP, kupferhelp.show_help)
         add_menu_item(Gtk.STOCK_ABOUT, about.show_about_dialog)
         menu.append(Gtk.SeparatorMenuItem())
-        add_menu_item(Gtk.STOCK_QUIT, self._quit, with_ctx=False)
+        add_menu_item(Gtk.STOCK_QUIT, self._on_quit, with_ctx=False)
         menu.show_all()
 
         return menu
@@ -659,7 +659,7 @@ class WindowController(pretty.OutputMixin):
 
     def _on_sigterm(self, signal_: int, _frame: ty.Any) -> None:
         self.output_info("Caught signal", signal_, "exiting..")
-        self._quit()
+        self._on_quit()
 
     def _on_early_interrupt(self, _signal: int, _frame: ty.Any) -> None:
         sys.exit(1)
@@ -670,7 +670,7 @@ class WindowController(pretty.OutputMixin):
         sch.finish()
         self._interface.save_config()
 
-    def _quit(self, sender: Gtk.Widget | None = None) -> None:
+    def _on_quit(self, sender: Gtk.Widget | None = None) -> None:
         Gtk.main_quit()
 
     def _quit_now(self) -> None:
@@ -786,7 +786,7 @@ class WindowController(pretty.OutputMixin):
                 kserv.connect("put-text", self._on_put_text)
                 kserv.connect("put-files", self._on_put_files)
                 kserv.connect("execute-file", self._on_execute_file)
-                kserv.connect("quit", self._quit)
+                kserv.connect("quit", self._on_quit)
 
         if not quiet:
             self._on_activate()

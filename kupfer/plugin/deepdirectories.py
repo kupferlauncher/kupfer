@@ -53,7 +53,7 @@ class DeepDirSource(FileSource):
 
     def initialize(self):
         __kupfer_settings__.connect(
-            "plugin-setting-changed", self._setting_changed
+            "plugin-setting-changed", self._on_setting_changed
         )
 
     def get_items(self):
@@ -70,6 +70,6 @@ class DeepDirSource(FileSource):
                 if os.path.isdir(path):
                     yield path
 
-    def _setting_changed(self, settings, key, value):
+    def _on_setting_changed(self, settings, key, value):
         if key in ("dirs", "depth"):
             self.mark_for_update()

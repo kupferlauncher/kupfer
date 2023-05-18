@@ -214,11 +214,11 @@ def show_large_type(
     # pylint: disable=no-member
     label.modify_fg(Gtk.StateType.NORMAL, Gdk.color_parse("white"))
 
-    def _window_destroy(widget, event):
+    def _on_key_press(widget, event):
         widget.destroy()
         return True
 
-    window.connect("key-press-event", _window_destroy)
+    window.connect("key-press-event", _on_key_press)
     window.show_all()  # pylint: disable=no-member
     if ctx:
         ctx.environment.present_window(window)

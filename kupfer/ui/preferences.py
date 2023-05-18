@@ -372,7 +372,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         self.window = builder.get_object("preferenceswindow")
         self.window.set_position(Gtk.WindowPosition.CENTER)
-        self.window.connect("delete-event", self._close_window)
+        self.window.connect("delete-event", self._on_wnd_delete_event)
         self._plugin_sidebar = builder.get_object("plugin_about_parent")
         self._preferences_notebook = builder.get_object("preferences_notebook")
         self._btn_remove_dir = builder.get_object("buttonremovedirectory")
@@ -518,7 +518,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         )
         table.set_headers_visible(False)
         table.set_property("enable-search", False)
-        table.connect("cursor-changed", self._indexed_folders_sel_changed)
+        table.connect("cursor-changed", self._on_indexed_folders_sel_changed)
         table.get_selection().set_mode(Gtk.SelectionMode.BROWSE)
 
         icon_cell = Gtk.CellRendererPixbuf()
@@ -1068,7 +1068,7 @@ class PreferencesWindowController(pretty.OutputMixin):
             setctl = settings.get_settings_controller()
             setctl.set_action_accelerator_modifier("ctrl")
 
-    def _indexed_folders_sel_changed(self, table: Gtk.TreeView) -> None:
+    def _on_indexed_folders_sel_changed(self, table: Gtk.TreeView) -> None:
         curpath, _curcol = table.get_cursor()
         if not curpath or not self._indexed_folders_store:
             self._btn_remove_dir.set_sensitive(False)
@@ -1197,7 +1197,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         # self.window.hide()
         self.window.close()
 
-    def _close_window(self, *ignored: ty.Any) -> bool:
+    def _on_wnd_delete_event(self, *ignored: ty.Any) -> bool:
         # remove instance on close window
         # self._hide()
         self.window.destroy()

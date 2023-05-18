@@ -167,7 +167,7 @@ class VBoxMachinesSource(ApplicationSource):
             )
 
         __kupfer_settings__.connect(
-            "plugin-setting-changed", self._setting_changed
+            "plugin-setting-changed", self._on_setting_changed
         )
 
     def finalize(self):
@@ -194,6 +194,6 @@ class VBoxMachinesSource(ApplicationSource):
     def provides(self):
         yield VirtualMachine
 
-    def _setting_changed(self, _setting, _key, _value):
+    def _on_setting_changed(self, _setting, _key, _value):
         if vbox_support:
             vbox_support.reload_settings()
