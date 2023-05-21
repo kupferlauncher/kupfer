@@ -236,7 +236,7 @@ def _make_plugin_sett_widget_multiline(
 
     # we must use non-plain callback to get content of TextView.
 
-    def callback(widget: Gtk.Widget) -> None:
+    def callback(widget: Gtk.TextBuffer) -> None:
         start, end = buf.get_bounds()
         value = buf.get_text(start, end, True)
         setctl = settings.get_settings_controller()
