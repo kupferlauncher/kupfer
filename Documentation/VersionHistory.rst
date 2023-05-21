@@ -140,6 +140,7 @@ kupfer v323-beta1
     rescan campaign but not clear cache.
   + Purge mnemonics remove first oldest entries.
   + Plugins can register "favorite" items. See *Session XFCE* plugin.
+  + `AsyncFileResult` wait limited time for file result.
   + Add some tests.
 
 
