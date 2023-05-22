@@ -28,7 +28,7 @@ def try_close_unused_displays(screen: Gdk.Screen) -> None:
 
         pretty.print_debug(__name__, "Trying to close", disp.get_name())
         open_windows = 0
-        for window in Gtk.window_list_toplevels():
+        for window in Gtk.Window.list_toplevels():
             # find windows on @disp
             if window.get_screen().get_display() != disp:
                 continue
