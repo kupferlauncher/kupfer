@@ -88,6 +88,19 @@ If *KUPFER_NO_KEYBINDER* is set do not use ``Keybinder`` even if it is
 installed.
 
 
+TROUBLESHOTING / KNOWN BUGS
+===========================
+
+Wayland
+-------
+
+Set *GDK_BACKEND* environment variable to ``x11``  solve problem with
+wrong window position.
+
+Some plugins (for example *Windows*) not work due to lack support by
+*Wnck* library.
+
+
 .. vim: ft=rst tw=72
 .. this document best viewed with::
         rst2pdf Quickstart.rst && xdg-open Quickstart.pdf
