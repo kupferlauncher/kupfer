@@ -128,7 +128,7 @@ def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
     mns.increment(key or "")
 
 
-def get_record_score(obj: ty.Any, key: str = "") -> float:
+def get_record_score(obj: ty.Any, key: str = "") -> int:
     """Get total score for KupferObject @obj, bonus score is given for @key
     matches"""
     name = repr(obj)
@@ -140,12 +140,12 @@ def get_record_score(obj: ty.Any, key: str = "") -> float:
 
     assert isinstance(mns, Mnemonics)
     if not key:
-        return fav + 50 * (1 - 1.0 / (mns.count + 1))
+        return fav + 50 - int(50.0 / (mns.count + 1))
 
     stats = mns.mnemonics
     closescr = sum(val for m, val in stats.items() if m.startswith(key))
     exact = stats[key]
-    mnscore = 30 * (1 - 1.0 / (closescr + 1)) + 50 * (1 - 1.0 / (exact + 1))
+    mnscore = 80 - int(50.0 / (closescr + 1) + 30.0 / (exact + 1))
     return fav + mnscore
 
 

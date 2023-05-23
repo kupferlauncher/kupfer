@@ -29,13 +29,11 @@ class Rankable:
     # To save memory with (really) many Rankables
     __slots__ = ("rank", "value", "object", "aliases")
 
-    def __init__(
-        self, value: str, obj: RankableObject, rank: float = 0
-    ) -> None:
-        self.rank = rank
+    def __init__(self, value: str, obj: RankableObject, rank: int = 0) -> None:
+        self.rank: int = rank
         self.value: str = value
         self.object: RankableObject = obj
-        self.aliases = getattr(obj, "name_aliases", ())
+        self.aliases: ty.Collection[str] = getattr(obj, "name_aliases", ())
 
     def __str__(self):
         return f"{self.rank:.2f}: {self.value!r}, {self.object!r}"
@@ -48,8 +46,8 @@ def bonus_objects(
     rankables: ty.Iterable[Rankable], key: str, extra_bonus: int = 0
 ) -> ty.Iterator[Rankable]:
     """
-    rankables: List[Rankable]
-    inncrement each for mnemonic score for key.
+    Increment rank of each item in `rankables` for mnemonic score for key and
+    `extra_bonus`.
     """
     get_record_score = learn.get_record_score
     for obj in rankables:
@@ -73,7 +71,7 @@ def bonus_actions(
 
 
 def add_rank_objects(
-    rankables: ty.Iterable[Rankable], rank: float
+    rankables: ty.Iterable[Rankable], rank: int
 ) -> ty.Iterator[Rankable]:
     """
     Add @rank to rank of all @rankables.
@@ -99,7 +97,7 @@ def score_objects(
 
     for rankable in rankables:
         # Rank object
-        rank = _score(rankable.value, key) * 100
+        rank = int(_score(rankable.value, key) * 100)
         if rank < 90:
             # consider aliases and change rb.value if alias is better
             # aliases rank lower so that value is chosen when close
@@ -112,7 +110,7 @@ def score_objects(
                 arank *= 95
                 if arank > rank:
                     rankable.value = value
-                    rank = arank
+                    rank = int(arank)
 
         rankable.rank = rank
 
