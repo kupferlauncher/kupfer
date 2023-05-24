@@ -376,6 +376,36 @@ class LinkTo(Action, pretty.OutputMixin):
         return _("Create a symlink to file in a chosen location")
 
 
+class OpenTrash(RunnableLeaf):
+    def __init__(self):
+        RunnableLeaf.__init__(self, None, _("Open Trash"))
+
+    def wants_context(self):
+        return True
+
+    def run(self, ctx=None):
+        assert ctx
+        id_ = ctx.environment.get_startup_notification_id()
+        thunar = _get_thunar_trash()
+        try:
+            # Thunar 1.2 Uses $DISPLAY and $STARTUP_ID args
+            thunar.DisplayTrash(
+                ctx.environment.get_display(),
+                id_,
+            )
+        except TypeError:
+            # Thunar 1.0 uses only $DISPLAY arg
+            thunar.DisplayTrash(
+                ctx.environment.get_display(),
+            )
+
+    def get_description(self):
+        return _("Open Trash in Thunar")
+
+    def get_icon_name(self):
+        return "user-trash"
+
+
 class EmptyTrash(RunnableLeaf):
     def __init__(self):
         RunnableLeaf.__init__(self, None, _("Empty Trash"))
@@ -413,12 +443,14 @@ class EmptyTrash(RunnableLeaf):
 class ThunarObjects(AppLeafContentMixin, Source):
     appleaf_content_id = ("Thunar", "thunar")
     source_scan_interval: int = 36000
+    serializable = None
 
     def __init__(self):
         Source.__init__(self, _("Thunar"))
 
     def get_items(self):
         yield EmptyTrash()
+        yield OpenTrash()
 
     def provides(self):
         yield RunnableLeaf

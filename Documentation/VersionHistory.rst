@@ -103,6 +103,7 @@ kupfer v323-beta1
       text
     - *Favorites*: allow user to add to favorite only leaves than can be
       added.
+    - *Thunar*: add "Open Trash" action
 
 + Dev:
 
