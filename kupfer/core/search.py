@@ -144,7 +144,7 @@ _rank_key = operator.attrgetter("rank")
 
 
 def find_best_sort(
-    rankables: ty.Iterable[Rankable],
+    rankables: list[Rankable],
 ) -> ty.Iterable[Rankable]:
     """Yield rankables in best rank first order.
     A special kind of lazy sort: simply find the best ranked item and yield
@@ -156,4 +156,6 @@ def find_best_sort(
         return
 
     yield maxval
-    yield from sorted(rankables, key=_rank_key, reverse=True)
+
+    rankables.sort(key=_rank_key, reverse=True)
+    yield from rankables
