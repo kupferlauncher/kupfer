@@ -5,6 +5,7 @@ import pickle
 import signal
 import sys
 import typing as ty
+import urllib.parse
 from collections import defaultdict
 from contextlib import suppress
 from pathlib import Path
@@ -697,6 +698,13 @@ def show_path(path: str) -> None:
 
 def show_url(url: str) -> bool:
     """Open any @url with default viewer"""
+
+    # if there is no schema w url add default http://
+    # this allow open urls like 'www.foobar.com'.
+    purl = urllib.parse.urlparse(url)
+    if not purl.scheme:
+        url = f"http://{url}"
+
     try:
         pretty.print_debug(__name__, "show_url", url)
         return Gtk.show_uri(  # type: ignore
