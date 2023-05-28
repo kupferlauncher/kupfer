@@ -14,23 +14,42 @@ import typing as ty
 import urllib.error
 import urllib.parse
 import urllib.request
+import http.client
 
 from kupfer import launch
 from kupfer.obj import Action, FileLeaf, UrlLeaf
 from kupfer.support import fileutils, task
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
-def url_name(url):
-    return os.path.basename(url.rstrip("/"))
 
+def get_dest_name(response: http.client.HTTPResponse) -> str:
+    headers = response.headers
 
-def header_name(headers):
+    # try get filename from content-disposition header
     content_disp = headers.get("Content-Disposition", "")
     for part in content_disp.split(";"):
         if part.strip().lower().startswith("filename="):
             return part.split("=", 1)[-1]
 
-    return content_disp
+    # try get filename from url
+    url: str = response.url  # type: ignore
+    name = os.path.basename(url.rstrip("/"))
+    if os.path.splitext(name)[1]:
+        return name
+
+    # if name not contain extension, try guess it from content-type.
+    # only basic types
+    content_type = headers.get("Content-Type", "")
+    content_type = content_type.split(";", 1)[0].strip()
+    if content_type == "text/html":
+        return f"{name}.html"
+
+    if content_type == "text/plain":
+        return f"{name}.txt"
+
+    return name
 
 
 class DownloadTask(task.ThreadTask):
@@ -51,9 +70,13 @@ class DownloadTask(task.ThreadTask):
         return fileutils.get_destfile_in_directory(self.destdir, destname)
 
     def thread_do(self):
-        # TODO: check response and destfile was DownloadTask field
         with urllib.request.urlopen(self.uri) as response:
-            destname = header_name(response.headers) or url_name(response.url)
+            if response.status >= 300 or response.status < 200:
+                raise RuntimeError(
+                    f"Could not download file; status: {response.status}"
+                )
+
+            destname = get_dest_name(response)
             destfile, self.destpath = self._get_dst_file(destname)
             if not destfile:
                 raise OSError("Could not write output file")

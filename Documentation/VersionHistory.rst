@@ -104,6 +104,9 @@ kupfer v323-beta1
     - *Favorites*: allow user to add to favorite only leaves than can be
       added.
     - *Thunar*: add "Open Trash" action
+    - *URL Actions*: check response status code (accept only 2xx); if there
+      is not exact filename in response or url, try to guess filename with
+      extension by url and content type.
 
 + Dev:
 
