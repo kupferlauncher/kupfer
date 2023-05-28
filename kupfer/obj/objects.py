@@ -85,9 +85,17 @@ class RunnableLeaf(Leaf):
         Leaf.__init__(self, obj, name)
 
     def get_actions(self) -> ty.Iterator[Action]:
-        yield actions.Perform()
+        yield actions.Perform(
+            has_result=self.has_result(), item_types=tuple(self.item_types())
+        )
 
-    def run(self, ctx: ty.Any = None) -> None:
+    def has_result(self) -> bool:
+        return False
+
+    def item_types(self) -> ty.Iterable[Leaf]:
+        return ()
+
+    def run(self, ctx: ty.Any = None) -> ty.Any:
         raise NotImplementedError
 
     def wants_context(self) -> bool:

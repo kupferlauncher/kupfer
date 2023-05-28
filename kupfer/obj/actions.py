@@ -12,8 +12,9 @@ import typing as ty
 from kupfer import launch, support
 from kupfer.desktop_launch import SpawnError
 
-from .base import Action
+from .base import Action, Leaf
 from .exceptions import OperationError
+from .objects import RunnableLeaf
 
 __all__ = ("OpenUrl", "OpenTerminal", "Execute", "Perform")
 
@@ -99,26 +100,42 @@ class OpenUrl(Action):
 
 
 class Perform(Action):
-    """Perform the action in a RunnableLeaf"""
+    """Perform the action in a RunnableLeaf.
+
+    RunnableLeaf can return result. In this case `has_result` and `item_types`
+    must be specified.
+    """
 
     action_accelerator: str | None = "o"
     rank_adjust = 5
 
-    def __init__(self, name: str | None = None):
+    def __init__(
+        self,
+        name: str | None = None,
+        has_result: bool = False,
+        item_types: ty.Collection[Leaf] = (),
+    ):
         # TRANS: 'Run' as in Perform a (saved) command
         super().__init__(name=name or _("Run"))
+        self._has_result = has_result
+        self._item_types = item_types
+
+    def has_result(self):
+        return self._has_result
 
     def wants_context(self) -> bool:
         return True
 
     def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
-    ) -> None:
+        self, leaf: RunnableLeaf, iobj: ty.Any = None, ctx: ty.Any = None
+    ) -> ty.Any:
         if leaf.wants_context():
-            leaf.run(ctx=ctx)
-            return
+            return leaf.run(ctx=ctx)
 
-        leaf.run()
+        return leaf.run()
 
     def get_description(self) -> str:
         return _("Perform command")
+
+    def item_types(self):
+        return self._item_types
