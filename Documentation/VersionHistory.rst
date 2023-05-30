@@ -49,6 +49,7 @@ kupfer v323-beta1
     - *Tracker3*: full-text search in Tracker 3 application.
     - *Show QRCode* plugin: generate qrcodes from text.
     - *Aria2*: download files be remote aria2 instance.
+    - *Screenshot*: take desktop screenshot using 'scrot' or 'flamegraph'.
 
   + Updated:
 
