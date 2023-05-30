@@ -414,8 +414,6 @@ def spawn_app(
 
     return pid if successful
     raise SpawnError on error
-
-    TODO: use screen parameter
     """
     notify_id = None
     if startup_notify:

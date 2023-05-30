@@ -499,7 +499,6 @@ class SourceController(pretty.OutputMixin):
     @property
     def root(self) -> Source | None:
         """Get the root source of catalog"""
-        # TODO: when there is only one source?
         if len(self._sources) == 1:
             (root_catalog,) = self._sources
         elif len(self._sources) > 1:

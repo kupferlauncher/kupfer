@@ -354,7 +354,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def reset(self) -> None:
         self._source_pane.reset()
         self._action_pane.reset()
-        self._object_pane.reset()  # added, TODO: check
+        self._object_pane.reset()
 
     def soft_reset(self, pane: PaneSel) -> AnySource | None:
         if pane == PaneSel.ACTION:
