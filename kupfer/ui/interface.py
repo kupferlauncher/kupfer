@@ -40,7 +40,7 @@ class KeyCallback(ty.Protocol):
     """Key press callback interface."""
 
     def __call__(self, shift_mask: int, mod_mask: int, /) -> bool:
-        pass
+        ...
 
 
 def _trunc_long_str(instr: ty.Any) -> str:

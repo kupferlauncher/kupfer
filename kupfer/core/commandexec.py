@@ -544,7 +544,7 @@ class ActionActivateFunc(ty.Protocol):
         ctx: ExecutionToken | None = None,
         /,
     ) -> ActionResult:
-        pass
+        ...
 
 
 # pylint: disable=too-few-public-methods
@@ -556,7 +556,7 @@ class ActionActivateMultipleFunc(ty.Protocol):
         ctx: ExecutionToken | None = None,
         /,
     ) -> ActionResult:
-        pass
+        ...
 
 
 def activate_action(

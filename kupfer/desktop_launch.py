@@ -281,7 +281,7 @@ class LaunchCallback(ty.Protocol):
         timestamp: int,
         /,
     ) -> None:
-        pass
+        ...
 
 
 # pylint: disable=too-many-locals

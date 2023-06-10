@@ -23,13 +23,13 @@ class ExtendedSetting(ty.Protocol):
     def load(self, plugin_id: str, key: str, config_value: str | None) -> None:
         """load value for @plugin_id and @key, @config_value is value
         stored in regular Kupfer config for plugin/key"""
-        raise NotImplementedError()
+        ...
 
     def save(self, plugin_id: str, key: str) -> str:
         """Save value for @plugin_id and @key.
         @Return value that should be stored in Kupfer config for
         plugin/key (string)"""
-        raise NotImplementedError()
+        ...
 
 
 # pylint: disable=too-few-public-methods
@@ -40,7 +40,7 @@ class ValueConverter(ty.Protocol):
     """
 
     def __call__(self, value: ty.Any, default: ty.Any) -> ty.Any:
-        pass
+        ...
 
 
 PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
