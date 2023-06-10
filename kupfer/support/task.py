@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 import sys
 import threading
 import typing as ty
@@ -37,11 +38,21 @@ class Task:
 
 
 class ThreadTask(Task):
-    """Run in a thread"""
+    """Run in a thread.
 
-    def __init__(self, name: str | None = None):
+    `wait_sec` (when >0) specify time when we wait for result. After this
+    time `thread_finish`, `finish_callback` and `thread_finally` are not called.
+    We can't simply kill background thread but we can ignore its result and
+    log errors (if any).
+    """
+
+    def __init__(self, name: str | None = None, wait_sec: int = 0):
         Task.__init__(self, name)
         self._finish_callback: TaskCallback | None = None
+        # what long we wait for result; after this time _finish_callback is not
+        # called
+        self.wait_sec = wait_sec
+        self.thread_started_ts: float = 0
 
     def thread_do(self) -> None:
         """Override this to run what should be done in the thread"""
@@ -66,18 +77,32 @@ class ThreadTask(Task):
             if self._finish_callback:
                 self._finish_callback(self)
 
+    def _log_error(self, exc_info: ExecInfo | None) -> None:
+        if exc_info:
+            pretty.print_exc(__name__, exc_info)
+
     def _run_thread(self) -> None:
         exc_info = None
+        overdue = False
         try:
             self.thread_do()
-            GLib.idle_add(self.thread_finish)
+            overdue = self.wait_sec > 0 and (
+                time.monotonic() - self.thread_started_ts > self.wait_sec
+            )
+            if not overdue:
+                GLib.idle_add(self.thread_finish)
+
         except Exception:
             exc_info = sys.exc_info()
         finally:
-            GLib.idle_add(self._thread_finally, exc_info)
+            if overdue:
+                GLib.idle_add(self._log_error, exc_info)
+            else:
+                GLib.idle_add(self._thread_finally, exc_info)
 
     def start(self, finish_callback: TaskCallback) -> None:
         self._finish_callback = finish_callback
+        self.thread_started_ts = time.monotonic()
         thread = threading.Thread(target=self._run_thread)
         thread.start()
 
